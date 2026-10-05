@@ -21,25 +21,26 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-Latest inspected run:
-https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37388333245
-at `4c125165c78383f575d65536941c3ddc421150ca`, `insertion_all_4`, 90 minutes.
-The snapshot workaround compiles, but stage 1 fails `memcmp.unwind.0` because
-array equality compares 16 bytes with unwind 6. Other 306 checks and 6/6 covers
-are undetermined; composition/direct stages were skipped. Verification: 3.1742 s;
-runner including cold build: 3:45.06; exit 1. Kani pin remains unchanged.
-
-The next fix expresses the same snapshot equality using
-`same_suffix(values, &before, 0)`, a four-cell loop. No assumptions/properties or
-unwinding assertions are removed. This fix awaits a NEW Actions run.
+Latest inspected success:
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37389298278
+at `ec5556cf37fc31af4b25d27476c88f5fbc8e77c9`, `insertion_all_4`, 90 minutes.
+All three stages verify: contract 0/292 failures, 6/6 covers (22.868813 s);
+summary-based research caller 0/288, 2/2 covers (5.359691 s); direct actual std
+insertion 0/168, 7/7 covers (16.718891 s). All unwind assertions succeed.
+Four incidental unreachable checks per stage, none undetermined. Exit 0;
+runner including cold build/compilation: 5:38.03, peak RSS 1,944,792 KiB.
+Pinned Kani/CBMC unchanged. See README for prior failure/fix history.
+This is bounded i32 functionality with sorted-prefix assumptions, not completion.
 Bootstrap remains verified at `34d008324e10a66bf59de705acd609d9509e7c36`
 (run 37383583285), both harnesses, 5/5 covers, bounded fixed i32 positions only.
 
-**Active run:** [37389298278](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37389298278),
-source `ec5556cf37fc31af4b25d27476c88f5fbc8e77c9`, `insertion_all_4`,
-90 minutes, dispatched 2026-10-05 23:34:54 UTC. SHA confirmed in run metadata.
-**Next action:** monitor this specific run, download logs/artifacts, inspect all
-three stages, covers and unwind assertions, then record the result and advance.
+**Next experiment:** `insertion_outer_invariant_4`, 90 minutes. A proof-only
+injector adds allocation and range invariants to the actual outer pointer loop;
+new harness uses arbitrary i32 inputs and comparator decisions, no sortedness
+assumption. Inner loop remains bounded, default checks only. Generic contracts,
+functional loop invariants, ownership/panic and explicit UB checks remain open.
+Expose the choice on default-branch workflow only (commit `985f790`), then push
+research implementation and dispatch its confirmed SHA. No active run currently.
 
 ## Repository map and verifier details
 
@@ -49,6 +50,8 @@ three stages, covers and unwind assertions, then record the result and advance.
   insertion_sort_shift_left.
 - insertion-contract.md: specification, assumptions and proposed invariants.
 - run-smoke.sh and run-insertion.sh: Actions entrypoints; do not execute locally.
+- insertion-safety-4.rs and inject-outer-invariant.py: actual outer-loop safety prototype.
+- outer-invariant.md and coverage.md: prototype scope and challenge obligations.
 - README.md in this directory: experiment scope and run log.
 
 The insertion order is prove_tail_contract_4, prove_composition_4,
@@ -122,8 +125,8 @@ gh workflow run smallsort-research.yml \
   -f budget_minutes=90
 ~~~
 
-Available insertion selections are insertion_all_4, insertion_contracts_4 and
-insertion_direct_4. The choice all means the two BOOTSTRAP harnesses, not every
+Available insertion selections are insertion_all_4, insertion_contracts_4,
+insertion_direct_4 and insertion_outer_invariant_4. The choice all means the two BOOTSTRAP harnesses, not every
 research proof. Other bootstrap choices select the individual harnesses.
 
 6. Capture the returned URL if the installed CLI supplies one. Otherwise query

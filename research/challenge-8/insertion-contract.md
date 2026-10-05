@@ -78,7 +78,11 @@ and no unwinding assertion fails. Each stage uses unwind 6 to cover loops bounde
 by this four-element domain. This experiment does not establish an unbounded
 proof, the generic function contract, or all UB required by Challenge 8.
 
-If it passes, first measure the cost of the modular caller and then express
+All three stages passed in Actions run 37389298278 at source
+`ec5556cf37fc31af4b25d27476c88f5fbc8e77c9`, 15/15 covers. See the
+[run log](README.md#run-log) for check counts, times and limitations.
+
+After this bounded milestone, first measure the cost of the modular caller and then express
 invariants for the actual insertion loops. Length 16 is an intermediate fallback
 milestone, not a replacement for arbitrary-valid-length verification.
 

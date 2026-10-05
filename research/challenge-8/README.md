@@ -33,7 +33,7 @@ do not establish generic type/index coverage, comparator panic safety, uninitial
 memory safety, or the full Challenge 8 contracts. Kani's default enabled checks
 apply; we do not claim that these cover every UB required by the challenge.
 
-## Insertion experiment (prepared, not verified yet)
+## Insertion experiment (bounded stages verified)
 
 See [the specification and scope](insertion-contract.md).
 
@@ -55,8 +55,8 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 In the fork's Actions tab, enable workflows if GitHub asks, choose **SmallSort
-research**, click **Run workflow**, select `challenge-8/research`, and leave
-`proof=insertion_all_4` and `budget_minutes=90` for the next experiment.
+research**, click **Run workflow**, select `challenge-8/research`, and select
+`proof=insertion_outer_invariant_4` and `budget_minutes=90` for the next experiment.
 The existing `all`, `orders_i32_pair` and
 `preserves_i32_values_for_any_decision` choices still run the original bootstrap.
 
@@ -119,12 +119,27 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Replace the snapshot equality with the existing elementwise predicate over
   all four cells, retaining the exact domain, postconditions and unwind checks.
 
+- [Successful insertion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37389298278),
+  2026-10-06 (Europe/Moscow), source `ec5556cf37fc31af4b25d27476c88f5fbc8e77c9`,
+  `insertion_all_4`, 90 minutes, unchanged Kani pin / Kani 0.67.0 / CBMC 6.10.0:
+  all three requested harnesses verified. Actual adapter/insert_tail contract:
+  0/292 failures, 6/6 covers, 22.868813 s. Summary-based research caller:
+  0/288 failures, 2/2 covers, 5.359691 s. Actual direct insertion_sort_shift_left:
+  0/168 failures, 7/7 covers, 16.718891 s. Each stage has four unreachable
+  incidental checks (formatting/alignment/unsigned-difference branches), no
+  undetermined checks; every emitted unwind assertion succeeds. Runner exit 0,
+  total 5:38.03 including cold build and three compilation stages, peak RSS
+  1,944,792 KiB; reported verification times sum to 44.947395 s.
+  Domain: arbitrary four-cell i32 backing values, valid tails / lengths /
+  offsets and the stated sorted-prefix assumptions, pure nonpanicking `<`.
+  Sortedness, exact multiplicities and untouched suffix hold. Summary is
+  justified by stage 1 at this same source. No generic/unbounded/full-UB claim.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
-2. **Prepared, awaiting verification:** the original insertion specification,
-   adapter contract, modular caller and direct bounded proof are implemented.
-   First run insertion_all_4 on the snapshot fix and resolve any failure.
+2. **Completed bounded milestone:** adapter contract, modular research caller
+   and direct insertion proof all pass (15/15 covers) at the SHA recorded above.
 3. Develop reusable contracts and loop invariants for the actual insertion
    helpers/loops, then prove reuse on an actual std caller. The current modular
    research caller does not establish the real outer loop.
@@ -139,3 +154,12 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 
 Experiments may use a larger time budget than the upstream CI; the final solution
 must remain automated and acceptable to the upstream CI and review committee.
+
+## Actual outer-loop invariant experiment
+
+`insertion_outer_invariant_4` injects a cfg(kani) pointer-range invariant into
+std's actual outer loop in a disposable Actions checkout, then checks arbitrary
+four-cell i32 inputs and independent comparator decisions without a sortedness
+assumption. See [experiment specification](outer-invariant.md) and
+[coverage ledger](coverage.md). The inner loop remains bounded; the new
+experiment has no verification result yet.
