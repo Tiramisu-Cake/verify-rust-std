@@ -1,0 +1,71 @@
+name: SmallSort research
+
+on:
+  workflow_dispatch:
+    inputs:
+      proof:
+        description: Bootstrap proof to run
+        type: choice
+        default: all
+        options:
+          - all
+          - orders_i32_pair
+          - preserves_i32_values_for_any_decision
+      budget_minutes:
+        description: Total execution budget, including a cold Kani build
+        type: choice
+        default: '90'
+        options: ['30', '60', '90', '120']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smallsort-research-${{ github.ref }}
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  bootstrap:
+    name: Verify own SmallSort bootstrap proofs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - name: Check out the selected workflow branch
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          persist-credentials: false
+
+      - name: Prepare runner
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup
+          sudo apt-get update
+          sudo apt-get install --yes jq ripgrep time
+          df -h
+
+      - name: Cache Cargo downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: smallsort-cargo-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tool_config/kani-version.toml') }}
+
+      - name: Verify selected bootstrap proofs
+        env:
+          PROOF_SELECTION: ${{ inputs.proof }}
+          RUN_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
+        run: bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES"
+
+      - name: Preserve verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/
+          if-no-files-found: warn
+          retention-days: 7
