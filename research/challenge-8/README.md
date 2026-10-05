@@ -66,13 +66,26 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   the bootstrap failed with five E0433 errors: this std integration exposes
   `kani::cover` as a function, not the `kani::cover!` macro. No proof was checked.
   The five calls were changed to the function form, whose signature was checked
-  in the pinned Kani source. A fresh verification run is still required.
+  in the pinned Kani source. The following run used the corrected function calls.
+
+- [Second run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37383583285),
+  2026-10-06 (Europe/Moscow), source `34d008324e10a66bf59de705acd609d9509e7c36`:
+  both bootstrap harnesses verified, zero failures. The arbitrary-decision proof
+  satisfied 2/2 covers in 0.2443 s; the ordered-pair proof satisfied 3/3 covers in
+  0.4219 s. These times are Kani verification times, excluding environment setup
+  and tool compilation. Coverage remains the fixed i32 allocation/positions
+  described above.
 
 ## Next experiments
 
-1. Confirm the bootstrap on Actions and fix environment issues before expanding scope.
-2. Write our own functional specification for insertion and merge: valid memory,
-   sortedness under a valid ordering, and value/multiset preservation.
+1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
+2. **Next:** write our own functional specification for `insertion_sort_shift_left`
+   and its helper `insert_tail`: valid memory and offset, an initially sorted
+   prefix, an entirely sorted result under a valid ordering, and value/multiset
+   preservation. First prove a small instance, then test reuse through a verified
+   callee contract and loop invariants. Bounds up to 16 are a fallback milestone,
+   not a substitute for the challenge's arbitrary-valid-length requirement.
+   Develop merge specifications after this compositional experiment.
 3. Check whether reusable contracts can describe those primitives without changing
    generic signatures or runtime behavior; then try a small caller using summaries.
 4. Expand domain and type coverage while recording assumptions and runtimes.
