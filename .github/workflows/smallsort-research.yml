@@ -4,10 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       proof:
-        description: Bootstrap proof to run
+        description: Research proof set to run
         type: choice
-        default: all
+        default: insertion_all_4
         options:
+          - insertion_all_4
+          - insertion_contracts_4
+          - insertion_direct_4
           - all
           - orders_i32_pair
           - preserves_i32_values_for_any_decision
@@ -30,7 +33,7 @@ defaults:
 
 jobs:
   bootstrap:
-    name: Verify own SmallSort bootstrap proofs
+    name: Verify selected SmallSort research proofs
     runs-on: ubuntu-24.04
     timeout-minutes: 150
     steps:
@@ -55,17 +58,21 @@ jobs:
             ~/.cargo/git
           key: smallsort-cargo-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('tool_config/kani-version.toml') }}
 
-      - name: Verify selected bootstrap proofs
+      - name: Verify selected research proofs
         env:
           PROOF_SELECTION: ${{ inputs.proof }}
           RUN_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
-        run: bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES"
+        run: |
+          case "$PROOF_SELECTION" in
+            insertion_*) bash research/challenge-8/run-insertion.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
+            *) bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
+          esac
 
       - name: Preserve verification evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: smallsort-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}
+          name: smallsort-research-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/
           if-no-files-found: warn
           retention-days: 7

@@ -29,11 +29,32 @@ do not establish generic type/index coverage, comparator panic safety, uninitial
 memory safety, or the full Challenge 8 contracts. Kani's default enabled checks
 apply; we do not claim that these cover every UB required by the challenge.
 
+## Insertion experiment (prepared, not verified yet)
+
+See [the specification and scope](insertion-contract.md).
+
+- `insertion_contracts_4`: first verify the contract on a proof-only i32 adapter
+  calling the actual std `insert_tail`; then check a three-insertion caller using
+  `stub_verified`. Stages stop at the first failure.
+- `insertion_direct_4`: check the actual `insertion_sort_shift_left`, with symbolic
+  length 1..4 and offset 1..length, assuming only the necessary sorted prefix
+  for the functional-correctness property.
+- `insertion_all_4`: run all three stages in the above order.
+
+All values are arbitrary i32, including duplicates and extremes. The experiment
+checks ordering, exact multiset preservation and the untouched suffix. It uses
+bounded loop unwinding (6), not loop invariants. The adapter contract is not a
+contract on generic std `insert_tail`, and the summary-based caller is not std's
+outer pointer loop. A passing result will establish only this small compositional
+experiment; general types, arbitrary lengths and unwind safety remain future work.
+
 ## Run
 
 In the fork's Actions tab, enable workflows if GitHub asks, choose **SmallSort
 research**, click **Run workflow**, select `challenge-8/research`, and leave
-`proof=all` and `budget_minutes=90` for the initial cold run.
+`proof=insertion_all_4` and `budget_minutes=90` for the next experiment.
+The existing `all`, `orders_i32_pair` and
+`preserves_i32_values_for_any_decision` choices still run the original bootstrap.
 
 The workflow definition must exist on the default branch for GitHub to expose
 the manual trigger. Its dispatch branch is the source being verified.
@@ -43,10 +64,10 @@ jobs** on an older run checks that run's original commit and will not pick up th
 For a Linux machine with Rust/rustup and the required system tools:
 
 ```bash
-bash research/challenge-8/run-smoke.sh all 90
+bash research/challenge-8/run-insertion.sh insertion_all_4 90
 ```
 
-Use a disposable checkout: the runner appends only the cfg(kani) proof module to
+Use a disposable checkout: each runner appends only its cfg(kani) proof module to
 `smallsort.rs` at execution time. It refuses to append twice. Kani's repository
 script builds the pinned verifier and installs its dependencies; that cold build
 counts toward the time budget. The initial cache retains Cargo downloads only,
@@ -56,7 +77,7 @@ Every run records the source commit, source checksums, runner information, Kani
 pin, complete verification log, exit status and GNU time resource statistics.
 The appended source is included in the artifact so the checked input is reviewable.
 
-Success requires both requested harnesses to verify and every reachability cover
+Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 

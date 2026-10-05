@@ -1,0 +1,87 @@
+# Insertion contract experiment
+
+This is our own specification and proof code. Only verifier API syntax was
+checked against the pinned Kani tests. No competing challenge implementation is
+used. All sorting operations delegate to the std code in this repository.
+
+## Mathematical specification
+
+For a sequence v of length n and offset k:
+
+- Memory consists of initialized, writable elements of the correct type.
+- 1 <= k <= n. The API aborts outside this range.
+- Functional correctness assumes v[0..k] is sorted under a valid ordering.
+- After a normal return, v[0..n] is sorted.
+- Every input value has the same multiplicity in the result.
+- Elements outside the supplied slice are unchanged.
+
+Sortedness is a precondition for the functional property, not a justification
+for pruning unsorted inputs from an eventual independent memory-safety proof.
+Comparator panic/unwind behavior and generic element ownership require separate
+obligations and are outside this first experiment.
+
+## One insertion
+
+`insert_tail(begin, tail, comparator)` requires the contiguous range from begin
+through tail, inclusive, to be initialized and writable in one allocation, with
+tail strictly after begin. Functional correctness additionally assumes the range
+before tail is sorted. A normal return extends that sorted range by one element
+without changing its multiset or memory outside that range.
+
+Our proof-only adapter `insert_one` specializes this to a live `[i32; 4]`, a
+symbolic tail index 1..3, and the non-panicking `<` comparator. It declares:
+
+- requires: valid tail and sorted prefix before it;
+- modifies: the array;
+- ensures: sorted prefix through tail, preserved prefix multiset, unchanged suffix.
+
+`old(*values)` is a copy of the entire pre-call array. The multiset predicate
+compares occurrence counts for each key in the old prefix. Because both prefixes
+have the same length, equality of these counts rules out introducing new values.
+The suffix postcondition is explicit because the modifies clause otherwise
+permits a summary to change all four cells.
+
+## Three stages
+
+1. `prove_tail_contract_4`: `proof_for_contract(insert_one)` checks the real
+   adapter body, including the actual generic std `insert_tail` instantiated for
+   i32. Covers require each tail index, insertion at the beginning, no shift, and
+   duplicates to remain reachable.
+2. `prove_composition_4`: `stub_verified(insert_one)` checks a proof-only caller
+   performing three insertions. The caller uses contract summaries rather than
+   inlining the insertion implementation. It asserts whole-array sortedness and
+   multiset preservation. Covers include reversed and all-equal inputs.
+3. `prove_direct_insertion_4`: checks the actual public
+   `insertion_sort_shift_left` on symbolic lengths 1..4 and every valid offset,
+   including offset == length. It asserts sortedness, multiset preservation and
+   preservation of backing-array cells outside the slice. Covers witness all
+   lengths and key offset cases.
+
+The runner verifies stage 1 before allowing stage 2 and stops on any failure.
+It does not accept the modular caller as an independently sound result if its
+callee contract fails. Stage 3 is a separate direct check, not a modular proof
+of std's outer loop. No function body is replaced by an unverified manual stub.
+
+## Acceptance and limits
+
+Success means all three requested harnesses verify, all covers are satisfied,
+and no unwinding assertion fails. Each stage uses unwind 6 to cover loops bounded
+by this four-element domain. This experiment does not establish an unbounded
+proof, the generic function contract, or all UB required by Challenge 8.
+
+If it passes, first measure the cost of the modular caller and then express
+invariants for the actual insertion loops. Length 16 is an intermediate fallback
+milestone, not a replacement for arbitrary-valid-length verification.
+
+## Invariants to develop next
+
+For the outer loop, the processed prefix is sorted, the original multiset is
+preserved, and the unprocessed suffix is unchanged. Its pointer stays between
+the first unprocessed element and the one-past-end pointer.
+
+For the inner shift, track a logical gap, the held temporary value and ownership
+of the remaining cells. Treat the held value as occupying the gap when stating
+multiset preservation. Track a sorted prefix before the gap and the shifted,
+sorted suffix after it; shifted keys are greater than the held key. The gap guard
+must point at that gap and restore the temporary on normal exit or unwinding.
+These are design obligations; no loop-invariant annotations have been proved yet.
