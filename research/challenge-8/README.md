@@ -97,6 +97,15 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   and tool compilation. Coverage remains the fixed i32 allocation/positions
   described above.
 
+- [First insertion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37386722977),
+  2026-10-06 (Europe/Moscow), source `78e99a270f7b711e4d510877de4d93a9a2da51ea`:
+  Kani built successfully, but compilation stopped at stage 1 with two E0502
+  errors from `old(*values)` in the adapter postconditions. No insertion proof
+  was checked; composition and direct stages did not execute. The adapter now
+  receives a by-value `before` snapshot constrained to equal the input. All
+  three functional postconditions are retained. A fresh run is required to
+  validate this workaround.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

@@ -69,13 +69,16 @@ pub mod challenge8_insertion {
 
     // Proof-only monomorphic adapter. It neither replaces nor annotates the
     // generic std function. Its implementation delegates to actual insert_tail.
+    // The by-value snapshot and equality precondition express the input state
+    // without old() borrow conflicts in this Kani macro expansion.
     #[kani::requires(tail > 0 && tail < N)]
     #[kani::requires(sorted_prefix(values, tail))]
+    #[kani::requires(*values == before)]
     #[kani::modifies(values)]
     #[kani::ensures(|_| sorted_prefix(values, tail + 1))]
-    #[kani::ensures(|_| same_multiset_prefix(values, &old(*values), tail + 1))]
-    #[kani::ensures(|_| same_suffix(values, &old(*values), tail + 1))]
-    fn insert_one(values: &mut [i32; N], tail: usize) {
+    #[kani::ensures(|_| same_multiset_prefix(values, &before, tail + 1))]
+    #[kani::ensures(|_| same_suffix(values, &before, tail + 1))]
+    fn insert_one(values: &mut [i32; N], tail: usize, before: [i32; N]) {
         let base = values.as_mut_ptr();
         let mut is_less = |a: &i32, b: &i32| a < b;
         // SAFETY: the live array supplies initialized, aligned elements; the
@@ -91,7 +94,7 @@ pub mod challenge8_insertion {
         let before = values;
         // proof_for_contract assumes the adapter's preconditions at the call
         // and checks its real implementation against every postcondition.
-        insert_one(&mut values, tail);
+        insert_one(&mut values, tail, before);
         kani::cover(tail == 1, "two-element insertion is reachable");
         kani::cover(tail == 2, "three-element insertion is reachable");
         kani::cover(tail == 3, "four-element insertion is reachable");
@@ -108,9 +111,12 @@ pub mod challenge8_insertion {
         let mut values = before;
         // This experimental caller uses verified summaries for the three
         // insertions. It is not a proof of std's outer pointer loop.
-        insert_one(&mut values, 1);
-        insert_one(&mut values, 2);
-        insert_one(&mut values, 3);
+        let first_snapshot = values;
+        insert_one(&mut values, 1, first_snapshot);
+        let second_snapshot = values;
+        insert_one(&mut values, 2, second_snapshot);
+        let third_snapshot = values;
+        insert_one(&mut values, 3, third_snapshot);
         assert!(sorted_prefix(&values, N));
         assert!(same_multiset_prefix(&values, &before, N));
         kani::cover(before[0] > before[1] && before[1] > before[2] && before[2] > before[3],
