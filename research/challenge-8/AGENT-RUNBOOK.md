@@ -61,6 +61,8 @@ loop base/step/frame checks, seven covers, unwind assertions and exit.
 - run-smoke.sh and run-insertion.sh: Actions entrypoints; do not execute locally.
 - insertion-safety-4.rs and inject-outer-invariant.py: actual outer-loop safety prototype.
 - outer-invariant.md and coverage.md: prototype scope and challenge obligations.
+- extract-verifast-insertion.py, run-verifast-probe.sh and verifast-probe.md:
+  exact-source approved-tool feasibility probe, no completed proof yet.
 - README.md in this directory: experiment scope and run log.
 
 The insertion order is prove_tail_contract_4, prove_composition_4,
@@ -244,3 +246,17 @@ README run log in a small commit, then push it. Record:
 Never infer that a later documentation commit was verified by an older run.
 If the session must stop, checkpoint this information before stopping. Autonomous
 polling continues only while an agent session is active; this file is not a daemon.
+
+## Prepared alternate-tool diagnostic
+
+After inspecting the active Kani outer-invariant run, evaluate
+`verifast_insert_tail_probe` (90 minutes). This uses the approved repository pin
+VeriFast 26.09 and nightly-2026-02-05, exact source extraction, ghost-only copy
+and refinement-checker. The diagnostic contract is `req true; ens true;` on
+actual insert_tail; it intentionally lacks ownership and is expected to fail.
+Never label a frontend result or a skipped target as a proof. No ignore-unwind,
+allow-assume or assume_correct flags. See verifast-probe.md.
+The manual choice/routing is exposed by default-branch workflow commit `4e32d41`;
+research source must be pushed before dispatch, and only one experiment active.
+Kani loop invariants alone do not enlarge the four-cell harness allocation;
+this probe investigates a mathematical arbitrary-length ownership model.
