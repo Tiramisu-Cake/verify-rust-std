@@ -37,6 +37,8 @@ research**, click **Run workflow**, select `challenge-8/research`, and leave
 
 The workflow definition must exist on the default branch for GitHub to expose
 the manual trigger. Its dispatch branch is the source being verified.
+After a source fix, start a new **Run workflow** on the updated branch. **Re-run
+jobs** on an older run checks that run's original commit and will not pick up the fix.
 
 For a Linux machine with Rust/rustup and the required system tools:
 
@@ -56,7 +58,15 @@ The appended source is included in the artifact so the checked input is reviewab
 
 Success requires both requested harnesses to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
-No verification results have been recorded yet.
+### Run log
+
+- [First run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37381869926),
+  2026-10-06 (Europe/Moscow), source `99af1446fc89bf3792be88090eb534982d688313`:
+  runner preparation and the pinned Kani 0.67.0 build succeeded. Compilation of
+  the bootstrap failed with five E0433 errors: this std integration exposes
+  `kani::cover` as a function, not the `kani::cover!` macro. No proof was checked.
+  The five calls were changed to the function form, whose signature was checked
+  in the pinned Kani source. A fresh verification run is still required.
 
 ## Next experiments
 

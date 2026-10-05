@@ -26,9 +26,9 @@ pub mod challenge8_bootstrap {
         }
         assert!(after[0] == before[0] && after[3] == before[3]);
 
-        kani::cover!(before[1] < before[2], "already ordered pair is reachable");
-        kani::cover!(before[1] > before[2], "reversed pair is reachable");
-        kani::cover!(before[1] == before[2], "equal values are reachable");
+        kani::cover(before[1] < before[2], "already ordered pair is reachable");
+        kani::cover(before[1] > before[2], "reversed pair is reachable");
+        kani::cover(before[1] == before[2], "equal values are reachable");
     }
 
     #[kani::proof]
@@ -48,7 +48,7 @@ pub mod challenge8_bootstrap {
         assert!(after[1] == expected_left && after[2] == expected_right);
         assert!(after[0] == before[0] && after[3] == before[3]);
 
-        kani::cover!(decision, "swap decision is reachable");
-        kani::cover!(!decision, "keep decision is reachable");
+        kani::cover(decision, "swap decision is reachable");
+        kani::cover(!decision, "keep decision is reachable");
     }
 }
