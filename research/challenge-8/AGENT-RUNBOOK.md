@@ -39,8 +39,13 @@ injector adds allocation and range invariants to the actual outer pointer loop;
 new harness uses arbitrary i32 inputs and comparator decisions, no sortedness
 assumption. Inner loop remains bounded, default checks only. Generic contracts,
 functional loop invariants, ownership/panic and explicit UB checks remain open.
-Expose the choice on default-branch workflow only (commit `985f790`), then push
-research implementation and dispatch its confirmed SHA. No active run currently.
+The choice is exposed on default-branch workflow only (commit `985f790`).
+**Active run:** [37390232978](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390232978),
+source `9dd5410ba262feccdd864140acfe716693d21cdc`, `insertion_outer_invariant_4`,
+90 minutes, dispatched 2026-10-05 23:44:45 UTC; source SHA confirmed in metadata.
+**Next action:** monitor this run, fetch full logs/artifacts and inspect actual
+loop invariant base/step/frame checks, seven covers, unwind assertions and exit.
+If it fails, diagnose first causal error and change only evidence-backed parts.
 
 ## Repository map and verifier details
 
