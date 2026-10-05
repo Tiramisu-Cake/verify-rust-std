@@ -9,7 +9,7 @@ ANCHOR = """        let mut tail = v_base.add(offset);
         while tail != v_end {"""
 
 INVARIANTS = """        let mut tail = v_base.add(offset);
-        #[cfg_attr(kani, kani::loop_invariant(
+        #[cfg_attr(kani, crate::kani::loop_invariant(
             crate::ub_checks::same_allocation(tail, v_base)
                 && tail >= v_base.add(offset)
                 && tail <= v_end

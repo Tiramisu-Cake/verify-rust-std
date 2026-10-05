@@ -135,6 +135,15 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Sortedness, exact multiplicities and untouched suffix hold. Summary is
   justified by stage 1 at this same source. No generic/unbounded/full-UB claim.
 
+- [First actual outer-loop run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390232978),
+  2026-10-06 (Europe/Moscow), source `9dd5410ba262feccdd864140acfe716693d21cdc`,
+  `insertion_outer_invariant_4`, 90 minutes, unchanged Kani pin:
+  cold tool build succeeded, core compilation failed E0433 at injected line 599:
+  unqualified `kani::loop_invariant` is not in scope in smallsort. No harness
+  or cover was checked, exit 1. Runner 4:04.95, peak RSS 1,312,076 KiB.
+  Fix only the macro path to `crate::kani::loop_invariant`; invariant/domain
+  and checks stay the same. A new run at the fixed source is required.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

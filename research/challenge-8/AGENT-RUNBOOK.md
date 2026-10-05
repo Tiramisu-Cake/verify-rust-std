@@ -40,12 +40,14 @@ new harness uses arbitrary i32 inputs and comparator decisions, no sortedness
 assumption. Inner loop remains bounded, default checks only. Generic contracts,
 functional loop invariants, ownership/panic and explicit UB checks remain open.
 The choice is exposed on default-branch workflow only (commit `985f790`).
-**Active run:** [37390232978](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390232978),
+Latest outer-loop attempt: [37390232978](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390232978),
 source `9dd5410ba262feccdd864140acfe716693d21cdc`, `insertion_outer_invariant_4`,
-90 minutes, dispatched 2026-10-05 23:44:45 UTC; source SHA confirmed in metadata.
-**Next action:** monitor this run, fetch full logs/artifacts and inspect actual
-loop invariant base/step/frame checks, seven covers, unwind assertions and exit.
-If it fails, diagnose first causal error and change only evidence-backed parts.
+90 minutes. Compilation E0433: unqualified kani macro not in scope at line599.
+No proof/covers checked; runner 4:04.95, exit1, peak RSS1,312,076KiB.
+Fix uses `crate::kani::loop_invariant`; invariants/domain/checks unchanged.
+**Next action:** push the qualified-path fix and dispatch a NEW
+`insertion_outer_invariant_4` run, 90 minutes; inspect loop base/step/frame
+checks, seven covers, unwind assertions and exit. No active run currently.
 
 ## Repository map and verifier details
 

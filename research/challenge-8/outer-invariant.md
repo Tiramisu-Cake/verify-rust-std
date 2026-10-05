@@ -19,7 +19,9 @@ closed if the source no longer matches. The Kani pin is commit
 `152c6a8c875d9886a67e229247b4826d6105ccfd` (Kani 0.67.0), recorded in
 `tool_config/kani-version.toml`. The pinned implementation is
 `library/kani_macros/src/sysroot/loop_contracts/mod.rs`; core exposes Kani
-through `kani_core::kani_lib!(core)` in `library/core/src/lib.rs`. The same-allocation predicate available
+through `kani_core::kani_lib!(core)` in `library/core/src/lib.rs`. The
+injected attribute uses the absolute `crate::kani::loop_invariant` path because
+the target module does not import `kani` into local scope. The same-allocation predicate available
 to core proofs is `crate::ub_checks::same_allocation`, defined in
 `library/core/src/ub_checks.rs`. No frame condition is included.
 
