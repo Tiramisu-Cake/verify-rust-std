@@ -3,6 +3,10 @@
 We are developing our own solution. Existing PRs are references for requirements,
 review feedback and performance observations; their proof code is not imported.
 
+For agent onboarding and autonomous GitHub-only execution, read
+[AGENTS.md](../../AGENTS.md) and [the agent runbook](AGENT-RUNBOOK.md).
+The owner's server is for editing and orchestration only; do not build or verify there.
+
 ## Target and scope
 
 - Target: the standard library in this repository, not a reimplementation.
@@ -61,11 +65,9 @@ the manual trigger. Its dispatch branch is the source being verified.
 After a source fix, start a new **Run workflow** on the updated branch. **Re-run
 jobs** on an older run checks that run's original commit and will not pick up the fix.
 
-For a Linux machine with Rust/rustup and the required system tools:
-
-```bash
-bash research/challenge-8/run-insertion.sh insertion_all_4 90
-```
+Agents dispatch and monitor this workflow themselves using the commands in
+[AGENT-RUNBOOK.md](AGENT-RUNBOOK.md). Do not execute the research runners,
+Kani scripts, compilation or executable tests on the owner's server.
 
 Use a disposable checkout: each runner appends only its cfg(kani) proof module to
 `smallsort.rs` at execution time. It refuses to append twice. Kani's repository
@@ -109,19 +111,20 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
-2. **Next:** write our own functional specification for `insertion_sort_shift_left`
-   and its helper `insert_tail`: valid memory and offset, an initially sorted
-   prefix, an entirely sorted result under a valid ordering, and value/multiset
-   preservation. First prove a small instance, then test reuse through a verified
-   callee contract and loop invariants. Bounds up to 16 are a fallback milestone,
-   not a substitute for the challenge's arbitrary-valid-length requirement.
-   Develop merge specifications after this compositional experiment.
-3. Check whether reusable contracts can describe those primitives without changing
-   generic signatures or runtime behavior; then try a small caller using summaries.
+2. **Prepared, awaiting verification:** the original insertion specification,
+   adapter contract, modular caller and direct bounded proof are implemented.
+   First run insertion_all_4 on the snapshot fix and resolve any failure.
+3. Develop reusable contracts and loop invariants for the actual insertion
+   helpers/loops, then prove reuse on an actual std caller. The current modular
+   research caller does not establish the real outer loop.
 4. Expand domain and type coverage while recording assumptions and runtimes.
-5. Investigate length-32 scalability, contracts on specialized trait methods, and
-   uninitialized-read coverage as separate obligations. Choose VeriFast or a hybrid
-   approach on evidence from these experiments.
+   Bounds up to 16 are optional milestones, not a substitute for arbitrary
+   valid lengths. Develop merge specifications after the insertion approach.
+5. Cover the remaining primitives and all three small_sort implementations.
+   Investigate length-32 scalability, contracts on specialized trait methods,
+   ownership/unwinding and uninitialized-read coverage as separate obligations.
+   Choose VeriFast or a hybrid approach on evidence from these experiments.
+   See the runbook for the detailed continuation plan.
 
 Experiments may use a larger time budget than the upstream CI; the final solution
 must remain automated and acceptable to the upstream CI and review committee.
