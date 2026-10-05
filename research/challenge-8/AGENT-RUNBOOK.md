@@ -35,9 +35,11 @@ unwinding assertions are removed. This fix awaits a NEW Actions run.
 Bootstrap remains verified at `34d008324e10a66bf59de705acd609d9509e7c36`
 (run 37383583285), both harnesses, 5/5 covers, bounded fixed i32 positions only.
 
-**Next action:** push this elementwise-equality fix, dispatch `insertion_all_4`
-with a 90-minute budget at the pushed research SHA, capture the new run ID,
-and inspect all three stages and covers. Do not rerun the old SHA.
+**Active run:** [37389298278](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37389298278),
+source `ec5556cf37fc31af4b25d27476c88f5fbc8e77c9`, `insertion_all_4`,
+90 minutes, dispatched 2026-10-05 23:34:54 UTC. SHA confirmed in run metadata.
+**Next action:** monitor this specific run, download logs/artifacts, inspect all
+three stages, covers and unwind assertions, then record the result and advance.
 
 ## Repository map and verifier details
 
