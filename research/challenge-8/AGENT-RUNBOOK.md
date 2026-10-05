@@ -21,29 +21,23 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-These facts were checked against GitHub at handoff; inspect newer runs before
-acting. The fix below is on both main and challenge-8/research. This documentation
-commit follows it; use your actual pushed HEAD for the next dispatch.
+Latest inspected run:
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37388333245
+at `4c125165c78383f575d65536941c3ddc421150ca`, `insertion_all_4`, 90 minutes.
+The snapshot workaround compiles, but stage 1 fails `memcmp.unwind.0` because
+array equality compares 16 bytes with unwind 6. Other 306 checks and 6/6 covers
+are undetermined; composition/direct stages were skipped. Verification: 3.1742 s;
+runner including cold build: 3:45.06; exit 1. Kani pin remains unchanged.
 
-- Bootstrap success:
-  https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37383583285
-  at 34d008324e10a66bf59de705acd609d9509e7c36.
-  Both fixed-domain swap_if_less harnesses verified, with 5/5 covers combined.
-  This does not establish generic, panic or full UB coverage.
-- First insertion failure:
-  https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37386722977
-  at 78e99a270f7b711e4d510877de4d93a9a2da51ea.
-  Kani built, but stage 1 failed compilation with E0502 on old(*values).
-  No insertion proof ran; later stages were skipped.
-- Pending fix:
-  https://github.com/Tiramisu-Cake/verify-rust-std/commit/4c125165c78383f575d65536941c3ddc421150ca
-  replaces old(*values) with an explicit by-value before snapshot plus
-  requires(*values == before). Callers snapshot before borrowing mutably.
-  All three postconditions remain. This workaround has NOT been compiled or
-  verified in Actions yet. Do not label it a confirmed fix.
+The next fix expresses the same snapshot equality using
+`same_suffix(values, &before, 0)`, a four-cell loop. No assumptions/properties or
+unwinding assertions are removed. This fix awaits a NEW Actions run.
+Bootstrap remains verified at `34d008324e10a66bf59de705acd609d9509e7c36`
+(run 37383583285), both harnesses, 5/5 covers, bounded fixed i32 positions only.
 
-**First action:** inspect for a newer run, then dispatch insertion_all_4 with a
-90-minute budget on the current pushed research HEAD if it remains unverified.
+**Next action:** push this elementwise-equality fix, dispatch `insertion_all_4`
+with a 90-minute budget at the pushed research SHA, capture the new run ID,
+and inspect all three stages and covers. Do not rerun the old SHA.
 
 ## Repository map and verifier details
 

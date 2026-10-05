@@ -108,6 +108,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   three functional postconditions are retained. A fresh run is required to
   validate this workaround.
 
+- [Snapshot insertion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37388333245),
+  2026-10-06 (Europe/Moscow), source `4c125165c78383f575d65536941c3ddc421150ca`,
+  `insertion_all_4`, 90 minutes, pinned Kani 0.67.0 / CBMC 6.10.0:
+  the snapshot workaround compiled. Stage 1 failed solely on `memcmp.unwind.0`
+  (`<builtin-library-memcmp>:25`): array equality checks 16 bytes, exceeding
+  unwind 6. Other 306 checks and all six covers were undetermined; later stages
+  were skipped, exit 1. Verification took 3.1742 s; the full runner took 3:45.06
+  including cold build, peak RSS 1,809,900 KiB. This is not a contract proof.
+  Replace the snapshot equality with the existing elementwise predicate over
+  all four cells, retaining the exact domain, postconditions and unwind checks.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

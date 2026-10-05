@@ -73,7 +73,9 @@ pub mod challenge8_insertion {
     // without old() borrow conflicts in this Kani macro expansion.
     #[kani::requires(tail > 0 && tail < N)]
     #[kani::requires(sorted_prefix(values, tail))]
-    #[kani::requires(*values == before)]
+    // Array equality lowers to a 16-byte memcmp in this toolchain. Express the
+    // identical condition elementwise so unwind 6 covers the four-cell loop.
+    #[kani::requires(same_suffix(values, &before, 0))]
     #[kani::modifies(values)]
     #[kani::ensures(|_| sorted_prefix(values, tail + 1))]
     #[kani::ensures(|_| same_multiset_prefix(values, &before, tail + 1))]
