@@ -45,9 +45,11 @@ source `9dd5410ba262feccdd864140acfe716693d21cdc`, `insertion_outer_invariant_4`
 90 minutes. Compilation E0433: unqualified kani macro not in scope at line599.
 No proof/covers checked; runner 4:04.95, exit1, peak RSS1,312,076KiB.
 Fix uses `crate::kani::loop_invariant`; invariants/domain/checks unchanged.
-**Next action:** push the qualified-path fix and dispatch a NEW
-`insertion_outer_invariant_4` run, 90 minutes; inspect loop base/step/frame
-checks, seven covers, unwind assertions and exit. No active run currently.
+**Active run:** [37390973809](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390973809),
+source `a3da2d490ca6129f0abd4c59063b8100ed73981b`, `insertion_outer_invariant_4`,
+90 minutes, dispatched 2026-10-05 23:52:47 UTC; metadata SHA confirmed.
+**Next action:** monitor this specific run and fetch logs/artifacts; inspect
+loop base/step/frame checks, seven covers, unwind assertions and exit.
 
 ## Repository map and verifier details
 
