@@ -395,6 +395,16 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full logs/artifacts fetched. Next use supported equivalent tuple constructor;
   original req, Rust behavior and complete FnMut generic substitutions retained.
 
+- [Tuple ownership model diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731),
+  2026-10-06, source `ae09e983ef430fc03dc49fc4724d36dbb0cab7e9`,range90min,
+  same pins/domain. Numeric-field tuple constructor parses. Explicit close of
+  tuple own fails No such predicate instance; first callback still unproved.
+  Need a supported synthetic-tuple type_pred model/folding operation, not an
+  assumed chunk. Exactbyte/refinement0,VF1(.17s,RSS165,428KiB),
+  refiner.10s,RSS162,788KiB,runner12.85s,RSS635,404KiB,overall1.
+  Full logs/artifacts fetched. Independent pure generic size target prepared
+  for next serial experiment while this ownership-model issue is investigated.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

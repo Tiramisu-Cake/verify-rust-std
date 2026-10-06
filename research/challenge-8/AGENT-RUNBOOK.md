@@ -21,10 +21,13 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37401357731](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731),
+**Latest tuple-constructor run:** [37401357731](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731),
 source `ae09e983ef430fc03dc49fc4724d36dbb0cab7e9`,range90min. Corrected
-ghost tuple constructor only, complete FnMut parameters retained. Resume this
-exact run; no other experiment active.
+ghost tuple constructor only, complete FnMut parameters retained. Full evidence
+fetched: syntax accepted, close tuple own fails No such predicate instance.
+No callback proof. Exactbyte/refinement0,VF1(.17s),refiner.10s,runner12.85s,
+RSS635,404KiB. No active run. Next inspect actual tuple type_pred model/folding;
+isolated pure generic size target is now statically reviewed and ready to run.
 
 **Latest inspected run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
 source `9d4a01fc9388b53d2bc4cfc53651a3b728914457`,
@@ -48,7 +51,8 @@ Exactbyte/refinement0,VF1(.09s),refiner.11s,runner13.32s,RSS634,536KiB.
 Prepared constructor correction leaves original req/Rust bytes
 unchanged. Independent pure generic size
 target is prepared in new files; choice verifast_swap_size exposed on default
-main by workflow-only commit79c6dc9, runner not yet reviewed/committed.
+main by workflow-only commit79c6dc9. Runner requires successful named function
+and actual body execution traces using pinned -verbose1, plus exact/refiner0.
 
 **Completed bounded milestones:** bootstrap two actual swap harnesses,5/5covers
 at `34d008324e10a66bf59de705acd609d9509e7c36` (37383583285).
