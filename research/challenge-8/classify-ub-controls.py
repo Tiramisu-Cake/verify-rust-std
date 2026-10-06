@@ -16,6 +16,24 @@ CONTROLS = {
     "negative_misaligned_u32_read": "alignment",
     "negative_null_u32_read": "null",
     "negative_immutable_static_write": "immutable_write",
+    "negative_immutable_static_write_observed": "immutable_write_observed",
+}
+
+PROFILES = {
+    "all": [
+        "positive_initialized_read",
+        "positive_valid_bool_pointer_read",
+        "negative_uninitialized_i32_read",
+        "negative_invalid_bool_read",
+        "negative_misaligned_u32_read",
+        "negative_null_u32_read",
+        "negative_immutable_static_write",
+    ],
+    "immutable_observation": [
+        "positive_initialized_read",
+        "positive_valid_bool_pointer_read",
+        "negative_immutable_static_write_observed",
+    ],
 }
 
 EXPECTED = {
@@ -24,6 +42,7 @@ EXPECTED = {
     "alignment": re.compile(r"align(?:ed|ment|ment check)", re.I),
     "null": re.compile(r"dereference failure: pointer NULL", re.I),
     "immutable_write": re.compile(r"write to constant", re.I),
+    "immutable_write_observed": re.compile(r"write to constant", re.I),
 }
 
 CHECK_RE = re.compile(r"(?ms)^Check\s+(\d+):\s*(.+?)\n(.*?)(?=^Check\s+\d+:|\Z)")
@@ -59,6 +78,12 @@ def classify(control: str, exit_code: int, log: str) -> dict:
 
     checks = parse_checks(log)
     failures = [check for check in checks if check["status"] in {"FAILURE", "FAILED"}]
+    invalid_statuses = [
+        check
+        for check in checks
+        if check["status"] not in {"SUCCESS", "UNREACHABLE", "SATISFIED", "FAILURE", "FAILED"}
+        or (check["status"] == "SATISFIED" and ".cover." not in check["property_id"])
+    ]
     summary_match = SUMMARY_RE.search(log)
     harness_summary = None
     if summary_match:
@@ -102,9 +127,13 @@ def classify(control: str, exit_code: int, log: str) -> dict:
     if unwind_failure:
         reasons.append("an unwinding assertion failed")
 
-    if bad_frontend or unsupported_failure or unwind_failure or not harness_summary or not verification:
+    if bad_frontend or unsupported_failure or unwind_failure or invalid_statuses or not checks or not harness_summary or not verification:
         if unsupported_failure:
             reasons.append("a failed unsupported check cannot count as detector evidence")
+        if invalid_statuses:
+            reasons.append(f"{len(invalid_statuses)} check block(s) had a non-accepted status")
+        if not checks:
+            reasons.append("no regular Kani check blocks were parsed")
         if not harness_summary:
             reasons.append("final manual harness summary missing")
         if not verification:
@@ -119,6 +148,8 @@ def classify(control: str, exit_code: int, log: str) -> dict:
             and verification == "SUCCESSFUL"
             and harness_summary == {"verified": 1, "failed": 0, "total": 1}
             and not failures
+            and not invalid_statuses
+            and checks
             and covers is not None
             and covers["total"] == 2
             and covers["satisfied"] == 2
@@ -129,10 +160,27 @@ def classify(control: str, exit_code: int, log: str) -> dict:
             status = "positive_failed"
             reasons.append("positive control did not verify with exactly two satisfied covers")
     elif (
+        control == "negative_immutable_static_write_observed"
+        and exit_code == 0
+        and verification == "SUCCESSFUL"
+        and harness_summary == {"verified": 1, "failed": 0, "total": 1}
+        and not failures
+        and not invalid_statuses
+        and checks
+    ):
+        if covers == {"satisfied": 1, "total": 1}:
+            status = "detector_missing"
+            reasons.append("the store was observed by the volatile load, but no immutable-write detector rejected it")
+        else:
+            status = "inconclusive"
+            reasons.append(f"store observability was not established by its 1/1 cover: {covers!r}")
+    elif (
         exit_code == 0
         and verification == "SUCCESSFUL"
         and harness_summary == {"verified": 1, "failed": 0, "total": 1}
         and not failures
+        and not invalid_statuses
+        and checks
     ):
         status = "detector_missing"
         reasons.append("negative control passed; intended UB detector did not reject it")
@@ -141,6 +189,8 @@ def classify(control: str, exit_code: int, log: str) -> dict:
         and verification == "FAILED"
         and harness_summary == {"verified": 0, "failed": 1, "total": 1}
         and len(failures) >= 1
+        and not invalid_statuses
+        and checks
         and all(EXPECTED[category].search(check["message"]) for check in failures)
     ):
         status = "detected"
@@ -164,12 +214,17 @@ def classify(control: str, exit_code: int, log: str) -> dict:
         "control": control,
         "kind": CONTROLS[control],
         "classification": status,
+        "store_observable": (
+            control == "negative_immutable_static_write_observed"
+            and covers == {"satisfied": 1, "total": 1}
+        ),
         "process_exit": exit_code,
         "verification": verification,
         "harness_summary": harness_summary,
         "covers": covers,
         "checks": checks,
         "failed_checks": failures,
+        "invalid_status_checks": invalid_statuses,
         "reasons": reasons,
     }
 
@@ -177,6 +232,7 @@ def classify(control: str, exit_code: int, log: str) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--aggregate", action="store_true")
+    parser.add_argument("--profile", choices=PROFILES, default="all")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--control")
     parser.add_argument("--exit-code", type=int)
@@ -186,7 +242,7 @@ def main() -> int:
 
     if args.aggregate:
         records = [json.loads(path.read_text()) for path in args.records]
-        expected_names = list(CONTROLS)
+        expected_names = PROFILES[args.profile]
         by_name = {record["control"]: record for record in records}
         duplicate_names = sorted(
             name for name in by_name if sum(record["control"] == name for record in records) > 1
@@ -199,6 +255,8 @@ def main() -> int:
         )
         result = {
             "suite": "ub-controls",
+            "profile": args.profile,
+            "expected_controls": expected_names,
             "validated": successful,
             "missing_records": missing,
             "duplicate_records": duplicate_names,
@@ -208,7 +266,7 @@ def main() -> int:
             else ["one or more controls were missing, inconclusive, or detector-missing"],
         }
         args.out.write_text(json.dumps(result, indent=2) + "\n")
-        print(f"UB controls: {'VALIDATED' if successful else 'NOT VALIDATED'} ({len(ordered)}/7 records)")
+        print(f"UB controls ({args.profile}): {'VALIDATED' if successful else 'NOT VALIDATED'} ({len(ordered)}/{len(expected_names)} records)")
         return 0 if successful else 1
 
     if not args.control or args.exit_code is None or args.log is None:

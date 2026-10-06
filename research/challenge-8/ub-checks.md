@@ -95,3 +95,23 @@ The suite correctly returns1/notvalidated. Do not equate failure of that whole
 suite with absence of the three positively measured detectors, or attribute
 immutable-byte coverage to a future green SmallSort harness. No detector
 flags or control behavior have been weakened. See README for costs and hashes.
+
+## Observed immutable-store diagnostic
+
+Prepared manual selection `ub_immutable_observation` runs the same two positive
+controls, then a separate `negative_immutable_static_write_observed` harness.
+The original write-only reproducer remains unchanged. The new control performs
+the same write, then a volatile read, an assertion of9 and a cover of9. A green
+negative harness with1/1cover confirms a modeled observable store while exposing
+the missing immutability detector; the suite must still fail. Assertion failure,
+unsupported volatile operation or missing cover is inconclusive, and must not
+be counted as an immutable-byte check. It has not run yet.
+
+Pinned-source audit finds pointer-validity checks for ptr::write, but no emitted
+mutable-storage property in the first control. The store call has202 VCCs
+(46 after simplification), and its pointer/write checks pass. Kani tags static
+const symbols in operand.rs/goto_ctx.rs; the inspected CBMC6.10.0 source has no
+consumer found for that metadata. This is evidence of a model gap, with emitted
+GOTO-symbol details still uninspected. --no-assert-contracts controls contract
+closure assertions and ptr::write has no such Kani contract here; regular UB
+and pointer instrumentation remains active.

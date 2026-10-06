@@ -7,9 +7,31 @@ target=library/core/src/slice/sort/shared/smallsort.rs
 controls=research/challenge-8/ub-controls.rs
 classifier=research/challenge-8/classify-ub-controls.py
 budget=${1:-90}
+profile=${2:-all}
 case "$budget" in
     30|60|90|120) ;;
     *) echo 'Budget must be 30, 60, 90 or 120 minutes' >&2; exit 2 ;;
+esac
+case "$profile" in
+    all)
+        selected_controls=(
+            positive_initialized_read
+            positive_valid_bool_pointer_read
+            negative_uninitialized_i32_read
+            negative_invalid_bool_read
+            negative_misaligned_u32_read
+            negative_null_u32_read
+            negative_immutable_static_write
+        )
+        ;;
+    immutable_observation)
+        selected_controls=(
+            positive_initialized_read
+            positive_valid_bool_pointer_read
+            negative_immutable_static_write_observed
+        )
+        ;;
+    *) echo 'Profile must be all or immutable_observation' >&2; exit 2 ;;
 esac
 
 if [[ "${GITHUB_ACTIONS:-}" != true || "${RUNNER_OS:-}" != Linux || "${RUNNER_ENVIRONMENT:-}" != github-hosted ]]; then
@@ -33,7 +55,9 @@ fi
 started_epoch=$(date +%s)
 cat > research-results/ub-controls-environment.txt <<EOF
 Source commit: $(git rev-parse HEAD)
-Budget including cold build and all controls: ${budget} minutes
+Selection: ${PROOF_SELECTION:-ub_detector_controls}
+Profile: ${profile}
+Budget including cold build and selected controls: ${budget} minutes
 Runner OS: ${RUNNER_OS}
 Runner environment: ${RUNNER_ENVIRONMENT}
 Kani pin:
@@ -54,18 +78,11 @@ finalize_evidence() {
     local write_summary="${2:-yes}"
     local -a records=()
     local name
-    for name in \
-        positive_initialized_read \
-        positive_valid_bool_pointer_read \
-        negative_uninitialized_i32_read \
-        negative_invalid_bool_read \
-        negative_misaligned_u32_read \
-        negative_null_u32_read \
-        negative_immutable_static_write; do
+    for name in "${selected_controls[@]}"; do
         [[ -f "research-results/ub-${name}.json" ]] && records+=("research-results/ub-${name}.json")
     done
     if [[ "$write_summary" == yes ]]; then
-        python3 "$classifier" --aggregate --out research-results/ub-controls-summary.json "${records[@]}" || true
+        python3 "$classifier" --aggregate --profile "$profile" --out research-results/ub-controls-summary.json "${records[@]}" || true
     fi
     printf '%s\n' "$status" > research-results/ub-controls-exit-code.txt
     if [[ -x kani_build/scripts/kani ]]; then
@@ -130,12 +147,18 @@ if (( result != 0 )); then
     exit "$result"
 fi
 
-for name in \
-    negative_uninitialized_i32_read \
-    negative_invalid_bool_read \
-    negative_misaligned_u32_read \
-    negative_null_u32_read \
-    negative_immutable_static_write; do
+if [[ "$profile" == immutable_observation ]]; then
+    negative_controls=(negative_immutable_static_write_observed)
+else
+    negative_controls=(
+        negative_uninitialized_i32_read
+        negative_invalid_bool_read
+        negative_misaligned_u32_read
+        negative_null_u32_read
+        negative_immutable_static_write
+    )
+fi
+for name in "${negative_controls[@]}"; do
     if run_one "$name" negative; then result=0; else result=$?; fi
     if (( result == 124 )); then
         finalize_evidence 124
@@ -144,14 +167,12 @@ for name in \
 done
 
 set +e
-python3 "$classifier" --aggregate --out research-results/ub-controls-summary.json \
-    research-results/ub-positive_initialized_read.json \
-    research-results/ub-positive_valid_bool_pointer_read.json \
-    research-results/ub-negative_uninitialized_i32_read.json \
-    research-results/ub-negative_invalid_bool_read.json \
-    research-results/ub-negative_misaligned_u32_read.json \
-    research-results/ub-negative_null_u32_read.json \
-    research-results/ub-negative_immutable_static_write.json
+aggregate_records=()
+for name in "${selected_controls[@]}"; do
+    aggregate_records+=("research-results/ub-${name}.json")
+done
+python3 "$classifier" --aggregate --profile "$profile" --out research-results/ub-controls-summary.json \
+    "${aggregate_records[@]}"
 suite_status=$?
 set -e
 finalize_evidence "$suite_status" no
@@ -159,7 +180,7 @@ finalize_evidence "$suite_status" no
 if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
     {
         printf '### Kani UB detector controls\n\n'
-        printf 'Suite classification exit code: `%s` (0 means all seven controls met their expected classification).\n\n' "$suite_status"
+        printf 'Profile: `%s`; suite classification exit code: `%s`.\n\n' "$profile" "$suite_status"
         printf 'This result measures detector controls only; it is not a SmallSort proof. See `research-results/ub-controls-summary.json` for each property, diagnostic, cover count, and reason.\n'
     } >> "$GITHUB_STEP_SUMMARY"
 fi

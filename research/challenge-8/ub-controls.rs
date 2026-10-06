@@ -70,4 +70,13 @@ pub mod challenge8_ub_controls {
         let pointer = ptr::addr_of!(IMMUTABLE_BYTE).cast_mut();
         unsafe { pointer.write(9) };
     }
+
+    #[kani::proof]
+    pub fn negative_immutable_static_write_observed() {
+        let pointer = ptr::addr_of!(IMMUTABLE_BYTE).cast_mut();
+        unsafe { pointer.write(9) };
+        let observed = unsafe { pointer.cast_const().read_volatile() };
+        assert!(observed == 9);
+        kani::cover(observed == 9, "immutable static write was observed");
+    }
 }

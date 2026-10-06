@@ -228,7 +228,8 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   runner15.66s including setup,RSS620,480KiB. No completed proof/covers.
   Next prove an interior-pointer bound for arbitrary mathematical index from
   endpoint facts, including required pointer-add algebra, without adding a
-  pointer-validity assumption or using the i32-limited split lemma.
+  pointer-validity assumption. Pinned VF reference confirms ghost integer
+  formals are mathematical integers; an i32 ghost parameter does not cap lengths.
 
 ## Next experiments
 
