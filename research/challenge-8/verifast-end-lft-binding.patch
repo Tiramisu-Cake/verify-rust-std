@@ -184,7 +184,7 @@ index 1dec6a6..4c98b9d 100644
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
 diff --git a/src/verifast.ml b/src/verifast.ml
-index d908895..bd4381c 100644
+index d908895..c4dce44 100644
 --- a/src/verifast.ml
 +++ b/src/verifast.ml
 @@ -2519,6 +2519,16 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
@@ -220,7 +220,7 @@ index d908895..bd4381c 100644
        let tparams = List.map fst typedecls @ tparams in
        let env = List.map (fun (tn, (l, typeid_term)) -> tn ^ "_typeid", typeid_term) typedecls @ env in
        let tenv = List.map (fun (tn, (l, typeid_term)) -> tn ^ "_typeid", voidPtrType) typedecls @ tenv in
-@@ -2644,12 +2663,27 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -2644,12 +2663,44 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
        let rec type_mentions_typedecl_type b tp =
          match unfold_inferred_type tp with
            GhostTypeParam x when List.mem_assoc x typedecls -> true
@@ -238,8 +238,25 @@ index d908895..bd4381c 100644
 +        let mentions_local tp = type_mentions_typedecl_type false tp in
 +        let would_discard (Chunk (_, targs, _, _, _)) =
 +          List.fold_left type_mentions_typedecl_type false targs in
-+        if strict_lft_scope <> None && List.exists would_discard h then
-+          static_error closeBraceLoc "A lifetime-scoped heap chunk is still live at the binding end" None;
++        if strict_lft_scope <> None then begin
++          match List.find_opt would_discard h with
++          | None -> ()
++          | Some (Chunk ((symb, _), targs, _, _, _)) ->
++            let rec directly_mentions_local b tp =
++              match unfold_inferred_type tp with
++              | GhostTypeParam x | RealTypeParam x | BoundedGhostTypeParam (x, _) ->
++                b || List.mem_assoc x typedecls
++              | tp -> type_fold_open b directly_mentions_local tp
++            in
++            let origin =
++              if List.fold_left directly_mentions_local false targs then "direct type argument"
++              else "bound metadata only"
++            in
++            static_error closeBraceLoc
++              ("A lifetime-scoped heap chunk is still live at the binding end: " ^
++               ctxt#pprint symb ^ "<" ^ String.concat ", " (List.map string_of_type targs) ^
++               "> (" ^ origin ^ ")") None
++        end;
 +        if strict_lft_scope <> None &&
 +           List.exists (fun (x, tp) -> List.mem_assoc x outer_tenv && mentions_local tp) exit_tenv then
 +          static_error closeBraceLoc "A lifetime-scoped local type escapes the binding" None;
@@ -250,7 +267,7 @@ index d908895..bd4381c 100644
            else
              h
          in
-@@ -2662,22 +2696,49 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -2662,22 +2713,49 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
          iter h consumed_lifetime_token_chunks
        in
        check_block_declarations ss;

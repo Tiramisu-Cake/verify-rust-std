@@ -9,7 +9,7 @@ the translator input file after it is SHA-256
 The original `verifast.ml` input is SHA-256
 `5968a05e264042782e8373c452b241ccdd1f4ba3323d596888a9bdf6b18c3310`.
 The patch is [verifast-end-lft-binding.patch](verifast-end-lft-binding.patch),
-SHA-256 `76c3f6dbc54183997a40d91c8a178a3b751a6771c8a42e79bb9cacbbe04c89e8`.
+SHA-256 `e17492b5a1d3ec636c4181578e35d2f21427be1be6b23eec43984576aa8df62f`.
 
 ## Scope and semantics
 
@@ -47,6 +47,11 @@ shortened prefix have lexical scope and are forgotten after that block, even
 when they do not mention `'cmp`. Existing block behavior outside this opt-in
 remains as before. The internal statement is consumed by `BlockStmt`; no AST constructor,
 parser grammar, verifier assumption, or lifetime axiom is added.
+
+If the strict heap check fails, its diagnostic names the first offending
+predicate and its type arguments, and distinguishes a direct local type from
+one found only in the bounds metadata of an outer type parameter. The check
+and its rejection behavior are unchanged.
 
 The current probe has no additional generic `F` or `T` restriction. The exact
 Rust `insert_tail` body and signature remain the target. This experimental

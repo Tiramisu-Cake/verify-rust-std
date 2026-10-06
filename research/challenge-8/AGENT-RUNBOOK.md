@@ -34,7 +34,10 @@ normalcut/fulltoken/recoveredcells/move proof yet. VF1/.15s,RSS92,708KiB;
 refiner0/.10s,RSS91,816KiB;overall1,runner1:10.88,RSS658,248KiB,setupdominates.
 No active run. Next identify offending predicate/typeargs at strict exit,
 check local cleanup ordering versus real escaped borrow resources. Preserve
-rejection and unrestricted T/F domain; source owner investigates diagnostics.
+rejection and unrestricted T/F domain. Prepared diagnostic-only patch
+e17492b5a1d3ec636c4181578e35d2f21427be1be6b23eec43984576aa8df62f
+prints first offending predicate/typeargs and direct-vs-bound-only origin;
+root reviewed delta, heap/rejection behavior unchanged. Next hosted source run.
 
 **Latest completed scope-regression run:** [37412915463](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
 source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
