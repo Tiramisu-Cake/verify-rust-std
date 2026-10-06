@@ -1,47 +1,44 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. **IN PROGRESS — stock generic H_align, then narrow Rust ZST layout prototype.**
-Owner resumes from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75; entry clean,
-local/remote research heads match, fork Tiramisu-Cake/verify-rust-std, no active run.
-Budget: at most **6 NEW manual hosted runs / 10800 summed job-seconds** including
-all builds, preparation and verification. Used 5/6; 507/10800 summed job-seconds. One experiment at a time.
+Updated 2026-10-07. **CLOSED at6/6 NEW runs: stock generic PASS; experimental
+fieldless-layout acceptance INCONCLUSIVE.** No active experiment; STOP.
+Entry checkpoint e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75, correct fork/branch,
+clean matching heads. Budget used **6/6 /653 of10800 summed job-seconds (10m53s)**,
+including every job's preparation/build/upload. Unused time does not grant runs.
 
-**Stock baseline PASS** in [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
-source968c073983e0fa27112c5d8a4e10a36b05828323, exact head_sha checked.
-Both generic cases export/decode/VF/refinement exit0; source hashes unchanged,
-72 verified statements per case, all four posts/leak paths and dead-code gate pass.
-Two ZST positives INCONCLUSIVE (size0 / pointer limits); negatives2/2 intended
-assertion failures, replay3 groups/30 mutants PASS. Job22:28:51–22:29:34Z,43s.
-Full logs/artifact11447599817 inspected. **Proceed to separate layout prototype.**
+**Stock generic const/mut PASS independently** on unchanged official VeriFast26.09
+/source809de459/nightly-2026-02-05: [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
+source/head968c073983e0fa27112c5d8a4e10a36b05828323. Both VF0, export/decode/
+refinement0,72 statements each; resources/posts/dead-code/leak/integrity intact.
+Stock concrete Z remains INCONCLUSIVE; original negatives/replay pass separately.
 
-Completed reachable ghost cases i<1, i<2, i<3, otherwise i==3 on unchanged
-official VeriFast 26.09 / source809de459 / nightly-2026-02-05. Advance ONLY when
-both generic const/mut have VF exit0 and all original integrity/refinement gates pass.
-Keep stock ZST failures separate; no overall-green workflow requirement.
+**Experimental-rust-fieldless-layout-v1** built and full matrix attempted in final
+[run37544574703](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544574703),
+source/head e472aa27a93b15904c702a2484d9e2fdf6f5554a, exact pushed/head_sha match.
+Job112545369857,23:05:34–23:08:00Z on2026-10-06,146s, FAILURE.
+Patch SHA256 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
+Original experimental six pass expected gates; extra9 positives/4 intended negatives/
+5 unsupported-layout cases pass. Z size0/align8, const/mut zero-strideadd i0..3 and
+checked generic calls Z/u64 verified. Metadata5/7 gates pass; absent/source-span
+remain classifier INCONCLUSIVE despite intended raw VF failures. Existing Rust/C/C++
+regressions pass both profiles; new C/C++ smoke fixtures parse-fail both profiles.
+Classifier selfchecks12/12 PASS. Full logs/artifact11450580233 inspected; raw unchanged.
+**Full acceptance remains INCONCLUSIVE; no checker/fixture fix applied after run6.**
 
-Experimental-rust-fieldless-layout-v1 built in
-[run37544058075](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544058075),
-source/head063acbae79fce823bff65245d8a9772fe5d74457; patch SHA256
-d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
-Console/exporter exit0. Original experimental six: generic2/Zlayout/Zadd PASS,
-negatives2 expected assertions; all exports/decodes/refinements0 and hashes intact.
-Stock comparison reproduces known outcomes. Full logs/artifact11449439944 inspected.
-Job112543713772,23:00:27–23:03:04Z,157s. Workflow FAILURE at harness marker-set
-validation: generated applications incorrectly required as physical markers.
-Remaining positive/negative/metadata/compatibility matrix NOT RUN; not accepted.
-Next candidate separates physical markers from generated applications, keeps ALL
-final required cases and strict classifier. No patch/contract/proof change.
-No active run; one final NEW exact-SHA selection/30 available, then STOP.
+Exact layout domain: local concrete original-fieldless nongeneric Sized Rust structs,
+reprRust/C with optional align. Compiler-backed optional size/ABIalignment and type/
+source/target binding; Rust-only >=0 bound, C/C++ >0 retained. Exact fielded/generic/
+packed/transparent/enum/union/DST facts and offset/ownership/alias changes excluded.
+All executable work hosted; stock profile separate. No full model-soundness,
+automatic-copy UB, ownership/callback/five-unwind or whole-sort4 theorem follows.
 
-Separate experimental layout profile limited to genuinely
-fieldless, nongeneric-definition Sized Rust structs, repr(Rust)/repr(C), optional
-repr(align). Compiler-backed optional size/ABIalign metadata with type/source/
-target binding; Rust-only nonnegative struct-size bound. No exact facts for
-fielded/generic/packed/transparent/enum/union/DST types, no offset/ownership/alias changes.
-All executable checks/builds on GitHub-hosted only; stock profile kept unchanged.
-
-[Phase and pre-implementation criteria](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07).
-[Prior checkpoint/history](STATUS-HISTORY-2026-10-07.md), [results](SORT4-ALIGNMENT-RESULTS.md),
-[layout review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md), [journal](EXPERIMENT-LOG.md).
-RAPx CLOSED / NO-GO; B/C NOT RUN; ZST retained in target contract. Full sort4,
-historical FnMut/Drop changes and external issues/PR/messages excluded.
+Next proposed decision: narrowly repair evidence processing for named caller/full
+nested span and split C/C++ contract annotation blocks, retaining all requirements;
+NEW bounded hosted matrix run at unchanged patch. **NOT AUTHORIZED / NOT RUN.**
+No demonstrated need for further model semantics at this checkpoint.
+[Closeout and exact run/source identities](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout),
+[phase](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07),
+[patch provenance](verifast-rust-fieldless-layout.md), [journal](EXPERIMENT-LOG.md),
+[previous checkpoint/history](STATUS-HISTORY-2026-10-07.md).
+RAPx CLOSED / NO-GO; B/C NOT RUN; ZST retained in contract. Historical FnMut/Drop,
+full sort4 and external issues/PR/messages remain outside this stage.

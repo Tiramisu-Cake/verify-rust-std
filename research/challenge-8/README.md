@@ -6,15 +6,19 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**IN PROGRESS: stock generic H_align PASS, narrow experimental layout profile.**
-[Run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
-checks both generic cases with VF0, original integrity/refinement/dead-code/leak gates.
-Stock concrete ZST remains INCONCLUSIVE independently. [Current authorized card](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07)
-permits only original-fieldless nongeneric Rust struct exact compiler layout plus
-Rust>=0 bounds, separate stock/experimental profiles and pre-recorded controls.
-Budget6 NEW/180min jobs including build/setup,1/6 and43seconds used. Current state
-in compact [STATUS](STATUS.md), prior checkpoint in [history](STATUS-HISTORY-2026-10-07.md).
-No full sort4, RAPx/B/C or historical FnMut/Drop extension. Prior phases below are historical.
+**CLOSED at6/6 NEW runs: stock generic H_align PASS; experimental layout acceptance INCONCLUSIVE.**
+[Stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
+proves const/mut independently on unchanged VeriFast26.09 with all old gates.
+[Final run37544574703/sourcee472aa2](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout)
+builds the separate fieldless Rust layout profile and verifies Z0/8, const/mutadd,
+generic calls Z/u64 and intended false assertions. Full acceptance remains
+INCONCLUSIVE: metadata absent/span evidence-processing gates and new C/C++ annotation
+parse errors; existing regressions pass both profiles. Budget653s jobs including
+build/setup, no active run, STOP at6/6. [Patch/provenance](verifast-rust-fieldless-layout.md),
+[current checkpoint](STATUS.md), [history](STATUS-HISTORY-2026-10-07.md).
+No full model/automatic-copy UB/whole-sort4 theorem. RAPx CLOSED/NO-GO; B/C NOT RUN.
+Next narrowly proposed harness/annotation check is NOT AUTHORIZED / NOT RUN.
+Prior phases below remain historical.
 
 **Historical generic completion/layout review CLOSED at2-run limit; generic INCONCLUSIVE.**
 [Runs37537448952/37537868053](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs),

@@ -231,7 +231,7 @@ The immutable-write control is an independent measured limitation.
   runtime/signature changes. Tool-semantic expansion, external publication and
   bounty submission each require the owner's separate decision.
 
-## Current fieldless-layout phase: stock baseline
+## Fieldless-layout phase closeout: stock and experimental coverage
 
 Run37540829027/source968c073983e0fa27112c5d8a4e10a36b05828323 establishes BOTH
 generic const/mut H_align with whole-unit VF0 on unchanged official26.09: all
@@ -240,4 +240,18 @@ full normal/no-unwind geometry posts, leak/dead-code/refinement/integrity PASS.
 Earlier generic INCONCLUSIVE results remain historical. This adds independent
 abstract geometry coverage only; stock original Z layout/add still unproved,
 copy UB/ownership/callback/five-unwind/full-sort4 remain open. Experimental layout
-prototype and matrix are now authorized separately; no experimental result yet.
+prototype and matrix were implemented separately and close at6/6 NEW runs,653s.
+
+[Final run37544574703/sourcee472aa2](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout)
+provides narrow experimental evidence: original Z size0/ABIalign8, const/mutadd
+for arbitrary i<=3, exact generic helper/body verification and checked calls Z/u64,
+reprRust/C fieldless default/aligned layout, four intended false assertions under
+ordinary premises, five unsupported original-shape absence cases. Prior Rust/C/C++
+regressions pass both profiles. Metadata5/7 gates pass; absent/span raw intended
+failures remain classifier INCONCLUSIVE; two new C/C++ fixtures parse-fail on both
+profiles. Overall prototype acceptance INCONCLUSIVE, not accepted tool profile or
+complete model-soundness. No proof transfer from stock assumed: instantiated units
+verify callee and caller together in experimental model. Full ownership/copy UB/
+callback/five-unwind/universal sort4/caller composition remain open. Next harness/
+annotation repair plus unchanged-patch matrix check NOT AUTHORIZED / NOT RUN.
+RAPx0.7.50 CLOSED/NO-GO; B/C NOT RUN; original ZST remains in adopted domain.

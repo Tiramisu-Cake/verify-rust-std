@@ -3,9 +3,13 @@
 Current update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
 now establishes both generic geometry cases with VF0, integrity/refinement/dead-code
 checks intact. Prior dead-code failures below are historical. The separately
-approved fieldless-only experimental Rust layout profile is IN PROGRESS, no
-experimental result yet. Generic geometry does not instantiate faithful stock Z
-or establish resource/callback/copy safety. RAPx NO-GO and B/C NOT RUN unchanged;
+approved fieldless-only experimental Rust layout prototype closes at6/6,653s:
+[run37544574703/sourcee472aa2](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout)
+verifies original Z0/8/const-mutadd and generic calls Z/u64 in one experimental
+unit/model. Metadata processing and new native fixtures leave full acceptance
+INCONCLUSIVE. No stock-to-patched theorem transfer is assumed and no contradictory
+stock Z instance is imported. Generic geometry does not establish typed ownership,
+callback or copy safety. RAPx NO-GO and B/C NOT RUN unchanged;
 no full generic sort4 composition follows.
 
 

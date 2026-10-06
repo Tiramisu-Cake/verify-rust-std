@@ -2,10 +2,124 @@
 
 ## Stock generic baseline and experimental fieldless layout — 2026-10-07
 
-Current phase IN PROGRESS. Stock baseline **PASS independently for const/mut**;
-experimental layout profile implementation starts only after this gate. Budget
-5/6 NEW runs,507/10800 summed job-seconds including all preparation/replay/upload.
-Earlier phases below retain their original outcomes and evidence.
+Phase **CLOSED at6/6 NEW runs,653/10800 summed job-seconds** including all
+preparation/build/upload. Stock generic PASS; experimental prototype acceptance
+INCONCLUSIVE. Earlier phases retain their original raw outcomes and evidence.
+
+## Fieldless layout prototype closeout
+
+| NEW run / exact source SHA | Job seconds | Outcome / measured next correction |
+| --- | --- | --- |
+| [37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027) /968c073983e0fa27112c5d8a4e10a36b05828323 | 43 | Stock generic const/mut VF0 with original gates; permits separate prototype |
+| [37542669720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37542669720) /f9697b8f3f894eb24115684a41da3d88566ddc9e | 82 | Console build fails binary use of unary minus_big_int; exporter/matrix NOT RUN |
+| [37543115091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543115091) /55b856cd5285961e02323dd269044d2d194183d6 | 110 | Console build fails unqualified RustLayout; exporter/matrix NOT RUN |
+| [37543687813](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543687813) /0950bc40852fd94176d4293cd191a60dda6bb650 | 115 | Console build fails ReprC after attr concatenation; exporter/matrix NOT RUN |
+| [37544058075](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544058075) /063acbae79fce823bff65245d8a9772fe5d74457 | 157 | Both builds/original six PASS; harness requires generated application markers; rest NOT RUN |
+| [37544574703](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544574703) /e472aa27a93b15904c702a2484d9e2fdf6f5554a | 146 | Full matrix attempted; six unresolved acceptance gates below; workflow FAILURE |
+
+Each exact pushed/remote/head_sha checked. Final job112545369857 ran
+2026-10-06T23:05:34–23:08:00Z; no timeout/OOM. Wrapper125.28s/RSS737008KiB;
+console25.95s/exporter17.43s, both exit0. Charge full146s, not wrapper time.
+All6 NEW manual dispatches, no Re-run or overlapping experiments. STOP at run
+limit; unused10147seconds cannot authorize another run or post-run proof repair.
+
+### Final matrix, evaluated per obligation
+
+| Cases / exact obligation | Final observed gate | Evidence and limitation |
+| --- | --- | --- |
+| Stock generic const/mut | PASS independently | Unchanged release binaries, VF0/72 statements each, old resource/normal/no-unwind/dead-code/refinement/integrity gates |
+| Stock original Z layout/add | INCONCLUSIVE independently | Old size0 assertion/pointer limits failures retained; no stock concrete layout repair |
+| Experimental original generic const/mut | PASS | VF0/72 statements each under separately identified profile |
+| Experimental original Z layout | PASS | Original Z definition unchanged; compiler size0/ABIalign8, both assertions reached; VF0/44 statements |
+| Experimental original Z constadd / extra zst_mut_add | PASS independently | Arbitrary usize i<=3, unchanged .add, zero-byte resources/full old posts; limits, result==base and alignment pass |
+| apply_const_z / apply_mut_z / apply_const_u64 / apply_mut_u64 | PASS each | Exact generic helper/callee bytes reverified in same unit; actual generic call records5, caller/callee/helper headers1 each, .add records3; no summary imported from stock as an assumption |
+| repr_rust_empty / repr_c_empty | PASS each | Fieldless aligned types0/8, bound metadata, assertions/refinement |
+| repr_rust_empty_default / repr_c_empty_default | PASS each | Fieldless unaligned types0/1, compiler-backed facts |
+| Original source/destination byte-offset negatives | EXPECTED_FALSE_POST_FAILURE each | Named modulus8 assertion25 fails after add22/cast23; manual assertion detection only |
+| negative_zst_size | EXPECTED_TARGET_ASSERTION_FAILURE | Exact line20 size==1 rejects __result=1; caller/reach/content/integrity/export/decode/refinement gates pass |
+| negative_zst_alignment | EXPECTED_TARGET_ASSERTION_FAILURE | Exact line20 alignment==16 rejects __result=16; same gates |
+| negative_zst_nonzero_stride | EXPECTED_TARGET_ASSERTION_FAILURE | .add25 reached, exact assertion27 result!=base rejects !(ptr_add_(base,i,Z_type_info)=base); same gates |
+| negative_assert_false | EXPECTED_TARGET_ASSERTION_FAILURE | req true, original Z layout context, exact line20 false assertion rejects false; no unreachable-body success |
+| unsupported_fielded / unsupported_phantom_field / unsupported_generic_adt / unsupported_packed / unsupported_transparent | UNSUPPORTED_LAYOUT_PASS each | Original shape recorded, associated ADT metadata absent, trivial abstract proof VF0; no exact unsupported layout theorem |
+| metadata_malformed_alignment / metadata_malformed_size | EXPECTED_METADATA_REJECTION each | Values3/1 reject explicit RustLayoutMetadata: malformed at definition7, not parse/setup |
+| metadata_wrong_binding / metadata_wrong_target / metadata_wrong_pointer_width | EXPECTED_METADATA_REJECTION each | Explicit binding mismatch at definition7; mutated payloads decode/encode successfully, sources/refinement unchanged |
+| metadata_absent | INCONCLUSIVE | Raw intended failure at size0 assertion20; classifier wrongly requires ONLY one total function header, while target caller appears once plus7 generated helpers |
+| metadata_wrong_source_span | INCONCLUSIVE | Raw explicit binding mismatch at definition7; nested span mutation7->8 exists, but non-greedy regex compares only unchanged prefix, mutation_shape_ok=false |
+| Existing generic_structs.rs / chars__of_struct.c / constructors.cpp | PASS each, BOTH profiles | Unchanged pinned bodies,49/70/14 verified statements; source identities unchanged |
+| New c_nonempty / cpp_empty smoke fixtures | INCONCLUSIVE each, BOTH profiles | Parse errors at ensures line10/8 before assertions; shared multi-clause annotation block unsupported. No C/C++ size-gate result |
+| New strict negative classifier selfchecks | PASS12/12 | Wrong caller/operation/assertion/content/location, early-stage failures/dead-code/VF0 fail closed |
+
+All18 extra Rust cases attain their expected individual classifications; metadata
+5/7 and native6/10 gates pass,12/12 classifier selfchecks. This count does not turn
+remaining INCONCLUSIVE into PASS. Original-six and direct export/decode/refinement
+stages succeed;37 archived Rust units' before/after and stage hashes match actual
+sources. Seven canonical/mutated binary hashes and shadow-console/base-exporter
+identities checked. Canonical logs/JSON/MIR are untouched; no post-hoc rewritten
+classification or automatic acceptance claimed.
+
+First remaining gate failure is metadata_absent's total-header count. Independent
+blockers: truncated nested-span audit and C/C++ annotation parse errors. Raw absence
+and span failures are at intended obligations and support a new falsifiable harness
+repair hypothesis, but strict saved classifications remain INCONCLUSIVE. The span
+mutation moves lo.line7->8 with hi.line7 unchanged; a future source-binding control
+should also preserve a valid range when moving the complete span. No further model
+semantic requirement is demonstrated by these failures. After run6 no code fix/run.
+
+### Reproducibility, trust and applicability
+
+Profile experimental-rust-fieldless-layout-v1: source809de4596839b739dd999f9e462242c835e3af46,
+nightly-2026-02-05/compilerdb3e99bbab28c6ca778b13222becdea54533d908,
+x86_64-unknown-linux-gnu/64bit. Patch SHA256
+`d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14`;
+artifact applied.patch byte-identical to checked-in patch, exactly8 reviewed files.
+Console SHA25603af81bfc531c8f7625b196b181e4172d001689d88eb2a6c6bd2088eb9b265b8,
+exporter31a46637839d57051e41ad12b5bcb9778ad73a160faf85cb4097bf570f77cb2e,
+schema97785b763fd03e242229fe780428ced26a4dc04bb12fcbf3889ae00ed8fb6413;
+all identical in runs5/6. Stock/refinement/C++ exporter/spec identities unchanged.
+Final artifact11450580233/807421bytes, downloaded ZIP SHA256 matches API/upload:
+205a9df3ac4c65676ea02b3d25a3a13adb4580949aeca4336c9a0065b1ac5881.
+Full Actions log SHA256515e728b6b6fcd97edbf58808aa1245b072208b54075e852b5ad92f0a6fe862b.
+Full logs/stage resources/MIR/classifications/mutation evidence inspected.
+[Patch provenance and exact supported scope](verifast-rust-fieldless-layout.md).
+
+Exact facts attach to the same local nominal type/source span/target that the
+pinned compiler exports for .add; source hashes tie ghost-stripped originals and
+verified units. Generic applications verify callee body and caller together under
+one experimental model. This avoids assuming a theorem transfer from stock to
+patched semantics or instantiating the contradictory stock model of concrete Z.
+The exporter tests ORIGINAL compiler field list and HIR definition generics before
+PhantomData filtering; translator rechecks raw shape. Absence creates no exact AST
+fact. Facts use ABI alignment, Rust-only >=0 bounds, unchanged offsets/permissions/
+aliasing; C/C++ retain >0. Pinned rustc layout query/schema translation/engine facts
+are explicit trusted components. Duplicate bindings detect stale/misassociated
+payloads, not coordinated malicious rewrites; global model consistency is unproved.
+
+Verified size0/align8 and both .add examples support this limited fieldless subset
+on this target. Negative false/assertfalse controls rule out specific inconsistent-
+premise successes; they do not establish complete model soundness. Exact nonzero
+fielded/generic ADT layouts, all targets/representations and a full upstream suite
+remain outside coverage. The generic-ADT absence fixture also has a PhantomData
+field; independent fieldless const-generic exclusion is statically guarded, not
+separately executed. The metadata audit's non-greedy positive-span extraction is
+also incomplete; actual translator compares complete decoded spans.
+
+The chosen narrow repair addresses concrete Z layout and zero-stride geometry;
+stock generic needs no model patch. Historical insertion/FnMut/Drop extensions,
+new offset/ownership/alias rules and broader exact layout facts are unnecessary
+for the achieved results. Full sort4 byte/typed ownership, copy primitive UB,
+callback effects, five unwind states and universal functionality/caller composition
+remain open. RAPx0.7.50 CLOSED/NO-GO; B/C NOT RUN; Kani concrete prior evidence unchanged.
+
+One recommended next bounded check, NOT AUTHORIZED / NOT RUN: at unchanged patch,
+fix named-caller counting while retaining operation/assertion/site/content gates,
+replace span-prefix regex with complete balanced-span auditing (and well-formed
+wrong-span mutation), and split only C/C++ req/ens annotation blocks. Hypothesis:
+existing intended failures remain strict negatives, new smoke controls reach their
+size assertions, and ALL pre-recorded acceptance gates then pass. Retain false and
+malformed controls, original JSON/logs, exact-SHA NEW dispatch and all proof flags.
+No implementation of that continuation accompanies this closeout.
+
+### Recorded stock gate and measured iterations
 
 [Stock run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
 source/head968c073983e0fa27112c5d8a4e10a36b05828323, created2026-10-06T22:28:46Z.

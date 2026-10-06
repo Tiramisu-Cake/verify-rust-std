@@ -56,5 +56,27 @@ VeriFast build generates the OCaml bindings. Both exporter and console must be
 rebuilt from the patched source on a GitHub-hosted runner; the stock profile
 remains the unchanged release binaries. No build, verifier, test, or runner was
 executed locally for this patch. Static `git diff --check` passed on the
-editable source copy; the patch still requires hosted compilation and the
-recorded positive/negative matrix.
+editable source copy before hosted compilation. Executed matrix results and
+remaining acceptance gates are recorded below.
+
+## Hosted prototype checkpoint
+
+Built on GitHub-hosted Ubuntu22.04 only in runs37544058075/source063acbae79fce823bff65245d8a9772fe5d74457
+and37544574703/sourcee472aa27a93b15904c702a2484d9e2fdf6f5554a. Console/exporter
+and synchronized schema hashes match across both runs; applied patch exactly equals
+this recorded patch. [Full per-case evidence and identities](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout).
+Original Z0/8, const/mut .add i0..3, generic applications Z/u64 and intended false
+layout/stride/assertfalse controls pass. Five malformed/binding metadata controls
+and prior Rust/C/C++ regressions pass. Full acceptance remains INCONCLUSIVE because
+absence/full-span evidence gates and new C/C++ fixtures need narrowly scoped harness/
+annotation repair; no post-run fix implemented. Stock generic proof is separately
+PASS. Budget6/6,653s exhausted by count, no active run. Next unchanged-patch check
+NOT AUTHORIZED / NOT RUN; no broader semantic extension follows.
+
+The achieved scope requires exporter/layout query, optional schema plus validated
+binding/eligibility, AST propagation/serializers, same-type engine facts and Rust-only
+nonnegative size bounds. Lower-bound change alone cannot imply exact0/8. Existing
+pointer/offset/ownership/alias and historical insertion/FnMut/Drop changes were not
+required for these results. Selected regression passes and assertfalse rejection
+are limited evidence; full soundness, other targets/ADT layouts, automatic copy UB
+and sort4 safety remain unproved.

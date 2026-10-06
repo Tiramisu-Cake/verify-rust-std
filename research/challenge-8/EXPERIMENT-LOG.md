@@ -2633,3 +2633,40 @@ all four applications in final POSITIVES/required matrix. Only harness validatio
 changed; same patch/binaries/source fixtures/contracts/classifier/flags. Static
 Python AST parsing/diff check PASS. Last NEW hosted run must attempt full matrix;
 after it STOP regardless of result.
+
+Dispatched final NEW run6/37544574703, source/head e472aa27a93b15904c702a2484d9e2fdf6f5554a,
+created2026-10-06T23:05:30Z, exact pushed/remote/head_sha match. Same profile patch
+and flags, only physical/generated marker validation fix. Budget6/6,507 completed
+seconds plus current job. Monitor full result/artifacts then STOP, no seventh run.
+
+### Final prototype matrix / STOP — run37544574703
+
+Exact source/head e472aa27a93b15904c702a2484d9e2fdf6f5554a;
+job112545369857,2026-10-06T23:05:34–23:08:00Z,146seconds, FAILURE.
+Console/exporter builds0, exact patch d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14,
+binary/schema hashes identical to run5. Stock archive/refinement/C++ exporter/spec
+identity gates PASS; applied patch byte-identical and eight-file manifest confirmed.
+Full matrix attempted: original experimental six expected gates; extra9positives,
+4intended false assertions,5unsupported absence cases PASS; metadata5/7 accepted,
+2INCONCLUSIVE; native prior Rust/C/C++ regressions6/6 PASS across both profiles,
+new C/C++ smoke controls4/4INCONCLUSIVE due ensures parse errors; classifier12/12 PASS.
+Source/stage hashes match actual37 archived Rust units; seven mutation hashes and
+shadow base identities checked. Full logs/MIR/stage artifacts inspected; original
+classifications preserved, no post-hoc reclassification. Metadata_absent really
+fails intended size0 assertion20 but harness counts7generated helpers+caller and
+requires total1. Wrong-span really fails binding-mismatch but audit truncates
+nested span before lo.line mutation, so shape gatefalse. C/C++ requires/ensures
+shared blocks parse-fail ensures10/8 before assertions on both profiles.
+No full acceptance; no demonstrated need to expand model semantics. No code fixes
+or runs after final result. Exact per-case table and applicability/trust caveats in
+[SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout).
+Artifact11450580233,807421bytes, downloaded ZIP matches API/upload SHA256
+205a9df3ac4c65676ea02b3d25a3a13adb4580949aeca4336c9a0065b1ac5881;
+full Actions log SHA256515e728b6b6fcd97edbf58808aa1245b072208b54075e852b5ad92f0a6fe862b.
+Wrapper125.28s/RSS737008KiB, console25.95s/exporter17.43s, no timeout/OOM.
+Full146seconds charged. Budget6/6 NEW,653/10800sec (10m53s) including all setup/build;
+STOP at run limit, no active experiment. Stock independent generic PASS, narrow
+experimental layout/geometry evidence gained, full prototype acceptance INCONCLUSIVE.
+Proposed next unchanged-patch harness/annotation repair plus NEW full matrix check
+NOT AUTHORIZED / NOT RUN; remaining time does not provide dispatch slots.
+RAPx CLOSED/NO-GO; B/C NOT RUN; full sort4/old FnMut-Drop/external publication excluded.

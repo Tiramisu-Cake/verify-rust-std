@@ -2,7 +2,8 @@
 
 ## Stock generic and fieldless layout prototype — 2026-10-07
 
-**AUTHORIZED / IN PROGRESS** from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75.
+**CLOSED at6/6 NEW runs; stock generic PASS, prototype acceptance INCONCLUSIVE.**
+Entry authorization from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75.
 Entry clean, local/remote exact match, correct fork/branch, no active experiment.
 Previous phase and two runs37537448952/37537868053 remain historical INCONCLUSIVE.
 
@@ -10,10 +11,14 @@ Stock gate result: run37540829027/source968c073, both generic VF0 with integrity
 refinement PASS. One NEW run,43seconds; concrete stock ZST failures kept separate.
 Transition to Step2 permitted; prior full evidence in results/journal.
 Prototype runs2/3/4 stop at console build. Run5 builds both components and verifies
-original experimental six; remaining matrix NOT RUN after marker validation error.
-Budget5/6,507/10800s. Run6 candidate changes harness physical-marker validation only;
-generated applications remain mandatory in final matrix. Same patch/profile/domain,
-acceptance criteria and strict classifier. This is the final permitted run.
+original experimental six; harness marker error prevents remaining cases.
+Final run37544574703/source e472aa27a93b15904c702a2484d9e2fdf6f5554a attempts full
+matrix: Z layout/const-mutadd, generic calls Z/u64, false size/align/stride/false
+assertions and prior regressions pass; absent/span audit and new C/C++ annotation
+gates remain INCONCLUSIVE. [Per-case closeout](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout).
+Budget6/6,653/10800s. STOP; no active experiment or post-run code fix. Candidate
+harness/annotation continuation is a separate future decision, NOT RUN. Original
+pre-implementation criteria below preserved; no criterion relaxed to accept prefix.
 
 ### Step 1: stock gate, before any layout patch implementation
 

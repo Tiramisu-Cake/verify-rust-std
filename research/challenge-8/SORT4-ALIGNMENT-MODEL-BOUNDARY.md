@@ -1,6 +1,17 @@
 # H_align: concrete Rust ZST versus the pinned VeriFast model
 
-Current phase separately authorized from e170656: stock generic baseline PASS in
+Current update: [bounded prototype closeout](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout)
+implements a separate fieldless-only patch over pinned26.09 after stock generic
+PASS. Original Z0/8 and const/mut zero-step geometry now verify experimentally,
+generic bodies and calls Z/u64 are checked in the same model; no stock Z theorem
+transfer. Full acceptance INCONCLUSIVE at6/6,653s due harness/native annotation
+controls, not a demonstrated further model boundary. Exact patch/domain/trust in
+[provenance](verifast-rust-fieldless-layout.md). The stock/upstream audit below remains
+historical and unchanged; this experiment neither updates upstream nor establishes
+model soundness. Next unchanged-patch harness gate NOT AUTHORIZED / NOT RUN.
+RAPx CLOSED/NO-GO; B/C NOT RUN.
+
+Stage entry separately authorized from e170656: stock generic baseline PASS in
 run37540829027, then an experimental layout prototype limited further to truly
 source-fieldless nongeneric Sized Rust structs. [Phase/matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07)
 and [current results](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
