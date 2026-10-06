@@ -231,6 +231,22 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   pointer-validity assumption. Pinned VF reference confirms ghost integer
   formals are mathematical integers; an i32 ghost parameter does not cap lengths.
 
+
+- [Actual insertion UB safety frontend failure](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395779522),
+  2026-10-06, source `fe7567964629b627cf2bcb96ab71b8834316abcc`,
+  `insertion_ub_safety_4`,90min, same Kani pin and detector flags. Actual outer
+  loop with arbitrary i32 inputs/comparator decisions, no sortedness or loop
+  annotations. Kani compiler ICE before checking any harness/property/cover:
+  delayed_ub/initial_target_visitor.rs:107 unwraps a failed function-pointer
+  resolution for fmt::Formatter -> fmt::Result. Diagnostic explicitly says
+  uninit checks with function pointers/vtable calls are unsupported (#3300).
+  Overall/Kani1, runner3:56.45 including cold build, RSS1,631,772KiB.
+  No safety result. Suspected path is formatted panic in harness `backing[..len]`
+  (input len<=4 already assumed). Next harness constructs the same valid slice
+  with from_raw_parts_mut and keeps all input/domain/check/callback/covers
+  obligations; constructor safety is justified by the live initialized array.
+  This tests that hypothesis without changing actual std runtime code.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

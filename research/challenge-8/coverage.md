@@ -56,3 +56,9 @@ Do not infer absence of all four UB categories from default checks.
   `library/kani_macros/src/sysroot/contracts/mod.rs`.
 - Submission: use approved integrated tools; no runtime/signature changes; no
   upstream PR, comments or bounty claim without separate user authorization.
+
+Actual insertion with explicit uninit/valid-value/pointer flags reached a compiler
+ICE before verification (37395779522): unsupported Formatter function pointer
+in the delayed-uninit pass. This is neither a safety finding nor proof. The
+prepared harness-only slice-construction change tests an unreachable formatted
+indexing-panic hypothesis under the same domain; target runtime is unchanged.

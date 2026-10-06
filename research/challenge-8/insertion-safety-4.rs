@@ -21,7 +21,12 @@ pub mod challenge8_insertion_safety {
         // The callback returns a fresh unconstrained result on every call.
         // No ordering or sorted-prefix assumptions constrain the input.
         let mut is_less = |_: &i32, _: &i32| kani::any::<bool>();
-        super::insertion_sort_shift_left(&mut backing[..len], offset, &mut is_less);
+        // SAFETY: backing owns N initialized, aligned, writable i32 cells;
+        // len <= N, the byte size is <= isize::MAX, and no other reference to
+        // these cells is used while values is live. This constructs the same
+        // valid slice without an out-of-domain formatted indexing panic path.
+        let values = unsafe { crate::slice::from_raw_parts_mut(backing.as_mut_ptr(), len) };
+        super::insertion_sort_shift_left(values, offset, &mut is_less);
 
         kani::cover(len == 1, "length one is reachable");
         kani::cover(len == 2, "length two is reachable");

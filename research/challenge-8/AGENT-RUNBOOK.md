@@ -95,12 +95,17 @@ control after pinned-source audit showed write and pointer checks were modeled,
 but no mutability property emitted (--no-assert-contracts not its explanation).
 Next Actions selection: insertion_ub_safety_4,90min, actual bounded i32 safety
 without loop injection/sortedness assumptions; same UBflags and explicit
-immutable-byte gap. Active
+immutable-byte gap. Latest actual safety attempt:
 [37395779522](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395779522),
-source `fe7567964629b627cf2bcb96ab71b8834316abcc`,
-`insertion_ub_safety_4`,90min. Inspect exact harness, all7covers, unwind and
-initialization/valid-value checks; no undetermined/unsupported/substituted checks
-accepted. Default workflow-only selection at66db1c3.
+source `fe7567964629b627cf2bcb96ab71b8834316abcc`,safety90min. Kani uninit
+frontend ICE at initial_target_visitor.rs:107, unsupported Formatter function
+pointer resolution (#3300); no harness/property/covers verified. Runner3:56.45,
+RSS1,631,772KiB,overall1. Hypothesis: formatted range-index panic in harness.
+Prepared equivalent from_raw_parts_mut slice construction under unchanged
+valid len/offset assumptions, initialized array and comparator domain; no std
+runtime change/check suppression. No active run. Next range interior-pointer
+lemma Actions probe (generic mathematical ghost indices, no i32 numeric cap),
+then inspect first obligation and decide between safety retry/immutable observation.
 
 ## Repository map and verifier details
 
