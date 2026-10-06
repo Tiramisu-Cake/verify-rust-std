@@ -55,14 +55,16 @@ manual intended false-post rejections2/2 while unchanged automatic header parsin
 keeps all-six INCONCLUSIVE. No geometry/layout/automatic-UB gain. Initial evidence
 stays historical. STOP; no further proof correction, classifier repair or dispatch.
 
-Current owner resumption from f1c0774 authorizes bounded no-patch H_align proof /
-classifier replay: at most3 NEW manual hosted runs, summed jobs/setup<=90min.
-[Current card](SORT4-ALIGNMENT-PHASE.md#current-bounded-no-patch-proofreclassification-phase--2026-10-07)
-keeps external domain/runtime/posts/pins unchanged; checked local helper req
-must be discharged. Historical runs remain closed. Concrete ZST model boundary
-is now identified by source audit (missing repr alignment, positive struct size);
-no extension implemented. Hosted saved-data replay and prepared generic diagnostic
-remain distinct evidence goals before documentation checkpoint.
+The bounded no-patch resumption from f1c0774 now **CLOSES at a concrete ZST
+model boundary**,1/3 NEW runs,38/5400 job-seconds including setup.
+[Run37535499783/sourceea635ea](SORT4-ALIGNMENT-RESULTS.md): saved-evidence replay
+and30 fail-closed mutants PASS; original JSONs/logs retained separately. Generic
+checked helpers/local bounds and i=1,2,3 posts/leak checks pass; residual no-helper
+branch fails alignment post, so complete geometry remains INCONCLUSIVE. Original
+ZST size/layout and add limits remain unproved; source trace identifies missing
+repr alignment and positive concrete struct-size axiom incompatible with Rust ZST.
+No model patch implemented. Remaining slots retired at boundary, STOP; next decision
+is layout-model admissibility/minimum-scope review or independent component.
 
 ## Decision and evidence
 
@@ -103,6 +105,7 @@ outside the approved roadmap.
 | 1g — complete, contract adopted | Explicit sufficient domain and source authority | Adopt full source/output separation and the existing effect-aware scratch protocol; require proof of preconditions at each composed caller | [Adopted contract](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) and [authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents). Organizer contact is deferred, not a prerequisite. No claim of minimality, generic proof or committee acceptance; no tool/run authorization. |
 | 1h — complete, conditional design | Joint RAPx / VeriFast / Kani route | Exact obligation matrix, source/domain/premise compatibility, acyclic proof dependencies and necessary/optional VF capabilities | [Assessment](SORT4-COMPOSITION-ASSESSMENT.md): no established generic composition. RAPx diagnostic role only; other properties need individual qualification. Independent VF geometry gate proposed, NOT RUN / NOT AUTHORIZED; ZST automatic operation/resource proof still open. No B/C or semantic implementation authorized. |
 | 1i — closed, both sessions INCONCLUSIVE | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Closeout](SORT4-ALIGNMENT-RESULTS.md): initial37529855468/source17ad1f4 parse failures; syntax-only37532204465/source9474453 reaches checked bodies but generic nonnegativity/ZST calibration/limits remain open. Manual negative rejections2/2; raw automatic all-six INCONCLUSIVE due missed headers. Each separate budget1/1 used, no further correction/run authorized. |
+| 1j — closed, concrete model boundary | Bounded H_align proof / classifier continuation | Unchanged six cases; checked generic local bounds; saved evidence replay and original ZST model trace | [Run37535499783/sourceea635ea](SORT4-ALIGNMENT-RESULTS.md):1/3 NEW,38s; helpers/bounds/three indexed branches pass, residual geometry INCONCLUSIVE; layout/add blocked by concrete ZST model. Replay3 groups/30 mutants and negatives2/2 PASS, historical originals unchanged. STOP at model boundary; unused slots retired. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -197,8 +200,9 @@ No RAPx-to-VF ownership/initialization/provenance bridge exists in current evide
 The single proposed H_align diagnostic separates geometry from automatic
 reference/copy enforcement. Stage1i and its syntax-only continuation are CLOSED / INCONCLUSIVE.
 Initial syntax failures and subsequent generic-helper / ZST-layout / pointer-limit
-failures do not refute H_align. Manual false-post rejections do not supply its
-missing positive proof or repair automatic header classification. Even a later pass would not reopen RAPx
+failures do not refute H_align. Historical manual false-post rejections do not supply its missing positive proof.
+Stage1j repairs/tests classification but leaves residual geometry and a concrete
+ZST layout-model boundary; no new tool extension follows. Even a later pass would not reopen RAPx
 B/C, implement VF patches or prove all sort4.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous

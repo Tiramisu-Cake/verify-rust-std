@@ -1,11 +1,159 @@
 # Independent H_align gate: hosted results
 
-Current owner checkpoint2026-10-07: bounded no-patch proof/reclassification
-phase IN PROGRESS,0/3 NEW jobs and0/5400seconds used. Historical two runs below
-remain unchanged. [Phase/card](SORT4-ALIGNMENT-PHASE.md). Classifier replay and
-checked generic local bound proof preparation underway; concrete original ZST
-has a [source-model boundary](SORT4-ALIGNMENT-MODEL-BOUNDARY.md), not a permitted
-new layout assumption/patch. No new hosted proof/replay result yet.
+Current checkpoint 2026-10-07: **bounded no-patch continuation CLOSED at a concrete
+ZST model boundary**. Used **1/3 NEW runs, 38/5400 job-seconds**, including setup,
+verification, historical replay and artifact upload. Two unused slots are retired
+at this phase boundary; they are not authorization for further experiments.
+Generic geometry remains INCONCLUSIVE; classifier replay and both intended
+negative assertions are confirmed. RAPx remains CLOSED / NO-GO; B/C NOT RUN.
+
+## Bounded proof/reclassification continuation — closed at model boundary
+
+[Run37535499783](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37535499783),
+NEW manual dispatch `verifast_sort4_alignment/30`, source/head_sha
+`ea635ea152f9ff3a491b57b7b6a9df84dc99a4be` (pushed remote matched).
+Created 2026-10-06T21:40:10Z; job112515246039 ran 21:40:14–21:40:52Z, **38s**,
+FAILURE. The verifier step failed positive posts; historical replay/tests and
+artifact upload succeeded. RAPx replay job SKIPPED; B/C NOT RUN. Runner wrapper
+16.88s, peak RSS620268KiB; no timeout/OOM. The remaining 5362s and two run slots
+are unused because the concrete layout route requires a prohibited model change.
+
+The owner authorized classifier repair and checked proof development on unchanged
+VeriFast from f1c0774. Local/remote entry was clean and matching; no active run.
+Only generic ghost helper req adds explicit `0 <= address` and `0 <= stride`;
+caller ghost steps derive bounds through existing resources/specifications.
+Six outer contracts, all final posts, original Rust after ghost removal, all
+`.add` operations, case order and four concrete case texts are byte-identical to
+f1c0774. No type replacement, outer premise, axiom or verifier/spec change.
+Static AST/bash-n/diff and payload comparison preceded the dispatch. All executable
+checks ran only on the GitHub-hosted runner.
+
+Official VeriFast26.09 archive SHA256
+`da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa`,
+source809de4596839b739dd999f9e462242c835e3af46, nightly2026-02-05/compiler
+`db3e99bbab28c6ca778b13222becdea54533d908`, all binaries/rsspec/schema hashes
+match the previous frozen profile. Std blob e555fce440872898e47fd5114f32eb15401d07df
+and original exporter/VF/refinement flags/checks are unchanged. Job timeout is
+30min including preparation; no semantics or checks changed to fit that cap.
+
+### Six cases, independently classified
+
+All six exporter, MIR decoder and refinement exits are0; every source-stage hash
+is unchanged and every refinement log says `No refinement errors found`. VF exits
+are1 for each case. Actual named caller headers1 each; generic helper headers1
+and helper-body execution records6 each; generic/ZST-add/negative marked pointer
+operation records3 each. These counts establish reachability, not whole proofs.
+
+| Case | New result | First substantive failure / evidence |
+| --- | --- | --- |
+| positive_generic_const | INCONCLUSIVE; checked arithmetic helper completes | Caller normal post, verified/lib.rs:23: Cannot prove %(get_pointer_address(result), alignof(T_typeid)) = 0. `.add` line41 succeeds; local bounds and all reached helper calls discharge; i=1,2,3 paths finish post/leak checks; residual path fails alignment post |
+| positive_generic_mut | INCONCLUSIVE; checked arithmetic helper completes | Same post and path boundary as const; no const-to-mut theorem assumed |
+| positive_zst_layout | INCONCLUSIVE; concrete no-patch route blocked by model | verified/lib.rs:20, `assert size == 0`: Cannot prove __result = 0. size_of and align_of calls reached; align==8 assertion not reached |
+| positive_zst_add | INCONCLUSIVE; concrete no-patch route blocked by model | verified/lib.rs:21 `.add(i)`: Cannot prove pointer_within_limits(ptr_add_(base, i, Z_type_info)). Return/base equality and final alignment unproved |
+| negative_source_byte_offset | EXPECTED_FALSE_POST_FAILURE | Byte `.add(1)` line22 and cast line23 reached; intended modulus8 assertion line25 rejects %(get_pointer_address(ptr_add_(src, 1, uint8_t_typeid)), 8) = 0 |
+| negative_destination_byte_offset | EXPECTED_FALSE_POST_FAILURE | Same exact intended assertion and reachability with dst instead of src |
+
+**Generic progress:** both checked helper bodies prove divisibility preservation
+under their explicit nonnegative local req and finish leak checks. At the actual
+callers, existing `array__inv::<u8>` preserves the same byte resource and supplies
+base/end provenance limits; existing min/max provenance lemmas justify address
+bounds. `is_valid_layout_size_of_align_of`, `is_power_of_2_pos` and `size_align`
+justify nonnegative stride, positive alignment and stride divisibility. Explicit
+extent and multiplication bounds, `.add` and all six helper call sites per caller
+are reached without a precondition failure. Each new local bound is thus discharged
+where reached from the old external resources; no stronger external contract.
+
+The i=1,2,3 proof branches reach final leak checks. The remaining branch
+`i != 1 && i != 2 && i != 3` has no helper call and fails the final alignment post.
+In the Rust input domain, usize i<=3 leaves i=0; the current ghost proof does not
+complete that final case. This is the first remaining generic proof blocker,
+not a measured model-extension requirement for generic arithmetic. No whole-unit
+normal/no-unwind/resource theorem or complete generic alignment post is claimed.
+Symbolic zero stride remains in the generic domain; concrete Z fidelity is separate.
+
+### Saved-evidence replay and classifier regression
+
+The actual header format includes `verified/lib.rs(span)` between timestamp and
+`Verifying function`. Recognition now keeps source prefix, exact function name,
+one named header, operation reachability, stage/integrity gates, and exact marked
+alignment assertion location/content. Diagnostic-note duplicates are not counted
+as timestamped execution. Negative acceptance also checks the exact src/dst
+byte-add modulus expression; failures before that assertion remain INCONCLUSIVE.
+
+The hosted replay downloads both pinned historical archives, validates zip hashes,
+run/head_sha/artifact metadata and actual archived original/verified source hashes,
+and writes **separate** derived JSON and full before/after evidence-tree manifests.
+The archived logs and classification/aggregate JSON remain unchanged:
+
+| Historical run | Original raw result, preserved | Separate reclassification |
+| --- | --- | --- |
+| 37529855468 /17ad1f4 | All six INCONCLUSIVE due parse errors | All six INCONCLUSIVE; no intended negatives inferred |
+| 37532204465 /9474453 | All six INCONCLUSIVE due missed function headers | Four positives INCONCLUSIVE; both negatives EXPECTED_FALSE_POST_FAILURE on intended assertions |
+
+Hosted tests: **3 unittest groups PASS; 30 fail-closed mutations PASS**. Mutants
+cover wrong name/header, missing/duplicate header, missing operation, wrong
+assertion location/text/error expression, failed exporter/decode/refinement or
+integrity, and parse/unrelated/earlier errors. Input tree manifests before==after.
+This is evidence-classification regression, not an additional verifier run at the
+historical SHAs and not a replacement for their original recorded outcomes.
+
+### Concrete ZST boundary and composition consequence
+
+[Source-to-model audit](SORT4-ALIGNMENT-MODEL-BOUNDARY.md) traces original
+`#[repr(align(8))] pub struct Z;` through exporter/schema/translator into the
+unchanged engine. The ADT carries only isReprC=false and empty fields; repr alignment
+is absent. Engine verifast1.ml:6508 imposes `0 < sizeof(Z)` on concrete structs,
+with no size0 equation for this fieldless nonpacked type. This contradicts the
+actual Rust ZST layout, rather than merely omitting a convenient checked lemma.
+Typed pointer add uses `i * size_of(Z)`; a positive symbolic stride cannot be
+justified from the fixture's zero-byte extent. This provides a source-model explanation
+for the limits failure, not a measured causal implication between the two diagnostics.
+
+`size_align` and valid-layout properties cannot consistently prove the missing
+size0/align8 calibration. Adding those as trusted premises, changing Z, or deriving
+a result from an inconsistent context is inadmissible. The no-patch concrete-Z
+route is therefore blocked. This is the phase stop condition; no additional proof
+edit or dispatch follows the result. No model correction is implemented.
+
+Generic prefix progress and false-post rejection establish neither automatic copy
+UB detection nor repr layout fidelity, current ownership, callback effects or all
+sort4 normal/panic posts. They cannot close RAPx's alignment gap by transfer between
+models. Restricting RAPx to diagnostics remains justified; a generic composition
+is still unavailable. ZST stays in the adopted contract; Kani's prior concrete
+results are unchanged and provide no missing universal or layout premise.
+
+**Necessary versus optional VeriFast work:** if this concrete type is proved in VF,
+faithful Rust ZST size and repr alignment encoding must be supplied by an explicitly
+reviewed model correction, or covered by another independently justified component.
+An ordinary new arithmetic lemma cannot repair the existing incompatible size axiom.
+Generic bound/divisibility progress required only checked annotations; it supplies
+no evidence that a generic alignment-kernel extension, new trusted builtin or the
+historical insertion/ManuallyDrop/Drop patch chain is necessary. Remaining callback,
+unwind, raw-copy and provenance obligations retain their independent status.
+
+Recommended next decision: review admissibility and minimum scope of Rust layout
+encoding/struct-size correction versus another independent layout component before
+any implementation. No extension is authorized. One possible later unchanged-tool
+proof diagnostic has a new hypothesis: explicitly derive i==0 on the residual
+branch from the old usize bounds and prove its existing alignment post. It is
+**NOT RUN / NOT AUTHORIZED** after this closeout and cannot close the concrete ZST
+boundary by itself. No speculative fourth case, axiom or domain restriction proposed.
+
+### Evidence retained
+
+[Artifact11446132505](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37535499783/artifacts/11446132505),
+574662bytes, contains complete live evidence and historical replay bundle, including
+original pinned ZIPs/logs/JSON/sources/MIR and separately derived results/tests.
+Downloaded ZIP SHA256 (matches API/upload digest):
+`45d8363c9b25fb6c2332ae77ee468d2912a765a53fed80651e62d5a79eef1d05`.
+Live aggregate SHA256
+`48b2ffd48241e358fc5b039593babffab42d1ad9f0aa53736eb411e3b132d157`;
+reclassification JSON SHA256
+`9559c09b53b1af444cb70066028a9a6a8502d0b3a0987333ba944f5ff4e8134b`;
+full Actions log SHA256
+`b4c36fcbfa056e27ceff866bf17a6f311326b68c7ccdca291796c8f9b86b9a43`.
+Full logs and artifacts inspected; downloads remain outside repository. Historical
+reports below, original two runs and their INCONCLUSIVE outcomes are preserved.
 
 ## Historical syntax-only checkpoint at f1c0774
 

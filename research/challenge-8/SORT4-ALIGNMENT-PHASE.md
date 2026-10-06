@@ -2,7 +2,16 @@
 
 ## Current bounded no-patch proof/reclassification phase — 2026-10-07
 
-**IN PROGRESS / preparation;0/3 NEW runs,0/5400 job-seconds used.** Owner explicitly
+**CLOSED at a concrete ZST model boundary;1/3 NEW runs,38/5400 job-seconds used.**
+[Run37535499783/sourceea635ea closeout](SORT4-ALIGNMENT-RESULTS.md#bounded-proofreclassification-continuation--closed-at-model-boundary):
+classifier replay and intended negative controls pass; checked generic helpers /
+local bounds and i=1,2,3 branches pass, residual alignment post remains INCONCLUSIVE.
+Concrete original Z layout/add cannot close faithfully under the positive struct
+size model and missing repr-alignment metadata. No model extension implemented;
+no active run. STOP: remaining two slots are retired, no further proof fix/dispatch.
+The authorization/card below records this completed scope, not standing permission.
+
+ Owner explicitly
 resumes from checkpoint f1c0774b3a8662ca4e9d838a4a1ad06f7f625e55. Entry clean,
 local/remote heads match, correct fork/research branch, no active/queued experiment.
 Two previous runs37529855468 and37532204465 remain historical INCONCLUSIVE with

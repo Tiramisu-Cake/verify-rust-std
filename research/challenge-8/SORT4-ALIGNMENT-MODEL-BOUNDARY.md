@@ -20,7 +20,7 @@ alignment8. Those are properties to calibrate in the model, not new proof premis
 | Struct size assumption | [verifast1.ml:6508](https://github.com/verifast/verifast/blob/809de4596839b739dd999f9e462242c835e3af46/src/verifast1.ml#L6508), unconditionally generated _size_limits | 0 < sizeof(Z) <= max_uintptr; fieldless nonpacked struct gains no equation size0 |
 
 The positive-size fact is incompatible with the actual empty Rust type. The
-observed failure at `assert size == 0` in37532204465 therefore has a concrete
+observed failure at `assert size == 0` in37532204465 and37535499783 therefore has a concrete
 model cause. `align==8` was not reached, but the missing exporter/schema/translator
 fact already explains why it cannot be inherited from the original repr attribute.
 No claim of a new hosted misalignment miss or a std runtime bug follows.
@@ -33,7 +33,9 @@ The concrete fixture supplies a zero-count array_<u8>; array__inv exposes limits
 at base and base+0. It does not promise an additional positive-sized range.
 Because the concrete model's size(Z) is positive/symbolic, i>0 can move beyond
 that range. This explains the failed pointer_within_limits(ptr_add_(base,i,Z_type_info))
-obligation at37532204465's .add line21. Actual Rust ZST arithmetic would have zero
+obligation at both37532204465 and37535499783 .add line21. This is a source-model
+explanation; the logs alone do not prove one failure causally implies the other.
+Actual Rust ZST arithmetic would have zero
 stride; no numerical address rewrite or added typed resource is justified here.
 
 Existing is_valid_layout_size_of_align_of and size_align provide nonnegative size,
@@ -58,3 +60,11 @@ cannot silently instantiate a faithful concrete-Z model that the tool lacks, pro
 automatic copy UB detection, or close ownership/reference/unwind requirements.
 The strict header/assertion replay controls are another independent diagnostic.
 RAPx remains CLOSED / NO-GO and B/C NOT RUN.
+
+Latest hosted continuation37535499783/sourceea635ea completed in38s,1/3 NEW slots.
+Checked generic helpers/local bounds and i=1,2,3 branch posts/leak checks pass; the
+residual generic alignment post remains INCONCLUSIVE. Classifier replay and both
+intended negative controls pass separately. Phase CLOSED at this concrete boundary;
+unused slots retired, no patch or additional run. The recommended next decision is
+a minimum-scope trust/admissibility review of faithful Rust layout encoding versus
+an independent component. No proof from an inconsistent size context is acceptable.

@@ -6,14 +6,17 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Bounded no-patch H_align proof/reclassification phase IN PROGRESS.**
-[Current card](SORT4-ALIGNMENT-PHASE.md) authorizes <=3 NEW hosted manual jobs,
-summed setup/job time<=90min. Classifier replay uses both original artifacts and
-separate derived outputs. Generic local bound proofs preserve the outer contract;
-original ZST layout model is traced without assumptions/patches/type replacement.
-Historical results below remain preserved; only this narrow continuation authorized.
+**Bounded no-patch H_align continuation CLOSED at a concrete ZST model boundary.**
+[Run37535499783/sourceea635ea](SORT4-ALIGNMENT-RESULTS.md),1/3 NEW runs,38s summed
+jobs/setup: classifier historical replay3 groups/30 mutants and intended negatives
+PASS. Generic helper/local bounds and i=1,2,3 branches pass; residual alignment post
+keeps whole geometry INCONCLUSIVE. Original ZST layout/add remains unproved;
+[pinned model trace](SORT4-ALIGNMENT-MODEL-BOUNDARY.md) identifies incompatible
+positive struct size and missing repr alignment. No patch/axiom/domain change.
+Historical raw evidence remains unchanged. STOP, no active run; unused slots retired.
+No automatic-copy UB/full-sort4 proof; RAPx NO-GO, B/C NOT RUN.
 
-**H_align syntax-only continuation CLOSED / INCONCLUSIVE,1/1 used.**
+**Historical H_align syntax-only continuation CLOSED / INCONCLUSIVE,1/1 used.**
 [Run37532204465/source9474453 closeout](SORT4-ALIGNMENT-RESULTS.md): syntax parsed,
 export/decode/refinement6/6; generic nonnegativity, ZST size/layout and pointer
 limits remain unproved. Both negatives reject their intended assertion manually;
@@ -78,10 +81,13 @@ both completed hosted runs and their evidence boundaries.
 
 - [Independent alignment phase](SORT4-ALIGNMENT-PHASE.md): one-run no-patch
   H_align scope, full-target versus partial fixture domain/posts, intended controls
-  and automatic-operation/model boundary; CLOSED at1/1 runs.
+  and automatic-operation/model boundary; all scopes closed, latest1/3 at model boundary.
 - [Independent alignment results](SORT4-ALIGNMENT-RESULTS.md): six fixture parse
   failures, export/refinement evidence, no proof gain, initial syntax
-  failure, corrected-run blockers and manual versus automatic control evidence.
+  failure, corrected-run blockers, checked generic progress and separate replay evidence.
+- [Concrete ZST model boundary](SORT4-ALIGNMENT-MODEL-BOUNDARY.md): pinned exporter,
+  schema, translator and engine trace; necessary faithful layout correction versus
+  independent generic arithmetic, without implementation authorization.
 - [Joint sort4 composition assessment](SORT4-COMPOSITION-ASSESSMENT.md): exact
   obligation/tool/evidence/gap/dependency matrix; common source/domain/premises,
   acyclic responsibilities, restricted RAPx role, independent ZST route, necessary

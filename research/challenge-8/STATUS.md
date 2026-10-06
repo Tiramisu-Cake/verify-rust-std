@@ -1,38 +1,51 @@
 # Challenge 8: current status
 
-Updated 2026-10-07: bounded H_align no-patch proof/reclassification phase
-IN PROGRESS / preparation. Owner checkpoint f1c0774; clean local/remote match,
-no active experiment. Budget0/3 NEW manual hosted runs,0/5400 job-seconds used,
-<=30min job cap per run including setup. [Current scope/card](SORT4-ALIGNMENT-PHASE.md#current-bounded-no-patch-proofreclassification-phase--2026-10-07).
-Authorized: classifier fix and hosted saved-artifact replay for both old runs,
-checked generic proof/local req refinements with unchanged outer contract,
-source-model trace of original repr(align8) Z. All six runtime cases/posts and
-unchanged official VF26.09/nightly2026-02-05 profile retained. No local executable
-checks/tool/spec/premise patch. Historical two runs/evidence preserved; current
-geometry/ZST proofs absent. RAPx CLOSED / NO-GO, B/C NOT RUN, Kani unchanged.
-Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
-CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
-The bounded gate-A continuation CLOSED / NO-GO after a reproduced
-ZST alignment detector miss; [scope](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
-The preceding session remains CLOSED / INCONCLUSIVE as historical evidence;
-[results and evidence](RAPX-APPLICABILITY-RESULTS.md). Fork
+Updated 2026-10-07: **bounded H_align no-patch continuation CLOSED at a
+concrete ZST model boundary**. Used1/3 NEW manual hosted runs and38/5400 job-seconds
+including preparation, verification, saved-evidence replay and upload. No active
+experiment; unused slots are retired at this stop boundary. Fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
-This is the single current checkpoint; procedures in
-[AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md),
-history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
+This is the single current checkpoint; procedures in [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md),
+plan in [PLAN.md](PLAN.md), history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
-## Authorization and execution state
+## Authorization and execution state — CLOSED
 
-**IN PROGRESS — bounded no-patch proof/reclassification phase.** Owner explicitly
-permits up to3 NEW hosted manual runs totaling <=90min jobs/setup from f1c0774.
-Entry clean matching f1c0774b3a8662ca4e9d838a4a1ad06f7f625e55 local/remote,
-correct origin/branch, no active run. Stage scopes/budgets/checks in
-[SORT4-ALIGNMENT-PHASE.md](SORT4-ALIGNMENT-PHASE.md). Classifier replay outputs
-separate; generic helper premises must be proved from unchanged external req;
-ZST Rust type/runtime and final posts immutable. No tool/spec/kernel extension,
-new axiom, weakened check or local verification. Budget0/3,0/5400seconds used.
-Stop at goals/budget/model-or-contract boundary; autonomously progress within
-this phase without intermediate permission. No active run yet.
+Owner authorized classifier repair, checked generic const/mut proof development
+and original ZST layout trace on unchanged official VF26.09/nightly2026-02-05,
+from clean matching f1c0774b3a8662ca4e9d838a4a1ad06f7f625e55. Max3 NEW runs /
+90min jobs including setup; no local executable checks, model/spec/kernel patches,
+new axioms, outer-contract weakening or runtime/type replacement.
+[Card](SORT4-ALIGNMENT-PHASE.md), [results](SORT4-ALIGNMENT-RESULTS.md).
+
+NEW [run37535499783](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37535499783),
+source/head_sha ea635ea152f9ff3a491b57b7b6a9df84dc99a4be, remote matched,
+verifast_sort4_alignment/30; job21:40:14–21:40:52Z on2026-10-06, FAILURE,38s.
+All six exports/decodes/refinements/source-integrity checks pass; VF1 each.
+Both generic helpers now complete with explicit nonnegative local req. Existing
+array__inv/provenance/layout/size_align facts discharge local bounds and every
+reached helper call; .add succeeds. i=1,2,3 paths finish full posts/leak checks;
+residual no-helper path fails final returned-pointer alignment post line23.
+Whole generic const/mut theorem remains INCONCLUSIVE, no complete no-unwind post.
+
+Original Z layout remains INCONCLUSIVE at size==0 line20 (align8 not reached);
+Z add at pointer_within_limits line21. [Pinned-source trace](SORT4-ALIGNMENT-MODEL-BOUNDARY.md)
+finds missing repr alignment metadata and incompatible positive struct-size axiom.
+A faithful no-patch concrete ZST proof cannot close against that axiom. This is
+the phase stop condition; no further fix/run, unused2 slots not carried forward.
+ZST remains in target domain. No model correction implemented.
+
+Both byte-offset controls are EXPECTED_FALSE_POST_FAILURE at intended line25
+modulus8 assertions after legal .add/cast. Hosted classifier replay/tests PASS:
+initial37529855468 six parse errors remain INCONCLUSIVE;37532204465 four positives
+INCONCLUSIVE and two negatives reclassified separately as intended failures.
+Original logs/JSON/ZIPs and historical outcomes preserved, tree hashes unchanged;
+3 test groups and30 fail-closed mutations pass. Artifact11446132505/full logs
+inspected. These controls establish neither automatic copy UB nor full sort4 safety.
+
+RAPx0.7.50 remains CLOSED / NO-GO for ZST alignment; automatic RAPx replay CLOSED /
+NO-GO; B/C NOT RUN. No other RAPx property is accepted automatically. Kani unchanged.
+Generic composition still unavailable. STOP; documentation/commit/push closeout only.
+Any later proof diagnostic or layout-model work requires a new decision.
 
 ## Historical syntax-only H_align run — CLOSED / INCONCLUSIVE
 
@@ -415,8 +428,9 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Prepare frozen-profile classifier replay and evidence-backed checked proof changes,
-commit/push and one NEW exact-SHA hosted manual run within <=30min allocation.
-Audit full evidence/job time before further specific correction; at most3 NEW /
-5400 summed job-seconds. Stop at goals/exhaustion/concrete prohibited extension,
-then report/doc commit/push. No runtime/post/domain/tool changes, B/C or publication.
+Phase closed at the concrete ZST model boundary after1/3 NEW runs,38s summed jobs.
+No active experiment, no further implementation/dispatch. Recommended next decision:
+review minimum faithful Rust ZST size/repr-alignment encoding and its trust/admissibility
+requirements versus another independent layout component. An unchanged-tool residual
+index proof diagnostic is separately proposed NOT RUN / NOT AUTHORIZED in the results.
+No patch, new axiom, ZST exclusion, B/C, full sort4 or external publication authorized.

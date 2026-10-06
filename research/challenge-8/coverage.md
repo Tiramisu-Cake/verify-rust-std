@@ -75,7 +75,7 @@ model bridge. RAPx presently remains diagnostic; other properties are not
 automatically reliable after the scoped Align finding. ZST is retained with
 independent geometry/operation/resource obligations, A NO-GO and B/C NOT RUN.
 The unchanged-VF alignment gate was NOT RUN / NOT AUTHORIZED at that review;
-its separate [phase](SORT4-ALIGNMENT-PHASE.md) now closes INCONCLUSIVE at1/1.
+its separately authorized initial [scope](SORT4-ALIGNMENT-PHASE.md) closed INCONCLUSIVE at1/1.
 [Run37529855468](SORT4-ALIGNMENT-RESULTS.md), source17ad1f4, passes all six
 exports/decodes/refinements but every VeriFast case fails annotation parsing.
 Zero helper/caller proof bodies or intended negatives were reached; this adds
@@ -88,8 +88,27 @@ fails pointer limits. Both byte-offset controls reach and reject intended line25
 alignment assertion on manual audit. This adds limited false-post control evidence,
 **no geometry/layout/automatic-copy UB or actual-sort4 coverage**. Raw all-six
 INCONCLUSIVE/header counts0 retained; actual source-prefixed named headers exist
-but unchanged classifier misses them. No classifier repair, proof fix or further
-run authorized; additional budget1/1 used.
+but the classifier frozen for that historical scope misses them. That scope closed
+at additional budget1/1; its raw outputs are never replaced by later replay.
+The subsequent bounded no-patch continuation [run37535499783/sourceea635ea](SORT4-ALIGNMENT-RESULTS.md)
+closes at a concrete ZST model boundary,1/3 NEW runs,38s total jobs/setup.
+It adds checked const/mut helper-body proofs under explicit local nonnegative req,
+caller derivations from existing array/provenance/layout/size_align facts, successful
+.add and full post/leak checks on i=1,2,3 paths. The residual no-helper path still
+fails alignment post; **no complete generic geometry theorem**. Both negatives
+now automatically reject exactly the marked line25 assertions after byte add/cast.
+Hosted replay leaves original parse errors INCONCLUSIVE, separately recognizes
+syntax-run negatives, and passes3 test groups/30 fail-closed mutants with unchanged
+historical tree/source hashes. Original raw JSONs/logs/outcomes remain preserved.
+
+The concrete ZST size0/align8 and unchanged-address add posts remain unproved.
+[Source-to-model trace](SORT4-ALIGNMENT-MODEL-BOUNDARY.md) establishes lost repr
+alignment and a positive concrete-struct size assumption incompatible with Rust ZST;
+a faithful calibration needs reviewed model correction or an independent component.
+Generic prefix/branch proofs do not repair that correspondence. ZST is retained;
+**no automatic-copy UB, ownership/callback/unwind or actual-sort4 coverage gained**.
+STOP at model boundary, unused run slots retired; no verifier extension implemented.
+
 Arithmetic evidence alone would not count as automatic UB coverage. Required VF
 callback/unwind/raw-copy capabilities are separated from optional historical
 insertion patches. Existing Kani results retain their exact concrete domains.

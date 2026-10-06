@@ -2303,3 +2303,66 @@ metadata restores8. This closes the concrete-ZST no-patch layout route, not the
 generic arithmetic theorem; no tool/model/contract patch or type replacement.
 Finish separately required hosted saved-evidence replay and the already grounded
 generic proof diagnostic, then checkpoint this concrete boundary without expansion.
+
+NEW dispatch: run[37535499783](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37535499783),
+created2026-10-06T21:40:10Z, head_sha/source ea635ea152f9ff3a491b57b7b6a9df84dc99a4be
+confirmed, pushed remote matches. verifast_sort4_alignment/30min; budget1/3
+NEW runs dispatched, final job time pending. Active run monitored, no duplicate.
+Static AST/bash-n/diff and six ghost-stripped runtime/outer-contract byte checks pass;
+four concrete cases unchanged. No local executable checks.
+
+### Bounded no-patch continuation closeout — run37535499783
+
+NEW manual verifast_sort4_alignment/30, source/head_sha
+ea635ea152f9ff3a491b57b7b6a9df84dc99a4be matched pushed remote. Created
+2026-10-06T21:40:10Z; job112515246039 ran21:40:14–21:40:52Z, FAILURE,38s.
+Verification step failed positive posts; replay/tests/upload SUCCESS, RAPx replay
+SKIPPED. Charged1/3 NEW runs,38/5400seconds including setup; no timeout/OOM.
+Runner16.88s, peakRSS620268KiB. Full logs/artifacts inspected.
+
+Six exports/decodes/refinements0 and every stage source hash unchanged; VF1 each.
+Official archive da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa,
+source809de4596839b739dd999f9e462242c835e3af46, binaries/rsspec/schema/compiler
+and std blob match frozen profile; no flags/checks/spec/axiom/runtime changes.
+Whole/per-case ghost-stripped Rust and all outer contracts unchanged from f1c0774,
+four concrete case texts unchanged. All execution hosted only.
+
+Generic const/mut: both arithmetic helper bodies complete/leak checks under
+explicit nonnegative req. Array/provenance/layout/size_align facts discharge
+local bounds and all reached helper call preconditions; .add line41 succeeds.
+i=1,2,3 branches each complete full posts/leak checks. Remaining no-helper branch
+fails final alignment post line23: Cannot prove
+%(get_pointer_address(result), alignof(T_typeid)) = 0. Not a whole generic theorem;
+residual i==0 inference is a possible future checked-proof hypothesis, NOT RUN.
+ZST layout: line20 size==0 Cannot prove __result=0, align8 not reached. ZST add:
+line21 pointer_within_limits(ptr_add_(base,i,Z_type_info)) unproved. Both reflect
+concrete layout-model mismatch audited separately, not a claimed causal implication
+from one log to the other. Both negative controls reach byte add/cast and fail
+exact marked line25 src/dst modulus8 assertions: EXPECTED_FALSE_POST_FAILURE.
+Named callers1 each, generic helpers1/body records6, marked add records3 each.
+
+Historical hosted replay SUCCESS:37529855468 six parse errors stay INCONCLUSIVE;
+37532204465 positives4 remain INCONCLUSIVE, negatives2 reclassified as intended
+failures in separate outputs. Raw JSON/logs/ZIPs/historical outcomes preserved;
+actual source/run/artifact/archive hashes checked, full tree before==after.
+3 unittest groups and30 fail-closed mutation checks PASS. No historical verifier
+rerun and no automatic copy UB/full-sort4 theorem.
+
+[Artifact11446132505](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37535499783/artifacts/11446132505),
+574662bytes, ZIP SHA matches API/upload
+45d8363c9b25fb6c2332ae77ee468d2912a765a53fed80651e62d5a79eef1d05.
+Aggregate48b2ffd48241e358fc5b039593babffab42d1ad9f0aa53736eb411e3b132d157;
+reclassification9559c09b53b1af444cb70066028a9a6a8502d0b3a0987333ba944f5ff4e8134b;
+full-logb4c36fcbfa056e27ceff866bf17a6f311326b68c7ccdca291796c8f9b86b9a43.
+Downloaded evidence outside repo, no generated source/log/build output committed.
+
+**CLOSED at concrete ZST model boundary; STOP, no active run.** Unused2 slots /
+5362seconds retired, no additional fix/dispatch. Faithful original Z requires
+reviewed size/repr-alignment model correction or another independent component;
+no such extension implemented/authorized, ZST retained in contract. Generic proof
+progress did not require a tool patch; residual complete post remains open.
+Results/STATUS/card/plan/README/coverage/composition/model note updated. Next
+recommended decision: minimum faithful layout encoding and trust/admissibility
+review versus separate component; residual index proof diagnostic remains proposed
+NOT RUN / NOT AUTHORIZED. RAPx CLOSED / NO-GO; B/C NOT RUN; Kani unchanged.
+Documentation commit/push only after this result.
