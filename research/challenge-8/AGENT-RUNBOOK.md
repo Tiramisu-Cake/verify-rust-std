@@ -21,6 +21,16 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active hosted destructor gate:** [37419199218](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419199218),
+source `16aa63f8e05e3b38b9e10b5bfa8030cb04149421`, selection
+`verifast_copy_on_drop_gate`, budget90min. Dispatch resolved to this exact SHA.
+Poll this run; do not duplicate dispatch or run anything locally. Same pinned
+26.09 source profile and all8+12+5 regression cases, then actual generic Drop
+body, compiler MIR/source hashes and refinement. After completion fetch full
+logs/artifacts; require body/copy-line evidence before claiming direct method
+proof. On failure fix first cause and dispatch NEW source. Compiler cleanup,
+held_ref release on normal/panic and full insertion contract remain unproved.
+
 **Latest completed held-reference and first-shift run:** [37417173472](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37417173472),
 source `3eb19991b1d8c2312d9feae535b02068335f5162`, manually_drop_ref90min.
 Full logs/artifacts inspected. Same26.09/tool/prelude pins, pairedZ3,
