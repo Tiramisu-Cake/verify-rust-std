@@ -6,12 +6,13 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**The sort4 contract-diagnostics and generic-proof-route phase is approved and
-ready to start.** [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) defines its
-scope. The [functional closeout](SORT4-RESULTS.md) preserves the two successful
-actual-body proofs; the earlier functional and insertion phases remain closed.
-[STATUS.md](STATUS.md) is the single current checkpoint, and
-[PLAN.md](PLAN.md) records the revised priorities.
+**The sort4 contract-diagnostics phase is complete; stopped at an owner
+architecture decision.** [Closeout](SORT4-CONTRACT-RESULTS.md) records the
+successful hosted suite, both prior fixture failures, precise contract and the
+single proposed generic route. [Functional closeout](SORT4-RESULTS.md) preserves
+the earlier theorems. [STATUS.md](STATUS.md) is the current checkpoint;
+[PLAN.md](PLAN.md) records the roadmap. No verifier implementation or later phase
+is authorized.
 
 1. [Root agent instructions](../../AGENTS.md).
 2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-CONTRACT-PHASE.md)
@@ -27,11 +28,13 @@ both completed hosted runs and their evidence boundaries.
 ## Specifications and proof boundaries
 
 - [Current contract phase](SORT4-CONTRACT-PHASE.md): coincident/shifted-overlap
-  diagnostics, precise contract and one proposed generic proof route; no new
-  results at approval and no verifier semantic implementation authorized.
+  diagnostics, precise contract and one proposed generic proof route; see
+  [observed results](SORT4-CONTRACT-RESULTS.md). Verifier implementation remains
+  a separate owner decision.
 - [Sort4 contract and callers](SORT4-CONTRACT.md): full target memory/aliasing,
   single-ownership, comparator effects and all five panic sites, separated from
-  the four-cell functional domain in [the actual-body harnesses](sort4.rs).
+  the four-cell functional domain in [the actual-body harnesses](sort4.rs) and
+  [overlap diagnostics](sort4-contract-diagnostics.rs).
 - [Sort4 phase result](SORT4-RESULTS.md): exact i32 multiset and separate tagged
   stability proofs,18/18 covers; [generic-safety assessment](SORT4-SAFETY-DECISION.md)
   and next architecture question; no new verifier semantics implemented.

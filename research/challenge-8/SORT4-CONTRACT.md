@@ -1,172 +1,210 @@
-# `sort4_stable`: source contract and caller audit
+# `sort4_stable`: proposed full contract and caller audit
 
-Follow-up approval: [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) now
-authorizes hosted overlap diagnostics and refinement of this research contract.
-The examples below remain static until separately recorded runs establish
-results; the approval adds no proof evidence.
+Target [smallsort.rs](../../library/core/src/slice/sort/shared/smallsort.rs:610),
+blob `e555fce440872898e47fd5114f32eb15401d07df`, unchanged at approval
+`54485d632bfca9d69fee853bd6aa30bc330647c9`. Refined on 2026-10-06 under
+[SORT4-CONTRACT-PHASE](SORT4-CONTRACT-PHASE.md). This is a research contract,
+not an accepted strengthening of the public target or a generic proof. Executed
+facts and their domains are recorded in [the closeout](SORT4-CONTRACT-RESULTS.md).
 
-Static audit at `68fcc98b79fc69b717d3e2ed42605cae8b4ffc05` (branch
-`challenge-8/research`). The target is
-[`library/core/src/slice/sort/shared/smallsort.rs`](../../library/core/src/slice/sort/shared/smallsort.rs), blob
-`e555fce440872898e47fd5114f32eb15401d07df`. This note separates what the
-body does from the stronger resources a sound generic proof must account for.
+## Current comment, actual body and distinct premises
 
-## Body and memory effects
+The current SAFETY comment says only source valid for four reads, destination
+valid for four writes, result stored in dst[0..4]. It omits the non-overlap
+requirement of each `copy_nonoverlapping`, initialized/reference-valid source,
+and the ownership policy for copied representations and overwritten storage.
+Alignment, provenance and callback borrowing also need an explicit interpretation
+of “valid”. We keep the source/comment unchanged and record the precise
+clarification question below.
 
-`sort4_stable<T, F: FnMut(&T, &T) -> bool>(v_base: *const T, dst: *mut T,
-is_less: &mut F)` reads four source elements. It calls the comparator in this
-order: `(v[1], v[0])` (`c1`), `(v[3], v[2])` (`c2`), `(c, a)` (`c3`),
-`(d, b)` (`c4`), and `(unknown_right, unknown_left)` (`c5`). Only after all
-five calls return does it issue four one-element
-`ptr::copy_nonoverlapping` operations to `dst[0]` through `dst[3]`, in the
-order `min`, `lo`, `hi`, `max`. There are no loops, local destructors,
-`ManuallyDrop`, or cleanup guards in this body.
+Five comparisons precede all writes: c1=(s1,s0), c2=(s3,s2), c3=(c,a),
+c4=(d,b), c5=(unknown_right,unknown_left). Four one-element copies follow at
+lines653–656 in order min,lo,hi,max into d0,d1,d2,d3. The source index choices
+form a permutation pi of 0..3 for all five Boolean results: c1/c2 partition the
+two pairs; the four cases of c3/c4 in the real comment partition a,b,c,d;
+c5 exchanges only the remaining pair. This is a static index argument, not a
+new generic checked theorem. Stateful/inconsistent results do not invalidate
+that index argument, but they give no sortedness guarantee.
 
-The pointer choices preserve a permutation of the four logical source
-*indices* for every possible sequence of five boolean answers, including
-answers from a stateful or inconsistent comparator. `c1` and `c2` choose one
-index from each disjoint source pair; the four `(c3,c4)` combinations
-partition those four indices into `min`, `max`, `unknown_left`, and
-`unknown_right`; `c5` only exchanges the last pair. For ZSTs distinct logical
-indices need not have distinct numeric addresses. No comparator-ordering
-premise is needed for the logical index permutation. Ordering and stability
-do need a pure, consistent strict ordering premise: safety permits any valid
-callback results, and interior mutation can invalidate earlier observations.
+Let S_i and D_j denote logical source/destination slots and their byte regions.
+Three conditions must be separated:
 
-For a general non-ZST `T`, the source must provide four initialized, valid,
-readable `T` locations with alignment, bounds, and provenance sufficient for
-the `add` operations and shared-reference dereferences. The destination must
-provide four aligned, writable `T` slots with valid bounds and provenance.
-Each executed `copy_nonoverlapping` requires that its one-element source and
-destination regions do not overlap. To establish the whole operation for all
-five-bit outcomes without tracking a comparator-dependent overlap case, a
-clear sufficient contract is separation of the full source and destination
-ranges: an earlier output write into an overlapping source range could
-change bytes read by a later copy. This is a sufficient all-outcomes
-precondition, not a claim that every specially constrained mapping with
-partial overlap must fail. The source SAFETY comment says only “valid for 4
-reads” and “valid for 4 writes”; it does not state the per-copy
-non-overlap requirement. That is a contract gap. The callers below provide
-separate source and scratch storage, but their facts must not be silently
-promoted to a universal precondition of this unsafe function.
+- **Local copy safety:** for each j, the region of S_pi(j) at copy time is readable,
+  D_j writable/aligned, and these two regions do not overlap. This is mandatory
+  per actual copy, independently of ordering and preservation of old values.
+- **Sequence preservation:** each not-yet-copied source representation stays equal
+  to its representation at the end of c5 until its copy. A sufficient spatial
+  condition is D_j disjoint from every S_pi(k) for k>j, in addition to local
+  non-overlap. Full source/destination range separation implies both conditions. For arbitrary
+  T, an earlier overlapping write could also invalidate a later T representation,
+  so continued source validity/readability is a safety obligation. The concrete
+  i32 shift only demonstrates loss of values; every i32 bit pattern is valid.
+- **Original-value functionality:** callbacks preserve the relevant original
+  element values and comparison keys, and compare by a fixed strict weak order.
+  Then pi is a stable sorted permutation of the original occurrences. Safety
+  itself has no purity/order/Copy/Freeze restriction.
 
-Two static examples distinguish the obligations (neither was executed).
-With a live initialized four-cell mutable array and `dst == v_base`, pure
-ascending input selects source0 for output0: the first copy aliases itself,
-despite both ranges satisfying the short read/write-validity comment. With
-five live cells, source `[0,4)` initially `0,1,2,3` and destination `[1,5)`,
-the ascending route selects sources0,1,2,3 in that order. Every individual
-one-cell copy goes from slot i to distinct slot i+1, yet overwrites the next
-source before its read; the output becomes four zeros. Per-copy separation
-alone therefore does not establish preservation of the original values
-across the sequence. Actual callers' disjoint scratch avoids both cases.
+Full range separation is a simple sufficient, comparator-independent contract;
+it is not proved necessary for every constrained overlap pattern. Coincident
+ascending ranges violate the first condition at the first copy. A destination
+shifted by one cell violates the second condition despite distinct source and
+destination for each individual copy. Sortedness can survive multiset loss.
+Concrete observed outcomes are separate from a classification of all overlaps.
 
-ZST is a separate proof obligation. Numeric address inequality is not a
-meaningful separation argument for zero-sized locations; the proof must use
-valid allocation/provenance and in-bounds logical element positions, and
-check the precise Rust requirements of `add`, reference creation, and
-`copy_nonoverlapping` at size zero. No ZST result is inferred from the i32
-functional domain.
+## Resource notation and sufficient unrestricted safety precondition
 
-## Ownership, normal return, and panic
+These predicates describe required resources, not newly assumed VeriFast axioms:
 
-Initialized bytes and ownership of a live `T` are different resources. The
-four copies initialize `dst`, but they do not invalidate the four source
-locations and do not by themselves create a second independently droppable
-`T.own` sequence. For non-`Copy` values, a full proof needs an explicit
-ownership protocol: which range owns the four logical values on return, what
-the caller may later drop, and how the copied representation in the other
-range is treated. The function's short SAFETY comment specifies none of this.
-The proof must include arbitrary generic `T`, including non-`Copy`,
-non-`Freeze`, destructor-bearing values, and ZST; functional harnesses over
-`i32` and a `Copy` tag do not establish those cases.
+- `Storage(p,4,I,P)` describes four logical slots, initialization map I and actual
+  provenance/permissions P for pointer arithmetic/access, including alignment,
+  bounds and allocation liveness. `RawDst(d,I)` is writable scratch storage without
+  a prior independent drop obligation; I may be all-uninitialized.
+- `SrcOwn(s,V)` packages valid initialized source representations V with ONE
+  logical ownership sequence, full recoverable cell resources and the resources
+  needed to create/end shared borrows. Ownership includes resources reachable
+  from elements; it is not just their bit patterns.
+- `Shadow(p,V)` describes copied representations with storage permission but no
+  independent `T.own`/right to drop. It cannot automatically yield unrestricted
+  owned reads, moves, or generic shared references into that copy.
+- `Cb(F,Q)` is the actual mutable callback resource with its current state and
+  normal/unwind invariant Q. Q permits arbitrary legal state/interior effects.
+  `Frame(H)` separates untouched storage from callback-accessible resources.
 
-On normal return, a generic safety postcondition accounts for the current
-source bytes after callback effects, four initialized destination
-representations, the single current logical ownership sequence and any frame
-resources, plus the updated state of `F`. It must state who may later treat
-the destination bytes as owning `T`, and what happens to any prior destination
-resources. Byte copying alone cannot transfer or duplicate a `T.own`
-sequence. Sortedness and stability belong to a separate functional
-postcondition under purity and ordering premises; safety has no such premises.
-There is no general promise that `F` is pure or that values reachable through
-it/global state remain unchanged. Rust's shared-reference rules constrain
-ordinary writes through `&T`, but interior mutability and other valid
-callback effects remain possible.
+A sufficient resource-oriented precondition is
+`SrcOwn(s,V0) * RawDst(d,I0) * Cb(F,Q0) * Frame(H0)`, with the full byte ranges
+separated for non-ZST, four valid logical positions at both bases, and legal
+pointer formation/borrowing for arbitrary valid T/F. Every callback must respect
+Rust aliasing/lifetimes and return (or unwind with) a valid current T/F invariant.
+Legal effects through UnsafeCell and callback-accessible state are preserved.
+The destination permission must be available when copies execute; the callback
+cannot invalidate allocations or outstanding permissions. Shared source borrows
+must end/recover before the post requires exclusive source resources.
 
-At each of the five comparator calls, a panic occurs before this function has
-written any destination slot. Therefore the body's own destination writes are
-absent on every comparator-unwind path. That fact does not undo effects the
-callback made through `F`, `UnsafeCell`, globals, or other valid access paths;
-nor does it make source bytes unchanged in the presence of interior
-mutability. The unwind postcondition must return the source/frame resources,
-end the temporary shared borrows, account for the current `F` state, and
-preserve callback effects. It must return one current logical ownership
-sequence; it cannot assert that a callback's permitted effects were rolled
-back. It must not claim a sorted result or restore pre-call callback state.
+Destination **initialization is not required**: actual callers use MaybeUninit.
+Raw copying can overwrite initialized storage, but if it contains old live
+resources their disposition must be specified separately. Silently returning
+those resources after overwriting their bytes is unsound. Discarding them may
+leak; a leak is not automatically a demonstrated memory UB, but it cannot meet
+this complete resource contract. The old i32 control has initialized Copy dst
+and therefore no such independent resource obligation.
 
-| Panic site | Actual comparator arguments | Destination writes by this body before panic |
+Non-Freeze is allowed; reads after callbacks observe current valid state, not
+necessarily V0. Non-Copy/destructor-bearing T is allowed; duplication of bytes
+never proves two independent droppable sequences. Padding may remain
+uninitialized; a byte-copy specification must not require every padding byte
+initialized or give those bytes a logical scalar value.
+
+For ZST, pointer equality is compatible with empty-region non-overlap. Still
+require nonnull/aligned reference-valid pointers, legal logical add operations,
+and four logical ownership occurrences. Empty byte separation does not supply
+independent ownership or permission to drop duplicate logical occurrences.
+This is an open generic proof/model gate; no i32 result establishes ZST.
+
+## Full normal post and ownership protocol
+
+Let V5,Q5,H5 be the current state after the fifth successful callback. Under
+sequence preservation the copies yield `D_j = representation(V5_pi(j))`; they
+leave source representations V5 intact and do not invoke any destructor.
+The normal post must contain exactly ONE ownership sequence, current F/Q and
+frame resources, both storage permissions and no outstanding local borrow debt.
+It must account for all four destination slots as initialized representations.
+It must not return two `SrcOwn` predicates for the same non-Copy elements.
+
+Two explicitly distinguished uses are possible, requiring a proved resource
+transport rather than an assumed ownership bridge:
+
+| Protocol | Normal post | Allowed subsequent ownership use |
 | --- | --- | --- |
-| `c1` | `(&*v_base.add(1), &*v_base)` | None |
-| `c2` | `(&*v_base.add(3), &*v_base.add(2))` | None |
-| `c3` | `(&*c, &*a)`, where `a = v_base + c1`, `c = v_base + 2 + c2` | None |
-| `c4` | `(&*d, &*b)`, where `b = v_base + !c1`, `d = v_base + 2 + !c2` | None |
-| `c5` | `(&*unknown_right, &*unknown_left)`, with both pointers selected from `a,b,c,d` by `c3,c4` | None |
+| Retain originals, scratch replicas | `SrcOwn(s,V5) * Shadow(d,pi(V5)) * Cb(F,Q5) * Frame(H5)` | Source may be used/dropped according to its recovered resources; scratch stays MaybeUninit and is never independently dropped. Generic access through scratch still needs a justified shared/relational permission protocol. |
+| Move logical ownership to result | `Shadow(s,V5) * DstOwn(d,pi(V5)) * Cb(F,Q5) * Frame(H5)` | Destination may own/drop the elements; source cannot independently drop/move them until ownership is explicitly restored. Actual bytes at source are not erased by this function. |
 
-## Callers and scratch storage
+For the generic proof proposal, the first form is the bounded target post:
+it expresses the physical originals and nondropped scratch used by callers.
+It deliberately does not pretend to solve the later scratch comparator/move
+protocol. That relational access/ownership transport is a named remaining
+callee-composition dependency. The second form can only be composed with callers
+that also recover ownership on every later unwind before dropping original v;
+this function provides no runtime invalidation or cleanup guard for that task.
+No protocol is a second ownership sequence created by byte copying.
 
-`small_sort_general` (same file, around lines 205–217) creates
-`MaybeUninit<[T; SMALL_SORT_GENERAL_SCRATCH_LEN]>`, views it as
-`[MaybeUninit<T>]`, then calls `small_sort_general_with_scratch`. That
-function accepts `v: &mut [T]`, `scratch: &mut [MaybeUninit<T>]`, and
-`is_less: &mut F`; it checks `scratch.len() >= len + 16` before casting the
-scratch base to `*mut T`. The separate mutable borrows establish separate
-storage for valid safe callers. In the `len >= 8` branch, the `sort4_stable`
-calls write four cells at `scratch_base` and four at
-`scratch_base.add(len_div_2)`, reading from `v_base` and
-`v_base.add(len_div_2)`. Since `len_div_2 >= 4`, the source halves and
-destination halves do not overlap. In the smaller branch, the function copies
-one source cell from each half into scratch instead.
+When claiming functional original-element preservation, add separate premises:
+all callbacks preserve the elements/keys being sorted and implement the same
+strict weak order throughout the call. Normal result is then sorted, an exact
+permutation of original occurrences and stable for equivalent keys. Updated
+callback counters/effects may be permitted if they do not alter these premises;
+requiring absolutely unchanged F is stronger than necessary for functionality.
+Neither a Freeze bound alone nor five arbitrary Boolean answers imply order.
 
-`sort8_stable` (around lines 663–675) has `T: FreezeMarker`, takes source,
-destination, and scratch pointers, calls `sort4_stable` on source ranges
-`[0,4)` and `[4,8)` into scratch ranges `[0,4)` and `[4,8)`, then merges
-scratch into `dst`. In `small_sort_general_with_scratch`, its first call uses
-destination `[0,8)` and helper scratch `[len,len+8)`; its second uses
-destination `[len_div_2,len_div_2+8)` and helper scratch
-`[len+8,len+16)`. This branch has `len >= 16`, so the two source halves and
-the two destination ranges are disjoint; the enclosing scratch-length check
-provides all indicated auxiliary cells. `sort8_stable`'s documented caller
-precondition requires valid source reads and valid destination/scratch writes,
-but does not itself state every pairwise separation needed by
-`sort4_stable`.
+## All five panic posts
 
-After presorting, `small_sort_general_with_scratch` extends each scratch run,
-constructs `CopyOnDrop`, merges back to `v`, and forgets the guard on success.
-These later operations are caller-level ownership/recovery machinery and are
-not proved by a `sort4_stable` functional harness. On a comparator panic in
-`sort4_stable`, no slot from that invocation has yet been written, though a
-prior `sort4_stable` call in `sort8_stable` may already have initialized part
-of scratch. Scratch is `MaybeUninit`, so it is not automatically dropped;
-whether copied resource-bearing values are accounted for on unwind belongs
-to the full caller proof.
+For k=1..5, let `(Vk,Qk,Hk)` be the actual state after the first k-1 successful
+calls and the effects of the kth panicking callback. Full unwind target:
+`SrcOwn(s,Vk) * RawDst(d,I_k) * Cb(F,Qk) * Frame(Hk)` with all temporary
+reference/lifetime resources recovered, allocations/permissions intact, exactly
+ONE current ownership sequence and no leak/debt escaping the function.
+`I_k` equals I0 except permitted callback effects; **no sort4 write** has occurred.
+If callback-accessible destination/frame storage changes legally, its post uses
+that current state, never falsely restores I0/H0. On actual separated scratch
+call sites there is no callback access to this scratch, so its incoming state
+is preserved. No sortedness, permutation of pre-call values, rollback of F or
+rollback of interior mutation is promised on unwind.
 
-The caller's `FreezeMarker` bound is implemented for `T: Freeze` in
-`library/core/src/slice/sort/shared/mod.rs`; it is absent from `sort4_stable`
-itself. It does not imply `Copy`. Thus caller facts can narrow the call-site
-domain, but do not discharge the public unsafe function's generic obligations.
+| Site / actual line | Arguments | State to recover on that direct panic exit |
+| --- | --- | --- |
+| c1 / 626 | s1,s0 | Current resources after c1 effects, no prior comparison; original dst state modulo legal callback effects |
+| c2 / 627 | s3,s2 | Effects of completed c1 plus panicking c2; includes outstanding resources from earlier sharing |
+| c3 / 641 | c=s_(2+c2), a=s_c1 | Effects of c1,c2 plus c3; no output copy |
+| c4 / 642 | d=s_(2+!c2), b=s_(!c1) | Effects of c1..c3 plus c4; no output copy |
+| c5 / 649 | selected unknown_right,unknown_left | Effects of c1..c4 plus c5; no output copy |
 
-## Functional claims authorized for this phase
+All five are real possible panic sites for an unrestricted comparator. There
+are no body-local destructors or guard recovery edges to execute a trailing
+normal ghost helper on direct unwind. Returning only borrowed comparison debt
+would not satisfy this full post. Resource/borrow recovery for these exits is
+unproved; source control-flow analysis only establishes absence of body writes.
 
-The actual-body Kani values harness has four independently symbolic `i32`
-inputs over the full `i32` range; pure, nonpanicking `<`; four initialized
-source cells; and four initialized destination cells in separate fixed
-buffers. Its postconditions are nondecreasing destination values and exact
-multiset equality with the inputs. The actual-body stability harness uses
-four fixed tagged records `{ key: i32, original_id: u8 }`, symbolic keys,
-input IDs `0..3`, and a comparator that reads only `key`. It asserts exact complete-item
-permutation, nondecreasing keys, and increasing IDs among equal keys. These
-are finite-domain functional theorems for those layouts and comparator
-assumptions. Neither establishes arbitrary generic memory safety, aliasing,
-ownership, effects, panic recovery, ZST behavior, or the four required UB
-categories.
+## Mapping to actual callers
+
+Static mapping at the same std blob, not verified whole-caller composition:
+
+| Caller/path | Actual source and scratch ranges | Why the spatial/initialization premises hold |
+| --- | --- | --- |
+| `small_sort_general_with_scratch`, direct sort4, lines253–255 | v[0,4)→scratch[0,4), v[h,h+4)→scratch[h,h+4), h=floor(len/2) | len>=8, h>=4; len+16 scratch check; separate mutable v/scratch borrows. Source initialized T, destination MaybeUninit storage. This branch is selected after the size<=16 && len>=16 sort8 branch is excluded. |
+| `sort8_stable`, lines671–672 | v[0,4)→temp[0,4), v[4,8)→temp[4,8) | Each half has four initialized source slots; temporary scratch provided by the outer caller is distinct from v and destination. Helpers' pointer comments alone do not state this separation. |
+| Outer first sort8, line243 | v[0,8), destination scratch[0,8), temp scratch[len,len+8) | len>=16 and size_of(T)<=16; three regions distinct, auxiliary scratch bound len+16. |
+| Outer second sort8, lines244–249 | v[h,h+8), destination scratch[h,h+8), temp scratch[len+8,len+16) | h>=8, h+8<=len; both source and destination halves disjoint (adjacent at len16), temp regions distinct. |
+
+`small_sort_general` creates stack MaybeUninit<[T;48]> and supplies a
+MaybeUninit slice. Those scratch copies have no automatic T destructor. Incoming
+initialized scratch supplied externally still has the caller's MaybeUninit
+resource policy; the helper cannot assume a hidden live T owner it may discard.
+`FreezeMarker` is implemented for Freeze in shared/mod.rs and bounds these
+callers, including sort8, but does not imply Copy and is absent from sort4.
+It makes a caller-level no-interior-mutation argument possible, not a restriction
+on the public safety target.
+
+If a second sort4 panics, earlier invocations may already have initialized some
+scratch. Those replicas remain nondropped; original v is still the actual
+owning/drop-eligible allocation. Within sort8, no outer destination writes have
+occurred until both sort4 calls return and merge begins. Later scratch insertion,
+merge, CopyOnDrop restoration and successful ownership return to v are separate
+full caller obligations. They require a relational scratch-access/ownership proof;
+this spatial audit does not discharge them or reuse an unproved callee summary.
+
+## Established concrete theorem and required contract clarification
+
+Run37459631500 proves actual-body sorted exact full-range i32 multiset and
+unchanged source, plus separate complete tagged-item stable permutation;18/18
+covers. Its fixed disjoint initialized buffers, concrete Copy layouts and pure
+nonpanicking comparison are narrower than the resource contract above. The new
+contract suite reuses the exact unchanged values harness; it adds concrete
+counterexamples/witnesses, not unrestricted safety or stronger UB instrumentation.
+
+Precise question for the owner/organizer (recorded only, not sent externally):
+Does “valid for four reads/writes” in this target intend full range separation
+and a single-owner nondropped-scratch protocol, or must the verification contract
+cover arbitrary overlapping writable ranges satisfying that literal short
+comment? The actual coincident route requires additional local non-overlap;
+original-value functionality also requires cross-copy preservation. Acceptance
+of a clarified sufficient research contract must precede claiming coverage of
+the public challenge target. No runtime/source comment or signature is changed.

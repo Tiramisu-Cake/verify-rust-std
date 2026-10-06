@@ -4,7 +4,11 @@ Approved by the owner on 2026-10-06 after review of the completed functional
 phase. State at approval: READY; no overlap diagnostic has been implemented or
 run yet. [STATUS.md](STATUS.md) is the current execution checkpoint.
 
-The continuation agent is authorized to implement, commit, push, dispatch,
+Closeout: this named phase completed in [SORT4-CONTRACT-RESULTS.md](SORT4-CONTRACT-RESULTS.md).
+It is CLOSED at the owner architecture decision; proposed future implementation
+is NOT AUTHORIZED. The scope below is the historical approved execution contract.
+
+The continuation agent was authorized to implement, commit, push, dispatch,
 inspect and fix the bounded Kani diagnostics below, refine the research
 contract, and prepare one concrete generic-safety architecture proposal.
 No further start confirmation is needed. This documentation iteration records

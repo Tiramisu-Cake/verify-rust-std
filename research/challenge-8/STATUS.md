@@ -1,53 +1,64 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 after the owner approved the sort4 contract-diagnostics and
-generic-proof-route phase. Approval baseline:
-`bea705d12062e515e69abc4ab4398944f9f82d65` on `challenge-8/research`.
-This is the single current checkpoint; procedures live in
-[AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md), and
-historical evidence in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
+Updated 2026-10-06 after completing the owner-approved
+[sort4 contract diagnostics and architecture phase](SORT4-CONTRACT-PHASE.md).
+Approval commit `54485d632bfca9d69fee853bd6aa30bc330647c9`, fork
+`Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
+This is the single current checkpoint; procedures in
+[AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md),
+history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**IN PROGRESS — the sort4 contract-diagnostics and architecture-proposal phase
-is executing under owner approval commit `54485d632bfca9d69fee853bd6aa30bc330647c9`.** [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) defines its exact
-scope, tool allowlist, deliverables and stop boundary. A continuation agent may
-implement, commit, push, dispatch, inspect and fix its Kani diagnostics without
-asking for the same start approval again. Check newer instructions, the branch
-head and active runs at entry.
+**CLOSED — stop at the next owner architecture decision.** No active research
+run or unfinished proof edit. No later phase, VeriFast implementation/build/run,
+patch application or external publication is authorized. The insertion/MD and
+original functional phases remain closed. Existing MD draft stays unapplied.
 
-Entry audit: clean working tree, fast-forward to approval commit, fork origin and
-research branch confirmed; main at `3d8c8c082a69dbb66c4ab566892e6be71d87a86d`.
-No active research run observed at entry. First hosted run [37464581019](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37464581019),
-source `a082e0cf0c45d8bccf4c7df46eff9b84278a9f67`, selection
-`sort4_contract_diagnostics`/90min. Card and isolated cases committed;
-completed FAILURE: control and coincident copy negative accepted; shifted/witness
-blocked by own array-equality memcmp unwind, correctly rejected as unrelated.
-Routine proof-only element-equality fix committed. Second run
-[37465676476](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37465676476),
-source `6ff3d9f8f559555c17f722f500a1c7de16d9fe7d`, same selection/90min.
-Completed FAILURE only at strict diagnostic label acceptance: shifted assertion
-gets Kani formatted-panic placeholder, at the correct source condition/location.
-Witness0/130failed and1/1cover confirms zero output; other checks pass.
-Switch that assertion to the existing kani::assert static message, preserve
-strict matching, then NEW exact-SHA run. Contract/architecture review completed.
-The last successful proof remains run37459631500 below.
+Entry tree clean, branch fast-forwarded from bea705d to approval 54485d6; correct
+fork/remotes/heads and no active relevant run confirmed. All changes are own
+phase work. Default main received only two workflow selection lines at
+`0b54bf8f1f2fc4f7d1a7acef4d428ffe34cd7447`, not research history.
 
-The new phase authorizes:
+## Completed contract diagnostics and architecture review
 
-1. Actual-source Kani diagnostics for coincident buffers and shifted overlap,
-   with the unchanged values harness as a positive control. Distinguish the
-   expected copy-overlap safety failure from expected multiset failure.
-2. Explicit safety/functionality/ownership/normal-and-panic contracts, mapped
-   to actual callers and separated from any proposed contract strengthening.
-3. Read-only review of historical VeriFast patches/evidence and one concrete
-   generic-safety architecture proposal with a bounded future regression gate.
+[Closeout and hashes](SORT4-CONTRACT-RESULTS.md), [full research contract](SORT4-CONTRACT.md),
+[selected architecture/gate](SORT4-SAFETY-DECISION.md).
+Final [run37466906281](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37466906281)
+SUCCESS, proof source `7f96aa2f3262cf209ff3dcafd06e355e5590885b`,
+`sort4_contract_diagnostics`/90min,12:56:09–13:06:10UTC:
 
-Executable work is Kani only, on GitHub-hosted Actions, at unchanged pin
-`152c6a8c875d9886a67e229247b4826d6105ccfd`, Rust `nightly-2026-02-05`,
-default checks and exact serial harness selection. No new VeriFast run,
-patch application/build, semantic change or later target is authorized.
-Historical patched profiles are evidence for the proposal only.
+- Unchanged values control0/267failed,12/12covers.
+- Coincident [0,1,2,3]: raw1, ONLY actual memcpy src/dst overlap at ptr/mod.rs555:14;
+  first0→0 copy is UB boundary, no output claim after it.
+- Shifted [0,4)→[1,5): raw1, ONLY explicit original-multiset assertion at
+  injected smallsort.rs1192:9; default memory/trace/sorted checks pass/unreachable.
+- Independent witness0/130failed,1/1cover: dst[0,0,0,0] from snapshot[0,1,2,3].
+  Individually disjoint copies overwrite later sources; NOT an UB finding.
+- All4 classifications and44 malformed/nonmatching rejection cases pass.
+  Source/pin/byte audits pass; std blob remains e555fce440872898e47fd5114f32eb15401d07df.
+
+Prior37464581019 failed at harness memcmp unwind6 before shifted posts;
+37465676476 reached the intended multiset assertion but classifier rejected
+Kani's formatted-panic placeholder. Both failures preserved; element-wise
+comparison and static kani::assert label corrected them without weakening posts
+or checks. Each correction got a NEW source/run. Final suite363.05s; job601s,
+common preparation227s; all3 jobs1424s, no budget bottleneck. Default pinned
+Kani152c6a8c/Rustnightly-2026-02-05 profile unchanged; stronger UB checks NOT RUN.
+
+Contract now specifies local copy vs cross-copy preservation, raw initialized/
+uninitialized scratch and prior resources, one ownership sequence, current
+callback effects and all5 panic posts; maps real len>=8/16 separated callers.
+This is static proposed contract/caller analysis, not generic proof or accepted
+public contract strengthening. Existing values/tagged functionality preserved.
+
+Chosen route: separately reviewed explicit normal/direct-Continue recovery with
+a checked helper; first bounded c1-only full-normal/full-unwind mechanism gate.
+Historical tuple/HRTB/strict-cut capabilities are dependencies, not sufficient:
+strict-cut earlier unwind returns debt and changes kernel+translator. New recovery
+routing is missing. Whole-sort4 also needs uninitialized-dst copy semantics,
+actual selection helper proof, five-call sharing, ZST/provenance/padding and
+scratch-access/ownership transport. No patch changed/applied or VF run performed.
 
 ## Completed sort4 functional phase
 
@@ -66,8 +77,8 @@ Both actual-body functional theorems are established for their concrete
 types, separate initialized buffers and pure nonpanicking comparison.
 Generic safety remains open. The phase found no new falsifiable route through
 unchanged VeriFast and ran no generic diagnostic; that was a static feasibility
-decision, not an executed generic failure. The current phase follows up on
-the missing explicit overlap/ownership contract and the architecture question.
+decision, not an executed generic failure. The completed contract follow-up above records the overlap observations and
+explicit ownership/architecture proposal without proving generic safety.
 
 ## Earlier insertion/ManuallyDrop phase remains closed
 
@@ -124,16 +135,14 @@ and unsupported permission transfer to a saved shared-reference-derived pointer.
 Only independently designed access packaging was implemented. See experiment
 log for exact costs, hashes, diagnostics and case counts.
 
-## Next permitted action and stop boundary
+## Next decision and permitted action
 
-Read the current phase, record IN PROGRESS at entry, and prepare the exact
-experiment card. Implement isolated actual-source cases and fail-closed
-expected-negative result classification before the first hosted dispatch.
-Do not report the shifted-overlap multiset counterexample as an UB finding,
-or treat any nonzero verifier exit as an accepted negative.
-
-Refine the contract and use existing patch/source/regression evidence to
-recommend one generic proof route. At closeout save observed cases, contract
-delta, exact evidence boundaries and the proposed future experiment.
-Implementation of that verifier capability remains a separate owner decision.
-No automatic advancement to swap, networks, insertion or external publication.
+Owner decides whether to authorize the narrowly specified exceptional-continuation
+trust/design review and one-callback full-resource implementation experiment in
+[SORT4-SAFETY-DECISION.md](SORT4-SAFETY-DECISION.md), with its explicit historical
+patch dependencies and positive/negative/refinement/CFG gate. Also accept/clarify
+the separated-range and single-owner scratch research contract before treating
+it as the unrestricted public target. Whole generic sort4 remains NO-GO until
+copy/selection/five-call dependencies are resolved. Proposed experiment is
+NOT AUTHORIZED; no automatic advancement to swap/networks/insertion.
+Documentation-only follow-up requires no verification run. Agent stops here.

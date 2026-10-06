@@ -12,11 +12,18 @@ the actual-body functional domain: four arbitrary full-range i32 keys in
 fixed/disjoint initialized buffers, plus separate tagged-item stability.
 Generic safety and complete four-category UB coverage remain open.
 
-The subsequent [contract-diagnostics phase](SORT4-CONTRACT-PHASE.md) is approved
-but unexecuted at this checkpoint. Its overlap cases are hypotheses, and its
-VeriFast architecture review will not itself establish new proof coverage.
-Coincident-copy safety failure and shifted-overlap multiset failure must be
-reported as different kinds of evidence.
+The subsequent [contract-diagnostics phase](SORT4-CONTRACT-PHASE.md) completed;
+[run37466906281](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37466906281),
+source7f96aa2, validates unchanged values0/267failed/12covers, coincident actual
+copy overlap negative, shifted original-multiset negative with all other default
+checks passing/unreachable, and independent zero-output witness0/130failed/1cover.
+The44-case classifier rejection gate passes. Coincident first copy violates
+non-overlap; shifted individually disjoint copies lose original values, NOT an
+UB finding. Prior memcmp-unwind and formatted-panic-label fixture failures are
+preserved in [closeout](SORT4-CONTRACT-RESULTS.md). No generic safety/UB coverage
+or new VeriFast result follows; [proposed full contract](SORT4-CONTRACT.md) and
+[one selected architecture/gate](SORT4-SAFETY-DECISION.md) remain unproved research
+specifications. Stop at owner decision; verifier capability is NOT AUTHORIZED.
 
 ## Safety targets and sorting contracts
 
@@ -27,7 +34,7 @@ reported as different kinds of evidence.
 | `UnstableSmallSortFreezeTypeImpl::small_sort` | None | General / Copy network / fallback choices and stack-size thresholds; arbitrary valid lengths; sorting contract |
 | `swap_if_less` | Kani: two bounded i32 harnesses, positions 1/2 in a four-cell initialized allocation; 5/5 covers (37383583285) | Generic values, arbitrary valid indices/allocations, ZST, comparator mutation/panic, all required UB checks |
 | `insertion_sort_shift_left` | Kani: direct bounded i32 functional proof, lengths/offsets 1..4, sorted prefix, 7/7 covers (37389298278) | Arbitrary valid lengths, actual outer-loop contracts, independent safety domain, generic types, ZST, ownership and panic restoration |
-| `sort4_stable` | Pinned Kani actual body: sorted exact multiset for four arbitrary i32; separate symbolic-key/fixed-ID item stability and complete-item permutation; source unchanged;18/18 covers (37459631500) | Fixed disjoint initialized buffers/pure nonpanicking `<`/Copy layouts only. Generic validity, aliasing/provenance/ZST, ONE ownership, comparator effects and all five panic exits remain open; see contract and static safety decision |
+| `sort4_stable` | Pinned Kani actual body: sorted exact multiset for four arbitrary i32; separate symbolic-key/fixed-ID item stability and complete-item permutation; source unchanged;18/18 covers (37459631500) | Fixed disjoint initialized buffers/pure nonpanicking `<`/Copy layouts only. Generic validity, aliasing/provenance/ZST, ONE ownership, comparator effects and all five panic exits remain open; see refined contract and selected architecture. Concrete overlap diagnostics37466906281 expose the short-comment safety/functionality gap; they add no generic coverage |
 | `has_efficient_in_place_swap` | Unchanged VeriFast 26.09: actual unrestricted generic const body, req true, exact size_of(T)<=8 on LP64; VF/refinement pass (37401540878) | Dispatch callers and full-core integration; no other target follows from this pure helper proof |
 
 Only the size helper has an isolated generic proof among these seven targets.

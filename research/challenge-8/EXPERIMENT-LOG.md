@@ -1429,3 +1429,75 @@ domain, target normal/unwind posts, pins,90min profile and decision map unchange
 Cost: suite357.15s,RSS1812152KiB; control241.30s,coincident38.00s,shifted39.03s,
 witness38.36s. CBMC10.390069s/.31998605s/1.0314885s/.6312619s respectively;
 job462s, common preparation96s. No timeout/budget bottleneck or semantic failure.
+
+
+Third dispatch resolved: run37466906281, created2026-10-06T12:56:04Z,
+source7f96aa2f3262cf209ff3dcafd06e355e5590885b, same selection/90min.
+No active predecessor; exact remote SHA confirmed. Pending fixed assertion label
+and complete fail-closed suite/rejection gate. No hypotheses/checks suppressed.
+
+
+### Final contract suite and architecture closeout: run37466906281
+
+SUCCESS, source7f96aa2f3262cf209ff3dcafd06e355e5590885b,
+sort4_contract_diagnostics/90min,12:56:09–13:06:10UTC. Full hosted log/all artifacts
+inspected. Baseline values raw0,0/267failed,12/12covers; coincident raw1,1/86failed
+ONLY check54 copy_nonoverlapping::<i32>.precondition_instance.1 at ptr/mod.rs555:14
+"memcpy src/dst overlap"; shifted raw1,1/170failed ONLY check76
+negative_shifted_original_multiset.assertion.15 at injected smallsort.rs1192:9
+"original multiset preserved". Trace/sorted and every other default check pass
+or unreachable. Witness raw0,0/130failed,1/1cover: backing[0,0,0,0,0], snapshot
+[0,1,2,3]. Concrete all-false comparator route copies0→1→2→3→4 sequentially;
+individual one-cell copy regions disjoint, original multiset lost, NOT an UB
+finding in this i32 domain. Coincident first0→0 copy is first UB boundary;
+no post-UB execution/ownership claim. Suite raw0; all4 cases accepted and44
+malformed/nonmatching variants rejected by hosted classifier gate.
+
+Each case22 actual sort4 reference/alignment/index checks. Final no unknown or
+undetermined status/unwind failure. Unsupported guards SUCCESS. Typical4
+unreachable arithmetic/format checks per case; shifted5 includes helper i+=1
+overflow unreachable because key0 count mismatch returns immediately. Neither
+assertions/covers/resources nor checks were weakened or removed.
+
+Source audit PASS; independent downloaded full source equals git-show7f96aa2,std
+plus unchanged baseline plus diagnostics byte-for-byte. Exact std blob remains
+e555fce440872898e47fd5114f32eb15401d07df. Kani0.67.0/Rustnightly-2026-02-05/
+CBMC6.10.0 unchanged pins/default checks/exact serial jobs1/unwind6. Target,
+functional proofs, all VeriFast patches, scripts/run-kani.sh and configs unchanged.
+No explicit uninit/valid-value/extra-pointer checks, no generic theorem inferred;
+known immutable-write detector and copy validity instrumentation gaps retained.
+
+Suite363.05s,RSS1811800KiB; cases253.57/35.90/36.46/36.73s;
+CBMC9.252569/.30528224/.95132405/.58405024s, total11.09322553s;
+rest351.96s setup/build/compile/orchestration. Common workflow preparation227s,
+whole job601s. All3 jobs1424s; no budget bottleneck, no blind unchanged rerun.
+Artifact11415738147 zipSHA2568cfd3a37812afb6b2ceda7358c4596dd5cde0af56b1c82a16df3b6cc6fddc5c6.
+Exact all input/tool/raw-file hashes saved in SORT4-CONTRACT-RESULTS.md;
+injected full sourceSHA256851ca4918a01e26577f50c1b2f11d51ce9d50af6f55c33fac2977030b8271431.
+
+Contract refined: per-copy validity/non-overlap vs sequence preservation vs
+functional ordering; optional uninitialized scratch/padding; one owner and
+nondropped scratch representations; legal callback/F/frame effects; complete
+normal and c1..c5 direct-panic resource posts; real len>=8/16 caller range map.
+This is proposed sufficient research contract, not accepted strengthening of
+short public SAFETY comment or verified caller composition.
+
+Read-only architecture review: choose explicit source-defined normal/direct-
+Continue recovery continuations, one c1-only generic full-resource gate first.
+Historical tuple/HRTB/strict-cut patches do not implement full direct-unwind
+recovery; strict-cut changes kernel AND translator and earlier unwind post
+returns debt. Clean pinned VF source review additionally finds initialized-dst
+copy summary incompatible with uninitialized scratch and no established actual
+hint::select_unpredictable pointer helper/model proof. Repeated five-call sharing,
+ZST/padding/provenance and scratch ownership/access transport remain named gaps.
+First prospective experiment, profile/dependencies/full normal/unwind posts,
+positive/negative matrix and trust/admissibility Go/No-Go are in
+SORT4-SAFETY-DECISION.md, explicitly NOT AUTHORIZED.
+
+Independent review corrected cross-copy generic validity wording, full-epoch
+normal recovery position and current scratch init after legal callback effects.
+No new VF run/build/apply/patch edit or model/kernel/refiner implementation.
+PHASE CLOSED at owner decision: approve/reject the narrow exceptional-continuation
+trust/design and implementation gate plus clarified sufficient contract.
+No later sort/insertion phase/external publication, no active research run.
+Closeout docs only need static review, not another cold verification run.

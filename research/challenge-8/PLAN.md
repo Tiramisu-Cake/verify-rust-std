@@ -6,8 +6,9 @@ This decision supersedes the insertion-first ordering in earlier handoffs.
 The [sort4 functional phase](SORT4-PHASE.md) is complete. After reviewing its
 results, the owner approved the bounded
 [contract-diagnostics and generic-proof-route phase](SORT4-CONTRACT-PHASE.md)
-on 2026-10-06. Only this follow-up is currently authorized; later sorting
-stages and verifier implementation remain separate decisions.
+on 2026-10-06. That follow-up is now complete; [its closeout](SORT4-CONTRACT-RESULTS.md)
+stops at the explicit owner architecture decision. Later sorting stages and
+verifier implementation remain separate decisions.
 
 ## Decision and evidence
 
@@ -29,16 +30,17 @@ The decision uses these findings:
 | [Tuple ownership](verifast-tuple-parser.md) and [FnMut HRTB](verifast-fnmut-hrtb.md) findings | A simpler sorting body can still hit the same generic callback blockers. Review existing evidence before proposing a new hosted diagnostic. |
 | [Measured UB limits](ub-checks.md) | A functional pass cannot close all four required UB categories. Keep unsupported instrumentation and detector gaps visible. |
 
-The immediate aim is a useful result with a precise boundary, followed by a
-decision on generic safety. It is not a commitment to build a general-purpose
-Rust verifier or a Rust-to-C translation pipeline.
+The completed immediate stages provide concrete functionality and contract
+diagnostics with a precise boundary, followed by an owner decision on generic
+safety. Building a general-purpose verifier or translation pipeline remains
+outside the approved roadmap.
 
 ## Priorities and advancement criteria
 
 | Order | Target | Intended result | Gate before moving further |
 | --- | --- | --- | --- |
 | 1a — complete | `sort4_stable` functionality | Actual-body sorted exact i32 multiset and tagged stability; 18/18 covers in run37459631500, plus contract/caller and generic-feasibility notes | [Functional closeout](SORT4-RESULTS.md) records the concrete domain. Generic safety and full UB coverage remain open. |
-| 1b — authorized | `sort4_stable` contract and proof route | Reproduce coincident/shifted-overlap cases; refine full contract and caller mapping; review existing patches and select one minimal generic-safety architecture proposal | Close [SORT4-CONTRACT-PHASE](SORT4-CONTRACT-PHASE.md) with observed cases, precise contract delta and a proposed bounded regression gate. Verifier semantic implementation is not authorized. |
+| 1b — complete | `sort4_stable` contract and proof route | Reproduce coincident/shifted-overlap cases; refine full contract and caller mapping; review existing patches and select one minimal generic-safety architecture proposal | [Closeout](SORT4-CONTRACT-RESULTS.md): run37466906281 validates both distinct negatives/control/witness, full contract and one proposed direct-unwind recovery gate. Owner decision required before semantic implementation. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -54,9 +56,9 @@ dispatch reasoning; it does not prove its callers.
 
 - **Kani:** unchanged repository pin for actual-source functional proofs and
   contract diagnostics, with explicitly identified check profiles and claims.
-  The current phase isolates expected safety and functional counterexamples.
+  The completed phase isolates observed safety and functional counterexamples.
 - **VeriFast:** source/patch/regression evidence for architecture review in the
-  current phase. No new run or patch build/application is authorized here.
+  completed contract phase. No new run or patch build/application is authorized.
   Historical successes stay conditional on their recorded source/profile;
   review does not authorize importing or extending those patches.
 - **Frama-C, ACSL and Coq:** reference contracts, invariants and theorem designs.
@@ -71,10 +73,9 @@ remain separate acceptance obligations.
 ## Execution and reporting
 
 The original sort4 functional phase has closed. The owner approved stage 1b
-after reviewing its results and the proposed next task. This documentation
-iteration records that approval without running diagnostics. A continuation
-agent may execute the current named phase without asking for the same start
-approval again, subject to newer instructions or checkpoints.
+after reviewing its results and the proposed next task. Stage1b has now completed
+its hosted diagnostics and closed at the architecture decision; the original
+approval does not authorize its proposed future verifier experiment.
 
 Stage 1b separates the two overlap questions: violation of an actual copy's
 non-overlap requirement, and corruption of original values across individually
