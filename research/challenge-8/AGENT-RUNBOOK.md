@@ -21,9 +21,14 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37401357731](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731),
+source `ae09e983ef430fc03dc49fc4724d36dbb0cab7e9`,range90min. Corrected
+ghost tuple constructor only, complete FnMut parameters retained. Resume this
+exact run; no other experiment active.
+
 **Latest inspected run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
 source `9d4a01fc9388b53d2bc4cfc53651a3b728914457`,
-`verifast_insert_tail_range`,90min. Full logs/artifacts fetched; no active run.
+`verifast_insert_tail_range`,90min. Full logs/artifacts fetched.
 New change removes incomplete ghost
 FnMut generic arguments, preserving MIR inference and the actual Rust call.
 All borrow preparation, quarter-token accesses, checked assertions, original
@@ -40,7 +45,7 @@ own closure and complete ghost substitutions F,(&'cmp T,&'cmp T),'cmp; pinned
 trait parser confirms this order. Full evidence fetched: parser rejects ghost
 tuple value (a,b), requires supported numeric-field std_tuple_2_ constructor.
 Exactbyte/refinement0,VF1(.09s),refiner.11s,runner13.32s,RSS634,536KiB.
-No active run. Prepared constructor correction leaves original req/Rust bytes
+Prepared constructor correction leaves original req/Rust bytes
 unchanged. Independent pure generic size
 target is prepared in new files; choice verifast_swap_size exposed on default
 main by workflow-only commit79c6dc9, runner not yet reviewed/committed.
