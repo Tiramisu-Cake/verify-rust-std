@@ -22,7 +22,12 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
-No active Actions run yet. A reviewed tuple2-only parser patch is committed;
+**Active run:** [37405435682](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405435682),
+source `3d68d61ba5e8a95dfa67677a4cea294fb337b309`,tuple_parser90min.
+Dispatched and exact headSha confirmed. Resume polling this run, fetch full
+logs/artifacts, inspect build pins/stages and actual first proof obligation.
+Do not dispatch another experiment until it completes.
+A reviewed tuple2-only parser patch is committed;
 Actions source-build integration is ready and independently reviewed. Default main exposes the
 new manual selection by workflow-only commit `569ff40`. Ubuntu22.04 for this
 selection only; other profiles retain Ubuntu24.04. Baseline verifier/tool pins

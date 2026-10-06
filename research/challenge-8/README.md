@@ -485,7 +485,9 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Pinned VFDeps archive and decoder source revision; unchanged source prelude;
   same generic owned-range contract, no length cap or sortedness assumption.
   Build/proof/refinement logs and hashes are separate under one budget.
-  Experimental source-derived verifier, baseline pin unchanged. No run yet;
+  Experimental source-derived verifier, baseline pin unchanged.
+  Active run [37405435682](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405435682)
+  checks `3d68d61ba5e8a95dfa67677a4cea294fb337b309`,90min; pending result;
   actual callback normal/unwind, tuple-share compatibility, cell recovery and
   remaining function are still unproved. See verifast-tuple-parser.md.
 
