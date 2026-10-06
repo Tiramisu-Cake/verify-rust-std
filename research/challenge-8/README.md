@@ -96,6 +96,22 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Destructor gate MIR counter correction:** [37419199218](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419199218),
+  source `16aa63f8e05e3b38b9e10b5bfa8030cb04149421`, copy_on_drop_gate90min.
+  Full logs/artifacts inspected. Same pinned26.09 source and4-source-file audit,
+  pairedZ3/exporter/refiner/originalprelude pass. Build0/18.89s,RSS426,292KiB;
+  binary380b990b68b1adf1ec37f5221ee8b1db6d2cf622af435489b1fd57bdf873a410.
+  All8HRTB0/1.71s,12scope0/2.32s and5reference0/1.35s pass; compiler/decode0
+  for every fixture. Exact364byte genericDrop extraction/ghost-strip/hash audits
+  pass, contractSHAf98226d6bed50c546c9299823727c5cf8b20cbcb8550f71f29126a1bd206c203.
+  ActualDrop compilerexport/decode0 and original/verified/std hash roundtrip pass.
+  MIR has one body defPath plus one trait item defId referencing the same method;
+  runner's bare name grep incorrectly counts2 and stops. No actualDrop verifier
+  or refinement executed; no callee proof. Overall1,runner1:21.00,RSS647,204KiB,
+  setupdominates. No active run. Prepared narrow counter correction: count exact
+  body defPath, not trait item defId; unchanged contract/source/tools/domain.
+  Next push and dispatch NEW copy_on_drop_gate90min; inspect actual method proof.
+
 - **Held reference and actual first shift:** [37417173472](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37417173472),
   source `3eb19991b1d8c2312d9feae535b02068335f5162`, manually_drop_ref90min.
   Full logs/artifacts inspected. Same26.09/tool/prelude pins, pairedZ3,

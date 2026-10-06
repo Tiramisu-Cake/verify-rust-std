@@ -21,15 +21,21 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active hosted destructor gate:** [37419199218](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419199218),
-source `16aa63f8e05e3b38b9e10b5bfa8030cb04149421`, selection
-`verifast_copy_on_drop_gate`, budget90min. Dispatch resolved to this exact SHA.
-Poll this run; do not duplicate dispatch or run anything locally. Same pinned
-26.09 source profile and all8+12+5 regression cases, then actual generic Drop
-body, compiler MIR/source hashes and refinement. After completion fetch full
-logs/artifacts; require body/copy-line evidence before claiming direct method
-proof. On failure fix first cause and dispatch NEW source. Compiler cleanup,
-held_ref release on normal/panic and full insertion contract remain unproved.
+**Latest completed destructor gate setup:** [37419199218](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419199218),
+source `16aa63f8e05e3b38b9e10b5bfa8030cb04149421`, copy_on_drop_gate90min.
+Full logs/artifacts inspected. Same pinned26.09 source and4-source-file audit,
+pairedZ3/exporter/refiner/originalprelude pass. Build0/18.89s,RSS426,292KiB;
+binary380b990b68b1adf1ec37f5221ee8b1db6d2cf622af435489b1fd57bdf873a410.
+All8HRTB0/1.71s,12scope0/2.32s and5reference0/1.35s pass; compiler/decode0
+for every fixture. Exact364byte genericDrop extraction/ghost-strip/hash audits
+pass, contractSHAf98226d6bed50c546c9299823727c5cf8b20cbcb8550f71f29126a1bd206c203.
+ActualDrop compilerexport/decode0 and original/verified/std hash roundtrip pass.
+MIR has one body defPath plus one trait item defId referencing the same method;
+runner's bare name grep incorrectly counts2 and stops. No actualDrop verifier
+or refinement executed; no callee proof. Overall1,runner1:21.00,RSS647,204KiB,
+setupdominates. No active run. Prepared narrow counter correction: count exact
+body defPath, not trait item defId; unchanged contract/source/tools/domain.
+Next push and dispatch NEW copy_on_drop_gate90min; inspect actual method proof.
 
 **Latest completed held-reference and first-shift run:** [37417173472](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37417173472),
 source `3eb19991b1d8c2312d9feae535b02068335f5162`, manually_drop_ref90min.

@@ -109,7 +109,7 @@ if [[ "${1:-}" == --stages ]]; then
     printf '%s\n' "$compiler_decode_status" > "$evidence/compiler-mir-decode-exit-code.txt"
     if (( compiler_decode_status != 0 )); then cat "$evidence/compiler-mir-decode.log" >&2; exit "$compiler_decode_status"; fi
     expected_mir_target='<CopyOnDrop<T> as core::ops::Drop>::drop'
-    mir_target_count=$(grep -F -c "$expected_mir_target" "$evidence/compiler-mir.txt" || true)
+    mir_target_count=$(grep -F -c "defPath = \"$expected_mir_target\"" "$evidence/compiler-mir.txt" || true)
     mir_copy_call_count=$(grep -F -c 'copy_nonoverlapping' "$evidence/compiler-mir.txt" || true)
     printf '%s\n' "$expected_mir_target" > "$evidence/compiler-mir-expected-target.txt"
     printf '%s\n' "$mir_target_count" > "$evidence/compiler-mir-drop-target-count.txt"
