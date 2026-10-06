@@ -98,7 +98,7 @@ unwind края для вызовов `read/new`; их feasibility либо reso
 | `verifast-end-lft-binding.patch` | Опциональный strict ранний конец ghost binding; меняет translator **и kernel** (`verifast.ml`): scope boundary, возвращение reserved half token на normal/return/goto, проверку исчезновения scoped type и rebasing outer metadata. Отрицательные fixtures полезны, но не доказывают soundness kernel change; malformed CFG ingress ещё не проверен отдельно. Необходимость cut для любой корректной proof boundary не установлена. |
 | `verifast-address-taken.patch` | Добавляет пропущенное продолжение обхода после `MergeFractionsStmt` в address-taking prepass. Это локальный traversal fix; новые proof resources не выдаёт. |
 | `verifast-manually-drop-ref.patch` | Для exact shared borrow raw `ManuallyDrop<T>` направляет translation через существующий `create_ref` вместо bare address. Требует настоящие `precreate_ref`/`ref_init_perm`/`ref_initialized`; release обязан быть доказан. |
-| `verifast-local-drop-call.patch` | Предлагает вместо общего `drop_in_place` вызвать exact same-unit annotated actual Drop при узком ADT/impl/field match. Должен передать реальный, проверенный precondition и сохранить normal/unwind CFG; **не** выдавать `CopyOnDrop.own`, `T.own` или tokens. На текущем run37423762729 gate оборвался в HRTB regression из-за nested-match bug; body/caller gates этого профиля ещё не прошли. |
+| `verifast-local-drop-call.patch` | Вместо общего `drop_in_place` вызывает exact same-unit annotated actual Drop при узком ADT/impl/field match. Передаёт проверенный precondition и сохраняет normal/unwind AST; не выдаёт `CopyOnDrop.own`, `T.own` или tokens. В37435525052 полный25+body+9caller gate проходит с двумя сопутствующими frontend fixes; общая soundness/приемлемость modified verifier ещё не установлена. |
 | `verifast-local-decls-first.patch` | После resumption отдельно исправляет размещение пролога: uninitialized MIR local declarations перед compiler-origin projection registrations, оба перед executable MIR. Нужен из-за addressable guard в `F: FnMut()` caller; новый ownership/kernel mechanism не вводит. Проверка других associated-type-dependent locals остаётся открытой. |
 | `verifast-projection-name.patch` | После declaration fix канонизирует trait name в compiler-origin projection predicate через существующий `canonicalize_item_name`, как уже делает alias-type translation (`core::` → `std::`). Resource/kernel rules не меняет. Run37434307481 выявил fatal lookup raw FnOnce name; весь hosted gate нового patch ещё требуется. |
 
@@ -110,8 +110,19 @@ non-unwinding Drop сохранена AST unwind ветвь, но невозмо
 В37434307481 declaration placement исправлен, normal caller снова прошёл,
 но `cleanup_callback` остановился до body execution на неканоническом
 `core::ops::FnOnce::Output_typeid`, отсутствующем в runtime спецификации;
-проверки panic cleanup и7 отрицательных fixtures ещё не выполнены. Поэтому
-новый normal caller milestone не закрывает held-ref/full-insertion obligations.
+это исторический результат. В37435525052 после канонизации projection имени
+полный gate прошёл: actual body, оба callers с normal/unwind exact destination
+и ONE ownership post, все7 отрицательных fixtures с intended failure. Это
+закрывает локальный cleanup diagnostic, но не held-ref/full-insertion obligations.
+
+Audit кандидата `lem_auto` recovery выявил точную baseline границу:
+`verify_expr.ml:381-386` запрещает `nonghost_callers_only` для autolemmas,
+а `lifetime_logic.rsspec:76-79,122-125,280-283` требует её для end_lifetime,
+borrow_end и close_frac_borrow. Поэтому automatic post-recovery здесь не
+доказуемо этим кандидатом. Обычная явно вызванная nonghost-only lemma может
+закрывать normal путь после scope; direct Continue unwind пропускает trailing
+ghost statements, а первое сравнение std ещё не имеет guard. Полный unwind
+post остаётся обязательным; normal-only pilot не заменяет его.
 
 Базовый `std::ptr::drop_in_place` требует opaque `<CopyOnDrop<T>>.own`, а
 private default own для guard равен `false`; его post скрывает эффект на gap.

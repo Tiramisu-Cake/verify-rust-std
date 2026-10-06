@@ -20,8 +20,10 @@ Actions run was produced by this documentation checkpoint.
 
 After resumption, the [all-path resource ledger](INSERTION-RESOURCE-LEDGER.md)
 records desired full normal/unwind posts, actual MIR cleanup ordering and each
-experimental verifier boundary. The delimiter-only local-Drop repair is ready
-for a new exact-SHA hosted diagnostic; full generic insertion remains open.
+experimental verifier boundary. The complete local-cleanup diagnostic passed
+in37435525052, including both callers and all negative controls. Full generic
+insertion remains open; next isolate baseline genuine share/recovery on normal
+return while keeping full direct-panic recovery as a separate architecture gate.
 
 Potential independent VeriFast contributions are tracked in
 [the upstream-candidates note](VERIFAST-UPSTREAM-CANDIDATES.md), including
@@ -120,6 +122,28 @@ The appended source is included in the artifact so the checked input is reviewab
 Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
+
+- **Complete local-cleanup diagnostic passed:** [37435525052](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37435525052),
+  source `51dcf65b10a5c0d8ee4f39a17086d8493be8dcfb`, localcaller90min,
+  derived26.09/nightly2026-02-05, unchanged resource contracts/domain/std.
+  Full evidence inspected; all source-byte/ghost-strip/MIR/patch-output/four-file/
+  tool/prelude/pairedZ3 audits pass. Binary
+  3fe106494bd73803b4800410f6a0b50399b51233303b0d6b32659b3e62b1d141;
+  build0/33.51s,RSS426,896KiB. All25 controls pass1.71/2.27/1.33s with compiler/
+  decode0; eight HRTB controls still expect ownership failures. Direct actual
+  Drop and both cleanup callers VF0, same-unit checked body named1/copy1/5copy
+  statements. Both caller named1, normal/unwind exact destination and ONE
+  ownership posts/leak pass; VF.13s each, refinement0/.09/.10s. Callback call1,
+  localDrop6 log records; MIR retains normal/cleanup Drop nodes and UnwindResume.
+  All7 negatives reject as intended: missing source/destination/ownership,
+  unannotated generic Drop, false actual method post, extra field and Copy-bound
+  shape; VF.13s for five body/resource cases, .08s for two frontend cases.
+  Negative refinement is intentionally unexecuted (sentinel99). Overall0,
+  runner1:41.25,RSS626,048KiB; setup dominates. No covers/loop bounds. This
+  completes the one-element local-cleanup gate, without establishing insertion,
+  generic sharing or temporary-storage recovery. Next baseline explicit normal
+  recovery control; the proposed auto-lemma route is statically invalid because
+  lifetime APIs require nonghost-only callers, forbidden for auto-lemmas.
 
 - **Callback declaration fixed; projection-name frontend failure:** [37434307481](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37434307481),
   source `36c60b38f1653b1e749a19d2a1869f22a3a8cb1b`, localcaller90min,

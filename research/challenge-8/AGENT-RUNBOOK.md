@@ -113,15 +113,40 @@ then NEW exact-SHA gate preserving all resource/unwind checks. Runtime std,
 contracts and domains unchanged. Concurrent documentation-only
 upstream-candidates commit0e3de29 was preserved.
 
-**Active run:** [37435525052](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37435525052),
+**Latest completed result:** [37435525052](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37435525052),
 source `51dcf65b10a5c0d8ee4f39a17086d8493be8dcfb`, localcaller90min,
 manually dispatched2026-10-06T08:21:07Z after matching pushed remote SHA.
 Projection-predicate trait canonicalization patchfeecd2f1, final translator
 0d2a85be74b768cc4a35e9d1d228d098e5a5ba28a81875c5d7838510a61d27d0.
-Monitor and inspect full all25/directDrop/9case evidence. Separately, the
-uncommitted release auto-recovery feasibility control requires a purity audit:
-its proposed lemma calls lifetime APIs marked `nonghost_callers_only`. Do not
-claim that automatic recovery is usable until that restriction is resolved.
+**Success; full logs/artifacts inspected.** Exact source/ghost-strip/patch/output/
+four-file/tool/prelude/pairedZ3 audits pass; derived binary
+3fe106494bd73803b4800410f6a0b50399b51233303b0d6b32659b3e62b1d141.
+Build0/33.51s,RSS426,896KiB. All8HRTB/12scope/5reference controls pass
+1.71/2.27/1.33s, all25compiler/decode0 (HRTB ownership failures remain expected,
+not eight proved comparators). Direct actualDrop named1/copy1/5copy records,
+VF/refinement0. cleanup_one and cleanup_callback each export/decode/VF/
+refinement0, actualDrop/caller named1 each, copy1/5 statements, exact destination
+and ONE ownership normal/unwind posts and leak checks pass. VF.13s each,
+refinement.09/.10s. Callback source-call1, localDrop6 log records; MIR has
+normalDrop1/cleanupDrop1, cleanupblocks2, UnwindResume1 and live callback cleanup
+edge. All7 negatives execute and reject at intended locations: missing src/dst/
+T.own, unannotated generic Own, false actual Drop post, extra field and Copy
+bound. VF.13s for five ownership/body controls, .08s for two frontend shapes;
+negative refinement deliberately not run (sentinel99), no negative refinement
+claim. Overall0,runner1:41.25,RSS626,048KiB; setup dominates. No covers/loop
+bounds. This completes the local-cleanup diagnostic under its explicit
+one-element resource contract, not insertion or held-storage recovery.
+
+**Current next step; no active run.** The uncommitted auto-recovery proposal
+was rejected by source audit before execution: lifetime_logic marks
+close_frac_borrow/end_lifetime/borrow_end `nonghost_callers_only`; verify_expr
+explicitly forbids that attribute on autolemmas. `_m` alternatives require an
+atomic_mask absent from real function bodies. Use a normal-only release control
+with an explicit ordinary nonghost-only recovery lemma, including unrestricted
+generic T, genuine sharing and full initialized/owned storage post. Direct FnMut
+Continue -> ReturnStmt(unwinding) skips trailing ghost statements; first insert
+comparison precedes any guard. Full direct-panic recovery remains an architecture
+gate, not a failed post to weaken. Runtime std unchanged; no new kernel hooks.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
