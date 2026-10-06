@@ -93,6 +93,19 @@ if [[ "${1:-}" == --stages ]]; then
         sha256sum compiler-mir.bin compiler-mir.txt >> "$evidence/environment.txt"
     fi
 
+    if [[ "$VF_PROBE_PROFILE" == tuple_hrtb ]]; then
+        set +e
+        /usr/bin/time -v -o "$evidence/hrtb-regressions-resources.txt" \
+            bash "$repo/research/challenge-8/run-verifast-hrtb-regressions.sh" \
+            "$source_home" "$evidence/hrtb-regressions" \
+            > "$evidence/hrtb-regressions.log" 2>&1
+        hrtb_regressions_status=$?
+        set -e
+        printf '%s\n' "$hrtb_regressions_status" > "$evidence/hrtb-regressions-exit-code.txt"
+        cat "$evidence/hrtb-regressions.log"
+        if (( hrtb_regressions_status != 0 )); then exit "$hrtb_regressions_status"; fi
+    fi
+
     printf 'Probe profile: %s\n' "$VF_PROBE_PROFILE"
     # Only insert_tail is specified. An exit 0 must be inspected for function
     # counts; it is not evidence for CopyOnDrop or the outer function.

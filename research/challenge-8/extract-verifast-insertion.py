@@ -58,7 +58,7 @@ CONTRACTS = {
 }
 CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 ownership spec"
 CONTRACTS["tuple_parser"] = CONTRACTS["range"].replace("ens true (safety probe only)", "normal/unwind post explicitly returns partial comparison borrow resources; final restored-range contract unproved") + "; experimental tuple-2 parser; unmodified prelude"
-CONTRACTS["tuple_hrtb"] = CONTRACTS["tuple_parser"] + "; compiler-origin HRTB Output instantiation"
+CONTRACTS["tuple_hrtb"] = CONTRACTS["tuple_parser"] + "; compiler-origin HRTB Output instantiation; normal comparison accesses closed before lifetime recovery"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -135,6 +135,17 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ close_ref_own::<'cmp, T>(cmp_sift_ref);
         //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: cmp_tail_ref, 1: cmp_sift_ref });
 """
+# Normal true-comparison path only. Both callback accesses must return their
+# genuine initialization fractions before lifetime/token ownership is recovered.
+RANGE_COMPARE_RECOVER = """        //@ close [tail_ref_frac]ref_initialized_::<T>(cmp_tail_ref)();
+        //@ close_frac_borrow(tail_ref_frac, ref_initialized_(cmp_tail_ref));
+        //@ close [sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
+        //@ close_frac_borrow(sift_ref_frac, ref_initialized_(cmp_sift_ref));
+        //@ merge_fractions lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
+        //@ end_lifetime(cmp_k);
+"""
+RANGE_READ_ANCHOR = "        let tmp = ManuallyDrop::new(tail.read());"
 RANGE_BODY_ANCHOR = (
     "    // SAFETY: see individual comments.\n"
     "    unsafe {\n"
@@ -246,6 +257,10 @@ def main() -> None:
             1,
         )
         module_injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
+        if profile == "tuple_hrtb":
+            unique_offset(verified, RANGE_READ_ANCHOR)
+            verified = verified.replace(RANGE_READ_ANCHOR, RANGE_COMPARE_RECOVER + RANGE_READ_ANCHOR, 1)
+            module_injections["comparison_recover"] = RANGE_COMPARE_RECOVER
     for filename, candidate, reference, insertions in (
         ("lib.rs", verified_root, original_root, root_injections),
         ("smallsort.rs", verified, original, module_injections),

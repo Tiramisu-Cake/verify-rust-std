@@ -10,7 +10,7 @@
  
        let fetch_ghost_stmts_before (l : Ast.loc0) =
          let* gs_before, gs_rem =
-@@ -2201,6 +2204,47 @@
+@@ -2201,6 +2204,54 @@
                let ghost_generic_arg_list_cpn = VfMirRd.of_pointer ptr_cpn in
                translate_ghost_generic_arg_list ghost_generic_arg_list_cpn
          in
@@ -45,6 +45,9 @@
 +                   (fun (f, t) -> f = source_f && t = source_t1)
 +                   !State.hrtb_fnmut_output_bounds
 +                 = [ (source_f, source_t1) ] ->
++              Printf.eprintf
++                "CHALLENGE8_HRTB_EQ F=%s T=%s lifetime=%s call=%s\n%!"
++                source_f source_t1 lft1 (Ast.string_of_loc call_loc);
 +              [ ExprStmt
 +                  (CallExpr
 +                     ( call_loc, "#register_type_projection_equality",
@@ -54,11 +57,15 @@
 +                       [], [], Static )) ]
 +          | _ -> []
 +        in
++        if canonicalize_item_name fn_name = "std::ops::FnMut::call_mut" then
++          Printf.eprintf "CHALLENGE8_HRTB_CALL registered=%d call=%s\n%!"
++            (match projection_equality with [] -> 0 | _ -> 1)
++            (Ast.string_of_loc call_loc);
 +        State.pending_hrtb_projection_eq := projection_equality;
          let args = List.map (fun expr -> Ast.LitPat expr) args in
          let call_expr =
            Ast.CallExpr
-@@ -2493,6 +2537,7 @@
+@@ -2493,6 +2544,7 @@
  
      let translate_fn_call (fn_call_data_cpn : FnCallDataRd.t) (loc : Ast.loc) =
        let open FnCallDataRd in
@@ -66,7 +73,7 @@
        Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "Call" @@ fun () ->
        Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
        Rocq_writer.rocq_print_big_record TranslatorArgs.rocq_writer @@ fun () ->
-@@ -2615,6 +2660,8 @@
+@@ -2615,6 +2667,8 @@
                   ]),
                targets @ unwind_targets )
        in
@@ -75,7 +82,7 @@
        Ok (full_call_stmts, terminator, targets)
  
      let translate_sw_int (sw_int_data_cpn : SwitchIntDataRd.t) (loc : Ast.loc) =
-@@ -4788,6 +4835,40 @@
+@@ -4788,6 +4842,40 @@
            |> List.map D.decode_predicate
            |> List.map decode_predicate
          in
