@@ -54,9 +54,13 @@ invariant; no final proof or seven-cover outcomes. SIGTERM/143 stops job at
 claim. All artifact/post steps skipped, zero artifacts. Full log fetched;
 essential evidence in outer-invariant-diagnostic.md. Preserve this reproducer
 and resolve instrumentation warnings before accepting/rerunning its proof.
-**Next action:** push current diagnostic/docs and dispatch
-`verifast_insert_tail_probe` (90 minutes) at confirmed research HEAD; inspect
-both VeriFast target diagnostic/count and refinement outcome. No active run.
+**Active run:** [37392725459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37392725459),
+source `fa55288edde480ae581f8deaf24d20bdca458ed7`, `verifast_insert_tail_probe`,
+90 minutes, dispatched 2026-10-06 00:12:04 UTC; metadata SHA confirmed.
+**Next action:** monitor this run, fetch full logs/artifacts and inspect actual
+VeriFast target diagnostic/count, refinement outcome, source-span audit and exit.
+UB detector controls are prepared but unverified in ub-controls.rs / ub-checks.md;
+run them separately before attributing all required UB checks to SmallSort.
 
 ## Repository map and verifier details
 
