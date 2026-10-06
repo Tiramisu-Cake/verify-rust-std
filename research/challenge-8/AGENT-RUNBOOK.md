@@ -21,6 +21,12 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37413224006](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
+source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
+Fix only outstanding-access fixture precise pred_ctor/application.
+Poll exact run and fetch full logs/artifacts; require all8+12cases before actual
+probe. Source semantic patch76c3f6db and unrestricted T/F domain unchanged.
+
 **Latest completed scope-regression run:** [37412915463](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
 source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
 Full logs/artifacts inspected. Patch76c3f6db builds0/26.80s,RSS426,932KiB;
