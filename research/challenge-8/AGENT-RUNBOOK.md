@@ -21,6 +21,12 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),
+source `b777d8d78d50ab79422ac1101111662e3fc4397e`,range90min. Same
+transparent tuple own moved to crate root; byte-stripping audit and manifest
+now cover both lib.rs and smallsort.rs. Resume exact run, inspect first error
+and refinement. No new axioms or source/precondition changes.
+
 **Latest insertion model experiment:**
 [37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),
 source `72dd333ed19c9f1c7a95ceb98957cf2f61fd9dba`,range90min. Transparent
