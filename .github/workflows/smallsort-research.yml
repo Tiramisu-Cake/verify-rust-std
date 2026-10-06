@@ -49,8 +49,14 @@ jobs:
           persist-credentials: false
 
       - name: Prepare runner
+        env:
+          PROOF_SELECTION: ${{ inputs.proof }}
         run: |
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup
+          # Kani needs space for its cold build; VeriFast only installs its pins.
+          case "$PROOF_SELECTION" in
+            verifast_*) ;;
+            *) sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup ;;
+          esac
           sudo apt-get update
           sudo apt-get install --yes jq ripgrep time
           df -h
