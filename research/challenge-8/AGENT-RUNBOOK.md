@@ -22,6 +22,13 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
+**Active run:** [37407937980](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407937980),
+source `a627dec2fbdf76479c219a2edcc6de1225b4cfbc`,tuple_parser90min.
+Capture-only compiler MIR addition; verifier semantics/specs unchanged.
+Exact SHA confirmed. Resume this run, fetch full compiler-mir.bin/txt,
+source-before/after hashes and normal verification/refinement evidence.
+Inspect actual FnOnce HRTB bound regions before any new source translation patch.
+
 **Latest run:** [37407173581](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407173581),
 source `ff413cfbee73e42c576eee96bdc461b80ca76255`,tuple_parser90min.
 Full evidence fetched. Same tuple-only source/binary/prelude pins; sourcebuild0
@@ -34,7 +41,7 @@ Source FnMut(&T,&T)->bool bound must be propagated/instantiated for substituted
 lifetimes; no extra F restriction, pure/comparator stub or assumed bool lemma.
 VF1,.22s,RSS92,712KiB;refiner0,.15s,RSS91,704KiB;overall1,
 runner1:15.93,RSS643,776KiB,setupdominated. No covers/fullfunctionproof.
-No active run. Pinned translator4793-4801 drops rustc Projection predicates
+Pinned translator4793-4801 drops rustc Projection predicates
 with nonempty bound_regions; original FnMut bound is higher-ranked Output=bool.
 Next capture actual compiler MIR binary+capnp text using unchanged release
 exporter with readonly preprocessing, audited unchanged source, then inspect
