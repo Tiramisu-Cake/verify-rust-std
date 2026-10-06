@@ -93,6 +93,12 @@ Static apply/hash/bash-n/diff pass; same4sourcefiles/all25+9fixtures. Generic
 associated-type local-declaration compatibility remains untested outside this
 gate; no broad verifier soundness claim. Next NEW exact-SHA localcaller90min.
 
+**Active run:** [37434307481](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37434307481),
+source `36c60b38f1653b1e749a19d2a1869f22a3a8cb1b`, localcaller90min,
+manually dispatched2026-10-06T08:10:05Z after matching pushed remote SHA.
+Monitor this run, download full logs/artifacts, inspect all25/body/9fixtures.
+Concurrent documentation-only upstream-candidates commit0e3de29 was preserved.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
