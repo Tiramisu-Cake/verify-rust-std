@@ -15,6 +15,7 @@ on:
           - insertion_ub_safety_4
           - verifast_insert_tail_probe
           - verifast_insert_tail_range
+          - verifast_insert_tail_tuple_overlay
           - verifast_swap_size
           - ub_detector_controls
           - ub_immutable_observation
@@ -79,6 +80,7 @@ jobs:
           case "$PROOF_SELECTION" in
             verifast_insert_tail_probe) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_range) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" range ;;
+            verifast_insert_tail_tuple_overlay) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_overlay ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;
             ub_detector_controls) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" ;;
             ub_immutable_observation) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" immutable_observation ;;
