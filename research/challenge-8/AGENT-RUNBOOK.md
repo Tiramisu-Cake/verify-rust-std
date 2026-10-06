@@ -38,9 +38,19 @@ Secondcomparison165, furtherloop/cleanup/restoredrange/fullfunction remain
 unproved; initialfalse-comparison return not claimed checked. Named2 includes
 errorcontext duplicate,248execution/return records. VF1/.25s,RSS92,704KiB;
 refiner0/.15s,RSS91,704KiB;overall1,runner1:22.47,RSS642,920KiB,setupdominates.
-No active run. Next exact-source destructor/restoration gating experiment and
-sound guard ownership route; method contract alone must not be treated as
-replacement for generic compiler drop_in_place summary. Sol investigates.
+No active run. Preparing NEW verifast_copy_on_drop_gate90min: same experimental
+sourcebuild tuple_manually_drop_ref and8+12+5fixtures, then exact364byte
+CopyOnDrop block with ghost-only directDrop contract on unchangedRustsignature.
+GenericT/arbitrarylen, initialized fractional source/full destination, exact
+normalcopyvalues and ONE logicalforeach ownershipsequence returned. Sol owns
+extractor/spec/doc; Luna owns hostedrunner/manualworkflow choice. No newown
+model or cleanup-specializer in this initial gate. Root reviewed contract,
+byte audit and log acceptance; static AST/YAML/bash-n/diff checks pass.
+Default main exposes manual choice by workflow-only commit9467dd9614af4933ba4634e74e40a60e2cd0594f.
+Next push and resolve NEW hosted run at its exact source SHA.
+Private localstruct defaultown is False; it cannot simplybeclosed.
+Method contract alone must not be treated as replacement for generic compiler
+drop_in_place summary; cleanup reuse/restoredrange remain open.
 Runtime std hash/domain unchanged; no T/F restriction or assumed own bridge.
 
 **Latest completed address-prepass regression run:** [37415731049](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37415731049),

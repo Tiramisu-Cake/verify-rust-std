@@ -74,3 +74,42 @@ there. The actual Drop method is still specless and skipped; this error is
 neither a destructor proof nor proof that supplying opaque own would expose
 restored destination resources. Next gate must check the actual method and
 its reuse through compiler cleanup separately.
+
+## Restricted compiler cleanup design review
+
+Sol investigated the pinned frontend and Astra independently reviewed the
+proposed boundary. This is an implementation plan, not a tested extension.
+The current Drop translator always calls generic drop_in_place and ignores
+DropData.unwindAction. Its ordinary trait-call specializer ignores impl
+predicates and is unsuitable for unchecked reuse here.
+
+A restricted direct lowering must resolve a bare local's exact ADT, match all
+substitutions and supported predicates, deduplicate identical impl entries
+by full identity, and require an annotated actual Drop body in the same unit.
+The direct call can consume that body's concrete verified precondition; a
+new guard own predicate is optional, and cannot be replaced by own=true.
+Initially require exactly two raw pointer fields and one usize field, whose
+drop glue does not destroy pointees. Account for all fields/padding through
+ordinary storage predicates and leave no second owned guard. The caller
+receives one logical element ownership sequence and the exact destination
+values from the actual proved method.
+
+Represent normal and unwind branches and CFG successors using the recorded
+DropData.unwindAction, even when on_unwind_ens false makes the method's unwind
+branch infeasible. A successful Drop called during comparator cleanup must
+continue the original unwind path. Returning the held source fraction is
+not enough: end_ref_readonly must run after guard Drop and before tmp storage
+free, on both normal and comparator-unwind paths. Before-brace annotations
+run too early; after-brace annotations alone miss cleanup paths.
+
+No exporter/schema change is needed solely to capture Drop.replace: the
+[pinned rustc MIR definition](https://raw.githubusercontent.com/rust-lang/rust/db3e99bbab28c6ca778b13222becdea54533d908/compiler/rustc_middle/src/mir/syntax.rs)
+assigns that flag diagnostic significance only. The pinned exporter consumes
+drop-elaborated MIR. The first implementation should remain restricted and
+fail closed on unsupported places, fields, impl predicates or method contracts.
+
+Hosted acceptance must include the actual method proof, normal and panic
+caller cleanup with full tmp storage recovered, and negatives for missing
+source permission, missing element ownership, mismatched/unsupported impl
+and a broken actual method postcondition. The direct body gate is the next
+experiment; these cleanup tests and all loop invariants remain future work.

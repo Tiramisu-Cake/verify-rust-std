@@ -55,19 +55,21 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 Agents dispatch and inspect each run autonomously using `gh` and the runbook.
-The next selection is `verifast_insert_tail_manually_drop_ref`,budget90min, on
-`challenge-8/research`. It source-builds the independently reviewed experimental
-tuple2 parser, compiler-bound FnMut output instantiation and strict early ghost
-binding cut on hosted Ubuntu22.04. See [the lifetime scope patch and acceptance](verifast-end-lft-binding.md).
-It also fixes address-taking traversal after fraction merging; see
-[the continuation patch and acceptance](verifast-address-taken.md).
-It tracks the first shared reference to the held `ManuallyDrop<T>` through
-the existing reference-creation contracts; see
-[the reference patch and acceptance](verifast-manually-drop-ref.md).
-It runs eight HRTB matcher cases, twelve lifetime-scope fixtures and five
-address/reference fixtures before the actual insertion probe. The tuple_parser,
-fnmut_hrtb, lft_cut and address_taken profiles preserve prior
-reproducers. Other profiles retain their pinned release tools.
+The next selection is `verifast_copy_on_drop_gate`,budget90min, on
+`challenge-8/research`. It reuses the experimental `tuple_manually_drop_ref`
+source build and runs all eight HRTB, twelve lifetime-scope and five reference
+fixtures. It then checks only the actual generic `CopyOnDrop<T>::drop` body,
+mechanically extracted from this std source with ghost-only annotations.
+The contract requires initialized source/destination arrays of arbitrary valid
+length and proves exact copied values while conserving one logical ownership
+sequence. This is a direct destructor gate; compiler-generated cleanup reuse
+and the complete insertion contract remain open. See [the gate contract](verifast-drop-gate.md).
+
+The earlier insertion profiles preserve their exact-source diagnostic probes.
+See [the scope cut](verifast-end-lft-binding.md),
+[address traversal](verifast-address-taken.md) and
+[held-reference patch](verifast-manually-drop-ref.md).
+Other profiles retain their pinned release tools.
 The existing `all`, `orders_i32_pair` and
 `preserves_i32_values_for_any_decision` choices still run the original bootstrap.
 
