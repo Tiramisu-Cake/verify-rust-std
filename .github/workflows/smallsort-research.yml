@@ -16,6 +16,7 @@ on:
           - verifast_insert_tail_probe
           - verifast_insert_tail_range
           - verifast_insert_tail_tuple_overlay
+          - verifast_insert_tail_tuple_parser
           - verifast_swap_size
           - ub_detector_controls
           - ub_immutable_observation
@@ -23,7 +24,7 @@ on:
           - orders_i32_pair
           - preserves_i32_values_for_any_decision
       budget_minutes:
-        description: Total execution budget, including a cold Kani build
+        description: Total execution budget, including cold setup and build
         type: choice
         default: '90'
         options: ['30', '60', '90', '120']
@@ -42,7 +43,7 @@ defaults:
 jobs:
   bootstrap:
     name: Verify selected SmallSort research proofs
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.proof == 'verifast_insert_tail_tuple_parser' && 'ubuntu-22.04' || 'ubuntu-24.04' }}
     timeout-minutes: 150
     steps:
       - name: Check out the selected workflow branch
@@ -81,6 +82,7 @@ jobs:
             verifast_insert_tail_probe) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_range) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" range ;;
             verifast_insert_tail_tuple_overlay) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_overlay ;;
+            verifast_insert_tail_tuple_parser) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_parser ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;
             ub_detector_controls) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" ;;
             ub_immutable_observation) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" immutable_observation ;;
