@@ -1,3 +1,10 @@
+> Historical snapshot — superseded for current status and instructions by
+> [STATUS.md](STATUS.md), [AGENTS.md](../../AGENTS.md) and
+> [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md). Preserved unchanged below for evidence.
+> In particular, local cleanup callers later passed in run37435525052 and
+> baseline normal recovery in run37437514808; latest run37441463201 failed.
+> Experiments are paused. Old "next" steps here do not authorize resumption.
+
 # Challenge 8: пересмотр плана после handoff
 
 Дата: 6 октября 2026. Проверенная research-ветка перед этим обзором:

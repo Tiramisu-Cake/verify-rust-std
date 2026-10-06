@@ -1,5 +1,10 @@
 # `insert_tail`: ресурсный ledger и граница доказательства
 
+Текущее состояние и разрешённый этап — [STATUS.md](STATUS.md). Эксперименты
+остановлены; этот ledger задаёт обязательства, но не разрешает новые semantic
+patches, автоматическую смену профиля или возобновление работы. Исторические
+результаты ниже относятся только к указанным source/tool версиям.
+
 6 октября 2026. Это архитектурный разбор, **не результат верификации**. Основа:
 точный `insert_tail` и `CopyOnDrop::drop` в
 `library/core/src/slice/sort/shared/smallsort.rs:295-309,538-577`, ghost-вставки
@@ -10,7 +15,7 @@
 к **этому** профилю; после изменения ghost-разметки или exporter его надо
 экспортировать заново. Локально компилятор, extractor и verifier не запускались.
 
-## Состояние, которое нужен доказать
+## Состояние, которое нужно доказать
 
 Пусть `n>=2`, `tail=begin+(n-1)`, а `g` — индекс текущего gap. На входе нужны
 `thread_token(t)`, `type_interp<T/F>`, целый корректный writable/initialized
@@ -100,7 +105,7 @@ unwind края для вызовов `read/new`; их feasibility либо reso
 | `verifast-manually-drop-ref.patch` | Для exact shared borrow raw `ManuallyDrop<T>` направляет translation через существующий `create_ref` вместо bare address. Требует настоящие `precreate_ref`/`ref_init_perm`/`ref_initialized`; release обязан быть доказан. |
 | `verifast-local-drop-call.patch` | Вместо общего `drop_in_place` вызывает exact same-unit annotated actual Drop при узком ADT/impl/field match. Передаёт проверенный precondition и сохраняет normal/unwind AST; не выдаёт `CopyOnDrop.own`, `T.own` или tokens. В37435525052 полный25+body+9caller gate проходит с двумя сопутствующими frontend fixes; общая soundness/приемлемость modified verifier ещё не установлена. |
 | `verifast-local-decls-first.patch` | После resumption отдельно исправляет размещение пролога: uninitialized MIR local declarations перед compiler-origin projection registrations, оба перед executable MIR. Нужен из-за addressable guard в `F: FnMut()` caller; новый ownership/kernel mechanism не вводит. Проверка других associated-type-dependent locals остаётся открытой. |
-| `verifast-projection-name.patch` | После declaration fix канонизирует trait name в compiler-origin projection predicate через существующий `canonicalize_item_name`, как уже делает alias-type translation (`core::` → `std::`). Resource/kernel rules не меняет. Run37434307481 выявил fatal lookup raw FnOnce name; весь hosted gate нового patch ещё требуется. |
+| `verifast-projection-name.patch` | После declaration fix канонизирует trait name в compiler-origin projection predicate через существующий `canonicalize_item_name`, как уже делает alias-type translation (`core::` → `std::`). Resource/kernel rules не меняет. Run37434307481 выявил fatal lookup raw FnOnce name; полный hosted gate прошёл в37435525052, но это не общий soundness result. |
 
 Обновление после resumption: nested-match bug устранён; все25 regressions и
 direct actual Drop проходят в37431775757/37433028854. В37433028854 полный
@@ -131,7 +136,7 @@ body проверен; missing token/debt и false post отвергнуты в 
 Это независимый результат без любых experimental patches. Он подтверждает
 normal resource transition, но не direct first panic, held tmp или guard provenance.
 
-Следующий control использует отдельный `manually_drop_only` profile: pinned
+Последний control37441463201 использовал отдельный `manually_drop_only` profile: pinned
 translator7319d263 + только существующий ManuallyDrop-reference patch5500204a,
 выход60ece6e9. Exact source diff ограничен одним translator file; parser, prelude,
 kernel и прочие frontend extensions не меняются. Baseline raw ManuallyDrop
@@ -141,7 +146,13 @@ precreate/init_share и оба initialization accesses, затем вернут�
 до перемещения T. `into_inner` не имеет pinned frontend/spec route, поэтому
 контроль использует реальные ptr::read/write, без нового callee summary.
 Это проверка normal tmp lifecycle; raw guard.src provenance и panic остаются
-отдельными obligations. Hosted outcome минимального profile ещё не получен.
+отдельными obligations. Hosted run37441463201 завершился failure: все7 cases
+остановились в первом close нового recover_single до callers; positive MD
+отдельно не прошёл refinement из-за unsupported RawPtr (addr_of(tmp)).
+Ни новый lifecycle, ни intended negatives не доказаны. Baseline release profile
+исключает новый helper, и прежний результат37437514808 остаётся в силе.
+Сохранённый DRAFT-MD-RECOVERY-2026-10-06.patch не применён и не проверен:
+fraction constraints и provenance сохранённого shared-derived pointer открыты.
 
 Базовый `std::ptr::drop_in_place` требует opaque `<CopyOnDrop<T>>.own`, а
 private default own для guard равен `false`; его post скрывает эффект на gap.
@@ -153,54 +164,43 @@ reference creation (`vf_mir_translator.ml`, `ignore_ref_creation` path и
 надо аудировать отдельно. Approved tool listing не подтверждает семантические
 изменения verifier автоматически.
 
-## Решение для следующего pilot
+## Следующий ограниченный этап и архитектурный stop
 
-После diagnostic local-Drop gate **не расширять kernel**. Отдельный hosted
-pilot должен сначала использовать baseline RustBelt `borrow`,
-`share_full_borrow<T>`, `init_ref_share<T>`, `borrow_end` и существующие
-`FnMut::call_mut` normal/unwind contracts в минимальном generic
-`ManuallyDrop<T>` fixture. Тот же fixture должен: (1) создать genuine
-shared `&T` из held T, (2) передать его unrestricted `FnMut(&T,&T)->bool`,
-(3) восстановить T ownership и полную storage на обоих исходах, (4) принять
-`Cell`-подобный mutating callback и отвергнуть утверждение о старом значении.
-Не добавлять Freeze/Copy/purity и не предполагать стабильный snapshot. Для
-baseline проверить сначала **первое** сравнение с early return/panic:
-`bb1` unwind=continue делает отсутствие ghost recovery на этой ветке
-самостоятельным architectural gate. Только затем добавить held/guard,
-повторный comparator и one-cell actual Drop.
+После явного возобновления разрешён только этап из [STATUS.md](STATUS.md):
+изолировать bookkeeping recover_single, обосновать pointer provenance и пройти
+refinement без ослабления full posts, затем проверить minimal ManuallyDrop gate.
+Профили фиксированы: unchanged release26.09 и существующий manually_drop_only
+с одним patch5500204a. Добавление tuple/HRTB, local Drop, scope cut или нового
+AST-routing не является автоматическим следующим шагом. Любое изменение
+семантики инструмента требует отдельного решения **до реализации**.
 
-Минимальные профили для сравнения: pinned release baseline для fixture без
-tuple/actual `FnMut` HRTB, затем только tuple parser + HRTB при необходимости
-реального generic call; address-taking + ManuallyDrop ref patch только если
-физическая ссылка требует их; local Drop patch только в guard pilot. Избегать
-`end_lft_binding` пока нормальный block/lifetime scope не показал конкретный
-token deadlock. Если обычный scope захватывает слишком много последующего
-кода, сначала изменить **ghost** область/точку восстановления на том же
-Rust body и проверить обе exit ветки; cut включать лишь при доказанной
-необходимости и отдельном trust review.
+Ключевой gate — применимость к exact std, а не очередной зелёный fixture.
+У первого сравнения нет узкого реального Rust block; let_lft из успешного
+baseline fixture нельзя просто перенести. False return и first panic обязаны
+вернуть full range/F/tokens; direct Continue пропускает trailing ghost recovery.
+Новый proof-only BlockStmt/label route — лишь кандидат из
+[BORROW-RECOVERY-DESIGN.md](BORROW-RECOVERY-DESIGN.md), не разрешённый fix.
+Сначала показать существующий корректный маршрут на actual normal/false/panic
+CFG либо остановиться с решением о новой доверенной семантике/другом подходе.
 
-Есть два открытых, решающих вопроса. Во-первых, стандартное
-`<T>.share(k,t,p)` допускает interior mutation, но не обязано предоставить
-стабильный fractional `points_to`, который нынешний `copy_nonoverlapping`
-contract требует для `guard.src`. Использование readonly `init_ref_readonly`
-через второй comparator не является generic решением. Во-вторых, после
-callback panic в MIR нет исполняемого ghost recovery: для первого compare
-это direct unwind, для позднего — immediately guard Drop. Pilot должен
-показать конкретное существующее правило/контракт, восстанавливающее
-borrow/token/held storage на **обоих** путях. Кандидат для поздней panic —
-отдельно проверенный one-cell actual Drop contract, потребляющий genuine
-source/ref tokens, закрывающий source borrow и возвращающий долю tmp до
-`StorageDead`/`UnwindResume`; caller должен предоставить complementary долю
-и доказать merge. Это гипотеза, не перенос уже доказанного общего Drop body.
-Попытка завершить readonly access до comparator тоже лишь гипотеза:
-`end_ref_readonly` потребляет `ref_initialized` старого p, его
-`ref_init_perm` уже израсходован, а guard.src хранит p; новый read/provenance
-для actual Drop нельзя создать утверждением.
+Для будущего held/guard pilot остаются два независимых вопроса. Genuine
+`<T>.share` допускает interior mutation и не обещает стабильный fractional
+`points_to` для `guard.src`. Readonly `init_ref_readonly` через произвольный comparator
+не решает generic safety; Freeze/Copy/purity добавлять нельзя. После panic
+нужны проверенные borrow/token/storage recovery **на обоих путях**, а не
+comparison-debt post или утверждение о старых значениях.
 
-Критерий архитектурного выбора: если baseline/minimal-profile fixture не
-восстанавливает full normal **и unwind** post без нового kernel hook,
-недоказанного ownership bridge или запрета interior mutation, не переносить
-его в actual insertion. Сохранить диагностические milestones и проверить
-более простой generic swap/sort4 boundary. Если pilot проходит, следующий
-отдельный run проверяет actual `&*tmp -> guard.src -> copy/Drop -> full
-storage` с точно теми же версией исходника и проверенным callee summary.
+Кандидат позднего восстановления — отдельно проверенный one-cell actual Drop
+contract, потребляющий genuine source/ref tokens и возвращающий долю tmp;
+caller должен предоставить complementary долю и доказать merge до
+StorageDead/UnwindResume. Это гипотеза, не следствие проверенного общего Drop.
+end_ref_readonly потребляет ref_initialized старого p, его ref_init_perm уже
+израсходован, а guard.src хранит p: новый read permission/provenance нельзя
+создать утверждением или заменой на численно равный pointer.
+
+После ограниченного этапа нужен go/no-go review: source-exact full normal/unwind
+recovery, domain без новых ограничений и явный trust/admissibility rationale.
+Если маршрут требует новых semantic patches, недоказанного ownership bridge
+или запрета interior mutation, сохранить milestones и запросить решение.
+Более простой generic swap/sort4 — возможная альтернатива для обсуждения,
+а не автоматически разрешённая новая работа.

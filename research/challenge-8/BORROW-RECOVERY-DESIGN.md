@@ -1,5 +1,27 @@
 # Borrow recovery: normal control and direct-unwind boundary
 
+## Authorization and actual-source applicability gate
+
+Current state/phase is [STATUS.md](STATUS.md): experiments are paused.
+This note describes design candidates, not permission to implement them.
+A translator-only, kernel-free or proof-only AST rewrite still changes trusted
+verification semantics and requires a separate owner decision BEFORE code.
+Passing a natural-block normal fixture cannot authorize that expansion.
+
+The latest minimal ManuallyDrop run37441463201 failed in recover_single before
+any caller, with a separate RawPtr refinement failure. No tmp/provenance/panic
+result was established; release normal recovery37437514808 remains valid.
+The saved recovery patch is unverified and must not be applied wholesale.
+
+Before any callback/insertion integration, map unchanged actual-source normal
+true, false early return and first direct panic to explicit recovery of full
+current storage/ownership. Show exact CFG entries/exits, reference provenance,
+no skipped runtime effects/cleanup and where the checked helper executes.
+If existing supported semantics cannot express that route, STOP with the
+architecture/trust decision; do not silently implement the AST candidate below.
+
+## Source-audited baseline boundary
+
 Source audit: 6 October 2026, pinned VeriFast 26.09 source
 `809de4596839b739dd999f9e462242c835e3af46`. This is an architecture note,
 not a proof result or an implemented exceptional-routing feature.
@@ -69,7 +91,8 @@ its AST-only continuation after reconstruction, or construct a synthetic block
 with explicitly audited successor bookkeeping. No existing supported annotation
 for that exceptional continuation was established by this review.
 
-Acceptance requirements before treating a candidate as evidence:
+Only AFTER separate authorization for a semantic experiment, acceptance requirements
+before treating a candidate as evidence:
 
 - Match an exact source-defined annotation, function and direct `Continue`
   edge; reject missing, duplicate, malformed and misplaced markers.
@@ -100,11 +123,11 @@ outer unsafe block, followed by the false-return if and then tail.read; the
 next real inner block belongs to the false arm. A separate control with a
 natural comparator block cannot transfer this scope boundary to unchanged std.
 
-A kernel-free candidate would need a structural translator AST rewrite after
+One proposed kernel-free route would require a structural translator AST rewrite after
 find_blocks/translate_basic_blocks_to_stmts (translator4989–5008), splitting the
 exact first-call prefix into an inner BlockStmt and routing normal/unwind via
 external labels. Recovery must precede the original Boolean branch on normal
 and the original unwinding ReturnStmt on panic. Exact incoming edges, absence
 of skipped runtime effects/Drop, unique source-written binder/helper/markers,
 reachability and differential MIR/AST checks remain design obligations. No such
-rewrite was implemented. Full owned FnMut unwind proof remains open.
+rewrite was implemented or authorized. Full owned FnMut unwind proof remains open.
