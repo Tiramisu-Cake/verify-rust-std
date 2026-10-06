@@ -2600,3 +2600,36 @@ Run5 candidate patch SHA256 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb1438
 only Ast.ReprC qualification since tested run4. Modified translator AST constructors
 are now explicitly qualified; other affected modules open Ast. Static source
 patch applicability/diff checks PASS. Same complete pre-recorded matrix/flags.
+
+Dispatched NEW run5/37544058075, source/head063acbae79fce823bff65245d8a9772fe5d74457,
+created2026-10-06T23:00:22Z, exact pushed/remote/head_sha match. Selection unchanged
+verifast_rust_fieldless_layout/30; candidate only qualifies ReprC after measured
+run4 failure. Budget5/6,350 completedseconds plus current job. One active only.
+
+### Prototype builds and original-six prefix PASS — run37544058075
+
+Exact source/head063acbae79fce823bff65245d8a9772fe5d74457,
+job112543713772,23:00:27–23:03:04Z,157seconds, FAILURE at matrix harness.
+Console/exporter builds exit0 with synchronized schema, source809de459/compilerdb3e99b,
+patch SHA256 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
+Experimental binaries console03af81bfc531c8f7625b196b181e4172d001689d88eb2a6c6bd2088eb9b265b8,
+exporter31a46637839d57051e41ad12b5bcb9778ad73a160faf85cb4097bf570f77cb2e;
+schema97785b763fd03e242229fe780428ced26a4dc04bb12fcbf3889ae00ed8fb6413.
+Unchanged spec tree/refinement/C++ exporter and pairedZ3 checks PASS.
+Full logs/artifact11449439944 inspected,297540bytes, API/upload digest
+b56ffb35a2677ebd9d0244bbdec5b3391aee65edb4ec30904d9bdc9b0c1ac85b;
+full log SHA2563eb12c29d3cb0cee407114aa00bd22ea25f27148830befa0d0a070d6ac3a568e.
+Original experimental six: generic const/mut VF0/72statements each; original
+Zlayout VF0/44statements, original Zadd VF0/43statements. All exports/decodes/
+refinements0; every-stage hashes unchanged; named functions/add executions present.
+Both old negatives fail intended modulus8 assertions25 afteradd22/cast23.
+Stock comparison preserves generic PASS, Z cases INCONCLUSIVE, negatives expected.
+This is an executed prefix, NOT accepted whole prototype: marked_cases raised
+ValueError because final POSITIVES included four dynamically generated application
+names absent from physical fixture markers. ALL extra positives/false-layout/
+metadata/native/selfcheck cases NOT RUN. Budget5/6,507/10800s; no active run.
+Candidate6 validates PHYSICAL_CASES separately from GENERATED_APPLICATIONS, retaining
+all four applications in final POSITIVES/required matrix. Only harness validation
+changed; same patch/binaries/source fixtures/contracts/classifier/flags. Static
+Python AST parsing/diff check PASS. Last NEW hosted run must attempt full matrix;
+after it STOP regardless of result.

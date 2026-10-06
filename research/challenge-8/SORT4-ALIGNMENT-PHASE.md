@@ -9,9 +9,11 @@ Previous phase and two runs37537448952/37537868053 remain historical INCONCLUSIV
 Stock gate result: run37540829027/source968c073, both generic VF0 with integrity/
 refinement PASS. One NEW run,43seconds; concrete stock ZST failures kept separate.
 Transition to Step2 permitted; prior full evidence in results/journal.
-Prototype runs2/3/4 stop at console build; matrix NOT RUN. Budget4/6,350/10800s.
-Run5 candidate only qualifies Ast.ReprC after measured compiler diagnostic;
-same domain, acceptance matrix and profile semantics.
+Prototype runs2/3/4 stop at console build. Run5 builds both components and verifies
+original experimental six; remaining matrix NOT RUN after marker validation error.
+Budget5/6,507/10800s. Run6 candidate changes harness physical-marker validation only;
+generated applications remain mandatory in final matrix. Same patch/profile/domain,
+acceptance criteria and strict classifier. This is the final permitted run.
 
 ### Step 1: stock gate, before any layout patch implementation
 

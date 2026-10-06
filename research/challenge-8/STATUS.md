@@ -4,7 +4,7 @@ Updated 2026-10-07. **IN PROGRESS — stock generic H_align, then narrow Rust ZS
 Owner resumes from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75; entry clean,
 local/remote research heads match, fork Tiramisu-Cake/verify-rust-std, no active run.
 Budget: at most **6 NEW manual hosted runs / 10800 summed job-seconds** including
-all builds, preparation and verification. Used 4/6; 350/10800 summed job-seconds. One experiment at a time.
+all builds, preparation and verification. Used 5/6; 507/10800 summed job-seconds. One experiment at a time.
 
 **Stock baseline PASS** in [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
 source968c073983e0fa27112c5d8a4e10a36b05828323, exact head_sha checked.
@@ -19,20 +19,19 @@ official VeriFast 26.09 / source809de459 / nightly-2026-02-05. Advance ONLY when
 both generic const/mut have VF exit0 and all original integrity/refinement gates pass.
 Keep stock ZST failures separate; no overall-green workflow requirement.
 
-Experimental-rust-fieldless-layout-v1 has not yet reached executable matrix.
-Prototype runs37542669720/f9697b8 and37543115091/55b856c fail console build:
-unary subtraction corrected, then unqualified RustLayout constructor.
-Latest job112540598709,22:50:46–22:52:36Z,110s; full logs/artifact11449258539
-inspected. Exporter build and experimental matrix NOT RUN in both runs.
-Next candidate qualifies Ast.RustLayout and Ast.ReprC, patch SHA256
+Experimental-rust-fieldless-layout-v1 built in
+[run37544058075](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544058075),
+source/head063acbae79fce823bff65245d8a9772fe5d74457; patch SHA256
 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
-Run4 [37543687813](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543687813),
-source/head0950bc40852fd94176d4293cd191a60dda6bb650, fails console build at6117:
-unqualified ReprC after attribute-list concatenation. Job112542474551,
-22:56:31–22:58:26Z,115s. Full logs/artifact11449318697 inspected.
-Exporter build and experimental matrix NOT RUN. No active run.
-Next: qualify Ast.ReprC and statically audit modified AST construction sites;
-NEW exact-SHA selection/30 within remaining2 slots, same model and gates.
+Console/exporter exit0. Original experimental six: generic2/Zlayout/Zadd PASS,
+negatives2 expected assertions; all exports/decodes/refinements0 and hashes intact.
+Stock comparison reproduces known outcomes. Full logs/artifact11449439944 inspected.
+Job112543713772,23:00:27–23:03:04Z,157s. Workflow FAILURE at harness marker-set
+validation: generated applications incorrectly required as physical markers.
+Remaining positive/negative/metadata/compatibility matrix NOT RUN; not accepted.
+Next candidate separates physical markers from generated applications, keeps ALL
+final required cases and strict classifier. No patch/contract/proof change.
+No active run; one final NEW exact-SHA selection/30 available, then STOP.
 
 Separate experimental layout profile limited to genuinely
 fieldless, nongeneric-definition Sized Rust structs, repr(Rust)/repr(C), optional

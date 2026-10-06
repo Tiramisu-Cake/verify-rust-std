@@ -40,6 +40,8 @@ UNSUPPORTED = {
     "unsupported_generic_adt", "unsupported_packed", "unsupported_transparent",
 }
 METADATA_CASES = {"negative_absent_layout", "metadata_control_body"}
+GENERATED_APPLICATIONS = {"apply_const_z", "apply_mut_z", "apply_const_u64", "apply_mut_u64"}
+PHYSICAL_CASES = (POSITIVES - GENERATED_APPLICATIONS) | NEGATIVES | UNSUPPORTED | METADATA_CASES
 
 
 def digest(data):
@@ -787,7 +789,7 @@ def main():
     if stock["classification"] != "PASS":
         print("stock-profile comparison: INCONCLUSIVE", file=sys.stderr)
 
-    prefix, wrappers = marked_cases(FIXTURE.read_bytes(), POSITIVES | NEGATIVES | UNSUPPORTED | METADATA_CASES)
+    prefix, wrappers = marked_cases(FIXTURE.read_bytes(), PHYSICAL_CASES)
     generic_prefix, generic_cases = marked_cases(BASELINE_FIXTURE.read_bytes(), {
         "positive_generic_const", "positive_generic_mut", "positive_zst_layout",
         "positive_zst_add", "negative_source_byte_offset", "negative_destination_byte_offset"})

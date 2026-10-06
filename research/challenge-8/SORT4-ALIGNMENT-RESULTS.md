@@ -4,7 +4,7 @@
 
 Current phase IN PROGRESS. Stock baseline **PASS independently for const/mut**;
 experimental layout profile implementation starts only after this gate. Budget
-4/6 NEW runs,350/10800 summed job-seconds including all preparation/replay/upload.
+5/6 NEW runs,507/10800 summed job-seconds including all preparation/replay/upload.
 Earlier phases below retain their original outcomes and evidence.
 
 [Stock run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
@@ -55,6 +55,18 @@ source/head0950bc40852fd94176d4293cd191a60dda6bb650, job115seconds, fails consol
 at translator6117: Unbound constructor ReprC after concatenating attributes.
 Exporter build and matrix NOT RUN; full logs/artifact11449318697 inspected.
 Candidate5 explicitly qualifies Ast.ReprC and statically audits changed AST sites.
+
+
+Run5 [37544058075](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544058075),
+source/head063acbae79fce823bff65245d8a9772fe5d74457,157 job-seconds: console AND
+exporter build PASS, original experimental six PASS/expected negatives. Concrete
+original Z now proves size0/align8 (44 statements) and const .add zero-stride/full
+posts (43 statements); generic bodies remain72 statements each. All source-integrity/
+export/decode/refinement gates pass. Original negatives reject intended assertion25.
+Stock comparison preserves old outcomes. Whole matrix INCONCLUSIVE due physical
+marker validation requiring four dynamically generated applications. Remaining
+controls NOT RUN; acceptance pending last run. Full logs/artifact11449439944 inspected.
+Last candidate6 fixes harness marker set only; final required matrix unchanged.
 
 
 ## Historical generic completion/layout review checkpoint
