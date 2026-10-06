@@ -56,13 +56,13 @@ if [[ "${1:-}" == --stages ]]; then
         } >> "$evidence/environment.txt"
     fi
 
-    if [[ "$VF_PROBE_PROFILE" == tuple_parser ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb ]]; then
         source_home="${RUNNER_TEMP:?}/challenge8-verifast-tuple-parser"
-        bash "$repo/research/challenge-8/build-verifast-tuple-parser.sh" "$VERIFAST_HOME" "$evidence" "$source_home"
+        bash "$repo/research/challenge-8/build-verifast-tuple-parser.sh" "$VERIFAST_HOME" "$evidence" "$source_home" "$VF_PROBE_PROFILE"
         export VERIFAST_HOME="$source_home"
         export LD_LIBRARY_PATH="$VERIFAST_HOME/bin:${LD_LIBRARY_PATH:-}"
         vf_options=(-verbose 1)
-        printf 'Experimental source-built tuple2 parser; see source-build inputs/runtime hashes.\nVerification LD_LIBRARY_PATH: %s\n' "$LD_LIBRARY_PATH" >> "$evidence/environment.txt"
+        printf 'Experimental source-built profile: %s; see source-build inputs/runtime hashes.\nVerification LD_LIBRARY_PATH: %s\n' "$VF_PROBE_PROFILE" "$LD_LIBRARY_PATH" >> "$evidence/environment.txt"
         # Preserve the compiler-exported HRTB before changing its translation.
         # Readonly preprocessing and before/after hashes keep this observation
         # separate from actual verification and leave both Rust files intact.
@@ -108,14 +108,14 @@ if [[ "${1:-}" == --stages ]]; then
     printf '%s\n' "$refinement_status" > refinement-exit-code.txt
     target_count=0
     statement_count=0
-    if [[ "$VF_PROBE_PROFILE" == tuple_parser ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb ]]; then
         target_count=$(grep -F -c "Verifying function 'smallsort::insert_tail'" verifast.log || true)
         statement_count=$(grep -E -c 'verified/smallsort[.]rs\([0-9]+,[0-9]+(-[0-9]+(,[0-9]+)?)?\): (note: )?Executing (statement|return statement)$' verifast.log || true)
         printf '%s\n' "$target_count" > verified-target-count.txt
         printf '%s\n' "$statement_count" > verified-target-statement-count.txt
     fi
     cat verifast.log refinement.log
-    if [[ "$VF_PROBE_PROFILE" == tuple_parser ]] && (( vf_status == 0 && (target_count != 1 || statement_count < 1) )); then
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb ]] && (( vf_status == 0 && (target_count != 1 || statement_count < 1) )); then
         echo 'No unique named insertion target/body execution evidence' >&2
         exit 1
     fi
@@ -132,8 +132,8 @@ case "$budget" in
 esac
 profile=${2:-frontend}
 case "$profile" in
-    frontend|range|tuple_overlay|tuple_parser) ;;
-    *) echo 'Profile must be frontend, range, tuple_overlay or tuple_parser' >&2; exit 2 ;;
+    frontend|range|tuple_overlay|tuple_parser|tuple_hrtb) ;;
+    *) echo 'Profile must be frontend, range, tuple_overlay, tuple_parser or tuple_hrtb' >&2; exit 2 ;;
 esac
 export VF_PROBE_PROFILE="$profile"
 mkdir -p "$evidence"

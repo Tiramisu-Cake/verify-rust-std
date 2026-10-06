@@ -48,6 +48,7 @@ GHOSTS["tuple_parser"] = GHOSTS["range"].replace(
     "/*@ ens true; @*/",
     "/*@ ens " + COMPARISON_DEBT_POST + "; @*/ /*@ on_unwind_ens " + COMPARISON_DEBT_POST + "; @*/",
 )
+GHOSTS["tuple_hrtb"] = GHOSTS["tuple_parser"]
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -57,6 +58,7 @@ CONTRACTS = {
 }
 CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 ownership spec"
 CONTRACTS["tuple_parser"] = CONTRACTS["range"].replace("ens true (safety probe only)", "normal/unwind post explicitly returns partial comparison borrow resources; final restored-range contract unproved") + "; experimental tuple-2 parser; unmodified prelude"
+CONTRACTS["tuple_hrtb"] = CONTRACTS["tuple_parser"] + "; compiler-origin HRTB Output instantiation"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -174,7 +176,7 @@ def main() -> None:
     else:
         raise SystemExit(
             "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
-            "[--profile frontend|range|tuple_overlay|tuple_parser]"
+            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb]"
         )
     ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
@@ -223,7 +225,7 @@ def main() -> None:
     verified_root = ROOT
     module_injections = {"contract": ghost}
     root_injections = {}
-    if profile in ("range", "tuple_overlay", "tuple_parser"):
+    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb"):
         module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         module_injections["interior_call"] = RANGE_BOUND_GHOST
         module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN

@@ -55,9 +55,11 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 Agents dispatch and inspect each run autonomously using `gh` and the runbook.
-The next selection is `verifast_insert_tail_tuple_parser`,budget90min, on
-`challenge-8/research`. It source-builds the reviewed experimental tuple2 parser
-on hosted Ubuntu22.04. Other profiles retain their pinned release tools.
+The next selection is `verifast_insert_tail_fnmut_hrtb`,budget90min, on
+`challenge-8/research`. It source-builds the independently reviewed experimental
+tuple2 parser plus the narrow compiler-bound FnMut output instantiation on
+hosted Ubuntu22.04. See [the HRTB patch and acceptance scope](verifast-fnmut-hrtb.md).
+The tuple_parser selection preserves the previous reproducer. Other profiles retain their pinned release tools.
 The existing `all`, `orders_i32_pair` and
 `preserves_i32_values_for_any_decision` choices still run the original bootstrap.
 
@@ -553,6 +555,23 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   No MIR/decode, actual verifier/refiner, proof or covers. Overall127,
   runner1:21.70,RSS624,152KiB,setup/capture only. Next correct driver path,
   record driver hash, capture actual HRTB before new translator semantics.
+
+- **Actual compiler HRTB projection captured:**
+  [37408278446](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37408278446),
+  source `d34616e2b0652be92ec5130737977ae0a7c8834e`,tuple_parser90min.
+  Full logs/artifacts fetched. Readonly compiler MIR export0,.03s;Capnpdecode0,
+  .01s; inputhashes unchanged. Captured binary193,920bytes SHA395d1301cf8e9759ef0004b70e155818e36024467202e1f0ee933262c0410311.
+  Actual insert_tail HRTB projection core::ops::FnOnce::Output takes F and
+  tuple(&'__23 T,&'__24 T),RHSBool,with bothboundregions; FnMuttrait sameargs.
+  Actual methodcall MIR takes F and refsErased,lateBoundGenericParamCount1,
+  while ghosts select F,tupleCmp,cmp. Pinnedtranslator4793-4801 dropsbound
+  projections. Sourcebuild0/14.16s;pairedZ30; originalOutput/bool errorreproduced
+  VF1,.15s,RSS92,708KiB;refiner0,.10s,RSS91,568KiB;overall1,
+  runner1:05.79,RSS584,844KiB,setupdominated. No fullfunctionproof/covers.
+  Next narrow compiler-bound instantiation in source-only experimental
+  translator patch, preserving all non-lifetime types and actual boolRHS.
+  No assumed output lemma or extra F constraint. New fnmut_hrtb selection
+  keeps tuple_parser reproducer unchanged; proof/unwind restoration stillopen.
 
 ## Next experiments
 

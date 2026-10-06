@@ -12,6 +12,8 @@ repo=$(git rev-parse --show-toplevel)
 release_home=${1:?release tool directory required}
 evidence=${2:?evidence directory required}
 source_home=${3:?fresh source directory required}
+build_profile=${4:-tuple_parser}
+case "$build_profile" in tuple_parser|tuple_hrtb) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
 mkdir -p "$evidence"
 trap 'printf "%s\n" "$?" > "$evidence/source-build-exit-code.txt"' EXIT
 vf_commit=809de4596839b739dd999f9e462242c835e3af46
@@ -22,7 +24,7 @@ deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_rev=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 patch_file="$repo/research/challenge-8/verifast-tuple-own.patch"
 {
-    printf 'Experimental tuple2 parser; base26.09 source: %s\nDecoder revision: %s\n' "$vf_commit" "$decoder_rev"
+    printf 'Experimental source profile: %s\nBase26.09 source: %s\nDecoder revision: %s\n' "$build_profile" "$vf_commit" "$decoder_rev"
     printf 'VFDeps25.01 archive SHA256: %s\n' "$deps_sha"
     printf 'Source build directory: %s\n' "$source_home"
     cat /etc/os-release
@@ -51,7 +53,22 @@ cp "$source_home/$parser_rel" "$evidence/rust_parser.original.ml"
 cp "$source_home/bin/rust/prelude.rsspec" "$evidence/prelude.unmodified.rsspec"
 git -C "$source_home" apply --check "$patch_file"
 git -C "$source_home" apply "$patch_file"
-[[ "$(git -C "$source_home" diff --name-only)" == "$parser_rel" ]]
+expected_modified="$parser_rel"
+if [[ "$build_profile" == tuple_hrtb ]]; then
+    translator_rel=src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+    translator_sha=7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803
+    hrtb_patch="$repo/research/challenge-8/verifast-fnmut-hrtb.patch"
+    printf '%s  %s\n' "$translator_sha" "$source_home/$translator_rel" | sha256sum -c -
+    cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.original.ml"
+    sha256sum "$hrtb_patch" >> "$evidence/source-build-inputs.txt"
+    git -C "$source_home" apply --check "$hrtb_patch"
+    git -C "$source_home" apply "$hrtb_patch"
+    cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
+    sha256sum "$evidence/vf_mir_translator.original.ml" "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
+    expected_modified="$parser_rel"$'\n'"$translator_rel"
+fi
+git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
+[[ "$(cat "$evidence/source-modified-files.txt")" == "$expected_modified" ]]
 git -C "$source_home" diff > "$evidence/applied-tuple-parser.patch"
 cp "$source_home/$parser_rel" "$evidence/rust_parser.patched.ml"
 sha256sum "$evidence/rust_parser.original.ml" "$evidence/rust_parser.patched.ml" "$evidence/prelude.unmodified.rsspec" >> "$evidence/source-build-inputs.txt"

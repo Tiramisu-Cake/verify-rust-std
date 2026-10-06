@@ -21,13 +21,35 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
-**Active run:** [37408278446](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37408278446),
+**Current next experiment:** `verifast_insert_tail_fnmut_hrtb`,90min.
+Translator-only compiler-bound instance patch independently reviewed; no
+static logic blocker. First hosted build/probe pending. Patch SHA256
+c35c4b438563f5a9da0f79c658ac7450ca429c91ed91207f6caa1ee267d09758.
+Default main manual routing exposed by workflow-only commit29442c6.
+Same generic range domain and explicit comparison-resource posts as tuple_parser;
+that profile remains the reproducer. See verifast-fnmut-hrtb.md.
+Negative compiler/translator regressions are being prepared; no claim of
+fully validated modified tool or completed insertion proof.
+**Latest compiler projection capture:**
+[37408278446](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37408278446),
 source `d34616e2b0652be92ec5130737977ae0a7c8834e`,tuple_parser90min.
-Corrected capture uses actual frontend sysroot/lib; compilerdriverhash recorded.
-Exact SHA confirmed. Resume this run, fetch MIR binary/text and source hash
-roundtrip, then actual verifier/refiner logs. Sol is preparing compiler-origin
-HRTB instance patch, pending this actual encoded shape; no new semantics yet.
+Full logs/artifacts fetched. Readonly exporter0/.03s,capnp decode0/.01s,
+inputhash roundtrip0. MIR binary193,920bytes SHA395d1301cf8e9759ef0004b70e155818e36024467202e1f0ee933262c0410311;
+text447,324bytes SHAf1217c6e036aa2954e66449df678224e2dc6cf39870ef2f97337d89cb4b0ec3a.
+Actual insert_tail projection core::ops::FnOnce::Output for F,
+tuple(&'__23 T,&'__24 T),RHSBool,boundRegions'__23/'__24;
+FnMut trait sameargs. Call core::ops::FnMut::call_mut MIR selfF,
+tupleRefsErased,lateBoundGenericParamCount1. Ghost overrides F,tupleCmp,cmp.
+Pinnedtranslator dropsnonemptyboundregions; not an absentRusttypebound.
+Sourcebuild0/14.16s,pairedZ3assert0;normalVF reproducesOutput/bool typeerror1
+.15s,RSS92,708KiB;refiner0/.10s,RSS91,568KiB;overall1,
+runner1:05.79,RSS584,844KiB,setupdominated. No fullfunction/covers.
+No active run. Next reviewed source-only HRTB instantiation at actual call,
+strict compiler-origin projection/region/non-lifetime type match,booleanRHS,
+canonicalstd/coretrait. Existing precise type-projection registration only;
+no new F bound/assume/opaquelemma/kernelfeature. Patch prepared by Sol and independently reviewed by Sol; compile pending.
+New experiment selection verifast_insert_tail_fnmut_hrtb will preserve current
+tuple_parser reproducer, same input domain and explicit comparison-resourceposts.
 
 **Latest capture attempt:** [37407937980](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407937980),
 source `a627dec2fbdf76479c219a2edcc6de1225b4cfbc`,tuple_parser90min.

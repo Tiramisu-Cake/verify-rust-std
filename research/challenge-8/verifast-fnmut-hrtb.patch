@@ -1,0 +1,118 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1805,6 +1805,9 @@
+       let ghost_stmts = ref Args.ghost_stmts
+       let body_imp_loc = Args.body_imp_loc
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
++      (* The call-site equality below must originate in this body's exported predicates. *)
++      let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
++      let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
+ 
+       let fetch_ghost_stmts_before (l : Ast.loc0) =
+         let* gs_before, gs_rem =
+@@ -2201,6 +2204,47 @@
+               let ghost_generic_arg_list_cpn = VfMirRd.of_pointer ptr_cpn in
+               translate_ghost_generic_arg_list ghost_generic_arg_list_cpn
+         in
++        let projection_equality =
++          let open Ast in
++          match (canonicalize_item_name fn_name, substs, targs) with
++          | ( "std::ops::FnMut::call_mut",
++              [ Mir.GenArgType { vf_ty = IdentTypeExpr (_, None, source_f); _ };
++                Mir.GenArgType
++                  {
++                    vf_ty =
++                      StructTypeExpr
++                        ( _, Some "std_tuple_2_", None, [],
++                          [ RustRefTypeExpr (_, _, Shared, IdentTypeExpr (_, None, source_t1));
++                            RustRefTypeExpr (_, _, Shared, IdentTypeExpr (_, None, source_t2)) ] );
++                    _
++                  };
++                Mir.GenArgLifetime _ ],
++              [ (IdentTypeExpr (_, None, ghost_f) as f_ty);
++                (StructTypeExpr
++                   ( _, Some "std_tuple_2_", None, [],
++                     [ RustRefTypeExpr
++                         (_, IdentTypeExpr (_, None, lft1), Shared, IdentTypeExpr (_, None, ghost_t1));
++                       RustRefTypeExpr
++                         (_, IdentTypeExpr (_, None, lft2), Shared, IdentTypeExpr (_, None, ghost_t2)) ] ) as args_ty);
++                IdentTypeExpr (_, None, method_lft) ] )
++            when source_f = ghost_f && source_t1 = source_t2 &&
++                 source_t1 = ghost_t1 && source_t1 = ghost_t2 &&
++                 lft1 = lft2 && lft1 = method_lft &&
++                 String.length lft1 > 0 && lft1.[0] = '\'' &&
++                 List.filter
++                   (fun (f, t) -> f = source_f && t = source_t1)
++                   !State.hrtb_fnmut_output_bounds
++                 = [ (source_f, source_t1) ] ->
++              [ ExprStmt
++                  (CallExpr
++                     ( call_loc, "#register_type_projection_equality",
++                       [ ProjectionTypeExpr
++                           (call_loc, f_ty, "std::ops::FnOnce", [ args_ty ], "Output");
++                         ManifestTypeExpr (call_loc, Bool) ],
++                       [], [], Static )) ]
++          | _ -> []
++        in
++        State.pending_hrtb_projection_eq := projection_equality;
+         let args = List.map (fun expr -> Ast.LitPat expr) args in
+         let call_expr =
+           Ast.CallExpr
+@@ -2493,6 +2537,7 @@
+ 
+     let translate_fn_call (fn_call_data_cpn : FnCallDataRd.t) (loc : Ast.loc) =
+       let open FnCallDataRd in
++      State.pending_hrtb_projection_eq := [];
+       Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "Call" @@ fun () ->
+       Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
+       Rocq_writer.rocq_print_big_record TranslatorArgs.rocq_writer @@ fun () ->
+@@ -2615,6 +2660,8 @@
+                  ]),
+               targets @ unwind_targets )
+       in
++      let full_call_stmts = !State.pending_hrtb_projection_eq @ full_call_stmts in
++      State.pending_hrtb_projection_eq := [];
+       Ok (full_call_stmts, terminator, targets)
+ 
+     let translate_sw_int (sw_int_data_cpn : SwitchIntDataRd.t) (loc : Ast.loc) =
+@@ -4788,6 +4835,40 @@
+           |> List.map D.decode_predicate
+           |> List.map decode_predicate
+         in
++        let hrtb_fnmut_output_bounds =
++          preds
++          |> Util.flatmap (function
++               | `Projection proj_pred ->
++                   let bound_regions = proj_pred.D.bound_regions in
++                   let args =
++                     List.map decode_generic_arg
++                       proj_pred.projection_term.args
++                   in
++                   (match (bound_regions, args, proj_pred.term) with
++                   | ( [r1; r2],
++                       [ `Type (`Param f);
++                         `Type
++                           (`Tuple
++                             [ `Ref (arg_r1, false, `Param t1);
++                               `Ref (arg_r2, false, `Param t2) ]) ],
++                       Ty rhs )
++                     when r1 <> r2 && r1 = arg_r1 && r2 = arg_r2 &&
++                          t1 = t2 && decode_ty rhs = `Bool &&
++                          canonicalize_item_name
++                            proj_pred.projection_term.def_id
++                          = "std::ops::FnOnce::Output" &&
++                          List.exists
++                            (function
++                              | `Trait (name, trait_args) ->
++                                  canonicalize_item_name name = "std::ops::FnMut"
++                                  && trait_args = args
++                              | _ -> false)
++                            preds ->
++                       [ (f, t1) ]
++                   | _ -> [])
++               | _ -> [])
++        in
++        State.hrtb_fnmut_output_bounds := hrtb_fnmut_output_bounds;
+         let sized_tparams = compute_sized_tparams preds in
+         let vf_tparams_with_bounds = vf_tparams |> List.map (fun x -> (x, {Ast.sized = List.mem x sized_tparams})) in
+         let projection_preds =
