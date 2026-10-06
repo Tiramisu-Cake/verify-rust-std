@@ -128,7 +128,9 @@ Next actual obligation &*tail lacks ref_precreated_token; derive sharedrefs
 from existing two cell/Town resources, no callerprecreatedref assumptions.
 Exactaudit/refinement0,VF1(.13s),refiner.11s,runner13.73s,RSS636,440KiB.
 No completed insert_tail proof; CopyOnDrop/outerfunction remain unverified.
-No active run; next observedimmutable diagnostic, two positive controls then
+Active [37397720683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397720683),
+source `75799de75efab17d9c386deea6c49047db16cb60`,
+`ub_immutable_observation`,90min: two positive controls then
 write+volatile-read+assert9+cover. Originalwrite-only control unchanged;
 readonly-byte violation must remain negative even if compiler verifies store.
 
