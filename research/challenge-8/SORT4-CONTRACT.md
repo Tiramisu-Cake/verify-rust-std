@@ -2,7 +2,7 @@
 
 Static audit at `68fcc98b79fc69b717d3e2ed42605cae8b4ffc05` (branch
 `challenge-8/research`). The target is
-`library/core/src/slice/sort/shared/smallsort.rs`, blob
+[`library/core/src/slice/sort/shared/smallsort.rs`](../../library/core/src/slice/sort/shared/smallsort.rs), blob
 `e555fce440872898e47fd5114f32eb15401d07df`. This note separates what the
 body does from the stronger resources a sound generic proof must account for.
 
@@ -44,6 +44,17 @@ reads” and “valid for 4 writes”; it does not state the per-copy
 non-overlap requirement. That is a contract gap. The callers below provide
 separate source and scratch storage, but their facts must not be silently
 promoted to a universal precondition of this unsafe function.
+
+Two static examples distinguish the obligations (neither was executed).
+With a live initialized four-cell mutable array and `dst == v_base`, pure
+ascending input selects source0 for output0: the first copy aliases itself,
+despite both ranges satisfying the short read/write-validity comment. With
+five live cells, source `[0,4)` initially `0,1,2,3` and destination `[1,5)`,
+the ascending route selects sources0,1,2,3 in that order. Every individual
+one-cell copy goes from slot i to distinct slot i+1, yet overwrites the next
+source before its read; the output becomes four zeros. Per-copy separation
+alone therefore does not establish preservation of the original values
+across the sequence. Actual callers' disjoint scratch avoids both cases.
 
 ZST is a separate proof obligation. Numeric address inequality is not a
 meaningful separation argument for zero-sized locations; the proof must use
@@ -108,17 +119,22 @@ scratch base to `*mut T`. The separate mutable borrows establish separate
 storage for valid safe callers. In the `len >= 8` branch, the `sort4_stable`
 calls write four cells at `scratch_base` and four at
 `scratch_base.add(len_div_2)`, reading from `v_base` and
-`v_base.add(len_div_2)`. The corresponding four-cell source and destination
-ranges are separate. In the smaller branch, the function copies one source
-cell from each half into scratch instead.
+`v_base.add(len_div_2)`. Since `len_div_2 >= 4`, the source halves and
+destination halves do not overlap. In the smaller branch, the function copies
+one source cell from each half into scratch instead.
 
 `sort8_stable` (around lines 663–675) has `T: FreezeMarker`, takes source,
 destination, and scratch pointers, calls `sort4_stable` on source ranges
 `[0,4)` and `[4,8)` into scratch ranges `[0,4)` and `[4,8)`, then merges
-scratch into `dst`. Its documented caller precondition requires valid source
-reads and valid destination/scratch writes, but does not itself state every
-pairwise separation needed by `sort4_stable`; the concrete
-`small_sort_general_with_scratch` call has separate `v` and scratch borrows.
+scratch into `dst`. In `small_sort_general_with_scratch`, its first call uses
+destination `[0,8)` and helper scratch `[len,len+8)`; its second uses
+destination `[len_div_2,len_div_2+8)` and helper scratch
+`[len+8,len+16)`. This branch has `len >= 16`, so the two source halves and
+the two destination ranges are disjoint; the enclosing scratch-length check
+provides all indicated auxiliary cells. `sort8_stable`'s documented caller
+precondition requires valid source reads and valid destination/scratch writes,
+but does not itself state every pairwise separation needed by
+`sort4_stable`.
 
 After presorting, `small_sort_general_with_scratch` extends each scratch run,
 constructs `CopyOnDrop`, merges back to `v`, and forgets the guard on success.
@@ -131,9 +147,9 @@ whether copied resource-bearing values are accounted for on unwind belongs
 to the full caller proof.
 
 The caller's `FreezeMarker` bound is implemented for `T: Freeze` in
-`small_sort/shared/mod.rs`; it is absent from `sort4_stable` itself. It does
-not imply `Copy`. Thus caller facts can narrow the call-site domain, but do
-not discharge the public unsafe function's generic obligations.
+`library/core/src/slice/sort/shared/mod.rs`; it is absent from `sort4_stable`
+itself. It does not imply `Copy`. Thus caller facts can narrow the call-site
+domain, but do not discharge the public unsafe function's generic obligations.
 
 ## Functional claims authorized for this phase
 
@@ -142,9 +158,8 @@ inputs over the full `i32` range; pure, nonpanicking `<`; four initialized
 source cells; and four initialized destination cells in separate fixed
 buffers. Its postconditions are nondecreasing destination values and exact
 multiset equality with the inputs. The actual-body stability harness uses
-four `{ key: i32, original_id: u8 }`-style fixed tagged records (the checked-in
-harness must state its exact representation), symbolic keys, input IDs
-`0..3`, and a comparator that reads only `key`. It asserts exact complete-item
+four fixed tagged records `{ key: i32, original_id: u8 }`, symbolic keys,
+input IDs `0..3`, and a comparator that reads only `key`. It asserts exact complete-item
 permutation, nondecreasing keys, and increasing IDs among equal keys. These
 are finite-domain functional theorems for those layouts and comparator
 assumptions. Neither establishes arbitrary generic memory safety, aliasing,

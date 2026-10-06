@@ -4,6 +4,11 @@ Approved 2026-10-06. State at approval: READY; no sort4 implementation or hosted
 proof run yet. Consult [STATUS.md](STATUS.md) for subsequent execution state.
 This phase implements stage 1 of the [approved roadmap](PLAN.md).
 
+Execution closed on 2026-10-06: [functional proof results](SORT4-RESULTS.md)
+and [generic-safety architecture checkpoint](SORT4-SAFETY-DECISION.md).
+The approved scope below is retained as the record of the executed phase;
+it does not authorize a repeated phase or later work after this closeout.
+
 The approval permits autonomous proof/specification/runner edits, commits,
 manual hosted runs, inspection and routine fixes within this document.
 The preceding ManuallyDrop/insert_tail phase remains closed. This approval

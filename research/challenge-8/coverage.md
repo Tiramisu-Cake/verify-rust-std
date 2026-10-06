@@ -6,11 +6,11 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-The [revised roadmap](PLAN.md) and [sort4 phase](SORT4-PHASE.md) were approved
-on 2026-10-06. This is a planning change only: no new proof evidence or covered
-UB category is claimed. The next functional domain is four arbitrary i32 keys
-in fixed/disjoint buffers, plus a separate tagged-item stability harness.
-Generic safety and the four required UB categories remain separate obligations.
+The [sort4 phase](SORT4-PHASE.md) completed on 2026-10-06 under the
+[revised roadmap](PLAN.md). [Hosted closeout](SORT4-RESULTS.md) establishes
+the actual-body functional domain: four arbitrary full-range i32 keys in
+fixed/disjoint initialized buffers, plus separate tagged-item stability.
+Generic safety and complete four-category UB coverage remain open.
 
 ## Safety targets and sorting contracts
 
@@ -21,7 +21,7 @@ Generic safety and the four required UB categories remain separate obligations.
 | `UnstableSmallSortFreezeTypeImpl::small_sort` | None | General / Copy network / fallback choices and stack-size thresholds; arbitrary valid lengths; sorting contract |
 | `swap_if_less` | Kani: two bounded i32 harnesses, positions 1/2 in a four-cell initialized allocation; 5/5 covers (37383583285) | Generic values, arbitrary valid indices/allocations, ZST, comparator mutation/panic, all required UB checks |
 | `insertion_sort_shift_left` | Kani: direct bounded i32 functional proof, lengths/offsets 1..4, sorted prefix, 7/7 covers (37389298278) | Arbitrary valid lengths, actual outer-loop contracts, independent safety domain, generic types, ZST, ownership and panic restoration |
-| `sort4_stable` | None; approved phase, not yet implemented/run | Four-read/four-write validity, aliasing contract, generic ownership/comparator behavior, stable sorted permutation |
+| `sort4_stable` | Pinned Kani actual body: sorted exact multiset for four arbitrary i32; separate symbolic-key/fixed-ID item stability and complete-item permutation; source unchanged;18/18 covers (37459631500) | Fixed disjoint initialized buffers/pure nonpanicking `<`/Copy layouts only. Generic validity, aliasing/provenance/ZST, ONE ownership, comparator effects and all five panic exits remain open; see contract and static safety decision |
 | `has_efficient_in_place_swap` | Unchanged VeriFast 26.09: actual unrestricted generic const body, req true, exact size_of(T)<=8 on LP64; VF/refinement pass (37401540878) | Dispatch callers and full-core integration; no other target follows from this pure helper proof |
 
 Only the size helper has an isolated generic proof among these seven targets.
@@ -57,10 +57,10 @@ See [resource ledger](INSERTION-RESOURCE-LEDGER.md) and
 
 | Category | Current measured evidence / pinned Kani | Remaining work |
 | --- | --- | --- |
-| Dangling / misaligned loads and stores | Default memory safety checks in bounded bootstrap | Measure alignment/bounds checks on each target; arbitrary allocations/types and relevant pointer checks |
-| Uninitialized reads | Explicit uninitialized i32 read detected in37394356873; positive read2/2covers | Apply measured instrumentation to actual targets; generic ownership remains separate |
+| Dangling / misaligned loads and stores | Default bootstrap checks; sort4 actual comparison reference-alignment/invalid-pointer checks and copy source/destination alignment, readable/writeable regions, overlap/null/dead/bounds checks pass in both concrete domains (37459631500) | Arbitrary allocations/types, generic provenance/permissions, ZST and relevant stronger pointer profile |
+| Uninitialized reads | Explicit uninitialized i32 read detected in37394356873; positive read2/2covers. Sort4 uses initialized fields by construction; explicit target uninit profile NOT RUN | Apply measured instrumentation to actual targets; generic ownership/raw scratch remains separate |
 | Mutating immutable bytes | Write-only passes37394356873; observed write9/volatile-read/assert9 and1/1cover pass37397720683 | Concrete detector gap in this measured profile; cannot claim this required category |
-| Invalid values | Invalid bool detected in37394356873; valid bool read2/2covers | Broader target/type coverage; actual copy_nonoverlapping validity instrumentation is unsupported in37396688760 |
+| Invalid values | Invalid bool detected in37394356873; valid bool read2/2covers. Sort4's i32/u8 scalar fields admit every bit pattern; explicit target validity profile NOT RUN | Broader target/type coverage; actual copy_nonoverlapping validity instrumentation is unsupported in37396688760 |
 
 These claims concern Kani pin `152c6a8c875d9886a67e229247b4826d6105ccfd`,
 not all versions/tools. API flags in `kani-driver/src/call_single_file.rs:143-152`
@@ -76,14 +76,16 @@ The immutable-write control is an independent measured limitation.
 
 ## Cross-cutting completion gates
 
-- Lengths: memory-touching public-target successes are bounded to four cells;
-  arbitrary valid lengths remain unproved. Bounds 16/32 only measure performance.
+- Lengths: insertion remains bounded to four cells; sort4's four cells are its
+  complete arity, but buffers/types/comparator remain restricted. Arbitrary valid
+  lengths at the three small_sort entrypoints remain unproved. Bounds16/32 only
+  measure performance.
 - Types: internal Drop and recovery fixtures have conditional generic results,
   not generic safety of public entrypoints. Interior mutability/non-Freeze,
   invalid bit patterns, large types and ZST model adequacy remain explicit gates.
   The pure size helper accepts unrestricted T without allocation/comparator.
 - Comparators: bounded swap allows arbitrary single decisions; insertion
-  functionality uses pure nonpanicking i32 `<`. Safety must separately cover
+  and sort4 functionality use pure nonpanicking key `<`. Safety must separately cover
   stateful/mutating comparators and panic, without borrowing ordering premises.
 - Loops: bounded insertion uses unwind6 with unwinding assertions. An outer
   invariant alone does not remove the inner bound.

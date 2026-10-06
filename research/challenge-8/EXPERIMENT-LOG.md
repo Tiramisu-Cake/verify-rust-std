@@ -1227,3 +1227,74 @@ frozen profile and dispatch NEW SHA; actual failed property -> inspect precise
 counterexample and contract before change; required semantic change or repeated
 failure without new evidence -> stop affected route and document decision.
 No automatic advancement to swap/networks/insertion or external publication.
+
+Dispatch resolved: [37459631500](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37459631500),
+2026-10-06 11:55:16 UTC, workflow_dispatch on challenge-8/research, full source
+SHA1bc9cb718efc07315082334cded2d2362ecbbde1. Expected covers12/12 values and
+6/6 tagged. Workflow exposure26a43bed5b162e542a4e0cc7cbf5ce08bd4d4bee;
+default branch3d8c8c082a69dbb66c4ab566892e6be71d87a86d is a narrow cherry-pick
+of those two workflow lines only, not a merge of research history. Dispatch
+accepted once; no duplicate. Existing unrelated main Flux/RAPx push jobs are
+not SmallSort research experiments. Await full proof/artifact outcome.
+
+Result: completed SUCCESS at11:59:55 UTC. Full4448-line Actions log, complete
+values/tagged stage logs and all12 artifact files inspected outside repo.
+Both exact names verified individually, one harness/zero failures each;
+run-sort4 acceptance guards pass. Values:0/267 failed,4 unreachable,12/12covers,
+CBMC5.2731695s. Tagged:0/233 failed,4 unreachable,6/6covers,CBMC4.0439544s.
+All six explicit functional/source-preservation posts SUCCESS. Each has22
+properties directly attributed to real sort4: ten reference alignment and ten
+pointer-validity checks plus two index-arithmetic checks. Copy source/dst
+alignment, overlap, readable/writeable regions and null/dead/out-of-bounds
+pointer checks pass. The four unreachable properties per harness are two
+usize abs_diff overflow checks, formatting shift and is_aligned_to subtraction;
+none is a post or cover. Three unsupported-operation guards per harness are
+SUCCESS (unallocated-memory pointer reasoning/panic runtime/caller_location),
+not failed unsupported operations. No compiler/refiner claim is substituted
+for a Kani theorem; no VeriFast proof/refinement/leak result is asserted here.
+
+Loop traces: sorted/stability three iterations, count/permutation/source
+helpers four. Harness bound6 is not reached; no cutoff unwind property emitted,
+no assertion suppression or no-unwinding-assertions flag. No target callback
+panic in this pure domain. Source audit PASS; downloaded full std+proof artifact
+independently equals git-show(sourceSHA,std)+git-show(sourceSHA,harness) byte
+for byte. Target blob unchanged e555fce440872898e47fd5114f32eb15401d07df.
+
+Tool: Kani0.67.0 at152c6a8c875d9886a67e229247b4826d6105ccfd,
+nightly-2026-02-05,CBMC6.10.0,CaDiCaL3.0.0, unchanged default profile/args.
+Runner193.07s/RSS1810908KiB; values164.64s includes cold build and24.20s std
+compile; tagged28.39s includes24.00s std compile. CBMC total9.3171239s,
+remaining runner183.75s setup/compilation/orchestration; whole job275s.
+No budget bottleneck and no retry needed. Kani driver SHA256
+9ae446cbe90b2eb9a394506d83e26624de675c3fd0eb80f5674ff4fd2d61d842;
+CBMC05f93fd2f2ba6247b345f2bfb3d74c38402966515c65ff69f94adf7a674593f0.
+All input/config SHA256 values are retained in SORT4-RESULTS.md.
+
+Artifact digest evidence (SHA256): values log
+c811768f20c673496abc66a41ddb11191e638e3cfbad2e3d6402ac8cf3da9691;
+tagged log72bc73f98b983bd7bd88aa12f28a89429c6788545222000e2d3f6f4032006489;
+combined logdbb566fd10ce158c10258fba6291e7c9af28f7b4b8da39ca89116efe3023573c;
+environment31f1a56b493b6036fc6d6756736f5ca40bd2af19229d0cec0afbf515a2c3ded6;
+injected full source3b9e2bf669ca332d9dc3968325ef763d6c79463ed5c9c5c09b043335862cbcb5.
+Raw logs/generated source/build output are not committed.
+
+Independent generic feasibility is STATIC: no established exact-source route
+under unchanged26.09 at809de4596839b739dd999f9e462242c835e3af46;
+existing actual tuple/HRTB evidence predicts the same callback boundary, not
+an executed sort4 failure. No new falsifiable existing-semantics route justified
+a probe, so no generic hosted diagnostic or semantic patch was made. Complete
+source contract/caller ranges/ownership/five panic posts and architecture
+question are in SORT4-CONTRACT.md and SORT4-SAFETY-DECISION.md.
+
+UB classification: concrete default pointer/alignment/copy checks pass;
+uninitialized fields avoided by construction, explicit uninit target profile
+NOT RUN; immutable-store detector gap37397720683 unchanged; explicit validity
+target profile NOT RUN, copy instrumentation unsupported37396688760 unchanged.
+No generic safety/allocation/ownership/non-Copy/non-Freeze/ZST/stateful/panic
+theorem or complete Challenge8 result follows. PHASE CLOSED; no active research
+run, no later phase begun, insertion draft stays unapplied/unverified. Recommended
+next decision: separately review tuple/HRTB capability plus full source-exact
+normal/direct-unwind recovery and explicit overlap/ONE ownership contract,
+trust/admissibility criteria and regression gate BEFORE implementation.
+Closeout edits are documentation-only; successful source/harness/runner/tool
+inputs remain unchanged and no cold rerun is warranted.

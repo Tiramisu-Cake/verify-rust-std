@@ -6,10 +6,11 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**The bounded actual `sort4_stable` phase is executing after explicit continuation.**
+**The bounded actual `sort4_stable` phase is complete.**
 The [approved roadmap](PLAN.md) records the revised priorities, and
-[SORT4-PHASE.md](SORT4-PHASE.md) defines the executable scope. The current
-run/result is recorded in STATUS. The previous ManuallyDrop/insert_tail
+[SORT4-PHASE.md](SORT4-PHASE.md) defines its scope. [The closeout](SORT4-RESULTS.md)
+records both functional proofs and the remaining generic-safety decision.
+The previous ManuallyDrop/insert_tail
 phase remains closed. [STATUS.md](STATUS.md) is the single current checkpoint.
 
 1. [Root agent instructions](../../AGENTS.md).
@@ -28,6 +29,9 @@ both completed hosted runs and their evidence boundaries.
 - [Sort4 contract and callers](SORT4-CONTRACT.md): full target memory/aliasing,
   single-ownership, comparator effects and all five panic sites, separated from
   the four-cell functional domain in [the actual-body harnesses](sort4.rs).
+- [Sort4 phase result](SORT4-RESULTS.md): exact i32 multiset and separate tagged
+  stability proofs,18/18 covers; [generic-safety assessment](SORT4-SAFETY-DECISION.md)
+  and next architecture question; no new verifier semantics implemented.
 - [Bounded insertion contract](insertion-contract.md): i32, lengths 1..4;
   verified adapter, research composition and separate direct outer proof.
 - [All-path insertion resource ledger](INSERTION-RESOURCE-LEDGER.md): full

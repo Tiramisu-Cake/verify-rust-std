@@ -1,6 +1,6 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 after the owner's explicit continuation of the approved phase.
+Updated 2026-10-06 after completion of the explicitly resumed sort4 phase.
 Approval commit: `68fcc98b79fc69b717d3e2ed42605cae8b4ffc05` on
 `challenge-8/research`. This is the single current checkpoint; procedures live
 in [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md), and
@@ -8,28 +8,33 @@ historical evidence in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**IN PROGRESS — the bounded actual `sort4_stable` phase is executing.**
-Its exact scope, tool allowlist, deliverables and stop conditions are in
-[SORT4-PHASE.md](SORT4-PHASE.md). The continuation agent may implement, commit,
-push, dispatch, inspect and fix routine issues within that phase without
-asking the owner to approve its start again. Check for newer instructions,
-branch changes and running jobs before acting.
+**PHASE CLOSED — both functional proofs passed; generic safety remains open.**
+All deliverables from [SORT4-PHASE.md](SORT4-PHASE.md) are saved in
+[the closeout](SORT4-RESULTS.md), [contract/caller audit](SORT4-CONTRACT.md)
+and [generic-safety decision](SORT4-SAFETY-DECISION.md). No new tool semantics,
+patched VeriFast profile or later roadmap phase was implemented. The next
+phase or architectural capability needs the owner's separate decision.
 
 Entry: clean tree, fork origin, fast-forward from d436977 to approval 68fcc98;
 no newer remote instructions and no active/queued Actions runs. The actual std
 blob remains e555fce440872898e47fd5114f32eb15401d07df. The owner explicitly
-requested autonomous execution of this phase. Contract/evidence audit and
-actual-body functional harness/runner preparation are in progress; no sort4
-proof result or hosted dispatch yet. Saved insertion draft stays unapplied.
+requested autonomous execution of this phase. Actual-body harness/runner are at
+1bc9cb718efc07315082334cded2d2362ecbbde1. Hosted run
+[37459631500](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37459631500)
+completed SUCCESS (sort4_functional/90min; 11:55:16–11:59:55 UTC).
+Values: 0/267 failed,12/12 covers; tagged stability: 0/233 failed,6/6 covers.
+Full logs/artifacts/source/tool hashes inspected; no active research run.
+Workflow-only exposure is 26a43be on research / 3d8c8c0 on main.
+Saved insertion draft stays unapplied.
 
-The approved phase covers:
+The completed phase delivered:
 
 1. Full target contract and actual caller/aliasing/resource audit.
 2. Actual-body Kani sortedness and multiset preservation for four arbitrary
    i32 inputs in separate fixed buffers, with a pure `<` comparator.
 3. Separate actual-body tagged-item proof of stability.
-4. Existing-evidence-first generic-safety feasibility assessment, followed by
-   at most one justified unchanged-release diagnostic route and a closeout.
+4. Existing-evidence-first generic-safety assessment and closeout. No new
+   falsifiable unchanged-release route was found, so no generic probe was run.
 
 Kani stays at `152c6a8c875d9886a67e229247b4826d6105ccfd`;
 VeriFast stays at unchanged 26.09, source
@@ -59,6 +64,7 @@ See the [preserved closeout and historical profile](PREPARED-PHASE-2026-10-06.md
 | --- | --- | --- |
 | [37383583285](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37383583285) / Kani | Two actual swap harnesses, 5/5 covers | Four i32 cells, fixed positions 1/2; not generic safety |
 | [37389298278](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37389298278) / Kani | Insertion adapter, research summary caller and direct actual outer function, 15/15 covers | Lengths/offsets 1..4, sorted prefix, unwind 6; not arbitrary-length modular proof |
+| [37459631500](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37459631500) / Kani | Actual sort4 sorted exact i32 multiset and separate tagged-item stability;18/18 covers | Complete four-element arity, full i32 range; fixed disjoint buffers, pure nonpanicking `<`, concrete Copy layouts; generic safety open |
 | [37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878) / unchanged VeriFast 26.09 | Actual unrestricted generic size helper, exact size_of(T)<=8 on LP64 | Isolated function; dispatch callers/full-core integration open |
 | [37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766) / experimental patched VeriFast | Actual generic CopyOnDrop::drop body, exact destination and ONE ownership sequence | Conditional source/destination resources, arbitrary valid len; not insertion |
 | [37435525052](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37435525052) / experimental patched VeriFast | Actual Drop plus two one-cell callers (normal and FnMut() normal/unwind); 25 controls and 7 intended negatives | Local cleanup gate completed; not held &T provenance or actual insert_tail |
@@ -69,7 +75,7 @@ safety targets. The other six and all three sorting contracts remain incomplete.
 See [coverage](coverage.md); do not equate a microfixture or patched-tool success
 with whole-function proof, verifier soundness or upstream acceptance.
 
-## Latest evidence and preserved draft
+## Previous recovery evidence and preserved draft
 
 - Diagnostic [37448257248](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37448257248),
   source f0f417ce9913f53a90591c89593b31b359b87032, minimal profile/90min:
@@ -93,16 +99,18 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Read AGENTS, this checkpoint, PLAN, SORT4-PHASE and the runbook. Audit the
-actual sort4 body/callers, record the contract and first experiment card, then
-implement and execute the functional harnesses through a new hosted selection.
-The full generic target and the concrete functional domain must remain separate.
+The authorized sort4 work is complete. No repeat proof run is needed for the
+documentation-only closeout; harness, runner, source and tool pins are unchanged
+from the successful SHA. Generic normal/unwind ownership, comparator effects,
+allocation/provenance/ZST and all four UB categories remain open beyond the
+specific default-check functional domain. Source analysis identifies a missing
+non-overlap/ownership policy in the short SAFETY comment; caller separation is
+not silently promoted to a universal target precondition.
 
-Use existing tuple/HRTB/borrow/unwind evidence before any generic-safety probe.
-A required semantic extension ends that route and becomes a documented
-architecture decision. Complete independent authorized functional work when
-possible; do not treat the generic blocker as a reason to abandon it.
-
-At phase closeout, update this checkpoint and coverage, preserve run evidence,
-and present the next decision. Later roadmap stages, verifier semantic changes
-and external publication still require separate owner approval.
+Recommended next decision: review source-derived tuple-2 ownership/HRTB Output
+support together with a full normal/direct-unwind recovery route, explicit
+overlap/ownership contract and trust/admissibility regression gate BEFORE
+implementation. This assessment does not prove all unchanged-tool routes
+impossible. Alternatively approve a separate later roadmap phase, retaining
+its own generic blockers. Do not begin either route or external publication
+without that decision. No active run; saved insertion draft stays unapplied.
