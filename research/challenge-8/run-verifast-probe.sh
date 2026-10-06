@@ -63,6 +63,32 @@ if [[ "${1:-}" == --stages ]]; then
         export LD_LIBRARY_PATH="$VERIFAST_HOME/bin:${LD_LIBRARY_PATH:-}"
         vf_options=(-verbose 1)
         printf 'Experimental source-built tuple2 parser; see source-build inputs/runtime hashes.\nVerification LD_LIBRARY_PATH: %s\n' "$LD_LIBRARY_PATH" >> "$evidence/environment.txt"
+        # Preserve the compiler-exported HRTB before changing its translation.
+        # Readonly preprocessing and before/after hashes keep this observation
+        # separate from actual verification and leave both Rust files intact.
+        sha256sum verified/lib.rs verified/smallsort.rs > compiler-mir-source-before.txt
+        compiler_sysroot=$(rustc --print sysroot)
+        compiler_libdir=$(rustc --print target-libdir)
+        set +e
+        LD_LIBRARY_PATH="$compiler_libdir:$VERIFAST_HOME/bin:${LD_LIBRARY_PATH:-}" \
+            /usr/bin/time -v -o compiler-mir-resources.txt "$VERIFAST_HOME/bin/vf-rust-mir-exporter" \
+            verified/lib.rs "--sysroot=$compiler_sysroot" --edition 2021 \
+            --vf-rust-mir-exporter:preprocess-readonly > compiler-mir.bin 2> compiler-mir.log
+        compiler_mir_status=$?
+        set -e
+        printf '%s\n' "$compiler_mir_status" > compiler-mir-exit-code.txt
+        sha256sum verified/lib.rs verified/smallsort.rs > compiler-mir-source-after.txt
+        cmp compiler-mir-source-before.txt compiler-mir-source-after.txt
+        if (( compiler_mir_status != 0 )); then cat compiler-mir.log >&2; exit "$compiler_mir_status"; fi
+        set +e
+        /usr/bin/time -v -o compiler-mir-decode-resources.txt /tmp/vfdeps-adf88dc/bin/capnp decode \
+            -I /tmp/vfdeps-adf88dc/include "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" VfMir \
+            < compiler-mir.bin > compiler-mir.txt 2> compiler-mir-decode.log
+        compiler_decode_status=$?
+        set -e
+        printf '%s\n' "$compiler_decode_status" > compiler-mir-decode-exit-code.txt
+        if (( compiler_decode_status != 0 )); then cat compiler-mir-decode.log >&2; exit "$compiler_decode_status"; fi
+        sha256sum compiler-mir.bin compiler-mir.txt >> "$evidence/environment.txt"
     fi
 
     printf 'Probe profile: %s\n' "$VF_PROBE_PROFILE"

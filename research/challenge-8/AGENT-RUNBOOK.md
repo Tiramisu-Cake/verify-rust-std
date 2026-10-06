@@ -34,8 +34,12 @@ Source FnMut(&T,&T)->bool bound must be propagated/instantiated for substituted
 lifetimes; no extra F restriction, pure/comparator stub or assumed bool lemma.
 VF1,.22s,RSS92,712KiB;refiner0,.15s,RSS91,704KiB;overall1,
 runner1:15.93,RSS643,776KiB,setupdominated. No covers/fullfunctionproof.
-No active run. Next inspect MIR-associated type equality/HRTB and complete
-call ghost substitutions; derive the source-declared bool output soundly.
+No active run. Pinned translator4793-4801 drops rustc Projection predicates
+with nonempty bound_regions; original FnMut bound is higher-ranked Output=bool.
+Next capture actual compiler MIR binary+capnp text using unchanged release
+exporter with readonly preprocessing, audited unchanged source, then inspect
+actual bound-region names/projection before a narrowly justified frontend fix.
+No new F restriction/assume/opaque bool lemma; all capture runs on Actions.
 
 **Previous actual parser diagnostic:**
 [37406214235](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37406214235),

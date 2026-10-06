@@ -117,3 +117,10 @@ associated Output type versus bool. The actual FnMut signature requires bool,
 but that constraint is not yet connected to the annotated reference lifetimes.
 This does not prove normalized panic ownership or the first normal read. The
 new paired-Z3 resolution check passes; full ghost-byte/refinement audits pass.
+
+The next observation invokes the unchanged pinned exporter with readonly
+preprocessing on Actions, preserving raw compiler MIR and decoded Capnp text.
+Both Rust input hashes are compared before/after; exporter/decode logs, statuses
+and resources are separate. This captures the actual compiler-origin bound
+regions and associated-output projection before any HRTB translation change.
+The normal verifier and refiner still run independently with their usual flags.
