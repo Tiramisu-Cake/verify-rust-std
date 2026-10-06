@@ -2670,3 +2670,30 @@ experimental layout/geometry evidence gained, full prototype acceptance INCONCLU
 Proposed next unchanged-patch harness/annotation repair plus NEW full matrix check
 NOT AUTHORIZED / NOT RUN; remaining time does not provide dispatch slots.
 RAPx CLOSED/NO-GO; B/C NOT RUN; full sort4/old FnMut-Drop/external publication excluded.
+
+## Autonomous night authorization — 2026-10-07
+
+Owner explicitly opens SORT4-NIGHT-PHASE from clean matching e7eae592dcda42ad330cd8f565c1411bffdf7519,
+no active run at23:30UTC October6. Separate12 NEW/10800 job-second budget,
+30min per run, deadline06:00UTC October7; repair sublimit2 NEW included.
+Historical6/6 budget remains closed. Exact d4a12525 layout patch unchanged;
+stock26.09 independent tasks, no historical semantic patch chain. Full allowed
+sequence and trust/stop boundaries in the phase card. Initial budget0/12,0s.
+
+### N1: unchanged layout profile acceptance repair — prepared hypothesis
+
+Actual obligation: H_align for sort4 source/dst offsets0..3; partial geometry,
+not typed ownership/callback/full sort4 proof. Previous run37544574703 showed
+actual intended absent/span rejections masked by harness and native annotation
+parse errors. Hypothesis: named target counting, full balanced nested span
+comparison, ordered wrong-span mutation and split native blocks repair processing
+without semantic changes or weakened checks. Domain, resources, normal/unwind
+posts, all cases, primitive/prelude/refinement/patch identical to original matrix
+in SORT4-ALIGNMENT-PHASE. Expected: every positive complete VF0/integrity/refinement;
+negatives reject named assertions; corrupt metadata rejects translator identity;
+false/assert-false never proves; both native profiles parse/verify; full old matrix
+and targeted classifier mutants pass. If routine harness error, one remaining
+repair run may correct it. Semantic or false-proof failure quarantines affected
+profile and redirects to independent stock tasks. Selection
+verifast_rust_fieldless_layout/30; new repair budget0/2,total0/12. Exact SHA/run
+recorded at dispatch. No executable local validation.

@@ -1,5 +1,10 @@
 # Challenge 8: approved roadmap
 
+Current owner extension: [autonomous sort4 night phase](SORT4-NIGHT-PHASE.md),
+through09:00 MSK October7,2026; separate12-run/180-job-minute budget and2-run
+layout-repair sublimit. Only listed composition tasks authorized, with no reopening
+of historical budgets or trusted semantic extension. STATUS is current.
+
 Approved by the owner on 2026-10-06 after review of the C verification research.
 This decision supersedes the insertion-first ordering in earlier handoffs.
 [STATUS.md](STATUS.md) remains the current execution checkpoint.

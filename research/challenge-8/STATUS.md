@@ -1,7 +1,14 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. **CLOSED at6/6 NEW runs: stock generic PASS; experimental
-fieldless-layout acceptance INCONCLUSIVE.** No active experiment; STOP.
+Updated 2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**
+explicitly authorized through09:00 MSK /06:00 UTC October7. Separate budget
+0/12 NEW,0/10800 summed job-seconds; layout-repair sublimit0/2 included.
+Entry e7eae592dcda42ad330cd8f565c1411bffdf7519 clean/matching origin; no active run.
+Next: unchanged-patch layout acceptance repair and independent stock index theorem,
+actual pointer-callee/specification investigation. No semantic extensions allowed.
+
+Historical predecessor **CLOSED at6/6 NEW runs: stock generic PASS; experimental
+fieldless-layout acceptance INCONCLUSIVE.** Its budget remains closed.
 Entry checkpoint e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75, correct fork/branch,
 clean matching heads. Budget used **6/6 /653 of10800 summed job-seconds (10m53s)**,
 including every job's preparation/build/upload. Unused time does not grant runs.
@@ -34,7 +41,8 @@ automatic-copy UB, ownership/callback/five-unwind or whole-sort4 theorem follows
 
 Next proposed decision: narrowly repair evidence processing for named caller/full
 nested span and split C/C++ contract annotation blocks, retaining all requirements;
-NEW bounded hosted matrix run at unchanged patch. **NOT AUTHORIZED / NOT RUN.**
+NEW bounded hosted matrix run at unchanged patch. Now authorized only by the
+separate night phase; previous phase remains closed. **Repair NOT RUN yet.**
 No demonstrated need for further model semantics at this checkpoint.
 [Closeout and exact run/source identities](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout),
 [phase](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07),
