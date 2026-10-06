@@ -12,6 +12,8 @@ repo=$(git rev-parse --show-toplevel)
 source_home=${1:?source-built VeriFast directory required}
 results=${2:?fresh regression evidence directory required}
 evidence=$(dirname "$results")
+mode=${3:-baseline}
+case "$mode" in baseline|tracked_manually_drop) ;; *) echo 'Unknown address regression mode' >&2; exit 2 ;; esac
 case "$source_home" in "${RUNNER_TEMP:?}"/*) ;; *) echo 'Verifier must be in RUNNER_TEMP' >&2; exit 2 ;; esac
 [[ ! -e "$results" ]] || { echo 'Refusing non-fresh regression evidence directory' >&2; exit 2; }
 [[ -x "$source_home/bin/verifast" && -x "$source_home/bin/vf-rust-mir-exporter" ]]
@@ -24,6 +26,12 @@ mkdir -p "$results"
 export RUSTUP_TOOLCHAIN=nightly-2026-02-05
 export LD_LIBRARY_PATH="$source_home/bin:${LD_LIBRARY_PATH:-}"
 template="$repo/research/challenge-8/verifast-address-regressions.rs"
+if [[ "$mode" == tracked_manually_drop ]]; then
+    template="$repo/research/challenge-8/verifast-tracked-manually-drop-regressions.rs"
+    reference_patch="$repo/research/challenge-8/verifast-manually-drop-ref.patch"
+    reference_patch_sha=$(sha256sum "$reference_patch" | cut -d ' ' -f 1)
+    rg -F "$reference_patch_sha" "$evidence/source-build-inputs.txt" >/dev/null
+fi
 compiler_sysroot=$(rustc --print sysroot)
 compiler_libdir="$compiler_sysroot/lib"
 decoder=/tmp/vfdeps-adf88dc/bin/capnp
@@ -31,9 +39,11 @@ schema="$source_home/src/rust_frontend/vf_mir/vf_mir.capnp"
 [[ -x "$decoder" && -f "$schema" ]]
 {
     printf 'Selection: address-taking continuation regression fixtures; no SmallSort proof claim\n'
+    printf 'Mode: %s\n' "$mode"
     printf 'Source-built verifier: %s\nPatch SHA-256: %s\n' "$source_home" "$patch_sha"
     rustc --version --verbose
     sha256sum "$patch" "$template" "$source_home/bin/verifast" "$source_home/bin/vf-rust-mir-exporter"
+    if [[ "$mode" == tracked_manually_drop ]]; then sha256sum "$reference_patch"; fi
     ldd "$source_home/bin/verifast"
 } > "$results/environment.txt" 2>&1
 rg -F "libz3.so => $source_home/bin/libz3.so " "$results/environment.txt" >/dev/null
@@ -94,6 +104,12 @@ run_case() {
             if (( status == 1 && named == 1 )) && [[ "$expected" == ownership ]] && \
                 rg -qi 'lib[.]rs\([^)]*\): error: No matching heap chunks: .*points_to' "$log"; then
                 classification=expected_ownership
+            elif (( status == 1 && named == 1 )) && [[ "$expected" == precreated ]] && \
+                rg -qi 'error: No matching heap chunks: .*ref_precreated_token' "$log"; then
+                classification=expected_precreated
+            elif (( status == 1 && named == 1 )) && [[ "$expected" == initialized ]] && \
+                rg -qi 'error: No matching heap chunks: .*ref_initialized' "$log"; then
+                classification=expected_initialized
             fi
             evidence_text="named=$named"
         fi
@@ -105,5 +121,9 @@ run_case() {
 
 run_case positive_scalar_after_merge positive ''
 run_case positive_manually_drop_after_merge positive ''
+if [[ "$mode" == tracked_manually_drop ]]; then
+    run_case negative_missing_precreated_reference negative precreated
+    run_case negative_missing_reference_initialization negative initialized
+fi
 run_case negative_read_without_permission negative ownership
 printf 'Address-taking regressions passed; permission-negative case requires intended failure.\n'

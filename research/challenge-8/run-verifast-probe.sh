@@ -56,7 +56,7 @@ if [[ "${1:-}" == --stages ]]; then
         } >> "$evidence/environment.txt"
     fi
 
-    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken || "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]]; then
         source_home="${RUNNER_TEMP:?}/challenge8-verifast-tuple-parser"
         bash "$repo/research/challenge-8/build-verifast-tuple-parser.sh" "$VERIFAST_HOME" "$evidence" "$source_home" "$VF_PROBE_PROFILE"
         export VERIFAST_HOME="$source_home"
@@ -93,7 +93,7 @@ if [[ "${1:-}" == --stages ]]; then
         sha256sum compiler-mir.bin compiler-mir.txt >> "$evidence/environment.txt"
     fi
 
-    if [[ "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken || "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]]; then
         set +e
         /usr/bin/time -v -o "$evidence/hrtb-regressions-resources.txt" \
             bash "$repo/research/challenge-8/run-verifast-hrtb-regressions.sh" \
@@ -106,7 +106,7 @@ if [[ "${1:-}" == --stages ]]; then
         if (( hrtb_regressions_status != 0 )); then exit "$hrtb_regressions_status"; fi
     fi
 
-    if [[ "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken || "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]]; then
         set +e
         /usr/bin/time -v -o "$evidence/lft-cut-regressions-resources.txt" \
             bash "$repo/research/challenge-8/run-verifast-lft-cut-regressions.sh" \
@@ -119,11 +119,16 @@ if [[ "${1:-}" == --stages ]]; then
         if (( lft_cut_regressions_status != 0 )); then exit "$lft_cut_regressions_status"; fi
     fi
 
-    if [[ "$VF_PROBE_PROFILE" == tuple_address_taken ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_address_taken || "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]]; then
+        address_regression_mode=()
+        if [[ "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]]; then
+            address_regression_mode=(tracked_manually_drop)
+        fi
         set +e
         /usr/bin/time -v -o "$evidence/address-regressions-resources.txt" \
             bash "$repo/research/challenge-8/run-verifast-address-regressions.sh" \
             "$source_home" "$evidence/address-regressions" \
+            "${address_regression_mode[@]}" \
             > "$evidence/address-regressions.log" 2>&1
         address_regressions_status=$?
         set -e
@@ -147,14 +152,14 @@ if [[ "${1:-}" == --stages ]]; then
     printf '%s\n' "$refinement_status" > refinement-exit-code.txt
     target_count=0
     statement_count=0
-    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken ]]; then
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken || "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]]; then
         target_count=$(grep -F -c "Verifying function 'smallsort::insert_tail'" verifast.log || true)
         statement_count=$(grep -E -c 'verified/smallsort[.]rs\([0-9]+,[0-9]+(-[0-9]+(,[0-9]+)?)?\): (note: )?Executing (statement|return statement)$' verifast.log || true)
         printf '%s\n' "$target_count" > verified-target-count.txt
         printf '%s\n' "$statement_count" > verified-target-statement-count.txt
     fi
     cat verifast.log refinement.log
-    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken ]] && (( vf_status == 0 && (target_count != 1 || statement_count < 1) )); then
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser || "$VF_PROBE_PROFILE" == tuple_hrtb || "$VF_PROBE_PROFILE" == tuple_lft_cut || "$VF_PROBE_PROFILE" == tuple_address_taken || "$VF_PROBE_PROFILE" == tuple_manually_drop_ref ]] && (( vf_status == 0 && (target_count != 1 || statement_count < 1) )); then
         echo 'No unique named insertion target/body execution evidence' >&2
         exit 1
     fi
@@ -171,8 +176,8 @@ case "$budget" in
 esac
 profile=${2:-frontend}
 case "$profile" in
-    frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken) ;;
-    *) echo 'Profile must be frontend, range, tuple_overlay, tuple_parser, tuple_hrtb, tuple_lft_cut or tuple_address_taken' >&2; exit 2 ;;
+    frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken|tuple_manually_drop_ref) ;;
+    *) echo 'Profile must be frontend, range, tuple_overlay, tuple_parser, tuple_hrtb, tuple_lft_cut, tuple_address_taken or tuple_manually_drop_ref' >&2; exit 2 ;;
 esac
 export VF_PROBE_PROFILE="$profile"
 mkdir -p "$evidence"

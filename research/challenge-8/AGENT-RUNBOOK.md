@@ -34,6 +34,16 @@ errorcontext duplicate, not2verifiedfunctions. Overall1,runner1:20.05,
 RSS625,540KiB,setupdominates. No active run; sourceowner investigates sound
 reference initialization/ignore-ref-creation path without runtimeedits/checkdisable.
 Defaultmainworkflowonly2f0a73b; newprofile reproducer remains.
+Prepared next selection verifast_insert_tail_manually_drop_ref/profile
+tuple_manually_drop_ref,90min. Narrow translatorpatch5500204a on preceding
+translator15a9 tracks immutableShared/Other rawManuallyDrop<T> through
+existingcreate_ref; no kernel/aliasmodelaxiom. Existingprecreate_ref and
+init_ref_readonly prove actualguardreference fromtmpstorage, with accesskept
+untilguardlastread (loop/cleanupdebtunproved). New5physicalfixtures require
+positive scalar/ManuallyDrop read proofs; missingprecreate/init/readpermission
+mustfailatintendedcontracts. SAME8HRTB+12scope first, exactRust/T/Fdomain.
+Root reviewed sourcepatch/integration; NEWhostedrunpending.
+Default main exposes selection by workflow-only5b4f35c.
 
 **Latest completed actual borrowing/read milestone:** [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
 source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.

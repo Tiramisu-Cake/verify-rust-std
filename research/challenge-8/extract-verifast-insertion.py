@@ -51,6 +51,7 @@ GHOSTS["tuple_parser"] = GHOSTS["range"].replace(
 GHOSTS["tuple_hrtb"] = GHOSTS["tuple_parser"]
 GHOSTS["tuple_lft_cut"] = GHOSTS["tuple_hrtb"]
 GHOSTS["tuple_address_taken"] = GHOSTS["tuple_lft_cut"]
+GHOSTS["tuple_manually_drop_ref"] = GHOSTS["tuple_address_taken"]
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -63,6 +64,7 @@ CONTRACTS["tuple_parser"] = CONTRACTS["range"].replace("ens true (safety probe o
 CONTRACTS["tuple_hrtb"] = CONTRACTS["tuple_parser"] + "; compiler-origin HRTB Output instantiation; normal comparison accesses closed before lifetime recovery"
 CONTRACTS["tuple_lft_cut"] = CONTRACTS["tuple_hrtb"] + "; experimental strict early lifetime-binding scope cut"
 CONTRACTS["tuple_address_taken"] = CONTRACTS["tuple_lft_cut"] + "; experimental address-taken prepass continuation handling"
+CONTRACTS["tuple_manually_drop_ref"] = CONTRACTS["tuple_address_taken"] + "; experimental ManuallyDrop shared-reference preparation at the move guard"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -160,6 +162,11 @@ RANGE_COMPARE_RECOVER_CUT = RANGE_COMPARE_RECOVER.replace(
     "        //@ open_full_borrow_content::<T>(t, sift);\n",
 )
 RANGE_READ_ANCHOR = "        let tmp = ManuallyDrop::new(tail.read());"
+RANGE_MANUALLY_DROP_REF_ANCHOR = "        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };"
+RANGE_MANUALLY_DROP_REF_PREP = (
+    "        //@ let held_ref = precreate_ref(&tmp);\n"
+    "        //@ init_ref_readonly(held_ref, 1/2);\n"
+)
 RANGE_BODY_ANCHOR = (
     "    // SAFETY: see individual comments.\n"
     "    unsafe {\n"
@@ -201,7 +208,7 @@ def main() -> None:
     else:
         raise SystemExit(
             "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
-            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken]"
+            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken|tuple_manually_drop_ref]"
         )
     ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
@@ -250,7 +257,7 @@ def main() -> None:
     verified_root = ROOT
     module_injections = {"contract": ghost}
     root_injections = {}
-    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb", "tuple_lft_cut", "tuple_address_taken"):
+    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb", "tuple_lft_cut", "tuple_address_taken", "tuple_manually_drop_ref"):
         module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         module_injections["interior_call"] = RANGE_BOUND_GHOST
         module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
@@ -271,11 +278,19 @@ def main() -> None:
             1,
         )
         module_injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
-        if profile in ("tuple_hrtb", "tuple_lft_cut", "tuple_address_taken"):
-            recovery = RANGE_COMPARE_RECOVER_CUT if profile in ("tuple_lft_cut", "tuple_address_taken") else RANGE_COMPARE_RECOVER
+        if profile in ("tuple_hrtb", "tuple_lft_cut", "tuple_address_taken", "tuple_manually_drop_ref"):
+            recovery = RANGE_COMPARE_RECOVER_CUT if profile in ("tuple_lft_cut", "tuple_address_taken", "tuple_manually_drop_ref") else RANGE_COMPARE_RECOVER
             unique_offset(verified, RANGE_READ_ANCHOR)
             verified = verified.replace(RANGE_READ_ANCHOR, recovery + RANGE_READ_ANCHOR, 1)
             module_injections["comparison_recover"] = recovery
+        if profile == "tuple_manually_drop_ref":
+            unique_offset(verified, RANGE_MANUALLY_DROP_REF_ANCHOR)
+            verified = verified.replace(
+                RANGE_MANUALLY_DROP_REF_ANCHOR,
+                RANGE_MANUALLY_DROP_REF_PREP + RANGE_MANUALLY_DROP_REF_ANCHOR,
+                1,
+            )
+            module_injections["held_ref_prepare"] = RANGE_MANUALLY_DROP_REF_PREP
     for filename, candidate, reference, insertions in (
         ("lib.rs", verified_root, original_root, root_injections),
         ("smallsort.rs", verified, original, module_injections),
