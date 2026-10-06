@@ -96,7 +96,7 @@ dpkg-query -W -f='${binary:Package} ${Version}\n' libz3-dev libclang-dev pkg-con
 pkg-config --modversion z3 >> "$out/experiment-environment.txt" 2>&1 || true
 
 cargo +"$toolchain" install rapx --version "=$rapx_version" --locked --force 2>&1 | tee "$out/cargo-install.log"
-rapx --version > "$out/rapx-version.txt" 2>&1
+RAPXFLAGS=--version rapx > "$out/rapx-version.txt" 2>&1
 cargo +"$toolchain" rapx --version >> "$out/rapx-version.txt" 2>&1
 if ! grep -Eq "(^|[[:space:]])$rapx_version([[:space:]]|$)" "$out/rapx-version.txt"; then
     echo 'Installed RAPx executable did not report the exact pinned version' | tee "$out/setup-blocker.txt"

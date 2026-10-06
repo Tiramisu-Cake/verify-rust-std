@@ -1628,3 +1628,38 @@ no queued/in-progress Actions. No unrelated changes.
   including setup, maximum four runs overall with one shared correction. One
   active run; no local build/verifier/test execution. Record exact SHA/run and
   all predicates, paths, logs/artifacts/costs after dispatch.
+
+Dispatch resolved: [run37492790456](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37492790456),
+created 2026-10-06T16:04:30Z, source
+`b55ae850d1cef67ddbcd02d8d97b4763c9c4a9f1`,
+workflow smallsort-research.yml / proof rapx_applicability / rapx_gate A /
+budget_minutes90. Remote full SHA matched before dispatch; no active relevant run.
+Direct branch dispatch succeeded, so no default-branch workflow change was needed.
+Budget used1/4; no B/C implementation or dispatch. Static review only on server:
+`git diff --check`, `bash -n`, code/YAML reads; no local compile/verifier/test.
+
+### Run37492790456 result and shared technical-correction card
+
+Completed FAILURE, job 16:04:37–16:08:18 UTC (221s), runner exit2.
+Exact RAPx0.7.50 Cargo package successfully installed with --locked (reported
+release compilation1m24s). Pinned rustc1.95.0-nightly commit
+`db3e99bbab28c6ca778b13222becdea54533d908`, hostx86_64-unknown-linux-gnu.
+Archive checksum/VCS/lock match the phase. First causal failure is runner setup:
+`rapx --version` makes the direct compiler driver parse empty RAPXFLAGS, prints
+usage and exits2; src/bin/rapx.rs reads options from RAPXFLAGS, not argv.
+Installed-source comparison, layout reporter, target preparation, six analyses
+and classifier NOT RUN. No alignment hypothesis tested and no detector miss.
+Full log and ten artifact files downloaded/read outside repository.
+
+Shared technical correction, before implementation: retain the same six cases,
+full target normal/five-unwind yardstick, exact pins/checks/flags/resources and
+90-minute budget. Change direct driver version invocation only to
+`RAPXFLAGS=--version rapx`; Cargo wrapper version invocation remains explicit
+`cargo +nightly-2026-02-05 rapx --version`. Falsifiable setup hypothesis: correct
+argument channel obtains version0.7.50 and permits unchanged identity/target/
+alignment diagnostics to execute. Expected stage: executable version audit.
+No trusted semantics, std source, fixture premises or detector checks change.
+Use the one shared correction run; gate-A miss -> NO-GO/stop, ambiguity/another
+setup issue -> INCONCLUSIVE/stop (no second technical correction), sufficient A
+pass -> planned gate B; C only after B. New source SHA and NEW dispatch required.
+Budget used1/4; reserve the shared correction; B/C unused and still gated.

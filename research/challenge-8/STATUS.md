@@ -22,10 +22,17 @@ Frozen profile: RAPx exactly 0.7.50, Rust nightly-2026-02-05; reviewed upstream
 source `7d61d9377033c48a4df8954f34cc076e97a93816`. Audit the installed package;
 no patch, semantic model change or upgrade. Maximum four hosted runs (one per
 reached gate plus one shared technical correction), 90 minutes each including
-setup, one active run at a time. Used **0/4**. Session resumed by the owner on 2026-10-06 at documentation
+setup, one active run at a time. Used **1/4**. Session resumed by the owner on 2026-10-06 at documentation
 commit `ad54f67d655c4106762016fba47534c58601f3ec`. Working tree clean,
 origin verified, research branch fast-forwarded to that commit; no queued or
-in-progress Actions. Preparing isolated gate-A diagnostics; no active run.
+in-progress Actions. Gate-A source `b55ae850d1cef67ddbcd02d8d97b4763c9c4a9f1`,
+[run37492790456](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37492790456),
+selection rapx_applicability / gate A / 90min: completed FAILURE,
+16:04:37–16:08:18 UTC. Setup-only failure: direct driver version options must
+be in RAPXFLAGS. Exact package installed; no target analysis occurred.
+Preparing the single allowed technical correction; no active run.
+Direct dispatch from the research ref accepted the new selection; no main-branch
+workflow exposure/update was necessary. B and C remain gated.
 
 The ZST alignment rule and unsupported-call fallback are source-level concerns,
 not reproduced false passes. A critical miss or essential unsupported behavior
