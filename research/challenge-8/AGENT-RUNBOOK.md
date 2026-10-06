@@ -38,7 +38,11 @@ lifetime_token(cmp_k), confirming remaining lexicalreservation. No move/guard/
 loop/fullrangeproof or covers. VF1/.17s,RSS92,728KiB;refiner0/.12s,
 RSS91,696KiB;overall1,runner1:04.76,RSS646,280KiB,setupdominated.
 No active run. Default main exposes manual choice by workflow-only591f251.
-Next verifast_insert_tail_lft_cut90min, separate experimental
+Active run [37412281007](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412281007),
+source `7b349f115e75ebcd030bb0788f0e8184b42fc112`,
+verifast_insert_tail_lft_cut90min; exact remote/run SHA matched.
+Poll then fetch all build/guard/actualproof artifacts; do not duplicate queuedrun.
+This is a separate experimental
 strict early binding-scope cut, preserving runtime Rust/tuple_hrtb reproducer.
 Source patch implemented by Sol and independently reviewed by Astra; concrete
 static blockers fixed. Current patchSHA9a924a4542146d0a9b839f0b7f45230e382b5525b4d0d06548bd7dc24e74fc83
