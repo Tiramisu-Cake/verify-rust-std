@@ -38,7 +38,10 @@ VF1/.17s,RSS92,704KiB;refiner0/.12s,RSS91,704KiB;overall1,
 runner1:03.07,RSS645,516KiB,setup dominated. No covers/fullfunctionproof.
 Trace counter2 includes error-context duplicate,193 execution/return records;
 never accepted as two verified functions. No active run.
-**Prepared next experiment:** same verifast_insert_tail_fnmut_hrtb90min.
+**Active run:** [37410021241](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241),
+source `ca6ed8d91a0d369ad76a20a519a3cb053f2bd0cf`,
+verifast_insert_tail_fnmut_hrtb90min. Exact remote/run SHA matched; poll and
+inspect full regression and actual-probe artifacts before any new dispatch.
 Current semantic HRTB patch plus diagnostic traces (hash in verifast-fnmut-hrtb.md).
 Eight real compiler/exporter/translator guard regressions precede actual proof;
 compiler/decode must be0, calls must genuinely translate, expected verifier1
