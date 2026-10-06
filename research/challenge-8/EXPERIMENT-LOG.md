@@ -2203,3 +2203,65 @@ payload tokens unchanged except the two authorized signature semicolons. Whole
 and per-case Rust bytes after stripping are identical to b1ae937. No runner,
 workflow, classifier or std diff; SmallSort blob e555fce440872898e47fd5114f32eb15401d07df.
 Only local text/document parsing and git diff --check; no research code executed.
+
+Syntax-only continuation dispatch: correction commit9474453f231eb600e1ec35d571c8ac4f70fa7138
+pushed, remote matched, no other active run. [NEW manual37532204465](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37532204465)
+created2026-10-06T21:12:28Z, head_sha exactly matches, selection
+verifast_sort4_alignment/budget90; queued at resolution. Additional budget1/1
+used. No further proof corrections or dispatch; monitor/full evidence/docs only.
+
+
+## 2026-10-06 UTC / 2026-10-07 Moscow — syntax-only H_align closeout
+
+[NEW run37532204465](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37532204465),
+exact corrected SHA9474453f231eb600e1ec35d571c8ac4f70fa7138,
+verifast_sort4_alignment/90, completed FAILURE. Created21:12:28UTC;
+job11250412347821:12:33–21:13:15UTC (42s), replay SKIPPED.
+Additional budget1/1 used; no duplicate dispatch/Re-run/further proof correction.
+Official VF26.09 archive/source/schema/bin/prelude audit and paired Z3 pass,
+nightly2026-02-05/compiler and target SmallSort identities unchanged from initial
+run. Runner/driver/workflow hashes/code unchanged. Corrected fixture SHA256
+eadb4ec6dc234c8cfb94a5f581681d7c2f404b12ea0af8c092105998a52cd3b4.
+All six archived originals independently byte-match b1ae937 after ghost stripping;
+per-stage source hashes unchanged. No predicates/assertions/body/premise/post
+change. No local research executable/compiler/verifier/test executed.
+
+All six export/decode/refinement0, VF1. Two annotation-format repairs are effective:
+no VF parse errors. First substantive generic blocker is prelude_core.rsspec64,
+Cannot prove0<=address at helper line11 div_rem_nonneg(address,alignment).
+Each helper has one actual timed header and3 body trace records; generic callers
+and pointer operations not reached. ZST layout reaches named body/calls but
+fails size==0 assertion line20 (Cannot prove __result=0); align8 assertion not
+reached. ZST add reaches .add line21 (4 operation records) but fails
+pointer_within_limits(ptr_add_(base,i,Z_type_info)); no normal/resource post.
+Generic geometry and ZST calibration remain INCONCLUSIVE, not H_align refutation
+or proof that every no-patch strategy is impossible.
+
+Both source/destination negatives reach named caller, actual byte .add(1) line22
+(3 operation records), cast line23 and intended alignment assertion line25:
+Cannot prove %(get_pointer_address(ptr_add_(src/dst,1,uint8_t_typeid)),8)=0.
+Manual intended false-post rejection2/2; no dereference/copy/automatic UB claim.
+All original criteria remain; raw aggregate/classification JSONs all-six
+INCONCLUSIVE preserved. Unchanged TIMESTAMP_HEADER expects time immediately
+followed by Verifying function, while actual logs include verified/lib.rs(span)
+between them. Raw caller/helper header counts0 therefore miss real named headers
+(1 per relevant body, excluding diagnostic note repeats/generated Z lemmas).
+Error-line detection itself matches intended line25, but caller_count gate fails.
+No classifier repair, reprocessing execution, JSON overwrite or relaxed criterion.
+
+[Artifact11445280961](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37532204465/artifacts/11445280961),
+159files,123767bytes; downloaded zip SHA256 matches API/upload digest
+7ef6d71628a06b3c853cd165a3984669b1b4e1d4e1e282f87ec7998ce87411cd.
+Aggregate SHA256089dceee6406a531c7a07a1aa39cc73072da07845ac25c4b9e5b1aacc410770d;
+full run log SHA25638f9b9bc4d7168d67fb2e52803b93726f0576479e0e737c3f4235df80d252737.
+Full logs/MIR/annotations/sources/hashes/resource records inspected. Runner21.57s,
+RSS529212KiB; exporter .01–.02s, VF .11s/case, refinement .07–.08s, decode<.01s.
+No timeout/OOM; unused-variable and Node warnings noncausal. Downloads outside
+repo, not committed or executed. [Detailed report](SORT4-ALIGNMENT-RESULTS.md).
+
+**CLOSED / INCONCLUSIVE; STOP regardless of outcome at1/1 additional runs.**
+Initial37529855468 INCONCLUSIVE retained historically. STATUS/phase/report/log /
+PLAN/README/coverage/composition updated; no positive geometry/layout or generic /
+automatic-operation coverage. RAPx0.7.50 remains CLOSED / NO-GO; B/C NOT RUN;
+Kani unchanged. No semantic VF patch shown necessary. Documentation commit/push
+only after result; any further proof correction/run requires a new decision.

@@ -2,7 +2,15 @@
 
 ## Current syntax-only continuation — authorized 2026-10-07
 
-**IN PROGRESS / preparation,0/1 additional NEW runs used.** Owner explicitly
+**CLOSED / INCONCLUSIVE,1/1 additional NEW runs used.**
+[Run37532204465/source9474453 closeout](SORT4-ALIGNMENT-RESULTS.md#syntax-only-continuation--one-new-run):
+syntax parsed; generic helpers fail nonnegativity before callers, ZST layout/add
+unproved. Both negatives reject intended assertion on manual audit; raw automatic
+all-six INCONCLUSIVE due missed header format. Export/decode/refinement6/6 pass.
+No active run or further code/run authority. The authorization below is historical;
+STOP after documentation closeout/commit/push regardless of result.
+
+Owner explicitly
 permits the correction described in SORT4-ALIGNMENT-RESULTS.md at b1ae937 and
 exactly one additional GitHub-hosted manual H_align run,90min including runner
 preparation. Entry clean matching local/remote

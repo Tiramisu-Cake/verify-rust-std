@@ -6,11 +6,13 @@
 No implementation, build, executable check or workflow dispatch accompanies it.
 The subsequent owner instruction authorized only the independent
 [H_align phase](SORT4-ALIGNMENT-PHASE.md), one NEW hosted manual run/90min.
-That phase is now CLOSED / INCONCLUSIVE: [run37529855468](SORT4-ALIGNMENT-RESULTS.md)
-passes export/decode/refinement6/6 but all cases fail fixture annotation parsing
-before proofs. H_align remains untested at its proof obligations; no coverage or
-composition claim changes. STATUS is the current checkpoint. The proposal below
-remains the design basis, not permission for another run or semantic change.
+That initial phase remains historical INCONCLUSIVE (fixture parsing). The
+separately authorized syntax-only [run37532204465](SORT4-ALIGNMENT-RESULTS.md#syntax-only-continuation--one-new-run)
+/source9474453 now closes INCONCLUSIVE at1/1 additional runs: generic helper
+nonnegativity, concrete ZST calibration and add limits unproved; manual negative
+assertion rejections2/2, raw automatic all-six INCONCLUSIVE due missed headers.
+No positive geometry/layout, automatic operation or full-sort4 proof gained.
+STATUS is the current checkpoint; no further proof/tool/classifier change or run.
 
 ## Decision
 
@@ -240,7 +242,10 @@ has an independent, falsifiable geometry route, but its model/operation link is
 unproved. Other RAPx properties are individually unvalidated for the target;
 VF callback/unwind/raw-copy/selection/resource dependencies remain open. The
 concrete Kani results stand within their original domain. The subsequent
-one-run alignment gate closed INCONCLUSIVE before proofs; its
-[closeout](SORT4-ALIGNMENT-RESULTS.md) identifies an exact formatting correction,
-NOT APPLIED / NOT VERIFIED, for a separate fresh-run decision. No active run,
+initial one-run alignment gate closed INCONCLUSIVE before proofs. Its separately
+authorized syntax-only continuation reached proof bodies but closed INCONCLUSIVE
+at generic helper nonnegativity and ZST layout/limits. Manual false-post rejection
+is not independent positive alignment preservation or automatic UB detection;
+[closeout](SORT4-ALIGNMENT-RESULTS.md) preserves raw classifier limitations.
+No semantic VF patch is established as necessary by these failures. No active run,
 new proof result or external message; no additional dispatch authorized.

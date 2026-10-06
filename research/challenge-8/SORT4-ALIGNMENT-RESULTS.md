@@ -1,9 +1,117 @@
 # Independent H_align gate: hosted results
 
-Current checkpoint: syntax-only continuation authorized 2026-10-07 from b1ae937;
-two annotation-format corrections applied, static preservation audit complete;
-one additional NEW hosted run90min pending. [Scope](SORT4-ALIGNMENT-PHASE.md).
-No new proof result. The initial run and unapplied proposal below are historical.
+Current checkpoint 2026-10-07: **syntax-only continuation CLOSED / INCONCLUSIVE**,
+additional budget1/1 used. Generic geometry and ZST calibration remain unproved;
+both false-post controls reach and reject the intended assertion on manual audit.
+The unchanged automatic classifier reports all six INCONCLUSIVE because it misses
+source-prefixed function headers. No active run or further proof/run authority.
+Initial37529855468 remains historical INCONCLUSIVE, unchanged below.
+
+## Syntax-only continuation — one NEW run
+
+[Run37532204465](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37532204465),
+NEW workflow_dispatch verifast_sort4_alignment/90, exact corrected source
+`9474453f231eb600e1ec35d571c8ac4f70fa7138`. Owner specifically authorized this
+correction and exactly one additional run from b1ae937. Entry clean local/remote
+b1ae937 matched; fork/branch correct, no active experiment. Pushed corrected
+SHA matched remote and new head_sha; no Re-run of the initial source.
+Created2026-10-06T21:12:28Z; job112504123478 ran21:12:33–21:13:15Z (42s),
+FAILURE; replay job SKIPPED. Hosted ubuntu24.04/x86_64. Total cap90min includes
+runner setup; wrapper's remaining timeout5390s, runner21.57s/maxRSS529212KiB.
+No timeout/OOM, no second dispatch or further proof correction.
+
+Only two helper signature semicolons removed and six contract blocks split.
+Adjacent @*//*@ ends/starts are distinct annotation ranges and add no non-ghost
+bytes. Static comparison with checked recover_pair (release run37437514808) and
+separate contract ranges in verifast-drop-caller-cases.rs preceded dispatch.
+All ghost payload tokens, lemma bodies, predicates and //@ statements/assertions
+unchanged except the two authorized semicolons. Whole/per-case ghost-stripped
+Rust byte-identical to b1ae937; archived originals independently match the old
+fixture byte-for-byte. All six cases/markers/order intact. No other source change;
+runner/driver/workflow/std, profile, premises, domain, posts and classifier frozen.
+
+Official26.09 archive, binaries, every rsspec, source/schema, Rust/compiler and
+SmallSort hashes match the initial profile listed below. Fresh release install
+and paired bin/libz3 audit pass. Source809de4596839b739dd999f9e462242c835e3af46,
+nightly2026-02-05; no tool/spec/kernel changes. Export args readonly/edition2021/
+crate-type lib; VF -rustc_args '--edition 2021' -verbose1; refiner unchanged.
+Exporter internally emits -Coverflow_checks=off as before from the same pinned
+binary; no new check suppression or skip_specless. Original domain/posts/card
+remain [unchanged](SORT4-ALIGNMENT-PHASE.md#experiment-card).
+
+### Per-case proof evidence
+
+All six exporter/decode/refinement exits0; VF exits1. Every stage leaves sources
+unchanged, refinement logs say No refinement errors found. MIR preserves generic
+const/mut .add<T>, Z .add, byte .add(1) then cast, and size_of/align_of calls with
+unwind-Continue. Separate contract ranges are exported and parsed; no parse error.
+No full positive normal/unwind/resource theorem is established.
+
+| Case | First substantive VF blocker / exact isolated location | Manual stage evidence | Outcome (raw automatic JSON separately preserved) |
+| --- | --- | --- | --- |
+| positive_generic_const | prelude_core.rsspec:64: Cannot prove 0 <= address, called at verified/lib.rs:11 div_rem_nonneg | aligned_step_const header1, helper-body records3; caller0, .add not reached | Generic geometry INCONCLUSIVE |
+| positive_generic_mut | Same condition/call location | aligned_step_mut header1, helper-body records3; caller0, .add not reached | Generic geometry INCONCLUSIVE |
+| positive_zst_layout | verified/lib.rs:20, assert size == 0: Cannot prove __result = 0 | Named caller header1; size_of/align_of calls reached; next align==8 assertion not reached | ZST size0/align8 calibration INCONCLUSIVE |
+| positive_zst_add | verified/lib.rs:21 .add: Cannot prove pointer_within_limits(ptr_add_(base,i,Z_type_info)) | Named caller header1, operation records4; no return/post proof | ZST pointer geometry INCONCLUSIVE |
+| negative_source_byte_offset | verified/lib.rs:25, assert bad as usize % 8 == 0: Cannot prove %(get_pointer_address(ptr_add_(src,1,uint8_t_typeid)),8) = 0 | Named caller header1, byte-add operation records3, cast and marked assertion reached | Intended false-post rejection observed manually; automatic INCONCLUSIVE |
+| negative_destination_byte_offset | Same marked assertion line25 with dst instead of src | Named caller header1, byte-add operation records3, cast and marked assertion reached | Intended false-post rejection observed manually; automatic INCONCLUSIVE |
+
+**First generic blocker:** the checked ghost helper's initial divisibility-lemma
+call requires nonnegative address. Its present req does not establish that fact
+in the ghost model; the written usize type did not supply it in this proof.
+Do not infer a Rust runtime negative address or H_align falsity. No helper post,
+generic caller or size_align/caller derivation is reached. A future bound proof
+would need separate design/authorization, without silently strengthening the
+adopted caller contract or adding a trusted premise.
+
+ZST calibration fails earlier than alignment: this run does not prove size0,
+so neither align8 nor base.add(i)==base is available for composition. Decoded Z
+has isReprC=false; failure alone does not show every no-patch layout strategy
+impossible or that a verifier semantic patch is necessary. ZST add's limits
+failure is a separate measured obstacle, not automatic misalignment detection.
+
+Both negatives fail EXACTLY on the intended modulus8 assertion AFTER byte add /
+cast; source/export/refinement and legal raw-byte premises preserved. This meets
+the original intended-stage requirement on manual audit. It is a false-post
+control, with no dereference or copy. It does not establish VF recognition of
+Rust repr(align8), automatic copy UB detection, generic geometry, full sort4
+safety or a RAPx-to-VF bridge. No false alignment conclusion was proved.
+
+### Automatic classification limitation — no repair or reclassification
+
+Raw aggregate/classification JSONs retain all six INCONCLUSIVE, caller/helper
+header counts0. TIMESTAMP_HEADER in the unchanged driver expects
+`<time>s: Verifying function 'name'`; actual verbose headers are
+`<time>s: verified/lib.rs(<span>): Verifying function 'name'`. The named headers
+exist; the count0 does not mean those bodies were unvisited. Manual timed-header
+counts above exclude diagnostic note repeats and generated Z support functions.
+Negative error-line predicate itself matches line25, but caller_count==1 gate
+fails from this header-format mismatch. Pointer/helper statement counting works:
+3 per helper,4 for Z add,3 per byte add. No classifier change, replay execution,
+threshold relaxation or raw JSON overwrite. Overall gate remains INCONCLUSIVE.
+
+### Evidence and stop
+
+[Artifact11445280961](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37532204465/artifacts/11445280961),
+159files/123767bytes; downloaded archive SHA256 matches API/upload digest
+`7ef6d71628a06b3c853cd165a3984669b1b4e1d4e1e282f87ec7998ce87411cd`.
+Aggregate SHA256 `089dceee6406a531c7a07a1aa39cc73072da07845ac25c4b9e5b1aacc410770d`;
+full run log SHA256 `38f9b9bc4d7168d67fb2e52803b93726f0576479e0e737c3f4235df80d252737`.
+Corrected fixture SHA256
+`eadb4ec6dc234c8cfb94a5f581681d7c2f404b12ea0af8c092105998a52cd3b4`;
+runner/driver SHA256 unchanged (listed in initial evidence below).
+Full log, six VF/refinement/export/decode logs, MIR and annotation/source boundaries,
+profile/integrity/resource records inspected. Exporters .01–.02s, VF .11s each,
+refiners .07–.08s, decoders <.01s. Unused-variable/Actions Node warnings noncausal.
+Downloads stay outside git; no downloaded code or local verifier/compiler/runner
+executed. Local checks are non-executing text/document parsing and diff --check.
+
+**STOP regardless of result, additional budget1/1 used.** Documentation closeout /
+commit/push only. No proof/runner/classifier/tool/spec repair or further dispatch.
+RAPx0.7.50 stays CLOSED / NO-GO, B/C NOT RUN, Kani unchanged. No generic safety /
+layout / operation-UB coverage gained; limited manual assertion-control evidence
+is explicitly separate from the automatic result. No semantic VF change shown
+necessary by this run. Any further proof correction or NEW run needs a new decision.
 
 ## Historical initial hosted result — INCONCLUSIVE
 

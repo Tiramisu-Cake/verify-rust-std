@@ -80,7 +80,16 @@ its separate [phase](SORT4-ALIGNMENT-PHASE.md) now closes INCONCLUSIVE at1/1.
 exports/decodes/refinements but every VeriFast case fails annotation parsing.
 Zero helper/caller proof bodies or intended negatives were reached; this adds
 **no geometry, layout, detector or generic-sort4 coverage**. Proposed formatting
-correction NOT APPLIED / NOT VERIFIED; no further run authorized.
+correction was separately authorized and applied at9474453; the ONE additional
+[run37532204465](SORT4-ALIGNMENT-RESULTS.md#syntax-only-continuation--one-new-run)
+now closes INCONCLUSIVE. All six exports/decodes/refinements pass. Generic helpers
+reach bodies but fail 0<=address before callers; ZST layout fails size==0, ZST add
+fails pointer limits. Both byte-offset controls reach and reject intended line25
+alignment assertion on manual audit. This adds limited false-post control evidence,
+**no geometry/layout/automatic-copy UB or actual-sort4 coverage**. Raw all-six
+INCONCLUSIVE/header counts0 retained; actual source-prefixed named headers exist
+but unchanged classifier misses them. No classifier repair, proof fix or further
+run authorized; additional budget1/1 used.
 Arithmetic evidence alone would not count as automatic UB coverage. Required VF
 callback/unwind/raw-copy capabilities are separated from optional historical
 insertion patches. Existing Kani results retain their exact concrete domains.

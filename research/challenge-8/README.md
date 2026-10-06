@@ -6,20 +6,22 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**H_align syntax-only continuation IN PROGRESS / preparation.**
-[Current scope](SORT4-ALIGNMENT-PHASE.md) permits the two documented annotation
-format corrections and exactly one additional NEW hosted run90min under unchanged
-VF26.09/nightly2026-02-05. Original37529855468 remains historical INCONCLUSIVE;
-[report](SORT4-ALIGNMENT-RESULTS.md) preserves all six parse failures. No proof gain,
-no tool/predicate/domain/classifier change; RAPx NO-GO, B/C NOT RUN.
+**H_align syntax-only continuation CLOSED / INCONCLUSIVE,1/1 used.**
+[Run37532204465/source9474453 closeout](SORT4-ALIGNMENT-RESULTS.md): syntax parsed,
+export/decode/refinement6/6; generic nonnegativity, ZST size/layout and pointer
+limits remain unproved. Both negatives reject their intended assertion manually;
+raw automatic all-six INCONCLUSIVE due missed source-prefixed headers. No active
+run or further proof correction/dispatch authority. Original37529855468 remains
+historical INCONCLUSIVE. No geometry/layout/automatic-UB coverage; RAPx NO-GO,
+B/C NOT RUN. [Closed scope](SORT4-ALIGNMENT-PHASE.md).
 
 **Joint proof-route assessment complete; no generic composition yet.**
 [RAPx / VeriFast / Kani matrix and compatibility analysis](SORT4-COMPOSITION-ASSESSMENT.md)
 assign exact obligations without a single-tool requirement. RAPx presently
 contributes diagnostics; any selected future fact needs independent qualification.
 ZST remains in scope with A NO-GO and B/C NOT RUN. One independent no-patch VF
-alignment geometry gate was proposed there; its separate phase closed INCONCLUSIVE
-before proofs. Arithmetic success alone would not establish automatic operation
+alignment geometry gate was proposed there; its separate phase and syntax-only continuation closed INCONCLUSIVE
+without a completed positive proof. Arithmetic success alone would not establish automatic operation
 coverage or full sort4 safety.
 
 **Explicit sort4 research contract adopted; C-source authority checked.**
@@ -30,7 +32,7 @@ protocol, with caller-precondition proofs required for composition. The
 supports this specification choice; it supplies no new Rust proof or committee
 acceptance. Organizer clarification is deferred and no longer blocks planning.
 The [earlier review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md) remain
-historical. Only the syntax-only H_align continuation is authorized; no external contact.
+historical. No further experiment or external contact is currently authorized.
 
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
@@ -71,8 +73,8 @@ both completed hosted runs and their evidence boundaries.
   H_align scope, full-target versus partial fixture domain/posts, intended controls
   and automatic-operation/model boundary; CLOSED at1/1 runs.
 - [Independent alignment results](SORT4-ALIGNMENT-RESULTS.md): six fixture parse
-  failures, export/refinement evidence, no proof gain, exact unapplied syntax
-  correction and fresh-run decision.
+  failures, export/refinement evidence, no proof gain, initial syntax
+  failure, corrected-run blockers and manual versus automatic control evidence.
 - [Joint sort4 composition assessment](SORT4-COMPOSITION-ASSESSMENT.md): exact
   obligation/tool/evidence/gap/dependency matrix; common source/domain/premises,
   acyclic responsibilities, restricted RAPx role, independent ZST route, necessary

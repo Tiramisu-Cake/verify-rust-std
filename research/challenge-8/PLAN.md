@@ -47,10 +47,13 @@ proposed at that checkpoint. The separately authorized H_align
 parse failures before any proof obligation; export/refinement6/6 do not supply
 geometry or detector coverage. Automatic operation coverage remains separate.
 ZST stays in the adopted domain, RAPx A stays NO-GO and B/C NOT RUN.
-The owner has now authorized the exact syntax correction and one additional NEW
-hosted run90min, with all six cases/profile/posts/classification frozen. This
-continuation is IN PROGRESS / preparation,0/1 additional runs used; no other
-proof correction or tool change is authorized. Initial evidence stays historical.
+The owner separately authorized exactly the syntax correction and one additional
+NEW hosted run90min. [Run37532204465/source9474453](SORT4-ALIGNMENT-RESULTS.md#syntax-only-continuation--one-new-run)
+now closes that continuation INCONCLUSIVE at1/1: both generic helpers fail
+0<=address before caller proof, ZST size/layout and pointer limits unproved;
+manual intended false-post rejections2/2 while unchanged automatic header parsing
+keeps all-six INCONCLUSIVE. No geometry/layout/automatic-UB gain. Initial evidence
+stays historical. STOP; no further proof correction, classifier repair or dispatch.
 
 ## Decision and evidence
 
@@ -90,7 +93,7 @@ outside the approved roadmap.
 | 1f — complete | Full sort4 contract admissibility | Documentation-only assumption ledger: declared vs caller-established vs unresolved; S/F/resource distinctions; all five panic exits | [Review](SORT4-ADMISSIBILITY-REVIEW.md) preserves the earlier analysis and unsent question. No new proof or experiment; the next-stage owner decision supersedes the inquiry recommendation. |
 | 1g — complete, contract adopted | Explicit sufficient domain and source authority | Adopt full source/output separation and the existing effect-aware scratch protocol; require proof of preconditions at each composed caller | [Adopted contract](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) and [authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents). Organizer contact is deferred, not a prerequisite. No claim of minimality, generic proof or committee acceptance; no tool/run authorization. |
 | 1h — complete, conditional design | Joint RAPx / VeriFast / Kani route | Exact obligation matrix, source/domain/premise compatibility, acyclic proof dependencies and necessary/optional VF capabilities | [Assessment](SORT4-COMPOSITION-ASSESSMENT.md): no established generic composition. RAPx diagnostic role only; other properties need individual qualification. Independent VF geometry gate proposed, NOT RUN / NOT AUTHORIZED; ZST automatic operation/resource proof still open. No B/C or semantic implementation authorized. |
-| 1i — closed, INCONCLUSIVE | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Closeout](SORT4-ALIGNMENT-RESULTS.md): run37529855468/source17ad1f4, export/decode/refinement6/6; all six fixture annotations fail parsing, zero proof bodies, no intended negatives reached. Budget1/1 used. Proposed formatting correction NOT APPLIED / NOT VERIFIED; one fresh run requires a new decision. |
+| 1i — closed, both sessions INCONCLUSIVE | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Closeout](SORT4-ALIGNMENT-RESULTS.md): initial37529855468/source17ad1f4 parse failures; syntax-only37532204465/source9474453 reaches checked bodies but generic nonnegativity/ZST calibration/limits remain open. Manual negative rejections2/2; raw automatic all-six INCONCLUSIVE due missed headers. Each separate budget1/1 used, no further correction/run authorized. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -110,7 +113,7 @@ dispatch reasoning; it does not prove its callers.
 - **VeriFast:** official26.09/26.10 source comparison completed without execution
   in stage1c. Repository pin remains26.09. Stage1h proposes only a new independent
   alignment-preservation diagnostic under unchanged26.09. Stage1i's one hosted
-  gate is CLOSED / INCONCLUSIVE due fixture syntax; no geometry proof ran.
+  gate and syntax-only continuation are CLOSED / INCONCLUSIVE; no geometry proof completed.
   It does not reopen the historical c1/patched route. No new run, fixture correction
   or patch build/application authorized after closeout. Historical patched results
   stay conditional on recorded profiles; the proposal remains historical.
@@ -183,9 +186,10 @@ composition, full normal/five-unwind safety, then conditional functionality and
 later caller use. Kani's concrete results do not supply missing universal premises.
 No RAPx-to-VF ownership/initialization/provenance bridge exists in current evidence.
 The single proposed H_align diagnostic separates geometry from automatic
-reference/copy enforcement. Stage1i is CLOSED / INCONCLUSIVE after its one run;
-syntax failures do not refute H_align. The report specifies a syntax-only correction
-for a separately authorized fresh run. Even a later pass would not reopen RAPx
+reference/copy enforcement. Stage1i and its syntax-only continuation are CLOSED / INCONCLUSIVE.
+Initial syntax failures and subsequent generic-helper / ZST-layout / pointer-limit
+failures do not refute H_align. Manual false-post rejections do not supply its
+missing positive proof or repair automatic header classification. Even a later pass would not reopen RAPx
 B/C, implement VF patches or prove all sort4.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous
