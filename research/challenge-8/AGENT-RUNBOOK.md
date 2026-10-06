@@ -21,12 +21,19 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active pure generic target:**
+**Completed pure generic target:**
 [37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
 source `9fb8940437be22b316c45a3b23f9ece325944aae`,verifast_swap_size90min.
 Unrestricted T,req true,result exactly size_of<T><=8. Actual const body extracted
 with failclosed byte audit, pinned tools/refiner; named function and body traces
-required. Poll this exact run before any next dispatch.
+required. Full evidence fetched: one named target,four body execution/return
+records,0errors,LP64; all stages and overall0. VF.10s,refiner.07s,
+runner12.70s,RSS585,516KiB. No covers/loopbounds. Isolated helper proved,
+other six targets/callers/fullcore integration remain open. No active run.
+Next resume generic insertion with transparent tuple-field ownership model;
+pinned external tuple has no own definition, default synthesis is local-only.
+Model definition is explicit, no opaque axiom/stub; compatibility obligations
+must be validated before claiming full function proof.
 
 **Latest tuple-constructor run:** [37401357731](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731),
 source `ae09e983ef430fc03dc49fc4724d36dbb0cab7e9`,range90min. Corrected

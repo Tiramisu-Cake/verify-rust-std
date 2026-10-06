@@ -1,5 +1,12 @@
 # VeriFast generic swap-size helper
 
+Verified on Actions:
+[37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
+source `9fb8940437be22b316c45a3b23f9ece325944aae`,90min. One named target
+and four body execution/return records,0errors,LP64; exact-byte audit/refinement
+and all stage exits0. VF.10s,refiner.07s,runner12.70s,RSS585,516KiB.
+No covers or loop bounds. This proves the isolated generic helper, not callers.
+
 This is a small, independent generic target for VeriFast 26.09 with
 `nightly-2026-02-05`. It targets the live
 `has_efficient_in_place_swap<T>()` at the end of

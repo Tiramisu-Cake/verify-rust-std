@@ -405,6 +405,25 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full logs/artifacts fetched. Independent pure generic size target prepared
   for next serial experiment while this ownership-model issue is investigated.
 
+- [Generic size helper verified](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
+  2026-10-06, source `9fb8940437be22b316c45a3b23f9ece325944aae`,
+  `verifast_swap_size`,90min,VF26.09/nightly-2026-02-05 unchanged.
+  Actual const has_efficient_in_place_swap<T> body, unrestricted generic T,
+  req true, exact result size_of<T><=8. One named target body confirmed plus
+  four body execution/return records; 0 errors (40 statements including pinned
+  prelude lemmas, not 40 target statements), x86_64-unknown-linux-gnu LP64.
+  No slice/pointer/comparator premises or bounded allocation. Pure query and
+  comparison have no memory access, uninitialized reads or immutable writes;
+  returned bool is produced by the comparison. Covers/unwind bounds not used.
+  Exact source-span/ghost audit and refinement0,all stage/overall exits0;
+  VF.10s,RSS160,772KiB,refiner.07s,RSS154,324KiB,
+  runner12.70s,RSS585,516KiB (setup dominates). Full logs/artifacts fetched.
+  Span197bytes,SHA256 eeb87db6d322c8b28de87b203cdd44ec1cdffd29ec1388ba5c00267bf40f88bf.
+  This closes the isolated LP64 generic helper proof; dispatch callers, other
+  six safety targets and all three small_sort sorting contracts remain open.
+  Next resume insertion tuple ownership through an explicit transparent model
+  definition of field ownership, with model compatibility obligations recorded.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

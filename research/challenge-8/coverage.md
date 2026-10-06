@@ -3,7 +3,8 @@
 This table tracks requirements, not inferred coverage from an Actions badge.
 All completed experiments use the actual repository std implementation. See
 [README run log](README.md#run-log) for checked source SHAs and evidence.
-No full Challenge 8 target is complete.
+The isolated generic size helper is verified on LP64; full Challenge 8 remains
+incomplete, including all six remaining safety targets and sorting contracts.
 
 ## Safety targets and sorting contracts
 
@@ -15,7 +16,7 @@ No full Challenge 8 target is complete.
 | `swap_if_less` | Two bounded i32 harnesses, fixed positions 1/2 in a four-cell initialized allocation; 5/5 covers (37383583285) | Generic values, arbitrary valid indices/allocations, ZST, comparator mutation/panic, all required UB checks |
 | `insertion_sort_shift_left` | Direct bounded i32 functional proof, lengths/offsets 1..4, sorted prefix, 7/7 covers (37389298278) | Arbitrary valid lengths, actual outer-loop contracts, independent safety domain, generic types, ZST, ownership and panic restoration |
 | `sort4_stable` | None | Four-read/four-write validity, aliasing contract, generic ownership/comparator behavior, stable sorted permutation |
-| `has_efficient_in_place_swap` | None | Generic type/size domain and optimization dispatch obligations |
+| `has_efficient_in_place_swap` | Actual generic const body, unrestricted T, req true, exact size-threshold result; VF/refinement0, named body execution confirmed, LP64 (37401540878) | Dispatch callers and full-core integration; no other target follows from this pure helper proof |
 
 `insert_tail` is an internal callee. Its verified bounded contract is on a proof-only i32
 adapter, with sorted-prefix precondition (37389298278, 6/6 covers). The three-call summary harness proves
@@ -42,7 +43,9 @@ Do not infer absence of all four UB categories from default checks.
 - Lengths: completed bootstrap has one four-cell backing allocation; arbitrary
   valid slice lengths remain unproved. Bounds 16/32 are performance milestones.
 - Types: completed evidence is i32 only. Non-Copy ownership, Drop, interior
-  mutability / non-Freeze, large types, invalid bit patterns and ZST need coverage.
+  mutability / non-Freeze, large types, invalid bit patterns and ZST need coverage
+  for memory-touching targets. Pure size helper accepts unrestricted T, including
+  zero/large sizes, without allocation or comparator assumptions (37401540878).
 - Comparators: bootstrap includes arbitrary single swap decisions; insertion
   functionality uses pure, nonpanicking i32 `<`. Separate memory safety from
   ordering axioms, stateful comparators and panic/unwind behavior.
