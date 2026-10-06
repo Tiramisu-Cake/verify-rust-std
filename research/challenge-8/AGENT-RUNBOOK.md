@@ -211,6 +211,25 @@ resolve original-provenance raw-pointer/refinement support without weakening
 storage/ownership posts; NEW exact-SHA minimal gate. into_inner remains unmodeled.
 All verification/builds remain GitHub-hosted. Default manual-choice commitd1d9aff.
 
+**Stopped at the owner's explicit request — 2026-10-06.** No active research
+run; latest37441463201 failed as recorded above. No further dispatch after stop.
+Partial worker edits are preserved separately in
+[DRAFT-MD-RECOVERY-2026-10-06.patch](DRAFT-MD-RECOVERY-2026-10-06.patch);
+the executable fixture/runner remain at the last inspected version. The draft
+is NOT ready to apply/dispatch: fractional split syntax/coefficient and generic
+fraction constraints need review, saved shared-provenance raw pointer may lack
+the full permission recovered at original tmp, and source-line/MIR audits plus
+topic documentation are incomplete. No proof/check was run on this draft.
+Next on resumption: review same-reference helper bookkeeping and raw-pointer
+provenance, complete source/MIR audit, then NEW exact-SHA minimal ManuallyDrop
+experiment with all7 controls and unchanged full posts. Do not rerun old SHA.
+For later FnMut integration, exact std needs a new source-bound AST proof-scope
+route after CFG reconstruction (normal and direct-unwind external labels,
+explicit source-written recovery, original bool/return continuation retained).
+Baseline let_lft requires real Rust braces; current std first call has no narrow
+block. This route is a design candidate, not an implemented proof or permission
+to add kernel hooks. No server-side build/verification was performed.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate

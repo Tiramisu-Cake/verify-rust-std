@@ -90,3 +90,21 @@ Acceptance requirements before treating a candidate as evidence:
 Even a passing direct-Continue control would not establish unrestricted
 `FnMut(&T,&T)`, interior mutation, `ManuallyDrop<T>` guard-source provenance,
 late Drop recovery, arbitrary-length insertion or Challenge 8 completion.
+
+## Exact-source normal-scope obstacle
+
+The pinned exporter preprocessor recognizes let_lft as BlockDecls only directly
+inside a real Rust block (preprocessor.rs132,226–245,545–565). Ghost braces do
+not create that block. Actual insert_tail puts the first comparator inside the
+outer unsafe block, followed by the false-return if and then tail.read; the
+next real inner block belongs to the false arm. A separate control with a
+natural comparator block cannot transfer this scope boundary to unchanged std.
+
+A kernel-free candidate would need a structural translator AST rewrite after
+find_blocks/translate_basic_blocks_to_stmts (translator4989–5008), splitting the
+exact first-call prefix into an inner BlockStmt and routing normal/unwind via
+external labels. Recovery must precede the original Boolean branch on normal
+and the original unwinding ReturnStmt on panic. Exact incoming edges, absence
+of skipped runtime effects/Drop, unique source-written binder/helper/markers,
+reachability and differential MIR/AST checks remain design obligations. No such
+rewrite was implemented. Full owned FnMut unwind proof remains open.

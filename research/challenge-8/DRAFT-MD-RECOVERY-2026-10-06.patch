@@ -1,0 +1,64 @@
+diff --git a/research/challenge-8/run-verifast-borrow-recovery.sh b/research/challenge-8/run-verifast-borrow-recovery.sh
+index 177e3e3..197c860 100755
+--- a/research/challenge-8/run-verifast-borrow-recovery.sh
++++ b/research/challenge-8/run-verifast-borrow-recovery.sh
+@@ -172,7 +172,8 @@ for name, match in selected_cases.items():
+         if name == "positive_manually_drop":
+             required = (b"cell.read()", b"core::mem::ManuallyDrop::new(value)",
+                         b"open_frac_borrow(cmp_k, ref_initialized_(tmp_ref), 1/4);",
+-                        b"let tmp_ptr = core::ptr::addr_of!(tmp) as *const T;",
++                        b"let tmp_ptr: *const T;",
++                        b"tmp_ptr = _tmp_shared as *const T;",
+                         b"let value = tmp_ptr.read();", b"cell.write(value);")
+             if any(token not in case_body for token in required) or init_ref_count != 1:
+                 raise SystemExit("positive ManuallyDrop case is missing a required real operation or init share")
+@@ -180,11 +181,17 @@ for name, match in selected_cases.items():
+                 raise SystemExit("positive ManuallyDrop case must close two quarter lifetime shares")
+             if b"ManuallyDrop::into_inner" in case_body or re.search(rb"<\s*T\s*:\s*[^>]*(?:Copy|Freeze)", case_body):
+                 raise SystemExit("unsupported ManuallyDrop call or generic bound found")
++            saved_ref_ptr_matches = [i for i, line in enumerate(case_lines)
++                                     if re.search(rb"tmp_ptr = _tmp_shared as \*const T;", line)]
++            if len(saved_ref_ptr_matches) != 1:
++                raise SystemExit("expected one raw pointer saved from the actual shared reference")
++            metadata["saved_ref_ptr_line"] = len(prefix_lines) + saved_ref_ptr_matches[0] + 1
+             metadata["mir_audit_required"] = True
+         else:
+             if init_ref_count != 0 or helper_matches:
+                 raise SystemExit("missing-init negative must omit init share and stop before recovery")
+             metadata["mir_audit_required"] = False
++            metadata["saved_ref_ptr_line"] = 0
+     manifest["cases"][name] = {
+         "verified_sha256": hashlib.sha256(verified).hexdigest(),
+         "original_sha256": hashlib.sha256(original).hexdigest(),
+diff --git a/research/challenge-8/verifast-borrow-recovery-cases.rs b/research/challenge-8/verifast-borrow-recovery-cases.rs
+index 157bbaa..805b56f 100644
+--- a/research/challenge-8/verifast-borrow-recovery-cases.rs
++++ b/research/challenge-8/verifast-borrow-recovery-cases.rs
+@@ -65,6 +65,7 @@ lem recover_single<T>(tmp: *T)
+ {
+     open single_borrow_debt::<T>(
+         t, k, tmp, tmp_ref, first_fraction, second_fraction);
++    split_fraction ref_initialized::<T>(tmp_ref) by first_fraction;
+     close [first_fraction]ref_initialized_::<T>(tmp_ref)();
+     close_frac_borrow(first_fraction, ref_initialized_::<T>(tmp_ref));
+     close [second_fraction]ref_initialized_::<T>(tmp_ref)();
+@@ -269,6 +270,7 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
+ @*/ {
+     let value = cell.read();
+     let tmp = core::mem::ManuallyDrop::new(value);
++    let tmp_ptr: *const T;
+     //@ let cmp_k = begin_lifetime();
+     //@ close_full_borrow_content::<T>(t, &tmp);
+     //@ borrow(cmp_k, <T>.full_borrow_content(t, &tmp));
+@@ -282,10 +284,10 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
+         //@ open_frac_borrow(cmp_k, ref_initialized_(tmp_ref), 1/4);
+         //@ open [?second_fraction]ref_initialized_::<T>(tmp_ref)();
+         let _tmp_shared = &*tmp;
++        tmp_ptr = _tmp_shared as *const T;
+         //@ close single_borrow_debt::<T>(t, cmp_k, &tmp, tmp_ref, first_fraction, second_fraction);
+     }
+     //@ recover_single::<T>(&tmp);
+-    let tmp_ptr = core::ptr::addr_of!(tmp) as *const T;
+     let value = tmp_ptr.read();
+     cell.write(value);
+ }
