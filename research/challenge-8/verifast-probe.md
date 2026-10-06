@@ -19,9 +19,10 @@ Each span is also saved as its own byte-exact `source-spans/*.rs` artifact with
 its size and SHA-256 in `extraction.json` and `extraction.log`.
 
 The original and verified source have identical Rust code. The verified copy
-adds only `/*@ req true; ens true; @*/` to `insert_tail`. A byte-for-byte check
-after removing that single ghost comment enforces this relationship, and the
-Actions run also invokes the repository's pinned `refinement-checker`. Both
+adds only the separate ghost comments `/*@ req true; @*/` and
+`/*@ ens true; @*/` to `insert_tail`. A byte-for-byte check after removing
+these comments enforces this relationship. The Actions run also invokes the
+repository's pinned `refinement-checker`. Both
 copies import `ManuallyDrop`, `ptr`, and `intrinsics` from `core`; those imports
 are the only crate shell. There are no stand-ins for pointer operations,
 comparators, guard drops, or sorting functions. The crate shell is not the

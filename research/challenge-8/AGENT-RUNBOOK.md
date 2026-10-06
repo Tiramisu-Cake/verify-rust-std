@@ -54,13 +54,17 @@ invariant; no final proof or seven-cover outcomes. SIGTERM/143 stops job at
 claim. All artifact/post steps skipped, zero artifacts. Full log fetched;
 essential evidence in outer-invariant-diagnostic.md. Preserve this reproducer
 and resolve instrumentation warnings before accepting/rerunning its proof.
-**Active run:** [37392725459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37392725459),
+Latest VeriFast probe: [37392725459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37392725459),
 source `fa55288edde480ae581f8deaf24d20bdca458ed7`, `verifast_insert_tail_probe`,
-90 minutes, dispatched 2026-10-06 00:12:04 UTC; metadata SHA confirmed.
-**Next action:** monitor this run, fetch full logs/artifacts and inspect actual
-VeriFast target diagnostic/count, refinement outcome, source-span audit and exit.
+90 minutes, VF26.09 / nightly-2026-02-05. Source extraction/ghost audit passed;
+refinement checker exit0. Verifier parser fails `ens true;` in combined ghost
+comment, no target verified. Runner14.24s, exit1, RSS620,856KiB; evidence fetched.
+Fix splits req/ens into separate comments, no Rust source/body changes.
+**Next action:** push fix and dispatch NEW `verifast_insert_tail_probe` run at
+confirmed research HEAD, 90 minutes; inspect target/refinement/source audit.
 UB detector controls are prepared but unverified in ub-controls.rs / ub-checks.md;
 run them separately before attributing all required UB checks to SmallSort.
+No active run currently.
 
 ## Repository map and verifier details
 

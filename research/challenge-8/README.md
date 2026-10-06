@@ -157,6 +157,20 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   [essential diagnostic and next obligation](outer-invariant-diagnostic.md).
   Preserve this reproducer; do not accept any proof with those substitutions.
 
+- [First VeriFast exact-source probe](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37392725459),
+  2026-10-06, source `fa55288edde480ae581f8deaf24d20bdca458ed7`,
+  `verifast_insert_tail_probe`, 90 minutes, VeriFast 26.09 (pinned Linux archive
+  SHA256 `da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa`),
+  Rust nightly-2026-02-05 / rustc `db3e99bbab28c6ca778b13222becdea54533d908`:
+  exact three source spans and ghost-only audit passed. Refinement-checker exit0,
+  "No refinement errors found"; verifier exit1, parser error at `ens true;`
+  (verified/smallsort.rs:26) inside the combined req/ens comment. No target body
+  or safety theorem was verified. Overall runner exit1, 14.24 s including tool
+  setup, peak RSS620,856KiB; verifier/refiner calls about0.09/0.12 s per job log.
+  Fix splits req and ens into separate ghost comments matching existing repo
+  syntax. Original std SHA256 stays
+  `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

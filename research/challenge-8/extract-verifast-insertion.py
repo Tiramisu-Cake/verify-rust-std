@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 SOURCE = Path("library/core/src/slice/sort/shared/smallsort.rs")
-GHOST = "/*@\nreq true;\nens true;\n@*/ "
+GHOST = "/*@ req true; @*/ /*@ ens true; @*/ "
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
