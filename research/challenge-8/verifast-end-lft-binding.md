@@ -96,8 +96,17 @@ Actions. The local static checks are patch applicability and whitespace only.
    fail. A second `end_lifetime` or full-token assertion after the original
    brace must fail, showing that no token is returned twice.
 
-The structural pairing and CFG ingress check still require hosted validation
-against the actual exported MIR. If they reject its shape, stop and inspect
-the resulting AST/trace before broadening the feature. Do not weaken the
-source fidelity, unwind checks, resource checks, or generic domain to obtain
-a green run.
+Hosted run [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368)
+at source `dc0a359d94f0a79fe41f400d79571199690aca7d` built this patch and
+passed all eight HRTB matcher cases and twelve lifetime-scope fixtures. The
+actual exported insertion MIR was accepted by the structural pairing and CFG
+checks. Its first comparator unwind exit passed postcondition consumption
+and leak checking. On the normal path, closing both accesses, the cut, full
+token assertion, semantic lifetime end, both borrow-end recoveries and actual
+tail read passed. Verification next stopped at the unsupported address of
+`&*tmp` in the guard initializer. This is a prefix milestone, not a proof of
+the whole insertion, its other paths or guard cleanup.
+
+A dedicated malformed CFG-ingress fixture remains to be checked. If a new
+MIR shape is rejected, inspect its AST/trace before broadening the feature.
+Keep source fidelity, unwind checks, resource checks and the generic domain.
