@@ -41,7 +41,21 @@ INSERT_SIGNATURE = (
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
 )
 SIFT_ANCHOR = "        let mut sift = tail.sub(1);"
-RANGE_BOUND_GHOST = "        //@ array_inv::<T>();\n"
+RANGE_INTERIOR_LEMMA = """/*@
+lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
+    req [?f]base[..count] |-> ?xs &*& 0 <= index &*& index <= count;
+    ens [f]base[..count] |-> xs &*& pointer_within_limits(base + index) == true;
+{
+    array_inv::<T>();
+    mul_mono_l(0, index, std::mem::size_of::<T>());
+    mul_mono_l(index, count, std::mem::size_of::<T>());
+    note(pointer_within_limits(base));
+    note(pointer_within_limits(base + count));
+}
+@*/
+
+"""
+RANGE_BOUND_GHOST = "        //@ interior_pointer_limits::<T>(begin, n, n - 2);\n"
 HEADER = "use core::mem::ManuallyDrop;\nuse core::{intrinsics, ptr};\n\n"
 ROOT = (
     "#![no_std]\n"
@@ -117,15 +131,18 @@ def main() -> None:
     # equivalent core imports; no sorting operation is reimplemented here.
     original = HEADER + "".join(pieces.values())
     verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + ghost + "{")
-    bound_ghost = ""
+    injections = {"contract": ghost}
     if profile == "range":
-        bound_ghost = RANGE_BOUND_GHOST
-        verified = verified.replace(SIFT_ANCHOR, bound_ghost + SIFT_ANCHOR)
-    if (
-        verified.count(ghost) != 1
-        or (bound_ghost and verified.count(bound_ghost) != 1)
-        or verified.replace(ghost, "").replace(bound_ghost, "") != original
-    ):
+        injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
+        injections["interior_call"] = RANGE_BOUND_GHOST
+        verified = verified.replace(HEADER, HEADER + RANGE_INTERIOR_LEMMA, 1)
+        verified = verified.replace(SIFT_ANCHOR, RANGE_BOUND_GHOST + SIFT_ANCHOR)
+    stripped = verified
+    for name, content in injections.items():
+        if stripped.count(content) != 1:
+            raise ValueError(f"expected exactly one {name} ghost insertion")
+        stripped = stripped.replace(content, "", 1)
+    if stripped != original:
         raise ValueError("verified copy is not ghost-comments-only")
 
     out = Path(sys.argv[1])
@@ -152,7 +169,10 @@ def main() -> None:
         "specified_function": "insert_tail",
         "expected_specified_target_bodies": 1,
         "contract": CONTRACTS[profile],
-        "bound_ghost": "array_inv::<T>() before first tail.sub(1)" if profile == "range" else None,
+        "ghost_insertions": {
+            name: {"sha256": sha256(content.encode()), "bytes": len(content.encode())}
+            for name, content in injections.items()
+        },
     }
     (out / "extraction.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     for name, info in manifest["pieces"].items():

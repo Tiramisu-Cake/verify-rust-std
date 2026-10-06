@@ -21,9 +21,12 @@ under `research-results/verifast-probe/`. It takes these exact source spans:
 Each span is also saved as its own byte-exact `source-spans/*.rs` artifact with
 its size and SHA-256 in `extraction.json` and `extraction.log`.
 
-The original and verified source have identical Rust code. Each profile adds
-only separate `req` and `ens` ghost comments to `insert_tail`. A byte-for-byte
-check after removing them enforces this relationship. The Actions run also
+The original and verified source have identical Rust code. Both profiles add
+separate `req` and `ens` ghost comments to `insert_tail`. The `range` profile
+also adds one ghost lemma and invokes it before the first pointer subtraction.
+A byte-for-byte check after removing every recorded ghost insertion enforces
+this relationship; the manifest records each insertion's size and SHA-256.
+The Actions run also
 invokes the repository's pinned `refinement-checker`. Both
 copies import `ManuallyDrop`, `ptr`, and `intrinsics` from `core`; those imports
 are the only crate shell. There are no stand-ins for pointer operations,
@@ -55,12 +58,32 @@ Actions run
 [37394022890](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890)
 at `2ba502b` accepted this generic precondition, reached the actual
 `insert_tail` body, and stopped at the same first `tail.sub(1)` bound obligation;
-refinement passed. The next `range` revision inserts only the pinned
-`array_inv::<T>()` ghost lemma call immediately before that pointer operation.
-The lemma preserves `begin[..n] |-> xs` and exposes `n == length(xs)`, the
-`isize::MAX` byte-size bound, and pointer limits for `begin` and `begin + n`.
-It does not assume that the interior pointer is valid. The next Actions result
-must show whether these facts suffice to derive the bound for `tail - 1`.
+refinement passed. An explicit `array_inv::<T>()` call before the subtraction
+was accepted in Actions run
+[37395348422](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395348422)
+at `6851c1a`, but VeriFast still stopped at that bound; refinement passed.
+
+The next `range` revision adds a ghost lemma, `interior_pointer_limits`, with
+the same initialized range resource and an arbitrary mathematical index with
+`0 <= index <= count`. Its body invokes the pinned `array_inv::<T>()` to get
+the base and one-past-end limits and allocation-size bound, then the pinned
+`mul_mono_l` to place `index * size_of::<T>()` between zero and the total
+byte size. Its postcondition returns the range resource and states that the
+interior pointer is within limits. The call before `tail.sub(1)` uses `n - 2`;
+the existing `n >= 2` precondition establishes this index is in range. This
+adds no new safety assumption or fixed length cap. `note` calls in the lemma
+check the endpoint facts rather than assuming them. The lemma body and its
+use have not yet passed Actions verification. The next result must determine
+whether the arithmetic proof succeeds and whether VeriFast connects
+`tail - 1` with `begin + (n - 2)`; a failure there would require another
+proved equality step, not a new precondition.
+
+The pinned [Rust annotation type reference](https://github.com/verifast/verifast/blob/26.09/docs/rust-reference/src/types.md)
+defines every integer type in ghost declarations and annotations as the
+mathematical integers. Thus the `i32` formal parameters of `mul_mono_l` (and
+the pinned `array_split` lemma) do not impose an `i32::MAX` cap on a runtime
+`usize` length. This does not itself prove the calls' arithmetic and resource
+preconditions; the Actions run must check those obligations.
 
 Both profiles leave the extracted `CopyOnDrop` and outer function unverified:
 `-skip_specless_fns` skips these unspecified functions. The experiment
