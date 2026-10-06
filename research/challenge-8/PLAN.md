@@ -27,9 +27,13 @@ B/C NOT RUN; pins/std/contracts unchanged and no generic proof gain.
 The separately authorized documentation-only
 [admissibility review](SORT4-ADMISSIBILITY-REVIEW.md) is complete: operation-level
 conditions are justified, full separation and the chosen scratch/resource protocol
-are sufficient caller-motivated premises, not yet an accepted complete standalone
-challenge contract. An organizer question is drafted, not sent. Contract
-admissibility remains a separate open question;
+are sufficient caller-motivated premises, not an organizer-accepted complete
+standalone challenge contract. The owner then adopted the
+[explicit research domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations)
+after the [C-source authority check](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents).
+The specification choice is settled; organizer clarification is deferred and no
+longer blocks planning. Its unsent draft remains historical. Generic proof,
+caller composition and external acceptance remain distinct obligations;
 later sorting stages and verifier implementation remain separate decisions.
 
 ## Decision and evidence
@@ -65,9 +69,10 @@ outside the approved roadmap.
 | 1a — complete | `sort4_stable` functionality | Actual-body sorted exact i32 multiset and tagged stability; 18/18 covers in run37459631500, plus contract/caller and generic-feasibility notes | [Functional closeout](SORT4-RESULTS.md) records the concrete domain. Generic safety and full UB coverage remain open. |
 | 1b — complete | `sort4_stable` contract and proof route | Reproduce coincident/shifted-overlap cases; refine full contract and caller mapping; review existing patches and select one minimal generic-safety architecture proposal | [Closeout](SORT4-CONTRACT-RESULTS.md): run37466906281 validates both distinct negatives/control/witness, full contract and one proposed direct-unwind recovery gate. Owner decision required before semantic implementation. |
 | 1c — complete | `sort4_stable` no-patch feasibility | Compare checked annotations on official26.09, released26.10 and one integrated alternative (Kani); obstacle matrix and no-run rationale | [Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed full-resource c1 candidate; no generic coverage gained. Historical patched proposal remains unauthorized. |
-| 1d — complete | Remaining approved tools | Compare ESBMC, Flux, KMIR and RAPx against generic Rust, unsafe memory and panic requirements using primary sources | [Screening](ALTERNATIVE-TOOLS-ASSESSMENT.md): select RAPx only for applicability diagnostics. No tool execution or new target coverage; contract admissibility remains open. |
+| 1d — complete | Remaining approved tools | Compare ESBMC, Flux, KMIR and RAPx against generic Rust, unsafe memory and panic requirements using primary sources | [Screening](ALTERNATIVE-TOOLS-ASSESSMENT.md): select RAPx only for applicability diagnostics. No tool execution or new target coverage; the then-open contract decision is recorded in stage1g. |
 | 1e — closed, NO-GO | RAPx applicability and detector coverage | Alignment/ZST gate on unchanged exact integrated profile; later gates blocked | [Results](RAPX-APPLICABILITY-RESULTS.md): all six controls analyzed, two ZST Align violations incorrectly SOUND. Separate automatic replay1/2 runs reproduces NO-GO with authentic-log/mutation tests; old manual/unmapped/setup evidence preserved. B/C NOT RUN; no generic proof/full-sort4/tool-development authorization. |
-| 1f — complete, clarification open | Full sort4 contract admissibility | Documentation-only assumption ledger: declared vs caller-established vs unresolved; S/F/resource distinctions; all five panic exits | [Review](SORT4-ADMISSIBILITY-REVIEW.md): sufficient separated-range contract has no organizer acceptance yet; official clarification reviewed, precise question drafted only. No new proof or experiment. Owner decision before external inquiry or any implementation. |
+| 1f — complete | Full sort4 contract admissibility | Documentation-only assumption ledger: declared vs caller-established vs unresolved; S/F/resource distinctions; all five panic exits | [Review](SORT4-ADMISSIBILITY-REVIEW.md) preserves the earlier analysis and unsent question. No new proof or experiment; the next-stage owner decision supersedes the inquiry recommendation. |
+| 1g — complete, contract adopted | Explicit sufficient domain and source authority | Adopt full source/output separation and the existing effect-aware scratch protocol; require proof of preconditions at each composed caller | [Adopted contract](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) and [authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents). Organizer contact is deferred, not a prerequisite. No claim of minimality, generic proof or committee acceptance; no tool/run authorization. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -130,15 +135,23 @@ non-overlapping copies. Its contract must keep safety, ordering and resource
 assumptions distinct. Its architecture deliverable is one concrete technical
 option, not permission to implement that option.
 
-Stage1f only reads source/primary clarification and changes documentation.
+Stage1f only read source/primary clarification and changed documentation.
 Full range separation is a sufficient uniform premise, not a demonstrated minimum
 Rust UB condition. A retained-source/Shadow protocol accounts for the audited
 scratch route; it must not exclude legal callbacks or substitute full ownership
-permissions for the runtime's readable-source requirement without an accepted
-domain. Current callers do not settle standalone challenge admissibility. The
-review's decision map requires a separate owner decision on organizer contact,
-then a separately authorized specification/proof task informed by the answer.
+permissions for the runtime's readable-source requirement without stating the
+domain. Current callers do not settle standalone challenge admissibility.
 No Actions/builds/executable tests or proof/tool changes ran in this stage.
+
+Stage1g records the owner's decision to proceed with the explicit sufficient
+research contract, supported by the checked C precedents. Waiting for organizers
+is no longer a planning gate. A future technical task must use that stated domain,
+retain unrestricted safety with legal callback effects and all panic exits, and
+include caller-precondition proofs before composition. Source audit is not a
+completed proof; full ownership permissions are our protocol, not minimal no-UB
+conditions. Do not silently change the domain to make a tool pass.
+The next proof-route decision must confront the recorded tool limitations;
+contract adoption does not reopen RAPx or authorize a VeriFast extension.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous
 edit/commit/dispatch/inspection on GitHub-hosted Actions. Keep one relevant

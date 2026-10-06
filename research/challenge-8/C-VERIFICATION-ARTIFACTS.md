@@ -22,6 +22,36 @@ be the original research authors' first version or the exact versions used by
 the earlier conversation. Public documentation URLs without a commit/version are
 explicitly living references, accessed on the date above.
 
+## Authority and separation precedents
+
+Checked on 2026-10-06 for the owner's decision to adopt an explicit
+[sort4 domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations).
+Publication status and inspectable contracts support the assessment below;
+we do not infer authority from repository popularity or invent citation rankings.
+
+| Reference | Verified provenance and status | Relevant contract and weight |
+| --- | --- | --- |
+| P1, Bouillaguet, Bobot, Sighireanu and Yakobowski | [Springer chapter](https://doi.org/10.1007/978-3-030-11245-5_8), VMCAI 2019, LNCS 11388, pp.160–182. The [publisher's proceedings description](https://link.springer.com/book/10.1007/978-3-030-11245-5) explicitly confirms peer review (27 papers selected from 62 submissions). The [official conference program](https://popl19.sigplan.org/details/VMCAI-2019/1/Exploiting-Pointer-Analysis-in-Memory-Models-for-Deductive-Verification) confirms authors and venue. | Strong, directly relevant scholarly precedent. The inspected author version, Section 2/Figure 2, states input/output separation and per-call checking. This is a VMCAI paper, not a POPL main-track paper or merely an unidentified preprint. |
+| A, ACSL by Example | Institutional report and reference collection from Fraunhofer FOKUS: pinned [README](https://github.com/fraunhoferfokus/acsl-by-example/blob/3e8cd9adf79955d9b722185f9beb4518c66d57f2/README.md) and [copyright/license](https://github.com/fraunhoferfokus/acsl-by-example/blob/3e8cd9adf79955d9b722185f9beb4518c66d57f2/LICENSE.md). README identifies version33.0.1, the accompanying report and Frama-C/WP artifacts. | Credible, inspectable specification precedent. A10 explicitly separates each input range from output; inputs need not be mutually separated. A11's 533/533 goals are published result data, not our reproduction. No peer-reviewed-publication claim for this exact snapshot. |
+| V1, VeriFast C mergesort | Pinned example in the verifier's own [source repository](https://github.com/verifast/verifast/blob/809de4596839b739dd999f9e462242c835e3af46/examples/mergesort_and_binarysearch.c#L265-L267). | Supporting tool artifact: the two full array resources in `merge_sort_core` are joined by separating conjunction. No separate peer-review or execution claim for this file. |
+
+P1 technical inspection uses the [versioned author text](https://arxiv.org/html/1811.12515v1);
+publisher/conference metadata establishes publication status, not a line-by-line
+identity audit of the final chapter. Its input pointers may alias each other;
+inputs are separated from outputs/positions, whose locations are pairwise
+separate. That interface and schematic sorting body differ from Rust sort4.
+The paper also flags its record/array reinterpretation as debatable under C.
+
+**Assessment:** these sources are sufficiently authoritative to support choosing
+and defending an explicit separated-buffer specification. The argument is
+contractual and implementation-specific: state the premise, prove the body under
+it, and establish it at calls. A2's swap permits coincident pointers, so these
+works do not establish a blanket C rule excluding aliases. The Rust justification
+also depends on our actual-body diagnostics and caller audit; neither scholarly
+publication nor institutional provenance proves Rust ownership, panic safety,
+the weakest admissible precondition, or committee acceptance. No C proof was
+replayed and no foreign proof code was imported for this decision.
+
 ## Repository snapshots
 
 | Repository/material | Snapshot used | Version purpose |
@@ -167,6 +197,7 @@ was produced for V1 in this review.
 **P1:** Quentin Bouillaguet, François Bobot, Mihaela Sighireanu and Boris
 Yakobowski, *Exploiting Pointer Analysis in Memory Models for Deductive
 Verification*, VMCAI 2019.
+[Published chapter, DOI 10.1007/978-3-030-11245-5_8](https://doi.org/10.1007/978-3-030-11245-5_8);
 [Versioned record](https://arxiv.org/abs/1811.12515v1);
 [PDF](https://arxiv.org/pdf/1811.12515).
 
@@ -241,4 +272,3 @@ To revisit a source, start from its pin and exact file rather than a search
 snippet or the repository's moving default branch. Any future proof replay or
 Rust adaptation is a separate experiment under [AGENTS.md](../../AGENTS.md),
 [STATUS.md](STATUS.md) and the [runbook](AGENT-RUNBOOK.md).
-

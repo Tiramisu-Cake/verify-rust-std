@@ -1,7 +1,8 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: documentation-only sort4 admissibility review CLOSED;
-organizer clarification remains open. No experiments authorized.
+Updated 2026-10-06: explicit sort4 research contract ADOPTED by the owner;
+C-source authority check complete. Organizer clarification is deferred and is
+not a planning prerequisite. No experiments authorized or new proof coverage.
 Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
@@ -14,6 +15,31 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**CLOSED — documentation decision complete; adopted domain recorded.**
+From head `43bc758625157febb496804f346b7433f1a21d5a`, the owner chose an explicit
+sufficient contract following authoritative C precedents. The
+[adopted domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) requires
+full source/output byte-range separation, with the existing reference/storage,
+callback and resource obligations. ZST byte separation is vacuous; pointer
+equality remains allowed and alignment/logical ownership remain required.
+Every composed caller must prove the precondition; the existing caller audit
+is not a machine-checked composition proof. No Copy/Freeze/purity/no-panic
+restriction is added to safety; ordering premises remain separate.
+
+[Authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents)
+confirms P1's peer-reviewed VMCAI publication and distinguishes Fraunhofer's
+reference artifacts and the VeriFast example. They support the specification
+method, not minimality, Rust proof results or committee approval. Project
+contract choice is settled; external acceptance remains unconfirmed. The
+earlier unsent question is retained as history, not the next required action.
+
+Only documentation/source reading, static review and this docs commit/ref
+update were in scope. No std/proof/tool/workflow changes or external messages.
+The latest ten Actions runs at entry were completed; the latest research run
+remains replay37513897141. Previous experiment/replay budgets stay closed.
+
+## Historical admissibility review — CLOSED
 
 **CLOSED — bounded documentation-only sort4 admissibility review.**
 Owner resumed from expected/actual HEAD
@@ -145,7 +171,8 @@ Direct branch dispatch worked; no default-branch update was needed.
 Stop at the phase boundary. A further narrow preparation-and-A retry needs a
 new owner decision; proposal in the results, not applied. Full sort4 proof,
 verifier development, later phases and external publication remain unauthorized.
-Contract admissibility remains separate/unresolved; earlier phases stay CLOSED.
+At that checkpoint, contract admissibility was unresolved; the later owner
+decision above adopts an explicit research domain. Earlier phases stay CLOSED.
 No active run, uncommitted proof draft or new proof claim.
 
 ## Completed no-patch review
@@ -288,10 +315,12 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-STOP after documentation closeout/commit/push. Recommended next owner decision:
-approve seeking the specific organizer clarification in
-[the review](SORT4-ADMISSIBILITY-REVIEW.md#decision-and-unsent-organizer-question),
-or retain the stop. The question is drafted only; no external contact authorized.
+Documentation decision complete. The next planning task can assess a bounded
+proof route against the adopted contract and caller obligations without waiting
+for organizers. A concrete implementation/experiment phase still needs a separate
+owner decision; none is READY here. The unsent question is deferred and external
+contact remains unauthorized.
 Gate A/replay remain CLOSED / NO-GO; B/C, new proof runs and verifier changes
-remain unauthorized. A clarification would inform a later specification/proof
-decision, not automatically reopen experiments. No active run or proof draft.
+remain unauthorized. Adopting the contract does not repair a detector, discharge
+generic ownership/unwind proofs or revive the historical patched VeriFast route.
+No active run or new proof draft was created by this documentation task.

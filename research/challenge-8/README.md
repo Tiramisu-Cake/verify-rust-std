@@ -6,12 +6,15 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Documentation-only admissibility review complete; clarification remains open.**
-[Review and unsent organizer question](SORT4-ADMISSIBILITY-REVIEW.md) distinguish
-actual operation requirements, sufficient caller-established full separation,
-conditional sorting premises and the chosen resource-accounting protocol.
-No new proof coverage or experiment. Next step is an owner decision on seeking
-clarification; external contact and new experiments remain unauthorized.
+**Explicit sort4 research contract adopted; C-source authority checked.**
+The [adopted domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations)
+states full source/output separation and the effect-aware scratch/resource
+protocol, with caller-precondition proofs required for composition. The
+[authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents)
+supports this specification choice; it supplies no new Rust proof or committee
+acceptance. Organizer clarification is deferred and no longer blocks planning.
+The [earlier review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md) remain
+historical. New experiments and external contact remain unauthorized.
 
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
@@ -34,7 +37,8 @@ first-callback candidate and ran no experiment. Earlier phases remain closed.
 
 1. [Root agent instructions](../../AGENTS.md).
 2. [Current status](STATUS.md), [roadmap](PLAN.md),
-   [current analytical closeout](SORT4-ADMISSIBILITY-REVIEW.md),
+   [adopted contract](SORT4-CONTRACT.md),
+   [admissibility analysis](SORT4-ADMISSIBILITY-REVIEW.md),
    [closed RAPx phase](RAPX-APPLICABILITY-PHASE.md)
    and [operating runbook](AGENT-RUNBOOK.md).
 3. [Coverage ledger](coverage.md), [Challenge 8](../../doc/src/challenges/0008-smallsort.md)
@@ -50,7 +54,8 @@ both completed hosted runs and their evidence boundaries.
 - [Sort4 admissibility review](SORT4-ADMISSIBILITY-REVIEW.md): assumption ledger,
   local copy safety vs sufficient separation/preservation, raw scratch/ownership,
   legal comparator effects and five panic posts; official clarification limits,
-  historical runner interface limitation, decision map and unsent question.
+  historical runner interface limitation, superseded inquiry recommendation and
+  deferred unsent question. The later owner decision adopts the explicit domain.
 - [RAPx applicability results](RAPX-APPLICABILITY-RESULTS.md): NO-GO for pinned
   ZST alignment detection, six actual controls and corrected automatic replay,
   processor/source/artifact identities, preserved manual/JSON history and stop.
@@ -63,12 +68,12 @@ both completed hosted runs and their evidence boundaries.
 - [No-patch phase](SORT4-NO-PATCH-PHASE.md) and
   [assessment](SORT4-NO-PATCH-ASSESSMENT.md): completed source/evidence comparison,
   no experiment, no generic coverage gain; its historical contract-review
-  recommendation remains an independent open question.
+  recommendation led to the analysis and subsequent domain adoption above.
 - [Completed contract phase](SORT4-CONTRACT-PHASE.md): coincident/shifted-overlap
   diagnostics, precise contract and one proposed generic proof route; see
   [observed results](SORT4-CONTRACT-RESULTS.md). Verifier implementation remains
   a separate owner decision.
-- [Sort4 contract and callers](SORT4-CONTRACT.md): full target memory/aliasing,
+- [Sort4 contract and callers](SORT4-CONTRACT.md): adopted research memory/aliasing,
   single-ownership, comparator effects and all five panic sites, separated from
   the four-cell functional domain in [the actual-body harnesses](sort4.rs) and
   [overlap diagnostics](sort4-contract-diagnostics.rs).
@@ -99,7 +104,8 @@ The [C verification survey](C-VERIFICATION-SURVEY.md) records the 2026-10-06
 comparison of all seven targets with C proof developments, transfer candidates
 and Rust-specific limits. The [artifact catalog](C-VERIFICATION-ARTIFACTS.md)
 pins source files, contracts, published results, papers and relevant tool
-references. [Sorting-model observations](SORTING-MODEL-OBSERVATIONS.md) preserve
+references, and distinguishes their scholarly/institutional/tool-artifact
+authority. [Sorting-model observations](SORTING-MODEL-OBSERVATIONS.md) preserve
 the earlier finite-enumeration report and a reconstruction specification, with
 its missing run provenance made explicit.
 

@@ -21,7 +21,7 @@ The44-case classifier rejection gate passes. Coincident first copy violates
 non-overlap; shifted individually disjoint copies lose original values, NOT an
 UB finding. Prior memcmp-unwind and formatted-panic-label fixture failures are
 preserved in [closeout](SORT4-CONTRACT-RESULTS.md). No generic safety/UB coverage
-or new VeriFast result follows; [proposed full contract](SORT4-CONTRACT.md) and
+or new VeriFast result follows; [adopted research contract](SORT4-CONTRACT.md) and
 [one selected architecture/gate](SORT4-SAFETY-DECISION.md) remain unproved research
 specifications. That phase stopped at the owner decision; its proposed verifier
 capability remains NOT AUTHORIZED.
@@ -32,7 +32,7 @@ VeriFast26.09/26.10 preserves relevant tuple/HRTB/direct-unwind/typed-scratch ga
 Kani remains a concrete monomorphized evidence route. Target-source compilation/
 refinement on26.10 NOT RUN. These are feasibility observations, not new target
 failures or proofs. The historical patched proposal remains unauthorized;
-contract/admissibility clarification is an independent open question.
+the later explicit-domain decision below changes no tool finding or proof count.
 
 The [remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) selected the
 [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md). Its preceding session
@@ -74,8 +74,13 @@ caller-established, not shown necessary for every safe overlap or accepted as
 the complete standalone target domain. Our full ownership/Shadow/no-debt protocol
 is a resource-accounting choice, not the language's minimum no-UB condition.
 Legal callback effects/all five panic exits stay in safety scope; order/key
-preservation belongs to conditional functionality. Organizer clarification remains
-open. The old RAPx runner's evidence-dir/processor-scope mismatch is only a static
+preservation belongs to conditional functionality. The owner subsequently
+adopted this explicitly delimited [research domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations)
+after the [authority check](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents).
+Caller-precondition proofs are required for composition; no such new proof was
+produced by the decision. Organizer clarification is deferred, not a planning
+gate; committee acceptance is unconfirmed. **No coverage counts change.**
+The old RAPx runner's evidence-dir/processor-scope mismatch is only a static
 preparation limitation; it changes none of the historical measured claims.
 
 | Actual target | Established evidence / tool | Remaining obligations |

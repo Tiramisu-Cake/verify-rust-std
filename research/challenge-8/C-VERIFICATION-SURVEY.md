@@ -239,6 +239,13 @@ implementation and actual callers, and a genuine missing safety condition must
 follow the project's upstream-policy process. This review establishes no new
 contract or bug finding.
 
+Subsequent owner decision, 2026-10-06: adopt the
+[explicit sufficient domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations),
+with caller-precondition proofs required for composition. The
+[authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents)
+confirms the relevant publication/artifact status. Organizer clarification is
+deferred, not a planning prerequisite; committee acceptance remains unconfirmed.
+
 All five comparisons precede the output copies. This gives a useful panic-path
 shape, but does not discharge borrow recovery or authorize ignoring callback
 effects.
@@ -385,4 +392,3 @@ Questions for the separately requested planning iteration:
 No foreign proof code is imported. No runtime source, proof script, verifier
 profile, workflow, coverage result, STATUS, or active phase is changed by this
 documentation task. Any future execution follows AGENTS and the runbook.
-

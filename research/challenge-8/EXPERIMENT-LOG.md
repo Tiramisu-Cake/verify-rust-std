@@ -2017,3 +2017,47 @@ contract is motivated for existing callers, but is not organizer-accepted as the
 complete standalone target domain. Recommend owner decision on seeking the
 drafted clarification; its answer determines a separately authorized contract/
 proof decision. No active run or proof draft. No automatic next experiment.
+
+## 2026-10-06 — owner adopts explicit sort4 contract after C-source authority check
+
+Owner chose to settle the specification question by stating the premises
+explicitly, as in the C work, subject to checking that work's authority.
+Entry remote research head was
+`43bc758625157febb496804f346b7433f1a21d5a`, tree
+`88cdd4a29d13e40d3384d606d236479716cc4ba7`. Files read at that immutable head;
+edits prepared separately and applied through the fork's Git data API with
+an expected-head lease, not a force update. No local git checkout was present.
+The latest ten Actions runs were completed; latest research evidence remained
+replay37513897141. Source blob e555fce440872898e47fd5114f32eb15401d07df unchanged.
+
+[Authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents):
+publisher/conference primary records confirm P1's VMCAI2019 peer-reviewed chapter,
+DOI10.1007/978-3-030-11245-5_8. Its versioned author text supplies the inspected
+separation/per-call example. Fraunhofer README/license and pinned ACSL merge
+contract/results support a distinct institutional reference-artifact claim;
+VeriFast's pinned mergesort example is a supporting tool artifact. No ranking,
+unverified peer-review label for artifacts or independent proof replay claimed.
+
+[SORT4-CONTRACT](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) now adopts
+full source/output byte-range separation explicitly. Nonempty overlapping ranges
+are outside this theorem; separation is sufficient, not shown minimally necessary.
+ZST byte separation allows equal addresses and preserves alignment/reference/
+logical-ownership duties. Existing initialized-source, raw possibly-uninitialized
+scratch, retained-originals/Shadow and effect-aware normal/panic posts remain the
+target. Clarified that legal callback leaks/replacement do not violate a supposed
+Rust no-leak rule or require restoration of consumed resources. No Copy/Freeze/
+purity/no-panic restriction is added to safety. Future composition must prove
+the entire precondition at each used caller; the static audit is not that proof.
+
+Project specification choice is settled. Organizer inquiry is deferred and no
+longer a prerequisite for planning under the stated domain. External acceptance
+is unconfirmed; no claim of a complete standalone Challenge solution follows.
+The earlier review/ledger and unsent draft remain historical. STATUS, PLAN,
+README, coverage and survey now point to this owner decision; prior experimental
+reports and log entries remain intact. RAPx gateA/replay stay CLOSED/NO-GO, B/C
+NOT RUN; no historical budget or patched VeriFast route is reopened.
+
+Scope: research documentation only. Static diff, repository-relative link/anchor
+and changed-path checks; no compilation, executable research tests, proof runs,
+Actions dispatch, std/tool/workflow edits or external messages. Proof and detector
+coverage are unchanged. The next technical phase remains a separate decision.

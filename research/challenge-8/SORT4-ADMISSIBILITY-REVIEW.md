@@ -1,9 +1,29 @@
 # Sort4 full-contract admissibility review
 
+## Subsequent owner decision — explicit domain adopted
+
+After this review was committed at `43bc758625157febb496804f346b7433f1a21d5a`,
+the owner chose on 2026-10-06 to settle the project's specification by stating
+its sufficient preconditions explicitly, backed by authoritative C work.
+See the [adopted contract](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations)
+and [source authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents).
+Full byte-range separation and the stated scratch/resource protocol define the
+research theorem; every composed caller must establish its complete precondition.
+The existing source audit guides that work and is not a checked caller proof.
+
+Organizer clarification is deferred, not a prerequisite for further planning.
+The analysis, ledger's “Clarify” labels and draft below preserve the earlier
+acceptance questions; they do not override this owner decision. External
+acceptance remains unconfirmed, generic proof remains absent, and no experiment,
+verifier change or external contact is authorized. No claim that all overlaps
+are UB or that this is the weakest Rust safety contract follows.
+
+## Historical review at entry
+
 2026-10-06; owner-authorized **documentation-only analysis**, entry
 `826d74b45546f9ce1319e2cd4cac8b6d42a2f41f`, fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
-**CLOSED — admissibility unresolved; organizer clarification recommended.**
+**Historical closeout: admissibility unresolved; clarification recommended then.**
 The [research contract](SORT4-CONTRACT.md) is a motivated sufficient specification
 for the audited caller routes. It is neither an accepted specification of the
 entire challenge target nor a proved generic theorem. This review changes no
@@ -227,16 +247,18 @@ summary is an admissible complete contract for the named standalone safety
 target, and whether our explicit resource accounting is an acceptable summary
 rather than an exclusion of legal readable-source/destination protocols.
 It is premature to call the current full research contract challenge-complete.
-The recommended next owner decision is to approve seeking this specific
-clarification, or retain the stop. No sending/publication is authorized here.
+The review originally recommended seeking this clarification or retaining the
+stop. The subsequent owner decision above supersedes that recommendation;
+the question and conditional response map are retained for possible future use.
+No sending/publication is authorized here.
 
 | Organizer answer | Consequence for a separately approved next task |
 | --- | --- |
-| Accept sufficient caller-motivated separation and explicitly described scratch ownership protocol | Record the accepted domain and distinguish R from S; only then decide a source-exact proof route. Five-panic/copy/ownership proofs remain absent, and RAPx NO-GO is unchanged. |
+| Accept sufficient caller-motivated separation and explicitly described scratch ownership protocol | If such an answer is obtained, record external acceptance separately from the already-adopted project domain. Five-panic/copy/ownership proofs remain absent, and RAPx NO-GO is unchanged. |
 | Require safety for every input satisfying literal four-read/four-write wording, or a broader source/ownership protocol | Current separated/full-own summary cannot close that target. Clarify the missing operation-level premises and any upstream safety-doc correction; do not claim a false universal theorem or modify std ourselves. The shifted case separately prevents unconditional original-value functionality on that domain. |
 | Require weaker, operation-specific spatial conditions instead of full separation | Separately authorize a specification analysis of local copy safety, continued source validity and preservation/source post; do not assume every overlap unsafe or silently weaken the frozen contract. |
 
-Draft for issue56, **recorded only, not sent**:
+Historical draft for issue56, **deferred, not sent**:
 
 > For Challenge8's standalone `sort4_stable` safety target, may we use an explicit
 > sufficient contract with separate four-element source/output ranges and raw,
@@ -251,8 +273,9 @@ Draft for issue56, **recorded only, not sent**:
 > cover every range allowed by the literal comment? We keep legal comparator
 > effects and all five panic exits in safety scope; ordering premises are separate.
 
-No new experiments are recommended before that decision; no previous phase is
-reopened by this analysis. Current checkpoint is [STATUS](STATUS.md).
+The earlier requirement to decide on clarification before proof-route planning
+is superseded. No previous experiment phase is reopened by contract adoption;
+current authorization is recorded in [STATUS](STATUS.md).
 
 [sort4]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/826d74b45546f9ce1319e2cd4cac8b6d42a2f41f/library/core/src/slice/sort/shared/smallsort.rs#L610-L658
 [callers]: https://github.com/Tiramisu-Cake/verify-rust-std/blob/826d74b45546f9ce1319e2cd4cac8b6d42a2f41f/library/core/src/slice/sort/shared/smallsort.rs#L205-L292

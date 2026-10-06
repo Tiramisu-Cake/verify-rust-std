@@ -1,11 +1,58 @@
-# `sort4_stable`: proposed full contract and caller audit
+# `sort4_stable`: adopted research contract and caller audit
 
 Target [smallsort.rs](../../library/core/src/slice/sort/shared/smallsort.rs:610),
 blob `e555fce440872898e47fd5114f32eb15401d07df`, unchanged at approval
 `54485d632bfca9d69fee853bd6aa30bc330647c9`. Refined on 2026-10-06 under
-[SORT4-CONTRACT-PHASE](SORT4-CONTRACT-PHASE.md). This is a research contract,
-not an accepted strengthening of the public target or a generic proof. Executed
+[SORT4-CONTRACT-PHASE](SORT4-CONTRACT-PHASE.md). Adopted as the project's explicit
+research specification by the owner on 2026-10-06, after the admissibility review
+at `43bc758625157febb496804f346b7433f1a21d5a` and C-source authority check.
+Project adoption is not committee acceptance or a generic proof. Executed
 facts and their domains are recorded in [the closeout](SORT4-CONTRACT-RESULTS.md).
+
+## Adopted domain and caller obligations
+
+The owner chose to state the sufficient domain explicitly, following the
+contract-based approach in the inspected C work. For `s = v_base`, `d = dst`,
+let `Bytes_T(p,4)` be the union of the storage byte regions of the four logical
+`T` slots at `p`. The spatial precondition is:
+
+```text
+Separated4_T(s,d) := Bytes_T(s,4) intersect Bytes_T(d,4) = empty
+```
+
+This is full source/output range separation, not just separation of each
+selected copy pair. Disjoint subranges of one allocation are allowed when
+pointer/provenance rules permit them; distinct allocation identities are not
+required. For a ZST both byte sets are empty, so equal numeric addresses are
+allowed. Alignment, reference validity and logical ownership still apply.
+This notation describes a specification, not executable pointer arithmetic or
+an assumed verification axiom.
+
+The proof target below additionally requires initialized reference-valid source
+elements, writable possibly-uninitialized destination storage, legal pointers
+and the stated effect-aware resource protocol. It retains arbitrary valid `T`
+and legal `FnMut` effects, including all five panic exits. Ordering and relevant
+value/key preservation are premises only of the conditional functional theorem.
+The chosen normal ownership post retains originals and nondropped scratch
+replicas; later scratch access/ownership transport remains a separate obligation.
+
+At every actual call used in a composed proof, establish the complete
+precondition from that caller's resources, length/offset bounds and control-flow
+branch. The table below is a source audit to guide those proofs, not a discharged
+caller theorem. No caller may obtain this summary by assuming separation without
+justifying it. A future submission must state this domain and its caller evidence.
+
+The [C-source authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents)
+supports this methodological choice: publish the domain and verify its use.
+It does not make separation automatic in C/Rust, prove it minimal, validate our
+Rust resource encoding, or decide Challenge acceptance. Overlapping nonempty
+ranges are outside this chosen theorem; we do not classify all such calls as UB.
+
+**The specification choice is settled for this project.** Organizer clarification
+is no longer a prerequisite for planning work under this explicit domain. The
+[earlier review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md) remain historical
+evidence; external acceptance is unconfirmed. No external contact, new experiment
+or verifier modification is authorized by this documentation decision.
 
 ## Current comment, actual body and distinct premises
 
@@ -14,8 +61,8 @@ valid for four writes, result stored in dst[0..4]. It omits the non-overlap
 requirement of each `copy_nonoverlapping`, initialized/reference-valid source,
 and the ownership policy for copied representations and overwritten storage.
 Alignment, provenance and callback borrowing also need an explicit interpretation
-of “valid”. We keep the source/comment unchanged and record the precise
-clarification question below.
+of “valid”. We keep the source/comment unchanged and make the selected sufficient
+domain explicit above. Any future upstream documentation change is separate.
 
 Five comparisons precede all writes: c1=(s1,s0), c2=(s3,s2), c3=(c,a),
 c4=(d,b), c5=(unknown_right,unknown_left). Four one-element copies follow at
@@ -141,7 +188,9 @@ For k=1..5, let `(Vk,Qk,Hk)` be the actual state after the first k-1 successful
 calls and the effects of the kth panicking callback. Full unwind target:
 `SrcOwn(s,Vk) * RawDst(d,I_k) * Cb(F,Qk) * Frame(Hk)` with all temporary
 reference/lifetime resources recovered, allocations/permissions intact, exactly
-ONE current ownership sequence and no leak/debt escaping the function.
+ONE current ownership sequence and no unaccounted local resource/borrow debt.
+Legal callback leaks or resource replacement are allowed and must be represented
+as such; the post does not resurrect resources consumed by those effects.
 `I_k` equals I0 except permitted callback effects; **no sort4 write** has occurred.
 If callback-accessible destination/frame storage changes legally, its post uses
 that current state, never falsely restores I0/H0. On actual separated scratch
@@ -191,7 +240,7 @@ merge, CopyOnDrop restoration and successful ownership return to v are separate
 full caller obligations. They require a relational scratch-access/ownership proof;
 this spatial audit does not discharge them or reuse an unproved callee summary.
 
-## Established concrete theorem and required contract clarification
+## Established concrete theorem and acceptance boundary
 
 Run37459631500 proves actual-body sorted exact full-range i32 multiset and
 unchanged source, plus separate complete tagged-item stable permutation;18/18
@@ -200,11 +249,11 @@ nonpanicking comparison are narrower than the resource contract above. The new
 contract suite reuses the exact unchanged values harness; it adds concrete
 counterexamples/witnesses, not unrestricted safety or stronger UB instrumentation.
 
-Precise question for the owner/organizer (recorded only, not sent externally):
-Does “valid for four reads/writes” in this target intend full range separation
-and a single-owner nondropped-scratch protocol, or must the verification contract
-cover arbitrary overlapping writable ranges satisfying that literal short
-comment? The actual coincident route requires additional local non-overlap;
-original-value functionality also requires cross-copy preservation. Acceptance
-of a clarified sufficient research contract must precede claiming coverage of
-the public challenge target. No runtime/source comment or signature is changed.
+The adopted contract is a sufficient, explicitly delimited research target.
+It is stronger than the short comment's separate read/write-validity wording;
+the exclusive resource protocol is not a claim about minimal Rust no-UB premises.
+The recorded counterexamples and caller audit motivate the choice independently
+of the C references. Generic proof, caller composition and committee acceptance
+remain distinct obligations. Do not claim complete Challenge coverage from this
+owner decision or the concrete runs. The historical organizer question is
+deferred, not a blocking action. No runtime/source comment or signature is changed.
