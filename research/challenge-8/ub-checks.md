@@ -105,7 +105,9 @@ the same write, then a volatile read, an assertion of9 and a cover of9. A green
 negative harness with1/1cover confirms a modeled observable store while exposing
 the missing immutability detector; the suite must still fail. Assertion failure,
 unsupported volatile operation or missing cover is inconclusive, and must not
-be counted as an immutable-byte check. It has not run yet.
+be counted as an immutable-byte check. Run37397720683 completed; the observed negative verified and1/1cover passed,
+confirming modeled store9 without immutability rejection. The suite remained
+notvalidated as required.
 
 Pinned-source audit finds pointer-validity checks for ptr::write, but no emitted
 mutable-storage property in the first control. The store call has202 VCCs

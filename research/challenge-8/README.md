@@ -290,6 +290,21 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   safety proof. Exact-source/ghost audit and refinement0; VF0.13s,RSS165,196KiB;
   refiner0.11s,RSS162,724KiB; runner13.73s,RSS636,440KiB.
 
+
+- [Observed immutable-store detector gap](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397720683),
+  2026-10-06, source `75799de75efab17d9c386deea6c49047db16cb60`,
+  `ub_immutable_observation`,90min, same Kani/CBMC pins and all UBflags.
+  Both positive controls pass2/2covers each,0/213 and0/224 non-cover failures,
+  no undetermined. New negative writes9 to immutable static, volatile-reads it,
+  asserts9 and covers9: Kani verifies0/205 (189success,16unreachable),1/1cover,
+  exit0. The modeled store is observable; no immutable-byte detector rejected
+  it. Suite correctly exits1/notvalidated. Control verification times
+  .21481459,.27654117,.19491471s; suite306s including cold build/compilations,
+  stage times3:48.23,38.47,38.60s,maxRSS1,807,488KiB. This strengthens the
+  original write-only gap; no ambiguous optimized-away-store explanation.
+  Keep original reproducer and required checks. Generic ownership/permissions
+  via an approved alternative or a separately validated model fix is necessary.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

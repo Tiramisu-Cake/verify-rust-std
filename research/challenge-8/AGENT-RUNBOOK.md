@@ -128,11 +128,19 @@ Next actual obligation &*tail lacks ref_precreated_token; derive sharedrefs
 from existing two cell/Town resources, no callerprecreatedref assumptions.
 Exactaudit/refinement0,VF1(.13s),refiner.11s,runner13.73s,RSS636,440KiB.
 No completed insert_tail proof; CopyOnDrop/outerfunction remain unverified.
-Active [37397720683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397720683),
-source `75799de75efab17d9c386deea6c49047db16cb60`,
-`ub_immutable_observation`,90min: two positive controls then
-write+volatile-read+assert9+cover. Originalwrite-only control unchanged;
-readonly-byte violation must remain negative even if compiler verifies store.
+Latest observed immutable result:
+[37397720683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397720683),
+source `75799de75efab17d9c386deea6c49047db16cb60`,observation90min. Two
+positivecontrols4/4covers; negativewrite+volatile-read+assert9 passes0/205 and
+1/1cover: modeled store is observable, readonly-byte detector missing. Suite1,
+notvalidated;306s build+compilations vs.68627047s summed verification,
+RSS1,807,488KiB. Originalwriteonlycontrol preserved. No active run.
+Next generic VF shared-reference prototype from ownedlasttwo arraycells with
+fresh ghost lifetime inside existing unsafe block, no Rust/source/precondition
+change and no fabricated static reference. It must retain proveninteriorhelper,
+exactbyteaudit and refinement checker; firstcallerborrow/lifetime obligation
+will be decided by Actions. Drop/outer/functionproof stillopen; required Kani
+validity-copy and immutable-byte checks concretely blocked on currentpin.
 
 ## Repository map and verifier details
 
