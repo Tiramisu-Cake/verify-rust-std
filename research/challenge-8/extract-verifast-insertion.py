@@ -59,6 +59,12 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
 @*/
 
 """
+RANGE_TUPLE_OWN = """/*@
+pred<T1, T2> <(T1, T2)>.own(t, v) =
+    <T1>.own(t, v.0) &*& <T2>.own(t, v.1);
+@*/
+
+"""
 RANGE_BOUND_GHOST = "        //@ interior_pointer_limits::<T>(begin, n, n - 2);\n"
 RANGE_LIFETIME_BEGIN = (
     "    //@ let cmp_k = begin_lifetime();\n"
@@ -200,12 +206,13 @@ def main() -> None:
     verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + ghost + "{")
     injections = {"contract": ghost}
     if profile == "range":
+        injections["tuple_ownership_model"] = RANGE_TUPLE_OWN
         injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         injections["interior_call"] = RANGE_BOUND_GHOST
         injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
         injections["lifetime_bind"] = RANGE_LIFETIME_BIND
         injections["comparison_prep"] = RANGE_COMPARE_PREP
-        verified = verified.replace(HEADER, HEADER + RANGE_INTERIOR_LEMMA, 1)
+        verified = verified.replace(HEADER, HEADER + RANGE_TUPLE_OWN + RANGE_INTERIOR_LEMMA, 1)
         verified = verified.replace(SIFT_ANCHOR, RANGE_BOUND_GHOST + SIFT_ANCHOR)
         verified = verified.replace(
             RANGE_BODY_ANCHOR,

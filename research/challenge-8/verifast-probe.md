@@ -196,12 +196,24 @@ failure is the `FnMut::call_mut` precondition for ownership of its two-element
 argument tuple. The individual shared references are owned, but the tuple
 ownership has not yet been folded. The pinned
 [tuple declaration](https://github.com/verifast/verifast/blob/26.09/bin/rust/prelude.rsspec)
-is a two-field struct, whose default `.own` predicate is generated from its
-two field `.own` predicates by the pinned
-[MIR translator](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml).
-The next experiment explicitly closes that tuple from the two already-owned
-references, using the pinned ghost parser's numeric-field struct literal for
-`std_tuple_2_`. It also supplies the *complete* three-item generic list for the
+is a two-field struct with a `.share` definition, but no `.own` definition or
+tuple-2 closing lemma. Actions run
+[37401357731](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731)
+at `ae09e98` accepted numeric-field tuple construction, then failed at
+`close <(&'cmp T, &'cmp T)>.own` with “No such predicate instance.” This is a
+model gap: the pinned
+[MIR translator](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml)
+generates a default field-wise `.own` predicate only for local structs, and
+the prelude tuple is external.
+
+The next experiment explicitly adds a transparent generic tuple-2 `.own`
+definition to the disposable verified wrapper:
+`<(T1, T2)>.own(t, v) = <T1>.own(t, v.0) &*& <T2>.own(t, v.1)`.
+This is **our model extension**, not an existing pinned predicate or an
+unverified lemma. Its right-hand side is the same field-ownership conjunction
+the translator uses for local structs. The probe then folds the two already
+owned references using a numeric-field `std_tuple_2_` literal. It also supplies
+the *complete* three-item generic list for the
 actual comparator call: `Self = F`, `Args = (&'cmp T, &'cmp T)`, and method
 lifetime `'a = 'cmp`. The pinned
 [trait parser](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/rust_parser.ml)
@@ -209,7 +221,10 @@ prepends `Self` and the trait's `Args` parameter to the method lifetime, and
 the MIR translator replaces the complete substitution list with the explicit
 one. This is a focused interface experiment; Actions must establish that the
 tuple expression, exact type substitutions, and actual Rust references match.
-No function precondition or Rust source behavior changes.
+No function precondition or Rust source behavior changes. Accepting this
+first call would not establish the model extension's compatibility with all
+other tuple uses, type interpretation, or normal/unwind cleanup; those remain
+separate obligations before any full proof claim.
 
 The ghost `let_lft` keeps half the lifetime token reserved until the enclosing
 `unsafe` block ends, while `tail.read()` occurs inside that block. After the
