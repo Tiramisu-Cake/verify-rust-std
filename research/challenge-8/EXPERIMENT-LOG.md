@@ -1353,3 +1353,40 @@ unexpected check/output -> investigate first actual cause and record revised
 hypothesis (no suppression); semantic prerequisite/repeated unexplained failure
 -> stop that route, complete independent docs. No new VeriFast run/application/
 patch edit, source behavior change, later target or external publication.
+
+
+Dispatch resolved: run37464581019, created2026-10-06T12:37:22Z,
+source a082e0cf0c45d8bccf4c7df46eff9b84278a9f67, selection
+sort4_contract_diagnostics/90min. Research workflow exposure cdf1b98; only its
+two workflow lines cherry-picked to main0b54bf8. No research history merged.
+Remote full SHA confirmed before dispatch; no duplicate active experiment.
+
+
+### First diagnostic result and routine fix: run37464581019
+
+Completed FAILURE,12:37:27–12:43:28UTC, sourcea082e0c,90min. Full hosted log
+and all23 artifact files inspected. Source audit PASS, pins/source hashes
+unchanged. Values control0/267 failed,12/12covers, accepted. Coincident raw1,
+ONLY failed check54 ptr::copy_nonoverlapping::<i32>.precondition_instance.1,
+"memcpy src/dst overlap" at core/ptr/mod.rs555:14, accepted. This is causal
+first source0->dst0 copy on all-false ascending comparator decisions, not a
+claim about values after UB. Shifted raw1 but failed memcmp.unwind.0 at
+<builtin-library-memcmp>:25,1/167failed (166undetermined); witness raw1 same
+memcmp.unwind.0,1/111failed (110undetermined),0/1cover undetermined. Neither is
+an intended negative/result. The classifier correctly rejects both; its
+rejection regression stops because genuine shifted input is not accepted yet.
+
+Cause: own harness array equality lowers to byte-wise memcmp over16/20bytes;
+unwind6 cannot cover that loop. This does not falsify the actual shifted-copy
+hypothesis; the intended multiset assertion/output witness were not established.
+Routine fix: exact same element-value equality expressed as a helper iterating
+4/5 i32 cells, at unchanged unwind6. No target/functional baseline/tool/check/post
+change, no suppression of memcmp or unwind checks. New source requires NEW run.
+Card otherwise unchanged; this fixes fixture interference with the experiment.
+
+Cost: suite271.83s,RSS1814676KiB; case timings control187.39s,coincident28.20s,
+shifted28.38s,witness27.65s. Job361s; preparation78s separately. CBMC verification
+control4.685s,coincident0.303s,shifted0.279s,witness0.285s (see raw logs for exact
+values). No budget bottleneck. Kani0.67.0 driver9ae446cbe90b2eb9a394506d83e26624de675c3fd0eb80f5674ff4fd2d61d842;
+CBMC6.10.0 hash05f93fd2f2ba6247b345f2bfb3d74c38402966515c65ff69f94adf7a674593f0.
+Artifact11414508459 zipSHA256d92813b7a6e00278ccbed38b414ac75901b3588c82d0d64f363558b7bc152c96.

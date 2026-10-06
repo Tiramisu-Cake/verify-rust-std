@@ -18,8 +18,12 @@ head and active runs at entry.
 
 Entry audit: clean working tree, fast-forward to approval commit, fork origin and
 research branch confirmed; main at `3d8c8c082a69dbb66c4ab566892e6be71d87a86d`.
-No active research run observed. Preparing the experiment card and isolated Kani
-diagnostics; overlap outcomes remain hypotheses until hosted evidence.
+No active research run observed. First hosted run [37464581019](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37464581019),
+source `a082e0cf0c45d8bccf4c7df46eff9b84278a9f67`, selection
+`sort4_contract_diagnostics`/90min. Card and isolated cases committed;
+completed FAILURE: control and coincident copy negative accepted; shifted/witness
+blocked by own array-equality memcmp unwind, correctly rejected as unrelated.
+Routine proof-only element-equality fix prepared; NEW exact-SHA dispatch next.
 The last successful proof remains run37459631500 below.
 
 The new phase authorizes:
