@@ -66,7 +66,7 @@ def classify(case, code, log):
         target = Path('library/core/src/slice/sort/shared/smallsort.rs')
         lines = target.read_text().splitlines()
         assertion_lines = [i + 1 for i, line in enumerate(lines)
-                           if 'assert!(same_multiset(&after, &before), "original multiset preserved");' in line]
+                           if 'kani::assert(same_multiset(&after, &before), "original multiset preserved");' in line]
         intended = lambda c: (re.fullmatch(re.escape(name) + r'\.assertion\.\d+', c['id'])
                               and c['description'] == 'original multiset preserved'
                               and len(assertion_lines) == 1

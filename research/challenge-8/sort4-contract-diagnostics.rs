@@ -61,7 +61,7 @@ pub mod challenge8_sort4_contract {
         assert!(same_values(&after, &[0, 0, 0, 0]), "shifted destination trace");
         assert!(after[0] <= after[1] && after[1] <= after[2] && after[2] <= after[3],
                 "shifted output sorted");
-        assert!(same_multiset(&after, &before), "original multiset preserved");
+        kani::assert(same_multiset(&after, &before), "original multiset preserved");
     }
 
     #[kani::proof]

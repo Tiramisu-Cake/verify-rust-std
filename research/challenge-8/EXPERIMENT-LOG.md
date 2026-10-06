@@ -1371,7 +1371,7 @@ ONLY failed check54 ptr::copy_nonoverlapping::<i32>.precondition_instance.1,
 "memcpy src/dst overlap" at core/ptr/mod.rs555:14, accepted. This is causal
 first source0->dst0 copy on all-false ascending comparator decisions, not a
 claim about values after UB. Shifted raw1 but failed memcmp.unwind.0 at
-<builtin-library-memcmp>:25,1/167failed (166undetermined); witness raw1 same
+<builtin-library-memcmp>:25,1/168failed (167undetermined); witness raw1 same
 memcmp.unwind.0,1/111failed (110undetermined),0/1cover undetermined. Neither is
 an intended negative/result. The classifier correctly rejects both; its
 rejection regression stops because genuine shifted input is not accepted yet.
@@ -1384,9 +1384,48 @@ Routine fix: exact same element-value equality expressed as a helper iterating
 change, no suppression of memcmp or unwind checks. New source requires NEW run.
 Card otherwise unchanged; this fixes fixture interference with the experiment.
 
-Cost: suite271.83s,RSS1814676KiB; case timings control187.39s,coincident28.20s,
+Cost: suite271.83s,RSS1814676KiB; case timings control187.22s,coincident28.20s,
 shifted28.38s,witness27.65s. Job361s; preparation78s separately. CBMC verification
-control4.685s,coincident0.303s,shifted0.279s,witness0.285s (see raw logs for exact
+control6.8403997s,coincident0.24010427s,shifted0.32779193s,witness0.28451073s (see raw logs for exact
 values). No budget bottleneck. Kani0.67.0 driver9ae446cbe90b2eb9a394506d83e26624de675c3fd0eb80f5674ff4fd2d61d842;
 CBMC6.10.0 hash05f93fd2f2ba6247b345f2bfb3d74c38402966515c65ff69f94adf7a674593f0.
 Artifact11414508459 zipSHA256d92813b7a6e00278ccbed38b414ac75901b3588c82d0d64f363558b7bc152c96.
+
+
+Retry dispatch resolved: run37465676476, created2026-10-06T12:46:11Z,
+source6ff3d9f8f559555c17f722f500a1c7de16d9fe7d, selection
+sort4_contract_diagnostics/90min. Only proof equality helper changed; exact std,
+values/stability functional source, runner/classifier/checks/pins unchanged.
+No overlap conclusion inferred from the first run's undetermined shifted checks.
+
+
+### Second diagnostic result and diagnostic-label fix: run37465676476
+
+Completed FAILURE,12:46:15–12:53:57UTC, source6ff3d9f,90min. Full log/artifacts
+inspected, source audit PASS. Control0/267failed,12/12covers; coincident1/86failed
+ONLY same actual memcpy overlap property; witness0/130failed,1/1cover, all-zero
+backing and original snapshot assertions pass. Shifted1/170failed (4unreachable),
+ONLY check30 negative_shifted_original_multiset.assertion.15 at actual
+smallsort.rs1192:9. Every other default check passes/unreachable; trace and sorted
+assertions pass. Thus manually audited location/condition matches predicted
+multiset loss with individually disjoint copies. No memory UB inferred.
+
+Automation still rejects the shifted case because Rust assert! with a message
+is lowered to formatted panic and the pin emits description "This is a
+placeholder message; Kani doesn't support message formatted at runtime", not
+the predeclared unique message. Classifier correctly refuses this generic
+placeholder; rejection regression stops at non-accepted genuine shifted input.
+This is a harness diagnostic-label mismatch, not changed counterexample values.
+
+Routine fix: same_multiset condition is now expressed by kani::assert with the
+exact static string "original multiset preserved". Source inspection at pinned
+Kani152c6a8c/library/kani_core/src/lib.rs185–191 confirms AssertHook accepts a
+static str (declared by kani_lib macro for verification/core). No check removal,
+post change, tool patch or classifier allowance for generic placeholder. Update
+classifier's audited source spelling to that exact line; property ID/location/
+message criteria otherwise unchanged. NEW exact-SHA run required. Hypothesis,
+domain, target normal/unwind posts, pins,90min profile and decision map unchanged.
+
+Cost: suite357.15s,RSS1812152KiB; control241.30s,coincident38.00s,shifted39.03s,
+witness38.36s. CBMC10.390069s/.31998605s/1.0314885s/.6312619s respectively;
+job462s, common preparation96s. No timeout/budget bottleneck or semantic failure.

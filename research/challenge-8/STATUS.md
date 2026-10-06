@@ -18,12 +18,19 @@ head and active runs at entry.
 
 Entry audit: clean working tree, fast-forward to approval commit, fork origin and
 research branch confirmed; main at `3d8c8c082a69dbb66c4ab566892e6be71d87a86d`.
-No active research run observed. First hosted run [37464581019](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37464581019),
+No active research run observed at entry. First hosted run [37464581019](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37464581019),
 source `a082e0cf0c45d8bccf4c7df46eff9b84278a9f67`, selection
 `sort4_contract_diagnostics`/90min. Card and isolated cases committed;
 completed FAILURE: control and coincident copy negative accepted; shifted/witness
 blocked by own array-equality memcmp unwind, correctly rejected as unrelated.
-Routine proof-only element-equality fix prepared; NEW exact-SHA dispatch next.
+Routine proof-only element-equality fix committed. Second run
+[37465676476](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37465676476),
+source `6ff3d9f8f559555c17f722f500a1c7de16d9fe7d`, same selection/90min.
+Completed FAILURE only at strict diagnostic label acceptance: shifted assertion
+gets Kani formatted-panic placeholder, at the correct source condition/location.
+Witness0/130failed and1/1cover confirms zero output; other checks pass.
+Switch that assertion to the existing kani::assert static message, preserve
+strict matching, then NEW exact-SHA run. Contract/architecture review completed.
 The last successful proof remains run37459631500 below.
 
 The new phase authorizes:
