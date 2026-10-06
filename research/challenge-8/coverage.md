@@ -58,6 +58,14 @@ concrete detector-limit evidence, **no generic or actual-sort4 proof coverage**.
 B/C NOT RUN, no further dispatch/patch authorized. All safety/sorting tables below
 retain earlier established proofs.
 
+The separately authorized automatic replay37513897141, processor1c0b517,
+uses only original artifact11434810024/source929ea803. All six real pairs parse;
+9/9 hosted replay/mutation test groups pass. It reproduces two PROVED_VALID,
+two ZST SOUND_MISS and two intended Align detections with separate Failed/Unknown.
+commands_succeeded/evidence_parsed=true, gate_outcome=NO-GO. Original unmapped
+JSONs/manual result preserved. This adds reproducible processing, **no new
+verifier run or semantic coverage**. Replay scope CLOSED at1/2 allowed runs.
+
 ## Safety targets and sorting contracts
 
 | Actual target | Established evidence / tool | Remaining obligations |

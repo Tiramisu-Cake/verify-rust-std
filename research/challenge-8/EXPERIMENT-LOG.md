@@ -1906,3 +1906,50 @@ exact frozen-case DefId/checkpoint/path metadata is explicitly scoped to the
 original source. Mutations use unique authentic-log anchors. JSON roundtrip
 aggregate consistency is tested. bash -n and git diff --check passed locally;
 no executable classifier/test/extractor validation on the server.
+
+First replay dispatch: run37513897141, processor
+1c0b5171375c1198ef0e94b6a26d5e3a13cf1a15, created2026-10-06T18:46:37Z,
+rapx_evidence_replay/30min. Full remote SHA confirmed and no other active
+research run; budget1/2. Original verifier experiment is not rerun.
+
+### Replay37513897141 closeout — reproducible automatic NO-GO
+
+Processor1c0b5171375c1198ef0e94b6a26d5e3a13cf1a15, workflow_dispatch,
+rapx_evidence_replay/30min; job18:46:45–18:46:57UTC12s SUCCESS. Original
+verification/bootstrap job SKIPPED, no steps. Input run37508888778/source929ea803/
+artifact11434810024 checked against exact archive SHA and hosted metadata/source
+card; no RAPx install/build/verification or new semantic experiment.
+
+Hosted authentic six-log replay/mutation/aggregate tests9/9 groups PASS,
+2.964s suite (3.06s wall,RSS32592KiB). Strict exact target/DefId/checkpoint/path,
+signature/arguments and eight-record/compound-summary/verdict checks pass.
+Mutations reject missing/duplicate/unparsed records, wrong fn/DefId/callee/srcdst,
+bb/path/property, vm-check and summary/verdict contradictions, warnings and
+unsupported paths. JSON serialization/aggregate consistency verified hosted.
+
+CLI-produced records and automatic JSON aggregate: zst/u64 aligned PROVED_VALID;
+both ZST negatives SOUND_MISS; both u64 negatives
+INTENDED_ALIGN_DETECTION_WITH_OTHER_UNPROVED. Source Align#0 Failed plus
+NonOverlap#6 Failed/ValidPtr remainder#3 Unknown; destination Align#1 Failed plus
+ValidPtr remainder#5 Unknown. No whole-case promotion. All six evidence_complete,
+43 Proved/3 Failed/2 Unknown. commands_succeeded=true, evidence_parsed=true,
+gate_outcome=NO-GO; replay command itself exits0. Full report has exact original
+source/artifact and processor/replay identity, not only expected classifications.
+
+Artifact11436755991,27files/20371bytes,zip SHA256
+7c475ec07ead8d4d83441d9d41c50bab4b067b6d05e7595c5eedbd351cea032b;
+automatic-gate-a-report.json SHA256
+b60eac77f855d955ff48586eb90b05c9d2fcad8c642a6836f5ddd8a869c1cf91;
+manifest8470abd711b10ba038f87572a5c711b67fbfb09e383eb17a0044f78fd653ee9e;
+full logbf64af71bb16775c98ddea93d1683e487f9e1851d86ee2081f75d454c8972e9f.
+Replay script elapsed5s; no timeout/OOM. Full log/all27 files inspected outside
+repo; seven historical JSONs cmp byte-identical with original artifact. Source
+logs/MIR/manual conclusion remain historical; new data never overwrites them.
+Only noncausal Actions Node deprecations/git hints. Local static bash -n/diff
+checks only; all executable classification/tests hosted.
+
+STOP at1/2 new30min replay runs, no active run/pending implementation. Results,
+STATUS, phase, coverage, README and PLAN updated; closeout is documentation only.
+Automatic NO-GO agrees with earlier semantic/manual result, adds no generic/std
+proof or detector coverage. No second run needed, no B/C/tool patch/upgrade,
+new verification/full-sort4 or external publication authorized.

@@ -8,6 +8,14 @@ the documentation update and continuation prompt. Entry research HEAD:
 
 ## Automatic evidence replay
 
+**CLOSED — automatic NO-GO reproduced in hosted replay37513897141.**
+Processor1c0b5171375c1198ef0e94b6a26d5e3a13cf1a15,1/2 new30min runs used,
+9/9 authentic-log/mutation test groups PASS, all six pairs parsed. Command
+success and complete parsing are true; semantic gate result is NO-GO. No RAPx
+build/install/verification or B/C ran. Old manual/JSON evidence preserved.
+See [automatic closeout](RAPX-APPLICABILITY-RESULTS.md). Authorization below
+records the completed processing scope; no further dispatch is authorized.
+
 Owner-authorized on2026-10-06 from3e628c6a2d1197c069abf46fba33b3453c2de57f:
 repair only classify-rapx-applicability.py, its tests, docs and minimal manual
 Actions replay support. Semantic gate A remains CLOSED/NO-GO. Use existing

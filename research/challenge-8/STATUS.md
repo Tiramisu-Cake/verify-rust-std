@@ -1,6 +1,6 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: automatic evidence replay IN PROGRESS; semantic gate A stays
+Updated 2026-10-06: automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
 ZST alignment detector miss; [scope](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
@@ -13,20 +13,30 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**IN PROGRESS — automatic processing of existing gate-A evidence ONLY.**
+**CLOSED — automatic processing reproduced gate-A NO-GO.**
 Owner explicitly authorizes classifier/tests/docs and a minimal manual hosted
 replay mode from expected/actual HEAD3e628c6a2d1197c069abf46fba33b3453c2de57f.
 Entry tree clean, correct fork/branch/local/remote HEAD, no newer/unrelated changes
-or active Actions. Budget0/2 NEW replay runs, at most30min each, one active.
+or active Actions. Budget1/2 NEW replay runs, at most30min each, one active.
 Input fixed to run37508888778/source929ea803ffff1c4f534716cc8c37bbbfa06a5960,
 artifact11434810024/archive SHA256
 d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38.
-Archive downloaded read-only and SHA verified locally; no executable tests run.
+Archive downloaded read-only and SHA verified locally; no local executable tests.
 Preserve original logs/JSON/manual result; new outputs identify processor SHA.
-Authentic paired-log replay and corrupted variants must run hosted. No RAPx
+Authentic paired-log replay and corrupted variants ran hosted. No RAPx
 installation/build/verification, B/C, semantic changes or new sort4 proof.
-Next: correct actual renderer/compound mapping and dispatch replay-only at a
-new exact processor SHA; stop after reproducible automatic NO-GO closeout.
+Completed [run37513897141](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37513897141),
+exact processor1c0b5171375c1198ef0e94b6a26d5e3a13cf1a15, replay/30min,
+job18:46:45–18:46:57UTC SUCCESS; verification/bootstrap job SKIPPED.
+Hosted tests9/9 groups PASS, all six pairs parsed. Two PROVED_VALID, two ZST
+SOUND_MISS, two INTENDED_ALIGN_DETECTION_WITH_OTHER_UNPROVED (other Failed/
+Unknown retained). Aggregate commands_succeeded=true, evidence_parsed=true,
+gate_outcome=NO-GO;43 Proved/3 Failed/2 Unknown. Original JSONs preserved
+byte-identically under historical output. New artifact11436755991 identifies
+both original source/artifact and corrected processor SHA; full hashes/results
+in [report](RAPX-APPLICABILITY-RESULTS.md).
+STOP at1/2 replay runs; no active run or unfinished proof draft. Documentation
+closeout only, no further dispatch/B/C/semantic tool change/new verification.
 
 ## Historical semantic continuation — CLOSED / NO-GO
 

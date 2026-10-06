@@ -9,8 +9,11 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
 All six controls were analyzed; both misaligned alignment-eight ZST copies get
-SOUND/Align ProvedByRule. Manual contracts/diagnostics/MIR audit supplies the
-evidence; automatic classifier remains fail-closed/unmapped for actual logs.
+SOUND/Align ProvedByRule. Original manual contracts/diagnostics/MIR evidence
+is now reproduced by the separately authorized saved-data replay37513897141,
+processor1c0b517. All six authentic pairs parse and nine mutation/replay test
+groups pass; two valid controls, two SOUND_MISS and two intended Align failures
+with other Failed/Unknown retained. The original unmapped JSONs remain historical.
 The prior two setup failures remain historical INCONCLUSIVE in
 [results](RAPX-APPLICABILITY-RESULTS.md). Pins/std/contracts unchanged; B/C
 NOT RUN, no generic proof gain. Current checkpoint: [STATUS](STATUS.md).
@@ -36,8 +39,8 @@ both completed hosted runs and their evidence boundaries.
 ## Specifications and proof boundaries
 
 - [RAPx applicability results](RAPX-APPLICABILITY-RESULTS.md): NO-GO for pinned
-  ZST alignment detection, six actual controls, manual vs automatic evidence,
-  exact identities/hashes, historical setup failures and mandatory stop.
+  ZST alignment detection, six actual controls and corrected automatic replay,
+  processor/source/artifact identities, preserved manual/JSON history and stop.
 - [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md): approved bounded
   diagnostics, exact profile, ordered gates, run budget and mandatory stop;
   no full sort4 proof or tool patch authorized.

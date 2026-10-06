@@ -2,17 +2,119 @@
 
 ## Automatic evidence replay (new processing authorization)
 
-IN PROGRESS from3e628c6a2d1197c069abf46fba33b3453c2de57f: classifier repair and
-hosted processing of original run37508888778/source929ea803/artifact11434810024
-only. Archive SHA256 verified:
-d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38.
-Budget0/2 NEW replay runs,30min each, one active. Semantic gate remains NO-GO;
-no installation/build/verification of RAPx or new target analysis. Original
-manual closeout and fail-closed JSON outcomes below remain historical evidence.
-New outputs will identify original artifact and exact corrected processor SHA.
-Scope: [automatic replay](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
+**CLOSED — reproducible automatic NO-GO.** Owner-authorized processing-only
+follow-up from3e628c6a2d1197c069abf46fba33b3453c2de57f used **1/2 NEW replay
+runs**,30min cap, one active at a time. No active run. Semantic experiment was
+not repeated: no RAPx installation/build/verification or new target analysis.
+Original manual closeout and failed automatic JSONs below remain historical.
 
-## Current gate-A continuation (new authorization)
+Input: [original run37508888778](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508888778),
+source `929ea803ffff1c4f534716cc8c37bbbfa06a5960`,
+[artifact11434810024](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508888778/artifacts/11434810024).
+Archive SHA256 `d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38`
+verified locally on download and again on the hosted replay. Hosted run/artifact
+metadata and archived source-commit card also matched. Extracted input stayed
+read-only; mutated copies existed only in hosted temporary test directories.
+
+Processor: **`1c0b5171375c1198ef0e94b6a26d5e3a13cf1a15`**;
+[replay37513897141](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37513897141),
+workflow_dispatch, rapx_evidence_replay/budget30, GitHub-hosted ubuntu24.04.
+Job18:46:45–18:46:57UTC12s, replay script5s; normal push/remote exact SHA/no
+other active run confirmed. Existing verification/bootstrap job explicitly
+SKIPPED. Only checkout, metadata/archive fetch/hash checks, Python tests and
+saved-log classification ran. The manual-only replay selection remains separate
+from the original verifier runner.
+
+### Actual format, strict association and rejection tests
+
+[Classifier](classify-rapx-applicability.py) now matches the exact local function
+path without a crate prefix and its full diagnostic DefId; checkpoint, path,
+DefId index/hash metadata are explicitly scoped to these six frozen-source
+functions. Callee matching permits only std/core reexports of
+ptr::copy_nonoverlapping, with the exact src/dst/count signature and ordered
+contract arguments. No general prefix stripping or arbitrary alias is trusted.
+
+Six displayed contracts map to eight diagnostic records: Align(src/dst)=0/1,
+ValidPtr(src) components=2/3, ValidPtr(dst)=4/5, NonOverlap=6, ValidNum=7.
+All record indexes/kinds/checkpoints/paths and adjacent vm-check results must
+match. Summary reconstruction follows pinned display.rs's origin grouping:
+all ValidPtr components AND-fold under the shared origin name, while Align
+rows retain their order or exact repetition count. Final SOUND/UNSOUND and
+unproved/hazard counts must agree with primitive results. Missing, extra,
+unmapped, wrong-target and contradictory data remain rejected evidence.
+
+[Hosted tests](test-rapx-applicability-classifier.py) **9/9 groups PASS**,2.964s
+test-suite time (3.06s wall, peak RSS32592KiB). They require the authentic six
+paired logs; synthetic examples are not the compatibility basis. Deliberate
+mutations reject removed/duplicated/unparseable records, wrong function or
+DefId, wrong callee/signature, src/dst contract substitution, checkpoint/block/
+path/property replacement, vm-check disagreement, missing or conflicting
+summary rows/verdicts and unsupported/skipped warnings. Alias acceptance is
+limited to the two named reexports. Aggregate tests cover missing/duplicate
+cases, rejected/contradictory records and the CLI JSON write/read roundtrip.
+
+### Automatic closeout facts
+
+| Case | Automatic outcome | Other Failed / Unknown |
+| --- | --- | --- |
+| zst_aligned | PROVED_VALID | None |
+| zst_source_misaligned | **SOUND_MISS**, Align(src) incorrectly ProvedByRule | None |
+| zst_destination_misaligned | **SOUND_MISS**, Align(dst) incorrectly ProvedByRule | None |
+| u64_aligned | PROVED_VALID | None |
+| u64_source_misaligned | INTENDED_ALIGN_DETECTION_WITH_OTHER_UNPROVED; Align(src)#0 Failed, Align(dst)#1 Proved | NonOverlap#6 Failed; ValidPtr(src) remainder#3 Unknown |
+| u64_destination_misaligned | INTENDED_ALIGN_DETECTION_WITH_OTHER_UNPROVED; Align(src)#0 Proved, Align(dst)#1 Failed | ValidPtr(dst) remainder#5 Unknown |
+
+The u64 negative outcomes establish the intended Align detection and preserve
+all other unproved obligations; neither is a completely successful control.
+All six records have evidence_complete=true and retain the exact contract,
+DefId, copy checkpoint/path and all eight primitive checks. Totals:
+**43 Proved / 3 Failed / 2 Unknown** across48 records. Aggregate output separates:
+
+- commands_succeeded=true: the original paired commands exited0;
+- evidence_parsed=true: all six complete records are matched and consistent;
+- gate_outcome=**NO-GO**: fully parsed ZST negatives have SOUND_MISS.
+
+The replay command/test execution also succeeded (exit0). This is successful
+processing of a failed semantic gate, not a gate PASS. A matched SOUND_MISS
+still gives NO-GO if another case is missing, while evidence_parsed=false
+prevents a successful complete replay closeout. Unparsed evidence can never
+yield PASS. The workflow validates command/parse success separately from NO-GO.
+
+### Output identities and preservation
+
+[Replay artifact11436755991](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37513897141/artifacts/11436755991)
+contains automatic-gate-a-report.json, six new per-case JSONs, input/processor
+identities and file hashes, test output/resources and historical copies of the
+original six JSONs plus gate-a-summary.json. Those seven old files compare
+byte-identically with the original artifact; the old unmapped classifications
+were not overwritten or relabelled. Full old logs/MIR stay in their original
+artifact; the preceding manual record remains below and at3e628c6.
+
+- New artifact27files/20371bytes, zip SHA256
+  `7c475ec07ead8d4d83441d9d41c50bab4b067b6d05e7595c5eedbd351cea032b`.
+- Automatic JSON report SHA256
+  `b60eac77f855d955ff48586eb90b05c9d2fcad8c642a6836f5ddd8a869c1cf91`;
+  artifact manifest `8470abd711b10ba038f87572a5c711b67fbfb09e383eb17a0044f78fd653ee9e`.
+- Full replay log SHA256
+  `bf64af71bb16775c98ddea93d1683e487f9e1851d86ee2081f75d454c8972e9f`.
+- Classifier file SHA256
+  `b3df7cae08d2702f3e22beb048c0bdcc3e6998649c10cee696229896cac671b2`;
+  tests `9413cc4465b8877cd717bef681a94cbececb2a5abbf706295c87d43cdbba3f32`;
+  replay runner `3e468fdfbd71d46e6ab1c6eecd8e851b5db58b2e555fa6efb240a943dc06f1d1`.
+
+The JSON identity links both original experiment/source/artifact and exact
+processor/replay revision; evidence input hashes are captured separately.
+Downloaded logs/MIR/output artifacts were inspected outside the repository and
+not committed. Local validation was static only; every executable test and
+classifier invocation ran hosted. Noncausal Actions Node deprecations/git hints
+do not affect parsing; no timeout/OOM. No extra run is needed.
+
+**STOP at automatic NO-GO.** This repairs evidence handling only; it does not
+change the earlier detector conclusion or add semantic/generic/std proof coverage.
+B/C, RAPx patches/upgrades/new verification, full sort4 and external publication
+remain unauthorized. Scope: [automatic replay](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
+
+## Historical gate-A continuation: manual closeout
 
 **CLOSED — NO-GO for stock RAPx 0.7.50 / nightly-2026-02-05.**
 Gate A now has a reproduced critical detector miss: both source-misaligned and
