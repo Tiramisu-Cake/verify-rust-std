@@ -55,8 +55,10 @@ compiler/decode0,one real MIR+translatedcall each,ownershipVF1,registrations1/0.
 No-output MIR has zero Projection predicates but local variable FnOnce::Output
 alias. Runner's broad search misclassified alias as equality; suite stops1
 before case3 VF. No actual insertion VF/refiner. Overall1,
-runner1:24.32,RSS646,648KiB,setupdominated. No active run.
-Next NEW source checks projectionTerm records rather than arbitrary alias
+runner1:24.32,RSS646,648KiB,setupdominated. Active run [37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),
+source `3184c40f4a00745712bdce4a28ccdc76f352562c`,fnmut_hrtb90min,
+exact remote/run SHA matched; poll/fetch full evidence before new dispatch.
+This NEW source checks projectionTerm records rather than arbitrary alias
 mentions, keeping zero actual predicate requirement and all8cases unchanged.
 Uncommitted tuple_lft_cut integration is staged separately from this rerun;
 source feature being implemented/reviewed, not part of current evidence.
