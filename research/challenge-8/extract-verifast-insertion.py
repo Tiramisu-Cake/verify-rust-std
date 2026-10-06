@@ -87,6 +87,7 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ let cmp_sift_ref = precreate_ref(sift);
         //@ init_ref_share::<T>(cmp_k, t, cmp_tail_ref);
         //@ init_ref_share::<T>(cmp_k, t, cmp_sift_ref);
+        //@ merge_fractions lifetime_token(cmp_k);
         //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/2);
         //@ open [?tail_ref_frac]ref_initialized_::<T>(cmp_tail_ref)();
         //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/2);

@@ -123,7 +123,23 @@ multi-command `/*@ ... @*/` annotation. The pinned
 [function-body annotation syntax](https://github.com/verifast/verifast/blob/26.09/docs/rust-reference/src/func-body-annots.md)
 allows one ghost command per annotation unless commands are grouped in an
 explicit ghost block. The corrected probe gives each command its own `//@`
-annotation; this syntax-only correction awaits a new Actions run.
+annotation. Actions run
+[37398942673](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398942673)
+at `d1bd9d6` passed parsing, the symbolic array and ownership split, the two
+full borrows, and reference initialization. It stopped when the second
+`open_frac_borrow(..., 1/2)` could not match another half of the comparison
+lifetime token.
+
+The pinned `begin_lifetime` returns a full `lifetime_token(k)`. Both
+`share_full_borrow` and `init_ref_share` require `[q]lifetime_token(k)` and
+return the same `[q]` fraction, so preparation preserves the full token in
+total. The revised probe invokes the pinned parser's `merge_fractions`
+command on this token before opening the two references, to combine any
+separate chunks left by those calls. Each simultaneous access then requests
+one half. This is an explicit redistribution of existing ownership, not a
+new precondition or assumption. The next Actions result must confirm the
+resource match; cleanup still needs to close both fractional borrows before
+ending the lifetime.
 
 This stage deliberately stops at the first comparison. Ending its lifetime,
 recovering potentially changed `T` values after comparator interior mutation,
