@@ -21,11 +21,21 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
+**Latest completed actual borrowing/read milestone:** [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
 source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.
-Independently reviewed outerbound rebase patchbd95733e; same8+12fixtures/domain.
-Next poll exactrun, fetch full evidence; inspect sourcebuild, regressioncounts,
-actualunwind/normal exits and fullToken/borrowEnd/read if reached.
+Full logs/artifacts inspected. Same26.09/tool/prelude pins, pairedZ3,
+ghost-byte/sourcehash/MIRaudit pass. Reviewedpatchbd95733e builds0/19.17s,
+RSS426,624KiB; binaryd26c815ef4c2d6fe27b4a0580daa52fc4708083b1d581f057b8b46a7621e24e9.
+All8HRTB guards0/1.78s and12scope cases0/2.31s, compiler/decode0 each.
+ActualfirstFnMut bool and syntheticunwind exitpost/leakcheck pass. Normal
+accessclose134-137, strictcut140, FULLtoken141, endLife142, bothborrowEnd/
+openFull143-146 and actualtail.read/ManuallyDropnew147 pass. Firstnewfailure
+CopyOnDrop.src &*tmp148: Taking the address of this expression is not supported.
+No guard/loop/restoredrange/fullfunction proof; actualfalse-comparison return
+not claimed checked. VF1/.21s,RSS92,716KiB;refiner0/.15s,RSS91,820KiB;
+overall1,runner1:20.89,RSS626,948KiB,setupdominates. No active run.
+Next inspect compilerMIR and ManuallyDrop dereference/address lowering;
+source owner investigating smallest representation-faithful frontend fix.
 
 **Latest completed strict exit diagnostic:** [37413756431](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
 source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.

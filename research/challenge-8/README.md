@@ -88,6 +88,22 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Actual full-token recovery, restored cells and tail read](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
+  source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.
+  Independently reviewed outermetadata rebase patchbd95733e; same26.09,
+  prelude/exporter/refiner pins, pairedZ3/ghost-byte/sourcehash/MIR audits pass.
+  Build0/19.17s,RSS426,624KiB; binary
+  d26c815ef4c2d6fe27b4a0580daa52fc4708083b1d581f057b8b46a7621e24e9.
+  All8HRTB guards0/1.78s and12scope cases0/2.31s, compiler/decode0 each.
+  ActualfirstFnMut bool and syntheticunwind post/leakcheck pass. Normal
+  accessclosure134-137, strictcut140, fulltoken141, endLife142, bothborrowEnd/
+  fullcontent openings143-146, tail.read/ManuallyDropnew147 pass. New failure
+  CopyOnDrop.src &*tmp148: address of this expression unsupported.
+  Guard/loop/restoredrange/fullfunction and actualfalse-comparison-return
+  remain unproved. VF1/.21s,RSS92,716KiB;refiner0/.15s,RSS91,820KiB;
+  overall1,runner1:20.89,RSS626,948KiB,setupdominates. Next inspect realMIR
+  and representation-faithful ManuallyDrop dereference/address translation.
+
 - [Strict exit chunk diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
   source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.
   Diagnostic patche17492b5 builds0/22.55s,RSS426,536KiB; same pinned26.09
