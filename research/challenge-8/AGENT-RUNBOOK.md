@@ -103,13 +103,15 @@ pointer resolution (#3300); no harness/property/covers verified. Runner3:56.45,
 RSS1,631,772KiB,overall1. Hypothesis: formatted range-index panic in harness.
 Prepared equivalent from_raw_parts_mut slice construction under unchanged
 valid len/offset assumptions, initialized array and comparator domain; no std
-runtime change/check suppression. Active
+runtime change/check suppression. Latest interior lemma:
 [37396479423](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396479423),
-source `da5f16efdcf604582e3646b9f4518bbce71165b6`,range90min: own interior
-pointer ghost lemma, derived index0<=n-2<=n, endpoint/monotone-multiplication
-proof; no new input assumption or numeric cap. Inspect lemma positivity/algebra
-and first actual target obligation, refinement audit and covers/target counts.
-Then choose safety retry or observed immutable-store diagnostic; one run at a time.
+source `da5f16efdcf604582e3646b9f4518bbce71165b6`,range90min. Helper parses;
+first mul_mono_l requires unestablished0<=sizeofT, actualinsert_tail not reached.
+Refinement/exactauditpass0,VF1(.12s),refiner.11s,runner12.75s,RSS636,748KiB.
+Next helper design must leave originalfunctionprecondition unchanged and make
+sizeof positivity a proved caller obligation, not an assumed input fact.
+No active run. Next actual safety retry with equivalent raw-slice harness,
+then inspect compiler/first proof errors and all7covers before accepting anything.
 
 ## Repository map and verifier details
 

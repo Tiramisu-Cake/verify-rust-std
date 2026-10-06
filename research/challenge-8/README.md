@@ -247,6 +247,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   obligations; constructor safety is justified by the live initialized array.
   This tests that hypothesis without changing actual std runtime code.
 
+
+- [Interior-pointer lemma first obligation](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396479423),
+  2026-10-06, source `da5f16efdcf604582e3646b9f4518bbce71165b6`,
+  `verifast_insert_tail_range`,90min, same VF pins. Own ghost helper parses,
+  but first mul_mono_l call cannot prove0<=sizeof(T_typeid). Actual insert_tail
+  is not reached in this run; no completed safety proof. Exact-source/ghost
+  and refinement audits pass; VF1(.12s,RSS165,172KiB),refiner0(.11s,
+  RSS162,776KiB),runner12.75s,RSS636,748KiB. Endpoint/monotonicity proof
+  needs that wellformed-type fact as a derived caller obligation, without
+  adding it as an assumed insert_tail precondition. Integer annotation types
+  are mathematical integers, including ghost i32; no runtime i32 cap applies.
+  Conditional cleanup works: whole job33s instead of multi-minute Kani cleanup.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
