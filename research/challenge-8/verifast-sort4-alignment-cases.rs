@@ -41,24 +41,22 @@ on_unwind_ens false;
     // POINTER_OPERATION
     let result = base.add(i);
     /*@
-    if i == 1 {
-        aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
-    } else if i == 2 {
-        aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
-        aligned_step_const(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
-    } else if i == 3 {
-        aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
-        aligned_step_const(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
-        aligned_step_const(base as usize + 2 * std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
-    } else {
-        if 3 <= i { assert i == 3; }
-        assert i <= 2;
-        if 2 <= i { assert i == 2; }
-        assert i <= 1;
-        if 1 <= i { assert i == 1; }
+    if i < 1 {
         assert i == 0;
         assert result == base;
         assert result as usize % std::mem::align_of::<T>() == 0;
+    } else if i < 2 {
+        assert i == 1;
+        aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
+    } else if i < 3 {
+        assert i == 2;
+        aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
+        aligned_step_const(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
+    } else {
+        assert i == 3;
+        aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
+        aligned_step_const(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
+        aligned_step_const(base as usize + 2 * std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
     }
     @*/
     result
@@ -103,24 +101,22 @@ on_unwind_ens false;
     // POINTER_OPERATION
     let result = base.add(i);
     /*@
-    if i == 1 {
-        aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
-    } else if i == 2 {
-        aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
-        aligned_step_mut(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
-    } else if i == 3 {
-        aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
-        aligned_step_mut(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
-        aligned_step_mut(base as usize + 2 * std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
-    } else {
-        if 3 <= i { assert i == 3; }
-        assert i <= 2;
-        if 2 <= i { assert i == 2; }
-        assert i <= 1;
-        if 1 <= i { assert i == 1; }
+    if i < 1 {
         assert i == 0;
         assert result == base;
         assert result as usize % std::mem::align_of::<T>() == 0;
+    } else if i < 2 {
+        assert i == 1;
+        aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
+    } else if i < 3 {
+        assert i == 2;
+        aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
+        aligned_step_mut(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
+    } else {
+        assert i == 3;
+        aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
+        aligned_step_mut(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
+        aligned_step_mut(base as usize + 2 * std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
     }
     @*/
     result

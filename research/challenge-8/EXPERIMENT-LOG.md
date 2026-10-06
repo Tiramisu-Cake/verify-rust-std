@@ -2480,3 +2480,7 @@ external messages. RAPx CLOSED / NO-GO; B/C NOT RUN; Kani prior evidence unchang
 Documents updated, commit/push closeout. Next proposed implementation requires
 separate approval/trust review; ghost ordered-split reachability repair also
 requires a new bounded verification decision. No draft fix or third run applied.
+
+## 2026-10-07 — authorized stock generic then fieldless layout prototype
+
+Entry clean matching e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75, correct fork/research branch, no active experiment. Max6 NEW hosted manual runs /10800 summed job-seconds including builds/setup; 0 used. [Pre-implementation card and full domain/posts/trust/regression matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07) recorded before proof/tool edits. First hypothesis: reachable i<1/<2/<3 ghost partition resolves prior dead-code blocker with exact old contracts/runtime/checks. Experimental patch starts ONLY after BOTH stock generic VF0 plus integrity/refinement PASS. Historical phases preserved; no external publication, RAPx/B/C or historical verifier chain.

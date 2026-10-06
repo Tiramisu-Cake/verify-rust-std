@@ -1,5 +1,89 @@
 # Independent sort4 alignment geometry gate
 
+## Stock generic and fieldless layout prototype — 2026-10-07
+
+**AUTHORIZED / IN PROGRESS** from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75.
+Entry clean, local/remote exact match, correct fork/branch, no active experiment.
+Previous phase and two runs37537448952/37537868053 remain historical INCONCLUSIVE.
+
+### Step 1: stock gate, before any layout patch implementation
+
+Hypothesis: reachable ordered ghost cases i<1, then i<2, then i<3, otherwise,
+expose integer bounds and derive respectively i==0/1/2/3 without unreachable
+proof statements. Last run discharged posts but dead-code gate rejected assertions
+in impossible branches. This directly addresses that measured failure.
+
+Keep original six cases, source Rust after ghost removal, .add, outer req/resources,
+all target assertions and normal/unwind posts. Generic domain is arbitrary valid
+Sized T, array_<u8>(base,4*sizeofT,bytes), nonnull aligned/live base and usize i<=3.
+Normal post: same byte array, result==base+i, pointer_within_limits(result),
+result-address%alignT==0; on_unwind_ens false. No i equality assumed.
+Official unchanged VF26.09/source809de4596839b739dd999f9e462242c835e3af46,
+nightly-2026-02-05, old flags/specs/classifier. Both generic bodies must exit0,
+with export/decode/refinement, source integrity, dead-code/leak/unwind checks intact.
+Stock original ZST layout/add may stay INCONCLUSIVE independently. Source/destination
+negatives still must fail only at intended alignment assertion after add/cast.
+On generic failure fix only checked proof steps within budget; no profile transition
+until BOTH pass. Original std sort4 blob e555fce440872898e47fd5114f32eb15401d07df
+and adopted normal/five-unwind contract unchanged; this remains partial geometry.
+
+### Step 2: separately identified experimental fieldless layout profile
+
+Only after stock gate PASS, implement a reproducible patch over the same 26.09 pin,
+store patch/provenance under research/challenge-8; apply/build on hosted runner only.
+Stock archive/runner/profile stays separate. No historical patch-chain reuse.
+
+Allowed semantic changes: original-source fieldless, nongeneric-definition Sized
+Rust struct (repr Rust/C, optional align) gets pinned compiler layout size/ABIalign
+through exporter/schema/AST/translator/engine. Explicit absent/present wire variant,
+original field/generic/support checks and same type/source/target binding required.
+Exclude packed/transparent/fielded/generic-ADT/enum/union/DST exact facts; never use
+PhantomData-filtered field list to select support. Rust struct size lower bound
+may become >=0, while C/C++ retain >0. Generic T remains symbolic; no sampled
+layout constant for generic ADTs. No field-offset, ownership, alias or copy rules change.
+Trust premises: pinned rustc query describes SAME source Ty/target as MIR and .add;
+wire decoding preserves values/absence and identity; exact facts attach to same
+engine typeid; existing layout/offset constraints remain consistent. Review is
+experimental, not a model-soundness theorem or accepted upstream tool profile.
+If any further semantic change is required, STOP and document boundary.
+
+### Pre-recorded regression/acceptance matrix
+
+| Obligation | Required outcome / intended stage |
+| --- | --- |
+| Original Z | Original #[repr(align(8))] struct Z; size0/ABIalign8 assertions and full posts, VF0 |
+| Z const/mut add | For arbitrary admitted i0..3 with original zero-byte resources/aligned/live base, unchanged .add preserves pointer and limits/alignment; VF0 |
+| Generic baseline / application | Both exact stock-proved generic bodies remain VF0 under experimental profile; checked calls instantiated at original Z and nonzero u64 preserve original resources/posts |
+| Unsupported layouts | Original-field PhantomData example, fielded nongeneric, generic ADT and excluded representations emit absence, no fabricated sampled facts; relevant abstract Rust proofs retained |
+| Rust/C/C++ compatibility | Selected pinned existing regression bodies finish with unchanged checks; C/C++ positive-size behavior and empty C++ complete-object nonzero control retained |
+| False Z size/alignment/stride | Each VF failure at its NAMED target assertion, after setup/layout/add as applicable; setup/other failure INCONCLUSIVE |
+| Contradiction control | assert false under ordinary satisfiable req true with original Z layout context must fail exactly there; never count unreachable body or inconsistent premise success |
+| Absent metadata | Exact Z size/align assertion stays unproved when exact metadata intentionally absent; no fallback zero. Independent generic baseline may still pass |
+| Corrupt metadata | Malformed size/align/support identity rejected at explicit translator validation; export/decode artifacts preserved, no model proof accepted |
+| Wrong binding | Wrong ADT/source/target metadata rejected at named identity validation before engine facts; never silently attached to a different type |
+
+Metadata variants operate only on disposable exported artifacts on hosted runner,
+with original immutable artifact and transformation/source/profile digests retained.
+Their explicit translator rejection gate is distinct from intended VF assertion
+controls; parse/setup failure does not count. Negative classification remains strict,
+old six-case classifier untouched; new controls get named explicit gates, no weakened
+exit/status checks. Positive whole-unit VF0 and all integrity/refinement checks required.
+Patch regressions include source type/target/wire/AST/profile identities, operation
+reachability and full logs/artifacts. Success is limited to this struct subset and
+geometry, not whole-model soundness, automatic copy UB or sort4 ownership safety.
+
+Budget max6 NEW manual hosted runs, SUM jobs <=10800s including build/preparation.
+Reserve 30min allocation per run (smaller actual time counted), never duplicate,
+one active experiment, exact pushed/head_sha match, inspect full logs/artifacts.
+Every next run must test a concrete change grounded in preceding data; no unchanged
+Re-run. At criteria met, budget exhausted or out-of-scope semantics needed, STOP.
+Only static text/edit/diff/shell syntax inspection locally. No local executable
+checks/builds/compiler/verifier/extractor/runner. Update compact STATUS, historical
+results/journal/plan/coverage and commit/push after meaningful evidence.
+RAPx CLOSED / NO-GO; B/C NOT RUN. No full sort4, historical FnMut/Drop, external
+issues/PR/messages. Prior phases below remain historical.
+
+
 ## Current generic completion and layout review — 2026-10-07
 
 **CLOSED at2-run limit;2/2 NEW runs,85/3600 summed job-seconds.**
