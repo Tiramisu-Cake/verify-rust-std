@@ -123,6 +123,21 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Baseline generic normal borrow recovery passed:** [37437514808](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437514808),
+  source `2a16b2421e81590e91025bf8b662e96be0660369`, recovery90min,
+  pinned release26.09/nightly2026-02-05/no experimental patches. Full evidence
+  inspected: all5readonly exporter/decode/refinement0, exact ghost-strip/source
+  hashes unchanged after each tool. i32 and unrestricted generic T callers VF0
+  with full current cells/T.own; actual ordinary nonghost-only helper body proves
+  at same source version. Each case caller/helper header1, body18, explicit call1.
+  All3 negative VF1 diagnostics match missing token/debt at helper precondition
+  and false caller post after recovery; each refinement0 with same body/call
+  counts. VF.08s per case, refinement.04s (.05generic/missingdebt); runner16.35s,
+  RSS637,208KiB, release setup dominates. No source build/covers/loop bounds.
+  This establishes normal genuine sharing/recovery for two owned generic cells,
+  without FnMut panic, temporary storage or insertion. Next actual ManuallyDrop
+  normal lifecycle control, keeping the complete first/late panic obligations.
+
 - **Baseline recovery declaration diagnostic:** [37437183634](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437183634),
   source `f9a7159c3e3320726cbb0b286ea9d233b1e4c0c8`, baseline recovery90min,
   release26.09/nightly2026-02-05/no experimental patches. Full evidence inspected:

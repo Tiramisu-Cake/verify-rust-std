@@ -66,3 +66,22 @@ no source compilation, covers or loop bounds. Exact release console SHA-256
 `dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc`,
 prelude `d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5`.
 Next new exact-SHA run after correcting the wrapper declaration.
+
+## Ordinary-wrapper result
+
+[37437514808](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437514808)
+checked source `2a16b2421e81590e91025bf8b662e96be0660369` with the same
+release/tool pin and selection. Full logs/artifacts inspected: all five readonly
+exporter/decode/refinement checks pass and source hashes remain unchanged after
+each tool. Both i32 and unrestricted generic T callers verify with full current
+cells and T.own; each caller/helper header is exactly1, actual helper body18
+trace records, explicit call1. All three negatives reject at their intended
+helper precondition or caller post with the same body/call counts and refinement0:
+missing half lifetime token, missing comparison debt and the false recovered-value
+condition. No unrelated frontend failure is accepted. VF .08s per case,
+refinement .04s (.05s generic/missing debt), runner16.35s,RSS637,208KiB; cold
+release setup dominates, no source build/covers/loop bounds. Console/prelude
+hashes match the first run above. This proves only the baseline normal two-cell
+generic lifecycle. Next extend it to actual ManuallyDrop temporary creation,
+`&*tmp`, complete storage recovery and return to an initialized destination;
+direct callback panic remains open.

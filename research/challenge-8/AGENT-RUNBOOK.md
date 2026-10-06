@@ -168,13 +168,26 @@ need precision. Next NEW exact-SHA baseline gate. [Architecture note](BORROW-REC
 rejected automatic route and conditional existing-AST exceptional continuation;
 the latter is not implemented or proved.
 
-**Active run:** [37437514808](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437514808),
+**Latest completed result:** [37437514808](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437514808),
 source `2a16b2421e81590e91025bf8b662e96be0660369`,
 verifast_borrow_recovery90min, manually dispatched2026-10-06T08:38:57Z.
 Only debt declaration corrected (ordinary imprecise predicate); all five cases,
 actual nonghost-only helper, resource conjuncts, full posts and strict classifiers
-retained. Same pinned release/no experimental source patches. Monitor and inspect
-every case's helper/caller/call, readonly MIR, refinement and time evidence.
+retained. Same pinned release/no experimental source patches. **Success; full
+logs/artifacts inspected.** All5readonly exporter/decode/refinement0; source
+byte/hash checks pass before/after each tool. positive_i32 and positive_generic
+VF0; each caller/helper header1, actual helper body18 records, explicit helper
+call1. Full initialized current cells and T.own restored after genuine share and
+natural block exit. All3 negatives VF1 at intended points: missing half token,
+missing debt (both actual helper precondition), false caller post after recovery.
+Each also helper/caller header1/body18/call1/refinement0. VF.08s each,
+refinement.04s (.05generic/missingdebt), runner16.35s,RSS637,208KiB; cold release
+setup dominates, no source build/covers/loop bounds. Console dc672335 and
+prelude d7058d43 unchanged. This establishes the baseline normal two-cell generic
+mechanism, not FnMut panic or std insertion. No active run. Next extend the
+control to actual ManuallyDrop<T>::new / &*tmp / into_inner, genuine sharing,
+full temporary-storage recovery before free and initialized destination/T.own;
+retain existing5 cases and add an intended reference-permission negative.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR

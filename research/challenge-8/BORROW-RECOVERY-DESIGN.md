@@ -23,6 +23,11 @@ opens full borrow contents. Both `i32` and unrestricted generic `T` must return
 full initialized cells and current `T.own`. No callback, unchanged-value claim,
 readonly route, kernel cut or proof of std insertion is part of that control.
 
+That normal mechanism passed on the unchanged release in run37437514808:
+both positive callers and their actual generic helper verify, and the three
+missing-resource/false-post controls fail for their intended reasons. See the
+linked control note for exact source SHA, tool hashes, counts and timings.
+
 Direct unwind is a separate obligation. The translator lowers
 `UnwindAction::Continue` to `ReturnStmt(unwinding)` in
 `vf_mir_translator.ml` (2475–2483). `BlockStmt.return_cont` returns the reserved

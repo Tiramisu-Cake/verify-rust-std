@@ -124,6 +124,13 @@ borrow_end и close_frac_borrow. Поэтому automatic post-recovery здес
 ghost statements, а первое сравнение std ещё не имеет guard. Полный unwind
 post остаётся обязательным; normal-only pilot не заменяет его.
 
+В37437514808 baseline release26.09 проверил normal generic two-cell lifecycle:
+genuine share/init → natural scope exit → явная ordinary nonghost-only lemma →
+full initialized cells и текущие T.own. Оба positive VF/refinement0, actual helper
+body проверен; missing token/debt и false post отвергнуты в нужных местах.
+Это независимый результат без любых experimental patches. Он подтверждает
+normal resource transition, но не direct first panic, held tmp или guard provenance.
+
 Базовый `std::ptr::drop_in_place` требует opaque `<CopyOnDrop<T>>.own`, а
 private default own для guard равен `false`; его post скрывает эффект на gap.
 Run37417173472 останавливается именно на этом cleanup требовании, не на
