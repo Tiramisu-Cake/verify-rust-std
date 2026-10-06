@@ -21,12 +21,18 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37412915463](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
+**Latest completed scope-regression run:** [37412915463](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
 source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
-Only four explicit Mir.basic_block annotations since the failed build;
-patch76c3f6db, unchanged semantic checks/domain. Next poll exact run,
-fetch full logs/artifacts, inspect source build, all8+12regressions and actual
-target/refinement if reached. All execution hosted; no local build/tests.
+Full logs/artifacts inspected. Patch76c3f6db builds0/26.80s,RSS426,932KiB;
+binary e1037db742e3b038796a0fe92d2b6606cb208d24c72315c6088a77061028a571.
+Pins/pairedZ3/sourcehash/actualMIR audit pass. All8HRTB guard cases pass0/1.76s.
+Scope suite: 2positive proofs (basic17 bodyrecords,earlyreturn24) and7intended
+negative failures pass; every attempted case exporter/decode0. Case10 stops
+on fixture error No such function: payload before borrow, NOT intended ownership
+failure; final2cases/actualtargetVF/refiner not reached. Suite1/1.97s;
+overall1,runner1:30.14,RSS641,168KiB,setupdominated. No active run.
+Next make payload a precise pred_ctor and close its applied predicate;
+rerun all8+12cases at NEW source, unchanged semantic patch/domain.
 
 **Latest completed HRTB guards + actual access closure:**
 [37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),

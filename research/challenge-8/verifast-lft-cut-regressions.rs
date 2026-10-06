@@ -113,14 +113,14 @@ pub unsafe fn negative_typed_chunk_survives_cut<T>()
 
 // CASE_BEGIN negative_unclosed_fractional_access
 /*@
-pred payload() = true;
+pred_ctor payload()(;) = true;
 @*/
 pub unsafe fn negative_unclosed_fractional_access()
 /*@ req true; @*/ /*@ ens true; @*/ {
     //@ let cmp_k = begin_lifetime();
     {
         /*@ let_lft 'cmp = cmp_k; @*/
-        //@ close payload();
+        //@ close payload()();
         //@ borrow(cmp_k, payload());
         //@ full_borrow_into_frac(cmp_k, payload());
         //@ open_frac_borrow(cmp_k, payload(), 1/2);

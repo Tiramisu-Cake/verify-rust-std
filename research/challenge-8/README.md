@@ -88,6 +88,18 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Scope regressions after successful source build](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
+  source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
+  Patch76c3f6db builds0/26.80s,RSS426,932KiB; binary
+  e1037db742e3b038796a0fe92d2b6606cb208d24c72315c6088a77061028a571.
+  Pins/pairedZ3/sourcehash/actualMIR audits pass. All8HRTB guards pass0/1.76s.
+  Two positive scope proofs and seven intended negative cases pass; every
+  attempted fixture compiler/decode0. Case10 fails No such function: payload
+  before borrowing: fixture declared a predicate rather than a constructor.
+  Final two cases and actual insertion VF/refiner not reached. Scope suite1,
+  1.97s; overall1,runner1:30.14,RSS641,168KiB,setupdominated. Next correct
+  precise constructor/application in fixture and rerun unchanged patch/domain.
+
 - [Strict binding source-build attempt](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412281007),
   source `7b349f115e75ebcd030bb0788f0e8184b42fc112`,lft_cut90min.
   Rawkernel/translatorprecedingpatch and three-modified-file pins pass;
