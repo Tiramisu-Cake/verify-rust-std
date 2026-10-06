@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 1dec6a6..a9c8d1d 100644
+index 1dec6a6..4c98b9d 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1798,6 +1798,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -41,14 +41,14 @@ index 1dec6a6..a9c8d1d 100644
        in
        iter [] 0 entry_id;
 +      List.iter (fun (close_loc, _) ->
-+        let head = Hashtbl.find explicit_block_heads_table close_loc in
++        let head : Mir.basic_block = Hashtbl.find explicit_block_heads_table close_loc in
 +        let entry_id = Hashtbl.find explicit_block_starts_table close_loc in
-+        let end_bb =
++        let end_bb : Mir.basic_block =
 +          match List.filter (fun (loc, _, _) -> loc = close_loc) !explicit_block_ends with
 +          | [(_, _, original)] -> Hashtbl.find bblocks_table original.id
 +          | _ -> Ast.static_error close_loc "Expected one lifetime binding end marker" None
 +        in
-+        let rec scoped_ids bb =
++        let rec scoped_ids (bb : Mir.basic_block) =
 +          bb.id :: Util.flatmap scoped_ids bb.children
 +        in
 +        let ids = scoped_ids head in
@@ -58,7 +58,7 @@ index 1dec6a6..a9c8d1d 100644
 +           List.exists (fun id -> id <> head.id && List.mem id ids) end_bb.successors then
 +          Ast.static_error close_loc
 +            "Lifetime binding end marker must leave exactly its reconstructed prefix" None;
-+        Hashtbl.iter (fun _ bb ->
++        Hashtbl.iter (fun _ (bb : Mir.basic_block) ->
 +          if not (List.mem bb.id ids) then
 +            List.iter (fun successor ->
 +              if List.mem successor ids &&

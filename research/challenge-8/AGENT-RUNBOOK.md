@@ -38,15 +38,21 @@ lifetime_token(cmp_k), confirming remaining lexicalreservation. No move/guard/
 loop/fullrangeproof or covers. VF1/.17s,RSS92,728KiB;refiner0/.12s,
 RSS91,696KiB;overall1,runner1:04.76,RSS646,280KiB,setupdominated.
 No active run. Default main exposes manual choice by workflow-only591f251.
-Active run [37412281007](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412281007),
-source `7b349f115e75ebcd030bb0788f0e8184b42fc112`,
-verifast_insert_tail_lft_cut90min; exact remote/run SHA matched.
-Poll then fetch all build/guard/actualproof artifacts; do not duplicate queuedrun.
+**Latest strict-scope source-build failure:**
+[37412281007](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412281007),
+source `7b349f115e75ebcd030bb0788f0e8184b42fc112`,lft_cut90min.
+Full logs/artifacts fetched. Rawkernel/translatorbeforecut pins and all3source
+file checks pass, extraction/ghost audit0. OCaml translator3774 scoped_ids bb
+inferred debug_info fromsharedidlabel; nochildrenfield; consolebuild2/12.19s,
+RSS426,180KiB. No compiler MIR/guardtests/actualVF/refiner executed.
+Overall2,runner1:16.46,RSS644,292KiB,allsetup. No active run.
+Prepared explicit Mir.basic_block annotations onnewscoped_ids/Hashtblcallbacks;
+next NEW source run with unchangedsemanticchecks/domain; no localcompile.
 This is a separate experimental
 strict early binding-scope cut, preserving runtime Rust/tuple_hrtb reproducer.
 Source patch implemented by Sol and independently reviewed by Astra; concrete
-static blockers fixed. Current patchSHA9a924a4542146d0a9b839f0b7f45230e382b5525b4d0d06548bd7dc24e74fc83
-adds a final fail-closed guard for unexpected AST exceptions; actualRustunwind
+static blockers fixed. Current patchSHA76c3f6dbc54183997a40d91c8a178a3b751a6771c8a42e79bb9cacbbe04c89e8
+includes explicit basic-block annotations and the fail-closed guard for unexpected AST exceptions; actualRustunwind
 uses wrappedreturn/goto. Root checked delta/signature; no AST/lifetime axiom.
 Builder strictly checks rawkernel5968a05e and precedingtranslator ef88c9c0,
 onlyparser/translator/kernel modified. Source + original/patchedmodels recorded.

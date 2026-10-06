@@ -9,7 +9,7 @@ the translator input file after it is SHA-256
 The original `verifast.ml` input is SHA-256
 `5968a05e264042782e8373c452b241ccdd1f4ba3323d596888a9bdf6b18c3310`.
 The patch is [verifast-end-lft-binding.patch](verifast-end-lft-binding.patch),
-SHA-256 `9a924a4542146d0a9b839f0b7f45230e382b5525b4d0d06548bd7dc24e74fc83`.
+SHA-256 `76c3f6dbc54183997a40d91c8a178a3b751a6771c8a42e79bb9cacbbe04c89e8`.
 
 ## Scope and semantics
 

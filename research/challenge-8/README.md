@@ -88,6 +88,15 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Strict binding source-build attempt](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412281007),
+  source `7b349f115e75ebcd030bb0788f0e8184b42fc112`,lft_cut90min.
+  Rawkernel/translatorprecedingpatch and three-modified-file pins pass;
+  originalsource/ghost audit0. OCaml scoped_ids bb infers debug_info from
+  duplicateidlabel and cannotfindchildrenfield; sourceconsole2/12.19s,
+  RSS426,180KiB. No compiler MIR/regression/actualVF/refiner execution.
+  Overall2,runner1:16.46,RSS644,292KiB,allsetup. Next explicitbasicblock
+  type annotations in new helpers; semantic cut checks/domain unchanged.
+
 - [HRTB guards and actual borrow-access closure](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),
   source `3184c40f4a00745712bdce4a28ccdc76f352562c`,fnmut_hrtb90min.
   Sourcebuild0/15.42s; pinnedparser/HRTBtracepatch/prelude/exporter/refiner,
