@@ -22,13 +22,19 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
+**Active run:** [37406214235](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37406214235),
+source `45487efb5c9fda8ed4aa32d848dd179d946eb83c`,tuple_parser90min.
+Console-only artifact target, no C manifest reuse. Exact SHA confirmed.
+Resume this run; fetch full logs/artifacts and inspect source-build hashes,
+actual target traces, first causal error and refinement outcome.
+
 **Latest source-build run:** [37405631794](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405631794),
 source `5dcf5348447174f3a9a8c23cce3bad80d70188ca`,tuple_parser90min.
 Full evidence fetched. Pinned deps/decoder3.93s and patched OCaml console
 compilation pass; broad make target then regenerates C STDLIB manifests and
 fails unrelated bitops.c18 precondition x<pow_nat(2,N32),overall2.
 No insertion verifier/refiner execution, no proof/covers. Buildstage1:18.67,
-runner2:22.22,RSS642,736KiB,all setup. No active run. Next compile only
+runner2:22.22,RSS642,736KiB,all setup. The active run above compiles only
 ../bin/verifast artifact target; pinned all-.rs frontend skips C manifest
 link phase, uses source rust prelude. Do not reuse/fabricate C manifests.
 Then dispatch NEW source commit and inspect actual insertion proof.
