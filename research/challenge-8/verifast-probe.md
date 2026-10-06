@@ -94,7 +94,32 @@ Actions run
 at `da5f16e` checked the first version of this helper and failed at the first
 `mul_mono_l` call because `0 <= size_of::<T>()` did not follow from endpoint
 facts alone. Refinement passed. The revised helper derives nonnegativity from
-the owned first cell; this step remains unverified until a new Actions run.
+the owned first cell. Actions run
+[37397404058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397404058)
+at `91392b6` passed that helper and `tail.sub(1)`, then stopped at the first
+`&*tail`: the frontend required a `ref_precreated_token<T>(tail, _)`.
+Refinement passed.
+
+The next staged `range` revision isolates the final two cells and their
+generic `T` ownership using the pinned `array_split` and `foreach_split`
+lemmas at symbolic offsets `n - 2` and `1`. It closes each cell's full-borrow
+content, starts a short lifetime, creates two full borrows, turns them into
+shared borrows, and uses `precreate_ref` plus `init_ref_share` to prepare
+the two actual `&*` expressions. Fractional `ref_initialized` resources and
+`<&T>.own` resources are prepared before the comparator call. The existing
+`unsafe` block starts with a ghost `let_lft 'cmp = cmp_k` declaration, and the
+call carries a ghost lifetime argument. All of these are comments in the
+verified copy; no Rust statement or signature changes. The old precondition
+is unchanged, including support for symbolic lengths and generic types.
+This preparation is not yet verified. In particular, the Actions run must
+test whether the frontend accepts lifetime arguments on the desugared
+`FnMut` call and connects the split cells to `sift` and `tail`.
+
+This stage deliberately stops at the first comparison. Ending its lifetime,
+recovering potentially changed `T` values after comparator interior mutation,
+and restoring ownership on the early-return, normal, and unwind paths remain
+proof obligations. No result from this stage should be reported as a complete
+`insert_tail` proof, even if the first comparison passes.
 
 Both profiles leave the extracted `CopyOnDrop` and outer function unverified:
 `-skip_specless_fns` skips these unspecified functions. The experiment

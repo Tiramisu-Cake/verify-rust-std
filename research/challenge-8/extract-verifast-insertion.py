@@ -60,6 +60,49 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
 
 """
 RANGE_BOUND_GHOST = "        //@ interior_pointer_limits::<T>(begin, n, n - 2);\n"
+RANGE_LIFETIME_BEGIN = "    //@ let cmp_k = begin_lifetime();\n"
+RANGE_LIFETIME_BIND = "        /*@ let_lft 'cmp = cmp_k; @*/\n"
+RANGE_COMPARE_PREP = """        /*@
+        array_inv::<T>();
+        array_split::<T>(begin, n - 2);
+        array_split::<T>(begin + (n - 2), 1);
+        foreach_split(xs, own::<T>(t), n - 2);
+        length_drop(n - 2, xs);
+        note(length(drop(n - 2, xs)) == 2);
+        foreach_split(drop(n - 2, xs), own::<T>(t), 1);
+        note(sift == begin + (n - 2));
+        note(tail == begin + (n - 1));
+        open array::<T>(sift, 1, take(1, drop(n - 2, xs)));
+        open array::<T>(tail, 1, drop(1, drop(n - 2, xs)));
+        open foreach(take(1, drop(n - 2, xs)), own::<T>(t));
+        open foreach(drop(1, drop(n - 2, xs)), own::<T>(t));
+        open own::<T>(t)(head(take(1, drop(n - 2, xs))));
+        open own::<T>(t)(head(drop(1, drop(n - 2, xs))));
+        close_full_borrow_content::<T>(t, sift);
+        close_full_borrow_content::<T>(t, tail);
+        borrow(cmp_k, <T>.full_borrow_content(t, sift));
+        borrow(cmp_k, <T>.full_borrow_content(t, tail));
+        share_full_borrow::<T>(cmp_k, t, sift);
+        share_full_borrow::<T>(cmp_k, t, tail);
+        let cmp_tail_ref = precreate_ref(tail);
+        let cmp_sift_ref = precreate_ref(sift);
+        init_ref_share::<T>(cmp_k, t, cmp_tail_ref);
+        init_ref_share::<T>(cmp_k, t, cmp_sift_ref);
+        open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/2);
+        open [?tail_ref_frac]ref_initialized_::<T>(cmp_tail_ref)();
+        open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/2);
+        open [?sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
+        close_ref_own::<'cmp, T>(cmp_tail_ref);
+        close_ref_own::<'cmp, T>(cmp_sift_ref);
+        @*/
+"""
+RANGE_CALL_GHOST = "/*@::<'cmp>@*/"
+RANGE_BODY_ANCHOR = (
+    "    // SAFETY: see individual comments.\n"
+    "    unsafe {\n"
+    "        // SAFETY: in-bounds as tail > begin.\n"
+)
+RANGE_COMPARE_ANCHOR = "        if !is_less(&*tail, &*sift) {"
 HEADER = "use core::mem::ManuallyDrop;\nuse core::{intrinsics, ptr};\n\n"
 ROOT = (
     "#![no_std]\n"
@@ -125,6 +168,8 @@ def main() -> None:
         raise ValueError("outer function body changed")
     if tail.count(SIFT_ANCHOR) != 1:
         raise ValueError("first insert_tail pointer step changed")
+    if tail.count(RANGE_BODY_ANCHOR) != 1 or tail.count(RANGE_COMPARE_ANCHOR) != 1:
+        raise ValueError("first insert_tail comparison anchor changed")
     for name, piece in pieces.items():
         if not piece.rstrip().endswith("}"):
             raise ValueError(f"{name} does not end in a complete Rust item")
@@ -134,13 +179,33 @@ def main() -> None:
     # Piece bytes are exact substrings of the source. Scaffolding only supplies
     # equivalent core imports; no sorting operation is reimplemented here.
     original = HEADER + "".join(pieces.values())
+    if original.count(RANGE_BODY_ANCHOR) != 1 or original.count(RANGE_COMPARE_ANCHOR) != 1:
+        raise ValueError("assembled first-comparison anchors are not unique")
     verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + ghost + "{")
     injections = {"contract": ghost}
     if profile == "range":
         injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         injections["interior_call"] = RANGE_BOUND_GHOST
+        injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
+        injections["lifetime_bind"] = RANGE_LIFETIME_BIND
+        injections["comparison_prep"] = RANGE_COMPARE_PREP
+        injections["comparison_call"] = RANGE_CALL_GHOST
         verified = verified.replace(HEADER, HEADER + RANGE_INTERIOR_LEMMA, 1)
         verified = verified.replace(SIFT_ANCHOR, RANGE_BOUND_GHOST + SIFT_ANCHOR)
+        verified = verified.replace(
+            RANGE_BODY_ANCHOR,
+            RANGE_LIFETIME_BEGIN + RANGE_BODY_ANCHOR.replace(
+                "    unsafe {\n", "    unsafe {\n" + RANGE_LIFETIME_BIND, 1
+            ),
+            1,
+        )
+        verified = verified.replace(
+            RANGE_COMPARE_ANCHOR,
+            RANGE_COMPARE_PREP + RANGE_COMPARE_ANCHOR.replace(
+                "is_less", "is_less" + RANGE_CALL_GHOST, 1
+            ),
+            1,
+        )
     stripped = verified
     for name, content in injections.items():
         if stripped.count(content) != 1:
