@@ -21,157 +21,80 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Latest explicit spec-overlay experiment:**
+**Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
+No active Actions run yet. A reviewed tuple2-only parser patch is committed;
+Actions source-build integration is ready and independently reviewed. Default main exposes the
+new manual selection by workflow-only commit `569ff40`. Ubuntu22.04 for this
+selection only; other profiles retain Ubuntu24.04. Baseline verifier/tool pins
+and std runtime are unchanged.
+
+Source base VeriFast26.09 `809de4596839b739dd999f9e462242c835e3af46`;
+original parser SHA f7f2c2bf573be09d8ce5dcd640ddca0e1437a8f18464facc9621ac287a5082e8,
+unmodified prelude SHA d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5.
+Only console `make verifast`, pinned VFDeps25.01/vfdeps-adf88dc archive and
+capnpc-ocaml-decoder revision2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2;
+release exporter/refiner reused, source console/Z3/resources kept together.
+One overall Actions budget includes setup/build/proof. No local build or install.
+See verifast-tuple-parser.md; source-derived binary is experimental, not the
+unchanged release binary or an accepted full Challenge8 solution.
+
+**Confirmed tuple model blocker:** latest finished run
 [37402802085](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402802085),
-source `c0742d522d83264003b7872444b402ef12a80c97`,
-verifast_insert_tail_tuple_overlay90min. Same binary26.09; Actions-only bundled
-prelude patch requires original SHA d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5.
-Transparent named tuple field-own predicate and alias in its declaring file,
-no wrapper override. Same generic range req/Rust bytes, all ghost-byte audits;
-original/patched model and binary hashes retained,-verbose1 body traces enabled.
-Full evidence fetched: strict original model hash matches, exact patch recorded,
-tool binary hashes unchanged; duplicate typepredicateown conflicts with
-prelude15 struct declaration. Automatic own alias exists; no target execution.
-Runtimeghost/refinement0,VF1(.09s),refiner.11s,runner14.17s,RSS527,852KiB.
-No active run. Independent source reviews confirm rust_parser.ml:1139-1149
-creates opaque own fixpoint plus alias for every RSSPEC struct; no supported
-spec-only transparent replacement. Stop naming/placement retries.
-Next justified diagnostic: reviewed parser change ONLY synthetic tuple2,
-transparent field-own constructor and exactly one alias, source base809de459.
-Actions-only reproducible source-build recipe and patch being prepared; no
-local build/deps/verification, no opaque ownership bridge, no new run yet.
-Compatibility, cell recovery, guard cleanup and generic loop remain open.
+source `c0742d522d83264003b7872444b402ef12a80c97`,tuple_overlay90min.
+Strict original model hash and patch roundtrip passed; unchanged binaries;
+VF rejects duplicate tuple2 own alias before any target execution.
+Runtimebyte/refinement0,VF1(.09s),refiner.11s,runner14.17s,RSS527,852KiB.
+Independent source reviews confirm rust_parser.ml:1139-1149 creates an opaque
+bodyless own fixpoint plus alias for every RSSPEC struct. Same-name predicate
+or fixpoint completion and external-file alias cannot supply a transparent
+body. Stop naming/placement retries and do not add an unproved tuple2 bridge.
+The reviewed source patch replaces only canonical tuple2 own by a transparent
+field-own constructor, retaining exactly one alias and all other struct models.
 
-**Latest run:** [37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),
-source `b777d8d78d50ab79422ac1101111662e3fc4397e`,range90min. Same
-transparent tuple own moved to crate root; byte-stripping audit and manifest
-now cover both lib.rs and smallsort.rs. Full evidence fetched: namespace
-assertion resolved; Predicate constructor name clashes with existing pure
-function name at lib.rs5. Exactbyte/refinement0,VF1(.14s),refiner.12s,
-runner13.76s,RSS637,500KiB. No active run. Next inspect supported named-predicate
-alias route and existing tuple-own symbol; no random naming/assumed chunks.
-Pinned source confirms wrapper-only extension is blocked: external-struct
-type_pred_def must appear in its declaration file (verifast1.ml:4079-4082).
-Next justified experiment is a separate tuple_overlay profile: same binary pin,
-transparent named field-own predicate/alias inside bundled prelude.rsspec on
-Actions only, strict original-header hash, original/patched evidence and no
-assumed summaries. Root-placement model removed from baseline range. This
-model extension's compatibility is a separate obligation, not full proof.
-New manual choice verifast_insert_tail_tuple_overlay exposed on default main
-by workflow-only commit6ffca25; runner/patcher currently being prepared, no run.
-
-**Latest insertion model experiment:**
-[37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),
-source `72dd333ed19c9f1c7a95ceb98957cf2f61fd9dba`,range90min. Transparent
-tuple2 own defined as owned fields, then folded for complete FnMut parameters.
-Explicit model extension, no opaque lemma/stub/assumption. Original req and
-Rust bytes retained. Full logs/artifacts fetched: VF internal assertion
-verifast1.ml:2309,exit2, because external tuple definition needs crate-root
-package, not smallsort module. Exactbyte/refinement0,VF.11s,refiner.10s,
-runner16.91s,RSS634,396KiB,overall1. No active run. Next place transparent
-model at verified crate root and audit ghost-only differences in both files.
-Full model compatibility remains unproved; not an algorithm counterexample.
-
-**Completed pure generic target:**
+**Completed generic target:**
 [37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
 source `9fb8940437be22b316c45a3b23f9ece325944aae`,verifast_swap_size90min.
-Unrestricted T,req true,result exactly size_of<T><=8. Actual const body extracted
-with failclosed byte audit, pinned tools/refiner; named function and body traces
-required. Full evidence fetched: one named target,four body execution/return
-records,0errors,LP64; all stages and overall0. VF.10s,refiner.07s,
-runner12.70s,RSS585,516KiB. No covers/loopbounds. Isolated helper proved,
-other six targets/callers/fullcore integration remain open.
-Next resume generic insertion with transparent tuple-field ownership model;
-pinned external tuple has no own definition, default synthesis is local-only.
-Model definition is explicit, no opaque axiom/stub; compatibility obligations
-must be validated before claiming full function proof.
+Actual has_efficient_in_place_swap<T>,unrestricted T,req true,result exactly
+size_of<T><=8,LP64. Exact body/ghost-byte audit/refinement0,VF0;
+one named target,four body execution/return records,0errors.
+VF.10s/refiner.07s,runner12.70s,RSS585,516KiB. No covers/loopbounds.
+Other six targets/callers/fullcore integration remain open.
 
-**Latest tuple-constructor run:** [37401357731](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401357731),
-source `ae09e983ef430fc03dc49fc4724d36dbb0cab7e9`,range90min. Corrected
-ghost tuple constructor only, complete FnMut parameters retained. Full evidence
-fetched: syntax accepted, close tuple own fails No such predicate instance.
-No callback proof. Exactbyte/refinement0,VF1(.17s),refiner.10s,runner12.85s,
-RSS635,404KiB. Next inspect actual tuple type_pred model/folding;
-isolated pure generic size target is now statically reviewed and ready to run.
+**Generic insertion progress:** actual bodies mechanically extracted;
+insert_tail only specified,CopyOnDrop and outer function still skipped.
+Symbolic n>=2,owned initialized generic T range and owned F comparator;
+no sortedness/length cap,ens true is a weak diagnostic. First tail.sub(1),
+range splitting, reference precreation/sharing and both actual &* expressions
+pass in37400422055. let_lft reserves half token until unsafe-block exit;
+two quarter accesses use the remaining half. Actual FnMut call not proved yet.
+Tuple2 parser compatibility, callback normal/unwind, exclusive cell recovery
+before tail.read,guard restoration and generic loop remain obligations.
+No Rust blocks/signatures may be changed to shorten the ghost lifetime.
+See verifast-probe.md, verifast-lifetime-diagnostic.md and
+verifast-drop-diagnostic.md.
 
-**Latest inspected run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
-source `9d4a01fc9388b53d2bc4cfc53651a3b728914457`,
-`verifast_insert_tail_range`,90min. Full logs/artifacts fetched.
-New change removes incomplete ghost
-FnMut generic arguments, preserving MIR inference and the actual Rust call.
-All borrow preparation, quarter-token accesses, checked assertions, original
-req and exact-byte/refinement audit remain. All quarter assertions and the two
-actual &* expressions pass; comparator call next lacks Args tuple own with
-two inferred lifetime placeholders at std/lib.rsspec:47. Function not proved.
-Exactbyte/refinement0,VF1(.19s),refiner.11s,runner1:12.85,RSS617,796KiB.
-Next prove the tuple ownership/lifetime match using supported complete generic
-substitutions or tuple closing, without assuming caller resources.
+**Bounded milestones:** actual swap bootstrap5/5covers37383583285 at
+34d008324e10a66bf59de705acd609d9509e7c36. Insertion adapter contract,
+summary-based research caller and direct std outer function all pass15/15covers
+37389298278 at ec5556cf37fc31af4b25d27476c88f5fbc8e77c9,unwind6/assertionspass.
+Verification22.868813+5.359691+16.718891s,runner5:38.03,RSS1,944,792KiB.
+Four-cell i32 functional domains are not arbitrary-length/generic proofs.
 
-**Latest tuple syntax run:** [37401170274](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401170274),
-source `661cee7cdf711f2996721bf0361151a34fb158b6`,range90min. Explicit tuple
-own closure and complete ghost substitutions F,(&'cmp T,&'cmp T),'cmp; pinned
-trait parser confirms this order. Full evidence fetched: parser rejects ghost
-tuple value (a,b), requires supported numeric-field std_tuple_2_ constructor.
-Exactbyte/refinement0,VF1(.09s),refiner.11s,runner13.32s,RSS634,536KiB.
-Prepared constructor correction leaves original req/Rust bytes
-unchanged. Independent pure generic size
-target is prepared in new files; choice verifast_swap_size exposed on default
-main by workflow-only commit79c6dc9. Runner requires successful named function
-and actual body execution traces using pinned -verbose1, plus exact/refiner0.
+**Pinned Kani blockers:** actual insertion UB run37396688760 at
+43f133c72fcd4f3dffe033582aa96aa2500bf860 has7/7covers,no undetermined,
+sole1/469failure unsupported copy_nonoverlapping validity check.
+Verification3.1836462s,runner3:54.96,RSS1,821,596KiB.
+Observed immutable-write control37397720683 at
+75799de75efab17d9c386deea6c49047db16cb60 unexpectedly verifies0/205 and1/1cover
+after write9/volatile-read/assert9;positive4/4covers. Detector gap, suitefails.
+Outer-invariant37390973809 emits missing-argument nondeterministic substitutions
+and endsSIGTERM143 before finalproperties/covers. No warned proof may be accepted.
+Frozen-pointer rewrite prepared, needs GOTO call/formal evidence on Actions.
+See ub-checks.md and outer-invariant-diagnostic.md; preserve all checks/copies.
 
-**Completed bounded milestones:** bootstrap two actual swap harnesses,5/5covers
-at `34d008324e10a66bf59de705acd609d9509e7c36` (37383583285).
-Insertion contract, summarized research caller and direct actual std insertion
-all pass,15/15covers,unwind assertions pass,none undetermined, at
-`ec5556cf37fc31af4b25d27476c88f5fbc8e77c9` (37389298278).
-Verification22.868813+5.359691+16.718891s versus runner5:38.03,RSS1,944,792KiB.
-These are four-cell i32 proofs with functional assumptions, not full Challenge8.
-
-**Current generic direction:** actual insert_tail extracted mechanically with
-CopyOnDrop and actual outer function, pinned VF26.09/nightly-2026-02-05.
-Only insert_tail specified; the other bodies remain unverified. Original range
-req has symbolic n>=2, writable initialized owned generic T cells and owned
-comparator F, no sortedness or length cap. Ens true remains a weak diagnostic.
-Run37397404058 at `91392b65f2dcc122a33a55f94377b6e372c74760` proved
-interior_pointer_limits and first actual tail.sub(1), then lacked the reference
-precreation token. Subsequent shared-cell preparation uses split arrays/Town,
-full/shared borrows and reference initialization. Lifetime diagnostics located
-half-token reservation at let_lft (37399825118): source verifast.ml:2629-2640
-keeps half until block exit. Two quarter accesses address the available half.
-Latest finished37400101276 at `86edc719f6aefcbe5acc66d1203bd6dbcf0e761a`
-fails Incorrect number of type arguments at ghost::<'cmp> on FnMut. Exact audit
-and refinement0,VF1(.11s),refiner.08s,runner11.53s,RSS621,304KiB. The active run
-removes that incomplete list; MIR translator replaces the entire list when
-annotated. Need Actions evidence for actual call/lifetime matching. Afterward,
-exclusive access must be recovered before tail.read even though the binding
-scope ends later. No completed generic function or guard/outer-loop proof.
-
-**Concrete Kani blockers on unchanged pin:** actual insertion UB safety run
-37396688760 at `43f133c72fcd4f3dffe033582aa96aa2500bf860` executes7/7covers,
-no undetermined,sole1/469failure is unsupported copy_nonoverlapping validity
-check. Pinned check_values.rs:387-393 inserts this unconditionally; do not
-remove the copy or valid-value flag. Verification3.1836462s versus runner3:54.96,
-RSS1,821,596KiB. Observed immutable-static write control37397720683 at
-`75799de75efab17d9c386deea6c49047db16cb60` unexpectedly verifies0/205 and
-1/1cover after write9/volatile-read/assert9, positive controls4/4covers.
-Detector missing for observable modeled immutable-byte mutation; suite correctly
-fails. Both categories remain open, no all-UB claim. See ub-checks.md.
-
-**Other pending tool questions:** outer-loop instrumentation run37390973809
-at `a3da2d490ca6129f0abd4c59063b8100ed73981b` compiles but emits missing-argument
-nondeterministic substitutions, stopsSIGTERM143 before final properties/covers.
-Never accept such a result. Frozen-pointer/const-address/stride rewrite is
-prepared but unverified; retain reproducer and obtain GOTO call/formal evidence
-on Actions before attributing the cause. See outer-invariant-diagnostic.md.
-Generic compiler-generated Drop uses pinned drop_in_place's weak summary; a
-method-local destructor contract alone does not explicitly provide restored
-array ownership. See verifast-drop-diagnostic.md for source evidence and the
-needed gating Actions probe; not yet a demonstrated cleanup-proof blocker.
-
-Full chronological run evidence, exact pins/domains/counts and prior failures
-are in README.md and topic notes. All completed runs above have fetched full
-logs/artifacts; artifacts expire7days. Runtime std source is unchanged,
-SHA256 `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
+Full completed logs/artifacts fetched and summarized in README/topic notes;
+artifacts expire7days. Runtime std source SHA256 remains
+32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959.
 
 ## Repository map and verifier details
 

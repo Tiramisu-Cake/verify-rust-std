@@ -58,3 +58,28 @@ interpretation, and compatibility with the existing tuple-2 `.share`
 definition. Passing the first call would leave early-return cleanup,
 exclusive access before `tail.read()`, `CopyOnDrop` verification, and the
 rest of Challenge 8 open.
+
+## Hosted source-build entrypoint
+
+`verifast_insert_tail_tuple_parser` routes to `run-verifast-probe.sh BUDGET tuple_parser` on Ubuntu22.04. Its overall timeout includes extraction, pinned
+release setup, `build-verifast-tuple-parser.sh`, verification and refinement.
+The helper checks the exact source commit/parser/prelude before applying the
+patch and retains both parser versions and the actual applied diff. It builds
+only `make verifast WITHOUT_LABLGTK=yes VERBOSE=yes`; the target also produces
+standard-library manifests, without building the IDE, exporter or full tests.
+
+VFDeps25.01 archive `vfdeps-adf88dc-linux.txz` SHA256
+`8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580` is extracted
+at its upstream root prefix with `/tmp/vfdeps-adf88dc` symlink, preserving
+compiled-in OCaml paths. Decoder source is fixed to
+`2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2` and installed with `--locked`.
+The exact-release exporter/refiner are byte-compared after copying into source
+bin; rebuilt console, paired Z3 and source resources remain together. Complete
+stage logs/resources/exits, original model, tool paths/versions, parser/patch,
+binary and resource hashes are uploaded, excluding the checkout/build tree.
+A failed build means no target proof. A successful verifier exit additionally
+requires one named insert_tail and actual body execution records; full logs
+still need review for normal/unwind paths and remaining ownership obligations.
+The common workflow checkout/runner-preparation step precedes the probe timeout;
+all VeriFast tool setup, decoder/source build and proof are inside it.
+No baseline tool configuration is changed by this experimental selection.

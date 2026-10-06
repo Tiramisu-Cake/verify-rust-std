@@ -54,9 +54,10 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 
 ## Run
 
-In the fork's Actions tab, enable workflows if GitHub asks, choose **SmallSort
-research**, click **Run workflow**, select `challenge-8/research`, and select
-`proof=insertion_outer_invariant_4` and `budget_minutes=90` for the next experiment.
+Agents dispatch and inspect each run autonomously using `gh` and the runbook.
+The next selection is `verifast_insert_tail_tuple_parser`,budget90min, on
+`challenge-8/research`. It source-builds the reviewed experimental tuple2 parser
+on hosted Ubuntu22.04. Other profiles retain their pinned release tools.
 The existing `all`, `orders_i32_pair` and
 `preserves_i32_values_for_any_decision` choices still run the original bootstrap.
 
@@ -475,6 +476,18 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   and one alias. Other structs/models remain unchanged. Build recipe and patch
   are being prepared; no local verifier/build or new run. Compatibility and
   actual insertion/unwind/loop proof remain separate requirements.
+
+- **Prepared tuple2 parser source-build diagnostic.** Manual choice
+  `verifast_insert_tail_tuple_parser` exposed on default main by workflow-only
+  commit `569ff40`; dispatch source remains challenge-8/research. Build only
+  pinned26.09 console on Ubuntu22.04, parser patch SHA
+  ff2576f727d13d9dfcd9616a030b72ad0b0a27ce87cc96014af2d2ba42249660.
+  Pinned VFDeps archive and decoder source revision; unchanged source prelude;
+  same generic owned-range contract, no length cap or sortedness assumption.
+  Build/proof/refinement logs and hashes are separate under one budget.
+  Experimental source-derived verifier, baseline pin unchanged. No run yet;
+  actual callback normal/unwind, tuple-share compatibility, cell recovery and
+  remaining function are still unproved. See verifast-tuple-parser.md.
 
 ## Next experiments
 

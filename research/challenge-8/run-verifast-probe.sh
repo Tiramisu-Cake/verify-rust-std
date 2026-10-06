@@ -17,6 +17,13 @@ export RUSTUP_TOOLCHAIN=nightly-2026-02-05
 export VF_PROBE_PROFILE=${VF_PROBE_PROFILE:-frontend}
 
 if [[ "${1:-}" == --stages ]]; then
+    # Extraction, setup, optional source build and proof share one parent budget.
+    set +e
+    python3 "$repo/research/challenge-8/extract-verifast-insertion.py" "$evidence" --profile "$VF_PROBE_PROFILE" > "$evidence/extraction.log" 2>&1
+    extraction_status=$?
+    set -e
+    printf '%s\n' "$extraction_status" > "$evidence/extraction-exit-code.txt"
+    if (( extraction_status != 0 )); then cat "$evidence/extraction.log" >&2; exit "$extraction_status"; fi
     cd "$evidence"
     # The repository's pinned setup installs only on this hosted runner.
     . "$repo/verifast-proofs/setup-verifast-home"
@@ -49,6 +56,15 @@ if [[ "${1:-}" == --stages ]]; then
         } >> "$evidence/environment.txt"
     fi
 
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser ]]; then
+        source_home="${RUNNER_TEMP:?}/challenge8-verifast-tuple-parser"
+        bash "$repo/research/challenge-8/build-verifast-tuple-parser.sh" "$VERIFAST_HOME" "$evidence" "$source_home"
+        export VERIFAST_HOME="$source_home"
+        export LD_LIBRARY_PATH="$VERIFAST_HOME/bin:${LD_LIBRARY_PATH:-}"
+        vf_options=(-verbose 1)
+        printf 'Experimental source-built tuple2 parser; see source-build inputs/runtime hashes.\n' >> "$evidence/environment.txt"
+    fi
+
     printf 'Probe profile: %s\n' "$VF_PROBE_PROFILE"
     # Only insert_tail is specified. An exit 0 must be inspected for function
     # counts; it is not evidence for CopyOnDrop or the outer function.
@@ -62,7 +78,19 @@ if [[ "${1:-}" == --stages ]]; then
     set -e
     printf '%s\n' "$vf_status" > verifast-exit-code.txt
     printf '%s\n' "$refinement_status" > refinement-exit-code.txt
+    target_count=0
+    statement_count=0
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser ]]; then
+        target_count=$(grep -F -c "Verifying function 'smallsort::insert_tail'" verifast.log || true)
+        statement_count=$(grep -E -c 'verified/smallsort[.]rs\([0-9]+,[0-9]+(-[0-9]+(,[0-9]+)?)?\): (note: )?Executing (statement|return statement)$' verifast.log || true)
+        printf '%s\n' "$target_count" > verified-target-count.txt
+        printf '%s\n' "$statement_count" > verified-target-statement-count.txt
+    fi
     cat verifast.log refinement.log
+    if [[ "$VF_PROBE_PROFILE" == tuple_parser ]] && (( vf_status == 0 && (target_count != 1 || statement_count < 1) )); then
+        echo 'No unique named insertion target/body execution evidence' >&2
+        exit 1
+    fi
     if (( vf_status != 0 || refinement_status != 0 )); then
         exit 1
     fi
@@ -76,8 +104,8 @@ case "$budget" in
 esac
 profile=${2:-frontend}
 case "$profile" in
-    frontend|range|tuple_overlay) ;;
-    *) echo 'Profile must be frontend, range or tuple_overlay' >&2; exit 2 ;;
+    frontend|range|tuple_overlay|tuple_parser) ;;
+    *) echo 'Profile must be frontend, range, tuple_overlay or tuple_parser' >&2; exit 2 ;;
 esac
 export VF_PROBE_PROFILE="$profile"
 mkdir -p "$evidence"
@@ -93,20 +121,10 @@ mkdir -p "$evidence"
         research/challenge-8/extract-verifast-insertion.py \
         research/challenge-8/patch-verifast-tuple-model.py \
         research/challenge-8/run-verifast-probe.sh \
+        research/challenge-8/build-verifast-tuple-parser.sh \
+        research/challenge-8/verifast-tuple-own.patch \
         verifast-proofs/setup-verifast-home
 } > "$evidence/environment.txt"
-
-# This writes exact selected source chunks, both versions, and per-chunk hashes.
-set +e
-python3 research/challenge-8/extract-verifast-insertion.py "$evidence" --profile "$profile" \
-    > "$evidence/extraction.log" 2>&1
-extraction_status=$?
-set -e
-if (( extraction_status != 0 )); then
-    cat "$evidence/extraction.log" >&2
-    printf '%s\n' "$extraction_status" > "$evidence/exit-code.txt"
-    exit "$extraction_status"
-fi
 
 set +e
 /usr/bin/time -v -o "$evidence/resources.txt" \

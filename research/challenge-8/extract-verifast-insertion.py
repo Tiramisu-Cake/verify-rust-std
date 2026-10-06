@@ -30,6 +30,7 @@ GHOSTS = {
     ),
 }
 GHOSTS["tuple_overlay"] = GHOSTS["range"]
+GHOSTS["tuple_parser"] = GHOSTS["range"]
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -38,6 +39,7 @@ CONTRACTS = {
     ),
 }
 CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 ownership spec"
+CONTRACTS["tuple_parser"] = CONTRACTS["range"] + "; experimental tuple-2 parser; unmodified prelude"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -155,7 +157,7 @@ def main() -> None:
     else:
         raise SystemExit(
             "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
-            "[--profile frontend|range|tuple_overlay]"
+            "[--profile frontend|range|tuple_overlay|tuple_parser]"
         )
     ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
@@ -204,7 +206,7 @@ def main() -> None:
     verified_root = ROOT
     module_injections = {"contract": ghost}
     root_injections = {}
-    if profile in ("range", "tuple_overlay"):
+    if profile in ("range", "tuple_overlay", "tuple_parser"):
         module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         module_injections["interior_call"] = RANGE_BOUND_GHOST
         module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN

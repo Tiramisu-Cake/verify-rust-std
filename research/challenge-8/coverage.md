@@ -42,7 +42,7 @@ Do not infer absence of all four UB categories from default checks.
 
 - Lengths: completed bootstrap has one four-cell backing allocation; arbitrary
   valid slice lengths remain unproved. Bounds 16/32 are performance milestones.
-- Types: completed evidence is i32 only. Non-Copy ownership, Drop, interior
+- Types: completed memory-touching evidence is i32 only. Non-Copy ownership, Drop, interior
   mutability / non-Freeze, large types, invalid bit patterns and ZST need coverage
   for memory-touching targets. Pure size helper accepts unrestricted T, including
   zero/large sizes, without allocation or comparator assumptions (37401540878).
