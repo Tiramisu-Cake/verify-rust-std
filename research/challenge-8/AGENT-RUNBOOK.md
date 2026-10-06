@@ -21,6 +21,12 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
+source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.
+Independently reviewed outerbound rebase patchbd95733e; same8+12fixtures/domain.
+Next poll exactrun, fetch full evidence; inspect sourcebuild, regressioncounts,
+actualunwind/normal exits and fullToken/borrowEnd/read if reached.
+
 **Latest completed strict exit diagnostic:** [37413756431](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
 source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.
 Full logs/artifacts inspected. Diagnostic-only patche17492b5 builds0/22.55s,
