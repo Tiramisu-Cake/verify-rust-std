@@ -1,4 +1,11 @@
-# Independent H_align gate: initial hosted result
+# Independent H_align gate: hosted results
+
+Current checkpoint: syntax-only continuation authorized 2026-10-07 from b1ae937;
+two annotation-format corrections applied, static preservation audit complete;
+one additional NEW hosted run90min pending. [Scope](SORT4-ALIGNMENT-PHASE.md).
+No new proof result. The initial run and unapplied proposal below are historical.
+
+## Historical initial hosted result — INCONCLUSIVE
 
 2026-10-06 UTC (2026-10-07 Moscow). **CLOSED / INCONCLUSIVE — fixture annotation syntax failure before
 proof obligations.** The one authorized NEW run is used; no active run. This

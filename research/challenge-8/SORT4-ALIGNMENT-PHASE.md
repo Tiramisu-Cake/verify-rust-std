@@ -1,10 +1,35 @@
 # Independent sort4 alignment geometry gate
 
-**CLOSED / INCONCLUSIVE at1/1 NEW runs used.** [Closeout](SORT4-ALIGNMENT-RESULTS.md):
-run37529855468/source17ad1f4 reaches export/decode/refinement6/6 but every VF case
-rejects fixture annotation syntax before proof obligations. No active run, no
-geometry/layout/negative proof result. The authorization below is historical;
-no new dispatch or syntax correction is authorized after this one-run closeout.
+## Current syntax-only continuation — authorized 2026-10-07
+
+**IN PROGRESS / preparation,0/1 additional NEW runs used.** Owner explicitly
+permits the correction described in SORT4-ALIGNMENT-RESULTS.md at b1ae937 and
+exactly one additional GitHub-hosted manual H_align run,90min including runner
+preparation. Entry clean matching local/remote
+b1ae937f901ad34aeef8bcdbd98997abd1fd1969; correct fork/research branch, no active
+experiment. Initial37529855468/source17ad1f4 remains historical INCONCLUSIVE.
+
+Allowlist: remove the signature semicolon from aligned_step_const/mut and split
+req/ens/on_unwind_ens into separate supported annotation blocks in all six Rust
+functions. Statically compare checked examples, unchanged ghost payloads and
+Rust after ghost stripping before dispatch. No predicate, lemma body, assertion,
+case, hypothesis, domain, post, classification, runner/workflow, flag, tool/spec,
+trusted premise or runtime-source change. Official unchanged VF26.09 /
+nightly-2026-02-05 and all original pins/checks below remain frozen.
+Commit/push correction, ONE new manual dispatch at the corrected SHA, match
+head_sha, monitor and inspect full logs/artifacts, then document/commit/push.
+No Re-run37529855468. Stop after this run regardless of outcome; no further
+proof corrections/runs without a new decision. RAPx CLOSED / NO-GO, B/C NOT RUN.
+No local compilation/verifier/research-runner execution or external message.
+
+## Historical initial authorization — CLOSED / INCONCLUSIVE
+
+Budget1/1 initial runs used. Run37529855468/source17ad1f4 passes six exports /
+decodes / refinements but fails all VF annotation parses before proof obligations;
+no geometry/layout/negative proof result. [Initial closeout](SORT4-ALIGNMENT-RESULTS.md).
+The original scope/card below stays unchanged; its no-second-run limit governs
+that historical budget. The current owner instruction grants a separate one-run
+syntax-only continuation above.
 
 Owner authorized on 2026-10-06 by “Давай запустим предлагаемую тобой проверку”,
 from clean matching local/remote research HEAD

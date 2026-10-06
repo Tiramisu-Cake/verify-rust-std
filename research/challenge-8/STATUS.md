@@ -1,12 +1,13 @@
 # Challenge 8: current status
 
-Updated 2026-10-07 (run 2026-10-06 UTC): independent H_align gate CLOSED / INCONCLUSIVE;
-[run37529855468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37529855468)
-failed at fixture annotation parsing before proof obligations. Export/decode and
-refinement6/6 pass; zero proof headers/body records, no intended negatives reached.
-[Results and exact proposed syntax correction](SORT4-ALIGNMENT-RESULTS.md).
-Explicit contract remains ADOPTED; joint composition remains conditional, no
-new proof coverage. No further experiments authorized, no active run.
+Updated 2026-10-07: H_align syntax-only continuation IN PROGRESS / preparation,
+0/1 additional NEW hosted runs used,90min including runner preparation.
+[Current scope](SORT4-ALIGNMENT-PHASE.md#current-syntax-only-continuation--authorized-2026-10-07).
+Initial run37529855468 remains CLOSED / INCONCLUSIVE, export/refinement6/6 but
+all VF parses fail before proofs. Only the two described annotation-format fixes
+and one fresh run are authorized. Same six cases/profile/domain/posts/classifier;
+no new proof coverage or active run at entry. Contract ADOPTED; joint composition
+conditional; ZST remains in scope. RAPx CLOSED / NO-GO; B/C NOT RUN.
 Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
@@ -19,6 +20,21 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**IN PROGRESS — syntax-only continuation.** Owner explicitly authorizes exactly
+one additional NEW hosted manual H_align run/90min based on report b1ae937.
+Entry HEAD/local/remote b1ae937f901ad34aeef8bcdbd98997abd1fd1969 match, tree clean,
+origin named fork, branch challenge-8/research; no active/queued experiment.
+Only two helper signature semicolons and six contract-comment separations may
+change. Preserve all ghost payloads, Rust after stripping, six cases, hypotheses,
+domain/posts, classifier, flags and official unchanged VF26.09/nightly-2026-02-05.
+Static example/diff preservation audit required before corrected commit/push and
+ONE fresh exact-SHA dispatch. No local executable checks, tool/spec/premise
+changes or other proof fixes. Stop after full evidence/doc commit/push regardless
+of result; additional corrections/runs require a new decision. Budget0/1 used,
+no active run. [Phase/card](SORT4-ALIGNMENT-PHASE.md).
+
+## Historical initial H_align run — CLOSED / INCONCLUSIVE
 
 **CLOSED / INCONCLUSIVE — one-run H_align phase.** Owner explicitly resumed
 from clean matching HEAD98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc. Prepared/pushed
@@ -370,9 +386,9 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-STOP after H_align documentation closeout/commit/push at1/1 used. A new owner
-decision may authorize only the [described formatting correction and one NEW run](SORT4-ALIGNMENT-RESULTS.md#cause-and-exact-proposed-formatting-correction)
-under the same frozen profile/cases/posts. No second dispatch or code change is
-currently authorized; rerunning old37529855468 would check the old syntax.
-No verifier/kernel/prelude change, full sort4 integration, RAPx/Kani rerun or
-B/C is authorized. No active run or uncommitted proof draft.
+Apply only the described annotation-format correction, statically audit unchanged
+payload/Rust, commit/push and dispatch exactly one NEW hosted H_align run90min.
+Resolve matching head_sha; independently inspect all six results/full evidence,
+update reports/plan/coverage and commit/push. STOP after that result regardless
+of outcome. No extra proof corrections or runs, tool/spec/premise change, full
+sort4 integration, RAPx/Kani rerun or B/C. Initial37529855468 stays INCONCLUSIVE.

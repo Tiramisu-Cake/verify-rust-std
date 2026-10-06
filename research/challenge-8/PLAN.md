@@ -47,8 +47,10 @@ proposed at that checkpoint. The separately authorized H_align
 parse failures before any proof obligation; export/refinement6/6 do not supply
 geometry or detector coverage. Automatic operation coverage remains separate.
 ZST stays in the adopted domain, RAPx A stays NO-GO and B/C NOT RUN.
-The exact formatting correction and one fresh run require a new bounded decision;
-no correction or additional dispatch is currently authorized.
+The owner has now authorized the exact syntax correction and one additional NEW
+hosted run90min, with all six cases/profile/posts/classification frozen. This
+continuation is IN PROGRESS / preparation,0/1 additional runs used; no other
+proof correction or tool change is authorized. Initial evidence stays historical.
 
 ## Decision and evidence
 

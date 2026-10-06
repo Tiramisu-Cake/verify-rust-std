@@ -5,7 +5,7 @@
 
 // CASE_BEGIN positive_generic_const
 /*@
-lem aligned_step_const(address: usize, stride: usize, alignment: usize);
+lem aligned_step_const(address: usize, stride: usize, alignment: usize)
     req 0 < alignment &*& address % alignment == 0 &*& stride % alignment == 0 &*& address + stride <= usize::MAX;
     ens (address + stride) % alignment == 0;
 {
@@ -18,9 +18,11 @@ pub unsafe fn positive_generic_const<T>(base: *const T, i: usize) -> *const T
 /*@
 req array_::<u8>(base as *u8, 4 * std::mem::size_of::<T>(), ?bytes) &*&
     base != 0 &*& base as usize % std::mem::align_of::<T>() == 0 &*& i <= 3;
+@*//*@
 ens array_::<u8>(base as *u8, 4 * std::mem::size_of::<T>(), bytes) &*&
     result == base + i &*& pointer_within_limits(result) == true &*&
     result as usize % std::mem::align_of::<T>() == 0;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -48,7 +50,7 @@ on_unwind_ens false;
 
 // CASE_BEGIN positive_generic_mut
 /*@
-lem aligned_step_mut(address: usize, stride: usize, alignment: usize);
+lem aligned_step_mut(address: usize, stride: usize, alignment: usize)
     req 0 < alignment &*& address % alignment == 0 &*& stride % alignment == 0 &*& address + stride <= usize::MAX;
     ens (address + stride) % alignment == 0;
 {
@@ -61,9 +63,11 @@ pub unsafe fn positive_generic_mut<T>(base: *mut T, i: usize) -> *mut T
 /*@
 req array_::<u8>(base as *u8, 4 * std::mem::size_of::<T>(), ?bytes) &*&
     base != 0 &*& base as usize % std::mem::align_of::<T>() == 0 &*& i <= 3;
+@*//*@
 ens array_::<u8>(base as *u8, 4 * std::mem::size_of::<T>(), bytes) &*&
     result == base + i &*& pointer_within_limits(result) == true &*&
     result as usize % std::mem::align_of::<T>() == 0;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -96,7 +100,9 @@ pub struct Z;
 pub fn positive_zst_layout() -> usize
 /*@
 req true;
+@*//*@
 ens result == 8 &*& std::mem::size_of::<Z>() == 0 &*& std::mem::align_of::<Z>() == 8;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -116,8 +122,10 @@ pub unsafe fn positive_zst_add(base: *const Z, i: usize) -> *const Z
 /*@
 req array_::<u8>(base as *u8, 0, ?bytes) &*&
     base != 0 &*& base as usize % 8 == 0 &*& i <= 3;
+@*//*@
 ens array_::<u8>(base as *u8, 0, bytes) &*& result == base &*&
     pointer_within_limits(result) == true &*& result as usize % 8 == 0;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -136,8 +144,10 @@ pub unsafe fn negative_source_byte_offset(src: *const Z, dst: *mut Z)
 req array_::<u8>(src as *u8, 8, ?src_bytes) &*&
     array_::<u8>(dst as *u8, 8, ?dst_bytes) &*&
     src != 0 &*& dst != 0 &*& src as usize % 8 == 0 &*& dst as usize % 8 == 0;
+@*//*@
 ens array_::<u8>(src as *u8, 8, src_bytes) &*&
     array_::<u8>(dst as *u8, 8, dst_bytes);
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -158,8 +168,10 @@ pub unsafe fn negative_destination_byte_offset(src: *const Z, dst: *mut Z)
 req array_::<u8>(src as *u8, 8, ?src_bytes) &*&
     array_::<u8>(dst as *u8, 8, ?dst_bytes) &*&
     src != 0 &*& dst != 0 &*& src as usize % 8 == 0 &*& dst as usize % 8 == 0;
+@*//*@
 ens array_::<u8>(src as *u8, 8, src_bytes) &*&
     array_::<u8>(dst as *u8, 8, dst_bytes);
+@*//*@
 on_unwind_ens false;
 @*/
 {

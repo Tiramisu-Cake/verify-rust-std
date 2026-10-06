@@ -6,13 +6,12 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Independent H_align gate CLOSED / INCONCLUSIVE.**
-[Run37529855468 closeout](SORT4-ALIGNMENT-RESULTS.md): export/decode/refinement6/6
-pass, but all six VeriFast cases stop at fixture annotation parsing before proof
-obligations. No geometry/layout/negative result or new coverage. The
-[one-run budget](SORT4-ALIGNMENT-PHASE.md) is used; no active run. The report
-specifies an unapplied syntax-only correction for a separately authorized fresh
-run. No verifier changes or RAPx/Kani reruns; B/C NOT RUN.
+**H_align syntax-only continuation IN PROGRESS / preparation.**
+[Current scope](SORT4-ALIGNMENT-PHASE.md) permits the two documented annotation
+format corrections and exactly one additional NEW hosted run90min under unchanged
+VF26.09/nightly2026-02-05. Original37529855468 remains historical INCONCLUSIVE;
+[report](SORT4-ALIGNMENT-RESULTS.md) preserves all six parse failures. No proof gain,
+no tool/predicate/domain/classifier change; RAPx NO-GO, B/C NOT RUN.
 
 **Joint proof-route assessment complete; no generic composition yet.**
 [RAPx / VeriFast / Kani matrix and compatibility analysis](SORT4-COMPOSITION-ASSESSMENT.md)
@@ -31,7 +30,7 @@ protocol, with caller-precondition proofs required for composition. The
 supports this specification choice; it supplies no new Rust proof or committee
 acceptance. Organizer clarification is deferred and no longer blocks planning.
 The [earlier review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md) remain
-historical. No further experiment or external contact is currently authorized.
+historical. Only the syntax-only H_align continuation is authorized; no external contact.
 
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).

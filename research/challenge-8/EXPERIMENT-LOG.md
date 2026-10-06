@@ -2173,3 +2173,33 @@ committed. Local closeout validation limited to diff/document parsing.
 README, composition, coverage and phase closeout updated. RAPx0.7.50 ZST A/replay
 stay CLOSED / NO-GO; B/C NOT RUN; Kani and all prior proof counts unchanged.
 Documentation commit/push only after result. No external message/publication.
+
+
+## 2026-10-07 — authorized H_align syntax-only continuation card
+
+Owner explicitly grants only report-b1ae937 formatting correction and exactly
+one additional NEW hosted manual run/90min including runner preparation.
+Entry clean matching HEAD/origin research b1ae937f901ad34aeef8bcdbd98997abd1fd1969,
+correct fork/branch, no active/queued Actions. Separate budget0/1; original
+37529855468/source17ad1f4 stays CLOSED / INCONCLUSIVE. Phase/STATUS recorded
+before proof edits. Target H_align, arbitrary valid sized T including ZST,
+Storage alignment/byte permissions, i0..3, full eventual normal/five-unwind
+contract versus partial geometry/no-unwind/frame post all unchanged. Same six
+cases and intended negative assertion markers/classification; no automatic-copy
+or whole-sort4 claim. Official VF26.09/nightly2026-02-05 pins/flags/checks frozen.
+Only helper-header semicolons and function contract-comment boundaries may change.
+Static preservation/example audit, correction commit/push, one exact-SHA dispatch,
+full hosted evidence inspection and documentation closeout; STOP after result
+regardless of outcome. No further proof repair, runner/classifier/tool/spec/premise
+change, local executable check, RAPx/Kani rerun, B/C or external message.
+
+Preparation static audit: compared helper form against recover_pair in
+verifast-borrow-recovery-cases.rs:19 (release26.09 run37437514808 body checked)
+and separate req/ens/on_unwind_ens ranges in verifast-drop-caller-cases.rs:23–36
+and empty Drop bodies:98. Split comments are adjacent @*//*@ ranges to retain
+byte-exact ghost-stripped Rust. Non-executing text comparison confirms all six
+case order/markers, every //@ statement/assertion, all contract/lemma ghost
+payload tokens unchanged except the two authorized signature semicolons. Whole
+and per-case Rust bytes after stripping are identical to b1ae937. No runner,
+workflow, classifier or std diff; SmallSort blob e555fce440872898e47fd5114f32eb15401d07df.
+Only local text/document parsing and git diff --check; no research code executed.
