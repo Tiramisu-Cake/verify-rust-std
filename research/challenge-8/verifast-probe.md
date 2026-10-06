@@ -72,3 +72,26 @@ upload `research-results/` even on failure, as with the Kani experiments.
 
 No local compilation or verification is permitted; editing and static inspection
 of these scripts is the only server-side preparation.
+
+## Pinned API evidence for follow-up (not a proof)
+
+Read-only inspection of VeriFast tag 26.09, source commit
+`809de4596839b739dd999f9e462242c835e3af46`, found:
+
+| Operation | Pinned model / relevant obligation |
+| --- | --- |
+| `FnMut::call_mut` | `bin/rust/std/lib.rsspec` requires thread token, owned receiver and owned argument tuple; has normal and unwind postconditions |
+| `ptr::copy_nonoverlapping` | Same spec requires initialized source range and writable destination range, preserving source and initializing destination |
+| Initialized generic range | `bin/rust/prelude_core.rsspec` defines `array` / `p[..n]` plus split/join lemmas; element ownership is separate from initialized bytes |
+| `ptr::read`, pointer add/sub, `ManuallyDrop` | Frontend translator models these operations; reaching them still needs an actual Actions result |
+| Guard destruction | Generic `drop_in_place` summary requires the guard's `.own` predicate; the actual `CopyOnDrop::drop` body is currently unspecified/skipped |
+
+The next ownership contract can start from a mathematical list of initialized
+cells, `n >= 2`, `tail == begin + n - 1`, comparator ownership and the thread
+token, plus ownership of each logical `T`. This is an API-grounded sketch, not
+a syntax-tested contract. An actual proof must specify and verify
+`CopyOnDrop::drop` and tie its ownership predicate to the initialized held source
+and writable gap; using only a generic drop summary would leave restoration
+unproved. Keep comparator unwind paths enabled. A concrete closure harness is
+another frontend risk: the pinned translator contains an unsupported closure
+aggregate case. The extracted generic target itself constructs no closure.

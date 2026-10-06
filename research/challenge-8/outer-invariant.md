@@ -36,3 +36,9 @@ this experiment does not prove generic comparator unwinding,
 uninitialized-read absence, or generic type behavior. The injected annotations are experiment evidence and must not be
 committed into the standard-library implementation. The Kani version remains
 the repository pin in `tool_config/kani-version.toml`.
+
+
+The qualified-path Actions attempt compiled but remained incomplete and emitted
+unsound-to-accept missing-argument substitutions. See
+[recorded diagnostic](outer-invariant-diagnostic.md). None of this experiment's
+invariant or cover properties is currently established.

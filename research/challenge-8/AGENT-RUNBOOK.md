@@ -45,11 +45,18 @@ source `9dd5410ba262feccdd864140acfe716693d21cdc`, `insertion_outer_invariant_4`
 90 minutes. Compilation E0433: unqualified kani macro not in scope at line599.
 No proof/covers checked; runner 4:04.95, exit1, peak RSS1,312,076KiB.
 Fix uses `crate::kani::loop_invariant`; invariants/domain/checks unchanged.
-**Active run:** [37390973809](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390973809),
-source `a3da2d490ca6129f0abd4c59063b8100ed73981b`, `insertion_outer_invariant_4`,
-90 minutes, dispatched 2026-10-05 23:52:47 UTC; metadata SHA confirmed.
-**Next action:** monitor this specific run and fetch logs/artifacts; inspect
-loop base/step/frame checks, seven covers, unwind assertions and exit.
+Latest qualified outer attempt: [37390973809](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390973809),
+source `a3da2d490ca6129f0abd4c59063b8100ed73981b`, same selection/budget.
+Compilation succeeds. CBMC warns "not enough arguments, inserting
+non-deterministic value" for same_allocation_internal and pointer add inside
+invariant; no final proof or seven-cover outcomes. SIGTERM/143 stops job at
+14:55, before requested 90-minute budget; cause unspecified, no OOM/timeout
+claim. All artifact/post steps skipped, zero artifacts. Full log fetched;
+essential evidence in outer-invariant-diagnostic.md. Preserve this reproducer
+and resolve instrumentation warnings before accepting/rerunning its proof.
+**Next action:** push current diagnostic/docs and dispatch
+`verifast_insert_tail_probe` (90 minutes) at confirmed research HEAD; inspect
+both VeriFast target diagnostic/count and refinement outcome. No active run.
 
 ## Repository map and verifier details
 
@@ -249,7 +256,7 @@ polling continues only while an agent session is active; this file is not a daem
 
 ## Prepared alternate-tool diagnostic
 
-After inspecting the active Kani outer-invariant run, evaluate
+The Kani outer run is now incomplete with instrumentation warnings. Evaluate
 `verifast_insert_tail_probe` (90 minutes). This uses the approved repository pin
 VeriFast 26.09 and nightly-2026-02-05, exact source extraction, ghost-only copy
 and refinement-checker. The diagnostic contract is `req true; ens true;` on

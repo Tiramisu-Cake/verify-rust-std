@@ -144,6 +144,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Fix only the macro path to `crate::kani::loop_invariant`; invariant/domain
   and checks stay the same. A new run at the fixed source is required.
 
+- [Qualified actual outer-loop run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390973809),
+  2026-10-06 (Europe/Moscow), source `a3da2d490ca6129f0abd4c59063b8100ed73981b`,
+  `insertion_outer_invariant_4`, 90 minutes, unchanged Kani pin:
+  compilation succeeded and selected the actual safety harness. CBMC repeatedly
+  warned of missing arguments to same_allocation_internal and pointer add from
+  the invariant, inserting nondeterministic values. Symex took 458.716 s,
+  60,787 steps, 1,244 VCCs (828 after simplification). Process then stopped
+  with SIGTERM/143; job 14:55, no final proof/cover outcomes or resource data.
+  Artifact upload and post steps were skipped, zero artifacts; full job log
+  fetched. No explicit termination cause was reported. See
+  [essential diagnostic and next obligation](outer-invariant-diagnostic.md).
+  Preserve this reproducer; do not accept any proof with those substitutions.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
