@@ -40,3 +40,19 @@ Next: preserve this actual-source reproducer and diagnose the pinned loop
 contract/function-call instrumentation before retrying. Do not drop allocation
 or bounds obligations to hide the warnings. Independently evaluate the prepared
 approved VeriFast exact-source probe for generic/arbitrary-length ownership.
+
+## Pinned call-arity audit
+
+CBMC6.10.0 `src/goto-symex/symex_function_call.cpp`,
+`goto_symext::parameter_assignments`, emits this exact warning when actual
+arguments run out before formal parameter identifiers; it assigns nondet values
+for those missing parameters. It is an actual GOTO call-arity mismatch.
+Pinned Kani `overrides/hooks.rs:804` lowers invariant registration to
+`func_exp.call(fargs)`; `transform/loop_contracts.rs:1029` relocates it to the
+latch, and its supported capture shape includes refs to user locals. The known
+precedent's `.expected` success text does not establish absence of warnings.
+CBMC loop-contract extraction/rewrite is a hypothesis for the causal edge,
+not confirmed without GOTO artifacts. Before accepting a rewritten result,
+preserve the `.out`/instrumented calls and matching formal parameter lists on
+hosted Actions; obtain textual GOTO evidence there as well. No local verifier
+or GOTO tool execution is authorized. Allocation and bounds obligations remain.

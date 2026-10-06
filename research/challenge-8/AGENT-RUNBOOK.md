@@ -103,9 +103,13 @@ pointer resolution (#3300); no harness/property/covers verified. Runner3:56.45,
 RSS1,631,772KiB,overall1. Hypothesis: formatted range-index panic in harness.
 Prepared equivalent from_raw_parts_mut slice construction under unchanged
 valid len/offset assumptions, initialized array and comparator domain; no std
-runtime change/check suppression. No active run. Next range interior-pointer
-lemma Actions probe (generic mathematical ghost indices, no i32 numeric cap),
-then inspect first obligation and decide between safety retry/immutable observation.
+runtime change/check suppression. Active
+[37396479423](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396479423),
+source `da5f16efdcf604582e3646b9f4518bbce71165b6`,range90min: own interior
+pointer ghost lemma, derived index0<=n-2<=n, endpoint/monotone-multiplication
+proof; no new input assumption or numeric cap. Inspect lemma positivity/algebra
+and first actual target obligation, refinement audit and covers/target counts.
+Then choose safety retry or observed immutable-store diagnostic; one run at a time.
 
 ## Repository map and verifier details
 
