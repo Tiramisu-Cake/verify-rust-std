@@ -21,6 +21,17 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active explicit spec-overlay experiment:**
+[37402802085](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402802085),
+source `c0742d522d83264003b7872444b402ef12a80c97`,
+verifast_insert_tail_tuple_overlay90min. Same binary26.09; Actions-only bundled
+prelude patch requires original SHA d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5.
+Transparent named tuple field-own predicate and alias in its declaring file,
+no wrapper override. Same generic range req/Rust bytes, all ghost-byte audits;
+original/patched model and binary hashes retained,-verbose1 body traces enabled.
+Resume exact run and inspect patch/model/callback outcomes; compatibility and
+cleanup remain open even if first call passes.
+
 **Latest run:** [37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),
 source `b777d8d78d50ab79422ac1101111662e3fc4397e`,range90min. Same
 transparent tuple own moved to crate root; byte-stripping audit and manifest
