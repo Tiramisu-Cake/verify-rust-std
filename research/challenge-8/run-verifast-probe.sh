@@ -14,6 +14,7 @@ evidence="$repo/research-results/verifast-probe"
 export VFVERSION=26.09
 export VFPLATFORM=linux
 export RUSTUP_TOOLCHAIN=nightly-2026-02-05
+export VF_PROBE_PROFILE=${VF_PROBE_PROFILE:-frontend}
 
 if [[ "${1:-}" == --stages ]]; then
     cd "$evidence"
@@ -32,6 +33,7 @@ if [[ "${1:-}" == --stages ]]; then
         sha256sum "$VERIFAST_HOME/bin/verifast" "$VERIFAST_HOME/bin/refinement-checker"
     } >> "$evidence/environment.txt" 2>&1
 
+    printf 'Probe profile: %s\n' "$VF_PROBE_PROFILE"
     # Only insert_tail is specified. An exit 0 must be inspected for function
     # counts; it is not evidence for CopyOnDrop or the outer function.
     set +e
@@ -56,11 +58,17 @@ case "$budget" in
     30|60|90|120) ;;
     *) echo 'Budget must be 30, 60, 90 or 120 minutes' >&2; exit 2 ;;
 esac
+profile=${2:-frontend}
+case "$profile" in
+    frontend|range) ;;
+    *) echo 'Profile must be frontend or range' >&2; exit 2 ;;
+esac
+export VF_PROBE_PROFILE="$profile"
 mkdir -p "$evidence"
 {
     printf 'Source commit: '
     git rev-parse HEAD
-    printf 'Selection: verifast_insert_tail_probe\nBudget including setup: %s minutes\n' "$budget"
+    printf 'Selection: %s\nProfile: %s\nBudget including setup: %s minutes\n' "${PROOF_SELECTION:-verifast_insert_tail_probe}" "$profile" "$budget"
     printf 'VeriFast pin: %s (%s)\nRust toolchain: %s\n' "$VFVERSION" "$VFPLATFORM" "$RUSTUP_TOOLCHAIN"
     printf 'Expected specified target bodies: 1 (insert_tail); an exit 0 needs statement/function count inspection.\n'
     printf 'Runner: %s / %s\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
@@ -73,7 +81,7 @@ mkdir -p "$evidence"
 
 # This writes exact selected source chunks, both versions, and per-chunk hashes.
 set +e
-python3 research/challenge-8/extract-verifast-insertion.py "$evidence" \
+python3 research/challenge-8/extract-verifast-insertion.py "$evidence" --profile "$profile" \
     > "$evidence/extraction.log" 2>&1
 extraction_status=$?
 set -e
@@ -93,7 +101,8 @@ set -e
 printf '%s\n' "$status" > "$evidence/exit-code.txt"
 if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
     {
-        printf '### SmallSort VeriFast frontend probe\n\n'
+        printf '### SmallSort VeriFast insertion probe\n\n'
+        printf 'Profile: `%s`.\n\n' "$profile"
         printf 'Actual source: `insert_tail` only specified; CopyOnDrop and outer function are extracted but unspecified.\n\n'
         printf 'Exit code: `%s` (124 means timeout). Inspect logs and verified function count before any proof claim.\n' "$status"
     } >> "$GITHUB_STEP_SUMMARY"

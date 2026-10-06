@@ -1,12 +1,15 @@
-# VeriFast insertion frontend probe
+# VeriFast insertion probes
 
-This is an Actions-only feasibility experiment for VeriFast 26.09 and Rust
-`nightly-2026-02-05`. It is not a proof of Challenge 8. Its question is whether
-the pinned VeriFast frontend can process the actual generic `insert_tail`
-function and report a real safety obligation from its body. A failed verification
-is an expected, useful result if it reaches the first missing ownership fact.
+These are Actions-only experiments for VeriFast 26.09 and Rust
+`nightly-2026-02-05`. They are not proofs of Challenge 8. The `frontend`
+profile checks that the pinned frontend processes the actual generic
+`insert_tail` body and reports a real safety obligation. The `range` profile
+adds an initialized owned range and comparator ownership to address its first
+pointer-bounds failure.
 
 The runner `run-verifast-probe.sh` requires a GitHub-hosted Linux Actions runner.
+Its arguments are a budget in minutes (default `90`) and `frontend` or `range`
+(default `frontend`); the workflow must pass the selected profile explicitly.
 The extraction script reads the live
 `library/core/src/slice/sort/shared/smallsort.rs` and writes a disposable crate
 under `research-results/verifast-probe/`. It takes these exact source spans:
@@ -18,26 +21,38 @@ under `research-results/verifast-probe/`. It takes these exact source spans:
 Each span is also saved as its own byte-exact `source-spans/*.rs` artifact with
 its size and SHA-256 in `extraction.json` and `extraction.log`.
 
-The original and verified source have identical Rust code. The verified copy
-adds only the separate ghost comments `/*@ req true; @*/` and
-`/*@ ens true; @*/` to `insert_tail`. A byte-for-byte check after removing
-these comments enforces this relationship. The Actions run also invokes the
-repository's pinned `refinement-checker`. Both
+The original and verified source have identical Rust code. Each profile adds
+only separate `req` and `ens` ghost comments to `insert_tail`. A byte-for-byte
+check after removing them enforces this relationship. The Actions run also
+invokes the repository's pinned `refinement-checker`. Both
 copies import `ManuallyDrop`, `ptr`, and `intrinsics` from `core`; those imports
 are the only crate shell. There are no stand-ins for pointer operations,
 comparators, guard drops, or sorting functions. The crate shell is not the
 original core module tree, so resolution or frontend results from this probe
 cannot alone establish a proof of the integrated std library.
 
-`req true; ens true;` is deliberately weak. It describes no valid pointer,
-initialized cell, exclusive ownership, ordering, or comparator behavior.
-Because `insert_tail` is unsafe, this precondition is insufficient for its
-first dereference; a verifier should reject the body. We have not guessed a
-generic VeriFast ownership predicate for this call boundary. A future proof
-must supply one for the entire initialized `[begin, tail]` range and address
-the temporary gap, `CopyOnDrop` restoration, comparator unwind, and generic
-`T`/`F` ownership. The current run does not verify the extracted `CopyOnDrop`
-or outer function: `-skip_specless_fns` skips these unspecified functions. It
+The default `frontend` profile retains `req true; ens true;`. It provides no
+pointer or ownership facts. Actions run
+[37393312268](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37393312268)
+at `8f1fc63` reached `Verifying function smallsort::insert_tail`, then failed
+to prove that `tail.sub(1)` remains within pointer limits. Refinement passed.
+
+The `range` profile has a symbolic `usize` length `n >= 2`, an initialized
+exclusive range `begin[..n] |-> xs`, `tail == begin + (n - 1)`, ownership of
+each generic `T` value through `foreach(xs, own::<T>(t))`, and an owned
+comparator `*is_less |-> f &*& <F>.own(t, f)`, with the thread and type
+interpretation resources required by the pinned model. The single range
+predicate describes one pointer provenance and arbitrary representable valid
+lengths; there is no fixed four-element allocation or sortedness/comparator
+order assumption. The `ens true` postcondition remains deliberately weak, so
+this first obligation does not establish resource restoration, sortedness or a
+usable caller contract. A run must determine whether it resolves the pointer
+limit and what the next actual obligation is. In particular, the range
+predicate's treatment of zero-sized generic types has not been established;
+do not infer full generic coverage from a successful trace.
+
+Both profiles leave the extracted `CopyOnDrop` and outer function unverified:
+`-skip_specless_fns` skips these unspecified functions. The experiment
 must never be counted as a three-function proof. The expected number of
 specified target bodies is exactly one: `insert_tail`. Any reported success
 requires checking that at least this target body was actually analyzed; a
@@ -52,8 +67,9 @@ model result to diagnose from the log; it is not a safety counterexample or
 successful verification. The first completed run should record which function
 VeriFast says it verified, the first diagnostic, and whether the checker
 accepted the ghost-only refinement. If VeriFast reports success, inspect its
-function count and checked paths before drawing any conclusion; with this
-precondition, a success could mean the target was not analyzed.
+function count and checked paths before drawing any conclusion; with these
+preconditions, a success could mean the target was not analyzed or that the
+guard's unverified generic drop summary hid its restoration obligation.
 
 The CLI spelling is pinned to VeriFast tag `26.09`: its `vfconsole.ml` registers
 `-rustc_args` and `-skip_specless_fns`, while `refinement_checker/main.ml`

@@ -13,6 +13,7 @@ on:
           - insertion_direct_4
           - insertion_outer_invariant_4
           - verifast_insert_tail_probe
+          - verifast_insert_tail_range
           - all
           - orders_i32_pair
           - preserves_i32_values_for_any_decision
@@ -67,6 +68,7 @@ jobs:
         run: |
           case "$PROOF_SELECTION" in
             verifast_insert_tail_probe) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" ;;
+            verifast_insert_tail_range) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" range ;;
             insertion_*) bash research/challenge-8/run-insertion.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
             *) bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
           esac

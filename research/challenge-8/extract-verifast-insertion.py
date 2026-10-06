@@ -14,7 +14,28 @@ from pathlib import Path
 
 
 SOURCE = Path("library/core/src/slice/sort/shared/smallsort.rs")
-GHOST = "/*@ req true; @*/ /*@ ens true; @*/ "
+GHOSTS = {
+    "frontend": "/*@ req true; @*/ /*@ ens true; @*/ ",
+    "range": (
+        "/*@\n"
+        "req thread_token(?t) &*&\n"
+        "    exists::<usize>(?n) &*&\n"
+        "    n >= 2 &*&\n"
+        "    begin[..n] |-> ?xs &*&\n"
+        "    tail == begin + (n - 1) &*&\n"
+        "    type_interp::<T>() &*& type_interp::<F>() &*&\n"
+        "    foreach(xs, own::<T>(t)) &*&\n"
+        "    *is_less |-> ?f &*& <F>.own(t, f);\n"
+        "@*/ /*@ ens true; @*/ "
+    ),
+}
+CONTRACTS = {
+    "frontend": "req true; ens true; no pointer or ownership precondition",
+    "range": (
+        "arbitrary n >= 2, initialized writable begin[..n], tail at n-1, "
+        "generic T values owned, comparator F owned; ens true (safety probe only)"
+    ),
+}
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -46,8 +67,16 @@ def sha256(data: bytes) -> str:
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
-        raise SystemExit("usage: extract-verifast-insertion.py OUTPUT_DIRECTORY")
+    if len(sys.argv) == 2:
+        profile = "frontend"
+    elif len(sys.argv) == 4 and sys.argv[2] == "--profile" and sys.argv[3] in GHOSTS:
+        profile = sys.argv[3]
+    else:
+        raise SystemExit(
+            "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
+            "[--profile frontend|range]"
+        )
+    ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
     source = source_bytes.decode("utf-8")
     pieces = {
@@ -83,8 +112,8 @@ def main() -> None:
     # Piece bytes are exact substrings of the source. Scaffolding only supplies
     # equivalent core imports; no sorting operation is reimplemented here.
     original = HEADER + "".join(pieces.values())
-    verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + GHOST + "{")
-    if verified.count(GHOST) != 1 or verified.replace(GHOST, "") != original:
+    verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + ghost + "{")
+    if verified.count(ghost) != 1 or verified.replace(ghost, "") != original:
         raise ValueError("verified copy is not ghost-comments-only")
 
     out = Path(sys.argv[1])
@@ -107,13 +136,15 @@ def main() -> None:
         "original_sha256": sha256(original.encode()),
         "verified_sha256": sha256(verified.encode()),
         "ghost_comment_only": True,
+        "profile": profile,
         "specified_function": "insert_tail",
         "expected_specified_target_bodies": 1,
-        "contract": "req true; ens true; (no ownership or functional claim)",
+        "contract": CONTRACTS[profile],
     }
     (out / "extraction.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     for name, info in manifest["pieces"].items():
         print(f"extracted {name}: {info['bytes']} bytes, sha256 {info['sha256']}")
+    print(f"profile: {profile}; {CONTRACTS[profile]}")
     print("expected specified target bodies: 1 (insert_tail)")
 
 
