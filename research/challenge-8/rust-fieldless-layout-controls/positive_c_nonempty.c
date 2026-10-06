@@ -5,8 +5,8 @@ struct CNonempty {
 };
 
 int c_nonempty_layout_control(void)
+/*@ requires true; @*/
 /*@
-requires true;
 ensures sizeof(struct CNonempty) >= 1;
 @*/
 {

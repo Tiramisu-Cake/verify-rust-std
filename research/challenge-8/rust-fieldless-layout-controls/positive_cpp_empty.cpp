@@ -3,8 +3,8 @@
 struct CppEmpty {};
 
 int cpp_empty_layout_control()
+/*@ requires true; @*/
 /*@
-requires true;
 ensures sizeof(CppEmpty) >= 1;
 @*/
 {

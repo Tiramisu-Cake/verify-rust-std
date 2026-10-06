@@ -125,6 +125,82 @@ def capnp_groups(text):
     return ranges
 
 
+def balanced_field_value(text, field):
+    """Return the complete parenthesized value assigned to a Cap'n Proto field."""
+    marker = re.search(rf"\b{re.escape(field)}\s*=\s*", text)
+    if marker is None:
+        return None
+    start = marker.end()
+    while start < len(text) and text[start].isspace():
+        start += 1
+    if start >= len(text) or text[start] != "(":
+        return None
+    end = {left: right for left, right in capnp_groups(text)}.get(start)
+    return (start, end, text[start:end]) if end is not None else None
+
+
+def normalized_span(span):
+    # Ignore Cap'n Proto formatting, preserving quoted filenames and escapes.
+    return "".join(re.findall(r'"(?:\\.|[^"\\])*"|[^\s"]+', span))
+
+
+def span_data_matches(binding_span, definition_span):
+    return normalized_span(binding_span) == normalized_span(definition_span)
+
+
+def span_line_range(span):
+    endpoints = {}
+    for endpoint in ("lo", "hi"):
+        value = balanced_field_value(span, endpoint)
+        if value is None:
+            return None
+        line = re.search(r"\bline\s*=\s*(\d+)", value[2])
+        if line is None:
+            return None
+        endpoints[endpoint] = int(line.group(1))
+    return endpoints["lo"], endpoints["hi"]
+
+
+def increment_span_hi_line(span):
+    hi_value = balanced_field_value(span, "hi")
+    if hi_value is None:
+        raise ValueError("metadata mutation wrong-span found malformed SpanData.hi")
+    hi_start, hi_end, hi_text = hi_value
+    line = re.search(r"(\bline\s*=\s*)(\d+)", hi_text)
+    if line is None:
+        raise ValueError("metadata mutation wrong-span found no SpanData.hi.line")
+    changed_hi = hi_text[:line.start(2)] + str(int(line.group(2)) + 1) + hi_text[line.end(2):]
+    return span[:hi_start] + changed_hi + span[hi_end:]
+
+
+def audit_ordered_wrong_span_mutation(before, after):
+    before_range = span_line_range(before)
+    after_range = span_line_range(after)
+    return (
+        before_range is not None and after_range is not None and
+        span_data_matches(after, increment_span_hi_line(before)) and
+        after_range == (before_range[0], before_range[1] + 1) and
+        after_range[0] <= after_range[1]
+    )
+
+
+def classify_absent_layout_failure(log, metadata, statuses, unchanged, verifier_fn):
+    """Require the intended absent-layout caller failure and all integrity stages."""
+    headers = [m.group(2) for line in log.splitlines() if (m := HEADER.search(line))]
+    errors = [line for line in log.splitlines() if "error:" in line]
+    error = ERROR.search(errors[0]) if len(errors) == 1 else None
+    records = [int(m.group(1)) for line in log.splitlines() if (m := EXEC.search(line))]
+    target = metadata["target_assertion_line"]
+    return (
+        statuses.get("exporter") == 0 and statuses.get("decoder") == 0 and
+        statuses.get("refinement") == 0 and unchanged and statuses.get("verifast", 0) != 0 and
+        headers.count(verifier_fn) == 1 and error is not None and target is not None and
+        int(error.group(1)) == target and target in records and
+        metadata["target_assertion"] == "//@ assert size == 0;" and
+        error.group(2) == "Assertion might not hold. (Cannot prove __result = 0.)"
+    )
+
+
 def adt_layout_context(text, type_name):
     name_re = re.compile(r'\bname\s*=\s*"([^"]+)"')
     positions = [match.start() for match in name_re.finditer(text)
@@ -199,24 +275,12 @@ def mutate_metadata_text(text, type_name, mutation):
             "wrong-width": ("bindingPointerWidth", "8"),
         }
         if mutation == "wrong-span":
-            span = re.search(r"\bbindingDefSpan\s*=\s*", value)
-            if not span:
+            span_value = balanced_field_value(value, "bindingDefSpan")
+            if span_value is None:
                 raise ValueError("metadata mutation wrong-span could not locate bindingDefSpan")
-            span_start = span.end()
-            while span_start < len(value) and value[span_start].isspace():
-                span_start += 1
-            ends = {left: right for left, right in capnp_groups(value)}
-            span_end = ends.get(span_start)
-            if span_end is None:
-                raise ValueError("metadata mutation wrong-span found malformed SpanData")
-            inner = value[span_start:span_end]
-            scalar = re.search(r"(\b(?:line|startLine|lo|start)\s*=\s*)(\d+)", inner)
-            if scalar is None:
-                scalar = re.search(r"(=\s*)(\d+)", inner)
-            if scalar is None:
-                raise ValueError("metadata mutation wrong-span found no scalar span endpoint")
-            changed = inner[:scalar.start(2)] + str(int(scalar.group(2)) + 1) + inner[scalar.end(2):]
-            replacement = value[:span_start] + changed + value[span_end:]
+            span_start, span_end, span_text = span_value
+            changed_span = increment_span_hi_line(span_text)
+            replacement = value[:span_start] + changed_span + value[span_end:]
             return text[:layout_start] + replacement + text[layout_end:]
         field, replacement_value = fields[mutation]
         pattern = re.compile(rf"(\b{field}\s*=\s*)(\"[^\"]*\"|\d+)")
@@ -245,9 +309,9 @@ def inspect_layout_metadata(case_dir, exact_expected=None, absent_types=()):
             scalar_values[field] = int(found.group(1)) if found else None
         bound_name = re.search(r'\bbindingAdtDefName\s*=\s*"([^"]+)"', info)
         bound_target = re.search(r'\bbindingTargetTriple\s*=\s*"([^"]+)"', info)
-        bound_span = re.search(r"\bbindingDefSpan\s*=\s*(\(.*?\))", info, re.S)
+        bound_span = balanced_field_value(info, "bindingDefSpan")
         adt_context = adt_layout_context(text, type_name) or ""
-        definition_span = re.search(r"\bdefSpan\s*=\s*(\(.*?\))", adt_context, re.S)
+        definition_span = balanced_field_value(adt_context, "defSpan")
         target = re.search(r'\btargetTriple\s*=\s*"([^"]+)"', text)
         width = re.search(r"\bpointerWidth\s*=\s*(\d+)", text)
         ok = (
@@ -257,8 +321,8 @@ def inspect_layout_metadata(case_dir, exact_expected=None, absent_types=()):
             target is not None and bound_target.group(1) == target.group(1) and
             scalar_values["bindingPointerWidth"] in (32, 64) and bound_span is not None and
             width is not None and scalar_values["bindingPointerWidth"] == int(width.group(1)) and
-            "verified/lib.rs" in bound_span.group(1) and definition_span is not None and
-            re.sub(r"\s+", "", bound_span.group(1)) == re.sub(r"\s+", "", definition_span.group(1))
+            "verified/lib.rs" in bound_span[2] and definition_span is not None and
+            span_data_matches(bound_span[2], definition_span[2])
         )
         result["exact"][type_name] = {
             "ok": ok, "observed": scalar_values,
@@ -269,7 +333,9 @@ def inspect_layout_metadata(case_dir, exact_expected=None, absent_types=()):
             "root_pointer_width": int(width.group(1)) if width else None,
             "binding_span_present": bound_span is not None,
             "definition_span_matches": (bound_span is not None and definition_span is not None and
-                re.sub(r"\s+", "", bound_span.group(1)) == re.sub(r"\s+", "", definition_span.group(1))),
+                span_data_matches(bound_span[2], definition_span[2])),
+            "binding_span": bound_span[2] if bound_span is not None else None,
+            "definition_span": definition_span[2] if definition_span is not None else None,
         }
     for type_name in absent_types:
         info = adt_layout_info(text, type_name)
@@ -616,15 +682,8 @@ def run_metadata_controls(args, outdir, prefix, fixture_cases):
         headers = [m.group(2) for line in log.splitlines() if (m := HEADER.search(line))]
         errors = [line for line in log.splitlines() if "error:" in line]
         if mutation == "absent":
-            line = metadata["target_assertion_line"]
-            error = ERROR.search(errors[0]) if len(errors) == 1 else None
-            records = [int(m.group(1)) for entry in log.splitlines() if (m := EXEC.search(entry))]
-            expected = (
-                len(headers) == 1 and headers[0] == verifier_fn and error is not None and
-                int(error.group(1)) == line and line in records and
-                metadata["target_assertion"] == "//@ assert size == 0;" and
-                error.group(2) == "Assertion might not hold. (Cannot prove __result = 0.)"
-            )
+            expected = classify_absent_layout_failure(
+                log, metadata, statuses, unchanged, verifier_fn)
         else:
             diagnostic = "RustLayoutMetadata: malformed:" if expected_text == "malformed" else "RustLayoutMetadata: binding mismatch:"
             expected = len(errors) == 1 and diagnostic in errors[0]
@@ -643,9 +702,13 @@ def run_metadata_controls(args, outdir, prefix, fixture_cases):
         elif mutation == "wrong-width":
             mutation_shape_ok = "exact" in layout_before and re.search(r"bindingPointerWidth\s*=\s*8\b", layout_after) is not None
         else:
-            before_span = re.search(r"bindingDefSpan\s*=\s*(\(.*?\))", layout_before, re.S)
-            after_span = re.search(r"bindingDefSpan\s*=\s*(\(.*?\))", layout_after, re.S)
-            mutation_shape_ok = "exact" in layout_before and before_span is not None and after_span is not None and before_span.group(1) != after_span.group(1)
+            before_value = balanced_field_value(layout_before, "bindingDefSpan")
+            after_value = balanced_field_value(layout_after, "bindingDefSpan")
+            mutation_shape_ok = (
+                "exact" in layout_before and before_value is not None and after_value is not None and
+                before_value[2] != after_value[2] and
+                audit_ordered_wrong_span_mutation(before_value[2], after_value[2])
+            )
         ok = (
             record.get("matched") is True and record.get("exporter_exit") == 0 and
             record.get("decode_exit") == 0 and record.get("encode_exit") == 0 and
@@ -719,8 +782,14 @@ def run_negative_classifier_selfchecks(args, outdir):
     target = f"1.2s: verified/lib.rs({target_line},1-24): Executing statement"
     error = f"verified/lib.rs({target_line},1-24): error: Assertion might not hold. (Cannot prove ptr_add_(base, i, Z_type_info) != base.)"
     expected_log = "\n".join((header, op, target, error)) + "\n"
+    helper_headers = "\n".join((
+        "1.0s: verified/lib.rs(2,1-2): Verifying function 'positive_generic_const'",
+        "1.0s: verified/lib.rs(3,1-2): Verifying function 'aligned_step_const'",
+    ))
     variants = {
         "intended_target": (expected_log, {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}, metadata, True, "EXPECTED_TARGET_ASSERTION_FAILURE"),
+        "generated_helpers_do_not_hide_caller": (header + "\n" + helper_headers + "\n" + "\n".join((op, target, error)) + "\n", {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}, metadata, True, "EXPECTED_TARGET_ASSERTION_FAILURE"),
+        "duplicate_target_caller": (expected_log.replace(header, header + "\n" + header), {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}, metadata, True, "INCONCLUSIVE"),
         "missing_caller": ("\n".join((op, target, error)), {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}, metadata, True, "INCONCLUSIVE"),
         "missing_pointer_operation": ("\n".join((header, target, error)), {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}, metadata, True, "INCONCLUSIVE"),
         "missing_target_execution": ("\n".join((header, op, error)), {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}, metadata, True, "INCONCLUSIVE"),
@@ -742,9 +811,57 @@ def run_negative_classifier_selfchecks(args, outdir):
         outcome = {"expected": expected, "observed": result["classification"],
                    "pass": result["classification"] == expected}
         outcomes[label] = outcome
+
+    absent_dir = directory / "absent-layout-selfchecks"
+    absent_dir.mkdir()
+    absent_name = "negative_absent_layout"
+    _, absent_bodies = marked_cases(FIXTURE.read_bytes())
+    absent_source = fixture_prefix + absent_bodies[absent_name]
+    absent_case_dir, absent_metadata = prepare_case(absent_name, absent_source, absent_dir)
+    absent_target = absent_metadata["target_assertion_line"]
+    absent_header = f"1.0s: verified/lib.rs(1,1-2): Verifying function '{absent_name}'"
+    absent_helpers = "\n".join(
+        f"1.0s: verified/lib.rs({index + 2},1-2): Verifying function 'generated_helper_{index}'"
+        for index in range(7))
+    absent_exec = f"1.1s: verified/lib.rs({absent_target},1-24): Executing statement"
+    absent_error = f"verified/lib.rs({absent_target},1-24): error: Assertion might not hold. (Cannot prove __result = 0.)"
+    absent_log = "\n".join((absent_header, absent_helpers, absent_exec, absent_error)) + "\n"
+    absent_statuses = {"exporter": 0, "decoder": 0, "verifast": 1, "refinement": 0}
+    absent_trials = {
+        "caller_plus_seven_helpers": (absent_log, absent_statuses, True, True),
+        "duplicate_named_caller": (absent_log.replace(absent_header, absent_header + "\n" + absent_header), absent_statuses, True, False),
+        "missing_target_execution": (absent_log.replace(absent_exec + "\n", ""), absent_statuses, True, False),
+        "wrong_error_content": (absent_log.replace("Cannot prove __result = 0.", "Cannot prove __result = 1."), absent_statuses, True, False),
+        "wrong_error_location": (absent_log.replace(f"({absent_target},1-24): error:", f"({absent_target + 1},1-24): error:"), absent_statuses, True, False),
+        "upstream_export_failure": (absent_log, dict(absent_statuses, exporter=1), True, False),
+        "refinement_failure": (absent_log, dict(absent_statuses, refinement=1), True, False),
+        "source_integrity_failure": (absent_log, absent_statuses, False, False),
+        "unrelated_extra_error": (absent_log + "other.rs(1,1-2): error: setup failure\n", absent_statuses, True, False),
+    }
+    for label, (log, statuses, unchanged, expected) in absent_trials.items():
+        observed = classify_absent_layout_failure(log, absent_metadata, statuses, unchanged, absent_name)
+        outcomes[f"absent_{label}"] = {
+            "expected": expected, "observed": observed, "pass": observed == expected,
+        }
+
+    original_span = '(file = "verified/lib.rs", lo = (line = 7, column = 2), hi = (line = 7, column = 9, sourceName = "src/lib.rs"))'
+    ordered_span = increment_span_hi_line(original_span)
+    span_tests = {
+        "complete_nested_span_equal": span_data_matches(original_span, original_span),
+        "ordered_hi_line_mutation_accepted": audit_ordered_wrong_span_mutation(original_span, ordered_span),
+        "nested_hi_line_change_rejected": not span_data_matches(original_span, original_span.replace("hi = (line = 7", "hi = (line = 8")),
+        "nested_hi_column_change_rejected": not span_data_matches(original_span, original_span.replace("column = 9", "column = 10")),
+        "nested_source_name_change_rejected": not span_data_matches(original_span, original_span.replace('sourceName = "src/lib.rs"', 'sourceName = "other.rs"')),
+        "quoted_filename_whitespace_change_rejected": not span_data_matches(original_span, original_span.replace('sourceName = "src/lib.rs"', 'sourceName = "src /lib.rs"')),
+        "unordered_hi_mutation_rejected": not audit_ordered_wrong_span_mutation(original_span, original_span.replace("hi = (line = 7", "hi = (line = 6")),
+        "unexpected_nested_mutation_rejected": not audit_ordered_wrong_span_mutation(original_span, ordered_span.replace("column = 9", "column = 10")),
+    }
+    for label, passed in span_tests.items():
+        outcomes[f"span_{label}"] = {"expected": True, "observed": passed, "pass": passed}
+
     gate = all(item["pass"] for item in outcomes.values())
     (directory / "results.json").write_text(json.dumps({"pass": gate, "cases": outcomes}, indent=2) + "\n")
-    print(f"negative classifier selfchecks: {'PASS' if gate else 'INCONCLUSIVE'} ({len(outcomes)} cases)")
+    print(f"layout classifier/span selfchecks: {'PASS' if gate else 'INCONCLUSIVE'} ({len(outcomes)} checks)")
     return {"classification": "PASS" if gate else "INCONCLUSIVE", "cases": outcomes}
 
 
