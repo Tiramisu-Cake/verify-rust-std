@@ -9,7 +9,7 @@ the translator input file after it is SHA-256
 The original `verifast.ml` input is SHA-256
 `5968a05e264042782e8373c452b241ccdd1f4ba3323d596888a9bdf6b18c3310`.
 The patch is [verifast-end-lft-binding.patch](verifast-end-lft-binding.patch),
-SHA-256 `e17492b5a1d3ec636c4181578e35d2f21427be1be6b23eec43984576aa8df62f`.
+SHA-256 `bd95733ec743be3ff343f653a2d8c49339315d3085c9faf1da4d096748fdf77c`.
 
 ## Scope and semantics
 
@@ -37,21 +37,34 @@ which run the scope exit check. A separate AST exception continuation is
 unsupported for this strict block and fails closed if invoked.
 
 The new internal first statement of the synthetic block opts into a strict
-kernel exit check. At **every** block exit, the verifier rejects a heap chunk
-whose type arguments mention the ending local ghost type instead of silently
-filtering it. It also rejects a surviving outer variable whose type mentions
-that type. Local projection equalities containing the ending type are removed
-while the verifier explores code outside the block and restored for sibling
-paths still inside it. All type-parameter bound facts newly registered in the
-shortened prefix have lexical scope and are forgotten after that block, even
-when they do not mention `'cmp`. Existing block behavior outside this opt-in
-remains as before. The internal statement is consumed by `BlockStmt`; no AST constructor,
-parser grammar, verifier assumption, or lifetime axiom is added.
+kernel exit check. After normal block cleanup, at **every** normal, return,
+or outgoing-goto exit, the verifier rejects a heap chunk whose type arguments
+still mention the ending local ghost type. It never silently filters a chunk
+in this strict block. It also rejects a surviving outer variable whose type
+mentions that type. A bound learned inside the block may be cached in the
+type metadata of an outer parameter such as `F`; at exit that metadata is
+rebased to its pre-block snapshot in the heap type arguments and checked
+outer-variable types. The underlying type parameter identity, predicate,
+coefficient, and heap terms stay the same. Actual nested references to
+`'cmp` remain and must pass the strict rejection check. The type-parameter
+bound table is restored to its pre-block snapshot outside the shortened
+prefix, including entries that do not mention `'cmp`. The
+entry table is temporarily visible to each outside continuation, while
+the inside table is restored for sibling prefix paths. Before making the
+entry table visible outside, the verifier also checks every saved bound key,
+trait argument, and equality result for the ending type; this catches a
+saved inference variable that became scoped while the prefix ran. It rejects
+the same change in the captured outer variable types instead of forwarding a
+shared, mutated inference reference. Both snapshots are checked again when
+the whole strict block succeeds, including paths stopped at an invariant.
+Existing block behavior outside this opt-in remains as before. The internal statement is
+consumed by `BlockStmt`; no AST constructor, parser grammar, verifier
+assumption, or lifetime axiom is added.
 
 If the strict heap check fails, its diagnostic names the first offending
 predicate and its type arguments, and distinguishes a direct local type from
-one found only in the bounds metadata of an outer type parameter. The check
-and its rejection behavior are unchanged.
+one found only in the bounds metadata of an outer type parameter. Diagnostic
+formatting itself does not change heap state or the exit check.
 
 The current probe has no additional generic `F` or `T` restriction. The exact
 Rust `insert_tail` body and signature remain the target. This experimental

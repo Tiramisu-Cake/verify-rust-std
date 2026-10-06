@@ -34,6 +34,13 @@ RSS643,832KiB,setupdominates. No active run; actualnormalcut/move
 not reached. Next narrow outerparameter boundmetadata rebase to entrycontext
 at strictexit, preserving heap/typeidentity/tokens and truecmp-escape rejection;
 Sol owns patch, Astra independently reviews before hosted run.
+Prepared patch bd95733ec743be3ff343f653a2d8c49339315d3085c9faf1da4d096748fdf77c
+rebases only outer namedparameter metadata to exact entrybounds, keeping all
+heap predicates/fractions/terms. Strict gate after free_locals onnormal/return/
+goto still rejects actualcmp types. Captured outervariable/entrytable aliases
+contaminated by cmp failclosed beforeoutside and aftersuccessfulwholeblock.
+Root reviewed delta; Astra found no concrete blocker after localized fixes.
+Next NEW hosted source run, same8+12cases and actualunrestrictedT/F probe.
 
 **Latest completed actual strict-scope probe:** [37413224006](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
 source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
