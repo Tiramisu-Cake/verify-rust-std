@@ -153,6 +153,11 @@ new multiline ghost preparation. No proof obligations reached in this revision.
 Exact-byte audit/refinement0; VF1(.07s),refiner.10s,runner16.19s,
 RSS636,172KiB,overall1. No active run. Next correct pinned ghost-statement
 syntax without changing lifetime/resource obligations, then a new dispatch.
+Active corrected-syntax run:
+[37398942673](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398942673),
+source `d1bd9d6b235a9072c90ad4256eba55290cbd5eda`,range90min. Only
+ghost annotation boundaries corrected; original statements/resources unchanged.
+Resume polling this exact run and inspect full evidence.
 
 ## Repository map and verifier details
 
