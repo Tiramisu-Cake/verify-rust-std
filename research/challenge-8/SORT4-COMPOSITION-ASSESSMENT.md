@@ -4,6 +4,10 @@
 `eda527922ec96468a804e3a62fbc1ca96f23691d`. This assessment uses the
 [adopted contract](SORT4-CONTRACT.md), not a new contract or tool profile.
 No implementation, build, executable check or workflow dispatch accompanies it.
+The subsequent owner instruction authorizes only the independent
+[H_align phase](SORT4-ALIGNMENT-PHASE.md), one NEW hosted manual run/90min;
+its current execution checkpoint is STATUS. The proposal below remains the design
+basis, not permission for any other tool/phase or semantic change.
 
 ## Decision
 

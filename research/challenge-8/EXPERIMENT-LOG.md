@@ -2121,3 +2121,7 @@ validation: git diff --check, lightweight non-executing Markdown table/local-lin
 parsing and manual anchor/diff/source review. No build/verifier/research runner
 or executable test ran. **CLOSED: conditional design, no generic coverage gain.**
 STOP after docs commit/push; no active run or uncommitted proof draft.
+
+## 2026-10-06 — H_align owner resumption and experiment card
+
+Owner explicitly requests the proposed check. Entry clean HEAD98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc matches remote research head; origin fork/branch correct, no active/queued runs. [Phase/card](SORT4-ALIGNMENT-PHASE.md) freezes one NEW hosted manual run/90min, unchanged official VF26.09/nightly-2026-02-05, isolated generic pointer geometry, ZST layout calibration and two false-post alignment controls. No local executable verification or semantic changes. Full eventual normal/five-unwind resources remain the contract; fixture is a partial geometry theorem. Read-only explorer traced pinned pointer/typed-memory model: valid-layout positivity separate from size_align; copy summary has no explicit alignment, byte-to-typed conversion requires it; no justified automatic copy negative found without assuming misaligned typed resources. repr(align8) export/model support unknown, isolated calibration required. Status IN PROGRESS/preparation,0/1 used, no active run.

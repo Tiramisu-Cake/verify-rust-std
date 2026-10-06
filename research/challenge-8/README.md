@@ -6,12 +6,18 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
+**Independent H_align gate IN PROGRESS: preparation.**
+[Authorized scope/card](SORT4-ALIGNMENT-PHASE.md) permits one NEW hosted manual
+run/90min under unchanged VF26.09. Generic const/mut pointer geometry, independent
+ZST align8 layout calibration and two false-post controls remain separate from
+operation-enforcement coverage. No verifier changes or RAPx/Kani reruns; B/C NOT RUN.
+
 **Joint proof-route assessment complete; no generic composition yet.**
 [RAPx / VeriFast / Kani matrix and compatibility analysis](SORT4-COMPOSITION-ASSESSMENT.md)
 assign exact obligations without a single-tool requirement. RAPx presently
 contributes diagnostics; any selected future fact needs independent qualification.
 ZST remains in scope with A NO-GO and B/C NOT RUN. One independent no-patch VF
-alignment geometry gate is proposed, NOT RUN / NOT AUTHORIZED; arithmetic success
+alignment geometry gate was proposed there; its separate phase is now authorized; arithmetic success
 alone would not establish automatic operation coverage or full sort4 safety.
 
 **Explicit sort4 research contract adopted; C-source authority checked.**
@@ -22,7 +28,7 @@ protocol, with caller-precondition proofs required for composition. The
 supports this specification choice; it supplies no new Rust proof or committee
 acceptance. Organizer clarification is deferred and no longer blocks planning.
 The [earlier review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md) remain
-historical. New experiments and external contact remain unauthorized.
+historical. Only the H_align phase is currently authorized; external contact remains unauthorized.
 
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
@@ -59,6 +65,9 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
+- [Independent alignment phase](SORT4-ALIGNMENT-PHASE.md): one-run no-patch
+  H_align scope, full-target versus partial fixture domain/posts, intended controls
+  and automatic-operation/model boundary.
 - [Joint sort4 composition assessment](SORT4-COMPOSITION-ASSESSMENT.md): exact
   obligation/tool/evidence/gap/dependency matrix; common source/domain/premises,
   acyclic responsibilities, restricted RAPx role, independent ZST route, necessary

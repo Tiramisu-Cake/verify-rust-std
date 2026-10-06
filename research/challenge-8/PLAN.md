@@ -41,7 +41,8 @@ is complete. It considers composition rather than requiring any one tool to prov
 all posts. Current evidence does not yet compose: RAPx has no actual-sort4 proof
 component, VF callback/unwind/resource dependencies remain open, and Kani
 functionality is concrete. One new independent VF alignment geometry gate is
-proposed, NOT RUN / NOT AUTHORIZED; automatic operation coverage remains a
+proposed at that checkpoint; the owner now authorizes the separate H_align
+[phase](SORT4-ALIGNMENT-PHASE.md), one NEW hosted run/90min. Automatic operation coverage remains a
 separate acceptance condition. ZST stays in the adopted domain, RAPx A stays
 NO-GO and B/C NOT RUN.
 
@@ -83,6 +84,7 @@ outside the approved roadmap.
 | 1f — complete | Full sort4 contract admissibility | Documentation-only assumption ledger: declared vs caller-established vs unresolved; S/F/resource distinctions; all five panic exits | [Review](SORT4-ADMISSIBILITY-REVIEW.md) preserves the earlier analysis and unsent question. No new proof or experiment; the next-stage owner decision supersedes the inquiry recommendation. |
 | 1g — complete, contract adopted | Explicit sufficient domain and source authority | Adopt full source/output separation and the existing effect-aware scratch protocol; require proof of preconditions at each composed caller | [Adopted contract](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) and [authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents). Organizer contact is deferred, not a prerequisite. No claim of minimality, generic proof or committee acceptance; no tool/run authorization. |
 | 1h — complete, conditional design | Joint RAPx / VeriFast / Kani route | Exact obligation matrix, source/domain/premise compatibility, acyclic proof dependencies and necessary/optional VF capabilities | [Assessment](SORT4-COMPOSITION-ASSESSMENT.md): no established generic composition. RAPx diagnostic role only; other properties need individual qualification. Independent VF geometry gate proposed, NOT RUN / NOT AUTHORIZED; ZST automatic operation/resource proof still open. No B/C or semantic implementation authorized. |
+| 1i — IN PROGRESS | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Phase/card](SORT4-ALIGNMENT-PHASE.md): one NEW hosted manual run/90min. No patches, automatic-copy detection claim, RAPx/Kani reruns or B/C. Stop at evidence/phase boundary. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -101,8 +103,8 @@ dispatch reasoning; it does not prove its callers.
   The completed phase isolates observed safety and functional counterexamples.
 - **VeriFast:** official26.09/26.10 source comparison completed without execution
   in stage1c. Repository pin remains26.09. Stage1h proposes only a new independent
-  alignment-preservation diagnostic under unchanged26.09, pending a separate
-  owner decision; it does not reopen the historical c1/patched route. No new run
+  alignment-preservation diagnostic under unchanged26.09; stage1i now authorizes
+  that one bounded hosted gate; it does not reopen the historical c1/patched route. No new run
   or patch build/application authorized after closeout. Historical patched results
   stay conditional on recorded profiles; the proposal remains historical.
 - **RAPx:** exactly 0.7.50 on nightly-2026-02-05 for stage 1e only, with installed
@@ -174,7 +176,7 @@ composition, full normal/five-unwind safety, then conditional functionality and
 later caller use. Kani's concrete results do not supply missing universal premises.
 No RAPx-to-VF ownership/initialization/provenance bridge exists in current evidence.
 The single proposed H_align diagnostic separates geometry from automatic
-reference/copy enforcement. Only a separately authorized future gate may test it;
+reference/copy enforcement. Stage1i is that separately authorized bounded gate;
 even a pass would not reopen RAPx B/C, implement VF patches or prove all sort4.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous

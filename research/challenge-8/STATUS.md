@@ -1,11 +1,12 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: documentation-only joint RAPx / VeriFast / Kani route
-assessment CLOSED. [Composition assessment](SORT4-COMPOSITION-ASSESSMENT.md)
+Updated 2026-10-06: independent H_align gate IN PROGRESS / preparation.
+[Authorized phase](SORT4-ALIGNMENT-PHASE.md): one NEW hosted manual run,90min,
+unchanged VF26.09; no verifier changes. Joint-route documentation assessment CLOSED. [Composition assessment](SORT4-COMPOSITION-ASSESSMENT.md)
 records conditional responsibilities, domain/source compatibility and missing
 bridges; no current generic composition theorem. Explicit sort4 research contract
 remains ADOPTED; organizer clarification is deferred, not a planning prerequisite.
-No experiments authorized or new proof coverage.
+Only H_align is authorized; no new proof coverage yet.
 Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
@@ -18,6 +19,18 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**IN PROGRESS — independent alignment geometry gate.** Owner explicitly resumed
+H_align from clean matching HEAD98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc.
+Correct fork/branch; no active/queued Actions at entry. Budget0/1 NEW hosted
+manual runs,90min including setup. Prepare isolated generic .add geometry,
+ZST align8 model calibration and two intended false-post negatives, with complete
+export/refinement/log evidence; no local executable checks or verifier changes.
+[Scope/card](SORT4-ALIGNMENT-PHASE.md). Typed-copy automatic alignment remains
+a source-model boundary, not an assumed detector. RAPx A/replay stay NO-GO;
+B/C NOT RUN. No active run yet; proof fixture preparation authorized.
+
+## Historical joint-route documentation — CLOSED
 
 **CLOSED — joint-route analysis/documentation only.** Owner requested the
 obligation-to-tool/evidence/gap/dependency matrix, compatibility analysis,
@@ -347,14 +360,8 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-STOP after joint-route documentation closeout/commit/push. The project plans
-against the adopted contract. The
-[single proposed alignment gate](SORT4-COMPOSITION-ASSESSMENT.md#one-next-bounded-check--proposed-not-run)
-has a new narrow hypothesis; execution requires a separate owner decision,
-not a resumption of RAPx A/B/C or permission for semantic patches. No currently
-established generic composition or independent automatic ZST closure is claimed.
-Organizer contact remains deferred, not a planning prerequisite.
-Gate A/replay remain CLOSED / NO-GO; B/C, new proof runs and verifier changes
-remain unauthorized. Adopting the contract does not repair a detector, discharge
-generic ownership/unwind proofs or revive the historical patched VeriFast route.
-No active run or new proof draft was created by this documentation task.
+Prepare/commit/push the isolated H_align fixtures and manual selection, then
+one exact-SHA hosted diagnostic under [phase](SORT4-ALIGNMENT-PHASE.md).
+Monitor and inspect full evidence, classify geometry/layout/negative stages
+separately, save closeout and STOP. No second run, semantic tool change or full
+sort4 integration is authorized. RAPx A/replay stay CLOSED / NO-GO, B/C NOT RUN.

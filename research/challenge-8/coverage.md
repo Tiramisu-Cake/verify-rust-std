@@ -74,7 +74,8 @@ obligations, but current evidence supplies no generic composition or checked
 model bridge. RAPx presently remains diagnostic; other properties are not
 automatically reliable after the scoped Align finding. ZST is retained with
 independent geometry/operation/resource obligations, A NO-GO and B/C NOT RUN.
-The one proposed unchanged-VF alignment gate is NOT RUN / NOT AUTHORIZED;
+The unchanged-VF alignment gate was NOT RUN / NOT AUTHORIZED at that review;
+its separate [phase](SORT4-ALIGNMENT-PHASE.md) is now authorized/preparing one run;
 arithmetic evidence alone would not count as automatic UB coverage. Required VF
 callback/unwind/raw-copy capabilities are separated from optional historical
 insertion patches. Existing Kani results retain their exact concrete domains.
