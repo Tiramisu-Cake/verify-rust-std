@@ -34,12 +34,20 @@ refinement on26.10 NOT RUN. These are feasibility observations, not new target
 failures or proofs. The historical patched proposal remains unauthorized;
 contract/admissibility clarification is an independent open question.
 
-The [remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) is now complete
-and the [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) is READY. No RAPx
-diagnostic has run and no new coverage is claimed. The suspected ZST alignment
-gap and incomplete callback/panic evidence are source-review concerns, not
-executed counterexamples. Only the named bounded diagnostics are authorized;
-the safety and sorting coverage tables below are unchanged.
+The [remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) selected the
+[RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md), now CLOSED as
+[INCONCLUSIVE](RAPX-APPLICABILITY-RESULTS.md). Hosted runs
+[37492790456](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37492790456)
+and [37493697524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37493697524)
+failed in runner setup (direct-driver version argument channel, then absent
+Cargo checksum metadata). Exact package installation/version/binary identities
+were recorded, but installed-source audit, layout, MIR, target preparation and
+all six alignment controls were NOT RUN. Zero fixture paths/obligations and
+**no generic or detector coverage gain**. B/C NOT RUN because A did not pass.
+The suspected ZST alignment gap and callback/panic concerns remain source-review
+concerns, not executed counterexamples. The shared correction is consumed; a
+new narrow setup/A retry requires a decision. All safety/sorting tables below
+retain their earlier established evidence, with no RAPx proof added.
 
 ## Safety targets and sorting contracts
 

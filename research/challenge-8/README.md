@@ -6,13 +6,18 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**READY: bounded RAPx applicability and detector coverage.**
-The [remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) selects RAPx
-for the [next agent phase](RAPX-APPLICABILITY-PHASE.md): alignment/ZST first,
-then generic memory, then callback/panic coverage. No RAPx diagnostic has run.
-The source-level concerns are hypotheses to test, not observed false passes.
-The phase uses the exact integrated 0.7.50 profile without verifier modifications.
-Contract admissibility remains separate; historical patched work stays unauthorized.
+**CLOSED: RAPx applicability — INCONCLUSIVE at gate-A setup.**
+[Results](RAPX-APPLICABILITY-RESULTS.md) preserve two hosted preparation failures
+on the exact RAPx 0.7.50/nightly-2026-02-05 profile. Package/version/binary
+identities were recorded, but the hosted installed-source audit did not complete.
+No alignment control, generic-copy gate or callback/panic gate was analyzed; no
+coverage gained. The source-level ZST concern remains unconfirmed. Planned A
+and the shared technical correction used 2/4 slots; unused B/C slots cannot
+fund more A retries. A new narrow preparation/A retry needs an owner decision.
+[Phase boundaries](RAPX-APPLICABILITY-PHASE.md) and
+[screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) remain the historical rationale.
+Contract admissibility remains separate; patched work and full sort4 remain
+unauthorized.
 
 The closed [no-patch assessment](SORT4-NO-PATCH-ASSESSMENT.md) preserves the
 official VeriFast26.09/26.10 and Kani review; it found no new full-resource
@@ -34,6 +39,8 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
+- [RAPx applicability results](RAPX-APPLICABILITY-RESULTS.md): INCONCLUSIVE
+  setup failures, exact identities/run evidence, six NOT RUN controls and stop.
 - [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md): approved bounded
   diagnostics, exact profile, ordered gates, run budget and mandatory stop;
   no full sort4 proof or tool patch authorized.

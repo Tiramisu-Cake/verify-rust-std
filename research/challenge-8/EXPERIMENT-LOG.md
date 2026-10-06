@@ -1663,3 +1663,45 @@ Use the one shared correction run; gate-A miss -> NO-GO/stop, ambiguity/another
 setup issue -> INCONCLUSIVE/stop (no second technical correction), sufficient A
 pass -> planned gate B; C only after B. New source SHA and NEW dispatch required.
 Budget used1/4; reserve the shared correction; B/C unused and still gated.
+
+Shared correction dispatched as NEW [run37493697524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37493697524),
+created2026-10-06T16:11:16Z, source
+`772def3ce7e5e3585ac0c9a909f97afbcdb9a821`; remote matched; prior run
+completed before dispatch. Selection/gate/budget unchanged. Used2/4, shared
+correction consumed; planned B/C slots cannot be used as more gate-A retries.
+Prior full Actions log SHA256
+`3e3fb0dc237c6724c083774524fb18996f712d8dfdf8da6a0e7f5d30800b03db`;
+artifact11426930280 zip digest
+`a149d4858471a0f6ac58de351120abeb452303916cc76d8b51280c0b70d1122d`,
+ten files. Full read-only audit confirms only setup failed, no target/negative.
+
+
+### Run37493697524 final result — phase CLOSED / INCONCLUSIVE
+
+Source772def3ce7e5e3585ac0c9a909f97afbcdb9a821; A/90min; FAILURE/exit1;
+job16:11:22–16:18:02UTC400s, Prepare runner306s, install/identity step81s
+(release build1m04s). Both version queries0.7.50 passed; binary/package/lock/
+sysroot identities recorded in RAPX-APPLICABILITY-RESULTS.md. No lock-update
+warning; all104 compiled name/version entries match the saved154-package lock.
+
+First causal failure: runner assumes registry `.cargo-checksum.json` exists;
+FileNotFoundError at16:17:58.205UTC. Installed registry source directory found,
+but source comparison not reached. This is setup failure, not checksum mismatch,
+unsupported operation or semantic failure. Layout/MIR/target prep/all six A
+analyses/classifier NOT RUN, zero paths/obligations; B/C NOT RUN because A did
+not pass. Source-level ZST concern remains unreproduced. No generic coverage.
+
+Full log SHA256 c4ee3f87c3d2f4e7bc0b508ca3186f539baf49e4e5c8b62b8e4edcbe0f0ea86f;
+artifact11426617314 (11 files,16573bytes) zip SHA256
+314f42868159afb7ce54b0197c56a8d8d0d4a4a29b3bdde56e985f13cc36ac20.
+Both full logs/all21 files inspected and kept outside repo. No timeout/OOM,
+no per-case RSS/time because cases never began. Noncausal warnings are Actions
+Node deprecations/default-branch git hints. No new active run or proof draft.
+
+Used2/4: planned A plus single shared correction. Do NOT repurpose unused B/C
+slots as A retries. Phase closes INCONCLUSIVE; a new narrow preparation/A
+retry requires an owner decision. Proposed correction: byte-compare exact
+archive to installed source rather than require optional checksum metadata;
+not implemented or dispatched. No verifier patch/upgrade/full-sort4 authorization.
+Results/status/coverage/roadmap/index updated; documentation-only closeout
+requires static validation, no extra hosted verification run.

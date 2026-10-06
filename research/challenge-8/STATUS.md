@@ -1,9 +1,8 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: recorded the owner-approved
-[remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) and prepared the
-[RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) for the next agent.
-Documentation entry HEAD `b7416c18035c714258e2a476eebdfa1609f7f66c`, fork
+Updated 2026-10-06: closed the owner-approved
+[RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) as **INCONCLUSIVE**;
+[results and evidence](RAPX-APPLICABILITY-RESULTS.md). Fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
 This is the single current checkpoint; procedures in
 [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md),
@@ -11,36 +10,40 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**IN PROGRESS — RAPx applicability and detector coverage, gate A.**
-The owner accepted the selection of RAPx and requested documentation plus the
-next agent prompt. A continuation agent may begin only the bounded
-[named phase](RAPX-APPLICABILITY-PHASE.md) without repeating approval: A, ZST and
-ordinary alignment; B, generic/raw-memory coverage; C, comparator effects and
-normal/direct-panic behavior. Advance only after the previous gate passes.
+**CLOSED — INCONCLUSIVE, gate A stopped at setup. No active run.**
+Owner resumed from documentation `ad54f67d655c4106762016fba47534c58601f3ec`.
+Tree clean at entry, origin/branch verified; no unrelated changes or active runs.
+Six isolated alignment fixtures and manual workflow selection are committed.
+All compilation/executable diagnostics used GitHub-hosted Actions only.
 
-Frozen profile: RAPx exactly 0.7.50, Rust nightly-2026-02-05; reviewed upstream
-source `7d61d9377033c48a4df8954f34cc076e97a93816`. Audit the installed package;
-no patch, semantic model change or upgrade. Maximum four hosted runs (one per
-reached gate plus one shared technical correction), 90 minutes each including
-setup, one active run at a time. Used **1/4**. Session resumed by the owner on 2026-10-06 at documentation
-commit `ad54f67d655c4106762016fba47534c58601f3ec`. Working tree clean,
-origin verified, research branch fast-forwarded to that commit; no queued or
-in-progress Actions. Gate-A source `b55ae850d1cef67ddbcd02d8d97b4763c9c4a9f1`,
-[run37492790456](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37492790456),
-selection rapx_applicability / gate A / 90min: completed FAILURE,
-16:04:37–16:08:18 UTC. Setup-only failure: direct driver version options must
-be in RAPXFLAGS. Exact package installed; no target analysis occurred.
-Preparing the single allowed technical correction; no active run.
-Direct dispatch from the research ref accepted the new selection; no main-branch
-workflow exposure/update was necessary. B and C remain gated.
+Frozen profile RAPx '=0.7.50' --locked / nightly-2026-02-05 retained.
+Package archive SHA/VCS match reviewed 7d61d937; second run verifies both
+executable versions and captures binary hashes. Hosted installed-source
+comparison did NOT complete; do not claim full profile audit or detector result.
 
-The ZST alignment rule and unsupported-call fallback are source-level concerns,
-not reproduced false passes. A critical miss or essential unsupported behavior
-stops this route; even success stops at an owner decision before a full proof.
-The public-contract admissibility question remains separate and unresolved.
-Earlier phases stay CLOSED, including no-patch feasibility (0/2 runs used).
-The patched proposal in SORT4-SAFETY-DECISION, later sorting phases and external
-publication remain unauthorized. This update changes documentation only.
+- [run37492790456](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37492790456),
+  source `b55ae850d1cef67ddbcd02d8d97b4763c9c4a9f1`, A/90min, FAILURE,
+  16:04:37–16:08:18 UTC: runner incorrectly queries direct driver version via
+  argv instead of RAPXFLAGS; setup exit 2 after successful package install.
+- [run37493697524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37493697524),
+  source `772def3ce7e5e3585ac0c9a909f97afbcdb9a821`, A/90min, FAILURE,
+  16:11:22–16:18:02 UTC: single shared correction fixed version query; runner
+  then requires absent Cargo registry `.cargo-checksum.json`, setup exit 1.
+  No installed-source comparison, layout, preparation, MIR or fixture analysis.
+
+Used **2/4**, planned A plus shared technical correction. Remaining planned
+B/C slots cannot be repurposed as further A retries. All six A controls, B/C,
+SOUND/UNSOUND/Unknown obligations and generic coverage: **NOT RUN**.
+Full logs/artifacts inspected; two preparation failures preserved. ZST
+alignment shortcut remains a source-level concern, not a reproduced miss.
+No verifier/contract/std semantic change or downgrade/upgrade was made.
+Direct branch dispatch worked; no default-branch update was needed.
+
+Stop at the phase boundary. A further narrow preparation-and-A retry needs a
+new owner decision; proposal in the results, not applied. Full sort4 proof,
+verifier development, later phases and external publication remain unauthorized.
+Contract admissibility remains separate/unresolved; earlier phases stay CLOSED.
+No active run, uncommitted proof draft or new proof claim.
 
 ## Completed no-patch review
 
@@ -182,10 +185,9 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Read the screening and RAPx phase, inspect actual branch/run state, record
-IN PROGRESS and the gate-A experiment card, then implement and run only that
-bounded diagnostic on GitHub-hosted Actions. Follow the phase's ordered gates,
-profile and budget; no local builds/tests and no automatic tool upgrade.
-Write RAPX-APPLICABILITY-RESULTS.md and checkpoint NO-GO, INCONCLUSIVE or READY
-FOR NEXT DECISION with exact evidence. Stop there; fixture success is not a
-generic sort4 proof, and a model gap does not authorize a verifier patch.
+Read/review the preserved INCONCLUSIVE results and decide whether to authorize
+a newly bounded setup-and-gate-A retry with an archive-to-installed bytewise
+identity audit that does not depend on optional Cargo checksum metadata. No
+additional dispatch or proof implementation is permitted by this closed phase.
+B/C require a successful A/B gate respectively. Even all-green fixtures require
+a separate decision before a full sort4 proof or any tool/model extension.

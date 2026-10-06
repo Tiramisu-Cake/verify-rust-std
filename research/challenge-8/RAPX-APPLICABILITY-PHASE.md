@@ -6,11 +6,14 @@ the documentation update and continuation prompt. Entry research HEAD:
 `b7416c18035c714258e2a476eebdfa1609f7f66c`, fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
 
-**READY, not started.** This documentation checkpoint runs no experiments.
-A continuation agent may start this named phase without repeating approval,
-following [AGENTS](../../AGENTS.md), [STATUS](STATUS.md) and the
-[runbook](AGENT-RUNBOOK.md). Earlier phases remain closed. This phase authorizes
-only the bounded diagnostics below, not verifier development or a full proof.
+**CLOSED — INCONCLUSIVE on 2026-10-06.**
+[Results](RAPX-APPLICABILITY-RESULTS.md) preserve two setup failures: planned A
+and the one shared technical correction. No fixture alignment obligation was
+checked; B/C NOT RUN. The unused later-gate slots do not authorize more A
+retries. This document preserves the approved scope/profile/gates, not new
+authorization. A new preparation/A retry needs an owner decision; earlier
+phases, full sort4 and verifier development remain closed/unauthorized.
+Current checkpoint: [STATUS](STATUS.md).
 
 ## Question and target boundary
 
