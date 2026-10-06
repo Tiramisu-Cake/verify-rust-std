@@ -120,8 +120,12 @@ unconditionally. Verification3.1836462s,runner3:54.96,RSS1,821,596KiB,overall1.
 No completed safety proof; keep runtimecopy and valid-value flag, immutable-byte
 detector gap also remains. Generic VF helper now derives sizeof>=0 from first
 ownedcell via points_to_limits, preserving originalfunctionprecondition.
-No active run. Next VF revisedhelper Actions, then observedimmutable diagnostic;
-Kani target UB path cannot turn green on this pin without a documented tool fix.
+Active [37397404058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397404058),
+source `91392b65f2dcc122a33a55f94377b6e372c74760`,range90min. Helper opens
+nonemptyownedrange, uses points_to_limits to derive nonnegativeTsize, closes
+range and proves interiorbound. Inspect actualtarget and refinement outcomes.
+Then observedimmutable diagnostic; Kani target UB path cannot turn green on
+this pin without a documented tool fix.
 
 ## Repository map and verifier details
 
