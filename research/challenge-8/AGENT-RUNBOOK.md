@@ -189,18 +189,27 @@ control to actual ManuallyDrop<T>::new / &*tmp / into_inner, genuine sharing,
 full temporary-storage recovery before free and initialized destination/T.own;
 retain existing5 cases and add an intended reference-permission negative.
 
-**Active experiment:** [37441463201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37441463201),
+**Latest completed result:** [37441463201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37441463201),
 source `d198907e7eec57f8bcd880304fa1345b97b0ef53`,
 verifast_borrow_recovery_manually_drop90min, dispatched2026-10-06T09:13:20Z.
-Exact run SHA confirmed. Minimal manually_drop_only source build uses only
-existing shared ManuallyDrop reference patch5500204a, translator60ece6e9;
-no kernel/tuple/HRTB/lifetime-cut/Drop patches. Existing5 controls retained,
-plus actual generic ManuallyDrop::new / &*tmp / ptr read-write full-storage
-recovery and missing-init negative. into_inner has no pinned model and is
-not used or stubbed. Default manual workflow choice commitd1d9aff only.
-Next poll this exact run, download full logs/artifacts, inspect all7 cases,
-actual helper/source/MIR/refinement counts and intended negative failures.
-All verification/builds remain on GitHub-hosted runners.
+Failure; full logs/artifacts inspected. Minimal manually_drop_only source build
+uses only patch5500204a, translator60ece6e9, exact one-file/parser/prelude audits
+and pairedZ3 pass; console b1012430, build0/14.75s,RSS426,796KiB.
+All7readonly exporter/decode0 and source byte/hash checks pass. All7VF1 before
+caller verification: new recover_single body fails its first close, missing
+[first_fraction]ref_initialized<T>(tmp_ref) after opening a wrapper containing
+two fractions of the same precise predicate. Existing recover_pair body18
+records still passes; all caller headers/calls0, so no new positive or intended
+negative result. Strict classifiers correctly reject unrelated failures.
+Refinement0 for6; positive ManuallyDrop refinement1: RawPtr from addr_of(tmp)
+not yet supported, with original/verified commands shown identical. Its readonly
+MIR audit new1/deref1/read2/write1/into_inner0 passes. VF.08s percase,
+refinement.04s (.05generic),runner1:22.18,RSS585,528KiB; cold setup/build dominate.
+No covers/loopbounds. Prior baseline normal result37437514808 remains valid.
+No active run. Next correct explicit same-reference fractional bookkeeping and
+resolve original-provenance raw-pointer/refinement support without weakening
+storage/ownership posts; NEW exact-SHA minimal gate. into_inner remains unmodeled.
+All verification/builds remain GitHub-hosted. Default manual-choice commitd1d9aff.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR

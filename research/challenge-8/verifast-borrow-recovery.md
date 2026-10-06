@@ -120,3 +120,26 @@ uses the actual raw-pointer read primitive instead. It does not prove the
 standard-library implementation, any callback or panic recovery, insertion
 behavior, or unrestricted ownership beyond this one lifecycle. Hosted results
 for this additional profile are pending; all verification remains hosted-only.
+
+## First minimal-profile result
+
+[37441463201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37441463201)
+checked `d198907e7eec57f8bcd880304fa1345b97b0ef53`, 90min. Full logs/artifacts
+inspected. Exact one-translator-file source audit, unchanged parser/prelude,
+patch/output pins, paired Z3 and source byte/hash checks pass. Console SHA-256
+`b1012430ca97595b5ee70e5e16778d2b7f008897dba2e910b953d3e4034ebaf6`,
+build0/14.75s,RSS426,796KiB. All7readonly exporter/decode0; all7VF1 before any
+caller because the common new recover_single helper fails its first close of
+[first_fraction]ref_initialized(tmp_ref). Its wrapper contains two fractions
+of the same precise predicate; exact fractional bookkeeping must be corrected.
+The independently checked recover_pair still has18 body records; caller/call
+counts0 for all cases, and strict negative classifiers reject this unrelated
+failure. No new lifecycle proof or intended negative is claimed.
+
+Six refinements pass; the positive MD case separately fails because the pinned
+refiner does not support RawPtr (addr_of(tmp)), although its command dump shows
+the same original/verified operation. This failure is retained. The readonly
+MIR audit passes new1/deref1/read2/write1/into_inner0. VF.08s percase, refinement
+.04s (.05generic), runner1:22.18,RSS585,528KiB; cold setup/build dominate.
+No covers/loopbounds. Next fix same-reference recovery and use a sound,
+independently checked original-provenance pointer route; all full posts remain.
