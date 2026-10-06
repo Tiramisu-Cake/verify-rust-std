@@ -226,6 +226,21 @@ first call would not establish the model extension's compatibility with all
 other tuple uses, type interpretation, or normal/unwind cleanup; those remain
 separate obligations before any full proof claim.
 
+Actions run
+[37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468)
+at `72dd333` accepted the exact-source extraction and refinement check, but
+VeriFast exited on its internal assertion in `verifast1.ml:2309` while
+registering the tuple predicate in the `smallsort` namespace. It did not
+reach the tuple closure or comparator call; this is a predicate-placement
+frontend failure, not an algorithmic safety result. The corrected probe puts
+the same transparent definition in the verified crate's root `lib.rs`, before
+`mod smallsort`. The extractor now strips and checks ghost additions in
+**both** generated Rust files and records original/verified hashes for each.
+The selected standard-library source, function contract, ownership domain,
+and actual comparator expression are unchanged. Actions still must check
+whether the root definition is accepted and whether its resources match the
+real call.
+
 The ghost `let_lft` keeps half the lifetime token reserved until the enclosing
 `unsafe` block ends, while `tail.read()` occurs inside that block. After the
 first comparator call is processed, restoring exclusive access before the

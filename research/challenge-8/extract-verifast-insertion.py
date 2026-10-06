@@ -132,6 +132,7 @@ ROOT = (
     "#![feature(core_intrinsics)]\n"
     "mod smallsort;\n"
 )
+ROOT_MODULE_ANCHOR = "mod smallsort;\n"
 
 
 def unique_offset(text: str, marker: str) -> int:
@@ -204,15 +205,23 @@ def main() -> None:
     if original.count(RANGE_BODY_ANCHOR) != 1 or original.count(RANGE_COMPARE_ANCHOR) != 1:
         raise ValueError("assembled first-comparison anchors are not unique")
     verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + ghost + "{")
-    injections = {"contract": ghost}
+    original_root = ROOT
+    verified_root = ROOT
+    module_injections = {"contract": ghost}
+    root_injections = {}
     if profile == "range":
-        injections["tuple_ownership_model"] = RANGE_TUPLE_OWN
-        injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
-        injections["interior_call"] = RANGE_BOUND_GHOST
-        injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
-        injections["lifetime_bind"] = RANGE_LIFETIME_BIND
-        injections["comparison_prep"] = RANGE_COMPARE_PREP
-        verified = verified.replace(HEADER, HEADER + RANGE_TUPLE_OWN + RANGE_INTERIOR_LEMMA, 1)
+        if verified_root.count(ROOT_MODULE_ANCHOR) != 1:
+            raise ValueError("expected one root module anchor")
+        root_injections["tuple_ownership_model"] = RANGE_TUPLE_OWN
+        verified_root = verified_root.replace(
+            ROOT_MODULE_ANCHOR, RANGE_TUPLE_OWN + ROOT_MODULE_ANCHOR, 1
+        )
+        module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
+        module_injections["interior_call"] = RANGE_BOUND_GHOST
+        module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
+        module_injections["lifetime_bind"] = RANGE_LIFETIME_BIND
+        module_injections["comparison_prep"] = RANGE_COMPARE_PREP
+        verified = verified.replace(HEADER, HEADER + RANGE_INTERIOR_LEMMA, 1)
         verified = verified.replace(SIFT_ANCHOR, RANGE_BOUND_GHOST + SIFT_ANCHOR)
         verified = verified.replace(
             RANGE_BODY_ANCHOR,
@@ -226,25 +235,32 @@ def main() -> None:
             RANGE_COMPARE_PREP + RANGE_COMPARE_CALL,
             1,
         )
-        injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
-    stripped = verified
-    for name, content in injections.items():
-        if stripped.count(content) != 1:
-            raise ValueError(f"expected exactly one {name} ghost insertion")
-        stripped = stripped.replace(content, "", 1)
-    if stripped != original:
-        raise ValueError("verified copy is not ghost-comments-only")
+        module_injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
+    for filename, candidate, reference, insertions in (
+        ("lib.rs", verified_root, original_root, root_injections),
+        ("smallsort.rs", verified, original, module_injections),
+    ):
+        stripped = candidate
+        for name, content in insertions.items():
+            if stripped.count(content) != 1:
+                raise ValueError(f"expected exactly one {filename} {name} ghost insertion")
+            stripped = stripped.replace(content, "", 1)
+        if stripped != reference:
+            raise ValueError(f"verified {filename} is not ghost-comments-only")
 
     out = Path(sys.argv[1])
     spans = out / "source-spans"
     spans.mkdir(parents=True, exist_ok=True)
     for name, piece in pieces.items():
         (spans / f"{name}.rs").write_bytes(piece.encode("utf-8"))
-    for variant, body in (("original", original), ("verified", verified)):
+    for variant, root_body, module_body in (
+        ("original", original_root, original),
+        ("verified", verified_root, verified),
+    ):
         directory = out / variant
         directory.mkdir(parents=True, exist_ok=True)
-        (directory / "lib.rs").write_text(ROOT, encoding="utf-8")
-        (directory / "smallsort.rs").write_text(body, encoding="utf-8")
+        (directory / "lib.rs").write_text(root_body, encoding="utf-8")
+        (directory / "smallsort.rs").write_text(module_body, encoding="utf-8")
     manifest = {
         "source": str(SOURCE),
         "source_sha256": sha256(source_bytes),
@@ -254,14 +270,30 @@ def main() -> None:
         },
         "original_sha256": sha256(original.encode()),
         "verified_sha256": sha256(verified.encode()),
+        "files": {
+            "lib.rs": {
+                "original_sha256": sha256(original_root.encode()),
+                "verified_sha256": sha256(verified_root.encode()),
+            },
+            "smallsort.rs": {
+                "original_sha256": sha256(original.encode()),
+                "verified_sha256": sha256(verified.encode()),
+            },
+        },
         "ghost_comment_only": True,
         "profile": profile,
         "specified_function": "insert_tail",
         "expected_specified_target_bodies": 1,
         "contract": CONTRACTS[profile],
         "ghost_insertions": {
-            name: {"sha256": sha256(content.encode()), "bytes": len(content.encode())}
-            for name, content in injections.items()
+            filename: {
+                name: {"sha256": sha256(content.encode()), "bytes": len(content.encode())}
+                for name, content in insertions.items()
+            }
+            for filename, insertions in (
+                ("lib.rs", root_injections),
+                ("smallsort.rs", module_injections),
+            )
         },
     }
     (out / "extraction.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
