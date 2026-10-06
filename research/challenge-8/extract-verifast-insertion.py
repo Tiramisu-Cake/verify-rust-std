@@ -40,6 +40,8 @@ INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
 )
+SIFT_ANCHOR = "        let mut sift = tail.sub(1);"
+RANGE_BOUND_GHOST = "        //@ array_inv::<T>();\n"
 HEADER = "use core::mem::ManuallyDrop;\nuse core::{intrinsics, ptr};\n\n"
 ROOT = (
     "#![no_std]\n"
@@ -103,6 +105,8 @@ def main() -> None:
         raise ValueError("outer function signature changed")
     if outer.count("insert_tail(v_base, tail, is_less);") != 1:
         raise ValueError("outer function body changed")
+    if tail.count(SIFT_ANCHOR) != 1:
+        raise ValueError("first insert_tail pointer step changed")
     for name, piece in pieces.items():
         if not piece.rstrip().endswith("}"):
             raise ValueError(f"{name} does not end in a complete Rust item")
@@ -113,7 +117,15 @@ def main() -> None:
     # equivalent core imports; no sorting operation is reimplemented here.
     original = HEADER + "".join(pieces.values())
     verified = original.replace(INSERT_SIGNATURE, INSERT_SIGNATURE[:-1] + ghost + "{")
-    if verified.count(ghost) != 1 or verified.replace(ghost, "") != original:
+    bound_ghost = ""
+    if profile == "range":
+        bound_ghost = RANGE_BOUND_GHOST
+        verified = verified.replace(SIFT_ANCHOR, bound_ghost + SIFT_ANCHOR)
+    if (
+        verified.count(ghost) != 1
+        or (bound_ghost and verified.count(bound_ghost) != 1)
+        or verified.replace(ghost, "").replace(bound_ghost, "") != original
+    ):
         raise ValueError("verified copy is not ghost-comments-only")
 
     out = Path(sys.argv[1])
@@ -140,6 +152,7 @@ def main() -> None:
         "specified_function": "insert_tail",
         "expected_specified_target_bodies": 1,
         "contract": CONTRACTS[profile],
+        "bound_ghost": "array_inv::<T>() before first tail.sub(1)" if profile == "range" else None,
     }
     (out / "extraction.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     for name, info in manifest["pieces"].items():

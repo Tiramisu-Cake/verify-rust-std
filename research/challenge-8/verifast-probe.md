@@ -51,6 +51,17 @@ limit and what the next actual obligation is. In particular, the range
 predicate's treatment of zero-sized generic types has not been established;
 do not infer full generic coverage from a successful trace.
 
+Actions run
+[37394022890](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890)
+at `2ba502b` accepted this generic precondition, reached the actual
+`insert_tail` body, and stopped at the same first `tail.sub(1)` bound obligation;
+refinement passed. The next `range` revision inserts only the pinned
+`array_inv::<T>()` ghost lemma call immediately before that pointer operation.
+The lemma preserves `begin[..n] |-> xs` and exposes `n == length(xs)`, the
+`isize::MAX` byte-size bound, and pointer limits for `begin` and `begin + n`.
+It does not assume that the interior pointer is valid. The next Actions result
+must show whether these facts suffice to derive the bound for `tail - 1`.
+
 Both profiles leave the extracted `CopyOnDrop` and outer function unverified:
 `-skip_specless_fns` skips these unspecified functions. The experiment
 must never be counted as a three-function proof. The expected number of
