@@ -1,52 +1,39 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**
-explicitly authorized through09:00 MSK /06:00 UTC October7. Separate budget
-0/12 NEW,0/10800 summed job-seconds; layout-repair sublimit0/2 included.
-Entry e7eae592dcda42ad330cd8f565c1411bffdf7519 clean/matching origin; no active run.
-Next: unchanged-patch layout acceptance repair and independent stock index theorem,
-actual pointer-callee/specification investigation. No semantic extensions allowed.
+Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
+owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
+Night1/12 NEW,145/10800 summed job-seconds; repair1/2 included. No active run.
+Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; entry clean/matching
+origin e7eae592dcda42ad330cd8f565c1411bffdf7519.
 
-Historical predecessor **CLOSED at6/6 NEW runs: stock generic PASS; experimental
-fieldless-layout acceptance INCONCLUSIVE.** Its budget remains closed.
-Entry checkpoint e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75, correct fork/branch,
-clean matching heads. Budget used **6/6 /653 of10800 summed job-seconds (10m53s)**,
-including every job's preparation/build/upload. Unused time does not grant runs.
+**Accepted independent component:** stock generic H_align const/mut PASS on
+unchanged official VeriFast26.09/source809de459/nightly2026-02-05,
+[run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
+source968c073983e0fa27112c5d8a4e10a36b05828323; full original checks intact.
+No typed reference/copy/callback/whole-sort4 theorem follows.
 
-**Stock generic const/mut PASS independently** on unchanged official VeriFast26.09
-/source809de459/nightly-2026-02-05: [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
-source/head968c073983e0fa27112c5d8a4e10a36b05828323. Both VF0, export/decode/
-refinement0,72 statements each; resources/posts/dead-code/leak/integrity intact.
-Stock concrete Z remains INCONCLUSIVE; original negatives/replay pass separately.
+**Layout acceptance still INCONCLUSIVE:**
+[N1/37547307118](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37547307118),
+source6bbd25a240ff4d2966c2dcdfed5d79936bc0638f,145s. Original profile comparisons,
+18 extra cases,7/7 metadata gates and31/31 classifier/span checks PASS; C/old
+Rust/C/C++ regressions PASS both profiles. Only new C++ empty smoke parse/name fails
+in sizeof(CppEmpty), before body. Exact experimental patch remains
+`d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14`.
+N2 prepared: only spell sizeof(struct CppEmpty), retain >=1 ensures/assertion,
+then final permitted repair matrix. No extra semantic changes or third repair run.
 
-**Experimental-rust-fieldless-layout-v1** built and full matrix attempted in final
-[run37544574703](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37544574703),
-source/head e472aa27a93b15904c702a2484d9e2fdf6f5554a, exact pushed/head_sha match.
-Job112545369857,23:05:34–23:08:00Z on2026-10-06,146s, FAILURE.
-Patch SHA256 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
-Original experimental six pass expected gates; extra9 positives/4 intended negatives/
-5 unsupported-layout cases pass. Z size0/align8, const/mut zero-strideadd i0..3 and
-checked generic calls Z/u64 verified. Metadata5/7 gates pass; absent/source-span
-remain classifier INCONCLUSIVE despite intended raw VF failures. Existing Rust/C/C++
-regressions pass both profiles; new C/C++ smoke fixtures parse-fail both profiles.
-Classifier selfchecks12/12 PASS. Full logs/artifact11450580233 inspected; raw unchanged.
-**Full acceptance remains INCONCLUSIVE; no checker/fixture fix applied after run6.**
+Independent index/order ghost proofs and actual-pointer-callee adapter are prepared
+but **NOT RUN / NOT PROVEN**. Callee source contains MaybeUninit/DropOnPanic/three
+intrinsic selections; stock intrinsic support absent by static review, not yet an
+executed blocker. Full pointer/provenance/resource/unwind bridge remains open.
+Known typed initialized-dst spec remains a raw-scratch boundary; no repeat without
+new hypothesis. ZST/non-Copy/non-Freeze/legal effects and five panic posts retained.
 
-Exact layout domain: local concrete original-fieldless nongeneric Sized Rust structs,
-reprRust/C with optional align. Compiler-backed optional size/ABIalignment and type/
-source/target binding; Rust-only >=0 bound, C/C++ >0 retained. Exact fielded/generic/
-packed/transparent/enum/union/DST facts and offset/ownership/alias changes excluded.
-All executable work hosted; stock profile separate. No full model-soundness,
-automatic-copy UB, ownership/callback/five-unwind or whole-sort4 theorem follows.
-
-Next proposed decision: narrowly repair evidence processing for named caller/full
-nested span and split C/C++ contract annotation blocks, retaining all requirements;
-NEW bounded hosted matrix run at unchanged patch. Now authorized only by the
-separate night phase; previous phase remains closed. **Repair NOT RUN yet.**
-No demonstrated need for further model semantics at this checkpoint.
-[Closeout and exact run/source identities](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout),
-[phase](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07),
-[patch provenance](verifast-rust-fieldless-layout.md), [journal](EXPERIMENT-LOG.md),
-[previous checkpoint/history](STATUS-HISTORY-2026-10-07.md).
-RAPx CLOSED / NO-GO; B/C NOT RUN; ZST retained in contract. Historical FnMut/Drop,
-full sort4 and external issues/PR/messages remain outside this stage.
+Next permitted actions: N2 exact-SHA matrix, independent stock index/order proof
+and faithful pointer-callee diagnostic; memory specs/checked geometry and design
+within night card. Minimal manual workflow exposure only (main b3c9835 adds stock
+components, no research-history merge). RAPx CLOSED/NO-GO; B/C NOT RUN.
+No historical FnMut/Drop chain, new tool/axiom/spec/model extension or publication.
+Full logs/artifacts are in /tmp only; historical prototype6/6,653s remains closed
+in [alignment results](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout).
+Detailed current cards/results: [journal](EXPERIMENT-LOG.md).

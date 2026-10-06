@@ -2697,3 +2697,31 @@ repair run may correct it. Semantic or false-proof failure quarantines affected
 profile and redirects to independent stock tasks. Selection
 verifast_rust_fieldless_layout/30; new repair budget0/2,total0/12. Exact SHA/run
 recorded at dispatch. No executable local validation.
+
+N1 dispatched: run37547307118, source/head6bbd25a240ff4d2966c2dcdfed5d79936bc0638f,
+created2026-10-06T23:34:33Z, selection verifast_rust_fieldless_layout/30,
+exact pushed/remote/head_sha match. Night1/12,repair1/2; job time pending.
+One active experiment; unchanged patch digest confirmed before dispatch.
+
+### N1 result and N2 correction card
+
+Run37547307118/source6bbd25a240ff4d2966c2dcdfed5d79936bc0638f,
+job112554275354,2026-10-06T23:34:37–23:37:02Z,145seconds,FAILURE.
+Full log and artifact11451073890 inspected (812889bytes, uploaded ZIP SHA256
+ef45f1657175390132508a3b7416a398ceca70523c5d88aed4bf9c24efebd845).
+Base809de459/compilerdb3e99bb/x86_64 pins and exact d4a12525 patch unchanged.
+Both original-six profile comparisons match expected; all18 extra cases,
+7/7 metadata gates,31/31 classifier/span tests pass. Native C and previous
+Rust/C/C++ regressions pass both profiles. Only new C++ smoke fails BOTH at
+ensures line8 before body: `No such variable...: CppEmpty` in sizeof(CppEmpty).
+This is annotation parser/name syntax, not a false layout theorem. Full acceptance
+still INCONCLUSIVE. No false assertion proved. Night1/12,145/10800s,repair1/2.
+
+N2 hypothesis: elaborated `sizeof(struct CppEmpty)` selects pinned parser's type
+path (as in its C/C++ type syntax), unlike unqualified sizeof(CppEmpty) interpreted
+as an expression. Change ONLY the new C++ fixture's ensures and assertion spelling;
+retain empty complete object and >=1 post. All N1 domain/posts/profile/expected
+matrix checks unchanged. Full matrix rerun, selection verifast_rust_fieldless_layout/30;
+second and last repair run included in12-run total. On PASS accept only exact narrow
+experimental profile for later authorized tasks; on failure close repair INCONCLUSIVE
+and continue independent stock work. No semantic repair or third repair run allowed.

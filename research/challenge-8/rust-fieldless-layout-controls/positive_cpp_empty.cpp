@@ -5,9 +5,9 @@ struct CppEmpty {};
 int cpp_empty_layout_control()
 /*@ requires true; @*/
 /*@
-ensures sizeof(CppEmpty) >= 1;
+ensures sizeof(struct CppEmpty) >= 1;
 @*/
 {
-    //@ assert sizeof(CppEmpty) >= 1;
+    //@ assert sizeof(struct CppEmpty) >= 1;
     return 0;
 }
