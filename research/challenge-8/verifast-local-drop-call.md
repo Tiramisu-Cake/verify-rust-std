@@ -1,21 +1,22 @@
 # Experimental local Drop call
 
-Current hosted status: run37423762729 exposed a nested-match delimiter bug:
-the `substs` match captures the intended outer non-ADT fallback. The patch now
-delimits that nested match explicitly while preserving both fallback branches.
-This static source fix has not yet been checked by a new hosted run. Caller/body
-gates for this profile have not executed. The following describes the intended
-restricted semantics, not a completed cleanup proof. See
-[handoff](HANDOFF-2026-10-06.md).
+Current hosted status: run37431775757 passed all 25 regressions and the
+exact-source actual Drop body proof. `cleanup_one` then verified the local
+method call, normal postcondition and leak check but failed the console's
+dead-code report: its compiler cleanup-only `UnwindResume` block is impossible
+under the checked method's literal `on_unwind_ens false`. The current patch
+narrows structural CFG reachability at this selected local Drop; it awaits a
+new hosted caller gate. The following is not a completed cleanup proof. See
+[handoff](HANDOFF-2026-10-06.md) for earlier results.
 
 Apply [verifast-local-drop-call.patch](verifast-local-drop-call.patch) to the
 pinned VeriFast 26.09 source **after** the tuple, HRTB, lifetime-cut,
 address-taken, and tracked `ManuallyDrop` patches. Its translator input
 SHA-256 is `f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432`.
 The current patch SHA-256 is
-`e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf`, and its
+`6f5c2089b16364bc3d33eb98724fef60b5da4022bc70e77eb778b563eadb26ed`, and its
 statically applied translator SHA-256 is
-`cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa`.
+`53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37`.
 The patch changes only
 `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml`.
 
@@ -27,8 +28,12 @@ ordinary whole-unit verifier. A bare-local MIR `Drop` calls that exact
 method through its real callee name, concrete type argument, and inferred
 late-bound self-reference lifetime, matching ordinary method-call
 instantiation. The existing
-call-outcome switch sends normal execution to the MIR target and models the
-MIR unwind action, including cleanup and terminate. The old generic
+call-outcome switch sends normal execution to the MIR target and retains the
+MIR unwind action, including cleanup and terminate, as a fail-closed AST
+branch. Because the selected method's literal false unwind contract is checked
+in the same unit, its unwind target is excluded only from *structural*
+reachability used to reconstruct blocks and report dead code. A cleanup block
+also reached by a genuinely unwinding call remains reachable. The old generic
 `std::ptr::drop_in_place` translation remains for unannotated types and
 projected places. `DropData` does not export a projected place type, so
 this scoped feature makes no specialization claim for those places.

@@ -44,7 +44,7 @@
            let* place, place_is_mutable = translate_place place_cpn loc in
            let target_cpn = target_get drop_data_cpn in
            let target = translate_basic_block_id target_cpn in
-@@ -2813,21 +2829,54 @@
+@@ -2813,21 +2829,57 @@
                           Static ));
                  ] )
            in
@@ -72,7 +72,10 @@
 +                  (loc, callee, [ty_info.vf_ty; Ast.InferredTypeExpr loc], [],
 +                   [LitPat (AddressOf (loc, place))], Static)
 +              in
-+              let unwind_stmts, unwind_targets =
++              (* The selected same-unit Drop method has a checked literal
++                 on_unwind_ens false. Keep its MIR unwind action in the AST,
++                 but do not mark that impossible edge structurally reachable. *)
++              let unwind_stmts, _ =
 +                if TranslatorArgs.ignore_unwind_paths then ([], [])
 +                else translate_unwind_action (unwind_action_get drop_data_cpn) loc
 +              in
@@ -93,7 +96,7 @@
 +              Ok
 +                (unfreeze_stmts @ [call_stmt] @ freeze_stmts,
 +                 Mir.GotoTerminator (loc, target),
-+                 target :: unwind_targets)
++                 [ target ])
 +          | None ->
 +              Ok
 +                ( unfreeze_stmts
@@ -114,7 +117,7 @@
        | UnwindResume ->
            Ok
              ( [
-@@ -7620,6 +7669,217 @@
+@@ -7620,6 +7672,217 @@
          match_type_lists env' rest1 rest2
      | _ -> None
  
@@ -332,7 +335,7 @@
    let compute_trait_impl_fn_specialisations trait_impls =
      trait_impls
      |> Util.flatmap
-@@ -8074,8 +8334,12 @@
+@@ -8074,8 +8337,12 @@
              bodies_cpn
          else bodies_cpn
        in

@@ -7,9 +7,9 @@ Its source-build profile inherits the tuple, HRTB, lifetime-cut,
 address-taken, and tracked `ManuallyDrop` patches, then applies
 `verifast-local-drop-call.patch` to the translator only. The final translator
 patch input is `f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432`,
-the patch SHA-256 is `e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf`,
+the patch SHA-256 is `6f5c2089b16364bc3d33eb98724fef60b5da4022bc70e77eb778b563eadb26ed`,
 and the expected result is
-`cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa`.
+`53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37`.
 The build still requires the exact four modified VeriFast files.
 
 The gate runs all 8 HRTB, 12 lifetime-scope, and 5 tracked-reference
@@ -45,8 +45,8 @@ then fail at the local-Drop frontend guard. Every negative classification is
 fail-closed; frontend/export failures cannot count as proof or intended
 rejection.
 
-The gate is intended to check this narrow same-unit local cleanup translation
-and its resource transfer; it has not reached the caller fixtures yet.
+The gate checks this narrow same-unit local cleanup translation and its
+resource transfer. Run37431775757 reached the first caller, as detailed below.
 It does not release the insertion held reference, prove
 the insertion loop, recover full destination ownership for general insertion,
 or claim support for projected-place Drop or nontrivial field glue. Build,
@@ -71,5 +71,19 @@ local_drop_call. The intended outer non-ADT fallback is parsed as a redundant
 branch of nested match substs (confirmed Warning11), so generic F Drop crashes.
 Suite1/.69s; overall1,runner1:15.12,RSS646,784KiB. Remaining regressions and
 actual body/caller/refinement gates were not reached. This failure motivated
-the delimiter-only fix pinned above; a new hosted run is pending. No cleanup
-proof is claimed, and the hosted outcome remains open.
+the delimiter-only fix exercised in run37431775757. No cleanup proof was
+claimed from that earlier run.
+
+Run37431775757 at197d5a1 passes all 25 regressions, exact-source actual Drop
+body/copy proof and source/refinement audits. `cleanup_one` exports/decodes its
+MIR, invokes the annotated actual method through local cleanup, consumes the
+normal postcondition and passes the leak check. VF exits 1 solely because the
+unexecuted `UnwindResume` block is reported as dead code at the whole-function
+source span. Its MIR has normal `Drop -> return` and a cleanup-only unwind
+successor; the checked method has literal `on_unwind_ens false`. Later caller
+and negative fixtures have not run. The current patch keeps the original AST
+unwind branch but removes that impossible successor from the block-reconstruction
+graph only for this selected same-unit method. `cleanup_callback` has a real
+may-unwind callback predecessor to its cleanup block and remains the positive
+control for retaining that path. A new hosted run must check both callers and
+all intended negatives before the gate can be called successful.

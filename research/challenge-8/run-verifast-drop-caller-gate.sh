@@ -386,8 +386,8 @@ mkdir -p "$evidence"
         research/challenge-8/verifast-address-taken.patch
     printf 'Pinned SmallSort source SHA-256: 32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959\n'
     printf 'Local Drop translator input: f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432\n'
-    printf 'Local Drop patch SHA-256: e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf\n'
-    printf 'Local Drop translator output: cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa\n'
+    printf 'Local Drop patch SHA-256: 6f5c2089b16364bc3d33eb98724fef60b5da4022bc70e77eb778b563eadb26ed\n'
+    printf 'Local Drop translator output: 53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37\n'
 } > "$evidence/selection.txt"
 
 set +e

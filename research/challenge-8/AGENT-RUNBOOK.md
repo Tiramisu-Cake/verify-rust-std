@@ -51,6 +51,19 @@ bounds in this deductive gate. No successful whole caller/cleanup gate claimed.
 No active run. Next diagnose reachability/CFG bookkeeping without suppressing
 dead-code checks, then NEW exact-SHA gate if a justified narrow fix is found.
 
+Causal review: cleanup_one bb0 Drop has cleanup-only successor bb2
+UnwindResume, exactly the reported source span. Its same-unit checked Drop
+contract has literal false unwind post. Prepared summary-based structural
+pruning only for this selected method: keep explicit original AST unwind
+action, reconstruct normal successor; live callback predecessors still retain
+cleanup. Generic Drop/selector/contracts/all25+9fixtures/checks unchanged.
+Patch6f5c2089b16364bc3d33eb98724fef60b5da4022bc70e77eb778b563eadb26ed,
+translator53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37.
+Static apply/hash/bash-n/diff pass. Next NEW localcaller90min; inspect both
+whole callers and existing invalid-body/resource/shape negatives. A dedicated
+invalid-unwind-body control remains to be prepared separately; unsupported
+panic plumbing must not masquerade as rejection of its false unwind post.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
