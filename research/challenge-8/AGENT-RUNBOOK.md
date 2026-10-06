@@ -21,6 +21,11 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37413756431](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
+source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.
+Diagnostic-only patche17492b5; same rejection semantics/domain and8+12cases.
+Poll exact run, fetch all evidence, read offending chunk/typeargs origin.
+
 **Latest completed actual strict-scope probe:** [37413224006](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
 source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
 Full logs/artifacts inspected. Same26.09 pins/pairedZ3/ghost-byte/sourcehash/
