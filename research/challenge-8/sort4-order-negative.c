@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 // Expected VeriFast failure at TARGET_ASSERTION on the stock ghost profile.
+//@ #include "sort4-index.gh"
 /*@
-#include "sort4-index.gh"
 
 lemma void s4_wrong_equal_middle_order()
     requires true;

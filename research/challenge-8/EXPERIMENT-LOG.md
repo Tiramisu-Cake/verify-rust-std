@@ -2782,3 +2782,23 @@ profile pins; all18 per-case export/decode/refinement/integrity/metadata checks,
 span mutates only hi.line7->8, lo7; translator binding rejection genuine. No material
 acceptance gap; exact narrow experimental profile accepted for already authorized
 night tasks, no model-soundness/automatic operation UB or whole-sort4 inference.
+
+### N3 first causal failure / N4 syntax correction card
+
+N3/37548195599/source03e23cbf56ff3d9e7d79923a0a1d8f15e88fe879,
+job112557198047,2026-10-06T23:44:26–23:44:49Z,23seconds,FAILURE.
+Full log/artifact11451551878 inspected;10142bytes/ZIP digest
+31c3e1d982122f689c141732215f0678f614ee1acbc9b1e5650b451ec207f933.
+Source/formula binding and source hashes pass, official stock archive digest matches.
+Both cases parse-fail at lemma void (positive6/negative5); no lemma body/negative
+assertion reached, no proof claim. C parser source809de459 explains: initial
+parse_include_directives_core consumes the opening ghost range to handle includes;
+parse_decls then sees bare lemma, not a fresh ghost block. Existing supported idiom
+is standalone //@ #include followed by a NEW /*@ declaration block.
+N4 changes only that include/block boundary in index positive/negative and the
+as-yet-unrun order fixtures; all formulas/lemma bodies/posts/negative markers/checks
+identical. Hypothesis: separate ghost include restores pure declaration grammar,
+then original stock lemma and intended duplicate-index assertion are reached.
+Same index/30 selection, same domain/full local posts/decision map as N3; no trusted
+semantic change. Night3/12,322/10800jobseconds; repair2/2closed. N4 NEW because
+changed source, not an old run retry. No active run.

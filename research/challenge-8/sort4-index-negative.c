@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
+//@ #include "sort4-index.gh"
 /*@
-#include "sort4-index.gh"
 
 lemma void s4_wrong_hi_duplicates_min()
     requires true;

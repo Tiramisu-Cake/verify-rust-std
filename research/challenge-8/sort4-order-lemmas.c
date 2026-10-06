@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 // Pure ghost theorem for the exact five-comparison sort4_stable index network.
+//@ #include "sort4-index.gh"
 /*@
-#include "sort4-index.gh"
 
 // Each rank denotes one equivalence class of a fixed strict weak order.
 // Original occurrence identity is the logical source index, even for ZSTs.
