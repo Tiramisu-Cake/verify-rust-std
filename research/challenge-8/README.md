@@ -305,6 +305,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Keep original reproducer and required checks. Generic ownership/permissions
   via an approved alternative or a separately validated model fix is necessary.
 
+- [Shared-reference syntax diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398670146),
+  2026-10-06, source `6540b15cf54fa805224f594709d0b1a5613d23ee`,
+  `verifast_insert_tail_range`,90min,VF26.09/nightly-2026-02-05 unchanged.
+  Original symbolic generic owned-range precondition retained; new ghost
+  lifetime and final-two-cell preparation leave actual Rust bytes unchanged.
+  VF fails parsing verified/smallsort.rs:60 at the first array_inv statement
+  in a multiline ghost block; no new proof obligations reached. Exact-byte
+  audit/refinement0, VF1(.07s,RSS165,324KiB),refiner.10s,RSS164,720KiB;
+  runner16.19s,RSS636,172KiB,overall1. Full logs/artifacts fetched.
+  Next fix ghost-statement syntax against pinned parser, preserve all resources.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
