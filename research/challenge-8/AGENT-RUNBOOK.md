@@ -34,6 +34,14 @@ Exactbyte/refinement0,VF1(.19s),refiner.11s,runner1:12.85,RSS617,796KiB.
 Next prove the tuple ownership/lifetime match using supported complete generic
 substitutions or tuple closing, without assuming caller resources.
 
+**Active run:** [37401170274](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401170274),
+source `661cee7cdf711f2996721bf0361151a34fb158b6`,range90min. Explicit tuple
+own closure and complete ghost substitutions F,(&'cmp T,&'cmp T),'cmp; pinned
+trait parser confirms this order. Original req/Rust bytes unchanged. Resume
+this exact run before dispatching anything else. Independent pure generic size
+target is prepared in new files; choice verifast_swap_size exposed on default
+main by workflow-only commit79c6dc9, runner not yet reviewed/committed.
+
 **Completed bounded milestones:** bootstrap two actual swap harnesses,5/5covers
 at `34d008324e10a66bf59de705acd609d9509e7c36` (37383583285).
 Insertion contract, summarized research caller and direct actual std insertion
