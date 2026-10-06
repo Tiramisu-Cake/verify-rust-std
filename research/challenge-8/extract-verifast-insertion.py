@@ -110,6 +110,7 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ open [?sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
         //@ close_ref_own::<'cmp, T>(cmp_tail_ref);
         //@ close_ref_own::<'cmp, T>(cmp_sift_ref);
+        //@ close <(&'cmp T, &'cmp T)>.own(t, (cmp_tail_ref, cmp_sift_ref));
 """
 RANGE_BODY_ANCHOR = (
     "    // SAFETY: see individual comments.\n"
@@ -117,6 +118,7 @@ RANGE_BODY_ANCHOR = (
     "        // SAFETY: in-bounds as tail > begin.\n"
 )
 RANGE_COMPARE_ANCHOR = "        if !is_less(&*tail, &*sift) {"
+RANGE_COMPARE_CALL = "        if !is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*tail, &*sift) {"
 HEADER = "use core::mem::ManuallyDrop;\nuse core::{intrinsics, ptr};\n\n"
 ROOT = (
     "#![no_std]\n"
@@ -214,9 +216,10 @@ def main() -> None:
         )
         verified = verified.replace(
             RANGE_COMPARE_ANCHOR,
-            RANGE_COMPARE_PREP + RANGE_COMPARE_ANCHOR,
+            RANGE_COMPARE_PREP + RANGE_COMPARE_CALL,
             1,
         )
+        injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
     stripped = verified
     for name, content in injections.items():
         if stripped.count(content) != 1:

@@ -188,6 +188,28 @@ the incomplete ghost call argument; it leaves the call's Rust text and the
 borrow preparation intact. The next Actions result must show whether those
 inferred lifetimes match the prepared references.
 
+Actions run
+[37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055)
+at `9d4a01f` passed the symbolic cell split, both prepared shared
+references, and both actual `&*tail` and `&*sift` expressions. The next
+failure is the `FnMut::call_mut` precondition for ownership of its two-element
+argument tuple. The individual shared references are owned, but the tuple
+ownership has not yet been folded. The pinned
+[tuple declaration](https://github.com/verifast/verifast/blob/26.09/bin/rust/prelude.rsspec)
+is a two-field struct, whose default `.own` predicate is generated from its
+two field `.own` predicates by the pinned
+[MIR translator](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml).
+The next experiment explicitly closes that tuple from the two already-owned
+references. It also supplies the *complete* three-item generic list for the
+actual comparator call: `Self = F`, `Args = (&'cmp T, &'cmp T)`, and method
+lifetime `'a = 'cmp`. The pinned
+[trait parser](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/rust_parser.ml)
+prepends `Self` and the trait's `Args` parameter to the method lifetime, and
+the MIR translator replaces the complete substitution list with the explicit
+one. This is a focused interface experiment; Actions must establish that the
+tuple expression, exact type substitutions, and actual Rust references match.
+No function precondition or Rust source behavior changes.
+
 The ghost `let_lft` keeps half the lifetime token reserved until the enclosing
 `unsafe` block ends, while `tail.read()` occurs inside that block. After the
 first comparator call is processed, restoring exclusive access before the
