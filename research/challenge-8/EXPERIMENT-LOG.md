@@ -2802,3 +2802,47 @@ then original stock lemma and intended duplicate-index assertion are reached.
 Same index/30 selection, same domain/full local posts/decision map as N3; no trusted
 semantic change. Night3/12,322/10800jobseconds; repair2/2closed. N4 NEW because
 changed source, not an old run retry. No active run.
+
+N4 dispatched run37548475221/sourcefa74d92a120cc6990e5f65b94b31e72f2fb50d2f,
+created2026-10-06T23:47:27Z,stock index/30, exact pushed/remote/head_sha match.
+Night4/12,322completedseconds plus active job; layout repair complete2/2.
+
+### N4 index theorem PASS; intended negative manually confirmed
+
+Run37548475221/sourcefa74d92a120cc6990e5f65b94b31e72f2fb50d2f,
+job112558083331,2026-10-06T23:47:31–23:48:15Z,44seconds,workflowFAILURE only
+negative classification. Full log/artifact11451990423 inspected (14639bytes,
+ZIP SHA256601c48a893dfc5f2ef0fa80189b3a8c240e9ffa4a125157b40615aa1f8430055).
+Official stock pins/hash/source binding/source integrity PASS. Positive VF0, named
+s4_index_permutation AND s4_index_application checked with bodies/normal returns/
+leak checks,8statements verified. Thus pure theorem covers ALL five independent
+Boolean answers, intermediate/final bounds0..3,pairwise distinctness,each ID once.
+No comparator/order/type/callee/memory premise; no Rust pointer/refinement claim.
+Negative reaches intended assert12 and fails its predicate equality at expression
+end14: cannot prove s4_perm(min,lo,min,max)<==>true. Checked header before it; one
+real timestamped caller header and a diagnostic trace note. No false proof.
+Raw negative classification INCONCLUSIVE because initial processor counted the
+trace note as a second header and expected the error at statement-start12 rather
+than comparison-token14. Raw outputs remain unchanged; manual target rejection
+confirmed. No further index verifier rerun is needed or planned.
+Night4/12,366/10800summed seconds; no active run.
+
+### N5 independent rank theorem + saved N4 processing replay card
+
+Order hypothesis/domain/posts/profile/negative in SORT4-ORDER-LEMMA.md remain
+unchanged: arbitrary mathematical integer ranks, fixed preserved values/keys,
+exact five less-than comparisons and index choices; full permutation + adjacent
+lexicographic rank/original-ID order. Functional premises do NOT narrow unrestricted
+safety. Integer-rank theorem transfer to arbitrary SWO quotient is a mathematical
+argument, actual callback/T bridge unverified. Negative all-equal reverses middle
+occurrence IDs2,1 and must fail marked stability assertion only. Stock26.09 no
+patch/axiom/check changes, ghost-only no runtime/unwind/resource contract.
+Hosted saved-N4 replay additionally tests corrected exact timestamped-header and
+statement-end error-location processing on immutable sourcefa74d92 artifact;
+no index verifier is rerun. Derive a separate JSON, preserve original INCONCLUSIVE.
+Source/profile/header and before/after hashes bound before replay; positive VF0,
+negative named assertion error on14 after execution12 must both classify as expected.
+Positive order/negative stability fixtures isolated from callee/range helpers.
+Routine proof/annotation errors may be fixed by NEW source/run; false theorem
+quarantines stock profile. Success accepts abstract rank result only, then callee
+and scalar geometry independent tasks. Selection verifast_sort4_components/order/30.

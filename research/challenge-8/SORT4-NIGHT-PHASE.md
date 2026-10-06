@@ -47,8 +47,9 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;3/12 runs,299completed/10800s plus active N3/37548195599.
+Current: IN PROGRESS;4/12 runs,322completed/10800s plus active N4/37548475221.
 Layout repair2/2 complete: N2/37547890530 full matrix and artifact audit PASS at
 exact d4a12525 patch. Narrow experimental profile may be used only within the
 already authorized sequence. N1 syntax failure retained; historical budget closed.
-Stock index gate active at03e23cb; order/callee/range preparations unproven.
+Stock index gate active atfa74d92 after N3 include/block parse failure23s;
+order/callee/range preparations unproven.

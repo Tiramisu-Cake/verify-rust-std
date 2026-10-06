@@ -7,13 +7,13 @@ import json
 import os
 from pathlib import Path
 import re
-import shutil
 import subprocess
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 STD = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
 STD_BLOB = "e555fce440872898e47fd5114f32eb15401d07df"
+HEADER = re.compile(r"^\s*\d+(?:\.\d+)?s: .*: Verifying function '([^']+)'$", re.M)
 SOURCE_MAP = (
     ("a", "v_base.add(c1 as usize)", "s4_a", "c1 ? 1 : 0"),
     ("b", "v_base.add(!c1 as usize)", "s4_b", "c1 ? 0 : 1"),
@@ -66,6 +66,53 @@ def source_binding(out):
     (out / "source-binding.json").write_text(json.dumps(result, indent=2) + "\n")
     (out / "actual-sort4.txt").write_text(body)
 
+def negative_target(log, filename, lemma, source, status, unchanged):
+    lines = source.decode().splitlines()
+    markers = [i for i, line in enumerate(lines) if line.strip() == "// TARGET_ASSERTION"]
+    if len(markers) != 1 or not lines[markers[0]+1].lstrip().startswith("assert "):
+        raise ValueError("negative target marker missing/ambiguous")
+    start = markers[0] + 1
+    end = next(i for i in range(start, len(lines)) if ";" in lines[i])
+    target = start + 1
+    error_line = end + 1
+    headers = HEADER.findall(log)
+    errors = [line for line in log.splitlines() if "error:" in line]
+    executed = re.search(rf"^\s*\d+(?:\.\d+)?s: {re.escape(filename)}\({target},\d+-\d+\): Executing statement$", log, re.M) is not None
+    error = re.search(rf"^{re.escape(filename)}\({error_line},\d+-\d+\): error: Assertion might not hold\. \(Cannot prove .+\.\)$", errors[0]) if len(errors) == 1 else None
+    ok = status != 0 and headers.count(lemma) == 1 and executed and error is not None and unchanged
+    return ok, target, error_line, "\n".join(lines[start:end+1])
+
+def replay_index(saved, out):
+    files = list(saved.rglob("sort4-index-negative/result.json"))
+    if len(files) != 1:
+        raise ValueError("saved N4 negative artifact missing/ambiguous")
+    checked = files[0].parents[1]
+    environment = (checked.parent / "environment.txt").read_text()
+    if "Source SHA: fa74d92a120cc6990e5f65b94b31e72f2fb50d2f" not in environment or "official-stock-26.09" not in environment:
+        raise ValueError("saved N4 source/profile binding mismatch")
+    results = []
+    for filename, lemma, negative in (("sort4-index-lemmas.c","s4_index_application",False),
+                                      ("sort4-index-negative.c","s4_wrong_hi_duplicates_min",True)):
+        directory = checked / filename.removesuffix(".c")
+        original = json.loads((directory / "result.json").read_text())
+        hashes = {name: digest((directory / name).read_bytes()) for name in original["before"]}
+        unchanged = hashes == original["before"] == original["after"]
+        if hashes["sort4-index.gh"] != "f9714e658f859232810adf85913f17e46c9b6ba81fb26552197a39c063067cbc":
+            raise ValueError("saved index theorem header identity mismatch")
+        log = (directory / "verifast.log").read_text()
+        if negative:
+            ok,target,end,assertion = negative_target(log,filename,lemma,(directory/filename).read_bytes(),original["verifast_exit"],unchanged)
+        else:
+            headers = HEADER.findall(log)
+            ok = original["verifast_exit"] == 0 and headers.count(lemma) == 1 and headers.count("s4_index_permutation") == 1 and "error:" not in log and unchanged
+            target=end=assertion=None
+        results.append({"file":filename,"pass":ok,"original_classification":original["classification"],
+                        "target_statement_line":target,"target_error_line":end,"target_assertion":assertion})
+    gate = all(r["pass"] for r in results)
+    (out/"saved-index-derived.json").write_text(json.dumps({"run":37548475221,"source_sha":"fa74d92a120cc6990e5f65b94b31e72f2fb50d2f","pass":gate,"cases":results},indent=2)+"\n")
+    print(f"saved N4 index replay: {'PASS' if gate else 'INCONCLUSIVE'}")
+    return gate
+
 def check_case(tool, out, filename, lemma, negative):
     directory = out / filename.removesuffix(".c")
     directory.mkdir()
@@ -81,18 +128,13 @@ def check_case(tool, out, filename, lemma, negative):
         status = subprocess.run(command, cwd=directory, stdout=log, stderr=subprocess.STDOUT).returncode
     log = (directory / "verifast.log").read_text(errors="replace")
     after = {name: digest((directory / name).read_bytes()) for name in before}
-    headers = re.findall(r"Verifying function '([^']+)'", log)
+    headers = HEADER.findall(log)
     errors = [line for line in log.splitlines() if "error:" in line]
     target = None
+    target_error_line = None
+    target_assertion = None
     if negative:
-        lines = fixture.read_text().splitlines()
-        markers = [i for i, line in enumerate(lines) if line.strip() == "// TARGET_ASSERTION"]
-        if len(markers) != 1 or not lines[markers[0]+1].lstrip().startswith("assert "):
-            raise ValueError("negative target marker missing/ambiguous")
-        target = markers[0] + 2
-        executed = re.search(rf"{re.escape(filename)}\({target},\d+(?:-\d+)?\): (?:note: )?Executing statement", log) is not None
-        error = re.search(rf"{re.escape(filename)}\({target},\d+-\d+\): error: Assertion might not hold\.", errors[0]) if len(errors) == 1 else None
-        ok = status != 0 and headers.count(lemma) == 1 and executed and error is not None and before == after
+        ok,target,target_error_line,target_assertion = negative_target(log,filename,lemma,fixture.read_bytes(),status,before == after)
         classification = "EXPECTED_TARGET_ASSERTION_FAILURE" if ok else "INCONCLUSIVE"
         if status == 0:
             classification = "FALSE_THEOREM_PROVED"
@@ -101,6 +143,7 @@ def check_case(tool, out, filename, lemma, negative):
         classification = "PASS" if ok else "INCONCLUSIVE"
     result = {"file": filename, "lemma": lemma, "command": command, "verifast_exit": status,
               "function_headers": headers, "errors": errors, "target_line": target,
+              "target_error_line": target_error_line, "target_assertion": target_assertion,
               "before": before, "after": after, "classification": classification,
               "refinement": "not applicable: ghost-only C theorem, no executable Rust adapter"}
     (directory / "result.json").write_text(json.dumps(result, indent=2) + "\n")
@@ -112,6 +155,7 @@ def main():
     parser.add_argument("--tool-home", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--component", choices=("index", "order"), required=True)
+    parser.add_argument("--replay-index-evidence", type=Path)
     args = parser.parse_args()
     if any(os.environ.get(k) != v for k,v in (("GITHUB_ACTIONS","true"),("RUNNER_ENVIRONMENT","github-hosted"),("RUNNER_OS","Linux"))):
         parser.error("GitHub-hosted execution only")
@@ -119,6 +163,7 @@ def main():
     args.evidence = args.evidence.resolve()
     args.evidence.mkdir(parents=True, exist_ok=False)
     source_binding(args.evidence)
+    replay_ok = replay_index(args.replay_index_evidence,args.evidence) if args.replay_index_evidence else True
     cases = (("sort4-index-lemmas.c", "s4_index_application", False),
              ("sort4-index-negative.c", "s4_wrong_hi_duplicates_min", True)) if args.component == "index" else (
              ("sort4-order-lemmas.c", "s4_rank_order_and_stability", False),
@@ -129,7 +174,7 @@ def main():
         results.append(result)
         if result["classification"] == "FALSE_THEOREM_PROVED":
             break
-    gate = len(results) == len(cases) and all(r["classification"] in {"PASS","EXPECTED_TARGET_ASSERTION_FAILURE"} for r in results)
+    gate = replay_ok and len(results) == len(cases) and all(r["classification"] in {"PASS","EXPECTED_TARGET_ASSERTION_FAILURE"} for r in results)
     (args.evidence / "results.json").write_text(json.dumps({"pass": gate, "cases": results}, indent=2) + "\n")
     return 0 if gate else 1
 

@@ -123,6 +123,7 @@ jobs:
           PROOF_SELECTION: ${{ inputs.proof }}
           RUN_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
           SORT4_COMPONENT: ${{ inputs.sort4_component }}
+          GH_TOKEN: ${{ github.token }}
           RAPX_GATE: ${{ inputs.rapx_gate }}
         run: |
           case "$PROOF_SELECTION" in

@@ -52,8 +52,11 @@ export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"
 if [[ "$component" == index || "$component" == order ]]; then
     if [[ "$component" == order ]]; then
         sha256sum research/challenge-8/sort4-order-lemmas.c research/challenge-8/sort4-order-negative.c >> "$evidence/environment.txt"
+        gh run download 37548475221 --repo Tiramisu-Cake/verify-rust-std --name smallsort-research-37548475221-1 --dir "$evidence/saved-index"
+        python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked" --replay-index-evidence "$evidence/saved-index"
+    else
+        python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked"
     fi
-    python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked"
 else
     rustup toolchain install "$RUSTUP_TOOLCHAIN"
     sudo apt-get install --yes --no-install-recommends capnproto

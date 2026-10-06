@@ -2,9 +2,11 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night3/12 NEW,299 completed/10800 summed job-seconds plus active job; repair2/2.
-Active [N3/37548195599](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37548195599),
-source03e23cbf56ff3d9e7d79923a0a1d8f15e88fe879,stock index/30.
+Night4/12 NEW,322 completed/10800 summed job-seconds plus active job; repair2/2.
+Active [N4/37548475221](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37548475221),
+sourcefa74d92a120cc6990e5f65b94b31e72f2fb50d2f,stock index/30.
+N3/37548195599 parse-failed23s before proof; standalone ghost include/new block
+syntax fixes pinned parser's include-consumption behavior. No theorem yet.
 Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; entry clean/matching
 origin e7eae592dcda42ad330cd8f565c1411bffdf7519.
 
@@ -33,7 +35,7 @@ executed blocker. Full pointer/provenance/resource/unwind bridge remains open.
 Known typed initialized-dst spec remains a raw-scratch boundary; no repeat without
 new hypothesis. ZST/non-Copy/non-Freeze/legal effects and five panic posts retained.
 
-Next permitted actions: finish N3/evidence audit, independent stock index/order proof
+Next permitted actions: finish N4, independent stock index/order proof
 and faithful pointer-callee diagnostic; memory specs/checked geometry and design
 within night card. Minimal manual workflow exposure only (main b3c9835 adds stock
 components, no research-history merge). RAPx CLOSED/NO-GO; B/C NOT RUN.
