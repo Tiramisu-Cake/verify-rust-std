@@ -1,5 +1,14 @@
 # Independent H_align gate: hosted results
 
+Current owner checkpoint2026-10-07: bounded no-patch proof/reclassification
+phase IN PROGRESS,0/3 NEW jobs and0/5400seconds used. Historical two runs below
+remain unchanged. [Phase/card](SORT4-ALIGNMENT-PHASE.md). Classifier replay and
+checked generic local bound proof preparation underway; concrete original ZST
+has a [source-model boundary](SORT4-ALIGNMENT-MODEL-BOUNDARY.md), not a permitted
+new layout assumption/patch. No new hosted proof/replay result yet.
+
+## Historical syntax-only checkpoint at f1c0774
+
 Current checkpoint 2026-10-07: **syntax-only continuation CLOSED / INCONCLUSIVE**,
 additional budget1/1 used. Generic geometry and ZST calibration remain unproved;
 both false-post controls reach and reject the intended assertion on manual audit.

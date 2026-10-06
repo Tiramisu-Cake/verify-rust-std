@@ -6,7 +6,7 @@
 // CASE_BEGIN positive_generic_const
 /*@
 lem aligned_step_const(address: usize, stride: usize, alignment: usize)
-    req 0 < alignment &*& address % alignment == 0 &*& stride % alignment == 0 &*& address + stride <= usize::MAX;
+    req 0 <= address &*& 0 <= stride &*& 0 < alignment &*& address % alignment == 0 &*& stride % alignment == 0 &*& address + stride <= usize::MAX;
     ens (address + stride) % alignment == 0;
 {
     div_rem_nonneg(address, alignment);
@@ -26,9 +26,17 @@ ens array_::<u8>(base as *u8, 4 * std::mem::size_of::<T>(), bytes) &*&
 on_unwind_ens false;
 @*/
 {
+    //@ array__inv::<u8>();
+    //@ ptr_provenance_min_addr_limits((base as pointer).provenance);
+    //@ ptr_provenance_max_addr_limits((base as pointer).provenance);
+    //@ assert pointer_within_limits(base) == true;
+    //@ assert 0 <= base as usize;
     //@ std::alloc::is_valid_layout_size_of_align_of::<T>();
     //@ is_power_of_2_pos(std::mem::align_of::<T>());
     //@ size_align::<T>();
+    //@ assert 0 <= std::mem::size_of::<T>();
+    //@ assert base as usize + 4 * std::mem::size_of::<T>() <= usize::MAX;
+    //@ mul_mono_l(0, i, std::mem::size_of::<T>());
     //@ mul_mono_l(i, 4, std::mem::size_of::<T>());
     // POINTER_OPERATION
     let result = base.add(i);
@@ -51,7 +59,7 @@ on_unwind_ens false;
 // CASE_BEGIN positive_generic_mut
 /*@
 lem aligned_step_mut(address: usize, stride: usize, alignment: usize)
-    req 0 < alignment &*& address % alignment == 0 &*& stride % alignment == 0 &*& address + stride <= usize::MAX;
+    req 0 <= address &*& 0 <= stride &*& 0 < alignment &*& address % alignment == 0 &*& stride % alignment == 0 &*& address + stride <= usize::MAX;
     ens (address + stride) % alignment == 0;
 {
     div_rem_nonneg(address, alignment);
@@ -71,9 +79,17 @@ ens array_::<u8>(base as *u8, 4 * std::mem::size_of::<T>(), bytes) &*&
 on_unwind_ens false;
 @*/
 {
+    //@ array__inv::<u8>();
+    //@ ptr_provenance_min_addr_limits((base as pointer).provenance);
+    //@ ptr_provenance_max_addr_limits((base as pointer).provenance);
+    //@ assert pointer_within_limits(base) == true;
+    //@ assert 0 <= base as usize;
     //@ std::alloc::is_valid_layout_size_of_align_of::<T>();
     //@ is_power_of_2_pos(std::mem::align_of::<T>());
     //@ size_align::<T>();
+    //@ assert 0 <= std::mem::size_of::<T>();
+    //@ assert base as usize + 4 * std::mem::size_of::<T>() <= usize::MAX;
+    //@ mul_mono_l(0, i, std::mem::size_of::<T>());
     //@ mul_mono_l(i, 4, std::mem::size_of::<T>());
     // POINTER_OPERATION
     let result = base.add(i);

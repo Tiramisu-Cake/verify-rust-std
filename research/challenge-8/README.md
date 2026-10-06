@@ -6,6 +6,13 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
+**Bounded no-patch H_align proof/reclassification phase IN PROGRESS.**
+[Current card](SORT4-ALIGNMENT-PHASE.md) authorizes <=3 NEW hosted manual jobs,
+summed setup/job time<=90min. Classifier replay uses both original artifacts and
+separate derived outputs. Generic local bound proofs preserve the outer contract;
+original ZST layout model is traced without assumptions/patches/type replacement.
+Historical results below remain preserved; only this narrow continuation authorized.
+
 **H_align syntax-only continuation CLOSED / INCONCLUSIVE,1/1 used.**
 [Run37532204465/source9474453 closeout](SORT4-ALIGNMENT-RESULTS.md): syntax parsed,
 export/decode/refinement6/6; generic nonnegativity, ZST size/layout and pointer

@@ -2265,3 +2265,41 @@ PLAN/README/coverage/composition updated; no positive geometry/layout or generic
 automatic-operation coverage. RAPx0.7.50 remains CLOSED / NO-GO; B/C NOT RUN;
 Kani unchanged. No semantic VF patch shown necessary. Documentation commit/push
 only after result; any further proof correction/run requires a new decision.
+
+
+## 2026-10-07 — bounded H_align proof/reclassification phase authorized
+
+Owner resumes f1c0774b3a8662ca4e9d838a4a1ad06f7f625e55; entry clean local/remote
+match, correct fork/branch, no active/queued Actions. Separate budget0/3 NEW runs,
+0/5400 summed job-seconds used including all setup; <=30min cap per run.
+[Card](SORT4-ALIGNMENT-PHASE.md#current-bounded-no-patch-proofreclassification-phase--2026-10-07).
+Host classifier tests/replay from BOTH pinned historical artifacts without altering
+original JSON/logs; refine generic checked helper/local bound proofs from existing
+resources without outer req/post change; trace original repr(align8) Z layout
+model. Existing array__inv/provenance/layout/size_align applicability is a hypothesis.
+All six runtime cases, .add operations, domain/posts/pins/flags/checks unchanged.
+Official VF26.09/nightly2026-02-05; no tool/spec/kernel patches/new axioms or local
+executable verification. Stop at goals/budget/model-or-contract extension boundary.
+RAPx CLOSED / NO-GO, B/C NOT RUN, no full-sort4 or external message.
+
+Read-only phase preparation: pinned VF source809de4596839b739dd999f9e462242c835e3af46
+verified. Generic next candidate responds directly to failed0<=address/stride:
+checked helper req explicitly adds both nonnegative bounds; unchanged external
+req retains array_<u8>4*sizeofT/base alignment/i<=3. Explicit existing array__inv
+and provenance min/max expose base/end limits; existing valid-layout supplies
+size>=0 and power-of-two positive alignment, size_align supplies divisibility.
+Checked assertions/calls must prove local bounds and every strengthened helper
+call; no assumption/outer-domain change. These remain hypotheses until new proof.
+
+Concrete ZST source audit finds a model boundary: exporter lib.rs1100 passes only
+adt_def.repr().c(), schema AdtDef269–284 has isReprC but no repr alignment/layout.
+Translator vf_mir_translator/vf_mir_translator.ml6048–6061 maps fields/onlyReprC;
+verifast1.ml6465–6510 maps struct sizeof to symbolic sizeof(typeid) and unconditionally
+assumes struct _size_limits0<size<=max_uintptr. Fieldless nonpacked Z gets no size0
+or align8 equation. This incompatible positive size explains size==0 failure and
+unknown nonzero typed .add offsets against zero-byte backing. No sound new checked
+lemma can derive size0 against that existing axiom; no existing repr alignment
+metadata restores8. This closes the concrete-ZST no-patch layout route, not the
+generic arithmetic theorem; no tool/model/contract patch or type replacement.
+Finish separately required hosted saved-evidence replay and the already grounded
+generic proof diagnostic, then checkpoint this concrete boundary without expansion.

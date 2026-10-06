@@ -1,6 +1,51 @@
 # Independent sort4 alignment geometry gate
 
-## Current syntax-only continuation — authorized 2026-10-07
+## Current bounded no-patch proof/reclassification phase — 2026-10-07
+
+**IN PROGRESS / preparation;0/3 NEW runs,0/5400 job-seconds used.** Owner explicitly
+resumes from checkpoint f1c0774b3a8662ca4e9d838a4a1ad06f7f625e55. Entry clean,
+local/remote heads match, correct fork/research branch, no active/queued experiment.
+Two previous runs37529855468 and37532204465 remain historical INCONCLUSIVE with
+unaltered logs/JSONs and separate historical budgets.
+
+Scope: fix actual source-prefixed VF header recognition with exact named body,
+operation and negative location/content requirements intact; hosted replay/tests
+on pinned artifacts of BOTH historical runs, separate derived outputs only.
+Develop checked generic const/mut helper/local-bound proofs from existing byte
+resources/provenance and valid-layout/size_align specs. Local helper req may become
+more explicit ONLY if discharged at every call; outer req and final posts unchanged.
+Audit existing array__inv, provenance limits, is_valid_layout_size_of_align_of,
+size_align as hypotheses until body/call proofs actually pass. Trace original
+repr(align(8)) Z from Rust/export to VF size/alignment model, using existing
+unchanged tool facilities only; no assumed size0/align8 or replacement type.
+All six case names/runtime bytes/.add operations/domain/final posts preserved.
+Official unchanged VF26.09/nightly2026-02-05 pins/flags/checks remain as original
+card below; no new axiom, tool/spec/kernel patch or check suppression.
+
+Budget maximum3 NEW manual GitHub-hosted runs, SUM of all relevant job durations
+including setup <=5400seconds. Allocate <=30min job cap per dispatch; one active
+experiment, log elapsed job duration and remaining sum before next dispatch.
+Replay and verifier checks share the same hosted job so all execution is charged.
+Every next SHA/run must test a specific correction justified by preceding evidence;
+no unchanged rerun, no Re-run historical source. No local executable tests,
+compiler/verifier/runner/extractor execution. Allowed static reading/editing /
+syntax/document checks only. Commit/push and exact head_sha audit each run;
+inspect full logs/artifacts; classify geometry/layout/controls separately.
+Stop at achieved goals, run/time exhaustion or a concrete model/contract boundary
+that needs prohibited extension. No further authorization queries within this scope.
+No full sort4, RAPx/Kani rerun, B/C or external message/publication. Final report /
+STATUS/log/plan/coverage commit/push; RAPx stays CLOSED / NO-GO, B/C NOT RUN.
+
+Initial hypothesis for next correction: explicit nonnegative ghost-helper req is
+provable at actual call from original array/provenance/valid-layout resources;
+source-prefixed header recognition recovers exactly one intended body without
+accepting parse/resource failures as negatives. Original full eventual normal /
+five-unwind resource posts and deliberately partial geometry post remain below.
+ZST calibrated layout is a separate gate; geometry/control success cannot replace it
+or establish automatic copy UB coverage. Decision mapping unchanged for positives /
+intended negatives; new semantic/model requirement means checkpoint without patch.
+
+## Historical syntax-only continuation — authorized 2026-10-07
 
 **CLOSED / INCONCLUSIVE,1/1 additional NEW runs used.**
 [Run37532204465/source9474453 closeout](SORT4-ALIGNMENT-RESULTS.md#syntax-only-continuation--one-new-run):

@@ -55,6 +55,15 @@ manual intended false-post rejections2/2 while unchanged automatic header parsin
 keeps all-six INCONCLUSIVE. No geometry/layout/automatic-UB gain. Initial evidence
 stays historical. STOP; no further proof correction, classifier repair or dispatch.
 
+Current owner resumption from f1c0774 authorizes bounded no-patch H_align proof /
+classifier replay: at most3 NEW manual hosted runs, summed jobs/setup<=90min.
+[Current card](SORT4-ALIGNMENT-PHASE.md#current-bounded-no-patch-proofreclassification-phase--2026-10-07)
+keeps external domain/runtime/posts/pins unchanged; checked local helper req
+must be discharged. Historical runs remain closed. Concrete ZST model boundary
+is now identified by source audit (missing repr alignment, positive struct size);
+no extension implemented. Hosted saved-data replay and prepared generic diagnostic
+remain distinct evidence goals before documentation checkpoint.
+
 ## Decision and evidence
 
 Start with the actual `sort4_stable` body. Its natural arity is four elements:

@@ -62,8 +62,11 @@ jobs:
   bootstrap:
     if: inputs.proof != 'rapx_evidence_replay'
     name: Verify selected SmallSort research proofs
+    permissions:
+      contents: read
+      actions: read
     runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
-    timeout-minutes: ${{ (inputs.proof == 'rapx_applicability' || inputs.proof == 'verifast_sort4_alignment') && 90 || 150 }}
+    timeout-minutes: ${{ inputs.proof == 'verifast_sort4_alignment' && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
     steps:
       - name: Check out the selected workflow branch
         uses: actions/checkout@v4
@@ -134,6 +137,12 @@ jobs:
             insertion_*) bash research/challenge-8/run-insertion.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
             *) bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
           esac
+
+      - name: Replay both saved H_align artifacts and test classification
+        if: always() && inputs.proof == 'verifast_sort4_alignment'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash research/challenge-8/run-sort4-alignment-replay.sh
 
       - name: Preserve verification evidence
         if: always()

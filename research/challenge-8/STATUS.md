@@ -1,15 +1,15 @@
 # Challenge 8: current status
 
-Updated 2026-10-07: H_align syntax-only continuation CLOSED / INCONCLUSIVE,
-additional budget1/1 used. [Run37532204465](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37532204465)
-/source9474453f231eb600e1ec35d571c8ac4f70fa7138. Export/decode/refinement6/6
-pass; generic helpers fail 0<=address before callers, ZST size0 and .add limits
-unproved. Both negatives reject intended assertion on manual audit; unchanged
-automatic classifier says INCONCLUSIVE because source-prefixed headers are missed.
-[Detailed results](SORT4-ALIGNMENT-RESULTS.md). Initial37529855468 remains
-historical INCONCLUSIVE. No active run or further code/run authorization; docs
-closeout/commit/push only. No generic/layout/UB coverage gain, contract ADOPTED,
-ZST retained; RAPx CLOSED / NO-GO, B/C NOT RUN, Kani unchanged.
+Updated 2026-10-07: bounded H_align no-patch proof/reclassification phase
+IN PROGRESS / preparation. Owner checkpoint f1c0774; clean local/remote match,
+no active experiment. Budget0/3 NEW manual hosted runs,0/5400 job-seconds used,
+<=30min job cap per run including setup. [Current scope/card](SORT4-ALIGNMENT-PHASE.md#current-bounded-no-patch-proofreclassification-phase--2026-10-07).
+Authorized: classifier fix and hosted saved-artifact replay for both old runs,
+checked generic proof/local req refinements with unchanged outer contract,
+source-model trace of original repr(align8) Z. All six runtime cases/posts and
+unchanged official VF26.09/nightly2026-02-05 profile retained. No local executable
+checks/tool/spec/premise patch. Historical two runs/evidence preserved; current
+geometry/ZST proofs absent. RAPx CLOSED / NO-GO, B/C NOT RUN, Kani unchanged.
 Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
@@ -22,6 +22,19 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**IN PROGRESS — bounded no-patch proof/reclassification phase.** Owner explicitly
+permits up to3 NEW hosted manual runs totaling <=90min jobs/setup from f1c0774.
+Entry clean matching f1c0774b3a8662ca4e9d838a4a1ad06f7f625e55 local/remote,
+correct origin/branch, no active run. Stage scopes/budgets/checks in
+[SORT4-ALIGNMENT-PHASE.md](SORT4-ALIGNMENT-PHASE.md). Classifier replay outputs
+separate; generic helper premises must be proved from unchanged external req;
+ZST Rust type/runtime and final posts immutable. No tool/spec/kernel extension,
+new axiom, weakened check or local verification. Budget0/3,0/5400seconds used.
+Stop at goals/budget/model-or-contract boundary; autonomously progress within
+this phase without intermediate permission. No active run yet.
+
+## Historical syntax-only H_align run — CLOSED / INCONCLUSIVE
 
 **CLOSED / INCONCLUSIVE — syntax-only continuation.** Owner explicitly authorized
 only report-b1ae937 annotation correction and exactly one additional NEW hosted
@@ -402,9 +415,8 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-STOP after syntax-only continuation documentation closeout/commit/push. Additional
-budget1/1 used; no active run, no new proof draft. No further code/proof/runner /
-classifier/tool/spec/premise changes or NEW run authorized. Any continuation needs
-a new owner decision. RAPx CLOSED / NO-GO; B/C NOT RUN; Kani unchanged. Both
-H_align runs/evidence stay preserved; manual intended controls are distinct from
-raw automatic INCONCLUSIVE. No full-sort4 integration or external message.
+Prepare frozen-profile classifier replay and evidence-backed checked proof changes,
+commit/push and one NEW exact-SHA hosted manual run within <=30min allocation.
+Audit full evidence/job time before further specific correction; at most3 NEW /
+5400 summed job-seconds. Stop at goals/exhaustion/concrete prohibited extension,
+then report/doc commit/push. No runtime/post/domain/tool changes, B/C or publication.

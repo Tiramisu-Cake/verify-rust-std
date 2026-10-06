@@ -30,9 +30,13 @@ ANNOTATION_BLOCK = re.compile(rb"/\*@.*?@\*/", re.S)
 ANNOTATION_LINE = re.compile(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)")
 FUNCTION = re.compile(rb"\bfn\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
 LEMMA = re.compile(rb"\blem\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
-TIMESTAMP_HEADER = re.compile(r"^\s*\d+(?:\.\d+)?s: Verifying function '([^']+)'(?:\s|$)")
+TIMESTAMP_HEADER = re.compile(
+    r"^\s*\d+(?:\.\d+)?s: verified/lib\.rs\((\d+),\d+(?:-\d+(?:,\d+)?)?\): "
+    r"Verifying function '([^']+)'$"
+)
 EXECUTION_RECORD = re.compile(
-    r"(?:verified/)?lib\.rs\((\d+),\d+(?:-\d+(?:,\d+)?)?\): (?:note: )?(?:Executing statement|Verifying call)$"
+    r"^\s*\d+(?:\.\d+)?s: verified/lib\.rs\((\d+),\d+(?:-\d+(?:,\d+)?)?\): "
+    r"(?:note: )?(?:Executing statement|Verifying call)$"
 )
 
 
@@ -46,6 +50,77 @@ def strip_annotations(data):
 
 def fail(message):
     raise SystemExit(message)
+
+
+def classify_evidence(name, metadata, stages, log, unchanged):
+    """Classify one case from exact VeriFast source-location records."""
+    headers = []
+    records = []
+    for entry in log.splitlines():
+        if match := TIMESTAMP_HEADER.search(entry):
+            headers.append((int(match.group(1)), match.group(2)))
+        if match := EXECUTION_RECORD.search(entry):
+            records.append(int(match.group(1)))
+
+    caller_count = sum(function == name for _, function in headers)
+    helper_name = metadata.get("helper_name")
+    helper_count = sum(function == helper_name for _, function in headers) if helper_name else 0
+    helper_records = sum(metadata.get("helper_body_start_line", -1) <= line <=
+                         metadata.get("helper_body_end_line", -2) for line in records)
+    pointer_records = sum(line == metadata.get("pointer_operation_line", -1) for line in records)
+    base_stages_ok = (
+        stages.get("exporter") == 0 and stages.get("decode") == 0 and
+        stages.get("refinement") == 0 and unchanged
+    )
+
+    if name not in CASES:
+        classification = "INCONCLUSIVE"
+    elif name in POSITIVE:
+        vf_ok = stages.get("verifast") == 0 and caller_count == 1
+        if name in GENERIC:
+            vf_ok = vf_ok and helper_count == 1 and helper_records >= 1 and pointer_records >= 1
+        elif name == "positive_zst_add":
+            vf_ok = vf_ok and pointer_records >= 1
+        classification = "PASS" if base_stages_ok and vf_ok else "INCONCLUSIVE"
+    else:
+        assertion = metadata.get("alignment_assertion", "")
+        expected_assertion = "//@ assert bad as usize % 8 == 0;"
+        operand = "src" if name == "negative_source_byte_offset" else "dst"
+        errors = [entry for entry in log.splitlines() if ": error:" in entry]
+        exact_error = None
+        if len(errors) == 1 and metadata.get("alignment_assertion_line", -1) > 0:
+            exact_error = re.search(
+                rf"^verified/lib\.rs\({metadata['alignment_assertion_line']},\d+-\d+\): error: "
+                r"Assertion might not hold\. \(Cannot prove ([^.]*)\.\)$", errors[0]
+            )
+        expected_failure = (
+            assertion.strip() == expected_assertion and exact_error is not None and
+            exact_error.group(1) ==
+            f"%(get_pointer_address(ptr_add_({operand}, 1, uint8_t_typeid)), 8) = 0"
+        )
+        preconditions_ok = base_stages_ok and caller_count == 1 and pointer_records >= 1
+        if preconditions_ok and stages.get("verifast") != 0 and expected_failure:
+            classification = "EXPECTED_FALSE_POST_FAILURE"
+        elif preconditions_ok and stages.get("verifast") == 0:
+            classification = "FALSE_ALIGNMENT_PROVED"
+        else:
+            classification = "INCONCLUSIVE"
+
+    return {
+        "exporter_exit": stages.get("exporter"),
+        "decode_exit": stages.get("decode"),
+        "verifast_exit": stages.get("verifast"),
+        "refinement_exit": stages.get("refinement"),
+        "caller_header_count": caller_count,
+        "helper_header_count": helper_count,
+        "helper_execution_records": helper_records,
+        "pointer_operation_records": pointer_records,
+        "source_unchanged_at_every_stage": unchanged,
+        "classification": classification,
+        "negative_error_at_marked_alignment_assertion": (
+            classification == "EXPECTED_FALSE_POST_FAILURE" if name in NEGATIVE else None
+        ),
+    }
 
 
 def prepare(fixture_path, workdir):
@@ -314,60 +389,16 @@ def stage_case(name, metadata, args):
     (case_dir / "source-unchanged.txt").write_text(f"{str(unchanged).lower()}\n")
 
     log = (case_dir / "verifast.log").read_text(errors="replace")
-    headers = [m.group(1) for line in log.splitlines() if (m := TIMESTAMP_HEADER.search(line))]
-    caller_count = headers.count(name)
-    helper_count = headers.count(metadata.get("helper_name", "")) if metadata.get("helper_name") else 0
-    records = []
-    for line in log.splitlines():
-        match = EXECUTION_RECORD.search(line)
-        if match:
-            records.append(int(match.group(1)))
-    pointer_records = sum(line == record for record in records
-                          for line in [metadata.get("pointer_operation_line", -1)])
-    helper_records = sum(metadata.get("helper_body_start_line", -1) <= record <=
-                         metadata.get("helper_body_end_line", -2) for record in records)
-
-    result = {
-        "exporter_exit": exporter,
-        "decode_exit": decode,
-        "verifast_exit": vf,
-        "refinement_exit": refinement,
-        "caller_header_count": caller_count,
-        "helper_header_count": helper_count,
-        "helper_execution_records": helper_records,
-        "pointer_operation_records": pointer_records,
-        "source_unchanged_at_every_stage": unchanged,
-    }
-    base_stages_ok = exporter == 0 and decode == 0 and refinement == 0 and unchanged
-
-    if name in POSITIVE:
-        vf_ok = vf == 0 and caller_count == 1
-        if name in GENERIC:
-            vf_ok = vf_ok and helper_count == 1 and helper_records >= 1 and pointer_records >= 1
-        elif name == "positive_zst_add":
-            vf_ok = vf_ok and pointer_records >= 1
-        if base_stages_ok and vf_ok:
-            classification = "PASS"
-        else:
-            classification = "INCONCLUSIVE"
-    else:
-        line = metadata["alignment_assertion_line"]
-        line_error = re.compile(rf"(?:verified/)?lib\.rs\({line},\d+(?:-\d+(?:,\d+)?)?\): error:", re.I)
-        intended_failure = any(line_error.search(entry) and "cannot prove" in entry.lower()
-                               for entry in log.splitlines())
-        preconditions_ok = base_stages_ok and caller_count == 1 and pointer_records >= 1
-        if preconditions_ok and vf != 0 and intended_failure:
-            classification = "EXPECTED_FALSE_POST_FAILURE"
-        elif preconditions_ok and vf == 0:
-            classification = "FALSE_ALIGNMENT_PROVED"
-        else:
-            classification = "INCONCLUSIVE"
-    result["classification"] = classification
-    result["negative_error_at_marked_alignment_assertion"] = (
-        classification == "EXPECTED_FALSE_POST_FAILURE" if name in NEGATIVE else None
-    )
+    result = classify_evidence(name, metadata, {
+        "exporter": exporter, "decode": decode, "verifast": vf,
+        "refinement": refinement,
+    }, log, unchanged)
+    caller_count = result["caller_header_count"]
+    helper_count = result["helper_header_count"]
+    helper_records = result["helper_execution_records"]
+    pointer_records = result["pointer_operation_records"]
     (case_dir / "classification.json").write_text(json.dumps(result, indent=2) + "\n")
-    print(f"{name}: {classification} (export={exporter} decode={decode} vf={vf} refine={refinement}; caller={caller_count} helper={helper_count}/{helper_records} pointer={pointer_records})")
+    print(f"{name}: {result['classification']} (export={exporter} decode={decode} vf={vf} refine={refinement}; caller={caller_count} helper={helper_count}/{helper_records} pointer={pointer_records})")
     return result
 
 

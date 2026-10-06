@@ -11,15 +11,15 @@ fi
 repo=$(git rev-parse --show-toplevel)
 cd "$repo"
 evidence="$repo/research-results/verifast-sort4-alignment"
-budget=90
 requested_budget=${1:-90}
-[[ "$requested_budget" == 90 ]] || { echo 'H_align permits exactly one 90-minute run' >&2; exit 2; }
+[[ "$requested_budget" == 30 || "$requested_budget" == 90 ]] || { echo 'H_align allocation must be 30 or historical 90 minutes' >&2; exit 2; }
+budget=$requested_budget
 budget_seconds=$((budget * 60))
 if [[ -n "${H_ALIGN_JOB_STARTED_EPOCH:-}" ]]; then
     [[ "$H_ALIGN_JOB_STARTED_EPOCH" =~ ^[0-9]+$ ]] || { echo 'invalid H_ALIGN_JOB_STARTED_EPOCH' >&2; exit 2; }
     now_epoch=$(date +%s)
     remaining=$((budget_seconds - now_epoch + H_ALIGN_JOB_STARTED_EPOCH))
-    (( remaining > 0 )) || { echo 'H_align 90-minute budget is already exhausted' >&2; exit 124; }
+    (( remaining > 0 )) || { echo 'H_align allocated job budget is already exhausted' >&2; exit 124; }
     budget_seconds=$remaining
 fi
 export VFVERSION=26.09 VFPLATFORM=linux RUSTUP_TOOLCHAIN=nightly-2026-02-05
@@ -36,7 +36,7 @@ if [[ "${2:-}" != --inside ]]; then
     set -e
     printf '%s\n' "$status" > "$evidence/exit-code.txt"
     if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
-        printf '### VeriFast sort4 alignment geometry gate\n\nHosted 90-minute gate exit: `%s`.\n' \
+        printf '### VeriFast sort4 alignment geometry gate\n\nHosted allocated-budget gate exit: `%s`.\n' \
             "$status" >> "$GITHUB_STEP_SUMMARY"
     fi
     exit "$status"
