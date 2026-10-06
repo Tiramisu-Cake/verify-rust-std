@@ -1,0 +1,13 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -5250,7 +5250,9 @@
+             Ok
+               (mk_fn_decl contract
+                  (Some
+-                    ( projection_pred_stmts @ vf_local_decls @ vf_bblocks,
++                    (* Declare addressable MIR locals before the ghost projection
++                       registrations; both still precede the executable MIR. *)
++                    ( vf_local_decls @ projection_pred_stmts @ vf_bblocks,
+                       closing_cbrace_loc )))
+         in
+         let body_sig_opt =

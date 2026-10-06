@@ -11,6 +11,17 @@ the patch SHA-256 is `6f5c2089b16364bc3d33eb98724fef60b5da4022bc70e77eb778b563ea
 and the expected result is
 `53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37`.
 The build still requires the exact four modified VeriFast files.
+The local-Drop profile then applies
+[verifast-local-decls-first.patch](verifast-local-decls-first.patch) to the
+translator from exact SHA-256
+`53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37`;
+its patch SHA-256 is
+`ff0dd3b57215990835622209c3e728f00bf5b3520140b5cfede6306be3e0d8e4`
+and expected final translator SHA-256 is
+`78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd`.
+The builder records both pre/post snapshots and checks the same four modified
+source files. This reorders declarations ahead of ghost projection registration
+without changing Rust code or ownership semantics.
 
 The gate runs all 8 HRTB, 12 lifetime-scope, and 5 tracked-reference
 regressions first. It then reruns the existing exact-source 364-byte
@@ -87,3 +98,13 @@ graph only for this selected same-unit method. `cleanup_callback` has a real
 may-unwind callback predecessor to its cleanup block and remains the positive
 control for retaining that path. A new hosted run must check both callers and
 all intended negatives before the gate can be called successful.
+
+Run37433028854 at4602122 confirms the selected Drop successor fix:
+all 25 regressions and the exact Drop body pass, and `cleanup_one` verifies
+with VF/refinement0 and no dead-code report. `cleanup_callback` exports and
+decodes, then VF stops before executing its body: generic `F:FnMut()` contributes
+the compiler projection `<F as FnOnce<()>>::Output = ()`, whose generated
+registration precedes the address-taken guard declaration. The separate
+declarations-first patch above is a narrow frontend ordering experiment.
+Its first hosted run still must inspect normal and callback-unwind cleanup
+evidence, all negative fixtures and possible associated-type local dependencies.

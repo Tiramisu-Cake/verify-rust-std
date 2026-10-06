@@ -82,6 +82,17 @@ dominates. No covers/loop bounds. No active run. Next investigate exact
 addressable local/declaration placement in reconstructed callback CFG without
 disabling address/resource/unwind checks or changing runtime std.
 
+Placement cause confirmed: compiler-origin non-HRTB F::Output=() registration
+was emitted before all locals; `_4` is guard and becomes addressable at local
+Drop. Prepared separate local-decls-first patch: move only uninitialized local
+DeclStmt list ahead of projection registration, preserving registration before
+all executable MIR. Applies only tuple_local_drop after translator53fdb2ae.
+Patchff0dd3b57215990835622209c3e728f00bf5b3520140b5cfede6306be3e0d8e4,
+final translator78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd.
+Static apply/hash/bash-n/diff pass; same4sourcefiles/all25+9fixtures. Generic
+associated-type local-declaration compatibility remains untested outside this
+gate; no broad verifier soundness claim. Next NEW exact-SHA localcaller90min.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate

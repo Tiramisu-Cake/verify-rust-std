@@ -382,12 +382,15 @@ mkdir -p "$evidence"
         research/challenge-8/extract-verifast-drop.py \
         research/challenge-8/verifast-drop-caller-cases.rs \
         research/challenge-8/verifast-local-drop-call.patch \
+        research/challenge-8/verifast-local-decls-first.patch \
         research/challenge-8/verifast-manually-drop-ref.patch \
         research/challenge-8/verifast-address-taken.patch
     printf 'Pinned SmallSort source SHA-256: 32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959\n'
     printf 'Local Drop translator input: f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432\n'
     printf 'Local Drop patch SHA-256: 6f5c2089b16364bc3d33eb98724fef60b5da4022bc70e77eb778b563eadb26ed\n'
     printf 'Local Drop translator output: 53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37\n'
+    printf 'Local declarations patch SHA-256: ff0dd3b57215990835622209c3e728f00bf5b3520140b5cfede6306be3e0d8e4\n'
+    printf 'Local declarations translator output: 78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd\n'
 } > "$evidence/selection.txt"
 
 set +e

@@ -129,12 +129,24 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
         git -C "$source_home" apply --check "$local_drop_patch"
         git -C "$source_home" apply "$local_drop_patch"
         printf '%s  %s\n' "$translator_after_local_drop_sha" "$source_home/$translator_rel" | sha256sum -c -
+        cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.before-local-decls-first.ml"
+        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-local-drop-call-sha256.txt"
+        decls_first_patch_sha=ff0dd3b57215990835622209c3e728f00bf5b3520140b5cfede6306be3e0d8e4
+        translator_after_decls_first_sha=78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd
+        decls_first_patch="$repo/research/challenge-8/verifast-local-decls-first.patch"
+        printf '%s  %s\n' "$translator_after_local_drop_sha" "$source_home/$translator_rel" | sha256sum -c -
+        printf '%s  %s\n' "$decls_first_patch_sha" "$decls_first_patch" | sha256sum -c -
+        sha256sum "$decls_first_patch" >> "$evidence/source-build-inputs.txt"
+        git -C "$source_home" apply --check "$decls_first_patch"
+        git -C "$source_home" apply "$decls_first_patch"
+        printf '%s  %s\n' "$translator_after_decls_first_sha" "$source_home/$translator_rel" | sha256sum -c -
         cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
         sha256sum "$evidence/vf_mir_translator.original.ml" \
             "$evidence/vf_mir_translator.before-manually-drop-ref.ml" \
             "$evidence/vf_mir_translator.before-local-drop-call.ml" \
+            "$evidence/vf_mir_translator.before-local-decls-first.ml" \
             "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
-        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-local-drop-call-sha256.txt"
+        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-local-decls-first-sha256.txt"
     fi
 fi
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"

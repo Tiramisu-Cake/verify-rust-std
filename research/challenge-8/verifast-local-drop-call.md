@@ -1,13 +1,13 @@
 # Experimental local Drop call
 
-Current hosted status: run37431775757 passed all 25 regressions and the
-exact-source actual Drop body proof. `cleanup_one` then verified the local
-method call, normal postcondition and leak check but failed the console's
-dead-code report: its compiler cleanup-only `UnwindResume` block is impossible
-under the checked method's literal `on_unwind_ens false`. The current patch
-narrows structural CFG reachability at this selected local Drop; it awaits a
-new hosted caller gate. The following is not a completed cleanup proof. See
-[handoff](HANDOFF-2026-10-06.md) for earlier results.
+Current hosted status: run37433028854 passed all 25 regressions, the
+exact-source actual Drop body proof, and `cleanup_one` with VF/refinement0.
+`cleanup_callback` failed before its body with a frontend declaration-order
+error. A separate [local-declarations patch](verifast-local-decls-first.patch)
+now moves existing local declarations ahead of generated projection-equality
+registrations; no hosted result for that patch exists yet. The following is
+not a completed cleanup proof. See [handoff](HANDOFF-2026-10-06.md) for earlier
+results.
 
 Apply [verifast-local-drop-call.patch](verifast-local-drop-call.patch) to the
 pinned VeriFast 26.09 source **after** the tuple, HRTB, lifetime-cut,
@@ -77,3 +77,31 @@ original `T.own` sequence, while missing range permission, missing
 ownership, mismatched/unsupported impl, and a broken actual method
 postcondition remain failures. This editing server performs only static
 patch checks; compilation and verification belong on GitHub-hosted Actions.
+
+## Generated declaration order after a generic callback
+
+Run37433028854 reaches `cleanup_callback<T,F:FnMut()>` only after its direct
+Drop body and `cleanup_one` pass. The compiler exports the non-HRTB projection
+`<F as FnOnce<()>>::Output = ()`; the pinned translator emits a ghost
+`#register_type_projection_equality` expression before every local declaration.
+The local guard is subsequently address-taken by its actual Drop terminators.
+VeriFast's existing check requires address-taken locals at the start of a
+block, so verification stops before the callback or cleanup. The control
+`cleanup_one` has no projection registration and passes.
+
+The separate declarations-first patch applies only to `tuple_local_drop`,
+after the local-Drop patch. Its exact input is
+`53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37`,
+patch SHA-256 is
+`ff0dd3b57215990835622209c3e728f00bf5b3520140b5cfede6306be3e0d8e4`,
+and expected translator output is
+`78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd`.
+It reorders only the translator's generated preamble to local declarations,
+projection registrations, then executable MIR. It changes no verifier kernel,
+resource predicates, pre/postcondition or actual Rust source. The source-build
+gate records both translator states and still requires exactly the same four
+modified VeriFast source files. The hosted gate must establish that dependent
+associated-type locals still typecheck and that callback normal/unwind paths
+actually reach the proved cleanup; the existing 25 regressions and
+`cleanup_callback` are the first controls. An independent projection-local
+fixture can follow if that risk is not resolved by their evidence.
