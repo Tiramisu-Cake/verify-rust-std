@@ -21,6 +21,11 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+Read [the consolidated handoff](HANDOFF-2026-10-06.md) first for established
+scope, unresolved obligations, research misdirections and fresh-review priorities.
+Older status blocks below preserve historical evidence; their next-action text
+does not supersede the current stopped status or the consolidated handoff.
+
 **Stopped at the owner's request; no active Actions run.** The last launched
 experiment is completed and its full evidence is inspected. Do not dispatch
 further work until the owner resumes it.
@@ -66,9 +71,10 @@ blocker after exact late-self lifetime instantiation; projected places retain
 the generic baseline as an explicit non-goal. The same-unit actual annotated
 method consumes its concrete checked precondition; no own/token/chunk synthesis
 or erasure. Method outcomes and Drop unwind CFG successors are preserved.
-Luna integration has all25 regressions, same-source actualDrop proof, fractional
-onecell rawsource/dst normal and FnMut() normal/unwind caller proofs, and7
-negative permission/ownership/unannotated/brokenbody/unsupported fixtures.
+Luna integration prepares checks for all25 regressions, same-source actualDrop
+proof, fractional onecell rawsource/dst normal and FnMut() normal/unwind caller
+proofs, and7 negative permission/ownership/unannotated/brokenbody/unsupported
+fixtures. The new caller fixtures have not been reached on Actions.
 Gate review fixes strict error/header/cleanup/MIR counters and source hash
 readback; root and independent Astra review complete. Static AST/YAML/bash-n/
 diff checks pass. Fixture pin73cda1789bfb1ab3c1a3ec7a5a85a5ba305019579d5f716b59015f34d8538e30.
@@ -496,15 +502,14 @@ one named target,four body execution/return records,0errors.
 VF.10s/refiner.07s,runner12.70s,RSS585,516KiB. No covers/loopbounds.
 Other six targets/callers/fullcore integration remain open.
 
-**Generic insertion progress:** actual bodies mechanically extracted;
-insert_tail only specified,CopyOnDrop and outer function still skipped.
-Symbolic n>=2,owned initialized generic T range and owned F comparator;
-no sortedness/length cap,ens true is a weak diagnostic. First tail.sub(1),
-range splitting, reference precreation/sharing and both actual &* expressions
-pass in37400422055. let_lft reserves half token until unsafe-block exit;
-two quarter accesses use the remaining half. Actual FnMut call not proved yet.
-Tuple2 parser compatibility, callback normal/unwind, exclusive cell recovery
-before tail.read,guard restoration and generic loop remain obligations.
+**Generic insertion progress:** exact-source unrestricted T/F,n>=2 probe
+37417173472 passes first FnMut Boolean/partial synthetic unwind, strict lifetime
+cut/cell recovery, tail.read, held-reference/guard creation and first copy/dst
+update, then fails generic compiler Drop. This is a prefix of a failing function
+proof; secondcomparison and completed early/normal/unwind exits remain open.
+The direct actualDrop body is separately proved37419989766, but automatic
+cleanup reuse fails the new profile's regression37423762729 before callers.
+Heldref release, resource-accurate exit posts, generic loop and outer remain open.
 No Rust blocks/signatures may be changed to shorten the ghost lifetime.
 See verifast-probe.md, verifast-lifetime-diagnostic.md and
 verifast-drop-diagnostic.md.
@@ -684,7 +689,11 @@ the dispatchable workflow to exist on the default branch. If a default-branch
 workflow update is necessary, commit only that reviewed workflow change there;
 do not merge all research results into main merely to expose a new choice.
 
-## Plan after the pending insertion run
+## Original plan after the bounded insertion run
+
+The bounded three-stage milestone below is already completed37389298278.
+Use the consolidated handoff for the current continuation sequence; do not
+restart completed bounded stages as if they were still pending.
 
 1. Resolve compilation and verify all three insertion stages. Record contract,
    modular caller and direct outcomes separately, including verification costs.
@@ -728,10 +737,12 @@ Never infer that a later documentation commit was verified by an older run.
 If the session must stop, checkpoint this information before stopping. Autonomous
 polling continues only while an agent session is active; this file is not a daemon.
 
-## Prepared alternate-tool diagnostic
+## Historical alternate-tool diagnostic
 
-The Kani outer run is now incomplete with instrumentation warnings. Evaluate
-`verifast_insert_tail_probe` (90 minutes). This uses the approved repository pin
+This section records the initial alternate-tool choice, now superseded by the
+generic source-derived profiles and current handoff. It is not a pending run.
+The Kani outer run was incomplete with instrumentation warnings. The initial
+`verifast_insert_tail_probe` (90 minutes) used the approved repository pin
 VeriFast 26.09 and nightly-2026-02-05, exact source extraction, ghost-only copy
 and refinement-checker. The diagnostic contract is `req true; ens true;` on
 actual insert_tail; it intentionally lacks ownership and is expected to fail.

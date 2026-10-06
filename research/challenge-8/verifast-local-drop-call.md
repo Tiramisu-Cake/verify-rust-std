@@ -1,5 +1,11 @@
 # Experimental local Drop call
 
+Current hosted status: builds after the record-type correction, but run37423762729
+crashes in the third HRTB regression because the nested substs match captures
+the intended outer non-ADT fallback. Caller/body gates for this profile have
+not executed. The following describes the intended restricted semantics,
+not a completed cleanup proof. See [handoff](HANDOFF-2026-10-06.md).
+
 Apply [verifast-local-drop-call.patch](verifast-local-drop-call.patch) to the
 pinned VeriFast 26.09 source **after** the tuple, HRTB, lifetime-cut,
 address-taken, and tracked `ManuallyDrop` patches. Its translator input

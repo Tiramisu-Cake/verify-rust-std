@@ -29,8 +29,10 @@ mutable callback, and carries the updated callback ownership through both
 normal and unwind postconditions. The runner checks the callback call record
 and the compiler MIR for the callback function, the normal and cleanup
 `drop = (` terminators, a cleanup block, and the `unwindResume = void` edge.
-It also requires at least two verifier Drop-call records at the scope close,
-covering normal cleanup and successful callback-unwind cleanup. No callback
+It also requires at least two verifier call records at the scope close. Those
+source-span records can include freeze/unfreeze helpers; independently inspect
+the actual MIR edges and whole-unit caller postconditions before attributing
+them to normal and callback-unwind destructor execution. No callback
 purity or panic-free premise is added.
 
 Negative fixtures separately omit source permission, destination permission,
@@ -43,8 +45,9 @@ then fail at the local-Drop frontend guard. Every negative classification is
 fail-closed; frontend/export failures cannot count as proof or intended
 rejection.
 
-The gate proves only this narrow same-unit local cleanup translation and its
-resource transfer. It does not release the insertion held reference, prove
+The gate is intended to check this narrow same-unit local cleanup translation
+and its resource transfer; it has not reached the caller fixtures yet.
+It does not release the insertion held reference, prove
 the insertion loop, recover full destination ownership for general insertion,
 or claim support for projected-place Drop or nontrivial field glue. Build,
 export, refinement, and proof execution occur only on GitHub-hosted Actions;
@@ -56,7 +59,8 @@ translator7740: unbound record field item.def_id. Build2/12.73s,
 RSS426,848KiB; runner1:07.68,RSS646,360KiB,allsetup. No body/caller/negative
 proof, compiler MIR, regression or refinement was executed. The current patch
 adds only an explicit D.trait_impl_item annotation to that lookup; the new
-input/output pins above describe the corrected source awaiting a NEW run.
+input/output pins above describe that record-type correction, tested in the
+subsequent run below.
 
 Corrected run37423762729 atb3da9a5ef53b8001e63ce511ba27ae8efce67343
 builds0/19.14s,RSS426,676KiB and passes pairedZ3/source/tool/four-file audits.

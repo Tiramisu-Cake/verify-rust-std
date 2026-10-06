@@ -79,7 +79,9 @@ requires exactly one verified harness, all7/7 covers, no failed or undetermined
 checks, no failed unsupported checks or argument-substitution diagnostics.
 Interpret any result together with the independently measured detector gaps;
 this bounded nonpanicking i32 proof cannot establish arbitrary lengths, generic
-ownership, comparator unwind or unmeasured UB categories. Not dispatched yet.
+ownership, comparator unwind or unmeasured UB categories. The actual attempt
+37396688760 completed with an unsupported CopyNonOverlapping validity property,
+so it is not a completed safety proof; see the measured result below.
 
 ## Measured results
 

@@ -7,6 +7,11 @@ For agent onboarding and autonomous GitHub-only execution, read
 [AGENTS.md](../../AGENTS.md) and [the agent runbook](AGENT-RUNBOOK.md).
 The owner's server is for editing and orchestration only; do not build or verify there.
 
+**Stopped at the owner's request; no active Actions run.** Read
+[the consolidated handoff](HANDOFF-2026-10-06.md) for what is proved, what is
+unfinished, the current regression bug and places requiring a fresh view.
+This documentation update does not resume experiments.
+
 ## Target and scope
 
 - Target: the standard library in this repository, not a reimplementation.
@@ -55,7 +60,8 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 Agents dispatch and inspect each run autonomously using `gh` and the runbook.
-The next selection is `verifast_local_drop_caller_gate`,budget90min, on
+After resumption and the nested-match fix, the next selection is
+`verifast_local_drop_caller_gate`,budget90min, on
 `challenge-8/research`. Its experimental `tuple_local_drop` source build adds
 restricted reuse of an annotated same-unit Drop contract for bare-local compiler
 cleanup. It retains all eight HRTB, twelve lifetime-scope and five reference
@@ -856,8 +862,10 @@ repository-pinned VeriFast 26.09 and its refinement checker on hosted Actions.
 See [probe design and limits](verifast-probe.md). The frontend profile keeps
 `req true; ens true;` as a deliberately incomplete diagnostic contract.
 `verifast_insert_tail_range` supplies a symbolic initialized owned range and
-generic comparator ownership, but no completed proof has been obtained. Only
-insert_tail is specified; CopyOnDrop and the actual outer loop remain unverified.
+generic comparator ownership, but no completed insertion proof has been obtained.
+The old insertion probe specifies only insert_tail. The actual CopyOnDrop Drop
+body now has a separate successful conditional contract proof37419989766;
+compiler cleanup reuse and the actual outer loop remain unverified.
 The goal is to expose a concrete frontend or first ownership obligation without
 ignoring unwind paths or adding assumptions. This is preparation for evaluating
 arbitrary-length separation-logic proofs, not a replacement verified algorithm.

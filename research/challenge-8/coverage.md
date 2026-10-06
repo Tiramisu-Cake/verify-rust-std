@@ -23,16 +23,23 @@ adapter, with sorted-prefix precondition (37389298278, 6/6 covers). The three-ca
 that research caller only. It does not establish modular verification of std's
 actual pointer loop or safety for unsorted prefixes.
 
-The generic source-exact insertion diagnostic has advanced through initial
-pointer bounds, both reference expressions, tuple ownership and the actual
-FnMut callback's Boolean result and explicit unwind-resource exit. Run37410979109
-also closes both real initialization accesses and proves a half lifetime token;
-full-token ending remains blocked by lexical reservation. Eight real-compiler
-matcher regressions pass for the source-derived translator. These are partial
-obligations in a failing function proof, not an established generic callee
+The generic source-exact insertion diagnostic37417173472 advances through the
+first FnMut Boolean call/partial synthetic unwind, strict lifetime cut and full
+cell recovery, tail.read/ManuallyDrop, guard creation and the first physical copy
+and dst update. It fails at generic compiler Drop. These are partial obligations
+in a failing function proof, not a verified generic callee or completed exit
 contract. No length/type cap, comparator purity or sortedness assumption was
-introduced for this diagnostic; moves, guard/Drop, loop and restored-range
-normal/unwind contracts remain open.
+introduced. Second comparison, held-reference release, loop/outer and restored
+range normal/unwind contracts remain open; COMPARISON_DEBT_POST is diagnostic.
+
+The extracted actual `CopyOnDrop<T>::drop` body is separately verified37419989766:
+generic T/arbitrary valid len under fractional initialized src/full initialized
+dst/thread/type interpretation and ONE element-ownership sequence, exact copied
+values, VF/refinement0. All25 regression fixtures pass on that source profile.
+This internal callee result is not another completed public safety target.
+New local-cleanup profile37423762729 builds but crashes in the third HRTB case;
+normal/callback-unwind caller fixtures and remaining regressions are unexecuted.
+See [handoff](HANDOFF-2026-10-06.md) for proof boundaries and fresh-review risks.
 
 ## Required UB categories
 
@@ -53,9 +60,11 @@ Do not infer absence of all four UB categories from default checks.
 
 - Lengths: completed bootstrap has one four-cell backing allocation; arbitrary
   valid slice lengths remain unproved. Bounds 16/32 are performance milestones.
-- Types: completed memory-touching evidence is i32 only. Non-Copy ownership, Drop, interior
-  mutability / non-Freeze, large types, invalid bit patterns and ZST need coverage
-  for memory-touching targets. Pure size helper accepts unrestricted T, including
+- Types: completed memory-touching proofs of challenge-target entrypoints are
+  bounded i32. The internal direct Drop body has a conditional generic proof;
+  actual generic callers/ownership, interior mutability/non-Freeze, large types,
+  invalid bit patterns and ZST model adequacy still need coverage. Pure size
+  helper accepts unrestricted T, including
   zero/large sizes, without allocation or comparator assumptions (37401540878).
 - Comparators: bootstrap includes arbitrary single swap decisions; insertion
   functionality uses pure, nonpanicking i32 `<`. Separate memory safety from
