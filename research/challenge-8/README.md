@@ -424,6 +424,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Next resume insertion tuple ownership through an explicit transparent model
   definition of field ownership, with model compatibility obligations recorded.
 
+- [Tuple model namespace diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),
+  2026-10-06, source `72dd333ed19c9f1c7a95ceb98957cf2f61fd9dba`,range90min,
+  same pins/domain. Transparent external tuple own definition in smallsort
+  module triggers VeriFast internal assertion at verifast1.ml:2309, verifier2.
+  Source requires root package for a type-predicate definition whose struct is
+  external to current module; no implementation counterexample/proof result.
+  Exactbyte/refinement0,VF.11s,RSS165,616KiB,refiner.10s,RSS162,936KiB;
+  runner16.91s,RSS634,396KiB,overall1. Full logs/artifacts fetched.
+  Next move only the ghost model to verified crate root and extend byte-stripping
+  audit/manifest to both files; no runtime/source/precondition changes.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

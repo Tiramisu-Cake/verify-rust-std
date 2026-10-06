@@ -21,12 +21,17 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active insertion model experiment:**
+**Latest insertion model experiment:**
 [37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),
 source `72dd333ed19c9f1c7a95ceb98957cf2f61fd9dba`,range90min. Transparent
 tuple2 own defined as owned fields, then folded for complete FnMut parameters.
 Explicit model extension, no opaque lemma/stub/assumption. Original req and
-Rust bytes retained. Poll this exact run; full model compatibility is unproved.
+Rust bytes retained. Full logs/artifacts fetched: VF internal assertion
+verifast1.ml:2309,exit2, because external tuple definition needs crate-root
+package, not smallsort module. Exactbyte/refinement0,VF.11s,refiner.10s,
+runner16.91s,RSS634,396KiB,overall1. No active run. Next place transparent
+model at verified crate root and audit ghost-only differences in both files.
+Full model compatibility remains unproved; not an algorithm counterexample.
 
 **Completed pure generic target:**
 [37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
