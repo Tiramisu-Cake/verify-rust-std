@@ -32,6 +32,9 @@ The other six and all three sorting contracts remain incomplete.
 | Two-cell normal recovery, 37437514808 | Synthetic i32/unrestricted T callers and actual recovery helper; UNCHANGED release 26.09 | Genuine share/init, natural block exit, full initialized current cells/T.own; two positives and three intended negatives pass, refinement passes. No callback/panic/ManuallyDrop or std integration. |
 | ManuallyDrop recovery, 37441463201 | Synthetic control; `manually_drop_only`, existing single translator patch on 26.09 | FAILURE: new common recover_single helper blocks all seven callers before intended tests. ManuallyDrop positive also fails RawPtr refinement. No new lifecycle or intended-negative result; earlier unchanged-release baseline remains established. |
 
+| Isolated recover_single, 37448257248 | Synthetic helper, same minimal single-patch profile | Actual conditional full current tmp-cell/T.own recovery body passes,16records and leak-check. Neither MD caller reaches reference or helper call: immutable tmp half storage fails full-borrow precondition. Positive RawPtr refinement still fails; missing-init negative NOT established. |
+| Rechecked release recovery, 37448682524 | Same source f0f417c, UNCHANGED26.09 | Both original full-cell positives,3 intended negatives, all5 export/decode/refinement checks pass; optional helpers absent. No new std target completed. |
+
 The old local-cleanup failure37423762729 was superseded by the complete
 caller gate37435525052; callers are no longer "unexecuted". Negative refinement
 was intentionally not run in that caller gate, so no such result is claimed.

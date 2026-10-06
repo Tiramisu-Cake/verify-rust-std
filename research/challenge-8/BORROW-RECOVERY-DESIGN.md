@@ -2,7 +2,8 @@
 
 ## Authorization and actual-source applicability gate
 
-Current state/phase is [STATUS.md](STATUS.md): experiments are paused.
+Current state/phase is [STATUS.md](STATUS.md): resumed prepared phase has closed
+at the architecture boundary; see [phase report](PREPARED-PHASE-2026-10-06.md).
 This note describes design candidates, not permission to implement them.
 A translator-only, kernel-free or proof-only AST rewrite still changes trusted
 verification semantics and requires a separate owner decision BEFORE code.

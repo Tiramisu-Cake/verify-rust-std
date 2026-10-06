@@ -47,3 +47,17 @@ MIR audit passes new1/deref1/read2/write1/into_inner0. VF.08s percase, refinemen
 .04s (.05generic), runner1:22.18,RSS585,528KiB; cold setup/build dominate.
 No covers/loopbounds. Next fix same-reference recovery and use a sound,
 independently checked original-provenance pointer route; all full posts remain.
+
+## Resumed prepared-phase conclusion
+
+The phase is closed, NO-GO for actual insert_tail integration. See
+[feasibility report](PREPARED-PHASE-2026-10-06.md) and [STATUS](STATUS.md).
+Run37448257248, source f0f417c, same frozen minimal profile: actual recover_single
+conditional body passes16records/return/leak-check with isolated same-reference
+accesses. All5 independent baseline controls pass. Both MD callers instead fail
+close_full_borrow_content<T>(t,&tmp) before actual reference/helper call: immutable
+local tmp has half points_to, callee needs full points_to. Positive RawPtr
+refinement still fails; missing-init negative is NOT reached, no lifecycle gate.
+Run37448682524 on the same source with UNCHANGED release26.09 separately passes
+all5 controls and all export/decode/refinement checks. Draft remains unapplied;
+no mutable tmp, post weakening, pointer substitution or tool extension was used.

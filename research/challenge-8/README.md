@@ -6,9 +6,9 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Experiments are paused by the owner's explicit request.** This documentation
-update does not resume them. [STATUS.md](STATUS.md) is the single current
-checkpoint: established results, last failure, phase boundary and next decision.
+**The explicitly resumed prepared phase is closed at its architecture boundary.**
+Further proof/tool expansion requires a new owner decision. [STATUS.md](STATUS.md)
+is the single current checkpoint: established results, last failure, phase boundary and next decision.
 
 1. [Root agent instructions](../../AGENTS.md).
 2. [Current status](STATUS.md) and [operating runbook](AGENT-RUNBOOK.md).
@@ -17,8 +17,8 @@ checkpoint: established results, last failure, phase boundary and next decision.
 4. The relevant design/proof note and actual source before implementation.
 
 The owner's server is for editing/orchestration only. All compilation,
-verification and executable tests run on GitHub-hosted Actions. No workflow is
-needed for this documentation change.
+verification and executable tests run on GitHub-hosted Actions. See STATUS for
+both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
@@ -26,6 +26,9 @@ needed for this documentation change.
   verified adapter, research composition and separate direct outer proof.
 - [All-path insertion resource ledger](INSERTION-RESOURCE-LEDGER.md): full
   normal/unwind target, ownership, actual MIR cleanup and trust boundaries.
+- [Prepared-phase feasibility report](PREPARED-PHASE-2026-10-06.md): checked
+  same-reference helper, unresolved immutable tmp storage/provenance/refinement
+  and exact first-false/first-panic routes.
 - [Borrow recovery design](BORROW-RECOVERY-DESIGN.md) and
   [baseline/minimal-profile fixture](verifast-borrow-recovery.md): normal
   baseline success versus unresolved source applicability and panic recovery.

@@ -8,14 +8,26 @@ This is the single current checkpoint; procedures live in
 
 ## Authorization and stop state
 
-**ACTIVE: owner explicitly resumed the limited prepared phase on 2026-10-06.**
-Repository was clean; origin is the fork; fast-forward `126e23d` → `f50b237`
-completed and updated instructions are present. Hosted runs are all completed;
-push/workflow access is available. Authorization covers only the prepared phase
-below: recover_single bookkeeping, pointer/refinement feasibility, seven-case
-minimal gate and actual-source all-path applicability report. No new verifier
-semantics, patch expansion, callback integration or next architecture phase.
-Saved draft remains unapplied pending critical review. No active run at entry.
+**PHASE CLOSED: explicitly resumed and executed on 2026-10-06; NO-GO for expansion.**
+Entry tree was clean; fork origin; fast-forward to instructions commit f50b237.
+Source changes committed/pushed at f0f417ce9913f53a90591c89593b31b359b87032.
+Both hosted runs completed; no active run. No tool semantic/patch changes and no
+local compilation, verification or executable tests. Saved draft remains unapplied.
+
+recover_single's actual conditional resource body now verifies through return
+and leak-check (16 records). All five independent baseline controls pass both
+minimal profile and unchanged release. Full ManuallyDrop caller gate is NOT
+passed: immutable tmp exposes half storage, while full_borrow_content needs a
+whole cell; both callers stop before actual reference/helper call. Original
+RawPtr refinement failure remains, and draft's saved child-pointer substitution
+has no established permission bridge. Missing-init negative is not reached.
+
+The actual first false return/direct panic still have no established source-exact
+full recovery route under allowed semantics. See [phase report](PREPARED-PHASE-2026-10-06.md).
+The authorized phase stops here per owner's frozen trust boundary. Next action
+requires the owner's architecture decision: separately review tool/refinement and
+scope/unwind semantics, find another existing-semantics route, or choose a simpler
+target. Do not begin callback integration, patch expansion or the next phase.
 
 ## Established milestones — not Challenge 8 completion
 
@@ -33,33 +45,32 @@ safety targets. The other six and all three sorting contracts remain incomplete.
 See [coverage](coverage.md); do not equate a microfixture or patched-tool success
 with whole-function proof, verifier soundness or upstream acceptance.
 
-## Last experiment and preserved draft
+## Latest evidence and preserved draft
 
-Latest run: [37441463201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37441463201),
-source `d198907e7eec57f8bcd880304fa1345b97b0ef53`,
-`verifast_borrow_recovery_manually_drop`, 90-minute budget; completed/failure.
+- Diagnostic [37448257248](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37448257248),
+  source f0f417ce9913f53a90591c89593b31b359b87032, minimal profile/90min:
+  completed/failure. Actual recover_single body passes; five baseline controls
+  pass. Both MD callers fail full borrow construction with missing points_to<T>
+  at tmp_addr before reference/helper call. Positive refinement still rejects
+  original RawPtr. All seven exports/decodes, six refinements, exact source/tool
+  audits pass. No full lifecycle or intended missing-init negative established.
+- Unchanged-release baseline
+  [37448682524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37448682524),
+  same source, verifast_borrow_recovery/90min: completed/success; both positives,
+  three intended negatives, all five refinement/export/decode checks pass.
+- Historical37441463201 remains evidence of the prior common-helper failure.
+  Its new helper failure is superseded, its caller/pointer gate was never green.
 
-- Minimal `manually_drop_only` profile builds; all seven exports/decodes and
-  source/ghost-strip audits pass.
-- All seven verifier cases stop in the common new `recover_single` helper:
-  missing `[first_fraction]ref_initialized<T>(tmp_ref)` at its first close.
-  No caller is reached; neither new positives nor intended negatives pass.
-- The ManuallyDrop positive separately fails refinement: `RawPtr: not yet supported`
-  for `addr_of!(tmp)`; six other refinements pass. An identical operation dump
-  does not substitute for a successful refinement check.
-- Existing `recover_pair` still checks. The unchanged release profile excludes
-  the new helper and retains its five controls; the prior baseline success is
-  not invalidated by the experimental profile's common-helper failure.
-
-[DRAFT-MD-RECOVERY-2026-10-06.patch](DRAFT-MD-RECOVERY-2026-10-06.patch) is preserved,
-UNAPPLIED and UNVERIFIED. Its fractional split/coefficient constraints need
-review; saving a shared-reference-derived raw pointer may not convey the full
-permission recovered at the original tmp location. Source-line/MIR audits are
-unfinished. Do not apply/dispatch it wholesale or treat it as a prepared fix.
+[DRAFT-MD-RECOVERY-2026-10-06.patch](DRAFT-MD-RECOVERY-2026-10-06.patch) remains
+UNAPPLIED and UNVERIFIED. Review rejected its absolute/relative fraction mixup
+and unsupported permission transfer to a saved shared-reference-derived pointer.
+Only independently designed access packaging was implemented. See experiment
+log for exact costs, hashes, diagnostics and case counts.
 
 ## Prepared phase after explicit resumption — limited feasibility gate
 
-This bounded phase is explicitly authorized in the current session.
+This bounded phase was explicitly authorized and has reached its stop boundary.
+The following records its contract; it does not authorize another phase.
 No new verifier semantics, callback integration or full insertion proof is part
 of it. Autonomy covers routine fixture/spec/audit fixes and hosted iterations
 within these boundaries, then stops for an architecture decision.

@@ -1,7 +1,10 @@
 # Challenge 8 operating runbook
 
 This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
-and [STATUS.md](STATUS.md) first. The current stop/resume state and phase there
+and [STATUS.md](STATUS.md) first. The current phase is closed at its feasibility
+boundary; consult STATUS and [the phase report](PREPARED-PHASE-2026-10-06.md)
+before any expansion.
+The current stop/resume state and phase there
 override historical instructions. The pre-reorganization runbook is preserved
 verbatim in [the archive](AGENT-RUNBOOK-ARCHIVE-2026-10-06.md).
 

@@ -1105,3 +1105,67 @@ If bookkeeping passes, STOP at this documented pointer-support/provenance and
 actual first-false/first-panic architecture boundary; no callback or AST-routing
 implementation. If bookkeeping fails, only evidence-backed fixture fixes within
 frozen profile are allowed. Run identifiers/results to follow after exact-SHA push.
+
+Diagnostic result [37448257248](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37448257248):
+f0f417ce9913f53a90591c89593b31b359b87032, minimal/90min, completed failure.
+Full4267-line Actions log and all artifacts downloaded/read. Exact tool/profile
+hashes retained: console b1012430..., exporter2b8ebb..., refiner9f3882...,
+prelude d7058d...; sole patch/source/parser audit and paired Z3 pass. All7
+readonly export/decode and source/ghost-strip/hash checks pass. Both original
+positives VF/refinement0; all3 baseline negatives intended VF1/refinement0,
+each caller/header/helper1, pair body18, explicit call1. Optional actual
+recover_single body now completes16records, return and leak-check in both units.
+
+New FIRST caller failure in BOTH MD cases: general.rsspec203 precondition at
+close_full_borrow_content<T>(t,&tmp), positive generated source95, missing-init
+source95: no points_to<T>(tmp_addr,_). Caller/header1, helper16, explicit
+recover_single call0, actual temp reference0. This is NOT the intended missing-init
+negative; classifier correctly reports misclassified. MD positive refinement
+still fails original RawPtr; remaining6 refinements0; MIR audit new1/deref1/read2/
+write1/into_inner0. No lifecycle, callback, provenance or pointer gate passed.
+Helper conditional resource proof is established, caller construction is not.
+VF .08s each; total runner1:29.24,RSS625580KiB, console build23.83s,RSS425988KiB;
+cold setup dominates, no covers/loop bounds. Next inspect tmp storage translation
+within existing profile; no address-taken or other patch expansion authorized.
+
+Separate unchanged-release baseline card: same SHA f0f417c, selection
+verifast_borrow_recovery,90min, no patches. Hypothesis: per-case helper exclusion
+preserves exact five release controls after runner changes. Expected2 positives
+VF/refinement0 and3 intended resource/post negatives VF1/refinement0, actual pair
+body/call/header counts and source/hash/leak audits; no MD helper in any unit.
+This checks profile isolation, not optional helper or actual insertion. One run
+only, after37448257248 completes; outcome to record below. No new semantics/posts.
+
+Separate baseline result [37448682524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37448682524):
+same f0f417ce9913f53a90591c89593b31b359b87032, unchanged26.09/90min,
+completed success. Full2178-line log/artifacts inspected. All5 exports/decodes/
+refinements and source/ghost-strip/hash checks0; optional single helpers absent;
+2positives VF0,3negatives intended VF1; each helper/header/caller1,pair18/call1.
+Console dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc,
+prelude d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5;
+no patches/source compilation. VF wall .11-.13s/case, refinement .05-.07s;
+runner19.13s,RSS639268KiB. Setup dominates; no covers/loop bounds. For preceding
+minimal run, VF CPU .08-.09s, wall .12-.13s; refinement wall .07-.10s (earlier
+"VF .08" was CPU), total89.24s and console build23.83s.
+
+Static root cause of new MD caller failure independently verified at pin809de459:
+translator1880-1892 maps immutable local Not -> ConstTypeExpr; verifast.ml991-993,
+1042-1044,1111-1118 produces half points_to for addressable const locals;
+general.rsspec202-204 requires full points_to + T.own. Actual insert_tail also
+uses immutable tmp (smallsort.rs556). A mutable fixture, extra full-storage
+premise, fractional post weakening or altered immutable-local tool rule is not
+a permissible routine fix. Address-taken patch doesn't repair fractional size
+and is excluded. No source/tool change or further dispatch made after diagnosis.
+
+PHASE CLOSED: helper resource bookkeeping established conditionally; MD full
+caller/refinement gate not passed, intended missing-init negative not reached.
+Pointer draft retained unapplied; no same-address ownership bridge claimed.
+Actual normal-true source scope remains unestablished; false return bypasses
+recovery, first panic Continue skips it before guard. Full n-current-cells/ONE
+ownership/F/thread/type/frame posts remain mandatory, unrestricted T/F without
+Freeze/Copy/purity or sortedness safety premises. No callback/AST routing work.
+See PREPARED-PHASE-2026-10-06.md for exact CFG/source evidence and options:
+review immutable-local storage plus pointer/refinement support separately;
+review source-exact scope/direct-unwind semantics with trust/regression gate;
+or choose another source-faithful route/simpler target. Owner decision needed
+before new architecture/semantic patches or next phase. No active run.
