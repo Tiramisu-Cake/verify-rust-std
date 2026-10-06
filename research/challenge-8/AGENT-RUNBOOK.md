@@ -21,8 +21,11 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Prepared next local-cleanup gate:** `verifast_local_drop_caller_gate`,90min,
-profile `tuple_local_drop`. No active Actions run. Source patch
+**Active local-cleanup gate:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
+source `3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b`,
+`verifast_local_drop_caller_gate`,90min, profile `tuple_local_drop`.
+Dispatched2026-10-06T06:22:14Z and exact headSha resolved. Resume monitoring
+this run; do not dispatch a duplicate. Source patch
 f8f259e944478c5d23829a2d294def4c79087fb6886df559d9e91ed4146a8739
 changes only translator after f8751fab; expected result
 910a2b79a0761e359a76ac0502251cacc5183b075c556078018be3590ea679b5.
@@ -39,7 +42,8 @@ readback; root and independent Astra review complete. Static AST/YAML/bash-n/
 diff checks pass. Fixture pin73cda1789bfb1ab3c1a3ec7a5a85a5ba305019579d5f716b59015f34d8538e30.
 Defaultmain exposes the selection by workflow-only commit
 5556b0bb2464697190a5467d5ce863402cf989d9; no research code merged there.
-Next push research source and dispatch NEW exactSHA run.
+Next wait, download full logs/artifacts, inspect build/all25/body/caller/negative
+outcomes and record the first causal failure or exact successful scope.
 Actual held_ref release and insertion loop remain open. A possible specialized
 onecell actualDrop contract can call existing end_ref_readonly after copy and
 merge a supplied complementary origin fraction BEFORE tmpfree; needs separate
