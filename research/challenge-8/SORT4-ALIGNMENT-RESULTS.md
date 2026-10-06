@@ -4,7 +4,7 @@
 
 Current phase IN PROGRESS. Stock baseline **PASS independently for const/mut**;
 experimental layout profile implementation starts only after this gate. Budget
-3/6 NEW runs,235/10800 summed job-seconds including all preparation/replay/upload.
+4/6 NEW runs,350/10800 summed job-seconds including all preparation/replay/upload.
 Earlier phases below retain their original outcomes and evidence.
 
 [Stock run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
@@ -48,6 +48,13 @@ First unary minus_big_int misuse; second missing Ast namespace on RustLayout.
 Exporter build and ALL experimental matrix cases NOT RUN. Preparation/pin/patch
 checks PASS; full logs/artifacts inspected and identities preserved in journal.
 These are build failures, not positive or negative layout results.
+
+
+Run4 [37543687813](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543687813),
+source/head0950bc40852fd94176d4293cd191a60dda6bb650, job115seconds, fails console
+at translator6117: Unbound constructor ReprC after concatenating attributes.
+Exporter build and matrix NOT RUN; full logs/artifact11449318697 inspected.
+Candidate5 explicitly qualifies Ast.ReprC and statically audits changed AST sites.
 
 
 ## Historical generic completion/layout review checkpoint

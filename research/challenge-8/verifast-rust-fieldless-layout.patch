@@ -179,7 +179,7 @@ index 436a5f7..7f21a2e 100644
  module FieldDefRd = VariantDefRd.FieldDef
  module RegionRd = VfMirStub.Reader.Region
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..f99a59d 100644
+index f1e3e50..a47cfd6 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -5961,6 +5961,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -258,7 +258,7 @@ index f1e3e50..f99a59d 100644
                        (*is polymorphic*) false ),
                    (*struct_attr list*)
 -                  if is_repr_c_get adt_def_cpn then [ ReprC ] else [] )
-+                  (if is_repr_c_get adt_def_cpn then [ ReprC ] else [])
++                  (if is_repr_c_get adt_def_cpn then [ Ast.ReprC ] else [])
 +                  @ (match exact_layout_attr with None -> [] | Some attr -> [ attr ]) )
              in
              let struct_typedef_aux =

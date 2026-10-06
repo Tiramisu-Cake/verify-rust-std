@@ -4,7 +4,7 @@ Updated 2026-10-07. **IN PROGRESS — stock generic H_align, then narrow Rust ZS
 Owner resumes from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75; entry clean,
 local/remote research heads match, fork Tiramisu-Cake/verify-rust-std, no active run.
 Budget: at most **6 NEW manual hosted runs / 10800 summed job-seconds** including
-all builds, preparation and verification. Used 3/6; 235/10800 summed job-seconds. One experiment at a time.
+all builds, preparation and verification. Used 4/6; 350/10800 summed job-seconds. One experiment at a time.
 
 **Stock baseline PASS** in [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
 source968c073983e0fa27112c5d8a4e10a36b05828323, exact head_sha checked.
@@ -24,9 +24,15 @@ Prototype runs37542669720/f9697b8 and37543115091/55b856c fail console build:
 unary subtraction corrected, then unqualified RustLayout constructor.
 Latest job112540598709,22:50:46–22:52:36Z,110s; full logs/artifact11449258539
 inspected. Exporter build and experimental matrix NOT RUN in both runs.
-Next candidate qualifies Ast.RustLayout only, patch SHA256
-bb31a6e119a19aee2fee66b3afd07df412b54ceb991e34c672b783b8446b6a9b.
-No active run. Next permitted action: NEW exact-SHA experimental selection/30.
+Next candidate qualifies Ast.RustLayout and Ast.ReprC, patch SHA256
+d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
+Run4 [37543687813](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543687813),
+source/head0950bc40852fd94176d4293cd191a60dda6bb650, fails console build at6117:
+unqualified ReprC after attribute-list concatenation. Job112542474551,
+22:56:31–22:58:26Z,115s. Full logs/artifact11449318697 inspected.
+Exporter build and experimental matrix NOT RUN. No active run.
+Next: qualify Ast.ReprC and statically audit modified AST construction sites;
+NEW exact-SHA selection/30 within remaining2 slots, same model and gates.
 
 Separate experimental layout profile limited to genuinely
 fieldless, nongeneric-definition Sized Rust structs, repr(Rust)/repr(C), optional

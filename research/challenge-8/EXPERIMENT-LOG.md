@@ -2576,3 +2576,27 @@ already open Ast. Patch SHA256 bb31a6e119a19aee2fee66b3afd07df412b54ceb991e34c67
 Only namespace resolution changed, no semantic/check/domain/profile weakening.
 Static patch applicability/diff checks PASS; next NEW hosted run tests this measured
 build blocker. Stock generic result remains independently PASS.
+
+Dispatched NEW run4/37543687813, source/head0950bc40852fd94176d4293cd191a60dda6bb650,
+created2026-10-06T22:56:26Z; pushed/remote/head_sha match. Same selection/30 and
+pre-recorded matrix; only Ast constructor qualification since prior failed run.
+Budget4/6,235 completed seconds plus current job. No other active experiment.
+
+### Prototype build failure — run37543687813
+
+Exact source/head0950bc40852fd94176d4293cd191a60dda6bb650;
+job112542474551,22:56:31–22:58:26Z,115seconds, FAILURE. Console build exits2 at
+translator6117: Unbound constructor ReprC. The added attribute concatenation
+removes the old local type inference; Ast.ReprC is the explicit existing AST
+constructor. Console elapsed33.15s/RSS382392KiB, no timeout/OOM. Exporter build
+and ALL experimental matrix NOT RUN. Full log/artifact11449318697 inspected,
+38245bytes, API/upload SHA2567d938f6f0d31a1192739596025c016df43620d7e736ff1be13e9d9add27611ac;
+full log SHA2565f8c4a1f8c9f3ead3385e74d4ffa94eaa659e8eee26edb2831c2cb430cbc9211.
+Budget4/6,350/10800seconds; no active experiment. Next candidate qualifies ReprC
+and audits all modified AST construction expressions for the same issue before
+NEW run. Rules/domain/contracts/checks unchanged; stock generic theorem stays PASS.
+
+Run5 candidate patch SHA256 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14;
+only Ast.ReprC qualification since tested run4. Modified translator AST constructors
+are now explicitly qualified; other affected modules open Ast. Static source
+patch applicability/diff checks PASS. Same complete pre-recorded matrix/flags.
