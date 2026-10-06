@@ -21,6 +21,13 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active insertion model experiment:**
+[37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),
+source `72dd333ed19c9f1c7a95ceb98957cf2f61fd9dba`,range90min. Transparent
+tuple2 own defined as owned fields, then folded for complete FnMut parameters.
+Explicit model extension, no opaque lemma/stub/assumption. Original req and
+Rust bytes retained. Poll this exact run; full model compatibility is unproved.
+
 **Completed pure generic target:**
 [37401540878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401540878),
 source `9fb8940437be22b316c45a3b23f9ece325944aae`,verifast_swap_size90min.
@@ -29,7 +36,7 @@ with failclosed byte audit, pinned tools/refiner; named function and body traces
 required. Full evidence fetched: one named target,four body execution/return
 records,0errors,LP64; all stages and overall0. VF.10s,refiner.07s,
 runner12.70s,RSS585,516KiB. No covers/loopbounds. Isolated helper proved,
-other six targets/callers/fullcore integration remain open. No active run.
+other six targets/callers/fullcore integration remain open.
 Next resume generic insertion with transparent tuple-field ownership model;
 pinned external tuple has no own definition, default synthesis is local-only.
 Model definition is explicit, no opaque axiom/stub; compatibility obligations
@@ -40,7 +47,7 @@ source `ae09e983ef430fc03dc49fc4724d36dbb0cab7e9`,range90min. Corrected
 ghost tuple constructor only, complete FnMut parameters retained. Full evidence
 fetched: syntax accepted, close tuple own fails No such predicate instance.
 No callback proof. Exactbyte/refinement0,VF1(.17s),refiner.10s,runner12.85s,
-RSS635,404KiB. No active run. Next inspect actual tuple type_pred model/folding;
+RSS635,404KiB. Next inspect actual tuple type_pred model/folding;
 isolated pure generic size target is now statically reviewed and ready to run.
 
 **Latest inspected run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
