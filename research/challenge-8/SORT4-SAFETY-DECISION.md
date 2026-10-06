@@ -1,5 +1,11 @@
 # `sort4_stable` generic-safety feasibility decision
 
+Follow-up approval: [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) permits
+refining the contract and selecting one concrete architecture proposal from
+existing evidence. No new VeriFast run, patch build/application or semantic
+implementation is authorized. This assessment's existing proof boundaries
+remain unchanged; use [STATUS](STATUS.md) for the current checkpoint.
+
 ## Decision
 
 **No established source-exact route under the frozen VeriFast profile was

@@ -1,5 +1,10 @@
 # `sort4_stable`: source contract and caller audit
 
+Follow-up approval: [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) now
+authorizes hosted overlap diagnostics and refinement of this research contract.
+The examples below remain static until separately recorded runs establish
+results; the approval adds no proof evidence.
+
 Static audit at `68fcc98b79fc69b717d3e2ed42605cae8b4ffc05` (branch
 `challenge-8/research`). The target is
 [`library/core/src/slice/sort/shared/smallsort.rs`](../../library/core/src/slice/sort/shared/smallsort.rs), blob

@@ -1,5 +1,10 @@
 # Actual `sort4_stable`: phase closeout, 2026-10-06
 
+Historical functional closeout. A subsequent
+[contract-diagnostics phase](SORT4-CONTRACT-PHASE.md) is now approved; it does
+not change these proof results or authorize verifier semantic implementation.
+See [STATUS](STATUS.md) for the current checkpoint.
+
 The approved phase is complete. Both independent functional theorems passed
 on the actual repository body. Generic safety remains open; the existing
 frozen-profile evidence supports an architecture checkpoint, not a new probe

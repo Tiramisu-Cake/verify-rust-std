@@ -12,6 +12,12 @@ the actual-body functional domain: four arbitrary full-range i32 keys in
 fixed/disjoint initialized buffers, plus separate tagged-item stability.
 Generic safety and complete four-category UB coverage remain open.
 
+The subsequent [contract-diagnostics phase](SORT4-CONTRACT-PHASE.md) is approved
+but unexecuted at this checkpoint. Its overlap cases are hypotheses, and its
+VeriFast architecture review will not itself establish new proof coverage.
+Coincident-copy safety failure and shifted-overlap multiset failure must be
+reported as different kinds of evidence.
+
 ## Safety targets and sorting contracts
 
 | Actual target | Established evidence / tool | Remaining obligations |

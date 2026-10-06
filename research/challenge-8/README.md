@@ -6,15 +6,15 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**The bounded actual `sort4_stable` phase is complete.**
-The [approved roadmap](PLAN.md) records the revised priorities, and
-[SORT4-PHASE.md](SORT4-PHASE.md) defines its scope. [The closeout](SORT4-RESULTS.md)
-records both functional proofs and the remaining generic-safety decision.
-The previous ManuallyDrop/insert_tail
-phase remains closed. [STATUS.md](STATUS.md) is the single current checkpoint.
+**The sort4 contract-diagnostics and generic-proof-route phase is approved and
+ready to start.** [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) defines its
+scope. The [functional closeout](SORT4-RESULTS.md) preserves the two successful
+actual-body proofs; the earlier functional and insertion phases remain closed.
+[STATUS.md](STATUS.md) is the single current checkpoint, and
+[PLAN.md](PLAN.md) records the revised priorities.
 
 1. [Root agent instructions](../../AGENTS.md).
-2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-PHASE.md)
+2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-CONTRACT-PHASE.md)
    and [operating runbook](AGENT-RUNBOOK.md).
 3. [Coverage ledger](coverage.md), [Challenge 8](../../doc/src/challenges/0008-smallsort.md)
    and [general rules](../../doc/src/general-rules.md).
@@ -26,6 +26,9 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
+- [Current contract phase](SORT4-CONTRACT-PHASE.md): coincident/shifted-overlap
+  diagnostics, precise contract and one proposed generic proof route; no new
+  results at approval and no verifier semantic implementation authorized.
 - [Sort4 contract and callers](SORT4-CONTRACT.md): full target memory/aliasing,
   single-ownership, comparator effects and all five panic sites, separated from
   the four-cell functional domain in [the actual-body harnesses](sort4.rs).

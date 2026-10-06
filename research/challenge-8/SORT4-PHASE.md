@@ -1,5 +1,9 @@
 # Approved phase: actual sort4_stable
 
+Historical functional-phase scope. Its later follow-up is separately approved
+in [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md); use [STATUS](STATUS.md)
+for current authorization. This phase's proof results and scope remain intact.
+
 Approved 2026-10-06. State at approval: READY; no sort4 implementation or hosted
 proof run yet. Consult [STATUS.md](STATUS.md) for subsequent execution state.
 This phase implements stage 1 of the [approved roadmap](PLAN.md).

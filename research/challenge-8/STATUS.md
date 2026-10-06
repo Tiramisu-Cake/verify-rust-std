@@ -1,53 +1,69 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 after completion of the explicitly resumed sort4 phase.
-Approval commit: `68fcc98b79fc69b717d3e2ed42605cae8b4ffc05` on
-`challenge-8/research`. This is the single current checkpoint; procedures live
-in [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md), and
+Updated 2026-10-06 after the owner approved the sort4 contract-diagnostics and
+generic-proof-route phase. Approval baseline:
+`bea705d12062e515e69abc4ab4398944f9f82d65` on `challenge-8/research`.
+This is the single current checkpoint; procedures live in
+[AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md), and
 historical evidence in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**PHASE CLOSED — both functional proofs passed; generic safety remains open.**
-All deliverables from [SORT4-PHASE.md](SORT4-PHASE.md) are saved in
+**READY — the sort4 contract-diagnostics and architecture-proposal phase is
+approved.** [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) defines its exact
+scope, tool allowlist, deliverables and stop boundary. A continuation agent may
+implement, commit, push, dispatch, inspect and fix its Kani diagnostics without
+asking for the same start approval again. Check newer instructions, the branch
+head and active runs at entry.
+
+The approval/documentation iteration has changed no proof, runner, std source
+or verifier and dispatched no workflow. The overlap examples remain static
+hypotheses; no new diagnostic harness or selection exists yet. No active
+research run was observed at this checkpoint. The last successful proof
+remains run37459631500 below.
+
+The new phase authorizes:
+
+1. Actual-source Kani diagnostics for coincident buffers and shifted overlap,
+   with the unchanged values harness as a positive control. Distinguish the
+   expected copy-overlap safety failure from expected multiset failure.
+2. Explicit safety/functionality/ownership/normal-and-panic contracts, mapped
+   to actual callers and separated from any proposed contract strengthening.
+3. Read-only review of historical VeriFast patches/evidence and one concrete
+   generic-safety architecture proposal with a bounded future regression gate.
+
+Executable work is Kani only, on GitHub-hosted Actions, at unchanged pin
+`152c6a8c875d9886a67e229247b4826d6105ccfd`, Rust `nightly-2026-02-05`,
+default checks and exact serial harness selection. No new VeriFast run,
+patch application/build, semantic change or later target is authorized.
+Historical patched profiles are evidence for the proposal only.
+
+## Completed sort4 functional phase
+
+[SORT4-PHASE.md](SORT4-PHASE.md) remains closed. Its results are retained in
 [the closeout](SORT4-RESULTS.md), [contract/caller audit](SORT4-CONTRACT.md)
-and [generic-safety decision](SORT4-SAFETY-DECISION.md). No new tool semantics,
-patched VeriFast profile or later roadmap phase was implemented. The next
-phase or architectural capability needs the owner's separate decision.
-
-Entry: clean tree, fork origin, fast-forward from d436977 to approval 68fcc98;
-no newer remote instructions and no active/queued Actions runs. The actual std
-blob remains e555fce440872898e47fd5114f32eb15401d07df. The owner explicitly
-requested autonomous execution of this phase. Actual-body harness/runner are at
-1bc9cb718efc07315082334cded2d2362ecbbde1. Hosted run
-[37459631500](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37459631500)
+and [generic-safety assessment](SORT4-SAFETY-DECISION.md).
+The actual std blob stays `e555fce440872898e47fd5114f32eb15401d07df`.
+Harness/runner source is `1bc9cb718efc07315082334cded2d2362ecbbde1`;
+[run 37459631500](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37459631500)
 completed SUCCESS (sort4_functional/90min; 11:55:16–11:59:55 UTC).
-Values: 0/267 failed,12/12 covers; tagged stability: 0/233 failed,6/6 covers.
-Full logs/artifacts/source/tool hashes inspected; no active research run.
-Workflow-only exposure is 26a43be on research / 3d8c8c0 on main.
-Saved insertion draft stays unapplied.
+Values: 0/267 failed, 12/12 covers; tagged stability: 0/233 failed, 6/6 covers.
+Full logs/artifacts/source/tool hashes were inspected. Workflow-only exposure
+was 26a43be on research / 3d8c8c0 on main.
 
-The completed phase delivered:
+Both actual-body functional theorems are established for their concrete
+types, separate initialized buffers and pure nonpanicking comparison.
+Generic safety remains open. The phase found no new falsifiable route through
+unchanged VeriFast and ran no generic diagnostic; that was a static feasibility
+decision, not an executed generic failure. The current phase follows up on
+the missing explicit overlap/ownership contract and the architecture question.
 
-1. Full target contract and actual caller/aliasing/resource audit.
-2. Actual-body Kani sortedness and multiset preservation for four arbitrary
-   i32 inputs in separate fixed buffers, with a pure `<` comparator.
-3. Separate actual-body tagged-item proof of stability.
-4. Existing-evidence-first generic-safety assessment and closeout. No new
-   falsifiable unchanged-release route was found, so no generic probe was run.
-
-Kani stays at `152c6a8c875d9886a67e229247b4826d6105ccfd`;
-VeriFast stays at unchanged 26.09, source
-`809de4596839b739dd999f9e462242c835e3af46`, Rust `nightly-2026-02-05`.
-No historical experimental patches are authorized in this phase.
-All executable work stays on GitHub-hosted Actions.
-
-## Previous phase remains closed
+## Earlier insertion/ManuallyDrop phase remains closed
 
 The ManuallyDrop/insert_tail feasibility phase reached NO-GO for integration.
-The owner has now selected the simpler sort4 target; this supersedes the old
-wait-for-a-target-decision checkpoint only for the named new phase. It does
-not reopen callback integration, patch expansion or full insertion work.
+The subsequent sort4 phases preserve that stop. Neither the completed
+functional proof nor the new contract phase reopens insertion callback
+integration, patch expansion or full insertion work.
 
 The actual conditional `recover_single` body verifies through return and
 leak-check (16 records), and five independent baseline controls pass. Both
@@ -99,18 +115,14 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-The authorized sort4 work is complete. No repeat proof run is needed for the
-documentation-only closeout; harness, runner, source and tool pins are unchanged
-from the successful SHA. Generic normal/unwind ownership, comparator effects,
-allocation/provenance/ZST and all four UB categories remain open beyond the
-specific default-check functional domain. Source analysis identifies a missing
-non-overlap/ownership policy in the short SAFETY comment; caller separation is
-not silently promoted to a universal target precondition.
+Read the current phase, record IN PROGRESS at entry, and prepare the exact
+experiment card. Implement isolated actual-source cases and fail-closed
+expected-negative result classification before the first hosted dispatch.
+Do not report the shifted-overlap multiset counterexample as an UB finding,
+or treat any nonzero verifier exit as an accepted negative.
 
-Recommended next decision: review source-derived tuple-2 ownership/HRTB Output
-support together with a full normal/direct-unwind recovery route, explicit
-overlap/ownership contract and trust/admissibility regression gate BEFORE
-implementation. This assessment does not prove all unchanged-tool routes
-impossible. Alternatively approve a separate later roadmap phase, retaining
-its own generic blockers. Do not begin either route or external publication
-without that decision. No active run; saved insertion draft stays unapplied.
+Refine the contract and use existing patch/source/regression evidence to
+recommend one generic proof route. At closeout save observed cases, contract
+delta, exact evidence boundaries and the proposed future experiment.
+Implementation of that verifier capability remains a separate owner decision.
+No automatic advancement to swap, networks, insertion or external publication.
