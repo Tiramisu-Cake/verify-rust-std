@@ -35,10 +35,21 @@ Normal/unwind ownership recovery and the unrestricted generic borrow pilot
 remain the next architecture gate; a passing cleanup diagnostic alone does
 not establish insertion or authorize further kernel extensions.
 
-**Active run:** [37431775757](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37431775757),
-source `197d5a1efdaa1d42e7a69df1a811dbe3ba82648d`,
-verifast_local_drop_caller_gate90min; manually dispatched2026-10-06T07:46:31Z.
-Matched exact headSha after push; monitor this run, do not dispatch a duplicate.
+**Latest completed run:** [37431775757](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37431775757),
+source `197d5a1efdaa1d42e7a69df1a811dbe3ba82648d`, localcaller90min.
+Full logs/artifacts inspected. Pinned26.09/prelude/exporter/refiner/pairedZ3,
+strict patch/output and four-file audits pass. Console build0/19.00s,
+RSS426,608KiB; binary4b56ad0190f36fc8af4da8eb038207d12bff547bbc714368621ffbb8cfcde1d9.
+All8HRTB/12scope/5reference regressions pass1.75/2.34/1.36s; compiler/decode0
+for all25. Direct actualDrop body0/.13s, refinement0/.10s; exact364byte
+source/hash/ghost-strip/MIR audits, named1/copy1 pass. First caller cleanup_one
+export/decode0, same-unit Drop named1/copy1/5 copy statements, caller named1;
+VF1/.13s after post/free-locals/leak trace ends with whole-function dead code
+at38-49 (no error: line), refinement0/.09s. Overall1,runner1:23.62,
+RSS626,532KiB, setup dominates. Other8 fixtures NOT executed. No covers/loop
+bounds in this deductive gate. No successful whole caller/cleanup gate claimed.
+No active run. Next diagnose reachability/CFG bookkeeping without suppressing
+dead-code checks, then NEW exact-SHA gate if a justified narrow fix is found.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR

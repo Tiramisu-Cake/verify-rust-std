@@ -121,6 +121,22 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Nested-match repaired; caller dead-code diagnostic:** [37431775757](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37431775757),
+  source `197d5a1efdaa1d42e7a69df1a811dbe3ba82648d`, localcaller90min,
+  derived VeriFast26.09/nightly2026-02-05, unchanged contracts/domains/checks.
+  Full logs/artifacts inspected. Strict source/tool/prelude/pairedZ3/patch-output/
+  four-file audits pass; build0/19.00s,RSS426,608KiB, binary
+  4b56ad0190f36fc8af4da8eb038207d12bff547bbc714368621ffbb8cfcde1d9.
+  All25 regressions pass (8HRTB/12scope/5refs,1.75/2.34/1.36s), every compiler/
+  decoder0. Actual directDrop named1/copy1, exact source/ghost/MIR audits and
+  VF0/.13s/refinement0/.10s pass. First cleanup_one caller export/decode0,
+  same-unit actualDrop named1/copy1/5copy statements, caller named1; VF1/.13s
+  after post/free-locals/leak trace reports `verified/lib.rs(38,1-49,2): dead code`.
+  No `error:` line; refinement0/.09s. Remaining8 fixtures not reached.
+  Overall1,runner1:23.62,RSS626,532KiB; setup dominates. No covers or bounded
+  unwind settings in this deductive gate; full caller cleanup is not yet proved.
+  Next inspect reachability/CFG bookkeeping and preserve all checks.
+
 - **Local Drop build passes; regression exposes nested-match bug:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
   source `b3da9a5ef53b8001e63ce511ba27ae8efce67343`, local_drop_caller_gate90min.
   Full logs/artifacts inspected. Same pins/four-file/pairedZ3 audits pass.
