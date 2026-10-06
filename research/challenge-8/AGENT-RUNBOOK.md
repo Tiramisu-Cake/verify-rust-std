@@ -168,6 +168,14 @@ need precision. Next NEW exact-SHA baseline gate. [Architecture note](BORROW-REC
 rejected automatic route and conditional existing-AST exceptional continuation;
 the latter is not implemented or proved.
 
+**Active run:** [37437514808](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437514808),
+source `2a16b2421e81590e91025bf8b662e96be0660369`,
+verifast_borrow_recovery90min, manually dispatched2026-10-06T08:38:57Z.
+Only debt declaration corrected (ordinary imprecise predicate); all five cases,
+actual nonghost-only helper, resource conjuncts, full posts and strict classifiers
+retained. Same pinned release/no experimental source patches. Monitor and inspect
+every case's helper/caller/call, readonly MIR, refinement and time evidence.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
