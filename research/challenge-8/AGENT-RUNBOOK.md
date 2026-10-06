@@ -21,6 +21,13 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active corrected local-cleanup gate:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
+source `b3da9a5ef53b8001e63ce511ba27ae8efce67343`, local_drop_caller_gate90min.
+ExactSHA resolved, created2026-10-06T06:26:44Z. Patchbc13ff90/translator03bf4a5c,
+one explicit record-type correction after the setup failure below. Resume
+monitoring; no duplicate dispatch. Next full logs/artifacts and build/proof
+outcomes, preserving all25 regressions and2positive+7negative fixtures.
+
 **Latest local-cleanup setup failure:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
 source `3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b`,
 `verifast_local_drop_caller_gate`,90min, profile `tuple_local_drop`.
