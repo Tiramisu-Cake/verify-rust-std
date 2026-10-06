@@ -1,0 +1,68 @@
+#ifndef SORT4_INDEX_GH
+#define SORT4_INDEX_GH
+
+// Pure logical choices, corresponding to the pinned actual sort4_stable.
+// This fixpoint is not a trusted summary of core::hint::select_unpredictable.
+fixpoint int s4_select(bool condition, int true_val, int false_val) {
+    return condition ? true_val : false_val;
+}
+fixpoint int s4_a(bool c1) { return c1 ? 1 : 0; }
+fixpoint int s4_b(bool c1) { return c1 ? 0 : 1; }
+fixpoint int s4_c(bool c2) { return 2 + (c2 ? 1 : 0); }
+fixpoint int s4_d(bool c2) { return 2 + (c2 ? 0 : 1); }
+fixpoint int s4_min(bool c1, bool c2, bool c3) {
+    return s4_select(c3, s4_c(c2), s4_a(c1));
+}
+fixpoint int s4_max(bool c1, bool c2, bool c4) {
+    return s4_select(c4, s4_b(c1), s4_d(c2));
+}
+fixpoint int s4_left(bool c1, bool c2, bool c3, bool c4) {
+    return s4_select(c3, s4_a(c1), s4_select(c4, s4_c(c2), s4_b(c1)));
+}
+fixpoint int s4_right(bool c1, bool c2, bool c3, bool c4) {
+    return s4_select(c4, s4_d(c2), s4_select(c3, s4_b(c1), s4_c(c2)));
+}
+fixpoint int s4_lo(bool c1, bool c2, bool c3, bool c4, bool c5) {
+    return s4_select(c5, s4_right(c1,c2,c3,c4), s4_left(c1,c2,c3,c4));
+}
+fixpoint int s4_hi(bool c1, bool c2, bool c3, bool c4, bool c5) {
+    return s4_select(c5, s4_left(c1,c2,c3,c4), s4_right(c1,c2,c3,c4));
+}
+fixpoint int s4_count(int x, int p0, int p1, int p2, int p3) {
+    return (p0 == x ? 1 : 0) + (p1 == x ? 1 : 0) +
+           (p2 == x ? 1 : 0) + (p3 == x ? 1 : 0);
+}
+fixpoint bool s4_perm(int p0, int p1, int p2, int p3) {
+    return 0 <= p0 && p0 <= 3 && 0 <= p1 && p1 <= 3 &&
+           0 <= p2 && p2 <= 3 && 0 <= p3 && p3 <= 3 &&
+           p0 != p1 && p0 != p2 && p0 != p3 &&
+           p1 != p2 && p1 != p3 && p2 != p3 &&
+           s4_count(0,p0,p1,p2,p3) == 1 && s4_count(1,p0,p1,p2,p3) == 1 &&
+           s4_count(2,p0,p1,p2,p3) == 1 && s4_count(3,p0,p1,p2,p3) == 1;
+}
+fixpoint bool s4_intermediate(bool c1, bool c2, bool c3, bool c4) {
+    return s4_perm(s4_a(c1),s4_b(c1),s4_c(c2),s4_d(c2)) &&
+           s4_perm(s4_min(c1,c2,c3),s4_left(c1,c2,c3,c4),
+                   s4_right(c1,c2,c3,c4),s4_max(c1,c2,c4));
+}
+fixpoint bool s4_final(bool c1, bool c2, bool c3, bool c4, bool c5) {
+    return s4_perm(s4_min(c1,c2,c3),s4_lo(c1,c2,c3,c4,c5),
+                   s4_hi(c1,c2,c3,c4,c5),s4_max(c1,c2,c4));
+}
+
+lemma void s4_index_permutation(bool c1, bool c2, bool c3, bool c4, bool c5)
+    requires true;
+    ensures s4_intermediate(c1,c2,c3,c4) == true &*&
+            s4_final(c1,c2,c3,c4,c5) == true;
+{
+    // Split the entire Boolean domain (32 cases), without comparator premises.
+    if (c1) {} else {}
+    if (c2) {} else {}
+    if (c3) {} else {}
+    if (c4) {} else {}
+    if (c5) {} else {}
+    assert s4_intermediate(c1,c2,c3,c4) == true;
+    assert s4_final(c1,c2,c3,c4,c5) == true;
+}
+
+#endif

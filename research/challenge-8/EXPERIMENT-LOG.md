@@ -2725,3 +2725,34 @@ matrix checks unchanged. Full matrix rerun, selection verifast_rust_fieldless_la
 second and last repair run included in12-run total. On PASS accept only exact narrow
 experimental profile for later authorized tasks; on failure close repair INCONCLUSIVE
 and continue independent stock work. No semantic repair or third repair run allowed.
+
+N2 dispatched run37547890530/source3f5c9e3126a6db0599f1b989f03146e143342d04,
+created2026-10-06T23:40:58Z; exact pushed/head_sha match, same layout/30 selection.
+Night2/12,completed145s plus active job;repair2/2. No further repair slot.
+
+### N3 stock pure index theorem — prepared card
+
+Actual sort4 obligation: the exact a,b,c,d/min/max/unknown_left/unknown_right/lo/hi
+formulas at unchanged std blobe555fce440872898e47fd5114f32eb15401d07df.
+Hypothesis: for all32 answers(c1..c5), without comparator coherence/purity/order,
+all intermediate and final logical IDs lie0..3, pairwise distinct and each of0..3
+occurs exactly once. Checked ghost definitions/lemma bodies in sort4-index.gh;
+index application positive, isolated mutant duplicates min in hi's position with
+all five replies false. Positive req true, full local post intermediate+final
+bounds/distinctness/four exact counts; no memory resources/runtime/unwind path.
+Frame follows ghost semantics; not target Rust normal/five-unwind contract.
+Stock official26.09/source809de459, archive SHA da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa,
+no patch/new axioms/assumed summaries. Exact source/formula string/Boolean-cast
+mapping recorded on hosted runner; no assumed pointer/callee bridge. Negative
+must reach s4_wrong_hi_duplicates_min TARGET_ASSERTION and fail exactly there
+with otherwise checked header/application. Zero exit on this false assertion
+quarantines stock profile; earlier unrelated failure INCONCLUSIVE. Normal proof
+errors may be fixed within night budget with NEW source/run. Success advances to
+actual callee/independent order gate, not whole sort4. Logical IDs remain distinct
+for ZST even if addresses coincide. Selection verifast_sort4_components/index/30.
+
+Manual workflow exposure: main-only b3c9835ad5ba7c68e7ea666cb4830095d5e6c143,
+13 inserted/1 changed line in workflow, components option/input/time cap/plumbing.
+No research-history merge, triggers remain workflow_dispatch only; equivalent
+minimal change prepared on research. Order/select are separate isolated choices,
+so an unsupported actual-callee cannot block independent ghost theorem checks.
