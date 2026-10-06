@@ -445,6 +445,21 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full logs/artifacts fetched. Next inspect existing opaque tuple-own symbol
   and supported named-predicate/type-predicate alias route; no assumed ownership.
 
+- [Bundled tuple overlay duplicate diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402802085),
+  2026-10-06, source `c0742d522d83264003b7872444b402ef12a80c97`,
+  `verifast_insert_tail_tuple_overlay`,90min,same binary/Rust pins.
+  Original prelude SHA d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5
+  matches; exact194-byte insertion produces patched SHA
+  fa59c4585f1460bba408dd9ca7e25a4b5f41cc12aaa76f482e4383934e9982e8.
+  Original/patched specs, insertion hash and byte-roundtrip retained; tool binary
+  hashes unchanged. VF rejects duplicate tuple2 type predicate own, conflicting
+  with prelude struct declaration line15. Automatic alias exists even without
+  explicit own text; previous no-duplicate expectation withdrawn. No target
+  execution. Runtime ghost-byte audits/refinement0,VF1(.09s,RSS165,492KiB),
+  refiner.11s,RSS162,860KiB,runner14.17s,RSS527,852KiB,overall1.
+  Full evidence fetched. Next trace automatic tuple ownership semantics and a
+  supported transparent folding/replacement route; no speculative rerun/axiom.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
