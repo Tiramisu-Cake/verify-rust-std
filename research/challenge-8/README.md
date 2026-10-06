@@ -86,6 +86,21 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [HRTB guards and actual borrow-access closure](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),
+  source `3184c40f4a00745712bdce4a28ccdc76f352562c`,fnmut_hrtb90min.
+  Sourcebuild0/15.42s; pinnedparser/HRTBtracepatch/prelude/exporter/refiner,
+  pairedZ3 and source/MIRhash audits pass. All8matcher cases pass0/1.49s:
+  each compiler/decode0,real/translatedcallcounts agree,expected ownership1,
+  registrations correct forbool/u8/noOutput/wrongF/wrongT/unequalLfts/
+  secondunannotatedcall/bodyisolation. These are translator tests, notcalleeproofs.
+  Actual comparator bool/unwind exit pass. Both normal initialization access
+  closures and merge/half-token assert pass; firstfailure end_lifetime at140
+  needsfull lifetime_token(cmp_k), still halfreserveduntilunsafe-blockexit.
+  VF1/.17s,RSS92,728KiB;refiner0/.12s,RSS91,696KiB;overall1,
+  runner1:04.76,RSS646,280KiB,setupdominates. No move/guard/loop/fullrange
+  proof/covers. Next reviewed strict early ghost binding cut with negative
+  resource/token/escape/CFG regressions, preserving runtimecode andreproducer.
+
 - [Isolated HRTB regression cases](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410552459),
   source `905fd9d0b3fa84a187b932c47bbad5bbe52402bc`,fnmut_hrtb90min.
   Sourcebuild0/25.76s; pairedZ3/originaltargetMIR/sourcehash pass. Boolean/u8

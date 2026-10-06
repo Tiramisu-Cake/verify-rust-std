@@ -21,6 +21,29 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Latest completed HRTB guards + actual access closure:**
+[37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),
+source `3184c40f4a00745712bdce4a28ccdc76f352562c`,fnmut_hrtb90min.
+Full logs/artifacts fetched. Same pinned26.09 source/release exporter/refiner,
+parser+HRTBtracepatchd90,originalprelude,pairedZ3/sourcehash/MIRaudit pass.
+Sourcebuild0/15.42s,RSS426,676KiB;binary7142413b68a4c9e9e17e5afaea566c2cd3d2615633b84ce612db9bfe03d7bbcb.
+All8real-compiler/translator guard cases pass0,1.49s,RSS85,532KiB:
+each compiler/decode0 and actual translatedcallcount match; expectedownershipVF1
+is separated from marker1/0. Bool,u8,noOutput,wrongF,wrongT,unequalLfts,
+secondunannotatedcall andbodyisolation. These are matcher tests, not8calleeproofs.
+Actual insert_tail FnMut Output=bool and syntheticunwind exit/leakcheck pass;
+normal bothref_initialized_ closes+matchingclose_frac_borrow calls pass,
+merge/halfTokenassert139 pass. End_lifetime140 needsFULL token and fails
+lifetime_token(cmp_k), confirming remaining lexicalreservation. No move/guard/
+loop/fullrangeproof or covers. VF1/.17s,RSS92,728KiB;refiner0/.12s,
+RSS91,696KiB;overall1,runner1:04.76,RSS646,280KiB,setupdominated.
+No active run. Next separate strict early binding-scope cut feature, preserving
+runtime Rust and original tuple_hrtb reproducer. Source patch owned by Sol;
+independent tool fixtures by Luna; root integration prepared but uncommitted.
+Must review soundness/all-exit cleanup, stale typed resources/locals/equalities,
+CFG ingress and exactly-once token return before commit/dispatch. All builds/
+regressions/actualproof only on hostedActions. No full token assumption.
+
 **Latest completed HRTB instance experiment:**
 [37409198258](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258),
 source `e7ac80db4016bf6cf41b40920e3af11dcfb30470`,
@@ -55,10 +78,7 @@ compiler/decode0,one real MIR+translatedcall each,ownershipVF1,registrations1/0.
 No-output MIR has zero Projection predicates but local variable FnOnce::Output
 alias. Runner's broad search misclassified alias as equality; suite stops1
 before case3 VF. No actual insertion VF/refiner. Overall1,
-runner1:24.32,RSS646,648KiB,setupdominated. Active run [37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),
-source `3184c40f4a00745712bdce4a28ccdc76f352562c`,fnmut_hrtb90min,
-exact remote/run SHA matched; poll/fetch full evidence before new dispatch.
-This NEW source checks projectionTerm records rather than arbitrary alias
+runner1:24.32,RSS646,648KiB,setupdominated. The completed run above checks projectionTerm records rather than arbitrary alias
 mentions, keeping zero actual predicate requirement and all8cases unchanged.
 Uncommitted tuple_lft_cut integration is staged separately from this rerun;
 source feature being implemented/reviewed, not part of current evidence.

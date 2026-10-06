@@ -73,3 +73,26 @@ restore the other half. Executing such ghost cleanup only after the normal
 call would leave the synthetic unwind branch untreated. The next diagnostic
 must specify and recover or explicitly return genuine unwind resources;
 ignoring unwind, discarding chunks or an opaque restoration lemma is invalid.
+
+## Actual post-callback access closure and full-token barrier
+
+[Run37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109)
+at3184c40f4a00745712bdce4a28ccdc76f352562c confirms both access closures on
+the actual normal path. The proof closes each remaining ref_initialized_<T>
+fraction, calls close_frac_borrow with its genuine matching close token,
+merges the returned shares and proves [1/2]lifetime_token(cmp_k) at139.
+The next end_lifetime140 fails its full-token precondition. This is now
+Actions evidence, beyond the source audit. Standard Rust is unchanged and
+refinement passes. The synthetic comparator unwind still returns the original
+explicit comparison resources and passes leakcheck.
+
+Existing ghost declaration blocks cannot move their end independently of the
+real source brace: exporter preprocessor.rs126-134/320-350 recognizes the batch
+only immediately after an existing `{` and pairs it to that block's matching
+`}` (86-97/233-241); translator4697-4725 creates markers and3518-3550/3741+
+forms the associated CFG block. There is no existing arbitrary early-end syntax.
+A separate proposed source feature can move a binding's synthetic scope end to
+an explicit ghost marker, return its reserved half once on every exit, and
+reject escaped typed resources/locals. It must still prove full-token ending
+and recover both full-borrow contents through ordinary verified rules. The
+proposal is unimplemented/unverified until its own recorded source-patch run.

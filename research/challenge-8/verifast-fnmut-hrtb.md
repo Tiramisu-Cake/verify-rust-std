@@ -129,3 +129,12 @@ predicate, but the runner mistakenly counted its local variable's abstract
 FnOnce::Output alias as an equality and stopped before its verifier call.
 The guard now inspects projectionTerm records, preserving the requirement
 of zero actual projection predicates. The suite is incomplete, not a pass.
+
+[Run 37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109)
+at3184c40f4a00745712bdce4a28ccdc76f352562c passes all eight real-compiler
+matcher regressions in1.49s. Each exports/decodes successfully, processes the
+expected calls, emits the expected equality count/location and fails only its
+intentionally resource-free proof. The actual source-exact insertion probe
+then closes both real initialization accesses and obtains half a lifetime
+token, but end_lifetime requires the other half reserved by the surrounding
+block. Refinement0; actualVF1/.17s; this confirms the separate ownership barrier.
