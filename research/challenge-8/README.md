@@ -496,6 +496,20 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   actual callback normal/unwind, tuple-share compatibility, cell recovery and
   remaining function are still unproved. See verifast-tuple-parser.md.
 
+- **Source-build prerequisite diagnostic:**
+  [37405631794](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405631794),
+  source `5dcf5348447174f3a9a8c23cce3bad80d70188ca`,tuple_parser90min.
+  Full evidence fetched; original source/parser/prelude+deps pins and exact-byte
+  audit pass. Decoder install0,3.93s; experimental OCaml console compiles.
+  `make verifast` additionally regenerates C STDLIB manifests; bitops.c18
+  precondition x<pow_nat(2,N32) fails at Z_of_uint32 call, overall2.
+  Seven preceding C manifests verify, but C library as a whole is unproved.
+  No actual insertion verifier/refiner/covers. Buildstage1:18.67,RSS426,740KiB;
+  runner2:22.22,RSS642,736KiB,all setup. Next build ../bin/verifast only:
+  all-.rs inputs skip final C manifest linking (vfconsole.ml), Rust frontend
+  loads adjacent unchanged prelude. No C manifest reuse/fabrication or model
+  assumptions; preserve this failed broad-target evidence and inspect new run.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

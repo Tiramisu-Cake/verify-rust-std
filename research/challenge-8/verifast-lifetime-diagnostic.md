@@ -15,11 +15,11 @@ Actions run37399825118 and earlier lifetime diagnostics; see README chronology.
 The remaining half can support the two references using quarter-token accesses.
 After the call, closing both reference-initialization chunks and invoking
 `close_frac_borrow` returns those two quarter shares
-(`bin/rust/lifetime_logic.rsspec:275-283`). That recovers only half a token.
+(`bin/rust/rust_belt/lifetime_logic.rsspec:275-283`). That recovers only half a token.
 `end_lifetime` requires the full token (lines76-79), then `borrow_end` requires
 the resulting dead token and each borrow-end token (lines122-125). Only this
 route recovers the borrowed full content: points-to and generic `T.own`
-(`bin/rust/general.rsspec:198-204`). `share_full_borrow` has already consumed
+(`bin/rust/rust_belt/general.rsspec:198-204`). `share_full_borrow` has already consumed
 the full-borrow chunks (lines225-228), so they cannot simply be opened early.
 
 There is no supported ghost command that ends a `let_lft` binding before Rust

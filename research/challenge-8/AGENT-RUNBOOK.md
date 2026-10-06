@@ -22,10 +22,16 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
-**Active run:** [37405631794](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405631794),
+**Latest source-build run:** [37405631794](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405631794),
 source `5dcf5348447174f3a9a8c23cce3bad80d70188ca`,tuple_parser90min.
-Corrected archive format only. Exact dispatched SHA confirmed; resume this
-run, fetch full logs/artifacts and inspect setup/build/actual proof outcome.
+Full evidence fetched. Pinned deps/decoder3.93s and patched OCaml console
+compilation pass; broad make target then regenerates C STDLIB manifests and
+fails unrelated bitops.c18 precondition x<pow_nat(2,N32),overall2.
+No insertion verifier/refiner execution, no proof/covers. Buildstage1:18.67,
+runner2:22.22,RSS642,736KiB,all setup. No active run. Next compile only
+../bin/verifast artifact target; pinned all-.rs frontend skips C manifest
+link phase, uses source rust prelude. Do not reuse/fabricate C manifests.
+Then dispatch NEW source commit and inspect actual insertion proof.
 
 **Latest completed run:** [37405435682](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405435682),
 source `3d68d61ba5e8a95dfa67677a4cea294fb337b309`,tuple_parser90min.
@@ -44,7 +50,7 @@ and std runtime are unchanged.
 Source base VeriFast26.09 `809de4596839b739dd999f9e462242c835e3af46`;
 original parser SHA f7f2c2bf573be09d8ce5dcd640ddca0e1437a8f18464facc9621ac287a5082e8,
 unmodified prelude SHA d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5.
-Only console `make verifast`, pinned VFDeps25.01/vfdeps-adf88dc archive and
+Only console artifact `make ../bin/verifast`, pinned VFDeps25.01/vfdeps-adf88dc archive and
 capnpc-ocaml-decoder revision2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2;
 release exporter/refiner reused, source console/Z3/resources kept together.
 One overall Actions budget includes setup/build/proof. No local build or install.

@@ -65,8 +65,12 @@ rest of Challenge 8 open.
 release setup, `build-verifast-tuple-parser.sh`, verification and refinement.
 The helper checks the exact source commit/parser/prelude before applying the
 patch and retains both parser versions and the actual applied diff. It builds
-only `make verifast WITHOUT_LABLGTK=yes VERBOSE=yes`; the target also produces
-standard-library manifests, without building the IDE, exporter or full tests.
+only `make ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes`, the console
+artifact target. `make verifast` additionally regenerates C manifests and
+failed an unrelated bitops.c proof in run37405631794 after compiling the
+console. Pinned vfconsole skips final manifest linking for all-.rs inputs;
+Rust frontend loads the hash-checked adjacent prelude.rsspec. No C manifest is
+reused/fabricated, and no library proof is represented as newly verified.
 
 VFDeps25.01 archive `vfdeps-adf88dc-linux.txz` SHA256
 `8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580` uses bzip2 despite its .txz suffix and is extracted

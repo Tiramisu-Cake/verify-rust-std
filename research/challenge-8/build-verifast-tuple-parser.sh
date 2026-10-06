@@ -85,7 +85,9 @@ run_stage decoder-install cargo install --locked --git https://github.com/btj/ca
     sha256sum "$(command -v capnpc-ocaml-decoder)"
     cargo install --list
 } >> "$evidence/build-toolchain.txt"
-run_stage console-build make -C "$source_home/src" verifast WITHOUT_LABLGTK=yes VERBOSE=yes
+# All probe inputs are .rs: final C manifest linking is not used. Build the
+# console artifact alone; do not generate, reuse or fabricate C manifests.
+run_stage console-build make -C "$source_home/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes
 # Rust frontend wire protocol is unchanged. Keep source console/Z3/specs together.
 cp "$release_home/bin/vf-rust-mir-exporter" "$source_home/bin/vf-rust-mir-exporter"
 cp "$release_home/bin/refinement-checker" "$source_home/bin/refinement-checker"
