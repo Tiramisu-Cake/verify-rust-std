@@ -21,193 +21,67 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-Latest inspected success:
-https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37389298278
-at `ec5556cf37fc31af4b25d27476c88f5fbc8e77c9`, `insertion_all_4`, 90 minutes.
-All three stages verify: contract 0/292 failures, 6/6 covers (22.868813 s);
-summary-based research caller 0/288, 2/2 covers (5.359691 s); direct actual std
-insertion 0/168, 7/7 covers (16.718891 s). All unwind assertions succeed.
-Four incidental unreachable checks per stage, none undetermined. Exit 0;
-runner including cold build/compilation: 5:38.03, peak RSS 1,944,792 KiB.
-Pinned Kani/CBMC unchanged. See README for prior failure/fix history.
-This is bounded i32 functionality with sorted-prefix assumptions, not completion.
-Bootstrap remains verified at `34d008324e10a66bf59de705acd609d9509e7c36`
-(run 37383583285), both harnesses, 5/5 covers, bounded fixed i32 positions only.
+**Active run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
+source `9d4a01fc9388b53d2bc4cfc53651a3b728914457`,
+`verifast_insert_tail_range`,90min. Poll this exact run, fetch full logs/artifacts
+and inspect the first causal obligation. New change removes incomplete ghost
+FnMut generic arguments, preserving MIR inference and the actual Rust call.
+All borrow preparation, quarter-token accesses, checked assertions, original
+req and exact-byte/refinement audit remain. No result yet.
 
-**Outer-loop experiment history:** `insertion_outer_invariant_4`, 90 minutes. A proof-only
-injector adds allocation and range invariants to the actual outer pointer loop;
-new harness uses arbitrary i32 inputs and comparator decisions, no sortedness
-assumption. Inner loop remains bounded, default checks only. Generic contracts,
-functional loop invariants, ownership/panic and explicit UB checks remain open.
-The choice is exposed on default-branch workflow only (commit `985f790`).
-Latest outer-loop attempt: [37390232978](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390232978),
-source `9dd5410ba262feccdd864140acfe716693d21cdc`, `insertion_outer_invariant_4`,
-90 minutes. Compilation E0433: unqualified kani macro not in scope at line599.
-No proof/covers checked; runner 4:04.95, exit1, peak RSS1,312,076KiB.
-Fix uses `crate::kani::loop_invariant`; invariants/domain/checks unchanged.
-Latest qualified outer attempt: [37390973809](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37390973809),
-source `a3da2d490ca6129f0abd4c59063b8100ed73981b`, same selection/budget.
-Compilation succeeds. CBMC warns "not enough arguments, inserting
-non-deterministic value" for same_allocation_internal and pointer add inside
-invariant; no final proof or seven-cover outcomes. SIGTERM/143 stops job at
-14:55, before requested 90-minute budget; cause unspecified, no OOM/timeout
-claim. All artifact/post steps skipped, zero artifacts. Full log fetched;
-essential evidence in outer-invariant-diagnostic.md. Preserve this reproducer
-and resolve instrumentation warnings before accepting/rerunning its proof.
-Latest VeriFast probe: [37393312268](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37393312268),
-source `8f1fc630b590c89c99270f23fd9bb7f2e32b8eb8`, `verifast_insert_tail_probe`,
-90 minutes. VF26.09 parser now accepts contract and explicitly reaches actual
-`smallsort::insert_tail`; first pointer bound fails at `tail.sub(1)` because
-`req true` supplies no range. Source/ghost audit and refinement checker pass;
-verifier/overall exit1, runner13.38s, RSS620,128KiB. This is frontend/model
-viability evidence, not a safety proof. Full evidence fetched.
+**Completed bounded milestones:** bootstrap two actual swap harnesses,5/5covers
+at `34d008324e10a66bf59de705acd609d9509e7c36` (37383583285).
+Insertion contract, summarized research caller and direct actual std insertion
+all pass,15/15covers,unwind assertions pass,none undetermined, at
+`ec5556cf37fc31af4b25d27476c88f5fbc8e77c9` (37389298278).
+Verification22.868813+5.359691+16.718891s versus runner5:38.03,RSS1,944,792KiB.
+These are four-cell i32 proofs with functional assumptions, not full Challenge8.
 
-**Current direction:** generic VF range-bound proof (no length cap), followed
-by the prepared actual insertion safety runner with measured UB flags. The Kani outer rewrite now freezes the initial
-pointer outside the invariant, uses explicit const pointer allocation arguments
-and address bounds, and adds an inductively checked element-stride obligation.
-It preserves input domain and all original obligations; arity-warning cause
-remains a hypothesis, rewrite not verified. Latest owned-range result: [37394022890](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890),
-source `2ba502bc71cd25657584592fb83da044a7323252`,
-`verifast_insert_tail_range`, 90 minutes. Symbolic generic range contract parses;
-actual insert_tail still fails first tail.sub(1) pointer-limit proof. Exact-source
-and refinement audits pass, verifier/overall1, runner14.10s RSS636,068KiB.
-No completed safety proof. Next expose/prove interior-pointer facts, no assumed
-conclusions or length narrowing. Default workflow choice commit `8016336`.
-Latest UB controls: [37394356873](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394356873),
-source `6e0503febfe9c162e2e89a7ccfbd6126c9ca3be9`, `ub_detector_controls`,90min.
-All7 execute. Both positives pass2/2covers each; uninit/invalidbool/misaligned
-controls have their intended failures. NULL check fails explicitly plus
-uninit/OOB: conservative classifier inconclusive,4 checks undetermined.
-Immutable-static write passes: missing detector for that concrete case.
-Suite1/notvalidated,497s cold build+compilations vs summed verification1.775s,
-maxRSS1,808,612KiB. Full logs/artifacts fetched. Keep immutable-byte gap explicit;
-investigate pinned compiler/CBMC lowering before claiming full required UB.
-Prepared actual insertion UB safety runner has the same profile but cannot
-establish the missing immutable-byte category. Latest array-inv result:
-[37395348422](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395348422),
-source `6851c1a9edc96f26f724efca2bc78acc78ef2a42`, range90min. Ghost call
-accepted; same first pointer-bound failure. Exact-source/refinement0;
-VF1(.10s),refiner.09s,runner15.66s,RSS620,480KiB. No completed proof.
-Next generic work: proved interior-pointer lemma from endpoints, no assumed
-conclusion or length restriction. Also prepare observed immutable-static write
-control after pinned-source audit showed write and pointer checks were modeled,
-but no mutability property emitted (--no-assert-contracts not its explanation).
-Next Actions selection: insertion_ub_safety_4,90min, actual bounded i32 safety
-without loop injection/sortedness assumptions; same UBflags and explicit
-immutable-byte gap. Latest actual safety attempt:
-[37395779522](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395779522),
-source `fe7567964629b627cf2bcb96ab71b8834316abcc`,safety90min. Kani uninit
-frontend ICE at initial_target_visitor.rs:107, unsupported Formatter function
-pointer resolution (#3300); no harness/property/covers verified. Runner3:56.45,
-RSS1,631,772KiB,overall1. Hypothesis: formatted range-index panic in harness.
-Prepared equivalent from_raw_parts_mut slice construction under unchanged
-valid len/offset assumptions, initialized array and comparator domain; no std
-runtime change/check suppression. Latest interior lemma:
-[37396479423](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396479423),
-source `da5f16efdcf604582e3646b9f4518bbce71165b6`,range90min. Helper parses;
-first mul_mono_l requires unestablished0<=sizeofT, actualinsert_tail not reached.
-Refinement/exactauditpass0,VF1(.12s),refiner.11s,runner12.75s,RSS636,748KiB.
-Next helper design must leave originalfunctionprecondition unchanged and make
-sizeof positivity a proved caller obligation, not an assumed input fact.
-Latest raw-slice actual safety:
-[37396688760](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396688760),
-source `43f133c72fcd4f3dffe033582aa96aa2500bf860`,actualsafety90min.
-CompilerICE resolved; real harness all7/7covers, allunwindassertions pass,
-no undetermined. Sole1/469 non-cover failure is unsupported validity check
-for copy_nonoverlapping::<i32>; pinned check_values.rs:387-393 TODO inserts it
-unconditionally. Verification3.1836462s,runner3:54.96,RSS1,821,596KiB,overall1.
-No completed safety proof; keep runtimecopy and valid-value flag, immutable-byte
-detector gap also remains. Generic VF helper now derives sizeof>=0 from first
-ownedcell via points_to_limits, preserving originalfunctionprecondition.
-Latest owned-cell helper result:
-[37397404058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397404058),
-source `91392b65f2dcc122a33a55f94377b6e372c74760`,range90min. Helper and
-first actual tail.sub(1) pass for symbolic genericrange, unchangedfunctionreq.
-Next actual obligation &*tail lacks ref_precreated_token; derive sharedrefs
-from existing two cell/Town resources, no callerprecreatedref assumptions.
-Exactaudit/refinement0,VF1(.13s),refiner.11s,runner13.73s,RSS636,440KiB.
-No completed insert_tail proof; CopyOnDrop/outerfunction remain unverified.
-Latest observed immutable result:
-[37397720683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397720683),
-source `75799de75efab17d9c386deea6c49047db16cb60`,observation90min. Two
-positivecontrols4/4covers; negativewrite+volatile-read+assert9 passes0/205 and
-1/1cover: modeled store is observable, readonly-byte detector missing. Suite1,
-notvalidated;306s build+compilations vs.68627047s summed verification,
-RSS1,807,488KiB. Originalwriteonlycontrol preserved. No active run.
-Next generic VF shared-reference prototype from ownedlasttwo arraycells with
-fresh ghost lifetime inside existing unsafe block, no Rust/source/precondition
-change and no fabricated static reference. It must retain proveninteriorhelper,
-exactbyteaudit and refinement checker; firstcallerborrow/lifetime obligation
-will be decided by Actions. Drop/outer/functionproof stillopen; required Kani
-validity-copy and immutable-byte checks concretely blocked on currentpin.
+**Current generic direction:** actual insert_tail extracted mechanically with
+CopyOnDrop and actual outer function, pinned VF26.09/nightly-2026-02-05.
+Only insert_tail specified; the other bodies remain unverified. Original range
+req has symbolic n>=2, writable initialized owned generic T cells and owned
+comparator F, no sortedness or length cap. Ens true remains a weak diagnostic.
+Run37397404058 at `91392b65f2dcc122a33a55f94377b6e372c74760` proved
+interior_pointer_limits and first actual tail.sub(1), then lacked the reference
+precreation token. Subsequent shared-cell preparation uses split arrays/Town,
+full/shared borrows and reference initialization. Lifetime diagnostics located
+half-token reservation at let_lft (37399825118): source verifast.ml:2629-2640
+keeps half until block exit. Two quarter accesses address the available half.
+Latest finished37400101276 at `86edc719f6aefcbe5acc66d1203bd6dbcf0e761a`
+fails Incorrect number of type arguments at ghost::<'cmp> on FnMut. Exact audit
+and refinement0,VF1(.11s),refiner.08s,runner11.53s,RSS621,304KiB. The active run
+removes that incomplete list; MIR translator replaces the entire list when
+annotated. Need Actions evidence for actual call/lifetime matching. Afterward,
+exclusive access must be recovered before tail.read even though the binding
+scope ends later. No completed generic function or guard/outer-loop proof.
 
-Latest shared-reference experiment:
-[37398670146](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398670146),
-source `6540b15cf54fa805224f594709d0b1a5613d23ee`,
-`verifast_insert_tail_range`,90min. Owned-last-two-cell splitting and a fresh
-ghost lifetime prepare the actual first comparator references; original req,
-Rust bytes and proved pointer helper preserved. Full evidence fetched:
-VF parse error at verified/smallsort.rs:60, second ghost statement in the
-new multiline ghost preparation. No proof obligations reached in this revision.
-Exact-byte audit/refinement0; VF1(.07s),refiner.10s,runner16.19s,
-RSS636,172KiB,overall1. No active run. Next correct pinned ghost-statement
-syntax without changing lifetime/resource obligations, then a new dispatch.
-Latest corrected-syntax run:
-[37398942673](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398942673),
-source `d1bd9d6b235a9072c90ad4256eba55290cbd5eda`,range90min. Only
-ghost annotation boundaries corrected; original statements/resources unchanged.
-Full logs/artifacts fetched. Parser and all split-cell/Town/full-borrow/shared
-initialization steps pass; next failure at second open_frac_borrow: missing
-[1/2]lifetime_token(cmp_k) while first borrow remains open. Callback not reached.
-Exactbyte/refinement0,VF1(.17s),refiner.10s,runner14.68s,RSS619,784KiB.
-No active run. Next correct fractional lifetime resource accounting with pinned
-open/close specs, preserve precondition and initialization obligations.
-Latest merge-fractions run:
-[37399426683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399426683),
-source `9c5f12fb41caf4d5d359e6a4e3b4527d9ffaa581`,range90min. Pinned
-begin_lifetime returns full token; share_full_borrow/init_ref_share preserve
-fractions. Only merge_fractions added before original two half-token accesses.
-Full evidence fetched: same missing half-token at second open_frac_borrow,
-despite accepted merge_fractions. Fragmentation hypothesis not confirmed.
-Exactbyte/refinement0,VF1(.18s),refiner.11s,runner14.22s,RSS633,700KiB.
-No active run. Next diagnostic assertions locate token loss before/after the
-first borrow access, without new assumptions or precondition changes.
-Latest token-assertion diagnostic:
-[37399630653](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399630653),
-source `83fd40c7ab9e4b0b1a231d74e0382cb59576a50c`,range90min. Added
-assertions of full token after merge and remaining half around first reference
-opening. Full logs/artifacts fetched: first full-token assertion after merge
-fails, before either opening. Preparation's total-full-token premise is false
-in this translated body; later assertions not reached. Exactbyte/refinement0,
-VF1(.11s),refiner.07s,runner10.97s,RSS624,500KiB. No active run. Next place
-checked assertions earlier around begin/bind/borrow/share/init to find loss;
-do not infer token conservation from isolated specs alone.
-Latest preparation-trace run:
-[37399825118](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399825118),
-source `e8fac271c7a83004a957e0e7fd364a72622bd7a0`,range90min. Checked full
-token assertions around creation/binding/borrow/share/init; no assumed facts.
-Full evidence fetched: full-token assertion immediately after begin_lifetime
-passes; full-token assertion immediately after let_lft binding fails at line56.
-Borrow/share/init operations not reached in this revision. This locates the
-change at lifetime binding, not reference initialization. Exactbyte/refinement0,
-VF1(.09s),refiner.08s,runner12.02s,RSS620,200KiB. No active run. Next inspect
-pinned binding-scope token reservation and use its proved available fraction;
-keep original req and lifetime cleanup obligations.
-Latest accounted-quarter run:
-[37400101276](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400101276),
-source `86edc719f6aefcbe5acc66d1203bd6dbcf0e761a`,range90min. Pinned
-verifast.ml:2629-2640 reserves half token for let_lft scope, returns it at exit.
-Assertions now prove available half after binding and a quarter after first
-access; two accesses request quarter each. FnMut call_mut spec itself requires
-no lifetime_token. Full evidence fetched: new failure is Incorrect number of
-type arguments at actual FnMut expression with ghost::<'cmp>. No half-token
-failure reported, but a full first-call proof is not established; inspect
-static/dynamic error ordering before inferring completed preceding steps.
-Exactbyte/refinement0,VF1(.11s),refiner.08s,runner11.53s,RSS621,304KiB.
-No active run. Next fix supported desugared FnMut ghost generic arguments.
-Long-lived let_lft scope also needs a sound way to recover borrowed cells before
-tail.read, since its reserved half returns only at unsafe-block exit.
+**Concrete Kani blockers on unchanged pin:** actual insertion UB safety run
+37396688760 at `43f133c72fcd4f3dffe033582aa96aa2500bf860` executes7/7covers,
+no undetermined,sole1/469failure is unsupported copy_nonoverlapping validity
+check. Pinned check_values.rs:387-393 inserts this unconditionally; do not
+remove the copy or valid-value flag. Verification3.1836462s versus runner3:54.96,
+RSS1,821,596KiB. Observed immutable-static write control37397720683 at
+`75799de75efab17d9c386deea6c49047db16cb60` unexpectedly verifies0/205 and
+1/1cover after write9/volatile-read/assert9, positive controls4/4covers.
+Detector missing for observable modeled immutable-byte mutation; suite correctly
+fails. Both categories remain open, no all-UB claim. See ub-checks.md.
+
+**Other pending tool questions:** outer-loop instrumentation run37390973809
+at `a3da2d490ca6129f0abd4c59063b8100ed73981b` compiles but emits missing-argument
+nondeterministic substitutions, stopsSIGTERM143 before final properties/covers.
+Never accept such a result. Frozen-pointer/const-address/stride rewrite is
+prepared but unverified; retain reproducer and obtain GOTO call/formal evidence
+on Actions before attributing the cause. See outer-invariant-diagnostic.md.
+Generic compiler-generated Drop uses pinned drop_in_place's weak summary; a
+method-local destructor contract alone does not explicitly provide restored
+array ownership. See verifast-drop-diagnostic.md for source evidence and the
+needed gating Actions probe; not yet a demonstrated cleanup-proof blocker.
+
+Full chronological run evidence, exact pins/domains/counts and prior failures
+are in README.md and topic notes. All completed runs above have fetched full
+logs/artifacts; artifacts expire7days. Runtime std source is unchanged,
+SHA256 `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
 
 ## Repository map and verifier details
 
