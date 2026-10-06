@@ -88,6 +88,20 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [All lifetime-scope regressions and actual unwind rejection](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
+  source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
+  Same pinned26.09 source/patch76c3f6db/prelude/exporter/refiner, pairedZ3,
+  ghost-byte/sourcehash/actualMIR audits pass. Build0/13.99s,RSS426,784KiB,
+  binary e1037db742e3b038796a0fe92d2b6606cb208d24c72315c6088a77061028a571.
+  All8HRTB guards pass0/1.13s; all12scope cases pass0/1.55s, two positive
+  proofs and ten intended failures, compiler/decode0 each. Actual first FnMut
+  preconditions/bool pass; synthetic unwind return125 rejects a live chunk
+  parameterized by local lifetime at strict scope end140. Exit post/normalcut/
+  fulltoken/recoveredcells/move remain unproved. VF1/.15s,RSS92,708KiB;
+  refiner0/.10s,RSS91,816KiB;overall1,runner1:10.88,RSS658,248KiB,setupdominates.
+  Next identify offending predicate/typeargs and check local cleanup versus
+  actual escaping resources, preserving rejection and unrestricted T/F domain.
+
 - [Scope regressions after successful source build](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
   source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
   Patch76c3f6db builds0/26.80s,RSS426,932KiB; binary

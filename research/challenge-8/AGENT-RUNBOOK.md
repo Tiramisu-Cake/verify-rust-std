@@ -21,11 +21,20 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37413224006](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
+**Latest completed actual strict-scope probe:** [37413224006](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
 source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
-Fix only outstanding-access fixture precise pred_ctor/application.
-Poll exact run and fetch full logs/artifacts; require all8+12cases before actual
-probe. Source semantic patch76c3f6db and unrestricted T/F domain unchanged.
+Full logs/artifacts inspected. Same26.09 pins/pairedZ3/ghost-byte/sourcehash/
+compilerMIR audits pass; patch76c3f6db builds0/13.99s,RSS426,784KiB,
+same e1037db742e3b038796a0fe92d2b6606cb208d24c72315c6088a77061028a571.
+All8HRTB guards pass0/1.13s and all12scope cases pass0/1.55s: 2positive
+proofs/basic+earlyreturn and10negative intended errors, everyexport/decode0.
+Actual comparator preconditions/bool pass; its synthetic unwind return125
+hits strict block end140: lifetime-scoped heap chunk still live. No exitpost/
+normalcut/fulltoken/recoveredcells/move proof yet. VF1/.15s,RSS92,708KiB;
+refiner0/.10s,RSS91,816KiB;overall1,runner1:10.88,RSS658,248KiB,setupdominates.
+No active run. Next identify offending predicate/typeargs at strict exit,
+check local cleanup ordering versus real escaped borrow resources. Preserve
+rejection and unrestricted T/F domain; source owner investigates diagnostics.
 
 **Latest completed scope-regression run:** [37412915463](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
 source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
