@@ -2558,3 +2558,5 @@ sub_big_int (2^width) 1 expresses same allowed bound and typechecks; no rule/dom
 profile/check change. Stock run37540829027 theorem remains separately PASS.
 
 Run3 candidate corrects only minus_big_int->sub_big_int in metadata max bound; patch SHA256 fd37c158aecd1d383d32e1a7656fc9a1bc4f9d73504baf2f15a9f5714d79ee7a. Same schema/domain/engine rules/fixtures/flags/gates/30min selection. Static applicability/diff checks PASS. This tests the measured build failure; no unchanged rerun.
+
+Dispatched NEW run37543115091, source/head55b856cd5285961e02323dd269044d2d194183d6, created2026-10-06T22:50:41Z; exact pushed/remote/run match, verifast_rust_fieldless_layout/30. Budget3/6,125completedsec+activejob. Same eight-file profile corrected subtraction only, original stock/experimental matrix and all checks retained.

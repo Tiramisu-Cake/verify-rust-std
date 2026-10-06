@@ -179,7 +179,7 @@ index 436a5f7..7f21a2e 100644
  module FieldDefRd = VariantDefRd.FieldDef
  module RegionRd = VfMirStub.Reader.Region
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..fc85cab 100644
+index f1e3e50..f99a59d 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -5961,6 +5961,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -248,7 +248,7 @@ index f1e3e50..fc85cab 100644
 +               || ExactRustLayoutRd.binding_target_triple_get exact_layout <> expected_target_triple
 +               || ExactRustLayoutRd.binding_pointer_width_get exact_layout <> expected_pointer_width then
 +              binding_mismatch "ADT identity, definition source span, or target differs";
-+            Some (RustLayout (layout_size, layout_align))
++            Some (Ast.RustLayout (layout_size, layout_align))
 +      in
        let* kind, fds, fds_no_zst, def, aux_decls =
          match AdtKindRd.get kind_cpn with

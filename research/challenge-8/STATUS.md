@@ -4,7 +4,7 @@ Updated 2026-10-07. **IN PROGRESS — stock generic H_align, then narrow Rust ZS
 Owner resumes from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75; entry clean,
 local/remote research heads match, fork Tiramisu-Cake/verify-rust-std, no active run.
 Budget: at most **6 NEW manual hosted runs / 10800 summed job-seconds** including
-all builds, preparation and verification. Used 2/6, 125 completed job-seconds. No active experiment. One experiment at a time.
+all builds, preparation and verification. Used 3/6; 125 completed job-seconds plus current job. One experiment at a time.
 
 **Stock baseline PASS** in [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
 source968c073983e0fa27112c5d8a4e10a36b05828323, exact head_sha checked.
@@ -28,6 +28,9 @@ line6066: unary minus_big_int applied to two arguments. Exporter build and entir
 experimental matrix NOT RUN. Full logs/artifact11449447487 inspected. Stock PASS
 unchanged. Next: binary sub_big_int correction, NEW exact-SHA hosted run/30;
 no semantic expansion or weakening.
+Active NEW [run37543115091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543115091),
+source/head55b856cd5285961e02323dd269044d2d194183d6, created22:50:41Z on2026-10-06,
+exact pushed/head_sha match. Monitor this run; no duplicate.
 
 Separate experimental layout profile limited to genuinely
 fieldless, nongeneric-definition Sized Rust structs, repr(Rust)/repr(C), optional

@@ -4,7 +4,7 @@ This patch is a separate experiment derived from VeriFast 26.09 source commit
 `809de4596839b739dd999f9e462242c835e3af46`. Its compiler-private exporter is
 intended for Rust `nightly-2026-02-05`, rustc commit
 `db3e99bbab28c6ca778b13222becdea54533d908`. The patch SHA-256 is
-`fd37c158aecd1d383d32e1a7656fc9a1bc4f9d73504baf2f15a9f5714d79ee7a`.
+`bb31a6e119a19aee2fee66b3afd07df412b54ceb991e34c672b783b8446b6a9b`.
 
 The exporter emits explicit `rustLayoutInfo.absent` for ADTs outside the exact
 layout domain or when rustc's layout query fails. It emits `exact` only for a
