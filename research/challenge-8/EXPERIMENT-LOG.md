@@ -2887,3 +2887,49 @@ Pointer selection summary unavailable until actual proof; if mechanism needs tru
 extension, document minimum scope and move to independent range task. No historical
 FnMut/Drop/tuple patch chain, new primitive spec or semantic implementation allowed.
 Selection verifast_sort4_components/select/30; remaining7NEW before dispatch.
+
+N5 full audit complete: stock abstract rank theorem accepted,39statements verified;
+32index and24feasible order return/leak checks. All intermediate min/middle/max and
+final lexicographic rank/ID posts checked; stability negative fails only line17.
+Source/pins/before-after hashes exact; saved N4 replay derives expected target
+failure without modifying original logs/JSON or rerunning verifier. Actual SWO/T
+callback simulation, pointer selection/memory/unwind composition remain open.
+
+N6 dispatched run37549040942/sourceaed1d970acb656cd29149241bf6720198895adac,
+created2026-10-06T23:53:46Z;exact pushed/head match,select/30.
+Result:job112559882836,23:53:50–23:54:22UTC October6,32s,FAILURE.
+Full log/artifact11451463714 inspected;43392bytes,ZIP SHA256
+6cc3354d63c2f06a9428d941d95fed179bf28a52cf219cae6e9932925b77cf2e.
+Export/decode/refinement0,source/exact extracted body/ghost-strip integritytrue,
+threeactual intrinsic calls and DropOnPanic retained,named caller checked once.
+FIRST causal failure is verified/lib.rs21,24-50: `No such function:
+std::mem::MaybeUninit::<T>::new`, at first actual constructor. Thus select intrinsic
+absence remains a later STATIC concern, not the observed first blocker. Full
+pointer selection/provenance/frame/no-unwind posts NOT PROVEN. No missing runtime
+constructor summary/stub/model rewrite added; actual-constructor/source-capability
+review follows while independent geometry advances. Night6/12,439/10800jobseconds.
+
+### N7 exact-selection scalar range theorem card
+
+Source: actual sort4 blob e555fce...,min/lo/hi/max expressions paired with dst0..3,
+owned checked index theorem reused at same frozen stockprofile. Hypothesis: full
+separated half-open4slot spans imply every selected unit interval is within its
+own full span and separated from paired destination interval for all5Boolean
+answers and arbitrary nonnegative stride (including0). Domain: mathematical base
+integerss,d,stride>=0,ordered disjoint spans s+4stride<=d or d+4stride<=s;
+helper i,j0..3,derived selected indices via proved index theorem. Complete post:
+permutation + all four source/dst unit containment inequalities + per-copy interval
+separation. No pointer equality/provenance/permissions/initialization/alignment,
+machine overflow or actual memory execution/resource/unwind claim; ghost theorem
+has no runtime/unwind path. For stride0,empty regions allow coincident addresses,
+not collapsed logical occurrence IDs. Source/pin/no-assumption guards retained.
+Positive isolated sort4-range-lemmas.c; named s4_selected_cells_within_disjoint_spans
+calls checked index/range/multiplication lemmas. Negative isolated
+s4_range_wrong_final_endpoint: satisfiable stride>0/full-separated-spans premises,
+mutant last-slot endpoint d+5stride<=d+4stride must fail only targetassertion.
+Other/setup failure INCONCLUSIVE; false theorem quarantines stock. Success accepts
+only scalar geometric component; pointer/resource/raw-scratch bridge remains future
+design. Ordinary proof errors may be corrected by NEW source/run within budget.
+Selection verifast_sort4_components/range/30. Full card/spec-boundary in
+SORT4-MEMORY-OPERATIONS.md. Main0970b84 only adds range/swo manualinput options;
+no other workflow change/main research-history merge or semantic extension.

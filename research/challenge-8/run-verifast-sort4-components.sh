@@ -8,7 +8,7 @@ cd "$repo"
 budget=${1:?budget required}
 component=${2:?component required}
 [[ "$budget" == 30 ]] || { echo 'night run allocation is 30 minutes' >&2; exit 2; }
-[[ "$component" == index || "$component" == order || "$component" == select ]] || exit 2
+[[ "$component" == index || "$component" == order || "$component" == select || "$component" == range || "$component" == swo ]] || exit 2
 evidence="$repo/research-results/verifast-sort4-$component"
 if [[ "${3:-}" != --inside ]]; then
     [[ ! -e "$evidence" ]] || exit 2
@@ -49,12 +49,15 @@ export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"
     sha256sum "$archive" "$tool_home/bin/verifast" "$tool_home/bin/refinement-checker" "$tool_home/bin/vf-rust-mir-exporter"
     find "$tool_home/bin/rust" -type f -name '*.rsspec' -print0 | sort -z | xargs -0 -r sha256sum
 } >> "$evidence/environment.txt"
-if [[ "$component" == index || "$component" == order ]]; then
+if [[ "$component" != select ]]; then
     if [[ "$component" == order ]]; then
         sha256sum research/challenge-8/sort4-order-lemmas.c research/challenge-8/sort4-order-negative.c >> "$evidence/environment.txt"
         gh run download 37548475221 --repo Tiramisu-Cake/verify-rust-std --name smallsort-research-37548475221-1 --dir "$evidence/saved-index"
         python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked" --replay-index-evidence "$evidence/saved-index"
     else
+        if [[ "$component" == range || "$component" == swo ]]; then
+            sha256sum "research/challenge-8/sort4-$component-lemmas.c" "research/challenge-8/sort4-$component-negative.c" >> "$evidence/environment.txt"
+        fi
         python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked"
     fi
 else

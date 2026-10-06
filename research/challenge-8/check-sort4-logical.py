@@ -113,7 +113,7 @@ def replay_index(saved, out):
     print(f"saved N4 index replay: {'PASS' if gate else 'INCONCLUSIVE'}")
     return gate
 
-def check_case(tool, out, filename, lemma, negative):
+def check_case(tool, out, filename, lemma, negative, require_index=True):
     directory = out / filename.removesuffix(".c")
     directory.mkdir()
     for name in ("sort4-index.gh", filename):
@@ -139,7 +139,7 @@ def check_case(tool, out, filename, lemma, negative):
         if status == 0:
             classification = "FALSE_THEOREM_PROVED"
     else:
-        ok = status == 0 and headers.count(lemma) == 1 and headers.count("s4_index_permutation") == 1 and not errors and before == after
+        ok = status == 0 and headers.count(lemma) == 1 and (not require_index or headers.count("s4_index_permutation") == 1) and not errors and before == after
         classification = "PASS" if ok else "INCONCLUSIVE"
     result = {"file": filename, "lemma": lemma, "command": command, "verifast_exit": status,
               "function_headers": headers, "errors": errors, "target_line": target,
@@ -154,7 +154,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tool-home", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--component", choices=("index", "order"), required=True)
+    parser.add_argument("--component", choices=("index", "order", "range", "swo"), required=True)
     parser.add_argument("--replay-index-evidence", type=Path)
     args = parser.parse_args()
     if any(os.environ.get(k) != v for k,v in (("GITHUB_ACTIONS","true"),("RUNNER_ENVIRONMENT","github-hosted"),("RUNNER_OS","Linux"))):
@@ -164,13 +164,19 @@ def main():
     args.evidence.mkdir(parents=True, exist_ok=False)
     source_binding(args.evidence)
     replay_ok = replay_index(args.replay_index_evidence,args.evidence) if args.replay_index_evidence else True
-    cases = (("sort4-index-lemmas.c", "s4_index_application", False),
-             ("sort4-index-negative.c", "s4_wrong_hi_duplicates_min", True)) if args.component == "index" else (
-             ("sort4-order-lemmas.c", "s4_rank_order_and_stability", False),
-             ("sort4-order-negative.c", "s4_wrong_equal_middle_order", True))
+    cases = {
+        "index": (("sort4-index-lemmas.c", "s4_index_application", False),
+                  ("sort4-index-negative.c", "s4_wrong_hi_duplicates_min", True)),
+        "order": (("sort4-order-lemmas.c", "s4_rank_order_and_stability", False),
+                  ("sort4-order-negative.c", "s4_wrong_equal_middle_order", True)),
+        "range": (("sort4-range-lemmas.c", "s4_selected_cells_within_disjoint_spans", False),
+                  ("sort4-range-negative.c", "s4_range_wrong_final_endpoint", True)),
+        "swo": (("sort4-swo-lemmas.c", "s4_swo_rank_bridge", False),
+                ("sort4-swo-negative.c", "s4_wrong_rank_bridge", True)),
+    }[args.component]
     results = []
     for filename, lemma, negative in cases:
-        result = check_case(args.tool_home, args.evidence, filename, lemma, negative)
+        result = check_case(args.tool_home, args.evidence, filename, lemma, negative, require_index=args.component != "swo")
         results.append(result)
         if result["classification"] == "FALSE_THEOREM_PROVED":
             break
