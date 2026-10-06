@@ -58,3 +58,17 @@ not count as a negative proof. The actual unrestricted `T`/`F`, symbolic-length
 identical Rust bytes. Guard ownership, its later reads and cleanup, loop
 invariants, and the final range contract remain separate obligations.
 All builds and verification run only on hosted Actions.
+
+## Hosted acceptance result
+
+Run [37417173472](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37417173472)
+at source `3eb19991b1d8c2312d9feae535b02068335f5162` builds this exact patch
+and passes all eight HRTB, twelve strict-scope and five reference fixtures.
+Both positive reference fixtures prove the exact result7; the three negatives
+fail on the intended precreation, initialization and read-permission contracts.
+Every fixture compiler export and decode succeeds. The actual generic insertion
+passes held reference preparation, guard construction, its first physical copy
+and destination update. The sift==begin branch then fails at compiler-generated
+cleanup because the generic drop summary requires opaque CopyOnDrop ownership.
+No destructor, second comparison, loop induction or final insertion contract
+is verified by this run. See the runbook for binary, times and resource pins.

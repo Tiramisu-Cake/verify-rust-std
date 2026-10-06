@@ -51,8 +51,9 @@ preserves the modeled physical bytes; it does not remove the destination's
 `ManuallyDrop<T>` maps to `T` (`vf_mir_translator.ml:792`), and its `new` and
 dereference operations are identities (`:2413-2416`). The next prefix
 milestone is to recover the actual tail cell, verify its read and wrapper
-construction, and initialize the guard around the held value. This has not
-yet been verified by the current insertion probe.
+construction, and initialize the guard around the held value. These prefix operations now pass in hosted run37417173472 at source
+3eb19991b1d8c2312d9feae535b02068335f5162. The first physical shift and guard
+destination update also pass; logical ownership transfer and cleanup do not.
 
 The copy summary at `bin/rust/std/lib.rsspec:545-548` preserves the source's
 physical values and writes those values to an initialized destination slice.
@@ -63,3 +64,13 @@ into the gap, and restore the held ownership through the actual guard cleanup.
 Do not invent an uninitialized-destination blocker from the logical gap alone.
 The generic ZST case still needs validation: distinct element positions may
 have equal addresses and zero byte extent. No non-ZST assumption is added.
+
+## Actual compiler cleanup reached
+
+Hosted run37417173472 reaches the sift==begin break after the first physical
+copy and dst update. Its actual compiler-generated drop requires
+`own(CopyOnDrop_type_info(T))(t, guard_value)` at std/lib.rsspec567 and fails
+there. The actual Drop method is still specless and skipped; this error is
+neither a destructor proof nor proof that supplying opaque own would expose
+restored destination resources. Next gate must check the actual method and
+its reuse through compiler cleanup separately.

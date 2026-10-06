@@ -21,6 +21,28 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Latest completed held-reference and first-shift run:** [37417173472](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37417173472),
+source `3eb19991b1d8c2312d9feae535b02068335f5162`, manually_drop_ref90min.
+Full logs/artifacts inspected. Same26.09/tool/prelude pins, pairedZ3,
+exact4sourcefiles, ghost-byte/sourcehash/compilerMIR audits pass. Patch5500204a
+on translator15a9 yields f8751fab; consolebuild0/18.86s,RSS426,436KiB;
+binaryc76b4255ec5d5d55c011dc2dede8f4e862f80fef7a342980acb23c5c7398161f.
+All8HRTB guards0/1.73s and12scope cases0/2.31s pass. All5trackedreference
+fixtures pass0/1.37s: scalar exact7 (18records), ManuallyDrop exact7 (30records),
+and three intended negative missingprecreate/init/readpermission errors;
+everycompiler/decode0. Actual unrestrictedT/F,n>=2: firstFnMutBool/synthetic
+unwind and strictcut/recovery pass; tail.read147, heldref148-149, actualguard
+creation150, firstcopy_nonoverlapping156 and dst=sift157 pass. On sift==begin159
+path compiler cleanup169 needs opaque CopyOnDrop.own at std/lib.rsspec567.
+Secondcomparison165, furtherloop/cleanup/restoredrange/fullfunction remain
+unproved; initialfalse-comparison return not claimed checked. Named2 includes
+errorcontext duplicate,248execution/return records. VF1/.25s,RSS92,704KiB;
+refiner0/.15s,RSS91,704KiB;overall1,runner1:22.47,RSS642,920KiB,setupdominates.
+No active run. Next exact-source destructor/restoration gating experiment and
+sound guard ownership route; method contract alone must not be treated as
+replacement for generic compiler drop_in_place summary. Sol investigates.
+Runtime std hash/domain unchanged; no T/F restriction or assumed own bridge.
+
 **Latest completed address-prepass regression run:** [37415731049](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37415731049),
 source `17e96da0c56bd51c587c6023bbedf72bec588583`,address_taken90min.
 Full logs/artifacts inspected. Samepins/pairedZ3/ghost-byte/sourcehash/MIRaudit,
