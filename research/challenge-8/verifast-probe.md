@@ -107,13 +107,13 @@ content, starts a short lifetime, creates two full borrows, turns them into
 shared borrows, and uses `precreate_ref` plus `init_ref_share` to prepare
 the two actual `&*` expressions. Fractional `ref_initialized` resources and
 `<&T>.own` resources are prepared before the comparator call. The existing
-`unsafe` block starts with a ghost `let_lft 'cmp = cmp_k` declaration, and the
-call carries a ghost lifetime argument. All of these are comments in the
+`unsafe` block starts with a ghost `let_lft 'cmp = cmp_k` declaration. All of
+these additions are comments in the
 verified copy; no Rust statement or signature changes. The old precondition
 is unchanged, including support for symbolic lengths and generic types.
 This preparation is not yet verified. In particular, the Actions run must
-test whether the frontend accepts lifetime arguments on the desugared
-`FnMut` call and connects the split cells to `sift` and `tail`.
+test whether the frontend connects the split cells to `sift` and `tail` and
+accepts the shared-reference resources at the desugared `FnMut` call.
 
 Actions run
 [37398670146](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398670146)
@@ -174,6 +174,25 @@ track `1/2` through borrow/share/initialization and `1/4` after the first
 fractional opening. These fractions follow the verifier's documented resource
 transition rather than adding a precondition or assuming a token. Actions
 still needs to verify the revised calls and the first comparator expression.
+
+Actions run
+[37400101276](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400101276)
+at `86edc71` passed the quarter-token preparation and reached the comparator
+call, then rejected the single ghost lifetime argument with “Incorrect number
+of type arguments.” The pinned
+[MIR translator](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml)
+replaces the *entire* call substitution list when a ghost generic list is
+provided. With no such list, it uses all MIR substitutions and represents
+their lifetimes as inferred types. The next revision therefore removes only
+the incomplete ghost call argument; it leaves the call's Rust text and the
+borrow preparation intact. The next Actions result must show whether those
+inferred lifetimes match the prepared references.
+
+The ghost `let_lft` keeps half the lifetime token reserved until the enclosing
+`unsafe` block ends, while `tail.read()` occurs inside that block. After the
+first comparator call is processed, restoring exclusive access before the
+read will need a proved borrowing strategy that respects this block scope.
+The current experiment does not solve that later obligation.
 
 This stage deliberately stops at the first comparison. Ending its lifetime,
 recovering potentially changed `T` values after comparator interior mutation,

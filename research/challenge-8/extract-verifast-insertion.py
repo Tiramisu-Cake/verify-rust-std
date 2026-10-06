@@ -111,7 +111,6 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ close_ref_own::<'cmp, T>(cmp_tail_ref);
         //@ close_ref_own::<'cmp, T>(cmp_sift_ref);
 """
-RANGE_CALL_GHOST = "/*@::<'cmp>@*/"
 RANGE_BODY_ANCHOR = (
     "    // SAFETY: see individual comments.\n"
     "    unsafe {\n"
@@ -204,7 +203,6 @@ def main() -> None:
         injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
         injections["lifetime_bind"] = RANGE_LIFETIME_BIND
         injections["comparison_prep"] = RANGE_COMPARE_PREP
-        injections["comparison_call"] = RANGE_CALL_GHOST
         verified = verified.replace(HEADER, HEADER + RANGE_INTERIOR_LEMMA, 1)
         verified = verified.replace(SIFT_ANCHOR, RANGE_BOUND_GHOST + SIFT_ANCHOR)
         verified = verified.replace(
@@ -216,9 +214,7 @@ def main() -> None:
         )
         verified = verified.replace(
             RANGE_COMPARE_ANCHOR,
-            RANGE_COMPARE_PREP + RANGE_COMPARE_ANCHOR.replace(
-                "is_less", "is_less" + RANGE_CALL_GHOST, 1
-            ),
+            RANGE_COMPARE_PREP + RANGE_COMPARE_ANCHOR,
             1,
         )
     stripped = verified
