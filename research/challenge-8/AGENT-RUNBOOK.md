@@ -148,7 +148,7 @@ source `6540b15cf54fa805224f594709d0b1a5613d23ee`,
 `verifast_insert_tail_range`,90min. Owned-last-two-cell splitting and a fresh
 ghost lifetime prepare the actual first comparator references; original req,
 Rust bytes and proved pointer helper preserved. Full evidence fetched:
-VF parse error at verified/smallsort.rs:60, first array_inv statement in the
+VF parse error at verified/smallsort.rs:60, second ghost statement in the
 new multiline ghost preparation. No proof obligations reached in this revision.
 Exact-byte audit/refinement0; VF1(.07s),refiner.10s,runner16.19s,
 RSS636,172KiB,overall1. No active run. Next correct pinned ghost-statement

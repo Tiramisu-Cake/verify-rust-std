@@ -310,7 +310,7 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   `verifast_insert_tail_range`,90min,VF26.09/nightly-2026-02-05 unchanged.
   Original symbolic generic owned-range precondition retained; new ghost
   lifetime and final-two-cell preparation leave actual Rust bytes unchanged.
-  VF fails parsing verified/smallsort.rs:60 at the first array_inv statement
+  VF fails parsing verified/smallsort.rs:60 at the second ghost statement
   in a multiline ghost block; no new proof obligations reached. Exact-byte
   audit/refinement0, VF1(.07s,RSS165,324KiB),refiner.10s,RSS164,720KiB;
   runner16.19s,RSS636,172KiB,overall1. Full logs/artifacts fetched.

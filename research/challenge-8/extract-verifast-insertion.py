@@ -62,39 +62,37 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
 RANGE_BOUND_GHOST = "        //@ interior_pointer_limits::<T>(begin, n, n - 2);\n"
 RANGE_LIFETIME_BEGIN = "    //@ let cmp_k = begin_lifetime();\n"
 RANGE_LIFETIME_BIND = "        /*@ let_lft 'cmp = cmp_k; @*/\n"
-RANGE_COMPARE_PREP = """        /*@
-        array_inv::<T>();
-        array_split::<T>(begin, n - 2);
-        array_split::<T>(begin + (n - 2), 1);
-        foreach_split(xs, own::<T>(t), n - 2);
-        length_drop(n - 2, xs);
-        note(length(drop(n - 2, xs)) == 2);
-        foreach_split(drop(n - 2, xs), own::<T>(t), 1);
-        note(sift == begin + (n - 2));
-        note(tail == begin + (n - 1));
-        open array::<T>(sift, 1, take(1, drop(n - 2, xs)));
-        open array::<T>(tail, 1, drop(1, drop(n - 2, xs)));
-        open foreach(take(1, drop(n - 2, xs)), own::<T>(t));
-        open foreach(drop(1, drop(n - 2, xs)), own::<T>(t));
-        open own::<T>(t)(head(take(1, drop(n - 2, xs))));
-        open own::<T>(t)(head(drop(1, drop(n - 2, xs))));
-        close_full_borrow_content::<T>(t, sift);
-        close_full_borrow_content::<T>(t, tail);
-        borrow(cmp_k, <T>.full_borrow_content(t, sift));
-        borrow(cmp_k, <T>.full_borrow_content(t, tail));
-        share_full_borrow::<T>(cmp_k, t, sift);
-        share_full_borrow::<T>(cmp_k, t, tail);
-        let cmp_tail_ref = precreate_ref(tail);
-        let cmp_sift_ref = precreate_ref(sift);
-        init_ref_share::<T>(cmp_k, t, cmp_tail_ref);
-        init_ref_share::<T>(cmp_k, t, cmp_sift_ref);
-        open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/2);
-        open [?tail_ref_frac]ref_initialized_::<T>(cmp_tail_ref)();
-        open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/2);
-        open [?sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
-        close_ref_own::<'cmp, T>(cmp_tail_ref);
-        close_ref_own::<'cmp, T>(cmp_sift_ref);
-        @*/
+RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
+        //@ array_split::<T>(begin, n - 2);
+        //@ array_split::<T>(begin + (n - 2), 1);
+        //@ foreach_split(xs, own::<T>(t), n - 2);
+        //@ length_drop(n - 2, xs);
+        //@ note(length(drop(n - 2, xs)) == 2);
+        //@ foreach_split(drop(n - 2, xs), own::<T>(t), 1);
+        //@ note(sift == begin + (n - 2));
+        //@ note(tail == begin + (n - 1));
+        //@ open array::<T>(sift, 1, take(1, drop(n - 2, xs)));
+        //@ open array::<T>(tail, 1, drop(1, drop(n - 2, xs)));
+        //@ open foreach(take(1, drop(n - 2, xs)), own::<T>(t));
+        //@ open foreach(drop(1, drop(n - 2, xs)), own::<T>(t));
+        //@ open own::<T>(t)(head(take(1, drop(n - 2, xs))));
+        //@ open own::<T>(t)(head(drop(1, drop(n - 2, xs))));
+        //@ close_full_borrow_content::<T>(t, sift);
+        //@ close_full_borrow_content::<T>(t, tail);
+        //@ borrow(cmp_k, <T>.full_borrow_content(t, sift));
+        //@ borrow(cmp_k, <T>.full_borrow_content(t, tail));
+        //@ share_full_borrow::<T>(cmp_k, t, sift);
+        //@ share_full_borrow::<T>(cmp_k, t, tail);
+        //@ let cmp_tail_ref = precreate_ref(tail);
+        //@ let cmp_sift_ref = precreate_ref(sift);
+        //@ init_ref_share::<T>(cmp_k, t, cmp_tail_ref);
+        //@ init_ref_share::<T>(cmp_k, t, cmp_sift_ref);
+        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/2);
+        //@ open [?tail_ref_frac]ref_initialized_::<T>(cmp_tail_ref)();
+        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/2);
+        //@ open [?sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
+        //@ close_ref_own::<'cmp, T>(cmp_tail_ref);
+        //@ close_ref_own::<'cmp, T>(cmp_sift_ref);
 """
 RANGE_CALL_GHOST = "/*@::<'cmp>@*/"
 RANGE_BODY_ANCHOR = (

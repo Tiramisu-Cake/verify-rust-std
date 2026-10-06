@@ -115,6 +115,16 @@ This preparation is not yet verified. In particular, the Actions run must
 test whether the frontend accepts lifetime arguments on the desugared
 `FnMut` call and connects the split cells to `sift` and `tail`.
 
+Actions run
+[37398670146](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398670146)
+at `6540b15` accepted extraction, refinement, and the lifetime declarations,
+then stopped at a parse error on the second command in the comparison's
+multi-command `/*@ ... @*/` annotation. The pinned
+[function-body annotation syntax](https://github.com/verifast/verifast/blob/26.09/docs/rust-reference/src/func-body-annots.md)
+allows one ghost command per annotation unless commands are grouped in an
+explicit ghost block. The corrected probe gives each command its own `//@`
+annotation; this syntax-only correction awaits a new Actions run.
+
 This stage deliberately stops at the first comparison. Ending its lifetime,
 recovering potentially changed `T` values after comparator interior mutation,
 and restoring ownership on the early-return, normal, and unwind paths remain
