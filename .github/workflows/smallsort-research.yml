@@ -8,6 +8,7 @@ on:
         type: choice
         default: insertion_all_4
         options:
+          - sort4_functional
           - insertion_all_4
           - insertion_contracts_4
           - insertion_direct_4
@@ -87,6 +88,7 @@ jobs:
           RUN_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
         run: |
           case "$PROOF_SELECTION" in
+            sort4_functional) bash research/challenge-8/run-sort4.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_probe) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_range) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" range ;;
             verifast_insert_tail_tuple_overlay) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_overlay ;;
