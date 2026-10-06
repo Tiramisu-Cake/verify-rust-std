@@ -12,6 +12,11 @@ The owner's server is for editing and orchestration only; do not build or verify
 unfinished, the current regression bug and places requiring a fresh view.
 This documentation update does not resume experiments.
 
+Read [the revised plan](REASSESSMENT-2026-10-06.md) for the fresh source/evidence
+review and continuation criteria. Complete the all-path resource ledger and
+trust-boundary review before expanding the verifier. No new proof result or
+Actions run was produced by this documentation checkpoint.
+
 ## Target and scope
 
 - Target: the standard library in this repository, not a reimplementation.
@@ -60,7 +65,8 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 Agents dispatch and inspect each run autonomously using `gh` and the runbook.
-After resumption and the nested-match fix, the next selection is
+After the resource/architecture review, resumption and the nested-match fix,
+the first hosted diagnostic selection is
 `verifast_local_drop_caller_gate`,budget90min, on
 `challenge-8/research`. Its experimental `tuple_local_drop` source build adds
 restricted reuse of an annotated same-unit Drop contract for bare-local compiler

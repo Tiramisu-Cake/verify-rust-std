@@ -30,6 +30,16 @@ does not supersede the current stopped status or the consolidated handoff.
 experiment is completed and its full evidence is inspected. Do not dispatch
 further work until the owner resumes it.
 
+**Read-only reassessment — 2026-10-06:** local/remote research HEAD was
+`e0ef921e4058404b4944aff4335f79123ed53e61`; latest run and stopped status
+confirmed on GitHub. Read [the revised plan](REASSESSMENT-2026-10-06.md) for
+the current continuation order: complete the resource ledger and architecture/
+trust-boundary review before further semantic verifier changes. The existing
+nested-match repair/full local-cleanup gate remains a diagnostic after resumption;
+it does not by itself justify the full insertion approach. No new proof code or
+Actions experiment in this review. Size-helper37401540878 used the pinned release
+binary; generic insertion/Drop used the experimental source-derived chain.
+
 **Latest corrected local-cleanup regression failure:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
 source `b3da9a5ef53b8001e63ce511ba27ae8efce67343`, local_drop_caller_gate90min.
 Full logs/artifacts inspected. Patchbc13ff90/translator03bf4a5c,
