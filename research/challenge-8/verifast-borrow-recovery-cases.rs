@@ -4,7 +4,7 @@
 /*@
 pred comparison_debt<T>(
     t: thread_id_t, k: lifetime_t, left: *T, right: *T,
-    left_ref: *T, right_ref: *T, left_fraction: real, right_fraction: real;) =
+    left_ref: *T, right_ref: *T, left_fraction: real, right_fraction: real) =
     [left_fraction]ref_initialized::<T>(left_ref) &*&
     close_frac_borrow_token(
         left_fraction, ref_initialized_::<T>(left_ref), 1/4, k) &*&

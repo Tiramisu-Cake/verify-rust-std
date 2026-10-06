@@ -123,6 +123,17 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Baseline recovery declaration diagnostic:** [37437183634](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437183634),
+  source `f9a7159c3e3320726cbb0b286ea9d233b1e4c0c8`, baseline recovery90min,
+  release26.09/nightly2026-02-05/no experimental patches. Full evidence inspected:
+  all5export/decode/refinement0, source unchanged after every tool. VF1 for all5
+  before any helper/caller body: wrapper precision fails on imprecise close-token
+  predicate. All body/header/call counts0; all3 negative classifications reject
+  this unrelated failure. No recovery/negative proof claimed. VF.10s (.11s
+  generic), refinement.05s (.06s generic); runner17.65s,RSS640,548KiB, release
+  setup dominates. No source build/covers/loop bounds. Correct the debt wrapper's
+  invalid precise declaration, preserve all conjuncts/posts, then NEW baseline run.
+
 - **Complete local-cleanup diagnostic passed:** [37435525052](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37435525052),
   source `51dcf65b10a5c0d8ee4f39a17086d8493be8dcfb`, localcaller90min,
   derived26.09/nightly2026-02-05, unchanged resource contracts/domain/std.

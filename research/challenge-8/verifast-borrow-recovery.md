@@ -18,6 +18,13 @@ fractional accesses, merges the returned portions with the half lifetime token,
 ends the lifetime, performs both `borrow_end` operations, and opens both full
 borrow contents to restore the current values and `T.own` chunks.
 
+The debt wrapper is an ordinary, imprecise predicate: its close-token conjunct
+is itself imprecise in the pinned runtime. A precise declaration fails before
+body verification, as run37437183634 showed. The explicit nonghost-only helper
+does not need a precise wrapper. The correction removes that invalid metadata
+claim and leaves every conjunct, ownership resource and target post unchanged;
+it neither introduces automatic application nor disables precision checking.
+
 Three negatives target helper or function contracts: a missing half lifetime
 token at the helper precondition, a missing `comparison_debt` at that same
 call, and a false recovered-value postcondition after the helper. They must
@@ -42,3 +49,20 @@ The runner pins VeriFast 26.09 and `nightly-2026-02-05` through
 `809de4596839b739dd999f9e462242c835e3af46` and checks schema SHA-256
 `7f3ebce320a33bcb956d51b8387754729e6516f4d15ba8dfdc61e6e36f90dfd9` before
 decoding MIR.
+
+## First hosted result
+
+[37437183634](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437183634)
+checked source `f9a7159c3e3320726cbb0b286ea9d233b1e4c0c8`, selection
+verifast_borrow_recovery90min. Full logs/artifacts inspected. All five readonly
+exporter/decode/refinement checks return0, and source hashes remain unchanged
+after each tool. All five VF runs return1 at the same predicate declaration:
+`Preciseness check failure: callee is not precise.` No helper/caller body or
+explicit call is reached; negative classifiers correctly reject this failure
+as unrelated to their intended resource/postcondition errors. Thus no recovery
+proof or intended-negative result is claimed. VF .10s (.11s generic), refinement
+.05s (.06s generic); runner17.65s,RSS640,548KiB. Cold release setup dominates,
+no source compilation, covers or loop bounds. Exact release console SHA-256
+`dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc`,
+prelude `d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5`.
+Next new exact-SHA run after correcting the wrapper declaration.

@@ -148,16 +148,23 @@ Continue -> ReturnStmt(unwinding) skips trailing ghost statements; first insert
 comparison precedes any guard. Full direct-panic recovery remains an architecture
 gate, not a failed post to weaken. Runtime std unchanged; no new kernel hooks.
 
-**Active run:** [37437183634](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437183634),
+**Latest completed result:** [37437183634](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437183634),
 source `f9a7159c3e3320726cbb0b286ea9d233b1e4c0c8`,
 verifast_borrow_recovery90min, manually dispatched2026-10-06T08:35:58Z.
 Pinned release26.09/nightly2026-02-05, no source build or experimental patches.
 Two positive callers (i32/unrestricted generic T) and three intended negatives;
 actual ordinary nonghost-only helper, full normal cells/T.own, real share/init,
 natural lifetime scope and explicit recovery. Default main manual-choice-only
-commit67f1f9b; triggers remain workflow_dispatch only. Monitor, download and
-inspect every case's readonly exporter/decode/VF/refinement/source/hash/trace
-and time evidence. [Architecture note](BORROW-RECOVERY-DESIGN.md) records the
+commit67f1f9b; triggers remain workflow_dispatch only. Full evidence inspected:
+all5readonly exporter/decode/refinement0, source hashes unchanged after all
+tools. VF1 for all5 at comparison_debt declaration, `Preciseness check failure:
+callee is not precise` (close_frac_borrow_token is an imprecise predicate).
+Helper/caller/body/call counts all0; negative classifiers correctly reject this
+unrelated failure. No recovery proof or intended-negative result claimed.
+VF.10s (.11generic), refinement.05s (.06generic), runner17.65s,RSS640,548KiB;
+setup dominates, no source build/covers/loop bounds. No active run. Prepared
+ordinary imprecise debt wrapper: same conjuncts/posts, explicit helper doesn't
+need precision. Next NEW exact-SHA baseline gate. [Architecture note](BORROW-RECOVERY-DESIGN.md) records the
 rejected automatic route and conditional existing-AST exceptional continuation;
 the latter is not implemented or proved.
 
