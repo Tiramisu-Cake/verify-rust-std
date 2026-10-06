@@ -69,7 +69,7 @@ only `make verifast WITHOUT_LABLGTK=yes VERBOSE=yes`; the target also produces
 standard-library manifests, without building the IDE, exporter or full tests.
 
 VFDeps25.01 archive `vfdeps-adf88dc-linux.txz` SHA256
-`8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580` is extracted
+`8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580` uses bzip2 despite its .txz suffix and is extracted
 at its upstream root prefix with `/tmp/vfdeps-adf88dc` symlink, preserving
 compiled-in OCaml paths. Decoder source is fixed to
 `2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2` and installed with `--locked`.

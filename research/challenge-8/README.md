@@ -486,8 +486,13 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   same generic owned-range contract, no length cap or sortedness assumption.
   Build/proof/refinement logs and hashes are separate under one budget.
   Experimental source-derived verifier, baseline pin unchanged.
-  Active run [37405435682](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405435682)
-  checks `3d68d61ba5e8a95dfa67677a4cea294fb337b309`,90min; pending result;
+  Run [37405435682](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405435682)
+  checks `3d68d61ba5e8a95dfa67677a4cea294fb337b309`,90min. Full logs/artifacts
+  fetched: source/parser/prelude/patch and ghost-byte extraction pass; VFDeps
+  archive hash matches, but -xJf selected xz while upstream uses bzip2 -j.
+  Setup fails2 before decoder/build/verifier/refiner; no proof/covers.
+  Runner22.60s,RSS629,004KiB, entirely setup. Corrected to upstream -xjf;
+  next NEW commit/run required;
   actual callback normal/unwind, tuple-share compatibility, cell recovery and
   remaining function are still unproved. See verifast-tuple-parser.md.
 

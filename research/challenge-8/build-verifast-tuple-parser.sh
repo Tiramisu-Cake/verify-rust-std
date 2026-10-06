@@ -61,7 +61,8 @@ run_stage vfdeps-download curl -fL --retry 3 -o "$deps_archive" https://github.c
 printf '%s  %s\n' "$deps_sha" "$deps_archive" | sha256sum -c -
 # Preserve the archive's compiled-in /vfdeps prefix, as upstream setup does.
 [[ ! -e /vfdeps-adf88dc && ! -e /tmp/vfdeps-adf88dc ]]
-run_stage vfdeps-extract sudo tar -xJf "$deps_archive" -C /
+# Despite the .txz name, upstream setup-build.sh uses bzip2 (-j).
+run_stage vfdeps-extract sudo tar -xjf "$deps_archive" -C /
 [[ -d /vfdeps-adf88dc ]]
 ln -s /vfdeps-adf88dc /tmp/vfdeps-adf88dc
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
