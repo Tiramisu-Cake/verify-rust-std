@@ -93,11 +93,25 @@ Static apply/hash/bash-n/diff pass; same4sourcefiles/all25+9fixtures. Generic
 associated-type local-declaration compatibility remains untested outside this
 gate; no broad verifier soundness claim. Next NEW exact-SHA localcaller90min.
 
-**Active run:** [37434307481](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37434307481),
+**Latest completed result:** [37434307481](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37434307481),
 source `36c60b38f1653b1e749a19d2a1869f22a3a8cb1b`, localcaller90min,
-manually dispatched2026-10-06T08:10:05Z after matching pushed remote SHA.
-Monitor this run, download full logs/artifacts, inspect all25/body/9fixtures.
-Concurrent documentation-only upstream-candidates commit0e3de29 was preserved.
+manually dispatched2026-10-06T08:10:05Z. Full logs/artifacts inspected;
+strict source/patch/output/four-file/tool/prelude/pairedZ3 audits pass.
+Build0/18.93s,RSS426,800KiB; derived binary
+4d6767809510f3a9ea65d0ad006d3d33d5d43a292e63cb8e5aae857b1a12ad8b.
+All8HRTB/12scope/5reference controls pass1.75/2.31/1.35s, all25export/decode0.
+Direct actualDrop and cleanup_one export/decode/VF/refinement0, named1/copy1/
+5copy statements; normal caller exact destination/ONE ownership/leak pass.
+VF.13s/refinement.10s each. cleanup_callback export/decode0, named1 but
+zero caller statement/copy records; VF2/.14s fatal before executing callback:
+`Pure function core::ops::FnOnce::Output_typeid missing in the runtime library`.
+Refinement0/.10s. Previous addressable-local placement failure is absent;
+all7 negatives still NOT executed. Overall1,runner1:25.95,RSS646,476KiB,
+setup dominates. No covers/loop bounds. No active run. Next align projection
+predicate trait-name canonicalization with existing alias-type translation,
+then NEW exact-SHA gate preserving all resource/unwind checks. Runtime std,
+contracts and domains unchanged. Concurrent documentation-only
+upstream-candidates commit0e3de29 was preserved.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR

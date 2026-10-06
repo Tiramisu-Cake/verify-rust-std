@@ -121,6 +121,22 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Callback declaration fixed; projection-name frontend failure:** [37434307481](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37434307481),
+  source `36c60b38f1653b1e749a19d2a1869f22a3a8cb1b`, localcaller90min,
+  same derived26.09/nightly2026-02-05/contracts/domain/checks. Full evidence
+  inspected; source/patch-output/four-file/tool/prelude/pairedZ3 audits pass.
+  Build0/18.93s,RSS426,800KiB; binary
+  4d6767809510f3a9ea65d0ad006d3d33d5d43a292e63cb8e5aae857b1a12ad8b.
+  All25 controls pass1.75/2.31/1.35s with compiler/decode0. Direct actualDrop
+  and cleanup_one VF/refinement0 (.13/.10s each); named1/copy1/5copy records,
+  exact destination and ONE ownership post/leak pass. cleanup_callback
+  compiler/decode0, VF2/.14s before caller statements: missing runtime pure
+  function `core::ops::FnOnce::Output_typeid`. Refinement0/.10s. All7 negatives
+  not reached; overall1,runner1:25.95,RSS646,476KiB, setup dominates. No covers/
+  loop bounds. Full normal/unwind callback cleanup and insertion remain open.
+  Next canonicalize projection-predicate trait names using the translator's
+  existing alias-type rule and rerun the whole gate on a new pushed SHA.
+
 - **Normal local Drop caller verified; callback declaration failure:** [37433028854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37433028854),
   source `46021223da019526f4ad67f6e3921fc60d2c434f`, localcaller90min,
   same derived26.09/nightly2026-02-05/contract/domain/checks. Full evidence
