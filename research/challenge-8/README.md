@@ -277,6 +277,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   flag and actual copy runtime; approved generic VF direction remains necessary,
   along with the independently measured immutable-byte gap.
 
+
+- [Owned-cell interior bound established](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397404058),
+  2026-10-06, source `91392b65f2dcc122a33a55f94377b6e372c74760`,
+  `verifast_insert_tail_range`,90min, same VF pins. Helper obtains nonnegative
+  T size via points_to_limits on first owned cell, returns the initialized
+  range and proves its interior-pointer bound; actual insert_tail's first
+  tail.sub(1) passes. Generic mathematical n>=2, no fixed length or new input
+  assumption, exact-source isolated crate. Next obligation at &*tail (line56):
+  ref_precreated_token<T>(tail0,_) missing; proper shared-reference creation
+  from element ownership remains to prove. Overall/VF1, not a completed function
+  safety proof. Exact-source/ghost audit and refinement0; VF0.13s,RSS165,196KiB;
+  refiner0.11s,RSS162,724KiB; runner13.73s,RSS636,440KiB.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

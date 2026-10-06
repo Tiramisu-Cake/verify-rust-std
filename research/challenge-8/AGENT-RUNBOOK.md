@@ -120,12 +120,17 @@ unconditionally. Verification3.1836462s,runner3:54.96,RSS1,821,596KiB,overall1.
 No completed safety proof; keep runtimecopy and valid-value flag, immutable-byte
 detector gap also remains. Generic VF helper now derives sizeof>=0 from first
 ownedcell via points_to_limits, preserving originalfunctionprecondition.
-Active [37397404058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397404058),
-source `91392b65f2dcc122a33a55f94377b6e372c74760`,range90min. Helper opens
-nonemptyownedrange, uses points_to_limits to derive nonnegativeTsize, closes
-range and proves interiorbound. Inspect actualtarget and refinement outcomes.
-Then observedimmutable diagnostic; Kani target UB path cannot turn green on
-this pin without a documented tool fix.
+Latest owned-cell helper result:
+[37397404058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37397404058),
+source `91392b65f2dcc122a33a55f94377b6e372c74760`,range90min. Helper and
+first actual tail.sub(1) pass for symbolic genericrange, unchangedfunctionreq.
+Next actual obligation &*tail lacks ref_precreated_token; derive sharedrefs
+from existing two cell/Town resources, no callerprecreatedref assumptions.
+Exactaudit/refinement0,VF1(.13s),refiner.11s,runner13.73s,RSS636,440KiB.
+No completed insert_tail proof; CopyOnDrop/outerfunction remain unverified.
+No active run; next observedimmutable diagnostic, two positive controls then
+write+volatile-read+assert9+cover. Originalwrite-only control unchanged;
+readonly-byte violation must remain negative even if compiler verifies store.
 
 ## Repository map and verifier details
 
