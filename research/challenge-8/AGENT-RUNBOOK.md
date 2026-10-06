@@ -194,13 +194,20 @@ change at lifetime binding, not reference initialization. Exactbyte/refinement0,
 VF1(.09s),refiner.08s,runner12.02s,RSS620,200KiB. No active run. Next inspect
 pinned binding-scope token reservation and use its proved available fraction;
 keep original req and lifetime cleanup obligations.
-Active accounted-quarter run:
+Latest accounted-quarter run:
 [37400101276](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400101276),
 source `86edc719f6aefcbe5acc66d1203bd6dbcf0e761a`,range90min. Pinned
 verifast.ml:2629-2640 reserves half token for let_lft scope, returns it at exit.
 Assertions now prove available half after binding and a quarter after first
 access; two accesses request quarter each. FnMut call_mut spec itself requires
-no lifetime_token. Resume this exact run, inspect comparator resource match.
+no lifetime_token. Full evidence fetched: new failure is Incorrect number of
+type arguments at actual FnMut expression with ghost::<'cmp>. No half-token
+failure reported, but a full first-call proof is not established; inspect
+static/dynamic error ordering before inferring completed preceding steps.
+Exactbyte/refinement0,VF1(.11s),refiner.08s,runner11.53s,RSS621,304KiB.
+No active run. Next fix supported desugared FnMut ghost generic arguments.
+Long-lived let_lft scope also needs a sound way to recover borrowed cells before
+tail.read, since its reserved half returns only at unsafe-block exit.
 
 ## Repository map and verifier details
 

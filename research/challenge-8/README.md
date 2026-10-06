@@ -360,6 +360,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full logs/artifacts fetched. Next account pinned binding-scope token
   reservation and prove the usable fractions, without narrowing input domain.
 
+- [Accounted-quarter comparator frontend](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400101276),
+  2026-10-06, source `86edc719f6aefcbe5acc66d1203bd6dbcf0e761a`,range90min,
+  same pins/domain. Pinned let_lft reserves half token until block exit;
+  revised accesses use quarter each with checked fractional assertions.
+  New error at actual comparator expression: Incorrect number of type
+  arguments for ghost::<'cmp>. No quarter-resource error reported, but no
+  full callback proof; static error ordering must be inspected before claiming
+  all preceding statements verified. Exactbyte/refinement0,
+  VF1(.11s,RSS165,508KiB),refiner.08s,RSS163,032KiB;
+  runner11.53s,RSS621,304KiB,overall1. Full evidence fetched.
+  Next inspect supported FnMut lowering/generic argument count. Lifetime
+  binding's block-wide reserve remains a separate recovery issue before tail.read.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
