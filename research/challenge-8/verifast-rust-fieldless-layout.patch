@@ -179,7 +179,7 @@ index 436a5f7..7f21a2e 100644
  module FieldDefRd = VariantDefRd.FieldDef
  module RegionRd = VfMirStub.Reader.Region
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..9079f18 100644
+index f1e3e50..fc85cab 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -5961,6 +5961,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -218,7 +218,7 @@ index f1e3e50..9079f18 100644
 +            if expected_pointer_width < 1 || expected_pointer_width > 64 then
 +              malformed "target pointer width is outside the supported integer domain";
 +            let max_target_size =
-+              minus_big_int
++              sub_big_int
 +                (power_int_positive_int 2 expected_pointer_width)
 +                unit_big_int
 +            in

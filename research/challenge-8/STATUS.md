@@ -4,7 +4,7 @@ Updated 2026-10-07. **IN PROGRESS — stock generic H_align, then narrow Rust ZS
 Owner resumes from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75; entry clean,
 local/remote research heads match, fork Tiramisu-Cake/verify-rust-std, no active run.
 Budget: at most **6 NEW manual hosted runs / 10800 summed job-seconds** including
-all builds, preparation and verification. Used 1/6, 43 seconds. One experiment at a time.
+all builds, preparation and verification. Used 2/6, 125 completed job-seconds. No active experiment. One experiment at a time.
 
 **Stock baseline PASS** in [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
 source968c073983e0fa27112c5d8a4e10a36b05828323, exact head_sha checked.
@@ -20,9 +20,14 @@ both generic const/mut have VF exit0 and all original integrity/refinement gates
 Keep stock ZST failures separate; no overall-green workflow requirement.
 
 Prepared separate experimental-rust-fieldless-layout-v1 (NOT YET BUILT / RUN),
-patch SHA256 2ac05bddbf3c3bd9be9fe9a79dd04da0a9917ec8988b495784cb308cf30f015d.
-Next permitted action: NEW hosted verifast_rust_fieldless_layout/30, inspect all
-stages/artifacts and fix only within this phase/budget.
+patch SHA256 fd37c158aecd1d383d32e1a7656fc9a1bc4f9d73504baf2f15a9f5714d79ee7a.
+Prototype [run37542669720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37542669720),
+source/head f9697b8f3f894eb24115684a41da3d88566ddc9e, exact SHA checked, FAILURE.
+Job112539146765,22:46:24–22:47:46Z on2026-10-06,82s. Console build fails translator
+line6066: unary minus_big_int applied to two arguments. Exporter build and entire
+experimental matrix NOT RUN. Full logs/artifact11449447487 inspected. Stock PASS
+unchanged. Next: binary sub_big_int correction, NEW exact-SHA hosted run/30;
+no semantic expansion or weakening.
 
 Separate experimental layout profile limited to genuinely
 fieldless, nongeneric-definition Sized Rust structs, repr(Rust)/repr(C), optional

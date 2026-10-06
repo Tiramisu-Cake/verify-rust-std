@@ -2540,3 +2540,21 @@ If build/API/fixture failure, classify INCONCLUSIVE and fix within same scope;
 out-of-scope layout/offset/ownership requirement means STOP. Budget remains1/6,
 43/10800seconds before dispatch. Artifact download archive digest matched API;
 stock full Actions log SHA256 08a83f9b57fe116f6049597ddbb99c8c9b5cd37ce109445704f325cd8e745974.
+
+Dispatched NEW prototype run37542669720, source/head f9697b8f3f894eb24115684a41da3d88566ddc9e (pushed/remote/head_sha match), created2026-10-06T22:46:19Z, verifast_rust_fieldless_layout/30. Budget2/6 slots,43 completedseconds+activejob. No other active experiment; branch workflow selection accepted directly, no main change or external publication.
+
+### Prototype build failure — run37542669720
+
+Exact f9697b8f3f894eb24115684a41da3d88566ddc9e, job112539146765
+22:46:24–22:47:46Z,82seconds, FAILURE. Official archive/source pin, patch
+applicability/eight-file identities, compiler install/VFdeps/decoder preparation
+PASS. Console build exits2: vf_mir_translator.ml:6066, unary minus_big_int applied
+to two arguments in max-target-size construction. Exporter build and whole
+experimental positive/negative/metadata/compatibility matrix NOT RUN; no layout
+claim inferred. Full logs/artifacts inspected, artifact11449447487,38311bytes,
+API/upload ZIP digest618c839889ab891874e8083a2f42254cdb3b2ab3b5a61e5fbd83f15cd716f6eb.
+Budget2/6,125/10800sec; no active run. Next new hypothesis/correction: binary
+sub_big_int (2^width) 1 expresses same allowed bound and typechecks; no rule/domain/
+profile/check change. Stock run37540829027 theorem remains separately PASS.
+
+Run3 candidate corrects only minus_big_int->sub_big_int in metadata max bound; patch SHA256 fd37c158aecd1d383d32e1a7656fc9a1bc4f9d73504baf2f15a9f5714d79ee7a. Same schema/domain/engine rules/fixtures/flags/gates/30min selection. Static applicability/diff checks PASS. This tests the measured build failure; no unchanged rerun.
