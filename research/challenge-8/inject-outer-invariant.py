@@ -9,12 +9,17 @@ ANCHOR = """        let mut tail = v_base.add(offset);
         while tail != v_end {"""
 
 INVARIANTS = """        let mut tail = v_base.add(offset);
+        #[cfg(kani)]
+        let start_tail = tail;
         #[cfg_attr(kani, crate::kani::loop_invariant(
-            crate::ub_checks::same_allocation(tail, v_base)
-                && tail >= v_base.add(offset)
-                && tail <= v_end
+            crate::ub_checks::same_allocation(start_tail as *const T, tail as *const T)
+                && tail.addr() >= start_tail.addr()
+                && tail.addr() <= v_end.addr()
+                && (crate::mem::size_of::<T>() == 0
+                    || (tail.addr() - start_tail.addr()) % crate::mem::size_of::<T>() == 0)
         ))]
         while tail != v_end {"""
+
 
 
 def main() -> None:
@@ -23,12 +28,8 @@ def main() -> None:
     target = parser.parse_args().target
 
     source = target.read_text()
-    if (
-        "crate::ub_checks::same_allocation(tail, v_base)\n"
-        "                && tail >= v_base.add(offset)\n"
-        "                && tail <= v_end"
-    ) in source:
-        raise SystemExit("outer-loop invariant already injected")
+    if "let start_tail = tail;" in source:
+        raise SystemExit("outer-loop invariant snapshot already injected")
     matches = source.count(ANCHOR)
     if matches != 1:
         raise SystemExit(f"expected one exact insertion_sort_shift_left anchor, found {matches}")

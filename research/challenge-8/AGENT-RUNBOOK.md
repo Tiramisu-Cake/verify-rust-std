@@ -54,17 +54,23 @@ invariant; no final proof or seven-cover outcomes. SIGTERM/143 stops job at
 claim. All artifact/post steps skipped, zero artifacts. Full log fetched;
 essential evidence in outer-invariant-diagnostic.md. Preserve this reproducer
 and resolve instrumentation warnings before accepting/rerunning its proof.
-Latest VeriFast probe: [37392725459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37392725459),
-source `fa55288edde480ae581f8deaf24d20bdca458ed7`, `verifast_insert_tail_probe`,
-90 minutes, VF26.09 / nightly-2026-02-05. Source extraction/ghost audit passed;
-refinement checker exit0. Verifier parser fails `ens true;` in combined ghost
-comment, no target verified. Runner14.24s, exit1, RSS620,856KiB; evidence fetched.
-Fix splits req/ens into separate comments, no Rust source/body changes.
-**Next action:** push fix and dispatch NEW `verifast_insert_tail_probe` run at
-confirmed research HEAD, 90 minutes; inspect target/refinement/source audit.
+Latest VeriFast probe: [37393312268](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37393312268),
+source `8f1fc630b590c89c99270f23fd9bb7f2e32b8eb8`, `verifast_insert_tail_probe`,
+90 minutes. VF26.09 parser now accepts contract and explicitly reaches actual
+`smallsort::insert_tail`; first pointer bound fails at `tail.sub(1)` because
+`req true` supplies no range. Source/ghost audit and refinement checker pass;
+verifier/overall exit1, runner13.38s, RSS620,128KiB. This is frontend/model
+viability evidence, not a safety proof. Full evidence fetched.
+
+**Prepared next steps:** generic VF owned-range contract (no length cap), plus
+isolated UB detector runner. The Kani outer rewrite now freezes the initial
+pointer outside the invariant, uses explicit const pointer allocation arguments
+and address bounds, and adds an inductively checked element-stride obligation.
+It preserves input domain and all original obligations; arity-warning cause
+remains a hypothesis, rewrite not verified. Choose one new experiment when its
+source/runner is ready, confirm pushed SHA, dispatch and inspect. No active run.
 UB detector controls are prepared but unverified in ub-controls.rs / ub-checks.md;
 run them separately before attributing all required UB checks to SmallSort.
-No active run currently.
 
 ## Repository map and verifier details
 

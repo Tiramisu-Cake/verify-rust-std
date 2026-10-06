@@ -171,6 +171,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   syntax. Original std SHA256 stays
   `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
 
+- [Parsed VeriFast target probe](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37393312268),
+  2026-10-06, source `8f1fc630b590c89c99270f23fd9bb7f2e32b8eb8`,
+  `verifast_insert_tail_probe`, 90 minutes, unchanged VF26.09/nightly pin:
+  parser accepts separate clauses and explicitly verifies actual generic
+  `smallsort::insert_tail`. It fails the first real pointer-safety obligation
+  at `tail.sub(1)` (verified/smallsort.rs:28): cannot prove
+  `pointer_within_limits(ptr_add_(tail0, (0 - 1), T_typeid))` under `req true`.
+  This is the expected missing-range diagnostic, not a safety proof. Exact
+  source/ghost audit and refinement checker both pass (refiner exit0); verifier
+  and overall exit1. Runner13.38s including tool setup, peakRSS620,128KiB.
+  Next specify initialized owned range for arbitrary mathematical length and
+  comparator ownership, preserving actual bodies and explicit Drop/unwind gaps.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
