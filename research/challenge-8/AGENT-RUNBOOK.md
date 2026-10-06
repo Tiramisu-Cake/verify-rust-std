@@ -22,6 +22,13 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
+**Active run:** [37408278446](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37408278446),
+source `d34616e2b0652be92ec5130737977ae0a7c8834e`,tuple_parser90min.
+Corrected capture uses actual frontend sysroot/lib; compilerdriverhash recorded.
+Exact SHA confirmed. Resume this run, fetch MIR binary/text and source hash
+roundtrip, then actual verifier/refiner logs. Sol is preparing compiler-origin
+HRTB instance patch, pending this actual encoded shape; no new semantics yet.
+
 **Latest capture attempt:** [37407937980](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407937980),
 source `a627dec2fbdf76479c219a2edcc6de1225b4cfbc`,tuple_parser90min.
 Full evidence fetched. Sourcebuild/pairedZ30 and ghost byte audit pass;
