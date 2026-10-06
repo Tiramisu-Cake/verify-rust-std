@@ -183,11 +183,17 @@ in this translated body; later assertions not reached. Exactbyte/refinement0,
 VF1(.11s),refiner.07s,runner10.97s,RSS624,500KiB. No active run. Next place
 checked assertions earlier around begin/bind/borrow/share/init to find loss;
 do not infer token conservation from isolated specs alone.
-Active preparation-trace run:
+Latest preparation-trace run:
 [37399825118](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399825118),
 source `e8fac271c7a83004a957e0e7fd364a72622bd7a0`,range90min. Checked full
 token assertions around creation/binding/borrow/share/init; no assumed facts.
-Resume polling this exact run and inspect first failed assertion.
+Full evidence fetched: full-token assertion immediately after begin_lifetime
+passes; full-token assertion immediately after let_lft binding fails at line56.
+Borrow/share/init operations not reached in this revision. This locates the
+change at lifetime binding, not reference initialization. Exactbyte/refinement0,
+VF1(.09s),refiner.08s,runner12.02s,RSS620,200KiB. No active run. Next inspect
+pinned binding-scope token reservation and use its proved available fraction;
+keep original req and lifetime cleanup obligations.
 
 ## Repository map and verifier details
 

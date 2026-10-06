@@ -349,6 +349,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full evidence fetched. Next assert token ownership earlier around the
   lifetime binding and each preparation operation, no new assumptions.
 
+- [Lifetime binding localization](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399825118),
+  2026-10-06, source `e8fac271c7a83004a957e0e7fd364a72622bd7a0`,range90min,
+  same pins/domain. Full-token assertion immediately after begin_lifetime
+  passes; the next assertion immediately after let_lft fails at line56.
+  Borrow/share/init not reached in this diagnostic revision. Resource change
+  is localized at lifetime binding; earlier conservation claim across that
+  binding is withdrawn. Exactbyte/refinement0,VF1(.09s,RSS165,512KiB),
+  refiner.08s,RSS162,992KiB,runner12.02s,RSS620,200KiB,overall1.
+  Full logs/artifacts fetched. Next account pinned binding-scope token
+  reservation and prove the usable fractions, without narrowing input domain.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
