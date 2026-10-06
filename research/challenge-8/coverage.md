@@ -27,9 +27,9 @@ actual pointer loop or safety for unsorted prefixes.
 | Category | Current configuration / evidence | Remaining work |
 | --- | --- | --- |
 | Dangling / misaligned loads and stores | Default Kani memory safety checks in bounded bootstrap | Measure alignment and bounds checks on each target; add extra pointer checks where relevant; arbitrary allocations/types |
-| Uninitialized reads | Not enabled explicitly in completed bootstrap | Pinned Kani supports `-Z uninit-checks` (automatically enables ghost state); run concrete positive/negative controls and target experiments |
-| Mutating immutable bytes | No independent measurement yet | Establish enabled-check behavior with a negative control and apply to source/destination/comparator paths |
-| Invalid values | Not enabled explicitly in completed bootstrap | Pinned Kani supports `-Z valid-value-checks`; measure typed-value checks on non-i32 types and target experiments |
+| Uninitialized reads | Explicit control detected uninitialized i32 read (37394356873), positive read2/2covers | Apply measured instrumentation to actual targets; generic ownership remains separate |
+| Mutating immutable bytes | Negative immutable-static write unexpectedly passes (37394356873): concrete detector gap | Investigate lowering/check behavior; cannot claim this required category from current Kani configuration |
+| Invalid values | Invalid bool control detected (37394356873); valid bool read2/2covers | Apply typed-value checks to target experiments and broader generic types |
 
 API statements above are grounded in Kani pin
 `152c6a8c875d9886a67e229247b4826d6105ccfd`:

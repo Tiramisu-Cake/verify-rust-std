@@ -197,6 +197,26 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   covers; next expose/prove range's interior-pointer bounds through ghost facts,
   preserving arbitrary valid lengths and avoiding assumed pointer conclusions.
 
+
+- [Pinned Kani UB detector controls](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394356873),
+  2026-10-06, source `6e0503febfe9c162e2e89a7ccfbd6126c9ca3be9`,
+  `ub_detector_controls`, 90 minutes, Kani pin152c6a8 /0.67.0, CBMC6.10.0;
+  `-Z uninit-checks -Z valid-value-checks --extra-pointer-checks`, default
+  checks retained, repository --no-assert-contracts unchanged. All7 controls ran:
+  initialized i32 and valid bool reads verify (0/213 and0/224 non-cover checks,
+  2/2 covers each; 19/16 unreachable, none undetermined). Uninitialized i32,
+  invalid bool and misaligned u32 each fail exactly their intended property.
+  NULL read has explicit pointer-NULL failure plus uninitialized/OOB failures;
+  strict all-failures-one-category classifier records it inconclusive (4 checks
+  undetermined), not detector absence. Immutable static write unexpectedly
+  verifies (0/192,19 unreachable): immutable-byte detector is missing for this
+  concrete configuration. Suite exit1 /not validated. Verification times in
+  control order: 0.25681174,0.28259882,0.35621458,0.2963091,0.26803493,
+  0.16986255,0.14558381s. Suite497s including cold build and7 compilations;
+  first stage4:10.74, subsequent38.35..42.66s; max RSS1,808,612KiB.
+  This is detector evidence only, no SmallSort safety claim. Investigate exact
+  immutable-static lowering/check behavior and retain gap in any target result.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

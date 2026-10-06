@@ -66,4 +66,32 @@ actual property IDs and only counts a negative as detected when Kani finishes
 one failed harness and every failed property matches the intended category.
 Unreachable unsupported checks are allowed; failed unsupported checks, compiler
 errors, unwind failures and incomplete output are inconclusive. Expected
-negative failures do not stop the other detector measurements. No result yet.
+negative failures do not stop the other detector measurements. Run37394356873 at6e0503f completed; see measured results below.
+
+## Actual insertion safety follow-up
+
+Prepared selection `insertion_ub_safety_4` uses `run-insertion-ub.sh` and the
+existing four-cell i32 safety harness on actual `insertion_sort_shift_left`.
+It injects no loop annotations and supplies a fresh arbitrary comparator result
+on every call. Only valid length/offset assumptions apply, with unwind6 and
+all unwind assertions retained. The same detector flags apply. Acceptance
+requires exactly one verified harness, all7/7 covers, no failed or undetermined
+checks, no failed unsupported checks or argument-substitution diagnostics.
+Interpret any result together with the independently measured detector gaps;
+this bounded nonpanicking i32 proof cannot establish arbitrary lengths, generic
+ownership, comparator unwind or unmeasured UB categories. Not dispatched yet.
+
+## Measured results
+
+Run [37394356873](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394356873)
+at `6e0503febfe9c162e2e89a7ccfbd6126c9ca3be9` ran every control with the
+pinned configuration. Both positive controls passed all2/2covers. The uninit,
+invalid-bool and alignment controls had exactly their intended failures. NULL
+read failed `pointer_dereference.1` (pointer NULL), plus uninitialized-pointer
+and outside-object-bounds properties; the conservative classifier kept it
+inconclusive because of those collateral findings. Immutable static write
+passed192checks,19 unreachable: this concrete mutation was not rejected.
+The suite correctly returns1/notvalidated. Do not equate failure of that whole
+suite with absence of the three positively measured detectors, or attribute
+immutable-byte coverage to a future green SmallSort harness. No detector
+flags or control behavior have been weakened. See README for costs and hashes.

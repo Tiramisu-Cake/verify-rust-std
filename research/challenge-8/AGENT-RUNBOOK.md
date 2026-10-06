@@ -74,14 +74,19 @@ actual insert_tail still fails first tail.sub(1) pointer-limit proof. Exact-sour
 and refinement audits pass, verifier/overall1, runner14.10s RSS636,068KiB.
 No completed safety proof. Next expose/prove interior-pointer facts, no assumed
 conclusions or length narrowing. Default workflow choice commit `8016336`.
-Active [37394356873](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394356873),
-source `6e0503febfe9c162e2e89a7ccfbd6126c9ca3be9`, `ub_detector_controls`,
-90 minutes: two positive controls then five independent negative controls, same
-Kani pin and explicit uninit/valid-value/extra-pointer instrumentation.
-Inspect all per-control logs/JSON/final summary before drawing detector claims.
-Default workflow-only choice exposed at `447c9bf`. One experiment at a time.
-UB detector controls are prepared but unverified in ub-controls.rs / ub-checks.md;
-run them separately before attributing all required UB checks to SmallSort.
+Latest UB controls: [37394356873](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394356873),
+source `6e0503febfe9c162e2e89a7ccfbd6126c9ca3be9`, `ub_detector_controls`,90min.
+All7 execute. Both positives pass2/2covers each; uninit/invalidbool/misaligned
+controls have their intended failures. NULL check fails explicitly plus
+uninit/OOB: conservative classifier inconclusive,4 checks undetermined.
+Immutable-static write passes: missing detector for that concrete case.
+Suite1/notvalidated,497s cold build+compilations vs summed verification1.775s,
+maxRSS1,808,612KiB. Full logs/artifacts fetched. Keep immutable-byte gap explicit;
+investigate pinned compiler/CBMC lowering before claiming full required UB.
+Prepared actual insertion UB safety runner has the same profile but cannot
+establish the missing immutable-byte category. No active run. Next dispatch
+updated VF range ghost-lemma source, then inspect first obligation/refinement;
+all runtime bodies, symbolic length domain and preconditions preserved.
 
 ## Repository map and verifier details
 
