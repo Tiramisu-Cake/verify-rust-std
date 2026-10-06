@@ -189,6 +189,19 @@ control to actual ManuallyDrop<T>::new / &*tmp / into_inner, genuine sharing,
 full temporary-storage recovery before free and initialized destination/T.own;
 retain existing5 cases and add an intended reference-permission negative.
 
+**Active experiment:** [37441463201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37441463201),
+source `d198907e7eec57f8bcd880304fa1345b97b0ef53`,
+verifast_borrow_recovery_manually_drop90min, dispatched2026-10-06T09:13:20Z.
+Exact run SHA confirmed. Minimal manually_drop_only source build uses only
+existing shared ManuallyDrop reference patch5500204a, translator60ece6e9;
+no kernel/tuple/HRTB/lifetime-cut/Drop patches. Existing5 controls retained,
+plus actual generic ManuallyDrop::new / &*tmp / ptr read-write full-storage
+recovery and missing-init negative. into_inner has no pinned model and is
+not used or stubbed. Default manual workflow choice commitd1d9aff only.
+Next poll this exact run, download full logs/artifacts, inspect all7 cases,
+actual helper/source/MIR/refinement counts and intended negative failures.
+All verification/builds remain on GitHub-hosted runners.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
