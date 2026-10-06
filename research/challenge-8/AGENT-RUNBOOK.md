@@ -35,6 +35,11 @@ Normal/unwind ownership recovery and the unrestricted generic borrow pilot
 remain the next architecture gate; a passing cleanup diagnostic alone does
 not establish insertion or authorize further kernel extensions.
 
+**Active run:** [37431775757](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37431775757),
+source `197d5a1efdaa1d42e7a69df1a811dbe3ba82648d`,
+verifast_local_drop_caller_gate90min; manually dispatched2026-10-06T07:46:31Z.
+Matched exact headSha after push; monitor this run, do not dispatch a duplicate.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
