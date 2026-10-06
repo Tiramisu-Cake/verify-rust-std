@@ -385,6 +385,16 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full logs/artifacts fetched. Next derive tuple ownership with supported
   lifetime substitutions, no new assumptions or length restrictions.
 
+- [Explicit tuple syntax diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401170274),
+  2026-10-06, source `661cee7cdf711f2996721bf0361151a34fb158b6`,range90min,
+  same pins/domain. Parser rejects ghost tuple value `(a,b)` in explicit own
+  close at line102; no revised function proof attempted. The pinned parser
+  supports tuple types, but values require std_tuple_2_ numeric-field struct
+  syntax. Exactbyte/refinement0,VF1(.09s,RSS165,376KiB),
+  refiner.11s,RSS162,824KiB,runner13.32s,RSS634,536KiB,overall1.
+  Full logs/artifacts fetched. Next use supported equivalent tuple constructor;
+  original req, Rust behavior and complete FnMut generic substitutions retained.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

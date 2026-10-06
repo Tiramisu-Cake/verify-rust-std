@@ -110,7 +110,7 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ open [?sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
         //@ close_ref_own::<'cmp, T>(cmp_tail_ref);
         //@ close_ref_own::<'cmp, T>(cmp_sift_ref);
-        //@ close <(&'cmp T, &'cmp T)>.own(t, (cmp_tail_ref, cmp_sift_ref));
+        //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: cmp_tail_ref, 1: cmp_sift_ref });
 """
 RANGE_BODY_ANCHOR = (
     "    // SAFETY: see individual comments.\n"

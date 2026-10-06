@@ -200,7 +200,8 @@ is a two-field struct, whose default `.own` predicate is generated from its
 two field `.own` predicates by the pinned
 [MIR translator](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml).
 The next experiment explicitly closes that tuple from the two already-owned
-references. It also supplies the *complete* three-item generic list for the
+references, using the pinned ghost parser's numeric-field struct literal for
+`std_tuple_2_`. It also supplies the *complete* three-item generic list for the
 actual comparator call: `Self = F`, `Args = (&'cmp T, &'cmp T)`, and method
 lifetime `'a = 'cmp`. The pinned
 [trait parser](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/rust_parser.ml)
