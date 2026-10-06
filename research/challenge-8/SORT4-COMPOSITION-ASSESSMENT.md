@@ -9,6 +9,12 @@ typed reference/copy/raw-scratch/callback/whole-sort4 resource bridge. Independe
 stock logical/callee/range components are authorized by SORT4-NIGHT-PHASE;
 their actual results are separate from this layout acceptance.
 
+[Pure index component](SORT4-INDEX-LEMMA.md) N4/37548475221/sourcefa74d92 now
+checks the exact formulas for all5 independent Boolean answers with bounds and
+exact permutation. Intended duplicate-index assertion fails; saved replay fixes
+processing separately. This closes the logical selection theorem only. Exact
+pointer-valued callee,provenance,resources and application to real copies remain open.
+
 Current update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
 now establishes both generic geometry cases with VF0, integrity/refinement/dead-code
 checks intact. Prior dead-code failures below are historical. The separately

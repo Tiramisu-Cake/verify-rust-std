@@ -1,6 +1,12 @@
 # Pure logical index component for sort4
 
-Prepared under [night authorization](SORT4-NIGHT-PHASE.md); **NOT RUN** initially.
+Prepared under [night authorization](SORT4-NIGHT-PHASE.md); **pure theorem PASS**
+at [N4/37548475221](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37548475221),
+sourcefa74d92a120cc6990e5f65b94b31e72f2fb50d2f. Header/application bodies verify,
+VF0/leak checks/8statements. Intended duplicate-hi negative manually confirms
+target execution12/predicate error14; original automatic INCONCLUSIVE is preserved,
+with corrected saved-artifact processing replay scheduled in N5. N3's include/block
+parse failure is historical; no theorem or negative was reached then.
 Stock VeriFast26.09 checks owned ghost bodies in [sort4-index.gh](sort4-index.gh)
 and [application](sort4-index-lemmas.c), with an isolated
 [duplicated-hi negative](sort4-index-negative.c). No imported sorting proof.

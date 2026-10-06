@@ -2846,3 +2846,44 @@ Positive order/negative stability fixtures isolated from callee/range helpers.
 Routine proof/annotation errors may be fixed by NEW source/run; false theorem
 quarantines stock profile. Success accepts abstract rank result only, then callee
 and scalar geometry independent tasks. Selection verifast_sort4_components/order/30.
+
+N5 dispatched run37548811698/source6a12b4e39621eb057712f9084b809f86da6c9b77,
+created2026-10-06T23:51:11Z;exact pushed/head match,order+saved-replay/30.
+Result:job112559155806,23:51:15–23:51:56UTC October6,41s,SUCCESS.
+Full log/artifact11452435478 downloaded/being audited;34922bytes,uploaded ZIP
+SHA25608a40ffcdd1759c84ef7096ce3a7f5c7ddddfb6a14f70a65a283280727561c78.
+Index raw N4 outputs preserved; separate replay confirms original positive and
+intended negative error14/execution12 with exact timestamped headers. Order positive
+VF0,named header/order lemma bodies verified,source unchanged; stability negative
+EXPECTED_TARGET_ASSERTION_FAILURE. No false theorem. Night5/12,407/10800jobseconds.
+
+### N6 actual pointer-callee component diagnostic card
+
+Target library/core/src/hint.rs select_unpredictable,blobby
+fe59166363b9cc049c0d48f4349f4dc9c0e458b8,SHA256
+ d94ef86fbdac952fe7c9a6028536e15539b33dc188966fa4e9340fa7d94c30f8.
+Actual sort4 instantiation is outer callee T=*const Element, Element arbitrary
+Sized (no Element:Copy/Freeze). Hosted extraction preserves ENTIRE body byte-for-byte,
+MaybeUninit locals,local DropOnPanic generic struct/drop impl,all THREE intrinsic
+calls,drop_in_place,forget,assume_init. Runtime std untouched. Adapter specializes
+only function signature/removes const/Destruct surface for pinned older compiler,
+aliases std's same core modules; original/verified adapter equal after ghost strip.
+Source-to-adapter restriction documented; NOT whole generic core helper theorem.
+Hypothesis: pinned stock frontend either checks pointer instantiation's full
+condition-correlated model pointer equality/provenance and no-unwind frame, or
+reveals first missing intrinsic/local destructor mechanism. Static source809de459
+has no select intrinsic match or spec; this predicts a blocker, not an observed one.
+Req thread_token(t),t=currentThread;normal same token and full pointer equality
+result=condition?true_val:false_val (not numeric address equality);on_unwind false.
+No Element dereference/ownership consumption; applicable unrelated resources frame
+by normal verifier rule. Original sort4 source/dst/callback ownership/five-unwind
+post remains open; callee target does not assume it. Stock26.09/archive da1b619,
+compiler nightly2026-02-05/schema7f3ebce,targetx86_64 unchanged. No patch/stub/if rewrite.
+Expected stages: source/extraction3intrinsic guard+ghost-strip integrity,export,
+decode,VF,refinement. Positive only accepted at complete VF0/named body/integrity/
+refinement0/full posts. Unsupported/frontend/resource failure recorded exactly at
+first causal location; no intended-negative claim unless positive reaches proof.
+Pointer selection summary unavailable until actual proof; if mechanism needs trusted
+extension, document minimum scope and move to independent range task. No historical
+FnMut/Drop/tuple patch chain, new primitive spec or semantic implementation allowed.
+Selection verifast_sort4_components/select/30; remaining7NEW before dispatch.

@@ -17,7 +17,13 @@ historical, not replaced evidence. Acceptance concerns only pinned original-fiel
 nongeneric Sized reprRust/C structs with optional alignment and geometry. It adds
 no field/generic-ADT/packed/transparent/enum/union/DST/ownership/copy semantics,
 full-model soundness, automatic operation UB, callback or whole-sort4 theorem.
-Independent stock index gate N3 is active; order/callee/range claims NOT PROVEN.
+Independent stock [index theorem](SORT4-INDEX-LEMMA.md) now PASS at N4/37548475221,
+sourcefa74d92: checked header/application,VF0,8statements/leak checks; all5 independent
+Booleans give intermediate/final bounded distinct IDs,each0..3 exactly once.
+Duplicate-index negative fails intended assertion on manual audit; raw processing
+INCONCLUSIVE retained and corrected saved replay in N5. This adds a universal pure
+index component, no actual Rust-callee/pointer/memory/refinement bridge. Order/
+callee/range claims NOT PROVEN.
 
 The [sort4 phase](SORT4-PHASE.md) completed on 2026-10-06 under the
 [revised roadmap](PLAN.md). [Hosted closeout](SORT4-RESULTS.md) establishes
