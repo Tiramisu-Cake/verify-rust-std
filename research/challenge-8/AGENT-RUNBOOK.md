@@ -113,6 +113,16 @@ then NEW exact-SHA gate preserving all resource/unwind checks. Runtime std,
 contracts and domains unchanged. Concurrent documentation-only
 upstream-candidates commit0e3de29 was preserved.
 
+**Active run:** [37435525052](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37435525052),
+source `51dcf65b10a5c0d8ee4f39a17086d8493be8dcfb`, localcaller90min,
+manually dispatched2026-10-06T08:21:07Z after matching pushed remote SHA.
+Projection-predicate trait canonicalization patchfeecd2f1, final translator
+0d2a85be74b768cc4a35e9d1d228d098e5a5ba28a81875c5d7838510a61d27d0.
+Monitor and inspect full all25/directDrop/9case evidence. Separately, the
+uncommitted release auto-recovery feasibility control requires a purity audit:
+its proposed lemma calls lifetime APIs marked `nonghost_callers_only`. Do not
+claim that automatic recovery is usable until that restriction is resolved.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
