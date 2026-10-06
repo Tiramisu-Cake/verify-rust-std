@@ -119,8 +119,8 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
     fi
     if [[ "$build_profile" == tuple_local_drop ]]; then
         translator_before_local_drop_sha=f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432
-        local_drop_patch_sha=bc13ff90cbdc4a937200fb6b20efa2dbb9ceaea0a92d0e428c1fd5b47cc3a65a
-        translator_after_local_drop_sha=03bf4a5c460c1babbd79c80dff7d1c4fc02d21add286498df9bd81fe47796213
+        local_drop_patch_sha=e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf
+        translator_after_local_drop_sha=cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa
         local_drop_patch="$repo/research/challenge-8/verifast-local-drop-call.patch"
         printf '%s  %s\n' "$translator_before_local_drop_sha" "$source_home/$translator_rel" | sha256sum -c -
         cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.before-local-drop-call.ml"

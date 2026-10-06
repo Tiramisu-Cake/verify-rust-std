@@ -26,9 +26,25 @@ scope, unresolved obligations, research misdirections and fresh-review prioritie
 Older status blocks below preserve historical evidence; their next-action text
 does not supersede the current stopped status or the consolidated handoff.
 
-**Stopped at the owner's request; no active Actions run.** The last launched
-experiment is completed and its full evidence is inspected. Do not dispatch
-further work until the owner resumes it.
+**Resumed at the owner's request — 2026-10-06.** Start-of-session research
+HEAD and origin both `301845b167672bb710fe59150f636301ff391dcc`; no active
+Actions run, latest completed run remains37423762729. Git/GitHub access works.
+Complete the all-path resource ledger/trust-boundary review, then dispatch
+the narrowly corrected local-cleanup diagnostic on a new pushed source SHA.
+Normal/unwind ownership recovery and the unrestricted generic borrow pilot
+remain the next architecture gate; a passing cleanup diagnostic alone does
+not establish insertion or authorize further kernel extensions.
+
+All-path ledger and architecture review completed in
+[INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
+has first comparison direct unwind; late comparison cleanup Drop then immediate
+UnwindResume. Full first-panic and held-storage recovery remain independent
+gates. Nested substs match now explicitly delimited; outer non-ADT fallback
+preserved. Patch `e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf`,
+translator `cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa`.
+Static pinned-chain apply/hash, diff-check and bash-n pass; runtime std and all
+25 regressions/body/9 caller fixtures unchanged. Next NEW exact-SHA
+verifast_local_drop_caller_gate90min, then minimal generic borrow/recovery pilot.
 
 **Read-only reassessment — 2026-10-06:** local/remote research HEAD was
 `e0ef921e4058404b4944aff4335f79123ed53e61`; latest run and stopped status

@@ -1,15 +1,21 @@
 # Experimental local Drop call
 
-Current hosted status: builds after the record-type correction, but run37423762729
-crashes in the third HRTB regression because the nested substs match captures
-the intended outer non-ADT fallback. Caller/body gates for this profile have
-not executed. The following describes the intended restricted semantics,
-not a completed cleanup proof. See [handoff](HANDOFF-2026-10-06.md).
+Current hosted status: run37423762729 exposed a nested-match delimiter bug:
+the `substs` match captures the intended outer non-ADT fallback. The patch now
+delimits that nested match explicitly while preserving both fallback branches.
+This static source fix has not yet been checked by a new hosted run. Caller/body
+gates for this profile have not executed. The following describes the intended
+restricted semantics, not a completed cleanup proof. See
+[handoff](HANDOFF-2026-10-06.md).
 
 Apply [verifast-local-drop-call.patch](verifast-local-drop-call.patch) to the
 pinned VeriFast 26.09 source **after** the tuple, HRTB, lifetime-cut,
 address-taken, and tracked `ManuallyDrop` patches. Its translator input
 SHA-256 is `f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432`.
+The current patch SHA-256 is
+`e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf`, and its
+statically applied translator SHA-256 is
+`cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa`.
 The patch changes only
 `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml`.
 

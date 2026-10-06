@@ -7,9 +7,9 @@ Its source-build profile inherits the tuple, HRTB, lifetime-cut,
 address-taken, and tracked `ManuallyDrop` patches, then applies
 `verifast-local-drop-call.patch` to the translator only. The final translator
 patch input is `f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432`,
-the patch SHA-256 is `bc13ff90cbdc4a937200fb6b20efa2dbb9ceaea0a92d0e428c1fd5b47cc3a65a`,
+the patch SHA-256 is `e7512da5f6baa2b3fd1af3b01dde01742f6d0028aa0edf68b3f73e01209215bf`,
 and the expected result is
-`03bf4a5c460c1babbd79c80dff7d1c4fc02d21add286498df9bd81fe47796213`.
+`cfea51db27ba60fd59d8cb9f0a1db3399dcb76106d219127ceb7f50e974c1caa`.
 The build still requires the exact four modified VeriFast files.
 
 The gate runs all 8 HRTB, 12 lifetime-scope, and 5 tracked-reference
@@ -70,6 +70,6 @@ rejections, third hrtb_no_output crashes with Pattern matching failed in
 local_drop_call. The intended outer non-ADT fallback is parsed as a redundant
 branch of nested match substs (confirmed Warning11), so generic F Drop crashes.
 Suite1/.69s; overall1,runner1:15.12,RSS646,784KiB. Remaining regressions and
-actual body/caller/refinement gates were not reached. Next fix must delimit
-the nested match without changing generic fallback or proof obligations.
-No cleanup proof is claimed; work stopped at the owner's request with no active run.
+actual body/caller/refinement gates were not reached. This failure motivated
+the delimiter-only fix pinned above; a new hosted run is pending. No cleanup
+proof is claimed, and the hosted outcome remains open.

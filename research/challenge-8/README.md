@@ -7,15 +7,21 @@ For agent onboarding and autonomous GitHub-only execution, read
 [AGENTS.md](../../AGENTS.md) and [the agent runbook](AGENT-RUNBOOK.md).
 The owner's server is for editing and orchestration only; do not build or verify there.
 
-**Stopped at the owner's request; no active Actions run.** Read
+**Resumed at the owner's request — 2026-10-06.** Read
 [the consolidated handoff](HANDOFF-2026-10-06.md) for what is proved, what is
 unfinished, the current regression bug and places requiring a fresh view.
-This documentation update does not resume experiments.
+The historical stopped status in that handoff is superseded by the current
+runbook; the owner authorized autonomous push/dispatch/inspection again.
 
 Read [the revised plan](REASSESSMENT-2026-10-06.md) for the fresh source/evidence
 review and continuation criteria. Complete the all-path resource ledger and
 trust-boundary review before expanding the verifier. No new proof result or
 Actions run was produced by this documentation checkpoint.
+
+After resumption, the [all-path resource ledger](INSERTION-RESOURCE-LEDGER.md)
+records desired full normal/unwind posts, actual MIR cleanup ordering and each
+experimental verifier boundary. The delimiter-only local-Drop repair is ready
+for a new exact-SHA hosted diagnostic; full generic insertion remains open.
 
 Potential independent VeriFast contributions are tracked in
 [the upstream-candidates note](VERIFAST-UPSTREAM-CANDIDATES.md), including
