@@ -79,6 +79,15 @@ Rust struct facts and a Rust-only size-bound correction, with future acceptance
 matrix DESIGN ONLY / NOT RUN. Kani Z calibration lacks the full-domain bridge.
 No tool patch or historical insertion/FnMut/Drop expansion authorized; STOP.
 
+Current authorized stage1l: **stock generic baseline PASS**, run37540829027/
+source968c073, both VF0 with unchanged integrity/refinement/checks. Proceed to
+separate experimental fieldless-only compiler-backed layout profile under the
+[phase card/matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07).
+Budget6 NEW/180min jobs including builds;1/6,43s used. No historical patch chain
+reuse, fielded/generic/packed/transparent/enum/DST exact support or offset/ownership
+changes. This latest authorization supersedes prior closed-scope no-patch limits
+only for its explicitly named semantics. RAPx CLOSED/NO-GO; B/C NOT RUN.
+
 ## Decision and evidence
 
 Start with the actual `sort4_stable` body. Its natural arity is four elements:

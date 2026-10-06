@@ -1,0 +1,330 @@
+diff --git a/src/SExpressionEmitter.ml b/src/SExpressionEmitter.ml
+index d7eaf9b..b189277 100644
+--- a/src/SExpressionEmitter.ml
++++ b/src/SExpressionEmitter.ml
+@@ -168,8 +168,11 @@ let sexpr_of_type_expr_option : type_expr option -> sexpression = function
+   | Some t -> sexpr_of_type_expr t
+   | None   -> Symbol "nil"
+ 
+-let sexpr_of_attr : struct_attr -> sexpression = function
+-  | Packed -> Symbol "packed"
++let sexpr_of_attr : struct_attr -> sexpression = function
++  | Packed -> Symbol "packed"
++  | ReprC -> Symbol "repr-c"
++  | RustLayout (size, align) ->
++      build_list [Symbol "rust-layout"] ["size-bytes", Number size; "abi-align-bytes", Number align]
+ 
+ let sexpr_of_field (Field (loc, ghostness, type_expr, name, binding, visibility, final, expr)) : sexpression =
+   build_list
+diff --git a/src/frontend/ast.ml b/src/frontend/ast.ml
+index e55645c..eccc3ae 100644
+--- a/src/frontend/ast.ml
++++ b/src/frontend/ast.ml
+@@ -1116,11 +1116,12 @@ and
+   | MethMember of meth
+   | ConsMember of cons
+   | PredMember of instance_pred_decl
+-and
+-  struct_attr =
+-  | Packed
+-  | ReprC
+-and constant_value = (* ?constant_value *)
++and
++  struct_attr =
++  | Packed
++  | ReprC
++  | RustLayout of big_int * big_int (* compiler size in bytes, ABI alignment in bytes *)
++and constant_value = (* ?constant_value *)
+   IntConst of big_int
+ | BoolConst of bool
+ | StringConst of string
+diff --git a/src/frontend/ocaml_expr_of_ast.ml b/src/frontend/ocaml_expr_of_ast.ml
+index 959ce64..dee8f87 100644
+--- a/src/frontend/ocaml_expr_of_ast.ml
++++ b/src/frontend/ocaml_expr_of_ast.ml
+@@ -1170,10 +1170,10 @@ and of_ctor = function
+ and of_struct_attr = function
+   Packed -> c "Packed"
+ | ReprC -> c "ReprC"
++| RustLayout (size, align) -> C ("RustLayout", [BigInt size; BigInt align])
+ and of_constant_value = function
+   IntConst n -> C ("IntConst", [BigInt n])
+ | BoolConst b -> C ("BoolConst", [B b])
+ | StringConst s -> C ("StringConst", [S s])
+ | NullConst -> c "NullConst"
+ | GhostConst e -> C ("GhostConst", [of_expr e])
+-
+diff --git a/src/rust_frontend/vf_mir/vf_mir.capnp b/src/rust_frontend/vf_mir/vf_mir.capnp
+index 19e0bc3..813618b 100644
+--- a/src/rust_frontend/vf_mir/vf_mir.capnp
++++ b/src/rust_frontend/vf_mir/vf_mir.capnp
+@@ -279,6 +279,32 @@ struct AdtDef {
+     predicates @7: List(Predicate);
+     implementsDrop @8: Bool;
+     isReprC @11: Bool;
++    rustLayoutInfo @12: RustLayoutInfo;
++    isReprPacked @13: Bool;
++    isReprTransparent @14: Bool;
++    isReprSimd @15: Bool;
++    isReprScalable @16: Bool;
++    isReprLinear @17: Bool;
++}
++
++# Experimental, compiler-produced layout facts. `absent` is explicit: it means
++# this ADT is outside the narrow exact-layout domain or rustc did not return a
++# layout. `exact` is bound again to its enclosing ADT and target so consumers
++# can reject stale or misassociated metadata.
++struct RustLayoutInfo {
++    union {
++        absent @0: Void;
++        exact @1: ExactRustLayout;
++    }
++}
++
++struct ExactRustLayout {
++    sizeBytes @0: UInt64;
++    abiAlignBytes @1: UInt64;
++    bindingAdtDefName @2: Text;
++    bindingDefSpan @3: SpanData;
++    bindingTargetTriple @4: Text;
++    bindingPointerWidth @5: UInt8;
+ }
+ 
+ enum AliasTyKind {
+diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+index e1ecb9c..0df72e2 100644
+--- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
++++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
+@@ -545,6 +545,7 @@ use rustc_span::RemapPathScopeComponents;
+     use crate::vf_mir_capnp::adt_def as adt_def_cpn;
+     use crate::vf_mir_capnp::adt_def_id as adt_def_id_cpn;
+     use crate::vf_mir_capnp::adt_kind as adt_kind_cpn;
++    use crate::vf_mir_capnp::rust_layout_info as rust_layout_info_cpn;
+     use ty_kind_cpn::adt_ty as adt_ty_cpn;
+     use crate::vf_mir_capnp::ty_const as ty_const_cpn;
+     use crate::vf_mir_capnp::const_kind as const_kind_cpn;
+@@ -1098,6 +1099,61 @@ use rustc_span::RemapPathScopeComponents;
+             });
+             adt_def_cpn.set_implements_drop(adt_def.has_dtor(tcx));
+             adt_def_cpn.set_is_repr_c(adt_def.repr().c());
++            adt_def_cpn.set_is_repr_packed(adt_def.repr().pack.is_some());
++            adt_def_cpn.set_is_repr_transparent(adt_def.repr().transparent());
++            adt_def_cpn.set_is_repr_simd(adt_def.repr().simd());
++            adt_def_cpn.set_is_repr_scalable(adt_def.repr().scalable());
++            adt_def_cpn.set_is_repr_linear(adt_def.repr().linear());
++            Self::encode_rust_layout_info(tcx, adt_def, adt_def_cpn.reborrow().init_rust_layout_info());
++        }
++
++        fn encode_rust_layout_info(
++            tcx: TyCtxt<'tcx>,
++            adt_def: &ty::AdtDef<'tcx>,
++            mut info_cpn: rust_layout_info_cpn::Builder<'_>,
++        ) {
++            let is_supported_shape = adt_def.did().is_local()
++                && adt_def.is_struct()
++                && adt_def.non_enum_variant().fields.is_empty()
++                && adt_def.repr().pack.is_none()
++                && !adt_def.repr().transparent()
++                && !adt_def.repr().simd()
++                && !adt_def.repr().scalable()
++                && !adt_def.repr().linear();
++            let exact = if is_supported_shape {
++                let local_did = adt_def.did().expect_local();
++                let generics = tcx.hir_get_generics(local_did);
++                if let Some(generics) = generics.filter(|generics| generics.params.is_empty()) {
++                    let typing_env = ty::TypingEnv {
++                        typing_mode: ty::TypingMode::PostAnalysis,
++                        param_env: ty::ParamEnv::empty(),
++                    };
++                    let adt_ty = tcx.type_of(adt_def.did()).instantiate_identity();
++                    tcx.layout_of(typing_env.as_query_input(adt_ty)).ok().map(|layout| {
++                        let item_span = match tcx.hir_node_by_def_id(local_did) {
++                            rustc_hir::Node::Item(item) => item.span,
++                            _ => bug!("local ADT definition is not an HIR item"),
++                        };
++                        (layout.size.bytes(), layout.align.abi.bytes(), item_span)
++                    })
++                } else {
++                    None
++                }
++            } else {
++                None
++            };
++            match exact {
++                Some((size, align, item_span)) => {
++                    let mut exact_cpn = info_cpn.init_exact();
++                    exact_cpn.set_size_bytes(size);
++                    exact_cpn.set_abi_align_bytes(align);
++                    exact_cpn.set_binding_adt_def_name(&tcx.def_path_str(adt_def.did()));
++                    Self::encode_span_data(tcx, &item_span.data(), exact_cpn.reborrow().init_binding_def_span());
++                    exact_cpn.set_binding_target_triple(&tcx.sess.target.llvm_target);
++                    exact_cpn.set_binding_pointer_width(tcx.sess.target.pointer_width.try_into().unwrap());
++                }
++                None => info_cpn.set_absent(()),
++            }
+         }
+ 
+         fn encode_adt_kind(adt_kind: ty::AdtKind, mut adt_kind_cpn: adt_kind_cpn::Builder<'_>) {
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml b/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml
+index 436a5f7..7f21a2e 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_capnp_alias.ml
+@@ -81,6 +81,8 @@ module GenArgKindRd = VfMirStub.Reader.GenericArgKind
+ module RawPtrTyRd = TyKindRd.RawPtrTy
+ module RefTyRd = TyKindRd.RefTy
+ module AdtDefRd = VfMirStub.Reader.AdtDef
++module RustLayoutInfoRd = VfMirStub.Reader.RustLayoutInfo
++module ExactRustLayoutRd = VfMirStub.Reader.ExactRustLayout
+ module VariantDefRd = VfMirStub.Reader.VariantDef
+ module FieldDefRd = VariantDefRd.FieldDef
+ module RegionRd = VfMirStub.Reader.Region
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index f1e3e50..9079f18 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -5961,6 +5961,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+ 
+   let translate_adt_def (ghost_decl_map : (string * Ast.decl) list)
+       (ghost_decls : Ast.decl list) (trait_impls : trait_impl list)
++      (expected_target_triple : string) (expected_pointer_width : int)
+       (adt_def_cpn : AdtDefRd.t) =
+     let open AdtDefRd in
+     let id_cpn = id_get adt_def_cpn in
+@@ -6038,6 +6039,62 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let* vis = translate_visibility @@ D.decode_visibility vis_cpn in
+       let is_local = is_local_get adt_def_cpn in
+       let kind_cpn = kind_get adt_def_cpn in
++      let def_span_cpn = def_span_get adt_def_cpn in
++      let raw_fieldless_struct =
++        match AdtKindRd.get kind_cpn, decoded_variants with
++        | StructKind, [{ D.fields = []; _ }] -> true
++        | _ -> false
++      in
++      let exact_layout_attr =
++        let rust_layout_info = rust_layout_info_get adt_def_cpn in
++        match RustLayoutInfoRd.get rust_layout_info with
++        | Absent -> None
++        | Exact exact_layout ->
++            let open Big_int in
++            let malformed reason =
++              raise (Ast.StaticError (def_loc, "RustLayoutMetadata: malformed: " ^ reason, None))
++            in
++            let binding_mismatch reason =
++              raise (Ast.StaticError (def_loc, "RustLayoutMetadata: binding mismatch: " ^ reason, None))
++            in
++            let raw_name = AdtDefIdRd.name_get id_cpn in
++            let layout_size = ExactRustLayoutRd.size_bytes_get exact_layout |> IntAux.Uint64.to_big_int in
++            let layout_align = ExactRustLayoutRd.abi_align_bytes_get exact_layout |> IntAux.Uint64.to_big_int in
++            if expected_pointer_width < 1 || expected_pointer_width > 64 then
++              malformed "target pointer width is outside the supported integer domain";
++            let max_target_size =
++              minus_big_int
++                (power_int_positive_int 2 expected_pointer_width)
++                unit_big_int
++            in
++            let rec is_power_of_two n =
++              if sign_big_int n <= 0 then false
++              else if eq_big_int n unit_big_int then true
++              else if not (eq_big_int (mod_big_int n (big_int_of_int 2)) zero_big_int) then false
++              else is_power_of_two (div_big_int n (big_int_of_int 2))
++            in
++            if not raw_fieldless_struct || generics <> [] || not is_local
++               || is_repr_packed_get adt_def_cpn
++               || is_repr_transparent_get adt_def_cpn
++               || is_repr_simd_get adt_def_cpn
++               || is_repr_scalable_get adt_def_cpn
++               || is_repr_linear_get adt_def_cpn then
++              malformed "exact facts attached to an unsupported ADT shape";
++            if sign_big_int layout_size < 0 || gt_big_int layout_size max_target_size
++               || not (eq_big_int layout_size zero_big_int)
++               || not (is_power_of_two layout_align)
++               || gt_big_int layout_align max_target_size then
++              malformed "fieldless size or ABI alignment is outside the target layout domain";
++            if not (eq_big_int (mod_big_int layout_size layout_align) zero_big_int) then
++              malformed "size is not divisible by ABI alignment";
++            if ExactRustLayoutRd.binding_adt_def_name_get exact_layout <> raw_name
++               || D.decode_span_data (ExactRustLayoutRd.binding_def_span_get exact_layout)
++                  <> D.decode_span_data def_span_cpn
++               || ExactRustLayoutRd.binding_target_triple_get exact_layout <> expected_target_triple
++               || ExactRustLayoutRd.binding_pointer_width_get exact_layout <> expected_pointer_width then
++              binding_mismatch "ADT identity, definition source span, or target differs";
++            Some (RustLayout (layout_size, layout_align))
++      in
+       let* kind, fds, fds_no_zst, def, aux_decls =
+         match AdtKindRd.get kind_cpn with
+         | StructKind ->
+@@ -6057,7 +6114,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                       (*instance_pred_decl list*) [],
+                       (*is polymorphic*) false ),
+                   (*struct_attr list*)
+-                  if is_repr_c_get adt_def_cpn then [ ReprC ] else [] )
++                  (if is_repr_c_get adt_def_cpn then [ ReprC ] else [])
++                  @ (match exact_layout_attr with None -> [] | Some attr -> [ attr ]) )
+             in
+             let struct_typedef_aux =
+               Ast.TypedefDecl
+@@ -7819,9 +7877,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       in
+       let adt_defs_cpn = VfMirRd.VfMir.adt_defs_get vf_mir_cpn in
+       let* adt_defs_cpn = CapnpAux.ind_list_get_list adt_defs_cpn in
++      let expected_target_triple = VfMirRd.VfMir.target_triple_get vf_mir_cpn in
++      let expected_pointer_width = VfMirRd.VfMir.pointer_width_get vf_mir_cpn in
+       let* adt_defs =
+         ListAux.try_map
+-          (translate_adt_def ghost_decl_map ghost_decls trait_impls)
++          (translate_adt_def ghost_decl_map ghost_decls trait_impls expected_target_triple expected_pointer_width)
+           adt_defs_cpn
+       in
+       let adt_defs = List.filter_map Fun.id adt_defs in
+diff --git a/src/verifast1.ml b/src/verifast1.ml
+index f7f3429..335b7d2 100644
+--- a/src/verifast1.ml
++++ b/src/verifast1.ml
+@@ -6485,8 +6485,8 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+ 
+   let alignof_core l env t = mk_alignof (typeid_of_core l env t)
+ 
+-  let () = List.combine structmap1 structdeclmap |> List.iter begin fun ((sn, (l, tparams, body_opt, padding_predsym_opt, type_info_func)), (_, (_, _, _, attrs))) ->
+-    let assume_axiom axiom =
++  let () = List.combine structmap1 structdeclmap |> List.iter begin fun ((sn, (l, tparams, body_opt, padding_predsym_opt, type_info_func)), (_, (_, _, _, attrs))) ->
++    let assume_axiom axiom =
+       if tparams = [] then
+         let type_info = ctxt#mk_app type_info_func [] in
+         let s = mk_sizeof type_info in
+@@ -6502,11 +6502,31 @@ module VerifyProgram1(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+         ctxt#end_formal;
+         ctxt#assume_forall name [trigger] (List.map (fun x -> ctxt#type_inductive) tparams) fact
+       end
+-    in
+-    let packed = List.mem Packed attrs in
+-    let repr_c = dialect <> Some Rust || List.mem ReprC attrs in
+-    assume_axiom (fun _ _ s -> (sn ^ "_size_limits", s, ctxt#mk_and (ctxt#mk_lt (ctxt#mk_intlit 0) s) (ctxt#mk_le s max_uintptr_term)));
+-    match body_opt with
++    in
++    let packed = List.mem Packed attrs in
++    let repr_c = dialect <> Some Rust || List.mem ReprC attrs in
++    let rust_layout = List.find_opt (function RustLayout _ -> true | _ -> false) attrs in
++    assume_axiom (fun _ _ s ->
++      ( sn ^ "_size_limits",
++        s,
++        ctxt#mk_and
++          (if dialect = Some Rust then ctxt#mk_le int_zero_term s else ctxt#mk_lt int_zero_term s)
++          (ctxt#mk_le s max_uintptr_term)));
++    begin match rust_layout with
++    | None -> ()
++    | Some (RustLayout (exact_size, exact_align)) ->
++        let exact_layout_error message = static_error l ("RustLayoutMetadata: malformed: " ^ message) None in
++        if dialect <> Some Rust then exact_layout_error "exact facts are valid only for Rust structs";
++        if tparams <> [] then exact_layout_error "exact facts are attached to a generic struct";
++        begin match body_opt with
++        | Some (_, [], _) -> ()
++        | _ -> exact_layout_error "exact facts are attached to a struct with fields or no body"
++        end;
++        assume_axiom (fun _ _ s -> (sn ^ "_compiler_size", s, ctxt#mk_eq s (ctxt#mk_intlit_of_string (string_of_big_int exact_size))));
++        let type_info = ctxt#mk_app type_info_func [] in
++        ctxt#assert_term (ctxt#mk_eq (mk_alignof type_info) (ctxt#mk_intlit_of_string (string_of_big_int exact_align)))
++    end;
++    match body_opt with
+     | Some (_, fmap, _) ->
+       let rec offset_iter fields current is_first =
+         begin match fields with

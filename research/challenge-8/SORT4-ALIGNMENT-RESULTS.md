@@ -1,5 +1,47 @@
 # Independent H_align gate: hosted results
 
+## Stock generic baseline and experimental fieldless layout — 2026-10-07
+
+Current phase IN PROGRESS. Stock baseline **PASS independently for const/mut**;
+experimental layout profile implementation starts only after this gate. Budget
+1/6 NEW runs,43/10800 summed job-seconds including all preparation/replay/upload.
+Earlier phases below retain their original outcomes and evidence.
+
+[Stock run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
+source/head968c073983e0fa27112c5d8a4e10a36b05828323, created2026-10-06T22:28:46Z.
+Job112533159277,22:28:51–22:29:34Z,43seconds. Whole workflow FAILURE solely because
+stock concrete ZST controls stay INCONCLUSIVE; that does not weaken generic gates.
+Both generic cases exporter/decode/VF/refinement0; named caller/helper1, helper
+execution6, pointer operation3,72 statements verified each. Reachable i<1/i<2/i<3/
+otherwise ghost branches prove i==0/1/2/3 from old bounds, all normal posts/resources/
+leak checks finish, whole-unit dead-code check passes. Original on_unwind_ens false,
+outer req, byte resources and ghost-stripped runtime remain unchanged.
+
+| Original case | Stock outcome |
+| --- | --- |
+| positive_generic_const | PASS, VF0 independently |
+| positive_generic_mut | PASS, VF0 independently |
+| positive_zst_layout | INCONCLUSIVE at size0 assertion20, align8 not reached |
+| positive_zst_add | INCONCLUSIVE at typed add21 pointer_within_limits |
+| negative_source_byte_offset | EXPECTED_FALSE_POST_FAILURE at marked modulus8 assertion25, add22/cast23 reached |
+| negative_destination_byte_offset | EXPECTED_FALSE_POST_FAILURE at same independent dst assertion |
+
+Official archive/schema/source/compiler and binary/spec pins match prior stock
+profile. Six exports/decodes/refinements0; pre/post and each-stage source hashes
+match actual archived sources. Full logs, MIR, returned resources and final gates
+inspected. Wrapper19.00s, peakRSS620572KiB, no timeout/OOM. Historical replay3 groups/
+30 mutation checks PASS; original parse errors stay INCONCLUSIVE and raw evidence
+unchanged. Artifact11447599817,573681bytes, API/upload archive SHA256
+27ff629da5275b4a172dcd60104903622ae1474d42586dcf87ec818b71b3c4f7.
+
+Generic result is an abstract arithmetic/provenance/byte-resource theorem under
+its explicit aligned-base/array domain. It does not repair stock concrete Z,
+prove copy UB checking or full sort4 safety. Prototype tests will preserve this
+baseline separately and use the [pre-recorded matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07).
+
+
+## Historical generic completion/layout review checkpoint
+
 Current checkpoint 2026-10-07: **generic completion/layout review CLOSED at the
 2-run limit; generic INCONCLUSIVE**. Used **2/2 NEW runs,85/3600 job-seconds**,
 including preparation, proof, unchanged historical replay and artifact upload.

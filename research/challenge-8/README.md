@@ -6,7 +6,17 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Generic completion/layout review CLOSED at2-run limit; generic INCONCLUSIVE.**
+**IN PROGRESS: stock generic H_align PASS, narrow experimental layout profile.**
+[Run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
+checks both generic cases with VF0, original integrity/refinement/dead-code/leak gates.
+Stock concrete ZST remains INCONCLUSIVE independently. [Current authorized card](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07)
+permits only original-fieldless nongeneric Rust struct exact compiler layout plus
+Rust>=0 bounds, separate stock/experimental profiles and pre-recorded controls.
+Budget6 NEW/180min jobs including build/setup,1/6 and43seconds used. Current state
+in compact [STATUS](STATUS.md), prior checkpoint in [history](STATUS-HISTORY-2026-10-07.md).
+No full sort4, RAPx/B/C or historical FnMut/Drop extension. Prior phases below are historical.
+
+**Historical generic completion/layout review CLOSED at2-run limit; generic INCONCLUSIVE.**
 [Runs37537448952/37537868053](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs),
 2/2 NEW,85s total jobs/setup. Checked order splits derive i==0 and original residual
 posts; impossible guard assertions fail the unchanged dead-code gate. No accepted

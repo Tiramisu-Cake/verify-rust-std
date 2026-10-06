@@ -230,3 +230,14 @@ The immutable-write control is an independent measured limitation.
 - Submission: approved integrated tools and documented trust boundaries; no
   runtime/signature changes. Tool-semantic expansion, external publication and
   bounty submission each require the owner's separate decision.
+
+## Current fieldless-layout phase: stock baseline
+
+Run37540829027/source968c073983e0fa27112c5d8a4e10a36b05828323 establishes BOTH
+generic const/mut H_align with whole-unit VF0 on unchanged official26.09: all
+four checked index cases, exact old byte resources/aligned-base/i<=3 domain,
+full normal/no-unwind geometry posts, leak/dead-code/refinement/integrity PASS.
+Earlier generic INCONCLUSIVE results remain historical. This adds independent
+abstract geometry coverage only; stock original Z layout/add still unproved,
+copy UB/ownership/callback/five-unwind/full-sort4 remain open. Experimental layout
+prototype and matrix are now authorized separately; no experimental result yet.

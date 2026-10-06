@@ -1,5 +1,14 @@
 # `sort4_stable`: RAPx / VeriFast / Kani composition assessment
 
+Current update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
+now establishes both generic geometry cases with VF0, integrity/refinement/dead-code
+checks intact. Prior dead-code failures below are historical. The separately
+approved fieldless-only experimental Rust layout profile is IN PROGRESS, no
+experimental result yet. Generic geometry does not instantiate faithful stock Z
+or establish resource/callback/copy safety. RAPx NO-GO and B/C NOT RUN unchanged;
+no full generic sort4 composition follows.
+
+
 2026-10-06, documentation-only owner request; entry synchronized to
 `eda527922ec96468a804e3a62fbc1ca96f23691d`. This assessment uses the
 [adopted contract](SORT4-CONTRACT.md), not a new contract or tool profile.

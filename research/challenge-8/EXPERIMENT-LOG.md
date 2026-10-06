@@ -2484,3 +2484,59 @@ requires a new bounded verification decision. No draft fix or third run applied.
 ## 2026-10-07 — authorized stock generic then fieldless layout prototype
 
 Entry clean matching e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75, correct fork/research branch, no active experiment. Max6 NEW hosted manual runs /10800 summed job-seconds including builds/setup; 0 used. [Pre-implementation card and full domain/posts/trust/regression matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07) recorded before proof/tool edits. First hypothesis: reachable i<1/<2/<3 ghost partition resolves prior dead-code blocker with exact old contracts/runtime/checks. Experimental patch starts ONLY after BOTH stock generic VF0 plus integrity/refinement PASS. Historical phases preserved; no external publication, RAPx/B/C or historical verifier chain.
+
+### Stock gate PASS — run37540829027
+
+NEW manual verifast_sort4_alignment/30, exact pushed/source/head_sha
+968c073983e0fa27112c5d8a4e10a36b05828323, created22:28:46Z on2026-10-06.
+Job112533159277,22:28:51–22:29:34Z,43s. Workflow FAILURE only because stock
+ZST cases remain INCONCLUSIVE; both generic const/mut PASS, exporter/decode/VF/
+refinement0, one caller/helper body each, helper records6 and pointer records3.
+Both finish72 statements, all four normal/resource/leak paths, no dead-code error.
+Runtime/outer contracts/concrete cases unchanged by static and stage hash audits.
+Zlayout still size0 assertion20; Zadd pointer limits21. Both original negatives
+reject exact modulus8 assertion25 afteradd22/cast23. Historical replay3groups/
+30mutants PASS. Official archive/binaries/schema/compiler/specs/std identities
+match stock profile. Artifact11447599817,573681bytes, API/upload ZIP digest
+27ff629da5275b4a172dcd60104903622ae1474d42586dcf87ec818b71b3c4f7; full logs and
+artifacts inspected. Budget1/6,43/10800sec; stock gate permits layout implementation.
+
+Initial prototype hypothesis: fieldless original Z gets compiler size0/ABIalign8
+at its same nominal typeid via new explicitly optional metadata; Rust>=0 removes
+contradictory positivity, unchanged pointer-add specs then permit zero-strideadd.
+Use pre-recorded matrix/card. Five logical layers may touch AST serializers too;
+no other semantics, offset/ownership changes or historical patch chain allowed.
+
+### Prototype run candidate — experimental-rust-fieldless-layout-v1
+
+Stock prerequisite PASS as above. New source hypothesis: compiler-backed fieldless
+size0/ABIalign8 plus Rust-scoped nonnegative bound discharges original Z layout/add
+without changing pointer/offset/ownership rules. Patch over source809de459 has
+SHA256 2ac05bddbf3c3bd9be9fe9a79dd04da0a9917ec8988b495784cb308cf30f015d;
+eight physical files across the five reviewed logical layers (AST serializers and
+Capnp reader alias included). Origin/API review in verifast-rust-fieldless-layout.md.
+Original raw field/generic/repr eligibility and duplicated ADT/definition span/
+target/width bindings validated. Absent remains abstract. Rust fieldless sanity
+requires zero size, power-of-two positive ABIalign/divisibility/target limits.
+C/C++ old positive inequality preserved literally; exact generic/fielded/packed/
+transparent/enum/union/DST facts excluded. Source pin, decoder/VFdeps/archive/compiler
+pins recorded in separate hosted-only runner. No historical patches or local build.
+
+NEW manual selection verifast_rust_fieldless_layout/30; host Ubuntu22.04, build
+exporter AND console from synchronized schema. Stock retained independently.
+Pre-recorded card/matrix unchanged: original six cases, Z mut add, default/aligned
+reprRust/C empty structs, exact generic const/mut calls at Z/u64; named false size
+assertion20, falsealign20, nonzero-stride27 afteradd25, assertfalse20 underreqtrue.
+Seven metadata controls: absent fails size0 assertion20; malformedsize/align and
+wrong ADT/source span/target/width fail explicit RustLayoutMetadata validation, not
+parse/setup. Canonical/mutated MIR and hashes archived separately. New strictnegative
+classifier12 hosted selfchecks; old six-case classifier/runner unchanged. Three
+pinned existing Rust/C/C++ tests plus two smoke controls run on both profiles,
+source hashes checked. All independent cases attempted; overall fail-closed until
+ALL required gates pass. No green badge or partial prefix substitutes for acceptance.
+Static patch applicability, AST/YAML parsing, ghost/source/contract audits, bash-n
+and diff-check PASS; executable tests/compilation/VF NOT RUN before hosted dispatch.
+If build/API/fixture failure, classify INCONCLUSIVE and fix within same scope;
+out-of-scope layout/offset/ownership requirement means STOP. Budget remains1/6,
+43/10800seconds before dispatch. Artifact download archive digest matched API;
+stock full Actions log SHA256 08a83f9b57fe116f6049597ddbb99c8c9b5cd37ce109445704f325cd8e745974.

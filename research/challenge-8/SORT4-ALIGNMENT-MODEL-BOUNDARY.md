@@ -1,5 +1,14 @@
 # H_align: concrete Rust ZST versus the pinned VeriFast model
 
+Current phase separately authorized from e170656: stock generic baseline PASS in
+run37540829027, then an experimental layout prototype limited further to truly
+source-fieldless nongeneric Sized Rust structs. [Phase/matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07)
+and [current results](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
+record execution. The audit/review below remain historical: their broader proposal
+including fielded structs is NOT the new implementation scope. No fielded exact
+layout, offsets/ownership/aliasing or old verifier patch chain is authorized.
+
+
 The audit and hosted results below are a historical record of the bounded
 no-patch phase. The review appended after that record was prepared from
 checkpoint b523959 on 2026-10-07. It proposes a future review/implementation

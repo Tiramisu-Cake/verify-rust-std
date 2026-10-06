@@ -6,6 +6,10 @@
 Entry clean, local/remote exact match, correct fork/branch, no active experiment.
 Previous phase and two runs37537448952/37537868053 remain historical INCONCLUSIVE.
 
+Stock gate result: run37540829027/source968c073, both generic VF0 with integrity/
+refinement PASS. One NEW run,43seconds; concrete stock ZST failures kept separate.
+Transition to Step2 permitted; prior full evidence in results/journal.
+
 ### Step 1: stock gate, before any layout patch implementation
 
 Hypothesis: reachable ordered ghost cases i<1, then i<2, then i<3, otherwise,
