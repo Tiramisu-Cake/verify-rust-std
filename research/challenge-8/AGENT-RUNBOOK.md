@@ -21,11 +21,19 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37415731049](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37415731049),
+**Latest completed address-prepass regression run:** [37415731049](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37415731049),
 source `17e96da0c56bd51c587c6023bbedf72bec588583`,address_taken90min.
-One-line continuation patch2c44ad1c after reviewedcutbd95733e; sameRust/domain.
-Next poll exactrun, full logs/artifacts; check sourcebuild4files, all8+12+3cases,
-actualguard address/proof progress and refiner. Defaultmainworkflowonly2f0a73b.
+Full logs/artifacts inspected. Samepins/pairedZ3/ghost-byte/sourcehash/MIRaudit,
+exact4sourcefiles check pass. Patch2c44ad1c aftercutbd95733e builds0/18.79s,
+RSS426,804KiB; binary1e59705130b70b0b934a980702de1148f5e5b7c265638b449f184b871710740d.
+All8HRTB0/1.71s and12scope0/2.30s pass. Scalar address-after-merge fixture
+verifies0,oneactualbody18records; ManuallyDrop fixture compiler/decode0 and
+passesoldaddresserror but reborrow_ref requires ref_initialized<i32>(tmp_addr).
+Suite1/.77s; negativefixture/actualtarget/refiner not reached. named2 includes
+errorcontext duplicate, not2verifiedfunctions. Overall1,runner1:20.05,
+RSS625,540KiB,setupdominates. No active run; sourceowner investigates sound
+reference initialization/ignore-ref-creation path without runtimeedits/checkdisable.
+Defaultmainworkflowonly2f0a73b; newprofile reproducer remains.
 
 **Latest completed actual borrowing/read milestone:** [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
 source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.

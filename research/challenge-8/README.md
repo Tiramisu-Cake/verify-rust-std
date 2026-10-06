@@ -91,6 +91,19 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Address-taking traversal and reference initialization](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37415731049),
+  source `17e96da0c56bd51c587c6023bbedf72bec588583`,address_taken90min.
+  Same26.09 pins/pairedZ3/ghost-byte/sourcehash/MIR audit and exact4sourcefiles
+  pass. Patch2c44ad1c builds0/18.79s,RSS426,804KiB; binary
+  1e59705130b70b0b934a980702de1148f5e5b7c265638b449f184b871710740d.
+  All8HRTB guards0/1.71s and12scope cases0/2.30s pass. Scalar address-after-
+  merge fixture verifies0,onebody18records. ManuallyDrop compiler/decode0;
+  address succeeds, then reborrow_ref requires ref_initialized<i32>(tmp_addr).
+  Suite1/.77s; finalnegativecase/actualtarget/refiner not reached. named2
+  includes errorcontext, not two proofs. Overall1,runner1:20.05,RSS625,540KiB,
+  setupdominates. Next sound reference-initialization proof/translation route,
+  preserving actual Rust and all checks; no manual wrapper ownership bridge.
+
 - [Actual full-token recovery, restored cells and tail read](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
   source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.
   Independently reviewed outermetadata rebase patchbd95733e; same26.09,
