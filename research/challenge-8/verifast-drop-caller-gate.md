@@ -7,9 +7,9 @@ Its source-build profile inherits the tuple, HRTB, lifetime-cut,
 address-taken, and tracked `ManuallyDrop` patches, then applies
 `verifast-local-drop-call.patch` to the translator only. The final translator
 patch input is `f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432`,
-the patch SHA-256 is `f8f259e944478c5d23829a2d294def4c79087fb6886df559d9e91ed4146a8739`,
+the patch SHA-256 is `bc13ff90cbdc4a937200fb6b20efa2dbb9ceaea0a92d0e428c1fd5b47cc3a65a`,
 and the expected result is
-`910a2b79a0761e359a76ac0502251cacc5183b075c556078018be3590ea679b5`.
+`03bf4a5c460c1babbd79c80dff7d1c4fc02d21add286498df9bd81fe47796213`.
 The build still requires the exact four modified VeriFast files.
 
 The gate runs all 8 HRTB, 12 lifetime-scope, and 5 tracked-reference
@@ -49,3 +49,11 @@ the insertion loop, recover full destination ownership for general insertion,
 or claim support for projected-place Drop or nontrivial field glue. Build,
 export, refinement, and proof execution occur only on GitHub-hosted Actions;
 the editing server is limited to static checks.
+
+First hosted run37423344712 at3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b
+passes source/tool/prelude/patch/four-file/dependency setup but stops at OCaml
+translator7740: unbound record field item.def_id. Build2/12.73s,
+RSS426,848KiB; runner1:07.68,RSS646,360KiB,allsetup. No body/caller/negative
+proof, compiler MIR, regression or refinement was executed. The current patch
+adds only an explicit D.trait_impl_item annotation to that lookup; the new
+input/output pins above describe the corrected source awaiting a NEW run.

@@ -99,6 +99,18 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Local Drop gate source-build diagnostic:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
+  source `3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b`, local_drop_caller_gate90min.
+  Full logs/artifacts inspected. Same26.09 source/tool/prelude/dependency/decoder
+  pins and exact4-source-file audit pass; patchf8f259e9 applies on f8751fab and
+  yields910a2b79. Console build2/12.73s,RSS426,848KiB: translator7740 cannot
+  resolve item.def_id without an explicit D.trait_impl_item annotation.
+  No regressions, extraction, compiler MIR, derived runtime/Z3 audit, actual
+  destructor/caller proof or refinement executed. Overall2,runner1:07.68,
+  RSS646,360KiB,allsetup. Prepared record-type-only fix, patchbc13ff90,
+  translator03bf4a5c; unchanged contracts/domain/source and mandatory checks.
+  Next NEW hosted localcaller gate at the corrected source SHA.
+
 - **Generic actual destructor body verified:** [37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766),
   source `19e74b59f9f2235c26b208cc3c9a96149e3d6cb5`, copy_on_drop_gate90min.
   Full logs/artifacts inspected. Same26.09 source/tool/prelude/pairedZ3/4-file

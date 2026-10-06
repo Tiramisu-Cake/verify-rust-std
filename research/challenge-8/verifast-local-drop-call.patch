@@ -184,7 +184,7 @@
 +          in
 +          let opted_in =
 +            same_adt_impls |> List.exists (fun i ->
-+              i.items |> List.exists (fun item ->
++              i.items |> List.exists (fun (item : D.trait_impl_item) ->
 +                List.exists (fun (n, _, _) ->
 +                  n = TrName.translate_def_path item.def_id)
 +                  annotated_drop_bodies))

@@ -21,14 +21,23 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active local-cleanup gate:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
+**Latest local-cleanup setup failure:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
 source `3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b`,
 `verifast_local_drop_caller_gate`,90min, profile `tuple_local_drop`.
-Dispatched2026-10-06T06:22:14Z and exact headSha resolved. Resume monitoring
-this run; do not dispatch a duplicate. Source patch
+Full logs/artifacts inspected. Source/tool/prelude/patch input/output pins,
+exact4-source-file audit and dependency/decoder setup pass. Source patch
 f8f259e944478c5d23829a2d294def4c79087fb6886df559d9e91ed4146a8739
-changes only translator after f8751fab; expected result
+changes only translator after f8751fab; checked applied result
 910a2b79a0761e359a76ac0502251cacc5183b075c556078018be3590ea679b5.
+Console build2/12.73s,RSS426,848KiB: translator7740 item.def_id is an unbound
+record field because the lookup lambda lacks D.trait_impl_item annotation.
+No derived runtime/Z3 audit, regressions, extraction, compiler MIR, actual body,
+caller proof or refinement executed. Overall2,runner1:07.68,RSS646,360KiB,
+allsetup. No active run. Prepared one-line explicit record-type correction;
+static application on pinned f8751fab passes. New patch
+bc13ff90cbdc4a937200fb6b20efa2dbb9ceaea0a92d0e428c1fd5b47cc3a65a,
+translator03bf4a5c460c1babbd79c80dff7d1c4fc02d21add286498df9bd81fe47796213.
+No contract/domain/resource/check change; strict builder/runner pins updated.
 Root/Sol review and independent Astra source review found no remaining concrete
 blocker after exact late-self lifetime instantiation; projected places retain
 the generic baseline as an explicit non-goal. The same-unit actual annotated
@@ -42,8 +51,8 @@ readback; root and independent Astra review complete. Static AST/YAML/bash-n/
 diff checks pass. Fixture pin73cda1789bfb1ab3c1a3ec7a5a85a5ba305019579d5f716b59015f34d8538e30.
 Defaultmain exposes the selection by workflow-only commit
 5556b0bb2464697190a5467d5ce863402cf989d9; no research code merged there.
-Next wait, download full logs/artifacts, inspect build/all25/body/caller/negative
-outcomes and record the first causal failure or exact successful scope.
+Next push corrected research source, dispatch NEW exactSHA localcaller90min and
+inspect build/all25/body/caller/negative outcomes; do not rerun the old source.
 Actual held_ref release and insertion loop remain open. A possible specialized
 onecell actualDrop contract can call existing end_ref_readonly after copy and
 merge a supplied complementary origin fraction BEFORE tmpfree; needs separate
