@@ -33,8 +33,13 @@ Full evidence fetched: strict original model hash matches, exact patch recorded,
 tool binary hashes unchanged; duplicate typepredicateown conflicts with
 prelude15 struct declaration. Automatic own alias exists; no target execution.
 Runtimeghost/refinement0,VF1(.09s),refiner.11s,runner14.17s,RSS527,852KiB.
-No active run. Next trace automatic tuple owner semantics before any rerun;
-transparent folding/replacement must be supported, no opaque axioms or stubs.
+No active run. Independent source reviews confirm rust_parser.ml:1139-1149
+creates opaque own fixpoint plus alias for every RSSPEC struct; no supported
+spec-only transparent replacement. Stop naming/placement retries.
+Next justified diagnostic: reviewed parser change ONLY synthetic tuple2,
+transparent field-own constructor and exactly one alias, source base809de459.
+Actions-only reproducible source-build recipe and patch being prepared; no
+local build/deps/verification, no opaque ownership bridge, no new run yet.
 Compatibility, cell recovery, guard cleanup and generic loop remain open.
 
 **Latest run:** [37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),

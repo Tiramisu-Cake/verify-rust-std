@@ -460,6 +460,22 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Full evidence fetched. Next trace automatic tuple ownership semantics and a
   supported transparent folding/replacement route; no speculative rerun/axiom.
 
+- **Pinned tuple ownership blocker confirmed by independent source review.**
+  `rust_parser.ml:1139-1149` automatically emits an opaque bodyless fixpoint
+  std_tuple_2__own and its type_pred alias for the RSSPEC tuple declaration.
+  It has no field-ownership body to close. Same-name fixpoint completion is
+  rejected (verifast1.ml:2815), a same-name predicate ctor clashes (3985-3988),
+  another alias duplicates the automatic definition (4065-4077), and aliases in
+  another file are forbidden (4079-4082). Ghost syntax has no raw struct escape.
+  Existing tuple0/tuple4 close lemmas are unproved library declarations; adding
+  an analogous tuple2 bridge would violate this experiment's no-opaque-bridge
+  contract. Stop spec naming retries. Next justified diagnostic: Actions-only
+  source build at809de4596839b739dd999f9e462242c835e3af46 with a reviewed
+  parser change only for synthetic std_tuple_2_, transparent field ownership
+  and one alias. Other structs/models remain unchanged. Build recipe and patch
+  are being prepared; no local verifier/build or new run. Compatibility and
+  actual insertion/unwind/loop proof remain separate requirements.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
