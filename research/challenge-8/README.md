@@ -88,6 +88,19 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Strict exit chunk diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
+  source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.
+  Diagnostic patche17492b5 builds0/22.55s,RSS426,536KiB; same pinned26.09
+  prelude/exporter/refiner, pairedZ3/sourcehash/actualMIR audits pass; binary
+  81e4dbe4d20801252505a4bf6e56686cc333b3aad5419ff1c3d76321f75eea15.
+  All8HRTB guards pass0/1.48s and12scope cases0/1.89s, compiler/decode0 each.
+  First actual FnMut unwind rejects points_to<F> (bound metadata only):
+  outerF metadata retains the local HRTB equality containing cmp. VF1/.16s,
+  RSS92,716KiB;refiner0/.12s,RSS91,828KiB;overall1,runner1:22.12,
+  RSS643,832KiB,setupdominates. Normalcut/move not reached.
+  Next independently reviewed rebase of outerparameter bounds to entrycontext
+  on strict exit, conserving heap and rejecting genuinely local typed resources.
+
 - [All lifetime-scope regressions and actual unwind rejection](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
   source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
   Same pinned26.09 source/patch76c3f6db/prelude/exporter/refiner, pairedZ3,

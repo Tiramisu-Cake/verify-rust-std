@@ -21,10 +21,19 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37413756431](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
+**Latest completed strict exit diagnostic:** [37413756431](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
 source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.
-Diagnostic-only patche17492b5; same rejection semantics/domain and8+12cases.
-Poll exact run, fetch all evidence, read offending chunk/typeargs origin.
+Full logs/artifacts inspected. Diagnostic-only patche17492b5 builds0/22.55s,
+RSS426,536KiB, same pins/prelude/exporter/refiner/source/pairedZ3/MIRaudit.
+Binary81e4dbe4d20801252505a4bf6e56686cc333b3aad5419ff1c3d76321f75eea15;
+all8HRTB guards pass0/1.48s and all12scope cases0/1.89s, compiler/decode0 each.
+Actual firstFnMut unwind rejects points_to<F> (bound metadata only), because
+outerF carries localHRTB equality in BoundedGhostTypeParam metadata. VF1/.16s,
+RSS92,716KiB;refiner0/.12s,RSS91,828KiB;overall1,runner1:22.12,
+RSS643,832KiB,setupdominates. No active run; actualnormalcut/move
+not reached. Next narrow outerparameter boundmetadata rebase to entrycontext
+at strictexit, preserving heap/typeidentity/tokens and truecmp-escape rejection;
+Sol owns patch, Astra independently reviews before hosted run.
 
 **Latest completed actual strict-scope probe:** [37413224006](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413224006),
 source `5181cb3c003954d3adbf824aef71d8c141bfa835`,lft_cut90min.
