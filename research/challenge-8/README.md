@@ -6,18 +6,13 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**CLOSED: RAPx applicability — INCONCLUSIVE at gate-A setup.**
-[Results](RAPX-APPLICABILITY-RESULTS.md) preserve two hosted preparation failures
-on the exact RAPx 0.7.50/nightly-2026-02-05 profile. Package/version/binary
-identities were recorded, but the hosted installed-source audit did not complete.
-No alignment control, generic-copy gate or callback/panic gate was analyzed; no
-coverage gained. The source-level ZST concern remains unconfirmed. Planned A
-and the shared technical correction used 2/4 slots; unused B/C slots cannot
-fund more A retries. A new narrow preparation/A retry needs an owner decision.
-[Phase boundaries](RAPX-APPLICABILITY-PHASE.md) and
-[screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) remain the historical rationale.
-Contract admissibility remains separate; patched work and full sort4 remain
-unauthorized.
+**IN PROGRESS: owner-authorized RAPx preparation and gate-A continuation.**
+The [new authorization](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation)
+provides four new hosted runs of at most 90 minutes, ordinary pipeline repairs,
+and the same six alignment controls; stop before B/C. The prior two setup
+failures remain CLOSED / INCONCLUSIVE in [results](RAPX-APPLICABILITY-RESULTS.md).
+Pins and semantics are frozen. No new detector coverage yet; ZST alignment
+concern remains unconfirmed. Current action/checkpoint: [STATUS](STATUS.md).
 
 The closed [no-patch assessment](SORT4-NO-PATCH-ASSESSMENT.md) preserves the
 official VeriFast26.09/26.10 and Kani review; it found no new full-resource

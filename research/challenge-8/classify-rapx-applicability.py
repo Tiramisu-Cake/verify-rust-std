@@ -1,122 +1,287 @@
 #!/usr/bin/env python3
-"""Fail-closed classifier for isolated RAPx gate-A output."""
+"""Fail-closed classifier for RAPx 0.7.50 gate A's separate hosted logs.
+
+--debug-contracts returns before verification.  Only the separate verify log's
+per-path report and final verdict can establish detector behavior.
+"""
 import argparse
 import json
 import re
+from collections import Counter
 from pathlib import Path
 
 CASES = {
     "zst_aligned": ("positive", "zst::aligned", None),
-    "zst_source_misaligned": ("negative", "zst::source_misaligned", 0),
-    "zst_destination_misaligned": ("negative", "zst::destination_misaligned", 1),
+    "zst_source_misaligned": ("negative", "zst::source_misaligned", "src"),
+    "zst_destination_misaligned": ("negative", "zst::destination_misaligned", "dst"),
     "u64_aligned": ("positive", "u64_controls::aligned", None),
-    "u64_source_misaligned": ("negative", "u64_controls::source_misaligned", 0),
-    "u64_destination_misaligned": ("negative", "u64_controls::destination_misaligned", 1),
+    "u64_source_misaligned": ("negative", "u64_controls::source_misaligned", "src"),
+    "u64_destination_misaligned": ("negative", "u64_controls::destination_misaligned", "dst"),
 }
+KINDS = ("Align", "Align", "ValidPtr", "ValidPtr", "NonOverlap", "ValidNum")
+PREFIX = re.compile(r"^.*?\|RAPx\|(?P<level>[^|]+)\|:\s?(?P<message>.*)$")
+ANSI = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
+CONTRACT_FN = re.compile(r"^\s*fn (?P<path>rapx_applicability::\S+?::copy)(?:\(|\s|$)")
+CONTRACT_CALLEE = re.compile(r"^\s*(?:\|-|`-) fn (?P<path>\S+)")
+CONTRACT_PROP = re.compile(r"^\s*(?:\|-|`-) (?P<call>\w+\([^\n]*\))$")
+COPY = re.compile(r"^core::ptr::copy_nonoverlapping(?:::<[^>]+>)?(?:\(|$)")
+TARGET = re.compile(r"^\[rapx::verify\] function: (?P<path>\S+)$")
+REPORT = re.compile(r"^\[rapx::verify::diagnostics\] function (?P<id>DefId\(.+\)): (?P<count>\d+) check item\(s\)$")
+CHECK = re.compile(r"^\s*check #(?P<check>\d+): checkpoint #(?P<checkpoint>\d+), bb(?P<bb>\d+), path #(?P<path>\d+), property #(?P<property>\d+) (?P<kind>Some\(\w+\)|None), result (?P<result>Proved|Failed|Unknown)$")
+VM = re.compile(r"^\s*vm-check: (?P<result>ProvedByRule|ProvedBySmt|Failed|Unknown)$")
+CHECKPOINT = re.compile(r"^\s*unsafe checkpoint: bb(?P<bb>\d+) -> (?P<callee>\S+)$")
+PATH = re.compile(r"^\s*path (?P<description>.+):$")
+PROP_ROW = re.compile(r"^\s*(?:[├└]──\s*)?(?P<kind>\w+) \| (?P<result>Proved|Failed|Unknown)(?: \(x(?P<count>\d+)\))?$")
+VERDICT = re.compile(r"^\s*result: (?P<result>SOUND|UNSOUND|UNKNOWN)(?:\s|$)")
+ISSUE = re.compile(r"matched no (?:targets|functions)|no safety contracts found|skipping .+|unsupported|not supported|unknown intrinsic|panicked|verifier crashed", re.I)
 
 
-def classify(name: str, exit_code: int, log_path: Path, contracts_path: Path) -> dict:
-    expectation, module, expected_failed_index = CASES[name]
-    raw_with_ansi = log_path.read_text(errors="replace") if log_path.exists() else ""
-    raw = re.sub(r"\x1b\[[0-9;]*m", "", raw_with_ansi)
-    raw = re.sub(r"^.*?\|RAPx\|[^|]*\|: ", "", raw, flags=re.M)
-    target_path = f"rapx_applicability::{module}::copy"
-    target_present = f"[rapx::verify] function: {target_path}" in raw
-    summary_target = raw.find(f"[rapx::verify] function: {target_path}")
-    summary_tail = raw[summary_target:] if summary_target >= 0 else ""
-    copy_headers = re.findall(r"unsafe checkpoint: (bb\d+) -> ([^\n]+)", summary_tail)
-    copy_blocks = [bb for bb, callee in copy_headers if "copy_nonoverlapping" in callee]
-    # driver.rs emits report.describe() before the user-facing checkpoint table.
-    # A diagnostic block carries its checkpoint and per-property VM result.
-    diagnostic = "\n".join(line for line in raw.splitlines() if "[rapx::verify::diagnostics]" in line or "check #" in line or "vm-check:" in line)
-    check_records = re.findall(
-        r"check #(\d+): checkpoint #(\d+), (bb\d+), path #(\d+), property #(\d+) Some\((Align)\), result ([^\n]+)",
-        diagnostic,
-    )
-    copy_bb_set = set(copy_blocks)
-    exact_align_rows = [
-        {"check": int(check), "checkpoint": int(checkpoint), "bb": bb, "path": int(path),
-         "property_index": int(prop), "property": kind, "result": result.strip()}
-        for check, checkpoint, bb, path, prop, kind, result in check_records
-        if bb in copy_bb_set
-    ]
-    proved_align = [row for row in exact_align_rows if row["result"] == "Proved"]
-    failed_align = [row for row in exact_align_rows if row["result"] == "Failed"]
-    has_vm_failed = any("vm-check: Failed" in line for line in raw.splitlines())
-    has_sound = bool(re.search(r"result: SOUND(?:\s|$)", summary_tail))
-    has_unsound = "result: UNSOUND" in summary_tail
-    contract_raw = contracts_path.read_text(errors="replace") if contracts_path.exists() else ""
-    contract_align_args = re.findall(r"\bAlign\(\s*(src|dst)\s*,", contract_raw)
-    contract_src_dst_pair = contract_align_args[-2:] == ["src", "dst"]
-    property_indices = {row["property_index"] for row in exact_align_rows}
-    exact_src_dst_rows = property_indices == {0, 1} and contract_src_dst_pair
+def defid_matches_target(defid, target):
+    """Match pinned rustc's local DefId debug path, including crate hash.
 
-    outcome = "INCONCLUSIVE"
-    reason = "Output did not establish the expected target, checkpoint, and property result."
+    rustc_interface::callbacks::def_id_debug renders the `~` path while a
+    TyCtxt is active; TyCtxt::def_path_debug_str inserts the four-digit crate
+    hash before the path returned by to_string_no_crate_verbose().
+    """
+    crate, suffix = target.split("::", 1)
+    expected = rf"DefId\(0:[1-9]\d* ~ {re.escape(crate)}\[[0-9a-f]{{4}}\]::{re.escape(suffix)}\)"
+    return re.fullmatch(expected, defid) is not None
+
+
+def read_log(path):
+    if not path.is_file():
+        return [], []
+    lines, warnings = [], []
+    for raw in path.read_text(errors="replace").splitlines():
+        raw = ANSI.sub("", raw)
+        m = PREFIX.match(raw)
+        line = m.group("message") if m else raw
+        lines.append(line)
+        if m and re.search("warn|error", m.group("level"), re.I):
+            # The pinned renderer uses rap_warn! for an adverse verdict/row.
+            if not (VERDICT.match(line) and "UNSOUND" in line) and not PROP_ROW.match(line):
+                warnings.append(line)
+        elif ISSUE.search(line):
+            warnings.append(line)
+    return lines, warnings
+
+
+def parse_contract(lines, target):
+    if sum("[rapx::debug-contracts] Expanded Contract Assertions" in x for x in lines) != 1:
+        return None, "Missing or repeated expanded-contracts header"
+    headers = [(i, m.group("path")) for i, x in enumerate(lines) if (m := CONTRACT_FN.match(x))]
+    if len(headers) != 1 or headers[0][1] != target:
+        return None, f"Expected only contract target {target}; observed {[p for _, p in headers]}"
+    start = headers[0][0]
+    end = next((i for i in range(start + 1, len(lines)) if not lines[i].strip()), len(lines))
+    block = lines[start:end]
+    if sum("[Unsafe Callees]:" in x for x in block) != 1:
+        return None, "Target has no unique Unsafe Callees section"
+    callees = [(i, m.group("path")) for i, x in enumerate(block) if (m := CONTRACT_CALLEE.match(x))]
+    copy = [(i, p) for i, p in callees if COPY.match(p)]
+    if len(copy) != 1 or len(callees) != 1:
+        return None, f"Expected only copy_nonoverlapping callee; observed {callees}"
+    property_lines = [x for x in block[copy[0][0] + 1:]
+                      if re.match(r"^\s*(?:\|-|`-) ", x)]
+    parsed = [CONTRACT_PROP.match(x) for x in property_lines]
+    if any(m is None for m in parsed):
+        return None, f"Unparsed copy contract property lines: {property_lines}"
+    calls = [m.group("call") for m in parsed]
+    if tuple(x.split("(", 1)[0] for x in calls) != KINDS:
+        return None, f"Pinned six primitive properties absent or unmapped: {calls}"
+    mapping = []
+    for i, arg in enumerate(("src", "dst")):
+        if not re.fullmatch(rf"Align\(\s*{arg}\s*,\s*T\s*\)", calls[i]):
+            return None, f"Cannot map Align({arg},T) at property index {i}: {calls}"
+        mapping.append({"argument": arg, "property_index": i, "call": calls[i]})
+    return mapping, ""
+
+
+def parse_reports(lines):
+    headers = [(i, m) for i, x in enumerate(lines) if (m := REPORT.match(x))]
+    if not headers:
+        return None, "No report.describe() diagnostic in verification log"
+    consumed, reports = set(), []
+    for n, (start, header) in enumerate(headers):
+        stop = headers[n + 1][0] if n + 1 < len(headers) else len(lines)
+        rows = []
+        for i in range(start + 1, stop):
+            m = CHECK.match(lines[i])
+            if not m:
+                continue
+            consumed.add(i)
+            vm = VM.match(lines[i + 1]) if i + 1 < stop else None
+            if not vm:
+                return None, f"check row at line {i + 1} lacks its own vm-check"
+            row = {k: int(m.group(k)) for k in ("check", "checkpoint", "bb", "path", "property")}
+            row.update(kind=m.group("kind"), result=m.group("result"), vm_check=vm.group("result"))
+            label = "Proved" if row["vm_check"].startswith("Proved") else row["vm_check"]
+            if row["result"] != label:
+                return None, f"check #{row['check']} disagrees with vm-check"
+            rows.append(row)
+        if len(rows) != int(header.group("count")) or [r["check"] for r in rows] != list(range(len(rows))):
+            return None, "Report count or check indexes do not match parsed rows"
+        reports.append({"defid": header.group("id"), "rows": rows})
+    if {i for i, x in enumerate(lines) if CHECK.match(x)} != consumed or len({r["defid"] for r in reports}) != 1:
+        return None, "Orphan check rows or multiple diagnostic functions"
+    return reports, ""
+
+
+def parse_summary(lines, target):
+    headers = [(i, m.group("path")) for i, x in enumerate(lines) if (m := TARGET.match(x))]
+    if len(headers) != 1 or headers[0][1] != target:
+        return None, f"Expected only verified function {target}; observed {[p for _, p in headers]}"
+    start = headers[0][0]
+    end = next((i for i in range(start + 1, len(lines)) if VERDICT.match(lines[i])), len(lines))
+    if end == len(lines):
+        return None, "Target emitted no final verdict"
+    if "no unsafe checkpoints" in lines[end]:
+        return None, "Target verdict claims no unsafe checkpoints"
+    block = lines[start:end + 1]
+    checkpoints = [(i, int(m.group("bb")), m.group("callee")) for i, x in enumerate(block) if (m := CHECKPOINT.match(x))]
+    if len(checkpoints) != 1 or not COPY.match(checkpoints[0][2]):
+        return None, f"Expected unique copy checkpoint; observed {checkpoints}"
+    paths, current = [], None
+    for line in block[checkpoints[0][0] + 1:-1]:
+        if m := PATH.match(line):
+            current = {"description": m.group("description"), "align": [], "properties": []}
+            paths.append(current)
+        elif m := PROP_ROW.match(line):
+            if current is None:
+                return None, "Property row outside checkpoint path"
+            current["properties"].append({"kind": m.group("kind"),
+                                          "result": m.group("result"),
+                                          "count": int(m.group("count") or 1)})
+            if m.group("kind") == "Align":
+                current["align"].extend([m.group("result")] * int(m.group("count") or 1))
+        elif current is not None and " | " in line:
+            return None, f"Unparsed checkpoint property row: {line}"
+    if not paths or any(len(p["align"]) < 2 for p in paths):
+        return None, "Final copy summary lacks path-local Align rows"
+    return {"verdict": VERDICT.match(lines[end]).group("result"), "bb": checkpoints[0][1], "paths": paths}, ""
+
+
+def classify(name, exit_code, log_path, contracts_path, contract_exit_code=0):
+    expectation, module, bad_arg = CASES[name]
+    target = f"rapx_applicability::{module}::copy"
+    verify, verify_warnings = read_log(log_path)
+    contracts, contract_warnings = read_log(contracts_path)
+    record = {"case": name, "expected": expectation, "module": module, "target": target,
+              "outcome": "INCONCLUSIVE", "reason": "Incomplete evidence",
+              "raw_exit_code": exit_code, "contract_exit_code": contract_exit_code,
+              "verification_log": str(log_path),
+              "contract_log": str(contracts_path), "align_mapping": [],
+              "copy_checkpoint_bb": None, "path_count": 0, "align_rows": [],
+              "summary_paths": [], "diagnostic_reports": [],
+              "overall_sound": False, "overall_unsound": False,
+              "relevant_warnings": verify_warnings + contract_warnings}
+    def finish(outcome, reason):
+        record.update(outcome=outcome, reason=reason)
+        return record
+    if exit_code == 124:
+        return finish("TIMEOUT", "Verification timed out")
     if exit_code != 0:
-        outcome, reason = "COMMAND_FAILURE", f"RAPx command exit code {exit_code}; preserve as setup/frontend/analysis evidence."
-    elif not target_present:
-        outcome, reason = "MISSING_TARGET", "Annotated target was not found in the emitted log."
-    elif not copy_blocks:
-        if re.search(r"unsupported|not supported|unknown intrinsic", raw, re.I):
-            outcome, reason = "UNSUPPORTED_OPERATION", "RAPx reported an unsupported operation before a copy checkpoint was established."
-        else:
-            outcome, reason = "MISSING_CHECKPOINT", "Target emitted no copy_nonoverlapping unsafe-checkpoint group."
-    elif len(exact_align_rows) < 2:
-        outcome, reason = "MISSING_OR_UNPARSEABLE_OBLIGATION", f"Expected two parseable source/destination Align rows; found {len(exact_align_rows)}."
-    elif not exact_src_dst_rows:
-        outcome, reason = "CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED", (
-            f"Cannot map property indexes to both ordered Align(src,T)/Align(dst,T) requirements; "
-            f"contract Align args={contract_align_args}, observed property indexes={sorted(property_indices)}."
-        )
-    elif expectation == "positive" and has_sound and len(proved_align) >= 2:
-        outcome, reason = "PROVED_VALID", "The aligned control has both Align rows proved and the target verdict SOUND."
-    elif expectation == "negative" and has_sound and len(proved_align) >= 2:
-        outcome, reason = "SOUND_MISS", "The deliberately misaligned case has a SOUND verdict and both Align rows proved."
-    elif expectation == "negative" and has_unsound and any(row["property_index"] == expected_failed_index for row in failed_align) \
-            and any(row["property_index"] == 1 - expected_failed_index for row in proved_align) and has_vm_failed:
-        outcome, reason = "INTENDED_DETECTION", "The copy checkpoint has a failed Align row and vm-check reports Failed."
-    elif "Unknown" in "\n".join(str(row) for row in exact_align_rows):
-        outcome, reason = "UNKNOWN", "Align result is Unknown; UNSOUND alone is not a detected violation."
-    elif has_unsound and not failed_align:
-        outcome, reason = "UNRELATED_FAILURE", "UNSOUND lacks a failed Align row at copy_nonoverlapping; this is not an intended negative."
-    elif has_unsound:
-        outcome, reason = "UNRELATED_FAILURE", "Target verdict is UNSOUND but the expected alignment failure was not confirmed."
+        return finish("COMMAND_FAILURE", f"Verification command exited {exit_code}")
+    if contract_exit_code != 0:
+        return finish("CONTRACT_COMMAND_FAILURE", f"Contract command exited {contract_exit_code}")
+    if not verify or not contracts or log_path.resolve() == contracts_path.resolve():
+        return finish("MISSING_LOG", "Separate contract and verification logs are required")
+    if any(re.search("unsupported|not supported|unknown intrinsic", x, re.I) for x in record["relevant_warnings"]):
+        return finish("UNSUPPORTED_OPERATION", "RAPx reported an unsupported operation")
+    if record["relevant_warnings"]:
+        return finish("UNEXPECTED_WARNING", "RAPx warning/error requires review")
+    mapping, error = parse_contract(contracts, target)
+    if error:
+        return finish("CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED", error)
+    record["align_mapping"] = mapping
+    summary, error = parse_summary(verify, target)
+    if error:
+        return finish("MISSING_TARGET_OR_CHECKPOINT", error)
+    record["copy_checkpoint_bb"] = summary["bb"]
+    record["path_count"] = len(summary["paths"])
+    record["summary_paths"] = summary["paths"]
+    record["overall_sound"] = summary["verdict"] == "SOUND"
+    record["overall_unsound"] = summary["verdict"] == "UNSOUND"
+    if summary["verdict"] == "UNKNOWN":
+        return finish("UNKNOWN", "Final target verdict is UNKNOWN")
+    reports, error = parse_reports(verify)
+    if error:
+        return finish("MISSING_OR_UNPARSEABLE_OBLIGATION", error)
+    record["diagnostic_reports"] = [
+        {"defid": report["defid"], "path_indexes": sorted({r["path"] for r in report["rows"]}),
+         "check_count": len(report["rows"])} for report in reports
+    ]
+    if any(not defid_matches_target(report["defid"], target) for report in reports):
+        return finish("MISSING_OR_UNPARSEABLE_OBLIGATION",
+                      "Diagnostic DefId path does not name the verified target")
+    all_rows = [r for report in reports for r in report["rows"]]
+    if not all_rows:
+        return finish("MISSING_OR_UNPARSEABLE_OBLIGATION", "No path/property checks executed")
+    for report in reports:
+        rows = report["rows"]
+        if any(r["bb"] != summary["bb"] or r["checkpoint"] != 0 for r in rows):
+            return finish("MISSING_OR_UNPARSEABLE_OBLIGATION", "Diagnostic checkpoint differs from copy")
+        paths = {r["path"] for r in rows}
+        if not paths or paths != set(range(len(paths))):
+            return finish("MISSING_OR_UNPARSEABLE_OBLIGATION", "Diagnostic paths absent or gapped")
+        for path in paths:
+            path_rows = [r for r in rows if r["path"] == path]
+            if len(path_rows) != len(KINDS) or {r["property"] for r in path_rows} != set(range(len(KINDS))):
+                return finish("MISSING_OR_UNPARSEABLE_OBLIGATION", "Copy path lacks a primitive obligation")
+            if any(r["kind"] != f"Some({KINDS[r['property']]})" for r in path_rows):
+                return finish("CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED", "Property indexes disagree with copy contract")
+    record["align_rows"] = [r for r in all_rows if r["property"] in (0, 1)]
+    detail_counts = Counter((KINDS[r["property"]], r["result"]) for r in all_rows)
+    summary_counts = Counter()
+    for path in summary["paths"]:
+        for prop in path["properties"]:
+            summary_counts[(prop["kind"], prop["result"])] += prop["count"]
+    if detail_counts != summary_counts:
+        return finish("SUMMARY_DIAGNOSTIC_MISMATCH",
+                      "Final summary property counts differ from per-path diagnostics")
+    if any(r["result"] == "Unknown" for r in all_rows) or any("Unknown" in p["align"] for p in summary["paths"]):
+        return finish("UNKNOWN", "A copy property/path is Unknown")
+    if expectation == "positive":
+        if any(set(p["align"]) != {"Proved"} for p in summary["paths"]):
+            return finish("SUMMARY_DIAGNOSTIC_MISMATCH", "Aligned summary has a non-proved Align")
+        if summary["verdict"] == "SOUND" and all(r["result"] == "Proved" for r in all_rows):
+            return finish("PROVED_VALID", "All copy properties proved on every path")
+        return finish("UNRELATED_FAILURE", "Aligned control did not prove every copy obligation")
+    bad_index = next(x["property_index"] for x in mapping if x["argument"] == bad_arg)
+    if all(r["result"] == "Proved" for r in record["align_rows"]):
+        if summary["verdict"] == "SOUND" and all(r["result"] == "Proved" for r in all_rows) \
+                and all(set(p["align"]) == {"Proved"} for p in summary["paths"]):
+            return finish("SOUND_MISS", f"Deliberate Align({bad_arg},T) violation was proved")
+        if summary["verdict"] == "UNSOUND" and all(set(p["align"]) == {"Proved"} for p in summary["paths"]):
+            return finish("ALIGN_PROVED_OTHER_FAILURE",
+                          f"Align({bad_arg},T) was proved but another obligation made target UNSOUND")
+    if any(set(p["align"]) != {"Proved", "Failed"} for p in summary["paths"]):
+        return finish("SUMMARY_DIAGNOSTIC_MISMATCH", "Failed/Proved Align pair absent on a summary path")
+    align_isolated = all(
+        r["result"] == ("Failed" if r["property"] == bad_index else "Proved")
+        for r in all_rows if r["property"] in (0, 1)
+    )
+    if summary["verdict"] == "UNSOUND" and align_isolated:
+        record["other_failed_rows"] = [r for r in all_rows
+                                       if r["property"] not in (0, 1) and r["result"] == "Failed"]
+        return finish("INTENDED_DETECTION", f"Align({bad_arg},T) Failed on every copy path")
+    return finish("UNRELATED_FAILURE", "Expected Align failure was not isolated on every path")
 
-    return {
-        "case": name,
-        "expected": expectation,
-        "module": module,
-        "outcome": outcome,
-        "reason": reason,
-        "target_present": target_present,
-        "copy_nonoverlapping_checkpoint_count": len(copy_blocks),
-        "align_rows": exact_align_rows,
-        "copy_contract_align_arguments": contract_align_args,
-        "source_destination_alignment_rows_mapped": exact_src_dst_rows,
-        "contract_log": str(contracts_path),
-        "raw_exit_code": exit_code,
-        "full_log": str(log_path),
-        "overall_sound": has_sound,
-        "overall_unsound": has_unsound,
-    }
 
-
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--case", choices=CASES, required=True)
     parser.add_argument("--exit-code", type=int, required=True)
-    parser.add_argument("--log", type=Path, required=True)
+    parser.add_argument("--contract-exit-code", type=int, default=0)
+    parser.add_argument("--verify-log", "--log", dest="verify_log", type=Path, required=True)
     parser.add_argument("--contracts", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    record = classify(args.case, args.exit_code, args.log, args.contracts)
+    record = classify(args.case, args.exit_code, args.verify_log, args.contracts,
+                      args.contract_exit_code)
     args.out.write_text(json.dumps(record, indent=2) + "\n")
     print(f"{record['case']}: {record['outcome']}: {record['reason']}")
-    # A complete but adverse classification is evidence, not a runner failure;
-    # retain subsequent controls and let the phase report choose NO-GO/INCONCLUSIVE.
-    return 0
-
+    return 0  # An adverse classification is still experiment evidence.
 
 if __name__ == "__main__":
     raise SystemExit(main())

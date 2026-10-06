@@ -15,7 +15,9 @@ was identified, so no experiment ran. The owner subsequently requested the
 RAPx as the next candidate and approved preparing the bounded
 [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) on 2026-10-06. That phase
 closed INCONCLUSIVE after two setup failures; no fixture target was analyzed.
-[Results](RAPX-APPLICABILITY-RESULTS.md) preserve the evidence and next decision.
+[Results](RAPX-APPLICABILITY-RESULTS.md) preserve that historical evidence.
+The owner now authorized a separate bounded preparation/gate-A continuation
+with four new hosted runs, routine pipeline repairs and a mandatory stop before B/C.
 Contract admissibility remains a separate open question;
 later sorting stages and verifier implementation remain separate decisions.
 

@@ -6,6 +6,44 @@ the documentation update and continuation prompt. Entry research HEAD:
 `b7416c18035c714258e2a476eebdfa1609f7f66c`, fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
 
+## Current gate-A continuation
+
+**IN PROGRESS — owner-authorized continuation on 2026-10-06.**
+Entry expected and actual HEAD `1fc89566800f8152d218de7f9a757f665626f220`.
+The latest owner instruction supersedes the earlier stop only for preparation
+and **gate A**. Preserve the earlier CLOSED / INCONCLUSIVE result and two runs
+as historical evidence in [results](RAPX-APPLICABILITY-RESULTS.md).
+
+Separate budget: **up to four NEW GitHub-hosted Actions runs**, each at most
+90 minutes including setup, one active run. The earlier one-technical-correction
+limit is replaced by this overall new budget; ordinary setup/runner/classifier
+repairs are autonomous. No blind retries; each changed source gets a new SHA/run.
+The older budget below describes the initial session, not this continuation.
+
+Authorized corrections: do not require `.cargo-checksum.json`; retain exact
+package/version/archive SHA256/VCS/lock checks and compare installed sources
+with the verified archive and pinned upstream. Use `--debug-contracts` ONLY
+in separate contract-printing diagnostics: pinned driver.rs returns from that
+branch before verification. Real verification must omit that flag. Feed the
+classifier corresponding separate logs, bind the precise function/checkpoint/
+Align(src/dst), reject missing/unknown/unsupported/unmapped evidence, and test
+the classifier executably only on Actions. Statically inspect all remaining
+setup/analysis paths before the first dispatch and repair related issues together.
+
+Run the six existing gate-A controls; preserve actual target/path/obligation
+evidence. Never execute negative fixtures as ordinary programs. Pins, trusted
+semantics, std runtime and meaning of the predicates are frozen. All builds,
+analysis and executable tests stay on GitHub-hosted Actions.
+
+Stop after a substantive A result or budget exhaustion, **before B/C**. Even
+a sufficient A pass only permits READY FOR NEXT DECISION (A only), not B/C
+execution. A confirmed missed negative or required semantic change gives a
+scoped NO-GO/next decision; setup/unknown/ambiguous evidence gives INCONCLUSIVE.
+No verifier patch/upgrade, whole-sort4 proof, alternative tool or external
+publication is authorized. Current checkpoint: [STATUS](STATUS.md).
+
+### Historical initial-session closeout
+
 **CLOSED — INCONCLUSIVE on 2026-10-06.**
 [Results](RAPX-APPLICABILITY-RESULTS.md) preserve two setup failures: planned A
 and the one shared technical correction. No fixture alignment obligation was
@@ -168,7 +206,8 @@ run on GitHub-hosted Actions. The server only edits/orchestrates and performs th
 permitted non-executing static checks. Use one active exact-SHA manual experiment
 at a time and inspect full logs/artifacts, including successful runs.
 
-Budget: **at most four hosted runs total, at most 90 minutes each including setup**:
+Historical initial-session budget (superseded for the current continuation):
+**at most four hosted runs total, at most 90 minutes each including setup**:
 one planned run for each reached gate and one shared correction run for an
 identified fixture/runner/setup problem. Unused later-gate slots are not a license
 for repeated attempts on one gate. No blind retry, new tool version or budget

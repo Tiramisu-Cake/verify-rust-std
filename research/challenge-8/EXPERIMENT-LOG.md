@@ -1705,3 +1705,67 @@ archive to installed source rather than require optional checksum metadata;
 not implemented or dispatched. No verifier patch/upgrade/full-sort4 authorization.
 Results/status/coverage/roadmap/index updated; documentation-only closeout
 requires static validation, no extra hosted verification run.
+
+
+## 2026-10-06 — new owner-authorized RAPx gate-A continuation, card before edits
+
+Entry HEAD/local/remote `1fc89566800f8152d218de7f9a757f665626f220`; tree clean,
+origin Tiramisu-Cake/verify-rust-std, branch challenge-8/research, no active or
+queued Actions, no newer/unrelated changes. Owner explicitly resumes only
+preparation and six existing A controls. Separate budget0/4 NEW runs,90min
+including setup each, one active. Ordinary runner/setup/classifier corrections
+are autonomous within the new budget; historical two attempts remain preserved.
+
+- Obligation: source/destination alignment at actual std sort4_stable's four
+  copy_nonoverlapping operations, smallsort.rs653–656; std blob
+  e555fce440872898e47fd5114f32eb15401d07df unchanged.
+- Hypothesis: after correct stock-profile identity audit and true verification
+  (without debug-contracts early return), RAPx distinguishes valid/misaligned
+  pointers including concrete align8 ZST, at intended copy Align predicates.
+- Domain/resources: same six isolated annotated functions. ZST aligned/source+1/
+  destination+1, no earlier invalid reference; ordinary u64 copy uses distinct
+  initialized allocated backing, tested pointer byte offset1 only, other aligned.
+  Count1; zero-byte ZST ranges do not overlap. No manual alignment assertion.
+- Partial posts: valid operation retains source and initialized scratch replicas
+  with one owner; these concrete controls do not prove generic T/F, ownership
+  transport, ordering, current callback effects or unwind.
+- Full target yardstick: unrestricted valid T/F, four initialized source slots,
+  possibly uninitialized separated writable scratch, legal provenance/borrows
+  and exactly one ownership sequence. Normal: current V5 retained, scratch
+  pi(V5) replicas initialized, current callback/frame/storage recovered, no
+  borrow debt. Each panic k=1..5: current Vk/Qk/Hk after legal callback effects,
+  source ownership and raw scratch current initialization recovered, no sort4
+  writes, no rollback/leaked resources. Ordering premises remain separate; no
+  Copy/Freeze/purity/no-panic premise for safety.
+- Profile unchanged: RAPx '=0.7.50' --locked, nightly-2026-02-05 explicit for
+  install/analysis, archive SHA e210328ce0e6c417ecf0498118ca0738f80851e9f2d204432a095ad703f8c0b8,
+  VCS7d61d9377033c48a4df8954f34cc076e97a93816. Check archive/VCS/lock/version,
+  byte-compare installed package source to archive and relevant upstream; no
+  required .cargo-checksum.json. Fixture calls toolchain std, not repository core.
+- Cases: positives actually analyzed SOUND with both Align predicates proved.
+  Negatives require failed tested Align at its copy checkpoint, other Align
+  proved; SOUND with incorrect discharge is a miss. Unknown, unsupported, absent
+  or unmapped target/path/obligation and setup/frontend/timeout remain distinct.
+- Preparation: separate target list, per-case contracts (--debug-contracts) and
+  per-case verification WITHOUT debug-contracts; classifier receives the paired
+  logs and binds function/checkpoint/argument/property/path. Hosted tests reject
+  printed-only, wrong-target/checkpoint/path/argument, missing/unknown/unsupported
+  and contaminated evidence. No negative fixture program is executed.
+- Decision map: routine pipeline error -> evidence-backed repair and NEW run
+  within4; substantive miss or essential semantic gap -> scoped NO-GO/stop;
+  unknown/ambiguous or budget exhausted -> INCONCLUSIVE/stop; sufficient A pass
+  -> READY FOR NEXT DECISION (A only)/stop. B/C remain NOT RUN regardless of A.
+- Selection rapx_applicability, rapx_gateA, budget_minutes90; no other suite,
+  upgrade/model/contract change or local compiler/verifier/test/extractor.
+
+Final pre-dispatch static audit: pinned driver.rs715 returns after contract
+printing; real checks now omit that flag. Archive/upstream full src comparison
+is byte-identical (204 files); runner compares installed full src and build.rs,
+Cargo.toml and Cargo.lock independently of Cargo checksum metadata. Isolated
+install root, exact executable versions, source manifests, raw per-stage exit
+codes and separate contract/verification logs are retained. Hosted-only classifier
+tests run before controls. Source copy locations: zst.rs14/31/48 and
+u64_controls.rs9/24/39, respectively aligned/source-offset/destination-offset.
+Full runner path, wrapper/filter behavior, diagnostic renderers, timeout/trap,
+artifact paths and layout-only program statically reviewed; bash -n and
+git diff --check passed. No executable local validation.

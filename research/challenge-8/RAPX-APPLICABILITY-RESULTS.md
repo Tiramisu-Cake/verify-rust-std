@@ -1,5 +1,18 @@
 # RAPx applicability and detector coverage: results
 
+## Current gate-A continuation (new authorization)
+
+IN PROGRESS from `1fc89566800f8152d218de7f9a757f665626f220`, owner-authorized
+on 2026-10-06: preparation and six gate-A controls only; stop before B/C.
+Separate budget 0/4 NEW hosted runs, each at most 90 minutes including setup,
+one active. Ordinary runner/setup/classifier repairs are autonomous within
+this budget. The old two attempts and one-correction allocation below remain
+historical; the new authorization supersedes only their continuation stop.
+No new detector result yet. Full scope/card: [phase](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation)
+and [experiment log](EXPERIMENT-LOG.md).
+
+## Historical initial-session closeout
+
 **INCONCLUSIVE — gate A stopped at setup, no detector hypothesis tested.**
 The owner resumed
 [the approved phase](RAPX-APPLICABILITY-PHASE.md) on 2026-10-06 from documentation
