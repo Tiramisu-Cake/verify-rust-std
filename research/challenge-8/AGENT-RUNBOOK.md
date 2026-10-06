@@ -21,9 +21,12 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Current next experiment:** `verifast_insert_tail_fnmut_hrtb`,90min.
+**Active run:** [37409198258](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258),
+source `e7ac80db4016bf6cf41b40920e3af11dcfb30470`,
+`verifast_insert_tail_fnmut_hrtb`,90min. Exact remote/run SHA matched.
+Poll this run and fetch full evidence; no second dispatch until inspected.
 Translator-only compiler-bound instance patch independently reviewed; no
-static logic blocker. First hosted build/probe pending. Patch SHA256
+static logic blocker. First hosted build/probe active as recorded above. Patch SHA256
 c35c4b438563f5a9da0f79c658ac7450ca429c91ed91207f6caa1ee267d09758.
 Default main manual routing exposed by workflow-only commit29442c6.
 Same generic range domain and explicit comparison-resource posts as tuple_parser;
