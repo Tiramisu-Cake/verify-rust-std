@@ -160,6 +160,21 @@ All assertions preserve the old contract and make no assumptions. The first
 failing location will identify which transition needs a different resource
 strategy.
 
+Actions run
+[37399825118](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399825118)
+at `e8fac27` proved the full-token assertion immediately after
+`begin_lifetime`, then failed the next full-token assertion immediately after
+`let_lft 'cmp = cmp_k`. The pinned verifier's
+[local lifetime handling](https://github.com/verifast/verifast/blob/26.09/src/verifast.ml)
+consumes the token at a `let_lft` declaration, exposes half its coefficient
+inside the Rust block, and reserves the other half until block exit. Thus the
+available fraction in the existing `unsafe` block is exactly `1/2`; the two
+simultaneous reference accesses now request `1/4` each. Checked assertions
+track `1/2` through borrow/share/initialization and `1/4` after the first
+fractional opening. These fractions follow the verifier's documented resource
+transition rather than adding a precondition or assuming a token. Actions
+still needs to verify the revised calls and the first comparator expression.
+
 This stage deliberately stops at the first comparison. Ending its lifetime,
 recovering potentially changed `T` values after comparator interior mutation,
 and restoring ownership on the early-return, normal, and unwind paths remain

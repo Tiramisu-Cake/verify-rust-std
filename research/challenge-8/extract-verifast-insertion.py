@@ -66,7 +66,7 @@ RANGE_LIFETIME_BEGIN = (
 )
 RANGE_LIFETIME_BIND = (
     "        /*@ let_lft 'cmp = cmp_k; @*/\n"
-    "        //@ assert lifetime_token(cmp_k);\n"
+    "        //@ assert [1/2]lifetime_token(cmp_k);\n"
 )
 RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ array_split::<T>(begin, n - 2);
@@ -85,28 +85,28 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ open own::<T>(t)(head(drop(1, drop(n - 2, xs))));
         //@ close_full_borrow_content::<T>(t, sift);
         //@ close_full_borrow_content::<T>(t, tail);
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ borrow(cmp_k, <T>.full_borrow_content(t, sift));
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ borrow(cmp_k, <T>.full_borrow_content(t, tail));
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ share_full_borrow::<T>(cmp_k, t, sift);
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ share_full_borrow::<T>(cmp_k, t, tail);
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ let cmp_tail_ref = precreate_ref(tail);
         //@ let cmp_sift_ref = precreate_ref(sift);
         //@ init_ref_share::<T>(cmp_k, t, cmp_tail_ref);
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ init_ref_share::<T>(cmp_k, t, cmp_sift_ref);
-        //@ assert lifetime_token(cmp_k);
+        //@ assert [1/2]lifetime_token(cmp_k);
         //@ merge_fractions lifetime_token(cmp_k);
-        //@ assert lifetime_token(cmp_k);
-        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/2);
         //@ assert [1/2]lifetime_token(cmp_k);
+        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/4);
+        //@ assert [1/4]lifetime_token(cmp_k);
         //@ open [?tail_ref_frac]ref_initialized_::<T>(cmp_tail_ref)();
-        //@ assert [1/2]lifetime_token(cmp_k);
-        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/2);
+        //@ assert [1/4]lifetime_token(cmp_k);
+        //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_sift_ref), 1/4);
         //@ open [?sift_ref_frac]ref_initialized_::<T>(cmp_sift_ref)();
         //@ close_ref_own::<'cmp, T>(cmp_tail_ref);
         //@ close_ref_own::<'cmp, T>(cmp_sift_ref);
