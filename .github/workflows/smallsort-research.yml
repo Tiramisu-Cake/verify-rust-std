@@ -9,6 +9,7 @@ on:
         default: insertion_all_4
         options:
           - sort4_contract_diagnostics
+          - rapx_applicability
           - sort4_functional
           - insertion_all_4
           - insertion_contracts_4
@@ -38,6 +39,11 @@ on:
         type: choice
         default: '90'
         options: ['30', '60', '90', '120']
+      rapx_gate:
+        description: Ordered RAPx applicability gate
+        type: choice
+        default: A
+        options: [A]
 
 permissions:
   contents: read
@@ -54,13 +60,17 @@ jobs:
   bootstrap:
     name: Verify selected SmallSort research proofs
     runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
-    timeout-minutes: 150
+    timeout-minutes: ${{ inputs.proof == 'rapx_applicability' && 90 || 150 }}
     steps:
       - name: Check out the selected workflow branch
         uses: actions/checkout@v4
         with:
           submodules: true
           persist-credentials: false
+
+      - name: Record hosted job start
+        if: inputs.proof == 'rapx_applicability'
+        run: echo "RAPX_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
 
       - name: Prepare runner
         env:
@@ -72,7 +82,11 @@ jobs:
             *) sudo rm -rf /usr/share/dotnet /usr/local/lib/android /usr/local/.ghcup ;;
           esac
           sudo apt-get update
-          sudo apt-get install --yes jq ripgrep time
+          if [[ "$PROOF_SELECTION" == rapx_applicability ]]; then
+            sudo apt-get install --yes jq ripgrep time libz3-dev libclang-dev pkg-config
+          else
+            sudo apt-get install --yes jq ripgrep time
+          fi
           df -h
 
       - name: Cache Cargo downloads
@@ -87,9 +101,11 @@ jobs:
         env:
           PROOF_SELECTION: ${{ inputs.proof }}
           RUN_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
+          RAPX_GATE: ${{ inputs.rapx_gate }}
         run: |
           case "$PROOF_SELECTION" in
             sort4_contract_diagnostics) bash research/challenge-8/run-sort4-contract.sh "$RUN_BUDGET_MINUTES" ;;
+            rapx_applicability) bash research/challenge-8/run-rapx-applicability.sh "$RUN_BUDGET_MINUTES" "$RAPX_GATE" ;;
             sort4_functional) bash research/challenge-8/run-sort4.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_probe) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_range) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" range ;;

@@ -11,7 +11,7 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**READY — RAPx applicability and detector coverage; not started.**
+**IN PROGRESS — RAPx applicability and detector coverage, gate A.**
 The owner accepted the selection of RAPx and requested documentation plus the
 next agent prompt. A continuation agent may begin only the bounded
 [named phase](RAPX-APPLICABILITY-PHASE.md) without repeating approval: A, ZST and
@@ -22,8 +22,10 @@ Frozen profile: RAPx exactly 0.7.50, Rust nightly-2026-02-05; reviewed upstream
 source `7d61d9377033c48a4df8954f34cc076e97a93816`. Audit the installed package;
 no patch, semantic model change or upgrade. Maximum four hosted runs (one per
 reached gate plus one shared technical correction), 90 minutes each including
-setup, one active run at a time. Used **0/4**. No RAPx diagnostic run or fixture
-has been implemented in this documentation checkpoint; no active research run.
+setup, one active run at a time. Used **0/4**. Session resumed by the owner on 2026-10-06 at documentation
+commit `ad54f67d655c4106762016fba47534c58601f3ec`. Working tree clean,
+origin verified, research branch fast-forwarded to that commit; no queued or
+in-progress Actions. Preparing isolated gate-A diagnostics; no active run.
 
 The ZST alignment rule and unsupported-call fallback are source-level concerns,
 not reproduced false passes. A critical miss or essential unsupported behavior

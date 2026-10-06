@@ -1582,3 +1582,49 @@ change, installation/build, semantic patch or dispatch. Latest proof evidence
 and all established coverage remain unchanged. Contract admissibility stays
 independent and unresolved; no external contact or publication is authorized.
 Validation is static document/diff/link/profile consistency review only.
+
+
+## 2026-10-06 — RAPx gate A experiment card (before implementation)
+
+Owner resumed the approved phase at documentation commit
+`ad54f67d655c4106762016fba47534c58601f3ec`. Entry tree clean; origin is
+Tiramisu-Cake/verify-rust-std; branch challenge-8/research fast-forwarded;
+no queued/in-progress Actions. No unrelated changes.
+
+- Actual obligation: alignment of both pointers at the four
+  `copy_nonoverlapping` operations in actual `sort4_stable<T,F>`,
+  smallsort.rs653–656, std blob e555fce440872898e47fd5114f32eb15401d07df.
+- Falsifiable hypothesis: unchanged RAPx 0.7.50 generates and proves valid
+  alignment obligations and rejects misalignment, including a size-zero,
+  align-eight type. Source-level zst_guard concern is not yet a reproduced miss.
+- Diagnostic domain: isolated concrete ZST align8 and non-ZST u64 copies,
+  count one, aligned positive and independently source-/destination-misaligned
+  negatives. No reference is constructed from a misaligned pointer before the
+  copy. No manual assertion replaces the automatic alignment check.
+- Deliberately partial posts: valid copies return without UB, source storage
+  retained, writable scratch receives a representation and is not independently
+  dropped. These fixtures do not prove arbitrary T/F, ownership transport,
+  comparator effects, sorting or unwind.
+- Full target yardstick (SORT4-CONTRACT): unrestricted valid T/F, initialized
+  four-source storage and possibly uninitialized writable separated scratch,
+  legal provenance/borrows and exactly one owner. Normal: current V5 retained,
+  scratch initialized with pi(V5) replicas, current callback/frame/storage and
+  no borrow debt. For each panic k=1..5: current Vk/Qk/Hk after legal callback
+  effects, source ownership recovered, scratch current initialization state,
+  no sort4 writes, no rollback, no leaked borrow/resources. Ordering premises
+  are separate; no Copy/Freeze/purity/no-panic premise for safety.
+- Frozen profile: exactly Cargo rapx '=0.7.50', --locked, explicit
+  nightly-2026-02-05 for install and analysis, upstream reviewed
+  7d61d9377033c48a4df8954f34cc076e97a93816. Audit package VCS/source, checker,
+  call model, contracts, dependency lock, executables and sysroot. No patches.
+  Fixtures use toolchain std, not extracted repository std; no exact-body claim.
+- Expected: selected valid body SOUND with actual copy checkpoint and proved
+  source/destination alignment; each negative unproved/disproved alignment at
+  that copy. UNSOUND/Unknown/unsupported/setup/missing checkpoint are distinct.
+- Decision: reproduced critical miss -> NO-GO, stop B/C; required unsupported
+  behavior -> stop; ambiguity/setup/unknown -> INCONCLUSIVE or one evidence-backed
+  shared technical correction; all sufficient A evidence -> allowed gate B.
+- Selection rapx_applicability, explicit gate A, one hosted run at most 90min
+  including setup, maximum four runs overall with one shared correction. One
+  active run; no local build/verifier/test execution. Record exact SHA/run and
+  all predicates, paths, logs/artifacts/costs after dispatch.
