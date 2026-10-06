@@ -17,6 +17,10 @@ review and continuation criteria. Complete the all-path resource ledger and
 trust-boundary review before expanding the verifier. No new proof result or
 Actions run was produced by this documentation checkpoint.
 
+Potential independent VeriFast contributions are tracked in
+[the upstream-candidates note](VERIFAST-UPSTREAM-CANDIDATES.md), including
+the general address-taking bugfix and the less mature frontend/kernel extensions.
+
 ## Target and scope
 
 - Target: the standard library in this repository, not a reimplementation.

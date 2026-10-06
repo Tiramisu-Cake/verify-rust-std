@@ -40,6 +40,12 @@ it does not by itself justify the full insertion approach. No new proof code or
 Actions experiment in this review. Size-helper37401540878 used the pinned release
 binary; generic insertion/Drop used the experimental source-derived chain.
 
+The owner requested a separate durable record for future VeriFast work:
+[upstream contribution candidates](VERIFAST-UPSTREAM-CANDIDATES.md).
+The first candidate is the independent address-taking traversal fix; the note
+records evidence gaps and prerequisites for moving each patch into a separate
+project. This documentation task does not resume experiments or publish a PR.
+
 **Latest corrected local-cleanup regression failure:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
 source `b3da9a5ef53b8001e63ce511ba27ae8efce67343`, local_drop_caller_gate90min.
 Full logs/artifacts inspected. Patchbc13ff90/translator03bf4a5c,
