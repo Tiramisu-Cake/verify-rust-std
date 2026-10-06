@@ -2421,3 +2421,62 @@ with unit gaps; existing neq constraints alone did not finish the derivation.
 Every bound/assertion remains a checked proof obligation; no assumed i==0/new
 lemma axiom/external req. Runtime/.add/posts/classifier/tool checks preserved.
 Allocate final30min hosted cap; max2/2 then stop proof runs regardless of outcome.
+
+NEW final run37537868053 created2026-10-06T22:01:18Z; head_sha/source
+519a3707136d2ae4e589c44b837afac6c58b939b matches pushed remote. Selection/30min;
+new budget2/2 dispatched, prior38s plus current job pending. Checked ordering
+splits in residual branches only; static runtime/contracts/concrete cases/runner/
+classifier/workflow identity check passes before dispatch. No additional run.
+
+### Final generic run2/2 and layout review closeout
+
+[Run37537868053](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537868053),
+head/source519a3707136d2ae4e589c44b837afac6c58b939b matched remote. Job112523342669
+ran2026-10-06T22:01:22–22:02:09Z, FAILURE,47s; selection/30min including setup.
+Budget2/2 NEW,38+47=85/3600 job-seconds; unused3515seconds, no third run.
+All6 export/decode/refinement0, stage source hashes unchanged, official binaries/
+rsspec/compiler/source/schema/std match frozen profile. MIR runtime/.add/Continue
+edges and old external posts unchanged. Classifier/runner/workflow checks unchanged.
+
+Generic const/mut helpers and all four return/post/leak paths finish. Checked
+residual order splits derive i<=2,i<=1,i==0,then result==base and old modulus post.
+No assumed bound/new axiom. First final blocker is DEAD CODE at verified/lib.rs
+53/55/57: impossible guard bodies' assertions never execute; console reports them
+and exits1. Not a PASS/accepted full-profile theorem. Original three indexed
+branches remain green prefixes. No -allow_dead_code/annotation/check suppression
+or classifier change. Tested failed fixture retained, no proof fix after2/2.
+ZST layout/add unchanged at assert20/operation21; intended src/dst negatives25
+EXPECTED_FALSE_POST_FAILURE after .add22/cast23. Historical replay3 groups/30
+mutants PASS each run, source/ZIP/original JSON/log tree preserved separately.
+Full logs/artifacts/profile/source audits completed; no local execution.
+
+Artifact11446714044 for run1,574870bytes, downloaded ZIP/API/upload digest
+bdb909a3ada2c4754a7beaf86df4de4b349f167a2fdc84fd36a58e856baca098.
+Artifact11447620706 for run2,573769bytes, downloaded ZIP/API/upload digest
+84a6adcc3f46e20fc7c2b4792f971d4be0c11b874b9345668bbbe1f548a7d37a.
+Full-log digests run1 d4d315a6457e4b39b7db2a91c4b6e06218cceca9f372a8f6f1cb95c23c969387;
+run2 f6e03c2e7d1d5a5d1b67fc0aaef9a753ab33d7c67ff4f77023b8fce88fa645ac.
+Both aggregates48b2ffd48241e358fc5b039593babffab42d1ad9f0aa53736eb411e3b132d157
+(their classification/count records match; failures/sources are separately preserved);
+second replay9559c09b53b1af444cb70066028a9a6a8502d0b3a0987333ba944f5ff4e8134b.
+Runner1 15.29s/RSS621304KiB; runner2 18.57s/RSS619440KiB. No timeout/OOM.
+
+Layout/source review only: as-of2026-10-06T22:01UTC live master and official26.10
+f76012fb518703b1d98e243ac4f487f16877cfcb retain repr-alignment omission and positive
+struct-size axiom, matching26.09 pin809de459. Releases26.09 published2026-09-06,
+26.10 published2026-10-05;26.09.20 identity/date recorded, not a new proof profile.
+Recommend bounded compiler-backed closed Sized Rust struct layout facts through
+exporter/schema/bindings/AST/translator/engine, Rust-only nonnegative size bound,
+typeid/source/target consistency; existing offsets checked against imported facts.
+>=0 only removes contradiction, not exact size0/align8; no sampled genericADT
+constants. C/C++ behavior retained. Concrete Kani Z component is possible only as
+new calibration, no existing full-domain/interface theorem; no contradictory VF Z
+instantiation admitted. Future regression design positive/negative/typeid/language/
+generic/metadata/normal-premise-assertfalse gates NOT IMPLEMENTED / NOT RUN.
+
+**CLOSED at run limit; generic INCONCLUSIVE, review complete.** No active run,
+no tool patch/new axiom/patch test, ZST exclusion, full sort4/copyUB theorem or
+external messages. RAPx CLOSED / NO-GO; B/C NOT RUN; Kani prior evidence unchanged.
+Documents updated, commit/push closeout. Next proposed implementation requires
+separate approval/trust review; ghost ordered-split reachability repair also
+requires a new bounded verification decision. No draft fix or third run applied.

@@ -2,11 +2,17 @@
 
 ## Current generic completion and layout review — 2026-10-07
 
-**IN PROGRESS / run37537448952 complete;1/2 NEW runs,38/3600 job-seconds.**
-Run1/source16aaf1b fails direct residual assert i==0 at isolated line53; rest of
-profile/stages/controls/replay audited. Next specific correction uses checked
-order splits to derive i<=2, then i<=1, then i==0 from original limits. No active run. Owner
-explicitly resumes from b523959d2032b28086aa8b11dd35a50a2eb7c7e0. Entry clean,
+**CLOSED at2-run limit;2/2 NEW runs,85/3600 summed job-seconds.**
+[Run1/37537448952 and run2/37537868053 closeout](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs):
+direct i==0 assertion initially unproved; checked ordering then derives0 and
+finishes original alignment/resource/return/leak checks. Three unreachable
+assertions trigger the unchanged dead-code gate, so whole generic const/mut remain
+INCONCLUSIVE, no VF0. Concrete ZST still blocked; negatives/replay pass. Layout
+review/regression design complete. No active run; STOP at2/2, no further proof
+edit/dispatch/check weakening. Card below is historical authorization of this
+completed scope; no tool patch or patch-regression check implemented.
+
+Owner explicitly resumes from b523959d2032b28086aa8b11dd35a50a2eb7c7e0. Entry clean,
 local/remote match, correct fork/research branch, no active/queued experiment.
 Previous three runs and phases are preserved below and in the results; unused
 slots from the preceding closed phase are not reused.
@@ -18,8 +24,8 @@ live upstream/release source pins and a future regression plan. No layout patch
 or executable patch-regression test is implemented in this phase. The known
 concrete ZST model boundary does not stop this separately authorized generic task.
 
-Next-run hypothesis: the residual ghost branch i!=1,2,3 can explicitly prove
- i==0 from the original usize bounds and discharge the old alignment post via
+Historical run1 hypothesis: the residual ghost branch i!=1,2,3 can explicitly prove
+i==0 from the original usize bounds and discharge the old alignment post via
 result==base. Add only checked ghost assertions; no assumed i==0, new axiom or
 outer req. Prior run37535499783 passed helper/local bounds and i=1,2,3 full checks,
 so this is a specific remaining-path correction, not an unchanged rerun.
@@ -53,6 +59,8 @@ No tool semantic changes/new axioms, ZST exclusion, weakened contract/checks,
 historical insertion/FnMut/Drop expansion, B/C or external issues/PR/messages.
 RAPx CLOSED / NO-GO and Kani prior evidence unchanged. Update results/STATUS/log /
 plan/coverage/composition/layout audit, commit/push; no further phase auto-authorized.
+
+<a id="current-bounded-no-patch-proofreclassification-phase--2026-10-07"></a>
 
 ## Historical bounded no-patch proof/reclassification phase — 2026-10-07
 

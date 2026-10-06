@@ -1,22 +1,45 @@
 # Challenge 8: current status
 
-Updated 2026-10-07: **generic H_align completion + layout-model review IN PROGRESS**.
-Entry clean matching local/remote b523959d2032b28086aa8b11dd35a50a2eb7c7e0,
-correct fork/research branch, no active run at entry. New independent budget1/2 NEW manual
-hosted runs completed,38/3600 job-seconds used; cap30min per job.
-Run37537448952/source16aaf1b993f62c8dad0390b74de3e877983beb37 completed FAILURE:
-residual assert i==0 unproved at isolated line53; three positive indexed paths
-still pass. Tool/stage/source audits and replay/negative controls pass. No active
-run; next specific correction uses checked ordered bounds in the residual branch.
-[Current card](SORT4-ALIGNMENT-PHASE.md#current-generic-completion-and-layout-review--2026-10-07).
-Owner authorizes checked residual generic proof steps and documentation-only layout
-review/regression design. Known concrete ZST boundary does not stop generic work.
-Six runtime cases/.add/external posts and official VF26.09/nightly2026-02-05 profile /
-classifier frozen. No tool patch/new axiom/local executable verification. Layout
-patch regressions DESIGN ONLY / NOT RUN. RAPx CLOSED / NO-GO; B/C NOT RUN.
-Historical phase below remains closed with original evidence intact; unused slots
-not reused. Current authorized step: derive i==0 in residual branch, commit/push,
-one NEW exact-SHA hosted run30min, inspect and continue within new2-run budget.
+Updated 2026-10-07: **generic completion/layout review CLOSED at2-run limit**.
+Generic const/mut remain INCONCLUSIVE: ordered ghost splits now derive i==0 and
+finish original return/post/leak checks, but dead-code gate rejects three impossible
+guard-body assertions. Classifier/checks unchanged; no accepted whole-unit proof.
+Review/regression design complete; no layout patch or patch-regression runs.
+Budget2/2 NEW hosted manual runs,85/3600 summed job-seconds INCLUDING setup/replay/
+upload. No active experiment; STOP, no further proof edits/runs.
+[Card](SORT4-ALIGNMENT-PHASE.md#current-generic-completion-and-layout-review--2026-10-07),
+[results](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs).
+
+Entry clean matching b523959d2032b28086aa8b11dd35a50a2eb7c7e0, correct fork/branch,
+no active run. This separately authorized generic task continued despite known
+concrete ZST boundary; preceding phases/raw evidence remain historical.
+Run37537448952/source16aaf1b993f62c8dad0390b74de3e877983beb37, job21:57:37–21:58:15Z
+on2026-10-06,38s, FAILURE at direct assert i==0 line53.
+Final [run37537868053](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537868053),
+source/head519a3707136d2ae4e589c44b837afac6c58b939b, job22:01:22–22:02:09Z,47s,
+FAILURE due dead code at53/55/57. Exact pushed head_sha checked for both; /30min
+allocations. No third run or check suppression. Tested fixture retained unchanged.
+
+Both runs: exports/decodes/refinements6/6 pass, stage/source/profile identities
+unchanged. Generic helper/local bounds/.add and i=1,2,3 paths pass; final run also
+passes checked residual i==0,result==base,alignment and return/leak checks. Full
+profile still VF1 due dead-code gate. ZST layout remains size==0 failure20, align8
+not reached; ZST add pointer-limit failure21. Intended source/dst negatives reject
+exact modulus8 assertions25 after op22/cast23. Historical replay3 groups/30 mutants
+PASS each, original JSON/logs/tree hashes preserved. No automatic copy UB or sort4
+ownership/callback/five-unwind safety theorem. Runtime/domain/final posts intact.
+
+[Layout review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md#follow-up-layout-model-review-documentation-only-2026-10-07)
+checks26.09/source809de459 and26.10/master f76012fb518703b1d98e243ac4f487f16877cfcb:
+positive struct-size bound and lost repr alignment persist. Recommend compiler-
+backed closed Sized Rust struct size/ABIalign facts, shared typeid/target linkage,
+Rust-only nonnegative bound with C/C++ behavior retained. >0->>=0 alone not enough.
+Exact generic ADT/packed/enum/DST/niche layout outside minimum implementation;
+generic function reasoning stays symbolic. Kani0.67.0 can calibrate exact Z only,
+no current Z evidence/all-types split/cross-model interface closes full layout.
+Future regression matrix DESIGN ONLY / NOT RUN; no tool patch/new axiom introduced.
+RAPx CLOSED / NO-GO, B/C NOT RUN, ZST in target contract, Kani existing evidence
+unchanged. Future implementation/proof continuation requires a new decision.
 
 ## Historical preceding checkpoint at b523959
 
@@ -448,8 +471,11 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Complete only the newly authorized generic proof on frozen profile (max2 NEW /
-3600 summed job-seconds), and documentation-only layout/upstream/component review
-plus future regression plan. No layout implementation/regression runs, classifier
-change, B/C, full sort4 or external messages. Stop generic iteration on success /
-new generic boundary / budget; finish evidence-backed review and commit/push.
+Stage CLOSED at2/2 NEW runs,85s total jobs/setup, no active experiment. Documentation
+commit/push closeout only. Next implementation proposal: bounded Rust exporter/schema /
+AST/translator/engine layout repair with shared typeid/target facts and all specified
+positive/negative/language/generic consistency regressions. No implementation or
+patch tests authorized now. Generic proof needs separate ghost-structure correction
+that satisfies dead-code check as well as the already discharged posts; candidate
+NOT IMPLEMENTED / NOT RUN. No classifier/check change, new axiom, ZST exclusion,
+B/C, full sort4, historical insertion/FnMut/Drop chain or external messages.

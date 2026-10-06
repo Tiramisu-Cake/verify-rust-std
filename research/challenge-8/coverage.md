@@ -109,6 +109,26 @@ Generic prefix/branch proofs do not repair that correspondence. ZST is retained;
 **no automatic-copy UB, ownership/callback/unwind or actual-sort4 coverage gained**.
 STOP at model boundary, unused run slots retired; no verifier extension implemented.
 
+The separately authorized [generic completion/layout review](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs)
+uses runs37537448952/source16aaf1b and37537868053/source519a370,2/2 NEW,85s summed
+jobs/setup. First explicit residual i==0 assertion fails. Second checked integer
+order splits derive0, pointer identity/alignment and original residual resource /
+return/leak posts. Three impossible guard-body assertions trigger dead-code gate:
+**whole-unit generic const/mut remain INCONCLUSIVE, no accepted full-profile theorem**.
+No classifier/check suppression, runtime/outer-contract change or third run.
+All exports/decodes/refinements/stage hashes pass; ZST layout/add retain earlier
+blocks; negatives2/2 and unchanged replay3 groups/30 mutants pass in each run.
+
+The [layout review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md#follow-up-layout-model-review-documentation-only-2026-10-07)
+checks26.09 and26.10/master exact sources and plans a bounded compiler-backed Rust
+struct layout correction, Rust-scoped nonnegative lower bound, shared typeid/target
+consistency and other-language preservation. Changing>0 to>=0 alone supplies no
+exact0/8 facts. Kani0.67.0 concrete Z candidate has no existing Z/full-domain bridge;
+contradictory concrete VF Z facts cannot be used in a composition. Regression
+matrix DESIGN ONLY / NOT RUN, no tool patch/new axiom or new target coverage from
+review. Accepted generic geometry, faithful concrete Z layout, automatic copy UB,
+ownership/callback/unwind and actual-sort4 coverage remain open independently.
+
 Arithmetic evidence alone would not count as automatic UB coverage. Required VF
 callback/unwind/raw-copy capabilities are separated from optional historical
 insertion patches. Existing Kani results retain their exact concrete domains.

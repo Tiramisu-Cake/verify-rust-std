@@ -6,7 +6,19 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Bounded no-patch H_align continuation CLOSED at a concrete ZST model boundary.**
+**Generic completion/layout review CLOSED at2-run limit; generic INCONCLUSIVE.**
+[Runs37537448952/37537868053](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs),
+2/2 NEW,85s total jobs/setup. Checked order splits derive i==0 and original residual
+posts; impossible guard assertions fail the unchanged dead-code gate. No accepted
+generic whole-unit proof or classifier/check change. Prior raw evidence preserved.
+[Layout review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md#follow-up-layout-model-review-documentation-only-2026-10-07)
+confirms upstream26.10/master boundary and recommends limited compiler-backed Rust
+struct layout facts with a Rust-only nonnegative bound; exact generic ADTs remain
+separate scope. Kani concrete Z candidate is calibration, no proven all-types bridge.
+Future regression design NOT RUN; no tool patch, further proof run or publication.
+RAPx CLOSED / NO-GO; B/C NOT RUN; ZST retained in adopted contract. No active run.
+
+**Historical bounded no-patch H_align continuation CLOSED at a concrete ZST model boundary.**
 [Run37535499783/sourceea635ea](SORT4-ALIGNMENT-RESULTS.md),1/3 NEW runs,38s summed
 jobs/setup: classifier historical replay3 groups/30 mutants and intended negatives
 PASS. Generic helper/local bounds and i=1,2,3 branches pass; residual alignment post
@@ -81,13 +93,15 @@ both completed hosted runs and their evidence boundaries.
 
 - [Independent alignment phase](SORT4-ALIGNMENT-PHASE.md): one-run no-patch
   H_align scope, full-target versus partial fixture domain/posts, intended controls
-  and automatic-operation/model boundary; all scopes closed, latest1/3 at model boundary.
+  and automatic-operation/model boundary; all scopes closed, latest2/2 at run limit.
 - [Independent alignment results](SORT4-ALIGNMENT-RESULTS.md): six fixture parse
   failures, export/refinement evidence, no proof gain, initial syntax
-  failure, corrected-run blockers, checked generic progress and separate replay evidence.
+  failure, corrected-run blockers, checked residual-post progress/dead-code failure
+  and separate replay evidence.
 - [Concrete ZST model boundary](SORT4-ALIGNMENT-MODEL-BOUNDARY.md): pinned exporter,
   schema, translator and engine trace; necessary faithful layout correction versus
-  independent generic arithmetic, without implementation authorization.
+  independent generic arithmetic, upstream/release review, minimum compiler-backed
+  implementation scope and future acceptance matrix (no patch implementation).
 - [Joint sort4 composition assessment](SORT4-COMPOSITION-ASSESSMENT.md): exact
   obligation/tool/evidence/gap/dependency matrix; common source/domain/premises,
   acyclic responsibilities, restricted RAPx role, independent ZST route, necessary

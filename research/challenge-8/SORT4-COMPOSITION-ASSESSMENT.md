@@ -5,13 +5,13 @@
 [adopted contract](SORT4-CONTRACT.md), not a new contract or tool profile.
 No implementation, build, executable check or workflow dispatch accompanies it.
 Subsequent H_align scopes are recorded in [results](SORT4-ALIGNMENT-RESULTS.md).
-Initial37529855468 and syntax-only37532204465 remain historical INCONCLUSIVE with
-unaltered raw logs/JSON. Bounded continuation37535499783/sourceea635ea from f1c0774
-closed at a concrete ZST model boundary after1/3 NEW runs,38s jobs/setup. Classifier
-replay and negative assertions pass; checked generic helpers/local bounds and
-three indexed branches pass, residual alignment post remains INCONCLUSIVE.
-No complete geometry/layout, automatic operation or full-sort4 proof gained.
-STATUS is the current checkpoint; STOP, unused slots retired, no further proof/run.
+Initial37529855468, syntax-only37532204465 and bounded37535499783 remain historical
+with unaltered raw evidence. The separately authorized generic completion used
+37537448952/source16aaf1b and37537868053/source519a370,2/2 NEW runs,85s summed jobs.
+Checked order splits now discharge i==0 and the original residual post, but dead-
+code rejection of impossible guard assertions keeps the whole generic gate
+INCONCLUSIVE. Layout review complete, no tool patch. No automatic copy UB or full
+sort4 proof gained. STATUS is current; STOP at run limit, no active experiment.
 
 ## Decision
 
@@ -36,8 +36,9 @@ source/destination pointer is its aligned base plus an index 0..3 in units of T;
 size(T) is a multiple of align(T), including size(T)=0. This can establish
 alignment preservation without trusting RAPx's ZST rule. It cannot establish
 reference validity, ownership, callback recovery or automatic operation checks.
-The gate below tested that distinction; current results leave a residual generic
-proof and an incompatible concrete ZST model. Neither is imported as a premise.
+The gate below tested that distinction; current results discharge generic path
+posts but fail the whole-unit dead-code gate, and concrete ZST model compatibility
+remains absent. Neither incomplete gate is imported as a premise.
 
 ## Obligation ledger
 
@@ -50,9 +51,9 @@ recorded profiles and runs, rather than treating green Actions jobs as proofs.
 | --- | --- | --- | --- | --- |
 | Same actual sort4 body, signatures, c1..c5, four copies and actual callees | Each tool plus source/refinement audits | Kani actual-body injection/audits in [37459631500](SORT4-RESULTS.md); std blob e555fce; hint blob fe59166. RAPx A analyzes synthetic calls to toolchain core, not repository sort4 | Exact RAPx target extraction/selection and dependency audit; VF sort4 MIR/export/refinement; actual helper/primitive correspondence | No verdict transfer. Same source identity is a prerequisite, not a theorem from another model |
 | Full Separated4 byte ranges, source/reference-valid initialization, writable raw dst, bounds/liveness/provenance; no old dst owner silently lost | VF resource/caller proof; RAPx only candidate for isolated geometric predicates | [Caller audit](SORT4-CONTRACT.md#mapping-to-actual-callers); Kani separate initialized arrays; RAPx A valid ZST/u64 controls only | Machine-checked caller preconditions including scratch subranges, same-allocation disjoint ranges, ZST logical slots and raw dst; generic pointer permissions | Caller proof establishes premises first. RAPx ValidPtr does not imply VF Storage/SrcOwn/RawDst or Rust shared-reference validity |
-| Nonnull/aligned pointers for all ten reference arguments and eight copy endpoints, including aligned ZST with equal addresses | Independent VF geometry and operation/resource proof; RAPx ZST Align excluded from proof evidence | Concrete Kani checks; RAPx [A/replay](RAPX-APPLICABILITY-RESULTS.md): two ZST SOUND_MISS; u64 intended Align failures with other Failed/Unknown. VF H_align checked helpers/three indexed branches only; residual post INCONCLUSIVE | Complete residual generic post; faithful concrete ZST size/alignment model; then source-exact pointer routing and automatic reference/copy enforcement, all layouts | Base alignment comes from adopted Storage and caller proof, never RAPx SOUND. Selection provenance must be established separately |
-| Concrete original repr(align8) Z has size0/align8 and typed .add(i) retains base, i<=3 | Independently faithful Rust layout component; current VF model inadequate | [H_align trace/run37535499783](SORT4-ALIGNMENT-MODEL-BOUNDARY.md): exporter drops repr alignment; engine asserts0<size(Z); layout assertion/add limits fail | Reviewed minimum layout-model correction or another adequate independent component, then exact concrete calibration/operation proof | No import of size0/align8 as trusted assumptions. Generic arithmetic, RAPx ZST SOUND and Kani concrete proofs cannot validate contradictory VF encoding |
-| Checked generic step divisibility and const/mut offsets0..3 retain alignment under original byte/provenance resources | Unchanged VF checked ghost proofs | [Run37535499783](SORT4-ALIGNMENT-RESULTS.md): both helpers and local bound derivations pass; i=1,2,3 full posts/leak checks; intended negatives2/2 | Residual no-helper branch final alignment post; whole-unit generic proof and concrete layout correspondence | Existing specs supply local premises; no RAPx/Kani verdict assumed. Branch/lemma proof is not the missing universal post |
+| Nonnull/aligned pointers for all ten reference arguments and eight copy endpoints, including aligned ZST with equal addresses | Independent VF geometry and operation/resource proof; RAPx ZST Align excluded from proof evidence | Concrete Kani checks; RAPx [A/replay](RAPX-APPLICABILITY-RESULTS.md): two ZST SOUND_MISS; u64 intended Align failures with other Failed/Unknown. VF H_align helpers/bounds and four path posts now discharge, but dead-code gate leaves whole-unit INCONCLUSIVE | Complete whole-unit generic gate with dead-code checks; faithful concrete ZST size/alignment model; then source-exact pointer routing and automatic reference/copy enforcement, all layouts | Base alignment comes from adopted Storage and caller proof, never RAPx SOUND. Selection provenance must be established separately |
+| Concrete original repr(align8) Z has size0/align8 and typed .add(i) retains base, i<=3 | Independently faithful Rust layout component; current VF model inadequate | [H_align trace/release review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md):26.09 and26.10/master drop repr alignment, assert0<size(Z); layout/add fail. Bounded compiler-backed repair reviewed, not implemented | Reviewed minimum Rust-only layout facts/bounds correction; Kani concrete Z candidate has no full-domain interface, then exact concrete calibration/operation proof | No import of size0/align8 as trusted assumptions. Generic arithmetic, RAPx ZST SOUND and Kani concrete proofs cannot validate contradictory VF encoding |
+| Checked generic step divisibility and const/mut offsets0..3 retain alignment under original byte/provenance resources | Unchanged VF checked ghost proofs | [Run37537868053](SORT4-ALIGNMENT-RESULTS.md): helpers/local bounds and all four path posts/leak checks finish; residual i==0 checked, VF1 due dead code; intended negatives2/2 | Reachable ghost proof structure and accepted whole-unit0 with dead-code checks intact; faithful concrete layout correspondence | Existing specs supply local premises; no RAPx/Kani verdict assumed. Branch/lemma proof is not the missing universal post |
 | Generic tuple arguments and compiler's HRTB FnOnce::Output=bool for actual FnMut(&T,&T) calls | VF if used for callbacks | [No-patch matrix](SORT4-NO-PATCH-ASSESSMENT.md#compact-obstacle-matrix): actual insertion call failures; historical tuple/HRTB advancement, not sort4 proof | Checked tuple ownership and exported bound-region equality for actual sort4; no assumed equality/tuple bridge | RAPx Boolean results and Kani concrete closures cannot supply these VF resources or type derivations |
 | Each normal callback may change F and legal interior/reachable state; safety has no order/purity/Copy/Freeze premise | VF effect-aware call/resource proof | VF FnMut contract returns current F; normal [two-cell recovery](verifast-borrow-recovery.md) is checked without callback. Kani sort4 comparator is pure/nonpanicking | Arbitrary-F effect/resource protocol, source validity after legal effects, repeated sharing, recoverable current frame and dst state | RAPx gate C NOT RUN; no assumed unchanged state or unproved callback summary imported |
 | On each c1..c5 panic recover current SrcOwn, RawDst, F/frame and all local borrow resources, with one owner and no sort4 write | VF or equivalent independently adequate resource model | Actual control flow puts comparisons before copies; normal recovery controls pass; historical strict-cut unwind returned debt, not full post | Source-exact recovery on every direct Continue edge, including prior callbacks' effects and live sharing; actual helper callee proof | Independent of RAPx normal checkpoints and Kani pure closures. Absence of writes does not itself recover resources |
@@ -122,7 +123,7 @@ same Rust bytes and successful refinement do not imply a faithful layout model.
 The original empty repr(align8) Z exports with empty fields/isReprC=false and no
 alignment metadata, while VF's concrete struct model imposes positive size.
 Thus the concrete ZST obligations cannot currently be transported to that model.
-Three generic offset branches and the checked stride lemma do not validate this
+Four path posts and the checked stride lemma do not validate this
 instantiation, and assuming actual size0 against the positive-size axiom would
 make proof reasoning inconsistent. No circular resource/layout premise is added.
 The model boundary is a specific reason this present no-patch joint route remains
@@ -181,7 +182,9 @@ some blockers on analogous actual insertion calls; complete sort4 was NOT RUN.
 | Arbitrary legal callback effects and one-owner/Shadow accounting | Yes | Requires checked proof protocols/lemmas and source applicability; RAPx cannot remove it. Evidence does not show that extending the alias kernel is unavoidable, nor that existing callback specification alone provides all needed current resources |
 | Raw-copy initialization, padding and full representation post | Yes if VF proves copy/resources; a separately validated other-tool component could change the implementation allocation | Existing typed copy spec requires initialized dst. Need actual raw-callee/byte proof or separately reviewed adequate specification; no optional-to-initialized coercion. A VF prelude change is conditional, not justified merely by RAPx NonOverlap/ValidPtr. VF's old typed call remains blocked without a checked interface |
 | Actual pointer selection helper and five-call composition | Yes as proof dependencies | A checked helper/intrinsic proof and resource/index lemmas may suffice; adding a trusted builtin or runtime if rewrite is not automatically necessary or authorized |
-| Independent layout/alignment proof | Yes to cover the RAPx gap | H_align now proves checked helper/bound facts and three generic branches, leaving residual post. Concrete original Z requires faithful size/repr alignment encoding: current positive-size axiom contradicts Rust ZST and exporter loses repr alignment. If VF owns this calibration, reviewed layout-model correction is necessary; another independent component is possible. No implementation authorized. Automatic reference/copy enforcement still unproved; no evidence requires a generic alignment-kernel extension or historical insertion patch chain |
+| Independent layout/alignment proof | Yes to cover the RAPx gap | H_align now discharges helper/bounds and all four generic path posts; whole-unit dead-code gate still fails. Concrete original Z requires faithful size/repr alignment encoding: current positive-size axiom contradicts Rust ZST and exporter loses repr alignment. If VF owns this calibration, reviewed layout-model correction is necessary; another independent component is possible. No implementation authorized. Automatic reference/copy enforcement still unproved; no evidence requires a generic alignment-kernel extension or historical insertion patch chain |
+| Minimum closed Rust struct layout repair | Recommended future route, not implemented | Compiler-backed size/ABIalign for closed nongeneric Sized repr(Rust)/repr(C) structs with optionalalign, shared source/typeid/target linkage, Rust-only >=0 bound, field-rule compatibility. [Review/regression plan](SORT4-ALIGNMENT-MODEL-BOUNDARY.md) names exporter/schema/bindings/AST/translator/engine and trust edge. >=0 alone supplies no exact0/8. Generic ADT exact layout and other forms remain separate scope; current abstract generic function proof needs no semantic patch for index arithmetic |
+| Independent Kani layout component | Concrete diagnostic candidate; no evidenced full-domain replacement | Kani0.67.0/nightly2026-02-05 could calibrate exact original Z/.add at same source/target. No existing Z run, arbitrary-T quantification, exhaustive domain split or checked ownership/provenance interface. Keep concrete Z entirely out of incompatible VF units; cannot import0/8 into positive-size context |
 | Old address-taken/ManuallyDrop/local Drop/declaration-order/projection-name patch chain | No demonstrated need in sort4's own body | Do not import insertion patches. The actual selection helper contains MaybeUninit/DropOnPanic; if its pointer instantiation needs frontend support, establish that separately rather than assuming all helper cleanup patches necessary |
 
 There is no currently established complete no-patch composition, and no basis to
@@ -256,23 +259,31 @@ No result of this small gate closes generic sort4 safety or reopens RAPx B/C.
 
 ## Checkpoint
 
-Conditional acyclic composition design remains incomplete. Run37535499783 adds
-checked generic helpers/bounds and i=1,2,3 full branch posts/leak checks, but the
-residual alignment post remains unproved. Concrete original Z cannot be faithfully
-calibrated in the current VF model: positive-size assumption conflicts with Rust
-ZST and repr alignment metadata is lost. The no-patch concrete route is blocked;
-reviewed layout-model correction or another independent component is necessary
-before that obligation can join a composition. No extension is implemented.
+Conditional acyclic composition remains incomplete. The generic completion runs
+now discharge every residual index/alignment/resource post, but final37537868053
+fails the unchanged dead-code gate on three impossible guard-body assertions.
+Whole-unit generic status INCONCLUSIVE; no accepted theorem is transported.
+Previous raw outcomes/logs/JSONs and the existing Kani concrete domain remain intact.
 
-Historical runs37529855468 and37532204465 and their original INCONCLUSIVE JSONs
-remain preserved. Separate hosted replay now validates classification, retains
-parse failures as INCONCLUSIVE and recognizes both intended false-post rejections;
-these controls establish neither positive alignment preservation nor automatic
-copy UB. Other RAPx properties remain individually unvalidated; callback/unwind /
-raw-copy/selection/resource dependencies stay open. Kani's concrete results retain
-their exact domain. RAPx CLOSED / NO-GO, B/C NOT RUN, ZST retained in target contract.
-Latest phase stopped at the concrete model boundary,1/3 NEW runs,38s jobs/setup,
-no active run. Unused slots retired; no further proof fix, dispatch or external
-message. Recommended next decision is minimum-scope faithful layout encoding and
-trust/admissibility review versus an independent component. A residual-index
-unchanged-tool proof check is only a later hypothesis, NOT RUN / NOT AUTHORIZED.
+Concrete original Z still fails faithful calibration. Source review at official
+26.09 and26.10/current master confirms positive Rust struct size and lost repr
+alignment. Recommend minimum compiler-backed Rust size/ABIalign facts through the
+export/schema/AST/translation/engine path, with a Rust-only >=0 bound, same typeid /
+target/source linkage, ordinary-struct compatibility and future positive/negative
+regressions. Generic functions remain symbolic; generic ADT exact layout is a
+separate scope. No tool patch or patch test is implemented here.
+
+Kani0.67.0 is a concrete Z calibration candidate, not an already evidenced layout
+component for every valid Rust T. Without exhaustive domain mapping and an independent
+permission/resource interface that avoids VF's contradictory concrete Z encoding,
+that route cannot replace the full component. The layout review/regression design
+adds no theorem and does not license numeric facts as ownership assumptions.
+Selected pointers, callback effects, all five panic posts, raw-copy validity and
+resources, automatic UB and full sort4 remain open. Historical insertion/FnMut/Drop
+patches have no new justification from this scoped layout work.
+
+Latest phase CLOSED at2/2 NEW runs,85s total jobs/setup, no active experiment.
+Generic proof needs a separately verified ghost-structure repair that retains all
+checks. Future layout implementation requires the documented trust review and
+acceptance gates, not an automatic continuation. RAPx CLOSED / NO-GO; B/C NOT RUN;
+ZST retained; no external issue/PR/message or third run.

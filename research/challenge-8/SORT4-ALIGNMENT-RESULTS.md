@@ -1,5 +1,139 @@
 # Independent H_align gate: hosted results
 
+Current checkpoint 2026-10-07: **generic completion/layout review CLOSED at the
+2-run limit; generic INCONCLUSIVE**. Used **2/2 NEW runs,85/3600 job-seconds**,
+including preparation, proof, unchanged historical replay and artifact upload.
+The second run discharges the residual i==0, pointer identity and alignment posts,
+but the unchanged dead-code check rejects the three impossible guard bodies.
+No accepted whole-unit generic proof is claimed. Layout review/regression design
+is complete; no tool patch or patch-regression execution. Previous phases below
+remain historical, with their original raw evidence and outcomes preserved.
+
+## Generic completion and layout review — two NEW runs
+
+Entry clean matching b523959d2032b28086aa8b11dd35a50a2eb7c7e0, fork/research branch
+correct, no active experiment. The owner explicitly allowed this generic subtask
+to continue independently of the known concrete ZST boundary, plus documentation-
+only upstream/layout/component review. Maximum2 NEW manual hosted runs /60min jobs.
+Both pushes and run head_sha matched; no Re-run, duplicate or third dispatch.
+
+| NEW run / full source SHA | Hosted job / outcome | Specific hypothesis / first failure |
+| --- | --- | --- |
+| [37537448952](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537448952) /16aaf1b993f62c8dad0390b74de3e877983beb37 | Created2026-10-06T21:57:32Z; job112521963302,21:57:37–21:58:15Z,38s,FAILURE | Explicit residual assert i==0 was expected to follow old bounds/disequalities. Both generic cases stop at verified/lib.rs:53: Cannot prove i=0; pointer identity/alignment assertions not reached |
+| [37537868053](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537868053) /519a3707136d2ae4e589c44b837afac6c58b939b | Created2026-10-06T22:01:18Z; job112523342669,22:01:22–22:02:09Z,47s,FAILURE | Checked order splits successively derive i<=2,i<=1,i==0. All four return/post/leak paths finish; afterward the dead-code gate rejects unreachable assertions at lines53,55,57 in both cases |
+
+Both selections are `verifast_sort4_alignment/30`, same official unchanged
+VF26.09/nightly2026-02-05; requested30min cap includes setup. Verification-step
+failure remains a real failure; replay/tests and artifact uploads SUCCESS, RAPx
+replay SKIPPED. No timeout/OOM. Wrappers15.29s/RSS621304KiB and18.57s/RSS619440KiB;
+job totals, not wrappers, are charged to the budget. Stop proof edits/runs at2/2,
+with3515seconds unused. Fixture remains exactly the tested second-run revision.
+
+### Separate final results for six cases
+
+| Case | Final classification | Evidence / remaining gate |
+| --- | --- | --- |
+| positive_generic_const | INCONCLUSIVE | Helper/local bounds/.add and all four normal return/post/leak paths finish; residual checked i==0, result==base and modulus post assertions pass. VF1 due unreachable guard-body assertions at53,55,57 |
+| positive_generic_mut | INCONCLUSIVE | Same facts independently checked, same dead-code failure; no const-to-mut verdict transfer |
+| positive_zst_layout | INCONCLUSIVE | Original line20 assert size==0 fails (__result=0 unproved); align8 assertion not reached |
+| positive_zst_add | INCONCLUSIVE | Original line21 typed .add reaches and fails pointer_within_limits(ptr_add_(base,i,Z_type_info)); return equality/post unproved |
+| negative_source_byte_offset | EXPECTED_FALSE_POST_FAILURE | Original byte add22/cast23 reached; exact assertion25 rejects %(get_pointer_address(ptr_add_(src,1,uint8_t_typeid)),8)=0 |
+| negative_destination_byte_offset | EXPECTED_FALSE_POST_FAILURE | Same exact named assertion/stages with dst, independently checked |
+
+**What the second generic trace establishes:** the old unsigned bounds and excluded
+i=1,2,3 cases are sufficient when exposed via existing integer-order case splits.
+In the residual branch, checked comparisons give i<=2, then i<=1, then i==0;
+result==base and its old alignment assertion are subsequently discharged. The
+three positive indexed branches retain their original checked arithmetic lemmas.
+No i==0 premise, stronger outer req, new trusted lemma or axiom was introduced.
+Original byte resources, normal post and on_unwind_ens false remain intact; all
+normal return/resource/leak checks are reached. No full-profile theorem is accepted
+because the verifier exits1 at its final dead-code gate.
+
+**First remaining generic blocker:** assertions in the impossible `3<=i`, `2<=i`
+and `1<=i` guard bodies never execute after the original excluded-index conditions.
+The unchanged console check records statement reachability and returns1 for those
+three locations ([vfconsole.ml:268–282](https://github.com/verifast/verifast/blob/809de4596839b739dd999f9e462242c835e3af46/src/vfconsole/vfconsole.ml#L268)).
+This is a proof-structure failure, not an alignment/kernel or Rust-layout requirement.
+Pinned integer comparisons use unit gaps in the existing solver
+([redux.ml:1041](https://github.com/verifast/verifast/blob/809de4596839b739dd999f9e462242c835e3af46/src/redux.ml#L1041),
+[1080](https://github.com/verifast/verifast/blob/809de4596839b739dd999f9e462242c835e3af46/src/redux.ml#L1080));
+no solver semantics were changed. A later candidate could preserve checked ordered
+splitting without placing proof statements in impossible branches. That candidate
+is **NOT IMPLEMENTED / NOT RUN / NOT AUTHORIZED** by the exhausted run budget;
+removing the dead-code check or accepting nonzero exits is inadmissible.
+
+All six exports/decodes/refinements are0 in each run; logs say No refinement errors
+found, and every actual source-stage hash is unchanged. Timed named caller headers1
+per case, helper headers1/body records6 per generic, marked pointer-operation
+records3 per generic/ZST-add/negative. Original MIR calls and Continue unwind edges
+remain. Whole/six-case ghost-stripped Rust, all outer contract bytes and four
+concrete case texts match b523959 and previous archived originals. Classifier,
+workflow, runner, checks, flags and std blob are unchanged. Official archive,
+binaries/rsspec/source/schema/compiler identities match the prior frozen profile.
+
+Each run executes unchanged hosted historical replay: all six initial parse errors
+stay INCONCLUSIVE; syntax-run four positives stay INCONCLUSIVE and two negatives
+are recognized only at intended alignment assertions. Separate derived outputs,
+3 unittest groups and30 fail-closed mutation checks PASS each; archived tree hashes
+unchanged. No historical raw JSON/logs are overwritten. No classifier status change
+was used to compensate for the generic dead-code failure.
+
+### Layout review and next implementation scope
+
+[The expanded model review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md#follow-up-layout-model-review-documentation-only-2026-10-07)
+checks official26.09/source809de459 and26.10/live-master
+f76012fb518703b1d98e243ac4f487f16877cfcb. Both retain positive concrete struct size
+and omit repr-alignment transfer; upgrading to26.10 alone is not the layout fix.
+The reviewed26.10 profile uses nightly2026-09-25, and was not run here; current
+proof profile remains26.09/nightly2026-02-05.
+
+Recommend a separately reviewed compiler-backed Rust layout repair: exporter /
+wire schema/generated bindings / AST carrier / translator / engine; Rust-only
+nonnegative struct bounds, plus same-typeid/target exact size and ABI-alignment
+facts for closed Sized repr(Rust)/repr(C) structs with optional repr(align).
+Ordinary nonempty structs are included to check compatibility with field-offset
+constraints; exact generic-ADT/niche/packed/enum/DST layouts remain outside that
+minimum scope. Generic functions retain symbolic valid-layout/size_align facts.
+Changing >0 to>=0 alone only permits zero, and establishes neither exact size0
+nor align8. No correction is implemented or authorized by this review.
+
+Specific independent candidate Kani0.67.0 can calibrate the exact original Z at
+the same source/toolchain/target, but current evidence covers only i32/tagged Copy
+sort4 instances. No existing Z proof, exhaustive all-T domain split or checked
+cross-model interface allows it to replace the full layout component. A separate
+Z component must never instantiate VF's incompatible concrete Z or import numeric
+facts as ownership/permission resources. Prefer layout repair for future review.
+
+Future acceptance gates are DESIGN ONLY / NOT RUN: original Z size0/align8 and
+const/mut zero-stride add; ordinary supported structs/padding/compiler agreement;
+symbolic generic geometry and exact instantiation linkage; no constant-layout
+reuse across generic ADTs; unchanged C/C++ behavior; intended false size/align/
+stride assertions and assertfalse under normal premises; malformed/mismatched
+metadata fail-closed. A complete generic geometry gate additionally needs VF0 with
+dead-code/leak/refinement checks intact. Layout repair does not resolve arbitrary
+FnMut effects, all five panic posts, raw-copy ownership/validity, selected-pointer
+permissions or automatic copy UB. No historical insertion/FnMut/Drop chain is added.
+RAPx remains CLOSED / NO-GO; B/C NOT RUN; ZST remains in adopted contract.
+
+### New evidence identities
+
+| Run | Artifact / ZIP SHA256 (downloaded, API/upload matched) | Other digests |
+| --- | --- | --- |
+| 37537448952 | [11446714044](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537448952/artifacts/11446714044),574870bytes; bdb909a3ada2c4754a7beaf86df4de4b349f167a2fdc84fd36a58e856baca098 | Full Actions log d4d315a6457e4b39b7db2a91c4b6e06218cceca9f372a8f6f1cb95c23c969387 |
+| 37537868053 | [11447620706](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537868053/artifacts/11447620706),573769bytes;84a6adcc3f46e20fc7c2b4792f971d4be0c11b874b9345668bbbe1f548a7d37a | Full Actions log f6e03c2e7d1d5a5d1b67fc0aaef9a753ab33d7c67ff4f77023b8fce88fa645ac |
+
+Both live aggregate SHA256 values equal
+48b2ffd48241e358fc5b039593babffab42d1ad9f0aa53736eb411e3b132d157 because their
+classification/count records agree; their different failures/source identities
+are retained in separate full logs and case sources. Second replay JSON SHA256
+9559c09b53b1af444cb70066028a9a6a8502d0b3a0987333ba944f5ff4e8134b. Complete logs,
+MIR, source/profile/stage manifests and separate historical replay inspected;
+downloaded evidence stays outside the repository. No active experiment. STOP at
+2/2 run limit; review complete, accepted generic proof still incomplete.
+
+## Historical checkpoint at b523959
+
 Current checkpoint 2026-10-07: **bounded no-patch continuation CLOSED at a concrete
 ZST model boundary**. Used **1/3 NEW runs, 38/5400 job-seconds**, including setup,
 verification, historical replay and artifact upload. Two unused slots are retired

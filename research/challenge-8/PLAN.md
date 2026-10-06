@@ -66,6 +66,19 @@ repr alignment and positive concrete struct-size axiom incompatible with Rust ZS
 No model patch implemented. Remaining slots retired at boundary, STOP; next decision
 is layout-model admissibility/minimum-scope review or independent component.
 
+The next, separately authorized generic completion/layout review **CLOSES at2/2
+NEW runs,85/3600 job-seconds**. [Run37537448952/source16aaf1b and final
+37537868053/source519a370](SORT4-ALIGNMENT-RESULTS.md#generic-completion-and-layout-review--two-new-runs):
+direct residual i==0 derivation fails first; checked ordered bounds then discharge
+all four return/post/leak paths. Unreachable guard assertions fail the unchanged
+dead-code gate, so accepted whole-unit generic proof remains INCONCLUSIVE. No
+classifier/check change, third run or after-budget proof edit. Concrete ZST stays
+unproved; intended negatives and replay pass separately. The [layout review](SORT4-ALIGNMENT-MODEL-BOUNDARY.md#follow-up-layout-model-review-documentation-only-2026-10-07)
+confirms26.09/26.10/master source boundary, recommends bounded compiler-backed
+Rust struct facts and a Rust-only size-bound correction, with future acceptance
+matrix DESIGN ONLY / NOT RUN. Kani Z calibration lacks the full-domain bridge.
+No tool patch or historical insertion/FnMut/Drop expansion authorized; STOP.
+
 ## Decision and evidence
 
 Start with the actual `sort4_stable` body. Its natural arity is four elements:
@@ -106,6 +119,7 @@ outside the approved roadmap.
 | 1h — complete, conditional design | Joint RAPx / VeriFast / Kani route | Exact obligation matrix, source/domain/premise compatibility, acyclic proof dependencies and necessary/optional VF capabilities | [Assessment](SORT4-COMPOSITION-ASSESSMENT.md): no established generic composition. RAPx diagnostic role only; other properties need individual qualification. Independent VF geometry gate proposed, NOT RUN / NOT AUTHORIZED; ZST automatic operation/resource proof still open. No B/C or semantic implementation authorized. |
 | 1i — closed, both sessions INCONCLUSIVE | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Closeout](SORT4-ALIGNMENT-RESULTS.md): initial37529855468/source17ad1f4 parse failures; syntax-only37532204465/source9474453 reaches checked bodies but generic nonnegativity/ZST calibration/limits remain open. Manual negative rejections2/2; raw automatic all-six INCONCLUSIVE due missed headers. Each separate budget1/1 used, no further correction/run authorized. |
 | 1j — closed, concrete model boundary | Bounded H_align proof / classifier continuation | Unchanged six cases; checked generic local bounds; saved evidence replay and original ZST model trace | [Run37535499783/sourceea635ea](SORT4-ALIGNMENT-RESULTS.md):1/3 NEW,38s; helpers/bounds/three indexed branches pass, residual geometry INCONCLUSIVE; layout/add blocked by concrete ZST model. Replay3 groups/30 mutants and negatives2/2 PASS, historical originals unchanged. STOP at model boundary; unused slots retired. |
+| 1k — closed at2-run limit, generic INCONCLUSIVE | Generic H_align completion + layout review | Derive residual index from old constraints; unchanged six cases/profile; review minimal layout repair vs specific component and future regressions | [Runs37537448952/37537868053](SORT4-ALIGNMENT-RESULTS.md):2/2 NEW,85s; residual posts now discharge, dead-code gate fails impossible assertions. Whole generic proof unaccepted; review complete, no layout patch/regression execution. Future Rust layout implementation and ghost reachability fix separate decisions. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -201,8 +215,10 @@ The single proposed H_align diagnostic separates geometry from automatic
 reference/copy enforcement. Stage1i and its syntax-only continuation are CLOSED / INCONCLUSIVE.
 Initial syntax failures and subsequent generic-helper / ZST-layout / pointer-limit
 failures do not refute H_align. Historical manual false-post rejections do not supply its missing positive proof.
-Stage1j repairs/tests classification but leaves residual geometry and a concrete
-ZST layout-model boundary; no new tool extension follows. Even a later pass would not reopen RAPx
+Stage1j repairs/tests classification; stage1k discharges residual posts but fails
+dead-code reachability, so full generic gate stays INCONCLUSIVE. Concrete ZST
+model boundary persists in26.10/master; reviewed future layout repair/regression
+plan is not implemented. No new tool extension follows. Even a later pass would not reopen RAPx
 B/C, implement VF patches or prove all sort4.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous
