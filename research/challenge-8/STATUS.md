@@ -9,18 +9,18 @@ historical evidence in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**READY — the sort4 contract-diagnostics and architecture-proposal phase is
-approved.** [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) defines its exact
+**IN PROGRESS — the sort4 contract-diagnostics and architecture-proposal phase
+is executing under owner approval commit `54485d632bfca9d69fee853bd6aa30bc330647c9`.** [SORT4-CONTRACT-PHASE.md](SORT4-CONTRACT-PHASE.md) defines its exact
 scope, tool allowlist, deliverables and stop boundary. A continuation agent may
 implement, commit, push, dispatch, inspect and fix its Kani diagnostics without
 asking for the same start approval again. Check newer instructions, the branch
 head and active runs at entry.
 
-The approval/documentation iteration has changed no proof, runner, std source
-or verifier and dispatched no workflow. The overlap examples remain static
-hypotheses; no new diagnostic harness or selection exists yet. No active
-research run was observed at this checkpoint. The last successful proof
-remains run37459631500 below.
+Entry audit: clean working tree, fast-forward to approval commit, fork origin and
+research branch confirmed; main at `3d8c8c082a69dbb66c4ab566892e6be71d87a86d`.
+No active research run observed. Preparing the experiment card and isolated Kani
+diagnostics; overlap outcomes remain hypotheses until hosted evidence.
+The last successful proof remains run37459631500 below.
 
 The new phase authorizes:
 

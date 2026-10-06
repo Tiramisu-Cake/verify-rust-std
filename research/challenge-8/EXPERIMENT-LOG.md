@@ -1298,3 +1298,58 @@ normal/direct-unwind recovery and explicit overlap/ONE ownership contract,
 trust/admissibility criteria and regression gate BEFORE implementation.
 Closeout edits are documentation-only; successful source/harness/runner/tool
 inputs remain unchanged and no cold rerun is warranted.
+
+
+## 2026-10-06 — sort4 contract diagnostic card (before implementation)
+
+Authorization: owner commit54485d632bfca9d69fee853bd6aa30bc330647c9 and explicit
+request to complete SORT4-CONTRACT-PHASE. Entry tree clean, no active research
+run; correct fork/branch. Target actual sort4_stable, std blob
+ e555fce440872898e47fd5114f32eb15401d07df (unchanged).
+
+Hypotheses: (1) coincident initialized [0,1,2,3] selects source0 to dst0 and
+fails actual copy_nonoverlapping's memcpy overlap precondition; (2) shifted
+source[0,4),dst[1,5) in initialized [0,1,2,3,4] gives [0,0,0,0] with every
+individual copy disjoint and no default memory-check failure, but violates the
+original multiset. Separate witness confirms output. Original unchanged
+prove_sort4_values must verify 12/12 covers first. Raw pointers derive from
+one mutable allocation for overlap cases; no conflicting live references;
+original input snapshot taken by value. T=i32; F pure nonpanicking <.
+
+Full diagnostic posts: control sorted exact old multiset and unchanged source;
+shifted safety checks plus sorted output and concrete [0,0,0,0] witness, with
+original multiset deliberately asserted as the falsifiable negative. Witness
+returns backing[0..5]=[0,0,0,0,0], snapshot=[0,1,2,3], F unchanged; frame outside
+allocation unchanged. Coincident claim ends at FIRST UB (first copy); no post-UB
+values/normal ownership theorem inferred. Unwind is absent in this concrete
+pure callback domain; target generic normal/all-five-panic resource posts are
+separate open obligations in SORT4-CONTRACT. Diagnostic does not restrict the
+unrestricted generic safety target.
+
+Tool profile: Kani152c6a8c875d9886a67e229247b4826d6105ccfd,
+Rust nightly-2026-02-05, scripts/run-kani.sh unchanged default checks, exact
+harnesses serial --jobs1, unwind6 with assertions. No disabled checks or added
+explicit uninit/valid-value instrumentation; known detector gaps retained.
+Selection sort4_contract_diagnostics, budget90min incl cold setup/build (common
+workflow preparation separately measured). Workflow dispatch only, hosted Linux.
+
+Permitted coincident failures: ONLY ptr::copy_nonoverlapping::<i32>.
+precondition_instance.N, description exactly "memcpy src/dst overlap", location
+library/core/src/ptr/mod.rs:555:14. May include repeated instances of that
+obligation; verify first call causally from source/all-false comparison route.
+Shifted permitted failure: ONLY negative_shifted_original_multiset.assertion.N,
+message "original multiset preserved", at that explicit harness assertion;
+output/sortedness asserts and every other default check must pass. Exact
+process exit1 and single failed harness required. Compiler/setup/unsupported/
+unwind/timeout/nonmatching failure is INCONCLUSIVE, never accepted negative.
+Witness must verify concrete output and 1/1 cover; baseline 12/12 covers.
+Fail-closed parser retains all IDs/descriptions/locations/statuses and raw codes.
+Source audit full original prefix plus checked-in baseline+diagnostics only;
+record tool/config/harness/runner hashes and all case resources.
+
+Outcome map: expected suite -> refine contract/close phase at architecture
+proposal; runner/harness routine issue -> bounded fix and NEW exact-SHA run;
+unexpected check/output -> investigate first actual cause and record revised
+hypothesis (no suppression); semantic prerequisite/repeated unexplained failure
+-> stop that route, complete independent docs. No new VeriFast run/application/
+patch edit, source behavior change, later target or external publication.
