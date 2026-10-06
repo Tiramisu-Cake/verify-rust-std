@@ -96,6 +96,23 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Drop compatibility before body verification:** [37419467454](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419467454),
+  source `e119de8ca9f53685d673f012e1d024e35df14181`, copy_on_drop_gate90min.
+  Full logs/artifacts inspected. Same source/tool/pairedZ3/originalprelude/4-file
+  pins and ghost-byte/hash audit pass. Build0/16.44s,RSS426,804KiB; binary
+  380b990b68b1adf1ec37f5221ee8b1db6d2cf622af435489b1fd57bdf873a410.
+  All8HRTB0/1.35s,12scope0/1.79s and5reference0/1.09s pass. ExactDrop compiler
+  export/decode0, one body defPath/one copy call, source hash roundtrip pass.
+  Refinement0/.07s,RSS84,360KiB. VF1/.10s,RSS85,728KiB BEFORE substantivebody:
+  function prototype implementation check cannot supply explicit type_interp<T>.
+  NamedactualDrop0/copyexecution0; generated support lemma records are not a
+  callee proof. Overall1,runner1:19.97,RSS586,840KiB,setupdominates. No active run.
+  Prepared explicit safety_proof opens generatedfullBorrow and its ORIGINAL
+  private own=False to discharge unreachable defaultcaller; concrete req/ens
+  and mandatory actualbody/copy-line checking unchanged. No assume/new own or
+  resource removal. Root reviewed delta and staticAST/diff pass. Next NEW hosted
+  gate source; a successful compatibility check alone is insufficient.
+
 - **Destructor gate MIR counter correction:** [37419199218](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419199218),
   source `16aa63f8e05e3b38b9e10b5bfa8030cb04149421`, copy_on_drop_gate90min.
   Full logs/artifacts inspected. Same pinned26.09 source and4-source-file audit,

@@ -37,7 +37,12 @@ ens thread_token(t) &*& type_interp::<T>() &*&
     struct_CopyOnDrop_padding(self) &*&
     [f]src[..len] |-> src_values &*& dst[..len] |-> src_values &*&
     foreach(src_values, own::<T>(t));
-@*//*@ on_unwind_ens false; @*/"""
+@*//*@ on_unwind_ens false; @*//*@
+safety_proof {
+    open CopyOnDrop_full_borrow_content::<T>(_t, self)();
+    open <CopyOnDrop<T>>.own(_t, *self);
+}
+@*/"""
 
 
 def sha256(data: bytes) -> str:
