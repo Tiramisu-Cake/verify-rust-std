@@ -383,6 +383,7 @@ mkdir -p "$evidence"
         research/challenge-8/verifast-drop-caller-cases.rs \
         research/challenge-8/verifast-local-drop-call.patch \
         research/challenge-8/verifast-local-decls-first.patch \
+        research/challenge-8/verifast-projection-name.patch \
         research/challenge-8/verifast-manually-drop-ref.patch \
         research/challenge-8/verifast-address-taken.patch
     printf 'Pinned SmallSort source SHA-256: 32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959\n'
@@ -391,6 +392,8 @@ mkdir -p "$evidence"
     printf 'Local Drop translator output: 53fdb2ae74f66fd40efc9c60f633cfc159a2b84c2201979000572821d253da37\n'
     printf 'Local declarations patch SHA-256: ff0dd3b57215990835622209c3e728f00bf5b3520140b5cfede6306be3e0d8e4\n'
     printf 'Local declarations translator output: 78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd\n'
+    printf 'Projection-name patch SHA-256: feecd2f143a59a449d287e2313bed0f80cc721560c8b82db13540b10356544d2\n'
+    printf 'Projection-name translator output: 0d2a85be74b768cc4a35e9d1d228d098e5a5ba28a81875c5d7838510a61d27d0\n'
 } > "$evidence/selection.txt"
 
 set +e

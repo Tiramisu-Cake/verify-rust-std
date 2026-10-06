@@ -1,0 +1,9 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -4814,5 +4814,6 @@
+           (String.length assoc_type_def_id - i - 1) )
+     in
++    let trait_name = canonicalize_item_name trait_name in
+     let* rhs =
+       let term = proj_pred_cpn.term in
+       match term with

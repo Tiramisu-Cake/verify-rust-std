@@ -1,13 +1,15 @@
 # Experimental local Drop call
 
-Current hosted status: run37433028854 passed all 25 regressions, the
+Current hosted status: run37434307481 passed all 25 regressions, the
 exact-source actual Drop body proof, and `cleanup_one` with VF/refinement0.
-`cleanup_callback` failed before its body with a frontend declaration-order
-error. A separate [local-declarations patch](verifast-local-decls-first.patch)
-now moves existing local declarations ahead of generated projection-equality
-registrations; no hosted result for that patch exists yet. The following is
-not a completed cleanup proof. See [handoff](HANDOFF-2026-10-06.md) for earlier
-results.
+The declarations-first patch removed the previous frontend ordering error in
+`cleanup_callback`; its projection registration then failed on an unrecognized
+`core::ops::FnOnce::Output_typeid`. A separate
+[projection-name patch](verifast-projection-name.patch) aligns that one
+registration with the translator's existing `core::` to `std::` item-name
+canonicalization. No hosted result for this latest patch exists yet. The
+following is not a completed cleanup proof. See
+[handoff](HANDOFF-2026-10-06.md) for earlier results.
 
 Apply [verifast-local-drop-call.patch](verifast-local-drop-call.patch) to the
 pinned VeriFast 26.09 source **after** the tuple, HRTB, lifetime-cut,
@@ -105,3 +107,28 @@ associated-type locals still typecheck and that callback normal/unwind paths
 actually reach the proved cleanup; the existing 25 regressions and
 `cleanup_callback` are the first controls. An independent projection-local
 fixture can follow if that risk is not resolved by their evidence.
+
+## Projection trait name in the generic callback
+
+In run37434307481, the compiler MIR exports the predicate projection with
+`defId = "core::ops::FnOnce::Output"`. After local declarations, the
+generated registration is executed, but VeriFast raises
+`Pure function core::ops::FnOnce::Output_typeid missing in the runtime library`.
+The pinned translator's `translate_alias_ty` already applies
+`canonicalize_item_name` to the extracted trait name, while
+`translate_projection_pred` used its raw trait name. The projection-name
+patch adds that existing canonicalization only to the trait-name component
+of the registration; the self type, trait arguments, associated type, and
+right-hand side retain their current translation. It is applied after the
+declarations-first patch only in `tuple_local_drop`: translator input SHA-256
+`78bfc6825d3dea4dae2590601f5f63a4f68da0799328684259a48a359ec9a6fd`,
+patch SHA-256
+`feecd2f143a59a449d287e2313bed0f80cc721560c8b82db13540b10356544d2`,
+and expected output SHA-256
+`0d2a85be74b768cc4a35e9d1d228d098e5a5ba28a81875c5d7838510a61d27d0`.
+The builder records both translator states and retains its exact four-file
+modified-source audit. This is a frontend naming fix, with no Rust source,
+kernel, ownership predicate or resource transition change. A hosted run must
+still check that registration succeeds and that both callback paths meet the
+caller contract and all negative cases retain their expected failures. The
+general behavior for other associated-type projections remains unproved.

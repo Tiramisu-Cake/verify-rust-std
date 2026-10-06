@@ -140,13 +140,25 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
         git -C "$source_home" apply --check "$decls_first_patch"
         git -C "$source_home" apply "$decls_first_patch"
         printf '%s  %s\n' "$translator_after_decls_first_sha" "$source_home/$translator_rel" | sha256sum -c -
+        cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.before-projection-name.ml"
+        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-local-decls-first-sha256.txt"
+        projection_name_patch_sha=feecd2f143a59a449d287e2313bed0f80cc721560c8b82db13540b10356544d2
+        translator_after_projection_name_sha=0d2a85be74b768cc4a35e9d1d228d098e5a5ba28a81875c5d7838510a61d27d0
+        projection_name_patch="$repo/research/challenge-8/verifast-projection-name.patch"
+        printf '%s  %s\n' "$translator_after_decls_first_sha" "$source_home/$translator_rel" | sha256sum -c -
+        printf '%s  %s\n' "$projection_name_patch_sha" "$projection_name_patch" | sha256sum -c -
+        sha256sum "$projection_name_patch" >> "$evidence/source-build-inputs.txt"
+        git -C "$source_home" apply --check "$projection_name_patch"
+        git -C "$source_home" apply "$projection_name_patch"
+        printf '%s  %s\n' "$translator_after_projection_name_sha" "$source_home/$translator_rel" | sha256sum -c -
         cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
         sha256sum "$evidence/vf_mir_translator.original.ml" \
             "$evidence/vf_mir_translator.before-manually-drop-ref.ml" \
             "$evidence/vf_mir_translator.before-local-drop-call.ml" \
             "$evidence/vf_mir_translator.before-local-decls-first.ml" \
+            "$evidence/vf_mir_translator.before-projection-name.ml" \
             "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
-        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-local-decls-first-sha256.txt"
+        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-projection-name-sha256.txt"
     fi
 fi
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"

@@ -100,6 +100,7 @@ unwind края для вызовов `read/new`; их feasibility либо reso
 | `verifast-manually-drop-ref.patch` | Для exact shared borrow raw `ManuallyDrop<T>` направляет translation через существующий `create_ref` вместо bare address. Требует настоящие `precreate_ref`/`ref_init_perm`/`ref_initialized`; release обязан быть доказан. |
 | `verifast-local-drop-call.patch` | Предлагает вместо общего `drop_in_place` вызвать exact same-unit annotated actual Drop при узком ADT/impl/field match. Должен передать реальный, проверенный precondition и сохранить normal/unwind CFG; **не** выдавать `CopyOnDrop.own`, `T.own` или tokens. На текущем run37423762729 gate оборвался в HRTB regression из-за nested-match bug; body/caller gates этого профиля ещё не прошли. |
 | `verifast-local-decls-first.patch` | После resumption отдельно исправляет размещение пролога: uninitialized MIR local declarations перед compiler-origin projection registrations, оба перед executable MIR. Нужен из-за addressable guard в `F: FnMut()` caller; новый ownership/kernel mechanism не вводит. Проверка других associated-type-dependent locals остаётся открытой. |
+| `verifast-projection-name.patch` | После declaration fix канонизирует trait name в compiler-origin projection predicate через существующий `canonicalize_item_name`, как уже делает alias-type translation (`core::` → `std::`). Resource/kernel rules не меняет. Run37434307481 выявил fatal lookup raw FnOnce name; весь hosted gate нового patch ещё требуется. |
 
 Обновление после resumption: nested-match bug устранён; все25 regressions и
 direct actual Drop проходят в37431775757/37433028854. В37433028854 полный
@@ -107,7 +108,7 @@ raw-source normal `cleanup_one` прошёл VF/refinement0. Для selected che
 non-unwinding Drop сохранена AST unwind ветвь, но невозможный successor исключён
 из structural block reconstruction; live predecessors должны сохранять cleanup.
 В37434307481 declaration placement исправлен, normal caller снова прошёл,
-но `cleanup_callback` остановился до body execution на некaноническом
+но `cleanup_callback` остановился до body execution на неканоническом
 `core::ops::FnOnce::Output_typeid`, отсутствующем в runtime спецификации;
 проверки panic cleanup и7 отрицательных fixtures ещё не выполнены. Поэтому
 новый normal caller milestone не закрывает held-ref/full-insertion obligations.
