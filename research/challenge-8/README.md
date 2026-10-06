@@ -217,6 +217,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   This is detector evidence only, no SmallSort safety claim. Investigate exact
   immutable-static lowering/check behavior and retain gap in any target result.
 
+
+- [Explicit array-bound lemma probe](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395348422),
+  2026-10-06, source `6851c1a9edc96f26f724efca2bc78acc78ef2a42`,
+  `verifast_insert_tail_range`,90min, same VF26.09/nightly pins and range
+  contract. Added ghost `array_inv::<T>()` is accepted, preserves resources,
+  but actual insert_tail still fails first tail.sub(1) pointer limits at
+  verified/smallsort.rs:38. Refinement0 and exact-source audit pass; verifier
+  and overall1. VF0.10s,RSS165,456KiB; refinement0.09s,RSS162,844KiB;
+  runner15.66s including setup,RSS620,480KiB. No completed proof/covers.
+  Next prove an interior-pointer bound for arbitrary mathematical index from
+  endpoint facts, including required pointer-add algebra, without adding a
+  pointer-validity assumption or using the i32-limited split lemma.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

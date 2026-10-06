@@ -84,12 +84,18 @@ Suite1/notvalidated,497s cold build+compilations vs summed verification1.775s,
 maxRSS1,808,612KiB. Full logs/artifacts fetched. Keep immutable-byte gap explicit;
 investigate pinned compiler/CBMC lowering before claiming full required UB.
 Prepared actual insertion UB safety runner has the same profile but cannot
-establish the missing immutable-byte category. Active run
+establish the missing immutable-byte category. Latest array-inv result:
 [37395348422](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395348422),
-source `6851c1a9edc96f26f724efca2bc78acc78ef2a42`,
-`verifast_insert_tail_range`,90min. Explicit array_inv ghost call precedes first
-tail.sub(1); inspect bound proof/refinement and per-tool time records. All
-runtime bodies, symbolic length domain and preconditions preserved.
+source `6851c1a9edc96f26f724efca2bc78acc78ef2a42`, range90min. Ghost call
+accepted; same first pointer-bound failure. Exact-source/refinement0;
+VF1(.10s),refiner.09s,runner15.66s,RSS620,480KiB. No completed proof.
+Next generic work: proved interior-pointer lemma from endpoints, no assumed
+conclusion or length restriction. Also prepare observed immutable-static write
+control after pinned-source audit showed write and pointer checks were modeled,
+but no mutability property emitted (--no-assert-contracts not its explanation).
+Next Actions selection: insertion_ub_safety_4,90min, actual bounded i32 safety
+without loop injection/sortedness assumptions; same UBflags and explicit
+immutable-byte gap. No active run until dispatch confirmed.
 
 ## Repository map and verifier details
 
