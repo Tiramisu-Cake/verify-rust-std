@@ -86,6 +86,16 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Isolated HRTB regression cases](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410552459),
+  source `905fd9d0b3fa84a187b932c47bbad5bbe52402bc`,fnmut_hrtb90min.
+  Sourcebuild0/25.76s; pairedZ3/originaltargetMIR/sourcehash pass. Boolean/u8
+  cases pass (compiler/decode0,one real MIR+translatedcall each,VFownership1,
+  registrations1/0). Unconstrained case has zero projection predicates;
+  overly broad runner search mistakes a local FnOnce::Output alias for one,
+  stops before case3 VF. Suite1/incomplete,noactualtargetVF/refiner.
+  Overall1,runner1:24.32,RSS646,648KiB,setupdominates. Next guard checks
+  projectionTerm records, keeping all eight semantic cases and strict checks.
+
 - [HRTB regression setup](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241),
   source `ca6ed8d91a0d369ad76a20a519a3cb053f2bd0cf`,fnmut_hrtb90min.
   Trace-only addition to tested HRTB semantics builds0/14.88s; pairedZ3 and

@@ -46,12 +46,20 @@ binary7142413b68a4c9e9e17e5afaea566c2cd3d2615633b84ce612db9bfe03d7bbcb;
 pairedZ3/MIR/sourcehash passes. Positivefixture exporter/decode0,oneactualMIRcall,
 thenVFparseerror on INACTIVEcfg function req atline22 beforeanycalltranslation.
 Suite1,no casespassed/noactualinsertionVF/refinerreached. Overall1,
-runner1:10.86,RSS620,492KiB,setupdominated. Active run [37410552459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410552459),
-source `905fd9d0b3fa84a187b932c47bbad5bbe52402bc`,fnmut_hrtb90min,
-exact remote/run SHA matched; poll/fetch all evidence before new dispatch.
-This NEW source isolates each selected physical fixture (includingbothbodycase)
-before export/verification; preservesall8cases/failclosedcounts/classifications.
-Thenactualnormalcomparisonaccessclosure/half-token/end_lifetime probe.
+runner1:10.86,RSS620,492KiB,setupdominated. **Latest isolated regression run:**
+[37410552459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410552459),
+source `905fd9d0b3fa84a187b932c47bbad5bbe52402bc`,fnmut_hrtb90min.
+Full evidence fetched. Sourcebuild0/25.76s,RSS426,720KiB,same7142413binary;
+pairedZ3 and real-target MIR/sourcehash pass. Two casespass(Boolean/u8):
+compiler/decode0,one real MIR+translatedcall each,ownershipVF1,registrations1/0.
+No-output MIR has zero Projection predicates but local variable FnOnce::Output
+alias. Runner's broad search misclassified alias as equality; suite stops1
+before case3 VF. No actual insertion VF/refiner. Overall1,
+runner1:24.32,RSS646,648KiB,setupdominated. No active run.
+Next NEW source checks projectionTerm records rather than arbitrary alias
+mentions, keeping zero actual predicate requirement and all8cases unchanged.
+Uncommitted tuple_lft_cut integration is staged separately from this rerun;
+source feature being implemented/reviewed, not part of current evidence.
 Current semantic HRTB patch plus diagnostic traces (hash in verifast-fnmut-hrtb.md).
 Eight real compiler/exporter/translator guard regressions precede actual proof;
 compiler/decode must be0, calls must genuinely translate, expected verifier1

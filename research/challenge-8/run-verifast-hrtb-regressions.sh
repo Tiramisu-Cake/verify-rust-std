@@ -117,8 +117,8 @@ run_case() {
         return 1
     fi
     if [[ "$cfg" == hrtb_no_output ]] &&
-       rg -F 'defId = "core::ops::FnOnce::Output"' "$regressions/$cfg.mir.txt" >/dev/null; then
-        echo "$cfg: compiler exported an Output equality for the unconstrained case" >&2
+       rg -F 'projectionTerm = (' "$regressions/$cfg.mir.txt" >/dev/null; then
+        echo "$cfg: compiler exported a projection predicate for the unconstrained case" >&2
         return 1
     fi
     set +e

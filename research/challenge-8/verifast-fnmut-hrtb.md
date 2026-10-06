@@ -109,7 +109,8 @@ failure, unknown verifier failure, any verifier exit other than 1,
 or zero markers without processed calls fails the regression. The direct
 `FnMut<Args>` case uses the pinned nightly's
 [`unboxed_closures` feature](https://doc.rust-lang.org/unstable-book/language-features/unboxed-closures.html); its
-MIR must contain no `FnOnce::Output` equality. Passing this suite validates
+MIR must contain no projection predicate. An abstract `FnOnce::Output` alias
+in a local variable type is expected and is not an equality constraint. Passing this suite validates
 the matcher's guard behavior only; it does not establish a SmallSort proof.
 
 [Run 37410021241](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241)
@@ -119,3 +120,12 @@ parse a ghost `req` on a function disabled by `cfg`, before it translated
 the selected call. The physical per-case source construction above addresses
 that frontend ordering issue. This run provides no matcher regression pass;
 the next Actions run must check all eight isolated cases.
+
+[Run 37410552459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410552459)
+at905fd9d0b3fa84a187b932c47bbad5bbe52402bc passed the isolated Boolean/u8
+cases: exporter/decode0,one MIR/translated call each,expected ownership1,
+registered1/0 respectively. The unconstrained case exported no projection
+predicate, but the runner mistakenly counted its local variable's abstract
+FnOnce::Output alias as an equality and stopped before its verifier call.
+The guard now inspects projectionTerm records, preserving the requirement
+of zero actual projection predicates. The suite is incomplete, not a pass.
