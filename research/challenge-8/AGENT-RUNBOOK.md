@@ -38,10 +38,18 @@ VF1/.17s,RSS92,704KiB;refiner0/.12s,RSS91,704KiB;overall1,
 runner1:03.07,RSS645,516KiB,setup dominated. No covers/fullfunctionproof.
 Trace counter2 includes error-context duplicate,193 execution/return records;
 never accepted as two verified functions. No active run.
-**Active run:** [37410021241](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241),
-source `ca6ed8d91a0d369ad76a20a519a3cb053f2bd0cf`,
-verifast_insert_tail_fnmut_hrtb90min. Exact remote/run SHA matched; poll and
-inspect full regression and actual-probe artifacts before any new dispatch.
+**Latest regression setup failure:**
+[37410021241](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241),
+source `ca6ed8d91a0d369ad76a20a519a3cb053f2bd0cf`,fnmut_hrtb90min.
+Full logs/artifacts fetched. Trace patch builds0/14.88s,RSS426,420KiB,
+binary7142413b68a4c9e9e17e5afaea566c2cd3d2615633b84ce612db9bfe03d7bbcb;
+pairedZ3/MIR/sourcehash passes. Positivefixture exporter/decode0,oneactualMIRcall,
+thenVFparseerror on INACTIVEcfg function req atline22 beforeanycalltranslation.
+Suite1,no casespassed/noactualinsertionVF/refinerreached. Overall1,
+runner1:10.86,RSS620,492KiB,setupdominated. No active run.
+Next NEW source isolates each selected physical fixture (includingbothbodycase)
+before export/verification; preservesall8cases/failclosedcounts/classifications.
+Thenactualnormalcomparisonaccessclosure/half-token/end_lifetime probe.
 Current semantic HRTB patch plus diagnostic traces (hash in verifast-fnmut-hrtb.md).
 Eight real compiler/exporter/translator guard regressions precede actual proof;
 compiler/decode must be0, calls must genuinely translate, expected verifier1

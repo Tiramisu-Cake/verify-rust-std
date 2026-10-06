@@ -82,10 +82,13 @@ trace messages to that tested semantic change.
 contains eight separately selected Rust cases. The
 [runner](run-verifast-hrtb-regressions.sh) consumes an already source-built
 verifier and its source-build evidence; it never rebuilds or installs a tool.
-For each cfg case, it exports and decodes real compiler MIR, verifies the
-source hash did not change, counts compiler `FnMut::call_mut` sites, invokes
-the source-built verifier, and compares translator considered-call and
-registration traces. The expected registration counts are:
+For each cfg case, it writes a separate disposable `lib.rs` containing the
+common header and only the selected function section(s), with the selector
+attribute removed. It records hashes of both the checked-in template and
+each isolated case, compares them before and after compiler export, exports
+and decodes real compiler MIR, counts compiler `FnMut::call_mut` sites,
+invokes the source-built verifier, and compares translator considered-call
+and registration traces. The expected registration counts are:
 
 | Case | Calls | Equalities | Guard exercised |
 | --- | ---: | ---: | --- |
@@ -108,3 +111,11 @@ or zero markers without processed calls fails the regression. The direct
 [`unboxed_closures` feature](https://doc.rust-lang.org/unstable-book/language-features/unboxed-closures.html); its
 MIR must contain no `FnOnce::Output` equality. Passing this suite validates
 the matcher's guard behavior only; it does not establish a SmallSort proof.
+
+[Run 37410021241](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241)
+used the trace patch and passed source build plus the positive case's direct
+compiler MIR export/decode and call-count check. The verifier then failed to
+parse a ghost `req` on a function disabled by `cfg`, before it translated
+the selected call. The physical per-case source construction above addresses
+that frontend ordering issue. This run provides no matcher regression pass;
+the next Actions run must check all eight isolated cases.

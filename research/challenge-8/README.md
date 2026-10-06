@@ -86,6 +86,16 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [HRTB regression setup](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410021241),
+  source `ca6ed8d91a0d369ad76a20a519a3cb053f2bd0cf`,fnmut_hrtb90min.
+  Trace-only addition to tested HRTB semantics builds0/14.88s; pairedZ3 and
+  original target MIR capture/sourcehash pass. Positive fixture exporter0,
+  decoder0,one real call; VeriFast then parses inactive cfg ghost req and
+  fails before call translation. Regression suite correctly fails1; no case
+  pass,actual insertion verification or refinement execution. Overall1,
+  runner1:10.86,RSS620,492KiB,setupdominates. Next isolate physical source for
+  each of the eight cases, retaining strict compiler/call/registration checks.
+
 - [Compiler-bound FnMut instance](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258),
   source `e7ac80db4016bf6cf41b40920e3af11dcfb30470`,
   verifast_insert_tail_fnmut_hrtb90min. Independently reviewed translator-only
