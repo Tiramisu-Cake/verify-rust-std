@@ -131,6 +131,18 @@ body проверен; missing token/debt и false post отвергнуты в 
 Это независимый результат без любых experimental patches. Он подтверждает
 normal resource transition, но не direct first panic, held tmp или guard provenance.
 
+Следующий control использует отдельный `manually_drop_only` profile: pinned
+translator7319d263 + только существующий ManuallyDrop-reference patch5500204a,
+выход60ece6e9. Exact source diff ограничен одним translator file; parser, prelude,
+kernel и прочие frontend extensions не меняются. Baseline raw ManuallyDrop
+borrow пропускает create_ref по placeDoesNotNeedDrop, поэтому existing patch
+нужен для actual `&*tmp`; share alone не даёт ref_initialized. Proof обязан дать
+precreate/init_share и оба initialization accesses, затем вернуть full tmp storage
+до перемещения T. `into_inner` не имеет pinned frontend/spec route, поэтому
+контроль использует реальные ptr::read/write, без нового callee summary.
+Это проверка normal tmp lifecycle; raw guard.src provenance и panic остаются
+отдельными obligations. Hosted outcome минимального profile ещё не получен.
+
 Базовый `std::ptr::drop_in_place` требует opaque `<CopyOnDrop<T>>.own`, а
 private default own для guard равен `false`; его post скрывает эффект на gap.
 Run37417173472 останавливается именно на этом cleanup требовании, не на

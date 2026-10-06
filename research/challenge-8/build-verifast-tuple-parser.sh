@@ -13,7 +13,7 @@ release_home=${1:?release tool directory required}
 evidence=${2:?evidence directory required}
 source_home=${3:?fresh source directory required}
 build_profile=${4:-tuple_parser}
-case "$build_profile" in tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken|tuple_manually_drop_ref|tuple_local_drop) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
+case "$build_profile" in manually_drop_only|tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken|tuple_manually_drop_ref|tuple_local_drop) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
 mkdir -p "$evidence"
 trap 'printf "%s\n" "$?" > "$evidence/source-build-exit-code.txt"' EXIT
 vf_commit=809de4596839b739dd999f9e462242c835e3af46
@@ -23,12 +23,18 @@ prelude_sha=d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_rev=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 patch_file="$repo/research/challenge-8/verifast-tuple-own.patch"
+minimal_ref_patch="$repo/research/challenge-8/verifast-manually-drop-ref.patch"
 {
     printf 'Experimental source profile: %s\nBase26.09 source: %s\nDecoder revision: %s\n' "$build_profile" "$vf_commit" "$decoder_rev"
     printf 'VFDeps25.01 archive SHA256: %s\n' "$deps_sha"
     printf 'Source build directory: %s\n' "$source_home"
     cat /etc/os-release
-    sha256sum "$patch_file" "$release_home/bin/verifast" "$release_home/bin/vf-rust-mir-exporter" "$release_home/bin/refinement-checker"
+    if [[ "$build_profile" == manually_drop_only ]]; then
+        sha256sum "$minimal_ref_patch"
+    else
+        sha256sum "$patch_file"
+    fi
+    sha256sum "$release_home/bin/verifast" "$release_home/bin/vf-rust-mir-exporter" "$release_home/bin/refinement-checker"
 } > "$evidence/source-build-inputs.txt"
 run_stage() {
     local stage=$1
@@ -51,6 +57,25 @@ printf '%s  %s\n' "$prelude_sha" "$source_home/bin/rust/prelude.rsspec" | sha256
 printf '%s  %s\n' "$prelude_sha" "$release_home/bin/rust/prelude.rsspec" | sha256sum -c -
 cp "$source_home/$parser_rel" "$evidence/rust_parser.original.ml"
 cp "$source_home/bin/rust/prelude.rsspec" "$evidence/prelude.unmodified.rsspec"
+if [[ "$build_profile" == manually_drop_only ]]; then
+    translator_rel=src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+    translator_sha=7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803
+    minimal_ref_patch_sha=5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc
+    minimal_ref_output_sha=60ece6e90f4dd3c623a99ea31feebb3210359daa38850255332118b2316eac39
+    printf '%s  %s\n' "$translator_sha" "$source_home/$translator_rel" | sha256sum -c -
+    printf '%s  %s\n' "$minimal_ref_patch_sha" "$minimal_ref_patch" | sha256sum -c -
+    cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.original.ml"
+    cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.before-manually-drop-ref.ml"
+    git -C "$source_home" apply --check "$minimal_ref_patch"
+    git -C "$source_home" apply "$minimal_ref_patch"
+    printf '%s  %s\n' "$minimal_ref_output_sha" "$source_home/$translator_rel" | sha256sum -c -
+    cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
+    printf '%s\n' "$minimal_ref_output_sha" > "$evidence/vf_mir_translator-after-manually-drop-ref-sha256.txt"
+    sha256sum "$evidence/vf_mir_translator.original.ml" \
+        "$evidence/vf_mir_translator.before-manually-drop-ref.ml" \
+        "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
+    expected_modified="$translator_rel"
+else
 git -C "$source_home" apply --check "$patch_file"
 git -C "$source_home" apply "$patch_file"
 expected_modified="$parser_rel"
@@ -161,11 +186,20 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
         sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-projection-name-sha256.txt"
     fi
 fi
+fi
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
 [[ "$(cat "$evidence/source-modified-files.txt")" == "$expected_modified" ]]
-git -C "$source_home" diff > "$evidence/applied-tuple-parser.patch"
-cp "$source_home/$parser_rel" "$evidence/rust_parser.patched.ml"
-sha256sum "$evidence/rust_parser.original.ml" "$evidence/rust_parser.patched.ml" "$evidence/prelude.unmodified.rsspec" >> "$evidence/source-build-inputs.txt"
+if [[ "$build_profile" == manually_drop_only ]]; then
+    git -C "$source_home" diff > "$evidence/applied-manually-drop-only.patch"
+    cp "$source_home/$parser_rel" "$evidence/rust_parser.unmodified.ml"
+    printf '%s  %s\n' "$parser_sha" "$evidence/rust_parser.unmodified.ml" | sha256sum -c -
+    sha256sum "$evidence/rust_parser.original.ml" "$evidence/rust_parser.unmodified.ml" \
+        "$evidence/prelude.unmodified.rsspec" >> "$evidence/source-build-inputs.txt"
+else
+    git -C "$source_home" diff > "$evidence/applied-tuple-parser.patch"
+    cp "$source_home/$parser_rel" "$evidence/rust_parser.patched.ml"
+    sha256sum "$evidence/rust_parser.original.ml" "$evidence/rust_parser.patched.ml" "$evidence/prelude.unmodified.rsspec" >> "$evidence/source-build-inputs.txt"
+fi
 run_stage build-apt bash -c 'sudo apt-get update && sudo apt-get install --yes --no-install-recommends build-essential git curl ca-certificates m4 patch unzip'
 deps_archive="$RUNNER_TEMP/challenge8-vfdeps-adf88dc-linux.txz"
 run_stage vfdeps-download curl -fL --retry 3 -o "$deps_archive" https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz

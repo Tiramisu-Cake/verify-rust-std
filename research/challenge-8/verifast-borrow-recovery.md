@@ -85,3 +85,38 @@ hashes match the first run above. This proves only the baseline normal two-cell
 generic lifecycle. Next extend it to actual ManuallyDrop temporary creation,
 `&*tmp`, complete storage recovery and return to an initialized destination;
 direct callback panic remains open.
+
+## Optional ManuallyDrop reference profile
+
+Set `BORROW_RECOVERY_PROFILE=manually_drop_only` to run the same original five
+cases plus `positive_manually_drop<T>` and
+`negative_manually_drop_missing_init`. This profile writes to a separate
+`research-results/verifast-borrow-recovery-manually-drop-only` directory and
+builds VeriFast 26.09 from the pinned source using only the existing narrow
+ManuallyDrop shared-reference translator patch. The builder records and checks
+that one translator file is modified; see
+[verifast-manually-drop-only.md](verifast-manually-drop-only.md) for the patch
+and source hashes. The default `baseline` profile still runs the original five
+cases with the release executable.
+
+The positive case moves an initialized raw cell into
+`ManuallyDrop::new`, prepares its genuine generic share and two quarter
+lifetime accesses with `precreate_ref`/`init_ref_share`, creates the actual
+`&*tmp` reference inside a natural `let_lft` block, and calls the explicit
+single-cell recovery helper after that block. Once full current `T.own` and
+storage permission return, it uses `addr_of!(tmp)` followed by the transparent
+`ManuallyDrop<T>` to `*const T` pointer cast, reads the restored `T` with
+`tmp_ptr.read()`, and writes it back to the raw cell. The postcondition requires
+an initialized cell with its current full `T.own`; there is no `Copy` or
+`Freeze` bound, assumption, or readonly-reference substitute. The minimal
+runner audits decoded readonly MIR for `ManuallyDrop::new`, the deref call, two
+raw pointer reads and a pointer write, and requires the expected source/helper
+traces. Its missing-init negative omits `init_ref_share` and must fail with the
+`ref_initialized` obligation at the actual `&*tmp` source line before reaching
+the helper.
+
+This narrow profile does not verify `ManuallyDrop::into_inner`; the positive
+uses the actual raw-pointer read primitive instead. It does not prove the
+standard-library implementation, any callback or panic recovery, insertion
+behavior, or unrestricted ownership beyond this one lifecycle. Hosted results
+for this additional profile are pending; all verification remains hosted-only.

@@ -42,6 +42,40 @@ ens thread_token(t) &*& type_interp::<T>() &*&
 }
 @*/
 
+/*@
+pred single_borrow_debt<T>(
+    t: thread_id_t, k: lifetime_t, tmp: *T, tmp_ref: *T,
+    first_fraction: real, second_fraction: real) =
+    [first_fraction]ref_initialized::<T>(tmp_ref) &*&
+    close_frac_borrow_token(
+        first_fraction, ref_initialized_::<T>(tmp_ref), 1/4, k) &*&
+    [second_fraction]ref_initialized::<T>(tmp_ref) &*&
+    close_frac_borrow_token(
+        second_fraction, ref_initialized_::<T>(tmp_ref), 1/4, k) &*&
+    borrow_end_token(k, <T>.full_borrow_content(t, tmp));
+
+lem recover_single<T>(tmp: *T)
+    nonghost_callers_only
+    req thread_token(?t) &*& type_interp::<T>() &*&
+        single_borrow_debt::<T>(
+            t, ?k, tmp, ?tmp_ref, ?first_fraction, ?second_fraction) &*&
+        [1/2]lifetime_token(k);
+    ens thread_token(t) &*& type_interp::<T>() &*&
+        *tmp |-> ?tmp_after &*& <T>.own(t, tmp_after);
+{
+    open single_borrow_debt::<T>(
+        t, k, tmp, tmp_ref, first_fraction, second_fraction);
+    close [first_fraction]ref_initialized_::<T>(tmp_ref)();
+    close_frac_borrow(first_fraction, ref_initialized_::<T>(tmp_ref));
+    close [second_fraction]ref_initialized_::<T>(tmp_ref)();
+    close_frac_borrow(second_fraction, ref_initialized_::<T>(tmp_ref));
+    merge_fractions lifetime_token(k);
+    end_lifetime(k);
+    borrow_end(k, <T>.full_borrow_content(t, tmp));
+    open_full_borrow_content::<T>(t, tmp);
+}
+@*/
+
 // CASE_BEGIN positive_i32
 pub unsafe fn positive_i32(left: *mut i32, right: *mut i32)
 /*@
@@ -222,3 +256,60 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<i32>() &*&
     //@ recover_pair::<i32>(left, right);
 }
 // CASE_END negative_false_post
+
+
+// CASE_BEGIN positive_manually_drop
+pub unsafe fn positive_manually_drop<T>(cell: *mut T)
+/*@
+req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
+    *cell |-> ?cell_before &*& <T>.own(t, cell_before);
+@*/
+/*@ ens thread_token(t) &*& type_interp::<T>() &*&
+    *cell |-> ?cell_after &*& <T>.own(t, cell_after);
+@*/ {
+    let value = cell.read();
+    let tmp = core::mem::ManuallyDrop::new(value);
+    //@ let cmp_k = begin_lifetime();
+    //@ close_full_borrow_content::<T>(t, &tmp);
+    //@ borrow(cmp_k, <T>.full_borrow_content(t, &tmp));
+    {
+        /*@ let_lft 'cmp = cmp_k; @*/
+        //@ share_full_borrow::<T>(cmp_k, t, &tmp);
+        //@ let tmp_ref = precreate_ref(&tmp);
+        //@ init_ref_share::<T>(cmp_k, t, tmp_ref);
+        //@ open_frac_borrow(cmp_k, ref_initialized_(tmp_ref), 1/4);
+        //@ open [?first_fraction]ref_initialized_::<T>(tmp_ref)();
+        //@ open_frac_borrow(cmp_k, ref_initialized_(tmp_ref), 1/4);
+        //@ open [?second_fraction]ref_initialized_::<T>(tmp_ref)();
+        let _tmp_shared = &*tmp;
+        //@ close single_borrow_debt::<T>(t, cmp_k, &tmp, tmp_ref, first_fraction, second_fraction);
+    }
+    //@ recover_single::<T>(&tmp);
+    let tmp_ptr = core::ptr::addr_of!(tmp) as *const T;
+    let value = tmp_ptr.read();
+    cell.write(value);
+}
+// CASE_END positive_manually_drop
+
+// CASE_BEGIN negative_manually_drop_missing_init
+pub unsafe fn negative_manually_drop_missing_init<T>(cell: *mut T)
+/*@
+req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
+    *cell |-> ?cell_before &*& <T>.own(t, cell_before);
+@*/
+/*@ ens thread_token(t) &*& type_interp::<T>() &*&
+    *cell |-> ?cell_after &*& <T>.own(t, cell_after);
+@*/ {
+    let value = cell.read();
+    let tmp = core::mem::ManuallyDrop::new(value);
+    //@ let cmp_k = begin_lifetime();
+    //@ close_full_borrow_content::<T>(t, &tmp);
+    //@ borrow(cmp_k, <T>.full_borrow_content(t, &tmp));
+    {
+        /*@ let_lft 'cmp = cmp_k; @*/
+        //@ share_full_borrow::<T>(cmp_k, t, &tmp);
+        //@ let tmp_ref = precreate_ref(&tmp);
+        let _tmp_shared = &*tmp;
+    }
+}
+// CASE_END negative_manually_drop_missing_init
