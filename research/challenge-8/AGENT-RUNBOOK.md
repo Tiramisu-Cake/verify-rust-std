@@ -64,10 +64,23 @@ whole callers and existing invalid-body/resource/shape negatives. A dedicated
 invalid-unwind-body control remains to be prepared separately; unsupported
 panic plumbing must not masquerade as rejection of its false unwind post.
 
-**Active run:** [37433028854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37433028854),
-source `46021223da019526f4ad67f6e3921fc60d2c434f`, localcaller90min,
-manually dispatched2026-10-06T07:58:25Z after exact remote-SHA readback.
-Monitor this run and inspect full evidence; do not dispatch duplicates.
+**Latest completed result:** [37433028854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37433028854),
+source `46021223da019526f4ad67f6e3921fc60d2c434f`, localcaller90min.
+Full logs/artifacts inspected; same26.09/source/tool/prelude/pairedZ3/strict
+four-file and source-byte/MIR/refinement audits pass. Build0/18.63s,
+RSS426,676KiB; binary6328c230d1859d97a0634626672e7a9b06dcd33d8dfd6b21fdc23cfe6e64e8b4.
+All8HRTB/12scope/5reference pass1.71/2.28/1.35s, all25compiler/decode0.
+Direct actualDrop named1/copy1/5copy records,VF/refinement0, same contract
+d7a090ed. cleanup_one compiler/decode/VF/refinement0; VF.13s,refiner.09s,
+named caller1/actualDrop1/copy1, exact destination and ONE ownership post/leak
+check pass. This is the first full normal local-cleanup caller result, not
+insertion/held-ref recovery. cleanup_callback compiler/decode0 but VF1/.13s
+BEFORE caller statements: A local variable whose address is taken must be
+declared at the start of a block (whole-function span38-56). Refinement0/.10s.
+All7 negatives NOT executed. Overall1,runner1:30.31,RSS648,144KiB; setup
+dominates. No covers/loop bounds. No active run. Next investigate exact
+addressable local/declaration placement in reconstructed callback CFG without
+disabling address/resource/unwind checks or changing runtime std.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR

@@ -121,6 +121,24 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Normal local Drop caller verified; callback declaration failure:** [37433028854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37433028854),
+  source `46021223da019526f4ad67f6e3921fc60d2c434f`, localcaller90min,
+  same derived26.09/nightly2026-02-05/contract/domain/checks. Full evidence
+  inspected; strict source/tool/prelude/pairedZ3/patch/four-file and source-byte/
+  MIR audits pass. Build0/18.63s,RSS426,676KiB, binary
+  6328c230d1859d97a0634626672e7a9b06dcd33d8dfd6b21fdc23cfe6e64e8b4.
+  All25 regressions pass1.71/2.28/1.35s, all compiler/decode0; direct actual
+  Drop named1/copy1/5copy records,VF/refinement0 with same d7a090ed contract.
+  cleanup_one compiler/decode/VF/refinement0, caller/actualDrop named1 each,
+  exact destination and ONE ownership post/leak check pass; VF.13s,refiner.09s.
+  This proves the raw-source normal caller under its explicit resource contract.
+  cleanup_callback compiler/decode0, VF1/.13s before caller statements:
+  `A local variable whose address is taken must be declared at the start of a block.`
+  Refinement0/.10s; all7 negatives not reached. Overall1,runner1:30.31,
+  RSS648,144KiB; setup dominates. No covers/loop bounds. Full panic cleanup,
+  held-reference/storage recovery and insertion remain open. Next diagnose
+  reconstructed CFG declaration placement and preserve all checks.
+
 - **Nested-match repaired; caller dead-code diagnostic:** [37431775757](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37431775757),
   source `197d5a1efdaa1d42e7a69df1a811dbe3ba82648d`, localcaller90min,
   derived VeriFast26.09/nightly2026-02-05, unchanged contracts/domains/checks.
