@@ -110,8 +110,12 @@ first mul_mono_l requires unestablished0<=sizeofT, actualinsert_tail not reached
 Refinement/exactauditpass0,VF1(.12s),refiner.11s,runner12.75s,RSS636,748KiB.
 Next helper design must leave originalfunctionprecondition unchanged and make
 sizeof positivity a proved caller obligation, not an assumed input fact.
-No active run. Next actual safety retry with equivalent raw-slice harness,
-then inspect compiler/first proof errors and all7covers before accepting anything.
+Active [37396688760](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396688760),
+source `43f133c72fcd4f3dffe033582aa96aa2500bf860`,actualsafety90min.
+Equivalent raw-slice construction removes range-index formatting from harness;
+all valid len/offset assumptions, arbitraryvalues/decisions,unwind6,covers and
+UBflags retained. Inspect compiler/first proof errors and all7covers before
+accepting anything; immutable-byte detector gap remains regardless of badge.
 
 ## Repository map and verifier details
 
