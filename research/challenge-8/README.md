@@ -260,6 +260,23 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   are mathematical integers, including ghost i32; no runtime i32 cap applies.
   Conditional cleanup works: whole job33s instead of multi-minute Kani cleanup.
 
+
+- [Raw-slice actual insertion UB safety](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396688760),
+  2026-10-06, source `43f133c72fcd4f3dffe033582aa96aa2500bf860`,
+  `insertion_ub_safety_4`,90min, unchanged pin/UBflags/inputdomain. Equivalent
+  raw-slice harness construction resolves the Formatter compiler ICE. Actual
+  std safety harness now executes; all7/7covers satisfied, no undetermined
+  checks, all unwind assertions pass. Sole failure among469 non-cover checks:
+  `ptr::copy_nonoverlapping::<i32>.unsupported_construct.1`, "Kani currently
+  doesn't support checking validity of copy_nonoverlapping for *const i32".
+  440 checks succeed,28 unreachable. Verification3.1836462s; runner3:54.96
+  including cold build/compilation,RSS1,821,596KiB,overall1. This is an
+  unsupported-instrumentation result, not a safety counterexample or proof.
+  Pinned check_values.rs:387-393 unconditionally inserts this unsupported
+  property for MIR CopyNonOverlapping (TODO value check). Keep valid-value
+  flag and actual copy runtime; approved generic VF direction remains necessary,
+  along with the independently measured immutable-byte gap.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

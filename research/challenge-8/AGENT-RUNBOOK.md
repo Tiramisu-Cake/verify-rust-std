@@ -110,12 +110,18 @@ first mul_mono_l requires unestablished0<=sizeofT, actualinsert_tail not reached
 Refinement/exactauditpass0,VF1(.12s),refiner.11s,runner12.75s,RSS636,748KiB.
 Next helper design must leave originalfunctionprecondition unchanged and make
 sizeof positivity a proved caller obligation, not an assumed input fact.
-Active [37396688760](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396688760),
+Latest raw-slice actual safety:
+[37396688760](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396688760),
 source `43f133c72fcd4f3dffe033582aa96aa2500bf860`,actualsafety90min.
-Equivalent raw-slice construction removes range-index formatting from harness;
-all valid len/offset assumptions, arbitraryvalues/decisions,unwind6,covers and
-UBflags retained. Inspect compiler/first proof errors and all7covers before
-accepting anything; immutable-byte detector gap remains regardless of badge.
+CompilerICE resolved; real harness all7/7covers, allunwindassertions pass,
+no undetermined. Sole1/469 non-cover failure is unsupported validity check
+for copy_nonoverlapping::<i32>; pinned check_values.rs:387-393 TODO inserts it
+unconditionally. Verification3.1836462s,runner3:54.96,RSS1,821,596KiB,overall1.
+No completed safety proof; keep runtimecopy and valid-value flag, immutable-byte
+detector gap also remains. Generic VF helper now derives sizeof>=0 from first
+ownedcell via points_to_limits, preserving originalfunctionprecondition.
+No active run. Next VF revisedhelper Actions, then observedimmutable diagnostic;
+Kani target UB path cannot turn green on this pin without a documented tool fix.
 
 ## Repository map and verifier details
 

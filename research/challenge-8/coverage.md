@@ -62,3 +62,9 @@ ICE before verification (37395779522): unsupported Formatter function pointer
 in the delayed-uninit pass. This is neither a safety finding nor proof. The
 prepared harness-only slice-construction change tests an unreachable formatted
 indexing-panic hypothesis under the same domain; target runtime is unchanged.
+
+Raw-slice harness resolves that compiler ICE in37396688760, but validity
+instrumentation rejects actual copy_nonoverlapping as unsupported (pinned
+check_values.rs:387-393 TODO). All7covers and unwind assertions pass, yet no
+completed UB safety proof exists. Retain validity flags; independent immutable
+write control also exposes a gap. These are concrete tool limitations.

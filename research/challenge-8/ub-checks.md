@@ -115,3 +115,9 @@ consumer found for that metadata. This is evidence of a model gap, with emitted
 GOTO-symbol details still uninspected. --no-assert-contracts controls contract
 closure assertions and ptr::write has no such Kani contract here; regular UB
 and pointer instrumentation remains active.
+
+Actual insertion raw-slice retry37396688760 at43f133c compiles and reaches every
+7/7cover, but its single failed property is the pinned validity pass's deliberate
+UnsupportedCheck for MIR CopyNonOverlapping (check_values.rs:387-393). All
+unwind assertions pass. The suite fails correctly; retaining this flag prevents
+a green badge from hiding an unsupported required check.
