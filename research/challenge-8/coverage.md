@@ -68,6 +68,16 @@ verifier run or semantic coverage**. Replay scope CLOSED at1/2 allowed runs.
 
 ## Safety targets and sorting contracts
 
+The documentation-only [admissibility review](SORT4-ADMISSIBILITY-REVIEW.md)
+adds **no proof or detector coverage**. Full range separation is sufficient and
+caller-established, not shown necessary for every safe overlap or accepted as
+the complete standalone target domain. Our full ownership/Shadow/no-debt protocol
+is a resource-accounting choice, not the language's minimum no-UB condition.
+Legal callback effects/all five panic exits stay in safety scope; order/key
+preservation belongs to conditional functionality. Organizer clarification remains
+open. The old RAPx runner's evidence-dir/processor-scope mismatch is only a static
+preparation limitation; it changes none of the historical measured claims.
+
 | Actual target | Established evidence / tool | Remaining obligations |
 | --- | --- | --- |
 | `StableSmallSortTypeImpl::small_sort` | None | Default / Freeze specialization; arbitrary valid lengths and scratch; sorting contract; generic ownership and comparator behavior |

@@ -1,6 +1,8 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: automatic evidence replay CLOSED / NO-GO; semantic gate A stays
+Updated 2026-10-06: documentation-only sort4 admissibility review CLOSED;
+organizer clarification remains open. No experiments authorized.
+Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
 ZST alignment detector miss; [scope](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
@@ -12,6 +14,33 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**CLOSED — bounded documentation-only sort4 admissibility review.**
+Owner resumed from expected/actual HEAD
+`826d74b45546f9ce1319e2cd4cac8b6d42a2f41f` for source/primary-source reading,
+documentation, commit and push only. Entry tree clean; origin is the named fork,
+local/remote research heads match; no active or queued Actions. Latest unrelated
+run37518141083 is main's scheduled Subtree Update, completed SKIPPED.
+No Actions dispatch, compilation, executable checks, verifier/proof-code changes
+or external messages/publication. Reviewed the full research contract's premises
+and distinguished caller-established conditions from accepted challenge scope.
+Previous experiment and replay budgets are closed; unused slots grant no authority.
+[Review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md): local per-copy
+non-overlap/reference validity follow actual operations; full range separation
+is sufficient and caller-established, not proved necessary or organizer-accepted.
+Raw scratch and retained-originals ownership match audited routes; full exclusive
+resources/Shadow/no proof debt are our accounting protocol, not all mandatory UB
+conditions. Legal callback effects and all five panic exits stay in safety scope.
+Official issue56 answer discusses insufficient safety comments and functional
+primitive-order proofs, but inspected sources do not resolve this sort4 domain.
+No new proof coverage; no std/contract/proof/verifier/workflow change.
+
+Historical runner limitation documented in the review: run-rapx-applicability.sh
+calls classifier tests without required --evidence-dir; the corrected processor
+is fixed to six original-source cases. Not repaired/run; any separately resumed
+runner needs a fresh preparation/interface review. Saved-data NO-GO remains valid.
+
+## Historical automatic replay — CLOSED / NO-GO
 
 **CLOSED — automatic processing reproduced gate-A NO-GO.**
 Owner explicitly authorizes classifier/tests/docs and a minimal manual hosted
@@ -259,9 +288,10 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Complete the authorized preparation/classifier corrections, inspect the entire
-pipeline statically, then commit/push/dispatch one exact-SHA gate-A hosted run.
-Inspect its full logs/artifacts and iterate routine preparation corrections
-within the new four-run budget. Stop after A's substantive result or exhaustion,
-checkpoint and push the evidence. B/C/full sort4 and verifier semantic changes
-remain unauthorized for this continuation.
+STOP after documentation closeout/commit/push. Recommended next owner decision:
+approve seeking the specific organizer clarification in
+[the review](SORT4-ADMISSIBILITY-REVIEW.md#decision-and-unsent-organizer-question),
+or retain the stop. The question is drafted only; no external contact authorized.
+Gate A/replay remain CLOSED / NO-GO; B/C, new proof runs and verifier changes
+remain unauthorized. A clarification would inform a later specification/proof
+decision, not automatically reopen experiments. No active run or proof draft.

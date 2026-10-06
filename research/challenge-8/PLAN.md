@@ -24,7 +24,12 @@ The separately authorized saved-data replay37513897141 at processor1c0b517
 now reproduces that NO-GO automatically: six authentic pairs parsed,9/9 test
 groups pass, unknown/unrelated obligations retained. No verifier rerun.
 B/C NOT RUN; pins/std/contracts unchanged and no generic proof gain.
-Contract admissibility remains a separate open question;
+The separately authorized documentation-only
+[admissibility review](SORT4-ADMISSIBILITY-REVIEW.md) is complete: operation-level
+conditions are justified, full separation and the chosen scratch/resource protocol
+are sufficient caller-motivated premises, not yet an accepted complete standalone
+challenge contract. An organizer question is drafted, not sent. Contract
+admissibility remains a separate open question;
 later sorting stages and verifier implementation remain separate decisions.
 
 ## Decision and evidence
@@ -62,6 +67,7 @@ outside the approved roadmap.
 | 1c — complete | `sort4_stable` no-patch feasibility | Compare checked annotations on official26.09, released26.10 and one integrated alternative (Kani); obstacle matrix and no-run rationale | [Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed full-resource c1 candidate; no generic coverage gained. Historical patched proposal remains unauthorized. |
 | 1d — complete | Remaining approved tools | Compare ESBMC, Flux, KMIR and RAPx against generic Rust, unsafe memory and panic requirements using primary sources | [Screening](ALTERNATIVE-TOOLS-ASSESSMENT.md): select RAPx only for applicability diagnostics. No tool execution or new target coverage; contract admissibility remains open. |
 | 1e — closed, NO-GO | RAPx applicability and detector coverage | Alignment/ZST gate on unchanged exact integrated profile; later gates blocked | [Results](RAPX-APPLICABILITY-RESULTS.md): all six controls analyzed, two ZST Align violations incorrectly SOUND. Separate automatic replay1/2 runs reproduces NO-GO with authentic-log/mutation tests; old manual/unmapped/setup evidence preserved. B/C NOT RUN; no generic proof/full-sort4/tool-development authorization. |
+| 1f — complete, clarification open | Full sort4 contract admissibility | Documentation-only assumption ledger: declared vs caller-established vs unresolved; S/F/resource distinctions; all five panic exits | [Review](SORT4-ADMISSIBILITY-REVIEW.md): sufficient separated-range contract has no organizer acceptance yet; official clarification reviewed, precise question drafted only. No new proof or experiment. Owner decision before external inquiry or any implementation. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -83,10 +89,12 @@ dispatch reasoning; it does not prove its callers.
   or patch build/application authorized after closeout. Historical patched results
   stay conditional on recorded profiles; the proposal remains historical.
 - **RAPx:** exactly 0.7.50 on nightly-2026-02-05 for stage 1e only, with installed
-  package/source identity audited. Own diagnostic fixtures and minimal manual
-  workflow plumbing are permitted; checker/model patches, upgrades and full
-  target-proof integration are not. Inspect generated obligations and actual
-  normal/unwind effects, not only verdict labels.
+  package/source identity audited. Diagnostic fixtures and manual replay plumbing
+  were permitted within completed scopes; stage1e and replay are now CLOSED / NO-GO.
+  No new run or preparation repair is authorized. The old verifier runner lacks
+  the classifier tests' required evidence-dir and the processor binds six original
+  cases; separate resumption needs an interface/scope review. Checker/model patches,
+  upgrades and full target-proof integration remain unauthorized.
 - **ESBMC, Flux, KMIR:** screening complete; no execution selected. This is a
   task/profile-specific decision, not a universal impossibility claim.
 - **Frama-C, ACSL and Coq:** reference contracts, invariants and theorem designs.
@@ -121,6 +129,16 @@ non-overlap requirement, and corruption of original values across individually
 non-overlapping copies. Its contract must keep safety, ordering and resource
 assumptions distinct. Its architecture deliverable is one concrete technical
 option, not permission to implement that option.
+
+Stage1f only reads source/primary clarification and changes documentation.
+Full range separation is a sufficient uniform premise, not a demonstrated minimum
+Rust UB condition. A retained-source/Shadow protocol accounts for the audited
+scratch route; it must not exclude legal callbacks or substitute full ownership
+permissions for the runtime's readable-source requirement without an accepted
+domain. Current callers do not settle standalone challenge admissibility. The
+review's decision map requires a separate owner decision on organizer contact,
+then a separately authorized specification/proof task informed by the answer.
+No Actions/builds/executable tests or proof/tool changes ran in this stage.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous
 edit/commit/dispatch/inspection on GitHub-hosted Actions. Keep one relevant

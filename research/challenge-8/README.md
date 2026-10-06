@@ -6,6 +6,13 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
+**Documentation-only admissibility review complete; clarification remains open.**
+[Review and unsent organizer question](SORT4-ADMISSIBILITY-REVIEW.md) distinguish
+actual operation requirements, sufficient caller-established full separation,
+conditional sorting premises and the chosen resource-accounting protocol.
+No new proof coverage or experiment. Next step is an owner decision on seeking
+clarification; external contact and new experiments remain unauthorized.
+
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
 All six controls were analyzed; both misaligned alignment-eight ZST copies get
@@ -26,7 +33,9 @@ first-callback candidate and ran no experiment. Earlier phases remain closed.
 [STATUS.md](STATUS.md) is the current checkpoint; [PLAN.md](PLAN.md) the roadmap.
 
 1. [Root agent instructions](../../AGENTS.md).
-2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](RAPX-APPLICABILITY-PHASE.md)
+2. [Current status](STATUS.md), [roadmap](PLAN.md),
+   [current analytical closeout](SORT4-ADMISSIBILITY-REVIEW.md),
+   [closed RAPx phase](RAPX-APPLICABILITY-PHASE.md)
    and [operating runbook](AGENT-RUNBOOK.md).
 3. [Coverage ledger](coverage.md), [Challenge 8](../../doc/src/challenges/0008-smallsort.md)
    and [general rules](../../doc/src/general-rules.md).
@@ -38,6 +47,10 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
+- [Sort4 admissibility review](SORT4-ADMISSIBILITY-REVIEW.md): assumption ledger,
+  local copy safety vs sufficient separation/preservation, raw scratch/ownership,
+  legal comparator effects and five panic posts; official clarification limits,
+  historical runner interface limitation, decision map and unsent question.
 - [RAPx applicability results](RAPX-APPLICABILITY-RESULTS.md): NO-GO for pinned
   ZST alignment detection, six actual controls and corrected automatic replay,
   processor/source/artifact identities, preserved manual/JSON history and stop.

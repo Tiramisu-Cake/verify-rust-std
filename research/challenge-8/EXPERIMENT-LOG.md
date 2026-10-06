@@ -1953,3 +1953,67 @@ STATUS, phase, coverage, README and PLAN updated; closeout is documentation only
 Automatic NO-GO agrees with earlier semantic/manual result, adds no generic/std
 proof or detector coverage. No second run needed, no B/C/tool patch/upgrade,
 new verification/full-sort4 or external publication authorized.
+
+## 2026-10-06 — documentation-only sort4 admissibility review
+
+Owner explicitly authorized a separate source/primary-source analysis,
+documentation, commit and push from expected/actual research HEAD
+826d74b45546f9ce1319e2cd4cac8b6d42a2f41f. Entry tree clean; origin fetch/push
+is Tiramisu-Cake/verify-rust-std; local and remote challenge-8/research heads
+match. No in-progress or queued Actions. Newer run37518141083 is unrelated
+main/schedule/Subtree Update, completed SKIPPED; no research result superseded.
+Read AGENTS, STATUS, PLAN/runbook, contract/diagnostic/no-patch/tool-screening/
+RAPx reports, Challenge8/rules and actual sort4/callers/ptr/cell/slice docs.
+Std blob e555fce440872898e47fd5114f32eb15401d07df unchanged.
+
+Created [SORT4-ADMISSIBILITY-REVIEW](SORT4-ADMISSIBILITY-REVIEW.md): assumption
+ledger with exact primary/source basis, S/F/full-resource roles and declared vs
+caller-established vs clarification status. Local copy non-overlap is required
+at653–656; full four-slot separation is sufficient, not proved necessary for
+each overlap/permutation/type. Existing run37466906281 retains coincident-copy
+UB boundary and shifted i32 multiset loss/zero-output witness as distinct claims.
+No new experiment/classification. Preservation of unread source values alone
+does not imply the stronger unchanged-all-source post.
+
+Caller len>=8/16 bounds and distinct v/output/temp MaybeUninit routes statically
+support sufficient premises. Exclusive SrcOwn/Shadow/no proof debt are the chosen
+accounting protocol, not all minimum Rust no-UB requirements. Duplicated bytes
+do not supply a second independent drop owner; legal leaks/callback resource
+replacement remain allowed. No Copy/Freeze/purity/no-panic restriction is added
+to safety. Conditional ordering/key-preservation assumptions stay separate.
+All c1..c5 direct callback panic boundaries at626/627/641/642/649 precede this
+invocation's copies; current callback/interior/frame effects persist, including
+effects of panicking call. Earlier caller invocations may already have written
+scratch; no full caller rollback/resource proof is inferred. Later scratch
+access/merge/ownership transport and all generic resource proofs stay open.
+
+Official clarification check: published Challenge8/general rules, issue56 and
+all4 comments, PR57 discussion/reviews, PR576 discussion/reviews, PR701 metadata/
+review list, scoped primary-source searches. Organizer qinheping's
+issuecomment-2611410906 calls for upstream correction of insufficient comments
+and considers primitive/default-order functional proofs; it does not answer
+sort4 overlap/scratch domain or relax unrestricted safety. No explicit answer
+to our precise question found in inspected sources; search is not exhaustive.
+Read no other solution proof code. Draft question with pinned body, diagnostics
+and caller-audit links recorded only; no external message/publication.
+
+Static technical limitation: historical run-rapx-applicability.sh:219 invokes
+classifier tests without their now-required --evidence-dir; corrected classifier
+is scoped to six exact original-source DefId/checkpoint/path cases. Not repaired
+or executed. Separate resumption requires evidence/interface/scope preparation
+review. Historical saved-data replay37513897141/processor1c0b517 and two ZST
+SOUND_MISS remain CLOSED/NO-GO; B/C NOT RUN. No unused budget reopened.
+
+Removed stale STATUS next-action instruction to dispatch gate A; current
+authorization/closeout now permits only this analytic documentation scope,
+followed by STOP. PLAN adds completed stage1f and removes present-tense RAPx
+execution permission. README indexes review; coverage clarifies claim boundaries
+only. Existing reports/journal/source/contract/proof/tool/workflow preserved.
+Validation: static Markdown local-target/reference/anchor review and
+git diff --check; no executable research tests, builds or Actions dispatch.
+
+**CLOSED — admissibility unresolved, no new coverage.** The sufficient research
+contract is motivated for existing callers, but is not organizer-accepted as the
+complete standalone target domain. Recommend owner decision on seeking the
+drafted clarification; its answer determines a separately authorized contract/
+proof decision. No active run or proof draft. No automatic next experiment.
