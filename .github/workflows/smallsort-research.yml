@@ -10,6 +10,7 @@ on:
         options:
           - sort4_contract_diagnostics
           - rapx_applicability
+          - rapx_evidence_replay
           - sort4_functional
           - insertion_all_4
           - insertion_contracts_4
@@ -58,6 +59,7 @@ defaults:
 
 jobs:
   bootstrap:
+    if: inputs.proof != 'rapx_evidence_replay'
     name: Verify selected SmallSort research proofs
     runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
     timeout-minutes: ${{ inputs.proof == 'rapx_applicability' && 90 || 150 }}
@@ -133,5 +135,32 @@ jobs:
         with:
           name: smallsort-research-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/
+          if-no-files-found: warn
+          retention-days: 7
+
+  rapx_evidence_replay:
+    if: inputs.proof == 'rapx_evidence_replay'
+    name: Replay saved RAPx gate A evidence
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Check out the exact processor revision
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test and process the pinned saved artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPLAY_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
+        run: bash research/challenge-8/run-rapx-evidence-replay.sh "$REPLAY_BUDGET_MINUTES"
+      - name: Preserve replay results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapx-evidence-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/rapx-evidence-replay/
           if-no-files-found: warn
           retention-days: 7

@@ -1858,3 +1858,51 @@ unchanged; no generic uninit/raw ownership/callback/unwind coverage gained.
 Results/STATUS/phase/index/roadmap/coverage updated; documentation closeout
 requires only static checks. Any later parser replay/tool change/new route needs
 a separate decision; no patches/upgrades/full-sort4/external publication.
+
+## 2026-10-06 — owner-authorized automatic evidence replay, card before edits
+
+Entry3e628c6a2d1197c069abf46fba33b3453c2de57f matches local/remote, branch
+challenge-8/research, origin fork verified, tree clean, no active Actions/newer
+or unrelated changes. New scope only classifier/tests/docs/minimal manual
+replay mode; budget0/2 NEW hosted30min runs, one active. Semantic gate remains
+NO-GO, no RAPx install/build/verification, no negative program execution or B/C.
+
+Input fixed to original run37508888778/source929ea803ffff1c4f534716cc8c37bbbfa06a5960,
+artifact11434810024/zip SHA256
+d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38, downloaded
+read-only and SHA verified. Old paired logs/JSON and manual conclusion immutable.
+Falsifiable processing hypothesis: actual renderer, DefId/checkpoint/path and
+ordered Align(src/dst), eight primitive/compound-origin records can be strictly
+mapped, reproducing two PROVED_VALID, two SOUND_MISS, two targeted Align Failed
+with separate other Failed/Unknown and no whole-case pass. Deliberately corrupt
+authentic logs must be rejected at missing/wrong/unmapped/inconsistent evidence;
+synthetics alone are insufficient. Command success, complete evidence parse and
+semantic NO-GO must remain distinct in automatic aggregate.
+
+Actual std yardstick unchanged: sort4 copies653–656/blob e555fce440872898e47fd5114f32eb15401d07df;
+unrestricted T/F, one source ownership sequence, possibly uninitialized disjoint
+scratch. Normal retains current V5 and initializes pi(V5) replicas; each of five
+panics preserves current Vk/Qk/Hk/source ownership/raw scratch initialization
+after legal callback effects, no sort4 writes/rollback/debt/leaks. Ordering
+premises separate. Replay proves none of these target posts; it only processes
+existing concrete detector evidence on stock RAPx0.7.50/nightly2026-02-05.
+No tool/std/contract semantic change; processor is untrusted evidence handling.
+
+Selection rapx_evidence_replay/budget30; new exact processor SHA identifies new
+outputs independently of original verifier source. SHA-check archive/run/artifact
+metadata, preserve original outputs, test and classify hosted. Rejected evidence
+or command failure -> repair within2-run budget, no fabricated result; fully
+parsed authentic evidence with ZST misses -> automatic NO-GO and STOP. No
+coverage gain, new verification, patch/upgrade/full-sort4 or external publication.
+
+Pre-dispatch static review: replay selection skips the existing bootstrap job;
+its separate hosted job has hard30min cap and read-only contents/actions token.
+Only checkout, fixed-artifact download/hash/metadata validation, Python tests and
+classification execute. No Cargo/RAPx invocation or dependency installation.
+Original extracted input is read-only; old JSON copied to historical output,
+new records written separately. Actual callee signature, all eight indexed
+diagnostics, compound-origin summary folding and verdict counts are matched;
+exact frozen-case DefId/checkpoint/path metadata is explicitly scoped to the
+original source. Mutations use unique authentic-log anchors. JSON roundtrip
+aggregate consistency is tested. bash -n and git diff --check passed locally;
+no executable classifier/test/extractor validation on the server.

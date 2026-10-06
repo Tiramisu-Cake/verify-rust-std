@@ -6,6 +6,30 @@ the documentation update and continuation prompt. Entry research HEAD:
 `b7416c18035c714258e2a476eebdfa1609f7f66c`, fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
 
+## Automatic evidence replay
+
+Owner-authorized on2026-10-06 from3e628c6a2d1197c069abf46fba33b3453c2de57f:
+repair only classify-rapx-applicability.py, its tests, docs and minimal manual
+Actions replay support. Semantic gate A remains CLOSED/NO-GO. Use existing
+run37508888778/source929ea803ffff1c4f534716cc8c37bbbfa06a5960 and artifact
+11434810024, SHA256 d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38.
+Up to2 NEW hosted runs,30min each, one active; no RAPx install/build or verifier
+invocation. Executable classifier/rejection tests hosted only.
+
+Map real unprefixed function paths, DefId, exact checkpoint/path and argument,
+explicit std/core reexport and ValidPtr expansion/origin folding. Reject missing,
+extra/unmapped, wrong-target and contradictory records. Tests must replay the
+authentic paired logs and their deliberate corruptions; synthetic samples alone
+cannot establish compatibility. Separate command execution, complete evidence
+parsing and semantic gate outcome. Reproduce two valid controls, two ZST
+SOUND_MISS and two u64 intended Align failures with other Failed/Unknown
+retained; those u64 controls are not fully successful.
+
+Preserve old logs/JSON/manual result as history; new report identifies original
+experiment/artifact and exact processor version. Do not commit full logs/MIR.
+Stop at reproducible automatic NO-GO, or budget exhaustion; B/C, verifier
+patches/upgrades/new verification/sort4 proof/external publication remain closed.
+
 ## Current gate-A continuation
 
 **CLOSED / NO-GO — owner-authorized continuation on 2026-10-06 completed.**

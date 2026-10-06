@@ -1,5 +1,17 @@
 # RAPx applicability and detector coverage: results
 
+## Automatic evidence replay (new processing authorization)
+
+IN PROGRESS from3e628c6a2d1197c069abf46fba33b3453c2de57f: classifier repair and
+hosted processing of original run37508888778/source929ea803/artifact11434810024
+only. Archive SHA256 verified:
+d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38.
+Budget0/2 NEW replay runs,30min each, one active. Semantic gate remains NO-GO;
+no installation/build/verification of RAPx or new target analysis. Original
+manual closeout and fail-closed JSON outcomes below remain historical evidence.
+New outputs will identify original artifact and exact corrected processor SHA.
+Scope: [automatic replay](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
+
 ## Current gate-A continuation (new authorization)
 
 **CLOSED — NO-GO for stock RAPx 0.7.50 / nightly-2026-02-05.**

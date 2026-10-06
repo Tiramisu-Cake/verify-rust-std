@@ -1,6 +1,8 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: bounded gate-A continuation CLOSED / NO-GO after a reproduced
+Updated 2026-10-06: automatic evidence replay IN PROGRESS; semantic gate A stays
+CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
+The bounded gate-A continuation CLOSED / NO-GO after a reproduced
 ZST alignment detector miss; [scope](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
 The preceding session remains CLOSED / INCONCLUSIVE as historical evidence;
 [results and evidence](RAPX-APPLICABILITY-RESULTS.md). Fork
@@ -10,6 +12,23 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**IN PROGRESS — automatic processing of existing gate-A evidence ONLY.**
+Owner explicitly authorizes classifier/tests/docs and a minimal manual hosted
+replay mode from expected/actual HEAD3e628c6a2d1197c069abf46fba33b3453c2de57f.
+Entry tree clean, correct fork/branch/local/remote HEAD, no newer/unrelated changes
+or active Actions. Budget0/2 NEW replay runs, at most30min each, one active.
+Input fixed to run37508888778/source929ea803ffff1c4f534716cc8c37bbbfa06a5960,
+artifact11434810024/archive SHA256
+d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38.
+Archive downloaded read-only and SHA verified locally; no executable tests run.
+Preserve original logs/JSON/manual result; new outputs identify processor SHA.
+Authentic paired-log replay and corrupted variants must run hosted. No RAPx
+installation/build/verification, B/C, semantic changes or new sort4 proof.
+Next: correct actual renderer/compound mapping and dispatch replay-only at a
+new exact processor SHA; stop after reproducible automatic NO-GO closeout.
+
+## Historical semantic continuation — CLOSED / NO-GO
 
 **CLOSED — NO-GO for stock RAPx 0.7.50 / nightly-2026-02-05, gate A.**
 The owner explicitly resumed at `1fc89566800f8152d218de7f9a757f665626f220`.
