@@ -735,3 +735,36 @@ routing, ownership and all five panic posts remain open.
 RAPx0.7.50 A/replay remain CLOSED / NO-GO, B/C NOT RUN, Kani results unchanged.
 No full-sort4 proof, new trust extension, extra verification, external message or
 publication is authorized. Proposed syntax correction needs a separate decision.
+
+## Night unchanged-patch acceptance completion — 2026-10-07
+
+Separately authorized night repair uses exactly2 NEW runs,299 summed job-seconds,
+within12/10800 night total. Historical prototype6/6,653s is not reopened.
+N1/37547307118 source6bbd25a repairs named caller/full nested span/ordered mutation
+and split native annotations:18 cases/7metadata/31selfchecks pass; new C++ still
+fails name resolution in sizeof(CppEmpty). N2/37547890530 source3f5c9e3126a6db0599f1b989f03146e143342d04
+changes only its type spelling to sizeof(struct CppEmpty), retaining >=1 post.
+[Final run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37547890530):
+job112556200127,23:41:03–23:43:37UTC October6,154s,SUCCESS; full logs/artifacts audited.
+
+**Full prescribed acceptance PASS for the exact experimental profile**, patch
+SHA256 d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14 unchanged.
+Pins809de459/nightly2026-02-05 compilerdb3e99bb/x86_64 match, same eight-file patch,
+empty specifications-diff, console/exporter/schema/refinement identities preserved.
+Stock six matches its pre-recorded abstract-ZST boundary; experimental original six
+passes complete checks. All18 extra cases meet expected outcome; all exports/decodes/
+refinements0 and every-stage source hashes unchanged; four application wrappers
+verify named caller/callee/helper and actual generic calls. Four intended assertion
+negatives fail precisely once at their named target; unsupported layouts emit absence.
+All7 metadata controls reject at named stage, including absent target assertion
+with generated helpers and exact wrong-span binding mismatch: only hi.line7->8,
+lo7, ordered, unchanged other nested fields. All10native controls VF0 across both
+profiles; C++ empty assertion and normal cleanup/leak path reached.31selfchecks PASS.
+Artifact11450964297,813748bytes, uploaded ZIP SHA256
+01d045b42a17a767124240a5962ed194b225ef80fa5d269e55d2672115b99ab8.
+N1 artifact11451073890/failure retained. No local verifier/build/test/replay/extractor.
+
+Permitted subsequent use is limited to the exact accepted experimental profile and
+night tasks. This is neither full-model soundness nor a widened exact layout domain.
+Automatic reference/copy UB enforcement, ownership, raw scratch, pointer callee,
+callbacks/five unwinds and whole sort4 remain separate obligations.

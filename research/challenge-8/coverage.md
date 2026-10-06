@@ -6,6 +6,19 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
+[Night phase](SORT4-NIGHT-PHASE.md) N2/37547890530/source3f5c9e3 now accepts the
+exact experimental fieldless layout profile d4a12525 after full matrix/artifact
+audit: original profile comparisons,18extra cases,7metadata controls,10native
+paired controls and31classifier/span checks PASS. All Rust source-integrity,
+export/decode/refinement gates and named target negatives retained; exact ordered
+wrong-source-span mutation rejected. C++ empty complete-object nonzero assertion
+now verifies both profiles. N1/37547307118's remaining C++ annotation error is
+historical, not replaced evidence. Acceptance concerns only pinned original-fieldless
+nongeneric Sized reprRust/C structs with optional alignment and geometry. It adds
+no field/generic-ADT/packed/transparent/enum/union/DST/ownership/copy semantics,
+full-model soundness, automatic operation UB, callback or whole-sort4 theorem.
+Independent stock index gate N3 is active; order/callee/range claims NOT PROVEN.
+
 The [sort4 phase](SORT4-PHASE.md) completed on 2026-10-06 under the
 [revised roadmap](PLAN.md). [Hosted closeout](SORT4-RESULTS.md) establishes
 the actual-body functional domain: four arbitrary full-range i32 keys in

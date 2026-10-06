@@ -2756,3 +2756,29 @@ Manual workflow exposure: main-only b3c9835ad5ba7c68e7ea666cb4830095d5e6c143,
 No research-history merge, triggers remain workflow_dispatch only; equivalent
 minimal change prepared on research. Order/select are separate isolated choices,
 so an unsupported actual-callee cannot block independent ghost theorem checks.
+
+### N2 complete matrix result
+
+Run37547890530/source3f5c9e3126a6db0599f1b989f03146e143342d04,
+job112556200127,2026-10-06T23:41:03–23:43:37Z,154seconds,SUCCESS.
+Artifact11450964297,813748bytes, uploaded ZIP SHA256
+01d045b42a17a767124240a5962ed194b225ef80fa5d269e55d2672115b99ab8;
+full log/artifacts downloaded outside repo. Original stock/experimental comparisons,
+all18 extra cases,7metadata controls,10native paired checks and31 classifier/span
+selfchecks PASS. New C++ control reaches named body/assertion/return/leak check,
+VF0 under both profiles; C/C++ nonzero complete object claim retained. Exact layout
+patch d4a12525 unchanged. Full independent evidence audit is in progress; no new
+semantic or model-soundness theorem is implied. Night2/12,299/10800s;repair2/2.
+
+N3 dispatched run37548195599/source03e23cbf56ff3d9e7d79923a0a1d8f15e88fe879,
+created2026-10-06T23:44:22Z; exact pushed/remote/head_sha match. Selection
+verifast_sort4_components/index/30; one relevant run (queued at resolution).
+Night3/12,299completedseconds plus active job. No layout-dependent claim needed.
+
+N2 final full evidence audit PASS: unchanged eight-file patch/spec tree and exact
+profile pins; all18 per-case export/decode/refinement/integrity/metadata checks,
+4named assertion negatives,4generic caller/callee/helper/application records,
+7metadata mutation gates,10native controls and31selfchecks confirmed. Ordered wrong
+span mutates only hi.line7->8, lo7; translator binding rejection genuine. No material
+acceptance gap; exact narrow experimental profile accepted for already authorized
+night tasks, no model-soundness/automatic operation UB or whole-sort4 inference.

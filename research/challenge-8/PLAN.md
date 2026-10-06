@@ -5,6 +5,10 @@ through09:00 MSK October7,2026; separate12-run/180-job-minute budget and2-run
 layout-repair sublimit. Only listed composition tasks authorized, with no reopening
 of historical budgets or trusted semantic extension. STATUS is current.
 
+Night N2/37547890530 completes full acceptance of unchanged d4a12525 narrow
+fieldless profile; processing/native-fixture blockers in the historical closeout
+below are now repaired. No wider semantic or whole-sort4 claim follows.
+
 Approved by the owner on 2026-10-06 after review of the C verification research.
 This decision supersedes the insertion-first ordering in earlier handoffs.
 [STATUS.md](STATUS.md) remains the current execution checkpoint.

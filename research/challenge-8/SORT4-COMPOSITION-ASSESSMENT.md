@@ -1,5 +1,14 @@
 # `sort4_stable`: RAPx / VeriFast / Kani composition assessment
 
+Night-phase update: [N2/37547890530](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37547890530),
+source3f5c9e3126a6db0599f1b989f03146e143342d04, completes full acceptance/audit
+at unchanged exact d4a12525 fieldless profile (matrix/refinement/integrity/negative/
+native gates all pass). The earlier prototype INCONCLUSIVE below is historical.
+This removes its processing/native-fixture acceptance blocker; it supplies no
+typed reference/copy/raw-scratch/callback/whole-sort4 resource bridge. Independent
+stock logical/callee/range components are authorized by SORT4-NIGHT-PHASE;
+their actual results are separate from this layout acceptance.
+
 Current update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
 now establishes both generic geometry cases with VF0, integrity/refinement/dead-code
 checks intact. Prior dead-code failures below are historical. The separately
