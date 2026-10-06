@@ -1,5 +1,21 @@
 # Challenge 8: current status
 
+Updated 2026-10-07: **generic H_align completion + layout-model review IN PROGRESS**.
+Entry clean matching local/remote b523959d2032b28086aa8b11dd35a50a2eb7c7e0,
+correct fork/research branch, no active run. New independent budget0/2 NEW manual
+hosted runs,0/3600 summed job-seconds including setup; cap30min per job.
+[Current card](SORT4-ALIGNMENT-PHASE.md#current-generic-completion-and-layout-review--2026-10-07).
+Owner authorizes checked residual generic proof steps and documentation-only layout
+review/regression design. Known concrete ZST boundary does not stop generic work.
+Six runtime cases/.add/external posts and official VF26.09/nightly2026-02-05 profile /
+classifier frozen. No tool patch/new axiom/local executable verification. Layout
+patch regressions DESIGN ONLY / NOT RUN. RAPx CLOSED / NO-GO; B/C NOT RUN.
+Historical phase below remains closed with original evidence intact; unused slots
+not reused. Current authorized step: derive i==0 in residual branch, commit/push,
+one NEW exact-SHA hosted run30min, inspect and continue within new2-run budget.
+
+## Historical preceding checkpoint at b523959
+
 Updated 2026-10-07: **bounded H_align no-patch continuation CLOSED at a
 concrete ZST model boundary**. Used1/3 NEW manual hosted runs and38/5400 job-seconds
 including preparation, verification, saved-evidence replay and upload. No active
@@ -428,9 +444,8 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Phase closed at the concrete ZST model boundary after1/3 NEW runs,38s summed jobs.
-No active experiment, no further implementation/dispatch. Recommended next decision:
-review minimum faithful Rust ZST size/repr-alignment encoding and its trust/admissibility
-requirements versus another independent layout component. An unchanged-tool residual
-index proof diagnostic is separately proposed NOT RUN / NOT AUTHORIZED in the results.
-No patch, new axiom, ZST exclusion, B/C, full sort4 or external publication authorized.
+Complete only the newly authorized generic proof on frozen profile (max2 NEW /
+3600 summed job-seconds), and documentation-only layout/upstream/component review
+plus future regression plan. No layout implementation/regression runs, classifier
+change, B/C, full sort4 or external messages. Stop generic iteration on success /
+new generic boundary / budget; finish evidence-backed review and commit/push.

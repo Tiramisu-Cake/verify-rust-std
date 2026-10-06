@@ -2366,3 +2366,27 @@ recommended decision: minimum faithful layout encoding and trust/admissibility
 review versus separate component; residual index proof diagnostic remains proposed
 NOT RUN / NOT AUTHORIZED. RAPx CLOSED / NO-GO; B/C NOT RUN; Kani unchanged.
 Documentation commit/push only after this result.
+
+## 2026-10-07 — generic H_align completion and layout review authorized
+
+Owner checkpoint b523959d2032b28086aa8b11dd35a50a2eb7c7e0; local/remote match,
+clean tree, correct fork/branch, no active Actions. New budget0/2 NEW hosted manual
+runs,0/3600 job-seconds; <=30min each including setup/replay/upload. Previous
+37529855468,37532204465,37535499783 and original raw evidence remain preserved.
+[Card](SORT4-ALIGNMENT-PHASE.md#current-generic-completion-and-layout-review--2026-10-07).
+
+Specific hypothesis from37535499783 residual-post failure: checked i==0 assertion
+in residual i!=1,2,3 branch follows old usize bounds, then result==base proves
+original alignment post. Runtime/.add/resources/external contracts/final posts/
+classifier/pins/flags/checks unchanged; no new premise or axiom. Expected generic
+whole-unit0 incl helper/caller/post/leak checks; concrete original Z retains honest
+size==0/assertion20 and pointer-limit/add21 INCONCLUSIVE classifications. Negatives
+expected exact source/dst byte-offset modulus8 assertion25 after op22/cast23.
+Generic failure -> at most one measured no-patch correction; generic success ->
+stop proof runs and finish layout review. Existing concrete Z boundary explicitly
+does not stop this independently authorized generic subtask. All execution hosted.
+
+Layout task is source/document review only: verify live upstream and official26.09/
+26.10 precise source identities, design minimal layout correction vs independent
+component and future regression acceptance, no implementation/patch tests. RAPx
+CLOSED / NO-GO; B/C NOT RUN, Kani unchanged, no full sort4 or external messages.

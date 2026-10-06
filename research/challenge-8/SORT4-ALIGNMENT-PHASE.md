@@ -1,6 +1,57 @@
 # Independent sort4 alignment geometry gate
 
-## Current bounded no-patch proof/reclassification phase — 2026-10-07
+## Current generic completion and layout review — 2026-10-07
+
+**IN PROGRESS / preparation;0/2 NEW runs,0/3600 summed job-seconds.** Owner
+explicitly resumes from b523959d2032b28086aa8b11dd35a50a2eb7c7e0. Entry clean,
+local/remote match, correct fork/research branch, no active/queued experiment.
+Previous three runs and phases are preserved below and in the results; unused
+slots from the preceding closed phase are not reused.
+
+Two independent authorized tasks: (1) complete generic const/mut H_align on
+unchanged official VeriFast26.09/nightly2026-02-05, (2) documentation-only review
+of minimal Rust layout correction versus a concrete independent component, with
+live upstream/release source pins and a future regression plan. No layout patch
+or executable patch-regression test is implemented in this phase. The known
+concrete ZST model boundary does not stop this separately authorized generic task.
+
+Next-run hypothesis: the residual ghost branch i!=1,2,3 can explicitly prove
+ i==0 from the original usize bounds and discharge the old alignment post via
+result==base. Add only checked ghost assertions; no assumed i==0, new axiom or
+outer req. Prior run37535499783 passed helper/local bounds and i=1,2,3 full checks,
+so this is a specific remaining-path correction, not an unchanged rerun.
+
+Exact generic domain: arbitrary valid Sized T (symbolic size0 retained), original
+array_<u8>(base,4*sizeofT,bytes), nonnull aligned base/provenance, usize i<=3.
+Original normal post: same byte array, result==base+i, pointer_within_limits(result),
+result-address%alignT==0. Original on_unwind_ens false. All six runtime texts and
+.add operations, case order, external contracts/final posts, tool pins/flags/specs
+and classifier are frozen at b523959. Concrete original Z cases stay size0/align8
+and zero-offset-add controls, honestly INCONCLUSIVE if model blocks them. Both
+negative byte-offset cases must fail at exact intended line25 modulus8 assertions
+following line22 .add and line23 cast. No overall green-workflow requirement.
+The actual std sort4 blob e555fce440872898e47fd5114f32eb15401d07df and adopted
+full normal/five-unwind resource target remain unchanged; fixtures are only geometry.
+
+Budget maximum2 NEW GitHub-hosted manual runs, summed jobs INCLUDING setup/replay/
+upload<=3600s; cap30min per dispatch, one active experiment. Every follow-up must
+correct a failure measured in the preceding run. Exact source/head_sha and full
+logs/artifacts audited, commit/push before dispatch. No Re-run old source or local
+compiler/verifier/runner/extractor/test execution. Only static edits/text/syntax
+checks locally. At generic success, budget exhaustion or a new generic-only
+model/contract requirement, stop proof iterations; finish review/documentation.
+
+Review must distinguish Rust and C/C++, closed and generic types, exact size/align
+facts versus weakened bounds, shared typeid consistency, existing proofs/trust
+requirements, concrete independent component/source/domain bridge and avoiding
+contradictory concrete Z facts. Recommend one route with minimum implementation
+scope and acceptance criteria; regression checks are DESIGN ONLY / NOT RUN.
+No tool semantic changes/new axioms, ZST exclusion, weakened contract/checks,
+historical insertion/FnMut/Drop expansion, B/C or external issues/PR/messages.
+RAPx CLOSED / NO-GO and Kani prior evidence unchanged. Update results/STATUS/log /
+plan/coverage/composition/layout audit, commit/push; no further phase auto-authorized.
+
+## Historical bounded no-patch proof/reclassification phase — 2026-10-07
 
 **CLOSED at a concrete ZST model boundary;1/3 NEW runs,38/5400 job-seconds used.**
 [Run37535499783/sourceea635ea closeout](SORT4-ALIGNMENT-RESULTS.md#bounded-proofreclassification-continuation--closed-at-model-boundary):

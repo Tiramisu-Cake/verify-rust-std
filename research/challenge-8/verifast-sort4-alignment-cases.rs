@@ -50,6 +50,10 @@ on_unwind_ens false;
         aligned_step_const(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
         aligned_step_const(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
         aligned_step_const(base as usize + 2 * std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
+    } else {
+        assert i == 0;
+        assert result == base;
+        assert result as usize % std::mem::align_of::<T>() == 0;
     }
     @*/
     result
@@ -103,6 +107,10 @@ on_unwind_ens false;
         aligned_step_mut(base as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());
         aligned_step_mut(base as usize + std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
         aligned_step_mut(base as usize + 2 * std::mem::size_of::<T>(), std::mem::size_of::<T>(), std::mem::align_of::<T>());
+    } else {
+        assert i == 0;
+        assert result == base;
+        assert result as usize % std::mem::align_of::<T>() == 0;
     }
     @*/
     result
