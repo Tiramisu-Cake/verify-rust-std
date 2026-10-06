@@ -24,6 +24,7 @@ on:
           - verifast_copy_on_drop_gate
           - verifast_local_drop_caller_gate
           - verifast_borrow_recovery
+          - verifast_borrow_recovery_manually_drop
           - verifast_swap_size
           - ub_detector_controls
           - ub_immutable_observation
@@ -50,7 +51,7 @@ defaults:
 jobs:
   bootstrap:
     name: Verify selected SmallSort research proofs
-    runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
+    runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
     timeout-minutes: 150
     steps:
       - name: Check out the selected workflow branch
@@ -97,6 +98,7 @@ jobs:
             verifast_copy_on_drop_gate) bash research/challenge-8/run-verifast-drop-gate.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_local_drop_caller_gate) bash research/challenge-8/run-verifast-drop-caller-gate.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_borrow_recovery) bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
+            verifast_borrow_recovery_manually_drop) BORROW_RECOVERY_PROFILE=manually_drop_only bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;
             ub_detector_controls) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" ;;
             ub_immutable_observation) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" immutable_observation ;;
