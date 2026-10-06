@@ -4,10 +4,13 @@
 `eda527922ec96468a804e3a62fbc1ca96f23691d`. This assessment uses the
 [adopted contract](SORT4-CONTRACT.md), not a new contract or tool profile.
 No implementation, build, executable check or workflow dispatch accompanies it.
-The subsequent owner instruction authorizes only the independent
-[H_align phase](SORT4-ALIGNMENT-PHASE.md), one NEW hosted manual run/90min;
-its current execution checkpoint is STATUS. The proposal below remains the design
-basis, not permission for any other tool/phase or semantic change.
+The subsequent owner instruction authorized only the independent
+[H_align phase](SORT4-ALIGNMENT-PHASE.md), one NEW hosted manual run/90min.
+That phase is now CLOSED / INCONCLUSIVE: [run37529855468](SORT4-ALIGNMENT-RESULTS.md)
+passes export/decode/refinement6/6 but all cases fail fixture annotation parsing
+before proofs. H_align remains untested at its proof obligations; no coverage or
+composition claim changes. STATUS is the current checkpoint. The proposal below
+remains the design basis, not permission for another run or semantic change.
 
 ## Decision
 
@@ -236,5 +239,8 @@ Conditional composition design recorded; no generic coverage gained. Alignment
 has an independent, falsifiable geometry route, but its model/operation link is
 unproved. Other RAPx properties are individually unvalidated for the target;
 VF callback/unwind/raw-copy/selection/resource dependencies remain open. The
-concrete Kani results stand within their original domain. STOP after this
-documentation commit/push; no active run, proof draft or external message.
+concrete Kani results stand within their original domain. The subsequent
+one-run alignment gate closed INCONCLUSIVE before proofs; its
+[closeout](SORT4-ALIGNMENT-RESULTS.md) identifies an exact formatting correction,
+NOT APPLIED / NOT VERIFIED, for a separate fresh-run decision. No active run,
+new proof result or external message; no additional dispatch authorized.

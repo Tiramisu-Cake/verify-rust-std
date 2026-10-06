@@ -2125,3 +2125,51 @@ STOP after docs commit/push; no active run or uncommitted proof draft.
 ## 2026-10-06 — H_align owner resumption and experiment card
 
 Owner explicitly requests the proposed check. Entry clean HEAD98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc matches remote research head; origin fork/branch correct, no active/queued runs. [Phase/card](SORT4-ALIGNMENT-PHASE.md) freezes one NEW hosted manual run/90min, unchanged official VF26.09/nightly-2026-02-05, isolated generic pointer geometry, ZST layout calibration and two false-post alignment controls. No local executable verification or semantic changes. Full eventual normal/five-unwind resources remain the contract; fixture is a partial geometry theorem. Read-only explorer traced pinned pointer/typed-memory model: valid-layout positivity separate from size_align; copy summary has no explicit alignment, byte-to-typed conversion requires it; no justified automatic copy negative found without assuming misaligned typed resources. repr(align8) export/model support unknown, isolated calibration required. Status IN PROGRESS/preparation,0/1 used, no active run.
+
+H_align dispatch: preparation commit17ad1f48b1eb97f806e03a97b7bf64b24f8ac50b pushed and remote SHA confirmed. No other active research run before dispatch. Manual selection verifast_sort4_alignment/budget90 created [37529855468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37529855468) at20:53:28UTC, exact matching head, queued at resolution. Budget1/1 used. All local validation was static: bash-n, Python AST/YAML/fixture-marker parsing, git diff--check and source blob audit. No local executable research code/compile/test/verifier. Six isolated original/annotated fixtures, full export/decode/proof/refinement evidence. Further proof source/run not authorized under this budget.
+
+
+## 2026-10-06 UTC — H_align one-run closeout, INCONCLUSIVE
+
+[Run37529855468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37529855468)
+at exact source17ad1f48b1eb97f806e03a97b7bf64b24f8ac50b completed FAILURE.
+Created20:53:28UTC; verification job112496162422 ran20:53:33–20:54:10UTC,
+37s; replay job SKIPPED. Selection verifast_sort4_alignment, budget90.
+Official unchanged VF26.09 archive/source/schema hashes and target SmallSort
+blob checks pass, paired binaries/prelude identities recorded. Nightly2026-02-05,
+x86_64 hosted runner, no semantic patches or local executable checks.
+[Detailed closeout](SORT4-ALIGNMENT-RESULTS.md) preserves exact profile,
+per-case failures, stage/source hashes and remaining model boundary.
+
+All six isolated cases: exporter0, decode0, refinement0; stage source integrity
+unchanged; verifier1 at annotation parsing. Generic const/mut helpers stop at
+opening ghost body `{` line10. Layout stops at `ens` line12, ZST .add at line13,
+source/destination byte-offset negatives at line14. Caller/helper proof headers,
+helper-body and pointer-operation records all0. Intended negative alignment
+assertions line23 NOT REACHED. Aggregate INCONCLUSIVE; no H_align, layout,
+operation-detector, resource or generic-sort4 theorem follows. Export/refinement
+success does not check VeriFast annotation grammar. This is our avoidable fixture
+syntax mistake, not an intended negative or new VeriFast semantic NO-GO.
+
+Read-only audit of checked Rust lemma/function examples confirms two corrections:
+remove `;` after both body-bearing ghost lemma signatures; split each of the six
+runtime function req/ens/on_unwind_ens clauses into separate annotation comments.
+Exact predicates, resources, bodies, controls and frozen tool profile stay the
+same. Correction described in report, NOT APPLIED / NOT VERIFIED. No verifier
+or proof-source change after failed run, no second dispatch. One fresh source
+SHA/run with that exact formatting correction requires a new bounded decision.
+
+[Artifact11443817617](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37529855468/artifacts/11443817617)
+downloaded outside repo;159files,112183bytes, SHA256 matches API digest
+f1ca30c7bc50125c09a901e9442ef2af8e596bc06e3dbd6c50bebb4e00ef663f.
+Aggregate SHA2562e5d8fce61ee88fc0821139c20f2e9f0e8a6c35e21d0cca85164f1f47e8ea389;
+full Actions log SHA256490df197e2dbec659c5c64291d3a7d99582e01fed161479e8654f6fed8435e3c.
+Inspected full run log, all six verifier/refinement/export logs, pointer/layout
+MIR and source/annotation boundaries. Runner18.05s/maxRSS622004KiB, no OOM or
+timeout. No downloaded processor or verifier executed locally, no artifacts
+committed. Local closeout validation limited to diff/document parsing.
+
+**CLOSED / INCONCLUSIVE, budget1/1 used; no active run.** STATUS, PLAN,
+README, composition, coverage and phase closeout updated. RAPx0.7.50 ZST A/replay
+stay CLOSED / NO-GO; B/C NOT RUN; Kani and all prior proof counts unchanged.
+Documentation commit/push only after result. No external message/publication.

@@ -1,5 +1,11 @@
 # Independent sort4 alignment geometry gate
 
+**CLOSED / INCONCLUSIVE at1/1 NEW runs used.** [Closeout](SORT4-ALIGNMENT-RESULTS.md):
+run37529855468/source17ad1f4 reaches export/decode/refinement6/6 but every VF case
+rejects fixture annotation syntax before proof obligations. No active run, no
+geometry/layout/negative proof result. The authorization below is historical;
+no new dispatch or syntax correction is authorized after this one-run closeout.
+
 Owner authorized on 2026-10-06 by “Давай запустим предлагаемую тобой проверку”,
 from clean matching local/remote research HEAD
 98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc. Fork/branch correct, no active/queued

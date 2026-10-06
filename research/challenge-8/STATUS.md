@@ -1,12 +1,12 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: independent H_align gate IN PROGRESS / preparation.
-[Authorized phase](SORT4-ALIGNMENT-PHASE.md): one NEW hosted manual run,90min,
-unchanged VF26.09; no verifier changes. Joint-route documentation assessment CLOSED. [Composition assessment](SORT4-COMPOSITION-ASSESSMENT.md)
-records conditional responsibilities, domain/source compatibility and missing
-bridges; no current generic composition theorem. Explicit sort4 research contract
-remains ADOPTED; organizer clarification is deferred, not a planning prerequisite.
-Only H_align is authorized; no new proof coverage yet.
+Updated 2026-10-07 (run 2026-10-06 UTC): independent H_align gate CLOSED / INCONCLUSIVE;
+[run37529855468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37529855468)
+failed at fixture annotation parsing before proof obligations. Export/decode and
+refinement6/6 pass; zero proof headers/body records, no intended negatives reached.
+[Results and exact proposed syntax correction](SORT4-ALIGNMENT-RESULTS.md).
+Explicit contract remains ADOPTED; joint composition remains conditional, no
+new proof coverage. No further experiments authorized, no active run.
 Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
@@ -20,15 +20,25 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**IN PROGRESS — independent alignment geometry gate.** Owner explicitly resumed
-H_align from clean matching HEAD98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc.
-Correct fork/branch; no active/queued Actions at entry. Budget0/1 NEW hosted
-manual runs,90min including setup. Prepare isolated generic .add geometry,
-ZST align8 model calibration and two intended false-post negatives, with complete
-export/refinement/log evidence; no local executable checks or verifier changes.
-[Scope/card](SORT4-ALIGNMENT-PHASE.md). Typed-copy automatic alignment remains
-a source-model boundary, not an assumed detector. RAPx A/replay stay NO-GO;
-B/C NOT RUN. No active run yet; proof fixture preparation authorized.
+**CLOSED / INCONCLUSIVE — one-run H_align phase.** Owner explicitly resumed
+from clean matching HEAD98c0f4f53eca6467a1e0ead8f0260f96b7d53dbc. Prepared/pushed
+source17ad1f48b1eb97f806e03a97b7bf64b24f8ac50b, remote matched, no other active
+run. Budget1/1 NEW hosted runs used,90min including setup. Run37529855468
+created20:53:28UTC, verification job20:53:33–20:54:10UTC FAILURE; selection
+verifast_sort4_alignment/90. Official VF26.09 archive/schema/source audits pass;
+all six exports/decodes/refinements and source-integrity checks pass.
+
+Generic helpers stop at ghost body `{` line10; other cases stop at `ens` lines
+12/13/14. All verifier exits1 before caller/helper headers or pointer operations;
+negative alignment assertions at isolated line23 NOT REACHED. Two fixture syntax
+mistakes: semicolon terminates ghost lemma declaration before its body; Rust
+contract req/ens/unwind clauses need separate annotation ranges. This is our
+preparation failure, not H_align refutation or a semantic VeriFast finding.
+[Closeout/proposed exact correction](SORT4-ALIGNMENT-RESULTS.md),
+[phase](SORT4-ALIGNMENT-PHASE.md). Correction NOT APPLIED / NOT VERIFIED;
+no proof/runner/tool changes after this result. Saved logs/artifact inspected;
+geometry, ZST layout and automatic-operation coverage remain unestablished.
+RAPx A/replay stay NO-GO; B/C NOT RUN. No active run or new proof draft.
 
 ## Historical joint-route documentation — CLOSED
 
@@ -360,8 +370,9 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Prepare/commit/push the isolated H_align fixtures and manual selection, then
-one exact-SHA hosted diagnostic under [phase](SORT4-ALIGNMENT-PHASE.md).
-Monitor and inspect full evidence, classify geometry/layout/negative stages
-separately, save closeout and STOP. No second run, semantic tool change or full
-sort4 integration is authorized. RAPx A/replay stay CLOSED / NO-GO, B/C NOT RUN.
+STOP after H_align documentation closeout/commit/push at1/1 used. A new owner
+decision may authorize only the [described formatting correction and one NEW run](SORT4-ALIGNMENT-RESULTS.md#cause-and-exact-proposed-formatting-correction)
+under the same frozen profile/cases/posts. No second dispatch or code change is
+currently authorized; rerunning old37529855468 would check the old syntax.
+No verifier/kernel/prelude change, full sort4 integration, RAPx/Kani rerun or
+B/C is authorized. No active run or uncommitted proof draft.

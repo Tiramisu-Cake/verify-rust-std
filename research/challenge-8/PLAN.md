@@ -41,10 +41,14 @@ is complete. It considers composition rather than requiring any one tool to prov
 all posts. Current evidence does not yet compose: RAPx has no actual-sort4 proof
 component, VF callback/unwind/resource dependencies remain open, and Kani
 functionality is concrete. One new independent VF alignment geometry gate is
-proposed at that checkpoint; the owner now authorizes the separate H_align
-[phase](SORT4-ALIGNMENT-PHASE.md), one NEW hosted run/90min. Automatic operation coverage remains a
-separate acceptance condition. ZST stays in the adopted domain, RAPx A stays
-NO-GO and B/C NOT RUN.
+proposed at that checkpoint. The separately authorized H_align
+[phase](SORT4-ALIGNMENT-PHASE.md) is now CLOSED / INCONCLUSIVE at1/1 runs:
+[run37529855468 closeout](SORT4-ALIGNMENT-RESULTS.md) records six annotation
+parse failures before any proof obligation; export/refinement6/6 do not supply
+geometry or detector coverage. Automatic operation coverage remains separate.
+ZST stays in the adopted domain, RAPx A stays NO-GO and B/C NOT RUN.
+The exact formatting correction and one fresh run require a new bounded decision;
+no correction or additional dispatch is currently authorized.
 
 ## Decision and evidence
 
@@ -84,7 +88,7 @@ outside the approved roadmap.
 | 1f — complete | Full sort4 contract admissibility | Documentation-only assumption ledger: declared vs caller-established vs unresolved; S/F/resource distinctions; all five panic exits | [Review](SORT4-ADMISSIBILITY-REVIEW.md) preserves the earlier analysis and unsent question. No new proof or experiment; the next-stage owner decision supersedes the inquiry recommendation. |
 | 1g — complete, contract adopted | Explicit sufficient domain and source authority | Adopt full source/output separation and the existing effect-aware scratch protocol; require proof of preconditions at each composed caller | [Adopted contract](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations) and [authority assessment](C-VERIFICATION-ARTIFACTS.md#authority-and-separation-precedents). Organizer contact is deferred, not a prerequisite. No claim of minimality, generic proof or committee acceptance; no tool/run authorization. |
 | 1h — complete, conditional design | Joint RAPx / VeriFast / Kani route | Exact obligation matrix, source/domain/premise compatibility, acyclic proof dependencies and necessary/optional VF capabilities | [Assessment](SORT4-COMPOSITION-ASSESSMENT.md): no established generic composition. RAPx diagnostic role only; other properties need individual qualification. Independent VF geometry gate proposed, NOT RUN / NOT AUTHORIZED; ZST automatic operation/resource proof still open. No B/C or semantic implementation authorized. |
-| 1i — IN PROGRESS | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Phase/card](SORT4-ALIGNMENT-PHASE.md): one NEW hosted manual run/90min. No patches, automatic-copy detection claim, RAPx/Kani reruns or B/C. Stop at evidence/phase boundary. |
+| 1i — closed, INCONCLUSIVE | Independent H_align geometry | Unchanged VF26.09 generic const/mut .add offsets0..3, ZST align8 calibration and two intended false-alignment-post controls | [Closeout](SORT4-ALIGNMENT-RESULTS.md): run37529855468/source17ad1f4, export/decode/refinement6/6; all six fixture annotations fail parsing, zero proof bodies, no intended negatives reached. Budget1/1 used. Proposed formatting correction NOT APPLIED / NOT VERIFIED; one fresh run requires a new decision. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -103,8 +107,9 @@ dispatch reasoning; it does not prove its callers.
   The completed phase isolates observed safety and functional counterexamples.
 - **VeriFast:** official26.09/26.10 source comparison completed without execution
   in stage1c. Repository pin remains26.09. Stage1h proposes only a new independent
-  alignment-preservation diagnostic under unchanged26.09; stage1i now authorizes
-  that one bounded hosted gate; it does not reopen the historical c1/patched route. No new run
+  alignment-preservation diagnostic under unchanged26.09. Stage1i's one hosted
+  gate is CLOSED / INCONCLUSIVE due fixture syntax; no geometry proof ran.
+  It does not reopen the historical c1/patched route. No new run, fixture correction
   or patch build/application authorized after closeout. Historical patched results
   stay conditional on recorded profiles; the proposal remains historical.
 - **RAPx:** exactly 0.7.50 on nightly-2026-02-05 for stage 1e only, with installed
@@ -176,8 +181,10 @@ composition, full normal/five-unwind safety, then conditional functionality and
 later caller use. Kani's concrete results do not supply missing universal premises.
 No RAPx-to-VF ownership/initialization/provenance bridge exists in current evidence.
 The single proposed H_align diagnostic separates geometry from automatic
-reference/copy enforcement. Stage1i is that separately authorized bounded gate;
-even a pass would not reopen RAPx B/C, implement VF patches or prove all sort4.
+reference/copy enforcement. Stage1i is CLOSED / INCONCLUSIVE after its one run;
+syntax failures do not refute H_align. The report specifies a syntax-only correction
+for a separately authorized fresh run. Even a later pass would not reopen RAPx
+B/C, implement VF patches or prove all sort4.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous
 edit/commit/dispatch/inspection on GitHub-hosted Actions. Keep one relevant

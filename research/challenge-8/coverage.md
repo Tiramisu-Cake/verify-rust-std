@@ -75,8 +75,13 @@ model bridge. RAPx presently remains diagnostic; other properties are not
 automatically reliable after the scoped Align finding. ZST is retained with
 independent geometry/operation/resource obligations, A NO-GO and B/C NOT RUN.
 The unchanged-VF alignment gate was NOT RUN / NOT AUTHORIZED at that review;
-its separate [phase](SORT4-ALIGNMENT-PHASE.md) is now authorized/preparing one run;
-arithmetic evidence alone would not count as automatic UB coverage. Required VF
+its separate [phase](SORT4-ALIGNMENT-PHASE.md) now closes INCONCLUSIVE at1/1.
+[Run37529855468](SORT4-ALIGNMENT-RESULTS.md), source17ad1f4, passes all six
+exports/decodes/refinements but every VeriFast case fails annotation parsing.
+Zero helper/caller proof bodies or intended negatives were reached; this adds
+**no geometry, layout, detector or generic-sort4 coverage**. Proposed formatting
+correction NOT APPLIED / NOT VERIFIED; no further run authorized.
+Arithmetic evidence alone would not count as automatic UB coverage. Required VF
 callback/unwind/raw-copy capabilities are separated from optional historical
 insertion patches. Existing Kani results retain their exact concrete domains.
 
