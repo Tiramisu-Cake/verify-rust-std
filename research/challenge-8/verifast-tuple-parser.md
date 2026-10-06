@@ -87,3 +87,26 @@ still need review for normal/unwind paths and remaining ownership obligations.
 The common workflow checkout/runner-preparation step precedes the probe timeout;
 all VeriFast tool setup, decoder/source build and proof are inside it.
 No baseline tool configuration is changed by this experimental selection.
+
+## Explicit comparison resources on exit
+
+After run37406214235 reached FnMut preconditions and failed the default empty
+unwind postcondition's leak check, tuple_parser now uses explicit transparent
+normal and unwind assertions accounting for the exact remaining resources:
+F ownership/points-to/thread token, type interpretations, prefix array/owners,
+two borrowed-content end tokens, half lifetime token, both initialization
+fractions and their close tokens, and the remaining foreach fragments. The
+fresh lifetime/reference IDs/fractions are existential postcondition bindings,
+not newly assumed resources. Original input preconditions and runtime bytes
+are unchanged, with normal/unwind checks enabled and no heap wildcard/leak.
+
+This is a **partial comparison-resource exit diagnostic**, not a restored
+owned-range or final insertion contract. It intentionally does not describe a
+completed shift: that path must eventually return a different restored range,
+and no full-function green result is expected or claimed from this temporary
+post. Ordinary early exits can return their real borrowing obligations for
+future proved normalization; this does not itself normalize them or establish
+panic restoration. The next run should expose the normal tail.read obligation
+or a concrete failure to match the explicitly returned resources. Actual Z3
+resolution is now captured/asserted with the same paired-library environment
+used for verification, rather than metadata collected before the LD export.

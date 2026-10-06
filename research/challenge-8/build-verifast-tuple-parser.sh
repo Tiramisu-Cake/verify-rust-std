@@ -67,6 +67,7 @@ run_stage vfdeps-extract sudo tar -xjf "$deps_archive" -C /
 ln -s /vfdeps-adf88dc /tmp/vfdeps-adf88dc
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
+export LD_LIBRARY_PATH="$source_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
 {
     command -v ocamlc ocamlfind dune capnp
     gcc --version
@@ -97,11 +98,16 @@ printf '%s  %s\n' "$prelude_sha" "$source_home/bin/rust/prelude.rsspec" | sha256
 {
     printf 'Experimental derived26.09 binary; not unchanged release.\n'
     sha256sum "$source_home/bin/verifast" "$source_home/bin/libz3.so" "$source_home/bin/vf-rust-mir-exporter" "$source_home/bin/refinement-checker"
-    printf 'Dynamic libraries of source console:\n'
+    printf 'LD_LIBRARY_PATH: %s\nDynamic libraries of source console:\n' "$LD_LIBRARY_PATH"
     ldd "$source_home/bin/verifast"
     printf 'All bundled source resource hashes:\n'
     find "$source_home/bin" -type f ! -name verifast ! -name vf-rust-mir-exporter ! -name refinement-checker -print0 | sort -z | xargs -0 sha256sum
 } > "$evidence/source-build-runtime.txt" 2>&1
+ldd "$source_home/bin/verifast" > "$evidence/source-console-ldd.txt"
+if ! rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/source-console-ldd.txt"; then
+    echo 'Source console did not resolve its paired pinned Z3' >&2
+    exit 2
+fi
 if rg -q 'not found' "$evidence/source-build-runtime.txt"; then
     echo 'Source console has unresolved dynamic libraries' >&2
     exit 2

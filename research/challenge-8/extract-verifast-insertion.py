@@ -30,7 +30,24 @@ GHOSTS = {
     ),
 }
 GHOSTS["tuple_overlay"] = GHOSTS["range"]
-GHOSTS["tuple_parser"] = GHOSTS["range"]
+# This is an explicit comparison-resource exit diagnostic, not a restored
+# range contract. No heap wildcard, assumed bridge, or leaked chunk is used.
+COMPARISON_DEBT_POST = """thread_token(t) &*&
+    type_interp::<T>() &*& type_interp::<F>() &*&
+    *is_less |-> ?cmp_f &*& <F>.own(t, cmp_f) &*&
+    begin[..n - 2] |-> ?cmp_prefix &*& foreach(cmp_prefix, own::<T>(t)) &*&
+    [1/2]lifetime_token(?cmp_lifetime) &*&
+    borrow_end_token(cmp_lifetime, <T>.full_borrow_content(t, tail)) &*&
+    borrow_end_token(cmp_lifetime, <T>.full_borrow_content(t, begin + (n - 2))) &*&
+    [?cmp_tail_fraction]ref_initialized::<T>(?cmp_tail_id) &*&
+    close_frac_borrow_token(cmp_tail_fraction, ref_initialized_::<T>(cmp_tail_id), 1/4, cmp_lifetime) &*&
+    [?cmp_sift_fraction]ref_initialized::<T>(?cmp_sift_id) &*&
+    close_frac_borrow_token(cmp_sift_fraction, ref_initialized_::<T>(cmp_sift_id), 1/4, cmp_lifetime) &*&
+    foreach(?cmp_remainder0, own::<T>(t)) &*& foreach(?cmp_remainder1, own::<T>(t))"""
+GHOSTS["tuple_parser"] = GHOSTS["range"].replace(
+    "/*@ ens true; @*/",
+    "/*@ ens " + COMPARISON_DEBT_POST + "; @*/ /*@ on_unwind_ens " + COMPARISON_DEBT_POST + "; @*/",
+)
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -39,7 +56,7 @@ CONTRACTS = {
     ),
 }
 CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 ownership spec"
-CONTRACTS["tuple_parser"] = CONTRACTS["range"] + "; experimental tuple-2 parser; unmodified prelude"
+CONTRACTS["tuple_parser"] = CONTRACTS["range"].replace("ens true (safety probe only)", "normal/unwind post explicitly returns partial comparison borrow resources; final restored-range contract unproved") + "; experimental tuple-2 parser; unmodified prelude"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"

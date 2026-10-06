@@ -62,7 +62,7 @@ if [[ "${1:-}" == --stages ]]; then
         export VERIFAST_HOME="$source_home"
         export LD_LIBRARY_PATH="$VERIFAST_HOME/bin:${LD_LIBRARY_PATH:-}"
         vf_options=(-verbose 1)
-        printf 'Experimental source-built tuple2 parser; see source-build inputs/runtime hashes.\n' >> "$evidence/environment.txt"
+        printf 'Experimental source-built tuple2 parser; see source-build inputs/runtime hashes.\nVerification LD_LIBRARY_PATH: %s\n' "$LD_LIBRARY_PATH" >> "$evidence/environment.txt"
     fi
 
     printf 'Probe profile: %s\n' "$VF_PROBE_PROFILE"

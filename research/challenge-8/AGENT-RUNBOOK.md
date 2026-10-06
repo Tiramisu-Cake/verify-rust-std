@@ -36,8 +36,12 @@ none, leakcheck reports half token, open refInit/close tokens, borrowEnd tokens,
 F/thread/prefix resources. Neither normalreturn104 nor tail.read reached.
 VF1,.22s,RSS92,680KiB;refiner0,.14s,RSS91,828KiB;overall1,
 runner1:15.64,RSS645,520KiB,setup dominated;no covers/fullfunctionproof.
-No active run. Next formulate genuine unwind resource restoration/return
-contract without discarding chunks or ignoring unwind, then resume normalpath.
+No active run. Next tuple_parser source adds exact transparent normal/unwind
+comparison-resource postconditions: all tokens/fractions/borrowEnd/prefix/F/
+thread/type_interp/foreach fragments returned, no wildcard/leak/assumption.
+Same input domain and Rust. Explicit borrowing obligations remain unnormalized;
+this is a partial exit diagnostic, not restoredrange or finalshiftcontract.
+Dispatch NEW source and inspect exit-resource matching/next normal tail.read.
 Runtime ldd capture originally preceded parent's paired-Z3 LD export;
 next helper captures/asserts the actual paired resolution before execution.
 Baseline pins unchanged; source-derived tool remains experimental.
