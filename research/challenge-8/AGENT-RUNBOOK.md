@@ -37,11 +37,22 @@ merge/halfTokenassert139 pass. End_lifetime140 needsFULL token and fails
 lifetime_token(cmp_k), confirming remaining lexicalreservation. No move/guard/
 loop/fullrangeproof or covers. VF1/.17s,RSS92,728KiB;refiner0/.12s,
 RSS91,696KiB;overall1,runner1:04.76,RSS646,280KiB,setupdominated.
-No active run. Next separate strict early binding-scope cut feature, preserving
-runtime Rust and original tuple_hrtb reproducer. Source patch owned by Sol;
-independent tool fixtures by Luna; root integration prepared but uncommitted.
-Must review soundness/all-exit cleanup, stale typed resources/locals/equalities,
-CFG ingress and exactly-once token return before commit/dispatch. All builds/
+No active run. Default main exposes manual choice by workflow-only591f251.
+Next verifast_insert_tail_lft_cut90min, separate experimental
+strict early binding-scope cut, preserving runtime Rust/tuple_hrtb reproducer.
+Source patch implemented by Sol and independently reviewed by Astra; concrete
+static blockers fixed. Current patchSHA9a924a4542146d0a9b839f0b7f45230e382b5525b4d0d06548bd7dc24e74fc83
+adds a final fail-closed guard for unexpected AST exceptions; actualRustunwind
+uses wrappedreturn/goto. Root checked delta/signature; no AST/lifetime axiom.
+Builder strictly checks rawkernel5968a05e and precedingtranslator ef88c9c0,
+onlyparser/translator/kernel modified. Source + original/patchedmodels recorded.
+Beforeactualproof, rerun8HRTB guardcases plus12isolatedscopefixtures (2positive,
+10negative), compilerexport/decode0 required; failurestopsactualprobe.
+Positivecut recoversfullToken, semanticendlife, bothborrow_end andfullcontent
+openings beforeactualread. Negativetypedchunk includes['cmp,T], typeid/type
+postcut, wrong/duplicate/outside markers, accessleftopen/doubletoken/end.
+CFG ingress and conditional path shapes still require hostedrealMIR validation.
+No repeatedrerunofoldsource, no localbuild/test. All builds/
 regressions/actualproof only on hostedActions. No full token assumption.
 
 **Latest completed HRTB instance experiment:**

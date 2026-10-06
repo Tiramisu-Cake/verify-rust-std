@@ -49,6 +49,7 @@ GHOSTS["tuple_parser"] = GHOSTS["range"].replace(
     "/*@ ens " + COMPARISON_DEBT_POST + "; @*/ /*@ on_unwind_ens " + COMPARISON_DEBT_POST + "; @*/",
 )
 GHOSTS["tuple_hrtb"] = GHOSTS["tuple_parser"]
+GHOSTS["tuple_lft_cut"] = GHOSTS["tuple_hrtb"]
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -59,6 +60,7 @@ CONTRACTS = {
 CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 ownership spec"
 CONTRACTS["tuple_parser"] = CONTRACTS["range"].replace("ens true (safety probe only)", "normal/unwind post explicitly returns partial comparison borrow resources; final restored-range contract unproved") + "; experimental tuple-2 parser; unmodified prelude"
 CONTRACTS["tuple_hrtb"] = CONTRACTS["tuple_parser"] + "; compiler-origin HRTB Output instantiation; normal comparison accesses closed before lifetime recovery"
+CONTRACTS["tuple_lft_cut"] = CONTRACTS["tuple_hrtb"] + "; experimental strict early lifetime-binding scope cut"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -145,6 +147,16 @@ RANGE_COMPARE_RECOVER = """        //@ close [tail_ref_frac]ref_initialized_::<T
         //@ assert [1/2]lifetime_token(cmp_k);
         //@ end_lifetime(cmp_k);
 """
+RANGE_COMPARE_RECOVER_CUT = RANGE_COMPARE_RECOVER.replace(
+    "        //@ end_lifetime(cmp_k);\n",
+    "        //@ end_lft_binding::<'cmp>();\n"
+    "        //@ assert lifetime_token(cmp_k);\n"
+    "        //@ end_lifetime(cmp_k);\n"
+    "        //@ borrow_end(cmp_k, <T>.full_borrow_content(t, tail));\n"
+    "        //@ open_full_borrow_content::<T>(t, tail);\n"
+    "        //@ borrow_end(cmp_k, <T>.full_borrow_content(t, sift));\n"
+    "        //@ open_full_borrow_content::<T>(t, sift);\n",
+)
 RANGE_READ_ANCHOR = "        let tmp = ManuallyDrop::new(tail.read());"
 RANGE_BODY_ANCHOR = (
     "    // SAFETY: see individual comments.\n"
@@ -187,7 +199,7 @@ def main() -> None:
     else:
         raise SystemExit(
             "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
-            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb]"
+            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut]"
         )
     ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
@@ -236,7 +248,7 @@ def main() -> None:
     verified_root = ROOT
     module_injections = {"contract": ghost}
     root_injections = {}
-    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb"):
+    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb", "tuple_lft_cut"):
         module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         module_injections["interior_call"] = RANGE_BOUND_GHOST
         module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
@@ -257,10 +269,11 @@ def main() -> None:
             1,
         )
         module_injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
-        if profile == "tuple_hrtb":
+        if profile in ("tuple_hrtb", "tuple_lft_cut"):
+            recovery = RANGE_COMPARE_RECOVER_CUT if profile == "tuple_lft_cut" else RANGE_COMPARE_RECOVER
             unique_offset(verified, RANGE_READ_ANCHOR)
-            verified = verified.replace(RANGE_READ_ANCHOR, RANGE_COMPARE_RECOVER + RANGE_READ_ANCHOR, 1)
-            module_injections["comparison_recover"] = RANGE_COMPARE_RECOVER
+            verified = verified.replace(RANGE_READ_ANCHOR, recovery + RANGE_READ_ANCHOR, 1)
+            module_injections["comparison_recover"] = recovery
     for filename, candidate, reference, insertions in (
         ("lib.rs", verified_root, original_root, root_injections),
         ("smallsort.rs", verified, original, module_injections),

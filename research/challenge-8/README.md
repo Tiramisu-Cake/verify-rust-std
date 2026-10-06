@@ -55,11 +55,13 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 Agents dispatch and inspect each run autonomously using `gh` and the runbook.
-The next selection is `verifast_insert_tail_fnmut_hrtb`,budget90min, on
+The next selection is `verifast_insert_tail_lft_cut`,budget90min, on
 `challenge-8/research`. It source-builds the independently reviewed experimental
-tuple2 parser plus the narrow compiler-bound FnMut output instantiation on
-hosted Ubuntu22.04. See [the HRTB patch and acceptance scope](verifast-fnmut-hrtb.md).
-The tuple_parser selection preserves the previous reproducer. Other profiles retain their pinned release tools.
+tuple2 parser, compiler-bound FnMut output instantiation and strict early ghost
+binding cut on hosted Ubuntu22.04. See [the lifetime scope patch and acceptance](verifast-end-lft-binding.md).
+It runs eight HRTB matcher cases and twelve lifetime-scope fixtures before the
+actual insertion probe. The tuple_parser and fnmut_hrtb profiles preserve prior
+reproducers. Other profiles retain their pinned release tools.
 The existing `all`, `orders_i32_pair` and
 `preserves_i32_values_for_any_decision` choices still run the original bootstrap.
 

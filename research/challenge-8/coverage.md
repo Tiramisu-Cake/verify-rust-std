@@ -23,6 +23,17 @@ adapter, with sorted-prefix precondition (37389298278, 6/6 covers). The three-ca
 that research caller only. It does not establish modular verification of std's
 actual pointer loop or safety for unsorted prefixes.
 
+The generic source-exact insertion diagnostic has advanced through initial
+pointer bounds, both reference expressions, tuple ownership and the actual
+FnMut callback's Boolean result and explicit unwind-resource exit. Run37410979109
+also closes both real initialization accesses and proves a half lifetime token;
+full-token ending remains blocked by lexical reservation. Eight real-compiler
+matcher regressions pass for the source-derived translator. These are partial
+obligations in a failing function proof, not an established generic callee
+contract. No length/type cap, comparator purity or sortedness assumption was
+introduced for this diagnostic; moves, guard/Drop, loop and restored-range
+normal/unwind contracts remain open.
+
 ## Required UB categories
 
 | Category | Current configuration / evidence | Remaining work |
