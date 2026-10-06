@@ -510,6 +510,24 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   loads adjacent unchanged prelude. No C manifest reuse/fabrication or model
   assumptions; preserve this failed broad-target evidence and inspect new run.
 
+- **Tuple parser reached actual comparator call:**
+  [37406214235](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37406214235),
+  source `45487efb5c9fda8ed4aa32d848dd179d946eb83c`,tuple_parser90min.
+  Full evidence fetched. Console-only source build0,18.51s,RSS426,068KiB;
+  exact Rust bytes/refinement0,unmodified prelude. Derived VF binary SHA
+  08431fb200f070b5a4c37f9dd267108f337729d2ab6a53ae1ca9f7d512fec594.
+  Tuple2 own closes and actual FnMut preconditions pass. First failing path
+  is comparator unwind, mapped to synthetic return at call line103; actual
+  early return104 and tail.read112 not reached. Empty default on_unwind_ens
+  leaves lifetime/refInit/borrowEnd/F/thread/range-prefix resources, leakcheck
+  fails. No full insert_tail or panic restoration proof. VF1,.22s,RSS92,680KiB;
+  refiner0,.14s,RSS91,828KiB;runner1:15.64,RSS645,520KiB,overall1.
+  No covers/unwind-disable flags. Runtime ldd metadata was collected before
+  the parent's explicit source-bin LD export; next helper will assert paired
+  Z3 resolution in that environment. Next prove or explicitly return genuine
+  unwind ownership resources, then proceed to normal cell recovery. Model
+  compatibility beyond this generic reference-tuple use remains open.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

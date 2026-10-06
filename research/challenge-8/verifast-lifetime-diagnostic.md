@@ -1,9 +1,12 @@
 # Insertion comparison lifetime recovery
 
-This records a source-level limitation of the current proof strategy, not an
-Actions-confirmed failure after the comparison or a SmallSort counterexample.
+This records a source-level limitation of the current normal-path proof
+strategy, not an Actions-confirmed failure before tail.read or a SmallSort
+counterexample.
 VeriFast source is pinned to `809de4596839b739dd999f9e462242c835e3af46`.
-The tuple2 parser diagnostic must first reach the actual `FnMut` call.
+Run37406214235 reached tuple2 ownership folding, both actual reference
+expressions and actual FnMut preconditions. Its first failure is the
+comparator unwind branch's resource leak, before normal tail.read is reached.
 
 The actual `insert_tail` unsafe block contains both the initial comparison and
 the subsequent `tail.read()` (smallsort.rs:543-555). The proof binds
@@ -41,3 +44,26 @@ lifetime binding and checks resource validity, or a different sound borrowing
 strategy. A verifier-source enhancement needs its own review and evidence;
 it is outside the tuple2 parser patch. Comparator unwind and early-return
 restoration remain separate obligations, even with the current weak `ens true`.
+
+## First actual comparator unwind obligation
+
+In run37406214235 at source45487efb5c9fda8ed4aa32d848dd179d946eb83c,
+`Executing return statement` maps to the call at verified line103, not source
+`return;`104. `vf_mir_translator.ml:2473-2483` translates
+UnwindAction::Continue to `ReturnStmt(unwinding())`; lines2552-2573 branch
+FnCallOutcome into returning/unwinding. Missing on_unwind_ens defaults to emp
+(`rust_parser.ml:575-586`). The call precondition is satisfied, then unwind
+leakcheck reports real remaining F/thread/range-prefix resources and the
+half token, both open initialization fractions, close-fractional-borrow and
+borrow-end tokens. No normal-path restoration or completed callback proof
+follows from reaching this continuation.
+
+FnMut consumes Args.own but leaves each reference-initialization fraction
+with the caller: close_ref_own needs thread_token and persistent T.share,
+not ref_initialized (general.rsspec:194-196); actual create_ref consumes and
+returns its initialization fraction (aliasing.rsspec:87-90). Each fractional
+borrow also retains its matching close token. Closing those two accesses can
+restore the other half. Executing such ghost cleanup only after the normal
+call would leave the synthetic unwind branch untreated. The next diagnostic
+must specify and recover or explicitly return genuine unwind resources;
+ignoring unwind, discarding chunks or an opaque restoration lemma is invalid.

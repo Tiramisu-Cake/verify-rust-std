@@ -22,11 +22,25 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
-**Active run:** [37406214235](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37406214235),
+**Latest actual parser diagnostic:**
+[37406214235](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37406214235),
 source `45487efb5c9fda8ed4aa32d848dd179d946eb83c`,tuple_parser90min.
-Console-only artifact target, no C manifest reuse. Exact SHA confirmed.
-Resume this run; fetch full logs/artifacts and inspect source-build hashes,
-actual target traces, first causal error and refinement outcome.
+Full evidence fetched. Console artifact/source patch build0,18.51s;
+prelude unchanged, exact ghost-byte/refinement0. New derived binary
+08431fb200f070b5a4c37f9dd267108f337729d2ab6a53ae1ca9f7d512fec594;
+paired Z3 hash1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea.
+Tuple own constructor, both actual references and FnMut preconditions pass.
+First failure is comparator unwind continuation: call-position return103
+(translator UnwindAction::Continue), empty default on_unwind_ens consumes
+none, leakcheck reports half token, open refInit/close tokens, borrowEnd tokens,
+F/thread/prefix resources. Neither normalreturn104 nor tail.read reached.
+VF1,.22s,RSS92,680KiB;refiner0,.14s,RSS91,828KiB;overall1,
+runner1:15.64,RSS645,520KiB,setup dominated;no covers/fullfunctionproof.
+No active run. Next formulate genuine unwind resource restoration/return
+contract without discarding chunks or ignoring unwind, then resume normalpath.
+Runtime ldd capture originally preceded parent's paired-Z3 LD export;
+next helper captures/asserts the actual paired resolution before execution.
+Baseline pins unchanged; source-derived tool remains experimental.
 
 **Latest source-build run:** [37405631794](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405631794),
 source `5dcf5348447174f3a9a8c23cce3bad80d70188ca`,tuple_parser90min.
