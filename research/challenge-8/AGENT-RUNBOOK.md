@@ -142,6 +142,14 @@ exactbyteaudit and refinement checker; firstcallerborrow/lifetime obligation
 will be decided by Actions. Drop/outer/functionproof stillopen; required Kani
 validity-copy and immutable-byte checks concretely blocked on currentpin.
 
+Active shared-reference experiment:
+[37398670146](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398670146),
+source `6540b15cf54fa805224f594709d0b1a5613d23ee`,
+`verifast_insert_tail_range`,90min. Owned-last-two-cell splitting and a fresh
+ghost lifetime prepare the actual first comparator references; original req,
+Rust bytes and proved pointer helper preserved. No result yet. Resume polling
+this exact run, fetch full logs/artifacts, diagnose first causal obligation.
+
 ## Repository map and verifier details
 
 - smoke.rs: two original swap_if_less bootstrap proofs.
