@@ -528,6 +528,22 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   unwind ownership resources, then proceed to normal cell recovery. Model
   compatibility beyond this generic reference-tuple use remains open.
 
+- **Comparison resources accounted on exit:**
+  [37407173581](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407173581),
+  source `ff413cfbee73e42c576eee96bdc461b80ca76255`,tuple_parser90min.
+  Full logs/artifacts fetched; input domain/Rust unchanged. Transparent normal
+  and unwind assertions return every reported comparison-resource chunk;
+  no normalization or full owned-range restoration claimed. Sourcebuild0,
+  19.14s,RSS426,676KiB,same derived binary08431fb2; actual ldd/assert resolves
+  paired source-bin Z3. Exact-byte/refinement0. Exit assertion consumption and
+  leakcheck pass, then normal FnMut output type mismatch atcall125:
+  <F as FnOnce<tuple2<&'cmp T,&'cmp T>>>::Output versus bool. No completed
+  call/function/read/cleanup proof. VF1,.22s,RSS92,712KiB;refiner0,.15s,
+  RSS91,704KiB;runner1:15.93,RSS643,776KiB,overall1,setupdominated.
+  No covers/check-disable/assumed bridge. Next propagate/instantiate the actual
+  signature's FnMut(&T,&T)->bool associated-output constraint after ghost
+  lifetime substitution; retain arbitrary legal F and both execution outcomes.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

@@ -110,3 +110,10 @@ panic restoration. The next run should expose the normal tail.read obligation
 or a concrete failure to match the explicitly returned resources. Actual Z3
 resolution is now captured/asserted with the same paired-library environment
 used for verification, rather than metadata collected before the LD export.
+
+Run37407173581 at ff413cfbee73e42c576eee96bdc461b80ca76255 consumes the explicit
+exit resources and passes its leak check, then stops on the normal call's
+associated Output type versus bool. The actual FnMut signature requires bool,
+but that constraint is not yet connected to the annotated reference lifetimes.
+This does not prove normalized panic ownership or the first normal read. The
+new paired-Z3 resolution check passes; full ghost-byte/refinement audits pass.

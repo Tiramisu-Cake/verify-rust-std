@@ -22,14 +22,22 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
-**Active run:** [37407173581](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407173581),
+**Latest run:** [37407173581](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407173581),
 source `ff413cfbee73e42c576eee96bdc461b80ca76255`,tuple_parser90min.
-Exact source SHA confirmed. Transparent explicit normal/unwind comparison
-resources, same input domain/Rust bytes. Paired-Z3 resolution captured/asserted.
-Resume this run and inspect full artifacts, both exit postconditions, actual
-normal fallthrough and first error; do not claim restoredrange/fullfunction.
+Full evidence fetched. Same tuple-only source/binary/prelude pins; sourcebuild0
+19.14s. Paired source-bin Z3 ldd/assert passes; binary hash08431fb2 as below.
+Input req/Rust bytes unchanged; normal/unwind post explicitly returns all
+comparison borrow resources, without normalization or full-range restoration.
+First exit resource consumption+leakcheck pass, then normal-call return is
+abstract <F as FnOnce<tuple2<&'cmp T,&'cmp T>>>::Output,expectedbool,atline125.
+Source FnMut(&T,&T)->bool bound must be propagated/instantiated for substituted
+lifetimes; no extra F restriction, pure/comparator stub or assumed bool lemma.
+VF1,.22s,RSS92,712KiB;refiner0,.15s,RSS91,704KiB;overall1,
+runner1:15.93,RSS643,776KiB,setupdominated. No covers/fullfunctionproof.
+No active run. Next inspect MIR-associated type equality/HRTB and complete
+call ghost substitutions; derive the source-declared bool output soundly.
 
-**Latest actual parser diagnostic:**
+**Previous actual parser diagnostic:**
 [37406214235](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37406214235),
 source `45487efb5c9fda8ed4aa32d848dd179d946eb83c`,tuple_parser90min.
 Full evidence fetched. Console artifact/source patch build0,18.51s;
@@ -43,7 +51,7 @@ none, leakcheck reports half token, open refInit/close tokens, borrowEnd tokens,
 F/thread/prefix resources. Neither normalreturn104 nor tail.read reached.
 VF1,.22s,RSS92,680KiB;refiner0,.14s,RSS91,828KiB;overall1,
 runner1:15.64,RSS645,520KiB,setup dominated;no covers/fullfunctionproof.
-The active run above adds exact transparent normal/unwind
+The latest run above adds exact transparent normal/unwind
 comparison-resource postconditions: all tokens/fractions/borrowEnd/prefix/F/
 thread/type_interp/foreach fragments returned, no wildcard/leak/assumption.
 Same input domain and Rust. Explicit borrowing obligations remain unnormalized;
