@@ -338,6 +338,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Next add proved assertions between token-preserving operations to locate
   actual resource loss; retain original req and every safety obligation.
 
+- [Lifetime token localization](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399630653),
+  2026-10-06, source `83fd40c7ab9e4b0b1a231d74e0382cb59576a50c`,range90min,
+  unchanged pins/domain. Full-token assertion immediately after merge fails,
+  before either reference opening: the resource loss occurs earlier than
+  previously inferred from the second-open error. Later assertions unreached.
+  Source-spec conservation alone does not establish conservation in the
+  translated body. Exactbyte/refinement0,VF1(.11s,RSS165,524KiB),
+  refiner.07s,RSS162,968KiB,runner10.97s,RSS624,500KiB,overall1.
+  Full evidence fetched. Next assert token ownership earlier around the
+  lifetime binding and each preparation operation, no new assumptions.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

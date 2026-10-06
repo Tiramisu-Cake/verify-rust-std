@@ -173,11 +173,16 @@ despite accepted merge_fractions. Fragmentation hypothesis not confirmed.
 Exactbyte/refinement0,VF1(.18s),refiner.11s,runner14.22s,RSS633,700KiB.
 No active run. Next diagnostic assertions locate token loss before/after the
 first borrow access, without new assumptions or precondition changes.
-Active token-assertion diagnostic:
+Latest token-assertion diagnostic:
 [37399630653](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399630653),
 source `83fd40c7ab9e4b0b1a231d74e0382cb59576a50c`,range90min. Added
 assertions of full token after merge and remaining half around first reference
-opening. No assumptions/fraction/precondition changes. Resume this exact run.
+opening. Full logs/artifacts fetched: first full-token assertion after merge
+fails, before either opening. Preparation's total-full-token premise is false
+in this translated body; later assertions not reached. Exactbyte/refinement0,
+VF1(.11s),refiner.07s,runner10.97s,RSS624,500KiB. No active run. Next place
+checked assertions earlier around begin/bind/borrow/share/init to find loss;
+do not infer token conservation from isolated specs alone.
 
 ## Repository map and verifier details
 
