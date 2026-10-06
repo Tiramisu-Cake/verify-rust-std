@@ -163,11 +163,13 @@ class ClassifierTests(unittest.TestCase):
         self.outcome("MISSING_OR_UNPARSEABLE_OBLIGATION",
                      verify=self.verify_text.replace("vm-check: Failed", "vm-check: ProvedByRule"))
         self.outcome("SUMMARY_DIAGNOSTIC_MISMATCH",
-                     verify=self.verify_text.replace("          ├── ValidPtr | Proved (x2)\n", ""))
+                     verify=self.verify_text.replace(
+                         log_line("          ├── ValidPtr | Proved (x2)") + "\n", ""))
 
     def test_missing_contract_primitive_fails_closed(self):
         self.outcome("CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED",
-                     contracts=self.contract_text.replace("    |- Align(src, T)\n", ""))
+                     contracts=self.contract_text.replace(
+                         log_line("    |- Align(src, T)") + "\n", ""))
         self.outcome("CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED",
                      contracts=self.contract_text.replace("Align(src, T)", "Align(dst, T)"))
         self.outcome("MISSING_LOG", contracts="")

@@ -1769,3 +1769,32 @@ u64_controls.rs9/24/39, respectively aligned/source-offset/destination-offset.
 Full runner path, wrapper/filter behavior, diagnostic renderers, timeout/trap,
 artifact paths and layout-only program statically reviewed; bash -n and
 git diff --check passed. No executable local validation.
+
+First new dispatch: run37508216376, source
+cbbbb430d0091191141819843b3c8b476d0ff9f6, created2026-10-06T18:02:30Z,
+workflow_dispatch/rapx_applicability/A/90min, GitHub-hosted ubuntu24.04.
+Normal push and remote full SHA confirmed, no other active run before dispatch.
+New budget1/4; monitor the specific run. Historical two remain outside budget.
+
+Run37508216376 completed FAILURE, job18:02:35–18:06:14UTC219s.
+Package version/archive/VCS/lock and full installed-source comparison to archive
+and pinned upstream PASS. Hosted classifier tests11/12 pass; one malformed-log
+test accidentally removes only the row's suffix, concatenating its remaining
+RAPx prefix with the next line. Fail-closed parser returns missing/unparsed
+checkpoint rather than the intended summary-count mismatch. This is a test
+preparation failure, no alignment result. Layout/preparation/MIR/six controls
+NOT RUN. Preserve full log SHA256
+ac8047b8d338fb951f961356018b76498f9c4f9258888c3847c1efe34f34c2dc;
+artifact11432717926,41files,47484bytes, zip SHA256
+4ef1061cfacce2726fe51bc0503fb8c1a37c0dfad065285856b6da097cf342fc.
+
+Next-run card before repair: same actual std copy obligation, six concrete
+domains, full normal/five-panic yardstick, frozen package/toolchain/predicates
+and A-only decision map as above. Correct synthetic row deletion to remove the
+entire prefixed log line and review other test mutations together. No classifier
+weakening or semantic/fixture/std change. Falsifiable preparation hypothesis:
+the missing-summary-property sample is syntactically a log and is rejected at
+summary/detail count mismatch; all12 hosted classifier tests pass. Only then
+run actual layout/target preparation and six paired contract/verification cases.
+New budget permits run2/4,90min including setup, no active run now. A substantive
+result stops before B/C; no retry of old source, no local executable validation.

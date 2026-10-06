@@ -15,7 +15,7 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 The owner explicitly resumed at `1fc89566800f8152d218de7f9a757f665626f220`.
 Entry tree clean, local and remote HEAD match, origin points to the fork, no
 queued/in-progress Actions. No newer or unrelated changes at entry.
-Separate budget: **0/4 NEW hosted runs**, at most 90 minutes each including
+Separate budget: **1/4 NEW hosted runs**, at most 90 minutes each including
 setup, one active run. Ordinary runner/setup/classifier repairs are authorized
 autonomously within this budget; the prior one-correction limit is superseded
 for this continuation. Historical two runs remain below, outside the new budget.
@@ -26,7 +26,12 @@ printing from verification; bind classifier evidence to the actual function,
 checkpoint, path and Align(src/dst), with hosted classifier rejection tests.
 Statically review the whole remaining pipeline before dispatch; run the same
 six controls on stock RAPx 0.7.50/nightly-2026-02-05. Negative fixtures are
-never executed as programs. No active run; preparing first continuation card.
+never executed as programs. Completed
+[run37508216376](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508216376),
+exact source `cbbbb430d0091191141819843b3c8b476d0ff9f6`, created18:02:30UTC,
+A/90min, FAILURE at classifier synthetic-log test11/12; full source identity
+audit PASS, layout/preparation/all six A controls NOT RUN. No active run.
+Fix malformed synthetic row deletion, then a NEW source/run within budget.
 
 Stop after substantive A result or four new runs, before B/C. A confirmed miss
 or necessary semantic change is a separate owner decision, not permission to

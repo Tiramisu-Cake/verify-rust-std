@@ -4,11 +4,15 @@
 
 IN PROGRESS from `1fc89566800f8152d218de7f9a757f665626f220`, owner-authorized
 on 2026-10-06: preparation and six gate-A controls only; stop before B/C.
-Separate budget 0/4 NEW hosted runs, each at most 90 minutes including setup,
+Separate budget 1/4 NEW hosted runs, each at most 90 minutes including setup,
 one active. Ordinary runner/setup/classifier repairs are autonomous within
 this budget. The old two attempts and one-correction allocation below remain
 historical; the new authorization supersedes only their continuation stop.
-No new detector result yet. Full scope/card: [phase](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation)
+Completed [run37508216376](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508216376)
+at exact source `cbbbb430d0091191141819843b3c8b476d0ff9f6` (created18:02:30UTC).
+FAILURE at synthetic malformed-log classifier test11/12, after complete package
+identity/source audit passed; no A analysis reached. No active run. Correction
+within remaining budget is authorized. Full scope/card: [phase](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation)
 and [experiment log](EXPERIMENT-LOG.md).
 
 ## Historical initial-session closeout
