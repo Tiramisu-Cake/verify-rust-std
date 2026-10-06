@@ -64,6 +64,11 @@ whole callers and existing invalid-body/resource/shape negatives. A dedicated
 invalid-unwind-body control remains to be prepared separately; unsupported
 panic plumbing must not masquerade as rejection of its false unwind post.
 
+**Active run:** [37433028854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37433028854),
+source `46021223da019526f4ad67f6e3921fc60d2c434f`, localcaller90min,
+manually dispatched2026-10-06T07:58:25Z after exact remote-SHA readback.
+Monitor this run and inspect full evidence; do not dispatch duplicates.
+
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
 has first comparison direct unwind; late comparison cleanup Drop then immediate
