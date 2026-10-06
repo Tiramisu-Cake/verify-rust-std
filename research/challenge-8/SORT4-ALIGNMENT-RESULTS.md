@@ -4,7 +4,7 @@
 
 Current phase IN PROGRESS. Stock baseline **PASS independently for const/mut**;
 experimental layout profile implementation starts only after this gate. Budget
-1/6 NEW runs,43/10800 summed job-seconds including all preparation/replay/upload.
+3/6 NEW runs,235/10800 summed job-seconds including all preparation/replay/upload.
 Earlier phases below retain their original outcomes and evidence.
 
 [Stock run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
@@ -38,6 +38,16 @@ Generic result is an abstract arithmetic/provenance/byte-resource theorem under
 its explicit aligned-base/array domain. It does not repair stock concrete Z,
 prove copy UB checking or full sort4 safety. Prototype tests will preserve this
 baseline separately and use the [pre-recorded matrix](SORT4-ALIGNMENT-PHASE.md#stock-generic-and-fieldless-layout-prototype--2026-10-07).
+
+
+Experimental runs [37542669720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37542669720)
+(source f9697b8f3f894eb24115684a41da3d88566ddc9e,82 job-seconds) and
+[37543115091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543115091)
+(source55b856cd5285961e02323dd269044d2d194183d6,110 job-seconds) fail console build.
+First unary minus_big_int misuse; second missing Ast namespace on RustLayout.
+Exporter build and ALL experimental matrix cases NOT RUN. Preparation/pin/patch
+checks PASS; full logs/artifacts inspected and identities preserved in journal.
+These are build failures, not positive or negative layout results.
 
 
 ## Historical generic completion/layout review checkpoint

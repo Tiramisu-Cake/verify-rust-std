@@ -9,6 +9,9 @@ Previous phase and two runs37537448952/37537868053 remain historical INCONCLUSIV
 Stock gate result: run37540829027/source968c073, both generic VF0 with integrity/
 refinement PASS. One NEW run,43seconds; concrete stock ZST failures kept separate.
 Transition to Step2 permitted; prior full evidence in results/journal.
+Prototype runs2/3 stop at console build; matrix NOT RUN. Budget3/6,235/10800s.
+Run4 candidate only qualifies Ast.RustLayout after measured compiler diagnostic;
+same domain, acceptance matrix and profile semantics.
 
 ### Step 1: stock gate, before any layout patch implementation
 

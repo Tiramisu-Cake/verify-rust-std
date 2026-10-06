@@ -2560,3 +2560,19 @@ profile/check change. Stock run37540829027 theorem remains separately PASS.
 Run3 candidate corrects only minus_big_int->sub_big_int in metadata max bound; patch SHA256 fd37c158aecd1d383d32e1a7656fc9a1bc4f9d73504baf2f15a9f5714d79ee7a. Same schema/domain/engine rules/fixtures/flags/gates/30min selection. Static applicability/diff checks PASS. This tests the measured build failure; no unchanged rerun.
 
 Dispatched NEW run37543115091, source/head55b856cd5285961e02323dd269044d2d194183d6, created2026-10-06T22:50:41Z; exact pushed/remote/run match, verifast_rust_fieldless_layout/30. Budget3/6,125completedsec+activejob. Same eight-file profile corrected subtraction only, original stock/experimental matrix and all checks retained.
+
+### Prototype build failure — run37543115091
+
+Exact source/head55b856cd5285961e02323dd269044d2d194183d6,
+job112540598709,22:50:46–22:52:36Z,110seconds, FAILURE.
+Earlier preparation/pin/patch gates PASS; console build exits2 at translator6096:
+Unbound constructor RustLayout. Exporter build and entire experimental matrix
+NOT RUN. Full log and artifact11449258539 inspected (38197bytes; API/upload
+SHA256 afb0823e78e7dd8573d67e51f908f1f45062fb815278bc7f00580a16add2bf69).
+Full Actions log SHA256 3fdcd2655ce922af08181fb2de3710b3986e7051fc9e453dc902340424ba647a.
+Budget3/6,235/10800seconds, no active run. Candidate4 qualifies Ast.RustLayout,
+consistent with existing translator Ast.Struct usage; other constructor sites
+already open Ast. Patch SHA256 bb31a6e119a19aee2fee66b3afd07df412b54ceb991e34c672b783b8446b6a9b.
+Only namespace resolution changed, no semantic/check/domain/profile weakening.
+Static patch applicability/diff checks PASS; next NEW hosted run tests this measured
+build blocker. Stock generic result remains independently PASS.

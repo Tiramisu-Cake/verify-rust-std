@@ -4,7 +4,7 @@ Updated 2026-10-07. **IN PROGRESS — stock generic H_align, then narrow Rust ZS
 Owner resumes from e170656b7ff00e8de8ac9d5ebc949d2dbf3cfd75; entry clean,
 local/remote research heads match, fork Tiramisu-Cake/verify-rust-std, no active run.
 Budget: at most **6 NEW manual hosted runs / 10800 summed job-seconds** including
-all builds, preparation and verification. Used 3/6; 125 completed job-seconds plus current job. One experiment at a time.
+all builds, preparation and verification. Used 3/6; 235/10800 summed job-seconds. One experiment at a time.
 
 **Stock baseline PASS** in [run37540829027](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37540829027),
 source968c073983e0fa27112c5d8a4e10a36b05828323, exact head_sha checked.
@@ -19,18 +19,14 @@ official VeriFast 26.09 / source809de459 / nightly-2026-02-05. Advance ONLY when
 both generic const/mut have VF exit0 and all original integrity/refinement gates pass.
 Keep stock ZST failures separate; no overall-green workflow requirement.
 
-Prepared separate experimental-rust-fieldless-layout-v1 (NOT YET BUILT / RUN),
-patch SHA256 fd37c158aecd1d383d32e1a7656fc9a1bc4f9d73504baf2f15a9f5714d79ee7a.
-Prototype [run37542669720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37542669720),
-source/head f9697b8f3f894eb24115684a41da3d88566ddc9e, exact SHA checked, FAILURE.
-Job112539146765,22:46:24–22:47:46Z on2026-10-06,82s. Console build fails translator
-line6066: unary minus_big_int applied to two arguments. Exporter build and entire
-experimental matrix NOT RUN. Full logs/artifact11449447487 inspected. Stock PASS
-unchanged. Next: binary sub_big_int correction, NEW exact-SHA hosted run/30;
-no semantic expansion or weakening.
-Active NEW [run37543115091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37543115091),
-source/head55b856cd5285961e02323dd269044d2d194183d6, created22:50:41Z on2026-10-06,
-exact pushed/head_sha match. Monitor this run; no duplicate.
+Experimental-rust-fieldless-layout-v1 has not yet reached executable matrix.
+Prototype runs37542669720/f9697b8 and37543115091/55b856c fail console build:
+unary subtraction corrected, then unqualified RustLayout constructor.
+Latest job112540598709,22:50:46–22:52:36Z,110s; full logs/artifact11449258539
+inspected. Exporter build and experimental matrix NOT RUN in both runs.
+Next candidate qualifies Ast.RustLayout only, patch SHA256
+bb31a6e119a19aee2fee66b3afd07df412b54ceb991e34c672b783b8446b6a9b.
+No active run. Next permitted action: NEW exact-SHA experimental selection/30.
 
 Separate experimental layout profile limited to genuinely
 fieldless, nongeneric-definition Sized Rust structs, repr(Rust)/repr(C), optional
