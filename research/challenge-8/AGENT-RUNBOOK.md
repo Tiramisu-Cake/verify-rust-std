@@ -46,8 +46,10 @@ binary7142413b68a4c9e9e17e5afaea566c2cd3d2615633b84ce612db9bfe03d7bbcb;
 pairedZ3/MIR/sourcehash passes. Positivefixture exporter/decode0,oneactualMIRcall,
 thenVFparseerror on INACTIVEcfg function req atline22 beforeanycalltranslation.
 Suite1,no casespassed/noactualinsertionVF/refinerreached. Overall1,
-runner1:10.86,RSS620,492KiB,setupdominated. No active run.
-Next NEW source isolates each selected physical fixture (includingbothbodycase)
+runner1:10.86,RSS620,492KiB,setupdominated. Active run [37410552459](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410552459),
+source `905fd9d0b3fa84a187b932c47bbad5bbe52402bc`,fnmut_hrtb90min,
+exact remote/run SHA matched; poll/fetch all evidence before new dispatch.
+This NEW source isolates each selected physical fixture (includingbothbodycase)
 before export/verification; preservesall8cases/failclosedcounts/classifications.
 Thenactualnormalcomparisonaccessclosure/half-token/end_lifetime probe.
 Current semantic HRTB patch plus diagnostic traces (hash in verifast-fnmut-hrtb.md).
