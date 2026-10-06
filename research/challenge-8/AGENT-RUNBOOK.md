@@ -21,11 +21,14 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),
+**Latest run:** [37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),
 source `b777d8d78d50ab79422ac1101111662e3fc4397e`,range90min. Same
 transparent tuple own moved to crate root; byte-stripping audit and manifest
-now cover both lib.rs and smallsort.rs. Resume exact run, inspect first error
-and refinement. No new axioms or source/precondition changes.
+now cover both lib.rs and smallsort.rs. Full evidence fetched: namespace
+assertion resolved; Predicate constructor name clashes with existing pure
+function name at lib.rs5. Exactbyte/refinement0,VF1(.14s),refiner.12s,
+runner13.76s,RSS637,500KiB. No active run. Next inspect supported named-predicate
+alias route and existing tuple-own symbol; no random naming/assumed chunks.
 
 **Latest insertion model experiment:**
 [37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),

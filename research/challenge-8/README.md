@@ -435,6 +435,16 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Next move only the ghost model to verified crate root and extend byte-stripping
   audit/manifest to both files; no runtime/source/precondition changes.
 
+- [Root tuple model naming diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844),
+  2026-10-06, source `b777d8d78d50ab79422ac1101111662e3fc4397e`,range90min,
+  same pins/domain. Root placement resolves prior internal namespace assertion.
+  New error at lib.rs:5: Predicate constructor name clashes with existing pure
+  function name. No comparator proof. Both files pass independent ghost-byte
+  audits and refinement0,VF1(.14s,RSS165,436KiB),
+  refiner.12s,RSS162,896KiB,runner13.76s,RSS637,500KiB,overall1.
+  Full logs/artifacts fetched. Next inspect existing opaque tuple-own symbol
+  and supported named-predicate/type-predicate alias route; no assumed ownership.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
