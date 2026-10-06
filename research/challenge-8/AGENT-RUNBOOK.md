@@ -21,6 +21,14 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active hosted destructor gate:** [37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766),
+source `19e74b59f9f2235c26b208cc3c9a96149e3d6cb5`, selection
+`verifast_copy_on_drop_gate`, budget90min. Exact SHA resolved. Explicit
+compatibility safety_proof opens the original private own=False; body req/ens
+and mandatory copy execution unchanged. Poll this run, fetch full evidence;
+all25 regressions, actualDrop body, exactcopy normalpost and refinement must
+pass. A compatibility-only proof is insufficient. No duplicate/local run.
+
 **Latest completed Drop compatibility diagnostic:** [37419467454](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419467454),
 source `e119de8ca9f53685d673f012e1d024e35df14181`, copy_on_drop_gate90min.
 Full logs/artifacts inspected. Same source/tool/pairedZ3/originalprelude/4-file
