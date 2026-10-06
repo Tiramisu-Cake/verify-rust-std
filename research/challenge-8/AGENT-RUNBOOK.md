@@ -21,6 +21,14 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active hosted destructor gate:** [37419467454](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419467454),
+source `e119de8ca9f53685d673f012e1d024e35df14181`, selection
+`verifast_copy_on_drop_gate`, budget90min. Exact SHA resolved. The new source
+counts body defPath separately from trait defId. Poll this run, fetch full
+logs/artifacts and inspect actual Drop/copy-line/refinement evidence plus all
+8+12+5 fixtures. No duplicate dispatch or local execution. On failure fix the
+first cause and dispatch NEW source. Compiler cleanup/loop still unproved.
+
 **Latest completed destructor gate setup:** [37419199218](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419199218),
 source `16aa63f8e05e3b38b9e10b5bfa8030cb04149421`, copy_on_drop_gate90min.
 Full logs/artifacts inspected. Same pinned26.09 source and4-source-file audit,
