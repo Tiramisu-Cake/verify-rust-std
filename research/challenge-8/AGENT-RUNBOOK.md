@@ -22,14 +22,19 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
+**Active run:** [37405631794](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405631794),
+source `5dcf5348447174f3a9a8c23cce3bad80d70188ca`,tuple_parser90min.
+Corrected archive format only. Exact dispatched SHA confirmed; resume this
+run, fetch full logs/artifacts and inspect setup/build/actual proof outcome.
+
 **Latest completed run:** [37405435682](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37405435682),
 source `3d68d61ba5e8a95dfa67677a4cea294fb337b309`,tuple_parser90min.
 Full logs/artifacts fetched. Source/parser/prelude pins, patch application and
 exact ghost-byte extraction pass. Official VFDeps archive hash matches, but
 wrong xz extraction flag rejects its bzip2 content. No decoder/console build,
 verifier or refiner execution; no target proof/covers. Overall2,runner22.60s,
-RSS629,004KiB, all setup. No active run. Next use upstream tar -j flag and
-dispatch a NEW source commit, then inspect the build and proof obligation.
+RSS629,004KiB, all setup. Next run above uses upstream tar -j flag at a NEW source commit; inspect
+the build and proof obligation.
 A reviewed tuple2-only parser patch is committed;
 Actions source-build integration is ready and independently reviewed. Default main exposes the
 new manual selection by workflow-only commit `569ff40`. Ubuntu22.04 for this
