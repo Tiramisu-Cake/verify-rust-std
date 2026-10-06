@@ -35,7 +35,11 @@ obligations, но не дала полного generic insertion proof.
   использовали source-derived experimental build. См.
   [handoff](HANDOFF-2026-10-06.md) и [run log](README.md#run-log).
 
-## Кандидаты и приоритеты
+## Кандидаты и приоритеты на момент первичного обзора
+
+Статусы ниже относятся к первичному обзору, сохранённому в301845b.
+Последующие изменения research code и новые hosted результаты учитывать по
+текущему [runbook](AGENT-RUNBOOK.md); исходная матрица не заменяет его.
 
 | Кандидат | Общая польза | Текущий статус / приоритет |
 | --- | --- | --- |
@@ -137,6 +141,53 @@ CFG-ingress fixture остаётся непроверенным. Нужны об
 разбор каждого exit/CFG case и сравнение с вариантом штатного borrow model.
 Не выдавать необходимость cut для нашей разметки за необходимость для всех
 корректных proofs. Перенос как обычного bugfix сейчас преждевременен.
+
+## Сопоставление с открытыми issues VeriFast
+
+Проверка 6 октября2026: GitHub REST API вернул106 открытых issues без PR,
+прочитаны их descriptions, для близких совпадений — comments. Дополнительно
+проверены девять открытых PR и поиск по merge_fractions, FnMut, ManuallyDrop,
+tuple и projection. Точного открытого issue с причиной, которую устраняет
+один из наших шести первоначальных patches, не найдено. Это итог сопоставления
+reports и исходников, не результат выполнения чужих reproducers.
+
+| Открытый issue | Связь с нашей работой | Можно ли считать исправленным нашим patch |
+| --- | --- | --- |
+| [#320: Taking the address of this expression is not supported](https://github.com/verifast/verifast/issues/320) | То же сообщение, но report берёт адрес C-параметра в requires/ensures; merge_fractions в примере нет | Нет: наш continuation fix относится к обходу statements тела, причина report другая |
+| [#859: ghost code on unwind paths](https://github.com/verifast/verifast/issues/859) | Ближайшая архитектурная связь с ghost cleanup и Local Drop | Нет: мы не реализовали общий on_unwind annotation/injection mechanism |
+| [#685: pointer aliasing rules](https://github.com/verifast/verifast/issues/685) | Наш ManuallyDrop patch делает один shared-reference path tracked | Нет: mutable-reference shortcut, alias restrictions и call-duration liveness остаются отдельными проблемами |
+| [#661: default share predicate unsound](https://github.com/verifast/verifast/issues/661) | Struct/field ownership interpretation рядом с tuple-own моделью | Нет: tuple own patch не исправляет default struct share=true и его proof obligations |
+| [#947: StorageLive/StorageDead in VeriFast](https://github.com/verifast/verifast/issues/947), [#948: in refinement checker](https://github.com/verifast/verifast/issues/948) | Lifetime/physical storage accounting важны для insertion | Нет: наши patches не добавляют семантику этих MIR statements |
+| [#742: refinement checker unwind paths](https://github.com/verifast/verifast/issues/742) | Наши proofs рассматривают некоторые unwind paths | Нет: сам refinement checker нашим кодом не изменялся |
+| [#789: may_dangle](https://github.com/verifast/verifast/issues/789) | Generic destructor neighborhood | Нет: Local Drop lowering не реализует may_dangle/drop-check semantics |
+| [#837: ~mut locals](https://github.com/verifast/verifast/issues/837) | Interior mutability важна для generic comparator | Нет: ManuallyDrop ref bookkeeping не проверяет soundness применения ~mut |
+
+Другие внешне близкие reports тоже имеют другую причину: [#85](https://github.com/verifast/verifast/issues/85)
+описывает C ghost-expression dereference local, [#23](https://github.com/verifast/verifast/issues/23)
+— выбор generic C function-pointer chunk; наши address/HRTB patches их не
+решают. [#1030](https://github.com/verifast/verifast/issues/1030) касается
+пропуска второго ghost command на той же строке; ни один из наших patches
+не исправляет эту привязку source locations.
+
+В комментарии к859 maintainer предлагает реализовать on_unwind через
+синтетический local Drop type и размещение ghost block на его MIR Drop edge:
+[design comment](https://github.com/verifast/verifast/issues/859#issuecomment-3138646578).
+Это полезная точка будущего design discussion, но наш actual guard Drop
+и restricted call lowering не реализуют предложенную общую feature.
+
+Связанные fixes уже вошли upstream: [PR1023](https://github.com/verifast/verifast/pull/1023)
+разрешает address-taken locals после projection registrations в declaration
+prefix, [PR1028](https://github.com/verifast/verifast/pull/1028) canonicalizes
+core/std names projection clauses. Они исправляют иные причины, чем наш
+post-merge continuation и HRTB instantiation; не считать их дубликатами по
+названиям. Проверенный открытый [PR1009](https://github.com/verifast/verifast/pull/1009)
+касается bitops, modulo/SMT и других minor cases, а не нашей traversal ветки.
+
+Для будущего address-taking contribution пока нет обоснованного `Fixes #...`.
+Нужно описать обнаруженный конкретный баг с собственным minimal reproducer.
+Связанные issues можно обозначать только как context; claim о закрытии issue
+допустим после проверки именно его cause/reproducer. Никаких upstream issues,
+comments или PR в ходе этого read-only сопоставления не публиковалось.
 
 ## Как выделить отдельный проект
 
