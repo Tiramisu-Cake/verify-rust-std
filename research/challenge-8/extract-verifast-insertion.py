@@ -43,9 +43,13 @@ INSERT_SIGNATURE = (
 SIFT_ANCHOR = "        let mut sift = tail.sub(1);"
 RANGE_INTERIOR_LEMMA = """/*@
 lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
-    req [?f]base[..count] |-> ?xs &*& 0 <= index &*& index <= count;
+    req [?f]base[..count] |-> ?xs &*& 1 <= count &*& 0 <= index &*& index <= count;
     ens [f]base[..count] |-> xs &*& pointer_within_limits(base + index) == true;
 {
+    open array(base, count, xs);
+    points_to_limits(base);
+    close [f]array(base, count, xs);
+    note(0 <= std::mem::size_of::<T>());
     array_inv::<T>();
     mul_mono_l(0, index, std::mem::size_of::<T>());
     mul_mono_l(index, count, std::mem::size_of::<T>());

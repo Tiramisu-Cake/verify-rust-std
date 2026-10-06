@@ -65,14 +65,18 @@ at `6851c1a`, but VeriFast still stopped at that bound; refinement passed.
 
 The next `range` revision adds a ghost lemma, `interior_pointer_limits`, with
 the same initialized range resource and an arbitrary mathematical index with
-`0 <= index <= count`. Its body invokes the pinned `array_inv::<T>()` to get
-the base and one-past-end limits and allocation-size bound, then the pinned
+`1 <= count` and `0 <= index <= count`. Its body opens the nonempty range,
+uses the pinned `points_to_limits` lemma on its first owned cell to derive
+`0 <= size_of::<T>()`, and closes the range again. It then invokes the pinned
+`array_inv::<T>()` to get the base and one-past-end limits and allocation-size
+bound, followed by the pinned
 `mul_mono_l` to place `index * size_of::<T>()` between zero and the total
 byte size. Its postcondition returns the range resource and states that the
 interior pointer is within limits. The call before `tail.sub(1)` uses `n - 2`;
-the existing `n >= 2` precondition establishes this index is in range. This
+the existing `n >= 2` precondition establishes the helper's count and index
+bounds. This
 adds no new safety assumption or fixed length cap. `note` calls in the lemma
-check the endpoint facts rather than assuming them. The lemma body and its
+check the derived size and endpoint facts rather than assuming them. The lemma body and its
 use have not yet passed Actions verification. The next result must determine
 whether the arithmetic proof succeeds and whether VeriFast connects
 `tail - 1` with `begin + (n - 2)`; a failure there would require another
@@ -84,6 +88,13 @@ mathematical integers. Thus the `i32` formal parameters of `mul_mono_l` (and
 the pinned `array_split` lemma) do not impose an `i32::MAX` cap on a runtime
 `usize` length. This does not itself prove the calls' arithmetic and resource
 preconditions; the Actions run must check those obligations.
+
+Actions run
+[37396479423](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37396479423)
+at `da5f16e` checked the first version of this helper and failed at the first
+`mul_mono_l` call because `0 <= size_of::<T>()` did not follow from endpoint
+facts alone. Refinement passed. The revised helper derives nonnegativity from
+the owned first cell; this step remains unverified until a new Actions run.
 
 Both profiles leave the extracted `CopyOnDrop` and outer function unverified:
 `-skip_specless_fns` skips these unspecified functions. The experiment
