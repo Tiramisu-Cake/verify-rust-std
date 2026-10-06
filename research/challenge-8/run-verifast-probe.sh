@@ -37,10 +37,10 @@ if [[ "${1:-}" == --stages ]]; then
     # Only insert_tail is specified. An exit 0 must be inspected for function
     # counts; it is not evidence for CopyOnDrop or the outer function.
     set +e
-    "$VERIFAST_HOME/bin/verifast" -rustc_args '--edition 2021' \
+    /usr/bin/time -v -o verifast-resources.txt "$VERIFAST_HOME/bin/verifast" -rustc_args '--edition 2021' \
         -skip_specless_fns verified/lib.rs > verifast.log 2>&1
     vf_status=$?
-    "$VERIFAST_HOME/bin/refinement-checker" --rustc-args '--edition 2021' \
+    /usr/bin/time -v -o refinement-resources.txt "$VERIFAST_HOME/bin/refinement-checker" --rustc-args '--edition 2021' \
         original/lib.rs verified/lib.rs > refinement.log 2>&1
     refinement_status=$?
     set -e
