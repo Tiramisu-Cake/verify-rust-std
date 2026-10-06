@@ -1,24 +1,26 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 after the owner approved the revised roadmap and next phase.
-Approval baseline: `25c590235c67107cffc92cf70b69568c388ac3ed` on
+Updated 2026-10-06 after the owner's explicit continuation of the approved phase.
+Approval commit: `68fcc98b79fc69b717d3e2ed42605cae8b4ffc05` on
 `challenge-8/research`. This is the single current checkpoint; procedures live
 in [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md), and
 historical evidence in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**READY — the bounded actual `sort4_stable` phase is approved.**
+**IN PROGRESS — the bounded actual `sort4_stable` phase is executing.**
 Its exact scope, tool allowlist, deliverables and stop conditions are in
 [SORT4-PHASE.md](SORT4-PHASE.md). The continuation agent may implement, commit,
 push, dispatch, inspect and fix routine issues within that phase without
 asking the owner to approve its start again. Check for newer instructions,
 branch changes and running jobs before acting.
 
-The approval/documentation iteration has made no proof or runtime changes
-and dispatched no workflow. No sort4 harness, runner selection or proof result
-is established yet. No active research run was observed at this checkpoint;
-the last proof runs below are unchanged.
+Entry: clean tree, fork origin, fast-forward from d436977 to approval 68fcc98;
+no newer remote instructions and no active/queued Actions runs. The actual std
+blob remains e555fce440872898e47fd5114f32eb15401d07df. The owner explicitly
+requested autonomous execution of this phase. Contract/evidence audit and
+actual-body functional harness/runner preparation are in progress; no sort4
+proof result or hosted dispatch yet. Saved insertion draft stays unapplied.
 
 The approved phase covers:
 

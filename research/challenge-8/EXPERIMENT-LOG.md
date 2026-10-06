@@ -1169,3 +1169,61 @@ review immutable-local storage plus pointer/refinement support separately;
 review source-exact scope/direct-unwind semantics with trust/regression gate;
 or choose another source-faithful route/simpler target. Owner decision needed
 before new architecture/semantic patches or next phase. No active run.
+
+## 2026-10-06: approved sort4 functional experiment card
+
+Authorization: owner's explicit continuation of phase approved at
+68fcc98b79fc69b717d3e2ed42605cae8b4ffc05. Clean entry, fast-forward to this
+commit, no newer instructions/active or queued runs. Actual obligation:
+library/core/src/slice/sort/shared/smallsort.rs::sort4_stable, blob
+e555fce440872898e47fd5114f32eb15401d07df. Contract and caller resource audit
+will be preserved in SORT4-CONTRACT.md; generic feasibility is independent.
+
+Falsifiable hypothesis: the unchanged five-comparison/four-copy real body
+returns a sorted exact multiset for four full-range symbolic i32 values, and
+returns a stable sorted permutation of four symbolic-key/fixed-ID items.
+Existing actual-source swap/insertion Kani successes justify this route; finite
+rewritten-model observations are guidance only, not proof evidence.
+
+Domain: two separate live fixed allocations, each exactly four initialized
+cells. Values src is four independent arbitrary i32, dst [0;4]. Tagged src
+has independent arbitrary i32 keys and IDs0..3; concrete Copy item representation
+and initialized destination are in sort4.rs. Comparator is literally pure,
+nonpanicking `<` (keys only for tags). No key restriction or target summary.
+Normal posts: destination adjacent nondecreasing and exact counts for every
+input value; tagged complete key/ID items each once, equal-key IDs increasing;
+source unchanged. Covers include strict decision representatives, all-equal,
+mixed duplicates, reverse/ascending inputs and full-range extremes. Helper
+loops bound four with unwind6 and unwinding assertions retained. The domain
+has no reachable comparator unwind; no unwind theorem is claimed. The full
+generic target still requires current valid cells/ONE ownership sequence,
+restored borrows/F/frame on each normal and all five panic exits, preserving
+allowed callback effects rather than assuming unchanged reachable state.
+
+Profile: unchanged Kani152c6a8c875d9886a67e229247b4826d6105ccfd,
+repository nightly-2026-02-05, default checks through unchanged scripts/run-kani.sh,
+exact harness selection, --jobs1, --object-bits12, repository unstable options
+and --no-assert-contracts. No contracts/stubs in these harnesses and no disabled
+checks. This is a FUNCTIONAL BASELINE, not the explicit uninit/validity/extra
+pointer profile. Known CopyNonOverlapping validity unsupported operation and
+immutable-store detector gap remain open; no duplicate diagnostic is needed.
+No VeriFast patches/profile changes or generic hosted probe are planned.
+
+Expected positives: prove_sort4_values and prove_sort4_stability both reach
+actual generic body and all assertions/covers with no failed checks, unwinding
+assertions or unsupported operations. No negative controls are introduced in
+this positive functional experiment; historical UB controls retain their
+recorded classifications. Acceptance: full logs/artifacts, exact unchanged
+std-prefix+appended-proof byte audit, source/tool/configuration hashes, both
+named verified harnesses and every cover. No VeriFast refinement/leak result
+is inferred from Kani's result. Source edits only in disposable hosted checkout.
+
+Selection sort4_functional; budget90min including cold Kani build and both
+serial harness stages; ubuntu-24.04 GitHub-hosted. Expose only this narrow
+workflow selection on default branch if dispatch validation requires it.
+Outcome map: green -> record bounded functional theorem and close phase after
+generic static assessment; routine compile/harness/runner error -> fix within
+frozen profile and dispatch NEW SHA; actual failed property -> inspect precise
+counterexample and contract before change; required semantic change or repeated
+failure without new evidence -> stop affected route and document decision.
+No automatic advancement to swap/networks/insertion or external publication.
