@@ -132,13 +132,11 @@ lifetime token.
 
 The pinned `begin_lifetime` returns a full `lifetime_token(k)`. Both
 `share_full_borrow` and `init_ref_share` require `[q]lifetime_token(k)` and
-return the same `[q]` fraction, so preparation preserves the full token in
-total. The revised probe invokes the pinned parser's `merge_fractions`
-command on this token before opening the two references, to combine any
-separate chunks left by those calls. Each simultaneous access then requests
-one half. This is an explicit redistribution of existing ownership, not a
-new precondition or assumption. The next Actions result must confirm the
-resource match; cleanup still needs to close both fractional borrows before
+return the same `[q]` fraction. The probe invokes the pinned parser's
+`merge_fractions` command before opening the two references, to combine
+separate token chunks if present. Each simultaneous access requests one half.
+This redistributes existing ownership without adding a precondition or
+assumption. Cleanup still needs to close both fractional borrows before
 ending the lifetime.
 
 Actions run
@@ -149,6 +147,18 @@ merge and on both sides of the first `ref_initialized` opening. They test
 whether a full token exists before the first fractional access and whether a
 half remains afterward; assertions add no token or precondition. This should
 localize the resource change before altering the fraction strategy.
+
+Actions run
+[37399630653](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399630653)
+at `83fd40c` stopped at the new full-token assertion immediately after
+`merge_fractions`, before either fractional opening. Thus the resource is
+already short at that point; changing the fractions now would obscure the
+cause. The next diagnostic revision checks full-token ownership just after
+`begin_lifetime`, just after the ghost lifetime binding, before and after
+each full borrow, and after each sharing and reference-initialization step.
+All assertions preserve the old contract and make no assumptions. The first
+failing location will identify which transition needs a different resource
+strategy.
 
 This stage deliberately stops at the first comparison. Ending its lifetime,
 recovering potentially changed `T` values after comparator interior mutation,

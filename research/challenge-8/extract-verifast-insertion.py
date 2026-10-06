@@ -60,8 +60,14 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
 
 """
 RANGE_BOUND_GHOST = "        //@ interior_pointer_limits::<T>(begin, n, n - 2);\n"
-RANGE_LIFETIME_BEGIN = "    //@ let cmp_k = begin_lifetime();\n"
-RANGE_LIFETIME_BIND = "        /*@ let_lft 'cmp = cmp_k; @*/\n"
+RANGE_LIFETIME_BEGIN = (
+    "    //@ let cmp_k = begin_lifetime();\n"
+    "    //@ assert lifetime_token(cmp_k);\n"
+)
+RANGE_LIFETIME_BIND = (
+    "        /*@ let_lft 'cmp = cmp_k; @*/\n"
+    "        //@ assert lifetime_token(cmp_k);\n"
+)
 RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ array_split::<T>(begin, n - 2);
         //@ array_split::<T>(begin + (n - 2), 1);
@@ -79,14 +85,21 @@ RANGE_COMPARE_PREP = """        //@ array_inv::<T>();
         //@ open own::<T>(t)(head(drop(1, drop(n - 2, xs))));
         //@ close_full_borrow_content::<T>(t, sift);
         //@ close_full_borrow_content::<T>(t, tail);
+        //@ assert lifetime_token(cmp_k);
         //@ borrow(cmp_k, <T>.full_borrow_content(t, sift));
+        //@ assert lifetime_token(cmp_k);
         //@ borrow(cmp_k, <T>.full_borrow_content(t, tail));
+        //@ assert lifetime_token(cmp_k);
         //@ share_full_borrow::<T>(cmp_k, t, sift);
+        //@ assert lifetime_token(cmp_k);
         //@ share_full_borrow::<T>(cmp_k, t, tail);
+        //@ assert lifetime_token(cmp_k);
         //@ let cmp_tail_ref = precreate_ref(tail);
         //@ let cmp_sift_ref = precreate_ref(sift);
         //@ init_ref_share::<T>(cmp_k, t, cmp_tail_ref);
+        //@ assert lifetime_token(cmp_k);
         //@ init_ref_share::<T>(cmp_k, t, cmp_sift_ref);
+        //@ assert lifetime_token(cmp_k);
         //@ merge_fractions lifetime_token(cmp_k);
         //@ assert lifetime_token(cmp_k);
         //@ open_frac_borrow(cmp_k, ref_initialized_(cmp_tail_ref), 1/2);
