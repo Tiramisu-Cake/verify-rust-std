@@ -137,7 +137,7 @@ claim. Overall0,runner1:41.25,RSS626,048KiB; setup dominates. No covers/loop
 bounds. This completes the local-cleanup diagnostic under its explicit
 one-element resource contract, not insertion or held-storage recovery.
 
-**Current next step; no active run.** The uncommitted auto-recovery proposal
+**Current architecture boundary.** The auto-recovery proposal
 was rejected by source audit before execution: lifetime_logic marks
 close_frac_borrow/end_lifetime/borrow_end `nonghost_callers_only`; verify_expr
 explicitly forbids that attribute on autolemmas. `_m` alternatives require an
@@ -147,6 +147,19 @@ generic T, genuine sharing and full initialized/owned storage post. Direct FnMut
 Continue -> ReturnStmt(unwinding) skips trailing ghost statements; first insert
 comparison precedes any guard. Full direct-panic recovery remains an architecture
 gate, not a failed post to weaken. Runtime std unchanged; no new kernel hooks.
+
+**Active run:** [37437183634](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37437183634),
+source `f9a7159c3e3320726cbb0b286ea9d233b1e4c0c8`,
+verifast_borrow_recovery90min, manually dispatched2026-10-06T08:35:58Z.
+Pinned release26.09/nightly2026-02-05, no source build or experimental patches.
+Two positive callers (i32/unrestricted generic T) and three intended negatives;
+actual ordinary nonghost-only helper, full normal cells/T.own, real share/init,
+natural lifetime scope and explicit recovery. Default main manual-choice-only
+commit67f1f9b; triggers remain workflow_dispatch only. Monitor, download and
+inspect every case's readonly exporter/decode/VF/refinement/source/hash/trace
+and time evidence. [Architecture note](BORROW-RECOVERY-DESIGN.md) records the
+rejected automatic route and conditional existing-AST exceptional continuation;
+the latter is not implemented or proved.
 
 All-path ledger and architecture review completed in
 [INSERTION-RESOURCE-LEDGER.md](INSERTION-RESOURCE-LEDGER.md). Exact saved MIR
