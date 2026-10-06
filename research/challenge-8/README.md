@@ -244,16 +244,20 @@ std's actual outer loop in a disposable Actions checkout, then checks arbitrary
 four-cell i32 inputs and independent comparator decisions without a sortedness
 assumption. See [experiment specification](outer-invariant.md) and
 [coverage ledger](coverage.md). The inner loop remains bounded; the new
-experiment has no verification result yet.
+experiment has no completed proof yet; compiled attempt37390973809 ended with
+argument-substitution warnings and SIGTERM. The frozen-pointer/stride rewrite
+is prepared but unverified.
 
 ## Approved alternative feasibility probe
 
 `verifast_insert_tail_probe` prepares exact live std source spans for CopyOnDrop,
 insert_tail and insertion_sort_shift_left in an isolated crate, then invokes
 repository-pinned VeriFast 26.09 and its refinement checker on hosted Actions.
-See [probe design and limits](verifast-probe.md). Only insert_tail receives a
-non-vacuous `req true; ens true;` diagnostic contract; because this lacks the
-unsafe pointer/ownership requirements it should fail, and no proof is claimed.
+See [probe design and limits](verifast-probe.md). The frontend profile keeps
+`req true; ens true;` as a deliberately incomplete diagnostic contract.
+`verifast_insert_tail_range` supplies a symbolic initialized owned range and
+generic comparator ownership, but no completed proof has been obtained. Only
+insert_tail is specified; CopyOnDrop and the actual outer loop remain unverified.
 The goal is to expose a concrete frontend or first ownership obligation without
 ignoring unwind paths or adding assumptions. This is preparation for evaluating
 arbitrary-length separation-logic proofs, not a replacement verified algorithm.

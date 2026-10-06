@@ -34,7 +34,7 @@ This is bounded i32 functionality with sorted-prefix assumptions, not completion
 Bootstrap remains verified at `34d008324e10a66bf59de705acd609d9509e7c36`
 (run 37383583285), both harnesses, 5/5 covers, bounded fixed i32 positions only.
 
-**Next experiment:** `insertion_outer_invariant_4`, 90 minutes. A proof-only
+**Outer-loop experiment history:** `insertion_outer_invariant_4`, 90 minutes. A proof-only
 injector adds allocation and range invariants to the actual outer pointer loop;
 new harness uses arbitrary i32 inputs and comparator decisions, no sortedness
 assumption. Inner loop remains bounded, default checks only. Generic contracts,
@@ -62,8 +62,8 @@ source `8f1fc630b590c89c99270f23fd9bb7f2e32b8eb8`, `verifast_insert_tail_probe`,
 verifier/overall exit1, runner13.38s, RSS620,128KiB. This is frontend/model
 viability evidence, not a safety proof. Full evidence fetched.
 
-**Prepared next steps:** generic VF owned-range contract (no length cap), plus
-isolated UB detector runner. The Kani outer rewrite now freezes the initial
+**Current direction:** generic VF range-bound proof (no length cap), followed
+by the prepared actual insertion safety runner with measured UB flags. The Kani outer rewrite now freezes the initial
 pointer outside the invariant, uses explicit const pointer allocation arguments
 and address bounds, and adds an inductively checked element-stride obligation.
 It preserves input domain and all original obligations; arity-warning cause
@@ -84,9 +84,12 @@ Suite1/notvalidated,497s cold build+compilations vs summed verification1.775s,
 maxRSS1,808,612KiB. Full logs/artifacts fetched. Keep immutable-byte gap explicit;
 investigate pinned compiler/CBMC lowering before claiming full required UB.
 Prepared actual insertion UB safety runner has the same profile but cannot
-establish the missing immutable-byte category. No active run. Next dispatch
-updated VF range ghost-lemma source, then inspect first obligation/refinement;
-all runtime bodies, symbolic length domain and preconditions preserved.
+establish the missing immutable-byte category. Active run
+[37395348422](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395348422),
+source `6851c1a9edc96f26f724efca2bc78acc78ef2a42`,
+`verifast_insert_tail_range`,90min. Explicit array_inv ghost call precedes first
+tail.sub(1); inspect bound proof/refinement and per-tool time records. All
+runtime bodies, symbolic length domain and preconditions preserved.
 
 ## Repository map and verifier details
 
