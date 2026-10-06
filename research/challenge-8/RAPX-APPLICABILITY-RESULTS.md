@@ -2,18 +2,184 @@
 
 ## Current gate-A continuation (new authorization)
 
-IN PROGRESS from `1fc89566800f8152d218de7f9a757f665626f220`, owner-authorized
-on 2026-10-06: preparation and six gate-A controls only; stop before B/C.
-Separate budget 1/4 NEW hosted runs, each at most 90 minutes including setup,
-one active. Ordinary runner/setup/classifier repairs are autonomous within
-this budget. The old two attempts and one-correction allocation below remain
-historical; the new authorization supersedes only their continuation stop.
-Completed [run37508216376](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508216376)
-at exact source `cbbbb430d0091191141819843b3c8b476d0ff9f6` (created18:02:30UTC).
-FAILURE at synthetic malformed-log classifier test11/12, after complete package
-identity/source audit passed; no A analysis reached. No active run. Correction
-within remaining budget is authorized. Full scope/card: [phase](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation)
-and [experiment log](EXPERIMENT-LOG.md).
+**CLOSED — NO-GO for stock RAPx 0.7.50 / nightly-2026-02-05.**
+Gate A now has a reproduced critical detector miss: both source-misaligned and
+destination-misaligned alignment-eight ZST copies are reported SOUND, with the
+violated Align predicate incorrectly discharged as ProvedByRule. This conclusion
+comes from manual contract/diagnostic/MIR inspection; the automatic classifier
+remains fail-closed and does not map the actual renderer format.
+
+Owner resumed from `1fc89566800f8152d218de7f9a757f665626f220` on 2026-10-06,
+only for preparation and the six existing A controls. Entry tree clean, origin,
+branch and remote SHA verified, no newer/unrelated changes or active Actions.
+Separate budget **2/4 NEW runs used**, each at most90min, one active at a time;
+historical two attempts below stay outside this budget. No active run or pending
+proof draft. Stop now before B/C; unused slots are not authority to patch RAPx,
+confirm an already decisive miss, upgrade the tool or prove sort4.
+
+### New run ledger
+
+| Run / exact source | Hosted result | Reached boundary |
+| --- | --- | --- |
+| [37508216376](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508216376), `cbbbb430d0091191141819843b3c8b476d0ff9f6` | FAILURE, job18:02:35–18:06:14UTC,219s | Full identity audit PASS; synthetic classifier tests11/12; no layout, target prep, MIR or A analysis |
+| [37508888778](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508888778), `929ea803ffff1c4f534716cc8c37bbbfa06a5960` | Commands SUCCESS, job18:07:43–18:10:57UTC,194s; **gate A NO-GO** | Identity audit PASS, classifier tests12/12, layout, target prep, six separate contracts calls and six actual verification calls, MIR and detailed checks |
+
+Both are exact-SHA workflow_dispatch on GitHub-hosted ubuntu24.04/x86_64,
+rapx_applicability/A/90min. Remote full SHA and absence of another active run
+confirmed before each dispatch. First new failure was a test-log construction
+error: deletion left a fern prefix concatenated with the next line. Only the
+two synthetic deletions were repaired for the second source; classifier,
+fixtures, predicates and verifier were unchanged. No blind rerun.
+
+### Completed preparation and profile audit
+
+The runner no longer requires `.cargo-checksum.json`. All installed package
+source files and published Cargo.toml/Cargo.lock/build.rs are byte-compared
+with the SHA-verified archive; optional installed VCS metadata is compared
+when present. The complete installed `src` tree (204 files) and build.rs also
+match pinned upstream. Both new runs complete this audit.
+
+- Exact installation: cargo +nightly-2026-02-05 install rapx --version '=0.7.50'
+  --locked into an isolated root; both driver and wrapper report exactly0.7.50.
+- Archive SHA256 `e210328ce0e6c417ecf0498118ca0738f80851e9f2d204432a095ad703f8c0b8`;
+  VCS `7d61d9377033c48a4df8954f34cc076e97a93816`, path_in_vcs=rapx.
+- Installed/archive Cargo.lock SHA256
+  `23822a0ee3ecb55aadb77fbf3d6c36d6f4ef16b037233c42c08c98ff9e8ef76c`;
+  Cargo.toml `83bbcea83043db2da4a14abbf4fbd9975c9dcaef0c3b4f09edd6aef238eee850`;
+  build.rs `f60929fdb736203dcef1f75228b9d9dd6c20c9cea9564e4974586a9703d27607`.
+  Locked installation succeeds without lock-update warnings; no dependency
+  update or verifier patch is applied.
+- Binary hashes in both new runs: rapx
+  `39afc1cbd1e22bbda19444233c90fcc32d2fe0b22af1fe3e7b65cc97a4883f52`;
+  cargo-rapx `b357ca2faf83ecbcb69acdf7ee6d1c0c213545674919934cf26cfcded1036382`.
+  Installed/upstream full-source manifests both hash to
+  `1e928d98d423badc9a5984f96e0df35d21488a249c921936a8835f0b2bee6da2`.
+- rustc1.95.0-nightly, commit `db3e99bbab28c6ca778b13222becdea54533d908`,
+  nightly-2026-02-05; cargo1.95.0-nightly(fe2f314ae2026-01-30), LLVM22.1.0.
+  Sysroot core ptr/intrinsics source manifest SHA256
+  `970c212bc73d318baab64efe264f83c82ca94f7919737731029c8226f6a6ed5f`.
+  Native libz3-dev4.8.12-3.1build1, pkg-config Z3 version4.8.12.0,
+  libclang-dev1:18.0-59~exp2, pkg-config1.8.1-2build1.
+- Repository std blob remains `e555fce440872898e47fd5114f32eb15401d07df`,
+  SmallSort SHA256 `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
+  No runtime/signature/contract/tool semantic changes. These fixture calls use
+  the pinned toolchain core; the repository sort4 body is not analyzed by RAPx.
+
+Target preparation, contract diagnostics and true verification are separate.
+Pinned driver.rs715's debug-contracts branch returns before verification.
+Only the six contract-printing calls include that flag. Real commands use
+--mode targeted --crate rapx-applicability --module <case-module>
+--postfix-repeat auto -- --lib, without debug-contracts. RAPX_LOG=debug,
+RUSTFLAGS=--cfg=rapx with per-case -Zdump-mir=all/-Zdump-mir-dir outside target.
+The wrapper's internal defaults retain MIR optimization level0 and suppress
+cross-crate inlining. Separate stage logs/resources/raw exits are preserved.
+Only the layout binary executes: Z.size=0/Z.align=8, u64.size=8/u64.align=8.
+Negative copy functions are analyzed, never run as ordinary programs.
+
+### Six controls: manually audited actual obligations
+
+All six contract calls and verification commands exit0. Target preparation
+lists all six functions. Each real check has one exact local DefId, checkpoint#0,
+one path#0 and eight property records; **48 records, six checkpoint paths**.
+The same per-case optimized MIR retains the source body and copy call.
+
+| Fixture / copy source line | DefId index / copy block | Align(src), Align(dst) | Final RAPx / manual interpretation |
+| --- | --- | --- | --- |
+| zst_aligned / zst.rs14 | 43 / bb0 | ProvedByRule, ProvedByRule | SOUND, valid control proved; all8 properties Proved |
+| zst_source_misaligned / zst.rs31 | 44 / bb3 | **ProvedByRule**, ProvedByRule | **SOUND MISS: source Align violation**; all8 Proved |
+| zst_destination_misaligned / zst.rs48 | 45 / bb3 | ProvedByRule, **ProvedByRule** | **SOUND MISS: destination Align violation**; all8 Proved |
+| u64_aligned / u64_controls.rs9 | 34 / bb2 | ProvedByRule, ProvedByRule | SOUND, valid control proved; all8 Proved |
+| u64_source_misaligned / u64_controls.rs24 | 37 / bb4 | **Failed**, ProvedByRule | Intended source Align detected; UNSOUND(3), separate ValidPtr component Unknown and NonOverlap Failed; whole-case evidence remains incomplete |
+| u64_destination_misaligned / u64_controls.rs39 | 40 / bb4 | ProvedByRule, **Failed** | Intended destination Align detected; UNSOUND(2), separate ValidPtr component Unknown; whole-case evidence remains incomplete |
+
+Every diagnostic DefId names `rapx_applicability[e215]::<module>::copy`; contract
+and final summary paths omit the crate prefix. Contract callee is displayed as
+std::ptr::copy_nonoverlapping::<T>, final checkpoint as core::ptr::copy_nonoverlapping,
+and optimized MIR as std::ptr::copy_nonoverlapping::<zst::Z/u64>. These are the
+same reexported function, with matching argument positions and checkpoint.
+
+Contract property order begins Align(src,T), Align(dst,T). Their actual report
+indexes are0/1. Each ValidPtr expands into two checks: NonNull plus an unnamed
+component at indexes2/3 for src and4/5 for dst; NonOverlap=6, ValidNum=7.
+Summary folds compound properties under their origin name and can combine the
+two ValidPtr origins, so its row counts are not eight primitive counts.
+Observed totals:43 Proved,3 Failed,2 Unknown; Align alone10 Proved/2 Failed.
+Unknown at u64 source property3 and destination property5 is preserved separately;
+an UNSOUND label containing Unknown is not a demonstrated counterexample for
+that component. The u64 source NonOverlap failure is not an actual overlap claim
+about the distinct fixture arrays. No unsupported-operation or skipped-target
+warning occurred in real checks.
+
+Path descriptions: ZST aligned[0]; both ZST negatives[0,5,1,2,6,3]; u64
+aligned[0,4,1,5,2]; source[0,6,1,2,7,3,8,4]; destination[0,6,1,7,2,3,8,4].
+These are RAPx checkpoint-prefix descriptions, including transformed CFG nodes;
+they do not establish arbitrary path/unwind coverage or a whole-function proof.
+
+Both ZST negative optimized MIRs preserve raw address of an aligned Z local,
+cast to u8, wrapping_add(const1_usize), cast back to Z, then copy count1 at bb3.
+No prior invalid reference or dereference appears. Required alignment is8, so
+an address8*n+1 violates it even though the copied byte range is empty. The
+other pointer remains aligned; empty ranges do not overlap. Thus the intended
+unsafe-operation defect is concrete and isolated, not an inferred source concern.
+Pinned property_checker/memory.rs25–46 returns ProvedByRule on zst_guard before
+calculating required alignment; util.rs432–465 resolves the callee type as ZST.
+This source path explains the observed false proof; the run and MIR establish
+the detector miss independently of source suspicion. No RAPx patch follows.
+
+### Automatic-classifier limitation and stop
+
+All six saved JSONs are **CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED**, and
+gate-a-summary.json has all_expected=false. They are preserved as such;
+no missing/unmapped result is promoted to success. Hosted synthetic acceptance/
+rejection tests pass12/12 but model full crate paths, core callee spelling and
+six unexpanded primitives. Actual logs instead have the shapes described above.
+Thus the classifier is not validated for these actual logs. Static pre-dispatch
+review failed to catch those formatting/compound-expansion assumptions.
+
+Manual review of every paired contract/verification log, detailed DefId/property/
+path record and corresponding optimized MIR supplies the substantive A evidence.
+This report does not relabel the raw JSONs. Once the critical ZST miss is confirmed,
+the mandatory stop takes precedence: no further parser repair/replay/verification
+dispatch, and no untested classifier revision is committed as a solution.
+Future automated replay would need a separately authorized correction and hosted
+tests against the actual renderer, including compound-origin grouping.
+
+### Evidence integrity, cost and boundaries
+
+- Run37508216376 full-log SHA256
+  `ac8047b8d338fb951f961356018b76498f9c4f9258888c3847c1efe34f34c2dc`;
+  artifact11432717926,41files,47484bytes, zip SHA256
+  `4ef1061cfacce2726fe51bc0503fb8c1a37c0dfad065285856b6da097cf342fc`.
+- Run37508888778 full-log SHA256
+  `c3820617663f69f9018cf558bd7cdbaa46b972f050d57a77f486f56d19c428ad`;
+  [artifact11434810024](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508888778/artifacts/11434810024),
+  2832822bytes, zip SHA256
+  `d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38`.
+  3216files:3012MIR/96DOT/108other; artifact manifest SHA256
+  `1dd4f1e5bfddc28bc83bbd7f4b11cdc133720210a6f0c448d3389e85ee5466fb`.
+  Logs and downloaded/generated artifacts retained outside the repository;
+  minimal reproducer remains the unchanged checked-in six-function fixture.
+- New jobs total413s, both far below90min; runner clocks209s/183s include
+  recorded preparation. RAPx installs84.56s/84.84s, peak RSS~1.53GB.
+  Actual six verification wall times1.06/.70/.70/.72/.75/.75s, peak RSS
+  246316/243048/242928/243016/244820/245244KiB respectively. No timeout/OOM.
+  Synthetic classifier tests0.11s in the second run. Expected install PATH
+  reminder/git default-branch hints and Actions Node deprecations are noncausal;
+  failed/Unknown obligation rows and UNSOUND warnings remain evidence.
+- Server did only editing, git/gh and read-only evidence inspection, bash -n
+  and git diff --check. Every build, verifier and executable test ran hosted.
+
+**Gate A: NO-GO; B/C: NOT RUN.** The reproduced failure is specific to this
+unchanged RAPx profile and concrete alignment-eight ZST copy controls. It is
+not a runtime bug in repository sort4, a universal claim about all RAPx versions,
+or a new generic proof. Generic uninitialized destination/ownership/provenance,
+the other mandatory UB categories, arbitrary comparator effects and five panic
+posts remain untested here. Full [sort4 contract](SORT4-CONTRACT.md) is unchanged,
+including current-state normal/panic posts and separate ordering premises;
+its public admissibility question remains unresolved. No tool patch/upgrade,
+contract weakening, B/C or full-sort4 phase is authorized. Scope/cards are in
+[phase](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation) and
+[experiment log](EXPERIMENT-LOG.md).
 
 ## Historical initial-session closeout
 

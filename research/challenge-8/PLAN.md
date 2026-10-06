@@ -16,8 +16,11 @@ RAPx as the next candidate and approved preparing the bounded
 [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) on 2026-10-06. That phase
 closed INCONCLUSIVE after two setup failures; no fixture target was analyzed.
 [Results](RAPX-APPLICABILITY-RESULTS.md) preserve that historical evidence.
-The owner now authorized a separate bounded preparation/gate-A continuation
-with four new hosted runs, routine pipeline repairs and a mandatory stop before B/C.
+The owner then authorized a separate bounded preparation/gate-A continuation.
+It used2/4 NEW hosted runs and closed NO-GO: both misaligned alignment-eight ZST
+controls were incorrectly SOUND. All six functions were analyzed; paired logs
+and MIR were manually audited while automatic classification stayed unmapped.
+B/C NOT RUN; pins/std/contracts unchanged and no generic proof gain.
 Contract admissibility remains a separate open question;
 later sorting stages and verifier implementation remain separate decisions.
 
@@ -55,7 +58,7 @@ outside the approved roadmap.
 | 1b — complete | `sort4_stable` contract and proof route | Reproduce coincident/shifted-overlap cases; refine full contract and caller mapping; review existing patches and select one minimal generic-safety architecture proposal | [Closeout](SORT4-CONTRACT-RESULTS.md): run37466906281 validates both distinct negatives/control/witness, full contract and one proposed direct-unwind recovery gate. Owner decision required before semantic implementation. |
 | 1c — complete | `sort4_stable` no-patch feasibility | Compare checked annotations on official26.09, released26.10 and one integrated alternative (Kani); obstacle matrix and no-run rationale | [Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed full-resource c1 candidate; no generic coverage gained. Historical patched proposal remains unauthorized. |
 | 1d — complete | Remaining approved tools | Compare ESBMC, Flux, KMIR and RAPx against generic Rust, unsafe memory and panic requirements using primary sources | [Screening](ALTERNATIVE-TOOLS-ASSESSMENT.md): select RAPx only for applicability diagnostics. No tool execution or new target coverage; contract admissibility remains open. |
-| 1e — closed, INCONCLUSIVE | RAPx applicability and detector coverage | Ordered alignment/ZST, generic-memory and callback/panic gates on the unchanged exact integrated profile | [Results](RAPX-APPLICABILITY-RESULTS.md): two setup failures, no A detector result, B/C NOT RUN; shared correction consumed. New preparation/A retry needs a decision. No generic coverage or full-sort4/tool-development authorization. |
+| 1e — closed, NO-GO | RAPx applicability and detector coverage | Alignment/ZST gate on unchanged exact integrated profile; later gates blocked | [Results](RAPX-APPLICABILITY-RESULTS.md): historical two setup failures preserved; new continuation2/4 runs, all six controls analyzed, two ZST Align violations incorrectly SOUND. Manual evidence vs unmapped classifier distinguished; B/C NOT RUN. No generic proof/full-sort4/tool-development authorization. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -101,10 +104,11 @@ approval does not authorize its proposed future verifier experiment. The separat
 stage1c authorization explicitly excluded that patched route; stage1c is closed.
 Its no-patch findings do not prove all unmodified-tool strategies impossible.
 
-Stage 1d is a source review, not another experiment. Stage 1e closed
-INCONCLUSIVE after the planned A and shared correction runs
-stopped at setup. No A control or B/C gate was analyzed. The unused B/C slots
-are not a retry reserve; a new narrow preparation/A task needs an owner decision.
+Stage 1d is a source review, not another experiment. Stage 1e's initial session
+closed INCONCLUSIVE after two setup failures. The separately authorized gate-A
+continuation now closes NO-GO after an actual alignment-eight ZST detector miss.
+All six A controls were analyzed; B/C NOT RUN. Unused continuation budget is
+not authority for further experiments after the mandatory semantic stop.
 Its ordered gates remain an applicability test, with the full research contract
 as the semantic yardstick. They do not reopen old phases or authorize verifier
 development or a full sort4 proof.

@@ -1798,3 +1798,63 @@ summary/detail count mismatch; all12 hosted classifier tests pass. Only then
 run actual layout/target preparation and six paired contract/verification cases.
 New budget permits run2/4,90min including setup, no active run now. A substantive
 result stops before B/C; no retry of old source, no local executable validation.
+
+Second new dispatch: run37508888778, source
+929ea803ffff1c4f534716cc8c37bbbfa06a5960, created2026-10-06T18:07:39Z,
+rapx_applicability/A/90min. Only malformed synthetic deletions repaired; all
+other test mutations reviewed, classifier/fixtures/profile unchanged. Static
+checks pass; normal push/remote full SHA/no other active run confirmed. Budget2/4.
+
+### Run37508888778 final result — continuation CLOSED / NO-GO
+
+Exact source929ea803ffff1c4f534716cc8c37bbbfa06a5960; workflow_dispatch,
+rapx_applicability/A/90min; commands SUCCESS, gate A NO-GO. Job18:07:43–18:10:57UTC
+194s; runner183s including recorded preparation. First new job219s; total413s.
+No timeout/OOM. Package/archive/VCS/lock/executable versions and complete
+installed src/archive/upstream comparisons PASS. Frozen exact RAPx0.7.50,
+nightly2026-02-05 and std blob unchanged. Release install84.84s/~1.52GB RSS;
+actual cases1.06/.70/.70/.72/.75/.75s/~243–246MB RSS. All executable work hosted.
+
+Classifier rejection tests12/12 PASS, layout x86_64 Z.size0/align8,u64.size8/align8.
+Prepare-targets and six separate contract calls ran; six true verification
+commands omit debug-contracts, all exit0. Every exact local function has one
+copy checkpoint and one path, eight primitive records:48 total. Positive ZST
+bb0/DefId43 and u64bb2/34: all8 Proved,SOUND. ZST source-negativebb3/44 and
+destination-negativebb3/45: both Align indexes0/1 ProvedByRule, all8 Proved,
+SOUND. Hosted optimized MIR retains raw aligned local→u8 wrapping_add1→Z and
+copy count1 at bb3, no prior invalid reference/access. Thus respective Align
+violation at an 8*n+1 address is a **confirmed critical SOUND miss**, despite
+zero copied bytes. Pinned check_align zst_guard shortcut explains the false proof.
+
+u64 source-negativebb4/DefId37: Align0 Failed,Align1 Proved; ValidPtr component3
+Unknown,NonOverlap6 Failed,UNSOUND(3). Destinationbb4/40: Align0 Proved,Align1
+Failed; ValidPtr component5 Unknown,UNSOUND(2). Expected Align detection is
+observed separately from incomplete/unrelated obligations, not a full case pass.
+Total43 Proved/3 Failed/2 Unknown; Align10 Proved/2 Failed. No unsupported/missing
+target in raw verifier evidence. Paths and exact obligation mapping are in results.
+
+All six raw classifier JSONs remain CONTRACT_EVIDENCE_MISSING_OR_UNMAPPED;
+all_expected=false, never counted as green controls. Real renderer omits crate
+prefix, contracts print std::ptr vs checkpoint core::ptr; ValidPtr compound
+expansion yields8 checks and grouped origin summary. Synthetic tests assumed
+other forms; static audit missed those assumptions. Full manual paired-contract/
+DefId/checkpoint/property/optimized-MIR review supplies the result independently.
+No classifier rewrite or confirming run after the decisive miss, no untested
+repair presented as complete. Raw automatic outcomes and this limitation retained.
+
+Full log SHA256 c3820617663f69f9018cf558bd7cdbaa46b972f050d57a77f486f56d19c428ad;
+artifact11434810024,2832822bytes,3216files(3012MIR/96DOT/108other),zip SHA256
+d9c5300fd4ac5c6267a8516e33ff4a8ba713795dc9e393e6eff3d8f2a71edf38;
+manifest SHA2561dd4f1e5bfddc28bc83bbd7f4b11cdc133720210a6f0c448d3389e85ee5466fb.
+Both new full logs/artifacts inspected outside repository. Noncausal install
+PATH/git hints/Actions Node deprecations distinguished from Failed/Unknown rows.
+
+STOP at2/4 NEW runs, no active run or pending proof draft; B/C NOT RUN.
+Unused budget cannot authorize more experiments after the critical miss.
+NO-GO is scoped to stock RAPx0.7.50 alignment detection for concrete align8 ZST;
+not a std runtime bug, generic proof, tool-universal claim or Challenge8 solution.
+Full current-state normal/five-panic target contract and ordering separation
+unchanged; no generic uninit/raw ownership/callback/unwind coverage gained.
+Results/STATUS/phase/index/roadmap/coverage updated; documentation closeout
+requires only static checks. Any later parser replay/tool change/new route needs
+a separate decision; no patches/upgrades/full-sort4/external publication.

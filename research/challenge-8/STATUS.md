@@ -1,7 +1,7 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: owner resumed a bounded gate-A preparation and detector
-continuation under [the new authorization](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
+Updated 2026-10-06: bounded gate-A continuation CLOSED / NO-GO after a reproduced
+ZST alignment detector miss; [scope](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
 The preceding session remains CLOSED / INCONCLUSIVE as historical evidence;
 [results and evidence](RAPX-APPLICABILITY-RESULTS.md). Fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
@@ -11,31 +11,47 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**IN PROGRESS — new RAPx preparation and gate-A continuation, A ONLY.**
+**CLOSED — NO-GO for stock RAPx 0.7.50 / nightly-2026-02-05, gate A.**
 The owner explicitly resumed at `1fc89566800f8152d218de7f9a757f665626f220`.
 Entry tree clean, local and remote HEAD match, origin points to the fork, no
 queued/in-progress Actions. No newer or unrelated changes at entry.
-Separate budget: **1/4 NEW hosted runs**, at most 90 minutes each including
-setup, one active run. Ordinary runner/setup/classifier repairs are authorized
-autonomously within this budget; the prior one-correction limit is superseded
-for this continuation. Historical two runs remain below, outside the new budget.
+Separate budget: **2/4 NEW hosted runs**, at most 90 minutes each including
+setup, one active run at a time. Ordinary runner/setup/classifier repairs were
+authorized autonomously within this budget; the prior one-correction limit was
+superseded for this completed continuation. Historical two runs remain below,
+outside the new budget.
 
-Scope: remove mandatory Cargo checksum-metadata dependency while retaining
-archive/VCS/version/lock/installed-source identity audit; separate contract
-printing from verification; bind classifier evidence to the actual function,
-checkpoint, path and Align(src/dst), with hosted classifier rejection tests.
-Statically review the whole remaining pipeline before dispatch; run the same
-six controls on stock RAPx 0.7.50/nightly-2026-02-05. Negative fixtures are
-never executed as programs. Completed
+Mandatory checksum-metadata dependency removed; archive/VCS/version/lock and
+full installed-source identity audit PASS. Contract printing separated from
+actual verification, which omits debug-contracts. Negative fixtures never ran
+as ordinary programs; only the layout binary executed on hosted Actions.
+Completed
 [run37508216376](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508216376),
 exact source `cbbbb430d0091191141819843b3c8b476d0ff9f6`, created18:02:30UTC,
 A/90min, FAILURE at classifier synthetic-log test11/12; full source identity
-audit PASS, layout/preparation/all six A controls NOT RUN. No active run.
-Fix malformed synthetic row deletion, then a NEW source/run within budget.
+audit PASS, layout/preparation/all six A controls NOT RUN.
+Synthetic row deletions corrected without changing the classifier. Completed
+[run37508888778](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37508888778),
+source `929ea803ffff1c4f534716cc8c37bbbfa06a5960`, A/90min, job18:07:43–18:10:57UTC.
+Commands SUCCESS; classifier tests12/12, all six actual functions analyzed,
+one copy checkpoint/path and eight primitive records each (48 total).
+Both ZST negatives get SOUND and violated Align(src/dst) ProvedByRule despite
+retained byte-offset1 and hosted size0/align8. Valid ZST/u64 controls SOUND;
+u64 negatives fail intended Align but retain distinct ValidPtr Unknowns.
+Exact paired contracts/DefIds/checkpoints/properties and optimized MIR manually
+audited. This is a reproduced critical detector miss, not a std runtime bug.
 
-Stop after substantive A result or four new runs, before B/C. A confirmed miss
-or necessary semantic change is a separate owner decision, not permission to
-patch/upgrade RAPx, alter std or weaken predicates.
+Automatic classifier remains fail-closed/unmapped for all six actual logs:
+real renderer omits crate prefix, prints std::ptr callee, and expands ValidPtr
+to eight checks. Synthetic tests did not validate those forms. Raw JSONs are
+preserved, not promoted to successes; report distinguishes manual verdicts.
+No further classifier/tool change or dispatch after the confirmed miss.
+
+STOP: substantive A result obtained at2/4 NEW runs; no active run or proof draft.
+B/C NOT RUN and remain unauthorized; unused budget does not reopen the route.
+Report/log/coverage/index updated. Any future parser replay, verifier change or
+different route requires a separate decision. No RAPx patch/upgrade, std change,
+contract weakening, full-sort4 proof or external publication authorized.
 
 ## Historical preceding session — CLOSED / INCONCLUSIVE
 

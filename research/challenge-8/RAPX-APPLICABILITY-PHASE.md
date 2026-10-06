@@ -8,8 +8,15 @@ the documentation update and continuation prompt. Entry research HEAD:
 
 ## Current gate-A continuation
 
-**IN PROGRESS — owner-authorized continuation on 2026-10-06.**
+**CLOSED / NO-GO — owner-authorized continuation on 2026-10-06 completed.**
 Entry expected and actual HEAD `1fc89566800f8152d218de7f9a757f665626f220`.
+Two new runs used; second run37508888778 at929ea803 analyzes all six controls.
+Both misaligned alignment-eight ZST copies are SOUND with Align ProvedByRule.
+Manual paired-contract/diagnostic/MIR audit confirms the miss; automatic
+classifier remains fail-closed/unmapped for the actual renderer. See
+[complete results](RAPX-APPLICABILITY-RESULTS.md). Stop before B/C, no active run.
+The authorization below is preserved as the completed continuation's scope;
+unused slots do not authorize further replay, tool changes or full sort4.
 The latest owner instruction supersedes the earlier stop only for preparation
 and **gate A**. Preserve the earlier CLOSED / INCONCLUSIVE result and two runs
 as historical evidence in [results](RAPX-APPLICABILITY-RESULTS.md).

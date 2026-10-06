@@ -6,13 +6,14 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**IN PROGRESS: owner-authorized RAPx preparation and gate-A continuation.**
-The [new authorization](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation)
-provides four new hosted runs of at most 90 minutes, ordinary pipeline repairs,
-and the same six alignment controls; stop before B/C. The prior two setup
-failures remain CLOSED / INCONCLUSIVE in [results](RAPX-APPLICABILITY-RESULTS.md).
-Pins and semantics are frozen. No new detector coverage yet; ZST alignment
-concern remains unconfirmed. Current action/checkpoint: [STATUS](STATUS.md).
+**CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
+Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).
+All six controls were analyzed; both misaligned alignment-eight ZST copies get
+SOUND/Align ProvedByRule. Manual contracts/diagnostics/MIR audit supplies the
+evidence; automatic classifier remains fail-closed/unmapped for actual logs.
+The prior two setup failures remain historical INCONCLUSIVE in
+[results](RAPX-APPLICABILITY-RESULTS.md). Pins/std/contracts unchanged; B/C
+NOT RUN, no generic proof gain. Current checkpoint: [STATUS](STATUS.md).
 
 The closed [no-patch assessment](SORT4-NO-PATCH-ASSESSMENT.md) preserves the
 official VeriFast26.09/26.10 and Kani review; it found no new full-resource
@@ -34,8 +35,9 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
-- [RAPx applicability results](RAPX-APPLICABILITY-RESULTS.md): INCONCLUSIVE
-  setup failures, exact identities/run evidence, six NOT RUN controls and stop.
+- [RAPx applicability results](RAPX-APPLICABILITY-RESULTS.md): NO-GO for pinned
+  ZST alignment detection, six actual controls, manual vs automatic evidence,
+  exact identities/hashes, historical setup failures and mandatory stop.
 - [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md): approved bounded
   diagnostics, exact profile, ordered gates, run budget and mandatory stop;
   no full sort4 proof or tool patch authorized.

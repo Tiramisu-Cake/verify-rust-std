@@ -45,11 +45,18 @@ were recorded, but installed-source audit, layout, MIR, target preparation and
 all six alignment controls were NOT RUN. Zero fixture paths/obligations and
 **no generic or detector coverage gain**. B/C NOT RUN because A did not pass.
 The suspected ZST alignment gap and callback/panic concerns remain source-review
-concerns, not executed counterexamples. The historical correction was consumed.
-The owner has now authorized a separate four-run preparation/A-only continuation;
-it is IN PROGRESS with no new detector result yet. B/C remain outside this
-continuation. All safety/sorting tables below retain their earlier established
-evidence, with no RAPx proof added.
+concerns, not executed counterexamples in that historical session.
+The subsequent owner-authorized A-only continuation used2/4 NEW runs and closes
+**NO-GO**: run37508888778 at929ea803 completed identity audit and all six actual
+controls (48 primitive records, six checkpoint paths). Both deliberate
+alignment-eight ZST source/destination byte-offset1 copies are SOUND with the
+violated Align ProvedByRule; optimized MIR retains the defect. Valid ZST/u64
+controls prove; u64 negatives fail intended Align with separate ValidPtr Unknowns.
+Manual contracts/DefId/checkpoint/property/MIR audit establishes these observations;
+all automatic JSONs remain fail-closed/unmapped, not successful checks. This adds
+concrete detector-limit evidence, **no generic or actual-sort4 proof coverage**.
+B/C NOT RUN, no further dispatch/patch authorized. All safety/sorting tables below
+retain earlier established proofs.
 
 ## Safety targets and sorting contracts
 
