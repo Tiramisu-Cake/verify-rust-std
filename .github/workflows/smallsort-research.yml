@@ -12,6 +12,7 @@ on:
           - insertion_contracts_4
           - insertion_direct_4
           - insertion_outer_invariant_4
+          - insertion_ub_safety_4
           - verifast_insert_tail_probe
           - verifast_insert_tail_range
           - ub_detector_controls
@@ -71,6 +72,7 @@ jobs:
             verifast_insert_tail_probe) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_insert_tail_range) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" range ;;
             ub_detector_controls) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" ;;
+            insertion_ub_safety_4) bash research/challenge-8/run-insertion-ub.sh "$RUN_BUDGET_MINUTES" ;;
             insertion_*) bash research/challenge-8/run-insertion.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
             *) bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
           esac
