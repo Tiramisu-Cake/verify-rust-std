@@ -29,6 +29,15 @@ assertion resolved; Predicate constructor name clashes with existing pure
 function name at lib.rs5. Exactbyte/refinement0,VF1(.14s),refiner.12s,
 runner13.76s,RSS637,500KiB. No active run. Next inspect supported named-predicate
 alias route and existing tuple-own symbol; no random naming/assumed chunks.
+Pinned source confirms wrapper-only extension is blocked: external-struct
+type_pred_def must appear in its declaration file (verifast1.ml:4079-4082).
+Next justified experiment is a separate tuple_overlay profile: same binary pin,
+transparent named field-own predicate/alias inside bundled prelude.rsspec on
+Actions only, strict original-header hash, original/patched evidence and no
+assumed summaries. Root-placement model removed from baseline range. This
+model extension's compatibility is a separate obligation, not full proof.
+New manual choice verifast_insert_tail_tuple_overlay exposed on default main
+by workflow-only commit6ffca25; runner/patcher currently being prepared, no run.
 
 **Latest insertion model experiment:**
 [37401753468](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37401753468),
