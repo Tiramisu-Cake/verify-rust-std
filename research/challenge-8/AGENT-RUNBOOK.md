@@ -22,12 +22,15 @@ the owner's explicit instruction, not an optional performance recommendation.
 ## Handoff status — 2026-10-06, Europe/Moscow
 
 **Current next experiment:** `verifast_insert_tail_tuple_parser`,90min.
-**Active run:** [37407937980](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407937980),
+**Latest capture attempt:** [37407937980](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407937980),
 source `a627dec2fbdf76479c219a2edcc6de1225b4cfbc`,tuple_parser90min.
-Capture-only compiler MIR addition; verifier semantics/specs unchanged.
-Exact SHA confirmed. Resume this run, fetch full compiler-mir.bin/txt,
-source-before/after hashes and normal verification/refinement evidence.
-Inspect actual FnOnce HRTB bound regions before any new source translation patch.
+Full evidence fetched. Sourcebuild/pairedZ30 and ghost byte audit pass;
+source hashes unchanged before/after diagnostic. Direct exporter127 because
+LD used target-libdir instead of compilerdriver sysroot/lib; compiler MIR/decode
+and actual verifier/refiner not reached. Overall127,runner1:21.70,RSS624,152KiB,
+all setup/capture failure. No active run. Next mirror rust_fe.ml107-120 exact
+sysroot/lib driver path, recorddriverhash, dispatch NEW source, inspect actual
+rustc HRTB Projection before finalizing a translator-only instance patch.
 
 **Latest run:** [37407173581](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407173581),
 source `ff413cfbee73e42c576eee96bdc461b80ca76255`,tuple_parser90min.

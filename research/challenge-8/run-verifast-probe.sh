@@ -68,7 +68,9 @@ if [[ "${1:-}" == --stages ]]; then
         # separate from actual verification and leave both Rust files intact.
         sha256sum verified/lib.rs verified/smallsort.rs > compiler-mir-source-before.txt
         compiler_sysroot=$(rustc --print sysroot)
-        compiler_libdir=$(rustc --print target-libdir)
+        # Match rust_fe.ml: the compiler driver lives in sysroot/lib.
+        compiler_libdir="$compiler_sysroot/lib"
+        sha256sum "$compiler_libdir"/librustc_driver-*.so >> "$evidence/environment.txt"
         set +e
         LD_LIBRARY_PATH="$compiler_libdir:$VERIFAST_HOME/bin:${LD_LIBRARY_PATH:-}" \
             /usr/bin/time -v -o compiler-mir-resources.txt "$VERIFAST_HOME/bin/vf-rust-mir-exporter" \

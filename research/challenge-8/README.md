@@ -544,6 +544,16 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   signature's FnMut(&T,&T)->bool associated-output constraint after ghost
   lifetime substitution; retain arbitrary legal F and both execution outcomes.
 
+- **Compiler projection capture setup failure:**
+  [37407937980](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37407937980),
+  source `a627dec2fbdf76479c219a2edcc6de1225b4cfbc`,tuple_parser90min.
+  Full logs/artifacts fetched. Source build/paired Z3 and ghost-byte audit pass;
+  Rust hashes unchanged before/after capture. Direct exporter127: supplied
+  target-libdir lacks librustc_driver; working rust_fe uses sysroot/lib.
+  No MIR/decode, actual verifier/refiner, proof or covers. Overall127,
+  runner1:21.70,RSS624,152KiB,setup/capture only. Next correct driver path,
+  record driver hash, capture actual HRTB before new translator semantics.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
