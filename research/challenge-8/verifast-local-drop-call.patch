@@ -1,0 +1,347 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1786,6 +1786,7 @@
+     adt_defs : Mir.adt_def_tr list;
+     directives : Mir.annot list;
+     fn_specializer : string -> D.generic_arg list -> string * D.generic_arg list;
++    local_drop_call : D.ty -> ((string * D.ty), string) result option;
+   }
+ 
+   type var_id_trs_entry = { id : string; internal_name : string }
+@@ -1807,6 +1808,9 @@
+       let body_imp_loc = Args.body_imp_loc
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
+       let strict_lft_scope_ends = Args.strict_lft_scope_ends
++      (* MIR DropData carries a place, but no place type. Keep raw local types
++         within this translation of one body; projections are not eligible. *)
++      let local_drop_types : (string * D.ty) list ref = ref []
+       (* The call-site equality below must originate in this body's exported predicates. *)
+       let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
+       let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
+@@ -1852,6 +1856,7 @@
+       let src_info_cpn = source_info_get local_decl_cpn in
+       let* { Mir.span = loc; Mir.scope } = translate_source_info src_info_cpn in
+       let ty_cpn = ty_get local_decl_cpn |> D.decode_ty in
++      State.local_drop_types := (id, ty_cpn) :: !(State.local_drop_types);
+       Rocq_writer.rocq_print_tuple TranslatorArgs.rocq_writer begin fun () ->
+         Rocq_writer.rocq_print_tuple_element TranslatorArgs.rocq_writer begin fun () ->
+           Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer id
+@@ -2786,6 +2791,17 @@
+       | Drop drop_data_cpn ->
+           let open DropData in
+           let place_cpn = place_get drop_data_cpn in
++          let local_drop_call =
++            if VfMirRd.Place.projection_get_list place_cpn <> [] then None
++            else
++              let local_id =
++                VfMirRd.Place.local_get place_cpn
++                |> translate_local_decl_id
++              in
++              match List.assoc_opt local_id !(State.local_drop_types) with
++              | None -> None
++              | Some ty -> State.body_tr_defs_ctx.local_drop_call ty
++          in
+           let* place, place_is_mutable = translate_place place_cpn loc in
+           let target_cpn = target_get drop_data_cpn in
+           let target = translate_basic_block_id target_cpn in
+@@ -2813,21 +2829,54 @@
+                          Static ));
+                 ] )
+           in
+-          Ok
+-            ( unfreeze_stmts
+-              @ [
+-                  Ast.ExprStmt
+-                    (CallExpr
+-                       ( loc,
+-                         "std::ptr::drop_in_place",
+-                         [],
+-                         [],
+-                         [ LitPat (AddressOf (loc, place)) ],
+-                         Static ));
+-                ]
+-              @ freeze_stmts,
+-              Mir.GotoTerminator (loc, target),
+-              [ target ] )
++          begin match local_drop_call with
++          | Some (Error msg) -> Ast.static_error loc msg None
++          | Some (Ok (callee, actual_ty)) ->
++              let* ty_info = translate_decoded_ty actual_ty loc in
++              let call =
++                Ast.CallExpr
++                  (loc, callee, [ty_info.vf_ty; Ast.InferredTypeExpr loc], [],
++                   [LitPat (AddressOf (loc, place))], Static)
++              in
++              let unwind_stmts, unwind_targets =
++                if TranslatorArgs.ignore_unwind_paths then ([], [])
++                else translate_unwind_action (unwind_action_get drop_data_cpn) loc
++              in
++              let call_stmt =
++                if TranslatorArgs.ignore_unwind_paths then Ast.ExprStmt call
++                else
++                  Ast.SwitchStmt
++                    (loc, call,
++                     [ Ast.SwitchStmtClause
++                         (loc,
++                          CallExpr (loc, "returning", [], [],
++                                    [LitPat (Var (loc, "__result"))], Static),
++                          []);
++                       Ast.SwitchStmtClause
++                         (loc, CallExpr (loc, "unwinding", [], [], [], Static),
++                          freeze_stmts @ unwind_stmts) ])
++              in
++              Ok
++                (unfreeze_stmts @ [call_stmt] @ freeze_stmts,
++                 Mir.GotoTerminator (loc, target),
++                 target :: unwind_targets)
++          | None ->
++              Ok
++                ( unfreeze_stmts
++                  @ [
++                      Ast.ExprStmt
++                        (CallExpr
++                           ( loc,
++                             "std::ptr::drop_in_place",
++                             [],
++                             [],
++                             [ LitPat (AddressOf (loc, place)) ],
++                             Static ));
++                    ]
++                  @ freeze_stmts,
++                  Mir.GotoTerminator (loc, target),
++                  [ target ] )
++          end
+       | UnwindResume ->
+           Ok
+             ( [
+@@ -7620,6 +7669,216 @@
+         match_type_lists env' rest1 rest2
+     | _ -> None
+ 
++  (* An explicit, checked Drop body in this very unit opts its ADT into the
++     narrow local-call lowering. This is deliberately separate from the
++     general fn_specializer, which does not discharge impl predicates. *)
++  let compute_local_drop_calls trait_impls adt_defs adt_defs_cpn bodies_cpn =
++    let open BodyRd in
++    let* annotated_drop_bodies =
++      bodies_cpn |> ListAux.try_filter_map (fun body_cpn ->
++        let contract_cpn = contract_get body_cpn in
++        if not (is_drop_fn_get body_cpn) ||
++           ContractRd.annotations_get_list contract_cpn = [] then Ok None
++        else
++          let* _, contract_opt = translate_contract contract_cpn in
++          let explicit_nonunwind =
++            match contract_opt with
++            | Some ((_, _, Some (_, ("outcome",
++                Ast.SwitchExpr (_, _, [
++                  Ast.SwitchExprClause (_, "returning", ["result"], _);
++                  Ast.SwitchExprClause (_, "unwinding", [], Ast.False _)
++                ], None))), _), false) -> true
++            | _ -> false
++          in
++          let has_body = basic_blocks_get_list body_cpn <> [] in
++          let only_impl_tparam =
++            match impl_block_generics_get_list body_cpn with
++            | [param] ->
++                let p = D.decode_generic_param_def param in
++                p.kind = Type
++            | _ -> false
++          in
++          let no_method_generics = generics_get_list body_cpn = [] in
++          let one_late_self_lifetime =
++            match HirGenericsRd.params_get_list
++                    (hir_generics_get body_cpn) with
++            | [param] ->
++                HirGenericParamKindRd.get
++                  (HirGenericParamRd.kind_get param) = Lifetime &&
++                (match HirGenericParamNameRd.get
++                    (HirGenericParamRd.name_get param) with
++                 | Fresh _ -> true
++                 | _ -> false)
++            | _ -> false
++          in
++          let no_extra_preds = predicates_get_list body_cpn = [] in
++          let unit_result =
++            match (D.decode_ty (output_get body_cpn)).kind with
++            | Tuple [] -> true
++            | _ -> false
++          in
++          let name = TrName.translate_def_path (def_path_get body_cpn) in
++          Ok (Some (name,
++                    explicit_nonunwind && has_body && only_impl_tparam &&
++                    no_method_generics && one_late_self_lifetime &&
++                    no_extra_preds && unit_result,
++                    body_cpn))
++      )
++    in
++    let local_drop_call (ty : D.ty) =
++      match ty.kind with
++      | Adt { id = { name }; substs } ->
++          let same_adt_impls =
++            trait_impls |> List.filter (fun (i : trait_impl) ->
++              canonicalize_item_name i.of_trait = "std::ops::Drop" &&
++              i.self_ty = name)
++          in
++          let opted_in =
++            same_adt_impls |> List.exists (fun i ->
++              i.items |> List.exists (fun item ->
++                List.exists (fun (n, _, _) ->
++                  n = TrName.translate_def_path item.def_id)
++                  annotated_drop_bodies))
++          in
++          if not opted_in then None
++          else
++            let reject msg = Some (Error ("Local Drop call: " ^ msg)) in
++            match substs with
++            | [{ kind = Type actual_ty }] ->
++            let matching =
++              same_adt_impls |> List.filter_map (fun i ->
++                match match_gen_arg_lists empty_match_env i.gen_args
++                        [{ kind = Type ty }] with
++                | None -> None
++                | Some env -> Some (i, env))
++            in
++            begin match matching with
++            | [] -> reject "annotated Drop impl does not match the exact local type"
++            | (impl, env) :: rest ->
++                let identical i j =
++                  i.gen_args = j.gen_args &&
++                  i.generics = j.generics &&
++                  i.predicates = j.predicates &&
++                  i.items = j.items &&
++                  i.self_ty = j.self_ty &&
++                  i.is_unsafe = j.is_unsafe &&
++                  i.is_negative = j.is_negative
++                in
++                if not (List.for_all (fun (i, _) -> identical impl i) rest) then
++                  reject "conflicting Drop impl records"
++                else
++                  let tparam =
++                    match impl.generics with
++                    | [{ name = p; kind = Type }] -> Some p
++                    | _ -> None
++                  in
++                  let valid_impl =
++                    match tparam, impl.gen_args, impl.predicates with
++                    | Some p,
++                      [{ kind = Type { kind = Adt {
++                         id = { name = n };
++                         substs = [{ kind = Type { kind = Param q } }]
++                       } } }],
++                      [Trait pred] when n = name && p = q &&
++                        (pred.def_id = "core::marker::Sized" ||
++                         pred.def_id = "std::marker::Sized") &&
++                        pred.bound_regions = [] ->
++                          begin match pred.args with
++                          | [{ kind = Type { kind = Param r } }] ->
++                              r = p && List.assoc_opt p env.type_env = Some actual_ty
++                          | _ -> false
++                          end
++                    | _ -> false
++                  in
++                  let exact_fields =
++                    match
++                      List.filter
++                        (fun adt_cpn ->
++                          let id = D.decode_adt_def_id
++                            (AdtDefRd.id_get adt_cpn) in
++                          TrName.translate_def_path
++                            (translate_adt_def_id id) = name)
++                        adt_defs_cpn
++                    with
++                    | [adt_cpn] ->
++                        begin match
++                          AdtKindRd.get (AdtDefRd.kind_get adt_cpn),
++                          AdtDefRd.variants_get_list adt_cpn,
++                          List.find_opt
++                            (fun (a : Mir.adt_def_tr) -> a.name = name)
++                            adt_defs,
++                          tparam
++                        with
++                        | StructKind, [variant_cpn], Some adt, Some p
++                          when adt.tparams = [p] && adt.lft_params = [] &&
++                               List.length adt.fds_no_zst = 3 ->
++                            let fields =
++                              (D.decode_variant_def variant_cpn).fields in
++                            begin match fields with
++                            | [src; dst; len] ->
++                                let field_name (field : D.variant_def_field_def) =
++                                  field.name.name in
++                                let raw_ptr (field : D.variant_def_field_def) =
++                                  match field.ty.kind with
++                                  | RawPtr { ty = { kind = Param q }; _ } ->
++                                      q = p
++                                  | _ -> false
++                                in
++                                field_name src = "src" &&
++                                field_name dst = "dst" &&
++                                field_name len = "len" &&
++                                raw_ptr src && raw_ptr dst &&
++                                (match len.ty.kind with
++                                 | UInt USize -> true | _ -> false)
++                            | _ -> false
++                            end
++                        | _ -> false
++                        end
++                    | _ -> false
++                  in
++                  begin match impl.items with
++                  | [{ name = "drop"; def_id }] when
++                      valid_impl && exact_fields &&
++                      not impl.is_unsafe && not impl.is_negative ->
++                      let callee = TrName.translate_def_path def_id in
++                      begin match List.filter
++                        (fun (n, _, _) -> n = callee)
++                        annotated_drop_bodies with
++                      | [(_, true, body_cpn)] ->
++                          let body_impl_generics =
++                            BodyRd.impl_block_generics_get_list body_cpn
++                            |> List.map D.decode_generic_param_def in
++                          let body_impl_preds =
++                            BodyRd.impl_block_predicates_get_list body_cpn
++                            |> List.map D.decode_predicate in
++                          let exact_self_input =
++                            match BodyRd.inputs_get_list body_cpn with
++                            | [input] ->
++                                begin match decode_ty (D.decode_ty input),
++                                            tparam with
++                                | `Ref (_, true,
++                                    `Adt (self_name, _, [`Type (`Param p)])),
++                                  Some q ->
++                                    self_name = name && p = q
++                                | _ -> false
++                                end
++                            | _ -> false
++                          in
++                          if body_impl_generics = impl.generics &&
++                             body_impl_preds = impl.predicates &&
++                             exact_self_input then
++                            Some (Ok (callee, actual_ty))
++                          else reject "annotated Drop body does not match the impl signature"
++                      | _ -> reject "annotated actual Drop body or explicit non-unwind contract missing"
++                      end
++                  | _ -> reject "unsupported annotated Drop impl or guard fields"
++                  end
++            end
++            | _ -> reject "annotated Drop ADT must have exactly one type argument"
++      | _ -> None
++    in
++    Ok local_drop_call
++
+   let compute_trait_impl_fn_specialisations trait_impls =
+     trait_impls
+     |> Util.flatmap
+@@ -8074,8 +8333,12 @@
+             bodies_cpn
+         else bodies_cpn
+       in
++      let* local_drop_call =
++        compute_local_drop_calls trait_impls adt_defs adt_defs_cpn bodies_cpn
++      in
+       let body_tr_defs_ctx =
+-        { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
++        { adt_defs; directives = vf_mir_translator_directives;
++          fn_specializer; local_drop_call }
+       in
+       let* bodies_tr_res =
+         Rocq_writer.rocq_print Args.rocq_writer "Definition bodies := ";

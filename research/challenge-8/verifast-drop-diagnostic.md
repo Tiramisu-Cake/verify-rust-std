@@ -1,7 +1,8 @@
 # Generic guard cleanup: pinned-model investigation
 
-Read-only source investigation, 2026-10-06. No cleanup proof or Actions
-reproducer yet. VeriFast26.09 source pin
+Source investigation and hosted proof progress, 2026-10-06. The actual
+destructor body passes gate37419989766; compiler-cleanup reuse remains open.
+VeriFast26.09 source pin
 `809de4596839b739dd999f9e462242c835e3af46`; actual std source unchanged.
 
 The pinned MIR translator lowers Rust `Drop` terminators to a call to
@@ -109,7 +110,36 @@ drop-elaborated MIR. The first implementation should remain restricted and
 fail closed on unsupported places, fields, impl predicates or method contracts.
 
 Hosted acceptance must include the actual method proof, normal and panic
-caller cleanup with full tmp storage recovered, and negatives for missing
-source permission, missing element ownership, mismatched/unsupported impl
-and a broken actual method postcondition. The direct body gate is the next
-experiment; these cleanup tests and all loop invariants remain future work.
+caller cleanup, and negatives for missing source permission, missing element
+ownership, mismatched/unsupported impl and a broken actual method postcondition.
+The direct body gate passed37419989766 at19e74b59f9f2235c26b208cc3c9a96149e3d6cb5.
+The next restricted local-Drop gate uses one-cell callers with raw source and
+destination arrays, preserving exact copied values and ONE logical element
+ownership sequence. These fixtures isolate compiler cleanup from the held
+reference used by actual insertion; they do not establish tmp storage recovery.
+After this gate, actual insertion still needs a proved release of held_ref
+after Drop and before tmp storage is freed on both normal and unwind paths.
+All insertion-loop invariants remain open.
+
+## Held-reference recovery after the caller gate
+
+Read-only preparation identifies a possible next checked contract variant.
+For len1, the actual Drop body could require its existing fractional source
+array, `ref_readonly_end_token(src, origin, f)` and `ref_initialized(src)`.
+After the original copy, ghost-only code can open the singleton source array
+and its empty tail, then call the existing `end_ref_readonly(src)` lemma.
+The method would return the source fraction at origin, exact destination values
+and ONE logical ownership sequence. The complementary origin fraction remains
+in the caller's frame and must be merged before tmp storage cleanup. This needs
+a separate proof of the actual method and normal/unwind callers at the same
+source version; it is not supplied by the arbitrary-length direct body proof.
+
+The current actual-insertion diagnostic still uses COMPARISON_DEBT_POST on
+normal and unwind exits. After the successful strict cut those first-comparison
+resources have been discharged, so that post is unsuitable for a completed
+normal insertion proof. Crossing guard cleanup must not be confused with a
+successful function exit. A next prefix experiment should keep the unrestricted
+T/F,n>=2 domain and report its precise next failure; a green actual-function
+proof requires accurate exit resource accounting as well. The readonly source
+route must not be extended across the second comparison with `&tmp` without
+handling generic interior mutability through the real sharing model.

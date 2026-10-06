@@ -1,0 +1,51 @@
+# Experimental local `Drop` caller gate
+
+The manual `verifast_local_drop_caller_gate` selection uses the pinned
+26.09 VeriFast build, paired Z3, nightly-2026-02-05 Rust exporter, and exact
+SmallSort source `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
+Its source-build profile inherits the tuple, HRTB, lifetime-cut,
+address-taken, and tracked `ManuallyDrop` patches, then applies
+`verifast-local-drop-call.patch` to the translator only. The final translator
+patch input is `f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432`,
+the patch SHA-256 is `f8f259e944478c5d23829a2d294def4c79087fb6886df559d9e91ed4146a8739`,
+and the expected result is
+`910a2b79a0761e359a76ac0502251cacc5183b075c556078018be3590ea679b5`.
+The build still requires the exact four modified VeriFast files.
+
+The gate runs all 8 HRTB, 12 lifetime-scope, and 5 tracked-reference
+regressions first. It then reruns the existing exact-source 364-byte
+`CopyOnDrop<T>::drop` method proof before assembling any callers. The caller
+extractor imports the direct destructor extractor, so it cannot silently
+copy a stale Drop contract. Every original/verified pair is audited by
+removing ghost comments and checking exact byte equality; the Rust standard
+library source and direct contract hashes are recorded.
+
+`cleanup_one<T>` owns only a fraction of the initialized source, the complete
+initialized destination, the thread/type tokens, and one `foreach(T.own)`
+sequence. Normal local cleanup must establish the exact copied destination
+and return the same source fraction and single ownership sequence.
+`cleanup_callback<T, F: FnMut()>` creates the real local guard, calls the
+mutable callback, and carries the updated callback ownership through both
+normal and unwind postconditions. The runner checks the callback call record
+and the compiler MIR for the callback function, the normal and cleanup
+`drop = (` terminators, a cleanup block, and the `unwindResume = void` edge.
+It also requires at least two verifier Drop-call records at the scope close,
+covering normal cleanup and successful callback-unwind cleanup. No callback
+purity or panic-free premise is added.
+
+Negative fixtures separately omit source permission, destination permission,
+or the element ownership sequence. An unannotated actual Drop retains the
+generic `drop_in_place` path and must fail. A deliberately false exact-value
+postcondition must fail while verifying the named actual Drop body after its
+copy statement. Two annotated custom Drop fixtures (an extra physical field
+and a `T: Copy` bound on both struct and impl) must pass Rust export/decode and
+then fail at the local-Drop frontend guard. Every negative classification is
+fail-closed; frontend/export failures cannot count as proof or intended
+rejection.
+
+The gate proves only this narrow same-unit local cleanup translation and its
+resource transfer. It does not release the insertion held reference, prove
+the insertion loop, recover full destination ownership for general insertion,
+or claim support for projected-place Drop or nontrivial field glue. Build,
+export, refinement, and proof execution occur only on GitHub-hosted Actions;
+the editing server is limited to static checks.

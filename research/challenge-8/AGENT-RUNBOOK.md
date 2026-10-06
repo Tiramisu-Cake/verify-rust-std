@@ -21,6 +21,31 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Prepared next local-cleanup gate:** `verifast_local_drop_caller_gate`,90min,
+profile `tuple_local_drop`. No active Actions run. Source patch
+f8f259e944478c5d23829a2d294def4c79087fb6886df559d9e91ed4146a8739
+changes only translator after f8751fab; expected result
+910a2b79a0761e359a76ac0502251cacc5183b075c556078018be3590ea679b5.
+Root/Sol review and independent Astra source review found no remaining concrete
+blocker after exact late-self lifetime instantiation; projected places retain
+the generic baseline as an explicit non-goal. The same-unit actual annotated
+method consumes its concrete checked precondition; no own/token/chunk synthesis
+or erasure. Method outcomes and Drop unwind CFG successors are preserved.
+Luna integration has all25 regressions, same-source actualDrop proof, fractional
+onecell rawsource/dst normal and FnMut() normal/unwind caller proofs, and7
+negative permission/ownership/unannotated/brokenbody/unsupported fixtures.
+Gate review fixes strict error/header/cleanup/MIR counters and source hash
+readback; root and independent Astra review complete. Static AST/YAML/bash-n/
+diff checks pass. Fixture pin73cda1789bfb1ab3c1a3ec7a5a85a5ba305019579d5f716b59015f34d8538e30.
+Defaultmain exposes the selection by workflow-only commit
+5556b0bb2464697190a5467d5ce863402cf989d9; no research code merged there.
+Next push research source and dispatch NEW exactSHA run.
+Actual held_ref release and insertion loop remain open. A possible specialized
+onecell actualDrop contract can call existing end_ref_readonly after copy and
+merge a supplied complementary origin fraction BEFORE tmpfree; needs separate
+checked body/callers. Current actualinsert normal/unwind COMPARISON_DEBT_POST
+is a partial diagnostic and unsuitable for a completed normal exit after cut.
+
 **Completed generic destructor body gate:** [37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766),
 source `19e74b59f9f2235c26b208cc3c9a96149e3d6cb5`, copy_on_drop_gate90min.
 Full logs/artifacts inspected. Same26.09 source/tool/prelude/pairedZ3/4-file

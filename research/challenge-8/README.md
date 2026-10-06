@@ -55,15 +55,18 @@ experiment; general types, arbitrary lengths and unwind safety remain future wor
 ## Run
 
 Agents dispatch and inspect each run autonomously using `gh` and the runbook.
-The next selection is `verifast_copy_on_drop_gate`,budget90min, on
-`challenge-8/research`. It reuses the experimental `tuple_manually_drop_ref`
-source build and runs all eight HRTB, twelve lifetime-scope and five reference
-fixtures. It then checks only the actual generic `CopyOnDrop<T>::drop` body,
-mechanically extracted from this std source with ghost-only annotations.
-The contract requires initialized source/destination arrays of arbitrary valid
-length and proves exact copied values while conserving one logical ownership
-sequence. This is a direct destructor gate; compiler-generated cleanup reuse
-and the complete insertion contract remain open. See [the gate contract](verifast-drop-gate.md).
+The next selection is `verifast_local_drop_caller_gate`,budget90min, on
+`challenge-8/research`. Its experimental `tuple_local_drop` source build adds
+restricted reuse of an annotated same-unit Drop contract for bare-local compiler
+cleanup. It retains all eight HRTB, twelve lifetime-scope and five reference
+fixtures and the [actual generic destructor body gate](verifast-drop-gate.md),
+which passed37419989766. One-cell raw-pointer callers check exact destination
+values and one logical ownership sequence on normal and callback-unwind exits.
+Negative fixtures check required permissions, element ownership, actual-body
+postconditions and the restricted frontend boundary. See
+[the translator boundary](verifast-local-drop-call.md).
+Held-reference release, the actual insertion loop and the complete insertion
+contract remain open; raw-pointer caller fixtures do not prove those obligations.
 
 The earlier insertion profiles preserve their exact-source diagnostic probes.
 See [the scope cut](verifast-end-lft-binding.md),

@@ -13,7 +13,7 @@ release_home=${1:?release tool directory required}
 evidence=${2:?evidence directory required}
 source_home=${3:?fresh source directory required}
 build_profile=${4:-tuple_parser}
-case "$build_profile" in tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken|tuple_manually_drop_ref) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
+case "$build_profile" in tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken|tuple_manually_drop_ref|tuple_local_drop) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
 mkdir -p "$evidence"
 trap 'printf "%s\n" "$?" > "$evidence/source-build-exit-code.txt"' EXIT
 vf_commit=809de4596839b739dd999f9e462242c835e3af46
@@ -54,7 +54,7 @@ cp "$source_home/bin/rust/prelude.rsspec" "$evidence/prelude.unmodified.rsspec"
 git -C "$source_home" apply --check "$patch_file"
 git -C "$source_home" apply "$patch_file"
 expected_modified="$parser_rel"
-if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref ]]; then
+if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref || "$build_profile" == tuple_local_drop ]]; then
     translator_rel=src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
     translator_sha=7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803
     hrtb_patch="$repo/research/challenge-8/verifast-fnmut-hrtb.patch"
@@ -63,7 +63,7 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
     sha256sum "$hrtb_patch" >> "$evidence/source-build-inputs.txt"
     git -C "$source_home" apply --check "$hrtb_patch"
     git -C "$source_home" apply "$hrtb_patch"
-    if [[ "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref ]]; then
+    if [[ "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref || "$build_profile" == tuple_local_drop ]]; then
         kernel_rel=src/verifast.ml
         kernel_sha=5968a05e264042782e8373c452b241ccdd1f4ba3323d596888a9bdf6b18c3310
         cut_patch="$repo/research/challenge-8/verifast-end-lft-binding.patch"
@@ -79,14 +79,14 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
         sha256sum "$evidence/verifast.original.ml" "$evidence/verifast.patched.ml" >> "$evidence/source-build-inputs.txt"
     fi
     cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
-    if [[ "$build_profile" != tuple_manually_drop_ref ]]; then
+    if [[ "$build_profile" != tuple_manually_drop_ref && "$build_profile" != tuple_local_drop ]]; then
         sha256sum "$evidence/vf_mir_translator.original.ml" "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
     fi
     expected_modified="$parser_rel"$'\n'"$translator_rel"
-    if [[ "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref ]]; then
+    if [[ "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref || "$build_profile" == tuple_local_drop ]]; then
         expected_modified+=$'\n'"$kernel_rel"
     fi
-    if [[ "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref ]]; then
+    if [[ "$build_profile" == tuple_address_taken || "$build_profile" == tuple_manually_drop_ref || "$build_profile" == tuple_local_drop ]]; then
         expr_rel=src/verify_expr.ml
         expr_sha=af5f7399d63e2ce2d5fc18291466b406c278f49d6bcb966ed49d644782958e2e
         address_patch="$repo/research/challenge-8/verifast-address-taken.patch"
@@ -101,7 +101,7 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
         sha256sum "$source_home/$expr_rel" | cut -d ' ' -f 1 > "$evidence/verify_expr-patched-sha256.txt"
         expected_modified+=$'\n'"$expr_rel"
     fi
-    if [[ "$build_profile" == tuple_manually_drop_ref ]]; then
+    if [[ "$build_profile" == tuple_manually_drop_ref || "$build_profile" == tuple_local_drop ]]; then
         translator_before_ref_sha=15a9db2fbafa0f04e74e75e5bee0dd7d941a7428906e42432e9d9687843bbcce
         manually_drop_patch="$repo/research/challenge-8/verifast-manually-drop-ref.patch"
         printf '%s  %s\n' "$translator_before_ref_sha" "$source_home/$translator_rel" | sha256sum -c -
@@ -109,11 +109,32 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$b
         sha256sum "$manually_drop_patch" >> "$evidence/source-build-inputs.txt"
         git -C "$source_home" apply --check "$manually_drop_patch"
         git -C "$source_home" apply "$manually_drop_patch"
+        if [[ "$build_profile" == tuple_manually_drop_ref ]]; then
+            cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
+            sha256sum "$evidence/vf_mir_translator.original.ml" \
+                "$evidence/vf_mir_translator.before-manually-drop-ref.ml" \
+                "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
+            sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-manually-drop-ref-sha256.txt"
+        fi
+    fi
+    if [[ "$build_profile" == tuple_local_drop ]]; then
+        translator_before_local_drop_sha=f8751fab591ed98daebf446eb34800e892e72a838c7c083f643bd4efabbb0432
+        local_drop_patch_sha=f8f259e944478c5d23829a2d294def4c79087fb6886df559d9e91ed4146a8739
+        translator_after_local_drop_sha=910a2b79a0761e359a76ac0502251cacc5183b075c556078018be3590ea679b5
+        local_drop_patch="$repo/research/challenge-8/verifast-local-drop-call.patch"
+        printf '%s  %s\n' "$translator_before_local_drop_sha" "$source_home/$translator_rel" | sha256sum -c -
+        cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.before-local-drop-call.ml"
+        printf '%s  %s\n' "$local_drop_patch_sha" "$local_drop_patch" | sha256sum -c -
+        sha256sum "$local_drop_patch" >> "$evidence/source-build-inputs.txt"
+        git -C "$source_home" apply --check "$local_drop_patch"
+        git -C "$source_home" apply "$local_drop_patch"
+        printf '%s  %s\n' "$translator_after_local_drop_sha" "$source_home/$translator_rel" | sha256sum -c -
         cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
         sha256sum "$evidence/vf_mir_translator.original.ml" \
             "$evidence/vf_mir_translator.before-manually-drop-ref.ml" \
+            "$evidence/vf_mir_translator.before-local-drop-call.ml" \
             "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
-        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-manually-drop-ref-sha256.txt"
+        sha256sum "$source_home/$translator_rel" | cut -d ' ' -f 1 > "$evidence/vf_mir_translator-after-local-drop-call-sha256.txt"
     fi
 fi
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
