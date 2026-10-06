@@ -10,9 +10,12 @@ on 2026-10-06. That follow-up completed; [its closeout](SORT4-CONTRACT-RESULTS.m
 preserves the historical architecture proposal. The owner then opened the bounded
 [no-patch feasibility phase](SORT4-NO-PATCH-PHASE.md); it is now closed with
 [the source-grounded assessment](SORT4-NO-PATCH-ASSESSMENT.md). No new c1 candidate
-was identified, so no experiment ran. The current recommendation is a bounded
-contract/admissibility review, not selection of verifier development. Later sorting
-stages and verifier implementation remain separate decisions.
+was identified, so no experiment ran. The owner subsequently requested the
+[remaining approved tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md), accepted
+RAPx as the next candidate and approved preparing the bounded
+[RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) on 2026-10-06. That phase
+is READY, not yet run. Contract admissibility remains a separate open question;
+later sorting stages and verifier implementation remain separate decisions.
 
 ## Decision and evidence
 
@@ -33,6 +36,7 @@ The decision uses these findings:
 | [Prepared-phase closeout](PREPARED-PHASE-2026-10-06.md) | Preserve the conditional recovery/Drop results. Defer insertion integration and verifier development until their source applicability and trust decisions are resolved. |
 | [Tuple ownership](verifast-tuple-parser.md) and [FnMut HRTB](verifast-fnmut-hrtb.md) findings | A simpler sorting body can still hit the same generic callback blockers. Review existing evidence before proposing a new hosted diagnostic. |
 | [Measured UB limits](ub-checks.md) | A functional pass cannot close all four required UB categories. Keep unsupported instrumentation and detector gaps visible. |
+| [Remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) | RAPx has relevant generic-layout and unsafe-contract mechanisms, with specific ZST alignment and callback/panic coverage concerns. Test detector applicability before proposing a full proof; do not infer correctness from a SOUND label. |
 
 The completed immediate stages provide concrete functionality and contract
 diagnostics with a precise boundary, followed by an owner decision on generic
@@ -45,7 +49,9 @@ outside the approved roadmap.
 | --- | --- | --- | --- |
 | 1a — complete | `sort4_stable` functionality | Actual-body sorted exact i32 multiset and tagged stability; 18/18 covers in run37459631500, plus contract/caller and generic-feasibility notes | [Functional closeout](SORT4-RESULTS.md) records the concrete domain. Generic safety and full UB coverage remain open. |
 | 1b — complete | `sort4_stable` contract and proof route | Reproduce coincident/shifted-overlap cases; refine full contract and caller mapping; review existing patches and select one minimal generic-safety architecture proposal | [Closeout](SORT4-CONTRACT-RESULTS.md): run37466906281 validates both distinct negatives/control/witness, full contract and one proposed direct-unwind recovery gate. Owner decision required before semantic implementation. |
-| 1c — complete | `sort4_stable` no-patch feasibility | Compare checked annotations on official26.09, released26.10 and one integrated alternative (Kani); obstacle matrix and no-run rationale | [Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed full-resource c1 candidate; no generic coverage gained. Stop for owner contract/admissibility decision; historical patched proposal not authorized. |
+| 1c — complete | `sort4_stable` no-patch feasibility | Compare checked annotations on official26.09, released26.10 and one integrated alternative (Kani); obstacle matrix and no-run rationale | [Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed full-resource c1 candidate; no generic coverage gained. Historical patched proposal remains unauthorized. |
+| 1d — complete | Remaining approved tools | Compare ESBMC, Flux, KMIR and RAPx against generic Rust, unsafe memory and panic requirements using primary sources | [Screening](ALTERNATIVE-TOOLS-ASSESSMENT.md): select RAPx only for applicability diagnostics. No tool execution or new target coverage; contract admissibility remains open. |
+| 1e — READY | RAPx applicability and detector coverage | Ordered alignment/ZST, generic-memory and callback/panic gates on the unchanged exact integrated profile | [Phase](RAPX-APPLICABILITY-PHASE.md): at most four hosted runs, 90 minutes each; stop on a critical miss/essential unsupported behavior or at the final owner decision. Even all-green fixtures do not authorize full sort4 or tool development. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -66,6 +72,13 @@ dispatch reasoning; it does not prove its callers.
   in stage1c. Repository pin remains26.09; no new experiment justified. No new run
   or patch build/application authorized after closeout. Historical patched results
   stay conditional on recorded profiles; the proposal remains historical.
+- **RAPx:** exactly 0.7.50 on nightly-2026-02-05 for stage 1e only, with installed
+  package/source identity audited. Own diagnostic fixtures and minimal manual
+  workflow plumbing are permitted; checker/model patches, upgrades and full
+  target-proof integration are not. Inspect generated obligations and actual
+  normal/unwind effects, not only verdict labels.
+- **ESBMC, Flux, KMIR:** screening complete; no execution selected. This is a
+  task/profile-specific decision, not a universal impossibility claim.
 - **Frama-C, ACSL and Coq:** reference contracts, invariants and theorem designs.
   This plan does not introduce a new tool, import others' proof code, or assume
   an automatic proof bridge between languages or verifiers.
@@ -83,6 +96,12 @@ its hosted diagnostics and closed at the architecture decision; the original
 approval does not authorize its proposed future verifier experiment. The separate
 stage1c authorization explicitly excluded that patched route; stage1c is closed.
 Its no-patch findings do not prove all unmodified-tool strategies impossible.
+
+Stage 1d is a source review, not another experiment. Stage 1e is now approved
+for continuation under its explicit allowlist and budget. Its ordered gates
+are an applicability test; they neither reopen old phases nor authorize
+verifier development. Preserve the full research contract as the semantic
+yardstick while identifying each deliberately partial diagnostic.
 
 Stage 1b separates the two overlap questions: violation of an actual copy's
 non-overlap requirement, and corruption of original values across individually

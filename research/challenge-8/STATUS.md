@@ -1,8 +1,9 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: completed the owner-authorized bounded
-[sort4 no-patch feasibility phase](SORT4-NO-PATCH-PHASE.md) from checkpoint
-`11e8ead9389cc95fc7d13a24d0c28d7d2d6ba3c5`, fork
+Updated 2026-10-06: recorded the owner-approved
+[remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) and prepared the
+[RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) for the next agent.
+Documentation entry HEAD `b7416c18035c714258e2a476eebdfa1609f7f66c`, fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
 This is the single current checkpoint; procedures in
 [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md),
@@ -10,17 +11,27 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**CLOSED — sort4 no-patch feasibility; stop at the owner decision.**
-[Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed candidate found
-for the full generic c1 normal/direct-panic resource gate. No fixture/runner/
-workflow/proof implementation, patch application or Actions dispatch;0 of2 runs
-used. No active run or unfinished proof edit. Historical phases remain closed;
-patched experiment in SORT4-SAFETY-DECISION remains explicitly NOT authorized.
-No later phase, verifier extension or external publication is authorized.
+**READY — RAPx applicability and detector coverage; not started.**
+The owner accepted the selection of RAPx and requested documentation plus the
+next agent prompt. A continuation agent may begin only the bounded
+[named phase](RAPX-APPLICABILITY-PHASE.md) without repeating approval: A, ZST and
+ordinary alignment; B, generic/raw-memory coverage; C, comparator effects and
+normal/direct-panic behavior. Advance only after the previous gate passes.
 
-Entry HEAD/remote research `11e8ead9389cc95fc7d13a24d0c28d7d2d6ba3c5`, clean tree;
-origin is the intended fork, main `0b54bf8f1f2fc4f7d1a7acef4d428ffe34cd7447`.
-All changes in this phase are own documentation; main/workflows/pins/std unchanged.
+Frozen profile: RAPx exactly 0.7.50, Rust nightly-2026-02-05; reviewed upstream
+source `7d61d9377033c48a4df8954f34cc076e97a93816`. Audit the installed package;
+no patch, semantic model change or upgrade. Maximum four hosted runs (one per
+reached gate plus one shared technical correction), 90 minutes each including
+setup, one active run at a time. Used **0/4**. No RAPx diagnostic run or fixture
+has been implemented in this documentation checkpoint; no active research run.
+
+The ZST alignment rule and unsupported-call fallback are source-level concerns,
+not reproduced false passes. A critical miss or essential unsupported behavior
+stops this route; even success stops at an owner decision before a full proof.
+The public-contract admissibility question remains separate and unresolved.
+Earlier phases stay CLOSED, including no-patch feasibility (0/2 runs used).
+The patched proposal in SORT4-SAFETY-DECISION, later sorting phases and external
+publication remain unauthorized. This update changes documentation only.
 
 ## Completed no-patch review
 
@@ -40,10 +51,10 @@ unrestricted safety route established. Full matrix, immutable sources, profiles,
 observed/inferred/unknown distinctions and no-run rationale are in the assessment.
 No conclusion that every no-patch route is impossible. Generic coverage unchanged.
 
-Recommended next task/owner decision: authorize a bounded review clarifying the
-full safety contract's separated-range and single-owner scratch protocol, or keep
-proof work stopped. No verifier-extension route is selected. Latest proof run
-remains37466906281 below; this documentation closeout is not another proof run.
+That closeout recommended a contract/admissibility review. The subsequent owner
+decision selects the separate RAPx applicability task above; it does not answer
+the contract question or select verifier development. Latest proof run remains
+37466906281 below; the screening and READY checkpoint add no verification result.
 
 ## Completed contract diagnostics and architecture review
 
@@ -160,10 +171,12 @@ and unsupported permission transfer to a saved shared-reference-derived pointer.
 Only independently designed access packaging was implemented. See experiment
 log for exact costs, hashes, diagnostics and case counts.
 
-## Next decision and permitted action
+## Next permitted action and stop boundary
 
-Phase closed. Owner decides on the single contract/admissibility review task
-recommended in [SORT4-NO-PATCH-ASSESSMENT](SORT4-NO-PATCH-ASSESSMENT.md).
-Read-only/documentation follow-up is permitted when requested. New experiments,
-custom verifier work, other sort functions and external publication require a
-separate authorization. No active run; agent stops at this boundary.
+Read the screening and RAPx phase, inspect actual branch/run state, record
+IN PROGRESS and the gate-A experiment card, then implement and run only that
+bounded diagnostic on GitHub-hosted Actions. Follow the phase's ordered gates,
+profile and budget; no local builds/tests and no automatic tool upgrade.
+Write RAPX-APPLICABILITY-RESULTS.md and checkpoint NO-GO, INCONCLUSIVE or READY
+FOR NEXT DECISION with exact evidence. Stop there; fixture success is not a
+generic sort4 proof, and a model gap does not authorize a verifier patch.

@@ -23,15 +23,23 @@ UB finding. Prior memcmp-unwind and formatted-panic-label fixture failures are
 preserved in [closeout](SORT4-CONTRACT-RESULTS.md). No generic safety/UB coverage
 or new VeriFast result follows; [proposed full contract](SORT4-CONTRACT.md) and
 [one selected architecture/gate](SORT4-SAFETY-DECISION.md) remain unproved research
-specifications. Stop at owner decision; verifier capability is NOT AUTHORIZED.
+specifications. That phase stopped at the owner decision; its proposed verifier
+capability remains NOT AUTHORIZED.
 
 The bounded [no-patch review](SORT4-NO-PATCH-ASSESSMENT.md) completed with no
 new experiment and **no generic coverage gain**. Static comparison of official
 VeriFast26.09/26.10 preserves relevant tuple/HRTB/direct-unwind/typed-scratch gaps;
 Kani remains a concrete monomorphized evidence route. Target-source compilation/
 refinement on26.10 NOT RUN. These are feasibility observations, not new target
-failures or proofs. The historical patched proposal remains unauthorized; the
-current owner decision is the recommended bounded contract/admissibility review.
+failures or proofs. The historical patched proposal remains unauthorized;
+contract/admissibility clarification is an independent open question.
+
+The [remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) is now complete
+and the [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md) is READY. No RAPx
+diagnostic has run and no new coverage is claimed. The suspected ZST alignment
+gap and incomplete callback/panic evidence are source-review concerns, not
+executed counterexamples. Only the named bounded diagnostics are authorized;
+the safety and sorting coverage tables below are unchanged.
 
 ## Safety targets and sorting contracts
 

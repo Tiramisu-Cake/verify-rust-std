@@ -1545,3 +1545,40 @@ unchanged. All no-patch routes are not proved impossible; undiscovered checked
 mechanisms,26.10 source compatibility and whole generic proof obligations remain
 unknown. No custom verifier development selected/authorized. No active run or
 unfinished proof edit; subsequent experiments need separate owner authorization.
+
+
+## 2026-10-06 — remaining-tools screening and RAPx READY checkpoint (NO RUN)
+
+After the no-patch closeout, the owner requested a short review of the remaining
+approved tools for generic Rust, pointers and panic; then accepted the RAPx
+candidate and asked to update repository documentation and provide the next
+agent prompt. Entry/remote research HEAD was
+`b7416c18035c714258e2a476eebdfa1609f7f66c`; current inspected research Actions
+were all completed, latest run37466906281. The std SmallSort blob is still
+`e555fce440872898e47fd5114f32eb15401d07df`.
+
+[ALTERNATIVE-TOOLS-ASSESSMENT](ALTERNATIVE-TOOLS-ASSESSMENT.md) records the
+source-based comparison: ESBMC8.5 consumes Kani-generated GOTO in this integration;
+Flux's pinned checker leaves cleanup checking unimplemented; KMIR0.4.226 lists
+monomorphized types, partial pointers, no panic unwinding and no user Drop.
+RAPx0.7.50 has relevant generic layout, copy-contract and selection mechanisms,
+but unrestricted callback effects/direct-panic state are unestablished.
+Its concrete-ZST alignment shortcut is a source-level suspected coverage gap,
+NOT a reproduced false SOUND result. Official sources and inspected upstream
+revisions are pinned in the assessment. No broad all-tools impossibility claim.
+
+The owner-approved next task is
+[RAPX-APPLICABILITY-PHASE](RAPX-APPLICABILITY-PHASE.md), status READY, not started:
+A alignment/ZST, then B generic memory and required UB categories, then C callback
+effects and normal/direct panic. Exact RAPx0.7.50/nightly-2026-02-05 profile;
+installed package/source identity must be audited. Maximum four hosted runs,
+90 minutes each including setup, one active at a time; used0/4. Critical misses
+or essential unsupported behavior stop later gates. Even all-green fixtures stop
+at an owner decision before any full target proof, upgrade or verifier patch.
+
+This checkpoint changes only the assessment/phase and current status, roadmap,
+index, coverage context and this log. No proof fixture/runner/workflow/pin/std
+change, installation/build, semantic patch or dispatch. Latest proof evidence
+and all established coverage remain unchanged. Contract admissibility stays
+independent and unresolved; no external contact or publication is authorized.
+Validation is static document/diff/link/profile consistency review only.

@@ -6,18 +6,23 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**The sort4 no-patch feasibility phase is complete.**
-[Assessment](SORT4-NO-PATCH-ASSESSMENT.md) compares official26.09/26.10 and the
-integrated Kani route; no new full-resource first-callback candidate was found,
-so no run occurred. This does not establish universal no-patch impossibility.
-Stop at the owner contract/admissibility decision; verifier development remains
-unselected and the historical patched experiment unauthorized.
+**READY: bounded RAPx applicability and detector coverage.**
+The [remaining-tools screening](ALTERNATIVE-TOOLS-ASSESSMENT.md) selects RAPx
+for the [next agent phase](RAPX-APPLICABILITY-PHASE.md): alignment/ZST first,
+then generic memory, then callback/panic coverage. No RAPx diagnostic has run.
+The source-level concerns are hypotheses to test, not observed false passes.
+The phase uses the exact integrated 0.7.50 profile without verifier modifications.
+Contract admissibility remains separate; historical patched work stays unauthorized.
+
+The closed [no-patch assessment](SORT4-NO-PATCH-ASSESSMENT.md) preserves the
+official VeriFast26.09/26.10 and Kani review; it found no new full-resource
+first-callback candidate and ran no experiment. Earlier phases remain closed.
 [Contract closeout](SORT4-CONTRACT-RESULTS.md) and
 [functional closeout](SORT4-RESULTS.md) preserve earlier results.
 [STATUS.md](STATUS.md) is the current checkpoint; [PLAN.md](PLAN.md) the roadmap.
 
 1. [Root agent instructions](../../AGENTS.md).
-2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-NO-PATCH-PHASE.md)
+2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](RAPX-APPLICABILITY-PHASE.md)
    and [operating runbook](AGENT-RUNBOOK.md).
 3. [Coverage ledger](coverage.md), [Challenge 8](../../doc/src/challenges/0008-smallsort.md)
    and [general rules](../../doc/src/general-rules.md).
@@ -29,9 +34,16 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
+- [RAPx applicability phase](RAPX-APPLICABILITY-PHASE.md): approved bounded
+  diagnostics, exact profile, ordered gates, run budget and mandatory stop;
+  no full sort4 proof or tool patch authorized.
+- [Remaining-tools assessment](ALTERNATIVE-TOOLS-ASSESSMENT.md): immutable
+  integration/source references, comparison, observed/inferred/unknown
+  distinctions, ZST alignment and callback/panic coverage concerns.
 - [No-patch phase](SORT4-NO-PATCH-PHASE.md) and
   [assessment](SORT4-NO-PATCH-ASSESSMENT.md): completed source/evidence comparison,
-  no experiment, no generic coverage gain; one recommended contract review task.
+  no experiment, no generic coverage gain; its historical contract-review
+  recommendation remains an independent open question.
 - [Completed contract phase](SORT4-CONTRACT-PHASE.md): coincident/shifted-overlap
   diagnostics, precise contract and one proposed generic proof route; see
   [observed results](SORT4-CONTRACT-RESULTS.md). Verifier implementation remains
