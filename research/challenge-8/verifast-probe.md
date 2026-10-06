@@ -141,6 +141,15 @@ new precondition or assumption. The next Actions result must confirm the
 resource match; cleanup still needs to close both fractional borrows before
 ending the lifetime.
 
+Actions run
+[37399426683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399426683)
+at `9c5f12f` still failed at the second half-token consumption, despite the
+explicit merge. The next revision places checked `assert` commands after the
+merge and on both sides of the first `ref_initialized` opening. They test
+whether a full token exists before the first fractional access and whether a
+half remains afterward; assertions add no token or precondition. This should
+localize the resource change before altering the fraction strategy.
+
 This stage deliberately stops at the first comparison. Ending its lifetime,
 recovering potentially changed `T` values after comparator interior mutation,
 and restoring ownership on the early-return, normal, and unwind paths remain
