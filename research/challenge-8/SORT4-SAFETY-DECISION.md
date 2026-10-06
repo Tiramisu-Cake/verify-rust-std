@@ -1,5 +1,19 @@
 # `sort4_stable`: generic proof architecture decision
 
+## Current disposition after no-patch review
+
+[No-patch phase](SORT4-NO-PATCH-PHASE.md) completed2026-10-06;
+[assessment](SORT4-NO-PATCH-ASSESSMENT.md) is the current feasibility conclusion.
+Official26.10 retains the relevant tuple/HRTB/direct-unwind/scratch-copy blockers;
+normal-only annotations and the integrated Kani route did not provide a new
+full-resource c1 hypothesis. No new run or generic sort4 proof. This is not a
+proof of universal no-patch impossibility. Current recommended next task is the
+bounded contract/admissibility review, pending owner decision. Verifier development
+is not selected. The proposal below is preserved as **history, NOT AUTHORIZED**;
+the no-patch approval did not authorize its dependencies or exceptional routing.
+
+## Historical architecture decision
+
 Decision 2026-10-06: recommend only a separately reviewed one-callback
 normal/direct-unwind recovery gate using explicit proof continuations.
 Existing patches are insufficient for full generic sort4; copying to raw scratch,
@@ -268,7 +282,7 @@ review sharing all four cells across five calls (including repeated same-cell
 accesses), panic c1..c5, select helper, raw scratch copy summary and ZST/padding/
 ownership resources. These dependencies cannot be waived by the first gate.
 
-## Exact next owner decision
+## Historical proposed owner decision — not current authorization
 
 Decide whether to authorize this narrow exceptional-continuation design/trust
 review and one-callback full-normal/full-direct-unwind implementation experiment,

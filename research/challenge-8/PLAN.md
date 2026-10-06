@@ -6,9 +6,13 @@ This decision supersedes the insertion-first ordering in earlier handoffs.
 The [sort4 functional phase](SORT4-PHASE.md) is complete. After reviewing its
 results, the owner approved the bounded
 [contract-diagnostics and generic-proof-route phase](SORT4-CONTRACT-PHASE.md)
-on 2026-10-06. That follow-up is now complete; [its closeout](SORT4-CONTRACT-RESULTS.md)
-stops at the explicit owner architecture decision. Later sorting stages and
-verifier implementation remain separate decisions.
+on 2026-10-06. That follow-up completed; [its closeout](SORT4-CONTRACT-RESULTS.md)
+preserves the historical architecture proposal. The owner then opened the bounded
+[no-patch feasibility phase](SORT4-NO-PATCH-PHASE.md); it is now closed with
+[the source-grounded assessment](SORT4-NO-PATCH-ASSESSMENT.md). No new c1 candidate
+was identified, so no experiment ran. The current recommendation is a bounded
+contract/admissibility review, not selection of verifier development. Later sorting
+stages and verifier implementation remain separate decisions.
 
 ## Decision and evidence
 
@@ -41,6 +45,7 @@ outside the approved roadmap.
 | --- | --- | --- | --- |
 | 1a — complete | `sort4_stable` functionality | Actual-body sorted exact i32 multiset and tagged stability; 18/18 covers in run37459631500, plus contract/caller and generic-feasibility notes | [Functional closeout](SORT4-RESULTS.md) records the concrete domain. Generic safety and full UB coverage remain open. |
 | 1b — complete | `sort4_stable` contract and proof route | Reproduce coincident/shifted-overlap cases; refine full contract and caller mapping; review existing patches and select one minimal generic-safety architecture proposal | [Closeout](SORT4-CONTRACT-RESULTS.md): run37466906281 validates both distinct negatives/control/witness, full contract and one proposed direct-unwind recovery gate. Owner decision required before semantic implementation. |
+| 1c — complete | `sort4_stable` no-patch feasibility | Compare checked annotations on official26.09, released26.10 and one integrated alternative (Kani); obstacle matrix and no-run rationale | [Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed full-resource c1 candidate; no generic coverage gained. Stop for owner contract/admissibility decision; historical patched proposal not authorized. |
 | 2 — later decision | `swap_if_less` | A reusable compositional compare-exchange contract separating unrestricted safety from ordering assumptions | Extend beyond the existing four-cell/fixed-index i32 result; account for actual `ManuallyDrop`, ownership and normal/panic behavior. |
 | 3 — later decision | Actual `sort9_optimal` / `sort13_optimal` networks | Composition from verified compare-exchange calls; explicit formal bridge for any zero-one argument | Establish the theorem's comparator/order assumptions and its correspondence to the real Rust network. Exhaustive Boolean evaluation of a rewritten model is insufficient. Do not infer stability for these networks. |
 | 4 — later decision | `insert_tail`, then `insertion_sort_shift_left` | Full normal/unwind inner contract, then an arbitrary-valid-length outer-loop proof | Resolve first false return/direct panic, held references, gap ownership and late panic before relying on a callee summary. Do not replace the proof by a larger unrolling bound. |
@@ -57,10 +62,10 @@ dispatch reasoning; it does not prove its callers.
 - **Kani:** unchanged repository pin for actual-source functional proofs and
   contract diagnostics, with explicitly identified check profiles and claims.
   The completed phase isolates observed safety and functional counterexamples.
-- **VeriFast:** source/patch/regression evidence for architecture review in the
-  completed contract phase. No new run or patch build/application is authorized.
-  Historical successes stay conditional on their recorded source/profile;
-  review does not authorize importing or extending those patches.
+- **VeriFast:** official26.09/26.10 source comparison completed without execution
+  in stage1c. Repository pin remains26.09; no new experiment justified. No new run
+  or patch build/application authorized after closeout. Historical patched results
+  stay conditional on recorded profiles; the proposal remains historical.
 - **Frama-C, ACSL and Coq:** reference contracts, invariants and theorem designs.
   This plan does not introduce a new tool, import others' proof code, or assume
   an automatic proof bridge between languages or verifiers.
@@ -75,7 +80,9 @@ remain separate acceptance obligations.
 The original sort4 functional phase has closed. The owner approved stage 1b
 after reviewing its results and the proposed next task. Stage1b has now completed
 its hosted diagnostics and closed at the architecture decision; the original
-approval does not authorize its proposed future verifier experiment.
+approval does not authorize its proposed future verifier experiment. The separate
+stage1c authorization explicitly excluded that patched route; stage1c is closed.
+Its no-patch findings do not prove all unmodified-tool strategies impossible.
 
 Stage 1b separates the two overlap questions: violation of an actual copy's
 non-overlap requirement, and corruption of original values across individually

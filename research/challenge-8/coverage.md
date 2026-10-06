@@ -25,6 +25,14 @@ or new VeriFast result follows; [proposed full contract](SORT4-CONTRACT.md) and
 [one selected architecture/gate](SORT4-SAFETY-DECISION.md) remain unproved research
 specifications. Stop at owner decision; verifier capability is NOT AUTHORIZED.
 
+The bounded [no-patch review](SORT4-NO-PATCH-ASSESSMENT.md) completed with no
+new experiment and **no generic coverage gain**. Static comparison of official
+VeriFast26.09/26.10 preserves relevant tuple/HRTB/direct-unwind/typed-scratch gaps;
+Kani remains a concrete monomorphized evidence route. Target-source compilation/
+refinement on26.10 NOT RUN. These are feasibility observations, not new target
+failures or proofs. The historical patched proposal remains unauthorized; the
+current owner decision is the recommended bounded contract/admissibility review.
+
 ## Safety targets and sorting contracts
 
 | Actual target | Established evidence / tool | Remaining obligations |

@@ -6,16 +6,18 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**The sort4 contract-diagnostics phase is complete; stopped at an owner
-architecture decision.** [Closeout](SORT4-CONTRACT-RESULTS.md) records the
-successful hosted suite, both prior fixture failures, precise contract and the
-single proposed generic route. [Functional closeout](SORT4-RESULTS.md) preserves
-the earlier theorems. [STATUS.md](STATUS.md) is the current checkpoint;
-[PLAN.md](PLAN.md) records the roadmap. No verifier implementation or later phase
-is authorized.
+**The sort4 no-patch feasibility phase is complete.**
+[Assessment](SORT4-NO-PATCH-ASSESSMENT.md) compares official26.09/26.10 and the
+integrated Kani route; no new full-resource first-callback candidate was found,
+so no run occurred. This does not establish universal no-patch impossibility.
+Stop at the owner contract/admissibility decision; verifier development remains
+unselected and the historical patched experiment unauthorized.
+[Contract closeout](SORT4-CONTRACT-RESULTS.md) and
+[functional closeout](SORT4-RESULTS.md) preserve earlier results.
+[STATUS.md](STATUS.md) is the current checkpoint; [PLAN.md](PLAN.md) the roadmap.
 
 1. [Root agent instructions](../../AGENTS.md).
-2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-CONTRACT-PHASE.md)
+2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-NO-PATCH-PHASE.md)
    and [operating runbook](AGENT-RUNBOOK.md).
 3. [Coverage ledger](coverage.md), [Challenge 8](../../doc/src/challenges/0008-smallsort.md)
    and [general rules](../../doc/src/general-rules.md).
@@ -27,7 +29,10 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
-- [Current contract phase](SORT4-CONTRACT-PHASE.md): coincident/shifted-overlap
+- [No-patch phase](SORT4-NO-PATCH-PHASE.md) and
+  [assessment](SORT4-NO-PATCH-ASSESSMENT.md): completed source/evidence comparison,
+  no experiment, no generic coverage gain; one recommended contract review task.
+- [Completed contract phase](SORT4-CONTRACT-PHASE.md): coincident/shifted-overlap
   diagnostics, precise contract and one proposed generic proof route; see
   [observed results](SORT4-CONTRACT-RESULTS.md). Verifier implementation remains
   a separate owner decision.

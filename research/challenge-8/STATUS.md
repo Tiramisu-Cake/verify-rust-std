@@ -1,8 +1,8 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 after completing the owner-approved
-[sort4 contract diagnostics and architecture phase](SORT4-CONTRACT-PHASE.md).
-Approval commit `54485d632bfca9d69fee853bd6aa30bc330647c9`, fork
+Updated 2026-10-06: completed the owner-authorized bounded
+[sort4 no-patch feasibility phase](SORT4-NO-PATCH-PHASE.md) from checkpoint
+`11e8ead9389cc95fc7d13a24d0c28d7d2d6ba3c5`, fork
 `Tiramisu-Cake/verify-rust-std`, branch `challenge-8/research`.
 This is the single current checkpoint; procedures in
 [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md),
@@ -10,15 +10,40 @@ history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
 
-**CLOSED — stop at the next owner architecture decision.** No active research
-run or unfinished proof edit. No later phase, VeriFast implementation/build/run,
-patch application or external publication is authorized. The insertion/MD and
-original functional phases remain closed. Existing MD draft stays unapplied.
+**CLOSED — sort4 no-patch feasibility; stop at the owner decision.**
+[Assessment](SORT4-NO-PATCH-ASSESSMENT.md): no evidence-backed candidate found
+for the full generic c1 normal/direct-panic resource gate. No fixture/runner/
+workflow/proof implementation, patch application or Actions dispatch;0 of2 runs
+used. No active run or unfinished proof edit. Historical phases remain closed;
+patched experiment in SORT4-SAFETY-DECISION remains explicitly NOT authorized.
+No later phase, verifier extension or external publication is authorized.
 
-Entry tree clean, branch fast-forwarded from bea705d to approval 54485d6; correct
-fork/remotes/heads and no active relevant run confirmed. All changes are own
-phase work. Default main received only two workflow selection lines at
-`0b54bf8f1f2fc4f7d1a7acef4d428ffe34cd7447`, not research history.
+Entry HEAD/remote research `11e8ead9389cc95fc7d13a24d0c28d7d2d6ba3c5`, clean tree;
+origin is the intended fork, main `0b54bf8f1f2fc4f7d1a7acef4d428ffe34cd7447`.
+All changes in this phase are own documentation; main/workflows/pins/std unchanged.
+
+## Completed no-patch review
+
+Official26.10 release `f76012fb518703b1d98e243ac4f487f16877cfcb`, Linux artifact
+SHA256 `5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd`
+(release API digest), nightly-2026-09-25. Source comparison with pinned26.09
+`809de4596839b739dd999f9e462242c835e3af46` confirms opaque tuple2 ownership,
+HRTB empty-bound filter, immediate Continue unwinding return and initialized-typed
+dst copy precondition persist. New trait-name canonicalization and mutable-slice
+contract generation do not close those obligations. Exact target export/refinement
+on26.10 NOT RUN; no claim of incompatibility or generic sort4 failure.
+
+Normal recover_pair technique remains useful but lacks FnMut/direct panic.
+Kani is the one detailed integrated alternative: exact-body concrete evidence,
+monomorphized type/callback domain and measured UB instrumentation gaps; no
+unrestricted safety route established. Full matrix, immutable sources, profiles,
+observed/inferred/unknown distinctions and no-run rationale are in the assessment.
+No conclusion that every no-patch route is impossible. Generic coverage unchanged.
+
+Recommended next task/owner decision: authorize a bounded review clarifying the
+full safety contract's separated-range and single-owner scratch protocol, or keep
+proof work stopped. No verifier-extension route is selected. Latest proof run
+remains37466906281 below; this documentation closeout is not another proof run.
 
 ## Completed contract diagnostics and architecture review
 
@@ -52,8 +77,8 @@ callback effects and all5 panic posts; maps real len>=8/16 separated callers.
 This is static proposed contract/caller analysis, not generic proof or accepted
 public contract strengthening. Existing values/tagged functionality preserved.
 
-Chosen route: separately reviewed explicit normal/direct-Continue recovery with
-a checked helper; first bounded c1-only full-normal/full-unwind mechanism gate.
+Historical architecture proposal: separately reviewed explicit normal/direct-Continue
+recovery with a checked helper; first bounded c1-only full-normal/full-unwind mechanism gate.
 Historical tuple/HRTB/strict-cut capabilities are dependencies, not sufficient:
 strict-cut earlier unwind returns debt and changes kernel+translator. New recovery
 routing is missing. Whole-sort4 also needs uninitialized-dst copy semantics,
@@ -137,12 +162,8 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next decision and permitted action
 
-Owner decides whether to authorize the narrowly specified exceptional-continuation
-trust/design review and one-callback full-resource implementation experiment in
-[SORT4-SAFETY-DECISION.md](SORT4-SAFETY-DECISION.md), with its explicit historical
-patch dependencies and positive/negative/refinement/CFG gate. Also accept/clarify
-the separated-range and single-owner scratch research contract before treating
-it as the unrestricted public target. Whole generic sort4 remains NO-GO until
-copy/selection/five-call dependencies are resolved. Proposed experiment is
-NOT AUTHORIZED; no automatic advancement to swap/networks/insertion.
-Documentation-only follow-up requires no verification run. Agent stops here.
+Phase closed. Owner decides on the single contract/admissibility review task
+recommended in [SORT4-NO-PATCH-ASSESSMENT](SORT4-NO-PATCH-ASSESSMENT.md).
+Read-only/documentation follow-up is permitted when requested. New experiments,
+custom verifier work, other sort functions and external publication require a
+separate authorization. No active run; agent stops at this boundary.

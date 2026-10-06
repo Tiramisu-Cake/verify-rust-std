@@ -1501,3 +1501,47 @@ PHASE CLOSED at owner decision: approve/reject the narrow exceptional-continuati
 trust/design and implementation gate plus clarified sufficient contract.
 No later sort/insertion phase/external publication, no active research run.
 Closeout docs only need static review, not another cold verification run.
+
+
+## 2026-10-06 — sort4 no-patch feasibility (source review, NO RUN)
+
+Owner explicitly opened [SORT4-NO-PATCH-PHASE](SORT4-NO-PATCH-PHASE.md) from
+`11e8ead9389cc95fc7d13a24d0c28d7d2d6ba3c5`; earlier phases stay closed and
+SORT4-SAFETY-DECISION's patched experiment is excluded. Entry local/remote research
+heads match, tree clean, origin intended fork, main0b54bf8; Actions in-progress/
+queued lists empty. Runtime blobs unchanged: smallsort e555fce440872898e47fd5114f32eb15401d07df,
+hint fe59166363b9cc049c0d48f4349f4dc9c0e458b8.
+
+[Assessment](SORT4-NO-PATCH-ASSESSMENT.md) preserves exact sources/profile identity,
+obstacle matrix, historical run domains, static observations/inferences/unknowns,
+and decision gate before any implementation. Official26.09 source809de459 was
+compared read-only with released26.10 sourcef76012fb518703b1d98e243ac4f487f16877cfcb.
+26.10 linux asset611766606,97,804,993bytes, release API SHA256
+5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd,
+nightly-2026-09-25; binary not installed/download-hashed/run. Tuple prelude identical;
+HRTB bound_regions filter, direct Continue return and typed initialized-dst copy
+contract persist. Trait-name canonicalization and mutable-slice contract changes
+are insufficient for the full generic c1 gate. Selection helper proof remains open.
+Actual target export/refinement with new nightly NOT RUN, not a reported failure.
+
+Alternative checked annotation placement reuses established normal recovery but
+no tuple/HRTB/full direct-panic mechanism was identified. Kani is the one detailed
+approved/integrated alternative, pin152c6a8c/Rustnightly-2026-02-05: prior actual-body
+concrete functionality does not supply universal generic ownership/effects/unwind
+or close measured CopyNonOverlapping validity/immutable-write gaps. No alternative
+installation/integration/run. No change to pins/prelude/parser/translator/kernel/
+memory/refinement, std runtime/signatures, existing proofs/checks or workflows.
+
+Decision: no new falsifiable candidate; do not repeat the understood callback
+failure under another label or dispatch only for the toolchain bump. No experiment
+card advanced to implementation; no new positive/negative/covers, no run ID/URL,
+0/2 permitted runs used, no compute cost. Historical runs remain evidence only;
+latest proof run37466906281 is unchanged. Local validation: git diff --check and
+lightweight document/link/source-diff review only. No executable proof/build/tests.
+
+CLOSED at owner decision: recommended next task is bounded clarification/review
+of the full separated-range/single-owner scratch safety contract. Generic coverage
+unchanged. All no-patch routes are not proved impossible; undiscovered checked
+mechanisms,26.10 source compatibility and whole generic proof obligations remain
+unknown. No custom verifier development selected/authorized. No active run or
+unfinished proof edit; subsequent experiments need separate owner authorization.
