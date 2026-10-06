@@ -98,3 +98,53 @@ multiset preservation. Track a sorted prefix before the gap and the shifted,
 sorted suffix after it; shifted keys are greater than the held key. The gap guard
 must point at that gap and restore the temporary on normal exit or unwinding.
 These are design obligations; no loop-invariant annotations have been proved yet.
+
+## Precise logical-gap obligation (not yet an automated proof)
+
+Let `P` be the sorted prefix of length `t` at entry, and `h` the original
+value at tail index `t`. During a shifting iteration, let `g` be the gap
+index and `s` the sift index relative to begin. At the loop head:
+
+- `0 < g <= t`, `s = g - 1`, and both pointers belong to the live allocation.
+- Cells `[0, g)` own the original values `P[0, g)`.
+- Cell `g` is the logical ownership gap; it must not be read or dropped as an
+  independently owned `T`.
+- Cells `(g, t]` own `P[g, t)`, shifted one position right; their keys are
+  greater than `h` under the assumed stable ordering relation.
+- The held `ManuallyDrop<T>` owns `h`. The guard has `src = &held`,
+  `dst = begin + g`, and `len = 1`.
+- The comparison that allowed entry establishes `h < P[g - 1]`.
+  Accounting for `h` at the logical gap preserves the original multiset.
+  Cells after `t` are untouched.
+
+One body step copies the owned cell `g - 1` into the gap and immediately updates
+`guard.dst` to that source cell, reducing the logical gap index by one. The
+copying primitive and pointer update cannot unwind on their valid domain. If
+the gap reaches zero, insertion at the beginning is correct. Otherwise, the
+next comparison either supplies the next loop-head relation or establishes
+the left boundary of the final insertion position. On normal exit the guard
+fills the gap; on comparator unwind it restores ownership and the permutation,
+but sortedness is not a panic postcondition. A panic before the initial move
+needs no gap restoration. The guard is declared after the held temporary, so
+its destructor runs while the temporary is still live.
+
+This gap is a resource/ownership concept. Raw `ptr::read` and
+`copy_nonoverlapping` can leave physically initialized duplicate bytes; those
+bytes do not create an additional owned `T`. Byte-initialization checks alone
+therefore do not prove absence of double drop or generic ownership violations.
+
+For functional generic proofs, use a stable logical key projection and explicit
+ordering laws. A safe comparator may mutate interior state through `&T`;
+functional key/multiset preservation needs a callback contract that preserves
+those keys. Safety must also cover callbacks outside those functional
+assumptions. Auxiliary callback state such as comparison counters belongs in
+the frame. This does not justify treating arbitrary `FnMut` as pure or assuming
+its body correct. All current successful insertion evidence uses i32 and `<`.
+
+The outer induction will require the sorted processed prefix, conserved
+logical multiset, unchanged unprocessed suffix and valid current pointer.
+A pointer-range invariant alone supplies none of those functional facts.
+Loop invariants establish partial correctness; termination needs a decreasing
+variant or a separate monotonic bounded-pointer argument. ZST deserves a
+separate branch: actual outer-loop pointers coincide and no insertion occurs;
+`offset_from` must not be used on ZST to define a variant.
