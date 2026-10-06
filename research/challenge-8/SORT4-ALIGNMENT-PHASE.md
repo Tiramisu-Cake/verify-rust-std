@@ -2,7 +2,10 @@
 
 ## Current generic completion and layout review — 2026-10-07
 
-**IN PROGRESS / preparation;0/2 NEW runs,0/3600 summed job-seconds.** Owner
+**IN PROGRESS / run37537448952 complete;1/2 NEW runs,38/3600 job-seconds.**
+Run1/source16aaf1b fails direct residual assert i==0 at isolated line53; rest of
+profile/stages/controls/replay audited. Next specific correction uses checked
+order splits to derive i<=2, then i<=1, then i==0 from original limits. No active run. Owner
 explicitly resumes from b523959d2032b28086aa8b11dd35a50a2eb7c7e0. Entry clean,
 local/remote match, correct fork/research branch, no active/queued experiment.
 Previous three runs and phases are preserved below and in the results; unused

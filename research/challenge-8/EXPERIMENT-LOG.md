@@ -2390,3 +2390,34 @@ Layout task is source/document review only: verify live upstream and official26.
 26.10 precise source identities, design minimal layout correction vs independent
 component and future regression acceptance, no implementation/patch tests. RAPx
 CLOSED / NO-GO; B/C NOT RUN, Kani unchanged, no full sort4 or external messages.
+
+NEW run37537448952 created2026-10-06T21:57:32Z; source/head_sha
+16aaf1b993f62c8dad0390b74de3e877983beb37 confirmed with pushed remote, selection
+verifast_sort4_alignment/30min. Budget1/2 dispatched, final duration pending.
+Static whole/per-case ghost-stripped runtime, six outer contracts and four
+concrete fixtures identical to b523959. No classifier/runner/tool/profile changes.
+
+### Generic run1/2 — measured failed direct-zero derivation
+
+[Run37537448952](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37537448952),
+source/head16aaf1b993f62c8dad0390b74de3e877983beb37; exact remote/head audit passed.
+Job112521963302 ran2026-10-06T21:57:37–21:58:15Z, FAILURE,38s. Budget1/2 NEW,
+38/3600s including setup/replay/upload. Full logs/artifacts inspected.
+Exports/decodes/refinements6/6 zero; stage hashes and pins/bin/rsspec/compiler/std
+identities match prior profile. Classifier unchanged: positives4 INCONCLUSIVE,
+negative source/destination EXPECTED_FALSE_POST_FAILURE. Historical replay3 groups/
+30 mutants PASS; original tree hashes unchanged.
+Generic const/mut helpers and i=1,2,3 paths complete; residual first blocker is
+verified/lib.rs53 assert i==0: Cannot prove i=0. Subsequent result==base/alignment
+assertions not reached. Concrete ZST layout/add fail at original lines20/21, and
+intended negative assertions25 are reached/rejected; known concrete boundary
+does not halt this separately authorized generic subtask.
+
+Next specific hypothesis/correction for run2: use checked order splits in the
+residual branch: if3<=i derive i==3 (excluded), then i<=2; if2<=i derive i==2
+(excluded), then i<=1; if1<=i derive i==1 (excluded), then i==0 from old0<=i.
+Pinned Redux src/redux.ml1041–1042 handles integer strict/non-strict comparisons
+with unit gaps; existing neq constraints alone did not finish the derivation.
+Every bound/assertion remains a checked proof obligation; no assumed i==0/new
+lemma axiom/external req. Runtime/.add/posts/classifier/tool checks preserved.
+Allocate final30min hosted cap; max2/2 then stop proof runs regardless of outcome.

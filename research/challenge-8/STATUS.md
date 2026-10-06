@@ -2,8 +2,12 @@
 
 Updated 2026-10-07: **generic H_align completion + layout-model review IN PROGRESS**.
 Entry clean matching local/remote b523959d2032b28086aa8b11dd35a50a2eb7c7e0,
-correct fork/research branch, no active run. New independent budget0/2 NEW manual
-hosted runs,0/3600 summed job-seconds including setup; cap30min per job.
+correct fork/research branch, no active run at entry. New independent budget1/2 NEW manual
+hosted runs completed,38/3600 job-seconds used; cap30min per job.
+Run37537448952/source16aaf1b993f62c8dad0390b74de3e877983beb37 completed FAILURE:
+residual assert i==0 unproved at isolated line53; three positive indexed paths
+still pass. Tool/stage/source audits and replay/negative controls pass. No active
+run; next specific correction uses checked ordered bounds in the residual branch.
 [Current card](SORT4-ALIGNMENT-PHASE.md#current-generic-completion-and-layout-review--2026-10-07).
 Owner authorizes checked residual generic proof steps and documentation-only layout
 review/regression design. Known concrete ZST boundary does not stop generic work.
