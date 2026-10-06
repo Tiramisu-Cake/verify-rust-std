@@ -21,12 +21,28 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active corrected local-cleanup gate:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
+**Stopped at the owner's request; no active Actions run.** The last launched
+experiment is completed and its full evidence is inspected. Do not dispatch
+further work until the owner resumes it.
+
+**Latest corrected local-cleanup regression failure:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
 source `b3da9a5ef53b8001e63ce511ba27ae8efce67343`, local_drop_caller_gate90min.
-ExactSHA resolved, created2026-10-06T06:26:44Z. Patchbc13ff90/translator03bf4a5c,
-one explicit record-type correction after the setup failure below. Resume
-monitoring; no duplicate dispatch. Next full logs/artifacts and build/proof
-outcomes, preserving all25 regressions and2positive+7negative fixtures.
+Full logs/artifacts inspected. Patchbc13ff90/translator03bf4a5c,
+source/tool/prelude/dependency/four-file and pairedZ3 audits pass. Console build
+0/19.14s,RSS426,676KiB; binary
+b603f7f3ac0963892f88dad3bdafe446707ce04e845b3054c7b087a1480a184e.
+First2/8 HRTB cases have intended finite rejections; third hrtb_no_output has
+export/decode0 but VF2 with uncaught Pattern matching failed at translator7729
+in local_drop_call. Export/decode0 for all3 visited fixtures. Suite1/.69s,
+RSS85,400KiB; remaining5HRTB, all12scope/all5reference, extraction, actualDrop/
+callers/refinement NOT executed. Overall1,runner1:15.12,RSS646,784KiB,
+setupdominates; no new destructor or cleanup proof.
+Cause confirmed by source and build Warning11: final `| _ -> None` at7878
+is parsed as a redundant branch of nested `match substs`, leaving outer
+`match ty.kind` non-exhaustive for non-ADT generic F Drop. No fix applied yet.
+Next after resumption: explicitly delimit nested substs match with begin/end,
+preserve the outer non-ADT generic fallback, update strict patch/output hashes,
+static review, then NEW exactSHA gate with unchanged all25/body/caller checks.
 
 **Latest local-cleanup setup failure:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
 source `3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b`,

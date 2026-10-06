@@ -99,6 +99,19 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- **Local Drop build passes; regression exposes nested-match bug:** [37423762729](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423762729),
+  source `b3da9a5ef53b8001e63ce511ba27ae8efce67343`, local_drop_caller_gate90min.
+  Full logs/artifacts inspected. Same pins/four-file/pairedZ3 audits pass.
+  Console build0/19.14s,RSS426,676KiB; binary
+  b603f7f3ac0963892f88dad3bdafe446707ce04e845b3054c7b087a1480a184e.
+  First2/8 HRTB cases have intended finite rejections; third hrtb_no_output
+  export/decode0 then VF2: local_drop_call outer type match fails on generic F.
+  All3 visited compiler/decode0; suite1/.69s,RSS85,400KiB. Remaining regressions,
+  actualDrop/body/callers/refinement not executed. Overall1,runner1:15.12,
+  RSS646,784KiB,setupdominates. Compiler Warning11 and source confirm nested
+  substs match captures the intended outer fallback; explicit begin/end is the
+  next source fix. Owner requested stop; no active run and no further dispatch.
+
 - **Local Drop gate source-build diagnostic:** [37423344712](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37423344712),
   source `3a020357cfe5cb6e01eaaf1ef3575dd0abeea00b`, local_drop_caller_gate90min.
   Full logs/artifacts inspected. Same26.09 source/tool/prelude/dependency/decoder

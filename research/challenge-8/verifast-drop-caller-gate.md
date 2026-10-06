@@ -57,3 +57,15 @@ RSS426,848KiB; runner1:07.68,RSS646,360KiB,allsetup. No body/caller/negative
 proof, compiler MIR, regression or refinement was executed. The current patch
 adds only an explicit D.trait_impl_item annotation to that lookup; the new
 input/output pins above describe the corrected source awaiting a NEW run.
+
+Corrected run37423762729 atb3da9a5ef53b8001e63ce511ba27ae8efce67343
+builds0/19.14s,RSS426,676KiB and passes pairedZ3/source/tool/four-file audits.
+Binary b603f7f3ac0963892f88dad3bdafe446707ce04e845b3054c7b087a1480a184e.
+HRTB suite visits3 cases with compiler/decode0; first2 have intended finite
+rejections, third hrtb_no_output crashes with Pattern matching failed in
+local_drop_call. The intended outer non-ADT fallback is parsed as a redundant
+branch of nested match substs (confirmed Warning11), so generic F Drop crashes.
+Suite1/.69s; overall1,runner1:15.12,RSS646,784KiB. Remaining regressions and
+actual body/caller/refinement gates were not reached. Next fix must delimit
+the nested match without changing generic fallback or proof obligations.
+No cleanup proof is claimed; work stopped at the owner's request with no active run.
