@@ -163,12 +163,16 @@ initialization steps pass; next failure at second open_frac_borrow: missing
 Exactbyte/refinement0,VF1(.17s),refiner.10s,runner14.68s,RSS619,784KiB.
 No active run. Next correct fractional lifetime resource accounting with pinned
 open/close specs, preserve precondition and initialization obligations.
-Active merge-fractions run:
+Latest merge-fractions run:
 [37399426683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399426683),
 source `9c5f12fb41caf4d5d359e6a4e3b4527d9ffaa581`,range90min. Pinned
 begin_lifetime returns full token; share_full_borrow/init_ref_share preserve
 fractions. Only merge_fractions added before original two half-token accesses.
-Resume this run; no domain/contract/runtime change.
+Full evidence fetched: same missing half-token at second open_frac_borrow,
+despite accepted merge_fractions. Fragmentation hypothesis not confirmed.
+Exactbyte/refinement0,VF1(.18s),refiner.11s,runner14.22s,RSS633,700KiB.
+No active run. Next diagnostic assertions locate token loss before/after the
+first borrow access, without new assumptions or precondition changes.
 
 ## Repository map and verifier details
 

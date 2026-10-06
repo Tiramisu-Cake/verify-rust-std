@@ -327,6 +327,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   refiner.10s,RSS162,900KiB,runner14.68s,RSS619,784KiB,overall1. Full evidence
   fetched. Next fix lifetime fractions from pinned open/close specifications.
 
+- [Lifetime merge diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37399426683),
+  2026-10-06, source `9c5f12fb41caf4d5d359e6a4e3b4527d9ffaa581`,range90min,
+  same pins/domain. Pinned begin_lifetime provides full token and preparation
+  APIs preserve fractions; added merge_fractions is accepted. Same second
+  open_frac_borrow lacks [1/2]lifetime_token(cmp_k). Fragmentation hypothesis
+  not confirmed, first callback remains unreached. Exactbyte/refinement0,
+  VF1(.18s,RSS165,424KiB),refiner.11s,RSS162,824KiB;
+  runner14.22s,RSS633,700KiB,overall1. Full logs/artifacts fetched.
+  Next add proved assertions between token-preserving operations to locate
+  actual resource loss; retain original req and every safety obligation.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
