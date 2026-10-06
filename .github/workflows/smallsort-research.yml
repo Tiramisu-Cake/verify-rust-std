@@ -19,6 +19,7 @@ on:
           - verifast_insert_tail_tuple_parser
           - verifast_insert_tail_fnmut_hrtb
           - verifast_insert_tail_lft_cut
+          - verifast_insert_tail_address_taken
           - verifast_swap_size
           - ub_detector_controls
           - ub_immutable_observation
@@ -45,7 +46,7 @@ defaults:
 jobs:
   bootstrap:
     name: Verify selected SmallSort research proofs
-    runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
+    runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
     timeout-minutes: 150
     steps:
       - name: Check out the selected workflow branch
@@ -87,6 +88,7 @@ jobs:
             verifast_insert_tail_tuple_parser) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_parser ;;
             verifast_insert_tail_fnmut_hrtb) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_hrtb ;;
             verifast_insert_tail_lft_cut) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_lft_cut ;;
+            verifast_insert_tail_address_taken) bash research/challenge-8/run-verifast-probe.sh "$RUN_BUDGET_MINUTES" tuple_address_taken ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;
             ub_detector_controls) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" ;;
             ub_immutable_observation) bash research/challenge-8/run-ub-controls.sh "$RUN_BUDGET_MINUTES" immutable_observation ;;

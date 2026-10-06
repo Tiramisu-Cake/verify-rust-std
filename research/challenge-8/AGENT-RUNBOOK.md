@@ -34,8 +34,14 @@ CopyOnDrop.src &*tmp148: Taking the address of this expression is not supported.
 No guard/loop/restoredrange/fullfunction proof; actualfalse-comparison return
 not claimed checked. VF1/.21s,RSS92,716KiB;refiner0/.15s,RSS91,820KiB;
 overall1,runner1:20.89,RSS626,948KiB,setupdominates. No active run.
-Next inspect compilerMIR and ManuallyDrop dereference/address lowering;
-source owner investigating smallest representation-faithful frontend fix.
+CompilerMIR/source investigation found stmt_mark_addr_taken stops at
+MergeFractionsStmt without cont locals. Prepared one-line continuation patch
+2c44ad1cdb218b82d8f82c714841fdeab2b76b356474ec146e2a780289acdf4a
+on rawverify_expr SHAaf5f7399; no newManuallyDrop model/ownershipaxiom.
+Next NEW selection verifast_insert_tail_address_taken, profiletuple_address_taken,
+budget90: same8+12cases plus3address fixtures, unchangedexactRust/T/Fdomain.
+Priorcutprofile retained. Builder strictfour-source-file audit and sourcehashes.
+Default main exposes manual choice by workflow-only2f0a73b.
 
 **Latest completed strict exit diagnostic:** [37413756431](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37413756431),
 source `6209eb7dc5dc306a7fef09a17b84f61051aa2bac`,lft_cut90min.

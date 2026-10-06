@@ -50,6 +50,7 @@ GHOSTS["tuple_parser"] = GHOSTS["range"].replace(
 )
 GHOSTS["tuple_hrtb"] = GHOSTS["tuple_parser"]
 GHOSTS["tuple_lft_cut"] = GHOSTS["tuple_hrtb"]
+GHOSTS["tuple_address_taken"] = GHOSTS["tuple_lft_cut"]
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -61,6 +62,7 @@ CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 own
 CONTRACTS["tuple_parser"] = CONTRACTS["range"].replace("ens true (safety probe only)", "normal/unwind post explicitly returns partial comparison borrow resources; final restored-range contract unproved") + "; experimental tuple-2 parser; unmodified prelude"
 CONTRACTS["tuple_hrtb"] = CONTRACTS["tuple_parser"] + "; compiler-origin HRTB Output instantiation; normal comparison accesses closed before lifetime recovery"
 CONTRACTS["tuple_lft_cut"] = CONTRACTS["tuple_hrtb"] + "; experimental strict early lifetime-binding scope cut"
+CONTRACTS["tuple_address_taken"] = CONTRACTS["tuple_lft_cut"] + "; experimental address-taken prepass continuation handling"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -199,7 +201,7 @@ def main() -> None:
     else:
         raise SystemExit(
             "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
-            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut]"
+            "[--profile frontend|range|tuple_overlay|tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken]"
         )
     ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
@@ -248,7 +250,7 @@ def main() -> None:
     verified_root = ROOT
     module_injections = {"contract": ghost}
     root_injections = {}
-    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb", "tuple_lft_cut"):
+    if profile in ("range", "tuple_overlay", "tuple_parser", "tuple_hrtb", "tuple_lft_cut", "tuple_address_taken"):
         module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         module_injections["interior_call"] = RANGE_BOUND_GHOST
         module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
@@ -269,8 +271,8 @@ def main() -> None:
             1,
         )
         module_injections["comparison_call_types"] = "/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
-        if profile in ("tuple_hrtb", "tuple_lft_cut"):
-            recovery = RANGE_COMPARE_RECOVER_CUT if profile == "tuple_lft_cut" else RANGE_COMPARE_RECOVER
+        if profile in ("tuple_hrtb", "tuple_lft_cut", "tuple_address_taken"):
+            recovery = RANGE_COMPARE_RECOVER_CUT if profile in ("tuple_lft_cut", "tuple_address_taken") else RANGE_COMPARE_RECOVER
             unique_offset(verified, RANGE_READ_ANCHOR)
             verified = verified.replace(RANGE_READ_ANCHOR, recovery + RANGE_READ_ANCHOR, 1)
             module_injections["comparison_recover"] = recovery

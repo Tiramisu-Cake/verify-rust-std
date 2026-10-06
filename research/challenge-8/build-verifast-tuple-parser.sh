@@ -13,7 +13,7 @@ release_home=${1:?release tool directory required}
 evidence=${2:?evidence directory required}
 source_home=${3:?fresh source directory required}
 build_profile=${4:-tuple_parser}
-case "$build_profile" in tuple_parser|tuple_hrtb|tuple_lft_cut) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
+case "$build_profile" in tuple_parser|tuple_hrtb|tuple_lft_cut|tuple_address_taken) ;; *) echo 'Unknown source-build profile' >&2; exit 2 ;; esac
 mkdir -p "$evidence"
 trap 'printf "%s\n" "$?" > "$evidence/source-build-exit-code.txt"' EXIT
 vf_commit=809de4596839b739dd999f9e462242c835e3af46
@@ -54,7 +54,7 @@ cp "$source_home/bin/rust/prelude.rsspec" "$evidence/prelude.unmodified.rsspec"
 git -C "$source_home" apply --check "$patch_file"
 git -C "$source_home" apply "$patch_file"
 expected_modified="$parser_rel"
-if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut ]]; then
+if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken ]]; then
     translator_rel=src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
     translator_sha=7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803
     hrtb_patch="$repo/research/challenge-8/verifast-fnmut-hrtb.patch"
@@ -63,7 +63,7 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut ]]; th
     sha256sum "$hrtb_patch" >> "$evidence/source-build-inputs.txt"
     git -C "$source_home" apply --check "$hrtb_patch"
     git -C "$source_home" apply "$hrtb_patch"
-    if [[ "$build_profile" == tuple_lft_cut ]]; then
+    if [[ "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken ]]; then
         kernel_rel=src/verifast.ml
         kernel_sha=5968a05e264042782e8373c452b241ccdd1f4ba3323d596888a9bdf6b18c3310
         cut_patch="$repo/research/challenge-8/verifast-end-lft-binding.patch"
@@ -81,8 +81,23 @@ if [[ "$build_profile" == tuple_hrtb || "$build_profile" == tuple_lft_cut ]]; th
     cp "$source_home/$translator_rel" "$evidence/vf_mir_translator.patched.ml"
     sha256sum "$evidence/vf_mir_translator.original.ml" "$evidence/vf_mir_translator.patched.ml" >> "$evidence/source-build-inputs.txt"
     expected_modified="$parser_rel"$'\n'"$translator_rel"
-    if [[ "$build_profile" == tuple_lft_cut ]]; then
+    if [[ "$build_profile" == tuple_lft_cut || "$build_profile" == tuple_address_taken ]]; then
         expected_modified+=$'\n'"$kernel_rel"
+    fi
+    if [[ "$build_profile" == tuple_address_taken ]]; then
+        expr_rel=src/verify_expr.ml
+        expr_sha=af5f7399d63e2ce2d5fc18291466b406c278f49d6bcb966ed49d644782958e2e
+        address_patch="$repo/research/challenge-8/verifast-address-taken.patch"
+        printf '%s  %s\n' "$expr_sha" "$source_home/$expr_rel" | sha256sum -c -
+        cp "$source_home/$expr_rel" "$evidence/verify_expr.original.ml"
+        printf '%s\n' "$expr_sha" > "$evidence/verify_expr-original-sha256.txt"
+        sha256sum "$address_patch" >> "$evidence/source-build-inputs.txt"
+        git -C "$source_home" apply --check "$address_patch"
+        git -C "$source_home" apply "$address_patch"
+        cp "$source_home/$expr_rel" "$evidence/verify_expr.patched.ml"
+        sha256sum "$evidence/verify_expr.original.ml" "$evidence/verify_expr.patched.ml" >> "$evidence/source-build-inputs.txt"
+        sha256sum "$source_home/$expr_rel" | cut -d ' ' -f 1 > "$evidence/verify_expr-patched-sha256.txt"
+        expected_modified+=$'\n'"$expr_rel"
     fi
 fi
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
