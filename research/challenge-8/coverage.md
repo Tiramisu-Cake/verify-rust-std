@@ -6,6 +6,12 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
+The [revised roadmap](PLAN.md) and [sort4 phase](SORT4-PHASE.md) were approved
+on 2026-10-06. This is a planning change only: no new proof evidence or covered
+UB category is claimed. The next functional domain is four arbitrary i32 keys
+in fixed/disjoint buffers, plus a separate tagged-item stability harness.
+Generic safety and the four required UB categories remain separate obligations.
+
 ## Safety targets and sorting contracts
 
 | Actual target | Established evidence / tool | Remaining obligations |
@@ -15,7 +21,7 @@ No complete Challenge 8 solution is established.
 | `UnstableSmallSortFreezeTypeImpl::small_sort` | None | General / Copy network / fallback choices and stack-size thresholds; arbitrary valid lengths; sorting contract |
 | `swap_if_less` | Kani: two bounded i32 harnesses, positions 1/2 in a four-cell initialized allocation; 5/5 covers (37383583285) | Generic values, arbitrary valid indices/allocations, ZST, comparator mutation/panic, all required UB checks |
 | `insertion_sort_shift_left` | Kani: direct bounded i32 functional proof, lengths/offsets 1..4, sorted prefix, 7/7 covers (37389298278) | Arbitrary valid lengths, actual outer-loop contracts, independent safety domain, generic types, ZST, ownership and panic restoration |
-| `sort4_stable` | None | Four-read/four-write validity, aliasing contract, generic ownership/comparator behavior, stable sorted permutation |
+| `sort4_stable` | None; approved phase, not yet implemented/run | Four-read/four-write validity, aliasing contract, generic ownership/comparator behavior, stable sorted permutation |
 | `has_efficient_in_place_swap` | Unchanged VeriFast 26.09: actual unrestricted generic const body, req true, exact size_of(T)<=8 on LP64; VF/refinement pass (37401540878) | Dispatch callers and full-core integration; no other target follows from this pure helper proof |
 
 Only the size helper has an isolated generic proof among these seven targets.
@@ -31,7 +37,6 @@ The other six and all three sorting contracts remain incomplete.
 | Local Drop callers, 37435525052 | Actual Drop plus two synthetic one-element callers; experimental `tuple_local_drop` profile | Whole normal caller and FnMut() normal/unwind caller pass with exact destination/ONE ownership/leak checks. All 25 controls and 7 intended negatives pass. Not actual insertion, held &T release or arbitrary FnMut(&T,&T) provenance. |
 | Two-cell normal recovery, 37437514808 | Synthetic i32/unrestricted T callers and actual recovery helper; UNCHANGED release 26.09 | Genuine share/init, natural block exit, full initialized current cells/T.own; two positives and three intended negatives pass, refinement passes. No callback/panic/ManuallyDrop or std integration. |
 | ManuallyDrop recovery, 37441463201 | Synthetic control; `manually_drop_only`, existing single translator patch on 26.09 | FAILURE: new common recover_single helper blocks all seven callers before intended tests. ManuallyDrop positive also fails RawPtr refinement. No new lifecycle or intended-negative result; earlier unchanged-release baseline remains established. |
-
 | Isolated recover_single, 37448257248 | Synthetic helper, same minimal single-patch profile | Actual conditional full current tmp-cell/T.own recovery body passes,16records and leak-check. Neither MD caller reaches reference or helper call: immutable tmp half storage fails full-borrow precondition. Positive RawPtr refinement still fails; missing-init negative NOT established. |
 | Rechecked release recovery, 37448682524 | Same source f0f417c, UNCHANGED26.09 | Both original full-cell positives,3 intended negatives, all5 export/decode/refinement checks pass; optional helpers absent. No new std target completed. |
 

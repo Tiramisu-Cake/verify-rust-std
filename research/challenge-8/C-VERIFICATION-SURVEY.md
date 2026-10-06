@@ -3,6 +3,9 @@
 Recorded: 2026-10-06. Scope: preserve the research discussed with the owner.
 This is a literature/source review, not an experiment, a new proof result, or a
 revision of the project's next phase. [STATUS.md](STATUS.md) remains authoritative.
+The subsequent planning decision is recorded in [PLAN.md](PLAN.md) and the
+approved [sort4 phase](SORT4-PHASE.md); this survey preserves the prior research
+snapshot and its evidence boundaries.
 
 The inspected project revision is
 [`d436977f9dd2bbc8ec4892174df1fd5a2f778dee`](https://github.com/Tiramisu-Cake/verify-rust-std/commit/d436977f9dd2bbc8ec4892174df1fd5a2f778dee).

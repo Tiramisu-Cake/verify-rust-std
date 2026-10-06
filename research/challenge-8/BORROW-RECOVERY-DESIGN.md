@@ -2,17 +2,23 @@
 
 ## Authorization and actual-source applicability gate
 
-Current state/phase is [STATUS.md](STATUS.md): resumed prepared phase has closed
-at the architecture boundary; see [phase report](PREPARED-PHASE-2026-10-06.md).
+Current state/phase is [STATUS.md](STATUS.md). The prepared insertion phase
+closed at its architecture boundary; the owner subsequently selected
+[SORT4-PHASE.md](SORT4-PHASE.md). This borrow-recovery route remains closed;
+see the [phase report](PREPARED-PHASE-2026-10-06.md) for final evidence.
 This note describes design candidates, not permission to implement them.
 A translator-only, kernel-free or proof-only AST rewrite still changes trusted
 verification semantics and requires a separate owner decision BEFORE code.
 Passing a natural-block normal fixture cannot authorize that expansion.
 
-The latest minimal ManuallyDrop run37441463201 failed in recover_single before
-any caller, with a separate RawPtr refinement failure. No tmp/provenance/panic
-result was established; release normal recovery37437514808 remains valid.
-The saved recovery patch is unverified and must not be applied wholesale.
+Historical run37441463201 failed in recover_single before any caller.
+The final minimal-profile run37448257248 superseded that helper failure but
+both callers still failed immutable tmp full-borrow construction, before the
+reference/helper call; RawPtr refinement also remained unresolved.
+Unchanged-release normal recovery was rechecked successfully in37448682524.
+See the phase report and experiment log for exact boundaries; no actual
+insert_tail normal/unwind recovery was established. The saved recovery patch
+remains unverified and must not be applied wholesale.
 
 Before any callback/insertion integration, map unchanged actual-source normal
 true, false early return and first direct panic to explicit recovery of full

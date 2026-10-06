@@ -1,5 +1,9 @@
 # Prepared phase feasibility review, 2026-10-06
 
+Historical closeout: the later owner decision selected the bounded
+[sort4 phase](SORT4-PHASE.md). This insertion/ManuallyDrop phase remains closed.
+Use [STATUS.md](STATUS.md) for current authorization.
+
 Owner explicitly resumed the bounded phase from STATUS after instructions commit
 f50b237. This report concerns feasibility; it is not a whole insert_tail proof
 or authorization for any new architecture/tool semantics. No local compilation,
@@ -122,3 +126,44 @@ Choices requiring the owner's next decision:
 3. Keep these milestones and choose a simpler target such as generic swap or
    sort4, or investigate another existing-semantics proof route. This is a new
    phase, not an automatic continuation.
+
+## Archived execution scope and tool profile
+
+The following was moved from the previous STATUS checkpoint when the owner
+approved the sort4 phase. It records the completed phase's permission boundary;
+its patched profile is not authorized for the new phase.
+
+This bounded phase was explicitly authorized and has reached its stop boundary.
+The following records its contract; it does not authorize another phase.
+No new verifier semantics, callback integration or full insertion proof is part
+of it. Autonomy covers routine fixture/spec/audit fixes and hosted iterations
+within these boundaries, then stops for an architecture decision.
+
+1. Review and isolate same-reference `recover_single` bookkeeping. Prove the
+   coefficient/resource conditions; retain unrelated baseline controls without
+   the new helper. State expected proof stage/predicate/location for each case.
+2. Resolve the raw-pointer provenance/refinement blocker without weakening posts,
+   bypassing the checker or changing the target's pointer semantics. If that
+   requires changing tool semantics/support, STOP and present the decision.
+3. Once statically justified, run the seven-case minimal ManuallyDrop gate on a
+   NEW pushed SHA, inspect all evidence, and record only the established scope.
+   Use the separate unchanged-release baseline control when relevant.
+4. Document applicability to actual `insert_tail`: normal true path, false early
+   return and first direct panic must have explicit full storage/ownership
+   recovery routes. A natural-block fixture alone is insufficient. Close this
+   phase with a go/no-go report; do not implement a new AST scope/routing feature.
+
+Allowed tool profiles in this phase: unchanged pinned release 26.09
+(`verifast_borrow_recovery`), and the EXISTING `manually_drop_only` profile
+(`verifast_borrow_recovery_manually_drop`), with no patch expansion:
+
+- VeriFast source `809de4596839b739dd999f9e462242c835e3af46`;
+  Rust `nightly-2026-02-05`.
+- Sole patch `verifast-manually-drop-ref.patch`, SHA-256
+  `5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc`.
+- Translator input SHA-256
+  `7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803`;
+  output `60ece6e90f4dd3c623a99ea31feebb3210359daa38850255332118b2316eac39`.
+- Parser, kernel, prelude, memory model, exporter and refinement checker remain
+  unchanged. Retain existing dependency/binary/source audits. The full historical
+  patch chain is evidence, NOT a default fallback or phase permission.

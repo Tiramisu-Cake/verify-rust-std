@@ -6,9 +6,10 @@ This fork is Igor's original Challenge 8 (SmallSort) verification project.
 Before acting, read:
 
 1. [Current status and phase](research/challenge-8/STATUS.md).
-2. [Operating runbook](research/challenge-8/AGENT-RUNBOOK.md) and
-   [research index](research/challenge-8/README.md).
-3. [Challenge requirements](doc/src/challenges/0008-smallsort.md) and
+2. [Approved roadmap](research/challenge-8/PLAN.md), the phase document linked
+   from STATUS, and the [operating runbook](research/challenge-8/AGENT-RUNBOOK.md).
+3. [Research index](research/challenge-8/README.md),
+   [Challenge requirements](doc/src/challenges/0008-smallsort.md) and
    [general rules](doc/src/general-rules.md).
 4. The actual SmallSort source, relevant specification and proof/runner files
    for the authorized task.
@@ -24,13 +25,16 @@ The user's latest instruction takes precedence. `STATUS.md` is the single
 current checkpoint; dated handoffs, reassessments and archived "next" instructions
 are historical evidence, not standing authorization.
 
-An explicit stop remains in force until the user explicitly resumes experiments.
-A status check, review, documentation edit or approval of these rules is NOT a
-resume instruction. While paused, do only the requested read-only/documentation
-work: no proof implementation, verifier changes or workflow dispatch.
+An explicit stop remains in force until the user resumes experiments or
+explicitly approves a named next phase. A status check, documentation edit or
+approval of operating rules alone is not that authorization. When STATUS records
+a named phase as READY/approved, a continuation request can start that phase
+without repeating the approval. Historical closed phases remain closed.
+While paused, do only the requested read-only/documentation work: no proof
+implementation, verifier changes or workflow dispatch.
 
-After explicit resumption, autonomously edit, commit, push, dispatch, inspect and
-iterate WITHIN the phase and tool-profile allowlist recorded in `STATUS.md`.
+After authorization, autonomously edit, commit, push, dispatch, inspect and
+iterate WITHIN the phase and tool-profile allowlist linked from `STATUS.md`.
 Do not ask the owner to click Run workflow or inspect routine failures.
 A green fixture permits the next already-agreed step, not a new architecture,
 tool extension or phase. At a phase boundary, unresolved material decision or

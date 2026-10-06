@@ -1,10 +1,8 @@
 # Challenge 8 operating runbook
 
 This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
-and [STATUS.md](STATUS.md) first. The current phase is closed at its feasibility
-boundary; consult STATUS and [the phase report](PREPARED-PHASE-2026-10-06.md)
-before any expansion.
-The current stop/resume state and phase there
+and [STATUS.md](STATUS.md) first, followed by [PLAN.md](PLAN.md) and the phase
+document linked from STATUS. The current authorization state and phase there
 override historical instructions. The pre-reorganization runbook is preserved
 verbatim in [the archive](AGENT-RUNBOOK-ARCHIVE-2026-10-06.md).
 
@@ -42,10 +40,13 @@ Check push AND workflow-dispatch access without exposing credentials. Use an
 already authorized equivalent GitHub client if needed; otherwise ask for missing
 access. Never replace unavailable Actions with server-side verification.
 
-If STATUS is paused, a request to inspect/edit docs does not resume experiments.
-After explicit owner resumption, record the instruction and exact phase boundary
-in STATUS before proof edits or dispatch. A stop cancels authorization for further
-implementation/dispatch; identify any already running job and report its state.
+If STATUS is paused, a request to inspect/edit docs alone does not resume
+experiments. Explicit owner approval of a named next phase is authorization:
+record the instruction and boundary in STATUS before proof edits or dispatch.
+If that approval is already recorded as READY, a continuation agent starts the
+named phase without requesting the same permission again. A documentation-only
+approval checkpoint need not dispatch a run. A stop cancels authorization for
+further implementation/dispatch; identify any running job and report its state.
 Save a minimal checkpoint when permitted; never apply an unfinished draft as part
 of "checkpointing". This runbook is not a daemon or permission to work after stop.
 
@@ -74,7 +75,8 @@ does not test the intended resource hypothesis.
 
 ## Authorized edit → push → dispatch → inspect loop
 
-Use this loop only while the recorded phase is active.
+Use this loop only for the recorded approved phase. On beginning a READY phase,
+record IN PROGRESS and the selected within-phase step in STATUS.
 
 1. Make the smallest evidence-backed change within its allowlist. Inspect the
    diff; use only allowed static checks locally. Do not run proof scripts.

@@ -6,12 +6,15 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**The explicitly resumed prepared phase is closed at its architecture boundary.**
-Further proof/tool expansion requires a new owner decision. [STATUS.md](STATUS.md)
-is the single current checkpoint: established results, last failure, phase boundary and next decision.
+**The bounded actual `sort4_stable` phase is approved and ready to start.**
+The [approved roadmap](PLAN.md) records the revised priorities, and
+[SORT4-PHASE.md](SORT4-PHASE.md) defines the executable scope. No sort4 proof run
+has been made at this approval checkpoint. The previous ManuallyDrop/insert_tail
+phase remains closed. [STATUS.md](STATUS.md) is the single current checkpoint.
 
 1. [Root agent instructions](../../AGENTS.md).
-2. [Current status](STATUS.md) and [operating runbook](AGENT-RUNBOOK.md).
+2. [Current status](STATUS.md), [roadmap](PLAN.md), [phase](SORT4-PHASE.md)
+   and [operating runbook](AGENT-RUNBOOK.md).
 3. [Coverage ledger](coverage.md), [Challenge 8](../../doc/src/challenges/0008-smallsort.md)
    and [general rules](../../doc/src/general-rules.md).
 4. The relevant design/proof note and actual source before implementation.
@@ -50,8 +53,9 @@ references. [Sorting-model observations](SORTING-MODEL-OBSERVATIONS.md) preserve
 the earlier finite-enumeration report and a reconstruction specification, with
 its missing run provenance made explicit.
 
-These are reference materials, not new proof evidence or a revised next phase.
-Use STATUS for authorization and the current checkpoint.
+These are reference materials, not new proof evidence. Their implications for
+the next steps are now recorded in the separately approved [roadmap](PLAN.md).
+Use STATUS and the linked phase for current authorization.
 
 ## Run log
 
@@ -62,4 +66,5 @@ preserved in [AGENT-RUNBOOK-ARCHIVE-2026-10-06.md](AGENT-RUNBOOK-ARCHIVE-2026-10
 [HANDOFF-2026-10-06.md](HANDOFF-2026-10-06.md) and
 [REASSESSMENT-2026-10-06.md](REASSESSMENT-2026-10-06.md) are historical snapshots.
 Their old "resumed", "next" and "pending" statements do not override STATUS.
-Use the runbook for exact-SHA dispatch/inspection only after explicit resumption.
+Use the runbook for exact-SHA dispatch/inspection within the currently approved
+phase; historical proposed experiments do not expand that scope.

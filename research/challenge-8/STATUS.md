@@ -1,33 +1,55 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 after explicit owner resumption, starting from instructions
-commit `f50b237` on `challenge-8/research`.
-This is the single current checkpoint; procedures live in
-[AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), historical evidence in
-[EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
+Updated 2026-10-06 after the owner approved the revised roadmap and next phase.
+Approval baseline: `25c590235c67107cffc92cf70b69568c388ac3ed` on
+`challenge-8/research`. This is the single current checkpoint; procedures live
+in [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), priorities in [PLAN.md](PLAN.md), and
+historical evidence in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
-## Authorization and stop state
+## Authorization and execution state
 
-**PHASE CLOSED: explicitly resumed and executed on 2026-10-06; NO-GO for expansion.**
-Entry tree was clean; fork origin; fast-forward to instructions commit f50b237.
-Source changes committed/pushed at f0f417ce9913f53a90591c89593b31b359b87032.
-Both hosted runs completed; no active run. No tool semantic/patch changes and no
-local compilation, verification or executable tests. Saved draft remains unapplied.
+**READY — the bounded actual `sort4_stable` phase is approved.**
+Its exact scope, tool allowlist, deliverables and stop conditions are in
+[SORT4-PHASE.md](SORT4-PHASE.md). The continuation agent may implement, commit,
+push, dispatch, inspect and fix routine issues within that phase without
+asking the owner to approve its start again. Check for newer instructions,
+branch changes and running jobs before acting.
 
-recover_single's actual conditional resource body now verifies through return
-and leak-check (16 records). All five independent baseline controls pass both
-minimal profile and unchanged release. Full ManuallyDrop caller gate is NOT
-passed: immutable tmp exposes half storage, while full_borrow_content needs a
-whole cell; both callers stop before actual reference/helper call. Original
-RawPtr refinement failure remains, and draft's saved child-pointer substitution
-has no established permission bridge. Missing-init negative is not reached.
+The approval/documentation iteration has made no proof or runtime changes
+and dispatched no workflow. No sort4 harness, runner selection or proof result
+is established yet. No active research run was observed at this checkpoint;
+the last proof runs below are unchanged.
 
-The actual first false return/direct panic still have no established source-exact
-full recovery route under allowed semantics. See [phase report](PREPARED-PHASE-2026-10-06.md).
-The authorized phase stops here per owner's frozen trust boundary. Next action
-requires the owner's architecture decision: separately review tool/refinement and
-scope/unwind semantics, find another existing-semantics route, or choose a simpler
-target. Do not begin callback integration, patch expansion or the next phase.
+The approved phase covers:
+
+1. Full target contract and actual caller/aliasing/resource audit.
+2. Actual-body Kani sortedness and multiset preservation for four arbitrary
+   i32 inputs in separate fixed buffers, with a pure `<` comparator.
+3. Separate actual-body tagged-item proof of stability.
+4. Existing-evidence-first generic-safety feasibility assessment, followed by
+   at most one justified unchanged-release diagnostic route and a closeout.
+
+Kani stays at `152c6a8c875d9886a67e229247b4826d6105ccfd`;
+VeriFast stays at unchanged 26.09, source
+`809de4596839b739dd999f9e462242c835e3af46`, Rust `nightly-2026-02-05`.
+No historical experimental patches are authorized in this phase.
+All executable work stays on GitHub-hosted Actions.
+
+## Previous phase remains closed
+
+The ManuallyDrop/insert_tail feasibility phase reached NO-GO for integration.
+The owner has now selected the simpler sort4 target; this supersedes the old
+wait-for-a-target-decision checkpoint only for the named new phase. It does
+not reopen callback integration, patch expansion or full insertion work.
+
+The actual conditional `recover_single` body verifies through return and
+leak-check (16 records), and five independent baseline controls pass. Both
+ManuallyDrop callers still stop before the reference/helper call: immutable
+tmp offers half storage where full borrow construction needs a whole cell.
+Original RawPtr refinement failure and the draft's unproved child-pointer
+permission bridge remain. The missing-init negative was not reached.
+Source-exact first false return and direct panic recovery remain unestablished.
+See the [preserved closeout and historical profile](PREPARED-PHASE-2026-10-06.md).
 
 ## Established milestones — not Challenge 8 completion
 
@@ -67,55 +89,18 @@ and unsupported permission transfer to a saved shared-reference-derived pointer.
 Only independently designed access packaging was implemented. See experiment
 log for exact costs, hashes, diagnostics and case counts.
 
-## Prepared phase after explicit resumption — limited feasibility gate
+## Next permitted action and stop boundary
 
-This bounded phase was explicitly authorized and has reached its stop boundary.
-The following records its contract; it does not authorize another phase.
-No new verifier semantics, callback integration or full insertion proof is part
-of it. Autonomy covers routine fixture/spec/audit fixes and hosted iterations
-within these boundaries, then stops for an architecture decision.
+Read AGENTS, this checkpoint, PLAN, SORT4-PHASE and the runbook. Audit the
+actual sort4 body/callers, record the contract and first experiment card, then
+implement and execute the functional harnesses through a new hosted selection.
+The full generic target and the concrete functional domain must remain separate.
 
-1. Review and isolate same-reference `recover_single` bookkeeping. Prove the
-   coefficient/resource conditions; retain unrelated baseline controls without
-   the new helper. State expected proof stage/predicate/location for each case.
-2. Resolve the raw-pointer provenance/refinement blocker without weakening posts,
-   bypassing the checker or changing the target's pointer semantics. If that
-   requires changing tool semantics/support, STOP and present the decision.
-3. Once statically justified, run the seven-case minimal ManuallyDrop gate on a
-   NEW pushed SHA, inspect all evidence, and record only the established scope.
-   Use the separate unchanged-release baseline control when relevant.
-4. Document applicability to actual `insert_tail`: normal true path, false early
-   return and first direct panic must have explicit full storage/ownership
-   recovery routes. A natural-block fixture alone is insufficient. Close this
-   phase with a go/no-go report; do not implement a new AST scope/routing feature.
+Use existing tuple/HRTB/borrow/unwind evidence before any generic-safety probe.
+A required semantic extension ends that route and becomes a documented
+architecture decision. Complete independent authorized functional work when
+possible; do not treat the generic blocker as a reason to abandon it.
 
-Allowed tool profiles in this phase: unchanged pinned release 26.09
-(`verifast_borrow_recovery`), and the EXISTING `manually_drop_only` profile
-(`verifast_borrow_recovery_manually_drop`), with no patch expansion:
-
-- VeriFast source `809de4596839b739dd999f9e462242c835e3af46`;
-  Rust `nightly-2026-02-05`.
-- Sole patch `verifast-manually-drop-ref.patch`, SHA-256
-  `5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc`.
-- Translator input SHA-256
-  `7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803`;
-  output `60ece6e90f4dd3c623a99ea31feebb3210359daa38850255332118b2316eac39`.
-- Parser, kernel, prelude, memory model, exporter and refinement checker remain
-  unchanged. Retain existing dependency/binary/source audits. The full historical
-  patch chain is evidence, NOT a default fallback or phase permission.
-
-## Architecture decision before expansion
-
-The baseline fixture's natural block is absent around actual insert_tail's first
-FnMut call; its first panic occurs before a guard exists. Direct unwind skips
-trailing recovery statements. A proof-only translator AST block/label rewrite is
-only a design candidate: unimplemented, unproved and NOT authorized here, even
-if kernel-free. See [borrow design](BORROW-RECOVERY-DESIGN.md) and
-[all-path ledger](INSERTION-RESOURCE-LEDGER.md).
-
-Before further integration, justify source-exact normal/false/panic recovery and
-the trust/admissibility of every semantic change. Then seek the owner's decision
-on that route or a simpler target. Later roadmap: held tmp/guard provenance and
-late panic → full generic insert_tail → actual outer loop → other safety targets,
-specializations and three sorting contracts. Required UB checks and automation
-remain separate completion gates. Do not silently advance into these later phases.
+At phase closeout, update this checkpoint and coverage, preserve run evidence,
+and present the next decision. Later roadmap stages, verifier semantic changes
+and external publication still require separate owner approval.
