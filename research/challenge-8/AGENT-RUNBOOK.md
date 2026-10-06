@@ -21,13 +21,18 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
+**Latest inspected run:** [37400422055](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
 source `9d4a01fc9388b53d2bc4cfc53651a3b728914457`,
-`verifast_insert_tail_range`,90min. Poll this exact run, fetch full logs/artifacts
-and inspect the first causal obligation. New change removes incomplete ghost
+`verifast_insert_tail_range`,90min. Full logs/artifacts fetched; no active run.
+New change removes incomplete ghost
 FnMut generic arguments, preserving MIR inference and the actual Rust call.
 All borrow preparation, quarter-token accesses, checked assertions, original
-req and exact-byte/refinement audit remain. No result yet.
+req and exact-byte/refinement audit remain. All quarter assertions and the two
+actual &* expressions pass; comparator call next lacks Args tuple own with
+two inferred lifetime placeholders at std/lib.rsspec:47. Function not proved.
+Exactbyte/refinement0,VF1(.19s),refiner.11s,runner1:12.85,RSS617,796KiB.
+Next prove the tuple ownership/lifetime match using supported complete generic
+substitutions or tuple closing, without assuming caller resources.
 
 **Completed bounded milestones:** bootstrap two actual swap harnesses,5/5covers
 at `34d008324e10a66bf59de705acd609d9509e7c36` (37383583285).

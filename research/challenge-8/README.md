@@ -373,6 +373,18 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Next inspect supported FnMut lowering/generic argument count. Lifetime
   binding's block-wide reserve remains a separate recovery issue before tail.read.
 
+- [Actual shared-reference creation milestone](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37400422055),
+  2026-10-06, source `9d4a01fc9388b53d2bc4cfc53651a3b728914457`,range90min,
+  same pins/domain. Full MIR inference retained. All quarter-token assertions,
+  preparation and both actual &* expressions pass. FnMut::call_mut then lacks
+  Args tuple own at std/lib.rsspec:47; its reference types contain two inferred
+  lifetime placeholders. Need explicit sound tuple ownership/type matching.
+  No completed callback/function proof. Exactbyte/refinement0,
+  VF1(.19s,RSS165,384KiB),refiner.11s,RSS162,836KiB;
+  runner1:12.85,RSS617,796KiB,overall1 (extra setup time, not solver time).
+  Full logs/artifacts fetched. Next derive tuple ownership with supported
+  lifetime substitutions, no new assumptions or length restrictions.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
