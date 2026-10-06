@@ -1,8 +1,14 @@
 # Insertion comparison lifetime recovery
 
-This records a source-level limitation of the current normal-path proof
-strategy, not an Actions-confirmed failure before tail.read or a SmallSort
-counterexample.
+The initial limitation below was identified by source audit. Actions run
+[37409198258](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258)
+at e7ac80db4016bf6cf41b40920e3af11dcfb30470 now confirms the first actual normal
+move obligation: after the comparator Output=bool issue is resolved, tail.read
+at verified134 fails because points_to<T>(tail0,_) is still borrowed. The
+synthetic comparator unwind exit consumes its explicit comparison-resource
+post and passes leakcheck. This does not establish restored-range safety or
+prove the later move/guard/loop. Closing the two actual initialization accesses
+and testing full lifetime recovery is the next diagnostic.
 VeriFast source is pinned to `809de4596839b739dd999f9e462242c835e3af46`.
 Run37406214235 reached tuple2 ownership folding, both actual reference
 expressions and actual FnMut preconditions. Its first failure is the

@@ -86,6 +86,21 @@ Success requires every requested harness to verify and every reachability cover
 to be satisfied. A timeout, build error or absence of harnesses is not a proof.
 ### Run log
 
+- [Compiler-bound FnMut instance](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258),
+  source `e7ac80db4016bf6cf41b40920e3af11dcfb30470`,
+  verifast_insert_tail_fnmut_hrtb90min. Independently reviewed translator-only
+  HRTB patch c35c4b4 plus tuple2 parser; same Rust/req/posts as previous probe,
+  original prelude and release exporter/refiner. Console build0/15.01s;
+  paired source Z3 and unchanged readonly MIR/source hash roundtrip pass.
+  Derived binary SHA0fd865ddb9a8211a828c2b452e6b2758ece63f094594577d9faf672f4b441d66.
+  Actual comparator preconditions, normal Output=bool type and synthetic
+  unwind exit resource/leak checks pass. First failure is real tail.read at
+  verified134: missing points_to<T>(tail0,_), held by comparison borrows.
+  VF1/.17s,RSS92,704KiB;refiner0/.12s,RSS91,704KiB;overall1,
+  runner1:03.07,RSS645,516KiB,setup dominates. No covers/full insertion proof.
+  Next real-compiler matcher regressions and normal comparison-access closure
+  before ending the lifetime/recovering exclusive cell ownership.
+
 - [First run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37381869926),
   2026-10-06 (Europe/Moscow), source `99af1446fc89bf3792be88090eb534982d688313`:
   runner preparation and the pinned Kani 0.67.0 build succeeded. Compilation of

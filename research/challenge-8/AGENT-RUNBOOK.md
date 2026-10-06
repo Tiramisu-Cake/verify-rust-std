@@ -21,18 +21,31 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active run:** [37409198258](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258),
+**Latest completed HRTB instance experiment:**
+[37409198258](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37409198258),
 source `e7ac80db4016bf6cf41b40920e3af11dcfb30470`,
-`verifast_insert_tail_fnmut_hrtb`,90min. Exact remote/run SHA matched.
-Poll this run and fetch full evidence; no second dispatch until inspected.
-Translator-only compiler-bound instance patch independently reviewed; no
-static logic blocker. First hosted build/probe active as recorded above. Patch SHA256
-c35c4b438563f5a9da0f79c658ac7450ca429c91ed91207f6caa1ee267d09758.
+`verifast_insert_tail_fnmut_hrtb`,90min. Full logs/artifacts fetched.
+Tuple/HRTB source patches, raw parser/translator/prelude pins, paired Z3 ldd,
+readonly compiler capture/hash roundtrip and ghost-byte audit pass.
+Console build0/15.01s,RSS426,676KiB. Derived binary SHA256
+0fd865ddb9a8211a828c2b452e6b2758ece63f094594577d9faf672f4b441d66;
+HRTB patch SHA c35c4b438563f5a9da0f79c658ac7450ca429c91ed91207f6caa1ee267d09758.
+Actual FnMut call preconditions, Output=bool result type and synthetic unwind
+exit assertion/leakcheck pass. First new error at actual tail.read verified134:
+No matching heap chunks [_]points_to<T>(tail0,_). Comparison borrows still own
+both cells. No restored range, successful move, guard or loop proof yet.
+VF1/.17s,RSS92,704KiB;refiner0/.12s,RSS91,704KiB;overall1,
+runner1:03.07,RSS645,516KiB,setup dominated. No covers/fullfunctionproof.
+Trace counter2 includes error-context duplicate,193 execution/return records;
+never accepted as two verified functions. No active run.
+Next validate translator positives/negatives against real compiler MIR, then
+close actual reference-initialization accesses on normal path and diagnose
+lifetime reservation/exclusive-cell recovery before tail.read.
+Existing declaration-scope support is under read-only investigation; no assumed
+ownership bridge, new T/F restriction or runtime Rust edits.
 Default main manual routing exposed by workflow-only commit29442c6.
-Same generic range domain and explicit comparison-resource posts as tuple_parser;
-that profile remains the reproducer. See verifast-fnmut-hrtb.md.
-Negative compiler/translator regressions are being prepared; no claim of
-fully validated modified tool or completed insertion proof.
+See verifast-fnmut-hrtb.md and verifast-lifetime-diagnostic.md.
+
 **Latest compiler projection capture:**
 [37408278446](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37408278446),
 source `d34616e2b0652be92ec5130737977ae0a7c8834e`,tuple_parser90min.
