@@ -43,15 +43,18 @@ ens thread_token(t) &*& type_interp::<T>() &*&
 @*/
 
 /*@
+// Keep same-reference accesses packaged separately. Opening both at once
+// automatically merges precise ref_initialized chunks with symbolic coefficients.
+pred single_initialization_access<T>(
+    k: lifetime_t, tmp_ref: *T, fraction: real) =
+    [fraction]ref_initialized::<T>(tmp_ref) &*&
+    close_frac_borrow_token(fraction, ref_initialized_::<T>(tmp_ref), 1/4, k);
+
 pred single_borrow_debt<T>(
     t: thread_id_t, k: lifetime_t, tmp: *T, tmp_ref: *T,
     first_fraction: real, second_fraction: real) =
-    [first_fraction]ref_initialized::<T>(tmp_ref) &*&
-    close_frac_borrow_token(
-        first_fraction, ref_initialized_::<T>(tmp_ref), 1/4, k) &*&
-    [second_fraction]ref_initialized::<T>(tmp_ref) &*&
-    close_frac_borrow_token(
-        second_fraction, ref_initialized_::<T>(tmp_ref), 1/4, k) &*&
+    single_initialization_access::<T>(k, tmp_ref, first_fraction) &*&
+    single_initialization_access::<T>(k, tmp_ref, second_fraction) &*&
     borrow_end_token(k, <T>.full_borrow_content(t, tmp));
 
 lem recover_single<T>(tmp: *T)
@@ -65,8 +68,10 @@ lem recover_single<T>(tmp: *T)
 {
     open single_borrow_debt::<T>(
         t, k, tmp, tmp_ref, first_fraction, second_fraction);
+    open single_initialization_access::<T>(k, tmp_ref, first_fraction);
     close [first_fraction]ref_initialized_::<T>(tmp_ref)();
     close_frac_borrow(first_fraction, ref_initialized_::<T>(tmp_ref));
+    open single_initialization_access::<T>(k, tmp_ref, second_fraction);
     close [second_fraction]ref_initialized_::<T>(tmp_ref)();
     close_frac_borrow(second_fraction, ref_initialized_::<T>(tmp_ref));
     merge_fractions lifetime_token(k);
@@ -279,9 +284,11 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
         //@ init_ref_share::<T>(cmp_k, t, tmp_ref);
         //@ open_frac_borrow(cmp_k, ref_initialized_(tmp_ref), 1/4);
         //@ open [?first_fraction]ref_initialized_::<T>(tmp_ref)();
+        //@ close single_initialization_access::<T>(cmp_k, tmp_ref, first_fraction);
         //@ open_frac_borrow(cmp_k, ref_initialized_(tmp_ref), 1/4);
         //@ open [?second_fraction]ref_initialized_::<T>(tmp_ref)();
         let _tmp_shared = &*tmp;
+        //@ close single_initialization_access::<T>(cmp_k, tmp_ref, second_fraction);
         //@ close single_borrow_debt::<T>(t, cmp_k, &tmp, tmp_ref, first_fraction, second_fraction);
     }
     //@ recover_single::<T>(&tmp);

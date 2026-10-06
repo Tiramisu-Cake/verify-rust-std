@@ -1,18 +1,21 @@
 # Challenge 8: current status
 
-Updated 2026-10-06 from stopped checkpoint
-`126e23d35c26bb336ca5e975f0ec696ef1fa88d0` on `challenge-8/research`.
+Updated 2026-10-06 after explicit owner resumption, starting from instructions
+commit `f50b237` on `challenge-8/research`.
 This is the single current checkpoint; procedures live in
 [AGENT-RUNBOOK.md](AGENT-RUNBOOK.md), historical evidence in
 [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and stop state
 
-**PAUSED by the owner's explicit request. No active research run at this review.**
-Only instruction/documentation changes are authorized now. They do not resume
-proof work, apply the draft, authorize verifier changes or dispatch a workflow.
-A future agent must inspect live branch/run state without interpreting activity
-or an old "resumed" note as permission. Resume requires an explicit owner request.
+**ACTIVE: owner explicitly resumed the limited prepared phase on 2026-10-06.**
+Repository was clean; origin is the fork; fast-forward `126e23d` → `f50b237`
+completed and updated instructions are present. Hosted runs are all completed;
+push/workflow access is available. Authorization covers only the prepared phase
+below: recover_single bookkeeping, pointer/refinement feasibility, seven-case
+minimal gate and actual-source all-path applicability report. No new verifier
+semantics, patch expansion, callback integration or next architecture phase.
+Saved draft remains unapplied pending critical review. No active run at entry.
 
 ## Established milestones — not Challenge 8 completion
 
@@ -56,7 +59,7 @@ unfinished. Do not apply/dispatch it wholesale or treat it as a prepared fix.
 
 ## Prepared phase after explicit resumption — limited feasibility gate
 
-This is the next bounded phase, NOT permission to start while paused.
+This bounded phase is explicitly authorized in the current session.
 No new verifier semantics, callback integration or full insertion proof is part
 of it. Autonomy covers routine fixture/spec/audit fixes and hosted iterations
 within these boundaries, then stops for an architecture decision.

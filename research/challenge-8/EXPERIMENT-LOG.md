@@ -1051,3 +1051,57 @@ MIR audit passes new1/deref1/read2/write1/into_inner0. VF.08s percase, refinemen
 .04s (.05generic), runner1:22.18,RSS585,528KiB; cold setup/build dominate.
 No covers/loopbounds. Next fix same-reference recovery and use a sound,
 independently checked original-provenance pointer route; all full posts remain.
+
+## 2026-10-06 explicit resumption: isolated same-reference bookkeeping diagnostic
+
+Owner explicitly resumed only STATUS's prepared feasibility phase. Clean tree,
+origin fork, FF 126e23d -> f50b237; no active run; auth/push/workflow access checked.
+Actual obligation: eventual insert_tail held temporary must recover full current
+T storage/ONE own, not merely two ref_initialized accesses. This diagnostic first
+checks the helper independently of pointer feasibility; it is NOT step 3's
+accepted seven-case lifecycle gate.
+
+Hypothesis: precise same-reference chunks auto-merge when both are opened;
+packaging each initialization access in an imprecise predicate and closing each
+sequentially restores both exact quarter lifetime tokens without new coefficient
+premises. Both original quarter accesses remain. No split/assume/tool patch.
+Draft critically rejected: split_fraction's `by` is a relative multiplier
+(verifast.ml:1521-1552), not an absolute coefficient. open_frac_borrow does not
+state numerical bounds on its result; we must not manufacture them. Each package
+keeps its original coefficient and close token; opening one at a time avoids
+co-resident precise chunks and requires no new split inequalities.
+
+Domain/posts unchanged: unrestricted T, initialized cell + current full T.own;
+normal-only synthetic natural block, no callbacks. Full cell/T.own normal post.
+Original two-cell controls retain their full posts and three intended negatives;
+they now exclude optional single-cell helpers under BOTH profiles. Optional
+ManuallyDrop positive still uses original owner-address addr_of!(tmp), read/write;
+we deliberately retain the unsupported RawPtr refinement failure. Saved draft
+remains unapplied, not a candidate to dispatch wholesale.
+
+Frozen profile: manually_drop_only, source809de4596839b739dd999f9e462242c835e3af46,
+Rust nightly-2026-02-05, sole patch SHA2565500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc;
+translator7319d2638c3fc49a1663b50925d565ca2e10d95754933ed58e37f27239936803
+->60ece6e90f4dd3c623a99ea31feebb3210359daa38850255332118b2316eac39.
+No parser/kernel/prelude/exporter/refiner change. Selection
+verifast_borrow_recovery_manually_drop, budget90 minutes, all seven cases.
+
+Expected stages: baseline two positives VF/refinement0; missing-token and
+missing-debt negatives at recover_pair precondition, false-post at caller post;
+MD missing-init at actual &*tmp/create_ref's ref_initialized precondition, before
+helper call. recover_single actual body should pass; MD positive should reach
+its explicit helper and owner-provenance read, with full posts checked. Its
+refinement is EXPECTED FAILURE at original addr_of!(tmp) RawPtr; whole-unit
+failure is retained and cannot establish lifecycle gate. Inspect full source/MIR
+and actual named body/call traces, source/ghost-strip/hash audits, every exit,
+leaks/unwind, no covers/loops. No other failure counts as an intended negative.
+
+Pointer review independently found cast `_tmp_shared as *const T` refiner-supported
+but no permission bridge: create_ref proves origin equality, not child/owner
+heap identity; borrow_end restores owner location, ptr::read lowers to Deref of
+saved child. Actual guard.src is child/reference-derived in saved insertion MIR.
+Do not change pointer semantics, assume equality or bypass RawPtr checker.
+If bookkeeping passes, STOP at this documented pointer-support/provenance and
+actual first-false/first-panic architecture boundary; no callback or AST-routing
+implementation. If bookkeeping fails, only evidence-backed fixture fixes within
+frozen profile are allowed. Run identifiers/results to follow after exact-SHA push.

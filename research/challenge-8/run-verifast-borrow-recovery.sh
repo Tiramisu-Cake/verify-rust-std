@@ -110,16 +110,15 @@ if tuple(cases) != all_names or len(matches) != len(all_names):
     raise SystemExit("case markers missing, duplicated, reordered, or unexpected")
 selected_cases = {name: cases[name] for name in names}
 prefix = source[:matches[0].start()]
-if profile == "baseline":
-    prefix, removed = re.subn(rb"(?s)/\*@\npred single_borrow_debt<T>\(.*?@\*/\n", b"", prefix, count=1)
-    if removed != 1:
-        raise SystemExit("baseline profile must omit the optional single-cell helper")
+baseline_prefix, removed = re.subn(
+    rb"(?s)/\*@\n// Keep same-reference accesses.*?@\*/\n", b"", prefix, count=1)
+if removed != 1:
+    raise SystemExit("baseline controls must omit the optional single-cell helpers")
 blocks = re.compile(rb"(?s)/\*@.*?@\*/")
 ghost_lines_re = re.compile(rb"(?m)^\s*//@[^\n]*(?:\n|$)")
 def strip_ghost(data): return ghost_lines_re.sub(b"", blocks.sub(b"", data))
 
-prefix_lines = prefix.splitlines()
-def get_helper_lines(name):
+def get_helper_lines(name, prefix_lines):
     decl = next(i for i, line in enumerate(prefix_lines)
                 if re.search(rb"\blem " + name.encode() + rb"<T>\(", line))
     body_open = next(i for i in range(decl, len(prefix_lines)) if b"{" in prefix_lines[i])
@@ -129,15 +128,15 @@ def get_helper_lines(name):
         if depth == 0:
             return {"declaration": decl + 1, "start": body_open + 1, "end": i + 1}
     raise SystemExit(f"{name} helper body braces are unbalanced")
-helper_lines = {"recover_pair": get_helper_lines("recover_pair")}
-if profile == "manually_drop_only":
-    helper_lines["recover_single"] = get_helper_lines("recover_single")
 manifest = {"fixture_sha256": hashlib.sha256(source).hexdigest(), "cases": {}}
 for name, match in selected_cases.items():
     d = root / name
     (d / "original").mkdir(parents=True, exist_ok=True)
     (d / "verified").mkdir(parents=True, exist_ok=True)
-    verified = prefix + match.group(2)
+    is_manually_drop = name in manually_drop_names
+    case_prefix = prefix if is_manually_drop else baseline_prefix
+    prefix_lines = case_prefix.splitlines()
+    verified = case_prefix + match.group(2)
     original = strip_ghost(verified)
     if b"lem_auto" in verified or b"assume(" in verified or b"assume_correct" in verified or b"end_lft_binding" in verified:
         raise SystemExit(f"forbidden automatic lemma, assumption, or lifetime extension in {name}")
@@ -160,7 +159,7 @@ for name, match in selected_cases.items():
     temp_ref_line = len(prefix_lines) + temp_ref_matches[0] + 1 if len(temp_ref_matches) == 1 else 0
     metadata = {
         "helper_kind": helper_name,
-        "helper_lines": helper_lines[helper_name],
+        "helper_lines": get_helper_lines(helper_name, prefix_lines),
         "helper_call_line": helper_call_line,
         "temp_ref_line": temp_ref_line,
     }
