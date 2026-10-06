@@ -40,6 +40,19 @@ both completed hosted runs and their evidence boundaries.
 - [Upstream candidates](VERIFAST-UPSTREAM-CANDIDATES.md): technical ideas only;
   no external publication or new semantic extension is authorized by that note.
 
+## External verification research
+
+The [C verification survey](C-VERIFICATION-SURVEY.md) records the 2026-10-06
+comparison of all seven targets with C proof developments, transfer candidates
+and Rust-specific limits. The [artifact catalog](C-VERIFICATION-ARTIFACTS.md)
+pins source files, contracts, published results, papers and relevant tool
+references. [Sorting-model observations](SORTING-MODEL-OBSERVATIONS.md) preserve
+the earlier finite-enumeration report and a reconstruction specification, with
+its missing run provenance made explicit.
+
+These are reference materials, not new proof evidence or a revised next phase.
+Use STATUS for authorization and the current checkpoint.
+
 ## Run log
 
 [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md) preserves the former README, all run
