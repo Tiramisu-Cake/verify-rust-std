@@ -21,6 +21,13 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37412915463](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37412915463),
+source `81f235e8856fde9208f387bb0b9ec9b6b1492abf`,lft_cut90min.
+Only four explicit Mir.basic_block annotations since the failed build;
+patch76c3f6db, unchanged semantic checks/domain. Next poll exact run,
+fetch full logs/artifacts, inspect source build, all8+12regressions and actual
+target/refinement if reached. All execution hosted; no local build/tests.
+
 **Latest completed HRTB guards + actual access closure:**
 [37410979109](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37410979109),
 source `3184c40f4a00745712bdce4a28ccdc76f352562c`,fnmut_hrtb90min.
