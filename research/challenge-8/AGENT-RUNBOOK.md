@@ -95,7 +95,12 @@ control after pinned-source audit showed write and pointer checks were modeled,
 but no mutability property emitted (--no-assert-contracts not its explanation).
 Next Actions selection: insertion_ub_safety_4,90min, actual bounded i32 safety
 without loop injection/sortedness assumptions; same UBflags and explicit
-immutable-byte gap. No active run until dispatch confirmed.
+immutable-byte gap. Active
+[37395779522](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37395779522),
+source `fe7567964629b627cf2bcb96ab71b8834316abcc`,
+`insertion_ub_safety_4`,90min. Inspect exact harness, all7covers, unwind and
+initialization/valid-value checks; no undetermined/unsupported/substituted checks
+accepted. Default workflow-only selection at66db1c3.
 
 ## Repository map and verifier details
 
