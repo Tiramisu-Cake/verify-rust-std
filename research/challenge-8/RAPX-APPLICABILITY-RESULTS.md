@@ -1,5 +1,13 @@
 # RAPx applicability and detector coverage: results
 
+Planning update after explicit contract adoption: the documentation-only
+[joint-route assessment](SORT4-COMPOSITION-ASSESSMENT.md) considers a restricted
+RAPx role and independent alignment coverage. It does not change any result below:
+stock0.7.50 A remains CLOSED / NO-GO, B/C NOT RUN. Present RAPx evidence is
+diagnostic, not an actual-sort4 theorem; other property reliability and model
+dependencies require independent qualification before any composed proof use.
+No verifier run or semantic change accompanies that assessment.
+
 ## Automatic evidence replay (new processing authorization)
 
 **CLOSED — reproducible automatic NO-GO.** Owner-authorized processing-only

@@ -68,6 +68,17 @@ verifier run or semantic coverage**. Replay scope CLOSED at1/2 allowed runs.
 
 ## Safety targets and sorting contracts
 
+The documentation-only [joint-route assessment](SORT4-COMPOSITION-ASSESSMENT.md)
+adds **no proof or detector coverage**. Multiple tools may prove independent
+obligations, but current evidence supplies no generic composition or checked
+model bridge. RAPx presently remains diagnostic; other properties are not
+automatically reliable after the scoped Align finding. ZST is retained with
+independent geometry/operation/resource obligations, A NO-GO and B/C NOT RUN.
+The one proposed unchanged-VF alignment gate is NOT RUN / NOT AUTHORIZED;
+arithmetic evidence alone would not count as automatic UB coverage. Required VF
+callback/unwind/raw-copy capabilities are separated from optional historical
+insertion patches. Existing Kani results retain their exact concrete domains.
+
 The documentation-only [admissibility review](SORT4-ADMISSIBILITY-REVIEW.md)
 adds **no proof or detector coverage**. Full range separation is sufficient and
 caller-established, not shown necessary for every safe overlap or accepted as

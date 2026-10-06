@@ -1,8 +1,11 @@
 # Challenge 8: current status
 
-Updated 2026-10-06: explicit sort4 research contract ADOPTED by the owner;
-C-source authority check complete. Organizer clarification is deferred and is
-not a planning prerequisite. No experiments authorized or new proof coverage.
+Updated 2026-10-06: documentation-only joint RAPx / VeriFast / Kani route
+assessment CLOSED. [Composition assessment](SORT4-COMPOSITION-ASSESSMENT.md)
+records conditional responsibilities, domain/source compatibility and missing
+bridges; no current generic composition theorem. Explicit sort4 research contract
+remains ADOPTED; organizer clarification is deferred, not a planning prerequisite.
+No experiments authorized or new proof coverage.
 Automatic evidence replay CLOSED / NO-GO; semantic gate A stays
 CLOSED / NO-GO. See [replay scope](RAPX-APPLICABILITY-PHASE.md#automatic-evidence-replay).
 The bounded gate-A continuation CLOSED / NO-GO after a reproduced
@@ -15,6 +18,35 @@ This is the single current checkpoint; procedures in
 history in [EXPERIMENT-LOG.md](EXPERIMENT-LOG.md).
 
 ## Authorization and execution state
+
+**CLOSED — joint-route analysis/documentation only.** Owner requested the
+obligation-to-tool/evidence/gap/dependency matrix, compatibility analysis,
+independent treatment of the ZST alignment gap and necessary/optional VF changes,
+then documentation commit/push. Clean entry local43bc758; origin research head
+was newer documentation eda527922ec96468a804e3a62fbc1ca96f23691d. Fetched,
+inspected and fast-forwarded before analysis. Correct fork/branch; no queued or
+active runs in entry listing. Latest research evidence remains replay37513897141;
+latest unrelated run37518141083 is completed SKIPPED.
+
+[Assessment](SORT4-COMPOSITION-ASSESSMENT.md): VF/equivalent resource proof must
+cover current callback effects, normal ownership and all five panic exits;
+RAPx presently supplies diagnostics only, with no proved actual-sort4 component.
+Selected future RAPx low-level facts need independent property/dependency/model
+qualification. Known Align bug does not establish reliability of other checks.
+ZST remains in the target; RAPx0.7.50 gate A/replay stay CLOSED / NO-GO; B/C
+NOT RUN. Kani concrete functionality remains unchanged, without a generic lift.
+
+One proposed independent no-patch VF26.09 alignment-preservation gate is
+**NOT RUN / NOT AUTHORIZED**: generic legal .add offsets0..3, including size0 /
+align>1, checked base/size premises and intended false-post controls. Geometry
+alone is not automatic operation coverage; actual reference/copy alignment
+enforcement and selected provenance remain explicit gates. Tuple/HRTB, full
+direct-unwind recovery and raw-copy/resource capabilities remain necessary for
+the proposed VF role; the entire old insertion patch chain is not required by
+current evidence. No changes to std/contract/proofs/verifiers/runners/workflows,
+no builds/executable checks/dispatch or external messages. No active run/draft.
+
+## Historical explicit-domain decision — CLOSED
 
 **CLOSED — documentation decision complete; adopted domain recorded.**
 From head `43bc758625157febb496804f346b7433f1a21d5a`, the owner chose an explicit
@@ -315,11 +347,13 @@ log for exact costs, hashes, diagnostics and case counts.
 
 ## Next permitted action and stop boundary
 
-Documentation decision complete. The next planning task can assess a bounded
-proof route against the adopted contract and caller obligations without waiting
-for organizers. A concrete implementation/experiment phase still needs a separate
-owner decision; none is READY here. The unsent question is deferred and external
-contact remains unauthorized.
+STOP after joint-route documentation closeout/commit/push. The project plans
+against the adopted contract. The
+[single proposed alignment gate](SORT4-COMPOSITION-ASSESSMENT.md#one-next-bounded-check--proposed-not-run)
+has a new narrow hypothesis; execution requires a separate owner decision,
+not a resumption of RAPx A/B/C or permission for semantic patches. No currently
+established generic composition or independent automatic ZST closure is claimed.
+Organizer contact remains deferred, not a planning prerequisite.
 Gate A/replay remain CLOSED / NO-GO; B/C, new proof runs and verifier changes
 remain unauthorized. Adopting the contract does not repair a detector, discharge
 generic ownership/unwind proofs or revive the historical patched VeriFast route.

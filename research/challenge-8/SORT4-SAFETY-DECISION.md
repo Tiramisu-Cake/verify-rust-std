@@ -2,13 +2,20 @@
 
 ## Current disposition after no-patch review
 
+Superseded for current planning by the documentation-only
+[joint-route assessment](SORT4-COMPOSITION-ASSESSMENT.md) after adoption of the
+explicit contract. It permits a conditional multi-tool design, not a proof claim
+or experiment authorization; RAPx A remains NO-GO, B/C NOT RUN. One independent
+VF alignment geometry gate is proposed and unrun. The historical single-VF
+architecture below remains evidence, not a mandatory complete patch chain.
+
 [No-patch phase](SORT4-NO-PATCH-PHASE.md) completed2026-10-06;
 [assessment](SORT4-NO-PATCH-ASSESSMENT.md) is the current feasibility conclusion.
 Official26.10 retains the relevant tuple/HRTB/direct-unwind/scratch-copy blockers;
 normal-only annotations and the integrated Kani route did not provide a new
 full-resource c1 hypothesis. No new run or generic sort4 proof. This is not a
-proof of universal no-patch impossibility. Current recommended next task is the
-bounded contract/admissibility review, pending owner decision. Verifier development
+proof of universal no-patch impossibility. Its then-recommended contract review
+and later explicit-domain decision are now complete. Verifier development
 is not selected. The proposal below is preserved as **history, NOT AUTHORIZED**;
 the no-patch approval did not authorize its dependencies or exceptional routing.
 

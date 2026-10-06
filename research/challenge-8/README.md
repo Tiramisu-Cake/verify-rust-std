@@ -6,6 +6,14 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
+**Joint proof-route assessment complete; no generic composition yet.**
+[RAPx / VeriFast / Kani matrix and compatibility analysis](SORT4-COMPOSITION-ASSESSMENT.md)
+assign exact obligations without a single-tool requirement. RAPx presently
+contributes diagnostics; any selected future fact needs independent qualification.
+ZST remains in scope with A NO-GO and B/C NOT RUN. One independent no-patch VF
+alignment geometry gate is proposed, NOT RUN / NOT AUTHORIZED; arithmetic success
+alone would not establish automatic operation coverage or full sort4 safety.
+
 **Explicit sort4 research contract adopted; C-source authority checked.**
 The [adopted domain](SORT4-CONTRACT.md#adopted-domain-and-caller-obligations)
 states full source/output separation and the effect-aware scratch/resource
@@ -51,6 +59,10 @@ both completed hosted runs and their evidence boundaries.
 
 ## Specifications and proof boundaries
 
+- [Joint sort4 composition assessment](SORT4-COMPOSITION-ASSESSMENT.md): exact
+  obligation/tool/evidence/gap/dependency matrix; common source/domain/premises,
+  acyclic responsibilities, restricted RAPx role, independent ZST route, necessary
+  versus optional VF capabilities and one proposed bounded alignment gate.
 - [Sort4 admissibility review](SORT4-ADMISSIBILITY-REVIEW.md): assumption ledger,
   local copy safety vs sufficient separation/preservation, raw scratch/ownership,
   legal comparator effects and five panic posts; official clarification limits,

@@ -2061,3 +2061,63 @@ Scope: research documentation only. Static diff, repository-relative link/anchor
 and changed-path checks; no compilation, executable research tests, proof runs,
 Actions dispatch, std/tool/workflow edits or external messages. Proof and detector
 coverage are unchanged. The next technical phase remains a separate decision.
+
+## 2026-10-06 — joint RAPx / VeriFast / Kani composition analysis, docs only
+
+Owner requested analysis and documentation/plan update, commit/push only;
+no verifier patches, builds, checks, dispatch or external messages. Clean entry
+local43bc758; remote research head contained the newer adopted-domain decision
+eda527922ec96468a804e3a62fbc1ca96f23691d. Inspected fetched commit/diff and
+fast-forwarded without reset. origin is Tiramisu-Cake/verify-rust-std, branch
+challenge-8/research; entry Actions listing contained no queued/active run.
+Latest research run remains replay37513897141; unrelated scheduled37518141083
+completed SKIPPED. No proof run has been added by this task.
+
+[Composition assessment](SORT4-COMPOSITION-ASSESSMENT.md) gives the exact
+obligation/tool/evidence/missing-check/dependency matrix and common source/domain
+conditions. It does not require a single tool to close the entire contract.
+Conditional prospective allocation: independent layout/primitive facts, VF current
+callback/resources and all five unwind posts, checked pointer/index/copy
+composition, conditional generic order theorem, then later caller use. Existing
+Kani i32/tagged normal functional results remain concrete; no universal lift or
+RAPx-to-VF ownership/provenance/initialization bridge is assumed. ZST stays in the
+adopted contract; RAPx0.7.50 A/replay remain CLOSED / NO-GO, B/C NOT RUN.
+Other RAPx properties are not automatically reliable after a scoped Align miss.
+Present RAPx contribution is diagnostics, with no actual-sort4 proof component.
+
+Read the actual SmallSort and selection helper, contract, run closeouts, measured
+Kani UB gaps and VF feasibility/recovery evidence. Subagent read-only VF review
+returned capability constraints; no implementation delegated. Rechecked target
+blobs e555fce440872898e47fd5114f32eb15401d07df and
+fe59166363b9cc049c0d48f4349f4dc9c0e458b8. Local immutable RAPx archive source
+VCS metadata identifies7d61d9377033c48a4df8954f34cc076e97a93816; VF readonly
+checkout identifies809de4596839b739dd999f9e462242c835e3af46. Read pinned RAPx
+memory/util/call sources: zst_guard also appears in Allocated/Init, and selection
+builtin gives numeric either-argument disjunction but first-available provenance
+without condition linkage. These are static dependency concerns, not newly run
+counterexamples or universal tool-unsoundness claims.
+
+Separated necessary VF capabilities from a mandatory patch chain: checked tuple /
+HRTB call handling, full direct-unwind recovery and current one-owner resources
+are required for its proposed role; raw scratch/copy representation and actual
+selection still need proved implementations/interfaces. Historical insertion
+address-taken/ManuallyDrop/local-Drop/declaration/projection patches are not
+speculatively required for sort4's own body. No finding licenses new trusted
+semantics or proves that kernel/prelude changes are intrinsically unavoidable.
+
+One proposed check, NOT RUN / NOT AUTHORIZED: H_align on unchanged VF26.09,
+generic legal .add(i), i0..3, including size0/align>1, with caller/resource-derived
+base alignment and existing size_align facts. Bounded future hosted manual gate,
+max90min, no other-tool reruns or B/C. False-post controls test the lemma, not an
+UB detector. Acceptance explicitly audits the actual reference/copy enforcement
+boundary; the pinned typed copy summary has no explicit alignment clause and
+requires initialized dst. Arithmetic alone cannot close automatic operation,
+raw-dst, provenance, ownership or panic obligations. Failure/missing enforcement
+checkpoints need a separate decision, not a patch or weakened post.
+
+Updated STATUS/PLAN/README/coverage/current safety-decision pointer and RAPx
+planning pointer without rewriting historical experiment evidence. Local
+validation: git diff --check, lightweight non-executing Markdown table/local-link
+parsing and manual anchor/diff/source review. No build/verifier/research runner
+or executable test ran. **CLOSED: conditional design, no generic coverage gain.**
+STOP after docs commit/push; no active run or uncommitted proof draft.
