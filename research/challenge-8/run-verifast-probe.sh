@@ -31,14 +31,30 @@ if [[ "${1:-}" == --stages ]]; then
             printf 'VeriFast VERSION file absent; release pin and binary hash below identify this binary.\n'
         fi
         sha256sum "$VERIFAST_HOME/bin/verifast" "$VERIFAST_HOME/bin/refinement-checker"
+        printf 'Bundled prelude before any overlay:\n'
+        sha256sum "$VERIFAST_HOME/bin/rust/prelude.rsspec"
     } >> "$evidence/environment.txt" 2>&1
+
+    vf_options=()
+    if [[ "$VF_PROBE_PROFILE" == tuple_overlay ]]; then
+        python3 "$repo/research/challenge-8/patch-verifast-tuple-model.py" \
+            "$VERIFAST_HOME/bin/rust/prelude.rsspec" "$evidence" \
+            2>&1 | tee "$evidence/model-overlay.log"
+        vf_options=(-verbose 1)
+        {
+            printf 'Bundled prelude after tuple-2 overlay:\n'
+            sha256sum "$VERIFAST_HOME/bin/rust/prelude.rsspec"
+            printf 'Verifier binary hashes after spec overlay:\n'
+            sha256sum "$VERIFAST_HOME/bin/verifast" "$VERIFAST_HOME/bin/refinement-checker"
+        } >> "$evidence/environment.txt"
+    fi
 
     printf 'Probe profile: %s\n' "$VF_PROBE_PROFILE"
     # Only insert_tail is specified. An exit 0 must be inspected for function
     # counts; it is not evidence for CopyOnDrop or the outer function.
     set +e
     /usr/bin/time -v -o verifast-resources.txt "$VERIFAST_HOME/bin/verifast" -rustc_args '--edition 2021' \
-        -skip_specless_fns verified/lib.rs > verifast.log 2>&1
+        "${vf_options[@]}" -skip_specless_fns verified/lib.rs > verifast.log 2>&1
     vf_status=$?
     /usr/bin/time -v -o refinement-resources.txt "$VERIFAST_HOME/bin/refinement-checker" --rustc-args '--edition 2021' \
         original/lib.rs verified/lib.rs > refinement.log 2>&1
@@ -60,8 +76,8 @@ case "$budget" in
 esac
 profile=${2:-frontend}
 case "$profile" in
-    frontend|range) ;;
-    *) echo 'Profile must be frontend or range' >&2; exit 2 ;;
+    frontend|range|tuple_overlay) ;;
+    *) echo 'Profile must be frontend, range or tuple_overlay' >&2; exit 2 ;;
 esac
 export VF_PROBE_PROFILE="$profile"
 mkdir -p "$evidence"
@@ -75,6 +91,7 @@ mkdir -p "$evidence"
     uname -a
     sha256sum library/core/src/slice/sort/shared/smallsort.rs \
         research/challenge-8/extract-verifast-insertion.py \
+        research/challenge-8/patch-verifast-tuple-model.py \
         research/challenge-8/run-verifast-probe.sh \
         verifast-proofs/setup-verifast-home
 } > "$evidence/environment.txt"

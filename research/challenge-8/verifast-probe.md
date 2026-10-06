@@ -5,11 +5,14 @@ These are Actions-only experiments for VeriFast 26.09 and Rust
 profile checks that the pinned frontend processes the actual generic
 `insert_tail` body and reports a real safety obligation. The `range` profile
 adds an initialized owned range and comparator ownership to address its first
-pointer-bounds failure.
+pointer-bounds failure. The `tuple_overlay` profile uses the same extracted
+target and contract, with one explicit extension to VeriFast's bundled Rust
+tuple ownership spec.
 
 The runner `run-verifast-probe.sh` requires a GitHub-hosted Linux Actions runner.
-Its arguments are a budget in minutes (default `90`) and `frontend` or `range`
-(default `frontend`); the workflow must pass the selected profile explicitly.
+Its arguments are a budget in minutes (default `90`) and `frontend`, `range`,
+or `tuple_overlay` (default `frontend`); the workflow must pass the selected
+profile explicitly.
 The extraction script reads the live
 `library/core/src/slice/sort/shared/smallsort.rs` and writes a disposable crate
 under `research-results/verifast-probe/`. It takes these exact source spans:
@@ -21,11 +24,13 @@ under `research-results/verifast-probe/`. It takes these exact source spans:
 Each span is also saved as its own byte-exact `source-spans/*.rs` artifact with
 its size and SHA-256 in `extraction.json` and `extraction.log`.
 
-The original and verified source have identical Rust code. Both profiles add
-separate `req` and `ens` ghost comments to `insert_tail`. The `range` profile
-also adds one ghost lemma and invokes it before the first pointer subtraction.
-A byte-for-byte check after removing every recorded ghost insertion enforces
-this relationship; the manifest records each insertion's size and SHA-256.
+The original and verified source have identical Rust code. Every profile adds
+separate `req` and `ens` ghost comments to `insert_tail`. The `range` and
+`tuple_overlay` profiles also add one ghost lemma and invoke it before the
+first pointer subtraction. A byte-for-byte check after removing every
+recorded ghost insertion enforces this relationship separately for generated
+`lib.rs` and `smallsort.rs`; the manifest records each file's SHA-256 and each
+insertion's size and SHA-256.
 The Actions run also
 invokes the repository's pinned `refinement-checker`. Both
 copies import `ManuallyDrop`, `ptr`, and `intrinsics` from `core`; those imports
@@ -241,6 +246,42 @@ and actual comparator expression are unchanged. Actions still must check
 whether the root definition is accepted and whether its resources match the
 real call.
 
+Actions run
+[37402093844](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402093844)
+at `b777d8d` passed extraction and refinement and resolved the namespace
+assertion, but VeriFast rejected the root definition: “Predicate constructor
+name clashes with existing pure function name.” Inline type-predicate
+definitions generate a constructor named `std_tuple_2__own`, which collides
+with an existing name. The pinned parser also supports a separately named
+`pred_ctor` and a `type_pred_def` alias, but pinned
+[`verifast1.ml`](https://github.com/verifast/verifast/blob/26.09/src/verifast1.ml)
+permits a type-predicate definition for a struct only in the file declaring
+that struct (`4079–4082`). `std_tuple_2_` is declared in the pinned prelude,
+not in this extracted crate. Therefore the transparent tuple ownership model
+cannot be added through the probe's ghost comments alone. This is a verifier
+model/API blocker, not a SmallSort safety finding. A separately reviewed
+change to the pinned spec distribution or verifier would be needed to test
+that model; no such change was made in the baseline `range` profile.
+
+The separate `tuple_overlay` profile tests that model explicitly without
+changing VeriFast's pinned binary or any SmallSort source. On a GitHub-hosted
+runner only, `patch-verifast-tuple-model.py` requires the bundled
+`bin/rust/prelude.rsspec` SHA-256
+`d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5`
+from tag `26.09` and a unique exact insertion anchor; otherwise it stops.
+Inside the same prelude file that declares `std_tuple_2_`, it adds a distinctly
+named `pred_ctor` with the transparent body
+`<T1>.own(t, v.0) &*& <T2>.own(t, v.1)`, then connects
+`<(T1, T2)>.own` to that constructor with the pinned `type_pred_def` syntax.
+The pinned parser and type checker support this named route; Actions must still
+validate its exact typing and interaction with the real comparator call. The
+runner records both prelude versions, insertion and file hashes, installed
+binary hashes, and the unchanged extracted source. It passes `-verbose 1`
+only for this profile to expose actual statement execution. This overlay is
+**our verifier model change**, not a bundled VeriFast proof. Compatibility
+with generic `type_interp`, existing tuple sharing, all call paths, and
+normal/unwind resource restoration remains unproved.
+
 The ghost `let_lft` keeps half the lifetime token reserved until the enclosing
 `unsafe` block ends, while `tail.read()` occurs inside that block. After the
 first comparator call is processed, restoring exclusive access before the
@@ -253,7 +294,7 @@ and restoring ownership on the early-return, normal, and unwind paths remain
 proof obligations. No result from this stage should be reported as a complete
 `insert_tail` proof, even if the first comparison passes.
 
-Both profiles leave the extracted `CopyOnDrop` and outer function unverified:
+All profiles leave the extracted `CopyOnDrop` and outer function unverified:
 `-skip_specless_fns` skips these unspecified functions. The experiment
 must never be counted as a three-function proof. The expected number of
 specified target bodies is exactly one: `insert_tail`. Any reported success
@@ -285,7 +326,9 @@ and runner),
 `extraction.json` and `extraction.log` (per-span hashes and sizes), the separate
 source spans, both source copies, VeriFast and
 refinement logs and statuses, a combined execution log, GNU time resources,
-and the overall exit status. The budget includes downloading/installing the
+and the overall exit status. The `tuple_overlay` artifact additionally contains
+the original and patched bundled prelude, `model-overlay.json`, and the patch
+log. The budget includes downloading/installing the
 pinned toolchain. The workflow should dispatch this selection manually and
 upload `research-results/` even on failure, as with the Kani experiments.
 

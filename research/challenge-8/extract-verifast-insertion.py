@@ -29,6 +29,7 @@ GHOSTS = {
         "@*/ /*@ ens true; @*/ "
     ),
 }
+GHOSTS["tuple_overlay"] = GHOSTS["range"]
 CONTRACTS = {
     "frontend": "req true; ens true; no pointer or ownership precondition",
     "range": (
@@ -36,6 +37,7 @@ CONTRACTS = {
         "generic T values owned, comparator F owned; ens true (safety probe only)"
     ),
 }
+CONTRACTS["tuple_overlay"] = CONTRACTS["range"] + "; patched bundled tuple-2 ownership spec"
 INSERT_SIGNATURE = (
     "unsafe fn insert_tail<T, F: FnMut(&T, &T) -> bool>"
     "(begin: *mut T, tail: *mut T, is_less: &mut F) {"
@@ -56,12 +58,6 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
     note(pointer_within_limits(base));
     note(pointer_within_limits(base + count));
 }
-@*/
-
-"""
-RANGE_TUPLE_OWN = """/*@
-pred<T1, T2> <(T1, T2)>.own(t, v) =
-    <T1>.own(t, v.0) &*& <T2>.own(t, v.1);
 @*/
 
 """
@@ -132,7 +128,6 @@ ROOT = (
     "#![feature(core_intrinsics)]\n"
     "mod smallsort;\n"
 )
-ROOT_MODULE_ANCHOR = "mod smallsort;\n"
 
 
 def unique_offset(text: str, marker: str) -> int:
@@ -160,7 +155,7 @@ def main() -> None:
     else:
         raise SystemExit(
             "usage: extract-verifast-insertion.py OUTPUT_DIRECTORY "
-            "[--profile frontend|range]"
+            "[--profile frontend|range|tuple_overlay]"
         )
     ghost = GHOSTS[profile]
     source_bytes = SOURCE.read_bytes()
@@ -209,13 +204,7 @@ def main() -> None:
     verified_root = ROOT
     module_injections = {"contract": ghost}
     root_injections = {}
-    if profile == "range":
-        if verified_root.count(ROOT_MODULE_ANCHOR) != 1:
-            raise ValueError("expected one root module anchor")
-        root_injections["tuple_ownership_model"] = RANGE_TUPLE_OWN
-        verified_root = verified_root.replace(
-            ROOT_MODULE_ANCHOR, RANGE_TUPLE_OWN + ROOT_MODULE_ANCHOR, 1
-        )
+    if profile in ("range", "tuple_overlay"):
         module_injections["interior_lemma"] = RANGE_INTERIOR_LEMMA
         module_injections["interior_call"] = RANGE_BOUND_GHOST
         module_injections["lifetime_begin"] = RANGE_LIFETIME_BEGIN
