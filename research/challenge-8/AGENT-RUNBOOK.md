@@ -67,12 +67,16 @@ isolated UB detector runner. The Kani outer rewrite now freezes the initial
 pointer outside the invariant, uses explicit const pointer allocation arguments
 and address bounds, and adds an inductively checked element-stride obligation.
 It preserves input domain and all original obligations; arity-warning cause
-remains a hypothesis, rewrite not verified. Active run: [37394022890](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890),
-source `2ba502bc71cd25657584592fb83da044a7323252`, selection
-`verifast_insert_tail_range`, 90 minutes. The owned-range profile has arbitrary
-representable n >= 2, generic value and comparator ownership, no sortedness
-assumption. Inspect exact-source/refinement audit and first actual obligation.
-Default-branch choice exposed by workflow-only commit `8016336`.
+remains a hypothesis, rewrite not verified. Latest owned-range result: [37394022890](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890),
+source `2ba502bc71cd25657584592fb83da044a7323252`,
+`verifast_insert_tail_range`, 90 minutes. Symbolic generic range contract parses;
+actual insert_tail still fails first tail.sub(1) pointer-limit proof. Exact-source
+and refinement audits pass, verifier/overall1, runner14.10s RSS636,068KiB.
+No completed safety proof. Next expose/prove interior-pointer facts, no assumed
+conclusions or length narrowing. Default workflow choice commit `8016336`.
+Next queued work (not dispatched yet): isolated `ub_detector_controls`, two
+positive controls then five independent negative controls, same Kani pin and
+explicit UB instrumentation. One experiment at a time; no active run.
 UB detector controls are prepared but unverified in ub-controls.rs / ub-checks.md;
 run them separately before attributing all required UB checks to SmallSort.
 

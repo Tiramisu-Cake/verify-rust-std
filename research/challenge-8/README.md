@@ -184,6 +184,19 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   Next specify initialized owned range for arbitrary mathematical length and
   comparator ownership, preserving actual bodies and explicit Drop/unwind gaps.
 
+
+- [Generic owned-range probe](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890),
+  2026-10-06, source `2ba502bc71cd25657584592fb83da044a7323252`,
+  `verifast_insert_tail_range`, 90 minutes, unchanged VF26.09/nightly pin:
+  symbolic usize n >= 2, initialized generic range and owned comparator,
+  no fixed allocation length or sortedness assumption. Contract parses and
+  actual insert_tail is analyzed, but first tail.sub(1) still cannot establish
+  pointer_within_limits (verified/smallsort.rs:37). Exact extraction/ghost-only
+  audit and refinement pass (refiner exit0); verifier/overall exit1. Runner
+  14.10s including setup, peak RSS636,068KiB. No completed safety proof or
+  covers; next expose/prove range's interior-pointer bounds through ghost facts,
+  preserving arbitrary valid lengths and avoiding assumed pointer conclusions.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.

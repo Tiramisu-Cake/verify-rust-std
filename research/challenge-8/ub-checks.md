@@ -55,3 +55,15 @@ The future sorting safety harness should use bounded i32 storage and the real
 experiment; these controls provide no sorting evidence. Keep all default
 checks enabled and report the control results before attributing UB coverage to
 the sorting harness.
+
+## Actions suite runner
+
+`ub_detector_controls` invokes `run-ub-controls.sh` on a hosted Linux runner.
+Two positive controls require 2/2 covers each before five negative controls run
+serially. A single requested budget includes the cold build and all stages;
+per-control GNU time records separate stage costs. The classifier preserves
+actual property IDs and only counts a negative as detected when Kani finishes
+one failed harness and every failed property matches the intended category.
+Unreachable unsupported checks are allowed; failed unsupported checks, compiler
+errors, unwind failures and incomplete output are inconclusive. Expected
+negative failures do not stop the other detector measurements. No result yet.
