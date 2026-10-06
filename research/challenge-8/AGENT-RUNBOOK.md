@@ -67,8 +67,12 @@ isolated UB detector runner. The Kani outer rewrite now freezes the initial
 pointer outside the invariant, uses explicit const pointer allocation arguments
 and address bounds, and adds an inductively checked element-stride obligation.
 It preserves input domain and all original obligations; arity-warning cause
-remains a hypothesis, rewrite not verified. Choose one new experiment when its
-source/runner is ready, confirm pushed SHA, dispatch and inspect. No active run.
+remains a hypothesis, rewrite not verified. Active run: [37394022890](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37394022890),
+source `2ba502bc71cd25657584592fb83da044a7323252`, selection
+`verifast_insert_tail_range`, 90 minutes. The owned-range profile has arbitrary
+representable n >= 2, generic value and comparator ownership, no sortedness
+assumption. Inspect exact-source/refinement audit and first actual obligation.
+Default-branch choice exposed by workflow-only commit `8016336`.
 UB detector controls are prepared but unverified in ub-controls.rs / ub-checks.md;
 run them separately before attributing all required UB checks to SmallSort.
 
