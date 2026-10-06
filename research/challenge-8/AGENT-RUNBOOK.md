@@ -21,6 +21,12 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
+**Active run:** [37415731049](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37415731049),
+source `17e96da0c56bd51c587c6023bbedf72bec588583`,address_taken90min.
+One-line continuation patch2c44ad1c after reviewedcutbd95733e; sameRust/domain.
+Next poll exactrun, full logs/artifacts; check sourcebuild4files, all8+12+3cases,
+actualguard address/proof progress and refiner. Defaultmainworkflowonly2f0a73b.
+
 **Latest completed actual borrowing/read milestone:** [37414755368](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37414755368),
 source `dc0a359d94f0a79fe41f400d79571199690aca7d`,lft_cut90min.
 Full logs/artifacts inspected. Same26.09/tool/prelude pins, pairedZ3,
