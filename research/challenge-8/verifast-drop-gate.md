@@ -56,3 +56,14 @@ HRTB, lifetime-cut, address-taken, and tracked `ManuallyDrop` reference
 patches. Compilation, refinement checking and verification run only on
 GitHub-hosted Actions; the editing server performs static reading and
 editing only.
+
+## Hosted result
+
+[Run37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766)
+at source `19e74b59f9f2235c26b208cc3c9a96149e3d6cb5` passes all25 regressions,
+exact-source extraction/MIR/hash audits, both contract compatibility and the
+actual named Drop body. The trace contains one copy call at verified source
+line32 and its normal postcondition/leakcheck; VeriFast and refinement both
+exit0. This proves the direct generic/arbitrary-valid-length contract above.
+Compiler cleanup callers and the full insertion proof are still open.
+See the runbook for tool/binary/contract pins and resources.

@@ -21,13 +21,29 @@ the owner's explicit instruction, not an optional performance recommendation.
 
 ## Handoff status — 2026-10-06, Europe/Moscow
 
-**Active hosted destructor gate:** [37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766),
-source `19e74b59f9f2235c26b208cc3c9a96149e3d6cb5`, selection
-`verifast_copy_on_drop_gate`, budget90min. Exact SHA resolved. Explicit
-compatibility safety_proof opens the original private own=False; body req/ens
-and mandatory copy execution unchanged. Poll this run, fetch full evidence;
-all25 regressions, actualDrop body, exactcopy normalpost and refinement must
-pass. A compatibility-only proof is insufficient. No duplicate/local run.
+**Completed generic destructor body gate:** [37419989766](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419989766),
+source `19e74b59f9f2235c26b208cc3c9a96149e3d6cb5`, copy_on_drop_gate90min.
+Full logs/artifacts inspected. Same26.09 source/tool/prelude/pairedZ3/4-file
+pins and exact364byte source/ghost/hash/MIR audits pass. Build0/27.85s,
+RSS426,932KiB; binary380b990b68b1adf1ec37f5221ee8b1db6d2cf622af435489b1fd57bdf873a410.
+All8HRTB guards0/1.73s,12scope cases0/2.30s and5references0/1.37s pass,
+everycompiler/decode0. ActualDrop compilerexport/decode0, onebody/onecopy.
+Compatibility safety_proof opens ORIGINAL private own=False; afterward ACTUAL
+Drop body enters separately, one exact named target and one copy call at32
+with5execution records. Exact destination values and ONE foreach(T.own)
+normalpost, functiontoken cleanup and leakcheck pass. VF0/.14s,RSS85,732KiB;
+refiner0/.10s,RSS84,508KiB;0errors/45total statements INCLUDE generatedsupport,
+not45callee statements. ContractSHAd7a090ed7ee9611434d889d7aa84f9e99d4987d9bd33889625c83c985a961e7f.
+Originalcrate e9b48887; verifiedcrate793e2fc6; genericT/arbitraryvalidlen,
+fractional initializedsrc/fullinitializeddst, no Copy/Freeze/nonZST restriction.
+Overall0,runner1:29.65,RSS646,180KiB,setupdominates. No active run.
+Directmethod contract is proved; compiler-generated cleanup reuse, heldref
+release on normal/panic, loop invariants and fullinsertion remain open.
+Next restricted same-unit annotatedDrop lowering with checked exactADT/generic/
+impl/field identity, normal/unwind CFG and ordinary storage accounting. Sol
+and Astra reviewed architecture; require caller source/dst/ONE Town resources,
+never synthesize own, erase tokens or treat defaultown=False as body evidence.
+See verifast-drop-diagnostic.md for acceptance and heldref release ordering.
 
 **Latest completed Drop compatibility diagnostic:** [37419467454](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37419467454),
 source `e119de8ca9f53685d673f012e1d024e35df14181`, copy_on_drop_gate90min.
