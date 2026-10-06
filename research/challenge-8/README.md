@@ -316,6 +316,17 @@ to be satisfied. A timeout, build error or absence of harnesses is not a proof.
   runner16.19s,RSS636,172KiB,overall1. Full logs/artifacts fetched.
   Next fix ghost-statement syntax against pinned parser, preserve all resources.
 
+- [Shared-cell preparation milestone](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37398942673),
+  2026-10-06, source `d1bd9d6b235a9072c90ad4256eba55290cbd5eda`,range90min,
+  same VF/Rust pins, symbolic generic owned range and original req unchanged.
+  Parser accepts ghost statements; both last-cell splits, generic ownership,
+  full borrows, shared borrows and reference initialization pass. Next failure:
+  second open_frac_borrow needs [1/2]lifetime_token(cmp_k), consumed by first
+  still-open borrow. First actual comparator call not reached; no completed
+  function proof/covers. Exactbyte/refinement0,VF1(.17s,RSS165,376KiB),
+  refiner.10s,RSS162,900KiB,runner14.68s,RSS619,784KiB,overall1. Full evidence
+  fetched. Next fix lifetime fractions from pinned open/close specifications.
+
 ## Next experiments
 
 1. **Completed:** bootstrap confirmed on Actions; both harnesses and all five covers pass.
