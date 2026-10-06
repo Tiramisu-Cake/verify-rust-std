@@ -1,0 +1,22 @@
+diff --git a/src/rust_frontend/vf_mir_translator/rust_parser.ml b/src/rust_frontend/vf_mir_translator/rust_parser.ml
+--- a/src/rust_frontend/vf_mir_translator/rust_parser.ml
++++ b/src/rust_frontend/vf_mir_translator/rust_parser.ml
+@@ -1142,6 +1142,18 @@
+     TypedefDecl (l, structTypeExpr, sn, tparams);
+     if tparams = [] then
+       PredFamilyDecl (l, sn ^ "_own", [], 0, own_paramTypes, None, Inductiveness_Inductive)
++    else if sn = "std_tuple_2_" && tparams = ["T1"; "T2"] then
++      (* The pinned Rust prelude declares std_tuple_2_<T1, T2>(T1, T2). *)
++      let field_own type_param field =
++        ExprCallExpr
++          (l, TypePredExpr (l, IdentTypeExpr (l, None, type_param), "own"),
++           [LitPat (Var (l, "_t")); LitPat (Select (l, Var (l, "_v"), field))])
++      in
++      PredCtorDecl
++        (l, sn ^ "_own", tparams, [],
++         [IdentTypeExpr (l, None, "thread_id_t"), "_t"; structTypeExpr, "_v"],
++         None,
++         Sep (l, field_own "T1" "0", field_own "T2" "1"))
+     else
+       Func (l, Fixpoint, func_tparams, Some (PredTypeExpr (l, own_paramTypes, None)), sn ^ "_own", [], false, (None, None), None, false, None, false, []);
+     TypePredDef (l, tparams, structTypeExpr, "own", Left (l, sn ^ "_own"));

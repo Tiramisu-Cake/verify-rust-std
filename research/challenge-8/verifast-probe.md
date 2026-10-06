@@ -282,6 +282,25 @@ only for this profile to expose actual statement execution. This overlay is
 with generic `type_interp`, existing tuple sharing, all call paths, and
 normal/unwind resource restoration remains unproved.
 
+Actions run
+[37402802085](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37402802085)
+at `c0742d5` passed the pinned prelude SHA-256 check, recorded the original
+and patched spec, and passed the exact-source refinement check. VeriFast
+rejected the overlay before reaching `insert_tail`: “Duplicate definition of
+type predicate `own` for `std_tuple_2_`,” pointing back to the tuple's struct
+declaration in the same prelude. The pinned
+[Rust spec parser](https://github.com/verifast/verifast/blob/26.09/src/rust_frontend/vf_mir_translator/rust_parser.ml)
+automatically expands every `struct std_tuple_2_<T1,T2>` declaration into an
+opaque bodyless `std_tuple_2__own` fixpoint and a `.own` type-predicate
+definition. This explains both prior failures: inline ownership tried to
+reuse the generated fixpoint name, while a named constructor alias duplicates
+the already generated `.own` definition. The resulting predicate has no
+field-wise body that source comments or an appended bundled spec can close.
+Adding a bodyless tuple-2 closing lemma would be an unverified stub and is
+excluded. A frontend change to the generated ownership model, with separate
+validation, would be needed for this route. The overlay run is a verifier
+model result, not a SmallSort proof or counterexample.
+
 The ghost `let_lft` keeps half the lifetime token reserved until the enclosing
 `unsafe` block ends, while `tail.read()` occurs inside that block. After the
 first comparator call is processed, restoring exclusive access before the
