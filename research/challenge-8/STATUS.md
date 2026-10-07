@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**1589/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**1632/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
 body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
@@ -37,6 +37,9 @@ ScalarInt.size_get is already int. No component or MIR/proof run. S5f removes
 only that conversion, same criterion/new patch9181630f; full matrix and actual
 intrinsic-on integration still required. Assume-init storage question is a
 separate diagnostic, not a declared stop.
+S5f/37619547036/source08e16f3: strict applied.patch comparison catches stale
+blob/index hash after textual API correction; no build/proof. S5g regenerates
+canonical git diff in clean base worktree, hash ec841d1c (header-only delta).
 
 [Compact S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
 [full S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018),

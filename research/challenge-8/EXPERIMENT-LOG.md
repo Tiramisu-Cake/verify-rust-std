@@ -3879,3 +3879,13 @@ removesonlyredundantUInt8APIconversion, retains size==1 exactcheck. No semantic
 change. Entire6+10+40matrix/60+10+4classifs/ctor/asptr/baselines +diagnosticcanonical
 exports +actualintrinsic-on same-runacceptedcomponent required. Source/refinement/
 SAFE/body/leak/nounwind gates unchanged. Selection30min/proof300s,1589/5400before.
+
+S5f result37619547036/08e16f3/9181630f:43s,total1632/5400. Setupcanonical
+applied.patch !=repo: staleblob/indexhash aftermanualAPIpatch. No build/proof.
+Compact11481671010/full11481451361 preserveexactauditfailure.
+S5g BEFORE dispatch: v2sameS5e/f domain/fullposts/allmatrix/actualgraph/diagnostics.
+Patch ec841d1c95fde729279cfba5c22b678cf15fdba2981dfee342a1184a89220d48
+regeneratedfromBASE809+9181630f incleanRAMworktree; onlyoneindexheaderlinechanged.
+Hypothesis strictapplied.patch audit nowpasses, retainingALLtrusted-file/code
+checks; then unchangedproofhypotheses. NoS6scratchchangesincluded. Selection30min/
+proof300s,1632/5400before,oneactive, noSWO/layoutrepeat.

@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1589/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget1632/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -153,3 +153,12 @@ No component/diagnostic export or proof ran. Packaging safety/current+O4 PASS.
 [compact11480883970](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37618952909/artifacts/11480883970),
 [full11480619259](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37618952909/artifacts/11480619259).
 S5f removes conversion only, patch9181630f, exactsame v2 acceptance criteria.
+
+S5f/37619547036/source `08e16f3fa003be4baf6e3a04df1c240ce4d6167d`,
+9181630f:43s12:14:11–12:14:54UTC,total1632/5400,noactive.
+SETUP FAIL: strict canonical applied.patch audit catches stale new blob hash
+from textual patch API fix. No build/proof/MIR. S5g regenerates git diff from
+cleanVF809 two-file worktree; only blob/index header changes, hashec841d1c.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619547036),
+[compact11481671010](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619547036/artifacts/11481671010),
+[full11481451361](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619547036/artifacts/11481451361).
