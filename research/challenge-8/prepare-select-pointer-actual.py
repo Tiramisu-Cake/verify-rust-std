@@ -427,6 +427,7 @@ def main() -> None:
                     "experimental-source-linked-select-pointer-drop-v1",
                     "experimental-source-linked-select-pointer-drop-v2",
                     "experimental-source-linked-select-pointer-drop-v3",
+                    "experimental-source-linked-select-pointer-drop-v4",
                 },
             "intrinsic_component_prerequisites":
                 isinstance(intrinsic_summary.get("prerequisites"), dict) and
@@ -538,12 +539,15 @@ def main() -> None:
     diagnoses = []
     ghost_controls = None
     try:
-        if drop is not None and args.imported_v3_coordinate_controls is not None:
+        if drop is not None and (args.imported_v3_coordinate_controls is not None or
+                os.environ.get("SORT4_SELECT_PROFILE") ==
+                    "experimental-source-linked-select-pointer-drop-v4"):
             ghost_module = load_script(
                 repo_root / "research/challenge-8/check-pointer-drop-actual-ghosts.py",
-                "sort4_actual_v3_completion_controls")
-            imported_coordinates = json.loads(
+                "sort4_actual_preintegration_controls")
+            imported_coordinates = (json.loads(
                 args.imported_v3_coordinate_controls.read_text())["cases"][:2]
+                if args.imported_v3_coordinate_controls is not None else None)
             ghost_controls = ghost_module.run_controls(
                 cases[1][0], args, repo_root, constructor,
                 evidence / "actual-ghost-admissions", imported_coordinates)

@@ -19,7 +19,7 @@ import shutil
 from pathlib import Path
 
 
-PROFILE = "experimental-source-linked-select-pointer-drop-v3"
+PROFILE = "experimental-source-linked-select-pointer-drop-v4"
 HELPER = "sort4_checked_pointer_drop"
 PREFIX = "SORT4-POINTER-DROP:"
 FULL_MARKER = PREFIX + " full typed method MIR graph accepted"

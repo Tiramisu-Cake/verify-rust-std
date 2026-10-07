@@ -26,6 +26,7 @@ AUTHORIZED_PROFILES = {
     "experimental-source-linked-select-pointer-drop-v1",
     "experimental-source-linked-select-pointer-drop-v2",
     "experimental-source-linked-select-pointer-drop-v3",
+    "experimental-source-linked-select-pointer-drop-v4",
 }
 SOURCE_SHA256 = "ab781181f967398d514d9fd2b5f3b6aebd16c2c403f3d1a2628e0c7f1fac6ebf"
 INTRINSIC_SOURCE_SIGNATURE = (

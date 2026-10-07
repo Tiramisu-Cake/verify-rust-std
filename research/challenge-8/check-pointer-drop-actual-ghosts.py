@@ -17,7 +17,7 @@ import re
 import shutil
 
 
-PROFILE = "experimental-source-linked-select-pointer-drop-v3"
+PROFILE = "experimental-source-linked-select-pointer-drop-v4"
 EXPORTER_SHA = "2b8ebb5373d0bdd82cc163f5a298a4291b89dcdb8630a01bf74149987f2d5e0c"
 READONLY_BIN_SHA = "1f374757a362d0c8ef8bab6ebc9d870b56ce3ae5a4df5b4ac50deba1d949459c"
 READONLY_TEXT_SHA = "b70408ccb36582cda9ebeadf9e13ac70eea4aee7633e893b9466ee24b151baad"
@@ -40,6 +40,7 @@ EXPECTED = {
     "ghost_missing": "actual full basic-block count",
     "ghost_extra": "actual full basic-block count",
     "drop_operand": "actual terminator place: _26",
+    "drop_old_receiver": "actual terminator place: _26",
     "drop_callee": "actual typed callee identity",
     "drop_cleanup": "actual unwind action/target",
     "final_return": "actual projected return terminator",
@@ -239,6 +240,17 @@ def mutate_actual_ghost_mir(decoded: str, mutation: str, constructor) -> str:
                 "canonical drop operand differs")
         body = replace_block(body, 9, operand,
                              operand.replace('name = "_26"', 'name = "_18"', 1),
+                             constructor)
+    elif mutation == "drop_old_receiver":
+        _, item = block_item(body, 9, constructor)
+        term = item.split("terminator = (", 1)[1]
+        at = term.index("args = [") + len("args = [")
+        operand_at = term.index("(", at)
+        operand = constructor.mir_balanced_item(term, operand_at)
+        require(operand.count('name = "_26"') == 1,
+                "canonical drop receiver differs")
+        body = replace_block(body, 9, operand,
+                             operand.replace('name = "_26"', 'name = "_23"', 1),
                              constructor)
     elif mutation == "drop_callee":
         body = replace_block(body, 9,

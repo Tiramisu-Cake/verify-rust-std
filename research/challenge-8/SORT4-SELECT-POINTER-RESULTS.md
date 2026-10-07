@@ -1,8 +1,8 @@
 # Pointer select completion — results
 
 2026-10-07 S6v3 COMPONENT_ACCEPTED; actual baseline initialized-cell pre reached;
-stock-projected helper NOT RUN pending completion of sixteen admission controls.
-Budget **3568/5400 summed hosted job seconds used;1832remain**, no reset/noactive.
+stock-projected proof pending guarded receiver checkpoint correction (v4).
+Budget **3752/5400 summed hosted job seconds used;1648remain**, no reset/noactive.
 [Fresh37651717720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720),
 source `dfc1f1d740689de8f427ac549da558d64a4318eb`, patch94ffc64c/drop-v3:
 full2positive+11proofnegative+22admissions, fresh ctor/asptr/intrinsic matrices and
@@ -12,11 +12,14 @@ method+31/14 certificate/redirectPASS; call57 fails pre110 initialized
 Exact NORMAL projected36/19 certificate preserves allruntime/cleanup operations;
 five stock ghostplaceholders and perannotation normal/readonly coordinates pinned
 to diagnostic37649244205 (notproof), cardfaef1a3 BEFORE implementation.
-Eighteen NORMAL controls independently collected:2coordinates intendedreject,
-16SETUPfail mutator openingindex; canonicalprojected gatedoff, no resource verdict.
-SAMEprofile completion authenticates immutable fullproof/regression/two-control
-logs and tool/compiler/spec/std byteidentity, NEW16controls thenstockprojection.
-No semanticpatch/expectedpredicate change; originalfailures/classifications kept.
+[V3 completion37654585346](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654585346),
+sourcef1774d5,184jobseconds: immutable profile/compiler/spec/std identity PASS;
+2 unchanged coordinate replays +16 NEW intended rejects =>18/18. Original failures
+retained. Projected fullsource/export/decode/refinement/full36/19+method cert PASS,
+final redirect fails receiver checkpoint before proof (_23 versus certified _26).
+V4 card a649f96 predates narrowly guarded checkpoint correction; newprofile
+c7cc08a9 requires full fresh matrices+19 NORMAL controls before actualstockprojection.
+Next job cap25min, same budget; STOP at resource pre or next substantive blocker.
 [Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md), [actual](SORT4-SELECT-CALLEE.md),
 [phase](SORT4-SELECT-POINTER-PHASE.md). Compiler pointerglue and frozen frontend
 scaffold correspondence TRUSTED separately from checkedbody/ghostresource lemma.
@@ -518,3 +521,6 @@ or changed execution/resource semantics; frontend correspondence trusted separat
 [Compact11495097694](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205/artifacts/11495097694),
 innerSHA `ead2a0c8a501becdbf0bbcf6c521d356a3457fb232f5e5a4b09793a618e2c093`,
 [full11495657034](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205/artifacts/11495657034).
+
+V3 completion budget:37654585346/f1774d5,184s16:45:53–16:48:57UTC;
+3752/5400used,1648remain. Compact11498401742/full11497209013. No new budget.

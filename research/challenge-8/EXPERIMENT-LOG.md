@@ -4348,3 +4348,12 @@ admissions (prior18+explicit oldreceiver26→23, intendedfullgraphplace_26), the
 stockprojectionuntilprecisecellpre ornextactualblocker; STOP. No broaderfreeze
 lifted. Budget3752used1648remain; capnextjob25min1500 includingcoldsetup andcleanup,
 runnerreserve120,proof<=300,onehostedworkflow_dispatch. SAME5400 budget.
+
+V4 static implementation/review PASS; profile drop-v4/patch
+c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1.
+Final guarded receiver-only delta, no stdspec/glue/source/runtime/CFG change;
+fresh full matrices +19 independent NORMAL negatives before actual. Workflow
+selection input30/effective cap25, runner reserve120/proof<=300. Before3752used,
+1648remain/noactive. Preimplementation card a649f96 localcommit precedes code.
+Ordinary Git push HTTP500 twice, GitData blob write500; readAPI works, no force.
+Publishing exact ancestor/implementation SHA before any dispatch remains mandatory.

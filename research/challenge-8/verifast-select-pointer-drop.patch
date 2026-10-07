@@ -74,7 +74,7 @@ index d150408..66bdfe4 100644
      /*@
      req exists::<option<isize>>(?offset_opt) &*&
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..27ecb7e 100644
+index f1e3e50..4960b84 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -442,7 +442,7 @@ index f1e3e50..27ecb7e 100644
        let body_tr_defs_ctx = Args.body_tr_defs_ctx
  
        let fetch_ghost_stmts_before (l : Ast.loc0) =
-@@ -2409,6 +2729,172 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2409,6 +2729,173 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                               (fn_loc, Deref (fn_loc, dst), Mutation, src));
                        ],
                      FnCallResult (mk_unit_expr fn_loc) )
@@ -491,7 +491,8 @@ index f1e3e50..27ecb7e 100644
 +                     (match OperandRd.get operand with
 +                      | OperandRd.Move place when
 +                          LocalDeclIdRd.name_get (PlaceRd.local_get place) =
-+                            "_23" &&
++                            (if !Sort4SelectIntrinsic.actual_projection then
++                               "_26" else "_23") &&
 +                          PlaceRd.local_is_mutable_get place &&
 +                          PlaceRd.projection_get_list place = [] &&
 +                          VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
@@ -615,7 +616,7 @@ index f1e3e50..27ecb7e 100644
              | "std::cell::UnsafeCell::<T>::new"
              | "std::mem::ManuallyDrop::<T>::new"
              | "std::mem::ManuallyDrop::deref"
-@@ -2873,7 +3359,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2873,7 +3360,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let variant_name = variant_id_get adt_data_cpn in
            let substs_cpn = gen_args_get_list adt_data_cpn in
            let fields = fields_get_list adt_data_cpn |> List.map D.decode_aggregate_kind_adt_data_field_info in
@@ -640,7 +641,7 @@ index f1e3e50..27ecb7e 100644
        | Closure _ ->
            failwith "Todo: AggregateKind::Closure"
            (* CAVEAT: Once we allow closure values, we must also check closure bodies. *)
-@@ -2915,6 +3417,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2915,6 +3418,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                operand_exprs
            in
            Ok (`TrRvalueAggregate init_stmts_builder)
@@ -673,7 +674,7 @@ index f1e3e50..27ecb7e 100644
        | AggKindTuple ->
            let tuple_struct_name =
              TrTyTuple.make_tuple_type_name (List.length operands_cpn)
-@@ -4730,6 +5258,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4730,6 +5259,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = var_id_trs_map_ref
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
@@ -681,7 +682,7 @@ index f1e3e50..27ecb7e 100644
        let body_tr_defs_ctx = body_tr_defs_ctx
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
-@@ -5965,7 +6494,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5965,7 +6495,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let open AdtDefRd in
      let id_cpn = id_get adt_def_cpn in
      let def_path = translate_adt_def_id @@ D.decode_adt_def_id id_cpn in
@@ -692,7 +693,7 @@ index f1e3e50..27ecb7e 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7690,9 +8221,2581 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7690,9 +8222,2581 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -3274,7 +3275,7 @@ index f1e3e50..27ecb7e 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -7881,6 +10984,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7881,6 +10985,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -3306,7 +3307,7 @@ index f1e3e50..27ecb7e 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -7896,6 +11024,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7896,6 +11025,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in

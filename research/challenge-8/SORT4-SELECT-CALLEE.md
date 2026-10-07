@@ -1,6 +1,6 @@
 # `select_unpredictable` actual-callee diagnostic
 
-## Current result — S6v3 component accepted; actual projection proof pending
+## Current result — S6v3 component accepted; v4 receiver admission ready
 
 [Fresh v3 run37651717720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720),
 source `dfc1f1d740689de8f427ac549da558d64a4318eb`, profile
@@ -34,13 +34,20 @@ certificate/cardfaef1a3 predates code; baseline31/14 unchanged. All ten runtime
 calls and five ghost calls, ordered operations/types/operand flow/results and
 normal/unwind CFG are checked; count-only admission is not used.
 
-Two NORMAL coordinate controls rejected at intended predicates. Other sixteen
-independently failed mutator SETUP (indent included before opening parenthesis),
-not intended negatives. Canonical stock-projection remains NOT RUN. Completion
-repairs only harness addressing, retains immutable same-profile proof/regression/
-two-control evidence and all original classifications, verifies full tool/compiler/
-spec/std identity, runs sixteen NEW controls, then stock projection if all eighteen
-pass. STOP at unprovable projected/drop pre or next actual substantive blocker.
+[Same-v3 completion37654585346](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654585346)
+(sourcef1774d5) authenticated immutable proof/regression/tool identities and kept
+original classifications. Two unchanged coordinate replays plus sixteen NEW
+intended rejects complete all18 NORMAL admission controls. Projected source/export/
+decode/refinement/full36/19+method certificate PASS, then final redirect rejects
+`actual pointer method receiver` before proof: baseline `_23` is hardcoded although
+full projected certificate establishes `_26`. This is not a resource verdict.
+
+V4 design card a649f96 predates implementation. Only that final guarded checkpoint
+selects `_26` for fully certified projection and `_23` for baseline, patch c7cc08a9.
+All source/runtime/CFG/resource checks remain exact; a new oldreceiver26→23 control
+must fail fullgraph `_26`. New profile requires fresh full component/regression
+matrices and all19 NORMAL controls before actual stock projection. STOP at its
+unprovable resource pre or next substantive blocker.
 
 Drop preserves full initialized cell value, thread token and independent frames,
 no new Element rights. Compiler raw-pointer drop glue correspondence remains
@@ -49,7 +56,7 @@ free stub is not a runtime-body theorem. Frozen stock frontend ghost substitutio
 synthetic-unwind handling is trusted separately and constrained by exact admission.
 No runtime std/signature/target contract, general memory/alias/provenance/refiner/
 kernel/Drop/guard/forget/assume_init/union expansion. Whole helper/sort4 NOT PROVEN.
-Budget **3568/5400 used;1832remain**, no reset; no active run at completion preparation.
+Budget **3752/5400 used;1648remain**, no reset/noactive; v4 job capped25minutes.
 
 S5j historical correction from [original logs37621751848](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848):
 assume_init readonly export/decode0, refinement1 `RawPtr: not yet supported`,
