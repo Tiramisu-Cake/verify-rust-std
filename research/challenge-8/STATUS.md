@@ -2,9 +2,11 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night9/12 NEW,506 completed/10800 summed job-seconds plus active N9; repair2/2.
-Active N9/37550139106,source4d7aebcea01c58472e7ef03c4c1611a12d3c673d,
-finite-SWO quotient bridge on stock profile/30.
+Night9/12 NEW,2316/10800 summed job-seconds; repair2/2 closed. No active run.
+N9/37550139106/source4d7aebc timed out at count equality in equivalent_ranks108;
+no full finite-SWO theorem/negative result. Exact trace saved; fast laws_at passed.
+N10 explicit count proof repair prepared, identical full domain/posts/stock profile.
+Draft pure network composition/header and relation stability negative are unverified.
 Last N8/37549955948,source9b25c410f6f69bdf5649aabf98481501824cec1e:
 scalar range composition PASS, intended endpoint negative rejected.
 Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; entry clean/matching

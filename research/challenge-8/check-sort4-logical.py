@@ -123,7 +123,8 @@ def check_case(tool, out, filename, lemma, negative, require_index=True):
         (directory / name).write_bytes(data)
     fixture = directory / filename
     before = {p.name: digest(p.read_bytes()) for p in directory.iterdir() if p.suffix in {".c", ".gh"}}
-    command = [str(tool / "bin/verifast"), "-c", "-verbose", "1", filename]
+    command = ["timeout", "--signal=TERM", "--kill-after=5s", "300s",
+               str(tool / "bin/verifast"), "-c", "-verbose", "1", filename]
     with (directory / "verifast.log").open("wb") as log:
         status = subprocess.run(command, cwd=directory, stdout=log, stderr=subprocess.STDOUT).returncode
     log = (directory / "verifast.log").read_text(errors="replace")
@@ -141,6 +142,8 @@ def check_case(tool, out, filename, lemma, negative, require_index=True):
     else:
         ok = status == 0 and headers.count(lemma) == 1 and (not require_index or headers.count("s4_index_permutation") == 1) and (not filename.startswith("sort4-swo-") or headers.count("s4_swo_rank_bridge") == 1) and not errors and before == after
         classification = "PASS" if ok else "INCONCLUSIVE"
+    if status in (124, 137):
+        classification = "INCONCLUSIVE_TIMEOUT"
     result = {"file": filename, "lemma": lemma, "command": command, "verifast_exit": status,
               "function_headers": headers, "errors": errors, "target_line": target,
               "target_error_line": target_error_line, "target_assertion": target_assertion,
@@ -178,7 +181,7 @@ def main():
     for filename, lemma, negative in cases:
         result = check_case(args.tool_home, args.evidence, filename, lemma, negative, require_index=args.component != "swo")
         results.append(result)
-        if result["classification"] == "FALSE_THEOREM_PROVED":
+        if result["classification"] in {"FALSE_THEOREM_PROVED", "INCONCLUSIVE_TIMEOUT"}:
             break
     gate = replay_ok and len(results) == len(cases) and all(r["classification"] in {"PASS","EXPECTED_TARGET_ASSERTION_FAILURE"} for r in results)
     (args.evidence / "results.json").write_text(json.dumps({"pass": gate, "cases": results}, indent=2) + "\n")

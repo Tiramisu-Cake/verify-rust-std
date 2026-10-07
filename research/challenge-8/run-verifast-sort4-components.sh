@@ -13,7 +13,8 @@ evidence="$repo/research-results/verifast-sort4-$component"
 if [[ "${3:-}" != --inside ]]; then
     [[ ! -e "$evidence" ]] || exit 2
     mkdir -p "$evidence"
-    remaining=$((budget * 60))
+    # Reserve hosted upload/cleanup time inside the 30-minute job cap.
+    remaining=$((budget * 60 - 120))
     if [[ -n "${SORT4_JOB_STARTED_EPOCH:-}" ]]; then
         [[ "$SORT4_JOB_STARTED_EPOCH" =~ ^[0-9]+$ ]] || exit 2
         remaining=$((remaining - $(date +%s) + SORT4_JOB_STARTED_EPOCH))
@@ -38,7 +39,7 @@ archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 {
     printf 'Source SHA: '; git rev-parse HEAD
     printf 'Profile: official-stock-26.09\nSource pin: %s\nComponent: %s\nBudget: %s minutes\n' "$source_pin" "$component" "$budget"
-    printf 'Hosted: %s/%s\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
+    printf 'Hosted: %s/%s\nCleanup reserve: 120 seconds\nGhost fixture timeout: 300 seconds\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
     sha256sum "$0" research/challenge-8/check-sort4-logical.py research/challenge-8/sort4-index.gh research/challenge-8/sort4-index-lemmas.c research/challenge-8/sort4-index-negative.c
 } > "$evidence/environment.txt"
 curl --fail --silent --show-error --location "https://github.com/verifast/verifast/releases/download/$VFVERSION/verifast-$VFVERSION-$VFPLATFORM.tar.gz" --output "$archive"

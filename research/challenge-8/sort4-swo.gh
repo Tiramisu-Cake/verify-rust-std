@@ -94,6 +94,21 @@ lemma void s4_equivalent_predecessor(s4_relation r, int x, int y, int z)
     assert s4_less(r,z,x) == s4_less(r,z,y);
 }
 
+// Isolate the four Boolean-to-0/1 reductions from the large SWO context.
+lemma void s4_predecessor_count_equal(s4_relation r, int x, int y)
+    requires s4_less(r,0,x) == s4_less(r,0,y) &*&
+             s4_less(r,1,x) == s4_less(r,1,y) &*&
+             s4_less(r,2,x) == s4_less(r,2,y) &*&
+             s4_less(r,3,x) == s4_less(r,3,y);
+    ensures s4_predecessors(r,x) == s4_predecessors(r,y);
+{
+    assert (s4_less(r,0,x) ? 1 : 0) == (s4_less(r,0,y) ? 1 : 0);
+    assert (s4_less(r,1,x) ? 1 : 0) == (s4_less(r,1,y) ? 1 : 0);
+    assert (s4_less(r,2,x) ? 1 : 0) == (s4_less(r,2,y) ? 1 : 0);
+    assert (s4_less(r,3,x) ? 1 : 0) == (s4_less(r,3,y) ? 1 : 0);
+    assert s4_predecessors(r,x) == s4_predecessors(r,y);
+}
+
 lemma void s4_equivalent_ranks(s4_relation r, int x, int y)
     requires s4_is_swo(r) == true &*& s4_id4(x) == true &*&
              s4_id4(y) == true &*& s4_equiv(r,x,y) == true;
@@ -105,7 +120,7 @@ lemma void s4_equivalent_ranks(s4_relation r, int x, int y)
     s4_equivalent_predecessor(r,x,y,1);
     s4_equivalent_predecessor(r,x,y,2);
     s4_equivalent_predecessor(r,x,y,3);
-    assert s4_predecessors(r,x) == s4_predecessors(r,y);
+    s4_predecessor_count_equal(r,x,y);
 }
 
 lemma void s4_less_rank(s4_relation r, int x, int y)

@@ -2985,3 +2985,41 @@ PASS quarantines profile. Manual components/swo/30; no repeated rank-network run
 N9 dispatched run37550139106/source4d7aebcea01c58472e7ef03c4c1611a12d3c673d,
 created2026-10-07T00:05:52Z,manualswo/30; exact remote/source matched before dispatch.
 Night9/12,506completed seconds plus active job.
+
+N9 finished run37550139106/source4d7aebcea01c58472e7ef03c4c1611a12d3c673d,
+job112563387583,00:05:56–00:36:06UTC,1810s,CANCELLED/TIMEOUT. Workflow configured
+30minutes; upload/cleanup added10seconds to complete job duration, fully counted.
+Artifact11453441016,10919bytes,ZIPsha256
+0ca55f4c66811407c4efd2e2d3f8c507c4c945339a386fa8ca1a82f1c19f94c5.
+Full log/artifact inspected. Archive/profile/source/header hashes exact; source
+binding generated. No final classifier/source-after output exists due timeout;
+no complete theorem and negative NOT RUN. Trace laws_at all64paths/leak checks
+finishes0.239s, equivalent_predecessor0.270s. FIRST observed hotspot: equivalent_ranks
+line108 assertion s4_predecessors(r,x)==s4_predecessors(r,y), after four checked
+calls returning equality of each Boolean predecessor. Last progress0.285659s;
+no proof error or false assertion accepted. Do not blame the fast64case lemma.
+Night9/12,2316/10800jobseconds; no active run.
+
+### N10 same finite-SWO theorem — explicit count proof card
+
+N9 isolates sum/fixpoint reduction as hotspot after pointwise Boolean equalities.
+Hypothesis: checked explicit 0/1 contribution equalities/finite case reductions
+make predecessor-count equality and later strict-count arithmetic tractable,
+without changing relation16/4diagonal/64laws/ID4/full iff+bounds posts. The fast
+laws_at proof remains unchanged. Same stock26.09/kernel/prelude/compiler/target;
+no axiom/summary/semantic change or verifier flag change. Exact repair rationale
+recorded below before dispatch. Positive full bridge/application required VF0;
+all-tied ID-as-rank negative must fail intended assertion only. Timeout or helper
+failure is inconclusive; after timeout the negative is NOT RUN. Ghost fixture
+limit300s, outer job30min with120s upload/cleanup reserve (N9 overhead correction);
+no verifier check disabled and incomplete proof cannot be classified PASS.
+Success permits new pure SWO/network composition; failure permits one evidence-
+based repair within remaining NEW slots, otherwise preserve unproved design.
+Manual components/swo/30; source changes require NEW exact-SHA run.
+
+N10 repair rationale: new OWNED checked s4_predecessor_count_equal requires exactly
+four pointwise Boolean equalities, proves each conditional 0/1 equality then count
+sum, without carrying unrelated SWO laws. equivalent_ranks invokes it after the same
+four checked calls; all existing requires/ensures/definitions remain unchanged.
+Expected first progress: new helper full return/leak and equivalent_ranks full return.
+Later strict-count/rank bounds are not assumed; any new first failure recorded.
