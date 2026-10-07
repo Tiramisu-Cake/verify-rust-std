@@ -201,6 +201,21 @@ def ghost_block(contract: bytes) -> bytes:
     ) + b"\n"
 
 
+def enable_crate_feature(source: bytes, feature: bytes) -> bytes:
+    line = b"#![feature(" + feature + b")]"
+    lines = source.splitlines(keepends=True)
+    if any(existing.rstrip(b"\r\n") == line for existing in lines[:16]):
+        return source
+    insert_at = 0
+    for index, existing in enumerate(lines):
+        if existing.startswith(b"#!["):
+            insert_at = index + 1
+        else:
+            break
+    lines.insert(insert_at, line + b"\n")
+    return b"".join(lines)
+
+
 def strip_ghost_annotations(data: bytes) -> bytes:
     data = re.sub(rb"/\*@.*?@\*/", b"", data, flags=re.S)
     return re.sub(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)", b"", data)
@@ -334,7 +349,7 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
         local_module = local_module.replace(
             b"    value: ManuallyDrop<T>,\n", b"    value: ManuallyDrop<T>,\n    extra: u8,\n", 1)
 
-    prefix = local_module + b"\n" + probe
+    prefix = b"#![feature(transparent_unions)]\n" + local_module + b"\n" + probe
     original_prefix = strip_ghost_annotations(prefix)
     verified_prefix = prefix
     require(strip_ghost_annotations(verified_prefix) == original_prefix,
@@ -696,11 +711,16 @@ def make_actual_callee_case(evidence: Path, repo_root: Path,
     frame_probe_marker = b"pub unsafe fn sort4_checked_maybeuninit_frame_probe"
     original_module = original_prefix.split(frame_probe_marker, 1)[0]
     verified_module = verified_prefix.split(frame_probe_marker, 1)[0]
+    crate_feature = b"#![feature(transparent_unions)]\n"
+    require(original_module.startswith(crate_feature) and verified_module.startswith(crate_feature),
+            "constructor fixture lost its transparent_unions crate feature")
+    original_module = original_module[len(crate_feature):]
+    verified_module = verified_module[len(crate_feature):]
     # Keep the actual select body and its two standard constructor calls byte-identical.
     for variant_name, module_prefix in (("original", original_module),
                                         ("verified", verified_module)):
         path = select_case / variant_name / "lib.rs"
-        data = path.read_bytes()
+        data = enable_crate_feature(path.read_bytes(), b"transparent_unions")
         path.write_bytes(data + b"\n" + module_prefix)
     original = select_case / "original/lib.rs"
     verified = select_case / "verified/lib.rs"
@@ -713,6 +733,7 @@ def make_actual_callee_case(evidence: Path, repo_root: Path,
         "external_constructor_call_count": verified.read_bytes().count(RUST_SOURCE_NEW_CALL),
         "actual_select_body_sha256": select_meta["body_sha256"],
         "helper_source_sha256": sha(verified_module),
+        "transparent_unions_feature_enabled": True,
         "verified_ghost_strip_exact": strip_ghost_annotations(verified.read_bytes())
             == original.read_bytes(),
     })

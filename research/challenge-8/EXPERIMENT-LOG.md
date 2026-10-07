@@ -3405,3 +3405,33 @@ expected baseline/positive outcomes, partial --feasibility-only/noacceptance
 classification and opaqueownership STOP rules unchanged. Full MIR/acceptance
 negatives/actual callee NOT RUN. Manual same constructor selection/30, one run;
 569/5400s used, remaining4831 admits cap1800, no active at preparation.
+
+C7 dispatched37592046851/source2e2eaa7d641b05a3109f1c6ac3fe0f5c40cab058,
+created2026-10-07T08:10:48Z; exact remote matched, C6 completed/audited.
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37592046851.
+
+C7 result:37592046851/source2e2eaa7d641b05a3109f1c6ac3fe0f5c40cab058,
+job112695625360,08:10:52–08:12:54UTC,122s. BUILD PASS, all8baselines PASS:
+stock/patched false sole intended VC14; stock/patched pointerframe39statements,
+return/leak checks and paired native4, all source/export/decode/refinement audits.
+Constructor fixture first compiler error E0658 transparent unions unstable at4;
+export1/decodeNOTRUN/VFNOTRUN/refinement1 same original compile error. Existing
+core uses feature transparent_unions; fixture omitted cratefeature. Ordinary
+adapter compiler-feature omission, not unsupported VeriFast/resource mechanism.
+Add only this cratefeature to original/verified fixture under same nightly/target,
+keep repr/body/posts/patch unchanged. Constructor still UNACCEPTED; fullMIR,
+acceptance negatives/dependent actual callee NOT RUN. Budget691/5400s, noactive.
+
+### C8 preexperiment card — existing core cratefeature in adapter
+
+New concrete correction: constructor original/verified fixture enables
+#![feature(transparent_unions)], already in pinned library/core/src/lib.rs189,
+under unchanged nightly-2026-02-05. No new compiler/target/representation or
+runtime constructor change. Certificate dynamic source spans continue to bind
+same exact body/fields/signature. Semantic patch remains SHAcbf7b7da. Hypothesis:
+C7's E0658 omission is removed and source-linked safe constructor can now reach
+VeriFast source/applicability/body/template obligations. Same partial feasibility
+mode,8 stock/patched baselines, full pointer/Some/token/frame/no-unwind posts,
+all source/refinement/safety/leak gates; no acceptance/actual callee in this run.
+Opaque ownership/general model STOP, ordinary adapter/front-end/proof fixes only
+with concrete evidence. Manual same selection/30;691/5400s used, noactive.

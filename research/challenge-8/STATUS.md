@@ -2,8 +2,10 @@
 
 Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
 new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
-New budget569/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. No active run. C6/37591620888/source39181a3 completed119s:
+New budget691/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
+one relevant run. No active run. C7/37592046851/source2e2eaa7 completed122s:
+all8 baselines PASS; constructor compile requires existing core transparent_unions
+cratefeature, verifier NOT RUN. C6/37591620888/source39181a3 completed119s:
 BUILD/false-assert/native controls pass; fractional-pointer annotation parse fails,
 constructor NOT RUN. C5/37591112968/sourcebc72f28 completed107s:
 BUILD PASS and4 C/C++ controls PASS, Rust baseline ghost-block syntax failed.
@@ -65,6 +67,6 @@ copy/FnMut/Drop support. No historical patch chain or general-model expansion.
 README/PLAN point to this phase. Runtime/general contract/pins/checks preserved.
 RAPx CLOSED/NO-GO; B/C NOT RUN. Constructor design reviewed before semantic edits: source-linked local body/active-value
 translation only, no opaque ownership bridge; implementation in separate profile.
-Next: parenthesize fractional points-to clauses, hosted C7 feasibility;
+Next: enable existing core transparent_unions in adapter, hosted C8 feasibility;
 retain generated safety contracts and stop
 before a new ownership bridge. Even green C4 cannot accept this partial profile.
