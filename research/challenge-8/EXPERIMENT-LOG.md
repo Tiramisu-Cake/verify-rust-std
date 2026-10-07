@@ -4457,3 +4457,29 @@ runnerSHA 6ed0ae2031a5c00a44776049d621dc75b6820e9b209d4a484f3c412956689bab.
 Firstcompact11502119135 innerSHA3b7d1c7e7d4d25dbea43098b915bda2c59f728e38ba5e5fecddf1f5bb41f20b4,
 manifest872/872hash/CRC/sizeverified; original9classifications retained.
 Before4087used/1313remain, onehostednextcap20min/reserve120/proof300, noreset.
+
+S7a repairednewdispatch37666273705/source3a4b0e9d375e8871b541ed18e6b340cf152734be,
+created18:22:04UTC, exactremoteSHA confirmed; samev4patch c7cc08a9, inactiveadmission,
+noactualredirect, original9setupclassificationsretained. Before4087used/1313left,
+cap20/reserve120/proof300, onehostedrun durationpending/noreset.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37666273705).
+
+S7a repaired37666273705/source3a4b0e9d375e8871b541ed18e6b340cf152734be,
+122s18:22:08–18:24:10UTC ->4209used1191remain. Hostedall9sourcepairs preflight and
+full regenerationSHA PASS; all9independently compilerFRONTENDfail NORMAL/readonly,
+focusedVF/refiner1: expected `{` found keyword `fn` and non-statementmacro include.
+No MIR/proof/intendednegative. Samev4/noadmission/redirect; originalclassifications
+retained. Compact11503186835/full11502367969. Pinned rustc db3e99bb primarysource
+source_util.rs ExpandInclude implementsmake_expr/make_items, no make_stmts override;
+base.rs defaultmake_stmts attempts expression, explaining failure. Changing braces
+alone would still use statement expansion; don't speculate/countit as a proof fix.
+Investigating lexicalconst_:()=include!(blockfile) with helper+probe declarations in
+oneblockexpression, unchangedactualguardtype/no runtimeoperation. No implementation
+or newsemantics before reviewedcard. Same1191remaining/noreset/noactive.
+
+S7a expression-isolation BEFORE card: reviewed const-expression include candidate
+in SORT4-SELECT-FORGET-DESIGN.md. Single actual guard/Drop, four source files pinned
+by preflight/regeneration, separate focus lines, same nine intended predicates.
+No admission/profile semantic change. Capture exact nominal type, macro spans,
+NORMAL/readonly MIR/refinement and nonvacuous body. STOP new guard/Drop/memory model.
+Budget4209used1191remaining; next cap18min1080/reserve120/proof300, samebudget.

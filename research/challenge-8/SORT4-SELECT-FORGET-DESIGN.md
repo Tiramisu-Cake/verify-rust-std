@@ -128,3 +128,35 @@ runtimebody and exactsignature+scaffold+body comparison, no generic normalizatio
 Hostedall9 constructionpreflight precedescoldbuild, thensamev4/newrun full diagnostic.
 No changed expecteddiagnostic/classifier or admission semantic; all originalresults
 remainINCONCLUSIVE. This is a harness correction, not a new semantic hypothesis.
+
+## S7a expression-isolation card BEFORE implementation
+
+37666273705: all9 source pairs PASS construction, but compiler rejects statement
+include containing fn; no MIR/body/refinement evidence. Preserve those raw results.
+Reviewed isolation candidate: retain lexical ManuallyDrop import, replace the two
+statement includes with `const _: () = include!("forget-items.rs");`. Included file
+is exactly one block expression containing both independently generic unsafe fn
+items and final unit `()`. Single actual guard declaration/Drop unchanged. No
+runtime call introduced. Compiler include make_expr and exporter recursive HIR
+walk support this hypothesis, not proof of nominal/spans or frontend compatibility.
+
+Full original/verified included-file bytes must match after exact ghost stripping;
+preflight/regeneration hashes cover all four files. Focus on separate fn lines in
+forget-items.rs must exclude parent lib.rs and the sibling. Nine independent
+body/frame/thread cases and intended predicates unchanged; first-error line is
+recomputed from exact annotations/function closing brace, not relaxed. Compiler,
+export, nominal/macro-span/refinement failures remain INCONCLUSIVE. Existing v4
+patch remains byte-identical, admission flags inactive, no actual redirect.
+
+Capture exact anonymous-const helper defpath, original local guard ADT and typed
+substitution, both full MIR exports, focus body entry/return/leak and refinement.
+Actual MIR must show no extra runtime operation; expansion spans require evidence
+before a future source-pinned admission. No general const/frontend/refiner patch
+is authorized. If body demands a new guard/Drop/memory protocol STOP with precise
+obligation; a proved body only permits designing full new-profile matrix BEFORE
+implementation, not accepting the component or redirecting actual yet.
+
+Remaining1191/5400 summed jobseconds (4209used). Next diagnostic cap18min1080s,
+120s reserve, per-proof300s; charge actual duration, no reset, one hosted run.
+V4 default25min route unchanged. Routine isolation repair only; no classifier or
+expected-predicate rewrite, no admission semantic change.
