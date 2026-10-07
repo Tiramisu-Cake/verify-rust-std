@@ -1,6 +1,6 @@
 # `select_unpredictable` actual-callee diagnostic
 
-## Current result — S6v1 accepted, actual initialized-cell obligation
+## Current result — S6v2 component accepted, actual initialized-cell obligation
 
 [S6 completion37642650884](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884),
 source `4d0e3070ca93e01b7a5ccfad18ea83900bc7536b`, accepts the complete narrow
@@ -17,20 +17,28 @@ Required resource is the initialized pointer CELL, not Element pointee rights.
 The existing wrappers/some states and reborrow tokens have not yet been projected.
 All runtime calls/cleanup edges and full target contract remain.
 
-The exact five-ghost stock projection variant exports/decodes/refines but stops
-BEFORE proof at certificate `actual projection ghost source span`. This is an
-admission setup error, not evidence that stock projection/resources fail. Raw MIR
-regular ghost span ends at last character; explicit parser coordinates end
-half-open. The narrow S6v2 correction checks BOTH representations exactly and
-requires fresh complete component/regression proofs plus two separate coordinate
-mutations before actual projection. [Preimplementation rationale](SORT4-SELECT-POINTER-DESIGN.md).
+The fresh [S6v2 run37645561507](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507),
+source `85ec1711700ff85c899b18b7e021f076aeddb8e6`, patch `8e62e6c3`, accepts
+the same complete drop matrix and reruns constructor/asptr/intrinsic matrices and
+fourteen baselines successfully. Both added actual ghost-coordinate controls
+fail during setup at the second, NORMAL exporter invocation. They are not intended
+negatives; canonical projected helper remains NOT RUN.
+
+The v1 projected variant exports/decodes/refines but stops BEFORE proof at
+`actual projection ghost source span`. The v2 correction incorrectly used readonly
+span geometry for normal MIR: the frozen normal exporter inserts the 32-byte
+`crate::VeriFast_ghost_command();` scaffold before each ghost command, while the
+explicit parser coordinates retain the original source positions. A separate
+hosted diagnostic will retain the full NORMAL typed MIR before any further
+admission decision. Projection resources have no proof verdict yet.
+[Preimplementation rationale and reassessment](SORT4-SELECT-POINTER-DESIGN.md).
 No memory/ownership bridge/guard/forget/assume_init/refiner/kernel extension.
 
 Drop preserves existing initialized cell's full pointer value, thread token and
 independent frames, no new Element rights. Compiler raw-pointer glue correspondence
 is separately TRUSTED; ghost identity proof does not establish it, recursive free
 source is not a runtime-body theorem. Whole helper and sort4 NOT PROVEN.
-Budget **2995/5400 used,2405 remain**, no reset; no active run at v2 preparation.
+Budget **3168/5400 used,2232 remain**, no reset; no active run at normal-capture preparation.
 Earlier Git/dispatch500 recovered; published identical Git objects force=false.
 
 Correction from original S5j logs: assume_init refinement did NOT pass.
