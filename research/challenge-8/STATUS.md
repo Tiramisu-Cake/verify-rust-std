@@ -1,6 +1,15 @@
 # Challenge 8: current checkpoint
 
 Updated2026-10-07. Owner resumed only S6 frombea6248.
+**S7 exact local-guard forget DESIGN/DIAGNOSTIC AUTHORIZED, IN PROGRESS.**
+Owner resumes from ffa370a; [S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md).
+First permitted run: S7a frozen-v4 nonvacuous body/NORMAL+readonly MIR diagnostic,
+no redirect or ownership change, cap20min/1200s including cleanup reserve120.
+Budget3954/5400used,1446remaining/noreset/noactive. New admissions/fullmatrix and
+actual integration only after captured exact-body evidence and separate profilecard.
+STOP if guard-own/Drop resource protocol or broader model is needed; otherwise after
+actual forget reaches next blocker. S6 freeze below is historical at this resume.
+
 Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
 [Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
 `75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile

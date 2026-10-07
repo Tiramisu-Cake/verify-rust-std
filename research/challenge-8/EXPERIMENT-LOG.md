@@ -4383,3 +4383,14 @@ manifest5177/5177hash/CRC/sizeverified. Effectiveconsole799fac7491db7d43e786713a
 exporter/schema/refiner/compiler frozen matching recordedpins. No local executabletests.
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026),
 [compact](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026/artifacts/11500295662).
+
+S7 BEFOREimplementation authorization fromffa370a: exact localguard forget only,
+same3954used/1446left. Design SORT4-SELECT-FORGET-DESIGN.md records sourcebody,
+existingtrusted ManuallyDrop identity, unsafe checkedbody with reachable tokenpre,
+no guardown declaration/SAFEfalseown claim, wrappercells/borrowtokens externalframes.
+Independent static investigation/review finds route plausible but forgetfullMIR and
+no-unwind/Drop evidence absent. S7a frozenv4 diagnostic only (new isolated files),
+focus helper/frameprobe, positive+independent intendedproofnegatives, source/NORMAL/
+readonly/refinement capture, no actualredirect. Cap20min1200 with120reserve/proof300,
+one hostedrun. Fullnewprofile matrix/admission/regressions beforeactualintegration;
+STOP if separate guardownership/Dropmodel needed, otherwise nextactualblocker.
