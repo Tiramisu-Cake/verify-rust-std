@@ -2,8 +2,10 @@
 
 Owner authorization2026-10-07, entry
 `a9fe187d48a492939970998ca862736a410c1adc`, branch challenge-8/networks.
-IN PROGRESS: N9 full accepted R9f; N13 exact specialization R13d active.
-Same phase budget; see STATUS/new journal for cumulative usage. Separate **1800 summed hosted job seconds**, preparation/evidence
+Current checkpoint: N9 full accepted R9f; N13 exact adapter OPEN after R13e;
+R13f full symbolic component ACCEPTED separately. Budget1649/1800,151remaining;
+no active run. No further full-unit retry fits measured226s component cost.
+Same phase budget; see STATUS/new journal for cumulative usage. The already-open **1800 summed hosted job seconds** budget, preparation/evidence
 included, no transfer of phase1 unused301s or of the other direction's budget.
 At most one run on this branch, two across the independently authorized directions.
 All executable checks on GitHub-hosted Actions; no local proof/generator/tests.
@@ -67,3 +69,11 @@ complete N13 composed case300s, all other cases180s; job8min/inner420s unchanged
 Cold checked rank bodies87-119s plus full45CE body27-37s leave13.372s for R13d
 exact specialization. Tool/source/proof predicates/strict classifier semantics
 remain frozen. Worst480s fits remaining691s; no new budget/second run.
+
+R13f final bounded COMPONENT scope: `ranks13_symbolic`, stock tool and strict
+classifier unchanged; full universal N13 body/posts/callees checked in isolation
+from the additional OPEN exact specialization. Component240s, othercases180s,
+inner270s, hostedjob5min including preparation/evidence. Worst300s fits377s
+remaining after1423spent. This is not another phase/budget or whole exact target
+acceptance. Do not raise limits blindly or claim this proves actual Rust safety.
+Final checkpoint after this run preserves the exact unfinished adapter.

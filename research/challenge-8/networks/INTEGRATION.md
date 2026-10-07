@@ -8,8 +8,8 @@ STATUS/PLAN over the live sort4 checkpoint. No branch merge is performed here.
 | --- | --- | --- |
 | Finite strict weak order -> integer ranks | Accepted stock R9f generic construction: comparison iff rank<, equivalence iff rank==, bounds, exact CE and ordered-pair bridge | Fixed immutable keys/order and faithful normal comparator answers |
 | Mathematical sort9 exact schedule | Full R9f25CE/8adjacent/domain/arbitrary-q composition and exact0..8 specialization accepted | Actual Rust helper realizes CE contract at the pinned std source |
-| Mathematical sort13 exact schedule | Phase1 full rank/identity theorem; phase2 full symbolic body reached, final exact specialization R13e pending | Do not claim complete phase2 exact N13 before its full hosted gate |
-| Complete occurrence permutation | Phase1 arbitrary-decision identity theorem; R9f full SWO ID-count composition, ties keep separate IDs | Rust moves conserve ownership/no duplicate-drop-leak, permitted callback effects accounted |
+| Mathematical sort13 exact schedule | Phase1 full rank/identity theorem; phase2 R13f full universal symbolic-domain composition accepted, exact adapter OPEN after R13e | Keep full universal component certificate separate from unaccepted exact-domain adapter |
+| Complete occurrence permutation | Phase1 arbitrary-decision identity theorem; R9f/N13 R13f full SWO ID-count composition, ties keep separate IDs | Rust moves conserve ownership/no duplicate-drop-leak, permitted callback effects accounted |
 | Actual call schedule | Pinned full-source SHA and ordered25/45call certificates | Re-certify on any source change |
 | swap_if_less normal/unwind Rust posts | Effect-aware specification only | FnMut/borrow recovery, provenance/alignment/validity, read/copy/ManuallyDrop resources |
 | select_unpredictable in swap | Dependency only | Actual *mut Element instantiation, chosen-pointer/no-unwind contract at same source/profile |
@@ -85,3 +85,16 @@ allocation/padding/invalid-value/alias safety follows from integer/ID ghosts.
 Use another direction's actual select_unpredictable, FnMut and memory components
 only after same-source full-contract acceptance. Do not develop a parallel tool
 patch or substitute an assumed Rust ownership bridge.
+
+## Final component certificate and remaining adapter
+
+R13f accepts the complete universal N13 contract for any finite original d
+containing IDs0..12, with the exact45source calls,12adjacent order posts,
+13output memberships and arbitrary-q multiplicity. Its source is byte-identical
+to the R13e prefix; all19callee/composition bodies and7675return/leak checks
+accepted under stock VF. This supplies the mathematical general-order network
+component. The extra exact literal-domain specialization remains unaccepted:
+R13e timed out300s atcall3464 with full intended posts preserved. Substitution
+at d=literal is a mathematical instance, not a separately accepted machine
+adapter. Integration must carry that explicit boundary and the actual Rust
+helper/order/key/comparator premises, not turn either into a proved Rust summary.

@@ -64,9 +64,9 @@ rank-correspondence assumption, comparator-panic post, pointer resource, Rust
 memory safety, verifier soundness or public Challenge completion is supplied.
 Current acceptance/open obligations are in STATUS and RANK-EXPERIMENT-LOG.
 
-R9f adds swo_ordered_pair with a full body using swo_rank_bridge and exporting
-only the needed adjacent order. Its new body and revised whole composition
-await hosted verification; accepted generic R9d/R9e claims do not cover it.
+Historical R9f preparation added swo_ordered_pair with a full body using
+swo_rank_bridge and exporting the needed adjacent order. R9f later accepted
+that body and the entire N9 composition, as recorded below.
 
 Full R9f accepts the generic projection body and N9 composed/exact-domain
 returns/posts,4214statements/546return-leak. Later N13 symbolic body completes
@@ -76,3 +76,12 @@ equivalence in a separate body, retaining full literal posts; old concrete
 wrapper evidence stays archived. R13e changes only the analyzed full-case
 wall-time allowance, not these mathematical source bytes/tool semantics.
 Current exact N13 acceptance/open state is in STATUS and final phase results.
+
+R13f isolates the full UNIVERSAL symbolic-domain N13 component, keeping its
+body, all45CE/rank/ID assertions,12adjacent/13membership/full-count posts and
+all checked callees. It excludes only the additional exact-domain helper/wrapper
+from this explicitly partial acceptance unit; the original exact target remains
+OPEN, with every failed artifact and full intended post retained. Isolation
+provides a component certificate if successful, not acceptance of that adapter.
+No axiom or weaker component post is substituted. Scope flags and strict frozen
+classifier make the acceptance boundary explicit. Result: see final STATUS.

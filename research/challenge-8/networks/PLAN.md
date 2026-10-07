@@ -1,8 +1,12 @@
-Current phase2: generic finite SWO embedding and full N9 accepted; exact N13
-specialization R13e active after documented context/timing analysis.
-[Results](RANK-RESULTS.md), [status](STATUS.md), [journal](RANK-EXPERIMENT-LOG.md).
-Same1800jobsecond budget,1109spent/691remaining before R13e. Original completed
-phase1 plan below stays historical; its1499spent/301unused are not transferred.
+Current phase2: generic finite SWO embedding and full exact N9 accepted.
+N13 original exact adapter remains OPEN after R13e; full universal symbolic
+component ACCEPTED in R13f; exact adapter not accepted. [Results](RANK-RESULTS.md), [status](STATUS.md),
+[journal](RANK-EXPERIMENT-LOG.md) hold final outcome/SHAs/budget.
+Same1800jobsecond budget;1649spent/151remaining, no new budget or active run.
+Original completed phase1 plan below stays historical;1499spent/301unused are
+not transferred. Next unresolved obligation is the exact-domain N13 adapter,
+with full order/domain/identity-count posts preserved. No Rust integration or
+verifier patch is authorized by a component certificate.
 
 # Networks phase plan
 

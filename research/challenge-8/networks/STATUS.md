@@ -1,36 +1,53 @@
-# Networks: current independent checkpoint
+# Networks: independent phase2 checkpoint
 
-2026-10-07 — IN PROGRESS (publication restored): finite SWO-to-integer-rank phase, separately authorized.
-Entry `a9fe187d48a492939970998ca862736a410c1adc`, same isolated branch/worktree.
-Phase2 budget **1423/1800 summed hosted job seconds**,377remain; no active run.
-N9 full ACCEPTED R9f [run37661652169](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37661652169),
-published/checked source `04ea22075f87634221cc43ccba59486fb10ad817`.
-Previous phase ACCEPTED, **1499/1800spent**,301unused not transferred; preserved
-in [phase1 checkpoint](PHASE1-STATUS.md), [results](RESULTS.md) and original journal.
+2026-10-07 — CHECKPOINT: generic rank bridge, full exact N9 and full universal
+symbolic-domain N13 component ACCEPTED. Extra exact N13 specialization OPEN.
+Branch `challenge-8/networks`, existing worktree `/root/verify-rust-std-networks`;
+entry `a9fe187d48a492939970998ca862736a410c1adc`. No active run or promised work.
+Same phase2 budget **1649/1800 summed hosted job seconds**, **151 unspent**.
+Owner's last1353-second continuation spent1202; no new budget was opened.
+Phase1 stays1499/1800spent,301unspent not transferred; [snapshot](PHASE1-STATUS.md).
+Other branch/worktree, common STATUS/PLAN and its budget untouched; no merge.
 
-Current task: construct ranks from arbitrary finite strict weak order with ties,
-prove exact comparison/equivalence correspondence without axioms, then compose
-N9 first and N13 second with accepted rank-network bodies. Fixed keys and normal
-comparator return are functional applicability premises; identities remain separate.
-Current selected step R13f (PARTIAL component isolation): same unchanged proof composition for13 elements,
-exact45 calls and12adjacent posts, full occurrence multiplicity/domain posts.
-[Approved phase/allowlist](RANK-PHASE.md), [journal](RANK-EXPERIMENT-LOG.md).
-Generic bridge and ordered-pair projection accepted,83statements/40return-leak;
-N9 full composition and exact0..8 wrapper accepted,4214statements/546return-leak.
-Missing-order-premise negative and all7controls PASS. Ties and separate IDs stay.
-R9e trace interpretation corrected in journal: first seven final pairs reached,
-last bridge5059 timed out. Saved commits published, remote04ea220... verified.
-R13 sourcef00f446..., run37662026439: generic/negative accepted, full symbolic
-N13 composed body (45CE/12adjacent/domain/count) completes by129.744s; exact
-literal-domain wrapper call3446 times out180s. Whole N13 remains OPEN.
-R13e source46f50ef..., run37666145711: generic/negative and full symbolic N13
-body/equivalence body completed; exact formal-domain specialization call3464
-timeout300s. Whole EXACT N13 remains OPEN, source0ccb... same as R13d.
-Next R13f explicitly isolated partial-component unit: unchanged full symbolic
-N13 order/domain/count contract, excluding only extra OPEN exact adaptation.
-A green component must not be relabelled acceptance of the original exact target.
-Job5min300/percase240/inner270 fits377remaining; generic/negative180 unchanged.
-After this final bounded component run, checkpoint; no further blind limits/jobs.
-Official stock VeriFast26.09/std/prove.py pins unchanged; no Rust integration or
-semantic patch. Common main direction STATUS/PLAN untouched. Actual Rust
-swap_if_less safety/ownership/FnMut/memory/unwind and public Challenge remain OPEN.
+Accepted checked/published proof SHAs:
+
+- N9 [R9f37661652169](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37661652169):
+  `04ea22075f87634221cc43ccba59486fb10ad817`, full25CE/8adjacent/domain/count
+  composition AND exact0..8 specialization;4214statements/546return-leak.
+- N13 universal component [R13f37668142119](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37668142119):
+  `7dfc3edae6b8cb5cbba1a98d3a53495a5b53bc2c`, full45CE/12adjacent/13domain/
+  arbitrary-q count contract,19bodies/2143statements/7675return-leak, VF0. Body byte-identical
+  to the full symbolic prefix of R13e. This is explicitly COMPONENT acceptance.
+- Generic bridge/projection16bodies,83statements/40return-leak accepted; less iff
+  rank<, equivalence iff rank==, bounds, exact CE. Ties/separate IDs retained.
+  Missing-incomparability negative at65,26-28 and all7classifier controls PASS.
+
+Exact OPEN obligation: instantiate universal N13 at literal0..12 (or formal
+same d constrained equal), discharge memberships, preserve ALL literal-domain
+membership/12adjacent/complete-count posts. Last attempted complete EXACT unit
+[R13e37666145711](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37666145711),
+checked source `46f50efabb44b6790efd446cc612b4ea4d95af0a`, timeout300s at
+composition call3464. Generated source0ccb... identical R13d; no false assertion.
+The component certificate does not accept this additional adapter or original
+whole exact target. All failed sources/logs/obligations preserved in journal.
+
+Saved65f2ddb... and04ea220... were published FIRST unchanged and remote04ea220
+verified. Every experiment used its own exact pushed/remote-verified SHA.
+Latest proof publication7dfc3ed...; final branch HEAD is a documentation-only
+checkpoint following it, not a newly checked proof SHA. Final report distinguishes
+local/published HEAD from the above checked SHAs. No permission bypass.
+
+Tool official unchanged VeriFast26.09; source/archive/console/std/prove.py pins
+and strict body/post/return/leak/source classifier unchanged. All executable
+checks GitHub-hosted only. Fixed immutable keys/SWO, faithful normal comparator
+answers and actual helper CE realization are functional applicability premises.
+No stability/Copy/Freeze assumption. Actual Rust FnMut/select/ManuallyDrop/memory/
+ownership/unwind safety and public Challenge remain OPEN.
+
+Next permitted work in this SAME phase: analyze the exact adapter with new
+concrete evidence. No blind timeout retry: last component job226s exceeds151
+remaining; no further full-unit hosted job dispatched in this continuation.
+Any future job must fit the SAME151remaining and keep the frozen trust boundary.
+Rust integration/tool patches/new budget require separate scope, not this result.
+[Results](RANK-RESULTS.md), [plan](PLAN.md), [phase](RANK-PHASE.md),
+[journal](RANK-EXPERIMENT-LOG.md), [integration proposals](INTEGRATION.md).

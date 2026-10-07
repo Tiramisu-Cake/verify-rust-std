@@ -545,3 +545,55 @@ One run here, no new budget. Whole component success -> report accepted universa
 component separately, EXACT specialization still OPEN. Any failure -> checkpoint
 exact current state; no further experiments in this continuation.
 Source/run pending. All executable checks GitHub-hosted only.
+
+R13f actual dispatch: published/remote-verified `7dfc3edae6b8cb5cbba1a98d3a53495a5b53bc2c`,
+[run37668142119](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37668142119),
+sole hosted job112952602010 started18:36:41Z; all other jobs skipped.
+No old-SHA rerun; cost pending completion.
+
+## R13f result — accepted complete UNIVERSAL component, extra exact adapter OPEN
+
+Hosted run37668142119 SUCCESS on exact `7dfc3edae6b8cb5cbba1a98d3a53495a5b53bc2c`;
+[run URL](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37668142119),
+[artifact11503588930](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37668142119/artifacts/11503588930),
+7416452bytes, downloaded ZIP SHA256
+`7019d10b02ef2b08ee9af2b9bf6b0cec9872b12640577f76900dbd84277d744a`
+matching Actions upload digest. Full ZIP/source/results/environment/resources
+and full179210911-byte composition log read and hashes matched. All other jobs
+skipped; official unchanged stock pins/std/frozenprove.py and exact45call
+certificate match, source/Actions SHA identical. No local executable proof.
+
+Generic full16bodies/83statements/40return-leak, VF0, source
+`acc2d0bd1d43eba573c57c206438398ab1dc7a887945ea1bdf96a1885312f2ca`, log
+`cdf02a0d26c28a85bfe2bbd18465b887f3861923bc6f4b86966490fff4f103b4`.
+Composed unit all19expected==visited bodies,0errors, **2143statements**,
+**7675returns/7675leak checks**, full final normal post/return/leak at3402
+completed212.188918s, VF0. Every45CE/12adjacent/13membership/arbitrary-q
+count predicate retained; pure relation, normal faithful callback/fixed keys
+and actual Rust-helper realization boundary unchanged. Source SHA256
+`f65fe3366282ce905cc895c2a5326a13cb8e6a0b78fddb7ef46c988e1a1454bf`, log
+`1bd665299b59bcfc531ebe807fcf7fe5d6e153d7a29248cb9ac1716041f34ce9`.
+Artifact comparison confirms this is BYTE-IDENTICAL full R13e source prefix
+through universal composition, closing the ghost block before the extra
+exact-domain helper/wrapper. Accepted every abstract callee in the SAME unit;
+no assumed correspondence/imported summary/classifier relaxation.
+
+Negative VF1 ONLY intended proof assertion65,26-28; predicate
+`bad_rel(1, 2) <==> swo_rank(@bad_rel, cons(0, cons(1, cons(2, nil))), 1) < swo_rank(@bad_rel, cons(0, cons(1, cons(2, nil))), 2)`
+matched after concrete rank evaluation. All7wrong-line/predicate/body/target/
+column/timeout/source controls PASS; source
+`7c9cf87ce96c670b6bb5bc60e52921b62840b4ffafd5b255ff449a7c453d57be`, log
+`3e423768382127703dc6fc04366dd93c49002f99d38ea18ffab0be57f04de7f7`.
+Execution/outer exit0; wall214.86s, peakRSS834724KiB. Actual job18:36:41Z–
+18:40:27Z = **226job seconds including cold preparation/evidence**.
+Phase2 total **1649/1800**, **151remaining**; latest continuation1202/1353spent.
+Phase1 unchanged1499/1800,301unspent not transferred; other branch untouched.
+
+Decision: ACCEPTED UNIVERSAL N13 mathematical component, not original extra
+EXACT specialization. Last exact source46f50ef... /R13e remains unaccepted
+at3464 `network13_finite_swo_composition(rel, d, q);` under d==literal0..12,
+finite_swo(rel,d), with ALL literal-domain memberships/12adjacent/full-q-count
+posts required. Everyfailedsource/log/full contract preserved. No more full-unit
+job fits151remaining at measured226s; no blind timeout retry/new budget.
+No active job. Actual Rust safety/helper/order-key-comparator applicability and
+public Challenge remain OPEN. Final checkpoint docs are not a proof run.
