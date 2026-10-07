@@ -41,7 +41,7 @@ fixpoint int neg_reverse_key(int id) { return id == 0 ? 1 : 0; }
 """
     bodies = [
         ("tie", "false, false", "cons(1, cons(0, nil))", "neg_equal_key",
-         "mb_lt(neg_equal_key, 1, 0) == true", "mb_lt(neg_equal_key, 1, 0) = true"),
+         "mb_lt(neg_equal_key, 1, 0) == true", "mb_lt(@neg_equal_key, 1, 0) <==> true"),
         ("comparator", "true, true", "cons(0, cons(1, nil))", "neg_reverse_key",
          "neg_reverse_key(0) <= neg_reverse_key(1)", "neg_reverse_key(0) <= neg_reverse_key(1)"),
     ]

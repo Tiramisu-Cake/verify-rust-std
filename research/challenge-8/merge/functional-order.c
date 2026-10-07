@@ -180,7 +180,9 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
                 mb_half_order(key,m,n,r,re-1);
                 assert false;
             }
+            assert a<le-1;
             mb_half_order(key,m,n,a,le-1);
+            assert mb_lt(key,a,le-1)==true;
         }
     } else {
         if(down) {
@@ -188,7 +190,9 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
                 mb_half_order(key,m,n,a,le-1);
                 assert false;
             }
+            assert r<re-1;
             mb_half_order(key,m,n,r,re-1);
+            assert mb_lt(key,r,re-1)==true;
         } else {
             mb_half_order(key,m,n,a,le-1);
             assert mb_lt(key,r,le-1)==true;

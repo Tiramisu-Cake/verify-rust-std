@@ -193,3 +193,25 @@ key sourcechoice laws; no new assumptions to entries. SameBdomain/fullposts/
 source/tool/negativeobligations/limits asB1. Artifact manifest distinguishes
 actualfile hash from exact admittedheader-normalized assemblyhash. No dropped
 body/assertion, and no functional conclusion from prior frontend failures.
+
+## F-B3 result / F-B4 card
+B3 published8c14883ae898fdce3086c10fdde0f0e2797fdb6e,
+[run37679049210](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37679049210),
+job11299000363520:02:47Z–20:03:17Z=30s; cumulative114/1800,1686remaining.
+Positive sourceb0c72ec35be224b03447552bbf798c031e59b38cf0aedd29d050d9a7a4ca8a40,
+logc3f23a8bc0d5c0c3446731d810512ddbdff9f77b72d7a37087ab3f5d86361d7d:
+allG2/A andB throughmb_no_cross accepted; mb_pair_extremes post cannotderive
+strictselected-endpoint order on same-half up-left/down-left branch after
+mb_half_order at830; total96returns95leaks, fullBnotaccepted. No counterexample
+established. Negativecomparator intended274cols31-33/log9e77db22879a2b1cf209f33d9e57cf4ecd84ea7c81964f223c3e1e5d08af09f5,
+source47eb10e1834513249f36c1c8704895db96ff2d452d3b74c7ced70ba4be5952a6
+all7controlsPASS. Tieintended274cols39-41/logb0885043ad6eae77bc5372e8c9444c627a3abd16abda5bc8d5d9436889ad0ced,
+sourceb262cffe29a92567b5b0db404e13da2f55a937c373cac685548eace1720598cd:
+reaches exactstabilityfailure butmetadatamismatch @fixpoint/<==>, INCONCLUSIVE.
+Duplicate intended218/all7controlsPASS. Fullsources/logs/resultsread.
+B4 hypothesis: after excluding equality, make strictintegerendpoint inequality
+and mb_half_order conditional lexpost explicit in both same-halfbranches.
+No newpremise/post/axiom; exactsame fullBtarget. Tiesource/assert unchanged,
+calibrateexactpredicate mb_lt(@neg_equal_key, 1, 0) <==> true with strictgates.
+Samepinnedtool/source/classifier/domain/posts/180case/300process/6minjob.
+Success->fullBreport; failure->firstnewcausalobligation repair only.
