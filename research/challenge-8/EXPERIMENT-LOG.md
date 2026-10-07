@@ -4416,3 +4416,14 @@ nonexecuteditems, sourceghoststrip/removeitems originalactualprefixexact. Diagno
 negative requiresintendedfunction/stage/predicate/post/assertlocation, leakonlyafter
 bodyreturn+leakcheck; samefilegenericerrornotintended. Borrowtokens/fulladmissions
 NOTRUNinS7a, documentedratherthanclaimed. No semantics/admission/ownership change.
+
+S7a implementation BEFOREdispatch staticpins/source review PASS. Newdiagnostic file SHA256 0cae92cb49911903368a3d3b447293a3c5a340ac3484430fd1ab0058501f053f;
+newrunner 8f4b4f050c54f3eb92e63729689e608fbad1845cf50bdf0b8e53e5f2e87cd783.
+Nochanges v4patch/runner/matrices/sourcecontracts; defaultworkflow route retained.
+Newdiagnostic adds lexicalimport+2singlefnincludeitems inexactlocalguardscope,
+allthreeoriginal/verified filesghoststrip/stagehashed. Samev4patch c7cc08a9 butall
+admissionroutesinactive. BothNORMAL+readonly export/decode+refinement collected
+independently for9cases; focusedbody/helper+frameprobe, exactfirsterrorobligation
+classifiers; unknownoutcomeINCONCLUSIVE originalrawJSON/logs retained. Noaccepted
+component/actualredirect/newtrustmodel fromdiagnostic. Before3954used/1446left,
+onehostedjob cap20min1200,reserve120,proof300. No localexecutableverification.

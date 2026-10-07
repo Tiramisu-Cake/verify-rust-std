@@ -50,6 +50,11 @@ on:
         type: choice
         default: index
         options: [index, order, select, range, swo, swo_network]
+      forget_guard_stage:
+        description: Exact local guard forget stage under the existing pointer selection
+        type: choice
+        default: drop_v4
+        options: [drop_v4, forget_diagnostic]
       rapx_gate:
         description: Ordered RAPx applicability gate
         type: choice
@@ -75,7 +80,7 @@ jobs:
       contents: read
       actions: read
     runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop' || inputs.proof == 'verifast_rust_fieldless_layout' || inputs.proof == 'verifast_maybeuninit_new_pointer') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
-    timeout-minutes: ${{ inputs.proof == 'verifast_maybeuninit_new_pointer' && 25 || inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
+    timeout-minutes: ${{ (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_diagnostic') && 20 || inputs.proof == 'verifast_maybeuninit_new_pointer' && 25 || inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
     steps:
       - name: Check out the selected workflow branch
         uses: actions/checkout@v4
@@ -129,6 +134,7 @@ jobs:
           PROOF_SELECTION: ${{ inputs.proof }}
           RUN_BUDGET_MINUTES: ${{ inputs.budget_minutes }}
           SORT4_COMPONENT: ${{ inputs.sort4_component }}
+          FORGET_GUARD_STAGE: ${{ inputs.forget_guard_stage || 'drop_v4' }}
           GH_TOKEN: ${{ github.token }}
           RAPX_GATE: ${{ inputs.rapx_gate }}
         run: |
@@ -149,7 +155,13 @@ jobs:
             verifast_sort4_alignment) bash research/challenge-8/run-verifast-sort4-alignment.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_rust_fieldless_layout) bash research/challenge-8/run-rust-fieldless-layout.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_borrow_recovery) bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
-            verifast_maybeuninit_new_pointer) bash research/challenge-8/run-select-pointer.sh "$RUN_BUDGET_MINUTES" ;;
+            verifast_maybeuninit_new_pointer)
+              if [[ "$FORGET_GUARD_STAGE" == forget_diagnostic ]]; then
+                bash research/challenge-8/run-select-forget-diagnostic.sh "$RUN_BUDGET_MINUTES"
+              else
+                [[ "$FORGET_GUARD_STAGE" == drop_v4 ]] || exit 2
+                bash research/challenge-8/run-select-pointer.sh "$RUN_BUDGET_MINUTES"
+              fi ;;
             verifast_sort4_components) bash research/challenge-8/run-verifast-sort4-components.sh "$RUN_BUDGET_MINUTES" "$SORT4_COMPONENT" ;;
             verifast_borrow_recovery_manually_drop) BORROW_RECOVERY_PROFILE=manually_drop_only bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;

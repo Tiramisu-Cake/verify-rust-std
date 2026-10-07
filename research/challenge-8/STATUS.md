@@ -1,8 +1,10 @@
 # Challenge 8: current checkpoint
 
 Updated2026-10-07. Owner resumed only S6 frombea6248.
-**S7 exact local-guard forget DESIGN/DIAGNOSTIC AUTHORIZED, IN PROGRESS.**
+**S7 exact local-guard forget DIAGNOSTIC READY.**
 Owner resumes from ffa370a; [S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md).
+Designcards08f0e01/d360842/77b8cf4/616f1ed precede implementation.
+NewS7a isolatedrunner/checker ready; v4 files/patch remain unchanged.
 First permitted run: S7a frozen-v4 nonvacuous body/NORMAL+readonly MIR diagnostic,
 no redirect or ownership change, cap20min/1200s including cleanup reserve120.
 Budget3954/5400used,1446remaining/noreset/noactive. New admissions/fullmatrix and
