@@ -402,6 +402,7 @@ def main() -> None:
                     "experimental-source-linked-select-pointer-intrinsics-v2",
                     "experimental-source-linked-select-pointer-drop-v1",
                     "experimental-source-linked-select-pointer-drop-v2",
+                    "experimental-source-linked-select-pointer-drop-v3",
                 },
             "intrinsic_component_prerequisites":
                 isinstance(intrinsic_summary.get("prerequisites"), dict) and

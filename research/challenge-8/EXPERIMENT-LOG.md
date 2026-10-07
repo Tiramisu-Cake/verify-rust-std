@@ -4254,3 +4254,19 @@ must be reviewed beforeanyadmissionupdate. Compact11495097694 innerSHA
 ead2a0c8a501becdbf0bbcf6c521d356a3457fb232f5e5a4b09793a618e2c093,
 full11495657034. No intendednegative orcomponent/helper theorem follows.
 [Successful normal capture](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205).
+
+S6v3 BEFORE dispatch implementation pin: profile
+experimental-source-linked-select-pointer-drop-v3, cumulative patch SHA256
+94ffc64ce15811ac0de62e55489fb1e61242883b7258aa22969bbefa9ec184e8.
+Static independent cert/harness review PASS; root confirms entire stdlibspec patch
+section byte-identical to8e62/v2. Separate projected-only36/19 exact graph/source/
+scaffold checker; baseline31/14 unchanged, no execution/AST/MIR rewrite. Frozen
+exporter/schema/refiner/prelude/kernel/memory unchanged. Freshfullcomponent/
+regression matrices beforeactual, then18NORMAL-only independent certificate
+mutants; unchangedreadonly bytes/refinement and separateNORMAL mutationevidence.
+Expectedexactpredicates/types/callees/operands/results/normal-unwind/source spans
+reviewed against captured fullMIR. No localexecutablechecks, diff-check/bash-nPASS.
+Canonicalstockprojection only afterbaseline infrastructure +all18; stop first
+resource/droppre failure ornextactual blocker, no broader semantic extension.
+Budget3302/5400used2098remain;onehostedrun,sameworkflowselection30min,<=1800/job,
+<=300/proof. Prior classifications and failed hypotheses retained, not overwritten.

@@ -564,3 +564,12 @@ cellpre failure -> record exact existing/required resource and STOP; drop passes
 record next obligation and STOP. Broader frontend/resource semantics needed ->
 STOP trust boundary, no implementation. Budget3302/5400used,2098remain (entry2398
 never reset), <=1800/job,<=300/proof,one relevant GitHub-hosted workflow only.
+
+S6v3 implementation pin before dispatch: cumulative patch SHA256
+`94ffc64ce15811ac0de62e55489fb1e61242883b7258aa22969bbefa9ec184e8`.
+Independent cert+18NORMAL-only mutant review found no static blocker; entire
+stdlib-spec patch section is byte-identical to v2. Baseline31/14 unchanged;
+exact36/19 projected check only, no AST/MIR rewrite or changed stock execution.
+Readonly source/export/decode/refinement bytes pinned separately; normal mutation
+files/records preserved independently. Fullfresh component/regression gates and
+all18 exact intended certificate failures precede canonical projected proof.

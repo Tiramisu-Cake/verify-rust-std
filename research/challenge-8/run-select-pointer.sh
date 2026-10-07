@@ -50,7 +50,7 @@ archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 patch_file="$repo/research/challenge-8/verifast-select-pointer-drop.patch"
-printf '%s  %s\n' 8e62e6c3044fda7533637d242fb5e8a575eac0d7600213e8e3ba00a182dc0d7c "$patch_file" | sha256sum -c -
+printf '%s  %s\n' 94ffc64ce15811ac0de62e55489fb1e61242883b7258aa22969bbefa9ec184e8 "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/select-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"
@@ -59,7 +59,7 @@ stock_home="$task_temp/verifast-26.09"
 source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
-    printf 'Profile: experimental-source-linked-select-pointer-drop-v2\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
+    printf 'Profile: experimental-source-linked-select-pointer-drop-v3\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
     printf 'Budget: %s minutes including preparation/build/matrix; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-select-pointer.py research/challenge-8/SORT4-SELECT-POINTER-DESIGN.md
 } > "$evidence/environment.txt"
@@ -147,7 +147,7 @@ rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/console-ldd.txt"
 if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 export SORT4_MAYBEUNINIT_REPO_ROOT="$repo"
-export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-drop-v2
+export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-drop-v3
 run_stage classifier-tests python3 research/challenge-8/test-sort4-maybeuninit-classifier.py
 run_stage constructor-regressions python3 research/challenge-8/check-maybeuninit-new-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/constructor-regressions"
 run_stage select-classifier-tests python3 research/challenge-8/test-select-pointer-classifier.py --evidence "$evidence/select-classifier-self-check.json"

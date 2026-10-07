@@ -1,8 +1,8 @@
 # Pointer select completion — results
 
 2026-10-07 S6v2 COMPONENT_ACCEPTED; actual baseline reaches initialized-cell pre.
-Current budget **3233/5400 summed hosted job seconds used,2167remain**, no reset,
-active diagnostic37649244205/sourcef6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d.
+Current budget **3302/5400 summed hosted job seconds used,2098remain**, no reset,
+no active run; exact S6v3 normal admission implementation/review in progress.
 [Fresh S6v2 run37645561507](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507),
 source `85ec1711700ff85c899b18b7e021f076aeddb8e6`, patch `8e62e6c3`, accepts full
 2positive+11proofnegative+22admission drop matrix and freshly reruns complete
@@ -12,10 +12,13 @@ Actual baseline source/export/decode/refinement/full method+31local14block cert
 and redirectPASS; call57 fails req110 `points_to<*Element>(__result2, _)`.
 Both new v2 actual-coordinate controls failed NORMAL exporter setup; neither is
 an intended negative, and projected helper was gated off. Full normal typed MIR
-is being captured as a diagnostic before any further admission decision: normal
+was captured as a diagnostic before the next admission decision: normal
 exporter injects a 32-byte ghost command, readonly does not. First diagnostic
 37648838042 failed duplicated compiler arguments before export (65s); repaired
 orchestration uses exporter defaults and records effective compiler arguments.
+Successful diagnostic37649244205 retains36locals19blocks andfive exactstock
+placeholders. Cardfaef1a3 beforecode permits separate exact projected-only v3
+certificate, unchanged execution/resource semantics, freshfullgates beforeactual.
 [Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
 [actual report](SORT4-SELECT-CALLEE.md), [phase](SORT4-SELECT-POINTER-PHASE.md).
 Whole helper/sort4 NOT PROVEN. Compiler raw-pointer glue correspondence remains
@@ -476,3 +479,44 @@ only narrow ghost source admission, keeps rawsequence/body/runtime/CFG/posts.
 New semantic admission profile needs fresh complete component/baseline proofs and
 two independent coordinate mutants before the canonical projected actual proof.
 The budget table above continues with run37642650884:113s,2995used,2405remaining.
+
+### S6v2 fresh component acceptance and actual setup reassessment
+
+[37645561507](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507),
+source `85ec1711700ff85c899b18b7e021f076aeddb8e6`, drop-v2/8e62e6c3:
+full fresh2positive+11proofnegative+22admission matrix COMPONENT_ACCEPTED.
+Complete constructor/asptr/intrinsic matrices and14baseline Rust/C/C++ controls
+passed at this new profile. 173s15:38:39–15:41:32UTC,3168used2232remain.
+Actual baseline keeps same initialized-cell pre110/call57 failure after full gates.
+Both extra coordinate controls failed SETUP at the normal exporter invocation;
+readonly mutations were successful but second invocation's canonical high differs.
+They remain INCONCLUSIVE, not intended negatives. Canonical projected NOTRUN.
+[Compact11493408570](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507/artifacts/11493408570),
+innerSHA `b160edcd347c02ffafcd94ac0258e805d488bed10a500b64cd3e632b5d8d49ae`,
+[full11493098966](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507/artifacts/11493098966).
+Pinned exporter inserts32-byte ghostcommand in normalmode; original explicit
+parser positions stayfixed. V2 incorrectly used readonly ordinaryghost geometry.
+
+[Normal diagnostic37648838042](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37648838042),
+source `8f1b8f44a655fcfde1fd12106d79dbbb58917332`: authenticates immutable v2
+fixture/artifact/manifest/toolpins; duplicate error-format input fails BEFORE
+compilation/export. 65s16:02:13–16:03:18UTC,3233used2167remain. Classification
+DIAGNOSTIC_EXPORT_OR_DECODE_FAILED preserved; no semantic/profile change.
+[Compact11496405518](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37648838042/artifacts/11496405518),
+innerSHA `5d1bbb3a9e895f73d3801eda20709c86ed0141787188c7ea307e0551388bdfbf`,
+[full11496575242](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37648838042/artifacts/11496575242).
+
+[Normal diagnostic37649244205](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205),
+source `f6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d`: effective compiler args/
+source/fixture/artifact/tool integrity PASS; export/decode0; no verifier/refiner.
+69s16:05:10–16:06:19UTC,3302used2098remain. DIAGNOSTIC_EXPORT_DECODED only.
+FullNORMAL actual36locals19BB andfive rawghost/regular/explicit spans retained,
+with complete types/callees/operands/normal-unwind CFG. Independent review links
+five zero-argument/unit placeholders to frozen stock exporter/translator behavior;
+no actual resource proof follows. Exact v3 projected-only certificate cardfaef1a3
+precedes code: fullfresh component/regression gates and independent actualNORMAL
+admission mutants required before stockprojection proof. No generic graph rewrite
+or changed execution/resource semantics; frontend correspondence trusted separately.
+[Compact11495097694](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205/artifacts/11495097694),
+innerSHA `ead2a0c8a501becdbf0bbcf6c521d356a3457fb232f5e5a4b09793a618e2c093`,
+[full11495657034](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205/artifacts/11495657034).

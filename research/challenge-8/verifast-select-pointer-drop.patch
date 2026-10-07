@@ -74,7 +74,7 @@ index d150408..66bdfe4 100644
      /*@
      req exists::<option<isize>>(?offset_opt) &*&
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..33c7bbb 100644
+index f1e3e50..27ecb7e 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -692,7 +692,7 @@ index f1e3e50..33c7bbb 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7690,9 +8221,2146 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7690,9 +8221,2581 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -2063,6 +2063,433 @@ index f1e3e50..33c7bbb 100644
 +      "SORT4-SELECT-INTRINSIC: full typed actual MIR graph accepted\n%!";
 +    blocks
 +
++  (* S6-only exact stock NORMAL scaffold for the five pinned source ghost
++     commands. This checks all extra unit locals and synthetic call edges in
++     addition to every runtime operation; it does not rewrite the MIR. *)
++  let sort4_select_check_actual_projection_statements (body : BodyRd.t) =
++    let reject = Sort4SelectIntrinsic.reject in
++    let place id mutable_ p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
++         PlaceRd.local_is_mutable_get p <> mutable_ ||
++         PlaceRd.projection_get_list p <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("actual statement place: " ^ id) in
++    let check_bool value op =
++      match OperandRd.get op with
++      | OperandRd.Constant c ->
++          (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++           | VfMirRd.MirConst.Val v when
++               TyKindRd.get (TyRd.kind_get
++                 (VfMirRd.MirConst.Val.ty_get v)) = TyKindRd.Bool ->
++               (match VfMirRd.ConstValue.get
++                 (VfMirRd.MirConst.Val.const_value_get v) with
++                | VfMirRd.ConstValue.Scalar s ->
++                    (match VfMirRd.Scalar.get s with
++                     | VfMirRd.Scalar.Int n when
++                         (VfMirRd.ScalarInt.size_get n)
++                           = 1 &&
++                         Stdint.Uint128.to_string
++                           (CapnpAux.uint128_get
++                             (VfMirRd.ScalarInt.data_get n)) =
++                           string_of_int (if value then 1 else 0) -> ()
++                     | _ -> reject "actual drop flag value")
++                | _ -> reject "actual drop flag scalar form")
++           | _ -> reject "actual drop flag typed constant")
++      | _ -> reject "actual drop flag operand" in
++    let check_guard rhs = match RvalueRd.get rhs with
++      | RvalueRd.Aggregate aggregate ->
++          (match AggregateKindRd.get
++            (AggregateDataRd.aggregate_kind_get aggregate) with
++           | AggregateKindRd.Adt data ->
++               let open AggregateKindRd.AdtData in
++               let id = adt_id_get data |> D.decode_adt_def_id in
++               let args = gen_args_get_list data
++                 |> List.map D.decode_generic_arg in
++               let fields = fields_get_list data
++                 |> List.map D.decode_aggregate_kind_adt_data_field_info in
++               if id.name <> "select_unpredictable::DropOnPanic" ||
++                  AdtKindRd.get (adt_kind_get data) <>
++                    AdtKindRd.StructKind ||
++                  Stdint.Uint32.to_int (variant_idx_get data) <> 0 ||
++                  variant_id_get data <> "DropOnPanic" ||
++                  Stdint.Uint32.to_int (union_active_field_get data) <> 0 ||
++                  (match args with [{kind=D.Type t}] ->
++                    Sort4MaybeUninit.pointer_element t | _ -> false) = false ||
++                  List.map (fun (f : D.aggregate_kind_adt_data_field_info) ->
++                    f.name,f.is_zero_size) fields <> [("inner",false)] then
++                 reject "actual guard aggregate identity/type/field"
++           | _ -> reject "actual guard aggregate kind");
++          (match AggregateDataRd.operands_get_list aggregate with
++           | [op] ->
++               (match OperandRd.get op with
++                | OperandRd.Move p -> place "_23" true p
++                | _ -> reject "actual guard aggregate operand")
++           | _ -> reject "actual guard aggregate operand count")
++      | _ -> reject "actual guard aggregate rvalue" in
++    let check expected stmt =
++      let kind = StatementKindRd.get (StatementRd.kind_get stmt) in
++      match expected,kind with
++      | `Live id, StatementKindRd.StorageLive x
++      | `Dead id, StatementKindRd.StorageDead x ->
++          if LocalDeclIdRd.name_get x <> id then
++            reject ("actual storage identity: " ^ id)
++      | (`Copy (dst,src) | `Move (dst,src) |
++         `Ref (dst,src) | `Guard (dst,src)),
++        StatementKindRd.Assign data ->
++          place dst (not (List.mem dst
++            ["_8";"_10";"_14";"_18";"_22";"_25";"_29"]))
++            (StatementKindRd.AssignData.lhs_place_get data);
++          let rhs = StatementKindRd.AssignData.rhs_rvalue_get data in
++          (match expected,RvalueRd.get rhs with
++           | `Copy _,RvalueRd.Use op ->
++               (match OperandRd.get op with
++                | OperandRd.Copy p ->
++                    place src
++                      (not (List.mem src
++                        ["_1";"_2";"_3";"_8";"_10";"_14";"_18"])) p
++                | _ -> reject ("actual copy source: " ^ src))
++           | `Move _,RvalueRd.Use op ->
++               (match OperandRd.get op with
++                | OperandRd.Move p -> place src false p
++                | _ -> reject ("actual move source: " ^ src))
++           | `Ref _,RvalueRd.Ref data ->
++               if RegionRd.id_get (RvalueRd.RefData.region_get data) <>
++                    "'<erased>" ||
++                  RvalueRd.RefData.BorrowKind.get
++                    (RvalueRd.RefData.bor_kind_get data) <>
++                    RvalueRd.RefData.BorrowKind.Mut ||
++                  not (sort4_select_ty `Mu
++                    (RvalueRd.RefData.place_ty_get data)) ||
++                  not (RvalueRd.RefData.is_implicit_get data) ||
++                  not (RvalueRd.RefData.place_does_not_need_drop_get data)
++                  then
++                 reject "actual reference region/type";
++               place src true (RvalueRd.RefData.place_get data)
++           | `Guard _,_ -> check_guard rhs
++           | _ -> reject ("actual assignment rvalue: " ^ dst))
++      | `Bool (dst,value),StatementKindRd.Assign data ->
++          place dst true (StatementKindRd.AssignData.lhs_place_get data);
++          (match RvalueRd.get
++             (StatementKindRd.AssignData.rhs_rvalue_get data) with
++           | RvalueRd.Use op -> check_bool value op
++           | _ -> reject "actual drop flag assignment")
++      | _ -> reject "actual statement kind/order" in
++    let expected = [|
++      [`Bool ("_35",false);`Live "_4";`Live "_5";`Copy ("_5","_2")];
++      [`Dead "_5";`Live "_6";`Live "_7";`Copy ("_7","_3")];
++      [`Dead "_7";`Live "_8";`Live "_9";`Ref ("_9","_4")];
++      [`Dead "_9";`Live "_10";`Live "_11";`Ref ("_11","_6")];
++      [`Dead "_11";`Live "_12"];
++      [`Dead "_12";`Live "_13"];
++      [`Dead "_13";`Live "_14";`Live "_15";`Copy ("_15","_1");
++       `Live "_16";`Copy ("_16","_8");`Live "_17";
++       `Copy ("_17","_10")];
++      [`Dead "_17";`Dead "_16";`Dead "_15";`Live "_18";
++       `Live "_19";`Copy ("_19","_1");`Live "_20";
++       `Copy ("_20","_10");`Live "_21";`Copy ("_21","_8")];
++      [`Dead "_21";`Dead "_20";`Dead "_19";`Live "_22";
++       `Live "_23";`Copy ("_23","_14");`Bool ("_35",true);
++       `Guard ("_22","_23");`Dead "_23";`Live "_24"];
++      [`Dead "_24";`Live "_25";`Live "_26";`Copy ("_26","_18")];
++      [`Dead "_26";`Dead "_25";`Live "_27"];
++      [`Dead "_27";`Live "_28"];
++      [`Dead "_28";`Live "_29";`Live "_30";
++       `Bool ("_35",false);`Move ("_30","_22")];
++      [`Dead "_30";`Dead "_29";`Live "_31";`Live "_32";
++       `Copy ("_32","_1");`Live "_33";`Copy ("_33","_4");
++       `Live "_34";`Copy ("_34","_6")];
++      [`Dead "_34";`Dead "_33";`Dead "_32"];
++      [`Dead "_31";`Bool ("_35",false);`Dead "_22";
++       `Dead "_18";`Dead "_14";`Dead "_10";`Dead "_8";
++       `Dead "_6";`Dead "_4"];
++      [];[];[]
++    |] in
++    let blocks = BodyRd.basic_blocks_get_list body in
++    if List.length blocks <> Array.length expected then
++      reject "actual full basic-block count";
++    List.iteri (fun i block ->
++      if Stdint.Uint32.to_int
++        (BasicBlockIdRd.index_get (BasicBlockRd.id_get block)) <> i ||
++         BasicBlockRd.is_cleanup_get block <> (i >= 16) then
++        reject "actual basic-block identity/cleanup";
++      let statements = BasicBlockRd.statements_get_list block in
++      if List.length statements <> List.length expected.(i) then
++        reject ("actual ordered statement count in block " ^
++          string_of_int i);
++      List.iter2 check expected.(i) statements) blocks;
++    blocks
++
++  let sort4_select_check_actual_projection_mir
++      (body : BodyRd.t) source fixture_path =
++    let reject = Sort4SelectIntrinsic.reject in
++    let ptr ty = Sort4MaybeUninit.pointer_element (D.decode_ty ty) in
++    let ptrptr ty = sort4_select_ty `Ptr ty in
++    let mu ty = sort4_select_ty `Mu ty in
++    let bool_ty ty = TyKindRd.get (TyRd.kind_get ty) = TyKindRd.Bool in
++    let unit_ty ty = match (D.decode_ty ty).kind with
++      | D.Tuple [] -> true | _ -> false in
++    let guard_type (ty : D.ty) = match ty.kind with
++      | D.Adt {id={name="select_unpredictable::DropOnPanic"};
++               kind=D.StructKind;
++               substs=[{kind=D.Type inner}]} ->
++          Sort4MaybeUninit.pointer_element inner
++      | _ -> false in
++    let guard ty = guard_type (D.decode_ty ty) in
++    let ref_mu ty = match TyKindRd.get (TyRd.kind_get ty) with
++      | TyKindRd.Ref r ->
++          RegionRd.id_get (RefTyRd.region_get r) = "'<erased>" &&
++          MutabilityRd.get (RefTyRd.mutability_get r) =
++            MutabilityRd.Mut && mu (RefTyRd.ty_get r)
++      | _ -> false in
++    (match BodyRd.inputs_get_list body with
++     | [b;a;c] when bool_ty b && ptr a && ptr c -> ()
++     | _ -> reject "actual input types/order");
++    if not (ptr (BodyRd.output_get body)) then
++      reject "actual output type";
++    let locals = BodyRd.local_decls_get_list body in
++    let ty_pred index =
++      if List.mem index [0;2;3;5;7] then ptr
++      else if List.mem index [1;15;19;32;35] then bool_ty
++      else if List.mem index [4;6;31;33;34] then mu
++      else if List.mem index [8;10;14;16;17;18;20;21;23;26]
++        then ptrptr
++      else if List.mem index [9;11] then ref_mu
++      else if List.mem index [22;30] then guard
++      else if List.mem index [12;13;24;25;27;28;29] then unit_ty
++      else reject "unexpected actual local index" in
++    let immutable = [1;2;3;8;10;12;13;14;18;22;24;25;27;28;29] in
++    if List.length locals <> 36 then reject "actual projected local count";
++    List.iteri (fun i local ->
++      let name = "_" ^ string_of_int i in
++      let expected_mut = not (List.mem i immutable) in
++      let mut = match MutabilityRd.get
++        (LocalDeclRd.mutability_get local) with
++        | MutabilityRd.Mut -> true
++        | MutabilityRd.Not -> false
++        | _ -> reject "actual unknown local mutability" in
++      if LocalDeclIdRd.name_get (LocalDeclRd.id_get local) <> name ||
++         mut <> expected_mut ||
++         not ((ty_pred i) (LocalDeclRd.ty_get local)) then
++        reject ("actual projected local identity/type: " ^ name)) locals;
++    (match BodyRd.generics_get_list body with
++     | [g] when VfMirRd.GenericParamDef.name_get g = "Element" &&
++                VfMirRd.GenericParamDefKind.get
++                  (VfMirRd.GenericParamDef.kind_get g) =
++                    VfMirRd.GenericParamDefKind.Type -> ()
++     | _ -> reject "actual generic identity");
++    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++     | [D.Trait {def_id="std::marker::Sized";
++                 args=[{kind=D.Type {kind=D.Param "Element"}}];
++                 bound_regions=[]}] -> ()
++     | _ -> reject "actual generic predicates");
++    let hir = BodyRd.hir_generics_get body in
++    (match HirGenericsRd.params_get_list hir with
++     | [p] when not (HirGenericParamRd.pure_wrt_drop_get p) &&
++          HirGenericParamKindRd.get (HirGenericParamRd.kind_get p) =
++            HirGenericParamKindRd.Type ->
++          (match HirGenericParamNameRd.get (HirGenericParamRd.name_get p) with
++           | HirGenericParamNameRd.Plain id when
++               SymbolRd.name_get (IdentRd.name_get id) = "Element" -> ()
++           | _ -> reject "actual HIR Element binding")
++     | _ -> reject "actual HIR generic count/type");
++    if BodyRd.DefKind.get (BodyRd.def_kind_get body) <>
++         BodyRd.DefKind.Fn ||
++       UnsafetyRd.get (BodyRd.unsafety_get body) <>
++         UnsafetyRd.Safe ||
++       BodyRd.module_def_path_get body <> "" ||
++       BodyRd.is_from_expansion_get body || BodyRd.is_trait_fn_get body ||
++       BodyRd.is_drop_fn_get body ||
++       VisibilityRd.get (BodyRd.visibility_get body) <>
++         VisibilityRd.Public ||
++       BodyRd.impl_block_generics_get_list body <> [] ||
++       BodyRd.impl_block_predicates_get_list body <> [] ||
++       List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
++         (if !Sort4SelectIntrinsic.actual_projection then
++            Sort4SelectIntrinsic.projection_ghosts else []) ||
++       BodyRd.ghost_decl_blocks_get_list body <> [] ||
++       BodyRd.loop_spec_blocks_get_list body <> [] ||
++       (match OptionRd.get (BodyRd.impl_block_hir_generics_get body) with
++        | OptionRd.Nothing -> false | _ -> true) then
++      reject "actual item identity/extra structures";
++    let debug_expected =
++      ["condition","_1",false;"true_val","_2",false;
++       "false_val","_3",false;"true_val","_4",true;
++       "false_val","_6",true;"true_ptr","_8",false;
++       "false_ptr","_10",false;"guard","_14",false;
++       "drop","_18",false;"guard","_22",false] in
++    let debug = BodyRd.var_debug_info_get_list body in
++    if List.length debug <> List.length debug_expected then
++      reject "actual debug binding count";
++    List.iter2 (fun (name,id,mut) item ->
++      if SymbolRd.name_get (VarDebugInfoRd.name_get item) <> name then
++        reject ("actual debug name: " ^ name);
++      match VarDebugInfoContentsRd.get (VarDebugInfoRd.value_get item) with
++      | VarDebugInfoContentsRd.Place p when
++          LocalDeclIdRd.name_get (PlaceRd.local_get p) = id &&
++          PlaceRd.local_is_mutable_get p = mut &&
++          PlaceRd.projection_get_list p = [] &&
++          VfMirRd.PlaceKind.get (PlaceRd.kind_get p) =
++            VfMirRd.PlaceKind.Other -> ()
++      | _ -> reject ("actual debug place: " ^ id))
++      debug_expected debug;
++    let blocks = sort4_select_check_actual_projection_statements body in
++    let place id mutable_ p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
++         PlaceRd.local_is_mutable_get p <> mutable_ ||
++         PlaceRd.projection_get_list p <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("actual terminator place: " ^ id) in
++    let target expected opt = match OptionRd.get opt with
++      | OptionRd.Something ptr when Stdint.Uint32.to_int
++          (BasicBlockIdRd.index_get (VfMirRd.of_pointer ptr)) = expected -> ()
++      | _ -> reject ("actual normal target: " ^ string_of_int expected) in
++    let edge expected action = match expected,UnwindActionRd.get action with
++      | `Continue,UnwindActionRd.Continue
++      | `Unreachable,UnwindActionRd.Unreachable
++      | `Terminate,UnwindActionRd.Terminate -> ()
++      | `Cleanup id,UnwindActionRd.Cleanup block when
++          Stdint.Uint32.to_int (BasicBlockIdRd.index_get block) = id -> ()
++      | _ -> reject "actual unwind action/target" in
++    let arg (id,mutable_) op = match OperandRd.get op with
++      | OperandRd.Move p -> place id mutable_ p
++      | _ -> reject ("actual call operand: " ^ id) in
++    let fn_type kind ty = match kind,(D.decode_ty ty).kind with
++      | `Ghost,D.FnDef {id={name="VeriFast_ghost_command"};
++                       substs=[];late_bound_generic_param_count=0} -> true
++      | `New,D.FnDef {id={name="std::mem::MaybeUninit::<T>::new"};
++                     substs=[{kind=D.Type t}];
++                     late_bound_generic_param_count=0} ->
++          Sort4MaybeUninit.pointer_element t
++      | `AsPtr,D.FnDef {id={name="std::mem::MaybeUninit::<T>::as_mut_ptr"};
++                       substs=[{kind=D.Type t}];
++                       late_bound_generic_param_count=1} ->
++          Sort4MaybeUninit.pointer_element t
++      | `PtrSelect,D.FnDef
++          {id={name="std::intrinsics::select_unpredictable"};
++           substs=[{kind=D.Type t}];late_bound_generic_param_count=0} ->
++          sort4_select_ptr_ptr t
++      | `MuSelect,D.FnDef
++          {id={name="std::intrinsics::select_unpredictable"};
++           substs=[{kind=D.Type t}];late_bound_generic_param_count=0} ->
++          sort4_select_mu t
++      | `Drop,D.FnDef
++          {id={name="std::ptr::mut_ptr::<impl *mut T>::drop_in_place"};
++           substs=[{kind=D.Type t}];late_bound_generic_param_count=0} ->
++          Sort4MaybeUninit.pointer_element t
++      | `Forget,D.FnDef {id={name="std::mem::forget"};
++                        substs=[{kind=D.Type t}];
++                        late_bound_generic_param_count=0} ->
++          guard_type t
++      | `AssumeInit,D.FnDef
++          {id={name="std::mem::MaybeUninit::<T>::assume_init"};
++           substs=[{kind=D.Type t}];late_bound_generic_param_count=0} ->
++          Sort4MaybeUninit.pointer_element t
++      | _ -> false in
++    let call block kind args destination destination_mut unwind next =
++      match TerminatorKindRd.get
++        (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
++      | TerminatorKindRd.Call data ->
++          let open FnCallDataRd in
++          (match OperandRd.get (func_get data) with
++           | OperandRd.Constant c ->
++               (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++                | VfMirRd.MirConst.Val v when
++                    VfMirRd.ConstValue.get
++                      (VfMirRd.MirConst.Val.const_value_get v) =
++                        VfMirRd.ConstValue.ZeroSized &&
++                    fn_type kind (VfMirRd.MirConst.Val.ty_get v) -> ()
++                | _ -> reject "actual typed callee identity")
++           | _ -> reject "actual callee operand form");
++          let actual_args = args_get_list data in
++          if List.length actual_args <> List.length args then
++            reject "actual call arity";
++          List.iter2 arg args actual_args;
++          place destination destination_mut (destination_get data);
++          edge unwind (unwind_action_get data);
++          target next (target_get data);
++          (match OptionRd.get (ghost_generic_arg_list_get data) with
++           | OptionRd.Nothing -> ()
++           | _ -> reject "actual call ghost generic arguments")
++      | _ -> reject "actual call terminator" in
++    let bs = Array.of_list blocks in
++    call bs.(0) `New ["_5",true] "_4" true `Continue 1;
++    call bs.(1) `New ["_7",true] "_6" true `Continue 2;
++    call bs.(2) `AsPtr ["_9",true] "_8" false `Continue 3;
++    call bs.(3) `AsPtr ["_11",true] "_10" false `Continue 4;
++    call bs.(4) `Ghost [] "_12" false `Continue 5;
++    call bs.(5) `Ghost [] "_13" false `Continue 6;
++    call bs.(6) `PtrSelect
++      ["_15",true;"_16",true;"_17",true] "_14" false `Unreachable 7;
++    call bs.(7) `PtrSelect
++      ["_19",true;"_20",true;"_21",true] "_18" false `Unreachable 8;
++    call bs.(8) `Ghost [] "_24" false (`Cleanup 18) 9;
++    call bs.(9) `Drop ["_26",true] "_25" false (`Cleanup 18) 10;
++    call bs.(10) `Ghost [] "_27" false (`Cleanup 18) 11;
++    call bs.(11) `Ghost [] "_28" false (`Cleanup 18) 12;
++    call bs.(12) `Forget ["_30",true] "_29" false (`Cleanup 18) 13;
++    call bs.(13) `MuSelect
++      ["_32",true;"_33",true;"_34",true] "_31" true `Unreachable 14;
++    call bs.(14) `AssumeInit ["_31",true] "_0" true (`Cleanup 18) 15;
++    let terminator i = TerminatorKindRd.get
++      (TerminatorRd.kind_get (BasicBlockRd.terminator_get bs.(i))) in
++    (match terminator 15 with
++     | TerminatorKindRd.Return -> ()
++     | _ -> reject "actual projected return terminator");
++    (match terminator 16 with
++     | TerminatorKindRd.UnwindResume -> ()
++     | _ -> reject "actual projected cleanup resume terminator");
++    (match terminator 17 with
++     | TerminatorKindRd.Drop d ->
++         place "_22" false (TerminatorKindRd.DropData.place_get d);
++         if Stdint.Uint32.to_int
++              (BasicBlockIdRd.index_get
++                (TerminatorKindRd.DropData.target_get d)) <> 16
++         then reject "actual projected cleanup drop successor";
++         edge `Terminate
++           (TerminatorKindRd.DropData.unwind_action_get d)
++     | _ -> reject "actual projected cleanup drop terminator");
++    (match terminator 18 with
++     | TerminatorKindRd.SwitchInt s ->
++         (match OperandRd.get (SwitchIntDataRd.discr_get s) with
++          | OperandRd.Copy p -> place "_35" true p
++          | _ -> reject "actual projected drop-flag switch operand");
++         if not (bool_ty (SwitchIntDataRd.discr_ty_get s)) ||
++            List.map (fun value -> Stdint.Uint128.to_string
++              (CapnpAux.uint128_get value))
++              (SwitchIntDataRd.values_get_list s) <> ["0"] ||
++            List.map (fun b -> Stdint.Uint32.to_int
++              (BasicBlockIdRd.index_get b))
++              (SwitchIntDataRd.targets_get_list s) <> [16;17]
++         then reject "actual projected drop-flag switch values/targets"
++     | _ -> reject "actual projected drop-flag switch terminator");
++    let pos = Sort4MaybeUninit.position source in
++    List.iter2 (fun (block_id,local_id) raw ->
++      let at = Sort4SelectIntrinsic.locate source raw in
++      let line,col = pos at in
++      let expected_hi = line,col + 31 in
++      let check_span label span = match translate_span_data span with
++        | Ok (Ast.Lexed (((path,lo_line,lo_col),
++                          (last,hi_line,hi_col)))) when
++            path = fixture_path && last = fixture_path &&
++            (lo_line,lo_col) = (line,col) &&
++            (hi_line,hi_col) = expected_hi -> ()
++        | _ -> reject ("actual projected ghost " ^ label) in
++      let local = List.nth locals local_id in
++      check_span "unit local source span"
++        (SourceInfoRd.span_get (LocalDeclRd.source_info_get local));
++      let term = BasicBlockRd.terminator_get bs.(block_id) in
++      check_span "terminator source span"
++        (SourceInfoRd.span_get (TerminatorRd.source_info_get term));
++      match TerminatorKindRd.get (TerminatorRd.kind_get term) with
++      | TerminatorKindRd.Call data ->
++          check_span "call span" (FnCallDataRd.call_span_get data)
++      | _ -> reject "actual projected ghost terminator kind")
++      [4,12;5,13;8,24;10,27;11,28]
++      Sort4SelectIntrinsic.projection_ghosts;
++    blocks
++
 +  let sort4_select_certify_actual root (body : BodyRd.t) =
 +    let reject = Sort4SelectIntrinsic.reject in
 +    let hint_path = Filename.concat root "library/core/src/hint.rs" in
@@ -2200,15 +2627,23 @@ index f1e3e50..33c7bbb 100644
 +      let at = Sort4SelectIntrinsic.locate source raw in
 +      let last = at + String.length raw - 1 in
 +      let after = at + String.length raw in
++      let hi = pos last in
++      let high = if !Sort4SelectIntrinsic.actual_projection then
++        fst hi,snd hi + 32 else hi in
 +      let* () = check_span "projection ghost" (AnnotationRd.span_get ghost)
-+        (pos at) (pos last) in
++        (pos at) high in
 +      if (Stdint.Uint64.to_int (AnnotationRd.start_line_get ghost),
 +          Stdint.Uint64.to_int (AnnotationRd.start_col_get ghost)) <> pos at ||
 +         (Stdint.Uint64.to_int (AnnotationRd.end_line_get ghost),
 +          Stdint.Uint64.to_int (AnnotationRd.end_col_get ghost)) <> pos after then
 +        reject "actual projection ghost explicit coordinates";
 +      Ok ()) ghosts in
-+    ignore (sort4_select_check_actual_mir body);
++    if !Sort4SelectIntrinsic.actual_projection then (
++      ignore (sort4_select_check_actual_projection_mir
++        body source fixture_path);
++      Printf.printf
++        "SORT4-SELECT-INTRINSIC: full typed actual MIR graph accepted\n%!"
++    ) else ignore (sort4_select_check_actual_mir body);
 +    Ok ()
 +
 +  let sort4_select_check_actual_guard_adt
@@ -2839,7 +3274,7 @@ index f1e3e50..33c7bbb 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -7881,6 +10549,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7881,6 +10984,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -2871,7 +3306,7 @@ index f1e3e50..33c7bbb 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -7896,6 +10589,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7896,6 +11024,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in
