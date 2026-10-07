@@ -4394,3 +4394,12 @@ focus helper/frameprobe, positive+independent intendedproofnegatives, source/NOR
 readonly/refinement capture, no actualredirect. Cap20min1200 with120reserve/proof300,
 one hostedrun. Fullnewprofile matrix/admission/regressions beforeactualintegration;
 STOP if separate guardownership/Dropmodel needed, otherwise nextactualblocker.
+
+S7a staticfocusreview BEFOREimplementation: same-file nestedfocus also selects
+outerfunction inclusive range, whose first prooffailure would preempt helper.
+Do not count that as bodyproof. Amended design chooses separate helper/probe
+include! item files inside sameactualguard lexicalscope, preserving nominal ADT,
+focus byactual expansion filepath excludesparent. Source/ghoststrip/stage hashes
+and readonlyrefinement coverallthree filepairs. FullNORMAL+readonlycapture verifies
+nominalidentity/macrolocations/noextraactualruntimeops; this isolation is untested
+untilhosted and no admission accepted. Parent/setup failure remainsINCONCLUSIVE.

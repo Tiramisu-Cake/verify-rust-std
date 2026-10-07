@@ -51,16 +51,24 @@ requires a new guard/Drop resource protocol, STOP with its exact obligation.
 ## S7a first diagnostic, before any new admission semantic change
 
 No captured forget-body typed MIR exists. First capture both NORMAL and readonly
-full MIR on a disposable copy of actual v4 projected source plus only nested items
-for helper and frame probe. Preserve exact actual body/guard/Drop and runtime
+full MIR on a disposable copy of actual v4 projected source plus two nested
+include! items for helper and frame probe, each defined in a separate source file. Preserve exact actual body/guard/Drop and runtime
 forget invocation; helpers are source-linked additions, not an actual redirect.
 Explicit source-insertion manifest, ghost-strip original/verified identity and
-source/refinement checks must hold. Use frozen v4 tools/patch c7cc08a9 unchanged,
+source/refinement checks over lib.rs AND both included file pairs must hold.
+Pinned include items add declarations only; full actual runtime MIR confirms no
+new executed operation. The original local guard/Drop source remains unchanged. Use frozen v4 tools/patch c7cc08a9 unchanged,
 compiler/nightly/schema/exporter/refiner frozen. A diagnostic label is separate
 from tool profile, not a new semantic proof profile or accepted component.
 
-Focused verification of helper and separate unsafe frame probe avoids unrelated
-actual-parent failures but explicitly leaves every other function unproved. Record
+Pinned focus matches inclusive file/range, so a helper defined directly in the
+parent file would ALSO select and fail the actual parent before the helper.
+Use two include! items in the exact local guard scope, with helper/probe definitions
+spanning separate files; focus on their actual file/line excludes parent lib.rs by
+path. This lexical-isolation hypothesis is not yet tested. Record macro expansion
+filepaths and nominal defpaths, and require actual intended helper/probe body entry;
+parent/setup failure is never an intended result. Focus explicitly leaves every
+other function unproved. Record
 focus argv/line/function, satisfiable explicit pre, body execution/return/leak and
 full raw log. Execute positive body and frame preservation; independent negatives
 false body assertion, wrong post/framevalue and thread/frame loss or duplication
