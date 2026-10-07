@@ -45,3 +45,17 @@
   verifier run; saved C1 evidence cannot certify it.
 
 No historical run result is overwritten by this derived classification.
+
+## Result
+
+Hosted replay37586573468/source4e7ee103a6dbfea7d64a88ebbec62d484eea95cc PASS,
+26 jobseconds; proof source0383012/C1 unchanged. Positive194statements and
+intended negative21,42–44 accepted;3 altered-log mutants rejected. Current
+selection replays this exact evidence and rejects changed proof/header bytes.
+
+The checked mathematical post comprises permutation plus3 adjacent SWO stable
+steps. Global order follows from transitive rank order; equivalent nonadjacent
+endpoints have equal intermediate ranks, hence increasing original IDs throughout.
+This mathematical consequence is not an additional checked all-pairs post.
+Actual Rust/callback/value preservation and memory/resource/unwind bridging remain
+separate obligations.

@@ -139,6 +139,125 @@ def balanced_field_value(text, field):
     return (start, end, text[start:end]) if end is not None else None
 
 
+def strict_tuple_field(text, field):
+    """Read one direct field from a complete tuple; reject truncation/ambiguity."""
+    left = len(text) - len(text.lstrip())
+    groups = {start: end for start, end in capnp_groups(text)}
+    right = groups.get(left)
+    if left >= len(text) or text[left] != "(" or right is None or text[right:].strip():
+        return None
+    nested = [(start, end) for start, end in groups.items() if start != left and end <= right]
+    candidate_re = re.compile(rf"\b{re.escape(field)}\s*=\s*")
+    found = []
+    for match in candidate_re.finditer(text, left + 1, right):
+        quoted = False
+        escaped = False
+        for char in text[left + 1:match.start()]:
+            if quoted:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == '"':
+                    quoted = False
+            elif char == '"':
+                quoted = True
+        if quoted or any(start < match.start() < end for start, end in nested):
+            continue
+        value_start = match.end()
+        if value_start < right and text[value_start] == "(":
+            value_end = groups.get(value_start)
+            if value_end is None or value_end > right:
+                return None
+        elif value_start < right and text[value_start] == '"':
+            quoted_value = re.match(r'"(?:\\.|[^"\\])*"', text[value_start:right])
+            if quoted_value is None:
+                return None
+            value_end = value_start + quoted_value.end()
+        else:
+            scalar = re.match(r"(?:\d+|[A-Za-z_][A-Za-z_0-9]*)", text[value_start:right])
+            if scalar is None:
+                return None
+            value_end = value_start + scalar.end()
+        found.append((value_start, value_end, text[value_start:value_end]))
+    return found[0] if len(found) == 1 else None
+
+
+def tuple_field_integer(text, field):
+    value = strict_tuple_field(text, field)
+    if value is None or re.fullmatch(r"\d+", value[2]) is None:
+        return None
+    return int(value[2])
+
+
+def tuple_field_string(text, field):
+    value = strict_tuple_field(text, field)
+    if value is None or len(value[2]) < 2 or value[2][0] != '"' or value[2][-1] != '"':
+        return None
+    return value[2][1:-1]
+
+
+def binding_span_value(layout_info):
+    exact = strict_tuple_field(layout_info, "exact")
+    if exact is None:
+        return None
+    return strict_tuple_field(exact[2], "bindingDefSpan")
+
+
+def replace_binding_span(layout_info, replacement):
+    exact = strict_tuple_field(layout_info, "exact")
+    if exact is None:
+        raise ValueError("metadata mutation could not uniquely locate exact layout")
+    span = strict_tuple_field(exact[2], "bindingDefSpan")
+    if span is None:
+        raise ValueError("metadata mutation could not uniquely locate bindingDefSpan")
+    changed_exact = exact[2][:span[0]] + replacement + exact[2][span[1]:]
+    return layout_info[:exact[0]] + changed_exact + layout_info[exact[1]:]
+
+
+def span_coordinates(span):
+    regular_value = strict_tuple_field(span, "regular")
+    if regular_value is None:
+        return None
+    regular = regular_value[2]
+    coordinates = {}
+    for endpoint in ("lo", "hi"):
+        location_value = strict_tuple_field(regular, endpoint)
+        if location_value is None:
+            return None
+        location = location_value[2]
+        file_value = strict_tuple_field(location, "file")
+        column_value = strict_tuple_field(location, "col")
+        line = tuple_field_integer(location, "line")
+        if file_value is None or column_value is None or line is None:
+            return None
+        file_name = strict_tuple_field(file_value[2], "name")
+        if file_name is None:
+            return None
+        real_file = strict_tuple_field(file_name[2], "real")
+        if real_file is None:
+            return None
+        path = tuple_field_string(real_file[2], "localPath")
+        column = tuple_field_integer(column_value[2], "pos")
+        if path is None or column is None:
+            return None
+        coordinates[endpoint] = (path, line, column)
+    return coordinates["lo"], coordinates["hi"]
+
+
+def span_coordinates_in_source(span, source_bytes, expected_path):
+    coordinates = span_coordinates(span)
+    if coordinates is None:
+        return False
+    lo, hi = coordinates
+    source_lines = source_bytes.splitlines()
+    for path, line, column in coordinates:
+        if (path != expected_path or line < 1 or line > len(source_lines) or
+                column < 0 or column > len(source_lines[line - 1])):
+            return False
+    return lo <= hi
+
+
 def normalized_span(span):
     # Ignore Cap'n Proto formatting, preserving quoted filenames and escapes.
     return "".join(re.findall(r'"(?:\\.|[^"\\])*"|[^\s"]+', span))
@@ -148,39 +267,57 @@ def span_data_matches(binding_span, definition_span):
     return normalized_span(binding_span) == normalized_span(definition_span)
 
 
-def span_line_range(span):
-    endpoints = {}
-    for endpoint in ("lo", "hi"):
-        value = balanced_field_value(span, endpoint)
-        if value is None:
-            return None
-        line = re.search(r"\bline\s*=\s*(\d+)", value[2])
-        if line is None:
-            return None
-        endpoints[endpoint] = int(line.group(1))
-    return endpoints["lo"], endpoints["hi"]
-
-
-def increment_span_hi_line(span):
-    hi_value = balanced_field_value(span, "hi")
-    if hi_value is None:
-        raise ValueError("metadata mutation wrong-span found malformed SpanData.hi")
-    hi_start, hi_end, hi_text = hi_value
-    line = re.search(r"(\bline\s*=\s*)(\d+)", hi_text)
-    if line is None:
-        raise ValueError("metadata mutation wrong-span found no SpanData.hi.line")
-    changed_hi = hi_text[:line.start(2)] + str(int(line.group(2)) + 1) + hi_text[line.end(2):]
-    return span[:hi_start] + changed_hi + span[hi_end:]
-
-
-def audit_ordered_wrong_span_mutation(before, after):
-    before_range = span_line_range(before)
-    after_range = span_line_range(after)
+def audit_span_matches_source(binding_span, definition_span, source_bytes,
+                              source_path, source_sha256):
     return (
-        before_range is not None and after_range is not None and
-        span_data_matches(after, increment_span_hi_line(before)) and
-        after_range == (before_range[0], before_range[1] + 1) and
-        after_range[0] <= after_range[1]
+        source_bytes is not None and digest(source_bytes) == source_sha256 and
+        definition_span is not None and
+        span_coordinates_in_source(binding_span, source_bytes, source_path) and
+        span_coordinates_in_source(definition_span, source_bytes, source_path) and
+        span_data_matches(binding_span, definition_span)
+    )
+
+
+def replace_span_hi_column(span, replacement):
+    regular = strict_tuple_field(span, "regular")
+    if regular is None:
+        raise ValueError("metadata mutation could not uniquely locate regular SpanData")
+    hi = strict_tuple_field(regular[2], "hi")
+    if hi is None:
+        raise ValueError("metadata mutation could not uniquely locate SpanData.hi")
+    col = strict_tuple_field(hi[2], "col")
+    if col is None:
+        raise ValueError("metadata mutation could not uniquely locate SpanData.hi.col")
+    pos = strict_tuple_field(col[2], "pos")
+    if pos is None:
+        raise ValueError("metadata mutation could not uniquely locate SpanData.hi.col.pos")
+    changed_col = col[2][:pos[0]] + replacement + col[2][pos[1]:]
+    changed_hi = hi[2][:col[0]] + changed_col + hi[2][col[1]:]
+    changed_regular = regular[2][:hi[0]] + changed_hi + regular[2][hi[1]:]
+    return span[:regular[0]] + changed_regular + span[regular[1]:]
+
+
+def decrement_span_hi_column(span):
+    coordinates = span_coordinates(span)
+    if coordinates is None or coordinates[1][2] < 1:
+        raise ValueError("metadata mutation wrong-span found no positive SpanData.hi column")
+    return replace_span_hi_column(span, str(coordinates[1][2] - 1))
+
+
+def audit_valid_wrong_span_mutation(before, after, definition_span, source_bytes,
+                                    source_path, source_sha256):
+    if source_bytes is None or digest(source_bytes) != source_sha256:
+        return False
+    before_coords = span_coordinates(before)
+    after_coords = span_coordinates(after)
+    return (
+        audit_span_matches_source(before, definition_span, source_bytes, source_path, source_sha256) and
+        span_coordinates_in_source(after, source_bytes, source_path) and
+        span_data_matches(after, decrement_span_hi_column(before)) and
+        before_coords is not None and after_coords is not None and
+        after_coords[0] == before_coords[0] and
+        after_coords[1] == (before_coords[1][0], before_coords[1][1], before_coords[1][2] - 1) and
+        after_coords[0] < after_coords[1] and not span_data_matches(after, definition_span)
     )
 
 
@@ -275,12 +412,12 @@ def mutate_metadata_text(text, type_name, mutation):
             "wrong-width": ("bindingPointerWidth", "8"),
         }
         if mutation == "wrong-span":
-            span_value = balanced_field_value(value, "bindingDefSpan")
+            span_value = binding_span_value(value)
             if span_value is None:
                 raise ValueError("metadata mutation wrong-span could not locate bindingDefSpan")
-            span_start, span_end, span_text = span_value
-            changed_span = increment_span_hi_line(span_text)
-            replacement = value[:span_start] + changed_span + value[span_end:]
+            span_text = span_value[2]
+            changed_span = decrement_span_hi_column(span_text)
+            replacement = replace_binding_span(value, changed_span)
             return text[:layout_start] + replacement + text[layout_end:]
         field, replacement_value = fields[mutation]
         pattern = re.compile(rf"(\b{field}\s*=\s*)(\"[^\"]*\"|\d+)")
@@ -309,9 +446,19 @@ def inspect_layout_metadata(case_dir, exact_expected=None, absent_types=()):
             scalar_values[field] = int(found.group(1)) if found else None
         bound_name = re.search(r'\bbindingAdtDefName\s*=\s*"([^"]+)"', info)
         bound_target = re.search(r'\bbindingTargetTriple\s*=\s*"([^"]+)"', info)
-        bound_span = balanced_field_value(info, "bindingDefSpan")
+        bound_span = binding_span_value(info)
         adt_context = adt_layout_context(text, type_name) or ""
-        definition_span = balanced_field_value(adt_context, "defSpan")
+        definition_span = strict_tuple_field(adt_context, "defSpan")
+        source_path = case_dir / "verified/lib.rs"
+        source_bytes = source_path.read_bytes() if source_path.is_file() else None
+        source_sha256 = digest(source_bytes) if source_bytes is not None else None
+        binding_span_valid = (
+            bound_span is not None and audit_span_matches_source(
+                bound_span[2], definition_span[2] if definition_span is not None else None,
+                source_bytes, "verified/lib.rs", source_sha256))
+        definition_span_valid = (
+            definition_span is not None and source_bytes is not None and
+            span_coordinates_in_source(definition_span[2], source_bytes, "verified/lib.rs"))
         target = re.search(r'\btargetTriple\s*=\s*"([^"]+)"', text)
         width = re.search(r"\bpointerWidth\s*=\s*(\d+)", text)
         ok = (
@@ -322,7 +469,7 @@ def inspect_layout_metadata(case_dir, exact_expected=None, absent_types=()):
             scalar_values["bindingPointerWidth"] in (32, 64) and bound_span is not None and
             width is not None and scalar_values["bindingPointerWidth"] == int(width.group(1)) and
             "verified/lib.rs" in bound_span[2] and definition_span is not None and
-            span_data_matches(bound_span[2], definition_span[2])
+            binding_span_valid and definition_span_valid
         )
         result["exact"][type_name] = {
             "ok": ok, "observed": scalar_values,
@@ -332,6 +479,8 @@ def inspect_layout_metadata(case_dir, exact_expected=None, absent_types=()):
             "root_target_triple": target.group(1) if target else None,
             "root_pointer_width": int(width.group(1)) if width else None,
             "binding_span_present": bound_span is not None,
+            "binding_span_coordinates_valid": binding_span_valid,
+            "definition_span_coordinates_valid": definition_span_valid,
             "definition_span_matches": (bound_span is not None and definition_span is not None and
                 span_data_matches(bound_span[2], definition_span[2])),
             "binding_span": bound_span[2] if bound_span is not None else None,
@@ -604,6 +753,9 @@ try:
     layout_before = layout_matrix.adt_layout_info(canonical_text, type_name)
     transformed_text = layout_matrix.mutate_metadata_text(canonical_text, type_name, mutation)
     layout_after = layout_matrix.adt_layout_info(transformed_text, type_name)
+    adt_context = layout_matrix.adt_layout_context(canonical_text, type_name)
+    definition_span_value = layout_matrix.strict_tuple_field(adt_context, "defSpan") if adt_context else None
+    definition_span = definition_span_value[2] if definition_span_value is not None else None
 except Exception as exc:
     record.write_text(json.dumps({"matched": True, "mutation_error": str(exc), "mutation": mutation}, indent=2) + "\\n")
     sys.stderr.write("layout-matrix metadata mutation failed: " + str(exc) + "\\n")
@@ -623,6 +775,7 @@ record.write_text(json.dumps({"matched": True, "exporter_exit": 0, "decode_exit"
     "mutated_sha256": hashlib.sha256(encode.stdout).hexdigest(),
     "selected_source_path": str(selected_source),
     "selected_source_sha256": hashlib.sha256(selected_source.read_bytes()).hexdigest(),
+    "definition_span": definition_span,
     "layout_before": layout_before, "layout_after": layout_after}, indent=2) + "\\n")
 sys.stdout.buffer.write(encode.stdout)
 """.replace("@HELPER@", repr(str(HERE)))
@@ -684,6 +837,14 @@ def run_metadata_controls(args, outdir, prefix, fixture_cases):
         if mutation == "absent":
             expected = classify_absent_layout_failure(
                 log, metadata, statuses, unchanged, verifier_fn)
+        elif mutation == "wrong-span":
+            error = ERROR.search(errors[0]) if len(errors) == 1 else None
+            def_coords = span_coordinates(record.get("definition_span") or "")
+            expected = (
+                error is not None and def_coords is not None and
+                error.group(1) == str(def_coords[0][1]) and
+                error.group(2) == "RustLayoutMetadata: binding mismatch: ADT identity, definition source span, or target differs"
+            )
         else:
             diagnostic = "RustLayoutMetadata: malformed:" if expected_text == "malformed" else "RustLayoutMetadata: binding mismatch:"
             expected = len(errors) == 1 and diagnostic in errors[0]
@@ -702,12 +863,18 @@ def run_metadata_controls(args, outdir, prefix, fixture_cases):
         elif mutation == "wrong-width":
             mutation_shape_ok = "exact" in layout_before and re.search(r"bindingPointerWidth\s*=\s*8\b", layout_after) is not None
         else:
-            before_value = balanced_field_value(layout_before, "bindingDefSpan")
-            after_value = balanced_field_value(layout_after, "bindingDefSpan")
+            before_value = binding_span_value(layout_before)
+            after_value = binding_span_value(layout_after)
+            selected_source_path = record.get("selected_source_path")
+            source_path = case_dir / selected_source_path if selected_source_path == "verified/lib.rs" else None
+            source_bytes = source_path.read_bytes() if source_path is not None and source_path.is_file() else None
             mutation_shape_ok = (
                 "exact" in layout_before and before_value is not None and after_value is not None and
+                record.get("selected_source_sha256") == metadata["source_sha256"] and
                 before_value[2] != after_value[2] and
-                audit_ordered_wrong_span_mutation(before_value[2], after_value[2])
+                audit_valid_wrong_span_mutation(
+                    before_value[2], after_value[2], record.get("definition_span"),
+                    source_bytes, selected_source_path, record.get("selected_source_sha256"))
             )
         ok = (
             record.get("matched") is True and record.get("exporter_exit") == 0 and
@@ -844,17 +1011,53 @@ def run_negative_classifier_selfchecks(args, outdir):
             "expected": expected, "observed": observed, "pass": observed == expected,
         }
 
-    original_span = '(file = "verified/lib.rs", lo = (line = 7, column = 2), hi = (line = 7, column = 9, sourceName = "src/lib.rs"))'
-    ordered_span = increment_span_hi_line(original_span)
+    span_source = b"pub struct Z;\n"
+    file_data = '(name = (real = (localPath = "verified/lib.rs")))'
+    original_span = (
+        f'(regular = (lo = (file = {file_data}, line = 1, col = (pos = 0)), '
+        f'hi = (file = {file_data}, line = 1, col = (pos = 13))))'
+    )
+    valid_wrong_span = decrement_span_hi_column(original_span)
+    hi_start = f'hi = (file = {file_data}, line = 1'
+    invalid_blank_line = original_span.replace(hi_start, hi_start.replace("line = 1", "line = 2"), 1)
+    hi_column = f'hi = (file = {file_data}, line = 1, col = (pos = 13))'
+    invalid_column = original_span.replace(hi_column, hi_column.replace("pos = 13", "pos = 14"), 1)
+    invalid_path = original_span.replace("verified/lib.rs", "other.rs")
+    lo_start = f'lo = (file = {file_data}, line = 1, col = (pos = 0))'
+    reversed_span = valid_wrong_span.replace(lo_start, lo_start.replace("pos = 0", "pos = 13"), 1)
+    ambiguous_span = original_span.replace(
+        "hi = (", f'lo = (file = {file_data}, line = 1, col = (pos = 1)), hi = (', 1)
+    ambiguous_line = original_span.replace("line = 1, col = (pos = 0)", "line = 1, line = 1, col = (pos = 0)", 1)
+    ambiguous_binding = f'(exact = (bindingDefSpan = {original_span}, bindingDefSpan = {original_span}))'
+    truncated_binding = f'(exact = (bindingDefSpan = {original_span[:-1]}))'
     span_tests = {
         "complete_nested_span_equal": span_data_matches(original_span, original_span),
-        "ordered_hi_line_mutation_accepted": audit_ordered_wrong_span_mutation(original_span, ordered_span),
-        "nested_hi_line_change_rejected": not span_data_matches(original_span, original_span.replace("hi = (line = 7", "hi = (line = 8")),
-        "nested_hi_column_change_rejected": not span_data_matches(original_span, original_span.replace("column = 9", "column = 10")),
-        "nested_source_name_change_rejected": not span_data_matches(original_span, original_span.replace('sourceName = "src/lib.rs"', 'sourceName = "other.rs"')),
-        "quoted_filename_whitespace_change_rejected": not span_data_matches(original_span, original_span.replace('sourceName = "src/lib.rs"', 'sourceName = "src /lib.rs"')),
-        "unordered_hi_mutation_rejected": not audit_ordered_wrong_span_mutation(original_span, original_span.replace("hi = (line = 7", "hi = (line = 6")),
-        "unexpected_nested_mutation_rejected": not audit_ordered_wrong_span_mutation(original_span, ordered_span.replace("column = 9", "column = 10")),
+        "nested_hi_line_change_rejected": not span_data_matches(original_span, invalid_blank_line),
+        "nested_hi_column_change_rejected": not span_data_matches(original_span, valid_wrong_span),
+        "nested_source_name_change_rejected": not span_data_matches(
+            original_span.replace('pos = 13)', 'pos = 13, sourceName = "src/lib.rs")'),
+            original_span.replace('pos = 13)', 'pos = 13, sourceName = "other.rs")')),
+        "quoted_filename_whitespace_change_rejected": not span_data_matches(
+            original_span, original_span.replace('verified/lib.rs', 'verified /lib.rs')),
+        "valid_distinct_hi_column_mutation_accepted": audit_valid_wrong_span_mutation(
+            original_span, valid_wrong_span, original_span, span_source,
+            "verified/lib.rs", digest(span_source)),
+        "hi_blank_line_rejected": not span_coordinates_in_source(invalid_blank_line, span_source, "verified/lib.rs"),
+        "hi_column_past_line_rejected": not span_coordinates_in_source(invalid_column, span_source, "verified/lib.rs"),
+        "different_source_rejected": not span_coordinates_in_source(invalid_path, span_source, "verified/lib.rs"),
+        "reversed_range_rejected": not span_coordinates_in_source(reversed_span, span_source, "verified/lib.rs"),
+        "truncated_nested_span_fails_closed": span_coordinates(original_span[:-1]) is None,
+        "truncated_equal_span_positive_audit_fails_closed": not audit_span_matches_source(
+            original_span[:-1], original_span[:-1], span_source, "verified/lib.rs", digest(span_source)),
+        "ambiguous_endpoint_fails_closed": span_coordinates(ambiguous_span) is None,
+        "ambiguous_equal_span_positive_audit_fails_closed": not audit_span_matches_source(
+            ambiguous_span, ambiguous_span, span_source, "verified/lib.rs", digest(span_source)),
+        "ambiguous_line_fails_closed": span_coordinates(ambiguous_line) is None,
+        "ambiguous_binding_span_fails_closed": binding_span_value(ambiguous_binding) is None,
+        "truncated_binding_span_fails_closed": binding_span_value(truncated_binding) is None,
+        "wrong_mutation_shape_rejected": not audit_valid_wrong_span_mutation(
+            original_span, invalid_column, original_span, span_source,
+            "verified/lib.rs", digest(span_source)),
     }
     for label, passed in span_tests.items():
         outcomes[f"span_{label}"] = {"expected": True, "observed": passed, "pass": passed}

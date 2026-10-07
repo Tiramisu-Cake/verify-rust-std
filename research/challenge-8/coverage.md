@@ -32,10 +32,10 @@ source3c3f0f3,104statements: arbitrary relation16/all4diagonal+64triple laws,
 predecessor count0..3,less iff rank< and equivalence iff rank=. Intended tied-rank
 negative rejected at19. N9/N10 timeouts are historical; checked isolated arithmetic
 helpers resolve both without changing laws/posts/profile. Pure network composition
-positive now verifies at C1/37585795831/source0383012,194statements with all
-components and full original posts. Equal-key reversal rejects intended stability
-assertion; raw checker INCONCLUSIVE at multi-line location, saved-evidence audit
-pending. Historical N12 remains pre-verifier failure. This is pure mathematics;
+accepted at C1/37585795831/source0383012,194statements with all
+components and full original posts; C2/37586573468/source4e7ee10 hosted saved
+audit accepts intended stability assertion failure and3 classifier mutants, no
+verifier repetition. Raw C1 negative INCONCLUSIVE preserved. Historical N12 remains pre-verifier failure. This is pure mathematics;
 actual callback/T/pointer/resource simulation remains open.
 Stock [scalar range composition](SORT4-MEMORY-OPERATIONS.md) N8/37549955948,
 source9b25c41,24statements PASS: exact selected IDs to dst0..3, containment and

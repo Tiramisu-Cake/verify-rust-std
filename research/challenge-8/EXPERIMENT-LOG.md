@@ -3196,3 +3196,38 @@ Raw automatic negative INCONCLUSIVE due checker requiring error onlastline22.
 Pure positive theorem verified; full acceptance pending range-based saved-evidence
 audit with intended-VC/location mutants. No theorem change or rerun needed.
 Newbudget43/5400jobseconds,no active run.
+
+### C2 — hosted saved-C1 processing audit PASS
+
+Card SORT4-SWO-COMPOSITION-AUDIT.md before implementation/dispatch.
+Run37586573468/source4e7ee103a6dbfea7d64a88ebbec62d484eea95cc,
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37586573468,
+job112677972360,07:19:05–07:19:31UTC,26s. Full log/artifact inspected.
+Replay never invoked verifier; exact C1 source/profile/tool/command/binding and
+all original/current proof/header hashes agree. Positive194statements/return/leak
+PASS; raw negative classification preserved, derived intended assertion21,42–44
+accepted. Other assertion line, outside column and wrongVC mutants3/3 rejected.
+Pure mathematical composition ACCEPTED under original fixed SWO premises;
+checked post is permutation plus3 adjacent stable/non-less steps. Global sorted
+order follows mathematically by transitivity of ranks; equal nonadjacent endpoints
+force all intermediate ranks equal, so transitive ID< yields global stability.
+That implication is explanatory, not an extra checked6-pair post. No actual Rust
+callback/memory/provenance/copy/unwind bridge supplied. Newbudget69/5400s.
+No active run. Changed future proof cannot use replay as new verification.
+
+### C3 — valid-span control and full immutable-layout matrix
+
+Preimplementation card SORT4-LAYOUT-CONTROL-REPAIR.md. Hypothesis: replacing
+invalid hi=(8,13) by valid prefix hi=(7,12), lo=(7,0), within actual pub struct Z;
+line, preserves metadata/defSpan and fails specifically binding mismatch at
+definition line7. Exact full nested payload differs only hi.col.pos. New narrow
+coordinate audit checks both endpoints against selected source/hash, canonical
+binding==defSpan, strict ordering; truncated/duplicate/ambiguous span fields fail
+closed in positive/negative audit. Retained nested line/column/sourceName/quoted
+whitespace comparisons; no general parser framework or semantics extension.
+Profile immutable d4a12525 SHA256 unchanged over official source/compiler pins.
+Full original stock/patched comparisons,18extra,7metadata,10native and updated
+classifier/span selfchecks must pass; unknown/helper/refinement/source/setup
+failure is inconclusive. No resource/whole-sort4/automaticUB claim. PASS repairs
+this negative calibration gate only. Manual verifast_rust_fieldless_layout/30,
+one run, current69/5400s used; allow no concurrent relevant run.
