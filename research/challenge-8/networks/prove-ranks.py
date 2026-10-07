@@ -82,7 +82,7 @@ def identity_dag(n: int, pairs: list[tuple[int, int]]) -> tuple[str, list[str], 
     return "\n".join(out), outputs, trace
 
 
-def composition(n: int, pairs: list[tuple[int, int]]) -> str:
+def composition(n: int, pairs: list[tuple[int, int]], exact: bool = True) -> str:
     rank_proof = prove.threshold_proof(n, pairs)
     rank_dag, rank_outputs, rank_trace = prove.output_dag(n, pairs)
     del rank_dag
@@ -143,6 +143,11 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
                   f"    assert !rel(id{i + 1}, id{i});",
                   f"    assert !rel({id_outputs[i + 1]}, {id_outputs[i]});"]
     lines += [f"    assert {count('id')} == original_count;", "}", ""]
+    if not exact:
+        if n != 13:
+            raise RuntimeError("symbolic component selection is restricted to N13")
+        return (LIST_INCLUDE + rank_proof + prove.IDENTITY_HELPERS + source_core() +
+                id_dag + "\n".join(lines + ["@*/", ""]))
     if n == 13:
         # Checked congruence records that a symbolic formal domain equal to the
         # exact source-ID list has precisely the original finite-SWO premise.
@@ -206,10 +211,13 @@ lemma void negative_missing_swo_equiv_trans()
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--size", type=int, choices=(9, 13), required=True)
+    parser.add_argument("--scope", choices=("exact", "symbolic"), default="exact")
     parser.add_argument("--tool-home", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     args = parser.parse_args()
     prove.require_hosted()
+    if args.scope == "symbolic" and args.size != 13:
+        raise RuntimeError("symbolic component selection is restricted to N13")
     tool = (args.tool_home / "bin/verifast").resolve(strict=True)
     if not tool.is_file():
         raise RuntimeError("stock VeriFast console not found")
@@ -228,9 +236,18 @@ def main() -> int:
         "boundary": "pure exact-source network composition; actual Rust comparator, ownership, memory safety, and unwind unproved",
         "cases": [],
     }
+    if args.scope == "symbolic":
+        manifest["scope"] = ("partial component verification: full symbolic-domain "
+                             "N13 composition; exact literal-domain specialization remains unaccepted")
+        manifest["domain"] = ("symbolic finite-SWO list containing every original "
+                              "occurrence ID 0..12")
+        manifest["posts"] = ("all 13 output IDs in symbolic domain; all 12 adjacent "
+                             "!rel(right,left); complete arbitrary-q multiplicity")
     negative, metadata = negative_missing_equiv_trans()
+    composed_name = ("network13_symbolic_swo_composition" if args.scope == "symbolic"
+                     else f"network{args.size}_finite_swo_order")
     work = [(f"network{args.size}_generic_swo_bridge", generic_bridge(), None),
-            (f"network{args.size}_finite_swo_order", composition(args.size, pairs), None),
+            (composed_name, composition(args.size, pairs, args.scope == "exact"), None),
             (f"network{args.size}_negative_missing_equiv_trans", negative, metadata)]
     passed = True
     for name, source, expected in work:
@@ -239,7 +256,9 @@ def main() -> int:
         # exact-domain summary instantiation. Only that complete N13 case gets
         # 300s; all proof predicates/gates and the stock tool stay unchanged.
         original_limit = prove.TIMEOUT_SECONDS
-        case_limit = 300 if args.size == 13 and name == "network13_finite_swo_order" else original_limit
+        case_limit = (240 if args.scope == "symbolic" and name == composed_name else
+                      300 if args.size == 13 and name == "network13_finite_swo_order" else
+                      original_limit)
         prove.TIMEOUT_SECONDS = case_limit
         try:
             result = prove.run_case(tool, evidence, name, source, expected)
@@ -249,6 +268,9 @@ def main() -> int:
         result["boundary"] = ("checked pure ghost lemma contracts, including full SWO "
                               "comparison/equality/rank bounds and composed "
                               "membership/order/multiplicity; no Rust callee summary")
+        if args.scope == "symbolic":
+            result["scope"] = ("partial component verification; exact literal-domain "
+                               "specialization remains unaccepted")
         manifest["cases"].append(result)
         (evidence / "results.json").write_text(json.dumps(manifest, indent=2) + "\n")
         print(f"{name}: {'PASS' if result['accepted'] else 'INCONCLUSIVE'}", flush=True)

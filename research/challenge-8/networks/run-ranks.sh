@@ -4,9 +4,12 @@ set -euo pipefail
 [[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && "${RUNNER_OS:-}" == Linux ]] || { echo 'GitHub-hosted Linux only' >&2; exit 2; }
 [[ "${GITHUB_REF:-}" == refs/heads/challenge-8/networks ]] || exit 2
 selection=${1:?network selection required}
+scope_args=()
+inner_limit=420
 case "$selection" in
   ranks9) size=9 ;;
   ranks13) size=13 ;;
+  ranks13_symbolic) size=13; scope_args=(--scope symbolic); inner_limit=270 ;;
   *) exit 2 ;;
 esac
 repo=$(git rev-parse --show-toplevel)
@@ -22,6 +25,9 @@ tool_home="$task_temp/verifast-26.09"
   printf 'Actions SHA: %s\nProfile: official-stock-26.09\nPhase: finite-SWO-rank\nNetwork: %s\n' "$GITHUB_SHA" "$size"
   printf 'Source pin: 809de4596839b739dd999f9e462242c835e3af46\n'
   printf 'Hosted: %s/%s\nNo tool patch or local build\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
+  if [[ "$selection" == ranks13_symbolic ]]; then
+    printf 'Scope: partial symbolic N13 component; exact literal-domain specialization remains unaccepted\n'
+  fi
   sha256sum "$0" research/challenge-8/networks/prove.py research/challenge-8/networks/prove-ranks.py research/challenge-8/networks/swo-rank.c library/core/src/slice/sort/shared/smallsort.rs
 } > "$evidence/environment.txt"
 [[ "$(git rev-parse HEAD)" == "$GITHUB_SHA" ]] || exit 2
@@ -32,11 +38,11 @@ printf '%s  %s\n' da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98
 tar -xzf "$archive" -C "$task_temp"
 export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"
 sha256sum "$archive" "$tool_home/bin/verifast" >> "$evidence/environment.txt"
-# One independent job, full cold preparation included. Workflow cap8min,
-# inner reserve60s for evidence; never consume the other direction's budget.
+# One independent job: exact selections retain the 8min/420s limits;
+# symbolic N13 uses a 5min job/270s inner limit with evidence reserve.
 set +e
-/usr/bin/time -v -o "$evidence/resources.txt" timeout --signal=TERM --kill-after=5s 420s \
-  python3 research/challenge-8/networks/prove-ranks.py --size "$size" --tool-home "$tool_home" --evidence "$evidence/checked" \
+/usr/bin/time -v -o "$evidence/resources.txt" timeout --signal=TERM --kill-after=5s "${inner_limit}s" \
+  python3 research/challenge-8/networks/prove-ranks.py --size "$size" "${scope_args[@]}" --tool-home "$tool_home" --evidence "$evidence/checked" \
   2>&1 | tee "$evidence/execution.log"
 status=${PIPESTATUS[0]}
 set -e

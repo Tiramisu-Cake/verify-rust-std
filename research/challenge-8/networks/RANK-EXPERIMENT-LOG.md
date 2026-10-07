@@ -492,3 +492,56 @@ Job8min and inner420s unchanged, worst job480s fits691remaining; no new budget.
 Whole success -> finalize own documents/commit/push; timeout/assertion/frontend
 failure -> preserve exact unproved instantiation and checkpoint, no further
 unjustified bound increase or local fallback. Source/run pending.
+
+### R13e result: analyzed300s bound still insufficient; exact target OPEN
+
+Published/checked source `46f50efabb44b6790efd446cc612b4ea4d95af0a`,
+[run37666145711](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37666145711),
+[artifact11503746447](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37666145711/artifacts/11503746447),
+7130604bytes, ZIP SHA2565099cecb9a97ffa350408fffbe68ad98121691b906555deb19f3e64501ceac52.
+Full generated sources/logs/results/environment inspected and all hashes/pins
+match. Csource0ccb713de8487e439901fba98d4001c8358d6e51bbbc44f09e871d1cca498598
+BYTE-IDENTICAL to R13d; no proof/post weakening. Generic83statements/40return-leak
+VF0 with180s; negative exact65,26–28 and7controls PASS with180s. Full composed
+case timeout124 at recorded300s, no errors,7676completed return/leak.
+Logbdaadeba21387d78ee7c5272400bc60e280ba8a528a901e29633b6304f38e36c.
+
+Old rank bodies156.3s, full symbolic45CE composition completes203.928s,
+checked domain-laws equality body completes208.170s; exact wrapper calls
+composition at3464 only218.656s. Even remaining81.344s does not finish that
+instantiation. Generic finite embedding/projection and full symbolic body remain
+complete, but WHOLE EXACT N13 specialization not accepted; no further blind
+bound increase. PeakRSS2281580KiB. Job18:21:08Z–18:26:22Z = **314s**;
+total1423/1800,377remaining (owner continuation spent976 of1353remaining).
+
+## R13f — final bounded partial-component isolation, before dispatch
+
+**DELIBERATELY PARTIAL ACCEPTANCE UNIT, NOT THE ORIGINAL EXACT SPECIALIZATION.**
+Actual mathematical component: SAME pinned45 source CEs on distinct original
+IDs0..12, finite_swo(rel,d) and each initial ID in arbitrary original finite d.
+Full normal posts of network13_finite_swo_composition: every output ID in d,
+all12adjacent !rel(right,left), full arbitrary-q original occurrence multiplicity.
+Every45CE assertion/rank-ID/source DAG equality, finite rank iff/equality/bounds,
+old integer/threshold bodies and new ordered-pair body remain unchanged. Ties,
+fixed keys/order, faithful normal comparator premises and open Rust safety/unwind
+boundary identical. No body/resource/assertion/post is removed FROM THAT COMPONENT.
+
+Hypothesis: completed universal N13 body can obtain its own full VF0 certificate
+when an additional exact-domain adaptation is isolated as a separately OPEN
+obligation. Prefix includes/checks all actual abstract callees before use, no
+unverified summary. Exclude ONLY the extra literal-domain equality/instantiation
+helper/wrapper from this clearly named component unit. Preserve all their failed
+sources/logs/predicates/SHAs and unresolved original literal-domain target; do not
+count a green component as its acceptance, public Challenge or actual Rust proof.
+This follows fixture isolation, not weakening an accepted full target contract.
+
+Explicit selection ranks13_symbolic, scope metadata records PARTIAL component;
+old ranks9/ranks13 exact generation unchanged. SAME official stock/frozenprove.py/
+strict all-body/source-integrity/0error/full-post/return/leak classifier. Generic
+and missing-incomparability negative plus7controls included unchanged. Component
+percase240s (lower than exact300 after measured156+47s); generic/negative180s.
+Inner270s/job5min300s including preparation/evidence; worst300s fits377remaining.
+One run here, no new budget. Whole component success -> report accepted universal
+component separately, EXACT specialization still OPEN. Any failure -> checkpoint
+exact current state; no further experiments in this continuation.
+Source/run pending. All executable checks GitHub-hosted only.

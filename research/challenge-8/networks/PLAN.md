@@ -1,7 +1,8 @@
-Current phase2 checkpoint: generic finite SWO embedding accepted; whole N9
-composition pending, N13 gated. R9f local proof source prepared; GitHub writes
-HTTP500 prevent publication/hosted verification. See [new results](RANK-RESULTS.md)
-and [current status](STATUS.md); separate447/1800spent,1353remaining.
+Current phase2: generic finite SWO embedding and full N9 accepted; exact N13
+specialization R13e active after documented context/timing analysis.
+[Results](RANK-RESULTS.md), [status](STATUS.md), [journal](RANK-EXPERIMENT-LOG.md).
+Same1800jobsecond budget,1109spent/691remaining before R13e. Original completed
+phase1 plan below stays historical; its1499spent/301unused are not transferred.
 
 # Networks phase plan
 

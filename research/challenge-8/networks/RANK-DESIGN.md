@@ -67,3 +67,12 @@ Current acceptance/open obligations are in STATUS and RANK-EXPERIMENT-LOG.
 R9f adds swo_ordered_pair with a full body using swo_rank_bridge and exporting
 only the needed adjacent order. Its new body and revised whole composition
 await hosted verification; accepted generic R9d/R9e claims do not cover it.
+
+Full R9f accepts the generic projection body and N9 composed/exact-domain
+returns/posts,4214statements/546return-leak. Later N13 symbolic body completes
+all45 CE steps and12adjacent posts, but literal specialization times out.
+R13d names the exact domain as formal d==literal0..12 and proves finite-law
+equivalence in a separate body, retaining full literal posts; old concrete
+wrapper evidence stays archived. R13e changes only the analyzed full-case
+wall-time allowance, not these mathematical source bytes/tool semantics.
+Current exact N13 acceptance/open state is in STATUS and final phase results.

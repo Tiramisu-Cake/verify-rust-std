@@ -49,7 +49,7 @@ on:
         description: Isolated stock sort4 component
         type: choice
         default: index
-        options: [index, order, select, range, swo, swo_network, networks9, networks13, ranks9, ranks13]
+        options: [index, order, select, range, swo, swo_network, networks9, networks13, ranks9, ranks13, ranks13_symbolic]
       rapx_gate:
         description: Ordered RAPx applicability gate
         type: choice
@@ -69,7 +69,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13'
+    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13' && inputs.sort4_component != 'ranks13_symbolic'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -224,10 +224,10 @@ jobs:
           retention-days: 90
 
   network_ranks:
-    if: inputs.proof == 'verifast_sort4_components' && (inputs.sort4_component == 'ranks9' || inputs.sort4_component == 'ranks13') && github.ref == 'refs/heads/challenge-8/networks'
+    if: inputs.proof == 'verifast_sort4_components' && (inputs.sort4_component == 'ranks9' || inputs.sort4_component == 'ranks13' || inputs.sort4_component == 'ranks13_symbolic') && github.ref == 'refs/heads/challenge-8/networks'
     name: Finite SWO rank composition on stock VeriFast
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: ${{ inputs.sort4_component == 'ranks13_symbolic' && 5 || 8 }}
     permissions:
       contents: read
     steps:
