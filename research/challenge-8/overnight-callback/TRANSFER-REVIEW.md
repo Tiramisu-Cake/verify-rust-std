@@ -1,6 +1,6 @@
 # Callback tuple ownership and HRTB transfer review
 
-Design-only review for the pinned VeriFast 26.10 source `f76012fb518703b1d98e243ac4f487f16877cfcb`. The prior tuple-own and FnMut HRTB experiments were written against 26.09 (`809de4596839b739dd999f9e462242c835e3af46`); neither patch is applied here. This review does not authorize or implement a translator change. Revisit it against the hosted callback fixture's first causal error and decoded NORMAL/readonly MIR before any transfer.
+Review for the pinned VeriFast 26.10 source `f76012fb518703b1d98e243ac4f487f16877cfcb`. The prior tuple-own and FnMut HRTB experiments were written against 26.09 (`809de4596839b739dd999f9e462242c835e3af46`); neither patch is applied here. The authorized overnight phase permits a semantic transfer after its rationale, trust boundary, controls, and self-review are recorded; it does not require a separate owner decision. This review recommends waiting for the hosted callback fixture's first causal proof error and decoded NORMAL/readonly MIR so any transfer addresses the witnessed boundary rather than a predicted one.
 
 The inspected old artifacts are [`verifast-tuple-own.patch`](../verifast-tuple-own.patch) (SHA-256 `ff2576f727d13d9dfcd9616a030b72ad0b0a27ce87cc96014af2d2ba42249660`) and [`verifast-fnmut-hrtb.patch`](../verifast-fnmut-hrtb.patch) (SHA-256 `d90fb7a814b098a6008c4e64c567d2a3798e8f18999d12905425ef17224dbe1f`). The old tuple patch changes only parser-generated `std_tuple_2_` ownership. The old HRTB patch changes function-predicate collection and pre-call projection registration, with narrow matcher regressions. They address different obligations and must remain separate semantic components.
 
@@ -15,6 +15,8 @@ Keep three outcomes distinct in callback evidence:
 3. Only when the actual call reaches the associated output comparison and fails to equate `<F as FnOnce<Args>>::Output` to `bool` is HRTB translation the observed next blocker. Later source-cell recovery on unwind is a third, independent obligation.
 
 The callback fixture prepares separate `ref_initialized` resources and a real borrow debt. Its current diagnostic order should be taken from the hosted full log, not inferred from historical insertion runs.
+
+O4 (`37702049156`) is not yet such a full proof log: exports/decode/refinement all returned zero, but `-dump_ast_with_locs` crashed in the optional OCaml AST emitter with `Failure("TODO")` before the target timed header (count zero). The unsupported serializer node is `MergeFractionsStmt`, emitted by the fixture helper's `merge_fractions lifetime_token(k)`; `ocaml_expr_of_ast.of_stmt` explicitly has a TODO case for it. Treat this as a diagnostic-serialization limitation, not a VeriFast callback failure or intended negative. The required proof invocation must omit that flag; any follow-up AST capture is separately optional and non-gating.
 
 ## Minimal tuple-2 ownership semantics
 

@@ -165,7 +165,10 @@ def probe(variant: str, annotated: bool) -> bytes:
         body += b"    //@ assert false;\n"
     body += b"}\n"
     extra = b", frame2: *mut bool" if two else b""
-    return (b"unsafe fn checked_forget_frame_probe<T, Element>(\n"
+    # A private, uncalled probe is itself rejected by VeriFast's mandatory
+    # dead-code gate even after its body and leak checks pass.  Public here
+    # makes the contract an externally callable proof obligation.
+    return (b"pub unsafe fn checked_forget_frame_probe<T, Element>(\n"
             b"    t: T, slot: *mut *const Element, frame: *mut bool" + extra +
             b"\n)\n" + contract + body)
 

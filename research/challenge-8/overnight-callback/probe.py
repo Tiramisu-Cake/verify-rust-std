@@ -114,6 +114,32 @@ def select_case(template: bytes, name: str) -> bytes:
     return template[:first_case] + template[start:stop]
 
 
+def false_normal_post_span(source: bytes) -> tuple[int, int, int] | None:
+    """Return (normal-ens start, end, false-line), all one-based."""
+    lines = source.decode().splitlines()
+    spans = []
+    for start, line in enumerate(lines):
+        if re.match(r"^\s*ens\b", line) is None:
+            continue
+        content = []
+        end = None
+        for index in range(start, len(lines)):
+            content.append(lines[index])
+            if ";" in lines[index]:
+                end = index
+                break
+            if "@*/" in lines[index]:
+                break
+        if end is None:
+            continue
+        match = re.search(r"\bfalse\s*;", "\n".join(content))
+        if match is None:
+            continue
+        false_line = start + 1 + "\n".join(content).count("\n", 0, match.start())
+        spans.append((start + 1, end + 1, false_line))
+    return spans[0] if len(spans) == 1 else None
+
+
 def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
                   case_name: str, destination: Path) -> dict:
     need(case_name in CASES, f"unknown fixture case: {case_name}")
@@ -135,14 +161,13 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     (destination / "original/lib.rs").write_bytes(original)
     (destination / "verified/lib.rs").write_bytes(selected)
     record = source_certificate(repo_root, source_checkout, tool_home)
-    target_contract_lines = [
-        n for n, line in enumerate(selected.decode().splitlines(), 1)
-        if case_name == "callback_false_post" and
-        "ens " in line and "false;" in line
-    ]
+    target_contract_span = false_normal_post_span(selected)
     if case_name == "callback_false_post":
-        need(len(target_contract_lines) == 1,
-             "false-post target line missing or ambiguous")
+        need(target_contract_span is not None,
+             "false-post target normal ens span missing or ambiguous")
+    else:
+        need(target_contract_span is None,
+             "positive case unexpectedly contains false in a normal post")
     record.update({
         "case": case_name,
         "template_sha256": sha(template),
@@ -151,8 +176,10 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         "ghost_strip_exact": strip_ghost(selected) == original,
         "target_function_count": 1,
         "actual_callback_call_count": 1,
-        "expected_false_post_line": target_contract_lines[0]
-            if target_contract_lines else None,
+        "expected_false_post_span": list(target_contract_span[:2])
+            if target_contract_span else None,
+        "expected_false_post_line": target_contract_span[2]
+            if target_contract_span else None,
         "domain": "generic sized T and F: FnMut(&T, &T) -> bool; two separated initialized slots",
         "normal_post": "current full T resources for both slots and current F resource; unconstrained bool",
         "unwind_post": "current full T resources for both slots and current F resource; no result or rollback",
@@ -208,7 +235,8 @@ def run_stage(name: str, argv: list[str], root: Path, env: dict[str, str],
 
 def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
              schema: Path, compiler_sysroot: str, evidence: Path,
-             case_name: str, deadline_epoch: int) -> dict:
+             case_name: str, deadline_epoch: int,
+             capture_ast_diagnostic: bool) -> dict:
     case_dir = evidence / case_name
     fixture = generate_case(repo_root, source_checkout, tool_home,
                             case_name, case_dir)
@@ -276,11 +304,18 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     else:
         stages["readonly-decode"] = {"exit": None, "skipped": "readonly export failed"}
 
-    verifier_argv = [str(tool_home / "bin/verifast"),
-                     "-rustc_args", "--edition 2021", "-verbose", "1",
-                     "-dump_ast_with_locs", "verified-ast.txt", "verified/lib.rs"]
+    verifier = str(tool_home / "bin/verifast")
+    verifier_argv = [verifier, "-rustc_args", "--edition 2021",
+                     "-verbose", "1", "verified/lib.rs"]
     stages["full-verification"] = execute(
         "full-verification", verifier_argv, 180)
+    if capture_ast_diagnostic:
+        stages["ast-diagnostic"] = execute(
+            "ast-diagnostic", [verifier, "-rustc_args", "--edition 2021",
+                               "-verbose", "1", "-dump_ast_with_locs",
+                               "verified-ast.txt", "verified/lib.rs"], 90)
+    else:
+        stages["ast-diagnostic"] = {"exit": None, "skipped": "not requested"}
     stages["refinement"] = execute(
         "refinement", [str(tool_home / "bin/refinement-checker"),
                        "--rustc-args", "--edition 2021",
@@ -303,10 +338,11 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     if case_name == "callback_false_post" and support_ok and source_integrity and \
             stages["full-verification"]["exit"] == 1 and len(target_headers) == 1 and \
             len(errors) == 1:
-        line = fixture["expected_false_post_line"]
+        first_line, last_line = fixture["expected_false_post_span"]
         intended_negative = any(
             "Cannot prove false" in error and
-            re.search(rf"verified/lib\.rs\({line},", error) is not None
+            (location := re.search(r"verified/lib\.rs\((\d+),", error)) is not None and
+            first_line <= int(location.group(1)) <= last_line
             for error in errors)
         if intended_negative:
             classification = "INTENDED_FALSE_NORMAL_POST"
@@ -355,6 +391,8 @@ def main() -> None:
     parser.add_argument("--deadline-epoch", type=int, required=True)
     parser.add_argument("--prepare-only", action="store_true",
                         help="generate/hash isolated source pairs without invoking tools")
+    parser.add_argument("--capture-ast-diagnostic", action="store_true",
+                        help="run separate optional -dump_ast_with_locs diagnostic")
     args = parser.parse_args()
     args.repo_root = args.repo_root.resolve()
     args.source_checkout = args.source_checkout.resolve()
@@ -386,7 +424,8 @@ def main() -> None:
             outcomes[case_name] = run_case(
                 args.repo_root, args.source_checkout, args.tool_home,
                 args.schema, args.compiler_sysroot, args.evidence,
-                case_name, args.deadline_epoch)
+                case_name, args.deadline_epoch,
+                args.capture_ast_diagnostic)
     aggregate = {
         "profile_source_base": PROFILE_SOURCE,
         "cases": outcomes,

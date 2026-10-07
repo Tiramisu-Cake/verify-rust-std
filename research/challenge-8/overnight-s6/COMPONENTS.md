@@ -28,6 +28,10 @@ drop adapter and lang-item placeholder were examined at std `cd371e03`.
 The patch repins full files and checks local fixture body/contract spans and MIR
 identity. This broad full-file pin deliberately fails closed if adjacent std
 content changes, even where the operation body stays stable.
+The underlying stock `raw_ptr_own<T>` predicate is defined as `true`
+(`bin/rust/rust_belt/general.rsspec`), so the added wrapper predicate cannot
+grant an `Element` cell. `pointer_drop_glue_identity` is checked, whereas the
+compiler mapping of exact raw-pointer drop glue to that identity is trusted.
 
 The old S6 strict MIR graphs are retained as a **diagnostic starting point**,
 except the `as_mut_ptr` graph now follows the complete NORMAL and readonly

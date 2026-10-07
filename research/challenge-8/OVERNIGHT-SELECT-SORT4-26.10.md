@@ -217,3 +217,32 @@ ghost scope-end insertion after block tail `answer` generates invalid Rust, befo
 any tuple/HRTB proof. Corrected fixture stores same call result into outer bool;
 normal borrow recovery and full normal/unwind posts are preserved. Later-case
 extraction defect repaired independently. Neither failure is an intended negative.
+
+## O4 result / O5 BEFORE — proof entry visibility and diagnostic isolation
+
+O4 [run37702049156](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37702049156),
+proof86e84ace59d0f65b5690e56e62818875ed7c0578, job113067557446
+23:24:06–23:26:09UTC=123s. Semantic console36a769ab/spec3c035910 identical to
+O3; all5 S6 diagnostics fullVF0/all support0. Hosted5 helper certificate tests pass.
+G1 two positive bodies reach return/leak but entire unused private entry gets deadcode;
+10 intended resource/post negatives confirmed, no_thread/contradictory-pre initial
+classification INCONCLUSIVE retained. A1 method/transmute and actual helper now have
+complete NORMAL/readonly MIR and refinement0. A1 first missing assert_inhabited;
+transmute first typed MU-to-pointer mismatch; helper first missing MU constructor.
+Neither actual helper nor A1 is proved. Callback all support0, fullVF2 before any
+proof header: optional AST serializer MergeFractionsStmt TODO. Negative fixture
+normal-post certificate rejects multiline post; no intended negative established.
+Account958/21600,20642remain. Full original outcomes/logs retained unchanged.
+
+O5 hypothesis: public G1 proof entry retains same body/posts and removes whole-entry
+unused deadcode; explicit mandatory deadcode/precondition classification repairs
+observation, not verification. Callback mandatory full proof without optional AST
+serializer reaches its first real obligation; diagnostic AST remains a separately
+reported opt-in stage. Unique exact normal-ens source span locates multiline falsepost.
+Same unrestricted domains/full O3 posts/semantic profile; any new first proof blocker
+is diagnostic, not intended negative. A1/linkage semantic components remain separate
+next work after O4 graph review. No unchanged retry: entry visibility/dump separation
+and exact classifier defects have causal log evidence. Include fixed-binary cache:
+only host-built console plus applied-diff+binary digest manifest; exact patch inventory
+key, no fallback restore; all source/spec/compiler/exporter/refiner pins re-audited.
+Cache does not change profile. New job cap1200s, available20642 including cache/artifacts.

@@ -54,16 +54,32 @@ git -C "$source_home" diff > "$ev/applied.patch"
 printf '%s\n' bin/rust/std/lib.rsspec src/rust_frontend/vf_mir_translator/vf_mir_translator.ml > "$ev/allowed-files.txt"
 git -C "$source_home" diff --name-only > "$ev/modified-files.txt"
 cmp "$ev/allowed-files.txt" "$ev/modified-files.txt"
-deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
-stage deps-download curl -fL --retry 2 -o "$deps_archive" https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
-printf '%s  %s\n' 8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580 "$deps_archive" | sha256sum -c -
-stage deps-extract sudo tar -xjf "$deps_archive" -C /
-ln -s /vfdeps-adf88dc /tmp/vfdeps-adf88dc
-export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
-export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
-export LD_LIBRARY_PATH="$compiler_sysroot/lib:$source_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
-stage decoder-install cargo install --locked --git https://github.com/btj/capnpc-ocaml-decoder --rev 2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
-stage console-build make -C "$source_home/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes
+# Immutable Actions cache: only a console plus its exact applied-diff manifest.
+# Every other tool/spec is re-established and audited from the pinned sources.
+console_cache="$RUNNER_TEMP/overnight-console-cache"
+profile_diff_sha=$(sha256sum "$ev/applied.patch" | cut -d' ' -f1)
+if [[ -f "$console_cache/verifast" && -f "$console_cache/manifest.txt" ]]; then
+ read -r cache_diff_sha cache_console_sha < "$console_cache/manifest.txt"
+ [[ "$cache_diff_sha" == "$profile_diff_sha" ]] || exit 2
+ [[ "$(sha256sum "$console_cache/verifast" | cut -d' ' -f1)" == "$cache_console_sha" ]] || exit 2
+ cp "$console_cache/verifast" "$source_home/bin/verifast"
+ printf 'CACHE_HIT %s %s\n' "$cache_diff_sha" "$cache_console_sha" > "$ev/console-cache.txt"
+else
+ deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
+ stage deps-download curl -fL --retry 2 -o "$deps_archive" https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
+ printf '%s  %s\n' 8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580 "$deps_archive" | sha256sum -c -
+ stage deps-extract sudo tar -xjf "$deps_archive" -C /
+ ln -s /vfdeps-adf88dc /tmp/vfdeps-adf88dc
+ export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
+ export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
+ export LD_LIBRARY_PATH="$compiler_sysroot/lib:$source_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
+ stage decoder-install cargo install --locked --git https://github.com/btj/capnpc-ocaml-decoder --rev 2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
+ stage console-build make -C "$source_home/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes
+ mkdir -p "$console_cache"
+ cp "$source_home/bin/verifast" "$console_cache/verifast"
+ printf '%s %s\n' "$profile_diff_sha" "$(sha256sum "$console_cache/verifast" | cut -d' ' -f1)" > "$console_cache/manifest.txt"
+ printf 'HOSTED_BUILD %s\n' "$profile_diff_sha" > "$ev/console-cache.txt"
+fi
 cp -an "$stock_home/bin/." "$source_home/bin/"
 if [[ -d "$stock_home/lib" ]]; then mkdir -p "$source_home/lib"; cp -an "$stock_home/lib/." "$source_home/lib/"; fi
 for binary in vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter libz3.so; do cmp "$stock_home/bin/$binary" "$source_home/bin/$binary"; done

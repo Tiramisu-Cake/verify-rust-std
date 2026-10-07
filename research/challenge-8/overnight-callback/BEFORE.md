@@ -1,6 +1,8 @@
 # BEFORE — generic FnMut callback diagnostic on stock VeriFast 26.10
 
-Status: fixture/runner preparation only. It is a one-call capability diagnostic, not a `sort4_stable` proof and not a callback summary. Run it only inside the already authorized OVERNIGHT-SELECT-SORT4-26.10 hosted workflow after O2/O3 provide the exact accepted base profile. No dispatch or source-built verifier patch is authorized by this fixture.
+Status: fixture/runner preparation only. It is a one-call capability diagnostic, not a `sort4_stable` proof and not a callback summary. Run it only inside the already authorized OVERNIGHT-SELECT-SORT4-26.10 hosted workflow after O2/O3 provide the exact accepted base profile. This fixture adds no verifier patch; the phase already authorizes reviewed semantic transfers after recording rationale, trust boundary, controls, and self-review, without a separate owner decision.
+
+O4 evidence (`37702049156`) reached all normal/readonly exports, decodes, and refinement successfully for `callback_positive`, but its full-verification invocation included optional `-dump_ast_with_locs`. That diagnostic aborted with OCaml `Failure("TODO")` in `ocaml_expr_of_ast.of_stmt` while serializing the `MergeFractionsStmt` produced by `recover_pair`'s `merge_fractions lifetime_token(k)`. The timed callback-function header count was zero, so this was not an actual callback proof result. The mandatory full verification now runs without AST dumping. An opt-in AST capture (`--capture-ast-diagnostic`) is a separate stage with its own exit and cannot mask or classify the actual proof. O4's negative case was not generated because the line-certificate logic only recognized a one-line `ens`; it now binds the expected false assertion within the multiline normal postcondition span.
 
 ## Actual obligation and hypothesis
 

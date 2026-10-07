@@ -11,14 +11,13 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **835/21600 summed GitHub-hosted job seconds**, 20765 remain.
-Historical stock account99/1800 and S7 account5306/5400 preserved separately.
-O3 completed. Active O4 [run37702049156](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37702049156),
-proof86e84ace59d0f65b5690e56e62818875ed7c0578, job113067557446. [Run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
-proof1378f0ffc8342233349fae3df5a938c4a021c8d7: all8 S6 stages report ACCEPTED;
-full artifact audit pending. Workflow failure is helper Python import plus
-callback setup/certificate errors, not a S6 proof negative. O4 corrects
-these diagnostic harness defects with the identical semantic profile.
+New independent account **958/21600 summed GitHub-hosted job seconds**, 20642 remain.
+Historical stock99/1800 and S7 5306/5400 preserved separately. No active workflow.
+O3 full S6 matrix accepted at proof1378f0ff/run37700450091; detailed summaries
+and constructor/asptr full logs independently audited, remaining logs being read.
+O4 proof86e84ace/run37702049156 captures new actual helper/A1 MIR. G1 positive
+private entry deadcode and optional callback AST-dump failure corrected for O5;
+A1 missing inhabited/typed transmute, actual helper missing constructor linkage.
 
 Current obligation: audit S6 component acceptance and obtain helper/callback boundaries.
 **Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,

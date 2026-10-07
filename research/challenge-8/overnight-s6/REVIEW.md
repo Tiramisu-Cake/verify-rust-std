@@ -196,8 +196,51 @@ result as independently reviewed. No actual select/sort4 body is covered by
 this gate.
 The extracted O3 `s6-full/summary.json` confirms each of the eight stages has
 `status=COMPLETED`, `exit=0`, and `accepted=true`; its explicit scope is
-"stock+CFG and four separate S6 components; no actual helper". Individual
-component summaries are still being extracted for the detailed audit.
+"stock+CFG and four separate S6 components; no actual helper". The individual
+component summaries agree: stock 11/11 intended classes (five positives, four
+proof negatives, two dead-code rejects); constructor 16/16 source/proof cases
+(two positives, one opaque-ownership negative, five proof negatives, eight
+source applicability rejects), nine of nine MIR rejects, ten of ten native
+stock/patched controls, and four stock/patched false/frame controls; as_mut_ptr
+three positives, six proof negatives and 17/17 admissions (eight source, nine
+MIR); typed intrinsic six positives, ten proof negatives and 40/40 admissions
+(14 source, 26 MIR); pointer drop two positives, 11 proof negatives and 22/22
+admissions (eight source, 12 MIR, two source pins). All same-run prerequisites
+are true, all active classifier-evidence predicates are true, and no case is
+marked not run. The constructor summary explicitly records
+`actual_callee_status=NOT_RUN`; the other three record
+`full_select_proved=false`.
+The source certificates also state the proof limits explicitly: the constructor
+link is an exact local-copy source/MIR applicability certificate because the
+exporter serializes `def_path_str`, not DefId equality; as_mut_ptr proves the
+unknown/none/some storage cast without reading the value but does not establish
+ownership at the actual helper call sites; the intrinsic rule is trusted only
+for two exact compiler types; and pointer-drop's
+`compiler_glue_body_proved=false` records that the compiler glue correspondence
+is trusted, while its resource-identity lemma is checked. These are substantive
+trust boundaries even though the component matrices are accepted.
+The extracted as_mut_ptr full logs independently match its summary: all three
+positives have zero verifier errors; each of six proof negatives has one error
+matching the recorded target; all 17 admissions have exactly one fatal
+certificate rejection before any function proof. In particular the amended
+MIR `operand` mutant fails at `place/projection: _4`.
+The extracted constructor logs likewise cover all 25 local source/proof/MIR
+cases: both positives contain no verifier error, while all eight source and
+all nine MIR applicability cases have one fatal certificate rejection. The
+remaining six negatives are classified at their intended ownership or proof
+obligation; all 25 retain successful export/decode/refinement and unchanged
+fixture hashes in their summaries.
+The five previously unfinished pointer-drop admissions now have explicit
+intended reasons in the saved summary: MIR `cfg_unwind` rejects at `method
+unwind action`, MIR `extra_operation` at `method ordered statements`, MIR
+`contract` at `method exported SAFE contract`, and both method/glue source-pin
+mutants at `pinned pointer method/lang-item source changed`. They are among the
+22/22 classified admissions, not inherited from the older S6 run.
+The `none_init` and `unknown_init` proof negatives each have one intended
+`prelude_core.rsspec` error when attempting to use an uninitialized/unknown
+pointer value as an initialized cell; their negative-evidence records also
+require the modeled call and identity-lemma checks to have been entered. This
+guards against treating arbitrary scratch as safe pointer drop.
 
 The internal matrix scopes are constructor 16 source/proof cases plus nine MIR
 mutants and native baselines; as_mut_ptr nine cases plus 17 source/MIR mutants;

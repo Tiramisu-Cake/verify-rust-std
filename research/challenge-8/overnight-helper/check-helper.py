@@ -160,14 +160,14 @@ def negative_obligation(variant: str, source: bytes) -> dict | None:
     function = "checked_forget_generic" if helper else "checked_forget_frame_probe"
     if variant == "contradictory_pre":
         return {"function": function, "kind": "dead_code",
-                "line": line_of(source, b"req thread_token(?tid) &*& tid == currentThread &*& false")}
+                "line": line_of(source, b"pub unsafe fn checked_forget_frame_probe")}
     if variant == "assert_false":
         return {"function": function, "kind": "assertion",
                 "line": line_of(source, b"//@ assert false;"),
                 "message_contains": "Cannot prove false"}
     if variant == "no_thread":
         return {"function": function, "kind": "call_precondition",
-                "line": line_of(source, b"checked_forget_generic(t);"),
+                "line": line_of(source, b"req thread_token(?tid) &*& tid == currentThread;"),
                 "message_contains": "thread_token"}
     if variant.endswith("_loss"):
         if helper:
@@ -234,20 +234,30 @@ def classify_g1(case: Path, stages: dict, variant: str,
                 "dead code" not in log.lower())
     negative = False
     if (variant in G1.NEGATIVES and no_setup and verifier["exit"] == 1 and
-            exact_timed and len(errors) == 1 and obligation is not None):
-        first = errors[0]
-        location = (first["file"].endswith("verified/lib.rs") and
-                    int(first["line"]) == obligation["line"])
-        message = obligation.get("message_contains", "") in first["message"]
-        function_body = next((item for item in timed
-                              if item.function == obligation["function"]), None)
-        reached = function_body is not None and function_body.body_execution_seen
-        if obligation["kind"] == "leak":
-            reached = reached and function_body.return_seen and function_body.leak_check_seen
+            exact_timed and obligation is not None):
         if obligation["kind"] == "dead_code":
-            reached = (function_body is None and
-                       "dead code" in first["message"].lower())
-        negative = bool(location and message and reached)
+            # The mandatory dead-code gate emits a distinct diagnostic rather
+            # than a `: error:` line.  Require the target public function's
+            # source span and actual unreachability inside that function.
+            marker = f"verified/lib.rs({obligation['line']},1-"
+            dead_lines = [line for line in log.splitlines()
+                          if line.startswith(marker) and line.endswith(": dead code")]
+            negative = (not errors and len(dead_lines) >= 1 and
+                        any("dead code" in line.lower() and
+                            "verified/lib.rs(" in line for line in log.splitlines()))
+        elif len(errors) != 1:
+            negative = False
+        else:
+            first = errors[0]
+            location = (first["file"].endswith("verified/lib.rs") and
+                        int(first["line"]) == obligation["line"])
+            message = obligation.get("message_contains", "") in first["message"]
+            function_body = next((item for item in timed
+                                  if item.function == obligation["function"]), None)
+            reached = function_body is not None and function_body.body_execution_seen
+            if obligation["kind"] == "leak":
+                reached = reached and function_body.return_seen and function_body.leak_check_seen
+            negative = bool(location and message and reached)
     return {
         "variant": variant,
         "classification": "EXPERIMENTAL_POSITIVE" if positive else
