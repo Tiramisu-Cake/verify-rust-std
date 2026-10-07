@@ -49,3 +49,18 @@ Readability is always strict upper bound n; a terminal position n or wrapping
 intermediate -1 is not permission to read. n=2 and n=3 are included universally.
 ZST pointer comparisons are NOT assumed to equal logical index comparisons;
 range geometry tolerates either residual branch without that assumption.
+
+## Hosted admission certificate
+
+G2 run37672184476/proofSHA b1ed0c22dafec350a64e83675d55350806d77208 admits
+all three exact signatures and ALL active statements9/9/30, with operation
+linesup704,706–709;down737,739–742;loop817–819;ends822–823;odd826–831;
+guard837–838. Sourceadmission JSON SHA256
+f2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7.
+Bodyhashes up0ca042e27b297c765dcd972bed404d30535e716600c762d84542371fe74bf7ba,
+down0022e177284c62796ea1b944d257a1ebab2573b8c2ee0c6412ae3835e50294c7,
+bidir7e312114db3dc90c4e7164d4ff10e1e9df931a6977ae02b89a596aa4f56083d8.
+This source-text/order certificate is not a Rust refinement/permission bridge.
+Each take_left(up) andtake_right(down) is the negationof its own comparator
+answer; the bijection covers arbitrary independent answers. Residualh may be
+arbitrary forgeometry, so no ZST pointer-order embedding is assumed.

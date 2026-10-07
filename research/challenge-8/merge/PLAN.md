@@ -27,3 +27,11 @@ only, ubuntu hosted, one relevant job/run at a time on this branch; never verify
 compile, execute proof/generator/tests locally. Routine within-profile proof
 fixes authorized; failures need new evidence/card, no blind retry. Source/tool/
 trust boundary change or insufficient budget -> exact checkpoint.
+
+## Phase checkpoint
+
+Steps1–6 completed as mathematical geometry/sourceadmission, G2accepted.
+All8body/fullpost/source/return/leak gates,3intendednegatives and21classifier
+controls accepted. Budget25/1800,1775unspent, no active run. Actual Rust
+transfer/fullmerge safety/functionality remain separate OPEN obligations.
+No further tests for documentation-only closeout. See RESULTS/STATUS/journal.

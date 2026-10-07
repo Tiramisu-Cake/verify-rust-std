@@ -65,3 +65,21 @@ Full positive visits8bodies, first7complete15return/leak; entry fails only283 re
 
 ## G2 card — explicit remainder split and exact diagnostic calibration
 Same actualstd/source/domain/fullnormalposts/functional-vs-Rust-unwind boundary asG1; no assumptionsorweakening, noSWO/bounds/enumeration. Hypothesis: explicitif(e<1) fromstock0<=n%2<2 proves e==0 elsee==1 and exportsoriginalfullmg_entry. Eachnegative source/falseassert unchanged; metadata strings nowexact hostedVCs, retainingstage,line136,column/body/target/source/timeoutgates and21controls. Positiveall8fullbody/source/return/leak/0error and3intendednegatives required. Stocktool/classifier unchanged,180/proof,300inner,6minjob. Budget11/1800,1789remaining. Success->fullgeometryreport; anyfailure->new evidence-backed localproofrepresentationfix only. Source/runpending.
+
+G2 exact dispatch: pushed/remote-verifiedb1ed0c22dafec350a64e83675d55350806d77208,
+[run37672184476](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37672184476),
+sole job11296646332719:08:16Z–19:08:30Z=14s; allotherjobsskipped.
+
+## G2 result — full mathematical geometry ACCEPTED
+Artifact11505083335,17681bytes, ZIP0844784ce64fb385aaf365ebbb6020d11442f2e1423a3b360e408b1722a1d35a matched upload. All sources/logs/results/environment/resources and exactsourceadmission read; recordedsha/log hashes matched.
+merge_geometry_full: exit0,acceptedTrue,source4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8,logf5a2cb78108d732959574541c487ec292673ef15ca726f76d8498d1467d93c9f,expected==visitedTrue,return/leak17/17.
+merge_geometry_negative_read: exit1,acceptedTrue,source80821649fec3d89cb7ee296b9a7ec54562ec4057b290e92dd4a4c55e134eae9f,log1828f2ecc4241bac81fcd7fe0466c5c028b7249e3c809009dbb1e0acb911cc9f,expected==visitedTrue,return/leak0/0.
+Intended VC mg_right(1, 1, 0) < mg_n(1, 0),target136,all7controlsTrue.
+merge_geometry_negative_advance: exit1,acceptedTrue,source94e5b441556ac8ff6c75de88c022db63f78ab8c95b10f3d21b21b7c2c1a0d812,log4980f8bc18e694fad2f0a9558d754399560d066391fe307c74ec5e5ac3c6b101,expected==visitedTrue,return/leak0/0.
+Intended VC ((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1),target136,all7controlsTrue.
+merge_geometry_negative_wrap_read: exit1,acceptedTrue,source93360c363d9f81120f6db071b417f9b796640908023420f801cba2c0c1590288,logede16f7e25ee202b19f2c029ce6a2983041db8d5173b00da5937a92fbc909e81,expected==visitedTrue,return/leak0/0.
+Intended VC 0 <= (mg_left_rev(1, 0, 0) - 1),target136,all7controlsTrue.
+All8positiveactualghostbodies/fullpost/source-integrity/0error/17return17leak PASS,88statements verified; finalentryreturn/leak294completed0.652030s. All3negatives exactly intendedsingle proofassert136 (read18-19,advance37-39,wrap14-16),21controls PASS; all3negativeCfilesbyteidenticalG1. No assertion/resource/body/post removed; only explicitintegerremaindercase split andexactVCmetadata.
+Full pinned3Rust activebody/signature/order certificate f2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7 unchangedG1/G2; fullsource32574f...,stockconsole dc672...,archive da1b...,frozenclassifier994afa...match. Stock div_rem_nonneg is existingtoolprelude integer arithmetic, not ownaxiom/correspondenceassumption.
+Outerexit0,proofwall0.88s,user0.81s,peakRSS66220KiB. SummedHOSTEDcost11+14=25/1800,1775remaining,setup/evidenceincluded. Noactivejob. Networks oldbudgets1499/1800 and1649/1800unchanged,no transfer/noadapterruns.
+Decision: close authorized mathematicalgeometryphase with complete invariant/induction/orderedaccess/update/terminal/scalarguard certificates. Rust provenance/overflow/ZSTmapping/permissions/initialization/FnMut/ownership/unwind and sorting functionality OPEN; no publicChallenge safety claim. No additional verification needed for documentation-only checkpoint.
