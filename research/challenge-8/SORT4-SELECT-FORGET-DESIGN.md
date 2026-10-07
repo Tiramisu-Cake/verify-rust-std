@@ -214,3 +214,46 @@ STOP for independent acceptance design preserving complete dead-code/source/MIR/
 nominal checks; don't suppress checks or reverse callee-before-caller ordering.
 No body guard-own/Drop protocol necessity established; actual still at old forget
 own obligation. Same4411/5400used989remain; no active job, no further dispatch here.
+
+## S7b autonomous generic body hypothesis BEFORE implementation
+
+Owner resumes from8fdb5799bdd0bbc6bacea5a36567dc71886b6015, same budget:
+4411/5400used989remaining. Source-only auxiliary theorem now authorized for
+unrestricted generic T, not an actual summary or generic std::mem::forget redirect.
+Hypothesis: one minimal crate with one unsafe checked_forget_generic<T>(t:T)
+and exact pinned core forget body eliminates skipped-parent/macro/prelude inventory
+caused by focus, allowing complete verifier exit0 with dead-code gate enabled.
+No actual select, local guard surrogate, isolation macro or -focus in this unit.
+Req thread_token(?tid)&tid==currentThread; ens same token; on_unwind_ens false.
+Reachable pre, no own premise and no Copy/Freeze restriction; no SAFE false-own
+compatibility counted as proof. Existing ManuallyDrop type/new identity lowering
+is explicitly TRUSTED. The unsafe contract consumes the by-value argument without
+claiming generic safe ownership/destructor rules or granting memory from its bits.
+
+First small hosted experiment has ONE predeclared function and no frame probes.
+Pin mem source/body and existing v4 patch/tools; original/verified whole unit exact
+ghost-strip identity, preflight/regeneration/stage hashes. Export NORMAL+readonly,
+decode full typed MIR, run full VF -verbose1 without focus or dead-code exemptions,
+readonly refinement. Positive needs exact expected execution header set, body,
+return, leak, full exit0, no proof/dead-code failure. Capture every diagnostic,
+including any adapter-declaration dead-code location; a return/leak prefix is not
+complete proof. No admission/actual redirect/regression profile change here.
+If exit1 remains, trace first cause in frozen translator/generated CFG/statement
+registration, including declaration locations, and STOP before syntax variants.
+Success -> separately design exact nominal actual linkage/full S7 matrix BEFORE
+implementing it; no broad forget rule. Budget insufficiency -> keep body theorem
+and STOP without redirect. No guard-own=true or new Drop/memory model authorized.
+
+Independent classifier-only repair: distinguish timed execution headers from
+untimed diagnostic note contexts, exact predeclared function list for whole units,
+retain dead-code exit1 as nonpositive. Hosted replay immutable37669436220 logs/
+source/profile with original classifications copied unchanged; test note-only,
+duplicate true headers, unknown/missing functions and dead-code positive mutations.
+This is separate from body/semantic changes and never makes body exit1 a PASS.
+
+First full generic job cap8min480 including setup/build+120s cleanup reserve,
+per-stage60s, overall proof<=120s. Next replay cap2min120s (no build/verifier).
+One active hosted run; actual costs charged to same989, no reset. Recompute caps
+against remaining before further experiment; don't spend future mandatory gates
+on a speculative actual redirect. Frozen kernel/prelude/export/refiner/dead-code
+rules and accepted v4 remain unchanged.

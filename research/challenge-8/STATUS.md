@@ -1,7 +1,9 @@
 # Challenge 8: current checkpoint
 
-Updated2026-10-07. Owner authorized S7 from ffa370a; this iteration is now stopped
-at its independent-acceptance blocker. No further dispatch/admission at this checkpoint.
+Updated2026-10-07. Owner resumes S7b from8fdb579: autonomous generic-body theorem authorized.
+New BEFORE card in forget design; old S7a stop below is historical.
+4411used989remaining, no active run. Full-unit proof first, classifier replay
+separate; no actual redirect before complete acceptance/matrix.
 
 Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**
 [Exact report](SORT4-SELECT-FORGET-RESULTS.md), [design/trust](SORT4-SELECT-FORGET-DESIGN.md).

@@ -4542,3 +4542,11 @@ Compact11503963988/full11503793868 innerSHA
 12c3f3f509fc845dd1aa1bb7d8b80f8fcf70e6ab6064af3436168f0b9489dd83,
 1135/1135hash/CRC/size PASS. Console/full artifacts read, source/v4pins unchanged.
 Noactive job; next needs independentacceptance design, remaining989notnewbudget.
+
+S7b BEFORE card from8fdb579: owner authorizes standalone unrestricted generic unsafe
+forget body theorem, exact MDnew source, whole minimal crate nofocus/actual/guard/
+macro. Samev4 existingMD trust, thread pre/post and unwindfalse; completeexit0/body/
+return/leak+exports/refinement/hash needed, declarationdeadcode meansSTOPcausaltrace.
+Separate classifier replay fromimmutable376694 rawlogs, original classifications
+retained, neverdeadcodeexit1positive. Firstcap8min480/reserve120/stage60/proof120;
+replaycap2min120 nobuild; before4411used989remaining/noreset/onehostedrun.
