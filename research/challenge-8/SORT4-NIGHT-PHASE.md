@@ -47,7 +47,8 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;8/12 runs,506/10800 summed job-seconds; no active run.
+Current: IN PROGRESS;9/12 runs,506 completed/10800 summed job-seconds plus active
+N9/37550139106/source4d7aebc,finite-SWO/30.
 Layout repair2/2 complete, N2 full matrix/audit accepted at exact d4a12525 patch.
 Stock index theorem N4 accepted with N5 saved-processing replay; N5 abstract
 integer-rank sortedness/stability accepted. Actual pointer callee N6 blocked at

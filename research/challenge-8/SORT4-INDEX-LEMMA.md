@@ -5,7 +5,8 @@ at [N4/37548475221](https://github.com/Tiramisu-Cake/verify-rust-std/actions/run
 sourcefa74d92a120cc6990e5f65b94b31e72f2fb50d2f. Header/application bodies verify,
 VF0/leak checks/8statements. Intended duplicate-hi negative manually confirms
 target execution12/predicate error14; original automatic INCONCLUSIVE is preserved,
-with corrected saved-artifact processing replay scheduled in N5. N3's include/block
+with corrected saved-artifact processing replay PASS in N5/37548811698,
+without rerunning the index verifier or modifying original evidence. N3's include/block
 parse failure is historical; no theorem or negative was reached then.
 Stock VeriFast26.09 checks owned ghost bodies in [sort4-index.gh](sort4-index.gh)
 and [application](sort4-index-lemmas.c), with an isolated

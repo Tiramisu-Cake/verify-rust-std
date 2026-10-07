@@ -2,13 +2,16 @@
 
 **Result: inconclusive at the first call in the real helper body.** Hosted run
 [37549040942](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37549040942),
-repository source `aed1d97`, used the accepted experimental layout profile for
-other jobs but this stock VeriFast 26.09 pointer-callee diagnostic. Export,
-decode, refinement and source-integrity stages passed. The fixture contains
-one actual-callee body; original and verified runtime body hashes are
-`0d4233fe67c243c9d46201603fb143182ba2f5caa35f5d63907a3d5c50ed9613` and
-`bd332fbb6a4cbc9fc935b6bc5a0dcc99f691af9182535a1b64ae40ad516bb8fd` after
-ghost annotations are stripped. The source identity is
+repository source `aed1d970acb656cd29149241bf6720198895adac`, used stock
+VeriFast26.09. Export, decode, refinement and source-integrity stages passed.
+The fixture contains one actual-callee body; its exact extracted body SHA256 is
+`0d4233fe67c243c9d46201603fb143182ba2f5caa35f5d63907a3d5c50ed9613`.
+Full original adapter SHA256 is
+`cd6feb7a22f8ec42c58df341e27e21d5e10215f71c428f11f639b41d76e1de4d`;
+annotated adapter SHA256 is
+`bd332fbb6a4cbc9fc935b6bc5a0dcc99f691af9182535a1b64ae40ad516bb8fd`.
+After stripping ghost annotations the two adapters are byte-equal.
+The source identity is
 `library/core/src/hint.rs`, blob `fe59166363b9cc049c0d48f4349f4dc9c0e458b8`,
 SHA-256 `d94ef86fbdac952fe7c9a6028536e15539b33dc188966fa4e9340fa7d94c30f8`.
 The full hosted evidence is under `/tmp/sort4-night-37549040942-artifacts/`;
@@ -55,5 +58,5 @@ or body-verification route for this constructor and its union field ownership;
 only after that succeeds can this unchanged helper reach the three intrinsics
 and `DropOnPanic` proof obligations.
 
-No source/script was changed for this diagnostic; no local executable checks
-were run. No verifier rerun or patch is proposed in this note.
+The diagnostic extracted adapters only in disposable hosted checkouts; repository
+std runtime was unchanged. No local executable checks were run. No verifier rerun or patch is proposed in this note.
