@@ -4223,3 +4223,22 @@ review ONLYS6admission correction+freshgates beforeimplementation. If it require
 broaderghost/parser/refiner/kernel/memory semantics, STOP at exacttrust/applicability
 boundary. No speculativepatch/no04d. Budget3168used2232remain;sameworkflowselection
 30min,onehostedrun; <=1800/job,<=300/proof. No localexecution.
+
+Normal-MIR diagnostic dispatch37648838042 resolved exacthead
+8f1b8f44a655fcfde1fd12106d79dbbb58917332,created16:02:08UTC;
+selectionverifast_maybeuninit_new_pointer,budget30,one hostedrun.
+Independent static audit passed stockpins/NORMALmode/no proof or refiner/fullraw
+evidence/failureclassification. Beforecost3168/5400,2232remain; durationpending.
+[Normal MIR diagnostic](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37648838042).
+
+Normal diagnostic37648838042/source8f1b8f44a655fcfde1fd12106d79dbbb58917332
+completed65s16:02:13–16:03:18UTC,cumulative3233/5400,2167remain.
+Artifact/manifest/fullfixture/toolpins authenticated andsourceunchanged.
+Exporter1 BEFORE Rust compilation: `Option 'error-format' given more than once`.
+NORMAL exporter appends overflow/crate/error-format flags itself; diagnostic
+duplicated these input arguments. No MIR/proof/resource result. Structured
+DIAGNOSTIC_EXPORT_OR_DECODE_FAILED kept;compact11496405518 innerSHA
+5d1bbb3a9e895f73d3801eda20709c86ed0141787188c7ea307e0551388bdfbf,
+full11496575242. Next orchestration-only argument repair removes built-in flags
+from NORMAL input, retains exact sysroot/edition andeffectivecompilertrace;
+samecomponentprofile/source/exporter/schema/trust/card, NEW diagnostic run.

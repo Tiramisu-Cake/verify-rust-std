@@ -288,17 +288,28 @@ def main() -> int:
     env["RUST_LOG"] = "trace"
     command = [str(args.stock_home / "bin/vf-rust-mir-exporter"),
                "verified/lib.rs", f"--sysroot={args.compiler_sysroot}",
-               "--edition", "2021", "-Coverflow_checks=off",
-               "--crate-type=lib", "--error-format=json"]
+               "--edition", "2021"]
+    # Pinned exporter lib.rs::run_compiler appends these three defaults itself.
+    effective_compiler_argv = command + [
+        "-Coverflow_checks=off", "--crate-type=lib", "--error-format=json"]
     require(not any("preprocess-readonly" in item for item in command),
             "normal exporter command accidentally selects readonly mode")
     (evidence / "normal-command.json").write_text(
-        json.dumps({"mode": "normal", "argv": command,
+        json.dumps({"mode": "normal", "exporter_argv": command,
+                    "expected_effective_compiler_argv": effective_compiler_argv,
                     "working_directory": "projected-fixture",
                     "stock_exporter_sha256": EXPORTER_SHA,
                     "schema_sha256": SCHEMA_SHA}, indent=2) + "\n")
     exporter = command_result(command, case, evidence / "normal-mir.bin",
                               evidence / "normal-exporter.log", env)
+    compiler_args_match = re.search(
+        r'Calling the Rust Compiler with args: (\[[^\n]+\])',
+        (evidence / "normal-exporter.log").read_text(errors="replace"))
+    observed_args = (json.loads(compiler_args_match.group(1))
+                     if compiler_args_match else None)
+    exporter["effective_compiler_argv_observed"] = observed_args
+    exporter["effective_compiler_argv_exact"] = (
+        observed_args == effective_compiler_argv)
     after_export = source_hashes(case)
     decode = None
     after_decode = None
@@ -328,11 +339,15 @@ def main() -> int:
                  "unchanged_after_decode": before == after_decode}
     (evidence / "source-integrity.json").write_text(
         json.dumps(integrity, indent=2, sort_keys=True) + "\n")
-    accepted = (exporter["exit_code"] == 0 and decode is not None and
+    accepted = (exporter["exit_code"] == 0 and
+                exporter["effective_compiler_argv_exact"] and
+                decode is not None and
                 decode["exit_code"] == 0 and
                 integrity["unchanged_after_export"] and
                 integrity["unchanged_after_decode"] and graph is not None)
     classification = ("DIAGNOSTIC_EXPORT_DECODED" if accepted else
+                      "DIAGNOSTIC_COMPILER_ARGS_UNCONFIRMED"
+                      if not exporter["effective_compiler_argv_exact"] else
                       "DIAGNOSTIC_EXPORT_DECODED_GRAPH_UNPARSED"
                       if decode is not None and decode["exit_code"] == 0 and
                          integrity["unchanged_after_decode"] else
