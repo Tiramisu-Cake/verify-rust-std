@@ -88,16 +88,62 @@ def params(prefix: str, n: int, extra: str = "") -> str:
     return xs + (", " + extra if extra else "")
 
 
-def binary_proof(n: int, pairs: list[tuple[int, int]]) -> str:
-    out = ["// Abstract CE on binary ranks: (left,right) := (left && right,left || right)."]
-    out += heading(f"network{n}_binary", ", ".join(f"bool a{i}" for i in range(n)))
+def boolean_output_dag(n: int, pairs: list[tuple[int, int]]) -> tuple[str, list[str], list[tuple[str, str]]]:
+    names = [f"y{i}" for i in range(n)]
+    formal = ", ".join(f"bool y{i}" for i in range(n))
+    actual = ", ".join(f"y{i}" for i in range(n))
+    definitions = ["/*@",
+                   "fixpoint bool ce_band(bool left, bool right) { return left && right; }",
+                   "fixpoint bool ce_bor(bool left, bool right) { return left || right; }"]
+    traces: list[tuple[str, str]] = []
+
+    def reference(name: str) -> str:
+        return name if name.startswith("y") else f"{name}({actual})"
+
     for step, (a, b) in enumerate(pairs):
-        out += [f"    bool old{step} = a{a};",
-                f"    a{a} = a{a} && a{b};",
-                f"    a{b} = old{step} || a{b};"]
+        left, right = reference(names[a]), reference(names[b])
+        lo, hi = f"network{n}_bit_wire{step}_lo", f"network{n}_bit_wire{step}_hi"
+        definitions += [f"fixpoint bool {lo}({formal}) {{",
+                        f"    return ce_band({left}, {right});",
+                        "}",
+                        f"fixpoint bool {hi}({formal}) {{",
+                        f"    return ce_bor({left}, {right});",
+                        "}"]
+        names[a], names[b] = lo, hi
+        traces.append((reference(lo), reference(hi)))
+    outputs: list[str] = []
+    for slot, name in enumerate(names):
+        output = f"network{n}_bit_out{slot}"
+        definitions += [f"fixpoint bool {output}({formal}) {{",
+                        f"    return {reference(name)};",
+                        "}"]
+        outputs.append(f"{output}({actual})")
+    definitions += ["@*/", ""]
+    return "\n".join(definitions) + "\n", outputs, traces
+
+
+def binary_proof(n: int, pairs: list[tuple[int, int]]) -> str:
+    dag, outputs, traces = boolean_output_dag(n, pairs)
+    out = ["// Abstract CE on binary ranks: (left,right) := (left && right,left || right)."]
+    projection = lambda expression: re.sub(r"\by(\d+)\b", r"a\1", expression)
+    out += ["/*@", f"lemma void network{n}_binary({', '.join(f'bool a{i}' for i in range(n))})",
+            "    requires true;",
+            "    ensures " + " &*&\n            ".join(
+                f"!({projection(outputs[i])}) || ({projection(outputs[i + 1])})"
+                for i in range(n - 1)) + ";",
+            "{"]
+    out += [f"    bool b{i} = a{i};" for i in range(n)]
+    for step, (a, b) in enumerate(pairs):
+        out += [f"    bool old{step} = b{a};",
+                f"    b{a} = b{a} && b{b};",
+                f"    b{b} = old{step} || b{b};",
+                f"    assert b{a} == {projection(traces[step][0])};",
+                f"    assert b{b} == {projection(traces[step][1])};"]
     for i in range(n - 1):
-        out.append(f"    assert !a{i} || a{i + 1};")
-    return finish(out)
+        out.append(f"    assert !b{i} || b{i + 1};")
+    for i in range(n):
+        out.append(f"    assert b{i} == {projection(outputs[i])};")
+    return dag + finish(out)
 
 
 RANK_HELPERS = """/*@
@@ -203,6 +249,11 @@ def output_dag(n: int, pairs: list[tuple[int, int]]) -> tuple[str, list[str], li
 
 def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
     dag, outputs, traces = output_dag(n, pairs)
+    binary = binary_proof(n, pairs)
+    _, bit_outputs, bit_traces = boolean_output_dag(n, pairs)
+    bit_projection = lambda expression: re.sub(
+        r"\by(\d+)\b", lambda match: f"(x{match.group(1)} > threshold)", expression)
+    bit_inputs = ", ".join(f"x{i} > threshold" for i in range(n))
     out = ["// Universal threshold lemmas use an independent ghost threshold.",
            "// General rank ordering follows by instantiating each threshold at its right output."]
     arguments = ", ".join(f"x{i}" for i in range(n))
@@ -218,14 +269,19 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
             out += [f"    assert b{a} == (r{a} > threshold);",
                     f"    assert b{b} == (r{b} > threshold);",
                     f"    bool oldb{step} = b{a};",
-                    f"    b{a} = b{a} && b{b};",
-                    f"    b{b} = oldb{step} || b{b};"]
+                    f"    b{a} = ce_band(oldb{step}, b{b});",
+                    f"    b{b} = ce_bor(oldb{step}, b{b});"]
             integer_ce(out, a, b, step, state="r", tag="second", threshold=True)
             out += [f"    assert b{a} == (r{a} > threshold);",
                     f"    assert b{b} == (r{b} > threshold);",
+                    f"    assert b{a} == {bit_projection(bit_traces[step][0])};",
+                    f"    assert b{b} == {bit_projection(bit_traces[step][1])};",
                     f"    assert r{a} == {traces[step][0]};",
                     f"    assert r{b} == {traces[step][1]};"]
-        out += [f"    assert !b{adjacent} || b{adjacent + 1};",
+        out += [f"    network{n}_binary({bit_inputs});",
+                f"    assert b{adjacent} == {bit_projection(bit_outputs[adjacent])};",
+                f"    assert b{adjacent + 1} == {bit_projection(bit_outputs[adjacent + 1])};",
+                f"    assert !b{adjacent} || b{adjacent + 1};",
                 f"    assert r{adjacent} == {outputs[adjacent]};",
                 f"    assert r{adjacent + 1} == {outputs[adjacent + 1]};",
                 f"    assert !({outputs[adjacent]} > threshold) || ({outputs[adjacent + 1]} > threshold);",
@@ -239,7 +295,7 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
         out += [f"    network{n}_threshold_at_{adjacent}({arguments}, {outputs[adjacent + 1]});",
                 f"    assert {outputs[adjacent]} <= {outputs[adjacent + 1]};"]
     out += ["}", "@*/", ""]
-    return RANK_HELPERS + dag + "\n".join(out) + "\n"
+    return binary + RANK_HELPERS + dag + "\n".join(out) + "\n"
 
 
 def occurrence(i: int) -> str:

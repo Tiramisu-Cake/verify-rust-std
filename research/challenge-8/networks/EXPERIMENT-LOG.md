@@ -139,3 +139,40 @@ All body/post/return/leak gates stay enabled; no tool semantic changes.
 Same intended negatives and14 rejection controls. If N9c accepts the whole unit,
 advance N13 with identical scheme; otherwise inspect exact failure and reassess
 within remaining1226jobseconds. Source/run/cost pending.
+
+### N9c result and reassessment
+
+Source `910c183c678785224074d24dbee03ca8397bee44`,
+[run37638843477](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37638843477),
+[artifact11490214161](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37638843477/artifacts/11490214161),
+207784bytes. Full generated sources, source admission and logs read.
+Stock profile unchanged. Binary, identity and both exact negatives+14controls
+PASS; threshold helper PASS2paths. Universal threshold_at_0 TIMEOUT180s,
+45 completed return/leak paths (47 inclhelper),7892log lines, other7projection
+lemmas and general_rank_order NOT REACHED. No general-rank theorem accepted.
+
+Independent threshold removed the giant dependent argument, but Boolean
+short-circuit assignments still enumerate512 projections while carrying a
+rank/DAG/threshold context. Each completed path costs seconds; increasing the
+timeout alone would not scale to13. Reassess representation, not tool semantics.
+Job14:41:43Z–14:44:58Z = **195s**. Total **769/1800**,1031 remain.
+
+## N9d — reusable Boolean summary, prepared before next dispatch
+
+Same actual source/domain/full sorted-rank and identity target. Hypothesis:
+proof of Boolean model outputs on cheap Boolean-only paths can be exported as
+a verified summary; applying that summary after a branch-free threshold
+composition avoids repeating the rank context on512paths. Retain every original
+binary/identity/final-order assertion, now add exact Boolean wire-DAG correspondence
+and explicit binary sorted-output post. Define pure ce_band/ce_bor fixpoints;
+their bodies are ordinary Boolean AND/OR, no trusted delta. Threshold updates
+use those pure fixpoints, check both rank and Boolean model correspondence per
+source step, and call the **verified same-unit** binary model lemma on original
+projections. Universal threshold posts/general-rank application stay unchanged.
+
+This is the final evidence-backed decomposition candidate before a fresh
+reassessment if it again times out. No larger timeout, tool patch, weakened
+posts, removed controls or zero-one-only general-order claim. Same two intended
+negatives and14classifier rejection controls; exact NEW N9d run required.
+Acceptance -> N13 under identical frozen profile; preserve any failure and
+checkpoint within remaining1031jobseconds. Source/run/cost pending.

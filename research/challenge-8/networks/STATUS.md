@@ -8,8 +8,10 @@ Frozen entry `origin/challenge-8/research`:
 This phase is independent of sort4/select/VeriFast development and its stops.
 Do not merge automatically or overwrite the main direction's STATUS/PLAN.
 
-Own budget: **574/1800 summed hosted job seconds**, preparation included;
-**1226 remain**. No active networks run. Latest N9b run
+Own budget: **769/1800 summed hosted job seconds**, preparation included;
+**1031 remain**. No active run. Latest N9c run
+[37638843477](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37638843477),
+source `910c183c678785224074d24dbee03ca8397bee44`. Previous N9b run
 [37637872959](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637872959),
 source `70eaa2d9499a47d45d2c9af74de4ef643f74ed0c`.
 Previous N9 run
@@ -31,8 +33,11 @@ whole general-rank theorem TIMEOUT180s at first adjacency: final-expression
 threshold creates expensive SMT unfolding. No general-order theorem yet.
 Original N9 timeouts/classifier INCONCLUSIVEs remain preserved.
 
-Next permitted action: independent arbitrary-threshold verified summaries plus
-final-rank application, NEW N9c run; only after acceptance advance to N13.
+N9c same binary/permutation/negative controls PASS, threshold composition still
+TIMEOUT180s: first adjacency completes45 paths, no whole theorem. Remaining
+branching in inline Boolean assignments duplicates expensive rank context.
+Next permitted action: verified binary model summary plus pure Boolean
+fixpoint composition, NEW N9d run; only after acceptance advance to N13.
 Generated binary/identity files are universal ghost assertion harnesses:
 their final assertions carry the theorem; `ensures true` is not a reusable
 callee summary. No Rust summary is claimed.
