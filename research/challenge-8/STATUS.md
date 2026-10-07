@@ -1,16 +1,21 @@
 # Challenge 8: current checkpoint
 
 Updated2026-10-07. Owner resumed only S6 frombea6248.
-**S7 exact local-guard forget DIAGNOSTIC READY.**
-Owner resumes from ffa370a; [S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md).
-Designcards08f0e01/d360842/77b8cf4/616f1ed precede implementation.
-NewS7a isolatedrunner/checker ready; v4 files/patch remain unchanged.
-First permitted run: S7a frozen-v4 nonvacuous body/NORMAL+readonly MIR diagnostic,
-no redirect or ownership change, cap20min/1200s including cleanup reserve120.
-Budget3954/5400used,1446remaining/noreset/noactive. New admissions/fullmatrix and
-actual integration only after captured exact-body evidence and separate profilecard.
-STOP if guard-own/Drop resource protocol or broader model is needed; otherwise after
-actual forget reaches next blocker. S6 freeze below is historical at this resume.
+**S7a diagnostic SETUPFAILED; narrow source-pair repair authorized.**
+[S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md), fromffa370a.
+Run37665233357/source2ba63774e964e2ca76b3b1639e550cb93e70769e completed133s
+18:14:05–18:16:18UTC. All9 independently collected preparationfail
+`helper source changed beyond annotations`; noexport/MIR/proof/refinement ran.
+Ghostcontract stripping retains exact newline scaffold omitted from original copy.
+No proofnegative accepted, no body result, no semantic/profile/ownership change.
+Budget **4087/5400used;1313remain**, samebudget/noreset/noactive.
+Next permitted: preserve EXACT ghost-stripped contract newline scaffold in original
+helper/probe files, verified unchanged, exactsource assertions retained (no generic
+whitespace normalization); hostedall9 constructionpreflight BEFORE cold build,
+then NEWsame-v4 diagnostic9cases/NORMAL+readonly/refinement/focusedbody. No classifier
+expectation change or actualredirect. Fullmatrix/newprofile still NOTIMPLEMENTED.
+STOP if separate guardown/Dropmodel or frozen broadersemantics needed; afteractual
+forgetpass STOPnextblocker. Historical S6 checkpoint below unchanged.
 
 Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
 [Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source

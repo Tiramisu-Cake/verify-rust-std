@@ -117,3 +117,14 @@ only counts at its named required obligation, retain all independent results.
 Fullsource/readonlyrefinement/NORMALmethod+caller cert before redirect; actual runtime
 forget and cleanup retained. Canonical actual only after these gates. On forgetpass
 STOP at next substantive blocker; assume_init remains outside authority.
+
+## S7a first outcome and source-pair repair BEFORE implementation
+
+37665233357/2ba63774:133s,4087used1313remaining. All9 setupfailed beforeexport/proof;
+no MIR/runtime-body evidence. Exact ghost strip keepsfour newline separators after
+removing3contractblocks. Originalhelper/probe must retainthat EXACTscaffold, justas
+prior source-linked fixtures derive original fromstrip ofverified. Preserveverified
+runtimebody and exactsignature+scaffold+body comparison, no generic normalization.
+Hostedall9 constructionpreflight precedescoldbuild, thensamev4/newrun full diagnostic.
+No changed expecteddiagnostic/classifier or admission semantic; all originalresults
+remainINCONCLUSIVE. This is a harness correction, not a new semantic hypothesis.

@@ -4427,3 +4427,23 @@ independently for9cases; focusedbody/helper+frameprobe, exactfirsterrorobligatio
 classifiers; unknownoutcomeINCONCLUSIVE originalrawJSON/logs retained. Noaccepted
 component/actualredirect/newtrustmodel fromdiagnostic. Before3954used/1446left,
 onehostedjob cap20min1200,reserve120,proof300. No localexecutableverification.
+
+S7a staticindependentreviewPASS, firstdispatch37665233357 created18:14:01UTC,
+source2ba63774e964e2ca76b3b1639e550cb93e70769e exactremoteSHAconfirmed,
+selectionverifast_maybeuninit_new_pointer/forget_guard_stage=forget_diagnostic,
+input30/effectivecap20/reserve120; one relevanthostedrun. Before3954used/1446left,
+noreset; durationpending. Frozenv4patch/noactiveadmission/noactualredirect.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37665233357).
+
+S7a37665233357/source2ba63774e964e2ca76b3b1639e550cb93e70769e,
+133s18:14:05–18:16:18UTC,4087used1313remain. All9 independentlySETUPfail ValueError
+helper source changed beyondannotations BEFOREexport/proof; zero intendedoutcomes.
+Greenbadge onlydiagnosticcollectioncomplete, NOTproof. Compact11502119135/full11503445316.
+Rootcause: strip_ghost_annotations leaves4newlines fromghost_block separators;
+originalhelper/probe incorrectlyomitthatexactscaffold, fixedexpectedhelpercompare
+alsoomitsit. BEFORErepair: originalcounterparts useEXACTstrippedcontract whitespace,
+verifiedruntimebody unchanged; requirethat exactsignature/scaffold/body, no generic
+whitespacenormalization/no expectedmessage/classification rewrite. Hostedpreflight
+constructsall9sourcepairs BEFORE toolbuild, thennewindependentsamev4diagnostic.
+No semanticchange/newadmission/ownmodel/redirect. Nextjobcap20min1200with120reserve,
+proof300,onehostedrun,samebudget. Old9rawclassifications retained.
