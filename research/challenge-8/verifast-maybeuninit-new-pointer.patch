@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..bf96fa7 100644
+index f1e3e50..1a4c02c 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -10,7 +10,7 @@ index f1e3e50..bf96fa7 100644
      | AggKindAdt of {
          adt_kind : adt_kind;
          adt_name : string;
-@@ -342,6 +343,129 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -342,6 +343,141 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
    module VfMirRd = VfMirCapnpAlias.VfMirRd
    open VfMirCapnpAlias
  
@@ -66,8 +66,20 @@ index f1e3e50..bf96fa7 100644
 +      let last = closing open_brace 0 in
 +      String.sub text open_brace (last - open_brace + 1)
 +
-+    let pointer_element = function
-+      | { D.kind = D.RawPtr {ty = {kind = D.Param "Element"}; mutability = D.Not} } -> true
++    let pointer_element (ty : D.ty) =
++      match ty.kind with
++      | D.RawPtr {ty = inner; mutability = D.Not} ->
++          (match inner.kind with D.Param "Element" -> true | _ -> false)
++      | _ -> false
++
++    let unit_type (ty : D.ty) =
++      match ty.kind with D.Tuple [] -> true | _ -> false
++
++    let manually_drop_t (ty : D.ty) =
++      match ty.kind with
++      | D.Adt {id={name=("std::mem::ManuallyDrop"|"core::mem::ManuallyDrop")};
++               substs=[{kind=D.Type inner}]; _} ->
++          (match inner.kind with D.Param "T" -> true | _ -> false)
 +      | _ -> false
 +
 +    let source_marker =
@@ -140,7 +152,7 @@ index f1e3e50..bf96fa7 100644
    module CapnpAux = struct
      open Stdint
  
-@@ -782,7 +906,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -782,7 +918,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
    let rec translate_adt_ty (adt_ty_cpn : D.ty_kind_adt_ty) (loc : Ast.loc) =
      let open AdtTyRd in
      let open Ast in
@@ -159,7 +171,7 @@ index f1e3e50..bf96fa7 100644
      let kind = adt_ty_cpn.kind in
      let substs_cpn = adt_ty_cpn.substs in
      let name = def_path in
-@@ -1797,6 +1931,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1797,6 +1943,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      val var_id_trs_map_ref : var_id_trs_map ref
      val ghost_stmts : Ast.stmt list
      val body_imp_loc : Ast.loc
@@ -167,7 +179,7 @@ index f1e3e50..bf96fa7 100644
      val body_tr_defs_ctx : body_tr_defs_ctx
    end) =
    struct
-@@ -1804,6 +1939,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -1804,6 +1951,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = Args.var_id_trs_map_ref
        let ghost_stmts = ref Args.ghost_stmts
        let body_imp_loc = Args.body_imp_loc
@@ -175,7 +187,7 @@ index f1e3e50..bf96fa7 100644
        let body_tr_defs_ctx = Args.body_tr_defs_ctx
  
        let fetch_ghost_stmts_before (l : Ast.loc0) =
-@@ -2409,6 +2545,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2409,6 +2557,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                               (fn_loc, Deref (fn_loc, dst), Mutation, src));
                        ],
                      FnCallResult (mk_unit_expr fn_loc) )
@@ -209,7 +221,7 @@ index f1e3e50..bf96fa7 100644
              | "std::cell::UnsafeCell::<T>::new"
              | "std::mem::ManuallyDrop::<T>::new"
              | "std::mem::ManuallyDrop::deref"
-@@ -2873,7 +3036,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2873,7 +3048,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let variant_name = variant_id_get adt_data_cpn in
            let substs_cpn = gen_args_get_list adt_data_cpn in
            let fields = fields_get_list adt_data_cpn |> List.map D.decode_aggregate_kind_adt_data_field_info in
@@ -234,7 +246,7 @@ index f1e3e50..bf96fa7 100644
        | Closure _ ->
            failwith "Todo: AggregateKind::Closure"
            (* CAVEAT: Once we allow closure values, we must also check closure bodies. *)
-@@ -2915,6 +3094,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2915,6 +3106,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                operand_exprs
            in
            Ok (`TrRvalueAggregate init_stmts_builder)
@@ -261,7 +273,7 @@ index f1e3e50..bf96fa7 100644
        | AggKindTuple ->
            let tuple_struct_name =
              TrTyTuple.make_tuple_type_name (List.length operands_cpn)
-@@ -4730,6 +4929,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4730,6 +4941,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = var_id_trs_map_ref
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
@@ -269,7 +281,7 @@ index f1e3e50..bf96fa7 100644
        let body_tr_defs_ctx = body_tr_defs_ctx
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
-@@ -5965,7 +6165,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5965,7 +6177,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let open AdtDefRd in
      let id_cpn = id_get adt_def_cpn in
      let def_path = translate_adt_def_id @@ D.decode_adt_def_id id_cpn in
@@ -280,7 +292,7 @@ index f1e3e50..bf96fa7 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7690,9 +7892,136 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7690,9 +7904,136 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -341,10 +353,10 @@ index f1e3e50..bf96fa7 100644
 +      | _ -> reject "certified union does not have one variant"
 +    in
 +    let fields_ok = match fields with
-+      | [ {name={name="uninit"}; ty={kind=Tuple []}; _};
-+          {name={name="value"};
-+           ty={kind=Adt {id={name=("std::mem::ManuallyDrop"|"core::mem::ManuallyDrop")};
-+                         substs=[{kind=Type {kind=Param "T"}}]; _}}; _} ] -> true
++      | [ (uninit : D.variant_def_field_def);
++          (value : D.variant_def_field_def) ] ->
++          uninit.name.name = "uninit" && unit_type uninit.ty &&
++          value.name.name = "value" && manually_drop_t value.ty
 +      | _ -> false
 +    in
 +    if not fields_ok then reject "certified union fields or types differ";
@@ -365,9 +377,9 @@ index f1e3e50..bf96fa7 100644
 +    let inputs = BodyRd.inputs_get_list body |> List.map D.decode_ty in
 +    if not (match inputs with [ty] -> pointer_element ty | _ -> false) then
 +      reject "checked constructor input is not *const Element";
-+    let output = D.decode_ty (BodyRd.output_get body) in
-+    let output_ok = match output with
-+      | {kind=Adt {id={name}; substs=[{kind=Type ptr}]; _}} ->
++    let output : D.ty = D.decode_ty (BodyRd.output_get body) in
++    let output_ok = match output.kind with
++      | D.Adt {id={name}; substs=[{kind=D.Type ptr}]; _} ->
 +          canonicalize_item_name name = union_name && pointer_element ptr
 +      | _ -> false
 +    in
@@ -417,7 +429,7 @@ index f1e3e50..bf96fa7 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -7881,6 +8210,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7881,6 +8222,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -435,7 +447,7 @@ index f1e3e50..bf96fa7 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -7896,6 +8236,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7896,6 +8248,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in

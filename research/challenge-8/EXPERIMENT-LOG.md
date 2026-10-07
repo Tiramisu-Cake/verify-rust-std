@@ -3316,3 +3316,29 @@ C4 dispatched37590641832/sourceac6dfcf246a72f4e9066041b0e31b810553d117d,
 created2026-10-07T07:57:56Z; exact remote matched, no other relevant active run.
 URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37590641832.
 Selection verifast_maybeuninit_new_pointer/30, feasibility-only, profile UNACCEPTED.
+
+C4 result:37590641832/sourceac6dfcf246a72f4e9066041b0e31b810553d117d,
+job112691033566,07:58:00–07:59:35UTC,95s. FAILURE at console-build before
+constructor/checker execution. Full log/artifacts inspected; patch applied exactly
+and only translator changed, stock archive/compiler/dependencies/decoder installed.
+OCaml line399 D.RawPtr pattern inferred D.terminator_kind due duplicate D.kind
+record labels; required explicit D.ty annotations. This is a build error, no
+resource/front-end/proof result. Constructor/negative/callee NOT RUN, profile
+UNACCEPTED; ordinary type-disambiguation fix within existing design precedes C5.
+New budget343/5400s, no active run.
+
+### C5 preexperiment card — C4 build repair, same partial diagnostic
+
+Concrete change: explicit D.ty annotations disambiguate D.kind/D.RawPtr and
+adjacent union-field/output records. Patch SHA256 now
+bf66cc6f81dcb5ebcf56a9992684215f99653ca2ca5461cbc76e9434a52504af.
+No semantics/domain/posts/gates expansion from C4; exact safe source-local body,
+actual std pointer constructor call/frame, generated safety, no-unwind and all
+stock/refinement/source controls retained. Hypothesis: console now builds and
+C4's existing feasibility question reaches source/frontend/proof obligations.
+C4 failed before any constructor VC; repeating with explicit typing is a new
+build hypothesis. Same deliberately partial --feasibility-only mode, UNACCEPTED
+even if green, full-MIR gate/acceptance negatives/actual callee NOT RUN.
+Opaque ownership/general model requirement STOP; routine build/harness/front-end
+errors fix within design. Manual same constructor selection/30, one relevant run,
+remaining5057s admits full1800s cap; no active run at preparation.
