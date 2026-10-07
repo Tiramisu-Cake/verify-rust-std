@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget2198/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget2373/5400 summed hosted job seconds, no active run. Intrinsic accepted S5k;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -207,3 +207,28 @@ unknown reached initialization requirement but expected error-location wrong.
 [compact11481774726](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11481774726),
 [full11482378240](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11482378240).
 S5k repeats only concrete harness/classification corrections, unchanged7bb semantics.
+
+S5k/37624082376/source `128dd5673c7796c5916017ab4afafaeea8d836b8`,
+v2/7bb39a84:175s12:51:51–12:54:46UTC,total2373/5400,noactive.
+Intrinsic COMPONENT_ACCEPTED:6positives/10proofnegatives/40admissions PASS,
+60gate/10wrongresult/28admissionmessage classifier mutants PASS; same-profile
+ctor/asptr/14Rust/C/C++ regressions PASS. Raw actual intrinsic-on source/refinement/
+full31local14BB certificate/all3call translations PASS; body enters and stops at
+`verified/lib.rs(57,9-29): No such function: std::ptr::mut_ptr::<impl *mut T>::drop_in_place`.
+Two earlier intrinsic operations execute; later wrapper call is translated, not
+proved on a reached path. Whole helper remains NOT PROVEN. This run was dispatched
+before latest user steering; no additional proof repeats for replay correction.
+Independent assume: removed tailghost now normalrefinement fails bb1command4
+`RawPtr: not yet supported` (original25,verified33), preserving source hashes and
+both equal command dumps. VF separately TodoAdtDefUnion; read body NOT entered.
+Ghost castSome open/close/frame PASS; None/unknown intended initialization rejects;
+unionSome `No such function: union_variant_ptr` is applicability INCONCLUSIVE,
+not evidence of missing ownership. Independent failures give workflow failure
+but do not block the intrinsic component or actual diagnostic stages.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376),
+[compact11482879763](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482879763),
+[full11482659442](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482659442).
+User freezes further semantic expansion. New04d67f4b profile and unfinished
+admission/drop harnesses preserved as NOT RUN; no source-linked assume/read theorem
+or ownership/provenance boundary inferred. Next replay uses immutable S5j saved
+artifact and exactsame7bb profile, separately preserving old INCONCLUSIVE results.

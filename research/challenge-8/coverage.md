@@ -6,17 +6,22 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Current pointer-select phase S4b/37611745252/source7c14ab6/profilee9b4d025
-accepts source-linked SAFE as_mut_ptr BODY/model:3state/frame positives,6proof
-negatives,8source/9MIR admission, constructor regressions+baselines/classifier
-PASS. Exact elided IN/OUT wrapper-cell protocol, full modeled result/provenance,
-unknown/none/some retained, no Element permission. Externalactualredirect first
-rejected stock-synthetic lifetime BEFOREbody; correction andcompilerintrinsic
-profile pending acceptance. S5/37612975447 BUILD FAILED, allnewproofs NOT RUN.
-[Results and compact evidence](SORT4-SELECT-POINTER-RESULTS.md),
-[design/dependency map](SORT4-SELECT-POINTER-DESIGN.md). Wholehelper/sort4 NOTPROVEN;
-remaining asptrintegration/intrinsics/pointerdrop/guard/forget/assumeinit obligations
-continue within authorized phase, no general memory/alias/provenance change.
+Current pointer-select phase: S4b source-linked SAFE as_mut_ptr accepted;
+S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile
+experimental-source-linked-select-pointer-intrinsics-v2/7bb39a84 accepts two
+exact intrinsic specializations (*mut *const Element and MaybeUninit<*const Element>).
+6positive/10proofnegative/40admission and classifier/regressions PASS. This is a
+trusted compiler intrinsic value rule plus verified SAFE adapters, not Rust intrinsic
+body proof. Complete modeled value/inner/state and caller frame/thread preserved.
+Actual source-linked helper full31local14BB gate/refinement/3translations PASS;
+body first stops at drop_in_place57, final return/leak/normal-unwind posts NOT PROVEN.
+Drop/guard/forget/assume_init unaccepted; source-linked assume read-resource hypothesis
+NOT RUN (tail annotation failure S5j, RawPtr refiner/union frontend failure S5k).
+No semantic boundary declared; kernel/refiner unchanged. Extension temporarily
+FROZEN, sameprofile S5j artifact replay requested, original classifications retained.
+[Results and compact evidence inclO4](SORT4-SELECT-POINTER-RESULTS.md),
+[design/dependency map](SORT4-SELECT-POINTER-DESIGN.md). Fullhelper/sort4 NOT PROVEN;
+RAPx CLOSED/NO-GO, B/C NOT RUN.
 
 [Night phase](SORT4-NIGHT-PHASE.md) N2/37547890530/source3f5c9e3 now accepts the
 exact experimental fieldless layout profile d4a12525 after full matrix/artifact

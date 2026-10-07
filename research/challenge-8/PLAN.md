@@ -2,10 +2,14 @@
 
 New current [pointer select completion phase](SORT4-SELECT-POINTER-PHASE.md) is
 IN PROGRESS, authorized2026-10-07 atcd44e1bb;new5400jobseconds,oldbudgetretired.
-Map all remaining helper dependencies before implementation; existing-model
-as_mut_ptr/storage first, then accepted pointer-specialized intrinsic/drop/forget/
-assume_init components and whole-body integration. Compact evidence<=25MiB inclO4
-on nearest hosted run. Kernel/general memory/alias/provenance remain frozen.
+Accepted as_mut_ptr and typed intrinsic components; S5k same frozen7bb/v2 profile
+reaches actual helper drop_in_place after full source/MIR/refinement gate.
+Latest user priority: freeze semantic extension, replay S5j stored proofs with exact
+classification corrections and regressions, no build/proof repeat or cross-profile
+transfer. Drop/assume diagnostics independent, source-linked read-resource hypothesis
+NOT RUN because annotation/refinement/frontend fail. Preserve NOT RUN drafts;
+no change to refiner semantics without separate decision. Budget2373/5400 before
+replay remains available in this phase. Compact evidence inclO4 available in results.
 [STATUS](STATUS.md) is authoritative. Prior roadmap below is historical.
 
 Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is **CLOSED**,

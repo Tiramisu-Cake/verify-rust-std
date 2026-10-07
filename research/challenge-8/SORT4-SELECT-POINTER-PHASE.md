@@ -3,7 +3,7 @@
 Owner authorization2026-10-07; entry
 `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09` on challenge-8/research.
 **IN PROGRESS.** New5400summed hosted-job-second budget,<=1800/job,
-<=300/individual proof,one active relevant workflow_dispatch. Spend1102/5400;noactive.
+<=300/individual proof,one active relevant workflow_dispatch. Spend2373/5400 before replay;noactive.
 Previous pointer-ownership phase remains CLOSED;its unused4882s do not transfer.
 
 Target actual `library/core/src/hint.rs::select_unpredictable` at
@@ -60,3 +60,13 @@ No upstream PR/messages/submission. RAPx CLOSED/NO-GO;B/C NOT RUN.
 
 Design/map: [design](SORT4-SELECT-POINTER-DESIGN.md).
 Evidence/checkpoint: [results](SORT4-SELECT-POINTER-RESULTS.md),STATUS,EXPERIMENT-LOG.
+
+2026-10-07 priority correction: semantic extensions temporarily FROZEN, budget
+continues in this same phase. Finish exactsame7bb/v2 intrinsic acceptance through
+hosted savedS5j replay with immutable old classifications; no build/proof execution.
+S5k/128dd56 had already been dispatched: full component matrix accepted and actual
+helper first blocker drop_in_place57. Separate diagnostic failures do not gate
+component acceptance. Assume annotation-tail and RawPtr-refinement failures are
+not the missing-resource hypothesis; refiner unchanged. Draft04d/profile and
+unfinished drop/assume controls NOT RUN, saved under drafts/select-pointer-frozen.
+[Results with SHA/run/artifact](SORT4-SELECT-POINTER-RESULTS.md).

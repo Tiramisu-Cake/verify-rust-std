@@ -250,3 +250,25 @@ normal/unwind/leak obligations. A successful read would next need wrapper/local
 cleanup proof; it would still not constitute acceptance. No return expression or
 runtime algorithm is rewritten. Full MIR certificate uses the observed five-local,
 four-block assert/address/cast/read graph; FieldData has index1/type but no name.
+
+S6 diagnostic implementation identity (NOT RUN):
+`experimental-source-linked-select-pointer-assume-init-diagnostic-v1`, cumulative
+patch `04d67f4bf7de167a76e5057a7135cf255451b92577633bda8eea484731a72371`
+from VF809de459. Only translator and existing pointer-value spec; stdspec identical
+to S5v2. Separate `SORT4_ASSUME_INIT_REPO_ROOT` gate cannot relax constructor gate.
+Typed field address preserves `union_variant_ptr` with MaybeUninit typeid/field1;
+ordinary existing dereference remains the read obligation. No created permission.
+All constructor/as_mut_ptr/intrinsic matrices and stock/experimental baselines run
+again under this exact profile, with active rules for their controls. Targeted
+assume source/MIR admissions precede any resource-boundary conclusion.
+
+Latest user correction: semantic expansion FROZEN. Draft04d67f4b and incomplete
+controls saved under `drafts/select-pointer-frozen/`, not the active patch chain.
+S5j/2454e86 normal preprocessing failed from a ghost statement after tail `.read()`;
+readonly export/refinement did not exercise that annotated Rust body. After removal,
+S5k/128dd56 normal refiner fails `RawPtr: not yet supported` at bb1 command4,
+original25/verified33, despite equal command dumps. Normal VF also reports
+`Todo: AdtDef::Union` before body. Profile remains7bb/v2 and refiner unchanged.
+These are distinct annotation/frontend/refinement failures. No read-permission
+hypothesis has been tested; no general ownership/provenance semantic stop inferred.
+Evidence: run37624082376, compact11482879763/full11482659442 linked in results.

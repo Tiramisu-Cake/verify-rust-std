@@ -2,34 +2,38 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**2198/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**2373/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
-Accepted: O4 pointer-value model/SAFE constructor, S4b SAFE `as_mut_ptr`
-body/model. Latest S5j/37621751848, source
-`2454e860dc75c277686f3031a311501a3cd2b9e3`, profile
-`experimental-source-linked-select-pointer-intrinsics-v2`, patch `7bb39a84`:
-full constructor/as_mut_ptr regressions and 14 Rust/C/C++ baselines PASS.
-All 6 intrinsic positives and 10 intended proof negatives PASS; all 40
-source/MIR admission cases ran. 32 classified PASS; 8 correctly rejected before
-proof but exact diagnostic expectations differ. Intrinsic NOT ACCEPTED yet.
-S5k corrects those profile-specific exact expectations and adds message mutants;
-complete same-profile matrix must pass before actual intrinsic-on integration.
+Accepted: O4 pointer-value model/SAFE constructor, S4b SAFE `as_mut_ptr`, and
+S5k typed intrinsic rule at frozen `experimental-source-linked-select-pointer-intrinsics-v2`
+/patch `7bb39a84`. S5k/37624082376, source
+`128dd5673c7796c5916017ab4afafaeea8d836b8`: all6 positive+10 intended proof negatives
++40 exact admission controls PASS; classifier60 gate+10 wrong-result+28 admission
+message mutants PASS; full ctor/asptr/14Rust/C/C++ regressions PASS. S5k was dispatched
+before the user's replay-only correction. New semantic extensions now FROZEN;
+04d67f4b assume diagnostic patch and unfinished controls are NOT RUN drafts.
 
-Actual helper with intrinsic rule OFF passes both constructor/as_mut_ptr calls;
-first error `No such function: std::intrinsics::select_unpredictable` at
-`verified/lib.rs(49,21-92)`. Whole helper NOT PROVEN. Full actual MIR graph gate
-is implemented but intrinsic-on execution remains gated by component acceptance.
-Pointer drop method reaches stock unwind post `Cannot prove false` (stock generic
-drop permits unwind). Canonical assume_init source/export/decode/refinement PASS:
-5 locals/4 blocks, assert_inhabited -> union field address -> cast -> read.
-Normal VF preprocessing failed on a ghost close after a Rust tail expression;
-S5k removes that annotation, retaining exact runtime source and all posts/leaks.
-Ghost-only probes are diagnostic, not source-linked acceptance or a semantic stop.
-Separate assume_init diagnostic profile is drafted; NOT RUN.
+Actual intrinsic-on helper source/export/decode/refinement/full31local14BB MIR
+certificate PASS; all3 intrinsic calls translated, both ctor/asptr redirects reached.
+First proof blocker: `verified/lib.rs(57,9-29): error: No such function:
+std::ptr::mut_ptr::<impl *mut T>::drop_in_place`. Whole helper NOT PROVEN; translation
+of third intrinsic is not proof execution of its later branch. Drop/forget/assume
+remain unaccepted. No ownership/provenance semantic stop has been established.
 
-[Latest run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848),
-[compact evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11481774726),
-[full evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11482378240).
+Independent diagnostics: pointerdrop method fails its stock unwind post; assume-init
+S5j invalid ghostclose after Rust tail expression (body NOT entered); corrected
+S5k readonly export/decode pass but normal refinement fails `RawPtr: not yet supported`
+at bb1 command4, original25/verified33. VF separately rejects local union declaration
+`Todo: AdtDef::Union`. These setup/applicability failures do not test read permissions
+and do not gate intrinsic acceptance. Refiner and kernel unchanged.
+
+Next: hosted replay S5j/37621751848 saved artifact, same frozen7bb/v2 only, no build
+or proof execution; preserve original classifications and separate replay outcome.
+Budget2373/5400 remains current phase; no active run. Runtime/std signatures unchanged.
+
+[Latest run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376),
+[compact evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482879763),
+[full evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482659442).
 Each compact includes O4/37601511894 with byte/hash mapping; original/full O4
 preserved. [Design](SORT4-SELECT-POINTER-DESIGN.md),
 [results](SORT4-SELECT-POINTER-RESULTS.md). Runtime std/signatures and frozen

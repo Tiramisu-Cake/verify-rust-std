@@ -4,7 +4,7 @@
 [Authorization/phase](SORT4-SELECT-POINTER-PHASE.md),entrycd44e1bb.
 Existing accepted constructor O4 profile325af428 remains frozen.
 Complete map and initial storage design were committed before semantic edits.
-Accepted as_mut_ptr and pending intrinsic profiles have separate evidence below;
+Accepted as_mut_ptr and S5k intrinsic profiles have separate evidence below;
 packaging introduces no proof semantics.
 
 ## Complete dependency map BEFORE semantic implementation
@@ -327,3 +327,15 @@ intrinsics; it does not model Drop/forget/assume_init or accept the whole helper
 Changed v2 must rerun all component matrices/baselines/classifiers before actual
 intrinsic-on diagnostic. Future authorized drop profile uses its separate identity
 `experimental-source-linked-select-pointer-drop-v1`, never relabels v1 evidence.
+
+Latest priority correction: freeze all further semantic patches. Activeprofile
+remains experimental-source-linked-select-pointer-intrinsics-v2/7bb39a84; separate
+04d67f4b assume diagnostic draft is NOT RUN and not in workflow patch chain.
+Sameprofile savedS5j replay reclassifies exact admission reasons only, retaining
+original evidence/classifications/profile hashes. No proof transfer across profiles.
+Independent diagnostics write own exit/status/source/refinement records and never
+gate intrinsic acceptance; critical matrix and actual prerequisites remain fail-closed.
+S5k actual source-linked full typed graph/refinement passes, first blocker
+pointer drop_in_place57. Final helper proof still missing. Refiner RawPtr failure
+in assume S5k and aftertail annotation failure S5j do not test storage permissions.
+Details and compact evidence/SHA/run links in SORT4-SELECT-POINTER-RESULTS.md.

@@ -9,7 +9,8 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 **Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), IN PROGRESS.**
 [Design/dependency map](SORT4-SELECT-POINTER-DESIGN.md),
 [results/compact evidence](SORT4-SELECT-POINTER-RESULTS.md): S4b accepts SAFE
-as_mut_ptr body/model; actual invocation correction/intrinsic completion pending.
+as_mut_ptr body/model; S5k accepts typed intrinsics and actual helper reaches
+drop_in_place. Semantic extension FROZEN; exactsameprofile S5j replay requested.
 RAPx CLOSED/NO-GO; B/C NOT RUN, fullhelper/sort4 NOT PROVEN. STATUS is authoritative.
 The following pointer-ownership closeout is historical.
 

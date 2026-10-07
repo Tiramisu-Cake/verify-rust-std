@@ -3940,3 +3940,21 @@ separates initialization from union provenance. No bridge/permission/kernel chan
 Ctor/asptr/14baselines required; intrinsic-on actual full31local14BB graph must
 pass and report first causal proof obligation. 2198/5400before,30minjob/300proof,
 oneactive/noSWO/layoutrepeat. New04d67f4b assume diagnostic profile NOT RUN here.
+
+S5k result37624082376/128dd56/7bb39a84:175s,total2373/5400. All6+10+40 intrinsic
+matrix and60+10+28 classifier/selfchecks/ctor/asptr/14baseline PASS=>component
+ACCEPTED. Fullactual31local14BB/all3intrinsic translations/refinement PASS; first
+proof error drop_in_place57. Wholehelper NOTPROVEN. Independent assume normal
+refinementRawPtrunsupported(bb1command4 original25 verified33), VFunionTodo;
+no readpermissionresult. Compact11482879763/full11482659442. Semanticextensions
+FROZEN by latest user; S5k dispatched before that correction.
+S5r BEFORE dispatch: replay ONLY S5j37621751848/2454e86/v2/7bb immutable compact
+artifact11481774726 outerSHA1a5e4957da5db048d02cb56bc518eb8afa195be5384d60f300281ed8f0f036c7.
+No verifierbuild/proof execution. Hypothesis all8 oldexact_fatal-only mismatches
+are correct intended rejection given rawmutants/sourceMIR and exactmessages;
+recompute all56 classifications from saved sameprofile evidence, preserveoriginal
+classifications and independently save replay. Exactmessage/stage/cert/profile
+mutants must reject; no arbitraryerror or crossprofile reuse. Diagnostic parse/
+refinement statuses independent, no ownershipboundary claimed. Budget2373/5400
+before, max30minjob, oneactive. PrioractualS5k evidence remains sameprofile,
+no repeat needed to establish first remaining callee. No new semanticpatch.
