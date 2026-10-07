@@ -1,14 +1,14 @@
 # Challenge 8: current checkpoint
 
 Updated 2026-10-07. **IN PROGRESS: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md).**
-Owner opened NEW phase at e0920ec; spend265/5400 jobseconds,<=1800/job,<=300/proof.
-O2/37599522829/source0f5b790: constructor SAFE prototype+DEFINED ownership
-introduction+actual body+caller frame return/leak PASS;5 intended proof negatives
-PASS;14baselines PASS. Acceptance WITHHELD: integer-control contract omitted own;
-source rejection classifier expected wrong exit/reason; full HIR/contract metadata
-admission remains to tighten. MIR mutants/actual callee NOT RUN. No active run.
-Next permitted O3: routine metadata/harness fixes and NEW hosted full matrix.
-[Results](SORT4-POINTER-OWNERSHIP-RESULTS.md). Prior budgets retired.
+Owner opened NEW phase at e0920ec; spend391/5400jobseconds,<=1800/job,<=300/proof.
+O3/37600901979/sourcea452018/profile325af428: complete HIR/contract/source/typed
+MIR graph and constructor SAFE/body/frame54statements PASS;5proof negatives,
+integer opaque-own negative,7/8source negatives and14baselines PASS. Acceptance
+withheld: integer positive uses wrong ghost call syntax; extra-field mutant changes
+repr first and misses intended field gate. Both corrected for harness-only O4.
+MIR9/actual callee NOT RUN. No active run. Next: NEW exact-SHA full matrix O4.
+[Results](SORT4-POINTER-OWNERSHIP-RESULTS.md). Previous budgets retired.
 
 Previous checkpoint preserved below (historical authorization superseded):
 **CLOSED: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**

@@ -400,10 +400,10 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
             b"<Element>(val: *const Element) -> MaybeUninit<*const Element>",
             b"<Element>(val: Element) -> MaybeUninit<Element>", 1)
     elif variant == "extra_union_field":
+        # An extra ZST preserves transparent representation and valid export,
+        # so the control reaches the intended exact-field-list certificate.
         local_module = local_module.replace(
-            b"#[repr(transparent)]", b"#[repr(C)]", 1)
-        local_module = local_module.replace(
-            b"    value: ManuallyDrop<T>,\n", b"    value: ManuallyDrop<T>,\n    extra: u8,\n", 1)
+            b"    value: ManuallyDrop<T>,\n", b"    value: ManuallyDrop<T>,\n    extra: (),\n", 1)
     elif variant == "wrong_binding":
         probe = probe.replace(
             b"std::mem::MaybeUninit::new(val)",
@@ -414,7 +414,7 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
             b"sort4_nonpointer_missing_own" if variant == "nonpointer_missing_own"
             else b"sort4_nonpointer_identity"
         )
-        own = b"std::mem::MaybeUninit_own(int32_t_typeid)"
+        own = b"<std::mem::MaybeUninit<i32>>.own"
         identity_pre = (
             b"req thread_token(?t) &*& t == currentThread"
             + (b" &*& " + own + b"(t, input)" if variant == "nonpointer_identity" else b"")

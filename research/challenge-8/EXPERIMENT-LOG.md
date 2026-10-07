@@ -3544,3 +3544,28 @@ Scope/pins unchanged; new profile hash/source recorded at dispatch. Expected sta
 mapping per updated fixture metadata; proof exits1 separate from applicability2.
 Full matrix => only dependent actual callee; any new alias/borrow/copy/FnMut/Drop/
 unwind boundary STOP. Remaining5135s,30min/job,300s/proof.
+
+O3 dispatched37600901979/sourcea452018e98e8894c66f9da41becaa8cf7a4a83c5,
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37600901979,
+patch325af428910cff44fb51e8c11ef0e4c9c3ba928c015f1fdf657580745857ca8d;
+16source/proof/specialization+9MIR cases,14baselines, classifier; outcome pending.
+
+O3 completed126jobseconds(09:28:59..09:31:05UTC),sum391/5400. Artifact
+smallsort-research-37600901979-1/11473245626/full logs inspected. Model325af428:
+full HIR/contract/type/source/graph gate and constructor54statements PASS;
+5proof negatives and opaque integer missing-own prototype control PASS;
+7/8 source mutants reach their precise expected gates;14baselines+5classifier
+selfcheck groups PASS. Integer positive annotation supplied manual typeid as a
+predicate index => "Incorrect number of indexes" at55; exact-field source mutant
+changed reprC too => earlier representation rejection. Both are harness bugs,
+not accepted negatives. MIR9/actual callee NOT RUN; acceptance withheld.
+
+## O4 — harness-only exact-target correction, frozen325af428 profile
+
+Hypothesis: use ordinary <MaybeUninit<i32>>.own syntax for SAFE identity's original
+opaque resource, and add an extra ZERO-SIZED field while retaining reprtransparent
+so the extra-field control reaches exact field count/types. Preserve body/domain/
+posts/SAFE checks and all profile pins. No semantic or MIR gate change.
+Full matrix required before dependent actual callee; new source SHA/run recorded
+at dispatch;30min/job,300s/proof,budget5009s remaining. Exact expected negative
+stages unchanged; wrong-stage failures remain INCONCLUSIVE. No SWO/layout reruns.
