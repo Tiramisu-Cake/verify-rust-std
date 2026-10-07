@@ -8,8 +8,11 @@ Frozen entry `origin/challenge-8/research`:
 This phase is independent of sort4/select/VeriFast development and its stops.
 Do not merge automatically or overwrite the main direction's STATUS/PLAN.
 
-Own budget: **381/1800 summed hosted job seconds**, preparation included;
-**1419 remain**. No active run. Latest N9 run
+Own budget: **574/1800 summed hosted job seconds**, preparation included;
+**1226 remain**. No active networks run. Latest N9b run
+[37637872959](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637872959),
+source `70eaa2d9499a47d45d2c9af74de4ef643f74ed0c`.
+Previous N9 run
 [37636248489](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37636248489),
 source `d433216f635c58d84ed9b9cde7bcab95c2c38549`.
 At most one hosted networks experiment, with at most two total
@@ -21,14 +24,16 @@ Rust helper safety/ownership/callback/unwind proof remains OPEN.
 Conditional network composition is not a completed public Challenge 8 target.
 
 Binary N9 PASS (83 statements, full symbolic Boolean domain, 496 return/leak
-paths). Threshold and arbitrary-decision identity composition TIMEOUT at180s
-each, not accepted. Intended negatives reached correct assertions, original
-classifier INCONCLUSIVE due normalized VC/duplicate diagnostic-note headers.
-No general-order/permutation theorem yet. Full evidence artifact11490266217.
+paths). N9b arbitrary-decision identity permutation PASS216 statements, with
+checked local helper and whole25-step sequence. Both intended negatives and
+14 classifier rejection controls PASS. N9b threshold helper body PASS but
+whole general-rank theorem TIMEOUT180s at first adjacency: final-expression
+threshold creates expensive SMT unfolding. No general-order theorem yet.
+Original N9 timeouts/classifier INCONCLUSIVEs remain preserved.
 
-Next permitted action: local checked CE lemma decomposition on the same stock
-profile, precise classifier repair with rejection controls, NEW N9 run; only
-after acceptance advance to N13. Generated files are universal ghost assertion harnesses:
+Next permitted action: independent arbitrary-threshold verified summaries plus
+final-rank application, NEW N9c run; only after acceptance advance to N13.
+Generated binary/identity files are universal ghost assertion harnesses:
 their final assertions carry the theorem; `ensures true` is not a reusable
 callee summary. No Rust summary is claimed.
 See [plan](PLAN.md), [journal](EXPERIMENT-LOG.md),

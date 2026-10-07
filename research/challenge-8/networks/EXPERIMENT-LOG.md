@@ -91,3 +91,51 @@ target execution, column, timeout and source change. Preserve original N9 raw
 INCONCLUSIVEs; a new source requires a new run. If all original positives and
 intended negatives pass, advance N13; unsupported/profile change still STOP.
 Cap10min/180s proofs, within remaining1419jobseconds. Run/SHA/cost pending.
+
+### N9b result
+
+Source `70eaa2d9499a47d45d2c9af74de4ef643f74ed0c`,
+[run37637872959](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637872959),
+[artifact11489639313](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637872959/artifacts/11489639313),
+143501bytes. Full logs/artifacts/source hashes read and audited.
+Same unchanged console dc672335; exact25 source calls PASS.
+
+Binary PASS0.256290s/83 statements/496 return-leak paths. **Arbitrary-decision
+identity permutation PASS**, checked pair_count_choice body plus whole25-step
+symbolic sequence,0.507588s/216 statements,3 whole normal-return/leak paths.
+No ordering/purity restriction in this permutation theorem; q and all25 decisions
+are arbitrary. Neither result proves ownership or callbacks in Rust.
+
+Threshold helper body PASS two normal paths, but whole8-adjacency unit TIMEOUT
+at180s: only order_at_0 entered, stops near second-pass step5 before later
+assertions. Log is only27287bytes: branch explosion removed, remaining SMT
+unfolding of a threshold chosen as a nested final min/max expression is expensive
+(66.891/135.728s at lines181/184). General rank theorem still INCONCLUSIVE.
+
+Both intended negatives now automatically accepted at original exact line/
+columns/predicates. Original source fixtures unchanged; wrong line/predicate/
+body/target execution/column/timeout/source change rejection controls7 per case
+all PASS. Original N9 classifications remain unmodified.
+
+One job14:34:54Z–14:38:07Z = **193s**; total **574/1800**,1226 remain.
+No active networks run.
+
+## N9c — universal threshold summary, prepared before dispatch
+
+Same actual source, stock profile, domains and complete final rank-order posts.
+Hypothesis: composing the projection with an independent arbitrary integer t
+avoids expanding a nested network output at every CE; then a checked universal
+summary can be instantiated at each final right-neighbor rank. The binary
+network and independent arbitrary-decision identity theorem are retained.
+
+Define source-bound min/max output formulas as a finite per-wire fixpoint DAG.
+Check all CE transitions against that DAG. Each per-adjacency universal projection
+lemma has post `(output_i>t) -> (output_i+1>t)` with unbounded arbitrary input
+ranks/t. Final rank application calls these **verified same-unit** lemmas at
+t=output_i+1, proving every original adjacent rank<= assertion. This is proof
+decomposition, not weakening the rank-order target or adding a trusted axiom.
+All body/post/return/leak gates stay enabled; no tool semantic changes.
+
+Same intended negatives and14 rejection controls. If N9c accepts the whole unit,
+advance N13 with identical scheme; otherwise inspect exact failure and reassess
+within remaining1226jobseconds. Source/run/cost pending.

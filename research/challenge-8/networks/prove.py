@@ -166,18 +166,53 @@ def integer_ce(out: list[str], a: int, b: int, step: int,
             f"    {state}{b} = ce_max(left{name}, right{name});"]
 
 
+def output_dag(n: int, pairs: list[tuple[int, int]]) -> tuple[str, list[str], list[tuple[str, str]]]:
+    """Pure, source-order CE wires; every definition has a body, no axioms."""
+    names = [f"x{i}" for i in range(n)]
+    arguments = ", ".join(f"int x{i}" for i in range(n))
+    actuals = ", ".join(f"x{i}" for i in range(n))
+    definitions = ["/*@", "// Pure output DAG, one min/max pair per actual Rust call."]
+    traces: list[tuple[str, str]] = []
+
+    def reference(name: str) -> str:
+        return name if name.startswith("x") else f"{name}({actuals})"
+
+    for step, (a, b) in enumerate(pairs):
+        left = reference(names[a])
+        right = reference(names[b])
+        lo = f"network{n}_wire{step}_lo"
+        hi = f"network{n}_wire{step}_hi"
+        definitions += [f"fixpoint int {lo}({arguments}) {{",
+                        f"    return ce_min({left}, {right});",
+                        "}",
+                        f"fixpoint int {hi}({arguments}) {{",
+                        f"    return ce_max({left}, {right});",
+                        "}"]
+        names[a], names[b] = lo, hi
+        traces.append((reference(lo), reference(hi)))
+    outputs: list[str] = []
+    for slot, name in enumerate(names):
+        output = f"network{n}_out{slot}"
+        definitions += [f"fixpoint int {output}({arguments}) {{",
+                        f"    return {reference(name)};",
+                        "}"]
+        outputs.append(f"{output}({actuals})")
+    definitions += ["@*/", ""]
+    return "\n".join(definitions) + "\n", outputs, traces
+
+
 def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
-    out = ["// Any descending final adjacent pair chooses its right value as a threshold.",
-           "// CE commutes with threshold: threshold(min)=AND, threshold(max)=OR."]
+    dag, outputs, traces = output_dag(n, pairs)
+    out = ["// Universal threshold lemmas use an independent ghost threshold.",
+           "// General rank ordering follows by instantiating each threshold at its right output."]
+    arguments = ", ".join(f"x{i}" for i in range(n))
     for adjacent in range(n - 1):
-        out += heading(f"network{n}_order_at_{adjacent}", params("x", n))
-        out += [f"    int v{i} = x{i};" for i in range(n)]
-        for step, (a, b) in enumerate(pairs):
-            integer_ce(out, a, b, step, tag="first")
-        out.append(f"    int threshold = v{adjacent + 1};")
+        title = f"network{n}_threshold_at_{adjacent}"
+        out += ["/*@", f"lemma void {title}({params('x', n, 'int threshold')})",
+                "    requires true;",
+                f"    ensures !({outputs[adjacent]} > threshold) || ({outputs[adjacent + 1]} > threshold);",
+                "{"]
         out += [f"    bool b{i} = x{i} > threshold;" for i in range(n)]
-        # A second symbolic pass checks the bridge at every CE, so it is not
-        # inferred from the sorting assertion or assumed for the whole network.
         out += [f"    int r{i} = x{i};" for i in range(n)]
         for step, (a, b) in enumerate(pairs):
             out += [f"    assert b{a} == (r{a} > threshold);",
@@ -187,14 +222,24 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
                     f"    b{b} = oldb{step} || b{b};"]
             integer_ce(out, a, b, step, state="r", tag="second", threshold=True)
             out += [f"    assert b{a} == (r{a} > threshold);",
-                    f"    assert b{b} == (r{b} > threshold);"]
+                    f"    assert b{b} == (r{b} > threshold);",
+                    f"    assert r{a} == {traces[step][0]};",
+                    f"    assert r{b} == {traces[step][1]};"]
         out += [f"    assert !b{adjacent} || b{adjacent + 1};",
-                f"    assert r{adjacent} == v{adjacent};",
-                f"    assert r{adjacent + 1} == v{adjacent + 1};",
-                f"    assert !b{adjacent + 1};",
-                f"    assert v{adjacent} <= v{adjacent + 1};",
+                f"    assert r{adjacent} == {outputs[adjacent]};",
+                f"    assert r{adjacent + 1} == {outputs[adjacent + 1]};",
+                f"    assert !({outputs[adjacent]} > threshold) || ({outputs[adjacent + 1]} > threshold);",
                 "}", "@*/", ""]
-    return RANK_HELPERS + "\n".join(out) + "\n"
+    out += ["/*@", f"lemma void network{n}_general_rank_order({params('x', n)})",
+            "    requires true;",
+            "    ensures " + " &*&\n            ".join(
+                f"{outputs[i]} <= {outputs[i + 1]}" for i in range(n - 1)) + ";",
+            "{"]
+    for adjacent in range(n - 1):
+        out += [f"    network{n}_threshold_at_{adjacent}({arguments}, {outputs[adjacent + 1]});",
+                f"    assert {outputs[adjacent]} <= {outputs[adjacent + 1]};"]
+    out += ["}", "@*/", ""]
+    return RANK_HELPERS + dag + "\n".join(out) + "\n"
 
 
 def occurrence(i: int) -> str:
