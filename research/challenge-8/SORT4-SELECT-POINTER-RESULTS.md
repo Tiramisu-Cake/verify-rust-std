@@ -15,3 +15,11 @@ O4770+current73 included;manifest843/843SHA/CRC/sizematches.
 [run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37607108528).
 S2tests actualelidedreceiver IN/OUT wrappercell/value transport at unchangedprofile;
 component/fullhelper acceptance pending.
+
+S2/37608166705/sourcea20e64856822850c76e13ad7bc0d1248af0676a0,
+unchanged325af428:3 SAFE/body/frame/state positives PASS;4intendedproofnegatives
+PASS,lostcell actualtargetleak reached atfinal32 butclassifiermismatch=>INCONCLUSIVE.
+No newcomponentaccepted; this confirms existingelidedreceiver protocol feasibility.
+130jobseconds,total238/5400,noactive. [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37608166705),
+[compact11476196005](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37608166705/artifacts/11476196005),
+ZIP1221330bytes current227+O4770. S3fullcriterion/design9e02c4f,implementationpending.

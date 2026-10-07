@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Pointer select S1 existing-model diagnostic; frozen constructor profile; never run on the editing server.
+# Pointer select component acceptance and constructor regressions; hosted execution only.
 set -euo pipefail
 [[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && "${RUNNER_OS:-}" == Linux ]] || { echo 'requires GitHub-hosted Linux' >&2; exit 2; }
 . /etc/os-release
@@ -43,8 +43,8 @@ source_pin=809de4596839b739dd999f9e462242c835e3af46
 archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
-patch_file="$repo/research/challenge-8/verifast-maybeuninit-pointer-own.patch"
-printf '%s  %s\n' 325af428910cff44fb51e8c11ef0e4c9c3ba928c015f1fdf657580745857ca8d "$patch_file" | sha256sum -c -
+patch_file="$repo/research/challenge-8/verifast-select-pointer.patch"
+printf '%s  %s\n' e9b4d025934b6c91674feb4c3b5aa35ce4bbd74cdfc1c42ce9bfefdb3fe266e6 "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/select-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"
@@ -53,7 +53,7 @@ stock_home="$task_temp/verifast-26.09"
 source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
-    printf 'Profile: experimental-source-linked-maybeuninit-pointer-own-v2\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
+    printf 'Profile: experimental-source-linked-select-pointer-as-mut-ptr-v1\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
     printf 'Budget: %s minutes including preparation/build/matrix; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-select-pointer.py research/challenge-8/SORT4-SELECT-POINTER-DESIGN.md
 } > "$evidence/environment.txt"
@@ -141,4 +141,6 @@ if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 export SORT4_MAYBEUNINIT_REPO_ROOT="$repo"
 run_stage classifier-tests python3 research/challenge-8/test-sort4-maybeuninit-classifier.py
-run_stage select-existing-model python3 research/challenge-8/check-select-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix"
+run_stage constructor-regressions python3 research/challenge-8/check-maybeuninit-new-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/constructor-regressions"
+run_stage select-classifier-tests python3 research/challenge-8/test-select-pointer-classifier.py --evidence "$evidence/select-classifier-self-check.json"
+run_stage select-component-matrix python3 research/challenge-8/check-select-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --classifier-summary "$evidence/select-classifier-self-check.json"

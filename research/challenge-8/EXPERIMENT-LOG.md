@@ -3674,3 +3674,44 @@ No methodredirect/fullMIRadmission/constructororhelperacceptanceclaimed.
 Success=>withinphaseexacttypedMIRgate/activepointermodelcomponent; failure=>precise
 harness/resourcecorrection,notstoponname.30minjob/300sproof,remaining5292s,oneactive.
 Runtime/stdsignatures/sourcepinsunchanged;compactcurrent+O4packagingonnextjob.
+
+S2dispatched37608166705/sourcea20e64856822850c76e13ad7bc0d1248af0676a0,
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37608166705;
+completed130jobseconds(10:33:20..10:35:30UTC),total238/5400.
+Unchanged325af428profile/fullartifact11476420394,compact11476196005ZIP1221330bytes
+(current227+historicalO4770files).3positivesbody+SAFEprototype+frame/return/leak
+PASS,innerunknown/none/somepreserved;4proofnegativecontrolsintendedpreciselocations
+PASS. LostwrappercellnegativeDOESreachfunctionleakat32,1–2points_to<MU<*Element>>,
+classifierwronglyexpectsheader=>rawINCONCLUSIVEpreserved,nofalseacceptance.
+No semanticmodelboundary: ordinaryas_mut_ptr bodyworks existingelidedin_outcell
+protocol. Componentacceptancewithheld pendingcompleteadmission/activepointerown/
+classifiers/fullconstructorregressions. S3design9e02c4f commits exactsource/HIR/MIR
+certificate+typedexternalredirect BEFOREtranslationedit;noFBC/alias/kernelchange.
+One relevant run/noactive aftercompletion;wholehelper/intrinsics/drop/forget/
+assume_init stillNOTRUNinthe newprofile.
+
+### S3 — exact source/HIR/MIR as_mut_ptr admission and active-rule acceptance
+
+BEFORE dispatch: domain SAFE elided &mut MaybeUninit<*const Element>, arbitrary
+unknown/none/some inner; thread+same wrapper cell+defined pointer-own, full modeled
+result pointer equality, unchanged option state and caller fractional u8 frame;
+on_unwind_ens false. No Element permissions/Copy, no general storage/fbc rule.
+Hypothesis: the S2 checked two-cast body also satisfies active type-own safety
+contracts and a complete pinned source/HIR/typed-MIR fail-closed certificate.
+Design committed9e02c4f before semantic implementation. New separate profile
+experimental-source-linked-select-pointer-as-mut-ptr-v1, patch
+e9b4d025934b6c91674feb4c3b5aa35ce4bbd74cdfc1c42ce9bfefdb3fe266e6,
+frozen VF809de459/nightly2026-02-05/export/schema/refiner/kernel/alias model.
+3 positive SAFE body/state/frame cases;6 proof controls wrong result/false post/
+assert false/duplicate frame/lost wrapper cell/invented Some. Expected proof exit1
+after named checked body and probe: source-marked assertion/post or final leak.
+8 source+9 MIR mutants target exact certificate reason, verifier exit2 after
+export/decode/refinement/integrity and before body/probe, separately classified.
+Classifier risk mutants stage/source/certificate/location/message/leak gates;
+complete O4 constructor matrix and14stock/patched Rust/C/C++ baselines required.
+No SWO/layout dependency. All acceptance gates must pass before component acceptance;
+any wrong-stage failure is INCONCLUSIVE, fix specific implementation/harness defect.
+Next after acceptance: actual receiver/reborrow integration, then remaining mapped
+operations autonomously; real forbidden semantic necessity alone stops extension.
+Selection verifast_maybeuninit_new_pointer;30minutes job/proof<=300s;
+new budget spend238/5400before run, one active run, compact current+O4 evidence.

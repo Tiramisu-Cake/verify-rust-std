@@ -3,7 +3,7 @@
 Owner authorization2026-10-07; entry
 `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09` on challenge-8/research.
 **IN PROGRESS.** New5400summed hosted-job-second budget,<=1800/job,
-<=300/individual proof,one active relevant workflow_dispatch. Spend0;noactive.
+<=300/individual proof,one active relevant workflow_dispatch. Spend238/5400;noactive.
 Previous pointer-ownership phase remains CLOSED;its unused4882s do not transfer.
 
 Target actual `library/core/src/hint.rs::select_unpredictable` at

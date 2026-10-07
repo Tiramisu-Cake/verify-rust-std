@@ -2,13 +2,18 @@
 
 Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New5400jobseconds,<=1800/job,<=300/proof;spend108/5400jobseconds,noactive. Old budget retired.
-S1 completed [37607108528](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37607108528),
-sourcef19f077457da722e326f88df362b0d14731987e0,unchanged325af428profile.
-S1source/frontend/refinement PASS,SAFEprototype leaksreturnedfull_borrow BEFOREbody.
-S2testsactualelided &mut IN/OUT wrappercell/value protocol,harness-only;
-no new semantic rule or actual-helper acceptance claimed. CompactO4/current
-artifact11474994216,1050469bytes,manifest843/843matches. Runtime std/signatures and frozen kernel/
+New5400jobseconds,<=1800/job,<=300/proof;spend238/5400jobseconds,noactive. Old budget retired.
+S2/37608166705/sourcea20e64856822850c76e13ad7bc0d1248af0676a0,
+unchanged325af428: all3 SAFE/body/unknown-none-some/frame positives PASS;
+4intended proofnegatives PASS; lost-cell leak correctly reached at final32 but
+classifier expectedheader,fixpending. S2 is diagnostic, notcomponentacceptance.
+Spend238/5400jobseconds,noactive. Compactartifact11476196005,1221330bytes;
+S1compact11474994216 retained with byte-exactO4 evidence/manifest.
+Current: S3completeas_mut_ptr source/HIR/MIR gate+activepointerown and admission/
+classifier/fullconstructorregressionmatrix; design9e02c4f committedbeforechanges.
+No fbc/borrow/provenance model change planned in S3. [Design](SORT4-SELECT-POINTER-DESIGN.md),
+[results](SORT4-SELECT-POINTER-RESULTS.md).
+Runtime std/signatures and frozen kernel/
 memory/alias/provenance/export/refiner unchanged. Narrow spec/translator changes
 for listed pointer operations authorized after written component design.
 [Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
