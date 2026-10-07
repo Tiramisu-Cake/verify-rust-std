@@ -1,0 +1,229 @@
+{
+  "source_git_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "tool_profile": "official-stock-VeriFast-26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; compiler-nightly-2026-09-25",
+  "full_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+  "functions": [
+    {
+      "name": "merge_up",
+      "signature": "unsafe fn merge_up<T, F: FnMut(&T, &T) -> bool>(\n    mut left_src: *const T,\n    mut right_src: *const T,\n    mut dst: *mut T,\n    is_less: &mut F,\n) -> (*const T, *const T, *mut T) {",
+      "signature_sha256": "a8cca4d82cc58dbf0cb36aacb71e8d228f650367d75a2b908f32b69aa805a4f0",
+      "body_sha256": "0ca042e27b297c765dcd972bed404d30535e716600c762d84542371fe74bf7ba",
+      "body_sha256_matches_accepted_stock_26_09": true,
+      "first_line": 677,
+      "statements": [
+        {
+          "line": 697,
+          "statement": "unsafe {"
+        },
+        {
+          "line": 698,
+          "statement": "let is_l = !is_less(&*right_src, &*left_src);"
+        },
+        {
+          "line": 699,
+          "statement": "let src = if is_l { left_src } else { right_src };"
+        },
+        {
+          "line": 700,
+          "statement": "ptr::copy_nonoverlapping(src, dst, 1);"
+        },
+        {
+          "line": 701,
+          "statement": "right_src = right_src.add(!is_l as usize);"
+        },
+        {
+          "line": 702,
+          "statement": "left_src = left_src.add(is_l as usize);"
+        },
+        {
+          "line": 703,
+          "statement": "dst = dst.add(1);"
+        },
+        {
+          "line": 704,
+          "statement": "}"
+        },
+        {
+          "line": 706,
+          "statement": "(left_src, right_src, dst)"
+        }
+      ]
+    },
+    {
+      "name": "merge_down",
+      "signature": "unsafe fn merge_down<T, F: FnMut(&T, &T) -> bool>(\n    mut left_src: *const T,\n    mut right_src: *const T,\n    mut dst: *mut T,\n    is_less: &mut F,\n) -> (*const T, *const T, *mut T) {",
+      "signature_sha256": "963f684af776fc843789e557148bc72d8d1134eee0120ba50086261bf959c8f6",
+      "body_sha256": "0022e177284c62796ea1b944d257a1ebab2573b8c2ee0c6412ae3835e50294c7",
+      "body_sha256_matches_accepted_stock_26_09": true,
+      "first_line": 710,
+      "statements": [
+        {
+          "line": 730,
+          "statement": "unsafe {"
+        },
+        {
+          "line": 731,
+          "statement": "let is_l = !is_less(&*right_src, &*left_src);"
+        },
+        {
+          "line": 732,
+          "statement": "let src = if is_l { right_src } else { left_src };"
+        },
+        {
+          "line": 733,
+          "statement": "ptr::copy_nonoverlapping(src, dst, 1);"
+        },
+        {
+          "line": 734,
+          "statement": "right_src = right_src.wrapping_sub(is_l as usize);"
+        },
+        {
+          "line": 735,
+          "statement": "left_src = left_src.wrapping_sub(!is_l as usize);"
+        },
+        {
+          "line": 736,
+          "statement": "dst = dst.sub(1);"
+        },
+        {
+          "line": 737,
+          "statement": "}"
+        },
+        {
+          "line": 739,
+          "statement": "(left_src, right_src, dst)"
+        }
+      ]
+    },
+    {
+      "name": "bidirectional_merge",
+      "signature": "unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(\n    v: &[T],\n    dst: *mut T,\n    is_less: &mut F,\n) {",
+      "signature_sha256": "78fc36fc5a15b31dfdf50b4e08e70cf57599ddcb79a0085b2937b0ca2d541816",
+      "body_sha256": "7e312114db3dc90c4e7164d4ff10e1e9df931a6977ae02b89a596aa4f56083d8",
+      "body_sha256_matches_accepted_stock_26_09": true,
+      "first_line": 754,
+      "statements": [
+        {
+          "line": 788,
+          "statement": "let len = v.len();"
+        },
+        {
+          "line": 789,
+          "statement": "let src = v.as_ptr();"
+        },
+        {
+          "line": 791,
+          "statement": "let len_div_2 = len / 2;"
+        },
+        {
+          "line": 794,
+          "statement": "unsafe {"
+        },
+        {
+          "line": 795,
+          "statement": "intrinsics::assume(len_div_2 != 0);"
+        },
+        {
+          "line": 796,
+          "statement": "}"
+        },
+        {
+          "line": 802,
+          "statement": "unsafe {"
+        },
+        {
+          "line": 803,
+          "statement": "let mut left = src;"
+        },
+        {
+          "line": 804,
+          "statement": "let mut right = src.add(len_div_2);"
+        },
+        {
+          "line": 805,
+          "statement": "let mut dst = dst;"
+        },
+        {
+          "line": 807,
+          "statement": "let mut left_rev = src.add(len_div_2 - 1);"
+        },
+        {
+          "line": 808,
+          "statement": "let mut right_rev = src.add(len - 1);"
+        },
+        {
+          "line": 809,
+          "statement": "let mut dst_rev = dst.add(len - 1);"
+        },
+        {
+          "line": 811,
+          "statement": "for _ in 0..len_div_2 {"
+        },
+        {
+          "line": 812,
+          "statement": "(left, right, dst) = merge_up(left, right, dst, is_less);"
+        },
+        {
+          "line": 813,
+          "statement": "(left_rev, right_rev, dst_rev) = merge_down(left_rev, right_rev, dst_rev, is_less);"
+        },
+        {
+          "line": 814,
+          "statement": "}"
+        },
+        {
+          "line": 816,
+          "statement": "let left_end = left_rev.wrapping_add(1);"
+        },
+        {
+          "line": 817,
+          "statement": "let right_end = right_rev.wrapping_add(1);"
+        },
+        {
+          "line": 820,
+          "statement": "if !len.is_multiple_of(2) {"
+        },
+        {
+          "line": 821,
+          "statement": "let left_nonempty = left < left_end;"
+        },
+        {
+          "line": 822,
+          "statement": "let last_src = if left_nonempty { left } else { right };"
+        },
+        {
+          "line": 823,
+          "statement": "ptr::copy_nonoverlapping(last_src, dst, 1);"
+        },
+        {
+          "line": 824,
+          "statement": "left = left.add(left_nonempty as usize);"
+        },
+        {
+          "line": 825,
+          "statement": "right = right.add((!left_nonempty) as usize);"
+        },
+        {
+          "line": 826,
+          "statement": "}"
+        },
+        {
+          "line": 831,
+          "statement": "if left != left_end || right != right_end {"
+        },
+        {
+          "line": 832,
+          "statement": "panic_on_ord_violation();"
+        },
+        {
+          "line": 833,
+          "statement": "}"
+        },
+        {
+          "line": 834,
+          "statement": "}"
+        }
+      ]
+    }
+  ]
+}

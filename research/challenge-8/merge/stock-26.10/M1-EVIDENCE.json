@@ -1,0 +1,1378 @@
+{
+  "phase": "MERGE-STOCK-26.10",
+  "run_id": 37694164542,
+  "run_url": "https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37694164542",
+  "proof_sha": "1be9c1311faf12613145e28f95a2471dec2433fe",
+  "job_id": 113041515221,
+  "job_seconds": 91,
+  "budget": {
+    "previous_used": 512,
+    "total": 1800,
+    "used": 603,
+    "remaining": 1197
+  },
+  "artifact": {
+    "id": 11514548135,
+    "bytes": 404018,
+    "sha256": "e20a93c8cc5494761354cceebdeb57f451bf97cd35e9c1ccce13aa01829f0f86"
+  },
+  "source_certificate_sha256": "a280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f",
+  "mathematics": {
+    "checked-g2": {
+      "merge_geometry_full": {
+        "exit": 0,
+        "accepted": true,
+        "source_sha256": "4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8",
+        "log_sha256": "c56dda29f91ad6a5506dab2a12cec8ce1ef27d55144df70c5efc6c92551be57a",
+        "source_unchanged": true,
+        "negative": null,
+        "classifier_rejection_controls": null,
+        "expected_bodies": [
+          "mg_merge_up_access",
+          "mg_merge_down_access",
+          "mg_pair_step",
+          "mg_terminal_geometry",
+          "mg_trace_induction",
+          "mg_destination_regions",
+          "mg_scalar_guard",
+          "mg_entry"
+        ],
+        "visited_bodies": [
+          "mg_merge_up_access",
+          "mg_merge_down_access",
+          "mg_pair_step",
+          "mg_terminal_geometry",
+          "mg_trace_induction",
+          "mg_destination_regions",
+          "mg_scalar_guard",
+          "mg_entry"
+        ],
+        "errors": [],
+        "return_checks": 17,
+        "leak_checks": 17
+      },
+      "merge_geometry_negative_read": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "80821649fec3d89cb7ee296b9a7ec54562ec4057b290e92dd4a4c55e134eae9f",
+        "log_sha256": "5cc1e80cb61d2954730bacc7c01d3a832ea49659d7836b9fc476aa08d85de8ce",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 136,
+          "expected_predicate": "mg_right(1, 1, 0) < mg_n(1, 0)"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "mg_negative_read_at_n"
+        ],
+        "visited_bodies": [
+          "mg_negative_read_at_n"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-g2/merge_geometry_negative_read.c(136,18-19): error: Assertion might not hold. (Cannot prove mg_right(1, 1, 0) < mg_n(1, 0).)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      },
+      "merge_geometry_negative_advance": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "94e5b441556ac8ff6c75de88c022db63f78ab8c95b10f3d21b21b7c2c1a0d812",
+        "log_sha256": "382ef425aab1a72f9f4a462943b124becaedcdb8e414b72e8bb2437f21fbf5dc",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 136,
+          "expected_predicate": "((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1)"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "mg_negative_both_forward_advance"
+        ],
+        "visited_bodies": [
+          "mg_negative_both_forward_advance"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-g2/merge_geometry_negative_advance.c(136,37-39): error: Assertion might not hold. (Cannot prove ((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1).)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      },
+      "merge_geometry_negative_wrap_read": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "93360c363d9f81120f6db071b417f9b796640908023420f801cba2c0c1590288",
+        "log_sha256": "73540c9c5d0a97fa375539688224f094f486087ab5635c1c7123605f62ba7876",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 136,
+          "expected_predicate": "0 <= (mg_left_rev(1, 0, 0) - 1)"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "mg_negative_read_wrapped_left"
+        ],
+        "visited_bodies": [
+          "mg_negative_read_wrapped_left"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-g2/merge_geometry_negative_wrap_read.c(136,14-16): error: Assertion might not hold. (Cannot prove 0 <= (mg_left_rev(1, 0, 0) - 1).)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      }
+    },
+    "checked-a": {
+      "merge_functional_ids_full": {
+        "exit": 0,
+        "accepted": true,
+        "source_sha256": "11f8f381dcdadb7bbe96249f21086ceb368fd028afc7401779b500c3d8bc9623",
+        "log_sha256": "5fc0b310496f4afed4f22b1e018465f4ea4841344044daea20186ef885be824e",
+        "source_unchanged": true,
+        "negative": null,
+        "classifier_rejection_controls": null,
+        "expected_bodies": [
+          "mg_merge_up_access",
+          "mg_merge_down_access",
+          "mg_pair_step",
+          "mg_terminal_geometry",
+          "mg_trace_induction",
+          "mg_destination_regions",
+          "mg_scalar_guard",
+          "mg_entry",
+          "fa_threshold_step",
+          "fa_pair_balance",
+          "fa_count_append",
+          "fa_count_balance",
+          "fa_initial_balance",
+          "fa_final_guard_balance",
+          "fa_output_length",
+          "fa_trace_length",
+          "fa_destinations",
+          "fa_trace_output_at",
+          "fa_entry"
+        ],
+        "visited_bodies": [
+          "mg_merge_up_access",
+          "mg_merge_down_access",
+          "mg_pair_step",
+          "mg_terminal_geometry",
+          "mg_trace_induction",
+          "mg_destination_regions",
+          "mg_scalar_guard",
+          "mg_entry",
+          "fa_threshold_step",
+          "fa_pair_balance",
+          "fa_count_append",
+          "fa_count_balance",
+          "fa_initial_balance",
+          "fa_final_guard_balance",
+          "fa_output_length",
+          "fa_trace_length",
+          "fa_destinations",
+          "fa_trace_output_at",
+          "fa_entry"
+        ],
+        "errors": [],
+        "return_checks": 55,
+        "leak_checks": 55
+      },
+      "merge_functional_ids_negative_duplicate": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "fa84ead5774c49912d211dd69eca449b6c05edaf6b56c46cb9f4aaf60a6ae32d",
+        "log_sha256": "171852c47451b279e6e84353b44e7506d840bde71e5ed1db727d3602ea1b617d",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 218,
+          "expected_predicate": "fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "fa_negative_duplicate_without_guard"
+        ],
+        "visited_bodies": [
+          "fa_negative_duplicate_without_guard"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-a/merge_functional_ids_negative_duplicate.c(218,68-70): error: Assertion might not hold. (Cannot prove fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1.)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      }
+    },
+    "checked-b": {
+      "merge_order_full": {
+        "exit": 0,
+        "accepted": true,
+        "source_sha256": "9e7e6b07cc086ca761f64dfdc2e2fd0e2266317eccbf9c3ef910ac2172f9fc52",
+        "log_sha256": "071b268c073cecc1e6b85b487af8e75bc32e4582a61f666ee386746da707d7b6",
+        "source_unchanged": true,
+        "negative": null,
+        "classifier_rejection_controls": null,
+        "expected_bodies": [
+          "mg_merge_up_access",
+          "mg_merge_down_access",
+          "mg_pair_step",
+          "mg_terminal_geometry",
+          "mg_trace_induction",
+          "mg_destination_regions",
+          "mg_scalar_guard",
+          "mg_entry",
+          "fa_threshold_step",
+          "fa_pair_balance",
+          "fa_count_append",
+          "fa_count_balance",
+          "fa_initial_balance",
+          "fa_final_guard_balance",
+          "fa_output_length",
+          "fa_trace_length",
+          "fa_destinations",
+          "fa_trace_output_at",
+          "fa_entry",
+          "mb_at",
+          "mb_id_member",
+          "mb_half_order",
+          "mb_trans",
+          "mb_frontier_step",
+          "mb_no_cross",
+          "mb_pair_extremes",
+          "mb_inner_point",
+          "mb_inner_all",
+          "mb_all_unbounded",
+          "mb_selected_bound",
+          "mb_bounds_project",
+          "mb_before_append",
+          "mb_sorted_snoc",
+          "mb_bounds_widen",
+          "mb_bounds_snoc",
+          "mb_induction",
+          "mb_entry_rank",
+          "mb_sorted_positions",
+          "threshold_ce",
+          "rank_from_threshold",
+          "pair_count_choice",
+          "swo_forall_at",
+          "swo_laws_at",
+          "swo_member_lift",
+          "swo_domain_extend",
+          "swo_domain_self",
+          "swo_pred_equiv",
+          "swo_equal_count_rec",
+          "swo_strict_count_rec",
+          "swo_rank_bound_rec",
+          "swo_rank_bridge",
+          "swo_ce",
+          "swo_ordered_pair",
+          "ms_forward_tie",
+          "ms_backward_tie",
+          "ms_half_row_bridge",
+          "ms_halves_bridge_rec",
+          "ms_halves_bridge",
+          "ms_decisions_bridge",
+          "ms_members_snoc",
+          "ms_output_domain",
+          "ms_output_row_bridge",
+          "ms_output_bridge",
+          "ms_entry",
+          "ms_sorted_positions"
+        ],
+        "visited_bodies": [
+          "mg_merge_up_access",
+          "mg_merge_down_access",
+          "mg_pair_step",
+          "mg_terminal_geometry",
+          "mg_trace_induction",
+          "mg_destination_regions",
+          "mg_scalar_guard",
+          "mg_entry",
+          "fa_threshold_step",
+          "fa_pair_balance",
+          "fa_count_append",
+          "fa_count_balance",
+          "fa_initial_balance",
+          "fa_final_guard_balance",
+          "fa_output_length",
+          "fa_trace_length",
+          "fa_destinations",
+          "fa_trace_output_at",
+          "fa_entry",
+          "mb_at",
+          "mb_id_member",
+          "mb_half_order",
+          "mb_trans",
+          "mb_frontier_step",
+          "mb_no_cross",
+          "mb_pair_extremes",
+          "mb_inner_point",
+          "mb_inner_all",
+          "mb_all_unbounded",
+          "mb_selected_bound",
+          "mb_bounds_project",
+          "mb_before_append",
+          "mb_sorted_snoc",
+          "mb_bounds_widen",
+          "mb_bounds_snoc",
+          "mb_induction",
+          "mb_entry_rank",
+          "mb_sorted_positions",
+          "threshold_ce",
+          "rank_from_threshold",
+          "pair_count_choice",
+          "swo_forall_at",
+          "swo_laws_at",
+          "swo_member_lift",
+          "swo_domain_extend",
+          "swo_domain_self",
+          "swo_pred_equiv",
+          "swo_equal_count_rec",
+          "swo_strict_count_rec",
+          "swo_rank_bound_rec",
+          "swo_rank_bridge",
+          "swo_ce",
+          "swo_ordered_pair",
+          "ms_forward_tie",
+          "ms_backward_tie",
+          "ms_half_row_bridge",
+          "ms_halves_bridge_rec",
+          "ms_halves_bridge",
+          "ms_decisions_bridge",
+          "ms_members_snoc",
+          "ms_output_domain",
+          "ms_output_row_bridge",
+          "ms_output_bridge",
+          "ms_entry",
+          "ms_sorted_positions"
+        ],
+        "errors": [],
+        "return_checks": 197,
+        "leak_checks": 197
+      },
+      "merge_order_negative_duplicate": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "fa84ead5774c49912d211dd69eca449b6c05edaf6b56c46cb9f4aaf60a6ae32d",
+        "log_sha256": "d646549b62e7ce4b6be2f171739676ca054d2412ef429f2c689ba58cbad6e330",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 218,
+          "expected_predicate": "fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "fa_negative_duplicate_without_guard"
+        ],
+        "visited_bodies": [
+          "fa_negative_duplicate_without_guard"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-b/merge_order_negative_duplicate.c(218,68-70): error: Assertion might not hold. (Cannot prove fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1.)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      },
+      "merge_order_negative_tie": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "b262cffe29a92567b5b0db404e13da2f55a937c373cac685548eace1720598cd",
+        "log_sha256": "3047d42bfc68accdea47aa5a441502e4e518c05f2dbc5b74bc7f2e5bcfd63d09",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 274,
+          "expected_predicate": "mb_lt(@neg_equal_key, 1, 0) <==> true"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "mb_negative_tie"
+        ],
+        "visited_bodies": [
+          "mb_negative_tie"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-b/merge_order_negative_tie.c(274,39-41): error: Assertion might not hold. (Cannot prove mb_lt(@neg_equal_key, 1, 0) <==> true.)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      },
+      "merge_order_negative_comparator": {
+        "exit": 1,
+        "accepted": true,
+        "source_sha256": "47eb10e1834513249f36c1c8704895db96ff2d452d3b74c7ced70ba4be5952a6",
+        "log_sha256": "7f5a5d5201d7de8356ddb8b506f1a85af6b29c45e70d0d81ec5a270705a4a719",
+        "source_unchanged": true,
+        "negative": {
+          "target_line": 274,
+          "expected_predicate": "neg_reverse_key(0) <= neg_reverse_key(1)"
+        },
+        "classifier_rejection_controls": {
+          "other_line": true,
+          "other_predicate": true,
+          "no_body_execution": true,
+          "no_target_execution": true,
+          "other_column": true,
+          "timeout": true,
+          "source_changed": true
+        },
+        "expected_bodies": [
+          "mb_negative_comparator"
+        ],
+        "visited_bodies": [
+          "mb_negative_comparator"
+        ],
+        "errors": [
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-stock-26.10/checked-b/merge_order_negative_comparator.c(274,31-33): error: Assertion might not hold. (Cannot prove neg_reverse_key(0) <= neg_reverse_key(1).)"
+        ],
+        "return_checks": 0,
+        "leak_checks": 0
+      }
+    }
+  },
+  "rust": {
+    "g2_steps": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+        "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812"
+      },
+      "source_after": {
+        "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+        "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "g2_step",
+        "g2_terminal"
+      ],
+      "visited_bodies": [
+        "g2_step",
+        "g2_terminal"
+      ],
+      "body_execution_records": {
+        "g2_step": 15,
+        "g2_terminal": 10
+      },
+      "per_body_records": {
+        "g2_step": {
+          "return": 4,
+          "leak": 4
+        },
+        "g2_terminal": {
+          "return": 3,
+          "leak": 3
+        }
+      },
+      "return_records": 7,
+      "leak_check_records": 7,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812",
+        "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+        "verifast.log": "ec8bcb69ec6605e831d550fcf6f307fb6eeb17718788d19f3c83c8e11e264165",
+        "exporter.out": "efe811069ad242971947042da3bcfb49a539bfb33675ec3c4feb80c85c4e1eb0",
+        "decode.out": "fd4b3b660a55e0589525b2a4d81852bdb16d3c9938e24edf8bc303134f1a5537",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "init_const": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+        "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3"
+      },
+      "source_after": {
+        "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+        "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "init_const"
+      ],
+      "visited_bodies": [
+        "init_const"
+      ],
+      "body_execution_records": {
+        "init_const": 4
+      },
+      "per_body_records": {
+        "init_const": {
+          "return": 1,
+          "leak": 1
+        }
+      },
+      "return_records": 1,
+      "leak_check_records": 1,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3",
+        "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+        "verifast.log": "20c1bae96471b9367c03139d6d20a05e08ab33e9933a8ed34369023750f56e7b",
+        "exporter.out": "c1e392e13e0f7246be04cea84477b3c81360b0322c19317c099b67fabd1e27ec",
+        "decode.out": "0c17fa0ebd1177f40e68eb01ca5e13ccf17dc949f1b66dbb286335fde5939efa",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "init_mut": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+        "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd"
+      },
+      "source_after": {
+        "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+        "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "init_mut"
+      ],
+      "visited_bodies": [
+        "init_mut"
+      ],
+      "body_execution_records": {
+        "init_mut": 4
+      },
+      "per_body_records": {
+        "init_mut": {
+          "return": 1,
+          "leak": 1
+        }
+      },
+      "return_records": 1,
+      "leak_check_records": 1,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd",
+        "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+        "verifast.log": "0cec00a7fd7055e23bde257abef14fdcd044af44c9c886857b26b616c3774368",
+        "exporter.out": "30e6e992e810f0470cdda968add3bfc2d69ba23788e98adfcdbba9e2ca29b64c",
+        "decode.out": "3ce766a5773dea33485938834604dd579c4f2798f67364aedf26c079188c5336",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "destination_up": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+        "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b"
+      },
+      "source_after": {
+        "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+        "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "destination_up"
+      ],
+      "visited_bodies": [
+        "destination_up"
+      ],
+      "body_execution_records": {
+        "destination_up": 7
+      },
+      "per_body_records": {
+        "destination_up": {
+          "return": 1,
+          "leak": 1
+        }
+      },
+      "return_records": 1,
+      "leak_check_records": 1,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b",
+        "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+        "verifast.log": "e04405bf0f56a07edb794013d5c9f43845b8c001238fa0a11435d4f4690aa7f9",
+        "exporter.out": "68c828a5dc882135f82619d2f6bbdcadfa77f1b5538c4a6cebd36618a0d99667",
+        "decode.out": "4ace7550f7afbea7ef5163d0c43c90caa3fb7b7661f1b2260ef2b9f2ee89c9eb",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "forward_left": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+        "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661"
+      },
+      "source_after": {
+        "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+        "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "forward_left"
+      ],
+      "visited_bodies": [
+        "forward_left"
+      ],
+      "body_execution_records": {
+        "forward_left": 12
+      },
+      "per_body_records": {
+        "forward_left": {
+          "return": 2,
+          "leak": 2
+        }
+      },
+      "return_records": 2,
+      "leak_check_records": 2,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661",
+        "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+        "verifast.log": "8eb9fc1e048bf46d5db8312611305ba45619155b93dc86ff00eb4d7ca78f91ad",
+        "exporter.out": "981404012b9bceb0e8310484256b41d4cc90ab60b4e81a19d84ff13b9fac5495",
+        "decode.out": "f08ab0e278c0bf792f68354fa72f7b2c2a02a7d84724d2786f10ac2067143180",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "forward_right": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+        "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c"
+      },
+      "source_after": {
+        "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+        "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "forward_right"
+      ],
+      "visited_bodies": [
+        "forward_right"
+      ],
+      "body_execution_records": {
+        "forward_right": 13
+      },
+      "per_body_records": {
+        "forward_right": {
+          "return": 2,
+          "leak": 2
+        }
+      },
+      "return_records": 2,
+      "leak_check_records": 2,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c",
+        "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+        "verifast.log": "9690e16ca49788e1fc6318f2bbe5aa0f4da5ed82dfd8988c4d8bb8821488af48",
+        "exporter.out": "9b0f25632a77be70b5e0b1af2c86ebf5058516e6f08b33005ff50f8f0d72023f",
+        "decode.out": "400fcf8f886aac8070c36b58fd324e0b224ba1ab0ac127774614f80997afb410",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "destination_down": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+        "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17"
+      },
+      "source_after": {
+        "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+        "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "destination_down"
+      ],
+      "visited_bodies": [
+        "destination_down"
+      ],
+      "body_execution_records": {
+        "destination_down": 7
+      },
+      "per_body_records": {
+        "destination_down": {
+          "return": 1,
+          "leak": 1
+        }
+      },
+      "return_records": 1,
+      "leak_check_records": 1,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17",
+        "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+        "verifast.log": "82f66dcdcd647bffa6c30f8b7ba83b12cf4bc83157ef300ea4c2dfd876a5c783",
+        "exporter.out": "7889dc5f82bf905623ebd8aedc467fcfb57c3d23027859fc586021638fc570b2",
+        "decode.out": "a7bc90fa5be8f67a31ee33f8ceff075256b0b0bdf94802f0e55ab176abbec286",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "pointer_order": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+        "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336"
+      },
+      "source_after": {
+        "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+        "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "pointer_order",
+        "stride_order"
+      ],
+      "visited_bodies": [
+        "stride_order",
+        "pointer_order"
+      ],
+      "body_execution_records": {
+        "pointer_order": 4,
+        "stride_order": 6
+      },
+      "per_body_records": {
+        "stride_order": {
+          "return": 3,
+          "leak": 3
+        },
+        "pointer_order": {
+          "return": 1,
+          "leak": 1
+        }
+      },
+      "return_records": 4,
+      "leak_check_records": 4,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336",
+        "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+        "verifast.log": "af6e0a78fc67a53d572ba250e5735ba3e12071760da1961bd64d40a93b198450",
+        "exporter.out": "be9df4c30d74a8cbd7aa624954611ed8b810ab2c25b6da2f90e38e95ad0a0c13",
+        "decode.out": "a249c932867ba0eb14304de5cf3632d56cb1d4306b5a404af6fbe25865b1ff89",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "pointer_guard": {
+      "classification": "PASS",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+        "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a"
+      },
+      "source_after": {
+        "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+        "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "isolated pointer/index proof projection",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": null,
+      "expected_bodies": [
+        "pointer_guard",
+        "stride_equal"
+      ],
+      "visited_bodies": [
+        "stride_equal",
+        "pointer_guard"
+      ],
+      "body_execution_records": {
+        "pointer_guard": 14,
+        "stride_equal": 6
+      },
+      "per_body_records": {
+        "stride_equal": {
+          "return": 3,
+          "leak": 3
+        },
+        "pointer_guard": {
+          "return": 3,
+          "leak": 3
+        }
+      },
+      "return_records": 6,
+      "leak_check_records": 6,
+      "error_lines": [],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a",
+        "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+        "verifast.log": "a781173cb66300d80262c48e733a22d72a357ac09ac2b4e6569438506860804b",
+        "exporter.out": "cf485873720cf9134d5645e46db33406b4dc6367873d63f632485e16a573aeff",
+        "decode.out": "ec2b03699bef0267ee870c03ce779da10650946c344777fea3d03e7766b3eeb5",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "wrong_cursor": {
+      "classification": "EXPECTED_FALSE_ASSERTION",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+        "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9"
+      },
+      "source_after": {
+        "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+        "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "negative obligation; no acceptance without exact predeclared metadata",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": {
+        "stage": "verifast",
+        "exit_code": 1,
+        "diagnostic": "verified/lib.rs(20,23-25): error: Assertion might not hold. (Cannot prove ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid).)"
+      },
+      "expected_bodies": [
+        "wrong_cursor"
+      ],
+      "visited_bodies": [
+        "wrong_cursor"
+      ],
+      "body_execution_records": {
+        "wrong_cursor": 6
+      },
+      "per_body_records": {
+        "wrong_cursor": {
+          "return": 0,
+          "leak": 0
+        }
+      },
+      "return_records": 0,
+      "leak_check_records": 0,
+      "error_lines": [
+        "verified/lib.rs(20,23-25): error: Assertion might not hold. (Cannot prove ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid).)"
+      ],
+      "dead_code_records": [],
+      "expected_error": {
+        "stage": "verifast",
+        "predicate": "ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)",
+        "line": 20,
+        "column_start": 23,
+        "column_end": 25
+      },
+      "observed_error": {
+        "line": 20,
+        "column_start": 23,
+        "column_end": 25,
+        "predicate": "ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)",
+        "target_executed": true
+      },
+      "classifier_fail_closed_mutations": {
+        "negative_line": true,
+        "negative_column": true,
+        "negative_predicate": true,
+        "negative_missing_body": true,
+        "negative_export_stage": true,
+        "negative_decode_stage": true,
+        "negative_refinement_stage": true,
+        "negative_timeout_stage": true,
+        "negative_source_changed": true,
+        "negative_missing_target_execution": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9",
+        "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+        "verifast.log": "89c6f6bebf9a503c6d3b9b90358b925a13c3c540b645054e667a8e3cbd1f5172",
+        "exporter.out": "0cf0987c8085c046dedff12d16d3cf54d210a64047455f6c6a2f9739ba37c8f6",
+        "decode.out": "4581c10ec34e630b12f9a51c912e8859b979b77168e63ffa4c94a48055b647e2",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "address_index": {
+      "classification": "EXPECTED_FALSE_ASSERTION",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+        "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3"
+      },
+      "source_after": {
+        "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+        "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "negative obligation; no acceptance without exact predeclared metadata",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": {
+        "stage": "verifast",
+        "exit_code": 1,
+        "diagnostic": "verified/lib.rs(14,18-20): error: Assertion might not hold. (Cannot prove i = j.)"
+      },
+      "expected_bodies": [
+        "address_index"
+      ],
+      "visited_bodies": [
+        "address_index"
+      ],
+      "body_execution_records": {
+        "address_index": 1
+      },
+      "per_body_records": {
+        "address_index": {
+          "return": 0,
+          "leak": 0
+        }
+      },
+      "return_records": 0,
+      "leak_check_records": 0,
+      "error_lines": [
+        "verified/lib.rs(14,18-20): error: Assertion might not hold. (Cannot prove i = j.)"
+      ],
+      "dead_code_records": [],
+      "expected_error": {
+        "stage": "verifast",
+        "predicate": "i = j",
+        "line": 14,
+        "column_start": 18,
+        "column_end": 20
+      },
+      "observed_error": {
+        "line": 14,
+        "column_start": 18,
+        "column_end": 20,
+        "predicate": "i = j",
+        "target_executed": true
+      },
+      "classifier_fail_closed_mutations": {
+        "negative_line": true,
+        "negative_column": true,
+        "negative_predicate": true,
+        "negative_missing_body": true,
+        "negative_export_stage": true,
+        "negative_decode_stage": true,
+        "negative_refinement_stage": true,
+        "negative_timeout_stage": true,
+        "negative_source_changed": true,
+        "negative_missing_target_execution": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3",
+        "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+        "verifast.log": "1f1f1a79c76cd7080742b3fc4ee239aeda6c279794cf73527edf32a3787ed486",
+        "exporter.out": "9220bbdf2a445d1d0070f88a27561b70b8398c6aed700f55ed72bd873c54c4dd",
+        "decode.out": "fb26966cfa2ad72003ef0330fd1e861cce3d638b4b2acd5fb7e9cd2628031cbd",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    }
+  },
+  "wrapping": {
+    "wrapping_down": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "9d6ad4528bfe3048125c745d6e125a9db4784559b6c7fdfc11c552670562362c",
+        "verified/lib.rs": "a0331ae7f44f4726eccec94182287a2d9318bfbdd1f01c7c7c1fd8e1105afec0"
+      },
+      "source_after": {
+        "original/lib.rs": "9d6ad4528bfe3048125c745d6e125a9db4784559b6c7fdfc11c552670562362c",
+        "verified/lib.rs": "a0331ae7f44f4726eccec94182287a2d9318bfbdd1f01c7c7c1fd8e1105afec0"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "operation support probe only: true normal post; establishes no pointer/index bridge",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": {
+        "stage": "verifast",
+        "exit_code": 1,
+        "diagnostic": "verified/lib.rs(14,17-54): error: No such function: std::ptr::const_ptr::<impl *const T>::wrapping_sub"
+      },
+      "expected_bodies": [
+        "wrapping_down"
+      ],
+      "visited_bodies": [
+        "wrapping_down"
+      ],
+      "body_execution_records": {
+        "wrapping_down": 5
+      },
+      "per_body_records": {
+        "wrapping_down": {
+          "return": 0,
+          "leak": 0
+        }
+      },
+      "return_records": 0,
+      "leak_check_records": 0,
+      "error_lines": [
+        "verified/lib.rs(14,17-54): error: No such function: std::ptr::const_ptr::<impl *const T>::wrapping_sub"
+      ],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "a0331ae7f44f4726eccec94182287a2d9318bfbdd1f01c7c7c1fd8e1105afec0",
+        "original/lib.rs": "9d6ad4528bfe3048125c745d6e125a9db4784559b6c7fdfc11c552670562362c",
+        "verifast.log": "c64e68c92512cf3a9410d398313110114f83e05b5343011ca258899aba574457",
+        "exporter.out": "887dc4e89f06f195067bded834d89477e25d792f0b08557fb603507933a1fb1a",
+        "decode.out": "0c5e963ea9af6eb5aad14620ceda116b59fb7fe1c5c94a0cf5598244decd5462",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    },
+    "wrapping_end": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "276a042a4e7cacd896fc85c0f147ec3e343ba2f9e265bdd3415c968d3532ca6b",
+        "verified/lib.rs": "c88dc073c16ed6f459e7611f964094c8dab2e3a1106344932b9969041bf2610d"
+      },
+      "source_after": {
+        "original/lib.rs": "276a042a4e7cacd896fc85c0f147ec3e343ba2f9e265bdd3415c968d3532ca6b",
+        "verified/lib.rs": "c88dc073c16ed6f459e7611f964094c8dab2e3a1106344932b9969041bf2610d"
+      },
+      "source_unchanged_at_every_stage": true,
+      "case_scope": "operation support probe only: true normal post; establishes no pointer/index bridge",
+      "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+      "first_failure": {
+        "stage": "verifast",
+        "exit_code": 1,
+        "diagnostic": "verified/lib.rs(13,20-44): error: No such function: std::ptr::const_ptr::<impl *const T>::wrapping_add"
+      },
+      "expected_bodies": [
+        "wrapping_end"
+      ],
+      "visited_bodies": [
+        "wrapping_end"
+      ],
+      "body_execution_records": {
+        "wrapping_end": 2
+      },
+      "per_body_records": {
+        "wrapping_end": {
+          "return": 0,
+          "leak": 0
+        }
+      },
+      "return_records": 0,
+      "leak_check_records": 0,
+      "error_lines": [
+        "verified/lib.rs(13,20-44): error: No such function: std::ptr::const_ptr::<impl *const T>::wrapping_add"
+      ],
+      "dead_code_records": [],
+      "expected_error": null,
+      "observed_error": null,
+      "classifier_fail_closed_mutations": {
+        "positive_stage_exporter": true,
+        "positive_stage_decode": true,
+        "positive_stage_verifast": true,
+        "positive_stage_refinement": true,
+        "positive_missing_body": true,
+        "positive_error": true,
+        "positive_dead_code": true,
+        "positive_source_changed": true,
+        "positive_timeout": true,
+        "positive_no_execution": true,
+        "positive_no_return": true,
+        "positive_no_leak": true
+      },
+      "artifact_file_hashes": {
+        "verified/lib.rs": "c88dc073c16ed6f459e7611f964094c8dab2e3a1106344932b9969041bf2610d",
+        "original/lib.rs": "276a042a4e7cacd896fc85c0f147ec3e343ba2f9e265bdd3415c968d3532ca6b",
+        "verifast.log": "05dd5b397701fe7a5541586b25063cc0afb4d8457d00d99b000fda0a826cacc0",
+        "exporter.out": "87eed4be5110ed9f4956af0c3e9d40288fbebe0694d1e23ca7c22988a461a054",
+        "decode.out": "2eee2ed98f38ae36f0b32f80e033c46ade9ae98e8ff57a236a97fda394278d7d",
+        "refinement.out": "1a8817a00f800c6cf7a3665f98f2fba1f8766f965737e7ce367127771f9d69e3"
+      }
+    }
+  }
+}

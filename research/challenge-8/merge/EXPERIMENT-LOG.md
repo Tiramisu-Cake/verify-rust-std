@@ -514,3 +514,32 @@ domains/full posts, exact controls, stock profile and outcome mapping. One own
 merge_geometry dispatch, maximum360hosted seconds inclusive, suite240s.
 Bodies/signatures unchanged vs844; full SmallSort bytes/caller expressions
 changed. New certificate separate; old hashes/results retained. No active run.
+
+M1 dispatched exact remote SHA1be9c1311faf12613145e28f95a2471dec2433fe,
+run[37694164542](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37694164542),
+created2026-10-07T22:07:57Z. Own workflow_dispatch proof=merge_geometry,
+sort4_component=index,budget_minutes=30 (job hardcap6min,step310s).
+No duplicate dispatch; full cost pending.
+
+## M1 RESULT — stock26.10 components accepted; wrapping unsupported
+
+Proof1be9c1311faf12613145e28f95a2471dec2433fe/run37694164542,
+job11304151522122:08:01Z–22:09:32Z=91s,512+91=603/1800used1197remain.
+All other7jobs skipped, no active run. [Full report](STOCK-26.10-RESULTS.md),
+[exact compact evidence](stock-26.10/M1-EVIDENCE.json). G2/A/B full65body
+composition replay PASS; separateG28/A19alsoPASS;7intended mathematical
+negative instances/49controls PASS. All9Rust positives12own bodies102exec
+25return25leak, export/decode/fullVF/refinement/integrity PASS; two intended
+negative assertions and128controls PASS. Case/proof bytes unchanged.
+
+New independent admissiona280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f,
+oldf2ccc11b retained. Exact wrapping_sub14:17–54 and wrapping_add13:20–44
+No such function after exporter/decode/refinement0. Classified INCONCLUSIVE,
+evidence UNSUPPORTED at exact stock call; no post/provenance/reentry/terminal
+association acceptance, Rust read-at--1 NOT RUN. Minimal isolated sources/log
+hashes preserved in evidence index; old excluded drafts not admitted. Stop
+wrapping; independent migration checks complete. New semantics not introduced.
+Artifact11514548135404018bytesZIPe20a93c8cc5494761354cceebdeb57f451bf97cd35e9c1ccce13aa01829f0f86
+matched GitHub digest. Setup32s,suite50.79s,peakRSS274168KiB. No local executable
+checks. Documentation closeout requires no extra run. Proposed design-only next
+phase remains unapproved; actual merge/FnMut/memory/unwind/ZST bridge OPEN.

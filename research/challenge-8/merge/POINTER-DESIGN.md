@@ -1,3 +1,13 @@
+## MERGE-STOCK-26.10 closeout — 2026-10-08
+
+G2/A/B and nine conditional Rust projections reaccepted on official stock26.10.
+Both exact const-pointer wrapping methods unsupported; semantic properties OPEN.
+[New report/table](STOCK-26.10-RESULTS.md), [current status](STATUS.md),
+[separate profile](stock-26.10/PROFILE.md). Proof1be9c131/run37694164542;
+603/1800hosted seconds used1197remain. No actual merge/Challenge theorem.
+Older sections below preserve historical26.09 and CI0sync states; their stops,
+proof SHAs and budgets are not relabelled as new results/authorization.
+
 ## Sync audit correction — 2026-10-08
 
 This historical26.09 design remains conditional on its old proof/source pins.

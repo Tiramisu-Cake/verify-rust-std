@@ -230,3 +230,14 @@ Caller route audit remains source analysis only. Public sort ZST exits do not
 cover standalone generic helper/trait goals. Direct general scratch ZST route,
 noninjective zero-stride guards and network nontermination distinction remain
 OPEN; no positive-stride premise was added to unrestricted Challenge safety.
+
+### New hosted admission outcome
+
+M1/run37694164542/proof1be9c131 admits this new snapshot separately:
+certificate[SOURCE-ADMISSION-CD371.json](stock-26.10/SOURCE-ADMISSION-CD371.json)
+SHA256a280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f.
+Oldf2ccc11b...certificate preserved for32574fd0...only. New fullfile85c75bc9...,
+unchanged exact3signatures/fullbody hashes,9/9/30active statements and new
+operation anchors checked in all6groups. G2/A/B and9projections PASS at new
+profile; exact wrapping unsupported after export/decode/refinement. No new
+whole-merge/caller-resource/ZST transfer. [Result](STOCK-26.10-RESULTS.md).
