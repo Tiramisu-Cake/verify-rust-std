@@ -9,11 +9,16 @@ repo=$(git rev-parse --show-toplevel)
 cd "$repo"
 evidence="$repo/research-results/select-pointer"
 budget=${1:?budget minutes required}
-[[ "$budget" == 30 ]] || { echo 'requires workflow input 30; effective job cap 8 minutes' >&2; exit 2; }
+ast_mode=${FORGET_GENERIC_AST:-0}
+[[ "$ast_mode" == 0 || "$ast_mode" == 1 ]] || { echo 'invalid generic AST selector' >&2; exit 2; }
+export FORGET_GENERIC_AST="$ast_mode"
+job_cap=8
+if [[ "$ast_mode" == 1 ]]; then job_cap=6; fi
+[[ "$budget" == 30 ]] || { echo "requires workflow input 30; effective job cap $job_cap minutes" >&2; exit 2; }
 if [[ "${2:-}" != --inside ]]; then
     [[ ! -e "$evidence" ]] || { echo 'refuse existing evidence' >&2; exit 2; }
     mkdir -p "$evidence"
-    remaining=$((8 * 60 - 120))
+    remaining=$((job_cap * 60 - 120))
     if [[ -n "${SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH:-}" ]]; then
         [[ "$SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH" =~ ^[0-9]+$ ]] || exit 2
         remaining=$((remaining - $(date +%s) + SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH))
@@ -59,8 +64,8 @@ stock_home="$task_temp/verifast-26.09"
 source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
-    printf 'Profile: experimental-source-linked-select-pointer-drop-v4\nDiagnostic: S7b single generic forget body, no actual guard/admission/redirect\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
-    printf 'Budget: 8 minutes including preparation/build/diagnostic; workflow input %s; cleanup reserve120 seconds\n' "$budget"
+    printf 'Profile: experimental-source-linked-select-pointer-drop-v4\nDiagnostic: S7b single generic forget body, no actual guard/admission/redirect\nAST dump requested: %s\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$ast_mode" "$source_pin" "$RUSTUP_TOOLCHAIN"
+    printf 'Budget: %s minutes including preparation/build/diagnostic; workflow input %s; cleanup reserve120 seconds\n' "$job_cap" "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-forget-generic.py research/challenge-8/forget-evidence-classifier.py research/challenge-8/SORT4-SELECT-FORGET-DESIGN.md
 } > "$evidence/environment.txt"
 run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/check-forget-generic.py research/challenge-8/forget-evidence-classifier.py
@@ -150,5 +155,7 @@ rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/console-ldd.txt"
 if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 unset SORT4_MAYBEUNINIT_REPO_ROOT SORT4_SELECT_INTRINSIC_REPO_ROOT SORT4_POINTER_DROP_REPO_ROOT
-run_stage forget-generic-diagnostic python3 research/challenge-8/check-forget-generic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --preflight-manifest "$evidence/generic-construction-preflight/construction-preflight.json" --evidence "$evidence/forget-generic-diagnostic"
+ast_args=()
+if [[ "$ast_mode" == 1 ]]; then ast_args=(--dump-ast-with-locs); fi
+run_stage forget-generic-diagnostic python3 research/challenge-8/check-forget-generic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --preflight-manifest "$evidence/generic-construction-preflight/construction-preflight.json" --evidence "$evidence/forget-generic-diagnostic" "${ast_args[@]}"
 exit 0

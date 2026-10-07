@@ -181,10 +181,13 @@ def run(evidence: Path, args, fixture_record: dict) -> dict:
         stages["normal-decode"] = run_stage("normal-decode", [
             "capnp", "decode", str(args.schema), "VfMir"], evidence, env,
             fixture_record, 60, "normal-mir.bin", "normal-mir.txt")
-    stages["full-verification"] = run_stage("full-verification", [
-        str(args.tool_home / "bin/verifast"), "-rustc_args", "--edition 2021",
-        "-verbose", "1", "verified/lib.rs"], evidence, env,
-        fixture_record, 120)
+    verifier_argv = [str(args.tool_home / "bin/verifast"),
+                     "-rustc_args", "--edition 2021", "-verbose", "1"]
+    if args.dump_ast_with_locs:
+        verifier_argv += ["-dump_ast_with_locs", "verified-ast.txt"]
+    verifier_argv.append("verified/lib.rs")
+    stages["full-verification"] = run_stage("full-verification",
+        verifier_argv, evidence, env, fixture_record, 120)
     stages["refinement"] = run_stage("refinement", [
         str(args.tool_home / "bin/refinement-checker"), "--rustc-args",
         "--edition 2021", "original/lib.rs", "verified/lib.rs"],
@@ -192,7 +195,7 @@ def run(evidence: Path, args, fixture_record: dict) -> dict:
     return stages
 
 
-def classify(evidence: Path, stages: dict) -> dict:
+def classify(evidence: Path, stages: dict, require_ast: bool) -> dict:
     log = (evidence / "full-verification.log").read_text(errors="replace")
     classifier = strict_classifier()
     strict = classifier.classify_unit(
@@ -216,14 +219,24 @@ def classify(evidence: Path, stages: dict) -> dict:
     leak_seen = (len(target_functions) == 1 and
                  target_functions[0]["leak_check_seen"])
     no_focus = "-focus" not in stages["full-verification"]["argv"]
+    ast_path = evidence / "verified-ast.txt"
+    ast_exists = ast_path.is_file()
+    ast_bytes = ast_path.stat().st_size if ast_exists else None
+    ast_nonempty = ast_bytes is not None and ast_bytes > 0
+    ast_evidence = {"requested": require_ast, "exists": ast_exists,
+                    "nonempty": ast_nonempty,
+                    "sha256": sha(ast_path.read_bytes()) if ast_nonempty else None,
+                    "bytes": ast_bytes}
     positive = (sources_exact and all_exit_zero and no_focus and
                 strict["accepted"] and not errors and
                 unit_headers == ["checked_forget_generic"] and
-                len(target_functions) == 1 and body_seen and return_seen and leak_seen)
+                len(target_functions) == 1 and body_seen and return_seen and
+                leak_seen and (not require_ast or ast_nonempty))
     result = {
         "classification": "DIAGNOSTIC_POSITIVE" if positive else "INCONCLUSIVE",
         "accepted_component": False, "actual_redirected": False,
         "generic_safe_forget_proved": False,
+        "ast_diagnostic": ast_evidence,
         "source_integrity": sources_exact,
         "all_required_stage_exits_zero": all_exit_zero,
         "predeclared_functions": ["checked_forget_generic"],
@@ -259,6 +272,7 @@ def main() -> None:
     parser.add_argument("--tool-home", type=Path)
     parser.add_argument("--schema", type=Path)
     parser.add_argument("--compiler-sysroot")
+    parser.add_argument("--dump-ast-with-locs", action="store_true")
     args = parser.parse_args()
     require(args.construction_preflight != bool(args.preflight_manifest),
             "choose hosted preflight or exact manifest-bound full diagnostic")
@@ -289,7 +303,7 @@ def main() -> None:
     require(json.loads(args.preflight_manifest.read_text()) == record,
             "new S7b source pair differs from hosted preflight")
     stages = run(evidence, args, record)
-    result = classify(evidence, stages)
+    result = classify(evidence, stages, args.dump_ast_with_locs)
     print(json.dumps({"classification": result["classification"],
                       "all_required_stage_exits_zero":
                           result["all_required_stage_exits_zero"]}))

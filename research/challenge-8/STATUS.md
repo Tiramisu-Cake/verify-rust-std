@@ -1,48 +1,47 @@
 # Challenge 8: current checkpoint
 
-Updated2026-10-07. Owner resumes S7b from8fdb579: autonomous generic-body theorem authorized.
-New BEFORE card in forget design; old S7a stop below is historical.
-4589used811remaining after37675513854/sourcec9c59a85807da0135a8192b1912b15d510c68028:
-178s19:34:36–19:37:34UTC. FullunitVF1 soleadapter-declarationdeadcode despiteall7
-body/return/leak; exports/decode/refine0. No theorem/actualredirect; causaltrace
-read-only now, classifier replay separate and pending, no active run.
-separate; no actual redirect before complete acceptance/matrix.
+Updated 2026-10-07. S7b resumed from
+`8fdb5799bdd0bbc6bacea5a36567dc71886b6015` under the owner's narrow authorization.
+**IN PROGRESS: one frozen-profile AST provenance diagnostic is being prepared.**
+No active run. Auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED
+and no S7 actual redirect. [Report](SORT4-SELECT-FORGET-RESULTS.md),
+[design/BEFORE cards](SORT4-SELECT-FORGET-DESIGN.md),
+[operating runbook](AGENT-RUNBOOK.md), [roadmap](PLAN.md).
 
-Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**
-[Exact report](SORT4-SELECT-FORGET-RESULTS.md), [design/trust](SORT4-SELECT-FORGET-DESIGN.md).
-Latest [37669436220](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220),
-source `a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d`: all9 NORMAL/readonly exports and
-refinement PASS. Exact nominal guard/body captured; both positive bodies return/
-leak-check but exit1 on frozen global dead-code gate. Seven intended raw proof
-errors observed; automatic all9 INCONCLUSIVE retained (negative duplicate note
-headers), no classifier change/replay. Full admission/mutation/borrow controls and
-new-profile regressions NOT RUN. No new semantic profile/guard-own/actual redirect.
-S6v4 components unchanged/accepted. Actual latest remains S6 forget63 missing
-nominal guard-own, not assume_init; full helper/sort4 NOT PROVEN.
-Budget **4411/5400 summed hosted jobseconds used;989 remain**, samebudget/noreset,
-noactive. STOP for independent-acceptance design; no dead-code suppression or
-preprocessor/focus/model extension. Historical S6 checkpoint follows.
+Standalone run37675513854, checked source
+`c9c59a85807da0135a8192b1912b15d510c68028`: one generic unsafe forget adapter,
+whole unit without focus/macros/select/guard. All seven predeclared bodies execute,
+return and leak-check; full VF exits1 with sole
+`verified/lib.rs(3,1-16,2): dead code`. NORMAL/readonly export/decode and refinement
+exit0; source integrity PASS. Body prefix is not a successful theorem.
+Existing ManuallyDrop identity/destructor/no-unwind correspondence remains TRUSTED.
 
-Accepted source/profile: S6v4 proof75681fbc57bda633f59096cdc28f0c1aa61daef8,
-run37656621026; patchc7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1.
+Separate replay37676357686/processor
+`dd4b0493b8411d92f61f525a3c7ef6ec0429d021` PASS: immutable old run37669436220
+logs, all nine original classifications preserved byte-for-byte. New separate map:
+two positives INCONCLUSIVE (dead-code exit1), seven intended proof negatives.
+Seven classifier controls PASS. This is no new proof or full S7 admission.
+
+Budget **4601/5400 summed hosted job seconds used; 799 remain**, same budget/no reset:
+entry4411 + standalone178 + replay12. All executable checks hosted-only, one active
+relevant run at a time. Next diagnostic cap360s includes120s cleanup reserve;
+existing console -dump_ast_with_locs only, same exact source/contracts/profile.
+No syntax variation or translator/kernel/prelude/exporter/refiner/dead-code change.
+If dead-code persists, document AST/trace cause and STOP without actual redirect.
+
+S6v4 components remain accepted from run37656621026, proof source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`, frozen patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
 Pointer-value model, constructor, as_mut_ptr, typed intrinsics and narrow pointer
-drop remain accepted within documented trust boundaries. Existing ManuallyDrop
-representation/operation correspondence is trusted, not newly proved by S7.
-No arbitrary slot/Element rights or guard-own=true were introduced.
+drop stay accepted within their documented compiler-glue/frontend trust boundary.
+Actual stock-projected prefix supplies initialized selected cell via constructors
+and stock opens, passes runtime drop60 and closes61/62. It still stops at forget63:
+std/lib.rsspec420 requires nominal `<DropOnPanic<*const Element>>.own(t, guard)`,
+absent. No guard-own=true, new guard/Drop model or Element/slot rights introduced.
+Full S7 nominal source/MIR/call admission, thread/cell/frame/borrow/mutation matrix
+and new-profile regressions NOT RUN. Full helper/sort4 NOT PROVEN.
 
-Actual stock projection: old admitted prefix supplies initialized selected cell
-from ctor some states and two stock opens; retained drop60/closes61–62 pass.
-Forget63 requires guard-own at std/lib.rsspec420; absent. S7 body evidence is not
-callee acceptance/call correspondence and cannot discharge that current blocker.
-
-Four S7 diagnostic jobs:37665233357=133s (construction),37666273705=122s (compiler),
-37667942855=99s (readonly only/NORMAL incomplete_include),37669436220=103s
-(body-prefix plus failed mandatory dead-code gate). All costs in continuing ledger.
-Original raw classifications preserved. No active run or uncommitted semantic draft.
-Next decision needs a design for independent exact-nominal acceptance preserving
-full dead-code/source/MIR/refinement gates before redirect; general guard/Drop/
-assume_init/union/refinement/memory/provenance/kernel remain frozen.
-
-S5j correction retained: readonly export/decode0, refinement FAIL RawPtr bb1cmd4;
-normal preprocessing separately after-tail ghost-close failure. No readresource proof.
-RAPx CLOSED/NO-GO,B/C NOTRUN,no upstream PR/messages/submission.
+assume_init/general union/Drop/refinement/memory/alias/provenance/kernel remain
+outside this task. S5j correction retained: readonly export/decode0, refinement1
+RawPtr bb1cmd4; normal preprocessing separately fails after-tail ghost close.
+RAPx CLOSED/NO-GO; B/C NOT RUN; no upstream PR/messages/submission.

@@ -1,4 +1,112 @@
-# S7 exact local-guard forget — diagnostic closeout
+# S7b forget — standalone body and admission checkpoint
+
+**The auxiliary body theorem is NOT ACCEPTED. Actual-call linkage is NOT ACCEPTED
+and was not implemented. Actual helper did not advance in S7b.** The complete
+standalone verifier exits1 at the mandatory dead-code gate after the reachable
+body returns and passes leak-check. Existing S6v4 components remain accepted;
+full helper and sort4 are NOT PROVEN.
+
+## Standalone whole-unit experiment
+
+[Run37675513854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37675513854)
+checked source `c9c59a85807da0135a8192b1912b15d510c68028`. Its minimal crate
+contains only `unsafe checked_forget_generic<T>(t:T)` with the pinned body
+`{ let _ = ManuallyDrop::new(t); }`. There is no surrounding select, surrogate
+guard, isolation macro or focus. Generic T has no Copy/Freeze/own restriction.
+The explicit reachable contract requires current thread_token, returns the same
+token and requires false on unwind. SAFE compatibility under false own is not
+used as body evidence or as a safe-forget call summary.
+
+Profile remains `experimental-source-linked-select-pointer-drop-v4`, exact patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
+All admission flags are unset. Kernel, prelude, exporter, refiner, dead-code rules,
+std runtime, signatures and target contract are unchanged. ManuallyDrop<T>→T and
+ManuallyDrop::new(arg)→arg, including destructor suppression/no-unwind correspondence,
+are existing TRUSTED model operations. Verifying a ghost/body prefix does not
+prove their correspondence to Rust semantics and does not create memory rights.
+
+Source preflight/regeneration, exact original/verified ghost stripping and all
+before/after stage hashes PASS. NORMAL/readonly export and full decode both exit0;
+readonly refinement exits0. Complete decoded MIR files are byte-identical, SHA256
+`3b08b5835f03ff152e6dae68bbf4ce05d1491d7919124f06222794f844b8553d`.
+Four locals are _0:unit, _1:T, _2:ManuallyDrop<T>, _3:T. BB0 moves _1 to _3 and
+calls the sole typed ManuallyDrop::new<T> with Move _3, result _2, normal BB1 and
+cleanup BB2. BB1 ends temporary storage, assigns unit and returns. BB2 has
+cleanup=true and UnwindResume. There is no Drop terminator. The cleanup is retained;
+no-unwind acceptance cannot be inferred from this syntax or failed full proof.
+
+| Annotation or operation | verified/lib.rs coordinates |
+| --- | --- |
+| Adapter declaration / body | 3 / 14–16 |
+| req block / statement | 5–7 / 6 |
+| ens block / statement | 8–10 / 9 |
+| on_unwind_ens block / statement | 11–13 / 12 |
+| Runtime ManuallyDrop::new | 15 |
+| MIR UnwindResume span / final dead-code diagnostic | 3:1–16:2 |
+
+The full verifier executes exactly the seven functions declared in the BEFORE
+card: u32_sync, u32_share_mono, init_ref_readonly_points_to_shared,
+std::mem::close_MaybeUninit_pointer_own, std::mem::select_MaybeUninit_pointer_own,
+std::ptr::pointer_drop_glue_identity, checked_forget_generic. All have execution,
+return and leak-check evidence. The target trace is log219–232; log233 is the sole
+`verified/lib.rs(3,1-16,2): dead code`, with no preceding proof error. Full verifier
+exit1 and classification INCONCLUSIVE are retained. This is a nonvacuous body
+prefix, not a successful auxiliary theorem.
+
+## Separate classifier repair and immutable replay
+
+[Replay37676357686](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37676357686),
+processor source `dd4b0493b8411d92f61f525a3c7ef6ec0429d021`, performs no build or
+verification. It replays pinned S7a run37669436220/source
+`a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d`, compact artifact11503963988. Whole
+inner archive SHA256 is
+`12c3f3f509fc845dd1aa1bb7d8b80f8fcf70e6ab6064af3436168f0b9489dd83`.
+Run/artifact/source association, archive hash and261 exact selected input files
+PASS; all nine original INCONCLUSIVE classifications remain byte-for-byte intact.
+New classification is separate: helper_positive and frame_positive remain
+INCONCLUSIVE (exit1/dead-code); false_assert, wrong_post, thread_loss,
+thread_duplication, frame_loss, frame_duplication, frame_wrong_value are
+INTENDED_NEGATIVE only at their specified body/post/leak obligations. Each negative
+has exactly its intended error and zero dead-code entries; positives retain their
+dead-code failures. This replay does not accept the full S7 matrix.
+
+The strict classifier counts anchored timed execution headers, ignores diagnostic
+note text and enforces the predeclared ordered function inventory. Seven hosted
+controls PASS: baseline; ignored note; note-only rejection; true duplicate-header
+rejection; missing function; unknown function; exit1/dead-code positive rejection.
+Replay artifact11506224082 SHA256
+`be6bb45df5034f8be8d992906dfd08f1f0183d30b2dbf7796d389b93894f7691`.
+
+## Actual-call linkage and actual helper
+
+No S7 actual redirect, broad forget summary, guard-own=true, new ownership/Drop
+model or pointer-derived slot rights were introduced. Full source/MIR nominal
+admission, unsafe-adapter/SAFE-call correspondence, thread/cell/frame/borrow controls,
+mutation controls and new-profile S6v4 regressions remain NOT RUN. They cannot be
+accepted before a successful complete standalone theorem. No claim is made that
+an external same-shaped guard supplies nominal identity or that one path proves
+all helper branches.
+
+Last actual evidence is accepted S6v4 run37656621026/source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`: initialized selected cell from the two
+constructors/stock opens supplies retained pointer drop60; closes61/62 pass. It
+stops at forget63, std/lib.rsspec420 requiring
+`<DropOnPanic<*const Element>>.own(t, guard)`, absent from current resources.
+assume_init was not reached and remains outside authorization. The S5j historical
+refinement failure remains recorded, never reclassified as a success.
+
+## Continuing budget and evidence
+
+Entry4411/5400 used989remaining; standalone178s + replay12s =>4601used799remaining.
+No new budget. Generic compact11507342250/full11506168168, inner archive SHA256
+`4f446d1d199aa2bae9a37f9e4df4a68c2515dd217d2bee9a02e2c885ab357479`;
+852/852 entries pass SHA/CRC/size audit. Raw console and full evidence inspected.
+AST provenance diagnostic is designed separately below/in the design card; it
+cannot change the failed theorem or enable actual admission.
+
+---
+
+# Historical S7a exact local-guard forget — diagnostic closeout
 
 **STOP: independent acceptance is blocked by the frozen global dead-code gate.**
 `forget` is NOT ACCEPTED and actual redirect is NOT IMPLEMENTED. The body route
