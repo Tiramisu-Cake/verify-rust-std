@@ -45,3 +45,23 @@ Wrapped -1 witness added explicitly.21independent classifiercontrols expected
 (7each). Source/signature/activeoperation SHA+line admission all3functions;
 fullfile/static source map reviewed, actual tools/scripts NOT executed locally.
 Hosted cap6min/inner300/percase180, first experiment0/1800spent.
+
+G1 exact dispatch: pushed/remote-verified90872439be953a960aacbb12c79886d6a87e73db,
+[run37671730724](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37671730724),
+proof=merge_geometry, manualdispatch, no duplicate/oldSHA rerun. Costpending.
+
+## G1 result — full unit INCONCLUSIVE, exact evidence retained
+Run37671730724/source90872439be953a960aacbb12c79886d6a87e73db, job19:04:41Z–19:04:52Z =11s, total11/1800,1789remaining. No active job.
+Artifact11504383318,17607bytes, ZIP641964684f49ffdeba63499ceeb4d4e3836fecbae8578465e913ad9ebb382296 matched upload. Full sources/logs/results/environment/resources/sourceadmission inspected.
+Casemerge_geometry_full:exit1,accepted=False,source07ab144f9c8bdd8b8e25ebf3d76644e3182312dcd9e1981af276a394847d003b,log4b8482a266a602778560815aeb32eedb5ea228ae7bfb8d0ec2139ae5c60dfc06,return/leak15/15.
+/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-geometry/checked/merge_geometry_full.c(283,19-21): error: Assertion might not hold. (Cannot prove %(n, 2) = 0 || %(n, 2) = 1.)
+Casemerge_geometry_negative_read:exit1,accepted=False,source80821649fec3d89cb7ee296b9a7ec54562ec4057b290e92dd4a4c55e134eae9f,logf2c99d67916db62f8ffd0c3e143d0c532eac22012c387f52b0b6848d90aaaae6,return/leak0/0.
+/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-geometry/checked/merge_geometry_negative_read.c(136,18-19): error: Assertion might not hold. (Cannot prove mg_right(1, 1, 0) < mg_n(1, 0).)
+Casemerge_geometry_negative_advance:exit1,accepted=False,source94e5b441556ac8ff6c75de88c022db63f78ab8c95b10f3d21b21b7c2c1a0d812,logb444bbced5ac0285e902c09301dfcea2da0c8c830fb73ae1e7cfaea314d30565,return/leak0/0.
+/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-geometry/checked/merge_geometry_negative_advance.c(136,37-39): error: Assertion might not hold. (Cannot prove ((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1).)
+Casemerge_geometry_negative_wrap_read:exit1,accepted=False,source93360c363d9f81120f6db071b417f9b796640908023420f801cba2c0c1590288,log5add0d45d47b2ba81a27da4baf6bebfb0fbcd8cd80e7c62053e2c1dfab467c10,return/leak0/0.
+/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-geometry/checked/merge_geometry_negative_wrap_read.c(136,14-16): error: Assertion might not hold. (Cannot prove 0 <= (mg_left_rev(1, 0, 0) - 1).)
+Full positive visits8bodies, first7complete15return/leak; entry fails only283 remainder-disjunction afterstockdiv_rem_nonneg. No full acceptance. All3negatives reachcorrectsingle proofassert136 (read18-19,advance37-39,wrap14-16), but exactmetadataVCmismatch leaves INCONCLUSIVE; no relaxation/relabel. Tool/std/classifier/sourcepinsmatch, actualactive3bodies9/9/30statements admitted.
+
+## G2 card — explicit remainder split and exact diagnostic calibration
+Same actualstd/source/domain/fullnormalposts/functional-vs-Rust-unwind boundary asG1; no assumptionsorweakening, noSWO/bounds/enumeration. Hypothesis: explicitif(e<1) fromstock0<=n%2<2 proves e==0 elsee==1 and exportsoriginalfullmg_entry. Eachnegative source/falseassert unchanged; metadata strings nowexact hostedVCs, retainingstage,line136,column/body/target/source/timeoutgates and21controls. Positiveall8fullbody/source/return/leak/0error and3intendednegatives required. Stocktool/classifier unchanged,180/proof,300inner,6minjob. Budget11/1800,1789remaining. Success->fullgeometryreport; anyfailure->new evidence-backed localproofrepresentationfix only. Source/runpending.

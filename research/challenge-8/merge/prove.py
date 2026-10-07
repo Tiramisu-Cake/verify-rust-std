@@ -190,19 +190,19 @@ def main() -> int:
         "int n = mg_n(m, e);",
         "int right = mg_right(m, k, a);",
         "assert right == n;",
-    ], "assert right < n; // TARGET_NEGATIVE_READ", "2 < 2")
+    ], "assert right < n; // TARGET_NEGATIVE_READ", "mg_right(1, 1, 0) < mg_n(1, 0)")
     negative_advance = negative_case(core, "mg_negative_both_forward_advance", [
         "int m = 1; int k = 0; int a = 0;",
         "int left_after = a + 1;",
         "int right_after = mg_right(m, k, a) + 1;",
         "assert left_after == 1 && right_after == 2;",
-    ], "assert left_after + right_after == m + k + 1; // TARGET_NEGATIVE_ADVANCE", "3 = 2")
+    ], "assert left_after + right_after == m + k + 1; // TARGET_NEGATIVE_ADVANCE", "((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1)")
     negative_wrap = negative_case(core, "mg_negative_read_wrapped_left", [
         "int m = 1; int e = 0; int k = 0; int d = 0;",
         "assert mg_down_event(m, e, k, d, false) == true;",
         "int left_after = mg_left_rev(m, k, d) - 1;",
         "assert left_after == -1;",
-    ], "assert 0 <= left_after; // TARGET_NEGATIVE_WRAP_READ", "0 <= -1")
+    ], "assert 0 <= left_after; // TARGET_NEGATIVE_WRAP_READ", "0 <= (mg_left_rev(1, 0, 0) - 1)")
     cases = [("merge_geometry_full", core, None),
              ("merge_geometry_negative_read", *negative_read),
              ("merge_geometry_negative_advance", *negative_advance),

@@ -280,6 +280,12 @@ lemma void mg_entry(int n, list<pair<bool, bool> > decisions, bool residual_left
     int e = n % 2;
     div_rem_nonneg(n, 2);
     assert m >= 1;
+    assert 0 <= e && e < 2;
+    if (e < 1) {
+        assert e == 0;
+    } else {
+        assert e == 1;
+    }
     assert e == 0 || e == 1;
     assert n == 2 * m + e;
     assert mg_inv(m, e, 0, 0, 0) == true;

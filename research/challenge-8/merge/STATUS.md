@@ -3,9 +3,14 @@
 2026-10-07 — IN PROGRESS, owner-authorized separate geometry phase.
 Branch challenge-8/merge, isolated worktree /root/verify-rust-std-merge,
 exact base c22f0a30ed457165e07599e226cee289a270b715.
-New budget0/1800 summed hosted job seconds, including preparation/evidence;
+New budget11/1800 summed hosted job seconds, including preparation/evidence;
 one hosted run on this branch, at most two across independent directions.
-No active merge run. First step: pinned source map and arbitrary-length invariant.
+Completed G1 [run37671730724](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37671730724),
+exact published SHA90872439be953a960aacbb12c79886d6a87e73db,11jobseconds.
+Full theorem entry remainder disjunction unproved; all3negatives reached correct
+assertions but exactVCmetadata notmatched. No active run,1789seconds remain.
+G2 prepared explicit remainder split + exact diagnostic metadata, fullposts kept.
+First step: pinned source map and arbitrary-length invariant.
 
 Target: mathematical bounds/order of accesses and cursor advancement in actual
 merge_up, merge_down and bidirectional_merge, arbitrary n>=2 and comparator
