@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget2384/5400 summed hosted job seconds, no active run. Intrinsic accepted S5k;
+Current budget2398/5400 summed hosted job seconds, no active run. Intrinsic accepted S5k;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -243,3 +243,44 @@ original ordered gate and requires all3 saved positives before any negative;
 retains exact unchanged classification equality. No broad error matching change.
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37625744772),
 [replay evidence11484166969](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37625744772/artifacts/11484166969).
+
+S5r2/37626031885/replay source
+`586c9ae4155a3ad0d3c50ebed2d22d9716a80b4f`:14s13:07:21–13:07:35UTC,
+total2398/5400,3002 remaining,noactive/queued. **REPLAY_COMPONENT_ACCEPTED**.
+Input S5j/2454e860dc75c277686f3031a311501a3cd2b9e3, frozenv2/7bb39a84:
+all3839 source/current+O4 manifest entries SHA/size/CRC verified. Replayed6positive,
+10proofnegative,40admission classifiers solely from saved raw evidence. Sixteen
+proof classifications and32admission classifications identical; exactly8 old
+exact_fatal-only mismatches now intended certificate rejects. Saved original
+INCONCLUSIVE summary+all60 original classification/summary files untouched;
+separate56 corrected records and replay summary. Original archive outerSHA
+1a5e4957da5db048d02cb56bc518eb8afa195be5384d60f300281ed8f0f036c7 preserved byteexact.
+Current classifier60gate+10wrongresult+28admissionmessage and16stage/cert checks
+PASS; replay36message/stage/cert/archiveprofile mutants PASS. NoVFbuild, exporter,
+refiner or proof process. No crossprofile transfer.
+
+| S5j cases (each ptr and MU) | Mutant inspected | Exact v2 rejection and intended check |
+| --- | --- | --- |
+| source identity (2) | helper and its caller renamed to `_impostor` | `expected one exact SAFE helper/probe or actual body`; exact named source/body admission |
+| MIR operand_order (2) | data arguments `_5`, `_6` swapped | `standalone place: _5`; second argument must be Move of exact local `_5` |
+| MIR operand_source (2) | second data argument replaced by third | `standalone place: _5`; second argument's exact source local |
+| MIR predecessor_source (2) | source Copy `_2` changed to `_3` | `standalone place: _2`; ordered predecessor assignment's exact source local |
+
+All8 have exporter/decode/refinement0, source/stage/mutant integrity, exit2,
+singular exact certificate fatal and no proof entry. Before replay onlyexact_fatal
+wasfalse; allother gatestrue. No arbitraryerror recognition added. Remaining32
+admissions and all16proof results unchanged. Sameprofile ctor/asptr/14native+Rust
+baselines verified in original archived run; archived patch/source/effective tool
+identities preserved, not relabeled as a new semantic profile.
+[Replay run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37626031885),
+[compact replay11483952705](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37626031885/artifacts/11483952705).
+Replay ZIP3,851,647bytes (<25MiB), SHA256
+b12419118ff31e05dccfa91bded8d6660156018754b2c098b4002ec1020c9d75;
+includes original compact S5j/O4 manifest/evidence, original classifications and
+separate replay results; no copied tool/library distributions.
+
+Actual integration evidence remains S5k/128dd56/v2/7bb, linked above: full pinned
+helper source/MIR/refinement passes; first proof blocker drop_in_place57.
+Whole helper return/normal-unwind/leak posts NOT PROVEN. Drop/guard/forget/assume
+components NOT ACCEPTED, read-resource hypothesis NOT RUN. Furthersemantic work
+FROZEN; current budget retained. RAPx CLOSED/NO-GO, B/C NOT RUN; fullsort4 NOT PROVEN.

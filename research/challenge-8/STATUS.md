@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**2384/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**2398/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, S4b SAFE `as_mut_ptr`, and
 S5k typed intrinsic rule at frozen `experimental-source-linked-select-pointer-intrinsics-v2`
@@ -27,9 +27,22 @@ at bb1 command4, original25/verified33. VF separately rejects local union declar
 `Todo: AdtDef::Union`. These setup/applicability failures do not test read permissions
 and do not gate intrinsic acceptance. Refiner and kernel unchanged.
 
-Next: hosted replay S5j/37621751848 saved artifact, same frozen7bb/v2 only, no build
-or proof execution; preserve original classifications and separate replay outcome.
-Budget2384/5400 remains current phase; no active run. Runtime/std signatures unchanged.
+S5r2 replay/37626031885, classifier source
+`586c9ae4155a3ad0d3c50ebed2d22d9716a80b4f`, PASS: saved S5j source2454e86,
+frozen7bb/v2 only; all3839 manifest entries verified and all6+10+40 reclassified.
+Exactly8 reason-only admission corrections; original INCONCLUSIVE classifications
+and byte-identical source artifact retained separately. Corrected classifier
+60+10+28 plus16 stage/certificate checks and36 replay mutants PASS. No build,
+exporter, refiner or proof execution. No evidence transfer across semantic profiles.
+[Replay run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37626031885),
+[compact replay3.7MiB incloriginal S5j+O4](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37626031885/artifacts/11483952705).
+
+Current checkpoint: requested intrinsic acceptance/replay and actual integration
+complete; whole helper remains unproved at drop_in_place57. Further semantic
+extension temporarily FROZEN per owner; drafts saved, no new assume/drop rule applied.
+Budget **2398/5400** used, **3002 seconds remain in this phase**, no active/queued run.
+No automatic continuation of Drop/assume semantic work while this freeze applies.
+Runtime/std signatures, kernel and refinement semantics unchanged.
 
 [Latest run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376),
 [compact evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482879763),

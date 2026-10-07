@@ -114,3 +114,32 @@ and `DropOnPanic` proof obligations.
 
 The diagnostic extracted adapters only in disposable hosted checkouts; repository
 std runtime was unchanged. No local executable checks were run. No verifier rerun or patch is proposed in this note.
+
+## Current pointer-select phase integration (2026-10-07)
+
+Historical constructor/as_mut_ptr blockers above remain historical evidence.
+Current source-linked T=*const Element actual helper: S5k run37624082376,
+source `128dd5673c7796c5916017ab4afafaeea8d836b8`, profile
+`experimental-source-linked-select-pointer-intrinsics-v2`, patch
+`7bb39a84b95fd15ed5be29864c3a22774d37c660baafa694188b14970c344320`.
+Pinned source integrity/export/decode/refinement and full31local14BB MIR gate PASS.
+Proof trace enters select_unpredictable, verifies ctor calls22/23 and as_mut_ptr38/39,
+executes typed intrinsic pointer selections49/50 and guard construction56, then
+fails57: `No such function: std::ptr::mut_ptr::<impl *mut T>::drop_in_place`.
+Third wrapper intrinsic is certified/translated but its later proof path is not
+reached. Final return/leak/normal-unwind posts remain unproved; helper NOT PROVEN.
+This is the next unsupported callee, not a proved resource/provenance boundary.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376),
+[compact evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482879763).
+
+Intrinsic component6+10+40 accepted independently at sameprofile S5k; savedS5j
+source2454e86 acceptance additionally completed by replay S5r2/source586c9ae,
+without build/proof execution or crossprofile transfer. Exactly8 diagnostic reason
+corrections; original classifications/source/MIR/logs retained.
+[Replay run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37626031885),
+[compact replay inclS5j+O4](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37626031885/artifacts/11483952705).
+Further semantic work FROZEN per latest user. Assume-init's tail-annotation failure
+and subsequent RawPtr refiner/union frontend failure are independent; missing read
+ownership hypothesis NOT RUN, refinement semantics unchanged. Drop/guard/forget/
+assume_init components unaccepted. Current budget2398/5400,noactive; fullsort4
+NOT PROVEN, RAPx CLOSED/NO-GO, B/C NOT RUN. See current phase results and STATUS.

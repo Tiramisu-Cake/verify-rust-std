@@ -18,7 +18,8 @@ body first stops at drop_in_place57, final return/leak/normal-unwind posts NOT P
 Drop/guard/forget/assume_init unaccepted; source-linked assume read-resource hypothesis
 NOT RUN (tail annotation failure S5j, RawPtr refiner/union frontend failure S5k).
 No semantic boundary declared; kernel/refiner unchanged. Extension temporarily
-FROZEN, sameprofile S5j artifact replay requested, original classifications retained.
+FROZEN; S5r2/37626031885 sameprofile S5j replay accepted with exactly8
+message corrections, original classifications retained. No new proof execution.
 [Results and compact evidence inclO4](SORT4-SELECT-POINTER-RESULTS.md),
 [design/dependency map](SORT4-SELECT-POINTER-DESIGN.md). Fullhelper/sort4 NOT PROVEN;
 RAPx CLOSED/NO-GO, B/C NOT RUN.

@@ -3968,3 +3968,16 @@ Fix original ordered prerequisite calculation, require3positives beforeanynegati
 savecorrectedrecord beforeexactequality. Hypothesis oldproof classificationsnow
 identical; remaining40admission+profile/stage/msg regressions mustallpass.
 2384/5400before,max30minjob,oneactive, NO semanticchange/build/proof rerun.
+
+S5r2 result37626031885/586c9ae:14s,total2398/5400,3002remain/noactive.
+REPLAY_COMPONENT_ACCEPTED fromsavedS5j2454e86 SAMEv2/7bb only;3839memberSHA/size/CRC
+PASS,6+10proof classifications unchanged,32admissions unchanged,exact8reason-only
+corrections. Alloriginal60classificationfiles+byteexactinputarchive retained;
+56correctedrecords separately. Classifier60+10+28/16stagecert+replay36mutants PASS.
+NO VFbuild/export/refinement/proof execution. Compact11483952705 ZIP3851647bytes
+SHAb12419118ff31e05dccfa91bded8d6660156018754b2c098b4002ec1020c9d75 inclS5j+O4.
+Actualfirstblocker remainsS5k128dd56/7bb/v2 drop_in_place57 after fullsource/MIR/
+refinement/all3intrinsic translations. WholehelperNOTPROVEN. Semanticextensions
+FROZEN, draftsNOTRUN/refinerunchanged/readpermissionhypothesisNOTRUN.
+No furtherdispatch needed for latest requested priority; checkpoint budget stays
+withinthisphase. RAPxCLOSED/NO-GO,B/CNOTRUN,fullsort4NOTPROVEN.

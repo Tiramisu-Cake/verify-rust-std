@@ -339,3 +339,9 @@ S5k actual source-linked full typed graph/refinement passes, first blocker
 pointer drop_in_place57. Final helper proof still missing. Refiner RawPtr failure
 in assume S5k and aftertail annotation failure S5j do not test storage permissions.
 Details and compact evidence/SHA/run links in SORT4-SELECT-POINTER-RESULTS.md.
+
+S5r2 replay acceptance is classification of the saved S5j proof run at identical
+semantic7bb/v2 identity, not a new proof theorem. Exactly8 reasons corrected;
+all32 other admissions and16 proofs byte-equivalent classifications, profile/stage/
+message mutants reject, original logs/source/MIR/classifications retained. See
+results for fullSHAs/run37626031885/compact11483952705 and S5k actualdrop blocker.

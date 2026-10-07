@@ -3,7 +3,7 @@
 Owner authorization2026-10-07; entry
 `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09` on challenge-8/research.
 **IN PROGRESS.** New5400summed hosted-job-second budget,<=1800/job,
-<=300/individual proof,one active relevant workflow_dispatch. Spend2384/5400 before replay;noactive.
+<=300/individual proof,one active relevant workflow_dispatch. Spend2398/5400;3002remain,noactive.
 Previous pointer-ownership phase remains CLOSED;its unused4882s do not transfer.
 
 Target actual `library/core/src/hint.rs::select_unpredictable` at
@@ -70,3 +70,10 @@ component acceptance. Assume annotation-tail and RawPtr-refinement failures are
 not the missing-resource hypothesis; refiner unchanged. Draft04d/profile and
 unfinished drop/assume controls NOT RUN, saved under drafts/select-pointer-frozen.
 [Results with SHA/run/artifact](SORT4-SELECT-POINTER-RESULTS.md).
+
+S5r2 savedS5j replay accepted, no build/proof execution, same7bb/v2, exact8message
+corrections only; original classifications retained. Latest requested priority
+complete with first actual blocker drop_in_place57. No helper theorem or semantic
+resource boundary established. Budget2398/5400 remains in this phase,3002left,
+no active/queued runs. Further semantic work stays FROZEN until owner changes it.
+[Replay results/artifact](SORT4-SELECT-POINTER-RESULTS.md).
