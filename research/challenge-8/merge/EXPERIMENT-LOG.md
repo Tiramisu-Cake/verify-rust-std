@@ -505,3 +505,12 @@ No builds/verifier/tests/workflow_dispatch; budgets5306/5400(94) and512/1800(128
 unchanged. S7c UNACCEPTED5admissiontail; G2/A/B9projections retain oldboundaries,
 new sources/tools NOTREVALIDATED. UPSTREAM-SYNC records exactparents/mergetrees,
 sourcecaller ledgercorrection and preparedfuturetasks. All newcommits[skip ci].
+
+## M1 BEFORE — stock26.10 migration replay
+
+Owner resumed MERGE-STOCK-26.10 on2026-10-08 at b9f46afc, preserving512/1800
+used1288remaining. [Full card](STOCK-26.10-PHASE.md) fixes std obligations,
+domains/full posts, exact controls, stock profile and outcome mapping. One own
+merge_geometry dispatch, maximum360hosted seconds inclusive, suite240s.
+Bodies/signatures unchanged vs844; full SmallSort bytes/caller expressions
+changed. New certificate separate; old hashes/results retained. No active run.

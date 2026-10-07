@@ -251,7 +251,7 @@ jobs:
           retention-days: 90
 
   merge_geometry:
-    if: inputs.proof == 'merge_geometry' && github.ref == 'refs/heads/challenge-8/merge'
+    if: inputs.proof == 'merge_geometry' && (github.ref == 'refs/heads/challenge-8/merge' || github.ref == 'refs/heads/sync/upstream-cd371-merge')
     name: Independent merge cursor geometry on stock VeriFast
     runs-on: ubuntu-24.04
     timeout-minutes: 6
@@ -265,7 +265,9 @@ jobs:
         env:
           MERGE_COMPONENT: ${{ inputs.sort4_component }}
         run: |
-          if [[ "$MERGE_COMPONENT" == range ]]; then
+          if [[ "$GITHUB_REF" == refs/heads/sync/upstream-cd371-merge ]]; then
+            timeout --signal=TERM --kill-after=5s 310s bash research/challenge-8/merge/stock-26.10/run.sh merge_geometry
+          elif [[ "$MERGE_COMPONENT" == range ]]; then
             bash research/challenge-8/merge/pointer-run.sh merge_geometry \
               g2_steps,init_const,init_mut,destination_up,forward_left,forward_right,destination_down,pointer_order,pointer_guard,wrong_cursor,address_index
           else
@@ -279,6 +281,7 @@ jobs:
           path: |
             research-results/merge-geometry/
             research-results/merge-pointer/
+            research-results/merge-stock-26.10/
           if-no-files-found: error
           retention-days: 90
 

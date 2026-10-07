@@ -1,3 +1,9 @@
+# Current phase: MERGE-STOCK-26.10
+
+Owner resumed on2026-10-08. [Phase contract](STOCK-26.10-PHASE.md),
+[current checkpoint](STATUS.md). Historical sections below remain closed;
+new stock rechecks do not reopen integration or tool changes.
+
 ## Переходный checkpoint — Git sync, повторная приёмка НЕ ВЫПОЛНЕНА
 
 2026-10-08. В этой ветке напрямую влит закреплённый upstream cd371e03.

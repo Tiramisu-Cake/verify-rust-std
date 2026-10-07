@@ -14,7 +14,7 @@ the complete `bidirectional_merge`, its callers, references or copies.
 
 ## Applicability audit before any executable check
 
-Vendored SmallSort matches byte-for-byte Rust commit
+At the historical26.09 snapshot, vendored SmallSort matches byte-for-byte Rust commit
 `b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2`, SHA256
 `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
 The caller ledger originally used external reference files from that upstream

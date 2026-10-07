@@ -189,3 +189,44 @@ active operation certificate as G2, and rechecks all G2/A/SWO/application bodies
 This three-part evidence remains separate: checked mathematical composition;
 exact source-text schedule admission; still OPEN actual Rust pointer/resources/
 callback/unwind transfer. ZST comparisons need their own bridge.
+
+## MERGE-STOCK-26.10 substantive admission review
+
+Reviewed Git blobs8444589f486e82f23c910bcc918cee1e4681b7ee and
+cd371e035c7e573760c43bf934d53e8118ee3e7d; new library tree is identical
+to pinned upstream. Full three function signatures and bodies are byte-identical
+(body hashes remain up0ca042e2...,down0022e177...,bidir7e312114...).
+Every target active operation shifts exactly-6 lines. This supports creating
+a SEPARATE new source admission certificate; it does not update the old one.
+
+| Target/caller | Old844 | Newcd | Substantive comparison |
+| --- | ---: | ---: | --- |
+| merge_up start |683|677| Same signature, full body and9active statements |
+| merge_down start |716|710| Same signature, full body and9active statements |
+| bidirectional_merge start |760|754| Same signature, full body and30active statements |
+| General scratch merge |286|280| `&*ptr::slice_from_raw_parts` replaced by `slice::from_raw_parts` |
+| Network region construction |335/360/370|335/358/366| Raw-parts+deref replaced by `slice::from_raw_parts_mut` |
+| Network merge |367|361| Exact merge schedule unchanged, surrounding slice expression changed |
+| sort8 merge |678|672| `&*ptr::slice_from_raw_parts(scratch_base,8)` -> `slice::from_raw_parts(scratch_base,8)` |
+
+Comparator right/left order and negation, choice direction, copy-before-update,
+ordinary dst sub, exact wrapping source sub and terminal add, up-before-down
+loop, optional odd copy/advance and final panic guard all remain identical.
+Full-file hash85c75bc9... differs from32574fd0..., so the old full-file certificate
+cannot admit new source even though individual bodies are unchanged.
+
+The corrected eight-path repository ledger above was checked using actual Git
+blobs. Stable/mod and unstable/mod full blobs and their early ZST returns
+(lines29/31 and22/27) remain unchanged. Stable/drift and stable/quicksort remain
+equal; SmallSort dispatch27 unchanged. Unstable/quicksort formatting changes,
+dispatch31 unchanged. Alloc stable wrapper calls135/196/252 remain; core/slice
+unstable wrapper definitions/calls shift3176/3180->3189/3193,
+3231/3235->3244/3248,3283/3288->3296/3301. Pointer source bodies for exact
+wrapping calls remain, ordinary add/sub source contracts change. Historical
+externalb6f0945e hashes/lines remain external references, with five mismatches
+to old repository blobs already noted.
+
+Caller route audit remains source analysis only. Public sort ZST exits do not
+cover standalone generic helper/trait goals. Direct general scratch ZST route,
+noninjective zero-stride guards and network nontermination distinction remain
+OPEN; no positive-stride premise was added to unrestricted Challenge safety.
