@@ -120,3 +120,45 @@ predicate/location; wrong-stage failure remains INCONCLUSIVE. Complete MIR store
 no external method summary/full applicability/actual integration acceptance yet.
 Success advances to exact-type source/MIR admission and active-profile resource
 protocol integration, not whole-helper acceptance. Tool pins/semantics unchanged.
+
+## S3 proposed trust delta — source-linked SAFE as_mut_ptr admission
+
+Before implementation of its semantic rule: a NEW separate patch includes the
+unchanged accepted constructor definition and exact constructor gate, then adds
+only a fail-closed source/MIR certificate for the ordinary SAFE as_mut_ptr body
+and redirects the exact external pointer-specialized method to that checked body.
+No fbc/storage/borrow/provenance rule is changed at this step. The actual elided
+IN/OUT contract preserves the existing wrapper points-to chunk and type-wide
+accepted defined pointer-value own. Its pre does not restrict inner(v), and post
+keeps the SAME v; no initialized reading or Element permissions are introduced.
+
+Prototype/body proof uses explicit MaybeUninit_pointer_own in pre/post when the
+certified unit activates existing pointer ownership dispatch, rather than the
+S2 inactive/opaque diagnostic interface. Positive callers unknown/none/some and
+fractional independent frame; controls wrong pointer/false post/assert false,
+duplicated frame, lost wrapper-cell leak and invented initialized inner must each
+reach its own obligation after helper body. Named ownership lemma remains checked.
+
+Gate must bind exact pinned maybe_uninit.rs source/hash/signature/two-cast body
+with sole receiver/type substitution. Verify SAFE item path/kind/module/generics,
+input &mut MaybeUninit<*const Element> (elided method lifetime), result *mut
+*const Element, complete typed locals, operands and both cast target types,
+no read/write/projection/extra call, exact normal Return graph/no cleanup/unwind,
+source/HIR/parameter/contract/body coordinates and forbidden extra structures.
+Unknown/changed forms reject BEFORE activation/redirect. For actual helper units,
+constructor and as_mut_ptr bodies must BOTH have same-profile checked evidence;
+keep exact two external new and two as_mut_ptr typed redirects, independent of
+intrinsics. Original exporter path-string limitation remains documented.
+
+Admission negatives directly mutate source and serialized MIR operand, result,
+cast/parameter/return type, identity/binding/contract and extra operation. Mutation
+records, canonical/mutated binaries/text and exact recomputed diff retained;
+invalid certificate exit2 distinguished from proof exit1. New rule active in
+its positive/negative units; no unrelated helper blocks baseline controls.
+Full O4 constructor matrix + stock/experimental Rust/C/C++ regressions is a required
+gate of this changed profile; no SWO/layout dependency exists. Classifier selfchecks
+must reject wrong stage/predicate/location/integrity/certification. Complete
+as_mut_ptr criterion required before claiming its acceptance/using stronger
+summary; source body diagnostics alone remain partial. After acceptance continue
+actual helper and its listed intrinsics/drop/forget/assume_init dependencies.
+Kernel/prelude/general memory/alias/provenance/exporter/schema/refiner frozen.
