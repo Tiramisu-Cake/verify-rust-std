@@ -80,6 +80,12 @@ def main() -> None:
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=False)
     body, certificate = source_certificate(repo, matrix)
+    # The stock free-drop pre contains the existing empty raw-pointer own.
+    # Close its definition explicitly; no Element storage is supplied.
+    body = body.replace(
+        b"        unsafe { std::ptr::drop_in_place(slot) }",
+        b"        //@ close raw_ptr_own::<Element>()(t, value);\n"
+        b"        unsafe { std::ptr::drop_in_place(slot) }")
     contract = matrix.ghost_block(
         b"req thread_token(?t) &*& t == currentThread &*& *slot |-> ?value;\n"
         b"ens thread_token(t) &*& *slot |-> value;\n"
@@ -99,6 +105,13 @@ def main() -> None:
     (evidence / "original/lib.rs").write_bytes(original)
     (evidence / "source-certificate.json").write_text(
         json.dumps(certificate, indent=2, sort_keys=True) + "\n")
+    (evidence / "fixture.json").write_text(json.dumps({
+        "variant": "pointer_drop_existing",
+        "original_sha256": matrix.sha(original),
+        "verified_sha256": matrix.sha(verified),
+        "source_certificate": certificate,
+        "explicit_empty_pointer_own_closed": True,
+    }, indent=2, sort_keys=True) + "\n")
     runner = matrix.run_case(evidence, args.schema, args.tool_home,
                              args.compiler_sysroot, repo, "pointer_drop_existing",
                              "diagnostic", certificate_mode=False)

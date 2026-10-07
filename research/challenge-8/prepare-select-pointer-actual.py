@@ -309,9 +309,12 @@ def main() -> None:
             "intrinsic_accepted": intrinsic_summary.get("accepted_component") is True and
                 intrinsic_summary.get("classification") == "COMPONENT_ACCEPTED",
             "intrinsic_source_profile": intrinsic_summary.get("tool_profile") ==
-                "experimental-source-linked-select-pointer-intrinsics-v1" and
-                os.environ.get("SORT4_SELECT_PROFILE") ==
-                "experimental-source-linked-select-pointer-intrinsics-v1",
+                os.environ.get("SORT4_SELECT_PROFILE") and
+                os.environ.get("SORT4_SELECT_PROFILE") in {
+                    "experimental-source-linked-select-pointer-intrinsics-v1",
+                    "experimental-source-linked-select-pointer-intrinsics-v2",
+                    "experimental-source-linked-select-pointer-drop-v1",
+                },
             "intrinsic_component_prerequisites":
                 isinstance(intrinsic_summary.get("prerequisites"), dict) and
                 all(value is True for value in

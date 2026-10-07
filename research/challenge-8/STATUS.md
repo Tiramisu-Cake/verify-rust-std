@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**1352/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**1499/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
 body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
@@ -25,9 +25,14 @@ identity admission PASS, inputtype reaches HIR generic count/kind instead of
 predicted source-marker diagnostic. Remaining38 admissions NOT RUN. S5d pins
 that exact reason with4 diagnostic mutants and collects all40 independent
 admissions after proof acceptance. Same semantic patch, no relaxed gates.
-It also exports the source-linked pointer-drop method with the existing stock
-free-drop contract, to expose its first cell/no-unwind obligation; no new drop
-rule active or component acceptance in that diagnostic.
+S5d/37617734037/source d08fa8a: full constructor/asptr regressions PASS; pointer
+method source/export/refinement passed, then stock empty pointer-own was not
+closed at free-drop call. Harness omitted fixture.json and aborted after evidence
+capture; intrinsic matrix NOT RUN. S5e fixes fixture metadata and explicitly
+closes existing empty raw-pointer ownership, adds canonical assume_init body
+export, then runs complete intrinsic matrix under v2/full actual graph patch
+1c9637f. Intrinsic-on actual runs only after same-run component acceptance.
+Assume-init storage question is a separate diagnostic, not a declared stop.
 
 [Compact S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
 [full S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018),

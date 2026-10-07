@@ -3841,3 +3841,25 @@ hypothesis body export/refinement succeeds then post/noUnwind proof rejects,
 with canonical completeMIR and firstcausalobligation saved. No newdrop semantic
 rule active; bodyfail NOTcomponentacceptance orsemanticstop. Design1caf569.
 Selection30min/proof300s,1352/5400before,oneactive. NoSWO/layoutrepeat.
+
+S5d result37617734037/d08fa8a/2cd1a04a:147s,total1499/5400.
+Ctor/asptr/baselines/classif PASS. Pointermethod export/refine/source PASS, stock
+free-drop firstrequires own(pointer_typeid)(t,value), empty butnotclosed. After
+proof evidence run_case cannotreadmissingfixture.json; diagnosticsetupFAILURE.
+Intrinsicmatrix NOT RUN. Compact11480588490/full11480018683. Noacceptance/STOP.
+
+S5e BEFORE dispatch: NEW experimental-source-linked-select-pointer-intrinsics-v2,
+patch1c9637f5269d464685ca0fe4e5600571a7618658e4da804e073629fc1ece661f,
+design41a3f43 andprior1e970b2. Sameexactintrinsic semantics/domain/fullposts; NEW
+completeactual31locals/14BB source/HIR/guard/typedcalls/ordereddataflow/CFGgate.
+Falsifiable hypotheses: complete6+10+40matrix and60+10+4classifs pass undernew
+profile; then exactactual3intrinsics pass andfirstauthorizedremainingop reached.
+Sameprofilector/asptrfullmatrices/14Rust/C/C++baseline controls mandatory.
+Diagnosticfix: writefixturebeforecommonrunner; closeexistingemptyrawpointerown
+beforestockfreedrop(noElementpermission), recordsfirstnormal/unwindtargetfailure.
+Separateassume-init canonicalexport: exactsourceunsafe body/localcertunion copy,
+Somep/token/definedown pre, fullp/token/nounwind post; ghostopen/closeexistingMU,
+NO bridge. Currentassume lowerings inactive, no component acceptance; canonical
+MIR maps fieldaddr/cast/read for nextexactgate. Design41a3f43 BEFORElowerings.
+Source/export/decode/refinement failure inconclusive; retainalllogs/MIR/hashes.
+Selection30min/proof300s,total1499/5400before,oneactive,noSWO/layoutrepeat.

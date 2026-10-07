@@ -19,7 +19,12 @@ import shutil
 from pathlib import Path
 
 
-PROFILE = "experimental-source-linked-select-pointer-intrinsics-v1"
+PROFILE = os.environ.get("SORT4_SELECT_PROFILE", "experimental-source-linked-select-pointer-intrinsics-v1")
+AUTHORIZED_PROFILES = {
+    "experimental-source-linked-select-pointer-intrinsics-v1",
+    "experimental-source-linked-select-pointer-intrinsics-v2",
+    "experimental-source-linked-select-pointer-drop-v1",
+}
 SOURCE_SHA256 = "ab781181f967398d514d9fd2b5f3b6aebd16c2c403f3d1a2628e0c7f1fac6ebf"
 INTRINSIC_SOURCE_SIGNATURE = (
     b"pub const fn select_unpredictable<T>(b: bool, true_val: T, false_val: T) -> T"
@@ -900,7 +905,7 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
         "as_mut_ptr_accepted": asptr.get("accepted_component") is True and
             asptr.get("classification") == "COMPONENT_ACCEPTED",
         "same_run_evidence": same_run,
-        "new_profile_selected": os.environ.get("SORT4_SELECT_PROFILE") == PROFILE,
+        "new_profile_selected": os.environ.get("SORT4_SELECT_PROFILE") == PROFILE and PROFILE in AUTHORIZED_PROFILES,
         "classifier_self_check": (
             classifier is not None and classifier.get("pass") is True and
             classifier.get("mutant_count") == 60 and

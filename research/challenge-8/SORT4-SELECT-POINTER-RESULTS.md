@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1352/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget1499/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -128,3 +128,19 @@ Intrinsic component NOT ACCEPTED; actual unchanged firstintrinsic49, helperNOTPR
 S5d exact HIR reason+4 diagnostic mutants and all40 independent admission results;
 full acceptance remains all-or-nothing. Separately export/probe exact unsafe pointer
 method body with stock free-drop contract, no drop semantic change (design1caf569).
+
+S5d/37617734037/source `d08fa8ad86b6b735ea6a4ec2474da372d6d4ce78`,
+same2cd1a04a:147s11:58:36–12:01:03UTC,total1499/5400,noactive.
+Ctor/asptr full regressions/baselines/classifiers PASS. Exact pointer method
+source/export/decode/refinement PASS; stock free-drop requires the defined empty
+pointer-own chunk, which was not explicitly closed, so method proof fails at
+std/lib.rsspec612 before no-unwind/return. Harness then reads missing fixture.json;
+this local implementation error aborts stage. Intrinsic matrix/admissions NOT RUN.
+No new component accepted and no semantic boundary inferred from these failures.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37617734037),
+[compact11480588490](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37617734037/artifacts/11480588490),
+[full11480018683](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37617734037/artifacts/11480018683).
+S5e new v2/1c9637f certifies full actual graph; fixes diagnostic fixture and
+closes stock raw_ptr_own without Element resources. Canonical assume_init export
+remains diagnostic with narrow field-address translation inactive. Full intrinsic
+matrix and same-profile regressions required before intrinsic-on actual proof.
