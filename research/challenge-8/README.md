@@ -6,7 +6,20 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**CLOSED at6/6 NEW runs: stock generic H_align PASS; experimental layout acceptance INCONCLUSIVE.**
+**Current: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md), IN PROGRESS.**
+New owner budget90 summed hosted job minutes. Stock pure SWO network composition,
+valid-coordinate layout controls/full immutable-profile matrix, then separately
+designed minimal runtime MaybeUninit::new pointer support over frozen stock.
+[STATUS](STATUS.md) is authoritative; [PLAN](PLAN.md) and
+[runbook](AGENT-RUNBOOK.md) define execution boundaries. No full Rust sort4 theorem.
+The [night](SORT4-NIGHT-PHASE.md) is CLOSED; its [report](SORT4-NIGHT-RESULTS.md)
+preserves accepted stock index/rank/SWO/range components and historical layout
+acceptance. Night N2's span negative needs recalibration; final pure composition
+was NOT RUN due repaired harness wiring. Actual pointer callee first blocked at
+runtime constructor; no generic Copy bound or old patch chain admitted.
+RAPx CLOSED/NO-GO; B/C NOT RUN. Entries below describe historical phases.
+
+**Historical CLOSED at6/6 NEW runs: stock generic H_align PASS; experimental layout acceptance INCONCLUSIVE.**
 [Stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
 proves const/mut independently on unchanged VeriFast26.09 with all old gates.
 [Final run37544574703/sourcee472aa2](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout)
@@ -68,7 +81,7 @@ protocol, with caller-precondition proofs required for composition. The
 supports this specification choice; it supplies no new Rust proof or committee
 acceptance. Organizer clarification is deferred and no longer blocks planning.
 The [earlier review and unsent question](SORT4-ADMISSIBILITY-REVIEW.md) remain
-historical. No further experiment or external contact is currently authorized.
+historical. That historical phase authorized no further experiment or external contact.
 
 **CLOSED / NO-GO: RAPx gate A reproduces a ZST alignment detector miss.**
 Two of four new hosted runs used under the [bounded continuation](RAPX-APPLICABILITY-PHASE.md#current-gate-a-continuation).

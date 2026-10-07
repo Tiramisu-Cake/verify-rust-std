@@ -3152,3 +3152,33 @@ SORT4-NIGHT-RESULTS.md and compact STATUS close the night. Future proof-only ret
 needs separately approved NEW budget; future trusted capability needs explicit
 rationale/trust review/regression gate BEFORE implementation. Historical budgets
 remain closed. No further experiments authorized by this exhausted phase.
+
+## New composition/constructor phase — 2026-10-07
+
+Entry85d82998e148394e5dbbb0a4ed8c326780130b75, clean research tree,
+origin research matches; main4771dd9894b28312edf40e16d6398628beaf498f.
+No active relevant Actions at entry. New owner authorization and5400s budget
+recorded separately in SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md; night CLOSED.
+
+### C1 — stock pure SWO network composition
+
+Actual obligation: logical expressions of pinned smallsort.rs sort4_stable,
+not runtime memory/callback verification. Hypothesis: repaired85d runner wiring
+now reaches the checked composition of unchanged index/rank/SWO components.
+Domain relation16 on four distinct logical IDs with all original diagonal/64
+triple strict-weak-order laws and fixed/preserved values. Full posts: original
+SWO retained, exact final index permutation/bounds and adjacent sortedness with
+original-ID stability for equivalent keys. Pure ghost theorem has no runtime
+unwind path; actual Rust's resource/panic obligations remain separate.
+Profile official stock26.09/pins unchanged. Static preflight: component selection
+swo_network in workflow and runner; checker maps existing composition*.c and
+copies index/order/swo headers for positive, index/swo for negative; order header
+includes index. Runner's separate hash branch names those same existing files.
+No assumed/automatic lemma. All named checked components must verify and leak
+checks remain enabled. Positive s4_swo_choice_network must pass; equal-key
+reversed-middle mutant must fail the marked combined stability assertion ending
+line22, after equivalence/non-less premises. Wrong stage/timeouts inconclusive;
+false theorem acceptance quarantines stock usage. Ordinary proof/harness repair
+allowed with all posts intact. PASS accepts PURE mathematical composition only.
+Manual verifast_sort4_components/swo_network/30, fixture300s, cleanup120s;
+new phase budget0/5400 before allocation, one run.

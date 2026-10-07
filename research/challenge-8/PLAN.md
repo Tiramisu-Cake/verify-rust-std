@@ -1,21 +1,19 @@
 # Challenge 8: approved roadmap
 
-Completed owner extension: [autonomous sort4 night phase](SORT4-NIGHT-PHASE.md),
-through09:00 MSK October7,2026; separate12-run/180-job-minute budget and2-run
-layout-repair sublimit. Only listed composition tasks authorized, with no reopening
-of historical budgets or trusted semantic extension. CLOSED at12/12 NEW,2697jobseconds;
-[report](SORT4-NIGHT-RESULTS.md). STATUS is current.
+Current owner authorization: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md),
+new5400-job-second budget from checkpoint85d8299. Finish stock pure SWO composition,
+repair span controls on immutable d4a12525 layout profile, and design BEFORE
+implementation the narrowly allowed runtime MaybeUninit::new pointer capability
+in a separate experimental stock-based profile. No general union/alias/ownership/
+copy/FnMut/Drop extension. Actual callee diagnostic follows constructor acceptance.
+[STATUS](STATUS.md) is the current execution checkpoint.
 
-Night N2/37547890530 completes full acceptance of unchanged d4a12525 narrow
-fieldless profile; processing/native-fixture blockers in the historical closeout
-below are now repaired. No wider semantic or whole-sort4 claim follows.
-Night N4/N5 check the pure index and abstract rank-order/stability components;
-N8 checks scalar selected-cell containment/separation. N6 actual pointer callee
-is blocked at runtime MaybeUninit::new. Finite-SWO transfer accepted N11; final
-pure network gate N12 failed harness
-before verifier (draft NOT RUN, known correction UNRECHECKED). No new run remains
-authorized. Actual pointer/raw-scratch/ownership capabilities
-remain design-only, requiring a future owner decision.
+Historical [night](SORT4-NIGHT-PHASE.md) CLOSED at12/12 NEW,2697jobseconds;
+[report](SORT4-NIGHT-RESULTS.md). Stock index/rank/finite-SWO bridge/range components
+accepted; final composition failed before verifier at harness wiring (fixed but
+unrechecked at entry). Historical layout N2 evidence preserved; invalid wrong-span
+endpoint is recalibrated in the new phase. Actual callee's stock first blocker is
+runtime MaybeUninit::new. Historical budgets stay closed.
 
 Approved by the owner on 2026-10-06 after review of the C verification research.
 This decision supersedes the insertion-first ordering in earlier handoffs.

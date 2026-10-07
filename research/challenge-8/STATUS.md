@@ -1,19 +1,19 @@
 # Challenge 8: current checkpoint
 
-Updated2026-10-07. **CLOSED: [autonomous night phase](SORT4-NIGHT-PHASE.md)**;
-NEW-run budget exhausted before09:00MSK. [Morning report](SORT4-NIGHT-RESULTS.md).
-12/12 NEW,2697/10800jobseconds(44m57s),layout repair2/2. No active run.
-Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; completed changes
-committed/pushed. Final proof-attempt source1803ad0be54a41d97059ad28a0400a7cf851aed3;
-subsequent closeout/harness correction is NOT a proof run. Historical budgets closed.
+Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
+new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
+New budget0/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
+one relevant run. No active run. Entry tree clean, research HEAD/remote match.
+The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
+[report](SORT4-NIGHT-RESULTS.md). All historical budgets remain closed.
 
 **Accepted components, not a full Rust sort4 theorem:**
 
 - Existing stock generic H_align const/mut: run37540829027/source968c073,
   full integrity/refinement/dead-code gates intact; not rerun this night.
 - Exact experimental fieldless layout profile d4a12525: N2/37547890530,
-  source3f5c9e3,full original/18extra/7metadata/10native/31classifier-span matrix
-  and artifact audit PASS. Patch remains SHA256
+  source3f5c9e3,historical full matrix/artifact audit PASS; new owner review identified
+  invalid wrong-source-span endpoint, so that negative gate needs recalibration. Patch remains SHA256
   d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
   Narrow original-fieldless nongeneric Sized reprRust/C+optional-align profile,
   not full-model soundness or automatic operation-UB coverage.
@@ -44,10 +44,11 @@ scratch; reference/copy automatic alignment coverage unmeasured. Current callbac
 resources/effects and all five full panic posts remain open. Logical ZST IDs can
 share addresses; Copy/Freeze/purity restrictions were not added to general safety.
 
-Next permitted action: read-only/documentation review of report/designs. A stock
-proof-only composition retry needs a separately approved new budget/phase; any
-constructor/union/raw-copy/ownership capability requires prior explicit trust/
-admissibility review and regression gate. No historical FnMut/Drop/tuple chain,
-new axiom/spec/model/verifier or publication authorized. Main4771dd9 changes only
-minimal manual workflow exposure, no research-history merge. RAPx CLOSED/NO-GO;
-B/C NOT RUN. Evidence in /tmp only; exact run/tool/artifact IDs in journal.
+Current permitted actions: stock pure composition/negative, bounded span-control
+repair/full unchanged-layout matrix, and separately designed minimal runtime
+MaybeUninit::new support for MaybeUninit<*const Element> over stock26.09.
+Constructor design/trust/gates must precede semantic edits; experimental profile
+is not automatically accepted. Stop extension before general union/alias/ownership/
+copy/FnMut/Drop support. No historical patch chain or general-model expansion.
+README/PLAN point to this phase. Runtime/general contract/pins/checks preserved.
+RAPx CLOSED/NO-GO; B/C NOT RUN. Next: exact-SHA stock swo_network dispatch.
