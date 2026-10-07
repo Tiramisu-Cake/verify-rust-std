@@ -4279,3 +4279,31 @@ samegoal/budget/stop and requires explicit normal/readonly correspondence; table
 now records eachghost local/BB and regular/explicit coordinates from diagnostic,
 expanding the earlier preimplementationfaef1a3 mapping, no new semantic change.
 [Fresh S6v3 proof and integration run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720).
+
+S6v3/37651717720/source dfc1f1d740689de8f427ac549da558d64a4318eb
+completed266s16:24:07–16:28:33UTC,cumulative3568/5400,1832remain.
+Fresh S6 full2+11proof/22admissions COMPONENT_ACCEPTED; ctor16source/proof+9MIR,
+asptr3+6proof/17admissions,intrinsic6+10proof/40admissions,14baselines PASS.
+Two newNORMAL coordinate controls intendedreject; allreadonly outputs/refinement
+preserved. Other16controls independently SETUPfailed `MIR item must begin with
+ a parenthesis`: block/localregex start includedindent whitespace. No intended
+negative/resource verdict for those16; canonicalprojected gatedoff. Actualbaseline
+fullinfrastructure/drop redirectPASS, same initializedcell pre110/call57 failure.
+Compact11497076310 innerSHA f2c9a1dcda5785af850a51e103bc0c7d07df38c39ed9809afb33211bde997fb0;
+full11496683381; rebuiltconsole b8cf77ce12692022bcd9a30043d7066b1fbdb7f1b2eab44847de048861db68cb.
+
+BEFORE v3completion implementation: narroworchestration repair ONLY indexesfirst
+'(' insideblock/localregex match; nosemanticpatch/expectedpredicate/diagnostic
+change. Separate pinned-v3 completion imports immutable fullproof/regression/two
+coordinate acceptance evidence from37651717720/dfc1f1d/artifact11497076310,
+checksfullmanifest+source/profile/patch/compiler/effectivebinary/spec/std hashes
+against freshIDENTICALprofilebuild, retains byte-exact originalclassifications/
+rawlogs and all16setupfailures. Replays two intended coordinatecontrols fromsaved
+logs atsameprofile; NEW independently collected16controls atunchanged exact
+certificate obligations, then composite18/18+acceptedcomponent/regression gates.
+Actual baseline +stockprojected proof only afterstrictcomposite infrastructure.
+No repeatfullproofmatrices merelyforharness fix; nofrozenv1 replay edit. Hosted
+mutator parsing/preflight ofsaved fullMIR permitted beforebuild, notproof. If any
+profile/compiler/spec/tool mismatch failclosed, no evidence transfer. Domain/full
+normal-unwind target/stockprojection/trust/stop asfaef1a3 unchanged.
+Budget3568used1832remain,one relevant hosted dispatch<=1800,proof<=300.
