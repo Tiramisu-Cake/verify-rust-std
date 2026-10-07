@@ -599,3 +599,47 @@ normal10,cleanup18. ForgetBB12, wrapperselectBB13, assume_initBB14, returnBB15 a
 cleanupBB16–18 remain. No general memory model or source algorithm changes.
 Eighteen independent NORMAL-only mutants test these exact obligations; allsource/
 readonly-export/refinement resources and original classifications remain preserved.
+
+## S6v4 certified receiver mapping — BEFORE implementation
+
+Completion37654585346/sourcef1774d54b0d3ced96724b07aba9acfecb51b1633,
+SAME94ffc64c/drop-v3: tool/compiler/spec/std identity+coordinate rawreplay+NEW16
+controls PASS; full18NORMAL admission controls accepted. Actual baseline retains
+initializedcell pre110/call57 failure. Canonical projected source/export/decode/
+readonlyrefinement/full36/19 typedcertificate and methodcertificate PASS, then
+redirect BEFORE proof rejects `actual pointer method receiver`. It still expects
+baseline Move23; certified normal block9 requires Move26,unitdest25,normal10,
+cleanup18. No resource/drop-pre verdict for projected; this is an admission defect.
+184s16:45:53–16:48:57UTC, cumulative3752/5400,1648remain. Compact11498401742
+innerSHA7ec6ae18297d2c1deffb9b7641479d317379f4d224e23c94c3eec59309fcac79;
+full11497209013. All prior failures/classifications retained.
+
+Falsifiable hypothesis: the final receiver checkpoint can match the exact already
+certified graph, allowing stockprojection proof to reach its first resource
+obligation. Runtime-local map already pinned BEFORE v3: readonly receiverR23 maps
+to normalN26 (two open placeholders+one split inserted before drop); baselineR23
+unchanged. New experimental-source-linked-select-pointer-drop-v4 changes ONLY
+that receiver-name checkpoint: choose26 iff actual_projection AND exactfullactual
+certificate previously succeeded; otherwise23 for exactcertified baseline. Keep
+existing active/profile/body/type/callee/substitution/Move/mutability/no-projection/
+place-kind guards. No OR allowing either name, generic remapping, AST/MIR rewrite,
+source/runtime/CFG/contract/stdspec/glue/lemma/Element rights change. Compiler glue
+and frozen stock ghost substitution trust remain separately documented unchanged.
+
+Before actual use NEWfullS6 2positive+11proofnegative+22admissions, complete fresh
+constructor/asptr/intrinsic matrices and14baselines at v4; no oldprofile proof reuse.
+Then NEW full18NORMAL admissions plus explicit `drop_old_receiver` mutant changing
+normal Move26 to Move23 (the guard-side pointer), expected exact `actual terminator
+place: _26` failure before proof at fullgraph gate. All19 independent, exactsource/
+readonlyexport/decode/refinement/normalmutation evidence preserved; setup/other
+failures remainINCONCLUSIVE. Canonicalprojected then tests ONLY existing stock
+open/close wrappers/some/receiver/thread/reborrow derivation. If projection/drop
+pre fails recordexactresources/obligation and STOP; ifdrop passes recordnextactual
+blocker and STOP. Broader memory/alias/provenance/kernel/refiner/Drop/guard/forget/
+assume_init/union and04d67f4b stay frozen.
+
+Budget1648remaining is smaller than old1800job ceiling. Cap this selection's next
+hosted job at25minutes/1500seconds (workflow timeout and runner cap including
+preparation, reserve120cleanup); keep workflow_dispatch soletrigger and input30
+asexisting allowed selection. Actualjobduration still debited from SAME5400 total,
+no reset/no newbudget. <=300/proof,one relevant hostedrun. No local executablecheck.

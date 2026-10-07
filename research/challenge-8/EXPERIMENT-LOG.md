@@ -4321,3 +4321,30 @@ only ifbaselineinfrastructure also matches. Original16setupfailures retained.
 Independent finalimport/replay/gate review foundno staticblocker. Diff-check/
 bash-nPASS, no localexecution. Budget3568used1832remain/noactivebeforedispatch;
 <=1800/job,<=300/proof,one relevanthosted,same30min selection. No newprofile/budget.
+
+SAME-v3 completiondispatch37654585346 resolvedexacthead
+`f1774d54b0d3ced96724b07aba9acfecb51b1633`,created16:45:47UTC,
+selectionverifast_maybeuninit_new_pointer,budget30,one relevant hostedrun.
+Beforecost3568/5400,1832remain; durationpending. Profile/patch94ffc64c unchanged;
+onlymutatoropeningfix+pinnedcompletion orchestration, noexpecteddiagnostics change.
+[Completion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654585346).
+
+V3completion37654585346/sourcef1774d5 completed184s16:45:53–16:48:57UTC,
+cumulative3752/5400,1648remain. Immutableprofile/compiler/tool/std identityPASS;
+rawcoordinate replay2 unchangedJSON +16NEW intendedadmission rejects =>18/18PASS.
+Baseline fullinfrastructure/dropredirect PASS, same initializedcellpre110/call57.
+Projected source/export/decode/refinement/full36/19 actual+methodcert PASS, then
+finalredirect checkpointreject `actual pointer method receiver` BEFOREproof:
+hookhardcodesbaselineMove23 butcertifiednormalDropBB9usesMove26. Notresourceproof.
+Compact11498401742 innerSHA7ec6ae18297d2c1deffb9b7641479d317379f4d224e23c94c3eec59309fcac79,
+full11497209013. No classificationrewriting or prooftransfer across profiles.
+
+BEFORE S6v4 semanticimplementation: ONLYlastreceivercheckpoint chooses26 after
+fullcertified exactprojection,23 afterfullcertified baseline; retainallotherguards,
+noOR/genericmapping/ASTrewrite/stdspec/body/glue/runtime/CFG/resource change.
+Designcard mapsR23→N26 fromsamepinnednormaldiagnostic+completed18negativecontrols.
+NEWprofile drop-v4 =>freshfullS6+ctor/asptr/intrinsic/14baselines, NEW19NORMAL
+admissions (prior18+explicit oldreceiver26→23, intendedfullgraphplace_26), then
+stockprojectionuntilprecisecellpre ornextactualblocker; STOP. No broaderfreeze
+lifted. Budget3752used1648remain; capnextjob25min1500 includingcoldsetup andcleanup,
+runnerreserve120,proof<=300,onehostedworkflow_dispatch. SAME5400 budget.
