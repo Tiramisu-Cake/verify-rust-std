@@ -64,3 +64,31 @@ This source-text/order certificate is not a Rust refinement/permission bridge.
 Each take_left(up) andtake_right(down) is the negationof its own comparator
 answer; the bijection covers arbitrary independent answers. Residualh may be
 arbitrary forgeometry, so no ZST pointer-order embedding is assumed.
+
+## Functional occurrence correspondence — accepted A2 / B7
+
+Occurrence IDs are original slice indices0..n-1; keys and pointer addresses are
+separate. At pre-pair state(k,a,d), current candidates are exactly:
+up(left=a,right=m+k-a), down(left=m-1-k+d,right=n-1-d).
+Decision pair fst=take_left(up),snd=take_right(down) each negates its own
+rel(rightID,leftID) answer. fa_trace records the selected source BEFORE its
+movement at destination k, then selected reverse source BEFORE its movement
+at n-1-k, then recursively the next pair. For odd n it appends the last source
+h?a:2m-a at destination m. All G2 cursor equations and ordering remain unchanged.
+
+fa_output instead lists increasing destination order: up::(recursive_middle++
+[down]), terminal singleton only when odd. Checked fa_trace_output_at and
+fa_destinations relate those two representations at arbitrary destination p,
+including exact single-write count and out-of-range zero. fa_entry adds arbitrary
+source-ID counts under scalar guard alone. This is not a physical pointer/copy
+refinement or Rust ownership summary.
+
+Functional ms_faithful uses the same exact two comparator read pairs at every
+step, including after previous forward updates (the reverse state is independent).
+Finite fixed SWO and original-half sortedness occur only in B. Separate tie
+lemmas give forwardleft/backwardright for equivalent keys; odd h=(endA<endD)
+models the scalarized line827 only. B7 admits the same fullsource/signatures/
+active operation certificate as G2, and rechecks all G2/A/SWO/application bodies.
+This three-part evidence remains separate: checked mathematical composition;
+exact source-text schedule admission; still OPEN actual Rust pointer/resources/
+callback/unwind transfer. ZST comparisons need their own bridge.

@@ -34,11 +34,60 @@ count1 assertion218cols68-70. Strict classifier accepts intended stage/body/
 line/predicate/column/source and all7 rejection controls. Its source is unchanged
 between A1 and A2; only diagnostic metadata calibration changed.
 
-## Goal B — IN PROGRESS
+## Goal B — ACCEPTED
 
-Exact rank-key schedule and constructive fixed finite SWO composition drafted
-in functional-order.c / functional-swo.c. Final acceptance pending. No claimed
-sortedness, stability or guard theorem until all bodies and controls pass.
+Proof SHA4e546ec150cf655681516be727aa1a79f525fc56,
+[run37681190236](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37681190236).
+All65 own bodies checked,505 statements,197 return/leak checks; exit0,
+no proof errors/dead code/source changes. Includes unchanged G2/A and all12
+constructive SWO bridge bodies plus their3 existing primitive prerequisites.
+
+ms_entry requires n>=2, exactly n/2 decisions, a fixed finite SWO on constructed
+original occurrenceIDs0..n-1, both original halves sorted by it, and faithful
+normally returning comparator answers at the exact two read pairs of every
+iteration. One pure relation represents immutable keys throughout the schedule;
+no key mutation/effect assumption is smuggled into unrestricted G2 or A.
+Odd h is exactly the logical final left<left_end (endA<endD).
+
+The full exported posts prove scalar guardpasses, all-pairs output ordering
+!rel(laterID,earlierID), and equivalent keys imply earlierID<laterID in original
+input order. Combined exact arbitrary-ID multiplicities give stable permutation
+of separate occurrences; equal keys never collapse. It also exports every A
+output/trace/coverage/count/tracevalue post and the full G2 access trace.
+ms_sorted_positions exposes sorting/stability at arbitrary i<j. Separate
+ms_forward_tie/ms_backward_tie bodies prove exact left/front and right/back
+source selection from equivalence without extra sortedness/SWO assumptions.
+
+Rank theorem mb_entry_rank orders lex(key(ID),originalID). Four independent
+front/back cross-frontier inequalities imply noncrossed joint residual intervals
+[a,m-k+d) and[m+k-a,2m+e-d), even if one becomes empty. Exact paired choices
+select strict lex minima/maxima; remaining next-state IDs lie strictly between
+them. Structural induction constructs exactly up::(middle++[down]), not an
+unchecked reference merge. Terminal cuts give a<=d<=a+e; scalar h=(a<d)
+consumes the sole odd occurrence and establishes both final equalities.
+
+The finite SWO wrapper derives predecessor-count ranks constructively, translating
+original-half sortedness and every exact source comparison using rechecked
+swo_rank_bridge. It then projects rank sorting and equal-rank stability back to
+the source relation. No assumed rank embedding, key uniqueness, total strict
+order, reference-schedule equivalence or bounded enumeration.
+
+All three isolated functional negatives accepted with exact predicates,
+stage/body/location/columns/source integrity and21 classifier rejection controls:
+
+- Without final guard: n2, decisions[(true,false)], output[0,0], ID0 twice/ID1 lost;
+  intended count assertion218cols68-70. No ordering assumptions.
+- Wrong ties: keys[0,0], decisions[(false,false)], outputIDs[1,0]. Scalar guard and
+  permutation pass, keys remain nondecreasing; original equivalent-ID order
+  fails at mb_lt(@neg_equal_key,1,0) assertion274cols39-41.
+- Wrong comparison answers: keys[1,0], decisions[(true,true)], outputIDs[0,1].
+  Each original half sorted (one element), scalar guard/permutation pass;
+  key0<=key1 fails at assertion274cols31-33.
+
+B6 verified every post but failed dead-code gate; it remains INCONCLUSIVE.
+B7 retains all assertions/posts and reorders steps before contradiction-producing
+facts, preserving the stock dead-code check. No disabled checks or erased
+obligations were used to obtain acceptance.
 
 ## Evidence and source boundary
 
@@ -68,6 +117,30 @@ no public Challenge completion. [Transfer obligations](INTEGRATION.md).
 | A2 37677079473 | fc4d03d31f92c6d3f3566b0baa506d0a6dec6805 |17| Full A accepted |
 | B1 37677923322 | 08d66c14f8a8e1881898dd6f154881829c5121c5 |14| Late nat include parse failure |
 | B2 37678436610 | 7b7dd6e6d57cb7271cbe323fe3cc4369fb9826cb |14| Combined ==! token parse failure |
+| B3 37679049210 | 8c14883ae898fdce3086c10fdde0f0e2797fdb6e |30| Selected endpoint post unresolved |
+| B4 37679577426 | b699b11ddb651d2404f770c4ffdd9a66e7277575 |35| Strict endpoint arithmetic cut unresolved |
+| B5 37680109711 | 827726437cfec2add6ad6e4212a5796f43763f01 |52| Domain membership conversion unresolved |
+| B6 37680494943 | 00323149706cec799ae1261004e1d3c1802da2b5 |77| All posts checked; dead code rejected |
+| B7 37681190236 | 4e546ec150cf655681516be727aa1a79f525fc56 |52| Full B accepted |
 
-84/1800 spent,1716remaining including preparation/evidence. No network budget
+330/1800 spent,1470remaining including preparation/evidence. No network budget
 reset or transfer; networks closed/exactN13OPEN and other direction untouched.
+
+Accepted A artifact11506884092 (18833bytes), ZIP SHA256
+cabd3f1f556e4c82dc900e34d636a2f98da419ab7c496c25fba989644c0bd2a9.
+Accepted B artifact11508644687 (44096bytes), ZIP SHA256
+603414227275569095c213eba7738271f478de51389df9b9b4eb79dd0c86c366.
+Downloaded archives match upload digests. Full artifacts inspected: generated
+sources/logs/manifest/admission/environment/resources/exit. Every case source
+and log digest matched manifest; all accepted pins matched frozen originals.
+B assembled source9e7e6b07cc086ca761f64dfdc2e2fd0e2266317eccbf9c3ef910ac2172f9fc52,
+log4b2a862bbdd736339462b44eda89f18100807278e8ca257bacd77edc9f87fa2b;
+order file58d18c5bbcb301f8ee3d9b05660fbee69ca2c38a40708637ebd634bcdd729154,
+SWO applicationd049fd4ba51fe7e022f4d9250c8c51bdf6a7b0d68837bb23e88b642e431fa768.
+B proof process39.49s, peakRSS246252KiB; summed job52s includes cold preparation.
+The reused runner environment text labels this `merge-order-A` (cosmetic inherited
+label); workflow input=merge_order, exact GITHUB_SHA/source, domain/full posts and
+actual ms_entry/MS body evidence establish it is B. No label-only extra run.
+The frozen classifier also supplies its generic boundary wording; actual full
+callee posts are retained in checked source and reported above, never replaced
+by ensures true (except isolated intentional negatives).

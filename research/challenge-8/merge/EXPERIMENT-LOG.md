@@ -281,3 +281,50 @@ still derived from same alreadychecked helpers. SamefullBtarget/domain/profile/
 negativegates/pinnedsource/180case/300process/6minjob. No timeout increase.
 Budget278spent1522remaining. Allbody+0error+return/leak+no-deadcode+negatives
 needed forfinalacceptance; anynewfailure -> preciseevidence repair only.
+
+## F-B7 result — Goals A and B mathematically ACCEPTED
+B7 published/remote-verified4e546ec150cf655681516be727aa1a79f525fc56,
+[run37681190236](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37681190236),
+job11299736942620:20:06Z–20:20:58Z=52s; cumulative330/1800,1470remaining.
+Sole relevant job, allothers skipped. No active run; stop experiments after
+complete goals, finish own documentation commit/push only.
+Artifact11508644687,44096bytes, ZIP603414227275569095c213eba7738271f478de51389df9b9b4eb79dd0c86c366
+matches GitHub upload digest. All sources/full logs/results/admission/environment/
+resources/exit inspected; percase source/log hashes matched. A2 artifact11506884092,
+18833bytes ZIPcabd3f1f556e4c82dc900e34d636a2f98da419ab7c496c25fba989644c0bd2a9
+also downloaded/matched, preserving earlier acceptedA evidence.
+Positive merge_order_full exit0/acceptedTRUE/source9e7e6b07cc086ca761f64dfdc2e2fd0e2266317eccbf9c3ef910ac2172f9fc52,
+log4b2a862bbdd736339462b44eda89f18100807278e8ca257bacd77edc9f87fa2b:
+65expected==visited bodies,505statements197returns197leaks,0errors/no deadcode,
+sourceunchanged. Includes G2(8), A(11), rank-key(19), existing primitive(3),
+genericSWO(12) and functionalSWO/ties(12) bodies, no own assumed summary.
+Negative duplicate sourcefa84ead5774c49912d211dd69eca449b6c05edaf6b56c46cb9f4aaf60a6ae32d,
+log49ff90b278f8e641fcb6125c46121361e1d2831932ccadf7dba84b3b68d33e2e,
+exact218cols68-70/boxed countpredicate/all7controlsTRUE.
+Negative tie sourceb262cffe29a92567b5b0db404e13da2f55a937c373cac685548eace1720598cd,
+logc09fcabc8028c98fd5ee66639a1a41d69ad89b457afc2c912f71f412db715068,
+exact274cols39-41/mb_lt(@neg_equal_key, 1, 0) <==> true/all7controlsTRUE.
+Negative comparator source47eb10e1834513249f36c1c8704895db96ff2d452d3b74c7ced70ba4be5952a6,
+loge3ba6530c188e473a39ceacae0fb6a7617848c38e2d29c49f32cdef92685ec5a,
+exact274cols31-33/neg_reverse_key(0)<=neg_reverse_key(1)/all7controlsTRUE.
+All3accepted,21controls; each sourcebyteidentical priorcalibrated witness.
+Std/archive/console/frozenclassifier/originaladmission/geometry/A/SWO pinsmatched.
+Certificatef2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7 unchanged.
+Proofwall39.49s,user39.33s,peakRSS246252KiB; job52s includespreparation/evidence.
+B7 repaired only statementorder, retained allassertions/fullposts/deadcodecheck.
+General finite SWO key bridge constructively checked, stable exactbidirectional
+schedule guard/permutation/sorting proved for arbitraryn, not bounded tests.
+GoalA still unrestricted comparator/residual conditional ONLY scalar guard;
+GoalB assumptions separated and no implicit joint-half nonemptiness.
+ActualRustpointerguard/ZST/provenance/overflow/permissions/init/ownership/FnMut/
+unwindOPEN; no fullRust or publicChallenge claim. No tool/runtime/signature patch,
+network run/budget reset/time transfer, branch merge or other-direction edit.
+Final documentation commit differs from proof SHA; report them separately.
+
+Documentation closeout hit local ENOSPC before creating git index.lock; no
+commit or proof state was lost. Freed space by lossless relocation of immutable
+/tmp/verifast-src-26.09 cache to /dev/shm/merge-original-verifast-source-26.09,
+keeping the original path via symlink and an independently compared exact copy
+/dev/shm/merge-preserved-verifast-source-26.09. No worktree/branch/source/tool
+semantics changed; no local verifier/build/test execution or hosted budget cost.
+Final documentation retry authorized within this stage, no extra proof run.

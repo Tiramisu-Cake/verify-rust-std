@@ -1,4 +1,4 @@
-# Independent merge geometry coverage
+# Independent merge coverage
 
 G2accepted:8lemma bodies/88statements/17return-leak, all3negatives/21controls.
 Checked proofSHA b1ed0c22dafec350a64e83675d55350806d77208. Actual Rust OPEN.
@@ -7,13 +7,13 @@ Checked proofSHA b1ed0c22dafec350a64e83675d55350806d77208. Actual Rust OPEN.
 | --- | --- | --- |
 | Exact active Rust schedule | Full-source SHA32574f..., active operation certificate for three functions | Hosted admission accepted; no Rust AST/MIR/refinement proof |
 | merge_up access/advance | Both reference reads, selected copy source/write BEFORE right/left/dst add; arbitrary normal Boolean | Pure integer positions only |
-| merge_down access/advance | Both reads/copy/write BEFORE right/left wrapping_sub and ordinary dst.sub | Requires dst>=1 for ordinary sub; actual caller proves this |
+| merge_down access/advance | Both reads/copy/write BEFORE right/left wrapping_sub and ordinary dst.sub | Requires dst>=1 for ordinary sub; the mathematical bidirectional caller proves this |
 | Arbitrary-length paired loop | Count invariant and structural induction over arbitrary decision list of length n/2 | Accepted structural induction, no bounded enumeration/SWO |
 | Odd residual/endpoints | Both sources readable, dst=n/2, selection/advancement and terminal boundary guards | Arbitrary residual Boolean handles ZST comparison uncertainty geometrically |
 | Destination geometry | Forward/reverse disjoint intervals, odd gap, exactly n writes | No physical write/initialization/resource theorem |
 | Scalar final checks | Even a=d; odd a+h=d, exact scalar h=a<d supplemental | Not automatically pointer equality/order, particularly ZST |
 | Negative controls | Read at n, invalid advance, exact proof predicate/location controls | Concrete witnesses calibrate classifier, not universal proof |
-| Actual Rust memory/unwind/functionality | None | Provenance/overflow/ZST/permissions/initialized T/ownership/FnMut/panic and sorting OPEN |
+| Actual Rust memory/unwind/functionality | None | Provenance/overflow/ZST/permissions/initialized T/ownership/FnMut/panic and actual Rust sorting OPEN |
 
 Networks proof/budget ledger is frozen separately; no transfer of its remaining
 seconds or status to this phase. Current own [STATUS](STATUS.md), [plan](PLAN.md),
@@ -24,7 +24,7 @@ mg_destination_regions separately proves crossinterval separation. Exact n
 writecount alone is not a destination uniqueness theorem. Traceequations and
 these bounds yield full evencoverage / oddsolegapm as mathematicalcorollaries.
 Actualinitializeddestination/Townership afterpanic is NOT established.
-Newphase25/1800jobseconds,1775unspent,noactiverun.
+Original geometry closeout:25/1800jobseconds,1775unspent; current total below.
 
 ## Authorized functional stage
 
@@ -34,8 +34,14 @@ Newphase25/1800jobseconds,1775unspent,noactiverun.
 | Every destination exactly once | Arbitrary p: count1 iff0<=p<n; tracevalue equals output nth | Full arbitrary-length induction; no physical init theorem |
 | Every original occurrence exactly once | Arbitrary q: count1 iff0<=q<n under only scalar guard | Arbitrary comparator and odd choice, no SWO/sortedness |
 | Duplicate/loss negative without guard | n2 output[0,0], intended multiplicity assert and7controls accepted | Guard is necessary; panic/copy ownership OPEN |
-| Fixed SWO sorting/stability/guard | B proof pending hosted body acceptance | Requires immutable keys, faithful normal answers and sorted halves |
-| Tie / wrong comparator negatives | Pending intended obligations | Parser failures do not count |
+| Fixed SWO sorting/stability/guard | B7 accepted SHA4e546ec150cf655681516be727aa1a79f525fc56/run37681190236;65bodies/505statements/197return-leak | Immutable keys, faithful normal answers, sorted original halves and scalar residual only in B |
+| Tie / wrong comparator negatives | Both exact assertions274cols39-41/31-33 accepted with14controls; duplicate218 adds7 | Guard/permutation pass; stability/key order respectively fail |
 
 Latest functional ledger in RESULTS/STATUS supersedes initial geometry budget
 checkpoint above; original G2 proof/source/results retained byte-for-byte.
+
+B7 also rechecks the original generic finite SWO predecessor-count bridge and
+constructively translates every comparison and original-half sortedness; no
+rank correspondence axiom. Forward-left/backward-right tie selection checked
+in separate bodies. All mathematical A/B targets closed; actual Rust remains
+OPEN. Current budget330/1800,1470remaining, no active run; no new budget phase.

@@ -14,7 +14,7 @@ normally returning prefixes supplies no Rust unwind/resource proof.
 Sorting would separately require sorted halves, a fixed consistent order on
 preserved keys and faithful normally returning comparator, together with actual
 copy/ownership realization. These requirements must never enter geometry's
-unrestricted comparison domain. No full merge functionality or safety claim.
+unrestricted comparison domain. No actual Rust merge functionality or safety claim.
 
 Required transfer obligations:
 
@@ -61,9 +61,34 @@ from[0,1]. This result does not supply ownership for those temporary copies or
 panic paths. Scalar/pointer guard realization must be proved separately,
 particularly for ZST whose distinct logical indices may share addresses.
 
-Functional B premises will be one immutable pullback SWO relation on these
+Functional B premises are one immutable pullback SWO relation on these
 occurrenceIDs, both original halves sorted by it, every normallyreturning exact
 comparator answer matching rel(rightID,leftID), and odd choice matching logical
 left<left_end. Such key/order/fidelity premises belong only to functional B;
 they are absent from the accepted unrestricted geometry and Goal A. Constructive
 rank correspondence must be checked before any B rank theorem is applied.
+
+## Accepted stable functional composition
+
+Goal B is now accepted at4e546ec150cf655681516be727aa1a79f525fc56/run37681190236.
+Its finite fixed SWO is a pure pullback relation on original occurrence IDs,
+constructed domain0..n-1. General predecessor-count bridge bodies are rechecked
+unchanged; original-half sortedness and every source comparator answer derive
+rank premises, with sorted/stable output projected back to the same relation.
+No assumed embedding or unchecked reference merge. Forward ties select left,
+reverse ties select right; residual scalar h=endA<endD derives final guard.
+All full A output/coverage/trace/count posts are retained under these B premises.
+
+Future Rust transfer must additionally realize the ID-to-value association,
+preserve immutable keys through all comparator effects and copies, justify
+faithful normal comparison summaries (or stop at a conditional functional result),
+and connect actual calls to the two read pairs/selected source IDs and scalar
+residual. Its normal sorted/stable result requires actual final pointer guards
+to agree with the scalar equalities or a separately proved ZST treatment.
+Destination initialization and one owner per live T require permission/ownership
+proofs for copy_nonoverlapping, not just mathematical ID counts. Arbitrary bad
+comparisons may copy duplicate IDs before panic; A proves no Rust unwind cleanup.
+
+These sorting assumptions are absent from G2 and guard-conditional A. The
+mathematical phase is complete; actual Rust/functionality/safety and public
+Challenge admission remain open. No runtime, signature or trust model change.

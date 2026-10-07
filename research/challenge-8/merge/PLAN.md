@@ -82,3 +82,17 @@ All8body/fullpost/source/return/leak gates,3intendednegatives and21classifier
 controls accepted. Budget25/1800,1775unspent, no active run. Actual Rust
 transfer/fullmerge safety/functionality remain separate OPEN obligations.
 No further tests for documentation-only closeout. See RESULTS/STATUS/journal.
+
+## Functional stage completed
+
+Goals A and B and every acceptance gate completed. A2 accepted at
+fc4d03d31f92c6d3f3566b0baa506d0a6dec6805; full B7 at
+4e546ec150cf655681516be727aa1a79f525fc56. Both arbitrary-length inductive;
+all G2/A/general SWO/application bodies checked, exact source admission retained,
+full posts/return/leak/dead-code/integrity and intended negatives accepted.
+No reference merge introduced; rank correspondence constructively derived.
+All actual Rust transfer obligations remain OPEN, described in INTEGRATION.
+Current total330/1800 job seconds spent,1470 unspent, no active run. The25/1775
+checkpoint above records geometry completion/stage entry, not a budget reset.
+Only documentation closeout remains; no more runs for this completed stage.
+Networks/exactN13 remain closed/OPEN respectively with unchanged prior budgets.
