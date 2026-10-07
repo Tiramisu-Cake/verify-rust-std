@@ -143,13 +143,30 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
                   f"    assert !rel(id{i + 1}, id{i});",
                   f"    assert !rel({id_outputs[i + 1]}, {id_outputs[i]});"]
     lines += [f"    assert {count('id')} == original_count;", "}", ""]
+    if n == 13:
+        # Package the literal once. The wrapper opens a fresh symbolic witness
+        # before instantiating the already checked composition theorem.
+        lines += [f"lemma void network{n}_exact_domain()",
+                  "    requires true;",
+                  f"    ensures exists<list<int>>(?d) &*& d == {exact_domain} &*& " +
+                  " &*&\n            ".join(f"mem({i}, d) == true" for i in range(n)) + ";",
+                  "{",
+                  f"    close exists<list<int>>({exact_domain});"]
+        lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
+        lines += ["}", ""]
     lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
               f"    requires finite_swo(rel, {exact_domain}) == true;",
               "    ensures " + full_post(exact_domain) + ";",
               "{"]
-    lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
-    lines += [f"    network{n}_finite_swo_composition(rel, {exact_domain}, q);",
-              "}", "@*/", ""]
+    if n == 13:
+        lines += [f"    network{n}_exact_domain();",
+                  "    open exists<list<int>>(?d);",
+                  "    assert finite_swo(rel, d) == true;",
+                  f"    network{n}_finite_swo_composition(rel, d, q);"]
+    else:
+        lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
+        lines += [f"    network{n}_finite_swo_composition(rel, {exact_domain}, q);"]
+    lines += ["}", "@*/", ""]
     return (LIST_INCLUDE + rank_proof + prove.IDENTITY_HELPERS + source_core() + id_dag +
             "\n".join(lines))
 

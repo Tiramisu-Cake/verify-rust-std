@@ -1,9 +1,10 @@
 # Phase2 results and precise unfinished composition
 
-2026-10-07 checkpoint. **Generic finite SWO -> integer ranks ACCEPTED. Whole
-N9 SWO network composition remains OPEN; N13 was not dispatched.** Final
-R9f proof source is committed locally but has not run: GitHub rejects writes
-with HTTP500. This is not a completed phase/public Challenge or Rust safety proof.
+2026-10-07 current result: **Generic finite SWO -> integer ranks and full N9
+SWO network composition ACCEPTED. N13 composition is being checked in R13.**
+Saved commits65f2ddb... and04ea220... were published without changes after
+GitHub writes recovered. R9f exact checked SHA04ea22075f87634221cc43ccba59486fb10ad817.
+No Rust safety or public Challenge completion is established.
 
 ## Proven mathematical statements
 
@@ -15,6 +16,11 @@ unit in R9d and again R9e, VF0,81statements,39return and39leak checks. R9d sourc
 and [repeat R9e evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654875244).
 Both overall workflows failed on the separate composition timeout; generic
 acceptance is supported by its complete case log/exit/body/return/leak gate.
+
+R9f includes the additional ordered-pair projection body and completes ALL16
+named generic bodies, VF0,83statements,40return/leak checks. Generic generated
+sourceacc2d0bd1d43eba573c57c206438398ab1dc7a887945ea1bdf96a1885312f2ca.
+[Accepted full R9f](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37661652169).
 
 For arbitrary fixed pure relation rel on a finite list d, assume only finite
 irreflexivity, strict transitivity and transitive incomparability. For members
@@ -33,7 +39,7 @@ distinct from ranks. These lemmas do not require Copy/Freeze or stable sorting.
 Own proof bodies derive every correspondence post; stock list/count/forall
 semantics and verifier are unchanged. No own bodyless lemma/axiom/imported solution.
 
-## Exact networks and pending post
+## Exact networks and full N9 composition
 
 Phase1 accepted N9/N13 rank and identity theorems, exact25/45 actual calls,
 remain preserved in RESULTS.md/PHASE1-STATUS.md and their original journal.
@@ -41,32 +47,40 @@ New composition regenerates the accepted rank-theorem bodies verbatim via
 unchanged prove.py and checks them in the same unit before using their summaries.
 Actual SmallSort full-source SHA256
 32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959;
-new R9e artifact certifies each of the25 N9 calls at source441..465.
+R9f artifact certifies each of25 N9 calls at source441..465.
 
-R9e proves all25 CE transitions against symbolic original domain d, per-step
-ID/rank DAG equality, domain membership, exact rel(right,left), constructed
-rank correspondence and arbitrary-q total multiplicity. It completes the
-accepted full integer-rank theorem application. These reached assertions are
-partial progress, not an accepted whole composed lemma/post.
+Accepted R9f verifies all25 exact CE transitions against symbolic original
+domain d: per-step ID/rank DAG equality, membership, comparison rel(right,left),
+constructed rank correspondence and arbitrary-q total multiplicity. It completes
+the accepted full integer-rank theorem application and derives ALL8 adjacent
+key-order posts using checked swo_ordered_pair. Both the composed theorem and
+its exact0..8 specialization return with full posts, VF0,4214statements,
+546return/leak checks. Generated composition source SHA256
+984b6479c71dd2788583319df7d21b248778e99c53888920f6f1bc484079afa9.
 
-Precise unaccepted theorem `network9_finite_swo_composition(rel,d,q)`:
-requires finite_swo(rel,d) and mem(0,d),...,mem(8,d); ensures every final ID
-is in d, !rel(out[i+1],out[i]) for all i=0..7 and
-sum(ce_occ(out[i],q))==sum(ce_occ(i,q)) for arbitrary q.
-R9e generated source84ca65e3bae37e4c1456c6413192ddba1ba63ae68ec733aa3c327207c538db13
-times out180s while checking its second final swo_rank_bridge call at5059,
-after the first call starts90.653s and finishes149.321s. No assertion error;
-543completed return/leak checks belong to earlier checked bodies. The composed
-return/leak/post and thin `network9_finite_swo_order` exact0..8 wrapper are
-not accepted. Final post is adjacent sortedness; all-pairs order is a separate
-mathematical corollary of the constructed rank bridge and integer transitivity.
+`network9_finite_swo_composition(rel,d,q)` requires finite_swo(rel,d) and
+mem(0,d),...,mem(8,d); ensures every final ID is in d, !rel(out[i+1],out[i])
+for every i=0..7 and sum(ce_occ(out[i],q))==sum(ce_occ(i,q)) for arbitrary q.
+`network9_finite_swo_order(rel,q)` instantiates exact domain0..8, discharges
+every initial membership and exports the same order/domain/multiplicity posts.
+Unique initial IDs and universal q yield every occurrence exactly once, including
+when keys tie. Adjacent sortedness is the literal machine post; global all-pairs
+order is its mathematical corollary using rank correspondence/integer transitivity.
 
-R9f source `65f2ddb06a8de05b718209f8df746fe1fb03163e` adds a body for
-`swo_ordered_pair`: finite_swo/membership/rank(left)<=rank(right) ->
-!rel(right,left), derived internally from the full accepted bridge. The network
-uses only that projected summary for final pairs; all original full generic and
-network posts remain. **This additional body and revised composition are not
-hosted-checked yet.** N13 SWO composition remains unattempted behind full N9 gate.
+Earlier R9e all25 CEs and first SEVEN final adjacent pairs reached; last full
+swo_rank_bridge at5059 timed out180s. Earlier second-pair reading was incorrect,
+corrected by independent owner review and journal continuation. Its immutable
+source84ca65e3bae37e4c1456c6413192ddba1ba63ae68ec733aa3c327207c538db13
+and raw failure evidence remain preserved; it was not accepted as whole N9.
+R9f adds a checked projection body with exactly finite_swo/pair membership/
+rank(left)<=rank(right) -> !rel(right,left), keeping large equality/bound facts
+inside a small lemma context. No timeout increase, premise/post weakening,
+correspondence assumption or semantic/tool change.
+
+R13 checks the SAME code for13 original IDs, exact45 CEs, all12adjacent order
+posts,13memberships and full arbitrary-q multiplicity. It began only after
+complete R9f acceptance and full artifact inspection, at published/checked
+sourcef00f446e72758ec8c6da1f34d74c7c92719aecf2. Its outcome is pending; see STATUS.
 
 ## Meaningful negative and functional applicability
 
@@ -96,17 +110,18 @@ for integration. No Rust integration/verifier patch or merge was performed.
 | R9d | [37653851684](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653851684) | 955fd2a3334e8fe14c55bdb00f98c4f9813da775 | 192 | Generic bridge accepted; N9 timeout after6 CEs |
 | R9e | [37654875244](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654875244) | a38cc109329613645de8d995a5faba2feed7627f | 192 | All25 CEs reached; final conversion timeout |
 
-**447/1800 summed hosted job seconds spent,1353remaining.** Includes cold
+**519/1800 summed hosted job seconds spent,1281remaining before active R13.** Includes cold
 setup/checkout/evidence/post steps via actual job start/end; skipped jobs cost0.
-R9f has no run/job cost. Phase1 stays1499/1800spent,301unused not transferred.
+R9f cost72s, job17:46:29Z–17:47:41Z. R13 active; its cost pending completion. Phase1 stays1499/1800spent,301unused not transferred.
 Other direction's budget is untouched. All executable checks were hosted.
 Full source/log/artifact hashes and first failures are preserved in
 RANK-EXPERIMENT-LOG.md; no generated source/downloaded logs are committed.
 
-Push/dispatch failed HTTP500 starting16:53:28Z; ordinary push, HTTP/1.1 and
-complete no-thin pack failed, as did Git Data API blob creation (HTTP500 with
-empty JSON body,16:58:47Z; no ref update). Remote branch remained a38cc109...;
-no new/duplicate/old-source run was created. Check STATUS for final publication
-state. Next permitted action is publish exact pending local commits, verify
-remote SHA, dispatch one ranks9 R9f and inspect full evidence. Only full N9
-acceptance allows R13; remaining budget and stock trust boundary stay in force.
+Historical publication failed HTTP500 starting16:53:28Z; ordinary push,
+HTTP/1.1/no-thin pack and Git Data blob creation failed, no ref update or
+old-source run. After owner continuation, ordinary push successfully published
+both saved commits65f2ddb... and04ea220...; remote exactly04ea220... verified.
+R9f was then dispatched on04ea220..., not old a38cc109... . R13 card was committed
+and published atf00f446e72758ec8c6da1f34d74c7c92719aecf2 and this remote SHA
+verified before its sole dispatch. See STATUS for final local/published/checked
+SHA distinction and current exact pending action. No merge or permission bypass.

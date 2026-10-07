@@ -300,3 +300,54 @@ context/composition correction within SAME profile and new exact SHA/run;
 no blind timeout increase. Budget/trust boundary -> exact open obligation saved.
 Job8min/inner420s/percase180s fits1281remaining, one hosted run on this branch.
 N13 source/run pending; no new budget and no transfer from either direction.
+
+### R13 result: full symbolic body completed; exact wrapper timeout
+
+Published/checked source `f00f446e72758ec8c6da1f34d74c7c92719aecf2`,
+[run37662026439](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37662026439),
+[artifact11500837571](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37662026439/artifacts/11500837571),
+6923528bytes, ZIP SHA2563aff093c48437847a555cba780248a34c258006d1aa4b5b1891f7de5a3d0e9c6.
+Full sources/logs/results inspected and hashes match; std/tool/archive/prove.py
+pins unchanged,45exact calls admitted. Generic bridge+projection16bodies VF0,
+83statements/40return-leak; negative65,26–28/all7controls PASS. Whole composed
+case INCONCLUSIVE exit124/180s, no errors,7675completed return/leak checks.
+
+Old full N13 rank theorem finishes96.7s, finite helpers/projection checked.
+Symbolic network13_finite_swo_composition enters96.777s and completes its FULL
+order/domain/arbitrary-q post and return/leak by129.744s: all45CEs,12adjacent
+posts,13memberships and count intact. Exact literal0..12 wrapper enters129.744s,
+discharges every initial mem assertion by136.610s and stalls calling that checked
+composition at3446 (136.613s). Its final return/post not accepted, therefore whole
+N13 case NOT accepted. Source2248210b8787c34a8f2f709aca676b92e240ca12353bffa061e33a1edb6c7ae7;
+log3b4c9c96a9114eb72e5b341786e1170ece3c693dcf99a8aa4cf1a00ede75c14d.
+PeakRSS2092144KiB; literal-domain summary substitution is now the causal problem,
+not final ordered-pair transfer, old rank theorem or individual CE correctness.
+Job17:49:23Z–17:52:36Z = **193s**; total712/1800,1088remaining.
+
+## R13b — prepared before dispatch
+
+Same exact original45call source, arbitrary SWO/ties/keys/normal comparator
+applicability, generic iff/equality/bounds bridge, all12adjacent/13membership/
+full arbitrary-q final posts, open Rust safety/unwind boundary and unchanged
+stock profile. Per-case180s remains; no blind timeout increase.
+Hypothesis: a checked VOID constructor packages exact original0..12 domain as
+stock exists<list<int>> witness with equality to literal domain and initial
+membership posts. Its body constructs that literal and closes the existential;
+there is no assumed domain/embedding axiom. Exact SAME-signature full-post wrapper
+opens/consumes the ghost package, uses its fresh symbolic domain with proven
+literal equality and calls the checked symbolic composed theorem. This avoids
+syntactic expansion of the concrete domain across every returned membership
+while preserving the final literal-domain pre/post exactly.
+
+The domain constructor is proof-only and uses unchanged stock existential/list
+semantics, no Rust resources/AST/runtime/verifier rewrite. Frozen positive
+classifier continues to require ALL named void bodies, returns/leaks and0errors;
+no classifier modification/omission or user bodyless/automatic lemma. New
+specialization affects N13 ONLY: accepted N9 generation remains byte-identical.
+Generic core, old rank components,45CE symbolic composition, negative and7controls
+unchanged. Every new body/constructor/wrapper must complete in same checked unit.
+
+Whole success -> final own-doc integration/checkpoint/commit/push. First causal
+failure -> inspect full evidence and localized within-profile correction/newSHA;
+budget/trust boundary -> precise exact specialization obligation, no patch or
+local fallback. Job8min/inner420s/percase180s fits1088remaining. Source/run pending.
