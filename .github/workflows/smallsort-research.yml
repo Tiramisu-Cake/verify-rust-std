@@ -411,8 +411,8 @@ jobs:
 
 
   overnight-2610:
-    if: github.ref == 'refs/heads/research/overnight-select-sort4-26.10' && inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_cfg_accept'
-    name: OVERNIGHT-SELECT-SORT4-26.10 CFG causality
+    if: github.ref == 'refs/heads/research/overnight-select-sort4-26.10' && inputs.proof == 'verifast_maybeuninit_new_pointer' && (inputs.forget_guard_stage == 'forget_cfg_accept' || inputs.forget_guard_stage == 'drop_v4')
+    name: OVERNIGHT-SELECT-SORT4-26.10 selected step
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
@@ -422,12 +422,17 @@ jobs:
         with:
           persist-credentials: false
       - name: Check stock and exact CFG candidate
-        run: bash research/challenge-8/overnight/run-cfg.sh
+        run: |
+          if [[ "${{ inputs.forget_guard_stage }}" == forget_cfg_accept ]]; then
+            bash research/challenge-8/overnight/run-cfg.sh
+          else
+            bash research/challenge-8/overnight/run-s6.sh
+          fi
       - name: Preserve full causal evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: overnight-cfg-${{ github.run_id }}-${{ github.run_attempt }}
-          path: research-results/overnight-cfg/
+          name: overnight-${{ inputs.forget_guard_stage }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/overnight-*/
           if-no-files-found: error
           retention-days: 90
