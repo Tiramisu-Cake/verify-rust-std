@@ -176,3 +176,43 @@ posts, removed controls or zero-one-only general-order claim. Same two intended
 negatives and14classifier rejection controls; exact NEW N9d run required.
 Acceptance -> N13 under identical frozen profile; preserve any failure and
 checkpoint within remaining1031jobseconds. Source/run/cost pending.
+
+### N9d result: full projection bridge, final application timeout
+
+Source `240d2ef9d8de1a0d64c2b5eec1dd683906d7a4aa`,
+[run37640086725](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640086725),
+[artifact11491447574](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640086725/artifacts/11491447574),
+520445bytes. Full logs/generated sources read; source/profile/control gates
+unchanged. Binary explicit sorted-output summary PASS on all Boolean inputs.
+All8 universal independent-threshold lemmas PASS with full posts/return/leak
+checks by33.170432s. Whole rank unit includes506complete paths (496binary,
+2localCE,8projection). General_rank_order then enters; verified threshold calls
+take milliseconds, but direct <= assertions take9.630/104.551s while repeatedly
+expanding high-arity wire terms. Unit times out at180s after the fourth adjacency
+call; general_rank_order post/return/leak not accepted. No suppressed assertion.
+Identity, both intended negatives and14classifier rejection controls PASS.
+
+New evidence localizes the remaining issue to final arithmetic application,
+not the bridge or model correspondence. Generic arithmetic can be proved on
+scalar formal variables and composed through a checked summary, avoiding wire
+unfolding for this tautological contradiction. This is a localized fix supported
+by the completed8projection bodies, rather than another speculative rewrite.
+Job14:50:32Z–14:53:46Z = **194s**. Total **963/1800**,837 remain.
+
+## N9e — scalar arithmetic application, prepared before dispatch
+
+Same full targets and model definitions as N9d. Add checked-body ghost lemma:
+`requires !(left>right) || right>right; ensures left<=right`, proving right>right
+false, then not(left>right), then left<=right on arbitrary mathematical integers.
+Each original final application first calls its verified universal threshold
+summary at t=right output, then this scalar lemma, then retains the original
+adjacent <= assertion and full general-rank sorted-output post. Its prerequisite
+is established by the verified projection lemma, never assumed.
+
+Hypothesis: scalar arithmetic proof isolates the tautological reasoning from
+unnecessary min/max DAG expansion. No modified tool, kernel, trust model,
+deleted obligation or weakened domain/post. Acceptance requires whole rank
+unit VF0/all named bodies/return/leak, all other positives and both intended
+negatives+14rejection controls. Then N13 is the next authorized step. Remaining
+837jobseconds, jobcap10min; reassess/decrease cap if remaining<600 before N13.
+Source/run/cost pending.

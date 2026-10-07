@@ -170,6 +170,15 @@ lemma void threshold_ce(int left, int right, int threshold)
         assert ce_max(left, right) == left;
     }
 }
+
+lemma void rank_from_threshold(int left, int right)
+    requires !(left > right) || (right > right);
+    ensures left <= right;
+{
+    assert !(right > right);
+    assert !(left > right);
+    assert left <= right;
+}
 @*/
 """
 
@@ -293,6 +302,7 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
             "{"]
     for adjacent in range(n - 1):
         out += [f"    network{n}_threshold_at_{adjacent}({arguments}, {outputs[adjacent + 1]});",
+                f"    rank_from_threshold({outputs[adjacent]}, {outputs[adjacent + 1]});",
                 f"    assert {outputs[adjacent]} <= {outputs[adjacent + 1]};"]
     out += ["}", "@*/", ""]
     return binary + RANK_HELPERS + dag + "\n".join(out) + "\n"

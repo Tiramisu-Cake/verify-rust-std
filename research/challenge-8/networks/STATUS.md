@@ -8,8 +8,10 @@ Frozen entry `origin/challenge-8/research`:
 This phase is independent of sort4/select/VeriFast development and its stops.
 Do not merge automatically or overwrite the main direction's STATUS/PLAN.
 
-Own budget: **769/1800 summed hosted job seconds**, preparation included;
-**1031 remain**. No active run. Latest N9c run
+Own budget: **963/1800 summed hosted job seconds**, preparation included;
+**837 remain**. No active run. Latest N9d run
+[37640086725](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640086725),
+source `240d2ef9d8de1a0d64c2b5eec1dd683906d7a4aa`. Previous N9c run
 [37638843477](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37638843477),
 source `910c183c678785224074d24dbee03ca8397bee44`. Previous N9b run
 [37637872959](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637872959),
@@ -33,13 +35,16 @@ whole general-rank theorem TIMEOUT180s at first adjacency: final-expression
 threshold creates expensive SMT unfolding. No general-order theorem yet.
 Original N9 timeouts/classifier INCONCLUSIVEs remain preserved.
 
-N9c same binary/permutation/negative controls PASS, threshold composition still
-TIMEOUT180s: first adjacency completes45 paths, no whole theorem. Remaining
-branching in inline Boolean assignments duplicates expensive rank context.
-Next permitted action: verified binary model summary plus pure Boolean
-fixpoint composition, NEW N9d run; only after acceptance advance to N13.
-Generated binary/identity files are universal ghost assertion harnesses:
-their final assertions carry the theorem; `ensures true` is not a reusable
-callee summary. No Rust summary is claimed.
+N9d binary sorted-model summary, all8 universal-threshold lemma bodies/posts,
+identity permutation and both negatives+14classifier controls PASS. Threshold
+unit TIMEOUT180s only in general_rank_order application's arithmetic assertions
+after cheap summary calls. All8 universal projection lemmas complete by33.170s;
+whole unbounded-rank sorted-output post still not accepted.
+Next permitted action: checked scalar arithmetic application helper, NEW N9e;
+only after whole-unit acceptance advance to N13.
+Binary/general-rank files now export explicit sorted model-output posts.
+Identity file remains a universal ghost assertion harness: its final count
+assertions carry the theorem; `ensures true` is not a reusable callee summary.
+No Rust summary is claimed.
 See [plan](PLAN.md), [journal](EXPERIMENT-LOG.md),
 [source correspondence](SOURCE-MAP.md) and [helper contract](SWAP-CONTRACT.md).
