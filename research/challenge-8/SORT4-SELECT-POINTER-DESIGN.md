@@ -407,3 +407,59 @@ not accepted evidence. Certificate admits only the exact declared ghost sequence
 with source/MIR spans; full runtime body/typed MIR/cleanup edges stay identical.
 If existing projection/equality/reborrow obligations fail, preserve exact trace
 and STOP at that obligation rather than weakening initialized-drop pre.
+
+## S6v2 admission correction — BEFORE implementation, 2026-10-07
+
+The owner authorized only this pointer drop component and its actual integration.
+S6v1 is COMPONENT_ACCEPTED in37642650884/source4d0e307, samecd660fe9 profile:
+2positive+11intended proof negatives+22admission controls, with original proof and
+regression provenance retained. Actual baseline enters and reaches checked drop;
+`verified/lib.rs(110,55-58): No matching heap chunks: points_to<*Element>(__result2, _)`,
+callsite57,14–29. This is its initialized-cell requirement, not a method-resolution
+failure. Projected actual export/decode/refinement0 but fails source admission
+before proof: `actual projection ghost source span`. No projection resource result.
+Job113s15:17:47–15:19:40UTC, cumulative2995/5400,2405remain; one relevant hosted run.
+
+Falsifiable admission hypothesis: the pinned exporter encodes ordinary span hi
+of //@ ghost annotations at the LAST character, while annotation-specific
+startLine/startCol,endLine/endCol describe the FULL half-open parser range. Five
+raw MIR observations agree: first ghost line40 regular translated5..93, explicit
+start5/end94; others41/59/61/62 likewise differ by one. translate_annotation uses
+explicit fields; translate_span_data adds1 to regular0-based columns. Current
+certificate compares regular hi to half-open end, hence rejects the exact source.
+Independent read-only reviewer confirmed all five observations and existing APIs.
+
+Allowed correction ONLY inside this exact5ghost source certificate: require
+ordinary regular lo=position(at), hi=position(at+rawLength-1), AND separately
+explicit start=position(at), end=position(at+rawLength). Require exact raw strings,
+order, source body/contract, all typed locals/callees/operands and normal/unwind
+CFG. No OR fallback, approximate coordinates, new ghost statement or runtime
+rewrite. Contract annotation span convention remains unchanged. This is a
+TRUSTED ADMISSION semantics change, not merely a classifier fix; write rationale
+and enforce fresh regression gates before it is used. Compiler drop-glue mapping,
+lemma/method initialized pre/full-value-thread-frame/nounwind posts are unchanged.
+No general annotation parser, Rust compiler/exporter/schema/refiner/kernel/prelude/
+memory/aliasing/provenance/guard/forget/assume_init change. This is within the
+owner's narrow S6 authorization, not a reopened broader frozen phase.
+
+New profile `experimental-source-linked-select-pointer-drop-v2`, cumulative patch
+from frozen cd660fe9 plus ONLY that certificate correction. Before actual use:
+NEW complete independently collected2+11proof/22admission drop matrix, accepted
+constructor/asptr/intrinsic matrices and14stock/experimental Rust/C/C++ baselines;
+no proof reuse across changed semantic profile. Then two separate actual MIR
+coordinate negatives: regular ghost hi changed+1 (ordinary source span predicate),
+explicit ghost endCol changed-1 (explicit full parser range predicate). Both must
+export/decode/refine with integrity and exact mutation record, reject precisely
+at their named certificate obligation BEFORE actual proof; setup/other errors
+are not intended negatives. Collect independently and retain every original
+classification, source/MIR and full logs. Exact canonical projected source is the
+positive applicability case; no extra standalone body abstraction is introduced.
+
+Target domain still arbitrary thin *const Element payload/*mut *const Element
+receiver, no Copy/Freeze/Element permissions. Full actual target normal selected
+pointer/thread/frame and unwind false are unchanged. Test stock open/close
+projection using the existing wrapper cells/some states/receiver equalities and
+reborrow resources. If projection/drop pre cannot be established, record exact
+obligation/resources and STOP. If drop passes, record next blocker and STOP.
+Any non-admission semantic extension requires a separate owner decision.
+Budget2995/5400used,2405remain; <=1800/job,<=300/proof,hosted-only,one active run.

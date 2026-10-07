@@ -4123,3 +4123,45 @@ mandatory before actual full contract/CFG/stock projection test. Same falsifiabl
 obligation/domain/posts/trust/expected stages/outcome map as initial completion
 card; no repeated proofs solely for classifier. used2882,remaining2518;<=1800/job,
 <=300/proof,one relevant hosted run. Stop at actual drop pre or next blocker.
+
+S6 independent completion source4d0e3070ca93e01b7a5ccfad18ea83900bc7536b
+committed locally15:07:26UTC. Ordinary git pushes repeatedly return remote Internal
+Server Error (also HTTP1.1/no-thin attempts); branch initially remained41bb6b6.
+Git Data API safely published identical tree eca47338c16c917e735c313095fb84d10ecb1a89
+and IDENTICAL commit4d0e307 with original parent/author/committer/date/message;
+ref updated force=false, ls-remote and fetch confirm origin matches. No force-push.
+workflow_dispatch repeatedly HTTP500 (numeric workflow ID and named endpoint,
+structured same selection/budget JSON); read API works, no new run appears.
+GitHub status endpoint says operational, so no general incident claim is made.
+This external dispatch failure has no job cost and supplies no new proof evidence.
+Budget remains2882/5400,2518remaining; latest completed run37641538816.
+Pending exact-code source4d0e307 is READY for composite35 acceptance/actual when
+hosted dispatch becomes available; no semantics/pre/posts/tool pin changed.
+
+Dispatch recovered15:17:43UTC without workflow/profile changes. NEW run37642650884
+resolved exact head4d0e3070ca93e01b7a5ccfad18ea83900bc7536b, one hosted run,
+selectionverifast_maybeuninit_new_pointer,budget30. Earlier HTTP500 requests made
+no run. Before cost2882/5400,2518remaining; job duration pending completion.
+[Recovered completion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884).
+Local external-blocker draft docs will be updated from this run's actual outcome.
+
+S6 completion37642650884/source4d0e307 completed15:19:40UTC,113s
+15:17:47–15:19:40, cumulative2995/5400,2405remaining. SAMEfulltool/spec/std profile;
+full35-case COMPONENT_ACCEPTED:13proofcases/19validadmissions replay,3NEW controls
+intendedrejections; initial JSON/logs/MIR retained, complete original regressions
+keep37637630477 provenance. Compact11493485379 innerSHA4da675062fa21eb2a8a26205ae3fa5bb22a953ed3aaf113bbe53f12060260426;
+full11493285528. Actual baseline fullsource/export/decode/refinement/method+actual
+MIR/redirectPASS; body reaches drop57 and fails initialized cell requirement
+verified/lib.rs110,55–58: No matching heap chunks: points_to<*Element>(__result2, _).
+Projectedactual source/export/decode/refinementPASS, VF2 certificate failbefore
+proof `actual projection ghost source span`. NOT a resource verdict/intendednegative.
+
+S6v2 BEFORE implementation card in design: exact5ghost ordinary inclusivehi and
+explicit half-open parser coordinates checked TOGETHER. Independently reviewed
+raw MIR shows exporter convention; current gate uses wrong half-open ordinaryhi.
+Trustedadmissiondelta within onlyS6, newdrop-v2 profile, freshfullcomponent/proof/
+admission/regression gates +2independent actual ghostcoordinate negatives before
+projectedactual. No oldprofile proof reuse; no memory/refiner/runtime/body/glue
+semantic expansion, no04d. Normal/unwind/domain/post/pre/outcome map in design.
+Budget2995/5400,2405remain;<=1800/job,<=300/proof,onehostedonly. If projected/drop
+pre fails STOP precise resource; ifdrop passes STOP nextactual blocker.
