@@ -160,3 +160,39 @@ Remaining1191/5400 summed jobseconds (4209used). Next diagnostic cap18min1080s,
 120s reserve, per-proof300s; charge actual duration, no reset, one hosted run.
 V4 default25min route unchanged. Routine isolation repair only; no classifier or
 expected-predicate rewrite, no admission semantic change.
+
+## S7a macro-item isolation card BEFORE implementation
+
+Run37667942855:99s,4308used1092remaining. All9 readonly export/decode/refinement0,
+NORMAL/focus1 incomplete_include; no body proof. Frozen preprocessor unconditionally
+appends3fnstubs to every non-toolchain file. No per-file option; no lint allow,
+toolchain-path bypass, no-preprocess or preprocessor/refiner change. Direct impl
+include unsupported (MacResult make_impl_items=None); inline const focus also
+selects actual parent first. These are rejected source-isolation candidates.
+
+Next falsifiable source-only hypothesis: crate item module forget_items contains
+one macro_rules definition plus its pub(crate) re-export. At the same actual local
+guard anchor, retain lexical ManuallyDrop import and invoke that macro with sole
+ident argument DropOnPanic. Macro declares exact helper/probe items; only guard
+identifier is supplied by caller, no runtime call generated. The macro-file EOF
+stubs are legal module items. Original actual guard/Drop and target contract/body
+remain unchanged. Four original/verified files and both exact insertion sites are
+source-pinned; full ghost-strip/preflight/regeneration/stage hashes required.
+Exact forget runtime body unchanged; template signature uses $guard, its MIR MUST
+resolve to original nominal local guard, never a new type or ownership assumption.
+
+Same9 independent cases and exact assertion/post/leak predicates, locations from
+selected macro fn segment; no classifier change. Require body focus/contract spans
+in macro file, parent excluded, exact nominal/generated FnDef, normal+readonly full
+MIR and source/refinement. Expansion status is captured, not a generalized v4
+admission relaxation; all admission flags remain inactive/no redirect. Existing
+v4 patch/source/tools unchanged. Retained MDnew cleanup must be discharged by body
+under existing model; no-unwind is NOT inferred from readonly syntax. Independent
+cells/thread/resources and own=false boundary unchanged; borrow full gate NOT RUN.
+
+Any failed macro ghost/focus/MIR association -> record exact failure and STOP for
+source-isolation/frontend design reassessment, no further syntax guesses or general
+frontend extension. Body memory/guard protocol need -> STOP with obligation.
+Nonvacuous body success -> BEFORE-design full separate profile/gates, not acceptance.
+One hosted diagnostic cap18min1080/reserve120/perproof300 fits1092remaining; charge
+actual duration, same5400 summed jobsecond budget, no reset.

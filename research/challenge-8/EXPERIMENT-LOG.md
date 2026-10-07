@@ -4483,3 +4483,33 @@ by preflight/regeneration, separate focus lines, same nine intended predicates.
 No admission/profile semantic change. Capture exact nominal type, macro spans,
 NORMAL/readonly MIR/refinement and nonvacuous body. STOP new guard/Drop/memory model.
 Budget4209used1191remaining; next cap18min1080/reserve120/proof300, samebudget.
+
+S7a expression-isolation dispatch37667942855/source f101203bfe5e6100ee2ae60fc0cae62ef7c6149b,
+created18:35:03UTC; exact remote confirmed, no other active relevant job.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37667942855).
+Static independent review PASS; cap18/reserve120/proof300; before4209used1191remain.
+V4 unchanged/admission inactive/no redirect; raw prior9+9 failures retained.
+Second compact11503186835/full11502367969 audited: innerSHA
+83e6f295232a92d14c22555f2460e556edc958f76786cac965134d86915ce836,
+1099/1099 entries hash/CRC/size PASS. No proof gain from packaging.
+
+S7a37667942855/source f101203bfe5e6100ee2ae60fc0cae62ef7c6149b:99s,
+18:35:08–18:36:47UTC ->4308used1092remaining. All9 independently readonly export/
+decode/refinement0, normal/focus1 compiler incomplete_include. Frozen preprocessor
+appends3fnstubs after everyfile (preprocessor.rs207), invalid after included single
+expression. No helper body/proof negative. Readonly exact nominal local guard and
+helper select_unpredictable::_::checked_forget_guard captured; sole MDnew Move
+call normalBB1,cleanupBB2 UnwindResume, no Drop in helper. Cleanup retained and
+nounwind unproved. Actual guard cleanup remains in parent CFG. No guard-own/model
+change, no admission/redirect, original classifications retained.
+Compact11503762679/full11502754044; raw full console downloaded/read.
+Source-only isolation alternatives investigated before another card/change;
+direct impl include unsupported by pinned MacResult make_impl_items defaultNone.
+No lint weakening/toolchain-path skip/preprocessor/model patch permitted.
+
+BEFORE S7a macro-item card: exact original guard ident passed to macro from separate
+item module, preserving actual lexical scope/body/contract and frozen toolchain.
+Read-only investigation rejects inline focus parent contamination/directimplinclude.
+Full design final section defines ghost span/nominal/body gates and STOP if route
+fails; no v4 admission relaxation or classifier rewrite.4308used1092remain,
+nextcap18/reserve120/proof300/onehostedrun. No semantic tool change.

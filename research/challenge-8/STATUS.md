@@ -1,20 +1,20 @@
 # Challenge 8: current checkpoint
 
 Updated2026-10-07. Owner resumed only S6 frombea6248.
-**S7a diagnostic FRONTENDFAILED; nominal-preserving isolation under investigation.**
-[S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md), fromffa370a.
-Latest37666273705/source3a4b0e9d375e8871b541ed18e6b340cf152734be:122s
-18:22:08–18:24:10UTC. Nine-source-pair preflight+SHAregeneration PASS; all9 independent
-NORMAL/readonly export, focus, refinement fail compiler parsing include item in
-statement context (`expected {, found fn`, `non-statement macro in statement position`).
-No typed MIR/bodyproof/intendednegative. Old first9 SETUP classifications retained.
-Budget **4209/5400used;1191remain**, samebudget/noreset/noactive.
-No newadmission/profile/guardown/actualredirect. Investigating localconst declaration
-with one include blockexpression containing helper+probe, sameactualguard scope;
-compiler/exporter/refiner/macrospan obligations not assumed. No code until reviewed
-BEFOREcard. FullS7 matrix/newprofile and borrowtokens NOTRUN; v4 unchanged.
-STOP at need separate guardown/Drop protocol or broader frozen model; afteractual
-forgetpass stop nextblocker. Historical S6 checkpoint below unchanged.
+**S7a readonly capture obtained; NORMAL frontend isolation unresolved.**
+[S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md), from ffa370a.
+Latest37667942855/source f101203bfe5e6100ee2ae60fc0cae62ef7c6149b:99s,
+18:35:08–18:36:47UTC. All9 readonly export/decode/refinement PASS; NORMAL/focus1:
+frozen preprocessor appends function stubs after included block expression,
+compiler incomplete_include. No body entry or intended proof negative.
+Readonly exact guard nominal identity and helper typed MIR captured; retained
+ManuallyDrop::new cleanup edge is NOT a no-unwind theorem. Original classifications
+retained; v4 unchanged/admission inactive/no redirect/no new profile.
+Budget **4308/5400 used;1092 remain**, same budget/no reset/no active run.
+Investigate source-only isolation on frozen frontend; no lint/parse relaxation.
+Full S7 admission/matrix/newprofile/borrow controls NOT RUN.
+STOP at need separate guard-own/Drop or broader frozen model; after actual forget
+pass stop next blocker. Historical S6 checkpoint follows.
 
 Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
 [Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
