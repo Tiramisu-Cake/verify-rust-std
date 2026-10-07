@@ -1,10 +1,16 @@
 # Challenge 8: approved roadmap
 
-Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is IN PROGRESS,
-separately authorized 2026-10-07 at e0920ec, new 5400-job-second budget.
-Narrow type-wide defined raw-pointer wrapper ownership; full typed MIR criterion
-and acceptance matrix; then dependent actual select diagnostic.
-Previous budgets retired; [results](SORT4-POINTER-OWNERSHIP-RESULTS.md).
+Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is **CLOSED**,
+separately authorized2026-10-07 at e0920ec. [Final results](SORT4-POINTER-OWNERSHIP-RESULTS.md):
+O4/37601511894,proofSHA182ddf29,profile325af428 accepts the defined pointer-value
+model, SAFE constructor body and full source/MIR/proof/classifier/regression matrix.
+Actual source-linked select RUN/INCONCLUSIVE: SAFE prototype and both constructor
+calls reached; next blocker as_mut_ptr(&mut self) at adapter38. Storage/borrow
+capability requires a new owner decision; no further implementation/dispatch in
+this phase.518/5400jobseconds,4NEWruns,noactive;4882s retired.
+Full select/sort4 NOT PROVEN. RAPx CLOSED/NO-GO; B/C NOT RUN.
+[STATUS](STATUS.md) is the single current checkpoint. Earlier plans below are
+historical evidence; their next/authorization statements do not reopen phases.
 
 Previous [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)
 is CLOSED at ownership boundary; [report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md).

@@ -1,6 +1,10 @@
 Current follow-up: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md)
-records the separately authorized definition and trust delta BEFORE implementation.
-The following design/closeout describes the previous translator-only phase.
+CLOSED; [O4 acceptance/results](SORT4-POINTER-OWNERSHIP-RESULTS.md) supersede the
+previous constructor ownership boundary. Definition/trust decision committed761cecf
+before implementation; full source/HIR/MIR criterion and body/negative matrix PASS
+at182ddf29/37601511894/profile325af428/artifact11473086721. Actual select reaches
+as_mut_ptr at adapter38; full callee remains unproved, storage/borrow extension STOP.
+The following design/closeout is historical translator-only evidence.
 
 # Narrow checked `MaybeUninit::new` route for pointer selection — design only
 
@@ -225,3 +229,23 @@ unsafe/template-removal workaround. Adding opaque own to the explicit contract
 would strengthen the post but would not establish it from the body. The report
 records the minimal future project; no bridge/model change is implemented or
 newly authorized. Phase CLOSED at816/5400summed jobseconds, no active run.
+
+
+## Accepted follow-up — separate pointer ownership profile
+
+[Full report](SORT4-POINTER-OWNERSHIP-RESULTS.md) gives exact pins, source/MIR graph,
+profile and O4 run/artifact identities, each acceptance target and limitations.
+Type-wide pointer specialization uses DEFINED ownership from existing inner option
+and raw_ptr_own, checked introduction with body and intact generated SAFE template.
+The full typed graph/metadata/source admission replaces the historical counted
+feasibility criterion. false_postcondition's exact probe identity/redirect count is
+now admitted without relaxing the constructor certificate. Source and9direct MIR
+fault controls fail precisely;5body proof negatives and unrelated opaque-own
+controls pass. Full acceptance mode is active; feasibility mode cannot accept.
+
+Accepted experimental component only: actual select first fails as_mut_ptr,
+whose reference-to-storage cast is outside this value-only model. No new memory
+bridge, general unions or wider runtime operation summary. See the phase decision
+and actual-callee reproduction. Historical UNACCEPTED statements above refer to
+older translator-only profiles, which remain unaccepted rather than retroactively
+certified. Runtime std/signatures unchanged; final docs are not a proof rerun.

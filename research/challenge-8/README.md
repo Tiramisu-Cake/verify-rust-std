@@ -6,22 +6,24 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Current: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md), CLOSED.**
-[Final report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md):816/5400jobseconds,
-8NEWruns, no active run. Pure SWO composition accepted in
-C1/C2; C3 accepts corrected valid-span control and full immutable-layout matrix.
-[Constructor feasibility](SORT4-MAYBEUNINIT-NEW-DESIGN.md) C8 reaches opaque
-MaybeUninit_own in SAFE prototype check before body verification. Separate
-translator-only profile UNACCEPTED; full MIR/acceptance negatives/actual callee
-NOT RUN. Extension stopped before ownership support; next project needs owner decision.
+**Current: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md), CLOSED.**
+[Final report](SORT4-POINTER-OWNERSHIP-RESULTS.md): O4/37601511894 at proofSHA182ddf29
+accepts experimental defined pointer-value ownership and SAFE MaybeUninit::new,
+full source/HIR/MIR criterion and intended controls. [Actual select](SORT4-SELECT-CALLEE.md)
+RUN/INCONCLUSIVE: both constructor calls pass; first blocker as_mut_ptr at adapter38.
+518/5400jobseconds,4NEWruns,noactive;remaining4882s retired. No broader storage/
+borrow/union/copy/FnMut/Drop/unwind model; full Rust sort4 NOT PROVEN.
 [STATUS](STATUS.md) is authoritative; [PLAN](PLAN.md) and
-[runbook](AGENT-RUNBOOK.md) define execution boundaries. No full Rust sort4 theorem.
-The [night](SORT4-NIGHT-PHASE.md) is CLOSED; its [report](SORT4-NIGHT-RESULTS.md)
-preserves accepted stock index/rank/SWO/range components and historical layout
-acceptance. Night N2's historical invalid span negative and unrun composition
-remain preserved; the new phase supplies the repaired results above. Actual pointer callee first blocked at
-runtime constructor; no generic Copy bound or old patch chain admitted.
-RAPx CLOSED/NO-GO; B/C NOT RUN. Entries below describe historical phases.
+[runbook](AGENT-RUNBOOK.md) define execution boundaries. Next capability requires
+a new phase decision. RAPx CLOSED/NO-GO; B/C NOT RUN.
+
+Previous [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md)
+is historical CLOSED: C1/C2 pure SWO composition and C3 full exact fieldless layout
+matrix accepted; C8 translator-only constructor stopped before body on opaque
+ownership. The new separately pinned profile supersedes that constructor boundary,
+without combining patches. [Night report](SORT4-NIGHT-RESULTS.md) preserves stock
+index/rank/SWO/range components and earlier layout evidence. No generic Copy bound.
+Entries below describe historical phases.
 
 **Historical CLOSED at6/6 NEW runs: stock generic H_align PASS; experimental layout acceptance INCONCLUSIVE.**
 [Stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)

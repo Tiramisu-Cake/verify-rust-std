@@ -1,9 +1,11 @@
 # Pointer MaybeUninit ownership and actual callee phase
 
 Owner authorization 2026-10-07; entry e0920ecb07cd05ef08acd6fb5a2fb228af9a1f98.
-IN PROGRESS. This is a NEW phase; previous 4584 unused seconds are retired.
+CLOSED after accepted constructor and actual-callee as_mut_ptr boundary.
+This was a NEW phase; previous4584unused seconds did not transfer.
 New budget 5400 summed hosted job seconds, <=1800/job, <=300/proof;
-one active relevant workflow_dispatch. Initial spend 0; no active run.
+one active relevant workflow_dispatch at a time. Final spend518/5400 job seconds,
+4NEWruns;4882s retired. No active run. See final results for exact evidence.
 
 Scope: checked value ownership for MaybeUninit<*const Element>, SAFE actual
 source-local constructor body, exhaustive typed MIR applicability, full intended
@@ -83,7 +85,7 @@ EXPERIMENT-LOG; full logs/artifacts outside git. Final commit/push required.
 Implementation O1 profile patch SHA256
 `31d3ca507cc7ec4a090ef45330b0f3758c1fbcdbbb4c68d66c256166801d6aea`: translator
 and bin/rust/std/lib.rsspec only; complete MIR typed two-block graph and full
-source-span endpoints; no parser/kernel change. Acceptance pending hosted run.
+source-span endpoints; no parser/kernel change. O1 was a partial diagnostic; final O4 acceptance is recorded below.
 
 O2 correction: explicit own in constructor post plus an ordinary kernel-checked
 introduction lemma WITH BODY against the same defined predicate. Its exhaustive
@@ -101,3 +103,21 @@ Classifier distinguishes precise applicability exit2 from proof exit1 and requir
 exact reason/frontend/refinement/integrity; integer positive transports original
 opaque ownership, integer missing-own negative targets SAFE prototype. Semantic
 predicate/checked introduction unchanged. Profile patch325af428 (full SHA in runner).
+
+
+## Final decision — O4
+
+[O4/37601511894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37601511894),
+source182ddf29dc73961723bf32be6b65643c524ca927, immutable final325af428profile,
+artifact11473086721: full acceptance criterion PASS. Defined pointer ownership,
+SAFE imported constructor body and full typed source/MIR admission are accepted
+experimentally. Complete proof/source/MIR/classifier/baseline controls are detailed
+with locations and hashes in [results](SORT4-POINTER-OWNERSHIP-RESULTS.md).
+
+Dependent unchanged actual select passes SAFE prototype and both constructor
+calls, then fails at adapter38 on unsupported MaybeUninit::as_mut_ptr. Supporting
+its &mut-self storage-address cast needs a storage/borrow permission bridge
+outside this value-only rule. STOP extension; no summary or wider model added.
+Full callee and sort4 remain unproved; later operation proofs NOT RUN.
+Final budget518/5400 summedjobseconds,4runs, no active run;unused4882s retired.
+Only read-only/documentation work is permitted without a new named phase.

@@ -3569,3 +3569,46 @@ posts/SAFE checks and all profile pins. No semantic or MIR gate change.
 Full matrix required before dependent actual callee; new source SHA/run recorded
 at dispatch;30min/job,300s/proof,budget5009s remaining. Exact expected negative
 stages unchanged; wrong-stage failures remain INCONCLUSIVE. No SWO/layout reruns.
+
+O4 dispatched37601511894/source182ddf29dc73961723bf32be6b65643c524ca927,
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37601511894;
+unchanged325af428 model, outcome pending.
+
+
+O4 completed127jobseconds(09:34:13..09:36:20UTC),total518/5400,new4runs.
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37601511894
+source182ddf29dc73961723bf32be6b65643c524ca927,
+profile experimental-source-linked-maybeuninit-pointer-own-v2,
+patch325af428910cff44fb51e8c11ef0e4c9c3ba928c015f1fdf657580745857ca8d;
+artifact11473086721/smallsort-research-37601511894-1.
+Full raw logs/MIR/source/mutation/profile audit PASS, including independent
+read-only matrix review: SAFE prototype, checked lemma/imported body54statements,
+frame/inner/token/no-unwind/return/leak PASS; nonpointer opaque-own transfer PASS
+and omitted-own SAFE prototype negative exact. All5proof negatives at marked
+inner/none/false/false-post/duplicate fractional chunk targets;8source and9MIR
+mutants exit2 at exact applicability conditions, frontend/refinement/integrity0,
+no proof header, canonical/mutated evidence and hashes retained.5classifier groups
+and14 paired stock/experimental Rust/C/C++ baseline controls PASS. No skipped
+constructor/MIR cases. Model/constructor accepted experimentally only now.
+Feasibility-only restriction lifted only after full criterion implementation.
+
+Dependent actual select RUN in same immutable profile/source: N6bodySHA0d4233fe,
+originalhintblobfe591663/corehintSHAd94ef86f, all3intrinsics/guards/drop/forget/
+assume_init/posts retained; export/decode/refinement/source integrity0 and typed
+constructor certificate PASS. Actual SAFE prototype and body reached, both new
+calls verified at22/23 using same-source/profile body proved in positive unit.
+First remaining error verified/lib.rs(38,20-41),No such function:
+std::mem::MaybeUninit::<T>::as_mut_ptr. Target as_mut_ptr(&mut self) casts wrapper
+storage address; value-only own grants no storage/borrow rights. New storage/
+reference/alias/provenance bridge outside scope =>STOP extension. Actual final
+pointer/frame/no-unwind/return/leak and later runtime operations NOT PROVEN.
+Helper body not revisited before actual unit's error; no summary assumed.
+Exact reproduction and full hashes in SORT4-SELECT-CALLEE and final results.
+
+Phase CLOSED at boundary,remaining4882s retired;no active/queued relevant run,
+no pending implementation draft. All builds/verifier/classifier executable tests
+hosted; no local execution of proof/builds. Runtime std/signatures unchanged;
+RAPx CLOSED/NO-GO,B/C NOT RUN,fullsort4 NOT PROVEN. Final documentation-only
+commit/push does not change the proof SHA or rerun old evidence. Archive shadow
+profiles are large;770 evidence files excluding binary profile copies downloaded
+and inspected, full original archive retained in Actions. No upstream PR/messages.

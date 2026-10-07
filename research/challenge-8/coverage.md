@@ -43,18 +43,30 @@ Stock [scalar range composition](SORT4-MEMORY-OPERATIONS.md) N8/37549955948,
 source9b25c41,24statements PASS: exact selected IDs to dst0..3, containment and
 separation for arbitrary stride>=0 (includingZST0). Endpoint negative rejected.
 No pointer/provenance/overflow/permission/initialization/reference/copy theorem.
-[Actual pointer select](SORT4-SELECT-CALLEE.md) N6/37549040942,sourceaed1d97,
-body integrity/export/decode/refinement0; first causal VF blocker is missing
-runtime MaybeUninit::new at adapter21. Full callee posts NOT PROVEN. Raw-scratch
-initialized-dst and operation-alignment coverage boundaries remain documented;
-no accepted runtime constructor/primitive/ownership bridge has been introduced.
-New [constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md) C8/37592506846,
-source53b64a7 builds a separate translator-only source-linked pointer profile;
-all8 stock/patched baselines and constructor source/export/decode/refinement/
-translation counts pass, then SAFE prototype check fails before body verification
-on opaque MaybeUninit_own. Constructor value/provenance/frame/no-unwind theorem
-NOT PROVEN; profile UNACCEPTED, full MIR gate/acceptance negatives/actual callee
-NOT RUN. Extension stopped before ownership bridge, no generic safety gain.
+[Pointer ownership closeout](SORT4-POINTER-OWNERSHIP-RESULTS.md) O4/37601511894,
+proofSHA182ddf29dc73961723bf32be6b65643c524ca927, artifact11473086721,
+experimental-source-linked-maybeuninit-pointer-own-v2/patch325af428:
+**defined MaybeUninit<*const Element> value ownership and SAFE constructor ACCEPTED**.
+Full exact source/HIR/typed MIR admission, checked introduction/imported body,
+inner equality/token/frame/no-unwind/return/leak,5proof/8source/9MIR controls,
+nonpointer opaque ownership preservation,5classifier groups and14 separate
+stock/experimental Rust/C/C++ baselines PASS. Empty value-own resources grant no
+pointee or storage permission; no Copy/Freeze/pointee premise. Exported path-string
+identity/local-copy equivalence is an explicit trust limitation, not native DefId
+identity or organizer acceptance. Existing ManuallyDrop identity remains a trusted
+frozen dependency. This does not extend general union/alias/borrow/copy/Drop semantics.
+
+[Actual pointer select](SORT4-SELECT-CALLEE.md) O4 on that same source/profile/artifact
+passes integrity/export/decode/refinement and SAFE prototype, then both verified
+constructor calls at22/23. First remaining error at38,20–41: unsupported
+MaybeUninit::as_mut_ptr(&mut self). Storage-address/borrow permission bridge is
+outside the accepted value rule; extension STOPPED. Full callee normal pointer/
+provenance/frame and no-unwind posts NOT PROVEN, later operation proofs NOT RUN.
+Historical N6/37549040942/sourceaed1d97 first blocked at runtime new;
+C8/37592506846/source53b64a7 translator-only profile failed SAFE opaque ownership
+before body. Their raw failures remain historical; they are not O4 acceptance.
+Full sort4/callback/unwind/raw-scratch/copy composition remains open. RAPx CLOSED /
+NO-GO; B/C NOT RUN.518/5400jobseconds,4runs,noactive,unused budget retired.
 
 The [sort4 phase](SORT4-PHASE.md) completed on 2026-10-06 under the
 [revised roadmap](PLAN.md). [Hosted closeout](SORT4-RESULTS.md) establishes

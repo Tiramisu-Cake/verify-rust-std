@@ -1,11 +1,58 @@
 # `select_unpredictable` actual-callee diagnostic
 
-**Current follow-up:** [constructor phase closeout](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md),
-C8/37592506846/source53b64a7 reaches a separate source-linked SAFE constructor
-adapter's prototype check, where opaque MaybeUninit_own blocks BEFORE body
-verification. Constructor profile UNACCEPTED; full MIR/acceptance negatives and
-dependent actual-callee rerun NOT RUN. No next intrinsic/Drop obligation in the
-actual callee is established. The N6 stock evidence below remains unchanged.
+## Current result — constructor accepted, as_mut_ptr boundary
+
+[O4/37601511894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37601511894),
+proof source `182ddf29dc73961723bf32be6b65643c524ca927`,
+[artifact11473086721](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37601511894/artifacts/11473086721)
+`smallsort-research-37601511894-1/maybeuninit-new-pointer`,
+profile `experimental-source-linked-maybeuninit-pointer-own-v2`, patch SHA256
+`325af428910cff44fb51e8c11ef0e4c9c3ba928c015f1fdf657580745857ca8d`.
+[Constructor/model acceptance](SORT4-POINTER-OWNERSHIP-RESULTS.md) is complete;
+**actual select RUN / INCONCLUSIVE**, full select/sort4 NOT PROVEN.
+
+Exact reproduction: same run's `matrix/actual_select_after_constructor/prepared/`
+keeps the unchanged N6 pointer adapter, original/verified copies plus certified
+constructor module. `fixture.json` pins body
+`0d4233fe67c243c9d46201603fb143182ba2f5caa35f5d63907a3d5c50ed9613`;
+original/annotated adapter hashes before helper cd6feb7a/bd332fbb match N6 below.
+`matrix/actual_select_after_constructor_run` retains final original/verified units,
+MIR binary/text, stage integrity, exporter/decode/refinement logs and full verifier
+log. Source hashes at every stage are original
+`4c3cd8e16e5f4b38bc85f3bffafaebd85e934488181e1cbc52b3c219c19ab7d7` and verified
+`8cec14edfee63213ba0f3d6ac12fdd55d5812c2cbac01a253bc27e81dfadf242`.
+All3intrinsics, guards, Drop body, drop_in_place/forget/assume_init and exact
+selected-pointer/thread/frame/no-unwind target remain present; no Copy bound.
+This is still a thin-pointer/non-const diagnostic adapter, not generic Destruct
+or arbitrary MaybeUninit<T> support. Runtime std/signatures are unchanged.
+
+Export/decode/refinement/source-integrity0; complete constructor source/HIR/typed
+MIR certificate PASS; exactly two external new calls redirect. SAFE actual-callee
+prototype check succeeds and body enters; verifier checks both calls at22/23.
+The constructor body, explicit result own and checked introduction lemma were
+proved earlier in this same SHA/profile run (`matrix/constructor_positive`);
+actual unit fails before visiting that helper's body again. Its checked ownership
+lemma does execute. Synthetic DropOnPanic generated structural lemmas are not
+verification of its runtime Drop body.
+
+First causal failure: `verified/lib.rs(38,20-41)`:
+`No such function: std::mem::MaybeUninit::<T>::as_mut_ptr`, on
+`let true_ptr = true_val.as_mut_ptr();`. This is unsupported callee resolution,
+not a failed safety post or intended negative. Pinned source
+`library/core/src/mem/maybe_uninit.rs:648` takes `&mut self` and returns
+`self as *mut _ as *mut T`. Scope inference: validating this storage-address cast and its reference
+permissions is a separate capability assessment outside the accepted empty
+pointer-value ownership rule. Existing model feasibility for that operation is
+NOT RUN; this resolution error alone does not prove a new alias model necessary. No workaround or opaque summary was introduced.
+
+STOP at this scope boundary: intrinsic/copy, runtime Drop/forget/assume_init and
+final return/leak/normal/unwind proofs remain NOT REACHED as complete operation
+proofs. New storage/alias/borrow capability needs a separate phase decision.
+518/5400summedjobseconds across4NEWruns; unused4882s retired; no active run.
+RAPx CLOSED/NO-GO; B/C NOT RUN. Full profile pins, matrix targets and trust limits
+are in the linked closeout. Final documentation is not a proof run.
+
+## Historical N6 stock diagnostic — before constructor acceptance
 
 **Result: inconclusive at the first call in the real helper body.** Hosted run
 [37549040942](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37549040942),

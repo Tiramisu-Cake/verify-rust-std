@@ -1,5 +1,12 @@
 # Composition and runtime constructor phase — closeout
 
+Historical phase below remains CLOSED. Separately authorized
+[pointer ownership follow-up](SORT4-POINTER-OWNERSHIP-RESULTS.md) now accepts the
+new experimental model/SAFE constructor at O4/37601511894/source182ddf29,
+profile325af428/artifact11473086721. Its complete MIR/negative criterion supersedes
+the old C8 boundary; actual select reaches as_mut_ptr and stops there. Earlier
+UNACCEPTED/NOT AUTHORIZED statements describe the older profile and checkpoint.
+
 2026-10-07. **CLOSED at the authorized ownership boundary.** Entry checkpoint
 85d82998e148394e5dbbb0a4ed8c326780130b75; work on challenge-8/research in
 Tiramisu-Cake/verify-rust-std. All started Actions completed and full logs/artifacts
