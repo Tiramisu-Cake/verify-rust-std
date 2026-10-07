@@ -51,8 +51,11 @@ rows={}
 for p in sorted((home/'bin/rust').rglob('*')):
  if p.is_file():
   rel=p.relative_to(home)
-  if not (src/rel).is_file() or p.read_bytes()!=(src/rel).read_bytes(): raise SystemExit(f'stock specification source mismatch: {rel}')
-  rows[str(rel)]=hashfile(p)
+  if p.suffix=='.rsspec' and (not (src/rel).is_file() or p.read_bytes()!=(src/rel).read_bytes()): raise SystemExit(f'stock specification source mismatch: {rel}')
+  rows[str(rel)]={'sha256':hashfile(p),'source_exists':(src/rel).is_file(),'source_equal':(src/rel).is_file() and p.read_bytes()==(src/rel).read_bytes(),'effective_rsspec':p.suffix=='.rsspec'}
+stock_specs={str(p.relative_to(home)) for p in (home/'bin/rust').rglob('*.rsspec')}
+source_specs={str(p.relative_to(src)) for p in (src/'bin/rust').rglob('*.rsspec')}
+if stock_specs!=source_specs: raise SystemExit('stock specification inventory differs')
 (ev/'stock-spec-hashes.json').write_text(json.dumps(rows,indent=2)+'\n')
 components=['src/rust_frontend/vf_mir/vf_mir.capnp','src/rust_frontend/vf_mir_decoder/dune','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml','src/rust_frontend/vf_mir_exporter/src/main.rs']
 for path in ('src/rust_frontend/vf_mir_exporter','src/rust_frontend/vf_mir_decoder','src/refinement_checker'):

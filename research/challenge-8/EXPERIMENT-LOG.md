@@ -4725,3 +4725,12 @@ isolated controls, exact diagnostic expectations and decisions are in
 [BEFORE card](STOCK-26.10-BASELINE.md). Effective patches NONE; source pin f76012fb,
 nightly2026-09-25/std cd371e03. First manual dispatch ceiling600s including artifacts;
 no executable work on server. Proof SHA/run appended after dispatch; no run yet.
+
+### STOCK26.10 run1 / run2 BEFORE
+
+37693718508/source4baed189:37s setup only; release-generated Rocq .aux failed
+overstrict source audit. Artifact11515150111/digest13caace621e93e8b601c3b4282f4c2246af65f57b4da9ec3fe48f598dd1b7154.
+No fixture executed. Correct package-vs-effective-spec audit only; full *.rsspec
+bytes/inventory remain required exact, all package files remain hashed.
+[Detailed outcome/new hypothesis](STOCK-26.10-BASELINE.md). New run cap600s,
+37used/1763remaining of separate1800; prior account unchanged.

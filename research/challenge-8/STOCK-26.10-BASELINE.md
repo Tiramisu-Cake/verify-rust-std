@@ -95,3 +95,20 @@ remote equality before dispatch. Job ceiling10min=600s; inner deadline540s leave
 remaining budget must be recalculated from actual job started_at/completed_at.
 No actual-call redirect, ownership guard, assume_init, pointer-drop/memory/unwind
 model extension or patch transfer. Deliverable is stock evidence + transfer plan.
+
+## Run1 — setup failure and BEFORE run2
+
+Run [37693718508](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37693718508),
+SHA `4baed1897c1e50196e06142c957c6a2756d58132`, job113039989146
+22:04:06–22:04:43UTC =37s. Artifact11515150111 digest
+`13caace621e93e8b601c3b4282f4c2246af65f57b4da9ec3fe48f598dd1b7154`.
+Archive/source/compiler install PASS, then audit rejects generated package file
+`bin/rust/rocq/.Annotations.aux`, absent from tracked source. No fixture/stage proof
+ran; all obligations NOT_RUN. This is a harness audit overreach, not stock proof
+failure. Repair: hash entire Rust package inventory, compare exact stock/source
+*.rsspec content AND complete inventory; record source existence/equality for all
+other files without requiring generated Rocq auxiliary output to be Git source.
+No runtime specification bytes, verifier flags or classifiers change. New falsifiable
+hypothesis: proper effective-spec audit reaches the eleven declared fixtures.
+Same full domains/posts/expected diagnostics, same stock profile/600s job ceiling
+and60s artifact reserve. Used37/1800, remaining1763; old budget unchanged.

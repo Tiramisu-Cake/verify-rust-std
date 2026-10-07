@@ -5,7 +5,9 @@ Own branch `research/stock-26.10-baseline` from sync/research
 `a06cfb9d9dd95cf5a8875bd5d2f9bd85df47fadd`, upstream/std `cd371e03`.
 [BEFORE card and phase report](STOCK-26.10-BASELINE.md).
 Stock VF26.10 `f76012fb`, nightly-2026-09-25, effective patches NONE.
-Separate new ceiling1800 hosted job seconds; used0, remaining1800; no active run.
+Separate new ceiling1800 hosted job seconds; used37, remaining1763; no active run.
+Run37693718508/SHA4baed189 failed setup at generated Rocq .aux source audit;
+fixtures NOT_RUN. Exact effective *.rsspec audit correction ready.
 First permitted action: commit/push own branch, exact-SHA manual baseline dispatch
 (job cap600s including artifacts); isolated scalar/raw controls, then exact generic
 forget and independent normal/unwind/negative controls. No semantic patch transfer,
