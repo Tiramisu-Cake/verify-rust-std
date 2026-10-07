@@ -257,3 +257,13 @@ One active hosted run; actual costs charged to same989, no reset. Recompute caps
 against remaining before further experiment; don't spend future mandatory gates
 on a speculative actual redirect. Frozen kernel/prelude/export/refiner/dead-code
 rules and accepted v4 remain unchanged.
+
+S7b full-unit timed function inventory fixed BEFORE dispatch from accepted v4
+run37656621026/pointer_drop_initialized full log (no arbitrary prelude allowance):
+u32_sync; u32_share_mono; init_ref_readonly_points_to_shared;
+std::mem::close_MaybeUninit_pointer_own; std::mem::select_MaybeUninit_pointer_own;
+std::ptr::pointer_drop_glue_identity; then checked_forget_generic.
+First6 are unchanged pinned imported lemma bodies, last is the sole source-unit
+function. Require exact ordered set, no duplicate/missing/unknown timed headers,
+ignore diagnostic note quotes. Record per-function body/return/leak evidence and
+complete verifier exit0; actual stage failure remains first causal diagnostic.

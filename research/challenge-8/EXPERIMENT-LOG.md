@@ -4550,3 +4550,6 @@ return/leak+exports/refinement/hash needed, declarationdeadcode meansSTOPcausalt
 Separate classifier replay fromimmutable376694 rawlogs, original classifications
 retained, neverdeadcodeexit1positive. Firstcap8min480/reserve120/stage60/proof120;
 replaycap2min120 nobuild; before4411used989remaining/noreset/onehostedrun.
+S7b full timed inventory fixed from same-v4 accepted37656621026 log:6 pinned
+prelude lemma functions +sole checked_forget_generic, exact order in design.
+No arbitrary outside-source headers allowed; diagnostic notes do not count.
