@@ -1,0 +1,155 @@
+diff --git a/src/rust_frontend/vf_mir_translator/rust_parser.ml b/src/rust_frontend/vf_mir_translator/rust_parser.ml
+index e27eee3..7686069 100644
+--- a/src/rust_frontend/vf_mir_translator/rust_parser.ml
++++ b/src/rust_frontend/vf_mir_translator/rust_parser.ml
+@@ -1143,6 +1143,18 @@ and parse_decl = function%parser
+     TypedefDecl (l, structTypeExpr, sn, tparams);
+     if tparams = [] then
+       PredFamilyDecl (l, sn ^ "_own", [], 0, own_paramTypes, None, Inductiveness_Inductive)
++    else if sn = "std_tuple_2_" && tparams = ["T1"; "T2"] then
++      (* The pinned Rust prelude declares std_tuple_2_<T1, T2>(T1, T2). *)
++      let field_own type_param field =
++        ExprCallExpr
++          (l, TypePredExpr (l, IdentTypeExpr (l, None, type_param), "own"),
++           [LitPat (Var (l, "_t")); LitPat (Select (l, Var (l, "_v"), field))])
++      in
++      PredCtorDecl
++        (l, sn ^ "_own", tparams, [],
++         [IdentTypeExpr (l, None, "thread_id_t"), "_t"; structTypeExpr, "_v"],
++         None,
++         Sep (l, field_own "T1" "0", field_own "T2" "1"))
+     else
+       Func (l, Fixpoint, func_tparams, Some (PredTypeExpr (l, own_paramTypes, None)), sn ^ "_own", [], false, (None, None), None, false, None, false, []);
+     TypePredDef (l, tparams, structTypeExpr, "own", Left (l, sn ^ "_own"));
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 4e237a6..72a3acd 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1949,6 +1949,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let ghost_stmts = ref Args.ghost_stmts
+       let body_imp_loc = Args.body_imp_loc
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
++      let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
++      let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
+ 
+       let fetch_ghost_stmts_before (l : Ast.loc0) =
+         let* gs_before, gs_rem =
+@@ -2366,6 +2368,58 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               let ghost_generic_arg_list_cpn = VfMirRd.of_pointer ptr_cpn in
+               translate_ghost_generic_arg_list ghost_generic_arg_list_cpn
+         in
++        let projection_equality =
++          let open Ast in
++          match (canonicalize_item_name fn_name, substs, targs) with
++          | ( "std::ops::FnMut::call_mut",
++              [ Mir.GenArgType { vf_ty = IdentTypeExpr (_, None, source_f); _ };
++                Mir.GenArgType
++                  {
++                    vf_ty =
++                      StructTypeExpr
++                        ( _, Some "std_tuple_2_", None, [],
++                          [ RustRefTypeExpr (_, _, Shared, IdentTypeExpr (_, None, source_t1));
++                            RustRefTypeExpr (_, _, Shared, IdentTypeExpr (_, None, source_t2)) ] );
++                    _
++                  };
++                Mir.GenArgLifetime _ ],
++              [ (IdentTypeExpr (_, None, ghost_f) as f_ty);
++                (StructTypeExpr
++                   ( _, Some "std_tuple_2_", None, [],
++                     [ RustRefTypeExpr
++                         (_, IdentTypeExpr (_, None, lft1), Shared, IdentTypeExpr (_, None, ghost_t1));
++                       RustRefTypeExpr
++                         (_, IdentTypeExpr (_, None, lft2), Shared, IdentTypeExpr (_, None, ghost_t2)) ] ) as args_ty);
++                IdentTypeExpr (_, None, method_lft) ] )
++            when source_f = ghost_f && source_t1 = source_t2 &&
++                 source_t1 = ghost_t1 && source_t1 = ghost_t2 &&
++                 lft1 = lft2 && lft1 = method_lft &&
++                 String.length lft1 > 0 && lft1.[0] = '\'' &&
++                 List.filter
++                   (fun (f, t) -> f = source_f && t = source_t1)
++                   !State.hrtb_fnmut_output_bounds
++                 = [ (source_f, source_t1) ] ->
++              Printf.eprintf
++                "MERGE_HRTB_CALL registered=1 function=%s F=%s T=%s lifetime=%s call=%s\n%!"
++                (canonicalize_item_name fn_name) source_f source_t1 lft1
++                (Ast.string_of_loc call_loc);
++              [ ExprStmt
++                  (CallExpr
++                     ( call_loc, "#register_type_projection_equality",
++                       [ ProjectionTypeExpr
++                           (call_loc, f_ty, "std::ops::FnOnce", [ args_ty ], "Output");
++                         ManifestTypeExpr (call_loc, Bool) ],
++                       [], [], Static )) ]
++          | _ ->
++              if canonicalize_item_name fn_name = "std::ops::FnMut::call_mut" then
++                Printf.eprintf
++                  "MERGE_HRTB_CALL registered=0 function=%s source_substs=%d ghost_substs=%d eligible_bounds=%d call=%s\n%!"
++                  (canonicalize_item_name fn_name) (List.length substs)
++                  (List.length targs) (List.length !State.hrtb_fnmut_output_bounds)
++                  (Ast.string_of_loc call_loc);
++              []
++        in
++        State.pending_hrtb_projection_eq := projection_equality;
+         let args = List.map (fun expr -> Ast.LitPat expr) args in
+         let call_expr =
+           Ast.CallExpr
+@@ -2673,6 +2727,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+ 
+     let translate_fn_call (fn_call_data_cpn : FnCallDataRd.t) (loc : Ast.loc) =
+       let open FnCallDataRd in
++      State.pending_hrtb_projection_eq := [];
+       Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "Call" @@ fun () ->
+       Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
+       Rocq_writer.rocq_print_big_record TranslatorArgs.rocq_writer @@ fun () ->
+@@ -2795,6 +2850,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                  ]),
+               targets @ unwind_targets )
+       in
++      let full_call_stmts = !State.pending_hrtb_projection_eq @ full_call_stmts in
++      State.pending_hrtb_projection_eq := [];
+       Ok (full_call_stmts, terminator, targets)
+ 
+     let translate_sw_int (sw_int_data_cpn : SwitchIntDataRd.t) (loc : Ast.loc) =
+@@ -5004,6 +5061,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           |> List.map D.decode_clause
+           |> List.map decode_clause
+         in
++        let hrtb_fnmut_output_bounds =
++          clauses
++          |> Util.flatmap (function
++               | `Projection proj_pred ->
++                   let bound_regions = proj_pred.D.bound_regions in
++                   let args =
++                     List.map decode_generic_arg proj_pred.projection_term.args
++                   in
++                   (match (bound_regions, args, proj_pred.term) with
++                   | ( [ r1; r2 ],
++                       [ `Type (`Param f);
++                         `Type
++                           (`Tuple
++                             [ `Ref (arg_r1, false, `Param t1);
++                               `Ref (arg_r2, false, `Param t2) ]) ],
++                       Ty rhs )
++                     when r1 <> r2 && r1 = arg_r1 && r2 = arg_r2 &&
++                          t1 = t2 && decode_ty rhs = `Bool &&
++                          canonicalize_item_name
++                            proj_pred.projection_term.def_id
++                          = "std::ops::FnOnce::Output" &&
++                          List.exists
++                            (function
++                              | `Trait (name, trait_args) ->
++                                  canonicalize_item_name name = "std::ops::FnMut" &&
++                                  trait_args = args
++                              | _ -> false)
++                            clauses ->
++                       Printf.eprintf
++                         "MERGE_HRTB_BOUND function=%s F=%s T=%s regions=%s,%s output=bool\n%!"
++                         name f t1 r1 r2;
++                       [ (f, t1) ]
++                   | _ -> [])
++               | _ -> [])
++        in
++        State.hrtb_fnmut_output_bounds := hrtb_fnmut_output_bounds;
+         let sized_tparams = compute_sized_tparams clauses in
+         let vf_tparams_with_bounds = vf_tparams |> List.map (fun x -> (x, {Ast.sized = List.mem x sized_tparams})) in
+         let projection_clauses =

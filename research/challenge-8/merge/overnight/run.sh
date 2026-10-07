@@ -122,6 +122,13 @@ run_one() {
 suite() {
   set -uo pipefail
   suite_status=0
+  printf 'Actual engine: experimental-merge-wrapping-01-v1. Mathematical harness raw profile labels are historical; per-case binary SHA and build evidence bind this fresh execution.\n' > "$evidence/mathematical-profile-sidecar.txt"
+  run_one G2-compatibility 90 python3 research/challenge-8/merge/stock-26.10/prove.py \
+    --tool-home "$experimental_home" --evidence "$evidence/checked-g2"
+  run_one A-compatibility 90 python3 research/challenge-8/merge/stock-26.10/functional-prove.py \
+    --tool-home "$experimental_home" --evidence "$evidence/checked-a"
+  run_one B-compatibility 120 python3 research/challenge-8/merge/stock-26.10/order-prove.py \
+    --tool-home "$experimental_home" --evidence "$evidence/checked-b"
   run_one wrapping-acceptance 600 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --evidence "$evidence/checked-wrapping"

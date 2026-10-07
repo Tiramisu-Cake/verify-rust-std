@@ -4005,7 +4005,7 @@ No dispatch before exact case coordinates and tool patch hashes are recorded.
 Reviewed patchc7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e,
 profileexperimental-merge-wrapping-01-v1. Explicit numeric address/layout bounds
 are added to the primitive req, so neither constructor field types nor an
-unbounded size are implicitly assumed.26isolated cases;21positive,5calibration
+unbounded size are implicitly assumed.27isolated cases;22positive,5calibration
 negatives. Negative kinds: count2/signed2 primitive req; wrong pointer assertion;
 read-minus1 and foreign-provenance actual permission failure. TARGET coordinates
 computed before the run in each extraction; exact observed predicates must be
@@ -4032,8 +4032,8 @@ Same W1 matrix/hypothesis/domain/posts/tool profile; new exact-SHA run necessary
 ### W1b outcome / W1c BEFORE
 
 Run37699111307/source8094bd2aeaa42ff2d851199a85048bc94b9f3a6c, sole hosted
-job113058020998,22:54:41–22:56:38UTC=117seconds. SourceconsolebuildPASS; exact
-W1patch/kernel/exporter/refiner source/binary gates retained.21positive wrapping
+job113058020998,22:54:41–22:56:39UTC=118seconds. SourceconsolebuildPASS; exact
+W1patch/kernel/exporter/refiner source/binary gates retained.22positive wrapping
 cases:3PASS (signed_offset_const,arith_offset_const,frame_and_read_after_reentry);
 18INCONCLUSIVE mostly BEFORE body at generated SAFE prototype requiring custom
 size/address req. Therefore no generic primitive admission inferred. Existing
@@ -4043,10 +4043,31 @@ permission failure at verified22:14–18 and26:14–24; automatic calibration re
 INCONCLUSIVE. Signed2 reaches primitive reqstd/lib.rsspec313:35–37 (`2 <= 1`).
 Count2/wrong-result still fail SAFE prototype and are not intended negatives.
 Artifact11517116461,ZIPdigestfa28f62510a6e6ce6e9ddc19ecb1874fe052a383a9a412db9
-dec097e5876221d fully inspected. Total155/21600, old603/1800 unchanged.
+dec097e5876221d fully inspected. Total156/21600, old603/1800 unchanged.
 W1c: conditional projection functions explicitly unsafe to avoid claiming a
 safe Rust API theorem under conditional req. Runtime instructions/target posts
 unchanged, new proof source required. Added9independent checked pointer bridge
 cases (terminal association includingindex-1, local source-derived comparisons),
 not full G2 trace or actual merge. Same W1semanticpatch/profile; negatives remain
 calibration until exact diagnostics pinned. Bound1800jobseconds.
+
+### W1c outcome / W1d acceptance BEFORE
+
+Run37699505842/source83f12b046509d29a5df047bd55ab066b31af9688, job113059313221,
+22:58:40–23:00:54UTC=134seconds. Total290/21600, historical603/1800unchanged.
+22/22wrappingpositivePASS;9/9pointerbridgePASS;9/9oldpositive+2/2oldintended
+negativesPASS. Full stages/sourceidentity/ownbody/return/leak/dead-code positive
+gates retained. Five new calibration negatives reach intended exact obligations:
+count2 at std303:25–27, signed2 at313:35–37, wrongpointer asserted at22:36–38,
+readminus1 at22:14–18 and foreignresource at26:14–24. All still original
+INCONCLUSIVE automatic class. [Compact metadata](merge/overnight/W1c-EVIDENCE.json)
+preserves hashes/stages/counters/diagnostics without generated source/logs.
+W1d keeps semantic patch frozen. Adds exact-rejection classifier oracle plus
+fail-closed stage/body/targetexecution/location/predicate/source mutants; records
+original classes separately. New resource negatives receive expected oracles
+from established W1b/W1c evidence and a NEW run. G2/A/B complete matrices now run
+on experimentalconsole; raw historical harness profile labels explicitly
+overridden by sidecar+actual binary SHA and build manifest, proofs unchanged.
+Acceptance remains conditional TRUSTED primitive-contract/source correspondence;
+wrapper bodies/cast+wrapping_neg chain not yet machine-proved. They are a named
+next dependency; actual callee summaries not derived from a whole-body theorem.

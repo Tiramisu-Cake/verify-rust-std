@@ -1,0 +1,1952 @@
+{
+  "run_id": 37699505842,
+  "proof_sha": "83f12b046509d29a5df047bd55ab066b31af9688",
+  "url": "https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37699505842",
+  "patch_sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e",
+  "profile": "experimental-merge-wrapping-01-v1",
+  "hosted_seconds": 134,
+  "scope": "conditional pointer primitive/projections; no actual merge proof",
+  "groups": {
+    "checked-wrapping": {
+      "const_add_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_add_zero"
+        ],
+        "visited_bodies": [
+          "const_add_zero"
+        ],
+        "body_execution_records": {
+          "const_add_zero": 3
+        },
+        "per_body_records": {
+          "const_add_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "2f582891d2e28d51b9d839256642405d8d40fd6042ab28a22814566129e8ccec",
+          "verified/lib.rs": "25bf4972669996da8b9f78a4c440b9d771b337100bd1fe5f67895d0fc73ff4df"
+        },
+        "source_after": {
+          "original/lib.rs": "2f582891d2e28d51b9d839256642405d8d40fd6042ab28a22814566129e8ccec",
+          "verified/lib.rs": "25bf4972669996da8b9f78a4c440b9d771b337100bd1fe5f67895d0fc73ff4df"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "d4a57fb058873f5e1ed4bc2eda064f7614a346ce04de474d5dad435b88860e73",
+        "classifier_controls": 12
+      },
+      "const_sub_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_sub_zero"
+        ],
+        "visited_bodies": [
+          "const_sub_zero"
+        ],
+        "body_execution_records": {
+          "const_sub_zero": 3
+        },
+        "per_body_records": {
+          "const_sub_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "c272fb88548b23264c3bbb6df63174410755db8867e14bdbed74b7774615c0ba",
+          "verified/lib.rs": "c6ae453bb77ae75c522b9c520ed3fa6e81eda2c7982cbb8c30f06b4b8c5ea242"
+        },
+        "source_after": {
+          "original/lib.rs": "c272fb88548b23264c3bbb6df63174410755db8867e14bdbed74b7774615c0ba",
+          "verified/lib.rs": "c6ae453bb77ae75c522b9c520ed3fa6e81eda2c7982cbb8c30f06b4b8c5ea242"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "3edf513d651c9ea02415062dc11b825f5e084e983e180fb14d260501f30b6666",
+        "classifier_controls": 12
+      },
+      "mut_add_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_add_zero"
+        ],
+        "visited_bodies": [
+          "mut_add_zero"
+        ],
+        "body_execution_records": {
+          "mut_add_zero": 3
+        },
+        "per_body_records": {
+          "mut_add_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "75f14be33dbf4579d9f6bb904f0dcb0c828c0a793ac18c5a3b41f2fdc3eda540",
+          "verified/lib.rs": "049af2ce36fee8aebc3983571e121b480a0acb3308a4b7256e61b0210f7037d7"
+        },
+        "source_after": {
+          "original/lib.rs": "75f14be33dbf4579d9f6bb904f0dcb0c828c0a793ac18c5a3b41f2fdc3eda540",
+          "verified/lib.rs": "049af2ce36fee8aebc3983571e121b480a0acb3308a4b7256e61b0210f7037d7"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "9b19c22754afba2f4d04f2176fb5f2f8b5fe01c8199cc93078fd9cb14e415343",
+        "classifier_controls": 12
+      },
+      "mut_sub_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_sub_zero"
+        ],
+        "visited_bodies": [
+          "mut_sub_zero"
+        ],
+        "body_execution_records": {
+          "mut_sub_zero": 3
+        },
+        "per_body_records": {
+          "mut_sub_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "3130797eb90db6b1f014f84016943e56b09b85d83b0ca2d22e7b10360c0279a0",
+          "verified/lib.rs": "9984e15bcde34fcd5380a9434f0163c745348871c170f36444f4a0a0ff6ef6f2"
+        },
+        "source_after": {
+          "original/lib.rs": "3130797eb90db6b1f014f84016943e56b09b85d83b0ca2d22e7b10360c0279a0",
+          "verified/lib.rs": "9984e15bcde34fcd5380a9434f0163c745348871c170f36444f4a0a0ff6ef6f2"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "2ceb56f738ea2e830263b5eb3b3529d4bf9f11b7968a8e8f88e70cf96c81211c",
+        "classifier_controls": 12
+      },
+      "const_add_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_add_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "const_add_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "const_add_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "const_add_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "1477a6f0dca31ecc14b1b0accf7aa3168958569c0b07f01db5a249a7bdf76e41",
+          "verified/lib.rs": "82ce42db6961145c62885c3e70585cb48974ea6916e3461a081fe8a53ae8791d"
+        },
+        "source_after": {
+          "original/lib.rs": "1477a6f0dca31ecc14b1b0accf7aa3168958569c0b07f01db5a249a7bdf76e41",
+          "verified/lib.rs": "82ce42db6961145c62885c3e70585cb48974ea6916e3461a081fe8a53ae8791d"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "a30a79082e2a4e6b1fe17c61116e39f0ce4f76618de533f56efc081f76bbd84b",
+        "classifier_controls": 12
+      },
+      "const_add_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_add_one_wrap"
+        ],
+        "visited_bodies": [
+          "const_add_one_wrap"
+        ],
+        "body_execution_records": {
+          "const_add_one_wrap": 3
+        },
+        "per_body_records": {
+          "const_add_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "75350c354db0207ed2b9fc0b15356c63de906fe742c1f0492c19d48f9cecd598",
+          "verified/lib.rs": "dbc66c5ee49240d4513ec3289ee80004f31a348da7985519c9dd15096dbf5dc4"
+        },
+        "source_after": {
+          "original/lib.rs": "75350c354db0207ed2b9fc0b15356c63de906fe742c1f0492c19d48f9cecd598",
+          "verified/lib.rs": "dbc66c5ee49240d4513ec3289ee80004f31a348da7985519c9dd15096dbf5dc4"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "ff80179d50b9a2f3b959dde8a26d43c0bb1db74958dc74b16a07eb6bf0a09d99",
+        "classifier_controls": 12
+      },
+      "const_sub_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_sub_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "const_sub_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "const_sub_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "const_sub_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "8cb3a0f690ef3755a9f8b2148f0a9f4e3a7a8bc51259d7a83c85c0f003056faa",
+          "verified/lib.rs": "79740615add325208ba390513860801b7d58b3a5faf63841ac0634950c2cecfb"
+        },
+        "source_after": {
+          "original/lib.rs": "8cb3a0f690ef3755a9f8b2148f0a9f4e3a7a8bc51259d7a83c85c0f003056faa",
+          "verified/lib.rs": "79740615add325208ba390513860801b7d58b3a5faf63841ac0634950c2cecfb"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "78d33c929254472c4cbe22b418747e2d043ca9008aa6f8ec9c162f7a12e6872f",
+        "classifier_controls": 12
+      },
+      "const_sub_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_sub_one_wrap"
+        ],
+        "visited_bodies": [
+          "const_sub_one_wrap"
+        ],
+        "body_execution_records": {
+          "const_sub_one_wrap": 3
+        },
+        "per_body_records": {
+          "const_sub_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "10ca351f09825ef96e614f8febfaa95b31838cf4dc5dd15ba3fac266a7d2a54e",
+          "verified/lib.rs": "3ef2d032eeb21e143f3b8f3ab640c9f368814e1cc42f041f34616669ee202140"
+        },
+        "source_after": {
+          "original/lib.rs": "10ca351f09825ef96e614f8febfaa95b31838cf4dc5dd15ba3fac266a7d2a54e",
+          "verified/lib.rs": "3ef2d032eeb21e143f3b8f3ab640c9f368814e1cc42f041f34616669ee202140"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "42cab42edddedd351cfa551b85c0a338af14eca4bd295523a14562e119d28c99",
+        "classifier_controls": 12
+      },
+      "mut_add_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_add_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "mut_add_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "mut_add_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "mut_add_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "745d33d7dbf024bdc92022a20880dc30e21c7bc77c8438b97fc2f785896d962b",
+          "verified/lib.rs": "6ca95decad55cb944e4b7e873993f20764be5717a4d8f9920cc73b5873961bf3"
+        },
+        "source_after": {
+          "original/lib.rs": "745d33d7dbf024bdc92022a20880dc30e21c7bc77c8438b97fc2f785896d962b",
+          "verified/lib.rs": "6ca95decad55cb944e4b7e873993f20764be5717a4d8f9920cc73b5873961bf3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "2515a9395b06571b3d4e23861619bed1a17cf6cbe3ff285d5a1e8a18b3fa97a0",
+        "classifier_controls": 12
+      },
+      "mut_add_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_add_one_wrap"
+        ],
+        "visited_bodies": [
+          "mut_add_one_wrap"
+        ],
+        "body_execution_records": {
+          "mut_add_one_wrap": 3
+        },
+        "per_body_records": {
+          "mut_add_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "ed7d160d94bb496b9c9a09bc89924332c481e0969e08e51d3f6683998376bea4",
+          "verified/lib.rs": "b202b07c2075a6ddc7d14b72e8a52548c814f59f430f37272ad35f1a07dcb8ee"
+        },
+        "source_after": {
+          "original/lib.rs": "ed7d160d94bb496b9c9a09bc89924332c481e0969e08e51d3f6683998376bea4",
+          "verified/lib.rs": "b202b07c2075a6ddc7d14b72e8a52548c814f59f430f37272ad35f1a07dcb8ee"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "2417a628d0c1b235b6dab46fdc984e182a6a650db956d20142b144de1acbc90c",
+        "classifier_controls": 12
+      },
+      "mut_sub_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_sub_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "mut_sub_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "mut_sub_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "mut_sub_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "f59543c2801193011eba8cb9ced0640c27ed33d73428e10cdd2b57924661c37e",
+          "verified/lib.rs": "8a23a460271b4eb86d4a1ff3fd1d96f29e0fdf18e1bee42b0db665f6809ff188"
+        },
+        "source_after": {
+          "original/lib.rs": "f59543c2801193011eba8cb9ced0640c27ed33d73428e10cdd2b57924661c37e",
+          "verified/lib.rs": "8a23a460271b4eb86d4a1ff3fd1d96f29e0fdf18e1bee42b0db665f6809ff188"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "2f3ba1b321a8ba29d907972e74128389eb6c28807c97e3ada3d9a4033faafc69",
+        "classifier_controls": 12
+      },
+      "mut_sub_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_sub_one_wrap"
+        ],
+        "visited_bodies": [
+          "mut_sub_one_wrap"
+        ],
+        "body_execution_records": {
+          "mut_sub_one_wrap": 3
+        },
+        "per_body_records": {
+          "mut_sub_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "b74d392448c83e05c854cee855a32009d6b3360d610861826bed4f31ddfd279a",
+          "verified/lib.rs": "5ec7f1220dc2304b8ddff5c489612cf34fbc0816f0c5c9649fe5bcdae2a58a01"
+        },
+        "source_after": {
+          "original/lib.rs": "b74d392448c83e05c854cee855a32009d6b3360d610861826bed4f31ddfd279a",
+          "verified/lib.rs": "5ec7f1220dc2304b8ddff5c489612cf34fbc0816f0c5c9649fe5bcdae2a58a01"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "db24d1debed10fbf2359307f83372f959135a28d68db5f496a6dfcce798e31ad",
+        "classifier_controls": 12
+      },
+      "symbolic_zst_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "symbolic_zst_const"
+        ],
+        "visited_bodies": [
+          "symbolic_zst_const"
+        ],
+        "body_execution_records": {
+          "symbolic_zst_const": 3
+        },
+        "per_body_records": {
+          "symbolic_zst_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "b82f13ece26fa6b2fdc37228a8ae892131ccc49e07e5c56dc7e26f593c538dbb",
+          "verified/lib.rs": "97fd926707ac33ccbe0fb713bb71f6983832d942fc6721ae44ab014fc34fee07"
+        },
+        "source_after": {
+          "original/lib.rs": "b82f13ece26fa6b2fdc37228a8ae892131ccc49e07e5c56dc7e26f593c538dbb",
+          "verified/lib.rs": "97fd926707ac33ccbe0fb713bb71f6983832d942fc6721ae44ab014fc34fee07"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "95724df8bb3678f1a93d6192b1413166c06d927383d14fed33c715ddf99053b0",
+        "classifier_controls": 12
+      },
+      "symbolic_zst_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "symbolic_zst_mut"
+        ],
+        "visited_bodies": [
+          "symbolic_zst_mut"
+        ],
+        "body_execution_records": {
+          "symbolic_zst_mut": 3
+        },
+        "per_body_records": {
+          "symbolic_zst_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "b5274c8ebbbe7f728484fc2412843dbea5d62f4d933f23d1c8685a3f7be12a0a",
+          "verified/lib.rs": "5063ace19a0ded8b80b1a3440d3107e5bd0aec3243ec6f51b8386029397bfb55"
+        },
+        "source_after": {
+          "original/lib.rs": "b5274c8ebbbe7f728484fc2412843dbea5d62f4d933f23d1c8685a3f7be12a0a",
+          "verified/lib.rs": "5063ace19a0ded8b80b1a3440d3107e5bd0aec3243ec6f51b8386029397bfb55"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "5adbd46336b90c3f3c677ebdc476b3c433691d899a4483c0c6e92526061a1862",
+        "classifier_controls": 12
+      },
+      "signed_offset_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "signed_offset_const"
+        ],
+        "visited_bodies": [
+          "signed_offset_const"
+        ],
+        "body_execution_records": {
+          "signed_offset_const": 3
+        },
+        "per_body_records": {
+          "signed_offset_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "696bc4b3d6df4aaee9968622a4a217aa01ecdbda204b3bd854cd3ab43b2ffa9c",
+          "verified/lib.rs": "61349bb325bc5a557708fb979a1af33bf9f0111e30edfd62ecfd6dabc6e205ff"
+        },
+        "source_after": {
+          "original/lib.rs": "696bc4b3d6df4aaee9968622a4a217aa01ecdbda204b3bd854cd3ab43b2ffa9c",
+          "verified/lib.rs": "61349bb325bc5a557708fb979a1af33bf9f0111e30edfd62ecfd6dabc6e205ff"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "3ff23d473ac9f9092bf4eb0d17c5f6f68b440f6daf2e8865bc18a85ec727bc42",
+        "classifier_controls": 12
+      },
+      "arith_offset_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "arith_offset_const"
+        ],
+        "visited_bodies": [
+          "arith_offset_const"
+        ],
+        "body_execution_records": {
+          "arith_offset_const": 3
+        },
+        "per_body_records": {
+          "arith_offset_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "6d90fb9192f6a1836bb8d650106edcdfc0fd8005e7e3847614b66847772fcb80",
+          "verified/lib.rs": "c91385b4db60d373aa456bb790d9fdaa61ea86eff488a1475859ab6b0c3e5ca5"
+        },
+        "source_after": {
+          "original/lib.rs": "6d90fb9192f6a1836bb8d650106edcdfc0fd8005e7e3847614b66847772fcb80",
+          "verified/lib.rs": "c91385b4db60d373aa456bb790d9fdaa61ea86eff488a1475859ab6b0c3e5ca5"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "21c94c613e0e207c1796cbe4190ebf58390eac75a38553a559ac37a35d1850ee",
+        "classifier_controls": 12
+      },
+      "reverse_cursor_right": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "reverse_cursor_right"
+        ],
+        "visited_bodies": [
+          "reverse_cursor_right"
+        ],
+        "body_execution_records": {
+          "reverse_cursor_right": 7
+        },
+        "per_body_records": {
+          "reverse_cursor_right": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "c2fd958d2a9216bd3cc9a95eff49a6cde8c774771bb6a0bad9033fcc9e189396",
+          "verified/lib.rs": "87e2c03eb969e5a01caf743cfec1e9557d7fe87dad673e52c460c271bc46d0b4"
+        },
+        "source_after": {
+          "original/lib.rs": "c2fd958d2a9216bd3cc9a95eff49a6cde8c774771bb6a0bad9033fcc9e189396",
+          "verified/lib.rs": "87e2c03eb969e5a01caf743cfec1e9557d7fe87dad673e52c460c271bc46d0b4"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "fb65dcd3c244ef7077072382c93a73c60fed37426c2b3d304d3c22bacf4cf07e",
+        "classifier_controls": 12
+      },
+      "reverse_cursor_left": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "reverse_cursor_left"
+        ],
+        "visited_bodies": [
+          "reverse_cursor_left"
+        ],
+        "body_execution_records": {
+          "reverse_cursor_left": 8
+        },
+        "per_body_records": {
+          "reverse_cursor_left": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "6f8dd43681738e047946c515e0dbccb69c158d03c6259286671f4f2204f713c6",
+          "verified/lib.rs": "27e60f15abd06983cb77c1606b163d2bcd00186b2c63f2a9f7ac10b14365798c"
+        },
+        "source_after": {
+          "original/lib.rs": "6f8dd43681738e047946c515e0dbccb69c158d03c6259286671f4f2204f713c6",
+          "verified/lib.rs": "27e60f15abd06983cb77c1606b163d2bcd00186b2c63f2a9f7ac10b14365798c"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "7b39422fc249bd1068c77625d2c25854bbf1f915d16d60be060e3516c4307875",
+        "classifier_controls": 12
+      },
+      "terminal_reentry_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_reentry_const"
+        ],
+        "visited_bodies": [
+          "terminal_reentry_const"
+        ],
+        "body_execution_records": {
+          "terminal_reentry_const": 6
+        },
+        "per_body_records": {
+          "terminal_reentry_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "570f4b36cf589780e9905013cb895e159130582d597afaafa312c9b0917870a9",
+          "verified/lib.rs": "3dbb33cb3221be15e16faa239503bd7e2b252d06940fdb8a443c12a25d950b2b"
+        },
+        "source_after": {
+          "original/lib.rs": "570f4b36cf589780e9905013cb895e159130582d597afaafa312c9b0917870a9",
+          "verified/lib.rs": "3dbb33cb3221be15e16faa239503bd7e2b252d06940fdb8a443c12a25d950b2b"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "77b276a5fc6180b97d281b1bf8c882cf3da3868787578deed0f09f2fc9889117",
+        "classifier_controls": 12
+      },
+      "terminal_reentry_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_reentry_mut"
+        ],
+        "visited_bodies": [
+          "terminal_reentry_mut"
+        ],
+        "body_execution_records": {
+          "terminal_reentry_mut": 6
+        },
+        "per_body_records": {
+          "terminal_reentry_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "72a6c5f740b168ad7088006abdd126a19fc15c55ad0c171917ca37df705fc84d",
+          "verified/lib.rs": "8ad9b434bc478df5f20832b44561b288c8b5f709339fadf459a7d7f4af1643c3"
+        },
+        "source_after": {
+          "original/lib.rs": "72a6c5f740b168ad7088006abdd126a19fc15c55ad0c171917ca37df705fc84d",
+          "verified/lib.rs": "8ad9b434bc478df5f20832b44561b288c8b5f709339fadf459a7d7f4af1643c3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "4af661f66d08a472284c578cb45b1f42495574108492174c7a291c092d98a1a0",
+        "classifier_controls": 12
+      },
+      "terminal_reentry_at_address_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_reentry_at_address_zero"
+        ],
+        "visited_bodies": [
+          "terminal_reentry_at_address_zero"
+        ],
+        "body_execution_records": {
+          "terminal_reentry_at_address_zero": 6
+        },
+        "per_body_records": {
+          "terminal_reentry_at_address_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "52cd6fddc2e3098b126337521584d32e9c203b4c295c698b4ebd07e4c24731d3",
+          "verified/lib.rs": "4a8d6191672bb60d487a7d550462db1a4ea0231abb4c1938ac4aa2c0eb17bc92"
+        },
+        "source_after": {
+          "original/lib.rs": "52cd6fddc2e3098b126337521584d32e9c203b4c295c698b4ebd07e4c24731d3",
+          "verified/lib.rs": "4a8d6191672bb60d487a7d550462db1a4ea0231abb4c1938ac4aa2c0eb17bc92"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "524a2c97fb61ec7820e749d9b367f98018b40bdcf77d4ac6191c5da11ed1d330",
+        "classifier_controls": 12
+      },
+      "frame_and_read_after_reentry": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "frame_and_read_after_reentry"
+        ],
+        "visited_bodies": [
+          "frame_and_read_after_reentry"
+        ],
+        "body_execution_records": {
+          "frame_and_read_after_reentry": 7
+        },
+        "per_body_records": {
+          "frame_and_read_after_reentry": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "78cfd94c78925fafce8d5caa3c602a4b1e1da6f119deb8622bbd3174cf18940f",
+          "verified/lib.rs": "76fa3e0c667cdb2cda901dd861e07bcb8918da0059870563389ca47d685752cc"
+        },
+        "source_after": {
+          "original/lib.rs": "78cfd94c78925fafce8d5caa3c602a4b1e1da6f119deb8622bbd3174cf18940f",
+          "verified/lib.rs": "76fa3e0c667cdb2cda901dd861e07bcb8918da0059870563389ca47d685752cc"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "6ce6f41c75f605fbde2a59653f088fd969cbc016c8e1548eb41bb9612dfd4a74",
+        "classifier_controls": 12
+      },
+      "unsupported_count_two": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "unsupported_count_two"
+        ],
+        "visited_bodies": [
+          "unsupported_count_two"
+        ],
+        "body_execution_records": {
+          "unsupported_count_two": 2
+        },
+        "per_body_records": {
+          "unsupported_count_two": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(303,25-27): error: Cannot prove condition. (Cannot prove 2 = 0 || 2 = 1.)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "a79bafbb6d62934fff0e3c64faa0cf0596679e0f3cfff36de602bfcc4dbed13e",
+          "verified/lib.rs": "2bb5dfe5075c3a02efcc5d14fed5f1daff844da280ee21f9ec83825ec9c00ca8"
+        },
+        "source_after": {
+          "original/lib.rs": "a79bafbb6d62934fff0e3c64faa0cf0596679e0f3cfff36de602bfcc4dbed13e",
+          "verified/lib.rs": "2bb5dfe5075c3a02efcc5d14fed5f1daff844da280ee21f9ec83825ec9c00ca8"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "ebfbaf5b93ea5694b2030d11363b8046a81887348b042d80a9b6eacae1e2115c",
+        "classifier_controls": 12
+      },
+      "unsupported_signed_offset": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "unsupported_signed_offset"
+        ],
+        "visited_bodies": [
+          "unsupported_signed_offset"
+        ],
+        "body_execution_records": {
+          "unsupported_signed_offset": 2
+        },
+        "per_body_records": {
+          "unsupported_signed_offset": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(313,35-37): error: Cannot prove condition. (Cannot prove 2 <= 1.)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "2ddab8fcd1ac7f675c7064bc4c6be02e73c33c23c514923a1df8fb7e148f5078",
+          "verified/lib.rs": "f5fe87d6aadbf994d954078c970568532c13f0b13ae68cff215b2b5a517bc7a9"
+        },
+        "source_after": {
+          "original/lib.rs": "2ddab8fcd1ac7f675c7064bc4c6be02e73c33c23c514923a1df8fb7e148f5078",
+          "verified/lib.rs": "f5fe87d6aadbf994d954078c970568532c13f0b13ae68cff215b2b5a517bc7a9"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "3e7bc10c6099a04103a35535683b18c1f08f252ad73571615b74441f00276c48",
+        "classifier_controls": 12
+      },
+      "wrong_wrapped_result": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "wrong_wrapped_result"
+        ],
+        "visited_bodies": [
+          "wrong_wrapped_result"
+        ],
+        "body_execution_records": {
+          "wrong_wrapped_result": 4
+        },
+        "per_body_records": {
+          "wrong_wrapped_result": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(22,36-38): error: Assertion might not hold. (Cannot prove __result = base.)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "f2e113a5aeb2871132369d49cdd185cfbbed83f7fc145e26c2a4d8196031411b",
+          "verified/lib.rs": "7910c85331b6a6cf6ec43c1502de8b04c6cc7dbac3e928d4a0217c6dbc951cf0"
+        },
+        "source_after": {
+          "original/lib.rs": "f2e113a5aeb2871132369d49cdd185cfbbed83f7fc145e26c2a4d8196031411b",
+          "verified/lib.rs": "7910c85331b6a6cf6ec43c1502de8b04c6cc7dbac3e928d4a0217c6dbc951cf0"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "9d3ecfdaac342abecc2c41488daf59805f2948e0b1b48dadd0acf7044aa5c04a",
+        "classifier_controls": 12
+      },
+      "read_at_wrapped_minus_one": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "read_at_wrapped_minus_one"
+        ],
+        "visited_bodies": [
+          "read_at_wrapped_minus_one"
+        ],
+        "body_execution_records": {
+          "read_at_wrapped_minus_one": 4
+        },
+        "per_body_records": {
+          "read_at_wrapped_minus_one": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(22,14-18): error: No matching heap chunks: [_]points_to<u8>(__result, _)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "231991bf1e5a8460b7ad3bdf4da97619ca2d4ca6520512292614bc38afd3408a",
+          "verified/lib.rs": "2fd71727515999f97f70d583ae65378ca75e2783b176dbf00d6cd2baa145247c"
+        },
+        "source_after": {
+          "original/lib.rs": "231991bf1e5a8460b7ad3bdf4da97619ca2d4ca6520512292614bc38afd3408a",
+          "verified/lib.rs": "2fd71727515999f97f70d583ae65378ca75e2783b176dbf00d6cd2baa145247c"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "62da132d369519258f5f82e03270d133664dbfbcb8004ac4f6d2dfad9e2a6004",
+        "classifier_controls": 12
+      },
+      "foreign_same_address_no_transfer": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "foreign_same_address_no_transfer"
+        ],
+        "visited_bodies": [
+          "foreign_same_address_no_transfer"
+        ],
+        "body_execution_records": {
+          "foreign_same_address_no_transfer": 7
+        },
+        "per_body_records": {
+          "foreign_same_address_no_transfer": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(26,14-24): error: No matching heap chunks: [_]points_to<u8>(__result0, _)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "621ff1bf31e94306ebf313ff629f515f92fe7f4336ed4d75caa54c0746bb2ff0",
+          "verified/lib.rs": "36a2911780ce2988eb36354313c07068262a257458231f94c959682d970b03e4"
+        },
+        "source_after": {
+          "original/lib.rs": "621ff1bf31e94306ebf313ff629f515f92fe7f4336ed4d75caa54c0746bb2ff0",
+          "verified/lib.rs": "36a2911780ce2988eb36354313c07068262a257458231f94c959682d970b03e4"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "b3b1e05697712baa61b853e86fd45fd1ddf2b4e9c1fecdb3dbdad483e2eda2d1",
+        "classifier_controls": 12
+      }
+    },
+    "checked-pointer-bridge": {
+      "stride_order_checked": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "stride_order_checked"
+        ],
+        "visited_bodies": [
+          "stride_order_checked"
+        ],
+        "body_execution_records": {
+          "stride_order_checked": 6
+        },
+        "per_body_records": {
+          "stride_order_checked": {
+            "return": 3,
+            "leak": 3
+          }
+        },
+        "return_records": 3,
+        "leak_check_records": 3,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "d1f4a33dbaebfcf4b1735d010aa98364c6d44318de91f8a27d7ed26fe37afd46",
+          "verified/lib.rs": "cf444bcdf4a50b4c7970e76fdd5f1b63daabbbc92013136b5eaa2f406ffc7932"
+        },
+        "source_after": {
+          "original/lib.rs": "d1f4a33dbaebfcf4b1735d010aa98364c6d44318de91f8a27d7ed26fe37afd46",
+          "verified/lib.rs": "cf444bcdf4a50b4c7970e76fdd5f1b63daabbbc92013136b5eaa2f406ffc7932"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "844ee9be088cc24f967433dacb11d59e65a8dfad33274d2e4b45c86131150b06",
+        "classifier_controls": 12
+      },
+      "source_cursor_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_cursor_const"
+        ],
+        "visited_bodies": [
+          "source_cursor_const"
+        ],
+        "body_execution_records": {
+          "source_cursor_const": 3
+        },
+        "per_body_records": {
+          "source_cursor_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "36c0ee47bfc27c763b2b87c395783e8dd2c297d1abebc446119f66a9b033ef9d",
+          "verified/lib.rs": "69b16c17a5bfda290cccb38cf65ff39ced29f656600cebe307c6b54708216bb7"
+        },
+        "source_after": {
+          "original/lib.rs": "36c0ee47bfc27c763b2b87c395783e8dd2c297d1abebc446119f66a9b033ef9d",
+          "verified/lib.rs": "69b16c17a5bfda290cccb38cf65ff39ced29f656600cebe307c6b54708216bb7"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "2dbbda4c9508f2d77f19e787c9636f3dec45986b70116e202b3568bad4761bed",
+        "classifier_controls": 12
+      },
+      "source_cursor_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_cursor_mut"
+        ],
+        "visited_bodies": [
+          "source_cursor_mut"
+        ],
+        "body_execution_records": {
+          "source_cursor_mut": 3
+        },
+        "per_body_records": {
+          "source_cursor_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "316865c144544da6ba6e9cc72eb79ce1d787bf321f1ab9db87958f95f02ab865",
+          "verified/lib.rs": "f672581f5e80b22756aa270f61c0a3aa6e748d4d38e2bfc626cc6ea7d11a6522"
+        },
+        "source_after": {
+          "original/lib.rs": "316865c144544da6ba6e9cc72eb79ce1d787bf321f1ab9db87958f95f02ab865",
+          "verified/lib.rs": "f672581f5e80b22756aa270f61c0a3aa6e748d4d38e2bfc626cc6ea7d11a6522"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "705c3b200384512187796ccf10b15ae5f647ddf5b74fd570739318e64505b839",
+        "classifier_controls": 12
+      },
+      "terminal_source_index": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_source_index"
+        ],
+        "visited_bodies": [
+          "terminal_source_index"
+        ],
+        "body_execution_records": {
+          "terminal_source_index": 18
+        },
+        "per_body_records": {
+          "terminal_source_index": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "d3bc0a1a6f0a4951d4928fd614cd85952d023655e07d0a426c1303551bca9cdf",
+          "verified/lib.rs": "7eb626ef8c03dfd66a2a74cb1e83dc987ac4f2a634eeb50f327eadf91be4138b"
+        },
+        "source_after": {
+          "original/lib.rs": "d3bc0a1a6f0a4951d4928fd614cd85952d023655e07d0a426c1303551bca9cdf",
+          "verified/lib.rs": "7eb626ef8c03dfd66a2a74cb1e83dc987ac4f2a634eeb50f327eadf91be4138b"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "e34282eea4c86c20959f349063bea946b3862ab49b3d5f9b326d08eea0594b66",
+        "classifier_controls": 12
+      },
+      "terminal_source_index_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_source_index_mut"
+        ],
+        "visited_bodies": [
+          "terminal_source_index_mut"
+        ],
+        "body_execution_records": {
+          "terminal_source_index_mut": 18
+        },
+        "per_body_records": {
+          "terminal_source_index_mut": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "22dab8df0cefcb9196bcc5e849263c493e902d63ab3d19ce03c97db98a63740f",
+          "verified/lib.rs": "ba1328220d4f1535eca7b51effc59367bf3f1e4e1fe5b72a3089fd827226d82a"
+        },
+        "source_after": {
+          "original/lib.rs": "22dab8df0cefcb9196bcc5e849263c493e902d63ab3d19ce03c97db98a63740f",
+          "verified/lib.rs": "ba1328220d4f1535eca7b51effc59367bf3f1e4e1fe5b72a3089fd827226d82a"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "f75d1830e1385d5d3c986172c56003bb7778e27edbd4e474859f181dcabfe1cc",
+        "classifier_controls": 12
+      },
+      "terminal_minus_one_numerical_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_minus_one_numerical_wrap"
+        ],
+        "visited_bodies": [
+          "terminal_minus_one_numerical_wrap"
+        ],
+        "body_execution_records": {
+          "terminal_minus_one_numerical_wrap": 6
+        },
+        "per_body_records": {
+          "terminal_minus_one_numerical_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "1baa5c4b12067821f6994f47ad485796c9ae79a5035d476b60376d22409b396f",
+          "verified/lib.rs": "219e1de658a203869ffe7bc50a0088bbf9f19ebda5dafa4dc9c4c72aa682e431"
+        },
+        "source_after": {
+          "original/lib.rs": "1baa5c4b12067821f6994f47ad485796c9ae79a5035d476b60376d22409b396f",
+          "verified/lib.rs": "219e1de658a203869ffe7bc50a0088bbf9f19ebda5dafa4dc9c4c72aa682e431"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "6c97c7823669e98f012de5ae938bb47a52188ccbf53a36067219469bfcc71c61",
+        "classifier_controls": 12
+      },
+      "reverse_boolean_at_zero_with_frame": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "reverse_boolean_at_zero_with_frame"
+        ],
+        "visited_bodies": [
+          "reverse_boolean_at_zero_with_frame"
+        ],
+        "body_execution_records": {
+          "reverse_boolean_at_zero_with_frame": 7
+        },
+        "per_body_records": {
+          "reverse_boolean_at_zero_with_frame": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "34a017f65ce7d3724f8f957de3a8ba91e71076d636fdd736b586148b402916c5",
+          "verified/lib.rs": "a84c6b299b84390233075833cf80750f68759a3f91881d88e0022aec5ea1db11"
+        },
+        "source_after": {
+          "original/lib.rs": "34a017f65ce7d3724f8f957de3a8ba91e71076d636fdd736b586148b402916c5",
+          "verified/lib.rs": "a84c6b299b84390233075833cf80750f68759a3f91881d88e0022aec5ea1db11"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "3d038fe37a0d90dd1bf856932dde86a0b9e66e9bfe5389572fcfce33e8b8ff73",
+        "classifier_controls": 12
+      },
+      "source_pointer_order": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_pointer_order",
+          "stride_order_checked"
+        ],
+        "visited_bodies": [
+          "stride_order_checked",
+          "source_pointer_order"
+        ],
+        "body_execution_records": {
+          "source_pointer_order": 9,
+          "stride_order_checked": 6
+        },
+        "per_body_records": {
+          "stride_order_checked": {
+            "return": 3,
+            "leak": 3
+          },
+          "source_pointer_order": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 4,
+        "leak_check_records": 4,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "9369a860a65fad3d3e41fa7520255aeb02ab5842dffd98c940331d8fb98641e7",
+          "verified/lib.rs": "b35300e68c49868b37be2fb38929d86f5c3800dc015bdc8e9399066fdde64183"
+        },
+        "source_after": {
+          "original/lib.rs": "9369a860a65fad3d3e41fa7520255aeb02ab5842dffd98c940331d8fb98641e7",
+          "verified/lib.rs": "b35300e68c49868b37be2fb38929d86f5c3800dc015bdc8e9399066fdde64183"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "b1a61f6fa1a786a3d31b661abf9bc1000b00cb392496b960bc5d15e348f77e5b",
+        "classifier_controls": 12
+      },
+      "source_pointer_equal": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_pointer_equal",
+          "stride_order_checked"
+        ],
+        "visited_bodies": [
+          "stride_order_checked",
+          "source_pointer_equal"
+        ],
+        "body_execution_records": {
+          "source_pointer_equal": 9,
+          "stride_order_checked": 6
+        },
+        "per_body_records": {
+          "stride_order_checked": {
+            "return": 3,
+            "leak": 3
+          },
+          "source_pointer_equal": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 5,
+        "leak_check_records": 5,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "892711e087d4b1ae608a6e0a38c3d9ceeebf74e7d0ad118eb1accde2309c4ffa",
+          "verified/lib.rs": "f85cb0d476acc9f73646c04a2e339757a2dfa39e260f03d33ccf60235a06a53a"
+        },
+        "source_after": {
+          "original/lib.rs": "892711e087d4b1ae608a6e0a38c3d9ceeebf74e7d0ad118eb1accde2309c4ffa",
+          "verified/lib.rs": "f85cb0d476acc9f73646c04a2e339757a2dfa39e260f03d33ccf60235a06a53a"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "4092ebb788f28c87e31b949973e978550889d7879894099a06d1435eb256395f",
+        "classifier_controls": 12
+      }
+    },
+    "checked-rust-regression": {
+      "g2_steps": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "g2_step",
+          "g2_terminal"
+        ],
+        "visited_bodies": [
+          "g2_step",
+          "g2_terminal"
+        ],
+        "body_execution_records": {
+          "g2_step": 15,
+          "g2_terminal": 10
+        },
+        "per_body_records": {
+          "g2_step": {
+            "return": 4,
+            "leak": 4
+          },
+          "g2_terminal": {
+            "return": 3,
+            "leak": 3
+          }
+        },
+        "return_records": 7,
+        "leak_check_records": 7,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+          "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812"
+        },
+        "source_after": {
+          "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+          "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "5d5f474cf89729c41382cccc83854c23960502e1e6024df305170891d11c8c4c",
+        "classifier_controls": 12
+      },
+      "init_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "init_const"
+        ],
+        "visited_bodies": [
+          "init_const"
+        ],
+        "body_execution_records": {
+          "init_const": 4
+        },
+        "per_body_records": {
+          "init_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+          "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3"
+        },
+        "source_after": {
+          "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+          "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "1b0c7a07569ba663443e37f5a594bc5bc77ed77d9dcfaf6b6f1b38e545225b80",
+        "classifier_controls": 12
+      },
+      "init_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "init_mut"
+        ],
+        "visited_bodies": [
+          "init_mut"
+        ],
+        "body_execution_records": {
+          "init_mut": 4
+        },
+        "per_body_records": {
+          "init_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+          "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd"
+        },
+        "source_after": {
+          "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+          "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "f31ceb5b4eb646c85d8374ddf010e0f259ae581fc84df08fbd0384575b8a15e6",
+        "classifier_controls": 12
+      },
+      "destination_up": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "destination_up"
+        ],
+        "visited_bodies": [
+          "destination_up"
+        ],
+        "body_execution_records": {
+          "destination_up": 7
+        },
+        "per_body_records": {
+          "destination_up": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+          "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b"
+        },
+        "source_after": {
+          "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+          "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "8808003030297bcf5844330f8233a9d1f52ca425762bf165c88b09372c2e76c3",
+        "classifier_controls": 12
+      },
+      "forward_left": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "forward_left"
+        ],
+        "visited_bodies": [
+          "forward_left"
+        ],
+        "body_execution_records": {
+          "forward_left": 12
+        },
+        "per_body_records": {
+          "forward_left": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+          "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661"
+        },
+        "source_after": {
+          "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+          "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "7040ed2e4509d3ab65dbdfc735808635eba4dfbb465d113dce8a6b0e4e19183d",
+        "classifier_controls": 12
+      },
+      "forward_right": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "forward_right"
+        ],
+        "visited_bodies": [
+          "forward_right"
+        ],
+        "body_execution_records": {
+          "forward_right": 13
+        },
+        "per_body_records": {
+          "forward_right": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+          "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c"
+        },
+        "source_after": {
+          "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+          "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "e910a890976b6534e238425f2be40d3d5c78633bd29c46523649f2b696cdba2e",
+        "classifier_controls": 12
+      },
+      "destination_down": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "destination_down"
+        ],
+        "visited_bodies": [
+          "destination_down"
+        ],
+        "body_execution_records": {
+          "destination_down": 7
+        },
+        "per_body_records": {
+          "destination_down": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+          "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17"
+        },
+        "source_after": {
+          "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+          "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "2db6d5907f2d61374366e2bc025558f8b433d74b023970a9948613e6cd4fcd9f",
+        "classifier_controls": 12
+      },
+      "pointer_order": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "pointer_order",
+          "stride_order"
+        ],
+        "visited_bodies": [
+          "stride_order",
+          "pointer_order"
+        ],
+        "body_execution_records": {
+          "pointer_order": 4,
+          "stride_order": 6
+        },
+        "per_body_records": {
+          "stride_order": {
+            "return": 3,
+            "leak": 3
+          },
+          "pointer_order": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 4,
+        "leak_check_records": 4,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+          "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336"
+        },
+        "source_after": {
+          "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+          "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "4982f86f6eb4f89187f8bff26ccbce8ef16cc2fe4d390cc773eea8a4dd0ce021",
+        "classifier_controls": 12
+      },
+      "pointer_guard": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "pointer_guard",
+          "stride_equal"
+        ],
+        "visited_bodies": [
+          "stride_equal",
+          "pointer_guard"
+        ],
+        "body_execution_records": {
+          "pointer_guard": 14,
+          "stride_equal": 6
+        },
+        "per_body_records": {
+          "stride_equal": {
+            "return": 3,
+            "leak": 3
+          },
+          "pointer_guard": {
+            "return": 3,
+            "leak": 3
+          }
+        },
+        "return_records": 6,
+        "leak_check_records": 6,
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+          "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a"
+        },
+        "source_after": {
+          "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+          "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": true,
+        "verifier_log_sha256": "27b9d07fc29af72d4638e62b988b70f45878bfb1b1a2223320649b9e5aa947a2",
+        "classifier_controls": 12
+      },
+      "wrong_cursor": {
+        "classification": "EXPECTED_FALSE_ASSERTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "wrong_cursor"
+        ],
+        "visited_bodies": [
+          "wrong_cursor"
+        ],
+        "body_execution_records": {
+          "wrong_cursor": 6
+        },
+        "per_body_records": {
+          "wrong_cursor": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(20,23-25): error: Assertion might not hold. (Cannot prove ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid).)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+          "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9"
+        },
+        "source_after": {
+          "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+          "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "9f7f6eade617a514ae4a3af4c5643ab7f69b741cfb6235a8e6e6c813d4dd8d19",
+        "classifier_controls": 10
+      },
+      "address_index": {
+        "classification": "EXPECTED_FALSE_ASSERTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "address_index"
+        ],
+        "visited_bodies": [
+          "address_index"
+        ],
+        "body_execution_records": {
+          "address_index": 1
+        },
+        "per_body_records": {
+          "address_index": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(14,18-20): error: Assertion might not hold. (Cannot prove i = j.)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+          "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3"
+        },
+        "source_after": {
+          "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+          "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "full_positive_gate": false,
+        "verifier_log_sha256": "265c30529a5c07f0283b4028f21d0ab9f3789bdad934dc7abc88ec3470fb4371",
+        "classifier_controls": 10
+      }
+    }
+  },
+  "build_evidence_sha256": {
+    "applied-wrapping.patch": "117a37c52b3a8c3985d33101c555a1e3ebe88d27c230cf47cf533348ecddf594",
+    "source-build-inputs.txt": "17f7d4ed8406b3f7f44017a5f9a5e9c53a1acc6e643926adda1a5edcb75b93df",
+    "source-build-runtime.txt": "ee5a646ddaf098e6856dc24f63f0b6e78e25f0be7ef9d272caa0b87d373a5d03",
+    "source-modified-files.txt": "4065421d36ae21a2cde42f363cd3bcc842e878f6d79f5c3404852b22410d79d4"
+  }
+}

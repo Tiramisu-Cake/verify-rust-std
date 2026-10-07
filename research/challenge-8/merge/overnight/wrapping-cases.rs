@@ -417,6 +417,7 @@ on_unwind_ens false;
 // CASE_END frame_and_read_after_reentry
 
 // CASE_BEGIN unsupported_count_two
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":303,"column_start":25,"column_end":27,"message":"Cannot prove condition. (Cannot prove 2 = 0 || 2 = 1.)"}
 pub unsafe fn unsupported_count_two<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
@@ -432,6 +433,7 @@ on_unwind_ens false;
 // CASE_END unsupported_count_two
 
 // CASE_BEGIN unsupported_signed_offset
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":313,"column_start":35,"column_end":37,"message":"Cannot prove condition. (Cannot prove 2 <= 1.)"}
 pub unsafe fn unsupported_signed_offset(base: *const u8) -> *const u8
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
@@ -447,6 +449,7 @@ on_unwind_ens false;
 // CASE_END unsupported_signed_offset
 
 // CASE_BEGIN wrong_wrapped_result
+// EXPECT_ERROR {"stage":"verifast","predicate":"__result = base","line":"TARGET","column_start":36,"column_end":38}
 pub unsafe fn wrong_wrapped_result<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
@@ -464,6 +467,7 @@ on_unwind_ens false;
 // CASE_END wrong_wrapped_result
 
 // CASE_BEGIN read_at_wrapped_minus_one
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":14,"column_end":18,"message":"No matching heap chunks: [_]points_to<u8>(__result, _)"}
 pub unsafe fn read_at_wrapped_minus_one(base: *const u8) -> u8
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
@@ -480,6 +484,7 @@ on_unwind_ens false;
 // CASE_END read_at_wrapped_minus_one
 
 // CASE_BEGIN foreign_same_address_no_transfer
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":14,"column_end":24,"message":"No matching heap chunks: [_]points_to<u8>(__result0, _)"}
 pub unsafe fn foreign_same_address_no_transfer(
     source: *const u8, foreign: *const u8) -> u8
 /*@
