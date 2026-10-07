@@ -74,7 +74,7 @@ index a5d925d..d29ae2a 100644
      /*@
      req exists::<option<isize>>(?offset_opt) &*&
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 4e237a6..50935d4 100644
+index 4e237a6..1bfe2ab 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -695,7 +695,7 @@ index 4e237a6..50935d4 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7915,9 +8449,2601 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7915,9 +8449,2607 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -977,11 +977,12 @@ index 4e237a6..50935d4 100644
 +        reject ("local identity/type: " ^ id)
 +    in
 +    (match BodyRd.local_decls_get_list body with
-+     | [r; a; p; q] ->
++     | [r; a; p; q; receiver_ptr] ->
 +         check_local "_0" true result_ty r;
 +         check_local "_1" false (receiver "'<erased>") a;
-+         check_local "_2" true intermediate_ty p;
-+         check_local "_3" true intermediate_ty q
++         check_local "_2" true result_ty p;
++         check_local "_3" true intermediate_ty q;
++         check_local "_4" true intermediate_ty receiver_ptr
 +     | _ -> reject "local count");
 +    let place id mutable_ projections kind p =
 +      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
@@ -1025,10 +1026,10 @@ index 4e237a6..50935d4 100644
 +            (RvalueRd.RawPtrData.place_get raw)
 +      | _ -> reject "receiver-to-raw-pointer operation"
 +    in
-+    let copy rhs = match RvalueRd.get rhs with
++    let copy source rhs = match RvalueRd.get rhs with
 +      | RvalueRd.Use op ->
 +          (match OperandRd.get op with
-+           | OperandRd.Copy p -> simple "_3" true p
++           | OperandRd.Copy p -> simple source true p
 +           | _ -> reject "intermediate copy operand")
 +      | _ -> reject "intermediate copy rvalue"
 +    in
@@ -1039,7 +1040,7 @@ index 4e237a6..50935d4 100644
 +             not (result_ty (RvalueRd.CastData.ty_get c)) then
 +            reject "pointer cast kind/target type";
 +          (match OperandRd.get (RvalueRd.CastData.operand_get c) with
-+           | OperandRd.Move p -> simple "_2" true p
++           | OperandRd.Move p -> simple "_3" true p
 +           | _ -> reject "pointer cast operand")
 +      | _ -> reject "return pointer cast rvalue"
 +    in
@@ -1048,11 +1049,16 @@ index 4e237a6..50935d4 100644
 +         Stdint.Uint32.to_int
 +           (BasicBlockIdRd.index_get (BasicBlockRd.id_get block)) = 0 ->
 +         (match BasicBlockRd.statements_get_list block with
-+          | [s0;s1;s2;s3;s4;s5;s6] ->
++          | [s0;s1;s2;s3;s4;s5;s6;s7;s8;s9] ->
 +              storage true "_2" s0; storage true "_3" s1;
-+              assign "_3" raw s2; assign "_2" copy s3;
-+              assign "_0" cast s4;
-+              storage false "_2" s5; storage false "_3" s6
++              storage true "_4" s2;
++              assign "_4" raw s3;
++              assign "_3" (copy "_4") s4;
++              assign "_2" cast s5;
++              assign "_0" (copy "_2") s6;
++              storage false "_3" s7;
++              storage false "_4" s8;
++              storage false "_2" s9
 +          | _ -> reject "statement count/order");
 +         (match TerminatorKindRd.get
 +                  (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
@@ -1482,7 +1488,7 @@ index 4e237a6..50935d4 100644
 +      "pub fn sort4_checked_as_mut_ptr<Element>(" in
 +    let result_at = signature_end - String.length "*mut *const Element" in
 +    let parameter, result_local = match BodyRd.local_decls_get_list body with
-+      | [ret; arg; _; _] -> arg, ret
++      | [ret; arg; _; _; _] -> arg, ret
 +      | _ -> reject "parameter local count" in
 +    let* () = check_span "storage parameter"
 +      (SourceInfoRd.span_get (LocalDeclRd.source_info_get parameter))
@@ -3297,7 +3303,7 @@ index 4e237a6..50935d4 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -8106,6 +11232,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8106,6 +11238,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -3329,7 +3335,7 @@ index 4e237a6..50935d4 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -8121,6 +11272,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -8121,6 +11278,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in

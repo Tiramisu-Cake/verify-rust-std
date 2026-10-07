@@ -66,7 +66,7 @@ SOURCE_REASONS = {
     "additional_operation": "local body differs from exact source specialization",
 }
 MIR_REASONS = {
-    "operand": "place/projection: _3",
+    "operand": "place/projection: _4",
     "return": "place/projection: _0",
     "casttype": "pointer cast kind/target type",
     "outputtype": "result type",
@@ -373,7 +373,7 @@ def mutate_as_mut_ptr_mir(decoded: str, mutation: str, matrix) -> str:
     tail = opening + len(body)
     if mutation == "operand":
         body = replace_once(body,
-            'copy = (\n                        local = (name = "_3")',
+            'copy = (\n                        local = (name = "_4")',
             'copy = (\n                        local = (name = "_1")', mutation)
     elif mutation == "return":
         body = replace_once(body,

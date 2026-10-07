@@ -111,3 +111,69 @@ Static review found all eight `D.decode_predicate` call sites, six body and
 two ADT lookups plus six impl-block lookups; no obsolete names remain in the
 candidate. The patch still passes `git apply --check` against stock source
 `f76012fb`. A fresh hosted build is required; O2 supplies no proof result.
+
+## O2b as_mut_ptr typed-MIR amendment — BEFORE implementation
+
+O2b run `37699461058`, proof SHA `1d57dee9`, 133 hosted job seconds, completed
+all five independent diagnostics. Constructor, both typed intrinsic fixtures and
+pointer drop reached full verifier exit 0; these are standalone diagnostics,
+not matrix acceptance. `as_mut_ptr` had NORMAL/readonly export+decode and
+refinement exit 0, then the exact certificate failed at `parameter local count`
+before proof. Both decoded MIR files have 1490 lines. Their only textual
+differences are fresh elided lifetime identifiers (`'__12`/`'__13` NORMAL,
+`'__7`/`'__8` readonly); all types, operations, CFG and spans agree.
+
+The certified `sort4_checked_as_mut_ptr` body has five typed locals:
+`_0: *mut *const Element` result, `_1: &mut MaybeUninit<*const Element>`
+receiver, `_2: *mut *const Element` result temporary, and `_3`/`_4` each
+`*mut MaybeUninit<*const Element>`. The sole non-cleanup basic block has, in
+order, `StorageLive(_2,_3,_4)`, `RawPtr(Mut, Deref _1) -> _4`, `Copy _4 -> _3`,
+`PtrToPtr(Move _3) -> _2`, `Copy _2 -> _0`, `StorageDead(_3,_4,_2)`, then
+`Return`. These are ten ordered statements. There are no calls, writes through the pointer, other branches or
+unwind paths. The difference from S6v4 is one additional wrapper-pointer
+temporary and a distinct result temporary, consistent with the same two-cast
+Rust expression on the new nightly.
+
+Proposed gate: require exactly those five local types and mutabilities, exact
+operand flow/ordered ten statements, sole block/Return, complete source spans
+and existing contract. The direct MIR `operand` mutant must target `Copy _4`;
+all nine MIR admissions still execute and reject at their named predicates.
+No source operation, resource post, provenance interpretation, compiler trust
+or verification setting changes. Recheck NORMAL/readonly source and full matrix
+on a fresh hosted proof SHA before using this as an accepted method summary.
+
+## O2b amendment review and full-matrix gate
+
+The new gate follows that exact five-local, one-block, ten-statement flow and
+keeps the original source, type, span, contract, and sole-return constraints.
+The copied MIR `operand` mutation now replaces `Copy _4` and expects the same
+`place/projection: _4` admission error. `git apply --check` passes against the
+pinned VeriFast source; Python AST parsing of the hosted driver passes. Neither
+check is a verifier result. The new patch SHA-256 is
+`20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c`.
+
+`accept-s6.py` runs stock controls on the **patched** cumulative profile,
+constructor (without the actual-callee tail), as_mut_ptr, typed intrinsics and
+pointer drop, with three classifier self-checks. Each component's existing
+positive/negative/source/MIR admissions remains in its own checker. Pointer
+drop must report 22 admission cases. The driver requires every exact
+classification, writes stage logs and summaries, and marks an absent, timed
+out, or mismatched summary `INCONCLUSIVE`. It makes no helper claim. The first
+hosted full-matrix run may reveal changed fixture coordinates or error text;
+any such repair needs its own observed failing evidence and a new review.
+
+## Same-profile stock classifier delta
+
+The original 26.10 stock control script expects exactly three checked
+preamble functions. O2b's patched-console log shows those three followed, in
+order, by `std::mem::close_MaybeUninit_pointer_own`,
+`std::mem::select_MaybeUninit_pointer_own`, and
+`std::ptr::pointer_drop_glue_identity` before the fixture function. Reusing the
+original checker against S6 would make each case `INCONCLUSIVE` solely because
+its function inventory is incomplete. The copied `check-stock-s6-2610.py`
+expects exactly all six preamble functions, including their bodies, return and
+leak checks. It preserves all original fixture source, target postconditions,
+negative error locations, dead-code conditions, frontend/refinement gates and
+classification logic. This is a classifier profile adjustment, not a
+verification semantics change. `accept-s6.py` invokes this scoped copy for
+the patched profile; the unmodified stock checker remains the baseline check.
