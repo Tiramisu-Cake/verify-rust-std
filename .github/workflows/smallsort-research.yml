@@ -266,7 +266,8 @@ jobs:
           MERGE_COMPONENT: ${{ inputs.sort4_component }}
         run: |
           if [[ "$MERGE_COMPONENT" == range ]]; then
-            bash research/challenge-8/merge/pointer-run.sh merge_geometry
+            bash research/challenge-8/merge/pointer-run.sh merge_geometry \
+              g2_steps,init_const,init_mut,destination_up,forward_left,forward_right,destination_down,pointer_order,pointer_guard,wrong_cursor,address_index
           else
             bash research/challenge-8/merge/run.sh merge_geometry
           fi

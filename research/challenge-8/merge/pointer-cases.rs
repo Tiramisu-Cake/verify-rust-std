@@ -194,7 +194,7 @@ lem stride_order(i: usize, j: usize, s: usize)
     }
 }
 @*/
-pub fn pointer_order<T>(base: *const T, left: *const T, left_end: *const T, i: usize, j: usize) -> bool
+pub unsafe fn pointer_order<T>(base: *const T, left: *const T, left_end: *const T, i: usize, j: usize) -> bool
 /*@
 req 0 < std::mem::size_of::<T>() &*& left == base + i &*& left_end == base + j &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(left) == true &*&
@@ -224,7 +224,7 @@ lem stride_equal(i: usize, j: usize, s: usize)
     }
 }
 @*/
-pub fn pointer_guard<T>(base: *const T, left: *const T, left_end: *const T,
+pub unsafe fn pointer_guard<T>(base: *const T, left: *const T, left_end: *const T,
     right: *const T, right_end: *const T, i: usize, j: usize, r: usize, t: usize) -> bool
 /*@
 req 0 < std::mem::size_of::<T>() &*& left == base + i &*& left_end == base + j &*&
@@ -275,7 +275,7 @@ on_unwind_ens false;
 // CASE_END wrapping_end
 
 // CASE_BEGIN wrapping_reentry
-pub fn wrapping_reentry<T>(base: *const T) -> *const T
+pub unsafe fn wrapping_reentry<T>(base: *const T) -> *const T
 /*@
 req 0 < std::mem::size_of::<T>() &*& pointer_within_limits(base) == true;
 @*//*@
@@ -293,9 +293,9 @@ on_unwind_ens false;
 // CASE_BEGIN wrapped_read
 pub unsafe fn wrapped_read(base: *const u8) -> u8
 /*@
-req *base |-> ?value;
+req *base |-> ?stored_value;
 @*//*@
-ens *base |-> value;
+ens *base |-> stored_value;
 @*//*@
 on_unwind_ens false;
 @*/
@@ -307,6 +307,7 @@ on_unwind_ens false;
 // CASE_END wrapped_read
 
 // CASE_BEGIN wrong_cursor
+// EXPECT_ERROR {"stage":"verifast","predicate":"ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)","line":"TARGET","column_start":23,"column_end":25}
 pub unsafe fn wrong_cursor<T>(base: *const T, n: usize, i: usize) -> *const T
 /*@
 req 0 < std::mem::size_of::<T>() &*& i + 2 <= n &*&
@@ -328,7 +329,8 @@ on_unwind_ens false;
 // CASE_END wrong_cursor
 
 // CASE_BEGIN address_index
-pub fn address_index<T>(left: *const T, right: *const T, i: usize, j: usize)
+// EXPECT_ERROR {"stage":"verifast","predicate":"i = j","line":"TARGET","column_start":18,"column_end":20}
+pub unsafe fn address_index<T>(left: *const T, right: *const T, i: usize, j: usize)
 /*@
 req 0 < std::mem::size_of::<T>() &*& left as usize == right as usize;
 @*//*@

@@ -152,3 +152,15 @@ Supported positives may complete independently. A wrapping semantic blocker
 stops wrapping composition with a minimal reproducer and no unchanged retries.
 Annotation/checked-lemma repairs on supported operations remain within scope.
 FnMut, copies, ownership, comparator model and unwind are unchanged and OPEN.
+
+## P2 established support boundary / P3 scope
+
+P2/run37686101335 establishes `No such function` for exact stock pointer
+wrapping_sub at projected15:17–54 and wrapping_add14:20–44, with export/decode/
+refinement0/source unchanged. Wrapping bridge stops; all four wrapping/re-entry/
+read cases excluded from later runs. Intermediate-1 read remains INCONCLUSIVE
+(earlier ghost variable shadow in its own P2 projection), not intended rejection.
+Draft ghost rename/prototype correction in those excluded cases is NOT RUN.
+Supported11-case P3 repairs only own classifier footer/body braces and research
+unsafe prototype qualifiers, then checks order/guard and both exact negative
+oracles. Actual std runtime/signatures/contracts and all proof gates unchanged.

@@ -62,9 +62,10 @@ def line_ranges(source: bytes) -> dict[str, tuple[int, int]]:
     result: dict[str, tuple[int, int]] = {}
     for match in FN.finditer(source):
         name = match.group(1).decode("ascii")
-        opening = text.find("{", match.end())
-        if opening < 0:
+        body_open = re.search(rb"(?m)^\{[ \t]*$", source[match.end():])
+        if body_open is None:
             raise RuntimeError(f"missing function body: {name}")
+        opening = len(source[:match.end() + body_open.start()].decode("utf-8"))
         depth, closing = 0, -1
         for offset in range(opening, len(text)):
             if text[offset] == "{":
@@ -79,9 +80,10 @@ def line_ranges(source: bytes) -> dict[str, tuple[int, int]]:
         result[name] = (text.count("\n", 0, opening) + 1, text.count("\n", 0, closing) + 1)
     for match in LEMMA.finditer(source):
         name = match.group(1).decode("ascii")
-        opening = text.find("{", match.end())
-        if opening < 0:
+        body_open = re.search(rb"(?m)^\{[ \t]*$", source[match.end():])
+        if body_open is None:
             raise RuntimeError(f"missing checked lemma body: {name}")
+        opening = len(source[:match.end() + body_open.start()].decode("utf-8"))
         depth, closing = 0, -1
         for offset in range(opening, len(text)):
             if text[offset] == "{":
@@ -368,7 +370,11 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
                all(body_records.get(function, {}).get("return", 0) > 0 and
                    body_records.get(function, {}).get("leak", 0) > 0
                    for function in metadata["expected_bodies"]) and
-               re.search(r"0 errors found \(\d+ statements verified\)\s*$", log) is not None)
+               re.search(
+                   r"0 errors found \(\d+ statements verified\)"
+                   r"(?: \(target: x86_64-unknown-linux-gnu \(LP64\)\))?\s*$",
+                   log,
+               ) is not None)
     negative = metadata.get("expected_error")
     negative_ok = False
     error_evidence = None

@@ -371,3 +371,56 @@ Calibration negatives remain INCONCLUSIVE until exact metadata/newrun.
 No posts/resources/assertions/checks deleted, no type/comparator restrictions,
 tool/spec/runtime changes. Same6minjob/30sstages,1359remaining. First new causal
 failure determines precise within-scope fix vs semantic STOP, not green badge.
+
+## P2 result / P3 BEFORE — supported parts, wrapping STOP
+
+P2 source1f2eaaa832a7183180675389979ec15c62a78b5d/run37686101335,
+job11301421152620:59:05Z–20:59:41Z=36s. Budget477/1800,1323remain.
+Readonly export/decode/refinement/source integrity15/15 pass; certificate and
+all stock pins unchanged. Artifact11511880379,348553bytes,ZIPdigest
+14050174caa13ad4d2c3d0b8748e42807a3e72cb10d7717a639a264392459f39
+independently downloaded/matched; full stages/logs/MIR/metadata inspected.
+Driverwall4.09s,peakRSS192352KiB.
+
+Raw VF0 for g2_steps,init_const,init_mut,destination_up,forward_left,
+forward_right,destination_down: own bodies/return/leak reached, full posts/no
+dead code. Automatic INCONCLUSIVE: summary parser did not recognize exact
+Rust LP64 suffix; g2 body-range detector picked braces in if-expressions in
+ens. No acceptance promoted without repaired classifier/new hosted controls.
+Order/guard each checks its stride lemma but safe runtime prototype rejects
+nontrivial `0<sizeof(T_typeid)` pre at19:7–8/20:7–8 before runtime body.
+address_index has same safe-API pre failure at7:7–8. These are OUR projection
+prototype errors, not failure of pointer comparison support. Research unsafe
+projections will match their enclosing actual unsafe merge context; actual std
+generic signatures and public contracts remain unchanged.
+
+Exact first semantic bridge blockers:
+wrapping_down verified/lib.rs15:17–54: `No such function:
+std::ptr::const_ptr::<impl *const T>::wrapping_sub`, sourceSHA256
+fc254bb119683c300df9b61a45808a8fa6a4843f0f593e57969f81942d7f6924,
+log0c34ae6892c8947c47ae6d31c45b0100384157929eca3fdca43a835a896d652a.
+wrapping_end14:20–44 analogous wrapping_add, source
+d79e538f32caea3cc76b19398027f87cde36ce152b1744172e417a3528d7016b,
+log0bf5e4a5c09fc36de5897397578fceba9a252888da82313d5b9f5d9e34a51d24.
+Both unknown-method calls enter own body after successful export/decode/refinement.
+Wrapping/index-1/re-entry composition STOP; no spec/intrinsic/tool change/retry.
+Reentry fails earlier safe pre; wrapped_read fails ghost/runtime variable shadow
+`value`, not intended read. Both remain INCONCLUSIVE; corrected draft annotations
+are NOT RUN, excluded from P3 with all wrapping cases because known method support
+is absent. No intermediate-1 read detector claim is made.
+
+wrong_cursor reaches its intended add1-versus-step2 assertion20:23–25:
+`ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)`.
+It stays calibration INCONCLUSIVE in P2, and exact predicate/columns are now
+predeclared for NEW P3. address_index forecasts exact TARGET `i = j`,18–20;
+any differing/early diagnostic remains INCONCLUSIVE.
+
+P3 hypothesis: classifier accepts known footer and real standalone body braces
+without weakening any gates; unsafe projection preconditions let supported
+order/guard enter bodies. Same pre/posts/operators; shadow-only ghost rename
+in excluded read fixture. Selected11: nine supported positives and two exact
+negative oracles. Each negative must fail ONLY its TARGET with intended body,
+line/columns/predicate, integrity/export/decode/refinement and fail-closed mutants.
+No wrapping cases repeated, no actual Rust copy/FnMut/resource/unwind summary.
+Stock26.09, same6minjob/30sstages,1323remaining. Supported green permits closeout
+of this bounded component, not actual merge/Challenge completion.

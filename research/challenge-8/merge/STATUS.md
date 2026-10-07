@@ -5,8 +5,13 @@ G2/A/B mathematical completion accepted and preserved. Caller audit complete;
 stock operation fixtures P1 INCONCLUSIVE atadb0c7004118fb32b3d20dbd4d085ca145755fd1:
 [run37685381321](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37685381321),
 sole hostedjob111s,15 isolated cases all failed annotation parsing before proof;
-export/decode/refinement15/15 pass. No active run. P2 syntax-only correction
-PREPARING. Budget441/1800 spent,1359remain, no reset or transfer.
+export/decode/refinement15/15 pass. P2 COMPLETE / wrapping STOP:
+[37686101335](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37686101335),
+source1f2eaaa832a7183180675389979ec15c62a78b5d,solejob36s.
+Seven raw fullVF0 projections await classifier repair; order/guard prototype pre
+repair prepared. Stock exact pointer wrapping_add/sub: No such function.
+P3 selects11 supported cases only; no wrapping retry or tool semantic expansion.
+No active run. Budget477/1800 spent,1323remain, no reset or transfer.
 [Plan/design](POINTER-DESIGN.md).
 Public stable/unstable ZST guards cover their caller routes; standalone generic
 Challenge and direct SmallSort ZST cases remain OPEN. Pointer wrapping support
