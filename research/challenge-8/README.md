@@ -6,15 +6,38 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), narrow S6 actual integration IN PROGRESS.**
-[Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md), [results](SORT4-SELECT-POINTER-RESULTS.md):
-constructor/asptr/typed intrinsics and pointer drop accepted in freshdrop-v2run
-37645561507/source85ec171. Actualdrop needs initializedpointercell, req110/call57.
-Projected proof not reached; fullnormalMIR capture37649244205 establishes exact
-five stockghostplaceholders36/19 vsreadonly31/14. Separate exact S6v3 admission
-pre-reviewed/cardfaef1a3, freshfullgates beforestockprojection. Broader freeze stays;
-wholehelper/sort4 NOTPROVEN. Budget3302/5400,2098remain,noreset/noactive atprep.
-STATUS authoritative. RAPx CLOSED/NO-GO,B/C NOTRUN.
+Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+[Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
+`experimental-source-linked-select-pointer-drop-v4`, patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
+Constructor/as_mut_ptr/typed intrinsics/narrow pointer drop matrices and14baselines
+PASS freshly; S6 has2positive+11proofnegative+22source/MIR/pin negatives, all on
+intended obligations. All19 independent NORMAL controls reject exactly beforeproof,
+including oldreceiver26→23. Full source/typed method+actual MIR/runtime/normal-unwind
+CFG correspondence preserved; diagnostic37649244205 is not a proof. Five extra
+stock ghost locals/blocks and every annotation coordinate are in the design table.
+
+Actual baseline still lacks initialized payloadcell. Stock-projected actual enters
+proof after full36/19 admission and checkedmethod redirect. Both stock opens, proof
+condition split, retained runtime drop at verified/lib.rs60 and both closes61/62
+pass in the recorded prefix. Next blocker: verified/lib.rs63 `mem::forget(guard)`,
+frozen std/lib.rsspec420:41–42 requires nominal
+`<DropOnPanic<*const Element>>.own(t, guard)`, absent. No guard/forget extension;
+STOP at this exact obligation. Current classifier stays INCONCLUSIVE with heuristic
+kind intrinsic_select; rawlog establishes the forget guard-own failure separately.
+Finalreturn/leak/fullnormal-unwind posts not reached; wholehelper/sort4 NOT PROVEN.
+
+Checked method and ghost resource identity lemma are separate from TRUSTED compiler
+raw-pointer drop glue correspondence and frozen stock frontend ghost substitution.
+Existing initializedcell/fullpointervalue/thread/independentframes required, no
+Element rights. Recursive free stub is not a runtime-body theorem. Runtime std,
+signatures/targetcontract unchanged; broader04d67f4b/Drop/guard/forget/assume_init/
+union/refiner/kernel/memory/alias/provenance stay frozen. Further semantic work
+requires a separate owner decision; no additional dispatch authorized at this stop.
+Budget **3954/5400 summed hosted jobseconds used;1446remain**, same budget/noreset,
+noactive. Last two proof orchestration jobs:37654585346=184s,37656621026=202s.
+
 The following pointer-ownership closeout is historical.
 
 **Previous: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md), CLOSED.**

@@ -6,22 +6,38 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Current pointer-select checkpoint: S6v2 COMPONENT_ACCEPTED37645561507/source85ec171,
-complete2positive+11proofnegative+22admissions, fresh fullconstructor/asptr/intrinsic
-and14baseline proofs at8e62/drop-v2. Compiler raw-pointer glue TRUSTED separately
-from checked method/identitylemma. Existing initializedcell/fullpointer/thread/
-independentframes preserved, no Elementrights. Recursivefree source notruntimeproof.
-Actual methodcall57 reaches req110 missing `points_to<*Element>(__result2,_)`;
-thread/currentThread pass. Existing wrappers/some/receiverequalities/reborrow
-transport follow preceding checkedcontracts/stockrules, not fullheapdump.
-Empty pointerown cannot mint initializedcell. Stockopen/close projection notproved:
-v2normalcoordinatecontrols SETUPfail, canonicalprojectedNOTRUN.
-Normalcapture37649244205 export/decode/integrityONLY (no proof): full36locals19BB
-includesfive exactstockplaceholders. Exactprojected v3 admission pre-reviewed in
-faef1a3 beforecode, runtime/cleanupfullgraph andstockplaceholder/ghostcorrespondence,
-unchangedfrontendexecution/resource rules; freshcompletegates before actual.
-Budget3302/5400,2098remain,noreset/noactiveatprep. STOP projected/droppre ornext
-actualblocker. No broaderfrozen semantic direction reopened. Wholehelper/sort4NOTPROVEN.
+Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+[Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
+`experimental-source-linked-select-pointer-drop-v4`, patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
+Constructor/as_mut_ptr/typed intrinsics/narrow pointer drop matrices and14baselines
+PASS freshly; S6 has2positive+11proofnegative+22source/MIR/pin negatives, all on
+intended obligations. All19 independent NORMAL controls reject exactly beforeproof,
+including oldreceiver26→23. Full source/typed method+actual MIR/runtime/normal-unwind
+CFG correspondence preserved; diagnostic37649244205 is not a proof. Five extra
+stock ghost locals/blocks and every annotation coordinate are in the design table.
+
+Actual baseline still lacks initialized payloadcell. Stock-projected actual enters
+proof after full36/19 admission and checkedmethod redirect. Both stock opens, proof
+condition split, retained runtime drop at verified/lib.rs60 and both closes61/62
+pass in the recorded prefix. Next blocker: verified/lib.rs63 `mem::forget(guard)`,
+frozen std/lib.rsspec420:41–42 requires nominal
+`<DropOnPanic<*const Element>>.own(t, guard)`, absent. No guard/forget extension;
+STOP at this exact obligation. Current classifier stays INCONCLUSIVE with heuristic
+kind intrinsic_select; rawlog establishes the forget guard-own failure separately.
+Finalreturn/leak/fullnormal-unwind posts not reached; wholehelper/sort4 NOT PROVEN.
+
+Checked method and ghost resource identity lemma are separate from TRUSTED compiler
+raw-pointer drop glue correspondence and frozen stock frontend ghost substitution.
+Existing initializedcell/fullpointervalue/thread/independentframes required, no
+Element rights. Recursive free stub is not a runtime-body theorem. Runtime std,
+signatures/targetcontract unchanged; broader04d67f4b/Drop/guard/forget/assume_init/
+union/refiner/kernel/memory/alias/provenance stay frozen. Further semantic work
+requires a separate owner decision; no additional dispatch authorized at this stop.
+Budget **3954/5400 summed hosted jobseconds used;1446remain**, same budget/noreset,
+noactive. Last two proof orchestration jobs:37654585346=184s,37656621026=202s.
+
 
 Historical accepted pointer-select baseline: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile

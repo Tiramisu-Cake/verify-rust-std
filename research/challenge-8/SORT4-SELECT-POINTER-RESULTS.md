@@ -1,30 +1,39 @@
 # Pointer select completion — results
 
-2026-10-07 S6v3 COMPONENT_ACCEPTED; actual baseline initialized-cell pre reached;
-stock-projected proof pending guarded receiver checkpoint correction (v4).
-Budget **3752/5400 summed hosted job seconds used;1648remain**, no reset/noactive.
-[Fresh37651717720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720),
-source `dfc1f1d740689de8f427ac549da558d64a4318eb`, patch94ffc64c/drop-v3:
-full2positive+11proofnegative+22admissions, fresh ctor/asptr/intrinsic matrices and
-14baseline controls PASS. Baseline actual fullsource/export/decode/refinement/
-method+31/14 certificate/redirectPASS; call57 fails pre110 initialized
-`points_to<*Element>(__result2, _)`, thread/currentThread already passed.
-Exact NORMAL projected36/19 certificate preserves allruntime/cleanup operations;
-five stock ghostplaceholders and perannotation normal/readonly coordinates pinned
-to diagnostic37649244205 (notproof), cardfaef1a3 BEFORE implementation.
-[V3 completion37654585346](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654585346),
-sourcef1774d5,184jobseconds: immutable profile/compiler/spec/std identity PASS;
-2 unchanged coordinate replays +16 NEW intended rejects =>18/18. Original failures
-retained. Projected fullsource/export/decode/refinement/full36/19+method cert PASS,
-final redirect fails receiver checkpoint before proof (_23 versus certified _26).
-V4 card a649f96 predates narrowly guarded checkpoint correction; newprofile
-c7cc08a9 requires full fresh matrices+19 NORMAL controls before actualstockprojection.
-Next job cap25min, same budget; STOP at resource pre or next substantive blocker.
-[Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md), [actual](SORT4-SELECT-CALLEE.md),
-[phase](SORT4-SELECT-POINTER-PHASE.md). Compiler pointerglue and frozen frontend
-scaffold correspondence TRUSTED separately from checkedbody/ghostresource lemma.
-No wholehelper/sort4 proof or broaderfrozen semantic direction reopened.
-Historical budgets/next steps below are not current authorization.
+Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+[Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
+`experimental-source-linked-select-pointer-drop-v4`, patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
+Constructor/as_mut_ptr/typed intrinsics/narrow pointer drop matrices and14baselines
+PASS freshly; S6 has2positive+11proofnegative+22source/MIR/pin negatives, all on
+intended obligations. All19 independent NORMAL controls reject exactly beforeproof,
+including oldreceiver26→23. Full source/typed method+actual MIR/runtime/normal-unwind
+CFG correspondence preserved; diagnostic37649244205 is not a proof. Five extra
+stock ghost locals/blocks and every annotation coordinate are in the design table.
+
+Actual baseline still lacks initialized payloadcell. Stock-projected actual enters
+proof after full36/19 admission and checkedmethod redirect. Both stock opens, proof
+condition split, retained runtime drop at verified/lib.rs60 and both closes61/62
+pass in the recorded prefix. Next blocker: verified/lib.rs63 `mem::forget(guard)`,
+frozen std/lib.rsspec420:41–42 requires nominal
+`<DropOnPanic<*const Element>>.own(t, guard)`, absent. No guard/forget extension;
+STOP at this exact obligation. Current classifier stays INCONCLUSIVE with heuristic
+kind intrinsic_select; rawlog establishes the forget guard-own failure separately.
+Finalreturn/leak/fullnormal-unwind posts not reached; wholehelper/sort4 NOT PROVEN.
+
+Checked method and ghost resource identity lemma are separate from TRUSTED compiler
+raw-pointer drop glue correspondence and frozen stock frontend ghost substitution.
+Existing initializedcell/fullpointervalue/thread/independentframes required, no
+Element rights. Recursive free stub is not a runtime-body theorem. Runtime std,
+signatures/targetcontract unchanged; broader04d67f4b/Drop/guard/forget/assume_init/
+union/refiner/kernel/memory/alias/provenance stay frozen. Further semantic work
+requires a separate owner decision; no additional dispatch authorized at this stop.
+Budget **3954/5400 summed hosted jobseconds used;1446remain**, same budget/noreset,
+noactive. Last two proof orchestration jobs:37654585346=184s,37656621026=202s.
+
+[Design/trust](SORT4-SELECT-POINTER-DESIGN.md), [actual resource trace](SORT4-SELECT-CALLEE.md).
+Historical budgets/next instructions below are historical evidence.
 
 S1/37607108528/sourcef19f077457da722e326f88df362b0d14731987e0,
 profile325af428 unchanged: source/export/decode/refinement PASS, then SAFE prototype
@@ -412,6 +421,8 @@ new run appears. No tool/profile/pre/post semantic change, no new hosted job cos
 | 37648838042 | 8f1b8f44a655fcfde1fd12106d79dbbb58917332 | 65 | 3233 | 2167 |
 | 37649244205 | f6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d | 69 | 3302 | 2098 |
 | 37651717720 | dfc1f1d740689de8f427ac549da558d64a4318eb | 266 | 3568 | 1832 |
+| 37654585346 | f1774d54b0d3ced96724b07aba9acfecb51b1633 | 184 | 3752 | 1648 |
+| 37656621026 | 75681fbc57bda633f59096cdc28f0c1aa61daef8 | 202 | 3954 | 1446 |
 
 Skipped jobs are excluded. At that interim checkpoint iteration484s; no reset, <=1800/job and300/proof.
 First run independently collected all cases and accepted-component regressions;
@@ -524,3 +535,13 @@ innerSHA `ead2a0c8a501becdbf0bbcf6c521d356a3457fb232f5e5a4b09793a618e2c093`,
 
 V3 completion budget:37654585346/f1774d5,184s16:45:53–16:48:57UTC;
 3752/5400used,1648remain. Compact11498401742/full11497209013. No new budget.
+
+S6v4 final evidence37656621026:202s17:07:34–17:10:56UTC,3954used1446remain.
+Fresh full component/regression matrices+19NORMAL intended controls accepted.
+Projected fullsource/refinement/method+36/19 admission and redirectPASS, retained
+runtime drop+stock reclose prefixPASS; next forget guard-own req420/call63 failure.
+STOP, no broader changes. Rawclassification unchanged; no helper/sort4 theorem.
+Compact11500295662, full11500150817, compactinner SHA256
+5ed34fef59d69e3f766186952338c44a09b5016e5caa0e2b601fe0b0b184a549,
+manifest5177/5177 hash/CRC/sizeverified. Effectiveconsole
+799fac7491db7d43e786713ae4ff75427d7e77c227fb4f7438e433b297514cd0.

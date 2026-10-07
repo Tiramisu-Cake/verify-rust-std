@@ -1,68 +1,80 @@
 # `select_unpredictable` actual-callee diagnostic
 
-## Current result — S6v3 component accepted; v4 receiver admission ready
+## Current result — S6v4 accepted; STOP at forget guard-own
 
-[Fresh v3 run37651717720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720),
-source `dfc1f1d740689de8f427ac549da558d64a4318eb`, profile
-`experimental-source-linked-select-pointer-drop-v3`, patch `94ffc64c`, accepts
-narrow drop for payload `*const Element`, receiver `*mut *const Element`:
-2positive+11proofnegative+22admissions. Complete fresh constructor/asptr/intrinsic
-matrices and fourteen stock/experimental baselines passed at this profile.
+Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+[Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
+`experimental-source-linked-select-pointer-drop-v4`, patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
+Constructor/as_mut_ptr/typed intrinsics/narrow pointer drop matrices and14baselines
+PASS freshly; S6 has2positive+11proofnegative+22source/MIR/pin negatives, all on
+intended obligations. All19 independent NORMAL controls reject exactly beforeproof,
+including oldreceiver26→23. Full source/typed method+actual MIR/runtime/normal-unwind
+CFG correspondence preserved; diagnostic37649244205 is not a proof. Five extra
+stock ghost locals/blocks and every annotation coordinate are in the design table.
 
-Actual baseline source/export/decode/refinement/full method+31local14block cert
-and redirect PASS. Body reaches retained runtime drop at `verified/lib.rs(57,14-29)`;
-its precondition fails at `(110,55-58)`:
-`No matching heap chunks: points_to<*Element>(__result2, _)`.
-Thread token/currentThread checks passed. Required resource is the initialized
-pointer cell; empty pointer ownership supplies no permission. Full heap was not
-printed, so other resources are inferred from source/MIR/checked contracts.
+Actual baseline still lacks initialized payloadcell. Stock-projected actual enters
+proof after full36/19 admission and checkedmethod redirect. Both stock opens, proof
+condition split, retained runtime drop at verified/lib.rs60 and both closes61/62
+pass in the recorded prefix. Next blocker: verified/lib.rs63 `mem::forget(guard)`,
+frozen std/lib.rsspec420:41–42 requires nominal
+`<DropOnPanic<*const Element>>.own(t, guard)`, absent. No guard/forget extension;
+STOP at this exact obligation. Current classifier stays INCONCLUSIVE with heuristic
+kind intrinsic_select; rawlog establishes the forget guard-own failure separately.
+Finalreturn/leak/fullnormal-unwind posts not reached; wholehelper/sort4 NOT PROVEN.
 
-Exact derivation to test: constructors preserve wrappers with `inner=some(a/b)`;
-checked `as_mut_ptr` returns each full modeled receiver pointer and preserves its
-wrapper cell. Second intrinsic selects `drop = condition ? false_ptr : true_ptr`.
-Stock `open_MaybeUninit::<*Element>` projects each existing wrapper points-to to
-payload `|-?-> inner`; known `some` should supply initialized `*slot |->` at that
-exact pointer. Split condition to supply the selected cell, frame the other cell/
-thread/reborrow resources, then close wrappers. This is a proof hypothesis; no
-ownership bridge or new Element rights are assumed.
+Checked method and ghost resource identity lemma are separate from TRUSTED compiler
+raw-pointer drop glue correspondence and frozen stock frontend ghost substitution.
+Existing initializedcell/fullpointervalue/thread/independentframes required, no
+Element rights. Recursive free stub is not a runtime-body theorem. Runtime std,
+signatures/targetcontract unchanged; broader04d67f4b/Drop/guard/forget/assume_init/
+union/refiner/kernel/memory/alias/provenance stay frozen. Further semantic work
+requires a separate owner decision; no additional dispatch authorized at this stop.
+Budget **3954/5400 summed hosted jobseconds used;1446remain**, same budget/noreset,
+noactive. Last two proof orchestration jobs:37654585346=184s,37656621026=202s.
 
-Normal/readonly correspondence is pinned to diagnostic37649244205/sourcef6fdf5b
-(export/decode only, NOT proof). Normal36locals19blocks adds precisely five unit
-placeholders; complete runtime+cleanup maps and each regular/explicit coordinate
-are in the [design table](SORT4-SELECT-POINTER-DESIGN.md). Separate exact projected
-certificate/cardfaef1a3 predates code; baseline31/14 unchanged. All ten runtime
-calls and five ghost calls, ordered operations/types/operand flow/results and
-normal/unwind CFG are checked; count-only admission is not used.
+### Actual stock projection: accepted drop prefix and next stop
 
-[Same-v3 completion37654585346](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654585346)
-(sourcef1774d5) authenticated immutable proof/regression/tool identities and kept
-original classifications. Two unchanged coordinate replays plus sixteen NEW
-intended rejects complete all18 NORMAL admission controls. Projected source/export/
-decode/refinement/full36/19+method certificate PASS, then final redirect rejects
-`actual pointer method receiver` before proof: baseline `_23` is hardcoded although
-full projected certificate establishes `_26`. This is not a resource verdict.
+Let Ptrue/Pfalse be the complete modeled pointers returned by the two checked
+as_mut_ptr calls (38/39), equal to their existing wrapper receiver addresses.
+Constructors22/23 supplied each wrappercell with inner=some(true_val/false_val).
+Stock open_MaybeUninit(40/41) consumes `*self |-> wrapper` and produces
+`*(self as *T) |-?-> wrapper.inner()`. Here inner=some(value); frozen
+`points_to<T>(p,value) = points_to_<T>(p,some(value))` supplies the initialized
+payloadcell, without Element ownership or an assumed storage bridge.
+The checked second pointer intrinsic establishes
+`drop = condition ? Pfalse : Ptrue`, preserving the full modeled pointer.
+The proof condition split59 makes the selected existing cell available at that
+exact receiver; the other payloadcell and existing thread/reborrow resources frame
+it. Drop req115 is `thread_token(t) &*& t == currentThread &*& *slot |-> value`;
+post118 returns the same fullvalue/cell/thread, unwind121 is false.
 
-V4 design card a649f96 predates implementation. Only that final guarded checkpoint
-selects `_26` for fully certified projection and `_23` for baseline, patch c7cc08a9.
-All source/runtime/CFG/resource checks remain exact; a new oldreceiver26→23 control
-must fail fullgraph `_26`. New profile requires fresh full component/regression
-matrices and all19 NORMAL controls before actual stock projection. STOP at its
-unprovable resource pre or next substantive blocker.
+Rawlog lines331–365 records both opens returning, split59, actual drop60 call
+checking, auto-close points_to at prelude_core213 and consumption retry at
+verified/lib.rs115:55–58, then continuation and both ordinary stock closes61/62.
+These closes consume initialized cells and restore wrappercell=MaybeUninit::new(value).
+This is the verified call-prefix result. The log does not print per-branch heap or
+condition valuation; no claim of complete path/unwind/return/leak coverage follows.
+Actual method body later in this file was not entered before failure; acceptance
+rests on its fresh same-profile component proof plus exact certified redirect.
 
-Drop preserves full initialized cell value, thread token and independent frames,
-no new Element rights. Compiler raw-pointer drop glue correspondence remains
-separately TRUSTED; checked method/ghost identity lemma do not prove it, recursive
-free stub is not a runtime-body theorem. Frozen stock frontend ghost substitution/
-synthetic-unwind handling is trusted separately and constrained by exact admission.
-No runtime std/signature/target contract, general memory/alias/provenance/refiner/
-kernel/Drop/guard/forget/assume_init/union expansion. Whole helper/sort4 NOT PROVEN.
-Budget **3752/5400 used;1648remain**, no reset/noactive; v4 job capped25minutes.
+Next call63 `crate::mem::forget(guard)` reaches stock generic req420
+`thread_token(?t) &*& <T>.own(t,value)` and fails its nominal guard own:
+`own(select_unpredictable::DropOnPanic_type_info(pointer_typeid(Element_typeid)))(t,
+mk_select_unpredictable::DropOnPanic(get_select_unpredictable::DropOnPanic_inner(
+mk_select_unpredictable::DropOnPanic(__result1))))`.
+A pointer own predicate for inner does not supply this aggregate own predicate.
+This is the exact next blocker, not a failure of drop, and not a generic memory
+impossibility theorem. STOP; guard/forget semantics remain frozen. Existing JSON
+classification INCONCLUSIVE / kind intrinsic_select retained verbatim; the exact
+rawlog obligation is reported separately. Final intrinsic/assume_init/return and
+whole normal/unwind/leak contract remain unproved.
 
 S5j historical correction from [original logs37621751848](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848):
-assume_init readonly export/decode0, refinement1 `RawPtr: not yet supported`,
-bb1command4 original25/verified33. Normal preprocessing separately fails after-tail
-ghostclose. The earlier successful-refinement claim is withdrawn; no read-resource
-proof or ownership/provenance boundary follows from these setup failures.
+readonly export/decode0, refinement1 `RawPtr: not yet supported`, bb1command4
+original25/verified33; normalpreprocessing separately after-tailghostclose failure.
+Earlier successful-refinement claim withdrawn; no readresource/ownership conclusion.
 
 ## Historical O4 result — constructor accepted, as_mut_ptr boundary
 

@@ -4357,3 +4357,29 @@ selection input30/effective cap25, runner reserve120/proof<=300. Before3752used,
 1648remain/noactive. Preimplementation card a649f96 localcommit precedes code.
 Ordinary Git push HTTP500 twice, GitData blob write500; readAPI works, no force.
 Publishing exact ancestor/implementation SHA before any dispatch remains mandatory.
+
+Git push recovered: a649f96 and75681fbc57bda633f59096cdc28f0c1aa61daef8
+published ordinary fast-forward. V4 dispatch37656621026 created17:07:29UTC,
+exactimplementationSHA verified, one relevant hostedrun, input30/effective25min.
+Beforecost3752/5400,1648remain, durationpending. No local executablechecks.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026).
+
+S6v4 final37656621026/source75681fbc57bda633f59096cdc28f0c1aa61daef8,
+202s17:07:34–17:10:56UTC ->3954/5400used,1446remain/noreset/noactive.
+Fresh fullconstructor/asptr/intrinsic/drop matrices+14baselines PASS; drop2+11+22,
+19independent NORMAL negatives intended exact predicates beforeproof incloldreceiver.
+Readonly/source/refinement unchanged; projected full36/19+methodcert/redirectPASS.
+Rawactual prooftrace accepts stockopens40/41, split59, retained runtime drop60
+(req115 initializedcell consumptionretry), closes61/62; firsterror forget(guard)63
+stockreq420 nominal own(DropOnPanic_type_info(pointer_typeid(Element_typeid))).
+Knownsome +existingwrappercells +exactreceiverpointer +stockopen/points_to_ equivalence
+supply droppre; preservedcell/value/thread allowstockreclose. No newElement rights.
+Currentprefix only: no printed branchheap/condition, finalreturn/leak/unwind contract
+unproved. Classifier INCONCLUSIVE/kindintrinsic_select retained; raw exact obligation
+reported separately. STOP at nextguard-own blocker; no guard/forget/memory changes.
+Independent audit fullmatrices/raw19 controls PASS. Compact11500295662/full11500150817,
+innerSHA5ed34fef59d69e3f766186952338c44a09b5016e5caa0e2b601fe0b0b184a549,
+manifest5177/5177hash/CRC/sizeverified. Effectiveconsole799fac7491db7d43e786713ae4ff75427d7e77c227fb4f7438e433b297514cd0;
+exporter/schema/refiner/compiler frozen matching recordedpins. No local executabletests.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026),
+[compact](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026/artifacts/11500295662).

@@ -643,3 +643,74 @@ hosted job at25minutes/1500seconds (workflow timeout and runner cap including
 preparation, reserve120cleanup); keep workflow_dispatch soletrigger and input30
 asexisting allowed selection. Actualjobduration still debited from SAME5400 total,
 no reset/no newbudget. <=300/proof,one relevant hostedrun. No local executablecheck.
+
+### S6v4 final result — STOP
+
+Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+[Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
+`75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
+`experimental-source-linked-select-pointer-drop-v4`, patch
+`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
+Constructor/as_mut_ptr/typed intrinsics/narrow pointer drop matrices and14baselines
+PASS freshly; S6 has2positive+11proofnegative+22source/MIR/pin negatives, all on
+intended obligations. All19 independent NORMAL controls reject exactly beforeproof,
+including oldreceiver26→23. Full source/typed method+actual MIR/runtime/normal-unwind
+CFG correspondence preserved; diagnostic37649244205 is not a proof. Five extra
+stock ghost locals/blocks and every annotation coordinate are in the design table.
+
+Actual baseline still lacks initialized payloadcell. Stock-projected actual enters
+proof after full36/19 admission and checkedmethod redirect. Both stock opens, proof
+condition split, retained runtime drop at verified/lib.rs60 and both closes61/62
+pass in the recorded prefix. Next blocker: verified/lib.rs63 `mem::forget(guard)`,
+frozen std/lib.rsspec420:41–42 requires nominal
+`<DropOnPanic<*const Element>>.own(t, guard)`, absent. No guard/forget extension;
+STOP at this exact obligation. Current classifier stays INCONCLUSIVE with heuristic
+kind intrinsic_select; rawlog establishes the forget guard-own failure separately.
+Finalreturn/leak/fullnormal-unwind posts not reached; wholehelper/sort4 NOT PROVEN.
+
+Checked method and ghost resource identity lemma are separate from TRUSTED compiler
+raw-pointer drop glue correspondence and frozen stock frontend ghost substitution.
+Existing initializedcell/fullpointervalue/thread/independentframes required, no
+Element rights. Recursive free stub is not a runtime-body theorem. Runtime std,
+signatures/targetcontract unchanged; broader04d67f4b/Drop/guard/forget/assume_init/
+union/refiner/kernel/memory/alias/provenance stay frozen. Further semantic work
+requires a separate owner decision; no additional dispatch authorized at this stop.
+Budget **3954/5400 summed hosted jobseconds used;1446remain**, same budget/noreset,
+noactive. Last two proof orchestration jobs:37654585346=184s,37656621026=202s.
+
+### Actual stock projection: accepted drop prefix and next stop
+
+Let Ptrue/Pfalse be the complete modeled pointers returned by the two checked
+as_mut_ptr calls (38/39), equal to their existing wrapper receiver addresses.
+Constructors22/23 supplied each wrappercell with inner=some(true_val/false_val).
+Stock open_MaybeUninit(40/41) consumes `*self |-> wrapper` and produces
+`*(self as *T) |-?-> wrapper.inner()`. Here inner=some(value); frozen
+`points_to<T>(p,value) = points_to_<T>(p,some(value))` supplies the initialized
+payloadcell, without Element ownership or an assumed storage bridge.
+The checked second pointer intrinsic establishes
+`drop = condition ? Pfalse : Ptrue`, preserving the full modeled pointer.
+The proof condition split59 makes the selected existing cell available at that
+exact receiver; the other payloadcell and existing thread/reborrow resources frame
+it. Drop req115 is `thread_token(t) &*& t == currentThread &*& *slot |-> value`;
+post118 returns the same fullvalue/cell/thread, unwind121 is false.
+
+Rawlog lines331–365 records both opens returning, split59, actual drop60 call
+checking, auto-close points_to at prelude_core213 and consumption retry at
+verified/lib.rs115:55–58, then continuation and both ordinary stock closes61/62.
+These closes consume initialized cells and restore wrappercell=MaybeUninit::new(value).
+This is the verified call-prefix result. The log does not print per-branch heap or
+condition valuation; no claim of complete path/unwind/return/leak coverage follows.
+Actual method body later in this file was not entered before failure; acceptance
+rests on its fresh same-profile component proof plus exact certified redirect.
+
+Next call63 `crate::mem::forget(guard)` reaches stock generic req420
+`thread_token(?t) &*& <T>.own(t,value)` and fails its nominal guard own:
+`own(select_unpredictable::DropOnPanic_type_info(pointer_typeid(Element_typeid)))(t,
+mk_select_unpredictable::DropOnPanic(get_select_unpredictable::DropOnPanic_inner(
+mk_select_unpredictable::DropOnPanic(__result1))))`.
+A pointer own predicate for inner does not supply this aggregate own predicate.
+This is the exact next blocker, not a failure of drop, and not a generic memory
+impossibility theorem. STOP; guard/forget semantics remain frozen. Existing JSON
+classification INCONCLUSIVE / kind intrinsic_select retained verbatim; the exact
+rawlog obligation is reported separately. Final intrinsic/assume_init/return and
+whole normal/unwind/leak contract remain unproved.
