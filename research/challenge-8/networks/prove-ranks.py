@@ -19,6 +19,7 @@ import prove
 
 HERE = Path(__file__).resolve().parent
 CORE = HERE / "swo-rank.c"
+LIST_INCLUDE = '//@ #include "list.gh"\n'
 
 
 def domain(n: int) -> str:
@@ -29,7 +30,10 @@ def domain(n: int) -> str:
 
 
 def source_core() -> str:
-    return CORE.read_text()
+    core = CORE.read_text()
+    if core.count(LIST_INCLUDE) != 1:
+        raise RuntimeError("expected exactly one stock list.gh include in SWO core")
+    return core.replace(LIST_INCLUDE, "")
 
 
 def generic_bridge() -> str:
@@ -48,7 +52,7 @@ lemma void swo_rank_application(fixpoint(int, int, bool) rel,
 }
 @*/
 """
-    return prove.RANK_HELPERS + prove.IDENTITY_HELPERS + core + application
+    return LIST_INCLUDE + prove.RANK_HELPERS + prove.IDENTITY_HELPERS + core + application
 
 
 def identity_dag(n: int, pairs: list[tuple[int, int]]) -> tuple[str, list[str], list[tuple[str, str]]]:
@@ -133,13 +137,13 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
                   f"    assert !rel(id{i + 1}, id{i});",
                   f"    assert !rel({id_outputs[i + 1]}, {id_outputs[i]});"]
     lines += [f"    assert {count('id')} == original_count;", "}", "@*/", ""]
-    return (rank_proof + prove.IDENTITY_HELPERS + source_core() + id_dag +
+    return (LIST_INCLUDE + rank_proof + prove.IDENTITY_HELPERS + source_core() + id_dag +
             "\n".join(lines))
 
 
 def negative_missing_equiv_trans() -> tuple[str, dict]:
     # Keep one named body: the old fail-closed negative_gate requires precisely one.
-    definitions = source_core().split("lemma void swo_forall_at", 1)[0] + "@*/\n"
+    definitions = LIST_INCLUDE + source_core().split("lemma void swo_forall_at", 1)[0] + "@*/\n"
     source = definitions + """/*@
 fixpoint bool bad_rel(int x, int y) { return x == 0 && y == 2; }
 lemma void negative_missing_swo_equiv_trans()
@@ -165,7 +169,9 @@ lemma void negative_missing_swo_equiv_trans()
 """
     target_line = next(i for i, line in enumerate(source.splitlines(), 1)
                        if "TARGET_NEGATIVE_ORDER" in line)
-    return source, {"expected_predicate": "false = true", "target_line": target_line,
+    return source, {"expected_predicate":
+                    "bad_rel(1, 2) <==> swo_rank(@bad_rel, cons(0, cons(1, cons(2, nil))), 1) < swo_rank(@bad_rel, cons(0, cons(1, cons(2, nil))), 2)",
+                    "target_line": target_line,
                     "missing_law": "incomparability transitivity",
                     "counterexample": "only 0<2; 0~1 and 1~2 but 0 !~ 2"}
 
