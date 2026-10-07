@@ -1,153 +1,73 @@
-# Accepted merge index geometry, actual Rust transfer open
+# Functional mathematical bidirectional merge
 
-2026-10-07: stock unchanged VeriFast26.09 accepted the complete pure arithmetic
-model of the pinned merge_up/merge_down/bidirectional_merge schedule. This proves
-index-access and cursor-advancement geometry for arbitrary n>=2. No full Rust
-memory safety, ownership, unwind or sorting functionality is established.
+This authorized stage continues from067fb584018760259841210d2cc6c227117798ce
+in the isolated challenge-8/merge worktree, with the original1800 hosted-job
+second budget. Original G2 report preserved in [GEOMETRY-RESULTS.md](GEOMETRY-RESULTS.md),
+original proofSHA b1ed0c22dafec350a64e83675d55350806d77208. Actual Rust OPEN.
 
-Accepted [G2 run37672184476](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37672184476),
-checked/published proof commit `b1ed0c22dafec350a64e83675d55350806d77208`.
-All8 named own ghost lemma bodies match expected/visited; VF0,88statements,
-17return/17leak checks, full normal posts and source integrity. Final entry
-return/leak completes0.652030s. Generated proof-source SHA256
-`4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8`, log
-`f5a2cb78108d732959574541c487ec292673ef15ca726f76d8498d1467d93c9f`.
-No own assumed or bodyless correspondence lemma, no finite length bound.
+## Goal A — ACCEPTED
 
-## Universal domain and proof
+ProofSHA fc4d03d31f92c6d3f3566b0baa506d0a6dec6805,
+[run37677079473](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37677079473).
+Stock unchanged VeriFast26.09 checks19 bodies including all8 original G2 bodies,
+178statements,55return/leak checks, full posts and source integrity.
 
-`mg_entry(n,decisions,residual_left)` requires ONLY n>=2 and an arbitrary
-list<pair<bool,bool>> of length n/2. A pair describes forward-left and
-backward-RIGHT selection; each is the negation of that call's comparator answer.
-All independent Boolean sequences are included. Residual choice is arbitrary,
-which also covers ZST pointer-order uncertainty without mapping it to an index.
+For any n>=2 and arbitrary m=n/2 independent pairs of normal Boolean choices,
+with arbitrary odd residual h, fa_entry assumes only the final scalar guard.
+It proves full G2 access/advance trace; output and chronological write trace of
+length n; one write for every destination p in[0,n), zero outside; tracevalue
+at every such p equals nth(p,output); for any integer occurrence ID q, its
+output count is1 iff0<=q<n and0 otherwise. The distinct original IDs are the
+positions0..n-1; equal keys do not collapse occurrences. No key/order/SWO premise.
 
-Its reusable post exports full `mg_trace_safe(n/2,n%2,0,0,0,decisions,h)`,
-terminal geometry at recursively computed final counts, n=2*(n/2)+n%2,
-n/2>=1 and write_count(decisions,n%2)=n. Full trace recursively fixes each
-current read/copy/write and each next-state relation, not just terminal bounds.
-Own recursive proof is structural induction on the entire arbitrary decision
-list. Stock integer div_rem_nonneg plus explicit remainder case split gives
-m=n/2>=1 and e=n%2 in{0,1}; no decomposition/ordering axiom is added.
+fa_trace records upward copy before downward copy per iteration, then the next
+pair, finally odd copy. fa_output gives natural destination order through
+cons(up,append(recursive_middle,[down])), with the same source at each event
+before advancement. Signed indicator balances telescope for arbitrary choices,
+including crossed source cursor intervals; final scalar equalities cancel the
+residual potential. Thus no unproved remaining-set disjointness in Goal A.
+Proofs are structural induction over arbitrary decision lists, not bounded tests.
 
-Let a count forward-left selections and d count backward-RIGHT selections.
-After k paired iterations,0<=a,d<=k<=m,n=2m+e:
+Negative n2 ds=[(true,false)] copies ID0 twice and never ID1. Scalar guardfails,
+output=[0,0], exact ID0 count2/ID1 count0 established before the intended false
+count1 assertion218cols68-70. Strict classifier accepts intended stage/body/
+line/predicate/column/source and all7 rejection controls. Its source is unchanged
+between A1 and A2; only diagnostic metadata calibration changed.
 
-| Cursor | Initial position | Position after k |
-| --- | ---: | --- |
-| Forward left | 0 | a |
-| Forward right | m | m+k-a |
-| Reverse left | m-1 | m-1-k+d |
-| Reverse right | n-1 | n-1-d |
-| Forward destination | 0 | k |
-| Reverse destination | n-1 | n-1-k |
+## Goal B — IN PROGRESS
 
-For k<m, BOTH comparator source positions, selected copy source and current
-destination are strictly in[0,n). Separate checked helpers establish up and
-down accesses BEFORE their cursor changes. Up advances right by !choice,
-left by choice, dst by1; down decrements right by choice, left by !choice,
-dst by1, matching the actual active operations. Up/down use independent cursors;
-up's progress therefore does not invalidate reverse reads in that iteration.
+Exact rank-key schedule and constructive fixed finite SWO composition drafted
+in functional-order.c / functional-swo.c. Final acceptance pending. No claimed
+sortedness, stability or guard theorem until all bodies and controls pass.
 
-Forward post-cursors may reach boundary n after their last access. Reverse
-left may reach -1 only after the final read; the next operation is endpoint
-wrapping_add(1), not another dereference. Reverse right stays nonnegative.
-For down destination, the proof supplies dst>=1 before ordinary sub(1), and
-its result>=0. Mere validity of the current destination write would not supply
-that ordinary-decrement premise to a standalone helper; the caller discharges it.
+## Evidence and source boundary
 
-At the end, endpoints are d and n-d, both in[0,n], possibly one-past n.
-For even n all paired accesses/updates are checked and no residual read occurs.
-For odd n both remaining candidates a and2m-a are strictly below n, residual
-dst=m is valid, and BOTH possible choices/advances stay within[0,n]. Residual
-destination is not advanced. n=2 and n=3 are included by the same theorem.
+Full pinned SmallSort SHA25632574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959;
+merge_up / merge_down / bidirectional_merge exact signatures and active9/9/30
+statements admitted by unchanged original harness. CertificateSHA256
+f2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7.
+G2 source geometry.c remains4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8;
+A source functional-ids.c20a7d91564bbf49e8f2e8bb0436a7ccc7eec2e7928f6267486a6ab0f291ab814.
+Frozen strict classifier994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4
+unchanged; no proof/run on editing server, no tools/parser/memory/runtime patch.
+Original stocktoolpins in GEOMETRY-RESULTS remain valid.
 
-The trace fixes writes k and n-1-k for exactly m iterations. The separately
-checked mg_destination_regions lemma proves separation of[0,m) and[n-m,n).
-These equations yield their full coverage and the odd sole gap m as mathematical
-corollaries; write_count=n alone is not used as a uniqueness proof.
+Scalar index guard is not identified with actual pointer equality/order,
+especially for ZST. Provenance, usize/byte overflow, initialization, permissions,
+copy/ownership, comparator FnMut effects and panic/unwind require separate Rust
+integration. Conditional mathematical A is no actual Rust safety theorem and
+no public Challenge completion. [Transfer obligations](INTEGRATION.md).
 
-Supplemental scalar-guard lemma: even final equalities hold iff a=d; odd iff
-a+bit(h)=d. If h equals scalar a<d, the odd pass cases are d=a or d=a+1.
-This algebra does NOT assert the actual pointer guard implements those equalities
-for ZST. Bounds are independent of both the guard outcome and sorting laws;
-inconsistent comparator decisions can still cause the source's final panic.
+## Hosted ledger
 
-## Exact pinned source correspondence
+| Run | SHA | Job seconds | Result |
+| --- | --- | ---: | --- |
+| G1 37671730724 | 90872439be953a960aacbb12c79886d6a87e73db |11| Inconclusive remainder/negative metadata |
+| G2 37672184476 | b1ed0c22dafec350a64e83675d55350806d77208 |14| Geometry accepted |
+| A1 37676075230 | a4c46af5f860e5117b0d46b154d32f8c8bfbdc1e |14| Trace recursion termination / negative metadata |
+| A2 37677079473 | fc4d03d31f92c6d3f3566b0baa506d0a6dec6805 |17| Full A accepted |
+| B1 37677923322 | 08d66c14f8a8e1881898dd6f154881829c5121c5 |14| Late nat include parse failure |
+| B2 37678436610 | 7b7dd6e6d57cb7271cbe323fe3cc4369fb9826cb |14| Combined ==! token parse failure |
 
-Full SmallSort SHA256
-`32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
-Hosted admission checks all3 exact generic signatures, ALL active statements
-(9/9/30), operation order and critical source lines, with no extra active call.
-Comparison arguments are right then left; copies precede right/left/dst changes;
-loop executes up then down exactly n/2 times; endpoint/odd/guard order matches.
-The original intrinsics::assume(m!=0) is covered arithmetically by n>=2.
-Actual runtime bytes and generic signatures are unchanged.
-
-Source-admission JSON SHA256
-`f2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7`.
-[Source map](SOURCE-MAP.md) records signatures/body hashes and exact lines.
-This text/order certificate and the pure model do not replace Rust refinement,
-provenance, pointer permissions or callback execution semantics.
-
-## Intended negative controls
-
-All3 negatives use definitions only plus one isolated body. All reach their
-single intended proof-stage false assertion at136 after witness antecedents:
-
-| Error | Witness / false obligation | Exact location |
-| --- | --- | --- |
-| Off-by-one loop read at n | n=2,m=1,k=1,a=0 yields right=2; right<n fails | 136,18-19 |
-| Both forward sources advance | Initial left0,right1 both increment; sum3 differs from required sum2 | 136,37-39 |
-| Wrapped intermediate treated readable | Last down step chooses left0, post left=-1; 0<=left fails | 136,14-16 |
-
-Exact predicates match recorded logs; no failed helper precondition/setup/parser/
-timeout is counted. For EACH case all7 wrong-line/predicate/body/target/column/
-timeout/source classifier controls PASS (21total). Negative source files are
-byte-identical to G1; only expected diagnostic metadata was calibrated in G2.
-Concrete witnesses test detectors; the positive theorem remains unbounded.
-
-## Frozen trust profile and open transfer obligations
-
-Official stock VF26.09 source809de4596839b739dd999f9e462242c835e3af46,
-archive SHA256da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa,
-console SHA256dc672335da76fe1bb06cf7ebca916185c34edb65466df0a937645a437c7f0ecc.
-Frozen accepted networks classifier/prove.py remains byte-identical SHA256
-994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4.
-No verifier/parser/kernel/prelude/refiner/memory-model patch or historical profile.
-
-Geometric comparator domain uses no sortedness/SWO/purity/key-preservation
-premise. Normally returning answers may be arbitrary; a comparator panic stops
-future events and supplies no unwind/ownership theorem. Sorting would separately
-require sorted halves, fixed/preserved key order and faithful normal answers.
-
-[Transfer obligations](INTEGRATION.md): actual usize/layout/isize byte limits;
-same allocation/provenance/alignment and ordinary add/sub range; wrapping
-provenance/re-entry; separate ZST pointer order/equality; source initialized
-readable T and destination writable/disjoint copy permissions; FnMut effects/
-borrow recovery, stale or duplicate temporary ownership and panic/unwind.
-The pinned actual FreezeMarker bound remains, with no new Copy/Freeze constraint.
-None of those actual Rust resources follows from mathematical positions.
-
-## Evidence, budgets and publication
-
-| Experiment | Checked commit | Run | Hosted job seconds | Result |
-| --- | --- | --- | ---: | --- |
-| G1 | 90872439be953a960aacbb12c79886d6a87e73db | [37671730724](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37671730724) | 11 | Inconclusive entry remainder / negative metadata |
-| G2 | b1ed0c22dafec350a64e83675d55350806d77208 | [37672184476](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37672184476) | 14 | Full geometry/negatives accepted |
-
-**25/1800 summed hosted job seconds**,1775unspent; preparation/evidence included,
-skipped jobs0. G2 proof-process wall0.88s,peakRSS66220KiB. No active run.
-[Artifact11505083335](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37672184476/artifacts/11505083335),
-17681bytes, ZIP SHA2560844784ce64fb385aaf365ebbb6020d11442f2e1423a3b360e408b1722a1d35a
-matches upload; full source/log/result/environment/resource evidence inspected.
-All failure/source/log hashes preserved in [journal](EXPERIMENT-LOG.md).
-
-Branch created from exactc22f0a30ed457165e07599e226cee289a270b715 in an isolated
-worktree. Each proof SHA pushed/remote-verified before its single new dispatch.
-Final local/published HEAD adds documentation only after checked b1ed0c2; no
-proof result assigned to that documentation commit. All executable checks hosted.
-No downloaded logs/generated artifacts committed, no branch merge or first-agent
-worktree/branch/common document changes. Networks iteration closed separately:
-SWO/N9/symbolicN13accepted, exactN13adapterOPEN, old budgets1499/1800 and1649/1800
-and proofSHAs04ea220.../7dfc3ed...unchanged; no adapter run/unused-time transfer.
+84/1800 spent,1716remaining including preparation/evidence. No network budget
+reset or transfer; networks closed/exactN13OPEN and other direction untouched.

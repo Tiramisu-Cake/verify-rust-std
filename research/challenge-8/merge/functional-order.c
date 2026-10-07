@@ -43,8 +43,8 @@ fixpoint bool mb_faithful(fixpoint(int,int) key,int m,int e,int k,int a,int d,
     switch(ds) {
         case nil:return true;
         case cons(ch,t):return
-            fst(ch)==!(key(m+k-a)<key(a)) &&
-            snd(ch)==!(key(2*m+e-1-d)<key(m-1-k+d)) &&
+            fst(ch)== !(key(m+k-a)<key(a)) &&
+            snd(ch)== !(key(2*m+e-1-d)<key(m-1-k+d)) &&
             mb_faithful(key,m,e,k+1,a+mg_bit(fst(ch)),d+mg_bit(snd(ch)),t);
     }
 }
@@ -81,7 +81,7 @@ lemma void mb_frontier_step(fixpoint(int,int) key,int m,int e,int k,int a,int d,
     requires mg_inv(m,e,k,a,d)==true && k<m &&
              mb_halves_sorted(key,mb_ids(nat_of_int(2*m+e),0),m)==true &&
              mb_frontiers(key,m,e,k,a,d)==true &&
-             up==!(key(m+k-a)<key(a)) && down==!(key(2*m+e-1-d)<key(m-1-k+d));
+             up== !(key(m+k-a)<key(a)) && down== !(key(2*m+e-1-d)<key(m-1-k+d));
     ensures mb_frontiers(key,m,e,k+1,a+mg_bit(up),d+mg_bit(down))==true;
 {
     int n=2*m+e; int r=m+k-a; int le=m-k+d; int re=n-d;
@@ -144,7 +144,7 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
     requires mg_inv(m,e,k,a,d)==true && k<m &&
              mb_halves_sorted(key,mb_ids(nat_of_int(2*m+e),0),m)==true &&
              mb_frontiers(key,m,e,k,a,d)==true &&
-             up==!(key(m+k-a)<key(a)) && down==!(key(2*m+e-1-d)<key(m-1-k+d));
+             up== !(key(m+k-a)<key(a)) && down== !(key(2*m+e-1-d)<key(m-1-k+d));
     ensures mb_remaining(m,e,k,a,d,fa_up_source(m,k,a,up))==true &&
             mb_remaining(m,e,k,a,d,fa_down_source(m,e,k,d,down))==true &&
             mb_lt(key,fa_up_source(m,k,a,up),fa_down_source(m,e,k,d,down))==true;
@@ -199,7 +199,7 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
 lemma void mb_inner_point(fixpoint(int,int) key,int m,int e,int k,int a,int d,bool up,bool down,int x)
     requires mg_inv(m,e,k,a,d)==true && k<m &&
              mb_halves_sorted(key,mb_ids(nat_of_int(2*m+e),0),m)==true &&
-             up==!(key(m+k-a)<key(a)) && down==!(key(2*m+e-1-d)<key(m-1-k+d)) &&
+             up== !(key(m+k-a)<key(a)) && down== !(key(2*m+e-1-d)<key(m-1-k+d)) &&
              mb_remaining(m,e,k+1,a+mg_bit(up),d+mg_bit(down),x)==true;
     ensures mb_lt(key,fa_up_source(m,k,a,up),x)==true &&
             mb_lt(key,x,fa_down_source(m,e,k,d,down))==true;
@@ -220,7 +220,7 @@ lemma void mb_inner_point(fixpoint(int,int) key,int m,int e,int k,int a,int d,bo
 lemma void mb_inner_all(fixpoint(int,int) key,int m,int e,int k,int a,int d,bool up,bool down,list<int> ids)
     requires mg_inv(m,e,k,a,d)==true && k<m &&
              mb_halves_sorted(key,mb_ids(nat_of_int(2*m+e),0),m)==true &&
-             up==!(key(m+k-a)<key(a)) && down==!(key(2*m+e-1-d)<key(m-1-k+d));
+             up== !(key(m+k-a)<key(a)) && down== !(key(2*m+e-1-d)<key(m-1-k+d));
     ensures forall(ids,(mb_remaining_bound)(key,m,e,k+1,a+mg_bit(up),d+mg_bit(down),
                       true,fa_up_source(m,k,a,up),true,fa_down_source(m,e,k,d,down)))==true;
 {

@@ -177,3 +177,19 @@ of each assembledunit, preserve all body text. Alreadyaccepted G2/A/core hashes
 unchanged. Addedexplicitinteger remaindercase in both Bentrybodies asG2; no
 premise/post changes. SamefullBdomain/posts/negatives/source/tool/limits asB1.
 Anyfailure classified byfirstcausalstage, onlylocalized evidencedrepair next.
+
+## F-B2 result / F-B3 card
+B2 published7b7dd6e6d57cb7271cbe323fe3cc4369fb9826cb,
+[run37678436610](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37678436610),
+job11298790060319:57:54Z–19:58:08Z=14s; cumulative84/1800,1716remaining.
+Positive source75ec378eb4626a876aee65e82b26f9a5efba76da713c09074a1d265001bcd542,
+logfee367fe822a32345fb1cdf2b40d34f0dde62feb79e2cffe19a7a5a0901e85be,
+parse693cols20-23 at combined lexer token ==!,0body/return/leak. Both B negatives
+same syntax252; not intended negatives. Duplicate accepted exact218/7controls.
+B3 hypothesis: lexical whitespace between == and ! admits ordinary intended
+Boolean equality followed by negation; normalize only ownproofsyntax, stock
+parser unchanged. Add explicit checked forward-left/backward-right equivalent
+key sourcechoice laws; no new assumptions to entries. SameBdomain/fullposts/
+source/tool/negativeobligations/limits asB1. Artifact manifest distinguishes
+actualfile hash from exact admittedheader-normalized assemblyhash. No dropped
+body/assertion, and no functional conclusion from prior frontend failures.

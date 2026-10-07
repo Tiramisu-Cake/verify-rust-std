@@ -15,8 +15,8 @@ fixpoint bool ms_faithful(fixpoint(int,int,bool) rel,int m,int e,int k,int a,int
                          list<pair<bool,bool> > ds) {
     switch(ds) {
         case nil:return true;
-        case cons(ch,t):return fst(ch)==!rel(m+k-a,a) &&
-            snd(ch)==!rel(2*m+e-1-d,m-1-k+d) &&
+        case cons(ch,t):return fst(ch)== !rel(m+k-a,a) &&
+            snd(ch)== !rel(2*m+e-1-d,m-1-k+d) &&
             ms_faithful(rel,m,e,k+1,a+mg_bit(fst(ch)),d+mg_bit(snd(ch)),t);
     }
 }
@@ -28,6 +28,21 @@ fixpoint bool ms_sorted(fixpoint(int,int,bool) rel,list<int> xs) {
         case nil:return true;
         case cons(x,t):return forall(t,(ms_ordered_pair)(rel,x)) && ms_sorted(rel,t);
     }
+}
+// A source comparison is rel(right,left), and each helper negates that result.
+// Equivalent immutable keys therefore select the original left occurrence at
+// the front and the original right occurrence at the back.
+lemma void ms_forward_tie(fixpoint(int,int,bool) rel,int m,int k,int a)
+    requires swo_equiv(rel,a,m+k-a)==true;
+    ensures fa_up_source(m,k,a,!rel(m+k-a,a))==a;
+{
+    assert !rel(m+k-a,a);
+}
+lemma void ms_backward_tie(fixpoint(int,int,bool) rel,int m,int e,int k,int d)
+    requires swo_equiv(rel,m-1-k+d,2*m+e-1-d)==true;
+    ensures fa_down_source(m,e,k,d,!rel(2*m+e-1-d,m-1-k+d))==2*m+e-1-d;
+{
+    assert !rel(2*m+e-1-d,m-1-k+d);
 }
 lemma void ms_half_row_bridge(fixpoint(int,int,bool) rel,list<int> domain,int m,int x,list<int> ys)
     requires finite_swo(rel,domain)==true && mem(x,domain)==true &&

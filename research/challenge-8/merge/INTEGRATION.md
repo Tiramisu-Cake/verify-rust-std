@@ -48,3 +48,22 @@ documents explain the intended bridge, not a verified permission/overflow lemma.
 Math n may be unbounded; transfer additionally constrains actual n to usize,
 relates slice allocation/layout limits to every offset and handles zero-sized
 byte displacement separately. No numeric-address rewrite supplies provenance.
+
+## Accepted occurrence output model
+
+Goal A now proves guard-conditional ID permutation, destination coverage and
+exact chronological trace/output correspondence for arbitrary comparison and
+residual answers. See RESULTS for accepted SHA/run. IDs are original input
+positions, one per occurrence; they are independent of keys and of allocation
+addresses. Signed potential permits temporary duplicates and crossed intervals;
+final scalar guard after copies is essential. A negative without it gives[0,0]
+from[0,1]. This result does not supply ownership for those temporary copies or
+panic paths. Scalar/pointer guard realization must be proved separately,
+particularly for ZST whose distinct logical indices may share addresses.
+
+Functional B premises will be one immutable pullback SWO relation on these
+occurrenceIDs, both original halves sorted by it, every normallyreturning exact
+comparator answer matching rel(rightID,leftID), and odd choice matching logical
+left<left_end. Such key/order/fidelity premises belong only to functional B;
+they are absent from the accepted unrestricted geometry and Goal A. Constructive
+rank correspondence must be checked before any B rank theorem is applied.

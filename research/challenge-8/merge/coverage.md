@@ -25,3 +25,17 @@ writecount alone is not a destination uniqueness theorem. Traceequations and
 these bounds yield full evencoverage / oddsolegapm as mathematicalcorollaries.
 Actualinitializeddestination/Townership afterpanic is NOT established.
 Newphase25/1800jobseconds,1775unspent,noactiverun.
+
+## Authorized functional stage
+
+| Obligation | Status / checked evidence | Boundary |
+| --- | --- | --- |
+| Exact chronological ID writes / natural output | A2 accepted SHAfc4d03d31f92c6d3f3566b0baa506d0a6dec6805/run37677079473 | Scalar mathematical events; actual copy/memory OPEN |
+| Every destination exactly once | Arbitrary p: count1 iff0<=p<n; tracevalue equals output nth | Full arbitrary-length induction; no physical init theorem |
+| Every original occurrence exactly once | Arbitrary q: count1 iff0<=q<n under only scalar guard | Arbitrary comparator and odd choice, no SWO/sortedness |
+| Duplicate/loss negative without guard | n2 output[0,0], intended multiplicity assert and7controls accepted | Guard is necessary; panic/copy ownership OPEN |
+| Fixed SWO sorting/stability/guard | B proof pending hosted body acceptance | Requires immutable keys, faithful normal answers and sorted halves |
+| Tie / wrong comparator negatives | Pending intended obligations | Parser failures do not count |
+
+Latest functional ledger in RESULTS/STATUS supersedes initial geometry budget
+checkpoint above; original G2 proof/source/results retained byte-for-byte.
