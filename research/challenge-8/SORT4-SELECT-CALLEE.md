@@ -1,6 +1,23 @@
 # `select_unpredictable` actual-callee diagnostic
 
-## Current result — constructor accepted, as_mut_ptr boundary
+## Current result — S6 pointer drop in progress
+
+Latest accepted baseline is S5k/source128dd56, intrinsic-v2/7bb39a84:
+constructor, SAFE as_mut_ptr and two typed intrinsic rules accepted. Actual helper
+source/export/decode/refinement/full31-local14-block certificate passes; proof
+first stops at drop_in_place57. All original runtime calls and cleanup edges remain.
+[Actual baseline run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376).
+Whole helper and sort4 NOT PROVEN. The owner now authorizes ONLY S6 pointer drop:
+checked method + explicit trusted compiler glue correspondence, initialized pointer
+cell precondition mandatory. Budget2398/5400 used,3002 remain; no active run at entry.
+
+Correction from original S5j logs: assume_init refinement did NOT pass.
+Readonly export/decode0; refiner1 `RawPtr: not yet supported` at bb1command4,
+original25/verified33. Normal preprocessing separately fails after-tail ghostclose.
+No read-resource proof or ownership/provenance boundary follows from those failures.
+[Original S5j run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848).
+
+## Historical O4 result — constructor accepted, as_mut_ptr boundary
 
 [O4/37601511894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37601511894),
 proof source `182ddf29dc73961723bf32be6b65643c524ca927`,

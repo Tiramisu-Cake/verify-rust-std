@@ -3927,8 +3927,10 @@ Completeintrinsic6+10+40/60+10+4 +ctor/asptr/14baselines gateactualON. Selection
 
 S5j result37621751848/2454e86/7bb39a84:190s,total2198/5400. Ctor/asptr/14baseline/
 classifiers PASS; intrinsic6+10 PASS,40admissions run32classifiedPASS/8exactmessage
-mismatch at intended certificate beforeproof. Canonical assume5local4BB source/export/
-decode/refinement PASS; after-tail ghost invalid Rust preprocessing, no read proof.
+mismatch at intended certificate beforeproof. CORRECTED2026-10-07 from original
+S5j logs: canonical assume5local4BB source/export/decode PASS; refinement EXIT1
+RawPtr unsupported bb1command4 original25/verified33. Separately after-tail ghost
+invalid normal Rust preprocessing, no read proof. Earlier refinement-PASS claim wrong.
 GhostSome invalid nested binder, None/unknown initialization requirement reached.
 Compact11481774726/full11482378240 retain raw evidence. No newcomponent accepted.
 S5k BEFORE dispatch: SAMEv2/7bb39a84 domain/fullposts/fullmatrix/actualgraph.

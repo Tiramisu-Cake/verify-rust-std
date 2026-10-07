@@ -77,3 +77,13 @@ complete with first actual blocker drop_in_place57. No helper theorem or semanti
 resource boundary established. Budget2398/5400 remains in this phase,3002left,
 no active/queued runs. Further semantic work stays FROZEN until owner changes it.
 [Replay results/artifact](SORT4-SELECT-POINTER-RESULTS.md).
+
+
+2026-10-07 owner resumes ONLY S6 pointer drop from bea6248. The semantic freeze
+is lifted only for payload *const Element/receiver *mut *const Element checked
+method and narrow trusted compiler glue, with full initialized-cell preservation
+contract. Same budget2398/5400 used,3002 remain; no reset. Full independent S6
+matrix and same-profile regressions precede actual integration; STOP at inability
+to derive drop pre or next actual blocker. General Drop/guard/forget/assume-init,
+04d67f4b draft, union/refinement/kernel/memory/alias/provenance remain frozen.
+Trust review and experiment card committed717b1b6 before implementation.

@@ -16,9 +16,10 @@ body proof. Complete modeled value/inner/state and caller frame/thread preserved
 Actual source-linked helper full31local14BB gate/refinement/3translations PASS;
 body first stops at drop_in_place57, final return/leak/normal-unwind posts NOT PROVEN.
 Drop/guard/forget/assume_init unaccepted; source-linked assume read-resource hypothesis
-NOT RUN (tail annotation failure S5j, RawPtr refiner/union frontend failure S5k).
-No semantic boundary declared; kernel/refiner unchanged. Extension temporarily
-FROZEN; S5r2/37626031885 sameprofile S5j replay accepted with exactly8
+NOT RUN (S5j readonly refiner1 RawPtr1:4 plus normal tail-annotation failure;
+S5k RawPtr refiner/union frontend failure). No semantic boundary declared;
+kernel/refiner unchanged. Owner resumes ONLY S6 pointer drop with mandatory
+initialized-cell pre/full-value preservation; other extensions FROZEN; S5r2/37626031885 sameprofile S5j replay accepted with exactly8
 message corrections, original classifications retained. No new proof execution.
 [Results and compact evidence inclO4](SORT4-SELECT-POINTER-RESULTS.md),
 [design/dependency map](SORT4-SELECT-POINTER-DESIGN.md). Fullhelper/sort4 NOT PROVEN;

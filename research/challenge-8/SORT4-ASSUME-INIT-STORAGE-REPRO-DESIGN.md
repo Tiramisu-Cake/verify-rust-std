@@ -265,7 +265,9 @@ assume source/MIR admissions precede any resource-boundary conclusion.
 Latest user correction: semantic expansion FROZEN. Draft04d67f4b and incomplete
 controls saved under `drafts/select-pointer-frozen/`, not the active patch chain.
 S5j/2454e86 normal preprocessing failed from a ghost statement after tail `.read()`;
-readonly export/refinement did not exercise that annotated Rust body. After removal,
+readonly export/decode passed but its original refinement already failed EXIT1
+`RawPtr: not yet supported` at bb1 command4 (original25/verified33). It did not
+exercise normal ghost preprocessing. After removal,
 S5k/128dd56 normal refiner fails `RawPtr: not yet supported` at bb1 command4,
 original25/verified33, despite equal command dumps. Normal VF also reports
 `Todo: AdtDef::Union` before body. Profile remains7bb/v2 and refiner unchanged.

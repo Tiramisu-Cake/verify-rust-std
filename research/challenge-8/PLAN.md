@@ -4,11 +4,13 @@ New current [pointer select completion phase](SORT4-SELECT-POINTER-PHASE.md) is
 IN PROGRESS, authorized2026-10-07 atcd44e1bb;new5400jobseconds,oldbudgetretired.
 Accepted as_mut_ptr and typed intrinsic components; S5k same frozen7bb/v2 profile
 reaches actual helper drop_in_place after full source/MIR/refinement gate.
-Latest user priority: freeze semantic extension, replay S5j stored proofs with exact
-classification corrections and regressions, no build/proof repeat or cross-profile
-transfer. Drop/assume diagnostics independent, source-linked read-resource hypothesis
-NOT RUN because annotation/refinement/frontend fail. Preserve NOT RUN drafts;
-no change to refiner semantics without separate decision. Budget2398/5400 used,3002 remain in this phase; replay completedS5r2. Compact evidence inclO4 available in results.
+Latest user priority2026-10-07: resume ONLY S6 pointer drop from bea6248,
+checked method + explicit narrow trusted compiler glue with initialized-cell
+pre/full-value-thread-frame preservation/nounwind. Full independent matrix and
+accepted-component regressions in drop-v1 precede actual integration; stop at
+unprovable drop precondition or next actual blocker. 04d67f4b/assume/guard/forget/
+general Drop/union/refiner/kernel/memory remain frozen. Budget2398/5400 used,
+3002 remain, no reset. Prior replay acceptance and original evidence preserved.
 [STATUS](STATUS.md) is authoritative. Prior roadmap below is historical.
 
 Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is **CLOSED**,

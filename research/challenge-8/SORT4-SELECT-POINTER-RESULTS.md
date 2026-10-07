@@ -200,8 +200,10 @@ Full ctor/asptr/classifiers/14 baselines PASS. Intrinsic6positive+10proofnegativ
 PASS, all40 admissions ran;32classifiedPASS,8 exact-fatal mismatches only.
 Raw logs confirm all40 correct certificate rejection before proof, source/export/
 decode/refinement/mutation integrity. These mismatches do not yet accept component.
-Canonical assume source/export/decode/refinement PASS (5locals/4BB); VF preprocessor
-rejects ghost close after tail read. GhostSome pre nested binder rejected; None/
+Corrected from original S5j logs: canonical readonly source/export/decode PASS
+(5locals/4BB), but refinement EXIT1: `RawPtr: not yet supported` at bb1 command4,
+original25/verified33. Normal VF preprocessing separately rejects ghost close
+after tail read; body NOT entered. The earlier refinement-PASS claim was wrong. GhostSome pre nested binder rejected; None/
 unknown reached initialization requirement but expected error-location wrong.
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848),
 [compact11481774726](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11481774726),

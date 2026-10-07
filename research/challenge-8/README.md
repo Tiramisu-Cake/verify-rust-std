@@ -10,7 +10,9 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 [Design/dependency map](SORT4-SELECT-POINTER-DESIGN.md),
 [results/compact evidence](SORT4-SELECT-POINTER-RESULTS.md): S4b accepts SAFE
 as_mut_ptr body/model; S5k accepts typed intrinsics and actual helper reaches
-drop_in_place. Semantic extension FROZEN; exactsameprofile S5j replay accepted S5r2 (no build/proof execution).
+drop_in_place. Owner resumes ONLY S6 pointer drop with initialized-cell contract
+and explicit compiler-glue trust boundary; other semantic directions remain frozen.
+Exactsameprofile S5j replay accepted S5r2 (no build/proof execution).
 RAPx CLOSED/NO-GO; B/C NOT RUN, fullhelper/sort4 NOT PROVEN. STATUS is authoritative.
 The following pointer-ownership closeout is historical.
 
