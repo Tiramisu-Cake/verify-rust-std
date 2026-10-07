@@ -1,8 +1,16 @@
 # Overnight actual-helper candidates
 
-Status: source fixtures and a hosted driver are prepared, **no VF26.10 proof
-run has been attributed to these files**. This directory is an independent
-component. `BEFORE.md` records the obligation, trust boundary and controls;
+Status: hosted O4/O5 diagnostics exist; G1 and A1 remain **unaccepted**.
+O4 run 37702049156 and O5 run 37702922138 show the two G1 framed-call
+positives reach return/leak checks but fail mandatory dead-code at the
+synthetic callee-unwind successor. The next G1 positives place the exact
+generic forget body directly inside the framed probe; any verified result
+will establish the framed body property, not the separate call linkage.
+The G1 precondition does not contain `<T>.own`; a positive is **value/frame
+evidence only**, not a SAFE generic-forget ownership contract or a nominal
+DropOnPanic forget summary.
+This directory is an independent component. `BEFORE.md` records the
+obligation, trust boundary and controls;
 `../OVERNIGHT-GUARD-DESIGN.md` explains the resource protocol.
 
 Run only in the pinned GitHub-hosted checkout with the same configured
@@ -14,7 +22,8 @@ python3 research/challenge-8/overnight-helper/check-helper.py \
   --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
   --compiler-sysroot "$compiler_sysroot" \
   --evidence "$ev/helper" \
-  --deadline-epoch "$deadline"
+  --deadline-epoch "$deadline" \
+  --a1-primitive-matrix
 ```
 
 `--s6-specs` supplies the exact ordered timed preamble names, comma separated;
@@ -25,7 +34,10 @@ full matrix flags true. `--actual-capture` adds unchanged actual
 `select_unpredictable<*const Element>` source and complete typed MIR capture.
 
 The driver captures A1 method and separate local `transmute_neo` first, then
-checks G1 variants. Every case records original/verified sources, source pins,
+optionally checks the direct-body primitive matrix and G1 variants. The
+primitive matrix includes type-rejection controls; its first run records
+unreviewed failure locations and cannot mark a component accepted. Every
+case records original/verified sources, source pins,
 NORMAL/readonly exported binaries and decoded MIR, full verifier log and
 refinement log when export succeeds. It stops stage execution near the passed
 deadline and keeps partial results `INCONCLUSIVE`. `summary.json` never marks
@@ -34,10 +46,11 @@ either component accepted. G1 positive evidence is labeled
 specified proof/leak/dead-code obligation. Location/message mappings are
 deliberately strict and may need correction from first hosted evidence.
 
-A1 `capture.json` and `adapter-full-mir.txt` are **unreviewed**. The
-`prepare-assume-init-2610.py check` command requires a separately reviewed
+A1 O4 captures have independently reviewed **prepatch** full-record manifests
+for both local bodies. The `prepare-assume-init-2610.py check` command
+requires a separately reviewed
 manifest that pins the entire decoded method record hash and source. This
-capture/check does not implement compiler `transmute_unchecked`, assert that
+source/MIR admission check does not implement compiler `transmute_unchecked`, assert that
 an uninitialized wrapper contains a pointer, or prove the actual helper.
 `test-helper-certificates.py` provides hosted tamper controls for source pairs,
 separate annotation clauses and full-MIR manifest rejection. It is independent

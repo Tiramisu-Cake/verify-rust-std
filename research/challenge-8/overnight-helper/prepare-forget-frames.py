@@ -160,14 +160,20 @@ def probe(variant: str, annotated: bool) -> bytes:
                      b";\non_unwind_ens false;")
     if not annotated:
         contract = strip_ghost(contract)
-    body = b"{\n    unsafe { checked_forget_generic(t); }\n"
-    if variant == "assert_false" and annotated:
-        body += b"    //@ assert false;\n"
-    body += b"}\n"
+    # The two positive frame obligations use the exact forget runtime body
+    # in this function.  Calling the separate checked helper would leave a
+    # synthetic `unwind=continue` successor which VeriFast's mandatory
+    # dead-code gate rejects even when its false-unwind contract is proved.
+    # The call linkage is a distinct, still-open obligation.
+    if variant in POSITIVES:
+        body = FORGET_BODY + b"\n"
+    else:
+        body = b"{\n    unsafe { checked_forget_generic(t); }\n"
+        if variant == "assert_false" and annotated:
+            body += b"    //@ assert false;\n"
+        body += b"}\n"
     extra = b", frame2: *mut bool" if two else b""
-    # A private, uncalled probe is itself rejected by VeriFast's mandatory
-    # dead-code gate even after its body and leak checks pass.  Public here
-    # makes the contract an externally callable proof obligation.
+    # Public entry permits an external caller to rely on this proved contract.
     return (b"pub unsafe fn checked_forget_frame_probe<T, Element>(\n"
             b"    t: T, slot: *mut *const Element, frame: *mut bool" + extra +
             b"\n)\n" + contract + body)
@@ -176,13 +182,22 @@ def probe(variant: str, annotated: bool) -> bytes:
 def fixture(variant: str) -> tuple[bytes, bytes, dict]:
     require(variant in VARIANTS, "unknown forget/frame variant")
     header = b"use std::mem::ManuallyDrop;\n\n"
-    verified = header + helper(variant, True) + b"\n" + probe(variant, True)
-    original = header + helper(variant, False) + b"\n" + probe(variant, False)
+    if variant in POSITIVES:
+        # Keep the independently proved generic callee in the negative/call
+        # fixtures.  An uncalled private callee here would itself be rejected
+        # by the mandatory dead-code gate.
+        verified = header + probe(variant, True)
+        original = header + probe(variant, False)
+    else:
+        verified = header + helper(variant, True) + b"\n" + probe(variant, True)
+        original = header + helper(variant, False) + b"\n" + probe(variant, False)
     require(strip_ghost(verified) == original,
             "ghost stripping changed runtime fixture")
-    require(original.count(FORGET_BODY) == 1 and
-            original.count(b"checked_forget_generic(t)") == 1,
-            "exact generic forget body/call is not unique")
+    body_count = 1
+    call_count = 0 if variant in POSITIVES else 1
+    require(original.count(FORGET_BODY) == body_count and
+            original.count(b"checked_forget_generic(t)") == call_count,
+            "exact generic forget body/call inventory changed")
     return original, verified, {
         "variant": variant,
         "expected": "full verifier PASS" if variant in POSITIVES
@@ -207,6 +222,8 @@ def fixture(variant: str) -> tuple[bytes, bytes, dict]:
         "generic_argument": "unrestricted sized T",
         "element_rights": False,
         "actual_call_redirect": False,
+        "positive_is_direct_body_frame_proof": variant in POSITIVES,
+        "separate_call_linkage_proved": False,
         "original_sha256": digest(original),
         "verified_sha256": digest(verified),
         "ghost_strip_identity": True,

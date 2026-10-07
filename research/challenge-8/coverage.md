@@ -429,3 +429,14 @@ unsafe forget adapter full proof,5positives/4falsepost/2deadcodecontrols; source
 unchanged, reachable unwind/shared cleanup verified. Trust: stock MD identity and
 destructor suppression; not safe generic forget/actual select/sort4. OldS7c remains
 UNACCEPTED. [Phase/evidence](OVERNIGHT-SELECT-SORT4-26.10.md).
+
+### Overnight S6 26.10 separate components
+
+O3 proof1378f0ffc8342233349fae3df5a938c4a021c8d7/run37700450091:
+constructor/asptr/two typedintrinsics/pointerdrop separatecontracts accepted after
+full positive/proofnegative/source/MIR/pin/native regressions and full log audit.
+Profile console36a769ab, S6patch20f7d07a+CFG593d0940, spec3c035910;
+exporter/refiner/schema unchanged stock. Compiler glue/source-copy/typed intrinsic
+correspondences TRUSTED; compiler_glue_body_proved=false. Actualcallee NOT_RUN
+in S6matrix; helper/sort4 notclosed. O6 only actualconstructor callslinked tochecked
+localbody, later unsupportedasptr; no full helper claim. Old S6/S7c unchanged.

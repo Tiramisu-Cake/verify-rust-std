@@ -1,0 +1,19 @@
+{
+  "reviewed": true,
+  "reviewed_by": "overnight helper source/MIR review of hosted run 37702049156",
+  "reviewed_run": 37702049156,
+  "proof_sha": "86e84ace",
+  "target": "transmute",
+  "adapter_defpath": "checked_transmute_neo_pointer",
+  "adapter_full_mir_sha256": "743990d692c78f43b786768f777ea4b7063178732ac8fec119e6e2d26d44d9ea",
+  "expected_calls": [],
+  "expected_cast_kind": "transmute",
+  "typed_pointer_only": true,
+  "source_sha256": {
+    "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+    "library/core/src/mem/manually_drop.rs": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+    "library/core/src/mem/mod.rs": "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2",
+    "library/core/src/intrinsics/mod.rs": "de4a6d2afbd1d9f725222c1f4d95a107b8202586b952ce2a619a054c6f2f1865"
+  },
+  "classification": "SOURCE_AND_PREPATCH_MIR_APPLICABILITY_ONLY; NO PROOF"
+}

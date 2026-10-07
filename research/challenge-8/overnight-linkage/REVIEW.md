@@ -82,3 +82,150 @@ python3 research/challenge-8/overnight-linkage/check-constructor-linkage.py \
   --evidence "$ev/constructor-linkage" \
   --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))"
 ~~~
+
+## O6 result and classifier repair
+
+O6 run `37703486878`, proof SHA `40c66d4e`, used the accepted S6 console
+unchanged. Its positive case passed NORMAL/readonly export/decode and
+refinement, certified the exact local constructor MIR/source, verified its
+return and leak checks, redirected both actual `new` calls (`2/2`), and entered
+the unchanged actual body. The first remaining error moved to
+`No such function: std::mem::MaybeUninit::<T>::as_mut_ptr` at verified line 65.
+This is `CONSTRUCTOR_LINKED_DIAGNOSTIC`; the helper is not proved. The
+`wrong_active_field` control rejected at its intended source certificate.
+
+O6 originally classified `extra_union_field` `INCONCLUSIVE` despite export,
+decode and refinement exit zero, verifier exit two, no proof entry, and a single
+fatal certificate error. Its actual first reason was `certified union fields or
+types differ`, from the typed ADT field check, while the classifier expected
+the later source-text reason `local union fields differ from repository`.
+This is a reason-order change, not a weakening: the mutated extra field is
+still rejected before proof. The local classifier now pins the **observed exact
+earlier reason**. O6's original outcome remains recorded as `INCONCLUSIVE`;
+the repaired classifier requires a fresh hosted result before calling its
+three-case matrix accepted.
+
+## Next component: actual `as_mut_ptr` linkage — before implementation
+
+The O6 complete actual MIR has two calls with def path
+`std::mem::MaybeUninit::<T>::as_mut_ptr`, the sole `*const Element` type
+argument and one erased lifetime each. Their moved receiver locals are `_9`
+and `_11`, respectively, matching the existing S6 actual-call gate. The calls
+retain `unwindAction=continue` and successors 3/4 in the observed NORMAL
+graph. The accepted local as_mut_ptr adapter has a source-pinned two-cast body,
+full five-local typed-MIR certificate, pointer-cell/defined-value ownership
+contract and 17/17 source/MIR admissions in O3. It does not read the
+MaybeUninit value or grant `Element` rights.
+
+The next fixture should keep the O6 constructor module, add the exact O3 local
+as_mut_ptr adapter **before** the unchanged actual body, and activate the same
+`SORT4_MAYBEUNINIT_REPO_ROOT` gate. The S6 translator certifies both local
+bodies and demands two constructor and two as_mut_ptr redirects, including the
+actual receiver locals `_9`/`_11`; no new translator patch is justified by the
+observed graph. Require both adapters' local proof return/leak checks, all four
+redirects, NORMAL/readonly export/decode, refinement, source hashes, and the
+exact actual body. The expected next missing operation is typed intrinsic
+selection, but any different first error is diagnostic. Auxiliary as_mut_ptr
+body and source/typed-MIR mutants must reject before proof. The constructor
+source controls continue independently. This stage still proves no whole
+actual helper postcondition, ownership of DropOnPanic, or SAFE forget.
+
+## Implemented `as_mut_ptr` linkage diagnostic
+
+`check-asptr-linkage.py` composes the unchanged actual body with the O6
+constructor and the O3 source-certified local `as_mut_ptr` helper. It imports
+the accepted S6 source builder, retains its exact source mutation logic, and
+uses the existing S6 translator gates. The positive requires both complete
+local MIR/source certificates, local return and leak checks, exactly two
+constructor redirects and two as_mut_ptr redirects, and the first remaining
+typed-intrinsic error after entry into the actual body. The sole auxiliary
+negative mutates the two-cast operand and requires the exact pre-proof S6
+source-certificate rejection. Both cases preserve equal original/runtime and
+verified/ghost-stripped Rust, full NORMAL/readonly MIR, and refinement.
+The result is diagnostic even if its classifier passes: neither the actual
+helper nor DropOnPanic/forget resources are proved by this fixture.
+
+Static Python AST parsing and `git diff --check` pass. This script has not
+been executed on the server. Hosted invocation after the S6 console build:
+
+~~~bash
+python3 research/challenge-8/overnight-linkage/check-asptr-linkage.py \
+  --tool-home "$source_home" \
+  --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
+  --compiler-sysroot "$compiler_sysroot" \
+  --evidence "$ev/asptr-linkage" \
+  --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))"
+~~~
+
+## Next components: actual typed select and pointer drop — before implementation
+
+The O6 complete actual MIR contains two intrinsic selects specialized to
+`*mut *const Element`, in blocks 4/5 with no unwind, and one specialized to
+`MaybeUninit<*const Element>` in block 8 with no unwind. S6's intrinsic gate
+has an actual-only branch requiring exactly one pinned actual body and **no**
+local intrinsic adapters. It certifies the std intrinsic fallback source,
+`rustc_intrinsic`/`rustc_nounwind` declaration, the nominal `DropOnPanic` ADT,
+and every actual local, statement, call, successor and cleanup block before
+admitting the typed compiler value rule. Its two separately checked local O3
+adapters corroborate these pointer and wrapper rules, but the compiler
+intrinsic's correspondence to Rust remains trusted. Inserting those adapters
+into the actual fixture would violate the existing exact actual branch.
+
+The same MIR has an actual `*mut *const Element::drop_in_place` call in block
+6, normal successor 7, unwind cleanup 13. S6's pointer-drop gate requires
+one local unsafe `sort4_checked_pointer_drop` body, source-specialized from
+the pinned `mut_ptr.rs` method, and the pinned `ptr/mod.rs` free function and
+compiler `drop_glue` mapping. The accepted O3 method proof requires an
+initialized pointer-valued cell and returns that cell plus thread without
+unwind. The actual redirect is allowed only after the local typed method MIR
+and source certificate pass; it is expected once, with one modeled compiler
+glue call. This rule owns no `Element` pointee. It does not prove the nominal
+guard's Drop implementation or create its missing resource invariant.
+
+The proposed diagnostic keeps the constructor/as_mut_ptr fixture and exact
+actual body. First run only the intrinsic gate and require the complete actual
+MIR certificate and counts `ptr=2, wrapper=1`. Then add only the certified
+pointer-drop method and activate its gate, requiring local method return/leak,
+one glue and one actual redirect; a source-operand mutant must be rejected by
+the exact certificate before proof. Each case records NORMAL/readonly complete
+MIR, all stages, source hashes and first verifier error. The intended next
+unsupported call after both gates is `std::mem::forget`, but an earlier missing
+ownership chunk in the actual guard path is a meaningful blocker, not a
+negative control. No ghost `guard.own=true` bridge, cleanup deletion or
+assumption about successful actual-call resources is authorized by this
+diagnostic. No whole helper claim follows from translation counts alone.
+
+The eventual actual-helper normal post must preserve the caller thread and
+return the selected input pointer (`condition ? true_val : false_val`) while
+accounting for the actual initialized wrapper cells and nominal guard's
+destruction/forget rights; no `Element` pointee permission may be fabricated.
+An eventual no-unwind post must be justified from each pinned callee and the
+real cleanup graph, including the common block 13 from pointer drop, forget
+and assume_init. These posts are **outside** the diagnostic classifier; its
+acceptance means source/type/CFG linkage and local callee proofs only.
+
+`check-intrinsic-drop-linkage.py` implements these three isolated hosted cases.
+The first has constructor/as_mut_ptr plus the actual typed-intrinsic gate. The
+second adds the exact O3 pointer-drop method. The third mutates only its
+auxiliary call operand and requires the exact source certificate rejection
+before any function proof. Positive classifications require the intrinsic
+source and complete actual MIR gate, typed `2+1` call count, earlier `2+2`
+redirects and local proof checks. The pointer-drop case also requires its
+complete local MIR gate, local return/leak checks, one modeled glue call and
+one actual method redirect. It records the first actual verification error
+without interpreting it as an intended negative; a later ownership error
+does not count as a complete helper proof. All variants retain the unchanged
+actual Rust body and original/verified runtime identity. This script uses no
+new translator patch. Python AST parsing and `git diff --check` passed; no
+executable stages ran on the server.
+
+Hosted invocation after the as_mut_ptr result has been inspected:
+
+~~~bash
+python3 research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py \
+  --tool-home "$source_home" \
+  --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" \
+  --compiler-sysroot "$compiler_sysroot" \
+  --evidence "$ev/intrinsic-drop-linkage" \
+  --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))"
+~~~

@@ -410,20 +410,32 @@ def check_mir(decoded_path: Path, manifest_path: Path, repo: Path) -> dict:
     require(manifest.get("reviewed") is True and
             manifest.get("reviewed_by") and
             manifest.get("source_sha256") == source["source_sha256"] and
-            manifest.get("typed_pointer_only") is True,
+            manifest.get("typed_pointer_only") is True and
+            manifest.get("target") in {"method", "transmute"},
             "reviewed applicability manifest is incomplete")
     decoded = decoded_path.read_text(errors="strict")
-    defpath, body = complete_function_record(decoded, ADAPTER_NAME)
+    target = manifest["target"]
+    name = ADAPTER_NAME if target == "method" else TRANSMUTE_ADAPTER_NAME
+    defpath, body = complete_function_record(decoded, name)
     require(defpath == manifest.get("adapter_defpath") and
             digest(body.encode()) == manifest.get("adapter_full_mir_sha256"),
             "complete adapter typed MIR differs from reviewed manifest")
-    require(manifest.get("expected_calls") == ["assert_inhabited", "transmute_neo"] and
-            all(body.count(name) == 1 for name in manifest["expected_calls"]),
-            "adapter call inventory differs")
-    require("transmute_unchecked" not in body,
-            "adapter MIR unexpectedly inlined compiler transmute")
+    if target == "method":
+        require(manifest.get("expected_calls") ==
+                ["assert_inhabited", "transmute_neo"] and
+                all(body.count(callee) == 1 for callee in manifest["expected_calls"]) and
+                "transmute_unchecked" not in body,
+                "method call inventory differs")
+    else:
+        require(manifest.get("expected_calls") == [] and
+                manifest.get("expected_cast_kind") == "transmute" and
+                body.count("kind = (transmute = void)") == 1 and
+                "boxDerefTransmute" not in body and
+                "assert_inhabited" not in body,
+                "transmute body inventory differs")
     return {
         "classification": "FULL_MIR_APPLICABILITY_ONLY",
+        "target": target,
         "adapter_defpath": defpath,
         "adapter_full_mir_sha256": digest(body.encode()),
         "source_sha256": SOURCE_SHA,

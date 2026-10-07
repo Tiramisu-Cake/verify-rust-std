@@ -41,6 +41,8 @@ REPO = HERE.parents[2]
 G1 = load(HERE / "prepare-forget-frames.py", "overnight_g1_driver")
 A1 = load(HERE / "prepare-assume-init-2610.py", "overnight_a1_driver")
 ACTUAL = load(HERE / "prepare-actual-helper-capture.py", "overnight_actual_driver")
+PRIMITIVE = load(HERE / "prepare-a1-primitive-matrix.py",
+                 "overnight_a1_primitive_driver")
 CLASSIFIER = load(HERE.parent / "forget-evidence-classifier.py",
                   "overnight_forget_strict_classifier")
 STAGE_NAMES = (
@@ -219,9 +221,10 @@ def classify_g1(case: Path, stages: dict, variant: str,
         case / "full-verification.log").exists() else ""
     timed = CLASSIFIER.timed_functions(log)
     names = [item.function for item in timed]
-    expected = [*s6_specs, "checked_forget_generic"]
-    if variant not in {"thread_loss", "thread_duplication",
-                       "contradictory_pre"}:
+    expected = [*s6_specs]
+    if variant not in G1.POSITIVES:
+        expected.append("checked_forget_generic")
+    if variant not in {"thread_loss", "thread_duplication"}:
         expected.append("checked_forget_frame_probe")
     obligation = negative_obligation(variant, verified)
     errors = error_info(log)
@@ -277,6 +280,56 @@ def classify_g1(case: Path, stages: dict, variant: str,
     }
 
 
+def classify_a1_primitive(case: Path, stages: dict, variant: str,
+                          s6_specs: tuple[str, ...]) -> dict:
+    original = (case / "original/lib.rs").read_bytes()
+    verified = (case / "verified/lib.rs").read_bytes()
+    fixture = json.loads((case / "fixture.json").read_text())
+    frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
+        "readonly-export", "readonly-decode", "normal-export",
+        "normal-decode", "refinement"))
+    source_ok = (A1.strip_ghost(verified) == original and
+                 digest(verified) == fixture["verified_sha256"] and
+                 digest(original) == fixture["original_sha256"] and
+                 all(record.get("source_unchanged") for record in stages.values()
+                     if record.get("status") == "RAN"))
+    verifier = stages.get("full-verification", {})
+    log = (case / "full-verification.log").read_text(errors="replace") if (
+        case / "full-verification.log").exists() else ""
+    timed = CLASSIFIER.timed_functions(log)
+    names = [item.function for item in timed]
+    expected = [*s6_specs, A1.TRANSMUTE_ADAPTER_NAME]
+    errors = error_info(log)
+    no_setup = (frontend and source_ok and verifier.get("exit") is not None and
+                names == expected)
+    full_body = (no_setup and all(item.body_execution_seen and item.return_seen
+                                  and item.leak_check_seen for item in timed))
+    positive = (variant in PRIMITIVE.POSITIVES and full_body and
+                verifier["exit"] == 0 and not errors and
+                "dead code" not in log.lower())
+    negative_reached = (variant in PRIMITIVE.NEGATIVES and no_setup and
+                        verifier["exit"] == 1 and len(errors) == 1)
+    # Initial hosted capture determines the exact predicate/span for each
+    # negative.  No negative is accepted from an unreviewed failure location.
+    return {
+        "variant": variant,
+        "classification": "EXPERIMENTAL_POSITIVE_UNREVIEWED_MIR" if positive else
+                          "PROOF_FAILURE_UNREVIEWED" if negative_reached else
+                          "INCONCLUSIVE",
+        "accepted_component": False,
+        "actual_call_linkage": False,
+        "source_integrity": source_ok,
+        "frontend_refinement": frontend,
+        "expected_timed_functions": expected,
+        "actual_timed_functions": names,
+        "first_error": errors[0] if errors else None,
+        "error_count": len(errors),
+        "verifier_exit": verifier.get("exit"),
+        "full_body_return_leak_seen": full_body,
+        "stages": stages,
+    }
+
+
 def run_all(args) -> dict:
     require(os.environ.get("GITHUB_ACTIONS") == "true" and
             os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted" and
@@ -293,7 +346,9 @@ def run_all(args) -> dict:
             "G1 variant list invalid")
     s6_specs = tuple(args.s6_specs.split(",")) if args.s6_specs else G1_PREAMBLE_DEFAULT
     require(len(set(s6_specs)) == len(s6_specs), "S6 expected header list duplicated")
-    results: dict[str, object] = {"g1": [], "a1": {}, "actual": None}
+    results: dict[str, object] = {"g1": [], "a1": {},
+                                  "a1_primitive": [], "a1_type_controls": [],
+                                  "actual": None}
     # Capture both new std dependencies first; a long G1 negative matrix must
     # not consume the entire single hosted job before their MIR is recorded.
     for target in ("method", "transmute"):
@@ -311,9 +366,15 @@ def run_all(args) -> dict:
             if stages.get("normal-decode", {}).get("exit") == 0:
                 capture = A1.capture_mir(case / "normal-mir.txt",
                                          evidence / f"a1-{target}-capture", target)
-            result = {"classification": "UNREVIEWED_CAPTURE" if capture else
-                                        "INCONCLUSIVE",
+            applicability = None
+            if capture:
+                applicability = A1.check_mir(
+                    case / "normal-mir.txt",
+                    HERE / f"O4-A1-{target}-reviewed.json", REPO)
+            result = {"classification": "REVIEWED_PREPATCH_MIR_APPLICABILITY_ONLY"
+                                        if applicability else "INCONCLUSIVE",
                       "target": target, "capture": capture, "stages": stages,
+                      "applicability": applicability,
                       "primitive_rule_accepted": False}
         except Exception as exc:
             result = {"classification": "INCONCLUSIVE", "target": target,
@@ -321,6 +382,60 @@ def run_all(args) -> dict:
         (evidence / f"a1-{target}-result.json").write_text(
             json.dumps(result, indent=2, sort_keys=True) + "\n")
         results["a1"][target] = result
+    if args.a1_primitive_matrix:
+        for variant in PRIMITIVE.VARIANTS:
+            if args.deadline_epoch - time.time() < 35:
+                break
+            case = evidence / f"a1-primitive-{variant}"
+            try:
+                PRIMITIVE.write_case(REPO, case, variant)
+                stages = run_case(case, args, prove=True)
+                capture = None
+                if stages.get("normal-decode", {}).get("exit") == 0:
+                    capture = A1.capture_mir(
+                        case / "normal-mir.txt",
+                        evidence / f"a1-primitive-{variant}-capture",
+                        "transmute")
+                result = classify_a1_primitive(case, stages, variant, s6_specs)
+                result["capture"] = capture
+            except Exception as exc:
+                result = {"variant": variant, "classification": "INCONCLUSIVE",
+                          "harness_exception": f"{type(exc).__name__}: {exc}"}
+            (evidence / f"a1-primitive-{variant}-result.json").write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n")
+            results["a1_primitive"].append(result)
+        for control in PRIMITIVE.TYPE_CONTROLS:
+            if args.deadline_epoch - time.time() < 35:
+                break
+            case = evidence / f"a1-type-{control}"
+            try:
+                PRIMITIVE.write_type_control(REPO, case, control)
+                stages = run_case(case, args, prove=True)
+                frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
+                    "readonly-export", "readonly-decode", "normal-export",
+                    "normal-decode", "refinement"))
+                log = (case / "full-verification.log").read_text(errors="replace") if (
+                    case / "full-verification.log").exists() else ""
+                errors = error_info(log)
+                typed_failure = (frontend and
+                                 stages.get("full-verification", {}).get("exit") == 1 and
+                                 len(errors) == 1 and
+                                 "Type mismatch" in errors[0]["message"])
+                result = {
+                    "control": control,
+                    "classification": "TYPE_REJECTION_UNREVIEWED_LOCATION"
+                                      if typed_failure else "INCONCLUSIVE",
+                    "first_error": errors[0] if errors else None,
+                    "frontend_refinement": frontend,
+                    "stages": stages,
+                    "actual_std_proof": False,
+                }
+            except Exception as exc:
+                result = {"control": control, "classification": "INCONCLUSIVE",
+                          "harness_exception": f"{type(exc).__name__}: {exc}"}
+            (evidence / f"a1-type-{control}-result.json").write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n")
+            results["a1_type_controls"].append(result)
     for variant in variants:
         case = evidence / f"g1-{variant}"
         try:
@@ -383,6 +498,7 @@ def main() -> None:
     parser.add_argument("--g1-variants", default=None,
                         help="comma-separated subset, default all declared variants")
     parser.add_argument("--actual-capture", action="store_true")
+    parser.add_argument("--a1-primitive-matrix", action="store_true")
     args = parser.parse_args()
     result = run_all(args)
     print(json.dumps({key: result[key] for key in (

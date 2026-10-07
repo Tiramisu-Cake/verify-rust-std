@@ -4867,3 +4867,51 @@ Same profilebyte audits and5positive source/MIR/refinement smokes retained. Prev
 G1/callback route is not rerun without new evidence; their next components develop
 inparallel. Exactcache only; no compilerbuildtools requiredonhit, versions marked
 cached ratherthan invoking missingtools. Next decision from causal gate logs.
+
+## O6 result / O7 BEFORE — first new semantic profile checkpoint
+
+O6 [run37703486878](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37703486878),
+proof40c66d4e5ab845869348fd1dff74281e9d3fda82, job113072244744
+23:39:23–23:40:18UTC=55s with verified exact console cache. Positive proves local
+constructor and links both actual calls; first next unsupported operation is asptr.
+wrong_active_field intended source rejection. extra_union_field originally
+INCONCLUSIVE: exact earlier typed-ADT gate rejects `certified union fields or types
+differ`, not the later source-text reason expected by classifier. Original result
+preserved; classifier exactreason corrected, fresh run scheduled. Account1137/21600,
+20463remain. Main completed remaining O3 intrinsic/drop full-log audit: 91logs,
+6+2positives with body/return/leak, 21exact sole proof negatives, 62exact preproof
+admission rejections, no unexpected errors/fatal. With agent constructor/asptr and
+baseline audits, four separate S6 components at O3 accepted for explicit contracts.
+
+O7 profile: stock26.10 + accepted CFG593d0940 + S6 candidate20f7d07a + separate
+A1 raw-pointer inhabited, A1 initialized-pointer transmute, exact tuple2 own overlays.
+Only translator, rust_parser and std/lib.rsspec change; kernel/memoryalias/schema/
+exporter/decoder/refiner remain frozen. New components experimental pending full
+positive/negative gates; S6 regression success cannot accept them or whole profile.
+Written component reviews precede code: helper/A1-FRONTEND-REVIEW,
+helper/A1-PRIMITIVE-MATRIX, callback/TUPLE2-TRANSFER-BEFORE, linkage/REVIEW.
+
+Main self-review found and resolved before dispatch: Regular RSSPEC functions return
+fn_outcome, so typed transmute primitive uses existing checked outcome projection
+and falseunwind post; VF rawpointer type erases mutability, so each TrBody gets its
+own decoded localtype map and admits only plain Move of exact MU<*const sameParam>
+into constrawpointer. No newwire/globalstate/typecoercion. Remaining unapproved const
+pointer transmute shapes fail explicitly, after stock BoxAsNonNull path; this is an
+unsupported admission, never a proof negative. Physical union/transparent layout to
+abstract initialized inner correspondence is TRUSTED, does not grant Element cells.
+Tupleown requires exact2publicReal instancefields T1/0,T2/1 and no extras; otherwise
+stockopaque. Only structuralfieldownership, stockshare/FnMut contracts retained.
+All5patches compose statically with gitapply/diffcheck; no local execution/build.
+
+Falsifiable tests: compile cumulative console on hosted; independent constructor
+and asptr actual-link captures (unchanged runtimehelper/full target posts); hosted
+helper certificates, exact A1 localbody with fullvalue/thread/own/noUnwind, 2positive
+and10proofnegative+5wrongtype controls with provisionalclassification/fullMIR;
+G1 exact directbody value/frame lane distinct from still-unaccepted nounwind calllane.
+Tuple close/open/share/nonCopyrefs +resource/scope negatives; unchanged callback should
+advance Args.own, expose HRTB or genuine resource/unwind obstacle, never declare its
+falsepostnegative before intended location. Full S6 fourcomponent matrix including
+ordinary/sharedcleanup regressions on extendedprofile. Onejob1200cap/1080inner,
+allsetup/build/artifactseconds counted. A failure localizes onecomponent; progress on
+independent captures continues. Source/libcallees still require proof before actual
+summary linkage; helper/sort4 generic/ZST and guardprotocol NOT_PROVEN.

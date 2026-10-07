@@ -1,0 +1,93 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -1944,3 +1944,4 @@
+     val body_tr_defs_ctx : body_tr_defs_ctx
++    val local_decl_types : (string * D.ty) list
+   end) =
+   struct
+@@ -3361,7 +3362,39 @@
+               cast_data.ty
+           end;
+           match cast_data with
+-            {operand=Copy {local; projection=[BoxAsNonNull _]}} ->
++          | { kind = Transmute;
++              operand = Move { local = { name = source_local };
++                               projection = [] };
++              ty = { kind = RawPtr {
++                ty = ({ kind = Param _ } as elem_ty); mutability = Not } } }
++              when (match List.assoc_opt source_local Args.local_decl_types with
++              | Some { kind = Adt {
++                  id = { name = "std::mem::MaybeUninit" };
++                  kind = UnionKind;
++                  substs = [ { kind = Type { kind = RawPtr {
++                    ty = source_elem; mutability = Not } } } ] } } ->
++                    source_elem = elem_ty
++              | _ -> false) ->
++            (* The operand is a plain local Move, never a Box projection.
++               The per-body MIR declaration confirms its exact source type,
++               including const mutability and the same complete Element.
++               The generated primitive's typed parameter is an independent
++               backstop against Box and other source types. *)
++            (match operand with
++            | `TrOperandMove (expr, _) ->
++                let* elem_info = translate_decoded_ty elem_ty loc in
++                let call =
++                  Ast.CallExpr
++                    (loc, "std::mem::maybe_uninit_pointer_transmute",
++                     [ elem_info.vf_ty ], [], [ LitPat expr ], Static)
++                in
++                (* A Regular Rust function returns fn_outcome<T>.  The
++                   primitive's false unwind post makes this returning(T),
++                   and the existing outcome projection gives the cast T. *)
++                Ok (`TrRvalueExpr (result_of_outcome loc call))
++            | _ -> Error (`TrRvalue
++                      "pointer transmute requires a plain moved local"))
++          | {operand=Copy {local; projection=[BoxAsNonNull _]}} ->
+             let id = translate_local_decl_id_ local.name in
+             let e =
+               ( Ast.CallExpr
+@@ -3373,6 +3406,11 @@
+                   Static ))
+             in
+             Ok (`TrRvalueExpr e)
++          | { kind = Transmute;
++              ty = { kind = RawPtr {
++                ty = { kind = Param _ }; mutability = Not } } } ->
++            Error (`TrRvalue
++              "uncertified const-pointer transmute source, kind, or operand")
+           | _ ->
+           let* ty_info = translate_decoded_ty cast_data.ty loc in
+           let ty = ty_info.vf_ty in
+@@ -4944,2 +4982,8 @@
+     let* imp_loc = translate_span_data imp_span_cpn in
++    let local_decl_types =
++      local_decls_get_list body_cpn
++      |> List.map @@ fun decl_cpn ->
++         (LocalDeclIdRd.name_get (LocalDeclRd.id_get decl_cpn),
++          D.decode_ty (LocalDeclRd.ty_get decl_cpn))
++    in
+     let open TrBody (struct
+@@ -4950,3 +4994,4 @@
+       let body_tr_defs_ctx = body_tr_defs_ctx
++      let local_decl_types = local_decl_types
+     end) in
+     let vdis_cpn = var_debug_info_get_list body_cpn in
+--- a/bin/rust/std/lib.rsspec
++++ b/bin/rust/std/lib.rsspec
+@@ -485,6 +485,16 @@
+     
+     @*/
+     
++    // Trusted compiler-to-model correspondence for initialized raw-pointer
++    // MaybeUninit transmute.  The frontend admits a plain MIR local Move into
++    // this exact typed parameter only; its per-body MIR local declaration
++    // must also be MaybeUninit<*const same Element>.  The ordinary
++    // typechecker independently rejects Box and other source types.
++    unsafe fn maybe_uninit_pointer_transmute<Element>(src: MaybeUninit<*Element>) -> *Element;
++    //@ req thread_token(?t) &*& t == currentThread &*& MaybeUninit::inner(src) == some(?p) &*& MaybeUninit_pointer_own::<Element>()(t, src);
++    //@ ens thread_token(t) &*& result == p &*& raw_ptr_own::<Element>()(t, result);
++    //@ on_unwind_ens false;
++
+     impl<T> MaybeUninit<T> {
+     
+         fn write<'a>(self: &'a mut MaybeUninit<T>, value: T) -> &'a mut T;

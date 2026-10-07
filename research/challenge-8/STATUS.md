@@ -11,29 +11,22 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1082/21600 summed GitHub-hosted job seconds**, 20518 remain.
-Historical stock99/1800 and S7 5306/5400 preserved separately. No active workflow.
-O3 full S6 component matrix accepted at proof1378f0ff/run37700450091; full text
-artifact extraction completed (tool binaries omitted; member CRC checked).
-O4 captures complete new actual helper/A1 MIR. O5 Args.own tuple2 callback blocker
-witnessed; G1 publicentry change does not remove caller deadcode. Next O6 constructor
-linkage using same-source verified localbody; new typed A1/tuple components reviewed
-independently, not yet hosted.
-
-Current obligation: audit S6 component acceptance and obtain helper/callback boundaries.
-**Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,
-[run37698481357](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37698481357).
-All5positives/4false-post negatives/2dead-code controls pass their full gates;
-source pairs and complete MIR identical; ordinary/shared unwind execute+leak.
-Patch593d0940 only successor inventory; stock specs/exporter/refiner unchanged.
-No trace; stock MD correspondence remains TRUSTED. SAFE forget/actual linkage unproved.
-O2 setup failure (old predicates API) repaired with strict26.10 Clause API.
-O2b [run37699461058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37699461058),
-proof1d57dee9, patch38f8797a:5families fully export/decode/refine; constructor,
-both intrinsic forms and pointer drop fullVF0. asptr rejects parameter-local count.
-These are DIAGNOSTIC_ONLY positives, not accepted component matrices. Full new
-MIR captured; next exact asptr graph review/fullS6 controls. Independently prepared
-framed-forget/A1/actual-helper/callback captures remain NOT_RUN until next hosted job.
+New independent account **1137/21600 summed GitHub-hosted job seconds**, 20463 remain.
+Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
+Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
+4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
+components ACCEPTED at1378f0ff/run37700450091, all8matrices and complete logs audited;
+constructor16+9MIR/nativecontrols, asptr9+17admission, intrinsic16+40,
+pointerdrop13+22. These are pointer-only primitive/resource contracts with trusted
+sourcecopy/typedcompiler/layout correspondences; no Element pointee rights.
+O6 actualconstructor linkage succeeds through2calls, nextasptr. Extraunion negative
+classifier repaired against earlier exactADTgate; original failure retained.
+Current O7 prepared: same S6+CFG plus separate exact rawpointerinhabited/transmute
+and tuple2 ownership overlays. Mainreview strengthened sourcetype/mutability/field
+shape and outcome handling; kernel/schema/exporter/refiner unchanged. Newcomponents
+EXPERIMENTAL until hosted controls; source/typedMIR helper and callback captures
+available, G1 call deadcode and Args.own callback blocker witnessed, full helper open.
+O7 full S6 regressions and primitive/tuple/linkage diagnostics are next authorized action.
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new
 pointer drop → nominal guard/SAFE forget/actual linkage/assume_init → actual helper

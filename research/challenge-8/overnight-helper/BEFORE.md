@@ -74,3 +74,35 @@ Element right.
 Main agent owns hosted workflow, acceptance, integration and checkpoints.
 This directory supplies isolated candidates/certificates only. No local
 compilation, verifier or executable tests are authorized.
+
+## O5 amendment before G1 direct-body and A1 primitive experiments
+
+O4 37702049156 and O5 37702922138 kept the original G1 call fixture and
+showed full normal return/leak checks but mandatory dead-code failure on the
+framed caller, consistent with an unreachable synthetic unwind successor of
+the no-unwind adapter call. Making the caller public did not resolve it.
+The next G1 positive lane embeds the **same exact forget body** directly in
+the framed probe, still checking thread, initialized pointer slot, independent
+frame, false unwind, refinement, leak and dead-code. The original generic
+callee/call lane remains for the negative controls. A direct-body positive
+cannot be used as an actual-call linkage certificate. No unwind or dead-code
+check is disabled.
+It also has no `<T>.own` precondition, so it is deliberately only a
+value/frame property; it cannot justify the nominal SAFE forget contract
+for `DropOnPanic` or arbitrary owned `T`.
+
+O4 A1 captures, source review and self-review are in `A1-FRONTEND-REVIEW.md`.
+The candidate semantic edit is split into typed raw-pointer
+`assert_inhabited` and a `CastKind::Transmute` plain-local-Move route to a
+trusted, typed `MaybeUninit_pointer_transmute` specification. The ordinary
+VF typechecker must reject nonmatching source types and Box. This avoids a
+schema/exporter expansion. The first hosted gate is patch apply/build,
+prepatch full-MIR SHA admission, then exact local transmute proof. Proof
+negatives for no initialization, wrong result, mismatched source/pointee,
+Box, frame/thread loss or duplication must follow before the primitive can
+be accepted. The actual method's transmute call still needs a separately
+source-linked proven callee redirect.
+The ordinary Rust-spec primitive returns `fn_outcome<*Element>` in VeriFast;
+the cast lowering uses the stock `result_of_outcome` projection. Its
+`unwinding` case is excluded by the primitive's explicit false unwind post,
+which is part of the trusted compiler correspondence and a required control.

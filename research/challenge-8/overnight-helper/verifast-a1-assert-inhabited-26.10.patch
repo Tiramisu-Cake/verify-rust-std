@@ -1,0 +1,20 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2409,4 +2409,16 @@
+             (* Todo @Nima: For cases where we inline an expression instead of a function call,
+                there is a problem with extending the implementation for clean-up paths *)
++            | "std::intrinsics::assert_inhabited" -> (
++                (* Raw pointers to an arbitrary Element are inhabited.  This is
++                   the precise specialization in the 26.10 assume_init body;
++                   every other T remains an unresolved external call.  The
++                   certified compiler intrinsic is rustc_nounwind. *)
++                match (substs_cpn, args_cpn) with
++                | ([ { kind = Type { kind = RawPtr { ty = { kind = Param _ }; mutability = Not } } } ],
++                   []) ->
++                    Ok (tmp_rvalue_binders, FnCallResult (mk_unit_expr fn_loc))
++                | _ ->
++                    Error (`TrFnCallRExpr
++                      "assert_inhabited is admitted only for *const Element"))
+             | "VeriFast_alloc" ->
+                 let [ Mir.GenArgType ty_info ] = substs in

@@ -218,7 +218,7 @@ def classify(case: Path, variant: str, stages: dict) -> dict:
     else:
         reason = ("local constructor runtime body differs from repository"
                   if variant == "wrong_active_field" else
-                  "local union fields differ from repository")
+                  "certified union fields or types differ")
         checks = {"exact_certificate_reason": len(fatal) == 1 and
                   fatal[0] == ("Fatal error: exception Failure(\"SORT4-MAYBEUNINIT: "
                                "certificate mismatch: " + reason + "\")"),

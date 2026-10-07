@@ -31,7 +31,7 @@ stock_home="$task_temp/verifast-26.10"
 source_home="$task_temp/source"
 patch_file="$repo/research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch"
 cfg_patch="$repo/research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch"
-printf 'Proof SHA: %s\nProfile: experimental-s6-26.10-v1+cfg\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
+printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
 sha256sum "$patch_file" >> "$ev/environment.txt"
 stage download curl -fL --retry 2 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
 printf '%s  %s\n' 5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd "$stock_archive" | sha256sum -c -
@@ -50,8 +50,14 @@ stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
 stage cfg-patch-apply git -C "$source_home" apply "$cfg_patch"
+for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch; do
+ component_patch="$repo/research/challenge-8/$component"
+ sha256sum "$component_patch" >> "$ev/environment.txt"
+ stage "$(basename "$component" .patch)-check" git -C "$source_home" apply --check "$component_patch"
+ stage "$(basename "$component" .patch)-apply" git -C "$source_home" apply "$component_patch"
+done
 git -C "$source_home" diff > "$ev/applied.patch"
-printf '%s\n' bin/rust/std/lib.rsspec src/rust_frontend/vf_mir_translator/vf_mir_translator.ml > "$ev/allowed-files.txt"
+printf '%s\n' bin/rust/std/lib.rsspec src/rust_frontend/vf_mir_translator/rust_parser.ml src/rust_frontend/vf_mir_translator/vf_mir_translator.ml > "$ev/allowed-files.txt"
 git -C "$source_home" diff --name-only > "$ev/modified-files.txt"
 cmp "$ev/allowed-files.txt" "$ev/modified-files.txt"
 # Immutable Actions cache: only a console plus its exact applied-diff manifest.
@@ -92,7 +98,7 @@ assert a.keys()==b.keys()
 assert all(a[k].read_bytes()==b[k].read_bytes() for k in a if k!='bin/rust/std/lib.rsspec')
 assert a['bin/rust/std/lib.rsspec'].read_bytes()!=b['bin/rust/std/lib.rsspec'].read_bytes()
 (ev/'spec-audit.json').write_text(json.dumps({k:h(a[k]) for k in a},indent=2)+'\n')
-(ev/'profile-hashes.json').write_text(json.dumps({k:h(src/k) for k in ['bin/verifast','bin/vf-rust-mir-exporter','bin/refinement-checker','bin/rust/std/lib.rsspec','src/rust_frontend/vf_mir/vf_mir.capnp','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml']},indent=2)+'\n')
+(ev/'profile-hashes.json').write_text(json.dumps({k:h(src/k) for k in ['bin/verifast','bin/vf-rust-mir-exporter','bin/refinement-checker','bin/rust/std/lib.rsspec','src/rust_frontend/vf_mir/vf_mir.capnp','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml','src/rust_frontend/vf_mir_translator/rust_parser.ml']},indent=2)+'\n')
 AUDIT
 {
  rustc --version --verbose
@@ -110,5 +116,14 @@ stage s6-diagnostic python3 research/challenge-8/overnight-s6/diagnose-s6.py --t
 # implies acceptance of helper/callback/actual Rust.
 linkage_status=0
 stage constructor-linkage python3 research/challenge-8/overnight-linkage/check-constructor-linkage.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/constructor-linkage" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || linkage_status=$?
-printf 'constructor_linkage_stage=%s\nhelper_stage=NOT_REPEATED\ncallback_stage=NOT_REPEATED\ns6_matrix_stage=NOT_REPEATED_PROFILE_UNCHANGED\nprior_matrix_run=37700450091\n' "$linkage_status" > "$ev/aggregate-stage-status.txt"
-(( linkage_status == 0 ))
+asptr_status=0
+stage asptr-linkage python3 research/challenge-8/overnight-linkage/check-asptr-linkage.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/asptr-linkage" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || asptr_status=$?
+helper_status=0
+stage helper-certificates python3 research/challenge-8/overnight-helper/test-helper-certificates.py || helper_status=$?
+stage helper-capture python3 research/challenge-8/overnight-helper/check-helper.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/helper" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+700))" --actual-capture --a1-primitive-matrix || helper_status=$?
+tuple_status=0
+stage tuple2-capture python3 research/challenge-8/overnight-callback/run-tuple2-own-cases.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/tuple2" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+800))" --cumulative-profile || tuple_status=$?
+matrix_status=0
+stage s6-full-matrix python3 research/challenge-8/overnight-s6/accept-s6.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-full" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || matrix_status=$?
+printf 'constructor_linkage_stage=%s\nasptr_linkage_stage=%s\nhelper_stage=%s\ntuple2_stage=%s\ns6_matrix_stage=%s\ncombined_profile=EXPERIMENTAL_UNTIL_NEW_COMPONENT_ACCEPTANCE\n' "$linkage_status" "$asptr_status" "$helper_status" "$tuple_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
+(( linkage_status == 0 && asptr_status == 0 && helper_status == 0 && tuple_status == 0 && matrix_status == 0 ))
