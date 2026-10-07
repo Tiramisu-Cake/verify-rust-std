@@ -10,8 +10,9 @@ No complete Challenge 8 solution is established.
 exact experimental fieldless layout profile d4a12525 after full matrix/artifact
 audit: original profile comparisons,18extra cases,7metadata controls,10native
 paired controls and31classifier/span checks PASS. All Rust source-integrity,
-export/decode/refinement gates and named target negatives retained; exact ordered
-wrong-source-span mutation rejected. C++ empty complete-object nonzero assertion
+export/decode/refinement gates retained. Historical wrong-source-span mutation
+rejected, but new owner review found its hi coordinate invalid on a blank line;
+that negative gate is pending valid-coordinate recalibration in the new phase. C++ empty complete-object nonzero assertion
 now verifies both profiles. N1/37547307118's remaining C++ annotation error is
 historical, not replaced evidence. Acceptance concerns only pinned original-fieldless
 nongeneric Sized reprRust/C structs with optional alignment and geometry. It adds
@@ -31,8 +32,11 @@ source3c3f0f3,104statements: arbitrary relation16/all4diagonal+64triple laws,
 predecessor count0..3,less iff rank< and equivalence iff rank=. Intended tied-rank
 negative rejected at19. N9/N10 timeouts are historical; checked isolated arithmetic
 helpers resolve both without changing laws/posts/profile. Pure network composition
-is NOT RUN: N12 harness filename failure before verifier. Known correction remains
-unrechecked after12/12 budget closeout; actual callback/T simulation remains open.
+positive now verifies at C1/37585795831/source0383012,194statements with all
+components and full original posts. Equal-key reversal rejects intended stability
+assertion; raw checker INCONCLUSIVE at multi-line location, saved-evidence audit
+pending. Historical N12 remains pre-verifier failure. This is pure mathematics;
+actual callback/T/pointer/resource simulation remains open.
 Stock [scalar range composition](SORT4-MEMORY-OPERATIONS.md) N8/37549955948,
 source9b25c41,24statements PASS: exact selected IDs to dst0..3, containment and
 separation for arbitrary stride>=0 (includingZST0). Endpoint negative rejected.

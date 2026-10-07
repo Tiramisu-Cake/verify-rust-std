@@ -42,6 +42,16 @@ archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
     printf 'Hosted: %s/%s\nCleanup reserve: 120 seconds\nGhost fixture timeout: 300 seconds\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
     sha256sum "$0" research/challenge-8/check-sort4-logical.py research/challenge-8/sort4-index.gh research/challenge-8/sort4-index-lemmas.c research/challenge-8/sort4-index-negative.c
 } > "$evidence/environment.txt"
+if [[ "$component" == swo_network ]]; then
+    # Explicit saved-C1 processing gate. Changed proof/header bytes fail closed
+    # in the checker; this selection never certifies a changed proof without a
+    # separately wired and authorized NEW verifier run.
+    printf 'Mode: replay-only saved C1/37585795831; no verifier invocation\nSaved proof source: 0383012d9a8e5266c6ac34503b6b886fa795882a\n' >> "$evidence/environment.txt"
+    sha256sum research/challenge-8/sort4-order.gh research/challenge-8/sort4-swo.gh research/challenge-8/sort4-swo-composition.c research/challenge-8/sort4-swo-composition-negative.c >> "$evidence/environment.txt"
+    gh run download 37585795831 --repo Tiramisu-Cake/verify-rust-std --name smallsort-research-37585795831-1 --dir "$evidence/saved-c1"
+    python3 research/challenge-8/check-sort4-logical.py --component swo_network --evidence "$evidence/checked" --replay-network-evidence "$evidence/saved-c1"
+    exit
+fi
 curl --fail --silent --show-error --location "https://github.com/verifast/verifast/releases/download/$VFVERSION/verifast-$VFVERSION-$VFPLATFORM.tar.gz" --output "$archive"
 printf '%s  %s\n' "$archive_sha" "$archive" | sha256sum -c -
 tar -xzf "$archive" -C "$task_temp"
@@ -58,9 +68,6 @@ if [[ "$component" != select ]]; then
     else
         if [[ "$component" == range || "$component" == swo ]]; then
             sha256sum "research/challenge-8/sort4-$component-lemmas.c" "research/challenge-8/sort4-$component-negative.c" >> "$evidence/environment.txt"
-        fi
-        if [[ "$component" == swo_network ]]; then
-            sha256sum research/challenge-8/sort4-order.gh research/challenge-8/sort4-swo.gh research/challenge-8/sort4-swo-composition.c research/challenge-8/sort4-swo-composition-negative.c >> "$evidence/environment.txt"
         fi
         if [[ "$component" == swo ]]; then
             sha256sum research/challenge-8/sort4-swo.gh >> "$evidence/environment.txt"

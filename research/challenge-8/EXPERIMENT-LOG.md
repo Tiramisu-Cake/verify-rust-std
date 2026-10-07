@@ -3182,3 +3182,17 @@ false theorem acceptance quarantines stock usage. Ordinary proof/harness repair
 allowed with all posts intact. PASS accepts PURE mathematical composition only.
 Manual verifast_sort4_components/swo_network/30, fixture300s, cleanup120s;
 new phase budget0/5400 before allocation, one run.
+
+C1 dispatched run37585795831/source0383012d9a8e5266c6ac34503b6b886fa795882a,
+created2026-10-07T07:11:13Z; exact remote source matched, no concurrent relevant run.
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37585795831.
+
+C1 result: run37585795831/source0383012d9a8e5266c6ac34503b6b886fa795882a,
+job112675499341,07:11:19–07:12:02UTC,43s. Full log/artifact downloaded/read.
+Positive VF0/194 statements, all11 named checked bodies and leak checks; exact
+source/header hashes unchanged. Negative VF1, sole intended assertion failure
+21,42–44 on compound operator (statement spans21–22), after target execution.
+Raw automatic negative INCONCLUSIVE due checker requiring error onlastline22.
+Pure positive theorem verified; full acceptance pending range-based saved-evidence
+audit with intended-VC/location mutants. No theorem change or rerun needed.
+Newbudget43/5400jobseconds,no active run.

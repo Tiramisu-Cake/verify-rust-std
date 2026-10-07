@@ -2,8 +2,10 @@
 
 Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
 new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
-New budget0/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. No active run. Entry tree clean, research HEAD/remote match.
+New budget43/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
+one relevant run. C1 run37585795831/source0383012d9a8e5266c6ac34503b6b886fa795882a
+completed in43s; no active run. Positive pure composition PASS194statements,
+negative intended assertion rejected at21; automated range-location audit pending. Entry tree clean, research HEAD/remote match.
 The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
 [report](SORT4-NIGHT-RESULTS.md). All historical budgets remain closed.
 
@@ -29,11 +31,13 @@ The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
   exact selected source IDs to dst0..3,containment/separation for stride>=0,
   including0. No pointer/resource/overflow/initialization/operation theorem.
 
-**Unverified draft:** pure SWO/network composition and relation stability control
-in sort4-swo-composition*.c. FINAL N12/37554258065 failed BEFORE VeriFast because
-harness requested wrong file names; composition AND negative NOT RUN. Confirmed
-one-line wiring repair is committed but UNRECHECKED. No13th run. N9/N10 arithmetic
-timeouts retained; isolated checked arithmetic repairs passed in N11.
+**Pure composition: positive VERIFIED, complete acceptance audit pending.**
+C1/37585795831/source0383012: stock s4_swo_choice_network and all checked
+components pass194statements/leak checks. Equal-key reversed-middle negative
+rejects intended compound assertion at21, but old checker required final line22.
+Raw INCONCLUSIVE preserved. Hosted saved-evidence range audit will repair
+classification without repeating the successful theorem. Actual Rust/resources/
+callback bridge remains open.
 
 **Model/callee boundaries:** N6/37549040942/sourceaed1d97 retains exact actual
 pointer-callee body; export/decode/refinement/integrity0,first VF error at adapter21:
@@ -51,4 +55,4 @@ Constructor design/trust/gates must precede semantic edits; experimental profile
 is not automatically accepted. Stop extension before general union/alias/ownership/
 copy/FnMut/Drop support. No historical patch chain or general-model expansion.
 README/PLAN point to this phase. Runtime/general contract/pins/checks preserved.
-RAPx CLOSED/NO-GO; B/C NOT RUN. Next: exact-SHA stock swo_network dispatch.
+RAPx CLOSED/NO-GO; B/C NOT RUN. Next: monitor C1/full evidence; bounded layout repair and read-only constructor design in parallel.
