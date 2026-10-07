@@ -44,7 +44,7 @@ SOURCE_MUTATIONS = (
 )
 CERT_MARKER = "SORT4-AS-MUT-PTR: full typed body MIR graph accepted"
 POINTER_OWN = b"std::mem::MaybeUninit_pointer_own::<Element>()(t, value)"
-PROFILE = "experimental-source-linked-select-pointer-as-mut-ptr-v1"
+PROFILE = os.environ.get("SORT4_SELECT_PROFILE", "experimental-source-linked-select-pointer-as-mut-ptr-v1")
 INVENT_INITIALIZED_ERROR = re.compile(
     r"verified/lib\.rs\(\d+,\d+(?:-\d+(?:,\d+)?)?\): error: "
     r"Cannot prove that 'std::mem::MaybeUninit::inner"

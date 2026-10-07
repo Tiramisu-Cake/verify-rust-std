@@ -51,3 +51,19 @@ S4b changesexactone preannotation afterasserting2pre/postoccurrences, keeps
 expectedcertificate reason/stage strict. No semanticdelta; finish2admissions,
 then actualintegration ifaccepted. Hostedcompact read in memory after local
 diskfilled; historical/full archives preserved, onlyredundantlocalcopiesremoved.
+
+S4b/37611745252/source7c14ab64372d75928c4a000bb43dad83761c5bb4,
+unchangede9b4d025;247jobseconds11:05:39–11:09:46UTC,total867/5400.
+Asmut SAFE/body/state/frame COMPONENT_ACCEPTED:3positive,6proofnegatives,8source,
+9MIR,fullctorregression/baselines/classifier+4message controls PASS. Allcontrols
+reachedtargetchecks, including exact MIRcontract andextra-operation certificate.
+Actualcombinedunit RUN, bothlocalcallee typedcertificates PASS,2ctorredirects
+seen; firstexternalasptrredirect rejectedbeforebody becauseeffective type
+substitutions include stock-synthetic erased lifetime. Underlying rawFnDef sole
+pointertype+latebound1 confirmed in MIR, correctiondesigncommitted7fc98da before
+implementation. Actualfinalpost/borrow/resourceprotocol stillNOTPROVEN.
+[Compact11477673504](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37611745252/artifacts/11477673504),
+[full11477848970](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37611745252/artifacts/11477848970),
+[run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37611745252).
+S5new8e838ad1profile includesexactlifetimecorrection +typedcompilerintrinsic
+selection rule/checkedownershiptransfer, currentlyUNACCEPTED feasibilityonly.

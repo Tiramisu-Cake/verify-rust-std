@@ -3746,3 +3746,25 @@ reaches exact exportedSAFEcontract certificate failure, exit2 before proof;
 not frontend/mutatorerror. Entireacceptance gates remain unchanged; run last
 extraopMIRnegative andactualbodyafterCOMPONENT_ACCEPTED. Selection/job30/proof300,
 spend620/5400before; unsupportedmappedop continuesnextdesignedcomponent.
+
+S4b result37611745252/source7c14ab6/e9b4d025:247s,total867/5400.
+Fullasptr3/6/8/9 ACCEPTED, ctor/baselines/classifier PASS. Actualcombinedbody
+RUN butexternalredirectlateboundaritycertificate rejects beforebody. RawFnDef
+confirmedsolepointertype+latebound1, effectivesubsts stockadds 'erased lifetime.
+Compact11477673504/full11477848970;fullactualMIR/source/diagnosis retained.
+
+S5 BEFORE dispatch: newprofileexperimental-source-linked-select-pointer-intrinsics-v1,
+patch07930fffd8c1fef82d0e00136104ef754962064dbd90f5eaa7fd8d66bdd2d2d6;
+design1e970b2+exactasptrfix7fc98da committedbeforesemanticimplementation.
+Falsifiable hypothesis1 exactlateboundredirect passesactualtwoasptrcallswith
+checkedSAFEbody/noresourceweakening; hypothesis2 fixedcompilerstandaloneintrinsic
+MIR matches candidate2-block typedgate andIfExpr+checkedMUownlemma verifies.
+Firstfeasibilitycasesptrsymbolic/MUunknown SAMEfullposts/thread/frame/noUnwind,
+trustedcompilerselection TWOexacttypes only (notintrinsicRustbodyproof).
+Noacceptancepossibleyet: fullintrinsicadmission/negative/actualgraph NOT RUN.
+Completector+asptrfullmatrices/stockRustC/C++regressions required,new62classifier
+gatemutants. ExportcanonicalMIR/source/refinement/integrity evenifcandidategraph
+fails; fixexactobservedshape/implementation thenfullacceptance, no blindrepeat.
+Existingactualintegrationrunswithoutintrinsicoptin first; fullintrinsicactual
+gate initiallyrejectsunknownactualshape ratherthantrustcallcounts.
+Selection/job30min/proof300s, spend867/5400before, oneactive,compactcurrent+O4.
