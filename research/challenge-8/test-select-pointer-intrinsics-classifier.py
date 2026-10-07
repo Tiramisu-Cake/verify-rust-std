@@ -110,6 +110,69 @@ def check_admission_message(classifier) -> dict:
     return result
 
 
+def check_v2_admission_messages(classifier) -> dict:
+    if classifier.PROFILE == "experimental-source-linked-select-pointer-intrinsics-v1":
+        return {"pass": True, "not_applicable_to_v1": True, "mutant_count": 0}
+    observed = {
+        ("source", "identity"): "expected one exact SAFE helper/probe or actual body",
+        ("mir", "operand_order"): "standalone place: _5",
+        ("mir", "operand_source"): "standalone place: _5",
+        ("mir", "predecessor_source"): "standalone place: _2",
+    }
+    # Three independent corruptions per distinct exact diagnostic, in each type.
+    exemplars = {
+        ("source", "identity"): (
+            "expected one exact SAFE helper and one listed probe",
+            "expected one exact SAFE helper/probe or standalone body",
+            "standalone place: _5",
+        ),
+        ("mir", "operand_order"): (
+            "standalone place: _6",
+            "standalone place: _5/_6",
+            "standalone argument operand: _4/_5/_6",
+        ),
+        ("mir", "predecessor_source"): (
+            "standalone place: _3",
+            "standalone place: _2/_3",
+            "standalone source operand: _2/_3",
+        ),
+    }
+    checks = {}
+    for kind in ("ptr", "mu"):
+        for mode, mutation in (("source", "identity"),
+                               ("mir", "operand_order"),
+                               ("mir", "operand_source"),
+                               ("mir", "predecessor_source")):
+            reason = observed[(mode, mutation)]
+            expected = (f'Fatal error: exception Failure("SORT4-SELECT-INTRINSIC: '
+                        f'certificate mismatch: {reason}")')
+            reasons = classifier.admission_reasons(kind, mode, mutation)
+            category = "operand_order" if mutation == "operand_source" else mutation
+            corruptions = exemplars[(mode, category)]
+            checks[f"{kind}_{mode}_{mutation}"] = {
+                "reason_pinned": reasons == (reason,),
+                "exact_accepts": classifier.matches_admission_fatal(expected, reasons),
+                "wrong_reasons_rejected": [
+                    not classifier.matches_admission_fatal(
+                        expected.replace(reason, wrong), reasons)
+                    for wrong in corruptions
+                ],
+                "wrong_certificate_rejected": not classifier.matches_admission_fatal(
+                    expected.replace("SORT4-SELECT-INTRINSIC", "SORT4-AS-MUT-PTR"), reasons),
+                "wrong_stage_rejected": not classifier.matches_admission_fatal(
+                    expected.replace("Fatal error: exception Failure(",
+                                     "verified/lib.rs(4,1): error: Failure("), reasons),
+            }
+    passed = all(item["reason_pinned"] and item["exact_accepts"] and
+                 all(item["wrong_reasons_rejected"]) and
+                 item["wrong_certificate_rejected"] and item["wrong_stage_rejected"]
+                 for item in checks.values())
+    # The count records three reason substitutions per control and type;
+    # stage/certificate checks are additional.
+    return {"pass": passed, "checks": checks, "mutant_count": 24,
+            "stage_and_certificate_mutant_count": 16}
+
+
 def main() -> None:
     if os.environ.get("GITHUB_ACTIONS") != "true" or \
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or \
@@ -140,15 +203,19 @@ def main() -> None:
     ]
     message_check = check_wrong_result_messages(classifier)
     admission_message_check = check_admission_message(classifier)
+    v2_admission_message_check = check_v2_admission_messages(classifier)
     result = {
         "pass": all(item["pass"] for item in checks) and message_check["pass"] and
-            admission_message_check["pass"],
+            admission_message_check["pass"] and v2_admission_message_check["pass"],
         "groups": checks,
         "wrong_result_messages": message_check,
         "admission_message": admission_message_check,
+        "v2_admission_messages": v2_admission_message_check,
         "mutant_count": sum(2 * len(item["false_mutants_rejected"]) for item in checks),
         "message_mutant_count": message_check["mutant_count"],
-        "admission_message_mutant_count": admission_message_check["mutant_count"],
+        "admission_message_mutant_count": (
+            admission_message_check["mutant_count"] +
+            v2_admission_message_check["mutant_count"]),
     }
     summary = args.evidence.resolve()
     summary.parent.mkdir(parents=True, exist_ok=True)

@@ -387,6 +387,15 @@ def strict_admission_evidence(evidence: dict[str, bool]) -> bool:
 def admission_reasons(kind: str, mode: str, mutation: str) -> tuple[str, ...]:
     require(kind in KINDS and mode in {"source", "mir"},
             "unknown admission specialization/mode")
+    # The v2 actual-body gate deliberately reports the exact failing place.
+    # Preserve the v1 spellings for the separately pinned historical profile.
+    if PROFILE != "experimental-source-linked-select-pointer-intrinsics-v1":
+        if mode == "source" and mutation == "identity":
+            return ("expected one exact SAFE helper/probe or actual body",)
+        if mode == "mir" and mutation in {"operand_order", "operand_source"}:
+            return ("standalone place: _5",)
+        if mode == "mir" and mutation == "predecessor_source":
+            return ("standalone place: _2",)
     if mode == "source" and mutation == "identity":
         return ("expected one exact SAFE helper and one listed probe",)
     if mode == "source" and mutation == "inputtype":
@@ -910,7 +919,9 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
             classifier is not None and classifier.get("pass") is True and
             classifier.get("mutant_count") == 60 and
             classifier.get("message_mutant_count") == 10 and
-            classifier.get("admission_message_mutant_count") == 4 and
+            classifier.get("admission_message_mutant_count") == (
+                4 if PROFILE == "experimental-source-linked-select-pointer-intrinsics-v1"
+                else 28) and
             args.classifier_summary.resolve().parent == evidence.parent),
     }
     if not all(prerequisites.values()):

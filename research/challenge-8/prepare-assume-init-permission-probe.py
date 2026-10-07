@@ -52,35 +52,37 @@ def main() -> None:
     union_assert = ("assert " + union_term + " |-> ?loaded;").encode()
     cast_assert = b"assert *(storage as **Element) |-> ?loaded;"
     cases = [
-        ("cast_self_open_close",
-         b"*storage |-> std::mem::MaybeUninit::new(?value);",
+        ("cast_self_open_close", True,
+         b"*storage |-> std::mem::MaybeUninit::new(value);",
          b"*storage |-> std::mem::MaybeUninit::new(value);",
          cast_body, None, "cast-self `*storage as **Element` cell; open/assert/close"),
-        ("union_field_some",
-         b"*storage |-> std::mem::MaybeUninit::new(?value);",
+        ("union_field_some", True,
+         b"*storage |-> std::mem::MaybeUninit::new(value);",
          b"*storage |-> std::mem::MaybeUninit::new(value);",
          b"    //@ std::mem::open_MaybeUninit::<*Element>(storage);\n    //@ " + union_assert,
          union_assert, union_term),
-        ("cast_self_none",
+        ("cast_self_none", False,
          b"*storage |-> std::mem::MaybeUninit::new_maybe_uninit(none);",
          b"*storage |-> std::mem::MaybeUninit::new_maybe_uninit(none);",
          b"    //@ std::mem::open_MaybeUninit::<*Element>(storage);\n    //@ " + cast_assert,
          cast_assert, "*(storage as **Element)"),
-        ("cast_self_unknown", b"*storage |-> ?wrapper;",
+        ("cast_self_unknown", False, b"*storage |-> ?wrapper;",
          b"*storage |-> wrapper;",
          b"    //@ std::mem::open_MaybeUninit::<*Element>(storage);\n    //@ " + cast_assert,
          cast_assert, "*(storage as **Element)"),
     ]
     results = []
-    for name, cell_pre, cell_post, body, target, term in cases:
+    for name, has_value_param, cell_pre, cell_post, body, target, term in cases:
         case = evidence / name
         case.mkdir()
         framed_pre = cell_pre.rstrip().removesuffix(b";") + b" &*& *frame |-> ?frame_value;"
         # Preserve exactly the same outer cell/frame on normal return.
         post = cell_post.rstrip().removesuffix(b";") + b" &*& *frame |-> frame_value;"
         body = (body + b"\n    //@ assert *frame |-> frame_value;")
+        value_param = b", value: *const Element" if has_value_param else b""
         framed_sig = (b"pub unsafe fn " + name.encode() +
-                      b"<Element>(storage: *mut std::mem::MaybeUninit<*const Element>, frame: *mut u8)")
+                      b"<Element>(storage: *mut std::mem::MaybeUninit<*const Element>" +
+                      value_param + b", frame: *mut u8)")
         contract = matrix.ghost_block(
             b"req thread_token(?t) &*& t == currentThread &*& " + framed_pre + b"\n"
             b"ens thread_token(t) &*& " + post + b"\n"
@@ -92,6 +94,7 @@ def main() -> None:
                             if target is not None and target.decode() in line), None)
         fixture = {
             "variant": name, "runtime_empty_ghost_probe": True,
+            "runtime_value_parameter": has_value_param,
             "source_linked_assume_init_body": False,
             "component_acceptance": False, "permission_bridge_added": False,
             "precondition": framed_pre.decode(), "postcondition": post.decode(),
@@ -123,15 +126,27 @@ def main() -> None:
         error_prefix = log.split(errors[0], 1)[0] if errors else ""
         last_header = error_prefix.rfind("Verifying function '")
         failure_in_probe = last_header >= 0 and error_prefix[last_header:].startswith(proof_header)
-        target_reached = (target_line is not None and error_line in
-                          {target_line, target_line + 1} and failure_in_probe)
+        log_lines = log.splitlines()
+        error_index = log_lines.index(errors[0]) if errors and errors[0] in log_lines else -1
+        context = log_lines[error_index:error_index + 20] if error_index >= 0 else []
+        target_source_note = (target_line is not None and any(
+            re.search(rf"verified/lib\.rs\({line},[^)]*\): note: Consuming assertion", item)
+            for line in (target_line, target_line + 1) for item in context))
+        target_reached = (target_line is not None and failure_in_probe and
+                          (error_line in {target_line, target_line + 1} or target_source_note))
+        state_diagnostic = (name in {"cast_self_none", "cast_self_unknown"} and
+            len(errors) == 1 and "prelude_core.rsspec(213," in errors[0] and
+            bool(re.search(
+                r"Cannot prove that 'std::mem::MaybeUninit::inner\([^\n]*\)' is not an instance of constructor 'none'",
+                errors[0])) and target_source_note and failure_in_probe)
         if name == "cast_self_open_close":
             classification = "CAST_SELF_PASS" if result.get("verifast_exit") == 0 else "CAST_SELF_INCONCLUSIVE"
         elif name == "union_field_some" and result.get("verifast_exit") == 0:
             classification = "UNION_FIELD_PERMISSION_AVAILABLE"
-        elif target_reached and len(errors) == 1 and re.search(
-                r"verified/lib\.rs\(\d+,\d+-\d+\): error: No matching heap chunks: "
-                r"points_to<\*Element>\([^\n]*union_variant_ptr_provenance", errors[0]):
+        elif name in {"cast_self_none", "cast_self_unknown"} and state_diagnostic:
+            classification = "TARGETED_UNINITIALIZED_CELL_REJECT"
+        elif target_reached and len(errors) == 1 and "No matching heap chunks" in errors[0] and \
+                "union_variant_ptr" in errors[0]:
             classification = "TARGETED_READ_PERMISSION_MISSING"
         else:
             classification = "INCONCLUSIVE_WRONG_STAGE_OR_OBLIGATION"
@@ -141,6 +156,8 @@ def main() -> None:
             "target_error": errors[0] if errors else None,
             "target_error_source_line": error_line,
             "target_obligation_reached": target_reached,
+            "target_source_note": target_source_note,
+            "initialized_cell_state_diagnostic": state_diagnostic,
             "source_integrity": source_integrity,
             "runner_result": result,
         }, indent=2, sort_keys=True) + "\n")
@@ -159,6 +176,12 @@ def main() -> None:
         "cases": results,
     }, indent=2, sort_keys=True) + "\n")
     print(json.dumps(results))
+    expected = {"cast_self_open_close": {"CAST_SELF_PASS"},
+                "union_field_some": {"UNION_FIELD_PERMISSION_AVAILABLE", "TARGETED_READ_PERMISSION_MISSING"},
+                "cast_self_none": {"TARGETED_UNINITIALIZED_CELL_REJECT"},
+                "cast_self_unknown": {"TARGETED_UNINITIALIZED_CELL_REJECT"}}
+    require(all(item["classification"] in expected[item["case"]] for item in results),
+            "one or more ghost probes failed to reach the exact target; all evidence retained")
 
 
 if __name__ == "__main__":

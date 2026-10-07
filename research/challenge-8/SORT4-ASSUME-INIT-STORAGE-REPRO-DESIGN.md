@@ -241,3 +241,12 @@ support, aliasing/borrowing changes, arbitrary copy, `FnMut`, arbitrary `Drop`,
 or full `sort4`. The accepted constructor/as_mut_ptr profiles remain
 regressions only; all controls for this new rule must execute with its exact
 gate active. No runtime std source or signature is changed.
+
+2026-10-07 hosted S5j correction: readonly export can ignore ghost commands, but
+normal VeriFast preprocessing materializes them as Rust statements. A ghost close
+following the source's tail `.read()` breaks Rust syntax, so remove that close for
+the first read diagnostic. Keep both pre-read opens, exact runtime body and all
+normal/unwind/leak obligations. A successful read would next need wrapper/local
+cleanup proof; it would still not constitute acceptance. No return expression or
+runtime algorithm is rewritten. Full MIR certificate uses the observed five-local,
+four-block assert/address/cast/read graph; FieldData has index1/type but no name.

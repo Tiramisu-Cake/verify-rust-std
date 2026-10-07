@@ -2,54 +2,39 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**2008/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**2198/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
-Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
-body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
-S5b/37615266238, source `2fb924f02061a00a6e0204ed90145ef8c8f1e912`,
-profile `experimental-source-linked-select-pointer-intrinsics-v1`, patch `2cd1a04a`:
-constructor/as_mut_ptr full regressions and Rust/C/C++ baselines PASS. All six
-intrinsic SAFE/body/value/state/frame positives PASS. Wrong pointer result and
-wrong wrapper inner reach intended normal posts; unrecognized exact diagnostics
-keep classification INCONCLUSIVE. Eight remaining proof negatives and 40
-source/MIR admissions NOT RUN: intrinsic component NOT ACCEPTED.
+Accepted: O4 pointer-value model/SAFE constructor, S4b SAFE `as_mut_ptr`
+body/model. Latest S5j/37621751848, source
+`2454e860dc75c277686f3031a311501a3cd2b9e3`, profile
+`experimental-source-linked-select-pointer-intrinsics-v2`, patch `7bb39a84`:
+full constructor/as_mut_ptr regressions and 14 Rust/C/C++ baselines PASS.
+All 6 intrinsic positives and 10 intended proof negatives PASS; all 40
+source/MIR admission cases ran. 32 classified PASS; 8 correctly rejected before
+proof but exact diagnostic expectations differ. Intrinsic NOT ACCEPTED yet.
+S5k corrects those profile-specific exact expectations and adds message mutants;
+complete same-profile matrix must pass before actual intrinsic-on integration.
 
-Actual helper RUN with intrinsic rule disabled: both constructor and as_mut_ptr
-calls pass; first remaining error is `No such function:
-std::intrinsics::select_unpredictable` at `verified/lib.rs(49,21-92)`.
-Whole helper NOT PROVEN. This unsupported name is a next authorized operation,
-not a semantic stop. Full 31-local/14-block actual intrinsic certificate is being
-implemented separately; it cannot be enabled before complete component acceptance.
-S5c/37616835826/source6a9ddc9: all6positive+10proofnegative PASS; firstsource
-identity admission PASS, inputtype reaches HIR generic count/kind instead of
-predicted source-marker diagnostic. Remaining38 admissions NOT RUN. S5d pins
-that exact reason with4 diagnostic mutants and collects all40 independent
-admissions after proof acceptance. Same semantic patch, no relaxed gates.
-S5d/37617734037/source d08fa8a: full constructor/asptr regressions PASS; pointer
-method source/export/refinement passed, then stock empty pointer-own was not
-closed at free-drop call. Harness omitted fixture.json and aborted after evidence
-capture; intrinsic matrix NOT RUN. S5e fixes fixture metadata and explicitly
-closes existing empty raw-pointer ownership, adds canonical assume_init body
-export, then runs complete intrinsic matrix under v2/full actual graph patch
-1c9637f. Intrinsic-on actual runs only after same-run component acceptance.
-S5e/37618952909/sourcebd4a63d: build rejects Uint8 conversion because generated
-ScalarInt.size_get is already int. No component or MIR/proof run. S5f removes
-only that conversion, same criterion/new patch9181630f; full matrix and actual
-intrinsic-on integration still required. Assume-init storage question is a
-separate diagnostic, not a declared stop.
-S5f/37619547036/source08e16f3: strict applied.patch comparison catches stale
-blob/index hash after textual API correction; no build/proof. S5g regenerates
-canonical git diff in clean base worktree, hash ec841d1c (header-only delta).
+Actual helper with intrinsic rule OFF passes both constructor/as_mut_ptr calls;
+first error `No such function: std::intrinsics::select_unpredictable` at
+`verified/lib.rs(49,21-92)`. Whole helper NOT PROVEN. Full actual MIR graph gate
+is implemented but intrinsic-on execution remains gated by component acceptance.
+Pointer drop method reaches stock unwind post `Cannot prove false` (stock generic
+drop permits unwind). Canonical assume_init source/export/decode/refinement PASS:
+5 locals/4 blocks, assert_inhabited -> union field address -> cast -> read.
+Normal VF preprocessing failed on a ghost close after a Rust tail expression;
+S5k removes that annotation, retaining exact runtime source and all posts/leaks.
+Ghost-only probes are diagnostic, not source-linked acceptance or a semantic stop.
+Separate assume_init diagnostic profile is drafted; NOT RUN.
 
-[Compact S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
-[full S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018),
-[run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238).
-Each compact includes O4/37601511894 with byte/hash mapping; historical/full O4
+[Latest run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848),
+[compact evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11481774726),
+[full evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11482378240).
+Each compact includes O4/37601511894 with byte/hash mapping; original/full O4
 preserved. [Design](SORT4-SELECT-POINTER-DESIGN.md),
 [results](SORT4-SELECT-POINTER-RESULTS.md). Runtime std/signatures and frozen
 kernel/general memory/provenance/aliasing/export/refiner remain unchanged.
-Narrow source-linked pointer-operation spec/translator changes are authorized
-only after written design. RAPx CLOSED / NO-GO; B/C NOT RUN; full sort4 out of scope.
+RAPx CLOSED / NO-GO; B/C NOT RUN; full sort4 out of scope.
 
 The previous closed phase below is historical, not the current authorization.
 

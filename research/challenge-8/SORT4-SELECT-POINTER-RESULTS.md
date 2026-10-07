@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget2008/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget2198/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -193,3 +193,17 @@ while retaining nonzero final status for their setup failures; matrix gates unch
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621093604),
 [compact11481794092](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621093604/artifacts/11481794092),
 [full11481549245](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621093604/artifacts/11481549245).
+
+S5j/37621751848/source `2454e860dc75c277686f3031a311501a3cd2b9e3`,
+v2/7bb39a84:190s12:32:45–12:35:55UTC,total2198/5400,noactive.
+Full ctor/asptr/classifiers/14 baselines PASS. Intrinsic6positive+10proofnegative
+PASS, all40 admissions ran;32classifiedPASS,8 exact-fatal mismatches only.
+Raw logs confirm all40 correct certificate rejection before proof, source/export/
+decode/refinement/mutation integrity. These mismatches do not yet accept component.
+Canonical assume source/export/decode/refinement PASS (5locals/4BB); VF preprocessor
+rejects ghost close after tail read. GhostSome pre nested binder rejected; None/
+unknown reached initialization requirement but expected error-location wrong.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848),
+[compact11481774726](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11481774726),
+[full11482378240](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848/artifacts/11482378240).
+S5k repeats only concrete harness/classification corrections, unchanged7bb semantics.

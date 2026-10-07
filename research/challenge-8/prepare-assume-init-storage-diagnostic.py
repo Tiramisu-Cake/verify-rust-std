@@ -68,8 +68,6 @@ def make_source(repo: Path, matrix) -> tuple[bytes, bytes, dict]:
     annotated = body.replace(
         b"        unsafe {", b"        //@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, storage);\n"
         b"        //@ std::mem::open_MaybeUninit::<*Element>(&storage);\n        unsafe {", 1)
-    annotated = annotated.replace(
-        b".read()\n", b".read()\n            //@ std::mem::close_MaybeUninit::<*Element>(&storage);\n", 1)
     require(matrix.strip_ghost_annotations(annotated) == body, "annotation changes runtime body")
     contract = matrix.ghost_block(
         b"req thread_token(?t) &*& t == currentThread &*& "
@@ -124,7 +122,7 @@ def main() -> None:
                             args.compiler_sysroot, repo, "assume_init_storage",
                             "diagnostic", certificate_mode=False)
     log = (evidence / "verifast.log").read_text(errors="replace")
-    errors = [line for line in log.splitlines() if ": error:" in line or "Fatal error:" in line]
+    errors = [line for line in log.splitlines() if ": error:" in line or "Fatal error:" in line or line.startswith(("error:", "error["))]
     stage = runner.get("stage_integrity", {})
     summary = {
         "classification": "INCONCLUSIVE", "accepted_component": False,

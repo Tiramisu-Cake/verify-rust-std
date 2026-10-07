@@ -3924,3 +3924,19 @@ retainexitcodes/nonzerofinalstatus, fullcomponentgates unchanged. GhostcastSome/
 unionSome/castNone/unknown probes asS5i, nobridge; sourcebodyclaim separate.
 Completeintrinsic6+10+40/60+10+4 +ctor/asptr/14baselines gateactualON. Selection
 30min/proof300s,2008/5400before,oneactive,noSWO/layoutrepeat/newsemantics.
+
+S5j result37621751848/2454e86/7bb39a84:190s,total2198/5400. Ctor/asptr/14baseline/
+classifiers PASS; intrinsic6+10 PASS,40admissions run32classifiedPASS/8exactmessage
+mismatch at intended certificate beforeproof. Canonical assume5local4BB source/export/
+decode/refinement PASS; after-tail ghost invalid Rust preprocessing, no read proof.
+GhostSome invalid nested binder, None/unknown initialization requirement reached.
+Compact11481774726/full11482378240 retain raw evidence. No newcomponent accepted.
+S5k BEFORE dispatch: SAMEv2/7bb39a84 domain/fullposts/fullmatrix/actualgraph.
+Hypotheses: profile-specific exact8message corrections plus24reason/16stage/cert
+mutants accept intended rejects only; all6+10+40 complete beforeactualON. Remove
+illegal after-tail ghostclose while runtimebody byteexact and fullposts/leaks
+remain; ghostSome ordinary parameter fixes binder, init-target classification
+separates initialization from union provenance. No bridge/permission/kernel change.
+Ctor/asptr/14baselines required; intrinsic-on actual full31local14BB graph must
+pass and report first causal proof obligation. 2198/5400before,30minjob/300proof,
+oneactive/noSWO/layoutrepeat. New04d67f4b assume diagnostic profile NOT RUN here.
