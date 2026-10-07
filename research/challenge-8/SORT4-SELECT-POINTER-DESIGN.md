@@ -244,3 +244,19 @@ Rust helper type param is added. No new borrow/provenance/ownership rule. Same-p
 asptr full acceptance and actual two-call binding are required regressions. Actual
 must also retain typed receiver/result and one normal call/unwind continuation.
 This is a certified frontend applicability correction, not a new SAFE contract.
+
+S5a/37613525435 refinement of applicability BEFORE next implementation:
+exact raw/effective latebound matches and two actual redirects now pass, but VF
+reports Incorrect number of type arguments at firstasptrcall38. The previous
+"sole Element CallExpr" choice is disproved. Rust signature still has sole TYPE
+parameter and an ELIDED receiver lifetime; VF exports that lifetime as a second
+ghost type parameter. Stock translate_regular_fn_call represents each
+GenArgLifetime by Ast.InferredTypeExpr(call_loc), so the exact redirect must use
+[Element,InferredTypeExpr], retaining raw-latebound1/effective'erased restrictions.
+This adopts existing lifetime inference, no new lifetime/provenance/borrow axiom
+or Rust signature change. Same fullbody/SAFE/state/resource matrix and actual
+receiver/result/CFG gates remain required. If lifetime inference cannot match the
+existing elided IN/OUT contract, preserve the exact proof obligation instead of
+assuming its resource effect. Canonical S5a standalone intrinsic MIR is also now
+available; replace the disproved4locals/no-statements guess with its full observed
+7locals/ordered copy temporaries and normal/unreachable CFG, never count-only.
