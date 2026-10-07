@@ -4714,3 +4714,14 @@ No builds/verifier/tests/workflow_dispatch; budgets5306/5400(94) and512/1800(128
 unchanged. S7c UNACCEPTED5admissiontail; G2/A/B9projections retain oldboundaries,
 new sources/tools NOTREVALIDATED. UPSTREAM-SYNC records exactparents/mergetrees,
 sourcecaller ledgercorrection and preparedfuturetasks. All newcommits[skip ci].
+
+
+## 2026-10-08 — STOCK-26.10-BASELINE BEFORE
+
+Owner explicitly authorizes stock26.10 baseline and migration plan after sync;
+new separate1800 hosted jobseconds, old5306/5400(94) untouched/S7c UNACCEPTED.
+Full hypothesis, domains, normal/unwind posts, stock pins/source hashes, eleven
+isolated controls, exact diagnostic expectations and decisions are in
+[BEFORE card](STOCK-26.10-BASELINE.md). Effective patches NONE; source pin f76012fb,
+nightly2026-09-25/std cd371e03. First manual dispatch ceiling600s including artifacts;
+no executable work on server. Proof SHA/run appended after dispatch; no run yet.

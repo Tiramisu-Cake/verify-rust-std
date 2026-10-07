@@ -75,7 +75,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'forget_evidence_replay'
+    if: github.ref != 'refs/heads/research/stock-26.10-baseline' && inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'forget_evidence_replay'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -385,4 +385,26 @@ jobs:
         with:
           name: smallsort-forget-cfg-replay-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/forget-cfg-replay/
+          retention-days: 90
+
+  stock-2610:
+    if: github.ref == 'refs/heads/research/stock-26.10-baseline' && inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_generic_ast'
+    name: STOCK-26.10-BASELINE (unpatched release)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Record phase job start
+        run: echo "STOCK_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run independent stock fixtures
+        run: bash research/challenge-8/run-stock-2610.sh
+      - name: Save complete stock evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stock-2610-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/stock-2610/
+          if-no-files-found: error
           retention-days: 90
