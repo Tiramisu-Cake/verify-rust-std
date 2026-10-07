@@ -2,7 +2,7 @@
 
 2026-10-07 — IN PROGRESS: separately authorized functional stage in SAME merge budget.
 Entry067fb584018760259841210d2cc6c227117798ce, existing isolated branch/worktree
-challenge-8/merge /root/verify-rust-std-merge. Budget114/1800spent,1686remaining;
+challenge-8/merge /root/verify-rust-std-merge. Budget149/1800spent,1651remaining;
 no active run. Original G2proof b1ed0c22dafec350a64e83675d55350806d77208,
 8bodies/88statements/17return-leak and3geometrynegatives/21controls ACCEPTED,
 retained byte-for-byte in geometry.c and [original results](GEOMETRY-RESULTS.md).
@@ -13,7 +13,9 @@ negative reaches exact multiplicity failure, diagnostic boxing metadata needs
 calibration. A2 rearranges switch before calls to expose structural induction;
 contracts unchanged. A2 full theorem ACCEPTED at fc4d03d31f92c6d3f3566b0baa506d0a6dec6805,
 run37677079473,19 bodies/178statements/55return-leak plus exact duplicate
-negative/all7controls. B full fixed-SWO composition now ready for hosted check.
+negative/all7controls. B4 reached endpoint cut a<le-1 in mb_pair_extremes; fullB OPEN.
+All3 functional negatives now intended/21controls accepted atB4, source
+b699b11ddb651d2404f770c4ffdd9a66e7277575/run37679577426. Analysis before nextrepair.
 
 First authorized theorem A: exact bidirectional write trace/output occurrence IDs
 for arbitrary n>=2, independent comparator results and odd residualBoolean.

@@ -215,3 +215,30 @@ No newpremise/post/axiom; exactsame fullBtarget. Tiesource/assert unchanged,
 calibrateexactpredicate mb_lt(@neg_equal_key, 1, 0) <==> true with strictgates.
 Samepinnedtool/source/classifier/domain/posts/180case/300process/6minjob.
 Success->fullBreport; failure->firstnewcausalobligation repair only.
+
+## F-B4 result — intended negatives accepted; endpoint cut still OPEN
+B4 publishedb699b11ddb651d2404f770c4ffdd9a66e7277575,
+[run37679577426](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37679577426),
+job11299180870120:07:02Z–20:07:37Z=35s; cumulative149/1800,1651remaining.
+Positive sourceef1a4ca031405a58b5c637e9824f438ef41af5de042f90223e9e571ed1248492,
+log921e25f9d11224b89c24ebb37b2337f926a6f8dc67e7655dac68c3821f8c9459:
+95returns/leaks, first failure explicitassert830 a<((m-k+d)-1) after excluded
+equality/selectedremaining branch. Sharper evidence, not acceptance/counterexample.
+All three intended negatives now exact ACCEPTED: duplicate218cols68-70;
+tie274cols39-41; wrongcomparator274cols31-33. Each7controlsTRUE,21total.
+Tie andcomparator sourcebyteidenticalB3, onlytieexactmetadata changed.
+Fullartifactsource/log/results inspected, original pins/admission unchanged.
+Next decision: analyze missing logical facts at this endpointcut before changes;
+no weakerpost/extra functionalpremise or timeout escalation permitted.
+
+## F-B5 card — derive strict endpoint gaps from next-state cuts
+SameexactBsource/domain/fullposts/stockprofile/negativecontrols. New evidence-
+based hypothesis: mb_frontier_step then originalmg_pair_step then mb_no_cross
+at k+1 gives a+bit(up)<=m-(k+1)+d+bit(down) and corresponding rightcut.
+Thus same-half upL/downL has a+1<=le-1; upR/downR r+1<=re-1, directly strict.
+No reliance on disequality propagation, no extraassumptions/circularity: these
+three earlier helper bodies do not depend on mb_pair_extremes and were accepted
+before its failure. Keep all earlierassertions/fullposts, derive strongerfact
+from exact faithful schedule. All negatives sources/asserts unchanged and must
+againreach intendedtargets/all21controls. Budget149/1800,1651remaining; same
+180case/300process/6minhosted bounds. Firstnewfailure guides next action.

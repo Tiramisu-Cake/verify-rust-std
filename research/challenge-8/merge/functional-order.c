@@ -171,6 +171,12 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
     }
     assert mb_remaining(m,e,k,a,d,fa_up_source(m,k,a,up))==true;
     assert mb_remaining(m,e,k,a,d,fa_down_source(m,e,k,d,down))==true;
+    // The already checked next-state cut proof supplies an explicit unit gap
+    // when both writes select the same original half. This avoids relying on
+    // an implicit integer-gap inference after excluding equal endpoint IDs.
+    mb_frontier_step(key,m,e,k,a,d,up,down);
+    mg_pair_step(m,e,k,a,d,up,down);
+    mb_no_cross(key,m,e,k+1,a+mg_bit(up),d+mg_bit(down));
     if(up) {
         if(down) {
             mb_half_order(key,m,n,r,re-1);
