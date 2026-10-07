@@ -390,3 +390,20 @@ acceptance, retaining runtime calls and cleanup CFG. Derive the initialized-cell
 pre from actual current wrapper/storage/reborrow resources using existing lemmas;
 if impossible STOP at that precise obligation. If drop passes STOP at next blocker.
 Whole helper/sort4 claims remain forbidden.
+
+
+S6 actual projection hypothesis (review before integration annotations): stock
+asptr returns the exact receiver address and its existing wrapper points-to;
+stock create_ref_mut leaves ref_mut_end_token and that cell alive (StorageDead
+is ignored by existing translation). Use the asptr result cast back to the typed
+wrapper pointer, apply unchanged open_MaybeUninit once for each wrapper, and
+constructor inner==some(input) to obtain the two initialized payload cells.
+Pointer select binds drop to one of those addresses; split condition ghost-only
+if needed, consume/preserve selected cell at drop and frame the other. Close
+wrapper projections after successful drop using stock close_MaybeUninit before
+recording the next runtime blocker. No Element cell, union field pointer, new
+borrow rule or assumed ownership bridge. This is a falsifiable proof hypothesis,
+not accepted evidence. Certificate admits only the exact declared ghost sequence
+with source/MIR spans; full runtime body/typed MIR/cleanup edges stay identical.
+If existing projection/equality/reborrow obligations fail, preserve exact trace
+and STOP at that obligation rather than weakening initialized-drop pre.
