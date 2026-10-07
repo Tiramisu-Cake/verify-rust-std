@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1632/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget1725/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -162,3 +162,11 @@ cleanVF809 two-file worktree; only blob/index header changes, hashec841d1c.
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619547036),
 [compact11481671010](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619547036/artifacts/11481671010),
 [full11481451361](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619547036/artifacts/11481451361).
+
+S5g/37619961051/source `53f4d9459df5557d528b01ccba6cb695984113c2`,
+ec841d1c:93s12:17:44–12:19:17UTC,total1725/5400,noactive.
+Canonical patch audit PASS; BUILD FAIL8978: unannotated guard_type parameter
+cannot resolve decoded record kind. No MIR/proof. S5h adds D.ty annotation only.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619961051),
+[compact11482375375](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619961051/artifacts/11482375375),
+[full11482115571](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619961051/artifacts/11482115571).

@@ -3889,3 +3889,12 @@ regeneratedfromBASE809+9181630f incleanRAMworktree; onlyoneindexheaderlinechange
 Hypothesis strictapplied.patch audit nowpasses, retainingALLtrusted-file/code
 checks; then unchangedproofhypotheses. NoS6scratchchangesincluded. Selection30min/
 proof300s,1632/5400before,oneactive, noSWO/layoutrepeat.
+
+S5g result37619961051/53f4d94/ec841d1c:93s,total1725/5400. Canonicalpatchaudit
+PASS, BUILD FAIL8978 untypedguard_type ty.kind ->Unboundrecordfieldkind. NoMIR/
+proof. Compact11482375375/full11482115571. S5h hypothesis explicitD.typarameter
+resolvesgeneratedrecordlabel whileallgraph/typechecks unchanged; canonicalpatch
+regeneration required. Samev2S5e/f/g domain/fullposts/fullmatrix/diagnostics;
+selection30min/proof300s,1725/5400before. No semanticdelta/SWO/layoutrepeat.
+
+S5h exactpatch73f0904f11e2f1827a51e3ca83bfe432cbbb1edef142d3d93101917cba4f3e02; cleanbasecanonicalcmp/apply/diffstaticPASS.

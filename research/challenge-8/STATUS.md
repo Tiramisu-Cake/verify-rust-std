@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**1632/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**1725/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
 body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
@@ -95,3 +95,8 @@ pure SWO composition and exact fieldless layout d4a12525 full matrix
 callback/resource/unwind composition or a full Rust sort4 theorem. Their original
 source/run/profile identities and failed controls remain in those reports and
 EXPERIMENT-LOG. Historical "next" statements do not authorize further work.
+
+Current S5g/37619961051/source53f4d94/ec841d1c: canonical patch audit PASS,
+build fails on unannotated decoded guard_type record (`kind` field). No new proof.
+S5h adds only D.ty annotation and canonical regeneration; complete matrices
+and actual/source-linked read diagnostic remain required. No active run.
