@@ -3,9 +3,11 @@
 Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
 new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
 New budget248/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. No active run. C1/C2 pure composition accepted; C3/37586921301
+one relevant run. Active C4/37590641832/sourceac6dfcf246a72f4e9066041b0e31b810553d117d,
+constructor feasibility only, dispatched07:57:56UTC; budget pending completion.
+C1/C2 pure composition accepted; C3/37586921301
 immutable layout full matrix PASS179s. C4 constructor feasibility diagnostic ready:
-source-linked translator-only patch047b92a8; not built or accepted. Full MIR
+source-linked translator-only patch047b92a8; building, not accepted. Full MIR
 dataflow gate/acceptance negatives/dependent actual callee are NOT RUN in C4.
 Entry tree clean, research HEAD/remote match.
 The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;

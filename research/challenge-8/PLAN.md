@@ -8,6 +8,13 @@ in a separate experimental stock-based profile. No general union/alias/ownership
 copy/FnMut/Drop extension. Actual callee diagnostic follows constructor acceptance.
 [STATUS](STATUS.md) is the current execution checkpoint.
 
+C1/C2 accept pure composition; C3 accepts the repaired span/full-layout matrix.
+C4 is a deliberately partial safe-constructor feasibility diagnostic under
+[the new design](SORT4-MAYBEUNINIT-NEW-DESIGN.md). Its experimental profile remains
+UNACCEPTED until the complete MIR applicability and intended negative gates pass.
+An opaque ownership requirement stops this expansion; actual callee follows only
+accepted constructor support.
+
 Historical [night](SORT4-NIGHT-PHASE.md) CLOSED at12/12 NEW,2697jobseconds;
 [report](SORT4-NIGHT-RESULTS.md). Stock index/rank/finite-SWO bridge/range components
 accepted; final composition failed before verifier at harness wiring (fixed but

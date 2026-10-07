@@ -3311,3 +3311,8 @@ full MIR gate and intended negative matrix before acceptance/actual callee.
 Manual verifast_maybeuninit_new_pointer/budget30, timeout1800 incl setup/build,
 cleanup reserve120, each matrix stage<=300s, one relevant run. Current budget
 248/5400s; no active run. No local executable checks/builds occurred.
+
+C4 dispatched37590641832/sourceac6dfcf246a72f4e9066041b0e31b810553d117d,
+created2026-10-07T07:57:56Z; exact remote matched, no other relevant active run.
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37590641832.
+Selection verifast_maybeuninit_new_pointer/30, feasibility-only, profile UNACCEPTED.
