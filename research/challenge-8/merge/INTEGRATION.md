@@ -1,5 +1,15 @@
 # Geometry contract and future actual Rust transfer
 
+## Authorized nonzero stock component
+
+[POINTER-DESIGN](POINTER-DESIGN.md) separates audited public caller ZST exclusion
+from standalone generic Challenge obligations. The new fixtures project only
+exact add/sub/wrapping and comparison operators; they require explicit nonzero
+layout/byte/provenance limits. Checked Rust ghost G2 local formulas are independent
+bodies, not imported C axioms. Complete Rust trace, wrapping terminal associations,
+resources/copies/FnMut/unwind and actual merge refinement remain OPEN until their
+own gates complete. Current executable results are recorded in RESULTS/STATUS.
+
 Geometry preconditions: n>=2; arithmetic n=2m+e,m>=1,e in{0,1}; two original
 source halves in one logical source domain[0,n); destination domain[0,n).
 For standalone merge_down, ordinary destination decrement additionally needs

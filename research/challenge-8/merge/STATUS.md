@@ -1,4 +1,14 @@
-# Merge functional checkpoint
+# Merge checkpoint — stock Rust pointer/index stage
+
+2026-10-07 owner explicitly resumes from7d27ce106d27208bcd1156fe5675f70f8f9bf1aa.
+G2/A/B mathematical completion accepted and preserved. Caller audit complete;
+stock operation fixtures IN PREPARATION. No active run. Budget330/1800 spent,
+1470 remain, no reset or transfer. [Plan/design](POINTER-DESIGN.md).
+Public stable/unstable ZST guards cover their caller routes; standalone generic
+Challenge and direct SmallSort ZST cases remain OPEN. Pointer wrapping support
+suspected absent in stock26.09; no semantic tool changes permitted.
+
+## Preserved mathematical completion checkpoint
 
 2026-10-07 — Goals A and B ACCEPTED for the mathematical model.
 Isolated worktree /root/verify-rust-std-merge, branch challenge-8/merge;

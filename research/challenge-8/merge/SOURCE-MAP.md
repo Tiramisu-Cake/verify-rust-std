@@ -1,5 +1,39 @@
 # Exact Rust source and arithmetic model
 
+## Caller audit source ledger — before P1
+
+SmallSort is byte-identical to upstream Rust
+`b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2`; other core/alloc files below
+are not vendored in this reduced subtree. Exact reference URL prefix:
+`https://raw.githubusercontent.com/rust-lang/rust/b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2/`.
+Read-only downloaded files were hashed, not compiled. Full paths/hash ledger:
+
+| Path under library | SHA256 | Relevant lines |
+| --- | --- | --- |
+| core/src/slice/sort/stable/mod.rs | 3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3 | 25–29 ZST;63–76 drift;120–124 drift call |
+| core/src/slice/sort/stable/drift.rs | 5992b53abed257aa1c2dc2bb811d6a525294471e7a98d434f161d376100bf9c9 | 233–240 create_run/quicksort |
+| core/src/slice/sort/stable/quicksort.rs | e7b5df9c7022ade2b932d83c4d0757ba1a211286e03c350695dd383b951e0264 | 26–28 SmallSort dispatch |
+| core/src/slice/sort/unstable/mod.rs | 367fc5b0a8dd2ca26643cdcef821ac9ec0fc4c67e7246293b8675609450e2ac7 | 18–22 ZST;40–45 ipnsort |
+| core/src/slice/sort/unstable/quicksort.rs | 8fc55e114a3715dafb6b6d336b9450534ce7d45314d71faa9bd79a0c7d3e8a13 | 18–29 SmallSort dispatch |
+| alloc/src/slice.rs | dce55c82186526b4c252e99da7a503e6d9765221434fcb3b8495ddfe57113086 | 125–130,185–190,239–245,809–814 stable wrappers;310–354 cached-key |
+| core/src/slice/mod.rs | 2180b3b20c402a77394e0378b3bbffcbc74be11560e99c5b5b5f31e80b6dd3d6 | 2988–2992,3042–3046,3093–3098 unstable wrappers |
+| core/src/ptr/const_ptr.rs | 6a402581b4b309d53b94cf6ae32aaf15a49a6209399680fddf7fe922eb4de062 | add829,sub935,wrapping docs1000–1024/1080–1103,methods1053/1132 |
+
+Vendored SmallSort: stable specialization49–62; unstable Freeze90–169;
+general scratch220–294 (sort8 calls241–249, full merge286); network311–376
+(len<18 no_merge, merge367); sort8 663–679. Public sort routes inherit early
+ZST returns; direct trait/helper calls do not. Direct ZST network's pointer-equality
+loop354–362 prevents its long path reaching merge (short path returns). General
+scratch still has direct ZST merge routes. Cached-key sorts a distinct
+nonzero `(K,index)` type. Detailed boundary in [POINTER-DESIGN](POINTER-DESIGN.md).
+
+Stock tool source809de4596839b739dd999f9e462242c835e3af46:
+vf_mir_translator.ml2395–2439 maps add/sub,2860–2890 maps comparisons;
+prelude_core.rsspec105–110 retains provenance in ptr_add;159–164 defines limits;
+189–190 scales typed offsets. No pointer wrapping spec/mapping found in audit.
+Rust fixture operator projections/refinement are independent of source-text
+admission for the full SmallSort body. The original certificate below is retained.
+
 Pinned base c22f0a30ed457165e07599e226cee289a270b715; full source
 library/core/src/slice/sort/shared/smallsort.rs SHA256
 32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959.

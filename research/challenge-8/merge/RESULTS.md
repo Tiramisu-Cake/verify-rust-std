@@ -1,5 +1,22 @@
 # Functional mathematical bidirectional merge
 
+## Stock Rust pointer/index stage — applicability audit completed before P1
+
+Owner accepted G2/A/B from documentation HEAD7d27ce106d27208bcd1156fe5675f70f8f9bf1aa;
+proof bodies/premises and proof SHAs below preserved. [POINTER-DESIGN](POINTER-DESIGN.md)
+records the new component and [SOURCE-MAP](SOURCE-MAP.md) its pinned caller ledger.
+Stable and unstable public entry chains exclude T-ZST before SmallSort dispatch;
+cached-key sorts nonzero index tuples. Direct general SmallSort ZST remains a
+merge route outside those guards. Direct network ZST len2..17 returns; len18..32
+repeats its right-region pointer-equality loop without reaching merge on normal
+paths. This is source/semantic audit evidence, not stock layout verification.
+Standalone generic Challenge scope still includes ZST.
+
+Prepared symbolic Rust fixtures isolate add/sub/Boolean steps, checked local G2
+formulas, pointer order/equality, wrapping support/re-entry and three negative
+obligations. All results pending P1; no full Rust merge safety/completion claim.
+Entry budget330/1800 used1470remain, separate from all other directions.
+
 This authorized stage continues from067fb584018760259841210d2cc6c227117798ce
 in the isolated challenge-8/merge worktree, with the original1800 hosted-job
 second budget. Original G2 report preserved in [GEOMETRY-RESULTS.md](GEOMETRY-RESULTS.md),

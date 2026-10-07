@@ -328,3 +328,23 @@ keeping the original path via symlink and an independently compared exact copy
 /dev/shm/merge-preserved-verifast-source-26.09. No worktree/branch/source/tool
 semantics changed; no local verifier/build/test execution or hosted budget cost.
 Final documentation retry authorized within this stage, no extra proof run.
+
+## P1 BEFORE — stock Rust pointer/index projections
+
+Owner resumed from7d27ce106d27208bcd1156fe5675f70f8f9bf1aa, accepted G2/A/B.
+Read-only caller/source/stock support audit finished before executable checks.
+[POINTER-DESIGN](POINTER-DESIGN.md) records exact domain, caller/component premises,
+all normal/non-unwind posts, wrapping modular/provenance semantics, ZST remainder,
+operation boundaries and expected negative obligations. No C axiom imported.
+Hypothesis: stock supports exact add/sub/Lt/Ne plus checked local G2/multiplication
+lemmas; exact pointer wrapping calls stop at missing support. Independent cases
+prevent a wrapping failure blocking supported components. Minimal wrapped-read
+negative remains INCONCLUSIVE on earlier unsupported operation. Other negatives
+must reach their predeclared TARGET assertion; calibration requires NEW run.
+Full source/export/decode/refinement/body/return/leak/dead-code gates retained.
+Selectionmerge_geometry+sort4_component=range, stock26.09, nightly2026-02-05,
+ubuntu24, sole6minjob, stage timeouts. Budget330/1800 spent1470remaining.
+PASS supported components -> finish their within-phase composition; unsupported
+wrap -> stop wrapping bridge without patches/retries; annotation error -> precise
+repair/newcard/newSHA within remaining budget. No runtime/contracts/A/B/comparator/
+networks/first-agent-tree changes. All generated sources/evidence hosted or/tmp.

@@ -1,4 +1,17 @@
-# Current authorized functional stage: goals and acceptance
+# Current authorized stage: stock Rust pointer/index correspondence
+
+Owner continuation from documentation HEAD
+`7d27ce106d27208bcd1156fe5675f70f8f9bf1aa` accepts completed G2/A/B.
+New stage follows [POINTER-DESIGN](POINTER-DESIGN.md), including caller audit,
+nonzero-size component, exact operator support, meaningful controls and preserved
+export/decode/refinement/full verifier gates. Same budget330/1800,1470 remain.
+Audit is completed before dispatch. No ZST exclusion in Challenge contracts,
+no tool semantic changes, memory/copy/FnMut/unwind expansion or network work.
+Own branch only; one hosted run at a time. Unsupported wrapping -> stop that
+composition; independently supported components can complete. Mathematical
+proof bodies, premises, source/proof SHAs and historical results below unchanged.
+
+# Completed functional stage: goals and acceptance
 
 Owner continuation from067fb584018760259841210d2cc6c227117798ce, SAME1800jobsecond
 merge budget25spent/1775remaining, no reset or networktransfer. Stock unchanged

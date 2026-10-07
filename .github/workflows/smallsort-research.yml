@@ -261,14 +261,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: Verify exact-source abstract merge geometry
-        run: bash research/challenge-8/merge/run.sh merge_geometry
+      - name: Verify selected exact-source merge component
+        env:
+          MERGE_COMPONENT: ${{ inputs.sort4_component }}
+        run: |
+          if [[ "$MERGE_COMPONENT" == range ]]; then
+            bash research/challenge-8/merge/pointer-run.sh merge_geometry
+          else
+            bash research/challenge-8/merge/run.sh merge_geometry
+          fi
       - name: Preserve full merge geometry evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: smallsort-merge-geometry-${{ github.run_id }}-${{ github.run_attempt }}
-          path: research-results/merge-geometry/
+          path: |
+            research-results/merge-geometry/
+            research-results/merge-pointer/
           if-no-files-found: error
           retention-days: 90
 
