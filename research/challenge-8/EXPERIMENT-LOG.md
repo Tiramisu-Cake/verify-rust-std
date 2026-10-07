@@ -2933,3 +2933,24 @@ design. Ordinary proof errors may be corrected by NEW source/run within budget.
 Selection verifast_sort4_components/range/30. Full card/spec-boundary in
 SORT4-MEMORY-OPERATIONS.md. Main0970b84 only adds range/swo manualinput options;
 no other workflow change/main research-history merge or semantic extension.
+
+N7 dispatched run37549385441/sourceb288370f1a1e6b34c26ef63764c73be2ced452c9,
+created2026-10-06T23:57:40Z; job112560988475,23:57:45–23:58:25UTC,40s,FAILURE.
+Artifact11452326327,13760bytes,ZIPsha256
+ d0fa2dd31e7ca9965a045afef66ec2362f5636eccfe87c0aeac512436b01e0e4.
+Positive first fails at sort4-range-lemmas.c14: cannot prove n==4 after exclusions
+under0<=n<=4. Scalar theorem not yet reached; this is an ordinary missing integer
+case proof, not evidence of false geometry. Negative reaches exact targetline10
+and rejects d+5stride<=d+4stride with stride>0 and separated spans. No false theorem.
+Night7/12,479/10800jobseconds; no active run.
+
+### N8 scalar-range arithmetic repair card
+
+Same exact N7 source mapping, full domain/post and frozen stock profile. Hypothesis:
+existing stock prelude.h checked-profile lemma mul_mono_l(0,n,stride) and
+mul_mono_l(n,4,stride) establish product bounds without finite integer case
+exclusions; apply also to i+1,j+1 to establish endpoints. No new axiom/spec/model
+change; full selected-cell containment/separation and ZST stride0 retained.
+Negative and classifier unchanged. Expected positive complete named composition
+body VF0, negative intended endpoint only. Ordinary failure may be repaired with
+new evidence/run; semantic need becomes design-only blocker. Manual range/30.

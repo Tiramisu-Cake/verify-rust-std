@@ -2,9 +2,9 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night5/12 NEW,366 completed/10800 summed job-seconds plus active job; repair2/2.
-Active [N5/37548811698](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37548811698),
-source6a12b4e39621eb057712f9084b809f86da6c9b77,stock order + saved-index replay/30.
+Night7/12 NEW,479/10800 summed job-seconds; repair2/2 complete. No active run.
+Last N7/37549385441,sourceb288370f1a1e6b34c26ef63764c73be2ced452c9:
+range helper arithmetic proof failure; intended endpoint negative rejected.
 Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; entry clean/matching
 origin e7eae592dcda42ad330cd8f565c1411bffdf7519.
 
@@ -33,18 +33,29 @@ assertion (execution12,error expression-end14); raw automatic INCONCLUSIVE from
 trace-header/end-line processing, corrected hosted replay in N5. N3 parse failure
 23s historical; N4 job44s. No Rust pointer/callee/resource bridge follows.
 
-Order/range ghost proofs and actual-pointer-callee adapter **NOT PROVEN**.
-Callee source contains MaybeUninit/DropOnPanic/three
-intrinsic selections; stock intrinsic support absent by static review, not yet an
-executed blocker. Full pointer/provenance/resource/unwind bridge remains open.
-Known typed initialized-dst spec remains a raw-scratch boundary; no repeat without
-new hypothesis. ZST/non-Copy/non-Freeze/legal effects and five panic posts retained.
+**Abstract order/stability PASS:** N5/37548811698,source6a12b4e,41s.
+Unbounded fixed integer ranks, exact five-comparison scheme, stable original IDs;
+39 statements checked. Equal-rank reversed-middle negative rejected at line17.
+Saved N4 replay accepts intended negative classification without a verifier rerun.
+Pure finite-SWO rank transfer remains a planned independent checked bridge.
 
-Next permitted actions: finish N5, independent stock order proof
-and faithful pointer-callee diagnostic; memory specs/checked geometry and design
-within night card. Minimal manual workflow exposure only (main b3c9835 adds stock
-components, no research-history merge). RAPx CLOSED/NO-GO; B/C NOT RUN.
-No historical FnMut/Drop chain, new tool/axiom/spec/model extension or publication.
+**Actual pointer callee BLOCKED:** N6/37549040942,sourceaed1d97,32s.
+Exact extracted body/export/decode/refinement passed; first proof failure is
+`No such function: std::mem::MaybeUninit::<T>::new` at verified/lib.rs21.
+Pointer equality/provenance/frame/no-unwind not proven. No trusted extension added.
+See [callee boundary](SORT4-SELECT-CALLEE.md). Stock intrinsic support is a later
+static concern. General safety domain and five panic posts remain unchanged.
+
+**Scalar range proof IN PROGRESS:** N7 positive stops in multiplication helper
+at unproved integer case residual; selected-cell composition not yet reached.
+Negative rejects wrong endpoint with satisfiable other premises. N8 uses existing
+frozen prelude multiplication monotonicity, with identical domain/posts.
+Known raw-scratch initialized-dst boundary is not repeated; operation/spec coverage
+and future design are in [memory operations](SORT4-MEMORY-OPERATIONS.md).
+Next: corrected range, independent finite-SWO bridge; no callback/model expansion.
+Main0970b84 exposes only additional manual range/swo selections.
+RAPx CLOSED/NO-GO; B/C NOT RUN. No historical FnMut/Drop chain, new tool/axiom/spec/
+model extension or publication.
 Full logs/artifacts are in /tmp only; historical prototype6/6,653s remains closed
 in [alignment results](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout).
 Detailed current cards/results: [journal](EXPERIMENT-LOG.md).

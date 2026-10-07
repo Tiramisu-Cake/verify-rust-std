@@ -47,11 +47,11 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;5/12 runs,366completed/10800s plus active N5/37548811698.
-Layout repair2/2 complete: N2/37547890530 full matrix and artifact audit PASS at
-exact d4a12525 patch. Narrow experimental profile may be used only within the
-already authorized sequence. N1 syntax failure retained; historical budget closed.
-Stock index theorem N4/sourcefa74d92 PASS; intended duplicate assertion manually
-confirmed, raw processor INCONCLUSIVE preserved. N5 checks independent rank theorem
-and replays saved N4 processing, without repeating the index verifier.
-Order/callee/range preparations unproven.
+Current: IN PROGRESS;7/12 runs,479/10800 summed job-seconds; no active run.
+Layout repair2/2 complete, N2 full matrix/audit accepted at exact d4a12525 patch.
+Stock index theorem N4 accepted with N5 saved-processing replay; N5 abstract
+integer-rank sortedness/stability accepted. Actual pointer callee N6 blocked at
+first runtime MaybeUninit::new, without adding a summary. N7 scalar range proof
+has an ordinary arithmetic residual failure; endpoint negative is intended.
+Next N8 monotonicity-based range repair, then independent finite-SWO bridge.
+All actual Rust pointer/resource/raw-scratch/unwind composition remains open.

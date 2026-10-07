@@ -6,13 +6,8 @@ lemma void s4_mul_index_bounds(int n, int stride)
     requires stride >= 0 &*& 0 <= n &*& n <= 4;
     ensures 0 <= n * stride &*& n * stride <= 4 * stride;
 {
-    if (n == 0) {
-    } else if (n == 1) {
-    } else if (n == 2) {
-    } else if (n == 3) {
-    } else {
-        assert n == 4;
-    }
+    mul_mono_l(0, n, stride);
+    mul_mono_l(n, 4, stride);
 }
 
 lemma void s4_cells_within_disjoint_spans(int s, int d, int stride,
@@ -28,8 +23,8 @@ lemma void s4_cells_within_disjoint_spans(int s, int d, int stride,
 {
     s4_mul_index_bounds(i, stride);
     s4_mul_index_bounds(j, stride);
-    if (i == 0) {} else if (i == 1) {} else if (i == 2) {} else { assert i == 3; }
-    if (j == 0) {} else if (j == 1) {} else if (j == 2) {} else { assert j == 3; }
+    s4_mul_index_bounds(i + 1, stride);
+    s4_mul_index_bounds(j + 1, stride);
     if (s + 4 * stride <= d) {
     } else {
         assert d + 4 * stride <= s;

@@ -1,6 +1,6 @@
 # Abstract order and stability gate for `sort4_stable`
 
-## Preexperiment card — stock VeriFast, not yet hosted checked
+## Accepted abstract rank component
 
 - **Actual obligation:** the repository `sort4_stable` at
   `library/core/src/slice/sort/shared/smallsort.rs:610–658`, blob
@@ -58,3 +58,9 @@ provenance, selection-callee behavior, reference validity, copy permission,
 uninitialized-scratch handling, resource frame, panic restoration, or whole
 Rust `sort4_stable` contract. No `T: Copy` or `T: Freeze` premise enters the
 abstract theorem.
+
+Hosted N5/37548811698,source6a12b4e39621eb057712f9084b809f86da6c9b77:
+PASS,39 verified statements; named index/order bodies and all return/leak checks
+inspected. Minimal equal-key reversed-middle negative fails only target line17.
+Full artifact11452435478 binds source/header/profile hashes. Finite-SWO checked
+transfer is separately [prepared](SORT4-SWO-BRIDGE.md); actual callback bridge open.
