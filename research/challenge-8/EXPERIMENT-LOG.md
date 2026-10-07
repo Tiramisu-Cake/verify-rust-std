@@ -4756,3 +4756,13 @@ Artifact11515215378 ZIP18f1796c2be90f483402db00d2aacb868e8229a8ca2d490e8248bdc2c
 1701remaining; old5306/5400(94) untouched/S7cUNACCEPTED. CLOSED at stock blocker,
 plan ready, no active run. Next requires separate narrow diagnostic/trust decision.
 Final docs HEAD is not proof SHA.
+
+
+## OVERNIGHT-SELECT-SORT4-26.10 — entry / O1 BEFORE
+
+Owner authorization: broad autonomous phase through2026-10-08 06:30UTC, new21600
+hosted jobseconds; historical budgets unchanged. Entry80d9c0c3, own branch
+research/overnight-select-sort4-26.10. See [full phase/card](OVERNIGHT-SELECT-SORT4-26.10.md)
+and [verbatim prior checkpoint](overnight/STATUS-ENTRY-HISTORICAL.md). O1 will test
+independent stock+MD::new CFG causality and complete normal/unwind/negative controls;
+no physical-loc number requirement, no S6 import in this profile. No active run/0used.

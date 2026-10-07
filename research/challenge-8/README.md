@@ -1,5 +1,18 @@
 ## Текущий результат STOCK-26.10-BASELINE — 2026-10-08
 
+## Current owner authorization: OVERNIGHT-SELECT-SORT4-26.10
+
+2026-10-08 IN PROGRESS through09:30MSK/06:30UTC; new independent21600 hosted
+jobseconds. [Phase](OVERNIGHT-SELECT-SORT4-26.10.md) supersedes historical stage
+stops: CFG26.10 → S6 transfer → actual helper → actual sort4 → profile reduction/
+dependent components. Semantic changes authorized after written rationale/trust/gates
+and self-review; no owner wait between these stages. Runtime/check integrity preserved.
+[STATUS](STATUS.md) remains the current compact checkpoint. Old budgets and results
+below are historical and do not constrain this authorized phase.
+
+## Historical roadmap and phase checkpoints (preserved)
+
+
 Владелец отдельно возобновил stock26.10 phase с новым бюджетом1800s.
 [Отчёт / новая карта переноса](STOCK-26.10-BASELINE.md): proofa0cfd30e,
 run37694000195, stock chain PASS на независимых u32/raw/unwind controls;
