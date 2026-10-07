@@ -345,3 +345,48 @@ semantic7bb/v2 identity, not a new proof theorem. Exactly8 reasons corrected;
 all32 other admissions and16 proofs byte-equivalent classifications, profile/stage/
 message mutants reject, original logs/source/MIR/classifications retained. See
 results for fullSHAs/run37626031885/compact11483952705 and S5k actualdrop blocker.
+
+## S6 authorization and trust review — 2026-10-07, BEFORE implementation
+
+Owner resumes ONLY pointer drop from bea6248; the broader 04d67f4b draft remains
+frozen. Same phase budget: 2398/5400 consumed, 3002 job seconds remain.
+Exact payload is `*const Element`, not Element; receiver `*mut *const Element`.
+Element is arbitrary Sized with no Copy/Freeze or pointee rights. Method source
+mut_ptr.rs SHA256 d35858d6b1ec693d5e01b994e2d8248f73c7062c151e75e73ea635456fc82098;
+lang-item source ptr/mod.rs SHA256
+325d69d3ce0fef9099f985febc5b712bbdb3563364648adc1396a365699987aa.
+
+The checked theorem is the non-const, exact-type method adapter, solely renaming
+self to slot and qualifying the scope-bound free call. The compiler lang-item's
+recursive placeholder is NOT the executable body and is NOT proved. A separate
+trusted rule maps that exact free drop-glue call to a checked identity lemma.
+Rust's destructor semantics makes raw-pointer payload drop empty: pointers own
+no referent, have no user destructor or fields to recursively drop. Hence there
+is no read/write, pointer reconstruction or callback that could change the full
+stored modeled value/provenance or unwind. This rationale is an explicit compiler
+correspondence assumption, not a result established by proving the ghost lemma.
+[Reference destructor operations](https://doc.rust-lang.org/reference/destructors.html)
+and [Drop documentation](https://doc.rust-lang.org/stable/core/ops/trait.Drop.html)
+support that rationale; the pinned compiler/exporter remain trusted.
+
+Rule pre: thread_token(t), t == currentThread, initialized typed *slot |-> value.
+Rule post: SAME thread_token and SAME complete *slot |-> value, unwind false.
+Independent caller resources frame through ordinary separation; none are minted,
+consumed or duplicated. Cell validity/alignment comes from that existing typed
+resource. No rights on Element, numeric-address coercion, ownership bridge or
+extension of general Drop/guard/forget/assume_init/union/refiner/kernel is allowed.
+Checked identity lemma preserves the resources; its proof does not prove the
+Rust-to-lemma correspondence. Full method typed MIR/source certificate must pass
+BEFORE free-call model activation or external method redirection: exact item,
+input/result/local types, callee substitution, operand dataflow, destination,
+all normal/unwind blocks/ordered operations. Unknown shapes fail closed.
+
+S6 gate: full independent positive/proof-negative/source-MIR matrix, exact-stage
+and location classifiers, all accepted ctor/asptr/intrinsic and Rust/C/C++
+regressions in new drop-v1 profile. Collect every case even when a classification
+fails. Preserve original classifications; reason-only fixes use hosted replay.
+After semantic changes require new proofs. Actual integration runs only after
+acceptance, retaining runtime calls and cleanup CFG. Derive the initialized-cell
+pre from actual current wrapper/storage/reborrow resources using existing lemmas;
+if impossible STOP at that precise obligation. If drop passes STOP at next blocker.
+Whole helper/sort4 claims remain forbidden.

@@ -3981,3 +3981,26 @@ refinement/all3intrinsic translations. WholehelperNOTPROVEN. Semanticextensions
 FROZEN, draftsNOTRUN/refinerunchanged/readpermissionhypothesisNOTRUN.
 No furtherdispatch needed for latest requested priority; checkpoint budget stays
 withinthisphase. RAPxCLOSED/NO-GO,B/CNOTRUN,fullsort4NOTPROVEN.
+
+
+## S6 experiment card — pointer drop only, 2026-10-07 (pre-implementation)
+
+Entry bea62488b44f8c557e45e04cb4eb259b0173422f; owner authorizes S6 only.
+Actual obligation: hint.rs select_unpredictable<T=*const Element>, runtime method
+drop.drop_in_place at adapter57; checked mut_ptr.rs method, trusted compiler free
+glue, NOT recursive placeholder proof. Hypothesis: exact pointer glue preserves
+initialized pointer-cell complete value/thread/frame and never unwinds; existing
+caller resources may or may not supply that initialized-cell precondition.
+Domain/posts/trust/certificate/matrix: design S6 authorization review above.
+New separate cumulative drop-v1 profile from immutable 7bb/v2, only reviewed narrow
+translator + checked identity lemma delta. Full patch identity recorded before run.
+Expected negatives: wrong value/false post/assertion at caller post/assert; lost
+cell at caller leak; duplicated frame at caller post; none/unknown initialization
+at drop-call pre; all source/MIR mutations at full certificate before proof.
+Independent full case collection, preserving setup/unsupported failures as
+INCONCLUSIVE. Same-profile ctor/asptr/intrinsic/full native+Rust regressions.
+Outcome: matrix failure -> localized evidence-backed fix/replay; accepted -> actual
+helper; missing initialized-cell -> precise obligation STOP; passed call -> next
+blocker STOP. No guard/forget/assume-init semantic work or kernel/memory expansion.
+Selection verifast_maybeuninit_new_pointer, budget_minutes=30; <=1800/job,
+<=300/proof; cumulative used2398/5400, remaining3002; one active hosted run only.
