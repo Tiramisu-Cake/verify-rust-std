@@ -79,3 +79,8 @@ No SWO/layout repetitions without dependency. RAPx CLOSED/NO-GO; B/C NOT RUN.
 
 Results and ledger: [results](SORT4-POINTER-OWNERSHIP-RESULTS.md), STATUS and
 EXPERIMENT-LOG; full logs/artifacts outside git. Final commit/push required.
+
+Implementation O1 profile patch SHA256
+`31d3ca507cc7ec4a090ef45330b0f3758c1fbcdbbb4c68d66c256166801d6aea`: translator
+and bin/rust/std/lib.rsspec only; complete MIR typed two-block graph and full
+source-span endpoints; no parser/kernel change. Acceptance pending hosted run.

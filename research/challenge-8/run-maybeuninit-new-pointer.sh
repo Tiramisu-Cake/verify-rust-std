@@ -43,8 +43,8 @@ source_pin=809de4596839b739dd999f9e462242c835e3af46
 archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
-patch_file="$repo/research/challenge-8/verifast-maybeuninit-new-pointer.patch"
-printf '%s  %s\n' cbf7b7dabb6ab50c74688ca5a96ab24e7df0aac8ec3970eaa17f7b255e25a70c "$patch_file" | sha256sum -c -
+patch_file="$repo/research/challenge-8/verifast-maybeuninit-pointer-own.patch"
+printf '%s  %s\n' 31d3ca507cc7ec4a090ef45330b0f3758c1fbcdbbb4c68d66c256166801d6aea "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/maybeuninit-new-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"
@@ -53,7 +53,7 @@ stock_home="$task_temp/verifast-26.09"
 source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
-    printf 'Profile: experimental-source-linked-maybeuninit-new-pointer-v1\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
+    printf 'Profile: experimental-source-linked-maybeuninit-pointer-own-v2\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
     printf 'Budget: %s minutes including preparation/build/matrix; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-maybeuninit-new-pointer.py research/challenge-8/SORT4-MAYBEUNINIT-NEW-DESIGN.md
 } > "$evidence/environment.txt"
@@ -67,11 +67,11 @@ run_stage patch-apply git -C "$source_home" apply "$patch_file"
 git -C "$source_home" diff > "$evidence/applied.patch"
 git -C "$source_home" diff --name-only > "$evidence/modified-files.txt"
 cmp "$evidence/applied.patch" "$patch_file"
-# Only the reviewed narrow translator; no layout or historical patches.
+# Reviewed translator + defined pointer-value predicate; no historical patches.
 python3 - "$source_home" "$evidence" <<'PY'
 import hashlib, pathlib, subprocess, sys, json
 src,ev=map(pathlib.Path,sys.argv[1:])
-allowed={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'}
+allowed={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml', 'bin/rust/std/lib.rsspec'}
 changed=set((ev/'modified-files.txt').read_text().splitlines())
 if changed != allowed: raise SystemExit(f'unexpected patch surface: {changed ^ allowed}')
 identities={}
@@ -103,7 +103,27 @@ cmp "$stock_home/bin/refinement-checker" "$source_home/bin/refinement-checker"
 cmp "$stock_home/bin/vf-rust-mir-exporter" "$source_home/bin/vf-rust-mir-exporter"
 printf '%s  %s\n' 7f3ebce320a33bcb956d51b8387754729e6516f4d15ba8dfdc61e6e36f90dfd9 "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" | sha256sum -c -
 cmp "$stock_home/bin/vf-cxx-ast-exporter" "$source_home/bin/vf-cxx-ast-exporter"
+# All stock specifications except the reviewed defined-predicate delta are exact.
+set +e
 diff -qr "$stock_home/bin/rust" "$source_home/bin/rust" > "$evidence/specifications-diff.txt"
+spec_diff_status=$?
+set -e
+[[ "$spec_diff_status" == 1 ]] || exit 2
+python3 - "$stock_home" "$source_home" "$evidence" <<'PY_SPEC'
+import hashlib, pathlib, sys, json
+stock,patched,ev=map(pathlib.Path,sys.argv[1:])
+a={str(p.relative_to(stock/'bin/rust')): p.read_bytes() for p in (stock/'bin/rust').rglob('*') if p.is_file()}
+b={str(p.relative_to(patched/'bin/rust')): p.read_bytes() for p in (patched/'bin/rust').rglob('*') if p.is_file()}
+if a.keys()!=b.keys(): raise SystemExit('specification file inventory differs')
+changed=[k for k in a if a[k]!=b[k]]
+if changed!=['std/lib.rsspec']: raise SystemExit(f'unapproved spec changes: {changed}')
+# The patch source audit above authenticates exact definition bytes; compare the
+# baseline stock spec to the pinned source version independently.
+import subprocess
+base=subprocess.check_output(['git','-C',str(patched),'show','HEAD:bin/rust/std/lib.rsspec'])
+if a['std/lib.rsspec']!=base: raise SystemExit('stock spec differs from source pin')
+(ev/'specification-audit.json').write_text(json.dumps({'changed':changed,'all_other_specs_identical':True,'stock_spec_source_exact':True},indent=2)+'\n')
+PY_SPEC
 {
     rustc --version --verbose
     capnp --version
@@ -120,4 +140,5 @@ rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/console-ldd.txt"
 if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 export SORT4_MAYBEUNINIT_REPO_ROOT="$repo"
-run_stage constructor-matrix python3 research/challenge-8/check-maybeuninit-new-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix" --feasibility-only
+run_stage classifier-tests python3 research/challenge-8/test-sort4-maybeuninit-classifier.py
+run_stage constructor-matrix python3 research/challenge-8/check-maybeuninit-new-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix"

@@ -15,6 +15,7 @@ import importlib.util
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -46,6 +47,17 @@ def sha(data: bytes) -> str:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def strict_proof_negative(evidence: dict[str, bool]) -> bool:
+    """Accept a negative only after the named proof obligation was reached."""
+    required = (
+        "proof_expected", "integrity_and_frontend_ok", "verifier_failed",
+        "target_obligation", "intended_message", "no_applicability_rejection",
+        "named_probe_entered", "error_in_named_probe", "constructor_body_checked",
+        "external_call_count_exact", "redirect_count_exact",
+    )
+    return all(evidence.get(key) is True for key in required)
 
 
 def extract_braced_item(source: bytes, signature: bytes) -> bytes:
@@ -246,8 +258,18 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
     helper_body = body
     if variant == "wrong_active_field":
         helper_body = b"{\n        MaybeUninit { uninit: () }\n    }"
-    elif variant == "wrong_value":
+    elif variant in {"wrong_value", "wrong_operand"}:
         helper_body = b"{\n        MaybeUninit { value: ManuallyDrop::new(std::ptr::null::<Element>()) }\n    }"
+    elif variant == "wrong_return":
+        helper_body = (
+            b"{\n        let wrapped = MaybeUninit { value: ManuallyDrop::new(val) };\n"
+            b"        wrapped\n    }"
+        )
+    elif variant == "extra_operation":
+        helper_body = (
+            b"{\n        std::hint::black_box(val);\n"
+            b"        MaybeUninit { value: ManuallyDrop::new(val) }\n    }"
+        )
 
     local_module = (
         b"mod " + CERT_MODULE.encode() + b" {\n"
@@ -257,66 +279,83 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
         b"}\n"
     )
 
+    # The value being wrapped is deliberately unconstrained as a pointee: no
+    # predicate mentions *val.  The two unrelated cells exercise framing.
     probe_contract = (
         b"req thread_token(?t) &*& t == currentThread &*& "
-        b"[?f](*val |-> ?slot_value) &*& *other |-> ?other_value;\n"
-        b"ens thread_token(t) &*& [f](*val |-> slot_value) &*& "
+        b"[?f](*frame |-> ?frame_value) &*& *other |-> ?other_value;\n"
+        b"ens thread_token(t) &*& [f](*frame |-> frame_value) &*& "
         b"*other |-> other_value &*& result == val;\n"
         b"on_unwind_ens false;"
     )
     probe_assert = (
         b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(val);\n"
+        b"    //@ close std::mem::MaybeUninit_pointer_own::<Element>()(t, wrapped);\n"
+        b"    //@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, wrapped);\n"
+        b"    //@ close std::mem::MaybeUninit_pointer_own::<Element>()(t, "
+        b"std::mem::MaybeUninit::new_maybe_uninit(none));\n"
+        b"    //@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, "
+        b"std::mem::MaybeUninit::new_maybe_uninit(none));\n"
         b"    // TARGET_FRAME_ASSERTION\n"
-        b"    //@ assert [f](*val |-> slot_value) &*& *other |-> other_value;\n"
+        b"    //@ assert [f](*frame |-> frame_value) &*& *other |-> other_value;\n"
     )
     probe_signature = (
         b"pub fn sort4_checked_maybeuninit_frame_probe<Element>(\n"
-        b"    val: *const Element, other: *mut u8,\n"
+        b"    val: *const Element, frame: *const u8, other: *mut i32,\n"
         b") -> *const Element\n"
     )
     if variant == "wrong_inner_post":
         probe_signature = (
             b"pub fn sort4_checked_maybeuninit_wrong_value_probe<Element>(\n"
-            b"    val: *const Element, wrong: *const Element, other: *mut u8,\n"
+            b"    val: *const Element, wrong: *const Element,\n"
+            b"    frame: *const u8, other: *mut i32,\n"
             b") -> *const Element\n"
         )
         probe_contract = (
             b"req thread_token(?t) &*& t == currentThread &*& "
             b"(val as pointer) != (wrong as pointer) &*& "
-            b"[?f](*val |-> ?slot_value) &*& *other |-> ?other_value;\n"
-            b"ens thread_token(t) &*& [f](*val |-> slot_value) &*& "
+            b"[?f](*frame |-> ?frame_value) &*& *other |-> ?other_value;\n"
+            b"ens thread_token(t) &*& [f](*frame |-> frame_value) &*& "
             b"*other |-> other_value &*& result == val;\n"
             b"on_unwind_ens false;"
         )
         probe_assert = (
             b"    // TARGET_ASSERTION\n"
             b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(wrong);\n"
-            b"    //@ assert [f](*val |-> slot_value) &*& *other |-> other_value;\n"
+            b"    //@ assert [f](*frame |-> frame_value) &*& *other |-> other_value;\n"
         )
     elif variant == "false_assert":
         probe_assert = (
             b"    // TARGET_ASSERTION\n"
             b"    //@ assert false;\n"
-            b"    //@ assert [f](*val |-> slot_value) &*& *other |-> other_value;\n"
+            b"    //@ assert [f](*frame |-> frame_value) &*& *other |-> other_value;\n"
+        )
+    elif variant == "false_uninit":
+        probe_assert = (
+            b"    // TARGET_ASSERTION\n"
+            b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == none;\n"
+            b"    //@ assert [f](*frame |-> frame_value) &*& *other |-> other_value;\n"
         )
     elif variant == "resource_duplication":
         probe_assert = (
             b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(val);\n"
             b"    // TARGET_ASSERTION\n"
-            b"    //@ assert [f](*val |-> slot_value) &*& [f](*val |-> slot_value);\n"
+            b"    //@ assert [f](*frame |-> frame_value) &*& "
+            b"[f](*frame |-> frame_value);\n"
         )
     elif variant == "false_postcondition":
         probe_signature = (
             b"pub unsafe fn sort4_checked_maybeuninit_false_post_probe<Element>(\n"
-            b"    val: *const Element, wrong: *const Element, other: *mut u8,\n"
+            b"    val: *const Element, wrong: *const Element,\n"
+            b"    frame: *const u8, other: *mut i32,\n"
             b") -> *const Element\n"
         )
         probe_contract = (
             b"req thread_token(?t) &*& t == currentThread &*& "
             b"(val as pointer) != (wrong as pointer) &*& "
-            b"[?f](*val |-> ?slot_value) &*& *other |-> ?other_value;\n"
+            b"[?f](*frame |-> ?frame_value) &*& *other |-> ?other_value;\n"
             b"// TARGET_POSTCONDITION\n"
-            b"ens thread_token(t) &*& [f](*val |-> slot_value) &*& "
+            b"ens thread_token(t) &*& [f](*frame |-> frame_value) &*& "
             b"*other |-> other_value &*& result == wrong;\n"
             b"on_unwind_ens false;"
         )
@@ -348,6 +387,24 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
             b"#[repr(transparent)]", b"#[repr(C)]", 1)
         local_module = local_module.replace(
             b"    value: ManuallyDrop<T>,\n", b"    value: ManuallyDrop<T>,\n    extra: u8,\n", 1)
+    elif variant == "wrong_binding":
+        probe = probe.replace(
+            b"std::mem::MaybeUninit::new(val)",
+            b"sort4_certified_maybeuninit::sort4_checked_maybeuninit_new(val)", 1)
+
+    if variant == "nonpointer_identity":
+        identity = (
+            b"pub fn sort4_nonpointer_identity(\n"
+            b"    input: std::mem::MaybeUninit<i32>,\n"
+            b") -> std::mem::MaybeUninit<i32>\n"
+            + ghost_block(
+                b"req thread_token(?t) &*& t == currentThread;\n"
+                b"ens thread_token(t);\n"
+                b"on_unwind_ens false;"
+            )
+            + b"{\n    input\n}\n"
+        )
+        probe += b"\n" + identity
 
     prefix = b"#![feature(transparent_unions)]\n" + local_module + b"\n" + probe
     original_prefix = strip_ghost_annotations(prefix)
@@ -392,6 +449,183 @@ def file_hashes(paths: tuple[Path, ...], root: Path) -> dict[str, str]:
     return {str(path.relative_to(root)): sha(path.read_bytes()) for path in paths}
 
 
+MIR_MUTATIONS = (
+    "operand", "return", "active_field", "type", "identity", "extra_operation",
+)
+
+SOURCE_APPLICABILITY_REASONS = {
+    "wrong_active_field": ("local constructor runtime body differs from repository", "source_certificate"),
+    "wrong_operand": ("local constructor runtime body differs from repository", "source_certificate"),
+    "wrong_return": ("local constructor runtime body differs from repository", "source_certificate"),
+    "extra_operation": ("local constructor runtime body differs from repository", "source_certificate"),
+    "renamed_function": ("constructor source marker missing", "source_certificate"),
+    "wrong_binding": ("checked body shape or external call count differs", "redirect_count"),
+    "nonpointer_input": ("constructor source marker missing", "source_certificate"),
+    "extra_union_field": ("local union fields differ from repository", "source_certificate"),
+}
+
+MIR_APPLICABILITY_REASONS = {
+    "operand": ("constructor operand: _1", "full_graph"),
+    "return": ("constructor place: _0", "full_graph"),
+    "active_field": ("constructor union identity/type/active field", "full_graph"),
+    "type": ("checked constructor input is not *const Element", "typed_certificate"),
+    "identity": ("expected exactly one checked constructor body", "typed_certificate"),
+    "extra_operation": ("constructor first block statements", "full_graph"),
+}
+
+
+def replace_once(source: str, old: str, new: str, label: str) -> str:
+    require(source.count(old) == 1,
+            f"{label}: expected exactly one MIR mutation target, found {source.count(old)}")
+    return source.replace(old, new, 1)
+
+
+def mir_balanced_item(source: str, start: int) -> str:
+    require(source[start] == "(", "MIR item must begin with a parenthesis")
+    depth = 0
+    quoted = False
+    escaped = False
+    for index in range(start, len(source)):
+        char = source[index]
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+        elif char == '"':
+            quoted = True
+        elif char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 0:
+                return source[start:index + 1]
+    raise ValueError("MIR item has no closing parenthesis")
+
+
+def mutate_constructor_mir(decoded: str, mutation: str) -> str:
+    """Change one raw MIR fact after export; the Rust source remains pinned."""
+    require(mutation in MIR_MUTATIONS, f"unknown MIR mutation: {mutation}")
+    marker = f'defPath = "{CERT_FUNCTION_PATH}"'
+    require(decoded.count(marker) == 1, "constructor MIR body identity is not unique")
+    start = decoded.index(marker)
+    end = decoded.index("      impSpan = (", start)
+    body = decoded[start:end]
+    if mutation == "operand":
+        body = replace_once(body,
+            'use = (\n                      copy = (\n                        local = (name = "_1")',
+            'use = (\n                      copy = (\n                        local = (name = "_3")', mutation)
+    elif mutation == "return":
+        body = replace_once(body,
+            'lhsPlace = (\n                    local = (name = "_0")',
+            'lhsPlace = (\n                    local = (name = "_3")', mutation)
+    elif mutation == "active_field":
+        body = replace_once(body, "unionActiveField = 1", "unionActiveField = 0", mutation)
+    elif mutation == "type":
+        input_end = body.index("      localDecls = [")
+        inputs = body[:input_end]
+        inputs = replace_once(inputs, "mutability = (not = void)",
+                              "mutability = (mut = void)", mutation)
+        body = inputs + body[input_end:]
+    elif mutation == "identity":
+        body = replace_once(body, marker,
+            f'defPath = "{CERT_FUNCTION_PATH}_impostor"', mutation)
+    else:
+        statements = body.index("          statements = [")
+        first = body.index("( sourceInfo = (", statements)
+        item = mir_balanced_item(body, first)
+        body = body[:first] + item + ",\n            " + body[first:]
+    mutated = decoded[:start] + body + decoded[end:]
+    require(mutated != decoded, "MIR mutation had no effect")
+    return mutated
+
+
+def make_mir_mutation_tool_home(tool_home: Path, schema: Path, repo_root: Path,
+                                case_dir: Path, mutation: str) -> Path:
+    """Wrap only the exporter in a disposable per-control copy of the profile."""
+    shadow = case_dir / "mutation-profile"
+    binary_dir = shadow / "bin"
+    binary_dir.mkdir(parents=True)
+    source_bin = tool_home / "bin"
+    for entry in source_bin.iterdir():
+        if entry.name == "vf-rust-mir-exporter":
+            continue
+        target = binary_dir / entry.name
+        if entry.name == "verifast" and entry.is_file():
+            shutil.copy2(entry, target)
+        else:
+            target.symlink_to(entry, target_is_directory=entry.is_dir())
+    wrapper = binary_dir / "vf-rust-mir-exporter"
+    wrapper.write_text('''#!/usr/bin/env python3
+import hashlib, importlib.util, json, subprocess, sys
+from pathlib import Path
+spec = importlib.util.spec_from_file_location("sort4_constructor_matrix", @PREPARER@)
+matrix = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(matrix)
+real = @REAL@
+schema = @SCHEMA@
+mutation = @MUTATION@
+record = Path(@RECORD@)
+argv = sys.argv[1:]
+proc = subprocess.run([real, *argv], stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+sys.stderr.buffer.write(proc.stderr)
+if proc.returncode:
+    sys.stdout.buffer.write(proc.stdout)
+    raise SystemExit(proc.returncode)
+selected = any(Path(arg).suffix == ".rs" and Path(arg).is_file() and
+               matrix.CERT_FUNCTION.encode() in Path(arg).read_bytes() for arg in argv)
+if not selected:
+    sys.stdout.buffer.write(proc.stdout)
+    raise SystemExit(0)
+decoded = subprocess.run(["capnp", "decode", schema, "VfMir"], input=proc.stdout,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if decoded.returncode:
+    sys.stderr.buffer.write(decoded.stderr)
+    raise SystemExit(decoded.returncode)
+try:
+    original = decoded.stdout.decode()
+    changed = matrix.mutate_constructor_mir(original, mutation)
+except Exception as exc:
+    record.write_text(json.dumps({"mutation": mutation, "error": str(exc)}) + "\\n")
+    sys.stderr.write("SORT4-MAYBEUNINIT MIR mutant failed: " + str(exc) + "\\n")
+    raise SystemExit(98)
+encoded = subprocess.run(["capnp", "encode", schema, "VfMir"], input=changed.encode(),
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+if encoded.returncode:
+    sys.stderr.buffer.write(encoded.stderr)
+    raise SystemExit(encoded.returncode)
+record.parent.mkdir(parents=True, exist_ok=True)
+(record.parent / "canonical-mir.txt").write_text(original)
+(record.parent / "mutated-mir.txt").write_text(changed)
+record.write_text(json.dumps({"mutation": mutation, "matched": True,
+    "exporter_exit": proc.returncode,
+    "canonical_sha256": hashlib.sha256(proc.stdout).hexdigest(),
+    "mutated_sha256": hashlib.sha256(encoded.stdout).hexdigest(),
+    "selected_source_sha256": next(hashlib.sha256(Path(arg).read_bytes()).hexdigest()
+        for arg in argv if Path(arg).suffix == ".rs" and Path(arg).is_file()),
+    "real_exporter_sha256": hashlib.sha256(Path(real).read_bytes()).hexdigest(),
+    "decode_exit": 0, "encode_exit": 0}, indent=2) + "\\n")
+(record.parent / "canonical-mir.bin").write_bytes(proc.stdout)
+(record.parent / "mutated-mir.bin").write_bytes(encoded.stdout)
+sys.stdout.buffer.write(encoded.stdout)
+'''.replace("@PREPARER@", repr(str(repo_root / "research/challenge-8/check-maybeuninit-new-pointer.py")))
+   .replace("@REAL@", repr(str(source_bin / "vf-rust-mir-exporter")))
+   .replace("@SCHEMA@", repr(str(schema)))
+   .replace("@MUTATION@", repr(mutation))
+   .replace("@RECORD@", repr(str(case_dir / "mutation-record.json"))))
+    wrapper.chmod(0o755)
+    (case_dir / "mutation-profile.json").write_text(json.dumps({
+        "mutation": mutation,
+        "base_console_sha256": sha((source_bin / "verifast").read_bytes()),
+        "shadow_console_sha256": sha((binary_dir / "verifast").read_bytes()),
+        "real_exporter_sha256": sha((source_bin / "vf-rust-mir-exporter").read_bytes()),
+        "wrapper_sha256": sha(wrapper.read_bytes()),
+    }, indent=2, sort_keys=True) + "\n")
+    return shadow
+
+
 def run_stage(argv: list[str | Path], cwd: Path, resource_path: Path,
               stdout_path: Path, stderr_path: Path | None = None,
               env: dict[str, str] | None = None) -> int:
@@ -421,6 +655,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
     verified = case_dir / "verified/lib.rs"
     paths = (original, verified)
     base_env = os.environ.copy()
+    base_env["PATH"] = str(tool_home / "bin") + os.pathsep + base_env.get("PATH", "")
     if certificate_mode:
         base_env["SORT4_MAYBEUNINIT_REPO_ROOT"] = str(repo_root)
     else:
@@ -495,14 +730,61 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         r"SORT4-MAYBEUNINIT: (?:certificate mismatch|unsupported certified union shape)", log))
     certified_body_seen = "certified local body" in log
     translated_body_seen = "checked local body translated (inner=1, aggregate=1" in log
+    full_mir_graph_seen = "SORT4-MAYBEUNINIT: full typed constructor MIR graph accepted" in log
     sources_unchanged = all(x.get("unchanged", False) for x in stage_integrity.values())
     base_ok = exporter == 0 and decode == 0 and refinement == 0 and sources_unchanged
     helper_headers = sum(name.endswith(CERT_FUNCTION) for _, name in headers)
     probe_headers = sum(name.endswith("sort4_checked_maybeuninit_frame_probe") for _, name in headers)
+    fixture = json.loads((case_dir / "fixture.json").read_text())
+    variant = fixture.get("variant")
+    expected_probe = {
+        "stock_false_control": "stock_false_control",
+        "wrong_inner_post": "sort4_checked_maybeuninit_wrong_value_probe",
+        "false_postcondition": "sort4_checked_maybeuninit_false_post_probe",
+    }.get(variant, "sort4_checked_maybeuninit_frame_probe")
+    expected_probe_headers = sum(name.endswith(expected_probe) for _, name in headers)
+    error_offset = log.find(errors[0]) if errors else -1
+    functions_before_error = re.findall(r"Verifying function '([^']+)'", log[:error_offset]) \
+        if error_offset >= 0 else []
+    failure_in_expected_probe = bool(functions_before_error) and \
+        functions_before_error[-1].endswith(expected_probe)
+    helper_header_marker = f"Verifying function '{CERT_FUNCTION_PATH}'"
+    helper_body_start = log.find(helper_header_marker)
+    next_function = log.find("Verifying function '", helper_body_start + len(helper_header_marker)) \
+        if helper_body_start >= 0 else -1
+    helper_body_log = log[helper_body_start:next_function if next_function >= 0 else None] \
+        if helper_body_start >= 0 else ""
+    helper_prototype_checked = (
+        f"Function '{CERT_FUNCTION_PATH}': Function prototype implementation check" in log
+    )
+    helper_return_checked = "Executing return statement" in helper_body_log
+    helper_leak_checked = "Leak check." in helper_body_log
+    identity_name = "sort4_nonpointer_identity"
+    identity_headers = sum(name.endswith(identity_name) for _, name in headers)
+    identity_header_marker = f"Verifying function '{identity_name}'"
+    identity_start = log.find(identity_header_marker)
+    identity_next = log.find("Verifying function '", identity_start + len(identity_header_marker)) \
+        if identity_start >= 0 else -1
+    identity_body_log = log[identity_start:identity_next if identity_next >= 0 else None] \
+        if identity_start >= 0 else ""
+    identity_return_checked = "Executing return statement" in identity_body_log
+    identity_leak_checked = "Leak check." in identity_body_log
+    verified_source = verified.read_bytes()
+    safe_constructor_contract = (
+        b"pub fn " + CERT_FUNCTION.encode() + b"<Element>" in verified_source and
+        b"pub unsafe fn " + CERT_FUNCTION.encode() not in verified_source and
+        b"req thread_token(?t) &*& t == currentThread;" in verified_source and
+        b"std::mem::MaybeUninit::inner(result) == some(val);" in verified_source and
+        b"on_unwind_ens false;" in verified_source
+    )
+    pointer_option_paths_exercised = (
+        b"open std::mem::MaybeUninit_pointer_own::<Element>()(t, wrapped);" in verified_source
+        and b"new_maybe_uninit(none));" in verified_source
+        and b"*val |->" not in verified_source
+    )
     decoded_mir = (case_dir / "compiler-mir.txt").read_text(errors="replace")
     external_call_count_mir = decoded_mir.count(f'name = "{MIR_EXTERNAL_NEW.decode()}"')
     redirect_count = log.count("redirected checked external pointer call")
-    fixture = json.loads((case_dir / "fixture.json").read_text())
     error_lines = []
     for entry in errors:
         match = re.search(r"verified/lib\.rs\((\d+),", entry)
@@ -512,15 +794,15 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
     execution_lines = [int(match.group(1)) for entry in log.splitlines()
                        if (match := re.search(
                            r"verified/lib\.rs\((\d+),\d+(?:-\d+(?:,\d+)?)?\): "
-                           r"(?:note: )?(?:Executing statement|Verifying call)$", entry))]
+                           r"(?:note: )?(?:Executing statement|Executing return statement|Verifying call)$", entry))]
     targeted_error = (
         isinstance(target_assertion_line, int) and len(errors) == 1 and
         error_lines == [target_assertion_line + 1] and
         target_assertion_line + 1 in execution_lines
     )
-    false_variant = fixture.get("variant") in {"false_assert", "stock_false_control"}
-    resource_variant = fixture.get("variant") == "resource_duplication"
-    false_post_variant = fixture.get("variant") == "false_postcondition"
+    false_variant = variant in {"false_assert", "stock_false_control"}
+    resource_variant = variant == "resource_duplication"
+    false_post_variant = variant == "false_postcondition"
     intended_false_message = (
         expect != "proof_negative" or not errors or
         ("Cannot prove false" in errors[0] if false_variant else
@@ -528,32 +810,89 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
          "Cannot prove" in errors[0] if false_post_variant else
          "Assertion might not hold" in errors[0])
     )
-    constructor_probe = fixture.get("variant") not in {
+    constructor_probe = variant not in {
         "stock_false_control", "stock_pointer_frame"
     }
     expected_constructor_calls = 1 if constructor_probe else 0
-    expected_proof_failure = (
-        expect == "proof_negative" and base_ok and vf == 1 and targeted_error
-        and intended_false_message and not applicability_diagnostic_seen
-        and external_call_count_mir == expected_constructor_calls
-        and redirect_count == expected_constructor_calls
-    )
+    target_obligation = targeted_error
     if false_post_variant:
         target_postcondition = fixture.get("target_postcondition_line")
         target_return = fixture.get("target_return_line")
-        expected_proof_failure = (
-            expect == "proof_negative" and base_ok and vf == 1 and
+        target_obligation = (
             isinstance(target_postcondition, int) and len(errors) == 1 and
             error_lines == [target_postcondition + 1] and
-            isinstance(target_return, int) and target_return + 1 in execution_lines and
-            intended_false_message and not applicability_diagnostic_seen and
-            external_call_count_mir == 1 and redirect_count == 1
+            isinstance(target_return, int) and target_return + 1 in execution_lines
         )
-    if expect == "positive":
+    proof_negative_evidence = {
+        "proof_expected": expect == "proof_negative",
+        "integrity_and_frontend_ok": base_ok,
+        "verifier_failed": vf == 1,
+        "target_obligation": target_obligation,
+        "intended_message": intended_false_message,
+        "no_applicability_rejection": not applicability_diagnostic_seen,
+        "named_probe_entered": expected_probe_headers == 1,
+        "error_in_named_probe": failure_in_expected_probe,
+        "constructor_body_checked": not constructor_probe or (
+            helper_headers == 1 and helper_prototype_checked and
+            helper_return_checked and helper_leak_checked and full_mir_graph_seen),
+        "external_call_count_exact": external_call_count_mir == expected_constructor_calls,
+        "redirect_count_exact": redirect_count == expected_constructor_calls,
+    }
+    expected_proof_failure = strict_proof_negative(proof_negative_evidence)
+    mutation_record = None
+    if expect == "mir_applicability_reject":
+        record_path = case_dir / "mutation-record.json"
+        if record_path.exists():
+            mutation_record = json.loads(record_path.read_text())
+    mutation_name = fixture.get("mir_mutation")
+    mutation_profile_path = case_dir / "mutation-profile.json"
+    mutation_profile = json.loads(mutation_profile_path.read_text()) \
+        if mutation_profile_path.exists() else None
+    mutation_text_exact = False
+    if mutation_name in MIR_MUTATIONS and (case_dir / "canonical-mir.txt").exists() \
+            and (case_dir / "mutated-mir.txt").exists():
+        try:
+            mutation_text_exact = mutate_constructor_mir(
+                (case_dir / "canonical-mir.txt").read_text(), mutation_name
+            ) == (case_dir / "mutated-mir.txt").read_text()
+        except ValueError:
+            pass
+    mutation_ready = (
+        isinstance(mutation_record, dict) and mutation_record.get("matched") is True
+        and mutation_record.get("mutation") == mutation_name
+        and mutation_record.get("exporter_exit") == 0
+        and mutation_record.get("decode_exit") == 0
+        and mutation_record.get("encode_exit") == 0
+        and mutation_record.get("canonical_sha256") != mutation_record.get("mutated_sha256")
+        and isinstance(mutation_profile, dict)
+        and mutation_profile.get("base_console_sha256") == mutation_profile.get("shadow_console_sha256")
+        and mutation_record.get("real_exporter_sha256") == mutation_profile.get("real_exporter_sha256")
+        and mutation_record.get("selected_source_sha256") == sha(verified_source)
+        and (case_dir / "canonical-mir.bin").exists()
+        and (case_dir / "mutated-mir.bin").exists()
+        and mutation_record.get("canonical_sha256") == sha((case_dir / "canonical-mir.bin").read_bytes())
+        and mutation_record.get("mutated_sha256") == sha((case_dir / "mutated-mir.bin").read_bytes())
+        and mutation_text_exact
+    )
+    applicability_reason = (
+        MIR_APPLICABILITY_REASONS.get(mutation_name)
+        if expect == "mir_applicability_reject" else
+        SOURCE_APPLICABILITY_REASONS.get(variant)
+    )
+    expected_applicability_reason_seen = (
+        applicability_reason is not None and
+        f"SORT4-MAYBEUNINIT: certificate mismatch: {applicability_reason[0]}" in log
+    )
+    if expect in {"positive", "specialization_positive"}:
         outcome = "PASS" if (
             base_ok and vf == 0 and helper_headers == 1 and probe_headers == 1
-            and certified_body_seen and translated_body_seen
+            and certified_body_seen and translated_body_seen and full_mir_graph_seen
+            and safe_constructor_contract and helper_prototype_checked
+            and helper_return_checked and helper_leak_checked
+            and pointer_option_paths_exercised
             and external_call_count_mir == 1 and redirect_count == 1
+            and (expect != "specialization_positive" or
+                 (identity_headers == 1 and identity_return_checked and identity_leak_checked))
         ) else "INCONCLUSIVE"
     elif expect == "control_positive":
         control_headers = sum(name.endswith("stock_pointer_frame") for _, name in headers)
@@ -563,7 +902,15 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
     elif expect == "applicability_reject":
         outcome = "EXPECTED_APPLICABILITY_REJECT" if (
             exporter == 0 and decode == 0 and refinement == 0 and vf == 1
-            and applicability_diagnostic_seen
+            and sources_unchanged and applicability_diagnostic_seen
+            and expected_applicability_reason_seen
+            and helper_headers == 0 and expected_probe_headers == 0
+        ) else "INCONCLUSIVE"
+    elif expect == "mir_applicability_reject":
+        outcome = "EXPECTED_MIR_APPLICABILITY_REJECT" if (
+            base_ok and vf == 1 and mutation_ready and applicability_diagnostic_seen
+            and expected_applicability_reason_seen
+            and helper_headers == 0 and expected_probe_headers == 0
         ) else "INCONCLUSIVE"
     elif expect == "actual_callee":
         actual_headers = sum(name == "select_unpredictable" for _, name in headers)
@@ -594,6 +941,19 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         "certifier_applicability_rejection_seen": applicability_diagnostic_seen,
         "certified_local_body_evidence": certified_body_seen,
         "checked_local_body_translation_evidence": translated_body_seen,
+        "full_typed_constructor_mir_graph_seen": full_mir_graph_seen,
+        "expected_applicability_reason": applicability_reason,
+        "expected_applicability_reason_seen": expected_applicability_reason_seen,
+        "safe_constructor_contract": safe_constructor_contract,
+        "checked_constructor_prototype_implementation": helper_prototype_checked,
+        "checked_constructor_return": helper_return_checked,
+        "checked_constructor_leak_check": helper_leak_checked,
+        "pointer_option_paths_exercised": pointer_option_paths_exercised,
+        "nonpointer_identity_header_count": identity_headers,
+        "nonpointer_identity_return": identity_return_checked,
+        "nonpointer_identity_leak_check": identity_leak_checked,
+        "failure_in_expected_probe": failure_in_expected_probe,
+        "proof_negative_evidence": proof_negative_evidence,
         "targeted_negative_error": targeted_error,
         "first_verifast_error": errors[0] if errors else None,
         "checked_constructor_header_count": helper_headers,
@@ -602,6 +962,9 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         "checked_external_pointer_redirect_count": redirect_count,
         "source_unchanged_at_every_stage": sources_unchanged,
         "stage_integrity": stage_integrity,
+        "mir_mutation_record": mutation_record,
+        "mir_mutation_ready": mutation_ready,
+        "mir_mutation_text_exact": mutation_text_exact,
     }
     (case_dir / "classification.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     return result
@@ -609,13 +972,18 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
 
 CONSTRUCTOR_CASES = [
     ("constructor_positive", "positive", "positive"),
+    ("nonpointer_identity", "nonpointer_identity", "specialization_positive"),
     ("wrong_inner_post", "wrong_inner_post", "proof_negative"),
+    ("false_uninit", "false_uninit", "proof_negative"),
     ("false_assert", "false_assert", "proof_negative"),
     ("false_postcondition", "false_postcondition", "proof_negative"),
     ("resource_duplication", "resource_duplication", "proof_negative"),
     ("wrong_active_field", "wrong_active_field", "applicability_reject"),
-    ("wrong_value", "wrong_value", "applicability_reject"),
+    ("wrong_operand", "wrong_operand", "applicability_reject"),
+    ("wrong_return", "wrong_return", "applicability_reject"),
+    ("extra_operation", "extra_operation", "applicability_reject"),
     ("renamed_function", "renamed_function", "applicability_reject"),
+    ("wrong_binding", "wrong_binding", "applicability_reject"),
     ("nonpointer_input", "nonpointer_input", "applicability_reject"),
     ("extra_union_field", "extra_union_field", "applicability_reject"),
 ]
@@ -627,6 +995,18 @@ def prepare_constructor_case(evidence: Path, cert: dict,
     case_dir = evidence / name
     case_dir.mkdir(parents=True, exist_ok=False)
     write_case(case_dir, original_prefix, verified_prefix, metadata)
+    return case_dir
+
+
+def prepare_mir_mutation_case(evidence: Path, cert: dict,
+                              mutation: str) -> Path:
+    name = f"mir_{mutation}"
+    case_dir = prepare_constructor_case(evidence, cert, name, "positive")
+    fixture = json.loads((case_dir / "fixture.json").read_text())
+    fixture["variant"] = name
+    fixture["mir_mutation"] = mutation
+    (case_dir / "fixture.json").write_text(json.dumps(
+        fixture, indent=2, sort_keys=True) + "\n")
     return case_dir
 
 
@@ -675,6 +1055,9 @@ def run_native_controls(evidence: Path, repo_root: Path,
     fixtures = (
         ("c_nonempty", repo_root / "research/challenge-8/rust-fieldless-layout-controls/positive_c_nonempty.c"),
         ("cpp_empty", repo_root / "research/challenge-8/rust-fieldless-layout-controls/positive_cpp_empty.cpp"),
+        ("existing_rust_generic_struct", tool_home / "tests/rust/purely_unsafe/generic_structs.rs"),
+        ("existing_c_struct", tool_home / "tests/chars__of_struct.c"),
+        ("existing_cpp_constructor", tool_home / "tests/cxx/constructors.cpp"),
     )
     results = {}
     for profile, home in (("stock", stock_home), ("patched", tool_home)):
@@ -682,8 +1065,9 @@ def run_native_controls(evidence: Path, repo_root: Path,
             case_dir = evidence / "native-controls" / profile / name
             case_dir.mkdir(parents=True, exist_ok=False)
             before = sha(fixture.read_bytes())
+            flags = ["-rustc_args", "--edition 2021"] if fixture.suffix == ".rs" else ["-c"]
             status = run_stage(
-                [home / "bin/verifast", "-c", "-verbose", "1", fixture],
+                [home / "bin/verifast", *flags, "-verbose", "1", fixture],
                 repo_root, case_dir / "resources.txt", case_dir / "verifast.log",
             )
             after = sha(fixture.read_bytes())
@@ -787,10 +1171,6 @@ def main() -> None:
         help="run the constructor positive as a partial diagnostic; never accept the profile",
     )
     args = parser.parse_args()
-    if not args.feasibility_only:
-        raise SystemExit(
-            "constructor acceptance disabled: full MIR dataflow gate is unimplemented; "
-            "only --feasibility-only diagnostics are supported")
     repo_root = Path(__file__).resolve().parents[2]
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=False)
@@ -913,11 +1293,36 @@ def main() -> None:
             "remaining_cases": [name for name, _, _ in CONSTRUCTOR_CASES[1:]],
         }, indent=2, sort_keys=True) + "\n")
 
-    constructor_acceptance = (
+    expected_outcome = {
+        "positive": "PASS",
+        "specialization_positive": "PASS",
+        "proof_negative": "EXPECTED_PROOF_FAILURE",
+        "applicability_reject": "EXPECTED_APPLICABILITY_REJECT",
+    }
+    source_matrix_pass = (
         len(results) == len(CONSTRUCTOR_CASES) and
-        results[0]["outcome"] == "PASS" and
-        all(item["outcome"] == "EXPECTED_PROOF_FAILURE" for item in results[1:5]) and
-        all(item["outcome"] == "EXPECTED_APPLICABILITY_REJECT" for item in results[5:])
+        all(result["outcome"] == expected_outcome[expectation]
+            for result, (_, _, expectation) in zip(results, CONSTRUCTOR_CASES))
+    )
+    mir_results = []
+    if source_matrix_pass:
+        for mutation in MIR_MUTATIONS:
+            case_dir = prepare_mir_mutation_case(evidence, source_cert, mutation)
+            shadow_home = make_mir_mutation_tool_home(
+                args.tool_home, args.schema, repo_root, case_dir, mutation)
+            mir_results.append(run_case(
+                case_dir, args.schema, shadow_home, args.compiler_sysroot,
+                repo_root, "mir_mutation", "mir_applicability_reject"))
+    else:
+        (evidence / "mir-mutants-not-run.json").write_text(json.dumps({
+            "status": "NOT_RUN",
+            "reason": "source/proof matrix did not pass",
+            "remaining_cases": list(MIR_MUTATIONS),
+        }, indent=2, sort_keys=True) + "\n")
+    constructor_acceptance = (
+        source_matrix_pass and len(mir_results) == len(MIR_MUTATIONS) and
+        all(item["outcome"] == "EXPECTED_MIR_APPLICABILITY_REJECT"
+            for item in mir_results)
     )
     final_callee = None
     if constructor_acceptance:
@@ -936,6 +1341,8 @@ def main() -> None:
         "baselines": baseline_results,
         "constructor_cases": results,
         "constructor_cases_not_run": len(CONSTRUCTOR_CASES) - len(results),
+        "mir_mutation_cases": mir_results,
+        "mir_mutation_cases_not_run": len(MIR_MUTATIONS) - len(mir_results),
         "actual_callee": final_callee,
         "actual_callee_status": (
             final_callee["outcome"] if final_callee else "NOT_RUN"

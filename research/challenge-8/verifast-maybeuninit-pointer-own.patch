@@ -1,0 +1,728 @@
+diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
+index d150408..205687f 100644
+--- a/bin/rust/std/lib.rsspec
++++ b/bin/rust/std/lib.rsspec
+@@ -434,6 +434,14 @@ mod mem {
+     fix MaybeUninit::uninit<T>() -> MaybeUninit<T>;
+     fix MaybeUninit::new_maybe_uninit<T>(v: option<T>) -> MaybeUninit<T>;
+     fix MaybeUninit::new<T>(v: T) -> MaybeUninit<T> { MaybeUninit::new_maybe_uninit(some(v)) }
++
++    // Experimental pointer-value ownership. No pointee permissions are owned.
++    // Legacy generic MaybeUninit_own and all storage/borrow lemmas stay opaque.
++    pred_ctor MaybeUninit_pointer_own<Element>()(t: thread_id_t, v: MaybeUninit<*Element>;) =
++        match MaybeUninit::inner(v) {
++            none => true,
++            some(p) => raw_ptr_own::<Element>()(t, p)
++        };
+     
+     lem_auto MaybeUninit_inner_new_maybe_uninit<T: ?Sized>(v: option<T>);
+         req true;
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index f1e3e50..b98db26 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -210,6 +210,7 @@ module Mir = struct
+ 
+   type aggregate_kind =
+     | AggKindArray of ty_info
++    | AggKindCertifiedMaybeUninit of Ast.type_expr
+     | AggKindAdt of {
+         adt_kind : adt_kind;
+         adt_name : string;
+@@ -342,6 +343,149 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+   module VfMirRd = VfMirCapnpAlias.VfMirRd
+   open VfMirCapnpAlias
+ 
++  (* Experimental, fail-closed pointer-only source-equivalence profile.  The
++     source/body check below enables this gate only for the exact hosted unit;
++     no ordinary Rust translation changes when the repository locator is unset. *)
++  module Sort4MaybeUninit = struct
++    let union_name = "sort4_certified_maybeuninit::MaybeUninit"
++    let constructor_name =
++      "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new"
++    let external_name = "std::mem::MaybeUninit::<T>::new"
++    let active = ref false
++    let aggregate_count = ref 0
++    let inner_call_count = ref 0
++    let redirect_count = ref 0
++
++    let reject why = failwith ("SORT4-MAYBEUNINIT: certificate mismatch: " ^ why)
++    let unsupported why =
++      failwith ("SORT4-MAYBEUNINIT: unsupported certified union shape: " ^ why)
++
++    let rec find_substring text needle from =
++      if from + String.length needle > String.length text then None
++      else if String.sub text from (String.length needle) = needle then Some from
++      else find_substring text needle (from + 1)
++
++    let read_file path =
++      let input = open_in_bin path in
++      Fun.protect ~finally:(fun () -> close_in input) (fun () ->
++        really_input_string input (in_channel_length input))
++
++    let check_md5 path expected =
++      if Digest.to_hex (Digest.file path) <> expected then
++        reject ("pinned repository file differs: " ^ path)
++
++    let body_after text marker =
++      let start = match find_substring text marker 0 with
++        | Some i -> i
++        | None -> reject ("constructor source marker missing: " ^ marker)
++      in
++      if find_substring text marker (start + 1) <> None then
++        reject "constructor source marker ambiguous";
++      let open_brace = try String.index_from text (start + String.length marker) '{'
++        with Not_found -> reject "constructor body brace missing"
++      in
++      let rec closing i depth =
++        if i = String.length text then reject "constructor body unclosed"
++        else match text.[i] with
++          | '{' -> closing (i + 1) (depth + 1)
++          | '}' when depth = 1 -> i
++          | '}' -> closing (i + 1) (depth - 1)
++          | _ -> closing (i + 1) depth
++      in
++      let last = closing open_brace 0 in
++      String.sub text open_brace (last - open_brace + 1)
++
++    let pointer_element (ty : D.ty) =
++      match ty.kind with
++      | D.RawPtr {ty = inner; mutability = D.Not} ->
++          (match inner.kind with D.Param "Element" -> true | _ -> false)
++      | _ -> false
++
++    let unit_type (ty : D.ty) =
++      match ty.kind with D.Tuple [] -> true | _ -> false
++
++    let manually_drop_t (ty : D.ty) =
++      match ty.kind with
++      | D.Adt {id={name=("std::mem::ManuallyDrop"|"core::mem::ManuallyDrop")};
++               substs=[{kind=D.Type inner}]; _} ->
++          (match inner.kind with D.Param "T" -> true | _ -> false)
++      | _ -> false
++
++    let source_marker =
++      "pub const fn new(val: T) -> MaybeUninit<T>"
++    let local_marker =
++      "pub fn sort4_checked_maybeuninit_new<Element>(val: *const Element) -> MaybeUninit<*const Element>"
++
++    let locate_unique text marker =
++      match find_substring text marker 0 with
++      | None -> reject ("source marker missing: " ^ marker)
++      | Some i ->
++          if find_substring text marker (i + 1) <> None then
++            reject ("source marker ambiguous: " ^ marker);
++          i
++
++    let position text offset =
++      let rec visit i line col =
++        if i = offset then (line, col)
++        else if text.[i] = '\n' then visit (i + 1) (line + 1) 1
++        else visit (i + 1) line (col + 1)
++      in
++      visit 0 1 1
++
++    let certified_source repository_root fixture_path =
++      let core_path rel = Filename.concat repository_root ("library/core/src/" ^ rel) in
++      let maybe_path = core_path "mem/maybe_uninit.rs" in
++      check_md5 maybe_path "3f14e0e5447e1cb78cd771bf71fd9c13";
++      check_md5 (core_path "mem/manually_drop.rs")
++        "f2d905afd131cce616527f096419d1e9";
++      check_md5 (core_path "mem/maybe_dangling.rs")
++        "1819ef01c20a364cb1eb768165776ef9";
++      check_md5 (core_path "hint.rs")
++        "9cc305b28a90a94d8d2347d754242983";
++      let actual = read_file maybe_path in
++      let fixture = read_file fixture_path in
++      let actual_fields = body_after actual "pub union MaybeUninit<T>" in
++      let local_fields = body_after fixture "pub union MaybeUninit<T>" in
++      if actual_fields <> local_fields then reject "local union fields differ from repository";
++      let actual_body = body_after actual source_marker in
++      let local_body = body_after fixture local_marker in
++      if actual_body <> local_body then
++        reject "local constructor runtime body differs from repository";
++      let local_union_prefix =
++        "#[repr(transparent)]\npub union MaybeUninit<T> "
++      in
++      let prefix_at = locate_unique fixture local_union_prefix in
++      let union_at = locate_unique fixture "pub union MaybeUninit<T>" in
++      if union_at <> prefix_at + String.length local_union_prefix -
++                     String.length "pub union MaybeUninit<T> " then
++        reject "repr(transparent) is not attached to certified union";
++      let signature_at = locate_unique fixture local_marker in
++      let union_brace_at = try
++        String.index_from fixture (union_at + String.length "pub union MaybeUninit<T>") '{'
++      with Not_found -> reject "checked union brace missing" in
++      let union_end =
++        union_brace_at + String.length (body_after fixture "pub union MaybeUninit<T>")
++      in
++      let brace_at = try
++        String.index_from fixture (signature_at + String.length local_marker) '{'
++      with Not_found -> reject "checked body brace missing" in
++      let between = String.sub fixture
++        (signature_at + String.length local_marker)
++        (brace_at - signature_at - String.length local_marker) in
++      let expected_between =
++        "\n/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n" ^
++        "/*@\nens thread_token(t) &*& std::mem::MaybeUninit::inner(result) == some(val);\n@*/\n" ^
++        "/*@\non_unwind_ens false;\n@*/\n    "
++      in
++      if between <> expected_between then
++        reject "checked constructor signature, contract or bounds differ";
++      let body_last = brace_at + String.length local_body - 1 in
++      (position fixture union_at, position fixture union_end,
++       position fixture signature_at,
++       position fixture (signature_at + String.length local_marker),
++       position fixture brace_at, position fixture (body_last + 1))
++  end
++
+   module CapnpAux = struct
+     open Stdint
+ 
+@@ -782,7 +926,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+   let rec translate_adt_ty (adt_ty_cpn : D.ty_kind_adt_ty) (loc : Ast.loc) =
+     let open AdtTyRd in
+     let open Ast in
+-    let def_path = translate_adt_def_id @@ adt_ty_cpn.id in
++    let original_def_path = translate_adt_def_id @@ adt_ty_cpn.id in
++    let def_path =
++      if !Sort4MaybeUninit.active &&
++         original_def_path = Sort4MaybeUninit.union_name then (
++        match adt_ty_cpn.substs with
++        | [{kind=Type ptr}] when Sort4MaybeUninit.pointer_element ptr ->
++            "std::mem::MaybeUninit"
++        | _ -> Sort4MaybeUninit.unsupported
++            "local union type must be MaybeUninit<*const Element>")
++      else original_def_path
++    in
+     let kind = adt_ty_cpn.kind in
+     let substs_cpn = adt_ty_cpn.substs in
+     let name = def_path in
+@@ -813,7 +967,22 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             let vf_targs = lft_args @ targs in
+             let vf_ty = StructTypeExpr (loc, Some name, None, [], vf_targs) in
+             let sz_expr = SizeofExpr (loc, TypeExpr vf_ty) in
++            (* Value-wide ownership specialization, never a per-function escape.
++               The defined option-based predicate owns only the raw pointer value.
++               All other MaybeUninit applications retain stock opaque ownership. *)
++            let pointer_wrapper =
++              !Sort4MaybeUninit.active && name = "std::mem::MaybeUninit" &&
++              (match substs_cpn with
++               | [{kind=D.Type ptr}] -> Sort4MaybeUninit.pointer_element ptr
++               | _ -> false)
++            in
+             let own tid v =
++              if pointer_wrapper then
++                Ok (CallExpr
++                  (loc, "std::mem::MaybeUninit_pointer_own",
++                   [IdentTypeExpr (loc, None, "Element")], [],
++                   [LitPat tid; LitPat v], PredCtorCall))
++              else
+               let args = List.map (fun x -> LitPat x) [ tid; v ] in
+               Ok
+                 (CallExpr
+@@ -1797,6 +1966,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     val var_id_trs_map_ref : var_id_trs_map ref
+     val ghost_stmts : Ast.stmt list
+     val body_imp_loc : Ast.loc
++    val body_name : string
+     val body_tr_defs_ctx : body_tr_defs_ctx
+   end) =
+   struct
+@@ -1804,6 +1974,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let var_id_trs_map_ref = Args.var_id_trs_map_ref
+       let ghost_stmts = ref Args.ghost_stmts
+       let body_imp_loc = Args.body_imp_loc
++      let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
+ 
+       let fetch_ghost_stmts_before (l : Ast.loc0) =
+@@ -2409,6 +2580,33 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                              (fn_loc, Deref (fn_loc, dst), Mutation, src));
+                       ],
+                     FnCallResult (mk_unit_expr fn_loc) )
++            | "std::mem::MaybeUninit::<T>::new"
++              when !Sort4MaybeUninit.active ->
++                (match substs_cpn, args with
++                 | [{kind = Type element_pointer}], [arg]
++                   when Sort4MaybeUninit.pointer_element element_pointer ->
++                     incr Sort4MaybeUninit.redirect_count;
++                     Printf.printf
++                       "SORT4-MAYBEUNINIT: redirected checked external pointer call %d\n%!"
++                       !Sort4MaybeUninit.redirect_count;
++                     Ok (tmp_rvalue_binders,
++                         FnCallOutcome
++                           (Ast.CallExpr
++                              (fn_loc, Sort4MaybeUninit.constructor_name,
++                               [Ast.IdentTypeExpr (fn_loc, None, "Element")], [],
++                               [LitPat arg], Static)))
++                 | _ -> Sort4MaybeUninit.unsupported
++                     "external new requires the sole *const Element argument")
++            | "std::mem::ManuallyDrop::<T>::new"
++              when !Sort4MaybeUninit.active &&
++                   State.body_name = Sort4MaybeUninit.constructor_name ->
++                (match substs_cpn, args with
++                 | [{kind=Type ptr}], [_] when Sort4MaybeUninit.pointer_element ptr ->
++                     incr Sort4MaybeUninit.inner_call_count;
++                     let [arg] = args in
++                     Ok (tmp_rvalue_binders, FnCallResult arg)
++                 | _ -> Sort4MaybeUninit.unsupported
++                     "checked body ManuallyDrop::new operand")
+             | "std::cell::UnsafeCell::<T>::new"
+             | "std::mem::ManuallyDrop::<T>::new"
+             | "std::mem::ManuallyDrop::deref"
+@@ -2873,7 +3071,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           let variant_name = variant_id_get adt_data_cpn in
+           let substs_cpn = gen_args_get_list adt_data_cpn in
+           let fields = fields_get_list adt_data_cpn |> List.map D.decode_aggregate_kind_adt_data_field_info in
+-          Ok Mir.(AggKindAdt { adt_kind; adt_name; variant_name; fields })
++          if adt_kind = Mir.Union && adt_name = Sort4MaybeUninit.union_name then (
++            if not !Sort4MaybeUninit.active ||
++               State.body_name <> Sort4MaybeUninit.constructor_name ||
++               Stdint.Uint32.to_int (union_active_field_get adt_data_cpn) <> 1 ||
++               List.map (fun (f : D.aggregate_kind_adt_data_field_info) -> f.name) fields
++                 <> ["uninit"; "value"] then
++              Sort4MaybeUninit.unsupported "local active field/body/field list";
++            match substs_cpn with
++            | [arg_cpn] ->
++                let arg = D.decode_generic_arg arg_cpn in
++                (match arg.kind with
++                 | Type ty when Sort4MaybeUninit.pointer_element ty ->
++                     let* Mir.GenArgType ptr_ty = translate_generic_arg arg loc in
++                     Ok (Mir.AggKindCertifiedMaybeUninit ptr_ty.vf_ty)
++                 | _ -> Sort4MaybeUninit.unsupported "aggregate type is not *const Element")
++            | _ -> Sort4MaybeUninit.unsupported "aggregate generic arity")
++          else Ok Mir.(AggKindAdt { adt_kind; adt_name; variant_name; fields })
+       | Closure _ ->
+           failwith "Todo: AggregateKind::Closure"
+           (* CAVEAT: Once we allow closure values, we must also check closure bodies. *)
+@@ -2915,6 +3129,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               operand_exprs
+           in
+           Ok (`TrRvalueAggregate init_stmts_builder)
++      | AggKindCertifiedMaybeUninit ptr_ty ->
++          (match operand_exprs with
++           | [value] ->
++               incr Sort4MaybeUninit.aggregate_count;
++               let init_stmts_builder (lhs_place, lhs_place_is_mutable) =
++                 let open Ast in
++                 let modeled_value =
++                   CallExpr
++                     (loc, "std::mem::MaybeUninit::new", [ptr_ty], [],
++                      [LitPat value], Static)
++                 in
++                 tmp_rvalue_binders @
++                   [ExprStmt
++                      (AssignExpr
++                         (loc, lhs_place,
++                          (if lhs_place_is_mutable then Mutation else Initialization),
++                          modeled_value))]
++               in
++               Ok (`TrRvalueAggregate init_stmts_builder)
++           | _ -> Sort4MaybeUninit.unsupported "aggregate operand count")
+       | AggKindTuple ->
+           let tuple_struct_name =
+             TrTyTuple.make_tuple_type_name (List.length operands_cpn)
+@@ -4730,6 +4964,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let var_id_trs_map_ref = var_id_trs_map_ref
+       let ghost_stmts = ghost_stmts
+       let body_imp_loc = imp_loc
++      let body_name = TrName.translate_def_path (def_path_get body_cpn)
+       let body_tr_defs_ctx = body_tr_defs_ctx
+     end) in
+     let vdis_cpn = var_debug_info_get_list body_cpn in
+@@ -5965,7 +6200,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     let open AdtDefRd in
+     let id_cpn = id_get adt_def_cpn in
+     let def_path = translate_adt_def_id @@ D.decode_adt_def_id id_cpn in
+-    if TrName.is_from_std_lib def_path then Ok None
++    if TrName.is_from_std_lib def_path ||
++       (!Sort4MaybeUninit.active && def_path = Sort4MaybeUninit.union_name)
++    then Ok None
+     else
+       let name = TrName.translate_def_path def_path in
+       let* generics =
+@@ -7690,9 +7927,348 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
+     | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
+ 
++  (* The exporter contains only local bodies.  This gate checks that the
++     special local copy is the exact pinned source operation and has the
++     expected typed MIR interface before any union/call rule is enabled. *)
++  let has_sort4_maybeuninit_symbols (vf_mir_cpn : VfMirRd.VfMir.t) =
++    let* adts =
++      CapnpAux.ind_list_get_list (VfMirRd.VfMir.adt_defs_get vf_mir_cpn)
++    in
++    let has_union = List.exists (fun adt ->
++      let id = AdtDefRd.id_get adt |> D.decode_adt_def_id in
++      translate_adt_def_id id = Sort4MaybeUninit.union_name) adts in
++    let has_body = List.exists (fun body ->
++      TrName.translate_def_path (BodyRd.def_path_get body) =
++        Sort4MaybeUninit.constructor_name)
++      (VfMirRd.VfMir.bodies_get_list vf_mir_cpn) in
++    Ok (has_union || has_body)
++
++  (* This is an applicability certificate for the one exported, source-local
++     constructor.  Match the complete typed MIR graph before enabling the
++     union representation and external-call redirect.  The match deliberately
++     has no catch-all accepting future compiler transformations. *)
++  let check_sort4_constructor_mir (body : BodyRd.t) =
++    let reject = Sort4MaybeUninit.reject in
++    let ptr = Sort4MaybeUninit.pointer_element in
++    let adt_ptr expected_name expected_kind ty =
++      match TyKindRd.get (TyRd.kind_get ty) with
++      | TyKindRd.Adt adt ->
++          let id = AdtTyRd.id_get adt |> D.decode_adt_def_id in
++          let args = AdtTyRd.substs_get_list adt
++            |> List.map D.decode_generic_arg in
++          id.name = expected_name &&
++          AdtKindRd.get (AdtTyRd.kind_get adt) = expected_kind &&
++          (match args with [{kind=D.Type p}] -> ptr p | _ -> false)
++      | _ -> false
++    in
++    let union_ptr ty =
++      adt_ptr Sort4MaybeUninit.union_name AdtKindRd.UnionKind ty
++    in
++    let drop_ptr ty =
++      adt_ptr "std::mem::ManuallyDrop" AdtKindRd.StructKind ty
++    in
++    let check_local id mutable_ valid_ty local =
++      let actual_id = LocalDeclIdRd.name_get (LocalDeclRd.id_get local) in
++      let actual_mutable = match MutabilityRd.get (LocalDeclRd.mutability_get local) with
++        | Mut -> true | Not -> false | _ -> reject "unknown local mutability"
++      in
++      if actual_id <> id || actual_mutable <> mutable_ ||
++         not (valid_ty (LocalDeclRd.ty_get local)) then
++        reject ("constructor local identity/type: " ^ id)
++    in
++    (match BodyRd.local_decls_get_list body with
++     | [ret; arg; wrapper; temporary] ->
++         check_local "_0" true union_ptr ret;
++         check_local "_1" false (fun ty -> ptr (D.decode_ty ty)) arg;
++         check_local "_2" true drop_ptr wrapper;
++         check_local "_3" true (fun ty -> ptr (D.decode_ty ty)) temporary
++     | _ -> reject "constructor local count");
++    (match BodyRd.generics_get_list body with
++     | [g] when VfMirRd.GenericParamDef.name_get g = "Element" &&
++                VfMirRd.GenericParamDefKind.get
++                  (VfMirRd.GenericParamDef.kind_get g) =
++                    VfMirRd.GenericParamDefKind.Type -> ()
++     | _ -> reject "constructor generic parameter");
++    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++     | [D.Trait {def_id="std::marker::Sized";
++                 args=[{kind=D.Type {kind=D.Param "Element"}}];
++                 bound_regions=[]}] -> ()
++     | _ -> reject "constructor generic predicates");
++    if BodyRd.module_def_path_get body <> "sort4_certified_maybeuninit" ||
++       BodyRd.is_from_expansion_get body || BodyRd.is_trait_fn_get body ||
++       BodyRd.is_drop_fn_get body ||
++       BodyRd.impl_block_generics_get_list body <> [] ||
++       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.ghost_decl_blocks_get_list body <> [] ||
++       BodyRd.loop_spec_blocks_get_list body <> [] ||
++       BodyRd.ghost_stmts_get_list body <> [] then
++      reject "constructor item binding or extra ghost/body structure";
++    let place id mutable_ place =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get place) <> id ||
++         PlaceRd.local_is_mutable_get place <> mutable_ ||
++         PlaceRd.projection_get_list place <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get place) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("constructor place: " ^ id)
++    in
++    (match BodyRd.var_debug_info_get_list body with
++     | [debug] when SymbolRd.name_get (VarDebugInfoRd.name_get debug) = "val" ->
++         (match VarDebugInfoContentsRd.get (VarDebugInfoRd.value_get debug) with
++          | VarDebugInfoContentsRd.Place p -> place "_1" false p
++          | _ -> reject "constructor argument debug binding")
++     | _ -> reject "constructor argument debug name/count");
++    let operand expected_kind id mutable_ operand =
++      match expected_kind, OperandRd.get operand with
++      | `Copy, OperandRd.Copy p | `Move, OperandRd.Move p ->
++          place id mutable_ p
++      | _ -> reject ("constructor operand: " ^ id)
++    in
++    let storage expected id statement =
++      match expected, StatementKindRd.get (StatementRd.kind_get statement) with
++      | `Live, StatementKindRd.StorageLive local
++      | `Dead, StatementKindRd.StorageDead local ->
++          if LocalDeclIdRd.name_get local <> id then
++            reject ("constructor storage local: " ^ id)
++      | _ -> reject ("constructor storage operation: " ^ id)
++    in
++    let assign target target_mut check_rhs statement =
++      match StatementKindRd.get (StatementRd.kind_get statement) with
++      | StatementKindRd.Assign data ->
++          place target target_mut
++            (StatementKindRd.AssignData.lhs_place_get data);
++          check_rhs (StatementKindRd.AssignData.rhs_rvalue_get data)
++      | _ -> reject ("constructor assignment: " ^ target)
++    in
++    let check_copy rhs = match RvalueRd.get rhs with
++      | RvalueRd.Use op -> operand `Copy "_1" false op
++      | _ -> reject "constructor argument copy rvalue"
++    in
++    let check_aggregate rhs = match RvalueRd.get rhs with
++      | RvalueRd.Aggregate aggregate ->
++          (match AggregateKindRd.get
++                   (AggregateDataRd.aggregate_kind_get aggregate) with
++           | AggregateKindRd.Adt data ->
++               let open AggregateKindRd.AdtData in
++               let id = adt_id_get data |> D.decode_adt_def_id in
++               let args = gen_args_get_list data |> List.map D.decode_generic_arg in
++               let fields = fields_get_list data
++                 |> List.map D.decode_aggregate_kind_adt_data_field_info in
++               if translate_adt_def_id id <> Sort4MaybeUninit.union_name ||
++                  AdtKindRd.get (adt_kind_get data) <> AdtKindRd.UnionKind ||
++                  Stdint.Uint32.to_int (variant_idx_get data) <> 0 ||
++                  variant_id_get data <> "MaybeUninit" ||
++                  Stdint.Uint32.to_int (union_active_field_get data) <> 1 ||
++                  (match args with [{kind=D.Type p}] -> ptr p | _ -> false) = false ||
++                  List.map (fun (f : D.aggregate_kind_adt_data_field_info) ->
++                    (f.name, f.is_zero_size)) fields <>
++                      [("uninit", false); ("value", false)] then
++                 reject "constructor union identity/type/active field"
++           | _ -> reject "constructor aggregate kind");
++          (match AggregateDataRd.operands_get_list aggregate with
++           | [op] -> operand `Move "_2" true op
++           | _ -> reject "constructor aggregate operand count")
++      | _ -> reject "constructor return aggregate rvalue"
++    in
++    let block_id expected block =
++      if Stdint.Uint32.to_int
++           (BasicBlockIdRd.index_get (BasicBlockRd.id_get block)) <> expected ||
++         BasicBlockRd.is_cleanup_get block then
++        reject "constructor block identity/cleanup"
++    in
++    let check_call terminator =
++      match TerminatorKindRd.get (TerminatorRd.kind_get terminator) with
++      | TerminatorKindRd.Call call ->
++          let open FnCallDataRd in
++          (match OperandRd.get (func_get call) with
++           | OperandRd.Constant c ->
++               (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++                | VfMirRd.MirConst.Val v ->
++                    if VfMirRd.ConstValue.get
++                         (VfMirRd.MirConst.Val.const_value_get v) <>
++                         VfMirRd.ConstValue.ZeroSized then
++                      reject "constructor call function constant";
++                    (match (D.decode_ty
++                              (VfMirRd.MirConst.Val.ty_get v)).kind with
++                     | D.FnDef {id={name}; substs=[{kind=D.Type p}];
++                                late_bound_generic_param_count=0}
++                       when name = "std::mem::ManuallyDrop::<T>::new" && ptr p -> ()
++                     | _ -> reject "constructor callee identity/type")
++                | _ -> reject "constructor call constant form")
++           | _ -> reject "constructor callee operand form");
++          (match args_get_list call with
++           | [arg] -> operand `Move "_3" true arg
++           | _ -> reject "constructor call argument count");
++          place "_2" true (destination_get call);
++          (match UnwindActionRd.get (unwind_action_get call) with
++           | UnwindActionRd.Continue -> ()
++           | _ -> reject "constructor unwind edge");
++          (match OptionRd.get (target_get call) with
++           | OptionRd.Something ptr ->
++               let target = VfMirRd.of_pointer ptr in
++               if Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) <> 1
++               then reject "constructor call target"
++           | _ -> reject "constructor call has no target");
++          (match OptionRd.get (ghost_generic_arg_list_get call) with
++           | OptionRd.Nothing -> ()
++           | _ -> reject "constructor call ghost generic arguments")
++      | _ -> reject "constructor first terminator is not call"
++    in
++    (match BodyRd.basic_blocks_get_list body with
++     | [b0; b1] ->
++         block_id 0 b0; block_id 1 b1;
++         (match BasicBlockRd.statements_get_list b0 with
++          | [s0; s1; s2] ->
++              storage `Live "_2" s0;
++              storage `Live "_3" s1;
++              assign "_3" true check_copy s2
++          | _ -> reject "constructor first block statements");
++         check_call (BasicBlockRd.terminator_get b0);
++         (match BasicBlockRd.statements_get_list b1 with
++          | [s0; s1; s2] ->
++              storage `Dead "_3" s0;
++              assign "_0" true check_aggregate s1;
++              storage `Dead "_2" s2
++          | _ -> reject "constructor return block statements");
++         (match TerminatorKindRd.get
++                  (TerminatorRd.kind_get (BasicBlockRd.terminator_get b1)) with
++          | TerminatorKindRd.Return -> ()
++          | _ -> reject "constructor return terminator")
++     | _ -> reject "constructor basic-block count");
++    Printf.printf
++      "SORT4-MAYBEUNINIT: full typed constructor MIR graph accepted\n%!"
++
++  let expected_sort4_redirects bodies =
++    let names = List.map (fun body ->
++      TrName.translate_def_path (BodyRd.def_path_get body)) bodies in
++    let count name = List.length (List.filter ((=) name) names) in
++    let actual = count "select_unpredictable" in
++    let frame = count "sort4_checked_maybeuninit_frame_probe" in
++    let wrong = count "sort4_checked_maybeuninit_wrong_value_probe" in
++    let false_post = count "sort4_checked_maybeuninit_false_post_probe" in
++    if actual = 1 && frame = 0 && wrong = 0 && false_post = 0 then 2
++    else if actual = 0 && frame + wrong + false_post = 1 then 1
++    else Sort4MaybeUninit.reject
++      "expected exactly one approved constructor probe or actual select body"
++
++  let certify_sort4_maybeuninit (vf_mir_cpn : VfMirRd.VfMir.t) root =
++    let open Sort4MaybeUninit in
++    active := false;
++    aggregate_count := 0;
++    inner_call_count := 0;
++    redirect_count := 0;
++    let* adts =
++      CapnpAux.ind_list_get_list (VfMirRd.VfMir.adt_defs_get vf_mir_cpn)
++    in
++    let local_adts =
++      List.filter (fun adt ->
++        let id = AdtDefRd.id_get adt |> D.decode_adt_def_id in
++        translate_adt_def_id id = union_name) adts
++    in
++    let local_adt = match local_adts with
++      | [adt] -> adt
++      | _ -> reject "expected exactly one local certified union"
++    in
++    if not (AdtDefRd.is_local_get local_adt) ||
++       AdtKindRd.get (AdtDefRd.kind_get local_adt) <> AdtKindRd.UnionKind then
++      reject "certified ADT is not a local union";
++    let variants =
++      AdtDefRd.variants_get_list local_adt |> List.map D.decode_variant_def
++    in
++    let fields = match variants with
++      | [({fields; _} : D.variant_def)] -> fields
++      | _ -> reject "certified union does not have one variant"
++    in
++    let fields_ok = match fields with
++      | [ (uninit : D.variant_def_field_def);
++          (value : D.variant_def_field_def) ] ->
++          uninit.name.name = "uninit" && unit_type uninit.ty &&
++          value.name.name = "value" && manually_drop_t value.ty
++      | _ -> false
++    in
++    if not fields_ok then reject "certified union fields or types differ";
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir_cpn in
++    let local_bodies =
++      List.filter (fun body ->
++        TrName.translate_def_path (BodyRd.def_path_get body) = constructor_name)
++        bodies
++    in
++    let body = match local_bodies with
++      | [body] -> body
++      | _ -> reject "expected exactly one checked constructor body"
++    in
++    if BodyRd.DefKind.get (BodyRd.def_kind_get body) <> BodyRd.DefKind.Fn then
++      reject "checked constructor is not a free function";
++    let* unsafe = translate_unsafety (BodyRd.unsafety_get body) in
++    if unsafe then reject "checked constructor must be safe";
++    let inputs = BodyRd.inputs_get_list body |> List.map D.decode_ty in
++    if not (match inputs with [ty] -> pointer_element ty | _ -> false) then
++      reject "checked constructor input is not *const Element";
++    let output_ok = match TyKindRd.get (TyRd.kind_get (BodyRd.output_get body)) with
++      | TyKindRd.Adt adt ->
++          let id = AdtTyRd.id_get adt |> D.decode_adt_def_id in
++          let args = AdtTyRd.substs_get_list adt |> List.map D.decode_generic_arg in
++          id.name = union_name &&
++          AdtKindRd.get (AdtTyRd.kind_get adt) = AdtKindRd.UnionKind &&
++          (match args with [{kind=D.Type p}] -> pointer_element p | _ -> false)
++      | _ -> false
++    in
++    if not output_ok then reject "checked constructor output differs";
++    let* union_loc = translate_span_data (AdtDefRd.def_span_get local_adt) in
++    let* sig_loc = translate_span_data (BodyRd.fn_sig_span_get body) in
++    let* imp_loc = translate_span_data (BodyRd.imp_span_get body) in
++    let* full_loc = translate_span_data (BodyRd.span_get body) in
++    let fixture_path = match sig_loc with
++      | Ast.Lexed (((path, _, _), _)) when
++          Filename.check_suffix path "verified/lib.rs" -> path
++      | _ -> reject "checked constructor source span is not verified/lib.rs"
++    in
++    let (union_line, union_col), (union_end_line, union_end_col),
++        (sig_line, sig_col), (sig_end_line, sig_end_col),
++        (body_line, body_col), (end_line, end_col) =
++      certified_source root fixture_path in
++    (match union_loc with
++     | Ast.Lexed (((path, line, col), (end_path, hi_line, hi_col))) when
++         path = fixture_path && end_path = fixture_path &&
++         line = union_line && col = union_col &&
++         hi_line = union_end_line && hi_col = union_end_col -> ()
++     | _ -> reject "union definition MIR span does not identify source item");
++    (match sig_loc with
++     | Ast.Lexed (((path, line, col), (end_path, hi_line, hi_col))) when
++         path = fixture_path && end_path = fixture_path &&
++         line = sig_line && col = sig_col &&
++         hi_line = sig_end_line && hi_col = sig_end_col -> ()
++     | _ -> reject "function signature MIR span does not identify source item");
++    (match imp_loc with
++     | Ast.Lexed (((path, line, col), (end_path, hi_line, hi_col))) when
++         path = fixture_path && end_path = fixture_path &&
++         line = body_line && col = body_col &&
++         hi_line = end_line && hi_col = end_col -> ()
++     | _ -> reject "function body MIR span does not identify source expression");
++    (match full_loc with
++     | Ast.Lexed (((path, line, col), (end_path, hi_line, hi_col))) when
++         path = fixture_path && end_path = fixture_path &&
++         line = sig_line && col = sig_col &&
++         hi_line = end_line && hi_col = end_col -> ()
++     | _ -> reject "function item MIR span does not identify source item");
++    check_sort4_constructor_mir body;
++    active := true;
++    Printf.printf
++      "SORT4-MAYBEUNINIT: certified local body %s from %s\n%!"
++      constructor_name fixture_path;
++    Ok ()
++
+   let translate_vf_mir (extern_specs : string list)
+       (vf_mir_cpn : VfMirRd.VfMir.t) =
+     let job _ =
++      let* () = match Sys.getenv_opt "SORT4_MAYBEUNINIT_REPO_ROOT" with
++        | None ->
++            Sort4MaybeUninit.active := false;
++            Ok ()
++        | Some root ->
++            let* relevant = has_sort4_maybeuninit_symbols vf_mir_cpn in
++            if relevant then certify_sort4_maybeuninit vf_mir_cpn root
++            else (Sort4MaybeUninit.active := false; Ok ())
++      in
+       Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
+       (* Todo @Nima: we should add necessary inclusions during translation *)
+       let extern_header_names =
+@@ -7881,6 +8457,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+             bodies_cpn
+         else bodies_cpn
+       in
++      if !Sort4MaybeUninit.active &&
++         not (List.exists (fun body ->
++           TrName.translate_def_path (BodyRd.def_path_get body) =
++             Sort4MaybeUninit.constructor_name) bodies_cpn)
++      then Sort4MaybeUninit.reject
++        "checked local function would be omitted from verification";
++      let expected_redirects =
++        if !Sort4MaybeUninit.active then
++          expected_sort4_redirects bodies_cpn
++        else 0
++      in
+       let body_tr_defs_ctx =
+         { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
+       in
+@@ -7896,6 +8483,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         ListAux.split3 bodies_tr_res
+       in
+       let body_sigs = List.filter_map Fun.id body_sig_opts in
++      if !Sort4MaybeUninit.active then (
++        if !Sort4MaybeUninit.inner_call_count <> 1 ||
++           !Sort4MaybeUninit.aggregate_count <> 1 ||
++           !Sort4MaybeUninit.redirect_count <> expected_redirects then
++          Sort4MaybeUninit.reject
++            "checked body shape or external call count differs";
++        Printf.printf
++          "SORT4-MAYBEUNINIT: checked local body translated (inner=1, aggregate=1, redirected=%d, expected=%d)\n%!"
++          !Sort4MaybeUninit.redirect_count
++          expected_redirects);
+       (* `vfide` relies on the similarity of the order of function declarations
+          over several calls to `verifast` hence we are sorting them since `rustc` does not keep that order the same.
+       *)
