@@ -2,7 +2,7 @@
 
 2026-10-07 — IN PROGRESS: finite SWO-to-integer-rank phase, separately authorized.
 Entry `a9fe187d48a492939970998ca862736a410c1adc`, same isolated branch/worktree.
-New budget **26/1800 summed hosted job seconds**,1774remain; no active run.
+New budget **63/1800 summed hosted job seconds**,1737remain; no active run.
 Previous phase ACCEPTED, **1499/1800spent**,301unused not transferred; preserved
 in [phase1 checkpoint](PHASE1-STATUS.md), [results](RESULTS.md) and original journal.
 
@@ -18,9 +18,8 @@ Official stock VeriFast26.09 unchanged; source/std/generator pins preserved.
 At most one hosted run here, two across both directions; budgets independent.
 Main direction's STATUS/PLAN untouched. No merge or public-goal completion claim.
 Actual Rust swap_if_less safety/ownership/callback/unwind proof remains OPEN.
-R9b source `b8359b838e96312693f0340cc6daf5db7c78fd1d`, run37653292102:
-include placement fixed; positive frontend requires explicit `== true` on two
-Boolean fixpoint postconditions, before any own body. Negative accepted at its
-exact correspondence assertion with all7 classifier rejection controls.
-No full positive theorem accepted. Next R9c repairs only Boolean-post syntax,
-keeps all laws/domains/posts and stock semantics, NEW SHA run.
+R9c source `09d41dd233d4b15366a38532b6b2cc5e5820b701`, run37653560718:
+old N9 complete rank theorem and finite law/domain helpers checked. First stop
+inside swo_pred_equiv: two bare `assert rel(...)` need explicit Boolean ==true.
+Negative and all7 classifier controls PASS. Whole new bridge/application unproved.
+Next: R9d preserves predicates/logic, disambiguates these2 asserts, NEW SHA run.

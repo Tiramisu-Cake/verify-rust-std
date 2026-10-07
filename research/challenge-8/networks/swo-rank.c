@@ -112,8 +112,8 @@ lemma void swo_pred_equiv(fixpoint(int, int, bool) rel, list<int> d,
     swo_laws_at(rel, d, z, y, x);
     swo_laws_at(rel, d, z, x, y);
     swo_laws_at(rel, d, x, z, y);
-    if (rel(z, x)) assert rel(z, y);
-    if (rel(z, y)) assert rel(z, x);
+    if (rel(z, x)) assert rel(z, y) == true;
+    if (rel(z, y)) assert rel(z, x) == true;
 }
 
 lemma void swo_equal_count_rec(fixpoint(int, int, bool) rel, list<int> d,

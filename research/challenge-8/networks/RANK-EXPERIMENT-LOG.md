@@ -109,3 +109,32 @@ with every named body/post/return/leak; no parser success counted as theorem.
 Accepted -> R13; first-causal proof failure -> localized checked-body repair
 under unchanged profile and NEW run; budget/trust boundary -> exact checkpoint.
 Job8min/inner420s/percase180s within remaining1774s. Source/run pending.
+
+### R9c result: finite laws checked; assertion elaboration stop
+
+Source `09d41dd233d4b15366a38532b6b2cc5e5820b701`,
+[run37653560718](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653560718),
+[artifact11497437029](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653560718/artifacts/11497437029),
+288659bytes, ZIP SHA25629a1ee527f02f2b7cfa2aefc82bb4c73d914a4c67b4b027a910af56f230f1c0e.
+Full sources/logs/results inspected, hashes match and std/tool/old generator
+unchanged. Generic unit13 completed return/leak paths; core forall_at/laws_at/
+member_lift/domain_extend/domain_self checked. First stop in swo_pred_equiv
+line172,27–30: `Variable rel is not of predicate type` on bare assert rel(z,y).
+No complete rank bridge or composition accepted.
+
+Composition completes old binary/all8threshold/full rank application by25.789s
+and finite helper bodies,518completed return/leak paths, then same assertion
+elaboration error at4207,27–30. Negative exact65,26–28 and all7controls PASS.
+Job16:37:59Z–16:38:36Z = **37s**, new-phase total63/1800,1737remain.
+
+## R9d — prepared before dispatch
+
+Same full original predicates/domains/order/equivalence/bounds/membership/count
+posts and open Rust boundary/profile. Hypothesis: the same explicit-Boolean
+assert syntax required for postconditions also disambiguates two relation
+assertions in swo_pred_equiv; inspect remaining asserts for bare pure-call
+forms. Add ==true to exactly those2, no logical/model change. Keep all proof
+bodies, original N9 rank unit and exact negative+7controls. Whole bridge and
+composition acceptance required before R13. Proof failure -> first-causal local
+repair/newSHA; trust/budget boundary -> exact open obligation, no patch/fallback.
+Job8min/inner420s/percase180s fits1737s remaining. Source/run pending.
