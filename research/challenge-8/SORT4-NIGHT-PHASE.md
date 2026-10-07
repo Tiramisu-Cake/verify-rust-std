@@ -47,7 +47,8 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;11/12 runs,2669/10800 summed job-seconds; no active run.
+Current: IN PROGRESS;12/12 runs,2669 completed/10800 summed job-seconds plus active
+FINAL N12/37554258065/source1803ad0,swo_network/30.
 Layout repair2/2 complete, exact profile N2 accepted. Stock index N4/N5 replay,
 abstract rank order/stability N5 and scalar ranges N8 accepted. N11 finite-SWO
 quotient bridge accepted after N9/N10 arithmetic repairs. Actual pointer callee

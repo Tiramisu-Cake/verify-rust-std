@@ -2,7 +2,8 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night11/12 NEW,2669/10800 summed job-seconds; repair2/2 closed. No active run.
+Night12/12 NEW,2669 completed/10800 summed job-seconds plus active FINAL N12.
+Active37554258065/source1803ad0be54a41d97059ad28a0400a7cf851aed3,swo_network/30; repair2/2.
 N11/37553933186/source3c3f0f3: FULL finite-SWO rank bridge PASS,104statements;
 all8helpers/application/leak checks, intended tied-rank negative at19 accepted.
 N9/N10 arithmetic timeouts retained; definitions/domain/fullposts/profile unchanged.

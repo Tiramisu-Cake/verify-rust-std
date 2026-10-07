@@ -63,4 +63,4 @@ Hosted N5/37548811698,source6a12b4e39621eb057712f9084b809f86da6c9b77:
 PASS,39 verified statements; named index/order bodies and all return/leak checks
 inspected. Minimal equal-key reversed-middle negative fails only target line17.
 Full artifact11452435478 binds source/header/profile hashes. Finite-SWO checked
-transfer is separately [prepared](SORT4-SWO-BRIDGE.md); actual callback bridge open.
+transfer is separately [accepted at N11](SORT4-SWO-BRIDGE.md); actual callback bridge open.
