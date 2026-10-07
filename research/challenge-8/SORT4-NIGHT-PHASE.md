@@ -47,7 +47,8 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;10/12 runs,2639/10800 summed job-seconds; no active run.
+Current: IN PROGRESS;11/12 runs,2639 completed/10800 summed job-seconds plus active
+N11/37553933186/source3c3f0f3,swo/30.
 N10/37553115842/source3ea303b repairs equivalent-rank sum;
 new strict-count sum hotspot remains. Full theorem/negative NOT PROVEN/NOT RUN.
 N11 same proven isolation technique for strict-count/bounds follows.

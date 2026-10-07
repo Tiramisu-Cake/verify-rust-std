@@ -3087,3 +3087,7 @@ cause evidence; timeout124 remains INCONCLUSIVE_TIMEOUT. Both stop dependent
 negative processing. New pure composition/header/negative committed as UNVERIFIED
 conditional drafts with full card, not accepted proof. Original N5 fixture stays
 byte-unchanged; copied ghost declarations/body match it exactly.
+
+N11 dispatched run37553933186/source3c3f0f338559675c5b4ce0859126bbedf8d9495c,
+created2026-10-07T00:49:02Z,manualswo/30; exact HEAD/remote matched, no other active
+relevant run, maximum fits06:00UTC. Night11/12,2639completedjobseconds plus active.
