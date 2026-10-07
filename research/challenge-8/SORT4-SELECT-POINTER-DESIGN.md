@@ -162,3 +162,69 @@ as_mut_ptr criterion required before claiming its acceptance/using stronger
 summary; source body diagnostics alone remain partial. After acceptance continue
 actual helper and its listed intrinsics/drop/forget/assume_init dependencies.
 Kernel/prelude/general memory/alias/provenance/exporter/schema/refiner frozen.
+
+## S5 prospective intrinsic rule — review BEFORE semantic implementation
+
+Separate new profile `experimental-source-linked-select-pointer-intrinsics-v1`,
+separate patch `verifast-select-pointer-intrinsics.patch`, preserving S3 patch and
+O4 original identities. Kernel/prelude/general memory/alias/provenance unchanged.
+The only NEW trusted value rule is compiler `std::intrinsics::select_unpredictable`
+for exactly `*mut *const Element` or `std::mem::MaybeUninit<*const Element>`:
+`result = if condition { a } else { b }` as COMPLETE modeled values, no unwind,
+no destruction of the other value. This is NOT a verified Rust-body theorem.
+Pinned repository `intrinsics/mod.rs` SHA256
+ab781181f967398d514d9fd2b5f3b6aebd16c2c403f3d1a2628e0c7f1fac6ebf,
+lines486–500 declares rustc_intrinsic/rustc_nounwind and specifies the exact
+fallback `if b { forget(false_val); true_val } else { forget(true_val); false_val }`.
+The fixed compiler/exporter identity and exact pointer types delimit this trust.
+No address casts/comparisons, Element resources/Copy/Freeze, generic T rule.
+
+Translator returns ordinary `Ast.IfExpr(condition,a,b)` through FnCallResult only
+AFTER full applicability certification. Pointer values retain raw_ptr_own=true.
+For the wrapper, an ordinary CHECKED ownership-transfer lemma consumes both
+DEFINED pointer-own predicates and returns only that of the selected wrapper:
+open the definitions/raw-pointer-own cases, close selected own in condition cases.
+No opaque result resource or new axiom; the unselected value ownership is empty
+and can be discharged against its existing definition. Defined empty ownership
+is logically duplicable; resource-loss/duplication negatives must therefore target
+actual independent cell/thread resources, not demand failure for two empty owns.
+Unknown/none/some selection retains the exact option, not an initialization premise.
+
+Applicability: exact FnDef/path/substitution/type-kind, Bool/T/T operand types and
+order, plain Move/Copy source local identities, result T, normal successors and
+unreachable unwind, no late-bound/ghost/runtime extras. In actual helper verify
+ALL three calls and preceding assignments tying condition to the parameter and
+values to true_ptr/false_ptr or wrappers (two calls reverse operand pairs), with
+complete admissible typed graph/source-bound body. Counts alone are insufficient.
+Standalone SAFE fixtures need their own full typed MIR/dataflow/CFG certificates;
+unknown/changed source/function/type/operand/result/extra op/CFG rejects before
+proof. Preserve two constructor and two as_mut_ptr gates/checked bodies and source
+integrity/export/decode/refinement. Runtime std source/signatures remain unchanged.
+
+Acceptance: symbolic and fixed true/false full-value positives for both exact
+T types, wrapper none/some and unknown states, SAFE prototype/body/return/leak,
+thread plus independent fractional frame/no unwind. Wrong selected value/inner,
+false post/assertion, lost/duplicated frame each must fail named proof obligation.
+Source and direct MIR admission negatives must reach exact separate certificate
+failure, before proof; classifier wrong-stage/predicate/location/source/identity
+mutants fail closed. Full O4 constructor plus S3 asptr regression and Rust/C/C++
+baselines required in changed profile. Integration runs ONLY after component
+acceptance and keeps original all3intrinsics/guards/drop/forget/assume_init.
+First remaining mapped operation is investigated, never a name-only stop.
+
+### Later guard/forget hypothesis, NOT IMPLEMENTED or accepted
+
+Stock local private-field DropOnPanic<T>.own defaults to false; its SAFE Drop
+prototype is vacuous, not a source of pointer-cell permission. One potentially
+sound pointer-only route leaves the selected cell and reborrow token OUTSIDE the
+guard value and verifies the exact Drop body under an explicit initialized-slot
+precondition. Its generated SAFE compatibility/vacuity must be disclosed and
+checked; a non-vacuous body proof is separately required. Actual cleanup becomes
+unreachable only after BOTH exact pointer drop and assume_init are proved nounwind.
+Exact source-specialized forget<that SAME local guard nominal type> body merely
+wraps its argument in ManuallyDrop under existing identity translation; a token-only
+body proof may then avoid changing false guard-own, while framing both child cells.
+This is NOT general forget/Drop/ownership support. It requires hosted confirmation,
+full nominal/MIR/source binding and leak/SAFE compatibility controls before use.
+If it cannot satisfy these criteria, investigate existing borrow packaging before
+claiming that an uncheckable resource bridge is necessary. No such bridge is assumed.
