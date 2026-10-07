@@ -4838,3 +4838,32 @@ and exact classifier defects have causal log evidence. Include fixed-binary cach
 only host-built console plus applied-diff+binary digest manifest; exact patch inventory
 key, no fallback restore; all source/spec/compiler/exporter/refiner pins re-audited.
 Cache does not change profile. New job cap1200s, available20642 including cache/artifacts.
+
+## O5 result / O6 BEFORE — actual constructor linkage
+
+O5 [run37702922138](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37702922138),
+proof7a176e9fafc993d59906a8d9015940f581f429f6, job113070401883
+23:33:17–23:35:21UTC=124s. Workflow SUCCESS is diagnostic only. Profile unchanged.
+G1 publicentry hypothesis disproved: same whole-function deadcode after return/leak.
+Synthetic unwind=continue at checked_forget_generic call with false unwind remains
+candidate causal explanation; no suppression or call-link acceptance. 11 intended
+negatives; contradictory-pre classifier still INCONCLUSIVE on original output.
+Callback allsupport0; both now execute proof to stdspec47 FnMut Args.own failure
+for tuple2 reference values. Falsepost not reached. This supports exacttuple2
+ownership next component, not HRTB/unwind acceptance. Cache built/saved exact console
+36a769ab with applied-diff manifest. Account1082/21600,20518remain. No active run.
+
+O6 obligation is the actual helper's two MU constructor calls, current first error.
+[Linkage review](overnight-linkage/REVIEW.md) documents same-source checked local
+constructor module, certified representation and exact existing S6 redirection.
+No translator/spec/compiler/exporter change. Same unrestricted raw-pointer helper
+normal selected-pointer post and false unwind; later operations intentionally remain
+unmodeled, so this is partial diagnostic, not helper theorem. Falsifiable: prepend
+O3-approved exact constructor module to unchanged actualbody; pinned env +fullsource/
+typedMIR gate enables exactly2redirects, checked localbody executesreturn/leak before
+actualbody reaches asptr missingoperation. Two compile-valid localbody/union mutants
+reject exactsourcecertificate beforeproof. Different later error remains diagnostic.
+Same profilebyte audits and5positive source/MIR/refinement smokes retained. Previous
+G1/callback route is not rerun without new evidence; their next components develop
+inparallel. Exactcache only; no compilerbuildtools requiredonhit, versions marked
+cached ratherthan invoking missingtools. Next decision from causal gate logs.

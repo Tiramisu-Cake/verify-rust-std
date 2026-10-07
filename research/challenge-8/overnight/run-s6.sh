@@ -97,8 +97,8 @@ AUDIT
 {
  rustc --version --verbose
  capnp --version
- ocamlc -version
- dune --version
+ if command -v ocamlc >/dev/null; then ocamlc -version; else printf 'OCaml: cached console, build tool not installed\n'; fi
+ if command -v dune >/dev/null; then dune --version; else printf 'Dune: cached console, build tool not installed\n'; fi
  sha256sum "$stock_archive" "$patch_file" "$source_home/bin/verifast" "$stock_home/bin/verifast"
 } >> "$ev/environment.txt"
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
@@ -108,10 +108,7 @@ stage s6-diagnostic python3 research/challenge-8/overnight-s6/diagnose-s6.py --t
 # Independent diagnostics run before the larger component matrix. Their stage
 # failures are retained; neither diagnostic collection nor a green workflow
 # implies acceptance of helper/callback/actual Rust.
-helper_status=0
-stage helper-certificates python3 research/challenge-8/overnight-helper/test-helper-certificates.py || helper_status=$?
-stage helper-capture python3 research/challenge-8/overnight-helper/check-helper.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/helper" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+600))" --actual-capture || helper_status=$?
-callback_status=0
-stage callback-capture python3 research/challenge-8/overnight-callback/probe.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/callback" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+700))" || callback_status=$?
-printf 'helper_stage=%s\ncallback_stage=%s\ns6_matrix_stage=NOT_REPEATED_PROFILE_UNCHANGED\nprior_matrix_run=37700450091\n' "$helper_status" "$callback_status" > "$ev/aggregate-stage-status.txt"
-(( helper_status == 0 && callback_status == 0 ))
+linkage_status=0
+stage constructor-linkage python3 research/challenge-8/overnight-linkage/check-constructor-linkage.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/constructor-linkage" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || linkage_status=$?
+printf 'constructor_linkage_stage=%s\nhelper_stage=NOT_REPEATED\ncallback_stage=NOT_REPEATED\ns6_matrix_stage=NOT_REPEATED_PROFILE_UNCHANGED\nprior_matrix_run=37700450091\n' "$linkage_status" > "$ev/aggregate-stage-status.txt"
+(( linkage_status == 0 ))

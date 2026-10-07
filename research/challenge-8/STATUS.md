@@ -11,13 +11,14 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **958/21600 summed GitHub-hosted job seconds**, 20642 remain.
+New independent account **1082/21600 summed GitHub-hosted job seconds**, 20518 remain.
 Historical stock99/1800 and S7 5306/5400 preserved separately. No active workflow.
-O3 full S6 matrix accepted at proof1378f0ff/run37700450091; detailed summaries
-and constructor/asptr full logs independently audited, remaining logs being read.
-O4 proof86e84ace/run37702049156 captures new actual helper/A1 MIR. G1 positive
-private entry deadcode and optional callback AST-dump failure corrected for O5;
-A1 missing inhabited/typed transmute, actual helper missing constructor linkage.
+O3 full S6 component matrix accepted at proof1378f0ff/run37700450091; full text
+artifact extraction completed (tool binaries omitted; member CRC checked).
+O4 captures complete new actual helper/A1 MIR. O5 Args.own tuple2 callback blocker
+witnessed; G1 publicentry change does not remove caller deadcode. Next O6 constructor
+linkage using same-source verified localbody; new typed A1/tuple components reviewed
+independently, not yet hosted.
 
 Current obligation: audit S6 component acceptance and obtain helper/callback boundaries.
 **Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,
