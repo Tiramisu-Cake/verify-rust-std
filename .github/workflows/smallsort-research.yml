@@ -55,7 +55,7 @@ on:
         description: Forget diagnostics under the existing pointer selection
         type: choice
         default: drop_v4
-        options: [drop_v4, forget_diagnostic, forget_generic, forget_generic_ast]
+        options: [drop_v4, forget_diagnostic, forget_generic, forget_generic_ast, forget_cfg_trace, forget_cfg_accept]
       rapx_gate:
         description: Ordered RAPx applicability gate
         type: choice
@@ -81,7 +81,7 @@ jobs:
       contents: read
       actions: read
     runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop' || inputs.proof == 'verifast_rust_fieldless_layout' || inputs.proof == 'verifast_maybeuninit_new_pointer') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
-    timeout-minutes: ${{ (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_generic_ast') && 6 || (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_generic') && 8 || (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_diagnostic') && 18 || inputs.proof == 'verifast_maybeuninit_new_pointer' && 25 || inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
+    timeout-minutes: ${{ (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_cfg_trace') && 5 || (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_cfg_accept') && 6 || (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_generic_ast') && 6 || (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_generic') && 8 || (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_diagnostic') && 18 || inputs.proof == 'verifast_maybeuninit_new_pointer' && 25 || inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
     steps:
       - name: Check out the selected workflow branch
         uses: actions/checkout@v4
@@ -157,7 +157,11 @@ jobs:
             verifast_rust_fieldless_layout) bash research/challenge-8/run-rust-fieldless-layout.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_borrow_recovery) bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_maybeuninit_new_pointer)
-              if [[ "$FORGET_GUARD_STAGE" == forget_generic_ast ]]; then
+              if [[ "$FORGET_GUARD_STAGE" == forget_cfg_trace ]]; then
+                FORGET_CFG_MODE=trace FORGET_CFG_JOB_CAP=5 bash research/challenge-8/run-forget-cfg.sh "$RUN_BUDGET_MINUTES"
+              elif [[ "$FORGET_GUARD_STAGE" == forget_cfg_accept ]]; then
+                FORGET_CFG_MODE=accept FORGET_CFG_JOB_CAP=6 bash research/challenge-8/run-forget-cfg.sh "$RUN_BUDGET_MINUTES"
+              elif [[ "$FORGET_GUARD_STAGE" == forget_generic_ast ]]; then
                 FORGET_GENERIC_AST=1 bash research/challenge-8/run-select-forget-generic.sh "$RUN_BUDGET_MINUTES"
               elif [[ "$FORGET_GUARD_STAGE" == forget_generic ]]; then
                 bash research/challenge-8/run-select-forget-generic.sh "$RUN_BUDGET_MINUTES"

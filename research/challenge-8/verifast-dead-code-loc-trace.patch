@@ -1,0 +1,155 @@
+--- a/src/frontend/ast.ml
++++ b/src/frontend/ast.ml
+@@ -1300,6 +1300,87 @@
+   | Continue l -> l
+   | SuperConstructorCall(l, _) -> l
+ 
++(* Temporary diagnostic registry for tracing the physical loc0 identities used
++   by vfconsole's dead-code table. This registry is independent of that table. *)
++let dead_code_loc_trace_enabled () =
++  try Sys.getenv "VF_DEAD_CODE_LOC_TRACE" = "1" with Not_found -> false
++
++let dead_code_loc_trace_ids : (loc0 * int) list ref = ref []
++let dead_code_loc_trace_next = ref 0
++let dead_code_loc_trace_ast : (int * string list) list ref = ref []
++
++let dead_code_loc_trace_id l =
++  if not (dead_code_loc_trace_enabled ()) then -1
++  else
++    match List.find_opt (fun (l0, _) -> l0 == l) !dead_code_loc_trace_ids with
++    | Some (_, id) -> id
++    | None ->
++        let id = !dead_code_loc_trace_next in
++        incr dead_code_loc_trace_next;
++        dead_code_loc_trace_ids := (l, id) :: !dead_code_loc_trace_ids;
++        id
++
++let dead_code_loc_trace_record_ast l description =
++  if dead_code_loc_trace_enabled () then begin
++    let id = dead_code_loc_trace_id l in
++    let rec add = function
++      | [] -> [id, [description]]
++      | (id0, descriptions)::rest when id0 = id ->
++          if List.mem description descriptions then (id0, descriptions)::rest
++          else (id0, description::descriptions)::rest
++      | entry::rest -> entry::add rest
++    in
++    dead_code_loc_trace_ast := add !dead_code_loc_trace_ast
++  end
++
++let dead_code_loc_trace_descriptions id =
++  try List.rev (List.assoc id !dead_code_loc_trace_ast) with Not_found -> []
++
++let dead_code_trace_expr = function
++  | CallExpr (_, name, _, _, _, _) -> "call=" ^ name
++  | _ -> "expression"
++
++let dead_code_trace_stmt_description label_context s =
++  let constructor, detail =
++    match s with
++    | PureStmt _ -> "PureStmt", ""
++    | NonpureStmt _ -> "NonpureStmt", ""
++    | DeclStmt _ -> "DeclStmt", ""
++    | ExprStmt e -> "ExprStmt", dead_code_trace_expr e
++    | IfStmt _ -> "IfStmt", ""
++    | SwitchStmt _ -> "SwitchStmt", ""
++    | Assert _ -> "Assert", ""
++    | Leak _ -> "Leak", ""
++    | Open _ -> "Open", ""
++    | Close _ -> "Close", ""
++    | ReturnStmt (_, None) -> "ReturnStmt", "value=none"
++    | ReturnStmt (_, Some e) -> "ReturnStmt", dead_code_trace_expr e
++    | WhileStmt _ -> "WhileStmt", ""
++    | BlockStmt _ -> "BlockStmt", ""
++    | PerformActionStmt _ -> "PerformActionStmt", ""
++    | SplitFractionStmt _ -> "SplitFractionStmt", ""
++    | MergeFractionsStmt _ -> "MergeFractionsStmt", ""
++    | CreateBoxStmt _ -> "CreateBoxStmt", ""
++    | CreateHandleStmt _ -> "CreateHandleStmt", ""
++    | DisposeBoxStmt _ -> "DisposeBoxStmt", ""
++    | LabelStmt (_, label) -> "LabelStmt", "label=" ^ label
++    | GotoStmt (_, label) -> "GotoStmt", "target=" ^ label
++    | NoopStmt _ -> "NoopStmt", ""
++    | InvariantStmt _ -> "InvariantStmt", ""
++    | SpecStmt _ -> "SpecStmt", ""
++    | ProduceLemmaFunctionPointerChunkStmt _ -> "ProduceLemmaFunctionPointerChunkStmt", ""
++    | DuplicateLemmaFunctionPointerChunkStmt _ -> "DuplicateLemmaFunctionPointerChunkStmt", ""
++    | ProduceFunctionPointerChunkStmt _ -> "ProduceFunctionPointerChunkStmt", ""
++    | Throw _ -> "Throw", ""
++    | TryCatch _ -> "TryCatch", ""
++    | TryFinally _ -> "TryFinally", ""
++    | Break _ -> "Break", ""
++    | Continue _ -> "Continue", ""
++    | SuperConstructorCall _ -> "SuperConstructorCall", ""
++  in
++  Printf.sprintf "label_context=%s; ast=%s%s" label_context constructor
++    (if detail = "" then "" else "(" ^ detail ^ ")")
++
+ let type_expr_fold_open f state te =
+   match te with
+     StructTypeExpr (l, sn, body_opt, attrs, targs) -> List.fold_left f state targs
+--- a/src/verify_expr.ml
++++ b/src/verify_expr.ml
+@@ -464,7 +464,23 @@
+     | PureStmt _ | NonpureStmt _ | BlockStmt _ -> true
+     | _ -> false
+ 
+-  let reportStmts ss = List.iter (stmt_iter (fun s -> if not (is_transparent_stmt s) then reportStmt (stmt_loc s))) ss
++  let reportStmts ss =
++    let label_context = ref "<none>" in
++    List.iter
++      (fun top_stmt ->
++        (match top_stmt with
++        | LabelStmt (_, label) -> label_context := label
++        | _ -> ());
++        stmt_iter
++          (fun s ->
++            if not (is_transparent_stmt s) then begin
++              dead_code_loc_trace_record_ast
++                (root_caller_token (stmt_loc s))
++                (dead_code_trace_stmt_description !label_context s);
++              reportStmt (stmt_loc s)
++            end)
++          top_stmt)
++      ss
+ 
+   let check_cxx_spec_overrides fenv (meth_name, meth_info) get_meth_info =
+     let FuncInfo ([], fterm, l, k, tparams, rt, xmap, ng_callers_only, pre, pre_tenv, post, terminates, _, _, is_virtual, overrides) = meth_info in
+--- a/src/vfconsole/vfconsole.ml
++++ b/src/vfconsole/vfconsole.ml
+@@ -269,12 +269,33 @@
+           (fun _ -> ()), (fun _ -> ()), (fun _ -> ())
+         else
+           let stmtLocs = LocHashtbl.create 10000 in
+-          let reportStmt l = if l != dummy_loc0 then LocHashtbl.replace stmtLocs l () in
+-          let reportStmtExec l = LocHashtbl.remove stmtLocs l in
++          let traceDeadCodeLoc event l =
++            if Ast.dead_code_loc_trace_enabled () then begin
++              let id = Ast.dead_code_loc_trace_id l in
++              let descriptions = Ast.dead_code_loc_trace_descriptions id in
++              Printf.eprintf
++                "[VF-DEAD-CODE-LOC] %s id=%d loc=%s ast={%s}\n"
++                event id (string_of_loc0 l)
++                (if descriptions = [] then "<unmapped>"
++                 else String.concat " | " descriptions)
++            end
++          in
++          let reportStmt l =
++            if l != dummy_loc0 then begin
++              traceDeadCodeLoc "REGISTER" l;
++              LocHashtbl.replace stmtLocs l ()
++            end
++          in
++          let reportStmtExec l =
++            traceDeadCodeLoc "EXEC" l;
++            LocHashtbl.remove stmtLocs l
++          in
+           let reportDeadCode () =
+             stmtLocs |> LocHashtbl.filter_map_inplace begin fun ((path, line, _), _) () ->
+               if LineHashtbl.mem allowDeadCodeLines (path, line) then None else Some ()
+             end;
++            if Ast.dead_code_loc_trace_enabled () then
++              stmtLocs |> LocHashtbl.iter (fun l () -> traceDeadCodeLoc "RESIDUAL" l);
+             if LocHashtbl.length stmtLocs > 0 then begin
+               stmtLocs |> LocHashtbl.iter begin fun l () ->
+                 Printf.printf "%s: dead code\n" (string_of_loc0 l)

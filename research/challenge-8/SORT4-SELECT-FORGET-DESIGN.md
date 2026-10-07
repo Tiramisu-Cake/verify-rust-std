@@ -55,7 +55,8 @@ Predeclared isolated gates (setup/unsupported failures never intended negatives)
   stock/patched baselines pass on new effective profile, retaining expected
   predicates/locations and source/MIR/pin negative gates from existing drivers.
 
-First diagnostic hosted job cap4 minutes with120s evidence reserve. Inspect
+First diagnostic hosted job cap5 minutes with60s evidence reserve. Prior AST job
+measured151s including11s packaging; two sequential builds need additional margin. Inspect
 identity BEFORE implementation. Select acceptance cap from actual remaining
 budget, never exceeding648 total new seconds; sequential builds allowed in one
 job, with separate binary/source hashes/logs. If full acceptance cannot fit,
