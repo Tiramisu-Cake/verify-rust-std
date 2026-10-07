@@ -9,7 +9,13 @@ Diagnostic[37681688627](https://github.com/Tiramisu-Cake/verify-rust-std/actions
 source32d909a7b1015a9417b882676d349bab5c80481f COMPLETE: physicalid52 is orphan
 label2 ReturnStmt(unwinding), never executed; normalreturnid53 executes. Same
 source/MIR/AST plain/traced, bothVF1 solely dead-code. Narrow candidate permitted.
-Budget4884/5400 used,516 jobseconds remain, no active run. Acceptance pending.
+Acceptance37683136287/source7185d8bae4a25fa2be278424fa9f5c6a80b93956 COMPLETE:
+autonomous body plainVF0/all7body-return-leak/dead-code0, same source+MIR; false
+post/pre controls intended. Constructor/asptr/intrinsics full matrices PASS.
+Pointerdrop admission timeout; unwind controls parse failure, scalar shared MIR
+has Continue rather than common cleanup. New profile NOT ACCEPTED.
+Budget5167/5400used,233remain, no active run. Final focused control continuation
+prepared (3min cap/45s reserve), same overlay89b0d80b; no repeated full matrices.
 No actual linkage/redirect or guard/Drop/assume_init/model/exporter/refiner/kernel
 extension. [BEFORE card](SORT4-SELECT-FORGET-DESIGN.md#s7c-cfg-repair-before-implementation).
 Historical S7b STOP is superseded only within this narrow authorization.

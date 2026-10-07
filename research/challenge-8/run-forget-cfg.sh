@@ -21,7 +21,7 @@ job_cap=${FORGET_CFG_JOB_CAP:?job cap required}
 if [[ "${2:-}" != --inside ]]; then
     [[ ! -e "$evidence" ]] || { echo 'refuse existing evidence' >&2; exit 2; }
     mkdir -p "$evidence"
-    remaining=$((job_cap * 60 - 60))
+    remaining=$((job_cap * 60 - 45))
     if [[ -n "${SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH:-}" ]]; then
         [[ "$SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH" =~ ^[0-9]+$ ]] || exit 2
         remaining=$((remaining - $(date +%s) + SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH))
@@ -68,7 +68,7 @@ source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
     printf 'Profile: experimental-source-linked-select-pointer-drop-v4\nExperiment: S7c physical-loc diagnosis then narrow CFG acceptance, no actual redirect\nAST dump requested: %s\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$ast_mode" "$source_pin" "$RUSTUP_TOOLCHAIN"
-    printf 'Budget: %s minutes including preparation/build/diagnostic; workflow input %s; cleanup reserve60 seconds\n' "$job_cap" "$budget"
+    printf 'Budget: %s minutes including preparation/build/diagnostic; workflow input %s; cleanup reserve45 seconds\n' "$job_cap" "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-forget-generic.py research/challenge-8/forget-evidence-classifier.py research/challenge-8/SORT4-SELECT-FORGET-DESIGN.md
 } > "$evidence/environment.txt"
 run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/check-forget-generic.py research/challenge-8/forget-evidence-classifier.py
@@ -100,7 +100,7 @@ for rel in sorted(allowed):
 (ev/'patch-source-identities.json').write_text(json.dumps(identities,indent=2)+'\n')
 PY
 run_stage compiler-install rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --component rustc-dev --component llvm-tools-preview
-run_stage build-apt bash -c 'sudo apt-get update && sudo apt-get install --yes --no-install-recommends build-essential git curl ca-certificates m4 patch unzip capnproto'
+run_stage build-apt bash -c 'sudo apt-get install --yes --no-install-recommends build-essential git curl ca-certificates m4 patch unzip capnproto'
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 run_stage vfdeps-download curl -fL --retry 3 -o "$deps_archive" https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
 printf '%s  %s\n' "$deps_sha" "$deps_archive" | sha256sum -c -
@@ -191,8 +191,10 @@ else
         git -C "$source_home" diff --exit-code -- "$path"
     done
     export SORT4_SELECT_PROFILE=experimental-manuallydrop-new-cfg-v1
-    acceptance_remaining=$((job_cap * 60 - 70 - $(date +%s) + SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH))
-    (( acceptance_remaining >= 60 )) || exit 124
-    run_stage cfg-acceptance python3 research/challenge-8/check-forget-cfg.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --baseline-evidence "$evidence/old-plain-generic" --evidence "$evidence/cfg-acceptance" --budget-seconds "$acceptance_remaining"
+    acceptance_remaining=$((job_cap * 60 - 55 - $(date +%s) + SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH))
+    (( acceptance_remaining >= 15 )) || exit 124
+    focused_args=()
+    if [[ "${FORGET_CFG_FOCUSED:-0}" == 1 ]]; then focused_args=(--focused-controls); fi
+    run_stage cfg-acceptance python3 research/challenge-8/check-forget-cfg.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --baseline-evidence "$evidence/old-plain-generic" --evidence "$evidence/cfg-acceptance" --budget-seconds "$acceptance_remaining" "${focused_args[@]}"
 fi
 exit 0

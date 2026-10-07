@@ -4631,3 +4631,20 @@ Residual physicalid52=label2 ReturnStmt(unwinding), REGISTER1/EXEC0/RESIDUAL1;
 normal returnid53 executes. Exact same sourcepair/completeMIR/AST. Causal repair
 now permitted; no CFG candidate had been applied during diagnosis.
 Compactartifact11510235246/full11509725710; tracebinary927e0892d4176dde4c9f706c57169eee0d0677609d13de8e6f6c270779a1ef62.
+
+S7c acceptance dispatched37683136287/source7185d8bae4a25fa2be278424fa9f5c6a80b93956,
+selection verifast_maybeuninit_new_pointer/forget_cfg_accept, input30/cap6min,
+60s evidence reserve/10s kill grace. Remote fullSHA confirmed, diagnostic complete,
+no duplicate active direction. Old plainS6v4 then new plain overlay89b0d80b build;
+all source/effective-diff/binary identities saved separately. No tracepatch applied.
+
+S7c acceptance37683136287 COMPLETE/FAILURE,283jobseconds,5167/5400used/233remain.
+Exact autonomous body fullVF0/export+decode/refine0/body+return+leak/dead-code0;
+old plainVF1 reproduced, sourcepair and completeMIR same. New binarye8090971,
+translator89b76a1a, unchangedspec70f09d29. False normalpost9:27–32 and falsepre
+4deadcode intended. Constructor/asptr/intrinsics complete; pointerdrop proofcases
+2+11pass, admission8source+9MIRpass, timeout at mir_cfg_unwind, tailNOTRUN.
+Unwind controls incorrectly presented combined ghosts: parser ens4:1–4, never
+intended negatives. Scalar shared MIR Continue, no common cleanup. ProfileUNACCEPTED.
+New focused continuation hypotheses/expected obligations and 3min/45s reserve are
+recorded in design before dispatch; patch unchanged, no repeated fullmatrix.

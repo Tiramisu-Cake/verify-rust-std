@@ -432,3 +432,36 @@ execute. Controls are partial CFG checks on scalars, not target-domain restricti
 False unwind post is only in caller; normal false post and contradictory req
 modify ghosts only in exact generic body. Existing complete matrices use the
 new effective profile and exact old classifiers; actual integration excluded.
+
+### S7c acceptance result and focused follow-up BEFORE dispatch
+
+Run37683136287/source7185d8bae4a25fa2be278424fa9f5c6a80b93956:
+new plain VF0 for exact autonomous unit, all7body/return/leak; both MIR identical
+3b08b583 and exported cleanup2 retained; new ASTb0cd6860 excludes only orphan.
+False normal post rejects at9:27–32; false pre retains all4dead-code rejections.
+Constructor16+9MIR and14baselines, asptr9+17admission, intrinsics16+40admission
+complete PASS on new profile. Pointerdrop2positive+11proofnegatives complete;
+8source+9MIR admission negatives complete before timeout at mir_cfg_unwind;
+5remaining admission cases unverified (including partial mir_cfg_unwind).
+Three unwind controls export/refine0 but VF parse at ens4:1–4; combined ghost
+contract is not the pinned frontend's supported separated-clause presentation.
+Scalar shared source has Continue, no actual shared cleanup: it does not test
+that mandatory gate. Neither failure counts as a proof negative. Profile UNACCEPTED.
+283jobseconds; total5167/5400,233remain. Compact11510392179/full11510152397.
+
+One final focused continuation, cap3min/45s artifact reserve, max180<=233remain.
+New falsifiable hypotheses: separate req/ens/on_unwind blocks (as in successful
+S7b) resolve control parse without semantic change; generic shared caller consumes
+T through exact MD::new(t), then calls body-verified panicking bool callee, and may
+retain actual common cleanup rather than scalar Continue. Require exact two call
+predecessors to same cleanup plus AST and executed unwind/normal returns. If MIR
+still lacks common cleanup or proof needs a new Drop rule, gate stays unverified;
+no MIR modification or model extension. Ordinary Continue is an actual unwind
+exit: verify its translated return/post rather than demand a synthetic cleanup.
+Existing rejection controls and target source/contract remain unchanged.
+No repeated full matrices in this focused run; their prior results remain pinned
+separately, pointerdrop admission tail remains incomplete. Profile cannot be
+accepted on this continuation alone. No new tool delta; overlay89b0d80b unchanged.
+Reuse workflow's completed apt update (avoid duplicate update), same pinned build
+stack; shorten time reserves with measured18s artifact cost. Stop after this run
+at exact incomplete gate/budget boundary; no actual linkage or broader patch.

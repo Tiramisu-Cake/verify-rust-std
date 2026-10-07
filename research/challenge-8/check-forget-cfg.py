@@ -9,10 +9,15 @@ from types import SimpleNamespace
 PROFILE = "experimental-manuallydrop-new-cfg-v1"
 PATCH_SHA = "c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1"
 
-def ast_return_line(ast: str, name: str, source_line: int) -> str | None:
-    marker = f'verified/lib.rs({source_line},'
-    return next((line for line in ast.splitlines()
-                 if 'ReturnStmt' in line and f'"{name}"' in line and marker in line), None)
+def ast_return_line(ast: str, name: str, function_name: str) -> str | None:
+    # The return loc is either the function's closing brace or a call/cleanup
+    # span. Bind the AST function first instead of guessing its return loc.
+    functions = re.split(r'(?=^\s*Func \()', ast, flags=re.M)
+    selected = [part for part in functions if f', "{function_name}", [' in part]
+    if len(selected) != 1:
+        return None
+    return next((line for line in selected[0].splitlines()
+                 if 'ReturnStmt' in line and f'"{name}"' in line), None)
 
 def source_function_lines(source: bytes, name: bytes) -> tuple[int, int]:
     lines=source.splitlines(); start=next(i for i,x in enumerate(lines,1) if x.startswith(b'unsafe fn '+name))
@@ -43,7 +48,7 @@ def card():
       "cases":[
        ["old_frozen_profile_reproducer","exit1 sole `verified/lib.rs(3,1-16,2): dead code`; exact S7b source and MIR"],
        ["autonomous_forget","readonly/normal export+decode, refinement, full verifier all 0; body/return/leak; dead-code gate"],
-       ["ordinary_potential_unwind","local unsafe panic callee; verified normal and reachable unwind posts; actual cleanup MIR"],
+       ["ordinary_potential_unwind","local unsafe panic callee; verified normal and reachable unwind posts; actual unwind MIR (Continue or Cleanup)"],
        ["false_unwind_post","reject only caller's false unwind post at its source line"],
        ["shared_cleanup","caller MIR has ManuallyDrop and panicking calls to one cleanup target; AST retains unwind ReturnStmt"],
        ["false_normal_post","same generic body executes and fails exact normal post"],
@@ -107,13 +112,15 @@ def mir_body(d, name, ctor):
 def unwind_case(g,ctor,root,args,deadline,false=False,shared=False):
     root.mkdir(); (root/'original').mkdir(); (root/'verified').mkdir()
     pre=b'req thread_token(?tid) &*& tid == currentThread;'; post=b'ens thread_token(tid);'
-    cg=b'/*@\n'+pre+b'\n'+post+b'\non_unwind_ens thread_token(tid);\n@*/\n'
+    ghost=lambda clause: b'/*@\n'+clause+b'\n@*/\n'
+    cg=ghost(pre)+ghost(post)+ghost(b'on_unwind_ens thread_token(tid);')
     cn=b'on_unwind_ens false;' if false else b'on_unwind_ens thread_token(tid);'
     caller=b'checked_shared_cleanup' if shared else b'checked_unwind_call'
-    callghost=b'/*@\n'+pre+b'\n'+post+b'\n'+cn+b'\n@*/\n'
+    callghost=ghost(pre)+ghost(post)+ghost(cn)
     prefix=b'unsafe fn potentially_panicking(b: bool)\n'+cg+b'{\n    if b { panic!("cfg unwind"); }\n}\n\n'
-    body=b'{\n    let _ = std::mem::ManuallyDrop::new(7u32);\n' if shared else b'{\n'
-    src=prefix+b'unsafe fn '+caller+b'(b: bool)\n'+callghost+body+b'    unsafe { potentially_panicking(b); }\n}\n'
+    body=b'{\n    let _ = std::mem::ManuallyDrop::new(t);\n' if shared else b'{\n'
+    signature=b'<T>(b: bool, t: T)' if shared else b'(b: bool)'
+    src=prefix+b'unsafe fn '+caller+signature+b'\n'+callghost+body+b'    unsafe { potentially_panicking(b); }\n}\n'
     orig=g.strip_ghost(src); (root/'original/lib.rs').write_bytes(orig); (root/'verified/lib.rs').write_bytes(src)
     marker=b'on_unwind_ens false;' if false else b'potentially_panicking(b)'; line=next(i for i,x in enumerate(src.splitlines(),1) if marker in x)
     f={'variant':'false_unwind' if false else ('shared_cleanup' if shared else 'ordinary_unwind'),'original_sha256':sha(orig),'verified_sha256':sha(src),'predeclared_functions':['potentially_panicking',caller.decode()],'focus_line':line}
@@ -129,8 +136,8 @@ def unwind_case(g,ctor,root,args,deadline,false=False,shared=False):
     body=mir_body(mir,caller.decode(),ctor) if mir else ''
     caller_evidence=next((x for x in strict.get('timed_functions',[]) if x.get('function')==caller.decode()),{})
     ast=(root/'verified-ast.txt').read_text(errors='replace') if (root/'verified-ast.txt').exists() else ''
-    unwind_return=ast_return_line(ast,'unwinding',caller_line)
-    normal_return=ast_return_line(ast,'returning',f['caller_end_line'])
+    unwind_return=ast_return_line(ast,'unwinding',caller.decode())
+    normal_return=ast_return_line(ast,'returning',caller.decode())
     cfg={'caller_mir_sha256':sha(body.encode()),'cleanup_targets':re.findall(r'unwindAction\s*=\s*\(cleanup\s*=\s*\(index\s*=\s*(\d+)\)',body),
          'caller_body_executed':caller_evidence.get('body_execution_seen') is True,
          'caller_normal_return_and_leak':caller_evidence.get('return_seen') is True and caller_evidence.get('leak_check_seen') is True,
@@ -147,10 +154,10 @@ def unwind_case(g,ctor,root,args,deadline,false=False,shared=False):
             if fd>=0:
                 opening=body.index('(',fd+len('fnDef = ')); fn_def=ctor.mir_balanced_item(body,opening)
         cfg.update({'manuallydrop': md_name in body,
-                    'typed_scalar_substitution_u32': bool(fn_def and 'u32' in fn_def),
+                    'typed_generic_substitution_T': bool(fn_def and ('param' in fn_def) and ('T' in fn_def)),
                     'panicking_call':'potentially_panicking' in body})
-        ok=ok and cfg['manuallydrop'] and cfg['typed_scalar_substitution_u32'] and cfg['panicking_call'] and len(cfg['cleanup_targets'])>=2 and len(set(cfg['cleanup_targets']))<len(cfg['cleanup_targets']) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
-    else: ok=ok and 'potentially_panicking' in body and bool(cfg['cleanup_targets']) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
+        ok=ok and cfg['manuallydrop'] and cfg['typed_generic_substitution_T'] and cfg['panicking_call'] and len(cfg['cleanup_targets'])>=2 and len(set(cfg['cleanup_targets']))<len(cfg['cleanup_targets']) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
+    else: ok=ok and 'potentially_panicking' in body and bool(cfg['cleanup_targets'] or re.search(r'unwindAction\s*=\s*\(continue',body)) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
     if not front_ok(st): ok=False
     result={'classification':('INTENDED_PROOF_REJECTION' if false else 'DIAGNOSTIC_POSITIVE') if ok else 'INCONCLUSIVE','exact_classifier':strict,'cfg_evidence':cfg,'stages':st}
     write(root/'summary.json',result); return result
@@ -168,9 +175,9 @@ def command(name,argv,root,env,deadline,records):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     for x in ('tool-home','stock-home','schema','evidence','baseline-evidence'): p.add_argument('--'+x,type=Path,required=True)
-    p.add_argument('--compiler-sysroot',required=True); p.add_argument('--budget-seconds',type=int,default=330); a=p.parse_args()
+    p.add_argument('--focused-controls',action='store_true'); p.add_argument('--compiler-sysroot',required=True); p.add_argument('--budget-seconds',type=int,default=330); a=p.parse_args()
     need(os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted' and os.environ.get('RUNNER_OS')=='Linux','GitHub hosted Linux required')
-    need(os.environ.get('SORT4_SELECT_PROFILE')==PROFILE,'experimental CFG profile required'); need(60<=a.budget_seconds<=648,'budget exceeds S7c allowance')
+    need(os.environ.get('SORT4_SELECT_PROFILE')==PROFILE,'experimental CFG profile required'); need(15<=a.budget_seconds<=648,'budget exceeds S7c allowance')
     repo=Path(__file__).resolve().parents[2]; scripts=repo/'research/challenge-8'; ev=a.evidence.resolve(); ev.mkdir(parents=True,exist_ok=False)
     c=card(); write(ev/'predeclared-cases.json',c)
     g=load(scripts/'check-forget-generic.py','s7c_generic'); need(g.strict_classifier().self_test()['pass'],'classifier self test failed')
@@ -179,7 +186,7 @@ def main():
     old=baseline(a.baseline_evidence.resolve(),hashes)
     env=os.environ.copy(); env['PATH']=str(a.tool_home/'bin')+os.pathsep+env.get('PATH','')
     for k in ('SORT4_MAYBEUNINIT_REPO_ROOT','SORT4_SELECT_INTRINSIC_REPO_ROOT','SORT4_POINTER_DROP_REPO_ROOT'): env.pop(k,None)
-    start=time.monotonic(); deadline=start+a.budget_seconds-30; args=SimpleNamespace(tool_home=a.tool_home,schema=a.schema,compiler_sysroot=a.compiler_sysroot,dump_ast_with_locs=True)
+    start=time.monotonic(); deadline=start+a.budget_seconds-10; args=SimpleNamespace(tool_home=a.tool_home,schema=a.schema,compiler_sysroot=a.compiler_sysroot,dump_ast_with_locs=True)
     results={}; base=ev/'autonomous-forget'; f=g.fixture(base,g.certificate(repo)); results['autonomous_forget']=basic(g,base,args,f,deadline)
     ast=(base/'verified-ast.txt').read_text(errors='replace') if (base/'verified-ast.txt').exists() else ''
     positive=results['autonomous_forget']; positive['mir_same_old_profile']=positive.get('normal_mir_sha256')==old.get('normal_mir_sha256') and positive.get('readonly_mir_sha256')==old.get('readonly_mir_sha256')
@@ -203,13 +210,13 @@ def main():
     controls=(results.get('ordinary_unwind',{}).get('classification')=='DIAGNOSTIC_POSITIVE' and results.get('false_unwind',{}).get('classification')=='INTENDED_PROOF_REJECTION' and results.get('shared_cleanup',{}).get('classification')=='DIAGNOSTIC_POSITIVE' and results.get('false_normal_post',{}).get('classification')=='INTENDED_PROOF_REJECTION' and results.get('contradictory_precondition_nonempty_body',{}).get('classification')=='INTENDED_PROOF_REJECTION')
     regression=[('constructor-classifier',[sys.executable,str(scripts/'test-sort4-maybeuninit-classifier.py')]),('constructor-matrix',[sys.executable,str(scripts/'check-maybeuninit-new-pointer.py'),'--stock-home',str(a.stock_home),'--tool-home',str(a.tool_home),'--schema',str(a.schema),'--compiler-sysroot',a.compiler_sysroot,'--evidence',str(ev/'constructor-regressions'),'--components-only']),('as-mut-ptr-classifier',[sys.executable,str(scripts/'test-select-pointer-classifier.py'),'--evidence',str(ev/'as-mut-ptr-classifier.json')]),('as-mut-ptr-matrix',[sys.executable,str(scripts/'check-select-pointer.py'),'--stock-home',str(a.stock_home),'--tool-home',str(a.tool_home),'--schema',str(a.schema),'--compiler-sysroot',a.compiler_sysroot,'--evidence',str(ev/'as-mut-ptr-matrix'),'--constructor-summary',str(ev/'constructor-regressions/summary.json'),'--classifier-summary',str(ev/'as-mut-ptr-classifier.json')]),('intrinsics-classifier',[sys.executable,str(scripts/'test-select-pointer-intrinsics-classifier.py'),'--evidence',str(ev/'intrinsics-classifier.json')]),('intrinsics-matrix',[sys.executable,str(scripts/'check-select-pointer-intrinsics.py'),'--stock-home',str(a.stock_home),'--tool-home',str(a.tool_home),'--schema',str(a.schema),'--compiler-sysroot',a.compiler_sysroot,'--evidence',str(ev/'intrinsics-matrix'),'--constructor-summary',str(ev/'constructor-regressions/summary.json'),'--as-mut-ptr-summary',str(ev/'as-mut-ptr-matrix/summary.json'),'--classifier-summary',str(ev/'intrinsics-classifier.json')]),('pointer-drop-classifier',[sys.executable,str(scripts/'test-pointer-drop-classifier.py'),'--evidence',str(ev/'pointer-drop-classifier.json')]),('pointer-drop-matrix',[sys.executable,str(scripts/'check-pointer-drop.py'),'--tool-home',str(a.tool_home),'--schema',str(a.schema),'--compiler-sysroot',a.compiler_sysroot,'--evidence',str(ev/'pointer-drop-matrix'),'--constructor-summary',str(ev/'constructor-regressions/summary.json'),'--as-mut-ptr-summary',str(ev/'as-mut-ptr-matrix/summary.json'),'--intrinsic-summary',str(ev/'intrinsics-matrix/summary.json'),'--classifier-summary',str(ev/'pointer-drop-classifier.json')])]
     records=[]
-    if positive['classification']=='ACCEPTED_AUTONOMOUS_BODY' and time.monotonic()<deadline:
+    if not a.focused_controls and positive['classification']=='ACCEPTED_AUTONOMOUS_BODY' and time.monotonic()<deadline:
         env['SORT4_MAYBEUNINIT_REPO_ROOT']=str(repo)
         for nm,argv in regression:
             if time.monotonic()>=deadline: break
             r=command(nm,argv,ev,env,deadline,records)
             if r['exit']: break
-    for nm,_ in regression[len(records):]: write(ev/f'{nm}-not-run.json',{'status':'NOT_RUN','reason':'previous gate failed or budget reserve reached'})
+    for nm,_ in regression[len(records):]: write(ev/f'{nm}-not-run.json',{'status':'NOT_RUN','reason':'focused continuation excludes repeated matrices' if a.focused_controls else 'previous gate failed or budget reserve reached'})
     for nm in ('ordinary_unwind','false_unwind','shared_cleanup','false_normal_post','contradictory_precondition_nonempty_body'):
         if nm not in results: write(ev/f'{nm}-not-run.json',{'status':'NOT_RUN','reason':'positive gate failed or S7c time reserve reached'})
     regok=len(records)==len(regression) and all(x['exit']==0 for x in records)
