@@ -13,7 +13,9 @@ Main/upstream/other-agent branches remain unchanged by this direction.
 
 New independent account **326/21600 summed GitHub-hosted job seconds**, 21274 remain.
 Historical stock account99/1800 and S7 account5306/5400 are preserved separately;
-old residual budgets do not limit this phase. No active workflow after O2b.
+old residual budgets do not limit this phase. Active O3 [run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
+proof1378f0ffc8342233349fae3df5a938c4a021c8d7; exact asptr/S6 full gate +
+independent helper/callback captures. Routine monitoring continues; no second dispatch.
 
 Current obligation: source-reviewed S6 transfer/capture.
 **Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,
