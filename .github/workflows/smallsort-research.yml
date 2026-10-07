@@ -55,7 +55,7 @@ on:
         description: Forget diagnostics under the existing pointer selection
         type: choice
         default: drop_v4
-        options: [drop_v4, forget_diagnostic, forget_generic, forget_generic_ast, forget_cfg_trace, forget_cfg_accept]
+        options: [drop_v4, forget_diagnostic, forget_generic, forget_generic_ast, forget_cfg_trace, forget_cfg_accept, forget_cfg_replay]
       rapx_gate:
         description: Ordered RAPx applicability gate
         type: choice
@@ -296,7 +296,7 @@ jobs:
           retention-days: 90
 
   forget-classifier-replay:
-    if: inputs.proof == 'forget_evidence_replay'
+    if: inputs.proof == 'forget_evidence_replay' && inputs.forget_guard_stage != 'forget_cfg_replay'
     name: Replay immutable forget diagnostic classification
     permissions:
       contents: read
@@ -355,4 +355,34 @@ jobs:
           name: smallsort-forget-classifier-replay-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/forget-classifier-replay/
           if-no-files-found: warn
+          retention-days: 90
+
+
+  forget-cfg-classifier-replay:
+    if: inputs.proof == 'forget_evidence_replay' && inputs.forget_guard_stage == 'forget_cfg_replay'
+    name: Replay immutable CFG unwind negative evidence
+    runs-on: ubuntu-22.04
+    timeout-minutes: 1
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check pinned CFG evidence without rebuilding or verifying
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p research-results/forget-cfg-replay
+          gh api repos/Tiramisu-Cake/verify-rust-std/actions/runs/37684590509 > research-results/forget-cfg-replay/original-run.json
+          gh api repos/Tiramisu-Cake/verify-rust-std/actions/artifacts/11510757595 > research-results/forget-cfg-replay/original-artifact.json
+          gh api repos/Tiramisu-Cake/verify-rust-std/actions/artifacts/11510757595/zip > "$RUNNER_TEMP/forget-cfg-outer.zip"
+          timeout --signal=TERM --kill-after=5s 20s python3 research/challenge-8/replay-forget-cfg.py --outer "$RUNNER_TEMP/forget-cfg-outer.zip" --output research-results/forget-cfg-replay
+      - name: Preserve replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-forget-cfg-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/forget-cfg-replay/
           retention-days: 90

@@ -4648,3 +4648,35 @@ Unwind controls incorrectly presented combined ghosts: parser ens4:1–4, never
 intended negatives. Scalar shared MIR Continue, no common cleanup. ProfileUNACCEPTED.
 New focused continuation hypotheses/expected obligations and 3min/45s reserve are
 recorded in design before dispatch; patch unchanged, no repeated fullmatrix.
+
+Focused run37684590509/source6b63670c21bfa57d2531c4be57ac098df6111c5f resolved
+at20:46:33UTC, selection forget_cfg_accept focused, input30/cap3min,
+45s evidence reserve/10s kill. Remote exactSHA confirmed; no other active run.
+Remaining233 entry; same overlay89b0d80b, separate-clause control syntax and generic
+common-cleanup hypothesis only; profile cannot be accepted while drop tail incomplete.
+
+S7c focused37684590509 COMPLETE:131jobseconds20:46:37–20:48:48UTC;
+total5298/5400used102remain. Autonomous fullVF0 unchangedsource/MIR, ordinary
+unwind and generic sharedcleanup3 positive complete; sharedcleanup retained and
+normal+unwind returns executed/leak checked. False normalpost and falsepre intended.
+False unwind strict classifier INTENDED_NEGATIVE acceptedtrue at23:15–20,
+caller unwind return26:14–38 executed. Aggregate INCONCLUSIVE because it wrongly
+required later normal branch/return/leak after false unwind stopped proof.
+This is an aggregation error, not a verifier failure/weakening; preserve rawsummary.
+Compact11510757595/full11510870158. Pointerdrop five-case tail still NOTVERIFIED.
+
+### S7c immutable classification replay BEFORE dispatch
+
+Only saved focused run37684590509/source6b63670c21bfa57d2531c4be57ac098df6111c5f,
+compactartifact11510757595. Hypothesis: intended false unwind failure prevents
+normal path from executing; positive-only normal-return requirement is inapplicable
+to this negative. No new compiler/exporter/verifier invocation or toolprofile.
+Require pinned run/artifact, all manifest hashes/sizes, exact source per stage,
+export/decode/refine0 and fullVF1, exact eight executed functions, sole false
+condition at23:15–20, actual caller unwind ReturnStmt executed26:14–38.
+Predeclared replay controls: correct obligation accepts; wrongline, wrongpredicate,
+setupfailure, exit0 and unknownfunction reject. Keep original summaries byte-identical,
+write separate classification map only. Positive acceptance/real table checks remain.
+Cap1minute including upload fits102remaining; no concurrent direction. No replay
+can complete missing pointerdrop gates or accept profile/actual linkage.
+Migration supplement: source comparison/plan only, no migration CI/profile switch.

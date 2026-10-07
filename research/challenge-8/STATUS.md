@@ -14,8 +14,12 @@ autonomous body plainVF0/all7body-return-leak/dead-code0, same source+MIR; false
 post/pre controls intended. Constructor/asptr/intrinsics full matrices PASS.
 Pointerdrop admission timeout; unwind controls parse failure, scalar shared MIR
 has Continue rather than common cleanup. New profile NOT ACCEPTED.
-Budget5167/5400used,233remain, no active run. Final focused control continuation
-prepared (3min cap/45s reserve), same overlay89b0d80b; no repeated full matrices.
+Focused37684590509/source6b63670c21bfa57d2531c4be57ac098df6111c5f COMPLETE:
+ordinary unwind and generic sharedcleanup3 PASS, autonomous VF0 repeated.
+False unwind strict classifier confirms intended rejection; saved aggregate
+wrongly requires subsequent normal return after proof stops. Immutable hosted
+classification replay prepared (1min cap, no proof tools), original bytes preserved.
+Budget5298/5400used102remain, no active run. Pointerdrop five-case tail unverified.
 No actual linkage/redirect or guard/Drop/assume_init/model/exporter/refiner/kernel
 extension. [BEFORE card](SORT4-SELECT-FORGET-DESIGN.md#s7c-cfg-repair-before-implementation).
 Historical S7b STOP is superseded only within this narrow authorization.

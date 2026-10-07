@@ -157,7 +157,7 @@ def unwind_case(g,ctor,root,args,deadline,false=False,shared=False):
                     'typed_generic_substitution_T': bool(fn_def and ('param' in fn_def) and ('T' in fn_def)),
                     'panicking_call':'potentially_panicking' in body})
         ok=ok and cfg['manuallydrop'] and cfg['typed_generic_substitution_T'] and cfg['panicking_call'] and len(cfg['cleanup_targets'])>=2 and len(set(cfg['cleanup_targets']))<len(cfg['cleanup_targets']) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
-    else: ok=ok and 'potentially_panicking' in body and bool(cfg['cleanup_targets'] or re.search(r'unwindAction\s*=\s*\(continue',body)) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
+    elif not false: ok=ok and 'potentially_panicking' in body and bool(cfg['cleanup_targets'] or re.search(r'unwindAction\s*=\s*\(continue',body)) and unwind_return and normal_return and cfg['caller_normal_return_and_leak'] and cfg['caller_body_executed'] and cfg['caller_unwind_return_executed'] and cfg['caller_normal_return_executed']
     if not front_ok(st): ok=False
     result={'classification':('INTENDED_PROOF_REJECTION' if false else 'DIAGNOSTIC_POSITIVE') if ok else 'INCONCLUSIVE','exact_classifier':strict,'cfg_evidence':cfg,'stages':st}
     write(root/'summary.json',result); return result
