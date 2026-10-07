@@ -1,3 +1,8 @@
+Current phase2 checkpoint: generic finite SWO embedding accepted; whole N9
+composition pending, N13 gated. R9f local proof source prepared; GitHub writes
+HTTP500 prevent publication/hosted verification. See [new results](RANK-RESULTS.md)
+and [current status](STATUS.md); separate447/1800spent,1353remaining.
+
 # Networks phase plan
 
 Current phase: [finite SWO-to-rank proof](RANK-PHASE.md), authorized2026-10-07

@@ -218,3 +218,15 @@ and7controls unchanged. Complete N9 symbolic body AND exact wrapper acceptance
 required -> R13. New causal proof failure -> localized correction/newSHA;
 budget/trust boundary -> exact unfinished obligations, no patch/fallback.
 Job8min/inner420s/percase180s fits1353s remaining. Source/run pending.
+
+### R9f publication checkpoint — no hosted experiment yet
+
+Proof commit `65f2ddb06a8de05b718209f8df746fe1fb03163e`. Push16:53:28Z
+failed remote Internal Server Error; dispatch request also HTTP500. Read-only
+run/ref checks confirmed no new run and remote still a38cc109... Repeated ordinary
+push, HTTP/1.1 and no-thin complete pack failed HTTP500 through16:58:31Z;
+Git Data API confirmed object not accepted and POSTblob HTTP500 empty JSONbody
+at16:58:47Z, requestEC10:172818:27F296:29296E:6AC67A45. No ref update, force-push,
+local fallback verification or new job. Budget remains447/1800,1353remaining.
+R9f is pending/unverified; exact whole N9 composed normal post/wrapper still OPEN,
+N13 not attempted. Accepted generic R9d/R9e remains separate from this new source.

@@ -35,8 +35,9 @@ h_t(max(a,b))=h_t(a)||h_t(b). Induction over the finite exact call schedule
 therefore commutes rank-network execution with Boolean-network execution.
 Accepted N9e/N13b hosted proofs check every composition and the full rank
 application. N13b shares one universal computation across all12 threshold posts;
-no transition or final-order obligation is omitted. The class-to-integer mapping
-for general keys remains a written mathematical transfer argument.
+no transition or final-order obligation is omitted. That phase1 class-to-integer mapping was a written mathematical transfer
+argument. The separately authorized phase2 now constructs a finite rank map
+and checks it; see the evidence and remaining composition gates below.
 
 If adjacent output ranks x,y had x>y, take t=y. Their projected outputs would
 be true,false, contradicting the Boolean network's adjacent-order theorem.
@@ -55,3 +56,33 @@ occurrences. No relative-order claim for equal keys follows.
 The finite-class/threshold argument is ordinary mathematical transfer, distinct
 from machine verification of the ghost lemmas and from the still-open Rust
 ownership bridge. Results must identify these boundaries explicitly.
+
+## Phase2 constructive embedding and current gate
+
+The accepted generic bridge in R9d/R9e uses the number of ORIGINAL occurrences
+strictly less than an ID as its integer rank. This count weights equivalence
+classes by occurrence multiplicity: ranks may have gaps, but equivalent keys
+have exactly equal ranks and strict comparisons hold iff strict rank inequality.
+The proof starts with finite irreflexivity, strict transitivity and transitive
+incomparability, not an embedding assumption. Checked structural count induction
+and pointwise law extraction provide comparison/equality iff and bounds.
+[Current phase evidence](RANK-EXPERIMENT-LOG.md) records the exact accepted generic
+source, unchanged stock tool pins and full body/return/leak checks.
+
+Immutable arbitrary keys are represented by the pullback rel(i,j)=key_i<key_j
+on distinct original occurrence IDs. Equal keys do not merge identities. The
+functional use requires every key and this order to remain fixed, each comparator
+call to return normally with exactly rel(current_right,current_left), and the
+actual helper to realize its token permutation. Non-key callback effects need
+not vanish. These are applicability requirements; no Rust implementation proof
+of them is supplied. There are no Copy/Freeze or stable-order premises.
+
+N9 is still an independent composition gate: R9e checks all25 abstract CEs and
+the accepted integer-rank theorem application, but times out in final
+rank-to-key conversion before the composed return/post and exact wrapper. R9f
+adds an ordered-pair projection body awaiting hosted verification, retaining
+all original final posts.
+N13 may begin only after full N9 acceptance. Phase1 complete rank/identity
+theorems remain accepted; phase2 partial progress must not be described as a
+complete general-key network proof. Common STATUS/PLAN/coverage integration
+remains a proposal and must preserve both branches and independent budgets.

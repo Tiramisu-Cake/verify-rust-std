@@ -13,6 +13,8 @@ ledger remains untouched. Current checkpoint: [STATUS](STATUS.md).
 | sort9 general order | N9e whole checked threshold/rank composition,3583 statements,508 return/leak paths, full sorted-output post; finite-class transfer in INTEGRATION | Fixed-order/preserved-key premises and actual Rust bridge |
 | sort13 binary order/permutation | N13b stock26.09: binary263 statements/7633 return-leak paths and identity380 statements/3 paths accepted | Actual Rust CE and ownership bridge |
 | sort13 general order | N13b whole checked threshold/rank composition,1126 statements/7638 return-leak paths, all12 threshold and full sorted-output posts; finite-class transfer | Fixed-order/preserved-key premises and actual Rust bridge |
+| Constructed finite SWO -> integer ranks | R9d/R9e stock26.09: generic81statements/39return-leak paths; less iff rank<, equivalence iff rank==, bounds and exact CE bridge from finite laws/count induction | Whole N9/N13 SWO network composition acceptance; Rust faithful comparator/key-preservation realization |
+| Order-premise negative | R9d/R9e: irreflexive and strict-transitive relation0<2 with broken incomparability transitivity rejects exact rank-correspondence assertion;7classifier controls PASS | Does not establish safety for arbitrary comparator |
 | Intended negatives | N9e and N13b omitted-last-CE sortedness and duplicate-occurrence count reject exact assertions;14 rejection controls PASS in each | These controls do not prove Rust helper correctness |
 | Public small_sort contracts and UB | None | Arbitrary valid lengths, dispatch/insertion/merge, unrestricted memory safety and all comparator exits |
 

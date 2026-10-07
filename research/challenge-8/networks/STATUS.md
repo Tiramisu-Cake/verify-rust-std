@@ -1,6 +1,6 @@
 # Networks: current independent checkpoint
 
-2026-10-07 — IN PROGRESS: finite SWO-to-integer-rank phase, separately authorized.
+2026-10-07 — CHECKPOINT (GitHub writes HTTP500): finite SWO-to-integer-rank phase, separately authorized.
 Entry `a9fe187d48a492939970998ca862736a410c1adc`, same isolated branch/worktree.
 New budget **447/1800 summed hosted job seconds**,1353remain; no active run.
 Latest R9e [run37654875244](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654875244),
@@ -12,7 +12,7 @@ Current task: construct ranks from arbitrary finite strict weak order with ties,
 prove exact comparison/equivalence correspondence without axioms, then compose
 N9 first and N13 second with accepted rank-network bodies. Fixed keys and normal
 comparator return are functional applicability premises; identities remain separate.
-Current selected step R9: generic finite-law/predecessor-count proof and full N9
+Current selected step R9f: final ordered-pair conversion and full N9
 composition. No executable checks locally; no tool patch or Rust integration.
 
 [Approved phase/allowlist](RANK-PHASE.md), [new journal](RANK-EXPERIMENT-LOG.md).
@@ -25,5 +25,11 @@ all15 named bodies,39return/leak paths, VF0. Less iff strict rank, equivalence
 iff equal rank and bounds proved without axioms. Negative+all7controls PASS.
 N9 whole composition remains OPEN: R9e completes all25 exact CE steps and old
 full rank theorem application, then timeout180s in final rank-to-key conversion.
-Next R9f: checked ordered-pair projection lemma retains whole original posts;
-all bodies in same unit, no correspondence axiom. N13 only after full N9 acceptance.
+R9f proof source `65f2ddb06a8de05b718209f8df746fe1fb03163e` committed locally,
+not dispatched: repeated push/Git Data writes HTTP500, remote remained a38cc109...
+Checked ordered-pair projection is a new proof body to verify, not an assumed
+summary; no hosted result for it yet. Full original posts retained.
+[RANK-RESULTS](RANK-RESULTS.md) records exact accepted claims/open theorem/pins,
+[INTEGRATION](INTEGRATION.md) proposals preserve independent directions.
+Next permitted action: publish pending local commits, verify exact remote SHA,
+dispatch one ranks9 R9f; full N9 acceptance is required before R13. No active run.

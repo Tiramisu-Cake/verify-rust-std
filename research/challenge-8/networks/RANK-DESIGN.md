@@ -63,3 +63,7 @@ AST/MIR. Stock list/count/forall semantics stay fixed. No bodyless own lemma,
 rank-correspondence assumption, comparator-panic post, pointer resource, Rust
 memory safety, verifier soundness or public Challenge completion is supplied.
 Current acceptance/open obligations are in STATUS and RANK-EXPERIMENT-LOG.
+
+R9f adds swo_ordered_pair with a full body using swo_rank_bridge and exporting
+only the needed adjacent order. Its new body and revised whole composition
+await hosted verification; accepted generic R9d/R9e claims do not cover it.

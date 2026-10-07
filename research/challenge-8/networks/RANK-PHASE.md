@@ -2,7 +2,8 @@
 
 Owner authorization2026-10-07, entry
 `a9fe187d48a492939970998ca862736a410c1adc`, branch challenge-8/networks.
-IN PROGRESS. Separate **1800 summed hosted job seconds**, preparation/evidence
+CHECKPOINT: generic bridge accepted; whole N9 composition pending, GitHub
+writes HTTP500. See STATUS/RANK-RESULTS for exact next action. Separate **1800 summed hosted job seconds**, preparation/evidence
 included, no transfer of phase1 unused301s or of the other direction's budget.
 At most one run on this branch, two across the independently authorized directions.
 All executable checks on GitHub-hosted Actions; no local proof/generator/tests.
