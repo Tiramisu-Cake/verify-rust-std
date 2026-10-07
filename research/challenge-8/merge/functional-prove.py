@@ -62,7 +62,7 @@ lemma void fa_negative_duplicate_without_guard()
                   if "TARGET_NEGATIVE_DUPLICATE" in line)
     return source, {
         "target_line": target,
-        "expected_predicate": "fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(true, false), nil), false), 0) = 1",
+        "expected_predicate": "fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1",
     }
 
 

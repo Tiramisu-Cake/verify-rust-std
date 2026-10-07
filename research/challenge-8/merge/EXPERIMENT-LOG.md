@@ -103,3 +103,22 @@ Stock unchanged tool/source/classifier frozen, no axioms/refinement weakening.
 Hosted6minjob/percase180/inner300, oneownjob;25/1800spent1775remaining.
 Routinefixonlyonnew evidence, fullAacceptance -> permittedBimplementation.
 Source/runpending. Alloriginalgeometryproof/results/budgets retained.
+
+## F-A1 result and F-A2 card
+A1 published/remote-verified a4c46af5f860e5117b0d46b154d32f8c8bfbdc1e,
+[run37676075230](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37676075230),
+job112979809233 19:39:02Z–19:39:16Z=14s, cumulative39/1800,1761remaining.
+All evidence files inspected. Positive source693ea2fb4197f7574260215ba02997298eb7df7fe1e4da0b6842452f8c108ab3/log2b50cbfd5cc06f7f7d9ae2f45853aac1f32bb80518c9c876f7df19076fd8f15d;
+18/19 bodies visited,48returns/leaks, failure recursive termination in
+fa_trace_output_at at generated582: no inductive parameter. All prior G2/A
+bodies completed. Negative sourcefa84ead5774c49912d211dd69eca449b6c05edaf6b56c46cb9f4aaf60a6ae32d,
+logc25586b8805d510255dea1556f38f31ed5a9df69dbc6425d7bdb5aab5ce47ee5:
+intended count assertion218 cols68-70 reached, exact predicate uses boxed_bool;
+classifier metadata mismatch means INCONCLUSIVE, not accepted. Source admission
+certificate f2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7 unchanged.
+A2 hypothesis: move structural decisions switch to first statement, call the
+same destination lemma inside branches; stock VF can then recognize tail
+recursion. Full original contracts unchanged, no added assumptions. Negative
+source/assert unchanged, calibrate exact boxed diagnostic; all strict gates and
+seven rejection controls required. Same A domain/full posts/stock pins/180case/
+300process/6minjob. Success -> B; failure -> evidence-backed proof cuts only.

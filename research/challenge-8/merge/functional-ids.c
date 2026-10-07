@@ -265,11 +265,12 @@ lemma void fa_trace_output_at(int m, int e, int k, int a, int d,
             fa_trace_value(fa_trace(m, e, k, a, d, decisions, h), p) ==
                 nth(p - k, fa_output(m, e, k, a, d, decisions, h));
 {
-    fa_destinations(m, e, k, a, d, decisions, h, p);
     switch (decisions) {
         case nil:
+            fa_destinations(m, e, k, a, d, decisions, h, p);
             assert k == m && e == 1 && p == m;
         case cons(ch, tail):
+            fa_destinations(m, e, k, a, d, decisions, h, p);
             assert k < m;
             if (p == k) {
                 assert p != mg_n(m, e) - 1 - k;
