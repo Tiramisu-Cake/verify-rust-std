@@ -4307,3 +4307,17 @@ mutator parsing/preflight ofsaved fullMIR permitted beforebuild, notproof. If an
 profile/compiler/spec/tool mismatch failclosed, no evidence transfer. Domain/full
 normal-unwind target/stockprojection/trust/stop asfaef1a3 unchanged.
 Budget3568used1832remain,one relevant hosted dispatch<=1800,proof<=300.
+
+S6v3completion BEFORE dispatch staticreview PASS. Patch94ffc64c unchanged;
+no expectedfatal/predicate alteration. Pinned import checks immutable fullproof/
+regression rawtree and allmanifestmembers/tool/compiler/spec/std identities.
+Hosted16mutatorparse+capnpencode preflight is before consolebuild and explicitly
+NOTproof. Complete repeats exactordered16/status/encode0/diagnosticflags checks.
+Two priorcontrols replay sameclassifier fromrawlogs/MIR, wrapperbytes rehydrated
+only in disposablecopy andSHAchecked; require exact original JSON equality,
+no verifier/refiner invocation/relabeling. Fresh16 collected independently and
+composite18/18 gate runs BEFORE baselineactual; canonicalstockprojection follows
+only ifbaselineinfrastructure also matches. Original16setupfailures retained.
+Independent finalimport/replay/gate review foundno staticblocker. Diff-check/
+bash-nPASS, no localexecution. Budget3568used1832remain/noactivebeforedispatch;
+<=1800/job,<=300/proof,one relevanthosted,same30min selection. No newprofile/budget.

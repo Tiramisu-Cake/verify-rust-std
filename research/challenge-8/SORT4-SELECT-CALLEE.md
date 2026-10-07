@@ -1,66 +1,61 @@
 # `select_unpredictable` actual-callee diagnostic
 
-## Current result — S6v2 component accepted, actual initialized-cell obligation
+## Current result — S6v3 component accepted; actual projection proof pending
 
-[S6 completion37642650884](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884),
-source `4d0e3070ca93e01b7a5ccfad18ea83900bc7536b`, accepts the complete narrow
-pointer-drop component at drop-v1/cd660fe9:2positive+11proofnegative+22admission
-controls, with same-profile original proof/regression provenance retained.
-Constructor, SAFE as_mut_ptr and both typed select intrinsics retain complete
-new-profile matrices; fourteen stock/experimental baselines passed.
+[Fresh v3 run37651717720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720),
+source `dfc1f1d740689de8f427ac549da558d64a4318eb`, profile
+`experimental-source-linked-select-pointer-drop-v3`, patch `94ffc64c`, accepts
+narrow drop for payload `*const Element`, receiver `*mut *const Element`:
+2positive+11proofnegative+22admissions. Complete fresh constructor/asptr/intrinsic
+matrices and fourteen stock/experimental baselines passed at this profile.
 
-Actual baseline source/export/decode/refinement/full method +31local/14block
-actual certificates and redirects PASS. Actual body reaches the retained runtime
-method at `verified/lib.rs(57,14-29)`, then fails its precondition:
-`verified/lib.rs(110,55-58): No matching heap chunks: points_to<*Element>(__result2, _)`.
-Required resource is the initialized pointer CELL, not Element pointee rights.
-The existing wrappers/some states and reborrow tokens have not yet been projected.
-All runtime calls/cleanup edges and full target contract remain.
+Actual baseline source/export/decode/refinement/full method+31local14block cert
+and redirect PASS. Body reaches retained runtime drop at `verified/lib.rs(57,14-29)`;
+its precondition fails at `(110,55-58)`:
+`No matching heap chunks: points_to<*Element>(__result2, _)`.
+Thread token/currentThread checks passed. Required resource is the initialized
+pointer cell; empty pointer ownership supplies no permission. Full heap was not
+printed, so other resources are inferred from source/MIR/checked contracts.
 
-The fresh [S6v2 run37645561507](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507),
-source `85ec1711700ff85c899b18b7e021f076aeddb8e6`, patch `8e62e6c3`, accepts
-the same complete drop matrix and reruns constructor/asptr/intrinsic matrices and
-fourteen baselines successfully. Both added actual ghost-coordinate controls
-fail during setup at the second, NORMAL exporter invocation. They are not intended
-negatives; canonical projected helper remains NOT RUN.
+Exact derivation to test: constructors preserve wrappers with `inner=some(a/b)`;
+checked `as_mut_ptr` returns each full modeled receiver pointer and preserves its
+wrapper cell. Second intrinsic selects `drop = condition ? false_ptr : true_ptr`.
+Stock `open_MaybeUninit::<*Element>` projects each existing wrapper points-to to
+payload `|-?-> inner`; known `some` should supply initialized `*slot |->` at that
+exact pointer. Split condition to supply the selected cell, frame the other cell/
+thread/reborrow resources, then close wrappers. This is a proof hypothesis; no
+ownership bridge or new Element rights are assumed.
 
-The v1 projected variant exports/decodes/refines but stops BEFORE proof at
-`actual projection ghost source span`. The v2 correction incorrectly used readonly
-span geometry for normal MIR: the frozen normal exporter inserts the 32-byte
-`crate::VeriFast_ghost_command();` scaffold before each ghost command, while the
-explicit parser coordinates retain the original source positions. A separate
-hosted diagnostic37649244205/sourcef6fdf5b retained the full NORMAL typed MIR:
-36locals19blocks, exactly five stock zero-argument/unit ghost placeholders.
-The complete runtime/cleanup mapping was independently reviewed; a separate exact
-projected certificate is specified in cardfaef1a3 BEFORE code, without changing
-stock ghost substitution or execution/resource semantics. Fresh full matrices and
-independent NORMAL admission controls must precede projected proof.
-Projection resources have no proof verdict yet.
-[Preimplementation rationale and reassessment](SORT4-SELECT-POINTER-DESIGN.md).
-No memory/ownership bridge/guard/forget/assume_init/refiner/kernel extension.
+Normal/readonly correspondence is pinned to diagnostic37649244205/sourcef6fdf5b
+(export/decode only, NOT proof). Normal36locals19blocks adds precisely five unit
+placeholders; complete runtime+cleanup maps and each regular/explicit coordinate
+are in the [design table](SORT4-SELECT-POINTER-DESIGN.md). Separate exact projected
+certificate/cardfaef1a3 predates code; baseline31/14 unchanged. All ten runtime
+calls and five ghost calls, ordered operations/types/operand flow/results and
+normal/unwind CFG are checked; count-only admission is not used.
 
-Drop preserves existing initialized cell's full pointer value, thread token and
-independent frames, no new Element rights. Compiler raw-pointer glue correspondence
-is separately TRUSTED; ghost identity proof does not establish it, recursive free
-source is not a runtime-body theorem. Whole helper and sort4 NOT PROVEN.
-Budget **3302/5400 used,2098 remain**, no reset; no active run at v3 preparation.
-Earlier Git/dispatch500 recovered; published identical Git objects force=false.
+Two NORMAL coordinate controls rejected at intended predicates. Other sixteen
+independently failed mutator SETUP (indent included before opening parenthesis),
+not intended negatives. Canonical stock-projection remains NOT RUN. Completion
+repairs only harness addressing, retains immutable same-profile proof/regression/
+two-control evidence and all original classifications, verifies full tool/compiler/
+spec/std identity, runs sixteen NEW controls, then stock projection if all eighteen
+pass. STOP at unprovable projected/drop pre or next actual substantive blocker.
 
-Correction from original S5j logs: assume_init refinement did NOT pass.
-Readonly export/decode0; refiner1 `RawPtr: not yet supported` at bb1command4,
-original25/verified33. Normal preprocessing separately fails after-tail ghostclose.
-No read-resource proof or ownership/provenance boundary follows from those failures.
-[Original S5j run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848).
+Drop preserves full initialized cell value, thread token and independent frames,
+no new Element rights. Compiler raw-pointer drop glue correspondence remains
+separately TRUSTED; checked method/ghost identity lemma do not prove it, recursive
+free stub is not a runtime-body theorem. Frozen stock frontend ghost substitution/
+synthetic-unwind handling is trusted separately and constrained by exact admission.
+No runtime std/signature/target contract, general memory/alias/provenance/refiner/
+kernel/Drop/guard/forget/assume_init/union expansion. Whole helper/sort4 NOT PROVEN.
+Budget **3568/5400 used;1832remain**, no reset; no active run at completion preparation.
 
-Exact resource derivation to test: constructors return wrapper cells with
-`inner=some(a)` and `inner=some(b)`; checked `as_mut_ptr` preserves each wrapper
-cell and returns the full modeled receiver pointer. The second pointer intrinsic
-selects `drop = condition ? false_ptr : true_ptr`. Existing stock
-`open_MaybeUninit::<*Element>` requires each wrapper points-to and yields its
-payload `|-?-> inner`; the known `some` state should give initialized `*slot |->`
-at those exact pointers. Split on condition to supply the selected initialized
-cell to drop, framing the other cell/thread/reborrow resources, then close wrappers.
-This is a proof hypothesis, not an assumed bridge or evidence from a heap dump.
+S5j historical correction from [original logs37621751848](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848):
+assume_init readonly export/decode0, refinement1 `RawPtr: not yet supported`,
+bb1command4 original25/verified33. Normal preprocessing separately fails after-tail
+ghostclose. The earlier successful-refinement claim is withdrawn; no read-resource
+proof or ownership/provenance boundary follows from these setup failures.
 
 ## Historical O4 result — constructor accepted, as_mut_ptr boundary
 

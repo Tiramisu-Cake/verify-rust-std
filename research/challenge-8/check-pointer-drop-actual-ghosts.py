@@ -111,7 +111,7 @@ def block_item(body: str, number: int, constructor) -> tuple[int, str]:
     ids = [int(match.group(1)) for match in matches]
     require(ids == list(range(19)), "canonical normal block indices differ")
     match = matches[number]
-    opening = start + match.start()
+    opening = start + match.start() + match.group(0).index("(")
     return opening, constructor.mir_balanced_item(body, opening)
 
 
@@ -124,7 +124,8 @@ def local_item(body: str, number: int, constructor) -> tuple[int, str]:
         span, re.M))
     require([int(match.group(1)) for match in matches] == list(range(36)),
             "canonical normal local indices differ")
-    opening = start + matches[number].start()
+    match = matches[number]
+    opening = start + match.start() + match.group(0).index("(")
     return opening, constructor.mir_balanced_item(body, opening)
 
 
@@ -455,15 +456,29 @@ def classify(case: Path, runner: dict, canonical: Path, mutation: str,
 
 
 def run_controls(projected: Path, args, repo: Path, constructor,
-                 evidence: Path) -> dict:
+                 evidence: Path, imported_coordinates: list[dict] | None = None) -> dict:
     require(os.environ.get("GITHUB_ACTIONS") == "true" and
             os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted" and
             os.environ.get("RUNNER_OS") == "Linux" and
             os.environ.get("SORT4_SELECT_PROFILE") == PROFILE,
             "actual NORMAL controls require exact hosted v3 profile")
     evidence.mkdir(parents=True, exist_ok=False)
-    results = []
-    for mutation in MUTATIONS:
+    imported_coordinates = imported_coordinates or []
+    if imported_coordinates:
+        require(len(imported_coordinates) == 2 and
+                [item.get("mutation") for item in imported_coordinates] ==
+                    ["regular_hi", "explicit_end"] and
+                all(item.get("classification") == "INTENDED_ADMISSION_REJECTION" and
+                    item.get("expected_obligation") == PREFIX + EXPECTED[item["mutation"]] and
+                    set(item.get("admission_evidence", {})) == {
+                        "source_exact", "stage_integrity", "readonly_export_refinement",
+                        "normal_only_mutant_exact", "exact_fatal", "before_proof",
+                        "verifier_exit_two"} and
+                    all(value is True for value in item["admission_evidence"].values())
+                    for item in imported_coordinates),
+                "pinned v3 coordinate control evidence differs")
+    results = list(imported_coordinates)
+    for mutation in MUTATIONS[len(imported_coordinates):]:
         case = evidence / f"normal_{mutation}"
         try:
             shutil.copytree(projected, case)
@@ -491,6 +506,9 @@ def run_controls(projected: Path, args, repo: Path, constructor,
                "INCONCLUSIVE", "accepted_controls": accepted,
                "tool_profile": PROFILE, "source_variant": projected.name,
                "normal_only": True, "readonly_preserved": readonly_preserved,
+               "imported_coordinate_controls_source_run":
+                   37651717720 if imported_coordinates else None,
+               "new_hosted_control_count": len(results) - len(imported_coordinates),
                "cases": results, "full_select_proved": False}
     (evidence / "summary.json").write_text(json.dumps(summary, indent=2,
         sort_keys=True) + "\n")

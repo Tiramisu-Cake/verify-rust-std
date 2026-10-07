@@ -1,30 +1,27 @@
 # Pointer select completion — results
 
-2026-10-07 S6v2 COMPONENT_ACCEPTED; actual baseline reaches initialized-cell pre.
-Current budget **3302/5400 summed hosted job seconds used,2098remain**, no reset,
-no active run; exact S6v3 normal admission implementation/review in progress.
-[Fresh S6v2 run37645561507](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507),
-source `85ec1711700ff85c899b18b7e021f076aeddb8e6`, patch `8e62e6c3`, accepts full
-2positive+11proofnegative+22admission drop matrix and freshly reruns complete
-constructor/asptr/intrinsic matrices and fourteen stock/experimental baselines.
-Original v1 acceptance/replay/classifications retain their provenance below.
-Actual baseline source/export/decode/refinement/full method+31local14block cert
-and redirectPASS; call57 fails req110 `points_to<*Element>(__result2, _)`.
-Both new v2 actual-coordinate controls failed NORMAL exporter setup; neither is
-an intended negative, and projected helper was gated off. Full normal typed MIR
-was captured as a diagnostic before the next admission decision: normal
-exporter injects a 32-byte ghost command, readonly does not. First diagnostic
-37648838042 failed duplicated compiler arguments before export (65s); repaired
-orchestration uses exporter defaults and records effective compiler arguments.
-Successful diagnostic37649244205 retains36locals19blocks andfive exactstock
-placeholders. Cardfaef1a3 beforecode permits separate exact projected-only v3
-certificate, unchanged execution/resource semantics, freshfullgates beforeactual.
-[Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
-[actual report](SORT4-SELECT-CALLEE.md), [phase](SORT4-SELECT-POINTER-PHASE.md).
-Whole helper/sort4 NOT PROVEN. Compiler raw-pointer glue correspondence remains
-TRUSTED separately; recursive stub/ghost lemma do not prove it. No broader frozen
-semantic direction reopened. Historical budgets/next steps below are not current
-authorization.
+2026-10-07 S6v3 COMPONENT_ACCEPTED; actual baseline initialized-cell pre reached;
+stock-projected helper NOT RUN pending completion of sixteen admission controls.
+Budget **3568/5400 summed hosted job seconds used;1832remain**, no reset/noactive.
+[Fresh37651717720](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720),
+source `dfc1f1d740689de8f427ac549da558d64a4318eb`, patch94ffc64c/drop-v3:
+full2positive+11proofnegative+22admissions, fresh ctor/asptr/intrinsic matrices and
+14baseline controls PASS. Baseline actual fullsource/export/decode/refinement/
+method+31/14 certificate/redirectPASS; call57 fails pre110 initialized
+`points_to<*Element>(__result2, _)`, thread/currentThread already passed.
+Exact NORMAL projected36/19 certificate preserves allruntime/cleanup operations;
+five stock ghostplaceholders and perannotation normal/readonly coordinates pinned
+to diagnostic37649244205 (notproof), cardfaef1a3 BEFORE implementation.
+Eighteen NORMAL controls independently collected:2coordinates intendedreject,
+16SETUPfail mutator openingindex; canonicalprojected gatedoff, no resource verdict.
+SAMEprofile completion authenticates immutable fullproof/regression/two-control
+logs and tool/compiler/spec/std byteidentity, NEW16controls thenstockprojection.
+No semanticpatch/expectedpredicate change; originalfailures/classifications kept.
+[Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md), [actual](SORT4-SELECT-CALLEE.md),
+[phase](SORT4-SELECT-POINTER-PHASE.md). Compiler pointerglue and frozen frontend
+scaffold correspondence TRUSTED separately from checkedbody/ghostresource lemma.
+No wholehelper/sort4 proof or broaderfrozen semantic direction reopened.
+Historical budgets/next steps below are not current authorization.
 
 S1/37607108528/sourcef19f077457da722e326f88df362b0d14731987e0,
 profile325af428 unchanged: source/export/decode/refinement PASS, then SAFE prototype
@@ -411,6 +408,7 @@ new run appears. No tool/profile/pre/post semantic change, no new hosted job cos
 | 37645561507 | 85ec1711700ff85c899b18b7e021f076aeddb8e6 | 173 | 3168 | 2232 |
 | 37648838042 | 8f1b8f44a655fcfde1fd12106d79dbbb58917332 | 65 | 3233 | 2167 |
 | 37649244205 | f6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d | 69 | 3302 | 2098 |
+| 37651717720 | dfc1f1d740689de8f427ac549da558d64a4318eb | 266 | 3568 | 1832 |
 
 Skipped jobs are excluded. At that interim checkpoint iteration484s; no reset, <=1800/job and300/proof.
 First run independently collected all cases and accepted-component regressions;

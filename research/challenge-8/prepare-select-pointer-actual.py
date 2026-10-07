@@ -71,8 +71,7 @@ def imported_prerequisite_evidence(path: Path, component: Path,
     source_profile = json.loads(drop.read_text()).get("source_profile", {})
     required = ("source_run_id", "source_sha", "profile", "patch_sha256",
                 "archive_sha256", "effective_tool_hashes", "std_source_hashes")
-    return (all(data.get(field) == source_profile.get(field) for field in required) and
-            data.get("source_run_id") == 37637630477 and
+    pinned_v1 = (data.get("source_run_id") == 37637630477 and
             data.get("source_sha") ==
                 "de7ed9de861eea7346301f6807e242862a68c0ab" and
             data.get("profile") == profile ==
@@ -80,7 +79,19 @@ def imported_prerequisite_evidence(path: Path, component: Path,
             data.get("patch_sha256") ==
                 "cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413" and
             data.get("archive_sha256") ==
-                "34a6fba71d964a5ed74298471da4176102fdf3bc747178cadd9a69894d91b232" and
+                "34a6fba71d964a5ed74298471da4176102fdf3bc747178cadd9a69894d91b232")
+    pinned_v3 = (data.get("source_run_id") == 37651717720 and
+            data.get("source_sha") ==
+                "dfc1f1d740689de8f427ac549da558d64a4318eb" and
+            data.get("profile") == profile ==
+                "experimental-source-linked-select-pointer-drop-v3" and
+            data.get("patch_sha256") ==
+                "94ffc64ce15811ac0de62e55489fb1e61242883b7258aa22969bbefa9ec184e8" and
+            data.get("archive_sha256") ==
+                "f2c9a1dcda5785af850a51e103bc0c7d07df38c39ed9809afb33211bde997fb0" and
+            data.get("source_artifact_id") == 11497076310)
+    return (all(data.get(field) == source_profile.get(field) for field in required) and
+            (pinned_v1 or pinned_v3) and
             drop.resolve().parents[1] == evidence.parent and
             data.get("proof_and_component_evidence_origin") ==
                 "pinned original run; not current-run proofs")
@@ -357,6 +368,7 @@ def main() -> None:
     parser.add_argument("--intrinsic-summary", type=Path)
     parser.add_argument("--drop-summary", type=Path)
     parser.add_argument("--imported-prerequisites", type=Path)
+    parser.add_argument("--imported-v3-coordinate-controls", type=Path)
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or \
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or \
@@ -387,6 +399,18 @@ def main() -> None:
                 args.imported_prerequisites, args.component_summary,
                 args.constructor_summary, args.intrinsic_summary,
                 args.drop_summary, evidence)
+        if args.imported_v3_coordinate_controls is not None:
+            require(imported and args.imported_prerequisites is not None and
+                    os.environ.get("SORT4_SELECT_PROFILE") ==
+                        "experimental-source-linked-select-pointer-drop-v3",
+                    "v3 coordinate import requires pinned same-profile prerequisites")
+            imported_manifest = json.loads(args.imported_prerequisites.read_text())
+            coordinate_file = args.imported_v3_coordinate_controls
+            require(coordinate_file.resolve().parent ==
+                    args.imported_prerequisites.resolve().parent and
+                    hashlib.sha256(coordinate_file.read_bytes()).hexdigest() ==
+                        imported_manifest.get("coordinate_controls_sha256"),
+                    "v3 coordinate controls do not match pinned import")
         intrinsic_prerequisites = {
             "same_run_or_pinned_import_evidence": same_run or imported,
             "pinned_original_proof_import_if_requested":
@@ -514,6 +538,23 @@ def main() -> None:
     diagnoses = []
     ghost_controls = None
     try:
+        if drop is not None and args.imported_v3_coordinate_controls is not None:
+            ghost_module = load_script(
+                repo_root / "research/challenge-8/check-pointer-drop-actual-ghosts.py",
+                "sort4_actual_v3_completion_controls")
+            imported_coordinates = json.loads(
+                args.imported_v3_coordinate_controls.read_text())["cases"][:2]
+            ghost_controls = ghost_module.run_controls(
+                cases[1][0], args, repo_root, constructor,
+                evidence / "actual-ghost-admissions", imported_coordinates)
+            if not ghost_controls["accepted_controls"]:
+                (evidence / "summary.json").write_text(json.dumps({
+                    "classification": "INCONCLUSIVE", "accepted_component": False,
+                    "full_select_proved": False, "prerequisite_component_accepted": True,
+                    "actual_unit_run": False,
+                    "ghost_coordinate_admission_controls": ghost_controls,
+                    "projected_case_run": False}, indent=2, sort_keys=True) + "\n")
+                raise SystemExit(1)
         baseline, baseline_fixture = cases[0]
         baseline_runner = constructor.run_case(
             baseline, args.schema, args.tool_home, args.compiler_sysroot,
@@ -525,13 +566,17 @@ def main() -> None:
             (intrinsic is None or diagnoses[0]["all_three_intrinsic_calls_modeled"]) and
             (drop is None or
              diagnoses[0]["checked_drop_method_and_actual_redirect_reached"]))
-        if drop is not None:
+        if drop is not None and ghost_controls is None:
             ghost_module = load_script(
                 repo_root / "research/challenge-8/check-pointer-drop-actual-ghosts.py",
                 "sort4_actual_ghost_admission_controls")
+            imported_coordinates = None
+            if args.imported_v3_coordinate_controls is not None:
+                imported_coordinates = json.loads(
+                    args.imported_v3_coordinate_controls.read_text())["cases"][:2]
             ghost_controls = ghost_module.run_controls(
                 cases[1][0], args, repo_root, constructor,
-                evidence / "actual-ghost-admissions")
+                evidence / "actual-ghost-admissions", imported_coordinates)
         if len(cases) > 1 and baseline_reached and ghost_controls["accepted_controls"]:
             projected, projected_fixture = cases[1]
             projected_runner = constructor.run_case(

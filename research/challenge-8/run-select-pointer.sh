@@ -63,7 +63,7 @@ source_home="$task_temp/source"
     printf 'Budget: %s minutes including preparation/build/matrix; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-select-pointer.py research/challenge-8/SORT4-SELECT-POINTER-DESIGN.md
 } > "$evidence/environment.txt"
-run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/check-maybeuninit-new-pointer.py research/challenge-8/check-select-pointer.py research/challenge-8/check-select-pointer-intrinsics.py research/challenge-8/check-pointer-drop.py research/challenge-8/check-pointer-drop-actual-ghosts.py research/challenge-8/test-pointer-drop-classifier.py research/challenge-8/prepare-select-pointer-actual.py
+run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/check-maybeuninit-new-pointer.py research/challenge-8/check-select-pointer.py research/challenge-8/check-select-pointer-intrinsics.py research/challenge-8/check-pointer-drop.py research/challenge-8/check-pointer-drop-actual-ghosts.py research/challenge-8/test-pointer-drop-classifier.py research/challenge-8/prepare-select-pointer-actual.py research/challenge-8/complete-pointer-drop-v3.py
 run_stage stock-download curl -fL --retry 3 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz
 printf '%s  %s\n' "$archive_sha" "$stock_archive" | sha256sum -c -
 run_stage stock-extract tar -xzf "$stock_archive" -C "$task_temp"
@@ -90,6 +90,11 @@ for rel in sorted(allowed):
 PY
 run_stage compiler-install rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --component rustc-dev --component llvm-tools-preview
 run_stage build-apt bash -c 'sudo apt-get update && sudo apt-get install --yes --no-install-recommends build-essential git curl ca-certificates m4 patch unzip capnproto'
+saved_dir="$task_temp/saved-s6-v3"
+run_stage saved-s6-v3-download gh run download 37651717720 --repo Tiramisu-Cake/verify-rust-std --name smallsort-select-compact-evidence-37651717720-1 --dir "$saved_dir"
+gh api repos/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720 > "$evidence/saved-s6-v3-run.json"
+gh api repos/Tiramisu-Cake/verify-rust-std/actions/artifacts/11497076310 > "$evidence/saved-s6-v3-artifact.json"
+run_stage saved-s6-v3-preflight python3 research/challenge-8/complete-pointer-drop-v3.py --preflight-only --archive "$saved_dir/sort4-select-compact-evidence.zip" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --evidence "$evidence/saved-s6-v3-preflight"
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 run_stage vfdeps-download curl -fL --retry 3 -o "$deps_archive" https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
 printf '%s  %s\n' "$deps_sha" "$deps_archive" | sha256sum -c -
@@ -148,13 +153,5 @@ if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 export SORT4_MAYBEUNINIT_REPO_ROOT="$repo"
 export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-drop-v3
-run_stage classifier-tests python3 research/challenge-8/test-sort4-maybeuninit-classifier.py
-run_stage constructor-regressions python3 research/challenge-8/check-maybeuninit-new-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/constructor-regressions"
-run_stage select-classifier-tests python3 research/challenge-8/test-select-pointer-classifier.py --evidence "$evidence/select-classifier-self-check.json"
-run_stage select-component-matrix python3 research/challenge-8/check-select-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --classifier-summary "$evidence/select-classifier-self-check.json"
-run_stage intrinsic-classifier-tests python3 research/challenge-8/test-select-pointer-intrinsics-classifier.py --evidence "$evidence/intrinsic-classifier-self-check.json"
-run_stage intrinsic-component-matrix python3 research/challenge-8/check-select-pointer-intrinsics.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/intrinsic-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --classifier-summary "$evidence/intrinsic-classifier-self-check.json"
-run_stage pointer-drop-classifier-tests python3 research/challenge-8/test-pointer-drop-classifier.py --evidence "$evidence/pointer-drop-classifier-self-check.json"
-run_stage pointer-drop-component-matrix python3 research/challenge-8/check-pointer-drop.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/pointer-drop-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --intrinsic-summary "$evidence/intrinsic-matrix/summary.json" --classifier-summary "$evidence/pointer-drop-classifier-self-check.json"
-run_stage actual-select-drop-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-drop-integration" --component-summary "$evidence/matrix/summary.json" --constructor-summary "$evidence/constructor-regressions/summary.json" --intrinsic-summary "$evidence/intrinsic-matrix/summary.json" --drop-summary "$evidence/pointer-drop-matrix/summary.json"
+run_stage s6-v3-completion python3 research/challenge-8/complete-pointer-drop-v3.py --archive "$saved_dir/sort4-select-compact-evidence.zip" --original-run "$evidence/saved-s6-v3-run.json" --original-artifact "$evidence/saved-s6-v3-artifact.json" --current-environment "$evidence/environment.txt" --current-patch-identities "$evidence/patch-source-identities.json" --current-specification-audit "$evidence/specification-audit.json" --preflight-summary "$evidence/saved-s6-v3-preflight/summary.json" --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/s6-v3-completion"
 exit 0
