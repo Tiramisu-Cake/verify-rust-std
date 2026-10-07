@@ -5,7 +5,11 @@ Updated 2026-10-07. **S7c CFG repair IN PROGRESS**, explicitly authorized from
 on frozen S6v4 before minimal ManuallyDrop::new normal FnCallResult successor fix.
 Uninstrumented acceptance requires unchanged source/MIR/refinement, unwind/shared
 cleanup/dead-code/false-post controls and existing component regressions.
-Budget unchanged:4752/5400 used,648 job seconds remain; no active run.
+Diagnostic[37681688627](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37681688627),
+source32d909a7b1015a9417b882676d349bab5c80481f COMPLETE: physicalid52 is orphan
+label2 ReturnStmt(unwinding), never executed; normalreturnid53 executes. Same
+source/MIR/AST plain/traced, bothVF1 solely dead-code. Narrow candidate permitted.
+Budget4884/5400 used,516 jobseconds remain, no active run. Acceptance pending.
 No actual linkage/redirect or guard/Drop/assume_init/model/exporter/refiner/kernel
 extension. [BEFORE card](SORT4-SELECT-FORGET-DESIGN.md#s7c-cfg-repair-before-implementation).
 Historical S7b STOP is superseded only within this narrow authorization.

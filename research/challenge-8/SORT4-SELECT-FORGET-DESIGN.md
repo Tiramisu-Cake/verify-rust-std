@@ -23,7 +23,8 @@ std::mem::ManuallyDrop::<T>::new. With normal target it emits assignment plus Go
 then appends unwind_targets with no corresponding emitted unwind statement.
 find_blocks includes that successor, creating orphan ReturnStmt(unwinding()).
 The sole residual physical loc must register this ReturnStmt with no execution;
-normal return must have another physical key despite its identical printed span.
+normal return must have another physical key; matching printed spans alone
+cannot identify any residual key.
 Different attribution requires explanation and STOP before applying a candidate.
 
 Temporary trace profile: unchanged S6v4 patch c7cc08a9 over VF809de459, plus
@@ -389,3 +390,20 @@ Entry4411 +178+12+151 =4752/5400used648remaining, samebudget/noreset/noactive.
 Checked sourcesc9c59a85807da0135a8192b1912b15d510c68028 and
 a6f077a5aa89ad25df94295320cdbe18ebe4b9d9; replayprocessordd4b0493b8411d92f61f525a3c7ef6ec0429d021.
 Documentation closeout is not a proof SHA. Full helper/sort4 NOTPROVEN.
+
+
+### S7c diagnosed cause before repair
+
+Run37681688627/source32d909a7b1015a9417b882676d349bab5c80481f: plain and traced
+S6v4 both fullVF1, all seven bodies execute/return/leak; export/decode/refinement0.
+Side registry identifies exactly one residual id52: REGISTER once, EXEC never,
+RESIDUAL once, label_context2 / ReturnStmt(call=unwinding), loc3,1–16,2.
+Normal ReturnStmt(call=returning) has id53, loc16,2, and EXEC. The duplicated
+whole-function printed spans elsewhere in AST do not establish key equality.
+Both source pairs, complete NORMAL/readonly binary+decoded MIR, and AST are
+byte-identical between builds; fixtureSHA9b52c7e5, MIRbinary1bf0d97c,
+MIRdecoded3b08b583, AST172fbc51. Cleanup2 stays present in exported MIR.
+Trace patch23d77777, traced binary927e0892; plain binary recorded in environment.
+Cause matches authorized hypothesis; narrow candidate is now permitted.
+132 summed hosted jobseconds (20:24:00–20:26:12UTC), total4884/5400,516remain.
+No active run. Acceptance cap6min/60s artifact reserve fits actual remaining budget.

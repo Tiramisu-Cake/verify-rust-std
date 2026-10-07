@@ -4618,3 +4618,16 @@ is recorded BEFORE implementation. Budget4752/5400 used,648remain/noreset;
 no active run. Physical-loc diagnostic precedes repair; acceptance build has no
 instrumentation. Existing S6v4 unchanged; experimental MD::new normal-target
 successors only. All tests hosted, single relevant run; actual redirect excluded.
+
+S7c diagnostic dispatched37681688627, source32d909a7b1015a9417b882676d349bab5c80481f;
+selection verifast_maybeuninit_new_pointer/forget_cfg_trace, input30/effective5min,
+60s artifact reserve/10s kill grace. Remote exact SHA confirmed; no other active
+run. Plain S6v4 then traced console sequentially; no CFG repair applied. Trace
+patchSHA23d77777faea6f932ca93dd0a6ee48b48ca667fa641b0a4fffeaf374447a1b7e.
+
+S7c diagnostic37681688627 COMPLETE:132jobseconds,4884/5400 used,516remain.
+Plain+traced bothVF1 solely dead-code; all7bodies/return/leak; other5stages0.
+Residual physicalid52=label2 ReturnStmt(unwinding), REGISTER1/EXEC0/RESIDUAL1;
+normal returnid53 executes. Exact same sourcepair/completeMIR/AST. Causal repair
+now permitted; no CFG candidate had been applied during diagnosis.
+Compactartifact11510235246/full11509725710; tracebinary927e0892d4176dde4c9f706c57169eee0d0677609d13de8e6f6c270779a1ef62.
