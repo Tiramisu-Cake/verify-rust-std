@@ -2,16 +2,18 @@
 
 Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New5400jobseconds,<=1800/job,<=300/proof;spend867/5400jobseconds,noactive. Old budget retired.
+New5400jobseconds,<=1800/job,<=300/proof;spend964/5400jobseconds,noactive. Old budget retired.
 S4b/37611745252/source7c14ab64372d75928c4a000bb43dad83761c5bb4:
 SAFE as_mut_ptr BODY/MODEL COMPONENT ACCEPTED atprofilee9b4d025, full3positive/
 6proofnegative/8source/9MIR controls+ctorregressions/classifs/baselines PASS.
 Actualunit RUN, export/decode/refinement/source PASS, butfirst externalasptr
 redirect rejects valid latebound1erasedlifetime beforebody. Nohelperproof.
-S5newprofile07930fff correctsexactlateboundshape and proposesonlytwo-typed
+S5newprofilee5663903 correctsexactlateboundshape and proposesonlytwo-typed
 intrinsicIfExpr+checkeddefinedowntransfer; fullintrinsicgate notyetaccepted.
 Next hostedfirstcanonicalintrinsicMIR shapeprobe +completector/asptrregressions
-andactualintegration. Spend867/5400jobseconds,noactive.
+andactualintegration. S5/37612975447/sourcef7543ce/07930fff:97s BUILD FAILED (OCamlbodyname shadow).
+No matrices/MIR/proofs ran; routine namefix newpatche5663903.
+Spend964/5400jobseconds,noactive.
 Compact11477673504/full11477848970; historicalO4 preserved.
 [Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
 Runtime std/signatures and frozen kernel/

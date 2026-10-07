@@ -192,7 +192,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: smallsort-research-${{ github.run_id }}-${{ github.run_attempt }}
-          path: research-results/
+          path: |
+            research-results/
+            !research-results/**/mutation-profile/**
           if-no-files-found: warn
           retention-days: 7
 

@@ -67,3 +67,13 @@ implementation. Actualfinalpost/borrow/resourceprotocol stillNOTPROVEN.
 [run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37611745252).
 S5new8e838ad1profile includesexactlifetimecorrection +typedcompilerintrinsic
 selection rule/checkedownershiptransfer, currentlyUNACCEPTED feasibilityonly.
+
+S5/37612975447/sourcef7543ce101907249614dcfbf427bef8f223e87d7,
+profile07930fff:97s11:16:39–11:18:16UTC,total964/5400, BUILD FAILED.
+OCaml module localbodystring shadowed BodyRd.t parameter at8783; noproof/MIR
+matrices executed. Namefixe5663903 changesno semantics.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37612975447),
+compact11479045470/full11479215424 preservebuildlog/profile/O4.
+Laterfullarchivesexclude disposablemutation-profile tool/librarycopies, retain
+wrapper source outsidethatdirectory andalllogs/MIR/profiles/hashes. Historical
+fullO4 andearlier fullarchives remainunchanged; compactevidencealreadyexcludedtools.

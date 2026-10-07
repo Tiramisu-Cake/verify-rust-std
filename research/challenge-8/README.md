@@ -6,7 +6,14 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Current: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md), CLOSED.**
+**Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), IN PROGRESS.**
+[Design/dependency map](SORT4-SELECT-POINTER-DESIGN.md),
+[results/compact evidence](SORT4-SELECT-POINTER-RESULTS.md): S4b accepts SAFE
+as_mut_ptr body/model; actual invocation correction/intrinsic completion pending.
+RAPx CLOSED/NO-GO; B/C NOT RUN, fullhelper/sort4 NOT PROVEN. STATUS is authoritative.
+The following pointer-ownership closeout is historical.
+
+**Previous: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md), CLOSED.**
 [Final report](SORT4-POINTER-OWNERSHIP-RESULTS.md): O4/37601511894 at proofSHA182ddf29
 accepts experimental defined pointer-value ownership and SAFE MaybeUninit::new,
 full source/HIR/MIR criterion and intended controls. [Actual select](SORT4-SELECT-CALLEE.md)

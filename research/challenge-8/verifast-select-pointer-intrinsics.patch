@@ -56,7 +56,7 @@ index d150408..e9da6ce 100644
          req true;
          ens MaybeUninit::new_maybe_uninit(v).inner() == v;
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..07a93ef 100644
+index f1e3e50..68a791f 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -266,7 +266,7 @@ index f1e3e50..07a93ef 100644
 +      "pub fn sort4_checked_select_ptr<Element>(condition: bool, a: *mut *const Element, b: *mut *const Element) -> *mut *const Element"
 +    let mu_signature =
 +      "pub fn sort4_checked_select_mu<Element>(condition: bool, a: std::mem::MaybeUninit<*const Element>, b: std::mem::MaybeUninit<*const Element>) -> std::mem::MaybeUninit<*const Element>"
-+    let body =
++    let local_body =
 +      "{\n    std::intrinsics::select_unpredictable(condition, a, b)\n}"
 +    let ptr_annotations = [
 +      "/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/";
@@ -1287,15 +1287,15 @@ index f1e3e50..07a93ef 100644
 +      "\n\n" ^ String.concat "\n" annotations ^ "\n" in
 +    let brace = at + String.length signature +
 +      String.length required_between in
-+    if brace + String.length Sort4SelectIntrinsic.body >
++    if brace + String.length Sort4SelectIntrinsic.local_body >
 +         String.length source then
 +      reject "helper source body is truncated";
 +    let between = String.sub source (at + String.length signature)
 +      (brace - at - String.length signature) in
 +    if between <> required_between then
 +      reject "helper SAFE contract/source signature";
-+    if String.sub source brace (String.length Sort4SelectIntrinsic.body) <>
-+         Sort4SelectIntrinsic.body then
++    if String.sub source brace (String.length Sort4SelectIntrinsic.local_body) <>
++         Sort4SelectIntrinsic.local_body then
 +      reject "helper source body changed";
 +    let source_pos = Sort4MaybeUninit.position source in
 +    let check_span label span lo hi =
@@ -1306,7 +1306,7 @@ index f1e3e50..07a93ef 100644
 +          (line,col) = lo && (hline,hcol) = hi -> Ok ()
 +      | _ -> reject (label ^ " source span") in
 +    let signature_end = at + String.length signature in
-+    let body_end = brace + String.length Sort4SelectIntrinsic.body in
++    let body_end = brace + String.length Sort4SelectIntrinsic.local_body in
 +    let* () = check_span "helper signature" (BodyRd.fn_sig_span_get body)
 +      (source_pos at) (source_pos signature_end) in
 +    let* () = check_span "helper body" (BodyRd.imp_span_get body)

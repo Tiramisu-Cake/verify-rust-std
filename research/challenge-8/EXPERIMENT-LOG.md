@@ -3754,7 +3754,7 @@ confirmedsolepointertype+latebound1, effectivesubsts stockadds 'erased lifetime.
 Compact11477673504/full11477848970;fullactualMIR/source/diagnosis retained.
 
 S5 BEFORE dispatch: newprofileexperimental-source-linked-select-pointer-intrinsics-v1,
-patch07930fffd8c1fef82d0e00136104ef754962064dbd90f5eaa7fd8d66bdd2d2d6;
+patche566390327dda7e08e9874d2a7909da7e5f9bc5fb98c132fe7268ba496c5114f;
 design1e970b2+exactasptrfix7fc98da committedbeforesemanticimplementation.
 Falsifiable hypothesis1 exactlateboundredirect passesactualtwoasptrcallswith
 checkedSAFEbody/noresourceweakening; hypothesis2 fixedcompilerstandaloneintrinsic
@@ -3768,3 +3768,14 @@ fails; fixexactobservedshape/implementation thenfullacceptance, no blindrepeat.
 Existingactualintegrationrunswithoutintrinsicoptin first; fullintrinsicactual
 gate initiallyrejectsunknownactualshape ratherthantrustcallcounts.
 Selection/job30min/proof300s, spend867/5400before, oneactive,compactcurrent+O4.
+
+S5 result37612975447/sourcef7543ce/07930fff:97s BUILD FAILED atOCamlline8783
+stringmodulebody shadows BodyRd.tparameter, noMIR/proofcases. Spend964/5400.
+Compact11479045470/full11479215424, sourcesandsemanticprofilepreserved.
+S5a BEFORE dispatch: sameS5domain/hypotheses/posts/feasibilityonly, newpatche566390327dda7e08e9874d2a7909da7e5f9bc5fb98c132fe7268ba496c5114f
+renamesmoduleconstant local_body soMIRparameterretainscorrecttype, nosemantic
+change. Completector/asptrregressions andtypedactualredirecttest then2intrinsic
+canonicalshapeprobes. Selection30min/proof300s,newbudget964/5400before.
+Evidence-only optimization: newfullarchivesexcludeshadowtools/libs, retainexact
+wrapper.py outsideexcludedfolder; historicalfullO4/otherarchives unchanged.
+No verifier/harnessclassification gates weakened andnoproofrepeatsolelyrepack.

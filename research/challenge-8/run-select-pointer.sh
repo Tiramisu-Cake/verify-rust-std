@@ -44,7 +44,7 @@ archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 patch_file="$repo/research/challenge-8/verifast-select-pointer-intrinsics.patch"
-printf '%s  %s\n' 07930fffd8c1fef82d0e00136104ef754962064dbd90f5eaa7fd8d66bdd2d2d6 "$patch_file" | sha256sum -c -
+printf '%s  %s\n' e566390327dda7e08e9874d2a7909da7e5f9bc5fb98c132fe7268ba496c5114f "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/select-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"

@@ -676,6 +676,7 @@ sys.stdout.buffer.write(encoded.stdout)
    .replace("@MUTATION@", repr(mutation))
    .replace("@RECORD@", repr(str(case_dir / "mutation-record.json"))))
     wrapper.chmod(0o755)
+    shutil.copy2(wrapper, case_dir / "mir-exporter-wrapper.py")
     (case_dir / "mutation-profile.json").write_text(json.dumps({
         "mutation": mutation,
         "base_console_sha256": sha((source_bin / "verifast").read_bytes()),

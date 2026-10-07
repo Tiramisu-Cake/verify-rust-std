@@ -6,6 +6,18 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
+Current pointer-select phase S4b/37611745252/source7c14ab6/profilee9b4d025
+accepts source-linked SAFE as_mut_ptr BODY/model:3state/frame positives,6proof
+negatives,8source/9MIR admission, constructor regressions+baselines/classifier
+PASS. Exact elided IN/OUT wrapper-cell protocol, full modeled result/provenance,
+unknown/none/some retained, no Element permission. Externalactualredirect first
+rejected stock-synthetic lifetime BEFOREbody; correction andcompilerintrinsic
+profile pending acceptance. S5/37612975447 BUILD FAILED, allnewproofs NOT RUN.
+[Results and compact evidence](SORT4-SELECT-POINTER-RESULTS.md),
+[design/dependency map](SORT4-SELECT-POINTER-DESIGN.md). Wholehelper/sort4 NOTPROVEN;
+remaining asptrintegration/intrinsics/pointerdrop/guard/forget/assumeinit obligations
+continue within authorized phase, no general memory/alias/provenance change.
+
 [Night phase](SORT4-NIGHT-PHASE.md) N2/37547890530/source3f5c9e3 now accepts the
 exact experimental fieldless layout profile d4a12525 after full matrix/artifact
 audit: original profile comparisons,18extra cases,7metadata controls,10native
