@@ -286,3 +286,50 @@ helper source/MIR/refinement passes; first proof blocker drop_in_place57.
 Whole helper return/normal-unwind/leak posts NOT PROVEN. Drop/guard/forget/assume
 components NOT ACCEPTED, read-resource hypothesis NOT RUN. Furthersemantic work
 FROZEN; current budget retained. RAPx CLOSED/NO-GO, B/C NOT RUN; fullsort4 NOT PROVEN.
+
+## S6 independent matrix and same-profile completion
+
+The S6 entry is `bea6248`; only pointer drop was authorized. Full cumulative
+semantic patch is `cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413`,
+profile `experimental-source-linked-select-pointer-drop-v1`. The frozen `04d67f4b`
+draft was not applied. Exact payload is `*const Element`, receiver
+`*mut *const Element`; arbitrary Sized Element, no Copy/Freeze/pointee permission.
+
+The method's specialized non-const unsafe body and the empty ghost identity lemma
+are proof targets. The compiler's raw-pointer drop-glue correspondence is a
+separate trusted assumption: raw pointer destruction performs no recursive drop,
+callback, read/write or pointer reconstruction. It preserves the complete modeled
+value and cannot unwind. Proving the lemma does not prove that correspondence;
+the recursive free lang-item placeholder is not a proved runtime body.
+The rule consumes and returns the SAME initialized typed cell and thread token;
+independent resources frame through unchanged separation rules. No Element rights
+or ownership bridge are introduced. Full source and typed MIR gates activate the
+rule only after checking type/callee/operand/result/all normal+unwind CFG operations.
+
+[Initial S6 run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637630477),
+source `de7ed9de861eea7346301f6807e242862a68c0ab`, collected the complete independent
+2-positive/11-proof-negative/22-admission matrix. Both symbolic pointer positives
+passed with one or two distinct fractional frames; the unrestricted stored pointer
+value includes null. All proof errors were retained, although the first classifier
+incorrectly required a SAFE-prototype marker for the unsafe method and used several
+inexact normalized messages/locations. Admissions: 16 intended rejections, 3 exact
+reason mismatches, 3 setup failures. Those setup failures were not counted as
+negative evidence. Constructor/as_mut_ptr/intrinsic complete matrices and all
+14 separate Rust/C/C++ baseline controls passed in this new profile. Actual helper
+was gated off pending full acceptance.
+
+Initial run cost194s (14:33:07–14:36:21 UTC): previous2398 +194 =2592/5400,
+2808remaining. [Compact artifact](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637630477/artifacts/11490457470)
+contains full raw evidence and initial classifications; inner ZIP SHA256
+`34a6fba71d964a5ed74298471da4176102fdf3bc747178cadd9a69894d91b232`.
+[Full artifact](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637630477/artifacts/11490457483).
+
+Completion source `dbb70d0ba1f36e7cf6021da319b65234cc890b18` changes classification
+and admission setup only, leaving the semantic patch unchanged. It replays saved
+13 proof cases and 19 valid admissions, preserves all original classification JSON
+bytes and raw evidence, and executes only the three repaired admission controls.
+The rebuilt profile must match all original effective tool/spec byte hashes,
+compiler/schema/exporter/refiner versions, std-source hashes and patch/spec audits.
+Prior component and regression proofs retain their explicit original run provenance.
+Only complete composite acceptance permits the actual baseline and exact five-ghost
+stock projection variants. [Completion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640750987).

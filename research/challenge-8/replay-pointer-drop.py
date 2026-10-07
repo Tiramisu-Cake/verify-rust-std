@@ -141,8 +141,8 @@ def diagnostic_only_delta(old: dict, new: dict, admission: bool) -> bool:
         new_copy.pop("expected_reasons", None)
         old_gate = old_copy["admission_evidence"]
         new_gate = new_copy["admission_evidence"]
-        if old_gate.pop("exact_fatal") is not False or
-                new_gate.pop("exact_fatal") is not True:
+        if (old_gate.pop("exact_fatal") is not False or
+                new_gate.pop("exact_fatal") is not True):
             return False
     else:
         for group in ("positive_evidence", "negative_evidence"):

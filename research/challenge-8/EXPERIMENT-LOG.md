@@ -4071,3 +4071,25 @@ obligation and STOP; if drop passes, record next blocker and STOP. No guard,
 forget, assume, union/refinement or general memory/Drop semantic extension.
 Selection verifast_maybeuninit_new_pointer/budget30, <=1800/job, <=300/proof;
 used2592/5400,remaining2808 before dispatch; one relevant hosted run only.
+
+S6 completion dispatch resolved37640750987, exact head
+ dbb70d0ba1f36e7cf6021da319b65234cc890b18; created14:55:15UTC,
+job112858754006 started14:55:22UTC, one hosted job, same30min/drop-v1.
+[Completion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640750987).
+Budget before run2592/5400 used,2808remaining; cost pending completion.
+
+S6 completion37640750987/source dbb70d0 completed14:57:46UTC, cost144s
+(14:55:22–14:57:46), cumulative2736/5400,2664remain. Build/profile audits and
+classifier selfchecks PASS. Import of replay-pointer-drop.py fails SyntaxError144
+(multiline if lacked parentheses) BEFORE any replay/three controls/actual proof.
+This is harness SETUP, no new component result or intended negative. Original
+source/run/classifications remain retained in37637630477; this failure archived
+compact11492611069/full11492226327. No semantic delta. Fix syntax, add HOSTED
+py_compile preflight before build; same before-dispatch obligations/outcome mapping
+apply, next NEW source run continues exact drop-v1/composite/actual only.
+
+S6 BEFORE retry dispatch: syntax repair/hosted syntax preflight only. No semantic
+profile/source/post/precondition delta; no old proof rerun. Same pinned13+19
+replay + NEW3admission checks + actual only after35-case acceptance. Full previous
+before-card domain/normal-unwind posts/trust/certification/outcome mapping apply.
+Budget2736/5400used,2664remaining;<=1800/job,<=300/proof,one hosted run only.

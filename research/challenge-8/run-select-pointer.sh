@@ -63,6 +63,7 @@ source_home="$task_temp/source"
     printf 'Budget: %s minutes including preparation/build/matrix; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-select-pointer.py research/challenge-8/SORT4-SELECT-POINTER-DESIGN.md
 } > "$evidence/environment.txt"
+run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/replay-pointer-drop.py research/challenge-8/complete-pointer-drop.py research/challenge-8/check-pointer-drop.py research/challenge-8/test-pointer-drop-classifier.py research/challenge-8/prepare-select-pointer-actual.py
 run_stage stock-download curl -fL --retry 3 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz
 printf '%s  %s\n' "$archive_sha" "$stock_archive" | sha256sum -c -
 run_stage stock-extract tar -xzf "$stock_archive" -C "$task_temp"
