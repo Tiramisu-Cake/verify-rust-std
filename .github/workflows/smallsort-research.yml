@@ -49,7 +49,7 @@ on:
         description: Isolated stock sort4 component
         type: choice
         default: index
-        options: [index, order, select, range, swo, swo_network]
+        options: [index, order, select, range, swo, swo_network, networks9, networks13]
       rapx_gate:
         description: Ordered RAPx applicability gate
         type: choice
@@ -69,7 +69,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay'
+    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -198,6 +198,30 @@ jobs:
             !research-results/**/mutation-profile/**
           if-no-files-found: warn
           retention-days: 7
+
+  networks:
+    if: inputs.proof == 'verifast_sort4_components' && (inputs.sort4_component == 'networks9' || inputs.sort4_component == 'networks13') && github.ref == 'refs/heads/challenge-8/networks'
+    name: Independent network composition on stock VeriFast
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact-source abstract network
+        env:
+          NETWORK_SELECTION: ${{ inputs.sort4_component }}
+        run: bash research/challenge-8/networks/run.sh "$NETWORK_SELECTION"
+      - name: Preserve full network evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-networks-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/networks/
+          if-no-files-found: error
+          retention-days: 90
 
   rapx_evidence_replay:
     if: inputs.proof == 'rapx_evidence_replay'
