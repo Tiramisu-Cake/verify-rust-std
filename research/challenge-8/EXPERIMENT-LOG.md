@@ -3958,3 +3958,13 @@ mutants must reject; no arbitraryerror or crossprofile reuse. Diagnostic parse/
 refinement statuses independent, no ownershipboundary claimed. Budget2373/5400
 before, max30minjob, oneactive. PrioractualS5k evidence remains sameprofile,
 no repeat needed to establish first remaining callee. No new semanticpatch.
+
+S5r result37625744772/adf1554:11s,total2384/5400. Artifact/GitHubmetadata/all3839
+manifest/selfcheck gates PASS; first positive exactclassificationequality failed
+because replay computed positive_prerequisite=false while original usesallprevious
+positives/vacuoustrue. NoVF/export/refinement/proof execution. Artifact11484166969.
+S5r2 BEFOREdispatch: SAME savedS5j/v2/7bb/outerSHA/domain/all56cases/exact8deltas.
+Fix original ordered prerequisite calculation, require3positives beforeanynegative,
+savecorrectedrecord beforeexactequality. Hypothesis oldproof classificationsnow
+identical; remaining40admission+profile/stage/msg regressions mustallpass.
+2384/5400before,max30minjob,oneactive, NO semanticchange/build/proof rerun.

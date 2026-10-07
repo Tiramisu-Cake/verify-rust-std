@@ -8,7 +8,7 @@ Latest user priority: freeze semantic extension, replay S5j stored proofs with e
 classification corrections and regressions, no build/proof repeat or cross-profile
 transfer. Drop/assume diagnostics independent, source-linked read-resource hypothesis
 NOT RUN because annotation/refinement/frontend fail. Preserve NOT RUN drafts;
-no change to refiner semantics without separate decision. Budget2373/5400 before
+no change to refiner semantics without separate decision. Budget2384/5400 before
 replay remains available in this phase. Compact evidence inclO4 available in results.
 [STATUS](STATUS.md) is authoritative. Prior roadmap below is historical.
 

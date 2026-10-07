@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**2373/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**2384/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, S4b SAFE `as_mut_ptr`, and
 S5k typed intrinsic rule at frozen `experimental-source-linked-select-pointer-intrinsics-v2`
@@ -29,7 +29,7 @@ and do not gate intrinsic acceptance. Refiner and kernel unchanged.
 
 Next: hosted replay S5j/37621751848 saved artifact, same frozen7bb/v2 only, no build
 or proof execution; preserve original classifications and separate replay outcome.
-Budget2373/5400 remains current phase; no active run. Runtime/std signatures unchanged.
+Budget2384/5400 remains current phase; no active run. Runtime/std signatures unchanged.
 
 [Latest run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376),
 [compact evidence](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376/artifacts/11482879763),

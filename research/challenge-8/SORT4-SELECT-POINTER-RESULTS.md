@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget2373/5400 summed hosted job seconds, no active run. Intrinsic accepted S5k;
+Current budget2384/5400 summed hosted job seconds, no active run. Intrinsic accepted S5k;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -232,3 +232,14 @@ User freezes further semantic expansion. New04d67f4b profile and unfinished
 admission/drop harnesses preserved as NOT RUN; no source-linked assume/read theorem
 or ownership/provenance boundary inferred. Next replay uses immutable S5j saved
 artifact and exactsame7bb profile, separately preserving old INCONCLUSIVE results.
+
+S5r/37625744772/sourceadf1554c3bb6158f1224b7e1ed5e4e2864c7b3a8,
+replayS5j frozenv2/7bb:11s13:05:07–13:05:18UTC,total2384/5400.
+Archive/GitHubmetadata/3839entry SHA-size-CRC/selfchecks60+10+28 PASS.
+Replay fails exact equality on first positive because script set positive_prerequisite
+false for a positive, unlike original classifier's vacuously-true prior-positive
+gate. No proof execution; replay acceptance NOT established. S5r2 duplicates the
+original ordered gate and requires all3 saved positives before any negative;
+retains exact unchanged classification equality. No broad error matching change.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37625744772),
+[replay evidence11484166969](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37625744772/artifacts/11484166969).

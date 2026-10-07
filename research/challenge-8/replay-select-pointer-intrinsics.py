@@ -314,10 +314,19 @@ def replay(args: argparse.Namespace) -> dict:
                               archive.read(prefix + "diagnostic-classification.json"))
                 case = temp / label
                 materialize_case(archive, prefix, case)
-                prerequisite = variant in classifier.NEGATIVES[kind]
+                prerequisite = all(
+                    item["classification"] == "DIAGNOSTIC_POSITIVE"
+                    for item in corrected_cases if item["kind"] == kind and
+                    item["variant"] in classifier.POSITIVES[kind])
+                if variant in classifier.NEGATIVES[kind]:
+                    require(sum(item["kind"] == kind and
+                                item["variant"] in classifier.POSITIVES[kind]
+                                for item in corrected_cases) == 3 and prerequisite,
+                            "negative replay before all three saved positives")
                 corrected = json.loads(json.dumps(classifier.classify_case(
                     case, saved["runner_result"], kind, variant, constructor,
                     prerequisite)))
+                save_corrected(evidence, label + ".json", corrected)
                 require(corrected == saved and corrected["classification"] in
                         {"DIAGNOSTIC_POSITIVE", "INTENDED_PROOF_REJECTION"},
                         f"saved proof reclassification changed: {label}")
