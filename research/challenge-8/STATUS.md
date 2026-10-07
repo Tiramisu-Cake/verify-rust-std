@@ -2,10 +2,13 @@
 
 Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New5400jobseconds,<=1800/job,<=300/proof;spend0,noactive. Old budget retired.
-Current action: complete dependency map and existing storage/borrow assessment
-before semantic implementation. Independent compact O4/current evidence packaging
-in preparation for nearest hosted run. Runtime std/signatures and frozen kernel/
+New5400jobseconds,<=1800/job,<=300/proof;spend108/5400jobseconds,noactive. Old budget retired.
+S1 completed [37607108528](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37607108528),
+sourcef19f077457da722e326f88df362b0d14731987e0,unchanged325af428profile.
+S1source/frontend/refinement PASS,SAFEprototype leaksreturnedfull_borrow BEFOREbody.
+S2testsactualelided &mut IN/OUT wrappercell/value protocol,harness-only;
+no new semantic rule or actual-helper acceptance claimed. CompactO4/current
+artifact11474994216,1050469bytes,manifest843/843matches. Runtime std/signatures and frozen kernel/
 memory/alias/provenance/export/refiner unchanged. Narrow spec/translator changes
 for listed pointer operations authorized after written component design.
 [Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).

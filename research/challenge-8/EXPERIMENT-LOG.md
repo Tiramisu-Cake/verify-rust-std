@@ -3642,3 +3642,35 @@ current+O4 archive with source-artifact manifest; fullhistorical11473086721 reta
 O4 constructor raw positive/proofnegative/applicability/mutation logs inspected;
 no rerun solelyforrepack. Originalaccepted O4 body remains same-source linked.
 SourceSHA/runID/artifact registered at dispatch;initialspend0,noactive.
+
+S1 dispatched37607108528/sourcef19f077457da722e326f88df362b0d14731987e0,
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37607108528;
+unchanged325af428 semantics,nootheractive;outcomecostpending.
+
+S1 completed108jobseconds(10:23:49..10:25:37UTC),newbudget108/5400.
+Run37607108528/sourcef19f077457da722e326f88df362b0d14731987e0,
+unchanged325af428profile. Fullartifact11475248345;compact11474994216,
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37607108528/artifacts/11474994216
+ZIPsort4-select-compact-evidence.zip1050469bytes(<25MiB),843includedfiles:
+O4770+current73.5packaging safetygroups PASS, manifestincludedSHA/CRC/sizeaudit
+843/843matches; excludedbinarieslistedwithCRC/sizes/reasons,noinventedSHA.
+OriginalO4artifact11473086721unchanged. RawO4acceptance/log/mutationevidence
+rechecked;constructorSAFEprototype/body54/frame/leak+intendednegativesretained.
+S1positive INCONCLUSIVE beforebody: SAFEprototype leaksfull_borrow at1,1–15,6.
+Export/decode/refinement/integrity0. Cause explicitnamedlifetimecontract returns
+borrow that generatedconsuming-referencepostdoesnotretain. This is harness/contract
+mismatch,notmodelboundary. S2 tests actualelidedreceiver IN/OUT storageprotocol.
+
+## S2 — elided receiver, existing wrapper cell/value ownership transport
+
+Hypothesis: use actual as_mut_ptr elided &mutshape so generatedSAFEpre/post own
+wrappercellandvalue; the exact two-cast body and frame can verify withoutnewmodel.
+Unchanged325af428pins;certificate-disableddiagnosticusesoriginalopaquevalueown
+explicitlygiveninpreandretainedinpost,neverintroduced. SAFEhelper preserves
+*storage|->samevalue+own+token+completepointerequality+nounwind. Unsafe callers
+unknown/none/some preserveinnerstateandfractionalframe.5negativecallerposts/assert/
+leak reachtargetonlyafterhelperbodyreturn/leak; genericwrongstageINCONCLUSIVE.
+No methodredirect/fullMIRadmission/constructororhelperacceptanceclaimed.
+Success=>withinphaseexacttypedMIRgate/activepointermodelcomponent; failure=>precise
+harness/resourcecorrection,notstoponname.30minjob/300sproof,remaining5292s,oneactive.
+Runtime/stdsignatures/sourcepinsunchanged;compactcurrent+O4packagingonnextjob.

@@ -98,3 +98,25 @@ integration autonomously. Kernel/general alias/provenance necessity alone stops.
 Nearest hosted run packages compact current+O4 evidence with exact source-artifact
 manifest<=25MiB, preserving old full artifact. Separate packaging controls hosted.
 Budget5400new seconds,job<=1800/proof<=300,one active run; initialspend0.
+
+## S2 — match the actual elided mutable receiver protocol
+
+S1/37607108528/sourcef19f077/profile325af428: export/decode/refinement/integrity
+PASS, then SAFE prototype leaks returned full_borrow before body. This is a
+contract/adaptation mismatch, not semantic impossibility. gen_contract treats
+elided &'_ mut (when result carries no lifetime) as IN/OUT: pre/post wrapper
+points-to + value own. Explicit named 'a instead consumes reference ownership
+without returning that full_borrow in the generated post. Returning it explicitly
+therefore fails the prototype leak check. No template or resource check disabled.
+
+S2 keeps SAFE helper and original elided receiver shape. Pre/post explicitly
+transport *storage|->value plus ORIGINAL opaque MaybeUninit value own in unchanged
+profile/certificate-disabled diagnostic; no opaque chunk is created. Result equals
+full modeled storage pointer, token and no unwind. Unsafe callers preserve their
+fractional frame, with unknown/none/some inner premises and unchanged inner posts.
+Five diagnostics after checked helper: wrong result/false post, false assertion,
+duplicate frame post and omitted wrapper cell (leak). Each must reach its named
+predicate/location; wrong-stage failure remains INCONCLUSIVE. Complete MIR stored;
+no external method summary/full applicability/actual integration acceptance yet.
+Success advances to exact-type source/MIR admission and active-profile resource
+protocol integration, not whole-helper acceptance. Tool pins/semantics unchanged.
