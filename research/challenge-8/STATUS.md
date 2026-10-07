@@ -3,7 +3,8 @@
 Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
 new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
 New budget691/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. No active run. C7/37592046851/source2e2eaa7 completed122s:
+one relevant run. Active C8/37592506846/source53b64a780650f6bece661ad751429f628966a63a,
+dispatched08:15:00UTC; job time pending. C7/37592046851/source2e2eaa7 completed122s:
 all8 baselines PASS; constructor compile requires existing core transparent_unions
 cratefeature, verifier NOT RUN. C6/37591620888/source39181a3 completed119s:
 BUILD/false-assert/native controls pass; fractional-pointer annotation parse fails,

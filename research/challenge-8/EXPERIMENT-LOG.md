@@ -3435,3 +3435,7 @@ mode,8 stock/patched baselines, full pointer/Some/token/frame/no-unwind posts,
 all source/refinement/safety/leak gates; no acceptance/actual callee in this run.
 Opaque ownership/general model STOP, ordinary adapter/front-end/proof fixes only
 with concrete evidence. Manual same selection/30;691/5400s used, noactive.
+
+C8 dispatched37592506846/source53b64a780650f6bece661ad751429f628966a63a,
+created2026-10-07T08:15:00Z; exact remote matched, C7 completed/audited.
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37592506846.
