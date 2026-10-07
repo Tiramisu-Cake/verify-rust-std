@@ -6,12 +6,14 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Current: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md), IN PROGRESS.**
-New owner budget90 summed hosted job minutes. Pure SWO composition accepted in
+**Current: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md), CLOSED.**
+[Final report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md):816/5400jobseconds,
+8NEWruns, no active run. Pure SWO composition accepted in
 C1/C2; C3 accepts corrected valid-span control and full immutable-layout matrix.
-Current C4 tests [constructor feasibility](SORT4-MAYBEUNINIT-NEW-DESIGN.md) over
-stock with a separate translator-only experimental patch. It cannot accept the
-constructor before full MIR gate/negative controls, or prove the actual callee.
+[Constructor feasibility](SORT4-MAYBEUNINIT-NEW-DESIGN.md) C8 reaches opaque
+MaybeUninit_own in SAFE prototype check before body verification. Separate
+translator-only profile UNACCEPTED; full MIR/acceptance negatives/actual callee
+NOT RUN. Extension stopped before ownership support; next project needs owner decision.
 [STATUS](STATUS.md) is authoritative; [PLAN](PLAN.md) and
 [runbook](AGENT-RUNBOOK.md) define execution boundaries. No full Rust sort4 theorem.
 The [night](SORT4-NIGHT-PHASE.md) is CLOSED; its [report](SORT4-NIGHT-RESULTS.md)

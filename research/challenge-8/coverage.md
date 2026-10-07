@@ -47,7 +47,14 @@ No pointer/provenance/overflow/permission/initialization/reference/copy theorem.
 body integrity/export/decode/refinement0; first causal VF blocker is missing
 runtime MaybeUninit::new at adapter21. Full callee posts NOT PROVEN. Raw-scratch
 initialized-dst and operation-alignment coverage boundaries remain documented;
-no trusted constructor/primitive/ownership bridge has been introduced.
+no accepted runtime constructor/primitive/ownership bridge has been introduced.
+New [constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md) C8/37592506846,
+source53b64a7 builds a separate translator-only source-linked pointer profile;
+all8 stock/patched baselines and constructor source/export/decode/refinement/
+translation counts pass, then SAFE prototype check fails before body verification
+on opaque MaybeUninit_own. Constructor value/provenance/frame/no-unwind theorem
+NOT PROVEN; profile UNACCEPTED, full MIR gate/acceptance negatives/actual callee
+NOT RUN. Extension stopped before ownership bridge, no generic safety gain.
 
 The [sort4 phase](SORT4-PHASE.md) completed on 2026-10-06 under the
 [revised roadmap](PLAN.md). [Hosted closeout](SORT4-RESULTS.md) establishes

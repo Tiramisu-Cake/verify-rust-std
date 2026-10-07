@@ -1,7 +1,13 @@
 # Sort4 composition and runtime constructor phase
 
 Owner authorization 2026-10-07, entry checkpoint
-85d82998e148394e5dbbb0a4ed8c326780130b75. IN PROGRESS.
+85d82998e148394e5dbbb0a4ed8c326780130b75. CLOSED at the ownership boundary.
+[Closeout](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md):816/5400jobseconds,
+8NEWruns, no active run; remaining budget retired. C1/C2 composition and C3
+layout accepted; C8 safe-constructor prototype requires opaque MaybeUninit_own
+before body verification. New profile UNACCEPTED; actual callee NOT RUN.
+The authorization and sequence below record the completed phase, not permission
+for another dispatch or model extension.
 The autonomous night phase remains CLOSED; its budgets are not reopened.
 
 ## Scope and budget

@@ -787,6 +787,10 @@ def main() -> None:
         help="run the constructor positive as a partial diagnostic; never accept the profile",
     )
     args = parser.parse_args()
+    if not args.feasibility_only:
+        raise SystemExit(
+            "constructor acceptance disabled: full MIR dataflow gate is unimplemented; "
+            "only --feasibility-only diagnostics are supported")
     repo_root = Path(__file__).resolve().parents[2]
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=False)

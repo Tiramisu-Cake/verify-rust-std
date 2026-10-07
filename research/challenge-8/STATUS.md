@@ -1,21 +1,16 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
-new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
-New budget691/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. Active C8/37592506846/source53b64a780650f6bece661ad751429f628966a63a,
-dispatched08:15:00UTC; job time pending. C7/37592046851/source2e2eaa7 completed122s:
-all8 baselines PASS; constructor compile requires existing core transparent_unions
-cratefeature, verifier NOT RUN. C6/37591620888/source39181a3 completed119s:
-BUILD/false-assert/native controls pass; fractional-pointer annotation parse fails,
-constructor NOT RUN. C5/37591112968/sourcebc72f28 completed107s:
-BUILD PASS and4 C/C++ controls PASS, Rust baseline ghost-block syntax failed.
-C4/37590641832/sourceac6dfcf completed95s:
-OCaml record-type ambiguity blocks console build, constructor/checker NOT RUN.
-C1/C2 pure composition accepted; C3/37586921301
-immutable layout full matrix PASS179s. C4 constructor feasibility diagnostic ready:
-source-linked translator-only patchcbf7b7da fixes annotation formatting; not accepted. Full MIR
-dataflow gate/acceptance negatives/dependent actual callee are NOT RUN in C4.
+Updated 2026-10-07. **CLOSED: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**
+at its authorized ownership boundary. [Final report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md).
+Entry85d82998e148394e5dbbb0a4ed8c326780130b75; new budget816/5400 summed
+hosted job seconds=13m36s,8NEWruns. Remaining4584s retired. No active run.
+C1/C2 pure composition accepted; C3 immutable layout full matrix PASS.
+C8/37592506846/source53b64a780650f6bece661ad751429f628966a63a:
+all8baselines/source/export/decode/refinement/translation gates PASS, then VF1
+SAFE prototype check requires opaque MaybeUninit_own at10,75–102, BEFORE body.
+Constructor body/value/resources/unwind NOT PROVEN. Translator-only patchcbf7b7da
+UNACCEPTED; full MIR dataflow gate/constructor acceptance negatives and dependent
+actual callee NOT RUN. Non-feasibility harness mode now fails closed.
 Entry tree clean, research HEAD/remote match.
 The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
 [report](SORT4-NIGHT-RESULTS.md). All historical budgets remain closed.
@@ -59,15 +54,12 @@ scratch; reference/copy automatic alignment coverage unmeasured. Current callbac
 resources/effects and all five full panic posts remain open. Logical ZST IDs can
 share addresses; Copy/Freeze/purity restrictions were not added to general safety.
 
-Current permitted actions: stock pure composition/negative, bounded span-control
-repair/full unchanged-layout matrix, and separately designed minimal runtime
-MaybeUninit::new support for MaybeUninit<*const Element> over stock26.09.
-Constructor design/trust/gates must precede semantic edits; experimental profile
-is not automatically accepted. Stop extension before general union/alias/ownership/
-copy/FnMut/Drop support. No historical patch chain or general-model expansion.
-README/PLAN point to this phase. Runtime/general contract/pins/checks preserved.
-RAPx CLOSED/NO-GO; B/C NOT RUN. Constructor design reviewed before semantic edits: source-linked local body/active-value
-translation only, no opaque ownership bridge; implementation in separate profile.
-Next: enable existing core transparent_unions in adapter, hosted C8 feasibility;
-retain generated safety contracts and stop
-before a new ownership bridge. Even green C4 cannot accept this partial profile.
+No further implementation/dispatch under this closed phase. The design committed
+before semantic edits; safe source-local body and narrow representation/call
+translation exist only as an UNACCEPTED separate experimental profile. No own
+bridge, unsafe-constructor workaround, deleted safety template or old patch chain.
+Next owner decision: checked ownership interpretation for pointer MaybeUninit,
+then full MIR applicability/negative gate; [project](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md#minimal-next-project--not-implemented--not-authorized)
+is NOT IMPLEMENTED / NOT AUTHORIZED. Actual callee follows only accepted constructor.
+README/PLAN/current pointers reconciled; completed edits committed/pushed.
+Runtime/general contract/pins/checks preserved. RAPx CLOSED/NO-GO; B/C NOT RUN.

@@ -3439,3 +3439,35 @@ with concrete evidence. Manual same selection/30;691/5400s used, noactive.
 C8 dispatched37592506846/source53b64a780650f6bece661ad751429f628966a63a,
 created2026-10-07T08:15:00Z; exact remote matched, C7 completed/audited.
 URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37592506846.
+
+C8 result:37592506846/source53b64a780650f6bece661ad751429f628966a63a,
+job112697141612,08:15:05–08:17:10UTC,125s including setup/build/upload. Full
+logs/artifacts inspected. All8stock/patched baselines PASS, schema/exporter/refiner/
+C++ support/specs unchanged, patch appliedexactly onlytranslator. Positive
+constructor export/decode/refinement0, every-stage source integrity0; exactsource
+certificate accepted, inner1/aggregate1/redirect1 with MIR externalcall1.
+First sole VF1 error at verified/lib.rs10,75–102 in Function prototype
+implementation check: No matching heap chunks:
+std::mem::MaybeUninit_own(pointer_typeid(Element_typeid))(_t,result0).
+This is generated SAFE-template compatibility BEFORE checking the constructor
+runtime body (checked constructor/header0 and frameprobe0). Neither body value
+preservation nor resource/no-unwind theorem is proved. No false assertion passed.
+Opaque ownership interpretation/transport is needed; STOP extension per owner
+boundary. Do not makeconstructorunsafe, delete safety template, assumeown,
+registertrustedsummary or importhistoricalchain. Profile UNACCEPTED, fullMIRgate
+and constructor proof/applicability negatives NOT RUN, dependent actualcallee
+NOT RUN. Historical N6 actualcallee remains blocked at runtimeconstructor; no
+claim about a next intrinsic/Drop VC in realcallee. C8 reaches a narrower
+constructor requirement separately, not a verifiedcallee summary.
+Budget816/5400s=13m36s,8NEWruns, noactive. Remaining4584s retired at scope boundary.
+Post-result harness guard now rejects non-feasibility mode immediately because
+full MIR gate unimplemented; no new executable run or proof claim for this
+fail-closed orchestration guard. Finalpatch cbf7b7da unchanged from C8.
+
+Phase CLOSEOUT: SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md records all8runs/full
+SHAs/jobseconds, accepted composition/layout, exact newpatch/trust limitations,
+C8 causal ownership boundary and unimplemented future project. STATUS/PLAN/
+README/coverage/callee/design pointers reconciled. Root and independent read-only
+reviews confirm prototype check BEFORE body (no checkedbody header), no ordinary
+value lemma can introduce opaque own. No dependentcallee or unauthorized model
+extension. Final budget816/5400seconds, noactive; unused4584seconds retired.

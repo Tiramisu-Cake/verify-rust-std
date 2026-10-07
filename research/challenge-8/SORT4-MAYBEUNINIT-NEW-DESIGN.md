@@ -202,3 +202,22 @@ acceptance, add the focused full MIR shape/dataflow gate described above, run
 source-mutant and proof-negative controls at their intended stages, then
 check the unchanged callee. The C4 runner must mark feasibility-only mode and
 must not dispatch the dependent callee.
+
+## Closeout — C8 ownership boundary
+
+[Final report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md). Patch SHAcbf7b7da built;
+C8/37592506846/source53b64a7 passed source certificate/export/decode/refinement
+and one wrapper/aggregate/redirect diagnostics, then failed the SAFE function
+prototype check before runtime body verification at10,75–102 on opaque
+MaybeUninit_own(pointer_typeid(Element_typeid))(_t,result0). Body/value/resource/
+no-unwind proof NOT ACCEPTED. Stock/patched baselines pass, including intended
+false VC. Full MIR gate and constructor acceptance negatives remain NOT RUN;
+actual callee NOT RUN. Profile UNACCEPTED. Current checker rejects full acceptance
+mode before execution; only the partial diagnostic is implemented.
+
+This activates the designed STOP condition. A next phase would need an explicit
+checked ownership interpretation, not a postulated introduction lemma or
+unsafe/template-removal workaround. Adding opaque own to the explicit contract
+would strengthen the post but would not establish it from the body. The report
+records the minimal future project; no bridge/model change is implemented or
+newly authorized. Phase CLOSED at816/5400summed jobseconds, no active run.

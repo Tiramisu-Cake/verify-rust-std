@@ -1,19 +1,20 @@
 # Challenge 8: approved roadmap
 
-Current owner authorization: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md),
-new5400-job-second budget from checkpoint85d8299. Finish stock pure SWO composition,
-repair span controls on immutable d4a12525 layout profile, and design BEFORE
-implementation the narrowly allowed runtime MaybeUninit::new pointer capability
-in a separate experimental stock-based profile. No general union/alias/ownership/
-copy/FnMut/Drop extension. Actual callee diagnostic follows constructor acceptance.
+Current [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)
+is CLOSED at ownership boundary; [report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md).
+Budget816/5400jobseconds,8NEWruns,noactive. Stock composition and repaired span/full
+immutable-layout matrix accepted. Separate constructor profile UNACCEPTED;
+no general union/alias/ownership/copy/FnMut/Drop extension. No further dispatch
+under this phase. A future actual callee diagnostic requires constructor acceptance.
 [STATUS](STATUS.md) is the current execution checkpoint.
 
 C1/C2 accept pure composition; C3 accepts the repaired span/full-layout matrix.
-C4 is a deliberately partial safe-constructor feasibility diagnostic under
+C4–C8 are deliberately partial safe-constructor feasibility diagnostics under
 [the new design](SORT4-MAYBEUNINIT-NEW-DESIGN.md). Its experimental profile remains
 UNACCEPTED until the complete MIR applicability and intended negative gates pass.
-An opaque ownership requirement stops this expansion; actual callee follows only
-accepted constructor support.
+C8 demonstrates opaque MaybeUninit_own required by SAFE prototype before body.
+This stops expansion. Next checked ownership project is NOT IMPLEMENTED /
+NOT AUTHORIZED; actual callee NOT RUN in this phase.
 
 Historical [night](SORT4-NIGHT-PHASE.md) CLOSED at12/12 NEW,2697jobseconds;
 [report](SORT4-NIGHT-RESULTS.md). Stock index/rank/finite-SWO bridge/range components

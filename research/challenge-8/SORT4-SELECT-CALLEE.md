@@ -1,5 +1,12 @@
 # `select_unpredictable` actual-callee diagnostic
 
+**Current follow-up:** [constructor phase closeout](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md),
+C8/37592506846/source53b64a7 reaches a separate source-linked SAFE constructor
+adapter's prototype check, where opaque MaybeUninit_own blocks BEFORE body
+verification. Constructor profile UNACCEPTED; full MIR/acceptance negatives and
+dependent actual-callee rerun NOT RUN. No next intrinsic/Drop obligation in the
+actual callee is established. The N6 stock evidence below remains unchanged.
+
 **Result: inconclusive at the first call in the real helper body.** Hosted run
 [37549040942](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37549040942),
 repository source `aed1d970acb656cd29149241bf6720198895adac`, used stock
