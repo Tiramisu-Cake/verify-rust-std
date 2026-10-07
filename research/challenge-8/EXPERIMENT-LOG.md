@@ -3869,3 +3869,13 @@ raw_ptr_own<Element>(t,result), opensDEFINEDwrapper-own first, withSomepre retai
 rawpointerown; noresource deleted/leakhidden. Ghoststrip byte-equality asserted
 beforeexport. Separateassumeenv bypassescertctorrequirement withoutweakeningits
 certificate; currentinactiveexport expectedunionfrontendinconclusive, notreadresult.
+
+S5e result37618952909/bd4a63d/1c9637f:90s,total1589/5400. BUILD FAIL generated
+ScalarInt.size_get int cannotpassUint8.to_int8842. Allnewproof/MIRstages NOTRUN.
+Compact11480883970/full11480619259; safety/O4packaging PASS.
+S5f BEFORE dispatch: v2sameS5e domain/hypotheses/fullposts/matrix/actualgraph,
+new9181630fb00a2a1d6a1fe85ec7e74919cb49be61df78a4edd409afd59e08a445
+removesonlyredundantUInt8APIconversion, retains size==1 exactcheck. No semantic
+change. Entire6+10+40matrix/60+10+4classifs/ctor/asptr/baselines +diagnosticcanonical
+exports +actualintrinsic-on same-runacceptedcomponent required. Source/refinement/
+SAFE/body/leak/nounwind gates unchanged. Selection30min/proof300s,1589/5400before.

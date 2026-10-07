@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**1499/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**1589/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
 body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
@@ -32,7 +32,11 @@ capture; intrinsic matrix NOT RUN. S5e fixes fixture metadata and explicitly
 closes existing empty raw-pointer ownership, adds canonical assume_init body
 export, then runs complete intrinsic matrix under v2/full actual graph patch
 1c9637f. Intrinsic-on actual runs only after same-run component acceptance.
-Assume-init storage question is a separate diagnostic, not a declared stop.
+S5e/37618952909/sourcebd4a63d: build rejects Uint8 conversion because generated
+ScalarInt.size_get is already int. No component or MIR/proof run. S5f removes
+only that conversion, same criterion/new patch9181630f; full matrix and actual
+intrinsic-on integration still required. Assume-init storage question is a
+separate diagnostic, not a declared stop.
 
 [Compact S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
 [full S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018),

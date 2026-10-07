@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1499/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget1589/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -144,3 +144,12 @@ S5e new v2/1c9637f certifies full actual graph; fixes diagnostic fixture and
 closes stock raw_ptr_own without Element resources. Canonical assume_init export
 remains diagnostic with narrow field-address translation inactive. Full intrinsic
 matrix and same-profile regressions required before intrinsic-on actual proof.
+
+S5e/37618952909/source `bd4a63dde50f410d0ef670cc494bb9795811f42c`,
+v2/1c9637f:90s12:09:01–12:10:31UTC,total1589/5400, noactive.
+BUILD FAIL: generated ScalarInt.size_get is OCaml int, Uint8.to_int expectsuint8.
+No component/diagnostic export or proof ran. Packaging safety/current+O4 PASS.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37618952909),
+[compact11480883970](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37618952909/artifacts/11480883970),
+[full11480619259](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37618952909/artifacts/11480619259).
+S5f removes conversion only, patch9181630f, exactsame v2 acceptance criteria.
