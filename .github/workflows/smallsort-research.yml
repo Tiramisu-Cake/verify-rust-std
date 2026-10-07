@@ -75,7 +75,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: github.ref != 'refs/heads/research/stock-26.10-baseline' && inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'forget_evidence_replay'
+    if: github.ref != 'refs/heads/research/stock-26.10-baseline' && github.ref != 'refs/heads/research/overnight-select-sort4-26.10' && inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'forget_evidence_replay'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -406,5 +406,28 @@ jobs:
         with:
           name: stock-2610-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/stock-2610/
+          if-no-files-found: error
+          retention-days: 90
+
+
+  overnight-2610:
+    if: github.ref == 'refs/heads/research/overnight-select-sort4-26.10' && inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_cfg_accept'
+    name: OVERNIGHT-SELECT-SORT4-26.10 CFG causality
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Record hosted job start
+        run: echo "OVERNIGHT_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check stock and exact CFG candidate
+        run: bash research/challenge-8/overnight/run-cfg.sh
+      - name: Preserve full causal evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: overnight-cfg-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/overnight-cfg/
           if-no-files-found: error
           retention-days: 90
