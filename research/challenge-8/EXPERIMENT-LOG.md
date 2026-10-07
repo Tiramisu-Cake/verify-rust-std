@@ -4777,3 +4777,8 @@ O2 SETUP_BUILD_FAILURE run37699058032/b8cc3cfa,89s; S6 fixtures NOT_RUN;
 old Body.predicates/D.decode_predicate API needs exact clause migration. Full logs
 and artifact11516448008 retained outside Git. [O2b BEFORE](OVERNIGHT-SELECT-SORT4-26.10.md).
 New account193/21600, no active run; CFG acceptance unchanged.
+
+O2b DIAGNOSTIC_ONLY run37699461058/1d57dee9,133s: strict Clause port builds,
+five complete new MIR export/refinement pairs; four fullVF0 positives, asptr
+fails exact parameter-local count. [Full result/O3 BEFORE](OVERNIGHT-SELECT-SORT4-26.10.md).
+No S6 acceptance/actual helper gain yet. New budget326/21600; no active run.

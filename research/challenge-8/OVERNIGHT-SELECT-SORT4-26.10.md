@@ -146,3 +146,41 @@ Add stock-console source/MIR captures before rebuild so build failure cannot pre
 inspection of new actual graphs. Optional independent framed forget and actual new
 assume_init/transmute_neo captures follow on same rebuilt profile, each with own BEFORE
 card and experimental status. No blanket transmute model/actual summary yet.
+
+## O2b result — S6 new MIR captured / four positive full units
+
+[Run37699461058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37699461058),
+proof1d57dee9b684fcd80c67dde1422c3c70006d637c; job113059163029
+22:58:11–23:00:24UTC=133s. Candidate38f8797a + separate CFG593d0940 builds.
+Effective console2d5965ef, spec3c035910; exporterb00c75f4/refinerb049c8d1/
+schemaf48fcf29 remain stock. Four complete positive fullVF0: constructor,
+raw-pointer intrinsic, wrapper intrinsic, pointer drop. asptr fullVF2 rejects
+exact `parameter local count`, not intended proof negative. All5NORMAL/readonly
+exports/decodes/refinement pass, source integrity retained. Same5MIR also captured
+under stock console before rebuild (proof failures there reflect absent S6 models).
+No S6 ACCEPTED claim before negative/source/MIR/pin matrices and regressions.
+New budget326/21600,21274remaining; no active run.
+
+## O3 BEFORE — exact asptr gate, S6 matrix, independent helper/callback boundaries
+
+Observed asptr new full graph will drive a reviewed exact typed certificate change,
+not a relaxed shape check. Preserve receiver mutability/type, casts, destination,
+full statements/blocks and normal/unwind; mutate each intended admitted boundary.
+Run full constructor/asptr/intrinsic/drop matrices with same-domain contracts from
+O2; controls must reject at intended source/MIR admission or proof obligation.
+Separate profile baselines precede extra helpers. No closure/SWO/sort4 claim.
+
+Independent G1/A1/actual helper and one-call generic FnMut captures can use this
+experimental stack while matrices are in progress. Their semantics/trust/controls
+are in [helper BEFORE](overnight-helper/BEFORE.md) and
+[callback BEFORE](overnight-callback/BEFORE.md), prepared before implementations.
+G1 checks exact generic unsafe forget with pointer-slot and independent frames,
+full preserved resources/no-unwind and intended post/leak/thread/cell negatives.
+A1 captures actual new assume_init and local transmute_neo with initialization/
+complete-pointer result target; no primitive rule yet, missing operation is
+INCONCLUSIVE. Actual helper capture retains all runtime operations/guard/Drop and
+full selected-pointer/no-unwind target; no redirect or whole-helper acceptance.
+FnMut safety posts return current T/F state on normal AND unwind, permit legal
+interior mutation/panic, no purity/Freeze/Copy/SWO restriction. False post counts
+only at actual post; tuple/HRTB/lifetime setup failures are diagnostic boundaries.
+One hosted job hard20min/inner18min, available21274s including artifacts.

@@ -11,9 +11,9 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **193/21600 summed GitHub-hosted job seconds**, 21407 remain.
+New independent account **326/21600 summed GitHub-hosted job seconds**, 21274 remain.
 Historical stock account99/1800 and S7 account5306/5400 are preserved separately;
-old residual budgets do not limit this phase. No active workflow after O2 setup failure.
+old residual budgets do not limit this phase. No active workflow after O2b.
 
 Current obligation: source-reviewed S6 transfer/capture.
 **Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,
@@ -22,11 +22,13 @@ All5positives/4false-post negatives/2dead-code controls pass their full gates;
 source pairs and complete MIR identical; ordinary/shared unwind execute+leak.
 Patch593d0940 only successor inventory; stock specs/exporter/refiner unchanged.
 No trace; stock MD correspondence remains TRUSTED. SAFE forget/actual linkage unproved.
-O2 run37699058032/proofb8cc3cfa failed before fixture execution: build uses removed
-D.decode_predicate/Body.predicates API. Porting exact shape checks to26.10 clauses
-is next. No S6 proof outcome from this setup failure. Diagnostic5S6families,
-reviewed constructor/asptr/intrinsic/newdrop certificates;
-experimental cumulative candidate, old typed graphs fail closed until new MIR review.
+O2 setup failure (old predicates API) repaired with strict26.10 Clause API.
+O2b [run37699461058](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37699461058),
+proof1d57dee9, patch38f8797a:5families fully export/decode/refine; constructor,
+both intrinsic forms and pointer drop fullVF0. asptr rejects parameter-local count.
+These are DIAGNOSTIC_ONLY positives, not accepted component matrices. Full new
+MIR captured; next exact asptr graph review/fullS6 controls. Independently prepared
+framed-forget/A1/actual-helper/callback captures remain NOT_RUN until next hosted job.
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new
 pointer drop → nominal guard/SAFE forget/actual linkage/assume_init → actual helper
