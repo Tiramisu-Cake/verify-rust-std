@@ -260,3 +260,55 @@ existing elided IN/OUT contract, preserve the exact proof obligation instead of
 assuming its resource effect. Canonical S5a standalone intrinsic MIR is also now
 available; replace the disproved4locals/no-statements guess with its full observed
 7locals/ordered copy temporaries and normal/unreachable CFG, never count-only.
+
+## S6 prospective pointer drop-glue and checked method (before implementation)
+
+Exact target: `std::ptr::mut_ptr::<impl *mut T>::drop_in_place`,
+`T = *const Element`, receiver `*mut *const Element`, result unit. The local
+source-linked unsafe adapter instantiates the method at `mut_ptr.rs:1514–1519`:
+`unsafe { drop_in_place(self) }`, with only receiver rename and explicit standard
+callee binding. Pin the entire method source file and body, not just its name.
+The free `ptr::drop_in_place` at `ptr/mod.rs:813–825` is compiler lang drop glue;
+its recursive placeholder is explicitly not a runtime-body proof target.
+
+Stock free drop contract permits unwind and returns an unspecified cell value.
+These posts cannot establish exact preservation or no unwind. The prospective
+NEW trusted compiler rule therefore applies ONLY to free drop glue for raw
+pointer payload `*const Element`: a raw pointer has no destructor, so its drop
+is a no-op, preserves the complete modeled pointer stored in the cell, and
+cannot unwind. It gives no permissions for `Element`. This is a compiler rule,
+not a proved Rust-body theorem. The method adapter itself must be checked.
+
+Do not lower this call to an unchecked empty statement. Insert an ordinary
+CHECKED ghost identity lemma requiring `thread_token(t)`, `t == currentThread`
+and initialized `*slot |-> value`, and returning the SAME resources/value.
+No permission is minted: this precondition is consumed at the call, and the
+lemma body merely preserves it. Pointer-value ownership is already defined
+empty and can be introduced/closed with its existing definition. Optional
+uninitialized/unknown cell contents must fail the initialized-cell precondition;
+a wrapper value alone is insufficient. Local storage validity/alignment follows
+from the existing typed points-to resource, never from the pointee `Element`.
+Kernel/prelude/general memory/aliasing/provenance remain unchanged.
+
+Applicability must certify pinned method/lang-item sources, exact unsafe item,
+sole Element parameter and unrestricted Sized predicate, input/output, local
+identities/types, parameter-to-call Move flow, free lang-item FnDef exact
+substitution, destination unit, complete normal/unwind graph and absence of
+additional operations. Only after this certificate redirect the exact external
+method to its checked body. Actual helper must retain its original method call
+and cleanup edge; a proved nounwind contract makes that edge infeasible, rather
+than deleting it. The generic local guard Drop call with T remains outside this
+rule until a separately source-linked pointer instantiation is certified.
+
+Required matrix: initialized arbitrary pointer cell and independent fractional
+frame, full value/cell/thread/no-unwind body post; wrong preserved value, false
+post/assert false, lost cell leak and duplicated independent frame; insufficient
+initialization (none and unknown optional contents) at the call precondition.
+Source/MIR operand, output, type, nominal binding, CFG/unwind and extra-operation
+mutations must fail admission before proof. Classifier mutations require actual
+body/target obligation/location/full certificate/source/refinement. Changed
+profile reruns accepted constructor/as_mut_ptr/intrinsic components plus
+stock/experimental Rust/C/C++ baseline gates; no SWO/layout dependency. Unknown
+forms reject, no general pointer Drop or union theorem. Integration first proves
+wrapper-to-cell projection using stock open/close and existing reborrow tokens;
+if that fails it is a separate obligation, not permission to remove the drop pre.
