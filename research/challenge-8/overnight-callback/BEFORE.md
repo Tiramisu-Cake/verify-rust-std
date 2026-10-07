@@ -1,0 +1,32 @@
+# BEFORE — generic FnMut callback diagnostic on stock VeriFast 26.10
+
+Status: fixture/runner preparation only. It is a one-call capability diagnostic, not a `sort4_stable` proof and not a callback summary. Run it only inside the already authorized OVERNIGHT-SELECT-SORT4-26.10 hosted workflow after O2/O3 provide the exact accepted base profile. No dispatch or source-built verifier patch is authorized by this fixture.
+
+## Actual obligation and hypothesis
+
+The actual first comparator operation in `sort4_stable` is a shared-reference pair call: `is_less(&*v_base.add(1), &*v_base)`. This fixture isolates that operation as `is_less(&*left, &*right)` with arbitrary generic `T` and `F: FnMut(&T, &T) -> bool`. It excludes `select_unpredictable`, pointer selection, output scratch, copies, and guards so an unsupported helper cannot hide the first callback obligation.
+
+Hypothesis: the pinned nightly/compiler and stock VeriFast 26.10 exporter can export/decode the single generic call in NORMAL and readonly modes and refine the verified unit to its ghost-stripped original. Full VeriFast may then expose tuple argument ownership, the higher-ranked `FnOnce::Output = bool` projection, or direct-unwind borrow recovery as the first actual proof boundary. Capture every support stage independently, even when the verifier rejects callback translation.
+
+## Domain and full target posts
+
+The diagnostic precondition supplies two initialized, valid, fully owned `T` slots and a fully owned mutable `F`, with their separating resources represented explicitly by `*&`. `T` and `F` remain generic and sized. There are no `Copy`, `Freeze`, purity, non-panicking, or ordering assumptions. The callback may update its own state and any legal interior-mutable state reachable from the shared references. Its changes are preserved as the current post-state; the proof never restores the input snapshots.
+
+Full normal post: thread and type interpretations remain; both slots return with their current valid values and full `T.own`; `*is_less` and `F.own` return with the callback's current state. The Boolean result is unconstrained. Full direct-unwind post is the same current source/callback/thread resource state, with no result. It does not promise rollback. The function has no sort writes, so the callback is the only possible source of permitted effects. Any unrelated caller resources remain covered by the ordinary separation frame rule; the fixture has no separate frame parameter. The two-slot fixture is a separated-resource diagnostic domain; it does not establish ZST address/resource behavior or the four-slot source/destination contract.
+
+The fixture starts a genuine shared-borrow lifetime, creates the references from the valid raw slots, and calls `recover_pair` after the natural Rust block on the normal path. This helper is an ordinary checked ghost recovery procedure already used in the repository's borrow-recovery probe; it is not an axiom or a callback summary. On direct `Continue` unwind, the call's unwinding return bypasses the trailing normal recovery. The function nevertheless retains the full unwind post above. This deliberately tests the real full-resource obligation and leaves a lifetime-scope/kernel repair outside the probe. A concrete comparator that mutates permitted interior state and then panics is a later fixture, after this source-exact generic-call boundary is recorded.
+
+## Stock profile and trust boundary
+
+VeriFast source pin: `f76012fb518703b1d98e243ac4f487f16877cfcb`; compiler: nightly-2026-09-25. Use the common O2/O3 profile for exporter, decoder, refiner, kernel, memory model, and translator; the active `FnMut` clause itself must match the pinned stock clause byte-for-byte. No source, spec, kernel, translator, or refiner patch is included here.
+
+The stock `FnMut::call_mut` spec is trusted for the callback interface: it consumes `<Args>.own`, returns current `F.own` and result ownership normally, and returns current `F.own` on unwind. This diagnostic checks whether the actual generic source call can supply that interface and close its borrowed resources. No fresh assumption is made that a tuple owns its fields, that an HRTB projection is Boolean, or that normal ghost recovery runs on unwind. Source/compiler/MIR correspondence remains an explicit trusted boundary, checked by fresh hashes and captured normal/readonly MIR; the refinement checker must pass before proof-stage evidence is interpreted.
+
+## Cases, stages, and interpretation
+
+- `callback_positive`: same full normal/unwind posts above. A proof PASS, if reached, applies only to this single call and this two-slot domain.
+- `callback_false_post`: identical runtime body and precondition, but its normal post additionally asserts `false`. Count it as the intended negative only if export/decode/refinement pass, the named body executes, and the sole causal proof error is `Cannot prove false` at that post. Any earlier call, type, resource, frontend, or leak error makes it inconclusive.
+
+The GitHub-hosted-only CLI is [`probe.py`](probe.py). A source-pair preparation check is `python3 research/challenge-8/overnight-callback/probe.py --repo-root "$GITHUB_WORKSPACE" --source-checkout "$VERIFAST_SOURCE" --tool-home "$VERIFAST_HOME" --schema "$VERIFAST_SOURCE/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$COMPILER_SYSROOT" --evidence "$RUNNER_TEMP/callback-preflight" --deadline-epoch "$CALLBACK_DEADLINE" --prepare-only`. The full run uses the same arguments without `--prepare-only`; it generates each case in its own disposable directory and captures the evidence listed below. NORMAL/readonly export and decode run independently before full verification; refinement runs even after a verifier error. A support-stage failure is a fixture/profile issue, not an intended negative. Preserve and inspect the first actual verifier error; do not reinterpret it as success.
+
+If reference setup fails before `FnMut::call_mut`, fix only fixture construction within this same narrow scope and use a new exact-SHA hosted run. If the first error is the stock tuple `Args.own` or unresolved HRTB result, record the decoded MIR and stop this diagnostic; tuple/HRTB changes require a separate semantic card and regression gate. If the normal call succeeds but direct-unwind full-resource recovery fails, retain the failure and design a sound checked recovery route before any implementation. Do not add ghost assumptions, change callback posts, disable unwind/leak/dead-code/refinement, or repair lifetime scope/kernel here.
