@@ -1,15 +1,37 @@
 # `select_unpredictable` actual-callee diagnostic
 
-## Current result — S6 pointer drop in progress
+## Current result — S6v1 accepted, actual initialized-cell obligation
 
-Latest accepted baseline is S5k/source128dd56, intrinsic-v2/7bb39a84:
-constructor, SAFE as_mut_ptr and two typed intrinsic rules accepted. Actual helper
-source/export/decode/refinement/full31-local14-block certificate passes; proof
-first stops at drop_in_place57. All original runtime calls and cleanup edges remain.
-[Actual baseline run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37624082376).
-Whole helper and sort4 NOT PROVEN. The owner now authorizes ONLY S6 pointer drop:
-checked method + explicit trusted compiler glue correspondence, initialized pointer
-cell precondition mandatory. Budget2398/5400 used,3002 remain; no active run at entry.
+[S6 completion37642650884](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884),
+source `4d0e3070ca93e01b7a5ccfad18ea83900bc7536b`, accepts the complete narrow
+pointer-drop component at drop-v1/cd660fe9:2positive+11proofnegative+22admission
+controls, with same-profile original proof/regression provenance retained.
+Constructor, SAFE as_mut_ptr and both typed select intrinsics retain complete
+new-profile matrices; fourteen stock/experimental baselines passed.
+
+Actual baseline source/export/decode/refinement/full method +31local/14block
+actual certificates and redirects PASS. Actual body reaches the retained runtime
+method at `verified/lib.rs(57,14-29)`, then fails its precondition:
+`verified/lib.rs(110,55-58): No matching heap chunks: points_to<*Element>(__result2, _)`.
+Required resource is the initialized pointer CELL, not Element pointee rights.
+The existing wrappers/some states and reborrow tokens have not yet been projected.
+All runtime calls/cleanup edges and full target contract remain.
+
+The exact five-ghost stock projection variant exports/decodes/refines but stops
+BEFORE proof at certificate `actual projection ghost source span`. This is an
+admission setup error, not evidence that stock projection/resources fail. Raw MIR
+regular ghost span ends at last character; explicit parser coordinates end
+half-open. The narrow S6v2 correction checks BOTH representations exactly and
+requires fresh complete component/regression proofs plus two separate coordinate
+mutations before actual projection. [Preimplementation rationale](SORT4-SELECT-POINTER-DESIGN.md).
+No memory/ownership bridge/guard/forget/assume_init/refiner/kernel extension.
+
+Drop preserves existing initialized cell's full pointer value, thread token and
+independent frames, no new Element rights. Compiler raw-pointer glue correspondence
+is separately TRUSTED; ghost identity proof does not establish it, recursive free
+source is not a runtime-body theorem. Whole helper and sort4 NOT PROVEN.
+Budget **2995/5400 used,2405 remain**, no reset; no active run at v2 preparation.
+Earlier Git/dispatch500 recovered; published identical Git objects force=false.
 
 Correction from original S5j logs: assume_init refinement did NOT pass.
 Readonly export/decode0; refiner1 `RawPtr: not yet supported` at bb1command4,
@@ -132,7 +154,7 @@ and `DropOnPanic` proof obligations.
 The diagnostic extracted adapters only in disposable hosted checkouts; repository
 std runtime was unchanged. No local executable checks were run. No verifier rerun or patch is proposed in this note.
 
-## Current pointer-select phase integration (2026-10-07)
+## Historical S5k pointer-select integration (2026-10-07)
 
 Historical constructor/as_mut_ptr blockers above remain historical evidence.
 Current source-linked T=*const Element actual helper: S5k run37624082376,

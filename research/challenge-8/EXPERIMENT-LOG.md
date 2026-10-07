@@ -4165,3 +4165,20 @@ projectedactual. No oldprofile proof reuse; no memory/refiner/runtime/body/glue
 semantic expansion, no04d. Normal/unwind/domain/post/pre/outcome map in design.
 Budget2995/5400,2405remain;<=1800/job,<=300/proof,onehostedonly. If projected/drop
 pre fails STOP precise resource; ifdrop passes STOP nextactual blocker.
+
+S6v2 BEFORE dispatch implementation pin:
+experimental-source-linked-select-pointer-drop-v2, cumulative patch SHA256
+8e62e6c3044fda7533637d242fb5e8a575eac0d7600213e8e3ba00a182dc0d7c.
+Independent static review confirms ONLY8ghost-coordinate certificate lines plus
+patch offsets differ fromcd660fe9. Stdlib ghost/glue lemma/method semantics/body/
+contract untouched; exporter/schema/refiner/kernel/prelude fixed. Fullfresh ctor,
+asptr,intrinsic,S6 independent2+11+22 matrices and14baselines beforeactual;
+no oldprofile proof reuse. NEW2actual MIRmutants regularhi92→93 and explicitend94→93
+require distinct exact source-span/explicit-coordinate fatalities beforeproof with
+source/stage/refinement/mutation integrity; both collected independently. Canonical
+projectedactual only afterbothcontrols AND baseline fullcert/intrinsic/drop redirect
+infrastructure (baseline initializedcell proofnegative permitted). User's exact
+actual normal/unwind target preserved, stop at stockprojection/drop pre or nextblocker.
+Localchecks diff-check/bash-n only; hosted Python syntax preflight precedes build.
+Budget2995/5400used,2405remain;selectionverifast_maybeuninit_new_pointer,budget30,
+<=1800/job,<=300/proof,one hosted run only. No04d/broadersemantic extension.

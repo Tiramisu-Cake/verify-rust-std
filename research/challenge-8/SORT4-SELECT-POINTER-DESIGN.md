@@ -463,3 +463,11 @@ reborrow resources. If projection/drop pre cannot be established, record exact
 obligation/resources and STOP. If drop passes, record next blocker and STOP.
 Any non-admission semantic extension requires a separate owner decision.
 Budget2995/5400used,2405remain; <=1800/job,<=300/proof,hosted-only,one active run.
+
+S6v2 implementation pin before dispatch: cumulative patch SHA256
+8e62e6c3044fda7533637d242fb5e8a575eac0d7600213e8e3ba00a182dc0d7c.
+Independent static review sees only8narrow ghostcoordinate-certificate lines and
+patch offset metadata relative tocd660fe9; std spec/body/glue unchanged. Two new
+MIRmutants distinct predicates, fullnewmatrices beforeactual. Projected proof
+requires bothcontrols plus baseline source/MIR/intrinsic/drop infrastructure;
+expected baseline initializedcell proof failure is allowed, setup failure is not.

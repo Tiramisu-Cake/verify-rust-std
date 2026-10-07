@@ -6,7 +6,22 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Current pointer-select phase: S4b source-linked SAFE as_mut_ptr accepted;
+Current pointer-select checkpoint: S6v1 COMPONENT_ACCEPTED37642650884/source4d0e307,
+complete2positive+11proofnegative+22admission controls, same-byte-profile replay and
+3NEW repaired controls. Original proof/regression provenance retained; fullctor/
+asptr/intrinsic/14baseline gates passed again in originaldrop-v1 proofrun37637630477.
+Compiler raw-pointer glue TRUSTED separately from checkedmethod/identity lemma.
+Actual methodcall57 reaches req110 missing points_to<*Element>(__result2,_);
+thread/currentThread passed. Existingwrappercell/some/receiver equalities and
+reborrow resource transport are from preceding checked contracts/stock semantics,
+not a printed fullheapdump. Empty pointerown cannot mint initializedcell rights.
+Projected variant source/export/decode/refinementPASS but ghostsource-span admission
+rejects beforeproof; no projection resource verdict. S6v2 exactcoordinate correction
+pre-reviewed, fullnewmatrix/regressions+2coordinate controls required before actual.
+Budget2995/5400,2405remain,no reset; noactive atpreparation. No broadmemory/refiner/
+union/kernel/guard/forget/assume/generalDrop expansion. Wholehelper/sort4 NOT PROVEN.
+
+Historical accepted pointer-select baseline: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile
 experimental-source-linked-select-pointer-intrinsics-v2/7bb39a84 accepts two
 exact intrinsic specializations (*mut *const Element and MaybeUninit<*const Element>).

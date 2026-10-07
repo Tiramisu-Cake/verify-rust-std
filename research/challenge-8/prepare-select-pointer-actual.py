@@ -401,6 +401,7 @@ def main() -> None:
                     "experimental-source-linked-select-pointer-intrinsics-v1",
                     "experimental-source-linked-select-pointer-intrinsics-v2",
                     "experimental-source-linked-select-pointer-drop-v1",
+                    "experimental-source-linked-select-pointer-drop-v2",
                 },
             "intrinsic_component_prerequisites":
                 isinstance(intrinsic_summary.get("prerequisites"), dict) and
@@ -510,14 +511,34 @@ def main() -> None:
     if drop is not None:
         os.environ["SORT4_POINTER_DROP_REPO_ROOT"] = str(repo_root)
     diagnoses = []
+    ghost_controls = None
     try:
-        for current_case, current_fixture in cases:
-            runner_result = constructor.run_case(
-                current_case, args.schema, args.tool_home, args.compiler_sysroot,
-                repo_root, current_case.name, "diagnostic", certificate_mode=True)
-            diagnoses.append(classify(current_case, runner_result, current_fixture,
-                                      constructor, pointer, intrinsic, drop,
-                                      accepted_drop_matrix))
+        baseline, baseline_fixture = cases[0]
+        baseline_runner = constructor.run_case(
+            baseline, args.schema, args.tool_home, args.compiler_sysroot,
+            repo_root, baseline.name, "diagnostic", certificate_mode=True)
+        diagnoses.append(classify(baseline, baseline_runner, baseline_fixture,
+                                  constructor, pointer, intrinsic, drop,
+                                  accepted_drop_matrix))
+        baseline_reached = (diagnoses[0]["both_checked_callees_reached"] and
+            (intrinsic is None or diagnoses[0]["all_three_intrinsic_calls_modeled"]) and
+            (drop is None or
+             diagnoses[0]["checked_drop_method_and_actual_redirect_reached"]))
+        if drop is not None:
+            ghost_module = load_script(
+                repo_root / "research/challenge-8/check-pointer-drop-actual-ghosts.py",
+                "sort4_actual_ghost_admission_controls")
+            ghost_controls = ghost_module.run_controls(
+                cases[1][0], args, repo_root, constructor,
+                evidence / "actual-ghost-admissions")
+        if len(cases) > 1 and baseline_reached and ghost_controls["accepted_controls"]:
+            projected, projected_fixture = cases[1]
+            projected_runner = constructor.run_case(
+                projected, args.schema, args.tool_home, args.compiler_sysroot,
+                repo_root, projected.name, "diagnostic", certificate_mode=True)
+            diagnoses.append(classify(projected, projected_runner,
+                                      projected_fixture, constructor, pointer,
+                                      intrinsic, drop, accepted_drop_matrix))
     finally:
         if previous is None:
             os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
@@ -537,6 +558,10 @@ def main() -> None:
         "intrinsic_mode": intrinsic is not None,
         "drop_mode": drop is not None,
         "actual_unit_run": True,
+        "baseline_component_calls_reached": baseline_reached,
+        "ghost_coordinate_admission_controls": ghost_controls,
+        "projected_case_run": len(diagnoses) == len(cases),
+        "cases_not_run": [str(p) for p, _ in cases[len(diagnoses):]],
         "diagnosis": diagnosis,
         "diagnoses": [{"case": str(p), "diagnosis": d}
                       for (p, _), d in zip(cases, diagnoses)],
@@ -551,9 +576,13 @@ def main() -> None:
         "checked_drop_method_and_actual_redirect_reached":
             diagnosis["checked_drop_method_and_actual_redirect_reached"],
         "first_causal_obligation": diagnosis["first_causal_obligation"],
+        "ghost_coordinate_admission_controls_accepted":
+            ghost_controls["accepted_controls"] if ghost_controls is not None else None,
         "evidence": str(evidence),
     }))
-    if any(not d["both_checked_callees_reached"] or
+    if (drop is not None and (ghost_controls is None or
+            not ghost_controls["accepted_controls"] or len(diagnoses) != len(cases))) or \
+       any(not d["both_checked_callees_reached"] or
            (intrinsic is not None and not d["all_three_intrinsic_calls_modeled"]) or
            (drop is not None and not d["checked_drop_method_and_actual_redirect_reached"])
            for d in diagnoses):

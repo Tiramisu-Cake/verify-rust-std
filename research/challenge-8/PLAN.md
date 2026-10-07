@@ -1,17 +1,19 @@
 # Challenge 8: approved roadmap
 
-New current [pointer select completion phase](SORT4-SELECT-POINTER-PHASE.md) is
-IN PROGRESS, authorized2026-10-07 atcd44e1bb;new5400jobseconds,oldbudgetretired.
-Accepted as_mut_ptr and typed intrinsic components; S5k same frozen7bb/v2 profile
-reaches actual helper drop_in_place after full source/MIR/refinement gate.
-Latest user priority2026-10-07: resume ONLY S6 pointer drop from bea6248,
-checked method + explicit narrow trusted compiler glue with initialized-cell
-pre/full-value-thread-frame preservation/nounwind. Full independent matrix and
-accepted-component regressions in drop-v1 precede actual integration; stop at
-unprovable drop precondition or next actual blocker. 04d67f4b/assume/guard/forget/
-general Drop/union/refiner/kernel/memory remain frozen. Budget2398/5400 used,
-3002 remain, no reset. Prior replay acceptance and original evidence preserved.
-[STATUS](STATUS.md) is authoritative. Prior roadmap below is historical.
+Current [pointer select completion](SORT4-SELECT-POINTER-PHASE.md): S6v1 accepted,
+S6v2 exact ghost-coordinate admission correction IN PROGRESS. Owner resumed only
+pointer drop/component actual integration frombea6248; broader04d67f4b frozen.
+S6v1 full2+11proof/22admissions accepted37642650884/source4d0e307 atcd660fe9;
+constructor/asptr/intrinsic/full14baselines retained in this exact profile.
+Actual reaches initializedcell pre atdrop57, req110 points_to<*Element>(__result2,_).
+Projected variant stops beforeproof on incorrectly checked inclusive ghostspanhi.
+Narrow pre-reviewed S6v2 checks BOTH ordinary span and explicit parser coordinates;
+requires NEW complete component/regression proofs and2actual coordinate mutants
+before projectedactual. No kernel/refiner/memory/alias/provenance/guard/forget/
+assume_init/union/general Drop extension. STOP at failed initializedcell projection
+or next actual blocker. Budget2995/5400used,2405remain,no reset; no active run at
+preparation. [STATUS](STATUS.md) is authoritative; original chronology below
+is historical and does not expand authorization. Whole helper/sort4 NOT PROVEN.
 
 Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is **CLOSED**,
 separately authorized2026-10-07 at e0920ec. [Final results](SORT4-POINTER-OWNERSHIP-RESULTS.md):

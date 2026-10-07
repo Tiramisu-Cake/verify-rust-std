@@ -74,7 +74,7 @@ index d150408..66bdfe4 100644
      /*@
      req exists::<option<isize>>(?offset_opt) &*&
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..edaa267 100644
+index f1e3e50..33c7bbb 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -692,7 +692,7 @@ index f1e3e50..edaa267 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7690,9 +8221,2138 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7690,9 +8221,2146 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -2198,8 +2198,16 @@ index f1e3e50..edaa267 100644
 +    let* _ = ListAux.try_map (fun ghost ->
 +      let raw = AnnotationRd.raw_get ghost in
 +      let at = Sort4SelectIntrinsic.locate source raw in
-+      check_span "projection ghost" (AnnotationRd.span_get ghost)
-+        (pos at) (pos (at + String.length raw))) ghosts in
++      let last = at + String.length raw - 1 in
++      let after = at + String.length raw in
++      let* () = check_span "projection ghost" (AnnotationRd.span_get ghost)
++        (pos at) (pos last) in
++      if (Stdint.Uint64.to_int (AnnotationRd.start_line_get ghost),
++          Stdint.Uint64.to_int (AnnotationRd.start_col_get ghost)) <> pos at ||
++         (Stdint.Uint64.to_int (AnnotationRd.end_line_get ghost),
++          Stdint.Uint64.to_int (AnnotationRd.end_col_get ghost)) <> pos after then
++        reject "actual projection ghost explicit coordinates";
++      Ok ()) ghosts in
 +    ignore (sort4_select_check_actual_mir body);
 +    Ok ()
 +
@@ -2831,7 +2839,7 @@ index f1e3e50..edaa267 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -7881,6 +10541,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7881,6 +10549,31 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -2863,7 +2871,7 @@ index f1e3e50..edaa267 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -7896,6 +10581,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7896,6 +10589,42 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in

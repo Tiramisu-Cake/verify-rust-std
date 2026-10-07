@@ -6,14 +6,14 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), IN PROGRESS.**
-[Design/dependency map](SORT4-SELECT-POINTER-DESIGN.md),
-[results/compact evidence](SORT4-SELECT-POINTER-RESULTS.md): S4b accepts SAFE
-as_mut_ptr body/model; S5k accepts typed intrinsics and actual helper reaches
-drop_in_place. Owner resumes ONLY S6 pointer drop with initialized-cell contract
-and explicit compiler-glue trust boundary; other semantic directions remain frozen.
-Exactsameprofile S5j replay accepted S5r2 (no build/proof execution).
-RAPx CLOSED/NO-GO; B/C NOT RUN, fullhelper/sort4 NOT PROVEN. STATUS is authoritative.
+**Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), narrow S6v2 admission correction IN PROGRESS.**
+[Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md), [results](SORT4-SELECT-POINTER-RESULTS.md):
+constructor/asptr/typed intrinsics and S6v1 pointer drop accepted. Actual drop call
+now requires initialized pointer cell; stock-projected variant stopped beforeproof
+on ghostspan coordinate convention. Narrow v2 pre-reviewed, fresh fullmatrices/
+regressions+2coordinate negatives before actual stock projection. Broader semantic
+freeze remains; fullhelper/sort4 NOT PROVEN. Budget2995/5400,2405remain,no reset.
+STATUS is authoritative. RAPx CLOSED/NO-GO,B/C NOT RUN.
 The following pointer-ownership closeout is historical.
 
 **Previous: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md), CLOSED.**

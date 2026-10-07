@@ -1,10 +1,22 @@
 # Pointer select completion — results
 
-2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget2398/5400 summed hosted job seconds, no active run. Intrinsic accepted S5k;
-whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
-[Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
-RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
+2026-10-07 S6v1 COMPONENT_ACCEPTED; actual baseline reaches initialized-cell pre.
+Current budget **2995/5400 summed hosted job seconds used,2405remain**, no reset,
+no active run at v2 preparation. [Completion37642650884](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884)
+source `4d0e3070ca93e01b7a5ccfad18ea83900bc7536b`, drop-v1/cd660fe9 accepts full
+2positive+11proofnegative+22admission matrix, preserving original proof/regression
+provenance and classifications. Constructor/asptr/intrinsic/full14baselines retained.
+Actual baseline source/export/decode/refinement/full method+31local14block cert and
+redirectPASS; at call57 fails req110 `points_to<*Element>(__result2, _)`.
+Projected actual fails exact ghostsource-span admission BEFORE proof, so resource
+projection verdict unknown. Narrow S6v2 coordinate correction is pre-reviewed,
+requires fresh full matrices/regressions plus2actual coordinate negatives before
+stock projection. [Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
+[actual report](SORT4-SELECT-CALLEE.md), [phase](SORT4-SELECT-POINTER-PHASE.md).
+Whole helper/sort4 NOT PROVEN. Compiler raw-pointer glue correspondence remains
+TRUSTED separately; recursive stub/ghost lemma do not prove it. No broader frozen
+semantic direction reopened. Earlier Git/dispatch500 recovered; no external stop.
+Historical chronology follows; its budgets/next steps are not current authorization.
 
 S1/37607108528/sourcef19f077457da722e326f88df362b0d14731987e0,
 profile325af428 unchanged: source/export/decode/refinement PASS, then SAFE prototype
@@ -369,3 +381,90 @@ inner ZIP SHA256 `1567d176eb8bceb65890f8221dd880157a0482444b72310fa911a6a1337996
 The next harness repair compares JSON values and collects all independent replay
 outcomes plus three new controls before the final gate; it keeps original JSON and
 strict stage/message/location/resource/certificate obligations.
+
+### Historical interim S6 checkpoint — dispatch failure later recovered
+
+Source `4d0e3070ca93e01b7a5ccfad18ea83900bc7536b` fixes JSON tuple/list comparison
+and collects every replay result/delta plus three new controls independently
+before the strict final composite gate. It is published, not executed. Ordinary
+push repeatedly returned remote500; Git Data API created the IDENTICAL local tree
+`eca47338c16c917e735c313095fb84d10ecb1a89` and commit, then advanced the existing
+branch with force=false. Remote ref/fetch confirmed4d0e307. Dispatch via workflow
+ID and filename, including exact structured JSON input, repeatedly HTTP500; no
+new run appears. No tool/profile/pre/post semantic change, no new hosted job cost.
+
+| Hosted run | Source | Job seconds | Cumulative used | Remaining |
+| --- | --- | ---: | ---: | ---: |
+| Entry before S6 | bea6248 | — | 2398 | 3002 |
+| 37637630477 | de7ed9de861eea7346301f6807e242862a68c0ab | 194 | 2592 | 2808 |
+| 37640750987 | dbb70d0ba1f36e7cf6021da319b65234cc890b18 | 144 | 2736 | 2664 |
+| 37641538816 | 41bb6b651fd2a3eb048fa2fd234fc63812ccaa39 | 146 | 2882 | 2518 |
+| 37642650884 | 4d0e3070ca93e01b7a5ccfad18ea83900bc7536b | 113 | 2995 | 2405 |
+
+Skipped jobs are excluded. At that interim checkpoint iteration484s; no reset, <=1800/job and300/proof.
+First run independently collected all cases and accepted-component regressions;
+second was syntax setup failure; third accepted all13 saved proof cases at the
+identical effective tool/spec/std hashes but aborted admission replay at the
+JSON comparison bug. Raw initial classifications, source/run/tool identifiers and
+full raw logs/MIR are retained in the original artifact and the later compact
+retention report. Fixed code now avoids a first-classifier abort, but its three
+new controls and composite acceptance have no hosted evidence yet.
+
+**Accepted components:** existing pointer-value model/SAFE constructor, SAFE
+as_mut_ptr and two typed select intrinsic specializations. S6 method/identity
+body and proof-negative obligations pass, but **S6 COMPONENT NOT YET ACCEPTED**
+until all22 admission controls and composite acceptance pass. The trusted raw
+pointer compiler glue is not a Rust runtime-body proof; lemma verification does
+not discharge compiler correspondence.
+
+**Actual helper result:** S6 NOT RUN. Last actual S5k result is unsupported method
+at `verified/lib.rs(57,9-29)`. No new failure at initialized-cell/provenance/borrow
+permissions is established. Its current candidate resources are ctor
+`inner==some(a/b)`, two wrapper points-to cells, exact receiver-address equalities
+from as_mut_ptr and existing reborrow-end tokens. Stock open projections should
+expose payload points-to-option chunks; the remaining untested derivation is
+matching their known some states and selected pointer to `*drop |-> value` while
+framing the other slot/token resources. Runtime method call and normal/unwind
+CFG remain; exact5ghost variant uses only existing open/close+condition split.
+A failed projection or selected initialized-cell match must be recorded and
+stopped, not assumed or weakened. If drop succeeds, stop at the next actual
+blocker. No guard/forget/assume_init/union/refiner/kernel/memory extension.
+
+**Exact next operational blocker:** hosted workflow dispatch HTTP500 prevents the
+new3-controls/complete admission gate and consequently actual execution. It is
+not an intended negative or a Rust semantic boundary. Next permitted action is
+ONE exact current-SHA dispatch after Actions accepts it; monitor and inspect the
+complete matrix, then actual only after acceptance. No work is promised after
+this session. Current checkpoint is STATUS. Documentation is not a proof run.
+
+### S6v1 acceptance and first actual obligation
+
+[Completion37642650884](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884)
+source4d0e307:113s15:17:47–15:19:40UTC, used2995/5400,2405remain. No reset.
+Full exact tool/spec/std hashes match original v1 profile. All13 proof cases and
+19valid admissions replayed; NEWsource_input/MIRoutput/MIRcontract controls reject
+at intended certificate obligations. COMPONENT_ACCEPTED, full35cases. Original
+classifications byte-identical under replay/original; per-case correction audit
+and all raw original profile entries retained. Constructor/asptr/intrinsic/14baseline
+proofs are explicitly attributed to37637630477, not falsely to this completion run.
+[Compact11493485379](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884/artifacts/11493485379),
+innerSHA256 `4da675062fa21eb2a8a26205ae3fa5bb22a953ed3aaf113bbe53f12060260426`,
+[full11493285528](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884/artifacts/11493285528).
+
+Actual baseline fullsource/export/decode/refinement/method/actualcertificates and
+redirects PASS. `select_unpredictable` enters and reaches retained runtime drop
+call57,14–29. Method req110,55–58 fails:
+`No matching heap chunks: points_to<*Element>(__result2, _)`.
+This is initialized pointer-cell matching, not unsupported operation. Both wrapper
+cells/knownsome states and borrow tokens remain in caller but are not projected.
+The exact5ghost stock projection variant exports/decodes/refines, then fails
+admission before proof `actual projection ghost source span`; no resource failure
+can be inferred. New admission controls are not these setup failures.
+
+Read-only rawMIR review confirms regular annotation high coordinate is final
+character inclusive, while explicit effective-parser fields use half-open end.
+S6v2 preimplementation rationale0da1e0b checks BOTH exact conventions, changes
+only narrow ghost source admission, keeps rawsequence/body/runtime/CFG/posts.
+New semantic admission profile needs fresh complete component/baseline proofs and
+two independent coordinate mutants before the canonical projected actual proof.
+The budget table above continues with run37642650884:113s,2995used,2405remaining.

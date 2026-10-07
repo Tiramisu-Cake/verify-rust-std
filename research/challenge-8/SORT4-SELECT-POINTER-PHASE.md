@@ -2,8 +2,12 @@
 
 Owner authorization2026-10-07; entry
 `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09` on challenge-8/research.
-**IN PROGRESS.** New5400summed hosted-job-second budget,<=1800/job,
-<=300/individual proof,one active relevant workflow_dispatch. Spend2398/5400;3002remain,noactive.
+**S6v1 ACCEPTED; S6v2 narrow admission correction IN PROGRESS.** Continuing5400summed hosted-job-second
+budget,<=1800/job,<=300/individual proof,one active relevant workflow_dispatch.
+Spend2995/5400;2405remain,noactive at preparation. S6 entry2398 was not reset. Only narrow pointer
+drop remains authorized; original broad phase scope below is historical where it
+conflicts with the owner's latest freeze. Next permitted action is the prepared
+same-profile replay+3new-controls+actual dispatch, not semantic expansion.
 Previous pointer-ownership phase remains CLOSED;its unused4882s do not transfer.
 
 Target actual `library/core/src/hint.rs::select_unpredictable` at
@@ -87,3 +91,14 @@ matrix and same-profile regressions precede actual integration; STOP at inabilit
 to derive drop pre or next actual blocker. General Drop/guard/forget/assume-init,
 04d67f4b draft, union/refinement/kernel/memory/alias/provenance remain frozen.
 Trust review and experiment card committed717b1b6 before implementation.
+
+S6v1 current acceptance37642650884/source4d0e307: full2+11proof/22admissions,
+explicit originalv1 proof/regression provenance retained. Actualbaseline reaches
+initializedcell pre110 atdrop57. Projectedactual source/export/decode/refinement
+passes but ghostsource-span gate rejects beforeproof; no resource verdict.
+Narrow S6v2 exact inclusive regular ghostspan+explicit half-open parsercoord gate
+pre-reviewed in0da1e0b before edits, fullfreshcomponent/regression matrices and
+2independent ghostcoordinate negatives before actual. Trust/compiler/dropmodel
+body/posts/memory/refiner/kernel/runtime/CFG unchanged. Budget2995/5400,2405remain,
+no reset/no active atprep; ONLY this S6 continuation authorized. STOP at projected
+initializedcell failure or nextactual blocker; broader freeze stays in force.

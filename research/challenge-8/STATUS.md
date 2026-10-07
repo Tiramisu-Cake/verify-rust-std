@@ -30,6 +30,7 @@ Authorized narrow continuation: S6v2 ONLY correct exact5ghost coordinates:
 ordinary span hi last-char + explicit parser start/end full half-open range,
 checked TOGETHER against exact source. Exporter convention independently reviewed.
 NEW experimental-source-linked-select-pointer-drop-v2 profile; fresh fullS6 and
+patchSHA2568e62e6c3044fda7533637d242fb5e8a575eac0d7600213e8e3ba00a182dc0d7c;
 accepted-component/14baseline proofs, plus2independent actual MIR ghost-coordinate
 negatives before actual stock projection. Design experiment card precedes edits.
 No broad annotation/parser/memory/provenance/refiner/kernel/body/glue semantics
