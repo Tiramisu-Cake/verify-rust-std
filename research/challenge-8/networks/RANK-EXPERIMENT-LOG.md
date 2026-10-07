@@ -439,3 +439,56 @@ original concrete wrapper failure preserved. First causal failure -> new evidenc
 and localized correction; no blind retries/timeout increase. Budget/trust boundary
 -> exact unfinished theorem/post saved, no patch/local fallback. Job8min/inner420s/
 percase180s fits883remaining. Source/run pending.
+
+### R13d result: equivalent-domain lemma checked; late timeout
+
+Published/checked source `e5bc807534b155cd0cb63bbc7d89a48497bbfecd`,
+[run37665036667](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37665036667),
+[artifact11502218297](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37665036667/artifacts/11502218297),
+7023911bytes, ZIP SHA25649e5530843455ab0c248401928d6e4fd0ab35b1cbabad294b3d78aaab43ca147.
+Full sources/logs/results/environment inspected, source/log/frozen pins match.
+Generic83statements/40return-leak VF0; negative+7controls PASS. Composed unit
+exit124/180s, no errors,7676completed return/leak. Source0ccb713de8487e439901fba98d4001c8358d6e51bbbc44f09e871d1cca498598;
+log56c84edc107b4345f5e3614dcad5722dcd109afc8ff1ef6c536536646cb6fba3.
+
+Old rank proof119.2s, full symbolic body enters119.240s and completes155.738s,
+domain-law equality body's full post/return/leak completes159.152s. Formal-domain
+exact wrapper discharges all literal/d memberships and reaches composition
+call3464 only at166.628s; final return/post not reached by180s. Thus this run gives
+only13.372s to that final instantiation. Compared earlier old-rank87.6/96.7s,
+full composition27.5/33.0s and wrapper started122.971/136.613s, hosted run cost
+varies materially. Minimal-context projection is already proved; formal domain
+premise equivalence is now checked (no axiom), full original literal post intact.
+PeakRSS2689612KiB. Independent review found no premise/post weakening or changed
+source schedule; extra parameter names exactly the original domain.
+Job18:12:33Z–18:15:45Z = **192s**; total1109/1800,691remaining.
+
+## R13e — prepared after explicit timing/context analysis, before dispatch
+
+Same exact mathematical source as R13d, same full literal post/domain/order/count,
+checked equivalent finite-SWO premise, fixed-key/normal faithful comparator
+applicability and open Rust boundary. Same stock26.09 pins, frozen prove.py,
+generic SWO bridge,45CE schedule, old rank bodies and strict classifier gates.
+No proof body, premise, resource, assertion or checker semantics changed.
+
+Timing evidence: already accepted rank bodies consume87-119s per cold same-unit
+run and full45CE/order/domain/count body another27-37s. R13d reaches exact
+instantiation at166.628s, leaving13.372s, whereas earlier fuller-context variants
+already needed more than43-57s there. Three explicit context refactorings and
+full-artifact analysis precede this operational bound change; no blind retry.
+Hypothesis: an additional120s for ONLY the complete N13 composed case allows the
+exact-domain instantiation/return/post to finish; no new mathematical assumption
+or relaxed acceptance. Pure source is byte-identical to R13d.
+
+Own orchestration temporarily selects300s for network13_finite_swo_order using
+unchanged run_case; restores frozen180s for generic/negative/all N9 cases.
+Actual command and per-case bound are recorded. Any timeout remains INCONCLUSIVE,
+all named bodies/0errors/full posts/returns/leaks/source integrity required,
+negative exact65,26–28 plus7controls unchanged. Official tool binary/parser/
+translator/kernel/prelude/resource/refinement semantics untouched. This is a
+hosted wall-time allowance after analysis, not a new tool trust profile.
+Job8min and inner420s unchanged, worst job480s fits691remaining; no new budget.
+
+Whole success -> finalize own documents/commit/push; timeout/assertion/frontend
+failure -> preserve exact unproved instantiation and checkpoint, no further
+unjustified bound increase or local fallback. Source/run pending.

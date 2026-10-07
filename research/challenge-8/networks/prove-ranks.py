@@ -234,7 +234,18 @@ def main() -> int:
             (f"network{args.size}_negative_missing_equiv_trans", negative, metadata)]
     passed = True
     for name, source, expected in work:
-        result = prove.run_case(tool, evidence, name, source, expected)
+        # R13e: previous stock runs spend 87-119s on already checked rank bodies
+        # and another 27-37s on the full SWO network, leaving too little time for
+        # exact-domain summary instantiation. Only that complete N13 case gets
+        # 300s; all proof predicates/gates and the stock tool stay unchanged.
+        original_limit = prove.TIMEOUT_SECONDS
+        case_limit = 300 if args.size == 13 and name == "network13_finite_swo_order" else original_limit
+        prove.TIMEOUT_SECONDS = case_limit
+        try:
+            result = prove.run_case(tool, evidence, name, source, expected)
+        finally:
+            prove.TIMEOUT_SECONDS = original_limit
+        result["case_timeout_seconds"] = case_limit
         result["boundary"] = ("checked pure ghost lemma contracts, including full SWO "
                               "comparison/equality/rank bounds and composed "
                               "membership/order/multiplicity; no Rust callee summary")

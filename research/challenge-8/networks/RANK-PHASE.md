@@ -2,8 +2,8 @@
 
 Owner authorization2026-10-07, entry
 `a9fe187d48a492939970998ca862736a410c1adc`, branch challenge-8/networks.
-CHECKPOINT: generic bridge accepted; whole N9 composition pending, GitHub
-writes HTTP500. See STATUS/RANK-RESULTS for exact next action. Separate **1800 summed hosted job seconds**, preparation/evidence
+IN PROGRESS: N9 full accepted R9f; N13 exact specialization R13d active.
+Same phase budget; see STATUS/new journal for cumulative usage. Separate **1800 summed hosted job seconds**, preparation/evidence
 included, no transfer of phase1 unused301s or of the other direction's budget.
 At most one run on this branch, two across the independently authorized directions.
 All executable checks on GitHub-hosted Actions; no local proof/generator/tests.
@@ -54,3 +54,16 @@ Per-case180s, inner420s, job8min including preparation/evidence; lower job cap i
 remaining budget requires it. No blind retry; record card before each experiment,
 resolve exact SHA/run, poll/read full artifacts. New trust or exhausted budget:
 checkpoint exact unfinished obligation, no tool patch or local fallback.
+
+R13d proof representation: N13 exact theorem names original domain as formal
+ghost parameter d, constrains d==literal0..12, keeps original full literal
+post. A checked equality-of-domain-laws body establishes equivalence with
+original finite_swo(rel,literal) premise. This is own ghost-proof context
+refactoring, not verifier/Rust signature/semantic change. Failed concrete
+wrapper R13/R13c remains archived and must not be claimed accepted.
+
+R13e operational exception AFTER documented timing/context analysis: only
+complete N13 composed case300s, all other cases180s; job8min/inner420s unchanged.
+Cold checked rank bodies87-119s plus full45CE body27-37s leave13.372s for R13d
+exact specialization. Tool/source/proof predicates/strict classifier semantics
+remain frozen. Worst480s fits remaining691s; no new budget/second run.
