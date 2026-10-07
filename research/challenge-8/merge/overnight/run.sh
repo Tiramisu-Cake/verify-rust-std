@@ -1,0 +1,149 @@
+#!/usr/bin/env bash
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Hosted-only OVERNIGHT-MERGE-26.10 experiments.
+set -euo pipefail
+
+[[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && "${RUNNER_OS:-}" == Linux ]] || {
+  echo 'stock-26.10 harness requires GitHub-hosted Linux Actions' >&2
+  exit 2
+}
+[[ "${GITHUB_REF:-}" == refs/heads/overnight/merge-26.10 ]] || {
+  echo 'stock-26.10 harness only accepts overnight/merge-26.10' >&2
+  exit 2
+}
+[[ "${1:-}" == merge_geometry ]] || {
+  echo 'expected workflow proof selection merge_geometry' >&2
+  exit 2
+}
+job_started=$SECONDS
+repo=$(git rev-parse --show-toplevel)
+cd "$repo"
+[[ "$(git rev-parse HEAD)" == "${GITHUB_SHA:?GITHUB_SHA is required}" ]] || {
+  echo 'checkout HEAD differs from dispatched GITHUB_SHA' >&2
+  exit 2
+}
+
+evidence="$repo/research-results/merge-overnight"
+[[ ! -e "$evidence" ]] || { echo "refusing to reuse prior evidence: $evidence" >&2; exit 2; }
+mkdir -p "$evidence"
+task_temp="$RUNNER_TEMP/challenge8-merge-overnight"
+[[ ! -e "$task_temp" ]] || { echo "refusing to reuse prior tool directory: $task_temp" >&2; exit 2; }
+mkdir -p "$task_temp"
+
+vf_version=26.10
+vf_source_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
+vf_archive_sha=5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd
+vf_console_sha=9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1
+vf_exporter_sha=b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796
+vf_refiner_sha=b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28
+schema_sha=f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469
+spec_manifest_sha=4a0911303bbb087f1f50ce85524197edbb541f31c72e8133dfbcc9cf528e03a0
+spec_checks_sha=2adb5f85e2077a96e2db6b97da9af17d9324ad3c586187292854970e63078da4
+source_profile_sha=8c72795b0cd452580372e963cf9620e8d32e891eae389f6f0b11034373a94c79
+tool_home="$task_temp/verifast-$vf_version"
+archive="$task_temp/verifast-$vf_version-linux.tar.gz"
+schema="$task_temp/vf_mir.capnp"
+export VFVERSION="$vf_version" VFPLATFORM=linux RUSTUP_TOOLCHAIN=nightly-2026-09-25
+
+{
+  printf 'Source SHA: '; git rev-parse HEAD
+  printf 'Actions SHA: %s\nBranch: overnight/merge-26.10\nSelection: merge_geometry; suite=W1 wrapping; experimental Rust regression\n' "$GITHUB_SHA"
+  printf 'Actual source git commit: cd371e035c7e573760c43bf934d53e8118ee3e7d\nFull source SHA-256: 85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1\n'
+  printf 'Profile: official-stock-VeriFast-%s (%s)\nRust toolchain: %s (minimal + rustc-dev + rust-src)\n' "$vf_version" "$vf_source_commit" "$RUSTUP_TOOLCHAIN"
+  printf 'Runner: %s/%s\nDistinct W1 translator/spec patch; stock exporter/refiner/schema unchanged\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
+  sha256sum research/challenge-8/merge/stock-26.10/*.py \
+    research/challenge-8/merge/stock-26.10/*.c \
+    research/challenge-8/merge/stock-26.10/*.rs \
+    research/challenge-8/merge/stock-26.10/run.sh \
+    research/challenge-8/networks/prove.py \
+    library/core/src/slice/sort/shared/smallsort.rs
+} > "$evidence/environment.txt"
+
+printf '%s  %s\n' 994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4 research/challenge-8/networks/prove.py | sha256sum -c -
+printf '%s  %s\n' 85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1 library/core/src/slice/sort/shared/smallsort.rs | sha256sum -c -
+printf '%s  %s\n' "$spec_manifest_sha" research/challenge-8/merge/stock-26.10/vf-stock-specs.json | sha256sum -c -
+printf '%s  %s\n' "$spec_checks_sha" research/challenge-8/merge/stock-26.10/vf-stock-specs.sha256 | sha256sum -c -
+printf '%s  %s\n' "$source_profile_sha" research/challenge-8/merge/stock-26.10/vf-profile-source.json | sha256sum -c -
+
+curl --fail --silent --show-error --location --max-time 40 \
+  "https://github.com/verifast/verifast/releases/download/$vf_version/verifast-$vf_version-linux.tar.gz" \
+  --output "$archive"
+printf '%s  %s\n' "$vf_archive_sha" "$archive" | sha256sum -c -
+tar -xzf "$archive" -C "$task_temp"
+printf '%s  %s\n' "$vf_console_sha" "$tool_home/bin/verifast" | sha256sum -c -
+printf '%s  %s\n' "$vf_exporter_sha" "$tool_home/bin/vf-rust-mir-exporter" | sha256sum -c -
+printf '%s  %s\n' "$vf_refiner_sha" "$tool_home/bin/refinement-checker" | sha256sum -c -
+(cd "$tool_home" && sha256sum --check "$repo/research/challenge-8/merge/stock-26.10/vf-stock-specs.sha256")
+spec_count=$(find "$tool_home/bin" -type f \( -name '*.rsspec' -o -name '*.gh' -o -name '*.h' \) | wc -l)
+[[ "$spec_count" -eq 58 ]] || { echo "unexpected VeriFast spec-file count: $spec_count" >&2; exit 2; }
+sha256sum "$archive" "$tool_home/bin/verifast" "$tool_home/bin/vf-rust-mir-exporter" \
+  "$tool_home/bin/refinement-checker" research/challenge-8/merge/stock-26.10/vf-stock-specs.json \
+  research/challenge-8/merge/stock-26.10/vf-profile-source.json \
+  research/challenge-8/merge/stock-26.10/vf-stock-specs.sha256 >> "$evidence/environment.txt"
+
+timeout --signal=TERM --kill-after=5s 240s rustup toolchain install "$RUSTUP_TOOLCHAIN" \
+  --profile minimal --component rustc-dev --component rust-src
+sudo timeout --signal=TERM --kill-after=5s 120s apt-get update
+sudo timeout --signal=TERM --kill-after=5s 120s apt-get install --yes --no-install-recommends capnproto
+capnp --version >> "$evidence/environment.txt"
+capnp_path=$(command -v capnp)
+sha256sum "$capnp_path" >> "$evidence/environment.txt"
+curl --fail --silent --show-error --location --max-time 20 \
+  "https://raw.githubusercontent.com/verifast/verifast/$vf_source_commit/src/rust_frontend/vf_mir/vf_mir.capnp" \
+  --output "$schema"
+printf '%s  %s\n' "$schema_sha" "$schema" | sha256sum -c -
+cp "$schema" "$evidence/vf_mir.capnp"
+printf 'Schema SHA-256: %s\n' "$schema_sha" >> "$evidence/environment.txt"
+
+compiler_sysroot=$(rustc --print sysroot)
+export LD_LIBRARY_PATH="$compiler_sysroot/lib:$tool_home/bin:${LD_LIBRARY_PATH:-}"
+{
+  rustc --version --verbose
+  printf 'Compiler sysroot: %s\n' "$compiler_sysroot"
+  find "$tool_home/bin/rust" -type f -name '*.rsspec' -print0 | sort -z | xargs -0 -r sha256sum
+  ldd "$tool_home/bin/verifast"
+} >> "$evidence/environment.txt" 2>&1
+
+run_one() {
+  local label=$1 seconds=$2
+  shift 2
+  local status
+  printf '\n=== %s ===\n' "$label"
+  set +e
+  timeout --signal=TERM --kill-after=5s "${seconds}s" "$@" 2>&1 | tee "$evidence/group-$label.log"
+  status=${PIPESTATUS[0]}
+  set -e
+  printf '%s %s\n' "$label" "$status" >> "$evidence/group-status.txt"
+  if [[ "$status" -ne 0 ]]; then
+    suite_status=1
+  fi
+}
+
+suite() {
+  set -uo pipefail
+  suite_status=0
+  run_one wrapping-acceptance 600 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --evidence "$evidence/checked-wrapping"
+  run_one experimental-rust-regression 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/stock-26.10/pointer-cases.rs \
+    --evidence "$evidence/checked-rust-regression" \
+    --cases g2_steps,init_const,init_mut,destination_up,forward_left,forward_right,destination_down,pointer_order,pointer_guard,wrong_cursor,address_index
+  return "$suite_status"
+}
+
+experimental_home="$task_temp/source"
+bash research/challenge-8/merge/overnight/build.sh "$tool_home" "$evidence/build" "$experimental_home"
+export LD_LIBRARY_PATH="$compiler_sysroot/lib:$experimental_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
+
+export evidence task_temp tool_home experimental_home compiler_sysroot schema suite_status
+export -f run_one suite
+printf 'Setup/build elapsed=%ss; suite bound=900s; whole step bound=1700s.\n' "$((SECONDS-job_started))" | tee "$evidence/suite-budget.txt"
+set +e
+/usr/bin/time -v -o "$evidence/resources.txt" timeout --signal=TERM --kill-after=5s 900s bash -c 'suite' \
+  2>&1 | tee -a "$evidence/execution.log"
+suite_status=${PIPESTATUS[0]}
+set -e
+printf '%s\n' "$suite_status" > "$evidence/exit-code.txt"
+exit "$suite_status"

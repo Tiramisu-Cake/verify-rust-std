@@ -250,6 +250,28 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+  merge_overnight:
+    if: inputs.proof == 'merge_geometry' && github.ref == 'refs/heads/overnight/merge-26.10'
+    name: Overnight merge exact wrapping and actual-source dependencies
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Run reviewed exact-SHA overnight matrix
+        run: timeout --signal=TERM --kill-after=10s 1700s bash research/challenge-8/merge/overnight/run.sh merge_geometry
+      - name: Preserve complete overnight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-merge-overnight-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/merge-overnight/
+          if-no-files-found: error
+          retention-days: 90
+
   merge_geometry:
     if: inputs.proof == 'merge_geometry' && (github.ref == 'refs/heads/challenge-8/merge' || github.ref == 'refs/heads/sync/upstream-cd371-merge')
     name: Independent merge cursor geometry on stock VeriFast

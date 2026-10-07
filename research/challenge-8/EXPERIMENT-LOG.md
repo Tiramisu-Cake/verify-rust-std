@@ -3999,3 +3999,21 @@ passes -> checked pointer trace; proof errors -> evidence-driven fix; counterexa
 -> preserve reproducer/revise contract; another blockage -> independent obligation.
 Selectionmerge_geometry will route only own branch to new overnight runner.
 No dispatch before exact case coordinates and tool patch hashes are recorded.
+
+### W1 first hosted diagnostic card (2026-10-07)
+
+Reviewed patchc7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e,
+profileexperimental-merge-wrapping-01-v1. Explicit numeric address/layout bounds
+are added to the primitive req, so neither constructor field types nor an
+unbounded size are implicitly assumed.26isolated cases;21positive,5calibration
+negatives. Negative kinds: count2/signed2 primitive req; wrong pointer assertion;
+read-minus1 and foreign-provenance actual permission failure. TARGET coordinates
+computed before the run in each extraction; exact observed predicates must be
+reviewed before a negative can be accepted. No intended negative accepted from
+setup/frontend failure. Full posts are the fixture's pointer constructor/field
+identity and explicit no-unwind plus framed input cells where specified.
+Selectionmerge_geometry, job cap1800s, setup+sourcebuild+suite all count; no other
+research job from this agent. First run is diagnostic, new profile NOT ACCEPTED
+until full combined positive/negative/regression matrix. Existing11Rust controls
+are checked on experimental console too. Standard G2/A/B full matrix later in
+acceptance. Source-linked actual merge and full pointer trace are not this run.
