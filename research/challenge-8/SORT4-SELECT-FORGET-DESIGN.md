@@ -267,3 +267,40 @@ First6 are unchanged pinned imported lemma bodies, last is the sole source-unit
 function. Require exact ordered set, no duplicate/missing/unknown timed headers,
 ignore diagnostic note quotes. Record per-function body/return/leak evidence and
 complete verifier exit0; actual stage failure remains first causal diagnostic.
+
+## S7b AST provenance diagnostic BEFORE implementation
+
+Entry budget4601/5400 used799remaining, including standalone37675513854=178s
+and classifier-only replay37676357686=12s. No reset. The standalone exact unit
+executes all seven pinned functions through return/leak but full VF exits1 on
+`verified/lib.rs(3,1-16,2): dead code`. It is NOT an accepted theorem.
+
+Falsifiable diagnostic hypothesis: the existing ManuallyDrop::new identity
+lowering returns FnCallResult with a normal Goto only, while translate_call keeps
+normal AND unwind targets in the translated block inventory. MIR cleanup BB2 is
+therefore translated into an unreachable synthetic UnwindResume return at the
+whole adapter span. This may explain the leftover statement; printed equal spans
+alone cannot identify the key because LocHashtbl uses physical loc identity.
+An unused Rust adapter declaration is not established by that printed location.
+
+One new hosted diagnostic uses the SAME byte-exact generic source, contracts,
+seven-function inventory and frozen v4 tools. Add only the console's EXISTING
+`-dump_ast_with_locs verified-ast.txt` diagnostic option. Keep full verifier,
+no focus/exemption and mandatory dead-code exit handling. Capture AST, raw log,
+full NORMAL/readonly MIR, refinement, all source hashes and raw classification.
+No translator/exporter/refiner/kernel/prelude change, syntax variant, ownership
+assumption or actual redirect. Original run evidence/classifications stay intact.
+
+Expected AST: MDnew lowers to argument assignment and normal Goto; cleanup label
+is retained with an unwinding ReturnStmt but lacks a reachable incoming branch.
+Verify source annotation coordinates, compare complete MIR hashes with the first
+run, and report declaration diagnostics. The dump describes AST topology; it may
+not serialize physical loc identity. Do not claim the exact leftover hash-table
+key without evidence. If hypothesis holds, STOP at frozen translation/reachability
+mismatch; changing cleanup/dead-code rules is outside this authorization. If it
+fails, report remaining uncertainty and STOP, without more syntax experiments.
+
+Cap6min360s including preparation/build and120s cleanup reserve; full VF120s,
+other stages60s inside the shared job deadline. This is a provenance diagnostic,
+not a new proof/admission gate or a full S7 matrix. Charge actual job duration to
+same799; no next actual-link route before accepted complete standalone proof.

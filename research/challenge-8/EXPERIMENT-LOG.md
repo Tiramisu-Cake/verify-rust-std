@@ -4570,3 +4570,15 @@ focused-deadcode inventories, leavesadapterdecl exact mandatoryfailure. Read-onl
 provenanceaudit underway; no syntaxvariants orsemanticchanges. Compact11507342250/
 full11506168168 downloaded/read. Replayfix separate: cap2min120 nobuild/verifier,
 wholepinnedoldarchive +bytewiseinputtree checks, originalclassespreserved.
+
+S7b classifier-only replay37676357686/processor dd4b0493b8411d92f61f525a3c7ef6ec0429d021:
+12s19:41:18–19:41:30UTC ->4601/5400used799remaining. SUCCESS immutable input
+37669436220/sourcea5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d, wholeinnerZIP SHA,
+261 selected inputfiles exact, all9 original classificationbytes preserved.
+Seven classifier controls PASS; new separate map2INCONCLUSIVE(deadcodeexit1),
+7INTENDED_NEGATIVE(exactfirsterror/no deadcode). No proof run/semantic change or
+fullmatrix admission. Artifact11506224082 SHA
+be6bb45df5034f8be8d992906dfd08f1f0183d30b2dbf7796d389b93894f7691.
+New BEFORE AST provenance card: samegenericunit/contract/profile +existing
+-dump_ast_with_locs only; test orphancleanupReturnStmt hypothesis, not proof.
+Cap6min360/reserve120, remaining799; no semantic/admission/actual change.
