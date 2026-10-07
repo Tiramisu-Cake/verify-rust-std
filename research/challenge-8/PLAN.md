@@ -1,6 +1,12 @@
 # Challenge 8: approved roadmap
 
-Current [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)
+Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is IN PROGRESS,
+separately authorized 2026-10-07 at e0920ec, new 5400-job-second budget.
+Narrow type-wide defined raw-pointer wrapper ownership; full typed MIR criterion
+and acceptance matrix; then dependent actual select diagnostic.
+Previous budgets retired; [results](SORT4-POINTER-OWNERSHIP-RESULTS.md).
+
+Previous [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)
 is CLOSED at ownership boundary; [report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md).
 Budget816/5400jobseconds,8NEWruns,noactive. Stock composition and repaired span/full
 immutable-layout matrix accepted. Separate constructor profile UNACCEPTED;

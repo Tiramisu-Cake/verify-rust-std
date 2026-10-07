@@ -1,6 +1,15 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. **CLOSED: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**
+Updated 2026-10-07. **IN PROGRESS: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md).**
+Owner explicitly opened new phase from e0920ec; budget 0/5400 NEW job seconds,
+<=1800/job, <=300/proof, one active run. No active run at entry.
+[Results](SORT4-POINTER-OWNERSHIP-RESULTS.md); chosen definition/trust boundary
+recorded before ownership edits. Model/constructor UNACCEPTED, actual callee NOT RUN.
+Next permitted: implement narrow type-wide defined pointer ownership and full MIR
+gate/matrix, hosted acceptance, then dependent actual callee. Prior budgets retired.
+
+Previous checkpoint preserved below (historical authorization superseded):
+**CLOSED: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**
 at its authorized ownership boundary. [Final report](SORT4-COMPOSITION-CONSTRUCTOR-RESULTS.md).
 Entry85d82998e148394e5dbbb0a4ed8c326780130b75; new budget816/5400 summed
 hosted job seconds=13m36s,8NEWruns. Remaining4584s retired. No active run.
@@ -54,7 +63,8 @@ scratch; reference/copy automatic alignment coverage unmeasured. Current callbac
 resources/effects and all five full panic posts remain open. Logical ZST IDs can
 share addresses; Copy/Freeze/purity restrictions were not added to general safety.
 
-No further implementation/dispatch under this closed phase. The design committed
+No further implementation/dispatch under the PREVIOUS closed phase.
+The owner has separately authorized the new pointer ownership phase above. The design committed
 before semantic edits; safe source-local body and narrow representation/call
 translation exist only as an UNACCEPTED separate experimental profile. No own
 bridge, unsafe-constructor workaround, deleted safety template or old patch chain.

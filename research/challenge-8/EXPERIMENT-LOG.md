@@ -3471,3 +3471,17 @@ README/coverage/callee/design pointers reconciled. Root and independent read-onl
 reviews confirm prototype check BEFORE body (no checkedbody header), no ordinary
 value lemma can introduce opaque own. No dependentcallee or unauthorized model
 extension. Final budget816/5400seconds, noactive; unused4584seconds retired.
+
+
+## O1 — new pointer ownership phase, design before implementation
+
+Owner authorization 2026-10-07, entry e0920ec. [Card](SORT4-POINTER-OWNERSHIP-PHASE.md)
+records actual new body, exact domain/normal+unwind posts, narrow ownership equation,
+trust delta, full MIR/proof/source controls and outcome-to-decision mapping.
+Hypothesis: initialized thin raw-pointer wrapper owns only its value, so a defined
+option-based resource interpretation discharges SAFE return-own without pointee
+permissions or effects, while full MIR whitelist authenticates the copied body.
+Profile: NEW experimental pointer-own-v2 over stock26.09/809de459; exact patch SHA
+pending implementation. Selection verifast_maybeuninit_new_pointer,30 minutes/job,
+300s/proof,5400 NEW summed job seconds. No carried budget; no active run.
+All acceptance/actual-callee checks NOT RUN at this pre-implementation checkpoint.

@@ -1,3 +1,7 @@
+Current follow-up: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md)
+records the separately authorized definition and trust delta BEFORE implementation.
+The following design/closeout describes the previous translator-only phase.
+
 # Narrow checked `MaybeUninit::new` route for pointer selection — design only
 
 This is a proposed **separate experimental VeriFast profile**, not an implemented
