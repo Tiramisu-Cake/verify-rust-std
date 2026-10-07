@@ -242,3 +242,20 @@ before its failure. Keep all earlierassertions/fullposts, derive strongerfact
 from exact faithful schedule. All negatives sources/asserts unchanged and must
 againreach intendedtargets/all21controls. Budget149/1800,1651remaining; same
 180case/300process/6minhosted bounds. Firstnewfailure guides next action.
+
+## F-B5 result / F-B6 card
+B5 published827726437cfec2add6ad6e4212a5796f43763f01,
+[run37680109711](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37680109711),
+job11299364638020:11:23Z–20:12:15Z=52s; cumulative201/1800,1599remaining.
+Positive source312d72f4a5eb52314bf0411887b3d58d5ac081f71b3a5dce0e10a96d583f5d08,
+log19b5fcaffa14118e9e3981002968c2b8516cbe10b4d3ea3a4fded8564b047871,
+111return/leak, nowfullmb_pair_extremes/inner_point/inner_all/unbounded accepted.
+Firstfailure mb_selected_bound's mb_id_member upperbound pre at705:
+x<int_of_nat(nat_of_int(2m+e)) not derived implicitly. All3negatives intended/
+all21controls accepted, sourceasserts unchanged, fullartifactread.
+B6 hypothesis: explicitly split actual residual half x<m to expose0<=x<n from
+existing mg_inv/remaining premise, invoke existing stock int_of_nat_of_int(n)
+(normalmathconversion) before domainmembership. No newaxiom/domain/post change,
+allbodycalls checked in sameunit; standard stocknat is frozen tool library.
+SameBfullposts/assumptions/exactsource/negativegates/profile/bounds asB1.
+Budget201spent1599remaining. Success->fullBreport, failure->nextpreciseobligation.

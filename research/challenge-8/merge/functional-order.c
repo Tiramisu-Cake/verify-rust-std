@@ -255,6 +255,14 @@ lemma void mb_selected_bound(fixpoint(int,int) key,int m,int e,int k,int a,int d
                     (mb_remaining_bound)(key,m,e,k,a,d,haslo,lo,hashi,hi))==true;
     ensures mb_bounds(key,haslo,lo,hashi,hi,x)==true;
 {
+    int n=2*m+e;
+    if(x<m) {
+        assert a<=x && x<m-k+d;
+    } else {
+        assert m+k-a<=x && x<n-d;
+    }
+    assert 0<=x && x<n;
+    int_of_nat_of_int(n);
     mb_id_member(nat_of_int(2*m+e),0,x);
     mb_at(mb_ids(nat_of_int(2*m+e),0),
           (mb_remaining_bound)(key,m,e,k,a,d,haslo,lo,hashi,hi),x);
