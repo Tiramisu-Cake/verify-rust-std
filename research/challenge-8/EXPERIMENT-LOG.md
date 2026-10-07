@@ -3715,3 +3715,21 @@ Next after acceptance: actual receiver/reborrow integration, then remaining mapp
 operations autonomously; real forbidden semantic necessity alone stops extension.
 Selection verifast_maybeuninit_new_pointer;30minutes job/proof<=300s;
 new budget spend238/5400before run, one active run, compact current+O4 evidence.
+
+S3 result: 37610022772/source489416d21b52858b124638d88180378ef2b4b8d0,
+177jobseconds, total415/5400; fullctor+14baselines+classifs PASS, activeasptr
+3positive+5proofnegative PASS. Sixth correctNone→Some proof rejection has exact
+constructor-instance diagnostic, classifierincorrectgenericcondition expectation.
+INCONCLUSIVE retained,17admissioncontrols andactual NOT RUN. Compact11477915575,
+full11477880702; rawfullMIR/body/prototype/return/leak andmutationlogs retained.
+
+S4 BEFORE dispatch: unchanged semanticprofilee9b4d025/S3 exactdomain/posts.
+Falsifiable harnessfix: exact None→Some postdiagnostic (notgenericCannotprove)
+classified atline24 with allSAFE/body/location/stage/fullMIR gates,4newmessage
+mutants must reject. Repeatfullcomponentmatrix+constructorregressions because
+admission17NOTRUN and integration depend on acceptance; noSWO/layout.
+Afterall3/6/8/9andclassifs/ctorpass, verifyexactactualN6body unchanged with both
+checkedcomponents+2new/2asptr/3intrinsics/guard/drop/forget/assume_init andfullnormal/
+unwindposts; no newrule yet, expectedfirstremainingintrinsic/resourceobligation
+INCONCLUSIVE namedline/predicate. Unsupportedlistedop triggersnextdesignedstep.
+Selectionverifast_maybeuninit_new_pointer/job30min/proof300s;spend415/5400before.

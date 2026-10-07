@@ -64,10 +64,33 @@ def main() -> None:
             "exact_fatal", "before_proof", "verifier_exit_two",
         )),
     ]
+    invent_error = (
+        "verified/lib.rs(24,180-184): error: Cannot prove that "
+        "'std::mem::MaybeUninit::inner(pointer_typeid(Element_typeid), value)' "
+        "is not an instance of constructor 'none'"
+    )
+    invent_mutants = {
+        "wrong_constructor": invent_error.replace("'none'", "'some'"),
+        "wrong_predicate": invent_error.replace("::inner", "::outer"),
+        "wrong_type": invent_error.replace("Element_typeid", "u8_typeid"),
+        "generic_proof_failure": "verified/lib.rs(24,180-184): error: "
+            "Cannot prove condition. (Cannot prove false.)",
+    }
+    message_check = {
+        "exact_message_accepts": classifier.matches_invent_initialized_error(invent_error),
+        "mutants_rejected": {
+            name: not classifier.matches_invent_initialized_error(message)
+            for name, message in invent_mutants.items()
+        },
+    }
+    message_check["pass"] = message_check["exact_message_accepts"] and \
+        all(message_check["mutants_rejected"].values())
     result = {
-        "pass": all(item["pass"] for item in checks),
+        "pass": all(item["pass"] for item in checks) and message_check["pass"],
         "groups": checks,
+        "invent_initialized_message": message_check,
         "mutant_count": sum(2 * len(item["false_mutants_rejected"]) for item in checks),
+        "message_mutant_count": len(invent_mutants),
     }
     summary = args.evidence.resolve()
     summary.parent.mkdir(parents=True, exist_ok=True)

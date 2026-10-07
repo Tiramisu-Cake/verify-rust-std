@@ -23,3 +23,18 @@ No newcomponentaccepted; this confirms existingelidedreceiver protocol feasibili
 130jobseconds,total238/5400,noactive. [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37608166705),
 [compact11476196005](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37608166705/artifacts/11476196005),
 ZIP1221330bytes current227+O4770. S3fullcriterion/design9e02c4f,implementationpending.
+
+S3/37610022772, source489416d21b52858b124638d88180378ef2b4b8d0,
+profileexperimental-source-linked-select-pointer-as-mut-ptr-v1/patch e9b4d025,
+177hosted jobseconds (10:50:21–10:53:18UTC); spend415/5400, noactive.
+Full constructor regressions16source/proof+9MIR and14baseline controls PASS;
+constructorclassifier5groups and selectclassifier58gate mutants PASS.
+3active-rule SAFE/body/frame/state positives PASS,5intended proofnegatives PASS.
+Invent_initialized reaches intendedpost24:180–184 and rejects none→some:
+`Cannot prove that 'std::mem::MaybeUninit::inner(pointer_typeid(Element_typeid), value)' is not an instance of constructor 'none'`.
+Classifierwrongmessage kept INCONCLUSIVE;17admission controls NOT RUN, component
+UNACCEPTED, actualintegration NOT RUN. S4fixexactmessage+4message-mutants, nosemantic
+change; fullmatrix then actualbody with checkedconstructor+asptr ifaccepted.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610022772),
+[compact11477915575](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610022772/artifacts/11477915575),
+[full11477880702](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610022772/artifacts/11477880702).

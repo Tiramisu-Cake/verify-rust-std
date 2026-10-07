@@ -45,6 +45,12 @@ SOURCE_MUTATIONS = (
 CERT_MARKER = "SORT4-AS-MUT-PTR: full typed body MIR graph accepted"
 POINTER_OWN = b"std::mem::MaybeUninit_pointer_own::<Element>()(t, value)"
 PROFILE = "experimental-source-linked-select-pointer-as-mut-ptr-v1"
+INVENT_INITIALIZED_ERROR = re.compile(
+    r"verified/lib\.rs\(\d+,\d+(?:-\d+(?:,\d+)?)?\): error: "
+    r"Cannot prove that 'std::mem::MaybeUninit::inner"
+    r"\(pointer_typeid\(Element_typeid\), value\)' "
+    r"is not an instance of constructor 'none'$"
+)
 LOCAL_SIGNATURE = (
     "pub fn sort4_checked_as_mut_ptr<Element>(storage: &mut "
     "std::mem::MaybeUninit<*const Element>) -> *mut *const Element"
@@ -79,6 +85,10 @@ def sha(data: bytes) -> str:
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def matches_invent_initialized_error(message: str) -> bool:
+    return INVENT_INITIALIZED_ERROR.search(message) is not None
 
 
 def load_matrix(repo_root: Path):
@@ -667,9 +677,11 @@ def classify(case_dir: Path, runner_result: dict, certificate: dict,
             "assert_false": r"Assertion might not hold\. \(Cannot prove false\.\)$",
             "duplicate_frame":
                 r"No matching heap chunks: \[f\]points_to<u8>\(frame, frame_value\)$",
-            "invent_initialized": r"Cannot prove condition\. \(Cannot prove .+\.\)$",
         }.get(variant)
-        target_message = bool(first_error and expected and re.search(expected, first_error))
+        target_message = bool(first_error and (
+            matches_invent_initialized_error(first_error)
+            if variant == "invent_initialized" else
+            expected and re.search(expected, first_error)))
     if variant == "assert_false":
         target_location = isinstance(fixture["target_assertion_line"], int) and \
             error_line == fixture["target_assertion_line"] + 1
