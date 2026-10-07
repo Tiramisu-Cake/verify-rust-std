@@ -1,0 +1,46 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2498,7 +2498,8 @@
+ 
+     let translate_fn_call_rexpr (callee_cpn : OperandRd.t)
+         (args_cpn : OperandRd.t list) (call_loc : Ast.loc) (fn_loc : Ast.loc)
+-        (ghost_generic_arg_list_opt_cpn : OptionRd.t) =
++        (ghost_generic_arg_list_opt_cpn : OptionRd.t)
++        (manuallydrop_new_identity : bool ref) =
+       (* Todo @Nima: There should be a way to get separated source spans for args *)
+       let args = List.map (fun arg_cpn -> (arg_cpn, fn_loc)) args_cpn in
+       let* tmp_rvalue_binders, args =
+@@ -2900,6 +2901,7 @@
+             | "std::mem::ManuallyDrop::<T>::new"
+             | "std::mem::ManuallyDrop::deref"
+             | "std::mem::ManuallyDrop::deref_mut" ->
++                manuallydrop_new_identity := fn_name = "std::mem::ManuallyDrop::<T>::new";
+                 let [ arg_cpn ] = args_cpn in
+                 let [ arg ] = args in
+                 Ok (tmp_rvalue_binders, FnCallResult arg)
+@@ -2990,9 +2992,10 @@
+       let ghost_generic_arg_list_opt_cpn =
+         ghost_generic_arg_list_get fn_call_data_cpn
+       in
++      let manuallydrop_new_identity = ref false in
+       let* fn_call_tmp_rval_ctx, fn_call_rexpr =
+         translate_fn_call_rexpr func_cpn args_cpn loc fn_loc
+-          ghost_generic_arg_list_opt_cpn
++          ghost_generic_arg_list_opt_cpn manuallydrop_new_identity
+       in
+       let unwind_stmts, unwind_targets =
+         if TranslatorArgs.ignore_unwind_paths then ([], [])
+@@ -3100,7 +3103,12 @@
+                        loc,
+                        ref [] );
+                  ]),
+-              targets @ unwind_targets )
++              (match fn_call_rexpr, terminator with
++              | FnCallResult _, Mir.GotoTerminator _ when !manuallydrop_new_identity ->
++                  (* This existing identity lowering emitted only the normal Goto.
++                     Keep its successor inventory faithful to those statements. *)
++                  targets
++              | _ -> targets @ unwind_targets) )
+       in
+       Ok (full_call_stmts, terminator, targets)
+ 

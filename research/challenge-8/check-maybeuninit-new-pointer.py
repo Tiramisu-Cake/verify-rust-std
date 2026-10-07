@@ -1262,6 +1262,10 @@ def main() -> None:
         "--feasibility-only", action="store_true",
         help="run the constructor positive as a partial diagnostic; never accept the profile",
     )
+    parser.add_argument(
+        "--components-only", action="store_true",
+        help="run the complete constructor component matrix without the actual-callee integration tail",
+    )
     args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[2]
     evidence = args.evidence.resolve()
@@ -1418,7 +1422,12 @@ def main() -> None:
             for item in mir_results)
     )
     final_callee = None
-    if constructor_acceptance:
+    if args.components_only:
+        (evidence / "actual-callee-not-run.json").write_text(json.dumps({
+            "status": "NOT_RUN",
+            "reason": "S7c component regression scope excludes actual-callee integration",
+        }, indent=2, sort_keys=True) + "\n")
+    elif constructor_acceptance:
         callee_case = make_actual_callee_case(evidence, repo_root, source_cert)
         final_callee = run_case(callee_case, args.schema, args.tool_home,
                                 args.compiler_sysroot, repo_root,

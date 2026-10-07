@@ -19,7 +19,9 @@ import shutil
 from pathlib import Path
 
 
-PROFILE = "experimental-source-linked-select-pointer-drop-v4"
+_PROFILE_ENV = os.environ.get("SORT4_SELECT_PROFILE")
+PROFILE = (_PROFILE_ENV if _PROFILE_ENV == "experimental-manuallydrop-new-cfg-v1"
+           else "experimental-source-linked-select-pointer-drop-v4")
 HELPER = "sort4_checked_pointer_drop"
 PREFIX = "SORT4-POINTER-DROP:"
 FULL_MARKER = PREFIX + " full typed method MIR graph accepted"

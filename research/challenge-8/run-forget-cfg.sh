@@ -171,6 +171,7 @@ if [[ "$mode" == trace ]]; then
     run_stage traced-generic env VF_DEAD_CODE_LOC_TRACE=1 python3 research/challenge-8/check-forget-generic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --preflight-manifest "$evidence/generic-construction-preflight/construction-preflight.json" --evidence "$evidence/traced-generic" --dump-ast-with-locs
 else
     cfg_patch="$repo/research/challenge-8/verifast-manuallydrop-new-cfg.patch"
+    printf '%s  %s\n' 89b0d80bd1e6382a9bf5be2f1ed208bae6aac5e907a21dd782c4c22307578da7 "$cfg_patch" | sha256sum -c -
     run_stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
     run_stage cfg-patch-apply git -C "$source_home" apply "$cfg_patch"
     git -C "$source_home" diff > "$evidence/cfg-effective.patch"
@@ -190,6 +191,8 @@ else
         git -C "$source_home" diff --exit-code -- "$path"
     done
     export SORT4_SELECT_PROFILE=experimental-manuallydrop-new-cfg-v1
-    run_stage cfg-acceptance python3 research/challenge-8/check-forget-cfg.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --baseline-evidence "$evidence/old-plain-generic" --evidence "$evidence/cfg-acceptance"
+    acceptance_remaining=$((job_cap * 60 - 70 - $(date +%s) + SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH))
+    (( acceptance_remaining >= 60 )) || exit 124
+    run_stage cfg-acceptance python3 research/challenge-8/check-forget-cfg.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --baseline-evidence "$evidence/old-plain-generic" --evidence "$evidence/cfg-acceptance" --budget-seconds "$acceptance_remaining"
 fi
 exit 0

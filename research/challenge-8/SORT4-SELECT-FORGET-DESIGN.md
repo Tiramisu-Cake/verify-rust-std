@@ -407,3 +407,28 @@ Trace patch23d77777, traced binary927e0892; plain binary recorded in environment
 Cause matches authorized hypothesis; narrow candidate is now permitted.
 132 summed hosted jobseconds (20:24:00–20:26:12UTC), total4884/5400,516remain.
 No active run. Acceptance cap6min/60s artifact reserve fits actual remaining budget.
+
+### S7c candidate implementation and acceptance card
+
+Overlay89b0d80bd1e6382a9bf5be2f1ed208bae6aac5e907a21dd782c4c22307578da7,
+[separate delta](verifast-manuallydrop-new-cfg.patch), carries a fresh per-call
+boolean set only in existing identity lowering when normalized callee name is
+exact std::mem::ManuallyDrop::<T>::new. Successors omit unwind_targets only if
+that marker, FnCallResult and Mir.GotoTerminator all match. No other call branch,
+statement or MIR block changes. Exported cleanup2 remains intact; no AST pruning.
+OldS6v4 patch c7cc08a9 and all old evidence remain unchanged.
+
+Acceptance selection forget_cfg_accept, input30/effective6min hosted job cap,
+60s artifact reserve; max360s fits516remaining. Plain S6v4 reproduction precedes
+new uninstrumented overlay build in the same job. Trace patch not applied;
+verify_expr/vfconsole/frontendAst diff must be empty and base-only diff restored
+and compared before reapplying overlay. Exporter/refiner/spec inventory unchanged.
+New driver writes exact per-case expected source/contract/hash/location card
+before its checks. Ordinary caller uses a locally body-verified unsafe callee
+with symbolic bool and an actual panic branch, returning current thread_token
+on normal and unwind. Shared caller additionally does MD::new(7u32); both MIR
+call edges must share the same resume cleanup and translated unwind return must
+execute. Controls are partial CFG checks on scalars, not target-domain restrictions.
+False unwind post is only in caller; normal false post and contradictory req
+modify ghosts only in exact generic body. Existing complete matrices use the
+new effective profile and exact old classifiers; actual integration excluded.
