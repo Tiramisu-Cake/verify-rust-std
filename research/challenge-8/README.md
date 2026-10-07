@@ -6,14 +6,15 @@ not imported. Runtime algorithms and generic signatures must remain unchanged.
 
 ## Start here
 
-**Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), narrow S6v2 admission correction IN PROGRESS.**
+**Current: [pointer select completion](SORT4-SELECT-POINTER-PHASE.md), narrow S6 actual integration IN PROGRESS.**
 [Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md), [results](SORT4-SELECT-POINTER-RESULTS.md):
-constructor/asptr/typed intrinsics and S6v1 pointer drop accepted. Actual drop call
-now requires initialized pointer cell; stock-projected variant stopped beforeproof
-on ghostspan coordinate convention. Narrow v2 pre-reviewed, fresh fullmatrices/
-regressions+2coordinate negatives before actual stock projection. Broader semantic
-freeze remains; fullhelper/sort4 NOT PROVEN. Budget2995/5400,2405remain,no reset.
-STATUS is authoritative. RAPx CLOSED/NO-GO,B/C NOT RUN.
+constructor/asptr/typed intrinsics and pointer drop accepted in freshdrop-v2run
+37645561507/source85ec171. Actualdrop needs initializedpointercell, req110/call57.
+Projected proof not reached; fullnormalMIR capture37649244205 establishes exact
+five stockghostplaceholders36/19 vsreadonly31/14. Separate exact S6v3 admission
+pre-reviewed/cardfaef1a3, freshfullgates beforestockprojection. Broader freeze stays;
+wholehelper/sort4 NOTPROVEN. Budget3302/5400,2098remain,noreset/noactive atprep.
+STATUS authoritative. RAPx CLOSED/NO-GO,B/C NOTRUN.
 The following pointer-ownership closeout is historical.
 
 **Previous: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md), CLOSED.**

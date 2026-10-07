@@ -2,12 +2,15 @@
 
 Owner authorization2026-10-07; entry
 `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09` on challenge-8/research.
-**S6v1 ACCEPTED; S6v2 narrow admission correction IN PROGRESS.** Continuing5400summed hosted-job-second
-budget,<=1800/job,<=300/individual proof,one active relevant workflow_dispatch.
-Spend2995/5400;2405remain,noactive at preparation. S6 entry2398 was not reset. Only narrow pointer
-drop remains authorized; original broad phase scope below is historical where it
-conflicts with the owner's latest freeze. Next permitted action is the prepared
-same-profile replay+3new-controls+actual dispatch, not semantic expansion.
+**S6v2 component ACCEPTED; narrow actual integration IN PROGRESS.**
+Continuing5400summed hosted-job-second budget,<=1800/job,<=300/proof,one active
+relevant workflow_dispatch. Spend3302/5400;2098remain,noactive atpreparation.
+S6entry2398 neverreset. Latest normaldiagnostic37649244205/sourcef6fdf5b export/
+decode/integrityPASS, no proof. ExactS6v3 projected-only36/19 admission cardfaef1a3
+precedescode; frozenstockexecution unchanged, fullfreshgates beforeactualprojection.
+ONLYpointerdrop integration authorized; STOP failedprojected/droppre ornextblocker.
+Originalbroadscope below historical wherever it conflicts with owner's latestfreeze.
+
 Previous pointer-ownership phase remains CLOSED;its unused4882s do not transfer.
 
 Target actual `library/core/src/hint.rs::select_unpredictable` at

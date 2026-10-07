@@ -1,51 +1,50 @@
 # Challenge 8: current checkpoint
 
-Updated2026-10-07. **S6 narrow pointer drop: v1 ACCEPTED; v2 admission correction IN PROGRESS.**
-Owner resumed only this component/actual integration frombea6248; broader04d67f4b
-semantic draft stays frozen. [Phase](SORT4-SELECT-POINTER-PHASE.md),
-[preimplementation v2 rationale/gate](SORT4-SELECT-POINTER-DESIGN.md),
+Updated2026-10-07. **S6 narrow pointer drop COMPONENT_ACCEPTED (v2); actual integration IN PROGRESS.**
+Owner resumed only payload *const Element / receiver *mut *const Element from
+bea6248. Broader04d67f4b draft/generalDrop/guard/forget/assume_init/union/refiner/
+kernel/memory/alias/provenance remain frozen.
+[Phase](SORT4-SELECT-POINTER-PHASE.md), [design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
 [results](SORT4-SELECT-POINTER-RESULTS.md), [actual](SORT4-SELECT-CALLEE.md).
 
-Budget **3168/5400 summed hosted job seconds used;2232remain**, no reset.
-S6v2 run37645561507/source85ec1711700ff85c899b18b7e021f076aeddb8e6 completed173s
-15:38:39–15:41:32UTC. No active run. Fresh fullcomponent matrices/14baselines PASS;
-two new actualcoordinate controls SETUPfailed, projectedNOTRUN. Normal exporter
-injects32byte ghostcommand; v2 wrongly bound ordinaryspan toreadonly geometry.
-Next NORMALfullMIR capture DIAGNOSTIC ONLY pre-reviewed in design, no further
-semanticpatch yet. <=1800/job,<=300/proof,GitHub-hosted only.
+Budget **3302/5400 summed hosted job seconds used;2098remain**, no reset.
+No active run. <=1800/job,<=300/proof,one relevant GitHub-hosted dispatch only.
+Latest normal-MIR diagnostic37649244205/sourcef6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d
+completed69s16:05:10–16:06:19UTC; exporter/decode/source/tool/argument integrityPASS,
+NO verifier/refiner/proof. Full normal actual36locals19BB captured; readonly31/14.
 
-S6v1 COMPONENT_ACCEPTED in37642650884/source4d0e3070ca93e01b7a5ccfad18ea83900bc7536b:
-full2positive+11proofnegative+22admission matrix. Proofs/19valid controls replayed
-from original37637630477/source de7ed9d at IDENTICAL fulltool/spec/std hashes;
-3repaired admission controls NEW and intended. Original classifications/rawlogs
-retained, complete constructor/asptr/intrinsic/14baseline regressions from original
-v1 proof run explicitly retained with their provenance. Profile
-experimental-source-linked-select-pointer-drop-v1, patchcd660fe9.
-Trusted compiler raw-pointer glue correspondence separate from checked method/
-identity lemma body; initialized existing cell/full pointer value/thread/frames
-mandatory, no Element rights. Recursive free stub is NOT proved runtime body.
+S6v2/37645561507/source85ec1711700ff85c899b18b7e021f076aeddb8e6:
+fresh full2positive+11proofnegative+22admission drop matrix and complete accepted
+constructor/asptr/intrinsic matrices plus14baselines PASS. Drop-v2/patch8e62e6c3;
+checked method body/identity lemma separate from TRUSTED compiler raw-pointer
+glue correspondence. Existing initialized cell/full pointer value/thread/frames
+mandatory, no Element rights. Recursive free stub NOT proved runtime body.
+V1 acceptance/replay and original classifications retain their provenance.
 
-Actual baseline v1 source/export/decode/refinement/fullmethod+31local14BB actual
-certificates/redirectPASS, body reaches drop57; fails method precondition:
-verified/lib.rs(110,55-58) No matching heap chunks: points_to<*Element>(__result2, _).
-Projected actual fails ghostsource-span admission BEFORE proof; no projection
-resource verdict. Full helper/sort4 NOT PROVEN. All runtime calls/cleanup retained.
+Actual baseline complete source/export/decode/refinement/method+actual typed
+certificate/redirectPASS. Dropcall verified/lib.rs57 reaches pre110:
+No matching heap chunks: points_to<*Element>(__result2, _).
+Thread/currentThread pass. Wrappercells with inner=some(input), exact receiver
+pointer equalities and stock reborrow transport identified; fullheap not printed.
+Only stock open/close_MaybeUninit projection is proposed, not assumed.
 
-Authorized narrow continuation: S6v2 ONLY correct exact5ghost coordinates:
-ordinary span hi last-char + explicit parser start/end full half-open range,
-checked TOGETHER against exact source. Exporter convention independently reviewed.
-NEW experimental-source-linked-select-pointer-drop-v2 profile; fresh fullS6 and
-patchSHA2568e62e6c3044fda7533637d242fb5e8a575eac0d7600213e8e3ba00a182dc0d7c;
-accepted-component/14baseline proofs, plus2independent actual MIR ghost-coordinate
-negatives before actual stock projection. Design experiment card precedes edits.
-No broad annotation/parser/memory/provenance/refiner/kernel/body/glue semantics
-change. Existing stock wrapper projection/reborrow hypothesis still untested.
-STOP at unprovable projection/drop initializedcell pre or nextactual blocker.
+V2 actual ghostcoordinate controls SETUPfailed at NORMAL second export;
+projectedNOTRUN. Normal exporter inserts five32byte ghost commands and fiveunit
+locals/blocks; ordinaryghosthi+32, explicitcoordinates stayoriginal. Historical
+readonly geometry hypothesis retracted; original classifications kept.
+Normal diagnostic37648838042 duplicatecompilerargs setupfail65s; repaired
+37649244205 fullnormal capture69s. All costs included above.
 
-Previous Git transport/dispatch HTTP500 recovered; identical4d0e307 published via
-Git Data API force=false then remoteconfirmed, hostedrun37642650884completed113s.
-No active run. Local documentation drafts pending final outcome; no extra phase.
-General Drop/guard/forget/assume_init/union/refiner/kernel/memory/alias/provenance
-and04d67f4b remain frozen. Assume_init S5j refinement FAIL RawPtr bb1command4,
-normal preprocessing separately tailghostclose failure; no readresource proof.
-RAPx CLOSED/NO-GO,B/C NOT RUN,no upstream PR/messages/submission.
+Next permitted action: exact S6v3 projected-only full36/19 admission, separate
+baseline31/14 check; preimplementation card/trust review committedfaef1a3 BEFORE
+code. Fullruntime/cleanupgraph, exact fivezeroarg/unit placeholders/ghostpairs,
+regular+32 and explicitsourcecoordinates; NO graph/AST rewrite or translator
+execution/resource change. Frozen stock ghost substitution trusted separately.
+Freshcompletecomponent/regression/independentactualadmission gates beforestock
+projection. STOP at unprovable projected/drop pre or next actual blocker.
+No broader phase reopened. Wholehelper/sort4 NOT PROVEN.
+
+Assume_init S5j correction: readonlyexport/decode0, refinementFAIL RawPtr bb1command4;
+normalpreprocessing separately after-tailghostclosefailure. No readresource proof.
+Git transport500 recovered; current branch pushed, no force/reset/upstream action.
+RAPx CLOSED/NO-GO,B/C NOTRUN,no upstream PR/messages/submission.

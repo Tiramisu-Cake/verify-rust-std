@@ -29,8 +29,13 @@ The v1 projected variant exports/decodes/refines but stops BEFORE proof at
 span geometry for normal MIR: the frozen normal exporter inserts the 32-byte
 `crate::VeriFast_ghost_command();` scaffold before each ghost command, while the
 explicit parser coordinates retain the original source positions. A separate
-hosted diagnostic will retain the full NORMAL typed MIR before any further
-admission decision. Projection resources have no proof verdict yet.
+hosted diagnostic37649244205/sourcef6fdf5b retained the full NORMAL typed MIR:
+36locals19blocks, exactly five stock zero-argument/unit ghost placeholders.
+The complete runtime/cleanup mapping was independently reviewed; a separate exact
+projected certificate is specified in cardfaef1a3 BEFORE code, without changing
+stock ghost substitution or execution/resource semantics. Fresh full matrices and
+independent NORMAL admission controls must precede projected proof.
+Projection resources have no proof verdict yet.
 [Preimplementation rationale and reassessment](SORT4-SELECT-POINTER-DESIGN.md).
 No memory/ownership bridge/guard/forget/assume_init/refiner/kernel extension.
 
@@ -38,7 +43,7 @@ Drop preserves existing initialized cell's full pointer value, thread token and
 independent frames, no new Element rights. Compiler raw-pointer glue correspondence
 is separately TRUSTED; ghost identity proof does not establish it, recursive free
 source is not a runtime-body theorem. Whole helper and sort4 NOT PROVEN.
-Budget **3168/5400 used,2232 remain**, no reset; no active run at normal-capture preparation.
+Budget **3302/5400 used,2098 remain**, no reset; no active run at v3 preparation.
 Earlier Git/dispatch500 recovered; published identical Git objects force=false.
 
 Correction from original S5j logs: assume_init refinement did NOT pass.
@@ -46,6 +51,16 @@ Readonly export/decode0; refiner1 `RawPtr: not yet supported` at bb1command4,
 original25/verified33. Normal preprocessing separately fails after-tail ghostclose.
 No read-resource proof or ownership/provenance boundary follows from those failures.
 [Original S5j run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621751848).
+
+Exact resource derivation to test: constructors return wrapper cells with
+`inner=some(a)` and `inner=some(b)`; checked `as_mut_ptr` preserves each wrapper
+cell and returns the full modeled receiver pointer. The second pointer intrinsic
+selects `drop = condition ? false_ptr : true_ptr`. Existing stock
+`open_MaybeUninit::<*Element>` requires each wrapper points-to and yields its
+payload `|-?-> inner`; the known `some` state should give initialized `*slot |->`
+at those exact pointers. Split on condition to supply the selected initialized
+cell to drop, framing the other cell/thread/reborrow resources, then close wrappers.
+This is a proof hypothesis, not an assumed bridge or evidence from a heap dump.
 
 ## Historical O4 result — constructor accepted, as_mut_ptr boundary
 

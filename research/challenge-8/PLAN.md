@@ -1,19 +1,20 @@
 # Challenge 8: approved roadmap
 
-Current [pointer select completion](SORT4-SELECT-POINTER-PHASE.md): S6v1 accepted,
-S6v2 exact ghost-coordinate admission correction IN PROGRESS. Owner resumed only
-pointer drop/component actual integration frombea6248; broader04d67f4b frozen.
-S6v1 full2+11proof/22admissions accepted37642650884/source4d0e307 atcd660fe9;
-constructor/asptr/intrinsic/full14baselines retained in this exact profile.
-Actual reaches initializedcell pre atdrop57, req110 points_to<*Element>(__result2,_).
-Projected variant stops beforeproof on incorrectly checked inclusive ghostspanhi.
-Narrow pre-reviewed S6v2 checks BOTH ordinary span and explicit parser coordinates;
-requires NEW complete component/regression proofs and2actual coordinate mutants
-before projectedactual. No kernel/refiner/memory/alias/provenance/guard/forget/
-assume_init/union/general Drop extension. STOP at failed initializedcell projection
-or next actual blocker. Budget2995/5400used,2405remain,no reset; no active run at
-preparation. [STATUS](STATUS.md) is authoritative; original chronology below
-is historical and does not expand authorization. Whole helper/sort4 NOT PROVEN.
+Current [pointer select completion](SORT4-SELECT-POINTER-PHASE.md): S6v2 narrow
+pointer drop accepted; actual integration IN PROGRESS. Owner resumes only this
+component frombea6248; broader04d67f4b/generalDrop/guard/forget/assume_init/union/
+refiner/kernel/memory/alias/provenance stay frozen. Fresh complete S6/constructor/
+asptr/intrinsic matrices and14baselines passed37645561507/source85ec171/drop-v2.
+Actual drop57 fails initializedcell pre110 `points_to<*Element>(__result2,_)`.
+Projected resource proof not reached: v2actualcoordinate controls SETUPfail.
+Full NORMAL MIR diagnostic37649244205/sourcef6fdf5b identifies exact five stock
+placeholders (36locals19BB), distinct fromreadonly31/14. Exact S6v3 projected
+admission cardfaef1a3 precedes code, checks all typed/runtime/cleanup/scaffold
+operations with unchanged stockexecution semantics, freshfullgates and independent
+normaladmissions before actualstockprojection. STOP at failed projected/droppre or
+nextactualblocker. Budget3302/5400used,2098remain,noreset,noactive atpreparation.
+[STATUS](STATUS.md) is authoritative; historical instructions below do not expand
+authorization. Whole helper/sort4 NOT PROVEN.
 
 Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is **CLOSED**,
 separately authorized2026-10-07 at e0920ec. [Final results](SORT4-POINTER-OWNERSHIP-RESULTS.md):

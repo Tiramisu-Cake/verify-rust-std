@@ -6,20 +6,22 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Current pointer-select checkpoint: S6v1 COMPONENT_ACCEPTED37642650884/source4d0e307,
-complete2positive+11proofnegative+22admission controls, same-byte-profile replay and
-3NEW repaired controls. Original proof/regression provenance retained; fullctor/
-asptr/intrinsic/14baseline gates passed again in originaldrop-v1 proofrun37637630477.
-Compiler raw-pointer glue TRUSTED separately from checkedmethod/identity lemma.
-Actual methodcall57 reaches req110 missing points_to<*Element>(__result2,_);
-thread/currentThread passed. Existingwrappercell/some/receiver equalities and
-reborrow resource transport are from preceding checked contracts/stock semantics,
-not a printed fullheapdump. Empty pointerown cannot mint initializedcell rights.
-Projected variant source/export/decode/refinementPASS but ghostsource-span admission
-rejects beforeproof; no projection resource verdict. S6v2 exactcoordinate correction
-pre-reviewed, fullnewmatrix/regressions+2coordinate controls required before actual.
-Budget2995/5400,2405remain,no reset; noactive atpreparation. No broadmemory/refiner/
-union/kernel/guard/forget/assume/generalDrop expansion. Wholehelper/sort4 NOT PROVEN.
+Current pointer-select checkpoint: S6v2 COMPONENT_ACCEPTED37645561507/source85ec171,
+complete2positive+11proofnegative+22admissions, fresh fullconstructor/asptr/intrinsic
+and14baseline proofs at8e62/drop-v2. Compiler raw-pointer glue TRUSTED separately
+from checked method/identitylemma. Existing initializedcell/fullpointer/thread/
+independentframes preserved, no Elementrights. Recursivefree source notruntimeproof.
+Actual methodcall57 reaches req110 missing `points_to<*Element>(__result2,_)`;
+thread/currentThread pass. Existing wrappers/some/receiverequalities/reborrow
+transport follow preceding checkedcontracts/stockrules, not fullheapdump.
+Empty pointerown cannot mint initializedcell. Stockopen/close projection notproved:
+v2normalcoordinatecontrols SETUPfail, canonicalprojectedNOTRUN.
+Normalcapture37649244205 export/decode/integrityONLY (no proof): full36locals19BB
+includesfive exactstockplaceholders. Exactprojected v3 admission pre-reviewed in
+faef1a3 beforecode, runtime/cleanupfullgraph andstockplaceholder/ghostcorrespondence,
+unchangedfrontendexecution/resource rules; freshcompletegates before actual.
+Budget3302/5400,2098remain,noreset/noactiveatprep. STOP projected/droppre ornext
+actualblocker. No broaderfrozen semantic direction reopened. Wholehelper/sort4NOTPROVEN.
 
 Historical accepted pointer-select baseline: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile
