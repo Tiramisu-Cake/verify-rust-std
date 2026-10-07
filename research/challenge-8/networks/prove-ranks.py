@@ -137,7 +137,9 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
                   f"    assert mem({id_outputs[i]}, d) == true;"]
     for i in range(n - 1):
         lines += [f"    assert rank{i} <= rank{i + 1};",
-                  f"    swo_rank_bridge(rel, d, id{i + 1}, id{i});",
+                  f"    assert rank{i} == swo_rank(rel, d, id{i});",
+                  f"    assert rank{i + 1} == swo_rank(rel, d, id{i + 1});",
+                  f"    swo_ordered_pair(rel, d, id{i}, id{i + 1});",
                   f"    assert !rel(id{i + 1}, id{i});",
                   f"    assert !rel({id_outputs[i + 1]}, {id_outputs[i]});"]
     lines += [f"    assert {count('id')} == original_count;", "}", ""]

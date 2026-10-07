@@ -13,6 +13,11 @@ list `count` of strict predecessors in the ORIGINAL domain d; equal classes
 may have different sizes, hence ranks may have gaps, but identical key classes
 must have equal ranks. Integer occurrence IDs themselves are not ranks.
 
+The generic bridge and CE/application bodies below were accepted in R9d,
+[run37653851684](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653851684),
+source955fd2a3334e8fe14c55bdb00f98c4f9813da775, stock26.09. Network composition
+is a separate acceptance gate; see STATUS for its current result.
+
 Own checked bodies in swo-rank.c:
 
 - `swo_forall_at` and `swo_laws_at` extract finite pointwise laws.
@@ -32,6 +37,13 @@ rank theorem's bodies are verified in each same-unit composition, before using
 its summary. Generated SWO ID wires select original identities, not key ranks.
 Each literal CE checks ID-wire equality, rank-wire equality, membership,
 constructed rank/ID correspondence and arbitrary-q total occurrence count.
+R9e checks the composed schedule against a symbolic original domain with
+finite_swo and membership of the fixed original IDs. A separate body specializes
+that theorem to the exact literal domain0..N-1 and discharges each initial
+membership precondition. Both bodies retain full original posts and are checked
+in the same unit; this prevents repeated concrete triple-law expansion rather
+than adding an assumed theorem.
+
 The final application checks the accepted whole-rank sorted post and converts
 each adjacent pair back through the constructed bridge. Explicit exported posts
 include all output IDs in the original domain, all adjacent !rel(right,left)

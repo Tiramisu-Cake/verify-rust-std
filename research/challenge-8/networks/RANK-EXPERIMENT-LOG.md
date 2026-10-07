@@ -179,3 +179,42 @@ R13 card/dispatch. First causal failure -> localized evidence-led checked-body
 repair/newSHA; no novel tool/trust extension. If timeout/budget boundary persists,
 save precise unproved composed lemma/posts; N13 not dispatched prematurely.
 Job8min/inner420s/percase180s fits1545s remaining. Source/run pending.
+
+### R9e result: all25 CEs checked; final conversion timeout
+
+Source `a38cc109329613645de8d995a5faba2feed7627f`,
+[run37654875244](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654875244),
+[artifact11498655457](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654875244/artifacts/11498655457),
+299725bytes, ZIP SHA256edba90c117e1df7d18da2936117b50d977168ea75a63088b10c59807be642393.
+Full sources/logs/results/environment read, all source/log hashes and pins match.
+Generic81statements/39return-leak paths VF0 again; negative+7controls PASS.
+N9 composition exit124 at180s, no errors,543completed return/leak paths.
+All25 exact CEs, per-step membership/rank-ID/count/DAG correspondence and old
+full-rank theorem application complete. The first final swo_rank_bridge call
+at5055 starts90.653s and finishes149.321s; next at5059 is unfinished. Symbolic
+domain reduces peak memory1.68GB ->153MB and advances to final conversion.
+Whole composed post/wrapper remain unproved, not a full N9 acceptance.
+Job16:48:08Z–16:51:20Z = **192s**, total447/1800,1353remain.
+
+Independent static review: finite laws/count embedding has no circular
+correspondence premise, assumed/user-bodyless lemma or tool modification;
+symbolic-domain theorem legitimately specializes to exact0..8. Exported order
+is adjacent sortedness; global all-pairs order is a mathematical corollary,
+not an explicitly enumerated machine post. Rust boundary remains open.
+
+## R9f — prepared before dispatch
+
+Same full N9 normal mathematical domain/posts and Rust applicability/boundary;
+same stock pins, exact25 calls, source admission, old rank components and limits.
+Hypothesis: a separately checked swo_ordered_pair projection body can prove
+!rel(right,left) from finite_swo, pair membership and rank(left)<=rank(right),
+using the full accepted rank bridge internally. Calling its small summary for
+each final pair avoids introducing unnecessary full equivalence/bound facts
+with deeply nested final ID expressions into the whole-network context.
+Full generic rank-comparison/equality/bounds posts stay unchanged, as do full
+membership/adjacent-order/arbitrary-q final network posts. No assumed bridge.
+Projection's own body must VF0 in the same units before summary use. Negative
+and7controls unchanged. Complete N9 symbolic body AND exact wrapper acceptance
+required -> R13. New causal proof failure -> localized correction/newSHA;
+budget/trust boundary -> exact unfinished obligations, no patch/fallback.
+Job8min/inner420s/percase180s fits1353s remaining. Source/run pending.

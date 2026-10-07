@@ -2,9 +2,9 @@
 
 2026-10-07 — IN PROGRESS: finite SWO-to-integer-rank phase, separately authorized.
 Entry `a9fe187d48a492939970998ca862736a410c1adc`, same isolated branch/worktree.
-New budget **255/1800 summed hosted job seconds**,1545remain; no active run.
-R9d [run37653851684](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653851684),
-source `955fd2a3334e8fe14c55bdb00f98c4f9813da775`.
+New budget **447/1800 summed hosted job seconds**,1353remain; no active run.
+Latest R9e [run37654875244](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37654875244),
+source `a38cc109329613645de8d995a5faba2feed7627f`.
 Previous phase ACCEPTED, **1499/1800spent**,301unused not transferred; preserved
 in [phase1 checkpoint](PHASE1-STATUS.md), [results](RESULTS.md) and original journal.
 
@@ -20,10 +20,10 @@ Official stock VeriFast26.09 unchanged; source/std/generator pins preserved.
 At most one hosted run here, two across both directions; budgets independent.
 Main direction's STATUS/PLAN untouched. No merge or public-goal completion claim.
 Actual Rust swap_if_less safety/ownership/callback/unwind proof remains OPEN.
-R9d: generic constructed finite SWO embedding and CE/application ACCEPTED,
+Generic constructed finite SWO embedding and CE/application ACCEPTED R9d/R9e,
 all15 named bodies,39return/leak paths, VF0. Less iff strict rank, equivalence
 iff equal rank and bounds proved without axioms. Negative+all7controls PASS.
-N9 composition remains OPEN: timeout180s after SIX exact CE steps, at seventh
-swo_ce call. Existing complete rank theorem and new helper bodies checked.
-Next R9e: symbolic-domain composed theorem plus checked exact-domain wrapper;
-all original posts retained. N13 only after whole N9 acceptance.
+N9 whole composition remains OPEN: R9e completes all25 exact CE steps and old
+full rank theorem application, then timeout180s in final rank-to-key conversion.
+Next R9f: checked ordered-pair projection lemma retains whole original posts;
+all bodies in same unit, no correspondence axiom. N13 only after full N9 acceptance.

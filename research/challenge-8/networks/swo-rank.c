@@ -225,4 +225,17 @@ lemma void swo_ce(fixpoint(int, int, bool) rel, list<int> d,
         assert swo_rank(rel, d, left) <= swo_rank(rel, d, right);
     }
 }
+
+// Project a sorted pair of predecessor counts back to the source comparator.
+// Keep the full bridge's count/equality/bounds facts local to this checked body.
+lemma void swo_ordered_pair(fixpoint(int, int, bool) rel, list<int> d,
+                            int left, int right)
+    requires finite_swo(rel, d) == true &*&
+             mem(left, d) == true &*& mem(right, d) == true &*&
+             swo_rank(rel, d, left) <= swo_rank(rel, d, right);
+    ensures !rel(right, left);
+{
+    swo_rank_bridge(rel, d, right, left);
+    assert !rel(right, left);
+}
 @*/
