@@ -83,3 +83,23 @@ All8positiveactualghostbodies/fullpost/source-integrity/0error/17return17leak PA
 Full pinned3Rust activebody/signature/order certificate f2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7 unchangedG1/G2; fullsource32574f...,stockconsole dc672...,archive da1b...,frozenclassifier994afa...match. Stock div_rem_nonneg is existingtoolprelude integer arithmetic, not ownaxiom/correspondenceassumption.
 Outerexit0,proofwall0.88s,user0.81s,peakRSS66220KiB. SummedHOSTEDcost11+14=25/1800,1775remaining,setup/evidenceincluded. Noactivejob. Networks oldbudgets1499/1800 and1649/1800unchanged,no transfer/noadapterruns.
 Decision: close authorized mathematicalgeometryphase with complete invariant/induction/orderedaccess/update/terminal/scalarguard certificates. Rust provenance/overflow/ZSTmapping/permissions/initialization/FnMut/ownership/unwind and sorting functionality OPEN; no publicChallenge safety claim. No additional verification needed for documentation-only checkpoint.
+
+## F-A1 card — authorization before functional implementation
+
+Actual pinnedbidirectional schedule and originalG2geometrystate, source32574f...
+HypothesisA: multiset count telescopes while selected fronts advance/back cursors
+retreat; scalarfinalequalities exactly eliminate residual sourceintervals. Exact
+destinationwriteindicesk,n-1-k,m givecoverage/unique and outputIDs beforemoves.
+Domainn>=2, arbitrary independentcomparisonpairs listlenm=n/2, oddh arbitrary.
+NoSWO/sortedness/keypremise. Full posts exactlengthn, eachdstexactlyonewrite,
+alloriginalIDmultiplicities forarbitraryq and fullG2geometrytrace. Normalmath
+complete schedule only; actualcallbackpanic/unwindresourcesnotproved.
+B targetalreadyrecordedPLAN: sortedhalves/fixedSWO/immutablekeys/faithfulnormal
+answers/scalaroddchoice -> guard,sortedout,permutation,stability,exactschedule.
+InitiallyA beforeB; positivefullbodies/normalreturn/leak/integrity/0error; lossy
+withoutguardnegativeintended exactmultiplicityassert, source/body/line/predicate/
+column/timeoutsfailclosed. Tie/sortednessnegatives separatelyrequiredforB.
+Stock unchanged tool/source/classifier frozen, no axioms/refinement weakening.
+Hosted6minjob/percase180/inner300, oneownjob;25/1800spent1775remaining.
+Routinefixonlyonnew evidence, fullAacceptance -> permittedBimplementation.
+Source/runpending. Alloriginalgeometryproof/results/budgets retained.

@@ -1,3 +1,50 @@
+# Current authorized functional stage: goals and acceptance
+
+Owner continuation from067fb584018760259841210d2cc6c227117798ce, SAME1800jobsecond
+merge budget25spent/1775remaining, no reset or networktransfer. Stock unchanged
+VF26.09 and existing strict classifier. Original acceptedgeometryplan follows.
+
+A. Model exact output occurrence IDs0..n-1 from current source cursor before
+its movement; each pairwrites upwardat k then downwardat n-1-k, and odd
+residualat m. AllcomparisonBooleanpairs and residualchoices arbitrary. For every
+n>=2, assumeONLY final scalar-index equalities; prove destinationcoverage/no
+repeatwrites/outputlengthn and exact arbitrary-q multiplicity equal original
+IDs. Build structural induction/invariant, no bounded inputenumeration/SWO.
+Export full reusable theorem posts; identify existingG2calls before use.
+
+B. Add ONLY functional premises: two original halves sorted by ONE fixed finite
+SWO on immutable keys, faithful normallyreturning comparator and odd scalar
+sourcechoice left<left_end. Derive forwardleft/backwardright tie rules, prove
+scalarfinalguardpasses, sortedout, occurrencepermutation and stableIDordering
+for every equivalent key pair. Rechecked constructiveSWO-rankbridge allowed;
+no assumed correspondence. If reference stablemerge is introduced, both its
+correctness and exactourbidirectional schedule correspondence need bodies.
+Do not count an ordinary one-direction merge theorem as B acceptance.
+
+Acceptance: same fullpinnedsource3bodyadmission, expected==visited ownbodies,
+allfullnormalpost/return/leak/sourceintegrity/0error gates; no omitted deadbody,
+assumed lemma/ownershipbridge or disabledchecks. Explicit inductive arbitrary
+length domain. GeometryG2 original proof/source/profile/results remain intact.
+Three new meaningful negatives: lossy/duplicate output withoutfinalguard,
+wrongtie selection violatesstability, incorrectcomparison violates sortedness.
+Eachisolatedfalseassert mustreach predeclaredpredicate/stage/line/column; strict
+7wrongresultcontrols each. Parser/setup/timeout/unrelatedfailure is inconclusive.
+
+ProceedA thenB through relevant successful stages; failures require evidence-
+based annotation/context/lemma fixes, preservecounterexampleifany. Material
+unproved obligation/budgetboundary -> exact checkpoint, no silent stronger
+premises/weakerposts. One own manualhostedjob<=remainingbudget, no local
+proof/generator/build/test, no tool/runtime/signature/memory patch. Updatecards
+beforeeachnew experiment. Final ownRESULTS/STATUS/coverage/log/cost,commit/push.
+
+Functional theorem is conditional puremath only: scalar guard doesnot identify
+actual pointerguards/ZST; provenance/usize-byteoverflow/memorypermissions/
+initialization/ownership/FnMut/unwind and actualRust remain OPEN. No public
+Challenge/fullactualmerge completion. No otheragent worktree/branch/commondocs
+or networkruns/merges. G2originalproofSHA b1ed0c22dafec350a64e83675d55350806d77208.
+
+---
+
 # Authorized merge geometry phase
 
 1. Admit full pinned SmallSort bytes and exact active bodies/operation order of
