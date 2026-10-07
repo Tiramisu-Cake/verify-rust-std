@@ -2,7 +2,10 @@
 
 Updated2026-10-07. Owner resumes S7b from8fdb579: autonomous generic-body theorem authorized.
 New BEFORE card in forget design; old S7a stop below is historical.
-4411used989remaining, no active run. Full-unit proof first, classifier replay
+4589used811remaining after37675513854/sourcec9c59a85807da0135a8192b1912b15d510c68028:
+178s19:34:36–19:37:34UTC. FullunitVF1 soleadapter-declarationdeadcode despiteall7
+body/return/leak; exports/decode/refine0. No theorem/actualredirect; causaltrace
+read-only now, classifier replay separate and pending, no active run.
 separate; no actual redirect before complete acceptance/matrix.
 
 Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**

@@ -4553,3 +4553,20 @@ replaycap2min120 nobuild; before4411used989remaining/noreset/onehostedrun.
 S7b full timed inventory fixed from same-v4 accepted37656621026 log:6 pinned
 prelude lemma functions +sole checked_forget_generic, exact order in design.
 No arbitrary outside-source headers allowed; diagnostic notes do not count.
+
+S7b first standalone dispatch37675513854/sourcec9c59a85807da0135a8192b1912b15d510c68028,
+created19:34:31UTC, exact remote confirmed, soleactivejob. Selectionforget_generic,
+cap8min480/reserve120/fullVF120/otherstage60; before4411used989remain, noreset.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37675513854).
+Independent staticreviewPASS; strict classifier separatecommit0c4fff1. Replay
+provenancefix independentlyreviewed/pinswholeinnerZIP +selectedtreebytes, notrunyet.
+
+S7b first37675513854/c9c59a85807da0135a8192b1912b15d510c68028:
+178s19:34:36–19:37:34UTC ->4589used811remaining. Hostedwholeunitnofocus, all7exact
+functionheaders/body/return/leak; fullVF1 sole verified/lib.rs(3,1-16,2):deadcode.
+NORMAL/readonly/decode/refinement0; fulldecodedMIR hashesidentical3b08b5835f03ff152e6dae68bbf4ce05d1491d7919124f06222794f844b8553d.
+No completebodytheorem/SAFEcorrespondence/actualredirect. Genericunit removesother
+focused-deadcode inventories, leavesadapterdecl exact mandatoryfailure. Read-only
+provenanceaudit underway; no syntaxvariants orsemanticchanges. Compact11507342250/
+full11506168168 downloaded/read. Replayfix separate: cap2min120 nobuild/verifier,
+wholepinnedoldarchive +bytewiseinputtree checks, originalclassespreserved.

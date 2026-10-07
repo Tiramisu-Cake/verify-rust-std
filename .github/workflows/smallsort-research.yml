@@ -12,6 +12,7 @@ on:
           - rapx_applicability
           - rapx_evidence_replay
           - select_intrinsic_evidence_replay
+          - forget_evidence_replay
           - sort4_functional
           - insertion_all_4
           - insertion_contracts_4
@@ -74,7 +75,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay'
+    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'forget_evidence_replay'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -286,4 +287,66 @@ jobs:
         with:
           name: smallsort-intrinsic-replay-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/select-pointer/intrinsic-replay-evidence.zip
+          retention-days: 90
+
+  forget-classifier-replay:
+    if: inputs.proof == 'forget_evidence_replay'
+    name: Replay immutable forget diagnostic classification
+    permissions:
+      contents: read
+      actions: read
+    runs-on: ubuntu-22.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Retrieve and validate pinned S7a evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p research-results/forget-classifier-replay
+          gh api repos/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220 > research-results/forget-classifier-replay/original-run.json
+          gh api repos/Tiramisu-Cake/verify-rust-std/actions/artifacts/11503963988 > research-results/forget-classifier-replay/original-artifact.json
+          gh api repos/Tiramisu-Cake/verify-rust-std/actions/artifacts/11503963988/zip > "$RUNNER_TEMP/forget-outer.zip"
+          python3 - <<'PY_FORGET_ARCHIVE'
+          import hashlib, json, os, pathlib, stat, zipfile
+          task_temp = pathlib.Path(os.environ['RUNNER_TEMP'])
+          output = pathlib.Path('research-results/forget-classifier-replay')
+          run = json.loads((output / 'original-run.json').read_text())
+          artifact = json.loads((output / 'original-artifact.json').read_text())
+          assert run['head_sha'] == 'a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d'
+          assert artifact['workflow_run']['id'] == 37669436220 and not artifact['expired']
+          with zipfile.ZipFile(task_temp / 'forget-outer.zip') as outer:
+              assert outer.testzip() is None
+              inner = outer.read('sort4-select-compact-evidence.zip')
+          digest = hashlib.sha256(inner).hexdigest()
+          assert digest == '12c3f3f509fc845dd1aa1bb7d8b80f8fcf70e6ab6064af3436168f0b9489dd83'
+          archive_path = task_temp / 'forget-inner.zip'
+          archive_path.write_bytes(inner)
+          root = task_temp / 'forget-input'
+          root.mkdir()
+          with zipfile.ZipFile(archive_path) as archive:
+              assert archive.testzip() is None
+              for info in archive.infolist():
+                  name = pathlib.PurePosixPath(info.filename)
+                  assert not name.is_absolute() and '..' not in name.parts
+                  assert not stat.S_ISLNK(info.external_attr >> 16)
+                  if (info.filename.startswith('current/select-pointer/forget-guard-diagnostic/') or
+                      info.filename == 'current/select-pointer/environment.txt'):
+                      archive.extract(info, root)
+          (output / 'input-identity.json').write_text(json.dumps({'archive_sha256': digest,
+              'processor_sha': os.environ['GITHUB_SHA'], 'input_run': 37669436220,
+              'input_artifact': 11503963988}, indent=2) + '\n')
+          PY_FORGET_ARCHIVE
+      - name: Replay without compiler or verifier
+        run: |
+          timeout --signal=TERM --kill-after=5s 60s python3 research/challenge-8/replay-forget-classifier.py --archive "$RUNNER_TEMP/forget-inner.zip" --evidence "$RUNNER_TEMP/forget-input/current/select-pointer/forget-guard-diagnostic" --output research-results/forget-classifier-replay/results --run-id 37669436220 --artifact-id 11503963988 --self-test
+      - name: Preserve separate replay evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-forget-classifier-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/forget-classifier-replay/
+          if-no-files-found: warn
           retention-days: 90
