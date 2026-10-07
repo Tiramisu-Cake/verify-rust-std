@@ -123,17 +123,17 @@ lemma void mb_no_cross(fixpoint(int,int) key,int m,int e,int k,int a,int d)
 {
     int n=2*m+e;int r=m+k-a;int le=m-k+d;int re=n-d;
     if(a>le) {
-        mb_half_order(key,m,n,le,a-1);
-        mb_half_order(key,m,n,r,re-1);
         assert mb_lt(key,a-1,r)==true;
         assert mb_lt(key,re-1,le)==true;
+        mb_half_order(key,m,n,le,a-1);
+        mb_half_order(key,m,n,r,re-1);
         assert false;
     }
     if(r>re) {
-        mb_half_order(key,m,n,re,r-1);
-        mb_half_order(key,m,n,a,le-1);
         assert mb_lt(key,r-1,a)==true;
         assert mb_lt(key,le-1,re)==true;
+        mb_half_order(key,m,n,re,r-1);
+        mb_half_order(key,m,n,a,le-1);
         assert false;
     }
 }
@@ -171,12 +171,6 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
     }
     assert mb_remaining(m,e,k,a,d,fa_up_source(m,k,a,up))==true;
     assert mb_remaining(m,e,k,a,d,fa_down_source(m,e,k,d,down))==true;
-    // The already checked next-state cut proof supplies an explicit unit gap
-    // when both writes select the same original half. This avoids relying on
-    // an implicit integer-gap inference after excluding equal endpoint IDs.
-    mb_frontier_step(key,m,e,k,a,d,up,down);
-    mg_pair_step(m,e,k,a,d,up,down);
-    mb_no_cross(key,m,e,k+1,a+mg_bit(up),d+mg_bit(down));
     if(up) {
         if(down) {
             mb_half_order(key,m,n,r,re-1);
@@ -186,6 +180,11 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
                 mb_half_order(key,m,n,r,re-1);
                 assert false;
             }
+            // After excluding identical endpoints, derive the explicit unit
+            // gap from the already checked cut invariant at the next state.
+            mb_frontier_step(key,m,e,k,a,d,up,down);
+            mg_pair_step(m,e,k,a,d,up,down);
+            mb_no_cross(key,m,e,k+1,a+mg_bit(up),d+mg_bit(down));
             assert a<le-1;
             mb_half_order(key,m,n,a,le-1);
             assert mb_lt(key,a,le-1)==true;
@@ -196,6 +195,9 @@ lemma void mb_pair_extremes(fixpoint(int,int) key,int m,int e,int k,int a,int d,
                 mb_half_order(key,m,n,a,le-1);
                 assert false;
             }
+            mb_frontier_step(key,m,e,k,a,d,up,down);
+            mg_pair_step(m,e,k,a,d,up,down);
+            mb_no_cross(key,m,e,k+1,a+mg_bit(up),d+mg_bit(down));
             assert r<re-1;
             mb_half_order(key,m,n,r,re-1);
             assert mb_lt(key,r,re-1)==true;

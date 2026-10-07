@@ -259,3 +259,25 @@ existing mg_inv/remaining premise, invoke existing stock int_of_nat_of_int(n)
 allbodycalls checked in sameunit; standard stocknat is frozen tool library.
 SameBfullposts/assumptions/exactsource/negativegates/profile/bounds asB1.
 Budget201spent1599remaining. Success->fullBreport, failure->nextpreciseobligation.
+
+## F-B6 result / F-B7 card — retain full proof and dead-code gate
+B6 published00323149706cec799ae1261004e1d3c1802da2b5,
+[run37680494943](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37680494943),
+job11299496927920:14:31Z–20:15:48Z=77s; cumulative278/1800,1522remaining.
+Positive source61b48a7306fa93fd170e0064fcccd2bfebe2567e7b2c1a53d1465d05a5ee7afe,
+log6cf8719a0d3de0072f881f3476dd8c8945b4f833656e233e579d0bb0efba8509:
+expected==visited allbodies,197returns/leaks complete, no prooferrors. Exit1
+from required deadcode gate at775/776/782/783 (frontierassertions after sorted
+half calls alreadyclose contradiction),833/843 (equalitycase helpercalls after
+nextstatecuts alreadyexclude equality). Therefore fullacceptance INCONCLUSIVE,
+not theoremcertificate. All3intendednegatives/21controls accepted. Fullartifact
+and source/logs reviewed. SWOwrapper earlierunneededlocalconversionannotations
+revertedto thisactuallycheckedsource, no draftcorrespondence changes.
+B7 hypothesis: reorder the SAME statements so frontierassertions occur before
+contradiction-producing halfcalls; same-half equality proofcases occur before
+next-state cuts. No assertion/post/body deleted and no deadcodeflag disabled.
+Contradiction cases still checked with originalfunctional premises; nextcuts
+still derived from same alreadychecked helpers. SamefullBtarget/domain/profile/
+negativegates/pinnedsource/180case/300process/6minjob. No timeout increase.
+Budget278spent1522remaining. Allbody+0error+return/leak+no-deadcode+negatives
+needed forfinalacceptance; anynewfailure -> preciseevidence repair only.
