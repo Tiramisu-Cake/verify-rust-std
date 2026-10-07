@@ -230,3 +230,73 @@ at16:58:47Z, requestEC10:172818:27F296:29296E:6AC67A45. No ref update, force-pus
 local fallback verification or new job. Budget remains447/1800,1353remaining.
 R9f is pending/unverified; exact whole N9 composed normal post/wrapper still OPEN,
 N13 not attempted. Accepted generic R9d/R9e remains separate from this new source.
+
+### R9f resumed: publication restored and R9e trace correction
+
+Owner resumes the SAME phase,1353/1800jobseconds remaining, no new budget.
+Both saved commits65f2ddb... and04ea22075f87634221cc43ccba59486fb10ad817
+published by ordinary push; remote SHA explicitly matches04ea220... .
+No Git Data alternative/ref mutation needed. R9f proof bytes unchanged from
+65f2ddb...; actual dispatch source04ea220... includes checkpoint documentation.
+
+Independent R9e review supplied by owner corrects earlier trace interpretation:
+ALL25 CEs and FIRST SEVEN final adjacent conversions are reached; the final
+swo_rank_bridge at5059 times out. It is the LAST pair, not the second. Earlier
+raw source/log/artifact hashes remain unchanged; preserve the dated incorrect
+reading above as history, superseded here. The ordered-pair projection already
+implements the requested minimal-context final transfer, with full body and
+original premises/posts. Do not redesign or increase timeout without new evidence.
+
+Same R9f experiment card and tool/body/post/negative gates apply. One ranks9
+run at exact04ea220...; accept whole N9 and exact wrapper before R13. All
+executable checks hosted; budget447spent,1353remain before dispatch. Run pending.
+
+### R9f result: full N9 composition ACCEPTED
+
+Published/checked source `04ea22075f87634221cc43ccba59486fb10ad817`,
+[run37661652169](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37661652169),
+[artifact11500479226](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37661652169/artifacts/11500479226),
+301439bytes, ZIP SHA256151ea328fcdcef611a93c6372da50ed0fc4518ea6db13af0eb3f684b311bf573.
+Full source/log/result/environment inspected, every source/log hash matches;
+std/tool/archive/oldprove pins unchanged. Generic bridge/application INCLUDING
+projection16named bodies VF0,83statements,40return/leak checks,0.070s;
+source SHA256acc2d0bd1d43eba573c57c206438398ab1dc7a887945ea1bdf96a1885312f2ca.
+
+Full composed unit VF0,4214statements,546return/leak checks; all expected bodies
+visited and completed, no errors,57.229s. Both symbolic composed theorem and
+exact0..8 specialization complete, all25 CE traces,8adjacent posts,9membership
+posts and full arbitrary-q count post retained. Projection's body is checked
+before summary use, no rank assumption/tool extension. Composed generated source
+SHA256984b6479c71dd2788583319df7d21b248778e99c53888920f6f1bc484079afa9;
+log2f1b72cbe2cf4cde128bc5c38c028fd4f719e4dd1d31edd3d7ef426be3826bad.
+
+Negative source7c9cf87ce96c670b6bb5bc60e52921b62840b4ffafd5b255ff449a7c453d57be
+unchanged; exact65,26–28 correspondence failure, all7 classifier controls PASS.
+Whole workflow success. Job17:46:29Z–17:47:41Z = **72s**; total519/1800,
+1281remaining. No local executable checks, stability/Rust/public goal claim.
+
+## R13 — prepared after full R9f acceptance, before dispatch
+
+Actual obligation: pinned sort13_optimal exact45 CE calls at(b,a), indices0..12,
+len>=13 prefix. Same arbitrary finite SWO on fixed occurrence IDs0..12, ties
+allowed, faithful normal comparator answers and preservation of keys/order.
+Full normal mathematical target: generic less iff rank<, equivalence iff rank==,
+bounds and CE bridge; whole13 outputs in domain, all12adjacent key-order posts,
+full arbitrary-q occurrence multiplicity. Rust normal/unwind ownership and UB
+remain separate/open. Original45call source admission must match unchanged std.
+
+Hypothesis: SAME symbolic-domain composition plus checked minimal ordered-pair
+projection and exact-domain specialization scales to N13 without any theorem,
+rank axiom, tool patch, semantic change or omitted post. Include/check EXACT
+previously accepted N13 rank bodies in same unit before application. Generic,
+whole composed theorem and exact0..12 wrapper VF0/full bodies/return/leak
+required. Negative identical missing-incomparability-transitivity assertion,
+exact stage/location/predicate and all7rejection controls; no unrelated failure
+counted. No stability or Copy/Freeze restriction added.
+
+Whole success -> update own final results/coverage/integration/status and publish.
+First causal proof/timeout failure -> inspect full evidence, localized proof
+context/composition correction within SAME profile and new exact SHA/run;
+no blind timeout increase. Budget/trust boundary -> exact open obligation saved.
+Job8min/inner420s/percase180s fits1281remaining, one hosted run on this branch.
+N13 source/run pending; no new budget and no transfer from either direction.
