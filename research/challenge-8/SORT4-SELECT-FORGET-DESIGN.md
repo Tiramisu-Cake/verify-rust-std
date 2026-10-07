@@ -6,6 +6,64 @@ original classifications are unchanged. Classifier replay is separate and comple
 [Current report/budget](SORT4-SELECT-FORGET-RESULTS.md), [checkpoint](STATUS.md).
 Historical BEFORE cards and closed S7a outcome follow; S7b cards are at the end.
 
+## S7c CFG repair BEFORE implementation
+
+Owner resumes from070b9236 on2026-10-07. Budget4752/5400 used,648 hosted job
+seconds remain, no reset. One active direction job; executable checks hosted-only.
+Actual obligation: core::mem::forget<T>, mem/mod.rs162–164, exact
+`{ let _ = ManuallyDrop::new(t); }`, autonomous unsafe generic adapter only.
+Domain: every valid by-value T, no Copy/Freeze/purity or target-cell ownership
+premise. req thread_token(?tid) & tid==currentThread; ens thread_token(tid);
+on_unwind_ens false. Runtime body/signature and contract bytes remain S7b's.
+Existing ManuallyDrop representation/destructor/no-unwind correspondence is TRUSTED,
+not proved here; no nominal guard-own or actual caller theorem follows.
+
+Falsifiable hypothesis: pinned translator returns FnCallResult for exact
+std::mem::ManuallyDrop::<T>::new. With normal target it emits assignment plus Goto,
+then appends unwind_targets with no corresponding emitted unwind statement.
+find_blocks includes that successor, creating orphan ReturnStmt(unwinding()).
+The sole residual physical loc must register this ReturnStmt with no execution;
+normal return must have another physical key despite its identical printed span.
+Different attribution requires explanation and STOP before applying a candidate.
+
+Temporary trace profile: unchanged S6v4 patch c7cc08a9 over VF809de459, plus
+side-only physical-loc IDs at registration/execution/residue with AST constructor
+mapping. Real HashedLoc.equal, replace/remove/filter and exit decision unchanged.
+Acceptance build removes trace completely. Exporter/refiner/schema/specs/kernel
+and memory/alias/provenance models remain frozen.
+
+Candidate experimental-manuallydrop-new-cfg-v1 = unchanged S6v4 plus separate
+translator delta. Only exact ManuallyDrop::new + FnCallResult + normal Goto target:
+retain normal successors without appending its unused unwind successors. No MIR
+change or explicit cleanup deletion; existing traversal determines inclusion.
+Other lowerings, FnCallOutcome, diverging calls and real unwind stay unchanged.
+Generalizing all FnCallResult is a separate proposal, not authorized here.
+
+Predeclared isolated gates (setup/unsupported failures never intended negatives):
+- Old plain profile reproduces sole dead-code exit1; traced old profile has the
+  same source/contract/MIR and failure, and identifies residual physical loc.
+- New plain profile: identical S7b pair; NORMAL/readonly export/decode/refinement0,
+  full VF0, all seven expected bodies, target execution/return/leak, mandatory
+  dead-code gate; AST normal return remains and orphan is not included.
+- Ordinary potentially panicking call: normal and reachable unwind return/posts
+  checked. False unwind post rejects specifically at unwind postcondition.
+- Shared cleanup with MD::new and a real panicking predecessor: exported cleanup
+  and translated reachable cleanup remain; both exits checked.
+- Same generic body with false normal post rejects at postcondition; nonempty body
+  under contradictory req rejects at dead-code rather than passing vacuously.
+- Existing constructor/as_mut_ptr/intrinsics/pointer-drop matrices and required
+  stock/patched baselines pass on new effective profile, retaining expected
+  predicates/locations and source/MIR/pin negative gates from existing drivers.
+
+First diagnostic hosted job cap4 minutes with120s evidence reserve. Inspect
+identity BEFORE implementation. Select acceptance cap from actual remaining
+budget, never exceeding648 total new seconds; sequential builds allowed in one
+job, with separate binary/source hashes/logs. If full acceptance cannot fit,
+preserve checked subset and exact NOT RUN remainder, never accept the profile.
+Correct attribution permits narrow candidate; unexpected residual/failed control
+stops expansion. Success closes only CFG/autonomous body; actual linkage/redirect
+and guard/Drop/assume_init/model changes remain outside this iteration.
+
 Owner2026-10-07 resumes from ffa370a5197ecb06fc74e4352371453ac67523d6.
 Same5400 summed jobseconds;3954used/1446remaining, no reset. S6v4 accepted/frozen,
 original classifications retained. All executable work hosted-only, one relevant run.

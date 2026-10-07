@@ -4609,3 +4609,12 @@ Compact11507826485/full11507796366 innerSHA
 Actual stays lastS6 forget63 nominalown atspec420; fullhelper/sort4 NOTPROVEN.
 Iteration341s=178+12+151; checked c9c59a8/a6f077a diagnostics, dd4b049 classifierreplay;
 finaldocumentationHEAD has no proof run. No further dispatch in this closeout.
+
+## S7c BEFORE — authorized CFG diagnosis/repair (2026-10-07)
+
+Entry070b9236, owner authorization overrides S7b STOP only for narrow CFG scope.
+[Complete causal/domain/trust/control/outcome card](SORT4-SELECT-FORGET-DESIGN.md#s7c-cfg-repair-before-implementation)
+is recorded BEFORE implementation. Budget4752/5400 used,648remain/noreset;
+no active run. Physical-loc diagnostic precedes repair; acceptance build has no
+instrumentation. Existing S6v4 unchanged; experimental MD::new normal-target
+successors only. All tests hosted, single relevant run; actual redirect excluded.

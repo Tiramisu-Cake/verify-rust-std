@@ -1,6 +1,16 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. S7b resumed from
+Updated 2026-10-07. **S7c CFG repair IN PROGRESS**, explicitly authorized from
+`070b9236daa3ab5d7176702c9855167b22a06e49`. Diagnose physical dead-code loc identity
+on frozen S6v4 before minimal ManuallyDrop::new normal FnCallResult successor fix.
+Uninstrumented acceptance requires unchanged source/MIR/refinement, unwind/shared
+cleanup/dead-code/false-post controls and existing component regressions.
+Budget unchanged:4752/5400 used,648 job seconds remain; no active run.
+No actual linkage/redirect or guard/Drop/assume_init/model/exporter/refiner/kernel
+extension. [BEFORE card](SORT4-SELECT-FORGET-DESIGN.md#s7c-cfg-repair-before-implementation).
+Historical S7b STOP is superseded only within this narrow authorization.
+
+S7b resumed from
 `8fdb5799bdd0bbc6bacea5a36567dc71886b6015` under the owner's narrow authorization.
 **STOP: complete auxiliary proof is blocked by frozen translation/dead-code acceptance.**
 No active run. Auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED
