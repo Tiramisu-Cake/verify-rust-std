@@ -41,15 +41,15 @@ def check_gate(name: str, gate, fields: tuple[str, ...]) -> dict:
 def check_proof_messages(classifier) -> dict:
     exemplars = {
         "wrong_preserved": "verified/lib.rs(26,102-104): error: Cannot prove "
-            "condition. (Cannot prove !(changed = value).)",
+            "condition. (Cannot prove !(value = value).)",
         "false_post": "verified/lib.rs(26,102-104): error: Cannot prove "
             "condition. (Cannot prove false.)",
         "assert_false": "verified/lib.rs(26,102-104): error: Assertion might "
             "not hold. (Cannot prove false.)",
         "lost_cell": "verified/lib.rs(32,1): error: Function leaks heap "
-            "chunks: points_to<*const Element>(slot, value)",
+            "chunks: points_to<*Element>(slot, value)",
         "duplicate_cell": "verified/lib.rs(26,102-104): error: No matching "
-            "heap chunks: points_to<*const Element>(slot, value)",
+            "heap chunks: points_to<*Element>(slot, value)",
         "lost_thread": "verified/lib.rs(32,1): error: Function leaks heap "
             "chunks: thread_token(t)",
         "duplicate_thread": "verified/lib.rs(26,102-104): error: No matching "
@@ -58,19 +58,19 @@ def check_proof_messages(classifier) -> dict:
             "chunks: [f]points_to<u8>(frame, frame_value)",
         "duplicate_frame": "verified/lib.rs(26,102-104): error: No matching "
             "heap chunks: [f]points_to<u8>(frame, frame_value)",
-        "none_init": "verified/lib.rs(29,5-48): error: No matching heap "
-            "chunks: points_to<*const Element>(slot, ?value)",
-        "unknown_init": "verified/lib.rs(29,5-48): error: Cannot prove that "
-            "'state' is an instance of constructor 'some'",
+        "none_init": "/tmp/source/bin/rust/prelude_core.rsspec(213,53-57): error: "
+            "Cannot prove that 'none' is not an instance of constructor 'none'",
+        "unknown_init": "/tmp/source/bin/rust/prelude_core.rsspec(213,53-57): error: "
+            "Cannot prove that 'state' is not an instance of constructor 'none'",
     }
     mutants = {
         "wrong_value": ("wrong_preserved", exemplars["wrong_preserved"].replace(
-            "changed = value", "changed = other")),
+            "value = value", "value = other")),
         "wrong_path": ("wrong_preserved", exemplars["wrong_preserved"].replace(
             "verified/lib.rs", "other/lib.rs")),
         "generic_failure": ("wrong_preserved", exemplars["false_post"]),
         "wrong_cell_type": ("lost_cell", exemplars["lost_cell"].replace(
-            "*const Element", "u8")),
+            "*Element", "u8")),
         "wrong_cell_binding": ("lost_cell", exemplars["lost_cell"].replace(
             "(slot, value)", "(other, value)")),
         "wrong_frame_binding": ("duplicate_frame", exemplars["duplicate_frame"].replace(
@@ -84,9 +84,9 @@ def check_proof_messages(classifier) -> dict:
         "lost_frame_wrong_binding": ("lost_frame", exemplars["lost_frame"].replace(
             "(frame, frame_value)", "(other, frame_value)")),
         "none_wrong_resource": ("none_init", exemplars["none_init"].replace(
-            "points_to", "other_predicate")),
+            "prelude_core.rsspec", "other_predicate.rsspec")),
         "unknown_wrong_constructor": ("unknown_init", exemplars["unknown_init"].replace(
-            "'some'", "'none'")),
+            "'none'", "'some'")),
     }
     accepts = {name: classifier.matches_negative_message(name, message)
                for name, message in exemplars.items()}
@@ -138,14 +138,14 @@ def main() -> None:
         check_gate("positive", classifier.strict_positive_evidence, (
             "source_exact", "stage_integrity", "frontend_refinement",
             "typed_mir_identity", "full_certificate", "modeled_drop_call",
-            "safe_prototype", "helper_return_leak", "identity_lemma_return_leak",
+            "unsafe_body_entered", "helper_return_leak", "identity_lemma_return_leak",
             "probe_return_leak",
             "verifier_success",
         )),
         check_gate("negative", classifier.strict_negative_evidence, (
             "positive_prerequisite", "source_exact", "stage_integrity",
             "frontend_refinement", "typed_mir_identity", "full_certificate",
-            "modeled_drop_call", "safe_prototype", "helper_return_leak",
+            "modeled_drop_call", "unsafe_body_entered", "helper_return_leak",
             "identity_lemma_return_leak",
             "probe_entered", "one_verifier_error", "target_location",
             "target_message",

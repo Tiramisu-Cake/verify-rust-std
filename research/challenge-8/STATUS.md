@@ -4,11 +4,17 @@ Updated 2026-10-07. **IN PROGRESS: S6 pointer drop only**, explicitly resumed by
 owner from bea6248. Prior freeze lifted ONLY for checked pointer method + trusted
 compiler glue rule at payload *const Element, receiver *mut *const Element.
 Design/trust review: SORT4-SELECT-POINTER-DESIGN.md S6 authorization section.
-Budget continues **2398/5400 used; 3002 summed hosted job seconds remain**;
-<=1800/job, <=300/proof, one relevant hosted Actions run at a time. No active run at pre-dispatch checkpoint.
+Budget continues **2592/5400 used; 2808 summed hosted job seconds remain**;
+<=1800/job, <=300/proof, one relevant hosted Actions run at a time. S6 run37637630477/source de7ed9de861eea7346301f6807e242862a68c0ab completed;
+194jobseconds14:33:07–14:36:21UTC. Budget2592/5400 used;2808remain,noactive.
 S6 implementation profile experimental-source-linked-select-pointer-drop-v1,
 patch cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413,
-full2+11proof/22admission matrix and baseline/projection actual prepared; NOT RUN.
+full2+11proof/22admission matrix collected independently. Proof positives VF0;
+all13 classifier INCONCLUSIVE due unsafe/SAFE gate and exact diagnostic/location
+mismatches;22admissions:16classified PASS,3reason-only mismatches,3setupfailures.
+Ctor/asptr/intrinsic/full14baselines PASS. Actual NOT RUN (component gate).
+Next: sameprofile saved replay, NEW3fixed admission controls, then actual only
+after composite fullmatrix acceptance. No semantic change planned.
 Full S6 independent matrix and accepted-component regressions precede actual
 integration, then STOP at initialized-cell precondition or next actual blocker.
 04d67f4b/assume/guard/forget/general Drop/memory/refiner/kernel remain frozen.

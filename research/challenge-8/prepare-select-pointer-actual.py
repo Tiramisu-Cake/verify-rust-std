@@ -9,6 +9,7 @@ accept a select_unpredictable proof, even if the verifier unexpectedly succeeds.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -47,6 +48,42 @@ CONSTRUCTOR_TRANSLATED = (
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def imported_prerequisite_evidence(path: Path, component: Path,
+                                   constructor: Path, intrinsic: Path,
+                                   drop: Path, evidence: Path) -> bool:
+    """Bind old summaries to a pinned prior proof run, not this actual run."""
+    data = json.loads(path.read_text())
+    root = path.resolve().parent
+    expected = {
+        "constructor-regressions/summary.json": constructor,
+        "matrix/summary.json": component,
+        "intrinsic-matrix/summary.json": intrinsic,
+    }
+    hashes = data.get("summary_sha256", {})
+    if (set(hashes) != set(expected) or
+            any(source.resolve() != (root / rel).resolve() or
+                hashlib.sha256(source.read_bytes()).hexdigest() != hashes[rel]
+                for rel, source in expected.items())):
+        return False
+    profile = os.environ.get("SORT4_SELECT_PROFILE")
+    source_profile = json.loads(drop.read_text()).get("source_profile", {})
+    required = ("source_run_id", "source_sha", "profile", "patch_sha256",
+                "archive_sha256", "effective_tool_hashes", "std_source_hashes")
+    return (all(data.get(field) == source_profile.get(field) for field in required) and
+            data.get("source_run_id") == 37637630477 and
+            data.get("source_sha") ==
+                "de7ed9de861eea7346301f6807e242862a68c0ab" and
+            data.get("profile") == profile ==
+                "experimental-source-linked-select-pointer-drop-v1" and
+            data.get("patch_sha256") ==
+                "cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413" and
+            data.get("archive_sha256") ==
+                "34a6fba71d964a5ed74298471da4176102fdf3bc747178cadd9a69894d91b232" and
+            drop.resolve().parents[1] == evidence.parent and
+            data.get("proof_and_component_evidence_origin") ==
+                "pinned original run; not current-run proofs")
 
 
 def load_script(path: Path, name: str):
@@ -179,7 +216,8 @@ def obligation_kind(message: str | None, verifier_exit: int | None) -> str:
 
 
 def classify(case: Path, runner_result: dict, fixture: dict,
-             constructor, pointer, intrinsic=None, drop=None) -> dict:
+             constructor, pointer, intrinsic=None, drop=None,
+             accepted_drop_matrix: bool = False) -> dict:
     log = (case / "verifast.log").read_text(errors="replace")
     mir = (case / "compiler-mir.txt").read_text(errors="replace")
     verified = (case / "verified/lib.rs").read_bytes()
@@ -258,8 +296,7 @@ def classify(case: Path, runner_result: dict, fixture: dict,
             "checked_method_return_and_leak_if_entered":
                 not drop_body or ("Executing return statement" in drop_body and
                                   "Leak check." in drop_body),
-            "identity_lemma_return_and_leak":
-                "Executing return statement" in lemma_body and "Leak check." in lemma_body,
+            "accepted_same_profile_drop_matrix": accepted_drop_matrix,
             "no_drop_certificate_mismatch":
                 "SORT4-POINTER-DROP: certificate mismatch:" not in log,
         }
@@ -278,6 +315,8 @@ def classify(case: Path, runner_result: dict, fixture: dict,
         "intrinsic_certificate_translation": intrinsic_certificate,
         "all_three_intrinsic_calls_modeled": intrinsic_reached,
         "drop_certificate_translation": drop_certificate,
+        "actual_drop_method_body_entered": bool(drop_body) if drop is not None else None,
+        "actual_drop_identity_lemma_body_entered": bool(lemma_body) if drop is not None else None,
         "checked_drop_method_and_actual_redirect_reached": drop_reached,
         "actual_select_verification_entered": bool(actual_body),
         "actual_select_return_seen": "Executing return statement" in actual_body,
@@ -317,6 +356,7 @@ def main() -> None:
     parser.add_argument("--constructor-summary", type=Path)
     parser.add_argument("--intrinsic-summary", type=Path)
     parser.add_argument("--drop-summary", type=Path)
+    parser.add_argument("--imported-prerequisites", type=Path)
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or \
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or \
@@ -330,6 +370,7 @@ def main() -> None:
         component.get("classification") == "COMPONENT_ACCEPTED"
     intrinsic = None
     drop = None
+    accepted_drop_matrix = False
     intrinsic_prerequisites = None
     if args.intrinsic_summary is not None:
         if args.constructor_summary is None:
@@ -341,8 +382,15 @@ def main() -> None:
             args.constructor_summary.resolve().parents[1] == evidence.parent and
             args.intrinsic_summary.resolve().parents[1] == evidence.parent
         )
+        imported = args.imported_prerequisites is not None and \
+            args.drop_summary is not None and imported_prerequisite_evidence(
+                args.imported_prerequisites, args.component_summary,
+                args.constructor_summary, args.intrinsic_summary,
+                args.drop_summary, evidence)
         intrinsic_prerequisites = {
-            "same_run_evidence": same_run,
+            "same_run_or_pinned_import_evidence": same_run or imported,
+            "pinned_original_proof_import_if_requested":
+                args.imported_prerequisites is None or imported,
             "constructor_accepted": constructor_summary.get("constructor_acceptance") is True,
             "as_mut_ptr_accepted": prerequisite,
             "intrinsic_accepted": intrinsic_summary.get("accepted_component") is True and
@@ -372,6 +420,7 @@ def main() -> None:
                 os.environ.get("SORT4_SELECT_PROFILE"),
         }
         prerequisite = prerequisite and all(drop_pre.values())
+        accepted_drop_matrix = all(drop_pre.values())
         intrinsic_prerequisites["drop_component"] = drop_pre
     if not prerequisite:
         summary = {
@@ -467,7 +516,8 @@ def main() -> None:
                 current_case, args.schema, args.tool_home, args.compiler_sysroot,
                 repo_root, current_case.name, "diagnostic", certificate_mode=True)
             diagnoses.append(classify(current_case, runner_result, current_fixture,
-                                      constructor, pointer, intrinsic, drop))
+                                      constructor, pointer, intrinsic, drop,
+                                      accepted_drop_matrix))
     finally:
         if previous is None:
             os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)

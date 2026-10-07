@@ -148,10 +148,10 @@ def source_mutation(original: bytes, verified: bytes, mutation: str,
                 "input mutant helper signature is not unique")
         result = (original.replace(old, new, 1).replace(call, replacement, 1)
                   .replace(b"sort4_checked_pointer_drop(slot)",
-                           b"sort4_checked_pointer_drop(slot as *mut *const u8)", 1),
+                           b"sort4_checked_pointer_drop::<Element>(slot as *mut *const u8)", 1),
                   verified.replace(old, new, 1).replace(call, replacement, 1)
                   .replace(b"sort4_checked_pointer_drop(slot)",
-                           b"sort4_checked_pointer_drop(slot as *mut *const u8)", 1))
+                           b"sort4_checked_pointer_drop::<Element>(slot as *mut *const u8)", 1))
     elif mutation == "output_type":
         result = both(SIGNATURE + b"\n", SIGNATURE + b" -> ()\n")
     elif mutation == "binding":
@@ -234,7 +234,7 @@ def strict_positive_evidence(evidence: dict[str, bool]) -> bool:
     return all(evidence.get(field) is True for field in (
         "source_exact", "stage_integrity", "frontend_refinement",
         "typed_mir_identity", "full_certificate", "modeled_drop_call",
-        "safe_prototype", "helper_return_leak", "probe_return_leak",
+        "unsafe_body_entered", "helper_return_leak", "probe_return_leak",
         "identity_lemma_return_leak", "verifier_success",
     ))
 
@@ -243,7 +243,7 @@ def strict_negative_evidence(evidence: dict[str, bool]) -> bool:
     return all(evidence.get(field) is True for field in (
         "positive_prerequisite", "source_exact", "stage_integrity",
         "frontend_refinement", "typed_mir_identity", "full_certificate",
-        "modeled_drop_call", "safe_prototype", "helper_return_leak",
+        "modeled_drop_call", "unsafe_body_entered", "helper_return_leak",
         "identity_lemma_return_leak", "probe_entered", "one_verifier_error", "target_location",
         "target_message",
     ))
@@ -259,7 +259,8 @@ def strict_admission_evidence(evidence: dict[str, bool]) -> bool:
 SOURCE_REASONS = {
     "identity": ("expected one exact unsafe method and one listed probe",),
     "input_type": ("method source marker missing", "method HIR generic identity"),
-    "output_type": ("method source marker missing", "method output type"),
+    "output_type": ("method source marker missing", "method output type",
+                    "method exported SAFE contract"),
     "binding": ("method source marker missing", "method debug binding"),
     "callee": ("method source body differs from pinned source",),
     "operand": ("method source body differs from pinned source",),
@@ -272,8 +273,8 @@ MIR_REASONS = {
     "output_type": ("method output type",),
     "binding": ("method debug binding",),
     "callee": ("method free drop-glue FnDef/type",),
-    "operand": ("method call operand", "method place: _3"),
-    "destination": ("method place: _1",),
+    "operand": ("method call operand", "method place: _2"),
+    "destination": ("method place: _0",),
     "result_type": ("method result local/type: _0",),
     "cfg_successor": ("method complete CFG", "method normal successor"),
     "cfg_unwind": ("method unwind action",),
@@ -332,8 +333,9 @@ def mutate_pointer_drop_mir(decoded: str, mutation: str, constructor) -> str:
             first = body.index("      inputs = [")
             last = body.index("      localDecls = [", first)
         elif mutation == "output_type":
-            first = body.index("      output = (")
-            last = body.index("      inputs = [", first)
+            body = replace_once(body, "output = (kind = (tuple = []))",
+                                "output = (kind = (bool = void))", mutation)
+            first = last = 0
         else:
             first = body.index("      localDecls = [")
             last = body.index("      basicBlocks = [", first)
@@ -341,10 +343,7 @@ def mutate_pointer_drop_mir(decoded: str, mutation: str, constructor) -> str:
         if mutation == "input_type":
             fragment = replace_once(fragment, 'param = "Element"',
                                     'param = "Mutant"', mutation)
-        elif mutation == "output_type":
-            fragment = replace_once(fragment, "output = (kind = (tuple = []))",
-                                    "output = (kind = (bool = void))", mutation)
-        else:
+        elif mutation == "result_type":
             first_local = fragment.index("( mutability =")
             local = constructor.mir_balanced_item(fragment, first_local)
             require('id = (name = "_0")' in local,
@@ -352,15 +351,17 @@ def mutate_pointer_drop_mir(decoded: str, mutation: str, constructor) -> str:
             changed = replace_once(local, "ty = (kind = (tuple = []))",
                                    "ty = (kind = (bool = void))", mutation)
             fragment = fragment[:first_local] + changed + fragment[first_local + len(local):]
-        body = body[:first] + fragment + body[last:]
+        if mutation != "output_type":
+            body = body[:first] + fragment + body[last:]
     elif mutation == "binding":
         body = replace_once(body, 'name = "slot"', 'name = "location"', mutation)
     elif mutation == "contract":
         first = body.index("      contract = (")
         last = body.index("      inputs = [", first)
         fragment = body[first:last]
-        fragment = replace_once(fragment, "thread_token", "thread_token_mutant",
-                                mutation)
+        require(fragment.count("thread_token") == 2,
+                "contract mutant expected pre/post thread tokens")
+        fragment = fragment.replace("thread_token", "thread_token_mutant", 1)
         body = body[:first] + fragment + body[last:]
     elif mutation == "extra_operation":
         first = body.index("statements = [") + len("statements = [")
@@ -626,15 +627,15 @@ def matches_negative_message(variant: str, message: str | None) -> bool:
     patterns = {
         "wrong_preserved": (
             r"verified/lib\.rs\(\d+,\d+(?:-\d+(?:,\d+)?)?\): error: "
-            r"Cannot prove condition\. \(Cannot prove !\(changed = value\)\.\)$",
+            r"Cannot prove condition\. \(Cannot prove !\(value = value\)\.\)$",
         ),
         "false_post": (r"Cannot prove condition\. \(Cannot prove false\.\)$",),
         "assert_false": (r"Assertion might not hold\. \(Cannot prove false\.\)$",),
         "lost_cell": (
-            r"Function leaks heap chunks: points_to<\*const Element>\(slot, value\)$",
+            r"Function leaks heap chunks: points_to<\*Element>\(slot, value\)$",
         ),
         "duplicate_cell": (
-            r"No matching heap chunks: points_to<\*const Element>\(slot, value\)$",
+            r"No matching heap chunks: points_to<\*Element>\(slot, value\)$",
         ),
         "lost_thread": (r"Function leaks heap chunks: thread_token\(t\)$",),
         "duplicate_thread": (
@@ -647,10 +648,10 @@ def matches_negative_message(variant: str, message: str | None) -> bool:
             r"No matching heap chunks: \[f\]points_to<u8>\(frame, frame_value\)$",
         ),
         "none_init": (
-            r"No matching heap chunks: points_to<\*const Element>\(slot, \?\w+\)$",
+            r"prelude_core\.rsspec\(213,53-57\): error: Cannot prove that 'none' is not an instance of constructor 'none'$",
         ),
         "unknown_init": (
-            r"Cannot prove that 'state' is an instance of constructor 'some'$",
+            r"prelude_core\.rsspec\(213,53-57\): error: Cannot prove that 'state' is not an instance of constructor 'none'$",
         ),
     }
     return any(re.search(pattern, message) for pattern in patterns[variant])
@@ -676,7 +677,9 @@ def classify_case(case: Path, runner: dict, variant: str,
         mir.count('name = "std::ptr::drop_in_place"') == 1
     full_certificate = log.count(FULL_MARKER) == 1 and REJECT_PREFIX not in log
     modeled = log.count(MODELED_MARKER) == 1
-    prototype = f"Function '{HELPER}': Function prototype implementation check" in log
+    # Unsafe methods carry a user contract and are checked by entering their
+    # body. The SAFE prototype marker is deliberately absent for this method.
+    unsafe_body_entered = bool(helper_log)
     helper_return = "Executing return statement" in helper_log and \
         "Leak check." in helper_log and \
         not any(": error:" in line for line in helper_log.splitlines())
@@ -689,11 +692,15 @@ def classify_case(case: Path, runner: dict, variant: str,
     first = errors[0] if errors else None
     line = error_line(first)
     if variant in {"none_init", "unknown_init"}:
-        location = line == fixture["target_call_line"] + 1
+        location = bool(re.search(
+            rf"verified/lib\.rs\({fixture['target_call_line'] + 1},\d+(?:-\d+)?\): note: Verifying call",
+            log)) and bool(first and
+                "prelude_core.rsspec(213,53-57): error:" in first) and \
+            "verified/lib.rs(4,55-58): note: Consuming assertion" in log
     elif variant == "assert_false":
         location = line == fixture["target_assertion_line"] + 1
     elif variant in {"lost_cell", "lost_thread", "lost_frame"}:
-        location = line == fixture["probe_return_line"] + 1
+        location = line == fixture["probe_return_line"]
     else:
         location = line in {fixture["target_postcondition_line"] + 1,
                             fixture["probe_return_line"]}
@@ -704,7 +711,7 @@ def classify_case(case: Path, runner: dict, variant: str,
         "typed_mir_identity": bool(mir_identity),
         "full_certificate": bool(full_certificate),
         "modeled_drop_call": bool(modeled),
-        "safe_prototype": bool(prototype),
+        "unsafe_body_entered": unsafe_body_entered,
         "helper_return_leak": bool(helper_return),
         "identity_lemma_return_leak": bool(lemma_proved),
     }

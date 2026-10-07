@@ -4023,3 +4023,51 @@ changes require hosted replay of this run, no repeat proofs for classifier alone
 Local checks only static git apply/diff and bash-n; no build/verifier/test executed.
 Selection verifast_maybeuninit_new_pointer/budget30; used2398,remaining3002 before
 run,<=1800/job and300/proof. New run follows exact-SHA push; no other active run.
+
+S6 dispatch resolved37637630477, headde7ed9de861eea7346301f6807e242862a68c0ab,
+created14:33:02UTC/jobstarted14:33:07UTC, selection confirmed30min/drop-v1.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637630477).
+Before cost2398/5400; job cost/cumulative recorded after completion; one active.
+
+S6/37637630477/source de7ed9de861eea7346301f6807e242862a68c0ab completed,
+drop-v1/cd660fe9:194s14:33:07–14:36:21UTC,cumulative2592/5400,2808remain.
+Build/canonical patch/spec/schema audits PASS. Fullctor/asptr/intrinsic/14native+Rust
+regressions PASS. All13proofcases+22admissions independently collected; bothpositives
+VF0 with identitylemma/method/probe returns/leaks. Unsafe method has no generated
+SAFE-prototype log; wrong scaffold gate keeps13classifications INCONCLUSIVE.
+Additional exact raw diagnostic differences: changed/value normalized to value/value;
+cell predicate printed *Element; lost-resource leaks at actual closing line32;
+none/unknown optional cell rejects at points_to definition prelude_core213 with
+exact caller call31 note, NOT at source errorline31. Original classifications retained.
+22admissions:16PASS;3exactreason mismatches(sourceoutput,MIRoperand/destination);
+3SETUP failures: sourceinput E0282 unused Element (caller needs explicit ::<Element>),
+MIRoutput invalid unique tuple target; MIRcontract pre/post thread_token occurs twice.
+None is an intended admission negative until repaired/rechecked. Actual NOT RUN,
+gated by component acceptance. No semantic failure or resource boundary established.
+Compactartifact11490457470/3990694bytes;full11490457483/8290901bytes inclfullrawlogs.
+[Compact](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37637630477/artifacts/11490457470).
+Next same-profile hosted replay only for classifier/diagnostics; NEW checks of
+3changed admission fixtures and actual after full acceptance, no proof repeat solely
+for classifier. Compiler/std/kernel/memory/refiner/runtime/signatures unchanged.
+
+S6 BEFORE completion dispatch — frozen drop-v1, no semantic delta:
+Obligation remains exact *const Element payload/*mut *const Element receiver,
+initialized cell + thread-token/full-value/frame preservation, nounwind; actual
+full selected-pointer/final frame and unwind posts unchanged. Hypothesis: saved
+2 positives/11 proof negatives/19 valid admission controls accept after exact
+unsafe/log-location corrections; NEW source-input/MIR-output/MIR-contract controls
+reject at the typed source/MIR certificate, never setup. All original35
+classifications and manifest-verified raw evidence remain unchanged and identified
+as run37637630477/source de7ed9de861eea7346301f6807e242862a68c0ab.
+Hosted rebuild MUST match full effective tool/spec bytes, std-source hashes,
+patch cd660fe9 and exporter/schema/refiner/kernel pins before evidence transfer.
+Same-profile accepted ctor/asptr/intrinsic/14 regressions retain original run
+provenance. No repeat executable proofs solely for diagnosis changes.
+Composite complete2+11+22 gate precedes actual baseline + exact stock5-ghost
+projection. If saved replay/admission setup/certificate gates fail, fix only
+precise classification/setup and use appropriate replay/new affected controls.
+If actual cannot derive initialized selected cell, record exact resource
+obligation and STOP; if drop passes, record next blocker and STOP. No guard,
+forget, assume, union/refinement or general memory/Drop semantic extension.
+Selection verifast_maybeuninit_new_pointer/budget30, <=1800/job, <=300/proof;
+used2592/5400,remaining2808 before dispatch; one relevant hosted run only.
