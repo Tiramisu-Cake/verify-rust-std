@@ -3981,3 +3981,21 @@ refinement/all3intrinsic translations. WholehelperNOTPROVEN. Semanticextensions
 FROZEN, draftsNOTRUN/refinerunchanged/readpermissionhypothesisNOTRUN.
 No furtherdispatch needed for latest requested priority; checkpoint budget stays
 withinthisphase. RAPxCLOSED/NO-GO,B/CNOTRUN,fullsort4NOTPROVEN.
+
+## OVERNIGHT-MERGE-26.10 entry / W1 BEFORE
+
+2026-10-07T22:43UTC session entry. Owner authorizes broad overnight dependency
+iteration to2026-10-08T06:30UTC; independent21600hosted job-seconds. Old603/1800
+preserved. Entryb0af5613; ownovernight/merge-26.10. No active run.
+[W1 design/trust/matrix](merge/OVERNIGHT-26.10-PHASE.md) reviewed before edits.
+Hypothesis: bounded exact wrapping model can preserve P/metadata, leave/reenter
+and numerically wrap without resources, and coexist with unchanged stock proofs.
+Actual obligations: merge_down wrapping_sub(bool) and bidirectional terminal
+wrapping_add(1). Domain count0/1, SizedT,0<=size<=usizeMAX; no allocation/access
+preconditions. Full result pointer constructor equality and no unwind; frame
+preserved by separation. Partial pointer primitive profile, not whole merge.
+Positive/negative matrix and outcome mapping in design: support/correctness
+passes -> checked pointer trace; proof errors -> evidence-driven fix; counterexample
+-> preserve reproducer/revise contract; another blockage -> independent obligation.
+Selectionmerge_geometry will route only own branch to new overnight runner.
+No dispatch before exact case coordinates and tool patch hashes are recorded.
