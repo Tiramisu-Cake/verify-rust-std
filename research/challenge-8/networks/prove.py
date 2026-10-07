@@ -100,13 +100,70 @@ def binary_proof(n: int, pairs: list[tuple[int, int]]) -> str:
     return finish(out)
 
 
+RANK_HELPERS = """/*@
+// Integer ranks are mathematical (unbounded) VeriFast ghost integers.
+fixpoint int ce_min(int left, int right) {
+    return left <= right ? left : right;
+}
+fixpoint int ce_max(int left, int right) {
+    return left <= right ? right : left;
+}
+
+lemma void threshold_ce(int left, int right, int threshold)
+    requires true;
+    ensures (ce_min(left, right) > threshold) ==
+            ((left > threshold) && (right > threshold)) &*&
+            (ce_max(left, right) > threshold) ==
+            ((left > threshold) || (right > threshold));
+{
+    if (left <= right) {
+        assert ce_min(left, right) == left;
+        assert ce_max(left, right) == right;
+    } else {
+        assert ce_min(left, right) == right;
+        assert ce_max(left, right) == left;
+    }
+}
+@*/
+"""
+
+
+IDENTITY_HELPERS = """/*@
+fixpoint int ce_choose(bool choice, int when_true, int when_false) {
+    return choice ? when_true : when_false;
+}
+fixpoint int ce_occ(int identity, int sought) {
+    return identity == sought ? 1 : 0;
+}
+
+lemma void pair_count_choice(bool choice, int left, int right, int sought)
+    requires true;
+    ensures ce_occ(ce_choose(choice, right, left), sought) +
+            ce_occ(ce_choose(choice, left, right), sought) ==
+            ce_occ(left, sought) + ce_occ(right, sought);
+{
+    if (choice) {
+        assert ce_choose(choice, right, left) == right;
+        assert ce_choose(choice, left, right) == left;
+    } else {
+        assert ce_choose(choice, right, left) == left;
+        assert ce_choose(choice, left, right) == right;
+    }
+}
+@*/
+"""
+
+
 def integer_ce(out: list[str], a: int, b: int, step: int,
-               state: str = "v", tag: str = "") -> None:
+               state: str = "v", tag: str = "",
+               threshold: bool = False) -> None:
     name = f"{tag}{step}"
     out += [f"    int left{name} = {state}{a};",
-            f"    int right{name} = {state}{b};",
-            f"    {state}{a} = left{name} <= right{name} ? left{name} : right{name};",
-            f"    {state}{b} = left{name} <= right{name} ? right{name} : left{name};"]
+            f"    int right{name} = {state}{b};"]
+    if threshold:
+        out.append(f"    threshold_ce(left{name}, right{name}, threshold);")
+    out += [f"    {state}{a} = ce_min(left{name}, right{name});",
+            f"    {state}{b} = ce_max(left{name}, right{name});"]
 
 
 def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
@@ -128,7 +185,7 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
                     f"    bool oldb{step} = b{a};",
                     f"    b{a} = b{a} && b{b};",
                     f"    b{b} = oldb{step} || b{b};"]
-            integer_ce(out, a, b, step, state="r", tag="second")
+            integer_ce(out, a, b, step, state="r", tag="second", threshold=True)
             out += [f"    assert b{a} == (r{a} > threshold);",
                     f"    assert b{b} == (r{b} > threshold);"]
         out += [f"    assert !b{adjacent} || b{adjacent + 1};",
@@ -137,11 +194,11 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
                 f"    assert !b{adjacent + 1};",
                 f"    assert v{adjacent} <= v{adjacent + 1};",
                 "}", "@*/", ""]
-    return "\n".join(out) + "\n"
+    return RANK_HELPERS + "\n".join(out) + "\n"
 
 
 def occurrence(i: int) -> str:
-    return f"(id{i} == q ? 1 : 0)"
+    return f"ce_occ(id{i}, q)"
 
 
 def permutation_proof(n: int, pairs: list[tuple[int, int]]) -> str:
@@ -154,12 +211,13 @@ def permutation_proof(n: int, pairs: list[tuple[int, int]]) -> str:
         out.append(f"    int pair_count{step} = {occurrence(a)} + {occurrence(b)};")
         out += [f"    int left{step} = id{a};",
                 f"    int right{step} = id{b};",
-                f"    id{a} = c{step} ? right{step} : left{step};",
-                f"    id{b} = c{step} ? left{step} : right{step};"]
+                f"    pair_count_choice(c{step}, left{step}, right{step}, q);",
+                f"    id{a} = ce_choose(c{step}, right{step}, left{step});",
+                f"    id{b} = ce_choose(c{step}, left{step}, right{step});"]
         out.append(f"    assert {occurrence(a)} + {occurrence(b)} == pair_count{step};")
         out.append("    assert " + " + ".join(occurrence(i) for i in range(n)) + " == original_count;")
     out.append("    assert " + " + ".join(occurrence(i) for i in range(n)) + " == original_count;")
-    return finish(out)
+    return IDENTITY_HELPERS + finish(out)
 
 
 def binary_run(n: int, pairs: list[tuple[int, int]], bits: int) -> tuple[int, ...]:
@@ -187,7 +245,7 @@ def negative_sort(n: int, pairs: list[tuple[int, int]]) -> tuple[str, dict]:
     out.append(f"    assert !a{bad} || a{bad + 1}; // TARGET_NEGATIVE_SORT")
     source = finish(out)
     return source, {"witness_bits": witness, "mutant_output": state,
-                    "bad_adjacent": bad, "target_line": source.splitlines().index(
+                    "bad_adjacent": bad, "expected_predicate": "!(true) || false", "target_line": source.splitlines().index(
                         f"    assert !a{bad} || a{bad + 1}; // TARGET_NEGATIVE_SORT") + 1}
 
 
@@ -199,8 +257,30 @@ def negative_permutation(n: int) -> tuple[str, dict]:
             "    right = left;",
             "    assert (left == q ? 1 : 0) + (right == q ? 1 : 0) == before; // TARGET_NEGATIVE_PERMUTATION"]
     source = finish(out)
-    return source, {"target_line": source.splitlines().index(
+    return source, {"expected_predicate": "((0 = 3 ? 1 : 0) + (0 = 3 ? 1 : 0)) = (0 + 1)", "target_line": source.splitlines().index(
         "    assert (left == q ? 1 : 0) + (right == q ? 1 : 0) == before; // TARGET_NEGATIVE_PERMUTATION") + 1}
+
+
+def named_bodies(log: str) -> list[str]:
+    # Diagnostic note headers repeat a function name without a timestamp.
+    return re.findall(r"^\s*\d+(?:\.\d+)?s: .*: Verifying function '([^']+)'$", log, re.M)
+
+
+def negative_gate(path: Path, source: str, log: str, status: int, metadata: dict,
+                  unchanged: bool) -> bool:
+    target = metadata["target_line"]
+    bodies = re.findall(r"^lemma void (\w+)\(", source, re.M)
+    errors = [line for line in log.splitlines() if "error:" in line]
+    location = re.search(
+        rf"{re.escape(path.name)}\({target},(\d+)-(\d+)\): error: Assertion might not hold\. \(Cannot prove ([^\n]+)\.\)", log)
+    assertion_line = source.splitlines()[target - 1]
+    columns = (location is not None and
+               len(assertion_line) - len(assertion_line.lstrip()) + 1 <= int(location.group(1)) <
+               int(location.group(2)) <= assertion_line.index(";") + 2)
+    executed = re.search(rf"^\s*\d+(?:\.\d+)?s: .*{re.escape(path.name)}\({target},\d+-\d+\): Executing statement$", log, re.M) is not None
+    return (status == 1 and unchanged and len(bodies) == 1 and
+            named_bodies(log) == bodies and len(errors) == 1 and columns and executed and
+            location.group(3) == metadata["expected_predicate"])
 
 
 def run_case(tool: Path, evidence: Path, name: str, source: str,
@@ -226,7 +306,7 @@ def run_case(tool: Path, evidence: Path, name: str, source: str,
     log_path.write_text(log)
     changed = digest(path.read_bytes()) != before
     bodies = re.findall(r"^lemma void (\w+)\(", source, re.M)
-    visited = re.findall(r"Verifying function '([^']+)'", log)
+    visited = named_bodies(log)
     errors = [line for line in log.splitlines() if "error:" in line]
     leak_checks = log.count("Leak check.")
     return_checks = log.count("Executing return statement")
@@ -236,21 +316,27 @@ def run_case(tool: Path, evidence: Path, name: str, source: str,
                     leak_checks >= len(bodies) and return_checks >= len(bodies) and
                     re.search(r"0 errors found \(\d+ statements verified\)\s*$", log) is not None)
     else:
+        accepted = negative_gate(path, source, log, exit_code, negative, not changed)
+    rejection_controls = None
+    if negative is not None and accepted:
         target = negative["target_line"]
-        location = re.search(
-            rf"{re.escape(path.name)}\({target},(\d+)-(\d+)\): error: Assertion might not hold\. \(Cannot prove false\.\)",
-            log)
-        assertion_line = source.splitlines()[target - 1]
-        columns = (location is not None and
-                   len(assertion_line) - len(assertion_line.lstrip()) + 1 <= int(location.group(1)) <
-                   int(location.group(2)) <= assertion_line.index(";") + 2)
-        executed = re.search(rf"^\s*\d+(?:\.\d+)?s: .*{re.escape(path.name)}\({target},\d+-\d+\): Executing statement$", log, re.M) is not None
-        accepted = (exit_code == 1 and not changed and len(bodies) == 1 and
-                    visited == bodies and len(errors) == 1 and columns and executed)
+        mutants = {
+            "other_line": re.sub(rf"\({target},(\d+-\d+)\): error:", rf"({target - 1},\1): error:", log),
+            "other_predicate": log.replace(negative["expected_predicate"], "unrelated_predicate"),
+            "no_body_execution": re.sub(r"^.*s: .*: Verifying function .*\n", "", log, flags=re.M),
+            "no_target_execution": re.sub(rf"^.*s: .*\({target},\d+-\d+\): Executing statement\n", "", log, flags=re.M),
+            "other_column": re.sub(rf"\({target},\d+-\d+\): error:", f"({target},1-2): error:", log),
+        }
+        rejection_controls = {key: value != log and not negative_gate(path, source, value, exit_code, negative, True)
+                              for key, value in mutants.items()}
+        rejection_controls["timeout"] = not negative_gate(path, source, log, 124, negative, True)
+        rejection_controls["source_changed"] = not negative_gate(path, source, log, exit_code, negative, False)
+        accepted = all(rejection_controls.values())
     return {"case": name, "command": command, "exit": exit_code,
             "source_sha256": before, "log_sha256": digest(log_path.read_bytes()),
             "source_unchanged": not changed, "accepted": accepted,
             "negative": negative, "expected_bodies": bodies,
+            "classifier_rejection_controls": rejection_controls,
             "visited_bodies": visited, "errors": errors,
             "leak_checks": leak_checks, "return_checks": return_checks,
             "boundary": "universal ghost assertion harness; ensures true is not an exported Rust callee summary",

@@ -52,13 +52,16 @@ precondition is:
   leave the current `T`, `F`, and frame resources valid for subsequent use.
   Captured-resource effects are described by a callback relation, not by an
   unchanged-state/purity assertion.
-* The selected source representations remain readable and valid until copied.
-  The local `ManuallyDrop<T>` temporary is a valid representation holder; the
-  final destination slot is writable, and the local temporary's storage does
-  not overlap `q` for the final `copy_nonoverlapping`. No operation after the
-  successful comparator may unwind while the temporary owns the logical value.
-  The actual `select_unpredictable` call therefore needs a verified no-unwind
-  behavior and an exact selected-pointer result for these pointer types.
+
+The remaining statements are **body proof obligations**, not caller assumptions
+about an internal temporary. The selected source representations must remain
+readable and valid until copied. The local `ManuallyDrop<T>` temporary must be a
+valid representation holder; the final destination slot must be writable, and
+the local temporary's storage must not overlap `q` for the final
+`copy_nonoverlapping`. The body's control flow and callees must establish that
+no operation after the successful comparator unwinds while the temporary owns
+the logical value. In particular the actual `select_unpredictable` call needs
+verified no-unwind behavior and an exact selected-pointer result at *mut T.
 
 The overlapping `ptr::copy` obligation includes that its destination remains
 writable when its source is read: equality of numeric addresses alone does not
