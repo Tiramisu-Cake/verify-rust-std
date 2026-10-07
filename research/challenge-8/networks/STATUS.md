@@ -1,6 +1,6 @@
 # Networks: independent phase2 checkpoint
 
-2026-10-07 — CHECKPOINT: generic rank bridge, full exact N9 and full universal
+2026-10-07 — ITERATION CLOSED by owner: generic rank bridge, full exact N9 and full universal
 symbolic-domain N13 component ACCEPTED. Extra exact N13 specialization OPEN.
 Branch `challenge-8/networks`, existing worktree `/root/verify-rust-std-networks`;
 entry `a9fe187d48a492939970998ca862736a410c1adc`. No active run or promised work.
@@ -44,10 +44,10 @@ answers and actual helper CE realization are functional applicability premises.
 No stability/Copy/Freeze assumption. Actual Rust FnMut/select/ManuallyDrop/memory/
 ownership/unwind safety and public Challenge remain OPEN.
 
-Next permitted work in this SAME phase: analyze the exact adapter with new
-concrete evidence. No blind timeout retry: last component job226s exceeds151
-remaining; no further full-unit hosted job dispatched in this continuation.
-Any future job must fit the SAME151remaining and keep the frozen trust boundary.
-Rust integration/tool patches/new budget require separate scope, not this result.
+Owner closed this iteration: NO additional adapter experiments now. The
+151unspent seconds stay with this phase and are NOT transferred. The next
+separately authorized merge-geometry phase branches from c22f0a30ed457165e07599e226cee289a270b715
+with its own1800jobsecond budget. Network proof SHAs and all earlier budgets
+remain unchanged. Rust integration/tool patches require separate scope.
 [Results](RANK-RESULTS.md), [plan](PLAN.md), [phase](RANK-PHASE.md),
 [journal](RANK-EXPERIMENT-LOG.md), [integration proposals](INTEGRATION.md).

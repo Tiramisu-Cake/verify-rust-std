@@ -597,3 +597,10 @@ posts required. Everyfailedsource/log/full contract preserved. No more full-unit
 job fits151remaining at measured226s; no blind timeout retry/new budget.
 No active job. Actual Rust safety/helper/order-key-comparator applicability and
 public Challenge remain OPEN. Final checkpoint docs are not a proof run.
+
+## Owner closeout, documentation only
+
+Iteration closed: common SWO bridge, full N9 and symbolic N13 component accepted;
+exact N13 adapter OPEN. No more adapter runs now. Budgets1499/1800phase1 and
+1649/1800phase2 and all checkedSHAs preserved, unused301/151not transferred.
+New merge geometry phase separately authorized1800s from exact c22f0a3; no merge.
