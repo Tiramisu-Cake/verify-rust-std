@@ -2,10 +2,10 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night9/12 NEW,2316/10800 summed job-seconds; repair2/2 closed. No active run.
-N9/37550139106/source4d7aebc timed out at count equality in equivalent_ranks108;
-no full finite-SWO theorem/negative result. Exact trace saved; fast laws_at passed.
-N10 explicit count proof repair prepared, identical full domain/posts/stock profile.
+Night10/12 NEW,2639/10800 summed job-seconds; repair2/2 closed. No active run.
+N10/37553115842/source3ea303b: count equality repair passes; new strict-count
+sum hotspot at less_rank143 times out. Full SWO bridge unproven, negative NOT RUN.
+N11 analogous strict-count/bounds proof repair, identical full domain/posts/profile.
 Draft pure network composition/header and relation stability negative are unverified.
 Last N8/37549955948,source9b25c410f6f69bdf5649aabf98481501824cec1e:
 scalar range composition PASS, intended endpoint negative rejected.
@@ -57,7 +57,7 @@ identical req/posts. No pointer/resource/operation or machine-overflow claim.
 Known raw-scratch initialized-dst boundary is not repeated; operation/spec coverage
 and future design are in [memory operations](SORT4-MEMORY-OPERATIONS.md).
 Next: independent finite-SWO bridge; no callback/model expansion.
-Main0970b84 exposes only additional manual range/swo selections.
+Main4771dd9 exposes only additional manual range/swo/network selections.
 RAPx CLOSED/NO-GO; B/C NOT RUN. No historical FnMut/Drop chain, new tool/axiom/spec/
 model extension or publication.
 Full logs/artifacts are in /tmp only; historical prototype6/6,653s remains closed

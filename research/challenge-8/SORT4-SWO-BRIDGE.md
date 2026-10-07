@@ -51,3 +51,10 @@ that every normal callback answer equals this one fixed relation on preserved
 keys/values and that the selected pointers carry the corresponding occurrence
 and permissions. Panics require the separate full unwind/resource contract.
 For ZSTs, predecessor counts use occurrence IDs, not pointer addresses.
+
+N9/37550139106 timed out at equivalent_ranks count equality after completing
+pointwise laws. N10/37553115842 checks the isolated count-equality helper and
+ equivalent_ranks to completion, then times out at less_rank strict-count sum.
+Full finite quotient transfer is still UNPROVEN and negative NOT RUN. N11 isolates
+strict-count/bounds arithmetic using the same evidence-backed proof technique.
+No definition, full domain/post or stock verifier semantics changes.

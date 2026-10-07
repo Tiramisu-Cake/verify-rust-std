@@ -3023,3 +3023,67 @@ sum, without carrying unrelated SWO laws. equivalent_ranks invokes it after the 
 four checked calls; all existing requires/ensures/definitions remain unchanged.
 Expected first progress: new helper full return/leak and equivalent_ranks full return.
 Later strict-count/rank bounds are not assumed; any new first failure recorded.
+
+N10 dispatched run37553115842/source3ea303b682b63da3237a3d543ce3229b48c2848b,
+created2026-10-07T00:39:32Z,manualswo/30. Night10/12,2316 completedjobseconds plus
+active N10. No concurrent relevant run;30min maximum fits06:00UTC deadline.
+
+### Conditional pure SWO/network composition card — NOT RUN
+
+Only after accepted quotient bridge: arbitrary relation16 satisfying ALL finite
+SWO laws, exact five operands/selection formulas, preserved fixed relation across
+all comparisons. Hypothesis: predecessor rank bridge justifies all5 actual logical
+comparison replies, checked rank theorem yields s4_final plus adjacent
+!less(next,prev) and (equiv(prev,next)=>prevID<nextID). This is the entire four-
+occurrence SWO domain, no value sampling; actual T/callback/memory/unwind interface
+unproved. Reuse original N5 declarations/body BYTE-UNCHANGED in new owned ghost
+header; original N5 C fixture retained byte-unchanged. Require named index/rank/
+SWO bridge/network bodies,VF0/all return-leak checks, all source/profile/before-after
+hashes. Minimal NEW relation-stability negative uses valid all-tied relation,
+exactly swapped middle logical selections, proves non-less/equivalence first,
+then rejects marked combined stable-order predicate only. No weakening/unproved
+summary. Frozen stock26.09, no semantic change;300s fixture cap/120s cleanup reserve,
+manualswo_network/30. This new composition does not rerun a completed standalone
+rank task; dependencies are checked at same profile while proving a new caller.
+Ordinary local proof fixes permitted by NEW run within remaining budget; semantic
+need is design-only, false theorem quarantines. Main input exposure is a minimal
+manual choice, no new automatic trigger/job or research-history merge.
+
+N10 result:run37553115842/source3ea303b682b63da3237a3d543ce3229b48c2848b,
+job112573025501,00:39:37–00:45:00UTC,323s,FAILURE/INCONCLUSIVE_TIMEOUT124.
+Full log/artifact11453956993 inspected;12897bytes,ZIPsha256
+07b2ce4a17a7b26cdd15418c57da592aa8226dbb5a199258938800098405c6e6.
+Source/profile/hash integrity exact before/after; new count_equal and
+ equivalent_ranks COMPLETE with return/leak checks under0.39s. Targeted repair
+therefore works, but full bridge not reached. NEW first hotspot is less_rank143
+strict count inequality after four subset facts and x case;last progress0.415506s.
+No proof error/false theorem. Perfixture300s timeout correctly classifies partial
+INCONCLUSIVE_TIMEOUT and skips negative (NOT RUN);120s reserve retains artifact.
+Night10/12,2639/10800jobseconds; no active run. Main4771dd9 only adds manual
+swo_network choice after prior minimal exposure, no research merge/automatic trigger.
+
+### N11 strict predecessor-count and bound proof repair card
+
+N10 demonstrated that isolating arithmetic from large SWO context completes
+count equality. New falsifiable hypothesis: same technique completes strict
+count monotonicity and bounds. Owned checked helpers carry ONLY four pointwise
+subset implications, ID4(x), own absent/extra witness for strict comparison; or
+ID4(x) and own absence for bounds. Explicit four indicator inequalities and x
+cases derive strict sum; indicator0..1 plus missing own entry derive count0..3.
+Full original relation16/64laws/all theorem requires/ensures unchanged. Earlier
+fast laws/equality proofs retained. No new axiom/summary/prelude/model/solver flag.
+Positive named full bridge/application,VF0/all return-leak/source/profile/hash gates;
+negative unchanged all-tied ID-as-rank assertion must fail intended location only.
+300s perfixture,30min job with120s cleanup reserve; timeouts INCONCLUSIVE/negative
+NOT RUN. Success accepts full finite quotient and permits the already-carded NEW
+network composition; another localized ordinary failure may use FINAL NEW slot,
+otherwise retain draft composition explicitly NOT RUN. Manual components/swo/30.
+
+N11 implementation follows card: minimal checked strict-count and bounds helpers
+use explicit indicator locals/inequalities and all four exact x cases. less_rank
+and full bridge call these; fast law/equality bodies unchanged. SIGKILL137 is
+reported as INCONCLUSIVE_TERMINATED rather than attributed to timeout without
+cause evidence; timeout124 remains INCONCLUSIVE_TIMEOUT. Both stop dependent
+negative processing. New pure composition/header/negative committed as UNVERIFIED
+conditional drafts with full card, not accepted proof. Original N5 fixture stays
+byte-unchanged; copied ghost declarations/body match it exactly.

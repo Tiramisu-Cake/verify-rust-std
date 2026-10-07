@@ -8,7 +8,7 @@ cd "$repo"
 budget=${1:?budget required}
 component=${2:?component required}
 [[ "$budget" == 30 ]] || { echo 'night run allocation is 30 minutes' >&2; exit 2; }
-[[ "$component" == index || "$component" == order || "$component" == select || "$component" == range || "$component" == swo ]] || exit 2
+[[ "$component" == index || "$component" == order || "$component" == select || "$component" == range || "$component" == swo || "$component" == swo_network ]] || exit 2
 evidence="$repo/research-results/verifast-sort4-$component"
 if [[ "${3:-}" != --inside ]]; then
     [[ ! -e "$evidence" ]] || exit 2
@@ -56,8 +56,11 @@ if [[ "$component" != select ]]; then
         gh run download 37548475221 --repo Tiramisu-Cake/verify-rust-std --name smallsort-research-37548475221-1 --dir "$evidence/saved-index"
         python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked" --replay-index-evidence "$evidence/saved-index"
     else
-        if [[ "$component" == range || "$component" == swo ]]; then
+        if [[ "$component" == range || "$component" == swo || "$component" == swo_network ]]; then
             sha256sum "research/challenge-8/sort4-$component-lemmas.c" "research/challenge-8/sort4-$component-negative.c" >> "$evidence/environment.txt"
+        fi
+        if [[ "$component" == swo_network ]]; then
+            sha256sum research/challenge-8/sort4-order.gh research/challenge-8/sort4-swo.gh research/challenge-8/sort4-swo-composition.c research/challenge-8/sort4-swo-composition-negative.c >> "$evidence/environment.txt"
         fi
         if [[ "$component" == swo ]]; then
             sha256sum research/challenge-8/sort4-swo.gh >> "$evidence/environment.txt"

@@ -123,6 +123,80 @@ lemma void s4_equivalent_ranks(s4_relation r, int x, int y)
     s4_predecessor_count_equal(r,x,y);
 }
 
+// The four subset implications come from strict transitivity. The strict
+// increase is the x-th bit: x is absent from pred(x), present in pred(y).
+lemma void s4_predecessor_count_strict(s4_relation r, int x, int y)
+    requires s4_id4(x) == true &*& s4_less(r,x,x) == false &*&
+             s4_less(r,x,y) == true &*&
+             (!s4_less(r,0,x) || s4_less(r,0,y)) &*&
+             (!s4_less(r,1,x) || s4_less(r,1,y)) &*&
+             (!s4_less(r,2,x) || s4_less(r,2,y)) &*&
+             (!s4_less(r,3,x) || s4_less(r,3,y));
+    ensures s4_id4(x) == true &*& s4_less(r,x,x) == false &*&
+            s4_less(r,x,y) == true &*&
+            s4_predecessors(r,x) < s4_predecessors(r,y);
+{
+    int p0 = s4_less(r,0,x) ? 1 : 0;
+    int p1 = s4_less(r,1,x) ? 1 : 0;
+    int p2 = s4_less(r,2,x) ? 1 : 0;
+    int p3 = s4_less(r,3,x) ? 1 : 0;
+    int q0 = s4_less(r,0,y) ? 1 : 0;
+    int q1 = s4_less(r,1,y) ? 1 : 0;
+    int q2 = s4_less(r,2,y) ? 1 : 0;
+    int q3 = s4_less(r,3,y) ? 1 : 0;
+    int px = p0 + p1 + p2 + p3;
+    int qy = q0 + q1 + q2 + q3;
+    assert p0 <= q0 && p1 <= q1 && p2 <= q2 && p3 <= q3;
+    if (x == 0) {
+        assert p0 == 0 && q0 == 1;
+        assert px < qy;
+    } else if (x == 1) {
+        assert p1 == 0 && q1 == 1;
+        assert px < qy;
+    } else if (x == 2) {
+        assert p2 == 0 && q2 == 1;
+        assert px < qy;
+    } else {
+        assert x == 3;
+        assert p3 == 0 && q3 == 1;
+        assert px < qy;
+    }
+    assert s4_predecessors(r,x) == px;
+    assert s4_predecessors(r,y) == qy;
+    assert s4_predecessors(r,x) < s4_predecessors(r,y);
+}
+
+// A member of the four-ID domain contributes zero to its own count; each
+// remaining Boolean indicator contributes at most one.
+lemma void s4_predecessor_count_bound(s4_relation r, int x)
+    requires s4_id4(x) == true &*& s4_less(r,x,x) == false;
+    ensures s4_id4(x) == true &*& s4_less(r,x,x) == false &*&
+            0 <= s4_predecessors(r,x) &*& s4_predecessors(r,x) <= 3;
+{
+    int p0 = s4_less(r,0,x) ? 1 : 0;
+    int p1 = s4_less(r,1,x) ? 1 : 0;
+    int p2 = s4_less(r,2,x) ? 1 : 0;
+    int p3 = s4_less(r,3,x) ? 1 : 0;
+    int sum = p0 + p1 + p2 + p3;
+    assert 0 <= p0 && p0 <= 1 && 0 <= p1 && p1 <= 1;
+    assert 0 <= p2 && p2 <= 1 && 0 <= p3 && p3 <= 1;
+    if (x == 0) {
+        assert p0 == 0;
+        assert 0 <= sum && sum <= 3;
+    } else if (x == 1) {
+        assert p1 == 0;
+        assert 0 <= sum && sum <= 3;
+    } else if (x == 2) {
+        assert p2 == 0;
+        assert 0 <= sum && sum <= 3;
+    } else {
+        assert x == 3;
+        assert p3 == 0;
+        assert 0 <= sum && sum <= 3;
+    }
+    assert s4_predecessors(r,x) == sum;
+}
+
 lemma void s4_less_rank(s4_relation r, int x, int y)
     requires s4_is_swo(r) == true &*& s4_id4(x) == true &*&
              s4_id4(y) == true &*& s4_less(r,x,y) == true;
@@ -139,8 +213,7 @@ lemma void s4_less_rank(s4_relation r, int x, int y)
     assert !s4_less(r,1,x) || s4_less(r,1,y);
     assert !s4_less(r,2,x) || s4_less(r,2,y);
     assert !s4_less(r,3,x) || s4_less(r,3,y);
-    if (x == 0) {} else if (x == 1) {} else if (x == 2) {} else { assert x == 3; }
-    assert s4_predecessors(r,x) < s4_predecessors(r,y);
+    s4_predecessor_count_strict(r,x,y);
 }
 
 lemma void s4_swo_rank_bridge(s4_relation r, int x, int y)
@@ -155,10 +228,8 @@ lemma void s4_swo_rank_bridge(s4_relation r, int x, int y)
 {
     s4_swo_laws_at(r,x,x,x);
     s4_swo_laws_at(r,y,y,y);
-    if (x == 0) {} else if (x == 1) {} else if (x == 2) {} else { assert x == 3; }
-    if (y == 0) {} else if (y == 1) {} else if (y == 2) {} else { assert y == 3; }
-    assert 0 <= s4_predecessors(r,x) && s4_predecessors(r,x) <= 3;
-    assert 0 <= s4_predecessors(r,y) && s4_predecessors(r,y) <= 3;
+    s4_predecessor_count_bound(r,x);
+    s4_predecessor_count_bound(r,y);
     if (s4_less(r,x,y)) {
         s4_less_rank(r,x,y);
         s4_swo_laws_at(r,x,y,x); // strict transitivity rules out y<x.

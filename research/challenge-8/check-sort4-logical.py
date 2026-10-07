@@ -116,7 +116,13 @@ def replay_index(saved, out):
 def check_case(tool, out, filename, lemma, negative, require_index=True):
     directory = out / filename.removesuffix(".c")
     directory.mkdir()
-    for name in (("sort4-swo.gh", filename) if filename.startswith("sort4-swo-") else ("sort4-index.gh", filename)):
+    if filename == "sort4-swo-composition.c":
+        sources = ("sort4-index.gh", "sort4-order.gh", "sort4-swo.gh", filename)
+    elif filename == "sort4-swo-composition-negative.c":
+        sources = ("sort4-index.gh", "sort4-swo.gh", filename)
+    else:
+        sources = ("sort4-swo.gh", filename) if filename.startswith("sort4-swo-") else ("sort4-index.gh", filename)
+    for name in sources:
         data = (HERE / name).read_bytes()
         if re.search(rb"\bassume(?:_correct)?\s*\(|\blemma_auto\b", data):
             raise ValueError("assumption or automatic lemma in owned fixture")
@@ -140,10 +146,12 @@ def check_case(tool, out, filename, lemma, negative, require_index=True):
         if status == 0:
             classification = "FALSE_THEOREM_PROVED"
     else:
-        ok = status == 0 and headers.count(lemma) == 1 and (not require_index or headers.count("s4_index_permutation") == 1) and (not filename.startswith("sort4-swo-") or headers.count("s4_swo_rank_bridge") == 1) and not errors and before == after
+        ok = status == 0 and headers.count(lemma) == 1 and (not require_index or headers.count("s4_index_permutation") == 1) and (not filename.startswith("sort4-swo-") or headers.count("s4_swo_rank_bridge") == 1) and (filename != "sort4-swo-composition.c" or headers.count("s4_rank_order_and_stability") == 1) and not errors and before == after
         classification = "PASS" if ok else "INCONCLUSIVE"
-    if status in (124, 137):
+    if status == 124:
         classification = "INCONCLUSIVE_TIMEOUT"
+    elif status == 137:
+        classification = "INCONCLUSIVE_TERMINATED"
     result = {"file": filename, "lemma": lemma, "command": command, "verifast_exit": status,
               "function_headers": headers, "errors": errors, "target_line": target,
               "target_error_line": target_error_line, "target_assertion": target_assertion,
@@ -157,7 +165,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tool-home", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--component", choices=("index", "order", "range", "swo"), required=True)
+    parser.add_argument("--component", choices=("index", "order", "range", "swo", "swo_network"), required=True)
     parser.add_argument("--replay-index-evidence", type=Path)
     args = parser.parse_args()
     if any(os.environ.get(k) != v for k,v in (("GITHUB_ACTIONS","true"),("RUNNER_ENVIRONMENT","github-hosted"),("RUNNER_OS","Linux"))):
@@ -174,6 +182,8 @@ def main():
                   ("sort4-order-negative.c", "s4_wrong_equal_middle_order", True)),
         "range": (("sort4-range-lemmas.c", "s4_selected_cells_within_disjoint_spans", False),
                   ("sort4-range-negative.c", "s4_range_wrong_final_endpoint", True)),
+        "swo_network": (("sort4-swo-composition.c", "s4_swo_choice_network", False),
+                        ("sort4-swo-composition-negative.c", "s4_swo_wrong_equal_middle_order", True)),
         "swo": (("sort4-swo-lemmas.c", "s4_swo_rank_application", False),
                 ("sort4-swo-negative.c", "s4_wrong_rank_bridge", True)),
     }[args.component]
@@ -181,7 +191,7 @@ def main():
     for filename, lemma, negative in cases:
         result = check_case(args.tool_home, args.evidence, filename, lemma, negative, require_index=args.component != "swo")
         results.append(result)
-        if result["classification"] in {"FALSE_THEOREM_PROVED", "INCONCLUSIVE_TIMEOUT"}:
+        if result["classification"] in {"FALSE_THEOREM_PROVED", "INCONCLUSIVE_TIMEOUT", "INCONCLUSIVE_TERMINATED"}:
             break
     gate = replay_ok and len(results) == len(cases) and all(r["classification"] in {"PASS","EXPECTED_TARGET_ASSERTION_FAILURE"} for r in results)
     (args.evidence / "results.json").write_text(json.dumps({"pass": gate, "cases": results}, indent=2) + "\n")

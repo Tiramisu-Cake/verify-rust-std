@@ -47,9 +47,10 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;9/12 runs,2316/10800 summed job-seconds; no active run.
-N9/37550139106/source4d7aebc timed out at equivalent-rank sum assertion.
-Full theorem and negative NOT PROVEN/NOT RUN; N10 targeted repair follows.
+Current: IN PROGRESS;10/12 runs,2639/10800 summed job-seconds; no active run.
+N10/37553115842/source3ea303b repairs equivalent-rank sum;
+new strict-count sum hotspot remains. Full theorem/negative NOT PROVEN/NOT RUN.
+N11 same proven isolation technique for strict-count/bounds follows.
 Layout repair2/2 complete, N2 full matrix/audit accepted at exact d4a12525 patch.
 Stock index theorem N4 accepted with N5 saved-processing replay; N5 abstract
 integer-rank sortedness/stability accepted. Actual pointer callee N6 blocked at
