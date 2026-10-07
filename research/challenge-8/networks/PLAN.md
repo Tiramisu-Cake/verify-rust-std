@@ -1,3 +1,9 @@
+# Networks phase plan
+
+Current phase: [finite SWO-to-rank proof](RANK-PHASE.md), authorized2026-10-07
+with a NEW1800jobsecond budget. N9 composition first, N13 only after acceptance.
+[STATUS](STATUS.md) is current; original completed phase plan follows unchanged.
+
 # Independently authorized networks phase
 
 Owner instruction on 2026-10-07 authorizes this branch independently of stops

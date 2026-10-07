@@ -49,7 +49,7 @@ on:
         description: Isolated stock sort4 component
         type: choice
         default: index
-        options: [index, order, select, range, swo, swo_network, networks9, networks13]
+        options: [index, order, select, range, swo, swo_network, networks9, networks13, ranks9, ranks13]
       rapx_gate:
         description: Ordered RAPx applicability gate
         type: choice
@@ -69,7 +69,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13'
+    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -220,6 +220,30 @@ jobs:
         with:
           name: smallsort-networks-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/networks/
+          if-no-files-found: error
+          retention-days: 90
+
+  network_ranks:
+    if: inputs.proof == 'verifast_sort4_components' && (inputs.sort4_component == 'ranks9' || inputs.sort4_component == 'ranks13') && github.ref == 'refs/heads/challenge-8/networks'
+    name: Finite SWO rank composition on stock VeriFast
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify finite order and exact-source network composition
+        env:
+          NETWORK_RANK_SELECTION: ${{ inputs.sort4_component }}
+        run: bash research/challenge-8/networks/run-ranks.sh "$NETWORK_RANK_SELECTION"
+      - name: Preserve full finite-order evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-network-ranks-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/networks-ranks/
           if-no-files-found: error
           retention-days: 90
 
