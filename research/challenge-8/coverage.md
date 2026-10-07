@@ -31,7 +31,8 @@ source3c3f0f3,104statements: arbitrary relation16/all4diagonal+64triple laws,
 predecessor count0..3,less iff rank< and equivalence iff rank=. Intended tied-rank
 negative rejected at19. N9/N10 timeouts are historical; checked isolated arithmetic
 helpers resolve both without changing laws/posts/profile. Pure network composition
-is prepared; actual callback/T simulation remains open.
+is NOT RUN: N12 harness filename failure before verifier. Known correction remains
+unrechecked after12/12 budget closeout; actual callback/T simulation remains open.
 Stock [scalar range composition](SORT4-MEMORY-OPERATIONS.md) N8/37549955948,
 source9b25c41,24statements PASS: exact selected IDs to dst0..3, containment and
 separation for arbitrary stride>=0 (includingZST0). Endpoint negative rejected.
@@ -267,7 +268,7 @@ The immutable-write control is an independent measured limitation.
   runtime/signature changes. Tool-semantic expansion, external publication and
   bounty submission each require the owner's separate decision.
 
-## Fieldless-layout phase closeout: stock and experimental coverage
+## Historical fieldless-layout closeout before night N2
 
 Run37540829027/source968c073983e0fa27112c5d8a4e10a36b05828323 establishes BOTH
 generic const/mut H_align with whole-unit VF0 on unchanged official26.09: all
@@ -289,5 +290,7 @@ profiles. Overall prototype acceptance INCONCLUSIVE, not accepted tool profile o
 complete model-soundness. No proof transfer from stock assumed: instantiated units
 verify callee and caller together in experimental model. Full ownership/copy UB/
 callback/five-unwind/universal sort4/caller composition remain open. Next harness/
-annotation repair plus unchanged-patch matrix check NOT AUTHORIZED / NOT RUN.
+annotation repair plus unchanged-patch matrix check was NOT AUTHORIZED / NOT RUN
+at this historical checkpoint. Later night N1/N2 completed full acceptance
+(updates above); earlier raw failures and closed historical budgets remain.
 RAPx0.7.50 CLOSED/NO-GO; B/C NOT RUN; original ZST remains in adopted domain.

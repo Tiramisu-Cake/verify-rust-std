@@ -1,17 +1,20 @@
 # Challenge 8: approved roadmap
 
-Current owner extension: [autonomous sort4 night phase](SORT4-NIGHT-PHASE.md),
+Completed owner extension: [autonomous sort4 night phase](SORT4-NIGHT-PHASE.md),
 through09:00 MSK October7,2026; separate12-run/180-job-minute budget and2-run
 layout-repair sublimit. Only listed composition tasks authorized, with no reopening
-of historical budgets or trusted semantic extension. STATUS is current.
+of historical budgets or trusted semantic extension. CLOSED at12/12 NEW,2697jobseconds;
+[report](SORT4-NIGHT-RESULTS.md). STATUS is current.
 
 Night N2/37547890530 completes full acceptance of unchanged d4a12525 narrow
 fieldless profile; processing/native-fixture blockers in the historical closeout
 below are now repaired. No wider semantic or whole-sort4 claim follows.
 Night N4/N5 check the pure index and abstract rank-order/stability components;
 N8 checks scalar selected-cell containment/separation. N6 actual pointer callee
-is blocked at runtime MaybeUninit::new. Next independent finite-SWO transfer is
-within the night authorization; actual pointer/raw-scratch/ownership capabilities
+is blocked at runtime MaybeUninit::new. Finite-SWO transfer accepted N11; final
+pure network gate N12 failed harness
+before verifier (draft NOT RUN, known correction UNRECHECKED). No new run remains
+authorized. Actual pointer/raw-scratch/ownership capabilities
 remain design-only, requiring a future owner decision.
 
 Approved by the owner on 2026-10-06 after review of the C verification research.
@@ -93,14 +96,16 @@ Rust struct facts and a Rust-only size-bound correction, with future acceptance
 matrix DESIGN ONLY / NOT RUN. Kani Z calibration lacks the full-domain bridge.
 No tool patch or historical insertion/FnMut/Drop expansion authorized; STOP.
 
-Current stage1l **CLOSED at6/6 NEW runs,653/10800 summed job-seconds**:
+Historical stage1l checkpoint BEFORE night N2: **CLOSED at6/6 NEW runs,653/10800 summed job-seconds**:
 stock generic baseline PASS on unchanged26.09; separate experimental fieldless-only
 compiler layout profile builds and verifies the narrow geometry controls.
 [Final matrix](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout) remains
 INCONCLUSIVE due absent/span evidence-processing gates and new C/C++ fixture parsing.
 No active experiment; STOP. Fielded/generic/packed/transparent/enum/DST exact support,
 offset/ownership changes and historical patch chain were not added. Next unchanged-
-patch harness/annotation check needs a new decision; NOT AUTHORIZED / NOT RUN.
+patch harness/annotation check was NOT AUTHORIZED / NOT RUN at that checkpoint.
+It was later expressly authorized and completed in night N1/N2; historical budget
+stays closed. Current N2 acceptance and night closeout are recorded above.
 RAPx CLOSED/NO-GO; B/C NOT RUN.
 
 ## Decision and evidence
@@ -243,7 +248,7 @@ Stage1j repairs/tests classification; stage1k discharges residual posts but fail
 dead-code reachability, so full generic gate stays INCONCLUSIVE. Concrete ZST
 model boundary persists in26.10/master; reviewed future layout repair/regression
 plan was not implemented in that historical phase. The subsequent narrow authorized
-prototype and its acceptance limits are recorded in the current closeout below. Even a later pass would not reopen RAPx
+prototype and its acceptance limits are recorded in the historical closeout below (later N2 acceptance above). A pass does not reopen RAPx
 B/C, implement VF patches or prove all sort4.
 
 Use [AGENTS.md](../../AGENTS.md) and the [runbook](AGENT-RUNBOOK.md) for autonomous
@@ -253,9 +258,9 @@ report proven properties, actual domain, remaining safety obligations and the
 next decision separately. No later phase, semantic tool change or external
 publication is authorized by this roadmap.
 
-## Stock generic / fieldless layout stage closeout
+## Historical stock generic / fieldless layout closeout before night N2
 
-[Current closeout](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout):
+[Historical closeout](SORT4-ALIGNMENT-RESULTS.md#fieldless-layout-prototype-closeout):
 6/6 NEW hosted runs,653s summed jobs including builds/setup, STOP with no active run.
 Stock generic const/mut independently PASS on unchanged26.09; separate experimental
 fieldless layout profile builds and proves Z0/8/const-mutadd, exact generic calls at
@@ -266,5 +271,7 @@ layout/offset/ownership semantics needed for these achieved results. No complete
 sort4/copy UB/typed resource/callback/five-unwind proof follows. RAPx remains
 CLOSED/NO-GO; B/C NOT RUN. One proposed next bounded check fixes only harness/native
 annotation presentation at unchanged patch, then reruns full strict matrix. This
-requires a new explicit decision/budget; NOT AUTHORIZED / NOT RUN. Do not expand
+was NOT AUTHORIZED / NOT RUN at that checkpoint. Later night authorization
+and N2 fully accepted the unchanged-patch harness/native repair; raw historical
+failures remain. Do not expand
 exact facts to fielded/generic/other ADTs or implementation scope from this plan.

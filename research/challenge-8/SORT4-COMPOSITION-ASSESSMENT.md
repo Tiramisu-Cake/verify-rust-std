@@ -25,11 +25,11 @@ posts. [Callee note](SORT4-SELECT-CALLEE.md) records the first blocker; construc
 union/intrinsic/drop capabilities require a future separately approved design.
 [Finite SWO quotient bridge](SORT4-SWO-BRIDGE.md) N11/37553933186 is accepted
 with full iff/bounds posts and intended tied-rank negative. Pure network composition
-is the final authorized new gate; actual callback/value correspondence remains open.
+remains NOT RUN after N12 harness failure; the12-run night budget is exhausted; actual callback/value correspondence remains open.
 [Memory note](SORT4-MEMORY-OPERATIONS.md) records initialized-dst raw-scratch and
 reference/copy operation-coverage gaps. No historical semantic patch chain applied.
 
-Current update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
+Historical pre-N2 update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
 now establishes both generic geometry cases with VF0, integrity/refinement/dead-code
 checks intact. Prior dead-code failures below are historical. The separately
 approved fieldless-only experimental Rust layout prototype closes at6/6,653s:
@@ -105,7 +105,7 @@ recorded profiles and runs, rather than treating green Actions jobs as proofs.
 | Raw possibly-uninitialized dst becomes four valid copied representations; uninitialized padding is allowed; invalid scalar/reachable values are not produced | VF initialization/representation proof; RAPx only after separate B-like applicability decision | VF baseline typed copy requires initialized dst; historical Drop used initialized dst. Kani stronger validity profile has unsupported CopyNonOverlapping | Actual raw-copy/callee proof with optional initialization, padding and generic value validity, including inhabited/destructor-bearing ZST | Kani i32/tagged results cannot supply generic validity. RAPx B NOT RUN and Init/ValidPtr are not accepted representation transport |
 | Immutable bytes are never illegally mutated; UnsafeCell effects remain legal | VF permission/alias proof; RAPx candidate only with measured property coverage | [Kani detector gap](ub-checks.md): immutable write/read9 passed; no target-wide check | Independently justified write permissions for raw copies and all callback-accessible state; paired intended detector controls if RAPx used | No inference from Kani default pass or RAPx SOUND; this category remains open separately |
 | Normal SrcOwn(s,V5) + Shadow(dst,pi(V5)), both storages, current F/frame, exactly one ownership sequence, no local debt | VF relational ownership proof | [Adopted protocol](SORT4-CONTRACT.md#full-normal-post-and-ownership-protocol); historical checked recovery/Drop are conditional, different domains | Generic four-slot shadow representation, logical ZST occurrences, no duplicate drop rights; full five-call + four-copy composition | Byte equality or RAPx copying does not imply T.own, Shadow or a permission transfer. No imported ownership bridge |
-| Conditional sorted exact original-occurrence permutation and stability under fixed strict weak order and key/value preservation | Existing concrete Kani; VF checked abstract order proof plus a checked order-to-rank bridge for generic extension | Kani values 0/267 failed,12 covers; tagged 0/233 failed,6 covers, [37459631500](SORT4-RESULTS.md). Stock [N5/37548811698](SORT4-ORDER-LEMMA.md) checks the exact network for arbitrary fixed integer ranks and original tie IDs. The finite strict-weak-order-to-rank transfer is accepted at N11/37553933186; pure network composition is the active N12 gate | Connect the checked pure relation/rank theorem and network to actual preserved Rust values/keys and callback/source; keep these functional premises separate from safety | No universal lift from concrete i32 keys or fixed ranks without an actual value/key-preservation and callback correspondence argument (pure finite bridge accepted at N11). Memory safety remains independently required |
+| Conditional sorted exact original-occurrence permutation and stability under fixed strict weak order and key/value preservation | Existing concrete Kani; VF checked abstract order proof plus a checked order-to-rank bridge for generic extension | Kani values 0/267 failed,12 covers; tagged 0/233 failed,6 covers, [37459631500](SORT4-RESULTS.md). Stock [N5/37548811698](SORT4-ORDER-LEMMA.md) checks the exact network for arbitrary fixed integer ranks and original tie IDs. The finite strict-weak-order-to-rank transfer is accepted at N11/37553933186; pure network composition/negative NOT RUN after N12 harness filename failure | Connect the checked pure relation/rank theorem and network to actual preserved Rust values/keys and callback/source; keep these functional premises separate from safety | No universal lift from concrete i32 keys or fixed ranks without an actual value/key-preservation and callback correspondence argument (pure finite bridge accepted at N11). Memory safety remains independently required |
 | Reuse sort4 in sort8/general scratch callers and later merge/drop/move paths | VF/equivalent caller composition, later scope | Static len>=8/16 audit; scratch nondropped by MaybeUninit | Actual caller establishes entire precondition, then relational scratch access/ownership and all later unwind transport | Requires a proved actual sort4 summary first; does not feed an assumed scratch summary back into sort4 |
 
 ## Common source and domain, without a model shortcut
@@ -299,7 +299,10 @@ proved false conclusion is NO-GO for that VF profile/model route. A required
 semantic extension triggers STOP for separate review, never an automatic patch.
 No result of this small gate closes generic sort4 safety or reopens RAPx B/C.
 
-## Checkpoint
+## Historical checkpoint before accepted generic baseline and night N2
+
+The raw outcomes below are retained; current accepted baseline/N2/night results
+are recorded above and in STATUS. They grant no new work authorization.
 
 Conditional acyclic composition remains incomplete. The generic completion runs
 now discharge every residual index/alignment/resource post, but final37537868053
@@ -324,7 +327,7 @@ Selected pointers, callback effects, all five panic posts, raw-copy validity and
 resources, automatic UB and full sort4 remain open. Historical insertion/FnMut/Drop
 patches have no new justification from this scoped layout work.
 
-Latest phase CLOSED at2/2 NEW runs,85s total jobs/setup, no active experiment.
+At this historical checkpoint the phase was CLOSED at2/2 NEW runs,85s total jobs/setup, no active experiment.
 Generic proof needs a separately verified ghost-structure repair that retains all
 checks. Future layout implementation requires the documented trust review and
 acceptance gates, not an automatic continuation. RAPx CLOSED / NO-GO; B/C NOT RUN;

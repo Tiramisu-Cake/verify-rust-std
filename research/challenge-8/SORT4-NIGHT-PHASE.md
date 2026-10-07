@@ -47,11 +47,13 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;12/12 runs,2669 completed/10800 summed job-seconds plus active
-FINAL N12/37554258065/source1803ad0,swo_network/30.
-Layout repair2/2 complete, exact profile N2 accepted. Stock index N4/N5 replay,
-abstract rank order/stability N5 and scalar ranges N8 accepted. N11 finite-SWO
-quotient bridge accepted after N9/N10 arithmetic repairs. Actual pointer callee
-N6 blocked at runtime MaybeUninit::new; memory/raw-scratch/operation boundaries
-remain design-only. Next FINAL NEW slot: pure SWO/network composition N12.
-No actual Rust pointer/resource/callback/unwind composition theorem follows.
+Current: CLOSED —12/12 NEW budget exhausted,2697/10800 summed job-seconds,
+44m57s; no active run. All begun runs finished and full evidence inspected.
+Layout repair2/2 accepted exact N2 profile; stock index N4/N5 replay,rank order/
+stability N5,scalar ranges N8 and finite-SWO quotient N11 accepted. N12 fails
+harness before verifier; pure network composition/negative NOT RUN. One-line
+harness correction committed UNRECHECKED, no13th run. Actual pointer callee N6
+blocked at runtime MaybeUninit::new; memory/raw-scratch/callback/unwind remain
+open/design-only. General safety and frozen trust boundary unchanged.
+See SORT4-NIGHT-RESULTS.md for report and STATUS.md for next permitted action.
+This exhausted phase grants no further experiments or reopening historical budgets.

@@ -55,7 +55,7 @@ For ZSTs, predecessor counts use occurrence IDs, not pointer addresses.
 N9/37550139106 timed out at equivalent_ranks count equality after completing
 pointwise laws. N10/37553115842 checks the isolated count-equality helper and
  equivalent_ranks to completion, then times out at less_rank strict-count sum.
-Full finite quotient transfer is still UNPROVEN and negative NOT RUN. N11 isolates
+At N10 full finite quotient transfer was UNPROVEN and negative NOT RUN. N11 isolated
 strict-count/bounds arithmetic using the same evidence-backed proof technique.
 No definition, full domain/post or stock verifier semantics changes.
 
@@ -64,4 +64,6 @@ stock VF0,104 verified statements, all eight helper bodies and positive applicat
 complete with return/leak checks. Full iff/bounds posts discharge. All-tied valid
 relation negative rejects only marked ID-as-rank assertion19; hashes unchanged.
 Earlier timeouts remain historical. Full pure choice-network composition is a
-separate prepared gate, not yet an accepted actual Rust theorem.
+separate unverified draft: N12 failed in harness before VeriFast, so the
+composition and its negative were NOT RUN. Known wiring correction is UNRECHECKED
+and needs a separately authorized new budget. No actual Rust theorem follows.

@@ -3125,3 +3125,30 @@ N11 completed/full audit before dispatch, no concurrent relevant run. Full
 read-only preflight found exact5cmp operand mapping and byte-unchanged N5 ghost
 header extraction, no semantic/domain/post issue. Night12/12 NEW allocated,
 2669completedjobseconds plus active FINAL run; no13th run permitted.
+
+N12 result:run37554258065/source1803ad0be54a41d97059ad28a0400a7cf851aed3,
+job112576705436,00:52:57–00:53:25UTC,28s,FAILURE/SETUP_HARNESS_INCONCLUSIVE.
+Full job log/artifact11453903478 inspected;2853bytes,ZIPsha256
+06ed1171c0a8c874e3cc292aac79273169bc448450290a29185a2be048317737.
+Official archive/hash setup passed. FIRST failure before any verifier invocation:
+generic fixture-hash branch incorrectly includes swo_network and requests absent
+sort4-swo_network-lemmas.c and sort4-swo_network-negative.c. Root's broad string
+replacement caused this wiring defect. Composition AND negative NOT RUN; no
+proof/disproof or coverage gain. Exact one-line harness branch repaired to range
+or swo only, preserving dedicated composition hash branch; bash-n/diff-check pass.
+This repair is UNRECHECKED on hosted Actions, and cannot confer proof acceptance.
+NO13th run: budget12/12 NEW exhausted,2697/10800summed jobseconds(44m57s),repair2/2.
+N9 extra10s cleanup fully counted; later runs retained120s reserve/300s fixture cap.
+All runs complete, no active run. Original std/runtime/generic signatures and
+all frozen tools/specs/model/refinement/layout patch unchanged. Full run artifacts
+stay /tmp; no downloaded logs/generated std/build output committed.
+
+Closeout: accepted exact narrow layout profile, independent stock index theorem,
+abstract integer-rank sortedness/stability, finite-SWO quotient transfer and scalar
+selected-cell ranges. Pure network composition remains committed UNVERIFIED draft;
+actual pointer callee blocked at MaybeUninit::new; reference/copy/raw-scratch and
+callback/five-panic resource interfaces remain open/design-only. Final report
+SORT4-NIGHT-RESULTS.md and compact STATUS close the night. Future proof-only retry
+needs separately approved NEW budget; future trusted capability needs explicit
+rationale/trust review/regression gate BEFORE implementation. Historical budgets
+remain closed. No further experiments authorized by this exhausted phase.
