@@ -44,7 +44,7 @@ archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 patch_file="$repo/research/challenge-8/verifast-select-pointer-intrinsics.patch"
-printf '%s  %s\n' e566390327dda7e08e9874d2a7909da7e5f9bc5fb98c132fe7268ba496c5114f "$patch_file" | sha256sum -c -
+printf '%s  %s\n' 2cd1a04a35e58f5337e392cc5e27899ac7de20ad5d821f47045438e0348c732b "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/select-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"
@@ -147,4 +147,4 @@ run_stage select-classifier-tests python3 research/challenge-8/test-select-point
 run_stage select-component-matrix python3 research/challenge-8/check-select-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --classifier-summary "$evidence/select-classifier-self-check.json"
 run_stage actual-select-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-integration" --component-summary "$evidence/matrix/summary.json"
 run_stage intrinsic-classifier-tests python3 research/challenge-8/test-select-pointer-intrinsics-classifier.py --evidence "$evidence/intrinsic-classifier-self-check.json"
-run_stage intrinsic-mir-feasibility python3 research/challenge-8/check-select-pointer-intrinsics.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/intrinsic-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --feasibility-only
+run_stage intrinsic-component-matrix python3 research/challenge-8/check-select-pointer-intrinsics.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/intrinsic-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --classifier-summary "$evidence/intrinsic-classifier-self-check.json"

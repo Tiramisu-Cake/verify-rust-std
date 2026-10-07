@@ -77,3 +77,19 @@ compact11479045470/full11479215424 preservebuildlog/profile/O4.
 Laterfullarchivesexclude disposablemutation-profile tool/librarycopies, retain
 wrapper source outsidethatdirectory andalllogs/MIR/profiles/hashes. Historical
 fullO4 andearlier fullarchives remainunchanged; compactevidencealreadyexcludedtools.
+
+S5a/37613525435/source6b6d033b5729a6a8d72597838523570a3d8afc65/e5663903,
+138s11:21:32–11:23:50UTC,total1102/5400. Newprofilefullctor+asptrmatrices
+and60intrinsicclassifiermutants PASS (earlierdesigncard's62countwasincorrect).
+Actualbothtypedgates/2redirectseachPASS, SAFEhelper entered; firstPROOF failure
+Incorrectnumbertypeargs atasptr38. ExactlocalVFsignatureincludesinferredlifetime
+generic, sourceRustsignatureunchanged; correction6f705b9 reviewedbeforeimpl.
+Bothintrinsicfeasibilityunits export/decode/refinement/integrity PASS butcandidate
+4locals graphrejects actual7locals beforeproof. NOT accepted intrinsic/helper.
+[Compact11479611306](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37613525435/artifacts/11479611306),
+[full11479026615](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37613525435/artifacts/11479026615),
+[run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37613525435).
+S5b2cd1a04a exactcanonical7locals/BBgraph +inferredlifetime redirect, full
+intrinsicacceptance3+3positive/5+5proof/40admission/60classifiercriteria implemented.
+Firstunknownwrongresultdiagnostic failsclosed untilrawprooferrorobserved;
+noacceptancebeforeallgates, noactualintrinsicruleintegrationbeforeaccepted.

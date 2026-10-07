@@ -56,7 +56,7 @@ index d150408..e9da6ce 100644
          req true;
          ens MaybeUninit::new_maybe_uninit(v).inner() == v;
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..68a791f 100644
+index f1e3e50..1f786cc 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -370,7 +370,7 @@ index f1e3e50..68a791f 100644
        let body_tr_defs_ctx = Args.body_tr_defs_ctx
  
        let fetch_ghost_stmts_before (l : Ast.loc0) =
-@@ -2409,6 +2675,108 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2409,6 +2675,109 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                               (fn_loc, Deref (fn_loc, dst), Mutation, src));
                        ],
                      FnCallResult (mk_unit_expr fn_loc) )
@@ -462,7 +462,8 @@ index f1e3e50..68a791f 100644
 +                         FnCallOutcome
 +                           (Ast.CallExpr
 +                              (fn_loc, Sort4AsMutPtr.local_name,
-+                               [Ast.IdentTypeExpr (fn_loc, None, "Element")],
++                               [Ast.IdentTypeExpr (fn_loc, None, "Element");
++                                Ast.InferredTypeExpr call_loc],
 +                               [], [LitPat arg], Static)))
 +                 | _ -> Sort4AsMutPtr.reject
 +                     "external call type/receiver arity")
@@ -479,7 +480,7 @@ index f1e3e50..68a791f 100644
              | "std::cell::UnsafeCell::<T>::new"
              | "std::mem::ManuallyDrop::<T>::new"
              | "std::mem::ManuallyDrop::deref"
-@@ -2873,7 +3241,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2873,7 +3242,23 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
            let variant_name = variant_id_get adt_data_cpn in
            let substs_cpn = gen_args_get_list adt_data_cpn in
            let fields = fields_get_list adt_data_cpn |> List.map D.decode_aggregate_kind_adt_data_field_info in
@@ -504,7 +505,7 @@ index f1e3e50..68a791f 100644
        | Closure _ ->
            failwith "Todo: AggregateKind::Closure"
            (* CAVEAT: Once we allow closure values, we must also check closure bodies. *)
-@@ -2915,6 +3299,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2915,6 +3300,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                operand_exprs
            in
            Ok (`TrRvalueAggregate init_stmts_builder)
@@ -537,7 +538,7 @@ index f1e3e50..68a791f 100644
        | AggKindTuple ->
            let tuple_struct_name =
              TrTyTuple.make_tuple_type_name (List.length operands_cpn)
-@@ -4730,6 +5140,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4730,6 +5141,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = var_id_trs_map_ref
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
@@ -545,7 +546,7 @@ index f1e3e50..68a791f 100644
        let body_tr_defs_ctx = body_tr_defs_ctx
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
-@@ -5965,7 +6376,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5965,7 +6377,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let open AdtDefRd in
      let id_cpn = id_get adt_def_cpn in
      let def_path = translate_adt_def_id @@ D.decode_adt_def_id id_cpn in
@@ -556,7 +557,7 @@ index f1e3e50..68a791f 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7690,9 +8103,1179 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7690,9 +8104,1217 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -1139,11 +1140,14 @@ index f1e3e50..68a791f 100644
 +    let bool_ty ty = match TyKindRd.get (TyRd.kind_get ty) with
 +      | TyKindRd.Bool -> true | _ -> false in
 +    (match BodyRd.local_decls_get_list body with
-+     | [ret; condition; a; b] ->
++     | [ret; condition; a; b; temp_condition; temp_a; temp_b] ->
 +         local "_0" true (sort4_select_ty kind) ret;
 +         local "_1" false bool_ty condition;
 +         local "_2" false (sort4_select_ty kind) a;
-+         local "_3" false (sort4_select_ty kind) b
++         local "_3" false (sort4_select_ty kind) b;
++         local "_4" true bool_ty temp_condition;
++         local "_5" true (sort4_select_ty kind) temp_a;
++         local "_6" true (sort4_select_ty kind) temp_b
 +     | _ -> reject "standalone local count");
 +    (match BodyRd.inputs_get_list body with
 +     | [condition; a; b] when bool_ty condition &&
@@ -1189,11 +1193,11 @@ index f1e3e50..68a791f 100644
 +       | _ -> reject "standalone callee operand");
 +      (match args_get_list data with
 +       | [condition;a;b] ->
-+           List.iter2 (fun (id,mut) operand ->
++           List.iter2 (fun id operand ->
 +             match OperandRd.get operand with
-+             | OperandRd.Copy p | OperandRd.Move p -> place id mut p
++             | OperandRd.Move p -> place id true p
 +             | _ -> reject ("standalone argument operand: " ^ id))
-+             ["_1",false;"_2",false;"_3",false]
++             ["_4";"_5";"_6"]
 +             [condition;a;b]
 +       | _ -> reject "standalone argument count");
 +      place "_0" true (destination_get data);
@@ -1210,6 +1214,28 @@ index f1e3e50..68a791f 100644
 +       | OptionRd.Nothing -> ()
 +       | _ -> reject "standalone extra generic arguments")
 +    in
++    let storage live id statement =
++      match StatementKindRd.get (StatementRd.kind_get statement) with
++      | StatementKindRd.StorageLive local when live &&
++           LocalDeclIdRd.name_get local = id -> ()
++      | StatementKindRd.StorageDead local when not live &&
++           LocalDeclIdRd.name_get local = id -> ()
++      | _ -> reject ("standalone storage operation: " ^ id)
++    in
++    let assign_copy destination source statement =
++      match StatementKindRd.get (StatementRd.kind_get statement) with
++      | StatementKindRd.Assign data ->
++          place destination true
++            (StatementKindRd.AssignData.lhs_place_get data);
++          (match RvalueRd.get
++              (StatementKindRd.AssignData.rhs_rvalue_get data) with
++           | RvalueRd.Use operand ->
++               (match OperandRd.get operand with
++                | OperandRd.Copy p -> place source false p
++                | _ -> reject ("standalone source operand: " ^ source))
++           | _ -> reject ("standalone copy assignment: " ^ destination))
++      | _ -> reject ("standalone assignment: " ^ destination)
++    in
 +    (match BodyRd.basic_blocks_get_list body with
 +     | [b0;b1] when
 +         Stdint.Uint32.to_int
@@ -1217,13 +1243,26 @@ index f1e3e50..68a791f 100644
 +         Stdint.Uint32.to_int
 +           (BasicBlockIdRd.index_get (BasicBlockRd.id_get b1)) = 1 &&
 +         not (BasicBlockRd.is_cleanup_get b0) &&
-+         not (BasicBlockRd.is_cleanup_get b1) &&
-+         BasicBlockRd.statements_get_list b0 = [] &&
-+         BasicBlockRd.statements_get_list b1 = [] ->
++         not (BasicBlockRd.is_cleanup_get b1) ->
++         (match BasicBlockRd.statements_get_list b0 with
++          | [s0;s1;s2;s3;s4;s5] ->
++              storage true "_4" s0;
++              assign_copy "_4" "_1" s1;
++              storage true "_5" s2;
++              assign_copy "_5" "_2" s3;
++              storage true "_6" s4;
++              assign_copy "_6" "_3" s5
++          | _ -> reject "standalone first block statements");
 +         (match TerminatorKindRd.get
 +           (TerminatorRd.kind_get (BasicBlockRd.terminator_get b0)) with
 +          | TerminatorKindRd.Call data -> call data
 +          | _ -> reject "standalone first terminator");
++         (match BasicBlockRd.statements_get_list b1 with
++          | [s0;s1;s2] ->
++              storage false "_6" s0;
++              storage false "_5" s1;
++              storage false "_4" s2
++          | _ -> reject "standalone return block statements");
 +         (match TerminatorKindRd.get
 +           (TerminatorRd.kind_get (BasicBlockRd.terminator_get b1)) with
 +          | TerminatorKindRd.Return -> ()
@@ -1341,7 +1380,7 @@ index f1e3e50..68a791f 100644
 +             "std::mem::MaybeUninit<*const Element>") ^ ", ")]
 +    in
 +    let* () = match BodyRd.local_decls_get_list body with
-+     | [ret;condition;a;b] ->
++     | [ret;condition;a;b;_;_;_] ->
 +         let* _ = ListAux.try_map (fun ((label,pos),decl) ->
 +           check_span (label ^ " parameter")
 +             (SourceInfoRd.span_get (LocalDeclRd.source_info_get decl))
@@ -1736,7 +1775,7 @@ index f1e3e50..68a791f 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -7881,6 +9464,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7881,6 +9503,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -1763,7 +1802,7 @@ index f1e3e50..68a791f 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -7896,6 +9499,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7896,6 +9538,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in

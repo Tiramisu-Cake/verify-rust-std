@@ -3779,3 +3779,26 @@ canonicalshapeprobes. Selection30min/proof300s,newbudget964/5400before.
 Evidence-only optimization: newfullarchivesexcludeshadowtools/libs, retainexact
 wrapper.py outsideexcludedfolder; historicalfullO4/otherarchives unchanged.
 No verifier/harnessclassification gates weakened andnoproofrepeatsolelyrepack.
+
+S5a result37613525435/source6b6d033/e5663903:138s,total1102/5400, fullctor/
+asptr/regressions PASS,60(not62) classifiergate mutants PASS. Bothactualtyped
+callee gates+2redirectseachPASS; firstPROOF failureasptrline38 incorrecttypeargcount.
+Standaloneintrinsics both export/refinepass, canonical7locals invalidates4locals
+guess. Fullsource/log/MIR preservedcompact11479611306/full11479026615.
+
+S5b BEFORE dispatch: new2cd1a04a35e58f5337e392cc5e27899ac7de20ad5d821f47045438e0348c732b
+profileexperimental-source-linked-select-pointer-intrinsics-v1 sameexactpointer
+domain/posts/trust asS5; stockinferredVF lifetimearg followingdesign6f705b9;
+canonical7typedlocals, Live/Copyx3, exactFnDef Bool/T/T Move `_4,_5,_6`, bb1
+Dead `_6,_5,_4`/Return, noextraops, nounwind. Hypothesis theseexactfullyadmitted
+SAFEbodies nowprovecompletevalue/inner/thread/frame/noUnwind underactiveIfExpr
+rule+CHECKEDdefinedowntransfer; actualexternalasptrsafecontract alsoinstantiates.
+FULLmatrix:3+3positive,5+5proofnegative,7source+13MIR/type=40admissions,60classifier
+mutants, ctor/asptrfullsameprofile/regressions. Wrongresultfirstmessageunknown
+classifiesfailclosedINCONCLUSIVE, thennarrowexactrawtargetnextiteration; other
+negativesnamedtarget/oneerror/body/stagesstrict. Unknownsource/CFG/type/path/
+predecessor/resulterrorsmustrejectBEFOREproofat exactcertificate.
+Fullactualintrinsicgraph notimplemented yet, optinremainsfailclosed; actual
+integrationwithoutintrinsicoptinretainsalloriginalops andfullposts. Noacceptance
+possibleuntilallfullmatrixchecks PASS; nofeasibility-only acceptancepath.
+Selection30min/proof300s,total1102/5400before,oneactive,compactcurrent+O4.

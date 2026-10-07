@@ -50,13 +50,38 @@ SOURCE_MUTATIONS = (
     "binding", "contract", "additional_operation",
 )
 MIR_MUTATIONS = (
-    "fndef", "type_argument", "operand_order", "operand_source",
-    "result_local", "result_type", "extra_operation", "cfg_unwind",
+    "fndef", "type_argument", "input_type", "operand_order", "operand_source",
+    "predecessor_source", "result_local", "result_type", "extra_operation",
+    "cfg_successor", "cfg_unwind",
     "hir_binding", "contract",
 )
 CERT_PREFIX = "SORT4-SELECT-INTRINSIC:"
 CERT_MARKER = CERT_PREFIX + " full typed standalone MIR graph accepted"
 REJECT_PREFIX = CERT_PREFIX + " certificate mismatch: "
+SOURCE_REASONS = {
+    "operand_order": ("helper source body changed",),
+    "contract": ("helper SAFE contract/source signature",),
+    "additional_operation": ("helper source body changed",),
+}
+MIR_REASONS = {
+    "fndef": ("standalone callee identity/type",),
+    "type_argument": ("standalone callee identity/type",),
+    "input_type": ("standalone input types/order",),
+    "operand_order": ("standalone argument operand: _4/_5/_6",
+                      "standalone place: _5/_6"),
+    "operand_source": ("standalone argument operand: _4/_5/_6",
+                       "standalone place: _5/_6"),
+    "predecessor_source": ("standalone source operand: _2/_3",
+                           "standalone place: _2/_3"),
+    "result_local": ("standalone place: _0",),
+    "result_type": ("standalone output type",
+                    "standalone local identity/type: _0"),
+    "extra_operation": ("standalone first block statements",),
+    "cfg_successor": ("standalone normal successor",),
+    "cfg_unwind": ("standalone unwind action",),
+    "hir_binding": ("debug name: a",),
+    "contract": ("helper exported SAFE contract",),
+}
 PTR_SIGNATURE = (
     b"pub fn sort4_checked_select_ptr<Element>(condition: bool, "
     b"a: *mut *const Element, b: *mut *const Element) -> *mut *const Element"
@@ -421,39 +446,54 @@ def mutate_intrinsic_mir(decoded: str, kind: str, mutation: str,
         destination = replace_once(destination, 'name = "_0"',
                                    'name = "_1"', mutation)
         call = prefix + "destination = (" + destination
+    elif mutation == "cfg_successor":
+        call = replace_once(call, "target = (something = (index = 1))",
+                            "target = (something = (index = 0))", mutation)
     elif mutation == "cfg_unwind":
         call = replace_once(call, "unwindAction = (unreachable = void)",
                             "unwindAction = (continue = void)", mutation)
     elif mutation == "result_type":
-        head, output = body.split("      output = (", 1)
-        selected, rest = output.split("      inputs = [", 1)
+        output_at = body.index("      output = (") + len("      output = ")
+        selected = constructor.mir_balanced_item(body, output_at)
         if kind == "ptr":
             selected = replace_once(selected, "mutability = (mut = void)",
                                     "mutability = (not = void)", mutation)
         else:
             selected = replace_once(selected, 'param = "Element"',
                                     'param = "Mutant"', mutation)
-        body = head + "      output = (" + selected + "      inputs = [" + rest
+        body = body[:output_at] + selected + body[output_at + len(
+            constructor.mir_balanced_item(body, output_at)):]
+    elif mutation == "input_type":
+        inputs_at = body.index("      inputs = [") + len("      inputs = [")
+        inputs_end = body.index("      localDecls = [", inputs_at)
+        inputs = body[inputs_at:inputs_end]
+        old = ('param = "Element"' if kind == "mu" else
+               "mutability = (mut = void)")
+        new = ('param = "Mutant"' if kind == "mu" else
+               "mutability = (not = void)")
+        require(inputs.count(old) == 2, "input mutant expects both typed arguments")
+        inputs = inputs.replace(old, new, 1)
+        body = body[:inputs_at] + inputs + body[inputs_end:]
     elif mutation == "hir_binding":
         body = replace_once(body, 'name = "a"', 'name = "left"', mutation)
+    elif mutation == "predecessor_source":
+        body = replace_once(
+            body, 'copy = (\n                        local = (name = "_2")',
+            'copy = (\n                        local = (name = "_3")', mutation)
     elif mutation == "contract":
         head, contract = body.split("      contract = (", 1)
         contract, rest = contract.split("      inputs = [", 1)
-        contract = replace_once(contract, "thread_token", "thread_token_mutant",
-                                mutation)
+        require(contract.count("thread_token") >= 2,
+                "exported SAFE contract lacks req and ens thread resources")
+        contract = contract.replace("thread_token", "thread_token_mutant", 1)
         body = head + "      contract = (" + contract + "      inputs = [" + rest
     elif mutation == "extra_operation":
         statements_at = body.index("statements = [") + len("statements = [")
-        statements_end = body.index("],\n", statements_at)
-        statements = body[statements_at:statements_end]
-        require(not statements.strip(), "extra-operation mutant expects empty BB0")
-        source_at = body.index("sourceInfo = (", statements_end) + len("sourceInfo = ")
-        source_info = constructor.mir_balanced_item(body, source_at)
-        new_statement = ("( sourceInfo = " + source_info +
-                         ', kind = (storageLive = (name = "_1")) )')
-        body = body[:statements_at] + "\n            " + new_statement + " " + body[statements_end:]
+        first = body.index("( sourceInfo = (", statements_at)
+        statement = constructor.mir_balanced_item(body, first)
+        body = body[:first] + statement + ",\n            " + body[first:]
     if mutation in {"fndef", "type_argument", "operand_order", "operand_source",
-                    "result_local", "cfg_unwind"}:
+                    "result_local", "cfg_successor", "cfg_unwind"}:
         body = body[:call_at] + call + body[call_at + len(
             constructor.mir_balanced_item(body, call_at)):]
     require(body != decoded[opening:tail], "direct MIR mutant had no effect")
@@ -546,6 +586,106 @@ sys.stdout.buffer.write(encoded.stdout)
     return shadow
 
 
+def classify_admission(case_dir: Path, runner: dict, kind: str, mutation: str,
+                       mode: str, constructor) -> dict:
+    require(mode in {"source", "mir"}, "unknown admission mode")
+    verified = (case_dir / "verified/lib.rs").read_bytes()
+    original = (case_dir / "original/lib.rs").read_bytes()
+    fixture = json.loads((case_dir / "fixture.json").read_text())
+    log = (case_dir / "verifast.log").read_text(errors="replace")
+    fatal = [line for line in log.splitlines() if "Fatal error:" in line]
+    if mode == "source" and mutation == "identity":
+        reasons = ("expected one exact SAFE helper and one listed probe",)
+    elif mode == "source" and mutation in {"inputtype", "resulttype", "binding"}:
+        signature = PTR_SIGNATURE if kind == "ptr" else MU_SIGNATURE
+        reasons = ("source marker missing: " + signature.decode(),)
+    else:
+        reasons = SOURCE_REASONS[mutation] if mode == "source" else MIR_REASONS[mutation]
+    exact_fatal = len(fatal) == 1 and not any(": error:" in line for line in
+                                                  log.splitlines()) and any(
+        fatal[0] == f'Fatal error: exception Failure("{REJECT_PREFIX}{reason}")'
+        for reason in reasons)
+    stage = runner.get("stage_integrity", {})
+    source_exact = constructor.strip_ghost_annotations(verified) == original
+    stage_ok = set(stage) == {"exporter", "decode", "verifast", "refinement"} and \
+        all(item.get("unchanged") is True for item in stage.values())
+    frontend_ok = runner.get("exporter_exit") == 0 and \
+        runner.get("decode_exit") == 0 and runner.get("refinement_exit") == 0
+    record = None
+    mutant_exact = False
+    if mode == "source":
+        canonical_original = (case_dir / "canonical/original.lib.rs").read_bytes()
+        canonical_verified = (case_dir / "canonical/verified.lib.rs").read_bytes()
+        mutant_exact = (
+            sha(canonical_original) == fixture["canonical_original_sha256"] and
+            sha(canonical_verified) == fixture["canonical_verified_sha256"] and
+            source_mutation(canonical_original, canonical_verified,
+                            mutation, kind, constructor) == (original, verified)
+        )
+    else:
+        record_path = case_dir / "mutation-record.json"
+        profile_path = case_dir / "mutation-profile.json"
+        files = tuple(case_dir / name for name in (
+            "canonical-mir.txt", "mutated-mir.txt",
+            "canonical-mir.bin", "mutated-mir.bin"))
+        if record_path.exists() and profile_path.exists() and \
+                all(path.exists() for path in files):
+            record = json.loads(record_path.read_text())
+            profile = json.loads(profile_path.read_text())
+            canonical_text = files[0].read_text()
+            mutated_text = files[1].read_text()
+            canonical_bin = files[2].read_bytes()
+            mutated_bin = files[3].read_bytes()
+            try:
+                exact_text = mutate_intrinsic_mir(canonical_text, kind, mutation,
+                                                  constructor) == mutated_text
+            except ValueError:
+                exact_text = False
+            mutant_exact = (
+                exact_text and record.get("kind") == kind and
+                record.get("mutation") == mutation and record.get("matched") is True and
+                record.get("exporter_exit") == 0 and record.get("decode_exit") == 0 and
+                record.get("encode_exit") == 0 and
+                record.get("canonical_sha256") == sha(canonical_bin) and
+                record.get("mutated_sha256") == sha(mutated_bin) and
+                canonical_bin != mutated_bin and
+                record.get("selected_source_sha256") == sha(verified) and
+                record.get("real_exporter_sha256") == profile.get("real_exporter_sha256") and
+                profile.get("base_console_sha256") == profile.get("shadow_console_sha256") and
+                profile.get("wrapper_sha256") == sha(
+                    (case_dir / "mutation-profile/bin/vf-rust-mir-exporter").read_bytes())
+            )
+    before_proof = (CERT_MARKER not in log and
+                    not re.search(r"Verifying function 'sort4_checked_select_", log) and
+                    not re.search(r"Verifying function 'sort4_select_", log))
+    evidence = {
+        "source_exact": source_exact,
+        "stage_integrity": stage_ok,
+        "frontend_refinement": frontend_ok,
+        "mutant_exact": mutant_exact,
+        "exact_fatal": exact_fatal,
+        "before_proof": bool(before_proof),
+        "verifier_exit_two": runner.get("verifast_exit") == 2,
+    }
+    result = {
+        "kind": kind,
+        "mutation": mutation,
+        "mode": mode,
+        "classification": "INTENDED_ADMISSION_REJECTION"
+            if strict_admission_evidence(evidence) else "INCONCLUSIVE",
+        "accepted_component": False,
+        "full_select_proved": False,
+        "expected_reasons": reasons,
+        "fatal": fatal,
+        "admission_evidence": evidence,
+        "mutation_record": record,
+        "runner_result": runner,
+    }
+    (case_dir / "admission-classification.json").write_text(
+        json.dumps(result, indent=2, sort_keys=True) + "\n")
+    return result
+
+
 def classify_case(case_dir: Path, runner: dict, kind: str, variant: str,
                   constructor, prerequisite_positive: bool) -> dict:
     verified = (case_dir / "verified/lib.rs").read_bytes()
@@ -596,7 +736,9 @@ def classify_case(case_dir: Path, runner: dict, kind: str, variant: str,
         target_location = isinstance(target_line, int) and error_line in {
             target_line + 1, fixture["probe_return_line"]}
         pattern = {
-            "wrong_result": r"Cannot prove condition\. \(Cannot prove .+\.\)$",
+            # The complete modeled pointer expression must be pinned from the
+            # first hosted negative before this can count as an intended VC.
+            "wrong_result": r"(?!)",
             "wrong_inner": r"Cannot prove that 'std::mem::MaybeUninit::inner"
                 r"\(pointer_typeid\(Element_typeid\), result\)' is not an "
                 r"instance of constructor 'none'$",
@@ -653,18 +795,47 @@ def classify_case(case_dir: Path, runner: dict, kind: str, variant: str,
 
 
 def run_hosted_case(case: Path, args: argparse.Namespace, repo_root: Path,
-                    constructor) -> dict:
+                    constructor, tool_home: Path | None = None) -> dict:
     previous = os.environ.get("SORT4_SELECT_INTRINSIC_REPO_ROOT")
     os.environ["SORT4_SELECT_INTRINSIC_REPO_ROOT"] = str(repo_root)
     try:
         return constructor.run_case(
-            case, args.schema, args.tool_home, args.compiler_sysroot, repo_root,
+            case, args.schema, tool_home or args.tool_home,
+            args.compiler_sysroot, repo_root,
             case.name, "diagnostic", certificate_mode=True)
     finally:
         if previous is None:
             os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
         else:
             os.environ["SORT4_SELECT_INTRINSIC_REPO_ROOT"] = previous
+
+
+def run_admissions(evidence: Path, cert: dict, args: argparse.Namespace,
+                   repo_root: Path, constructor) -> list[dict]:
+    results = []
+    for kind in KINDS:
+        for mutation in SOURCE_MUTATIONS:
+            case = evidence / f"source_{kind}_{mutation}"
+            make_case(case, kind, POSITIVES[kind][0], cert, constructor,
+                      admission=mutation)
+            runner = run_hosted_case(case, args, repo_root, constructor)
+            result = classify_admission(case, runner, kind, mutation,
+                                        "source", constructor)
+            results.append(result)
+            if result["classification"] != "INTENDED_ADMISSION_REJECTION":
+                return results
+        for mutation in MIR_MUTATIONS:
+            case = evidence / f"mir_{kind}_{mutation}"
+            make_case(case, kind, POSITIVES[kind][0], cert, constructor)
+            shadow = make_mir_mutation_tool_home(
+                args.tool_home, args.schema, repo_root, case, kind, mutation)
+            runner = run_hosted_case(case, args, repo_root, constructor, shadow)
+            result = classify_admission(case, runner, kind, mutation,
+                                        "mir", constructor)
+            results.append(result)
+            if result["classification"] != "INTENDED_ADMISSION_REJECTION":
+                return results
+    return results
 
 
 def check_intrinsics(args: argparse.Namespace) -> dict:
@@ -683,10 +854,20 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
         json.dumps(source_cert, indent=2, sort_keys=True) + "\n")
     ctor = json.loads(args.constructor_summary.read_text())
     asptr = json.loads(args.as_mut_ptr_summary.read_text())
+    classifier = json.loads(args.classifier_summary.read_text()) \
+        if args.classifier_summary is not None else None
+    same_run = args.constructor_summary.resolve().parents[1] == \
+        args.as_mut_ptr_summary.resolve().parents[1] == evidence.parent
     prerequisites = {
         "constructor_accepted": ctor.get("constructor_acceptance") is True,
         "as_mut_ptr_accepted": asptr.get("accepted_component") is True and
             asptr.get("classification") == "COMPONENT_ACCEPTED",
+        "same_run_evidence": same_run,
+        "new_profile_selected": os.environ.get("SORT4_SELECT_PROFILE") == PROFILE,
+        "classifier_self_check": (
+            classifier is not None and classifier.get("pass") is True and
+            classifier.get("mutant_count") == 60 and
+            args.classifier_summary.resolve().parent == evidence.parent),
     }
     if not all(prerequisites.values()):
         result = {
@@ -699,8 +880,7 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
         return result
     results = []
     for kind in KINDS:
-        variants = POSITIVES[kind][:1] if args.feasibility_only else \
-            POSITIVES[kind] + NEGATIVES[kind]
+        variants = POSITIVES[kind] + NEGATIVES[kind]
         for variant in variants:
             prerequisite_positive = all(
                 item["classification"] == "DIAGNOSTIC_POSITIVE"
@@ -716,12 +896,25 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
             results.append(result)
             if result["classification"] == "INCONCLUSIVE":
                 break
+    base_pass = (len(results) == sum(len(POSITIVES[kind]) + len(NEGATIVES[kind])
+                                     for kind in KINDS) and
+                 all(item["classification"] == "DIAGNOSTIC_POSITIVE"
+                     for item in results if item["variant"] in POSITIVES[item["kind"]]) and
+                 all(item["classification"] == "INTENDED_PROOF_REJECTION"
+                     for item in results if item["variant"] in NEGATIVES[item["kind"]]))
+    admissions = run_admissions(evidence, source_cert, args, repo_root, constructor) \
+        if base_pass else []
+    admission_pass = (len(admissions) == len(KINDS) *
+                      (len(SOURCE_MUTATIONS) + len(MIR_MUTATIONS)) and
+                      all(item["classification"] == "INTENDED_ADMISSION_REJECTION"
+                          for item in admissions))
+    accepted = bool(base_pass and admission_pass and all(prerequisites.values()))
     result = {
-        "classification": "INCONCLUSIVE",
-        "accepted_component": False,
+        "classification": "COMPONENT_ACCEPTED" if accepted else "INCONCLUSIVE",
+        "accepted_component": accepted,
         "full_select_proved": False,
         "tool_profile": PROFILE,
-        "feasibility_only": args.feasibility_only,
+        "feasibility_only": False,
         "prerequisites": prerequisites,
         "source_certificate": source_cert,
         "cases": results,
@@ -729,9 +922,12 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
                           for variant in POSITIVES[kind] + NEGATIVES[kind]
                           if not any(item["kind"] == kind and item["variant"] == variant
                                      for item in results)],
-        "admission_cases": [],
+        "admission_cases": admissions,
         "admission_cases_not_run": [f"{kind}_{mutation}" for kind in KINDS
-                                    for mutation in SOURCE_MUTATIONS + MIR_MUTATIONS],
+                                    for mutation in SOURCE_MUTATIONS + MIR_MUTATIONS
+                                    if not any(item["kind"] == kind and
+                                               item["mutation"] == mutation
+                                               for item in admissions)],
     }
     (evidence / "summary.json").write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n")
@@ -747,14 +943,13 @@ def main() -> None:
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--constructor-summary", type=Path, required=True)
     parser.add_argument("--as-mut-ptr-summary", type=Path, required=True)
-    parser.add_argument("--feasibility-only", action="store_true")
+    parser.add_argument("--classifier-summary", type=Path)
     args = parser.parse_args()
     result = check_intrinsics(args)
     print(json.dumps({"classification": result["classification"],
                       "cases_run": len(result["cases"]),
                       "evidence": str(args.evidence.resolve())}))
-    if not all(result["prerequisites"].values()) or \
-            (not result["accepted_component"] and not args.feasibility_only):
+    if not result["accepted_component"]:
         raise SystemExit(1)
 
 

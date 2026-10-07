@@ -2,19 +2,21 @@
 
 Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New5400jobseconds,<=1800/job,<=300/proof;spend964/5400jobseconds,noactive. Old budget retired.
+New5400jobseconds,<=1800/job,<=300/proof;spend1102/5400jobseconds,noactive. Old budget retired.
 S4b/37611745252/source7c14ab64372d75928c4a000bb43dad83761c5bb4:
 SAFE as_mut_ptr BODY/MODEL COMPONENT ACCEPTED atprofilee9b4d025, full3positive/
 6proofnegative/8source/9MIR controls+ctorregressions/classifs/baselines PASS.
 Actualunit RUN, export/decode/refinement/source PASS, butfirst externalasptr
 redirect rejects valid latebound1erasedlifetime beforebody. Nohelperproof.
-S5newprofilee5663903 correctsexactlateboundshape and proposesonlytwo-typed
-intrinsicIfExpr+checkeddefinedowntransfer; fullintrinsicgate notyetaccepted.
-Next hostedfirstcanonicalintrinsicMIR shapeprobe +completector/asptrregressions
-andactualintegration. S5/37612975447/sourcef7543ce/07930fff:97s BUILD FAILED (OCamlbodyname shadow).
-No matrices/MIR/proofs ran; routine namefix newpatche5663903.
-Spend964/5400jobseconds,noactive.
-Compact11477673504/full11477848970; historicalO4 preserved.
+S5a/37613525435/source6b6d033/e5663903: fullctor/asptrregressions PASS,
+actualtwoexternalasptrredirects pass thenproof Incorrectnumbertypeargs38.
+CanonicalintrinsicMIR exported/refined bothtypes; predicted4locals/noops shape
+rejectedbeforeproof. Corrected7locals exacttypedgraph and inferredlifetime
+CallExpr followexistingstocktranslator; design6f705b9 beforechange.
+S5bnewprofile2cd1a04a fullintrinsicmatrix3+3/5+5/40 with60classifiermutants,
+unknownpointererrormessage failclosed, actualfullintrinsicgate remainsinactive.
+Spend1102/5400jobseconds,noactive. Compact11479611306/full11479026615;
+historicalO4 preserved. WholehelperNOTPROVEN.
 [Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
 Runtime std/signatures and frozen kernel/
 memory/alias/provenance/export/refiner unchanged. Narrow spec/translator changes
