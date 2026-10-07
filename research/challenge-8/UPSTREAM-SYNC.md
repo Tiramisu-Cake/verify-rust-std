@@ -50,7 +50,7 @@ workflow selections не входят в историю старых веток 
 | --- | --- | --- |
 | Первый агент | S6v4 accepted при своих pins; S7c UNACCEPTED, автономное тело VF0 только на экспериментальном старом профиле | 5306/5400 job seconds, остаток94 |
 | Второй агент | G2/A/B и девять условных Rust projections accepted на своих старых SHA/stock26.09; wrapping/composition OPEN | 512/1800, остаток1288 |
-| Эта Git-фаза | Никакой новой проверки доказательств | 0 разрешено; фактический расход фиксируется после push |
+| Эта Git-фаза | Никакой новой проверки доказательств | 0 разрешено; фактический расход0, post-push сверка ниже |
 
 Старый VF source `809de4596839b739dd999f9e462242c835e3af46`, stock26.09,
 nightly-2026-02-05. Все старые источники, профили, patch bytes, annotations,
@@ -93,7 +93,7 @@ helper, merge safety/functionality или Challenge целиком.
 
 | Область | Полученное изменение и требуемый новый audit |
 | --- | --- |
-| SmallSort targets/callers | `shared/smallsort.rs`: CopyMarker attribute сменён; raw-parts+deref заменены на `slice::from_raw_parts{,_mut}` в general scratch, network и `sort8_stable`. Тела merge_up/down/bidirectional_merge и расписание compare/copy/cursor сохранены, строки сместились. `sort8_stable` изменил caller expression: его полные bytes не прежние. Full-file certificate старого SmallSort больше не соответствует новым bytes. |
+| SmallSort targets/callers | `shared/smallsort.rs`: CopyMarker attribute сменён; raw-parts+deref заменены на `slice::from_raw_parts{,_mut}` в general scratch, network и `sort8_stable`. Тела трёх small_sort dispatch implementations, swap_if_less, insertion_sort_shift_left, sort4_stable, has_efficient_in_place_swap и merge_up/down/bidirectional_merge в diff не менялись; расписание compare/copy/cursor сохранено, строки сместились. `sort8_stable` изменил caller expression: его полные bytes не прежние. Full-file certificate старого SmallSort больше не соответствует новым bytes. |
 | Stable/unstable routes | stable/mod, drift, stable/quicksort и unstable/mod blobs сохранены относительно8444589f; unstable/quicksort поменял cfg_select formatting. ZST/length guards в stable/mod и unstable/mod сохранены статически. alloc/slice и core/slice получили другие API/body/contracts changes; `slice::swap` теперь делает indexing checks и `swap_unchecked`. Caller audit не является доказательством premises actual helper. |
 | ManuallyDrop | `core/src/mem/manually_drop.rs`: MaybeDangling<T> field -> T, новые derives, field initialization/move вместо прежних операций new/into_inner; изменены take/drop и attrs. Старое доверенное correspondence/source certificate не переносится автоматически. |
 | MaybeUninit/mem | `assume_init` вместо raw ptr read использует новый `transmute_neo`; новые write_default/array APIs; `mem/mod.rs` содержит transmute_neo/transmute_prefix. Layout/validity, exporter и refiner paths требуют отдельного review; assume_init остаётся вне принятых результатов. |
@@ -145,6 +145,26 @@ certificates, classifier coordinates или intended predicates ради admissi
   только готовые tips. После push сверить remote SHA и связанные Actions runs.
   При неожиданном push CI отменить только runs этих sync веток/SHAs, сохранить
   реальное время jobs. Исходные ветки/budgets не передвигать/сбрасывать.
+
+## Публикация и сверка — 2026-10-07 21:40:34 UTC / 2026-10-08 Moscow
+
+Первый atomic push публикует только подготовленные documentation tips с
+`[skip ci]`, содержащие маркированные merge commits. Полученные remote HEAD:
+main `3a4358547a4de89fe165c52d3bfa4d7b0c169d38`,
+research `ca22d2ba5c00c12d022b26e27161503dc696c4a4`,
+merge `80fcb9d768462582be75d2aa6aaf58d4e3aa29fb`.
+Все три совпали с локальными. При двух проверках после push списки Actions
+runs каждой новой ветки пусты; неожиданных запусков/отмен нет. Фактический CI
+расход этой фазы **0 job seconds**. Последующий commit только сохраняет эту
+сверку; финальный documentation HEAD указан в итоговом отчёте/branch ref,
+а source merge SHA и parents неизменны.
+
+Исходные четыре refs сохранили первоначальные SHA; оригинальные рабочие
+деревья чистые. Upstream/main при повторной сверке остаётсяcd371e03.
+Документационный diff --check чист во всех трёх ветках; все14 workflow YAML
+прочитаны как данные. Дополнительно проверены194 неизменённых research файлов
+первой ветки,208 второй и6 main, а восемь documentary hash rows SOURCE-MAP
+совпадают с Git blobs. Не выполнялись executable tests, builds или proofs.
 
 ## Подготовленное задание первому агенту — НЕ ВЫПОЛНЯТЬ в этой фазе
 
