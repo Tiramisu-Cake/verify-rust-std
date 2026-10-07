@@ -244,15 +244,15 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
 
     probe_contract = (
         b"req thread_token(?t) &*& t == currentThread &*& "
-        b"[?f]*val |-> ?slot_value &*& *other |-> ?other_value;\n"
-        b"ens thread_token(t) &*& [f]*val |-> slot_value &*& "
+        b"[?f](*val |-> ?slot_value) &*& *other |-> ?other_value;\n"
+        b"ens thread_token(t) &*& [f](*val |-> slot_value) &*& "
         b"*other |-> other_value &*& result == val;\n"
         b"on_unwind_ens false;"
     )
     probe_assert = (
         b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(val);\n"
         b"    // TARGET_FRAME_ASSERTION\n"
-        b"    //@ assert [f]*val |-> slot_value &*& *other |-> other_value;\n"
+        b"    //@ assert [f](*val |-> slot_value) &*& *other |-> other_value;\n"
     )
     probe_signature = (
         b"pub fn sort4_checked_maybeuninit_frame_probe<Element>(\n"
@@ -268,27 +268,27 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
         probe_contract = (
             b"req thread_token(?t) &*& t == currentThread &*& "
             b"(val as pointer) != (wrong as pointer) &*& "
-            b"[?f]*val |-> ?slot_value &*& *other |-> ?other_value;\n"
-            b"ens thread_token(t) &*& [f]*val |-> slot_value &*& "
+            b"[?f](*val |-> ?slot_value) &*& *other |-> ?other_value;\n"
+            b"ens thread_token(t) &*& [f](*val |-> slot_value) &*& "
             b"*other |-> other_value &*& result == val;\n"
             b"on_unwind_ens false;"
         )
         probe_assert = (
             b"    // TARGET_ASSERTION\n"
             b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(wrong);\n"
-            b"    //@ assert [f]*val |-> slot_value &*& *other |-> other_value;\n"
+            b"    //@ assert [f](*val |-> slot_value) &*& *other |-> other_value;\n"
         )
     elif variant == "false_assert":
         probe_assert = (
             b"    // TARGET_ASSERTION\n"
             b"    //@ assert false;\n"
-            b"    //@ assert [f]*val |-> slot_value &*& *other |-> other_value;\n"
+            b"    //@ assert [f](*val |-> slot_value) &*& *other |-> other_value;\n"
         )
     elif variant == "resource_duplication":
         probe_assert = (
             b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(val);\n"
             b"    // TARGET_ASSERTION\n"
-            b"    //@ assert [f]*val |-> slot_value &*& [f]*val |-> slot_value;\n"
+            b"    //@ assert [f](*val |-> slot_value) &*& [f](*val |-> slot_value);\n"
         )
     elif variant == "false_postcondition":
         probe_signature = (
@@ -299,9 +299,9 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
         probe_contract = (
             b"req thread_token(?t) &*& t == currentThread &*& "
             b"(val as pointer) != (wrong as pointer) &*& "
-            b"[?f]*val |-> ?slot_value &*& *other |-> ?other_value;\n"
+            b"[?f](*val |-> ?slot_value) &*& *other |-> ?other_value;\n"
             b"// TARGET_POSTCONDITION\n"
-            b"ens thread_token(t) &*& [f]*val |-> slot_value &*& "
+            b"ens thread_token(t) &*& [f](*val |-> slot_value) &*& "
             b"*other |-> other_value &*& result == wrong;\n"
             b"on_unwind_ens false;"
         )
@@ -642,8 +642,8 @@ def prepare_stock_pointer_frame(evidence: Path) -> Path:
         b"pub unsafe fn stock_pointer_frame(p: *const u8, other: *mut u8) -> u8\n" +
         ghost_block(
             b"req thread_token(?t) &*& t == currentThread &*& "
-            b"[?f]*p |-> ?pv &*& *other |-> ?ov;\n"
-            b"ens thread_token(t) &*& [f]*p |-> pv &*& *other |-> ov &*& result == pv;\n"
+            b"[?f](*p |-> ?pv) &*& *other |-> ?ov;\n"
+            b"ens thread_token(t) &*& [f](*p |-> pv) &*& *other |-> ov &*& result == pv;\n"
             b"on_unwind_ens false;"
         ) +
         b"{\n    unsafe { *p }\n}\n"

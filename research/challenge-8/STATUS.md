@@ -2,14 +2,16 @@
 
 Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
 new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
-New budget450/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. No active run. C5/37591112968/sourcebc72f28 completed107s:
+New budget569/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
+one relevant run. No active run. C6/37591620888/source39181a3 completed119s:
+BUILD/false-assert/native controls pass; fractional-pointer annotation parse fails,
+constructor NOT RUN. C5/37591112968/sourcebc72f28 completed107s:
 BUILD PASS and4 C/C++ controls PASS, Rust baseline ghost-block syntax failed.
 C4/37590641832/sourceac6dfcf completed95s:
 OCaml record-type ambiguity blocks console build, constructor/checker NOT RUN.
 C1/C2 pure composition accepted; C3/37586921301
 immutable layout full matrix PASS179s. C4 constructor feasibility diagnostic ready:
-source-linked translator-only patchbf66cc6f fixes C4 type ambiguity; not accepted. Full MIR
+source-linked translator-only patchcbf7b7da fixes annotation formatting; not accepted. Full MIR
 dataflow gate/acceptance negatives/dependent actual callee are NOT RUN in C4.
 Entry tree clean, research HEAD/remote match.
 The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
@@ -63,6 +65,6 @@ copy/FnMut/Drop support. No historical patch chain or general-model expansion.
 README/PLAN point to this phase. Runtime/general contract/pins/checks preserved.
 RAPx CLOSED/NO-GO; B/C NOT RUN. Constructor design reviewed before semantic edits: source-linked local body/active-value
 translation only, no opaque ownership bridge; implementation in separate profile.
-Next: split each Rust contract clause into its own ghost block, hosted C6 feasibility;
+Next: parenthesize fractional points-to clauses, hosted C7 feasibility;
 retain generated safety contracts and stop
 before a new ownership bridge. Even green C4 cannot accept this partial profile.

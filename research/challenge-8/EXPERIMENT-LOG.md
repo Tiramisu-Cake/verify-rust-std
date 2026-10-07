@@ -3375,3 +3375,33 @@ safe constructor innerSome/token/frame/no-unwind posts and generated template.
 Unexpected false success quarantines; opaque ownership/general model STOP;
 ordinary new harness/source-gate/proof errors repaired only with new evidence.
 Manual same constructor selection/30, one run;450/5400s used, no active at prep.
+
+C6 dispatched37591620888/source39181a39ffa25b07ad2c47a520bd0bba001a5a5e,
+created2026-10-07T08:06:53Z; exact remote matched, C5 fully audited/completed.
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37591620888.
+
+C6 result:37591620888/source39181a39ffa25b07ad2c47a520bd0bba001a5a5e,
+job112694220280,08:06:58–08:08:57UTC,119s. BUILD PASS; stock/patched assertfalse
+now fail the intended sole marked VC at14,16–21 (Assertion might not hold/Cannot
+prove false), exit1; complete raw headers/execution/source/export/decode/refinement
+controls audited. Four native paired cases PASS. Pointerframe baselines VF1 at
+req4,49–50: `List expression must not contain patterns`; `[?f]*p` needs stock
+points-to parentheses `[?f](*p |-> ?pv)` (existing verified stock examples).
+No constructor VC reached, profile UNACCEPTED; fix only fractional resource
+annotation syntax in checker, preserve domain/frame/posts/patchcbf7b7da.
+Budget569/5400s, no active run; full-MIR/acceptance negatives/callee NOT RUN.
+
+### C7 preexperiment card — fractional predicate syntax, same partial diagnostic
+
+Concrete new hypothesis: parenthesized fractional points-to syntax from pinned
+stock verified examples permits unchanged pointer-resource frame to parse and
+verify. C6 already establishes intended stock/patched false VC and native passes;
+its list-expression parse failure cannot decide constructor resources. Checker
+now writes `[?f](*val |-> ?slot_value)` / `[f](*val |-> slot_value)` (also baseline
+p and resource-negative clauses), preserving exact permissions/posts, not changing
+runtime source or constructor semantic patch SHAcbf7b7da. All source/integrity/
+refinement/no-unwind/leak/generated-safety gates retained. Other C4/C6 domains,
+expected baseline/positive outcomes, partial --feasibility-only/noacceptance
+classification and opaqueownership STOP rules unchanged. Full MIR/acceptance
+negatives/actual callee NOT RUN. Manual same constructor selection/30, one run;
+569/5400s used, remaining4831 admits cap1800, no active at preparation.
