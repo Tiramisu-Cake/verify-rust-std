@@ -1,0 +1,4532 @@
+{
+  "run_id": 37700424582,
+  "proof_sha": "8d97b6bc7b4eddac645b66404ce871668b80c82a",
+  "url": "https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700424582",
+  "profile": "experimental-merge-wrapping-01-v1",
+  "patch_sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e",
+  "hosted_seconds": 177,
+  "cumulative_night_seconds": 467,
+  "scope": "bounded trusted wrapping primitive and pointer projections; actual wrapper/callee bodies not proved; separate baseline/unwind profile gates pending",
+  "groups": {
+    "checked-g2": {
+      "scope": "pure arbitrary-length merge cursor geometry; Rust pointer/resource/unwind transfer open",
+      "domain": "n>=2, n=2m+e, m>=1, e in {0,1}, independent pair decisions and odd residual branch",
+      "posts": "all modeled ordered reads/copies/writes and advances safe; terminal endpoints, scalar guards, write count",
+      "tool_profile": "official-stock-VeriFast-26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; compiler-nightly-2026-09-25",
+      "actual_source": "library/core/src/slice/sort/shared/smallsort.rs",
+      "source_admission_sha256": "a280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f",
+      "verifast_binary_sha256": "87611a8c303fd8ff6b301d45f830bde79a49421a3686b85214efbdfa5cd24346",
+      "frozen_classifier_sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4",
+      "cases": [
+        {
+          "case": "merge_geometry_full",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_full.c"
+          ],
+          "exit": 0,
+          "source_sha256": "4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8",
+          "log_sha256": "83d56c74b6fb88a2e4115bbed2e4b2e6d0325df93d0c68ae3ad0e3adb3c39d8c",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": null,
+          "expected_bodies": [
+            "mg_merge_up_access",
+            "mg_merge_down_access",
+            "mg_pair_step",
+            "mg_terminal_geometry",
+            "mg_trace_induction",
+            "mg_destination_regions",
+            "mg_scalar_guard",
+            "mg_entry"
+          ],
+          "classifier_rejection_controls": null,
+          "visited_bodies": [
+            "mg_merge_up_access",
+            "mg_merge_down_access",
+            "mg_pair_step",
+            "mg_terminal_geometry",
+            "mg_trace_induction",
+            "mg_destination_regions",
+            "mg_scalar_guard",
+            "mg_entry"
+          ],
+          "errors": [],
+          "leak_checks": 17,
+          "return_checks": 17,
+          "boundary": "checked pure mathematical geometry; actual Rust pointer/resource/unwind transfer open",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_full.log"
+        },
+        {
+          "case": "merge_geometry_negative_read",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_read.c"
+          ],
+          "exit": 1,
+          "source_sha256": "80821649fec3d89cb7ee296b9a7ec54562ec4057b290e92dd4a4c55e134eae9f",
+          "log_sha256": "d61f1398aba9d5b52c612bcc9ef42a90bc1dfba328c2cad63522a70953d6cacf",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 136,
+            "expected_predicate": "mg_right(1, 1, 0) < mg_n(1, 0)"
+          },
+          "expected_bodies": [
+            "mg_negative_read_at_n"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "mg_negative_read_at_n"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_read.c(136,18-19): error: Assertion might not hold. (Cannot prove mg_right(1, 1, 0) < mg_n(1, 0).)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "checked pure mathematical geometry; actual Rust pointer/resource/unwind transfer open",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_read.log"
+        },
+        {
+          "case": "merge_geometry_negative_advance",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_advance.c"
+          ],
+          "exit": 1,
+          "source_sha256": "94e5b441556ac8ff6c75de88c022db63f78ab8c95b10f3d21b21b7c2c1a0d812",
+          "log_sha256": "18b8d2e3f0c7ebb0232d7b7b47df00a2f6bf06c874c38364728d3b3bbdf6b2c2",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 136,
+            "expected_predicate": "((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1)"
+          },
+          "expected_bodies": [
+            "mg_negative_both_forward_advance"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "mg_negative_both_forward_advance"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_advance.c(136,37-39): error: Assertion might not hold. (Cannot prove ((0 + 1) + (mg_right(1, 0, 0) + 1)) = ((1 + 0) + 1).)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "checked pure mathematical geometry; actual Rust pointer/resource/unwind transfer open",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_advance.log"
+        },
+        {
+          "case": "merge_geometry_negative_wrap_read",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_wrap_read.c"
+          ],
+          "exit": 1,
+          "source_sha256": "93360c363d9f81120f6db071b417f9b796640908023420f801cba2c0c1590288",
+          "log_sha256": "1125989c6751153b99787749fa99537262e64e435c7e8e26fd3eb2c4619d0bb5",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 136,
+            "expected_predicate": "0 <= (mg_left_rev(1, 0, 0) - 1)"
+          },
+          "expected_bodies": [
+            "mg_negative_read_wrapped_left"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "mg_negative_read_wrapped_left"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_wrap_read.c(136,14-16): error: Assertion might not hold. (Cannot prove 0 <= (mg_left_rev(1, 0, 0) - 1).)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "checked pure mathematical geometry; actual Rust pointer/resource/unwind transfer open",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-g2/merge_geometry_negative_wrap_read.log"
+        }
+      ],
+      "raw_profile_label_historical": true
+    },
+    "checked-a": {
+      "scope": "pure exact occurrence-ID merge schedule, conditional on only the final scalar guard; Rust transfer remains open",
+      "domain": "n>=2, arbitrary independent pair decisions of length n/2, arbitrary odd residual choice",
+      "posts": "full G2 access trace; natural output and chronological writes of length n; exactly one write at every destination; trace/output correspondence; arbitrary-ID multiplicity one in [0,n), zero outside",
+      "tool_profile": "official-stock-VeriFast-26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; compiler-nightly-2026-09-25",
+      "actual_source": "library/core/src/slice/sort/shared/smallsort.rs",
+      "source_admission_sha256": "a280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f",
+      "geometry_sha256": "4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8",
+      "functional_proof_sha256": "20a7d91564bbf49e8f2e8bb0436a7ccc7eec2e7928f6267486a6ab0f291ab814",
+      "geometry_harness_sha256": "6af798229e57187cc003de40a97f6a3626567440b4a8558a11f1412dd1763b0c",
+      "frozen_classifier_sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4",
+      "verifast_binary_sha256": "87611a8c303fd8ff6b301d45f830bde79a49421a3686b85214efbdfa5cd24346",
+      "cases": [
+        {
+          "case": "merge_functional_ids_full",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-a/merge_functional_ids_full.c"
+          ],
+          "exit": 0,
+          "source_sha256": "11f8f381dcdadb7bbe96249f21086ceb368fd028afc7401779b500c3d8bc9623",
+          "log_sha256": "7b7a0b79069293a28dd5e802adab0e68a82e05c1ef28aba9a60633a00000760f",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": null,
+          "expected_bodies": [
+            "mg_merge_up_access",
+            "mg_merge_down_access",
+            "mg_pair_step",
+            "mg_terminal_geometry",
+            "mg_trace_induction",
+            "mg_destination_regions",
+            "mg_scalar_guard",
+            "mg_entry",
+            "fa_threshold_step",
+            "fa_pair_balance",
+            "fa_count_append",
+            "fa_count_balance",
+            "fa_initial_balance",
+            "fa_final_guard_balance",
+            "fa_output_length",
+            "fa_trace_length",
+            "fa_destinations",
+            "fa_trace_output_at",
+            "fa_entry"
+          ],
+          "classifier_rejection_controls": null,
+          "visited_bodies": [
+            "mg_merge_up_access",
+            "mg_merge_down_access",
+            "mg_pair_step",
+            "mg_terminal_geometry",
+            "mg_trace_induction",
+            "mg_destination_regions",
+            "mg_scalar_guard",
+            "mg_entry",
+            "fa_threshold_step",
+            "fa_pair_balance",
+            "fa_count_append",
+            "fa_count_balance",
+            "fa_initial_balance",
+            "fa_final_guard_balance",
+            "fa_output_length",
+            "fa_trace_length",
+            "fa_destinations",
+            "fa_trace_output_at",
+            "fa_entry"
+          ],
+          "errors": [],
+          "leak_checks": 55,
+          "return_checks": 55,
+          "boundary": "checked pure exact occurrence-ID theorem with final scalar guard; Rust pointer/resources/FnMut/unwind and scalar-to-pointer guard transfer open",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-a/merge_functional_ids_full.log"
+        },
+        {
+          "case": "merge_functional_ids_negative_duplicate",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-a/merge_functional_ids_negative_duplicate.c"
+          ],
+          "exit": 1,
+          "source_sha256": "fa84ead5774c49912d211dd69eca449b6c05edaf6b56c46cb9f4aaf60a6ae32d",
+          "log_sha256": "d26e7b60d70a891932ce91ec2201b3bb2ab7891d4e2e8ebb629c8b86646339b9",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 218,
+            "expected_predicate": "fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1"
+          },
+          "expected_bodies": [
+            "fa_negative_duplicate_without_guard"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "fa_negative_duplicate_without_guard"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-a/merge_functional_ids_negative_duplicate.c(218,68-70): error: Assertion might not hold. (Cannot prove fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1.)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "checked pure exact occurrence-ID theorem with final scalar guard; Rust pointer/resources/FnMut/unwind and scalar-to-pointer guard transfer open",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-a/merge_functional_ids_negative_duplicate.log"
+        }
+      ],
+      "raw_profile_label_historical": true
+    },
+    "checked-b": {
+      "scope": "arbitrary-length exact bidirectional mathematical stable merge; actual Rust open",
+      "domain": "n>=2; exact original occurrence domain; fixed finite SWO; sorted original halves; immutable keys; faithful normally returning comparisons; scalar odd choice",
+      "posts": "scalar guard; full G2 trace; exact A destination coverage/trace/output/ID multiplicities; all-pairs sorting and original-ID stability for equivalent keys",
+      "tool_profile": "official-stock-VeriFast-26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; compiler-nightly-2026-09-25",
+      "source_admission_sha256": "a280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f",
+      "accepted_component_pins": {
+        "geometry.c": "4594f159400bcfeeea87e3086e5765472d121dced7385bd2ef216a83bf24dea8",
+        "functional-ids.c": "20a7d91564bbf49e8f2e8bb0436a7ccc7eec2e7928f6267486a6ab0f291ab814",
+        "functional-prove.py": "f513f2acd81ca21980acf56cfa47a41599cec4e3a4d6b1034ec8fadadcb00dd5"
+      },
+      "swo_core_sha256": "e5c3f29d4e5f84284afdf0cd4936054a23ca261f092e77d355895cf359f62051",
+      "order_file_sha256": "58d18c5bbcb301f8ee3d9b05660fbee69ca2c38a40708637ebd634bcdd729154",
+      "order_assembled_sha256": "73e01a81c288d10201f675f7b8021b1f43138264e7d3e759b15b5819c3240ebb",
+      "pullback_sha256": "d049fd4ba51fe7e022f4d9250c8c51bdf6a7b0d68837bb23e88b642e431fa768",
+      "frozen_classifier_sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4",
+      "verifast_binary_sha256": "87611a8c303fd8ff6b301d45f830bde79a49421a3686b85214efbdfa5cd24346",
+      "cases": [
+        {
+          "case": "merge_order_full",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_full.c"
+          ],
+          "exit": 0,
+          "source_sha256": "9e7e6b07cc086ca761f64dfdc2e2fd0e2266317eccbf9c3ef910ac2172f9fc52",
+          "log_sha256": "1cfd46511616124b7ed0c4b905649bda08adfb2239ec59aae87f74181d626457",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": null,
+          "expected_bodies": [
+            "mg_merge_up_access",
+            "mg_merge_down_access",
+            "mg_pair_step",
+            "mg_terminal_geometry",
+            "mg_trace_induction",
+            "mg_destination_regions",
+            "mg_scalar_guard",
+            "mg_entry",
+            "fa_threshold_step",
+            "fa_pair_balance",
+            "fa_count_append",
+            "fa_count_balance",
+            "fa_initial_balance",
+            "fa_final_guard_balance",
+            "fa_output_length",
+            "fa_trace_length",
+            "fa_destinations",
+            "fa_trace_output_at",
+            "fa_entry",
+            "mb_at",
+            "mb_id_member",
+            "mb_half_order",
+            "mb_trans",
+            "mb_frontier_step",
+            "mb_no_cross",
+            "mb_pair_extremes",
+            "mb_inner_point",
+            "mb_inner_all",
+            "mb_all_unbounded",
+            "mb_selected_bound",
+            "mb_bounds_project",
+            "mb_before_append",
+            "mb_sorted_snoc",
+            "mb_bounds_widen",
+            "mb_bounds_snoc",
+            "mb_induction",
+            "mb_entry_rank",
+            "mb_sorted_positions",
+            "threshold_ce",
+            "rank_from_threshold",
+            "pair_count_choice",
+            "swo_forall_at",
+            "swo_laws_at",
+            "swo_member_lift",
+            "swo_domain_extend",
+            "swo_domain_self",
+            "swo_pred_equiv",
+            "swo_equal_count_rec",
+            "swo_strict_count_rec",
+            "swo_rank_bound_rec",
+            "swo_rank_bridge",
+            "swo_ce",
+            "swo_ordered_pair",
+            "ms_forward_tie",
+            "ms_backward_tie",
+            "ms_half_row_bridge",
+            "ms_halves_bridge_rec",
+            "ms_halves_bridge",
+            "ms_decisions_bridge",
+            "ms_members_snoc",
+            "ms_output_domain",
+            "ms_output_row_bridge",
+            "ms_output_bridge",
+            "ms_entry",
+            "ms_sorted_positions"
+          ],
+          "classifier_rejection_controls": null,
+          "visited_bodies": [
+            "mg_merge_up_access",
+            "mg_merge_down_access",
+            "mg_pair_step",
+            "mg_terminal_geometry",
+            "mg_trace_induction",
+            "mg_destination_regions",
+            "mg_scalar_guard",
+            "mg_entry",
+            "fa_threshold_step",
+            "fa_pair_balance",
+            "fa_count_append",
+            "fa_count_balance",
+            "fa_initial_balance",
+            "fa_final_guard_balance",
+            "fa_output_length",
+            "fa_trace_length",
+            "fa_destinations",
+            "fa_trace_output_at",
+            "fa_entry",
+            "mb_at",
+            "mb_id_member",
+            "mb_half_order",
+            "mb_trans",
+            "mb_frontier_step",
+            "mb_no_cross",
+            "mb_pair_extremes",
+            "mb_inner_point",
+            "mb_inner_all",
+            "mb_all_unbounded",
+            "mb_selected_bound",
+            "mb_bounds_project",
+            "mb_before_append",
+            "mb_sorted_snoc",
+            "mb_bounds_widen",
+            "mb_bounds_snoc",
+            "mb_induction",
+            "mb_entry_rank",
+            "mb_sorted_positions",
+            "threshold_ce",
+            "rank_from_threshold",
+            "pair_count_choice",
+            "swo_forall_at",
+            "swo_laws_at",
+            "swo_member_lift",
+            "swo_domain_extend",
+            "swo_domain_self",
+            "swo_pred_equiv",
+            "swo_equal_count_rec",
+            "swo_strict_count_rec",
+            "swo_rank_bound_rec",
+            "swo_rank_bridge",
+            "swo_ce",
+            "swo_ordered_pair",
+            "ms_forward_tie",
+            "ms_backward_tie",
+            "ms_half_row_bridge",
+            "ms_halves_bridge_rec",
+            "ms_halves_bridge",
+            "ms_decisions_bridge",
+            "ms_members_snoc",
+            "ms_output_domain",
+            "ms_output_row_bridge",
+            "ms_output_bridge",
+            "ms_entry",
+            "ms_sorted_positions"
+          ],
+          "errors": [],
+          "leak_checks": 197,
+          "return_checks": 197,
+          "boundary": "universal ghost assertion harness; ensures true is not an exported Rust callee summary",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_full.log"
+        },
+        {
+          "case": "merge_order_negative_duplicate",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_duplicate.c"
+          ],
+          "exit": 1,
+          "source_sha256": "fa84ead5774c49912d211dd69eca449b6c05edaf6b56c46cb9f4aaf60a6ae32d",
+          "log_sha256": "aade493123fd1aac6f3378004a440329494643040b158dbf321d14f51e49295e",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 218,
+            "expected_predicate": "fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1"
+          },
+          "expected_bodies": [
+            "fa_negative_duplicate_without_guard"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "fa_negative_duplicate_without_guard"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_duplicate.c(218,68-70): error: Assertion might not hold. (Cannot prove fa_count(fa_output(1, 0, 0, 0, 0, cons(pair(boxed_bool(true), boxed_bool(false)), nil), false), 0) = 1.)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "universal ghost assertion harness; ensures true is not an exported Rust callee summary",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_duplicate.log"
+        },
+        {
+          "case": "merge_order_negative_tie",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_tie.c"
+          ],
+          "exit": 1,
+          "source_sha256": "b262cffe29a92567b5b0db404e13da2f55a937c373cac685548eace1720598cd",
+          "log_sha256": "5232bde73eeb0d038f963013d9ebbb352c33b590ce63ea806b3122e7bdb81bbb",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 274,
+            "expected_predicate": "mb_lt(@neg_equal_key, 1, 0) <==> true"
+          },
+          "expected_bodies": [
+            "mb_negative_tie"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "mb_negative_tie"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_tie.c(274,39-41): error: Assertion might not hold. (Cannot prove mb_lt(@neg_equal_key, 1, 0) <==> true.)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "universal ghost assertion harness; ensures true is not an exported Rust callee summary",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_tie.log"
+        },
+        {
+          "case": "merge_order_negative_comparator",
+          "command": [
+            "timeout",
+            "--signal=TERM",
+            "--kill-after=5s",
+            "180s",
+            "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+            "-c",
+            "-verbose",
+            "1",
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_comparator.c"
+          ],
+          "exit": 1,
+          "source_sha256": "47eb10e1834513249f36c1c8704895db96ff2d452d3b74c7ced70ba4be5952a6",
+          "log_sha256": "52765751fa21aff2e1dce6f647622b81369e63893c06daeb2443c6a37289d6a9",
+          "source_unchanged": true,
+          "accepted": true,
+          "negative": {
+            "target_line": 274,
+            "expected_predicate": "neg_reverse_key(0) <= neg_reverse_key(1)"
+          },
+          "expected_bodies": [
+            "mb_negative_comparator"
+          ],
+          "classifier_rejection_controls": {
+            "other_line": true,
+            "other_predicate": true,
+            "no_body_execution": true,
+            "no_target_execution": true,
+            "other_column": true,
+            "timeout": true,
+            "source_changed": true
+          },
+          "visited_bodies": [
+            "mb_negative_comparator"
+          ],
+          "errors": [
+            "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_comparator.c(274,31-33): error: Assertion might not hold. (Cannot prove neg_reverse_key(0) <= neg_reverse_key(1).)"
+          ],
+          "leak_checks": 0,
+          "return_checks": 0,
+          "boundary": "universal ghost assertion harness; ensures true is not an exported Rust callee summary",
+          "refinement": "not applicable to mathematical C ghosts; Rust bridge not proved",
+          "log": "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-b/merge_order_negative_comparator.log"
+        }
+      ],
+      "raw_profile_label_historical": true
+    },
+    "checked-wrapping": {
+      "arith_offset_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "arith_offset_const"
+        ],
+        "visited_bodies": [
+          "arith_offset_const"
+        ],
+        "body_execution_records": {
+          "arith_offset_const": 3
+        },
+        "per_body_records": {
+          "arith_offset_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "arith_offset_const",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "6d90fb9192f6a1836bb8d650106edcdfc0fd8005e7e3847614b66847772fcb80",
+          "verified/lib.rs": "c91385b4db60d373aa456bb790d9fdaa61ea86eff488a1475859ab6b0c3e5ca5"
+        },
+        "source_after": {
+          "original/lib.rs": "6d90fb9192f6a1836bb8d650106edcdfc0fd8005e7e3847614b66847772fcb80",
+          "verified/lib.rs": "c91385b4db60d373aa456bb790d9fdaa61ea86eff488a1475859ab6b0c3e5ca5"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:18.932641Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "u8"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "const_add_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_add_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "const_add_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "const_add_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "const_add_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "const_add_one_no_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "1477a6f0dca31ecc14b1b0accf7aa3168958569c0b07f01db5a249a7bdf76e41",
+          "verified/lib.rs": "82ce42db6961145c62885c3e70585cb48974ea6916e3461a081fe8a53ae8791d"
+        },
+        "source_after": {
+          "original/lib.rs": "1477a6f0dca31ecc14b1b0accf7aa3168958569c0b07f01db5a249a7bdf76e41",
+          "verified/lib.rs": "82ce42db6961145c62885c3e70585cb48974ea6916e3461a081fe8a53ae8791d"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:15.026040Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "const_add_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_add_one_wrap"
+        ],
+        "visited_bodies": [
+          "const_add_one_wrap"
+        ],
+        "body_execution_records": {
+          "const_add_one_wrap": 3
+        },
+        "per_body_records": {
+          "const_add_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "const_add_one_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "75350c354db0207ed2b9fc0b15356c63de906fe742c1f0492c19d48f9cecd598",
+          "verified/lib.rs": "dbc66c5ee49240d4513ec3289ee80004f31a348da7985519c9dd15096dbf5dc4"
+        },
+        "source_after": {
+          "original/lib.rs": "75350c354db0207ed2b9fc0b15356c63de906fe742c1f0492c19d48f9cecd598",
+          "verified/lib.rs": "dbc66c5ee49240d4513ec3289ee80004f31a348da7985519c9dd15096dbf5dc4"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:15.377858Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "const_add_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_add_zero"
+        ],
+        "visited_bodies": [
+          "const_add_zero"
+        ],
+        "body_execution_records": {
+          "const_add_zero": 3
+        },
+        "per_body_records": {
+          "const_add_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "const_add_zero",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "2f582891d2e28d51b9d839256642405d8d40fd6042ab28a22814566129e8ccec",
+          "verified/lib.rs": "25bf4972669996da8b9f78a4c440b9d771b337100bd1fe5f67895d0fc73ff4df"
+        },
+        "source_after": {
+          "original/lib.rs": "2f582891d2e28d51b9d839256642405d8d40fd6042ab28a22814566129e8ccec",
+          "verified/lib.rs": "25bf4972669996da8b9f78a4c440b9d771b337100bd1fe5f67895d0fc73ff4df"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:13.620098Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "const_sub_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_sub_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "const_sub_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "const_sub_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "const_sub_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "const_sub_one_no_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "8cb3a0f690ef3755a9f8b2148f0a9f4e3a7a8bc51259d7a83c85c0f003056faa",
+          "verified/lib.rs": "79740615add325208ba390513860801b7d58b3a5faf63841ac0634950c2cecfb"
+        },
+        "source_after": {
+          "original/lib.rs": "8cb3a0f690ef3755a9f8b2148f0a9f4e3a7a8bc51259d7a83c85c0f003056faa",
+          "verified/lib.rs": "79740615add325208ba390513860801b7d58b3a5faf63841ac0634950c2cecfb"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:15.762214Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "const_sub_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_sub_one_wrap"
+        ],
+        "visited_bodies": [
+          "const_sub_one_wrap"
+        ],
+        "body_execution_records": {
+          "const_sub_one_wrap": 3
+        },
+        "per_body_records": {
+          "const_sub_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "const_sub_one_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "10ca351f09825ef96e614f8febfaa95b31838cf4dc5dd15ba3fac266a7d2a54e",
+          "verified/lib.rs": "3ef2d032eeb21e143f3b8f3ab640c9f368814e1cc42f041f34616669ee202140"
+        },
+        "source_after": {
+          "original/lib.rs": "10ca351f09825ef96e614f8febfaa95b31838cf4dc5dd15ba3fac266a7d2a54e",
+          "verified/lib.rs": "3ef2d032eeb21e143f3b8f3ab640c9f368814e1cc42f041f34616669ee202140"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:16.114116Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "const_sub_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "const_sub_zero"
+        ],
+        "visited_bodies": [
+          "const_sub_zero"
+        ],
+        "body_execution_records": {
+          "const_sub_zero": 3
+        },
+        "per_body_records": {
+          "const_sub_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "const_sub_zero",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "c272fb88548b23264c3bbb6df63174410755db8867e14bdbed74b7774615c0ba",
+          "verified/lib.rs": "c6ae453bb77ae75c522b9c520ed3fa6e81eda2c7982cbb8c30f06b4b8c5ea242"
+        },
+        "source_after": {
+          "original/lib.rs": "c272fb88548b23264c3bbb6df63174410755db8867e14bdbed74b7774615c0ba",
+          "verified/lib.rs": "c6ae453bb77ae75c522b9c520ed3fa6e81eda2c7982cbb8c30f06b4b8c5ea242"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:13.972088Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "foreign_same_address_no_transfer": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "foreign_same_address_no_transfer"
+        ],
+        "visited_bodies": [
+          "foreign_same_address_no_transfer"
+        ],
+        "body_execution_records": {
+          "foreign_same_address_no_transfer": 7
+        },
+        "per_body_records": {
+          "foreign_same_address_no_transfer": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(27,14-24): error: No matching heap chunks: [_]points_to<u8>(__result0, _)"
+        ],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": false,
+        "expected_rejection": {
+          "kind": "memory_permission",
+          "error_file": "verified/lib.rs",
+          "error_line": 27,
+          "column_start": 14,
+          "column_end": 24,
+          "message": "No matching heap chunks: [_]points_to<u8>(__result0, _)",
+          "target_line": 27
+        },
+        "intended_rejection_gate": true,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true,
+          "rejection_stage_exporter": true,
+          "rejection_stage_decode": true,
+          "rejection_stage_verifast": true,
+          "rejection_stage_refinement": true,
+          "rejection_source_changed": true,
+          "rejection_missing_body": true,
+          "rejection_missing_execution": true,
+          "rejection_extra_error": true,
+          "rejection_dead_code": true,
+          "rejection_message": true,
+          "rejection_file": true,
+          "rejection_error_line": true,
+          "rejection_column_start": true,
+          "rejection_column_end": true,
+          "rejection_target_line": true
+        },
+        "case": "foreign_same_address_no_transfer",
+        "case_scope": "exact intended primitive/resource rejection; all independent source/refinement gates required",
+        "source_before": {
+          "original/lib.rs": "a77b7ec3152824f6da2efc4ec41ebc103d1152fe71dbb57afc218738846ee33d",
+          "verified/lib.rs": "9a72d57480d516efcd1be3e197a00f60a25ba5f3eafd494d34e7633116275e09"
+        },
+        "source_after": {
+          "original/lib.rs": "a77b7ec3152824f6da2efc4ec41ebc103d1152fe71dbb57afc218738846ee33d",
+          "verified/lib.rs": "9a72d57480d516efcd1be3e197a00f60a25ba5f3eafd494d34e7633116275e09"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:23.097760Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "verified/lib.rs(27,14-24): error: No matching heap chunks: [_]points_to<u8>(__result0, _)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(27,14-24): error: No matching heap chunks: [_]points_to<u8>(__result0, _)"
+        }
+      },
+      "frame_and_read_after_reentry": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "frame_and_read_after_reentry"
+        ],
+        "visited_bodies": [
+          "frame_and_read_after_reentry"
+        ],
+        "body_execution_records": {
+          "frame_and_read_after_reentry": 7
+        },
+        "per_body_records": {
+          "frame_and_read_after_reentry": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "frame_and_read_after_reentry",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "78cfd94c78925fafce8d5caa3c602a4b1e1da6f119deb8622bbd3174cf18940f",
+          "verified/lib.rs": "76fa3e0c667cdb2cda901dd861e07bcb8918da0059870563389ca47d685752cc"
+        },
+        "source_after": {
+          "original/lib.rs": "78cfd94c78925fafce8d5caa3c602a4b1e1da6f119deb8622bbd3174cf18940f",
+          "verified/lib.rs": "76fa3e0c667cdb2cda901dd861e07bcb8918da0059870563389ca47d685752cc"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:21.156223Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "u8"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "mut_add_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_add_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "mut_add_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "mut_add_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "mut_add_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "mut_add_one_no_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "745d33d7dbf024bdc92022a20880dc30e21c7bc77c8438b97fc2f785896d962b",
+          "verified/lib.rs": "6ca95decad55cb944e4b7e873993f20764be5717a4d8f9920cc73b5873961bf3"
+        },
+        "source_after": {
+          "original/lib.rs": "745d33d7dbf024bdc92022a20880dc30e21c7bc77c8438b97fc2f785896d962b",
+          "verified/lib.rs": "6ca95decad55cb944e4b7e873993f20764be5717a4d8f9920cc73b5873961bf3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:16.466057Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "mut_add_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_add_one_wrap"
+        ],
+        "visited_bodies": [
+          "mut_add_one_wrap"
+        ],
+        "body_execution_records": {
+          "mut_add_one_wrap": 3
+        },
+        "per_body_records": {
+          "mut_add_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "mut_add_one_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "ed7d160d94bb496b9c9a09bc89924332c481e0969e08e51d3f6683998376bea4",
+          "verified/lib.rs": "b202b07c2075a6ddc7d14b72e8a52548c814f59f430f37272ad35f1a07dcb8ee"
+        },
+        "source_after": {
+          "original/lib.rs": "ed7d160d94bb496b9c9a09bc89924332c481e0969e08e51d3f6683998376bea4",
+          "verified/lib.rs": "b202b07c2075a6ddc7d14b72e8a52548c814f59f430f37272ad35f1a07dcb8ee"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:16.818604Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "mut_add_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_add_zero"
+        ],
+        "visited_bodies": [
+          "mut_add_zero"
+        ],
+        "body_execution_records": {
+          "mut_add_zero": 3
+        },
+        "per_body_records": {
+          "mut_add_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "mut_add_zero",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "75f14be33dbf4579d9f6bb904f0dcb0c828c0a793ac18c5a3b41f2fdc3eda540",
+          "verified/lib.rs": "049af2ce36fee8aebc3983571e121b480a0acb3308a4b7256e61b0210f7037d7"
+        },
+        "source_after": {
+          "original/lib.rs": "75f14be33dbf4579d9f6bb904f0dcb0c828c0a793ac18c5a3b41f2fdc3eda540",
+          "verified/lib.rs": "049af2ce36fee8aebc3983571e121b480a0acb3308a4b7256e61b0210f7037d7"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:14.323648Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "mut_sub_one_no_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_sub_one_no_wrap"
+        ],
+        "visited_bodies": [
+          "mut_sub_one_no_wrap"
+        ],
+        "body_execution_records": {
+          "mut_sub_one_no_wrap": 3
+        },
+        "per_body_records": {
+          "mut_sub_one_no_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "mut_sub_one_no_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "f59543c2801193011eba8cb9ced0640c27ed33d73428e10cdd2b57924661c37e",
+          "verified/lib.rs": "8a23a460271b4eb86d4a1ff3fd1d96f29e0fdf18e1bee42b0db665f6809ff188"
+        },
+        "source_after": {
+          "original/lib.rs": "f59543c2801193011eba8cb9ced0640c27ed33d73428e10cdd2b57924661c37e",
+          "verified/lib.rs": "8a23a460271b4eb86d4a1ff3fd1d96f29e0fdf18e1bee42b0db665f6809ff188"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:17.171075Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "mut_sub_one_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_sub_one_wrap"
+        ],
+        "visited_bodies": [
+          "mut_sub_one_wrap"
+        ],
+        "body_execution_records": {
+          "mut_sub_one_wrap": 3
+        },
+        "per_body_records": {
+          "mut_sub_one_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "mut_sub_one_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "b74d392448c83e05c854cee855a32009d6b3360d610861826bed4f31ddfd279a",
+          "verified/lib.rs": "5ec7f1220dc2304b8ddff5c489612cf34fbc0816f0c5c9649fe5bcdae2a58a01"
+        },
+        "source_after": {
+          "original/lib.rs": "b74d392448c83e05c854cee855a32009d6b3360d610861826bed4f31ddfd279a",
+          "verified/lib.rs": "5ec7f1220dc2304b8ddff5c489612cf34fbc0816f0c5c9649fe5bcdae2a58a01"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:17.523042Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "mut_sub_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "mut_sub_zero"
+        ],
+        "visited_bodies": [
+          "mut_sub_zero"
+        ],
+        "body_execution_records": {
+          "mut_sub_zero": 3
+        },
+        "per_body_records": {
+          "mut_sub_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "mut_sub_zero",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "3130797eb90db6b1f014f84016943e56b09b85d83b0ca2d22e7b10360c0279a0",
+          "verified/lib.rs": "9984e15bcde34fcd5380a9434f0163c745348871c170f36444f4a0a0ff6ef6f2"
+        },
+        "source_after": {
+          "original/lib.rs": "3130797eb90db6b1f014f84016943e56b09b85d83b0ca2d22e7b10360c0279a0",
+          "verified/lib.rs": "9984e15bcde34fcd5380a9434f0163c745348871c170f36444f4a0a0ff6ef6f2"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:14.674663Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "read_at_wrapped_minus_one": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "read_at_wrapped_minus_one"
+        ],
+        "visited_bodies": [
+          "read_at_wrapped_minus_one"
+        ],
+        "body_execution_records": {
+          "read_at_wrapped_minus_one": 4
+        },
+        "per_body_records": {
+          "read_at_wrapped_minus_one": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(23,14-18): error: No matching heap chunks: [_]points_to<u8>(__result, _)"
+        ],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": false,
+        "expected_rejection": {
+          "kind": "memory_permission",
+          "error_file": "verified/lib.rs",
+          "error_line": 23,
+          "column_start": 14,
+          "column_end": 18,
+          "message": "No matching heap chunks: [_]points_to<u8>(__result, _)",
+          "target_line": 23
+        },
+        "intended_rejection_gate": true,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true,
+          "rejection_stage_exporter": true,
+          "rejection_stage_decode": true,
+          "rejection_stage_verifast": true,
+          "rejection_stage_refinement": true,
+          "rejection_source_changed": true,
+          "rejection_missing_body": true,
+          "rejection_missing_execution": true,
+          "rejection_extra_error": true,
+          "rejection_dead_code": true,
+          "rejection_message": true,
+          "rejection_file": true,
+          "rejection_error_line": true,
+          "rejection_column_start": true,
+          "rejection_column_end": true,
+          "rejection_target_line": true
+        },
+        "case": "read_at_wrapped_minus_one",
+        "case_scope": "exact intended primitive/resource rejection; all independent source/refinement gates required",
+        "source_before": {
+          "original/lib.rs": "6d8b7f35ee7a56d6a5e9d1cb6eb04f596f14ebc90d9a119b487a9ef59bf59540",
+          "verified/lib.rs": "ee4c0c8679231aee68b545b37543b72098314402156114de1d92c0e38c62070f"
+        },
+        "source_after": {
+          "original/lib.rs": "6d8b7f35ee7a56d6a5e9d1cb6eb04f596f14ebc90d9a119b487a9ef59bf59540",
+          "verified/lib.rs": "ee4c0c8679231aee68b545b37543b72098314402156114de1d92c0e38c62070f"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:22.709394Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "verified/lib.rs(23,14-18): error: No matching heap chunks: [_]points_to<u8>(__result, _)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(23,14-18): error: No matching heap chunks: [_]points_to<u8>(__result, _)"
+        }
+      },
+      "reverse_cursor_left": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "reverse_cursor_left"
+        ],
+        "visited_bodies": [
+          "reverse_cursor_left"
+        ],
+        "body_execution_records": {
+          "reverse_cursor_left": 8
+        },
+        "per_body_records": {
+          "reverse_cursor_left": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "reverse_cursor_left",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "6f8dd43681738e047946c515e0dbccb69c158d03c6259286671f4f2204f713c6",
+          "verified/lib.rs": "27e60f15abd06983cb77c1606b163d2bcd00186b2c63f2a9f7ac10b14365798c"
+        },
+        "source_after": {
+          "original/lib.rs": "6f8dd43681738e047946c515e0dbccb69c158d03c6259286671f4f2204f713c6",
+          "verified/lib.rs": "27e60f15abd06983cb77c1606b163d2bcd00186b2c63f2a9f7ac10b14365798c"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:19.671797Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "reverse_cursor_right": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "reverse_cursor_right"
+        ],
+        "visited_bodies": [
+          "reverse_cursor_right"
+        ],
+        "body_execution_records": {
+          "reverse_cursor_right": 7
+        },
+        "per_body_records": {
+          "reverse_cursor_right": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "reverse_cursor_right",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "c2fd958d2a9216bd3cc9a95eff49a6cde8c774771bb6a0bad9033fcc9e189396",
+          "verified/lib.rs": "87e2c03eb969e5a01caf743cfec1e9557d7fe87dad673e52c460c271bc46d0b4"
+        },
+        "source_after": {
+          "original/lib.rs": "c2fd958d2a9216bd3cc9a95eff49a6cde8c774771bb6a0bad9033fcc9e189396",
+          "verified/lib.rs": "87e2c03eb969e5a01caf743cfec1e9557d7fe87dad673e52c460c271bc46d0b4"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:19.284865Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "signed_offset_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "signed_offset_const"
+        ],
+        "visited_bodies": [
+          "signed_offset_const"
+        ],
+        "body_execution_records": {
+          "signed_offset_const": 3
+        },
+        "per_body_records": {
+          "signed_offset_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "signed_offset_const",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "696bc4b3d6df4aaee9968622a4a217aa01ecdbda204b3bd854cd3ab43b2ffa9c",
+          "verified/lib.rs": "61349bb325bc5a557708fb979a1af33bf9f0111e30edfd62ecfd6dabc6e205ff"
+        },
+        "source_after": {
+          "original/lib.rs": "696bc4b3d6df4aaee9968622a4a217aa01ecdbda204b3bd854cd3ab43b2ffa9c",
+          "verified/lib.rs": "61349bb325bc5a557708fb979a1af33bf9f0111e30edfd62ecfd6dabc6e205ff"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:18.580674Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "u8"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "symbolic_zst_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "symbolic_zst_const"
+        ],
+        "visited_bodies": [
+          "symbolic_zst_const"
+        ],
+        "body_execution_records": {
+          "symbolic_zst_const": 3
+        },
+        "per_body_records": {
+          "symbolic_zst_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "symbolic_zst_const",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "b82f13ece26fa6b2fdc37228a8ae892131ccc49e07e5c56dc7e26f593c538dbb",
+          "verified/lib.rs": "97fd926707ac33ccbe0fb713bb71f6983832d942fc6721ae44ab014fc34fee07"
+        },
+        "source_after": {
+          "original/lib.rs": "b82f13ece26fa6b2fdc37228a8ae892131ccc49e07e5c56dc7e26f593c538dbb",
+          "verified/lib.rs": "97fd926707ac33ccbe0fb713bb71f6983832d942fc6721ae44ab014fc34fee07"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:17.875962Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "symbolic_zst_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "symbolic_zst_mut"
+        ],
+        "visited_bodies": [
+          "symbolic_zst_mut"
+        ],
+        "body_execution_records": {
+          "symbolic_zst_mut": 3
+        },
+        "per_body_records": {
+          "symbolic_zst_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "symbolic_zst_mut",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "b5274c8ebbbe7f728484fc2412843dbea5d62f4d933f23d1c8685a3f7be12a0a",
+          "verified/lib.rs": "5063ace19a0ded8b80b1a3440d3107e5bd0aec3243ec6f51b8386029397bfb55"
+        },
+        "source_after": {
+          "original/lib.rs": "b5274c8ebbbe7f728484fc2412843dbea5d62f4d933f23d1c8685a3f7be12a0a",
+          "verified/lib.rs": "5063ace19a0ded8b80b1a3440d3107e5bd0aec3243ec6f51b8386029397bfb55"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:18.228450Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "terminal_reentry_at_address_zero": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_reentry_at_address_zero"
+        ],
+        "visited_bodies": [
+          "terminal_reentry_at_address_zero"
+        ],
+        "body_execution_records": {
+          "terminal_reentry_at_address_zero": 6
+        },
+        "per_body_records": {
+          "terminal_reentry_at_address_zero": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "terminal_reentry_at_address_zero",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "52cd6fddc2e3098b126337521584d32e9c203b4c295c698b4ebd07e4c24731d3",
+          "verified/lib.rs": "4a8d6191672bb60d487a7d550462db1a4ea0231abb4c1938ac4aa2c0eb17bc92"
+        },
+        "source_after": {
+          "original/lib.rs": "52cd6fddc2e3098b126337521584d32e9c203b4c295c698b4ebd07e4c24731d3",
+          "verified/lib.rs": "4a8d6191672bb60d487a7d550462db1a4ea0231abb4c1938ac4aa2c0eb17bc92"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:20.768887Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "u8"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "terminal_reentry_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_reentry_const"
+        ],
+        "visited_bodies": [
+          "terminal_reentry_const"
+        ],
+        "body_execution_records": {
+          "terminal_reentry_const": 6
+        },
+        "per_body_records": {
+          "terminal_reentry_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "terminal_reentry_const",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "570f4b36cf589780e9905013cb895e159130582d597afaafa312c9b0917870a9",
+          "verified/lib.rs": "3dbb33cb3221be15e16faa239503bd7e2b252d06940fdb8a443c12a25d950b2b"
+        },
+        "source_after": {
+          "original/lib.rs": "570f4b36cf589780e9905013cb895e159130582d597afaafa312c9b0917870a9",
+          "verified/lib.rs": "3dbb33cb3221be15e16faa239503bd7e2b252d06940fdb8a443c12a25d950b2b"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:20.027820Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "terminal_reentry_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_reentry_mut"
+        ],
+        "visited_bodies": [
+          "terminal_reentry_mut"
+        ],
+        "body_execution_records": {
+          "terminal_reentry_mut": 6
+        },
+        "per_body_records": {
+          "terminal_reentry_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "terminal_reentry_mut",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "72a6c5f740b168ad7088006abdd126a19fc15c55ad0c171917ca37df705fc84d",
+          "verified/lib.rs": "8ad9b434bc478df5f20832b44561b288c8b5f709339fadf459a7d7f4af1643c3"
+        },
+        "source_after": {
+          "original/lib.rs": "72a6c5f740b168ad7088006abdd126a19fc15c55ad0c171917ca37df705fc84d",
+          "verified/lib.rs": "8ad9b434bc478df5f20832b44561b288c8b5f709339fadf459a7d7f4af1643c3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:20.382478Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "unsupported_count_two": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "unsupported_count_two"
+        ],
+        "visited_bodies": [
+          "unsupported_count_two"
+        ],
+        "body_execution_records": {
+          "unsupported_count_two": 2
+        },
+        "per_body_records": {
+          "unsupported_count_two": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(303,25-27): error: Cannot prove condition. (Cannot prove 2 = 0 || 2 = 1.)"
+        ],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": false,
+        "expected_rejection": {
+          "kind": "primitive_precondition",
+          "error_file": "bin/rust/std/lib.rsspec",
+          "error_line": 303,
+          "column_start": 25,
+          "column_end": 27,
+          "message": "Cannot prove condition. (Cannot prove 2 = 0 || 2 = 1.)",
+          "target_line": 22
+        },
+        "intended_rejection_gate": true,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true,
+          "rejection_stage_exporter": true,
+          "rejection_stage_decode": true,
+          "rejection_stage_verifast": true,
+          "rejection_stage_refinement": true,
+          "rejection_source_changed": true,
+          "rejection_missing_body": true,
+          "rejection_missing_execution": true,
+          "rejection_extra_error": true,
+          "rejection_dead_code": true,
+          "rejection_message": true,
+          "rejection_file": true,
+          "rejection_error_line": true,
+          "rejection_column_start": true,
+          "rejection_column_end": true,
+          "rejection_target_line": true
+        },
+        "case": "unsupported_count_two",
+        "case_scope": "exact intended primitive/resource rejection; all independent source/refinement gates required",
+        "source_before": {
+          "original/lib.rs": "32f6e42e8a55f3b4ca4fa6636fd16d3c4ba570a844d632d1385df203569e4c67",
+          "verified/lib.rs": "f7f092f476a0638d4f08a5588663fd537d5ea88edacd4308b7afb4124a41b1a8"
+        },
+        "source_after": {
+          "original/lib.rs": "32f6e42e8a55f3b4ca4fa6636fd16d3c4ba570a844d632d1385df203569e4c67",
+          "verified/lib.rs": "f7f092f476a0638d4f08a5588663fd537d5ea88edacd4308b7afb4124a41b1a8"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:21.554474Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter::vf_mir_builder\u001b[0m\u001b[2m:\u001b[0m Encoding MIR: Item(DefId(0:3 ~ lib[b322]::unsupported_count_two))"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "defPath = \"unsupported_count_two\","
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "0.078633s: verified/lib.rs(12,1-23,2): Verifying function 'unsupported_count_two'"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "0.078633s: verified/lib.rs(12,1-23,2): Verifying function 'unsupported_count_two'"
+        }
+      },
+      "unsupported_signed_offset": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "unsupported_signed_offset"
+        ],
+        "visited_bodies": [
+          "unsupported_signed_offset"
+        ],
+        "body_execution_records": {
+          "unsupported_signed_offset": 2
+        },
+        "per_body_records": {
+          "unsupported_signed_offset": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(313,35-37): error: Cannot prove condition. (Cannot prove 2 <= 1.)"
+        ],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": false,
+        "expected_rejection": {
+          "kind": "primitive_precondition",
+          "error_file": "bin/rust/std/lib.rsspec",
+          "error_line": 313,
+          "column_start": 35,
+          "column_end": 37,
+          "message": "Cannot prove condition. (Cannot prove 2 <= 1.)",
+          "target_line": 22
+        },
+        "intended_rejection_gate": true,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true,
+          "rejection_stage_exporter": true,
+          "rejection_stage_decode": true,
+          "rejection_stage_verifast": true,
+          "rejection_stage_refinement": true,
+          "rejection_source_changed": true,
+          "rejection_missing_body": true,
+          "rejection_missing_execution": true,
+          "rejection_extra_error": true,
+          "rejection_dead_code": true,
+          "rejection_message": true,
+          "rejection_file": true,
+          "rejection_error_line": true,
+          "rejection_column_start": true,
+          "rejection_column_end": true,
+          "rejection_target_line": true
+        },
+        "case": "unsupported_signed_offset",
+        "case_scope": "exact intended primitive/resource rejection; all independent source/refinement gates required",
+        "source_before": {
+          "original/lib.rs": "092f7a8eac47ee10f97c70c6ea40d8983a7e99424e6e90f2bafbda33439e065e",
+          "verified/lib.rs": "6c8c8e90b2083a1153cd9981ed400362ce3dd0795e4efbe408c422f0f7e157c3"
+        },
+        "source_after": {
+          "original/lib.rs": "092f7a8eac47ee10f97c70c6ea40d8983a7e99424e6e90f2bafbda33439e065e",
+          "verified/lib.rs": "6c8c8e90b2083a1153cd9981ed400362ce3dd0795e4efbe408c422f0f7e157c3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:21.943783Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter::vf_mir_builder\u001b[0m\u001b[2m:\u001b[0m Encoding MIR: Item(DefId(0:3 ~ lib[b322]::unsupported_signed_offset))"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "defPath = \"unsupported_signed_offset\","
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "0.077055s: verified/lib.rs(12,1-23,2): Verifying function 'unsupported_signed_offset'"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "0.077055s: verified/lib.rs(12,1-23,2): Verifying function 'unsupported_signed_offset'"
+        }
+      },
+      "wrong_wrapped_result": {
+        "classification": "EXPECTED_FALSE_ASSERTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "wrong_wrapped_result"
+        ],
+        "visited_bodies": [
+          "wrong_wrapped_result"
+        ],
+        "body_execution_records": {
+          "wrong_wrapped_result": 4
+        },
+        "per_body_records": {
+          "wrong_wrapped_result": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(23,36-38): error: Assertion might not hold. (Cannot prove __result = base.)"
+        ],
+        "dead_code_records": [],
+        "expected_error": {
+          "stage": "verifast",
+          "predicate": "__result = base",
+          "line": 23,
+          "column_start": 36,
+          "column_end": 38
+        },
+        "observed_error": {
+          "line": 23,
+          "column_start": 36,
+          "column_end": 38,
+          "predicate": "__result = base",
+          "target_executed": true
+        },
+        "full_positive_gate": false,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "negative_line": true,
+          "negative_column": true,
+          "negative_predicate": true,
+          "negative_missing_body": true,
+          "negative_export_stage": true,
+          "negative_decode_stage": true,
+          "negative_refinement_stage": true,
+          "negative_timeout_stage": true,
+          "negative_source_changed": true,
+          "negative_missing_target_execution": true
+        },
+        "case": "wrong_wrapped_result",
+        "case_scope": "negative obligation; no acceptance without exact predeclared metadata",
+        "source_before": {
+          "original/lib.rs": "49084a271154f46e94d2a975eaeb76a276e1c6669989b8b20a6ceb3101547228",
+          "verified/lib.rs": "050683927b6bf6bcdd38e0ef445f653aa6102466f4c791700fe1f6bf26b6472f"
+        },
+        "source_after": {
+          "original/lib.rs": "49084a271154f46e94d2a975eaeb76a276e1c6669989b8b20a6ceb3101547228",
+          "verified/lib.rs": "050683927b6bf6bcdd38e0ef445f653aa6102466f4c791700fe1f6bf26b6472f"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:22.321673Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "verified/lib.rs(23,36-38): error: Assertion might not hold. (Cannot prove __result = base.)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(23,36-38): error: Assertion might not hold. (Cannot prove __result = base.)"
+        }
+      }
+    },
+    "checked-pointer-bridge": {
+      "reverse_boolean_at_zero_with_frame": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "reverse_boolean_at_zero_with_frame"
+        ],
+        "visited_bodies": [
+          "reverse_boolean_at_zero_with_frame"
+        ],
+        "body_execution_records": {
+          "reverse_boolean_at_zero_with_frame": 7
+        },
+        "per_body_records": {
+          "reverse_boolean_at_zero_with_frame": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "reverse_boolean_at_zero_with_frame",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "34a017f65ce7d3724f8f957de3a8ba91e71076d636fdd736b586148b402916c5",
+          "verified/lib.rs": "a84c6b299b84390233075833cf80750f68759a3f91881d88e0022aec5ea1db11"
+        },
+        "source_after": {
+          "original/lib.rs": "34a017f65ce7d3724f8f957de3a8ba91e71076d636fdd736b586148b402916c5",
+          "verified/lib.rs": "a84c6b299b84390233075833cf80750f68759a3f91881d88e0022aec5ea1db11"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:25.829655Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "source_cursor_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_cursor_const"
+        ],
+        "visited_bodies": [
+          "source_cursor_const"
+        ],
+        "body_execution_records": {
+          "source_cursor_const": 3
+        },
+        "per_body_records": {
+          "source_cursor_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "source_cursor_const",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "36c0ee47bfc27c763b2b87c395783e8dd2c297d1abebc446119f66a9b033ef9d",
+          "verified/lib.rs": "69b16c17a5bfda290cccb38cf65ff39ced29f656600cebe307c6b54708216bb7"
+        },
+        "source_after": {
+          "original/lib.rs": "36c0ee47bfc27c763b2b87c395783e8dd2c297d1abebc446119f66a9b033ef9d",
+          "verified/lib.rs": "69b16c17a5bfda290cccb38cf65ff39ced29f656600cebe307c6b54708216bb7"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:23.929704Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "source_cursor_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_cursor_mut"
+        ],
+        "visited_bodies": [
+          "source_cursor_mut"
+        ],
+        "body_execution_records": {
+          "source_cursor_mut": 3
+        },
+        "per_body_records": {
+          "source_cursor_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "source_cursor_mut",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "316865c144544da6ba6e9cc72eb79ce1d787bf321f1ab9db87958f95f02ab865",
+          "verified/lib.rs": "f672581f5e80b22756aa270f61c0a3aa6e748d4d38e2bfc626cc6ea7d11a6522"
+        },
+        "source_after": {
+          "original/lib.rs": "316865c144544da6ba6e9cc72eb79ce1d787bf321f1ab9db87958f95f02ab865",
+          "verified/lib.rs": "f672581f5e80b22756aa270f61c0a3aa6e748d4d38e2bfc626cc6ea7d11a6522"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:24.282493Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "source_pointer_equal": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_pointer_equal",
+          "stride_order_checked"
+        ],
+        "visited_bodies": [
+          "stride_order_checked",
+          "source_pointer_equal"
+        ],
+        "body_execution_records": {
+          "source_pointer_equal": 9,
+          "stride_order_checked": 6
+        },
+        "per_body_records": {
+          "stride_order_checked": {
+            "return": 3,
+            "leak": 3
+          },
+          "source_pointer_equal": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 5,
+        "leak_check_records": 5,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "source_pointer_equal",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "892711e087d4b1ae608a6e0a38c3d9ceeebf74e7d0ad118eb1accde2309c4ffa",
+          "verified/lib.rs": "f85cb0d476acc9f73646c04a2e339757a2dfa39e260f03d33ccf60235a06a53a"
+        },
+        "source_after": {
+          "original/lib.rs": "892711e087d4b1ae608a6e0a38c3d9ceeebf74e7d0ad118eb1accde2309c4ffa",
+          "verified/lib.rs": "f85cb0d476acc9f73646c04a2e339757a2dfa39e260f03d33ccf60235a06a53a"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:26.611822Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "source_pointer_order": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "source_pointer_order",
+          "stride_order_checked"
+        ],
+        "visited_bodies": [
+          "stride_order_checked",
+          "source_pointer_order"
+        ],
+        "body_execution_records": {
+          "source_pointer_order": 9,
+          "stride_order_checked": 6
+        },
+        "per_body_records": {
+          "stride_order_checked": {
+            "return": 3,
+            "leak": 3
+          },
+          "source_pointer_order": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 4,
+        "leak_check_records": 4,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "source_pointer_order",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "9369a860a65fad3d3e41fa7520255aeb02ab5842dffd98c940331d8fb98641e7",
+          "verified/lib.rs": "b35300e68c49868b37be2fb38929d86f5c3800dc015bdc8e9399066fdde64183"
+        },
+        "source_after": {
+          "original/lib.rs": "9369a860a65fad3d3e41fa7520255aeb02ab5842dffd98c940331d8fb98641e7",
+          "verified/lib.rs": "b35300e68c49868b37be2fb38929d86f5c3800dc015bdc8e9399066fdde64183"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:26.216714Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "stride_order_checked": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "stride_order_checked"
+        ],
+        "visited_bodies": [
+          "stride_order_checked"
+        ],
+        "body_execution_records": {
+          "stride_order_checked": 6
+        },
+        "per_body_records": {
+          "stride_order_checked": {
+            "return": 3,
+            "leak": 3
+          }
+        },
+        "return_records": 3,
+        "leak_check_records": 3,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "stride_order_checked",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "d1f4a33dbaebfcf4b1735d010aa98364c6d44318de91f8a27d7ed26fe37afd46",
+          "verified/lib.rs": "cf444bcdf4a50b4c7970e76fdd5f1b63daabbbc92013136b5eaa2f406ffc7932"
+        },
+        "source_after": {
+          "original/lib.rs": "d1f4a33dbaebfcf4b1735d010aa98364c6d44318de91f8a27d7ed26fe37afd46",
+          "verified/lib.rs": "cf444bcdf4a50b4c7970e76fdd5f1b63daabbbc92013136b5eaa2f406ffc7932"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:23.579772Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "0.049944s: /home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/lem_aux.rsspec(3,5-13): Verifying function 'u32_sync'"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "terminal_minus_one_numerical_wrap": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_minus_one_numerical_wrap"
+        ],
+        "visited_bodies": [
+          "terminal_minus_one_numerical_wrap"
+        ],
+        "body_execution_records": {
+          "terminal_minus_one_numerical_wrap": 6
+        },
+        "per_body_records": {
+          "terminal_minus_one_numerical_wrap": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "terminal_minus_one_numerical_wrap",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "1baa5c4b12067821f6994f47ad485796c9ae79a5035d476b60376d22409b396f",
+          "verified/lib.rs": "219e1de658a203869ffe7bc50a0088bbf9f19ebda5dafa4dc9c4c72aa682e431"
+        },
+        "source_after": {
+          "original/lib.rs": "1baa5c4b12067821f6994f47ad485796c9ae79a5035d476b60376d22409b396f",
+          "verified/lib.rs": "219e1de658a203869ffe7bc50a0088bbf9f19ebda5dafa4dc9c4c72aa682e431"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:25.474987Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "terminal_source_index": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_source_index"
+        ],
+        "visited_bodies": [
+          "terminal_source_index"
+        ],
+        "body_execution_records": {
+          "terminal_source_index": 18
+        },
+        "per_body_records": {
+          "terminal_source_index": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "terminal_source_index",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "d3bc0a1a6f0a4951d4928fd614cd85952d023655e07d0a426c1303551bca9cdf",
+          "verified/lib.rs": "7eb626ef8c03dfd66a2a74cb1e83dc987ac4f2a634eeb50f327eadf91be4138b"
+        },
+        "source_after": {
+          "original/lib.rs": "d3bc0a1a6f0a4951d4928fd614cd85952d023655e07d0a426c1303551bca9cdf",
+          "verified/lib.rs": "7eb626ef8c03dfd66a2a74cb1e83dc987ac4f2a634eeb50f327eadf91be4138b"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:24.635849Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "terminal_source_index_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "terminal_source_index_mut"
+        ],
+        "visited_bodies": [
+          "terminal_source_index_mut"
+        ],
+        "body_execution_records": {
+          "terminal_source_index_mut": 18
+        },
+        "per_body_records": {
+          "terminal_source_index_mut": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "terminal_source_index_mut",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "22dab8df0cefcb9196bcc5e849263c493e902d63ab3d19ce03c97db98a63740f",
+          "verified/lib.rs": "ba1328220d4f1535eca7b51effc59367bf3f1e4e1fe5b72a3089fd827226d82a"
+        },
+        "source_after": {
+          "original/lib.rs": "22dab8df0cefcb9196bcc5e849263c493e902d63ab3d19ce03c97db98a63740f",
+          "verified/lib.rs": "ba1328220d4f1535eca7b51effc59367bf3f1e4e1fe5b72a3089fd827226d82a"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:25.031040Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      }
+    },
+    "checked-rust-regression": {
+      "address_index": {
+        "classification": "EXPECTED_FALSE_ASSERTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "address_index"
+        ],
+        "visited_bodies": [
+          "address_index"
+        ],
+        "body_execution_records": {
+          "address_index": 1
+        },
+        "per_body_records": {
+          "address_index": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(14,18-20): error: Assertion might not hold. (Cannot prove i = j.)"
+        ],
+        "dead_code_records": [],
+        "expected_error": {
+          "stage": "verifast",
+          "predicate": "i = j",
+          "line": 14,
+          "column_start": 18,
+          "column_end": 20
+        },
+        "observed_error": {
+          "line": 14,
+          "column_start": 18,
+          "column_end": 20,
+          "predicate": "i = j",
+          "target_executed": true
+        },
+        "full_positive_gate": false,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "negative_line": true,
+          "negative_column": true,
+          "negative_predicate": true,
+          "negative_missing_body": true,
+          "negative_export_stage": true,
+          "negative_decode_stage": true,
+          "negative_refinement_stage": true,
+          "negative_timeout_stage": true,
+          "negative_source_changed": true,
+          "negative_missing_target_execution": true
+        },
+        "case": "address_index",
+        "case_scope": "negative obligation; no acceptance without exact predeclared metadata",
+        "source_before": {
+          "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+          "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3"
+        },
+        "source_after": {
+          "original/lib.rs": "0329e452561a7b75e5ae182b1a57311130a48d70be7251aa5be0ccd61ce1b147",
+          "verified/lib.rs": "8c06eb32adeb6ef7fb22cc5cbe8bd638eef1ff8df6b04b7b6209b3f0ef5df3e3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:30.799339Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "verified/lib.rs(14,18-20): error: Assertion might not hold. (Cannot prove i = j.)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(14,18-20): error: Assertion might not hold. (Cannot prove i = j.)"
+        }
+      },
+      "destination_down": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "destination_down"
+        ],
+        "visited_bodies": [
+          "destination_down"
+        ],
+        "body_execution_records": {
+          "destination_down": 7
+        },
+        "per_body_records": {
+          "destination_down": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "destination_down",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+          "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17"
+        },
+        "source_after": {
+          "original/lib.rs": "515a0e83db56249a3aefc818e286d445d6878c1d1cf317686ace40d5bc507daa",
+          "verified/lib.rs": "41930f5fe621ff2b4158bfb87ae17616fcf1b2791eda5b06ab4e54be82532b17"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:29.302180Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "destination_up": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "destination_up"
+        ],
+        "visited_bodies": [
+          "destination_up"
+        ],
+        "body_execution_records": {
+          "destination_up": 7
+        },
+        "per_body_records": {
+          "destination_up": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "destination_up",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+          "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b"
+        },
+        "source_after": {
+          "original/lib.rs": "83393651224efadf8d8d32a65631fa8ccfb92dc84d188f43ef15eda5a0039bbd",
+          "verified/lib.rs": "c374b47e84ea8866aec100882962091506e7fcd03a878fd0d08ce11e047d9b3b"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:28.160825Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "forward_left": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "forward_left"
+        ],
+        "visited_bodies": [
+          "forward_left"
+        ],
+        "body_execution_records": {
+          "forward_left": 12
+        },
+        "per_body_records": {
+          "forward_left": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "forward_left",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+          "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661"
+        },
+        "source_after": {
+          "original/lib.rs": "68a5ca6c7ff7065a95d2f0f770372a35c0d3876e25d0022ad515d286de6a0a38",
+          "verified/lib.rs": "414d3bad9b35fdb38c8fdfefc98dad555978cd1383432aa2f0d08899869e3661"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:28.517432Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "forward_right": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "forward_right"
+        ],
+        "visited_bodies": [
+          "forward_right"
+        ],
+        "body_execution_records": {
+          "forward_right": 13
+        },
+        "per_body_records": {
+          "forward_right": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "return_records": 2,
+        "leak_check_records": 2,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "forward_right",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+          "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c"
+        },
+        "source_after": {
+          "original/lib.rs": "502064d2f5203524b4caa73c56f210d600823d9abcfb330605a639dcd3c1f70a",
+          "verified/lib.rs": "0ea6f81c374f68b4d261011a6fef40bf054d46aebedc1818436c0d534e47112c"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:28.908383Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "g2_steps": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "g2_step",
+          "g2_terminal"
+        ],
+        "visited_bodies": [
+          "g2_step",
+          "g2_terminal"
+        ],
+        "body_execution_records": {
+          "g2_step": 15,
+          "g2_terminal": 10
+        },
+        "per_body_records": {
+          "g2_step": {
+            "return": 4,
+            "leak": 4
+          },
+          "g2_terminal": {
+            "return": 3,
+            "leak": 3
+          }
+        },
+        "return_records": 7,
+        "leak_check_records": 7,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "g2_steps",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+          "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812"
+        },
+        "source_after": {
+          "original/lib.rs": "4532a30c4489b9f4f527c8bd7d65498384d1647952920f0a88a2aa1cfa80d1c1",
+          "verified/lib.rs": "29714c35bad88a5d927ee616c6f253779af8d308c0064f89153624846f792812"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:27.064708Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "0.049636s: /home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/lem_aux.rsspec(3,5-13): Verifying function 'u32_sync'"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "init_const": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "init_const"
+        ],
+        "visited_bodies": [
+          "init_const"
+        ],
+        "body_execution_records": {
+          "init_const": 4
+        },
+        "per_body_records": {
+          "init_const": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "init_const",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+          "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3"
+        },
+        "source_after": {
+          "original/lib.rs": "771382cd70d987abb9fbfcb2fa41d1f4c07e42efc627fb23d5808cd69309b07c",
+          "verified/lib.rs": "407fa05dc3fbfe3cb4c49217b35d0b3bbd5e335104816c5b7c0a61d11092c0c3"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:27.419153Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "init_mut": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "init_mut"
+        ],
+        "visited_bodies": [
+          "init_mut"
+        ],
+        "body_execution_records": {
+          "init_mut": 4
+        },
+        "per_body_records": {
+          "init_mut": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 1,
+        "leak_check_records": 1,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "init_mut",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+          "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd"
+        },
+        "source_after": {
+          "original/lib.rs": "46eff7e3a1791e2becfd8eda6eefa3ea68d3a7fc399cd49d31f060ccc3abc4e4",
+          "verified/lib.rs": "89cbe01835b68154d86c52c11ab84dac78e5db606bb506b277ccb8df374149bd"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:27.805771Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "(type)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "pointer_guard": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "pointer_guard",
+          "stride_equal"
+        ],
+        "visited_bodies": [
+          "stride_equal",
+          "pointer_guard"
+        ],
+        "body_execution_records": {
+          "pointer_guard": 14,
+          "stride_equal": 6
+        },
+        "per_body_records": {
+          "stride_equal": {
+            "return": 3,
+            "leak": 3
+          },
+          "pointer_guard": {
+            "return": 3,
+            "leak": 3
+          }
+        },
+        "return_records": 6,
+        "leak_check_records": 6,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "pointer_guard",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+          "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a"
+        },
+        "source_after": {
+          "original/lib.rs": "1a03ae62d3b3529800f2df01991a60007ed9e3ac8df7010b51c2f756fd562115",
+          "verified/lib.rs": "af2f667f227b598091720a84c2c5fef06d8b996504b7a347550343c28e29821a"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:30.047189Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "0.051086s: /home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/lem_aux.rsspec(3,5-13): Verifying function 'u32_sync'"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "pointer_order": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "pointer_order",
+          "stride_order"
+        ],
+        "visited_bodies": [
+          "stride_order",
+          "pointer_order"
+        ],
+        "body_execution_records": {
+          "pointer_order": 4,
+          "stride_order": 6
+        },
+        "per_body_records": {
+          "stride_order": {
+            "return": 3,
+            "leak": 3
+          },
+          "pointer_order": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "return_records": 4,
+        "leak_check_records": 4,
+        "error_lines": [],
+        "dead_code_records": [],
+        "expected_error": null,
+        "observed_error": null,
+        "full_positive_gate": true,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "positive_stage_exporter": true,
+          "positive_stage_decode": true,
+          "positive_stage_verifast": true,
+          "positive_stage_refinement": true,
+          "positive_missing_body": true,
+          "positive_error": true,
+          "positive_dead_code": true,
+          "positive_source_changed": true,
+          "positive_timeout": true,
+          "positive_no_execution": true,
+          "positive_no_return": true,
+          "positive_no_leak": true
+        },
+        "case": "pointer_order",
+        "case_scope": "isolated pointer/index proof projection",
+        "source_before": {
+          "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+          "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336"
+        },
+        "source_after": {
+          "original/lib.rs": "5e80f9137f2e820cea7981690964d2c059e2987b51bfb42c2450b3dac78622ad",
+          "verified/lib.rs": "8e9fc1988bc5f5853f078a035ff984712338a0c09d556a66f59ff045a46fd336"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:29.690825Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 0,
+            "first_diagnostic": "0.050853s: /home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/lem_aux.rsspec(3,5-13): Verifying function 'u32_sync'"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": null
+      },
+      "wrong_cursor": {
+        "classification": "EXPECTED_FALSE_ASSERTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "wrong_cursor"
+        ],
+        "visited_bodies": [
+          "wrong_cursor"
+        ],
+        "body_execution_records": {
+          "wrong_cursor": 6
+        },
+        "per_body_records": {
+          "wrong_cursor": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "return_records": 0,
+        "leak_check_records": 0,
+        "error_lines": [
+          "verified/lib.rs(20,23-25): error: Assertion might not hold. (Cannot prove ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid).)"
+        ],
+        "dead_code_records": [],
+        "expected_error": {
+          "stage": "verifast",
+          "predicate": "ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)",
+          "line": 20,
+          "column_start": 23,
+          "column_end": 25
+        },
+        "observed_error": {
+          "line": 20,
+          "column_start": 23,
+          "column_end": 25,
+          "predicate": "ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)",
+          "target_executed": true
+        },
+        "full_positive_gate": false,
+        "expected_rejection": null,
+        "intended_rejection_gate": false,
+        "classifier_fail_closed_mutations": {
+          "negative_line": true,
+          "negative_column": true,
+          "negative_predicate": true,
+          "negative_missing_body": true,
+          "negative_export_stage": true,
+          "negative_decode_stage": true,
+          "negative_refinement_stage": true,
+          "negative_timeout_stage": true,
+          "negative_source_changed": true,
+          "negative_missing_target_execution": true
+        },
+        "case": "wrong_cursor",
+        "case_scope": "negative obligation; no acceptance without exact predeclared metadata",
+        "source_before": {
+          "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+          "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9"
+        },
+        "source_after": {
+          "original/lib.rs": "dfa8a14e7d9cab045ced0ea1f8be6439b810920fb00ae905c5ed64361ca341a4",
+          "verified/lib.rs": "82b5d24fe2eb22d6bb696499340b6f7e9311068d4f124217974e4892ec11b2b9"
+        },
+        "source_unchanged_at_every_stage": true,
+        "refinement_scope": "isolated Rust projection fixture only; not refinement of full bidirectional_merge",
+        "stage_diagnostics": {
+          "exporter": {
+            "exit_code": 0,
+            "first_diagnostic": "\u001b[2m2026-10-07T23:10:30.441343Z\u001b[0m \u001b[35mTRACE\u001b[0m \u001b[2mvf_mir_exporter\u001b[0m\u001b[2m:\u001b[0m Calling the Rust Compiler with args: [\"/home/runner/work/_temp/challenge8-merge-overnight/source/bin/vf-rust-mir-exporter\", \"verified/lib.rs\", \"--sysroot=/home/runner/.rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu\", \"--edition\", \"2021\", \"--crate-type\", \"lib\", \"-Coverflow_checks=off\", \"--crate-type=lib\", \"--error-format=json\"]"
+          },
+          "decode": {
+            "exit_code": 0,
+            "first_diagnostic": "kj/filesystem-disk-unix.c++:1690: warning: PWD environment variable doesn't match current directory; pwd = /home/runner/work/verify-rust-std/verify-rust-std"
+          },
+          "verifast": {
+            "exit_code": 1,
+            "first_diagnostic": "verified/lib.rs(20,23-25): error: Assertion might not hold. (Cannot prove ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid).)"
+          },
+          "refinement": {
+            "exit_code": 0,
+            "first_diagnostic": "No refinement errors found"
+          }
+        },
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(20,23-25): error: Assertion might not hold. (Cannot prove ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid).)"
+        }
+      }
+    }
+  }
+}

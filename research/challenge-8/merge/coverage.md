@@ -1,3 +1,12 @@
+## Overnight W1d checkpoint — 2026-10-08 Moscow
+
+W1d proof8d97b6bc/run37700424582:22 bounded wrapping primitive/projection
+positives,5 intended negatives,9 terminal/source bridge cases and full G2/A/B
+compatibility checked. Primitive contracts TRUSTED; wrapper machine bodies,
+full pointer trace, actual merges and resource/unwind composition OPEN. Full
+profile acceptance still requires separate baseline/unwind/C++ controls.
+Night467/21600 seconds; historical603/1800 separate.
+
 ## MERGE-STOCK-26.10 closeout — 2026-10-08
 
 G2/A/B and nine conditional Rust projections reaccepted on official stock26.10.

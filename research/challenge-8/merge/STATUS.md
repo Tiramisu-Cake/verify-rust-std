@@ -2,17 +2,18 @@
 
 Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC). Собственная ветка
 `overnight/merge-26.10`, entryb0af5613. [Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md).
-Новый отдельный бюджет **290/21600 hosted job seconds**; старый merge603/1800
+Новый отдельный бюджет **467/21600 hosted job seconds**; старый merge603/1800
 (1197остаток) сохранён отдельно. Actual merge пока NOT PROVEN.
 Первый шагW1: exact0/1 wrapping, provenance+metadata+modular addresses, без
 прав доступа; затем полный указательный мост и actual merge normal/unwind.
 Новые смысловые зависимости раздельно закрепляются и проверяются. Исторические
 STOP/design-only/CI0 ниже не ограничивают авторизованную ночную фазу.
-W1c37699505842/proof83f12b04:22wrappingpositive+9pointerbridge+9oldRust
-positivePASS;5новыхnegative достигли нужныхобязательств, calibrationINCONCLUSIVE.
-ДвастарыхnegativePASS. W1d:точныйclassifier и G2/A/Bcompatibility; профиль
-ещёНЕПРИНЯТ. Source wrapper summariesTRUSTED;actualтелamergeNOTPROVEN.
-Активногоrunнет. M2a callbackdesign/patch отдельноDRAFT/NOTRUN.
+W1d37700424582/proof8d97b6bc:22wrappingpositive+9pointerbridge+9oldRust
+positivePASS;5новыхnegative и2старыхnegative приняты на точныхобязательствах.
+Полная G2/A/B compatibility PASS. [Evidence](overnight/W1d-EVIDENCE.json).
+Отдельные baseline/unwind/C++ profile gates ещё OPEN; W1profile пока не принят
+целиком. Source wrapper summariesTRUSTED;actualтелamergeNOTPROVEN.
+Активногоrunнет. ДалееW2fullpointertrace иM2a callbacktyping/resource diagnostics.
 
 ---
 

@@ -576,6 +576,8 @@ def main() -> int:
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--fixture", type=Path, default=FIXTURE)
+    parser.add_argument("--profile", default="experimental-merge-wrapping-01-v1")
+    parser.add_argument("--scope", default="isolated pointer/index projection fixtures; refinement is not whole bidirectional_merge")
     parser.add_argument("--cases", default="all",
                         help="comma-separated fixture cases, or all (default)")
     args = parser.parse_args()
@@ -607,8 +609,8 @@ def main() -> int:
         results[name] = stage_case(name, manifest["cases"][name], args, args.schema)
         print(f"{name}: {results[name]['classification']}", flush=True)
         (args.evidence / "results.json").write_text(json.dumps({
-            "scope": "isolated pointer/index projection fixtures; refinement is not whole bidirectional_merge",
-            "profile": "experimental-merge-wrapping-01-v1; base26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; compiler-nightly-2026-09-25",
+            "scope": args.scope,
+            "profile": args.profile + "; base26.10-f76012fb518703b1d98e243ac4f487f16877cfcb; compiler-nightly-2026-09-25",
             "source_admission_sha256": sha(admission_path.read_bytes()),
             "cases": results,
         }, indent=2) + "\n")
@@ -617,7 +619,7 @@ def main() -> int:
     (args.evidence / "aggregate.json").write_text(json.dumps({
         "evidence_collection_completed": True, "classifier_controls_passed": controls_ok,
         "cases": {name: row["classification"] for name, row in results.items()},
-        "scope": "projections only; no whole bidirectional_merge refinement claim",
+        "scope": args.scope,
     }, indent=2) + "\n")
     # Expected frontend/refinement/proof blockers are evidence, not harness
     # failures. A completed run remains green while preserving INCONCLUSIVE.

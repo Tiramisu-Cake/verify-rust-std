@@ -14,6 +14,8 @@ evidence=${2:?usage: build.sh release_home evidence_dir fresh_source_dir}
 source_home=${3:?usage: build.sh release_home evidence_dir fresh_source_dir}
 repo=$(git rev-parse --show-toplevel)
 patch_file="$repo/research/challenge-8/merge/overnight/wrapping.patch"
+callback_patch="$repo/research/challenge-8/merge/overnight/callback.patch"
+callback_sha=0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e
 vf_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
 vfdeps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_rev=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
@@ -25,7 +27,8 @@ release_refiner_sha=b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba0
 translator_rel=src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 prelude_rel=bin/rust/prelude_core.rsspec
 std_lib_rel=bin/rust/std/lib.rsspec
-allowed_files=$(printf '%s\n' "$translator_rel" "$prelude_rel" "$std_lib_rel" | LC_ALL=C sort)
+parser_rel=src/rust_frontend/vf_mir_translator/rust_parser.ml
+allowed_files=$(printf '%s\n' "$translator_rel" "$prelude_rel" "$std_lib_rel" "$parser_rel" | LC_ALL=C sort)
 
 [[ ! -e "$evidence" ]] || fail "refusing to reuse evidence directory: $evidence"
 [[ ! -e "$source_home" ]] || fail "refusing to reuse source directory: $source_home"
@@ -60,6 +63,8 @@ run_stage() {
     "$release_home/bin/vf-rust-mir-exporter" "$release_home/bin/refinement-checker"
 } > "$evidence/source-build-inputs.txt"
 printf '%s  %s\n' "$patch_sha" "$patch_file" | sha256sum -c -
+printf '%s  %s\n' "$callback_sha" "$callback_patch" | sha256sum -c -
+sha256sum "$callback_patch" >> "$evidence/source-build-inputs.txt"
 
 # Pin the source tree by immutable commit, then check out only that commit.
 run_stage source-init git init "$source_home"
@@ -79,26 +84,32 @@ printf '%s  %s\n' "$exporter_lib_sha" "$source_home/src/rust_frontend/vf_mir_exp
 (cd "$source_home" && find src/rust_frontend/vf_mir_exporter -type f -print0 | sort -z | xargs -0 sha256sum) > "$evidence/exporter-source.sha256"
 cp "$source_home/src/verifast.ml" "$evidence/verifast.kernel.original.ml"
 cp "$source_home/$translator_rel" "$evidence/translator.original.ml"
+cp "$source_home/$parser_rel" "$evidence/parser.original.ml"
 cp "$source_home/$prelude_rel" "$evidence/prelude_core.original.rsspec"
 cp "$source_home/$std_lib_rel" "$evidence/std_lib.original.rsspec"
 
 # Audit patch paths before applying. No kernel, exporter, refiner, or extra file edits.
 git -C "$source_home" apply --numstat "$patch_file" > "$evidence/patch-numstat.txt"
-awk -F '\t' 'NF != 3 { exit 1 } { print $3 }' "$evidence/patch-numstat.txt" | LC_ALL=C sort > "$evidence/patch-files.txt"
+git -C "$source_home" apply --numstat "$callback_patch" >> "$evidence/patch-numstat.txt"
+awk -F '\t' 'NF != 3 { exit 1 } { print $3 }' "$evidence/patch-numstat.txt" | LC_ALL=C sort -u > "$evidence/patch-files.txt"
 [[ -s "$evidence/patch-files.txt" ]] || fail 'wrapping.patch contains no file changes'
 if comm -23 "$evidence/patch-files.txt" <(printf '%s\n' "$allowed_files") | grep -q .; then
   fail 'patch contains paths outside the translator/spec allowlist'
 fi
 run_stage patch-check git -C "$source_home" apply --check "$patch_file"
 run_stage patch-apply git -C "$source_home" apply --whitespace=error "$patch_file"
+run_stage callback-patch-check git -C "$source_home" apply --check "$callback_patch"
+run_stage callback-patch-apply git -C "$source_home" apply --whitespace=error "$callback_patch"
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
 diff -u "$evidence/patch-files.txt" "$evidence/source-modified-files.txt" || fail 'applied tree differs from the audited patch paths'
 git -C "$source_home" diff --binary > "$evidence/applied-wrapping.patch"
 sha256sum "$evidence/applied-wrapping.patch" > "$evidence/applied-wrapping.patch.sha256"
 cp "$source_home/$translator_rel" "$evidence/translator.patched.ml"
+cp "$source_home/$parser_rel" "$evidence/parser.patched.ml"
 cp "$source_home/$prelude_rel" "$evidence/prelude_core.patched.rsspec"
 cp "$source_home/$std_lib_rel" "$evidence/std_lib.patched.rsspec"
 sha256sum "$evidence"/translator.* "$evidence"/prelude_core.* "$evidence"/std_lib.* >> "$evidence/source-build-inputs.txt"
+sha256sum "$evidence"/parser.* >> "$evidence/source-build-inputs.txt"
 
 # Keep toolchain providers pinned; use runner-provided build utilities without apt upgrades.
 for tool in git curl tar sha256sum make gcc cargo grep; do command -v "$tool" >/dev/null || fail "required runner tool missing: $tool"; done
@@ -136,6 +147,11 @@ cp "$release_home/bin/vf-rust-mir-exporter" "$source_home/bin/vf-rust-mir-export
 cp "$release_home/bin/refinement-checker" "$source_home/bin/refinement-checker"
 cmp "$release_home/bin/vf-rust-mir-exporter" "$source_home/bin/vf-rust-mir-exporter"
 cmp "$release_home/bin/refinement-checker" "$source_home/bin/refinement-checker"
+# C++ translation is unchanged. Pair the console with the exact release helper;
+# the release archive hash gates this additional executable and prelude.
+cp "$release_home/bin/vf-cxx-ast-exporter" "$source_home/bin/vf-cxx-ast-exporter"
+cmp "$release_home/bin/vf-cxx-ast-exporter" "$source_home/bin/vf-cxx-ast-exporter"
+cmp "$release_home/bin/prelude_cxx.h" "$source_home/bin/prelude_cxx.h"
 {
   sha256sum "$source_home/bin/verifast" "$source_home/bin/vf-rust-mir-exporter" \
     "$source_home/bin/refinement-checker" "$release_home/bin/vf-rust-mir-exporter" "$release_home/bin/refinement-checker"

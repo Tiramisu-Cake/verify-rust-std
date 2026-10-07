@@ -4035,8 +4035,8 @@ Run37699111307/source8094bd2aeaa42ff2d851199a85048bc94b9f3a6c, sole hosted
 job113058020998,22:54:41–22:56:39UTC=118seconds. SourceconsolebuildPASS; exact
 W1patch/kernel/exporter/refiner source/binary gates retained.22positive wrapping
 cases:3PASS (signed_offset_const,arith_offset_const,frame_and_read_after_reentry);
-18INCONCLUSIVE mostly BEFORE body at generated SAFE prototype requiring custom
-size/address req. Therefore no generic primitive admission inferred. Existing
+19INCONCLUSIVE (18 mostly BEFORE body at generated SAFE prototype requiring custom
+size/address req, one address-zero precondition). Therefore no generic primitive admission inferred. Existing
 9Rustpositive+2intendedassertionnegativesPASS on experimentalconsole.
 Read-minus1 and foreign-resource controls reach intended actual points_to
 permission failure at verified22:14–18 and26:14–24; automatic calibration remains
@@ -4071,3 +4071,46 @@ overridden by sidecar+actual binary SHA and build manifest, proofs unchanged.
 Acceptance remains conditional TRUSTED primitive-contract/source correspondence;
 wrapper bodies/cast+wrapping_neg chain not yet machine-proved. They are a named
 next dependency; actual callee summaries not derived from a whole-body theorem.
+
+### W1d outcome / remaining profile admission gates
+
+Run37700424582/source8d97b6bc7b4eddac645b66404ce871668b80c82a,
+job113062289101,23:07:37–23:10:34UTC=177seconds; cumulative467/21600.
+Full logs/artifacts downloaded and inspected.22wrappositive,9bridge,9oldRust
+positive PASS; four intended primitive/resource rejections and one wrong-result
+assertion accepted with exact independent stage/source/body/target/location/
+predicate gates. Two old intended assertions accepted. G2/A/B complete positive
+and negative matrices PASS on the frozen W1 experimental console; raw stock
+metadata labels remain explicitly historical with actual binary SHA/sidecar.
+Compact evidence:merge/overnight/W1d-EVIDENCE.json. Separate ordinary unwind,
+false-unwind/dead-body and C++ native profile baselines remain OPEN, so the FULL
+profile is not yet accepted. Bounded primitive/component matrix is checked;
+actual wrapper machine-body connection and actual merge remain OPEN. No active
+run. Next: W2 full pointer trace and separately reviewed M2a tuple/HRTB model.
+
+### W2/M2a combined diagnostic BEFORE
+
+Actual std obligation: full pointer G2 trace and exact repository merge_up/down
+resource/callback applicability, not whole-function acceptance in this run.
+Hypothesis: source-built console accepts the independently reviewed tuple2 own
+expansion and exact compiler-origin HRTB Output=bool instantiation; pointer trace
+can connect arbitrary Boolean schedules to all terminal pointers under positive
+stride and explicit limits. Actual skeleton deliberately omits borrow setup so
+its first resource/typing failure identifies the next dependency, not a negative
+control or weakened target. Full current-value source/callback ownership and
+selected copy/exact cursors on normal; current-value ownership and untouched
+destination on unwind remain stated. Initial domain excludes ZST, coincident
+source and uninitialized destination; those generic goals remain OPEN.
+Profile experimental-merge-wrapping-callback-v1 NOT ACCEPTED: frozen W1 patch
+c7c776ff..., new separately reviewed callback.patch0a006df94f04d6425d70280967d
+6652bdd33ccb88ead4a44f02a2e36775aaa5e over f760, parser/translator only. Kernel,
+exporter/refiner/schema unchanged; exact per-file and binary gates retained.
+Trace fixture352b76c9...; actual preparationaafa4248... checks stripped actual
+source byte identity and pinned source admission before hosted export/decode/
+verification/refinement. Full W1 + bridge + existing Rust + G2/A/B compatibility
+replayed under combined binary. New stages remain diagnostic until independent
+native/unwind/tuple/HRTB controls accepted. Console compile failure => repair
+specific frontend syntax, no proof acceptance; trace arithmetic failure => exact
+lemma repair; actual resource failure => genuine loan setup/cut design. No
+unrelated helper/setup failure counts as intended negative. Job bound1800s;
+all setup/build/artifact time charged to separate21600night budget.
