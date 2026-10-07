@@ -1,82 +1,60 @@
 # Challenge 8: current checkpoint
 
-Updated 2026-10-07. **S7c CFG repair IN PROGRESS**, explicitly authorized from
-`070b9236daa3ab5d7176702c9855167b22a06e49`. Diagnose physical dead-code loc identity
-on frozen S6v4 before minimal ManuallyDrop::new normal FnCallResult successor fix.
-Uninstrumented acceptance requires unchanged source/MIR/refinement, unwind/shared
-cleanup/dead-code/false-post controls and existing component regressions.
-Diagnostic[37681688627](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37681688627),
-source32d909a7b1015a9417b882676d349bab5c80481f COMPLETE: physicalid52 is orphan
-label2 ReturnStmt(unwinding), never executed; normalreturnid53 executes. Same
-source/MIR/AST plain/traced, bothVF1 solely dead-code. Narrow candidate permitted.
-Acceptance37683136287/source7185d8bae4a25fa2be278424fa9f5c6a80b93956 COMPLETE:
-autonomous body plainVF0/all7body-return-leak/dead-code0, same source+MIR; false
-post/pre controls intended. Constructor/asptr/intrinsics full matrices PASS.
-Pointerdrop admission timeout; unwind controls parse failure, scalar shared MIR
-has Continue rather than common cleanup. New profile NOT ACCEPTED.
-Focused37684590509/source6b63670c21bfa57d2531c4be57ac098df6111c5f COMPLETE:
-ordinary unwind and generic sharedcleanup3 PASS, autonomous VF0 repeated.
-False unwind strict classifier confirms intended rejection; saved aggregate
-wrongly requires subsequent normal return after proof stops. Immutable hosted
-classification replay prepared (1min cap, no proof tools), original bytes preserved.
-Budget5298/5400used102remain, no active run. Pointerdrop five-case tail unverified.
-No actual linkage/redirect or guard/Drop/assume_init/model/exporter/refiner/kernel
-extension. [BEFORE card](SORT4-SELECT-FORGET-DESIGN.md#s7c-cfg-repair-before-implementation).
-Historical S7b STOP is superseded only within this narrow authorization.
+Updated2026-10-08 (experiment timestamps are UTC2026-10-07). **S7c iteration STOP; experimental CFG profile NOT ACCEPTED.**
+Owner authorization from070b9236 was limited to MD::new CFG/standalone body;
+actual linkage/redirect remains NOT RUN. No active run or semantic draft.
+[Results](SORT4-SELECT-FORGET-RESULTS.md), [design/BEFORE cards](SORT4-SELECT-FORGET-DESIGN.md),
+[runbook](AGENT-RUNBOOK.md), [roadmap](PLAN.md).
 
-S7b resumed from
-`8fdb5799bdd0bbc6bacea5a36567dc71886b6015` under the owner's narrow authorization.
-**STOP: complete auxiliary proof is blocked by frozen translation/dead-code acceptance.**
-No active run. Auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED
-and no S7 actual redirect. [Report](SORT4-SELECT-FORGET-RESULTS.md),
-[design/BEFORE cards](SORT4-SELECT-FORGET-DESIGN.md),
-[operating runbook](AGENT-RUNBOOK.md), [roadmap](PLAN.md).
+Physical-loc diagnosis[37681688627](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37681688627),
+checked32d909a7b1015a9417b882676d349bab5c80481f: residualid52 is orphan label2
+ReturnStmt(unwinding), registered1/executed0/residual1. Normalid53 executes.
+Old plain and instrumented S6v4 fullVF1 solely dead-code; exact source/MIR/AST match.
 
-Standalone [37675513854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37675513854), checked source
-`c9c59a85807da0135a8192b1912b15d510c68028`: one generic unsafe forget adapter,
-whole unit without focus/macros/select/guard. All seven predeclared bodies execute,
-return and leak-check; full VF exits1 with sole
-`verified/lib.rs(3,1-16,2): dead code`. NORMAL/readonly export/decode and refinement
-exit0; source integrity PASS. Body prefix is not a successful theorem.
-Existing ManuallyDrop identity/destructor/no-unwind correspondence remains TRUSTED.
+Narrow separate overlay89b0d80b over unchangedS6v4c7cc08a9 changes only existing
+MD::new identity lowering successors for FnCallResult+normalGoto. Acceptance build
+has no trace; kernel/dead-code/exporter/refiner/spec/runtime unchanged.
+[Acceptance37683136287](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37683136287),
+checked7185d8bae4a25fa2be278424fa9f5c6a80b93956: exact autonomous generic unit
+fullVF0, all7bodies/return/leak, dead-code gate completes. All other5stages0,
+sourcepair and both completeMIR unchanged, exportedcleanup2 retained.
+Constructor16+9MIR+14baselines, asptr9+17admission, intrinsics16+40admission PASS.
+Pointerdrop2positive+11proofnegative and8source+9MIRadmission PASS before timeout.
 
-Separate [replay37676357686](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37676357686)/processor
-`dd4b0493b8411d92f61f525a3c7ef6ec0429d021` PASS: immutable old run37669436220
-logs, all nine original classifications preserved byte-for-byte. New separate map:
-two positives INCONCLUSIVE (dead-code exit1), seven intended proof negatives.
-Seven classifier controls PASS. This is no new proof or full S7 admission.
+[Focused37684590509](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37684590509),
+checked6b63670c21bfa57d2531c4be57ac098df6111c5f: autonomous VF0 repeated;
+ordinary potentially-panicking call normal+unwind verified, sharedcleanup3 retained
+and executed from another real predecessor. False normalpost9:27–32, false
+unwindpost23:15–20 and contradictory-precondition dead-code failures are intended.
+Earlier parse failures37683136287 do not count as negative controls.
+[Immutable replay37685560355](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37685560355),
+processor7eea51399d570b0eba895605c5d05d0de9cf3ed1: preserves original aggregate
+INCONCLUSIVE bytes; new separate map confirms intended false-unwind rejection.
+Six classifier controls PASS; no new proof or verifier run in replay.
 
-AST diagnostic [37678089113](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37678089113),
-checked source `a6f077a5aa89ad25df94295320cdbe18ebe4b9d9`, uses only the existing
--dump_ast_with_locs option. It retains the same exit1 failure; source pairs, both
-complete MIR files and effective tool hashes match the first run. AST confirms
-normal Goto1 and orphan label2/ReturnStmt(unwinding()) at the whole adapter span.
-This explains the structural reachability mismatch; printed spans do not identify
-the remaining physical loc-table key, which was not instrumented. No missing
-ownership resource was diagnosed in this body. STOP without cleanup pruning,
-dead-code exemption, syntax variants or semantic/model/tool changes.
+**Mandatory unverified tail:** pointer-drop `mir_cfg_unwind` (partial timeout),
+`mir_extra_operation`, `mir_contract`, `method_source_pin`, `glue_source_pin`.
+Profile remains UNACCEPTED; autonomous positive is conditional on this experimental
+profile, not accepted actual-forget summary or safe generic-forget theorem.
+ManuallyDrop representation/destructor/no-unwind correspondence remains TRUSTED.
 
-Budget **4752/5400 summed hosted job seconds used; 648 remain**, same budget/no reset:
-entry4411 + standalone178 + replay12 + AST diagnostic151. This iteration341s.
-All executable checks hosted-only, one relevant run at a time. No active job,
-no uncommitted semantic draft or actual redirect. Mandatory standalone acceptance
-has failed; full S7 actual linkage/matrix is not opened by the diagnostic prefix.
-No further dispatch at this checkpoint; a scoped design decision is needed to
-reconcile the frozen translated cleanup with the mandatory acceptance gate.
+**Budget5306/5400 summed hosted job seconds used;94remain**, no reset:
+entry4752+diagnosis132+acceptance283+focused131+replay8. No further dispatch:
+a full rebuild, missing tail and artifacts have no established bound within94s.
+All executable checks hosted, one active direction at a time. Final documentation
+HEAD is not a proof SHA; source inventory/results retain all prior evidence.
 
-S6v4 components remain accepted from run37656621026, proof source
-`75681fbc57bda633f59096cdc28f0c1aa61daef8`, frozen patch
-`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
-Pointer-value model, constructor, as_mut_ptr, typed intrinsics and narrow pointer
-drop stay accepted within their documented compiler-glue/frontend trust boundary.
-Actual stock-projected prefix supplies initialized selected cell via constructors
-and stock opens, passes runtime drop60 and closes61/62. It still stops at forget63:
-std/lib.rsspec420 requires nominal `<DropOnPanic<*const Element>>.own(t, guard)`,
-absent. No guard-own=true, new guard/Drop model or Element/slot rights introduced.
-Full S7 nominal source/MIR/call admission, thread/cell/frame/borrow/mutation matrix
-and new-profile regressions NOT RUN. Full helper/sort4 NOT PROVEN.
+Actual remains lastS6v4 at forget63/stdspec420 missing nominal guard-own;
+full helper/sort4 NOT PROVEN. No guard/Drop/assume_init/memory/exporter/refiner/kernel
+expansion. Broad FnCallResult repair is only a separate future proposal.
+Owner supplement authorizes only source comparison/transfer plan for upstream
+cd371e03 and VF26.10f76012fb; [assessment](VERIFAST-26.10-MIGRATION.md).
+No rebase/merge/profile switch or migration CI; old proofs/budget retain old pins.
 
-assume_init/general union/Drop/refinement/memory/alias/provenance/kernel remain
-outside this task. S5j correction retained: readonly export/decode0, refinement1
-RawPtr bb1cmd4; normal preprocessing separately fails after-tail ghost close.
-RAPx CLOSED/NO-GO; B/C NOT RUN; no upstream PR/messages/submission.
+S6v4 component acceptance remains run37656621026/proofsource
+75681fbc57bda633f59096cdc28f0c1aa61daef8, patchc7cc08a9. Historical S7b
+failures/replay/AST evidence and prior budgets remain in [RESULTS](SORT4-SELECT-FORGET-RESULTS.md)
+and [EXPERIMENT-LOG](EXPERIMENT-LOG.md); they are not reclassified as new positives.
+S5j RawPtr/normal preprocessing limitations retained; RAPx CLOSED/NO-GO, B/C NOTRUN.
+No upstream PR, external messages or submission. Next permitted work is source-only
+migration review; further proof experiments/tool expansion require a separate decision.

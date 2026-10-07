@@ -6,7 +6,20 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Current S7b: **auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED;
+Current S7c: the exact autonomous generic body passes full verifier exit0 on
+`experimental-manuallydrop-new-cfg-v1`; **the profile is NOT ACCEPTED** because
+five pointer-drop admission controls remain unverified. Physical residual loc52
+is established as the orphan cleanup return. Ordinary unwind and genuine shared
+cleanup, false normal/unwind posts and contradictory-precondition dead-code gates
+are checked. Actual linkage/redirect NOT RUN; full helper/sort4 NOT PROVEN.
+[Results and exact proof SHAs](SORT4-SELECT-FORGET-RESULTS.md),
+[design](SORT4-SELECT-FORGET-DESIGN.md), [checkpoint](STATUS.md).
+Budget5306/5400 summed hosted job seconds used;94remain/noreset/noactive.
+Iteration STOP at incomplete acceptance; no more dispatch. Migration26.10 is
+source analysis/plan only, with no rebase, profile switch or migration CI.
+[Migration assessment](VERIFAST-26.10-MIGRATION.md).
+
+Historical S7b: **auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED;
 no S7 actual advancement.** [Report](SORT4-SELECT-FORGET-RESULTS.md),
 [design/trust](SORT4-SELECT-FORGET-DESIGN.md), [current checkpoint](STATUS.md).
 Standalone run37675513854/source `c9c59a85807da0135a8192b1912b15d510c68028`

@@ -1,4 +1,152 @@
-# S7b forget — standalone body and admission checkpoint
+# S7c forget — CFG repair and standalone evidence
+
+**The identical autonomous generic body now passes the full verifier, exit0,
+on the experimental CFG profile. The profile is NOT ACCEPTED:** five mandatory
+pointer-drop admission controls remain unverified. Actual-call linkage and redirect
+were not implemented; actual helper/sort4 remain NOT PROVEN. Existing S6v4 and all
+previous proof SHAs remain unchanged. No result is attributed to VeriFast26.10.
+
+## Established cause and repair scope
+
+[Diagnosis37681688627](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37681688627),
+checked source `32d909a7b1015a9417b882676d349bab5c80481f`, first reproduces old
+plainS6v4 fullVF1, then rebuilds only temporary observational instrumentation.
+Both builds execute all seven predeclared bodies/returns/leak checks and reject
+solely dead code; export/decode/refinement0 and exact source/MIR/AST identity hold.
+Physical-loc side registry establishes residual **id52**, label2
+`ReturnStmt(unwinding)`, loc3:1–16:2: REGISTER1, EXEC0, RESIDUAL1. Normal returning
+ReturnStmt is distinctid53 and executes. Three declaration observationsid49
+have the same printed function span but execute and are not residual. Table
+comparison, registration/deletion and final result rules were not altered.
+
+In pinned `vf_mir_translator.ml`, MD::new identity lowering returns FnCallResult;
+its normal target creates assignment+Goto. Successor inventory nevertheless adds
+unwind_targets. `find_blocks` follows that inventory and includes cleanup2, which
+has no incoming generated statement: its synthetic return trips dead-code gate.
+This is the observed cause, established before repair, not a missing ownership
+resource or a proof of ManuallyDrop's trusted semantic correspondence.
+
+[Overlay](verifast-manuallydrop-new-cfg.patch) is separate from unchangedS6v4:
+profile `experimental-manuallydrop-new-cfg-v1`. A fresh per-call marker is set only
+inside existing exact `std::mem::ManuallyDrop::<T>::new` identity lowering. Only
+marker+FnCallResult+normalGoto use normal targets without unwind_targets. Other
+calls/variants retain their old successors. Exported MIR including cleanup is
+unchanged; existing graph traversal decides AST inclusion. No general AST pruning,
+line exemptions, unwind/dead-code disabling or assumptions about arbitrary callees.
+
+The broad FnCallResult successor question remains a separate future proposal,
+requiring an inventory of existing lowerings and their generated transitions.
+This iteration does not implement it. ManuallyDrop identity representation,
+destructor suppression and no-unwind correspondence remain **TRUSTED**.
+
+## Hosted acceptance and exact remaining gate
+
+[Full acceptance37683136287](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37683136287)
+checked `7185d8bae4a25fa2be278424fa9f5c6a80b93956`.
+[Focused continuation37684590509](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37684590509)
+checked `6b63670c21bfa57d2531c4be57ac098df6111c5f`, same tool overlay, repaired
+separate-clause control syntax and generic shared-cleanup fixture. No temporary
+trace patch is applied in either acceptance build: Ast/verify_expr/vfconsole source
+diffs are empty. Exporter/refiner/spec/kernel/check modes are unchanged.
+
+Autonomous unsafe adapter is exactly `{ let _ = ManuallyDrop::new(t); }` for
+unrestricted by-value genericT. req current thread_token; ens same thread_token;
+on_unwind_ens false. No Copy/Freeze/ownership restriction. Runtime source and ghost
+contract matchS7b byte-for-byte. Both profiles are rebuilt sequentially and logged
+separately; old plain fails and new plain passes on the same sources.
+
+| Predeclared obligation/control | Observed outcome on new profile |
+| --- | --- |
+| Identical autonomous whole unit, no focus | FullVF0, all7 bodies executed, returns/leak checked, mandatory dead-code gate complete |
+| NORMAL/readonly export+decode, refinement, source integrity | All5 exits0; runtime/contract hashes and complete MIR identical to old profile |
+| Ordinary call to locally body-verified potentially-panicking bool callee | VF0, normal+unwind returns and leak checks; valid unwindContinue translated and checked |
+| Generic MD::new(t), then potentially-panicking call | Both MIR calls target cleanup3; other predecessor keeps cleanup3 in AST; normal+unwind returns execute and leak check |
+| False normal post on exact generic body | VF1 Cannot prove false at9:27–32 after body/return |
+| False unwind post on ordinary caller | VF1 Cannot prove false at23:15–20; actual caller unwind return26:14–38 executes |
+| Contradictory precondition, nonempty unchanged body | VF1 dead-code at function3:1–16:2, call15:13–33, operand15:31–32, return16:2; vacuous body is rejected |
+| Constructor regression | 16 source/proof cases,9 MIR admission mutations,14 necessary baselines PASS |
+| as_mut_ptr regression | 9 proof cases,17 admission controls PASS |
+| Typed intrinsics regression | 16 proof cases,40 admission controls PASS |
+| Narrow pointer drop proof regression | 2 positives+11 proof negatives PASS |
+| Pointer drop admission | 8 source+9 MIR intended rejections PASS; remaining5 incomplete |
+
+**Unverified mandatory remainder:** `mir_cfg_unwind` was interrupted before a
+complete result; `mir_extra_operation`, `mir_contract`, `method_source_pin`,
+`glue_source_pin` were not run. The interrupted driver has exit124 and no final
+summary; it is not a negative PASS. Completed admission results use their exact
+`admission-classification.json`, not an incidental lower-level diagnostic class.
+No green workflow badge or positive standalone body completes this gate.
+
+Three initial unwind fixtures in37683136287 failed parsing at ens4:1–4; scalar
+shared fixture exported Continue rather than shared cleanup. These are preserved
+failures, not intended negatives. Focused corrected fixtures test the actual
+obligations above without a further tool/model change.
+
+False-unwind strict classifier in focused artifacts already reports intended
+negative/acceptedtrue. Aggregate summary remained INCONCLUSIVE because the driver
+also required normal branch execution after failing false unwind post. Driver
+correction limits that requirement to positives; saved evidence is immutable.
+[Replay37685560355](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37685560355),
+processor `7eea51399d570b0eba895605c5d05d0de9cf3ed1`, verifies pinned artifact,
+manifest/source/stage identities, sole exact error and all8 executed functions;
+writes a **separate** INTENDED_PROOF_REJECTION map. Correct obligation accepts;
+wrongline/wrongpredicate/setupfailure/exit0/unknownfunction reject. All6 controls
+PASS. Both original summaries remain byte-identical and keep INCONCLUSIVE. Replay
+invokes no compiler/exporter/verifier and does not accept the profile.
+
+## Immutable source/tool/evidence identities
+
+| Identity | SHA256 or exact pin |
+| --- | --- |
+| VF source | `809de4596839b739dd999f9e462242c835e3af46` |
+| Compiler | `nightly-2026-02-05` |
+| Unchanged S6v4 patch | `c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1` |
+| New CFG overlay | `89b0d80bd1e6382a9bf5be2f1ed208bae6aac5e907a21dd782c4c22307578da7` |
+| Effective translator | `89b76a1aca6b54205ed4ddb73b7a259de98ada360edf4b8b0bcc95bc7e18588d` |
+| Unchanged effective std specification | `70f09d294ca708424e26c68df382038e13d487e6f1eb3d63fa84b0743628c76a` |
+| Exact original autonomous source | `111334d30b9bd17b22d4ad52aa53572902ac055f8313f38503201a3fc281fe64` |
+| Exact verified autonomous source | `7518b013a07c8fc42ed7f12fa88b519efa317e5e2e6c8816cc4664db3b69e99d` |
+| Complete NORMAL/readonly MIR binary | `1bf0d97cc332cb5f921836f53ff1acb54540a3c87139911c528c6c5cc00654e7` |
+| Complete NORMAL/readonly decoded MIR | `3b08b5835f03ff152e6dae68bbf4ce05d1491d7919124f06222794f844b8553d` |
+| Old AST | `172fbc51f8592fbdad092a7f0abaa1895077d72c4dd60cd887b37fa9e196aecc` |
+| New AST | `b0cd6860a420751ecee9a6632f23c7636c6d9415a360db33ca96e651f715089b` |
+| Acceptance binary37683136287 | `e809097131bbd9eebd2468eaebdbeadab1e9455341c6849e99de18d282f346ac` |
+
+Trace-only patch23d77777 and binary927e0892 are recorded separately; plain old
+binary799fac74 is retained with diagnosis. Detailed environment inventories hold
+full schema/exporter/refiner/dependency/flag/source hashes for each build.
+Plain/traced old AST equality and old/new exported cleanup2 identity are checked;
+new AST excludes only orphan unwind return for the autonomous body.
+
+Compact/full artifact IDs: diagnosis11510235246/11509725710;
+acceptance11510392179/11510152397; focused11510757595/11510870158;
+replay11511500191. Compact manifests894/4605/1042 included entries were read and
+verified for SHA256/size/ZIP CRC; separate logs preserve whole failures. Archive
+hashes respectively1388580d,db0c15d5,26836bce. Replay artifact zipSHA
+fd6c568c744937eb911ece7255d90d93ea422212a21f99754026c62a284318e6.
+Replay's original aggregateSHA313675ae and false-unwindSHA11384c7d match the source
+artifact bytes; original and separate classifications are not overwritten.
+
+## Boundary and budget
+
+4752 entry +132 diagnosis +283 acceptance +131 focused +8 replay =
+**5306/5400 summed hosted job seconds used,94remain**, no reset; all executable
+checks GitHub-hosted, one active direction at a time, no active run at checkpoint.
+The 94s remainder has no established bound for rebuilding, completing the missing
+admission tail and saving evidence; no repeat is dispatched. Profile UNACCEPTED.
+
+Checked proof SHAs are32d909a7 (diagnosis),7185d8ba (full partial acceptance),
+6b63670c (focused positive/controls). Processor7eea5139 is classifier replay only.
+The final documentation HEAD is **not** a proof SHA or a26.10 result.
+
+Actual still has the oldS6v4 forget63 nominal-guard-own failure at stdspec420.
+No actual-call linkage/redirect, guard ownership, Drop, assume_init, memory model,
+exporter, refiner or kernel extension. No safe generic forget summary; full actual
+helper/sort4 not proven. Supplement authorizes only a source comparison and
+[26.10 migration plan](VERIFAST-26.10-MIGRATION.md), without rebase/merge/profile
+switch or new migration CI; old evidence and budget retain their exact pins.
+
+## Historical S7b — standalone body and admission checkpoint
 
 **The auxiliary body theorem is NOT ACCEPTED. Actual-call linkage is NOT ACCEPTED
 and was not implemented. Actual helper did not advance in S7b.** The complete

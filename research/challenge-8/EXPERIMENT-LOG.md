@@ -4680,3 +4680,26 @@ write separate classification map only. Positive acceptance/real table checks re
 Cap1minute including upload fits102remaining; no concurrent direction. No replay
 can complete missing pointerdrop gates or accept profile/actual linkage.
 Migration supplement: source comparison/plan only, no migration CI/profile switch.
+
+Immutable CFG replay37685560355/processor7eea51399d570b0eba895605c5d05d0de9cf3ed1
+resolved20:54:31UTC; sole relevant job20:54:35–20:54:43=8seconds. Success,
+new separate INTENDED_PROOF_REJECTION; six controls PASS. Original focused
+summary313675ae and falseunwind11384c7d byte-identical; raw artifact pin verified.
+No compiler/exporter/verifier invocation. Artifact11511500191/zipSHAfd6c568c.
+Final budget5306/5400used94remain, noreset/noactive, iteration STOP. Unverified
+pointerdrop mir_cfg_unwind(partial), mir_extra_operation, mir_contract,
+method_source_pin, glue_source_pin. New profile UNACCEPTED despite autonomousVF0.
+Compact manifests894/4605/1042 SHA/size/ZIPCRC verified, whole logs read.
+Actual linkage/redirect NOTRUN, oldS6v4 proofs preserved, MD semantics TRUSTED.
+Documentation-only closeout is not a proof run.26.10 supplement sourceanalysis
+and migrationplan only, no merge/rebase/newprofile/migrationCI.
+
+2026-10-08 documentation/source-only migration assessment: compared repository
+dd2bbad51eb50fdf9730e14802dcaf8a9290092a ->cd371e035c7e573760c43bf934d53e8118ee3e7d
+and VF809de4596839b739dd999f9e462242c835e3af46 ->f76012fb518703b1d98e243ac4f487f16877cfcb.
+PR714 is model-checking/verify-rust-std toolsetup update, mergea4e1cd0c21238ecadfce813c29174e42d5b5797d.
+Active S6v4 and S7c exactrules notcovered statically; archive projection-name
+canonicalization covered, other archived patches separately classified, notactive.
+Compiler/std/sourcecert and exporter/schema/refiner/spec deltas and staged repro
+plan recorded in VERIFAST-26.10-MIGRATION.md. No build/verification/CI/rebase/merge/
+profile switch; budget remains5306used94remaining, old proofSHA notrelabelled.

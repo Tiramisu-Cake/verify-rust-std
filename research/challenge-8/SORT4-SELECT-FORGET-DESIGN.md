@@ -1,10 +1,19 @@
 # S7 exact local-guard forget design
 
-Current S7b: auxiliary generic body **NOT ACCEPTED** at full-unit dead-code gate;
-actual linkage **NOT ACCEPTED**, no redirect or actual progress. Existing v4 and
-original classifications are unchanged. Classifier replay is separate and complete.
-[Current report/budget](SORT4-SELECT-FORGET-RESULTS.md), [checkpoint](STATUS.md).
-Historical BEFORE cards and closed S7a outcome follow; S7b cards are at the end.
+Current S7c: the exact autonomous generic body passes full verifier exit0 on
+`experimental-manuallydrop-new-cfg-v1`; **the profile is NOT ACCEPTED** because
+five pointer-drop admission controls remain unverified. Physical residual loc52
+is established as the orphan cleanup return. Ordinary unwind and genuine shared
+cleanup, false normal/unwind posts and contradictory-precondition dead-code gates
+are checked. Actual linkage/redirect NOT RUN; full helper/sort4 NOT PROVEN.
+[Results and exact proof SHAs](SORT4-SELECT-FORGET-RESULTS.md),
+[design](SORT4-SELECT-FORGET-DESIGN.md), [checkpoint](STATUS.md).
+Budget5306/5400 summed hosted job seconds used;94remain/noreset/noactive.
+Iteration STOP at incomplete acceptance; no more dispatch. Migration26.10 is
+source analysis/plan only, with no rebase, profile switch or migration CI.
+[Migration assessment](VERIFAST-26.10-MIGRATION.md).
+
+Historical BEFORE cards and closed S7a/S7b outcomes are retained below.
 
 ## S7c CFG repair BEFORE implementation
 
@@ -465,3 +474,22 @@ accepted on this continuation alone. No new tool delta; overlay89b0d80b unchange
 Reuse workflow's completed apt update (avoid duplicate update), same pinned build
 stack; shorten time reserves with measured18s artifact cost. Stop after this run
 at exact incomplete gate/budget boundary; no actual linkage or broader patch.
+
+### S7c focused outcome and final boundary
+
+Focused37684590509/source6b63670c:131s ->5298used102remaining. Autonomous same
+source/contract/MIR fullVF0; ordinary body-verified call both exits0; generic
+shared caller has both call edges cleanup3, retained/executed unwind+normal
+returns with leak checks. False normalpost and falsepre intended. False unwind
+strict INTENDED_NEGATIVE at23:15–20, actual unwindreturn26:14–38. Aggregate INC
+from an erroneous subsequent-normal-return requirement is retained as original.
+Replay37685560355/processor7eea5139 reclassifies saved evidence separately,
+all6 classifier controls PASS; originalbytes unchanged, no proof replay.8jobseconds.
+Final5306/5400used94remaining/noreset/noactive. Full profile UNACCEPTED, mandatory
+pointerdrop mir_cfg_unwind/extra_operation/contract and2pin controls incomplete.
+Conditional experimental autonomous fullVF0 is established; no accepted actual
+forget theorem/linkage/redirect. Existing MD semantics remain TRUSTED. No further
+dispatch; no bound for rebuild+missingtail+artifacts within94s. Whole helper/sort4
+notproved. Future allFnCallResult generalization requires separate lowerings/CFG
+inventory and authorization; no implementation here. Source-only26.10 migration
+assessment is separate and does not reopen proof/tool expansion or change oldSHA.
