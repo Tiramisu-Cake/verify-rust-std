@@ -44,13 +44,29 @@ B7 also rechecks the original generic finite SWO predecessor-count bridge and
 constructively translates every comparison and original-half sortedness; no
 rank correspondence axiom. Forward-left/backward-right tie selection checked
 in separate bodies. All mathematical A/B targets closed; actual Rust remains
-OPEN. Current budget330/1800,1470remaining, no active run; no new budget phase.
-# Stock Rust pointer/index stage (2026-10-07)
+OPEN. Functional-completion budget330/1800,1470remaining is historical; the
+same cumulative budget continues below without reset.
 
-Caller applicability audit COMPLETE. P1 all15 INCONCLUSIVE at annotation parser;
-export/decode/refinement/integrity15/15 pass, no operation reached. P2 syntax
-correction in preparation, budget441/1800 used1359remain.
-Public stable/unstable entry routes exclude ZST; direct generic
-SmallSort/Challenge ZST remainder OPEN. New component positive-size premises
-are local, not Challenge restrictions. Complete Rust G2 composition, wrapping,
-copy/ownership/FnMut/unwind OPEN. G2/A/B evidence and premises below preserved.
+## Stock Rust pointer/index stage — 2026-10-08 Moscow
+
+P3 proof1c318453efa4e3a774b2edd791a5298d76132eb0/run37686627140:
+9positive units,12own bodies,102own execution records,25return/leak paths,
+2intended negatives,128strict classifier controls accepted. Full export/decode/
+verifier/refinement/source/dead-code gates, stock26.09; fixture refinement only.
+
+| Obligation | Status | Boundary |
+| --- | --- | --- |
+| Caller/ZST applicability | Audit COMPLETE | Public stable/unstable entry returns cover callers; direct generic Challenge retains ZST |
+| Direct network ZST | Semantic audit: short return / long same-address loop | Does not reach merge normally; no stock layout/termination proof |
+| Local G2 step/terminal formulas in Rust | Checked bodies PASS | Full C-to-Rust trace/composition not assumed |
+| Exact generic const/mut add; Boolean add steps; destination sub | PASS with result/provenance/limits posts | Nonzero size, explicit count/byte/provenance-limit premises; caller resource proof OPEN |
+| left<left_end and final pointer OR guard | PASS conditional on pointer/index associations; stride lemmas checked | Terminal wrapping associations not derived |
+| Wrong cursor / address-only index restoration | Intended TARGET assertions rejected,20controls | No earlier-stage failures counted |
+| Exact wrapping_sub / wrapping_add | UNSUPPORTED, P2 No such function | Wrapping/provenance/re-entry composition STOP; no later rerun |
+| Reading intermediate -1 | INCONCLUSIVE before read in P2; corrected draft NOT RUN | No read detector claim; -1 never declared readable |
+| Actual copies, memory, initialization, ownership, FnMut, unwind | OPEN | No whole merge/Challenge safety or functionality theorem |
+
+Positive-size premise remains component-local. G2/A/B and their premises/results
+preserved. Same budget **512/1800 used,1288remaining**,182newseconds including
+setup/evidence. No active run, tool patch, network/exactN13 work, budget transfer
+or first-agent-tree change. P1/P2 failures remain recorded in RESULTS/journal.

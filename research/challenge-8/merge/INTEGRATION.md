@@ -1,6 +1,6 @@
 # Geometry contract and future actual Rust transfer
 
-## Authorized nonzero stock component
+## Accepted nonzero stock components / stopped wrapping composition
 
 [POINTER-DESIGN](POINTER-DESIGN.md) separates audited public caller ZST exclusion
 from standalone generic Challenge obligations. The new fixtures project only
@@ -8,7 +8,36 @@ exact add/sub/wrapping and comparison operators; they require explicit nonzero
 layout/byte/provenance limits. Checked Rust ghost G2 local formulas are independent
 bodies, not imported C axioms. Complete Rust trace, wrapping terminal associations,
 resources/copies/FnMut/unwind and actual merge refinement remain OPEN until their
-own gates complete. Current executable results are recorded in RESULTS/STATUS.
+own gates complete. P3 proof1c318453efa4e3a774b2edd791a5298d76132eb0/run37686627140
+accepts nine component units and two intended negatives. Full ordinary add/sub
+posts preserve the stock pointer provenance field, not just addresses. Exact
+order and guard operators are proved conditional on whole pointer associations
+with one base and positive size. Their stride helpers have checked Rust bodies.
+
+No imported C lemma is a Rust axiom: local G2 step/terminal formulas are checked
+anew, but no full unbounded loop/cross-language theorem or actual callee summary
+has been installed. Further composition must derive those pointer associations
+at actual terminal states. The FIRST identified blocker for that bridge is
+P2's missing stock pointer wrapping_sub/add function, not an arithmetic failure.
+The audited Rust W(-1) provenance/modulo-address/re-entry reasoning is still a
+conditional semantic correspondence, not a verified stock-Rust theorem.
+Do not use numeric pointer equality to obtain provenance, allocation rights,
+permissions, initialized T, copy_nonoverlapping safety or a unique live owner.
+
+For caller use, derive component byte/usize/provenance-limit premises from the
+actual source/scratch allocations and every count. ZST exclusion holds only for
+audited public stable/unstable entry chains; direct general Challenge goals retain
+ZST. Zero stride destroys index injectivity. Direct network ZST long paths loop
+on the same-address region check and do not reach merge normally; cached-key
+instead sorts nonzero index tuples. No stock positive-size struct axiom is used
+as evidence of Rust ZST behavior. Scalar guard A and scalar residual B stay
+separate OPEN transfer premises for these remaining cases.
+
+FnMut effect framing, both source reference permissions, destination ownership/
+initialization, actual copy summaries and normal/panic/unwind restoration remain
+OPEN. Corrected excluded reentry/read fixture annotations are NOT RUN; the
+intermediate-1 read negative is INCONCLUSIVE, not an intended memory rejection.
+Stock-profile semantic expansion and wrapping reruns are outside this stage.
 
 Geometry preconditions: n>=2; arithmetic n=2m+e,m>=1,e in{0,1}; two original
 source halves in one logical source domain[0,n); destination domain[0,n).
@@ -50,9 +79,9 @@ No common main-direction STATUS/PLAN/coverage changes, no tool patch or branch
 merge. This component does not cover public SmallSort UB categories or prove
 Rust pointer accesses/copy/FnMut/initialization/unwind safe.
 
-Pinned pointer definitions for transfer review: const_ptr.rs wrapping_add1164
-and wrapping_sub1243 preserve attached provenance and permit leaving/re-entering
-an allocation before dereference; mut_ptr.rs ordinary sub requires the nonzero
+Pinned pointer definitions at Rust b6f0945e: const_ptr.rs wrapping_add1053
+and wrapping_sub1132; docs1000–1024/1080–1103 preserve attached provenance and
+permit leaving/re-entering an allocation before dereference. Ordinary sub requires the nonzero
 byte range to stay in one allocation and count*size fit isize. These source
 documents explain the intended bridge, not a verified permission/overflow lemma.
 Math n may be unbounded; transfer additionally constrains actual n to usize,

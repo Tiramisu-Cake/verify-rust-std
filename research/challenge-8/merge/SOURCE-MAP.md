@@ -34,6 +34,30 @@ prelude_core.rsspec105–110 retains provenance in ptr_add;159–164 defines lim
 Rust fixture operator projections/refinement are independent of source-text
 admission for the full SmallSort body. The original certificate below is retained.
 
+## Accepted Rust projection map
+
+P3 proof1c318453efa4e3a774b2edd791a5298d76132eb0/run37686627140.
+Source certificate remainsf2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7.
+
+| Actual operation | Rust fixture | What is checked / omitted |
+| --- | --- | --- |
+| src.add(m),src.add(m-1),src.add(n-1),dst.add(n-1) at810–815 | init_const / init_mut | Symbolic in-range add(i), address/provenance/limits; actual initialization linkage OPEN |
+| left.add(is_l),right.add(!is_l) at707–708,830–831 | forward_left / forward_right | Exact Boolean casts/operators, no comparator/copy |
+| dst.add(1)709 / dst.sub(1)742 | destination_up / destination_down | Exact ordinary steps, reverse i>=1 premise |
+| left<left_end827 | pointer_order + stride_order | Exact operator equivalent to index order given source-derived associations |
+| left!=left_end OR right!=right_end837 | pointer_guard + stride_equal | Exact Boolean guard expression; panic body/resources omitted |
+| Scalar paired/terminal formulas | g2_steps | Both Rust lemma bodies checked; no C import/whole-loop proof |
+| wrapping_sub740–741 / wrapping_add822–823 | wrapping_down / wrapping_end | P2 exact method support blockers, projected15:17–54 /14:20–44 |
+
+Every source projection remains separate from actual Rust merge refinement.
+The first seven positive P3 sources are byte-identical to P2 projections (seven
+raw VF0 cases); order/guard change only research unsafe prototype qualifiers.
+Stock compiler emits source MIR independently and refiner compares each isolated
+annotated fixture to its ghost-free original. No actual merge source replacement.
+wrapping_down/end exact minimal source/log hashes are in the journal. Their
+P2source1f2eaaa8 remains the authoritative diagnostic SHA; corrected excluded
+reentry/read draft fixtures at1c318453 are NOT RUN.
+
 Pinned base c22f0a30ed457165e07599e226cee289a270b715; full source
 library/core/src/slice/sort/shared/smallsort.rs SHA256
 32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959.

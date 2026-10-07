@@ -1,16 +1,27 @@
-# Current authorized stage: stock Rust pointer/index correspondence
+# Current checkpoint: supported stock Rust components accepted; wrapping STOP
 
 Owner continuation from documentation HEAD
 `7d27ce106d27208bcd1156fe5675f70f8f9bf1aa` accepts completed G2/A/B.
 New stage follows [POINTER-DESIGN](POINTER-DESIGN.md), including caller audit,
 nonzero-size component, exact operator support, meaningful controls and preserved
 export/decode/refinement/full verifier gates. Entry budget330/1800,1470 remain;
-after P1 annotation parse failure441/1800,1359remain. P2 syntax correction only.
+final512/1800 used1288remain (P1111+P236+P335), no reset/transfer.
 Audit is completed before dispatch. No ZST exclusion in Challenge contracts,
 no tool semantic changes, memory/copy/FnMut/unwind expansion or network work.
 Own branch only; one hosted run at a time. Unsupported wrapping -> stop that
 composition; independently supported components can complete. Mathematical
 proof bodies, premises, source/proof SHAs and historical results below unchanged.
+
+P3/run37686627140/proof1c318453efa4e3a774b2edd791a5298d76132eb0 accepts
+nine supported Rust projections and two intended negatives, all128 classifier
+controls. Exact pointer wrapping_add/sub has no stock function (P2), so the
+next terminal wrapping/index/provenance composition is STOPPED. All ordinary
+operator/local G2/order/guard targets of this bounded projection stage complete;
+no new run is needed for documentation. New wrapping semantics/specs/tool
+profile would need a separate decision and are outside this authorization.
+FnMut/memory/copy/ownership/unwind/whole-source refinement remain separate OPEN
+obligations, not scheduled next steps. No active run; excluded wrapping draft
+corrections NOT RUN. [Final results](RESULTS.md).
 
 # Completed functional stage: goals and acceptance
 
@@ -106,7 +117,7 @@ all G2/A/general SWO/application bodies checked, exact source admission retained
 full posts/return/leak/dead-code/integrity and intended negatives accepted.
 No reference merge introduced; rank correspondence constructively derived.
 All actual Rust transfer obligations remain OPEN, described in INTEGRATION.
-Current total330/1800 job seconds spent,1470 unspent, no active run. The25/1775
+At functional closeout330/1800 job seconds spent,1470 unspent, no active run. The25/1775
 checkpoint above records geometry completion/stage entry, not a budget reset.
 Only documentation closeout remains; no more runs for this completed stage.
 Networks/exactN13 remain closed/OPEN respectively with unchanged prior budgets.

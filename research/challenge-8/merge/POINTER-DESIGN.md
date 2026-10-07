@@ -1,7 +1,8 @@
 # Stock Rust pointer/index component — authorized 2026-10-07
 
 Entry documentation HEAD `7d27ce106d27208bcd1156fe5675f70f8f9bf1aa`.
-G2/A/B accepted and unchanged. Same merge budget: 330/1800 used, 1470 remain.
+G2/A/B accepted and unchanged. Entry merge budget: 330/1800 used, 1470 remain;
+final512/1800 used1288remain after P1/P2/P3, same budget without reset/transfer.
 This is a partial projection of exact pointer operations, not verification of
 the complete `bidirectional_merge`, its callers, references or copies.
 
@@ -164,3 +165,14 @@ Draft ghost rename/prototype correction in those excluded cases is NOT RUN.
 Supported11-case P3 repairs only own classifier footer/body braces and research
 unsafe prototype qualifiers, then checks order/guard and both exact negative
 oracles. Actual std runtime/signatures/contracts and all proof gates unchanged.
+
+## Closeout
+
+P3/run37686627140/source1c318453efa4e3a774b2edd791a5298d76132eb0 accepts all
+nine supported projection units and two intended negatives. Rust G2 local bodies,
+typed ordinary steps and conditional order/guard components are complete with
+export/decode/refinement/full verifier/integrity/dead-code/return/leak gates.
+No new postconditions or source runtime changes;128 classifier controls pass.
+Wrapping -1/re-entry/terminal association stays OPEN at the exact missing stock
+methods, without retry/tool change. [RESULTS](RESULTS.md) separates all claims.
+No active run; documentation closeout only. Full actual merge remains OPEN.

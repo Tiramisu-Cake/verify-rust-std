@@ -424,3 +424,73 @@ line/columns/predicate, integrity/export/decode/refinement and fail-closed mutan
 No wrapping cases repeated, no actual Rust copy/FnMut/resource/unwind summary.
 Stock26.09, same6minjob/30sstages,1323remaining. Supported green permits closeout
 of this bounded component, not actual merge/Challenge completion.
+
+## P3 result — supported components ACCEPTED; wrapping composition STOP
+
+Exact pushed/remote-verified proof1c318453efa4e3a774b2edd791a5298d76132eb0,
+[run37686627140](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37686627140),
+job11301601433921:03:22Z–21:03:57Z=35s (2026-10-07 UTC /2026-10-08 Moscow).
+All other jobs skipped, no duplicate or wrapping run. Cumulative512/1800 used,
+1288remain: original330+P1111+P236+P335;182newseconds includes setup/evidence.
+No reset/transfer/retirement; no active run. Supported scope complete; stop at
+known wrapping semantic boundary. Documentation-only final commit is not a run.
+
+9positive units PASS:12expected==visited own bodies,102own executing-statement
+records,25own normalreturn/leak paths, full VF0/no errors/dead code. Includes
+checked Rust bodies g2_step/g2_terminal and stride_order/stride_equal; no C lemma
+imported as axiom. All11selected readonly export/decode/refinement0; exact
+ghost-strip original, source unchanged at EVERY stage. No focus/skipping or
+dead-code/return/leak/refinement relaxation. Normal pointer-only posts retain
+provenance field and explicit stock limits; on_unwindfalse verified under
+component premises, no callback/memory/copy/unwind theorem for actual merge.
+
+Both exact-negative oracles accepted freshly, not promoted retrospectively:
+wrong_cursor TARGET21:23–25, predicate
+`ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)`;
+address_index TARGET15:18–20, predicate `i = j`. Both own bodies and target
+execute, only one intended assertion error, no unsupported/setup/deadcode error;
+source/export/decode/refinement gates pass. Each10negative controls and each
+positive12controls PASS (128total). Controls alter exact body/error-location/
+columns/predicate/source/stage/timeout/execution, and positive return/leak gates.
+
+Per-projection SHA256 records (verified source / full VF log):
+
+| Case | Source SHA256 | Log SHA256 |
+| --- | --- | --- |
+| g2_steps | 11136a24f43c8cc9f24c20c49a27131a9c053c465962f61be356332e6a928be2 | 5bc0b39c12586afd2c0e48d81e6955a2f6896a8451b6acbe5617c02ee39d58cd |
+| init_const | ff4f2eb072da7aede3ed066c89aefb93a9b3780861fbddadb20e66599a1b4998 | 86dbcd4e4b3216b8438b032eec5f559df7d0ae664de85b0e43a884aa787ee1de |
+| init_mut | 18aad10c8fabdcd1392e0c52dab2bf816ff15b2058345ad73e53b78b3819a3db | 07a4b24092c831e004871affff13aaf85404a1b0f36cb00420e940cb2c6be163 |
+| destination_up | 9ab0ca86d802430ed5ccf82ac2707d71deb239e3ff76a93d1cbabeb64abcfb61 | ea7040cf77db90bd60003aa6771c007af3debf39c9c4e167972153dd499c7d73 |
+| forward_left | f4bdad5cd00d1cef8344ca948c85804c066339a7225756b1ae8283c66c40270b | c7e874147e143c25892afa7d789986a9cd38ed0311b04016b8265aa3f98acd9f |
+| forward_right | ce9dccd5eb984b786ec2254f14ea01bfe9b201c0c608d23cdc949428b4325f28 | 07f5b71b7549cc0b176ca9b898d3c3b11160b1899f6384ec9afa7b0ecce08137 |
+| destination_down | f4300ac302664c00df4a18121d10a846b71c9e9513bed01a5f05f8d35847ed87 | db5f083f5f3dc626780eceb2755022247f9bb798522dc48317de314579cf6eb2 |
+| pointer_order | 88a2c00742a94837e27c2be1bc91d58a0b475286cdd5b6931094f4db9f48d418 | aab2b4bfe48450dd75263849c1e2925371d1d13b1bbc86c4d27b7f4b6d1abb7d |
+| pointer_guard | 0cd2b965b2178b1a285e86cc047abbd7a1bbe967926fb26530f64c64b0d51ad6 | 70105eef5381e12620dcca0b68e84f297e2bf10e381bb8fa465ea04f34a10ad0 |
+| wrong_cursor | 828c0e7ca030110bc43ace403d7496718ffc6263deee93ab3a3e5dc25995dace | 1663e6cad150f141c089a412f7180d40b9ec8a072ba4c9ed69e6167c12513ce9 |
+| address_index | 3c913cdf85ff8d6af5a2c3ad1ec6de89fe3003df6ea76dd72bf27c5c7ca0436d | 2ae3abb7f24bb8ce238e0ab5eaf521d65a48e0579113eb0749530a3fbacf74b5 |
+
+Full std admission certificatef2ccc11b235e8f2224131ddef4a12c17409c58863c5712726cb13a02a4960bc7
+unchanged. Std32574f.../stockarchive da1b619.../console dc672335.../schema7f3ebce...
+pins match. Effective stock exporter2b8ebb5373d0bdd82cc163f5a298a4291b89dcdb8630a01bf74149987f2d5e0c,
+refiner9f38829f30cb3295653ca111b53592946a97807eee54cba438fffed14c8c1ffe,
+driver7372176beabf911a6d108469dc9b05026606dcc888c20f810535c9d4353b3080,
+fixture9f151b98012e5bf440626eee8657501a5391101c84cdab6befe090f85aa2c619.
+No verifier/parser/prelude/memory/refiner changes or historical profile borrowed.
+Artifact11510794272,265475bytes; downloaded ZIP SHA256
+5a52e5903764deda94f3d0e955ada3fa3e37123f696e5c93c74e9032be730c9f
+matches GitHub digest. Full stages/MIR/metadata/environment/resources/source/log
+hashes inspected. Driverwall4.14s,peakRSS192276KiB. Generated sources/logs stay/tmp.
+
+Audited public caller ZST returns and direct generic remainder documented;
+direct network ZST long path is a semantic same-address loop, not merge reach.
+ZST noninjectivity is a Rust semantic audit result, not stock layout evidence.
+Accepted ordinary/order/guard components require explicit positive-size/domain/
+pointer association premises. Remaining signed wrapping/provenance/re-entry,
+actual unbounded loop/caller linkage, permissions/copies/ID-value/ownership/
+FnMut/unwind remain OPEN. P2 missing-method diagnostics are first blocker for
+the new pointer-index composition. Intermediate-1 read negative INCONCLUSIVE;
+two excluded correction drafts committed but NOT RUN/NOT ACCEPTED.
+G2/A/B bodies/premises/SHAs/results retained; actual std runtime/contracts and
+comparator model unchanged. Networks/exactN13 closed with old budgets/SHAs,
+no branch merge, first-agent-tree or common documentation changes. Final
+documentation HEAD differs from proof SHA and is reported separately.

@@ -1,4 +1,4 @@
-# Functional mathematical bidirectional merge
+# Merge mathematical proofs and stock Rust component results
 
 ## Stock Rust pointer/index stage — applicability audit completed before P1
 
@@ -12,14 +12,77 @@ repeats its right-region pointer-equality loop without reaching merge on normal
 paths. This is source/semantic audit evidence, not stock layout verification.
 Standalone generic Challenge scope still includes ZST.
 
-Prepared symbolic Rust fixtures isolate add/sub/Boolean steps, checked local G2
-formulas, pointer order/equality, wrapping support/re-entry and three negative
-obligations. P1/run37685381321/sourceadb0c7004118fb32b3d20dbd4d085ca145755fd1
-is INCONCLUSIVE for all15: annotation parse failures before any own body.
-Readonly export/decode/refinement15/15 and integrity pass. This does not
-establish operation support or an intended negative. P2 corrects only annotation
-syntax. Budget441/1800 used1359remain (entry330+P1111), separate from all other
-directions. No full Rust merge safety/completion claim.
+P3 proof SHA **1c318453efa4e3a774b2edd791a5298d76132eb0**,
+[run37686627140](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37686627140):
+all9 selected positive Rust projection units PASS,12 own checked bodies,
+102 own execution records,25 return/leak paths. No errors/dead code. Full
+readonly export/decode/verifier/refinement0 and source integrity per stage.
+Stock26.09/archive/console/exporter/refiner/schema/std admission unchanged.
+Refinement is ONLY projection-versus-ghost-free-projection, not the full merge.
+Two intended assertion negatives and all128 fail-closed controls PASS.
+
+| Rust projection | Established result | Remaining applicability premise |
+| --- | --- | --- |
+| g2_steps | Bodies of local G2 step bounds/equations and terminal arithmetic checked anew in Rust | Complete unbounded Rust trace/loop composition OPEN; no C axiom imported |
+| init_const, init_mut | Exact add(i), typed address displacement, retained provenance, result within stock limits | Positive size, i<=n, n*size<=isize::MAX, base/end limits; actual allocation/resource proof OPEN |
+| forward_left, forward_right | Exact add(is_l as usize)/add(!is_l as usize) realizes i plus the Boolean bit | i<n and same byte/provenance limits; no comparator/copy modeled |
+| destination_up, destination_down | Exact add(1)/sub(1) realizes i+1/i-1, provenance/limits retained | i<n, and reverse i>=1; destination write permission OPEN |
+| stride_order + pointer_order | Checked multiplication lemma; exact left<left_end iff i<j | Positive size and whole pointer associations to one base; terminal wrapping associations OPEN |
+| stride_equal + pointer_guard | Checked multiplication lemma; exact pointer OR guard iff scalar index OR guard | Same associations for all four endpoints, including provenance; no panic/resource theorem |
+
+Component preconditions are explicit sufficient research premises, distinct
+from source-audited caller facts in POINTER-DESIGN. Numeric displacement alone
+does not supply live provenance, permissions, initialization or safe copies.
+No Challenge size restriction, runtime/public contract/A/B/comparator change.
+
+wrong_cursor rejects precisely projected21:23–25 at its step2 assertion after
+exact add1. Predicate:
+`ptr_add_(ptr_add_(base, i, T_typeid), 1, T_typeid) = ptr_add_(base, (i + 2), T_typeid)`.
+address_index rejects precisely15:18–20 at `i = j` when addresses are equal
+but indices have no base/offset association. Both enter intended own body,
+execute TARGET, retain exporter/decode/refinement0 and source integrity. Ten
+strict rejection controls each, including body/line/columns/predicate/source/
+earlier-stage/timeout/target-execution, pass; positives have12 controls each.
+
+**First blocker of further pointer/index composition:** exact stock methods
+`std::ptr::const_ptr::<impl *const T>::wrapping_sub` and `wrapping_add` are
+absent. [P2/run37686101335](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37686101335),
+proof source1f2eaaa832a7183180675389979ec15c62a78b5d, rejects wrapping_down15:17–54
+and wrapping_end14:20–44 with `No such function`, after export/decode/refinement0.
+Those two minimal generic true-post support probes are the reproducers, not
+pointer correspondence proofs. No later run repeats them. Existing P2 reentry
+case fails safe-prototype precondition; read-from--1 fails a ghost binding shadow,
+before the intended read. Both INCONCLUSIVE. Their corrected annotation/prototype
+drafts are committed, excluded from P3, NOT RUN / NOT ACCEPTED. No read detector
+calibration for intermediate -1 is claimed, and no wrapping is replaced by sub.
+
+Still conditional/OPEN: actual loop invariant and initialization linkage to G2;
+signed W(-1) with preserved provenance and modulo address, subsequent exact
+wrapping re-entry to source-derived end pointers; lifting conditional order/guard
+results to actual merge. Mathematical G2/A/B remain intact, but their transfer
+to Rust still needs these links, source-ID/value/key realization, caller resource
+proofs, exact copies/ownership, legal FnMut effects and full unwind. ZST has no
+injective address-to-index map; its remaining analysis is semantic/audit only.
+Full merge safety/functionality and Challenge completion NOT CLAIMED.
+
+| New experiment | Exact checked SHA | Run | Hosted job seconds | Outcome |
+| --- | --- | --- | ---: | --- |
+| P1 | adb0c7004118fb32b3d20dbd4d085ca145755fd1 | 37685381321 | 111 | 15 annotation parse failures; no proof/support claim |
+| P2 | 1f2eaaa832a7183180675389979ec15c62a78b5d | 37686101335 | 36 | Wrapping support blocker; seven raw VF0 positives await classifier; other failures preserved |
+| P3 | 1c318453efa4e3a774b2edd791a5298d76132eb0 | 37686627140 | 35 | 9 full positive units +2 intended negatives accepted;128 controls |
+
+Actual budget **512/1800 used,1288 remain**: original330 plus182 new summed
+hosted job seconds, setup/evidence included. No reset/transfer/retirement.
+P3 artifact11510794272,265475bytes,ZIP SHA256
+5a52e5903764deda94f3d0e955ada3fa3e37123f696e5c93c74e9032be730c9f
+independently matches GitHub digest. Full stage logs/MIR/resource/metadata/source
+hashes inspected,25 own normal return/leak paths retained. Driver4.14s,
+peakRSS192276KiB; first failures and detailed hashes preserved in the journal.
+No active run. Supported scope complete, wrapping composition STOP. Later
+documentation-only HEAD is reported separately from the executable proof SHA;
+it is not a new proof run. No networks/exactN13 runs/merges/first-agent-tree edits.
+
+## Preserved mathematical stage
 
 This authorized stage continues from067fb584018760259841210d2cc6c227117798ce
 in the isolated challenge-8/merge worktree, with the original1800 hosted-job
@@ -144,7 +207,7 @@ no public Challenge completion. [Transfer obligations](INTEGRATION.md).
 | B6 37680494943 | 00323149706cec799ae1261004e1d3c1802da2b5 |77| All posts checked; dead code rejected |
 | B7 37681190236 | 4e546ec150cf655681516be727aa1a79f525fc56 |52| Full B accepted |
 
-330/1800 spent,1470remaining including preparation/evidence. No network budget
+At mathematical-stage closeout330/1800 spent,1470remaining including preparation/evidence. No network budget
 reset or transfer; networks closed/exactN13OPEN and other direction untouched.
 
 Accepted A artifact11506884092 (18833bytes), ZIP SHA256
