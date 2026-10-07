@@ -3898,3 +3898,16 @@ regeneration required. Samev2S5e/f/g domain/fullposts/fullmatrix/diagnostics;
 selection30min/proof300s,1725/5400before. No semanticdelta/SWO/layoutrepeat.
 
 S5h exactpatch73f0904f11e2f1827a51e3ca83bfe432cbbb1edef142d3d93101917cba4f3e02; cleanbasecanonicalcmp/apply/diffstaticPASS.
+
+S5h result37620410162/634de56/73f0904f:129s,total1854/5400. BUILD FAIL9197
+D.uint128record !=Stdint.uint128. Allproof/MIR NOTRUN. Compact11482281192/full11482311201.
+S5i BEFORE dispatch: samev2domain/fullposts/6+10+40/classifs/regressions/actualgraph.
+Patch7bb39a84b95fd15ed5be29864c3a22774d37c660baafa694188b14970c344320
+usesexistingCapnpAux.uint128_get schema reader; canonicalgitdiff/cmp/applystatic
+PASS. NEWstorage ghost-only diagnostic per41a3f43: initializedcast-self open/
+assert/close+SAMEcanonicalwrapper/frame control; sameSomewrapper targetfullunion
+variant pointer cell; None/unknown targetinitializedCASTcell (separates state from
+provenance). Allframe/token/noUnwind/resources kept. Noassume bodyclaim/bridge;
+unknownmessagesfailclosed untiltargetrawpermissionobserved. Eachindependentcase
+saved evenifproofinconclusive. Sameprofileactiveintrinsicregressions stillrequired.
+Selection30min/proof300s,1854/5400before,oneactive,noSWO/layoutrepeat.

@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1725/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget1854/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -170,3 +170,13 @@ cannot resolve decoded record kind. No MIR/proof. S5h adds D.ty annotation only.
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619961051),
 [compact11482375375](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619961051/artifacts/11482375375),
 [full11482115571](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37619961051/artifacts/11482115571).
+
+S5h/37620410162/source `634de56a65ca6d6757a5ab195b042d957cade153`,
+73f0904f:129s12:21:34–12:23:43UTC,total1854/5400,noactive.
+BUILD FAIL9197: D.decode_uint128 returns decoded record, notStdint.uint128.
+S5i uses existing CapnpAux reader conversion; numericAPIs reviewed, nosemanticdelta.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37620410162),
+[compact11482281192](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37620410162/artifacts/11482281192),
+[full11482311201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37620410162/artifacts/11482311201).
+Four separate kernel/storage ghost-only diagnostics added; no source-linked
+assume_init/body acceptance inferred from them, unknownerrors remainINCONCLUSIVE.

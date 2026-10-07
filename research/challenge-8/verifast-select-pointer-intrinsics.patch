@@ -56,7 +56,7 @@ index d150408..e9da6ce 100644
          req true;
          ens MaybeUninit::new_maybe_uninit(v).inner() == v;
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..b607f29 100644
+index f1e3e50..bfe7175 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -1651,7 +1651,7 @@ index f1e3e50..b607f29 100644
 +          | _ -> reject "actual drop-flag switch operand");
 +         if not (bool_ty (SwitchIntDataRd.discr_ty_get s)) ||
 +            List.map (fun value -> Stdint.Uint128.to_string
-+              (D.decode_uint128 value))
++              (CapnpAux.uint128_get value))
 +              (SwitchIntDataRd.values_get_list s) <> ["0"] ||
 +            List.map (fun b -> Stdint.Uint32.to_int
 +              (BasicBlockIdRd.index_get b))
