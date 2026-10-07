@@ -30,6 +30,7 @@ on:
           - verifast_local_drop_caller_gate
           - verifast_borrow_recovery
           - verifast_sort4_components
+          - merge_geometry
           - verifast_maybeuninit_new_pointer
           - verifast_sort4_alignment
           - verifast_rust_fieldless_layout
@@ -69,7 +70,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13' && inputs.sort4_component != 'ranks13_symbolic'
+    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'merge_geometry' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13' && inputs.sort4_component != 'ranks13_symbolic'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -244,6 +245,28 @@ jobs:
         with:
           name: smallsort-network-ranks-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/networks-ranks/
+          if-no-files-found: error
+          retention-days: 90
+
+  merge_geometry:
+    if: inputs.proof == 'merge_geometry' && github.ref == 'refs/heads/challenge-8/merge'
+    name: Independent merge cursor geometry on stock VeriFast
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact-source abstract merge geometry
+        run: bash research/challenge-8/merge/run.sh merge_geometry
+      - name: Preserve full merge geometry evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-merge-geometry-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/merge-geometry/
           if-no-files-found: error
           retention-days: 90
 
