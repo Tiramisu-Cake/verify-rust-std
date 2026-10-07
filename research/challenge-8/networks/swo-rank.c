@@ -57,8 +57,8 @@ lemma void swo_laws_at(fixpoint(int, int, bool) rel, list<int> d,
                        int x, int y, int z)
     requires finite_swo(rel, d) == true &*& mem(x, d) == true &*&
              mem(y, d) == true &*& mem(z, d) == true;
-    ensures !rel(x, x) &*& swo_trans_at(rel, x, y, z) &*&
-            swo_equiv_trans_at(rel, x, y, z);
+    ensures !rel(x, x) &*& swo_trans_at(rel, x, y, z) == true &*&
+            swo_equiv_trans_at(rel, x, y, z) == true;
 {
     swo_forall_at(d, (swo_irref_at)(rel), x);
     swo_forall_at(d, (swo_trans_plane)(rel, d), x);

@@ -78,3 +78,34 @@ Acceptance of every complete positive/negative -> R13 same profile. If body
 proof fails, inspect first causal exact post and localized proof correction;
 timeout/semantic/budget boundary -> preserve precise unfinished obligation.
 Job8min/inner420s/percase180s fits remaining1786s; source/run pending.
+
+### R9b result: Boolean-post elaboration; negative accepted
+
+Source `b8359b838e96312693f0340cc6daf5db7c78fd1d`,
+[run37653292102](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653292102),
+[artifact11497836256](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653292102/artifacts/11497836256),
+21986bytes, ZIP SHA2567296354f4cc483c40b7f371c431f40acc0396ddd07ea73d2b829eaaccd5ec5cf.
+Full logs/sources read and source/log hashes matched records; std/tool/frozen
+phase1 generator pins unchanged. Both positive units elaborate past includes,
+then fail at generic117/composition4152: `No such predicate: swo_trans_at` in
+swo_laws_at ensures. No own lemma body entered. A Boolean fixpoint named call
+in assertion context needs explicit ==true; it is not a heap predicate.
+
+Negative accepted VF1 at exact65,26–28 correspondence assertion with all7
+rejection controls PASS; all concrete rank/equivalence evaluations reached.
+The normalized formula is unchanged from R9; source byte hashes match.
+No partial positive acceptance, callee summary or general theorem claimed.
+Job16:35:58Z–16:36:10Z = **12s**, new-phase total26/1800,1774remain.
+
+## R9c — prepared before dispatch
+
+Same full R9 domain/obligation/normal abstract posts/open Rust safety-unwind
+boundary/profile. Hypothesis: disambiguating the two named Boolean fixpoint
+postconditions with ==true repairs stock assertion elaboration; no predicate,
+resource, premise, model semantics or proof obligation is changed. Inspect all
+other new assertion clauses for the same syntax issue. Retain exact accepted
+negative and7controls. Whole generic bridge and full N9 composition must VF0
+with every named body/post/return/leak; no parser success counted as theorem.
+Accepted -> R13; first-causal proof failure -> localized checked-body repair
+under unchanged profile and NEW run; budget/trust boundary -> exact checkpoint.
+Job8min/inner420s/percase180s within remaining1774s. Source/run pending.
