@@ -2,20 +2,28 @@
 
 Owner authorization2026-10-07; entry
 `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09` on challenge-8/research.
-Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**
-[Exact report](SORT4-SELECT-FORGET-RESULTS.md), [design/trust](SORT4-SELECT-FORGET-DESIGN.md).
-Latest [37669436220](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220),
-source `a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d`: all9 NORMAL/readonly exports and
-refinement PASS. Exact nominal guard/body captured; both positive bodies return/
-leak-check but exit1 on frozen global dead-code gate. Seven intended raw proof
-errors observed; automatic all9 INCONCLUSIVE retained (negative duplicate note
-headers), no classifier change/replay. Full admission/mutation/borrow controls and
-new-profile regressions NOT RUN. No new semantic profile/guard-own/actual redirect.
-S6v4 components unchanged/accepted. Actual latest remains S6 forget63 missing
-nominal guard-own, not assume_init; full helper/sort4 NOT PROVEN.
-Budget **4411/5400 summed hosted jobseconds used;989 remain**, samebudget/noreset,
-noactive. STOP for independent-acceptance design; no dead-code suppression or
-preprocessor/focus/model extension. Historical S6 checkpoint follows.
+Current S7b: **auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED;
+no S7 actual advancement.** [Report](SORT4-SELECT-FORGET-RESULTS.md),
+[design/trust](SORT4-SELECT-FORGET-DESIGN.md), [current checkpoint](STATUS.md).
+Standalone run37675513854/source `c9c59a85807da0135a8192b1912b15d510c68028`
+checks the whole minimal generic unit without focus/select/macros/guard. All seven
+predeclared functions execute, return and leak-check; full verifier exits1 with
+sole adapter-span dead-code diagnostic. NORMAL/readonly/decode/refinement exit0;
+source hashes PASS. Existing ManuallyDrop correspondence remains TRUSTED.
+Separate immutable replay37676357686/processor
+`dd4b0493b8411d92f61f525a3c7ef6ec0429d021` preserves all nine original classes;
+new separate map has two INCONCLUSIVE positives and seven intended negatives.
+Dead-code exit1 never becomes PASS. Full S7 thread/cell/frame/borrow/admission/
+mutation controls and new-profile regressions remain NOT RUN; no actual redirect.
+S6v4 remains accepted. Last actual run37656621026 still stops at forget63,
+std/lib.rsspec420 requiring absent nominal guard-own; assume_init is not reached.
+Full helper/sort4 NOT PROVEN. Latest [AST diagnostic37678089113](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37678089113),
+source `a6f077a5aa89ad25df94295320cdbe18ebe4b9d9`, confirms an orphan translated
+cleanup return; full VF remains exit1, with source/MIR/tool identity retained.
+STOP at frozen translation/dead-code acceptance; no pruning/exemptions/model change.
+Physical loc-key attribution remains an explicit diagnostic limit in the report.
+Budget **4752/5400 summed hosted job seconds used; 648 remain**, no reset/no active
+run. Historical budgets and instructions below do not reopen phases.
 
 Historical S6 closeout: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
 [Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source

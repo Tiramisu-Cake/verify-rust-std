@@ -1,8 +1,10 @@
 # S7 exact local-guard forget design
 
-Current: **STOP at independent positive dead-code gate; forget NOT ACCEPTED.**
-[Closeout/evidence/budget](SORT4-SELECT-FORGET-RESULTS.md):4411used989remaining,
-noactive; v4 and original classifications unchanged. Historical BEFORE cards follow.
+Current S7b: auxiliary generic body **NOT ACCEPTED** at full-unit dead-code gate;
+actual linkage **NOT ACCEPTED**, no redirect or actual progress. Existing v4 and
+original classifications are unchanged. Classifier replay is separate and complete.
+[Current report/budget](SORT4-SELECT-FORGET-RESULTS.md), [checkpoint](STATUS.md).
+Historical BEFORE cards and closed S7a outcome follow; S7b cards are at the end.
 
 Owner2026-10-07 resumes from ffa370a5197ecb06fc74e4352371453ac67523d6.
 Same5400 summed jobseconds;3954used/1446remaining, no reset. S6v4 accepted/frozen,
@@ -304,3 +306,27 @@ Cap6min360s including preparation/build and120s cleanup reserve; full VF120s,
 other stages60s inside the shared job deadline. This is a provenance diagnostic,
 not a new proof/admission gate or a full S7 matrix. Charge actual job duration to
 same799; no next actual-link route before accepted complete standalone proof.
+
+## S7b final outcome and stop
+
+Standalone37675513854/fullVF1 and AST-only37678089113/fullVF1 do not accept the
+auxiliary theorem, despite all seven bodies reaching return/leak. Both export
+modes/refinement/source checks PASS; complete MIR and effective tool hashes match.
+AST confirms orphan translated cleanup ReturnStmt(unwinding()) at whole adapter
+span, after Goto1 with no incoming branch to label2. Existing FnCallResult
+normal-only lowering still retains cleanup in translated block inventory.
+Loc-key physical identity is not serialized; exact residual key remains an
+explicit diagnostic limit, not a claim of an unused Rust function. STOP at frozen
+translation/dead-code acceptance obstacle. No pruning/exemption/toolsemantic or
+syntax variant. See report for exact AST/source/annotation coordinates.
+
+Separate classifier replay37676357686 PASS, preserving oldnineclassificationbytes;
+newmap2INC/7intendednegatives, sevenmutationcontrols. No positive deadcodeexit1 PASS.
+Full S7 resource/admission/mutation/newprofile regression matrix NOTRUN; no actual
+linkage/redirect/advancement. Actual lastS6 forget63 absent nominalguard-own at420.
+No guard-own=true, new guard/Drop/memory or broadgenericforget summary introduced.
+Existing ManuallyDrop operation/representation/no-unwind correspondence is TRUSTED.
+Entry4411 +178+12+151 =4752/5400used648remaining, samebudget/noreset/noactive.
+Checked sourcesc9c59a85807da0135a8192b1912b15d510c68028 and
+a6f077a5aa89ad25df94295320cdbe18ebe4b9d9; replayprocessordd4b0493b8411d92f61f525a3c7ef6ec0429d021.
+Documentation closeout is not a proof SHA. Full helper/sort4 NOTPROVEN.

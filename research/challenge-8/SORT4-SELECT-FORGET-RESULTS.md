@@ -53,6 +53,66 @@ return and leak-check evidence. The target trace is log219–232; log233 is the 
 exit1 and classification INCONCLUSIVE are retained. This is a nonvacuous body
 prefix, not a successful auxiliary theorem.
 
+## Dead-code provenance from the unchanged-profile AST diagnostic
+
+[Run37678089113](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37678089113)
+checks source `a6f077a5aa89ad25df94295320cdbe18ebe4b9d9` with only the existing
+console diagnostic option `-dump_ast_with_locs verified-ast.txt`. Exact source
+pairs and both complete decoded MIR files are byte-identical to37675513854;
+all effective schema/tool hashes, applied patch and specification audits also
+match. Export/decode/refinement exit0; full verifier again exits1 with the sole
+adapter-span dead-code diagnostic. All seven bodies return/leak-check. The
+classification remains INCONCLUSIVE, never PASS.
+
+The2746-byte AST has SHA256
+`172fbc51f8592fbdad092a7f0abaa1895077d72c4dd60cd887b37fa9e196aecc`.
+Its topology is captured explicitly, not inferred from expected block counts:
+
+| AST dump line | Verified node and source span |
+| --- | --- |
+| 3–5 | Generic Func declaration; req6, returning ens9, unwinding false12 |
+| 7–9 | Three local DeclStmt: $_0:unit, $_2:T, $_3:T, span3:1–16:2 |
+| 10–11 | Label0, then $_3=t at15:31–32 |
+| 12–13 | $_2=$_3, then Goto1 at15:13–33 |
+| 14–15 | Label2 and ReturnStmt(unwinding()), span3:1–16:2 |
+| 16–17 | Label1 and ReturnStmt(returning($_0)), span16:2 |
+
+There is no incoming AST Goto/Switch branch to label2. Its synthetic cleanup
+return remains between Goto1 and label1. NORMAL/readonly MIR retains cleanup BB2
+UnwindResume with the whole-function span; this is an annotation/translation
+coordinate, not proof that the Rust adapter declaration was unused. The target
+body does execute. The AST contains no runtime Drop call and MDnew is lowered to
+assignment; the latter remains an existing trusted model operation.
+
+Pinned translator source explains this structure: vf_mir_translator.ml2413–2418
+maps MDnew to FnCallResult;2549–2553 emits direct assignment with normal Goto;
+2607–2613 nevertheless retains normal plus unwind CFG targets. The block walk
+includes cleanup BB2;2775–2783 translates UnwindResume to ReturnStmt(unwinding()).
+No ignore_unwind_paths option is enabled and no cleanup edge was removed from MIR.
+
+Frozen verify_expr.ml459–467 recursively registers nontransparent statements,
+including DeclStmt/ReturnStmt; labels are transparent. vfconsole.ml267–282 removes
+executed keys and exits1 if a registered statement remains. Its LocHashtbl compares
+loc0 with physical `==` (109–115). Thus the observed exact failing obligation is
+an unexecuted registered key printed as `verified/lib.rs(3,1-16,2)`, after normal
+body return/leak. The dump demonstrates an orphan synthetic cleanup return at
+that same span and the source explains its retention: this is the supported
+structural explanation. The dump serializes loc values, not physical identity;
+we have not directly instrumented or proved which same-span loc key remains.
+Do not collapse the three local declarations, Func span and cleanup return into
+one key or claim an unused Rust function from the printed diagnostic alone.
+The three DeclStmt locations are taken from the function loc (translator4938–4990);
+cleanup gets a separately translated terminator SourceInfo loc (translate_span_data,
+462ff). The raw target log has four full-span Executing-statement messages; these
+are not an injective mapping to the three dumped declarations. This is another
+reason to keep structural reachability evidence separate from residual-key identity.
+
+**STOP at this frozen translation/dead-code acceptance obstacle.** No new syntax
+variant, cleanup pruning, dead-code exemption or model/tool semantic change was
+made. A successful complete auxiliary theorem is still absent, so no actual-call
+link is designed/admitted/redirected in this iteration. Reconciliation of retained
+translated cleanup with the mandatory gate requires a separate scoped decision.
+
 ## Separate classifier repair and immutable replay
 
 [Replay37676357686](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37676357686),
@@ -97,12 +157,17 @@ refinement failure remains recorded, never reclassified as a success.
 
 ## Continuing budget and evidence
 
-Entry4411/5400 used989remaining; standalone178s + replay12s =>4601used799remaining.
+Entry4411/5400 used989remaining; standalone178s + replay12s + AST diagnostic151s
+=> **4752/5400 used648remaining**. No active run; this iteration totals341s.
 No new budget. Generic compact11507342250/full11506168168, inner archive SHA256
 `4f446d1d199aa2bae9a37f9e4df4a68c2515dd217d2bee9a02e2c885ab357479`;
 852/852 entries pass SHA/CRC/size audit. Raw console and full evidence inspected.
-AST provenance diagnostic is designed separately below/in the design card; it
-cannot change the failed theorem or enable actual admission.
+AST diagnostic compact11507826485/full11507796366, inner SHA256
+`13bc43d3fe0e095b4aed890760fa4759965205e75963722923c829e556d2be47`;
+853/853 entries pass SHA/CRC/size audit. Raw console and full evidence inspected.
+It does not change the failed theorem or enable actual admission. Checked proof/
+diagnostic SHA values above are separate from the final documentation-only HEAD;
+no proof was run on the documentation closeout.
 
 ---
 

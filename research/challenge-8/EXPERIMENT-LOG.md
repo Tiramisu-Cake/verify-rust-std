@@ -4582,3 +4582,30 @@ be6bb45df5034f8be8d992906dfd08f1f0183d30b2dbf7796d389b93894f7691.
 New BEFORE AST provenance card: samegenericunit/contract/profile +existing
 -dump_ast_with_locs only; test orphancleanupReturnStmt hypothesis, not proof.
 Cap6min360/reserve120, remaining799; no semantic/admission/actual change.
+
+S7b AST-only diagnostic dispatch37678089113/source
+`a6f077a5aa89ad25df94295320cdbe18ebe4b9d9`, created19:54:58UTC,
+remote exact confirmed, sole relevant active run. BEFORE card0c58df5; independent
+static review PASS. Existing console -dump_ast_with_locs only, samegenericunit,
+fullnofocus VF/deadcode and exports/refinement. Cap360/reserve120/fullVF120,
+before4601used799remaining. No semantic/actual redirect or classification rewrite.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37678089113).
+
+S7b AST diagnostic37678089113/sourcea6f077a5aa89ad25df94295320cdbe18ebe4b9d9:
+151s19:55:03–19:57:34UTC ->4752/5400used648remaining, noreset/noactive.
+Source pairs, complete NORMAL/readonly MIR and all effective schema/tool/spec/patch
+hashes match first37675513854. Exports/decode/refinement0; fullVF1 soleadapter-span
+deadcode afterall7body/return/leak, INCONCLUSIVE. AST2746bytes SHA
+172fbc51f8592fbdad092a7f0abaa1895077d72c4dd60cd887b37fa9e196aecc:
+Decls7–9; normalassign/Goto1 at11–13; label2/Return(unwinding)14–15 hasnoincoming
+branch; label1/Return(returning)16–17. Frozen FnCallResult lowering dropsunwindbranch
+buttargetinventory retainscleanup; registeredsyntheticreturn sharesprintedwholefn
+span. Physical loc-key identity notserialized/uninstrumented, so structuralcause
+supported but exactresidualkey notproved. STOP frozen translation/deadcode obstacle;
+no syntaxvariants/semanticpatch/admission/redirect, no successfulauxiliarytheorem.
+Compact11507826485/full11507796366 innerSHA
+13bc43d3fe0e095b4aed890760fa4759965205e75963722923c829e556d2be47,
+853/853 SHA/CRC/size PASS; fullconsole/artifactread. Full S7 matrix/regressions NOTRUN.
+Actual stays lastS6 forget63 nominalown atspec420; fullhelper/sort4 NOTPROVEN.
+Iteration341s=178+12+151; checked c9c59a8/a6f077a diagnostics, dd4b049 classifierreplay;
+finaldocumentationHEAD has no proof run. No further dispatch in this closeout.

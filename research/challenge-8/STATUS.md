@@ -2,13 +2,13 @@
 
 Updated 2026-10-07. S7b resumed from
 `8fdb5799bdd0bbc6bacea5a36567dc71886b6015` under the owner's narrow authorization.
-**IN PROGRESS: one frozen-profile AST provenance diagnostic is being prepared.**
+**STOP: complete auxiliary proof is blocked by frozen translation/dead-code acceptance.**
 No active run. Auxiliary generic body NOT ACCEPTED; actual linkage NOT ACCEPTED
 and no S7 actual redirect. [Report](SORT4-SELECT-FORGET-RESULTS.md),
 [design/BEFORE cards](SORT4-SELECT-FORGET-DESIGN.md),
 [operating runbook](AGENT-RUNBOOK.md), [roadmap](PLAN.md).
 
-Standalone run37675513854, checked source
+Standalone [37675513854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37675513854), checked source
 `c9c59a85807da0135a8192b1912b15d510c68028`: one generic unsafe forget adapter,
 whole unit without focus/macros/select/guard. All seven predeclared bodies execute,
 return and leak-check; full VF exits1 with sole
@@ -16,18 +16,29 @@ return and leak-check; full VF exits1 with sole
 exit0; source integrity PASS. Body prefix is not a successful theorem.
 Existing ManuallyDrop identity/destructor/no-unwind correspondence remains TRUSTED.
 
-Separate replay37676357686/processor
+Separate [replay37676357686](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37676357686)/processor
 `dd4b0493b8411d92f61f525a3c7ef6ec0429d021` PASS: immutable old run37669436220
 logs, all nine original classifications preserved byte-for-byte. New separate map:
 two positives INCONCLUSIVE (dead-code exit1), seven intended proof negatives.
 Seven classifier controls PASS. This is no new proof or full S7 admission.
 
-Budget **4601/5400 summed hosted job seconds used; 799 remain**, same budget/no reset:
-entry4411 + standalone178 + replay12. All executable checks hosted-only, one active
-relevant run at a time. Next diagnostic cap360s includes120s cleanup reserve;
-existing console -dump_ast_with_locs only, same exact source/contracts/profile.
-No syntax variation or translator/kernel/prelude/exporter/refiner/dead-code change.
-If dead-code persists, document AST/trace cause and STOP without actual redirect.
+AST diagnostic [37678089113](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37678089113),
+checked source `a6f077a5aa89ad25df94295320cdbe18ebe4b9d9`, uses only the existing
+-dump_ast_with_locs option. It retains the same exit1 failure; source pairs, both
+complete MIR files and effective tool hashes match the first run. AST confirms
+normal Goto1 and orphan label2/ReturnStmt(unwinding()) at the whole adapter span.
+This explains the structural reachability mismatch; printed spans do not identify
+the remaining physical loc-table key, which was not instrumented. No missing
+ownership resource was diagnosed in this body. STOP without cleanup pruning,
+dead-code exemption, syntax variants or semantic/model/tool changes.
+
+Budget **4752/5400 summed hosted job seconds used; 648 remain**, same budget/no reset:
+entry4411 + standalone178 + replay12 + AST diagnostic151. This iteration341s.
+All executable checks hosted-only, one relevant run at a time. No active job,
+no uncommitted semantic draft or actual redirect. Mandatory standalone acceptance
+has failed; full S7 actual linkage/matrix is not opened by the diagnostic prefix.
+No further dispatch at this checkpoint; a scoped design decision is needed to
+reconcile the frozen translated cleanup with the mandatory acceptance gate.
 
 S6v4 components remain accepted from run37656621026, proof source
 `75681fbc57bda633f59096cdc28f0c1aa61daef8`, frozen patch
