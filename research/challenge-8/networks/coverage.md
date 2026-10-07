@@ -11,9 +11,9 @@ ledger remains untouched. Current checkpoint: [STATUS](STATUS.md).
 | Binary sort9 mathematical order | Stock26.09 N9e,151 verified statements, arbitrary9 Booleans, explicit sorted-output post,496 normal/return/leak paths | Actual Rust compare-exchange realization |
 | Complete sort9 occurrence permutation | Stock26.09 N9e,216 verified statements, arbitrary25 choices/q, checked local pair lemma and whole network | Actual Rust ownership conservation, callback effects |
 | sort9 general order | N9e whole checked threshold/rank composition,3583 statements,508 return/leak paths, full sorted-output post; finite-class transfer in INTEGRATION | Fixed-order/preserved-key premises and actual Rust bridge |
-| sort13 binary order/permutation | N13 stock26.09: binary263 statements/7633 return-leak paths and identity380 statements/3 paths accepted | Actual Rust CE and ownership bridge |
-| sort13 general order | Finite-class/threshold mathematical transfer from accepted Boolean theorem; local threshold CE body checked | Complete machine rank unit timed out after3/12 projection bodies; N13b prepared, dispatch HTTP500 |
-| Intended negatives | N9e and N13 omitted-last-CE sortedness and duplicate-occurrence count reject exact assertions;14 rejection controls PASS in each | These controls do not prove Rust helper correctness |
+| sort13 binary order/permutation | N13b stock26.09: binary263 statements/7633 return-leak paths and identity380 statements/3 paths accepted | Actual Rust CE and ownership bridge |
+| sort13 general order | N13b whole checked threshold/rank composition,1126 statements/7638 return-leak paths, all12 threshold and full sorted-output posts; finite-class transfer | Fixed-order/preserved-key premises and actual Rust bridge |
+| Intended negatives | N9e and N13b omitted-last-CE sortedness and duplicate-occurrence count reject exact assertions;14 rejection controls PASS in each | These controls do not prove Rust helper correctness |
 | Public small_sort contracts and UB | None | Arbitrary valid lengths, dispatch/insertion/merge, unrestricted memory safety and all comparator exits |
 
 Mathematical Boolean/integer/occurrence models have no physical allocation,

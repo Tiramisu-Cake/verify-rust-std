@@ -11,8 +11,8 @@ No runtime Rust, generic signatures or common STATUS/PLAN changed; no merge.
 | Claim | Evidence and precise boundary |
 | --- | --- |
 | N9 binary/rank sorting and occurrence permutation | Stock VeriFast26.09, [N9e run37641057339](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339), proof SHA `58f1680ec7951a265535f0462701511478f6efa3`: all5 cases accepted, full general-rank sorted-output post and all8 universal projections, both exact negatives and14 rejection controls |
-| N13 Boolean sorting and occurrence permutation | Same unchanged stock profile, [N13 run37641704629](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641704629), proof SHA `fccae976b8979105a19910f8e2181809d5d39103`: Boolean263 statements/7633 return-leak paths; identity380 statements/3 paths; both negatives and14 rejection controls accepted |
-| N13 general-order transfer | Mathematical finite-class/threshold induction in [INTEGRATION](INTEGRATION.md), using accepted Boolean theorem and checked local min/max threshold lemma. Full machine-checked N13 rank composition NOT accepted: timeout180s after3/12 universal projection bodies |
+| N13 binary/rank sorting and occurrence permutation | Same unchanged stock profile, [N13b run37642585521](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642585521), proof SHA `6851001f78b02144e25037c55d55644fa34b30de`: Boolean263 statements/7633 return-leak paths; full rank1126 statements/7638 paths; identity380 statements/3 paths; both negatives and14 rejection controls accepted |
+| N13 general-order transfer | Full N13b machine-checked threshold/rank composition accepted, including all12 universal threshold posts and full sorted-output rank post. General-key finite-class transfer in [INTEGRATION](INTEGRATION.md) |
 | Exact source sequence | Hosted fail-closed admission of the whole pinned file and literal function bodies:25/45 calls, source lines, index bounds, argument order; [SOURCE-MAP](SOURCE-MAP.md). This is sequence correspondence, not Rust refinement |
 | Actual swap_if_less contract | [SWAP-CONTRACT](SWAP-CONTRACT.md): effect-aware normal/unwind safety specification separate from fixed-order functionality. Rust implementation proof OPEN |
 
@@ -50,22 +50,25 @@ using their summaries. No parallel VeriFast patch, RAPx or historical tool profi
 | [37640086725](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640086725) | 240d2ef | 194 | N9 all8 projections accepted; final rank application timeout |
 | [37641057339](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339) | 58f1680 | 41 | N9 complete abstract proof acceptance |
 | [37641704629](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641704629) | fccae97 | 241 | N13 binary/identity/controls accepted; full rank timeout |
+| [37642585521](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642585521) | 6851001 | 254 | N13 complete abstract proof acceptance |
 
-Total **1245/1800 job seconds**, including cold preparation/evidence; **555 remain**.
+Total **1499/1800 job seconds**, including cold preparation/evidence; **301 unused**.
 Only this branch's executed job durations counted; skipped jobs have zero cost.
 The other direction's budget is untouched. Generated proofs/full logs/results
 and exact std/tool certificates remain in Actions artifacts; no logs/build output
 committed. Failed runs are evidence, not intended negative controls.
 
-## Ready continuation
+## Completed phase checkpoint
 
-N13b proof source `a2be90886dc1e61c43b29d7ddc1cb95e028bd569` combines the identical
-projection computation into one universal lemma exporting all12 threshold posts,
-then applies it at each right output. It keeps all45 CE correspondence checks,
+N13b source `6851001f78b02144e25037c55d55644fa34b30de` shares the45-step
+projection computation in one universal lemma exporting all12 threshold posts,
+then applies it at each right output. It retains all per-step correspondence,
 all final assertions/posts, binary/identity/negative/classifier gates. N9 output
-generation is unchanged. Jobcap8min/inner420s/per-file180s fits remaining555s.
-Acceptance still requires a NEW exact-SHA hosted run and full artifact inspection;
-this prepared proof is not accepted evidence. Current dispatch state is in STATUS.
+generation is unchanged. All full logs read and hashes matched; no active run.
+The transient GitHub push/dispatch failure and API fast-forward publication are
+preserved in EXPERIMENT-LOG; final checkpoint uses ordinary commit/push.
 
-Integration proposals are in [INTEGRATION](INTEGRATION.md); do not import a
-conditional abstract result as an assumed verified Rust helper summary.
+This completes the separately authorized specification/mathematical-network
+work, with actual Rust helper verification still OPEN. Integration proposals
+are in [INTEGRATION](INTEGRATION.md); do not import a conditional abstract result
+as an assumed verified Rust helper summary or claim a public Challenge8 target.

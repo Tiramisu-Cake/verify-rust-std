@@ -1,7 +1,7 @@
 # Networks: independent Challenge 8 checkpoint
 
-2026-10-07 — CHECKPOINT: hosted dispatch blocked by repeated GitHub HTTP500.
-Separately authorized by the owner; no active experiment or promised background work.
+2026-10-07 — ACCEPTED abstract networks phase; actual Rust bridge OPEN.
+No active networks experiment or promised background work.
 
 Branch `challenge-8/networks`, worktree `/root/verify-rust-std-networks`.
 Frozen entry `origin/challenge-8/research`:
@@ -9,39 +9,43 @@ Frozen entry `origin/challenge-8/research`:
 Independent of sort4/select/VeriFast development and its stops. No automatic
 merge or replacement of the main direction's STATUS/PLAN.
 
-Own budget: **1245/1800 summed hosted job seconds**, including preparation;
-**555 remain**. No active networks run. At most one on this branch and two
-across both directions. Server: reading/editing/orchestration only.
+Own budget: **1499/1800 summed hosted job seconds**, preparation/evidence
+included; **301 unused**. Seven runs, at most one on this branch and two across
+both directions. The other direction's budget is untouched. All executable
+proof checks ran on GitHub-hosted Actions; server only read/edited/orchestrated.
 
-N9e accepted in [run37641057339](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339),
-proof source `58f1680ec7951a265535f0462701511478f6efa3`.
-Official unchanged VeriFast26.09: arbitrary Boolean sorted-output summary,
-all8 universal threshold projections, complete unbounded-integer rank sorted-output
-post and arbitrary-decision occurrence permutation PASS. Both exact intended
-negatives and14 classifier rejection controls PASS. All named bodies and normal
-return/leak gates checked. Historical timeouts/inconclusives remain in the journal.
+Accepted official unchanged VeriFast26.09 evidence:
 
-Binary/rank files export explicit sorted model-output posts. Identity file is a
-universal ghost assertion harness: its checked final count assertions carry the
-theorem; `ensures true` is not a reusable callee summary. No Rust summary claimed.
+- N9e [run37641057339](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339),
+  proof SHA `58f1680ec7951a265535f0462701511478f6efa3`:
+  arbitrary Boolean order, all8 universal threshold projections, complete
+  unbounded-rank sorted-output post and arbitrary-decision occurrence permutation.
+- N13b [run37642585521](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642585521),
+  proof SHA `6851001f78b02144e25037c55d55644fa34b30de`:
+  arbitrary Boolean order, one universal projection with all12 threshold posts,
+  complete unbounded-rank sorted-output post and arbitrary-decision permutation.
+- Both runs: exact full std SHA/literal-body admission (25/45 calls), all named
+  ghost bodies/full posts/normal return/leak gates; both intended negatives
+  at their exact assertions and14 classifier rejection controls PASS.
+  Full sources/logs/artifacts inspected and hashes matched. Historical
+  timeouts, inconclusives and GitHub HTTP500 interruption remain in the journal.
 
-Actual swap_if_less has an effect-aware proposed contract; Rust
-safety/ownership/callback/unwind proof remains OPEN. Exact25/45-call schedules
-are documented; N9 hosted source admission accepted, N13 hosted source admission accepted. N13 binary order and identity permutation
-PASS; general-rank unit TIMEOUT180s after3/12 projection bodies. The written
-finite-class/threshold argument transfers the accepted Boolean theorem to the
-fixed general key order; complete machine-checked N13 rank application is OPEN.
+Binary/rank files export explicit sorted model-output posts. Identity files are
+universal ghost assertion harnesses: checked final token-count assertions carry
+the theorem; `ensures true` is not a reusable callee summary. No Rust summary.
+Fixed total preorder/strict-weak-order quotient, preserved keys of every
+occurrence and normal comparator returns are required for sorting. The written
+finite-class argument transfers checked rank order to general keys. No stability.
+
+Actual swap_if_less has an effect-aware proposed contract covering arbitrary
+legal T/F, callback effects/panic, valid indices/equal positions/ZST and logical
+ownership/frame posts. Rust body safety/ownership/callback/unwind proof remains
+OPEN, including select at *mut T, ManuallyDrop/read/copy and the memory bridge.
 Conditional network composition does not complete a public Challenge8 target.
 
-N13b ready source `a2be90886dc1e61c43b29d7ddc1cb95e028bd569`, published
-by Git Data API fast-forward after normal git pushes returned HTTP500. Same std
-and stock tool; one universal projection body exports all12 threshold posts.
-Repeated dispatch attempts by workflow ID/name return HTTP500 with no new run.
-No local verification fallback, duplicate experiment, tool patch or extra spend.
-
-Next permitted action in a continued session: inspect remote/current runs, then
-NEW exact-SHA N13b dispatch once GitHub accepts it (documentation descendants
-retain the same proof); jobcap8min fits remaining555s. Inspect full artifacts
-before declaring the full rank unit accepted. No new trust requirement approved.
-See [results](RESULTS.md), [plan](PLAN.md), [journal](EXPERIMENT-LOG.md),
-[source correspondence](SOURCE-MAP.md), [helper contract](SWAP-CONTRACT.md).
+Next boundary: review integration proposals and separately agree actual Rust
+helper/caller proof work under the other direction's applicable trust profile.
+Do not spend unused budget on a new architecture, tool patch or reopened phase.
+Documentation-only final checkpoint requires no rerun. See [results](RESULTS.md),
+[plan](PLAN.md), [journal](EXPERIMENT-LOG.md), [source map](SOURCE-MAP.md),
+[helper contract](SWAP-CONTRACT.md), [integration proposals](INTEGRATION.md).

@@ -352,3 +352,47 @@ Existing pip/go-build caches were preserved by relocation to
 /dev/shm/challenge8-preserved-go-build-cache, with symlinks at their original
 /root/.cache locations; nothing deleted or installed. Downloaded evidence stays
 outside the repository in /dev/shm. No local compiler/verifier/test ran.
+
+### N13b hosted continuation accepted after recovery
+
+Ordinary documentation-checkpoint push succeeded. Remote/local source confirmed
+`6851001f78b02144e25037c55d55644fa34b30de`, an unchanged-proof documentation
+descendant of a2be908. After branch list showed no new run, one dispatch was
+accepted: [run37642585521](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642585521),
+created15:17:26Z. This is the only active networks run; remaining555s before it,
+jobcap8min/inner420s/percase180s. HTTP500 history above remains preserved.
+
+### N13b result: complete abstract network13 acceptance
+
+Proof source `6851001f78b02144e25037c55d55644fa34b30de`,
+[run37642585521](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642585521),
+[artifact11492478839](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642585521/artifacts/11492478839),
+14053017bytes, ZIP SHA256
+`70575120a310e448bc45af234bd4ebe7c5442baec7bd865a5e0be96ec641aea0`.
+Full ZIP/source/log evidence inspected, streaming every line of the1045251-line
+binary and1046209-line rank logs. All source/log hashes matched results; exact
+std admission/pins and stock tool source/archive/console unchanged.
+Generator SHA256994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4;
+runner SHA256672b0f12d7e8491592acae1ddad37a7050a83cf73d1865db19b47f1427f7d172.
+
+- Binary PASS263statements,7633 return/leak paths,78.411524s.
+- Full threshold/rank PASS1126statements,7638 return/leak paths,154.095956s.
+  All5 named bodies checked: binary, threshold_ce, rank_from_threshold,
+  threshold_all, general_rank_order. Universal projection body/all12 posts
+  complete by135.684067s; final rank application/full sorted-output post and
+  normal return/leak complete at154.095956s.45 local bridge calls,12 summary
+  applications,12 scalar arithmetic calls and every original final assertion.
+- Identity PASS380statements,3 return/leak paths,5.246296s; all45 arbitrary
+  decisions and arbitrary q, checked local pair/final total counts.
+- Sorting negative VF1 sole error line152 columns16–18, exact predicate
+  `!(true) || false`, mask254/output0000010111111, inverted positions5,6.
+- Duplication negative VF1 sole error line12 columns55–57 on the exact token
+  count predicate recorded in N13. Both bodies/target statements reached.
+- All14 classifier rejection controls PASS. No missing posts/assertions,
+  unproved assumptions, tool patches or suppressed return/leak gates.
+
+N13 binary/identity and complete unbounded-rank composition accepted. The
+written finite-class transfer supplies the conditional general-key theorem;
+actual Rust helper/normal/unwind safety and public Challenge goals remain OPEN.
+Job15:17:31Z–15:21:45Z = **254s**. Total **1499/1800**,301unused. No active
+networks run. Completed phase checkpoint is documentation-only: no rerun needed.

@@ -41,3 +41,8 @@ workflow_dispatch. Inspect that exact run and all artifacts. A source change
 needs a NEW run. Setup/parser/timeouts are inconclusive, not intended negatives.
 Routine annotation/checker fixes within this unchanged profile are authorized;
 new semantics, insufficient Rust ownership bridge or exhausted budget checkpoint.
+
+Phase checkpoint: steps1–5 completed for specification, source-sequence admission
+and abstract mathematical composition; N9e/N13b full proofs accepted. Actual Rust
+helper/caller verification remains outside the completed mathematical result.
+Budget1499/1800; no active run or automatic merge. See RESULTS and STATUS.

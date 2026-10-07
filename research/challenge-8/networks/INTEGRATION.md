@@ -8,7 +8,7 @@ The eventual coverage row should have three separate columns:
 
 | Obligation | Evidence supplied here | Required integration |
 | --- | --- | --- |
-| Mathematical CE sequence sorts N=9/13 | N9 full rank/identity; N13 binary/identity plus written general-order transfer (full machine rank pending) | Fixed total preorder on all preserved keys, normal comparator returns |
+| Mathematical CE sequence sorts N=9/13 | Accepted N9/N13 full rank/identity composition; written general-key class transfer | Fixed total preorder on all preserved keys, normal comparator returns |
 | Complete occurrence permutation | Accepted arbitrary-decision identity-count theorem for both networks | Actual helper realizes token swap without duplicate/drop/leak |
 | Actual call schedule | Full-source hash and ordered 25/45-call certificate | Keep same source version; recertify on any source change |
 | swap_if_less normal/unwind Rust posts | Specification only | FnMut effects/borrow recovery, pointer provenance/alignment/validity, read/copy/ManuallyDrop resources |
@@ -33,10 +33,10 @@ to be false when x<=t and true when x>t. A checked local min/max lemma states
 that h_t(min(a,b))=h_t(a)&&h_t(b) and
 h_t(max(a,b))=h_t(a)||h_t(b). Induction over the finite exact call schedule
 therefore commutes rank-network execution with Boolean-network execution.
-N9 hosted proof checks every composition and the full rank application. For N13,
-the local CE lemma and Boolean theorem are checked, but the complete rank unit
-timed out; induction over45 calls here is a written mathematical argument.
-N13b is prepared to machine-check the entire composition without assumptions.
+Accepted N9e/N13b hosted proofs check every composition and the full rank
+application. N13b shares one universal computation across all12 threshold posts;
+no transition or final-order obligation is omitted. The class-to-integer mapping
+for general keys remains a written mathematical transfer argument.
 
 If adjacent output ranks x,y had x>y, take t=y. Their projected outputs would
 be true,false, contradicting the Boolean network's adjacent-order theorem.
