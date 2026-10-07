@@ -8,8 +8,8 @@ Frozen entry `origin/challenge-8/research`:
 Independent of sort4/select/VeriFast development and its stops. No automatic
 merge or replacement of the main direction's STATUS/PLAN.
 
-Own budget: **1004/1800 summed hosted job seconds**, including preparation;
-**796 remain**. No active networks run. At most one on this branch and two
+Own budget: **1245/1800 summed hosted job seconds**, including preparation;
+**555 remain**. No active networks run. At most one on this branch and two
 across both directions. Server: reading/editing/orchestration only.
 
 N9e accepted in [run37641057339](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339),
@@ -26,11 +26,13 @@ theorem; `ensures true` is not a reusable callee summary. No Rust summary claime
 
 Actual swap_if_less has an effect-aware proposed contract; Rust
 safety/ownership/callback/unwind proof remains OPEN. Exact25/45-call schedules
-are documented; N9 hosted source admission accepted, N13 admission pending.
+are documented; N9 hosted source admission accepted, N13 hosted source admission accepted. N13 binary order and identity permutation
+PASS; general-rank unit TIMEOUT180s after3/12 projection bodies.
 Conditional network composition does not complete a public Challenge8 target.
 
-Next permitted action: commit/push prepared N13 card and dispatch N13 under the
-same frozen profile and full obligations, inspect its exact SHA/run/artifacts.
-600s job cap fits remaining796s. Preserve any failure; no tool extension or
-weakening to get green. See [plan](PLAN.md), [journal](EXPERIMENT-LOG.md),
+Next permitted action: combine the repeated N13 projection composition into
+one checked universal lemma exporting all12 threshold posts; retain all per-step
+correspondence and final rank posts. Then NEW exact-SHA run, jobcap8min fitting
+remaining555s; inspect all evidence. No tool extension or weakening to get green.
+See [plan](PLAN.md), [journal](EXPERIMENT-LOG.md),
 [source correspondence](SOURCE-MAP.md), [helper contract](SWAP-CONTRACT.md).

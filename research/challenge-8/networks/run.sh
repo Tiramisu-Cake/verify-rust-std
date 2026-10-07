@@ -31,10 +31,10 @@ printf '%s  %s\n' da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98
 tar -xzf "$archive" -C "$task_temp"
 export LD_LIBRARY_PATH="$tool_home/bin:${LD_LIBRARY_PATH:-}"
 sha256sum "$archive" "$tool_home/bin/verifast" >> "$evidence/environment.txt"
-# One independent job, full cold preparation included. Workflow cap10min,
+# One independent job, full cold preparation included. Workflow cap8min,
 # inner reserve60s for evidence; never consume the other direction's budget.
 set +e
-/usr/bin/time -v -o "$evidence/resources.txt" timeout --signal=TERM --kill-after=5s 480s \
+/usr/bin/time -v -o "$evidence/resources.txt" timeout --signal=TERM --kill-after=5s 420s \
   python3 research/challenge-8/networks/prove.py --size "$size" --tool-home "$tool_home" --evidence "$evidence/checked" \
   2>&1 | tee "$evidence/execution.log"
 status=${PIPESTATUS[0]}

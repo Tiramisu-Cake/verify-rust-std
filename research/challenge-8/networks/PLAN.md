@@ -34,7 +34,7 @@ identity composition. Integer ranks encode finite ordered key classes; their
 representation does not constrain physical Rust layouts or key magnitude.
 
 All checks execute on GitHub-hosted Linux; each proof has a 180s timeout and
-each job at most 10 minutes (including cold preparation/upload). Use actual job
+each job at most 8 minutes (reduced from10 after N13) (including cold preparation/upload). Use actual job
 timestamps for summed cost; never transfer spend from the other branch.
 Before dispatch check existing runs, push and confirm remote full SHA; use only
 workflow_dispatch. Inspect that exact run and all artifacts. A source change

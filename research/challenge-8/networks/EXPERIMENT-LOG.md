@@ -282,3 +282,46 @@ localized proof/checker correction under identical profile within remaining796s;
 new trust change or insufficient budget -> checkpoint, no semantic patch.
 Per-file180s/inner480s/job600s bounds; no parallel networks job.
 Source/run/cost pending.
+
+### N13 result and localized reassessment
+
+Source `fccae976b8979105a19910f8e2181809d5d39103`,
+[run37641704629](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641704629),
+[artifact11493050599](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641704629/artifacts/11493050599),
+13675667bytes. Full logs/sources read (1045251binary and1048480threshold log
+lines); all source/log hashes matched results, std/tool pins unchanged.
+Exact45 source calls admitted, first(0,12)line490,last(5,6)line534.
+
+Binary PASS263statements,7633 return/leak paths,41.875257s, full sorted-output
+post. Identity PASS380statements,3 return/leak paths,3.050710s. Both intended
+negatives and14 rejection controls PASS. Sorting witness mask254, mutant output
+0000010111111; sole error line152 columns16–18 on `!(true) || false`.
+Duplicate-token sole error line12 columns55–57 on the recorded count predicate.
+
+Threshold unit TIMEOUT180s,7639 completed return/leak paths; binary, local CE,
+scalar arithmetic and threshold_at_0..2 complete, threshold_at_3 entered.
+No verifier error; remaining8projection bodies and final rank theorem not
+reached. No complete N13 general-order theorem accepted. The repeated45-step
+projection bodies dominate cost after the binary summary; each body computes
+identical rank/bit state for the same arbitrary threshold. New evidence supports
+sharing this checked computation across all12 postconditions.
+Job15:02:21Z–15:06:22Z = **241s**. Total **1245/1800**,555 remain.
+
+## N13b — combined universal projection, prepared before dispatch
+
+Same exact std sequence, domains, complete normal-order/permutation target and
+open Rust normal/unwind safety boundary as N13. Unchanged stock profile.
+Hypothesis: one `network13_threshold_all` body can check the identical45-step
+rank/Boolean correspondence once and export ALL12 original universal threshold
+posts. Final rank theorem invokes this **verified same-unit** summary at each
+right output, then the verified scalar arithmetic lemma, and retains every
+original <= assertion and full sorted-output post. No per-step assertion or
+final-order obligation removed; N9 generator remains unchanged.
+
+Retain binary theorem, identity theorem, both exact negatives and14classifier
+controls. Whole unit VF0/all named bodies/full posts/return/leak required.
+Failure remains inconclusive, inspect/reassess under actual remaining budget;
+acceptance closes only abstract N13 composition/source admission, then final
+documentation checkpoint/commit/push. No tool/profile extension or Rust claim.
+Reduce job cap to8min and inner execution cap420s to fit remaining555s including
+preparation/evidence reserve; each verifier case retains180s. Source/run pending.

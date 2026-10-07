@@ -266,11 +266,17 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
     out = ["// Universal threshold lemmas use an independent ghost threshold.",
            "// General rank ordering follows by instantiating each threshold at its right output."]
     arguments = ", ".join(f"x{i}" for i in range(n))
-    for adjacent in range(n - 1):
-        title = f"network{n}_threshold_at_{adjacent}"
+    # For 13 wires, one universal pass exports all adjacent implications.
+    # The 9-wire generator retains its already verified per-adjacent bodies.
+    groups = [tuple(range(n - 1))] if n == 13 else [(i,) for i in range(n - 1)]
+    for group in groups:
+        title = (f"network{n}_threshold_all" if n == 13 else
+                 f"network{n}_threshold_at_{group[0]}")
         out += ["/*@", f"lemma void {title}({params('x', n, 'int threshold')})",
                 "    requires true;",
-                f"    ensures !({outputs[adjacent]} > threshold) || ({outputs[adjacent + 1]} > threshold);",
+                "    ensures " + " &*&\n            ".join(
+                    f"!({outputs[i]} > threshold) || ({outputs[i + 1]} > threshold)"
+                    for i in group) + ";",
                 "{"]
         out += [f"    bool b{i} = x{i} > threshold;" for i in range(n)]
         out += [f"    int r{i} = x{i};" for i in range(n)]
@@ -287,21 +293,24 @@ def threshold_proof(n: int, pairs: list[tuple[int, int]]) -> str:
                     f"    assert b{b} == {bit_projection(bit_traces[step][1])};",
                     f"    assert r{a} == {traces[step][0]};",
                     f"    assert r{b} == {traces[step][1]};"]
-        out += [f"    network{n}_binary({bit_inputs});",
-                f"    assert b{adjacent} == {bit_projection(bit_outputs[adjacent])};",
-                f"    assert b{adjacent + 1} == {bit_projection(bit_outputs[adjacent + 1])};",
-                f"    assert !b{adjacent} || b{adjacent + 1};",
-                f"    assert r{adjacent} == {outputs[adjacent]};",
-                f"    assert r{adjacent + 1} == {outputs[adjacent + 1]};",
-                f"    assert !({outputs[adjacent]} > threshold) || ({outputs[adjacent + 1]} > threshold);",
-                "}", "@*/", ""]
+        out.append(f"    network{n}_binary({bit_inputs});")
+        for adjacent in group:
+            out += [f"    assert b{adjacent} == {bit_projection(bit_outputs[adjacent])};",
+                    f"    assert b{adjacent + 1} == {bit_projection(bit_outputs[adjacent + 1])};",
+                    f"    assert !b{adjacent} || b{adjacent + 1};",
+                    f"    assert r{adjacent} == {outputs[adjacent]};",
+                    f"    assert r{adjacent + 1} == {outputs[adjacent + 1]};",
+                    f"    assert !({outputs[adjacent]} > threshold) || ({outputs[adjacent + 1]} > threshold);"]
+        out += ["}", "@*/", ""]
     out += ["/*@", f"lemma void network{n}_general_rank_order({params('x', n)})",
             "    requires true;",
             "    ensures " + " &*&\n            ".join(
                 f"{outputs[i]} <= {outputs[i + 1]}" for i in range(n - 1)) + ";",
             "{"]
     for adjacent in range(n - 1):
-        out += [f"    network{n}_threshold_at_{adjacent}({arguments}, {outputs[adjacent + 1]});",
+        title = (f"network{n}_threshold_all" if n == 13 else
+                 f"network{n}_threshold_at_{adjacent}")
+        out += [f"    {title}({arguments}, {outputs[adjacent + 1]});",
                 f"    rank_from_threshold({outputs[adjacent]}, {outputs[adjacent + 1]});",
                 f"    assert {outputs[adjacent]} <= {outputs[adjacent + 1]};"]
     out += ["}", "@*/", ""]

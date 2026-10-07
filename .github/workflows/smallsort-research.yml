@@ -203,7 +203,7 @@ jobs:
     if: inputs.proof == 'verifast_sort4_components' && (inputs.sort4_component == 'networks9' || inputs.sort4_component == 'networks13') && github.ref == 'refs/heads/challenge-8/networks'
     name: Independent network composition on stock VeriFast
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 8
     permissions:
       contents: read
     steps:
