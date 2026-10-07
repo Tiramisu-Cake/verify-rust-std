@@ -210,7 +210,7 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
             rejection = json.loads(rejection_matches[0].group(1))
             if set(rejection) != {"kind", "error_file", "error_line", "column_start", "column_end", "message"}:
                 raise RuntimeError(f"{name}: invalid rejection oracle fields")
-            if rejection["kind"] not in ("primitive_precondition", "memory_permission"):
+            if rejection["kind"] not in ("primitive_precondition", "memory_permission", "unwind_post", "tuple_resource"):
                 raise RuntimeError(f"{name}: unsupported rejection kind")
             target_line = prefix.count(b"\n") + body[:target_offsets[0]].count(b"\n") + 1
             rejection["target_line"] = target_line

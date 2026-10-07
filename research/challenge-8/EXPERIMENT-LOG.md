@@ -4136,3 +4136,30 @@ unwind targets added. First failed stage identifies API/model boundary; no
 missing-ref resource, false unwind or dead-body control accepted without exact
 intended diagnostic/source/execution gates. Full callback model and combined
 profile remain EXPERIMENTAL/NOT ACCEPTED. Job cap1800s, same hosted budget.
+
+### W2b/M2b outcome / W2c/M2c BEFORE
+
+Run37702498147/sourcea302d67a70e69e6f2329b6e937a417a178904641,
+job113069028717,23:28:50–23:31:42UTC=172seconds; cumulative794/21600.
+Complete logs/artifacts inspected; sourceconsole/full oldmatrix PASS. Native C
+fullPASS; C++ fullVF0/return/leak but classifier expected bare name, actual
+exact signature has(int); classifier repair, no semantic baseline failure.
+Tuple2 fieldownership fullPASS; missing T2 reaches exact prelude15:8–20 own
+predicate; original class INCONCLUSIVE preserved. HRTB positive two calls emit
+both registered1; all wrong/missing bounds emitregistered0 as designed, but
+resource setup blocks these before target invocation, no intended negative
+admission claim. Ordinary call normal/unwind fullPASS. Falseunwind target rejects
+conditionfalse at verified17:19–24; precise new oracle and independent controls.
+Deadbody probe fails BEFORE target on missing threadtoken => not intended negative,
+corrected token/pre and retained unwind token target. Borrow adapter multiline
+line-annotation tuple close parsefail55:46–56:1; changed to complete blockcomment.
+Actual both bodies export/decode/refine/ghost-strip identity pass; verifier
+parsefail44:9–16 at lifetimebinder placed outside runtimeblock. Correct binder
+first declaration INSIDE unsafe block, runtime bytes unchanged.
+Trace rawbuffer refiner now0. VF lemma nil branch cannot infer false because
+unbounded ghost usize k has no0<=k premise. Exact helper natural-number domains
+made explicit; main domain/full targetposts unchanged. Concrete unit/emptystruct
+ZST layout fixtures added without assuming size0. All new negative classes kept
+calibration until NEW run confirms coordinates+predicate+executedtarget; no
+leak/unwind/dead-code/refinement suppression. Same semantic patches/profile.
+Separate copy primitive design reviewed, no copy model applied in this run.

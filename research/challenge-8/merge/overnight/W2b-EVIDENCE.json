@@ -1,0 +1,872 @@
+{
+  "run_id": 37702498147,
+  "proof_sha": "a302d67a70e69e6f2329b6e937a417a178904641",
+  "url": "https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37702498147",
+  "hosted_seconds": 172,
+  "cumulative_night_seconds": 794,
+  "profile": "experimental-merge-wrapping-callback-v1 NOT ACCEPTED",
+  "groups": {
+    "checked-baselines": {
+      "false_unwind_post": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "may_panic_for_false_post",
+          "false_unwind_post"
+        ],
+        "visited_bodies": [
+          "may_panic_for_false_post",
+          "false_unwind_post"
+        ],
+        "body_execution_records": {
+          "may_panic_for_false_post": 6,
+          "false_unwind_post": 3
+        },
+        "per_body_records": {
+          "may_panic_for_false_post": {
+            "return": 2,
+            "leak": 2
+          },
+          "false_unwind_post": {
+            "return": 1,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "verified/lib.rs(17,19-24): error: Cannot prove condition. (Cannot prove false.)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "c775ae362ba646246f9565ca71de02e0110ce83ed48c492498a6308cf7cc9043",
+          "verified/lib.rs": "eed2c3ed9ac9d969c95e8ab189b5aa8e6fd7d76a48b56cd5bc3ab62fdd4fb6d5"
+        },
+        "source_after": {
+          "original/lib.rs": "c775ae362ba646246f9565ca71de02e0110ce83ed48c492498a6308cf7cc9043",
+          "verified/lib.rs": "eed2c3ed9ac9d969c95e8ab189b5aa8e6fd7d76a48b56cd5bc3ab62fdd4fb6d5"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(17,19-24): error: Cannot prove condition. (Cannot prove false.)"
+        },
+        "log_sha256": "4d60c2b9f6c8a69a8fd92dac42007ee67f449f34aeb8407befbfd555ec24935d"
+      },
+      "ordinary_call_normal_unwind": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "may_panic",
+          "ordinary_call_normal_unwind"
+        ],
+        "visited_bodies": [
+          "may_panic",
+          "ordinary_call_normal_unwind"
+        ],
+        "body_execution_records": {
+          "may_panic": 6,
+          "ordinary_call_normal_unwind": 4
+        },
+        "per_body_records": {
+          "may_panic": {
+            "return": 2,
+            "leak": 2
+          },
+          "ordinary_call_normal_unwind": {
+            "return": 2,
+            "leak": 2
+          }
+        },
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "f2c508c34f9a6d4fbaac0e77004ab3fa2b7cf6df9d81a6012a912a0e5e50f428",
+          "verified/lib.rs": "58902ba6e77acacf6eb35c369e823f86ea309a5ac690ac693c4e75fbf3568246"
+        },
+        "source_after": {
+          "original/lib.rs": "f2c508c34f9a6d4fbaac0e77004ab3fa2b7cf6df9d81a6012a912a0e5e50f428",
+          "verified/lib.rs": "58902ba6e77acacf6eb35c369e823f86ea309a5ac690ac693c4e75fbf3568246"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": null,
+        "log_sha256": "35d606d7f7285cc455c8cb913b51bef40eb9d1ff4ec527006da7a406e797c757"
+      },
+      "unreachable_body_after_panic": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "unreachable_body_after_panic"
+        ],
+        "visited_bodies": [
+          "unreachable_body_after_panic"
+        ],
+        "body_execution_records": {
+          "unreachable_body_after_panic": 3
+        },
+        "per_body_records": {
+          "unreachable_body_after_panic": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(2070,17-29): error: No matching heap chunks: thread_token(_)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "4481f686476b76ef006a04419e3c8a8c6951d68e227513ef9f74c8520bb05915",
+          "verified/lib.rs": "789e3f8e959730c8002037a3151807ebcba99168f20e677402a7928acbbf24f5"
+        },
+        "source_after": {
+          "original/lib.rs": "4481f686476b76ef006a04419e3c8a8c6951d68e227513ef9f74c8520bb05915",
+          "verified/lib.rs": "789e3f8e959730c8002037a3151807ebcba99168f20e677402a7928acbbf24f5"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(2070,17-29): error: No matching heap chunks: thread_token(_)"
+        },
+        "log_sha256": "bdeeaad3105c6a0a396e37ff95d01715c78a3fd11bca094c07f9ad4970647934"
+      }
+    },
+    "checked-callback-model": {
+      "hrtb_bool_common_lifetime_two_calls": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_bool_common_lifetime_two_calls"
+        ],
+        "visited_bodies": [
+          "hrtb_bool_common_lifetime_two_calls"
+        ],
+        "body_execution_records": {
+          "hrtb_bool_common_lifetime_two_calls": 2
+        },
+        "per_body_records": {
+          "hrtb_bool_common_lifetime_two_calls": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "f720db70ae06c0b395e196d2f2717b3626106d63dd9c4b2ece1ebed71f1602aa",
+          "verified/lib.rs": "68132f3ad4a7542e8eadcc757cb559971de687e21e26437908068533a131e18e"
+        },
+        "source_after": {
+          "original/lib.rs": "f720db70ae06c0b395e196d2f2717b3626106d63dd9c4b2ece1ebed71f1602aa",
+          "verified/lib.rs": "68132f3ad4a7542e8eadcc757cb559971de687e21e26437908068533a131e18e"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        },
+        "log_sha256": "a3031d2b39aec82259ea80dc80b6774b3630f2bc040ff37c14c5b9cbac732757"
+      },
+      "hrtb_bound_must_stay_with_its_body": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_bound_only",
+          "hrtb_unrelated_body_call"
+        ],
+        "visited_bodies": [
+          "hrtb_bound_only",
+          "hrtb_unrelated_body_call"
+        ],
+        "body_execution_records": {
+          "hrtb_bound_only": 0,
+          "hrtb_unrelated_body_call": 2
+        },
+        "per_body_records": {
+          "hrtb_bound_only": {
+            "return": 1,
+            "leak": 1
+          },
+          "hrtb_unrelated_body_call": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(47,17-29): error: No matching heap chunks: thread_token(_)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "04727ae1772ea29992c247c0b6d548148d10f39832f91c4dbad5d60f22c26bc8",
+          "verified/lib.rs": "cd7a35e0f3499c38f332d8de8da4279522e190057585226a8394ce4165b1eb48"
+        },
+        "source_after": {
+          "original/lib.rs": "04727ae1772ea29992c247c0b6d548148d10f39832f91c4dbad5d60f22c26bc8",
+          "verified/lib.rs": "cd7a35e0f3499c38f332d8de8da4279522e190057585226a8394ce4165b1eb48"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(47,17-29): error: No matching heap chunks: thread_token(_)"
+        },
+        "log_sha256": "ef6dbbf12da10ab0278107e8232b32ecfc11be2c48652d8b1938dbd1a57149c7"
+      },
+      "hrtb_single_region_source_bound": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_single_region_source_bound"
+        ],
+        "visited_bodies": [
+          "hrtb_single_region_source_bound"
+        ],
+        "body_execution_records": {
+          "hrtb_single_region_source_bound": 6
+        },
+        "per_body_records": {
+          "hrtb_single_region_source_bound": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(47,17-29): error: No matching heap chunks: thread_token(_)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "080bc6c458557fe771799d0eade8202545d25a2609b1a37ec32827301c1e1fd7",
+          "verified/lib.rs": "c680e1ba77dc05da97c36e3e4d7110b9b378cfeef44574781c6a926a383de904"
+        },
+        "source_after": {
+          "original/lib.rs": "080bc6c458557fe771799d0eade8202545d25a2609b1a37ec32827301c1e1fd7",
+          "verified/lib.rs": "c680e1ba77dc05da97c36e3e4d7110b9b378cfeef44574781c6a926a383de904"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/std/lib.rsspec(47,17-29): error: No matching heap chunks: thread_token(_)"
+        },
+        "log_sha256": "c71d5d7d5da6bccf892af8673ec293b54e4c8c76ca18bcdb9169e7bfb9a4d612"
+      },
+      "hrtb_unconstrained_output": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_unconstrained_output"
+        ],
+        "visited_bodies": [
+          "hrtb_unconstrained_output"
+        ],
+        "body_execution_records": {
+          "hrtb_unconstrained_output": 2
+        },
+        "per_body_records": {
+          "hrtb_unconstrained_output": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "f51664efec4e0e51c9f747f0ea46bf9778b16693c56ce3faca3a3492969c362e",
+          "verified/lib.rs": "3b125a05f61db254c69a34d0c7f7725bedc27e57d0604239d137d0d9510c9383"
+        },
+        "source_after": {
+          "original/lib.rs": "f51664efec4e0e51c9f747f0ea46bf9778b16693c56ce3faca3a3492969c362e",
+          "verified/lib.rs": "3b125a05f61db254c69a34d0c7f7725bedc27e57d0604239d137d0d9510c9383"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        },
+        "log_sha256": "27236b3bf341ceb564ba6443796225ebca33538d47b0e22ec48bf598d27e1c1c"
+      },
+      "hrtb_unequal_ghost_lifetimes": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_unequal_ghost_lifetimes"
+        ],
+        "visited_bodies": [
+          "hrtb_unequal_ghost_lifetimes"
+        ],
+        "body_execution_records": {
+          "hrtb_unequal_ghost_lifetimes": 2
+        },
+        "per_body_records": {
+          "hrtb_unequal_ghost_lifetimes": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "d6501254b35da31d7d9fafc858a3afc566a18dd5043ce5636c9cf7ebe49d273f",
+          "verified/lib.rs": "d6fa64c7d078e8ea771f920c066900a74dc60fa11f56c16faaad5bd7465272c8"
+        },
+        "source_after": {
+          "original/lib.rs": "d6501254b35da31d7d9fafc858a3afc566a18dd5043ce5636c9cf7ebe49d273f",
+          "verified/lib.rs": "d6fa64c7d078e8ea771f920c066900a74dc60fa11f56c16faaad5bd7465272c8"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        },
+        "log_sha256": "d38d11a48047aa09a4a24b0d56fbd6d86c3d838ab0d70830030e80c88f823773"
+      },
+      "hrtb_wrong_ghost_function_type": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_wrong_ghost_function_type"
+        ],
+        "visited_bodies": [
+          "hrtb_wrong_ghost_function_type"
+        ],
+        "body_execution_records": {
+          "hrtb_wrong_ghost_function_type": 2
+        },
+        "per_body_records": {
+          "hrtb_wrong_ghost_function_type": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "876c6131d92798e6904b27f4ecb1d1be60d64bd81af69fab6ec595a3a6cfb284",
+          "verified/lib.rs": "954167b9e2fb67314b7fd40726bab8c96efcb308d18e596ae3f1b3a2e9c4907e"
+        },
+        "source_after": {
+          "original/lib.rs": "876c6131d92798e6904b27f4ecb1d1be60d64bd81af69fab6ec595a3a6cfb284",
+          "verified/lib.rs": "954167b9e2fb67314b7fd40726bab8c96efcb308d18e596ae3f1b3a2e9c4907e"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        },
+        "log_sha256": "a6c63af3a2e89f5e28bbe86895ac1c60a5e821f349b54bc2bd7a7c017d5e6ded"
+      },
+      "hrtb_wrong_ghost_referent_type": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_wrong_ghost_referent_type"
+        ],
+        "visited_bodies": [
+          "hrtb_wrong_ghost_referent_type"
+        ],
+        "body_execution_records": {
+          "hrtb_wrong_ghost_referent_type": 2
+        },
+        "per_body_records": {
+          "hrtb_wrong_ghost_referent_type": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "9dd7abfbde4716d34e72a020d6e2265394e1a5c0142fe2c553e855e9083412af",
+          "verified/lib.rs": "586c010c9db92f35dbf88a1e66d2d45577626231e80ebf6730ec2b726e14d3ee"
+        },
+        "source_after": {
+          "original/lib.rs": "9dd7abfbde4716d34e72a020d6e2265394e1a5c0142fe2c553e855e9083412af",
+          "verified/lib.rs": "586c010c9db92f35dbf88a1e66d2d45577626231e80ebf6730ec2b726e14d3ee"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        },
+        "log_sha256": "6923a67f594d71433d042acfed9c07b76293a56e1433310ee67eb916235692a0"
+      },
+      "hrtb_wrong_output_u8": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "hrtb_wrong_output_u8"
+        ],
+        "visited_bodies": [
+          "hrtb_wrong_output_u8"
+        ],
+        "body_execution_records": {
+          "hrtb_wrong_output_u8": 2
+        },
+        "per_body_records": {
+          "hrtb_wrong_output_u8": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "21e5e1e36501d233def7f684f39db92c1f40e7a96b6b414b773ec077c51b5df4",
+          "verified/lib.rs": "3d9c021234d34aaacd540872c5bfbb3b6a0716b31d18c23e4c8970bd3cd02306"
+        },
+        "source_after": {
+          "original/lib.rs": "21e5e1e36501d233def7f684f39db92c1f40e7a96b6b414b773ec077c51b5df4",
+          "verified/lib.rs": "3d9c021234d34aaacd540872c5bfbb3b6a0716b31d18c23e4c8970bd3cd02306"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/rust_belt/aliasing.rsspec(7,9-10): error: No matching heap chunks: [_]frac_borrow(_, ref_initialized_(T_typeid, left))"
+        },
+        "log_sha256": "020ef6a967a311b0cd3e434cd4772ec50c55b9ff21c3b6b1788f30a59977fbe0"
+      },
+      "tuple2_field_resources": {
+        "classification": "PASS",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "tuple2_field_resources"
+        ],
+        "visited_bodies": [
+          "tuple2_field_resources"
+        ],
+        "body_execution_records": {
+          "tuple2_field_resources": 1
+        },
+        "per_body_records": {
+          "tuple2_field_resources": {
+            "return": 1,
+            "leak": 1
+          }
+        },
+        "error_lines": [],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "824a062fb73fa55a0a8a7967d2f590f5038970c349141aa9d914a8b49eef7c71",
+          "verified/lib.rs": "ac7c1a7140cbafb823a63a36e25e6cb90aa0b57eb146ef95f208357c174c2366"
+        },
+        "source_after": {
+          "original/lib.rs": "824a062fb73fa55a0a8a7967d2f590f5038970c349141aa9d914a8b49eef7c71",
+          "verified/lib.rs": "ac7c1a7140cbafb823a63a36e25e6cb90aa0b57eb146ef95f208357c174c2366"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": null,
+        "log_sha256": "7234b62e86bbd24492a79f3531d8c223584f90815b05652d352d05293cfb095f"
+      },
+      "tuple2_missing_second_field_own": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "tuple2_missing_second_field_own"
+        ],
+        "visited_bodies": [
+          "tuple2_missing_second_field_own"
+        ],
+        "body_execution_records": {
+          "tuple2_missing_second_field_own": 0
+        },
+        "per_body_records": {
+          "tuple2_missing_second_field_own": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/prelude.rsspec(15,8-20): error: No matching heap chunks: own(T2_typeid)(t, get_std_tuple_2__1(pair0))"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "dcb77afc5d376234051ec3ad7ba13093d0d2645e118b301ab49794515dd87897",
+          "verified/lib.rs": "8f273bcd7a8867c7311e0baed37c4882f36ee0cc4a26ce194e1f7737974cf666"
+        },
+        "source_after": {
+          "original/lib.rs": "dcb77afc5d376234051ec3ad7ba13093d0d2645e118b301ab49794515dd87897",
+          "verified/lib.rs": "8f273bcd7a8867c7311e0baed37c4882f36ee0cc4a26ce194e1f7737974cf666"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/rust/prelude.rsspec(15,8-20): error: No matching heap chunks: own(T2_typeid)(t, get_std_tuple_2__1(pair0))"
+        },
+        "log_sha256": "0e29bfd186649d2b6679ec9339686062b307a8941cf95c8914f176548610ab2e"
+      }
+    },
+    "checked-callback-borrow": {
+      "two_shared_callback_refs": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "two_shared_callback_refs"
+        ],
+        "visited_bodies": [],
+        "body_execution_records": {
+          "two_shared_callback_refs": 0
+        },
+        "per_body_records": {},
+        "error_lines": [
+          "verified/lib.rs(55,46-56,1): error: Parse error: Parse error."
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "3c0923596825547ff9e38936c90f66733270f7b3e795c9f706c1989563de72ec",
+          "verified/lib.rs": "f191b21cc395128f28c2b619b451256b59084d7c65bed04f215094e9636691c4"
+        },
+        "source_after": {
+          "original/lib.rs": "3c0923596825547ff9e38936c90f66733270f7b3e795c9f706c1989563de72ec",
+          "verified/lib.rs": "f191b21cc395128f28c2b619b451256b59084d7c65bed04f215094e9636691c4"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(55,46-56,1): error: Parse error: Parse error."
+        },
+        "log_sha256": "609f95c15af9f5dff86a2a5083c175ca4cc5ec3ec8c3220585efe932a992d497"
+      }
+    },
+    "checked-pointer-trace": {
+      "g2_pointer_trace_projection": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "g2_pointer_trace_projection",
+          "trace_source_nonnegative_index",
+          "trace_destination_nonnegative_index",
+          "trace_true_prefix_step",
+          "trace_source_reverse_step",
+          "trace_source_forward_step",
+          "trace_source_terminal_step",
+          "trace_destination_forward_step",
+          "trace_destination_reverse_step",
+          "trace_stride_order",
+          "g2_trace_step"
+        ],
+        "visited_bodies": [
+          "is_Send_G2PointerTrace_lemma",
+          "is_Send_G2PointerTrace_def",
+          "is_Sync_G2PointerTrace_lemma",
+          "is_Sync_G2PointerTrace_def",
+          "open_ref_init_perm_G2PointerTrace",
+          "init_ref_padding_G2PointerTrace",
+          "close_ref_initialized_G2PointerTrace",
+          "open_ref_initialized_G2PointerTrace",
+          "end_ref_padding_G2PointerTrace",
+          "trace_source_nonnegative_index",
+          "trace_destination_nonnegative_index",
+          "trace_true_prefix_step"
+        ],
+        "body_execution_records": {
+          "g2_pointer_trace_projection": 0,
+          "trace_source_nonnegative_index": 1,
+          "trace_destination_nonnegative_index": 1,
+          "trace_true_prefix_step": 3,
+          "trace_source_reverse_step": 0,
+          "trace_source_forward_step": 0,
+          "trace_source_terminal_step": 0,
+          "trace_destination_forward_step": 0,
+          "trace_destination_reverse_step": 0,
+          "trace_stride_order": 0,
+          "g2_trace_step": 0
+        },
+        "per_body_records": {
+          "is_Send_G2PointerTrace_lemma": {
+            "return": 0,
+            "leak": 0
+          },
+          "is_Send_G2PointerTrace_def": {
+            "return": 0,
+            "leak": 0
+          },
+          "is_Sync_G2PointerTrace_lemma": {
+            "return": 0,
+            "leak": 0
+          },
+          "is_Sync_G2PointerTrace_def": {
+            "return": 0,
+            "leak": 0
+          },
+          "open_ref_init_perm_G2PointerTrace": {
+            "return": 0,
+            "leak": 0
+          },
+          "init_ref_padding_G2PointerTrace": {
+            "return": 0,
+            "leak": 0
+          },
+          "close_ref_initialized_G2PointerTrace": {
+            "return": 0,
+            "leak": 0
+          },
+          "open_ref_initialized_G2PointerTrace": {
+            "return": 0,
+            "leak": 0
+          },
+          "end_ref_padding_G2PointerTrace": {
+            "return": 0,
+            "leak": 0
+          },
+          "trace_source_nonnegative_index": {
+            "return": 1,
+            "leak": 1
+          },
+          "trace_destination_nonnegative_index": {
+            "return": 1,
+            "leak": 1
+          },
+          "trace_true_prefix_step": {
+            "return": 0,
+            "leak": 0
+          }
+        },
+        "error_lines": [
+          "verified/lib.rs(73,20-25): error: Assertion might not hold. (Cannot prove false.)"
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "d66e49af0c4d57ff1a83ac61e69885b7dc0202375628bd63029bc3d34fab3fe3",
+          "verified/lib.rs": "10994983963d112f89fb157120bc3410c30792c229d43f1b5594ed8a5bd4c367"
+        },
+        "source_after": {
+          "original/lib.rs": "d66e49af0c4d57ff1a83ac61e69885b7dc0202375628bd63029bc3d34fab3fe3",
+          "verified/lib.rs": "10994983963d112f89fb157120bc3410c30792c229d43f1b5594ed8a5bd4c367"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(73,20-25): error: Assertion might not hold. (Cannot prove false.)"
+        },
+        "log_sha256": "266049a13198dd1da8838b1341f05ce711a21aafe69b1454dce799dc1345a14f"
+      }
+    },
+    "checked-actual": {
+      "merge_down": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "merge_down"
+        ],
+        "visited_bodies": [],
+        "body_execution_records": {
+          "merge_down": 0
+        },
+        "per_body_records": {},
+        "error_lines": [
+          "verified/lib.rs(44,9-16): error: Parse error: Parse error."
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "85ee7869e54fbc87bbd88a46793a8dacc58f396bbfb3dbd35052df5dfc30cbfc",
+          "verified/lib.rs": "2c887a99292e9d92cc53b8345567ca1bcee4ee7b1e5047b13c77d28f760c06e0"
+        },
+        "source_after": {
+          "original/lib.rs": "85ee7869e54fbc87bbd88a46793a8dacc58f396bbfb3dbd35052df5dfc30cbfc",
+          "verified/lib.rs": "2c887a99292e9d92cc53b8345567ca1bcee4ee7b1e5047b13c77d28f760c06e0"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(44,9-16): error: Parse error: Parse error."
+        },
+        "log_sha256": "3523985102244522e3bbb1a9e7053759e2f05087773ec30e6671057fcb536d75"
+      },
+      "merge_up": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "expected_bodies": [
+          "merge_up"
+        ],
+        "visited_bodies": [],
+        "body_execution_records": {
+          "merge_up": 0
+        },
+        "per_body_records": {},
+        "error_lines": [
+          "verified/lib.rs(44,9-16): error: Parse error: Parse error."
+        ],
+        "dead_code_records": [],
+        "source_before": {
+          "original/lib.rs": "419eabfe3d421f2e1211a090d7db828a576de135357b0b0c8e1b264948180b4f",
+          "verified/lib.rs": "93ac596f9cddbe38cc66b337c81bcc64813f8cc65c6eaf13fa56d3a7824c6013"
+        },
+        "source_after": {
+          "original/lib.rs": "419eabfe3d421f2e1211a090d7db828a576de135357b0b0c8e1b264948180b4f",
+          "verified/lib.rs": "93ac596f9cddbe38cc66b337c81bcc64813f8cc65c6eaf13fa56d3a7824c6013"
+        },
+        "source_unchanged_at_every_stage": true,
+        "first_failure": {
+          "stage": "verifast",
+          "exit_code": 1,
+          "diagnostic": "verified/lib.rs(44,9-16): error: Parse error: Parse error."
+        },
+        "log_sha256": "3523985102244522e3bbb1a9e7053759e2f05087773ec30e6671057fcb536d75"
+      }
+    },
+    "checked-native": {
+      "c": {
+        "accepted": true,
+        "status": 0,
+        "command": [
+          "timeout",
+          "--signal=TERM",
+          "--kill-after=5s",
+          "60s",
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+          "-c",
+          "-verbose",
+          "1",
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-native/baseline.c"
+        ],
+        "source_sha256": "fa811714340bdde8528f51959be57e711f6761e4ce1277a20abdee1b91acf48b",
+        "source_unchanged": true,
+        "log_sha256": "a4e277d7020323b73388c5bfd6532bf6e16d856a6f968cbbec04fedfd0a89156",
+        "expected_body": "overnight_c_arithmetic_identity",
+        "controls": {
+          "status": true,
+          "source": true,
+          "other_body": true,
+          "error": true,
+          "dead": true,
+          "no_return": true,
+          "no_leak": true
+        }
+      },
+      "cpp": {
+        "accepted": false,
+        "status": 0,
+        "command": [
+          "timeout",
+          "--signal=TERM",
+          "--kill-after=5s",
+          "60s",
+          "/home/runner/work/_temp/challenge8-merge-overnight/source/bin/verifast",
+          "-c",
+          "-verbose",
+          "1",
+          "/home/runner/work/verify-rust-std/verify-rust-std/research-results/merge-overnight/checked-native/baseline.cpp"
+        ],
+        "source_sha256": "92d58697303fd80a2cb75c5ece41bc9d17d3fbe23d9fa1aa0e95c7f300ac4612",
+        "source_unchanged": true,
+        "log_sha256": "4ab917f52334373e9e7f7704f6cc4383227c9e23c03ee54a6117f862bfb0aa88",
+        "expected_body": "overnight_cpp_arithmetic_identity",
+        "controls": {
+          "status": true,
+          "source": true,
+          "other_body": true,
+          "error": true,
+          "dead": true,
+          "no_return": true,
+          "no_leak": true
+        }
+      }
+    }
+  }
+}

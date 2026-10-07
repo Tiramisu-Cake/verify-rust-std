@@ -84,7 +84,7 @@ def main() -> None:
         # Explicit loan setup is deliberately absent in this first applicability
         # diagnostic. Its first actual obligation determines the next injection.
         verified = verified.replace("    unsafe {\n",
-            "    //@ let cmp_k = begin_lifetime();\n    /*@ let_lft 'cmp = cmp_k; @*/unsafe {\n", 1)
+            "    //@ let cmp_k = begin_lifetime();\n    unsafe {\n        //@ let_lft 'cmp = cmp_k;\n", 1)
         if strip(verified) != original:
             raise RuntimeError(f"ghost stripping changes actual runtime source: {name}")
         record["cases"][name] = {"source_line": source[:start].count("\n") + 1,

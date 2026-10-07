@@ -2,7 +2,7 @@
 
 Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC). Собственная ветка
 `overnight/merge-26.10`, entryb0af5613. [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Новый отдельный бюджет **622/21600 hosted job seconds**; старый merge603/1800
+Новый отдельный бюджет **794/21600 hosted job seconds**; старый merge603/1800
 (1197остаток) сохранён отдельно. Actual merge пока NOT PROVEN.
 Первый шагW1: exact0/1 wrapping, provenance+metadata+modular addresses, без
 прав доступа; затем полный указательный мост и actual merge normal/unwind.
@@ -13,7 +13,11 @@ positivePASS;5новыхnegative и2старыхnegative приняты на т�
 Полная G2/A/B compatibility PASS. [Evidence](merge/overnight/W1d-EVIDENCE.json).
 Отдельные baseline/unwind/C++ profile gates ещё OPEN; W1profile пока не принят
 целиком. Source wrapper summariesTRUSTED;actualтелamergeNOTPROVEN.
-Активногоrunнет. ДалееW2fullpointertrace иM2a callbacktyping/resource diagnostics.
+W2b37702498147/proofa302d67a: tuple2 ownership и ordinary normal/unwind PASS.
+Точные lifetime/scalar syntax и classifier calibration исправляются; actual
+merge/source/export/decode/refinement соответствие проверено, bodyproof OPEN.
+Активногоrunнет. СледующийW2c/M2c: восстановление callbackloan, trace, ZST,
+negative calibration; отдельныйcopyoption model готовится по COPY-DESIGN.
 
 ---
 

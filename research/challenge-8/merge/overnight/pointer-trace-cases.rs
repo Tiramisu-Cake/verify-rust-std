@@ -65,7 +65,7 @@ lem trace_destination_nonnegative_index(p: pointer, i: i32, s: i32)
 }
 
 lem trace_true_prefix_step(xs: list<bool>, k: usize)
-    req k < length(xs);
+    req 0 <= k &*& k < length(xs);
     ens trace_true_prefix(xs, k + 1) ==
         trace_true_prefix(xs, k) + (if nth(k, xs) { 1 } else { 0 });
 {
@@ -205,7 +205,7 @@ lem trace_destination_reverse_step(p: pointer, i: i32, s: i32)
 }
 
 lem trace_stride_order(i: usize, j: usize, s: usize)
-    req 0 < s &*& s <= usize::MAX;
+    req 0 <= i &*& 0 <= j &*& 0 < s &*& s <= usize::MAX;
     ens (i * s < j * s) == (i < j) &*&
         (i * s == j * s) == (i == j);
 {
@@ -218,8 +218,9 @@ lem trace_stride_order(i: usize, j: usize, s: usize)
 
 lem g2_trace_step(m: usize, n: usize, e: usize, k: usize,
         a: usize, d: usize, up: bool, down: bool)
-    req 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
-        k < m &*& a <= k &*& d <= k;
+    req 1 <= m &*& 0 <= n &*& n == 2 * m + e &*&
+        0 <= e &*& (e == 0 || e == 1) &*& 0 <= k &*& k < m &*&
+        0 <= a &*& a <= k &*& 0 <= d &*& d <= k;
     ens 0 <= a &*& a < n &*&
         0 <= m + k - a &*& m + k - a < n &*&
         0 <= m - 1 - k + d &*& m - 1 - k + d < n &*&

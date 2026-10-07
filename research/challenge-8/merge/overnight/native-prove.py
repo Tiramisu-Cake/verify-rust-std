@@ -33,7 +33,7 @@ def main():
     args.evidence.mkdir(exist_ok=False)
     rows = {}
     for extension, name in [('c', 'overnight_c_arithmetic_identity'),
-                            ('cpp', 'overnight_cpp_arithmetic_identity')]:
+                            ('cpp', 'overnight_cpp_arithmetic_identity(int)')]:
         original = HERE / ('baseline.' + extension)
         data = original.read_bytes()
         path = args.evidence / original.name

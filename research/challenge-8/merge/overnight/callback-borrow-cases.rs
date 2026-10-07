@@ -53,8 +53,8 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
         //@ open [?right_ref_frac]ref_initialized_::<T>(right_ref)();
         //@ close_ref_own::<'cmp, T>(right_ref);
-        //@ close <(&'cmp T, &'cmp T)>.own(t,
-        //@     std_tuple_2_::<&'cmp T, &'cmp T> { 0: right_ref, 1: left_ref });
+        /*@ close <(&'cmp T, &'cmp T)>.own(t,
+                std_tuple_2_::<&'cmp T, &'cmp T> { 0: right_ref, 1: left_ref }); @*/
 
         // Keep the same argument order as merge_up's actual comparator call.
         result = !is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(

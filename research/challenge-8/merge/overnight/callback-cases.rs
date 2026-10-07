@@ -25,6 +25,7 @@ ens thread_token(t) &*& type_interp::<T1>() &*& type_interp::<T2>() &*&
 // CASE_END tuple2_field_resources
 
 // CASE_BEGIN tuple2_missing_second_field_own
+// EXPECT_REJECTION {"kind":"tuple_resource","error_file":"bin/rust/prelude.rsspec","error_line":15,"column_start":8,"column_end":20,"message":"No matching heap chunks: own(T2_typeid)(t, get_std_tuple_2__1(pair0))"}
 pub unsafe fn tuple2_missing_second_field_own<T1, T2>(pair: (T1, T2)) -> (T1, T2)
 /*@
 req thread_token(?t) &*& t == currentThread &*&
@@ -34,8 +35,7 @@ req thread_token(?t) &*& t == currentThread &*&
 /*@ ens true; @*/
 /*@ on_unwind_ens false; @*/
 {
-    //@ close <(T1, T2)>.own(t, pair);
-    // TARGET: the preceding tuple-own close must require the missing T2 field resource
+    //@ close <(T1, T2)>.own(t, pair); // TARGET: tuple close requires the missing T2 field resource
     pair
 }
 // CASE_END tuple2_missing_second_field_own

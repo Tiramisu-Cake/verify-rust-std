@@ -22,6 +22,7 @@ pub unsafe fn ordinary_call_normal_unwind(flag: bool) -> i32
 // CASE_END ordinary_call_normal_unwind
 
 // CASE_BEGIN false_unwind_post
+// EXPECT_REJECTION {"kind":"unwind_post","error_file":"verified/lib.rs","error_line":18,"column_start":19,"column_end":24,"message":"Cannot prove condition. (Cannot prove false.)"}
 #[inline(never)]
 fn may_panic_for_false_post(flag: bool) -> i32
 /*@ req true; @*/
@@ -43,9 +44,9 @@ pub unsafe fn false_unwind_post(flag: bool) -> i32
 
 // CASE_BEGIN unreachable_body_after_panic
 pub unsafe fn unreachable_body_after_panic() -> i32
-/*@ req true; @*/
+/*@ req thread_token(?t) &*& t == currentThread; @*/
 /*@ ens false; @*/
-/*@ on_unwind_ens true; @*/
+/*@ on_unwind_ens thread_token(t); @*/
 {
     assert!(false, "unreachable-body baseline");
     0 // TARGET: normal continuation after the unconditional panic is unreachable

@@ -155,6 +155,11 @@ suite() {
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/pointer-bridge-cases.rs \
     --evidence "$evidence/checked-pointer-bridge"
+  run_one concrete-zst-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-v1 \
+    --scope 'compiler-backed concrete ZST wrapping identity without assumed size; no memory rights' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/concrete-zst-cases.rs --evidence "$evidence/checked-concrete-zst"
   run_one experimental-rust-regression 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
