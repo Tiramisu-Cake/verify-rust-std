@@ -5,8 +5,13 @@ against VeriFast source `f76012fb518703b1d98e243ac4f487f16877cfcb`.
 SHA-256: `20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c`.
 It modifies only `bin/rust/std/lib.rsspec` and
 `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml`. `git apply --check`
-passes on that source pin; no build or verifier was run locally. It is **not an
-accepted profile** and must not be used as an actual-helper summary yet.
+passes on that source pin; no build or verifier was run locally. O3 hosted run
+`37700450091` at proof SHA `1378f0ffc8342233349fae3df5a938c4a021c8d7`
+reports full S6 matrix acceptance for the four separate components on the
+cumulative patched profile. The extracted per-component summaries confirm all
+expected classes and admission counts; full individual logs are still being
+extracted for final evidence audit. It must not be used as an actual-helper
+summary yet.
 
 The four semantic components are explicit in the translator modules and hooks:
 

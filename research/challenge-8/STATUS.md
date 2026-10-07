@@ -13,10 +13,11 @@ Main/upstream/other-agent branches remain unchanged by this direction.
 
 New independent account **835/21600 summed GitHub-hosted job seconds**, 20765 remain.
 Historical stock account99/1800 and S7 account5306/5400 preserved separately.
-O3 completed; no active workflow. [Run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
+O3 completed. Active O4 [run37702049156](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37702049156),
+proof86e84ace59d0f65b5690e56e62818875ed7c0578, job113067557446. [Run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
 proof1378f0ffc8342233349fae3df5a938c4a021c8d7: all8 S6 stages report ACCEPTED;
 full artifact audit pending. Workflow failure is helper Python import plus
-callback setup/certificate errors, not a S6 proof negative. Next O4 corrects
+callback setup/certificate errors, not a S6 proof negative. O4 corrects
 these diagnostic harness defects with the identical semantic profile.
 
 Current obligation: audit S6 component acceptance and obtain helper/callback boundaries.
