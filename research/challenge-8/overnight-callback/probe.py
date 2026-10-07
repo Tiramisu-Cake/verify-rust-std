@@ -99,12 +99,19 @@ def source_certificate(repo_root: Path, source_checkout: Path,
 def select_case(template: bytes, name: str) -> bytes:
     begin = f"// CASE_BEGIN {name}\n".encode()
     end = f"// CASE_END {name}\n".encode()
-    need(template.count(begin) == 1 and template.count(end) == 1,
-         f"fixture case markers for {name} are missing or duplicated")
+    all_begins = [f"// CASE_BEGIN {case}\n".encode() for case in CASES]
+    all_ends = [f"// CASE_END {case}\n".encode() for case in CASES]
+    need(all(template.count(marker) == 1
+             for marker in (*all_begins, *all_ends)),
+         "fixture case markers are missing or duplicated")
     start = template.index(begin) + len(begin)
     stop = template.index(end, start)
-    need(stop > start, f"fixture case {name} is empty")
-    return template[:template.index(begin)] + template[start:stop]
+    first_case = min(template.index(marker) for marker in all_begins)
+    need(stop > start and start >= first_case,
+         f"fixture case {name} is empty or out of order")
+    # Keep the common ghost declarations, but never include an earlier case
+    # when selecting a later one. That keeps each generated proof isolated.
+    return template[:first_case] + template[start:stop]
 
 
 def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,

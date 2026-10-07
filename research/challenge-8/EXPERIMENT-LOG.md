@@ -4782,3 +4782,30 @@ O2b DIAGNOSTIC_ONLY run37699461058/1d57dee9,133s: strict Clause port builds,
 five complete new MIR export/refinement pairs; four fullVF0 positives, asptr
 fails exact parameter-local count. [Full result/O3 BEFORE](OVERNIGHT-SELECT-SORT4-26.10.md).
 No S6 acceptance/actual helper gain yet. New budget326/21600; no active run.
+
+## O3 result / O4 BEFORE — unchanged semantic profile, corrected diagnostics
+
+O3 proof1378f0ffc8342233349fae3df5a938c4a021c8d7,
+[run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
+job11306237081023:07:52–23:16:21UTC=509s including artifacts. All8 S6 matrix
+stages exit0 and report ACCEPTED; complete artifact audit remains pending.
+All5 new graph diagnostics fullVF0/export/decode/refinement0. Helper fixture
+creation NOT_RUN: dynamically imported dataclass module absent from sys.modules.
+Callback positive normal-export1 (evidence under review); negative fixture generator
+erroneously retained previous positive body, so exact single-call certificate rejects.
+No helper/callback intended proof negative. Full logs/artifact11517239239 retained,
+zip digestbb5d42b13ca5a4a2c46bcbea98c9673a8081193f1e7d147965b939a26c9e31c8.
+Account835/21600,20765remain. Large artifact accidentally dereferences disposable
+mutation-profile/bin symlinks; next upload excludes only those copied binaries,
+retaining separate wrappers, manifests, full MIR, mutation records and proof logs.
+
+O4 falsifiable hypothesis: registered Python module imports and isolated callback
+case extraction restore diagnostic setup without changing any source/MIR/proof
+acceptance predicate or VeriFast profile. Run hosted helper certificate tests first.
+Investigate positive callback exporter error before retrying its route. G1/A1/actual
+helper and callback retain O3 domains and full normal/unwind posts. No S6 matrix
+repeat while translator/spec/compiler/profile bytes remain identical; all5 positive
+smoke/export/refinement stages plus stock baseline remain for setup integrity.
+Any newly exposed unsupported primitive or proof-resource error is INCONCLUSIVE,
+not falsepost acceptance. Trust boundary unchanged. Main static review and agent
+review confirm import lifecycle/case isolation defects, no trusted semantic change.

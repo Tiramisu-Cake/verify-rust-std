@@ -14,6 +14,7 @@ import importlib.util
 import json
 import os
 import re
+import sys
 from pathlib import Path
 
 
@@ -50,6 +51,7 @@ def load_a1():
     require(spec is not None and spec.loader is not None,
             "A1 complete-MIR helper absent")
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 

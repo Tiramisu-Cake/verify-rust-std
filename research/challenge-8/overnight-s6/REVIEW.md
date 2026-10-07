@@ -1,9 +1,9 @@
 # OVERNIGHT-SELECT-SORT4-26.10: S6 transfer review (before implementation)
 
-Status: **design and static source review only**. No 26.10 S6 component is
-ACCEPTED until a fresh exact-SHA hosted matrix checks source, full typed MIR,
-proof negatives, refinement, and full verifier/dead-code/leak gates. Historical
-S6v4 acceptance stays attached to its 26.09 proof SHA and patch.
+This review began before implementation. O3 has since reported full-matrix
+acceptance for the four separate components; its per-case artifact audit is
+pending below. Historical S6v4 acceptance stays attached to its 26.09 proof
+SHA and patch.
 
 ## Obligation and proposed semantics
 
@@ -177,3 +177,49 @@ negative error locations, dead-code conditions, frontend/refinement gates and
 classification logic. This is a classifier profile adjustment, not a
 verification semantics change. `accept-s6.py` invokes this scoped copy for
 the patched profile; the unmodified stock checker remains the baseline check.
+
+## O3 full S6 gate — log-level checkpoint pending artifact audit
+
+O3 hosted run `37700450091` at proof SHA
+`1378f0ffc8342233349fae3df5a938c4a021c8d7` reached the complete S6
+gate after building the new console. The job log reports exit 0 for all eight
+stages: patched-profile
+stock controls, constructor, as_mut_ptr classifier and matrix, intrinsic
+classifier and matrix, drop classifier and matrix. The driver emitted
+`{"classification":"ACCEPTED"}`. Its stock stage requires all 11 exact
+positive, proof-negative and dead-code classifications. The component stages
+require their own complete source/MIR admissions, including 22 pointer-drop
+admissions. The overall workflow exit 1 came after this gate in the separate
+helper/callback capture; this does not invalidate a completed S6 stage, but the
+full per-case evidence must still be audited before treating the component
+result as independently reviewed. No actual select/sort4 body is covered by
+this gate.
+The extracted O3 `s6-full/summary.json` confirms each of the eight stages has
+`status=COMPLETED`, `exit=0`, and `accepted=true`; its explicit scope is
+"stock+CFG and four separate S6 components; no actual helper". Individual
+component summaries are still being extracted for the detailed audit.
+
+The internal matrix scopes are constructor 16 source/proof cases plus nine MIR
+mutants and native baselines; as_mut_ptr nine cases plus 17 source/MIR mutants;
+typed intrinsic 16 cases over pointer and wrapper forms plus 40 source/MIR
+mutants; pointer drop two positives, 11 proof negatives and 22 source/MIR/pin
+mutants. The three separate classifier self-checks pass in O3. The positive
+S6 results verify the checked local adapter bodies and specialized contracts.
+The compiler-to-model interpretation remains trusted: transparent
+`ManuallyDrop`/`MaybeUninit` representation, exact typed intrinsic value
+selection, and raw-pointer `drop_glue` identity. The checked predicate/lemmas
+grant no `Element` pointee permission; no general `T` drop, generic/ZST
+sort4, or actual-helper contract follows from these tests.
+
+O3's artifact payload is inflated by copied `mutation-profile/bin/verifast`
+binaries and symlinked companion tools inside each MIR-mutant case. After all
+checks have completed, future uploads may exclude every
+`*/mutation-profile/bin/**`. The case-level `mir-exporter-wrapper.py`,
+`mutation-profile.json`, `mutation-record.json`, canonical and mutated MIR
+text/binary, logs, fixture and classification summaries live outside that
+directory and must remain in the artifact. The manifest records base/shadow
+console, real exporter and wrapper hashes, so excluding duplicate binaries
+does not erase their identities.
+The O3 artifact is `overnight-drop_v4-37700450091-1`, ID `11517239239`,
+3,494,180,215 bytes; the next workflow version already contains the bin-tree
+exclude.

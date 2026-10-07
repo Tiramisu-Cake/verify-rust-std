@@ -433,6 +433,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: overnight-${{ inputs.forget_guard_stage }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: research-results/overnight-*/
+          path: |
+            research-results/overnight-*/
+            !research-results/overnight-*/**/mutation-profile/bin/**
           if-no-files-found: error
           retention-days: 90

@@ -73,7 +73,8 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     //@ close_full_borrow_content::<T>(t, right);
     //@ borrow(cmp_k, <T>.full_borrow_content(t, left));
     //@ borrow(cmp_k, <T>.full_borrow_content(t, right));
-    let result = {
+    let mut result: bool;
+    {
         /*@ let_lft 'cmp = cmp_k; @*/
         //@ share_full_borrow::<T>(cmp_k, t, left);
         //@ share_full_borrow::<T>(cmp_k, t, right);
@@ -87,7 +88,7 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ open [?right_fraction]ref_initialized_::<T>(right_ref)();
         let answer = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right);
         //@ close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction);
-        answer
+        result = answer;
     };
     //@ recover_pair::<T>(left, right);
     result
@@ -125,7 +126,8 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     //@ close_full_borrow_content::<T>(t, right);
     //@ borrow(cmp_k, <T>.full_borrow_content(t, left));
     //@ borrow(cmp_k, <T>.full_borrow_content(t, right));
-    let result = {
+    let mut result: bool;
+    {
         /*@ let_lft 'cmp = cmp_k; @*/
         //@ share_full_borrow::<T>(cmp_k, t, left);
         //@ share_full_borrow::<T>(cmp_k, t, right);
@@ -139,7 +141,7 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ open [?right_fraction]ref_initialized_::<T>(right_ref)();
         let answer = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right);
         //@ close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction);
-        answer
+        result = answer;
     };
     //@ recover_pair::<T>(left, right);
     result

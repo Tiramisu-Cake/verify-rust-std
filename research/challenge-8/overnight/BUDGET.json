@@ -1,8 +1,8 @@
 {
   "phase": "OVERNIGHT-SELECT-SORT4-26.10",
   "ceiling_job_seconds": 21600,
-  "used_job_seconds": 326,
-  "remaining_job_seconds": 21274,
+  "used_job_seconds": 835,
+  "remaining_job_seconds": 20765,
   "deadline_utc": "2026-10-08T06:30:00Z",
   "runs": [
     {
@@ -31,6 +31,15 @@
       "completed_at": "2026-10-07T23:00:24Z",
       "job_seconds": 133,
       "result": "S6_DIAGNOSTIC_CAPTURE_4_VF0_ASPTR_SHAPE_REJECTION"
+    },
+    {
+      "run_id": 37700450091,
+      "proof_sha": "1378f0ffc8342233349fae3df5a938c4a021c8d7",
+      "job_id": 113062370810,
+      "started_at": "2026-10-07T23:07:52Z",
+      "completed_at": "2026-10-07T23:16:21Z",
+      "job_seconds": 509,
+      "result": "S6_MATRIX_ACCEPTED_PENDING_FULL_ARTIFACT_AUDIT_HELPER_CALLBACK_SETUP_FAILURE"
     }
   ],
   "historical_accounts": {
@@ -43,11 +52,5 @@
       "ceiling": 1800
     }
   },
-  "active_run": {
-    "run_id": 37700450091,
-    "proof_sha": "1378f0ffc8342233349fae3df5a938c4a021c8d7",
-    "job_id": 113062370810,
-    "started_at": "2026-10-07T23:07:52Z",
-    "hard_cap_job_seconds": 1200
-  }
+  "active_run": null
 }

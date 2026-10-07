@@ -11,13 +11,15 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **326/21600 summed GitHub-hosted job seconds**, 21274 remain.
-Historical stock account99/1800 and S7 account5306/5400 are preserved separately;
-old residual budgets do not limit this phase. Active O3 [run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
-proof1378f0ffc8342233349fae3df5a938c4a021c8d7; exact asptr/S6 full gate +
-independent helper/callback captures. Routine monitoring continues; no second dispatch.
+New independent account **835/21600 summed GitHub-hosted job seconds**, 20765 remain.
+Historical stock account99/1800 and S7 account5306/5400 preserved separately.
+O3 completed; no active workflow. [Run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
+proof1378f0ffc8342233349fae3df5a938c4a021c8d7: all8 S6 stages report ACCEPTED;
+full artifact audit pending. Workflow failure is helper Python import plus
+callback setup/certificate errors, not a S6 proof negative. Next O4 corrects
+these diagnostic harness defects with the identical semantic profile.
 
-Current obligation: source-reviewed S6 transfer/capture.
+Current obligation: audit S6 component acceptance and obtain helper/callback boundaries.
 **Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,
 [run37698481357](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37698481357).
 All5positives/4false-post negatives/2dead-code controls pass their full gates;

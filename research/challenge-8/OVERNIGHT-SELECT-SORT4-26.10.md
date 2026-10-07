@@ -184,3 +184,36 @@ FnMut safety posts return current T/F state on normal AND unwind, permit legal
 interior mutation/panic, no purity/Freeze/Copy/SWO restriction. False post counts
 only at actual post; tuple/HRTB/lifetime setup failures are diagnostic boundaries.
 One hosted job hard20min/inner18min, available21274s including artifacts.
+
+## O3 result / O4 BEFORE — unchanged semantic profile, corrected diagnostics
+
+O3 proof1378f0ffc8342233349fae3df5a938c4a021c8d7,
+[run37700450091](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37700450091),
+job11306237081023:07:52–23:16:21UTC=509s including artifacts. All8 S6 matrix
+stages exit0 and report ACCEPTED; complete artifact audit remains pending.
+All5 new graph diagnostics fullVF0/export/decode/refinement0. Helper fixture
+creation NOT_RUN: dynamically imported dataclass module absent from sys.modules.
+Callback positive normal-export1 (evidence under review); negative fixture generator
+erroneously retained previous positive body, so exact single-call certificate rejects.
+No helper/callback intended proof negative. Full logs/artifact11517239239 retained,
+zip digestbb5d42b13ca5a4a2c46bcbea98c9673a8081193f1e7d147965b939a26c9e31c8.
+Account835/21600,20765remain. Large artifact accidentally dereferences disposable
+mutation-profile/bin symlinks; next upload excludes only those copied binaries,
+retaining separate wrappers, manifests, full MIR, mutation records and proof logs.
+
+O4 falsifiable hypothesis: registered Python module imports and isolated callback
+case extraction restore diagnostic setup without changing any source/MIR/proof
+acceptance predicate or VeriFast profile. Run hosted helper certificate tests first.
+Investigate positive callback exporter error before retrying its route. G1/A1/actual
+helper and callback retain O3 domains and full normal/unwind posts. No S6 matrix
+repeat while translator/spec/compiler/profile bytes remain identical; all5 positive
+smoke/export/refinement stages plus stock baseline remain for setup integrity.
+Any newly exposed unsupported primitive or proof-resource error is INCONCLUSIVE,
+not falsepost acceptance. Trust boundary unchanged. Main static review and agent
+review confirm import lifecycle/case isolation defects, no trusted semantic change.
+
+O4 callback preprocessor diagnosis confirmed from complete O3 normal-export stderr:
+ghost scope-end insertion after block tail `answer` generates invalid Rust, before
+any tuple/HRTB proof. Corrected fixture stores same call result into outer bool;
+normal borrow recovery and full normal/unwind posts are preserved. Later-case
+extraction defect repaired independently. Neither failure is an intended negative.

@@ -86,17 +86,16 @@ AUDIT
  sha256sum "$stock_archive" "$patch_file" "$source_home/bin/verifast" "$stock_home/bin/verifast"
 } >> "$ev/environment.txt"
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
-if rg -q 'not found' "$ev/console-ldd.txt"; then exit 2; fi
+if grep -q 'not found' "$ev/console-ldd.txt"; then exit 2; fi
 export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
 stage s6-diagnostic python3 research/challenge-8/overnight-s6/diagnose-s6.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-diagnostic"
 # Independent diagnostics run before the larger component matrix. Their stage
 # failures are retained; neither diagnostic collection nor a green workflow
 # implies acceptance of helper/callback/actual Rust.
 helper_status=0
+stage helper-certificates python3 research/challenge-8/overnight-helper/test-helper-certificates.py || helper_status=$?
 stage helper-capture python3 research/challenge-8/overnight-helper/check-helper.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/helper" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+600))" --actual-capture || helper_status=$?
 callback_status=0
 stage callback-capture python3 research/challenge-8/overnight-callback/probe.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/callback" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+700))" || callback_status=$?
-matrix_status=0
-stage s6-full-matrix python3 research/challenge-8/overnight-s6/accept-s6.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-full" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || matrix_status=$?
-printf 'helper_stage=%s\ncallback_stage=%s\ns6_matrix_stage=%s\n' "$helper_status" "$callback_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
-(( helper_status == 0 && callback_status == 0 && matrix_status == 0 ))
+printf 'helper_stage=%s\ncallback_stage=%s\ns6_matrix_stage=NOT_REPEATED_PROFILE_UNCHANGED\nprior_matrix_run=37700450091\n' "$helper_status" "$callback_status" > "$ev/aggregate-stage-status.txt"
+(( helper_status == 0 && callback_status == 0 ))
