@@ -1,12 +1,13 @@
 # Challenge 8: current checkpoint
 
 Updated 2026-10-07. **IN PROGRESS: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md).**
-Owner explicitly opened new phase from e0920ec; budget 0/5400 NEW job seconds,
-<=1800/job, <=300/proof, one active run. No active run at entry.
-[Results](SORT4-POINTER-OWNERSHIP-RESULTS.md); chosen definition/trust boundary
-recorded before ownership edits. Model/constructor UNACCEPTED, actual callee NOT RUN.
-Next permitted: implement narrow type-wide defined pointer ownership and full MIR
-gate/matrix, hosted acceptance, then dependent actual callee. Prior budgets retired.
+Owner explicitly opened new phase from e0920ec; budget 137/5400 NEW job seconds,
+<=1800/job, <=300/proof, one active run. O1/37598560122/source798863a completed:
+full MIR/export/decode/refinement/source integrity and18baselines PASS; new own
+predicate required at SAFE prototype before body. Defined-predicate introduction
+and explicit own post corrected for O2; acceptance pending. No active run.
+[Results](SORT4-POINTER-OWNERSHIP-RESULTS.md). Model/constructor UNACCEPTED,
+actual callee NOT RUN. Next: NEW hosted exact-SHA full acceptance iteration.
 
 Previous checkpoint preserved below (historical authorization superseded):
 **CLOSED: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**

@@ -3485,3 +3485,30 @@ Profile: NEW experimental pointer-own-v2 over stock26.09/809de459; exact patch S
 pending implementation. Selection verifast_maybeuninit_new_pointer,30 minutes/job,
 300s/proof,5400 NEW summed job seconds. No carried budget; no active run.
 All acceptance/actual-callee checks NOT RUN at this pre-implementation checkpoint.
+
+O1 dispatched [37598560122](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37598560122)
+at source798863a89d8d9420670dd8b3c56766a861a6db34, patch31d3ca507cc7ec4a090ef45330b0f3758c1fbcdbbb4c68d66c256166801d6aea.
+Selection/budget30min confirmed; full matrix+conditional actual callee; outcome pending.
+
+O1 completed failure,137jobseconds (09:08:42..09:10:59UTC). Full logs and artifact
+smallsort-research-37598560122-1/11471388654 inspected: console build0; classifier
+4groups PASS;18stock/experimental Rust/C/C++/pointer/false controls PASS;
+full typed MIR/source/export/decode/refinement0. SAFE prototype requires DEFINED
+MaybeUninit_pointer_own(Element_typeid)(_t,result0) at10,75–102; body headers0.
+This is not an accepted constructor. Negatives/actual callee NOT RUN.
+
+## O2 — explicit checked defined-predicate introduction
+
+Same domain/posts/source/pins as O1; hypothesis: explicit own post and a ghost
+call to a BODY-VERIFIED introduction lemma discharge the generated ownership
+resource while preserving SAFE/thread token/no-unwind. Predicate DEFINITION is
+unchanged; checked lemma case-splits existing inner option and closes existing
+raw_ptr_own and defined wrapper predicate. No opaque summary or axiom. Translator
+emits ordinary ghost call after the certified aggregate; kernel checks that call.
+Source runtime/body and complete MIR certificate unchanged. Trust detail recorded
+here BEFORE dispatch; allowed proof/model implementation fix within phase.
+Patch023e12f00a132ca8fd2dd46e0515c296317eeca573bb5a6c413321b2fe9ba292.
+Expected: checked lemma return/leak, SAFE prototype, actual imported body return/
+leak, full matrix at intended gates; acceptance also requires lemma execution.
+Failure => routine proof/harness correction; success => dependent callee only.
+Budget remaining5263s;30min job/300s proof; one run, no carried historical budget.

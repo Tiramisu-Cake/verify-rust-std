@@ -1,8 +1,8 @@
 diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
-index d150408..205687f 100644
+index d150408..4bc94eb 100644
 --- a/bin/rust/std/lib.rsspec
 +++ b/bin/rust/std/lib.rsspec
-@@ -434,6 +434,14 @@ mod mem {
+@@ -434,7 +434,27 @@ mod mem {
      fix MaybeUninit::uninit<T>() -> MaybeUninit<T>;
      fix MaybeUninit::new_maybe_uninit<T>(v: option<T>) -> MaybeUninit<T>;
      fix MaybeUninit::new<T>(v: T) -> MaybeUninit<T> { MaybeUninit::new_maybe_uninit(some(v)) }
@@ -15,10 +15,23 @@ index d150408..205687f 100644
 +            some(p) => raw_ptr_own::<Element>()(t, p)
 +        };
      
++    // This introduction is CHECKED against the definition, not an axiom.
++    lem close_MaybeUninit_pointer_own<Element>(t: thread_id_t, v: MaybeUninit<*Element>)
++        req true;
++        ens MaybeUninit_pointer_own::<Element>()(t, v);
++    {
++        match MaybeUninit::inner(v) {
++            none => {}
++            some(p) => { close raw_ptr_own::<Element>()(t, p); }
++        }
++        close MaybeUninit_pointer_own::<Element>()(t, v);
++    }
++
      lem_auto MaybeUninit_inner_new_maybe_uninit<T: ?Sized>(v: option<T>);
          req true;
+         ens MaybeUninit::new_maybe_uninit(v).inner() == v;
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..b98db26 100644
+index f1e3e50..c9c67d3 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -164,7 +177,7 @@ index f1e3e50..b98db26 100644
 +        (brace_at - signature_at - String.length local_marker) in
 +      let expected_between =
 +        "\n/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n" ^
-+        "/*@\nens thread_token(t) &*& std::mem::MaybeUninit::inner(result) == some(val);\n@*/\n" ^
++        "/*@\nens thread_token(t) &*& std::mem::MaybeUninit::inner(result) == some(val) &*& std::mem::MaybeUninit_pointer_own::<Element>()(t, result);\n@*/\n" ^
 +        "/*@\non_unwind_ens false;\n@*/\n    "
 +      in
 +      if between <> expected_between then
@@ -296,7 +309,7 @@ index f1e3e50..b98db26 100644
        | Closure _ ->
            failwith "Todo: AggregateKind::Closure"
            (* CAVEAT: Once we allow closure values, we must also check closure bodies. *)
-@@ -2915,6 +3129,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2915,6 +3129,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                operand_exprs
            in
            Ok (`TrRvalueAggregate init_stmts_builder)
@@ -316,14 +329,20 @@ index f1e3e50..b98db26 100644
 +                      (AssignExpr
 +                         (loc, lhs_place,
 +                          (if lhs_place_is_mutable then Mutation else Initialization),
-+                          modeled_value))]
++                          modeled_value));
++                    (* An ordinary ghost lemma call; its body is checked against
++                       the DEFINED pointer-value predicate in this profile. *)
++                    PureStmt (loc, ExprStmt (CallExpr
++                      (loc, "std::mem::close_MaybeUninit_pointer_own",
++                       [IdentTypeExpr (loc, None, "Element")], [],
++                       [LitPat (Var (loc, "t")); LitPat modeled_value], Static)))]
 +               in
 +               Ok (`TrRvalueAggregate init_stmts_builder)
 +           | _ -> Sort4MaybeUninit.unsupported "aggregate operand count")
        | AggKindTuple ->
            let tuple_struct_name =
              TrTyTuple.make_tuple_type_name (List.length operands_cpn)
-@@ -4730,6 +4964,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4730,6 +4970,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let var_id_trs_map_ref = var_id_trs_map_ref
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
@@ -331,7 +350,7 @@ index f1e3e50..b98db26 100644
        let body_tr_defs_ctx = body_tr_defs_ctx
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
-@@ -5965,7 +6200,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5965,7 +6206,9 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let open AdtDefRd in
      let id_cpn = id_get adt_def_cpn in
      let def_path = translate_adt_def_id @@ D.decode_adt_def_id id_cpn in
@@ -342,7 +361,7 @@ index f1e3e50..b98db26 100644
      else
        let name = TrName.translate_def_path def_path in
        let* generics =
-@@ -7690,9 +7927,348 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7690,9 +7933,348 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      | Ast.ManifestTypeExpr (_, Int (Signed, PtrRank)) -> {kind = Type {kind=Int ISize}}
      | te -> Ast.static_error (Ast.type_expr_loc te) "This type expression is not supported in function specializations" None
  
@@ -691,7 +710,7 @@ index f1e3e50..b98db26 100644
        Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
        (* Todo @Nima: we should add necessary inclusions during translation *)
        let extern_header_names =
-@@ -7881,6 +8457,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7881,6 +8463,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              bodies_cpn
          else bodies_cpn
        in
@@ -709,7 +728,7 @@ index f1e3e50..b98db26 100644
        let body_tr_defs_ctx =
          { adt_defs; directives = vf_mir_translator_directives; fn_specializer }
        in
-@@ -7896,6 +8483,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -7896,6 +8489,16 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          ListAux.split3 bodies_tr_res
        in
        let body_sigs = List.filter_map Fun.id body_sig_opts in

@@ -247,7 +247,8 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
     helper_contract = (
         b"req thread_token(?t) &*& t == currentThread;\n"
         b"ens thread_token(t) &*& "
-        b"std::mem::MaybeUninit::inner(result) == some(val);\n"
+        b"std::mem::MaybeUninit::inner(result) == some(val) &*& "
+        b"std::mem::MaybeUninit_pointer_own::<Element>()(t, result);\n"
         b"on_unwind_ens false;"
     )
     signature = (
@@ -290,8 +291,8 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
     )
     probe_assert = (
         b"    //@ assert std::mem::MaybeUninit::inner(wrapped) == some(val);\n"
-        b"    //@ close std::mem::MaybeUninit_pointer_own::<Element>()(t, wrapped);\n"
         b"    //@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, wrapped);\n"
+        b"    //@ open raw_ptr_own::<Element>()(t, val);\n"
         b"    //@ close std::mem::MaybeUninit_pointer_own::<Element>()(t, "
         b"std::mem::MaybeUninit::new_maybe_uninit(none));\n"
         b"    //@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, "
@@ -759,6 +760,12 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
     )
     helper_return_checked = "Executing return statement" in helper_body_log
     helper_leak_checked = "Leak check." in helper_body_log
+    ownership_lemma_marker = "Verifying function 'std::mem::close_MaybeUninit_pointer_own'"
+    own_start = log.find(ownership_lemma_marker)
+    own_end = log.find("Verifying function '", own_start + len(ownership_lemma_marker)) if own_start >= 0 else -1
+    ownership_lemma_log = log[own_start:own_end if own_end >= 0 else None] if own_start >= 0 else ""
+    ownership_lemma_checked = own_start >= 0 and "Executing return statement" in ownership_lemma_log and "Leak check." in ownership_lemma_log
+
     identity_name = "sort4_nonpointer_identity"
     identity_headers = sum(name.endswith(identity_name) for _, name in headers)
     identity_header_marker = f"Verifying function '{identity_name}'"
@@ -774,7 +781,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         b"pub fn " + CERT_FUNCTION.encode() + b"<Element>" in verified_source and
         b"pub unsafe fn " + CERT_FUNCTION.encode() not in verified_source and
         b"req thread_token(?t) &*& t == currentThread;" in verified_source and
-        b"std::mem::MaybeUninit::inner(result) == some(val);" in verified_source and
+        b"std::mem::MaybeUninit::inner(result) == some(val) &*& " in verified_source and
         b"on_unwind_ens false;" in verified_source
     )
     pointer_option_paths_exercised = (
@@ -834,7 +841,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         "error_in_named_probe": failure_in_expected_probe,
         "constructor_body_checked": not constructor_probe or (
             helper_headers == 1 and helper_prototype_checked and
-            helper_return_checked and helper_leak_checked and full_mir_graph_seen),
+            helper_return_checked and helper_leak_checked and full_mir_graph_seen and ownership_lemma_checked),
         "external_call_count_exact": external_call_count_mir == expected_constructor_calls,
         "redirect_count_exact": redirect_count == expected_constructor_calls,
     }
@@ -887,7 +894,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         outcome = "PASS" if (
             base_ok and vf == 0 and helper_headers == 1 and probe_headers == 1
             and certified_body_seen and translated_body_seen and full_mir_graph_seen
-            and safe_constructor_contract and helper_prototype_checked
+            and safe_constructor_contract and helper_prototype_checked and ownership_lemma_checked
             and helper_return_checked and helper_leak_checked
             and pointer_option_paths_exercised
             and external_call_count_mir == 1 and redirect_count == 1
@@ -947,6 +954,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         "safe_constructor_contract": safe_constructor_contract,
         "checked_constructor_prototype_implementation": helper_prototype_checked,
         "checked_constructor_return": helper_return_checked,
+        "defined_ownership_introduction_body_checked": ownership_lemma_checked,
         "checked_constructor_leak_check": helper_leak_checked,
         "pointer_option_paths_exercised": pointer_option_paths_exercised,
         "nonpointer_identity_header_count": identity_headers,

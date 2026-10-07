@@ -84,3 +84,11 @@ Implementation O1 profile patch SHA256
 `31d3ca507cc7ec4a090ef45330b0f3758c1fbcdbbb4c68d66c256166801d6aea`: translator
 and bin/rust/std/lib.rsspec only; complete MIR typed two-block graph and full
 source-span endpoints; no parser/kernel change. Acceptance pending hosted run.
+
+O2 correction: explicit own in constructor post plus an ordinary kernel-checked
+introduction lemma WITH BODY against the same defined predicate. Its exhaustive
+option split closes raw_ptr_own only for some; no pointee access. Certified
+aggregate emits ghost call after assignment, leaving runtime/MIR graph untouched.
+This is proof annotation in translation, not an assumed opaque bridge. Acceptance
+requires named lemma/body/return/leak evidence and full matrix. Patch023e12f0;
+O1 retained at137s, first body not reached. See journal/result identifiers.
