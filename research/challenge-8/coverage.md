@@ -1,3 +1,16 @@
+## Stock26.10 baseline — 2026-10-08 (separate phase)
+
+[Run37694000195](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37694000195),
+proofa0cfd30e/sourcef76012fb/nightly2026-09-25/stdcd371e03, patches NONE:
+scalar/raw-u32 and reachable ordinary/shared-cleanup unwind bodies pass full
+stock gate; four false-post and two vacuity controls reject intended obligations.
+Exact unrestricted generic forget adapter remains INCONCLUSIVE at dead code after
+normal return/leak. All11export pairs/decode/refinement pass. This adds no actual
+SmallSort/guard/forget linkage, UB-detector or S6 transferred-component coverage;
+old claims remain bound to old pins and old S7c stays UNACCEPTED.
+[Full domains, new MIR/AST uncertainty and migration plan](STOCK-26.10-BASELINE.md).
+Separate99/1800jobseconds; old5306/5400(94) unchanged.
+
 # Challenge 8 coverage ledger
 
 This tracks requirements, not inferred coverage from an Actions badge.

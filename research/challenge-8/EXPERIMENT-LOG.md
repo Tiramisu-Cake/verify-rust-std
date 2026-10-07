@@ -4734,3 +4734,25 @@ No fixture executed. Correct package-vs-effective-spec audit only; full *.rsspec
 bytes/inventory remain required exact, all package files remain hashed.
 [Detailed outcome/new hypothesis](STOCK-26.10-BASELINE.md). New run cap600s,
 37used/1763remaining of separate1800; prior account unchanged.
+
+### STOCK26.10 run2 and phase closeout
+
+[37694000195](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37694000195),
+proofa0cfd30e066acbaf1b5406cd9773f54388cc45be, job113040941877,
+22:06:34–22:07:36UTC=62s. Stock/unpatched sourcef76012fb, nightly2026-09-25.
+11NORMAL+11readonly exports,22decodes,11refinement,66stage source checks PASS.
+4fullVF0 positives: u32/raw/ordinary unwind/shared cleanup;4intended false normal/
+unwind negatives at6:27–32,6:40–45,9:27–32,23:15–20;2separate contradictory-pre
+dead-code controls (original strict INCONCLUSIVE retained). Exact forgetVF1 after
+body/normal return/leak: sole3:1–16:2 dead code, no proof error. New complete MIR
+normal==readonly f6aa0ef4, AST172fbc51 establishes orphan label2 unwind ReturnStmt
+structurally; physical-key attribution UNKNOWN, not old52. Reachable ordinary and
+sharedcleanup3 unwind+normal returns/leaks execute; falseunwind rejects intended post.
+Full binaries/spec/schema/std-export audit and migration map in
+[phase report](STOCK-26.10-BASELINE.md); relevant repo/sysroot forget/drop bodies
+unchanged, MD/MaybeUninit/SmallSort whole files equal. Refiner unwind TODOs retained.
+Artifact11515215378 ZIP18f1796c2be90f483402db00d2aacb868e8229a8ca2d490e8248bdc2c38be91f,
+325entries CRC PASS. No patch/code/model migration. Separate budget99/1800used,
+1701remaining; old5306/5400(94) untouched/S7cUNACCEPTED. CLOSED at stock blocker,
+plan ready, no active run. Next requires separate narrow diagnostic/trust decision.
+Final docs HEAD is not proof SHA.

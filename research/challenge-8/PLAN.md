@@ -1,3 +1,13 @@
+## Текущий результат STOCK-26.10-BASELINE — 2026-10-08
+
+Владелец отдельно возобновил stock26.10 phase с новым бюджетом1800s.
+[Отчёт / новая карта переноса](STOCK-26.10-BASELINE.md): proofa0cfd30e,
+run37694000195, stock chain PASS на независимых u32/raw/unwind controls;
+exact generic forget INCONCLUSIVE на dead-code gate, физический ключ UNKNOWN.
+Фаза CLOSED,99/1800used(1701remaining), old5306/5400(94) untouched/S7c UNACCEPTED.
+Ни один semantic patch не переносился; следующие scoped diagnosis/transfer gates
+требуют отдельного решения. Исторические ограничения/оценки ниже сохранены.
+
 ## Переходный checkpoint — Git sync, повторная приёмка НЕ ВЫПОЛНЕНА
 
 2026-10-08. В этой ветке напрямую влит закреплённый upstream cd371e03.

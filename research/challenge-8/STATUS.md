@@ -1,18 +1,39 @@
 # Challenge 8: current checkpoint
 
-2026-10-08. **STOCK-26.10-BASELINE IN PROGRESS**, explicitly authorized by owner.
-Own branch `research/stock-26.10-baseline` from sync/research
-`a06cfb9d9dd95cf5a8875bd5d2f9bd85df47fadd`, upstream/std `cd371e03`.
-[BEFORE card and phase report](STOCK-26.10-BASELINE.md).
-Stock VF26.10 `f76012fb`, nightly-2026-09-25, effective patches NONE.
-Separate new ceiling1800 hosted job seconds; used37, remaining1763; no active run.
-Run37693718508/SHA4baed189 failed setup at generated Rocq .aux source audit;
-fixtures NOT_RUN. Exact effective *.rsspec audit correction ready.
-First permitted action: commit/push own branch, exact-SHA manual baseline dispatch
-(job cap600s including artifacts); isolated scalar/raw controls, then exact generic
-forget and independent normal/unwind/negative controls. No semantic patch transfer,
-actual redirect/guard/assume_init/memory extension. Source branches/main stay fixed.
-Old5306/5400 and94remaining untouched; old S7c UNACCEPTED.
+2026-10-08. **STOCK-26.10-BASELINE CLOSED**: independent stock chain operational;
+exact generic forget **INCONCLUSIVE at mandatory dead-code gate**. No active run
+or semantic draft. [Phase report / BEFORE / transfer map](STOCK-26.10-BASELINE.md).
+Own branch `research/stock-26.10-baseline`, from sync/research a06cfb9d,
+std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`.
+
+Stock26.10 VF source `f76012fb518703b1d98e243ac4f487f16877cfcb`,
+nightly2026-09-25/rustc f7575a9da; effective patches NONE.
+[Proof run37694000195](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37694000195),
+SHA `a0cfd30e066acbaf1b5406cd9773f54388cc45be`: all11 export pairs/22decodes/
+11refinement PASS;4whole-unit positives (u32/raw/ordinary unwind/shared cleanup),
+4intended false-post negatives,2separate intended contradictory-pre dead-code
+controls. Forget executes normal return/leak then sole3:1–16:2 dead code.
+New MIR4locals/3blocks and AST show orphan label2 unwind return after stock MD
+identity+normalGoto; physical residual key/object remains UNKNOWN, not old52.
+Run37693718508/SHA4baed189 is37s setup failure, not a proof.
+
+Actual source audit: MD/MaybeUninit/SmallSort match nightly rust-src; mem/ptr
+full-file hashes differ due repository annotations/cfg additions/docs, relevant
+forget/drop bodies unchanged. This is an adapter/sysroot baseline, not repository
+std build or safe generic-forget theorem. S6 source-linked matrices NOT_RUN on26.10;
+source map explains constructor/asptr/intrinsics/new drop_glue transfer gates.
+Refiner unwind TODOs and stock MD correspondence remain explicit trust limits.
+
+Separate phase account **99/1800 hosted jobseconds used,1701remaining**
+(37setup+62full baseline/artifacts). Old account **5306/5400,94remaining** untouched;
+old S7c **UNACCEPTED** and its5missing admission controls remain unchanged.
+Documentation closeout HEAD is later than proof SHA; no verification on docs.
+No actual redirect/guard/assume_init/memory-unwind/tool semantic changes.
+Original branches/main fixed; no upstream PR/messages/submission.
+
+Next decision: separately authorize narrowly scoped CFG26.10 physical-loc
+**diagnosis** before semantic transfer/trust review; no identical semantic rerun.
+Plan only, not authorization for overlays or broader FnCallResult/model changes.
 
 ---
 
