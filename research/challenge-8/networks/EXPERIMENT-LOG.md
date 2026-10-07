@@ -216,3 +216,69 @@ unit VF0/all named bodies/return/leak, all other positives and both intended
 negatives+14rejection controls. Then N13 is the next authorized step. Remaining
 837jobseconds, jobcap10min; reassess/decrease cap if remaining<600 before N13.
 Source/run/cost pending.
+
+### N9e result: complete abstract network9 acceptance
+
+Proof source `58f1680ec7951a265535f0462701511478f6efa3`,
+[run37641057339](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339),
+[artifact11491971819](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641057339/artifacts/11491971819),
+516055bytes. Full sources/logs read, hashes independently matched to result
+records. Full-file std pin and unchanged tool pins match the phase allowlist.
+
+- Binary: PASS151statements,496 return/leak paths,1.189188s; explicit model-output sorted post.
+- Threshold/rank: PASS3583statements,508 return/leak paths,25.729124s;
+  all12 named bodies including all8 universal projections, local CE/scalar
+  helpers, binary summary and final general_rank_order, with full sorted post.
+- Identity: PASS216statements,3 return/leak paths,0.408071s; arbitrary25
+  decisions and arbitrary token q, all pair-count and final-count assertions.
+- Omit-final-CE sorting negative: VF1 only at line88 columns16–18,
+  predicate `!(true) || false`, witness mask11/output000001011.
+- Duplicate-occurrence negative: VF1 only at line12 columns55–57,
+  predicate `((0 = 3 ? 1 : 0) + (0 = 3 ? 1 : 0)) = (0 + 1)`.
+- All14 classifier rejection controls PASS; no disabled body/post/leak gates.
+
+The arithmetic cut solves the localized timeout without a trusted assumption
+or any deleted assertion. Thus mathematical N9 composition is accepted under
+abstract CE; source sequence admission accepted. General key-order transfer is
+the finite-class argument in INTEGRATION, conditioned on fixed total preorder
+and preserved keys. Actual Rust helper proof remains open; no public target done.
+Job14:57:38Z–14:58:19Z = **41s**. Total **1004/1800**,796 remain.
+
+## N13 — prepared before dispatch
+
+Actual obligation: sort13_optimal at pinned std source, len>=13, exact45 literal
+swap_if_less calls (lines490–534, pairs/indices in SOURCE-MAP), first13 elements
+only. Hypothesis: the identical stock proof decomposition scales to13 and
+establishes all12 adjacent output orders and complete occurrence permutation.
+
+Domain: arbitrary13 mathematical Boolean inputs for binary theorem;
+unbounded arbitrary13 integer ranks plus arbitrary thresholds for general-order
+bridge; arbitrary45 CE choices and arbitrary occurrence q for permutation.
+Abstract CE outputs `(c?B:A,c?A:B)`; sorting additionally requires c iff
+key(B)<key(A), fixed total preorder/strict-weak-order quotient on keys preserved
+for every occurrence and normal callbacks. Safety for arbitrary legal T/F is a
+separate open Rust obligation; no Copy/Freeze restriction or stability premise.
+
+Full target normal post: all12 adjacent prefix keys ordered and each original
+occurrence exactly once, suffix unchanged by network operations modulo legal
+callback effects. Rust unwind target is the proposed effect-aware initialized
+ownership post after prior completed exchanges, without current exchange or
+sorting promise; this ghost-only experiment deliberately does not prove Rust
+normal/unwind safety. See SWAP-CONTRACT for full actual helper posts.
+
+Tool: unchanged official VeriFast26.09/pins above. Positive gate: exact source
+admission, all named ghost bodies/full posts/normal return/leak checks VF0.
+Sorting negative omits final CE and requires a concrete binary witness rejecting
+its specifically marked adjacent-order assertion. Permutation negative duplicates
+an occurrence and must reject its specifically marked token-count assertion.
+Target line/column/predicate are recorded before each verifier invocation in
+negative.json; frontend/setup/helper errors and timeouts are inconclusive.
+Retain both negatives and14 independent classifier rejection controls.
+
+Outcome mapping: all positives/negatives accepted -> document N13 composition
+and integration conditions, checkpoint/commit/push without merge or public-goal
+claim. Failure -> inspect first causal full evidence, preserve it, consider only
+localized proof/checker correction under identical profile within remaining796s;
+new trust change or insufficient budget -> checkpoint, no semantic patch.
+Per-file180s/inner480s/job600s bounds; no parallel networks job.
+Source/run/cost pending.
