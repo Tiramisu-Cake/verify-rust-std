@@ -4163,3 +4163,48 @@ ZST layout fixtures added without assuming size0. All new negative classes kept
 calibration until NEW run confirms coordinates+predicate+executedtarget; no
 leak/unwind/dead-code/refinement suppression. Same semantic patches/profile.
 Separate copy primitive design reviewed, no copy model applied in this run.
+
+### W2c/M2c outcome / W2d/M2d BEFORE
+
+Run37703305234/source95c507227c1f80274eab2cac4932dee342f82671,
+job113071644164,23:37:24–23:40:27UTC=183seconds; cumulative977/21600.
+Full W1/G2/A/B/Rust/bridge and both native fullbody baselines PASS. Unwind/tuple
+classifier preparation rejected TARGET: colon delimiter (old scanner recognized
+only whitespace); no negative accepted. Fix scanner delimiter, exact diagnostics
+unchanged. Actual unchanged merge_up/down full export/decode/refine/source-byte
+identity now reaches actual reference creation: missing ref_precreated_token<T>
+at aliasing88:9–29. This is required loan setup, not a whole callee negative.
+Borrow adapter rejected existential pattern in expression `result == ?answer`;
+remove that tautological binding, retain every material normal/unwind resource
+post and arbitrary Boolean behavior. Inject genuine same borrower API setup into
+actual annotated body, stripping preserves pinned function bytes. Trace now
+needs arbitrary-tail prefixzero body lemma; add checked helper, fullmainposts
+unchanged. Concrete ZST terminal two-operation reentry2PASS without assumedsize;
+singleoperation4identity goals fail unknown layout, remain OPEN. Do not assume
+unit/userZST size in req; source-to-layout bridge separately needed. No active
+run after artifacts/log audit. Next run adds separately reviewed copy patch,
+restricted one-element option<T> destination profile from COPY-DESIGN/Profile;
+new semantic matrix and full combined controls remain diagnostic.
+
+### C1 one-element scratch model BEFORE / trust review
+
+COPY-DESIGN and COPY-PROFILE reviewed before implementation/admission. Exact
+source std ptr::copy_nonoverlapping remains unchanged; trustedprimitive spec
+copy.patchcbce890459182725932101dc3c8ca6f9f87a8ca1dd0e7b6cf5b5faca620a5f57
+only std/lib.rsspec overf760, applied separately afterW1/M2a. Forcount1 and
+positive stride: initialized fractional sourceT, writable optionaldestinationT,
+explicit positive addresses/alignment/objectextent/bytebounds/numericnonoverlap.
+Ens sourceunchanged, destinationinitializedtoexactsameT (including represented
+pointerprovenance); noownTcreated. None/somepreviousvalidscratchdomainonly;
+invalidinitializedbytes/ZST/count0/countothernewmodels OPEN. Other counts retain
+stock initialized-array branch, tested separately without broadsoundnessclaim.
+Selfreview: no sourcebyteserialization/provenanceerasure; copy ownT is only framed
+notduplicated. Negatives include missingdst/uninitializedsrc/overlap/alignment
+and ownershipduplication atactual post-copy resource assertion. All calibrate
+before exactoracle admission; setupfailure nevernegative. CombinedW1/M2a/C1
+profile experimental-merge-wrapping-callback-copy-v1 is diagnosticNOTACCEPTED.
+Full previouspositive/negative/math/native/unwind/bridge regressions before
+admitting any substantial new component. All patches separatelyhashed; kernel,
+exporter/refiner/schema unchanged. Actual callbackresourcefirstfailures remain
+fulltargetposts; sourcecaller must establish this restricted scratchdomain before
+usingtheprimitive summary. Countallhostedjobs/setup/build/artifacttime;1800jobcap.

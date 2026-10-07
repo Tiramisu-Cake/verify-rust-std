@@ -22,7 +22,7 @@ req thread_token(?t) &*& t == currentThread &*&
 ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     *left_src |-> ?left1 &*& <T>.own(t, left1) &*&
     *right_src |-> ?right1 &*& <T>.own(t, right1) &*&
-    *is_less |-> ?f1 &*& <F>.own(t, f1) &*& result == ?answer;
+    *is_less |-> ?f1 &*& <F>.own(t, f1);
 @*//*@
 on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     *left_src |-> ?left_unwound &*& <T>.own(t, left_unwound) &*&

@@ -16,6 +16,8 @@ repo=$(git rev-parse --show-toplevel)
 patch_file="$repo/research/challenge-8/merge/overnight/wrapping.patch"
 callback_patch="$repo/research/challenge-8/merge/overnight/callback.patch"
 callback_sha=0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e
+copy_patch="$repo/research/challenge-8/merge/overnight/copy.patch"
+copy_sha=cbce890459182725932101dc3c8ca6f9f87a8ca1dd0e7b6cf5b5faca620a5f57
 vf_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
 vfdeps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_rev=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
@@ -54,7 +56,7 @@ run_stage() {
 }
 
 {
-  printf 'Profile: VeriFast26.10 source console + experimental wrapping patch\n'
+  printf 'Profile: VeriFast26.10 source console + separate experimental wrapping/callback/copy patches\n'
   printf 'Source commit: %s\nVFdeps archive SHA256: %s\nDecoder revision: %s\n' "$vf_commit" "$vfdeps_sha" "$decoder_rev"
   printf 'Runner: %s / %s\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
   cat /etc/os-release
@@ -64,7 +66,9 @@ run_stage() {
 } > "$evidence/source-build-inputs.txt"
 printf '%s  %s\n' "$patch_sha" "$patch_file" | sha256sum -c -
 printf '%s  %s\n' "$callback_sha" "$callback_patch" | sha256sum -c -
+printf '%s  %s\n' "$copy_sha" "$copy_patch" | sha256sum -c -
 sha256sum "$callback_patch" >> "$evidence/source-build-inputs.txt"
+sha256sum "$copy_patch" >> "$evidence/source-build-inputs.txt"
 
 # Pin the source tree by immutable commit, then check out only that commit.
 run_stage source-init git init "$source_home"
@@ -91,6 +95,7 @@ cp "$source_home/$std_lib_rel" "$evidence/std_lib.original.rsspec"
 # Audit patch paths before applying. No kernel, exporter, refiner, or extra file edits.
 git -C "$source_home" apply --numstat "$patch_file" > "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$callback_patch" >> "$evidence/patch-numstat.txt"
+git -C "$source_home" apply --numstat "$copy_patch" >> "$evidence/patch-numstat.txt"
 awk -F '\t' 'NF != 3 { exit 1 } { print $3 }' "$evidence/patch-numstat.txt" | LC_ALL=C sort -u > "$evidence/patch-files.txt"
 [[ -s "$evidence/patch-files.txt" ]] || fail 'wrapping.patch contains no file changes'
 if comm -23 "$evidence/patch-files.txt" <(printf '%s\n' "$allowed_files") | grep -q .; then
@@ -100,10 +105,12 @@ run_stage patch-check git -C "$source_home" apply --check "$patch_file"
 run_stage patch-apply git -C "$source_home" apply --whitespace=error "$patch_file"
 run_stage callback-patch-check git -C "$source_home" apply --check "$callback_patch"
 run_stage callback-patch-apply git -C "$source_home" apply --whitespace=error "$callback_patch"
+run_stage copy-patch-check git -C "$source_home" apply --check "$copy_patch"
+run_stage copy-patch-apply git -C "$source_home" apply --whitespace=error "$copy_patch"
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
 diff -u "$evidence/patch-files.txt" "$evidence/source-modified-files.txt" || fail 'applied tree differs from the audited patch paths'
-git -C "$source_home" diff --binary > "$evidence/applied-wrapping.patch"
-sha256sum "$evidence/applied-wrapping.patch" > "$evidence/applied-wrapping.patch.sha256"
+git -C "$source_home" diff --binary > "$evidence/applied-profile.patch"
+sha256sum "$evidence/applied-profile.patch" > "$evidence/applied-profile.patch.sha256"
 cp "$source_home/$translator_rel" "$evidence/translator.patched.ml"
 cp "$source_home/$parser_rel" "$evidence/parser.patched.ml"
 cp "$source_home/$prelude_rel" "$evidence/prelude_core.patched.rsspec"

@@ -64,6 +64,20 @@ lem trace_destination_nonnegative_index(p: pointer, i: i32, s: i32)
         pointer_ctor(p.provenance, p.address + i * s, p.metadata);
 }
 
+lem trace_true_prefix_zero(xs: list<bool>)
+    req true;
+    ens trace_true_prefix(xs, 0) == 0;
+{
+    match xs {
+        nil => {
+            assert trace_true_prefix(xs, 0) == 0;
+        }
+        cons(h, tail) => {
+            assert trace_true_prefix(xs, 0) == 0;
+        }
+    }
+}
+
 lem trace_true_prefix_step(xs: list<bool>, k: usize)
     req 0 <= k &*& k < length(xs);
     ens trace_true_prefix(xs, k + 1) ==
@@ -75,6 +89,7 @@ lem trace_true_prefix_step(xs: list<bool>, k: usize)
         }
         cons(h, tail) => {
             if k == 0 {
+                trace_true_prefix_zero(tail);
                 assert trace_true_prefix(xs, 1) == (if h { 1 } else { 0 });
                 assert trace_true_prefix(xs, 0) == 0;
                 assert nth(0, xs) == h;

@@ -81,9 +81,10 @@ post: source memory and source-side own(T) are unchanged;
 ```
 
 This must not silently assume the old destination contained either `none` or a
-valid `T`. Safe `MaybeUninit::zeroed` can hold bytes that are invalid for some
-`T`; the current `option<T>`-only view cannot encode such an initialized but
-invalid T representation. A fully general contract should therefore consume
+valid `T`. Safe `MaybeUninit::<&T>::zeroed()` can hold a null pointer
+representation that is invalid for a Rust reference; the current
+`option<T>`-only view cannot encode such an initialized but invalid T
+representation. A fully general contract should therefore consume
 the destination as raw bytes/MaybeUninit and replace those bytes, then expose
 the post-copy bytes as typed `T` only because they were copied from initialized
 source `T` cells. Existing `from_u8s_`, `to_u8s_`, and byte-array lemmas are
@@ -181,14 +182,16 @@ the exact diagnostic:
 
 The stock `copy_nonoverlapping` contract cannot establish the actual
 MaybeUninit scratch write because it requires `dst[..count] |-> _`. A ghost
-initialized shadow would hide that mismatch. A minimal trusted primitive
-extension is technically plausible, but it creates a new trusted semantic
-edge from source T values to destination initialization and must be approved,
-profile-pinned, documented, and gated by the controls above before
-implementation. The most important open issue is the representation of
-arbitrary initialized-invalid MaybeUninit bytes together with typed pointer
-provenance; until that is resolved, do not state that the option<T> diagnostic
-contract covers unrestricted scratch storage.
+initialized shadow would hide that mismatch. A separate proposed staged
+contract is now captured in [COPY-PROFILE.md](COPY-PROFILE.md) and
+`copy.patch`: it covers exactly one positive-size element with an option<T>
+destination state and explicit address/alignment/range conditions. It creates
+a new trusted semantic edge from source T values to destination
+initializedness, so it still requires review and hosted controls before
+integration or proof claims. The most important open issue is representation
+of arbitrary initialized-invalid MaybeUninit bytes together with typed pointer
+provenance; the staged option<T> contract does not cover unrestricted scratch
+storage.
 
 No source/spec patch, runner, verifier, build, or executable test was changed
 or run while preparing this design note.

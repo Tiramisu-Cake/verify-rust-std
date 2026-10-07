@@ -27,7 +27,7 @@ FN = re.compile(rb"(?m)^[ \t]*(?:pub\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9
 LEMMA = re.compile(rb"\blem\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
 EXPECTED_ERROR = re.compile(rb"(?m)^\s*// EXPECT_ERROR (\{[^\r\n]*\})\s*$")
 EXPECTED_REJECTION = re.compile(rb"(?m)^\s*// EXPECT_REJECTION (\{[^\r\n]*\})\s*$")
-TARGET = re.compile(rb"// TARGET(?:_NEGATIVE)?(?:\s|$)")
+TARGET = re.compile(rb"// TARGET(?:_NEGATIVE)?(?:\s|:|$)")
 
 HEADER_ANY = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+(?:-\d+(?:,\d+)?)?\): Verifying function '([^']+)'$", re.M)
 EXECUTION = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+-\d+\): (?:note: )?Executing statement$", re.M)

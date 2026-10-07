@@ -35,6 +35,7 @@ def contract(name: str) -> str:
     return """/*@
 req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*& type_interp::<F>() &*&
     0 < std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= isize::MAX &*&
+    left_src as pointer != right_src as pointer &*&
     *left_src |-> ?lv &*& <T>.own(t, lv) &*&
     *right_src |-> ?rv &*& <T>.own(t, rv) &*&
     *dst |-> ?dst0 &*& *is_less |-> ?f0 &*& <F>.own(t, f0) &*&
@@ -81,10 +82,30 @@ def main() -> None:
             raise RuntimeError(f"changed exact callback statement: {name}")
         verified = verified.replace(anchor,
             "let is_l = !is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*right_src, &*left_src);")
-        # Explicit loan setup is deliberately absent in this first applicability
-        # diagnostic. Its first actual obligation determines the next injection.
+        # Establish the actual two shared-reference arguments from distinct
+        # initialized source cells. Release/recovery remains deliberately open:
+        # the full normal and unwind posts expose the next lifetime-cut debt.
         verified = verified.replace("    unsafe {\n",
-            "    //@ let cmp_k = begin_lifetime();\n    unsafe {\n        //@ let_lft 'cmp = cmp_k;\n", 1)
+            "    //@ let cmp_k = begin_lifetime();\n    unsafe {\n"
+            "        /*@ let_lft 'cmp = cmp_k; @*/\n"
+            "        //@ close_full_borrow_content::<T>(t, left_src as *T);\n"
+            "        //@ borrow(cmp_k, <T>.full_borrow_content(t, left_src as *T));\n"
+            "        //@ share_full_borrow::<T>(cmp_k, t, left_src as *T);\n"
+            "        //@ close_full_borrow_content::<T>(t, right_src as *T);\n"
+            "        //@ borrow(cmp_k, <T>.full_borrow_content(t, right_src as *T));\n"
+            "        //@ share_full_borrow::<T>(cmp_k, t, right_src as *T);\n"
+            "        //@ let left_ref = precreate_ref(left_src as *T);\n"
+            "        //@ init_ref_share::<T>(cmp_k, t, left_ref);\n"
+            "        //@ let right_ref = precreate_ref(right_src as *T);\n"
+            "        //@ init_ref_share::<T>(cmp_k, t, right_ref);\n"
+            "        //@ open_frac_borrow(cmp_k, ref_initialized_(left_ref), 1/4);\n"
+            "        //@ open [?left_ref_frac]ref_initialized_::<T>(left_ref)();\n"
+            "        //@ close_ref_own::<'cmp, T>(left_ref);\n"
+            "        //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);\n"
+            "        //@ open [?right_ref_frac]ref_initialized_::<T>(right_ref)();\n"
+            "        //@ close_ref_own::<'cmp, T>(right_ref);\n"
+            "        /*@ close <(&'cmp T, &'cmp T)>.own(t,\n"
+            "                std_tuple_2_::<&'cmp T, &'cmp T> { 0: right_ref, 1: left_ref }); @*/\n", 1)
         if strip(verified) != original:
             raise RuntimeError(f"ghost stripping changes actual runtime source: {name}")
         record["cases"][name] = {"source_line": source[:start].count("\n") + 1,
