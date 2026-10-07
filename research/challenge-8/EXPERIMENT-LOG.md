@@ -4270,3 +4270,12 @@ Canonicalstockprojection only afterbaseline infrastructure +all18; stop first
 resource/droppre failure ornextactual blocker, no broader semantic extension.
 Budget3302/5400used2098remain;onehostedrun,sameworkflowselection30min,<=1800/job,
 <=300/proof. Prior classifications and failed hypotheses retained, not overwritten.
+
+S6v3 dispatch37651717720 resolvedexacthead
+`dfc1f1d740689de8f427ac549da558d64a4318eb`,created16:24:03UTC;
+selectionverifast_maybeuninit_new_pointer,budget30,one relevant hostedrun.
+Beforecost3302/5400,2098remain; durationpending. User's latest steering preserves
+samegoal/budget/stop and requires explicit normal/readonly correspondence; table
+now records eachghost local/BB and regular/explicit coordinates from diagnostic,
+expanding the earlier preimplementationfaef1a3 mapping, no new semantic change.
+[Fresh S6v3 proof and integration run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37651717720).

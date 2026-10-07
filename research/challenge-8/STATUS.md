@@ -8,7 +8,10 @@ kernel/memory/alias/provenance remain frozen.
 [results](SORT4-SELECT-POINTER-RESULTS.md), [actual](SORT4-SELECT-CALLEE.md).
 
 Budget **3302/5400 summed hosted job seconds used;2098remain**, no reset.
-No active run. <=1800/job,<=300/proof,one relevant GitHub-hosted dispatch only.
+Active run37651717720/source dfc1f1d740689de8f427ac549da558d64a4318eb;
+new drop-v3/94ffc64c fullproof/regression/18NORMALadmission/actual dispatch.
+Its duration is pending, not included yet. <=1800/job,<=300/proof,
+one relevant GitHub-hosted dispatch only.
 Latest normal-MIR diagnostic37649244205/sourcef6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d
 completed69s16:05:10–16:06:19UTC; exporter/decode/source/tool/argument integrityPASS,
 NO verifier/refiner/proof. Full normal actual36locals19BB captured; readonly31/14.
@@ -35,7 +38,7 @@ readonly geometry hypothesis retracted; original classifications kept.
 Normal diagnostic37648838042 duplicatecompilerargs setupfail65s; repaired
 37649244205 fullnormal capture69s. All costs included above.
 
-Next permitted action: exact S6v3 projected-only full36/19 admission, separate
+Current action: exact S6v3 projected-only full36/19 admission, separate
 baseline31/14 check; preimplementation card/trust review committedfaef1a3 BEFORE
 code. Fullruntime/cleanupgraph, exact fivezeroarg/unit placeholders/ghostpairs,
 regular+32 and explicitsourcecoordinates; NO graph/AST rewrite or translator

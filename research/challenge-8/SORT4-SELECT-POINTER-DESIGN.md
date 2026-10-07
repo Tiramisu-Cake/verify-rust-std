@@ -573,3 +573,29 @@ exact36/19 projected check only, no AST/MIR rewrite or changed stock execution.
 Readonly source/export/decode/refinement bytes pinned separately; normal mutation
 files/records preserved independently. Fullfresh component/regression gates and
 all18 exact intended certificate failures precede canonical projected proof.
+
+### Normal / readonly correspondence from diagnostic37649244205
+
+This expands the explicit mapping recorded before implementation infaef1a3;
+export/decode0 is diagnostic evidence, not a proof. All source/tool bytes pinned.
+Regular columns below are zero-based; explicit columns are one-based half-open.
+Regular lo is unchanged; normal hi is readonly hi+32 exactly.
+
+| Ghost operation | Added normal unit local / BB | Readonly regular span | Normal regular span | Explicit source range (both modes) |
+| --- | --- | --- | --- | --- |
+| open true | _12 / 4 | 40:4–92 | 40:4–124 | 40:5–94 |
+| open false | _13 / 5 | 41:4–93 | 41:4–125 | 41:5–95 |
+| if condition | _24 / 8 | 59:8–38 | 59:8–70 | 59:9–40 |
+| close true | _27 / 10 | 61:8–97 | 61:8–129 | 61:9–99 |
+| close false | _28 / 11 | 62:8–98 | 62:8–130 | 62:9–100 |
+
+Each added block has the exact zero-argument/non-generic stock ghostcallee,
+unitdestination, ordered StorageLive/Dead placement, source/call/local spans,
+normal target5/6/9/11/12 and unwindContinue/Continue/Cleanup18/Cleanup18/Cleanup18.
+The full 36/19 checker separately verifies all10runtime calls and5placeholders,
+all ordered operations and runtime normal/cleanup CFG via the explicit maps above;
+counts alone do not admit it. Actualdrop normalBB9 consumes Move26, returnsunit25,
+normal10,cleanup18. ForgetBB12, wrapperselectBB13, assume_initBB14, returnBB15 and
+cleanupBB16–18 remain. No general memory model or source algorithm changes.
+Eighteen independent NORMAL-only mutants test these exact obligations; allsource/
+readonly-export/refinement resources and original classifications remain preserved.
