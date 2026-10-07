@@ -4017,3 +4017,14 @@ research job from this agent. First run is diagnostic, new profile NOT ACCEPTED
 until full combined positive/negative/regression matrix. Existing11Rust controls
 are checked on experimental console too. Standard G2/A/B full matrix later in
 acceptance. Source-linked actual merge and full pointer trace are not this run.
+
+### W1a outcome / W1b BEFORE
+
+Run37698908772/source51f410d612012602665d0672218d4e1cab29703f, sole hosted
+job113057359508,22:52:40–22:53:18UTC=38seconds. Build setup failure after exact
+source/patch/kernel/exporter pins: Ubuntu22 runner lacksrg. No console build or
+proof performed;26cases NOTRUN, no negative acceptance. Full log/artifact
+11516836074 downloaded and inspected; digest59a364bc37683642133215be74aea27950
+b168f057aedfdb15ddb9a30ad111d9. Cost38/21600; historical603/1800unchanged.
+W1b uses existinggrep for the two ldd checks; no semantic patch/contract change.
+Same W1 matrix/hypothesis/domain/posts/tool profile; new exact-SHA run necessary.

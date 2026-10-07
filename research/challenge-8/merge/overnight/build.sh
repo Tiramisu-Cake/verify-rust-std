@@ -101,7 +101,7 @@ cp "$source_home/$std_lib_rel" "$evidence/std_lib.patched.rsspec"
 sha256sum "$evidence"/translator.* "$evidence"/prelude_core.* "$evidence"/std_lib.* >> "$evidence/source-build-inputs.txt"
 
 # Keep toolchain providers pinned; use runner-provided build utilities without apt upgrades.
-for tool in git curl tar sha256sum make gcc cargo rg; do command -v "$tool" >/dev/null || fail "required runner tool missing: $tool"; done
+for tool in git curl tar sha256sum make gcc cargo grep; do command -v "$tool" >/dev/null || fail "required runner tool missing: $tool"; done
 deps_archive=${VFDEPS_ARCHIVE:-"$RUNNER_TEMP/vfdeps-adf88dc-linux.txz"}
 if [[ ! -f "$deps_archive" ]]; then
   run_stage vfdeps-download curl --fail --location --retry 3 --output "$deps_archive" \
@@ -145,8 +145,8 @@ cmp "$release_home/bin/refinement-checker" "$source_home/bin/refinement-checker"
   find "$source_home/bin" -type f ! -name verifast ! -name vf-rust-mir-exporter ! -name refinement-checker -print0 | sort -z | xargs -0 sha256sum
 } > "$evidence/source-build-runtime.txt" 2>&1
 ldd "$source_home/bin/verifast" > "$evidence/source-console-ldd.txt"
-if ! rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/source-console-ldd.txt"; then
+if ! grep -F "libz3.so => $source_home/bin/libz3.so " "$evidence/source-console-ldd.txt"; then
   fail 'source console did not resolve its paired pinned Z3'
 fi
-if rg -q 'not found' "$evidence/source-console-ldd.txt"; then fail 'source console has unresolved dynamic libraries'; fi
+if grep -q 'not found' "$evidence/source-console-ldd.txt"; then fail 'source console has unresolved dynamic libraries'; fi
 printf 'Source console build complete. No verifier or C suite was run by this helper.\n' | tee "$evidence/source-build-status.txt"
