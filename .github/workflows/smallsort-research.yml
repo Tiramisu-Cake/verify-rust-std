@@ -32,6 +32,7 @@ on:
           - verifast_sort4_components
           - merge_geometry
           - merge_functional_ids
+          - merge_order
           - verifast_maybeuninit_new_pointer
           - verifast_sort4_alignment
           - verifast_rust_fieldless_layout
@@ -71,7 +72,7 @@ defaults:
 
 jobs:
   bootstrap:
-    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'merge_geometry' && inputs.proof != 'merge_functional_ids' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13' && inputs.sort4_component != 'ranks13_symbolic'
+    if: inputs.proof != 'rapx_evidence_replay' && inputs.proof != 'select_intrinsic_evidence_replay' && inputs.proof != 'merge_geometry' && inputs.proof != 'merge_functional_ids' && inputs.proof != 'merge_order' && inputs.sort4_component != 'networks9' && inputs.sort4_component != 'networks13' && inputs.sort4_component != 'ranks9' && inputs.sort4_component != 'ranks13' && inputs.sort4_component != 'ranks13_symbolic'
     name: Verify selected SmallSort research proofs
     permissions:
       contents: read
@@ -290,6 +291,28 @@ jobs:
         with:
           name: smallsort-merge-functional-ids-${{ github.run_id }}-${{ github.run_attempt }}
           path: research-results/merge-functional-ids/
+          if-no-files-found: error
+          retention-days: 90
+
+  merge_order:
+    if: inputs.proof == 'merge_order' && github.ref == 'refs/heads/challenge-8/merge'
+    name: Exact stable bidirectional merge on stock VeriFast
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify exact-source functional merge schedule
+        run: bash research/challenge-8/merge/order-run.sh merge_order
+      - name: Preserve full merge functional evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-merge-order-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/merge-order/
           if-no-files-found: error
           retention-days: 90
 

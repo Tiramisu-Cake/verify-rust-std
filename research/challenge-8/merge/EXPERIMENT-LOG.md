@@ -122,3 +122,44 @@ recursion. Full original contracts unchanged, no added assumptions. Negative
 source/assert unchanged, calibrate exact boxed diagnostic; all strict gates and
 seven rejection controls required. Same A domain/full posts/stock pins/180case/
 300process/6minjob. Success -> B; failure -> evidence-backed proof cuts only.
+
+## F-A2 accepted / F-B1 card
+A2 published fc4d03d31f92c6d3f3566b0baa506d0a6dec6805,
+[run37677079473](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37677079473),
+job11298324838319:47:02Z–19:47:19Z=17s; cumulative56/1800,1744remaining.
+Full positive exit0/source11f8f381dcdadb7bbe96249f21086ceb368fd028afc7401779b500c3d8bc9623,
+logb85d15cf76da882463986dc8e0eecf1c83dd72306faafe25b35a18d795b63c0b,
+19/19bodies178statements55returns55leaks. Negative unchanged sourcefa84ead...
+log94e6d0cd9dcc118d94c43abb5d9233d7fd38813ca5c6be5ed3189db5b166831f,
+exact assert218cols68-70/boxedpredicate and7controls ACCEPTED. Full source,
+logs/results/environment/resources/exit inspected and hashes matched. Official
+pins/source admission unchanged. Signed indicator balance telescopes even when
+cursor intervals cross; guard alone cancels residual potential. Thus no hidden
+joint-remaining-set disjointness/order assumption in A. Exact chronological
+writes tied to output: arbitraryp singlewrite iff0<=p<n and same nthID; arbitraryq
+count exactly1 iff0<=q<n. Normal mathematical completion, actualRust OPEN.
+
+B1 actualstd/source admission unchanged, full G2 and acceptedA bodies rechecked.
+Hypothesis: four independent front/back cut inequalities, derived from original
+sorted halves and exact tie laws, rule out crossed joint intervals and stale
+selection, even when a joint half becomes empty. Selected forward/reverse IDs
+are lex(rank,originalID) min/max of remaining sources; induction follows exact
+fa_output nesting and scalar odd residual. Constructive predecessor-count SWO
+bridge bodies all rechecked (unchanged e5c3f29d...); original SWO-half sortedness
+and exact comparison answers translated with swo_rank_bridge at each read,
+no rank correspondence axioms/reference merge assumption. Exactposts inms_entry:
+scalar guard, fullgeometry, output/trace lengthn, everydstexactlyonce/tracevalue,
+arbitraryIDcount, all-pair !rel(later,earlier) and equivalent=>IDascending.
+Domain n>=2, length decisions=n/2, fixed finite SWO on occurrenceIDs0..n-1,
+immutable pullback keys, originallysorted halves, faithful normallyreturning
+comparator; oddchoice scalar a<d. No order premises added to G2 or A.
+Positive all own bodies/source/returns/leaks/deadcode/0error required. Negatives:
+A's n2 duplicate/loss withoutguard; ties key0, ds(false,false), output[1,0]
+withguard/permutation passes but mb_lt(key,1,0) false; wronganswers keys[1,0],
+ds(true,true), output[0,1] withguard/permutation passes but key0<=key1 false.
+Each isolated negative confirms faulty fidelity and invalid sorted/stable output
+before marked target, exactstage/line/body/column/predicate/source/timeout and
+7controls each required. Tool/frozenclassifier unchanged,180case/300process/6min
+job includingpreparation. Success->A/Bcomplete math report; failure->localized
+new evidence-backed proof repair, never premises/posts/tool weakening.
+Source/runpending. Budget56spent1744remaining, oneownrun only.
