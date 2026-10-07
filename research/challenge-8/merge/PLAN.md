@@ -4,7 +4,8 @@ Owner continuation from documentation HEAD
 `7d27ce106d27208bcd1156fe5675f70f8f9bf1aa` accepts completed G2/A/B.
 New stage follows [POINTER-DESIGN](POINTER-DESIGN.md), including caller audit,
 nonzero-size component, exact operator support, meaningful controls and preserved
-export/decode/refinement/full verifier gates. Same budget330/1800,1470 remain.
+export/decode/refinement/full verifier gates. Entry budget330/1800,1470 remain;
+after P1 annotation parse failure441/1800,1359remain. P2 syntax correction only.
 Audit is completed before dispatch. No ZST exclusion in Challenge contracts,
 no tool semantic changes, memory/copy/FnMut/unwind expansion or network work.
 Own branch only; one hosted run at a time. Unsupported wrapping -> stop that

@@ -47,8 +47,10 @@ in separate bodies. All mathematical A/B targets closed; actual Rust remains
 OPEN. Current budget330/1800,1470remaining, no active run; no new budget phase.
 # Stock Rust pointer/index stage (2026-10-07)
 
-Before P1: caller applicability audit COMPLETE, stock operation projections
-PREPARED/NOT RUN. Public stable/unstable entry routes exclude ZST; direct generic
+Caller applicability audit COMPLETE. P1 all15 INCONCLUSIVE at annotation parser;
+export/decode/refinement/integrity15/15 pass, no operation reached. P2 syntax
+correction in preparation, budget441/1800 used1359remain.
+Public stable/unstable entry routes exclude ZST; direct generic
 SmallSort/Challenge ZST remainder OPEN. New component positive-size premises
 are local, not Challenge restrictions. Complete Rust G2 composition, wrapping,
 copy/ownership/FnMut/unwind OPEN. G2/A/B evidence and premises below preserved.

@@ -11,11 +11,11 @@ lem g2_step(m: usize, e: usize, k: usize, a: usize, d: usize, up: bool, down: bo
         0 <= m - 1 - k + d &*& m - 1 - k + d < 2 * m + e &*&
         0 <= 2 * m + e - 1 - d &*& 2 * m + e - 1 - d < 2 * m + e &*&
         1 <= 2 * m + e - 1 - k &*& 0 <= 2 * m + e - 2 - k &*&
-        m + k - a + (up ? 0 : 1) == m + (k + 1) - (a + (up ? 1 : 0)) &*&
-        m - 1 - k + d - (down ? 0 : 1) == m - 1 - (k + 1) + (d + (down ? 1 : 0)) &*&
-        2 * m + e - 1 - d - (down ? 1 : 0) == 2 * m + e - 1 - (d + (down ? 1 : 0)) &*&
-        -1 <= m - 1 - k + d - (down ? 0 : 1) &*&
-        a + (up ? 1 : 0) <= k + 1 &*& d + (down ? 1 : 0) <= k + 1;
+        m + k - a + (if up { 0 } else { 1 }) == m + (k + 1) - (a + (if up { 1 } else { 0 })) &*&
+        m - 1 - k + d - (if down { 0 } else { 1 }) == m - 1 - (k + 1) + (d + (if down { 1 } else { 0 })) &*&
+        2 * m + e - 1 - d - (if down { 1 } else { 0 }) == 2 * m + e - 1 - (d + (if down { 1 } else { 0 })) &*&
+        -1 <= m - 1 - k + d - (if down { 0 } else { 1 }) &*&
+        a + (if up { 1 } else { 0 }) <= k + 1 &*& d + (if down { 1 } else { 0 }) <= k + 1;
 {
     if up {
         assert m + k - a == m + (k + 1) - (a + 1);
@@ -33,11 +33,13 @@ lem g2_terminal(m: usize, e: usize, a: usize, d: usize, h: bool)
     req 1 <= m &*& (e == 0 || e == 1) &*& 0 <= a &*& a <= m &*& 0 <= d &*& d <= m;
     ens -1 <= d - 1 &*& d - 1 < m &*& 0 <= d &*& d <= m &*&
         (d - 1) + 1 == d &*& (2 * m + e - 1 - d) + 1 == 2 * m + e - d &*&
-        (e == 0 ?
-            ((a == d && 2 * m - a == 2 * m - d) == (a == d)) :
+        (if e == 0 {
+            ((a == d && 2 * m - a == 2 * m - d) == (a == d))
+        } else {
             (a < 2 * m + e && 2 * m - a < 2 * m + e &&
-             a + (h ? 1 : 0) <= 2 * m + e &&
-             2 * m - a + (h ? 0 : 1) <= 2 * m + e));
+             a + (if h { 1 } else { 0 }) <= 2 * m + e &&
+             2 * m - a + (if h { 0 } else { 1 }) <= 2 * m + e)
+        });
 {
     if e == 0 {
         assert (a == d && 2 * m - a == 2 * m - d) == (a == d);
@@ -59,9 +61,11 @@ pub unsafe fn init_const<T>(base: *const T, n: usize, i: usize) -> *const T
 req 0 < std::mem::size_of::<T>() &*& i <= n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
+@*//*@
 ens result == base + i &*& pointer_within_limits(result) == true &*&
     (result as pointer).provenance == (base as pointer).provenance &*&
     result as usize == base as usize + i * std::mem::size_of::<T>();
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -78,9 +82,11 @@ pub unsafe fn init_mut<T>(base: *mut T, n: usize, i: usize) -> *mut T
 req 0 < std::mem::size_of::<T>() &*& i <= n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
+@*//*@
 ens result == base + i &*& pointer_within_limits(result) == true &*&
     (result as pointer).provenance == (base as pointer).provenance &*&
     result as usize == base as usize + i * std::mem::size_of::<T>();
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -97,8 +103,10 @@ pub unsafe fn destination_up<T>(base: *mut T, n: usize, i: usize) -> *mut T
 req 0 < std::mem::size_of::<T>() &*& i < n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
+@*//*@
 ens result == base + (i + 1) &*& pointer_within_limits(result) == true &*&
     (result as pointer).provenance == (base as pointer).provenance;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -116,8 +124,10 @@ pub unsafe fn forward_left<T>(base: *const T, n: usize, i: usize, is_l: bool) ->
 req 0 < std::mem::size_of::<T>() &*& i < n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
-ens result == base + (i + (is_l ? 1 : 0)) &*& pointer_within_limits(result) == true &*&
+@*//*@
+ens result == base + (i + (if is_l { 1 } else { 0 })) &*& pointer_within_limits(result) == true &*&
     (result as pointer).provenance == (base as pointer).provenance;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -135,8 +145,10 @@ pub unsafe fn forward_right<T>(base: *const T, n: usize, i: usize, is_l: bool) -
 req 0 < std::mem::size_of::<T>() &*& i < n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
-ens result == base + (i + (is_l ? 0 : 1)) &*& pointer_within_limits(result) == true &*&
+@*//*@
+ens result == base + (i + (if is_l { 0 } else { 1 })) &*& pointer_within_limits(result) == true &*&
     (result as pointer).provenance == (base as pointer).provenance;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -154,8 +166,10 @@ pub unsafe fn destination_down<T>(base: *mut T, n: usize, i: usize) -> *mut T
 req 0 < std::mem::size_of::<T>() &*& 1 <= i &*& i < n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
+@*//*@
 ens result == base + (i - 1) &*& pointer_within_limits(result) == true &*&
     (result as pointer).provenance == (base as pointer).provenance;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -185,7 +199,9 @@ pub fn pointer_order<T>(base: *const T, left: *const T, left_end: *const T, i: u
 req 0 < std::mem::size_of::<T>() &*& left == base + i &*& left_end == base + j &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(left) == true &*&
     pointer_within_limits(left_end) == true;
+@*//*@
 ens result == (i < j);
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -215,7 +231,9 @@ req 0 < std::mem::size_of::<T>() &*& left == base + i &*& left_end == base + j &
     right == base + r &*& right_end == base + t &*& pointer_within_limits(base) == true &*&
     pointer_within_limits(left) == true &*& pointer_within_limits(left_end) == true &*&
     pointer_within_limits(right) == true &*& pointer_within_limits(right_end) == true;
+@*//*@
 ens result == (i != j || r != t);
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -229,7 +247,9 @@ on_unwind_ens false;
 pub fn wrapping_down<T>(base: *const T, is_l: bool) -> *const T
 /*@
 req true;
+@*//*@
 ens true;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -243,7 +263,9 @@ on_unwind_ens false;
 pub fn wrapping_end<T>(left_rev: *const T) -> *const T
 /*@
 req true;
+@*//*@
 ens true;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -256,7 +278,9 @@ on_unwind_ens false;
 pub fn wrapping_reentry<T>(base: *const T) -> *const T
 /*@
 req 0 < std::mem::size_of::<T>() &*& pointer_within_limits(base) == true;
+@*//*@
 ens result == base &*& (result as pointer).provenance == (base as pointer).provenance;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -270,7 +294,9 @@ on_unwind_ens false;
 pub unsafe fn wrapped_read(base: *const u8) -> u8
 /*@
 req *base |-> ?value;
+@*//*@
 ens *base |-> value;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -286,7 +312,9 @@ pub unsafe fn wrong_cursor<T>(base: *const T, n: usize, i: usize) -> *const T
 req 0 < std::mem::size_of::<T>() &*& i + 2 <= n &*&
     n * std::mem::size_of::<T>() <= isize::MAX &*&
     pointer_within_limits(base) == true &*& pointer_within_limits(base + n) == true;
+@*//*@
 ens true;
+@*//*@
 on_unwind_ens false;
 @*/
 {
@@ -303,7 +331,9 @@ on_unwind_ens false;
 pub fn address_index<T>(left: *const T, right: *const T, i: usize, j: usize)
 /*@
 req 0 < std::mem::size_of::<T>() &*& left as usize == right as usize;
+@*//*@
 ens true;
+@*//*@
 on_unwind_ens false;
 @*/
 {

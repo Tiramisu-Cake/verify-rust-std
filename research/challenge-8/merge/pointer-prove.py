@@ -178,7 +178,9 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
             "case": name,
             "negative": expected is not None,
             "unclassified_target": bool(target_offsets) and expected is None,
-            "case_scope": ("operation support probe only: true normal post; establishes no pointer/index bridge"
+            "case_scope": ("negative obligation; no acceptance without exact predeclared metadata"
+                           if target_offsets else
+                           "operation support probe only: true normal post; establishes no pointer/index bridge"
                           if re.search(rb"\bens\s+true\s*;", verified) else
                           "isolated pointer/index proof projection"),
             "expected_error": expected,

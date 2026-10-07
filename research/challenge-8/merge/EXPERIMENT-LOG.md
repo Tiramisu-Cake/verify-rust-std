@@ -348,3 +348,26 @@ PASS supported components -> finish their within-phase composition; unsupported
 wrap -> stop wrapping bridge without patches/retries; annotation error -> precise
 repair/newcard/newSHA within remaining budget. No runtime/contracts/A/B/comparator/
 networks/first-agent-tree changes. All generated sources/evidence hosted or/tmp.
+
+## P1 result / P2 BEFORE — annotation syntax correction only
+
+P1 sourceadb0c7004118fb32b3d20dbd4d085ca145755fd1, run37685381321,
+job11301174833320:53:08Z–20:54:59Z=111s. Budget441/1800,1359remain.
+All15 readonly export/decode/refinement exit0; source unchanged each stage.
+All15 VF exit1 BEFORE own body execution: g2_steps13:25–26 C ternary parse,
+other runtime contracts first ens token (8/10/22/24:1–4) because separate
+contract annotation blocks were omitted. No operation support, intended negative
+or positive theorem established; all INCONCLUSIVE. Green workflow means only
+evidence collector completed. Std admission certificate unchangedf2ccc11...bc7;
+archive/console/exporter/refiner/schema pins exact. All full logs/artifacts read.
+Artifact11509714950,320746bytes,digest5e086766a170f6e640c4f68fab152f47e09855e9a02a0ce8f892bff98cf8bedf.
+Driverwall3.05s,peakRSS192284KiB; setup/evidence111s included in budget.
+
+P2 hypothesis: stock Rust syntax (separate req/ens/on_unwind blocks and Rust
+if-expressions) admits the SAME complete pre/post/assertion formulas and exact
+runtime operations, then distinguishes add/sub/order proofs and wrapping support.
+All15cases remain selected because P1 never reached any operation blocker.
+Calibration negatives remain INCONCLUSIVE until exact metadata/newrun.
+No posts/resources/assertions/checks deleted, no type/comparator restrictions,
+tool/spec/runtime changes. Same6minjob/30sstages,1359remaining. First new causal
+failure determines precise within-scope fix vs semantic STOP, not green badge.

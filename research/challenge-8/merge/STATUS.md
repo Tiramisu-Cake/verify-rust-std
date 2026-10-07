@@ -2,8 +2,12 @@
 
 2026-10-07 owner explicitly resumes from7d27ce106d27208bcd1156fe5675f70f8f9bf1aa.
 G2/A/B mathematical completion accepted and preserved. Caller audit complete;
-stock operation fixtures IN PREPARATION. No active run. Budget330/1800 spent,
-1470 remain, no reset or transfer. [Plan/design](POINTER-DESIGN.md).
+stock operation fixtures P1 INCONCLUSIVE atadb0c7004118fb32b3d20dbd4d085ca145755fd1:
+[run37685381321](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37685381321),
+sole hostedjob111s,15 isolated cases all failed annotation parsing before proof;
+export/decode/refinement15/15 pass. No active run. P2 syntax-only correction
+PREPARING. Budget441/1800 spent,1359remain, no reset or transfer.
+[Plan/design](POINTER-DESIGN.md).
 Public stable/unstable ZST guards cover their caller routes; standalone generic
 Challenge and direct SmallSort ZST cases remain OPEN. Pointer wrapping support
 suspected absent in stock26.09; no semantic tool changes permitted.

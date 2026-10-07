@@ -14,8 +14,12 @@ Standalone generic Challenge scope still includes ZST.
 
 Prepared symbolic Rust fixtures isolate add/sub/Boolean steps, checked local G2
 formulas, pointer order/equality, wrapping support/re-entry and three negative
-obligations. All results pending P1; no full Rust merge safety/completion claim.
-Entry budget330/1800 used1470remain, separate from all other directions.
+obligations. P1/run37685381321/sourceadb0c7004118fb32b3d20dbd4d085ca145755fd1
+is INCONCLUSIVE for all15: annotation parse failures before any own body.
+Readonly export/decode/refinement15/15 and integrity pass. This does not
+establish operation support or an intended negative. P2 corrects only annotation
+syntax. Budget441/1800 used1359remain (entry330+P1111), separate from all other
+directions. No full Rust merge safety/completion claim.
 
 This authorized stage continues from067fb584018760259841210d2cc6c227117798ce
 in the isolated challenge-8/merge worktree, with the original1800 hosted-job
