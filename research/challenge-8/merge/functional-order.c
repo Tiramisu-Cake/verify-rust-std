@@ -355,6 +355,7 @@ lemma void mb_entry_rank(int n,fixpoint(int,int) key,list<pair<bool,bool> > ds,i
     int m=n/2;int e=n%2;bool h=mg_end_a(ds,0)<mg_end_d(ds,0);
     mg_entry(n,ds,h);
     div_rem_nonneg(n,2);
+    if(e<1) { assert e==0; } else { assert e==1; }
     assert e==0 || e==1;
     assert mg_inv(m,e,0,0,0)==true;
     mb_all_unbounded(key,mb_ids(nat_of_int(n),0),m,e);

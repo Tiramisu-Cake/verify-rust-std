@@ -163,3 +163,17 @@ before marked target, exactstage/line/body/column/predicate/source/timeout and
 job includingpreparation. Success->A/Bcomplete math report; failure->localized
 new evidence-backed proof repair, never premises/posts/tool weakening.
 Source/runpending. Budget56spent1744remaining, oneownrun only.
+
+## F-B1 result / F-B2 card
+B1 published08d66c14f8a8e1881898dd6f154881829c5121c5,
+[run37677923322](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37677923322),
+job11298610389719:53:42Z–19:53:56Z=14s; cumulative70/1800,1730remaining.
+Fullartifactread: positive source2ea5ca5c5ad27c92d56b20cb3e77dec22b37b6ee41dff52a2c4eed1d12c9c9f0/log036b53d9d6bfc4dca4b6535054eef4a73dab54ff37dd986ca25d02c0334ec69e
+parse649atlate nat.gh directive,0body/return/leak. Tie/cmpalso parse208,
+not intended negatives, INCONCLUSIVE. Duplicate exacttarget218 all7controls PASS.
+No B mathematical conclusion from parser failure. B2 hypothesis: stock ghost
+headers must precede bodies; admitexactone nat directive, move it to front
+of each assembledunit, preserve all body text. Alreadyaccepted G2/A/core hashes
+unchanged. Addedexplicitinteger remaindercase in both Bentrybodies asG2; no
+premise/post changes. SamefullBdomain/posts/negatives/source/tool/limits asB1.
+Anyfailure classified byfirstcausalstage, onlylocalized evidencedrepair next.

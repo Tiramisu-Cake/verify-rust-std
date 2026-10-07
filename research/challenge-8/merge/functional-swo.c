@@ -154,6 +154,7 @@ lemma void ms_entry(int n,fixpoint(int,int,bool) rel,list<pair<bool,bool> > ds,i
     list<int> domain=mb_ids(nat_of_int(n),0);
     mg_entry(n,ds,h);
     div_rem_nonneg(n,2);
+    if(e<1) { assert e==0; } else { assert e==1; }
     assert e==0 || e==1;
     ms_halves_bridge(rel,domain,m);
     ms_decisions_bridge(rel,m,e,0,0,0,ds);

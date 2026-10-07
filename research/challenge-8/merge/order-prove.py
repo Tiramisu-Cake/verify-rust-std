@@ -31,7 +31,7 @@ def load_a():
 
 def negative_cases(geometry, ids, order):
     # Definitions only, isolating each false functional obligation from helpers.
-    source = geometry.split("lemma void mg_merge_up_access", 1)[0] + "@*/\n"
+    source = '//@ #include "nat.gh"\n' + geometry.split("lemma void mg_merge_up_access", 1)[0] + "@*/\n"
     source += ids.split("lemma void fa_threshold_step", 1)[0] + "@*/\n"
     source += order.split("lemma void mb_at", 1)[0] + "@*/\n"
     source += """/*@
@@ -82,6 +82,10 @@ def main():
     geometry = (HERE / "geometry.c").read_text()
     ids = (HERE / "functional-ids.c").read_text()
     order = (HERE / "functional-order.c").read_text()
+    nat_include = '//@ #include "nat.gh"'
+    if order.count(nat_include) != 1:
+        raise RuntimeError("stock nat header admission failed")
+    order = order.replace(nat_include, "")
     pullback = (HERE / "functional-swo.c").read_text()
     core_path = HERE.parent / "networks/swo-rank.c"
     core_bytes = core_path.read_bytes()
@@ -93,7 +97,7 @@ def main():
         raise RuntimeError("SWO header admission failed")
     # Duplicate include removed exactly; every definition and body retained.
     core = core.replace(include, "")
-    common = geometry + "\n" + ids + "\n" + order
+    common = nat_include + "\n" + geometry + "\n" + ids + "\n" + order
     full = common + frozen.RANK_HELPERS + frozen.IDENTITY_HELPERS + core + pullback
     duplicate, duplicate_metadata = a.negative_case(geometry, ids)
     cases = [("merge_order_full", full, None),
