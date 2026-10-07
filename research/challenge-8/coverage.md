@@ -26,9 +26,12 @@ index component, no actual Rust-callee/pointer/memory/refinement bridge.
 Stock [abstract rank order/stability](SORT4-ORDER-LEMMA.md) N5/37548811698,
 source6a12b4e,39statements PASS and intended all-equal instability negative rejected.
 Fixed/preserved integer ranks are functional premises only; pure finite-SWO
-transfer remains unproven: N9 count-equality timeout, N10 equality repair
-passes then strict-count timeout. No full bridge/negative acceptance. Actual
-callback/T simulation remains open.
+[finite-SWO transfer](SORT4-SWO-BRIDGE.md) accepted at N11/37553933186,
+source3c3f0f3,104statements: arbitrary relation16/all4diagonal+64triple laws,
+predecessor count0..3,less iff rank< and equivalence iff rank=. Intended tied-rank
+negative rejected at19. N9/N10 timeouts are historical; checked isolated arithmetic
+helpers resolve both without changing laws/posts/profile. Pure network composition
+is prepared; actual callback/T simulation remains open.
 Stock [scalar range composition](SORT4-MEMORY-OPERATIONS.md) N8/37549955948,
 source9b25c41,24statements PASS: exact selected IDs to dst0..3, containment and
 separation for arbitrary stride>=0 (includingZST0). Endpoint negative rejected.

@@ -2,12 +2,11 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night11/12 NEW,2639 completed/10800 summed job-seconds plus active N11.
-Active37553933186/source3c3f0f338559675c5b4ce0859126bbedf8d9495c,swo/30; repair2/2.
-N10/37553115842/source3ea303b: count equality repair passes; new strict-count
-sum hotspot at less_rank143 times out. Full SWO bridge unproven, negative NOT RUN.
-N11 analogous strict-count/bounds proof repair, identical full domain/posts/profile.
-Draft pure network composition/header and relation stability negative are unverified.
+Night11/12 NEW,2669/10800 summed job-seconds; repair2/2 closed. No active run.
+N11/37553933186/source3c3f0f3: FULL finite-SWO rank bridge PASS,104statements;
+all8helpers/application/leak checks, intended tied-rank negative at19 accepted.
+N9/N10 arithmetic timeouts retained; definitions/domain/fullposts/profile unchanged.
+Next FINAL N12 pure SWO/network composition, already-carded draft, currently unproven.
 Last N8/37549955948,source9b25c410f6f69bdf5649aabf98481501824cec1e:
 scalar range composition PASS, intended endpoint negative rejected.
 Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; entry clean/matching
@@ -42,7 +41,7 @@ trace-header/end-line processing, corrected hosted replay in N5. N3 parse failur
 Unbounded fixed integer ranks, exact five-comparison scheme, stable original IDs;
 39 statements checked. Equal-rank reversed-middle negative rejected at line17.
 Saved N4 replay accepts intended negative classification without a verifier rerun.
-Pure finite-SWO rank transfer remains a planned independent checked bridge.
+Pure finite-SWO rank transfer now accepted N11; actual T/callback mapping open.
 
 **Actual pointer callee BLOCKED:** N6/37549040942,sourceaed1d97,32s.
 Exact extracted body/export/decode/refinement passed; first proof failure is

@@ -3091,3 +3091,30 @@ byte-unchanged; copied ghost declarations/body match it exactly.
 N11 dispatched run37553933186/source3c3f0f338559675c5b4ce0859126bbedf8d9495c,
 created2026-10-07T00:49:02Z,manualswo/30; exact HEAD/remote matched, no other active
 relevant run, maximum fits06:00UTC. Night11/12,2639completedjobseconds plus active.
+
+N11 result:run37553933186/source3c3f0f338559675c5b4ce0859126bbedf8d9495c,
+job112575651725,00:49:07–00:49:37UTC,30s,SUCCESS. Full log/artifact11453277736
+inspected;46488bytes,ZIPsha256
+63d7940aa8aecb6cf6884f4952b64c8f8c371e30ceb768d0690f8d99e0970e3a.
+Positive VF0,104statements, all8named checked helpers+application finish/leak-check;
+full less iff rank<,equiv iff rank=,both count bounds0..3 over arbitrary finiteSWO.
+Header SHA2563ef0b15ff749acc25fde3cab71ee99ab82da1745c593dbd5526e27519b0e1fbd,
+all fixtures/hash/source/profile identities exact, before/after unchanged.
+All-tied negative proves valid SWO/equal counts, then rejects ID-as-rank only at19;
+no false theorem. Pure finite quotient bridge ACCEPTED; actual T/callback/pointer/
+resource/unwind interface unproved. Night11/12,2669/10800jobseconds,no active run.
+
+### N12 FINAL NEW slot — pure SWO/network composition
+
+Previously conditional composition card now enabled by full N11 acceptance.
+Same complete relation16/SWO domain, exact five operand/selection expressions and
+full permutation+adjacent non-less/tie-ID-order posts. Copied N5 theorem byte-
+unchanged; dependencies checked at frozen stock profile within new caller proof.
+New isolated relation-stability mutant must fail marked combined stable-order
+predicate after non-less/equivalence checks; not a repetition of standalone rank
+or quotient tasks. Actual Rust runtime/callee/memory/unwind is outside this PURE
+claim. Manual components/swo_network/30,300s fixture limit/120s cleanup reserve;
+full hashes/bodies/return-leak gates retained. PASS accepts pure network theorem;
+any failure/timeout leaves composition UNPROVEN with first diagnostic saved, no
+13th run. False assertion acceptance quarantines profile. After finish/audit save
+final checkpoint/report and push; night NEW budget exhausted regardless outcome.

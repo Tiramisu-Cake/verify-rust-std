@@ -47,15 +47,10 @@ Update compact STATUS/log/changed coverage after substantive results, commit/pus
 Morning report separates accepted components, diagnostics, designs and blockers,
 with run URLs/source SHAs/job-time cost/branch state. No repeated completed work.
 
-Current: IN PROGRESS;11/12 runs,2639 completed/10800 summed job-seconds plus active
-N11/37553933186/source3c3f0f3,swo/30.
-N10/37553115842/source3ea303b repairs equivalent-rank sum;
-new strict-count sum hotspot remains. Full theorem/negative NOT PROVEN/NOT RUN.
-N11 same proven isolation technique for strict-count/bounds follows.
-Layout repair2/2 complete, N2 full matrix/audit accepted at exact d4a12525 patch.
-Stock index theorem N4 accepted with N5 saved-processing replay; N5 abstract
-integer-rank sortedness/stability accepted. Actual pointer callee N6 blocked at
-first runtime MaybeUninit::new, without adding a summary. N8 scalar range composition
-is accepted after N7 arithmetic repair; endpoint negative is intended.
-Next independent finite-SWO bridge.
-All actual Rust pointer/resource/raw-scratch/unwind composition remains open.
+Current: IN PROGRESS;11/12 runs,2669/10800 summed job-seconds; no active run.
+Layout repair2/2 complete, exact profile N2 accepted. Stock index N4/N5 replay,
+abstract rank order/stability N5 and scalar ranges N8 accepted. N11 finite-SWO
+quotient bridge accepted after N9/N10 arithmetic repairs. Actual pointer callee
+N6 blocked at runtime MaybeUninit::new; memory/raw-scratch/operation boundaries
+remain design-only. Next FINAL NEW slot: pure SWO/network composition N12.
+No actual Rust pointer/resource/callback/unwind composition theorem follows.

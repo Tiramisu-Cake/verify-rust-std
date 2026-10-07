@@ -1,4 +1,4 @@
-# Finite strict-weak-order rank bridge — planned stock gate
+# Finite strict-weak-order rank bridge — accepted stock component
 
 This is an independent pure lemma after the [checked rank-network theorem](SORT4-ORDER-LEMMA.md).
 It aims to replace the remaining mathematical claim that any fixed strict weak
@@ -58,3 +58,10 @@ pointwise laws. N10/37553115842 checks the isolated count-equality helper and
 Full finite quotient transfer is still UNPROVEN and negative NOT RUN. N11 isolates
 strict-count/bounds arithmetic using the same evidence-backed proof technique.
 No definition, full domain/post or stock verifier semantics changes.
+
+Accepted N11/37553933186,source3c3f0f338559675c5b4ce0859126bbedf8d9495c:
+stock VF0,104 verified statements, all eight helper bodies and positive application
+complete with return/leak checks. Full iff/bounds posts discharge. All-tied valid
+relation negative rejects only marked ID-as-rank assertion19; hashes unchanged.
+Earlier timeouts remain historical. Full pure choice-network composition is a
+separate prepared gate, not yet an accepted actual Rust theorem.

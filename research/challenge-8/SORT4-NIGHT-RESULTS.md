@@ -1,6 +1,6 @@
 # sort4 autonomous night results — 2026-10-07
 
-DRAFT: N11 proof repair is being prepared; this report is not a closeout yet. Owner night authorization
+DRAFT: N12 pure network composition is next; this report is not a closeout yet. Owner night authorization
 and frozen profiles: [phase card](SORT4-NIGHT-PHASE.md). Source, artifact identities,
 full experiment hypotheses and historical failures: [journal](EXPERIMENT-LOG.md).
 
@@ -18,6 +18,10 @@ full experiment hypotheses and historical failures: [journal](EXPERIMENT-LOG.md)
   network, arbitrary unchanged integer ranks, original IDs retained among ties.
   Equal-key instability control fails its intended assertion. The relation/rank
   transfer is a separate component, not a lift from the older concrete i32 result.
+- Stock [finite-SWO rank bridge](SORT4-SWO-BRIDGE.md): arbitrary relation on
+  four occurrences with all strict/transitive-incomparability laws; count ranks
+  preserve strict order and equivalence and lie0..3. N11 accepted full posts and
+  intended tied-rank negative; pure network composition is still separate.
 - Stock [scalar selected-cell range composition](SORT4-MEMORY-OPERATIONS.md):
   containment and per-copy separation for arbitrary nonnegative stride, including
   zero. This links exact logical source choices to destination offsets0..3;
@@ -70,8 +74,9 @@ are on challenge-8/research. Full SHAs and artifact ZIP hashes are in the journa
 | N8 | [37549955948](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37549955948),9b25c410f6f69bdf5649aabf98481501824cec1e |27| Full scalar range component accepted |
 | N9 | [37550139106](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37550139106),4d7aebcea01c58472e7ef03c4c1611a12d3c673d |1810| Timeout at equivalent-count sum; no full bridge/negative |
 | N10 | [37553115842](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37553115842),3ea303b682b63da3237a3d543ce3229b48c2848b |323| Equality repair passes; strict-count sum timeout |
+| N11 | [37553933186](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37553933186),3c3f0f338559675c5b4ce0859126bbedf8d9495c |30| Full finite-SWO rank bridge and intended negative accepted |
 
-Budget so far:10/12 NEW,2639/10800 summed job-seconds;
+Budget so far:11/12 NEW,2669/10800 summed job-seconds;
 layout repair2/2 closed. No local build/verifier/test/replay/extractor execution.
 Downloaded logs/build evidence remain in /tmp, never committed. Main changes
 expose only minimal manual workflow inputs; no research-history merge into main.

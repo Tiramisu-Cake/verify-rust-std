@@ -23,6 +23,9 @@ Actual pointer select N6/37549040942 reaches source integrity/export/decode/
 refinement0 but stops at runtime MaybeUninit::new (adapter21), before its selection
 posts. [Callee note](SORT4-SELECT-CALLEE.md) records the first blocker; constructor,
 union/intrinsic/drop capabilities require a future separately approved design.
+[Finite SWO quotient bridge](SORT4-SWO-BRIDGE.md) N11/37553933186 is accepted
+with full iff/bounds posts and intended tied-rank negative. Pure network composition
+is the final authorized new gate; actual callback/value correspondence remains open.
 [Memory note](SORT4-MEMORY-OPERATIONS.md) records initialized-dst raw-scratch and
 reference/copy operation-coverage gaps. No historical semantic patch chain applied.
 
