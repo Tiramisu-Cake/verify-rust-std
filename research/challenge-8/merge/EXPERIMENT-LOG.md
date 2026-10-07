@@ -494,3 +494,14 @@ G2/A/B bodies/premises/SHAs/results retained; actual std runtime/contracts and
 comparator model unchanged. Networks/exactN13 closed with old budgets/SHAs,
 no branch merge, first-agent-tree or common documentation changes. Final
 documentation HEAD differs from proof SHA and is reported separately.
+
+## 2026-10-08 upstream sync — Git/documentation only, CI0
+
+Separate sync branch directly merges pinned upstreamcd371e035c7e573760c43bf934d53e8118ee3e7d
+over its own original parent. No conflicts, rebase, force-push, inter-agent merge
+or our-main merge into agent branch. Old proof/profile/patch/control bytes retained;
+root std/nightly/standard-VF setup now upstream, research runners still old pins.
+No builds/verifier/tests/workflow_dispatch; budgets5306/5400(94) and512/1800(1288)
+unchanged. S7c UNACCEPTED5admissiontail; G2/A/B9projections retain oldboundaries,
+new sources/tools NOTREVALIDATED. UPSTREAM-SYNC records exactparents/mergetrees,
+sourcecaller ledgercorrection and preparedfuturetasks. All newcommits[skip ci].

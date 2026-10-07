@@ -1,14 +1,19 @@
 # Exact Rust source and arithmetic model
 
-## Caller audit source ledger — before P1
+## Historical external-reference source ledger — before P1
 
-SmallSort is byte-identical to upstream Rust
-`b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2`; other core/alloc files below
-are not vendored in this reduced subtree. Exact reference URL prefix:
+The historical audit compared SmallSort with external Rust
+`b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2`. The table below records downloaded
+external reference hashes and their reference line numbers, not all of the
+repository's pinned blob hashes. All eight paths exist in the repository Git tree
+at8444589f andcd371e03. They were absent from the audit's local reduced checkout;
+that was incorrectly described as not vendored. Five references differ from the
+old pinned blobs; the corrected separate ledger follows without overwriting them.
+The external b6 revision is not a locally available Git object. Exact reference URL prefix:
 `https://raw.githubusercontent.com/rust-lang/rust/b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2/`.
 Read-only downloaded files were hashed, not compiled. Full paths/hash ledger:
 
-| Path under library | SHA256 | Relevant lines |
+| Historical reference path under library | External reference SHA256 | Reference lines |
 | --- | --- | --- |
 | core/src/slice/sort/stable/mod.rs | 3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3 | 25–29 ZST;63–76 drift;120–124 drift call |
 | core/src/slice/sort/stable/drift.rs | 5992b53abed257aa1c2dc2bb811d6a525294471e7a98d434f161d376100bf9c9 | 233–240 create_run/quicksort |
@@ -33,6 +38,40 @@ prelude_core.rsspec105–110 retains provenance in ptr_add;159–164 defines lim
 189–190 scales typed offsets. No pointer wrapping spec/mapping found in audit.
 Rust fixture operator projections/refinement are independent of source-text
 admission for the full SmallSort body. The original certificate below is retained.
+
+## Corrected repository Git-tree audit — 2026-10-08
+
+Old tree `8444589f486e82f23c910bcc918cee1e4681b7ee`; new pinned upstream tree
+`cd371e035c7e573760c43bf934d53e8118ee3e7d` (library identical in the new merge).
+`git cat-file`/`git show` establish presence and exact raw blob bytes for every
+path below, independently of sparse checkout. SHA256 below is computed over
+blob contents; it does not replace any old source-admission pin/certificate.
+
+| Path under library (present in both trees) | Old844 SHA256 | Newcd SHA256 | Historical reference matches old844? |
+| --- | --- | --- | --- |
+| core/src/slice/sort/stable/mod.rs | `3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3` | `3f2b2d8543a1cb91c9352e041bed49949a31cbd4b1030ec1a82cca1304cb22d3` | yes |
+| core/src/slice/sort/stable/drift.rs | `5992b53abed257aa1c2dc2bb811d6a525294471e7a98d434f161d376100bf9c9` | `5992b53abed257aa1c2dc2bb811d6a525294471e7a98d434f161d376100bf9c9` | yes |
+| core/src/slice/sort/stable/quicksort.rs | `4a41df6bc7c4e0a6fcb655fde9bf73ed62f3a675ca805f2f766919ce249d8f4c` | `4a41df6bc7c4e0a6fcb655fde9bf73ed62f3a675ca805f2f766919ce249d8f4c` | no |
+| core/src/slice/sort/unstable/mod.rs | `23fa044fde8d3542f5f298654923ed2426930373259e6f71670c75b80501cf9a` | `23fa044fde8d3542f5f298654923ed2426930373259e6f71670c75b80501cf9a` | no |
+| core/src/slice/sort/unstable/quicksort.rs | `8fc55e114a3715dafb6b6d336b9450534ce7d45314d71faa9bd79a0c7d3e8a13` | `68ca54463f739f9ab13b1dea1bee71533333d1a0085dac1f7e4401d500903411` | yes |
+| alloc/src/slice.rs | `6f2f9aa7429f089cac010c526847c86a488e853cd2039549b5f2a49eda0801f4` | `354e7a1f5ea26c134a169722a77664e554f8e2fc2b64152f79527cbf0d1695e6` | no |
+| core/src/slice/mod.rs | `95c57bb6b9067b26eee86839a753c0ff823fbe2597c19493c970af6532f77b3e` | `e3a45814fc07497d6e85d182d6b30782711e4b77752fa817988ec6da12e2cb6f` | no |
+| core/src/ptr/const_ptr.rs | `02c667f68d194d14a1d035d02cc5ca130a715acf37bb52db9ab392104f71a782` | `0c2faf5702586f429585e07b3ef6773aa4034b48804f66a1439370c602793e4d` | no |
+
+Repository844 anchors: stable/mod29–40 contains ZST/len return,77–84 insertion20
+and driftsort dispatch; unstable/mod22–35 contains ZST/len return,49–56
+insertion20/ipnsort. Those two complete blobs remain unchanged in upstreamcd.
+Their guards support the source-route audit, not a verified caller-resource
+bridge. External reference line coordinates above are historical; old proof
+coordinates below are also historical and were not mechanically shifted.
+
+New SmallSort replaces raw-parts reference constructions in general/network/
+sort8 callers; up/down/bidirectional_merge cursor schedule is unchanged but
+full bytes and line locations differ. Pointer add/sub/offset contracts, MD
+representation, MaybeUninit assume_init and toolchain also changed; see
+[UPSTREAM-SYNC](../UPSTREAM-SYNC.md). No fresh verifier/export/refinement run.
+G2/A/B and nine Rust projections keep their old domains/proof SHA; wrapping,
+permissions/FnMut/unwind/ZST/whole merge correspondence remain OPEN.
 
 ## Accepted Rust projection map
 

@@ -1,3 +1,9 @@
+## Sync audit correction — 2026-10-08
+
+This historical26.09 design remains conditional on its old proof/source pins.
+New sources/tools need fresh acceptance; [transition](../UPSTREAM-SYNC.md).
+No proof, prototype, assumption or expected diagnostic changed in this audit.
+
 # Stock Rust pointer/index component — authorized 2026-10-07
 
 Entry documentation HEAD `7d27ce106d27208bcd1156fe5675f70f8f9bf1aa`.
@@ -11,9 +17,14 @@ the complete `bidirectional_merge`, its callers, references or copies.
 Vendored SmallSort matches byte-for-byte Rust commit
 `b6f0945e4681bc4d2faa7c22c5f61dc36abf7dd2`, SHA256
 `32574fd06623190132f213cbfeaeca5bd466e3c802ca97a2174e24fd3c240959`.
-Other caller files are reference evidence from that exact upstream revision;
-they are not present in this repository's reduced core subtree. Their hashes
-and paths are in SOURCE-MAP. This is a source audit, not caller verification.
+The caller ledger originally used external reference files from that upstream
+revision because they were absent from the local reduced checkout used for the
+audit. They are present in the repository Git tree at8444589f, including all
+eight SOURCE-MAP paths; checkout absence was incorrectly described as repository
+absence. Five recorded reference hashes differ from the pinned repository blobs.
+The corrected tree/hash ledger and repo-line anchors are in SOURCE-MAP. Historical
+reference hashes and proof certificates are preserved. This is source analysis,
+not caller verification or new proof acceptance.
 
 Stable `sort/sort_by/sort_by_key` -> alloc `stable_sort` -> core
 `stable::sort` -> `driftsort_main` -> drift `create_run` -> stable quicksort
