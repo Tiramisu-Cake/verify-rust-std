@@ -144,25 +144,22 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
                   f"    assert !rel({id_outputs[i + 1]}, {id_outputs[i]});"]
     lines += [f"    assert {count('id')} == original_count;", "}", ""]
     if n == 13:
-        # Package the literal once. The wrapper opens a fresh symbolic witness
-        # before instantiating the already checked composition theorem.
-        lines += [f"lemma void network{n}_exact_domain()",
-                  "    requires true;",
-                  f"    ensures exists<list<int> >(?d) &*& d == {exact_domain} &*& " +
-                  " &*&\n            ".join(f"mem({i}, d) == true" for i in range(n)) + ";",
-                  "{",
-                  f"    close exists<list<int> >({exact_domain});"]
-        lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
-        lines += ["}", ""]
-    lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
-              f"    requires finite_swo(rel, {exact_domain}) == true;",
-              "    ensures " + full_post(exact_domain) + ";",
-              "{"]
+        # Checked congruence records that a symbolic formal domain equal to the
+        # exact source-ID list has precisely the original finite-SWO premise.
+        lines += [f"lemma void network{n}_domain_laws_equal(fixpoint(int, int, bool) rel, list<int> d)",
+                  f"    requires d == {exact_domain};",
+                  f"    ensures finite_swo(rel, d) == finite_swo(rel, {exact_domain});",
+                  "{}", ""]
+        lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, list<int> d, int q)",
+                  f"    requires finite_swo(rel, d) == true &*& d == {exact_domain};"]
+    else:
+        lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
+                  f"    requires finite_swo(rel, {exact_domain}) == true;"]
+    lines += ["    ensures " + full_post(exact_domain) + ";", "{"]
     if n == 13:
-        lines += [f"    network{n}_exact_domain();",
-                  "    open exists<list<int> >(?d);",
-                  "    assert finite_swo(rel, d) == true;",
-                  f"    network{n}_finite_swo_composition(rel, d, q);"]
+        lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
+        lines += [f"    assert mem({i}, d) == true;" for i in range(n)]
+        lines += [f"    network{n}_finite_swo_composition(rel, d, q);"]
     else:
         lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
         lines += [f"    network{n}_finite_swo_composition(rel, {exact_domain}, q);"]

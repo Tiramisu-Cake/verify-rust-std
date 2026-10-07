@@ -384,3 +384,58 @@ all7controls unchanged. Whole success -> finalize own docs/commit/push; first
 causal failure -> localized evidence-led within-profile repair/newSHA; budget/
 trust boundary -> exact unfinished wrapper post, no patch/local fallback.
 Job8min/inner420s/percase180s fits1076remaining; source/run pending.
+
+### R13c result: constructor accepted, concrete wrapper still timeout
+
+Published/checked source `b70ac9a25a2894ab12564c9ac24b8866aca63db8`,
+[run37663550717](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37663550717),
+[artifact11501268829](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37663550717/artifacts/11501268829),
+6913920bytes, ZIP SHA2565c55ea085c3b5541ebc7e8ef7c824e04e3bb36400869ef37769c64f54e5429d2.
+Full source/log/result/environment hashes inspected, frozen pins unchanged.
+Generic83statements/40return-leak VF0 and negative+7controls PASS. Composed case
+exit124/180s, no errors,7676completed return/leak. Source500c2c0c183bac0b5a5687eba8669526b35ec2e86ed47f36d81b5e6f136daba6;
+logbaa5c9d4104aefd9773d1705f8ec8e1674bd14d8aebe3e1b56de1af2b30ec2ac.
+
+Old rank proof completes87.6s, full symbolic N13 composed body completes115.131s,
+exact-domain constructor FULL literal equality/membership/exists post and leak
+check complete115.136s. Concrete wrapper creates its literal finite-law context,
+calls constructor120.986–122.971s, consumes token, checks finite_swo(rel,d)
+instantaneously and stalls calling symbolic composition at3468 (122.971s).
+Thus explicit law-transfer assertion is not causal. Dense concrete-law caller
+context remains, even though the witness/constructor works. PeakRSS2361204KiB.
+All45 CE/12adjacent/full domain/count composed posts remain reached, but whole
+exact wrapper/case NOT accepted. Job18:01:05Z–18:04:18Z = **193s**;
+total917/1800,883remaining. No timeout/tool/classifier semantic change.
+
+## R13d — prepared before dispatch: equivalent formal-domain specialization
+
+Same exact45call source, generic SWO/rank iff/equality/bounds and exact CE bridge,
+normal faithful comparator/fixed key applicability,13membership/12adjacent/full
+arbitrary-q ORIGINAL LITERAL-DOMAIN posts, open Rust normal/unwind/safety boundary,
+unchanged stock/profile/classifier and180s limit.
+Hypothesis: exact specialization with d as a FORMAL ghost parameter, constrained
+by d==literal0..12, keeps finite_swo(rel,d) symbolic when creating the proof
+context; the previous same-signature wrapper begins by expanding2197 literal
+order-law instances. The revised ghost theorem retains full_post(literal), not
+just full_post(d). Its premise finite_swo(rel,d) AND d==literal is semantically
+the original exact-domain premise with an explicit name for that domain.
+A separate checked void domain-law equality body, requiring only d==literal,
+proves finite_swo(rel,d)==finite_swo(rel,literal) by congruence. No equivalence
+or rank correspondence axiom is supplied; initial mem premises are discharged
+from the literal equality. Do not call equality helper unnecessarily inside the
+formal wrapper and recreate dense literal-law facts there.
+
+This changes the signature of an OWN mathematical C ghost theorem to name its
+domain; no actual Rust signature/runtime/AST/tool changes. N9 path and generic
+core remain byte-identical. Old concrete wrapper's failed source/predicate/call
+and raw evidence remain archived atb70ac9a.../R13c; do not label that wrapper
+accepted or hide its failure. The new theorem's exact literal posts plus checked
+premise equivalence must ALL pass in the same unit before a claim of full exact
+N13 mathematical composition. Frozen positive classifier/all named bodies/
+0errors/return/leak, unchanged negative and7controls required.
+
+Whole success -> finalize own results with proof-method/signature difference and
+original concrete wrapper failure preserved. First causal failure -> new evidence
+and localized correction; no blind retries/timeout increase. Budget/trust boundary
+-> exact unfinished theorem/post saved, no patch/local fallback. Job8min/inner420s/
+percase180s fits883remaining. Source/run pending.
