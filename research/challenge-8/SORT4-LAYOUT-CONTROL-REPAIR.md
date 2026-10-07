@@ -48,3 +48,13 @@ This repair uses the fresh composition/constructor phase budget, not a historica
 night budget. Maximum total hosted time is 5,400 seconds, each job at most 1,800
 seconds, one relevant job at a time. Root owns the hosted full-matrix dispatch and
 evidence closeout.
+
+## Hosted result
+
+C3 run37586921301/source3844c5fe708f59bab7f5c4b7aff4d6a0de54985d PASS,
+179 jobseconds including build/setup. Full stock/patched6+6,18extra,7metadata,
+10native and41classifier/span checks accepted. Both span endpoints are valid
+within line7 pub struct Z;, complete payload changes onlyhi.col.pos13→12;
+defSpan remains13. Export/decode/encode/refinement/integrity gates pass, VF rejects
+sole binding mismatch at definition7,1–14. Historical N2 result stays unchanged.
+The narrow layout patch is still exactd4a12525; no wider model or UB claim follows.

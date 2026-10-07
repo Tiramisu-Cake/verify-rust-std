@@ -2,9 +2,10 @@
 
 Updated 2026-10-07. **IN PROGRESS: [composition/constructor phase](SORT4-COMPOSITION-CONSTRUCTOR-PHASE.md)**,
 new owner authorization from85d82998e148394e5dbbb0a4ed8c326780130b75.
-New budget69/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
-one relevant run. No active run. C1/37585795831 pure composition and
-C2/37586573468 saved-evidence audit accepted; costs43+26s.
+New budget248/5400 summed hosted job seconds; job<=30min, pure fixture<=300s,
+one relevant run. No active run. C1/C2 pure composition accepted; C3/37586921301
+immutable layout full matrix PASS179s. New-profile constructor design/implementation
+in preparation; not yet built or accepted.
 Entry tree clean, research HEAD/remote match.
 The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
 [report](SORT4-NIGHT-RESULTS.md). All historical budgets remain closed.
@@ -14,8 +15,8 @@ The [night](SORT4-NIGHT-PHASE.md) remains CLOSED at12/12 NEW,2697jobseconds;
 - Existing stock generic H_align const/mut: run37540829027/source968c073,
   full integrity/refinement/dead-code gates intact; not rerun this night.
 - Exact experimental fieldless layout profile d4a12525: N2/37547890530,
-  source3f5c9e3,historical full matrix/artifact audit PASS; new owner review identified
-  invalid wrong-source-span endpoint, so that negative gate needs recalibration. Patch remains SHA256
+  source3f5c9e3,historical N2 retained; C3/37586921301/source3844c5f full matrix PASS,
+  valid distinct (7,0)..(7,12) binding mismatch calibrated and41 span/classifier checks. Patch remains SHA256
   d4a12525bcdbdaa4deb82058d6cc0037c8c09fa508ad2eeb14386b2753693a14.
   Narrow original-fieldless nongeneric Sized reprRust/C+optional-align profile,
   not full-model soundness or automatic operation-UB coverage.
@@ -55,4 +56,6 @@ Constructor design/trust/gates must precede semantic edits; experimental profile
 is not automatically accepted. Stop extension before general union/alias/ownership/
 copy/FnMut/Drop support. No historical patch chain or general-model expansion.
 README/PLAN point to this phase. Runtime/general contract/pins/checks preserved.
-RAPx CLOSED/NO-GO; B/C NOT RUN. Next: bounded layout repair/full matrix; written constructor design before semantic edits.
+RAPx CLOSED/NO-GO; B/C NOT RUN. Constructor design reviewed before semantic edits: source-linked local body/active-value
+translation only, no opaque ownership bridge; implementation in separate profile.
+Next: review/build/check separate constructor profile; stop before new ownership bridge.

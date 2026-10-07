@@ -3231,3 +3231,46 @@ classifier/span selfchecks must pass; unknown/helper/refinement/source/setup
 failure is inconclusive. No resource/whole-sort4/automaticUB claim. PASS repairs
 this negative calibration gate only. Manual verifast_rust_fieldless_layout/30,
 one run, current69/5400s used; allow no concurrent relevant run.
+
+C3 dispatched run37586921301/source3844c5fe708f59bab7f5c4b7aff4d6a0de54985d,
+created2026-10-07T07:22:27Z; exact remote matched and C2 fully audited/completed.
+URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37586921301.
+
+### Constructor technical design reviewed BEFORE semantic edits
+
+SORT4-MAYBEUNINIT-NEW-DESIGN.md is the preimplementation design/regression gate.
+Root reviewed scope against new explicit owner authorization: certified source-local
+actual body plus narrow active-value translation into existing MaybeUninit model
+and external pointer-call to CHECKED local body. Newly trusted applicability/
+representation/source-equivalence links are explicit; not general union support
+or runtimecall-name→ghost-fixpoint/prototype. Signature specialization/source-local
+renaming recorded; original std unchanged. Safe freefunction adapter retains
+generated safety/template obligations and own transport cannot be assumed.
+If opaque MaybeUninit_own is required, STOP this expansion and record next design.
+Source/MIR/type/name/field gates, full pointer equality/Some initialization/token/
+frame/no-unwind and falsevalue/post/assertfalse controls defined before patch.
+Stock controls remain separate; old layout profile immutable and never combined.
+Implementation assigned only narrow translator patch and fixture checker; root
+will review before new-profile hosted experiment. No semantic change was made
+before the written design/review.
+
+C3 result:run37586921301/source3844c5fe708f59bab7f5c4b7aff4d6a0de54985d,
+job112679094538,07:22:32–07:25:31UTC,179s including setup/build/matrix/upload.
+Full log/artifact inspected. Exact d4a12525 patch reapplied unchanged; full original
+stock/patched6+6 comparisons,18extra cases,7metadata,10native paired and41
+classifier/span checks PASS. Existing nonmatching layouts remain unsupported.
+Corrected wrong-span: lo7,col0; hi7,col12 vs canonicaldefSpan hi7,col13; actualline
+pub struct Z; length13, both endpoints in same exactsource, ordered/nonempty.
+Full metadata payload preserves everyotherfield anddefSpan. Canonicalbinary
+SHA69bcc09fdc91fe3ef159109171b79c6ce75054ad3749fc58d2d06ad51be31740→
+mutated5ad14d134a464f42f3d56ec85cb0f5983970a1cfc594abc98e00bd59ad665d20.
+Export/decode/encode0,source/refinement0,VF1 solely `RustLayoutMetadata: binding
+mismatch: ADT identity, definition source span, or target differs` at7,1–14.
+SelectedsourceSHA97a7737e677df33158291876d0ea7f8f6f6d002173c31d856c4420a7fc9cb6ac.
+Truncated/ambiguous span positive/negative audit gates pass failclosed controls.
+Historical N2 preserved; valid-span calibration now accepted without patchchange.
+No whole-model/automaticUB/ownership/actualsort4 claim. Newbudget248/5400s,noactive.
+
+Default-main exposure per runbook: reviewed minimal workflow-only change196121c11fee754327692a6aae7c97670d809c74
+from4771dd9 adds manualconstructor selection/Ubuntu22/30min cap/job-start/runnercase.
+No research-history merge or automatic trigger; localunrelated main heads preserved.

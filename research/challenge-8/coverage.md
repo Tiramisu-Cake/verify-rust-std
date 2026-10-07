@@ -12,7 +12,9 @@ audit: original profile comparisons,18extra cases,7metadata controls,10native
 paired controls and31classifier/span checks PASS. All Rust source-integrity,
 export/decode/refinement gates retained. Historical wrong-source-span mutation
 rejected, but new owner review found its hi coordinate invalid on a blank line;
-that negative gate is pending valid-coordinate recalibration in the new phase. C++ empty complete-object nonzero assertion
+C3/37586921301/source3844c5f now recalibrates it with valid distinct
+lo(7,0)..hi(7,12), unchangeddefSpan(7,13), both source-bounded and solebinding
+mismatch. Full6+6/18/7/10 matrix and41 classifier/span checks PASS. C++ empty complete-object nonzero assertion
 now verifies both profiles. N1/37547307118's remaining C++ annotation error is
 historical, not replaced evidence. Acceptance concerns only pinned original-fieldless
 nongeneric Sized reprRust/C structs with optional alignment and geometry. It adds
