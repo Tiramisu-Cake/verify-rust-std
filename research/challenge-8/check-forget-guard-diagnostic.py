@@ -118,10 +118,12 @@ def helper_file(variant: str, constructor, annotated: bool) -> bytes:
         body = body.replace(b"    let _ = ManuallyDrop::new(t);\n",
                             b"    let _ = ManuallyDrop::new(t);\n"
                             b"    //@ assert false;\n")
+    contract = ghost(constructor, pre, post)
+    scaffold = constructor.strip_ghost_annotations(contract)
     raw = (signature +
-           (ghost(constructor, pre, post) if annotated else b"") + body + b"\n")
+           (contract if annotated else scaffold) + body + b"\n")
     require((constructor.strip_ghost_annotations(raw) ==
-             signature + FORGET_BODY + b"\n"),
+             signature + scaffold + FORGET_BODY + b"\n"),
             "helper source changed beyond annotations")
     return raw
 
@@ -142,7 +144,13 @@ def probe_file(variant: str, constructor, annotated: bool) -> bytes:
                  b"(cell: *mut *const Element, frame: *mut bool)\n")
     body = (b"{\n    let guard = DropOnPanic { inner: cell };\n"
             b"    unsafe { checked_forget_guard(guard); }\n}\n")
-    return signature + (ghost(constructor, pre, post) if annotated else b"") + body
+    contract = ghost(constructor, pre, post)
+    scaffold = constructor.strip_ghost_annotations(contract)
+    raw = signature + (contract if annotated else scaffold) + body
+    require(constructor.strip_ghost_annotations(raw) ==
+            signature + scaffold + body,
+            "probe source changed beyond annotations")
+    return raw
 
 
 def projected_base(evidence: Path, repo: Path, constructor,
@@ -398,11 +406,19 @@ def classify(case: Path, stages: dict) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--tool-home", type=Path, required=True)
-    parser.add_argument("--schema", type=Path, required=True)
-    parser.add_argument("--compiler-sysroot", required=True)
+    parser.add_argument("--tool-home", type=Path)
+    parser.add_argument("--schema", type=Path)
+    parser.add_argument("--compiler-sysroot")
     parser.add_argument("--evidence", type=Path, required=True)
+    parser.add_argument("--construction-preflight", action="store_true")
+    parser.add_argument("--preflight-manifest", type=Path)
     args = parser.parse_args()
+    require(args.construction_preflight != bool(args.preflight_manifest),
+            "choose construction preflight or bind a prior preflight manifest")
+    if not args.construction_preflight:
+        require(args.tool_home is not None and args.schema is not None and
+                args.compiler_sysroot is not None,
+                "full S7a diagnostic needs frozen tools, schema and compiler sysroot")
     require(os.environ.get("GITHUB_ACTIONS") == "true" and
             os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted" and
             os.environ.get("RUNNER_OS") == "Linux" and
@@ -423,11 +439,37 @@ def main() -> None:
     (evidence / "source-certificate.json").write_text(json.dumps(certificate,
         indent=2, sort_keys=True) + "\n")
     base, fixture = projected_base(evidence, repo, constructor, prepare)
+    cases = {}
+    for variant in VARIANTS:
+        case = make_case(evidence, base, variant, fixture, constructor)
+        cases[variant] = json.loads((case / "fixture.json").read_text())
+    if args.construction_preflight:
+        manifest = {"classification": "DIAGNOSTIC_CONSTRUCTION_PREFLIGHT",
+                    "accepted_component": False, "tool_profile": PROFILE,
+                    "patch_sha256": PATCH_SHA, "source_certificate": certificate,
+                    "variants": list(VARIANTS),
+                    "source_sha256": {variant: cases[variant]["source_sha256"]
+                                      for variant in VARIANTS},
+                    "all_nine_source_pairs_ghost_strip_identical": True}
+        (evidence / "construction-preflight.json").write_text(json.dumps(
+            manifest, indent=2, sort_keys=True) + "\n")
+        print(json.dumps({"classification": manifest["classification"],
+                          "constructed": len(VARIANTS)}))
+        return
+    preflight = json.loads(args.preflight_manifest.read_text())
+    require(preflight == {
+        "classification": "DIAGNOSTIC_CONSTRUCTION_PREFLIGHT",
+        "accepted_component": False, "tool_profile": PROFILE,
+        "patch_sha256": PATCH_SHA, "source_certificate": certificate,
+        "variants": list(VARIANTS),
+        "source_sha256": {variant: cases[variant]["source_sha256"]
+                          for variant in VARIANTS},
+        "all_nine_source_pairs_ghost_strip_identical": True},
+        "S7a fresh source construction differs from hosted preflight")
     results = []
     for variant in VARIANTS:
         case = evidence / variant
         try:
-            make_case(evidence, base, variant, fixture, constructor)
             stages = run_case(case, args, constructor)
             result = classify(case, stages)
         except Exception as exc:

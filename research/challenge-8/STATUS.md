@@ -1,7 +1,7 @@
 # Challenge 8: current checkpoint
 
 Updated2026-10-07. Owner resumed only S6 frombea6248.
-**S7a diagnostic SETUPFAILED; narrow source-pair repair authorized.**
+**S7a diagnostic SETUPFAILED; source-pair repair READY for new diagnostic.**
 [S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md), fromffa370a.
 Run37665233357/source2ba63774e964e2ca76b3b1639e550cb93e70769e completed133s
 18:14:05–18:16:18UTC. All9 independently collected preparationfail

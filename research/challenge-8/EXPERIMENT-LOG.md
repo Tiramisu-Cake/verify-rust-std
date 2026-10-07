@@ -4447,3 +4447,13 @@ whitespacenormalization/no expectedmessage/classification rewrite. Hostedpreflig
 constructsall9sourcepairs BEFORE toolbuild, thennewindependentsamev4diagnostic.
 No semanticchange/newadmission/ownmodel/redirect. Nextjobcap20min1200with120reserve,
 proof300,onehostedrun,samebudget. Old9rawclassifications retained.
+
+S7a scaffoldrepair staticreviewPASS, patch c7cc08a9 unchanged. Verifiedhelper/probe
+contracts/runtimebody unchanged; original nowexactstrippedscaffold. Hostedall9
+constructionpreflight beforedownload/build, fullphase regeneratesall9 +requires
+exact6fileSHAmanifest match beforetools. No classifier/expectedobligation change.
+RepairdiagnosticscriptSHA 61517acb3002454c5f9b942dea8cfd8351194f9c808477d530e0d1417b847122
+runnerSHA 6ed0ae2031a5c00a44776049d621dc75b6820e9b209d4a484f3c412956689bab.
+Firstcompact11502119135 innerSHA3b7d1c7e7d4d25dbea43098b915bda2c59f728e38ba5e5fecddf1f5bb41f20b4,
+manifest872/872hash/CRC/sizeverified; original9classifications retained.
+Before4087used/1313remain, onehostednextcap20min/reserve120/proof300, noreset.

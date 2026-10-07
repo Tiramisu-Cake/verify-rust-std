@@ -64,6 +64,9 @@ source_home="$task_temp/source"
     sha256sum "$patch_file" "$0" research/challenge-8/check-forget-guard-diagnostic.py research/challenge-8/SORT4-SELECT-FORGET-DESIGN.md
 } > "$evidence/environment.txt"
 run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/check-forget-guard-diagnostic.py research/challenge-8/check-maybeuninit-new-pointer.py research/challenge-8/prepare-and-check-sort4-select.py research/challenge-8/prepare-select-pointer-actual.py
+unset SORT4_MAYBEUNINIT_REPO_ROOT SORT4_SELECT_INTRINSIC_REPO_ROOT SORT4_POINTER_DROP_REPO_ROOT
+export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-drop-v4
+run_stage construction-preflight python3 research/challenge-8/check-forget-guard-diagnostic.py --construction-preflight --evidence "$evidence/forget-construction-preflight"
 run_stage stock-download curl -fL --retry 3 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.09/verifast-26.09-linux.tar.gz
 printf '%s  %s\n' "$archive_sha" "$stock_archive" | sha256sum -c -
 run_stage stock-extract tar -xzf "$stock_archive" -C "$task_temp"
@@ -147,6 +150,5 @@ rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/console-ldd.txt"
 if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 unset SORT4_MAYBEUNINIT_REPO_ROOT SORT4_SELECT_INTRINSIC_REPO_ROOT SORT4_POINTER_DROP_REPO_ROOT
-export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-drop-v4
-run_stage forget-guard-diagnostic python3 research/challenge-8/check-forget-guard-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/forget-guard-diagnostic"
+run_stage forget-guard-diagnostic python3 research/challenge-8/check-forget-guard-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --preflight-manifest "$evidence/forget-construction-preflight/construction-preflight.json" --evidence "$evidence/forget-guard-diagnostic"
 exit 0
