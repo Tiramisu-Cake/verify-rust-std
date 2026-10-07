@@ -3911,3 +3911,16 @@ provenance). Allframe/token/noUnwind/resources kept. Noassume bodyclaim/bridge;
 unknownmessagesfailclosed untiltargetrawpermissionobserved. Eachindependentcase
 saved evenifproofinconclusive. Sameprofileactiveintrinsicregressions stillrequired.
 Selection30min/proof300s,1854/5400before,oneactive,noSWO/layoutrepeat.
+
+S5i result37621093604/3d822b0/7bb39a84:154s,total2008/5400. BUILD/ctor/asptr/
+classifs/baselines PASS; pointermethod reachespost10 nounwindfalse understock
+unwind-permittingfree-drop. AssumeexportE0658 missingtransparent_unions feature;
+intrinsic40admissions/ghost NOTRUN. Compact11481794092/full11481549245.
+S5j BEFORE dispatch: SAMEv2/7bb39a84/domain/fullposts/allcriterion. Hypothesis
+transparent_unions fixturefeature permits exactsourceadapterexport/refinement;
+stockunion frontend maystillreject beforebody, classifyinconclusive andgive
+canonicalMIRfor nextsourcegate. Independentdiagnostics collectedevenifsetupfailure;
+retainexitcodes/nonzerofinalstatus, fullcomponentgates unchanged. GhostcastSome/
+unionSome/castNone/unknown probes asS5i, nobridge; sourcebodyclaim separate.
+Completeintrinsic6+10+40/60+10+4 +ctor/asptr/14baselines gateactualON. Selection
+30min/proof300s,2008/5400before,oneactive,noSWO/layoutrepeat/newsemantics.

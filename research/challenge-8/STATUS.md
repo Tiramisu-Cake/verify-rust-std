@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**1854/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**2008/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
 body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
@@ -106,3 +106,10 @@ cleanup bool switch. S5i uses existing schema-reader conversion, patch7bb39a84.
 All numeric APIs reviewed; no new semantic rule. Four independent ghost-only
 storage probes added (cast initialized, union initialized, cast none/unknown);
 source-linked assume_init export remains separately NOT PROVEN. No active run.
+
+S5i/37621093604/source3d822b0/7bb39a84: build/ctor/asptr regressions PASS.
+Pointer-drop body reaches stock unwind post `Cannot prove false` at10.
+Assume export requires missing transparent_unions crate feature; admission and
+ghost matrix NOT RUN. S5j fixes feature only and collects independent diagnostic
+stages without preventing component matrix; any diagnostic setup failure retains
+nonzero overall exit. No semantic change; no active run.

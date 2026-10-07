@@ -78,7 +78,7 @@ def make_source(repo: Path, matrix) -> tuple[bytes, bytes, dict]:
         b"ens thread_token(t) &*& result == value &*& raw_ptr_own::<Element>()(t, result);\n"
         b"on_unwind_ens false;")
     verified = (
-        b"#![feature(core_intrinsics)]\n#![allow(internal_features)]\n\n"
+        b"#![feature(core_intrinsics, transparent_unions)]\n#![allow(internal_features)]\n\n"
         b"mod sort4_certified_maybeuninit {\n"
         b"    use std::mem::ManuallyDrop;\n    use std::intrinsics;\n"
         b"#[repr(transparent)]\npub union MaybeUninit<T> " + union + b"\n\n    " +

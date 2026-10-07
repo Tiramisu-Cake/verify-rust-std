@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1854/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget2008/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -180,3 +180,16 @@ S5i uses existing CapnpAux reader conversion; numericAPIs reviewed, nosemanticde
 [full11482311201](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37620410162/artifacts/11482311201).
 Four separate kernel/storage ghost-only diagnostics added; no source-linked
 assume_init/body acceptance inferred from them, unknownerrors remainINCONCLUSIVE.
+
+S5i/37621093604/source `3d822b09dc6e8eeb53aea934592fd36027ade965`,
+v2/7bb39a84:154s12:27:21–12:29:55UTC,total2008/5400,noactive.
+BUILD/profile audit PASS; fullctor/asptr/classifiers/baselines PASS. Pointerdrop
+exactmethod body now reaches stock unwind post10:15–20 `Cannot prove false`;
+stock general drop permits unwind, insufficient for target (not a semantic stop).
+Assume-init export/refinement fails E0658: missing transparent_unions feature.
+No read-proof or admission/ghost/fullintrinsic matrix ran; canonical assume MIR
+not yet obtained. S5j adds fixture crate feature and collects independent diagnostics
+while retaining nonzero final status for their setup failures; matrix gates unchanged.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621093604),
+[compact11481794092](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621093604/artifacts/11481794092),
+[full11481549245](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37621093604/artifacts/11481549245).

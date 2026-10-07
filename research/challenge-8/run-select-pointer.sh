@@ -36,7 +36,13 @@ run_stage() {
     set -e
     printf '%s\n' "$result" > "$evidence/$stage-exit-code.txt"
     cat "$evidence/$stage.log"
-    (( result == 0 )) || exit "$result"
+    return "$result"
+}
+diagnostic_status=0
+run_diagnostic_stage() {
+    local status=0
+    run_stage "$@" || status=$?
+    if (( status != 0 )); then diagnostic_status=1; fi
 }
 export RUSTUP_TOOLCHAIN=nightly-2026-02-05
 source_pin=809de4596839b739dd999f9e462242c835e3af46
@@ -147,8 +153,9 @@ run_stage select-classifier-tests python3 research/challenge-8/test-select-point
 run_stage select-component-matrix python3 research/challenge-8/check-select-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --classifier-summary "$evidence/select-classifier-self-check.json"
 run_stage actual-select-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-integration" --component-summary "$evidence/matrix/summary.json"
 run_stage intrinsic-classifier-tests python3 research/challenge-8/test-select-pointer-intrinsics-classifier.py --evidence "$evidence/intrinsic-classifier-self-check.json"
-run_stage pointer-drop-existing-diagnostic python3 research/challenge-8/prepare-pointer-drop-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/pointer-drop-existing"
-run_stage assume-init-storage-export python3 research/challenge-8/prepare-assume-init-storage-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/assume-init-storage"
-run_stage assume-init-permission-probe python3 research/challenge-8/prepare-assume-init-permission-probe.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/assume-init-permission"
+run_diagnostic_stage pointer-drop-existing-diagnostic python3 research/challenge-8/prepare-pointer-drop-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/pointer-drop-existing"
+run_diagnostic_stage assume-init-storage-export python3 research/challenge-8/prepare-assume-init-storage-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/assume-init-storage"
+run_diagnostic_stage assume-init-permission-probe python3 research/challenge-8/prepare-assume-init-permission-probe.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/assume-init-permission"
 run_stage intrinsic-component-matrix python3 research/challenge-8/check-select-pointer-intrinsics.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/intrinsic-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --classifier-summary "$evidence/intrinsic-classifier-self-check.json"
 run_stage actual-select-intrinsic-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-intrinsic-integration" --component-summary "$evidence/matrix/summary.json" --constructor-summary "$evidence/constructor-regressions/summary.json" --intrinsic-summary "$evidence/intrinsic-matrix/summary.json"
+exit "$diagnostic_status"
