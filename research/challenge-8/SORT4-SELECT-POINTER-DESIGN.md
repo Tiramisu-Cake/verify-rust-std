@@ -312,3 +312,17 @@ stock/experimental Rust/C/C++ baseline gates; no SWO/layout dependency. Unknown
 forms reject, no general pointer Drop or union theorem. Integration first proves
 wrapper-to-cell projection using stock open/close and existing reborrow tokens;
 if that fails it is a separate obligation, not permission to remove the drop pre.
+
+S5e profile identity BEFORE use: `experimental-source-linked-select-pointer-intrinsics-v2`
+adds only the complete actual helper applicability whitelist to the earlier v1
+compiler selection rule. Cumulative patch SHA256
+`1c9637f5269d464685ca0fe4e5600571a7618658e4da804e073629fc1ece661f`.
+Standalone bodies/semantics remain identical; v1/2cd1a04a evidence remains separate.
+Actual whitelist checks source/header/contract/HIR spans, local guard nominal
+field/type/span, all31 typed locals, all14 blocks/ordered statements, ten exact
+callee identities/substitutions/operand/destination/CFG paths, cleanup Drop and
+flag switch. It certifies the graph before modeling exactly2 pointer and1 wrapper
+intrinsics; it does not model Drop/forget/assume_init or accept the whole helper.
+Changed v2 must rerun all component matrices/baselines/classifiers before actual
+intrinsic-on diagnostic. Future authorized drop profile uses its separate identity
+`experimental-source-linked-select-pointer-drop-v1`, never relabels v1 evidence.
