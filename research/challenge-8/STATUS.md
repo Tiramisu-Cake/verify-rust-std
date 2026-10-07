@@ -1,5 +1,19 @@
 # Challenge 8: current checkpoint
 
+Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
+Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
+New5400jobseconds,<=1800/job,<=300/proof;spend0,noactive. Old budget retired.
+Current action: complete dependency map and existing storage/borrow assessment
+before semantic implementation. Independent compact O4/current evidence packaging
+in preparation for nearest hosted run. Runtime std/signatures and frozen kernel/
+memory/alias/provenance/export/refiner unchanged. Narrow spec/translator changes
+for listed pointer operations authorized after written component design.
+[Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
+Unsupported names do not stop this phase; forbidden general semantic extension
+needs precise reproducer and evidence. Fullsort4 outside scope;RAPx CLOSED/NO-GO,
+B/C NOT RUN. Previous phase summary below is historical and superseded as execution
+checkpoint; its accepted constructor/profile identities remain valid.
+
 Updated 2026-10-07. **CLOSED: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md)**
 at the dependent actual callee's storage/borrow boundary.
 [Final report](SORT4-POINTER-OWNERSHIP-RESULTS.md).

@@ -1,5 +1,13 @@
 # Challenge 8: approved roadmap
 
+New current [pointer select completion phase](SORT4-SELECT-POINTER-PHASE.md) is
+IN PROGRESS, authorized2026-10-07 atcd44e1bb;new5400jobseconds,oldbudgetretired.
+Map all remaining helper dependencies before implementation; existing-model
+as_mut_ptr/storage first, then accepted pointer-specialized intrinsic/drop/forget/
+assume_init components and whole-body integration. Compact evidence<=25MiB inclO4
+on nearest hosted run. Kernel/general memory/alias/provenance remain frozen.
+[STATUS](STATUS.md) is authoritative. Prior roadmap below is historical.
+
 Current [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md) is **CLOSED**,
 separately authorized2026-10-07 at e0920ec. [Final results](SORT4-POINTER-OWNERSHIP-RESULTS.md):
 O4/37601511894,proofSHA182ddf29,profile325af428 accepts the defined pointer-value
