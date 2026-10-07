@@ -58,7 +58,14 @@ Explicit source-insertion manifest, ghost-strip original/verified identity and
 source/refinement checks over lib.rs AND both included file pairs must hold.
 Pinned include items add declarations only; full actual runtime MIR confirms no
 new executed operation. The original local guard/Drop source remains unchanged. Use frozen v4 tools/patch c7cc08a9 unchanged,
-compiler/nightly/schema/exporter/refiner frozen. A diagnostic label is separate
+compiler/nightly/schema/exporter/refiner frozen. Explicitly unset all admission
+REPO_ROOT flags: the inserted includes intentionally fail the old exact-source
+certificate, so that gate is INACTIVE and no redirect occurs. Isolate the actual
+function prefix from v4: omit only unused appended constructor/asptr/drop adapter
+declarations whose union bodies need active source certificate translation; record
+the omitted declarations and unchanged full actual function/guard/Drop source.
+This is a diagnostic isolation, not an actual-integration admission change.
+A diagnostic label is separate
 from tool profile, not a new semantic proof profile or accepted component.
 
 Pinned focus matches inclusive file/range, so a helper defined directly in the

@@ -4403,3 +4403,9 @@ focus byactual expansion filepath excludesparent. Source/ghoststrip/stage hashes
 and readonlyrefinement coverallthree filepairs. FullNORMAL+readonlycapture verifies
 nominalidentity/macrolocations/noextraactualruntimeops; this isolation is untested
 untilhosted and no admission accepted. Parent/setup failure remainsINCONCLUSIVE.
+
+S7a BEFORE code staticisolation refinement: explicitlyunsetall admissionREPO_ROOT
+flags; insertedincludes are outsidev4 exactsourcegate and mustnotexpandthatgate.
+Retainfullactualselect/guard/Drop prefix, omitONLYunused appended checkedcallee
+items whoseunion bodies requireactiveconstructorcert, record omissions/sourcebytes.
+Noactualtranslation/admission/redirect accepted fromdiagnostic; stock MDidentityonly.
