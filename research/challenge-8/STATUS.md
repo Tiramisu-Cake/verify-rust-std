@@ -1,58 +1,43 @@
 # Challenge 8: current checkpoint
 
-Updated2026-10-07. Owner resumed only S6 frombea6248.
-**S7a readonly capture obtained; NORMAL frontend isolation unresolved.**
-[S7 design/trust/card](SORT4-SELECT-FORGET-DESIGN.md), from ffa370a.
-Latest37667942855/source f101203bfe5e6100ee2ae60fc0cae62ef7c6149b:99s,
-18:35:08–18:36:47UTC. All9 readonly export/decode/refinement PASS; NORMAL/focus1:
-frozen preprocessor appends function stubs after included block expression,
-compiler incomplete_include. No body entry or intended proof negative.
-Readonly exact guard nominal identity and helper typed MIR captured; retained
-ManuallyDrop::new cleanup edge is NOT a no-unwind theorem. Original classifications
-retained; v4 unchanged/admission inactive/no redirect/no new profile.
-Budget **4308/5400 used;1092 remain**, same budget/no reset/no active run.
-Investigate source-only isolation on frozen frontend; no lint/parse relaxation.
-Full S7 admission/matrix/newprofile/borrow controls NOT RUN.
-STOP at need separate guard-own/Drop or broader frozen model; after actual forget
-pass stop next blocker. Historical S6 checkpoint follows.
+Updated2026-10-07. Owner authorized S7 from ffa370a; this iteration is now stopped
+at its independent-acceptance blocker. No further dispatch/admission at this checkpoint.
 
-Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
-[Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
-`75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
-`experimental-source-linked-select-pointer-drop-v4`, patch
-`c7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1`.
-Constructor/as_mut_ptr/typed intrinsics/narrow pointer drop matrices and14baselines
-PASS freshly; S6 has2positive+11proofnegative+22source/MIR/pin negatives, all on
-intended obligations. All19 independent NORMAL controls reject exactly beforeproof,
-including oldreceiver26→23. Full source/typed method+actual MIR/runtime/normal-unwind
-CFG correspondence preserved; diagnostic37649244205 is not a proof. Five extra
-stock ghost locals/blocks and every annotation coordinate are in the design table.
+Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**
+[Exact report](SORT4-SELECT-FORGET-RESULTS.md), [design/trust](SORT4-SELECT-FORGET-DESIGN.md).
+Latest [37669436220](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220),
+source `a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d`: all9 NORMAL/readonly exports and
+refinement PASS. Exact nominal guard/body captured; both positive bodies return/
+leak-check but exit1 on frozen global dead-code gate. Seven intended raw proof
+errors observed; automatic all9 INCONCLUSIVE retained (negative duplicate note
+headers), no classifier change/replay. Full admission/mutation/borrow controls and
+new-profile regressions NOT RUN. No new semantic profile/guard-own/actual redirect.
+S6v4 components unchanged/accepted. Actual latest remains S6 forget63 missing
+nominal guard-own, not assume_init; full helper/sort4 NOT PROVEN.
+Budget **4411/5400 summed hosted jobseconds used;989 remain**, samebudget/noreset,
+noactive. STOP for independent-acceptance design; no dead-code suppression or
+preprocessor/focus/model extension. Historical S6 checkpoint follows.
 
-Actual baseline still lacks initialized payloadcell. Stock-projected actual enters
-proof after full36/19 admission and checkedmethod redirect. Both stock opens, proof
-condition split, retained runtime drop at verified/lib.rs60 and both closes61/62
-pass in the recorded prefix. Next blocker: verified/lib.rs63 `mem::forget(guard)`,
-frozen std/lib.rsspec420:41–42 requires nominal
-`<DropOnPanic<*const Element>>.own(t, guard)`, absent. No guard/forget extension;
-STOP at this exact obligation. Current classifier stays INCONCLUSIVE with heuristic
-kind intrinsic_select; rawlog establishes the forget guard-own failure separately.
-Finalreturn/leak/fullnormal-unwind posts not reached; wholehelper/sort4 NOT PROVEN.
+Accepted source/profile: S6v4 proof75681fbc57bda633f59096cdc28f0c1aa61daef8,
+run37656621026; patchc7cc08a995bac5879901f4fe08030f09d23bdfefb1a3ab5893be12a8dd1f8fc1.
+Pointer-value model, constructor, as_mut_ptr, typed intrinsics and narrow pointer
+drop remain accepted within documented trust boundaries. Existing ManuallyDrop
+representation/operation correspondence is trusted, not newly proved by S7.
+No arbitrary slot/Element rights or guard-own=true were introduced.
 
-Checked method and ghost resource identity lemma are separate from TRUSTED compiler
-raw-pointer drop glue correspondence and frozen stock frontend ghost substitution.
-Existing initializedcell/fullpointervalue/thread/independentframes required, no
-Element rights. Recursive free stub is not a runtime-body theorem. Runtime std,
-signatures/targetcontract unchanged; broader04d67f4b/Drop/guard/forget/assume_init/
-union/refiner/kernel/memory/alias/provenance stay frozen. Further semantic work
-requires a separate owner decision; no additional dispatch authorized at this stop.
-Budget **3954/5400 summed hosted jobseconds used;1446remain**, same budget/noreset,
-noactive. Last two proof orchestration jobs:37654585346=184s,37656621026=202s.
+Actual stock projection: old admitted prefix supplies initialized selected cell
+from ctor some states and two stock opens; retained drop60/closes61–62 pass.
+Forget63 requires guard-own at std/lib.rsspec420; absent. S7 body evidence is not
+callee acceptance/call correspondence and cannot discharge that current blocker.
 
-[Phase](SORT4-SELECT-POINTER-PHASE.md), [design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
-[results/budget](SORT4-SELECT-POINTER-RESULTS.md), [actual](SORT4-SELECT-CALLEE.md).
-Proofcompact11500295662/full11500150817; manifest5177/5177 hash/CRC/size PASS.
-Normal diagnostics37648838042=65s and37649244205=69s included in the sameledger.
-S5j correction: readonlyexport/decode0, refinement FAIL RawPtr bb1command4;
-normal preprocessing separately after-tailghostclosefailure. No readresource proof.
-Git push recovered; all work published ordinary fast-forward, noforce/reset.
+Four S7 diagnostic jobs:37665233357=133s (construction),37666273705=122s (compiler),
+37667942855=99s (readonly only/NORMAL incomplete_include),37669436220=103s
+(body-prefix plus failed mandatory dead-code gate). All costs in continuing ledger.
+Original raw classifications preserved. No active run or uncommitted semantic draft.
+Next decision needs a design for independent exact-nominal acceptance preserving
+full dead-code/source/MIR/refinement gates before redirect; general guard/Drop/
+assume_init/union/refinement/memory/provenance/kernel remain frozen.
+
+S5j correction retained: readonly export/decode0, refinement FAIL RawPtr bb1cmd4;
+normal preprocessing separately after-tail ghost-close failure. No readresource proof.
 RAPx CLOSED/NO-GO,B/C NOTRUN,no upstream PR/messages/submission.

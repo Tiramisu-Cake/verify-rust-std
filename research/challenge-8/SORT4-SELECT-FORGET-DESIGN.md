@@ -1,5 +1,9 @@
 # S7 exact local-guard forget design
 
+Current: **STOP at independent positive dead-code gate; forget NOT ACCEPTED.**
+[Closeout/evidence/budget](SORT4-SELECT-FORGET-RESULTS.md):4411used989remaining,
+noactive; v4 and original classifications unchanged. Historical BEFORE cards follow.
+
 Owner2026-10-07 resumes from ffa370a5197ecb06fc74e4352371453ac67523d6.
 Same5400 summed jobseconds;3954used/1446remaining, no reset. S6v4 accepted/frozen,
 original classifications retained. All executable work hosted-only, one relevant run.
@@ -196,3 +200,17 @@ frontend extension. Body memory/guard protocol need -> STOP with obligation.
 Nonvacuous body success -> BEFORE-design full separate profile/gates, not acceptance.
 One hosted diagnostic cap18min1080/reserve120/perproof300 fits1092remaining; charge
 actual duration, same5400 summed jobsecond budget, no reset.
+
+## S7a final decision
+
+37669436220: macro source/focus/ghost association works; both exporter modes and
+refinement pass all9, exact nominal helper/probe bodies captured. Both positives
+execute body/return/leak under reachable thread/cell/frame premises, but complete
+focused verifier exits1 on mandatory global dead-code gate. Seven exact intended
+raw errors are not an accepted full matrix; all9 original INCONCLUSIVE retained.
+Negative regex counts both execution header and note; no classifier repair mixed
+with this experiment. Full admission/newprofile/regressions NOT RUN, no redirect.
+STOP for independent acceptance design preserving complete dead-code/source/MIR/
+nominal checks; don't suppress checks or reverse callee-before-caller ordering.
+No body guard-own/Drop protocol necessity established; actual still at old forget
+own obligation. Same4411/5400used989remain; no active job, no further dispatch here.

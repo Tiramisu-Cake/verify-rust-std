@@ -6,7 +6,22 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**
+[Exact report](SORT4-SELECT-FORGET-RESULTS.md), [design/trust](SORT4-SELECT-FORGET-DESIGN.md).
+Latest [37669436220](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220),
+source `a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d`: all9 NORMAL/readonly exports and
+refinement PASS. Exact nominal guard/body captured; both positive bodies return/
+leak-check but exit1 on frozen global dead-code gate. Seven intended raw proof
+errors observed; automatic all9 INCONCLUSIVE retained (negative duplicate note
+headers), no classifier change/replay. Full admission/mutation/borrow controls and
+new-profile regressions NOT RUN. No new semantic profile/guard-own/actual redirect.
+S6v4 components unchanged/accepted. Actual latest remains S6 forget63 missing
+nominal guard-own, not assume_init; full helper/sort4 NOT PROVEN.
+Budget **4411/5400 summed hosted jobseconds used;989 remain**, samebudget/noreset,
+noactive. STOP for independent-acceptance design; no dead-code suppression or
+preprocessor/focus/model extension. Historical S6 checkpoint follows.
+
+Historical S6 closeout: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
 [Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
 `75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
 `experimental-source-linked-select-pointer-drop-v4`, patch

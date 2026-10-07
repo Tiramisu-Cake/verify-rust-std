@@ -4513,3 +4513,32 @@ Read-only investigation rejects inline focus parent contamination/directimplincl
 Full design final section defines ghost span/nominal/body gates and STOP if route
 fails; no v4 admission relaxation or classifier rewrite.4308used1092remain,
 nextcap18/reserve120/proof300/onehostedrun. No semantic tool change.
+
+Macro-item diagnostic dispatch37669436220/source a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d,
+created18:46:46UTC, exact remote confirmed, sole active relevant run.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220).
+Independent static review PASS; no classifier/v4 semantic change; cap18/reserve120.
+Before4308used1092remain; durationpending. Previous compact innerSHA
+a3e1ce82a09bca102434d5c266fd5602f7ff673e06f74824a73dc809e98807dd,
+1099/1099 hash/CRC/size PASS. Compiler scope supports caller lexical item/type import
+per Rust Reference macro mixed-site hygiene; MIR association still unproved.
+
+S7a final37669436220/source a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d:
+103s18:46:51–18:48:34UTC ->4411/5400used989remaining;457s S7 total, samebudget.
+All9 NORMAL+readonly export/decode/refinement0, source/preflight hashes PASS.
+Exact original local guard, helper4locals/3BB and probe7locals/3BB complete records
+identical between NORMAL/readonly. Helper isFromExpansiontrue, MDnew typedMove,
+normalReturn/cleanupUnwindResume retained, noDrop. No general expansion admission.
+Bothpositive bodies reachreturn/leak, thenfocusedVF1 on globaldead-code inventory
+(vfconsole265–282/check_focus verify_expr154–162). Nonvacuous body prefix is not
+accepted complete proof. Seven firsterrors match exact intended annotations;
+regexdoublecounts diagnosticnoteheaders, rawall9INCONCLUSIVE retained/no repair.
+STOP independentpositive acceptance; no allow_dead_code/scopedexemption/preprocessor/
+focus/model patch or reverse-order actualredirect. No guard-own deficiency proved
+in body; actualS6 forget63 nominalown stillmissing, S7 actual NOTRUN. Full S7
+admission/mutations/borrow/newprofile regression NOTRUN. Report/details in
+SORT4-SELECT-FORGET-RESULTS.md; STATUS/Currentresult/coverage/ledger updated.
+Compact11503963988/full11503793868 innerSHA
+12c3f3f509fc845dd1aa1bb7d8b80f8fcf70e6ab6064af3436168f0b9489dd83,
+1135/1135hash/CRC/size PASS. Console/full artifacts read, source/v4pins unchanged.
+Noactive job; next needs independentacceptance design, remaining989notnewbudget.

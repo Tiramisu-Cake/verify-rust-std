@@ -1,6 +1,21 @@
 # Pointer select completion — results
 
-Current S6: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
+Current S7: **STOP at independent positive dead-code acceptance; forget NOT ACCEPTED.**
+[Exact report](SORT4-SELECT-FORGET-RESULTS.md), [design/trust](SORT4-SELECT-FORGET-DESIGN.md).
+Latest [37669436220](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37669436220),
+source `a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d`: all9 NORMAL/readonly exports and
+refinement PASS. Exact nominal guard/body captured; both positive bodies return/
+leak-check but exit1 on frozen global dead-code gate. Seven intended raw proof
+errors observed; automatic all9 INCONCLUSIVE retained (negative duplicate note
+headers), no classifier change/replay. Full admission/mutation/borrow controls and
+new-profile regressions NOT RUN. No new semantic profile/guard-own/actual redirect.
+S6v4 components unchanged/accepted. Actual latest remains S6 forget63 missing
+nominal guard-own, not assume_init; full helper/sort4 NOT PROVEN.
+Budget **4411/5400 summed hosted jobseconds used;989 remain**, samebudget/noreset,
+noactive. STOP for independent-acceptance design; no dead-code suppression or
+preprocessor/focus/model extension. Historical S6 checkpoint follows.
+
+Historical S6 closeout: **COMPONENT_ACCEPTED (v4); actual integration STOPPED at forget guard-own.**
 [Fresh run37656621026](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37656621026), proof source
 `75681fbc57bda633f59096cdc28f0c1aa61daef8`, profile
 `experimental-source-linked-select-pointer-drop-v4`, patch
@@ -423,6 +438,10 @@ new run appears. No tool/profile/pre/post semantic change, no new hosted job cos
 | 37651717720 | dfc1f1d740689de8f427ac549da558d64a4318eb | 266 | 3568 | 1832 |
 | 37654585346 | f1774d54b0d3ced96724b07aba9acfecb51b1633 | 184 | 3752 | 1648 |
 | 37656621026 | 75681fbc57bda633f59096cdc28f0c1aa61daef8 | 202 | 3954 | 1446 |
+| 37665233357 | 2ba63774e964e2ca76b3b1639e550cb93e70769e | 133 | 4087 | 1313 |
+| 37666273705 | 3a4b0e9d375e8871b541ed18e6b340cf152734be | 122 | 4209 | 1191 |
+| 37667942855 | f101203bfe5e6100ee2ae60fc0cae62ef7c6149b | 99 | 4308 | 1092 |
+| 37669436220 | a5ce1b5f71d2f0a2ecd1f74e44063ba079683b4d | 103 | 4411 | 989 |
 
 Skipped jobs are excluded. At that interim checkpoint iteration484s; no reset, <=1800/job and300/proof.
 First run independently collected all cases and accepted-component regressions;
