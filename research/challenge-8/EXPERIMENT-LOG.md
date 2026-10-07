@@ -4409,3 +4409,10 @@ flags; insertedincludes are outsidev4 exactsourcegate and mustnotexpandthatgate.
 Retainfullactualselect/guard/Drop prefix, omitONLYunused appended checkedcallee
 items whoseunion bodies requireactiveconstructorcert, record omissions/sourcebytes.
 Noactualtranslation/admission/redirect accepted fromdiagnostic; stock MDidentityonly.
+
+S7a BEFOREimplementation importisolation correction: eachincludefile singlefnitem;
+put lexicaluse std::mem::ManuallyDrop inparentbeforetwoincludes. Manifest exactthree
+nonexecuteditems, sourceghoststrip/removeitems originalactualprefixexact. Diagnostic
+negative requiresintendedfunction/stage/predicate/post/assertlocation, leakonlyafter
+bodyreturn+leakcheck; samefilegenericerrornotintended. Borrowtokens/fulladmissions
+NOTRUNinS7a, documentedratherthanclaimed. No semantics/admission/ownership change.

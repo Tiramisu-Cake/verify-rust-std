@@ -51,12 +51,12 @@ requires a new guard/Drop resource protocol, STOP with its exact obligation.
 ## S7a first diagnostic, before any new admission semantic change
 
 No captured forget-body typed MIR exists. First capture both NORMAL and readonly
-full MIR on a disposable copy of actual v4 projected source plus two nested
-include! items for helper and frame probe, each defined in a separate source file. Preserve exact actual body/guard/Drop and runtime
+full MIR on a disposable copy of actual v4 projected source plus a lexical ManuallyDrop import and two nested
+include! items for helper and frame probe, each a single fn in a separate source file. Preserve exact actual body/guard/Drop and runtime
 forget invocation; helpers are source-linked additions, not an actual redirect.
 Explicit source-insertion manifest, ghost-strip original/verified identity and
 source/refinement checks over lib.rs AND both included file pairs must hold.
-Pinned include items add declarations only; full actual runtime MIR confirms no
+Pinned import/include items add declarations only; full actual runtime MIR confirms no
 new executed operation. The original local guard/Drop source remains unchanged. Use frozen v4 tools/patch c7cc08a9 unchanged,
 compiler/nightly/schema/exporter/refiner frozen. Explicitly unset all admission
 REPO_ROOT flags: the inserted includes intentionally fail the old exact-source
@@ -70,7 +70,8 @@ from tool profile, not a new semantic proof profile or accepted component.
 
 Pinned focus matches inclusive file/range, so a helper defined directly in the
 parent file would ALSO select and fail the actual parent before the helper.
-Use two include! items in the exact local guard scope, with helper/probe definitions
+Use one lexical `use std::mem::ManuallyDrop` item and two include! items in the
+exact local guard scope, with helper/probe definitions
 spanning separate files; focus on their actual file/line excludes parent lib.rs by
 path. This lexical-isolation hypothesis is not yet tested. Record macro expansion
 filepaths and nominal defpaths, and require actual intended helper/probe body entry;
@@ -79,7 +80,13 @@ other function unproved. Record
 focus argv/line/function, satisfiable explicit pre, body execution/return/leak and
 full raw log. Execute positive body and frame preservation; independent negatives
 false body assertion, wrong post/framevalue and thread/frame loss or duplication
-must reach their specified body/post/leak obligations. Setup/frontend/unrelated
+must reach their specified body/post/leak obligations, matching exact focused
+function, first-error location/line derived from annotation and diagnostic predicate.
+Thread/frame loss requires named body return+leak-check with intended leak error;
+duplication requires exact missing thread/cell chunk at named post, wrong-value
+requires its post equality. Any other error in same file remains INCONCLUSIVE.
+S7a only tests payloadcell/frame/thread: separate borrow-token regressions remain
+NOT RUN until full admission/matrix stage. Setup/frontend/unrelated
 failures remain INCONCLUSIVE. These are diagnostic hypotheses, not a full matrix
 or admission acceptance. No redirect/actual integration in S7a.
 
