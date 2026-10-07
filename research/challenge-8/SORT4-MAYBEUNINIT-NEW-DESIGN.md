@@ -56,10 +56,14 @@ call. This link is the main trust decision for the new profile.
 1. Extract the exact union fields and `new` source item/body from the pinned
    repository file into a disposable local module in the hosted adapter. The
    module defines a **local** `MaybeUninit<T>` union with the same `uninit: ()`
-   and `value: ManuallyDrop<T>` fields and `repr(transparent)`, and an `impl`
-   with the byte-identical constructor body; only the enclosing module/import
-   and compiler-only lang-item attributes may differ, with every difference
-   recorded and checked. This local scope can access its own private `value`
+   and `value: ManuallyDrop<T>` fields and `repr(transparent)`, and a safe free
+   function inside that module with the byte-identical constructor body. The
+   enclosing module/import, specialized function signature, compiler-only
+   lang-item attributes and the source union's `derive(Copy)` trait attribute
+   differ, with every difference recorded and checked. The local adapter omits
+   `derive(Copy)` because it would require an unrelated local `Clone` impl;
+   this constructor only moves one pointer into a fresh value and does not
+   copy the union. This local scope can access its own private `value`
    field, so the frozen exporter sees a local function body. Ghost annotations
    may specify the constructor but, after stripping them, must leave the
    documented local Rust adapter byte-identical. Compiler, target, repository
@@ -176,3 +180,25 @@ and implementation stops there. `Element` remains arbitrary and no `Copy` or
 `Freeze` bound is added. Only a new patch artifact under `research/challenge-8`
 may contain translator edits; hosted build/verification and its exact runtime
 gate are a later step, not part of this design document.
+
+## C4 feasibility gate — deliberately partial
+
+The first hosted run of this patch is a **diagnostic**, not an acceptance run.
+It checks pinned source/body and union bytes, local source spans, the typed
+pointer constructor interface, active `value` field, one `ManuallyDrop::new`
+call, one aggregate, exact external-call count, and ordinary safe-function
+body verification against its normal/unwind/resource contract. The frozen
+translator still checks all other emitted MIR operations through its ordinary
+path. If this run reaches the opaque `MaybeUninit_own` safety template and
+cannot prove the body, that is the first ownership-model boundary; stop
+without adding an ownership predicate or weakening the generated template.
+
+This partial gate does **not** enumerate and authenticate every MIR operation
+and dataflow edge in the local body before applying the representation rule.
+In particular, a separate typed MIR whitelist does not yet reject every
+possible extra call, write, drop or altered return. Even a green C4 result
+therefore leaves the constructor and actual callee **unaccepted**. Before
+acceptance, add the focused full MIR shape/dataflow gate described above, run
+source-mutant and proof-negative controls at their intended stages, then
+check the unchanged callee. The C4 runner must mark feasibility-only mode and
+must not dispatch the dependent callee.

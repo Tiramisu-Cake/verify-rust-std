@@ -3274,3 +3274,40 @@ No whole-model/automaticUB/ownership/actualsort4 claim. Newbudget248/5400s,noact
 Default-main exposure per runbook: reviewed minimal workflow-only change196121c11fee754327692a6aae7c97670d809c74
 from4771dd9 adds manualconstructor selection/Ubuntu22/30min cap/job-start/runnercase.
 No research-history merge or automatic trigger; localunrelated main heads preserved.
+
+### C4 preexperiment card — constructor feasibility ONLY
+
+Actual obligation: repository MaybeUninit::new at core/mem/maybe_uninit.rs396–398,
+called twice by unchanged core/hint select_unpredictable at *const Element.
+Hypothesis: a source-linked SAFE local copy of this exact body, specialized only
+at *const Element with no Element Copy/Freeze bound, can verify under existing
+opaque MaybeUninit model without a new ownership bridge. Earlier N6 establishes
+missing runtime constructor resolution; this experiment asks the next resource
+question, not whole-callee success. Positive wrapper uses actual std constructor
+call and preserves full modeled pointer inner==some(val), thread/currentThread,
+normal return, no unwind, conditional fractional pointee permission and disjoint
+u8 frame; safe constructor's generated safety/template/leak checks retained.
+Original source/ghost-strip/refinement checks required at every stage.
+Profile official stock26.09/source809de459 plus ONLY translator patch SHA256
+047b92a866afafd81632d9b5135f4482bc82994135c6336491b8c48bc5589614;
+compiler nightly-2026-02-05/exporter/schema/refiner/specs unchanged; never combine
+layout patch. Design committed d67fa0c BEFORE semantic edits. Local union adapter
+omits unused Copy derive/Clone implementation, retains exact generic fields,
+reprtransparent and copied body; std source/signature unchanged.
+Stock and patched baseline false-assert controls must fail solely marked proof
+VC (exit1; no constructor calls/redirects); stock/patched pointer-frame and C/C++
+controls must verify. Unexpected false-assert success quarantines profile.
+C4 is deliberately PARTIAL: source/type/span/value-field/one-inner-call/one-
+aggregate/external-redirect gates exist but no exhaustive MIR dataflow/no-extra-
+operation whitelist yet. Runner --feasibility-only records UNACCEPTED even if
+positive passes; constructor negatives and actual callee NOT RUN. This is not an
+acceptance gate. False value/post/resource/applicability cases are designed but
+not evidence until separately run after full MIR gate.
+Ordinary compile/frontend/proof/harness error: inspect first causal failure and
+fix within narrow design before a NEW exact-SHA run. Opaque MaybeUninit_own or
+new general union/alias/ownership/copy/Drop mechanism: STOP extension and record
+minimal next design without implementation. If positive passes, develop focused
+full MIR gate and intended negative matrix before acceptance/actual callee.
+Manual verifast_maybeuninit_new_pointer/budget30, timeout1800 incl setup/build,
+cleanup reserve120, each matrix stage<=300s, one relevant run. Current budget
+248/5400s; no active run. No local executable checks/builds occurred.

@@ -29,6 +29,7 @@ on:
           - verifast_local_drop_caller_gate
           - verifast_borrow_recovery
           - verifast_sort4_components
+          - verifast_maybeuninit_new_pointer
           - verifast_sort4_alignment
           - verifast_rust_fieldless_layout
           - verifast_borrow_recovery_manually_drop
@@ -72,8 +73,8 @@ jobs:
     permissions:
       contents: read
       actions: read
-    runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop' || inputs.proof == 'verifast_rust_fieldless_layout') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
-    timeout-minutes: ${{ inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
+    runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop' || inputs.proof == 'verifast_rust_fieldless_layout' || inputs.proof == 'verifast_maybeuninit_new_pointer') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
+    timeout-minutes: ${{ (inputs.proof == 'verifast_sort4_components' || inputs.proof == 'verifast_maybeuninit_new_pointer') && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
     steps:
       - name: Check out the selected workflow branch
         uses: actions/checkout@v4
@@ -88,6 +89,10 @@ jobs:
       - name: Record independent alignment job start
         if: inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout'
         run: echo "H_ALIGN_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
+
+      - name: Record source-linked constructor job start
+        if: inputs.proof == 'verifast_maybeuninit_new_pointer'
+        run: echo "SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
 
       - name: Record stock sort4 component job start
         if: inputs.proof == 'verifast_sort4_components'
@@ -143,6 +148,7 @@ jobs:
             verifast_sort4_alignment) bash research/challenge-8/run-verifast-sort4-alignment.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_rust_fieldless_layout) bash research/challenge-8/run-rust-fieldless-layout.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_borrow_recovery) bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
+            verifast_maybeuninit_new_pointer) bash research/challenge-8/run-maybeuninit-new-pointer.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_sort4_components) bash research/challenge-8/run-verifast-sort4-components.sh "$RUN_BUDGET_MINUTES" "$SORT4_COMPONENT" ;;
             verifast_borrow_recovery_manually_drop) BORROW_RECOVERY_PROFILE=manually_drop_only bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;
