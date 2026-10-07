@@ -128,3 +128,21 @@ family's certificate with negative mutations/regressions; no automatic acceptanc
 on diagnostic collection success. If compiler/frontend setup fails, repair concrete
 cause. No unchanged retries. Own existing dispatch API drop_v4, budget_minutes30,
 one job hard20min/inner18min+artifact reserve; available21496jobseconds.
+
+## O2 setup failure / O2b BEFORE
+
+Run37699058032/proofb8cc3cfa5706cf273cf8a317dde4837907b8e3ea,
+job11305785170722:54:11–22:55:40UTC=89s. Stock baseline completes unchanged;
+S6 diagnostic NOT_RUN. Console build stops at translated line8536:
+BodyRd.predicates_get_list / D.decode_predicate, removed in26.10 clauses API.
+Artifact11516448008cd2c4bf4 and full log retained; no intended proof negative.
+New budget193/21600,21407remaining. Independent CFG acceptance unchanged.
+
+O2b hypothesis: porting the exact old allowed predicate-list check to decoded26.10
+clause kinds restores compatibility without weakening the admitted trait/type shapes;
+all related old APIs must be audited. Written review/module provenance retained;
+no schema/exporter/refiner/kernel change. Same5source/MIR/proof capture domains/posts.
+Add stock-console source/MIR captures before rebuild so build failure cannot prevent
+inspection of new actual graphs. Optional independent framed forget and actual new
+assume_init/transmute_neo captures follow on same rebuilt profile, each with own BEFORE
+card and experimental status. No blanket transmute model/actual summary yet.

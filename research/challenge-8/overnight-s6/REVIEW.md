@@ -91,3 +91,23 @@ new free-drop-to-`drop_glue` source path are checked explicitly. The old exact
 MIR graphs are intentionally unchanged until fresh hosted data supplies a
 content-reviewed replacement. Collector output is `DIAGNOSTIC_ONLY` regardless
 of apparent proof success and cannot be promoted to component acceptance.
+
+## O2 setup failure and localized compiler API repair
+
+Hosted O2 run `37699058032`, proof SHA `b8cc3cfa` spent 89 job seconds and
+stopped while compiling the patched translator. No S6 fixture ran. The first
+error was `Unbound value D.decode_predicate` at translator line 8536.
+VeriFast 26.10 changed the decoded MIR obligation container from `Predicate`
+to `Clause`; stock translator uses `BodyRd.clauses_get_list`,
+`BodyRd.impl_block_clauses_get_list`, `AdtDefRd.clauses_get_list` and
+`D.decode_clause`. The 26.10 schema retains a `Clause.Trait` record with
+`defId`, generic `args`, and `boundRegions`. The repaired candidate replaces
+only the obsolete accessors/decoder at all S6 checks. It keeps each exact
+`Sized<Element>` or `Sized<T>` trait match, sole clause count, empty bound
+regions, and no impl-block clauses. This is a schema/API adaptation, not a
+weaker applicability gate or a new trusted value rule.
+
+Static review found all eight `D.decode_predicate` call sites, six body and
+two ADT lookups plus six impl-block lookups; no obsolete names remain in the
+candidate. The patch still passes `git apply --check` against stock source
+`f76012fb`. A fresh hosted build is required; O2 supplies no proof result.

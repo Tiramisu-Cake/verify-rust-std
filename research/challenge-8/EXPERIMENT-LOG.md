@@ -4772,3 +4772,8 @@ profile accepted:5positive/4intendedfalseposts/2deadcodecontrols, complete sourc
 pair equality, ordinary/shared unwind+leak retained. [Full result and O2 BEFORE](OVERNIGHT-SELECT-SORT4-26.10.md).
 Old S7c untouched/unaccepted. O2 source-reviewed5family S6 diagnostic authorized next;
 no new acceptance before complete new MIR/content review and negative matrices.
+
+O2 SETUP_BUILD_FAILURE run37699058032/b8cc3cfa,89s; S6 fixtures NOT_RUN;
+old Body.predicates/D.decode_predicate API needs exact clause migration. Full logs
+and artifact11516448008 retained outside Git. [O2b BEFORE](OVERNIGHT-SELECT-SORT4-26.10.md).
+New account193/21600, no active run; CFG acceptance unchanged.

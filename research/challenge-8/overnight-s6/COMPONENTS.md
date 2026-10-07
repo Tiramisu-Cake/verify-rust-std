@@ -2,7 +2,7 @@
 
 `verifast-s6-26.10-candidate.patch` is a **cumulative experimental candidate**
 against VeriFast source `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-SHA-256: `31b8cbc6ce4b194a191abf8a8f604402fb9cbc73710a2c3516c54ee935e160dc`.
+SHA-256: `38f8797a7a64d0f8b0992b73cd2741e1d3a4a5e1eef1ba83ddd670abfe4a07c1`.
 It modifies only `bin/rust/std/lib.rsspec` and
 `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml`. `git apply --check`
 passes on that source pin; no build or verifier was run locally. It is **not an

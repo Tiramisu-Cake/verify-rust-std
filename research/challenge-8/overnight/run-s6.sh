@@ -44,6 +44,8 @@ stage compiler rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --
 compiler_sysroot=$(rustc --print sysroot)
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock_home/bin:${LD_LIBRARY_PATH:-}"
 stage stock-baseline python3 research/challenge-8/check-stock-2610.py --tool-home "$stock_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/stock/cases" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1000))"
+export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
+stage s6-stock-capture python3 research/challenge-8/overnight-s6/diagnose-s6.py --tool-home "$stock_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-stock-capture"
 stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"

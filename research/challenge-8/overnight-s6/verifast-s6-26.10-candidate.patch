@@ -773,7 +773,7 @@ index 4e237a6..50935d4 100644
 +                    VfMirRd.GenericParamDefKind.Type -> ()
 +     | _ -> reject "constructor generic parameter");
 +    ignore (check_sort4_hir_generic "Element" (BodyRd.hir_generics_get body));
-+    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++    (match BodyRd.clauses_get_list body |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "Element"}}];
 +                 bound_regions=[]}] -> ()
@@ -782,7 +782,7 @@ index 4e237a6..50935d4 100644
 +       BodyRd.is_from_expansion_get body || BodyRd.is_trait_fn_get body ||
 +       BodyRd.is_drop_fn_get body ||
 +       BodyRd.impl_block_generics_get_list body <> [] ||
-+       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.impl_block_clauses_get_list body <> [] ||
 +       (match OptionRd.get (BodyRd.impl_block_hir_generics_get body) with
 +        | OptionRd.Nothing -> false | _ -> true) ||
 +       VisibilityRd.get (BodyRd.visibility_get body) <>
@@ -1215,7 +1215,7 @@ index 4e237a6..50935d4 100644
 +       VisibilityRd.get (BodyRd.visibility_get body) <>
 +         VisibilityRd.Public ||
 +       BodyRd.impl_block_generics_get_list body <> [] ||
-+       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.impl_block_clauses_get_list body <> [] ||
 +       BodyRd.ghost_stmts_get_list body <> [] ||
 +       BodyRd.ghost_decl_blocks_get_list body <> [] ||
 +       BodyRd.loop_spec_blocks_get_list body <> [] ||
@@ -1230,7 +1230,7 @@ index 4e237a6..50935d4 100644
 +     | _ -> reject "method generic identity");
 +    let hir = BodyRd.hir_generics_get body in
 +    ignore (check_sort4_hir_generic "Element" hir);
-+    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++    (match BodyRd.clauses_get_list body |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "Element"}}];
 +                 bound_regions=[]}] -> ()
@@ -1370,7 +1370,7 @@ index 4e237a6..50935d4 100644
 +       VisibilityRd.get (BodyRd.visibility_get body) <>
 +         VisibilityRd.Public ||
 +       BodyRd.impl_block_generics_get_list body <> [] ||
-+       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.impl_block_clauses_get_list body <> [] ||
 +       BodyRd.ghost_stmts_get_list body <> [] ||
 +       BodyRd.ghost_decl_blocks_get_list body <> [] ||
 +       BodyRd.loop_spec_blocks_get_list body <> [] ||
@@ -1383,7 +1383,7 @@ index 4e237a6..50935d4 100644
 +                  (VfMirRd.GenericParamDef.kind_get g) =
 +                    VfMirRd.GenericParamDefKind.Type -> ()
 +     | _ -> reject "generic parameter identity");
-+    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++    (match BodyRd.clauses_get_list body |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "Element"}}];
 +                 bound_regions=[]}] -> ()
@@ -1903,7 +1903,7 @@ index 4e237a6..50935d4 100644
 +                  (VfMirRd.GenericParamDef.kind_get g) =
 +                    VfMirRd.GenericParamDefKind.Type -> ()
 +     | _ -> reject "actual generic identity");
-+    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++    (match BodyRd.clauses_get_list body |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "Element"}}];
 +                 bound_regions=[]}] -> ()
@@ -1928,7 +1928,7 @@ index 4e237a6..50935d4 100644
 +       VisibilityRd.get (BodyRd.visibility_get body) <>
 +         VisibilityRd.Public ||
 +       BodyRd.impl_block_generics_get_list body <> [] ||
-+       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.impl_block_clauses_get_list body <> [] ||
 +       List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
 +         (if !Sort4SelectIntrinsic.actual_projection then
 +            Sort4SelectIntrinsic.projection_ghosts else []) ||
@@ -2301,7 +2301,7 @@ index 4e237a6..50935d4 100644
 +                  (VfMirRd.GenericParamDef.kind_get g) =
 +                    VfMirRd.GenericParamDefKind.Type -> ()
 +     | _ -> reject "actual generic identity");
-+    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++    (match BodyRd.clauses_get_list body |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "Element"}}];
 +                 bound_regions=[]}] -> ()
@@ -2326,7 +2326,7 @@ index 4e237a6..50935d4 100644
 +       VisibilityRd.get (BodyRd.visibility_get body) <>
 +         VisibilityRd.Public ||
 +       BodyRd.impl_block_generics_get_list body <> [] ||
-+       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.impl_block_clauses_get_list body <> [] ||
 +       List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
 +         (if !Sort4SelectIntrinsic.actual_projection then
 +            Sort4SelectIntrinsic.projection_ghosts else []) ||
@@ -2704,8 +2704,8 @@ index 4e237a6..50935d4 100644
 +       AdtDefRd.variances_get_list adt <>
 +         [VarianceRd.Invariant] then
 +      reject "actual guard ADT kind/visibility/drop/variance";
-+    (match AdtDefRd.predicates_get_list adt
-+             |> List.map D.decode_predicate with
++    (match AdtDefRd.clauses_get_list adt
++             |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "T"}}];
 +                 bound_regions=[]}] -> ()
@@ -2781,7 +2781,7 @@ index 4e237a6..50935d4 100644
 +       VisibilityRd.get (BodyRd.visibility_get body) <>
 +         VisibilityRd.Public ||
 +       BodyRd.impl_block_generics_get_list body <> [] ||
-+       BodyRd.impl_block_predicates_get_list body <> [] ||
++       BodyRd.impl_block_clauses_get_list body <> [] ||
 +       BodyRd.ghost_stmts_get_list body <> [] ||
 +       BodyRd.ghost_decl_blocks_get_list body <> [] ||
 +       BodyRd.loop_spec_blocks_get_list body <> [] ||
@@ -2794,7 +2794,7 @@ index 4e237a6..50935d4 100644
 +                  (VfMirRd.GenericParamDef.kind_get g) =
 +                    VfMirRd.GenericParamDefKind.Type -> ()
 +     | _ -> reject "helper generic parameter");
-+    (match BodyRd.predicates_get_list body |> List.map D.decode_predicate with
++    (match BodyRd.clauses_get_list body |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "Element"}}];
 +                 bound_regions=[]}] -> ()
@@ -3060,7 +3060,7 @@ index 4e237a6..50935d4 100644
 +     | [VarianceRd.Covariant] -> ()
 +     | _ -> reject "certified union generic variance");
 +    ignore (check_sort4_hir_generic "T" (AdtDefRd.hir_generics_get local_adt));
-+    (match AdtDefRd.predicates_get_list local_adt |> List.map D.decode_predicate with
++    (match AdtDefRd.clauses_get_list local_adt |> List.map D.decode_clause with
 +     | [D.Trait {def_id="std::marker::Sized";
 +                 args=[{kind=D.Type {kind=D.Param "T"}}];
 +                 bound_regions=[]}] -> ()
