@@ -9,11 +9,11 @@ repo=$(git rev-parse --show-toplevel)
 cd "$repo"
 evidence="$repo/research-results/select-pointer"
 budget=${1:?budget minutes required}
-[[ "$budget" == 30 ]] || { echo 'requires workflow input 30; effective job cap 20 minutes' >&2; exit 2; }
+[[ "$budget" == 30 ]] || { echo 'requires workflow input 30; effective job cap 18 minutes' >&2; exit 2; }
 if [[ "${2:-}" != --inside ]]; then
     [[ ! -e "$evidence" ]] || { echo 'refuse existing evidence' >&2; exit 2; }
     mkdir -p "$evidence"
-    remaining=$((20 * 60 - 120))
+    remaining=$((18 * 60 - 120))
     if [[ -n "${SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH:-}" ]]; then
         [[ "$SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH" =~ ^[0-9]+$ ]] || exit 2
         remaining=$((remaining - $(date +%s) + SORT4_CONSTRUCTOR_JOB_STARTED_EPOCH))
@@ -60,7 +60,7 @@ source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
     printf 'Profile: experimental-source-linked-select-pointer-drop-v4\nDiagnostic: S7a exact local guard forget, no active admission or redirect\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
-    printf 'Budget: 20 minutes including preparation/build/diagnostic; workflow input %s; cleanup reserve120 seconds\n' "$budget"
+    printf 'Budget: 18 minutes including preparation/build/diagnostic; workflow input %s; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-forget-guard-diagnostic.py research/challenge-8/SORT4-SELECT-FORGET-DESIGN.md
 } > "$evidence/environment.txt"
 run_stage python-syntax env PYTHONPYCACHEPREFIX="$task_temp/python-cache" python3 -m py_compile research/challenge-8/check-forget-guard-diagnostic.py research/challenge-8/check-maybeuninit-new-pointer.py research/challenge-8/prepare-and-check-sort4-select.py research/challenge-8/prepare-select-pointer-actual.py

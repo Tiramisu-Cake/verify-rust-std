@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Hosted S7a diagnostic of the exact local guard's forget body.
 
-This captures both exporter modes and focuses only items defined in separate
-include files. It does not admit a caller summary or redirect std::mem::forget.
+This captures both exporter modes and focuses items defined in a separate
+included block expression. It does not admit a caller summary or redirect forget.
 """
 
 from __future__ import annotations
@@ -26,8 +26,7 @@ MEM_SHA = "1db195d24508e4eef81163672d008667765c2c121f4fa70f8752742e11106273"
 MANUALLY_DROP_SHA = "17e8e41866d3eadcfdc6f1a516e4ed9dd5555e10ad725aac3b04aec7c759731b"
 MAYBE_DANGLING_SHA = "1cf24b2ec36fff143f329f2ef6db5b4d47cfa798da7f30d88b554b712c8f4b53"
 INCLUDE = (b'    use std::mem::ManuallyDrop;\n'
-           b'    include!("forget-helper.rs");\n'
-           b'    include!("forget-probe.rs");\n')
+           b'    const _: () = include!("forget-items.rs");\n')
 ANCHOR = b"    let true_ptr = true_val.as_mut_ptr();\n"
 FORGET_SOURCE = b"pub const fn forget<T>(t: T) {\n    let _ = ManuallyDrop::new(t);\n}"
 FORGET_BODY = b"{\n    let _ = ManuallyDrop::new(t);\n}"
@@ -94,7 +93,7 @@ def source_certificate(repo: Path, constructor, prepare, drop_diag) -> dict:
             "candidate_nominal_defpath": "select_unpredictable::DropOnPanic",
             "nominal_defpath_mir_confirmation": "pending full typed MIR capture",
             "runtime_actual_body_source":
-                "unchanged except lexical import and two include item declarations"}
+                "unchanged except lexical import and one const-expression include"}
 
 
 def ghost(constructor, pre: bytes, post: bytes) -> bytes:
@@ -153,6 +152,12 @@ def probe_file(variant: str, constructor, annotated: bool) -> bytes:
     return raw
 
 
+def items_file(variant: str, constructor, annotated: bool) -> bytes:
+    """One included block expression with two items and a final unit value."""
+    return (b"{\n" + helper_file(variant, constructor, annotated) +
+            probe_file(variant, constructor, annotated) + b"()\n}\n")
+
+
 def projected_base(evidence: Path, repo: Path, constructor,
                    prepare) -> tuple[Path, dict]:
     select = constructor.load_select_module(repo)
@@ -205,12 +210,10 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
     (case / "verified/lib.rs").write_bytes(verified.replace(ANCHOR,
         INCLUDE + ANCHOR, 1))
     for mode, annotated in (("original", False), ("verified", True)):
-        (case / mode / "forget-helper.rs").write_bytes(
-            helper_file(variant, constructor, annotated))
-        (case / mode / "forget-probe.rs").write_bytes(
-            probe_file(variant, constructor, annotated))
+        (case / mode / "forget-items.rs").write_bytes(
+            items_file(variant, constructor, annotated))
     original_files = {name: (case / "original" / name).read_bytes()
-                      for name in ("lib.rs", "forget-helper.rs", "forget-probe.rs")}
+                      for name in ("lib.rs", "forget-items.rs")}
     verified_files = {name: (case / "verified" / name).read_bytes()
                       for name in original_files}
     require(all(constructor.strip_ghost_annotations(verified_files[name]) ==
@@ -220,24 +223,36 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
                 (base / "original/lib.rs").read_bytes() and
             verified_files["lib.rs"].replace(INCLUDE, b"", 1) ==
                 (base / "verified/lib.rs").read_bytes(),
-            "S7a changed actual body beyond lexical import and two includes")
+            "S7a changed actual body beyond lexical import and const include")
     focus_kind, obligation = EXPECT[variant]
-    focus_file = "forget-helper.rs" if focus_kind == "helper" else "forget-probe.rs"
+    focus_file = "forget-items.rs"
     focus_name = HELPER if focus_kind == "helper" else PROBE
     lines = verified_files[focus_file].splitlines()
-    line = next((i for i, data in enumerate(lines, 1)
-                 if b"unsafe fn " + focus_name in data), None)
-    require(line is not None, "focus item line missing")
-    assertion_line = next((i for i, data in enumerate(lines, 1)
+    helper_lines = [i for i, data in enumerate(lines, 1)
+                    if data.startswith(b"unsafe fn " + HELPER + b"<")]
+    probe_lines = [i for i, data in enumerate(lines, 1)
+                   if data.startswith(b"unsafe fn " + PROBE + b"<")]
+    require(len(helper_lines) == len(probe_lines) == 1 and
+            helper_lines[0] < probe_lines[0] and lines[0] == b"{" and
+            lines[-2:] == [b"()", b"}"],
+            "exact expression item order or unit result changed")
+    line = helper_lines[0] if focus_kind == "helper" else probe_lines[0]
+    end_line = next((i for i, data in enumerate(lines, 1)
+                     if i > line and data == b"}"), None)
+    require(end_line is not None and
+            (focus_kind != "helper" or end_line < probe_lines[0]) and
+            (focus_kind != "probe" or end_line < len(lines) - 1),
+            "focused function closing brace changed")
+    target_lines = [(i, data) for i, data in enumerate(lines, 1)
+                    if line <= i <= end_line]
+    assertion_line = next((i for i, data in target_lines
                            if b"//@ assert false;" in data), None)
-    post_line = next((i for i, data in enumerate(lines, 1)
+    post_line = next((i for i, data in target_lines
                       if data.startswith(b"ens ")), None)
-    end_line = next((i for i, data in reversed(list(enumerate(lines, 1)))
-                     if data == b"}"), None)
     error_line = (assertion_line if obligation == "body_assertion" else
                   end_line if obligation == "leak" else
                   post_line if obligation == "postcondition" else None)
-    require(post_line is not None and end_line is not None and
+    require(post_line is not None and
             (obligation == "body_return_leak" or error_line is not None),
             "expected diagnostic source position missing")
     manifest = {
@@ -245,6 +260,7 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
         "accepted_component": False, "full_select_proved": False,
         "source_insertion": {"anchor": ANCHOR.decode(),
             "exact_items": [item.decode().strip() for item in INCLUDE.splitlines()],
+            "included_expression": "one block with helper, probe and final unit",
             "actual_body_unchanged_after_removing_items": True},
         "source_sha256": {mode: {name: sha((case / mode / name).read_bytes())
                             for name in original_files}
@@ -267,7 +283,7 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
 def run_case(case: Path, args, constructor) -> dict:
     fixture = json.loads((case / "fixture.json").read_text())
     paths = tuple(case / mode / name for mode in ("original", "verified")
-                  for name in ("lib.rs", "forget-helper.rs", "forget-probe.rs"))
+                  for name in ("lib.rs", "forget-items.rs"))
     env = os.environ.copy()
     for key in ("SORT4_MAYBEUNINIT_REPO_ROOT",
                 "SORT4_SELECT_INTRINSIC_REPO_ROOT", "SORT4_POINTER_DROP_REPO_ROOT"):

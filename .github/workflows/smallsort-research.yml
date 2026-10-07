@@ -80,7 +80,7 @@ jobs:
       contents: read
       actions: read
     runs-on: ${{ (inputs.proof == 'verifast_insert_tail_tuple_parser' || inputs.proof == 'verifast_insert_tail_fnmut_hrtb' || inputs.proof == 'verifast_insert_tail_lft_cut' || inputs.proof == 'verifast_insert_tail_address_taken' || inputs.proof == 'verifast_insert_tail_manually_drop_ref' || inputs.proof == 'verifast_copy_on_drop_gate' || inputs.proof == 'verifast_local_drop_caller_gate' || inputs.proof == 'verifast_borrow_recovery_manually_drop' || inputs.proof == 'verifast_rust_fieldless_layout' || inputs.proof == 'verifast_maybeuninit_new_pointer') && 'ubuntu-22.04' || 'ubuntu-24.04' }}
-    timeout-minutes: ${{ (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_diagnostic') && 20 || inputs.proof == 'verifast_maybeuninit_new_pointer' && 25 || inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
+    timeout-minutes: ${{ (inputs.proof == 'verifast_maybeuninit_new_pointer' && inputs.forget_guard_stage == 'forget_diagnostic') && 18 || inputs.proof == 'verifast_maybeuninit_new_pointer' && 25 || inputs.proof == 'verifast_sort4_components' && 30 || (inputs.proof == 'verifast_sort4_alignment' || inputs.proof == 'verifast_rust_fieldless_layout') && fromJSON(inputs.budget_minutes) || inputs.proof == 'rapx_applicability' && 90 || 150 }}
     steps:
       - name: Check out the selected workflow branch
         uses: actions/checkout@v4
