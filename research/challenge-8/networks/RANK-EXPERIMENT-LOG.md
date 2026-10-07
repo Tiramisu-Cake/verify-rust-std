@@ -138,3 +138,44 @@ bodies, original N9 rank unit and exact negative+7controls. Whole bridge and
 composition acceptance required before R13. Proof failure -> first-causal local
 repair/newSHA; trust/budget boundary -> exact open obligation, no patch/fallback.
 Job8min/inner420s/percase180s fits1737s remaining. Source/run pending.
+
+### R9d result: generic embedding accepted; literal-domain composition timeout
+
+Source `955fd2a3334e8fe14c55bdb00f98c4f9813da775`,
+[run37653851684](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653851684),
+[artifact11497902324](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37653851684/artifacts/11497902324),
+294280bytes, ZIP SHA2565fa751eb6f2531e845d26e9acb2e8e4b9cf90f5d46e4c8331b32a574f82d94ad.
+Full sources/logs/results/environment inspected; all source/log hashes and pins
+match. Generic bridge/application VF0, all15 named bodies,39return/leak paths,
+81statements,0.065s: finite laws -> predecessor ranks with strict-comparison iff,
+equivalence iff, bounds, and exact CE rank/membership/token-count contract.
+No correspondence assumption or tool patch. Generic source SHA256
+33b0ec72b9e8585046d3d8ef5b41b6ac63d809596e5e8639cb25d8959cd604cd.
+
+Whole N9 composition exit124 at180s, no error; old rank theorem and all finite
+helper bodies complete,543return/leak paths. SIX composed CE steps finish;
+last trace at165.184s is seventh swo_ce call, generated4676. Literal domain
+unfolds all finite laws in this composed context; generic proof is fast.
+Final network ordering/multiplicity posts remain unproved. Negative and all7
+controls PASS at exact65,26–28. Do not interpret absence of errors as acceptance.
+Job16:40:15Z–16:43:27Z = **192s**, new-phase total255/1800,1545remain.
+
+## R9e — prepared before dispatch
+
+Same full exact N9 obligation, fixed order/keys/normal-return applicability,
+all comparison/equivalence/bounds/membership/order/multiplicity posts and open
+Rust boundary; same unchanged stock profile and per-case180s limit.
+Hypothesis: prove the exact ID-wire schedule against a symbolic original domain
+with finite_swo and initial-ID membership, then check a thin wrapper instantiating
+the literal0..8 domain. This keeps recursive finite laws symbolic during every CE,
+without weakening the final exact-domain theorem or assuming any correspondence.
+All bodies remain in the same checked unit, including old rank network theorem.
+No duplicate-ID or key distinction premise; fixed occurrence IDs remain0..8.
+Metadata clarifies that new ghost lemmas export full mathematical contracts;
+there is no Rust callee summary. Negative and all7 rejection controls unchanged.
+
+Full generic/application + symbolic composition + exact-domain wrapper VF0 ->
+R13 card/dispatch. First causal failure -> localized evidence-led checked-body
+repair/newSHA; no novel tool/trust extension. If timeout/budget boundary persists,
+save precise unproved composed lemma/posts; N13 not dispatched prematurely.
+Job8min/inner420s/percase180s fits1545s remaining. Source/run pending.

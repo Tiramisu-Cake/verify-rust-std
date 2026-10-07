@@ -87,21 +87,25 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
     rank_dag, rank_outputs, rank_trace = prove.output_dag(n, pairs)
     del rank_dag
     id_dag, id_outputs, id_trace = identity_dag(n, pairs)
-    d = domain(n)
+    exact_domain = domain(n)
     rank_inputs = ", ".join(f"initial_rank{i}" for i in range(n))
 
     def projected(expression: str) -> str:
         return re.sub(r"\bx(\d+)\b", lambda m: f"initial_rank{m.group(1)}", expression)
 
     count = lambda prefix: " + ".join(f"ce_occ({prefix}{i}, q)" for i in range(n))
-    lines = ["/*@", f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
-             f"    requires finite_swo(rel, {d}) == true;",
-             "    ensures " + " &*&\n            ".join(
-                 [f"mem({v}, {d}) == true" for v in id_outputs] +
-                 [f"!rel({id_outputs[i + 1]}, {id_outputs[i]})" for i in range(n - 1)] +
-                 [" + ".join(f"ce_occ({v}, q)" for v in id_outputs) +
-                  " == " + " + ".join(f"ce_occ({i}, q)" for i in range(n))]) + ";",
-             "{", f"    list<int> d = {d};"]
+    def full_post(d: str) -> str:
+        return " &*&\n            ".join(
+            [f"mem({v}, {d}) == true" for v in id_outputs] +
+            [f"!rel({id_outputs[i + 1]}, {id_outputs[i]})" for i in range(n - 1)] +
+            [" + ".join(f"ce_occ({v}, q)" for v in id_outputs) +
+             " == " + " + ".join(f"ce_occ({i}, q)" for i in range(n))])
+
+    lines = ["/*@", f"lemma void network{n}_finite_swo_composition(fixpoint(int, int, bool) rel, list<int> d, int q)",
+             "    requires finite_swo(rel, d) == true &*& " +
+             " &*&\n             ".join(f"mem({i}, d) == true" for i in range(n)) + ";",
+             "    ensures " + full_post("d") + ";",
+             "{"]
     lines += [f"    int id{i} = {i};" for i in range(n)]
     lines += [f"    int initial_rank{i} = swo_rank(rel, d, {i});" for i in range(n)]
     lines += [f"    int rank{i} = initial_rank{i};" for i in range(n)]
@@ -136,7 +140,14 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
                   f"    swo_rank_bridge(rel, d, id{i + 1}, id{i});",
                   f"    assert !rel(id{i + 1}, id{i});",
                   f"    assert !rel({id_outputs[i + 1]}, {id_outputs[i]});"]
-    lines += [f"    assert {count('id')} == original_count;", "}", "@*/", ""]
+    lines += [f"    assert {count('id')} == original_count;", "}", ""]
+    lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
+              f"    requires finite_swo(rel, {exact_domain}) == true;",
+              "    ensures " + full_post(exact_domain) + ";",
+              "{"]
+    lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
+    lines += [f"    network{n}_finite_swo_composition(rel, {exact_domain}, q);",
+              "}", "@*/", ""]
     return (LIST_INCLUDE + rank_proof + prove.IDENTITY_HELPERS + source_core() + id_dag +
             "\n".join(lines))
 
@@ -208,6 +219,9 @@ def main() -> int:
     passed = True
     for name, source, expected in work:
         result = prove.run_case(tool, evidence, name, source, expected)
+        result["boundary"] = ("checked pure ghost lemma contracts, including full SWO "
+                              "comparison/equality/rank bounds and composed "
+                              "membership/order/multiplicity; no Rust callee summary")
         manifest["cases"].append(result)
         (evidence / "results.json").write_text(json.dumps(manifest, indent=2) + "\n")
         print(f"{name}: {'PASS' if result['accepted'] else 'INCONCLUSIVE'}", flush=True)
