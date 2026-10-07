@@ -309,8 +309,8 @@ def make_case(case_dir: Path, specialized: bytes, certificate: dict,
         "local_function_path_suffix": HELPER_NAME,
         "expected_external_call_count": 0,
         "ghost_stripped_equal": True,
-        "intentionally_partial": True,
-        "no_method_summary_or_translator_change": True,
+        "intentionally_partial": False,
+        "source_linked_checked_body_redirect": True,
         "source_admission_mutation": admission,
         "canonical_original_sha256": sha(canonical[0]),
         "canonical_verified_sha256": sha(canonical[1]),
@@ -404,8 +404,10 @@ def mutate_as_mut_ptr_mir(decoded: str, mutation: str, matrix) -> str:
     elif mutation == "contract":
         head, annotations = body.split("      contract = (", 1)
         contract, rest = annotations.split("      inputs = [", 1)
-        contract = replace_once(contract, "MaybeUninit_pointer_own",
-                                "MaybeUninit_pointer_own_mutant", mutation)
+        require(contract.count("MaybeUninit_pointer_own") == 2,
+                "contract mutation expects exactly pre/post ownership occurrences")
+        contract = contract.replace("MaybeUninit_pointer_own",
+                                    "MaybeUninit_pointer_own_mutant", 1)
         body = head + "      contract = (" + contract + "      inputs = [" + rest
     elif mutation == "additional_operation":
         at_stmts = body.index("          statements = [")

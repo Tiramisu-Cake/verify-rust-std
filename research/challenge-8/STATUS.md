@@ -2,15 +2,13 @@
 
 Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New5400jobseconds,<=1800/job,<=300/proof;spend415/5400jobseconds,noactive. Old budget retired.
-S3/37610022772/source489416d21b52858b124638d88180378ef2b4b8d0,
-newasptrprofilee9b4d025: fullconstructorregression+14baselines/classifiers PASS;
-3SAFE/body/frame/state positives+5proofnegative PASS. SixthNone→Some rejection
-atpost24 correctlyreached butwrongclassifiermessage; INCONCLUSIVE preserved.
-17admissioncontrols andactualintegration NOT RUN, component UNACCEPTED.
-Spend415/5400jobseconds,noactive. Compact11477915575 (O4/currentmanifest),
-full11477880702; historicalfullO4 preserved. Current S4exactmessagefix+message
-mutants thenfullacceptmatrix and dependentactual ifaccepted; nosemanticchange.
+New5400jobseconds,<=1800/job,<=300/proof;spend620/5400jobseconds,noactive. Old budget retired.
+S4/37610819914/source6f5d285/sameasptrprofilee9b4d025: ctor/baselines/classifs,
+3positive+6proofnegative+8source+7MIR controls PASS. MIRcontract mutator setup
+expected1ownname, actualpre/postcontain2; INCONCLUSIVE, last2MIR/actual NOT RUN.
+S4b fixes exactly one preannotation mutation, nosemanticchange; fullacceptance
+thenactualintegration. Spend620/5400jobseconds,noactive.
+Compact11477701950/full11477662208 and historicalO4 preserved.
 [Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
 Runtime std/signatures and frozen kernel/
 memory/alias/provenance/export/refiner unchanged. Narrow spec/translator changes

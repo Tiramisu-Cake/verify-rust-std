@@ -3733,3 +3733,16 @@ checkedcomponents+2new/2asptr/3intrinsics/guard/drop/forget/assume_init andfulln
 unwindposts; no newrule yet, expectedfirstremainingintrinsic/resourceobligation
 INCONCLUSIVE namedline/predicate. Unsupportedlistedop triggersnextdesignedstep.
 Selectionverifast_maybeuninit_new_pointer/job30min/proof300s;spend415/5400before.
+
+S4 result 37610819914/source6f5d285/samee9b4d025:205s,total620/5400.
+3positive/6proofnegative/8source/7MIR PASS; contractmutator expected1predname
+whileSAFEcontractlegitimatelyhas2. Exportwrapper exits98, INCONCLUSIVE,
+remainingMIR2 andactual NOT RUN. Fullctor/14baselines/classifiers PASS.
+Compact11477701950/full11477662208, run37610819914 preservesrawmutationrecord.
+
+S4b BEFORE dispatch: exactsameS3profile/domain/fullposts. Hypothesis: one
+preannotation MIRmutation (assert2pre/post occurrences, replacefirstONLY)
+reaches exact exportedSAFEcontract certificate failure, exit2 before proof;
+not frontend/mutatorerror. Entireacceptance gates remain unchanged; run last
+extraopMIRnegative andactualbodyafterCOMPONENT_ACCEPTED. Selection/job30/proof300,
+spend620/5400before; unsupportedmappedop continuesnextdesignedcomponent.

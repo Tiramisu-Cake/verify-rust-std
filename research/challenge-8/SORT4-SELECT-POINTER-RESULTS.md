@@ -38,3 +38,16 @@ change; fullmatrix then actualbody with checkedconstructor+asptr ifaccepted.
 [Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610022772),
 [compact11477915575](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610022772/artifacts/11477915575),
 [full11477880702](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610022772/artifacts/11477880702).
+
+S4/37610819914/source6f5d28502767cef9a730549eba2b9784f084c961,
+samee9b4d025profile,205jobseconds (10:57:32–11:00:57UTC),total620/5400.
+All3positive+6proofnegative+8sourceadmission+7MIRadmission controls PASS;
+MIR contract mutation failed in harness BEFORE export finished: expectedoneown
+occurrence but exact SAFEpre/post containstwo. This is INCONCLUSIVE, not intended
+negative; MIRcontract/additionalop andactualintegration NOT RUN. Fullctor and
+14baselines/classifiers PASS. Compact11477701950,full11477662208,
+[run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37610819914).
+S4b changesexactone preannotation afterasserting2pre/postoccurrences, keeps
+expectedcertificate reason/stage strict. No semanticdelta; finish2admissions,
+then actualintegration ifaccepted. Hostedcompact read in memory after local
+diskfilled; historical/full archives preserved, onlyredundantlocalcopiesremoved.
