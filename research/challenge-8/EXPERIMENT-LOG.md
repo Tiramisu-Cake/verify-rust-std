@@ -3863,3 +3863,9 @@ NO bridge. Currentassume lowerings inactive, no component acceptance; canonical
 MIR maps fieldaddr/cast/read for nextexactgate. Design41a3f43 BEFORElowerings.
 Source/export/decode/refinement failure inconclusive; retainalllogs/MIR/hashes.
 Selection30min/proof300s,total1499/5400before,oneactive,noSWO/layoutrepeat.
+
+S5e pre-dispatch contract review: assume diagnostic returns explicitexisting
+raw_ptr_own<Element>(t,result), opensDEFINEDwrapper-own first, withSomepre retaining
+rawpointerown; noresource deleted/leakhidden. Ghoststrip byte-equality asserted
+beforeexport. Separateassumeenv bypassescertctorrequirement withoutweakeningits
+certificate; currentinactiveexport expectedunionfrontendinconclusive, notreadresult.

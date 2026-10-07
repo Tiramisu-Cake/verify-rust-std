@@ -66,7 +66,8 @@ def make_source(repo: Path, matrix) -> tuple[bytes, bytes, dict]:
     union, body, certificate = source_certificate(repo, matrix)
     # Ghost statements leave the runtime source body byte-exact after stripping.
     annotated = body.replace(
-        b"        unsafe {", b"        //@ std::mem::open_MaybeUninit::<*Element>(&storage);\n        unsafe {", 1)
+        b"        unsafe {", b"        //@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, storage);\n"
+        b"        //@ std::mem::open_MaybeUninit::<*Element>(&storage);\n        unsafe {", 1)
     annotated = annotated.replace(
         b".read()\n", b".read()\n            //@ std::mem::close_MaybeUninit::<*Element>(&storage);\n", 1)
     require(matrix.strip_ghost_annotations(annotated) == body, "annotation changes runtime body")
@@ -74,7 +75,8 @@ def make_source(repo: Path, matrix) -> tuple[bytes, bytes, dict]:
         b"req thread_token(?t) &*& t == currentThread &*& "
         b"std::mem::MaybeUninit::inner(storage) == some(?value) &*& "
         b"std::mem::MaybeUninit_pointer_own::<Element>()(t, storage);\n"
-        b"ens thread_token(t) &*& result == value;\non_unwind_ens false;")
+        b"ens thread_token(t) &*& result == value &*& raw_ptr_own::<Element>()(t, result);\n"
+        b"on_unwind_ens false;")
     verified = (
         b"#![feature(core_intrinsics)]\n#![allow(internal_features)]\n\n"
         b"mod sort4_certified_maybeuninit {\n"
