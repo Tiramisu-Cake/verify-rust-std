@@ -4114,3 +4114,25 @@ specific frontend syntax, no proof acceptance; trace arithmetic failure => exact
 lemma repair; actual resource failure => genuine loan setup/cut design. No
 unrelated helper/setup failure counts as intended negative. Job bound1800s;
 all setup/build/artifact time charged to separate21600night budget.
+
+### W2a/M2a first outcome / W2b/M2b BEFORE
+
+Run37701724337/source93067bd5c221a0ca360ca8589c777d050270c9b0,
+job113066500651,23:20:43–23:23:18UTC=155seconds; cumulative622/21600.
+Build new callback parser/translator PASS; full W1/G2/A/B/bridge/oldRust controls
+PASS unchanged under combined binary. Full logs/artifact11517872086 inspected;
+artifactZIPsha5afff2fa12f9cefe69b688232c75f2ad853c7410c15a43b8ec265ec0cb742ca0.
+Trace VF parseerror40:26–27 at nested block arm; independently refinement exit2
+stock1640 loading-place pattern-match failure (NOT downstream of VF result).
+Actual preparation PASS source-byte equality; scanner failed before stages on
+exact FnMut(&T,&T)->bool signature. Both are setup/unsupported, no negatives.
+Next run retains semantic patches; repairs body scanner for arrow-bearing exact
+generic signature and inline original brace without changing std runtime.
+Trace expression grammar fixed; raw initialized Boolean choice buffers replace
+adapter-only slice Index MIR where stock refiner has no loading-place support,
+full posts unchanged. New independent native/Rust unwind controls, tuple/HRTB
+positive+calibration negatives, generic real-borrow protocol with full normal/
+unwind targets added. First failed stage identifies API/model boundary; no
+missing-ref resource, false unwind or dead-body control accepted without exact
+intended diagnostic/source/execution gates. Full callback model and combined
+profile remain EXPERIMENTAL/NOT ACCEPTED. Job cap1800s, same hosted budget.

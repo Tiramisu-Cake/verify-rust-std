@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0 OR MIT
 // Complete arbitrary-length G2 pointer-trace projection for W1.
 // This is a hand-written unsafe adapter, not the actual merge implementation.
-// It reads only the two initialized Boolean decision slices. It does not read
+// It reads only the two initialized Boolean decision buffers. It does not read
 // source T values, copy values, call FnMut, or claim any source/destination
 // access permission, ownership, unwind, or merge-safety theorem. ZST is outside
 // this projection: stride is explicitly positive.
@@ -38,12 +38,10 @@ fix trace_destination_pointer(p: pointer, i: i32, s: i32) -> pointer {
 fix trace_true_prefix(xs: list<bool>, k: usize) -> usize {
     match xs {
         nil => 0,
-        cons(h, tail) => {
-            if k == 0 {
-                0
-            } else {
-                (if h { 1 } else { 0 }) + trace_true_prefix(tail, k - 1)
-            }
+        cons(h, tail) => if k == 0 {
+            0
+        } else {
+            (if h { 1 } else { 0 }) + trace_true_prefix(tail, k - 1)
         }
     }
 }
@@ -271,8 +269,8 @@ pub unsafe fn g2_pointer_trace_projection<T>(
     n: usize,
     m: usize,
     e: usize,
-    up_choices: &[bool],
-    down_choices: &[bool],
+    up_choices: *const bool,
+    down_choices: *const bool,
 ) -> G2PointerTrace<T>
 /*@
 req 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
@@ -286,7 +284,6 @@ req 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
     pointer_within_limits(src + n) == true &*&
     pointer_within_limits(dst_base) == true &*&
     pointer_within_limits(dst_base + n) == true &*&
-    up_choices.len() == m &*& down_choices.len() == m &*&
     [?fu]up_choices[..m] |-> ?up_values &*&
     [?fd]down_choices[..m] |-> ?down_values;
 @*//*@
@@ -374,8 +371,8 @@ on_unwind_ens false;
         //@ assert 0 <= n - 1 - k && n - 1 - k < n;
         //@ assert 1 <= n - 1 - k;
 
-        let up = up_choices[k];
-        let down = down_choices[k];
+        let up = unsafe { up_choices.add(k).read() };
+        let down = unsafe { down_choices.add(k).read() };
 
         //@ g2_trace_step(m, n, e, k, a, d, up, down);
 

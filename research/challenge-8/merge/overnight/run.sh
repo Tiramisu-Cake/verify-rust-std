@@ -129,6 +129,23 @@ suite() {
     --tool-home "$experimental_home" --evidence "$evidence/checked-a"
   run_one B-compatibility 120 python3 research/challenge-8/merge/stock-26.10/order-prove.py \
     --tool-home "$experimental_home" --evidence "$evidence/checked-b"
+  run_one native-baselines 150 python3 research/challenge-8/merge/overnight/native-prove.py \
+    --tool-home "$experimental_home" --evidence "$evidence/checked-native"
+  run_one rust-unwind-baselines 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-v1 \
+    --scope 'ordinary call normal/unwind and calibrated false-unwind/dead-body baseline controls' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/baseline-cases.rs --evidence "$evidence/checked-baselines"
+  run_one callback-model-diagnostics 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-v1 \
+    --scope 'tuple2 ownership and exact HRTB output instantiation support; resource-negative admission remains calibration' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/callback-cases.rs --evidence "$evidence/checked-callback-model"
+  run_one callback-borrow-diagnostic 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-v1 \
+    --scope 'generic callback real loan protocol; full refreshed-value normal/unwind posts; no actual-source claim' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/callback-borrow-cases.rs --evidence "$evidence/checked-callback-borrow"
   run_one wrapping-acceptance 600 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \

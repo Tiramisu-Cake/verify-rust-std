@@ -23,7 +23,7 @@ TIMEOUT_SECONDS = 30
 CASE_MARKER = re.compile(rb"(?m)^// CASE_BEGIN ([a-z0-9_]+)\r?\n(.*?)^// CASE_END \1\r?\n", re.S)
 ANNOTATION_BLOCK = re.compile(rb"/\*@.*?@\*/", re.S)
 ANNOTATION_LINE = re.compile(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)")
-FN = re.compile(rb"\b(?:pub\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
+FN = re.compile(rb"(?m)^[ \t]*(?:pub\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^\r\n{}]*>)?\s*\(")
 LEMMA = re.compile(rb"\blem\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
 EXPECTED_ERROR = re.compile(rb"(?m)^\s*// EXPECT_ERROR (\{[^\r\n]*\})\s*$")
 EXPECTED_REJECTION = re.compile(rb"(?m)^\s*// EXPECT_REJECTION (\{[^\r\n]*\})\s*$")
@@ -60,18 +60,24 @@ def body_names(source: bytes) -> list[str]:
 def line_ranges(source: bytes) -> dict[str, tuple[int, int]]:
     """Conservative brace ranges for proving that each recorded line is in a body."""
     text = source.decode("utf-8")
+    # Preserve line/byte coordinates while ignoring braces in specification
+    # comments. Actual std has its opening brace on the signature line; ghost
+    # injection must not change that runtime spelling to suit this scanner.
+    masked = ANNOTATION_LINE.sub(lambda m: re.sub(rb"[^\r\n]", b" ", m.group()),
+        ANNOTATION_BLOCK.sub(lambda m: re.sub(rb"[^\r\n]", b" ", m.group()), source))
+    masked_text = masked.decode("utf-8")
     result: dict[str, tuple[int, int]] = {}
     for match in FN.finditer(source):
         name = match.group(1).decode("ascii")
-        body_open = re.search(rb"(?m)^\{[ \t]*$", source[match.end():])
+        body_open = re.search(rb"\{", masked[match.end():])
         if body_open is None:
             raise RuntimeError(f"missing function body: {name}")
         opening = len(source[:match.end() + body_open.start()].decode("utf-8"))
         depth, closing = 0, -1
         for offset in range(opening, len(text)):
-            if text[offset] == "{":
+            if masked_text[offset] == "{":
                 depth += 1
-            elif text[offset] == "}":
+            elif masked_text[offset] == "}":
                 depth -= 1
                 if depth == 0:
                     closing = offset

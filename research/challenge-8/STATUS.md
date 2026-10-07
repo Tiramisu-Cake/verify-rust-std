@@ -2,7 +2,7 @@
 
 Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC). Собственная ветка
 `overnight/merge-26.10`, entryb0af5613. [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Новый отдельный бюджет **467/21600 hosted job seconds**; старый merge603/1800
+Новый отдельный бюджет **622/21600 hosted job seconds**; старый merge603/1800
 (1197остаток) сохранён отдельно. Actual merge пока NOT PROVEN.
 Первый шагW1: exact0/1 wrapping, provenance+metadata+modular addresses, без
 прав доступа; затем полный указательный мост и actual merge normal/unwind.
