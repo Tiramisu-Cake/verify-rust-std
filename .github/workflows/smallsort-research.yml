@@ -148,7 +148,7 @@ jobs:
             verifast_sort4_alignment) bash research/challenge-8/run-verifast-sort4-alignment.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_rust_fieldless_layout) bash research/challenge-8/run-rust-fieldless-layout.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_borrow_recovery) bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
-            verifast_maybeuninit_new_pointer) bash research/challenge-8/run-maybeuninit-new-pointer.sh "$RUN_BUDGET_MINUTES" ;;
+            verifast_maybeuninit_new_pointer) bash research/challenge-8/run-select-pointer.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_sort4_components) bash research/challenge-8/run-verifast-sort4-components.sh "$RUN_BUDGET_MINUTES" "$SORT4_COMPONENT" ;;
             verifast_borrow_recovery_manually_drop) BORROW_RECOVERY_PROFILE=manually_drop_only bash research/challenge-8/run-verifast-borrow-recovery.sh "$RUN_BUDGET_MINUTES" ;;
             verifast_swap_size) bash research/challenge-8/run-verifast-swap-size.sh "$RUN_BUDGET_MINUTES" ;;
@@ -158,6 +158,28 @@ jobs:
             insertion_*) bash research/challenge-8/run-insertion.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
             *) bash research/challenge-8/run-smoke.sh "$PROOF_SELECTION" "$RUN_BUDGET_MINUTES" ;;
           esac
+
+      - name: Check compact evidence packager safety
+        if: always() && inputs.proof == 'verifast_maybeuninit_new_pointer'
+        id: compact_safety
+        run: python3 research/challenge-8/test-package-sort4-evidence.py
+
+      - name: Package current and O4 compact evidence archive
+        if: always() && inputs.proof == 'verifast_maybeuninit_new_pointer' && steps.compact_safety.outcome == 'success'
+        id: compact_package
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROOF_SELECTION: ${{ inputs.proof }}
+        run: python3 research/challenge-8/package-sort4-evidence.py --output-dir research-results/compact-evidence
+
+      - name: Preserve current and O4 compact evidence archive
+        if: always() && inputs.proof == 'verifast_maybeuninit_new_pointer' && steps.compact_package.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: smallsort-select-compact-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: research-results/compact-evidence/sort4-select-compact-evidence.zip
+          if-no-files-found: error
+          retention-days: 90
 
       - name: Replay both saved H_align artifacts and test classification
         if: always() && inputs.proof == 'verifast_sort4_alignment'

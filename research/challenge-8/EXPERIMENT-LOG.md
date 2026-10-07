@@ -3612,3 +3612,33 @@ RAPx CLOSED/NO-GO,B/C NOT RUN,fullsort4 NOT PROVEN. Final documentation-only
 commit/push does not change the proof SHA or rerun old evidence. Archive shadow
 profiles are large;770 evidence files excluding binary profile copies downloaded
 and inspected, full original archive retained in Actions. No upstream PR/messages.
+
+
+## S1 — NEW pointer select completion, existing-model cast diagnostic
+
+Owner2026-10-07 opens newphase atcd44e1bb;oldpointerphase budget retired.
+Full dependency map and existing storage/reference/cast assessment in
+SORT4-SELECT-POINTER-DESIGN,phase contract in SORT4-SELECT-POINTER-PHASE.
+Actual as_mut_ptr obligation: SAFE &mut MaybeUninit<*const Element> returns
+*mut *const Element with full modeled storage-pointer equality, token/borrow/frame
+and no unwind; no initialized-content or Element permissions created.
+Hypothesis: exact source two-cast body verifies with existing opaque full_borrow
+contract; no new spec/translator rule, all accepted325af428/frozen26.09 pins.
+Adapter specializes T and renames sole receiver self->storage, retains actual
+body expression/comments; runtime std/signatures unchanged. Partial diagnostic:
+no method redirect/full typed admission/negative matrix or wholehelper acceptance.
+Named helper SAFE prototype/body/return/leak and unsafe caller fractional frame
+must reach proof; export/decode/refinement/source integrity retained. Unconstrained
+inner; no concrete none/some setup in this first nonreading body probe.
+Success means existing-model body feasibility only; next complete as_mut_ptr
+component gate/storage candidate if needed, then listeddependency integration.
+A frontend/proof/metadata failure remains INCONCLUSIVE, fix withinphase; unsupported
+name alone does not stop. Forbidden kernel/general alias/provenance bridge only
+stops with minimal reproducer and exact obligation. One active manual run,30minjob,
+300sproof,totalnew5400jobseconds. Selectionverifast_maybeuninit_new_pointer now
+routes to run-select-pointer.sh,S1 profileunchanged.
+Nearest hostedjob also unitchecks compact evidence packaging and creates<=25MiB
+current+O4 archive with source-artifact manifest; fullhistorical11473086721 retained.
+O4 constructor raw positive/proofnegative/applicability/mutation logs inspected;
+no rerun solelyforrepack. Originalaccepted O4 body remains same-source linked.
+SourceSHA/runID/artifact registered at dispatch;initialspend0,noactive.
