@@ -17,6 +17,11 @@ from pathlib import Path
 
 
 AS_MUT_PTR_DEF_PATH = 'name = "std::mem::MaybeUninit::<T>::as_mut_ptr"'
+INTRINSIC_DEF_PATH = 'name = "std::intrinsics::select_unpredictable"'
+INTRINSIC_ACTUAL_CERT = "SORT4-SELECT-INTRINSIC: full typed actual MIR graph accepted"
+INTRINSIC_PTR_CALL_ONE = "SORT4-SELECT-INTRINSIC: modeled typed pointer call 1"
+INTRINSIC_PTR_CALL_TWO = "SORT4-SELECT-INTRINSIC: modeled typed pointer call 2"
+INTRINSIC_MU_CALL = "SORT4-SELECT-INTRINSIC: modeled typed wrapper call 1"
 CONSTRUCTOR_CERT = "SORT4-MAYBEUNINIT: full typed constructor MIR graph accepted"
 AS_MUT_PTR_CERT = "SORT4-AS-MUT-PTR: full typed body MIR graph accepted"
 AS_MUT_PTR_TRANSLATED = "SORT4-AS-MUT-PTR: checked SAFE body translated (redirected=2, expected=2)"
@@ -151,6 +156,8 @@ def obligation_kind(message: str | None, verifier_exit: int | None) -> str:
         return "component_certificate_or_translation"
     if "select_unpredictable" in message or "intrinsic" in message:
         return "intrinsic_select"
+    if "No such function" in message:
+        return "unresolved_callee"
     if re.search(r"No matching heap|Cannot prove|leaks heap|borrow|lifetime", message, re.I):
         return "resource_or_proof"
     if "unsupported" in message.lower():
@@ -159,7 +166,7 @@ def obligation_kind(message: str | None, verifier_exit: int | None) -> str:
 
 
 def classify(case: Path, runner_result: dict, fixture: dict,
-             constructor, pointer) -> dict:
+             constructor, pointer, intrinsic=None) -> dict:
     log = (case / "verifast.log").read_text(errors="replace")
     mir = (case / "compiler-mir.txt").read_text(errors="replace")
     verified = (case / "verified/lib.rs").read_bytes()
@@ -210,18 +217,37 @@ def classify(case: Path, runner_result: dict, fixture: dict,
     }
     reached_callees = frontend_ok and stage_ok and source_ok and \
         all(certificate_translation.values())
+    intrinsic_certificate = None
+    intrinsic_reached = False
+    if intrinsic is not None:
+        intrinsic_certificate = {
+            "full_actual_typed_mir_graph": log.count(INTRINSIC_ACTUAL_CERT) == 1,
+            "first_pointer_call_modeled": log.count(INTRINSIC_PTR_CALL_ONE) == 1,
+            "second_pointer_call_modeled": log.count(INTRINSIC_PTR_CALL_TWO) == 1,
+            "wrapper_call_modeled": log.count(INTRINSIC_MU_CALL) == 1,
+            "all_three_intrinsics_in_compiler_mir": mir.count(INTRINSIC_DEF_PATH) == 3,
+            "no_intrinsic_certificate_mismatch":
+                "SORT4-SELECT-INTRINSIC: certificate mismatch:" not in log,
+        }
+        intrinsic_reached = reached_callees and all(intrinsic_certificate.values())
     result = {
         "classification": "INCONCLUSIVE",
         "accepted_component": False,
         "full_select_proved": False,
-        "tool_profile": pointer.PROFILE,
+        "tool_profile": intrinsic.PROFILE if intrinsic is not None else pointer.PROFILE,
         "source_integrity": source_ok,
         "stage_source_integrity": stage_ok,
         "export_decode_refinement_ok": frontend_ok,
         "certificate_translation": certificate_translation,
         "both_checked_callees_reached": reached_callees,
+        "intrinsic_certificate_translation": intrinsic_certificate,
+        "all_three_intrinsic_calls_modeled": intrinsic_reached,
         "actual_select_verification_entered": bool(actual_body),
+        "actual_select_return_seen": "Executing return statement" in actual_body,
+        "actual_select_leak_check_seen": "Leak check." in actual_body,
         "checked_constructor_verification_entered": bool(constructor_body),
+        "checked_constructor_return_seen": "Executing return statement" in constructor_body,
+        "checked_constructor_leak_check_seen": "Leak check." in constructor_body,
         "checked_as_mut_ptr_verification_entered": bool(as_mut_ptr_body),
         "checked_as_mut_ptr_return_seen": "Executing return statement" in as_mut_ptr_body,
         "checked_as_mut_ptr_leak_check_seen": "Leak check." in as_mut_ptr_body,
@@ -251,6 +277,8 @@ def main() -> None:
     parser.add_argument("--compiler-sysroot", required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--component-summary", type=Path, required=True)
+    parser.add_argument("--constructor-summary", type=Path)
+    parser.add_argument("--intrinsic-summary", type=Path)
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or \
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or \
@@ -262,12 +290,41 @@ def main() -> None:
     component = json.loads(args.component_summary.read_text())
     prerequisite = component.get("accepted_component") is True and \
         component.get("classification") == "COMPONENT_ACCEPTED"
+    intrinsic = None
+    intrinsic_prerequisites = None
+    if args.intrinsic_summary is not None:
+        if args.constructor_summary is None:
+            raise SystemExit("--constructor-summary is required with --intrinsic-summary")
+        constructor_summary = json.loads(args.constructor_summary.read_text())
+        intrinsic_summary = json.loads(args.intrinsic_summary.read_text())
+        same_run = (
+            args.component_summary.resolve().parents[1] == evidence.parent and
+            args.constructor_summary.resolve().parents[1] == evidence.parent and
+            args.intrinsic_summary.resolve().parents[1] == evidence.parent
+        )
+        intrinsic_prerequisites = {
+            "same_run_evidence": same_run,
+            "constructor_accepted": constructor_summary.get("constructor_acceptance") is True,
+            "as_mut_ptr_accepted": prerequisite,
+            "intrinsic_accepted": intrinsic_summary.get("accepted_component") is True and
+                intrinsic_summary.get("classification") == "COMPONENT_ACCEPTED",
+            "intrinsic_source_profile": intrinsic_summary.get("tool_profile") ==
+                "experimental-source-linked-select-pointer-intrinsics-v1" and
+                os.environ.get("SORT4_SELECT_PROFILE") ==
+                "experimental-source-linked-select-pointer-intrinsics-v1",
+            "intrinsic_component_prerequisites":
+                isinstance(intrinsic_summary.get("prerequisites"), dict) and
+                all(value is True for value in
+                    intrinsic_summary["prerequisites"].values()),
+        }
+        prerequisite = all(intrinsic_prerequisites.values())
     if not prerequisite:
         summary = {
             "classification": "INCONCLUSIVE",
             "accepted_component": False,
             "full_select_proved": False,
             "prerequisite_component_accepted": False,
+            "intrinsic_prerequisites": intrinsic_prerequisites,
             "actual_unit_run": False,
         }
         (evidence / "summary.json").write_text(
@@ -279,17 +336,41 @@ def main() -> None:
     pointer = load_script(
         repo_root / "research/challenge-8/check-select-pointer.py",
         "sort4_as_mut_ptr_matrix_for_actual")
+    if args.intrinsic_summary is not None:
+        intrinsic = load_script(
+            repo_root / "research/challenge-8/check-select-pointer-intrinsics.py",
+            "sort4_select_intrinsic_matrix_for_actual")
+        intrinsic_source = intrinsic.source_certificate(repo_root, constructor)
+        (evidence / "intrinsic-source-certificate.json").write_text(
+            json.dumps(intrinsic_source, indent=2, sort_keys=True) + "\n")
     case, fixture = prepare_case(evidence, repo_root, constructor, pointer)
-    runner_result = constructor.run_case(
-        case, args.schema, args.tool_home, args.compiler_sysroot, repo_root,
-        "actual_select_after_constructor_and_as_mut_ptr", "diagnostic",
-        certificate_mode=True)
-    diagnosis = classify(case, runner_result, fixture, constructor, pointer)
+    if intrinsic is not None:
+        fixture["tool_profile"] = intrinsic.PROFILE
+        (case / "fixture.json").write_text(
+            json.dumps(fixture, indent=2, sort_keys=True) + "\n")
+    previous = os.environ.get("SORT4_SELECT_INTRINSIC_REPO_ROOT")
+    if intrinsic is None:
+        os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
+    else:
+        os.environ["SORT4_SELECT_INTRINSIC_REPO_ROOT"] = str(repo_root)
+    try:
+        runner_result = constructor.run_case(
+            case, args.schema, args.tool_home, args.compiler_sysroot, repo_root,
+            "actual_select_after_constructor_and_as_mut_ptr", "diagnostic",
+            certificate_mode=True)
+    finally:
+        if previous is None:
+            os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
+        else:
+            os.environ["SORT4_SELECT_INTRINSIC_REPO_ROOT"] = previous
+    diagnosis = classify(case, runner_result, fixture, constructor, pointer, intrinsic)
     summary = {
         "classification": "INCONCLUSIVE",
         "accepted_component": False,
         "full_select_proved": False,
         "prerequisite_component_accepted": True,
+        "intrinsic_prerequisites": intrinsic_prerequisites,
+        "intrinsic_mode": intrinsic is not None,
         "actual_unit_run": True,
         "diagnosis": diagnosis,
         "case": str(case),
@@ -299,10 +380,12 @@ def main() -> None:
     print(json.dumps({
         "classification": summary["classification"],
         "both_checked_callees_reached": diagnosis["both_checked_callees_reached"],
+        "all_three_intrinsic_calls_modeled": diagnosis["all_three_intrinsic_calls_modeled"],
         "first_causal_obligation": diagnosis["first_causal_obligation"],
         "evidence": str(evidence),
     }))
-    if not diagnosis["both_checked_callees_reached"]:
+    if not diagnosis["both_checked_callees_reached"] or \
+            (intrinsic is not None and not diagnosis["all_three_intrinsic_calls_modeled"]):
         raise SystemExit(1)
 
 

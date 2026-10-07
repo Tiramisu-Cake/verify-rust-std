@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-Current budget1252/5400 summed hosted job seconds, no active run. Intrinsics pending;
+Current budget1352/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -114,3 +114,17 @@ Full helper NOT PROVEN; guard/drop/forget/assume_init not yet proved.
 S5c pins only these exact diagnostics plus10 message mutants; identical semantic
 profile, full matrix required. Full actual certificate remains disabled pending
 separate typed graph implementation and complete component acceptance.
+
+S5c/37616835826/source `6a9ddc9fa3c228f244010483bd7840521b3edce7`,
+unchanged2cd1a04a:100s11:50:40–11:52:20UTC,total1352/5400, noactive.
+All6positive and10proofnegative PASS at intended value/inner/assert/post/leak/
+frame obligations. Classifier60+10 PASS. Sourceidentity admission PASS; source
+inputtype rejection reaches exact HIR generic count/kind beforeproof, but expected
+source-marker reason differs =>INCONCLUSIVE. Remaining38admissions NOT RUN.
+Intrinsic component NOT ACCEPTED; actual unchanged firstintrinsic49, helperNOTPROVEN.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37616835826),
+[compact11480431752](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37616835826/artifacts/11480431752),
+[full11480376847](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37616835826/artifacts/11480376847).
+S5d exact HIR reason+4 diagnostic mutants and all40 independent admission results;
+full acceptance remains all-or-nothing. Separately export/probe exact unsafe pointer
+method body with stock free-drop contract, no drop semantic change (design1caf569).

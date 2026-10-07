@@ -2,7 +2,7 @@
 
 Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
 Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
-**1252/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+**1352/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
 
 Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
 body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
@@ -20,8 +20,14 @@ std::intrinsics::select_unpredictable` at `verified/lib.rs(49,21-92)`.
 Whole helper NOT PROVEN. This unsupported name is a next authorized operation,
 not a semantic stop. Full 31-local/14-block actual intrinsic certificate is being
 implemented separately; it cannot be enabled before complete component acceptance.
-S5c tests only exact observed negative messages with ten diagnostic mutants,
-then all remaining full-matrix checks; same semantic patch, no relaxed gates.
+S5c/37616835826/source6a9ddc9: all6positive+10proofnegative PASS; firstsource
+identity admission PASS, inputtype reaches HIR generic count/kind instead of
+predicted source-marker diagnostic. Remaining38 admissions NOT RUN. S5d pins
+that exact reason with4 diagnostic mutants and collects all40 independent
+admissions after proof acceptance. Same semantic patch, no relaxed gates.
+It also exports the source-linked pointer-drop method with the existing stock
+free-drop contract, to expose its first cell/no-unwind obligation; no new drop
+rule active or component acceptance in that diagnostic.
 
 [Compact S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
 [full S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018),

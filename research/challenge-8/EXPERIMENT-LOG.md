@@ -3822,3 +3822,22 @@ Actual integration still intrinsic-OFF until full typed actualgraph implemented
 and component accepted. Outcome: localized harness fixes if target mismatch,
 otherwise continue authorized helper dependencies. No SWO/layout repeats.
 Selectionverifast_maybeuninit_new_pointer,30min/job,300s/proof,1252/5400 before.
+
+S5c result37616835826/source6a9ddc9/2cd1a04a:100jobseconds,total1352/5400.
+All6positive+10proofnegative PASS, classifier60+10PASS. Sourceidentity admission
+PASS; sourceinputtype correctlyfails BEFOREproof at HIR generic count/kind, but
+expectedsource-marker different=>INCONCLUSIVE. Remaining38admissions NOTRUN.
+Compact11480431752/full11480376847; intrinsiccomponentunaccepted/helperNOTPROVEN.
+
+S5d BEFORE dispatch: SAME2cd1a04a exactdomain/fullposts/source/pins/rule. Hypothesis:
+observed sourceinputtype HIRreason classifies correctly with4message mutants;
+all40independent source/MIRmutations nowrecordtargetdiagnostics without stopping
+at another unrecognized message (everymismatch remainsINCONCLUSIVE; acceptance
+stillrequiresALL). Full6+10proofcases,60+10+4classifiers andctor/asptr/baselines.
+Separate authorized pointerdrop diagnostic: exactunsafe mut_ptr.rs1514 body,
+T=*constElement, initializedpointercell/thread +samecell/value/noUnwind target,
+unsafe framecaller. Frozenexistingfree-drop spec gives unknownvalue andunwind;
+hypothesis body export/refinement succeeds then post/noUnwind proof rejects,
+with canonical completeMIR and firstcausalobligation saved. No newdrop semantic
+rule active; bodyfail NOTcomponentacceptance orsemanticstop. Design1caf569.
+Selection30min/proof300s,1352/5400before,oneactive. NoSWO/layoutrepeat.

@@ -379,6 +379,24 @@ def strict_admission_evidence(evidence: dict[str, bool]) -> bool:
     ))
 
 
+def admission_reasons(kind: str, mode: str, mutation: str) -> tuple[str, ...]:
+    require(kind in KINDS and mode in {"source", "mir"},
+            "unknown admission specialization/mode")
+    if mode == "source" and mutation == "identity":
+        return ("expected one exact SAFE helper and one listed probe",)
+    if mode == "source" and mutation == "inputtype":
+        return ("helper HIR generic count/kind",)
+    if mode == "source" and mutation in {"resulttype", "binding"}:
+        signature = PTR_SIGNATURE if kind == "ptr" else MU_SIGNATURE
+        return ("source marker missing: " + signature.decode(),)
+    return SOURCE_REASONS[mutation] if mode == "source" else MIR_REASONS[mutation]
+
+
+def matches_admission_fatal(message: str, reasons: tuple[str, ...]) -> bool:
+    return any(message == f'Fatal error: exception Failure("{REJECT_PREFIX}{reason}")'
+               for reason in reasons)
+
+
 def matches_wrong_result_error(kind: str, message: str) -> bool:
     pattern = WRONG_POINTER_RESULT_ERROR if kind == "ptr" else \
         WRONG_WRAPPER_INNER_ERROR if kind == "mu" else None
@@ -609,17 +627,10 @@ def classify_admission(case_dir: Path, runner: dict, kind: str, mutation: str,
     fixture = json.loads((case_dir / "fixture.json").read_text())
     log = (case_dir / "verifast.log").read_text(errors="replace")
     fatal = [line for line in log.splitlines() if "Fatal error:" in line]
-    if mode == "source" and mutation == "identity":
-        reasons = ("expected one exact SAFE helper and one listed probe",)
-    elif mode == "source" and mutation in {"inputtype", "resulttype", "binding"}:
-        signature = PTR_SIGNATURE if kind == "ptr" else MU_SIGNATURE
-        reasons = ("source marker missing: " + signature.decode(),)
-    else:
-        reasons = SOURCE_REASONS[mutation] if mode == "source" else MIR_REASONS[mutation]
+    reasons = admission_reasons(kind, mode, mutation)
     exact_fatal = len(fatal) == 1 and not any(": error:" in line for line in
-                                                  log.splitlines()) and any(
-        fatal[0] == f'Fatal error: exception Failure("{REJECT_PREFIX}{reason}")'
-        for reason in reasons)
+                                                  log.splitlines()) and \
+        matches_admission_fatal(fatal[0], reasons)
     stage = runner.get("stage_integrity", {})
     source_exact = constructor.strip_ghost_annotations(verified) == original
     stage_ok = set(stage) == {"exporter", "decode", "verifast", "refinement"} and \
@@ -828,25 +839,39 @@ def run_admissions(evidence: Path, cert: dict, args: argparse.Namespace,
     for kind in KINDS:
         for mutation in SOURCE_MUTATIONS:
             case = evidence / f"source_{kind}_{mutation}"
-            make_case(case, kind, POSITIVES[kind][0], cert, constructor,
-                      admission=mutation)
-            runner = run_hosted_case(case, args, repo_root, constructor)
-            result = classify_admission(case, runner, kind, mutation,
-                                        "source", constructor)
+            try:
+                make_case(case, kind, POSITIVES[kind][0], cert, constructor,
+                          admission=mutation)
+                runner = run_hosted_case(case, args, repo_root, constructor)
+                result = classify_admission(case, runner, kind, mutation,
+                                            "source", constructor)
+            except Exception as exc:
+                case.mkdir(parents=True, exist_ok=True)
+                result = {"kind": kind, "mutation": mutation, "mode": "source",
+                          "classification": "INCONCLUSIVE", "accepted_component": False,
+                          "full_select_proved": False,
+                          "harness_exception": f"{type(exc).__name__}: {exc}"}
+                (case / "admission-classification.json").write_text(
+                    json.dumps(result, indent=2, sort_keys=True) + "\n")
             results.append(result)
-            if result["classification"] != "INTENDED_ADMISSION_REJECTION":
-                return results
         for mutation in MIR_MUTATIONS:
             case = evidence / f"mir_{kind}_{mutation}"
-            make_case(case, kind, POSITIVES[kind][0], cert, constructor)
-            shadow = make_mir_mutation_tool_home(
-                args.tool_home, args.schema, repo_root, case, kind, mutation)
-            runner = run_hosted_case(case, args, repo_root, constructor, shadow)
-            result = classify_admission(case, runner, kind, mutation,
-                                        "mir", constructor)
+            try:
+                make_case(case, kind, POSITIVES[kind][0], cert, constructor)
+                shadow = make_mir_mutation_tool_home(
+                    args.tool_home, args.schema, repo_root, case, kind, mutation)
+                runner = run_hosted_case(case, args, repo_root, constructor, shadow)
+                result = classify_admission(case, runner, kind, mutation,
+                                            "mir", constructor)
+            except Exception as exc:
+                case.mkdir(parents=True, exist_ok=True)
+                result = {"kind": kind, "mutation": mutation, "mode": "mir",
+                          "classification": "INCONCLUSIVE", "accepted_component": False,
+                          "full_select_proved": False,
+                          "harness_exception": f"{type(exc).__name__}: {exc}"}
+                (case / "admission-classification.json").write_text(
+                    json.dumps(result, indent=2, sort_keys=True) + "\n")
             results.append(result)
-            if result["classification"] != "INTENDED_ADMISSION_REJECTION":
-                return results
     return results
 
 
@@ -880,6 +905,7 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
             classifier is not None and classifier.get("pass") is True and
             classifier.get("mutant_count") == 60 and
             classifier.get("message_mutant_count") == 10 and
+            classifier.get("admission_message_mutant_count") == 4 and
             args.classifier_summary.resolve().parent == evidence.parent),
     }
     if not all(prerequisites.values()):
