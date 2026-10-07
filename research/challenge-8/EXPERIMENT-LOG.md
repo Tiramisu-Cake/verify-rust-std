@@ -4182,3 +4182,44 @@ actual normal/unwind target preserved, stop at stockprojection/drop pre or nextb
 Localchecks diff-check/bash-n only; hosted Python syntax preflight precedes build.
 Budget2995/5400used,2405remain;selectionverifast_maybeuninit_new_pointer,budget30,
 <=1800/job,<=300/proof,one hosted run only. No04d/broadersemantic extension.
+
+S6v2 dispatch37645561507 resolved exacthead
+85ec1711700ff85c899b18b7e021f076aeddb8e6,created15:38:34UTC,
+selectionverifast_maybeuninit_new_pointer,budget30,one relevant hostedrun.
+[Fresh v2 run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507).
+Beforecost2995/5400,2405remaining; jobduration pending completion.
+
+S6v2/37645561507/source85ec171 completed173s15:38:39–15:41:32UTC,
+cumulative3168/5400,2232remaining. Fresh constructor/asptr/intrinsic/S6 matrices and
+14baselines PASS; S6COMPONENT_ACCEPTED full13proof/22admission in8e62/drop-v2.
+BothNEWactual ghostcontrols SETUPfailed (normal second exporter invocation) with
+`first regular ghost hi changed`; not intended negatives. Readonly mutationpayloads
+were retained (regularhi92→93, explicitend94→93), but later NORMALexporter produces
+shifted ghost spans. Wrapper exception overwrote mutationrecord; VF frontend98.
+Baselineactual stillmissinginitializedcell req110/call57; projectedNOTRUN(controlgate).
+Compact11493408570 innerSHAb160edcd347c02ffafcd94ac0258e805d488bed10a500b64cd3e632b5d8d49ae;
+full11493098966. Original setup classifications remain INCONCLUSIVE.
+
+Reassessment from pinnedexporterpreprocessor.rs/lib.rs + all5normal traces:
+normalmode injects crate::VeriFast_ghost_command(); length32 before each //@
+command; readonly doesn't. GhostRange.span bytehigh shifts32, explicitline/column
+start/end remainoriginal. Normal source spans (1-based) ends125/126/71/130/131 vs
+readonly93/94/39/98/99. Not nondeterminism/source/tool drift. No v3patch made.
+Existing v2certificate checks readonly geometry, cannot matchnormal consumed MIR.
+
+BEFORE normal MIR diagnostic implementation: hypothesis same exactfrozen normal
+exporter input has stock32byte ghosttag coordinates; fullnormalgraph must be
+captured before anyfurthercertificate change. Domain/source actualprojected
+37e5original/8a82verified fromacceptedv2run pinnedcompact+manifest; FULL source
+normal selected-pointer/thread/frame and unwindfalse target unchanged but NOT
+PROVED bythis diagnostic. Compiler nightly2026-02-05, stock26.09 archive/exporter
+2b8ebb... andschema7f3eb...809 pin unchanged. Hostdownload/compiler/export/decode
+ONLY, noverifier/consolebuild/refiner. Capturefulltypedlocals/blocks/callees/CFG/
+5rawghostordinary+explicitcoordinates, sourceintegritybeforeafter, originalmatrix
+provenance. Expectedpositive exporter/decode0 exactsource; anysetupfail stays
+inconclusive; no intendednegative/componentacceptance/helperproof claim.
+If normalgeometry is exact documentedstockinjection andtypedruntimegraphpreserved,
+review ONLYS6admission correction+freshgates beforeimplementation. If it requires
+broaderghost/parser/refiner/kernel/memory semantics, STOP at exacttrust/applicability
+boundary. No speculativepatch/no04d. Budget3168used2232remain;sameworkflowselection
+30min,onehostedrun; <=1800/job,<=300/proof. No localexecution.

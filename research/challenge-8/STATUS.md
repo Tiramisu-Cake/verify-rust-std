@@ -6,8 +6,13 @@ semantic draft stays frozen. [Phase](SORT4-SELECT-POINTER-PHASE.md),
 [preimplementation v2 rationale/gate](SORT4-SELECT-POINTER-DESIGN.md),
 [results](SORT4-SELECT-POINTER-RESULTS.md), [actual](SORT4-SELECT-CALLEE.md).
 
-Budget **2995/5400 summed hosted job seconds used;2405remain**, no reset.
-No active/queued relevant run. <=1800/job,<=300/proof,GitHub-hosted only.
+Budget **3168/5400 summed hosted job seconds used;2232remain**, no reset.
+S6v2 run37645561507/source85ec1711700ff85c899b18b7e021f076aeddb8e6 completed173s
+15:38:39–15:41:32UTC. No active run. Fresh fullcomponent matrices/14baselines PASS;
+two new actualcoordinate controls SETUPfailed, projectedNOTRUN. Normal exporter
+injects32byte ghostcommand; v2 wrongly bound ordinaryspan toreadonly geometry.
+Next NORMALfullMIR capture DIAGNOSTIC ONLY pre-reviewed in design, no further
+semanticpatch yet. <=1800/job,<=300/proof,GitHub-hosted only.
 
 S6v1 COMPONENT_ACCEPTED in37642650884/source4d0e3070ca93e01b7a5ccfad18ea83900bc7536b:
 full2positive+11proofnegative+22admission matrix. Proofs/19valid controls replayed

@@ -471,3 +471,31 @@ patch offset metadata relative tocd660fe9; std spec/body/glue unchanged. Two new
 MIRmutants distinct predicates, fullnewmatrices beforeactual. Projected proof
 requires bothcontrols plus baseline source/MIR/intrinsic/drop infrastructure;
 expected baseline initializedcell proof failure is allowed, setup failure is not.
+
+## S6v2 reassessment and normal MIR diagnostic — BEFORE implementation
+
+Fresh37645561507/source85ec171: fullctor/asptr/intrinsic/S6/14baseline matrices
+PASS at8e62/drop-v2;173s,cumulative3168/5400,2232remain. Both actualcoordinate
+controls are SETUPfailures, not intended negatives; projectedactual NOTRUN.
+Their first readonlyexporter invocation mutates successfully, while second normal
+invocation fails the readonly-high guard. Existing source hashes and exporter
+bytes match; no nondeterministic claim follows. Source+trace reassessment: frozen
+preprocessor injects32byte `crate::VeriFast_ghost_command();` before in-function
+//@ only in NORMALmode. GhostRange.span uses shiftedbyte positions; explicit
+start/end line/col stay original. All5normal trace highs are readonlyhigh+32.
+The previous S6v2 design checked readonly geometry as if it were normal. Preserve
+that failed hypothesis/evidence; do not declare admissioncontrols accepted.
+
+Next diagnostic ONLY, sameauthorizedS6/compiler/exporter/schema, semanticpatch
+unchanged8e62: hosted stockexporter normalmode fullMIR capture of exact accepted
+projectedfixture from37645561507 pinnedcompactSHA b160edcd347c02ffafcd94ac0258e805d488bed10a500b64cd3e632b5d8d49ae.
+Validate manifest/source/run and original/verified hashes37e5/8a82, stockarchive/
+exporter2b8ebb/schema7f3eb/base809/compilernightly2026-02-05 pins and sourceintegrity.
+No proof verifier/consolebuild/refiner invoked: exporter/decode success is a
+DIAGNOSTIC, not component/helper acceptance. Preserve complete normaltypedlocals,
+blocks/callees/normal-unwind CFG and5ordinary+explicit ghostcoordinates. It tests
+applicabilitygeometry, not the full normal/unwind target proof or cell projection.
+If data supports an exact narrowS6source+stockinjection correspondence, review it
+withnewprofile/fullregression gates BEFORE further semantics. If broader parser/
+frontend/refiner/kernel/memory changes are needed, stop atthattrustboundary.
+Budget3168/5400used,2232remain,onehostedrun,<=1800/job,<=300/proof,sameworkflow30.
