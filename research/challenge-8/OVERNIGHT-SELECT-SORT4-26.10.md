@@ -69,3 +69,62 @@ forget_guard_stage=forget_cfg_accept, budget_minutes=30, routed only on own bran
 into one dedicated hosted job; hard cap20min, inner cap18min plus artifact reserve.
 Exact SHA dispatch/monitor loop from runbook; record every job's actual elapsed seconds.
 No push/PR/schedule research triggers; every commit uses [skip ci] for ordinary CI.
+
+## O1 result — independent CFG profile ACCEPTED
+
+Run [37698481357](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37698481357),
+proof `e6c02f22420ba4ff6a77e39c9610708a6096e7d7`, job113055959913
+22:48:27–22:50:11UTC =104seconds including build and artifacts.
+Profile stock-26.10+manuallydrop-new-cfg-v1, patch SHA256
+593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781.
+Console bf9a0252f181816dc8ca0e0a2bcfc6ecbb9053b73eba026d862dc10b2981bd76;
+exporter b00c75f4, refiner b049c8d1, spec2da7acfb and schemaf48fcf29 unchanged.
+Build: vfdeps-adf88dc8d022c93, decoder2d6606d9, OCaml4.14.0; CapnProto0.10.4.
+
+Both profiles independently collect all11 units: NORMAL/readonly exports, decodes,
+refinement and source-integrity gates pass. Patched5positives fullVF0 with all
+bodies/returns/leak/dead-code;4false-post negatives reject at intended posts,
+2contradictory-pre controls reject mandatory dead-code. Stock forget remains sole
+orphan dead-code failure; patched forget executes return16:2 and leak, no error.
+All22 source pairs and complete normal/readonly MIR files are bytewise equal
+between stock and candidate. Exported cleanup2 retained; only AST orphan cleanup
+return disappears. No trace in acceptance profile. Actual ordinary caller unwind
+26:14–38 and normal27:2, sharedcleanup unwind15:1–28:2 and normal28:2 execute
+with leak checks; shared MIR cleanup3 retains real panicking predecessor.
+Full147text logs/1.2MB audited, no unexpected fatal/unsupported error.
+
+Accepted only this independent profile and unsafe exact generic forget adapter
+contract, with stock trusted MD identity/no-unwind/destructor correspondence.
+Not a SAFE generic forget summary, nominal guard linkage, actual helper or sort4.
+Historical S7c profile remains UNACCEPTED; this is a fresh independent26.10 gate.
+New account104/21600,21496remaining; no active workflow. Next automatically S6.
+
+## O2 BEFORE — S6 new-source diagnostic capture
+
+Problem: four S6 families have old compiler graph certificates and old pointer
+drop source glue. Proposed experimental transfer preserves defined pointer-value
+predicates/checked lemmas and exact typed operations, while reviewing actual new
+std bodies and moving source pins; new free drop uses drop_glue(&mut *to_drop)
+and compiler lang item. [Review/components](overnight-s6/REVIEW.md) precedes code.
+Trust: only translator plus std/lib.rsspec, independently marked four modules;
+CFG overlay separately retained. Stock exporter/decoder/schema/refiner unchanged;
+new glue correspondence trusted specialization, no Element rights. This stack
+is experimental until full gate; O1 acceptance does not accept S6.
+
+Falsifiable hypothesis: source-reviewed transfer builds on26.10 and five isolated
+canonical positive fixtures export complete new NORMAL/readonly MIR; old exact
+shape gates either pass or expose precise representation drift. Collect constructor,
+asptr, raw-pointer intrinsic, wrapper intrinsic and pointer-drop independently;
+earlier proof failure must not suppress later exports. Same explicit contracts as
+S6 old design: pointer value resources/thread/currentThread; storage/asptr initialized
+wrapper slot preserved; selection complete conditional pointer/wrapper; pointer drop
+initialized raw-pointer slot/full value/frame preserved; unwind false. Unrestricted
+Element/no pointee permissions. No new blanket transmute/FnMut/guard model.
+
+Expected gate: full exports/decode/refinement/source equality; each positive has
+full source/body proof or precisely located source/MIR admission failure (NOT an
+intended negative). After capture review complete typed graphs and change one
+family's certificate with negative mutations/regressions; no automatic acceptance
+on diagnostic collection success. If compiler/frontend setup fails, repair concrete
+cause. No unchanged retries. Own existing dispatch API drop_v4, budget_minutes30,
+one job hard20min/inner18min+artifact reserve; available21496jobseconds.

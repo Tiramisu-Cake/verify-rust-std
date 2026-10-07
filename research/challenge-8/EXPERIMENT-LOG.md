@@ -4766,3 +4766,9 @@ research/overnight-select-sort4-26.10. See [full phase/card](OVERNIGHT-SELECT-SO
 and [verbatim prior checkpoint](overnight/STATUS-ENTRY-HISTORICAL.md). O1 will test
 independent stock+MD::new CFG causality and complete normal/unwind/negative controls;
 no physical-loc number requirement, no S6 import in this profile. No active run/0used.
+
+O1 COMPLETE: run37698481357/e6c02f22,104summedjobseconds. Independent stock+CFG
+profile accepted:5positive/4intendedfalseposts/2deadcodecontrols, complete source/MIR
+pair equality, ordinary/shared unwind+leak retained. [Full result and O2 BEFORE](OVERNIGHT-SELECT-SORT4-26.10.md).
+Old S7c untouched/unaccepted. O2 source-reviewed5family S6 diagnostic authorized next;
+no new acceptance before complete new MIR/content review and negative matrices.

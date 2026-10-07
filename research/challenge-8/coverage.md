@@ -420,3 +420,12 @@ annotation repair plus unchanged-patch matrix check was NOT AUTHORIZED / NOT RUN
 at this historical checkpoint. Later night N1/N2 completed full acceptance
 (updates above); earlier raw failures and closed historical budgets remain.
 RAPx0.7.50 CLOSED/NO-GO; B/C NOT RUN; original ZST remains in adopted domain.
+
+
+### Overnight26.10 O1 independent CFG gate (2026-10-08)
+
+stock+MD::new CFG profile accepted at e6c02f22/run37698481357. Exact generic
+unsafe forget adapter full proof,5positives/4falsepost/2deadcodecontrols; source/MIR
+unchanged, reachable unwind/shared cleanup verified. Trust: stock MD identity and
+destructor suppression; not safe generic forget/actual select/sort4. OldS7c remains
+UNACCEPTED. [Phase/evidence](OVERNIGHT-SELECT-SORT4-26.10.md).

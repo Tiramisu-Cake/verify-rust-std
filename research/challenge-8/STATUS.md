@@ -11,16 +11,19 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **0/21600 summed GitHub-hosted job seconds**, 21600 remain.
+New independent account **104/21600 summed GitHub-hosted job seconds**, 21496 remain.
 Historical stock account99/1800 and S7 account5306/5400 are preserved separately;
-old residual budgets do not limit this phase. No active workflow at entry.
+old residual budgets do not limit this phase. No active workflow after O1.
 
-Current obligation: accept independent **stock + exact MD::new CFG** profile.
-Fresh stock run37694000195/proof a0cfd30e confirms identity lowering emits only
-normal Goto while inventory includes cleanup2, yielding an orphan AST unwind return
-and mandatory dead-code rejection. Ordinary unwind/shared cleanup and intended
-negative controls pass; physical residual numeric loc is not needed for acceptance.
-Minimal causality repair/review and independent acceptance runner are being prepared.
+Current obligation: source-reviewed S6 transfer/capture.
+**Independent stock+MD::new CFG26.10 ACCEPTED** at proofe6c02f22,
+[run37698481357](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37698481357).
+All5positives/4false-post negatives/2dead-code controls pass their full gates;
+source pairs and complete MIR identical; ordinary/shared unwind execute+leak.
+Patch593d0940 only successor inventory; stock specs/exporter/refiner unchanged.
+No trace; stock MD correspondence remains TRUSTED. SAFE forget/actual linkage unproved.
+Next O2 diagnostic5S6families, reviewed constructor/asptr/intrinsic/newdrop certificates;
+experimental cumulative candidate, old typed graphs fail closed until new MIR review.
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new
 pointer drop → nominal guard/SAFE forget/actual linkage/assume_init → actual helper
