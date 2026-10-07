@@ -351,3 +351,36 @@ Whole success -> final own-doc integration/checkpoint/commit/push. First causal
 failure -> inspect full evidence and localized within-profile correction/newSHA;
 budget/trust boundary -> precise exact specialization obligation, no patch or
 local fallback. Job8min/inner420s/percase180s fits1088remaining. Source/run pending.
+
+### R13b result: nested generic parser stop
+
+Published/checked source `5783475c864ab3d4416c027b9ab75c671ea5f9e7`,
+[run37663270558](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37663270558),
+[artifact11500793587](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37663270558/artifacts/11500793587),
+29786bytes, ZIP SHA256eac857a82ef42cfb99ee8b05ba055efb427f4767f625d8ca6eca737741e9dcae.
+Full sources/logs/results/environment inspected and source/log/pins match.
+Generic83statements/40return-leak VF0; negative+7controls PASS. Composed source
+8a66ecdf13dd0052e605dc5ade070c31ddb439e6801fda25a777cfbc1e5c6d61
+fails frontend Parse3406,28–30 at nested exists<list<int>>(?d); no composition
+body entered. Closing adjacent >> is parsed as one C token, not two type closers.
+No constructor/whole N13 acceptance or intended-negative count from this failure.
+Job17:58:57Z–17:59:09Z = **12s**; total724/1800,1076remaining.
+
+Static independent review: new void constructor derives literal equality/memberships
+from its body and stock exists token (prelude predicate exists<t>(t x;)=true).
+Wrapper consumes that token; original exact signature/pre/allposts remain, no
+leaked resource/assumed relation/embedding/trust change. N9 generation and exact
+45-call source admission are unchanged. Performance needs hosted evidence.
+
+## R13c — prepared before dispatch
+
+Same R13b full exact-domain/order/multiplicity/generic bridge obligations,
+functional key/normal comparator premises, open Rust normal/unwind boundary,
+stock tool/source/classifier and limits. Hypothesis: spacing each nested type
+closer as exists<list<int> > disambiguates the C lexer; exactly3 spelling changes
+in ensures/close/open. No logic, body premise, post, resource or semantics change.
+ALL bodies/return/leak/0errors and full exact N13 wrapper required; negative and
+all7controls unchanged. Whole success -> finalize own docs/commit/push; first
+causal failure -> localized evidence-led within-profile repair/newSHA; budget/
+trust boundary -> exact unfinished wrapper post, no patch/local fallback.
+Job8min/inner420s/percase180s fits1076remaining; source/run pending.

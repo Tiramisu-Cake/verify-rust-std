@@ -148,10 +148,10 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
         # before instantiating the already checked composition theorem.
         lines += [f"lemma void network{n}_exact_domain()",
                   "    requires true;",
-                  f"    ensures exists<list<int>>(?d) &*& d == {exact_domain} &*& " +
+                  f"    ensures exists<list<int> >(?d) &*& d == {exact_domain} &*& " +
                   " &*&\n            ".join(f"mem({i}, d) == true" for i in range(n)) + ";",
                   "{",
-                  f"    close exists<list<int>>({exact_domain});"]
+                  f"    close exists<list<int> >({exact_domain});"]
         lines += [f"    assert mem({i}, {exact_domain}) == true;" for i in range(n)]
         lines += ["}", ""]
     lines += [f"lemma void network{n}_finite_swo_order(fixpoint(int, int, bool) rel, int q)",
@@ -160,7 +160,7 @@ def composition(n: int, pairs: list[tuple[int, int]]) -> str:
               "{"]
     if n == 13:
         lines += [f"    network{n}_exact_domain();",
-                  "    open exists<list<int>>(?d);",
+                  "    open exists<list<int> >(?d);",
                   "    assert finite_swo(rel, d) == true;",
                   f"    network{n}_finite_swo_composition(rel, d, q);"]
     else:
