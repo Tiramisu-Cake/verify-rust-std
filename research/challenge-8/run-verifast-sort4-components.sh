@@ -58,6 +58,9 @@ if [[ "$component" != select ]]; then
         if [[ "$component" == range || "$component" == swo ]]; then
             sha256sum "research/challenge-8/sort4-$component-lemmas.c" "research/challenge-8/sort4-$component-negative.c" >> "$evidence/environment.txt"
         fi
+        if [[ "$component" == swo ]]; then
+            sha256sum research/challenge-8/sort4-swo.gh >> "$evidence/environment.txt"
+        fi
         python3 research/challenge-8/check-sort4-logical.py --tool-home "$tool_home" --component "$component" --evidence "$evidence/checked"
     fi
 else

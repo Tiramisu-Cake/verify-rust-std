@@ -1,6 +1,6 @@
 # `sort4_stable`: memory-operation obligations
 
-This note separates the scalar geometry of the prepared, not-yet-checked range
+This note separates the scalar geometry of the checked range
 lemma from obligations carried by Rust references, pointer intrinsics and
 ownership. It uses the pinned VeriFast 26.09 source at
 `809de4596839b739dd999f9e462242c835e3af46` (repository profile/run evidence in
@@ -112,7 +112,8 @@ span and the two unit intervals are ordered/disjoint. The composition lemma
 calls the index theorem and maps the exact `min`, `lo`, `hi`, `max` expressions
 to destination slots 0,1,2,3. Its source-index inputs are therefore derived
 from the actual logical selection formulas without comparator consistency
-premises. The proof case-splits small index bounds so its arithmetic is linear.
+premises. The proof uses the frozen prelude multiplication-monotonicity lemma for
+index and endpoint bounds; it introduces no new arithmetic axiom.
 At `stride == 0`, these are
 empty ranges even when bases coincide; no distinct-address conclusion follows.
 The lemma says nothing about machine overflow, pointer provenance/allocation,
@@ -148,3 +149,9 @@ Before its first hosted check:
   separately whether existing typed split/resource lemmas bridge selected
   locations. If that bridge or raw-scratch summary is missing, document the
   minimum primitive/ownership design and do not add a trusted implementation.
+
+Hosted acceptance N8/37549955948,source9b25c410f6f69bdf5649aabf98481501824cec1e:
+stock VF0,24 verified statements, all four named helper/composition bodies and leak
+checks complete; negative rejects only marked endpoint line10. N7's earlier integer
+case residual is retained as failure evidence; identical domain/posts pass after
+using existing multiplication monotonicity. No operation-level UB test was run.

@@ -22,8 +22,20 @@ sourcefa74d92: checked header/application,VF0,8statements/leak checks; all5 inde
 Booleans give intermediate/final bounded distinct IDs,each0..3 exactly once.
 Duplicate-index negative fails intended assertion on manual audit; raw processing
 INCONCLUSIVE retained and corrected saved replay in N5. This adds a universal pure
-index component, no actual Rust-callee/pointer/memory/refinement bridge. Order/
-callee/range claims NOT PROVEN.
+index component, no actual Rust-callee/pointer/memory/refinement bridge.
+Stock [abstract rank order/stability](SORT4-ORDER-LEMMA.md) N5/37548811698,
+source6a12b4e,39statements PASS and intended all-equal instability negative rejected.
+Fixed/preserved integer ranks are functional premises only; pure finite-SWO
+transfer is separately prepared, actual callback/T simulation remains open.
+Stock [scalar range composition](SORT4-MEMORY-OPERATIONS.md) N8/37549955948,
+source9b25c41,24statements PASS: exact selected IDs to dst0..3, containment and
+separation for arbitrary stride>=0 (includingZST0). Endpoint negative rejected.
+No pointer/provenance/overflow/permission/initialization/reference/copy theorem.
+[Actual pointer select](SORT4-SELECT-CALLEE.md) N6/37549040942,sourceaed1d97,
+body integrity/export/decode/refinement0; first causal VF blocker is missing
+runtime MaybeUninit::new at adapter21. Full callee posts NOT PROVEN. Raw-scratch
+initialized-dst and operation-alignment coverage boundaries remain documented;
+no trusted constructor/primitive/ownership bridge has been introduced.
 
 The [sort4 phase](SORT4-PHASE.md) completed on 2026-10-06 under the
 [revised roadmap](PLAN.md). [Hosted closeout](SORT4-RESULTS.md) establishes

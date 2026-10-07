@@ -15,6 +15,17 @@ exact permutation. Intended duplicate-index assertion fails; saved replay fixes
 processing separately. This closes the logical selection theorem only. Exact
 pointer-valued callee,provenance,resources and application to real copies remain open.
 
+Independent stock abstract order/stability N5/37548811698 is checked for arbitrary
+fixed integer ranks and original tie IDs. Scalar range composition N8/37549955948
+is checked for exact selected IDs/dst0..3 and arbitrary nonnegative stride, including
+zero. These are pure components, without actual memory/resource applicability.
+Actual pointer select N6/37549040942 reaches source integrity/export/decode/
+refinement0 but stops at runtime MaybeUninit::new (adapter21), before its selection
+posts. [Callee note](SORT4-SELECT-CALLEE.md) records the first blocker; constructor,
+union/intrinsic/drop capabilities require a future separately approved design.
+[Memory note](SORT4-MEMORY-OPERATIONS.md) records initialized-dst raw-scratch and
+reference/copy operation-coverage gaps. No historical semantic patch chain applied.
+
 Current update: [stock run37540829027/source968c073](SORT4-ALIGNMENT-RESULTS.md#stock-generic-baseline-and-experimental-fieldless-layout--2026-10-07)
 now establishes both generic geometry cases with VF0, integrity/refinement/dead-code
 checks intact. Prior dead-code failures below are historical. The separately

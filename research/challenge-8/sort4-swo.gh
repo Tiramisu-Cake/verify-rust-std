@@ -1,0 +1,160 @@
+// SPDX-License-Identifier: Apache-2.0 OR MIT
+#ifndef SORT4_SWO_GH
+#define SORT4_SWO_GH
+
+// Finite, pure strict-weak-order quotient bridge for four logical occurrences.
+inductive s4_relation = relation16(
+    bool q00, bool q01, bool q02, bool q03,
+    bool q10, bool q11, bool q12, bool q13,
+    bool q20, bool q21, bool q22, bool q23,
+    bool q30, bool q31, bool q32, bool q33);
+
+fixpoint bool s4_less(s4_relation r, int i, int j) {
+    switch (r) {
+        case relation16(q00,q01,q02,q03,q10,q11,q12,q13,
+                        q20,q21,q22,q23,q30,q31,q32,q33):
+            return i == 0 ? (j == 0 ? q00 : j == 1 ? q01 : j == 2 ? q02 : j == 3 ? q03 : false) :
+                   i == 1 ? (j == 0 ? q10 : j == 1 ? q11 : j == 2 ? q12 : j == 3 ? q13 : false) :
+                   i == 2 ? (j == 0 ? q20 : j == 1 ? q21 : j == 2 ? q22 : j == 3 ? q23 : false) :
+                   i == 3 ? (j == 0 ? q30 : j == 1 ? q31 : j == 2 ? q32 : j == 3 ? q33 : false) : false;
+    }
+}
+
+fixpoint bool s4_equiv(s4_relation r, int i, int j) {
+    return !s4_less(r,i,j) && !s4_less(r,j,i);
+}
+
+fixpoint bool s4_id4(int i) {
+    return i == 0 || i == 1 || i == 2 || i == 3;
+}
+
+// These are all the strict-weak-order laws needed here, with finite closure.
+fixpoint bool s4_triple_laws(s4_relation r, int i, int j, int k) {
+    return (!s4_less(r,i,j) || !s4_less(r,j,k) || s4_less(r,i,k)) &&
+           (!s4_equiv(r,i,j) || !s4_equiv(r,j,k) || s4_equiv(r,i,k));
+}
+fixpoint bool s4_each_k(s4_relation r, int i, int j) {
+    return s4_triple_laws(r,i,j,0) && s4_triple_laws(r,i,j,1) &&
+           s4_triple_laws(r,i,j,2) && s4_triple_laws(r,i,j,3);
+}
+fixpoint bool s4_each_j(s4_relation r, int i) {
+    return s4_each_k(r,i,0) && s4_each_k(r,i,1) &&
+           s4_each_k(r,i,2) && s4_each_k(r,i,3);
+}
+fixpoint bool s4_is_swo(s4_relation r) {
+    return !s4_less(r,0,0) && !s4_less(r,1,1) &&
+           !s4_less(r,2,2) && !s4_less(r,3,3) &&
+           s4_each_j(r,0) && s4_each_j(r,1) &&
+           s4_each_j(r,2) && s4_each_j(r,3);
+}
+
+// Equal-class occurrences have identical strict predecessor sets. Counting
+// original IDs, not addresses, works also when all four T values are ZSTs.
+fixpoint int s4_predecessors(s4_relation r, int i) {
+    return (s4_less(r,0,i) ? 1 : 0) + (s4_less(r,1,i) ? 1 : 0) +
+           (s4_less(r,2,i) ? 1 : 0) + (s4_less(r,3,i) ? 1 : 0);
+}
+
+lemma void s4_swo_laws_at(s4_relation r, int i, int j, int k)
+    requires s4_is_swo(r) == true &*& s4_id4(i) == true &*&
+             s4_id4(j) == true &*& s4_id4(k) == true;
+    ensures s4_is_swo(r) == true &*& s4_id4(i) == true &*&
+            s4_id4(j) == true &*& s4_id4(k) == true &*&
+            s4_less(r,i,i) == false &*& s4_triple_laws(r,i,j,k) == true;
+{
+    if (i == 0) {} else if (i == 1) {} else if (i == 2) {} else { assert i == 3; }
+    if (j == 0) {} else if (j == 1) {} else if (j == 2) {} else { assert j == 3; }
+    if (k == 0) {} else if (k == 1) {} else if (k == 2) {} else { assert k == 3; }
+    assert s4_less(r,i,i) == false;
+    assert s4_triple_laws(r,i,j,k) == true;
+}
+
+lemma void s4_equivalent_predecessor(s4_relation r, int x, int y, int z)
+    requires s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+             s4_id4(y) == true &*& s4_id4(z) == true &*&
+             s4_equiv(r,x,y) == true;
+    ensures s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+            s4_id4(y) == true &*& s4_id4(z) == true &*&
+            s4_equiv(r,x,y) == true &*&
+            s4_less(r,z,x) == s4_less(r,z,y);
+{
+    // If z<x but z is incomparable with y, incomparability transitivity
+    // contradicts z<x; if y<z, strict transitivity contradicts x~y.
+    s4_swo_laws_at(r,y,z,x);
+    s4_swo_laws_at(r,z,y,x);
+    // Symmetric argument for z<y.
+    s4_swo_laws_at(r,x,z,y);
+    s4_swo_laws_at(r,z,x,y);
+    if (s4_less(r,z,x)) {
+        assert s4_less(r,z,y) == true;
+    }
+    if (s4_less(r,z,y)) {
+        assert s4_less(r,z,x) == true;
+    }
+    assert s4_less(r,z,x) == s4_less(r,z,y);
+}
+
+lemma void s4_equivalent_ranks(s4_relation r, int x, int y)
+    requires s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+             s4_id4(y) == true &*& s4_equiv(r,x,y) == true;
+    ensures s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+            s4_id4(y) == true &*& s4_equiv(r,x,y) == true &*&
+            s4_predecessors(r,x) == s4_predecessors(r,y);
+{
+    s4_equivalent_predecessor(r,x,y,0);
+    s4_equivalent_predecessor(r,x,y,1);
+    s4_equivalent_predecessor(r,x,y,2);
+    s4_equivalent_predecessor(r,x,y,3);
+    assert s4_predecessors(r,x) == s4_predecessors(r,y);
+}
+
+lemma void s4_less_rank(s4_relation r, int x, int y)
+    requires s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+             s4_id4(y) == true &*& s4_less(r,x,y) == true;
+    ensures s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+            s4_id4(y) == true &*& s4_less(r,x,y) == true &*&
+            s4_predecessors(r,x) < s4_predecessors(r,y);
+{
+    s4_swo_laws_at(r,x,x,x); // x is absent from its own predecessor set.
+    s4_swo_laws_at(r,0,x,y);
+    s4_swo_laws_at(r,1,x,y);
+    s4_swo_laws_at(r,2,x,y);
+    s4_swo_laws_at(r,3,x,y);
+    assert !s4_less(r,0,x) || s4_less(r,0,y);
+    assert !s4_less(r,1,x) || s4_less(r,1,y);
+    assert !s4_less(r,2,x) || s4_less(r,2,y);
+    assert !s4_less(r,3,x) || s4_less(r,3,y);
+    if (x == 0) {} else if (x == 1) {} else if (x == 2) {} else { assert x == 3; }
+    assert s4_predecessors(r,x) < s4_predecessors(r,y);
+}
+
+lemma void s4_swo_rank_bridge(s4_relation r, int x, int y)
+    requires s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+             s4_id4(y) == true;
+    ensures s4_is_swo(r) == true &*& s4_id4(x) == true &*&
+            s4_id4(y) == true &*&
+            (s4_less(r,x,y) == (s4_predecessors(r,x) < s4_predecessors(r,y))) &*&
+            (s4_equiv(r,x,y) == (s4_predecessors(r,x) == s4_predecessors(r,y))) &*&
+            0 <= s4_predecessors(r,x) &*& s4_predecessors(r,x) <= 3 &*&
+            0 <= s4_predecessors(r,y) &*& s4_predecessors(r,y) <= 3;
+{
+    s4_swo_laws_at(r,x,x,x);
+    s4_swo_laws_at(r,y,y,y);
+    if (x == 0) {} else if (x == 1) {} else if (x == 2) {} else { assert x == 3; }
+    if (y == 0) {} else if (y == 1) {} else if (y == 2) {} else { assert y == 3; }
+    assert 0 <= s4_predecessors(r,x) && s4_predecessors(r,x) <= 3;
+    assert 0 <= s4_predecessors(r,y) && s4_predecessors(r,y) <= 3;
+    if (s4_less(r,x,y)) {
+        s4_less_rank(r,x,y);
+        s4_swo_laws_at(r,x,y,x); // strict transitivity rules out y<x.
+        assert s4_less(r,y,x) == false;
+    } else if (s4_less(r,y,x)) {
+        s4_less_rank(r,y,x);
+    } else {
+        assert s4_equiv(r,x,y) == true;
+        s4_equivalent_ranks(r,x,y);
+    }
+    assert s4_less(r,x,y) == (s4_predecessors(r,x) < s4_predecessors(r,y));
+    assert s4_equiv(r,x,y) == (s4_predecessors(r,x) == s4_predecessors(r,y));
+}
+#endif

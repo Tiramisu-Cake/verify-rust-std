@@ -2954,3 +2954,30 @@ change; full selected-cell containment/separation and ZST stride0 retained.
 Negative and classifier unchanged. Expected positive complete named composition
 body VF0, negative intended endpoint only. Ordinary failure may be repaired with
 new evidence/run; semantic need becomes design-only blocker. Manual range/30.
+
+N8 dispatched run37549955948/source9b25c410f6f69bdf5649aabf98481501824cec1e,
+created2026-10-07T00:03:59Z; job112562823507,00:04:03–00:04:30UTC,27s,SUCCESS.
+Full logs/artifact11452042275 inspected;13796bytes,ZIPsha256
+ f2033a3382ac24a48f204833bdd04bad52692ab8fcff4b45080f61359638edcf.
+Positive VF0,24statements, four named index/multiplication/cell/composition bodies
+checked with final/leak checks. Exact source/formulas/header/profile hashes match,
+before/after fixture hashes unchanged. All four selected unit ranges contained and
+separated for arbitrary nonnegative stride, including0; intended endpoint negative
+fails only line10. No pointer/resource/operation-UB or machine-overflow conclusion.
+Night8/12,506/10800jobseconds; no active run.
+
+### N9 finite strict-weak-order quotient bridge card
+
+Independent step5 extension: arbitrary16Boolean relation on exactly four logical
+occurrence IDs,4irreflexive and64strict/incomparability-transitivity laws. Exact
+ID predicate enumerates0,1,2,3 (entire domain, not samples). Hypothesis: predecessor
+count ranks0..3 preserve less iff rank< and equivalence iff rank= for any two IDs,
+with helper bodies derived from laws, no assumed contract. Full req/posts and
+negative in SORT4-SWO-BRIDGE.md; no executable runtime/unwind or Rust resource claim.
+Frozen stock26.09/prelude/compiler/target, no patch/axiom/model extension. Isolated
+positive application must check named bridge and helper bodies once,VF0/leak checks;
+negative all-tied valid relation rejects marked ID-as-rank assertion only. Source
+and all own header/fixture hashes recorded before/after. Success closes pure finite
+quotient transfer only; actual preserved-T/callback correspondence remains open.
+Ordinary ghost proof errors may be repaired with NEW source/run, false assertion
+PASS quarantines profile. Manual components/swo/30; no repeated rank-network run.

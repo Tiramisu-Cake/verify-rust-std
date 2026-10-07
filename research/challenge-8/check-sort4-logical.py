@@ -116,7 +116,7 @@ def replay_index(saved, out):
 def check_case(tool, out, filename, lemma, negative, require_index=True):
     directory = out / filename.removesuffix(".c")
     directory.mkdir()
-    for name in ("sort4-index.gh", filename):
+    for name in (("sort4-swo.gh", filename) if filename.startswith("sort4-swo-") else ("sort4-index.gh", filename)):
         data = (HERE / name).read_bytes()
         if re.search(rb"\bassume(?:_correct)?\s*\(|\blemma_auto\b", data):
             raise ValueError("assumption or automatic lemma in owned fixture")
@@ -139,7 +139,7 @@ def check_case(tool, out, filename, lemma, negative, require_index=True):
         if status == 0:
             classification = "FALSE_THEOREM_PROVED"
     else:
-        ok = status == 0 and headers.count(lemma) == 1 and (not require_index or headers.count("s4_index_permutation") == 1) and not errors and before == after
+        ok = status == 0 and headers.count(lemma) == 1 and (not require_index or headers.count("s4_index_permutation") == 1) and (not filename.startswith("sort4-swo-") or headers.count("s4_swo_rank_bridge") == 1) and not errors and before == after
         classification = "PASS" if ok else "INCONCLUSIVE"
     result = {"file": filename, "lemma": lemma, "command": command, "verifast_exit": status,
               "function_headers": headers, "errors": errors, "target_line": target,
@@ -171,7 +171,7 @@ def main():
                   ("sort4-order-negative.c", "s4_wrong_equal_middle_order", True)),
         "range": (("sort4-range-lemmas.c", "s4_selected_cells_within_disjoint_spans", False),
                   ("sort4-range-negative.c", "s4_range_wrong_final_endpoint", True)),
-        "swo": (("sort4-swo-lemmas.c", "s4_swo_rank_bridge", False),
+        "swo": (("sort4-swo-lemmas.c", "s4_swo_rank_application", False),
                 ("sort4-swo-negative.c", "s4_wrong_rank_bridge", True)),
     }[args.component]
     results = []

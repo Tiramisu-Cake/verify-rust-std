@@ -2,9 +2,9 @@
 
 Updated2026-10-07. **IN PROGRESS: [autonomous night phase](SORT4-NIGHT-PHASE.md)**,
 owner-authorized through09:00 MSK /06:00 UTC October7. Historical budgets closed.
-Night7/12 NEW,479/10800 summed job-seconds; repair2/2 complete. No active run.
-Last N7/37549385441,sourceb288370f1a1e6b34c26ef63764c73be2ced452c9:
-range helper arithmetic proof failure; intended endpoint negative rejected.
+Night8/12 NEW,506/10800 summed job-seconds; repair2/2 complete. No active run.
+Last N8/37549955948,source9b25c410f6f69bdf5649aabf98481501824cec1e:
+scalar range composition PASS, intended endpoint negative rejected.
 Branch challenge-8/research in Tiramisu-Cake/verify-rust-std; entry clean/matching
 origin e7eae592dcda42ad330cd8f565c1411bffdf7519.
 
@@ -46,13 +46,13 @@ Pointer equality/provenance/frame/no-unwind not proven. No trusted extension add
 See [callee boundary](SORT4-SELECT-CALLEE.md). Stock intrinsic support is a later
 static concern. General safety domain and five panic posts remain unchanged.
 
-**Scalar range proof IN PROGRESS:** N7 positive stops in multiplication helper
-at unproved integer case residual; selected-cell composition not yet reached.
-Negative rejects wrong endpoint with satisfiable other premises. N8 uses existing
-frozen prelude multiplication monotonicity, with identical domain/posts.
+**Scalar range composition PASS:** N8,24statements/full named bodies/leak checks.
+All selected source/dst0..3 cells are contained/separated for stride>=0 including0.
+N7 integer case residual fixed by existing frozen multiplication monotonicity;
+identical req/posts. No pointer/resource/operation or machine-overflow claim.
 Known raw-scratch initialized-dst boundary is not repeated; operation/spec coverage
 and future design are in [memory operations](SORT4-MEMORY-OPERATIONS.md).
-Next: corrected range, independent finite-SWO bridge; no callback/model expansion.
+Next: independent finite-SWO bridge; no callback/model expansion.
 Main0970b84 exposes only additional manual range/swo selections.
 RAPx CLOSED/NO-GO; B/C NOT RUN. No historical FnMut/Drop chain, new tool/axiom/spec/
 model extension or publication.

@@ -8,6 +8,11 @@ of historical budgets or trusted semantic extension. STATUS is current.
 Night N2/37547890530 completes full acceptance of unchanged d4a12525 narrow
 fieldless profile; processing/native-fixture blockers in the historical closeout
 below are now repaired. No wider semantic or whole-sort4 claim follows.
+Night N4/N5 check the pure index and abstract rank-order/stability components;
+N8 checks scalar selected-cell containment/separation. N6 actual pointer callee
+is blocked at runtime MaybeUninit::new. Next independent finite-SWO transfer is
+within the night authorization; actual pointer/raw-scratch/ownership capabilities
+remain design-only, requiring a future owner decision.
 
 Approved by the owner on 2026-10-06 after review of the C verification research.
 This decision supersedes the insertion-first ordering in earlier handoffs.
