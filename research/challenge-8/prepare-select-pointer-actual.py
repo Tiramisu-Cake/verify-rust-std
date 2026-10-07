@@ -13,6 +13,7 @@ import importlib.util
 import json
 import os
 import re
+import shutil
 from pathlib import Path
 
 
@@ -22,6 +23,18 @@ INTRINSIC_ACTUAL_CERT = "SORT4-SELECT-INTRINSIC: full typed actual MIR graph acc
 INTRINSIC_PTR_CALL_ONE = "SORT4-SELECT-INTRINSIC: modeled typed pointer call 1"
 INTRINSIC_PTR_CALL_TWO = "SORT4-SELECT-INTRINSIC: modeled typed pointer call 2"
 INTRINSIC_MU_CALL = "SORT4-SELECT-INTRINSIC: modeled typed wrapper call 1"
+DROP_CERT = "SORT4-POINTER-DROP: full typed method MIR graph accepted"
+DROP_GLUE = "SORT4-POINTER-DROP: modeled typed pointer drop 1"
+DROP_REDIRECT = "SORT4-POINTER-DROP: redirected typed external method 1"
+PROJECTION_OPEN_GHOSTS = (
+    b"    //@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    b"    //@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
+)
+PROJECTION_SPLIT_GHOST = b"        //@ if (condition) { } else { }\n"
+PROJECTION_CLOSE_GHOSTS = (
+    b"        //@ std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n"
+    b"        //@ std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
+)
 CONSTRUCTOR_CERT = "SORT4-MAYBEUNINIT: full typed constructor MIR graph accepted"
 AS_MUT_PTR_CERT = "SORT4-AS-MUT-PTR: full typed body MIR graph accepted"
 AS_MUT_PTR_TRANSLATED = "SORT4-AS-MUT-PTR: checked SAFE body translated (redirected=2, expected=2)"
@@ -166,7 +179,7 @@ def obligation_kind(message: str | None, verifier_exit: int | None) -> str:
 
 
 def classify(case: Path, runner_result: dict, fixture: dict,
-             constructor, pointer, intrinsic=None) -> dict:
+             constructor, pointer, intrinsic=None, drop=None) -> dict:
     log = (case / "verifast.log").read_text(errors="replace")
     mir = (case / "compiler-mir.txt").read_text(errors="replace")
     verified = (case / "verified/lib.rs").read_bytes()
@@ -230,11 +243,33 @@ def classify(case: Path, runner_result: dict, fixture: dict,
                 "SORT4-SELECT-INTRINSIC: certificate mismatch:" not in log,
         }
         intrinsic_reached = reached_callees and all(intrinsic_certificate.values())
+    drop_certificate = None
+    drop_reached = False
+    if drop is not None:
+        drop_body = function_log(log, drop.HELPER)
+        lemma_body = function_log(log, "std::ptr::pointer_drop_glue_identity")
+        drop_certificate = {
+            "full_method_typed_mir_graph": log.count(DROP_CERT) == 1,
+            "free_glue_exactly_once": log.count(DROP_GLUE) == 1,
+            "actual_method_redirect_once": log.count(DROP_REDIRECT) == 1,
+            "method_mir_body_unique": mir.count(f'defPath = "{drop.HELPER}"') == 1,
+            "actual_method_runtime_call_retained":
+                mir.count('name = "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"') >= 1,
+            "checked_method_return_and_leak_if_entered":
+                not drop_body or ("Executing return statement" in drop_body and
+                                  "Leak check." in drop_body),
+            "identity_lemma_return_and_leak":
+                "Executing return statement" in lemma_body and "Leak check." in lemma_body,
+            "no_drop_certificate_mismatch":
+                "SORT4-POINTER-DROP: certificate mismatch:" not in log,
+        }
+        drop_reached = intrinsic_reached and all(drop_certificate.values())
     result = {
         "classification": "INCONCLUSIVE",
         "accepted_component": False,
         "full_select_proved": False,
-        "tool_profile": intrinsic.PROFILE if intrinsic is not None else pointer.PROFILE,
+        "tool_profile": drop.PROFILE if drop is not None else
+            intrinsic.PROFILE if intrinsic is not None else pointer.PROFILE,
         "source_integrity": source_ok,
         "stage_source_integrity": stage_ok,
         "export_decode_refinement_ok": frontend_ok,
@@ -242,6 +277,8 @@ def classify(case: Path, runner_result: dict, fixture: dict,
         "both_checked_callees_reached": reached_callees,
         "intrinsic_certificate_translation": intrinsic_certificate,
         "all_three_intrinsic_calls_modeled": intrinsic_reached,
+        "drop_certificate_translation": drop_certificate,
+        "checked_drop_method_and_actual_redirect_reached": drop_reached,
         "actual_select_verification_entered": bool(actual_body),
         "actual_select_return_seen": "Executing return statement" in actual_body,
         "actual_select_leak_check_seen": "Leak check." in actual_body,
@@ -279,6 +316,7 @@ def main() -> None:
     parser.add_argument("--component-summary", type=Path, required=True)
     parser.add_argument("--constructor-summary", type=Path)
     parser.add_argument("--intrinsic-summary", type=Path)
+    parser.add_argument("--drop-summary", type=Path)
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or \
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or \
@@ -291,6 +329,7 @@ def main() -> None:
     prerequisite = component.get("accepted_component") is True and \
         component.get("classification") == "COMPONENT_ACCEPTED"
     intrinsic = None
+    drop = None
     intrinsic_prerequisites = None
     if args.intrinsic_summary is not None:
         if args.constructor_summary is None:
@@ -321,6 +360,19 @@ def main() -> None:
                     intrinsic_summary["prerequisites"].values()),
         }
         prerequisite = all(intrinsic_prerequisites.values())
+    if args.drop_summary is not None:
+        if args.intrinsic_summary is None:
+            raise SystemExit("--intrinsic-summary required with --drop-summary")
+        drop_summary = json.loads(args.drop_summary.read_text())
+        drop_pre = {
+            "same_run_evidence": args.drop_summary.resolve().parents[1] == evidence.parent,
+            "drop_accepted": drop_summary.get("accepted_component") is True and
+                drop_summary.get("classification") == "COMPONENT_ACCEPTED",
+            "drop_same_profile": drop_summary.get("tool_profile") ==
+                os.environ.get("SORT4_SELECT_PROFILE"),
+        }
+        prerequisite = prerequisite and all(drop_pre.values())
+        intrinsic_prerequisites["drop_component"] = drop_pre
     if not prerequisite:
         summary = {
             "classification": "INCONCLUSIVE",
@@ -346,27 +398,86 @@ def main() -> None:
         intrinsic_source = intrinsic.source_certificate(repo_root, constructor)
         (evidence / "intrinsic-source-certificate.json").write_text(
             json.dumps(intrinsic_source, indent=2, sort_keys=True) + "\n")
+    if args.drop_summary is not None:
+        drop = load_script(
+            repo_root / "research/challenge-8/check-pointer-drop.py",
+            "sort4_pointer_drop_matrix_for_actual")
+        diagnostic = load_script(
+            repo_root / "research/challenge-8/prepare-pointer-drop-diagnostic.py",
+            "sort4_pointer_drop_source_for_actual")
+        drop_body, drop_source = diagnostic.source_certificate(repo_root, constructor)
+        (evidence / "drop-source-certificate.json").write_text(
+            json.dumps(drop_source, indent=2, sort_keys=True) + "\n")
     case, fixture = prepare_case(evidence, repo_root, constructor, pointer)
-    if intrinsic is not None:
+    if drop is not None:
+        method = drop.helper_source(drop_body, constructor)
+        original_method = constructor.strip_ghost_annotations(method)
+        original = (case / "original/lib.rs").read_bytes() + b"\n" + original_method
+        verified = (case / "verified/lib.rs").read_bytes() + b"\n" + method
+        require(constructor.strip_ghost_annotations(verified) == original,
+                "actual plus checked drop method changed runtime source")
+        (case / "original/lib.rs").write_bytes(original)
+        (case / "verified/lib.rs").write_bytes(verified)
+        fixture["final_original_sha256"] = constructor.sha(original)
+        fixture["final_verified_sha256"] = constructor.sha(verified)
+        fixture["drop_method_source_sha256"] = constructor.sha(drop_body)
+        fixture["tool_profile"] = drop.PROFILE
+        (case / "fixture.json").write_text(
+            json.dumps(fixture, indent=2, sort_keys=True) + "\n")
+    if intrinsic is not None and drop is None:
         fixture["tool_profile"] = intrinsic.PROFILE
         (case / "fixture.json").write_text(
             json.dumps(fixture, indent=2, sort_keys=True) + "\n")
+    cases = [(case, fixture)]
+    if drop is not None:
+        projected = evidence / "actual_select_pointer_drop_projection"
+        shutil.copytree(case, projected)
+        verified = (projected / "verified/lib.rs").read_bytes()
+        insertions = (
+            (b"    let false_ptr = false_val.as_mut_ptr();\n", PROJECTION_OPEN_GHOSTS),
+            (b"        let guard = DropOnPanic { inner: guard };\n",
+             PROJECTION_SPLIT_GHOST),
+            (b"        drop.drop_in_place();\n", PROJECTION_CLOSE_GHOSTS),
+        )
+        for anchor, ghosts in insertions:
+            require(verified.count(anchor) == 1, "actual projection anchor changed")
+            verified = verified.replace(anchor, anchor + ghosts, 1)
+        original = (projected / "original/lib.rs").read_bytes()
+        require(constructor.strip_ghost_annotations(verified) == original,
+                "projection changed actual runtime source")
+        (projected / "verified/lib.rs").write_bytes(verified)
+        projected_fixture = {**fixture, "variant": "actual_select_pointer_drop_projection",
+                             "projection_ghosts_exact": True,
+                             "final_verified_sha256": constructor.sha(verified)}
+        (projected / "fixture.json").write_text(
+            json.dumps(projected_fixture, indent=2, sort_keys=True) + "\n")
+        cases.append((projected, projected_fixture))
     previous = os.environ.get("SORT4_SELECT_INTRINSIC_REPO_ROOT")
+    previous_drop = os.environ.get("SORT4_POINTER_DROP_REPO_ROOT")
     if intrinsic is None:
         os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
     else:
         os.environ["SORT4_SELECT_INTRINSIC_REPO_ROOT"] = str(repo_root)
+    if drop is not None:
+        os.environ["SORT4_POINTER_DROP_REPO_ROOT"] = str(repo_root)
+    diagnoses = []
     try:
-        runner_result = constructor.run_case(
-            case, args.schema, args.tool_home, args.compiler_sysroot, repo_root,
-            "actual_select_after_constructor_and_as_mut_ptr", "diagnostic",
-            certificate_mode=True)
+        for current_case, current_fixture in cases:
+            runner_result = constructor.run_case(
+                current_case, args.schema, args.tool_home, args.compiler_sysroot,
+                repo_root, current_case.name, "diagnostic", certificate_mode=True)
+            diagnoses.append(classify(current_case, runner_result, current_fixture,
+                                      constructor, pointer, intrinsic, drop))
     finally:
         if previous is None:
             os.environ.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
         else:
             os.environ["SORT4_SELECT_INTRINSIC_REPO_ROOT"] = previous
-    diagnosis = classify(case, runner_result, fixture, constructor, pointer, intrinsic)
+        if previous_drop is None:
+            os.environ.pop("SORT4_POINTER_DROP_REPO_ROOT", None)
+        else:
+            os.environ["SORT4_POINTER_DROP_REPO_ROOT"] = previous_drop
+    diagnosis = diagnoses[-1]
     summary = {
         "classification": "INCONCLUSIVE",
         "accepted_component": False,
@@ -374,8 +485,11 @@ def main() -> None:
         "prerequisite_component_accepted": True,
         "intrinsic_prerequisites": intrinsic_prerequisites,
         "intrinsic_mode": intrinsic is not None,
+        "drop_mode": drop is not None,
         "actual_unit_run": True,
         "diagnosis": diagnosis,
+        "diagnoses": [{"case": str(p), "diagnosis": d}
+                      for (p, _), d in zip(cases, diagnoses)],
         "case": str(case),
     }
     (evidence / "summary.json").write_text(
@@ -384,11 +498,15 @@ def main() -> None:
         "classification": summary["classification"],
         "both_checked_callees_reached": diagnosis["both_checked_callees_reached"],
         "all_three_intrinsic_calls_modeled": diagnosis["all_three_intrinsic_calls_modeled"],
+        "checked_drop_method_and_actual_redirect_reached":
+            diagnosis["checked_drop_method_and_actual_redirect_reached"],
         "first_causal_obligation": diagnosis["first_causal_obligation"],
         "evidence": str(evidence),
     }))
-    if not diagnosis["both_checked_callees_reached"] or \
-            (intrinsic is not None and not diagnosis["all_three_intrinsic_calls_modeled"]):
+    if any(not d["both_checked_callees_reached"] or
+           (intrinsic is not None and not d["all_three_intrinsic_calls_modeled"]) or
+           (drop is not None and not d["checked_drop_method_and_actual_redirect_reached"])
+           for d in diagnoses):
         raise SystemExit(1)
 
 

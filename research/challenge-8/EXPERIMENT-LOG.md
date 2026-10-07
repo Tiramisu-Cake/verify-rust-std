@@ -4006,3 +4006,20 @@ helper; missing initialized-cell -> precise obligation STOP; passed call -> next
 blocker STOP. No guard/forget/assume-init semantic work or kernel/memory expansion.
 Selection verifast_maybeuninit_new_pointer, budget_minutes=30; <=1800/job,
 <=300/proof; cumulative used2398/5400, remaining3002; one active hosted run only.
+
+
+S6 BEFORE dispatch — source-linked drop-v1 implementation:
+Cumulative patch SHA256 cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413
+from immutable7bb/v2+base809 only; translator+std/lib.rsspec delta reviewed.
+Checked identity lemma requires/returns SAME initialized pointer cell+thread;
+compiler correspondence trusted separately, no runtime placeholder theorem.
+Full exact method3locals/2BB certificate + full actual31locals/14BB gates precede
+redirect. Actual baseline and exact5-ghost stock projection variants both retained;
+no runtime call/cleanup removed. Complete independent matrix2positive/11proofnegative,
+8adapter-source/12MIR/2method-glue-pin controls, classifier64gate/12message/4admission
+mutants. All accepted ctor/asptr/intrinsic and14Rust/C/C++ baseline gates repeated
+in this exact profile before actual. Original mismatches preserved; reason-only
+changes require hosted replay of this run, no repeat proofs for classifier alone.
+Local checks only static git apply/diff and bash-n; no build/verifier/test executed.
+Selection verifast_maybeuninit_new_pointer/budget30; used2398,remaining3002 before
+run,<=1800/job and300/proof. New run follows exact-SHA push; no other active run.

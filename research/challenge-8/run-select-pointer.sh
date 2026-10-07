@@ -49,8 +49,8 @@ source_pin=809de4596839b739dd999f9e462242c835e3af46
 archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
-patch_file="$repo/research/challenge-8/verifast-select-pointer-intrinsics.patch"
-printf '%s  %s\n' 7bb39a84b95fd15ed5be29864c3a22774d37c660baafa694188b14970c344320 "$patch_file" | sha256sum -c -
+patch_file="$repo/research/challenge-8/verifast-select-pointer-drop.patch"
+printf '%s  %s\n' cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413 "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/select-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"
@@ -59,7 +59,7 @@ stock_home="$task_temp/verifast-26.09"
 source_home="$task_temp/source"
 {
     printf 'Source SHA: '; git rev-parse HEAD
-    printf 'Profile: experimental-source-linked-select-pointer-intrinsics-v2\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
+    printf 'Profile: experimental-source-linked-select-pointer-drop-v1\nBase source: %s\nCompiler: %s\nTarget: x86_64-unknown-linux-gnu\n' "$source_pin" "$RUSTUP_TOOLCHAIN"
     printf 'Budget: %s minutes including preparation/build/matrix; cleanup reserve120 seconds\n' "$budget"
     sha256sum "$patch_file" "$0" research/challenge-8/check-select-pointer.py research/challenge-8/SORT4-SELECT-POINTER-DESIGN.md
 } > "$evidence/environment.txt"
@@ -146,17 +146,14 @@ rg -F "libz3.so => $source_home/bin/libz3.so " "$evidence/console-ldd.txt"
 if rg -q 'not found' "$evidence/console-ldd.txt"; then exit 2; fi
 [[ "$(git hash-object library/core/src/slice/sort/shared/smallsort.rs)" == e555fce440872898e47fd5114f32eb15401d07df ]] || exit 2
 export SORT4_MAYBEUNINIT_REPO_ROOT="$repo"
-export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-intrinsics-v2
+export SORT4_SELECT_PROFILE=experimental-source-linked-select-pointer-drop-v1
 run_stage classifier-tests python3 research/challenge-8/test-sort4-maybeuninit-classifier.py
 run_stage constructor-regressions python3 research/challenge-8/check-maybeuninit-new-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/constructor-regressions"
 run_stage select-classifier-tests python3 research/challenge-8/test-select-pointer-classifier.py --evidence "$evidence/select-classifier-self-check.json"
 run_stage select-component-matrix python3 research/challenge-8/check-select-pointer.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --classifier-summary "$evidence/select-classifier-self-check.json"
-run_stage actual-select-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-integration" --component-summary "$evidence/matrix/summary.json"
 run_stage intrinsic-classifier-tests python3 research/challenge-8/test-select-pointer-intrinsics-classifier.py --evidence "$evidence/intrinsic-classifier-self-check.json"
-run_diagnostic_stage pointer-drop-existing-diagnostic python3 research/challenge-8/prepare-pointer-drop-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/pointer-drop-existing"
-run_diagnostic_stage assume-init-storage-export python3 research/challenge-8/prepare-assume-init-storage-diagnostic.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/assume-init-storage"
-run_diagnostic_stage assume-init-permission-probe python3 research/challenge-8/prepare-assume-init-permission-probe.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/assume-init-permission"
 run_stage intrinsic-component-matrix python3 research/challenge-8/check-select-pointer-intrinsics.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/intrinsic-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --classifier-summary "$evidence/intrinsic-classifier-self-check.json"
-run_stage actual-select-intrinsic-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-intrinsic-integration" --component-summary "$evidence/matrix/summary.json" --constructor-summary "$evidence/constructor-regressions/summary.json" --intrinsic-summary "$evidence/intrinsic-matrix/summary.json"
-printf '{"independent_diagnostic_exit": %s, "intrinsic_acceptance_gate": "intrinsic-matrix/summary.json", "diagnostics_gate_intrinsic": false}\n' "$diagnostic_status" > "$evidence/independent-diagnostic-status.json"
+run_stage pointer-drop-classifier-tests python3 research/challenge-8/test-pointer-drop-classifier.py --evidence "$evidence/pointer-drop-classifier-self-check.json"
+run_stage pointer-drop-component-matrix python3 research/challenge-8/check-pointer-drop.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/pointer-drop-matrix" --constructor-summary "$evidence/constructor-regressions/summary.json" --as-mut-ptr-summary "$evidence/matrix/summary.json" --intrinsic-summary "$evidence/intrinsic-matrix/summary.json" --classifier-summary "$evidence/pointer-drop-classifier-self-check.json"
+run_stage actual-select-drop-integration python3 research/challenge-8/prepare-select-pointer-actual.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$evidence/actual-drop-integration" --component-summary "$evidence/matrix/summary.json" --constructor-summary "$evidence/constructor-regressions/summary.json" --intrinsic-summary "$evidence/intrinsic-matrix/summary.json" --drop-summary "$evidence/pointer-drop-matrix/summary.json"
 exit 0

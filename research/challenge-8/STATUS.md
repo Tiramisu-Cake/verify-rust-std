@@ -5,7 +5,10 @@ owner from bea6248. Prior freeze lifted ONLY for checked pointer method + truste
 compiler glue rule at payload *const Element, receiver *mut *const Element.
 Design/trust review: SORT4-SELECT-POINTER-DESIGN.md S6 authorization section.
 Budget continues **2398/5400 used; 3002 summed hosted job seconds remain**;
-<=1800/job, <=300/proof, one relevant hosted Actions run at a time. No active run.
+<=1800/job, <=300/proof, one relevant hosted Actions run at a time. No active run at pre-dispatch checkpoint.
+S6 implementation profile experimental-source-linked-select-pointer-drop-v1,
+patch cd660fe9f470293cc16712a4a71714c8f5f6e802608cedb5b486c3d8a1d27413,
+full2+11proof/22admission matrix and baseline/projection actual prepared; NOT RUN.
 Full S6 independent matrix and accepted-component regressions precede actual
 integration, then STOP at initialized-cell precondition or next actual blocker.
 04d67f4b/assume/guard/forget/general Drop/memory/refiner/kernel remain frozen.
