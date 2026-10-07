@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 """Hosted S7a diagnostic of the exact local guard's forget body.
 
-This captures both exporter modes and focuses items defined in a separate
-included block expression. It does not admit a caller summary or redirect forget.
+This captures both exporter modes and focuses items declared by one local
+guard macro. It does not admit a caller summary or redirect forget.
 """
 
 from __future__ import annotations
@@ -25,8 +25,10 @@ HINT_SHA = "d94ef86fbdac952fe7c9a6028536e15539b33dc188966fa4e9340fa7d94c30f8"
 MEM_SHA = "1db195d24508e4eef81163672d008667765c2c121f4fa70f8752742e11106273"
 MANUALLY_DROP_SHA = "17e8e41866d3eadcfdc6f1a516e4ed9dd5555e10ad725aac3b04aec7c759731b"
 MAYBE_DANGLING_SHA = "1cf24b2ec36fff143f329f2ef6db5b4d47cfa798da7f30d88b554b712c8f4b53"
-INCLUDE = (b'    use std::mem::ManuallyDrop;\n'
-           b'    const _: () = include!("forget-items.rs");\n')
+ROOT_ANCHOR = b"pub fn select_unpredictable<Element>(\n"
+ROOT_MODULE = b'#[path = "forget-items.rs"]\nmod forget_items;\n\n'
+LOCAL_ITEMS = (b'    use std::mem::ManuallyDrop;\n'
+               b'    forget_items::define_forget_guard!(DropOnPanic);\n')
 ANCHOR = b"    let true_ptr = true_val.as_mut_ptr();\n"
 FORGET_SOURCE = b"pub const fn forget<T>(t: T) {\n    let _ = ManuallyDrop::new(t);\n}"
 FORGET_BODY = b"{\n    let _ = ManuallyDrop::new(t);\n}"
@@ -93,7 +95,7 @@ def source_certificate(repo: Path, constructor, prepare, drop_diag) -> dict:
             "candidate_nominal_defpath": "select_unpredictable::DropOnPanic",
             "nominal_defpath_mir_confirmation": "pending full typed MIR capture",
             "runtime_actual_body_source":
-                "unchanged except lexical import and one const-expression include"}
+                "unchanged except crate macro module and local declaration invocation"}
 
 
 def ghost(constructor, pre: bytes, post: bytes) -> bytes:
@@ -153,9 +155,17 @@ def probe_file(variant: str, constructor, annotated: bool) -> bytes:
 
 
 def items_file(variant: str, constructor, annotated: bool) -> bytes:
-    """One included block expression with two items and a final unit value."""
-    return (b"{\n" + helper_file(variant, constructor, annotated) +
-            probe_file(variant, constructor, annotated) + b"()\n}\n")
+    """One module macro declaring only the two exact checked function items."""
+    helper = helper_file(variant, constructor, annotated)
+    probe = probe_file(variant, constructor, annotated)
+    require(helper.count(b"DropOnPanic") == probe.count(b"DropOnPanic") == 1,
+            "macro may substitute only the local guard type identifier")
+    return (b"macro_rules! define_forget_guard {\n"
+            b"    ($guard:ident) => {\n" +
+            helper.replace(b"DropOnPanic", b"$guard") +
+            probe.replace(b"DropOnPanic", b"$guard") +
+            b"    };\n}\n"
+            b"pub(crate) use define_forget_guard;\n")
 
 
 def projected_base(evidence: Path, repo: Path, constructor,
@@ -201,14 +211,17 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
     shutil.copytree(base, case)
     original = (case / "original/lib.rs").read_bytes()
     verified = (case / "verified/lib.rs").read_bytes()
-    require(original.count(ANCHOR) == verified.count(ANCHOR) == 1 and
+    require(original.count(ROOT_ANCHOR) == verified.count(ROOT_ANCHOR) == 1 and
+            original.count(ANCHOR) == verified.count(ANCHOR) == 1 and
             original.count(b"struct DropOnPanic<T> {") == 1 and
             verified.count(b"impl<T> Drop for DropOnPanic<T> {") == 1,
             "exact original local guard scope changed")
-    (case / "original/lib.rs").write_bytes(original.replace(ANCHOR,
-        INCLUDE + ANCHOR, 1))
-    (case / "verified/lib.rs").write_bytes(verified.replace(ANCHOR,
-        INCLUDE + ANCHOR, 1))
+    (case / "original/lib.rs").write_bytes(
+        original.replace(ROOT_ANCHOR, ROOT_MODULE + ROOT_ANCHOR, 1)
+                .replace(ANCHOR, LOCAL_ITEMS + ANCHOR, 1))
+    (case / "verified/lib.rs").write_bytes(
+        verified.replace(ROOT_ANCHOR, ROOT_MODULE + ROOT_ANCHOR, 1)
+                .replace(ANCHOR, LOCAL_ITEMS + ANCHOR, 1))
     for mode, annotated in (("original", False), ("verified", True)):
         (case / mode / "forget-items.rs").write_bytes(
             items_file(variant, constructor, annotated))
@@ -219,11 +232,17 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
     require(all(constructor.strip_ghost_annotations(verified_files[name]) ==
                 original_files[name] for name in original_files),
             "S7a source differs beyond ghost annotations")
-    require(original_files["lib.rs"].replace(INCLUDE, b"", 1) ==
+    require(original_files["lib.rs"].count(ROOT_MODULE) ==
+                verified_files["lib.rs"].count(ROOT_MODULE) == 1 and
+            original_files["lib.rs"].count(LOCAL_ITEMS) ==
+                verified_files["lib.rs"].count(LOCAL_ITEMS) == 1 and
+            original_files["lib.rs"].replace(ROOT_MODULE, b"", 1)
+                .replace(LOCAL_ITEMS, b"", 1) ==
                 (base / "original/lib.rs").read_bytes() and
-            verified_files["lib.rs"].replace(INCLUDE, b"", 1) ==
+            verified_files["lib.rs"].replace(ROOT_MODULE, b"", 1)
+                .replace(LOCAL_ITEMS, b"", 1) ==
                 (base / "verified/lib.rs").read_bytes(),
-            "S7a changed actual body beyond lexical import and const include")
+            "S7a changed actual body beyond exact macro module and local items")
     focus_kind, obligation = EXPECT[variant]
     focus_file = "forget-items.rs"
     focus_name = HELPER if focus_kind == "helper" else PROBE
@@ -233,15 +252,18 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
     probe_lines = [i for i, data in enumerate(lines, 1)
                    if data.startswith(b"unsafe fn " + PROBE + b"<")]
     require(len(helper_lines) == len(probe_lines) == 1 and
-            helper_lines[0] < probe_lines[0] and lines[0] == b"{" and
-            lines[-2:] == [b"()", b"}"],
-            "exact expression item order or unit result changed")
+            helper_lines[0] < probe_lines[0] and
+            lines[:2] == [b"macro_rules! define_forget_guard {",
+                          b"    ($guard:ident) => {"] and
+            lines[-3:] == [b"    };", b"}",
+                           b"pub(crate) use define_forget_guard;"],
+            "exact macro template item order changed")
     line = helper_lines[0] if focus_kind == "helper" else probe_lines[0]
     end_line = next((i for i, data in enumerate(lines, 1)
                      if i > line and data == b"}"), None)
     require(end_line is not None and
             (focus_kind != "helper" or end_line < probe_lines[0]) and
-            (focus_kind != "probe" or end_line < len(lines) - 1),
+            (focus_kind != "probe" or end_line < len(lines) - 2),
             "focused function closing brace changed")
     target_lines = [(i, data) for i, data in enumerate(lines, 1)
                     if line <= i <= end_line]
@@ -258,9 +280,11 @@ def make_case(root: Path, base: Path, variant: str, fixture: dict,
     manifest = {
         **fixture, "variant": variant, "classification": "DIAGNOSTIC_ONLY",
         "accepted_component": False, "full_select_proved": False,
-        "source_insertion": {"anchor": ANCHOR.decode(),
-            "exact_items": [item.decode().strip() for item in INCLUDE.splitlines()],
-            "included_expression": "one block with helper, probe and final unit",
+        "source_insertion": {"root_anchor": ROOT_ANCHOR.decode(),
+            "root_module": ROOT_MODULE.decode(),
+            "local_anchor": ANCHOR.decode(),
+            "local_items": LOCAL_ITEMS.decode(),
+            "macro_template": "one guard-ident parameter; helper and probe items only",
             "actual_body_unchanged_after_removing_items": True},
         "source_sha256": {mode: {name: sha((case / mode / name).read_bytes())
                             for name in original_files}
