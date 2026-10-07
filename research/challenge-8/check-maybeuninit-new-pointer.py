@@ -176,7 +176,29 @@ def certify_repository_sources(repo_root: Path) -> dict:
 
 
 def ghost_block(contract: bytes) -> bytes:
-    return b"\n/*@\n" + contract + b"\n@*/\n"
+    clauses = []
+    current = []
+    pending_comments = []
+    for line in contract.splitlines():
+        stripped = line.strip()
+        if stripped.startswith((b"req ", b"ens ", b"on_unwind_ens ")):
+            if current:
+                clauses.append(current)
+            current = pending_comments + [line]
+            pending_comments = []
+        elif stripped.startswith(b"// TARGET_"):
+            pending_comments.append(line)
+        elif current:
+            current.append(line)
+        elif stripped:
+            pending_comments.append(line)
+    if current:
+        clauses.append(current)
+    require(not pending_comments, "ghost marker/comment is not attached to a contract clause")
+    require(bool(clauses), "empty ghost contract")
+    return b"\n" + b"\n".join(
+        b"/*@\n" + b"\n".join(clause) + b"\n@*/" for clause in clauses
+    ) + b"\n"
 
 
 def strip_ghost_annotations(data: bytes) -> bytes:
@@ -595,7 +617,11 @@ def prepare_constructor_case(evidence: Path, cert: dict,
 
 def prepare_stock_false_control(evidence: Path) -> Path:
     case_dir = evidence / "stock_false_control"
-    verified = b"""pub fn stock_false_control()\n/*@\nreq true;\nens true;\non_unwind_ens false;\n@*/\n{\n    // TARGET_ASSERTION\n    //@ assert false;\n}\n"""
+    verified = (
+        b"pub fn stock_false_control()\n" +
+        ghost_block(b"req true;\nens true;\non_unwind_ens false;") +
+        b"{\n    // TARGET_ASSERTION\n    //@ assert false;\n}\n"
+    )
     original = strip_ghost_annotations(verified)
     metadata = {
         "variant": "stock_false_control",
@@ -612,16 +638,16 @@ def prepare_stock_false_control(evidence: Path) -> Path:
 
 def prepare_stock_pointer_frame(evidence: Path) -> Path:
     case_dir = evidence / "stock_pointer_frame"
-    verified = b"""pub unsafe fn stock_pointer_frame(p: *const u8, other: *mut u8) -> u8
-/*@
-req thread_token(?t) &*& t == currentThread &*& [?f]*p |-> ?pv &*& *other |-> ?ov;
-ens thread_token(t) &*& [f]*p |-> pv &*& *other |-> ov &*& result == pv;
-on_unwind_ens false;
-@*/
-{
-    unsafe { *p }
-}
-"""
+    verified = (
+        b"pub unsafe fn stock_pointer_frame(p: *const u8, other: *mut u8) -> u8\n" +
+        ghost_block(
+            b"req thread_token(?t) &*& t == currentThread &*& "
+            b"[?f]*p |-> ?pv &*& *other |-> ?ov;\n"
+            b"ens thread_token(t) &*& [f]*p |-> pv &*& *other |-> ov &*& result == pv;\n"
+            b"on_unwind_ens false;"
+        ) +
+        b"{\n    unsafe { *p }\n}\n"
+    )
     original = strip_ghost_annotations(verified)
     metadata = {"variant": "stock_pointer_frame", "expected_external_call_count": 0}
     case_dir.mkdir(parents=True, exist_ok=False)

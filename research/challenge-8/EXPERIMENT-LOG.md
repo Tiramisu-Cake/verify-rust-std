@@ -3346,3 +3346,32 @@ remaining5057s admits full1800s cap; no active run at preparation.
 C5 dispatched37591112968/sourcebc72f28cbffe0fb61927c1be2756db430c82e931,
 created2026-10-07T08:02:14Z; exact remote matched and C4 fully completed/audited.
 URL https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37591112968.
+
+C5 result:37591112968/sourcebc72f28cbffe0fb61927c1be2756db430c82e931,
+job112692558457,08:02:18–08:04:05UTC,107s. Console BUILD PASS on typed patch;
+stock schema/exporter/refiner/C++ exporter/specs identical, dependency link audited.
+Four C/C++ paired stock/patched controls PASS. Four Rust baselines export/decode/
+refinement0 and all source audits unchanged but VF1 at ens line4 parse error.
+Stock parser requires separate ghost ranges per spec clause; current checker put
+req/ens/unwind in a single range. This is harness syntax, not model/false VC result.
+Constructor/negatives/callee NOT RUN and profile UNACCEPTED. Fix ghost clause
+format and matching source-certificate exact bytes before C6; no post weakening.
+New budget450/5400s, no active run.
+
+### C6 preexperiment card — Rust annotation repair, same partial diagnostic
+
+Concrete correction to C5: each req/ens/on_unwind_ens clause now has its own
+ghost range, matching stock Rust parser and prior actual-callee annotation style.
+Checked helper exact source-certificate bytes updated solely for this annotation
+format; runtime body unchanged. Patch SHA256
+cbf7b7dabb6ab50c74688ca5a96ab24e7df0aac8ec3970eaa17f7b255e25a70c.
+C5 successfully built and reached parsing, so hypothesis: separate clauses allow
+stock/patched Rust baselines and exact constructor body to reach their intended
+VCs. Same full domains/posts/resourceframe/pins/cases/stop rules as C4/C5; no
+weakening or new semantics. Same --feasibility-only diagnostic, UNACCEPTED even
+if positive; full-MIR gate, acceptance negatives and dependent callee NOT RUN.
+Expected false controls fail marked assert VC (VF1), pointer/native pass; then
+safe constructor innerSome/token/frame/no-unwind posts and generated template.
+Unexpected false success quarantines; opaque ownership/general model STOP;
+ordinary new harness/source-gate/proof errors repaired only with new evidence.
+Manual same constructor selection/30, one run;450/5400s used, no active at prep.

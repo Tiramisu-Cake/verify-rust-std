@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index f1e3e50..1a4c02c 100644
+index f1e3e50..dbd841b 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -210,6 +210,7 @@ module Mir = struct
@@ -138,9 +138,9 @@ index f1e3e50..1a4c02c 100644
 +        (signature_at + String.length local_marker)
 +        (brace_at - signature_at - String.length local_marker) in
 +      let expected_between =
-+        "\n/*@\nreq thread_token(?t) &*& t == currentThread;\n" ^
-+        "ens thread_token(t) &*& std::mem::MaybeUninit::inner(result) == some(val);\n" ^
-+        "on_unwind_ens false;\n@*/\n    "
++        "\n/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n" ^
++        "/*@\nens thread_token(t) &*& std::mem::MaybeUninit::inner(result) == some(val);\n@*/\n" ^
++        "/*@\non_unwind_ens false;\n@*/\n    "
 +      in
 +      if between <> expected_between then
 +        reject "checked constructor signature, contract or bounds differ";
