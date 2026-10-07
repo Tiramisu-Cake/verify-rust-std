@@ -1,22 +1,27 @@
 # Pointer select completion — results
 
-2026-10-07 S6v1 COMPONENT_ACCEPTED; actual baseline reaches initialized-cell pre.
-Current budget **2995/5400 summed hosted job seconds used,2405remain**, no reset,
-no active run at v2 preparation. [Completion37642650884](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37642650884)
-source `4d0e3070ca93e01b7a5ccfad18ea83900bc7536b`, drop-v1/cd660fe9 accepts full
-2positive+11proofnegative+22admission matrix, preserving original proof/regression
-provenance and classifications. Constructor/asptr/intrinsic/full14baselines retained.
-Actual baseline source/export/decode/refinement/full method+31local14block cert and
-redirectPASS; at call57 fails req110 `points_to<*Element>(__result2, _)`.
-Projected actual fails exact ghostsource-span admission BEFORE proof, so resource
-projection verdict unknown. Narrow S6v2 coordinate correction is pre-reviewed,
-requires fresh full matrices/regressions plus2actual coordinate negatives before
-stock projection. [Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
+2026-10-07 S6v2 COMPONENT_ACCEPTED; actual baseline reaches initialized-cell pre.
+Current budget **3233/5400 summed hosted job seconds used,2167remain**, no reset,
+active diagnostic37649244205/sourcef6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d.
+[Fresh S6v2 run37645561507](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37645561507),
+source `85ec1711700ff85c899b18b7e021f076aeddb8e6`, patch `8e62e6c3`, accepts full
+2positive+11proofnegative+22admission drop matrix and freshly reruns complete
+constructor/asptr/intrinsic matrices and fourteen stock/experimental baselines.
+Original v1 acceptance/replay/classifications retain their provenance below.
+Actual baseline source/export/decode/refinement/full method+31local14block cert
+and redirectPASS; call57 fails req110 `points_to<*Element>(__result2, _)`.
+Both new v2 actual-coordinate controls failed NORMAL exporter setup; neither is
+an intended negative, and projected helper was gated off. Full normal typed MIR
+is being captured as a diagnostic before any further admission decision: normal
+exporter injects a 32-byte ghost command, readonly does not. First diagnostic
+37648838042 failed duplicated compiler arguments before export (65s); repaired
+orchestration uses exporter defaults and records effective compiler arguments.
+[Design/trust/gates](SORT4-SELECT-POINTER-DESIGN.md),
 [actual report](SORT4-SELECT-CALLEE.md), [phase](SORT4-SELECT-POINTER-PHASE.md).
 Whole helper/sort4 NOT PROVEN. Compiler raw-pointer glue correspondence remains
 TRUSTED separately; recursive stub/ghost lemma do not prove it. No broader frozen
-semantic direction reopened. Earlier Git/dispatch500 recovered; no external stop.
-Historical chronology follows; its budgets/next steps are not current authorization.
+semantic direction reopened. Historical budgets/next steps below are not current
+authorization.
 
 S1/37607108528/sourcef19f077457da722e326f88df362b0d14731987e0,
 profile325af428 unchanged: source/export/decode/refinement PASS, then SAFE prototype
@@ -400,6 +405,9 @@ new run appears. No tool/profile/pre/post semantic change, no new hosted job cos
 | 37640750987 | dbb70d0ba1f36e7cf6021da319b65234cc890b18 | 144 | 2736 | 2664 |
 | 37641538816 | 41bb6b651fd2a3eb048fa2fd234fc63812ccaa39 | 146 | 2882 | 2518 |
 | 37642650884 | 4d0e3070ca93e01b7a5ccfad18ea83900bc7536b | 113 | 2995 | 2405 |
+| 37645561507 | 85ec1711700ff85c899b18b7e021f076aeddb8e6 | 173 | 3168 | 2232 |
+| 37648838042 | 8f1b8f44a655fcfde1fd12106d79dbbb58917332 | 65 | 3233 | 2167 |
+| 37649244205 | f6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d | 69 | 3302 | 2098 |
 
 Skipped jobs are excluded. At that interim checkpoint iteration484s; no reset, <=1800/job and300/proof.
 First run independently collected all cases and accepted-component regressions;

@@ -499,3 +499,68 @@ If data supports an exact narrowS6source+stockinjection correspondence, review i
 withnewprofile/fullregression gates BEFORE further semantics. If broader parser/
 frontend/refiner/kernel/memory changes are needed, stop atthattrustboundary.
 Budget3168/5400used,2232remain,onehostedrun,<=1800/job,<=300/proof,sameworkflow30.
+
+## S6v3 exact normal scaffold admission — BEFORE implementation
+
+Normal diagnostic37649244205/sourcef6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d
+export/decode/integrity/effectiveargsPASS (not proof), compact11495097694 innerSHA
+`ead2a0c8a501becdbf0bbcf6c521d356a3457fb232f5e5a4b09793a618e2c093`.
+Independent worker/reviewer reads identify exact stock scaffold, not count-only:
+36locals19BB. Runtime-local map R0–11=N0–11, R12–21=N+2, R22–23=N+3,
+R24–30=N+5; five new unitlocals N12,N13,N24,N27,N28.
+Runtime-BB map R0–3=Nsame,R4=N6,R5=N7,R6=N9,R7=N12,R8=N13,R9=N14,
+R10=N15,R11–13=N16–18. Synthetic BB4/5/8/10/11 call exactly
+VeriFast_ghost_command with zero type/value args, unitdest12/13/24/27/28,
+normal5/6/9/11/12 and unwindContinue/Continue/Cleanup18/Cleanup18/Cleanup18.
+Actualdrop N9 retains Move26,unitdest25,normal10,cleanup18. All original runtime
+calls/return/dropflag/cleanup branches remain and must be checked, not assumed.
+
+Falsifiable hypothesis: exact full NORMAL projected graph can be admitted by a
+projected-only source/typed-MIR certificate without changing execution translation
+or resource semantics. New profile experimental-source-linked-select-pointer-drop-v3
+extends8e62 ONLY this certificate. Preserve baseline31/14 cert unchanged; check
+full36/19 localtypes/mutability/HIR/debug, every ordered statement/terminator,
+callee/substitutions/operands/results/normal/unwind, five call-span↔raw-ghost pairs
+on unique source lines40/41/59/61/62, and no extra operations. Ghost regular spans
+use EXACT frozen normal tag length32 (including shifted inclusivehi); explicit
+parser coordinates remain original half-open. No permissive OR, generic graph
+normalization, AST/MIR rewriting or changed runtime source. Redirect only after
+complete matching. The stock exporter's source/bytes/tag and source stripping
+remain pinned; no new exporter/parser/refiner/kernel/prelude rule.
+
+Trust boundary separate from compiler raw-pointer glue: pinned stock translator
+already substitutes each placeholder by its line-matched ghost statement, ignores
+its synthetic unwind target, and treats StorageLive/Dead as empty. This existing
+frontend correspondence is trusted, not proved by a ghost resource lemma. Exact
+source/scaffold admission constrains its applicability; it is no general license
+for ghost rewrites or new Rust compiler semantics. Actual runtime cleanup stays.
+
+Domain/full target unchanged: arbitrary thin *const Element values, receiver
+*mut *const Element, thread+independent frames, selected full modeled value,
+normal resource contract and on_unwind_ens false. Existing initialized-cell drop
+contract/body/glue lemma unchanged. No Element/Copy/Freeze/purity restriction,
+ownership bridge or new memory/alias/provenance resources. Try ONLY stock
+open/close_MaybeUninit on existing wrappers with inner=some(input), exact returned
+receiver pointers and reborrow resources; if drop pre fails STOP there, otherwise
+STOP at next actual substantive blocker. GeneralDrop/guard/forget/assume_init/
+union/refinement and04d67f4b stay frozen.
+
+Acceptance gate BEFORE actual proof: fresh full S6 independent2positive,
+11proofnegative,22source/MIR/pin admissions; complete accepted constructor/asptr/
+intrinsic matrices and14stock/experimental baselines at NEW profile, no reuse of
+old semantic-profile proofs. Independently collect actual NORMAL admission mutants:
+regularhi/explicitend, ghost callee/args/substitution/unit type/destination/normal
+and unwind targets/call span/missing or extra scaffold, runtime drop operand/
+callee/cleanup and final return/cleanup. Each must preserve pinned source/export/
+decode/readonly-refinement integrity and have exact changed NORMAL MIR evidence;
+reject only at its named certificate predicate BEFORE proof. Readonly export has
+no placeholders: preserve it byte-for-byte for those mutants, separately record
+normal invocation rather than overwrite readonly evidence. Setup/unrelated
+failure stays INCONCLUSIVE; all independent results retained. Canonical projected
+proof only after full gates and original actual infrastructure checks pass.
+
+Outcome map: gate failure -> inspect/reassess no acceptance; full gates + projected
+cellpre failure -> record exact existing/required resource and STOP; drop passes ->
+record next obligation and STOP. Broader frontend/resource semantics needed ->
+STOP trust boundary, no implementation. Budget3302/5400used,2098remain (entry2398
+never reset), <=1800/job,<=300/proof,one relevant GitHub-hosted workflow only.

@@ -4242,3 +4242,15 @@ DIAGNOSTIC_EXPORT_OR_DECODE_FAILED kept;compact11496405518 innerSHA
 full11496575242. Next orchestration-only argument repair removes built-in flags
 from NORMAL input, retains exact sysroot/edition andeffectivecompilertrace;
 samecomponentprofile/source/exporter/schema/trust/card, NEW diagnostic run.
+
+Normal diagnostic37649244205/sourcef6fdf5ba4c3a1bee44bdb3566ab354d1e558fe6d
+completed69s16:05:10–16:06:19UTC,cumulative3302/5400,2098remain.
+DIAGNOSTIC_EXPORT_DECODED: exactfixture/artifact/manifest/toolpins/effectivecompiler
+arguments/sourceintegrityPASS, export/decode0, NO verifier/refiner/proof.
+FullNORMAL actual36locals19BB retained;readonly31/14. Five regularghost high
+columns124/125/70/129/130 (0-based),explicit parserhalf-open ends94/95/40/99/100
+(1-based) atlines40/41/59/61/62. Fullstockinjection/runtime/cleanup correspondence
+must be reviewed beforeanyadmissionupdate. Compact11495097694 innerSHA
+ead2a0c8a501becdbf0bbcf6c521d356a3457fb232f5e5a4b09793a618e2c093,
+full11495657034. No intendednegative orcomponent/helper theorem follows.
+[Successful normal capture](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37649244205).
