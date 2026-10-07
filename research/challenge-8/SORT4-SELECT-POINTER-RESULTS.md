@@ -333,3 +333,39 @@ compiler/schema/exporter/refiner versions, std-source hashes and patch/spec audi
 Prior component and regression proofs retain their explicit original run provenance.
 Only complete composite acceptance permits the actual baseline and exact five-ghost
 stock projection variants. [Completion run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640750987).
+
+The initial method source SHA256 is
+`d35858d6b1ec693d5e01b994e2d8248f73c7062c151e75e73ea635456fc82098`;
+method body `647ed1904efffba64735cc7d906321846ee11a24b30fbd7cb90ebec9945caac6`,
+specialized body `8da3897f4f5c089110d1cfa15b7e246817a51b4e86dad7c654f472bbbd973d2f`;
+compiler-glue source SHA256
+`325d69d3ce0fef9099f985febc5b712bbdb3563364648adc1396a365699987aa`.
+The full admitted method MIR has exactly three typed locals and two blocks:
+`bb0: StorageLive(_2); _2=Copy(_1); drop_in_place::<*const Element>(Move(_2))`
+with unit destination `_0`, normal `bb1`, unwind `Continue`;
+`bb1: StorageDead(_2); Return`. Operand receiver retains its typed full pointer,
+not just a numerical address. Mutations cover item identity/input/output/binding,
+callee/operand/destination/result type, unwind CFG, contract and extra operations.
+
+[First completion attempt](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640750987)
+cost144s (14:55:22–14:57:46 UTC), cumulative2736/5400,2664remain. Build and classifier
+checks passed, but replay module import failed on a missing pair of parentheses
+at line144. Replay/new admissions/actual were NOT RUN. This setup failure counts
+neither as a proof negative nor as component acceptance. Evidence:
+[compact11492611069](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640750987/artifacts/11492611069),
+[full11492226327](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37640750987/artifacts/11492226327).
+Retry source `41bb6b651fd2a3eb048fa2fd234fc63812ccaa39` repairs only syntax and adds
+hosted Python syntax preflight before the unchanged profile build.
+[Retry run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641538816).
+
+Retry37641538816 cost146s (15:01:12–15:03:38 UTC), total2882/5400,2518remain.
+All effective tool/spec/std bytes matched the first proof profile. All13 proof
+reclassifications passed. Admission replay stopped at an in-memory tuple versus
+saved JSON list comparison in `source_identity`; this was an equality-check harness
+bug, not changed evidence. Three new controls and actual helper were still NOT RUN.
+[Compact11492831906](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641538816/artifacts/11492831906),
+inner ZIP SHA256 `1567d176eb8bceb65890f8221dd880157a0482444b72310fa911a6a13379960c`,
+[full11492801889](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641538816/artifacts/11492801889).
+The next harness repair compares JSON values and collects all independent replay
+outcomes plus three new controls before the final gate; it keeps original JSON and
+strict stage/message/location/resource/certificate obligations.

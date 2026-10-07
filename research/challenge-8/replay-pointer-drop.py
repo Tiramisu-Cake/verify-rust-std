@@ -55,6 +55,22 @@ def read_json(z: zipfile.ZipFile, name: str) -> dict:
     return json.loads(z.read(name))
 
 
+def changed_fields(old, new, prefix: str = "") -> list[str]:
+    """Record exact differing JSON fields without changing either classification."""
+    def walk(left, right, path: str) -> list[str]:
+        if isinstance(left, dict) and isinstance(right, dict):
+            result = []
+            for key in sorted(left.keys() | right.keys()):
+                child = f"{path}.{key}" if path else key
+                if key not in left or key not in right:
+                    result.append(child)
+                else:
+                    result.extend(walk(left[key], right[key], child))
+            return result
+        return [path] if left != right else []
+    return walk(json.loads(json.dumps(old)), json.loads(json.dumps(new)), prefix)
+
+
 def verify_manifest(z: zipfile.ZipFile) -> tuple[dict, set[str]]:
     manifest = read_json(z, "COMPACT-EVIDENCE-MANIFEST.json")
     source = manifest["current_source"]
@@ -125,6 +141,9 @@ def save(evidence: Path, subtree: str, label: str, data: bytes) -> None:
 
 
 def diagnostic_only_delta(old: dict, new: dict, admission: bool) -> bool:
+    # Compare JSON evidence, not Python tuple/list representation differences.
+    old = json.loads(json.dumps(old))
+    new = json.loads(json.dumps(new))
     if old == new:
         return True
     if (old.get("classification") != "INCONCLUSIVE" or
@@ -245,6 +264,8 @@ def replay(args: argparse.Namespace) -> dict:
         pending_setup = []
         corrected_cases = []
         corrected_admissions = []
+        delta_failures = []
+        case_deltas = []
         seen = set()
         with tempfile.TemporaryDirectory(prefix="sort4-s6-replay-") as temporary:
             temp = Path(temporary)
@@ -262,18 +283,35 @@ def replay(args: argparse.Namespace) -> dict:
                         "saved proof classification differs from summary")
                 save(evidence, "original", label + ".json", raw)
                 case = temp / label
-                materialize(z, prefix, case)
-                positive = any(item["classification"] == "DIAGNOSTIC_POSITIVE"
-                               for item in corrected_cases)
-                new = classifier.classify_case(case, old["runner_result"], variant,
-                                               constructor, positive)
-                require(diagnostic_only_delta(old, new, False),
-                        f"proof reclassification changed non-diagnostic evidence: {label}")
-                save(evidence, "corrected", label + ".json",
-                     json.dumps(new, indent=2, sort_keys=True).encode() + b"\n")
-                corrected_cases.append(new)
-                if new != old:
-                    changed.append(label)
+                try:
+                    materialize(z, prefix, case)
+                    positive = any(item["classification"] == "DIAGNOSTIC_POSITIVE"
+                                   for item in corrected_cases)
+                    new = classifier.classify_case(case, old["runner_result"], variant,
+                                                   constructor, positive)
+                    delta_ok = diagnostic_only_delta(old, new, False)
+                    save(evidence, "corrected", label + ".json",
+                         json.dumps(new, indent=2, sort_keys=True).encode() + b"\n")
+                    corrected_cases.append(new)
+                    case_deltas.append({"case": label, "kind": "proof",
+                                        "diagnostic_only_delta": delta_ok,
+                                        "original_classification": old["classification"],
+                                        "replayed_classification": new["classification"],
+                                        "changed_fields": changed_fields(old, new)})
+                    if not delta_ok:
+                        delta_failures.append(label)
+                    if json.loads(json.dumps(new)) != old:
+                        changed.append(label)
+                except Exception as exc:
+                    failure = f"{type(exc).__name__}: {exc}"
+                    case_deltas.append({"case": label, "kind": "proof",
+                                        "diagnostic_only_delta": False,
+                                        "original_classification": old["classification"],
+                                        "replay_exception": failure})
+                    delta_failures.append(label)
+                    save(evidence, "replay-errors", label + ".json",
+                         json.dumps(case_deltas[-1], indent=2,
+                                    sort_keys=True).encode() + b"\n")
             require(seen == set(classifier.POSITIVES + classifier.NEGATIVES),
                     "proof case set differs from pinned S6 matrix")
             seen.clear()
@@ -298,22 +336,47 @@ def replay(args: argparse.Namespace) -> dict:
                             old["admission_evidence"]["frontend_refinement"] is False,
                             "saved setup control unexpectedly reached admission")
                     pending_setup.append(label)
+                    case_deltas.append({"case": label, "kind": "admission",
+                                        "diagnostic_only_delta": None,
+                                        "original_classification": old["classification"],
+                                        "status": "PENDING_NEW_HOSTED_CONTROL"})
                     continue
                 case = temp / label
-                materialize(z, prefix, case, mode)
-                new = classifier.classify_admission(case, old["runner_result"],
-                                                    mutation, mode, constructor)
-                require(diagnostic_only_delta(old, new, True),
-                        f"admission replay changed non-diagnostic evidence: {label}")
-                save(evidence, "corrected", label + ".json",
-                     json.dumps(new, indent=2, sort_keys=True).encode() + b"\n")
-                corrected_admissions.append(new)
-                if new != old:
-                    changed.append(label)
+                try:
+                    materialize(z, prefix, case, mode)
+                    new = classifier.classify_admission(case, old["runner_result"],
+                                                        mutation, mode, constructor)
+                    delta_ok = diagnostic_only_delta(old, new, True)
+                    save(evidence, "corrected", label + ".json",
+                         json.dumps(new, indent=2, sort_keys=True).encode() + b"\n")
+                    corrected_admissions.append(new)
+                    case_deltas.append({"case": label, "kind": "admission",
+                                        "diagnostic_only_delta": delta_ok,
+                                        "original_classification": old["classification"],
+                                        "replayed_classification": new["classification"],
+                                        "changed_fields": changed_fields(old, new)})
+                    if not delta_ok:
+                        delta_failures.append(label)
+                    if json.loads(json.dumps(new)) != old:
+                        changed.append(label)
+                except Exception as exc:
+                    failure = f"{type(exc).__name__}: {exc}"
+                    case_deltas.append({"case": label, "kind": "admission",
+                                        "diagnostic_only_delta": False,
+                                        "original_classification": old["classification"],
+                                        "replay_exception": failure})
+                    delta_failures.append(label)
+                    save(evidence, "replay-errors", label + ".json",
+                         json.dumps(case_deltas[-1], indent=2,
+                                    sort_keys=True).encode() + b"\n")
             require(seen == {(mode, mutation) for mode, variants in allowed.items()
                              for mutation in variants},
                     "admission set differs from pinned S6 matrix")
-        require(all(item["classification"] == "DIAGNOSTIC_POSITIVE"
+        replay_pass = (not delta_failures and
+                len(corrected_cases) == len(summary["cases"]) and
+                len(corrected_admissions) == len(summary["admission_cases"]) -
+                    len(SETUP_RETRY) and
+                all(item["classification"] == "DIAGNOSTIC_POSITIVE"
                     for item in corrected_cases
                     if item["variant"] in classifier.POSITIVES) and
                 all(item["classification"] == "INTENDED_PROOF_REJECTION"
@@ -321,12 +384,18 @@ def replay(args: argparse.Namespace) -> dict:
                     if item["variant"] in classifier.NEGATIVES) and
                 all(item["classification"] == "INTENDED_ADMISSION_REJECTION"
                     for item in corrected_admissions) and
-                set(pending_setup) == SETUP_RETRY and
-                len(corrected_admissions) == len(summary["admission_cases"]) -
-                    len(SETUP_RETRY),
-                "saved proof/valid admission evidence failed exact diagnostic replay")
+                set(pending_setup) == SETUP_RETRY)
+        (evidence / "case-delta-audit.json").write_text(
+            json.dumps({"source_run_id": RUN_ID,
+                        "cases": case_deltas,
+                        "diagnostic_delta_failures": delta_failures,
+                        "all_cases_inspected": len(case_deltas) ==
+                            len(summary["cases"]) + len(summary["admission_cases"]),
+                        "replay_pass": replay_pass}, indent=2,
+                       sort_keys=True) + "\n")
         result = {
-            "classification": "REPLAY_PARTIAL_PENDING_THREE_HOSTED_CONTROLS",
+            "classification": "REPLAY_PARTIAL_PENDING_THREE_HOSTED_CONTROLS"
+                if replay_pass else "INCONCLUSIVE",
             "accepted_component": False,
             "full_select_proved": False,
             "source_run_id": RUN_ID,
@@ -341,6 +410,9 @@ def replay(args: argparse.Namespace) -> dict:
             "original_admission_count": len(summary["admission_cases"]),
             "corrected_proof_count": len(corrected_cases),
             "corrected_admission_count": len(corrected_admissions),
+            "diagnostic_delta_failures": delta_failures,
+            "all_cases_inspected": len(case_deltas) ==
+                len(summary["cases"]) + len(summary["admission_cases"]),
             "pending_new_hosted_controls": sorted(pending_setup),
             "diagnostic_only_changes": sorted(changed),
             "classification_correction":

@@ -255,6 +255,19 @@ def main() -> None:
         retained = retain_saved_profile(z, evidence, replay)
         ctor, asptr, intrinsic, manifest = copy_prerequisites(
             z, evidence, replay, provenance)
+    results = run_controls(args, evidence, repo, matrix, constructor, diagnostic)
+    control_summary = {
+        "source_run_id": replay.RUN_ID,
+        "new_hosted_run_id": os.environ.get("GITHUB_RUN_ID"),
+        "same_profile_validated": True,
+        "controls": results,
+        "all_three_collected": len(results) == 3,
+        "all_three_intended_admission_rejections": len(results) == 3 and
+            all(item["classification"] == "INTENDED_ADMISSION_REJECTION"
+                for item in results),
+    }
+    (evidence / "new-hosted-controls/summary.json").write_text(
+        json.dumps(control_summary, indent=2, sort_keys=True) + "\n")
     replay_dir = evidence / "pointer-drop-replay"
     replay_dir.mkdir()
     shutil.copyfile(args.original_run, replay_dir / "original-run.json")
@@ -262,19 +275,19 @@ def main() -> None:
     shutil.copyfile(args.classifier_summary, replay_dir / "classifier-self-check.json")
     replay_result = replay.replay(argparse.Namespace(
         archive=args.archive, evidence=replay_dir))
-    results = run_controls(args, evidence, repo, matrix, constructor, diagnostic)
     corrected = replay_dir / "corrected"
     proof_files = sorted(corrected.glob("pointer_drop_*.json"))
     admission_files = sorted(path for path in corrected.glob("*.json")
                              if not path.name.startswith("pointer_drop_"))
     proof = [json.loads(path.read_text()) for path in proof_files]
     admission = [json.loads(path.read_text()) for path in admission_files]
-    require(len(proof) == len(matrix.POSITIVES + matrix.NEGATIVES) and
-            len(admission) == len(matrix.SOURCE_MUTATIONS + matrix.MIR_MUTATIONS +
-                                  matrix.PIN_MUTATIONS) - 3,
-            "replayed case count differs from complete matrix")
+    replay_counts_complete = (len(proof) == len(matrix.POSITIVES + matrix.NEGATIVES) and
+        len(admission) == len(matrix.SOURCE_MUTATIONS + matrix.MIR_MUTATIONS +
+                              matrix.PIN_MUTATIONS) - 3)
     admission += results
-    accepted = (replay_result["classification"] ==
+    accepted = (replay_counts_complete and control_summary[
+                "all_three_intended_admission_rejections"] and
+                replay_result["classification"] ==
                 "REPLAY_PARTIAL_PENDING_THREE_HOSTED_CONTROLS" and
                 all(item["classification"] == "DIAGNOSTIC_POSITIVE" for item in proof
                     if item["variant"] in matrix.POSITIVES) and
@@ -300,8 +313,13 @@ def main() -> None:
         },
         "cases": proof, "admission_cases": admission,
         "new_hosted_control_count": len(results),
+        "new_hosted_controls_accepted":
+            control_summary["all_three_intended_admission_rejections"],
         "source_proof_case_count": len(proof),
         "source_admission_case_count": len(admission_files),
+        "replay_counts_complete": replay_counts_complete,
+        "replay_diagnostic_delta_failures":
+            replay_result.get("diagnostic_delta_failures", []),
         "prerequisites": {"same_profile_byte_identical": True,
                           "source_std_identical": True,
                           "original_matrix_replayed": True},

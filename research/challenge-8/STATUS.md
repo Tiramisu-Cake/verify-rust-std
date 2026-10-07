@@ -4,7 +4,7 @@ Updated 2026-10-07. **IN PROGRESS: S6 pointer drop only**, explicitly resumed by
 owner from bea6248. Prior freeze lifted ONLY for checked pointer method + trusted
 compiler glue rule at payload *const Element, receiver *mut *const Element.
 Design/trust review: SORT4-SELECT-POINTER-DESIGN.md S6 authorization section.
-Budget continues **2736/5400 used; 2664 summed hosted job seconds remain**;
+Budget continues **2882/5400 used; 2518 summed hosted job seconds remain**;
 <=1800/job, <=300/proof, one relevant hosted Actions run at a time. S6 run37637630477/source de7ed9de861eea7346301f6807e242862a68c0ab completed;
 194jobseconds14:33:07–14:36:21UTC. Budget2592/5400 used;2808remain,noactive.
 S6 implementation profile experimental-source-linked-select-pointer-drop-v1,
@@ -19,6 +19,11 @@ Completion37640750987/source dbb70d0 completed144s14:55:22–14:57:46UTC:
 build/classifier checks PASS, replay module SyntaxError144 before replay/actual.
 Harness-only syntax repair + hosted preflight ready; no active run. Budget2736,
 remaining2664; next NEW source run uses unchanged cd660fe9/drop-v1.
+Retry37641538816/source41bb6b651fd2a3eb048fa2fd234fc63812ccaa39 completed146s,
+15:01:12–15:03:38UTC. Full effective tool/spec/std hashes match; all13 proof
+replay cases accepted. Admission replay stops at tuple-vs-JSON-list comparison
+for source_identity. Harness normalization/independent collection repair pending;
+NEW3admissions/actual NOT RUN. No active run; used2882,2518remaining.
 Full S6 independent matrix and accepted-component regressions precede actual
 integration, then STOP at initialized-cell precondition or next actual blocker.
 04d67f4b/assume/guard/forget/general Drop/memory/refiner/kernel remain frozen.

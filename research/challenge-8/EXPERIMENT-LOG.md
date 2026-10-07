@@ -4093,3 +4093,33 @@ profile/source/post/precondition delta; no old proof rerun. Same pinned13+19
 replay + NEW3admission checks + actual only after35-case acceptance. Full previous
 before-card domain/normal-unwind posts/trust/certification/outcome mapping apply.
 Budget2736/5400used,2664remaining;<=1800/job,<=300/proof,one hosted run only.
+
+S6 retry dispatch resolved37641538816, exact head
+41bb6b651fd2a3eb048fa2fd234fc63812ccaa39,created15:01:07UTC,
+job112861495841 started15:01:12UTC. Before cost2736/5400,2664remaining.
+[Retry run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37641538816).
+
+S6 retry37641538816/source41bb6b6 completed15:03:38UTC,146s
+(15:01:12–15:03:38),cumulative2882/5400,2518remain. Hosted syntax checks PASS;
+full effective tool/spec/std/patch bytes IDENTICAL to original37637630477.
+All13 proofcases replayed and accepted; original JSON retained byte-identically.
+Replay stops on first already-accepted admission source_identity: in-memory tuple
+expected_reasons differs from saved JSON list; no evidence/diagnostic delta.
+Normalize both objects to JSON values before equality, no acceptance weakening.
+Compact11492831906/full11492801889 retain complete initial profile evidence and
+successful proof replay. NEW3 admissions/actual NOT RUN in this retry.
+Next harness-only retry must collect/save every replay result/delta independently
+and run/save NEW3 admissions before replay final classification, avoiding another
+first-classifier abort. Full strict composite gate still precedes actual.
+Budget2882/5400,2518left; no profile/pre/post/runtime/refiner/kernel delta.
+
+S6 BEFORE independent completion retry: only JSON representation normalization
+and independent evidence collection/order changes; frozen cd660fe9/drop-v1.
+Full effective profile/std/audit equality still precedes any new checks. All
+NEW3admission controls collected/saved before replay classification; original
+13proof/19validadmission logs reclassified independently, original35 JSON retained,
+per-case deltas archived, no early diagnostic abort. Composite35strict gate remains
+mandatory before actual full contract/CFG/stock projection test. Same falsifiable
+obligation/domain/posts/trust/expected stages/outcome map as initial completion
+card; no repeated proofs solely for classifier. used2882,remaining2518;<=1800/job,
+<=300/proof,one relevant hosted run. Stop at actual drop pre or next blocker.
