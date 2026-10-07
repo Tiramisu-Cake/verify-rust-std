@@ -325,3 +325,30 @@ acceptance closes only abstract N13 composition/source admission, then final
 documentation checkpoint/commit/push. No tool/profile extension or Rust claim.
 Reduce job cap to8min and inner execution cap420s to fit remaining555s including
 preparation/evidence reserve; each verifier case retains180s. Source/run pending.
+
+### N13b publication / dispatch infrastructure checkpoint
+
+Normal git pushes repeatedly rejected by remote Internal Server Error from
+15:09:49Z onward. Remote ref remained fccae976; no Actions run was created.
+Used authorized Git Data API to upload the exact tree
+`f88bd1930c08c7fc4f0d0a5ef18860846ab7d5e1` and commit, then update ONLY
+refs/heads/challenge-8/networks with force=false. Final local/remote proof commit
+`a2be90886dc1e61c43b29d7ddc1cb95e028bd569` matches exactly. Unpublished original
+4ed252e was amended only in metadata; no experiment used it. Intermediate API
+object e5ac261 lacked terminal LF in its commit message and was never assigned
+to a branch. Preserve exact source SHA a2be908 as the prepared candidate.
+
+Workflow dispatch through gh workflow run and direct API by ID/name repeatedly
+returns HTTP500 (one response explicitly Content-Length0, not a proof error).
+Specific branch run list still ends at completed37641704629; no N13b run exists.
+No duplicate run, local verification fallback or budget spend. N13b remains
+UNVERIFIED as a whole rank unit. Final checkpoint/results distinguish accepted
+N13 Boolean+identity results and written general-order transfer from pending
+complete machine-checked rank application. Remaining555s and8min job cap retained.
+
+Local infrastructure note: server disk was full before the separate checkout.
+Existing pip/go-build caches were preserved by relocation to
+/dev/shm/challenge8-preserved-pip-cache and
+/dev/shm/challenge8-preserved-go-build-cache, with symlinks at their original
+/root/.cache locations; nothing deleted or installed. Downloaded evidence stays
+outside the repository in /dev/shm. No local compiler/verifier/test ran.
