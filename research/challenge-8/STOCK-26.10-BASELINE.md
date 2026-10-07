@@ -188,7 +188,7 @@ annotation runtime bytes were used.
 
 ### New stock dead-code diagnosis and exact uncertainty
 
-NORMAL and readonly **complete** forget MIR are byte-identical (604 lines,
+NORMAL and readonly **complete** forget MIR are byte-identical (612 lines, body record ends at604,
 SHA256 `f6aa0ef40489ba7497c9460b237c68846dbb521c05add2c5e6cae4bc1d0a4451`).
 It contains4locals,3blocks: BB0 Move t→_3 and typed
 `std::mem::ManuallyDrop::<T>::new<T>` Move_3→_2, normal target1, cleanup2;
