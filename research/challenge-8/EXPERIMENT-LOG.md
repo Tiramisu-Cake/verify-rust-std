@@ -4028,3 +4028,25 @@ proof performed;26cases NOTRUN, no negative acceptance. Full log/artifact
 b168f057aedfdb15ddb9a30ad111d9. Cost38/21600; historical603/1800unchanged.
 W1b uses existinggrep for the two ldd checks; no semantic patch/contract change.
 Same W1 matrix/hypothesis/domain/posts/tool profile; new exact-SHA run necessary.
+
+### W1b outcome / W1c BEFORE
+
+Run37699111307/source8094bd2aeaa42ff2d851199a85048bc94b9f3a6c, sole hosted
+job113058020998,22:54:41–22:56:38UTC=117seconds. SourceconsolebuildPASS; exact
+W1patch/kernel/exporter/refiner source/binary gates retained.21positive wrapping
+cases:3PASS (signed_offset_const,arith_offset_const,frame_and_read_after_reentry);
+18INCONCLUSIVE mostly BEFORE body at generated SAFE prototype requiring custom
+size/address req. Therefore no generic primitive admission inferred. Existing
+9Rustpositive+2intendedassertionnegativesPASS on experimentalconsole.
+Read-minus1 and foreign-resource controls reach intended actual points_to
+permission failure at verified22:14–18 and26:14–24; automatic calibration remains
+INCONCLUSIVE. Signed2 reaches primitive reqstd/lib.rsspec313:35–37 (`2 <= 1`).
+Count2/wrong-result still fail SAFE prototype and are not intended negatives.
+Artifact11517116461,ZIPdigestfa28f62510a6e6ce6e9ddc19ecb1874fe052a383a9a412db9
+dec097e5876221d fully inspected. Total155/21600, old603/1800 unchanged.
+W1c: conditional projection functions explicitly unsafe to avoid claiming a
+safe Rust API theorem under conditional req. Runtime instructions/target posts
+unchanged, new proof source required. Added9independent checked pointer bridge
+cases (terminal association includingindex-1, local source-derived comparisons),
+not full G2 trace or actual merge. Same W1semanticpatch/profile; negatives remain
+calibration until exact diagnostics pinned. Bound1800jobseconds.

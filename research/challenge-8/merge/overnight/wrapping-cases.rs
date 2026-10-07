@@ -9,7 +9,7 @@
 // post and an explicit no-unwind post.
 
 // CASE_BEGIN const_add_zero
-pub fn const_add_zero<T>(base: *const T) -> *const T
+pub unsafe fn const_add_zero<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -27,7 +27,7 @@ on_unwind_ens false;
 // CASE_END const_add_zero
 
 // CASE_BEGIN const_sub_zero
-pub fn const_sub_zero<T>(base: *const T) -> *const T
+pub unsafe fn const_sub_zero<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -45,7 +45,7 @@ on_unwind_ens false;
 // CASE_END const_sub_zero
 
 // CASE_BEGIN mut_add_zero
-pub fn mut_add_zero<T>(base: *mut T) -> *mut T
+pub unsafe fn mut_add_zero<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -63,7 +63,7 @@ on_unwind_ens false;
 // CASE_END mut_add_zero
 
 // CASE_BEGIN mut_sub_zero
-pub fn mut_sub_zero<T>(base: *mut T) -> *mut T
+pub unsafe fn mut_sub_zero<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -81,7 +81,7 @@ on_unwind_ens false;
 // CASE_END mut_sub_zero
 
 // CASE_BEGIN const_add_one_no_wrap
-pub fn const_add_one_no_wrap<T>(base: *const T) -> *const T
+pub unsafe fn const_add_one_no_wrap<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -100,7 +100,7 @@ on_unwind_ens false;
 // CASE_END const_add_one_no_wrap
 
 // CASE_BEGIN const_add_one_wrap
-pub fn const_add_one_wrap<T>(base: *const T) -> *const T
+pub unsafe fn const_add_one_wrap<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -120,7 +120,7 @@ on_unwind_ens false;
 // CASE_END const_add_one_wrap
 
 // CASE_BEGIN const_sub_one_no_wrap
-pub fn const_sub_one_no_wrap<T>(base: *const T) -> *const T
+pub unsafe fn const_sub_one_no_wrap<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -139,7 +139,7 @@ on_unwind_ens false;
 // CASE_END const_sub_one_no_wrap
 
 // CASE_BEGIN const_sub_one_wrap
-pub fn const_sub_one_wrap<T>(base: *const T) -> *const T
+pub unsafe fn const_sub_one_wrap<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -159,7 +159,7 @@ on_unwind_ens false;
 // CASE_END const_sub_one_wrap
 
 // CASE_BEGIN mut_add_one_no_wrap
-pub fn mut_add_one_no_wrap<T>(base: *mut T) -> *mut T
+pub unsafe fn mut_add_one_no_wrap<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -178,7 +178,7 @@ on_unwind_ens false;
 // CASE_END mut_add_one_no_wrap
 
 // CASE_BEGIN mut_add_one_wrap
-pub fn mut_add_one_wrap<T>(base: *mut T) -> *mut T
+pub unsafe fn mut_add_one_wrap<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -198,7 +198,7 @@ on_unwind_ens false;
 // CASE_END mut_add_one_wrap
 
 // CASE_BEGIN mut_sub_one_no_wrap
-pub fn mut_sub_one_no_wrap<T>(base: *mut T) -> *mut T
+pub unsafe fn mut_sub_one_no_wrap<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -217,7 +217,7 @@ on_unwind_ens false;
 // CASE_END mut_sub_one_no_wrap
 
 // CASE_BEGIN mut_sub_one_wrap
-pub fn mut_sub_one_wrap<T>(base: *mut T) -> *mut T
+pub unsafe fn mut_sub_one_wrap<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>() &*&
@@ -237,7 +237,7 @@ on_unwind_ens false;
 // CASE_END mut_sub_one_wrap
 
 // CASE_BEGIN symbolic_zst_const
-pub fn symbolic_zst_const<T>(base: *const T) -> *const T
+pub unsafe fn symbolic_zst_const<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& std::mem::size_of::<T>() == 0;
@@ -255,7 +255,7 @@ on_unwind_ens false;
 // CASE_END symbolic_zst_const
 
 // CASE_BEGIN symbolic_zst_mut
-pub fn symbolic_zst_mut<T>(base: *mut T) -> *mut T
+pub unsafe fn symbolic_zst_mut<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& std::mem::size_of::<T>() == 0;
@@ -273,7 +273,7 @@ on_unwind_ens false;
 // CASE_END symbolic_zst_mut
 
 // CASE_BEGIN signed_offset_const
-pub fn signed_offset_const(base: *const u8) -> *const u8
+pub unsafe fn signed_offset_const(base: *const u8) -> *const u8
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<u8>() &*& std::mem::size_of::<u8>() <= usize::MAX &*& true;
@@ -307,7 +307,7 @@ on_unwind_ens false;
 // CASE_END arith_offset_const
 
 // CASE_BEGIN reverse_cursor_right
-pub fn reverse_cursor_right<T>(right: *const T, is_l: bool) -> *const T
+pub unsafe fn reverse_cursor_right<T>(right: *const T, is_l: bool) -> *const T
 /*@
 req 0 <= (right as pointer).address &*& (right as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -325,7 +325,7 @@ on_unwind_ens false;
 // CASE_END reverse_cursor_right
 
 // CASE_BEGIN reverse_cursor_left
-pub fn reverse_cursor_left<T>(left: *const T, is_l: bool) -> *const T
+pub unsafe fn reverse_cursor_left<T>(left: *const T, is_l: bool) -> *const T
 /*@
 req 0 <= (left as pointer).address &*& (left as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -343,7 +343,7 @@ on_unwind_ens false;
 // CASE_END reverse_cursor_left
 
 // CASE_BEGIN terminal_reentry_const
-pub fn terminal_reentry_const<T>(base: *const T) -> *const T
+pub unsafe fn terminal_reentry_const<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -362,7 +362,7 @@ on_unwind_ens false;
 // CASE_END terminal_reentry_const
 
 // CASE_BEGIN terminal_reentry_mut
-pub fn terminal_reentry_mut<T>(base: *mut T) -> *mut T
+pub unsafe fn terminal_reentry_mut<T>(base: *mut T) -> *mut T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -381,7 +381,7 @@ on_unwind_ens false;
 // CASE_END terminal_reentry_mut
 
 // CASE_BEGIN terminal_reentry_at_address_zero
-pub fn terminal_reentry_at_address_zero(base: *const u8) -> *const u8
+pub unsafe fn terminal_reentry_at_address_zero(base: *const u8) -> *const u8
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<u8>() &*& std::mem::size_of::<u8>() <= usize::MAX &*& (base as pointer).address == 0;
@@ -417,7 +417,7 @@ on_unwind_ens false;
 // CASE_END frame_and_read_after_reentry
 
 // CASE_BEGIN unsupported_count_two
-pub fn unsupported_count_two<T>(base: *const T) -> *const T
+pub unsafe fn unsupported_count_two<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& true;
@@ -432,7 +432,7 @@ on_unwind_ens false;
 // CASE_END unsupported_count_two
 
 // CASE_BEGIN unsupported_signed_offset
-pub fn unsupported_signed_offset(base: *const u8) -> *const u8
+pub unsafe fn unsupported_signed_offset(base: *const u8) -> *const u8
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<u8>() &*& std::mem::size_of::<u8>() <= usize::MAX &*& true;
@@ -447,7 +447,7 @@ on_unwind_ens false;
 // CASE_END unsupported_signed_offset
 
 // CASE_BEGIN wrong_wrapped_result
-pub fn wrong_wrapped_result<T>(base: *const T) -> *const T
+pub unsafe fn wrong_wrapped_result<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
     0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX &*& 0 < std::mem::size_of::<T>();

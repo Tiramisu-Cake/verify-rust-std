@@ -125,6 +125,10 @@ suite() {
   run_one wrapping-acceptance 600 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --evidence "$evidence/checked-wrapping"
+  run_one pointer-bridge-diagnostic 360 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/pointer-bridge-cases.rs \
+    --evidence "$evidence/checked-pointer-bridge"
   run_one experimental-rust-regression 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/stock-26.10/pointer-cases.rs \
