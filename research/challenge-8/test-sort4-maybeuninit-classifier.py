@@ -27,7 +27,10 @@ spec.loader.exec_module(matrix)
 
 
 MIR_SAMPLE = '''prefix = (keep = void),
-defPath = "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new",
+    ( defKind = (fn = void),
+      defPath = "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new",
+      contract = (
+        annotations = [ (raw = "/*@ ens inner(result) == some(val); @*/") ] ),
       inputs = [
         (rawPtr = (mutability = (not = void))) ],
       localDecls = [ ],
@@ -52,6 +55,14 @@ defPath = "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new",
                   rhsRvalue = (aggregate = (unionActiveField = 1)))) ) ],
           terminator = (return = void)) ],
       impSpan = (sentinel = void),
+      hirGenerics = (
+        params = [ (name = (plain = (name = (name = "Element")))) ] ),
+      fnSigSpan = (
+        regular = (
+          lo = (col = (pos = 4)),
+          hi = (col = (pos = 101)) ) ),
+      visibility = (public = void),
+      loopSpecBlocks = [] ),
 suffix = (keep = void)
 '''
 
@@ -73,6 +84,34 @@ class StrictNegativeGateTests(unittest.TestCase):
                 corrupted.pop(key)
                 self.assertFalse(matrix.strict_proof_negative(corrupted))
 
+    def test_applicability_requires_exact_reason_stage_and_source_integrity(self) -> None:
+        reason = "constructor place: _1"
+        valid_log = (
+            f'Fatal error: exception Failure("SORT4-MAYBEUNINIT: '
+            f'certificate mismatch: {reason}")\n'
+        )
+        self.assertTrue(matrix.exact_certificate_failure(valid_log, reason))
+        for bad_log in (
+            valid_log.replace("constructor place: _1", "constructor place: _0"),
+            valid_log + valid_log,
+            valid_log.replace("Fatal error:", "verified/lib.rs(1,1): error:"),
+            valid_log.replace("certificate mismatch", "unsupported certified union shape"),
+        ):
+            self.assertFalse(matrix.exact_certificate_failure(bad_log, reason))
+        keys = (
+            "integrity_and_frontend_ok", "verifier_exit_is_certificate_failure",
+            "exact_case_reason", "no_constructor_proof", "no_probe_proof",
+            "mutation_integrity_ok",
+        )
+        valid = {key: True for key in keys}
+        self.assertTrue(matrix.strict_applicability_negative(valid))
+        for key in keys:
+            with self.subTest(missing=key):
+                corrupted = dict(valid, **{key: False})
+                self.assertFalse(matrix.strict_applicability_negative(corrupted))
+                corrupted.pop(key)
+                self.assertFalse(matrix.strict_applicability_negative(corrupted))
+
     def test_pointee_is_unowned_in_caller_fixture(self) -> None:
         cert = matrix.certify_repository_sources(HERE.parents[1])
         _, verified, _ = matrix.constructor_source(cert)
@@ -85,14 +124,14 @@ class StrictNegativeGateTests(unittest.TestCase):
 
 class RawMirMutationTests(unittest.TestCase):
     def test_each_mutation_changes_only_constructor_body(self) -> None:
-        prefix, _ = MIR_SAMPLE.split('defPath = "', 1)
-        _, suffix = MIR_SAMPLE.split("      impSpan = (", 1)
+        prefix, _ = MIR_SAMPLE.split("    ( defKind =", 1)
+        _, suffix = MIR_SAMPLE.split("suffix = (keep = void)", 1)
         for mutation in matrix.MIR_MUTATIONS:
             with self.subTest(mutation=mutation):
                 mutated = matrix.mutate_constructor_mir(MIR_SAMPLE, mutation)
                 self.assertNotEqual(mutated, MIR_SAMPLE)
                 self.assertTrue(mutated.startswith(prefix))
-                self.assertTrue(mutated.endswith("      impSpan = (" + suffix))
+                self.assertTrue(mutated.endswith("suffix = (keep = void)" + suffix))
 
     def test_unknown_or_ambiguous_body_fails_closed(self) -> None:
         with self.assertRaises(ValueError):

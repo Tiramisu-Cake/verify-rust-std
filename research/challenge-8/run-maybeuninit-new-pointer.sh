@@ -44,7 +44,7 @@ archive_sha=da1b619fa63ba73c12ce591638ced90fd2471add6f181d0e3310657fe4df98aa
 deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_pin=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 patch_file="$repo/research/challenge-8/verifast-maybeuninit-pointer-own.patch"
-printf '%s  %s\n' 023e12f00a132ca8fd2dd46e0515c296317eeca573bb5a6c413321b2fe9ba292 "$patch_file" | sha256sum -c -
+printf '%s  %s\n' 325af428910cff44fb51e8c11ef0e4c9c3ba928c015f1fdf657580745857ca8d "$patch_file" | sha256sum -c -
 task_temp="$RUNNER_TEMP/maybeuninit-new-pointer"
 [[ ! -e "$task_temp" ]] || exit 2
 mkdir -p "$task_temp"

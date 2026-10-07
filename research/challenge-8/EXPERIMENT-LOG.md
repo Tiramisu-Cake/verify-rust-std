@@ -3492,7 +3492,7 @@ Selection/budget30min confirmed; full matrix+conditional actual callee; outcome 
 
 O1 completed failure,137jobseconds (09:08:42..09:10:59UTC). Full logs and artifact
 smallsort-research-37598560122-1/11471388654 inspected: console build0; classifier
-4groups PASS;18stock/experimental Rust/C/C++/pointer/false controls PASS;
+4groups PASS;14stock/experimental Rust/C/C++/pointer/false controls PASS;
 full typed MIR/source/export/decode/refinement0. SAFE prototype requires DEFINED
 MaybeUninit_pointer_own(Element_typeid)(_t,result0) at10,75–102; body headers0.
 This is not an accepted constructor. Negatives/actual callee NOT RUN.
@@ -3512,3 +3512,35 @@ Expected: checked lemma return/leak, SAFE prototype, actual imported body return
 leak, full matrix at intended gates; acceptance also requires lemma execution.
 Failure => routine proof/harness correction; success => dependent callee only.
 Budget remaining5263s;30min job/300s proof; one run, no carried historical budget.
+
+O2 dispatched37599522829/source0f5b790cc58b30ee3aee12e8989a169e19998fb5,
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37599522829, outcome pending.
+
+O2 completed128jobseconds (09:16:59..09:19:07UTC), summed265/5400. Artifact
+smallsort-research-37599522829-1/11472570359 and full logs inspected. Profile023e12f0:
+constructor positive SAFE/prototype/defined introduction and body/caller return/
+leak PASS,54statements. Frame owns no val pointee; independent u8 fractional+i32
+resources retained; none/some predicate cases executed. Five proof negatives PASS
+at intended locations: wrong inner42; false-uninit41; falseassert41; falsepost35;
+duplicate resource42.14stock/experimental Rust/C/C++/pointer/false baselines PASS.
+Source negatives actually reject precise applicability gates with exit2 (uncaught
+certificate Failure); classifier incorrectly required1. Three expected reasons
+also pointed to later source checks instead of earlier typed certificate. Integer
+SAFE identity contract omitted own in/out, so automatic prototype correctly fails
+opaque MaybeUninit_own(int32_t_typeid) at52. This is a harness bug, not model loss.
+MIR mutants and actual callee NOT RUN, model/constructor acceptance still withheld.
+
+## O3 — complete metadata admission and harness corrections
+
+Same semantic definition/source/posts/pins. Hypothesis: fixing exact-stage/code/
+reason classification and resource-preserving integer contract lets existing
+strict source/proof matrix pass; exhaustive HIR/contract/ADT metadata checks close
+remaining typed source-binding gaps before acceptance. No wider model extension.
+MIR operations graph already O2 PASS; unknown HIR/contract/item forms must reject,
+not be ignored. Add corresponding admission controls. Rule remains selected for
+all extension controls, reject before semantic activation when invalid. Artifact
+must retain canonical/mutated binary/text, original-source integrity and refiner.
+Scope/pins unchanged; new profile hash/source recorded at dispatch. Expected stage
+mapping per updated fixture metadata; proof exits1 separate from applicability2.
+Full matrix => only dependent actual callee; any new alias/borrow/copy/FnMut/Drop/
+unwind boundary STOP. Remaining5135s,30min/job,300s/proof.

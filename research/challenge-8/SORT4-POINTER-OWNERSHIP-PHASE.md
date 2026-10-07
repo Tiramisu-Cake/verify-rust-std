@@ -92,3 +92,12 @@ aggregate emits ghost call after assignment, leaving runtime/MIR graph untouched
 This is proof annotation in translation, not an assumed opaque bridge. Acceptance
 requires named lemma/body/return/leak evidence and full matrix. Patch023e12f0;
 O1 retained at137s, first body not reached. See journal/result identifiers.
+
+O3 completes HIR/plain-parameter kinds/names/drop flags/spans, union variance/
+Sized/variant/field kinds/visibility/spans and exact exported SAFE contract text
+and all source coordinates. Complete operation graph remains unchanged. New MIR
+controls directly mutate HIR/contract/binding in addition to operations/types.
+Classifier distinguishes precise applicability exit2 from proof exit1 and requires
+exact reason/frontend/refinement/integrity; integer positive transports original
+opaque ownership, integer missing-own negative targets SAFE prototype. Semantic
+predicate/checked introduction unchanged. Profile patch325af428 (full SHA in runner).

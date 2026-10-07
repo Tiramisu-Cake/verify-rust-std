@@ -60,6 +60,22 @@ def strict_proof_negative(evidence: dict[str, bool]) -> bool:
     return all(evidence.get(key) is True for key in required)
 
 
+def exact_certificate_failure(log: str, reason: str) -> bool:
+    fatal = [line for line in log.splitlines() if line.startswith("Fatal error:")]
+    return fatal == [
+        f'Fatal error: exception Failure("SORT4-MAYBEUNINIT: certificate mismatch: {reason}")'
+    ]
+
+
+def strict_applicability_negative(evidence: dict[str, bool]) -> bool:
+    required = (
+        "integrity_and_frontend_ok", "verifier_exit_is_certificate_failure",
+        "exact_case_reason", "no_constructor_proof", "no_probe_proof",
+        "mutation_integrity_ok",
+    )
+    return all(evidence.get(key) is True for key in required)
+
+
 def extract_braced_item(source: bytes, signature: bytes) -> bytes:
     require(source.count(signature) == 1,
             f"expected one source item signature: {signature.decode('ascii')}")
@@ -393,15 +409,27 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
             b"std::mem::MaybeUninit::new(val)",
             b"sort4_certified_maybeuninit::sort4_checked_maybeuninit_new(val)", 1)
 
-    if variant == "nonpointer_identity":
+    if variant in {"nonpointer_identity", "nonpointer_missing_own"}:
+        identity_name = (
+            b"sort4_nonpointer_missing_own" if variant == "nonpointer_missing_own"
+            else b"sort4_nonpointer_identity"
+        )
+        own = b"std::mem::MaybeUninit_own(int32_t_typeid)"
+        identity_pre = (
+            b"req thread_token(?t) &*& t == currentThread"
+            + (b" &*& " + own + b"(t, input)" if variant == "nonpointer_identity" else b"")
+            + b";\n"
+        )
+        identity_post = (
+            b"ens thread_token(t) &*& " + own + b"(t, result) &*& result == input;\n"
+            if variant == "nonpointer_identity" else b"ens thread_token(t);\n"
+        )
         identity = (
-            b"pub fn sort4_nonpointer_identity(\n"
+            b"pub fn " + identity_name + b"(\n"
             b"    input: std::mem::MaybeUninit<i32>,\n"
             b") -> std::mem::MaybeUninit<i32>\n"
             + ghost_block(
-                b"req thread_token(?t) &*& t == currentThread;\n"
-                b"ens thread_token(t);\n"
-                b"on_unwind_ens false;"
+                identity_pre + identity_post + b"on_unwind_ens false;"
             )
             + b"{\n    input\n}\n"
         )
@@ -428,6 +456,8 @@ def constructor_source(cert: dict, variant: str = "positive") -> tuple[bytes, by
                                            if b"TARGET_POSTCONDITION" in line), None),
         "target_return_line": next((i for i, line in enumerate(verified_prefix.splitlines(), 1)
                                      if b"TARGET_RETURN" in line), None),
+        "target_opaque_prototype_line": next((i for i, line in enumerate(verified_prefix.splitlines(), 1)
+                                            if b") -> std::mem::MaybeUninit<i32>" in line), None),
     }
     return original_prefix, verified_prefix, metadata
 
@@ -452,6 +482,7 @@ def file_hashes(paths: tuple[Path, ...], root: Path) -> dict[str, str]:
 
 MIR_MUTATIONS = (
     "operand", "return", "active_field", "type", "identity", "extra_operation",
+    "hir_parameter", "contract", "binding_span",
 )
 
 SOURCE_APPLICABILITY_REASONS = {
@@ -459,19 +490,22 @@ SOURCE_APPLICABILITY_REASONS = {
     "wrong_operand": ("local constructor runtime body differs from repository", "source_certificate"),
     "wrong_return": ("local constructor runtime body differs from repository", "source_certificate"),
     "extra_operation": ("local constructor runtime body differs from repository", "source_certificate"),
-    "renamed_function": ("constructor source marker missing", "source_certificate"),
+    "renamed_function": ("expected exactly one checked constructor body", "typed_certificate"),
     "wrong_binding": ("checked body shape or external call count differs", "redirect_count"),
-    "nonpointer_input": ("constructor source marker missing", "source_certificate"),
-    "extra_union_field": ("local union fields differ from repository", "source_certificate"),
+    "nonpointer_input": ("checked constructor input is not *const Element", "typed_certificate"),
+    "extra_union_field": ("certified union fields or types differ", "typed_certificate"),
 }
 
 MIR_APPLICABILITY_REASONS = {
-    "operand": ("constructor operand: _1", "full_graph"),
+    "operand": ("constructor place: _1", "full_graph"),
     "return": ("constructor place: _0", "full_graph"),
     "active_field": ("constructor union identity/type/active field", "full_graph"),
     "type": ("checked constructor input is not *const Element", "typed_certificate"),
     "identity": ("expected exactly one checked constructor body", "typed_certificate"),
     "extra_operation": ("constructor first block statements", "full_graph"),
+    "hir_parameter": ("HIR generic identity: Element", "typed_metadata"),
+    "contract": ("constructor exported contract annotation text/location", "typed_metadata"),
+    "binding_span": ("function signature MIR span does not identify source item", "typed_metadata"),
 }
 
 
@@ -512,8 +546,12 @@ def mutate_constructor_mir(decoded: str, mutation: str) -> str:
     marker = f'defPath = "{CERT_FUNCTION_PATH}"'
     require(decoded.count(marker) == 1, "constructor MIR body identity is not unique")
     start = decoded.index(marker)
-    end = decoded.index("      impSpan = (", start)
-    body = decoded[start:end]
+    body_lead = decoded.rfind("    ( defKind =", 0, start)
+    require(body_lead >= 0, "constructor MIR body opening is missing")
+    body_open = decoded.index("(", body_lead)
+    body = mir_balanced_item(decoded, body_open)
+    end = body_open + len(body)
+    require(marker in body, "constructor identity escaped its MIR body")
     if mutation == "operand":
         body = replace_once(body,
             'use = (\n                      copy = (\n                        local = (name = "_1")',
@@ -533,12 +571,33 @@ def mutate_constructor_mir(decoded: str, mutation: str) -> str:
     elif mutation == "identity":
         body = replace_once(body, marker,
             f'defPath = "{CERT_FUNCTION_PATH}_impostor"', mutation)
-    else:
+    elif mutation == "extra_operation":
         statements = body.index("          statements = [")
         first = body.index("( sourceInfo = (", statements)
         item = mir_balanced_item(body, first)
         body = body[:first] + item + ",\n            " + body[first:]
-    mutated = decoded[:start] + body + decoded[end:]
+    elif mutation == "hir_parameter":
+        hir_start = body.index("      hirGenerics = (")
+        head, tail = body[:hir_start], body[hir_start:]
+        tail = replace_once(tail, 'name = (name = "Element")',
+                            'name = (name = "Other")', mutation)
+        body = head + tail
+    elif mutation == "contract":
+        contract_start = body.index("      contract = (")
+        contract_end = body.index("      inputs = [", contract_start)
+        contract = replace_once(body[contract_start:contract_end],
+                                "some(val)", "some(wrong)", mutation)
+        body = body[:contract_start] + contract + body[contract_end:]
+    elif mutation == "binding_span":
+        signature_start = body.index("      fnSigSpan = (")
+        signature_end = body.index("      visibility = (", signature_start)
+        signature = body[signature_start:signature_end]
+        columns = list(re.finditer(r"col = \(pos = (\d+)\)", signature))
+        require(len(columns) == 2, "constructor signature MIR span is not a simple lo/hi span")
+        hi = columns[-1]
+        signature = signature[:hi.start(1)] + str(int(hi.group(1)) + 1) + signature[hi.end(1):]
+        body = body[:signature_start] + signature + body[signature_end:]
+    mutated = decoded[:body_open] + body + decoded[end:]
     require(mutated != decoded, "MIR mutation had no effect")
     return mutated
 
@@ -768,6 +827,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
 
     identity_name = "sort4_nonpointer_identity"
     identity_headers = sum(name.endswith(identity_name) for _, name in headers)
+    missing_own_headers = sum(name.endswith("sort4_nonpointer_missing_own") for _, name in headers)
     identity_header_marker = f"Verifying function '{identity_name}'"
     identity_start = log.find(identity_header_marker)
     identity_next = log.find("Verifying function '", identity_start + len(identity_header_marker)) \
@@ -888,8 +948,16 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
     )
     expected_applicability_reason_seen = (
         applicability_reason is not None and
-        f"SORT4-MAYBEUNINIT: certificate mismatch: {applicability_reason[0]}" in log
+        exact_certificate_failure(log, applicability_reason[0])
     )
+    applicability_evidence = {
+        "integrity_and_frontend_ok": base_ok,
+        "verifier_exit_is_certificate_failure": vf == 2,
+        "exact_case_reason": expected_applicability_reason_seen,
+        "no_constructor_proof": helper_headers == 0,
+        "no_probe_proof": expected_probe_headers == 0,
+        "mutation_integrity_ok": expect != "mir_applicability_reject" or mutation_ready,
+    }
     if expect in {"positive", "specialization_positive"}:
         outcome = "PASS" if (
             base_ok and vf == 0 and helper_headers == 1 and probe_headers == 1
@@ -907,17 +975,29 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
     elif expect == "proof_negative":
         outcome = "EXPECTED_PROOF_FAILURE" if expected_proof_failure else "INCONCLUSIVE"
     elif expect == "applicability_reject":
-        outcome = "EXPECTED_APPLICABILITY_REJECT" if (
-            exporter == 0 and decode == 0 and refinement == 0 and vf == 1
-            and sources_unchanged and applicability_diagnostic_seen
-            and expected_applicability_reason_seen
-            and helper_headers == 0 and expected_probe_headers == 0
-        ) else "INCONCLUSIVE"
+        outcome = "EXPECTED_APPLICABILITY_REJECT" if strict_applicability_negative(
+            applicability_evidence) else "INCONCLUSIVE"
     elif expect == "mir_applicability_reject":
-        outcome = "EXPECTED_MIR_APPLICABILITY_REJECT" if (
-            base_ok and vf == 1 and mutation_ready and applicability_diagnostic_seen
-            and expected_applicability_reason_seen
-            and helper_headers == 0 and expected_probe_headers == 0
+        outcome = "EXPECTED_MIR_APPLICABILITY_REJECT" if strict_applicability_negative(
+            applicability_evidence) else "INCONCLUSIVE"
+    elif expect == "opaque_ownership_negative":
+        target_line = fixture.get("target_opaque_prototype_line")
+        opaque_name = "sort4_nonpointer_missing_own"
+        opaque_prototype_checked = (
+            f"Function '{opaque_name}': Function prototype implementation check" in log
+        )
+        opaque_error = (
+            len(errors) == 1 and isinstance(target_line, int)
+            and error_lines == [target_line]
+            and "No matching heap chunks: std::mem::MaybeUninit_own(int32_t_typeid)" in errors[0]
+        )
+        outcome = "EXPECTED_OPAQUE_OWNERSHIP_REJECT" if (
+            base_ok and vf == 1 and full_mir_graph_seen
+            and helper_headers == 1 and probe_headers == 1
+            and helper_return_checked and helper_leak_checked
+            and opaque_prototype_checked and opaque_error
+            and missing_own_headers == 0 and not applicability_diagnostic_seen
+            and external_call_count_mir == 1 and redirect_count == 1
         ) else "INCONCLUSIVE"
     elif expect == "actual_callee":
         actual_headers = sum(name == "select_unpredictable" for _, name in headers)
@@ -951,6 +1031,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         "full_typed_constructor_mir_graph_seen": full_mir_graph_seen,
         "expected_applicability_reason": applicability_reason,
         "expected_applicability_reason_seen": expected_applicability_reason_seen,
+        "applicability_evidence": applicability_evidence,
         "safe_constructor_contract": safe_constructor_contract,
         "checked_constructor_prototype_implementation": helper_prototype_checked,
         "checked_constructor_return": helper_return_checked,
@@ -958,6 +1039,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
         "checked_constructor_leak_check": helper_leak_checked,
         "pointer_option_paths_exercised": pointer_option_paths_exercised,
         "nonpointer_identity_header_count": identity_headers,
+        "nonpointer_missing_own_header_count": missing_own_headers,
         "nonpointer_identity_return": identity_return_checked,
         "nonpointer_identity_leak_check": identity_leak_checked,
         "failure_in_expected_probe": failure_in_expected_probe,
@@ -981,6 +1063,7 @@ def run_case(case_dir: Path, schema: Path, tool_home: Path, sysroot: str,
 CONSTRUCTOR_CASES = [
     ("constructor_positive", "positive", "positive"),
     ("nonpointer_identity", "nonpointer_identity", "specialization_positive"),
+    ("nonpointer_missing_own", "nonpointer_missing_own", "opaque_ownership_negative"),
     ("wrong_inner_post", "wrong_inner_post", "proof_negative"),
     ("false_uninit", "false_uninit", "proof_negative"),
     ("false_assert", "false_assert", "proof_negative"),
@@ -1304,6 +1387,7 @@ def main() -> None:
     expected_outcome = {
         "positive": "PASS",
         "specialization_positive": "PASS",
+        "opaque_ownership_negative": "EXPECTED_OPAQUE_OWNERSHIP_REJECT",
         "proof_negative": "EXPECTED_PROOF_FAILURE",
         "applicability_reject": "EXPECTED_APPLICABILITY_REJECT",
     }
