@@ -228,3 +228,19 @@ This is NOT general forget/Drop/ownership support. It requires hosted confirmati
 full nominal/MIR/source binding and leak/SAFE compatibility controls before use.
 If it cannot satisfy these criteria, investigate existing borrow packaging before
 claiming that an uncheckable resource bridge is necessary. No such bridge is assumed.
+
+S4b applicability correction BEFORE implementation: standalone asptr body/model
+has complete acceptance at37611745252/source7c14ab6/profilee9b4d025, but actual
+external redirect rejects its valid elided-lifetime shape before body execution.
+Raw exported asptr FnDef has SOLE type *const Element and
+lateBoundGenericParamCount=1; stock translate_fn_call_rexpr then appends the
+synthetic erased lifetime before the redirect match. Thus effective substitutions
+are EXACT [Type(*const Element),Lifetime("'erased")], not just [Type]. The new S5
+cumulative profile may correct this match while retaining immutable S3 evidence:
+require raw sole pointer type AND raw lateBoundCount=1 AND this exact effective
+pair; reject every other lifetime/count/type/arity. Local checked helper CallExpr
+keeps its sole Element type arg: receiver lifetime is elided/generated, no explicit
+Rust helper type param is added. No new borrow/provenance/ownership rule. Same-profile
+asptr full acceptance and actual two-call binding are required regressions. Actual
+must also retain typed receiver/result and one normal call/unwind continuation.
+This is a certified frontend applicability correction, not a new SAFE contract.
