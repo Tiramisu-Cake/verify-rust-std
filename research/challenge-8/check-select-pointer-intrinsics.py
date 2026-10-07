@@ -58,6 +58,15 @@ MIR_MUTATIONS = (
 CERT_PREFIX = "SORT4-SELECT-INTRINSIC:"
 CERT_MARKER = CERT_PREFIX + " full typed standalone MIR graph accepted"
 REJECT_PREFIX = CERT_PREFIX + " certificate mismatch: "
+WRONG_POINTER_RESULT_ERROR = re.compile(
+    r"verified/lib\.rs\(\d+,\d+-\d+\): error: Cannot prove condition\. "
+    r"\(Cannot prove !\(result0 = \(condition \? a : b\)\)\.\)$"
+)
+WRONG_WRAPPER_INNER_ERROR = re.compile(
+    r"verified/lib\.rs\(\d+,\d+-\d+\): error: Cannot prove that "
+    r"'std::mem::MaybeUninit::inner\(pointer_typeid\(Element_typeid\), result0\)' "
+    r"is not an instance of constructor 'none'$"
+)
 SOURCE_REASONS = {
     "operand_order": ("helper source body changed",),
     "contract": ("helper SAFE contract/source signature",),
@@ -368,6 +377,12 @@ def strict_admission_evidence(evidence: dict[str, bool]) -> bool:
         "source_exact", "stage_integrity", "frontend_refinement",
         "mutant_exact", "exact_fatal", "before_proof", "verifier_exit_two",
     ))
+
+
+def matches_wrong_result_error(kind: str, message: str) -> bool:
+    pattern = WRONG_POINTER_RESULT_ERROR if kind == "ptr" else \
+        WRONG_WRAPPER_INNER_ERROR if kind == "mu" else None
+    return pattern is not None and pattern.search(message) is not None
 
 
 def replace_once(source: str, old: str, new: str, mutation: str) -> str:
@@ -736,17 +751,14 @@ def classify_case(case_dir: Path, runner: dict, kind: str, variant: str,
         target_location = isinstance(target_line, int) and error_line in {
             target_line + 1, fixture["probe_return_line"]}
         pattern = {
-            # The complete modeled pointer expression must be pinned from the
-            # first hosted negative before this can count as an intended VC.
-            "wrong_result": r"(?!)",
-            "wrong_inner": r"Cannot prove that 'std::mem::MaybeUninit::inner"
-                r"\(pointer_typeid\(Element_typeid\), result\)' is not an "
-                r"instance of constructor 'none'$",
             "false_post": r"Cannot prove condition\. \(Cannot prove false\.\)$",
             "duplicate_frame": r"No matching heap chunks: \[f\]points_to<u8>"
                 r"\(frame, frame_value\)$",
         }.get(variant)
-        target_message = bool(first_error and pattern and re.search(pattern, first_error))
+        target_message = bool(first_error and (
+            matches_wrong_result_error(kind, first_error)
+            if variant in {"wrong_result", "wrong_inner"} else
+            pattern and re.search(pattern, first_error)))
     shared = {
         "source_exact": bool(source_ok),
         "stage_integrity": bool(stage_ok),
@@ -867,6 +879,7 @@ def check_intrinsics(args: argparse.Namespace) -> dict:
         "classifier_self_check": (
             classifier is not None and classifier.get("pass") is True and
             classifier.get("mutant_count") == 60 and
+            classifier.get("message_mutant_count") == 10 and
             args.classifier_summary.resolve().parent == evidence.parent),
     }
     if not all(prerequisites.values()):

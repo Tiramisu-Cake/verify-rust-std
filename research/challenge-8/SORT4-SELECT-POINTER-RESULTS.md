@@ -1,7 +1,7 @@
 # Pointer select completion — results
 
 2026-10-07 IN PROGRESS;entrycd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New budget0/5400summed hosted job seconds,no active run. New components NOT RUN;
+Current budget1252/5400 summed hosted job seconds, no active run. Intrinsics pending;
 whole helper NOT PROVEN. Existing O4 constructor experimental acceptance retained.
 [Phase](SORT4-SELECT-POINTER-PHASE.md),[design/map](SORT4-SELECT-POINTER-DESIGN.md).
 RAPx CLOSED/NO-GO;B/C NOT RUN;fullsort4 outside phase.
@@ -93,3 +93,24 @@ S5b2cd1a04a exactcanonical7locals/BBgraph +inferredlifetime redirect, full
 intrinsicacceptance3+3positive/5+5proof/40admission/60classifiercriteria implemented.
 Firstunknownwrongresultdiagnostic failsclosed untilrawprooferrorobserved;
 noacceptancebeforeallgates, noactualintrinsicruleintegrationbeforeaccepted.
+
+S5b/37615266238, source `2fb924f02061a00a6e0204ed90145ef8c8f1e912`,
+patch `2cd1a04a35e58f5337e392cc5e27899ac7de20ad5d821f47045438e0348c732b`,
+150s (11:36:56–11:39:26 UTC), total1252/5400, no active run.
+Six intrinsic positives PASS: pointer symbolic/true/false, wrapper unknown/none/some,
+SAFE compatibility, checked body/ownership lemma, full modeled result/inner,
+thread/frame/no-unwind/leak. Exact source/full typed MIR/refinement gates PASS.
+Two negative cases reach normal post26 but message mismatch remains INCONCLUSIVE:
+`Cannot prove condition. (Cannot prove !(result0 = (condition ? a : b)).)` and
+`Cannot prove that 'std::mem::MaybeUninit::inner(pointer_typeid(Element_typeid), result0)' is not an instance of constructor 'none'`.
+Eight other proof negatives and40 admission controls NOT RUN. No intrinsic
+component acceptance. Constructor/as_mut_ptr complete regressions, baselines and
+60 intrinsic classifier mutants PASS. Actual body now passes both as_mut_ptr
+calls; first remaining unsupported intrinsic is at49:21–92 with rule disabled.
+Full helper NOT PROVEN; guard/drop/forget/assume_init not yet proved.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238),
+[compact11478479176](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
+[full11478894018](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018).
+S5c pins only these exact diagnostics plus10 message mutants; identical semantic
+profile, full matrix required. Full actual certificate remains disabled pending
+separate typed graph implementation and complete component acceptance.

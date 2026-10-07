@@ -3802,3 +3802,23 @@ Fullactualintrinsicgraph notimplemented yet, optinremainsfailclosed; actual
 integrationwithoutintrinsicoptinretainsalloriginalops andfullposts. Noacceptance
 possibleuntilallfullmatrixchecks PASS; nofeasibility-only acceptancepath.
 Selection30min/proof300s,total1102/5400before,oneactive,compactcurrent+O4.
+
+S5b result37615266238/source2fb924f/2cd1a04a:150jobseconds,total1252/5400.
+All6 intrinsic positives PASS; pointerwrongresult andMUwronginner reach correct
+normalpost26 but failclosed exactmessage classification. Remaining8proofnegative
+and40admissions NOT RUN. Ctor/asptr/classifs/14baselines PASS. Actual firstintrinsic
+49 after bothSAFEasptrcalls pass. Compact11478479176/full11478894018 preserve
+raw adapters/logs/MIR/profile/O4; no component/fullhelper acceptance.
+
+S5c BEFORE dispatch: SAME 2cd1a04a profile, exacttwo intrinsic types/domain/full
+normal/unwind/frame posts, same verified bodies/compiler trusted selection rule.
+Hypothesis: exact S5b post diagnostics (result0, condition?a:b, pointer_typeid and
+none) classify intended negative while ten substituted message mutants reject;
+all60 gate mutants remain required. Then remaining8 proof negatives and40 source/
+MIR admission controls reach intended stage/predicate/location with rule ACTIVE.
+No semantic changes; unknown diagnostics still INCONCLUSIVE. Complete ctor/asptr/
+Rust/C/C++ regressions and all6+10+40 checks required for COMPONENT_ACCEPTED.
+Actual integration still intrinsic-OFF until full typed actualgraph implemented
+and component accepted. Outcome: localized harness fixes if target mismatch,
+otherwise continue authorized helper dependencies. No SWO/layout repeats.
+Selectionverifast_maybeuninit_new_pointer,30min/job,300s/proof,1252/5400 before.

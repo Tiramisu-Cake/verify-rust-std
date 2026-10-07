@@ -1,31 +1,39 @@
 # Challenge 8: current checkpoint
 
-Updated2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
-Owner opened NEW phase atcd44e1bbf115c83c84fd7d4c050b1f74be0e1d09.
-New5400jobseconds,<=1800/job,<=300/proof;spend1102/5400jobseconds,noactive. Old budget retired.
-S4b/37611745252/source7c14ab64372d75928c4a000bb43dad83761c5bb4:
-SAFE as_mut_ptr BODY/MODEL COMPONENT ACCEPTED atprofilee9b4d025, full3positive/
-6proofnegative/8source/9MIR controls+ctorregressions/classifs/baselines PASS.
-Actualunit RUN, export/decode/refinement/source PASS, butfirst externalasptr
-redirect rejects valid latebound1erasedlifetime beforebody. Nohelperproof.
-S5a/37613525435/source6b6d033/e5663903: fullctor/asptrregressions PASS,
-actualtwoexternalasptrredirects pass thenproof Incorrectnumbertypeargs38.
-CanonicalintrinsicMIR exported/refined bothtypes; predicted4locals/noops shape
-rejectedbeforeproof. Corrected7locals exacttypedgraph and inferredlifetime
-CallExpr followexistingstocktranslator; design6f705b9 beforechange.
-S5bnewprofile2cd1a04a fullintrinsicmatrix3+3/5+5/40 with60classifiermutants,
-unknownpointererrormessage failclosed, actualfullintrinsicgate remainsinactive.
-Spend1102/5400jobseconds,noactive. Compact11479611306/full11479026615;
-historicalO4 preserved. WholehelperNOTPROVEN.
-[Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
-Runtime std/signatures and frozen kernel/
-memory/alias/provenance/export/refiner unchanged. Narrow spec/translator changes
-for listed pointer operations authorized after written component design.
-[Design](SORT4-SELECT-POINTER-DESIGN.md),[results](SORT4-SELECT-POINTER-RESULTS.md).
-Unsupported names do not stop this phase; forbidden general semantic extension
-needs precise reproducer and evidence. Fullsort4 outside scope;RAPx CLOSED/NO-GO,
-B/C NOT RUN. Previous phase summary below is historical and superseded as execution
-checkpoint; its accepted constructor/profile identities remain valid.
+Updated 2026-10-07. **IN PROGRESS: [source-linked pointer select completion](SORT4-SELECT-POINTER-PHASE.md).**
+Entry `cd44e1bbf115c83c84fd7d4c050b1f74be0e1d09`; new budget
+**1252/5400 summed hosted job seconds**, <=1800/job, <=300/proof. No active run.
+
+Accepted: O4 pointer-value model/SAFE constructor, and S4b SAFE `as_mut_ptr`
+body/model at e9b4d025 (3 positives, 6 proof negatives, 8 source, 9 MIR controls).
+S5b/37615266238, source `2fb924f02061a00a6e0204ed90145ef8c8f1e912`,
+profile `experimental-source-linked-select-pointer-intrinsics-v1`, patch `2cd1a04a`:
+constructor/as_mut_ptr full regressions and Rust/C/C++ baselines PASS. All six
+intrinsic SAFE/body/value/state/frame positives PASS. Wrong pointer result and
+wrong wrapper inner reach intended normal posts; unrecognized exact diagnostics
+keep classification INCONCLUSIVE. Eight remaining proof negatives and 40
+source/MIR admissions NOT RUN: intrinsic component NOT ACCEPTED.
+
+Actual helper RUN with intrinsic rule disabled: both constructor and as_mut_ptr
+calls pass; first remaining error is `No such function:
+std::intrinsics::select_unpredictable` at `verified/lib.rs(49,21-92)`.
+Whole helper NOT PROVEN. This unsupported name is a next authorized operation,
+not a semantic stop. Full 31-local/14-block actual intrinsic certificate is being
+implemented separately; it cannot be enabled before complete component acceptance.
+S5c tests only exact observed negative messages with ten diagnostic mutants,
+then all remaining full-matrix checks; same semantic patch, no relaxed gates.
+
+[Compact S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478479176),
+[full S5b](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238/artifacts/11478894018),
+[run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37615266238).
+Each compact includes O4/37601511894 with byte/hash mapping; historical/full O4
+preserved. [Design](SORT4-SELECT-POINTER-DESIGN.md),
+[results](SORT4-SELECT-POINTER-RESULTS.md). Runtime std/signatures and frozen
+kernel/general memory/provenance/aliasing/export/refiner remain unchanged.
+Narrow source-linked pointer-operation spec/translator changes are authorized
+only after written design. RAPx CLOSED / NO-GO; B/C NOT RUN; full sort4 out of scope.
+
+The previous closed phase below is historical, not the current authorization.
 
 Updated 2026-10-07. **CLOSED: [pointer ownership phase](SORT4-POINTER-OWNERSHIP-PHASE.md)**
 at the dependent actual callee's storage/borrow boundary.
