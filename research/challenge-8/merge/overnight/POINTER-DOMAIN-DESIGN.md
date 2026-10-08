@@ -3,8 +3,8 @@
 ## Target and hypothesis
 
 The target is the actual `core::ptr::copy_nonoverlapping(src, dst, 1)` call in
-`MergeState::merge_up` and `merge_down` from the pinned repository
-`library/core/src/slice/sort/stable/merge.rs`. The separate trusted C1
+`merge_up` and `merge_down` from the pinned repository
+`library/core/src/slice/sort/shared/smallsort.rs`. The separate trusted C1
 primitive requires a positive-sized `T`, nonnull aligned pointers, a
 `size_of::<T>() <= isize::MAX` bound, non-overflowing one-element endpoints,
 object limits for each pointer, and numerically disjoint one-element byte
@@ -23,8 +23,10 @@ infer allocation identity or range facts from integer addresses.
 
 The alignment proof is by checked structural induction on the stock `nat`
 representation of the index, with the wrapper justified by the stock
-`int_of_nat_of_int` lemma. Its base case and one-stride step use the pinned
-`div_rem_nonneg` and `div_rem_nonneg_unique` lemmas. The index/count
+`int_of_nat_of_int` lemma. A checked structural nat lemma derives
+`0 <= int_of_nat(index)` before the stock `mul_mono_l` step establishes the
+recursive address nonnegative. The base case and one-stride step use the
+pinned `div_rem_nonneg` and `div_rem_nonneg_unique` lemmas. The index/count
 arithmetic and alignment lemmas run before the ordinary pointer `add`
 operations, so an arithmetic failure cannot be hidden by a pointer-operation
 diagnostic.

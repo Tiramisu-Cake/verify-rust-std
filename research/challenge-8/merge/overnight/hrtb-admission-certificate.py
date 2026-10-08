@@ -347,7 +347,11 @@ def fail_closed_controls(spec: dict, evidence: dict) -> dict[str, bool]:
             ("missing", lambda rows: rows.pop(index)),
             ("location", lambda rows: rows[index].__setitem__(0, "verified/lib.rs(999,1-2)")),
             ("registration", lambda rows: rows[index].__setitem__(1, 1 - rows[index][1])),
-            ("eligible_bound", lambda rows: rows[index].__setitem__(7, 1 - rows[index][7])),
+            # Registered markers omit eligible_n. A forged numeric value must
+            # still disagree with that schema; for unregistered calls, flip
+            # the explicitly logged count.
+            ("eligible_bound", lambda rows: rows[index].__setitem__(
+                7, 0 if rows[index][7] is None else 1 - rows[index][7])),
         ):
             mutant = copy.deepcopy(evidence)
             try:

@@ -109,8 +109,6 @@ on_unwind_ens thread_token(t) &*& type_interp::<T1>() &*& type_interp::<T2>() &*
 // CASE_END tuple2_wrong_value_first_field_owner
 
 // CASE_BEGIN tuple2_frame_value_retention_negative
-// Calibration oracle intentionally pending: record the exact assertion
-// diagnostic before assigning a proof-negative classification.
 pub unsafe fn tuple2_frame_value_retention_negative<T1, T2>(
     pair: (T1, T2), frame: *mut u32,
 ) -> (T1, T2)
@@ -134,4 +132,5 @@ on_unwind_ens thread_token(t) &*& type_interp::<T1>() &*& type_interp::<T2>() &*
     //@ assert *frame |-> 73; // TARGET: the unrelated frame still owns value 41
     pair
 }
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":23,"column_end":26,"message":"Cannot prove 41 == 73"}
 // CASE_END tuple2_frame_value_retention_negative

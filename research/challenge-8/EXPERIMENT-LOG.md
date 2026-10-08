@@ -4585,3 +4585,39 @@ sliceownerrealization norFrozenentrysnapshotclaimed. No kernel/export/refiner
 changes. Usefulnextdecision: frombidirfirstactualdiagnostic identify necessary
 arithmetic/modeldependency, design+selfreviewthenautonomousimplement; meanwhile
 checkedgenericarray andfullG2trace continueindependently.
+
+
+### M3d run37715432190 / proof6ddfd199 — 2026-10-08
+
+Sole job113110699144 01:56:59–02:00:19 UTC,200seconds; cumulative3531/21600.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37715432190).
+Full artifacts inspected: same-source actualup/down and all old matrix PASS;
+cleanup generic linearQ frame full normal/unwind PASS. M2 tuple shape all6
+exact admission negatives+mutants PASS; tuple resource positive+3 exact
+owner/thread/value proof negatives PASS. Frame assertion reaches exact target
+41==73 at28:23–26; oracle now calibrated TARGET-relative. HRTB certificate
+harnessFAIL integer-minus-None mutation, no semantic change; fixed schema mutant.
+Ownedarray current generic and concreteu32 restore full PASS; oldvalues/frame
+fails purehelper j<length(vs), strengthened pure theorem to allindices (reqtrue);
+duplicateowner185 andwrongoldarray189 reach intended resources, exactoracles
+added. Domain stockmul_mono requires nat nonnegative: new checked structural
+lemma, no new premise/axiom. Trace pre-while invariant produces Unboundk at452:
+AST/kernel review shows standalone block invariant independently verified with
+entry environment before local initialization; previous inside-while invariant
+loses guard. Adapter changed to loop with invariant atheader then checked
+if k>=m break, equivalent Boolean iteration, fulldomain/posts retained. This
+is an adapter body change, not actualstd change or translator/kernel patch.
+Bidir source+strip+runtimeassume boundary/mutants PASS, body NOT ENTERED: pure
+some(?value) insideOR rejected246. Replaced stagedoption relation by equivalent
+match-based fixpoint, complete currentowners/options posts retained.
+
+### BEFORE M3e fresh matrix
+
+Same fixed W1/M2/C1/cleanup semantic chain. Check strengthened pure ownedarray
+lemma and full frame/negatives, nat nonnegative/domain, loop-header fulltrace,
+all M2 resource/certificate controls and exact bidir newlyparsed contract.
+Expected positives fullstages/body/return/leak/dead; negatives onlyexact intended
+stage/location/predicate with failclosedmutants. Bidir len2 remains restricted
+diagnostic; next required arithmetic/iterator/resource dependency will get brief
+trustdesign+review before implementation. Freeze directbyte design recorded
+separately; no share-to-own or snapshot primitive implemented.

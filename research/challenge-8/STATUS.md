@@ -3,11 +3,13 @@
 Авторизовано владельцем до 09:30 МСК 2026-10-08 (06:30 UTC).
 Ветка `overnight/merge-26.10`, entry `b0af5613`.
 [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Ночной бюджет **3331/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
-Последний run [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
+Ночной бюджет **3531/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
+Первый actual callee proof [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
 proof `5bbd2ef2613106fdc38bd8aeea930cf344390275`, job113099112654,206seconds.
-Run37714147137/2491d138 завершён с harness failure: точный parser message
-и ghost-strip whitespace исправлены; новые зависимости не приняты. Нет активного run.
+Последний [37715432190](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37715432190),
+proof `6ddfd1999991478bdc511546afe5b21e4997e878`, job113110699144,
+200seconds. Job FAIL из-за HRTB admission classifier None-mutation;
+исправлено, новые classifier controls требуют fresh run. Нет активного run.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS впервые.
@@ -27,8 +29,11 @@ Wrappings/copy — явно TRUSTED bounded primitive summaries. ZST4concrete
 layout цели OPEN,2reentry PASS; symbolic zero size PASS.
 Полный G2 pointer trace OPEN:14checked bodies, helpers PASS, main loop
 требует сохранения геометрии n=2m+e; без ослабления posts.
-Caller C1 domain OPEN: alignment checked lemma failed nonlinear factorization,
-заменена индукцией. Two-hole owned-array dependency подготовлена, NOT RUN.
+Caller C1 domain OPEN: nat induction требует checked nonnegative lemma.
+Two-hole generic/current-u32 restore full PASS; old-values/frame helper и
+два intended resource negatives требуют fresh calibration run.
+Exact bidirectional source/strip/assume admission PASS; body НЕ ВХОДИЛ
+из-за pure-pattern синтаксиса staged unwind relation, исправлено fixpoint.
 [Ресурсный дизайн](merge/overnight/M3-RESOURCE-DESIGN.md) сохраняет
 current owners и все option scratch cells на panic; Freeze snapshot/functional
 bridge отдельно OPEN. Следующий шаг — fresh full hosted matrix этих зависимостей,

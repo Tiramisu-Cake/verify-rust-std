@@ -84,24 +84,24 @@ reordered/missing/extra fields in fresh complete tool-home copies. It reports
 only exact parser-shape rejections with passing export/decode/refinement,
 unchanged source and no body entry. The pinned parser constructs every tuple
 field as `Public`, so a visibility negative cannot be expressed by changing
-only a prelude declaration through that parser. Tuple resource ownership
-negatives and HRTB bound/call certificates remain explicit follow-up work; this
-shape-only result does not complete the whole M2 admission matrix.
+only a prelude declaration through that parser. This shape-only component does
+not complete the whole M2 matrix; the resource and HRTB certificate extensions
+below cover separate dimensions and retain their own evidence gates.
 
 ## Resource and HRTB certificate extension
 
 `m2-resource-cases.rs` adds one full positive tuple ownership/frame case and
 separate missing-first-owner, wrong-thread, and wrong-value tuple controls.
 Each carries current-thread, both field ownership, and frame obligations in
-both normal and unwind posts. A frame-value assertion control is included with
-a `TARGET` marker but no guessed error oracle; until a hosted log calibrates its
-exact diagnostic it must remain `INCONCLUSIVE`. The three tuple negatives
-predeclare the expected field-zero diagnostic and must execute their own marked
-close. That first-field diagnostic has not yet been observed in a hosted run;
-an exact mismatch remains `INCONCLUSIVE` until calibrated. These controls
-exercise the fixture's resource obligations only. The positive uses a body
-with no panic or callback, so its full unwind post is a contract check rather
-than evidence of unwind-path execution.
+both normal and unwind posts. Run 37715432190 calibrated the three tuple
+negatives at the exact field-zero diagnostic in `bin/rust/prelude.rsspec`
+(15,8-20), after the intended body close executes, with stages 0/0/1/0. The
+frame-value assertion reaches `verified/lib.rs` (28,23-26) with exact message
+`Cannot prove 41 == 73`, stages 0/0/1/0, and three body executions. The fixture
+now records that exact `EXPECT_REJECTION`; it must be reconfirmed against the
+new fixture SHA before it counts. The positive uses a body with no panic or
+callback, so its full unwind post is a contract check rather than evidence of
+unwind-path execution.
 
 `hrtb-admission-certificate.py` reads the callback and prepared-HRTB artifacts
 from one hosted evidence root. It cross-checks the recorded source fixture,
@@ -115,6 +115,14 @@ prepared resource cases are certificates only: their proof classifications
 are copied separately and remain `INCONCLUSIVE` unless their own full proof
 gate says otherwise. The prepared missing-comparator-owner case is excluded
 because its normal and unwind posts are `true`.
+
+The HRTB certificate harness in run 37715432190 stopped on a classifier
+mutation attempting arithmetic on the registered-marker schema's absent
+`eligible_n` field. That field is only logged for unregistered calls. The
+classifier now mutates registered records to a forged numeric count and flips
+the explicit unregistered count, while the positive registered case derives
+its single eligible bound only when the exact source-bound record and decoded
+MIR clause both match. The run's original proof outcomes remain inconclusive.
 
 Hosted run 37713243201 currently records two registrations at the Boolean
 two-call fixture's distinct source locations and one at the prepared positive;

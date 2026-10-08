@@ -96,7 +96,7 @@ lem replace_two_matching_old_values<T>(vs: list<T>, i: i32, j: i32,
 }
 
 lem replace_two_old_values<T>(vs: list<T>, i: i32, j: i32)
-    req 0 <= j &*& i < j &*& j < length(vs);
+    req true;
     ens replace_two::<T>(vs, i, j, nth(i, vs), nth(j, vs)) == vs;
 {
     replace_two_matching_old_values::<T>(vs, i, j, nth(i, vs), nth(j, vs));
@@ -232,6 +232,7 @@ pub unsafe fn owned_array_restore_concrete_u32_current_values(
 // CASE_END owned_array_restore_concrete_u32_current_values
 
 // CASE_BEGIN owned_array_extract_does_not_duplicate_owner
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":50,"column_end":51,"message":"No matching heap chunks: own(T_typeid)(t, nth(i, vs))"}
 pub unsafe fn owned_array_extract_does_not_duplicate_owner<T>(p: *mut T, n: usize, i: i32, j: i32)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
     owned_array::<T>(t, p, n, ?vs) &*& n >= 2 &*&
@@ -246,6 +247,7 @@ pub unsafe fn owned_array_extract_does_not_duplicate_owner<T>(p: *mut T, n: usiz
 // CASE_END owned_array_extract_does_not_duplicate_owner
 
 // CASE_BEGIN owned_array_wrong_value_restoration_does_not_restore_old_array
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":32,"column_end":33,"message":"No matching heap chunks: owned_array<T>(t, p, n, vs)"}
 pub unsafe fn owned_array_wrong_value_restoration_does_not_restore_old_array<T>(
     p: *mut T, n: usize, i: i32, j: i32,
 )

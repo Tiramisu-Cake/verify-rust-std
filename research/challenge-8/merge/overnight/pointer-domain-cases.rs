@@ -42,6 +42,22 @@ lem aligned_address_step(address: usize, stride: usize, alignment: usize)
         address / alignment + stride / alignment, 0);
 }
 
+lem int_of_nat_nonnegative(index: nat)
+    req true;
+    ens 0 <= int_of_nat(index);
+{
+    match index {
+        zero => {
+            nat_of_int_zero();
+            int_of_nat_of_int(0);
+        }
+        succ(previous) => {
+            int_of_nat_nonnegative(previous);
+            assert int_of_nat(succ(previous)) == int_of_nat(previous) + 1;
+        }
+    }
+}
+
 lem address_stride_aligned_nat(base: usize, index: nat, stride: usize, alignment: usize)
     req 0 <= base &*& 0 < stride &*& 0 < alignment &*&
         base % alignment == 0 &*& stride % alignment == 0;
@@ -54,6 +70,7 @@ lem address_stride_aligned_nat(base: usize, index: nat, stride: usize, alignment
         }
         succ(previous) => {
             address_stride_aligned_nat(base, previous, stride, alignment);
+            int_of_nat_nonnegative(previous);
             mul_mono_l(0, int_of_nat(previous), stride);
             aligned_address_step(base + int_of_nat(previous) * stride,
                 stride, alignment);

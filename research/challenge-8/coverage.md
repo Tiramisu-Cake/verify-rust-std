@@ -6,17 +6,29 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-OVERNIGHT-MERGE-26.10: source `b8f25c1831152660fa6b2eba667dc8d8e068d2ad`,
-run [37707794942](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37707794942)
-retains G2/A/B and old Rust projections; bounded trusted W1 wrapping has 22
-positive/5 intended negative and 9 checked pointer bridges; bounded trusted C1
-copy has 5 positive/2 stock count controls/6 intended negative. Full stage,
-execution, return/leak/dead and classifier gates pass. Symbolic zero-size wrapping
-is covered; concrete layout and ZST access remain open. Full arbitrary-length G2
-trace main is unproved although helper bodies pass. Unchanged actual up/down reach
-FnMut but full panic resource recovery is unproved. Experimental cleanup frontend
-and strict kernel scope are unaccepted; first hosted build failed before proof.
-No whole actual merge/bidirectional/Challenge claim follows.
+OVERNIGHT-MERGE-26.10: unchanged actual `merge_up`/`merge_down` first full
+normal/unwind proof at `5bbd2ef2613106fdc38bd8aeea930cf344390275` /
+[37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
+repeated at `6ddfd1999991478bdc511546afe5b21e4997e878` /
+[37715432190](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37715432190).
+Conditional positive-stride distinct initialized source cells and explicit C1
+pointer/writable option-destination domain. Arbitrary lawful FnMut effects/answers;
+normal preserves current source/F owners, copies selected current value and
+advances cursors; callback panic preserves destination option and recovers
+current source/F owners. No entry-value purity, duplicate T.own, ordering or
+safe-slice caller realization. Strict cleanup positive+6 proof+4 frontend
+admission controls pass; unrelated generic linear frame passes on both callback
+outcomes. M2 shape 6 controls and three tuple owner/thread/value negatives pass;
+remaining frame oracle and separate HRTB admission classifier need fresh run.
+G2/A/B, old Rust/native regressions, W1 22positive/5negative/9bridges and C1
+5positive/2stock/6negative remain PASS. Trusted W1/C1 summaries stay bounded.
+Generic two-hole current-owner restoration and concrete u32 update pass; full
+old-values/frame and negative calibration are pending. Full G2 pointer trace,
+caller pointer domain and actual bidirectional remain unproved. Actual bidir
+source preparation is exact, but contract syntax blocked body entry. Symbolic
+zero-size wrapping passes; concrete layout/ZST access remain open. Full generic
+Challenge contract, Freeze snapshot, panic caller cleanup and functional actual
+source links are separate open obligations; no whole actual merge claim.
 
 Current pointer-select phase: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile

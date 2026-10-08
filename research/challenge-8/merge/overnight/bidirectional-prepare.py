@@ -164,11 +164,28 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     *(v as *T) |-> ?source0_unwind &*& <T>.own(t, source0_unwind) &*&
     *((v as *T) + 1) |-> ?source1_unwind &*& <T>.own(t, source1_unwind) &*&
     *dst |-?-> ?partial0 &*& *(dst + 1) |-?-> ?partial1 &*&
-    ((partial0 == dst0 && partial1 == dst1) ||
-     (partial0 == some(?written0) && partial1 == dst1) ||
-     (partial0 == some(?written1) && partial1 == some(?written2))) &*&
+    bidirectional_unwind_options::<T>(dst0, dst1, partial0, partial1) == true &*&
     *is_less |-> ?f_unwind &*& <F>.own(t, f_unwind);
     @*/"""
+
+
+def bidirectional_unwind_options_definition() -> str:
+    # VeriFast permits pattern bindings in assertion chunks (e.g.
+    # `p |-?-> some(?value)`) but not inside a pure equality expression. Keep
+    # the exact staged option relation as a checked fixpoint using match arms;
+    # this only names the three states already present in the contract.
+    return """/*@
+fix bidirectional_unwind_options<T>(dst0: option<T>, dst1: option<T>, partial0: option<T>, partial1: option<T>) -> bool {
+    match partial0 {
+        none => partial0 == dst0 && partial1 == dst1,
+        some(written0) => partial1 == dst1 || match partial1 {
+            none => false,
+            some(written1) => true
+        }
+    }
+}
+@*/
+"""
 
 
 def panic_contract() -> str:
@@ -237,6 +254,7 @@ def main() -> None:
     helper_spec.loader.exec_module(helper)
 
     out = "#![feature(unboxed_closures, core_intrinsics)]\n#![allow(dead_code)]\nuse core::ptr;\nuse core::intrinsics;\ntrait FreezeMarker {}\n"
+    out += bidirectional_unwind_options_definition()
     out += "// CASE_BEGIN bidirectional_merge_len2\n"
     records: dict[str, object] = {}
     for name in ("merge_up", "merge_down"):

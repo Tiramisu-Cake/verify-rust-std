@@ -449,6 +449,7 @@ on_unwind_ens false;
     //@ trace_true_prefix_zero(up_values);
     //@ trace_true_prefix_zero(down_values);
 
+    loop {
     /*@ inv 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
             0 <= k &*& 0 <= a &*& 0 <= d &*&
             k <= m &*& a <= k &*& d <= k &*&
@@ -481,7 +482,9 @@ on_unwind_ens false;
             [fu]up_choices[..m] |-> up_values &*&
             [fd]down_choices[..m] |-> down_values;
         @*/
-    while k < m {
+        if k >= m {
+            break;
+        }
         // Check the six operation indices before this pair of pointer steps.
         //@ assert 0 <= a && a < n;
         //@ assert 0 <= m + k - a && m + k - a < n;

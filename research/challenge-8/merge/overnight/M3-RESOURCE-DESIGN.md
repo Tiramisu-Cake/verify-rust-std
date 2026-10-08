@@ -23,7 +23,9 @@ checked recursive bodies, keep all cells/owners, and consume the two real
 cells/current owners when filling holes. The old-value list lemma carries the
 same selected values through recursion and only requires equality while an
 index remains nonnegative; after an index passes below zero, that selected
-value is irrelevant to the recursive list. No ownership bridge axiom. Domain
+value is irrelevant to the recursive list. The pure old-value list theorem
+also handles indices beyond the list without requiring an unrelated length
+conversion from the resource fixture's `usize` count. No ownership bridge axiom. Domain
 n>=2, indices 0<=i<j<n, positive stride; ZST remains open. Full normal/unwind
 resource invariant later keeps input array current valid owners, comparator
 current state, and all destination option cells, including partial writes on

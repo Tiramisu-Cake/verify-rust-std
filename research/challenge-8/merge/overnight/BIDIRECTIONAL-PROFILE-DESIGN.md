@@ -92,6 +92,15 @@ This restricted profile is diagnostic only and cannot count as a full positive
 while that branch is dead. Positive acceptance needs a broader length domain
 that keeps the odd branch live and checks its copy/advance behavior.
 
+The unwind destination-stage relation is expressed by a checked ghost
+fixpoint using `match` on the two option values. Pattern variables such as
+`some(?written)` are valid when binding a points-to chunk, but not inside a
+pure equality expression; the hosted run exposed this syntax boundary at the
+first unwind post. The fixpoint encodes the same three allowed cases: both
+original options, first option initialized with second unchanged, or both
+options initialized. It does not constrain a written value to an input value
+yet; that stronger selected-current-value link remains an open obligation.
+
 No fixture is accepted from frontend setup failure, unrelated helper failure,
 unsupported syntax, a weakened postcondition, a removed source branch, or an
 unintended dead-code result. The first hosted iteration is diagnostic until
