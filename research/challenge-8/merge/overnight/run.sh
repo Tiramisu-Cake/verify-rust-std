@@ -151,6 +151,9 @@ suite() {
     --scope 'tuple2 ownership and exact HRTB output instantiation support; resource-negative admission remains calibration' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/callback-cases.rs --evidence "$evidence/checked-callback-model"
+  run_one tuple2-shape-admission 180 python3 research/challenge-8/merge/overnight/m2-admission-prove.py \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --evidence "$evidence/checked-m2-shape"
   run_one callback-borrow-diagnostic 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'generic callback real loan protocol; full refreshed-value normal/unwind posts; no actual-source claim' \
@@ -216,6 +219,15 @@ suite() {
       --scope 'unchanged actual merge_up/down diagnostic with full normal/unwind targets; distinct source positive stride writable option destination with explicit C1 domain; genuine normal/unwind loan recovery' \
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/actual-cases.rs" --evidence "$evidence/checked-actual"
+  fi
+  run_one bidirectional-source-preparation 20 python3 research/challenge-8/merge/overnight/bidirectional-prepare.py \
+    --output "$evidence/bidirectional-cases.rs"
+  if [[ -f "$evidence/bidirectional-cases.rs" ]]; then
+    run_one bidirectional-len2-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+      --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+      --scope 'unchanged actual bidirectional len2 with same-source checked actual callees; full current-owner and partial panic initialization targets; restricted domain/dead branches remain explicit diagnostics' \
+      --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+      --fixture "$evidence/bidirectional-cases.rs" --evidence "$evidence/checked-bidirectional"
   fi
   return "$suite_status"
 }

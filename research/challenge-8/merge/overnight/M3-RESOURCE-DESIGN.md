@@ -16,9 +16,11 @@ successive calls cursors can refer to previously visited cells, whose single
 owners are recovered before reuse. No second own is minted by address equality.
 
 Define owned-array and two-hole predicates by explicit stock initialized
-points-to and T.own resources. Extraction/restoration and list-update lemmas
-must have checked recursive bodies, keep all cells/owners, and consume the two
-real cells/current owners when filling holes. No ownership bridge axiom. Domain
+points-to and T.own resources. Their logical list is an input parameter, not
+an output parameter: this records the represented list without claiming
+predicate precision. Extraction/restoration and list-update lemmas must have
+checked recursive bodies, keep all cells/owners, and consume the two real
+cells/current owners when filling holes. No ownership bridge axiom. Domain
 n>=2, indices 0<=i<j<n, positive stride; ZST remains open. Full normal/unwind
 resource invariant later keeps input array current valid owners, comparator
 current state, and all destination option cells, including partial writes on

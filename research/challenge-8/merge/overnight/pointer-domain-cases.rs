@@ -42,20 +42,34 @@ lem aligned_address_step(address: usize, stride: usize, alignment: usize)
         address / alignment + stride / alignment, 0);
 }
 
+lem address_stride_aligned_nat(base: usize, index: nat, stride: usize, alignment: usize)
+    req 0 <= base &*& 0 < stride &*& 0 < alignment &*&
+        base % alignment == 0 &*& stride % alignment == 0;
+    ens (base + int_of_nat(index) * stride) % alignment == 0;
+{
+    match index {
+        zero => {
+            div_rem_nonneg(base, alignment);
+            div_rem_nonneg_unique(base, alignment, base / alignment, 0);
+        }
+        succ(previous) => {
+            address_stride_aligned_nat(base, previous, stride, alignment);
+            aligned_address_step(base + int_of_nat(previous) * stride,
+                stride, alignment);
+            assert int_of_nat(succ(previous)) == int_of_nat(previous) + 1;
+            assert base + int_of_nat(succ(previous)) * stride ==
+                base + int_of_nat(previous) * stride + stride;
+        }
+    }
+}
+
 lem address_stride_aligned(base: usize, index: usize, stride: usize, alignment: usize)
     req 0 <= base &*& 0 <= index &*& 0 < stride &*& 0 < alignment &*&
         base % alignment == 0 &*& stride % alignment == 0;
     ens (base + index * stride) % alignment == 0;
 {
-    if index == 0 {
-        div_rem_nonneg(base, alignment);
-        div_rem_nonneg_unique(base, alignment, base / alignment, 0);
-    } else {
-        address_stride_aligned(base, index - 1, stride, alignment);
-        aligned_address_step(base + (index - 1) * stride, stride, alignment);
-        assert base + index * stride ==
-            base + (index - 1) * stride + stride;
-    }
+    address_stride_aligned_nat(base, nat_of_int(index), stride, alignment);
+    int_of_nat_of_int(index);
 }
 @*/
 

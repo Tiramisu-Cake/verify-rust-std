@@ -88,6 +88,57 @@ def strip_annotations(data: bytes) -> bytes:
     return ANNOTATION_LINE.sub(b"", ANNOTATION_BLOCK.sub(b"", data))
 
 
+def check_assumption_boundary(name: str, verified: bytes, mutations: bool = True) -> dict | None:
+    """Admit the single actual runtime assume, never a ghost proof assumption.
+
+    The caller has already run the frozen whole-source admission gate. This
+    extra byte check binds the only exception to the unchanged complete actual
+    bidirectional body; it supplies no verifier summary or assumption itself.
+    """
+    forbidden = list(re.finditer(rb"\bassume(?:_correct)?\s*\(|\blemma_auto\b", verified))
+    if not forbidden:
+        return None
+    runtime_line = b"        intrinsics::assume(len_div_2 != 0); // This can avoid useless code-gen."
+    if len(forbidden) != 1 or verified.count(runtime_line) != 1:
+        raise RuntimeError(f"{name}: assumptions and automatic lemmas are forbidden")
+    line_start = verified.index(runtime_line)
+    if forbidden[0].start() != line_start + runtime_line.index(b"assume("):
+        raise RuntimeError(f"{name}: only the exact actual runtime assume is admissible")
+    actual_source = (ROOT / "library/core/src/slice/sort/shared/smallsort.rs").read_bytes()
+    signature = b"unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>("
+    if actual_source.count(signature) != 1:
+        raise RuntimeError(f"{name}: ambiguous pinned bidirectional source")
+    start = actual_source.index(signature)
+    ending = re.search(rb"(?m)^}\r?\n", actual_source[start:])
+    if ending is None:
+        raise RuntimeError(f"{name}: missing pinned bidirectional body")
+    actual = actual_source[start:start + ending.end()].rstrip(b"\r\n")
+    original = strip_annotations(verified)
+    if original.count(actual) != 1 or original.count(runtime_line) != 1:
+        raise RuntimeError(f"{name}: runtime assume requires byte-identical actual body")
+    certificate = {"kind": "actual_runtime_assume", "function": "bidirectional_merge",
+                   "exact_body_sha256": sha(actual), "statement": runtime_line.decode(),
+                   "obligation": "runtime primitive still requires its Boolean precondition; no ghost assumption"}
+    if mutations:
+        checks = {}
+        for label, changed in (
+            ("extra_ghost_assume", verified + b"\n//@ assume(false);\n"),
+            ("automatic_lemma", verified + b"\n//@ lemma_auto fake();\n"),
+            ("wrong_runtime_condition", verified.replace(runtime_line, runtime_line.replace(b"!= 0", b"== 0"))),
+            ("ghost_instead_of_runtime", verified.replace(runtime_line, b"/*@\n" + runtime_line + b"\n@*/")),
+            ("wrong_function", verified.replace(signature, signature.replace(b"bidirectional_merge", b"other_merge"))),
+        ):
+            try:
+                check_assumption_boundary(name, changed, False)
+                checks[label] = False
+            except RuntimeError:
+                checks[label] = True
+        if not all(checks.values()):
+            raise RuntimeError(f"{name}: runtime assumption boundary did not fail closed")
+        certificate["fail_closed_mutations"] = checks
+    return certificate
+
+
 def body_names(source: bytes) -> list[str]:
     functions = [m.group(1).decode("ascii") for m in FN.finditer(source)]
     lemmas = [m.group(1).decode("ascii") for m in LEMMA.finditer(source)]
@@ -177,8 +228,7 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
         original = strip_annotations(verified)
         if strip_annotations(verified) != original:
             raise RuntimeError(f"{name}: ghost stripping is not byte deterministic")
-        if re.search(rb"\bassume(?:_correct)?\s*\(|\blemma_auto\b", verified):
-            raise RuntimeError(f"{name}: assumptions and automatic lemmas are forbidden")
+        runtime_assumption = check_assumption_boundary(name, verified)
         all_names = body_names(verified)
         ranges = line_ranges(verified)
         if strip_annotations(verified) != original:
@@ -367,6 +417,7 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
                 if rejection["kind"] == "frontend_admission" else
                 "exact intended proof/resource rejection; marked checked body must execute"
             )
+        meta["runtime_assumption_boundary"] = runtime_assumption
         (case_dir / "metadata.json").write_text(json.dumps(meta, indent=2) + "\n")
         cases[name] = meta
         files[name] = (orig_path.read_bytes(), verified_path.read_bytes())

@@ -4520,3 +4520,36 @@ Positive full-body gates; negative exact stage/predicate/location metadata; any
 setup/earlier-helper failure stays INCONCLUSIVE. Outcomes: accept bounded checked
 components only after whole matrix; fix concrete VC without weakening; proceed
 unchanged actual bidirectional/caller after same-source callee dependency.
+
+
+### M3b dependency run37713243201 — 2026-10-08
+
+Proofc012b14daf4c027346b3b7121ffbe7a203960feb; sole job113103788103
+01:30:17–01:33:47 UTC,210seconds; cumulative3104/21600. Full logs/artifacts
+inspected. Cleanup positive fullbodyPASS, all6 exactproof rejections and4
+frontend admission rejections PASS with classifiermutants; oldINCONCLUSIVE
+run37711781188 remains historical. Actualup/downfullnormal/unwindPASS again.
+G2/A/B/W1/C1/native/normalunwind/oldRustmatrix unchangedPASS. Newownedarray
+masked by predicateprecision/T.own (12), u32ghostsuffixparse193: changedlistvs
+from output to explicit input (no precision claim), literals corrected. C1domain
+checked recursion54 rejected nondecreasing arithmetic recursion; structuralnat
+induction replaces it. Trace main487 againfailedm+k-a<n despiteexplicitgeometry:
+ASTreview shows invariant inserted after loopguard in body, so kernelhavocs at
+thatpoint and loses strictk<m. Reassessment changes invariant program point
+beforeloopcondition, targetdomain/post unchanged; no furthersemantics patch.
+
+### BEFORE exact bidirectional diagnostic
+
+Full pinned body plus actualup/down/paniccallee bodies in oneisolatedCASE;
+len2positiveT explicit fullsource/destinationoption/Fdomain, fullcurrentowners
+normal andunwind, exactpartialdestinationpanicstates. Markeradapter onlyempty
+trait shape, noFreeze snapshot/share-to-own axiom. Restrictedlen2odddeadbranch
+remainsdiagnostic understrictdeadgate; notgenericacceptance. Primitiveassume,
+RangeIterator,is_multiple_of unsupportedremainactualobligations. Harnessmay
+allowONLY actualruntime intrinsics::assume(len_div_2!=0), bound byfrozenwhole
+sourcegate andbyteidenticalcompleteactualbidirbody, noGhostassumptions;5
+failclosedsource-boundarymutants runhosted. This exception suppliesnoprimitive
+summary/Booleanfacts: conditionstillmustbeproved fromcontract. Allbuild/proof
+andextractors hostedonly. Outcome=>source/setupblockersclassifiedseparately;
+necessarynewprimitive/frontenddependencyneeds priortrustdesign+matrixselfreview,
+then autonomousimplementation withinowner'snightauthorization.

@@ -3,10 +3,10 @@
 Авторизовано владельцем до 09:30 МСК 2026-10-08 (06:30 UTC).
 Ветка `overnight/merge-26.10`, entry `b0af5613`.
 [Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md).
-Ночной бюджет **2894/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
+Ночной бюджет **3104/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
 Последний run [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
 proof `5bbd2ef2613106fdc38bd8aeea930cf344390275`, job113099112654,206seconds.
-Нет активного run. Main/upstream/ветка первого агента не изменены.
+Run37713243201/c012b14d завершён; нет активного run. Main/upstream не изменены.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS впервые.
@@ -16,8 +16,8 @@ normal сохраняет current source T.own/F.own, копирует выбр�
 и двигает cursors; callback unwind сохраняет destination option, возвращает
 current source/F ownership. Нет обещания entry values, duplicate T.own или SWO.
 Cleanup patch94fe2cd6/kernel100eebae/translator0e450267 экспериментальны:
-positive PASS;6 proof negatives и4 frontend admission controls достигли
-нужных отказов, точный classifier/матрица приёмки требует свежего запуска.
+positive+6 proof negatives+4 frontend admission controls и все fail-closed
+mutants PASS run37713243201. M2 broad admission отдельно ещё OPEN.
 Это условное доказательство actual callee; общий generic Challenge НЕ ДОКАЗАН.
 
 G2/A/B, native C/C++, ordinary normal/unwind и старые Rust controls PASS;

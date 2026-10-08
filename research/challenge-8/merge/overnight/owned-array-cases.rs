@@ -4,7 +4,7 @@
 // FnMut, read/copy T values, or claim anything about an actual merge body.
 
 /*@
-pred owned_array<T>(t: thread_id_t, p: *T, n: usize; vs: list<T>) =
+pred owned_array<T>(t: thread_id_t, p: *T, n: usize, vs: list<T>) =
     n == length(vs) &*& pointer_within_limits(p) == true &*&
     if n == 0 {
         vs == nil
@@ -16,7 +16,7 @@ pred owned_array<T>(t: thread_id_t, p: *T, n: usize; vs: list<T>) =
 // The signed indices are offsets from this predicate's current p. A value of
 // -1 means that the corresponding hole has already been passed by recursion.
 pred owned_array_two_holes<T>(t: thread_id_t, p: *T, n: usize,
-                              i: i32, j: i32; vs: list<T>) =
+                              i: i32, j: i32, vs: list<T>) =
     n == length(vs) &*& pointer_within_limits(p) == true &*&
     if n == 0 {
         vs == nil
@@ -222,14 +222,14 @@ pub unsafe fn owned_array_restore_concrete_u32_current_values(
     0 <= i &*& i < j &*& j < n &*&
     0 < std::mem::size_of::<u32>() &*&
     n * std::mem::size_of::<u32>() <= isize::MAX &*&
-    *(p + i) |-> 41u32 &*& *(p + j) |-> 73u32 &*&
-    <u32>.own(t, 41u32) &*& <u32>.own(t, 73u32); @*/
+    *(p + i) |-> 41 &*& *(p + j) |-> 73 &*&
+    <u32>.own(t, 41) &*& <u32>.own(t, 73); @*/
 /*@ ens thread_token(t) &*& type_interp::<u32>() &*&
     owned_array::<u32>(t, p, n,
-        replace_two::<u32>(vs, i, j, 41u32, 73u32)); @*/
+        replace_two::<u32>(vs, i, j, 41, 73)); @*/
 /*@ on_unwind_ens false; @*/
 {
-    //@ owned_array_restore_two::<u32>(t, p, n, i, j, 41u32, 73u32);
+    //@ owned_array_restore_two::<u32>(t, p, n, i, j, 41, 73);
 }
 // CASE_END owned_array_restore_concrete_u32_current_values
 
