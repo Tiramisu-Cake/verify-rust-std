@@ -1,0 +1,236 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -12234,14 +12234,33 @@
+   let sort4_actual_owner_admit
+       (vf_mir : VfMirRd.VfMir.t) root (body : BodyRd.t) =
+     let reject = Sort4SelectIntrinsic.reject in
+-    let names = [
++    let nine =
++      Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
++    let names = if nine then [
++      "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
++      "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
++      "sort4_checked_generic_drop"; "checked_transmute_neo_pointer";
++      "checked_assume_init_pointer"; "checked_forget_owned";
++      "select_unpredictable";
++      "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
++    ] else [
+       "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
+       "sort4_checked_as_mut_ptr";
+       "sort4_checked_pointer_drop";
+       "select_unpredictable";
+       "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
+     ] in
+-    let body_hashes = [
++    let body_hashes = if nine then [
++      "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc";
++      "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562";
++      "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182";
++      "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951";
++      "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed";
++      "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
++      "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
++      "e7e9f17649dce8b16c7f21660511b453423c7930fd678aad026207a55acfffa6";
++      "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
++    ] else [
+       "6527c8df047e70602b40ec03b17614a3e278b19f23ef94a4aa5e87f6793c39b7";
+       "396dcf5b5a509121fcaf9afc35c8b64bff04a866140bec59b03a2d8724db4db7";
+       "5b495817c6ce57c0ff0bec146ffe0bde9f735900f75ac4f3cd72c13ead22a070";
+@@ -12252,7 +12271,7 @@
+     if List.map (fun b ->
+       TrName.translate_def_path (BodyRd.def_path_get b)) bodies <> names ||
+        List.length bodies <> List.length body_hashes then
+-      reject "owner exact five-body order";
++      reject "owner exact five/nine-body order";
+     let* signature_loc = translate_span_data (BodyRd.fn_sig_span_get body) in
+     let path = match signature_loc with
+       | Ast.Lexed (((path,_,_),_)) when
+@@ -12260,8 +12279,31 @@
+       | _ -> reject "owner actual source path" in
+     let source = Sort4MaybeUninit.read_file path in
+     if sort4_actual_owner_sha256 source <>
+-         "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3" then
++         (if nine then
++            "8629849c2d2ddde1eeb90fadb6a151dc52e626385578f89f0d86fce842c61eb8"
++          else
++            "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3") then
+       reject "owner exact verified source SHA256";
++    if nine then (
++      let original = Filename.concat
++        (Filename.dirname (Filename.dirname path)) "original/lib.rs" in
++      if sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file original) <>
++        "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5"
++      then reject "nine exact original source SHA256");
++    if nine then List.iter (fun (relative,expected) ->
++      let actual = sort4_actual_owner_sha256
++        (Sort4MaybeUninit.read_file (Filename.concat root relative)) in
++      if actual <> expected then reject ("nine pinned std " ^ relative))
++      [
++       "library/core/src/mem/maybe_uninit.rs",
++         "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0";
++       "library/core/src/mem/manually_drop.rs",
++         "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25";
++       "library/core/src/mem/mod.rs",
++         "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2";
++       "library/core/src/intrinsics/mod.rs",
++         "de4a6d2afbd1d9f725222c1f4d95a107b8202586b952ce2a619a054c6f2f1865"
++      ];
+     let hint_path = Filename.concat root "library/core/src/hint.rs" in
+     if Digest.to_hex (Digest.file hint_path) <>
+          "362331eb7fa49dfa0ab4d656f4ed7fef" then
+@@ -12303,10 +12345,16 @@
+       "             } else {\n" ^
+       "                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
+       "             } @*/\n" in
+-    let open_owner =
++    let open_owner = if nine then
++      "        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/\n" ^
++      "        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n" ^
++      "        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n"
++      else
+       "        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/\n" ^
+       "        /*@ assert *guard.inner |-> ?selected_payload; @*/\n" ^
+       "        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n" in
++    let saved_guard =
++      "        /*@ assert <select_unpredictable::DropOnPanic<*Element>>.own(t, ?saved_guard); @*/\n" in
+     let selected =
+       "        /*@ if (condition) {\n" ^
+       "                 std::mem::close_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);\n" ^
+@@ -12320,9 +12368,11 @@
+     let body_text = insert_after body_text
+       "        let guard = DropOnPanic { inner: guard };\n" owner in
+     let body_text = insert_after body_text
+-      "        drop.drop_in_place();\n" (unselected ^ open_owner) in
++      "        drop.drop_in_place();\n"
++      (unselected ^ (if nine then saved_guard else open_owner)) in
+     let body_text = insert_after body_text
+-      "        crate::mem::forget(guard);\n" selected in
++      "        crate::mem::forget(guard);\n"
++      ((if nine then open_owner else "") ^ selected) in
+     let signature =
+       "pub fn select_unpredictable<Element>(\n    condition: bool,\n    true_val: *const Element,\n    false_val: *const Element,\n) -> *const Element" in
+     let contract =
+@@ -12330,8 +12380,12 @@
+       "ens thread_token(t) &*& (result as pointer) ==\n" ^
+       "        (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result);\n" ^
+       "@*//*@ on_unwind_ens false; @*/\n" ^
+-      "/*@\nsafety_proof {\n    let r = call();\n" ^
+-      "    open raw_ptr_own::<Element>()(_t, r);\n}\n@*/\n" in
++      (if nine then
++        "/*@\nsafety_proof {\n    let outcome = call();\n" ^
++        "    open raw_ptr_own::<Element>()(_t, fn_outcome_result(outcome));\n}\n@*/\n"
++       else
++        "/*@\nsafety_proof {\n    let r = call();\n" ^
++        "    open raw_ptr_own::<Element>()(_t, r);\n}\n@*/\n") in
+     let predicate =
+       "\n/*@\npred<T> <select_unpredictable::DropOnPanic<T>>.own(t, g) =\n" ^
+       "    *g.inner |-> ?payload &*& <T>.own(t, payload);\n@*/\n" in
+@@ -12373,7 +12427,10 @@
+       "/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/";
+       "/*@\nens thread_token(t) &*& (result as pointer) ==\n        (if condition { true_val as pointer } else { false_val as pointer }) &*& raw_ptr_own::<Element>()(t, result);\n@*/";
+       "/*@ on_unwind_ens false; @*/";
+-      "/*@\nsafety_proof {\n    let r = call();\n    open raw_ptr_own::<Element>()(_t, r);\n}\n@*/"
++      (if nine then
++         "/*@\nsafety_proof {\n    let outcome = call();\n    open raw_ptr_own::<Element>()(_t, fn_outcome_result(outcome));\n}\n@*/"
++       else
++         "/*@\nsafety_proof {\n    let r = call();\n    open raw_ptr_own::<Element>()(_t, r);\n}\n@*/")
+     ] in
+     if List.map AnnotationRd.raw_get
+          (ContractRd.annotations_get_list (BodyRd.contract_get body)) <>
+@@ -12389,9 +12446,16 @@
+       "/*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/";
+       "/*@ assert *true_ptr |-> ?true_payload; @*/";
+       "/*@ assert *false_ptr |-> ?false_payload; @*/";
+-      String.trim owner; String.trim unselected;
++      String.trim owner; String.trim unselected
++    ] @
++    (if nine then [String.trim saved_guard] else []) @
++    (if nine then [
++      "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/";
++      "/*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
++    ] else [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/";
+-      "/*@ assert *guard.inner |-> ?selected_payload; @*/";
++      "/*@ assert *guard.inner |-> ?selected_payload; @*/"
++    ]) @ [
+       "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/";
+       String.trim selected
+     ] in
+@@ -12412,16 +12476,21 @@
+     let unit_digest = sort4_actual_owner_sha256
+       (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
+     if unit_digest <>
+-         "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e" then
++         (if nine then
++            "54e70db56dfa35bc8f31ec6578e3c9197d2dc0d2b7f0ff5ca6a86a89a5228219"
++          else
++            "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e") then
+       reject "owner complete decoded unit SHA256";
+     List.iter2 (fun b expected ->
+       let actual = sort4_actual_owner_sha256
+         (Marshal.to_string (D.decode_body b) [Marshal.No_sharing]) in
+       if actual <> expected then reject "owner complete decoded body SHA256")
+       bodies body_hashes;
+-    if List.length (BodyRd.local_decls_get_list body) <> 41 ||
+-       List.length (BodyRd.basic_blocks_get_list body) <> 24 ||
+-       List.length (BodyRd.basic_blocks_get_list (List.nth bodies 4)) <> 4 then
++    if (not nine &&
++        (List.length (BodyRd.local_decls_get_list body) <> 41 ||
++         List.length (BodyRd.basic_blocks_get_list body) <> 24)) ||
++       List.length (BodyRd.basic_blocks_get_list
++         (List.nth bodies (if nine then 8 else 4))) <> 4 then
+       reject "owner outer/nested local and block inventory";
+     let cleanup_edges = List.fold_left (fun n block ->
+       match TerminatorKindRd.get
+@@ -12429,18 +12498,22 @@
+       | TerminatorKindRd.Call data ->
+           (match UnwindActionRd.get (FnCallDataRd.unwind_action_get data) with
+            | UnwindActionRd.Cleanup target when
+-               Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) = 23 ->
++               Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) =
++                 (if nine then 24 else 23) ->
+                n + 1
+            | _ -> n)
+       | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
+-    if cleanup_edges <> 9 then
++    if cleanup_edges <> (if nine then 10 else 9) then
+       reject "owner shared cleanup predecessor inventory";
+     (match BodyRd.ghost_stmts_get_list body with
+      | first::second::_ ->
+          Sort4SelectIntrinsic.actual_nested_ghosts := [first;second]
+      | _ -> reject "owner nested ghost metadata transfer source");
+     Printf.printf
+-      "SORT4-ACTUAL-OWNER: exact source and complete decoded MIR admission only\n%!";
++      (if nine then
++         "SORT4-ACTUAL-OWNER-NINE: exact source and complete decoded MIR admission only\n%!"
++       else
++         "SORT4-ACTUAL-OWNER: exact source and complete decoded MIR admission only\n%!");
+     Ok ()
+
+   let sort4_select_certify_helper root kind (body : BodyRd.t) =
+@@ -12672,16 +12745,21 @@
+           "select_unpredictable") bodies in
+       let* () = match Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" with
+        | Some owner_root when owner_root = root ->
+-           (match Sys.getenv_opt "SORT4_ACTUAL_OWNER_ADMISSION" with
+-            | Some "1" ->
++           (match Sys.getenv_opt "SORT4_ACTUAL_OWNER_ADMISSION",
++                  Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" with
++            | Some "1", (None | Some "1") ->
+                 let* () = sort4_actual_owner_admit vf_mir root body in
+                 actual_owner_admitted := true;
+                 Ok ()
+-            | None -> sort4_actual_owner_fingerprint_probe vf_mir root body
++            | None, None ->
++                sort4_actual_owner_fingerprint_probe vf_mir root body
+             | _ -> reject "actual owner admission opt-in value")
+        | Some _ ->
+            Sort4SelectIntrinsic.reject "actual owner/root identity"
+-       | None -> Ok () in
++       | None ->
++           if Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> None
++           then reject "nine admission requires same exact owner/root";
++           Ok () in
+       let* () = if !actual_owner_admitted then Ok () else (
+         actual_projection :=
+           List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) =
