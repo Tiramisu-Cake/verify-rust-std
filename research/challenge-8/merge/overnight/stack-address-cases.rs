@@ -47,6 +47,13 @@ pub fn stack_address_type_arguments() {
 }
 // CASE_END stack_address_type_arguments
 
-// The positive Range/tuple3 probe and scalar/source-named/parameter controls
+// CASE_BEGIN stack_address_parameter
+// EXPECT_REJECTION {"kind":"frontend_admission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":16,"column_end":30,"message":"mir_stack_addr(1): return place and parameters are forbidden"}
+pub fn stack_address_parameter(parameter: usize) {
+    //@ assert mir_stack_addr(1) == mir_stack_addr(1); // TARGET: MIR local _1 is the first function parameter
+}
+// CASE_END stack_address_parameter
+
+// The positive Range/tuple3 probe and scalar/source-named controls
 // require fresh same-SHA MIR local IDs and role certification before insertion.
 // Do not infer IDs from an older source or a different annotation set.
