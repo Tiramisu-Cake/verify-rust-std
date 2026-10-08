@@ -1,8 +1,8 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
-**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **1088/7200 job seconds**
-(204 + 209 + 55 + 130 + 224 + 266), осталось **6112/7200**. Ночная история **3971/21600** отдельно;
+**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **1348/7200 job seconds**
+(204 + 209 + 55 + 130 + 224 + 266 + 260), осталось **5852/7200**. Ночная история **3971/21600** отдельно;
 старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
 Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
 `77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`.
@@ -125,6 +125,22 @@ INCONCLUSIVE/OPEN. Следующая оценка требует закрыть
 gate и калибровать parser controls до admission; actual bidirectional proof пока
 не принимается. Остаток 6112 continuation job seconds; night3971/21600 и старый
 603/1800 отдельно. Runtime std и исторические классификации не меняются.
+
+M3k /35574949, run37756317511 (job11324164864409:23:37–09:27:57UTC,260s)
+сохранён как FAILURE diagnostic matrix; новый расход **1348/7200**, остаток5852.
+Stack parser group PREPARATION FAILED: expected-message comment contains the
+marker name; no address admission claim. Normal-MIR certs len2/len23 PASS,
+proof-AST remains125/OPEN. Stage lemma fatalNot_found on nested match; len2
+ghost annotation has >1statement parse refusal; len23some(_) parser refused.
+These are setup/representation failures, no intended proof negatives.
+Quartet full12 constructor PASS23exec/full gates; matchedfalse reaches
+27:16–21 uncalibrated. Fullquartet G2 main **134exec** with13helpers PASS,
+reaches final tuple packing but times out at30s; original balanced main
+entry-death preserved and will not be rerun without a changed hypothesis.
+Usizetrusted-summary adapter/frame/boundaries3PASS and2exactfalse controlsPASS;
+actualup/down fullPASS116/120exec. M3l candidate same-input AST gate has12
+mutations, ghost-block/option discriminator repairs, calibratedquartetfalse,
+120s bound for trace; no new semantic patch.
 
 ---
 

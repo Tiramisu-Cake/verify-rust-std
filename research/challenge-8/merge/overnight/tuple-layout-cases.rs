@@ -260,6 +260,7 @@ pub unsafe fn tuple_layout_twelve_quartets<T>(src: *const T, dst: *mut T)
 // CASE_END tuple_layout_twelve_quartets
 
 // CASE_BEGIN tuple_layout_twelve_quartets_false_entry
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
 pub unsafe fn tuple_layout_twelve_quartets_false_entry<T>(src: *const T, dst: *mut T)
     -> ((*const T, *const T, *mut T, *const T),
         (*const T, *mut T, *const T, *const T), (usize, usize, bool, bool))

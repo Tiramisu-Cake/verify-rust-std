@@ -226,7 +226,9 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
         body = match.group(2)
         verified = prefix + body
         original = strip_annotations(verified)
-        if b"mir_stack_addr" in original:
+        # Expected-diagnostic JSON is an ordinary line comment; messages may
+        # quote the marker name without introducing a runtime expression.
+        if b"mir_stack_addr" in EXPECTED_REJECTION.sub(b"", original):
             raise RuntimeError(f"{name}: stack address marker outside ghost annotations")
         if strip_annotations(verified) != original:
             raise RuntimeError(f"{name}: ghost stripping is not byte deterministic")
@@ -539,7 +541,7 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
         verifier = run_stage(name, "verifast", [
             str(args.tool_home / "bin/verifast"), "-rustc_args", "--edition 2021",
             "-verbose", "1", "-dump_ast_with_locs", "proof-ast.ml", "verified/lib.rs",
-        ], case_dir, combine_output=True)
+        ], case_dir, timeout_seconds=args.verifier_seconds, combine_output=True)
     else:
         verifier = 125
         (case_dir / "verifast.out").write_bytes(b"")
@@ -553,13 +555,21 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
         (case_dir / "verifast-exit-code.txt").write_text(f"{verifier}\n")
 
     if stack_stages:
-        # The first address-rewritten AST has not yet been reviewed. Normal
-        # MIR/source admission is useful diagnostic evidence, not acceptance
-        # of its correspondence with the actual AST consumed by the kernel.
-        stack_stages["proof_ast"] = 125
+        # Same-input syntactic linkage is independent of the body proof.
+        # Its success never substitutes for any existing verifier gate.
+        if stack_stages.get("roles") == 0 and (case_dir / "proof-ast.ml").is_file():
+            stack_stages["proof_ast"] = run_stage(name, "stack-proof-ast", [
+                sys.executable, str(HERE / "stack-proof-ast-admission.py"),
+                "--proof-ast", str(case_dir / "proof-ast.ml"),
+                "--roles", str(case_dir / "stack-roles.json"),
+                "--source", str(verified),
+                "--output", str(case_dir / "stack-proof-ast.json"),
+            ], case_dir)
+        else:
+            stack_stages["proof_ast"] = 125
         (case_dir / "stack-proof-ast-status.json").write_text(json.dumps({
-            "status": "OPEN", "exit_code": 125,
-            "reason": "fresh rewritten AST declaration/call/destructure/address comparison pending",
+            "status": "AST_LINKED" if stack_stages["proof_ast"] == 0 else "OPEN",
+            "exit_code": stack_stages["proof_ast"],
             "proof_ast_sha256": (sha((case_dir / "proof-ast.ml").read_bytes())
                 if (case_dir / "proof-ast.ml").is_file() else None),
         }, indent=2) + "\n")
@@ -1018,7 +1028,11 @@ def main() -> int:
     parser.add_argument("--scope", default="isolated pointer/index projection fixtures; refinement is not whole bidirectional_merge")
     parser.add_argument("--cases", default="all",
                         help="comma-separated fixture cases, or all (default)")
+    parser.add_argument("--verifier-seconds", type=int, default=TIMEOUT_SECONDS,
+                        help="per-case hosted verifier limit, at most 300 seconds")
     args = parser.parse_args()
+    if not 1 <= args.verifier_seconds <= 300:
+        raise RuntimeError("verifier limit must be between 1 and 300 seconds")
     if (os.environ.get("GITHUB_ACTIONS") != "true" or
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or
             os.environ.get("RUNNER_OS") != "Linux" or

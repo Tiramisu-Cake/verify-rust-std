@@ -223,11 +223,13 @@ suite() {
     --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
     --scope 'isolated five-shape tuple return ladder and matched entry false assertions; diagnose vacuity without trusting generated helper assumptions' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --cases tuple_layout_unit_entry_baseline,tuple_layout_flat_pointer_pair,tuple_layout_flat_pointer_pair_false_entry,tuple_layout_pointer_pairs,tuple_layout_pointer_pairs_false_entry,tuple_layout_nested_scalars,tuple_layout_nested_scalars_false_entry,tuple_layout_twelve_quartets,tuple_layout_twelve_quartets_false_entry \
     --fixture research/challenge-8/merge/overnight/tuple-layout-cases.rs --evidence "$evidence/checked-tuple-layout"
   run_one trace-entry-tuple-diagnostics 120 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
     --scope 'isolated exact trace precondition inhabitation versus nested tuple result representation; main contract unchanged' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --cases trace_generic_entry_domain,trace_u32_entry_domain,trace_generic_entry_domain_negative \
     --fixture research/challenge-8/merge/overnight/trace-precondition-cases.rs --evidence "$evidence/checked-trace-entry"
   run_one usize-source-admission 30 python3 research/challenge-8/merge/overnight/usize-multiple-admission.py \
     --output "$evidence/usize-source-admission.json"
@@ -241,16 +243,14 @@ suite() {
     --scope 'ghost-only existing hidden-struct address projection; syntax/missing-ID admission diagnostics uncalibrated, no permissions granted' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/stack-address-cases.rs --evidence "$evidence/checked-stack-address"
-  run_one pointer-full-trace-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
-    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-    --fixture research/challenge-8/merge/overnight/pointer-trace-cases.rs \
-    --evidence "$evidence/checked-pointer-trace"
+  # Original balanced trace/entry-death evidence is retained in previous runs.
+  # Its same reproducible pre-body refusal is not rerun; quartet profile keeps
+  # all twelve original coordinates, helper proofs and relations.
   run_one pointer-quartet-trace-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
     --scope 'same twelve G2 trace coordinates and complete posts in stock tuple3 of tuple4 layout; original balanced tuple profile retained' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-    --fixture research/challenge-8/merge/overnight/pointer-trace-quartet-cases.rs \
+    --verifier-seconds 120 --fixture research/challenge-8/merge/overnight/pointer-trace-quartet-cases.rs \
     --evidence "$evidence/checked-pointer-trace-quartets"
   run_one actual-source-preparation 20 python3 research/challenge-8/merge/overnight/actual-prepare.py \
     --output "$evidence/actual-cases.rs"

@@ -486,3 +486,11 @@ annotation repair plus unchanged-patch matrix check was NOT AUTHORIZED / NOT RUN
 at this historical checkpoint. Later night N1/N2 completed full acceptance
 (updates above); earlier raw failures and closed historical budgets remain.
 RAPx0.7.50 CLOSED/NO-GO; B/C NOT RUN; original ZST remains in adopted domain.
+
+M3k/35574949/run37756317511: actualup/downfullPASS116/120exec preserved;
+G2quartetconstructorfullPASS23exec, main134exec reachesreturnpackingthen
+30stimeout—nofulltraceproof. Usize3positive/2exactnegativePASS underexplicit
+trustedprimitive. Stackexpectedcommentprepfailure, ASTOPEN125; actuallen2
+annotationparse andlen23matchpatternparse remainsetupfailures. Stagebase
+lemmafatalnestedSwitchExprNot_found isunsupported, notcounterexample.
+Continuation1348/7200,5852left. See M3l preparedcard; noadmissiontransfer.

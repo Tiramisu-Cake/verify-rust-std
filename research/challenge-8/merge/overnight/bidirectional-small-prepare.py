@@ -34,7 +34,7 @@ fix bidirectional_small_option_same<T>(old_value: option<T>, new_value: option<T
     match old_value {
         none => match new_value {
             none => true,
-            some(_) => false
+            some(ignored_new_payload) => false
         },
         some(old_payload) => match new_value {
             none => false,
@@ -46,7 +46,7 @@ fix bidirectional_small_option_same<T>(old_value: option<T>, new_value: option<T
 fix bidirectional_small_option_is_some<T>(value: option<T>) -> bool {
     match value {
         none => false,
-        some(_) => true
+        some(ignored_payload) => true
     }
 }
 
@@ -233,9 +233,9 @@ def insert_len23_invariant(body: str) -> str:
         "left == src &*& right == src + 1 &*& left_rev == src &*& "
         "right_rev == src + (len - 1) &*& dst_1 == dst &*& "
         "dst_rev == dst + (len - 1);\n"
-        "            //@ size_align::<T>(); if len == 3 { bidirectional_small_unwind_unchanged::<T>(len, dst0, dst1, dst2); } else { bidirectional_small_unwind_unchanged::<T>(len, dst0, dst1, none); }\n"
-        "            //@ address_stride_aligned(src as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); open c1_one_pointer_domain::<T>(src as *mut T); open c1_one_pointer_domain::<T>((src + 1) as *mut T); open c1_one_pointer_domain::<T>(dst); open c1_one_pointer_domain::<T>(dst + 1);\n"
-        "            //@ address_stride_aligned(dst as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); if len == 3 { open c1_one_pointer_domain::<T>((src + 2) as *mut T); open c1_one_pointer_domain::<T>(dst + 2); }\n"
+        "            //@ { size_align::<T>(); if len == 3 { bidirectional_small_unwind_unchanged::<T>(len, dst0, dst1, dst2); } else { bidirectional_small_unwind_unchanged::<T>(len, dst0, dst1, none); } }\n"
+        "            //@ { address_stride_aligned(src as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); open c1_one_pointer_domain::<T>(src as *mut T); open c1_one_pointer_domain::<T>((src + 1) as *mut T); open c1_one_pointer_domain::<T>(dst); open c1_one_pointer_domain::<T>(dst + 1); }\n"
+        "            //@ { address_stride_aligned(dst as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); if len == 3 { open c1_one_pointer_domain::<T>((src + 2) as *mut T); open c1_one_pointer_domain::<T>(dst + 2); } }\n"
     )
     return body.replace(loop, loop + invariant, 1)
 

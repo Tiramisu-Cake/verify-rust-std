@@ -5073,3 +5073,34 @@ advance next exact callee/resource obligation; if len23 binder/type setup fails,
 repair representation preserving all slot resources; if quartet layout enters,
 continue loop geometry, otherwise keep the dead-code result and investigate allocation.
 New job bounded1800s, window14:30MSK and remaining6112; runtime std unchanged.
+
+### Continuation M3k outcome and M3l prepared
+
+Proof3557494937f7ed93f87d6b8b2deec912617b0a1a /
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37756317511
+job11324164864409:23:37–09:27:57UTC260s, overallFAILURE. Allold accepted
+baselines and actualup/down fullPASS. Usizeformula/frame/boundaries3PASS,
+zero/odd intendedfalse +mutantsPASS. Quartet constructor23exec/fullPASS,
+falseentryreaches27:16–21 uncalibrated. Mainquartet134exec/helper13bodiesPASS
+gets to returnpacking then30stimeout, no theorem. Originalbalancedmain
+still0exec/dead; retainedhistorically, no next identical full rerun.
+Stacksyntaxpreparation refuses markername in expectederror COMMENT; root
+changes only that metadata-line exclusion from runtime marker detection.
+Exact original runtime/refinement bytes stay unchanged. Len2/len23freshnormal
+rolesPASS, finalASTOPEN125. StagelemmaNonearmreturns/leakPASS then
+fatalNot_found nestedWSwitchExpr closurecapture (kernel8818); keyunlogged.
+Exactdiscriminator`partial1 != none` removesnesting with equivalent option
+states. Packedghostcommandparsefails (oneparse_stmt perannotation), fixed
+viaoneblock perexistingline. Len23some(_) parserunsupported fixednamed
+binders. Conditionaldst2bindingstillunestablished.
+
+M3l uses candidate fullconsumption sameinputASTgate onnormalrole/source/AST
+with12wrongdeclaration/address/call/argument/range/padding/unwind/destructure
+mutations. It grantsnoresources and cannotreplaceactualbody gates.
+Addresssyntax6exactoraclesmustfreshreachfrontend. Tracequartet120s verifier
+limit (≤300), complete12posts unchanged. Calibrate reachedquartetfalse
+TARGET exactfalse16–21. Originalbalancedtrace and its reproducible entry
+controls are preservedbutexcluded fromrepeat; accepted compacttuples and
+all accepted math/resource/callee regressions remain. Nextdecision follows
+actualproofdiagnostic/ASTadmission independently. Currentcontinuation
+1348/7200,5852left; night3971/21600 andpre-night603/1800 separate.

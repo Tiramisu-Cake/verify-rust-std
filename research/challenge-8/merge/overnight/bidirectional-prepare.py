@@ -230,7 +230,7 @@ def insert_one_iteration_invariant(body: str) -> str:
         "*dst |-?-> dst0 &*& *(dst + 1) |-?-> dst1 &*& "
         "left == src &*& right == src + 1 &*& left_rev == src &*& "
         "right_rev == src + 1 &*& dst_1 == dst &*& dst_rev == dst + 1;\n"
-        "            //@ size_align::<T>(); bidirectional_stage_unchanged::<T>(dst0, dst1);\n"
+        "            //@ { size_align::<T>(); bidirectional_stage_unchanged::<T>(dst0, dst1); }\n"
         "            //@ aligned_address_step(src as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());\n"
         "            //@ aligned_address_step(dst as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());\n"
     )

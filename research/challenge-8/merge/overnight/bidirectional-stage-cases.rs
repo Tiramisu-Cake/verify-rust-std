@@ -4,10 +4,7 @@
 fix bidirectional_unwind_options<T>(dst0: option<T>, dst1: option<T>, partial0: option<T>, partial1: option<T>) -> bool {
     match partial0 {
         none => partial0 == dst0 && partial1 == dst1,
-        some(written0) => partial1 == dst1 || match partial1 {
-            none => false,
-            some(written1) => true
-        }
+        some(written0) => partial1 == dst1 || partial1 != none
     }
 }
 
