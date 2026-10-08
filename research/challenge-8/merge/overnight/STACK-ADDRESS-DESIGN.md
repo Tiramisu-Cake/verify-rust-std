@@ -88,12 +88,14 @@ contexts rather than allowing an unresolved marker to reach verification.
 Contract and ghost-declaration markers, and markers in assumed-false bodies,
 are rejected. The marker's expansion is only `AddressOf(Var(existing_local))`.
 
-`stack-address-cases.rs` contains translator-admission diagnostics for syntax
-and missing IDs. They have no claimed error counts or accepted negative status.
-Positive resource probes, exact Range/tuple3 IDs and role-sensitive controls
-remain pending fresh hosted MIR inspection. For each active ID, admission must
-match the printed declaration span and type to the expected Range/tuple3 call
-role; this is outside the translator's structural eligibility check.
+`stack-address-cases.rs` contains six exact frontend-admission oracles for
+syntax and missing-ID controls, calibrated against run 37752503002 below.
+They are admission rejections, not proof negatives: the marked bodies must not
+execute. Positive resource probes, exact Range/tuple3 IDs and role-sensitive
+controls remain pending fresh hosted MIR inspection. For each active ID,
+admission must match the printed declaration span and type to the expected
+Range/tuple3 call role; this is outside the translator's structural
+eligibility check.
 
 ## Normal-preprocess MIR admission
 
@@ -158,3 +160,33 @@ review, so its separate acceptance gate is explicitly OPEN/125 and the actual
 bidir result cannot classify PASS even if the diagnostic body verifies. This
 first capture enables that review; it neither asserts a missing certificate
 nor invokes a nonexistent certificate option. All mandatory old gates remain.
+
+## Run 37752503002: syntax-control admission calibration
+
+The fresh `checked-stack-address` artifacts located six frontend parser
+rejections. Each case had exporter/decode/refinement exit status 0,
+VeriFast exit status 1, and zero marked-body executions. The exact errors in
+`verified/lib.rs` were:
+
+| Case | Location | Exact error | Control represented |
+| --- | --- | --- | --- |
+| `stack_address_zero` | 9:16–30 | `mir_stack_addr requires exactly one unsuffixed decimal literal, no type arguments or indices` | zero is outside the positive-ID domain |
+| `stack_address_negative` | 9:16–30 | same syntax error | negative spelling is outside the decimal-literal grammar |
+| `stack_address_nonliteral` | 9:16–30 | same syntax error | runtime value is not a static ID |
+| `stack_address_wrong_arity` | 9:16–30 | same syntax error | two arguments violate the one-argument form |
+| `stack_address_high_id` | 9:16–30 | `mir_stack_addr(999999): raw MIR local ID is absent` | positive ID is absent from this checked body |
+| `stack_address_type_arguments` | 9:39–40 | `mir_stack_addr requires exactly one unsuffixed decimal literal, no type arguments or indices` | explicit type arguments violate the marker grammar |
+
+`stack-address-cases.rs` now binds each oracle to the observed file, target
+line, columns, and full message. A future fresh hosted run can classify a row
+as an expected frontend-admission rejection only if those details match and
+the body remains unentered. The saved run predates these exact oracles and
+remains historical INCONCLUSIVE evidence; metadata does not retroactively
+change its classification. In particular, the `zero` row is a negative
+domain-control, not a valid syntax acceptance baseline. The six rows provide
+no positive evidence that a valid positive local ID is admitted, and no
+ownership, resource, or proof evidence. Add a separately calibrated valid
+positive-ID control using an ID discovered from the same final normal-MIR
+capture before making an admission-acceptance claim. The independent
+normal-MIR-to-proof-AST correspondence gate remains OPEN/125, so the actual
+bidir result remains unaccepted until that gate closes.

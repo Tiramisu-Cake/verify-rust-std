@@ -246,6 +246,12 @@ suite() {
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/pointer-trace-cases.rs \
     --evidence "$evidence/checked-pointer-trace"
+  run_one pointer-quartet-trace-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+    --scope 'same twelve G2 trace coordinates and complete posts in stock tuple3 of tuple4 layout; original balanced tuple profile retained' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/pointer-trace-quartet-cases.rs \
+    --evidence "$evidence/checked-pointer-trace-quartets"
   run_one actual-source-preparation 20 python3 research/challenge-8/merge/overnight/actual-prepare.py \
     --output "$evidence/actual-cases.rs"
   if [[ -f "$evidence/actual-cases.rs" ]]; then
@@ -255,6 +261,11 @@ suite() {
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/actual-cases.rs" --evidence "$evidence/checked-actual"
   fi
+  run_one bidirectional-option-stages 120 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+    --scope 'checked exact panic option-stage lemmas and full destination frame; suffix-only negative must reach assertion' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/bidirectional-stage-cases.rs --evidence "$evidence/checked-bidirectional-stages"
   run_one bidirectional-source-preparation 20 python3 research/challenge-8/merge/overnight/bidirectional-prepare.py \
     --output "$evidence/bidirectional-cases.rs"
   if [[ -f "$evidence/bidirectional-cases.rs" ]]; then
@@ -263,6 +274,15 @@ suite() {
       --scope 'unchanged actual bidirectional len2 with same-source checked actual callees; full current-owner and partial panic initialization targets; restricted domain/dead branches remain explicit diagnostics' \
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/bidirectional-cases.rs" --evidence "$evidence/checked-bidirectional"
+  fi
+  run_one bidirectional-small-source-preparation 20 python3 research/challenge-8/merge/overnight/bidirectional-small-prepare.py \
+    --output "$evidence/bidirectional-small-cases.rs"
+  if [[ -f "$evidence/bidirectional-small-cases.rs" ]]; then
+    run_one bidirectional-len23-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+      --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+      --scope 'unchanged actual bidirectional lengths two or three; actual callees, complete current source and scratch resources, conditional third cell and exact panic stages; both odd/even branches required' \
+      --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+      --fixture "$evidence/bidirectional-small-cases.rs" --evidence "$evidence/checked-bidirectional-small"
   fi
   return "$suite_status"
 }

@@ -4946,3 +4946,130 @@ with unchangedmessages; ZST mappingearlieralignment remains INCONCLUSIVE.
 Stack normalMIR/source rolecertificate tested separately from finalAST linkage:
 finalAST gate explicitlyOPEN/125 pending first rewrittenartifact review; actual
 bidir cannotPASS at thisdiagnosticstage. Fulloldmatrix stillrequired.
+
+### M3j stack/tuple diagnostic matrix — run37752503002 /77f50f75
+
+[Hosted run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37752503002),
+proof/Actions SHA `77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`; job113228913710,
+08:50:25–08:54:51 UTC, **266s**, full diagnostic job success. Continuation ledger
+**1088/7200s** (204+209+55+130+224+266), **6112s remaining**; night3971/21600
+and prior603/1800 stay separate. The two setup-only failures (55s and130s) remain
+recorded and are not proof outcomes. Actual source is commit
+`cd371e035c7e573760c43bf934d53e8118ee3e7d`, SHA
+`85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`; VeriFast
+26.10 commit `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly-2026-09-25,
+hosted Ubuntu 22.04. Profile W1+M2a+copy+strict-cleanup+zero-safe usize+stack-address,
+explicit pinned strict kernel patch; stock exporter/refiner/schema. The cache was
+deliberately disabled pending stack-address admission. Console was cold-built;
+actual VeriFast binary SHA `18b914ef6420d329097607c6e102fde6d3c733016ae95b9478717045513b1be9`,
+profile ID `vf26.10-w1-m2-c1-cleanup-usize-stack-ubuntu22.04-v1`. No current cache
+entry was admitted. Full build patch manifest and source/tool pins are in the run
+artifact; combined applied-profile patch SHA256 is
+`b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927`. Selected patch
+SHA256s: cleanup `94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604`,
+usize `ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1`, stack
+address `f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64`;
+patched kernel `100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6`,
+translator `ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c`,
+prelude_core `d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751`, and
+stdlib `d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227`. Stock
+exporter/refiner/schema and the pinned VF source/toolchain remain as recorded above;
+cold build is not cache validation.
+
+All selected group commands completed with status0, and aggregate classifier-control
+gates pass. `merge_up/down` again PASS the full source/export/decode/refinement,
+normal/unwind, body, return/leak/dead gates: 116/120 execution records and three
+return plus three leak records each. Baseline/profile smoke, G2/A/B compatibility,
+native C/C++, and nine Rust regression cases pass; the two wrong-result Rust
+controls are exact EXPECTED_FALSE_ASSERTION. Pointer bridge 9/9; pointer-domain 1
+positive+2 exact rejections; owned-array 3+2; scratch options 3+3; M2 tuple shape
+valid+6 admission rejections; M2 tuple-resource 1+4 proof rejections; cleanup
+12/12 (2 positive/frame, 6 proof rejection, 4 frontend admission rejection). HRTB
+certificate is 11/11 with classifier controls; all 11 underlying proof rows remain
+INCONCLUSIVE. Callback borrow, four prepared HRTB rows and four concrete-ZST
+layout/access rows remain INCONCLUSIVE; two concrete-ZST terminal reentry controls
+PASS.
+
+Tuple-layout ladder has 11 rows: three full positives PASS—flat pointer pair
+(4 body records, one return/leak), nested pointer pairs (10, one return/leak), and
+nested scalar pair (6, one return/leak). Eight rows stay INCONCLUSIVE. The unit
+baseline and three matched false-entry controls reach `Cannot prove false` (one
+body record each) without exact EXPECTED_FALSE_ASSERTION metadata. Both pointer-half
+rows fail at `verified/lib.rs(22,24-25): Invalid dereference` with zero body entry;
+both full G2 tuple12 shapes have zero body entry and fail while VeriFast verifies
+prelude helper `u32_sync` (stage exits exporter/decode/refinement `0`, VeriFast `1`).
+None establish full tuple12 return admission or generic tuple representation.
+
+The usize source adapter certificate and all six fail-closed mutations pass. Formula
+PASSes; branch/boundary examples now PASS with 13 body records, one return and one
+leak. Odd-divisor false result is EXPECTED_FALSE_ASSERTION at
+`verified/lib.rs(35,30-32)`. Zero-divisor false-result remains INCONCLUSIVE at
+`verified/lib.rs(34,30-32)` (three target body records, no return/leak, no exact
+oracle). Frame projection reaches VeriFast but not its body: missing
+`points_to<u32>(frame, _)` at `verified/lib.rs(30,5-6)`, so remains INCONCLUSIVE.
+The primitive summary is still TRUSTED and the adapter certificate does not prove
+the std method implementation.
+
+All six isolated stack-address syntax fixtures are INCONCLUSIVE, zero body
+executions, stage exits exporter/decode/refinement `0`, VeriFast `1`. Five report
+`mir_stack_addr requires exactly one unsuffixed decimal literal, no type arguments
+or indices`; the high-ID fixture reports `mir_stack_addr(999999): raw MIR local ID
+is absent`. No admission diagnostic oracle was calibrated, so the classifier-control
+pass does not certify this syntax extension.
+
+Fresh **normal-preprocess MIR role evidence** is present for the actual bidirectional
+input: source SHA `95b919b4e30ecc8ffc320fe28d7d6b1891bf13c20f42ee5579f1aba1f02230b3`,
+normal MIR SHA `a8716d978e206c4bf1030a2bbe6fe305df6fb81b506578cd135b4012ce1b6211`,
+decoded SHA `ee5d431dfa7908fb951eab158441b67d10dc7d4f1de5c6a448df44b38fb0c15c`.
+The 14 marker occurrences bind `_53` and `_65` to existing tuple3 call-result
+locals, `_34` to the Range result, `_35` to the Range input. Nine role/type/target/
+unwind/source/MIR/decoded mutation names are recorded in `stack-roles.json`. The
+separate same-input rewritten proof-AST declaration/call/destructure/address gate
+is explicitly OPEN (`exit_code: 125`, AST SHA
+`b18fe7deea62068d59ab7814e3a0f476e6f0caabec78e9b8843700f4aa2ed251`). Therefore
+the actual-bidirectional stack-address profile is NOT admitted; do not infer it
+from normal-MIR role certification.
+
+Actual `bidirectional_merge_len2` remains INCONCLUSIVE after 56 body executions.
+It records one return and one leak and first fails at
+`verified/lib.rs(330,71-73)` on `Cannot prove bidirectional_unwind_options(T_typeid,
+dst0, dst1, dst0, dst1) <==> true.` The OPEN proof-AST gate independently blocks
+admission. This outcome neither closes the previous tuple/Range framing hypothesis
+nor establishes normal+unwind posts; all bodies, source hashes and original contract
+must pass after same-input AST linkage closes.
+
+Copy overlap/source-misalignment/destination-misalignment now classify
+EXPECTED_REJECTION at their exact target primitive-precondition oracles. The ZST
+mapping control remains INCONCLUSIVE: its observed source alignment error does not
+establish the intended ZST boundary. Both wrapping unsupported-count and signed
+offset controls now classify EXPECTED_REJECTION at exact +5-line locations. Earlier
+run377501 INCONCLUSIVE classifications are preserved for that source SHA.
+
+### Continuation M3k — checked panic stages, bounded odd/even profile, stock tuple quartets (prepared)
+
+After run37752503002 /77f50f75, unchanged actual bidirectional len2 reaches
+56 statements then the pure unchanged-scratch unwind relation. Preserve its
+exact fixpoint and prove unchanged/first/full cases in checked lemma bodies;
+frame two full option chunks in an isolated positive and assert suffix-only
+initialization as an uncalibrated TARGET negative. Invoke the base lemma on
+an existing annotation line, preserving normal-MIR roles and all old posts.
+New len2-or-3 generator includes actual up/down/panic bodies from the pinned
+repository blob; current T/F owners, per-cell C1 bounds/separation, conditional
+third source/scratch cells, precise no-write/first-write/full-write normal/unwind
+posts. Both runtime odd/even paths remain required; generic callers, Freeze,
+functional properties and AST admission remain OPEN.
+
+Tuple quartet alternative retains all12 terminal coordinates and full arbitrary
+length domain/posts via stock tuple3/tuple4 products. Matched complete constructor
+and false-entry probes isolate representation from geometry. Original balanced
+profile remains unchanged. Half-tuple selector bug repaired, four reached-false
+ladder controls calibrated; usize frame explicitly unsafe to admit the very same
+physical precondition, zero false target calibrated. Six stack parser refusals
+get exact frontend-admission oracles, not memory negatives. Source changes demand
+a fresh full matrix. No patch/profile change or relaxation of any proof gate.
+Before run: designs BIDIRECTIONAL-STAGE/SMALL and TUPLE-LAYOUT; static review and
+diff/AST/bash checks. Falsifiable decisions: if stages PASS and actual progresses,
+advance next exact callee/resource obligation; if len23 binder/type setup fails,
+repair representation preserving all slot resources; if quartet layout enters,
+continue loop geometry, otherwise keep the dead-code result and investigate allocation.
+New job bounded1800s, window14:30MSK and remaining6112; runtime std unchanged.

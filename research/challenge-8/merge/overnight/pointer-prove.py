@@ -502,7 +502,7 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
     (case_dir / "compiler-mir-sha256.txt").write_text(sha(mir.read_bytes()) + "\n")
     stack_stages: dict[str, int] = {}
     stack_requested = b"mir_stack_addr" in verified.read_bytes()
-    if stack_requested and name == "bidirectional_merge_len2":
+    if stack_requested and name in {"bidirectional_merge_len2", "bidirectional_merge_len23"}:
         # Stock VF uses normal in-memory ghost preprocessing, unlike the
         # independent readonly export above. Bind actual IDs to that mode.
         normal_command = [str(args.tool_home / "bin/vf-rust-mir-exporter"),
@@ -593,7 +593,7 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
                 chunks.append(path.read_text(errors="replace"))
         lines = "\n".join(chunks).splitlines()
         candidates = [line.strip() for line in lines if re.search(
-            r"error:|unsupported|not yet supported|todo:|failed|timeout|cannot prove|cannot establish",
+            r"error:|dead code|unsupported|not yet supported|todo:|failed|timeout|cannot prove|cannot establish",
             line, re.I)]
         stage_diagnostics[stage] = {
             "exit_code": result["stages"].get(stage),

@@ -13,6 +13,7 @@ pub type TupleLayoutG2<T> = (
 );
 
 // CASE_BEGIN tuple_layout_unit_entry_baseline
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
 pub unsafe fn tuple_layout_unit_entry_baseline<T>() -> ()
 /*@
 req true;
@@ -45,6 +46,7 @@ on_unwind_ens false;
 // CASE_END tuple_layout_flat_pointer_pair
 
 // CASE_BEGIN tuple_layout_flat_pointer_pair_false_entry
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
 pub unsafe fn tuple_layout_flat_pointer_pair_false_entry<T>(
     src: *const T,
     dst: *const T,
@@ -81,6 +83,7 @@ on_unwind_ens false;
 // CASE_END tuple_layout_pointer_pairs
 
 // CASE_BEGIN tuple_layout_pointer_pairs_false_entry
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
 pub unsafe fn tuple_layout_pointer_pairs_false_entry<T>(
     src: *const T,
     dst: *const T,
@@ -115,6 +118,7 @@ on_unwind_ens false;
 // CASE_END tuple_layout_nested_scalars
 
 // CASE_BEGIN tuple_layout_nested_scalars_false_entry
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
 pub unsafe fn tuple_layout_nested_scalars_false_entry() -> ((usize, usize), (bool, bool))
 /*@
 req true;
@@ -138,14 +142,14 @@ pub unsafe fn tuple_layout_pointer_half<T>(
 /*@
 req true;
 @*//*@
-ens ((((result.0).0).0).0) == src &*&
-    ((((result.0).0).0).1) == src &*&
-    ((((result.0).0).1).0) == dst &*&
-    ((((result.0).0).1).1) == src &*&
-    ((((result.0).1).0).0) == src &*&
-    ((((result.0).1).0).1) == dst &*&
-    ((((result.0).1).1).0) == src &*&
-    ((((result.0).1).1).1) == src;
+ens (((result.0).0).0) == src &*&
+    (((result.0).0).1) == src &*&
+    (((result.0).1).0) == dst &*&
+    (((result.0).1).1) == src &*&
+    (((result.1).0).0) == src &*&
+    (((result.1).0).1) == dst &*&
+    (((result.1).1).0) == src &*&
+    (((result.1).1).1) == src;
 @*//*@
 on_unwind_ens false;
 @*/
@@ -162,14 +166,14 @@ pub unsafe fn tuple_layout_pointer_half_false_entry<T>(
 /*@
 req true;
 @*//*@
-ens ((((result.0).0).0).0) == src &*&
-    ((((result.0).0).0).1) == src &*&
-    ((((result.0).0).1).0) == dst &*&
-    ((((result.0).0).1).1) == src &*&
-    ((((result.0).1).0).0) == src &*&
-    ((((result.0).1).0).1) == dst &*&
-    ((((result.0).1).1).0) == src &*&
-    ((((result.0).1).1).1) == src;
+ens (((result.0).0).0) == src &*&
+    (((result.0).0).1) == src &*&
+    (((result.0).1).0) == dst &*&
+    (((result.0).1).1) == src &*&
+    (((result.1).0).0) == src &*&
+    (((result.1).0).1) == dst &*&
+    (((result.1).1).0) == src &*&
+    (((result.1).1).1) == src;
 @*//*@
 on_unwind_ens false;
 @*/
@@ -237,3 +241,38 @@ on_unwind_ens false;
     )
 }
 // CASE_END tuple_layout_g2_full_false_entry
+
+// CASE_BEGIN tuple_layout_twelve_quartets
+pub unsafe fn tuple_layout_twelve_quartets<T>(src: *const T, dst: *mut T)
+    -> ((*const T, *const T, *mut T, *const T),
+        (*const T, *mut T, *const T, *const T), (usize, usize, bool, bool))
+/*@ req true; @*/
+/*@ ens (result.0).0 == src &*& (result.0).1 == src &*&
+    (result.0).2 == dst &*& (result.0).3 == src &*&
+    (result.1).0 == src &*& (result.1).1 == dst &*&
+    (result.1).2 == src &*& (result.1).3 == src &*&
+    (result.2).0 == 0 &*& (result.2).1 == 0 &*&
+    (result.2).2 == false &*& (result.2).3 == true; @*/
+/*@ on_unwind_ens false; @*/
+{
+    ((src, src, dst, src), (src, dst, src, src), (0, 0, false, true))
+}
+// CASE_END tuple_layout_twelve_quartets
+
+// CASE_BEGIN tuple_layout_twelve_quartets_false_entry
+pub unsafe fn tuple_layout_twelve_quartets_false_entry<T>(src: *const T, dst: *mut T)
+    -> ((*const T, *const T, *mut T, *const T),
+        (*const T, *mut T, *const T, *const T), (usize, usize, bool, bool))
+/*@ req true; @*/
+/*@ ens (result.0).0 == src &*& (result.0).1 == src &*&
+    (result.0).2 == dst &*& (result.0).3 == src &*&
+    (result.1).0 == src &*& (result.1).1 == dst &*&
+    (result.1).2 == src &*& (result.1).3 == src &*&
+    (result.2).0 == 0 &*& (result.2).1 == 0 &*&
+    (result.2).2 == false &*& (result.2).3 == true; @*/
+/*@ on_unwind_ens false; @*/
+{
+    //@ assert false; // TARGET: shall reach body for the complete twelve-coordinate stock layout
+    ((src, src, dst, src), (src, dst, src, src), (0, 0, false, true))
+}
+// CASE_END tuple_layout_twelve_quartets_false_entry

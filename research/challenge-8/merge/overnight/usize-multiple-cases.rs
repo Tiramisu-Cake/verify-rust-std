@@ -40,7 +40,7 @@ on_unwind_ens false;
 // CASE_END usize_multiple_adapter_formula
 
 // CASE_BEGIN usize_multiple_builtin_adapter_frame
-pub fn usize_multiple_builtin_adapter_frame(
+pub unsafe fn usize_multiple_builtin_adapter_frame(
     value: usize,
     rhs: usize,
     frame: *mut u32,
@@ -87,6 +87,7 @@ on_unwind_ens false;
 // CASE_END usize_multiple_boundary_examples
 
 // CASE_BEGIN usize_multiple_zero_divisor_false_negative
+// EXPECT_ERROR {"stage":"verifast","predicate":"__result <==> true","line":"TARGET","column_start":30,"column_end":32}
 pub fn usize_multiple_zero_divisor_false_negative() -> ()
 /*@
 req true;

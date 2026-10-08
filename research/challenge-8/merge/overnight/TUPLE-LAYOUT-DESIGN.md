@@ -85,3 +85,25 @@ dead-code records; require unit plus each negative to reach its own marker at
 the expected assertion before adding exact error metadata. Preserve source
 equality, exporter, decoder, and refiner gates for all eleven cases. These are
 diagnostics only: they do not repair or replace the unchanged G2 trace target.
+
+## Alternative complete stock layout, before hosted run
+
+The original tuple2 tree remains intact. Add a tuple3 of three tuple4
+components: `(left,right,dst,left_rev)`,
+`(right_rev,dst_rev,left_end,right_end)`, `(a,d,odd_left,guard)`. These
+are all twelve original coordinates in the same order with two selectors
+per leaf. The stock prelude already declares tuple3 and tuple4; no generated
+`#assume(false)` lemma is admitted and no new semantic patch is added.
+`pointer-trace-quartet-cases.rs` keeps every original domain premise, complete
+postcondition, checked helper body, loop step, negative index wrapping and
+terminal guard. Only the type alias, return grouping, selector map and case
+name change. This is an independent diagnostic, not a proof transferred from
+the original layout.
+
+The ladder adds the same complete twelve-leaf constructor and an assertion
+false before its first statement. Hypothesis: reducing tuple allocation depth
+allows body entry while preserving all outputs. Positive acceptance still
+requires all body/return/leak/dead/source/export/decode/refinement gates. The
+negative must reach its TARGET before an oracle can be calibrated. If both
+remain dead, pursue allocation initialization rather than inventing a tuple
+summary; if they enter, continue arbitrary-length geometry obligations.

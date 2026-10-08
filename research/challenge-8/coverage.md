@@ -7,14 +7,20 @@ proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
 OVERNIGHT-MERGE-26.10 latest full matrix: run
-[37750163906](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750163906),
-proof/Actions SHA `0c6699b7700b7f2b4d474f23da8fe8ad153fd553`, job113221160697,
-224 seconds. Same actual source commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`
+[37752503002](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37752503002),
+proof/Actions SHA `77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`, job113228913710,
+266 seconds. Same actual source commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`
 and full-source SHA `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`;
 profile official-stock-VeriFast-26.10 plus W1/M2a/copy/strict-cleanup patches.
 The Actions job succeeded and all group commands/classifier controls completed;
 diagnostic `INCONCLUSIVE` rows below remain open and job success is not whole-proof
-acceptance.
+acceptance. Profile includes W1+M2a+copy+strict cleanup+zero-safe usize summary+
+hidden stack-address translator and explicit pinned strict kernel patch; exporter,
+refiner and schema are stock. Cache use was disabled for this pending stack
+admission. The source console was cold-built; VeriFast binary SHA is
+`18b914ef6420d329097607c6e102fde6d3c733016ae95b9478717045513b1be9`, profile ID
+`vf26.10-w1-m2-c1-cleanup-usize-stack-ubuntu22.04-v1`. No cache-hit/admission
+claim is made.
 
 Unchanged actual `merge_up`/`merge_down` again passed full source/export/decode,
 refinement, body, normal/unwind, return/leak/dead-code gates (116/120 body records;
@@ -56,13 +62,13 @@ all nine cache self-tests passed. Source is pinned to commit
 trusted zero-safe `usize::is_multiple_of` specification plus explicit pinned strict
 kernel extension; stock exporter/refiner/schema remain unchanged. The source adapter
 certificate and six fail-closed controls passed, but certificate does not prove the
-stdlib method body. Only `usize_multiple_adapter_formula` is PASS: frame fixture failed
+stdlib method body. Only `usize_multiple_adapter_formula` was PASS in that run: frame fixture failed
 at exporter syntax (`frame: *u32`, missing `mut`/`const`); boundary/zero-divisor cases
 ended in VeriFast `Division_by_zero`; odd-divisor false target reached
 `verified/lib.rs(30,30-32)` but has no exact calibrated negative oracle and remains
 INCONCLUSIVE. Keep all four outcomes INCONCLUSIVE; no concrete boundary claim.
 
-Trace generic and `u32` entry controls pass; `trace_generic_entry_domain_negative`
+In run377501, trace generic and `u32` entry controls passed; `trace_generic_entry_domain_negative`
 reached its exact assertion and is EXPECTED_FALSE_ASSERTION. The unsafe nested tuple
 constructor under the original 12-coordinate domain remains INCONCLUSIVE: 0 body
 executions and dead code at the constructor, so it does not resolve return
@@ -73,12 +79,69 @@ still pass their full normal/unwind gates. Full pointer trace remains INCONCLUSI
 13 helper bodies pass, main has zero executions and is dead code. No whole-trace or
 bidirectional proof follows from workflow success.
 
-Other nonaccepted exploratory rows remain unchanged: HRTB has 11 passing admission
+In run377501, other nonaccepted exploratory rows were: HRTB had 11 passing admission
 certificates but all 11 proof rows INCONCLUSIVE; callback borrow is INCONCLUSIVE at
 `points_to<T>(left_src, _)`; concrete ZST has four INCONCLUSIVE layout/access rows;
 copy overlap/misaligned/ZST calibration rows and wrapping unsupported-count/signed-offset
 rows are INCONCLUSIVE after source-line drift. These are not upgraded by successful
 aggregate controls; historical run classifications remain attached to their SHAs.
+
+Run377525 completed every selected group and aggregate classifier-control gate.
+Actual `merge_up/down` again pass all source, export/decode/refinement, normal/unwind,
+body, return/leak and dead-code gates (116/120 execution records, three returns and
+three leak checks each). Baseline/profile smoke, G2/A/B compatibility, native C/C++,
+and nine Rust regressions pass, including two exact false assertions. Cleanup is
+12/12; M2 tuple-shape has the valid control plus six admission rejections, M2 tuple
+resources one positive plus four exact proof rejections; owned-array is 3+2,
+scratch options 3+3, pointer bridge 9/9, pointer domain 1+2. HRTB source/AST
+admission certificate is 11/11 with controls, while all underlying proof rows are
+INCONCLUSIVE; the four prepared HRTB rows and callback-borrow remain INCONCLUSIVE.
+These component and certificate rows do not imply composed admission or proof.
+
+The tuple return-shape ladder has 11 rows: flat pointer pair, nested pointer pairs,
+and nested scalar pair each PASS with full return/leak checks (4, 10 and 6 body
+records respectively). Eight rows remain INCONCLUSIVE: baseline and three matched
+false-entry assertions reach uncalibrated `Cannot prove false` assertions; both
+pointer-half shapes stop at `Invalid dereference` before body entry; both full G2
+tuple shapes have zero body entry, failing while VeriFast verifies prelude helper
+`u32_sync` (other stage exits are zero; VeriFast exits1). The ladder does not prove
+the full generic nested tuple return representation.
+
+The usize source certificate and six fail-closed controls pass, as do its adapter
+formula and boundary examples (13 case-body executions, one return and one leak).
+The odd-divisor false target is EXPECTED_FALSE_ASSERTION at
+`verified/lib.rs(35,30-32)`. The zero-divisor false target remains INCONCLUSIVE at
+its assertion (`34,30-32`); no calibrated oracle declares the reached error. The
+frame case reaches VeriFast but fails before case-body entry on missing
+`points_to<u32>(frame, _)` at `verified/lib.rs(30,5-6)`, so remains INCONCLUSIVE.
+The trusted specification and source certificate do not prove the std method body.
+
+All six stack-address syntax cases are INCONCLUSIVE with zero body executions.
+Five report `mir_stack_addr requires exactly one unsuffixed decimal literal, no
+type arguments or indices`; the high-ID probe reports its raw local ID absent.
+Their classifier-control mutations pass but no syntax/admission oracle is calibrated.
+The fresh normal-MIR roles certificate is complete for 14 markers and four hidden
+local roles: `_53` and `_65` are tuple3 call results; `_34` and `_35` are Range
+result/input. It binds source SHA `95b919b4e30ecc8ffc320fe28d7d6b1891bf13c20f42ee5579f1aba1f02230b3`,
+normal MIR SHA `a8716d978e206c4bf1030a2bbe6fe305df6fb81b506578cd135b4012ce1b6211` and
+decoded SHA `ee5d431dfa7908fb951eab158441b67d10dc7d4f1de5c6a448df44b38fb0c15c`;
+nine role/provenance mutants are listed. However, same-input rewritten proof-AST
+declaration/call/destructure/address linkage remains OPEN, exit 125, AST SHA
+`b18fe7deea62068d59ab7814e3a0f476e6f0caabec78e9b8843700f4aa2ed251`. Therefore
+the actual bidirectional experiment/profile is not admitted.
+
+`bidirectional_merge_len2` remains INCONCLUSIVE. It reached 56 body executions,
+including one return/leak record, and first failed at
+`verified/lib.rs(330,71-73)` on `bidirectional_unwind_options(...) <==> true`.
+The open proof-AST gate is an independent blocker: do not claim actual bidirectional
+profile acceptance or transfer the normal-role certificate into it. G2 trace main
+remains dead/zero execution with 13 helper bodies passing. Concrete ZST retains two
+terminal-reentry positives and four INCONCLUSIVE layout/access rows. Copy overlap
+and both misalignment controls now classify EXPECTED_REJECTION at exact primitive
+preconditions; ZST mapping remains INCONCLUSIVE and its earlier source-alignment
+observation is not an accepted ZST model result. Both unsupported wrapping controls
+now classify EXPECTED_REJECTION after exact +5-line recalibration. Historical
+run377501 INCONCLUSIVE statuses remain attached to that SHA.
 
 In run377468, trace diagnostics were separate. Generic and concrete-u32 trace-entry probes
 passed; the false-assertion target was reached at line35 but remains INCONCLUSIVE
