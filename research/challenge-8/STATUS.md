@@ -15,7 +15,21 @@ Main/upstream/other-agent branches are untouched by this direction.
 proof SHA `11d888ba8ff2231a80c759148194aa9ae6b9d30e`, 02:16:55–02:20:49UTC=234s.
 **3094/21600 summed hosted job seconds**,18506 unspent in expired window;
 no active workflow, no newer proof run. Historical stock99/1800 and S7 5306/5400 separate.
-New account0/7200; O18prepared, no active run. Extension explicitly granted;
+New resumed account **194/7200**,7006remain; no active run. LastO18
+[run37745138207](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37745138207),
+proof `bb9c46bc423a43cccf0e93a0ad7651c3faee6f1b`,07:42:54–07:46:08UTC.
+WorkflowFAIL from linkedowner contract-anchor preparation, not proof failure.
+H2c+G1profile consolea6cb3156/translator4284859a; freshfullS6 eightstagePASS.
+H2 sourcepositive+7exact source/ADT rejects andindependentpositive+12directtypedMIR
+rejects pass allgates; generic6 resourcecontrols intended, includingoptional/initialized
+post entailment. H2b local candidate, generatedpost adversarialcontrols stillopen.
+G1all9 stopatcommon signature-span certificate beforeproof (ASTcol1 vs pinned0);
+original2source-negative labels false positives, preserve originals but auditedALL9
+INCONCLUSIVE for intendedproof/admission, exactreasonclassifier repair required.
+Linkedactualowner newcompleteMIR NOT_RUN dueadjacentghostcontract anchor mismatch;
+precise source-only repair preparing. HRTB scopedprojection component prepared
+forO19, separatetrust, stillUNTESTED; no verifast.ml changes active.
+Extension explicitly granted;
 within-phase exactSHA hosted experiments authorized.
 
 **Actual select_unpredictable and sort4_stable NOT PROVEN on26.10.**
@@ -24,7 +38,7 @@ Independent stock+CFG accepted at e6c02f22/run37698481357: 5positive,4falsepost,
 at1378f0ff/run37700450091: constructor16+9,asptr9+17,intrinsic16+40,pointerdrop13+22
 full controls. Trusted source/compiler/layout correspondences, pointer-value
 contracts only, no Element pointee rights. Fresh full8stage S6 regression passes
-through O17; new combined semantic profiles remain experimental.
+through O18; new combined semantic profiles remain experimental.
 
 A1 source-exact local transmute+assume_init checked atd3363d2e/run37711416854:
 3full positives,12intended proof negatives,3source rejects. Outer actual assume_init

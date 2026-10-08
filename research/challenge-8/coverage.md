@@ -1,3 +1,12 @@
+## O18 — 2026-10-08
+
+Proofbb9c46bc/run37745138207: freshS6eightstagePASS. LocalH2b normal/unwindpositive
+and7source+12directtypedMIR intended admissionrejects pass; templateASTpost adversarial
+andactualnestedlink open. G1all9INCONCLUSIVE atcommonASTsourcecolcert; original2
+negative labels falsepositiveclassifier, preservedforreplay. LinkedactualownerMIR
+NOT_RUN fromsourcecontract-anchor setup. Newbudget194/7200,noactive. Actualhelper/
+sort4 remainNOT_PROVEN; noHRTB/kernel component active.
+
 ## Resumed authorized window — 2026-10-08
 
 Current phase RESUMED-SELECT-SORT4-26.10-08 approved until14:30MSK/11:30UTC,
