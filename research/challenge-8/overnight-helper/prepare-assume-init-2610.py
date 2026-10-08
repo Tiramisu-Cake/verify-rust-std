@@ -337,6 +337,73 @@ def write_transmute_fixture(repo: Path, out: Path) -> dict:
     return record
 
 
+def linkage_fixture_source(repo: Path) -> tuple[bytes, bytes, dict]:
+    """Place the separately proved callee before the unchanged caller body.
+
+    The caller still resolves `transmute_neo` to the actual std symbol.  This
+    fixture captures both complete typed MIR records; it does not redirect a
+    call or declare the local callee a summary of that symbol.
+    """
+    _, callee_verified, callee_record = transmute_fixture_source(repo)
+    method_body, source = certify_source(repo)
+    _, caller_verified, _ = fixture_source(method_body, "initialized")
+    callee_marker = b"pub unsafe fn " + TRANSMUTE_ADAPTER_NAME.encode()
+    caller_marker = b"pub unsafe fn " + ADAPTER_NAME.encode()
+    probe_marker = b"pub unsafe fn assume_init_probe"
+    require(callee_verified.count(callee_marker) == 1 and
+            caller_verified.count(caller_marker) == 1 and
+            caller_verified.count(probe_marker) == 1,
+            "linkage function identity absent or ambiguous")
+    callee = callee_verified[callee_verified.index(callee_marker):].rstrip()
+    caller = caller_verified[caller_verified.index(caller_marker):
+                             caller_verified.index(probe_marker)].rstrip()
+    header = (
+        b"#![feature(core_intrinsics, transmute_neo, sized_type_properties)]\n"
+        b"#![allow(internal_features)]\n\n"
+        b"use std::intrinsics;\n"
+        b"use std::mem::{MaybeUninit, SizedTypeProperties, transmute_neo};\n\n"
+    )
+    verified = header + callee + b"\n\n" + caller + b"\n"
+    original = strip_ghost(verified)
+    require(original.count(TRANSMUTE_BODY.replace(
+                b"Src::SIZE",
+                b"<MaybeUninit<*const Element> as SizedTypeProperties>::SIZE"
+            ).replace(
+                b"Dst::SIZE",
+                b"<*const Element as SizedTypeProperties>::SIZE")) == 1 and
+            original.count(method_body) == 1 and
+            original.count(b"transmute_neo(storage)") == 1 and
+            original.count(b"transmute_unchecked(src)") == 1,
+            "combined fixture changed an exact source body")
+    return original, verified, {
+        "classification": "TWO_BODY_LINKAGE_CAPTURE_ONLY; NO REDIRECT OR CALL PROOF",
+        "source_certificate": source,
+        "callee_source_certificate": callee_record["source_certificate"],
+        "caller_target": ADAPTER_NAME,
+        "callee_target": TRANSMUTE_ADAPTER_NAME,
+        "caller_body_sha256": digest(method_body),
+        "callee_body_sha256": callee_record["source_body_sha256"],
+        "original_sha256": digest(original),
+        "verified_sha256": digest(verified),
+        "ghost_strip_identity": True,
+        "actual_std_call_symbol_retained": True,
+        "redirect_enabled": False,
+        "actual_method_proved": False,
+    }
+
+
+def write_linkage_fixture(repo: Path, out: Path) -> dict:
+    original, verified, record = linkage_fixture_source(repo)
+    require(not out.exists(), f"refusing to overwrite {out}")
+    (out / "original").mkdir(parents=True)
+    (out / "verified").mkdir()
+    (out / "original/lib.rs").write_bytes(original)
+    (out / "verified/lib.rs").write_bytes(verified)
+    (out / "fixture.json").write_text(json.dumps(record, indent=2,
+                                                  sort_keys=True) + "\n")
+    return record
+
+
 def balanced_record(decoded: str, opening: int) -> str:
     require(decoded[opening] == "(", "MIR record opening missing")
     depth = 0
@@ -458,6 +525,9 @@ def main() -> None:
     transmute = sub.add_parser("prepare-transmute")
     transmute.add_argument("--repo", type=Path, required=True)
     transmute.add_argument("--out", type=Path, required=True)
+    linkage = sub.add_parser("prepare-linkage")
+    linkage.add_argument("--repo", type=Path, required=True)
+    linkage.add_argument("--out", type=Path, required=True)
     capture = sub.add_parser("capture")
     capture.add_argument("--decoded-mir", type=Path, required=True)
     capture.add_argument("--out", type=Path, required=True)
@@ -472,6 +542,8 @@ def main() -> None:
         record = write_fixture(args.repo, args.out, args.variant)
     elif args.mode == "prepare-transmute":
         record = write_transmute_fixture(args.repo, args.out)
+    elif args.mode == "prepare-linkage":
+        record = write_linkage_fixture(args.repo, args.out)
     elif args.mode == "capture":
         record = capture_mir(args.decoded_mir, args.out, args.target)
     else:

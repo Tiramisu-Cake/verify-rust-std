@@ -122,10 +122,29 @@ intrinsic_drop_status=0
 stage intrinsic-drop-linkage python3 research/challenge-8/overnight-linkage/check-intrinsic-drop-linkage.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/intrinsic-drop-linkage" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || intrinsic_drop_status=$?
 helper_status=0
 stage helper-certificates python3 research/challenge-8/overnight-helper/test-helper-certificates.py || helper_status=$?
-stage helper-capture python3 research/challenge-8/overnight-helper/check-helper.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/helper" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+700))" --actual-capture --a1-primitive-matrix || helper_status=$?
+stage helper-capture python3 research/challenge-8/overnight-helper/check-helper.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/helper" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+700))" --actual-capture --a1-linkage-capture --g1-variants symbolic_frame,two_frames || helper_status=$?
 tuple_status=0
 stage tuple2-capture python3 research/challenge-8/overnight-callback/run-tuple2-own-cases.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/tuple2" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+800))" --cumulative-profile --release-support-home "$stock_home" --release-archive "$stock_archive" || tuple_status=$?
+sort4_status=0
+stage actual-sort4-capture python3 research/challenge-8/overnight-sort4/capture.py --repo-root "$repo" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-sort4" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+900))" || sort4_status=$?
+copy_status=0
+stage scratch-copy-capture python3 research/challenge-8/overnight-memory/check-copy-scratch.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/scratch-copy" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || copy_status=$?
+# O8 completed the full S6 matrix on precisely this profile. Reuse it only
+# after exact byte identity; semantic/profile changes must reinstate the matrix.
 matrix_status=0
-stage s6-full-matrix python3 research/challenge-8/overnight-s6/accept-s6.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-full" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || matrix_status=$?
-printf 'constructor_linkage_stage=%s\nasptr_linkage_stage=%s\nintrinsic_drop_linkage_stage=%s\nhelper_stage=%s\ntuple2_stage=%s\ns6_matrix_stage=%s\ncombined_profile=EXPERIMENTAL_UNTIL_NEW_COMPONENT_ACCEPTANCE\n' "$linkage_status" "$asptr_status" "$intrinsic_drop_status" "$helper_status" "$tuple_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
-(( linkage_status == 0 && asptr_status == 0 && intrinsic_drop_status == 0 && helper_status == 0 && tuple_status == 0 && matrix_status == 0 ))
+python3 - "$ev/profile-hashes.json" "$ev/s6-regression-reuse.json" <<'REUSE' || matrix_status=$?
+import json,pathlib,sys
+actual=json.loads(pathlib.Path(sys.argv[1]).read_text())
+expected={
+ 'bin/verifast':'caf140b61619aec1b4d4eb38d7dc24eb2ff6b2181f1d5959688a642b41eb1465',
+ 'bin/vf-rust-mir-exporter':'b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796',
+ 'bin/refinement-checker':'b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28',
+ 'bin/rust/std/lib.rsspec':'d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf',
+ 'src/rust_frontend/vf_mir/vf_mir.capnp':'f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469',
+ 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'cf06370fc448a5ab80aad69c4b99ea0fbc613f312dae2dd120efc40559c9c86e',
+ 'src/rust_frontend/vf_mir_translator/rust_parser.ml':'7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2'}
+assert actual==expected,'O8 profile identity changed: fresh S6 regression required'
+pathlib.Path(sys.argv[2]).write_text(json.dumps({'profile_identity':actual,'evidence_run':37706123317,'proof_sha':'95e871c6de3b7a74e2b6df97b398095e914e60bd','scope':'reuse completed S6 regression only; extensions experimental'},indent=2)+'\n')
+REUSE
+printf 'constructor_linkage_stage=%s\nasptr_linkage_stage=%s\nintrinsic_drop_linkage_stage=%s\nhelper_stage=%s\ntuple2_stage=%s\nsort4_capture_stage=%s\ncopy_capture_stage=%s\ns6_matrix_stage=%s\ncombined_profile=EXPERIMENTAL_UNTIL_NEW_COMPONENT_ACCEPTANCE\n' "$linkage_status" "$asptr_status" "$intrinsic_drop_status" "$helper_status" "$tuple_status" "$sort4_status" "$copy_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
+(( linkage_status == 0 && asptr_status == 0 && intrinsic_drop_status == 0 && helper_status == 0 && tuple_status == 0 && sort4_status == 0 && copy_status == 0 && matrix_status == 0 ))

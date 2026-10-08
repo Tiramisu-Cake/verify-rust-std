@@ -43,6 +43,33 @@ INTRINSIC = LINK.load(
 VARIANTS = ("intrinsic_only", "pointer_drop", "pointer_drop_source_operand")
 DROP_MARKER = b"pub unsafe fn sort4_checked_pointer_drop<Element>"
 DROP_CALL = b"std::ptr::drop_in_place(slot)"
+CAPTURE_CONTRACT = (
+    b"/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/\n"
+    b"/*@\nens thread_token(t) &*& (result as pointer) ==\n"
+    b"    (if condition { true_val as pointer } else { false_val as pointer });\n@*/\n"
+    b"/*@\non_unwind_ens false;\n@*/\n"
+)
+INTRINSIC_GATE_CONTRACT = (
+    b"/*@\nreq thread_token(?t) &*& t == currentThread;\n@*/"
+    b"/*@\nens thread_token(t) &*& (result as pointer) ==\n"
+    b"        (if condition { true_val as pointer } else { false_val as pointer });\n@*/"
+    b"/*@ on_unwind_ens false; @*/\n"
+)
+
+
+def canonical_actual_contract(source: bytes) -> bytes:
+    LINK.require(source.count(CAPTURE_CONTRACT) == 1 and
+                 source.count(INTRINSIC_GATE_CONTRACT) == 0,
+                 "O4 actual capture contract no longer has exact reviewed bytes")
+    adjusted = source.replace(CAPTURE_CONTRACT, INTRINSIC_GATE_CONTRACT, 1)
+    LINK.require(CONSTRUCTOR.strip_ghost_annotations(adjusted) ==
+                 CONSTRUCTOR.strip_ghost_annotations(source),
+                 "intrinsic gate contract formatting changed runtime Rust")
+    LINK.require(adjusted.count(b"req thread_token(?t) &*& t == currentThread;") == 1 and
+                 adjusted.count(b"ens thread_token(t) &*& (result as pointer) ==") == 1 and
+                 adjusted.count(b"on_unwind_ens false;") == 1,
+                 "actual full contract clauses changed")
+    return adjusted
 
 
 def make_case(baseline_verified: bytes, actual_body: bytes, ctor_cert: dict,
@@ -78,6 +105,7 @@ def make_case(baseline_verified: bytes, actual_body: bytes, ctor_cert: dict,
     record.update({
         "variant": variant,
         "actual_body_byte_identical": True,
+        "actual_full_contract_format": "S6 exact source/MIR gate; same full clauses as O4 capture",
         "intrinsic_activation": True,
         "pointer_drop_activation": variant != "intrinsic_only",
         "drop_source_mutation": "operand" if variant.endswith("operand") else None,
@@ -269,7 +297,8 @@ def main() -> None:
         evidence, "positive", CONSTRUCTOR)
     drop_body, drop_cert = DROP_SOURCE.source_certificate(REPO, CONSTRUCTOR)
     intrinsic_cert = INTRINSIC.source_certificate(REPO, CONSTRUCTOR)
-    baseline_verified = (baseline_dir / "verified/lib.rs").read_bytes()
+    baseline_verified = canonical_actual_contract(
+        (baseline_dir / "verified/lib.rs").read_bytes())
     results = []
     for variant in VARIANTS:
         try:

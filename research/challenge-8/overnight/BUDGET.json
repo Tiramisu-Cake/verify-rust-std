@@ -1,8 +1,8 @@
 {
   "phase": "OVERNIGHT-SELECT-SORT4-26.10",
   "ceiling_job_seconds": 21600,
-  "used_job_seconds": 1327,
-  "remaining_job_seconds": 20273,
+  "used_job_seconds": 1514,
+  "remaining_job_seconds": 20086,
   "deadline_utc": "2026-10-08T06:30:00Z",
   "runs": [
     {
@@ -76,6 +76,15 @@
       "completed_at": "2026-10-07T23:59:35Z",
       "job_seconds": 190,
       "result": "S6_REGRESSION_PASS_ASPTR_LINKED_A1_DIRECT_PASS_TUPLE_RELEASE_SUPPORT_GATE_FAILURE"
+    },
+    {
+      "run_id": 37706123317,
+      "proof_sha": "95e871c6de3b7a74e2b6df97b398095e914e60bd",
+      "job_id": 113080788158,
+      "started_at": "2026-10-08T00:08:14Z",
+      "completed_at": "2026-10-08T00:11:21Z",
+      "job_seconds": 187,
+      "result": "S6_REGRESSION_PASS_INTRINSIC_GHOST_ADMISSION_TUPLE_DIFF_GATE_FAILURE"
     }
   ],
   "historical_accounts": {

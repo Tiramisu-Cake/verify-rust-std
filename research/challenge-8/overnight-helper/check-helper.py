@@ -361,7 +361,7 @@ def run_all(args) -> dict:
             "G1 variant list invalid")
     s6_specs = tuple(args.s6_specs.split(",")) if args.s6_specs else G1_PREAMBLE_DEFAULT
     require(len(set(s6_specs)) == len(s6_specs), "S6 expected header list duplicated")
-    results: dict[str, object] = {"g1": [], "a1": {},
+    results: dict[str, object] = {"g1": [], "a1": {}, "a1_linkage": None,
                                   "a1_primitive": [], "a1_type_controls": [],
                                   "actual": None}
     # Capture both new std dependencies first; a long G1 negative matrix must
@@ -397,6 +397,45 @@ def run_all(args) -> dict:
         (evidence / f"a1-{target}-result.json").write_text(
             json.dumps(result, indent=2, sort_keys=True) + "\n")
         results["a1"][target] = result
+    if args.a1_linkage_capture and args.deadline_epoch - time.time() >= 35:
+        case = evidence / "a1-linkage"
+        try:
+            A1.write_linkage_fixture(REPO, case)
+            stages = run_case(case, args, prove=True)
+            captures = {}
+            if stages.get("normal-decode", {}).get("exit") == 0:
+                for target in ("transmute", "method"):
+                    captures[target] = A1.capture_mir(
+                        case / "normal-mir.txt",
+                        evidence / f"a1-linkage-{target}-capture", target)
+            fixture = json.loads((case / "fixture.json").read_text())
+            original = (case / "original/lib.rs").read_bytes()
+            verified = (case / "verified/lib.rs").read_bytes()
+            source_ok = (A1.strip_ghost(verified) == original and
+                         digest(original) == fixture["original_sha256"] and
+                         digest(verified) == fixture["verified_sha256"] and
+                         all(record.get("source_unchanged") for record in stages.values()
+                             if record.get("status") == "RAN"))
+            frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
+                "readonly-export", "readonly-decode", "normal-export",
+                "normal-decode", "refinement"))
+            result = {
+                "classification": "UNREVIEWED_TWO_BODY_CAPTURE" if
+                                  source_ok and frontend and len(captures) == 2
+                                  else "INCONCLUSIVE",
+                "source_integrity": source_ok,
+                "frontend_refinement": frontend,
+                "captures": captures,
+                "stages": stages,
+                "redirect_enabled": False,
+                "actual_method_proved": False,
+            }
+        except Exception as exc:
+            result = {"classification": "INCONCLUSIVE",
+                      "harness_exception": f"{type(exc).__name__}: {exc}"}
+        (evidence / "a1-linkage-result.json").write_text(
+            json.dumps(result, indent=2, sort_keys=True) + "\n")
+        results["a1_linkage"] = result
     if args.a1_primitive_matrix:
         for variant in PRIMITIVE.VARIANTS:
             if args.deadline_epoch - time.time() < 35:
@@ -535,6 +574,7 @@ def main() -> None:
                         help="comma-separated subset, default all declared variants")
     parser.add_argument("--actual-capture", action="store_true")
     parser.add_argument("--a1-primitive-matrix", action="store_true")
+    parser.add_argument("--a1-linkage-capture", action="store_true")
     args = parser.parse_args()
     result = run_all(args)
     print(json.dumps({key: result[key] for key in (

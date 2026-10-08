@@ -423,7 +423,8 @@ jobs:
           persist-credentials: false
       - name: Reuse pinned overnight console
         if: inputs.forget_guard_stage == 'drop_v4'
-        uses: actions/cache@v4
+        id: overnight-console
+        uses: actions/cache/restore@v4
         with:
           path: ${{ runner.temp }}/overnight-console-cache
           key: overnight-console-ubuntu22-vf2610-v1-${{ hashFiles('research/challenge-8/overnight-s6/*.patch', 'research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch', 'research/challenge-8/overnight-helper/*.patch', 'research/challenge-8/overnight-linkage/*.patch', 'research/challenge-8/overnight-callback/*.patch') }}
@@ -434,6 +435,24 @@ jobs:
           else
             bash research/challenge-8/overnight/run-s6.sh
           fi
+      - name: Validate built console for reuse
+        if: always() && inputs.forget_guard_stage == 'drop_v4'
+        id: overnight-cache-ready
+        run: |
+          task_console_cache="$RUNNER_TEMP/overnight-console-cache"
+          task_applied_patch=research-results/overnight-s6/applied.patch
+          if [[ -f "$task_console_cache/manifest.txt" && -f "$task_console_cache/verifast" && -f "$task_applied_patch" ]]; then
+            read -r task_diff_sha task_console_sha < "$task_console_cache/manifest.txt"
+            [[ "$task_diff_sha" == "$(sha256sum "$task_applied_patch" | cut -d' ' -f1)" ]]
+            [[ "$task_console_sha" == "$(sha256sum "$task_console_cache/verifast" | cut -d' ' -f1)" ]]
+            echo 'ready=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Save exact built console independently of proof outcome
+        if: always() && steps.overnight-cache-ready.outputs.ready == 'true' && steps.overnight-console.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/overnight-console-cache
+          key: ${{ steps.overnight-console.outputs.cache-primary-key }}
       - name: Preserve full causal evidence
         if: always()
         uses: actions/upload-artifact@v4

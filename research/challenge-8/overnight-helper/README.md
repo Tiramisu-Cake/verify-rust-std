@@ -1,6 +1,8 @@
 # Overnight actual-helper candidates
 
-Status: hosted O4/O5 diagnostics exist; G1 and A1 remain **unaccepted**.
+Status: O7 proves the pointer-specialized local `transmute_neo` body and
+G1 direct framed-body fixtures under their recorded profile. The actual
+`assume_init` call linkage and actual helper remain **unproved**.
 O4 run 37702049156 and O5 run 37702922138 show the two G1 framed-call
 positives reach return/leak checks but fail mandatory dead-code at the
 synthetic callee-unwind successor. The next G1 positives place the exact
@@ -23,7 +25,8 @@ python3 research/challenge-8/overnight-helper/check-helper.py \
   --compiler-sysroot "$compiler_sysroot" \
   --evidence "$ev/helper" \
   --deadline-epoch "$deadline" \
-  --a1-primitive-matrix
+  --a1-primitive-matrix \
+  --a1-linkage-capture
 ```
 
 `--s6-specs` supplies the exact ordered timed preamble names, comma separated;
@@ -35,8 +38,13 @@ full matrix flags true. `--actual-capture` adds unchanged actual
 
 The driver captures A1 method and separate local `transmute_neo` first, then
 optionally checks the direct-body primitive matrix and G1 variants. The
-primitive matrix includes type-rejection controls; its first run records
-unreviewed failure locations and cannot mark a component accepted. Every
+`--a1-linkage-capture` option adds a two-body diagnostic unit: the exact
+source-specialized local callee precedes the exact method adapter, whose
+Rust call still resolves to `std::mem::transmute_neo`. It records complete
+typed MIR for both and never redirects the call or marks the method proved.
+The primitive matrix includes exact admission and type controls; its O7
+evidence is specific to the pointer domain and cannot mark actual call
+linkage accepted. Every
 case records original/verified sources, source pins,
 NORMAL/readonly exported binaries and decoded MIR, full verifier log and
 refinement log when export succeeds. It stops stage execution near the passed

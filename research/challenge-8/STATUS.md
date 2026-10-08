@@ -11,7 +11,7 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1327/21600 summed GitHub-hosted job seconds**, 20273 remain.
+New independent account **1514/21600 summed GitHub-hosted job seconds**, 20086 remain.
 Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
@@ -29,8 +29,15 @@ G1 direct generic body/frame positives and13negatives execute as intended;
 this is not SAFE forget or actual guard ownership acceptance. Tuple setup gate
 rejected two copied pinned-release support files before fixture execution;
 precise provenance validation repaired, original failure retained. Combined
-profile remains EXPERIMENTAL. O8 next: unchanged fivepatch profile, first
-intrinsic/drop actual linkage plus tuple/callback execution, no new axiom/kernel.
+profile remains EXPERIMENTAL. O8 at95e871c6/run37706123317: S6 eightstage regression again PASS, same console
+caf140b6; intrinsic actual gate rejected equivalent ghost clause formatting
+before proof; tuple parser gate compared diff text/hunk context rather than
+resulting parser bytes. Both precise admission repairs are reviewed; original
+failures retained. O9 prepared on unchanged semantic profile: targeted actual
+intrinsic/drop and tuple/callback, two-body A1 linkage MIR capture, complete
+actual sort4 graph capture, and stock scratch-copy boundary diagnostic. No new
+axiom/kernel. S6 regression reuse requires exact O8 profile identity; next
+semantic extension requires a fresh relevant regression gate.
 
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new

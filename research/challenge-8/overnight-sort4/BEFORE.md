@@ -1,0 +1,27 @@
+# Actual `sort4_stable` full-MIR capture — before implementation
+
+## Concrete goal and current boundary
+
+The actual Rust safety goal is the unchanged generic `sort4_stable<T, F: FnMut(&T, &T) -> bool>` body. For every well-formed sized `T` and comparator that obeys the Rust callback interface, the memory-safety contract must preserve pointer provenance and permissions, read only four initialized input elements, write exactly four destination elements, and retain the correct ownership state on normal and panic/unwind paths. It must not require `T: Copy`, `Clone`, `Freeze`, comparator purity, or SWO merely to establish safety. Comparator admissibility and memory safety are separate; the stable-order result is asserted only under a separate strict-weak-ordering premise. Generic and ZST behavior remain part of the goal.
+
+This first fixture is deliberately a **capture diagnostic**, not that proof. It uses only thread/type interpretation resources in its ghost contract so VeriFast may report the earliest unsupported dereference, callback, pointer copy, or unwind obligation. Its output can identify a next proof boundary, but even a verifier exit of zero would not establish element memory safety, ordering, or actual `sort4_stable` acceptance. It makes no assumptions about comparator purity, panic rollback, pointer validity, or array ownership.
+
+## Source and transformation contract
+
+The source certificate pins `library/core/src/slice/sort/shared/smallsort.rs` at SHA-256 `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1` and Git blob `40939f922bcb6fdc7ee0d30427fa861827043827`. It extracts the exact function signature and full body up to the next pinned source anchor. The generated crate adds only the imports and nightly feature attributes needed to resolve the unchanged `hint` and `ptr` aliases, plus a capture-only ghost contract. The actual function signature, body bytes, generic parameters, and runtime operations are checked before export and refinement. Ghost stripping must produce the exact original generated crate.
+
+Capture requires full normal and readonly MIR export/decode, a complete typed function-record extraction including all blocks and locals, and refinement of the ghost-stripped pair. It records actual call targets, source call counts, cleanup/unwind-action lines, full function-record hashes, tool/compiler hashes, and each stage's source-integrity hashes. A source-altered negative control must be rejected by the pinned source certificate. Any source mismatch, incomplete graph, export/decode/refinement failure, or alteration to the target body is inconclusive. No local build or verifier execution is permitted.
+
+The hosted-only runner is [`capture.py`](capture.py). The workflow supplies `--repo-root`, the cumulative `--tool-home`, its `vf_mir.capnp` schema, compiler sysroot, a fresh evidence directory, and its deadline epoch. It runs normal and readonly export/decode, full verification without AST dumping, and refinement as independent stages. It never changes the repository source or dispatches its own workflow.
+
+## Review of the exact body and next decisions
+
+The source has five comparator expressions, eight `hint::select_unpredictable` expressions over raw pointers, and four `ptr::copy_nonoverlapping` operations. All five comparisons precede the four destination writes. The callback can mutate permitted interior state and can panic; no comparator restriction may be inferred from the source. If a comparator panics before the copy block, the actual body has not yet written a partial destination; the full MIR unwind graph must verify this observation and retain every cleanup edge. Once the comparisons return, the copy block writes the four selected elements in order.
+
+The source-level memory-safety precondition needs to cover four readable initialized input elements, four writable destination slots, suitable alignment/provenance, and non-overlap required by `copy_nonoverlapping`. Its resource protocol must state who owns or invalidates the source values when their bits are copied, how destination initialization is tracked, and what happens when the comparator unwinds. No arbitrary `guard.own = true`, pointer-value-only summary, or assumed source/destination ownership bridge is acceptable. If the adapter rejects an unchanged const-trait call or an unsupported operation, record that first boundary rather than editing the algorithm or signature.
+
+The five comparison outcomes are not ordered by this fixture. Under a separate SWO premise, connect those outcomes and selected pointer indices to the existing stable functional sorting component; equal elements must preserve original order. That reasoning does not establish memory safety and cannot close generic or ZST cases by a restricted-domain result.
+
+## Self-review
+
+Potentially misleading green results are blocked by the explicit capture-only classification, the intentionally incomplete resource contract, full-source/body hashing, independent refinement, and a requirement to retain the full verifier log. The function's entire MIR record and unwind inventory are stored, not only the first reported error. The adapter does not copy in selected logic, drop the source, introduce pre-call assumptions for the comparator, or change generic bounds. A later proof needs a reviewed full resource contract and targeted positive/negative controls before it can claim actual Rust safety.

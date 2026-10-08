@@ -256,6 +256,29 @@ actual Rust body and original/verified runtime identity. This script uses no
 new translator patch. Python AST parsing and `git diff --check` passed; no
 executable stages ran on the server.
 
+## O8 gate failure and narrow fixture repair — before amendment
+
+O8 run `37706123317` used the reviewed driver. All three cases completed
+NORMAL/readonly export+decode and refinement with unchanged source hashes.
+Every full verification stopped before function proof with the same exact
+S6 fatal: `SORT4-SELECT-INTRINSIC: certificate mismatch: actual SAFE
+contract/source signature`. The new intrinsic actual-source gate expects the
+same full `thread_token`, conditional pointer-result and false-unwind
+postconditions as the O4 capture fixture, but it pins different **ghost
+annotation formatting**: adjacent annotation blocks, eight spaces before
+the conditional expression, and a single-line `on_unwind_ens` block. O4's
+source preparer emits separated blocks, four spaces and a multiline unwind
+block. Runtime body, signature and Rust MIR are unchanged; this is not an
+ownership or intrinsic semantics failure.
+
+The next driver revision should replace exactly one byte sequence of the O4
+ghost contract with the S6 gate's reviewed exact bytes, asserting that ghost
+stripping both old and new source yields identical runtime Rust and that the
+three complete clauses remain unchanged. No verifier patch, new condition,
+post weakening, cleanup edit or source-body edit is justified. The original
+O8 three `INCONCLUSIVE` outcomes remain recorded; only a fresh hosted run
+can assess actual intrinsic/drop admission and the next causal proof blocker.
+
 Hosted invocation after the as_mut_ptr result has been inspected:
 
 ~~~bash

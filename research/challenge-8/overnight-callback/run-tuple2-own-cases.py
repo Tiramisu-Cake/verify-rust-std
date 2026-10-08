@@ -11,6 +11,7 @@ from pathlib import Path
 import re
 import stat
 import subprocess
+import tempfile
 import time
 
 
@@ -25,6 +26,18 @@ RELEASE_ARCHIVE_SHA256 = "5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7ac
 RELEASE_SUPPORT_FILES = ("bin/VERSION", "bin/libgtksourceview-2.0.so.0")
 STANDALONE_FILES = (PARSER_REL,)
 CUMULATIVE_FILES = (SPEC_REL, PARSER_REL, TRANSLATOR_REL)
+CUMULATIVE_PATCHES = (
+    ("research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch",
+     "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c"),
+    ("research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch",
+     "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781"),
+    ("research/challenge-8/overnight-helper/verifast-a1-assert-inhabited-26.10.patch",
+     "b3fdae6588c5d88a5151f9b103b2f5ab6d2d58db880955a1b975a7f88ca2feb9"),
+    ("research/challenge-8/overnight-helper/verifast-a1-pointer-transmute-26.10.patch",
+     "44b460e64eede02bb7776ef36c6be12eb2bed2e5a4fd37ad9b733c7b5633c8ab"),
+    ("research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch",
+     "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"),
+)
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
     "tuple2_share_compat",
@@ -56,6 +69,36 @@ def sha_file(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def expected_cumulative_parser(repo_root: Path, base_parser: bytes) -> tuple[bytes, list[dict]]:
+    """Replay the exact pinned five-patch profile, projecting only parser hunks."""
+    manifest = []
+    with tempfile.TemporaryDirectory(prefix="tuple2-parser-profile-") as temporary:
+        temp_root = Path(temporary)
+        parser_copy = temp_root / PARSER_REL
+        parser_copy.parent.mkdir(parents=True)
+        parser_copy.write_bytes(base_parser)
+        for relative, expected_sha in CUMULATIVE_PATCHES:
+            patch_path = repo_root / relative
+            need(patch_path.is_file(), f"cumulative profile patch is missing: {relative}")
+            patch_sha = sha_file(patch_path)
+            need(patch_sha == expected_sha,
+                 f"cumulative profile patch hash changed: {relative}")
+            numstat = subprocess.run(
+                ["git", "apply", "--numstat", str(patch_path)],
+                check=True, capture_output=True, text=True).stdout
+            touched = [line.split("\t", 2)[2] for line in numstat.splitlines()
+                       if len(line.split("\t", 2)) == 3]
+            parser_applied = PARSER_REL in touched
+            if parser_applied:
+                subprocess.run(
+                    ["git", "apply", f"--include={PARSER_REL}", str(patch_path)],
+                    cwd=temp_root, check=True, capture_output=True)
+            manifest.append({"path": relative, "sha256": patch_sha,
+                             "parser_hunk_applied": parser_applied,
+                             "files": touched})
+        return parser_copy.read_bytes(), manifest
 
 
 def support_file_identity(path: Path) -> dict:
@@ -181,14 +224,24 @@ def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
          f"source checkout has staged/untracked/unexpected changes: {status}")
 
     patch = Path(__file__).with_name("verifast-tuple2-own-26.10.patch").read_bytes()
-    actual_diff = subprocess.run(
-        ["git", "-C", str(source), "diff", "--no-ext-diff", "--unified=3",
-         "--", PARSER_REL], check=True, capture_output=True).stdout
-    canonical_diff = b"\n".join(
-        line for line in actual_diff.splitlines()
-        if not line.startswith(b"index ")) + b"\n"
-    need(canonical_diff == patch,
-         "source parser diff does not exactly match the reviewed standalone patch")
+    parser = (source / PARSER_REL).read_bytes()
+    cumulative_patch_manifest = []
+    if cumulative:
+        expected_parser, cumulative_patch_manifest = expected_cumulative_parser(
+            repo_root, base)
+        need(parser == expected_parser,
+             "source parser bytes differ from exact five-patch cumulative replay")
+        parser_diff_check = "exact_parser_bytes_from_pinned_five_patch_replay"
+    else:
+        actual_diff = subprocess.run(
+            ["git", "-C", str(source), "diff", "--no-ext-diff", "--unified=3",
+             "--", PARSER_REL], check=True, capture_output=True).stdout
+        canonical_diff = b"\n".join(
+            line for line in actual_diff.splitlines()
+            if not line.startswith(b"index ")) + b"\n"
+        need(canonical_diff == patch,
+             "source parser diff does not exactly match the reviewed standalone patch")
+        parser_diff_check = "standalone_parser_diff_exactly_matches_reviewed_patch"
 
     full_diff = subprocess.run(
         ["git", "-C", str(source), "diff", "--no-ext-diff", "--unified=3"],
@@ -215,7 +268,6 @@ def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
     active_prelude = tool_home / "bin/rust/prelude.rsspec"
     need(sha(active_prelude.read_bytes()) == PRELUDE_SHA256,
          "active tool-home prelude differs from stock tuple-2 share definition")
-    parser = (source / PARSER_REL).read_bytes()
     need(parser.count(b'sn = "std_tuple_2_" && tparams = ["T1"; "T2"]') == 1 and
          b'field_own "T1" "0", field_own "T2" "1"' in parser,
          "patched parser lacks the exact tuple-2 field-own body")
@@ -244,6 +296,8 @@ def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
         "patched_parser_sha256": sha(parser),
         "patch_sha256": sha(patch),
         "applied_diff_exact": True,
+        "parser_profile_check": parser_diff_check,
+        "cumulative_patch_manifest": cumulative_patch_manifest,
         "tuple2_exact_two_field_shape_guard": True,
         "tuple2_shape_guard_sha256": sha(shape_guard),
         "shape_mismatch_control": "non-matching AST body falls through existing opaque branch",
