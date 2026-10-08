@@ -38,8 +38,8 @@ def mutate_actual_mir(decoded, mutation):
         hi = call.index("destination = (", lo)
         args = call[lo:hi]
         CAP.PREP.require(args.count("move = (") == 1 and
-                         'local = (name = "_34")' in args and
-                         "projection = []" in args, "actual Move(_34) missing")
+                         'local = (name = "_32")' in args and
+                         "projection = []" in args, "actual Move(_32) missing")
         args = args.replace("move = (", "copy = (", 1)
         changed = call[:lo] + args + call[hi:]
     elif mutation == "forget_cleanup_to_bb23":

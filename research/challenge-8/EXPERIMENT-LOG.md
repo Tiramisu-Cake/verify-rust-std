@@ -5048,3 +5048,21 @@ translation obligation, fullcallback/arrayposts remain unproved. Runtimewholebod
 identity, all5FnMut/8select/4copy retained; no prematureacceptance.
 Next: exact9 source/MIR admission+existing nestedguard/forget/A1 integration;
 review firstFnMut handler against complete sourcegraph. [O24](overnight-linkage/O24-RESULTS.md).
+
+### O25 — exact9/H2 integration and first A1 linkage obligation
+
+**Last completed O25:** [run37761756051](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37761756051),
+proof `8a7a698ed6001273b953987cd6fd7517ff6219d5`,10:10:51–10:13:56UTC=185s.
+Resumed **1407/7200**,5793remaining; no active run.
+Main18 builds, exact9source/fullMIR and nestedH2 gates PASS; qualified nested
+call links but its body has not yet been verified. Prefix generic method
+normal/unwind return+leak checks pass, checked_transmute_neo_pointer fullbody
+passes. First realprooferror now `verified/lib.rs(117,13-35): No such function:
+std::mem::transmute_neo` in localchecked_assume_init_pointer. Actual SAFE
+prototype/body and nested Drop occur later, remain NOT PROVEN.
+Source2 controls exactsourceSHA intended; cleanup24->23 directMIR control
+exactunitSHA intended. Move/Copy control INCONCLUSIVE setup (stale_34 vs exact9
+Move_32); originalclassification retained, minimalrepair prepared. FullS6 all
+8stages freshPASS separately. Next exact9 A1local+actualcall links and SAFE
+forget ownedsummary/normalCFG composition, preserving other9cleanup preds.
+[O25 evidence](overnight-linkage/O25-RESULTS.md).

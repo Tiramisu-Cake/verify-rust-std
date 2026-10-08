@@ -11,13 +11,25 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
+**Last completed O25:** [run37761756051](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37761756051),
+proof `8a7a698ed6001273b953987cd6fd7517ff6219d5`,10:10:51–10:13:56UTC=185s.
+Resumed **1407/7200**,5793remaining; no active run.
+Main18 builds, exact9source/fullMIR and nestedH2 gates PASS; qualified nested
+call links but its body has not yet been verified. Prefix generic method
+normal/unwind return+leak checks pass, checked_transmute_neo_pointer fullbody
+passes. First realprooferror now `verified/lib.rs(117,13-35): No such function:
+std::mem::transmute_neo` in localchecked_assume_init_pointer. Actual SAFE
+prototype/body and nested Drop occur later, remain NOT PROVEN.
+Source2 controls exactsourceSHA intended; cleanup24->23 directMIR control
+exactunitSHA intended. Move/Copy control INCONCLUSIVE setup (stale_34 vs exact9
+Move_32); originalclassification retained, minimalrepair prepared. FullS6 all
+8stages freshPASS separately. Next exact9 A1local+actualcall links and SAFE
+forget ownedsummary/normalCFG composition, preserving other9cleanup preds.
+[O25 evidence](overnight-linkage/O25-RESULTS.md).
+
 **Last completed O24:** [run37760135524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37760135524),
 proof `2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`,09:56:44–09:57:37UTC=53s.
-Resumed completed **1222/7200**,5978remaining before active O25.
-**Active O25:** [run37761756051](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37761756051),
-proof `8a7a698ed6001273b953987cd6fd7517ff6219d5`; main18 exactowner9/nestedH2
-experimental composition, positivewholeunit and source2/MIR2 admission controls,
-fullS6 separate regression.
+Resumed historical **1222/7200** throughO24; superseded above.
 Hosted independent owner9/sort4 sourcepreflight PASS BEFORE console, exactruntime
 strip/fragments retained. Cached main16 reused with exactprofile; unchangedS6 not
 rerun. Both whole NORMAL/readonly MIR exports/refinement0. Owner9 completeunit+
