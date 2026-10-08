@@ -4943,6 +4943,6 @@ usize pureconditional crash replaced by equivalent stock assertionIf post;
 patch ecdd1fd6, stdspecd92e5044, frame runtime type fixed, oddfalse control
 exactobservedoracle declared. Oldcopy3/wrapping2 speccoordinates calibrated
 with unchangedmessages; ZST mappingearlieralignment remains INCONCLUSIVE.
-Stack normalMIR/source rolecertificate tested separately from finalAST linkage: 
+Stack normalMIR/source rolecertificate tested separately from finalAST linkage:
 finalAST gate explicitlyOPEN/125 pending first rewrittenartifact review; actual
 bidir cannotPASS at thisdiagnosticstage. Fulloldmatrix stillrequired.
