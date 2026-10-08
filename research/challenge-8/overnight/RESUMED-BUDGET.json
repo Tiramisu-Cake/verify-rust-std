@@ -2,8 +2,8 @@
   "phase": "RESUMED-SELECT-SORT4-26.10-08",
   "authorization": "Owner selected until14:30MSK new independent7200jobseconds",
   "ceiling_job_seconds": 7200,
-  "used_job_seconds": 426,
-  "remaining_job_seconds": 6774,
+  "used_job_seconds": 511,
+  "remaining_job_seconds": 6689,
   "deadline_utc": "2026-10-08T11:30:00Z",
   "runs": [
     {
@@ -23,14 +23,18 @@
       "completed_at": "2026-10-08T08:00:29Z",
       "job_seconds": 232,
       "result": "CALLBACK_FULL_NORMAL_UNWIND_CANDIDATE_G1_FULL_CALL_CANDIDATE_HRTB_12_OF_15_MATCHER_CONTROLS_LINKED_ACTUAL_COMPLETE_MIR_S6_FULL_PASS"
+    },
+    {
+      "run_id": 37748156620,
+      "proof_sha": "e30bdc72d7af37222c401dd54ed50759eb840547",
+      "job_id": 113214536937,
+      "started_at": "2026-10-08T08:11:09Z",
+      "completed_at": "2026-10-08T08:12:34Z",
+      "job_seconds": 85,
+      "result": "G1_9_INTENDED_HRTB_15_INTENDED_H2D_NO_KEY_FULL_POSITIVE_5_GENERATED_POST_FAILURES_AUDITED"
     }
   ],
-  "active_run": {
-    "run_id": 37748156620,
-    "proof_sha": "e30bdc72d7af37222c401dd54ed50759eb840547",
-    "dispatched_at": "2026-10-08T08:11:04Z",
-    "scope": "O20_TARGETED_G1_HRTB_H2D_ISOLATED_TEST_CONSOLE"
-  },
+  "active_run": null,
   "historical_accounts": {
     "OVERNIGHT-SELECT-SORT4-26.10": {
       "used": 3094,

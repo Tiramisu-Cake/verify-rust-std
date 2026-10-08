@@ -1,3 +1,4 @@
+<!-- O20 current delta: H2b ACCEPTED_LOCAL_OPTIONAL_STORAGE only, exact production O19/O20 profile and trusted primitive/source/layout/glue boundaries; isolatedTEST post5 controls audited. Actual nestedDrop/helper/sort4 remain unproved. HRTB matcher15/15; G1framedgenericcall all9controls intended; callback localfullO19 normal/unwind proof. See current STATUS and O20-POST-ADMISSION-REVIEW. -->
 <!-- O19 current delta: callback local full normal/unwind proof candidate, G1 generic framed call full proof candidate; HRTB admission12/15 matcher controls, actual helper/sort4 remain unproved. Exact proof a6f9d5e00cc99c06f8c49fa2e27e6a92308a1a79 run37746579002; see STATUS/log. -->
 ## O18 — 2026-10-08
 

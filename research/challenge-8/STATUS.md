@@ -11,35 +11,33 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
-**Last completed O19:** [run37746579002](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746579002),
-proof `a6f9d5e00cc99c06f8c49fa2e27e6a92308a1a79`,07:56:37–08:00:29UTC=232s.
-New resumed account **426/7200**,6774remain completed plus active O20
-[run37748156620](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37748156620),
-proof `e30bdc72d7af37222c401dd54ed50759eb840547`, dispatched08:11:04UTC.
-O20 targets isolated H2d generated-post diagnostic and affected HRTB/G1 admission
-classifications; production twelve-patch profile identical to O19, fullS6 cited.
-Historical overnight **3094/21600**,18506 unspent expired; stock99/1800,
-S7 5306/5400 remain separate. O17/O18 evidence preserved in log and result notes.
+**Last completed O20:** [run37748156620](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37748156620),
+proof `e30bdc72d7af37222c401dd54ed50759eb840547`,08:11:09–08:12:34UTC=85s.
+New resumed account **511/7200**,6689remain; no active run.
+Historical overnight3094/21600 (18506expired),stock99/1800,S7 5306/5400 separate.
+Production twelve-patch profile identical O19: console `d23f6552`,translator
+`6abe2aa9`; fullS6 eight-stage freshO19 evidence applies, not rerun in O20.
 
-O19 source/MIR-gated G1 generic callee+framed caller fullVF0, normal return/leak,
-no synthetic dead unwind. Seven negatives match intended obligations; wrong_value
-also fails exactly at preservation post (`flag == !(flag)`) but original classifier
-INCONCLUSIVE, narrow classification repair pending. Actual SAFE forget not linked.
-HRTB per-call bool instantiation fixes callback NORMAL path: full positiveVF0
-including normal/unwind resource recovery, posts and leak. False normal/unwind,
-duplicate F/T owners and four marker admissions all fail at intended obligations.
-HRTB isolated matcher12/15 expected traces; missing_projection still has compiler
-projection and shadowF/T fail parser before translator. These three are INCONCLUSIVE;
-component admission incomplete, no sort4 proof claim. Separate strict-lifetime
-kernel draft remains inactive. Fresh fullS6 eight stages pass on new combined profile.
+H2b **ACCEPTED_LOCAL_OPTIONAL_STORAGE**: O19 production full same-unit method,
+constructor, truthful owner and source-shaped SAFE Drop normal/unwind/leak;
+source7/typedMIR12/resource controls, isolated O20 no-key positive plus five
+exact generated-post failures root audited. [Scope/trust/evidence](overnight-guard/O20-POST-ADMISSION-REVIEW.md).
+Actual nested std Drop unproved; TEST console excluded from production proof.
+G1 generic callee+framed caller fullO19/O20 proof candidate, all9 controls
+intended; O19 wrong-value INCONCLUSIVE kept, classifier narrowly corrected.
+Actual SAFEforget not linked, broader direct MIR admission still pending.
+Callback fullO19 normal/unwind current-resource/posts/leak proof; four post/resource
+negatives+four marker admissions intended. HRTB isolated15/15 intended matcher
+controls O20; these controls do not prove owner recovery themselves. Local callback
+acceptance review under way; no actualsort4 claim. Lifetime kernel draft inactive:
+mutable inference refs invalidate claimed immutable snapshot; strict freeze/reject
+and escape controls being repaired before any activation.
 
-Linked actual owner fixture now passes paired exports/decodes/refinement and
-captures complete outer+nested typed MIR, including real shared cleanup and
-nested ghost opens. Frozen five-ghost S6 admission refuses changed actual SAFE
-contract/source signature. New exact-source/fullgraph admission under preparation;
-actual helper/nestedDrop/SAFEforget remain open. H2c source7/MIR12 controls remain
-passing; H2b local candidate awaits generated-post adversarial controls on an
-isolated TEST console. Production O19 profile excludes TEST overlay and lifetime draft.
+Linked actual owner O19 paired source/MIR/refinement passes, complete outer/nested
+MIR captured including shared cleanup and two nested opens. Frozen S6 rejects
+changed SAFE source/contract. Default-off fail-closed complete decoded representation
+probe preparing; no new semantic admission from an unreviewed digest.
+Within-phase hosted authority until11:30UTC/new7200 persists.
 
 **Actual select_unpredictable and sort4_stable NOT PROVEN on26.10.**
 Independent stock+CFG accepted at e6c02f22/run37698481357: 5positive,4falsepost,
@@ -56,11 +54,11 @@ linkage open. Exact generic forget body independently callable unsafe callee at
 Framed caller reaches normal return/leak but synthetic false-unwind edge deadcode;
 source/MIR-gated CFG repair drafted, not active in O17. SAFE actual forget open.
 
-Truthful nominal guard owner is initialized target cell plus its T.own. O17
+Truthful nominal guard owner is initialized target cell plus its T.own. Historical O17
 H2b LOCAL_CANDIDATE_PROVED: same-unit generic callee, constructor/u32 witness,
 SAFE source-shaped Drop normal AND unwind return/leak, ordinary Drop fullVF0.
 Four exact source rejects and three constructor resource negatives verified.
-Full source/ADT/typed-MIR/template-post mutation admission remains OPEN; actual
+Source/ADT/typed-MIR/template-post admission completed locally O20; actual
 nested std Drop not proved. Optional storage after destruction, no T.own or value.
 No arbitrary guard.own=true. Retains_initialized original classifier inconclusive,
 observed optional/initialized entailment failure requires separate replay/classification.
@@ -89,7 +87,7 @@ admissions reject. Normal positive/falseNORMAL fail call96 FnOnce::Output vs boo
 HRTB projection exists in MIR but nonempty bound_regions equality is dropped.
 Component UNACCEPTED; per-call instantiation/resource/alias/CFG controls pending.
 Separate strict lifetime-cut draft changes translator AND verifast.ml, defaultoff,
-UNTESTED; no stale26.09 certificate or HRTB patch imported.
+UNTESTED with inference snapshot defect under repair; no stale26.09 certificate or HRTB patch imported.
 
 Next: finish H2b admission controls → qualify new exact actual-owner ghost
 inventory → nested guard/checked forget CFG+safety-proof/assume_init → complete helper →
