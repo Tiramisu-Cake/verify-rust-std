@@ -4352,3 +4352,16 @@ Experimental combinedcleanup profile NOTACCEPTED, actualcallee posts unchanged.
 Ifbuild/frontendfail, correctwithinthisexplicitprofile; ifrealresourcefail,
 inspectlivechunks andloanprotocol; iffullpositive+matrixpass, proceedactual
 conditionalcontract andpairedresource invariant, withoutroutineownerapproval.
+
+### M2-cleanup-v1 build outcome / v1b BEFORE
+
+Run37708531700/proofecf30e5ef799ca1fc9d2d3616d1d9cac8bd2d8dd,
+job113088625878,00:35:09–00:36:19UTC=70seconds; cumulative2100/21600.
+Patch/source pins and patch application PASS; console build failed at translator
+2839: State.pending_hrtb_projection_eq is Ast.stmt list ref, compared to []
+without dereference. This is build/setup, no matrix proof or intended negative.
+Reviewed all new State references and fixed dereference only. New cleanup patch
+4968245de17d887e840e161bd2f113e78061efbdd651488b601d32ee8bb5d1f0,
+post-translator4d25e806f58dc1b9f3b885a2717a45cfa7184822ce9de50a4c65a290ac436d8e;
+post-kernel100eebae unchanged. No semantic/domain/post/check change. Fresh full
+hosted matrix and AST review required. No local compile/verifier/runner used.

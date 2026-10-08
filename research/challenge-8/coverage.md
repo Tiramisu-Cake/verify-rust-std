@@ -6,6 +6,18 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
+OVERNIGHT-MERGE-26.10: source `b8f25c1831152660fa6b2eba667dc8d8e068d2ad`,
+run [37707794942](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37707794942)
+retains G2/A/B and old Rust projections; bounded trusted W1 wrapping has 22
+positive/5 intended negative and 9 checked pointer bridges; bounded trusted C1
+copy has 5 positive/2 stock count controls/6 intended negative. Full stage,
+execution, return/leak/dead and classifier gates pass. Symbolic zero-size wrapping
+is covered; concrete layout and ZST access remain open. Full arbitrary-length G2
+trace main is unproved although helper bodies pass. Unchanged actual up/down reach
+FnMut but full panic resource recovery is unproved. Experimental cleanup frontend
+and strict kernel scope are unaccepted; first hosted build failed before proof.
+No whole actual merge/bidirectional/Challenge claim follows.
+
 Current pointer-select phase: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile
 experimental-source-linked-select-pointer-intrinsics-v2/7bb39a84 accepts two

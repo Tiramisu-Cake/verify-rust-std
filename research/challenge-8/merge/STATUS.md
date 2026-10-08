@@ -1,27 +1,30 @@
 # OVERNIGHT-MERGE-26.10 — IN PROGRESS
 
-Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC).
-Собственная ветка `overnight/merge-26.10`, entryb0af5613.
-[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2030/21600 hosted job seconds**;
-старый merge603/1800 (1197остаток) сохранён отдельно. Actual merge NOT PROVEN.
+Авторизовано владельцем 2026-10-08 до 09:30 МСК (06:30 UTC).
+Собственная ветка `overnight/merge-26.10`, entry `b0af5613`.
+[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2100/21600 hosted job seconds**;
+старый merge 603/1800 (остаток 1197) сохранён отдельно. Actual merge NOT PROVEN.
 Исторические STOP/design-only/CI0 ниже не ограничивают эту ночную фазу.
 
-Последний полныйrun37706472350/proofba7db8cd: G2/A/B, nativeC/C++, ordinary
-normal/unwind PASS; falseunwind иmissingtuplefield intendednegative приняты.
-W1:22wrappingpositive+5точныхnegative,9bridge,9oldRust+2negative PASS
-под объединённым W1/M2/C1 diagnostic profile. Wrapping summaries TRUSTED,
-не доказательства реальных wrapperтел; concreteZSTlayout4goals OPEN,
-двухшаговый reentry2PASS, symboliczero-size PASS.
-Copy4fullresource+noown+count0/count2 allstages0/return/leak; classifier
-INCONCLUSIVE из-за unrelatedZST-generatedhelpers вprefix. Изоляция исправлена;
-3resourceoracles закреплены, overlap/alignment directprimitive calibration далее.
-Полный trace OPEN: reverse-step lemma дополнена разбором numericalwrap без
-суженияdomain. Actualup/down exactsource/export/decode/refinePASS; первый
-bodyfailure — fullunwind points_to<T>(left_src,_), sourceborrowrecovery OPEN.
-Cleanup strictscope/outcome epilogue отдельно проектируется/реализуется;
-patchне применён, ownershipаксиом/ослабленияpanic-postнет.
-Нет активногоrun после аудита; следующий — copy/trace/negative admission fixes,
-затем отдельная cleanup dependency иactual fullnormal/unwind proof.
+Последняя полная матрица: run `37707794942`, proof `b8f25c1831152660fa6b2eba667dc8d8e068d2ad`.
+G2/A/B, native C/C++, ordinary normal/unwind, false-unwind и точный dead-body
+negative PASS. W1: 22 positive + 5 intended negative; 9 bridge и старые Rust
+проекции PASS в объединённом W1/M2/C1 профиле. Wrapping и copy — TRUSTED
+primitive summaries, а не доказанные тела примитивов. Copy: 5 positive,
+2 stock count controls и 6 intended negative с fail-closed mutants PASS.
+Concrete ZST layout: 4 цели OPEN; 2 reentry PASS; symbolic zero-size PASS.
+Полный trace OPEN: checked helper bodies PASS, применены prefix-zero леммы;
+доступ к Boolean-буферам и полный main post требуют следующего запуска.
+Actual up/down: exact source/export/decode/refinement PASS; полный unwind post
+останавливается на восстановлении source points_to/T.own после FnMut.
+
+Новый отдельный cleanup-профиль экспериментален, НЕ ПРИНЯТ: строгий lifetime
+scope сохраняет heap, explicit outcome epilogue закрывает genuine loans.
+Run `37708531700`, proof `ecf30e5e`, 70 job seconds: console build failure,
+не proof rejection; missing OCaml ref dereference исправлено. Новый cleanup
+patch `4968245d`, kernel `100eebae`, translator `4d25e806`.
+Нет активного run. Следующий разрешённый шаг — свежая hosted сборка и полная
+матрица cleanup/actual/trace, затем последовательное закрытие actual merge.
 
 ---
 

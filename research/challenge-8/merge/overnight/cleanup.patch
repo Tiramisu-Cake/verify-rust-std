@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index fddcc70..0dc248f 100644
+index fddcc70..bcede18 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1942,6 +1942,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -59,7 +59,7 @@ index fddcc70..0dc248f 100644
 +            let (_, call_end_line, _) = snd (Ast.lexed_loc loc) in
 +            let ((_, close_line, _), _) = Ast.lexed_loc close_loc in
 +            if close_line = call_end_line + 1 then (
-+              if !State.callback_used || State.pending_hrtb_projection_eq = [] ||
++              if !State.callback_used || !State.pending_hrtb_projection_eq = [] ||
 +                 TranslatorArgs.ignore_unwind_paths ||
 +                 (match OptionRd.get (target_get fn_call_data_cpn) with
 +                  | Something _ -> false | _ -> true) ||

@@ -7,11 +7,11 @@ hashed `cleanup.patch`. The latter modifies only
 `src/verifast.ml`. The exporter, decoder, refiner, Rust prelude, source std
 runtime body and generic signatures are unchanged by this dependency.
 Current cleanup patch SHA-256:
-`97318f5176f28877a781298be97cba1be8068c144f6fcf994fcc6512173a15db`.
+`4968245de17d887e840e161bd2f113e78061efbdd651488b601d32ee8bb5d1f0`.
 After the full W1/M2/C1/cleanup chain, `src/verifast.ml` SHA-256 is
 `100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6`;
 the translator SHA-256 is
-`86587aa649ba7728054f9ea16c65716366ec8a290fd571630e350e1e24accc13`.
+`4d25e806f58dc1b9f3b885a2717a45cfa7184822ce9de50a4c65a290ac436d8e`.
 
 ## Exact opt-in syntax
 

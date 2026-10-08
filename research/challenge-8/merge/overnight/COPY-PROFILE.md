@@ -155,3 +155,15 @@ reach their intended primitive requirements; exact new oracles are pinned for
 another fresh combined matrix. Their original INCONCLUSIVE classifications remain
 historical evidence. C1 is a bounded TRUSTED primitive specification, not a proof
 of std intrinsic body, ZST, arbitrary invalid byte state or actual merge.
+
+## C1f accepted bounded component
+
+Run [37707794942](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37707794942),
+proof `b8f25c1831152660fa6b2eba667dc8d8e068d2ad`, accepts five positive cases,
+stock count-zero/count-two controls and all six intended resource/range/alignment
+negatives with fail-closed classifier mutations. Full source identity, stages,
+body execution, normal/unwind, return/leak and dead-code gates pass. Earlier
+INCONCLUSIVE classifications above remain historical. This accepts only the
+bounded trusted C1 contract described above; actual merge, concrete ZST and
+arbitrary invalid destination byte states remain open. Compatibility after the
+new cleanup kernel dependency still requires its separate full hosted matrix.
