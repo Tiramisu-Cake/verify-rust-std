@@ -5,6 +5,12 @@ hosted-полномочия до14:30МСК2026-10-08 с лимитом новы
 История ночи3971/21600 и старые603/1800(1197) сохраняются отдельно.
 [STATUS](STATUS.md) фиксирует текущий расход и активный run.
 
+Actions dispatch ebb392a1 отклонён HTTP422 user disabled; job не создан.
+Подготовлен checkpoint6c8f8cfb: exhaustive hidden-role MIR/AST accesses и
+ordered def-use, новые отказные контроли. Всё HOSTED_UNTESTED после run37762243525.
+Следующий CI только после восстановления hosted-доступа, в пределах до14:30МСК
+и остатка4532jobseconds; обязательные проверки и runtime std сохраняются.
+
 Ближайшая последовательность: same-input stack MIR→AST и адресные admission
 контроли; G2 trace live-body geometry; actual bidirectional 2/3 odd-copy и
 normal/unwind ресурсная композиция. M3n установил AST linkage и вход G2,

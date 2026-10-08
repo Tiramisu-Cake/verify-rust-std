@@ -20,6 +20,15 @@ Normal/unwind full function theorem OPEN. Panic origin13mutants PASS only
 CALIBRATION; expected compiler source SHA not yet pinned in that proof.
 Continuation2668/7200,4532remaining; historic3971/21600 and603/1800 separate.
 
+Static review after M3n found existing stack gates check existential copy/
+field flow but do not exclude every overwritten intermediate; actual MIR call
+operands require a stronger ordered-def-use linkage. The historical gate PASS
+remains evidence for its original checks only. Full stack-address admission is
+OPEN pending stronger checks and fresh hosted overwrite controls. Prepared
+source `ebb392a1` dispatch was HTTP422 user Actions disabled, no new run/job.
+Budget unchanged; all M3o fixes and final panic classifier are HOSTED UNTESTED.
+Arbitrary-length resource composition design is prepared, no new theorem.
+
 Historical full matrix below (claims retain their original SHA):
 
 OVERNIGHT-MERGE-26.10 latest full matrix: run
@@ -527,3 +536,14 @@ MIR/ASTgatesPASS. Scalar/namedcontrolprepSETUPfailed beforeexport.
 Z3all8controls+traceSETUPunsupported(pointer_ctorSortMismatch), no
 body/targetentry, allINC—notproofnegatives. Fullup/downPASS.
 Continuation2127/7200,5073left. MacrooriginclassifiercandidateNOTadmitted.
+
+Prepared checkpoint6c8f8cfb strengthens stack all-access linkage (12MIRPlaces,
+27ASTVars), calloperand andordereddefinitions;16MIR/17AST controls NOTRUN.
+CurrentstackadmissionOPEN, historicalM3n gatePASSnottransferred. Checked
+reversebounds, actualodd-source split, finalpanic originclassifier andmodular
+tracecandidate remainHOSTED_UNTESTED afterHTTP422 blockeddispatch.
+Preparedresource design366fcc78 separates phase/current/copy-time state and
+makesFcallbackframe compatibilityexplicit; raw-dst panicprobeUNEXECUTED,
+notrefutationofconditionalup/down proof. Caller C1/shared-slice/Freeze,
+M2cleanup admission, arbitrary-n actual composition, functionality/ZST generic
+Challenge allremainOPEN. Continuation2668/7200; noactiveworkflow.

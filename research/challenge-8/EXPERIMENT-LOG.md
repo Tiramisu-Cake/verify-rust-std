@@ -5196,3 +5196,54 @@ repeat; existingacceptedcombinedregressions maintained. Negativecases
 requireexactstage/span/predicate target; setupunsupported isINC.
 Decision: onlycompleteallgatespermitsconditionalcomponentacceptance;
 otherwiseinspectfreshcausalobligation andcontinueindependentcorrectwork.
+
+### External Actions limit and independent static review
+
+2026-10-08T10:39UTC, dispatch ebb392a1e96086757a71dd37af5eff6acb245e05,
+proof=merge_geometry budget_minutes=30, rejected HTTP422:
+`Actions has been disabled for this user`. No run/job created. Separate
+read-only repo actions permissions enabled=true/allowed_actions=all doesnot
+supersede dispatch denial. No alternatecompute/localexecution/duplicate
+researchworkflowused. Budget2668/7200 unchanged,4532left, deadline11:30UTC.
+Sourcefixes independently committed f096fd13 (actualoddexistingchunkcases),
+cd4250f4 (checkedreversebounds+modulartrace preserved draft),1958df00
+(scalarparametercopy admission),77def23d (finalpaniccertificate classifier).
+All are HOSTED UNTESTED after7a4. Staticast.parse/gitdiffcheck/bash-n only.
+
+Additional independentreview found stackASTinputs/extracts are existential
+flows, notexhaustive/reachingdefinition: anextra overwrite mayretain graph
+reachability. NormalMIRrole certdoesnotyetcheck allactual4calloperands.
+HistoricalM3n9MIR+12ASTmutants remainoriginalevidence, but exhaustiveall
+read/write linkage andcomplete stackadmission OPEN. Prepareuniqueordered
+boundeddefinitions/actualcalloperandlinkage andexplicitoverwritemutants;
+no newtranslator/kernel semantics. NewARBITRARY-LENGTH-RESOURCE-DESIGN
+separates beforeUp/afterUp/beforeDown stages, currentownedsourcearray,
+exactuntoucheddestoptions andindependentcopy-timevalue traces. Freeze/share
+caller ownershiptransfer andfunctionalimmutablekeys remainexplicitbridges,
+notassumed. Workcontinueswithstaticreviewdespitehostedexternalboundary.
+
+### Prepared stronger stack admission checkpoint (no hosted result)
+
+Source6c8f8cfbcaa908a53789a57adf727c6c83975da0 checks exactcall4operands,
+ordereduniquegenerateddefinitions andtuplefield→bridge→cursor flows.
+Exhaustiveidentitywhitelist comparesall4-role MIRPlaces acrossbasicBlocks
+with12knownruntime nodes; ASTwalk comparesall4-role Vars inselectedFunc
+with27knownnodes (13runtime+14ghostAddressOf). Unknownaccessfailsclosed.
+Additionalread/write mutations includeotherspan, otherblock andnestedread/
+write;5extra-access mutantsrequireintendedaccess-gate message. Structural
+MIR13+retainedprovenance3=16, AST17; NOTRUN. Generalcursor CFG/alias/memory
+sideeffects stilloutsideboundedgate, caller/resource obligations OPEN.
+No semantictranslator/kernel/spec changes, no runtime/std edits.
+Finalpanicclassifier77def23d remainsHOSTED_UNTESTED; priororiginCALIBRATION
+cannotbecreditedretroactively. Independentreview found no bypassofmissing/
+wrongcert,stage/hash/log/compiler/source/owner gates, but reviewnotproof.
+
+Arbitrarylengthresource design366fcc78 hasindependentphase/indexreview;
+source/destinationdisjointnessdoesnotaloneexcludeFcapturedrawdst writes.
+Designrequirescallbackresource-framecompatibility atcallers, noFpurity;
+copy-timehistoricalvalues are notlatercurrentsource snapshot. Saved
+callback-destination-frame-probe.rs withverbatimmerge_upcopy andcaptured
+initializedu32dstwritebeforepanic, intendedfuturehostedsourceadmission/
+compile/execute. UNEXECUTED candidate, notcounterexampletotheconditional
+VF separation contract. Currentcallees/posts retained. No cost/newjobsafter
+HTTP422;2668/7200,4532left; historic3971/21600 and603/1800 unchanged.

@@ -1,4 +1,4 @@
-# OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
+# OVERNIGHT-MERGE-26.10 — CHECKPOINT / HOSTED ACCESS BLOCKED
 
 Hosted-полномочия до **14:30 МСК 2026-10-08 (11:30 UTC)**.
 Продолжение: **2668/7200 job seconds**, остаток **4532**;
@@ -7,15 +7,25 @@ Hosted-полномочия до **14:30 МСК 2026-10-08 (11:30 UTC)**.
 `7a4e1ad19558717a33391d30b9a69af579dd5e57`,
 [run37762243525](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37762243525),
 job113261239759,10:15:17–10:24:18UTC,541s, diagnostic FAILURE.
-Активного run нет. [Фаза](merge/OVERNIGHT-26.10-PHASE.md).
+Активного run нет. Новый dispatch proof `ebb392a1e96086757a71dd37af5eff6acb245e05`
+отклонён HTTP422: `Actions has been disabled for this user`; job не создан,
+расход не изменился. Repository Actions API отдельно показывает enabled=true;
+это не отменяет фактический отказ dispatch. [Фаза](merge/OVERNIGHT-26.10-PHASE.md).
 M3k и все исторические результаты сохранены; ниже текущие три независимые ворот:
 
-1. **Stack-address:** same-input normal MIR→proof AST PASS,14addresses,
+1. **Stack-address:** исторический same-input normal MIR→proof AST gate PASS,14addresses,
    four concrete Range/tuple locals,9MIR+12AST refusal controls. Seven exact
    syntax/missing-ID/parameter frontend controls PASS, bodies unentered.
    Named Range/tuple discovery/final roles stable but not yet verified;
    hidden-scalar preparation SETUP: Add reads a hidden copy of parameter.
    Prepared fix verifies its unique earlier same-block copy and source spans.
+   Review обнаружил existential, а не exhaustive def-use checks: наличие
+   copy/extraction не исключает intervening overwrite; MIR actual call operands
+   тоже требуют дополнительной связи. Полная stack-address приёмка OPEN.
+   Более строгий audit подготовлен в `6c8f8cfbcaa908a53789a57adf727c6c83975da0`:
+   фактические call operands, ordered def-use, exhaustive12MIR Places/27AST Vars
+   четырёх hidden roles,16MIR (13structural+3provenance)/17AST controls.
+   HOSTED_UNTESTED; старый PASS не подменяет новые ворота.
    Address/permission admission beyond this bounded profile remains OPEN.
 2. **G2 trace:** штатный quartet adapter retains all12coordinates/posts;
    main ENTERED415executions,13helpers checked. Concrete proof rejection
@@ -35,6 +45,34 @@ All accepted baselines and actual merge_up/down again full PASS (116/120exec,
 3return+3leak each). Checked panic-stage frame/3lemma bodies and exact suffix
 negative PASS. New candidates require fresh hosted evidence; no runtime/std,
 trusted semantic patch or functional safety restriction added.
+
+Подготовленные checkpoint:
+`f096fd13` actual odd-copy source association;
+`cd4250f4` checked reverse destination bounds и modular trace draft;
+`1958df00` scalar input-copy source linkage;
+`77def23d` final pinned panic-origin classifier;
+`366fcc78` arbitrary-length resource design + unexecuted destination-alias probe;
+`6c8f8cfb` strengthened stack admission. Ни один из этих новых кандидатов не
+прошёл hosted matrix после7a4. Новых semantic verifier/spec/kernel patches нет.
+Статически выполнены git diff --check, Python ast.parse без imports/execution,
+bash -n. Runtime repository SmallSort blob40939f9 неизменён.
+
+Следующий разрешённый шаг при восстановлении Actions **в пределах окна**:
+один fresh exact-SHA полный matrix: strengthened stack/role refusal gates,
+14 G2 helper bodies + main12posts/full-shape entry false, actual2/3 с обоими
+actual callees, pinned final panic origin и всеми normal/unwind/leak/dead/source
+gates. Finish jobs/artifacts before14:30МСК; послеокна новых CI без продления нет.
+Если quartet снова получает concrete VC, локализовать этот VC; если только
+timeout — prepared modular adapter, сохраняя12relations и checked helper bodies.
+Далее arbitrary-n resource phases, caller C1/F callback-frame derivation,
+M2/cleanup admission, Freeze/share representation and functional G2/A/B bridge.
+
+[Ресурсный дизайн](merge/overnight/ARBITRARY-LENGTH-RESOURCE-DESIGN.md) отделяет
+copy-time values от later current source values. Тип FnMut не исключает raw
+captured destination alias: его совместимость с framed resources должна быть
+выведена у caller. Сохранён unexecuted source-level probe, без объявления
+counterexample к условному VF контракту или изменения его posts. Generic/ZST
+Challenge и caller ownershiptransfer OPEN.
 
 ## Preserved historical evidence
 
