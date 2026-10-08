@@ -226,6 +226,8 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
         body = match.group(2)
         verified = prefix + body
         original = strip_annotations(verified)
+        if b"mir_stack_addr" in original:
+            raise RuntimeError(f"{name}: stack address marker outside ghost annotations")
         if strip_annotations(verified) != original:
             raise RuntimeError(f"{name}: ghost stripping is not byte deterministic")
         runtime_assumption = check_assumption_boundary(name, verified)
@@ -498,6 +500,41 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
         }, indent=2) + "\n")
         (case_dir / "decode-exit-code.txt").write_text(f"{decoder}\n")
     (case_dir / "compiler-mir-sha256.txt").write_text(sha(mir.read_bytes()) + "\n")
+    stack_stages: dict[str, int] = {}
+    stack_requested = b"mir_stack_addr" in verified.read_bytes()
+    if stack_requested and name == "bidirectional_merge_len2":
+        # Stock VF uses normal in-memory ghost preprocessing, unlike the
+        # independent readonly export above. Bind actual IDs to that mode.
+        normal_command = [str(args.tool_home / "bin/vf-rust-mir-exporter"),
+                          "verified/lib.rs", f"--sysroot={args.compiler_sysroot}",
+                          "--edition", "2021"]
+        stack_stages["normal_exporter"] = run_stage(
+            name, "normal-exporter", normal_command, case_dir)
+        normal_mir = case_dir / "normal-exporter.out"
+        stack_stages["normal_decode"] = (
+            run_stage(name, "normal-decode", ["capnp", "decode", str(schema), "VfMir"],
+                      case_dir, stdin_path=normal_mir)
+            if stack_stages["normal_exporter"] == 0 else 125)
+        if stack_stages["normal_decode"] == 0:
+            provenance = case_dir / "normal-exporter-provenance.json"
+            provenance.write_text(json.dumps({
+                "normal_preprocess": True, "command": normal_command,
+                "source_sha256": initial["verified/lib.rs"],
+                "source_unchanged": hashes(case_dir) == initial,
+                "mir_sha256": sha(normal_mir.read_bytes()),
+                "decoded_sha256": sha((case_dir / "normal-decode.out").read_bytes()),
+                "github_sha": os.environ["GITHUB_SHA"],
+                "github_run_id": os.environ["GITHUB_RUN_ID"],
+            }, indent=2) + "\n")
+            stack_command = [sys.executable, str(HERE / "stack-address-admission.py"),
+                "--decoded-normal", str(case_dir / "normal-decode.out"),
+                "--mir", str(normal_mir), "--source", str(verified),
+                "--provenance", str(provenance),
+                "--expected-source-sha256", initial["verified/lib.rs"], "--require-final"]
+            stack_stages["roles"] = run_stage(name, "stack-roles", stack_command +
+                ["--output", str(case_dir / "stack-roles.json")], case_dir)
+        else:
+            stack_stages["roles"] = 125
     if exporter == 0 and decoder == 0:
         verifier = run_stage(name, "verifast", [
             str(args.tool_home / "bin/verifast"), "-rustc_args", "--edition 2021",
@@ -514,6 +551,18 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
             "source_after": hashes(case_dir),
         }, indent=2) + "\n")
         (case_dir / "verifast-exit-code.txt").write_text(f"{verifier}\n")
+
+    if stack_stages:
+        # The first address-rewritten AST has not yet been reviewed. Normal
+        # MIR/source admission is useful diagnostic evidence, not acceptance
+        # of its correspondence with the actual AST consumed by the kernel.
+        stack_stages["proof_ast"] = 125
+        (case_dir / "stack-proof-ast-status.json").write_text(json.dumps({
+            "status": "OPEN", "exit_code": 125,
+            "reason": "fresh rewritten AST declaration/call/destructure/address comparison pending",
+            "proof_ast_sha256": (sha((case_dir / "proof-ast.ml").read_bytes())
+                if (case_dir / "proof-ast.ml").is_file() else None),
+        }, indent=2) + "\n")
 
     # Refinement is independent of VF success, and always receives the stripped
     # original and full ghost-annotated projection.
@@ -550,6 +599,13 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
             "exit_code": result["stages"].get(stage),
             "first_diagnostic": candidates[0] if candidates else next((line.strip() for line in lines if line.strip()), ""),
         }
+    if stack_stages:
+        stack_complete = all(code == 0 for code in stack_stages.values())
+        result["stack_address_admission"] = {"stages": stack_stages,
+                                             "complete": stack_complete}
+        if not stack_complete:
+            result["classification"] = "INCONCLUSIVE"
+            result["additional_admission_failure"] = "normal-MIR/role/proof-AST stack address certificate incomplete"
     result["stage_diagnostics"] = stage_diagnostics
     result["first_failure"] = next(({
         "stage": stage, "exit_code": stage_diagnostics[stage]["exit_code"],

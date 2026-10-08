@@ -21,10 +21,12 @@ copy_sha=da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5
 cleanup_patch="$repo/research/challenge-8/merge/overnight/cleanup.patch"
 cleanup_sha=94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604
 usize_patch="$repo/research/challenge-8/merge/overnight/usize-multiple.patch"
-usize_patch_sha=a0b2365f4b152bd338e38ec4d4dd7ff0e3c2e47c25b82e570b714de816a9f4c5
-patched_stdlib_sha=9933b6aafabcc8b4d854f769c96b1cdf2fe860499f8cdf75b886f9127e109682
+usize_patch_sha=ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1
+patched_stdlib_sha=d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227
 patched_kernel_sha=100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6
-patched_translator_sha=0e450267e453493f894b91763ef9412bf41b7ee8d3988115f24126456ab4e025
+stack_patch="$repo/research/challenge-8/merge/overnight/stack-address.patch"
+stack_patch_sha=f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64
+patched_translator_sha=ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0
 vf_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
 vfdeps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 vfdeps_z3_sha=1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea
@@ -81,6 +83,8 @@ sha256sum "$copy_patch" >> "$evidence/source-build-inputs.txt"
 sha256sum "$cleanup_patch" >> "$evidence/source-build-inputs.txt"
 printf '%s  %s\n' "$usize_patch_sha" "$usize_patch" | sha256sum -c -
 sha256sum "$usize_patch" >> "$evidence/source-build-inputs.txt"
+printf '%s  %s\n' "$stack_patch_sha" "$stack_patch" | sha256sum -c -
+sha256sum "$stack_patch" >> "$evidence/source-build-inputs.txt"
 
 # Pin the source tree by immutable commit, then check out only that commit.
 run_stage source-init git init "$source_home"
@@ -110,6 +114,7 @@ git -C "$source_home" apply --numstat "$callback_patch" >> "$evidence/patch-nums
 git -C "$source_home" apply --numstat "$copy_patch" >> "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$cleanup_patch" >> "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$usize_patch" >> "$evidence/patch-numstat.txt"
+git -C "$source_home" apply --numstat "$stack_patch" >> "$evidence/patch-numstat.txt"
 awk -F '\t' 'NF != 3 { exit 1 } { print $3 }' "$evidence/patch-numstat.txt" | LC_ALL=C sort -u > "$evidence/patch-files.txt"
 [[ -s "$evidence/patch-files.txt" ]] || fail 'wrapping.patch contains no file changes'
 if comm -23 "$evidence/patch-files.txt" <(printf '%s\n' "$allowed_files") | grep -q .; then
@@ -125,6 +130,8 @@ run_stage cleanup-patch-check git -C "$source_home" apply --check "$cleanup_patc
 run_stage cleanup-patch-apply git -C "$source_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$cleanup_patch"
 run_stage usize-patch-check git -C "$source_home" apply --check "$usize_patch"
 run_stage usize-patch-apply git -C "$source_home" apply --whitespace=error "$usize_patch"
+run_stage stack-address-patch-check git -C "$source_home" apply --check "$stack_patch"
+run_stage stack-address-patch-apply git -C "$source_home" apply --whitespace=error "$stack_patch"
 printf '%s  %s\n' "$patched_stdlib_sha" "$source_home/$std_lib_rel" | sha256sum -c -
 printf '%s  %s\n' "$patched_kernel_sha" "$source_home/src/verifast.ml" | sha256sum -c -
 printf '%s  %s\n' "$patched_translator_sha" "$source_home/$translator_rel" | sha256sum -c -
@@ -208,13 +215,14 @@ profile_hash() {
   printf '%s=%s\n' "$key" "$digest"
 }
 {
-  printf 'profile_id=vf26.10-w1-m2-c1-cleanup-usize-ubuntu22.04-v1\n'
+  printf 'profile_id=vf26.10-w1-m2-c1-cleanup-usize-stack-ubuntu22.04-v1\n'
   printf 'runner_os=%s\nrunner_version=%s\nsource_commit=%s\n' "$RUNNER_OS" "$VERSION_ID" "$actual_commit"
   profile_hash wrapping_patch "$patch_file"
   profile_hash callback_patch "$callback_patch"
   profile_hash copy_patch "$copy_patch"
   profile_hash cleanup_patch "$cleanup_patch"
   profile_hash usize_patch "$usize_patch"
+  profile_hash stack_address_patch "$stack_patch"
   profile_hash release_console "$release_home/bin/verifast"
   profile_hash release_exporter "$release_home/bin/vf-rust-mir-exporter"
   profile_hash release_refiner "$release_home/bin/refinement-checker"
@@ -237,7 +245,10 @@ profile_hash() {
   profile_hash z3_runtime "$source_home/bin/libz3.so"
 } > "$cache_profile"
 
-cache_dir=${VF_CONSOLE_CACHE_DIR:-}
+# First stack-address console has no admitted cache digest. Force a fresh
+# build; neither restore nor publish the old console under this new profile.
+cache_dir=''
+printf 'cache disabled: stack-address console pending admission\n' > "$evidence/stack-address-cache-status.txt"
 cache_hit=false
 if [[ -n "$cache_dir" ]]; then
   if python3 "$cache_helper" restore --cache-dir "$cache_dir" --profile "$cache_profile" \

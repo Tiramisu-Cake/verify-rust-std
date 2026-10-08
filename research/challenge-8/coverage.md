@@ -7,9 +7,9 @@ proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
 OVERNIGHT-MERGE-26.10 latest full matrix: run
-[37746828112](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746828112),
-proof/Actions SHA `8ecc949df41c72c1c2a12371b486e97363a21a93`, job113210194939,
-209 seconds. Same actual source commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`
+[37750163906](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750163906),
+proof/Actions SHA `0c6699b7700b7f2b4d474f23da8fe8ad153fd553`, job113221160697,
+224 seconds. Same actual source commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`
 and full-source SHA `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`;
 profile official-stock-VeriFast-26.10 plus W1/M2a/copy/strict-cleanup patches.
 The Actions job succeeded and all group commands/classifier controls completed;
@@ -27,7 +27,7 @@ T owner, SAFE shared-slice caller realization or general Challenge proof follows
 
 Every row with a predeclared classification and every fail-closed classifier
 control matched its stated gate; exploratory rows below remain explicitly
-INCONCLUSIVE. Completed groups include: profile smoke; ordinary normal/unwind and dead-body
+INCONCLUSIVE. In the **prior run377468** artifact, completed groups included: profile smoke; ordinary normal/unwind and dead-body
 baselines; native C/C++; G2 geometry (1 positive + 3 negatives), A occurrence IDs
 (2), B order/stability (4); nine Rust regressions (including two intended false
 assertions); 22 wrapping positives + 5 rejection/assertion controls; 9 pointer-bridge
@@ -41,11 +41,46 @@ INCONCLUSIVE. The callback-borrow case is INCONCLUSIVE. Concrete ZST has two ter
 reentry positives and four INCONCLUSIVE layout/access cases; the copy ZST mapping
 control is INCONCLUSIVE. These rows do not broaden the positive-stride domains.
 
-Cache restore was an exact hit on console `3a08722c…d68b70f1a`, profile
+The prior run377468 cache restore was an exact hit on console `3a08722c…d68b70f1a`, profile
 `aeca556c…1906e6`, producer `b04b1b6063e53d3bb543c117f5ea84d493ed01da`; the full
 matrix ran on that payload, and all nine cache self-tests passed.
 
-Trace diagnostics remain separate. Generic and concrete-u32 trace-entry probes
+In run377501 the cache was a miss (no profile entry); the hosted job cold-built the
+same exact console SHA `3a08722cedc2f07daf26dfde2f46b8710662028ca5924212c4d1d92d68b70f1a`
+under profile `0661e3063ff6a572419f54d9fa330c54a75b2ea06b49ac41f0a61c7a67c7c33e`
+and published it with producer SHA `0c6699b7700b7f2b4d474f23da8fe8ad153fd553`;
+all nine cache self-tests passed. Source is pinned to commit
+`cd371e035c7e573760c43bf934d53e8118ee3e7d` / SHA
+`85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`, VF26.10
+`f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly-2026-09-25. Profile adds the
+trusted zero-safe `usize::is_multiple_of` specification plus explicit pinned strict
+kernel extension; stock exporter/refiner/schema remain unchanged. The source adapter
+certificate and six fail-closed controls passed, but certificate does not prove the
+stdlib method body. Only `usize_multiple_adapter_formula` is PASS: frame fixture failed
+at exporter syntax (`frame: *u32`, missing `mut`/`const`); boundary/zero-divisor cases
+ended in VeriFast `Division_by_zero`; odd-divisor false target reached
+`verified/lib.rs(30,30-32)` but has no exact calibrated negative oracle and remains
+INCONCLUSIVE. Keep all four outcomes INCONCLUSIVE; no concrete boundary claim.
+
+Trace generic and `u32` entry controls pass; `trace_generic_entry_domain_negative`
+reached its exact assertion and is EXPECTED_FALSE_ASSERTION. The unsafe nested tuple
+constructor under the original 12-coordinate domain remains INCONCLUSIVE: 0 body
+executions and dead code at the constructor, so it does not resolve return
+representation. Actual bidirectional len2 remains INCONCLUSIVE at line387 after 47
+body statements, leaking 14 existing tuple3/Range field and padding chunks associated
+with four compiler-generated locals; the exact same-source `merge_up/down` bodies
+still pass their full normal/unwind gates. Full pointer trace remains INCONCLUSIVE:
+13 helper bodies pass, main has zero executions and is dead code. No whole-trace or
+bidirectional proof follows from workflow success.
+
+Other nonaccepted exploratory rows remain unchanged: HRTB has 11 passing admission
+certificates but all 11 proof rows INCONCLUSIVE; callback borrow is INCONCLUSIVE at
+`points_to<T>(left_src, _)`; concrete ZST has four INCONCLUSIVE layout/access rows;
+copy overlap/misaligned/ZST calibration rows and wrapping unsupported-count/signed-offset
+rows are INCONCLUSIVE after source-line drift. These are not upgraded by successful
+aggregate controls; historical run classifications remain attached to their SHAs.
+
+In run377468, trace diagnostics were separate. Generic and concrete-u32 trace-entry probes
 passed; the false-assertion target was reached at line35 but remains INCONCLUSIVE
 because no exact EXPECT_ERROR oracle was declared. The nested-tuple representation
 probe failed before entering its body on the implicit tuple ownership requirement.

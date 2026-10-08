@@ -1,21 +1,23 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
-**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **598/7200 job seconds**
-(204 + 209 + 55 + 130), осталось **6602/7200**. Ночная история **3971/21600** отдельно;
+**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **822/7200 job seconds**
+(204 + 209 + 55 + 130 + 224), осталось **6378/7200**. Ночная история **3971/21600** отдельно;
 старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
 Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
-`8ecc949df41c72c1c2a12371b486e97363a21a93`.
+`0c6699b7700b7f2b4d474f23da8fe8ad153fd553`.
 [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Последний [run 37746828112](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746828112),
-job113210194939, 07:59:02–08:02:31 UTC, **209 seconds**; остальные jobs
-skipped. Артефакты полностью проверены. До него:
+Последний [run 37750163906](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750163906),
+job113221160697, 08:29:26–08:33:10 UTC, **224 seconds**; остальные jobs
+skipped. Job завершился success, артефакты полностью проверены; это успех диагностической
+матрицы, не theorem. До него:
 [37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894),
 proof `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34`, job113203193351,
 204 seconds. Активного run нет.
-Новый run37748834934/proof2960c082 остановился на git apply stdspec patch
-до сборки/матрицы; job11321676197708:17:18–08:18:13UTC55seconds.
-Setup failure; контекст и predicted staged hash исправлены, новая матрица pending.
+Два setup failure сохранены: run37748834934 (55s, stdspec patch apply до сборки)
+и run37749632949 (130s, console построен, но cache self-test остановил матрицу).
+Их 185s включены в ledger, но не являются proof results. Run377501 исправил helper
+profile input и выполнил матрицу с cold-cache console build; активного run нет.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS;
@@ -61,8 +63,8 @@ compiler-generated Range/tuple stack chunks; полный proof не получ�
 Раздельные открытые блокеры/приоритеты:
 A. Full G2 pointer trace: selectors parse FIXED,13helperbodies PASS; main
 целиком deadcode/0exec. Exact-domain generic и `u32` entry controls PASS;
-false-assertion target достигнут, но остаётся INCONCLUSIVE без oracle. Nested
-tuple return probe остановился до body на ownership admission; это не диагноз main.
+false-assertion control теперь EXPECTED_FALSE_ASSERTION по точному TARGET.
+Nested tuple constructor остаётся INCONCLUSIVE/0exec с dead-code; это не диагноз main.
 B. Actual bidirectional len2: `dst_base` scope FIXED, `bidirectional_merge`
 исполняет 47 statements; первый failure line387 — 14 leaked field/padding
 chunks в четырёх compiler-generated locals: два nested tuple3 и две `Range`
@@ -74,16 +76,28 @@ Freeze/shared-slice bridge OPEN; slice.share не создаёт T.own.
 D. Functional actual G2/A/B composition OPEN; SWO/immutable keys/faithful answers
 будут отдельными функциональными предпосылками.
 
-Следующий подготовленный hosted matrix добавляет отдельный TRUSTED
-`usize::is_multiple_of` std-spec summary (patch `0d95bc58…e533d92`, staged
-post-stdlib SHA `d5807998…7076e94`) с exact source/alpha-renaming certificate и
-6 fail-closed controls; false-result targets должны быть observed, без guessed
-oracle. Рядом остаётся exact-domain unsafe nested-tuple constructor для 12 trace
-coordinates, чтобы отделить return representation от loop proof. Все старые
-матрицы обязательны; stack-address patch в этот запуск не включён. До запуска
-осталось 6602 continuation job seconds. Подробный гипотетический исход и
-переходы записаны ниже в EXPERIMENT-LOG. Runtime std не меняется. Исторические
-результаты сохраняются под их исходными proof SHA.
+M3i добавил отдельный TRUSTED
+`usize::is_multiple_of` summary с отдельной source certificate и 6 fail-closed
+контролей, однако в run377501 только adapter formula PASS. Adapter/frame row не
+дошёл до verifier из-за неверного raw-pointer типа в fixture; boundary и zero-divisor
+строки остановлены fatal `Division_by_zero`; odd-divisor false-result достиг TARGET,
+но без exact rejection metadata остаётся INCONCLUSIVE. Certificate — не proof тела std.
+Generic/u32 trace-entry controls PASS, а exact-domain false assertion теперь
+калибрована как EXPECTED_FALSE_ASSERTION. Unsafe nested-tuple original-domain
+constructor остаётся INCONCLUSIVE с 0 executions и dead code на конструкционной
+строке. Полная bidirectional len2 также INCONCLUSIVE: 47 executions, loop leaks 14
+field/padding chunks для двух tuple3 и двух Range locals; `merge_up/down` проходят.
+
+Перед следующим отдельным hosted запуском подготовлен ghost-only stack-address
+experiment для этих именно четырёх hidden compiler locals. Он должен восстановить
+frame, не изменяя runtime MIR/значение, выдавая ownership или ослабляя 14 existing
+field/padding resources; сохранить strict odd-dead diagnostic и все старые regression
+gates. Нужны свежий cold console, fresh normal-preprocess MIR plus AST role certificate
+(readonly MIR ids не совпадают с VeriFast preprocessing ids), exact-source binding и
+fail-closed syntax/admission controls. Patch `f144…`/translator `ffd6…`; новые kernel
+правила и heap rights не добавляются. До следующего запуска 6378 continuation job
+seconds; ночь3971/21600 и старый603/1800 отдельно. Точный контракт — в конце
+EXPERIMENT-LOG. Runtime std не меняется; исторические INCONCLUSIVE сохраняются.
 
 ---
 
@@ -223,3 +237,10 @@ Continuation setup checkpoint: run37749632949/c54b9ee3,job113219415885
 08:24:37–08:26:47UTC130seconds. Exactusizepatch/stagedspec and consolebuild
 PASS; old cache-profile schema rejects newID before matrix. Schema repaired
 with requiredusizeinput and samebinarySHA/wholeprofilechecks; no proof claim.
+
+Prepared next diagnostic profile: usize assertion-branch post preserves exact
+zero/nonzero formula; five tuple shape pairs plus unitfalseentry locate nested
+return-slot vacuity. Ghost-only hiddenStruct stackaddress patch +14existing
+field/padding invariant, fresh normal-preprocess rolecertificate; finalAST
+correspondence gate remainsOPEN so no actualbidir/profile acceptance.
+First console for stackprofile coldbuilt; oldcache never reused.

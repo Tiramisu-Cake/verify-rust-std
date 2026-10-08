@@ -4831,3 +4831,118 @@ self-test rejected newprofileID because cache helper schema stillold; matrix
 notstarted. Preserve setupclassification. BeforefreshM3i retry: explicitly
 update cachehelper ID+requiredusizeinput only, retain exactbinary/manifest/
 profile checks and9failclosed controls; no semanticproof gate disabled.
+
+### M3i full diagnostic matrix — run37750163906 /0c6699b7
+
+[Hosted run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750163906),
+proof/Actions SHA `0c6699b7700b7f2b4d474f23da8fe8ad153fd553`; job113221160697,
+08:29:26–08:33:10 UTC, **224s**, successful diagnostic job, other jobs skipped.
+Continuation ledger **822/7200s** (204+209+55+130+224), **6378s remain**; night
+ledger3971/21600 and old603/1800 remain separate. Both setup failures above remain
+in the ledger and have no proof classification. Full artifact was inspected. Actual
+source is commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`, SHA
+`85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`; VF26.10
+`f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly-2026-09-25, hosted Linux.
+Profile W1+M2a+copy+strict-cleanup+zero-safe usize summary, explicit pinned strict
+kernel extension; exporter/refiner/schema stock. Cache was absent, so this is a
+cold console build, not a cache hit. Console SHA
+`3a08722cedc2f07daf26dfde2f46b8710662028ca5924212c4d1d92d68b70f1a`, profile
+SHA `0661e3063ff6a572419f54d9fa330c54a75b2ea06b49ac41f0a61c7a67c7c33e`, published
+under producer Actions SHA `0c6699…`; all nine cache self-tests PASS. Job success
+means all diagnostic group commands and gates completed; it is not a whole-proof
+result.
+
+Actual `merge_up/down` again PASS full source identity, export/decode/refinement,
+normal/unwind, return/leak/dead and body gates (116/120 execution records; each has
+3 return and 3 leak records). Baseline normal/unwind PASS, false-unwind is exact
+EXPECTED_REJECTION, post-panic unreachable body EXPECTED_DEAD_CODE. Profile smoke
+PASS. G2/A/B compatibility groups, native C/C++, and nine Rust regressions pass;
+the two intentionally wrong Rust assertions are EXPECTED_FALSE_ASSERTION. W1 has
+22 positives and 5 calibrated controls plus 9 pointer bridges. C1's five positives,
+two stock controls and six negatives retain their prior result.
+
+The isolated resource/admission groups remain exact: pointer bridge 9/9; pointer
+domain 1 positive + 2 exact proof rejections; owned-array 3 + 2; scratch options
+3 + 3; cleanup 2 positive/frame + 6 proof rejections + 4 frontend admission
+rejections; M2 tuple-shape valid + 6 admission rejections; M2 tuple-resource 1
+positive + 4 exact proof negatives. Cleanup and M2 classifier controls pass. These
+counts do not transfer admission results into proof-negative evidence.
+
+Copy rows: six positives and three intended proof rejections PASS. Overlap, source
+and destination misalignment, and ZST mapping boundary remain INCONCLUSIVE because
+the expected source line shifted by five lines after the usize patch; exact messages
+alone were not promoted. Wrapping has 22 passing positives, one exact false assertion
+and two ownership/read rejections; `unsupported_count_two` and
+`unsupported_signed_offset` remain INCONCLUSIVE because their expected source lines
+shifted by five. Preserve these classifications until exact source-relative
+recalibration and a fresh hosted run.
+
+HRTB admission certificate is 11/11 with fail-closed controls, but all 11 underlying
+proof rows are INCONCLUSIVE; prepared HRTB has four INCONCLUSIVE rows. Callback borrow
+is INCONCLUSIVE at `points_to<T>(left_src, _)`. Concrete ZST terminal-reentry cases
+2/2 PASS, with four layout/access rows INCONCLUSIVE. Full pointer trace is
+INCONCLUSIVE: all 13 helper bodies PASS, main executes zero statements and is dead
+code. The actual len2 bidirectional case is INCONCLUSIVE after 47 main-body
+executions; it first fails at `verified/lib.rs(387,17-20)`, leaking 14 existing
+tuple3/Range field and padding chunks across four compiler-generated locals. The
+same-source `merge_up/down` bodies pass; `panic_on_ord_violation` has zero body
+executions in this case. No full bidirectional or trace theorem follows.
+
+Trace-entry generic and `u32` exact-domain controls PASS. The exact-domain generic
+false assertion is now EXPECTED_FALSE_ASSERTION at `verified/lib.rs(36,16-21)`.
+Unsafe nested-tuple original-domain constructor remains INCONCLUSIVE: zero body
+executions, dead code on constructor (line53), so return representation was not
+tested. Keep this distinct from the main trace's zero-execution/dead classification.
+
+The usize-source certificate binds repository blob
+`558763a41c013bcda43c4a64ec3c01e6a9f54229`, source file SHA
+`18f5398756410bddf13b918dbb8e821a3207817497ceb89874660a7bbc80b885`, body SHA
+`67d3897787b9eb698ef9485939e36a378c56a63034c3d833f05f4b3d1837b56b`, alpha rename
+`Self -> usize` and `self -> value`; six source/adapter fail-closed controls PASS.
+It certifies correspondence only. Only adapter-formula case PASSes. Frame projection
+fails before decode at exporter syntax (`frame: *u32`, expected `mut` or `const`,
+verified/lib.rs:23:12); zero-divisor boundary cases terminate with fatal VeriFast
+`Division_by_zero` (including one execution of the false-result target); odd-divisor
+case reaches `verified/lib.rs(30,30-32)` with
+`Cannot prove __result <==> true`, but no exact rejection oracle exists. Those four
+non-formula rows stay INCONCLUSIVE. The trusted usize std summary remains a new
+experimental rule, not a proof of the actual std implementation.
+
+All aggregate classifier-control booleans in the matrix pass. This does not repair
+source-line calibration by inference, turn certificate into proof, or promote any
+INCONCLUSIVE row. Exact per-case records and diagnostics are in the hosted artifact.
+
+### BEFORE next hosted stack-address diagnostic
+
+Hypothesis: naming an existing hidden compiler-generated Struct local's address
+allows the unchanged stock bidirectional loop invariant to frame its already-owned
+field/padding chunks. The observed len2 blocker is exactly 14 existing tuple3/Range
+chunks at line387 across four locals (two nested tuple3 and two Range locals). A
+ghost-only translation form `mir_stack_addr(<literal MIR local id>)` may lower only
+to ordinary AST `AddressOf(Var(existing hidden local))`; it creates no runtime MIR
+operation, heap ownership/right, lifetime, value, provenance, assumption or kernel
+rule. Keep every existing field/padding resource in the normal/unwind posts and
+invariant; do not add a dead-code exception. Patch draft `f144…` and translator
+patch `ffd6…`; the strict odd-dead diagnostic remains enabled. No actual generic
+SmallSort claim is targeted.
+
+Use a fresh **cold-built** console and bind the full source/tool/patch manifest. The
+certificate must compare fresh normal-preprocess MIR and proof AST roles, types,
+source spans and local/address assignment for each of the four hidden locals. The
+earlier read-only exporter local IDs are known to differ after VeriFast preprocessing
+and cannot serve as the address oracle. Fail closed on any source/MIR/AST mismatch,
+wrong ID, wrong type, wrong role, malformed address or unexpected syntax. Keep all
+existing actual merge, W1/M2/C1/copy/cleanup/usize, A/B/G2, native, Rust, source,
+refinement, normal/unwind/return/leak/dead gates and syntax/admission controls in a
+fresh hosted run. Any admission/setup failure remains distinct from the intended
+loop proof obligation; revise the hypothesis rather than weaken posts.
+
+Before first integrated diagnostic: final tuple shape ladder11cases added,
+positives retain full leafposts and matchedfalse probes no guessedoracles.
+usize pureconditional crash replaced by equivalent stock assertionIf post;
+patch ecdd1fd6, stdspecd92e5044, frame runtime type fixed, oddfalse control
+exactobservedoracle declared. Oldcopy3/wrapping2 speccoordinates calibrated
+with unchangedmessages; ZST mappingearlieralignment remains INCONCLUSIVE.
+Stack normalMIR/source rolecertificate tested separately from finalAST linkage: 
+finalAST gate explicitlyOPEN/125 pending first rewrittenartifact review; actual
+bidir cannotPASS at thisdiagnosticstage. Fulloldmatrix stillrequired.
