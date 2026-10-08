@@ -5084,3 +5084,7 @@ unverified; helper notfullproved. All source2/MIR2 negativecontrols intended,
 staleMove repair confirmed; historicalO25INCONCLUSIVE unchanged. FullS6eightstage
 PASS separately. Sort4 O24 fullgraph/firstreservedmarker unchanged.
 [O26 evidence](overnight-linkage/O26-RESULTS.md).
+
+### O27 — external initialization failure before runner allocation
+
+Proof6165296266ee17ae8f91f7550034452cd0ebb0cf/run37764722707 created10:37:46 thenFAILED10:37:51. ListRun/JobsAPI showqueuedjob113269452142 runner_id=null/no steps; GetRun/GetAttempt/logs404, noartifact. CheckSuiteFAILED, CheckRunqueued/noannotations; repoActionsenabled. No proof/preparation execution, notnegative. Budget1596confirmedallocated seconds plus5provisionalreserve until metadata resolves; no hidden PASS. Fresh narrowedsourcecapture-only nextSHA justifies one recovery dispatch; preserveO27plannedTESTscopework but avoid expensiveindependentbuild until primaryevidence.

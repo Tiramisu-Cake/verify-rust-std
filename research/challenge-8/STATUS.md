@@ -11,6 +11,16 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
+**O27 did not execute:** [run37764722707](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37764722707), proof6165296266ee17ae8f91f7550034452cd0ebb0cf.
+WorkflowFAILED10:37:51UTC five seconds aftercreated; job113269452142 remains
+queued, runner_id=null, nosteps/nologs/noartifacts, GetRun/GetAttempt404.
+Actions permissions enabled. External initialization failure, no source/proof
+result; budget1596confirmed+5provisionallyreserved (5599available), historical
+accounts unchanged. Prepared source-only nominalguard literal and independent
+TESTrelocation saved. Next newSHA narrows to hostedfreshowner capture only;
+unchangedS6/sort4proof notrerun. No activeworkflow perrunlist; orphanqueued job
+metadata remains unresolved, not an executing hostedrunner.
+
 **Last completed O26:** [run37763468180](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37763468180),
 proof `c19e4c50470d32199178d5229a2819554fc6b2f1`,10:26:27–10:29:36UTC=189s.
 Resumed **1596/7200**,5604remaining; no active run.
