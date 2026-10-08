@@ -76,3 +76,16 @@ failures. The hosted matrix currently records diagnostic negatives until
 their exact proof locations are reviewed. A fixture with shared reachable
 Cleanup must retain and verify that path before any generalization beyond
 this exact three-block unit.
+
+O18 (`37745138207`, `bb9c46bc`) ran the nine-variant matrix with both MIR
+modes and refinement succeeding. Every proof stopped at the same admission
+error, `callee/caller signature source span`, before either body began.
+The exporter reports raw column zero for both signatures, while the
+translator converts to one-based column one; the gate expected zero.
+O18's two recorded admission-control labels therefore have the **wrong
+cause** and all nine variants remain inconclusive. The corrected gate
+expects one-based column one. The classifier now requires each control's
+specific source refusal (`exact caller post or runtime body/source suffix`
+for wrong callee, `exact checked callee and caller source prefix` for
+weakened unwind), full frontend/refinement and source integrity, and zero
+proof headers. A fresh hosted run is required for every proof claim.

@@ -42,7 +42,10 @@ SAFETY_PROOFS = {
     ),
 }
 SAFETY_ANCHOR = b"/*@\non_unwind_ens false;\n@*/\n{\n"
-S6_SAFETY_ANCHOR = b"/*@ on_unwind_ens false; @*/\n{\n"
+# The linked S6 actual contract has adjacent annotation blocks.  Its tail
+# uniquely identifies the actual function; the standalone anchor also occurs
+# in two of the linked helper callees, so it cannot be counted globally.
+S6_LINKED_SAFETY_ANCHOR = b"@*//*@ on_unwind_ens false; @*/\n{\n"
 NESTED_DROP_CALL = b"            unsafe { self.inner.drop_in_place() }\n"
 NESTED_DROP_GHOST = (
     b"            //@ open <select_unpredictable::DropOnPanic<T>>.full_borrow_content(_t, self)();\n"
@@ -143,11 +146,10 @@ def candidate(base_verified: bytes, base_original: bytes,
         after = normal_post[:-1] + b" &*& raw_ptr_own::<Element>()(t, result);"
         verified = verified.replace(normal_post, after, 1)
     if owner_safety_proof:
-        anchors = [anchor for anchor in (SAFETY_ANCHOR, S6_SAFETY_ANCHOR)
+        anchors = [anchor for anchor in (SAFETY_ANCHOR,
+                                       S6_LINKED_SAFETY_ANCHOR)
                    if verified.count(anchor) == 1]
-        require(len(anchors) == 1 and
-                verified.count(SAFETY_ANCHOR) +
-                verified.count(S6_SAFETY_ANCHOR) == 1,
+        require(len(anchors) == 1,
                 "actual contract/safety proof insertion anchor changed")
         proof = SAFETY_PROOFS[safety_proof_variant]
         require(proof.count(b"call();") == 1 and

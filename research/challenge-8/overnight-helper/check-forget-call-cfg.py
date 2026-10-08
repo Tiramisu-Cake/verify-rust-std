@@ -21,6 +21,47 @@ POSITIVE_VERIFIED_SHA = "57ba4210babe42d84dde65722e4be54ac176ce6a27264dfdd64a12f
 VARIANTS = ("positive", "false_post", "frame_loss", "frame_duplication",
             "thread_loss", "thread_duplication", "wrong_value",
             "wrong_callee", "weakened_callee_unwind")
+ADMISSION_FATAL = {
+    "wrong_callee":
+        'Fatal error: exception Failure("G1-CALL-CFG: source/MIR certificate mismatch: exact caller post or runtime body/source suffix")',
+    "weakened_callee_unwind":
+        'Fatal error: exception Failure("G1-CALL-CFG: source/MIR certificate mismatch: exact checked callee and caller source prefix")',
+}
+
+
+def exact_admission_rejection(variant: str, *, frontend: bool,
+                              source_integrity: bool, proof: int | None,
+                              headers: dict, fatal: list[str]) -> bool:
+    return (variant in ADMISSION_FATAL and frontend and source_integrity and
+            proof in (1, 2) and
+            headers == {LANE.CALLEE_NAME: 0, LANE.CALLER_NAME: 0} and
+            fatal == [ADMISSION_FATAL[variant]])
+
+
+def classifier_guard_selfcheck() -> None:
+    """Hosted-only replay of O18's common early refusal and both target reasons."""
+    zero = {LANE.CALLEE_NAME: 0, LANE.CALLER_NAME: 0}
+    common = ['Fatal error: exception Failure("G1-CALL-CFG: source/MIR '
+              'certificate mismatch: callee/caller signature source span")']
+    for variant, expected in ADMISSION_FATAL.items():
+        baseline = dict(frontend=True, source_integrity=True, proof=2,
+                        headers=zero)
+        HELPER.require(not exact_admission_rejection(
+            variant, **baseline, fatal=common),
+            "O18 common signature-span refusal misclassified")
+        HELPER.require(exact_admission_rejection(
+            variant, **baseline, fatal=[expected]),
+            "specific admission refusal not recognized")
+        HELPER.require(not exact_admission_rejection(
+            variant, **(baseline | {"frontend": False}), fatal=[expected]) and
+            not exact_admission_rejection(
+                variant, **(baseline | {"source_integrity": False}),
+                fatal=[expected]) and
+            not exact_admission_rejection(
+                variant, **(baseline | {"headers":
+                    {LANE.CALLEE_NAME: 1, LANE.CALLER_NAME: 0}}),
+                fatal=[expected]),
+            "admission refusal missing setup or no-body guard")
 
 
 def load(path: Path, name: str):
@@ -150,20 +191,16 @@ def classify(case: Path, variant: str, stages: dict, graphs: dict,
         if line.strip().startswith(b"ens ")]
     caller_ens_line = caller_ens_lines[-1] if len(caller_ens_lines) == 2 else None
     classification = "INCONCLUSIVE"
-    preproof_rejection = (frontend and source_integrity and
-                          proof in (1, 2) and
-                          headers == {LANE.CALLEE_NAME: 0,
-                                      LANE.CALLER_NAME: 0} and
-                          len(fatal) == 1 and
-                          fatal[0].startswith(
-                              'Fatal error: exception Failure("G1-CALL-CFG: source/MIR certificate mismatch: '))
+    preproof_rejection = exact_admission_rejection(
+        variant, frontend=frontend, source_integrity=source_integrity,
+        proof=proof, headers=headers, fatal=fatal)
     if variant == "weakened_callee_unwind" and not source_admitted and \
             preproof_rejection:
         classification = "INTENDED_SOURCE_CERT_REJECTION"
     elif variant == "wrong_callee" and not source_admitted and \
             preproof_rejection:
         classification = "INTENDED_EXACT_SOURCE_ADMISSION_REJECTION"
-    elif frontend and source_admitted and headers == {
+    elif frontend and source_integrity and source_admitted and headers == {
             LANE.CALLEE_NAME: 1, LANE.CALLER_NAME: 1}:
         if variant == "positive" and proof == 0 and not errors and \
                 "dead code" not in log:
@@ -199,6 +236,7 @@ def main() -> None:
                     os.environ.get("RUNNER_OS")) ==
                    ("true", "github-hosted", "Linux"),
                    "G1 CFG matrix requires GitHub-hosted Linux")
+    classifier_guard_selfcheck()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tool-home", type=Path, required=True)
     parser.add_argument("--schema", type=Path, required=True)

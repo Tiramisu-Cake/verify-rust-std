@@ -140,7 +140,7 @@ index 377fd762..871be371 100644
 +    let* caller_loc = translate_span_data
 +      (BodyRd.fn_sig_span_get caller) in
 +    let path = match callee_loc, caller_loc with
-+      | Ast.Lexed (((a,3,0),_)), Ast.Lexed (((b,17,0),_))
++      | Ast.Lexed (((a,3,1),_)), Ast.Lexed (((b,17,1),_))
 +        when a=b && Filename.check_suffix a "verified/lib.rs" -> a
 +      | _ -> reject "callee/caller signature source span" in
 +    let caller_post = certified_source path in
