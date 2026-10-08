@@ -1,0 +1,54 @@
+# O19: scoped HRTB output and corrected exact source setup
+
+Newresumedbudget194/7200used,7006remaining; workuntil11:30UTC8Oct. Onehostedjob.
+O18fullH2source7+MIR12admission andS6eightstagePASS; wholehelper/sort4stillopen.
+
+SeparateHRTBsemanticcomponent [card](../overnight-callback/HRTB-OUTPUT-26.10-BEFORE.md)
+SHAcff0d5ab1798227c39029a5c18d06619ce7eece928be85f4b1c9f440307f5ece addedAFTER
+O18H2c/G1chain. NewG1f402a7723b9b28e97d57254fd150f398f415f5d8076c315b3508958a86b7a9cd
+changesONLYtranslatedsignaturecol0→1; actualrawMIR/sourceunchanged. Fixlinkedowner
+adjacentunwindcontractanchor; sameunitS6callees/executablebody/fulltargetpost unchanged.
+Beforeexpansionmainreview HRTBfullpatch, stdinternalregister_equality+stmt_iter APIs,
+compilerforall2regions→concreteone-lifetimeinstance, defaultoff/scopedtarget/ghostshadow
+reject, staticapply afternewG1 passed. No kernel/pointer/memory/exporter/decoder/refiner
+or primitiveaxiomchange; trustnewfrontendcompilerquantifier interpretation explicit.
+Test-onlyH2post mutation andstrictlifetime OUTSIDEprofile.
+
+Falsifiable: pairedcompiler-origin FnMut + FnOnce::Output=bool HRTB droppedbystock
+filter bound_regions=[]; register ONLYthisvaliduniversalinstance immediatelybefore
+oneactualmatchingcall. Source+ghost F/T+sameconcrete ref/methodlifetime andunique
+fullcompilerforallclausesrequired; rejectlocalghosttypesexceptnamedlifetimetokens.
+Component andexplicitexacttargetlist env bothrequired; unrelatedbodiesstock.
+Normalresultboolshouldtypecheck whilecurrentF/T/threadnormalANDunwind resourcesstill
+mustprove withoutCopy/Freeze/purity/samevalue/nonpanicrestrictions. Existingcallback9
+matrix unchangedsource; onlyfullVFstage enablesexacttarget. Positivefull0 and false
+normalexactpostnegative mandatory beforeacceptance. Prior4marker+3unwindnegatives
+retainintendedlocations; deepermissingfraction/token/alias/CFG controls stillgatefull
+callbackacceptance evenpositivegreen.
+
+15isolatedHRTBmatchercontrols:defaultoff/bool/nonbool/noProjection/wrongF/T/lifetimes/
+methodarg/shadowF/T/duplicateprojection/FnOnceonly/secondunannotatedcall/secondbody.
+These reqtruefixturesare translationadmission controls, NOTcallbackownerproofs.
+Classifyonlyfullpairedsource/refinement+expecteddecodedclause/call counts+registration
+trace; setup/parse/compilercanonicalization failuresINCONCLUSIVE. Noequalitymayleak
+fromonecall/body toanother. Traceinstrumentation explicitcomponentdiagnostic, separate
+fromfuture reducedacceptedprofile. Missing/malformeddecodedMIRcasesremainopen.
+
+G1all9freshsource/MIR/refinement/proof undercol1 cert. Futuretwoadmissioncontrols now
+requirecontrol-specificexactFatalreason; O18commonspan refusal preservedandreplayed
+asINCONCLUSIVE byhostedclassifierselfchecks, nevernegativePASS. Fullpositive and6
+post/leak negatives required; genuineordinary/sharedcleanup retained inS6freshmatrix.
+
+Newlinkedactualowner source thenfullouter/nestedMIRcapture firsttime. FrozenS6fiveghost
+admission expectedreject, DIAGNOSTIC_ONLY; no newactualsemanticgate untilcompletegraph
+review. Source-onlysafety_proof hasonecheckedcall+openemptyrawptrown, noassume/bridge,
+truthfulowner includesinitializedcell+Town; nestedtwoopens stillsource-only. Sameunit
+calleequalification staysindependentactualprefixproof.
+
+Outcome: normalcallbacktypeadvances→auditfullnormal/unwind/leak+resource controls;
+newfirstkernelmetadata/borrowfailure→repairfaithfulscopeprotocolseparately, neverdropFown
+orTcells. H2regressionspass→nexttemplateposttestonly/actualnestedgate. Linkedfullgraphs
+captured→exactnewdefaultoffsource/ADT/ghost/fullMIRcertificate. Noidenticalrerunwithout
+newsource/evidence. FullfreshS6matrixon12patchconsole plusallaffectedboundaries. Dispatch
+existingdrop_v4APIbudget30,job20min/inner1080s, exactnewSHA+fulllogs/artifact audit,
+sumalljobseconds againstnew7200account. Runtime std/signatures/generalZSTunchanged.

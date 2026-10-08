@@ -48,7 +48,9 @@ CUMULATIVE_PATCHES = (
     ("research/challenge-8/overnight-guard/verifast-h2c-guard-source-admission-26.10.patch",
      "57b58e37b04c9d68aa930a6fca5a6637f5c7fe72d06cb4e8955918745f5701d7"),
     ("research/challenge-8/overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch",
-     "f1d3639a851a60f7da2176e0c8381b91ee2c396a1614c67b862130d24e03c876"),
+     "f402a7723b9b28e97d57254fd150f398f415f5d8076c315b3508958a86b7a9cd"),
+    ("research/challenge-8/overnight-callback/verifast-fnmut-hrtb-26.10.patch",
+     "cff0d5ab1798227c39029a5c18d06619ce7eece928be85f4b1c9f440307f5ece"),
 )
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
@@ -547,6 +549,8 @@ def main() -> None:
                               "plus the exact tuple-2 parser patch"))
     parser.add_argument("--callback-unwind-matrix", action="store_true",
                         help="run separately experimental marked-callback controls")
+    parser.add_argument("--callback-hrtb", action="store_true",
+                        help="enable explicit target-scoped HRTB for callback only")
     parser.add_argument("--release-support-home", type=Path,
                         help="extracted, archive-verified VeriFast 26.10 release support bundle")
     parser.add_argument("--release-archive", type=Path,
@@ -592,6 +596,8 @@ def main() -> None:
     ]
     if args.callback_unwind_matrix:
         callback_argv.append("--unwind-matrix")
+    if args.callback_hrtb:
+        callback_argv.append("--enable-hrtb")
     result = subprocess.run(callback_argv, check=False, env=os.environ.copy())
     outcomes["callback-diagnostic"] = {
         "classification": "CALLBACK_RUNNER_EXIT_RECORDED",
