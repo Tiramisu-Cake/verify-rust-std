@@ -28,7 +28,7 @@ scoped C1 lowering recorded below.
   pinned input SHA-256
   `dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b`.
 - Fixture: `copy-cases.rs`, SHA-256
-  `55dcf10a563726413e7e02c39d9c34260669181d57c6d1e86bb881ea09619b70`.
+  `b67234fb3bcb7d1d4e6ee601f45ab4eeb2527296d49693bf71a04f5f76498872`.
 
 ## Contract boundary
 
@@ -144,3 +144,14 @@ is itself an additional trusted semantic dependency and requires explicit
 review of its exact name/count guard in addition to the spec contract.
 
 No local compilation, verifier, fixture runner, or executable test was run.
+
+## C1e fresh body evidence
+
+Run37707274811/proofe9c10d6b: four full initializedness/value/ownership/frame
+positives and the explicit no-owner positive PASS; count0/count2 stock controls
+PASS; missing-destination, second-owner and uninitialized-source exact negatives
+accepted with fail-closed mutations. Direct overlap and both alignment controls
+reach their intended primitive requirements; exact new oracles are pinned for
+another fresh combined matrix. Their original INCONCLUSIVE classifications remain
+historical evidence. C1 is a bounded TRUSTED primitive specification, not a proof
+of std intrinsic body, ZST, arbitrary invalid byte state or actual merge.

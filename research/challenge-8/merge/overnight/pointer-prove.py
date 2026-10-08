@@ -27,17 +27,57 @@ FN = re.compile(rb"(?m)^[ \t]*(?:pub\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9
 LEMMA = re.compile(rb"\blem\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
 EXPECTED_ERROR = re.compile(rb"(?m)^\s*// EXPECT_ERROR (\{[^\r\n]*\})\s*$")
 EXPECTED_REJECTION = re.compile(rb"(?m)^\s*// EXPECT_REJECTION (\{[^\r\n]*\})\s*$")
+EXPECTED_DEAD = re.compile(rb"(?m)^\s*// EXPECT_DEAD (\{[^\r\n]*\})\s*$")
 TARGET = re.compile(rb"// TARGET(?:_NEGATIVE)?(?:\s|:|$)")
 
 HEADER_ANY = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+(?:-\d+(?:,\d+)?)?\): Verifying function '([^']+)'$", re.M)
 EXECUTION = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+-\d+\): (?:note: )?Executing statement$", re.M)
 RETURN = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\n]*?): Executing return statement$", re.M)
 ERROR = re.compile(r"^.*?: error: .*$", re.M)
-DEAD = re.compile(r"^.*?: dead code(?:\s|$).*$", re.M | re.I)
+DEAD = re.compile(r"(?m)^.*?: dead code(?:[ \t][^\r\n]*)?$", re.I)
+DEAD_RECORD = re.compile(
+    r"^([^()\r\n]+)\((\d+),(\d+)(?:-(\d+))?\): dead code[ \t]*$"
+)
 ASSERTION_ERROR = re.compile(
     r"^verified/lib\.rs\((\d+),(\d+)-(\d+)\): error: Assertion might not hold\. \(Cannot prove ([^\n]*)\.\)$",
     re.M,
 )
+
+
+def resolve_target_coordinate(value: object, target_line: int, label: str) -> int:
+    """Resolve only a small, explicit relative-coordinate grammar; never eval it."""
+    if not isinstance(value, str):
+        raise ValueError(f"{label} must be TARGET, TARGET+N, or TARGET-N")
+    match = re.fullmatch(r"TARGET(?:([+-])([1-9][0-9]*))?", value)
+    if match is None:
+        raise ValueError(f"{label} must be TARGET, TARGET+N, or TARGET-N")
+    if match.group(1) is None:
+        resolved = target_line
+    else:
+        distance = int(match.group(2))
+        resolved = target_line + distance if match.group(1) == "+" else target_line - distance
+    if resolved < 1:
+        raise ValueError(f"{label} resolves before the start of the source")
+    return resolved
+
+
+def parse_dead_records(log: str) -> list[dict]:
+    records = []
+    for line in DEAD.findall(log):
+        match = DEAD_RECORD.fullmatch(line)
+        if match is None:
+            # The line is still dead-code evidence, but it cannot satisfy the
+            # exact location oracle.
+            continue
+        filename, lineno, column_start, column_end = match.groups()
+        records.append({
+            "file": filename,
+            "line": int(lineno),
+            "column_start": int(column_start),
+            "column_end": int(column_end) if column_end is not None else None,
+            "message": "dead code",
+        })
+    return records
 
 
 def sha(data: bytes) -> str:
@@ -140,15 +180,22 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
         if re.search(rb"\bassume(?:_correct)?\s*\(|\blemma_auto\b", verified):
             raise RuntimeError(f"{name}: assumptions and automatic lemmas are forbidden")
         all_names = body_names(verified)
+        ranges = line_ranges(verified)
         if strip_annotations(verified) != original:
             raise RuntimeError(f"{name}: original runtime bytes changed during ghost stripping")
 
         declared = list(EXPECTED_ERROR.finditer(body))
         if len(declared) > 1:
             raise RuntimeError(f"{name}: expected at most one predeclared EXPECT_ERROR")
+        dead_declared = list(EXPECTED_DEAD.finditer(body))
+        if len(dead_declared) > 1:
+            raise RuntimeError(f"{name}: expected at most one predeclared EXPECT_DEAD")
         expected = None
+        expected_dead = None
         target_offsets = [m.start() for m in TARGET.finditer(body)]
         if declared:
+            if dead_declared:
+                raise RuntimeError(f"{name}: EXPECT_ERROR and EXPECT_DEAD cannot be combined")
             try:
                 expected = json.loads(declared[0].group(1).decode("utf-8"))
             except (UnicodeDecodeError, json.JSONDecodeError) as exc:
@@ -172,6 +219,78 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
                     isinstance(expected["column_end"], int) and
                     1 <= expected["column_start"] < expected["column_end"]):
                 raise RuntimeError(f"{name}: invalid EXPECT_ERROR column range")
+        elif dead_declared:
+            if len(target_offsets) != 1:
+                raise RuntimeError(f"{name}: EXPECT_DEAD requires exactly one // TARGET")
+            if list(EXPECTED_REJECTION.finditer(body)):
+                raise RuntimeError(f"{name}: EXPECT_DEAD cannot be combined with EXPECT_REJECTION")
+            try:
+                expected_dead = json.loads(dead_declared[0].group(1).decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                raise RuntimeError(f"{name}: malformed EXPECT_DEAD JSON: {exc}") from exc
+            if (not isinstance(expected_dead, dict) or
+                    set(expected_dead) != {"target_line", "predecessor_line", "dead_records"}):
+                raise RuntimeError(f"{name}: EXPECT_DEAD fields must be target_line, predecessor_line, dead_records")
+            target_line = (prefix.count(b"\n") +
+                           body[:target_offsets[0]].count(b"\n") + 1)
+            try:
+                expected_dead["target_line"] = resolve_target_coordinate(
+                    expected_dead["target_line"], target_line, "EXPECT_DEAD.target_line")
+                expected_dead["predecessor_line"] = resolve_target_coordinate(
+                    expected_dead["predecessor_line"], target_line, "EXPECT_DEAD.predecessor_line")
+            except ValueError as exc:
+                raise RuntimeError(f"{name}: {exc}") from exc
+            if expected_dead["predecessor_line"] != target_line - 1:
+                raise RuntimeError(f"{name}: predecessor_line must identify the immediately preceding source line")
+            records = expected_dead["dead_records"]
+            if not isinstance(records, list) or len(records) != 2:
+                raise RuntimeError(f"{name}: EXPECT_DEAD requires exactly two ordered dead_records")
+            normalized_records = []
+            for index, record in enumerate(records):
+                if not isinstance(record, dict) or set(record) != {
+                        "file", "line", "column_start", "column_end", "message"}:
+                    raise RuntimeError(f"{name}: malformed EXPECT_DEAD record {index}")
+                if record["file"] != "verified/lib.rs" or record["message"] != "dead code":
+                    raise RuntimeError(f"{name}: EXPECT_DEAD records must name verified/lib.rs dead code")
+                try:
+                    line = resolve_target_coordinate(record["line"], target_line,
+                                                     f"EXPECT_DEAD.dead_records[{index}].line")
+                except ValueError as exc:
+                    raise RuntimeError(f"{name}: {exc}") from exc
+                start = record["column_start"]
+                end = record["column_end"]
+                if type(start) is not int or start < 1 or (end is not None and
+                        (type(end) is not int or end <= start)):
+                    raise RuntimeError(f"{name}: invalid dead-code column range in record {index}")
+                normalized_records.append({"file": record["file"], "line": line,
+                    "column_start": start, "column_end": end, "message": record["message"]})
+            expected_dead["dead_records"] = normalized_records
+            if normalized_records[0]["line"] != target_line:
+                raise RuntimeError(f"{name}: TARGET must be the first dead-code record")
+            if (normalized_records[0]["column_start"] != 5 or
+                    normalized_records[0]["column_end"] != 6 or
+                    normalized_records[1] != {"file": "verified/lib.rs", "line": target_line + 1,
+                        "column_start": 2, "column_end": None, "message": "dead code"}):
+                raise RuntimeError(f"{name}: EXPECT_DEAD must name the exact expression and closing-brace diagnostics")
+            owner_names = [body_name for body_name in all_names
+                           if ranges[body_name][0] <= target_line <= ranges[body_name][1]]
+            if len(owner_names) != 1:
+                raise RuntimeError(f"{name}: TARGET must be inside exactly one checked body")
+            owner = ranges[owner_names[0]]
+            if not (owner[0] <= expected_dead["predecessor_line"] <= owner[1]) or any(
+                    not (owner[0] <= record["line"] <= owner[1])
+                    for record in normalized_records):
+                raise RuntimeError(f"{name}: predecessor and dead records must stay inside TARGET's body")
+            if name != "unreachable_body_after_panic" or all_names != [name]:
+                raise RuntimeError(f"{name}: EXPECT_DEAD is reserved for the exact panic baseline body")
+            source_lines = verified.decode("utf-8").splitlines()
+            predecessor_text = source_lines[expected_dead["predecessor_line"] - 1].strip()
+            target_text = source_lines[target_line - 1].strip()
+            if (re.fullmatch(r'assert!\(false, "unreachable-body baseline"\);', predecessor_text) is None or
+                    re.match(r"^0\s*// TARGET\b", target_text) is None or
+                    source_lines[target_line].strip() != "}"):
+                raise RuntimeError(f"{name}: EXPECT_DEAD source anchor changed")
+            expected_dead["owner_body"] = owner_names[0]
         elif target_offsets:
             if len(target_offsets) != 1:
                 raise RuntimeError(f"{name}: expected at most one TARGET marker")
@@ -196,9 +315,13 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
                           if re.search(rb"\bens\s+true\s*;", verified) else
                           "isolated pointer/index proof projection"),
             "expected_error": expected,
+            "expected_dead": expected_dead,
+            "marked_target_line": (prefix.count(b"\n") +
+                                   body[:target_offsets[0]].count(b"\n") + 1
+                                   if target_offsets else None),
             "expected_bodies": all_names,
             "rust_function_names": [m.group(1).decode("ascii") for m in FN.finditer(verified)],
-            "function_line_ranges": line_ranges(verified),
+            "function_line_ranges": ranges,
             "verified_sha256": sha(verified),
             "original_sha256": sha(original),
             "ghost_strip_exact_bytes": True,
@@ -424,9 +547,37 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
                 int(line) == negative["line"] and int(col_start) == negative["column_start"] and
                 int(col_end) == negative["column_end"] and predicate == negative["predicate"]
             )
+    expected_dead = metadata.get("expected_dead")
+    expected_dead_ok = False
+    dead_evidence = parse_dead_records(log)
     classification = "PASS" if unchanged and full_stages and full_vf else "INCONCLUSIVE"
     if negative is not None:
         classification = "EXPECTED_FALSE_ASSERTION" if negative_ok else "INCONCLUSIVE"
+    elif expected_dead is not None:
+        target_line = expected_dead["target_line"]
+        predecessor_line = expected_dead["predecessor_line"]
+        expected_owner = expected_dead["owner_body"]
+        expected_records = expected_dead["dead_records"]
+        body_range = ranges.get(expected_owner, (0, -1))
+        target_inside_owner = body_range[0] <= target_line <= body_range[1]
+        predecessor_inside_owner = body_range[0] <= predecessor_line <= body_range[1]
+        dead_inside_owner = all(body_range[0] <= record["line"] <= body_range[1]
+                                for record in expected_records)
+        expected_dead_ok = (
+            stages == {"exporter": 0, "decode": 0, "verifast": 1, "refinement": 0} and
+            unchanged and bodies_ok and metadata["expected_bodies"] == [expected_owner] and
+            metadata.get("marked_target_line") == target_line and
+            target_inside_owner and predecessor_inside_owner and dead_inside_owner and
+            expected_records[0]["line"] == target_line and
+            expected_dead["predecessor_line"] == target_line - 1 and
+            body_execution.get(expected_owner, 0) > 0 and
+            predecessor_line in execution_lines and target_line not in execution_lines and
+            body_records.get(expected_owner, {}).get("return", 0) > 0 and
+            body_records.get(expected_owner, {}).get("leak", 0) > 0 and
+            not errors and len(dead_code) == 2 and len(dead_evidence) == 2 and
+            dead_evidence == expected_records
+        )
+        classification = "EXPECTED_DEAD_CODE" if expected_dead_ok else "INCONCLUSIVE"
     elif metadata.get("unclassified_target"):
         classification = "INCONCLUSIVE"
     rejection = metadata.get("expected_rejection")
@@ -458,6 +609,9 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
         "leak_check_records": leak_checks,
         "error_lines": errors,
         "dead_code_records": dead_code,
+        "expected_dead_code": expected_dead,
+        "observed_dead_code_records": dead_evidence,
+        "expected_dead_code_gate": expected_dead_ok,
         "expected_error": negative,
         "observed_error": error_evidence,
         "full_positive_gate": full_stages and full_vf and unchanged,
@@ -497,6 +651,109 @@ def classifier_mutations(metadata: dict, stages: dict[str, int], log: str,
     """Hosted self-checks: perturb exact evidence and ensure no false acceptance."""
     checks: dict[str, bool] = {}
     case = metadata["case"]
+    expected_dead = metadata.get("expected_dead")
+    if expected_dead is not None:
+        expected_class = "EXPECTED_DEAD_CODE"
+        for key in ("exporter", "decode", "verifast", "refinement"):
+            mutant_stages = dict(stages)
+            mutant_stages[key] = 124
+            checks[f"dead_stage_{key}"] = classify(
+                case, metadata, mutant_stages, log, unchanged, False)["classification"] != expected_class
+
+        owner = expected_dead["owner_body"]
+        predecessor = expected_dead["predecessor_line"]
+        target = expected_dead["target_line"]
+        own_header = next((match for match in HEADER_ANY.finditer(log)
+                           if match.group(1).endswith("verified/lib.rs") and
+                           match.group(3) == owner), None)
+        missing_body = log
+        if own_header is not None:
+            line_end = log.find("\n", own_header.start())
+            missing_body = log[:own_header.start()] + log[line_end + 1:]
+        checks["dead_missing_body"] = classify(
+            case, metadata, stages, missing_body, unchanged, False)["classification"] != expected_class
+
+        execution_pattern = re.compile(
+            rf"(?m)^\s*\d+(?:\.\d+)?s: verified/lib\.rs\({predecessor},\d+-\d+\): "
+            r"(?:note: )?Executing statement\r?\n?"
+        )
+        missing_predecessor = execution_pattern.sub("", log)
+        checks["dead_missing_predecessor_execution"] = classify(
+            case, metadata, stages, missing_predecessor, unchanged, False)["classification"] != expected_class
+        missing_all_execution = re.sub(r"(?m)^.*Executing statement\r?\n?", "", log)
+        checks["dead_missing_execution"] = classify(
+            case, metadata, stages, missing_all_execution, unchanged, False)["classification"] != expected_class
+        target_execution = log + f"0.001s: verified/lib.rs({target},1-2): Executing statement\n"
+        checks["dead_target_executed"] = classify(
+            case, metadata, stages, target_execution, unchanged, False)["classification"] != expected_class
+        checks["dead_source_changed"] = classify(
+            case, metadata, stages, log, False, False)["classification"] != expected_class
+        checks["dead_extra_error"] = classify(
+            case, metadata, stages, log + "verified/lib.rs(1,1-2): error: synthetic\n",
+            unchanged, False)["classification"] != expected_class
+
+        owner_start = own_header.start() if own_header is not None else 0
+        owner_return = next((match for match in re.finditer(
+            r"(?m)^.*: Executing return statement\r?\n?", log)
+            if match.start() >= owner_start), None)
+        missing_return = (log if owner_return is None else
+                          log[:owner_return.start()] + log[owner_return.end():])
+        checks["dead_missing_return"] = classify(
+            case, metadata, stages, missing_return, unchanged, False
+        )["classification"] != expected_class
+        owner_leak = next((match for match in re.finditer(
+            r"(?m)^.*: Leak check\.\r?\n?", log)
+            if match.start() >= owner_start), None)
+        missing_leak = (log if owner_leak is None else
+                        log[:owner_leak.start()] + log[owner_leak.end():])
+        checks["dead_missing_leak"] = classify(
+            case, metadata, stages, missing_leak, unchanged, False
+        )["classification"] != expected_class
+
+        observed_dead_lines = DEAD.findall(log)
+        for index, label in ((0, "first"), (1, "second")):
+            if index < len(observed_dead_lines):
+                removed = log.replace(observed_dead_lines[index] + "\n", "", 1)
+                if removed == log:
+                    removed = log.replace(observed_dead_lines[index], "", 1)
+                checks[f"dead_removed_{label}"] = classify(
+                    case, metadata, stages, removed, unchanged, False)["classification"] != expected_class
+                wrong_file = observed_dead_lines[index].replace("verified/lib.rs", "wrong.rs", 1)
+                checks[f"dead_wrong_file_{label}"] = classify(
+                    case, metadata, stages, log.replace(observed_dead_lines[index], wrong_file, 1),
+                    unchanged, False)["classification"] != expected_class
+                wrong_message = observed_dead_lines[index].replace("dead code", "dead-code", 1)
+                checks[f"dead_wrong_message_{label}"] = classify(
+                    case, metadata, stages, log.replace(observed_dead_lines[index], wrong_message, 1),
+                    unchanged, False)["classification"] != expected_class
+                location = DEAD_RECORD.fullmatch(observed_dead_lines[index])
+                if location is not None:
+                    old = observed_dead_lines[index]
+                    line_mutant = re.sub(r"\((\d+),", lambda m: f"({int(m.group(1)) + 1},", old, count=1)
+                    checks[f"dead_wrong_line_{label}"] = classify(
+                        case, metadata, stages, log.replace(old, line_mutant, 1),
+                        unchanged, False)["classification"] != expected_class
+                    col_mutant = re.sub(r",(\d+)(?:-\d+)?\): dead code$",
+                                        lambda m: f",{int(m.group(1)) + 1}): dead code", old, count=1)
+                    checks[f"dead_wrong_column_{label}"] = classify(
+                        case, metadata, stages, log.replace(old, col_mutant, 1),
+                        unchanged, False)["classification"] != expected_class
+        checks["dead_extra_record"] = classify(
+            case, metadata, stages, log + "verified/lib.rs(12,2): dead code\n",
+            unchanged, False)["classification"] != expected_class
+
+        wrong_target = dict(metadata)
+        wrong_target["expected_dead"] = dict(expected_dead)
+        wrong_target["expected_dead"]["target_line"] = target + 1
+        checks["dead_wrong_target_oracle"] = classify(
+            case, wrong_target, stages, log, unchanged, False)["classification"] != expected_class
+        wrong_predecessor = dict(metadata)
+        wrong_predecessor["expected_dead"] = dict(expected_dead)
+        wrong_predecessor["expected_dead"]["predecessor_line"] = predecessor + 1
+        checks["dead_wrong_predecessor_oracle"] = classify(
+            case, wrong_predecessor, stages, log, unchanged, False)["classification"] != expected_class
+        return checks
+
     if metadata.get("expected_error") is None:
         # Positive class must fail closed on a single missing proof or integrity gate.
         for key in ("exporter", "decode", "verifast", "refinement"):

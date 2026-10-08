@@ -43,6 +43,7 @@ pub unsafe fn false_unwind_post(flag: bool) -> i32
 // CASE_END false_unwind_post
 
 // CASE_BEGIN unreachable_body_after_panic
+// EXPECT_DEAD {"target_line":"TARGET","predecessor_line":"TARGET-1","dead_records":[{"file":"verified/lib.rs","line":"TARGET","column_start":5,"column_end":6,"message":"dead code"},{"file":"verified/lib.rs","line":"TARGET+1","column_start":2,"column_end":null,"message":"dead code"}]}
 pub unsafe fn unreachable_body_after_panic() -> i32
 /*@ req thread_token(?t) &*& t == currentThread; @*/
 /*@ ens false; @*/

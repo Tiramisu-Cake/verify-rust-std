@@ -4300,3 +4300,22 @@ zero-step, decrementatindex0 withA<s vsA>=s, and positiveindex monotonicity.
 Same full trace domain/posts; no newsemanticpatch. Next fresh combinedmatrix
 accepts only exact new controls/completebody evidence, then follows actual
 cleanup dependency described BEFORE implementation in CLEANUP-DESIGN.
+
+### C1e/W2g outcome / C1f/W2h BEFORE
+
+Run37707274811/sourcee9c10d6b149384d3abf49c7ff093feceb3bd8833,
+job113084528260,00:20:52–00:24:03UTC=191seconds; cumulative1838/21600.
+C1 4fullresourcepositive+noown+count0/count2 PASS, source init/value/owner/frame
+normal/nounwind return/leak/refinement/sourceidentity fullgates. Three exact
+missingdst/duplicateowner/uninitializedsrc negative+classifier mutants accepted.
+Directoverlap andbothalignment reach intendedstdprimitive obligations622:
+562–564/143–145/193–195. Preserve originalINCONCLUSIVE andaddexactoracles;
+nextfreshmatrix needed foradmission. Wrapping/G2/A/B/oldRust/bridge/native and
+ordinarynormalunwind+falseunwind+missingtuple stillPASS undercombinedprofile.
+Trace reverse-zero-step assert164:18–20 needs checkedmul monotonicity toinfer
+nonnegativei*s; same domain/fullposts, noaxiom ornewpremise. ActualfullUNWIND
+resourcefailure same; noactualacceptance. Newdedicateddeadbodyclassifier BEFORE:
+exacttwo observed ownbody deadcoordinates; actualpanic predecessor executed,
+deadtargetNOTexecuted, strictstages/source/body/return/leak/noothererror gates;
+failclosedmutants covereachrequiredfact. Originaldeadclass preserved. This is
+negativeadmission only; allpositive/dead bans retained, noverifiercheckdisabled.

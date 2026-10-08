@@ -162,6 +162,7 @@ lem trace_source_reverse_step(p: pointer, i: i32, s: i32, step: bool)
                 trace_source_pointer(p, i - 1, s);
         }
     } else {
+        mul_mono_l(0, i, s);
         assert 0 <= p.address + i * s;
         assert p.address + i * s <= usize::MAX;
         assert wrapping_pointer_offset(trace_source_pointer(p, i, s), 0) ==
@@ -180,11 +181,14 @@ lem trace_source_forward_step(p: pointer, i: i32, s: i32, step: bool)
         trace_source_pointer(p, i + (if step { 1 } else { 0 }), s);
 {
     if step {
+        mul_mono_l(0, i, s);
+        mul_mono_l(i, i + 1, s);
         assert trace_source_pointer(p, i, s) ==
             pointer_ctor(p.provenance, p.address + i * s, p.metadata);
         assert trace_source_pointer(p, i + 1, s) ==
             pointer_ctor(p.provenance, p.address + (i + 1) * s, p.metadata);
     } else {
+        mul_mono_l(0, i, s);
         assert trace_source_pointer(p, i, s) == trace_source_pointer(p, i, s);
     }
 }
@@ -214,6 +218,8 @@ lem trace_source_terminal_step(p: pointer, i: i32, s: i32)
                 trace_source_pointer(p, -1, s), s) == trace_source_pointer(p, 0, s);
         }
     } else {
+        mul_mono_l(0, i, s);
+        mul_mono_l(i, i + 1, s);
         assert trace_source_pointer(p, i, s) ==
             pointer_ctor(p.provenance, p.address + i * s, p.metadata);
         assert trace_source_pointer(p, i + 1, s) ==
@@ -234,11 +240,14 @@ lem trace_destination_forward_step(p: pointer, i: i32, s: i32, step: bool)
         trace_destination_pointer(p, i + (if step { 1 } else { 0 }), s);
 {
     if step {
+        mul_mono_l(0, i, s);
+        mul_mono_l(i, i + 1, s);
         assert trace_destination_pointer(p, i, s) ==
             pointer_ctor(p.provenance, p.address + i * s, p.metadata);
         assert trace_destination_pointer(p, i + 1, s) ==
             pointer_ctor(p.provenance, p.address + (i + 1) * s, p.metadata);
     } else {
+        mul_mono_l(0, i, s);
         assert trace_destination_pointer(p, i, s) ==
             trace_destination_pointer(p, i, s);
     }
@@ -250,6 +259,8 @@ lem trace_destination_reverse_step(p: pointer, i: i32, s: i32)
     ens ptr_add(trace_destination_pointer(p, i, s), -s) ==
         trace_destination_pointer(p, i - 1, s);
 {
+    mul_mono_l(0, i - 1, s);
+    mul_mono_l(i - 1, i, s);
     assert trace_destination_pointer(p, i, s) ==
         pointer_ctor(p.provenance, p.address + i * s, p.metadata);
     assert trace_destination_pointer(p, i - 1, s) ==

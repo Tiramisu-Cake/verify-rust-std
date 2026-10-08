@@ -2,7 +2,7 @@
 
 Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC).
 Собственная ветка `overnight/merge-26.10`, entryb0af5613.
-[Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md). Ночной бюджет **1647/21600 hosted job seconds**;
+[Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md). Ночной бюджет **1838/21600 hosted job seconds**;
 старый merge603/1800 (1197остаток) сохранён отдельно. Actual merge NOT PROVEN.
 Исторические STOP/design-only/CI0 ниже не ограничивают эту ночную фазу.
 
