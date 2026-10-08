@@ -58,7 +58,7 @@ def config(infra,proof,lane,seconds,token,source_payload=None):
    +" printf '%s  %s\\n' "+shquote(digest(source_payload))+" /workspace/source-inputs.json.gz | sha256sum -c -\n"
    +" printf '%s' "+shquote(restore)+" | base64 --decode | gzip --decompress > /workspace/source-input.py\n"
    +" python3 /workspace/source-input.py restore --archive /workspace/source-inputs.json.gz --evidence /workspace/evidence\n")
-  start=work.index(' checkout /workspace/infra')
+  start=work.index(' checkout() {')
   end=work.index(' export EVIDENCE_ROOT',start)
   work=work[:start]+replacement+work[end:]
   source_env=['SOURCE_GROUP_'+str(i)+'='+''.join('${_SOURCE_'+str(i*10+j)+'}' for j in range(len(group))) for i,group in enumerate(groups)]+[f'SOURCE_INPUT_SHA256={digest(source_payload)}','SOURCE_MODE=pinned-objects']
