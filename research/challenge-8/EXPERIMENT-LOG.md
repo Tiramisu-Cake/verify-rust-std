@@ -4265,3 +4265,13 @@ exception-kernel extension is justified by the corrected trace alone.
 Fresh syntax-only copy patchda167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5;
 same exact pre/post/domain and count1 mapping. Positive early smoke at ordinary
 callee/caller normal/unwind is mandatory before all other matrix stages.
+
+### C1c orchestration outcome / C1d BEFORE
+
+Run37706151031/source38fd0c71e44cac3c96e2c9d8ec208b2878bdffd0,
+job113080878145,00:08:32–00:10:11UTC=99seconds; cumulative1455/21600.
+Console build/applied patch chain PASS; suite did not start: exported Bash
+function import rejected the newly added heredoc smoke checker (`fi` syntax).
+Replace checker with equivalent structured single Python -c argument; same
+semantic patches/hash, all obligations NOT RUN here. This is infrastructure
+failure, not a Rust/model negative. Fresh run required; no local runner execution.
