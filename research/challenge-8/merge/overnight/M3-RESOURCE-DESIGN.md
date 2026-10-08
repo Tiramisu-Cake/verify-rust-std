@@ -62,3 +62,21 @@ No pointer/resource equation is weakened and no address equality yields ownershi
 Hosted source/AST gate must confirm this fixed name relation; whole iterator linkage
 and ordinary for-loop invariant attachment remain experimental. Len2 cannot pass
 strict wholebody acceptance while actual odd branch is unreachable.
+
+## Stock for-body invariant review (continuation M3h candidate)
+
+Kernel verify_block independently produces every labelled invariant block with
+its own blocks_done state. A body invariant after the Some dispatch can verify
+body -> backedge -> Range::next -> either consume next body invariant or exit.
+Thus no translator relocation is justified yet. Stock for-range uses address-taken
+local `it |-> range`; pinned actual MIR has the corresponding local `iter`.
+For len2, body-entry invariant start=end=1 proves next None, while current
+source/F owners and exact original destination options cover both callback unwind
+stages. Strengthen body-entry cursors to the initial positions: completed cursors
+are loop-exit state, not another body-entry state. Preserve every original pure
+geometry premise, thread/type/function lifetime resources. Include our checked
+alignment lemma bodies from pointer-domain-cases, then derive alignment of +1.
+Runtime for/range/body/signature byte-identical after ghost stripping. Hosted
+AST must show invariant in Some/body before merge_up; full normal/unwind/leak
+gates remain mandatory. Len2 odd-dead prevents full acceptance; arbitrary-n and
+odd+even extension follows only after this diagnostic yields evidence.

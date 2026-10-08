@@ -219,6 +219,11 @@ suite() {
     --fixture research/challenge-8/merge/stock-26.10/pointer-cases.rs \
     --evidence "$evidence/checked-rust-regression" \
     --cases g2_steps,init_const,init_mut,destination_up,forward_left,forward_right,destination_down,pointer_order,pointer_guard,wrong_cursor,address_index
+  run_one trace-entry-tuple-diagnostics 120 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+    --scope 'isolated exact trace precondition inhabitation versus nested tuple result representation; main contract unchanged' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/trace-precondition-cases.rs --evidence "$evidence/checked-trace-entry"
   run_one pointer-full-trace-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \

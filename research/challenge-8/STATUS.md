@@ -1,7 +1,7 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Владелец возобновил работу 2026-10-08; новые hosted-запуски разрешены
-до **14:30 МСК (11:30 UTC)**, отдельный лимит продолжения **0/7200 job seconds**.
+до **14:30 МСК (11:30 UTC)**, отдельный лимит продолжения **204/7200 job seconds**.
 Ночная история **3971/21600**; старые **603/1800, остаток 1197** отдельно.
 Ветка `overnight/merge-26.10`, восстановленный clean HEAD
 `b04b1b6063e53d3bb543c117f5ea84d493ed01da`.
@@ -9,7 +9,10 @@
 Последний [37717433930](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37717433930),
 proof `b04b1b6063e53d3bb543c117f5ea84d493ed01da`, job113117046191,
 02:21:08–02:23:58 UTC, **170 seconds**. Все остальные jobs skipped/0.
-Полные артефакты восстановлены и прочитаны. Активного run нет.
+Полные артефакты восстановлены и прочитаны. Продолжение:
+[37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894),
+proof `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34`, job113203193351,
+07:38:20–07:41:44UTC,204seconds. Активного run нет.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS;
@@ -29,8 +32,8 @@ W1/C1 — TRUSTED bounded primitive summaries. Symbolic zero size wrapping PASS;
 4concrete ZST layout цели OPEN,2reentry PASS. Two-hole owned-array3positive+
 2intended negatives+mutants PASS. В b04 C1 arbitrary-index geometry5checked
 bodies PASS; source/caller/resource связь отдельно OPEN. Scratch3positive
-full PASS;3negative достигают intended ресурсов, но исходные классификации
-INCONCLUSIVE, требуется новая матрица точных oracles.
+full PASS;3negative+mutants fullPASS в6ba; исходныеb04классификации
+INCONCLUSIVE сохранены. C1geometry2negative+mutants fullPASS в6ba.
 
 M2 shape valid+6admission negatives PASS; tuple resource positive+4proof negatives
 PASS. HRTB11/11 ADMISSION_CERTIFICATE+fail-closed controls PASS, underlying
@@ -38,13 +41,16 @@ PASS. HRTB11/11 ADMISSION_CERTIFICATE+fail-closed controls PASS, underlying
 Cleanup12cases (2positive/frame,6proof negatives,4frontend admission)+mutants PASS.
 Полная приёмка объединённого семантического профиля остаётся OPEN;
 cleanup patch94fe2cd6 меняет kernel100eebae/translator0e450267.
-Console cold build/cache publication и9cache controls PASS; actual cache-hit NOT RUN.
+Console cold build/cache publication и9cache controls PASS; actual cache-hit
+fullmatrix PASS в6ba (тот же3a08722c/profileaeca556c/producerb04).
 
 Раздельные открытые блокеры/приоритеты:
-A. Full G2 pointer trace: nested tuple selector parse381 (`result.1.0.0`),
-body NOT ENTERED; подготовлены parenthesized штатные selectors,12posts сохранены.
-B. Actual bidirectional len2: invariant313 не видит ghost dst_base;
-подготовлено использование immutable parameter dst и actual cursor dst_1.
+A. Full G2 pointer trace: selectors parse FIXED,13helperbodies PASS; main
+целиком deadcode/0exec. Сохраняем12posts; отдельные entry/tuple диагностики
+подготовлены для проверки достижимости предусловия и представления результата.
+B. Actual bidirectional len2: dst_base scope FIXED, body31exec; invariant
+312 теряет func_lft и внутренние Range/tuple stack cells. Подготовлен stock
+Some/body invariant с iterator/cursors/current owners/geometry/lifetime.
 Iterator linkage, odd branch, terminal wrapping и panic guard ещё OPEN;
 len2 остаётся диагностикой с обязательным dead-code gate.
 C. Caller C1 derivation, M2/cleanup full admission, resource composition и

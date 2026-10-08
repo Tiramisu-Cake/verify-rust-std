@@ -9,8 +9,8 @@ No complete Challenge 8 solution is established.
 OVERNIGHT-MERGE-26.10: unchanged actual `merge_up`/`merge_down` full normal/unwind
 proof first `5bbd2ef2613106fdc38bd8aeea930cf344390275` /
 [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
-repeated `b04b1b6063e53d3bb543c117f5ea84d493ed01da` /
-[37717433930](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37717433930).
+repeated `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34` /
+[37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894).
 Conditional positive stride, distinct source cells and explicit C1 pointer/separate
 writable-option destination. Arbitrary lawful FnMut effects/answers; current source/F
 owners preserved, selected current value copied, exact cursors; callback panic
@@ -21,12 +21,13 @@ positive+4 proof negatives PASS. HRTB11 admission certificates+failclosed PASS,
 but11 underlying proof statuses INCONCLUSIVE. Combined profile full admission
 still OPEN. G2/A/B, Rust/native baselines, W1/C1 bounded trusted primitives PASS.
 Owned-array3positive+2negatives full PASS. Arbitrary-index C1 geometry5checked
-bodies PASS;2 intended geometry negatives require fresh calibrated controls.
-Scratch3positive full PASS;3 resource negatives reached intended obligations,
-original uncalibrated INCONCLUSIVE retained. Neither array algebra nor pure C1
-geometry establishes all actual callers. G2 fulltrace blocked before body at
-nested tuple selector syntax; actual bidir len2 blocked at invariant ghostscope.
-Fixes prepared; iterator/odd branch/terminal guard/resource composition OPEN.
+bodies+2 intended geometry negatives and allmutants PASS at6ba.
+Scratch3positive+3 intended resource negatives and allmutants PASS at6ba;
+originalb04 uncalibrated INCONCLUSIVE retained. Neither array algebra nor pure C1
+geometry establishes all actual callers. G2 fulltrace selectors parse fixed and13helpers PASS, main entirely deadcode;
+entry/tuple diagnosis OPEN. Actual bidir len2 scope fixed/body31exec but invariant
+leaks functionlifetime/internal Range andtuple stackframes. Stock Some/body invariant
+prepared; iterator/odd branch/terminal guard/resource composition OPEN.
 Freeze/shared-slice, M2cleanup full admission, actual functional G2/A/B link and
 independent Challenge contract remain OPEN. Symbolic size0 wrapping PASS;
 concrete ZST layout/access and positive-stride inference for ZST remain OPEN.

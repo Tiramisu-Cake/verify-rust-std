@@ -4688,3 +4688,37 @@ Expected full positive gates and unchangedbody/normal-unwind/refinement; no
 semanticprofile extension or weakposts. Cachehit must preserve exact binary/
 profile/runtime manifest and fullmatrix. Pass=>continueactualM3 dependencies;
 new failure=>reassessnamedobligation and continueindependentresource/trace work.
+
+### Continuation M3g run37744660894 / proof6ba53993 — 2026-10-08
+
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894).
+Sole job11320319335107:38:20–07:41:44UTC204seconds. Continuation204/7200;
+night/history total4175 (prior3971 separately recorded),old603/1800 unchanged.
+Actualup/down fullPASS, all retained G2/A/B/W1/C1/cleanup/M2 regressions PASS.
+C1pair5bodies+2intendedprecondition negatives/allmutants fullPASS. Scratch
+3positive+3intendedresource negatives/allmutants fullPASS; originalb04raw
+INCONCLUSIVE remains unchanged. Actualcachehit exactprofileaeca556c/console
+3a08722c/producerb04 verified and entirematrix executed.
+Trace selectorparsefixed,13helperbodiesfullPASS; main0exec and entirebody
+deadcode, firstopening418:9–12, noerrorline. Staticreview didnotfind demonstrated
+unsatprecondition; preserveoriginalcontract and diagnoseentry versus tuplelayout.
+Bidirscopefixed,body31exec, firstfailure312:13–16 Loop leaksheapchunks: func_lft
+and compiler-generated Range/tuple3 stackcells omittedfrompre-for invariant.
+No actualbidir acceptance or completedpaniccallee claim from zeroexec artifact.
+
+### BEFORE continuation M3h — stock loop/body and entry diagnostic matrix
+
+Same semanticprofile/no newtrustedrule. Stockbodyinv afterSome dispatch carries
+iter.start=end=1, originaldst vs mutable dst_1, allpureentrygeometry, exactentry
+option slots, currentT/Fowners and functionlifetime. Includes our checked C1
+alignment lemma bodies (not summaries), allruntimebodies ghoststrip exact.
+Hypothesis: independentbodyinv then body/backedge/next/None verifiestruefor
+without relocatingtranslator assertions; any remaining stackframe obligation
+will be recorded rather than leaked/removed. Len2 remains diagnostic; odddead
+gate unchanged. Separate tracecases exactgenericdomain/unitreturn, concreteu32
+domain/unitreturn, reqtrue nestedtuple12leaf equality constructor, andexact
+genericdomain falseassert TARGET (uncalibrated) distinguish entryvacuity from
+representation. No original12traceposts weakened and no deadcodeexception.
+Passentry=>investigatewholemain proof environment; deadgeneric/concrete=>identify
+unsatdomain/auto facts; deadtuple=>representation/frontend model reassessment.
+Allsource/export/decode/refinement/normal-unwind/return/leak/dead gates retained.

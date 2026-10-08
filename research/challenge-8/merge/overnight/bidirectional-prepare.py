@@ -205,25 +205,32 @@ def insert_one_iteration_invariant(body: str) -> str:
     if body.count(dst_init) != 1 or body.count(loop) != 1 or body.count(src_init) != 1:
         raise RuntimeError("bidirectional cursor/loop anchors changed")
     body = body.replace(src_init, src_init + "    //@ size_align::<T>();\n", 1)
-    # The pinned translator keeps the immutable parameter as dst and names
-    # the shadowing mutable cursor dst_1. Ghost locals are not in the kernel
-    # independent-block initial environment; use the actual parameter directly.
-    # This annotation remains diagnostic until iterator linkage is established.
+    # Use the stock independent invariant at the Some/body entry. The iterator
+    # has already yielded item0; it.start==it.end==1 makes the next next() take
+    # None. Kernel verify_block then checks both callee paths and the backedge.
+    # The immutable parameter is dst, the shadowing mutable cursor is dst_1.
+    contract = bidirectional_contract()
+    pure_start = contract.index("    ptr_len(v) == 2")
+    pure_end = contract.index("    *(v as *T) |-> ?source0")
+    pure_geometry = " ".join(contract[pure_start:pure_end].split())
     invariant = (
-        "        //@ inv thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*& "
-        "len == 2 &*& len_div_2 == 1 &*& *src |-> ?inv_source0 &*& "
-        "<T>.own(t, inv_source0) &*& *(src + 1) |-> ?inv_source1 &*& "
-        "<T>.own(t, inv_source1) &*& *is_less |-> ?inv_f &*& <F>.own(t, inv_f) &*& "
-        "*dst |-?-> ?inv_dst0 &*& *(dst + 1) |-?-> ?inv_dst1 &*& "
-        "((left == src && right == src + 1 && left_rev == src && right_rev == src + 1 && "
-        "dst_1 == dst && dst_rev == dst + 1) || "
-        "((left == src + 1 && right == src + 1 || left == src && right == src + 2) && "
-        "((left_rev == src && right_rev == src) || "
-        "((left_rev as pointer) == wrapping_pointer_offset(src as pointer, "
-        "-std::mem::size_of::<T>()) && right_rev == src + 1)) && "
-        "dst_1 == dst + 1 && dst_rev == dst));\n"
+        "            //@ inv thread_token(t) &*& t == currentThread &*& "
+        "type_interp::<T>() &*& type_interp::<F>() &*& lifetime_token(func_lft) &*& "
+        + pure_geometry + " "
+        "len == 2 &*& len_div_2 == 1 &*& src == (v as *T) &*& "
+        "iter |-> ?iteration &*& iteration.start == 1 &*& iteration.end == 1 &*& "
+        "*src |-> ?inv_source0 &*& <T>.own(t, inv_source0) &*& "
+        "*(src + 1) |-> ?inv_source1 &*& <T>.own(t, inv_source1) &*& "
+        "*is_less |-> ?inv_f &*& <F>.own(t, inv_f) &*& "
+        "*dst |-?-> dst0 &*& *(dst + 1) |-?-> dst1 &*& "
+        "left == src &*& right == src + 1 &*& left_rev == src &*& "
+        "right_rev == src + 1 &*& dst_1 == dst &*& dst_rev == dst + 1;\n"
+        "            //@ size_align::<T>();\n"
+        "            //@ aligned_address_step(src as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());\n"
+        "            //@ aligned_address_step(dst as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());\n"
     )
-    return body.replace(loop, invariant + loop, 1)
+    return body.replace(loop, loop + invariant, 1)
+
 
 
 def main() -> None:
@@ -257,6 +264,12 @@ def main() -> None:
     helper_spec.loader.exec_module(helper)
 
     out = "#![feature(unboxed_closures, core_intrinsics)]\n#![allow(dead_code)]\nuse core::ptr;\nuse core::intrinsics;\ntrait FreezeMarker {}\n"
+    # Include our already checked arithmetic bodies as declarations, not summaries.
+    domain_source = (HERE / "pointer-domain-cases.rs").read_text()
+    ghost_start = domain_source.index("/*@")
+    ghost_end = domain_source.index("@*/", ghost_start) + 3
+    domain_ghost = domain_source[ghost_start:ghost_end]
+    out += domain_ghost + "\n"
     out += bidirectional_unwind_options_definition()
     out += "// CASE_BEGIN bidirectional_merge_len2\n"
     records: dict[str, object] = {}
@@ -299,13 +312,14 @@ def main() -> None:
         "source_pointer_projection": "stock translator lowers slice as_ptr by fat-to-thin cast (v as *T) and len to ptr_len(v); SAFE caller realization from &[T] remains open",
         "normal_target": "current source values/owners and F owner; both option destinations initialized; no destination T.own",
         "unwind_target": "current source values/owners and F owner; destinations unchanged if first callback panics, first initialized only if reverse callback panics, both initialized if guard panics",
-        "loop_invariant_status": "candidate source annotation only; iterator-state/cursor linkage is unvalidated",
+        "loop_invariant_status": "stock Some/body invariant after first next: iter.start=end=1; full entry geometry/current owners/original destination options retained; hosted AST/body acceptance pending",
         "restricted_domain_dead_branch": "len=2 proves the odd branch unreachable; preserve and report strict dead-code finding, do not count as an accepted full positive",
         "scope_warning": "diagnostic until hosted proof establishes source-pointer projection, C1 caller premises, exact partial destination behavior, and every actual body gate",
     }
     args.output.write_text(out)
     args.output.with_suffix(".admission.json").write_text(json.dumps({
         "source_admission": admission,
+        "checked_domain_ghost_sha256": sha(domain_ghost.encode()),
         "panic_on_ord_violation_body_sha256": PANIC_BODY_SHA256,
         "freeze_marker_declaration_sha256": FREEZE_TRAIT_SHA256,
         "freeze_marker_adapter": "empty local declaration only; no blanket impl or Freeze/purity theorem",

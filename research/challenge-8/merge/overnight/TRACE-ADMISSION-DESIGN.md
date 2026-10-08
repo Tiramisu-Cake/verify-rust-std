@@ -66,6 +66,31 @@ now parenthesizes each intermediate tuple projection, for example
 postcondition equations. Parser source inspection supports this diagnosis;
 the syntax correction still needs a hosted parser/proof result.
 
+## Entry-context isolation diagnostics
+
+Run 37744660894 parsed the projections and proved all 13 trace helpers, but
+the main body had no execution, return, or leak records. Its first dead-code
+record is at the body's first statement, with no proof error. The contract
+looks arithmetically inhabitable, but this alone does not establish that the
+translated VeriFast entry context is consistent. The next isolated fixture
+adds four cases without changing the main trace case or its contract:
+
+| Case | Diagnostic distinction | Expected evidence |
+|---|---|---|
+| Generic unit-return function with the exact original parameters/precondition and both Boolean-array fractions returned | Tests whether the original generic pointer/provenance/array entry context is itself reachable, without tuple return or loop logic | Its body is executed and returned, or dead code identifies the shared precondition problem. |
+| Concrete `u32` unit-return function at `n=2,m=1,e=0` with positive aligned bases, numeric endpoint bounds, pointer limits, and length-one choice arrays returned | Distinguishes an impossible/wrong generic `size_of<T>` context from a broader common-domain issue | Executed body and array facts, or dead code/error at a specific entry obligation. |
+| Tuple-only constructor with the exact nested `G2PointerTrace<T>` alias, `req true`, and all 12 concrete coordinate associations | Separates stock tuple type/projection/return representation from the original domain | Return and postcondition evidence for all 12 leaves. |
+| Exact original-domain unit-return function with a deliberate `assert false` at the first body statement | Negative calibration target only after the assertion is reached | Record intended assertion location; no expected diagnostic is pre-guessed. |
+
+These fixtures do not establish the full trace proof. The unit cases expose no
+memory permissions beyond the two existing Boolean fractions, return those
+same fractions, and perform no pointer operations. The tuple case uses no
+generated nominal struct, ownership bridge, assumption, or semantic change.
+Keep each case independently classified and require normal body, return,
+leak, stage, and source-integrity gates. A dead-body diagnostic is not a
+positive result, and the deliberate assertion is useful only if hosted evidence
+shows it was reached.
+
 ## Fallback: narrowly certified stock-generated declarations
 
 If the tuple tree prevents the trace post from being expressed or makes the
