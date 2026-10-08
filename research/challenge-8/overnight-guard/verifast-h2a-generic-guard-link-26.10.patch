@@ -1,0 +1,622 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -578,6 +578,34 @@
+       String.sub source brace (ending-brace)
+   end
+ 
++  (* H2a is deliberately local to the source-equivalent standalone guard
++     fixture.  The actual nested guard has a different DefPath and needs its
++     own certificate before this redirect can be used there. *)
++  module Sort4GenericGuard = struct
++    let active = ref false
++    let redirected = ref 0
++    let method_name = "sort4_checked_generic_drop"
++    let guard_name = "<DropOnPanic<T> as std::ops::Drop>::drop"
++    let signature =
++      "pub unsafe fn sort4_checked_generic_drop<T>(slot: *mut T)"
++    let source_body =
++      "{\n        // SAFETY: the caller must uphold the safety contract for `drop_in_place`.\n        unsafe { drop_in_place(self) }\n    }"
++    let local_body =
++      "{\n        // SAFETY: the caller must uphold the safety contract for `drop_in_place`.\n        unsafe { std::ptr::drop_in_place(slot) }\n    }"
++    let annotations = [
++      "/*@\nreq thread_token(?t) &*& t == currentThread &*& *slot |-> ?value &*& <T>.own(t, value);\n@*/";
++      "/*@\nens thread_token(t) &*& *slot |-> _;\n@*/";
++      "/*@\non_unwind_ens thread_token(t) &*& *slot |-> _;\n@*/";
++    ]
++    let guard_body =
++      "{\n            // SAFETY: Must be guaranteed on construction of local type `DropOnPanic`.\n            /*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); @*//*@ open <DropOnPanic<T>>.own(_t, ?g); @*/unsafe { self.inner.drop_in_place() }\n        }"
++    let guard_struct =
++      "{\n        // Invariant: valid pointer and points to an initialized value that is not further used,\n        // i.e. it can be dropped by this guard.\n        inner: *mut T,\n    }"
++    let owner_pred =
++      "/*@\npred<T> <DropOnPanic<T>>.own(t, g) =\n    *g.inner |-> ?payload &*& <T>.own(t, payload);\n@*/"
++    let reject why = failwith ("SORT4-GENERIC-GUARD: certificate mismatch: " ^ why)
++  end
++
+   module Sort4SelectIntrinsic = struct
+     let ptr_name = "sort4_checked_select_ptr"
+     let mu_name = "sort4_checked_select_mu"
+@@ -3226,6 +3254,35 @@
+                  | _ -> Sort4PointerDrop.reject
+                      "method glue exact type/argument")
+             | "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
++              when !Sort4GenericGuard.active &&
++                   State.body_name = Sort4GenericGuard.guard_name ->
++                (match fn_def_ty_cpn.substs,
++                       fn_def_ty_cpn.late_bound_generic_param_count,
++                       substs_cpn, args_cpn, args with
++                 | [{kind=Type {kind=Param "T"}}], 0,
++                   [{kind=Type {kind=Param "T"}}], [operand], [slot] ->
++                     (match OperandRd.get operand with
++                      | OperandRd.Move place when
++                          LocalDeclIdRd.name_get (PlaceRd.local_get place) =
++                            "_4" &&
++                          PlaceRd.local_is_mutable_get place &&
++                          PlaceRd.projection_get_list place = [] &&
++                          VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
++                            VfMirRd.PlaceKind.Other -> ()
++                      | _ -> Sort4GenericGuard.reject
++                          "generic guard method receiver");
++                     incr Sort4GenericGuard.redirected;
++                     Printf.printf
++                       "SORT4-GENERIC-GUARD: redirected typed generic method %d\n%!"
++                       !Sort4GenericGuard.redirected;
++                     Ok (tmp_rvalue_binders,
++                         FnCallOutcome (Ast.CallExpr
++                           (fn_loc, Sort4GenericGuard.method_name,
++                            [Ast.IdentTypeExpr (fn_loc, None, "T")],
++                            [], [LitPat slot], Static)))
++                 | _ -> Sort4GenericGuard.reject
++                     "generic guard method exact type/receiver")
++            | "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
+               when !Sort4PointerDrop.active &&
+                    !Sort4SelectIntrinsic.active &&
+                    !Sort4SelectIntrinsic.actual_certified &&
+@@ -9289,6 +9346,537 @@
+     Printf.printf
+       "SORT4-POINTER-DROP: full typed method MIR graph accepted\n%!"
+ 
++  let check_sort4_generic_drop_method_mir (body : BodyRd.t) =
++    let reject = Sort4GenericGuard.reject in
++    let ptr ty = (match (D.decode_ty ty).kind with D.Param "T" -> true | _ -> false) in
++    let receiver ty = match TyKindRd.get (TyRd.kind_get ty) with
++      | TyKindRd.RawPtr raw ->
++          MutabilityRd.get (RawPtrTyRd.mutability_get raw) =
++            MutabilityRd.Mut && ptr (RawPtrTyRd.ty_get raw)
++      | _ -> false in
++    let unit_ty ty = match (D.decode_ty ty).kind with
++      | D.Tuple [] -> true | _ -> false in
++    (match BodyRd.inputs_get_list body with
++     | [ty] when receiver ty -> ()
++     | _ -> reject "method input type");
++    if not (unit_ty (BodyRd.output_get body)) then
++      reject "method output type";
++    let local id mut kind d =
++      if LocalDeclIdRd.name_get (LocalDeclRd.id_get d) <> id ||
++         (match MutabilityRd.get (LocalDeclRd.mutability_get d) with
++          | MutabilityRd.Mut -> true | MutabilityRd.Not -> false
++          | _ -> reject "method local mutability") <> mut ||
++         not (kind (LocalDeclRd.ty_get d)) then
++        reject ("method result local/type: " ^ id) in
++    (match BodyRd.local_decls_get_list body with
++     | [r; arg; tmp] ->
++         local "_0" true unit_ty r;
++         local "_1" false receiver arg;
++         local "_2" true receiver tmp
++     | _ -> reject "method local count");
++    let place id mut p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
++         PlaceRd.local_is_mutable_get p <> mut ||
++         PlaceRd.projection_get_list p <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("method place: " ^ id) in
++    (match BodyRd.var_debug_info_get_list body with
++     | [debug] when SymbolRd.name_get (VarDebugInfoRd.name_get debug) =
++                      "slot" ->
++         (match VarDebugInfoContentsRd.get (VarDebugInfoRd.value_get debug) with
++          | VarDebugInfoContentsRd.Place p -> place "_1" false p
++          | _ -> reject "method debug binding")
++     | _ -> reject "method debug binding");
++    let storage live s = match StatementKindRd.get
++        (StatementRd.kind_get s) with
++      | StatementKindRd.StorageLive x when live &&
++          LocalDeclIdRd.name_get x = "_2" -> ()
++      | StatementKindRd.StorageDead x when not live &&
++          LocalDeclIdRd.name_get x = "_2" -> ()
++      | _ -> reject "method ordered statements" in
++    let copy s = match StatementKindRd.get (StatementRd.kind_get s) with
++      | StatementKindRd.Assign data ->
++          place "_2" true (StatementKindRd.AssignData.lhs_place_get data);
++          (match RvalueRd.get (StatementKindRd.AssignData.rhs_rvalue_get data) with
++           | RvalueRd.Use op ->
++               (match OperandRd.get op with
++                | OperandRd.Copy p -> place "_1" false p
++                | _ -> reject "method copy operand")
++           | _ -> reject "method copy rvalue")
++      | _ -> reject "method ordered statements" in
++    let call c =
++      let open FnCallDataRd in
++      (match OperandRd.get (func_get c) with
++       | OperandRd.Constant operand ->
++           (match VfMirRd.MirConst.get (ConstOperandRd.const_get operand) with
++            | VfMirRd.MirConst.Val v when
++                VfMirRd.ConstValue.get
++                  (VfMirRd.MirConst.Val.const_value_get v) =
++                    VfMirRd.ConstValue.ZeroSized ->
++                (match (D.decode_ty (VfMirRd.MirConst.Val.ty_get v)).kind with
++                 | D.FnDef {id={name="std::ptr::drop_in_place"};
++                            substs=[{kind=D.Type p}];
++                            late_bound_generic_param_count=0}
++                   when (match p.kind with D.Param "T" -> true | _ -> false) -> ()
++                 | _ -> reject "method free drop-glue FnDef/type")
++            | _ -> reject "method function constant")
++       | _ -> reject "method callee operand");
++      (match args_get_list c with
++       | [arg] ->
++           (match OperandRd.get arg with
++            | OperandRd.Move p -> place "_2" true p
++            | _ -> reject "method call operand")
++       | _ -> reject "method call operand");
++      place "_0" true (destination_get c);
++      (match UnwindActionRd.get (unwind_action_get c) with
++       | UnwindActionRd.Continue -> ()
++       | _ -> reject "method unwind action");
++      (match OptionRd.get (target_get c) with
++       | OptionRd.Something ptr when
++           Stdint.Uint32.to_int
++             (BasicBlockIdRd.index_get (VfMirRd.of_pointer ptr)) = 1 -> ()
++       | _ -> reject "method normal successor");
++      (match OptionRd.get (ghost_generic_arg_list_get c) with
++       | OptionRd.Nothing -> ()
++       | _ -> reject "method extra generic arguments") in
++    (match BodyRd.basic_blocks_get_list body with
++     | [b0;b1] when
++         Stdint.Uint32.to_int
++           (BasicBlockIdRd.index_get (BasicBlockRd.id_get b0)) = 0 &&
++         Stdint.Uint32.to_int
++           (BasicBlockIdRd.index_get (BasicBlockRd.id_get b1)) = 1 &&
++         not (BasicBlockRd.is_cleanup_get b0) &&
++         not (BasicBlockRd.is_cleanup_get b1) ->
++         (match BasicBlockRd.statements_get_list b0 with
++          | [s0;s1] -> storage true s0; copy s1
++          | _ -> reject "method ordered statements");
++         (match TerminatorKindRd.get
++           (TerminatorRd.kind_get (BasicBlockRd.terminator_get b0)) with
++          | TerminatorKindRd.Call c -> call c
++          | _ -> reject "method first terminator");
++         (match BasicBlockRd.statements_get_list b1 with
++          | [s] -> storage false s
++          | _ -> reject "method ordered statements");
++         (match TerminatorKindRd.get
++           (TerminatorRd.kind_get (BasicBlockRd.terminator_get b1)) with
++          | TerminatorKindRd.Return -> ()
++          | _ -> reject "method return terminator")
++     | _ -> reject "method complete CFG");
++    Printf.printf
++      "SORT4-GENERIC-GUARD: full typed local method MIR graph accepted\n%!"
++
++  let check_sort4_local_guard_drop_mir (body : BodyRd.t) =
++    let reject = Sort4GenericGuard.reject in
++    let unit_ty ty = match (D.decode_ty ty).kind with
++      | D.Tuple [] -> true | _ -> false in
++    let ptr_ty ty = match (D.decode_ty ty).kind with
++      | D.RawPtr {ty={kind=D.Param "T"}; mutability=D.Mut} -> true
++      | _ -> false in
++    let guard_ty ty = match (D.decode_ty ty).kind with
++      | D.Adt {id={name="DropOnPanic"}; kind=D.StructKind;
++               substs=[{kind=D.Type {kind=D.Param "T"}}]} -> true
++      | _ -> false in
++    let receiver ty = match (D.decode_ty ty).kind with
++      | D.Ref {ty; mutability=D.Mut; _} -> guard_ty ty
++      | _ -> false in
++    if BodyRd.DefKind.get (BodyRd.def_kind_get body) <>
++         BodyRd.DefKind.Fn ||
++       UnsafetyRd.get (BodyRd.unsafety_get body) <> UnsafetyRd.Safe ||
++       not (BodyRd.is_drop_fn_get body) ||
++       BodyRd.is_from_expansion_get body ||
++       BodyRd.ghost_decl_blocks_get_list body <> [] ||
++       BodyRd.loop_spec_blocks_get_list body <> [] ||
++       ContractRd.annotations_get_list (BodyRd.contract_get body) <> [] ||
++       (match BodyRd.inputs_get_list body with
++        | [ty] -> not (receiver ty) | _ -> true) ||
++       not (unit_ty (BodyRd.output_get body)) then
++      reject "SAFE local guard Drop identity/interface";
++    if BodyRd.generics_get_list body <> [] ||
++       BodyRd.clauses_get_list body <> [] then
++      reject "guard Drop unexpected method generic clauses";
++    (match BodyRd.impl_block_generics_get_list body with
++     | [g] when VfMirRd.GenericParamDef.name_get g = "T" &&
++                VfMirRd.GenericParamDefKind.get
++                  (VfMirRd.GenericParamDef.kind_get g) =
++                    VfMirRd.GenericParamDefKind.Type -> ()
++     | _ -> reject "guard Drop impl generic parameter");
++    (match BodyRd.impl_block_clauses_get_list body
++           |> List.map D.decode_clause with
++     | [D.Trait {def_id="std::marker::Sized";
++                 args=[{kind=D.Type {kind=D.Param "T"}}];
++                 bound_regions=[]}] -> ()
++     | _ -> reject "guard Drop impl generic predicates");
++    let local id mut test d =
++      if LocalDeclIdRd.name_get (LocalDeclRd.id_get d) <> id ||
++         (match MutabilityRd.get (LocalDeclRd.mutability_get d) with
++          | MutabilityRd.Mut -> true | MutabilityRd.Not -> false
++          | _ -> reject "guard Drop local mutability") <> mut ||
++         not (test (LocalDeclRd.ty_get d)) then
++        reject ("guard Drop local type: " ^ id) in
++    (match BodyRd.local_decls_get_list body with
++     | [r;self;g1;g2;slot] ->
++         local "_0" true unit_ty r;
++         local "_1" false receiver self;
++         local "_2" false unit_ty g1;
++         local "_3" false unit_ty g2;
++         local "_4" true ptr_ty slot
++     | _ -> reject "guard Drop local count");
++    (match BodyRd.var_debug_info_get_list body with
++     | [debug] when SymbolRd.name_get (VarDebugInfoRd.name_get debug) =
++                      "self" ->
++         let p = match VarDebugInfoContentsRd.get
++            (VarDebugInfoRd.value_get debug) with
++           | VarDebugInfoContentsRd.Place p -> p
++           | _ -> reject "guard Drop debug binding" in
++         if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> "_1" ||
++            PlaceRd.projection_get_list p <> [] ||
++            PlaceRd.local_is_mutable_get p ||
++            VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++              VfMirRd.PlaceKind.Other then
++           reject "guard Drop debug place"
++     | _ -> reject "guard Drop debug count/name");
++    let place id mut projections p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
++         PlaceRd.local_is_mutable_get p <> mut ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other ||
++         projections <> PlaceRd.projection_get_list p then
++        reject ("guard Drop place: " ^ id) in
++    let simple id mut p = place id mut [] p in
++    let storage live id s = match StatementKindRd.get
++      (StatementRd.kind_get s) with
++      | StatementKindRd.StorageLive x when live &&
++          LocalDeclIdRd.name_get x = id -> ()
++      | StatementKindRd.StorageDead x when not live &&
++          LocalDeclIdRd.name_get x = id -> ()
++      | _ -> reject ("guard Drop storage: " ^ id) in
++    let call expected operand dst next b =
++      match TerminatorKindRd.get
++        (TerminatorRd.kind_get (BasicBlockRd.terminator_get b)) with
++      | TerminatorKindRd.Call c ->
++          let open FnCallDataRd in
++          (match OperandRd.get (func_get c) with
++           | OperandRd.Constant op ->
++               (match VfMirRd.MirConst.get (ConstOperandRd.const_get op) with
++                | VfMirRd.MirConst.Val v when
++                    VfMirRd.ConstValue.get
++                      (VfMirRd.MirConst.Val.const_value_get v) =
++                        VfMirRd.ConstValue.ZeroSized ->
++                    (match (D.decode_ty (VfMirRd.MirConst.Val.ty_get v)).kind with
++                     | D.FnDef {id={name};substs;late_bound_generic_param_count=0}
++                       when name=expected &&
++                            substs=(if expected="VeriFast_ghost_command"
++                                    then [] else [{kind=D.Type {kind=D.Param "T"}}]) -> ()
++                     | _ -> reject "guard Drop typed FnDef/substitution")
++                | _ -> reject "guard Drop function constant")
++           | _ -> reject "guard Drop callee operand");
++          (match args_get_list c, operand with
++           | [], None -> ()
++           | [arg], Some id ->
++               (match OperandRd.get arg with
++                | OperandRd.Move p -> simple id true p
++                | _ -> reject "guard Drop move argument")
++           | _ -> reject "guard Drop call arity");
++          simple dst (dst = "_0") (destination_get c);
++          (match OptionRd.get (ghost_generic_arg_list_get c) with
++           | OptionRd.Nothing -> ()
++           | _ -> reject "guard Drop ghost generic arguments");
++          (match UnwindActionRd.get (unwind_action_get c) with
++           | UnwindActionRd.Continue -> ()
++           | _ -> reject "guard Drop unwind edge");
++          (match OptionRd.get (target_get c) with
++           | OptionRd.Something p when
++               Stdint.Uint32.to_int
++                 (BasicBlockIdRd.index_get (VfMirRd.of_pointer p)) = next -> ()
++           | _ -> reject "guard Drop normal edge")
++      | _ -> reject "guard Drop call terminator" in
++    let ghost name dst next block =
++      call "VeriFast_ghost_command" None dst next block in
++    let assign_inner s = match StatementKindRd.get
++      (StatementRd.kind_get s) with
++      | StatementKindRd.Assign data ->
++          simple "_4" true (StatementKindRd.AssignData.lhs_place_get data);
++          (match RvalueRd.get (StatementKindRd.AssignData.rhs_rvalue_get data) with
++           | RvalueRd.Use op ->
++               (match OperandRd.get op with
++                | OperandRd.Copy p ->
++                    let projection = PlaceRd.projection_get_list p in
++                    (match projection with
++                     | [d;f] when PlaceElementRd.get d = PlaceElementRd.Deref ->
++                         (match PlaceElementRd.get f with
++                          | PlaceElementRd.Field fd when
++                              Stdint.Uint32.to_int
++                                (PlaceElementRd.FieldData.index_get fd) = 0 &&
++                              (match OptionRd.get
++                                (PlaceElementRd.FieldData.name_get fd) with
++                               | OptionRd.Something n ->
++                                   SymbolRd.name_get (VfMirRd.of_pointer n) =
++                                     "inner"
++                               | _ -> false) &&
++                              ptr_ty (PlaceElementRd.FieldData.ty_get fd) ->
++                                if LocalDeclIdRd.name_get
++                                     (PlaceRd.local_get p) <> "_1" ||
++                                   PlaceRd.local_is_mutable_get p ||
++                                   VfMirRd.PlaceKind.get
++                                     (PlaceRd.kind_get p) <>
++                                       VfMirRd.PlaceKind.Other then
++                                  reject "guard Drop field base"
++                          | _ -> reject "guard Drop typed inner field")
++                     | _ -> reject "guard Drop field projection")
++                | _ -> reject "guard Drop field copy operand")
++           | _ -> reject "guard Drop field copy rvalue")
++      | _ -> reject "guard Drop field assignment" in
++    (match BodyRd.basic_blocks_get_list body with
++     | [b0;b1;b2;b3] ->
++         List.iteri (fun i b ->
++           if Stdint.Uint32.to_int
++                (BasicBlockIdRd.index_get (BasicBlockRd.id_get b)) <> i ||
++              BasicBlockRd.is_cleanup_get b then
++             reject "guard Drop block identity/cleanup") [b0;b1;b2;b3];
++         (match BasicBlockRd.statements_get_list b0 with
++          | [s] -> storage true "_2" s
++          | _ -> reject "guard Drop block0 statements");
++         ghost "_2" "_2" 1 b0;
++         (match BasicBlockRd.statements_get_list b1 with
++          | [s0;s1] -> storage false "_2" s0;
++                       storage true "_3" s1
++          | _ -> reject "guard Drop block1 statements");
++         ghost "_3" "_3" 2 b1;
++         (match BasicBlockRd.statements_get_list b2 with
++          | [s0;s1;s2] -> storage false "_3" s0;
++                          storage true "_4" s1; assign_inner s2
++          | _ -> reject "guard Drop block2 statements");
++         call "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
++           (Some "_4") "_0" 3 b2;
++         (match BasicBlockRd.statements_get_list b3 with
++          | [s] -> storage false "_4" s
++          | _ -> reject "guard Drop block3 statements");
++         (match TerminatorKindRd.get
++           (TerminatorRd.kind_get (BasicBlockRd.terminator_get b3)) with
++          | TerminatorKindRd.Return -> ()
++          | _ -> reject "guard Drop return")
++     | _ -> reject "guard Drop complete four-block graph");
++    Printf.printf "SORT4-GENERIC-GUARD: full local guard MIR accepted\n%!"
++
++  let certify_sort4_generic_guard_link
++      (vf_mir : VfMirRd.VfMir.t) root =
++    let open Sort4GenericGuard in
++    active := false; redirected := 0;
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    let one name = match List.filter (fun b ->
++      TrName.translate_def_path (BodyRd.def_path_get b) = name) bodies with
++      | [b] -> b
++      | _ -> reject ("exact body count: " ^ name) in
++    let method_body = one method_name in
++    let guard_body_mir = one guard_name in
++    if BodyRd.DefKind.get (BodyRd.def_kind_get method_body) <>
++         BodyRd.DefKind.Fn ||
++       UnsafetyRd.get (BodyRd.unsafety_get method_body) <>
++         UnsafetyRd.Unsafe ||
++       BodyRd.module_def_path_get method_body <> "" ||
++       BodyRd.is_from_expansion_get method_body ||
++       BodyRd.is_trait_fn_get method_body ||
++       BodyRd.is_drop_fn_get method_body ||
++       VisibilityRd.get (BodyRd.visibility_get method_body) <>
++         VisibilityRd.Public ||
++       BodyRd.ghost_stmts_get_list method_body <> [] ||
++       BodyRd.ghost_decl_blocks_get_list method_body <> [] ||
++       BodyRd.loop_spec_blocks_get_list method_body <> [] then
++      reject "local method identity/structure";
++    (match BodyRd.generics_get_list method_body with
++     | [g] when VfMirRd.GenericParamDef.name_get g = "T" &&
++                VfMirRd.GenericParamDefKind.get
++                  (VfMirRd.GenericParamDef.kind_get g) =
++                    VfMirRd.GenericParamDefKind.Type -> ()
++     | _ -> reject "local method generic parameter");
++    (match BodyRd.clauses_get_list method_body |> List.map D.decode_clause with
++     | [D.Trait {def_id="std::marker::Sized";
++                 args=[{kind=D.Type {kind=D.Param "T"}}];
++                 bound_regions=[]}] -> ()
++     | _ -> reject "local method generic predicates");
++    if Digest.to_hex (Digest.file
++      (Filename.concat root "library/core/src/ptr/mut_ptr.rs")) <>
++        "3119613d189932586e3546f79d245e7e" ||
++       Digest.to_hex (Digest.file
++      (Filename.concat root "library/core/src/ptr/mod.rs")) <>
++        "d62f94a16e6c3c25b19c2e061249c23b" ||
++       Digest.to_hex (Digest.file
++      (Filename.concat root "library/core/src/hint.rs")) <>
++        "362331eb7fa49dfa0ab4d656f4ed7fef" then
++      reject "pinned std pointer/actual guard sources changed";
++    let actual_ptr = Sort4MaybeUninit.read_file
++      (Filename.concat root "library/core/src/ptr/mut_ptr.rs") in
++    if Sort4PointerDrop.body_after actual_ptr
++         Sort4PointerDrop.source_marker <> source_body then
++      reject "pinned generic pointer method body";
++    let actual_hint = Sort4MaybeUninit.read_file
++      (Filename.concat root "library/core/src/hint.rs") in
++    let actual_drop = Sort4PointerDrop.body_after actual_hint
++      "fn drop(&mut self)" in
++    let stripped =
++      "{\n            // SAFETY: Must be guaranteed on construction of local type `DropOnPanic`.\n            unsafe { self.inner.drop_in_place() }\n        }" in
++    if actual_drop <> stripped ||
++       Sort4PointerDrop.body_after actual_hint "struct DropOnPanic<T>" <>
++         guard_struct then
++      reject "actual nested guard runtime/ADT source";
++    let* method_loc = translate_span_data
++      (BodyRd.fn_sig_span_get method_body) in
++    let* guard_loc = translate_span_data
++      (BodyRd.fn_sig_span_get guard_body_mir) in
++    let path = match method_loc,guard_loc with
++      | Ast.Lexed (((a,_,_),_)),Ast.Lexed (((b,_,_),_))
++        when a=b && Filename.check_suffix a "verified/lib.rs" -> a
++      | _ -> reject "local method/guard source unit" in
++    let source = Sort4MaybeUninit.read_file path in
++    let pos = Sort4MaybeUninit.position source in
++    let check_span label span lo hi =
++      let* loc = translate_span_data span in
++      match loc with
++      | Ast.Lexed (((a,line,col),(b,el,ec))) when
++          a=path && b=path && (line,col)=pos lo &&
++          (el,ec)=pos hi -> Ok ()
++      | _ -> reject (label ^ " source span") in
++    let exactly_once marker =
++      match Sort4MaybeUninit.find_substring source marker 0 with
++      | Some at when Sort4MaybeUninit.find_substring source marker
++                       (at+1)=None -> at
++      | _ -> reject ("fixture source marker: " ^ marker) in
++    let method_at = exactly_once signature in
++    let between = "\n\n" ^ String.concat "\n" annotations ^ "\n" in
++    let method_sig_end = method_at + String.length signature in
++    let method_brace = method_sig_end + String.length between in
++    if method_brace > String.length source ||
++       String.sub source method_sig_end
++         (String.length between) <> between ||
++       Sort4PointerDrop.body_after source signature <> local_body ||
++       List.map AnnotationRd.raw_get
++         (ContractRd.annotations_get_list
++           (BodyRd.contract_get method_body)) <> annotations then
++      reject "local method exact contract/body";
++    let* () = check_span "local method signature"
++      (BodyRd.fn_sig_span_get method_body) method_at method_sig_end in
++    let* () = check_span "local method body"
++      (BodyRd.imp_span_get method_body) method_brace
++      (method_brace + String.length local_body) in
++    let* () = check_span "local method item"
++      (BodyRd.span_get method_body) method_at
++      (method_brace + String.length local_body) in
++    let* () = check_span "local method contract"
++      (ContractRd.span_get (BodyRd.contract_get method_body))
++      method_sig_end method_brace in
++    let cursor = ref method_sig_end in
++    let expected = List.map (fun raw ->
++      let at = match Sort4MaybeUninit.find_substring source raw !cursor with
++        | Some n when n < method_brace -> n
++        | _ -> reject "local method annotation source" in
++      cursor := at + String.length raw;
++      raw,at,!cursor) annotations in
++    let* _ = ListAux.try_map (fun (ann,(raw,at,ending)) ->
++      if AnnotationRd.raw_get ann <> raw ||
++         (Stdint.Uint64.to_int (AnnotationRd.start_line_get ann),
++          Stdint.Uint64.to_int (AnnotationRd.start_col_get ann)) <>
++            pos at ||
++         (Stdint.Uint64.to_int (AnnotationRd.end_line_get ann),
++          Stdint.Uint64.to_int (AnnotationRd.end_col_get ann)) <>
++            pos ending then
++        reject "local method annotation coordinates";
++      check_span "local method annotation"
++        (AnnotationRd.span_get ann) at ending)
++      (List.combine
++        (ContractRd.annotations_get_list (BodyRd.contract_get method_body))
++        expected) in
++    let owner_at = exactly_once owner_pred in
++    let* () = match VfMirRd.VfMir.ghost_decl_batches_get_list vf_mir with
++     | [decl] when AnnotationRd.raw_get decl = owner_pred &&
++                   (Stdint.Uint64.to_int
++                     (AnnotationRd.start_line_get decl),
++                    Stdint.Uint64.to_int
++                     (AnnotationRd.start_col_get decl)) =
++                       pos owner_at &&
++                   (Stdint.Uint64.to_int
++                     (AnnotationRd.end_line_get decl),
++                    Stdint.Uint64.to_int
++                     (AnnotationRd.end_col_get decl)) =
++                       pos (owner_at + String.length owner_pred) ->
++         let* () = check_span "nominal owner declaration"
++           (AnnotationRd.span_get decl) owner_at
++           (owner_at + String.length owner_pred) in
++         Ok ()
++     | _ -> reject "exported nominal owner predicate" in
++    let struct_at = exactly_once "struct DropOnPanic<T>" in
++    let guard_at = exactly_once "fn drop(&mut self)" in
++    if Sort4PointerDrop.body_after source "struct DropOnPanic<T>" <>
++         guard_struct ||
++       Sort4PointerDrop.body_after source "fn drop(&mut self)" <>
++         guard_body ||
++       List.map AnnotationRd.raw_get
++         (BodyRd.ghost_stmts_get_list guard_body_mir) <>
++         ["/*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); @*/";
++          "/*@ open <DropOnPanic<T>>.own(_t, ?g); @*/"] then
++      reject "local guard exact source/ghost owner";
++    let guard_brace = match Sort4MaybeUninit.find_substring source
++      guard_body guard_at with
++      | Some at -> at
++      | None -> reject "local guard body position" in
++    let* () = check_span "local guard Drop signature"
++      (BodyRd.fn_sig_span_get guard_body_mir) guard_at
++      (guard_at + String.length "fn drop(&mut self)") in
++    let* () = check_span "local guard Drop body"
++      (BodyRd.imp_span_get guard_body_mir) guard_brace
++      (guard_brace + String.length guard_body) in
++    let* () = check_span "local guard Drop item"
++      (BodyRd.span_get guard_body_mir) guard_at
++      (guard_brace + String.length guard_body) in
++    let* adts = CapnpAux.ind_list_get_list
++      (VfMirRd.VfMir.adt_defs_get vf_mir) in
++    let adt = match List.filter (fun a ->
++      (D.decode_adt_def_id (AdtDefRd.id_get a)).name = "DropOnPanic")
++      adts with
++      | [a] -> a | _ -> reject "local guard ADT count" in
++    if not (AdtDefRd.is_local_get adt) ||
++       AdtKindRd.get (AdtDefRd.kind_get adt) <>
++         AdtKindRd.StructKind ||
++       VisibilityRd.get (AdtDefRd.vis_get adt) <>
++         VisibilityRd.Restricted ||
++       not (AdtDefRd.implements_drop_get adt) ||
++       AdtDefRd.is_repr_c_get adt ||
++       AdtDefRd.variances_get_list adt <>
++         [VarianceRd.Invariant] then
++      reject "local guard ADT kind/visibility/drop/variance";
++    (match AdtDefRd.clauses_get_list adt |> List.map D.decode_clause with
++     | [D.Trait {def_id="std::marker::Sized";
++                 args=[{kind=D.Type {kind=D.Param "T"}}];
++                 bound_regions=[]}] -> ()
++     | _ -> reject "local guard ADT predicates");
++    let inner_field = match AdtDefRd.variants_get_list adt with
++     | [v] when VariantDefRd.name_get v = "DropOnPanic" ->
++         (match VariantDefRd.fields_get_list v with
++          | [f] when SymbolRd.name_get (FieldDefRd.name_get f) = "inner" &&
++                     VisibilityRd.get (FieldDefRd.vis_get f) =
++                       VisibilityRd.Restricted ->
++              (match (D.decode_ty (FieldDefRd.ty_get f)).kind with
++               | D.RawPtr {ty={kind=D.Param "T"};mutability=D.Mut} -> f
++               | _ -> reject "local guard typed inner field")
++          | _ -> reject "local guard exact private field")
++     | _ -> reject "local guard single variant" in
++    let* () = check_span "local guard ADT header"
++      (AdtDefRd.span_get adt) struct_at
++      (struct_at + String.length "struct DropOnPanic<T>") in
++    let* () = check_span "local guard ADT body"
++      (AdtDefRd.def_span_get adt) struct_at
++      (struct_at + String.length "struct DropOnPanic<T> " +
++       String.length guard_struct) in
++    let field_at = exactly_once "inner: *mut T" in
++    let* () = check_span "local guard typed inner field"
++      (FieldDefRd.span_get inner_field) field_at
++      (field_at + String.length "inner: *mut T") in
++    check_sort4_generic_drop_method_mir method_body;
++    check_sort4_local_guard_drop_mir guard_body_mir;
++    active := true;
++    Printf.printf "SORT4-GENERIC-GUARD: source/MIR local link accepted\n%!";
++    Ok ()
++
+   let certify_sort4_pointer_drop (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4PointerDrop in
+     active := false; glue_count := 0; redirect_count := 0;
+@@ -11415,6 +12003,10 @@
+               certify_sort4_pointer_drop vf_mir_cpn root
+             else (Sort4PointerDrop.active := false; Ok ())
+       in
++      let* () = match Sys.getenv_opt "SORT4_GUARD_REPO_ROOT" with
++        | None -> Sort4GenericGuard.active := false; Ok ()
++        | Some root -> certify_sort4_generic_guard_link vf_mir_cpn root
++      in
+       let* () = match Sys.getenv_opt "SORT4_A1_LINK_REPO_ROOT" with
+         | None -> Sort4A1Link.active := false; Ok ()
+         | Some root -> certify_sort4_a1_link vf_mir_cpn root

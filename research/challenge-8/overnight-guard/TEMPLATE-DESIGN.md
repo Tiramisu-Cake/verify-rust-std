@@ -93,3 +93,23 @@ helper require a later separate admission case; a green standalone adapter
 is never labeled actual helper proof. The template change is a trusted
 frontend shape rule whose truth is still checked by proving the Rust body;
 it is not a lemma or an axiom asserting the target helper result.
+
+## Candidate patch after H2a, not yet accepted
+
+`verifast-h2b-nominal-drop-template-26.10.patch` is a separate overlay on
+the H2a local-only gate. A second env key is required; its root must equal
+the already certified H2a root. In `gen_drop_contract`, only a selected
+`DropOnPanic<T>` with one `inner` field appends the optional pointee cell
+as the tail of the existing field fold. The same generated post goes to
+normal and unwind; stock field own, padding and thread remain. Ordinary
+Drop types take the original stock padding tail.
+
+No hosted verifier result exists for this patch. The O13 concrete `u32`
+owner witness stopped at a parser restriction on `close <u32>.own`; the
+fixture now uses the stock primitive declaration `close u32_own`, whose
+body is `true`, and still needs a new hosted proof. The H2a linked fixture
+omits the witness to isolate the SAFE Drop method transition. Acceptance
+of this template needs a fresh H2a proof on its revised minimal contract,
+then an isolated run with this template active and the concrete owner
+witness independently proved. A template-only PASS without body return
+and leak checks, both outcomes, and ordinary Drop controls does not count.

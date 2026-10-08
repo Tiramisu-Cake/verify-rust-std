@@ -468,3 +468,10 @@ unit passes complete VF+NORMAL/readonly/refinement. Probe matrix acceptance
 remains open because returned raw-pointer value-own was omitted from probe posts;
 repair strengthens only those posts. No outer assume_init redirect yet. Element
 has ordinary implicit Sized bound; no Copy/Freeze/Element ownership premise.
+
+O13 [d3363d2e/run37711416854](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711416854)
+closes the local A1 adapter matrix (3 full positives,12 intended proof negatives,
+3 source rejects), not outer actual assume_init. Genuine FnMut call and normal
+borrow recovery now pass; current-cell unwind restoration remains open. Actual
+sort4 first bounds lemma passes, reference precreation remains open. G1 callable
+callee and H2 concrete witness are unqualified due recorded setup restrictions.

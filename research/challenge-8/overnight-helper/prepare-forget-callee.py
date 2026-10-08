@@ -31,9 +31,9 @@ def load_g1():
 G1 = load_g1()
 
 
-def line_of(source: bytes, marker: bytes) -> int:
+def line_of(source: bytes, marker: bytes, *, exact: bool = False) -> int:
     matches = [line for line, text in enumerate(source.splitlines(), 1)
-               if marker in text]
+               if (text.strip() == marker if exact else marker in text)]
     G1.require(len(matches) == 1, "callee obligation marker ambiguous")
     return matches[0]
 
@@ -61,19 +61,23 @@ def fixture(variant: str) -> tuple[bytes, bytes, dict]:
                original.count(b"checked_forget_generic<T>") == 1 and
                original.count(b"ManuallyDrop::new(t)") == 1,
                "single exact generic forget body changed")
-    obligations = {
-        "positive": None,
-        "false_post": {"line": line_of(verified, b"ens false;"),
-                       "message": "Cannot prove false"},
-        "thread_loss": {"line": line_of(verified, b"}"),
-                        "message": "Function leaks heap chunks: thread_token(tid)"},
-        "thread_duplication": {
+    if variant == "positive":
+        obligation = None
+    elif variant == "false_post":
+        obligation = {"line": line_of(verified, b"ens false;", exact=True),
+                      "message": "Cannot prove false"}
+    elif variant == "thread_loss":
+        obligation = {"line": line_of(verified, b"}", exact=True),
+                      "message": "Function leaks heap chunks: thread_token(tid)"}
+    elif variant == "thread_duplication":
+        obligation = {
             "line": line_of(verified,
-                            b"ens thread_token(tid) &*& thread_token(tid);"),
-            "message": "No matching heap chunks: thread_token(tid)"},
-        "contradictory_pre": {"line": line_of(verified, signature.strip()),
-                              "message": "dead code"},
-    }
+                            b"ens thread_token(tid) &*& thread_token(tid);",
+                            exact=True),
+            "message": "No matching heap chunks: thread_token(tid)"}
+    else:
+        obligation = {"line": line_of(verified, signature.strip(), exact=True),
+                      "message": "dead code"}
     return original, verified, {
         "variant": variant,
         "target": "independently callable generic unsafe forget body",
@@ -81,7 +85,7 @@ def fixture(variant: str) -> tuple[bytes, bytes, dict]:
         "runtime_body_exact_std_forget": True,
         "same_source_contract_as_safe_forget": False,
         "actual_safe_call_redirect": False,
-        "expected_obligation": obligations[variant],
+        "expected_obligation": obligation,
         "original_sha256": G1.digest(original),
         "verified_sha256": G1.digest(verified),
         "ghost_strip_identity": True,

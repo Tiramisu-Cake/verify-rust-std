@@ -110,7 +110,7 @@ def concrete_u32_witness() -> bytes:
             b"ens thread_token(t) &*& type_interp::<u32>() &*& <DropOnPanic<u32>>.own(t, result);",
             b"on_unwind_ens false;") +
         b"{\n"
-        b"    //@ close <u32>.own(t, value);\n"
+        b"    //@ close u32_own(t, value);\n"
         b"    unsafe { guard_owner_from_initialized_slot(slot) }\n"
         b"}\n")
 

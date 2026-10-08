@@ -11,8 +11,8 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **2130/21600 summed GitHub-hosted job seconds**, 19470 remain.
-Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O13 prepared.
+New independent account **2202/21600 summed GitHub-hosted job seconds**, 19398 remain.
+Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O14 prepared (H2a-only frontend component).
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
 components ACCEPTED at1378f0ff/run37700450091, all8matrices and complete logs audited;
@@ -69,6 +69,18 @@ Parseerror tupleaggregate, sort4ghoststrip newline abort; setupinconclusive,
 repairs prepared. O13 adds isolatedgenericforgetcallee qualification and replays
 affected boundaries; exactO12 seven-file identity permits S6regressionreuse.
 Combinedprofile experimental; fullselect/sort4 open.
+
+O13 atd3363d2e/run37711416854,72s: A1 local method 3 full-proof positives,
+12 intended proof negatives and3 exact source rejects pass; outer actual linkage
+still open. Callback reaches genuine FnMut and normal recovery; full unwind post
+fails on current initialized left cell because recovery is bypassed. No HRTB
+extension indicated. Actualsort4 first pointerbounds lemma now passes; reference
+creation needs stock precreated token. G1 isolatedcallee setup eagerly evaluated
+other variant markers; lazy variant-specific repair prepared, no acceptance yet.
+H2 witness primitive own syntax repaired using stock u32_own; fresh qualification
+pending. O14 adds only local source/MIR-gated generic Drop method linkage, minimal
+callee pre without gratuitous type_interp, full fresh S6 regression. H2b template
+patch remains dormant; actual nested Drop/helper/sort4 NOT_PROVEN.
 
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new

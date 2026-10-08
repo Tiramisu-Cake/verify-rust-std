@@ -81,19 +81,19 @@ def contract(pre: bytes, post: bytes, unwind: bytes) -> bytes:
 
 def source_pair(body: bytes, variant: str) -> tuple[bytes, bytes]:
     require(variant in VARIANTS, "unknown H2a variant")
-    common = b"thread_token(t) &*& type_interp::<T>()"
+    method_common = b"thread_token(t)"
+    probe_common = b"thread_token(t) &*& type_interp::<T>()"
     method_contract = contract(
-        b"req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*& "
+        b"req thread_token(?t) &*& t == currentThread &*& "
         b"*slot |-> ?value &*& <T>.own(t, value);",
-        b"ens " + common + b" &*& *slot |-> _;",
-        b"on_unwind_ens " + common + b" &*& *slot |-> _;")
+        b"ens " + method_common + b" &*& *slot |-> _;",
+        b"on_unwind_ens " + method_common + b" &*& *slot |-> _;")
     method = (b"pub unsafe fn " + METHOD + b"<T>(slot: *mut T)\n" +
               method_contract + body + b"\n\n")
-    pre = (b"req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() "
-           b"&*& *slot |-> ?value" +
+    pre = (b"req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*& *slot |-> ?value" +
            (b"" if variant == "missing_owner" else b" &*& <T>.own(t, value)") +
            b" &*& [?f](*frame |-> ?frame_value);")
-    retained = common + b" &*& *slot |-> _ &*& [f](*frame |-> frame_value)"
+    retained = probe_common + b" &*& *slot |-> _ &*& [f](*frame |-> frame_value)"
     post = b"ens " + (b"false" if variant == "false_normal_post" else retained) + b";"
     unwind = b"on_unwind_ens " + (
         b"false" if variant == "false_unwind_post" else retained) + b";"

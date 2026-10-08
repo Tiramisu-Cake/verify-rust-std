@@ -31,7 +31,7 @@ stock_home="$task_temp/verifast-26.10"
 source_home="$task_temp/source"
 patch_file="$repo/research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch"
 cfg_patch="$repo/research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch"
-printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
+printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link+h2a-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
 sha256sum "$patch_file" >> "$ev/environment.txt"
 stage download curl -fL --retry 2 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
 printf '%s  %s\n' 5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd "$stock_archive" | sha256sum -c -
@@ -50,7 +50,7 @@ stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
 stage cfg-patch-apply git -C "$source_home" apply "$cfg_patch"
-for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch; do
+for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch; do
  component_patch="$repo/research/challenge-8/$component"
  sha256sum "$component_patch" >> "$ev/environment.txt"
  stage "$(basename "$component" .patch)-check" git -C "$source_home" apply --check "$component_patch"
@@ -131,21 +131,16 @@ tuple_status=0
 stage tuple2-capture python3 research/challenge-8/overnight-callback/run-tuple2-own-cases.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/tuple2" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+800))" --cumulative-profile --release-support-home "$stock_home" --release-archive "$stock_archive" || tuple_status=$?
 generic_drop_status=0
 stage generic-pointer-drop-capture python3 research/challenge-8/overnight-guard/capture-generic-pointer-drop.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/generic-pointer-drop" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || generic_drop_status=$?
+guard_link_status=0
+stage generic-guard-linkage python3 research/challenge-8/overnight-guard/capture-guard-linkage.py --guard-root "$repo" --variants positive method_operand guard_operand --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/generic-guard-linkage" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || guard_link_status=$?
 guard_owner_status=0
 stage nominal-guard-owner-capture python3 research/challenge-8/overnight-guard/capture-guard-owner.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/guard-owner" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || guard_owner_status=$?
 sort4_status=0
 stage actual-sort4-memory-pre python3 research/challenge-8/overnight-sort4/capture.py --repo-root "$repo" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-sort4-memory-pre" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+900))" --memory-pre || sort4_status=$?
 copy_status=0
 stage scratch-copy-capture python3 research/challenge-8/overnight-memory/check-copy-scratch.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/scratch-copy" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || copy_status=$?
-# O13 changes only fixture preparation/contracts. Reuse O12 full S6 regression
-# only under exact seven-file byte identity; new semantic profiles restore matrix.
+# H2a changes the frontend profile: run a fresh full S6 regression.
 matrix_status=0
-python3 - "$ev/profile-hashes.json" "$ev/s6-regression-reuse.json" <<'REUSE' || matrix_status=$?
-import json,pathlib,sys
-actual=json.loads(pathlib.Path(sys.argv[1]).read_text())
-expected={'bin/verifast': 'f6cecf6916abe3dbcad130a5b04ee50826e57bf164eb97f11e6b88bfd7d755bb', 'bin/vf-rust-mir-exporter': 'b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796', 'bin/refinement-checker': 'b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28', 'bin/rust/std/lib.rsspec': 'd33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf', 'src/rust_frontend/vf_mir/vf_mir.capnp': 'f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469', 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml': '9eb7ae14c481482d98a5334ba8a5b725e5443c3f1760d0d352b4827035238fcc', 'src/rust_frontend/vf_mir_translator/rust_parser.ml': '7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2'}
-assert actual==expected,'O12 profile identity changed: fresh S6 regression required'
-pathlib.Path(sys.argv[2]).write_text(json.dumps({'profile_identity':actual,'evidence_run':37710354025,'proof_sha':'165659d0b350fc9622bf43d899ccbc6d98e778c4','matrix_summary_sha256':'362ab34d7ce6638f23ef6c447762020bda743f87669a51dac07e1849f06416a5','scope':'reuse completed eight-stage S6 regression only; extensions experimental'},indent=2)+'\n')
-REUSE
-printf 'constructor_linkage_stage=%s\nasptr_linkage_stage=%s\nintrinsic_drop_linkage_stage=%s\nactual_projection_stage=%s\nhelper_stage=%s\ng1_callee_stage=%s\ntuple2_stage=%s\ngeneric_drop_capture_stage=%s\nguard_owner_capture_stage=%s\nsort4_capture_stage=%s\ncopy_capture_stage=%s\ns6_matrix_stage=%s\ncombined_profile=EXPERIMENTAL_UNTIL_NEW_COMPONENT_ACCEPTANCE\n' "$linkage_status" "$asptr_status" "$intrinsic_drop_status" "$projection_status" "$helper_status" "$g1_callee_status" "$tuple_status" "$generic_drop_status" "$guard_owner_status" "$sort4_status" "$copy_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
-(( linkage_status == 0 && asptr_status == 0 && intrinsic_drop_status == 0 && projection_status == 0 && helper_status == 0 && g1_callee_status == 0 && tuple_status == 0 && generic_drop_status == 0 && guard_owner_status == 0 && sort4_status == 0 && copy_status == 0 && matrix_status == 0 ))
+stage s6-full-matrix python3 research/challenge-8/overnight-s6/accept-s6.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-full" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || matrix_status=$?
+printf 'constructor_linkage_stage=%s\nasptr_linkage_stage=%s\nintrinsic_drop_linkage_stage=%s\nactual_projection_stage=%s\nhelper_stage=%s\ng1_callee_stage=%s\ntuple2_stage=%s\ngeneric_drop_capture_stage=%s\nguard_link_capture_stage=%s\nguard_owner_capture_stage=%s\nsort4_capture_stage=%s\ncopy_capture_stage=%s\ns6_matrix_stage=%s\ncombined_profile=EXPERIMENTAL_UNTIL_NEW_COMPONENT_ACCEPTANCE\n' "$linkage_status" "$asptr_status" "$intrinsic_drop_status" "$projection_status" "$helper_status" "$g1_callee_status" "$tuple_status" "$generic_drop_status" "$guard_link_status" "$guard_owner_status" "$sort4_status" "$copy_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
+(( linkage_status == 0 && asptr_status == 0 && intrinsic_drop_status == 0 && projection_status == 0 && helper_status == 0 && g1_callee_status == 0 && tuple_status == 0 && generic_drop_status == 0 && guard_link_status == 0 && guard_owner_status == 0 && sort4_status == 0 && copy_status == 0 && matrix_status == 0 ))
