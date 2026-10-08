@@ -538,8 +538,10 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
         else:
             stack_stages["roles"] = 125
     if exporter == 0 and decoder == 0:
+        prover_args = ["-prover", args.prover] if args.prover else []
         verifier = run_stage(name, "verifast", [
             str(args.tool_home / "bin/verifast"), "-rustc_args", "--edition 2021",
+            *prover_args,
             "-verbose", "1", "-dump_ast_with_locs", "proof-ast.ml", "verified/lib.rs",
         ], case_dir, timeout_seconds=args.verifier_seconds, combine_output=True)
     else:
@@ -1030,6 +1032,8 @@ def main() -> int:
                         help="comma-separated fixture cases, or all (default)")
     parser.add_argument("--verifier-seconds", type=int, default=TIMEOUT_SECONDS,
                         help="per-case hosted verifier limit, at most 300 seconds")
+    parser.add_argument("--prover", choices=("Redux", "Z3v4.5"),
+                        help="explicit existing bundled backend; default remains console default")
     args = parser.parse_args()
     if not 1 <= args.verifier_seconds <= 300:
         raise RuntimeError("verifier limit must be between 1 and 300 seconds")

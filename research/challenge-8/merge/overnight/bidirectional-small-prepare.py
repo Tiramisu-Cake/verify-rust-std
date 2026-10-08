@@ -30,17 +30,11 @@ def load_module(name: str, path: Path):
 
 def option_stage_ghost() -> str:
     return r"""/*@
+pred bidirectional_small_optional_slot<T>(len: usize, slot: *mut T; old: option<T>) =
+    if len == 3 { *slot |-?-> old } else { old == none };
+
 fix bidirectional_small_option_same<T>(old_value: option<T>, new_value: option<T>) -> bool {
-    match old_value {
-        none => match new_value {
-            none => true,
-            some(ignored_new_payload) => false
-        },
-        some(old_payload) => match new_value {
-            none => false,
-            some(new_payload) => new_payload == old_payload
-        }
-    }
+    old_value == new_value
 }
 
 fix bidirectional_small_option_is_some<T>(value: option<T>) -> bool {
@@ -164,7 +158,7 @@ def bidirectional_contract23() -> str:
         "    *((v as *T) + 1) |-> ?source1 &*& <T>.own(t, source1) &*&",
         "    (if ptr_len(v) == 3 { *((v as *T) + 2) |-> ?source2 &*& <T>.own(t, source2) } else { true }) &*&",
         "    *dst |-?-> ?dst0 &*& *(dst + 1) |-?-> ?dst1 &*&",
-        "    (if ptr_len(v) == 3 { *(dst + 2) |-?-> ?dst2 } else { true }) &*&",
+        "    bidirectional_small_optional_slot::<T>(ptr_len(v), dst + 2, ?dst2) &*&",
         "    *is_less |-> ?f0 &*& <F>.own(t, f0);",
         "@*//*@",
         "ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&",
@@ -229,13 +223,13 @@ def insert_len23_invariant(body: str) -> str:
         "(if len == 3 { *(src + 2) |-> ?inv_source2 &*& <T>.own(t, inv_source2) } else { true }) &*& "
         "*is_less |-> ?inv_f &*& <F>.own(t, inv_f) &*& "
         "*dst |-?-> dst0 &*& *(dst + 1) |-?-> dst1 &*& "
-        "(if len == 3 { *(dst + 2) |-?-> dst2 } else { true }) &*& "
+        "bidirectional_small_optional_slot::<T>(len, dst + 2, dst2) &*& "
         "left == src &*& right == src + 1 &*& left_rev == src &*& "
         "right_rev == src + (len - 1) &*& dst_1 == dst &*& "
         "dst_rev == dst + (len - 1);\n"
         "            //@ { size_align::<T>(); if len == 3 { bidirectional_small_unwind_unchanged::<T>(len, dst0, dst1, dst2); } else { bidirectional_small_unwind_unchanged::<T>(len, dst0, dst1, none); } }\n"
         "            //@ { address_stride_aligned(src as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); open c1_one_pointer_domain::<T>(src as *mut T); open c1_one_pointer_domain::<T>((src + 1) as *mut T); open c1_one_pointer_domain::<T>(dst); open c1_one_pointer_domain::<T>(dst + 1); }\n"
-        "            //@ { address_stride_aligned(dst as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); if len == 3 { open c1_one_pointer_domain::<T>((src + 2) as *mut T); open c1_one_pointer_domain::<T>(dst + 2); } }\n"
+        "            //@ { address_stride_aligned(dst as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); open bidirectional_small_optional_slot::<T>(len, dst + 2, dst2); if len == 3 { open c1_one_pointer_domain::<T>((src + 2) as *mut T); open c1_one_pointer_domain::<T>(dst + 2); } }\n"
     )
     return body.replace(loop, loop + invariant, 1)
 

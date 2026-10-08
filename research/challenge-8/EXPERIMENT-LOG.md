@@ -5104,3 +5104,33 @@ controls are preservedbutexcluded fromrepeat; accepted compacttuples and
 all accepted math/resource/callee regressions remain. Nextdecision follows
 actualproofdiagnostic/ASTadmission independently. Currentcontinuation
 1348/7200,5852left; night3971/21600 andpre-night603/1800 separate.
+
+### M3l outcome and M3m prepared
+
+Proofb691c40681fbccf1c48f6e887214da9f0fbeeb93 /
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37757727697
+job11324630845909:35:40–09:42:01UTC381sSUCCESSdiagnosticmatrix; total1729/7200.
+Bothstacknormalrole+sameinputASTPASS14addresses/9MIR+12ASTmutants.
+All6parser/missingIDadmissionoraclesfullPASS+mutants, no permissions
+created. Fullstackglobaladmissionstillopenuntiltargetedaddress/resource
+controls. Stageframe+3checkedbodiesfullPASS, exactsuffixfalse41:79–81
+reacheduncalibrated. Len2actual119exec+normalreturn+paniccalleeunwind,
+30stimeout. Len23setupdst2scopeinvalid; bindthirdoldsnapshotviaexact
+optionalSlotpredicate, zeroresourcewhenlen2andold2none, oldthirdchunk
+whenlen3; posts unchanged. QuartetfullG2main360exec/120stimeout, complete
+layout23execPASS+exactfalse/mutantsPASS; all old acceptedbaselinesPASS.
+
+M3m beforedispatch: parameterID1negative andhostedtwo-passnormalID
+discovery/reexport fornamedRange/namedtuple/hiddenscalar. Gatepublishes
+onlystable rawID/type/VDI/source/spans; finalfrontendfailuremustmatchits
+ownTARGET16–30andexactpatchmessage, nooldIDguesses. ExistingASTgate
+remainsmandatory. Stagefalseoraclecalibrated79–81; optional-slotchecked
+syntaxcorrectedfromdeclarationsemicolon tocallcommas. Currentpanicmacro
+bodyexecutionclassifierconservatively0 (macrospansinsysroot), separate
+source/MIR/AST/logorigincertificateplanned; notcurrentacceptance.
+TracecandidateexistingbundledZ3plugin (TRACE-PROVER-DESIGN) nosemantic
+patch, same12fullposts andbody.180smax andmatchedZ3domain/layout/
+normal/unwind/false/deadcontrols mandatory. Actualdefaultbackend120s,
+allacceptedoldregressions unchanged. DecisionifZ3passesallgates accept
+separateconditionalG2component; ifbackendunsupported/timeouts keep
+INCandrefineproofqueries; allactualposts/source/resources retained.

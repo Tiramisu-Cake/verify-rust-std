@@ -37,6 +37,16 @@ current `F` value and owner. No destination `<T>.own` is introduced by the physi
 not derive source ownership from slice sharing, add a `Freeze`/purity premise,
 or constrain comparator answers or legal `FnMut` state effects.
 
+The conditional slot 2 is packaged in a total ghost predicate with one output
+option: when `len == 3` it owns exactly the slot-2 option chunk; when `len == 2`
+it carries the pure value `none` and no slot-2 resource. This makes the old
+third-slot snapshot available across contract clauses without adding physical
+permission in the two-element case. Opening this predicate at the existing
+body-entry ghost site exposes the real chunk only for `len == 3`.
+The caller side must close this predicate from the explicit third-slot option
+chunk for length three, or from the pure `none` fact for length two; this adds
+no permission and no destination owner.
+
 Normal completion retains current source-cell values and owners for the
 selected length, retains the current `F` value and owner, and makes every
 corresponding destination option `Some(_)`; it claims no ordering, permutation,
@@ -48,8 +58,9 @@ or destination owner. The three allowed unwind stages are exact:
    present option equals its captured old option.
 3. If the final ordering guard panics, every destination option is `Some(_)`.
 
-The named checked option relation must encode these three states by matching
-option constructors and equality against each old option. It must support
+The named checked option relation must encode these three states by exact
+option equality against each old option and explicit `Some` tests for writes.
+Its reflexivity lemma has a checked body over `None`/`Some` cases. It must support
 arbitrary old `None` and `Some` values. The no-write state and a write that
 happens to equal an already-`Some` old value can overlap as logical states;
 the relation still explicitly records the exact allowed snapshots. The odd

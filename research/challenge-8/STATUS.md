@@ -1,8 +1,8 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
-**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **1348/7200 job seconds**
-(204 + 209 + 55 + 130 + 224 + 266 + 260), осталось **5852/7200**. Ночная история **3971/21600** отдельно;
+**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **1729/7200 job seconds**
+(204 + 209 + 55 + 130 + 224 + 266 + 260 + 381), осталось **5471/7200**. Ночная история **3971/21600** отдельно;
 старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
 Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
 `77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`.
@@ -141,6 +141,21 @@ Usizetrusted-summary adapter/frame/boundaries3PASS and2exactfalse controlsPASS;
 actualup/down fullPASS116/120exec. M3l candidate same-input AST gate has12
 mutations, ghost-block/option discriminator repairs, calibratedquartetfalse,
 120s bound for trace; no new semantic patch.
+
+M3l /b691c406/run37757727697 job11324630845909:35:40–09:42:01UTC381s,
+diagnosticmatrixSUCCESS. Exact same-input normal-MIR→proof-AST gates **PASS**
+forlen2/len23:14addresses,9MIR+12ASTmutants,source/refinementunchanged.
+Sixsyntax/missingIDexactfrontendadmissioncontrols+mutantsPASS;parameter/
+source-named/scalarcontrols next; permissionprojections/fullprofileadmission
+remainseparate. Checkedpanic-stageframeand3lemmasfullPASS; suffix-onlyfalse
+reached41:79–81,notyetcalibrated. Actual len2 **119exec**, reachesnormalreturn
+andpanicbranchunwind;30stimeout,nofullproof. Actual len23 setup`dst2`scope
+refusal beforebody; exactoptionalSlot predicatecandidategloballybinds old2
+whilecarryingthirdchunkonlywhenlen3. G2quartetmain **360exec**,120stimeout;
+13helperbodiesPASS andcompleteconstructorpositive+falsecontrolfullPASS.
+Mergeup/downfullPASS116/120. NextM3m adds two-passfreshIDcontrols, exactstage
+negative, optional-slotrepair, andexistingpinnedZ3diagnostic withsamefulltrace
+source plus domain/layout/unwindnegativecontrols. Noactuallengtharbitraryproof.
 
 ---
 

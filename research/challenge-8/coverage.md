@@ -494,3 +494,11 @@ trustedprimitive. Stackexpectedcommentprepfailure, ASTOPEN125; actuallen2
 annotationparse andlen23matchpatternparse remainsetupfailures. Stagebase
 lemmafatalnestedSwitchExprNot_found isunsupported, notcounterexample.
 Continuation1348/7200,5852left. See M3l preparedcard; noadmissiontransfer.
+
+M3l/b691c406/run37757727697: sameinputMIR→ASTlinkagePASSforboth
+actualprofiles14addresses+12ASTmutants (9normalMIRmutants separately),
+6exactsyntax/missingIDfrontendcontrolsPASS. Wholeaddress/permission
+admission remainsseparate. Stageframe+3purecheckedlemmasfullPASS;
+suffixfalseintendedreacheduncalibrated. Actual len2119exec30stimeout
+afterreturn/panic;len23dst2scopeSETUP. G2quartet360exec120stimeout;
+constructor/fullnegativePASS; actualup/downfullPASS. Continuation1729/7200.

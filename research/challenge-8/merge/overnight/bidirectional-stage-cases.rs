@@ -49,6 +49,7 @@ pub unsafe fn bidirectional_stage_frame(dst0: *mut u32, dst1: *mut u32)
 // CASE_END bidirectional_stage_frame
 
 // CASE_BEGIN bidirectional_stage_wrong_suffix_negative
+// EXPECT_ERROR {"stage":"verifast","predicate":"bidirectional_unwind_options(uint32_t_typeid, none, none, none, some(7)) <==> true","line":"TARGET","column_start":79,"column_end":81}
 pub unsafe fn bidirectional_stage_wrong_suffix_negative()
 /*@ req true; @*/
 /*@ ens true; @*/
