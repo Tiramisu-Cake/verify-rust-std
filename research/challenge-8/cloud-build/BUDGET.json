@@ -5,7 +5,21 @@
   "remaining_build_seconds": 3600,
   "maximum_build_timeout_seconds": 1800,
   "active_build": null,
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-ba5e4b242fe64921ac4b2df72d706fcb",
+      "infra_sha": "24edc738f7eeb2db5ce1702b824968dab4df7542",
+      "proof_sha": "89e0a36f8df67bb2f66cf0564f497a0a4bad4aac",
+      "lane": "smoke-success",
+      "submitted_config_sha256": "0752f809e42f729b03be434b1d61c8912062e6d2abd7092db147c4e81d371c80",
+      "reserved_seconds": 240,
+      "timeout_seconds": 180,
+      "status": "NOT_CREATED_INVALID_ARGUMENT",
+      "accounted": true,
+      "build_seconds": 0,
+      "reason": "API rejects substitution values longer than4000bytes; repeated exactdispatchtoken lookupfound no Build; manually mistyped infra SHA also corrected before retry"
+    }
+  ],
   "historical_accounts_unchanged": {
     "overnight": 3094,
     "resumed": 1596,

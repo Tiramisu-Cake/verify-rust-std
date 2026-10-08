@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
-import argparse,base64,datetime,hashlib,json,math,os,re,subprocess,sys,uuid
+import argparse,base64,datetime,gzip,hashlib,json,math,os,re,subprocess,sys,uuid
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -21,7 +21,7 @@ def invoke(args):
  if p.returncode:raise RuntimeError(p.stderr.strip())
  return json.loads(p.stdout) if p.stdout.strip() else None
 
-def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}','SUBMITTED_CONFIG_B64=${_CONFIG_B64}']
+def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
 
 def config(infra,proof,lane,seconds,token):
  work_seconds=seconds-70
@@ -48,7 +48,7 @@ def config(infra,proof,lane,seconds,token):
  elif lane=='smoke-timeout':work="printf 'INTERNAL_TIMEOUT_START\\n'; timeout --signal=TERM --kill-after=1s 2s bash -c 'sleep 30'"
  body='''set -euo pipefail
 mkdir -p /workspace/evidence
-printf '%s' "$SUBMITTED_CONFIG_B64" | base64 --decode > /workspace/evidence/submitted-config.json
+printf '%s%s%s%s%s%s%s%s' "$CONFIG_PART_0" "$CONFIG_PART_1" "$CONFIG_PART_2" "$CONFIG_PART_3" "$CONFIG_PART_4" "$CONFIG_PART_5" "$CONFIG_PART_6" "$CONFIG_PART_7" | base64 --decode | gzip --decompress > /workspace/evidence/submitted-config.json
 printf '%s  %s\\n' "$SUBMITTED_CONFIG_SHA" /workspace/evidence/submitted-config.json | sha256sum -c -
 { uname -a; nproc; cat /etc/os-release; cat /proc/meminfo; if test -f /sys/fs/cgroup/memory.max; then cat /sys/fs/cgroup/memory.max; fi; } > /workspace/evidence/environment.txt
 export SMALLSORT_DEADLINE_EPOCH=$(( $(date +%s) + WORK_SECONDS - 15 ))
@@ -93,7 +93,7 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':'python3','args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder','_CONFIG_B64':'placeholder'}}
+ return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':'python3','args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)}}}
 
 def reconcile(state,ledger):
  for item in ledger['builds']:
@@ -124,6 +124,7 @@ def main():
  if a.command=='submit':
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
+   subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])
   if ongoing or ledger['active_build']:raise SystemExit('Queued/active or unresolved build: monitor/reconcile first')
   # queue envelope is reserved too, respecting phase/per-build ceiling.
@@ -131,10 +132,13 @@ def main():
   token='dispatch-'+uuid.uuid4().hex
   cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token);raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
   item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING'};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
-  cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--substitutions=_CONFIG_SHA='+h+',_CONFIG_B64='+base64.b64encode(raw).decode(),'--format=json','--quiet']
+  compressed=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
+  if len(compressed)>8*3500:raise SystemExit('Submitted config exceeds evidence transport limit; no dispatch')
+  substitutions='_CONFIG_SHA='+h+','+','.join(f'_CONFIG_{i}='+compressed[i*3500:(i+1)*3500] for i in range(8))
+  cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--substitutions='+substitutions,'--format=json','--quiet']
   try:b=invoke(cmd)
   except Exception as e:
-   print('Dispatch response uncertain/error:',str(e),file=sys.stderr)
+   print('Dispatch response uncertain/error:',str(e).split('substitution value')[0][:400],file=sys.stderr)
    matches=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json'])
    if len(matches)!=1:raise SystemExit('No unique build resolved. Pending dispatch retained; lookup token before any retry: '+token)
    b=matches[0]
