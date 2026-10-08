@@ -87,7 +87,7 @@ def main() -> None:
         # the full normal and unwind posts expose the next lifetime-cut debt.
         verified = verified.replace("    unsafe {\n",
             "    //@ let cmp_k = begin_lifetime();\n    unsafe {\n"
-            "        /*@ let_lft 'cmp = cmp_k; @*/\n"
+            "        //@ let_lft 'cmp = cmp_k;\n"
             "        //@ close_full_borrow_content::<T>(t, left_src as *T);\n"
             "        //@ borrow(cmp_k, <T>.full_borrow_content(t, left_src as *T));\n"
             "        //@ share_full_borrow::<T>(cmp_k, t, left_src as *T);\n"
@@ -104,8 +104,7 @@ def main() -> None:
             "        //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);\n"
             "        //@ open [?right_ref_frac]ref_initialized_::<T>(right_ref)();\n"
             "        //@ close_ref_own::<'cmp, T>(right_ref);\n"
-            "        /*@ close <(&'cmp T, &'cmp T)>.own(t,\n"
-            "                std_tuple_2_::<&'cmp T, &'cmp T> { 0: right_ref, 1: left_ref }); @*/\n", 1)
+            "        //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: right_ref, 1: left_ref });\n", 1)
         if strip(verified) != original:
             raise RuntimeError(f"ghost stripping changes actual runtime source: {name}")
         record["cases"][name] = {"source_line": source[:start].count("\n") + 1,

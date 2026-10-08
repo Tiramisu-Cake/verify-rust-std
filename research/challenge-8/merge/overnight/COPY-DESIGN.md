@@ -195,3 +195,24 @@ storage.
 
 No source/spec patch, runner, verifier, build, or executable test was changed
 or run while preparing this design note.
+
+## C1 source-call lowering revision BEFORE implementation
+
+Static self-review of f760 `verifast1.ml` IfExpr assertion type-checking shows
+precondition branch-local pattern bindings are not exported into the postcondition
+environment. Thus the original conditional f/v/vs contract is not admissible
+syntax/type semantics; do not obtain a result by assuming branch variables.
+Use a separate trusted synthetic primitive with unconditional count1, positive
+size and all previously stated bounds/resources. Lower only a canonical actual
+std::ptr::copy_nonoverlapping call with an AST integer literal count exactly1
+through the existing FnCallOutcome machinery to that primitive; source generic
+T and all three runtime arguments remain matched. Other counts/nonliteral
+calls retain the pinned initialized-array primitive. This is a named additional
+C1 translator dependency, not an assertion that its runtime implementation was
+verified. Source-body identity/refinement establish the actual call location;
+the synthetic primitive's trusted correspondence is explicit. Literal count1
+ZST is rejected by positive-size domain, and remains an explicit separate
+obligation; do not describe its stock contract as retained in this candidate.
+Full positive/negative matrix and count0/count2 compatibility required before
+admission; old-profile ZST comparison can remain independent. No kernel,
+exporter, refiner, parser, memory predicate or pointer permissions extension.

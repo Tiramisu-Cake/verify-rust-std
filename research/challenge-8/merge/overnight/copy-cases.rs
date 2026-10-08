@@ -198,14 +198,15 @@ pub unsafe fn copy_two_count_uses_old_initialized_array_contract(src: *mut u8, d
 }
 // CASE_END copy_two_count_uses_old_initialized_array_contract
 
-// CASE_BEGIN copy_zst_uses_old_initialized_array_contract
-pub unsafe fn copy_zst_uses_old_initialized_array_contract(src: *mut CopyControlZst, dst: *mut CopyControlZst)
+// CASE_BEGIN copy_zst_count_one_mapping_boundary_calibration
+pub unsafe fn copy_zst_count_one_mapping_boundary_calibration(src: *mut CopyControlZst, dst: *mut CopyControlZst)
 /*@ req 0 < src as usize &*& 0 < dst as usize &*&
     src[..1] |-> ?values &*& dst[..1] |-> _; @*/
 /*@ ens 0 < src as usize &*& 0 < dst as usize &*&
     src[..1] |-> values &*& dst[..1] |-> values; @*/
 /*@ on_unwind_ens false; @*/
 {
+    // TARGET: support-only mapping calibration; no acceptance claim for ZSTs.
     core::ptr::copy_nonoverlapping(src, dst, 1);
 }
-// CASE_END copy_zst_uses_old_initialized_array_contract
+// CASE_END copy_zst_count_one_mapping_boundary_calibration

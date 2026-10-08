@@ -146,6 +146,11 @@ suite() {
     --scope 'generic callback real loan protocol; full refreshed-value normal/unwind posts; no actual-source claim' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/callback-borrow-cases.rs --evidence "$evidence/checked-callback-borrow"
+  run_one prepared-hrtb-diagnostics 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --scope 'prepared real loans at exact HRTB FnMut call; full normal/unwind resources; wrong F/T/owner controls remain calibration' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/hrtb-prepared-cases.rs --evidence "$evidence/checked-hrtb-prepared"
   run_one copy-model-diagnostics 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-v1 \
     --scope 'trusted one-element positive-size option destination copy; full initializedness/value and single source owner/frame targets; generic invalid bytes/ZST excluded' \
@@ -181,7 +186,7 @@ suite() {
   if [[ -f "$evidence/actual-cases.rs" ]]; then
     run_one actual-callee-applicability 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
       --profile experimental-merge-wrapping-callback-copy-v1 \
-      --scope 'unchanged actual merge_up/down diagnostic with full normal/unwind targets; distinct source initialized destination; loan setup remains deliberately absent' \
+      --scope 'unchanged actual merge_up/down diagnostic with full normal/unwind targets; distinct source initialized destination; genuine loan setup and open lifetime recovery' \
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/actual-cases.rs" --evidence "$evidence/checked-actual"
   fi

@@ -4208,3 +4208,39 @@ admitting any substantial new component. All patches separatelyhashed; kernel,
 exporter/refiner/schema unchanged. Actual callbackresourcefirstfailures remain
 fulltargetposts; sourcecaller must establish this restricted scratchdomain before
 usingtheprimitive summary. Countallhostedjobs/setup/build/artifacttime;1800jobcap.
+
+### W2d/M2d/C1a outcome and C1 lowering reassessment
+
+Run37704088126/source9c1988efdf5d09e071aab08d7f314f39d6b1ac14,
+job113074204030,23:45:57–23:48:58UTC=181seconds; cumulative1158/21600.
+Full artifacts/log audit: G2/A/B/nativePASS; everyRuststage export/decode/refine
+still0, VF blocked BEFORE body by newcopy.rsspec ParseError634:5–8 (`req`
+inside ghostdecl block). No Rustnew/negative/control acceptance under C1. Prior
+accepted/checked profiles unaffected. Actualpreparation separately source-byte
+gate rejected added block-comment whitespace; whole-lineannotations fix this
+without runtime changes. Original failure preserved, no calleeproofrunclaimed.
+Copy annotation format corrected, then static semantic typechecker review found
+branch-local existential variables do not escape IfExpr precondition. Revised
+C1 design in COPY-DESIGN BEFORE implementation: unconditional separate synthetic
+trusted count1positive-size primitive with exact literal1 stdcall lowering.
+All original numeric/resource/value/frame/noown conditions unchanged. Other
+counts/nonliteral staystock; literal1ZST nowexplicitunsupported in this staged
+profile, separatetargetremainsOPEN. Full combinedmatrix beforeadmission. Need
+newsourcebuild/hash/run. No speculativekernel or ownershipaxiom introduced.
+
+### C1b/W2e/M2e BEFORE
+
+Reviewed synthetic C1 lowering guard: exact canonical intrinsic name, exactly
+three operands, translated literal integer1 (optionally its existing cast),
+unchanged operands/type arguments and ordinary FnCallOutcome path. Stock copy
+specification unchanged; no dynamic count rewrite or memory ownership creation.
+Patch SHA2560f1b65503d12affc3b45338304b64ebc85298034a23d83a814a4a8408966d518.
+Fresh full matrix tests C1 count1 option destination, count0/count2 stock controls,
+calibrated missing resources/nonoverlap/alignment/duplicate-owner rejections.
+Prepared HRTB genuine loan fixtures isolate the output typing gate from missing
+reference resources. Full normal/unwind targets and source trace targets retained.
+Actual source ghost-strip whitespace repaired; same pinned runtime bytes required.
+Expected first failures now at actual borrow/callback/lifetime recovery or checked
+trace lemmas, not global specification parsing. Outcome determines next local
+protocol correction or a separately designed strict cleanup extension. Combined
+profile remains experimental; no positive/negative claim before complete audit.
