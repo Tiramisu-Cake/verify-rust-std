@@ -87,6 +87,8 @@ MATRIX = {
             "source": ["F: core::ops::FnMut(&'cmp T, &'cmp T) -> bool,",
                        "compare/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"],
             "decoded_output": "bool",
+            # Declaration-level type equality, not call-site registration.
+            "ast_registration_nodes": ["verified/lib.rs(8,1-14,51)"],
             "calls": [["verified/lib.rs(19,13-70)", 0, "F", ["T", "T"], ["'cmp", "'cmp"], "'cmp", 0]],
         },
         "hrtb_bound_must_stay_with_its_body": {
@@ -94,6 +96,9 @@ MATRIX = {
             "call_body": "hrtb_unrelated_body_call",
             "source": ["F: for<'a, 'b> core::ops::FnMut<(&'a T, &'b T), Output = bool>,",
                        "callback/*@::<G, (), 'static>@*/"],
+            # A declaration equality for the separate source-bound function;
+            # the unrelated body's call remains unregistered.
+            "ast_registration_nodes": ["verified/lib.rs(17,1-88)"],
             "calls": [["verified/lib.rs(22,13-47)", 0, "G", [], [], "'static", 0]],
         },
     },
@@ -193,6 +198,8 @@ def ast_call_args(ast: str, location: str) -> tuple[str | None, list[str], list[
     types = re.findall(r'IdentTypeExpr \(loc "[^"]+", None, "([^\"]+)"\)', tuple_part)
     all_types = re.findall(r'IdentTypeExpr \(loc "[^"]+", None, "([^\"]+)"\)', node)
     lifetimes = [value for value in all_types if value.startswith("'")]
+    static_lifetimes = re.findall(r'ManifestTypeExpr \(loc "[^"]+", StaticLifetime\)', node)
+    lifetimes.extend(["'static"] * len(static_lifetimes))
     tuple_types = [value for value in types if not value.startswith("'")]
     return (f_match.group(1) if f_match else None), tuple_types, lifetimes
 
@@ -232,16 +239,30 @@ def decode_case_check(spec: dict, decoded: str, case: str,
     fnmut_clause = fnmut_clause[:fnmut_end] if fnmut_end >= 0 else fnmut_clause
     if ('param = "F"' not in fnmut_clause or fnmut_clause.count('param = "T"') != 2):
         return False
-    if "decoded_output" not in spec:
-        return ('term = (\n              ty = (kind = (bool = void))' in clauses)
-    expected_output = spec["decoded_output"]
+    expected_output = spec.get("decoded_output", "bool")
     if expected_output is None:
-        return "projection = (" not in clauses
+        return not any('defId = "std::ops::FnOnce::Output"' in section
+                       for section in re.split(r"\(\s*projection\s*=\s*\(", clauses)[1:])
+    if expected_output not in ("bool", "u8"):
+        return False
+    output_sections = [section for section in
+                       re.split(r"\(\s*projection\s*=\s*\(", clauses)[1:]
+                       if 'defId = "std::ops::FnOnce::Output"' in section]
+    if len(output_sections) != 1:
+        return False
+    output_section = output_sections[0]
+    projection_args = output_section.split("term =", 1)[0]
+    if ('defId = "std::ops::FnOnce::Output"' not in projection_args or
+            projection_args.count('param = "F"') != 1 or
+            projection_args.count('param = "T"') != 2):
+        return False
+    if region_literal not in output_section:
+        return False
     if expected_output == "bool":
-        return 'term = (\n              ty = (kind = (bool = void))' in clauses
-    if expected_output == "u8":
-        return 'term = (\n              ty = (kind = (uInt = (u8 = void))' in clauses
-    return False
+        return re.search(r"term\s*=\s*\(\s*ty\s*=\s*\(\s*kind\s*=\s*\(\s*bool\s*=\s*void",
+                         output_section) is not None
+    return re.search(r"term\s*=\s*\(\s*ty\s*=\s*\(\s*kind\s*=\s*\(\s*uInt\s*=\s*\(\s*u8\s*=\s*void",
+                     output_section) is not None
 
 
 def classify(spec: dict, evidence: dict) -> dict:
@@ -286,7 +307,10 @@ def classify(spec: dict, evidence: dict) -> dict:
         if registered:
             expected_regs.append(location)
     actual_regs = REGISTER_RE.findall(ast)
-    if actual_regs != expected_regs:
+    expected_ast_regs = spec.get("ast_registration_nodes", expected_regs)
+    if not set(expected_regs).issubset(set(expected_ast_regs)):
+        failures.append("matrix_call_registration_expectation")
+    if actual_regs != expected_ast_regs:
         failures.append("registration_ast_nodes")
     if not evidence["fixture_source_matches"]:
         failures.append("source_fixture_hash_or_fragment")
@@ -307,7 +331,8 @@ def classify(spec: dict, evidence: dict) -> dict:
     return {"status": "ADMISSION_CERTIFICATE" if not failures else "INCONCLUSIVE",
             "failures": failures, "expected_call_locations": [call[0] for call in expected_calls],
             "observed_call_locations": observed_call_locs,
-            "expected_registration_locations": expected_regs,
+            "expected_call_registration_locations": expected_regs,
+            "expected_registration_locations": expected_ast_regs,
             "observed_registration_locations": actual_regs}
 
 

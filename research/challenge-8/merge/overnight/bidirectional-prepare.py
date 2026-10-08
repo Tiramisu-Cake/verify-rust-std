@@ -190,11 +190,11 @@ fix bidirectional_unwind_options<T>(dst0: option<T>, dst1: option<T>, partial0: 
 
 def panic_contract() -> str:
     return """/*@
-req true;
+req thread_token(?t);
 @*//*@
 ens false;
 @*//*@
-on_unwind_ens true;
+on_unwind_ens thread_token(t);
 @*/"""
 
 

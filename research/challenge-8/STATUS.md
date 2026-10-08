@@ -3,13 +3,13 @@
 Авторизовано владельцем до 09:30 МСК 2026-10-08 (06:30 UTC).
 Ветка `overnight/merge-26.10`, entry `b0af5613`.
 [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Ночной бюджет **3531/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
+Ночной бюджет **3801/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
 Первый actual callee proof [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
 proof `5bbd2ef2613106fdc38bd8aeea930cf344390275`, job113099112654,206seconds.
-Последний [37715432190](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37715432190),
-proof `6ddfd1999991478bdc511546afe5b21e4997e878`, job113110699144,
-200seconds. Job FAIL из-за HRTB admission classifier None-mutation;
-исправлено, новые classifier controls требуют fresh run. Нет активного run.
+Последний [37716179905](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37716179905),
+proof `4c7177b16fcc91cf86039fc862c833b607f28e39`, job113113037622,
+270seconds. Job FAIL: HRTB admission classifier три schema mismatches;
+исправлено, complete controls требуют fresh run. Нет активного run.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS впервые.
@@ -30,10 +30,11 @@ layout цели OPEN,2reentry PASS; symbolic zero size PASS.
 Полный G2 pointer trace OPEN:14checked bodies, helpers PASS, main loop
 требует сохранения геометрии n=2m+e; без ослабления posts.
 Caller C1 domain OPEN: nat induction требует checked nonnegative lemma.
-Two-hole generic/current-u32 restore full PASS; old-values/frame helper и
-два intended resource negatives требуют fresh calibration run.
-Exact bidirectional source/strip/assume admission PASS; body НЕ ВХОДИЛ
-из-за pure-pattern синтаксиса staged unwind relation, исправлено fixpoint.
+Two-hole owned-array: все3 positive и2 intended negatives+mutants full PASS.
+Exact bidirectional source/strip/assume admission PASS; actualpanic helper
+требует stockformatter thread_token. Контракт исправлен с unwind preservation.
+Trace loop+terminalgeometry доходят до finalaggregate, ADTreturnchunksfailed;
+теперь stocktuple2 tree без localADT/helper exceptions, NOT RUN.
 [Ресурсный дизайн](merge/overnight/M3-RESOURCE-DESIGN.md) сохраняет
 current owners и все option scratch cells на panic; Freeze snapshot/functional
 bridge отдельно OPEN. Следующий шаг — fresh full hosted matrix этих зависимостей,

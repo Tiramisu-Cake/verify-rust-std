@@ -16,8 +16,8 @@ must contain the actual `merge_up`, `merge_down`, `bidirectional_merge`, and
 drop callees. The first two keep their
 already accepted bounded C1 and callback-cleanup contracts; neither call may
 be replaced with a bodyless summary. Runtime stripping must reproduce all three
-merge bodies byte-for-byte. The panic callee carries only `req true`, normal
-`ens false`, and unwind `true`, justified by its exact unconditional panic
+merge bodies byte-for-byte. The panic callee carries only `req thread_token(?t)`, normal
+`ens false`, and unwind `thread_token(t)`, justified by its exact unconditional panic
 body; no termination assumption is added. A local empty `FreezeMarker` declaration is a
 signature adapter checked against the exact repository trait declaration; it
 has no blanket implementation and grants no purity or functional property.
@@ -105,3 +105,9 @@ No fixture is accepted from frontend setup failure, unrelated helper failure,
 unsupported syntax, a weakened postcondition, a removed source branch, or an
 unintended dead-code result. The first hosted iteration is diagnostic until
 every stage and predicate above is established.
+
+Run37716179905 parsed all contracts and checked actualup/down before entering
+actualpanic helper. Stock `fmt::Arguments::from_str` requires a thread token
+(2077:17–29); requiring it and returning it on unwind preserves the actual
+stock `panic_fmt` protocol. Caller already owns that token. This is a callee
+contract repair, not a panic summary bypass or verifier semantic extension.

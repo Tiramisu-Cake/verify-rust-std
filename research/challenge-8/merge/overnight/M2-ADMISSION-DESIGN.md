@@ -111,6 +111,10 @@ integrity and exit record, and full artifact hashes. Its matrix requires the
 exact two-call Boolean case to register twice; wrong output, unconstrained
 output, one-region bounds, wrong ghost F/T, unequal ghost lifetimes, and a
 sibling-body bound each have an explicit expected registration result. The
+AST certificate distinguishes registrations at actual call sites from
+declaration-level output-equality nodes. The single-region signature and the
+separate sibling-bound function have predeclared declaration-node locations;
+these do not count as registration at their unrelated marked calls. The
 prepared resource cases are certificates only: their proof classifications
 are copied separately and remain `INCONCLUSIVE` unless their own full proof
 gate says otherwise. The prepared missing-comparator-owner case is excluded
@@ -123,6 +127,17 @@ classifier now mutates registered records to a forged numeric count and flips
 the explicit unregistered count, while the positive registered case derives
 its single eligible bound only when the exact source-bound record and decoded
 MIR clause both match. The run's original proof outcomes remain inconclusive.
+
+Run 37716179905 reached all 11 matrix rows but left three admission rows
+inconclusive: the MIR output parser assumed one whitespace layout for `u8`,
+the one-region source bound emitted a declaration-level equality at
+`verified/lib.rs(8,1-14,51)`, and the sibling-bound fixture emitted its separate
+declaration equality at `verified/lib.rs(17,1-88)` while the call itself stayed
+unregistered. Its AST represents `'static` with `ManifestTypeExpr(...,
+StaticLifetime)`, rather than an identifier node. The classifier now checks the
+associated-output projection structurally, declares those two non-call AST
+locations separately, and parses that lifetime form. Proof statuses from this
+run remain `INCONCLUSIVE`; a fresh hosted run must confirm all controls.
 
 Hosted run 37713243201 currently records two registrations at the Boolean
 two-call fixture's distinct source locations and one at the prepared positive;

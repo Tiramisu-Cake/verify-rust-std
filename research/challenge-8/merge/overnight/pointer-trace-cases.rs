@@ -7,20 +7,17 @@
 // this projection: stride is explicitly positive.
 
 // CASE_BEGIN g2_pointer_trace_projection
-pub struct G2PointerTrace<T> {
-    pub left: *const T,
-    pub right: *const T,
-    pub dst: *mut T,
-    pub left_rev: *const T,
-    pub right_rev: *const T,
-    pub dst_rev: *mut T,
-    pub left_end: *const T,
-    pub right_end: *const T,
-    pub forward_left_count: usize,
-    pub reverse_right_count: usize,
-    pub odd_left_advance: bool,
-    pub residual_guard: bool,
-}
+// Type alias only: keep the terminal trace as a balanced tree of stock tuple-2
+// products, avoiding local-ADT-generated Send/Sync/padding helper obligations.
+// Leaf order: eight pointers (left, right, dst, left_rev, right_rev, dst_rev,
+// left_end, right_end), two counts, odd-left choice, residual guard.
+pub type G2PointerTrace<T> = (
+    (
+        ((*const T, *const T), (*mut T, *const T)),
+        ((*const T, *mut T), (*const T, *const T)),
+    ),
+    ((usize, usize), (bool, bool)),
+);
 
 /*@
 fix trace_source_pointer(p: pointer, i: i32, s: i32) -> pointer {
@@ -382,37 +379,37 @@ req 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
     [?fu]up_choices[..m] |-> ?up_values &*&
     [?fd]down_choices[..m] |-> ?down_values;
 @*//*@
-ens result.forward_left_count == trace_true_prefix(up_values, m) &*&
-    result.reverse_right_count == trace_true_prefix(down_values, m) &*&
-    result.forward_left_count <= m &*& result.reverse_right_count <= m &*&
-    result.left as pointer == trace_source_pointer(
-        src as pointer, result.forward_left_count +
-            (if result.odd_left_advance { 1 } else { 0 }),
+ens result.1.0.0 == trace_true_prefix(up_values, m) &*&
+    result.1.0.1 == trace_true_prefix(down_values, m) &*&
+    result.1.0.0 <= m &*& result.1.0.1 <= m &*&
+    result.0.0.0.0 as pointer == trace_source_pointer(
+        src as pointer, result.1.0.0 +
+            (if result.1.1.0 { 1 } else { 0 }),
         std::mem::size_of::<T>()) &*&
-    result.right as pointer == trace_source_pointer(
-        src as pointer, 2 * m - result.forward_left_count +
-            (if e == 1 && !result.odd_left_advance { 1 } else { 0 }),
+    result.0.0.0.1 as pointer == trace_source_pointer(
+        src as pointer, 2 * m - result.1.0.0 +
+            (if e == 1 && !result.1.1.0 { 1 } else { 0 }),
         std::mem::size_of::<T>()) &*&
-    result.left_rev as pointer == trace_source_pointer(
-        src as pointer, result.reverse_right_count - 1, std::mem::size_of::<T>()) &*&
-    result.right_rev as pointer == trace_source_pointer(
-        src as pointer, n - 1 - result.reverse_right_count, std::mem::size_of::<T>()) &*&
-    result.dst as pointer == trace_destination_pointer(
+    result.0.0.1.1 as pointer == trace_source_pointer(
+        src as pointer, result.1.0.1 - 1, std::mem::size_of::<T>()) &*&
+    result.0.1.0.0 as pointer == trace_source_pointer(
+        src as pointer, n - 1 - result.1.0.1, std::mem::size_of::<T>()) &*&
+    result.0.0.1.0 as pointer == trace_destination_pointer(
         dst_base as pointer, m, std::mem::size_of::<T>()) &*&
-    result.dst_rev as pointer == trace_destination_pointer(
+    result.0.1.0.1 as pointer == trace_destination_pointer(
         dst_base as pointer, n - 1 - m, std::mem::size_of::<T>()) &*&
-    result.left_end as pointer == trace_source_pointer(
-        src as pointer, result.reverse_right_count, std::mem::size_of::<T>()) &*&
-    result.right_end as pointer == trace_source_pointer(
-        src as pointer, n - result.reverse_right_count, std::mem::size_of::<T>()) &*&
-    result.odd_left_advance ==
-        (e == 1 && result.forward_left_count < result.reverse_right_count) &*&
-    result.residual_guard ==
-        (result.forward_left_count +
-            (if result.odd_left_advance { 1 } else { 0 }) != result.reverse_right_count ||
-         2 * m - result.forward_left_count +
-            (if e == 1 && !result.odd_left_advance { 1 } else { 0 }) !=
-                n - result.reverse_right_count) &*&
+    result.0.1.1.0 as pointer == trace_source_pointer(
+        src as pointer, result.1.0.1, std::mem::size_of::<T>()) &*&
+    result.0.1.1.1 as pointer == trace_source_pointer(
+        src as pointer, n - result.1.0.1, std::mem::size_of::<T>()) &*&
+    result.1.1.0 ==
+        (e == 1 && result.1.0.0 < result.1.0.1) &*&
+    result.1.1.1 ==
+        (result.1.0.0 +
+            (if result.1.1.0 { 1 } else { 0 }) != result.1.0.1 ||
+         2 * m - result.1.0.0 +
+            (if e == 1 && !result.1.1.0 { 1 } else { 0 }) !=
+                n - result.1.0.1) &*&
     [fu]up_choices[..m] |-> up_values &*&
     [fd]down_choices[..m] |-> down_values;
 @*//*@
@@ -461,24 +458,7 @@ on_unwind_ens false;
             right_rev as pointer == trace_source_pointer(src as pointer, n - 1 - d, std::mem::size_of::<T>()) &*&
             dst as pointer == trace_destination_pointer(dst_base as pointer, k, std::mem::size_of::<T>()) &*&
             dst_rev as pointer == trace_destination_pointer(dst_base as pointer, n - 1 - k, std::mem::size_of::<T>()) &*&
-            // The Rust MIR return local is compiler-created (`_0`) and has
-            // no source-level binding.  Existentially frame its exact
-            // uninitialized aggregate resources so the final aggregate
-            // construction can consume them after the loop.
             lifetime_token(func_lft) &*&
-            struct_G2PointerTrace_padding::<T>(?return_addr) &*&
-            G2PointerTrace_left_::<T>(return_addr, ?return_left) &*&
-            G2PointerTrace_right_::<T>(return_addr, ?return_right) &*&
-            G2PointerTrace_dst_::<T>(return_addr, ?return_dst) &*&
-            G2PointerTrace_left_rev_::<T>(return_addr, ?return_left_rev) &*&
-            G2PointerTrace_right_rev_::<T>(return_addr, ?return_right_rev) &*&
-            G2PointerTrace_dst_rev_::<T>(return_addr, ?return_dst_rev) &*&
-            G2PointerTrace_left_end_::<T>(return_addr, ?return_left_end) &*&
-            G2PointerTrace_right_end_::<T>(return_addr, ?return_right_end) &*&
-            G2PointerTrace_forward_left_count_::<T>(return_addr, ?return_forward_left_count) &*&
-            G2PointerTrace_reverse_right_count_::<T>(return_addr, ?return_reverse_right_count) &*&
-            G2PointerTrace_odd_left_advance_::<T>(return_addr, ?return_odd_left_advance) &*&
-            G2PointerTrace_residual_guard_::<T>(return_addr, ?return_residual_guard) &*&
             [fu]up_choices[..m] |-> up_values &*&
             [fd]down_choices[..m] |-> down_values;
         @*/
@@ -586,19 +566,10 @@ on_unwind_ens false;
     /*@ assert (left == left_end) == (a + (if odd_left_advance { 1 } else { 0 }) == d); @*/
     /*@ assert (right == right_end) == (2 * m - a + (if e == 1 && !odd_left_advance { 1 } else { 0 }) == n - d); @*/
     let residual_guard = left != left_end || right != right_end;
-    G2PointerTrace {
-        left,
-        right,
-        dst,
-        left_rev,
-        right_rev,
-        dst_rev,
-        left_end,
-        right_end,
-        forward_left_count: a,
-        reverse_right_count: d,
-        odd_left_advance,
-        residual_guard,
-    }
+    (
+        (( (left, right), (dst, left_rev) ),
+         ( (right_rev, dst_rev), (left_end, right_end) )),
+        ((a, d), (odd_left_advance, residual_guard)),
+    )
 }
 // CASE_END g2_pointer_trace_projection

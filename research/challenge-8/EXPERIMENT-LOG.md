@@ -4621,3 +4621,39 @@ stage/location/predicate with failclosedmutants. Bidir len2 remains restricted
 diagnostic; next required arithmetic/iterator/resource dependency will get brief
 trustdesign+review before implementation. Freeze directbyte design recorded
 separately; no share-to-own or snapshot primitive implemented.
+
+
+### M3e run37716179905 / proof4c7177b1 — 2026-10-08
+
+Sole job113113037622 02:05:51–02:10:21 UTC,270seconds; cumulative3801/21600.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37716179905).
+Full ownedarray3positive+2intended resource negatives+failclosedmutants PASS;
+M2tuple resource positive+4negative PASS; cleanup/C1/W1/G2/A/B/actualup/down
+repeatPASS. HRTBcert completes but3 exact schema gates reject: u8Output
+whitespace, single-region declaration equality, sibling declaration+StaticLifetime
+AST. OriginalINCONCLUSIVE preserved; classifier distinguishes declarationfrom
+callregistration andmatches exactoutput/type/region. Freshcontrolsrequired.
+Domaincheckednatlemma56 successor equality unsupported by opaque stockint_of_nat;
+reassessment uses checked liststride induction with stocklength_repeat and
+inverseint_of_nat_of_int, no newaxiom/premise. Trace loop+allterminalgeometry
+reach finalaggregate588; existentialreturnaddress driftsfromactual$_0_addr.
+Preferred adapterremodel nestedstocktuple2 tree removes localADT andits9
+stockassumefalseauxiliaries, no classifier exemption. Func lifetime token retained.
+Bidir source/assume exactcontrolsPASS; actualpanichelper enters afterchecked
+actualup/down, stockformatter2077 requires thread_token: contractnowrequires
+andreturns itonunwind, normalfalse retained. No actualbidir successclaim.
+
+### BEFORE M3f resource/trace/cold-cache matrix
+
+Same fixed W1/M2/C1/cleanup semanticpatch chain, exactsourceblob40939f92.
+Newscratchoption resource algebra3positive+3uncalibratedtargets, actualslots
+providedcurrentoptionvalues: no ghostwrites or Towner creation. Trace nested
+tuples keepall12associations+14checkedbodies, noauxwhitelist; domainlistalignment
+fullpostsunchanged. HRTB11admissioncontrols+allmutants mustfullPASS. Bidiractual
+paniccallee completebody/return/leak/unwindgate with explicitthreadresource.
+Sourceconsolecache trustsONLY alreadyadmitted3a08722c bytes; freshsource/patch/
+prelude/toolchain/Z3/export/refiner checks andldd retained, sourceprofileSHA
++producerActionsSHA+exactmanifest, invalidcache=>recordedcoldbuild. Firstcold
+runcreatescache andchecks9failclosedcontrols; subsequenthitmustconfirmprofile
+andallproofmatrix unchanged. Cachingaddsno verifiersemanticrule. Fullruntime
+source/profile/evidence and jobseconds retainedincludingsetup/cache/artifacts.

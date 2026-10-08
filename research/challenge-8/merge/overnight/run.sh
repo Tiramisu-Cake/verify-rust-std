@@ -202,6 +202,12 @@ suite() {
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/owned-array-cases.rs \
     --evidence "$evidence/checked-owned-array"
+  run_one scratch-option-resource-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+    --scope 'checked positive-stride option scratch two-hole frame/current-slot restoration; no T owner creation or actual panic claim' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/scratch-resource-cases.rs \
+    --evidence "$evidence/checked-scratch-options"
   run_one concrete-zst-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'compiler-backed concrete ZST wrapping identity without assumed size; no memory rights' \

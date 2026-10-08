@@ -42,41 +42,26 @@ lem aligned_address_step(address: usize, stride: usize, alignment: usize)
         address / alignment + stride / alignment, 0);
 }
 
-lem int_of_nat_nonnegative(index: nat)
-    req true;
-    ens 0 <= int_of_nat(index);
-{
-    match index {
-        zero => {
-            nat_of_int_zero();
-            int_of_nat_of_int(0);
-        }
-        succ(previous) => {
-            int_of_nat_nonnegative(previous);
-            assert int_of_nat(succ(previous)) == int_of_nat(previous) + 1;
-        }
-    }
-}
-
-lem address_stride_aligned_nat(base: usize, index: nat, stride: usize, alignment: usize)
+lem address_stride_aligned_list(base: usize, values: list<bool>,
+                                stride: usize, alignment: usize)
     req 0 <= base &*& 0 < stride &*& 0 < alignment &*&
         base % alignment == 0 &*& stride % alignment == 0;
-    ens (base + int_of_nat(index) * stride) % alignment == 0;
+    ens (base + length(values) * stride) % alignment == 0;
 {
-    match index {
-        zero => {
+    match values {
+        nil => {
             div_rem_nonneg(base, alignment);
             div_rem_nonneg_unique(base, alignment, base / alignment, 0);
         }
-        succ(previous) => {
-            address_stride_aligned_nat(base, previous, stride, alignment);
-            int_of_nat_nonnegative(previous);
-            mul_mono_l(0, int_of_nat(previous), stride);
-            aligned_address_step(base + int_of_nat(previous) * stride,
+        cons(value, tail_values) => {
+            address_stride_aligned_list(base, tail_values, stride, alignment);
+            length_nonnegative::<bool>(tail_values);
+            mul_mono_l(0, length(tail_values), stride);
+            aligned_address_step(base + length(tail_values) * stride,
                 stride, alignment);
-            assert int_of_nat(succ(previous)) == int_of_nat(previous) + 1;
-            assert base + int_of_nat(succ(previous)) * stride ==
-                base + int_of_nat(previous) * stride + stride;
+            assert length(values) == 1 + length(tail_values);
+            assert base + length(values) * stride ==
+                base + length(tail_values) * stride + stride;
         }
     }
 }
@@ -86,8 +71,10 @@ lem address_stride_aligned(base: usize, index: usize, stride: usize, alignment: 
         base % alignment == 0 &*& stride % alignment == 0;
     ens (base + index * stride) % alignment == 0;
 {
-    address_stride_aligned_nat(base, nat_of_int(index), stride, alignment);
+    length_repeat::<bool>(nat_of_int(index), true);
+    address_stride_aligned_list(base, repeat(nat_of_int(index), true), stride, alignment);
     int_of_nat_of_int(index);
+    assert length(repeat(nat_of_int(index), true)) == index;
 }
 @*/
 

@@ -261,8 +261,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Restore SHA-pinned merge console cache
+        id: merge-console-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/challenge8-merge-console-cache
+          key: merge-console-ubuntu22-v1-${{ hashFiles('research/challenge-8/merge/overnight/build.sh', 'research/challenge-8/merge/overnight/console-cache.py', 'research/challenge-8/merge/overnight/wrapping.patch', 'research/challenge-8/merge/overnight/callback.patch', 'research/challenge-8/merge/overnight/copy.patch', 'research/challenge-8/merge/overnight/cleanup.patch') }}
       - name: Run reviewed exact-SHA overnight matrix
+        env:
+          VF_CONSOLE_CACHE_DIR: ${{ runner.temp }}/challenge8-merge-console-cache
         run: timeout --signal=TERM --kill-after=10s 1700s bash research/challenge-8/merge/overnight/run.sh merge_geometry
+      - name: Preserve validated merge console cache
+        if: always() && steps.merge-console-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/challenge8-merge-console-cache
+          key: ${{ steps.merge-console-cache.outputs.cache-primary-key }}
       - name: Preserve complete overnight evidence
         if: always()
         uses: actions/upload-artifact@v4

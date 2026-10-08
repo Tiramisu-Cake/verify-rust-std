@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # SPDX-License-Identifier: Apache-2.0 OR MIT
-# Build only the VeriFast 26.10 console with the reviewed wrapping source patch.
+# Build or restore only the SHA-pinned VeriFast 26.10 console for this frozen profile.
 set -euo pipefail
 
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 2; }
@@ -24,6 +24,7 @@ patched_kernel_sha=100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91
 patched_translator_sha=0e450267e453493f894b91763ef9412bf41b7ee8d3988115f24126456ab4e025
 vf_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
 vfdeps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
+vfdeps_z3_sha=1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea
 decoder_rev=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
 decoder_url=https://github.com/btj/capnpc-ocaml-decoder
 patch_sha=c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e
@@ -132,7 +133,7 @@ sha256sum "$evidence"/translator.* "$evidence"/prelude_core.* "$evidence"/std_li
 sha256sum "$evidence"/parser.* >> "$evidence/source-build-inputs.txt"
 
 # Keep toolchain providers pinned; use runner-provided build utilities without apt upgrades.
-for tool in git curl tar sha256sum make gcc cargo grep; do command -v "$tool" >/dev/null || fail "required runner tool missing: $tool"; done
+for tool in git curl tar sha256sum make gcc cargo rustc grep python3 realpath; do command -v "$tool" >/dev/null || fail "required runner tool missing: $tool"; done
 deps_archive=${VFDEPS_ARCHIVE:-"$RUNNER_TEMP/vfdeps-adf88dc-linux.txz"}
 if [[ ! -f "$deps_archive" ]]; then
   run_stage vfdeps-download curl --fail --location --retry 3 --output "$deps_archive" \
@@ -151,18 +152,115 @@ export LD_LIBRARY_PATH="$source_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PA
   command -v ocamlc ocamlfind dune capnp
   gcc --version
   make --version
+  cargo --version
+  rustc --version
   ocamlc -version
   dune --version
   capnp --version
   ocamlfind printconf
   ocamlfind query -qe Z3 || ocamlfind query z3
-  sha256sum /tmp/vfdeps-adf88dc/bin/ocamlc /tmp/vfdeps-adf88dc/bin/dune /tmp/vfdeps-adf88dc/bin/capnp
+  sha256sum "$(command -v gcc)" "$(command -v make)" "$(command -v cargo)" "$(command -v rustc)" \
+    "$(command -v realpath)" \
+    /tmp/vfdeps-adf88dc/bin/ocamlc /tmp/vfdeps-adf88dc/bin/dune /tmp/vfdeps-adf88dc/bin/capnp
 } > "$evidence/build-toolchain.txt" 2>&1
 run_stage decoder-install cargo install --locked --git "$decoder_url" --rev "$decoder_rev"
 { command -v capnpc-ocaml-decoder; sha256sum "$(command -v capnpc-ocaml-decoder)"; cargo install --list; } >> "$evidence/build-toolchain.txt"
 
+# Mirror the pinned GNUmakefile Z3_DLL_DIR resolution and stage only that exact
+# VFdeps library. The source checkout does not contain bin/libz3.so yet.
+z3_ocaml_dir=$(ocamlfind query -qe Z3 2>/dev/null || true)
+if [[ -n "$z3_ocaml_dir" ]]; then
+  z3_dll_dir="$z3_ocaml_dir/../.."
+else
+  z3_ocaml_dir=$(ocamlfind query z3) || fail 'pinned VFdeps Z3 OCaml package is missing'
+  z3_dll_dir="$z3_ocaml_dir"
+fi
+z3_dll_dir=$(realpath -e "$z3_dll_dir") || fail 'cannot resolve the pinned Z3 DLL directory'
+vfdeps_lib_dir=$(realpath -e /tmp/vfdeps-adf88dc/lib) || fail 'pinned VFdeps library directory is missing'
+[[ "$z3_dll_dir" == "$vfdeps_lib_dir" ]] || fail "unexpected Z3_DLL_DIR: $z3_dll_dir"
+z3_lib=$(realpath -e "$z3_dll_dir/libz3.so") || fail 'pinned VFdeps libz3.so is missing'
+[[ "$z3_lib" == "$vfdeps_lib_dir/libz3.so" ]] || fail "Z3 library escaped pinned VFdeps: $z3_lib"
+printf '%s  %s\n' "$vfdeps_z3_sha" "$z3_lib" | sha256sum -c -
+[[ ! -e "$source_home/bin/libz3.so" && ! -L "$source_home/bin/libz3.so" ]] ||
+  fail 'fresh source tree unexpectedly already has bin/libz3.so'
+run_stage z3-runtime-stage cp "$z3_lib" "$source_home/bin/libz3.so"
+cmp "$z3_lib" "$source_home/bin/libz3.so"
+printf 'Z3_OCAML_DIR=%s\nZ3_DLL_DIR=%s\nZ3_LIBRARY=%s\n' \
+  "$z3_ocaml_dir" "$z3_dll_dir" "$z3_lib" > "$evidence/z3-runtime-source.txt"
+sha256sum "$z3_lib" "$source_home/bin/libz3.so" >> "$evidence/z3-runtime-source.txt"
+
 # Build only the console. Exporter/refiner remain the byte-identical release files.
-run_stage console-build make -C "$source_home/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes
+cache_helper="$repo/research/challenge-8/merge/overnight/console-cache.py"
+cache_profile="$evidence/console-cache-profile.txt"
+profile_hash() {
+  local key=$1 path=$2 line digest
+  line=$(sha256sum "$path")
+  digest=${line%% *}
+  printf '%s=%s\n' "$key" "$digest"
+}
+{
+  printf 'profile_id=vf26.10-w1-m2-c1-cleanup-ubuntu22.04-v1\n'
+  printf 'runner_os=%s\nrunner_version=%s\nsource_commit=%s\n' "$RUNNER_OS" "$VERSION_ID" "$actual_commit"
+  profile_hash wrapping_patch "$patch_file"
+  profile_hash callback_patch "$callback_patch"
+  profile_hash copy_patch "$copy_patch"
+  profile_hash cleanup_patch "$cleanup_patch"
+  profile_hash release_console "$release_home/bin/verifast"
+  profile_hash release_exporter "$release_home/bin/vf-rust-mir-exporter"
+  profile_hash release_refiner "$release_home/bin/refinement-checker"
+  profile_hash vfdeps_archive "$deps_archive"
+  printf 'decoder_revision=%s\n' "$decoder_rev"
+  profile_hash build_toolchain "$evidence/build-toolchain.txt"
+  profile_hash build_script "$repo/research/challenge-8/merge/overnight/build.sh"
+  profile_hash cache_helper "$cache_helper"
+  profile_hash applied_patch "$evidence/applied-profile.patch"
+  profile_hash kernel_original "$evidence/verifast.kernel.original.ml"
+  profile_hash kernel_patched "$evidence/verifast.kernel.patched.ml"
+  profile_hash translator_original "$evidence/translator.original.ml"
+  profile_hash translator_patched "$evidence/translator.patched.ml"
+  profile_hash parser_original "$evidence/parser.original.ml"
+  profile_hash parser_patched "$evidence/parser.patched.ml"
+  profile_hash prelude_original "$evidence/prelude_core.original.rsspec"
+  profile_hash prelude_patched "$evidence/prelude_core.patched.rsspec"
+  profile_hash stdlib_original "$evidence/std_lib.original.rsspec"
+  profile_hash stdlib_patched "$evidence/std_lib.patched.rsspec"
+  profile_hash z3_runtime "$source_home/bin/libz3.so"
+} > "$cache_profile"
+
+cache_dir=${VF_CONSOLE_CACHE_DIR:-}
+cache_hit=false
+if [[ -n "$cache_dir" ]]; then
+  if python3 "$cache_helper" restore --cache-dir "$cache_dir" --profile "$cache_profile" \
+      --destination "$source_home/bin/verifast" --evidence "$evidence"; then
+    cache_hit=true
+    printf 'cache-hit\n' > "$evidence/console-build-mode.txt"
+    printf 'Console make was skipped because the exact cached console and profile were verified.\n' \
+      > "$evidence/console-build-skipped.txt"
+  fi
+fi
+if [[ "$cache_hit" != true ]]; then
+  if [[ -z "$cache_dir" ]]; then
+    printf 'cold-cache-disabled\n' > "$evidence/console-build-mode.txt"
+  else
+    printf 'cold-cache-miss\n' > "$evidence/console-build-mode.txt"
+  fi
+  run_stage console-build make -C "$source_home/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes
+fi
+if [[ -n "$cache_dir" && "$cache_hit" != true ]]; then
+  python3 "$cache_helper" publish --cache-dir "$cache_dir" --profile "$cache_profile" \
+    --binary "$source_home/bin/verifast" --producer-sha "$GITHUB_SHA" --evidence "$evidence" || true
+fi
+if [[ -x "$source_home/bin/verifast" ]]; then
+  console_line=$(sha256sum "$source_home/bin/verifast")
+  console_digest=${console_line%% *}
+  if [[ "$console_digest" == 3a08722cedc2f07daf26dfde2f46b8710662028ca5924212c4d1d92d68b70f1a ]]; then
+    python3 "$cache_helper" self-test --profile "$cache_profile" \
+      --binary "$source_home/bin/verifast" --evidence "$evidence" || fail 'console cache fail-closed self-test failed'
+  else
+    printf 'not-run: console differs from the admitted cache digest (%s)\n' "$console_digest" \
+      > "$evidence/console-cache-self-test-status.txt"
+  fi
+fi
 cp "$release_home/bin/vf-rust-mir-exporter" "$source_home/bin/vf-rust-mir-exporter"
 cp "$release_home/bin/refinement-checker" "$source_home/bin/refinement-checker"
 cmp "$release_home/bin/vf-rust-mir-exporter" "$source_home/bin/vf-rust-mir-exporter"
