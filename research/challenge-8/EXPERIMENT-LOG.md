@@ -4971,3 +4971,12 @@ Callback four marker controls reject exact admission VF2 with paired support+ord
 Checked pointer-value completion lemma positive full VF0; four negatives at lemma post11 reject false, Elementpointee rights, duplicate thread andwrong selectedpointer. This creates only definitionally-empty raw_ptr_own; no actualhelper theorem. Actual nominal-owner completion candidate now passes SAFEprototype and enters helper, stops at25 missing MaybeUninit::<T>::new because stock S6 runner env/admission only admits frozen five-ghost inventory. New truthful protocol has separate ghost inventory and needs explicit exactsource/fullMIR qualification, not another primitive axiom. Source-only stock safety_proof and G1exactcallCFG drafts preserved, untested. Actualsort4 first comparator unwind-array obligation unchanged; no fullhelper/sort4 proof.
 
 Recovery2026-10-08 after usage-limit interruption: local/remote HEAD still11d888ba, no newer run or active workflow. Prior09:30MSK CI authorization expired. Owner authorized continued analysis/preparation/static checks and requires extension before any new hosted run. New pending components must not be activated as checkpointing; historical S6/S7c and budgets unchanged.
+
+### Resumed authorization — 2026-10-08
+
+Owner selected continuation until14:30MSK/11:30UTC8Oct with new separate7200summed
+GitHub-hosted jobseconds. Oldovernight3094/21600/18506unspent is historical, not reused.
+Full scope/preconditions/check integrity in RESUMED-SELECT-SORT4-26.10-08.md; no
+phase-stopping between approved priorities. At most one rootworkflow. O18 will
+advance H2b admission and exact linkedowner capture, with G1 independent CFG and
+freshfullS6; HRTBoutput/strictlifetime separate inactive components.

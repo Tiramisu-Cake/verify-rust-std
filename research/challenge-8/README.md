@@ -1,3 +1,10 @@
+## Current resumed authorization — 2026-10-08
+
+[RESUMED-SELECT-SORT4-26.10-08](RESUMED-SELECT-SORT4-26.10-08.md) IN PROGRESS
+until14:30MSK/11:30UTC; new independent7200summed hostedjobseconds. Prior overnight
+3094/21600 closed by expiry. [STATUS](STATUS.md) is current; older checkpoints below
+remain historical. H2b acceptance/nestedguard/forget/helper precede callback/sort4.
+
 ## Текущий результат STOCK-26.10-BASELINE — 2026-10-08
 
 ## Current owner authorization: OVERNIGHT-SELECT-SORT4-26.10

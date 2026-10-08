@@ -1,0 +1,30 @@
+# RESUMED-SELECT-SORT4-26.10-08
+
+Owner explicitly approved2026-10-08 continuation until **14:30MSK/11:30UTC**,
+new independent **7200 GitHub-hosted summed job seconds**, including setup,
+builds, failed runs and artifacts. Historical overnight3094/21600 remains
+closed by window expiry; its18506 unspent is not part of this new ceiling.
+[New ledger](overnight/RESUMED-BUDGET.json), [O17 evidence](overnight/O17-RESULTS.md).
+
+Autonomous priorities: complete H2b admission → exact actual nested guard/SAFE
+forget linkage → actual helper assume_init+normal/unwind resources → callback
+HRTB output and actual sort4 array panic recovery → safety/functional SWO
+composition. Necessary frontend/spec/ownership/proof changes allowed after
+written problem/semantics/trust/checks+self-review. No stage-by-stage owner
+wait. Preserve runtime std/signatures, unrestricted admissible comparator
+safety, separate SWO, all memory/validity/unwind/leak/deadcode/refinement checks.
+Never axiomatize goal or fabricate guard/Element rights. General generic/ZST
+not closed by pointer/nonZST diagnostics. Each semantic component separate.
+
+Own branch research/overnight-select-sort4-26.10, ownworktree only. At most one
+root-dispatched research workflow; workflow_dispatch only. ExactSHA push/dispatch/
+monitor/artifact/fulllog audit loop; sum every hostedjob. Editing/server static
+checks only, no local executableproof/build/test/extractor. Main/upstream/other
+agent worktrees untouched, no externalpublication/PR/comments/submission.
+
+O18 proposed checkpoint: active O17 ninepatch profile plus separately reviewed
+H2c source-admission tightening and G1 checked false-unwind call CFG. Full H2b
+source/MIR controls, same-unitpositive/ordinaryDrop, genericresource controls;
+G1callmatrix; exact linkedactualowner source/MIR capture before new actualgate.
+FullfreshS6 regression. HRTB/lifetime drafts remain outside O18. No actual proof
+claim from capture or green workflow. Fullnormal/unwind targetposts unchanged.

@@ -1,3 +1,9 @@
+## Resumed authorized window — 2026-10-08
+
+Current phase RESUMED-SELECT-SORT4-26.10-08 approved until14:30MSK/11:30UTC,
+new independent7200summed hostedjobseconds. O18preparing; no new proof yet.
+Historical O17/oldbudget below remain evidence; current scope [STATUS](STATUS.md).
+
 ## Recovery/O17 — 2026-10-08
 
 Actual select_unpredictable/sort4_stable remain NOT_PROVEN. O17 at11d888ba/run37717092130:

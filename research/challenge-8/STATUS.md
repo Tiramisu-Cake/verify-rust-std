@@ -1,7 +1,8 @@
 # Challenge 8: current checkpoint
 
-2026-10-08. **OVERNIGHT-SELECT-SORT4-26.10: CI WINDOW EXPIRED** at
-**09:30 MSK / 06:30 UTC**. Analysis/preparation resumed by owner; CI extension pending. [Phase](OVERNIGHT-SELECT-SORT4-26.10.md),
+2026-10-08. **RESUMED-SELECT-SORT4-26.10-08 IN PROGRESS**, owner approved until
+**14:30MSK /11:30UTC**, new independent **7200 summed hosted job seconds**.
+[Current phase](RESUMED-SELECT-SORT4-26.10-08.md), [new budget](overnight/RESUMED-BUDGET.json). [Phase](OVERNIGHT-SELECT-SORT4-26.10.md),
 [runbook](AGENT-RUNBOOK.md), [roadmap](PLAN.md), [evidence log](EXPERIMENT-LOG.md).
 
 Own branch `research/overnight-select-sort4-26.10`, worktree
@@ -14,7 +15,8 @@ Main/upstream/other-agent branches are untouched by this direction.
 proof SHA `11d888ba8ff2231a80c759148194aa9ae6b9d30e`, 02:16:55–02:20:49UTC=234s.
 **3094/21600 summed hosted job seconds**,18506 unspent in expired window;
 no active workflow, no newer proof run. Historical stock99/1800 and S7 5306/5400 separate.
-No new dispatch until explicit owner extension; drafts/static work authorized.
+New account0/7200; O18prepared, no active run. Extension explicitly granted;
+within-phase exactSHA hosted experiments authorized.
 
 **Actual select_unpredictable and sort4_stable NOT PROVEN on26.10.**
 Independent stock+CFG accepted at e6c02f22/run37698481357: 5positive,4falsepost,
@@ -70,7 +72,7 @@ Next: finish H2b admission controls → qualify new exact actual-owner ghost
 inventory → nested guard/checked forget CFG+safety-proof/assume_init → complete helper →
 strict lifetime exit+callback recovery → actual sort4, then composition/SWO.
 Semantic preparation proceeds after written card/self-review; hosted dispatch
-requires new explicit extension. At most one active workflow; never build/verify/test locally, weaken posts or
+authorized within current window/new7200account. At most one active workflow; never build/verify/test locally, weaken posts or
 checks, alter runtime std, publish upstream or submit externally.
 
 Historical S6v4 accepted only at oldpins; S7c UNACCEPTED, old5pointer-drop admission
