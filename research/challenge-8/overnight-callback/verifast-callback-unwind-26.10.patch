@@ -44,7 +44,7 @@
 +                    _, _) ],
 +              _, _ ) -> Some (debt, recover)
 +        | _ -> None
- 
+
        let fetch_ghost_stmts_before (l : Ast.loc0) =
          let* gs_before, gs_rem =
 @@ -3518,10 +3558,63 @@
