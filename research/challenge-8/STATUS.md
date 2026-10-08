@@ -13,7 +13,11 @@ Main/upstream/other-agent branches are untouched by this direction.
 
 **Last completed O20:** [run37748156620](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37748156620),
 proof `e30bdc72d7af37222c401dd54ed50759eb840547`,08:11:09–08:12:34UTC=85s.
-New resumed account **511/7200**,6689remain; no active run.
+New resumed account **511/7200**,6689remain completed plus activeO21
+[run37750512251](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750512251),
+proof `d2f657be87ba58d77618950d8c030a31a21cbfb8`, dispatched08:32:28UTC.
+Scope: mandatory-refusal decoded-owner repeat calibration, unchanged whole-sort4
+pairedMIR/refinement calibration, ordinary joinfour controls, freshfullS6 on13patches.
 Historical overnight3094/21600 (18506expired),stock99/1800,S7 5306/5400 separate.
 Production twelve-patch profile identical O19: console `d23f6552`,translator
 `6abe2aa9`; fullS6 eight-stage freshO19 evidence applies, not rerun in O20.
