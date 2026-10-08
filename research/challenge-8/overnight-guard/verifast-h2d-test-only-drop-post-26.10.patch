@@ -1,0 +1,91 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -584,6 +584,7 @@
+   module Sort4GenericGuard = struct
+     let active = ref false
+     let template_active = ref false
++    let test_post_mutation = ref None
+     let redirected = ref 0
+     let method_name = "sort4_checked_generic_drop"
+     let guard_name = "<DropOnPanic<T> as std::ops::Drop>::drop"
+@@ -5607,16 +5608,33 @@
+           [ LitPat (Var (limpl, "self")) ],
+           Static ) in
++    let selected_guard =
++      !Sort4GenericGuard.template_active &&
++      self_ty = "DropOnPanic" &&
++      tparams = ["T"] &&
++      (match fds_no_zst with
++       | [{name="inner";_}] -> true
++       | _ -> false) in
+     let field_post_tail =
+-      if !Sort4GenericGuard.template_active &&
+-         self_ty = "DropOnPanic" &&
+-         tparams = ["T"] &&
+-         (match fds_no_zst with
+-          | [{name="inner";_}] -> true
+-          | _ -> false) then
+-        Ast.Sep
+-          (limpl,
+-           Ast.PointsTo
+-             (limpl, Ast.Deref (limpl, Ast.Var (limpl, "inner")),
+-              Ast.RegularPointsTo, Ast.DummyPat),
+-           stock_padding)
++      if selected_guard then
++        let inner = Ast.Deref (limpl, Ast.Var (limpl, "inner")) in
++        let cell pat = Ast.PointsTo
++          (limpl, inner, Ast.RegularPointsTo, pat) in
++        let optional = cell Ast.DummyPat in
++        let selected_cell =
++          match !Sort4GenericGuard.test_post_mutation with
++          | Some "initialized" -> cell Ast.DummyVarPat
++          | _ -> optional in
++        let suffix =
++          match !Sort4GenericGuard.test_post_mutation with
++          | Some "t_own" ->
++              let owner = Ast.ExprCallExpr
++                (limpl,
++                 Ast.TypePredExpr
++                   (limpl, Ast.IdentTypeExpr (limpl, None, "T"), "own"),
++                 [Ast.LitPat tid; Ast.VarPat (limpl, "h2b_test_value")]) in
++              Ast.Sep (limpl, owner, stock_padding)
++          | Some "second_cell" ->
++              Ast.Sep (limpl, optional, stock_padding)
++          | _ -> stock_padding in
++        Ast.Sep (limpl, selected_cell, suffix)
+       else stock_padding in
+@@ -5652,6 +5670,13 @@
+                   fds_no_zst
+                   field_post_tail )))
+     in
+-    Ok (pre, Rust_parser.mk_outcome_post limpl post post)
++    let normal_post, unwind_post =
++      if selected_guard then
++        match !Sort4GenericGuard.test_post_mutation with
++        | Some "false_normal" -> Ast.Sep (limpl, post, Ast.False limpl), post
++        | Some "false_unwind" -> post, Ast.Sep (limpl, post, Ast.False limpl)
++        | _ -> post, post
++      else post, post in
++    Ok (pre, Rust_parser.mk_outcome_post limpl normal_post unwind_post)
+
+   (** makes the mappings used for substituting the MIR level local declaration ids with names closer to variables surface name *)
+@@ -12333,6 +12358,19 @@
+             Sort4GenericGuard.template_active := true;
+             Ok ()
+       in
++      let* () = match Sys.getenv_opt "SORT4_GUARD_TEST_POST_MUTATION" with
++        | None -> Sort4GenericGuard.test_post_mutation := None; Ok ()
++        | Some mode ->
++            if not !Sort4GenericGuard.template_active ||
++               not (List.mem mode
++                 ["initialized"; "t_own"; "second_cell";
++                  "false_normal"; "false_unwind"]) then
++              Sort4GenericGuard.reject
++                "test-only post requires selected H2b mode";
++            Sort4GenericGuard.test_post_mutation := Some mode;
++            Printf.printf "SORT4-GUARD-TESTPOST: %s selected\n%!" mode;
++            Ok ()
++      in
+       let* () = match Sys.getenv_opt "SORT4_A1_LINK_REPO_ROOT" with
+         | None -> Sort4A1Link.active := false; Ok ()
+         | Some root -> certify_sort4_a1_link vf_mir_cpn root
