@@ -1,8 +1,8 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
-**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **413/7200 job seconds**
-(204 + 209), осталось **6787/7200**. Ночная история **3971/21600** отдельно;
+**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **468/7200 job seconds**
+(204 + 209 + 55), осталось **6732/7200**. Ночная история **3971/21600** отдельно;
 старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
 Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
 `8ecc949df41c72c1c2a12371b486e97363a21a93`.
@@ -13,6 +13,9 @@ skipped. Артефакты полностью проверены. До него
 [37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894),
 proof `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34`, job113203193351,
 204 seconds. Активного run нет.
+Новый run37748834934/proof2960c082 остановился на git apply stdspec patch
+до сборки/матрицы; job11321676197708:17:18–08:18:13UTC55seconds.
+Setup failure; контекст и predicted staged hash исправлены, новая матрица pending.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS;
@@ -78,7 +81,7 @@ post-stdlib SHA `d5807998…7076e94`) с exact source/alpha-renaming certificate
 oracle. Рядом остаётся exact-domain unsafe nested-tuple constructor для 12 trace
 coordinates, чтобы отделить return representation от loop proof. Все старые
 матрицы обязательны; stack-address patch в этот запуск не включён. До запуска
-осталось 6787 continuation job seconds. Подробный гипотетический исход и
+осталось 6732 continuation job seconds. Подробный гипотетический исход и
 переходы записаны ниже в EXPERIMENT-LOG. Runtime std не меняется. Исторические
 результаты сохраняются под их исходными proof SHA.
 

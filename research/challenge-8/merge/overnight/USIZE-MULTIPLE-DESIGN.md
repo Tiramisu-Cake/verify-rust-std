@@ -45,11 +45,11 @@ four-patch input SHA-256 is
 `f550600564f5bfd3c618dcc4724452249c754a74e8895cbc11b60fafba994cf5`, taken
 from hosted run 37716179905's `build/std_lib.patched.rsspec`; applying this
 patch's unique `usize`-impl insertion yields predicted SHA-256
-`d58079984bcb35819a4a54921e137f1e1cb3a8a3b588400189f167bea7076e94`.
+`e53c53d54e452d0dca4be6253a5f036f3aace69cdf590bbef6ce5a2aabf668bd`.
 The final digest was calculated from the downloaded base bytes plus the
 literal insertion; the next hosted profile must verify patch application and
 recompute/record the actual staged spec hash. The new patch file SHA-256 is
-`0d95bc58c9b5628fb7bd2157b3f1fbe7f3534729135b3dd15ea743ea3e533d92`.
+`39a99b5878d3056153e7609d31dcf40dfa01923c68be52066a8b44ae94d2f9b9`.
 
 ## Diagnostic fixtures and expected evidence
 
@@ -72,3 +72,13 @@ SmallSort call must resolve to this exact `usize` method; setup or an unrelated
 `Option`/tuple helper failure is inconclusive. A green adapter or primitive
 microcase establishes neither the whole merge proof nor proof of the trusted
 standard-library implementation.
+
+Run37748834934 at2960c082 failed before compilation: the insertion patch
+had no trailing context; git apply rejected the internal-file hunk. Regenerated
+normal unified diff includes following closing-impl context. Recomputed exact
+post-spec hash from recovered f5506005 base plus literal insertion replaces the
+earlier predicted d5807998 hash; the previous prediction was not confirmed.
+Only whitespace/insertion-context preparation changed; exact contract stays.
+All55jobseconds charged; no proof or primitive-admission result obtained.
+The regenerated diff also removes spaces from the adjacent empty spec line,
+so the new patch itself passes strict whitespace checks. No declaration changes.

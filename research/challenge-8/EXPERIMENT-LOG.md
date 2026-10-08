@@ -4811,3 +4811,14 @@ entry/dead-body problem; otherwise retain the precise admission/proof failure an
 reassess. The main itself must still execute and pass its full original posts to
 count. No stack-address patch is integrated in this run. Before-dispatch budget:
 6787/7200 continuation seconds; night3971/21600 and old603/1800 remain separate.
+
+### M3i setup failure and fresh repair — run37748834934 /2960c082
+
+Job11321676197708:17:18–08:18:13UTC55s; continuation468/7200,left6732.
+Git apply rejected insertion-only internal-file hunk (no trailing context)
+before compilation or proof. No negative/admission/theorem result. Full setup
+artifact preserved; old proofs retain their original profile/SHA. New ordinary
+unified diff includes following closing-impl context and cleans adjacent blank
+whitespace; exact primitive contract unchanged. Exact staged bytehash recomputed
+from recovered f5506005 base replaces unconfirmed d5807998 prediction. Next
+fresh-SHA matrix repeats the same M3i contract/gates, no stack extension.
