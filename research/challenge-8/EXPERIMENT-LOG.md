@@ -5088,3 +5088,18 @@ PASS separately. Sort4 O24 fullgraph/firstreservedmarker unchanged.
 ### O27 — external initialization failure before runner allocation
 
 Proof6165296266ee17ae8f91f7550034452cd0ebb0cf/run37764722707 created10:37:46 thenFAILED10:37:51. ListRun/JobsAPI showqueuedjob113269452142 runner_id=null/no steps; GetRun/GetAttempt/logs404, noartifact. CheckSuiteFAILED, CheckRunqueued/noannotations; repoActionsenabled. No proof/preparation execution, notnegative. Budget1596confirmedallocated seconds plus5provisionalreserve until metadata resolves; no hidden PASS. Fresh narrowedsourcecapture-only nextSHA justifies one recovery dispatch; preserveO27plannedTESTscopework but avoid expensiveindependentbuild until primaryevidence.
+
+### O27b — external Actions account refusal; final checkpoint
+
+Fresh source-only recovery dispatch from proof
+`847bd01709d4a1269ff02ef63a436dd8cacf67c2` was rejected with exact GitHub
+`HTTP 422: Actions has been disabled for this user`. No run/job was created.
+This is external account refusal, not source prep, classifier, admission or
+proof failure, and cannot count as a negative control. O27 remains completed
+FAIL before allocation (one orphan queued job/no runner/no steps and six
+skipped/unallocated jobs); no active workflow. Stop retries; preserve all
+drafts and unchanged historical results. Confirmed1596 jobseconds plus
+5 provisional reserve,5599 available of7200; deadline11:30UTC unchanged.
+[Final checkpoint](overnight-linkage/RESUMED-EXTERNAL-HANDOFF-2026-10-08.md)
+records exact main20/profile, unverified changed source, actual delta versus
+O22, remaining controls and next permitted hosted action. No local proof/build.

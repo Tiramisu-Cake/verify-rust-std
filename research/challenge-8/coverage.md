@@ -538,3 +538,13 @@ O24 (proof2ca66b89/run37760135524): hostedowner9/sort4sourcepreflight and wholep
 O25 proof8a7a698e/run37761756051: main18 exact9/H2gate accepted to proof, prefixgenericH2bothnormal/unwind and localtransmutebody pass. Firsterror localassume_init std::mem::transmute_neo117; actualhelper/nestedDropbody notyetverified. Source2+cleanupMIR intended; MovecontrolSETUP_INCONCLUSIVE stale34 actual32, preserved. S6eightstagePASS separate.
 
 O26 proofc19e4c50/run37763468180: all9prefixcallees+SAFEprototype pass, actualhelperbody entered. Firstguardownclose198 type mismatch oldpointer vs nominalGuard, not missingresource; ghostshadow/logicalrecordcorrespondence next, freshcert needed. Source2/MIR2 intended, fullS6PASS separate; actualnestedDropbody later/notyetverified.
+
+Final external checkpoint 2026-10-08: O27 no execution; O27b HTTP422 account
+Actions disabled, no new run. Coverage remains O26 actual helper first guard
+close198 and O24 actual sort4 first reserved marker185; neither full theorem.
+New ghost owner-literal source is UNVERIFIED and must be refused by old17/20
+certificates. Runtime SAFE forget/outer assume_init and actual nested Drop
+body remain open; A1-specific controls also remain pending. Independent
+local H2b/O20 and owner-preserving forget/O22 acceptances retain their exact
+scopes. Production main20 is EXPERIMENTAL, TEST strictCUT/relocation excluded.
+[Full checkpoint](overnight-linkage/RESUMED-EXTERNAL-HANDOFF-2026-10-08.md).

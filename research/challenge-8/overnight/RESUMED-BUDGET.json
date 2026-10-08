@@ -96,7 +96,8 @@
       "job_seconds": null,
       "hosted_runner_allocated": false,
       "result": "EXTERNAL_INITIALIZATION_FAILURE_NO_STEPS_NO_LOGS_NO_ARTIFACTS_JOB_QUEUED_RUN_FAILED_GETRUN404",
-      "provisional_reserved_seconds": 5
+      "provisional_reserved_seconds": 5,
+      "skipped_unallocated_jobs": 6
     }
   ],
   "active_run": null,
@@ -115,5 +116,13 @@
       "ceiling": 1800
     }
   },
-  "provisional_reserved_seconds": 5
+  "provisional_reserved_seconds": 5,
+  "external_block": {
+    "kind": "GITHUB_ACTIONS_DISABLED_FOR_USER",
+    "confirmed_by": "O27b source-only workflow_dispatch HTTP422: Actions has been disabled for this user",
+    "dispatch_sha": "847bd01709d4a1269ff02ef63a436dd8cacf67c2",
+    "new_run_created": false,
+    "runner_allocated": false,
+    "last_observed_utc": "2026-10-08T10:52:20Z"
+  }
 }

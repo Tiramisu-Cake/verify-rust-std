@@ -29,10 +29,24 @@ G1callmatrix; exact linkedactualowner source/MIR capture before new actualgate.
 FullfreshS6 regression. HRTB/lifetime drafts remain outside O18. No actual proof
 claim from capture or green workflow. Fullnormal/unwind targetposts unchanged.
 
-Current O22 checkpoint: completed915/7200seconds, noactive run; budget exactledger.
+Historical O22 checkpoint: completed915/7200seconds, noactive run; budget exactledger.
 H2b accepted LOCAL optionalstorage O20; G1owner-preserving exactbody generic
 callee accepted LOCAL O22; noactualSAFEforget/helper claim. Exactowner admission
 passes then nestedghost metadata defect blocks translation. O23 selected next:
 separatecertified two-record nested reparent; 6/7body fullMIR evidence for
 qualifiedDrop+strongforget; repairedsort4 calibration; isolatedCUT fullcontrols.
 Kernel candidate remains outside production; noownerwait at routine boundary.
+
+Current checkpoint, 2026-10-08: **EXTERNALLY BLOCKED — ACTIONS DISABLED**.
+O26 main20 entered actual helper proof and first rejected ghost guard argument
+at198 (pointer instead of nominal guard). O24 closed independent source
+preparation and obtained actual sort4 full graph; first unsupported reserved
+unwind marker185 remains. Exact nested guard body and runtime SAFE forget/
+outer assume_init are not verified yet. Source-only ghost literal correction
+and independent TEST drafts are saved, with old17/20 certificates still
+refusing the changed source. O27 failed before allocation; O27b dispatch
+HTTP422 explicitly confirms account Actions disabled. No active workflow,
+only orphan queued/unallocated job metadata. Confirmed1596+5reserve/7200,
+5599 available; cutoff11:30UTC unchanged.
+[Full evidence/profile/backlog](overnight-linkage/RESUMED-EXTERNAL-HANDOFF-2026-10-08.md).
+This is an external checkpoint, not a new semantic stop or owner-approval gate.

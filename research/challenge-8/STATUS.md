@@ -1,6 +1,7 @@
 # Challenge 8: current checkpoint
 
-2026-10-08. **RESUMED-SELECT-SORT4-26.10-08 IN PROGRESS**, owner approved until
+2026-10-08. **RESUMED-SELECT-SORT4-26.10-08 EXTERNALLY BLOCKED: ACTIONS DISABLED**,
+checkpoint saved; owner authorization remains until
 **14:30MSK /11:30UTC**, new independent **7200 summed hosted job seconds**.
 [Current phase](RESUMED-SELECT-SORT4-26.10-08.md), [new budget](overnight/RESUMED-BUDGET.json). [Phase](OVERNIGHT-SELECT-SORT4-26.10.md),
 [runbook](AGENT-RUNBOOK.md), [roadmap](PLAN.md), [evidence log](EXPERIMENT-LOG.md).
@@ -11,19 +12,29 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
-**O27 did not execute:** [run37764722707](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37764722707), proof6165296266ee17ae8f91f7550034452cd0ebb0cf.
-WorkflowFAILED10:37:51UTC five seconds aftercreated; job113269452142 remains
-queued, runner_id=null, nosteps/nologs/noartifacts, GetRun/GetAttempt404.
-Actions permissions enabled. External initialization failure, no source/proof
-result; budget1596confirmed+5provisionallyreserved (5599available), historical
-accounts unchanged. Prepared source-only nominalguard literal and independent
-TESTrelocation saved. Next newSHA narrows to hostedfreshowner capture only;
-unchangedS6/sort4proof notrerun. No activeworkflow perrunlist; orphanqueued job
-metadata remains unresolved, not an executing hostedrunner.
+**External hosted limit, confirmed:** O27b source-only dispatch from
+`847bd01709d4a1269ff02ef63a436dd8cacf67c2` was rejected with
+`HTTP 422: Actions has been disabled for this user`. No O27b run was created.
+O27 [run37764722707](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37764722707),
+proof `6165296266ee17ae8f91f7550034452cd0ebb0cf`, failed before runner allocation:
+no steps/logs/artifacts, job113269452142 queued with runner_id=null, six other
+jobs skipped with no runner or steps. GetRun/GetAttempt404; repository Actions
+permissions remain enabled. No active workflow per runlist; orphan queued
+metadata is not evidence of an executing runner. No further dispatch retries.
+
+Confirmed new-budget usage **1596/7200 job-seconds**, plus **5 provisionally
+reserved** for unresolved O27 accounting; **5599 available**. Historical
+accounts unchanged. Prepared guard-literal source and isolated TEST drafts
+are committed, but no new hosted source/MIR/proof result exists. Components
+17/20 deliberately retain old source fingerprints and must reject the new
+source. Resume first with hosted source-only paired capture after external
+Actions recovery within a valid authorization window; no local verification.
+[Full checkpoint/profile/backlog](overnight-linkage/RESUMED-EXTERNAL-HANDOFF-2026-10-08.md).
 
 **Last completed O26:** [run37763468180](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37763468180),
 proof `c19e4c50470d32199178d5229a2819554fc6b2f1`,10:26:27–10:29:36UTC=189s.
-Resumed **1596/7200**,5604remaining; no active run.
+Historical O26 account **1596/7200**,5604 remaining before O27 reserve;
+current account above. No executing run.
 Main20 fullsource/refinement/exact9/H2/ownedforget/A1gates pass; allprefixchecked
 callees verify, including localassume_init and ownedforget, SAFEoutcomeprototype
 passes; actual `select_unpredictable` BODY STARTED. Firsterror at198,77-82:

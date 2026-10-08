@@ -1,6 +1,7 @@
 ## Current resumed authorization — 2026-10-08
 
-[RESUMED-SELECT-SORT4-26.10-08](RESUMED-SELECT-SORT4-26.10-08.md) IN PROGRESS
+[RESUMED-SELECT-SORT4-26.10-08](RESUMED-SELECT-SORT4-26.10-08.md) EXTERNALLY BLOCKED
+by GitHub HTTP422 Actions disabled for this user. Checkpoint saved; authorization remains
 until14:30MSK/11:30UTC; new independent7200summed hostedjobseconds. Prior overnight
 3094/21600 closed by expiry. [STATUS](STATUS.md) is current; older checkpoints below
 remain historical. H2b acceptance/nestedguard/forget/helper precede callback/sort4.

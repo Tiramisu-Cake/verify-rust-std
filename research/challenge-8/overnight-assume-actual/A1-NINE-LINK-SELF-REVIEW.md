@@ -60,3 +60,28 @@ edited copy, and `git diff --check` is clean. No local build, verifier,
 exporter, research runner or executable test was run. The patch has no
 hosted result and is **unaccepted** pending main review and a new exact-SHA
 hosted run.
+
+## Final integration audit, 2026-10-08 (O26)
+
+The preceding static card preserves the pre-integration candidate identities.
+The final committed component20 SHA-256 is
+`a597d99a23895e02308f1f813c604a7dbc8235dbc3e04f3b08112087f6a572d4`;
+its component19 dependency is
+`7cfa66625fdb6af94162e542b078c0a08ff07bac472a5d9643fea2d153842c44`.
+O26 proof `c19e4c50470d32199178d5229a2819554fc6b2f1`,
+[run37763468180](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37763468180),
+compiled main20 and admitted the old nine-body source, both redirects counted.
+The local transmute, assume_init and owned forget bodies reached return/leak
+checks before actual helper proof began. First actual failure remains the
+nominal guard ghost argument at198. Actual runtime forget and outer assume_init
+were not reached; original outer Cleanup24 is retained in admitted MIR and
+FnCallOutcome but has not been traversed by this proof.
+
+O26 source2/MIR2 controls test owner admission only. The A1-specific typed-call,
+missing/duplicate redirect, resource/result and outer-cleanup controls described
+above remain pending; component20 is EXPERIMENTAL, not accepted. The new ghost
+owner literal changes the nine-source hash, so old components17/20 must refuse
+until fresh hosted paired capture, reviewed certificate updates and targeted
+controls. O27 produced no execution; O27b dispatch was rejected by GitHub with
+HTTP422 Actions disabled for this user. No additional proof or code change
+was made during this read-only final review.
