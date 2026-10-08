@@ -63,6 +63,35 @@ actual nested mode must retain the outer shared cleanup and exact runtime
 body and get a distinct hosted run. O11/O12 diagnostics do not imply this
 redirect has been accepted.
 
+## O14b causal correction: two ghost statements on one MIR line
+
+O14b (`37713536492`) compiled the minimal H2a profile. The checked generic
+pointer-drop body proves both return/leak paths and its three ownership/post
+negatives fail at their intended obligations; the source operand controls
+reject. The linked standalone SAFE Drop reaches its first annotation and
+fails at `verified/lib.rs:51` asking for
+`[_]DropOnPanic_full_borrow_content(T_typeid, _t, self)()`. This is **not**
+evidence of a missing generated FBC precondition or the hypothesized
+optional-storage post leak. Both `open` ghost comments occupy physical line
+51. The complete NORMAL MIR has two `ghostStmts` with distinct columns but
+the same `startLine = 51`; the translator's
+`VeriFast_ghost_command` lookup (`vf_mir_translator.ml:2762–2790`) uses only
+the line number and returns the first ghost statement for **both** markers.
+The first opens the generated FBC. The second tries to open FBC again,
+explaining the observed missing chunk. The ordinary Drop control has its
+two opens on separate physical lines and proves under the same profile.
+
+The narrow correction is to put the two original ghost `open` commands on
+separate `//@` lines immediately before the unchanged `unsafe` call, with
+their own line numbers in the exported MIR. Ghost stripping removes the
+whole two lines and reconstructs the exact original runtime body, including
+its indentation. Update only the local fixture and H2a exact source/MIR
+certificate to expect this format. No generated Drop contract, method
+summary, default owner, or frontend ghost lookup semantics changes. The
+new hosted run must inspect both ghost positions and actual proof: if FBC
+and owner open, the next failure can test the separate optional-storage
+template hypothesis. O14b's linked result remains inconclusive for H2a.
+
 ## O13 evidence and first isolated H2a candidate
 
 O13 run `37711416854` retained the O12 four-block annotated guard graph.
@@ -92,3 +121,14 @@ does not include `type_interp::<T>()`; the candidate method no longer
 requires it. A hosted rerun must prove its body and the missing-owner and
 false-post controls on this revised contract. No actual Rust helper proof
 is claimed here.
+
+## O14b causal correction before O15
+
+Run37713536492/021f8beb reached exact typed/source linkage gate and requalified the
+minimal generic callee, but guard FBCopen failed atline51 beforemethod. Stock
+translator ghost-command lookup compares only line and takes the first matching
+annotation. Both commands were line51 atdistinctcolumns, so second replayed the
+first FBCopen; ordinaryDrop usesdistinctlines andproves. The fixture now places
+eachopen on a separate line while exact ghost-stripping reproduces std body.
+Certificate pins both positions and adjacentdistinctlines. This repairs proof
+annotation correspondence only; original failure preserved. H2b not activated.

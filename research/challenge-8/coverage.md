@@ -475,3 +475,12 @@ closes the local A1 adapter matrix (3 full positives,12 intended proof negatives
 borrow recovery now pass; current-cell unwind restoration remains open. Actual
 sort4 first bounds lemma passes, reference precreation remains open. G1 callable
 callee and H2 concrete witness are unqualified due recorded setup restrictions.
+
+O14b [021f8beb/run37713536492](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37713536492)
+qualifies the separate unsafe generic callee with exact std forget body:
+currentthread pre/normal, false unwind, no generic own restriction; full proof and
+four intended controls. Actual SAFE const forget linkage remains new trust work.
+Minimal generic pointer-drop callee fullproof and three exact controls pass.
+Nominal owner genericconstructor and concrete u32 witness return/leak pass,
+but SAFE guard Drop FBC open fails before the generic call; full guard/protocol
+unaccepted. Sevenpatch console full eightstage S6 regression passes independently.

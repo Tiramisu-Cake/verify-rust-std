@@ -81,6 +81,58 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
 MEMORY_PRE_BOUND_CALL = (
     b"        //@ interior_pointer_limits::<T>(v_base, 4, 1);\n"
 )
+BORROW_PREFIX_SPLIT_LEMMA = b"""/*@
+lem split_four_owned_cells<T>(base: *T, t: thread_id_t)
+    req base[..4] |-> ?xs &*& foreach(xs, own::<T>(t));
+    ens *base |-> ?first &*& <T>.own(t, first) &*&
+        *(base + 1) |-> ?second &*& <T>.own(t, second) &*&
+        *(base + 2) |-> ?third &*& <T>.own(t, third) &*&
+        *(base + 3) |-> ?fourth &*& <T>.own(t, fourth) &*&
+        xs == cons(first, cons(second, cons(third, cons(fourth, nil))));
+{
+    open array(base, 4, xs);
+    assert xs == cons(?first0, ?rest0);
+    open foreach(xs, own::<T>(t));
+    open own::<T>(t)(first0);
+    open array(base + 1, 3, rest0);
+    assert rest0 == cons(?second0, ?tail0);
+    open foreach(rest0, own::<T>(t));
+    open own::<T>(t)(second0);
+    open array(base + 2, 2, tail0);
+    assert tail0 == cons(?third0, ?rest1);
+    open foreach(tail0, own::<T>(t));
+    open own::<T>(t)(third0);
+    open array(base + 3, 1, rest1);
+    assert rest1 == cons(?fourth0, ?empty0);
+    open foreach(rest1, own::<T>(t));
+    open own::<T>(t)(fourth0);
+    open array(base + 4, 0, empty0);
+    open foreach(empty0, own::<T>(t));
+}
+@*/
+"""
+BORROW_PREFIX_FIRST_CALL = b"""        //@ interior_pointer_limits::<T>(v_base, 4, 1);
+        //@ split_four_owned_cells::<T>(v_base, t);
+        //@ let cmp_k = begin_lifetime();
+        //@ close_full_borrow_content::<T>(t, v_base + 1);
+        //@ close_full_borrow_content::<T>(t, v_base);
+        //@ borrow(cmp_k, <T>.full_borrow_content(t, v_base + 1));
+        //@ borrow(cmp_k, <T>.full_borrow_content(t, v_base));
+        /*@ let_lft 'cmp = cmp_k; @*/
+        //@ share_full_borrow::<T>(cmp_k, t, v_base + 1);
+        //@ share_full_borrow::<T>(cmp_k, t, v_base);
+        //@ let left_ref = precreate_ref(v_base + 1);
+        //@ let right_ref = precreate_ref(v_base);
+        //@ init_ref_share::<T>(cmp_k, t, left_ref);
+        //@ init_ref_share::<T>(cmp_k, t, right_ref);
+        //@ close_ref_own::<'cmp, T>(left_ref);
+        //@ close_ref_own::<'cmp, T>(right_ref);
+        //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: left_ref, 1: right_ref });
+        //@ open_frac_borrow(cmp_k, ref_initialized_(left_ref), 1/4);
+        //@ open [?left_fraction]ref_initialized_::<T>(left_ref)();
+        //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
+        //@ open [?right_fraction]ref_initialized_::<T>(right_ref)();
+        let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);"""
 MEMORY_PRE_CONTRACT = b"""/*@
 req thread_token(?t) &*& t == currentThread &*&
     type_interp::<T>() &*& type_interp::<F>() &*&
@@ -216,19 +268,24 @@ def source_certificate_control(repo: Path, source: bytes,
     }
 
 
-def write_fixture(repo: Path, out: Path, memory_pre: bool = False) -> dict:
+def write_fixture(repo: Path, out: Path, memory_pre: bool = False,
+                  borrow_prefix: bool = False) -> dict:
+    require(not (memory_pre and borrow_prefix),
+            "memory-pre and borrow-prefix modes are mutually exclusive")
     source = (repo / SOURCE_REL).read_bytes()
     target, source_record = source_certificate(repo, source)
     negative = source_certificate_control(repo, source, source_record)
     open_brace = target.index(b"{")
-    if memory_pre:
+    if memory_pre or borrow_prefix:
         anchor = b"        let c1 = is_less(&*v_base.add(1), &*v_base);"
         require(target.count(anchor) == 1,
                 "first actual pointer-add anchor is absent or ambiguous")
-        verified_target = target.replace(
-            anchor, MEMORY_PRE_BOUND_CALL + anchor, 1)
+        verified_target = target.replace(anchor,
+            BORROW_PREFIX_FIRST_CALL if borrow_prefix else
+            MEMORY_PRE_BOUND_CALL + anchor, 1)
         contract = MEMORY_PRE_CONTRACT
-        lemma = MEMORY_PRE_INTERIOR_LEMMA
+        lemma = (MEMORY_PRE_INTERIOR_LEMMA + BORROW_PREFIX_SPLIT_LEMMA
+                 if borrow_prefix else MEMORY_PRE_INTERIOR_LEMMA)
     else:
         verified_target = target
         contract = CAPTURE_CONTRACT
@@ -246,46 +303,62 @@ def write_fixture(repo: Path, out: Path, memory_pre: bool = False) -> dict:
     (out / "original/lib.rs").write_bytes(original)
     (out / "verified/lib.rs").write_bytes(verified)
     record = {
-        "classification": ("MEMORY_PRE_DIAGNOSTIC_NOT_A_SORT4_PROOF"
+        "classification": ("BORROW_PREFIX_DIAGNOSTIC_NOT_A_SORT4_PROOF"
+                            if borrow_prefix else
+                            "MEMORY_PRE_DIAGNOSTIC_NOT_A_SORT4_PROOF"
                             if memory_pre else "CAPTURE_ONLY_NOT_A_SORT4_PROOF"),
-        "fixture_mode": "memory_pre" if memory_pre else "capture_only",
+        "fixture_mode": ("borrow_prefix" if borrow_prefix else
+                         "memory_pre" if memory_pre else "capture_only"),
         "source_certificate": source_record,
         "source_alter_control": negative,
         "capture_contract": (
             "positive-size T; four initialized source elements with one own<T> "
             "each; four optional destination cells; current F own; exact actual "
             "source+owners/current F/dst memory post"
-            if memory_pre else
+            if memory_pre or borrow_prefix else
             "thread/type resources and current comparator resource only; no element or pointer permissions"),
         "memory_pre_bound_lemma": (
             "checked historical interior_pointer_limits<T>(v_base, 4, 1), "
             "inserted immediately before the unchanged first v_base.add(1)"
-            if memory_pre else None),
+            if memory_pre or borrow_prefix else None),
+        "borrow_prefix_protocol": (
+            "checked split_four_owned_cells<T> opens existing array/foreach "
+            "into four separate initialized cells and exactly four owners; "
+            "fresh cmp lifetime/full borrows for actual v_base+1 and v_base; "
+            "stock share/precreate/init_ref_share/close_ref_own and tuple Args.own; "
+            "direct-unwind recovery is not installed in this diagnostic"
+            if borrow_prefix else None),
         "full_generic_domain": "all sized T, including ZST, with F: FnMut(&T, &T) -> bool",
         "memory_pre_domain_restriction": (
             "0 < size_of::<T>(); ZST excluded from this diagnostic; no Copy, "
             "Freeze, or comparator-purity premise"
-            if memory_pre else None),
+            if memory_pre or borrow_prefix else None),
         "intended_full_normal_post": (
-            MEMORY_PRE_INTENDED_NORMAL_POST if memory_pre else None),
+            MEMORY_PRE_INTENDED_NORMAL_POST if memory_pre or borrow_prefix else None),
         "intended_full_unwind_post": (
-            MEMORY_PRE_INTENDED_UNWIND_POST if memory_pre else None),
+            MEMORY_PRE_INTENDED_UNWIND_POST if memory_pre or borrow_prefix else None),
         "active_partial_normal_diagnostic_post": (
-            MEMORY_PRE_PARTIAL_NORMAL_POST if memory_pre else None),
+            MEMORY_PRE_PARTIAL_NORMAL_POST if memory_pre or borrow_prefix else None),
         "active_partial_unwind_diagnostic_post": (
-            MEMORY_PRE_PARTIAL_UNWIND_POST if memory_pre else None),
+            MEMORY_PRE_PARTIAL_UNWIND_POST if memory_pre or borrow_prefix else None),
         "partial_first_callback_resource_debt": (
             "Not added: no ref/precreate/borrow resource is manufactured by this "
             "memory-pre fixture. If the actual first reference needs a checked "
             "borrow protocol, preserve its concrete borrow_end/ref_initialized "
             "debt in a separately reviewed continuation; do not hide it in this post."
-            if memory_pre else None),
+            if memory_pre else
+            "The prefix adds real borrow debt for two cells. No direct-unwind "
+            "recovery hook is included, so this is not a full-target proof."
+            if borrow_prefix else None),
         "full_generic_safety_contract": "NOT_PROVED",
         "normal_target_posts": (
             "active diagnostic partial memory post; no dst initialization guarantee"
-            if memory_pre else
+            if memory_pre or borrow_prefix else
             "capture-only token/type resources and current comparator resource"),
         "unwind_target_posts": (
+            "full current-source/current-owner, optional dst and F/thread/type "
+            "target is active but expected to fail at direct-unwind debt"
+            if borrow_prefix else
             "active diagnostic partial memory post; no full unwind restoration claim"
             if memory_pre else
             "capture-only token/type resources and current comparator resource"),
@@ -445,7 +518,8 @@ def execute(args: argparse.Namespace) -> dict:
             "pinned hosted tool inputs are missing")
     args.evidence.mkdir(parents=True, exist_ok=False)
     fixture_dir = args.evidence / "fixture"
-    fixture = write_fixture(args.repo_root, fixture_dir, args.memory_pre)
+    fixture = write_fixture(args.repo_root, fixture_dir, args.memory_pre,
+                            args.borrow_prefix)
     hashes = {"original/lib.rs": fixture["normal_source_sha256"],
               "verified/lib.rs": fixture["verified_source_sha256"]}
     env = os.environ.copy()
@@ -464,8 +538,9 @@ def execute(args: argparse.Namespace) -> dict:
         "tool_hashes": tool_hashes,
         "schema_sha256": digest(args.schema.read_bytes()),
         "compiler_version_verbose": compiler,
-        "capture_only": not args.memory_pre,
+        "capture_only": not args.memory_pre and not args.borrow_prefix,
         "memory_pre_diagnostic": args.memory_pre,
+        "borrow_prefix_diagnostic": args.borrow_prefix,
         "fixture_mode": fixture["fixture_mode"],
         "actual_sort4_proved": False,
     }
@@ -586,6 +661,10 @@ def main() -> None:
         help=("opt into a separate positive-size memory-pre diagnostic with "
               "initialized source array, optional destination storage, and "
               "the checked first-pointer-add bounds lemma"))
+    parser.add_argument(
+        "--borrow-prefix", action="store_true",
+        help=("opt into the first actual comparator borrow/share/precreate "
+              "diagnostic; direct-unwind recovery is not installed"))
     args = parser.parse_args()
     args.compiler_sysroot = str(Path(args.compiler_sysroot).resolve())
     execute(args)

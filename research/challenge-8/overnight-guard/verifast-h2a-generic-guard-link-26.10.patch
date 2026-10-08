@@ -24,7 +24,7 @@
 +      "/*@\non_unwind_ens thread_token(t) &*& *slot |-> _;\n@*/";
 +    ]
 +    let guard_body =
-+      "{\n            // SAFETY: Must be guaranteed on construction of local type `DropOnPanic`.\n            /*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); @*//*@ open <DropOnPanic<T>>.own(_t, ?g); @*/unsafe { self.inner.drop_in_place() }\n        }"
++      "{\n            // SAFETY: Must be guaranteed on construction of local type `DropOnPanic`.\n            //@ open <DropOnPanic<T>>.full_borrow_content(_t, self)();\n            //@ open <DropOnPanic<T>>.own(_t, ?g);\n            unsafe { self.inner.drop_in_place() }\n        }"
 +    let guard_struct =
 +      "{\n        // Invariant: valid pointer and points to an initialized value that is not further used,\n        // i.e. it can be dropped by this guard.\n        inner: *mut T,\n    }"
 +    let owner_pred =
@@ -71,7 +71,7 @@
                when !Sort4PointerDrop.active &&
                     !Sort4SelectIntrinsic.active &&
                     !Sort4SelectIntrinsic.actual_certified &&
-@@ -9289,6 +9346,537 @@
+@@ -9289,6 +9346,554 @@
      Printf.printf
        "SORT4-POINTER-DROP: full typed method MIR graph accepted\n%!"
  
@@ -541,9 +541,26 @@
 +         guard_body ||
 +       List.map AnnotationRd.raw_get
 +         (BodyRd.ghost_stmts_get_list guard_body_mir) <>
-+         ["/*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); @*/";
-+          "/*@ open <DropOnPanic<T>>.own(_t, ?g); @*/"] then
++         ["//@ open <DropOnPanic<T>>.full_borrow_content(_t, self)();";
++          "//@ open <DropOnPanic<T>>.own(_t, ?g);"] then
 +      reject "local guard exact source/ghost owner";
++    let guard_ghosts =
++      BodyRd.ghost_stmts_get_list guard_body_mir in
++    let expected_ghosts =
++      ["//@ open <DropOnPanic<T>>.full_borrow_content(_t, self)();";
++       "//@ open <DropOnPanic<T>>.own(_t, ?g);"] in
++    List.iter2 (fun ann raw ->
++      let at = exactly_once raw in
++      if (Stdint.Uint64.to_int (AnnotationRd.start_line_get ann),
++          Stdint.Uint64.to_int (AnnotationRd.start_col_get ann)) <>
++           pos at then
++        reject "local guard ghost source position")
++      guard_ghosts expected_ghosts;
++    (match guard_ghosts with
++     | [first; second] when
++         Stdint.Uint64.to_int (AnnotationRd.start_line_get first) + 1 =
++           Stdint.Uint64.to_int (AnnotationRd.start_line_get second) -> ()
++     | _ -> reject "local guard distinct ghost lines");
 +    let guard_brace = match Sort4MaybeUninit.find_substring source
 +      guard_body guard_at with
 +      | Some at -> at
@@ -609,7 +626,7 @@
    let certify_sort4_pointer_drop (vf_mir : VfMirRd.VfMir.t) root =
      let open Sort4PointerDrop in
      active := false; glue_count := 0; redirect_count := 0;
-@@ -11415,6 +12003,10 @@
+@@ -11415,6 +12020,10 @@
                certify_sort4_pointer_drop vf_mir_cpn root
              else (Sort4PointerDrop.active := false; Ok ())
        in

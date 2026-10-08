@@ -44,8 +44,9 @@ OWNER_PRED = (
     b"    *g.inner |-> ?payload &*& <T>.own(t, payload);\n@*/\n"
 )
 OPEN_OWNER = (
-    b"/*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); @*/"
-    b"/*@ open <DropOnPanic<T>>.own(_t, ?g); @*/"
+    b"//@ open <DropOnPanic<T>>.full_borrow_content(_t, self)();\n"
+    b"            //@ open <DropOnPanic<T>>.own(_t, ?g);\n"
+    b"            "
 )
 
 
@@ -138,7 +139,7 @@ def guard_source(struct_body: bytes, drop_body: bytes,
             "actual unsafe generic Drop call not unique")
     annotated_body = drop_body.replace(ACTUAL_DROP_CALL,
                                        OPEN_OWNER + ACTUAL_DROP_CALL, 1)
-    require(ACTUAL.strip_ghost(annotated_body) == drop_body,
+    require(CONSTRUCTOR.strip_ghost_annotations(annotated_body) == drop_body,
             "ghost opening changed actual generic Drop runtime body")
     actual_struct = STRUCT_SIGNATURE + b" " + struct_body
     actual_impl = (b"impl<T> Drop for DropOnPanic<T> {\n"

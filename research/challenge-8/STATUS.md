@@ -11,8 +11,8 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **2317/21600 summed GitHub-hosted job seconds**, 19283 remain.
-Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O14b preparation after H2a hosted build failure.
+New independent account **2516/21600 summed GitHub-hosted job seconds**, 19084 remain.
+Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O15 preparing ghost-position diagnosis and independent captures.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
 components ACCEPTED at1378f0ff/run37700450091, all8matrices and complete logs audited;
@@ -87,6 +87,17 @@ passed to reader API in guard_ty recursion; no new H2 proof or fresh S6 matrix
 ran. Minimal typeddecoder repair pending. Dormant H2b self-review found DummyVarPat
 would assert initialized storage; correction to genuine DummyPat optional storage
 required before activation. Original failed profile/evidence retained.
+
+O14b at021f8beb/run37713536492,199s: new7patch console06c194f0 and fullS6
+8stagesPASS. G1c independently callable unsafegeneric callee exactstdforgetbody
+fullVF0 plus4 intended post/leak/deadcode controls; pre/normal currentthread,
+unwindfalse, noT.own/Copy premise. Actual SAFEforget redirect remains open.
+Revised H2 minimalgeneric method 1 fullpositive/3 intended owner/normal/unwind
+negatives; linked localguard source/MIR gate passes and2source controls exactreject.
+Genericctor+u32 witness return/leak complete, but Drop stops on FBCopen atline51,
+not optionalstorage leak. Two collocated ghostcommands are being investigated;
+H2b remains dormant. ActualnestedDrop/helper/sort4 NOT_PROVEN. Combinedprofile
+experimental; primitive regressions do not establish new semantic soundness.
 
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new
