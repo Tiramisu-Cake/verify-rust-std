@@ -1,6 +1,6 @@
 # Source-anchored callback cleanup — design before implementation
 
-Status: DRAFT, not applied/accepted. Owner OVERNIGHT-MERGE-26.10 authorizes this
+Status: implemented experimental dependency; NOT ACCEPTED. Owner OVERNIGHT-MERGE-26.10 authorizes this
 necessary model dependency; exact full actual callee goals remain unchanged.
 
 The prepared opt-in profile and exact one-line annotation interface are in
@@ -83,3 +83,24 @@ cut. Exact stage/predicate/location calibrated before admitting a negative.
 Regression: combined W1/M2/C1, full G2/A/B/oldRust/bridge, native and ordinary
 normal/unwind/dead controls. No microfixture or component PASS is actual callee
 acceptance until the unchanged complete callee body/full contract passes.
+
+## Admission tightening after independent review (before new implementation)
+
+The first implementation checked ghost command names/counts, not all type
+arguments and operands. Therefore the claimed exclusion of hidden lifetime
+captures was insufficient: a physical borrow token can carry a predicate term
+whose type mentions the local binder while its chunk type-argument list is empty.
+No feasible target-post counterexample was established, but proof success under
+this gate is not a soundness argument. Keep that original profile experimental.
+
+The next admission dependency must structurally match the paired source protocol:
+outer T/F only; cmp_k/t; left_src/right_src; their precreated left_ref/right_ref;
+matching ref-initialized fractions, tuple ownership and physical recovery. Reject
+wrong local type arguments, hidden predicate P, wrong physical lifetime and
+unrelated operands before proof. A right fraction +1 mutation remains allowed
+through shape admission solely so the genuine close-token precondition rejects
+it; the optional third exact ref-own close tests direct lifetime escape. Kernel
+checks are not advertised as a general capture scanner. All heap is still kept,
+all ownership recovered by explicit stock primitive calls, and full target posts
+are unchanged. Required fresh matrix includes positive actual/fixture proof and
+wrong-type/P/k/marker admission controls distinct from proof negatives.

@@ -2,7 +2,7 @@
 
 Авторизовано владельцем 2026-10-08 до 09:30 МСК (06:30 UTC).
 Собственная ветка `overnight/merge-26.10`, entry `b0af5613`.
-[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2100/21600 hosted job seconds**;
+[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2309/21600 hosted job seconds**;
 старый merge 603/1800 (остаток 1197) сохранён отдельно. Actual merge NOT PROVEN.
 Исторические STOP/design-only/CI0 ниже не ограничивают эту ночную фазу.
 
@@ -23,6 +23,9 @@ scope сохраняет heap, explicit outcome epilogue закрывает genu
 Run `37708531700`, proof `ecf30e5e`, 70 job seconds: console build failure,
 не proof rejection; missing OCaml ref dereference исправлено. Новый cleanup
 patch `4968245d`, kernel `100eebae`, translator `4d25e806`.
+Run `37709095965`/`a38c3796`: сборка PASS; actual unwind дошёл до return/leak,
+normal-copy остановлен alignment. Synthetic cleanup normal требует ремонта
+epilogue; structural admission ужесточается, профиль НЕ ПРИНЯТ.
 Нет активного run. Следующий разрешённый шаг — свежая hosted сборка и полная
 матрица cleanup/actual/trace, затем последовательное закрытие actual merge.
 

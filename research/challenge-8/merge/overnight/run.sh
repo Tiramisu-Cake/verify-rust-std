@@ -201,7 +201,7 @@ suite() {
   if [[ -f "$evidence/actual-cases.rs" ]]; then
     run_one actual-callee-applicability 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
       --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
-      --scope 'unchanged actual merge_up/down diagnostic with full normal/unwind targets; distinct source initialized destination; genuine loan setup and open lifetime recovery' \
+      --scope 'unchanged actual merge_up/down diagnostic with full normal/unwind targets; distinct source positive stride writable option destination with explicit C1 domain; genuine normal/unwind loan recovery' \
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/actual-cases.rs" --evidence "$evidence/checked-actual"
   fi

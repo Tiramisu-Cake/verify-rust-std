@@ -36,14 +36,28 @@ def contract(name: str) -> str:
 req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*& type_interp::<F>() &*&
     0 < std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= isize::MAX &*&
     left_src as pointer != right_src as pointer &*&
+    0 < left_src as usize &*& 0 < right_src as usize &*& 0 < dst as usize &*&
+    left_src as usize % std::mem::align_of::<T>() == 0 &*&
+    right_src as usize % std::mem::align_of::<T>() == 0 &*&
+    dst as usize % std::mem::align_of::<T>() == 0 &*&
+    left_src as usize <= usize::MAX - std::mem::size_of::<T>() &*&
+    right_src as usize <= usize::MAX - std::mem::size_of::<T>() &*&
+    dst as usize <= usize::MAX - std::mem::size_of::<T>() &*&
+    object_pointer_within_limits(left_src, std::mem::size_of::<T>()) == true &*&
+    object_pointer_within_limits(right_src, std::mem::size_of::<T>()) == true &*&
+    object_pointer_within_limits(dst, std::mem::size_of::<T>()) == true &*&
+    (left_src as usize + std::mem::size_of::<T>() <= dst as usize ||
+     dst as usize + std::mem::size_of::<T>() <= left_src as usize) &*&
+    (right_src as usize + std::mem::size_of::<T>() <= dst as usize ||
+     dst as usize + std::mem::size_of::<T>() <= right_src as usize) &*&
     *left_src |-> ?lv &*& <T>.own(t, lv) &*&
     *right_src |-> ?rv &*& <T>.own(t, rv) &*&
-    *dst |-> ?dst0 &*& *is_less |-> ?f0 &*& <F>.own(t, f0) &*&
+    *dst |-?-> ?dst0 &*& *is_less |-> ?f0 &*& <F>.own(t, f0) &*&
     pointer_within_limits(left_src + 1) == true &*&
     pointer_within_limits(right_src + 1) == true &*&
     pointer_within_limits(dst + 1) == true &*& pointer_within_limits(dst - 1) == true;
 @*//*@
-ens """ + common + " &*& *dst |-> ?copied &*&\n    " + result_posts + ";\n@*//*@\non_unwind_ens " + common + " &*& *dst |-> dst0;\n@*/"
+ens """ + common + " &*& *dst |-> ?copied &*&\n    " + result_posts + ";\n@*//*@\non_unwind_ens " + common + " &*& *dst |-?-> dst0;\n@*/"
 
 def main() -> None:
     if (os.environ.get("GITHUB_ACTIONS") != "true" or
@@ -63,7 +77,7 @@ def main() -> None:
     header = "#![feature(unboxed_closures)]\nuse core::ptr;\n"
     fixture = header
     record = {"source_admission": admission, "source_sha256": sha(SOURCE.read_bytes()),
-              "scope": "distinct-source initialized-destination conditional actual callee diagnostic; generic safety/callback effects and both full posts remain targets",
+              "scope": "distinct-source positive-stride writable option destination with explicit C1 pointer domain conditional actual callee; generic safety/callback effects and both full posts remain targets",
               "cases": {}}
     for name in ("merge_up", "merge_down"):
         marker = f"unsafe fn {name}<T, F: FnMut(&T, &T) -> bool>("
@@ -119,7 +133,7 @@ def main() -> None:
         record["cases"][name] = {"source_line": source[:start].count("\n") + 1,
             "exact_function_sha256": sha(original.encode()), "verified_sha256": sha(verified.encode()),
             "ghost_strip_exact": True, "target_posts": "updated valid source ownership/callback state; selected copy and exact cursor advances normal; untouched destination on callback unwind",
-            "excluded": "ZST, coincident source, uninitialized destination; not a generic whole-callee acceptance"}
+            "excluded": "ZST, coincident source, arbitrary invalid destination bytes, caller derivation of C1 domain; not a generic whole-callee acceptance"}
         fixture += f"// CASE_BEGIN {name}\n" + verified + f"// CASE_END {name}\n"
     args.output.write_text(fixture)
     args.output.with_suffix(".admission.json").write_text(json.dumps(record, indent=2) + "\n")

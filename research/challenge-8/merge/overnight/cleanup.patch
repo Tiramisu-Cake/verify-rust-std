@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index fddcc70..bcede18 100644
+index fddcc70..53ee566 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1942,6 +1942,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -28,7 +28,7 @@ index fddcc70..bcede18 100644
        let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
        let pending_hrtb_projection_eq : Ast.stmt list ref = ref []
  
-@@ -2797,10 +2809,49 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2797,10 +2809,63 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
          translate_fn_call_rexpr func_cpn args_cpn loc fn_loc
            ghost_generic_arg_list_opt_cpn
        in
@@ -53,13 +53,27 @@ index fddcc70..bcede18 100644
        in
 +      let callback_cleanup =
 +        match State.callback_close, fn_call_rexpr with
-+        | Some (close_loc, _, close_stmt),
-+          FnCallOutcome (Ast.CallExpr (_, name, _, _, _, _))
++        | Some (close_loc, lft, close_stmt),
++          FnCallOutcome (Ast.CallExpr (_, name, targs, [], args, Ast.Static))
 +          when canonicalize_item_name name = "std::ops::FnMut::call_mut" ->
++            let typed_call =
++              match targs, args with
++              | [Ast.IdentTypeExpr (_, None, "F");
++                 Ast.StructTypeExpr (_, Some "std_tuple_2_", None, [],
++                   [Ast.RustRefTypeExpr (_, Ast.IdentTypeExpr (_, None, lft1),
++                      Ast.Shared, Ast.IdentTypeExpr (_, None, "T"));
++                    Ast.RustRefTypeExpr (_, Ast.IdentTypeExpr (_, None, lft2),
++                      Ast.Shared, Ast.IdentTypeExpr (_, None, "T"))]);
++                 Ast.IdentTypeExpr (_, None, lft3)],
++                [Ast.LitPat (Ast.Var _); Ast.LitPat (Ast.Var _)] ->
++                  lft1 = lft && lft2 = lft && lft3 = lft
++              | _ -> false
++            in
 +            let (_, call_end_line, _) = snd (Ast.lexed_loc loc) in
 +            let ((_, close_line, _), _) = Ast.lexed_loc close_loc in
 +            if close_line = call_end_line + 1 then (
-+              if !State.callback_used || !State.pending_hrtb_projection_eq = [] ||
++              if !State.callback_used || not typed_call ||
++                 !State.pending_hrtb_projection_eq = [] ||
 +                 TranslatorArgs.ignore_unwind_paths ||
 +                 (match OptionRd.get (target_get fn_call_data_cpn) with
 +                  | Something _ -> false | _ -> true) ||
@@ -78,7 +92,7 @@ index fddcc70..bcede18 100644
        let* dst, dst_is_mutable =
          Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "destination" @@ fun () ->
          translate_place (destination_get fn_call_data_cpn) loc
-@@ -2855,11 +2906,14 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -2855,11 +2920,14 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                    [],
                                    [ LitPat (Var (loc, "__result")) ],
                                    Static ),
@@ -95,7 +109,7 @@ index fddcc70..bcede18 100644
                          ] )
              in
              Ok
-@@ -3813,6 +3867,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3813,6 +3881,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      let find_blocks (bblocks : Mir.basic_block list) =
        let open Mir in
        let explicit_block_heads_table = Hashtbl.create 10 in
@@ -103,7 +117,7 @@ index fddcc70..bcede18 100644
        let bblocks_table = Hashtbl.create 100 in
        let explicit_block_ends = ref [] in
        let loop_spec_blocks = ref [] in
-@@ -3864,7 +3919,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3864,7 +3933,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                   in
                   Hashtbl.add bblocks_table bb.id fixed_bb;
                   Hashtbl.add bblocks_table id bh;
@@ -113,7 +127,7 @@ index fddcc70..bcede18 100644
               | [
                Ast.ExprStmt
                  (CallExpr
-@@ -4031,6 +4087,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4031,6 +4101,32 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                                    (bb :: path)))))))
        in
        iter [] 0 entry_id;
@@ -146,7 +160,7 @@ index fddcc70..bcede18 100644
        !toplevel_blocks
  
      let rec translate_to_vf_basic_block
-@@ -4074,15 +4156,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -4074,15 +4170,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                let children_stmts =
                  translate_basic_blocks_to_stmts children []
                in
@@ -173,7 +187,7 @@ index fddcc70..bcede18 100644
                        closeBraceLoc,
                        ref [] );
                  ],
-@@ -5026,9 +5117,138 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5026,9 +5131,250 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        ListAux.try_map translate_ghost_decl_block
          (ghost_decl_blocks_get_list body_cpn)
      in
@@ -210,26 +224,137 @@ index fddcc70..bcede18 100644
 +          if not (source_pos close_l < source_pos cut_l &&
 +                  source_pos cut_l < source_pos recover_l) then
 +            Ast.static_error cut_l "Callback cleanup markers must be ordered" None;
++          (* Admit only the two-source reference protocol. In particular, a
++             predicate constructor containing the local lifetime in a term
++             must not pass merely because its heap chunk has no type args. *)
++          let ty_t = function
++            | Ast.IdentTypeExpr (_, None, "T") -> true | _ -> false in
++          let ty_lft = function
++            | Ast.IdentTypeExpr (_, None, name) -> name = cut_lft | _ -> false in
++          let ty_ref = function
++            | Ast.RustRefTypeExpr (_, lft, Ast.Shared, elem) ->
++                ty_lft lft && ty_t elem
++            | _ -> false in
++          let var name = function
++            | Ast.Var (_, found) -> found = name | _ -> false in
++          let pat_var name = function
++            | Ast.LitPat e -> var name e | _ -> false in
++          let source name = function
++            | Ast.CastExpr (_, Ast.PtrTypeExpr (_, tp), e) ->
++                ty_t tp && var name e
++            | _ -> false in
++          let pat_source name = function
++            | Ast.LitPat e -> source name e | _ -> false in
++          let fbc name = function
++            | Ast.ExprCallExpr (_, Ast.TypePredExpr (_, tp, "full_borrow_content"),
++                [t; src]) -> ty_t tp && pat_var "t" t && pat_source name src
++            | _ -> false in
++          let pat_fbc name = function
++            | Ast.LitPat e -> fbc name e | _ -> false in
++          let ref_pred name = function
++            | Ast.CallExpr (_, "ref_initialized_", [], [], [p], Ast.Static) ->
++                pat_var name p
++            | _ -> false in
++          let pat_ref_pred name = function
++            | Ast.LitPat e -> ref_pred name e | _ -> false in
++          let int_is wanted = function
++            | Ast.IntLit (_, value, _, _, _) ->
++                Big_int.string_of_big_int value = wanted
++            | _ -> false in
++          let quarter = function
++            | Ast.Operation (_, Ast.Div, [num; den]) ->
++                int_is "1" num && int_is "4" den
++            | _ -> false in
++          let frac name = function
++            | Ast.LitPat e -> var name e | _ -> false in
++          let bad_right_frac = function
++            | Ast.LitPat (Ast.Operation (_, Ast.Add, [lhs; rhs])) ->
++                var "right_ref_frac" lhs && int_is "1" rhs
++            | _ -> false in
++          let call name targs args = function
++            | Ast.ExprStmt (Ast.CallExpr (_, found, found_targs, [], found_args, Ast.Static)) ->
++                found = name && targs found_targs && args found_args
++            | _ -> false in
++          let no_targs = function [] -> true | _ -> false in
++          let only_t = function [tp] -> ty_t tp | _ -> false in
++          let only_lft_t = function [lft; tp] -> ty_lft lft && ty_t tp | _ -> false in
++          let close_full name = call "close_full_borrow_content" only_t
++            (function [t; src] -> pat_var "t" t && pat_source name src | _ -> false) in
++          let borrow name = call "borrow" no_targs
++            (function [k; p] -> pat_var "cmp_k" k && pat_fbc name p | _ -> false) in
++          let share name = call "share_full_borrow" only_t
++            (function [k; t; src] ->
++               pat_var "cmp_k" k && pat_var "t" t && pat_source name src
++             | _ -> false) in
++          let precreate name ref_name = function
++            | Ast.DeclStmt (_, [(_, None, found, Some (Ast.CallExpr
++                (_, "precreate_ref", [], [], [src], Ast.Static)), _)]) ->
++                found = ref_name && pat_source name src
++            | _ -> false in
++          let init_ref ref_name = call "init_ref_share" only_t
++            (function [k; t; p] ->
++               pat_var "cmp_k" k && pat_var "t" t && pat_var ref_name p
++             | _ -> false) in
++          let open_frac ref_name = call "open_frac_borrow" no_targs
++            (function [k; p; Ast.LitPat q] ->
++               pat_var "cmp_k" k && pat_ref_pred ref_name p && quarter q
++             | _ -> false) in
++          let open_ref ref_name frac_name = function
++            | Ast.Open (_, None, "ref_initialized_", [tp], [p], [],
++                Some (Ast.VarPat (_, found))) ->
++                ty_t tp && pat_var ref_name p && found = frac_name
++            | _ -> false in
++          let close_ref ref_name = call "close_ref_own" only_lft_t
++            (function [p] -> pat_var ref_name p | _ -> false) in
++          let close_tuple = function
++            | Ast.Close (_, None, "std_tuple_2__own", [tp1; tp2], [],
++                [t; Ast.LitPat (Ast.CastExpr (_,
++                  Ast.StructTypeExpr (_, Some "std_tuple_2_", None, [], [vp1; vp2]),
++                  Ast.InitializerList (_, [(Some (_, "0"), r0); (Some (_, "1"), r1)])))], None) ->
++                ty_ref tp1 && ty_ref tp2 && ty_ref vp1 && ty_ref vp2 &&
++                pat_var "t" t && var "right_ref" r0 && var "left_ref" r1
++            | _ -> false in
++          let close_initialized ref_name frac_name = function
++            | Ast.Close (_, None, "ref_initialized_", [tp], [p], [],
++                Some coef) ->
++                ty_t tp && pat_var ref_name p && frac frac_name coef
++            | _ -> false in
++          let close_frac ref_name frac_name allow_bad =
++            call "close_frac_borrow" no_targs
++              (function [coef; p] ->
++                 (frac frac_name coef || allow_bad && bad_right_frac coef) &&
++                 pat_ref_pred ref_name p
++               | _ -> false) in
 +          let close_shape = function
-+            | [Ast.Close _; Ast.ExprStmt (Ast.CallExpr (_, "close_frac_borrow", _, _, _, _));
-+               Ast.Close _; Ast.ExprStmt (Ast.CallExpr (_, "close_frac_borrow", _, _, _, _))] -> true
-+            | _ -> false
-+          in
++            | [c0; f0; c1; f1] ->
++                close_initialized "left_ref" "left_ref_frac" c0 &&
++                close_frac "left_ref" "left_ref_frac" false f0 &&
++                close_initialized "right_ref" "right_ref_frac" c1 &&
++                close_frac "right_ref" "right_ref_frac" true f1
++            | _ -> false in
++          let end_lifetime = call "end_lifetime" no_targs
++            (function [k] -> pat_var "cmp_k" k | _ -> false) in
++          let borrow_end name = call "borrow_end" no_targs
++            (function [k; p] -> pat_var "cmp_k" k && pat_fbc name p | _ -> false) in
++          let open_full name = call "open_full_borrow_content" only_t
++            (function [t; src] -> pat_var "t" t && pat_source name src | _ -> false) in
 +          let recover_shape = function
-+            | [Ast.ExprStmt (Ast.CallExpr (_, "end_lifetime", _, _, _, _));
-+               Ast.ExprStmt (Ast.CallExpr (_, "borrow_end", _, _, _, _));
-+               Ast.ExprStmt (Ast.CallExpr (_, "open_full_borrow_content", _, _, _, _));
-+               Ast.ExprStmt (Ast.CallExpr (_, "borrow_end", _, _, _, _));
-+               Ast.ExprStmt (Ast.CallExpr (_, "open_full_borrow_content", _, _, _, _))] -> true
-+            | _ -> false
-+          in
++            | [e; b0; o0; b1; o1] ->
++                end_lifetime e && borrow_end "left_src" b0 &&
++                open_full "left_src" o0 && borrow_end "right_src" b1 &&
++                open_full "right_src" o1
++            | _ -> false in
 +          if not (close_shape close_commands && recover_shape recover_commands) then
 +            Ast.static_error cut_l "Unsupported callback loan cleanup command sequence" None;
 +          let enclosing =
 +            List.filter (function
-+              | Ast.BlockStmt (start, [Ast.TypeWithTypeidDecl (_, name, _)], [], original_close, _)
++              | Ast.BlockStmt (start,
++                  [Ast.TypeWithTypeidDecl (_, name,
++                    Ast.CallExpr (_, "typeid_of_lft", [], [], [k], Ast.Static))],
++                  [], original_close, _)
 +                when name = cut_lft && source_pos start < source_pos close_l &&
-+                     source_pos recover_l < source_pos original_close -> true
++                     source_pos recover_l < source_pos original_close &&
++                     pat_var "cmp_k" k -> true
 +              | _ -> false) ghost_decl_blocks
 +          in
 +          let binding_start =
@@ -241,33 +366,34 @@ index fddcc70..bcede18 100644
 +            let pos = source_pos (Ast.stmt_loc stmt) in
 +            source_pos binding_start < pos && pos < source_pos cut_l
 +          in
-+          let classify_scoped_ghost stmt =
-+            if Ast.stmt_loc stmt = close_l then "callback_close"
-+            else match stmt with
-+            | Ast.PureStmt (_, Ast.ExprStmt (Ast.CallExpr (_, name, _, _, _, _)))
-+              when List.mem name
-+                ["close_full_borrow_content"; "borrow"; "share_full_borrow";
-+                 "init_ref_share"; "open_frac_borrow"; "close_ref_own"] -> name
-+            | Ast.PureStmt (_, Ast.DeclStmt (_, [(_, _, _,
-+                Some (Ast.CallExpr (_, "precreate_ref", _, _, _, _)), _)])) -> "precreate_ref"
-+            | Ast.PureStmt (_, Ast.Open (_, _, "ref_initialized_", _, _, _, _)) -> "open_ref_initialized"
-+            | Ast.PureStmt (_, Ast.Close (_, _, "std_tuple_2__own", _, _, _, _)) -> "close_tuple_own"
-+            | _ -> Ast.static_error (Ast.stmt_loc stmt)
-+                     "Unsupported ghost command in callback lifetime scope" None
++          let scoped = ghost_stmts |> List.filter in_scope in
++          let pure f = function Ast.PureStmt (_, inner) -> f inner | _ -> false in
++          let protocol = function
++            | [a; b; c; d; e; f; g; h; i; j; k; m; n; o; p; q; r; s] ->
++                pure (close_full "left_src") a && pure (borrow "left_src") b &&
++                pure (share "left_src") c && pure (close_full "right_src") d &&
++                pure (borrow "right_src") e && pure (share "right_src") f &&
++                pure (precreate "left_src" "left_ref") g && pure (init_ref "left_ref") h &&
++                pure (open_frac "left_ref") i && pure (open_ref "left_ref" "left_ref_frac") j &&
++                pure (close_ref "left_ref") k &&
++                pure (precreate "right_src" "right_ref") m && pure (init_ref "right_ref") n &&
++                pure (open_frac "right_ref") o && pure (open_ref "right_ref" "right_ref_frac") p &&
++                pure (close_ref "right_ref") q && pure close_tuple r &&
++                Ast.stmt_loc s = close_l
++            | [a; b; c; d; e; f; g; h; i; j; k; m; n; o; p; q; r; s; extra] ->
++                pure (close_full "left_src") a && pure (borrow "left_src") b &&
++                pure (share "left_src") c && pure (close_full "right_src") d &&
++                pure (borrow "right_src") e && pure (share "right_src") f &&
++                pure (precreate "left_src" "left_ref") g && pure (init_ref "left_ref") h &&
++                pure (open_frac "left_ref") i && pure (open_ref "left_ref" "left_ref_frac") j &&
++                pure (close_ref "left_ref") k &&
++                pure (precreate "right_src" "right_ref") m && pure (init_ref "right_ref") n &&
++                pure (open_frac "right_ref") o && pure (open_ref "right_ref" "right_ref_frac") p &&
++                pure (close_ref "right_ref") q && pure close_tuple r &&
++                Ast.stmt_loc s = close_l && pure (close_ref "left_ref") extra
++            | _ -> false
 +          in
-+          let scoped_names =
-+            ghost_stmts |> List.filter in_scope |> List.map classify_scoped_ghost in
-+          let count name = List.length (List.filter ((=) name) scoped_names) in
-+          let required =
-+            ["close_full_borrow_content", 2; "borrow", 2;
-+             "share_full_borrow", 2; "precreate_ref", 2;
-+             "init_ref_share", 2; "open_frac_borrow", 2;
-+             "open_ref_initialized", 2;
-+             "close_tuple_own", 1; "callback_close", 1]
-+          in
-+          if List.exists (fun (name, n) -> count name <> n) required ||
-+             not (List.mem (count "close_ref_own") [2; 3]) ||
-+             List.length scoped_names <> 16 + count "close_ref_own" then
++          if not (protocol scoped) then
 +            Ast.static_error cut_l "Unexpected callback borrow protocol inside lifetime scope" None;
 +          let close_stmt =
 +            Ast.PureStmt (close_l,
@@ -312,7 +438,7 @@ index fddcc70..bcede18 100644
           Ast.BlockStmt
             ( l,
               decls,
-@@ -5041,9 +5261,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5041,9 +5387,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
      let ghost_decl_block_end_stmts =
        ghost_decl_blocks
@@ -333,7 +459,7 @@ index fddcc70..bcede18 100644
      in
      let* loop_spec_blocks =
        ListAux.try_map translate_loop_spec_block
-@@ -5059,6 +5287,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5059,6 +5413,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
        let body_tr_defs_ctx = body_tr_defs_ctx
@@ -344,7 +470,7 @@ index fddcc70..bcede18 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -5366,6 +5598,20 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5366,6 +5724,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              let vf_bblocks =
                translate_basic_blocks_to_stmts toplevel_blocks []
              in
@@ -353,7 +479,11 @@ index fddcc70..bcede18 100644
 +              | None, None, None -> vf_bblocks
 +              | Some _, Some recover, Some call_loc
 +                when !State.callback_used && !State.fnmut_call_count = 1 ->
-+                  vf_bblocks @
++                  (* Keep the normal return inside its own miniblock.  The
++                     unwind Goto still reaches the outer label through the
++                     stock BlockStmt label continuation. *)
++                  [Ast.BlockStmt
++                     (call_loc, [], vf_bblocks, call_loc, ref [])] @
 +                  [ Ast.Assert (call_loc, Ast.False call_loc);
 +                    Ast.LabelStmt (call_loc, State.callback_unwind_label);
 +                    recover;

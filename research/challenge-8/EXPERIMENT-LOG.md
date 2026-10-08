@@ -4365,3 +4365,74 @@ Reviewed all new State references and fixed dereference only. New cleanup patch
 post-translator4d25e806f58dc1b9f3b885a2717a45cfa7184822ce9de50a4c65a290ac436d8e;
 post-kernel100eebae unchanged. No semantic/domain/post/check change. Fresh full
 hosted matrix and AST review required. No local compile/verifier/runner used.
+
+### M2-cleanup structural admission review BEFORE
+
+Independent review found name/count-only ghost allowlist weaker than its claimed
+exact T-only capture boundary. Kernel targs scan cannot alone detect local type
+hidden in physical token predicate terms. No target counterexample established;
+profile remains unaccepted. Tighten frontend to exact paired source/ref/type/k/t
+protocol as CLEANUP-DESIGN specifies; wrong local type/P/k must be admission
+rejections. Full normal/unwind target posts and heap retention unchanged. Weak
+coefficient-swap negative can be satisfiable because fractions coincide; replace
+right close coefficient with right_ref_frac+1 to mismatch its genuine close token
+independently of pointer/fraction equality. Fresh actual+positive+proof-negative+
+admission+full compatibility matrix required, original run classifications kept.
+W2 Boolean array protocol adds checked split/read/rejoin helpers, preserving all
+array fractions and complete lists and relating read decisions to nth; no new
+trace domain or trusted primitive. First hosted helper/main check remains needed.
+
+### M2-cleanup-v1b outcome / M2 actual-copy domain BEFORE
+
+Run37709095965/proofa38c379668955e2ed2441acf6a949bafcb4a3c43,
+job113090491716,00:41:47–00:45:16UTC=209seconds; cumulative2309/21600.
+Console build and full existing W1/C1/G2/A/B/native/oldRust/ordinary controls
+PASS. Actual unchanged up/down full callback-unwind source/F/destination posts
+reach return+leak successfully, then normal copy reaches intended alignment
+std622:143–145 (left/right respectively). This is partial progress, not actual
+acceptance. Synthetic cleanup positive normal fails stock epilog pure-statement
+rule: appended unwind epilogue shares original return's miniblock. Wrap original
+CFG in ordinary BlockStmt so appended panic label is outside normal-return
+miniblock; stock Goto exit handles lifetime restoration, checks stay enabled.
+False-unwind reaches actual false post28:59–64; wrong marker frontend rejection
+reached, exact classifiers pending. Old coefficient-swap negative happened to
+fail stock lifetime_logic282 chunk but replacement is stronger, no acceptance
+transfer. Full G2 trace next first failure is loop frame: implicit function
+lifetime and compiler-generated return-struct slot chunks omitted from invariant.
+Retain those resources explicitly; checked Boolean split/read/join pending.
+
+Next actual profile: positive-size, distinct source initialized cells+T.own;
+arbitrary T/F and bool responses; destination writable points_to_<T>(option<T>)
+none/some(valid) rather than initialized shadow. Explicit C1 pure domain for each
+source/destination pair: aligned positive numeric addresses, nonoverflow object
+ranges/provenance limits and byte-range separation; ordinary cursor limits kept.
+These are necessary real pointer-access/copy conditions, not inferred by
+numeric equality or spatial model ownership. Full normal post copies selected
+post-callback current value and exact cursors, retains current source/F owns;
+full unwind keeps original destination option and restores current source/F.
+No destination T.own introduced, no purity/Freeze/Copy or faithful-answer premise.
+Trust patches unchanged except separately reviewed structural cleanup admission.
+Actual body stripping and exporter/refinement must remain exact. This is a
+conditional actual callee theorem; ZST, coincident sources and caller deriving
+C1 conditions from actual allocation resources remain open. If copy passes,
+advance pointer/result/return fullpost; if normal resources fail inspect actual
+chunks without weakening target; if fullcallee passes, accept only with entire
+combined/admission matrix and proceed paired caller resource invariant.
+
+### M2-cleanup-v2 / actual-option / W2-loop-frame dispatch BEFORE
+
+Structurally checked cleanup patchc20112be1e94de13bb8501a8038fe3610f110e374f068014d7484b6d0931353e;
+translator2b5f7eb3133f17cf1e425ae1b31bcb9e36457873fd0efe35c302c39f122030c9,
+kernel100eebae unchanged. Frontend matches exact outer T/F, cmp_k/t, paired
+source/ref operands, tuple ownership and cleanup, plus typeid_of_lft(cmp_k).
+Original CFG is nested in ordinary block before outer panic label. Full actual
+option scratch contract/C1 pointer domain prepared, runtime bodies unchanged.
+Trace checked array split/read/rejoin and explicit function-lifetime/return-slot
+loop frame included; return slot ghost address bound beforeloop remains fixed.
+New controls: local type hidden in P, wrong physical k and wrong P source should
+reject in frontend before body; missing left/right/F owners should reach genuine
+resource proof obligations. Oracles remain calibration, not guessed acceptance.
+Old wrong marker, false unwind, direct typed escape and strengthened right
+fraction+1 controls retained. Expected stages all0/0/1/0 for controls; intended
+frontend/resource distinction and exact locations must be audited after run.
+One hosted manual merge_geometry workflow, 30min ceiling, full existing matrix.

@@ -231,6 +231,38 @@ lem trace_source_terminal_step(p: pointer, i: i32, s: i32)
     }
 }
 
+lem trace_bool_choice_open(p: *const bool, values: list<bool>, count: usize, k: usize)
+    req [?f]p[..count] |-> values &*& count == length(values) &*&
+        0 <= k &*& k < count;
+    ens [f]p[..k] |-> take(k, values) &*&
+        [f](*(p + k) |-> nth(k, values)) &*&
+        [f]p[k + 1..count] |-> drop(k + 1, values);
+{
+    array_inv(p);
+    array_split(p, k);
+    array_split(p + k, 1);
+    drop_n_plus_one(k, values);
+    assert take(1, drop(k, values)) == cons(nth(k, values), nil);
+    open [f]array::<bool>(p + k, 1, cons(nth(k, values), nil));
+    open [f]array::<bool>(p + k + 1, 0, nil);
+}
+
+lem trace_bool_choice_close(p: *const bool, values: list<bool>, count: usize, k: usize)
+    req [?f]p[..k] |-> take(k, values) &*&
+        [f](*(p + k) |-> nth(k, values)) &*&
+        [f]p[k + 1..count] |-> drop(k + 1, values) &*&
+        count == length(values) &*& 0 <= k &*& k < count;
+    ens [f]p[..count] |-> values;
+{
+    array_inv(p + k + 1);
+    close [f]array::<bool>(p + k + 1, 0, nil);
+    close [f]array::<bool>(p + k, 1, cons(nth(k, values), nil));
+    array_join(p + k);
+    drop_n_plus_one(k, values);
+    append_take_drop_n(values, k);
+    array_join(p);
+}
+
 lem trace_destination_forward_step(p: pointer, i: i32, s: i32, step: bool)
     req 0 <= i &*& 0 < s &*& s <= usize::MAX &*&
         0 <= p.address &*&
@@ -389,6 +421,8 @@ on_unwind_ens false;
 @*/
 {
     //@ let s = std::mem::size_of::<T>();
+    //@ array_inv(up_choices);
+    //@ array_inv(down_choices);
     //@ mul_mono_l(0, m, s);
     //@ mul_mono_l(m, n, s);
     //@ mul_mono_l(0, m - 1, s);
@@ -415,6 +449,7 @@ on_unwind_ens false;
 
     //@ trace_true_prefix_zero(up_values);
     //@ trace_true_prefix_zero(down_values);
+    //@ assert struct_G2PointerTrace_padding::<T>(?return_addr);
 
     while k < m {
         /*@ inv k <= m &*& a <= k &*& d <= k &*&
@@ -426,6 +461,24 @@ on_unwind_ens false;
             right_rev as pointer == trace_source_pointer(src as pointer, n - 1 - d, s) &*&
             dst as pointer == trace_destination_pointer(dst_base as pointer, k, s) &*&
             dst_rev as pointer == trace_destination_pointer(dst_base as pointer, n - 1 - k, s) &*&
+            // The Rust MIR return local is compiler-created (`_0`) and has
+            // no source-level binding.  Existentially frame its exact
+            // uninitialized aggregate resources so the final aggregate
+            // construction can consume them after the loop.
+            lifetime_token(func_lft) &*&
+            struct_G2PointerTrace_padding::<T>(return_addr) &*&
+            G2PointerTrace_left_::<T>(return_addr, ?return_left) &*&
+            G2PointerTrace_right_::<T>(return_addr, ?return_right) &*&
+            G2PointerTrace_dst_::<T>(return_addr, ?return_dst) &*&
+            G2PointerTrace_left_rev_::<T>(return_addr, ?return_left_rev) &*&
+            G2PointerTrace_right_rev_::<T>(return_addr, ?return_right_rev) &*&
+            G2PointerTrace_dst_rev_::<T>(return_addr, ?return_dst_rev) &*&
+            G2PointerTrace_left_end_::<T>(return_addr, ?return_left_end) &*&
+            G2PointerTrace_right_end_::<T>(return_addr, ?return_right_end) &*&
+            G2PointerTrace_forward_left_count_::<T>(return_addr, ?return_forward_left_count) &*&
+            G2PointerTrace_reverse_right_count_::<T>(return_addr, ?return_reverse_right_count) &*&
+            G2PointerTrace_odd_left_advance_::<T>(return_addr, ?return_odd_left_advance) &*&
+            G2PointerTrace_residual_guard_::<T>(return_addr, ?return_residual_guard) &*&
             [fu]up_choices[..m] |-> up_values &*&
             [fd]down_choices[..m] |-> down_values;
         @*/
@@ -438,8 +491,14 @@ on_unwind_ens false;
         //@ assert 0 <= n - 1 - k && n - 1 - k < n;
         //@ assert 1 <= n - 1 - k;
 
+        //@ trace_bool_choice_open(up_choices, up_values, m, k);
         let up = unsafe { up_choices.add(k).read() };
+        //@ assert up == nth(k, up_values);
+        //@ trace_bool_choice_close(up_choices, up_values, m, k);
+        //@ trace_bool_choice_open(down_choices, down_values, m, k);
         let down = unsafe { down_choices.add(k).read() };
+        //@ assert down == nth(k, down_values);
+        //@ trace_bool_choice_close(down_choices, down_values, m, k);
 
         //@ g2_trace_step(m, n, e, k, a, d, up, down);
 
