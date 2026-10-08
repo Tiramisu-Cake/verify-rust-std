@@ -233,7 +233,8 @@ def main():
     for match in matches:
         body = match.group(2)
         need(body.count(PLACEHOLDER) == 3 and
-             body.count(b'mir_stack_addr(999999)') == 2 and
+             # Two ghost expressions and one ordinary oracle-message quote.
+             body.count(b'mir_stack_addr(999999)') == 3 and
              body.count(b'// TARGET') == 1 and
              body.count(b'// EXPECT_REJECTION ') == 1,
              'control template marker/oracle count changed')
@@ -258,7 +259,7 @@ def main():
         for key in ('case', 'role', 'raw_id', 'id', 'raw_type', 'vdi_names',
                     'declaration_span', 'target_line'):
             need(first[key] == final[key], f'{name}: final normal-MIR role drifted at {key}')
-        need(final_source.count(b'mir_stack_addr(' + str(final['id']).encode() + b')') == 2 and
+        need(final_source.count(b'mir_stack_addr(' + str(final['id']).encode() + b')') == 3 and
              b'mir_stack_addr(999999)' not in final_source,
              f'{name}: final marker ID does not match normal MIR')
         certificate = {'case': name, 'github_sha': os.environ['GITHUB_SHA'],

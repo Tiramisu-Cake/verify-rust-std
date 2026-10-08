@@ -575,6 +575,21 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
             "proof_ast_sha256": (sha((case_dir / "proof-ast.ml").read_bytes())
                 if (case_dir / "proof-ast.ml").is_file() else None),
         }, indent=2) + "\n")
+        if (stack_stages.get("roles") == 0 and
+                (case_dir / "proof-ast.ml").is_file()):
+            # Calibration only: external macro spans remain excluded from
+            # body accounting until the independent sysroot SHA is pinned.
+            run_stage(name, "panic-macro-origin", [
+                sys.executable, str(HERE / "panic-macro-admission.py"),
+                "--normal-decoded", str(case_dir / "normal-decode.out"),
+                "--normal-mir", str(case_dir / "normal-exporter.out"),
+                "--proof-ast", str(case_dir / "proof-ast.ml"),
+                "--source", str(verified),
+                "--provenance", str(case_dir / "normal-exporter-provenance.json"),
+                "--compiler-sysroot", str(args.compiler_sysroot),
+                "--verifast-log", str(case_dir / "verifast.log"),
+                "--output", str(case_dir / "panic-macro-origin.json"),
+            ], case_dir)
 
     # Refinement is independent of VF success, and always receives the stripped
     # original and full ghost-annotated projection.

@@ -253,29 +253,21 @@ suite() {
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/stack-address-role-controls/stack-address-control-cases.rs" --evidence "$evidence/checked-stack-role-controls"
   fi
-  run_one bundled-z3-compact-controls 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --prover Z3v4.5 --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1-z3 \
-    --scope 'existing pinned bundled Z3 backend with same kernel, all normal/unwind/negative/dead controls retained' \
-    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-    --fixture research/challenge-8/merge/overnight/baseline-cases.rs --evidence "$evidence/checked-z3-baselines"
-  run_one bundled-z3-trace-entry-controls 120 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --prover Z3v4.5 --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1-z3 \
-    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-    --cases trace_generic_entry_domain,trace_u32_entry_domain,trace_generic_entry_domain_negative \
-    --fixture research/challenge-8/merge/overnight/trace-precondition-cases.rs --evidence "$evidence/checked-z3-trace-entry"
-  run_one bundled-z3-quartet-layout-controls 120 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --prover Z3v4.5 --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1-z3 \
-    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-    --cases tuple_layout_twelve_quartets,tuple_layout_twelve_quartets_false_entry \
-    --fixture research/challenge-8/merge/overnight/tuple-layout-cases.rs --evidence "$evidence/checked-z3-quartet-layout"
+  # The bundled Z3 configuration is unsupported at pointer_ctor sorts in
+  # run37759998061; preserve its artifacts, avoid repeating setup failures.
   # Original balanced trace/entry-death evidence is retained in previous runs.
   # Its same reproducible pre-body refusal is not rerun; quartet profile keeps
   # all twelve original coordinates, helper proofs and relations.
-  run_one pointer-quartet-trace-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --prover Z3v4.5 --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1-z3 \
+  run_one pointer-quartet-trace-entry-negative 120 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+    --scope 'matched full G2 domain and twelve-coordinate result allocation; first-body false assertion, all original helper bodies/posts retained' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/pointer-trace-quartet-entry-negative.rs --evidence "$evidence/checked-z3-quartet-full-entry"
+  run_one pointer-quartet-trace-diagnostic 400 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
     --scope 'same twelve G2 trace coordinates and complete posts in stock tuple3 of tuple4 layout; original balanced tuple profile retained' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-    --verifier-seconds 180 --fixture research/challenge-8/merge/overnight/pointer-trace-quartet-cases.rs \
+    --verifier-seconds 300 --fixture research/challenge-8/merge/overnight/pointer-trace-quartet-cases.rs \
     --evidence "$evidence/checked-pointer-trace-quartets"
   run_one actual-source-preparation 20 python3 research/challenge-8/merge/overnight/actual-prepare.py \
     --output "$evidence/actual-cases.rs"
@@ -291,23 +283,17 @@ suite() {
     --scope 'checked exact panic option-stage lemmas and full destination frame; suffix-only negative must reach assertion' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/bidirectional-stage-cases.rs --evidence "$evidence/checked-bidirectional-stages"
-  run_one bidirectional-source-preparation 20 python3 research/challenge-8/merge/overnight/bidirectional-prepare.py \
-    --output "$evidence/bidirectional-cases.rs"
-  if [[ -f "$evidence/bidirectional-cases.rs" ]]; then
-    run_one bidirectional-len2-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-      --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
-      --scope 'unchanged actual bidirectional len2 with same-source checked actual callees; full current-owner and partial panic initialization targets; restricted domain/dead branches remain explicit diagnostics' \
-      --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-      --verifier-seconds 120 --fixture "$evidence/bidirectional-cases.rs" --evidence "$evidence/checked-bidirectional"
-  fi
+  # Length-two full-body diagnostic is conclusively rejected by mandatory
+  # odd/guard dead-code gates in run37759998061. Continue the joint 2/3 domain;
+  # same-input stack gates and actual callee bodies remain mandatory there.
   run_one bidirectional-small-source-preparation 20 python3 research/challenge-8/merge/overnight/bidirectional-small-prepare.py \
     --output "$evidence/bidirectional-small-cases.rs"
   if [[ -f "$evidence/bidirectional-small-cases.rs" ]]; then
-    run_one bidirectional-len23-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    run_one bidirectional-len23-diagnostic 400 python3 research/challenge-8/merge/overnight/pointer-prove.py \
       --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
       --scope 'unchanged actual bidirectional lengths two or three; actual callees, complete current source and scratch resources, conditional third cell and exact panic stages; both odd/even branches required' \
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
-      --verifier-seconds 120 --fixture "$evidence/bidirectional-small-cases.rs" --evidence "$evidence/checked-bidirectional-small"
+      --verifier-seconds 300 --fixture "$evidence/bidirectional-small-cases.rs" --evidence "$evidence/checked-bidirectional-small"
   fi
   return "$suite_status"
 }

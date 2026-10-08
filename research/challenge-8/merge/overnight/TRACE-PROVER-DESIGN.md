@@ -29,3 +29,12 @@ commands record the chosen stock plugin and stage timeout.
 Separately, actual len2 gets120s to finish observed normal-return/panic paths;
 len2/3 repairs its exact optional third-slot predicate without changing runtime
 bodies/posts. Default backend remains for both current actual diagnostics.
+
+Run37759998061 /de87fd91: all eight Z3 entry/layout/baseline controls and
+main trace fail during setup with `pointer_ctor` argument2 sort mismatch
+(inductive instead of Int), zero body executions. No intended assertion
+was reached. This configuration is unsupported and is removed from repeat
+unless there is a new concrete repair hypothesis. Default Redux is retained;
+full quartet trace300s with the same complete source/posts and a matched
+full-domain/twelve-result first-body false control. The old Z3 evidence and
+its distinct profile remain historical; none is accepted or relabeled.

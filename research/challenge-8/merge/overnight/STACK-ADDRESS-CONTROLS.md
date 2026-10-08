@@ -78,3 +78,11 @@ unchanged source, successful exporter/decode/refinement, and zero body entry.
 If scalar lowering is `checkedBinaryOp`, source VDI is absent, or any role
 drifts after replacement, preparation fails as setup; no expected negative is
 claimed. The existing positive actual 14-address AST/resource gate is separate.
+
+Run37759998061: parameterID1 exactfrontendrefusalPASS alongwithold6
+syntax/missing-IDcontrols. The two-pass preparer fails its textual marker
+count before export: the ordinary expected-message comment also quotes
+`mir_stack_addr(999999)`, so there are three textual occurrences but only
+two ghost expressions. Adjust that assertion and the final total-string
+check to3; `candidate` still requires exactly2actualmarkers ononeTARGET
+annotation. This is setup repair, not evidence for scalar/named controls.

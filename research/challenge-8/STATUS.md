@@ -1,8 +1,8 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
-**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **1729/7200 job seconds**
-(204 + 209 + 55 + 130 + 224 + 266 + 260 + 381), осталось **5471/7200**. Ночная история **3971/21600** отдельно;
+**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **2127/7200 job seconds**
+(204 + 209 + 55 + 130 + 224 + 266 + 260 + 381 + 398), осталось **5073/7200**. Ночная история **3971/21600** отдельно;
 старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
 Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
 `77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`.
@@ -156,6 +156,24 @@ whilecarryingthirdchunkonlywhenlen3. G2quartetmain **360exec**,120stimeout;
 Mergeup/downfullPASS116/120. NextM3m adds two-passfreshIDcontrols, exactstage
 negative, optional-slotrepair, andexistingpinnedZ3diagnostic withsamefulltrace
 source plus domain/layout/unwindnegativecontrols. Noactuallengtharbitraryproof.
+
+M3m /de87fd91/run37759998061 job11325381813109:55:34–10:02:12UTC398s
+overallFAILURE; separateactual/math results preserved. Stack7syntax/parameter
+frontendcontrolsPASS, normalMIR+ASTlinkagePASSforlen2/len23; rolecontrol
+preparerfailedtextcountbeforeexport (oraclecommentisthirdtextoccurrence),
+fix3text/2ghostcounts. Stageframe+3checkedlemmasANDsuffixfalse+mutants
+fullPASS. Actual len2 completed verifier with119exec but mandatory odd
+andpanicguard dead-code gate rejects; retaindiagnostic, don'trepeat same
+knownrefusal. Actual2/3 setupFIXED,151exec reachesodd-copy, guard and
+normalreturn;120stimeoutFreeinglocals, stillnotwholeproof.
+Z3configurationunsupportedpointer_ctorSortMismatchbeforeanybody/target:
+all8controls+traceINC, nointendednegatives; discontinuerepeats. Default
+fulltrace300s nextwithmatchedsame12-result/domain firstbodyfalse. Panic
+macroorigincertificatecandidateCALIBRATIONonly: bindMIR/AST/literal/
+externalnightlyspans/log+13mutants, capturefreshpanic.rsSHA, no bodycount
+overrideuntilindependentlypinnedfinaladmission. Oldup/downfullPASS.
+NextM3n fullmatrixusesdefaultbackendonly,2/3onlyactualdiagnostic300s;
+night/sourcepins unchanged, continuation2127/7200 with5073available.
 
 ---
 

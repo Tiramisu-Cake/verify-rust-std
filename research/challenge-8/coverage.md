@@ -502,3 +502,12 @@ admission remainsseparate. Stageframe+3purecheckedlemmasfullPASS;
 suffixfalseintendedreacheduncalibrated. Actual len2119exec30stimeout
 afterreturn/panic;len23dst2scopeSETUP. G2quartet360exec120stimeout;
 constructor/fullnegativePASS; actualup/downfullPASS. Continuation1729/7200.
+
+M3m/de87fd91/run37759998061: stageframe+3checkedbodies+suffixnegative
+fullPASS. Actual len2 mandatoryodd/guarddead-code rejection retained
+(119exec); actual2/3setupfixed,151exec reachesodd-copy/normalreturn then
+120stimeout onfreeinglocals. Stack7frontendcontrolsPASS andsameinput
+MIR/ASTgatesPASS. Scalar/namedcontrolprepSETUPfailed beforeexport.
+Z3all8controls+traceSETUPunsupported(pointer_ctorSortMismatch), no
+body/targetentry, allINC—notproofnegatives. Fullup/downPASS.
+Continuation2127/7200,5073left. MacrooriginclassifiercandidateNOTadmitted.

@@ -5134,3 +5134,35 @@ normal/unwind/false/deadcontrols mandatory. Actualdefaultbackend120s,
 allacceptedoldregressions unchanged. DecisionifZ3passesallgates accept
 separateconditionalG2component; ifbackendunsupported/timeouts keep
 INCandrefineproofqueries; allactualposts/source/resources retained.
+
+### M3m outcome and M3n prepared
+
+Proofde87fd9172c90a747635baccc1d737e1573e0db5 /
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37759998061
+job11325381813109:55:34–10:02:12UTC398sFAILUREdiagnosticmatrix,
+continuation2127/7200. Allacceptedoldbaselinesactualup/downPASS.
+Stack7syntax/parameterexactfrontendcontrols+mutantsPASS; bothMIR/AST
+linkagesPASS14addresses+allmutants. Two-pass3newrolecontrolsnotrun
+becauseprepexpected2textualmarkersbutoraclecommentisthirdoccurrence.
+Fix3textualcountwhilecandidateexactly2ghostcallsunchanged.
+Stageframe+3bodiesfullPASS; suffixfalseexactEXPECT_ERROR+allmutantsPASS.
+Len2fullVFfailsmandatoryodd/guarddead-code (119exec) nottheorem; preserve
+resultandstopsamerepeat. Len23globalold2predicatepassesparser/
+type/body,151execodd-copy/guard+normalreturn at53.1s,120stimeout freeing
+locals; no completednormal/unwind/leak/dead verdict. Z3all8compact
+controls+fulltrace failsetup `pointer_ctor` arg2SortMismatch, no body or
+target reached; candidateunsupported, discontinuedwithoutclaim.
+
+M3n fullmatrix: default300s trace unchanged12posts/source +exactmatched
+full12shape/domainfalsefirststatement; default300sactual2/3, bothactual
+callees checkedsamecase, no furtherlen2knownrefusal. Stacktwo-pass
+preparer repairedcounts, fulladdresssyntax7baselinecontrols/roleASTgates
+unchanged. PANIC-MACRO-DESIGN candidate origin+13mutants runsdiagnostic
+CALIBRATIONonly: recordsnightlypanic.rsbytesSHAfromexactcompiler sysroot,
+MIR→AST→orderedmacrocall+unwind+leak. Functionwideinitializersstill
+notcounted; requirefuturepinnedSHA/admissionbeforeclassifierrepair.
+This is a classifier/source-linking dependency, nottrustedpanicaxiom.
+Ifdefaultfulltracecompletesacceptonlyfullgates+matchednegative; iftimeout
+pursuecheckedmodularhelperdecomposition retaining12relations. Ifactual
+2/3completesbody, macroanddead/source/leakgatesstillmandatory.
+No new semanticpatch or weakerpost. Budget5073jobseconds/window14:30MSK.
