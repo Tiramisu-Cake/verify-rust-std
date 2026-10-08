@@ -38,7 +38,8 @@ LINK = load(REPO / "research/challenge-8/overnight-linkage/"
 
 def write_case(repo: Path, out: Path, *, owner_safety_proof: bool = True,
                annotate_nested_drop: bool = True,
-               safety_proof_variant: str = "positive") -> dict:
+               safety_proof_variant: str = "positive",
+               owner_literal: bool = False) -> dict:
     OWNER.require((os.environ.get("GITHUB_ACTIONS"),
                    os.environ.get("RUNNER_ENVIRONMENT"),
                    os.environ.get("RUNNER_OS")) ==
@@ -75,6 +76,7 @@ def write_case(repo: Path, out: Path, *, owner_safety_proof: bool = True,
     verified = OWNER.candidate(
         base_verified, base_original, owner_safety_proof=owner_safety_proof,
         safety_proof_variant=safety_proof_variant,
+        owner_literal=owner_literal,
         annotate_nested_drop=annotate_nested_drop)
     case = out / "linked-owner"
     (case / "original").mkdir(parents=True)
@@ -94,6 +96,7 @@ def write_case(repo: Path, out: Path, *, owner_safety_proof: bool = True,
         "full_source_admission_needed": True,
         "owner_safety_proof": owner_safety_proof,
         "safety_proof_variant": safety_proof_variant,
+        "owner_literal": owner_literal,
         "safety_proof_source": (
             OWNER.SAFETY_PROOFS[safety_proof_variant].decode()
             if owner_safety_proof else None),

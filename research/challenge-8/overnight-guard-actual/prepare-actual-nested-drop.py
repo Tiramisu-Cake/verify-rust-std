@@ -60,7 +60,8 @@ def write_case(repo: Path, out: Path, *, with_owned_forget: bool = False) -> dic
     # fn_outcome<*Element>.  This new source-only variant projects its normal
     # value while retaining the original full post and false unwind post.
     base_record = OWNER.write_case(
-        repo, base, safety_proof_variant="outcome_result")
+        repo, base, safety_proof_variant="outcome_result",
+        owner_literal=True)
     base_case = base / "linked-owner"
     old_verified = (base_case / "verified/lib.rs").read_bytes()
     old_original = (base_case / "original/lib.rs").read_bytes()

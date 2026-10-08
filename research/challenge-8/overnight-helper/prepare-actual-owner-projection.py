@@ -72,6 +72,9 @@ CLOSE_OWNER = (
     b"                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n"
     b"             } @*/\n"
 )
+CLOSE_OWNER_LITERAL = CLOSE_OWNER.replace(
+    b"own(t, guard);",
+    b"own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });")
 CLOSE_UNSELECTED = (
     b"        /*@ if (condition) {\n"
     b"                 std::mem::close_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);\n"
@@ -129,6 +132,7 @@ def candidate(base_verified: bytes, base_original: bytes,
               owner_post_completion: bool = False,
               owner_safety_proof: bool = False,
               safety_proof_variant: str = "positive",
+              owner_literal: bool = False,
               annotate_nested_drop: bool = False) -> bytes:
     verified = base_verified
     require(not (owner_post_completion and owner_safety_proof),
@@ -171,7 +175,12 @@ def candidate(base_verified: bytes, base_original: bytes,
                 "actual nested Drop unsafe call anchor changed")
         verified = verified.replace(
             NESTED_DROP_CALL, NESTED_DROP_GHOST + NESTED_DROP_CALL, 1)
+    require(CLOSE_OWNER_LITERAL.count(
+        b"select_unpredictable::DropOnPanic::<*Element> { inner: guard }") == 2,
+        "owner logical aggregate must occur in both branches exactly")
     for anchor, ghost in INSERTIONS:
+        if owner_literal and anchor == b"        let guard = DropOnPanic { inner: guard };\n":
+            ghost = CLOSE_OWNER_LITERAL
         require(verified.count(anchor) == 1,
                 f"actual owner insertion anchor ambiguous: {anchor.decode()}")
         verified = verified.replace(anchor, anchor + ghost, 1)
@@ -195,6 +204,7 @@ def write_case(repo: Path, out: Path,
                owner_post_completion: bool = False,
                owner_safety_proof: bool = False,
                safety_proof_variant: str = "positive",
+               owner_literal: bool = False,
                annotate_nested_drop: bool = False) -> dict:
     require(os.environ.get("GITHUB_ACTIONS") == "true" and
             os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted" and
@@ -209,6 +219,7 @@ def write_case(repo: Path, out: Path,
                          owner_post_completion=owner_post_completion,
                          owner_safety_proof=owner_safety_proof,
                          safety_proof_variant=safety_proof_variant,
+                         owner_literal=owner_literal,
                          annotate_nested_drop=annotate_nested_drop)
     case = out / "owner-projection"
     (case / "original").mkdir(parents=True)
@@ -223,6 +234,7 @@ def write_case(repo: Path, out: Path,
         "owner_post_completion": owner_post_completion,
         "owner_safety_proof": owner_safety_proof,
         "safety_proof_variant": safety_proof_variant,
+        "owner_literal": owner_literal,
         "safety_proof_source": (SAFETY_PROOFS[safety_proof_variant].decode()
                                 if owner_safety_proof else None),
         "actual_nested_drop_annotated": annotate_nested_drop,
@@ -242,9 +254,12 @@ def write_case(repo: Path, out: Path,
         "baseline_original_sha256": base_record["original_sha256"],
         "ghost_strip_identity": True,
         "qualified_nominal_owner": OWNER_PRED.decode(),
-        "ordered_ghost_blocks": [OPEN_WRAPPERS.decode(), CLOSE_OWNER.decode(),
-                                 CLOSE_UNSELECTED.decode(), OPEN_OWNER.decode(),
-                                 CLOSE_SELECTED.decode()],
+        "ordered_ghost_blocks": [
+            OPEN_WRAPPERS.decode(),
+            (CLOSE_OWNER_LITERAL if owner_literal
+             else CLOSE_OWNER).decode(),
+            CLOSE_UNSELECTED.decode(), OPEN_OWNER.decode(),
+            CLOSE_SELECTED.decode()],
         "expected_call_inventory": {
             "pointer_select": 2, "wrapper_select": 1,
             "pointer_drop": 1, "safe_forget": 1, "assume_init": 1},
