@@ -1,0 +1,339 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -664,6 +664,20 @@
+       failwith ("SORT4-ACTUAL-NESTED-H2: certificate mismatch: " ^ why)
+   end
+
++  module Sort4ActualForgetOwn = struct
++    let active = ref false
++    let redirected = ref 0
++    let projected = ref 0
++    let callee_name = "checked_forget_owned"
++    let annotations = [
++      "/*@\nreq thread_token(?tid) &*& tid == currentThread &*& <T>.own(tid, t);\n@*/";
++      "/*@\nens thread_token(tid) &*& <T>.own(tid, t);\n@*/";
++      "/*@\non_unwind_ens false;\n@*/"
++    ]
++    let reject why =
++      failwith ("SORT4-ACTUAL-FORGET-OWN: certificate mismatch: " ^ why)
++  end
++
+   module Sort4SelectIntrinsic = struct
+     let ptr_name = "sort4_checked_select_ptr"
+     let mu_name = "sort4_checked_select_mu"
+@@ -3631,6 +3645,40 @@
+                          ( fn_loc,
+                            slice_u8_ref_ty,
+                            arg )) )
++            | "std::mem::forget"
++              when !Sort4ActualForgetOwn.active &&
++                   State.body_name = "select_unpredictable" ->
++                (match fn_def_ty_cpn.substs,
++                       fn_def_ty_cpn.late_bound_generic_param_count,
++                       substs_cpn, substs, args_cpn, args with
++                 | [{kind=Type
++                      {kind=Adt
++                        {id={name="select_unpredictable::DropOnPanic"};
++                         kind=StructKind;
++                         substs=[{kind=Type inner}]}}}], 0,
++                   [_], [Mir.GenArgType guard_ty],
++                   [operand], [guard]
++                   when Sort4MaybeUninit.pointer_element inner ->
++                     (match OperandRd.get operand with
++                      | OperandRd.Move place when
++                          LocalDeclIdRd.name_get
++                            (PlaceRd.local_get place) = "_32" &&
++                          PlaceRd.local_is_mutable_get place &&
++                          PlaceRd.projection_get_list place = [] &&
++                          VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
++                            VfMirRd.PlaceKind.Other -> ()
++                      | _ -> Sort4ActualForgetOwn.reject
++                          "actual SAFE forget Move(_32)");
++                     incr Sort4ActualForgetOwn.redirected;
++                     if !Sort4ActualForgetOwn.redirected <> 1 then
++                       Sort4ActualForgetOwn.reject
++                         "more than one actual SAFE forget redirect";
++                     Ok (tmp_rvalue_binders,
++                         FnCallOutcome (Ast.CallExpr
++                           (fn_loc, Sort4ActualForgetOwn.callee_name,
++                            [guard_ty.vf_ty], [], [LitPat guard], Static)))
++                 | _ -> Sort4ActualForgetOwn.reject
++                     "actual SAFE forget type/substitution")
+             | _ -> translate_regular_fn_call substs fn_name)
+       | _ ->
+           Error (`TrFnCallRExpr "Invalid function definition type translation")
+@@ -3707,8 +3755,53 @@
+                 true
+           | _ -> Sort4G1Call.reject "typed checked-forget call/edge"
+       in
++      let checked_owner_no_unwind =
++        if State.body_name <> "select_unpredictable" ||
++           not !Sort4ActualForgetOwn.active ||
++           not (match D.decode_operand func_cpn with
++                | Constant {const=Val {ty={kind=FnDef
++                    {id={name="std::mem::forget"}}}}} -> true
++                | _ -> false) then false
++        else
++          match D.decode_operand func_cpn,
++                List.map D.decode_operand args_cpn,
++                fn_call_rexpr,
++                UnwindActionRd.get
++                  (unwind_action_get fn_call_data_cpn),
++                OptionRd.get (target_get fn_call_data_cpn) with
++          | Constant {const=Val {ty={kind=FnDef
++              {id={name="std::mem::forget"};
++               substs=[{kind=Type {kind=Adt
++                 {id={name="select_unpredictable::DropOnPanic"};
++                  kind=StructKind;
++                  substs=[{kind=Type inner}]}}}];
++               late_bound_generic_param_count=0}}}},
++            [Move {local={name="_32"};projection=[]}],
++            FnCallOutcome (Ast.CallExpr
++              (_, "checked_forget_owned", [_], [],
++               [Ast.LitPat _], Ast.Static)),
++            UnwindActionRd.Cleanup cleanup,
++            OptionRd.Something normal
++              when Sort4MaybeUninit.pointer_element inner &&
++                   Stdint.Uint32.to_int
++                     (BasicBlockIdRd.index_get cleanup) = 24 &&
++                   Stdint.Uint32.to_int
++                     (BasicBlockIdRd.index_get
++                       (VfMirRd.of_pointer normal)) = 15 &&
++                   LocalDeclIdRd.name_get
++                     (PlaceRd.local_get
++                       (destination_get fn_call_data_cpn)) = "_31" &&
++                   not TranslatorArgs.ignore_unwind_paths ->
++                incr Sort4ActualForgetOwn.projected;
++                if !Sort4ActualForgetOwn.projected <> 1 then
++                  Sort4ActualForgetOwn.reject
++                    "more than one false-unwind SAFE forget projection";
++                true
++          | _ -> Sort4ActualForgetOwn.reject
++              "typed SAFE forget call/outcome/shared cleanup"
++      in
+       let fn_call_rexpr =
+-        if checked_g1_no_unwind then
++        if checked_g1_no_unwind || checked_owner_no_unwind then
+           match fn_call_rexpr with
+           | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
+           | _ -> assert false
+@@ -3882,7 +3975,8 @@
+                  ]),
+               (match fn_call_rexpr, terminator with
+               | FnCallResult _, Mir.GotoTerminator _
+-                when !manuallydrop_new_identity_lowering || checked_g1_no_unwind ->
++                when !manuallydrop_new_identity_lowering ||
++                     checked_g1_no_unwind || checked_owner_no_unwind ->
+                   (* The identity lowering emits only the normal assignment/goto.
+                      The separately proved G1 callee has false unwind.  Keep
+                      successor inventory faithful to the emitted CFG. *)
+@@ -13202,6 +13296,178 @@
+       "SORT4-ACTUAL-NESTED-H2: exact nine-body same-unit method/Drop admitted\n%!";
+     Ok ()
+
++  let certify_sort4_actual_forget_own
++      (vf_mir : VfMirRd.VfMir.t) root =
++    let open Sort4ActualForgetOwn in
++    active := false; redirected := 0; projected := 0;
++    if not !Sort4SelectIntrinsic.actual_nine_admitted ||
++       Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" then
++      reject "exact nine-body owner admission required";
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    let callee,outer = match bodies with
++      | [_;_;_;_;_;_;callee;outer;_] -> callee,outer
++      | _ -> reject "exact nine-body callee/actual positions" in
++    if TrName.translate_def_path (BodyRd.def_path_get callee) <>
++         callee_name ||
++       TrName.translate_def_path (BodyRd.def_path_get outer) <>
++         "select_unpredictable" ||
++       BodyRd.DefKind.get (BodyRd.def_kind_get callee) <>
++         BodyRd.DefKind.Fn ||
++       UnsafetyRd.get (BodyRd.unsafety_get callee) <>
++         UnsafetyRd.Unsafe ||
++       VisibilityRd.get (BodyRd.visibility_get callee) <>
++         VisibilityRd.Public ||
++       BodyRd.ghost_stmts_get_list callee <> [] ||
++       (ContractRd.annotations_get_list
++          (BodyRd.contract_get callee) |>
++          List.map AnnotationRd.raw_get) <> annotations then
++      reject "same-unit owner-preserving callee identity/contract";
++    (match BodyRd.generics_get_list callee,
++           BodyRd.inputs_get_list callee with
++     | [g],[input] when
++         VfMirRd.GenericParamDef.name_get g = "T" &&
++         VfMirRd.GenericParamDefKind.get
++           (VfMirRd.GenericParamDef.kind_get g) =
++             VfMirRd.GenericParamDefKind.Type &&
++         (D.decode_ty input).kind = D.Param "T" -> ()
++     | _ -> reject "same-unit generic T input");
++    let* callee_loc = translate_span_data
++      (BodyRd.fn_sig_span_get callee) in
++    let* outer_loc = translate_span_data
++      (BodyRd.fn_sig_span_get outer) in
++    let path = match callee_loc,outer_loc with
++      | Ast.Lexed (((a,_,_),(b,_,_))),
++        Ast.Lexed (((c,_,_),(d,_,_)))
++        when a=b && b=c && c=d &&
++             Filename.check_suffix a "verified/lib.rs" -> a
++      | _ -> reject "same-unit forget/actual source spans" in
++    let source = Sort4MaybeUninit.read_file path in
++    let signature = "pub unsafe fn checked_forget_owned<T>(t: T)" in
++    let body = "{\n    let _ = ManuallyDrop::new(t);\n}" in
++    if Sort4PointerDrop.body_after source signature <> body then
++      reject "same-unit exact owner-preserving runtime body";
++    let std_source = Sort4MaybeUninit.read_file
++      (Filename.concat root "library/core/src/mem/mod.rs") in
++    if Sort4PointerDrop.body_after std_source
++         "pub const fn forget<T>(t: T)" <> body then
++      reject "actual SAFE forget exact std runtime body";
++    let blocks = BodyRd.basic_blocks_get_list outer in
++    if List.length blocks <> 25 then
++      reject "exact actual shared-cleanup block inventory";
++    let call_block = List.nth blocks 14 in
++    let place id mutable_ p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
++         PlaceRd.local_is_mutable_get p <> mutable_ ||
++         PlaceRd.projection_get_list p <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("plain actual forget place " ^ id) in
++    let statement_kind s =
++      StatementKindRd.get (StatementRd.kind_get s) in
++    (match BasicBlockRd.statements_get_list call_block with
++     | [dead;live_result;live_arg;flag;move_guard] ->
++         (match statement_kind dead,
++                statement_kind live_result,
++                statement_kind live_arg with
++          | StatementKindRd.StorageDead a,
++            StatementKindRd.StorageLive b,
++            StatementKindRd.StorageLive c when
++              LocalDeclIdRd.name_get a = "_30" &&
++              LocalDeclIdRd.name_get b = "_31" &&
++              LocalDeclIdRd.name_get c = "_32" -> ()
++          | _ -> reject "forget ordered storage statements");
++         (match statement_kind flag with
++          | StatementKindRd.Assign data ->
++              place "_41" true
++                (StatementKindRd.AssignData.lhs_place_get data);
++              (match RvalueRd.get
++                (StatementKindRd.AssignData.rhs_rvalue_get data) with
++               | RvalueRd.Use op ->
++                   (match OperandRd.get op with
++                    | OperandRd.Constant c ->
++                        (match VfMirRd.MirConst.get
++                          (ConstOperandRd.const_get c) with
++                         | VfMirRd.MirConst.Val v when
++                             TyKindRd.get (TyRd.kind_get
++                               (VfMirRd.MirConst.Val.ty_get v)) =
++                                 TyKindRd.Bool ->
++                             (match VfMirRd.ConstValue.get
++                               (VfMirRd.MirConst.Val.const_value_get v) with
++                              | VfMirRd.ConstValue.Scalar s ->
++                                  (match VfMirRd.Scalar.get s with
++                                   | VfMirRd.Scalar.Int n when
++                                       VfMirRd.ScalarInt.size_get n = 1 &&
++                                       Stdint.Uint128.to_string
++                                         (CapnpAux.uint128_get
++                                           (VfMirRd.ScalarInt.data_get n)) =
++                                           "0" -> ()
++                                   | _ -> reject "forget false drop flag")
++                              | _ -> reject "forget scalar drop flag")
++                         | _ -> reject "forget typed drop flag")
++                    | _ -> reject "forget constant drop flag")
++               | _ -> reject "forget flag rvalue")
++          | _ -> reject "forget flag statement");
++         (match statement_kind move_guard with
++          | StatementKindRd.Assign data ->
++              place "_32" true
++                (StatementKindRd.AssignData.lhs_place_get data);
++              (match RvalueRd.get
++                (StatementKindRd.AssignData.rhs_rvalue_get data) with
++               | RvalueRd.Use op ->
++                   (match OperandRd.get op with
++                    | OperandRd.Move p -> place "_24" false p
++                    | _ -> reject "guard not moved before forget")
++               | _ -> reject "guard move rvalue")
++          | _ -> reject "guard move statement")
++     | _ -> reject "forget ordered five-statement block");
++    (match TerminatorKindRd.get
++      (TerminatorRd.kind_get
++        (BasicBlockRd.terminator_get call_block)) with
++     | TerminatorKindRd.Call data ->
++         let open FnCallDataRd in
++         (match OperandRd.get (func_get data) with
++          | OperandRd.Constant c ->
++              (match VfMirRd.MirConst.get
++                (ConstOperandRd.const_get c) with
++               | VfMirRd.MirConst.Val v ->
++                   (match (D.decode_ty
++                     (VfMirRd.MirConst.Val.ty_get v)).kind with
++                    | D.FnDef
++                      {id={name="std::mem::forget"};
++                       substs=[{kind=D.Type
++                         {kind=D.Adt
++                           {id={name="select_unpredictable::DropOnPanic"};
++                            kind=D.StructKind;
++                            substs=[{kind=D.Type inner}]}}}];
++                       late_bound_generic_param_count=0}
++                         when Sort4MaybeUninit.pointer_element inner -> ()
++                    | _ -> reject "exact typed nominal SAFE forget")
++               | _ -> reject "forget callee constant value")
++          | _ -> reject "forget callee operand");
++         (match args_get_list data with
++          | [op] ->
++              (match OperandRd.get op with
++               | OperandRd.Move p -> place "_32" true p
++               | _ -> reject "forget argument plain Move")
++          | _ -> reject "forget call arity");
++         place "_31" false (destination_get data);
++         (match UnwindActionRd.get (unwind_action_get data),
++                OptionRd.get (target_get data) with
++          | UnwindActionRd.Cleanup cleanup,
++            OptionRd.Something normal when
++              Stdint.Uint32.to_int
++                (BasicBlockIdRd.index_get cleanup) = 24 &&
++              Stdint.Uint32.to_int
++                (BasicBlockIdRd.index_get
++                  (VfMirRd.of_pointer normal)) = 15 -> ()
++          | _ -> reject "forget normal/shared-cleanup successors")
++     | _ -> reject "forget exact call terminator");
++    active := true;
++    Printf.printf
++      "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted\n%!";
++    Ok ()
++
+   (* O23 diagnostic only.  A complete decoded-unit/body snapshot for the
+      six/seven/nine-body actual nested Drop fixture.  Even a perfect match to the
+      caller-provided source hash ends in refusal; this admits no operation. *)
+@@ -13304,6 +13570,15 @@
+             Ok ()
+         | Some root -> certify_sort4_actual_nested_h2 vf_mir_cpn root
+       in
++      let* () = match Sys.getenv_opt
++        "SORT4_ACTUAL_FORGET_OWN_REPO_ROOT" with
++        | None ->
++            Sort4ActualForgetOwn.active := false;
++            Sort4ActualForgetOwn.redirected := 0;
++            Sort4ActualForgetOwn.projected := 0;
++            Ok ()
++        | Some root -> certify_sort4_actual_forget_own vf_mir_cpn root
++      in
+       let* () = match Sys.getenv_opt "SORT4_POINTER_DROP_REPO_ROOT" with
+         | None -> Sort4PointerDrop.active := false; Ok ()
+         | Some root ->
+@@ -13575,6 +13850,14 @@
+         Printf.printf
+           "SORT4-ACTUAL-NESTED-H2: one qualified generic pointer-drop call linked\n%!"
+       );
++      if !Sort4ActualForgetOwn.active then (
++        if !Sort4ActualForgetOwn.redirected <> 1 ||
++           !Sort4ActualForgetOwn.projected <> 1 then
++          Sort4ActualForgetOwn.reject
++            "one typed SAFE forget redirect and one false-unwind projection required";
++        Printf.printf
++          "SORT4-ACTUAL-FORGET-OWN: one exact SAFE forget call linked\n%!"
++      );
+       if !Sort4G1Call.active then (
+         if !Sort4G1Call.translated <> 1 then
+           Sort4G1Call.reject "expected exactly one checked generic call";
