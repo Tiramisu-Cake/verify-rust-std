@@ -143,9 +143,9 @@ def main():
   cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token)
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
   raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
-  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING'};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
   compressed=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
   if len(compressed)>8*3500:raise SystemExit('Submitted config exceeds evidence transport limit; no dispatch')
+  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING'};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
   substitutions='_CONFIG_SHA='+h+','+','.join(f'_CONFIG_{i}='+compressed[i*3500:(i+1)*3500] for i in range(8))
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--substitutions='+substitutions,'--format=json','--quiet']
   try:b=invoke(cmd)

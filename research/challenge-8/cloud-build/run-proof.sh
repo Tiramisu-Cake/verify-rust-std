@@ -202,6 +202,17 @@ stage rustup-init "$rustup_init" -y --no-modify-path --default-toolchain none --
 stage compiler rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal \
   --component rustc-dev --component llvm-tools-preview --component rust-src
 compiler_sysroot=$(rustc --print sysroot)
+rustc --version --verbose > "$ev/compiler-version.txt"
+python3 - "$ev/compiler-version.txt" "$ev/tools.json" <<'TOOLPIN'
+import json,pathlib,sys
+text=pathlib.Path(sys.argv[1]).read_text()
+rows=dict(line.split(": ",1) for line in text.splitlines() if ": " in line)
+if rows.get("commit-hash") != "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f":
+ raise SystemExit("nightly compiler commit differs from frozen pin")
+if rows.get("host") != "x86_64-unknown-linux-gnu":
+ raise SystemExit("compiler target differs from frozen pin")
+pathlib.Path(sys.argv[2]).write_text(json.dumps({"rustc":rows,"verifast_source_sha":"f76012fb518703b1d98e243ac4f487f16877cfcb","std_base_sha":"cd371e035c7e573760c43bf934d53e8118ee3e7d","rustup_init_version":"1.28.2"},indent=2)+"\n")
+TOOLPIN
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock_home/bin:${LD_LIBRARY_PATH:-}"
 
 python3 - "$stock_home" "$source_home" "$ev" "$compiler_sysroot" <<'AUDIT'
