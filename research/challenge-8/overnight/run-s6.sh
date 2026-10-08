@@ -32,7 +32,7 @@ stock_home="$task_temp/verifast-26.10"
 source_home="$task_temp/source"
 patch_file="$repo/research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch"
 cfg_patch="$repo/research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch"
-printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link+h2a+h2b+h2c+g1-call+hrtb-output+callback-unwind-diag+owner-fingerprint-refusal-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
+printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link+h2a+h2b+h2c+g1-call+hrtb-output+callback-unwind-diag+owner-complete-admission-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
 sha256sum "$patch_file" >> "$ev/environment.txt"
 stage download curl -fL --retry 2 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
 printf '%s  %s\n' 5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd "$stock_archive" | sha256sum -c -
@@ -53,7 +53,7 @@ stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
 stage cfg-patch-apply git -C "$source_home" apply "$cfg_patch"
-for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch overnight-callback/verifast-callback-unwind-26.10.patch overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch overnight-guard/verifast-h2c-guard-source-admission-26.10.patch overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch overnight-callback/verifast-fnmut-hrtb-26.10.patch overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch; do
+for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch overnight-callback/verifast-callback-unwind-26.10.patch overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch overnight-guard/verifast-h2c-guard-source-admission-26.10.patch overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch overnight-callback/verifast-fnmut-hrtb-26.10.patch overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch overnight-helper/verifast-actual-owner-admission-26.10.patch; do
  component_patch="$repo/research/challenge-8/$component"
  sha256sum "$component_patch" >> "$ev/environment.txt"
  stage "$(basename "$component" .patch)-check" git -C "$source_home" apply --check "$component_patch"
@@ -116,14 +116,20 @@ export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
 if [[ "${OVERNIGHT_TARGETED_OWNER_CALIBRATION:-}" == 1 ]]; then
  sort4_calibration_status=0
  stage actual-sort4-first-call-calibration python3 research/challenge-8/overnight-callback/prepare-actual-sort4-first-call.py --repo-root "$repo" --output "$ev/actual-sort4-first-call-calibration" --capture --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || sort4_calibration_status=$?
- join_four_status=0
- stage join-four-controls python3 research/challenge-8/overnight-callback/run-join-four-controls.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/join-four-controls" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || join_four_status=$?
- owner_calibration_status=0
- stage actual-owner-fingerprint python3 research/challenge-8/overnight-helper/check-actual-owner-linked.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-fingerprint" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --fingerprint-probe || owner_calibration_status=$?
+ owner_admission_status=0
+ for control in positive wrong_contract wrong_ghost_order wrong_owner_pred; do
+  stage "actual-owner-$control" python3 research/challenge-8/overnight-helper/check-actual-owner-linked.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-$control" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --owner-admission --admission-control "$control" || owner_admission_status=$?
+ done
+ owner_mir_status=0
+ stage actual-owner-mir-controls python3 research/challenge-8/overnight-helper/capture-actual-owner-mir-mutation.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-mir-controls" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || owner_mir_status=$?
+ forget_own_status=0
+ stage forget-own-controls python3 research/challenge-8/overnight-forget-own/run.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/forget-own-controls" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || forget_own_status=$?
+ cut_status=0
+ stage strict-cut-isolated bash research/challenge-8/overnight-lifetime/run-cut-isolated-console.sh --production-source "$source_home" --production-applied-patch "$ev/applied.patch" --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/strict-cut-isolated" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || cut_status=$?
  matrix_status=0
  stage s6-full-matrix python3 research/challenge-8/overnight-s6/accept-s6.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-full" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || matrix_status=$?
- printf 'owner_calibration_stage=%s\nsort4_calibration_stage=%s\njoin_four_stage=%s\ns6_matrix_stage=%s\nprofile=DIAGNOSTIC_PROBE_NO_ACTUAL_ADMISSION\n' "$owner_calibration_status" "$sort4_calibration_status" "$join_four_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
- (( owner_calibration_status == 0 && sort4_calibration_status == 0 && join_four_status == 0 && matrix_status == 0 ))
+ printf 'owner_admission_stage=%s\nowner_mir_stage=%s\nsort4_calibration_stage=%s\nforget_own_stage=%s\ncut_isolated_stage=%s\ns6_matrix_stage=%s\nprofile=EXPERIMENTAL_MAIN_14_PLUS_SEPARATE_STRICT_CUT\n' "$owner_admission_status" "$owner_mir_status" "$sort4_calibration_status" "$forget_own_status" "$cut_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
+ (( owner_admission_status == 0 && owner_mir_status == 0 && sort4_calibration_status == 0 && forget_own_status == 0 && cut_status == 0 && matrix_status == 0 ))
  exit $?
 fi
 if [[ "${OVERNIGHT_TARGETED_POST_ADMISSION:-}" == 1 ]]; then

@@ -11,6 +11,12 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
+**O22 PREPARED, not yet dispatched.** [Before/review](overnight-linkage/O22-BEFORE.md).
+Exact main14 owner admission, two typed-MIR/three source negatives, separate
+owner-preserving generic forget probe, repaired sort4 capture and isolated
+strict lifetime diagnostic. No new actual proof claim; CUT kernel excluded
+from production cache/main profile. Static patch composition passed.
+
 **Last completed O21:** [run37750512251](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750512251),
 proof `d2f657be87ba58d77618950d8c030a31a21cbfb8`,08:32:33–08:35:25UTC=172s.
 New resumed account **683/7200**,6517remain; no active run.
@@ -36,9 +42,9 @@ Actual SAFEforget not linked, broader direct MIR admission still pending.
 Callback fullO19 normal/unwind current-resource/posts/leak proof; four post/resource
 negatives+four marker admissions intended. HRTB isolated15/15 intended matcher
 controls O20; these controls do not prove owner recovery themselves. Local callback
-acceptance review under way; no actualsort4 claim. Lifetime kernel draft inactive:
-mutable inference refs invalidate claimed immutable snapshot; strict freeze/reject
-and escape controls being repaired before any activation.
+acceptance review under way; no actualsort4 claim. Lifetime kernel candidate inactive in production: initial mutable-inference
+snapshot defect corrected by strict freeze/reject; isolated O22 diagnostic only,
+mandatory escape/alias/CFG controls still incomplete.
 
 Linked actual owner O19 paired source/MIR/refinement passes, complete outer/nested
 MIR captured including shared cleanup and two nested opens. Frozen S6 rejects
