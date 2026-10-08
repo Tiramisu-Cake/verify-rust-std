@@ -1,3 +1,16 @@
+## Actual callee conditional checkpoint — 2026-10-08 Moscow
+
+Run37711781188/proof5bbd2ef: unchanged actual merge_up/down full normal/unwind
+posts and source/export/decode/refinement/body/return/leak/dead gates PASS.
+Domain: positive stride, distinct source owned cells, initialized-or-uninitialized
+valid destination option cell, explicit aligned bounded disjoint C1 domain.
+Current source values/T.own and comparator state/F.own survive both outcomes;
+normal copies the selected current value, advances exact cursors; callback panic
+leaves destination untouched. No destination T.own duplication or entry snapshot.
+New strict cleanup kernel/frontend remains experimental pending exact6proof+
+4admission controls. Full caller pointer trace and actual bidirectional OPEN.
+Night2894/21600 job seconds; historical603/1800 separate.
+
 ## Overnight W1d checkpoint — 2026-10-08 Moscow
 
 W1d proof8d97b6bc/run37700424582:22 bounded wrapping primitive/projection

@@ -31,7 +31,7 @@ EXPECTED_DEAD = re.compile(rb"(?m)^\s*// EXPECT_DEAD (\{[^\r\n]*\})\s*$")
 TARGET = re.compile(rb"// TARGET(?:_NEGATIVE)?(?:\s|:|$)")
 
 HEADER_ANY = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+(?:-\d+(?:,\d+)?)?\): Verifying function '([^']+)'$", re.M)
-EXECUTION = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+-\d+\): (?:note: )?Executing statement$", re.M)
+EXECUTION = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\s(]+)\((\d+),\d+-\d+(?:,\d+)?\): (?:note: )?Executing statement$", re.M)
 RETURN = re.compile(r"^\s*\d+(?:\.\d+)?s: ([^\n]*?): Executing return statement$", re.M)
 ERROR = re.compile(r"^.*?: error: .*$", re.M)
 DEAD = re.compile(r"(?m)^.*?: dead code(?:[ \t][^\r\n]*)?$", re.I)
@@ -331,18 +331,42 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
             if len(rejection_matches) != 1 or len(target_offsets) != 1 or expected is not None:
                 raise RuntimeError(f"{name}: exactly one distinct rejection oracle and TARGET required")
             rejection = json.loads(rejection_matches[0].group(1))
-            if set(rejection) != {"kind", "error_file", "error_line", "column_start", "column_end", "message"}:
+            if not isinstance(rejection, dict):
+                raise RuntimeError(f"{name}: rejection oracle must be a JSON object")
+            rejection_fields = {"kind", "error_file", "error_line", "column_start", "column_end", "message"}
+            if set(rejection) not in (rejection_fields, rejection_fields | {"error_end_line"}):
                 raise RuntimeError(f"{name}: invalid rejection oracle fields")
-            if rejection["kind"] not in ("primitive_precondition", "memory_permission", "unwind_post", "tuple_resource"):
+            if rejection["kind"] not in (
+                    "primitive_precondition", "memory_permission", "unwind_post",
+                    "tuple_resource", "leak_check", "frontend_admission"):
                 raise RuntimeError(f"{name}: unsupported rejection kind")
             target_line = prefix.count(b"\n") + body[:target_offsets[0]].count(b"\n") + 1
             rejection["target_line"] = target_line
             if rejection["error_line"] == "TARGET":
                 rejection["error_line"] = target_line
+            error_end_line = rejection.get("error_end_line", rejection["error_line"])
+            if (not isinstance(rejection["error_file"], str) or not rejection["error_file"] or
+                    type(rejection["error_line"]) is not int or rejection["error_line"] < 1 or
+                    type(error_end_line) is not int or error_end_line < rejection["error_line"] or
+                    type(rejection["column_start"]) is not int or rejection["column_start"] < 1 or
+                    type(rejection["column_end"]) is not int or
+                    rejection["column_end"] < 1 or
+                    (error_end_line == rejection["error_line"] and
+                     rejection["column_end"] <= rejection["column_start"]) or
+                    not isinstance(rejection["message"], str) or not rejection["message"]):
+                raise RuntimeError(f"{name}: rejection oracle requires an exact positive location and message")
+            target_owners = [body_name for body_name in all_names
+                             if ranges[body_name][0] <= target_line <= ranges[body_name][1]]
+            if len(target_owners) != 1:
+                raise RuntimeError(f"{name}: rejection TARGET must lie in exactly one checked body")
             meta["expected_rejection"] = rejection
             meta["marked_target_line"] = target_line
             meta["negative"] = True
-            meta["case_scope"] = "exact intended primitive/resource rejection; all independent source/refinement gates required"
+            meta["case_scope"] = (
+                "exact cleanup frontend admission rejection; checked body must remain unentered"
+                if rejection["kind"] == "frontend_admission" else
+                "exact intended proof/resource rejection; marked checked body must execute"
+            )
         (case_dir / "metadata.json").write_text(json.dumps(meta, indent=2) + "\n")
         cases[name] = meta
         files[name] = (orig_path.read_bytes(), verified_path.read_bytes())
@@ -582,22 +606,34 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
         classification = "INCONCLUSIVE"
     rejection = metadata.get("expected_rejection")
     rejection_ok = False
+    admission_rejection = bool(rejection and rejection["kind"] == "frontend_admission")
     if rejection:
-        matching = re.findall(r"^([^\n]+?)\((\d+),(\d+)-(\d+)\): error: ([^\n]+)$", log, re.M)
+        matching = re.findall(
+            r"^([^\n]+?)\((\d+),(\d+)-(?:((?:\d+),))?(\d+)\): error: ([^\n]+)$",
+            log, re.M)
         if len(matching) == 1:
-            filename, line, start, end, message = matching[0]
+            filename, line, start, end_line_prefix, end, message = matching[0]
+            observed_end_line = int(end_line_prefix[:-1]) if end_line_prefix else int(line)
             rejection_ok = (
                 filename.endswith(rejection["error_file"]) and
                 int(line) == rejection["error_line"] and
+                observed_end_line == rejection.get("error_end_line", rejection["error_line"]) and
                 int(start) == rejection["column_start"] and
                 int(end) == rejection["column_end"] and message == rejection["message"] and
                 stages == {"exporter": 0, "decode": 0, "verifast": 1, "refinement": 0} and
-                unchanged and bodies_ok and not dead_code and len(errors) == 1 and
+                unchanged and not dead_code and len(errors) == 1 and
                 rejection["target_line"] == metadata["marked_target_line"] and
-                rejection["target_line"] in execution_lines and
-                all(body_execution.get(function, 0) > 0 for function in metadata["expected_bodies"])
+                any(ranges[function][0] <= rejection["target_line"] <= ranges[function][1]
+                    for function in metadata["expected_bodies"]) and
+                ((admission_rejection and len(metadata["expected_bodies"]) == 1 and not own_headers and
+                  all(body_execution.get(function, 0) == 0 for function in metadata["expected_bodies"])) or
+                 (not admission_rejection and bodies_ok and rejection["target_line"] in execution_lines and
+                  all(body_execution.get(function, 0) > 0 for function in metadata["expected_bodies"])))
             )
-        classification = "EXPECTED_REJECTION" if rejection_ok else "INCONCLUSIVE"
+        classification = (
+            "EXPECTED_ADMISSION_REJECTION" if rejection_ok and admission_rejection else
+            "EXPECTED_REJECTION" if rejection_ok else "INCONCLUSIVE"
+        )
     result = {
         "classification": classification,
         "stages": stages,
@@ -617,29 +653,61 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
         "full_positive_gate": full_stages and full_vf and unchanged,
         "expected_rejection": rejection,
         "intended_rejection_gate": rejection_ok,
+        "rejection_class": ("frontend_admission" if admission_rejection else
+                            "proof" if rejection else None),
+        "admission_body_entered": (bool(own_headers) or
+                                   any(body_execution.get(function, 0) > 0
+                                       for function in metadata["expected_bodies"]))
+                                  if admission_rejection else None,
     }
     if mutation_checks:
         checks = classifier_mutations(metadata, stages, log, unchanged, result)
         if rejection:
+            expected_rejection_status = ("EXPECTED_ADMISSION_REJECTION" if admission_rejection
+                                         else "EXPECTED_REJECTION")
             for stage in stages:
                 mutant = dict(stages)
                 mutant[stage] = 124
-                checks[f"rejection_stage_{stage}"] = classify(name, metadata, mutant, log, unchanged, False)["classification"] != "EXPECTED_REJECTION"
-            for label, changed_log, changed_source in (
+                checks[f"rejection_stage_{stage}"] = classify(name, metadata, mutant, log, unchanged, False)["classification"] != expected_rejection_status
+            rejection_mutants = [
                 ("source_changed", log, False),
-                ("missing_body", re.sub(r"^.*Verifying function .*\n", "", log, flags=re.M), unchanged),
-                ("missing_execution", re.sub(r"^.*Executing statement\n", "", log, flags=re.M), unchanged),
                 ("extra_error", log + "verified/lib.rs(1,1-2): error: unrelated\n", unchanged),
                 ("dead_code", log + "verified/lib.rs(1,1-2): dead code\n", unchanged),
                 ("message", log.replace(rejection["message"], "unrelated failure"), unchanged),
                 ("file", log.replace(rejection["error_file"], "unrelated-file.rs"), unchanged),
-            ):
-                checks[f"rejection_{label}"] = classify(name, metadata, stages, changed_log, changed_source, False)["classification"] != "EXPECTED_REJECTION"
-            for field in ("error_line", "column_start", "column_end", "target_line"):
+            ]
+            if admission_rejection:
+                target = rejection["target_line"]
+                fabricated_entry = log + (
+                    f"0.001s: verified/lib.rs({target},1-2): Verifying function '"
+                    f"{metadata['expected_bodies'][0]}'\n"
+                    f"0.002s: verified/lib.rs({target},1-2): Executing statement\n"
+                )
+                checks["rejection_fabricated_body_execution"] = classify(
+                    name, metadata, stages, fabricated_entry, unchanged, False
+                )["classification"] != expected_rejection_status
+            else:
+                rejection_mutants.append((
+                    "missing_body", re.sub(r"^.*Verifying function .*\n", "", log, flags=re.M), unchanged))
+                rejection_mutants.append((
+                    "missing_execution", re.sub(r"^.*Executing statement\n", "", log, flags=re.M), unchanged))
+            for label, changed_log, changed_source in rejection_mutants:
+                checks[f"rejection_{label}"] = classify(name, metadata, stages, changed_log, changed_source, False)["classification"] != expected_rejection_status
+            rejection_location_fields = ["error_line", "column_start", "column_end", "target_line"]
+            if "error_end_line" in rejection:
+                rejection_location_fields.append("error_end_line")
+            for field in rejection_location_fields:
                 changed_meta = dict(metadata)
                 changed_meta["expected_rejection"] = dict(rejection)
                 changed_meta["expected_rejection"][field] += 1
-                checks[f"rejection_{field}"] = classify(name, changed_meta, stages, log, unchanged, False)["classification"] != "EXPECTED_REJECTION"
+                checks[f"rejection_{field}"] = classify(name, changed_meta, stages, log, unchanged, False)["classification"] != expected_rejection_status
+            changed_kind = dict(metadata)
+            changed_kind["expected_rejection"] = dict(rejection)
+            changed_kind["expected_rejection"]["kind"] = (
+                "memory_permission" if admission_rejection else "frontend_admission")
+            checks["rejection_kind"] = classify(
+                name, changed_kind, stages, log, unchanged, False
+            )["classification"] != expected_rejection_status
         result["classifier_fail_closed_mutations"] = checks
         if not all(checks.values()):
             result["classification"] = "INCONCLUSIVE"

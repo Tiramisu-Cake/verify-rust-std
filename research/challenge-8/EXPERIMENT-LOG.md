@@ -4483,3 +4483,40 @@ Fresh one manual hosted fullmatrix 30min, no other active experiment.
 M3 owned-array/two-hole dependency design written before independent checked
 ghost implementation; actualcallee summaries not yet used, Freeze snapshot/
 functional transfer explicitly remain separate unresolved dependencies.
+
+
+### OVERNIGHT M3a actual up/down — run37711781188, 2026-10-08
+
+Proof5bbd2ef2613106fdc38bd8aeea930cf344390275; sole hosted job113099112654
+01:12:55–01:16:21 UTC,206seconds; cumulative2894/21600, historical603/1800separate.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188).
+W1c7c776/M20a006d/C1da167e/cleanup94fe2c; kernel100eebae,
+translator0e450267, stock exporter/refiner unchanged. Exact actual merge_up/down
+source ghost-strip/source gates0, export/decode/VF/refinement0; respectively93/97
+body executions and3return/3leak paths each, no dead/error. Logs/AST inspected:
+actual HRTB call one registered; genuine normal plus Continue-unwind outcome,
+explicit epilogue closes borrowed refs and recovers both current T/F owners.
+Full conditional posts in actual-prepare.py, no weakening or purity/Copy bound.
+Boundary: positive stride/distinct cells/explicit C1 domain/destination option;
+not full generic callee/Challenge; copying does not create destination T.own.
+Cleanup-positive PASS. Six negative exact proof errors and four frontend
+admission errors observed; ORIGINAL classifications INCONCLUSIVE, fresh exact
+classifier required, cleanup semantic admission still pending. Trace helpers
+PASS but main486 m+k-a<n failed; geometry added to loop invariant. C1 domain
+helper43 failed nonlinear factorization; checked induction replaces it. Old
+G2/A/B/native/normal-unwind/W1/C1/bridge/Rust regressions PASS. ZST unchanged.
+
+### BEFORE next M3 dependency matrix
+
+Actual obligation: preserve whole source owner resources across repeated actual
+callee loans/copies and prove caller pointer domain, without snapshot assumptions.
+Hypotheses: exact cleanup negative classifier separates admission/proof errors;
+loop retained n=2m+e establishes G2 bounds; checked induction establishes stride
+alignment; owned-array extraction/restoration exposes two cells with no owner
+creation and returns all cells/current owners/frame. Full target posts retained;
+resource fixture is deliberately separate diagnostic, not actual bidirectional.
+Same fixed W1/M2/C1/cleanup profile, source blob40939f922bcb6fdc7ee0d30427fa861827043827.
+Positive full-body gates; negative exact stage/predicate/location metadata; any
+setup/earlier-helper failure stays INCONCLUSIVE. Outcomes: accept bounded checked
+components only after whole matrix; fix concrete VC without weakening; proceed
+unchanged actual bidirectional/caller after same-source callee dependency.

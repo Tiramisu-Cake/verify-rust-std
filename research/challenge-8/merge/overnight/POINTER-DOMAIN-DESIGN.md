@@ -21,6 +21,12 @@ spans, ordinary checked `add` derives every pure C1 premise for `src+i` and
 proof is conditional on those explicit base/endpoint limit facts; it does not
 infer allocation identity or range facts from integer addresses.
 
+The alignment proof is by a checked induction on the index. Its base case and
+one-stride step use the pinned `div_rem_nonneg` and
+`div_rem_nonneg_unique` lemmas; the index/count arithmetic and alignment
+lemmas run before the ordinary pointer `add` operations, so an arithmetic
+failure cannot be hidden by a pointer-operation diagnostic.
+
 ## Exact domain and posts
 
 For `s = size_of::<T>()`, `a = align_of::<T>()`, and machine maximum `U`, the

@@ -186,6 +186,12 @@ suite() {
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/pointer-domain-cases.rs \
     --evidence "$evidence/checked-pointer-domain"
+  run_one owned-array-resource-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+    --scope 'checked generic positive-stride two-cell extraction/current-owner restoration; whole-array and unrelated frame preserved; no actual body or Freeze stability claim' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/owned-array-cases.rs \
+    --evidence "$evidence/checked-owned-array"
   run_one concrete-zst-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'compiler-backed concrete ZST wrapping identity without assumed size; no memory rights' \

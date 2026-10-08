@@ -1,39 +1,38 @@
 # OVERNIGHT-MERGE-26.10 — IN PROGRESS
 
-Авторизовано владельцем 2026-10-08 до 09:30 МСК (06:30 UTC).
-Собственная ветка `overnight/merge-26.10`, entry `b0af5613`.
-[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2688/21600 hosted job seconds**;
-старый merge 603/1800 (остаток 1197) сохранён отдельно. Actual merge NOT PROVEN.
-Исторические STOP/design-only/CI0 ниже не ограничивают эту ночную фазу.
+Авторизовано владельцем до 09:30 МСК 2026-10-08 (06:30 UTC).
+Ветка `overnight/merge-26.10`, entry `b0af5613`.
+[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md).
+Ночной бюджет **2894/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
+Последний run [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
+proof `5bbd2ef2613106fdc38bd8aeea930cf344390275`, job113099112654,206seconds.
+Нет активного run. Main/upstream/ветка первого агента не изменены.
 
-Последняя полная матрица: run `37707794942`, proof `b8f25c1831152660fa6b2eba667dc8d8e068d2ad`.
-G2/A/B, native C/C++, ordinary normal/unwind, false-unwind и точный dead-body
-negative PASS. W1: 22 positive + 5 intended negative; 9 bridge и старые Rust
-проекции PASS в объединённом W1/M2/C1 профиле. Wrapping и copy — TRUSTED
-primitive summaries, а не доказанные тела примитивов. Copy: 5 positive,
-2 stock count controls и 6 intended negative с fail-closed mutants PASS.
-Concrete ZST layout: 4 цели OPEN; 2 reentry PASS; symbolic zero-size PASS.
-Полный trace OPEN: checked helper bodies PASS, применены prefix-zero леммы;
-доступ к Boolean-буферам и полный main post требуют следующего запуска.
-Actual up/down: exact source/export/decode/refinement PASS; полный unwind post
-останавливается на восстановлении source points_to/T.own после FnMut.
+Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
+полные normal/unwind body/return/leak/dead/source gates PASS впервые.
+Условный домен: positive stride, различные source cells, явный C1 pointer
+и destination-option domain. Arbitrary lawful FnMut effects/answers;
+normal сохраняет current source T.own/F.own, копирует выбранное current значение
+и двигает cursors; callback unwind сохраняет destination option, возвращает
+current source/F ownership. Нет обещания entry values, duplicate T.own или SWO.
+Cleanup patch94fe2cd6/kernel100eebae/translator0e450267 экспериментальны:
+positive PASS;6 proof negatives и4 frontend admission controls достигли
+нужных отказов, точный classifier/матрица приёмки требует свежего запуска.
+Это условное доказательство actual callee; общий generic Challenge НЕ ДОКАЗАН.
 
-Новый отдельный cleanup-профиль экспериментален, НЕ ПРИНЯТ: строгий lifetime
-scope сохраняет heap, explicit outcome epilogue закрывает genuine loans.
-Run `37708531700`, proof `ecf30e5e`, 70 job seconds: console build failure,
-не proof rejection; missing OCaml ref dereference исправлено. Новый cleanup
-patch `4968245d`, kernel `100eebae`, translator `4d25e806`.
-Run `37709095965`/`a38c3796`: сборка PASS; actual unwind дошёл до return/leak,
-normal-copy остановлен alignment. Synthetic cleanup normal требует ремонта
-epilogue; structural admission ужесточается, профиль НЕ ПРИНЯТ.
-Run `37710362525`/`30adaca5`: build/старые controls PASS; valid structural
-protocol отвергнут до body. Новый patch `04137273` локализует команду без
-ослабления gate; trace stock-call arity исправлена. Admission НЕ ПРИНЯТ.
-Run `37711140900`/`c6210938`: exact order mismatch локализован/исправлен;
-новый patch `94fe2cd6`; wrong type/k/P достигли admission gate. Trace helpers
-PASS, main требует natural bounds в loop. Caller-domain bridge подготовлен.
-Нет активного run. Следующий разрешённый шаг — свежая hosted сборка и полная
-матрица cleanup/actual/trace, затем последовательное закрытие actual merge.
+G2/A/B, native C/C++, ordinary normal/unwind и старые Rust controls PASS;
+W1 22positive+5negative,9pointer bridges и C1 5positive+2stock+6negative PASS.
+Wrappings/copy — явно TRUSTED bounded primitive summaries. ZST4concrete
+layout цели OPEN,2reentry PASS; symbolic zero size PASS.
+Полный G2 pointer trace OPEN:14checked bodies, helpers PASS, main loop
+требует сохранения геометрии n=2m+e; без ослабления posts.
+Caller C1 domain OPEN: alignment checked lemma failed nonlinear factorization,
+заменена индукцией. Two-hole owned-array dependency подготовлена, NOT RUN.
+[Ресурсный дизайн](overnight/M3-RESOURCE-DESIGN.md) сохраняет
+current owners и все option scratch cells на panic; Freeze snapshot/functional
+bridge отдельно OPEN. Следующий шаг — fresh full hosted matrix этих зависимостей,
+затем exact bidirectional и дальнейшие resource/functional/caller obligations.
+Исторические STOP/design-only/CI0 ниже не ограничивают ночную авторизацию.
 
 ---
 

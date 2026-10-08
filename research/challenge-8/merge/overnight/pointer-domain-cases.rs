@@ -31,19 +31,31 @@ pred c1_pair_result<T>(src_base: *const T, dst_base: *mut T,
     ((src as usize) + std::mem::size_of::<T>() <= dst as usize ||
      (dst as usize) + std::mem::size_of::<T>() <= src as usize);
 
+lem aligned_address_step(address: usize, stride: usize, alignment: usize)
+    req 0 <= address &*& 0 <= stride &*& 0 < alignment &*&
+        address % alignment == 0 &*& stride % alignment == 0;
+    ens (address + stride) % alignment == 0;
+{
+    div_rem_nonneg(address, alignment);
+    div_rem_nonneg(stride, alignment);
+    div_rem_nonneg_unique(address + stride, alignment,
+        address / alignment + stride / alignment, 0);
+}
+
 lem address_stride_aligned(base: usize, index: usize, stride: usize, alignment: usize)
     req 0 <= base &*& 0 <= index &*& 0 < stride &*& 0 < alignment &*&
         base % alignment == 0 &*& stride % alignment == 0;
     ens (base + index * stride) % alignment == 0;
 {
-    div_rem_nonneg(base, alignment);
-    div_rem_nonneg(stride, alignment);
-    assert base == base / alignment * alignment;
-    assert stride == stride / alignment * alignment;
-    assert base + index * stride ==
-        (base / alignment + index * (stride / alignment)) * alignment;
-    div_rem_nonneg_unique(base + index * stride, alignment,
-        base / alignment + index * (stride / alignment), 0);
+    if index == 0 {
+        div_rem_nonneg(base, alignment);
+        div_rem_nonneg_unique(base, alignment, base / alignment, 0);
+    } else {
+        address_stride_aligned(base, index - 1, stride, alignment);
+        aligned_address_step(base + (index - 1) * stride, stride, alignment);
+        assert base + index * stride ==
+            base + (index - 1) * stride + stride;
+    }
 }
 @*/
 
@@ -83,15 +95,15 @@ on_unwind_ens false;
     let s = std::mem::size_of::<T>();
     let a = std::mem::align_of::<T>();
     //@ size_align::<T>();
-    let src = unsafe { src_base.add(i) };
-    let dst = unsafe { dst_base.add(j) };
-
     //@ address_stride_aligned(src_base as usize, i, s, a);
     //@ address_stride_aligned(dst_base as usize, j, s, a);
     //@ mul_mono_l(0, i, s);
     //@ mul_mono_l(i + 1, n, s);
     //@ mul_mono_l(0, j, s);
     //@ mul_mono_l(j + 1, n, s);
+
+    let src = unsafe { src_base.add(i) };
+    let dst = unsafe { dst_base.add(j) };
 
     // Interior one-element spans lie inside the respective bounded full span.
     // The original provenance bounds at base/base+n therefore cover both the
