@@ -20,7 +20,10 @@ points-to and T.own resources. Their logical list is an input parameter, not
 an output parameter: this records the represented list without claiming
 predicate precision. Extraction/restoration and list-update lemmas must have
 checked recursive bodies, keep all cells/owners, and consume the two real
-cells/current owners when filling holes. No ownership bridge axiom. Domain
+cells/current owners when filling holes. The old-value list lemma carries the
+same selected values through recursion and only requires equality while an
+index remains nonnegative; after an index passes below zero, that selected
+value is irrelevant to the recursive list. No ownership bridge axiom. Domain
 n>=2, indices 0<=i<j<n, positive stride; ZST remains open. Full normal/unwind
 resource invariant later keeps input array current valid owners, comparator
 current state, and all destination option cells, including partial writes on

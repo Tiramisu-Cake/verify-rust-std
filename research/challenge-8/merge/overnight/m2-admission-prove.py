@@ -23,7 +23,7 @@ PRELUDE_REL = Path("bin/rust/prelude.rsspec")
 CALLBACK_PATCH = HERE / "callback.patch"
 EXPECTED_PRELUDE_SHA256 = "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5"
 EXPECTED_CALLBACK_SHA256 = "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
-SHAPE_ERROR = "std_tuple_2_ ownership expansion requires the pinned two-field tuple shape"
+SHAPE_ERROR = "Parse error: std_tuple_2_ ownership expansion requires the pinned two-field tuple shape"
 DECL = re.compile(
     rb"(?m)^(?P<prefix>[ \t]*(?:pub[ \t]+)?struct[ \t]+std_tuple_2_<)"
     rb"(?P<params>[^>\r\n]+)(?P<middle>>[ \t]*\()(?P<fields>[^)\r\n]*)(?P<suffix>\)[^\r\n]*)$"

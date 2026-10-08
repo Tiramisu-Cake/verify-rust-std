@@ -4553,3 +4553,35 @@ summary/Booleanfacts: conditionstillmustbeproved fromcontract. Allbuild/proof
 andextractors hostedonly. Outcome=>source/setupblockersclassifiedseparately;
 necessarynewprimitive/frontenddependencyneeds priortrustdesign+matrixselfreview,
 then autonomousimplementation withinowner'snightauthorization.
+
+
+### M3c run37714147137 / proof2491d138 — 2026-10-08
+
+Sole job113106654519 01:41:10–01:44:57 UTC,227seconds; cumulative3331/21600.
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37714147137).
+Wholematrix jobFAIL (expecteddiagnosticcollection cannot hide harnessfailure):
+M2shape six intendedparserrejections at15:8–20/stages0/0/1/0/noentry; exactmessage
+has `Parse error: ` prefix omittedoracle. OriginalclassificationsINCONCLUSIVE;
+onlymessageoraclecorrected, nosemanticchange. BidirpreparerFAILEDbeforeexport:
+multilineghostblockleftwhitespaceafterstrip, changesexactbytes; replacedbyfull
+lineannotation, sourcegate remainsstrict, mismatchdiffsidecar retainedfuture.
+Noactualbidirproof. Oldmatrix+actualup/down+cleanupnegative/admissionPASS.
+Ownedarray91 helperoldvaluepost failedcarriedvalue irrelevantnegativeindex;
+checked generalizedmatchingoldvalues lemma withconditionalmatchingandfixedvalues
+replacesinvalidnth(-1,tail) recursion. Domainnathelper35 nonnegativeaddress VC
+requiresstockmul_mono_l, added. Tracebeforeloopinvariant457 cannotreferencescope
+localghosts: inline sizeof andexistentialreturnaddressboundinsideinv, keepfullpost.
+
+### BEFORE M3d fresh matrix
+
+Same frozensemanticpatchchain. Newcheckedsource/helper bodies andharnesschanges
+requireNEWrun, nooldrunrerun. Fullcallerresource/trace/domainposts retained;
+cleanupunrelatedlinearQframepositiveadded. M2exactshapeoraclecorrection, generic
+firstfield/thread/value/frame resourcecontrols, andseparateHRTBregistrationAST/
+sourceclausecertificate withfailclosedmutants. Admissioncertificate neverturns
+masked resource/setup failures into proofnegatives. Exactbidirlen2 remains
+restricteddiagnostic includingactualup/downandactualpanichelperbody; no safe
+sliceownerrealization norFrozenentrysnapshotclaimed. No kernel/export/refiner
+changes. Usefulnextdecision: frombidirfirstactualdiagnostic identify necessary
+arithmetic/modeldependency, design+selfreviewthenautonomousimplement; meanwhile
+checkedgenericarray andfullG2trace continueindependently.

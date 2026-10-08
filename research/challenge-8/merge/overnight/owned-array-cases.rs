@@ -59,18 +59,38 @@ lem replace_two_length<T>(vs: list<T>, i: i32, j: i32, vi: T, vj: T)
     }
 }
 
-lem replace_two_negative_indices_noop<T>(vs: list<T>, i: i32, j: i32,
-                                         vi: T, vj: T)
-    req i < 0 &*& j < 0;
+// A negative index has already passed its selected cell; its carried value is
+// irrelevant. This stronger checked lemma keeps the fixed old selected values
+// while recursion moves either index below zero.
+lem replace_two_matching_old_values<T>(vs: list<T>, i: i32, j: i32,
+                                       vi: T, vj: T)
+    req (i < 0 || vi == nth(i, vs)) &*&
+        (j < 0 || vj == nth(j, vs));
     ens replace_two::<T>(vs, i, j, vi, vj) == vs;
 {
     match vs {
         nil => {
-            assert replace_two::<T>(vs, i, j, vi, vj) == vs;
+            assert replace_two::<T>(vs, i, j, vi, vj) == nil;
         }
         cons(head, tail) => {
-            replace_two_negative_indices_noop::<T>(tail, i - 1, j - 1, vi, vj);
-            assert replace_two::<T>(vs, i, j, vi, vj) == vs;
+            if i == 0 {
+                assert vi == head;
+                assert i - 1 < 0;
+                assert j - 1 < 0 || vj == nth(j - 1, tail);
+                replace_two_matching_old_values::<T>(tail, i - 1, j - 1, vi, vj);
+                assert replace_two::<T>(vs, i, j, vi, vj) == vs;
+            } else if j == 0 {
+                assert vj == head;
+                assert i - 1 < 0 || vi == nth(i - 1, tail);
+                assert j - 1 < 0;
+                replace_two_matching_old_values::<T>(tail, i - 1, j - 1, vi, vj);
+                assert replace_two::<T>(vs, i, j, vi, vj) == vs;
+            } else {
+                assert i - 1 < 0 || vi == nth(i - 1, tail);
+                assert j - 1 < 0 || vj == nth(j - 1, tail);
+                replace_two_matching_old_values::<T>(tail, i - 1, j - 1, vi, vj);
+                assert replace_two::<T>(vs, i, j, vi, vj) == vs;
+            }
         }
     }
 }
@@ -79,29 +99,7 @@ lem replace_two_old_values<T>(vs: list<T>, i: i32, j: i32)
     req 0 <= j &*& i < j &*& j < length(vs);
     ens replace_two::<T>(vs, i, j, nth(i, vs), nth(j, vs)) == vs;
 {
-    match vs {
-        nil => {
-            assert false;
-        }
-        cons(head, tail) => {
-            if i == 0 {
-                replace_two_old_values::<T>(tail, i - 1, j - 1);
-                assert nth(i, vs) == head;
-                assert nth(j, vs) == nth(j - 1, tail);
-                assert replace_two::<T>(vs, i, j, nth(i, vs), nth(j, vs)) == vs;
-            } else if j == 0 {
-                replace_two_negative_indices_noop::<T>(tail, i - 1, j - 1,
-                    nth(i, vs), nth(j, vs));
-                assert nth(j, vs) == head;
-                assert replace_two::<T>(vs, i, j, nth(i, vs), nth(j, vs)) == vs;
-            } else {
-                replace_two_old_values::<T>(tail, i - 1, j - 1);
-                assert nth(i, vs) == nth(i - 1, tail);
-                assert nth(j, vs) == nth(j - 1, tail);
-                assert replace_two::<T>(vs, i, j, nth(i, vs), nth(j, vs)) == vs;
-            }
-        }
-    }
+    replace_two_matching_old_values::<T>(vs, i, j, nth(i, vs), nth(j, vs));
 }
 
 // i may be -1 after the first selected cell was extracted. The body recurses

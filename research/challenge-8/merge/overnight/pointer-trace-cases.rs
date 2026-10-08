@@ -448,25 +448,24 @@ on_unwind_ens false;
 
     //@ trace_true_prefix_zero(up_values);
     //@ trace_true_prefix_zero(down_values);
-    //@ assert struct_G2PointerTrace_padding::<T>(?return_addr);
 
     /*@ inv 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
             0 <= k &*& 0 <= a &*& 0 <= d &*&
             k <= m &*& a <= k &*& d <= k &*&
             a == trace_true_prefix(up_values, k) &*&
             d == trace_true_prefix(down_values, k) &*&
-            left as pointer == trace_source_pointer(src as pointer, a, s) &*&
-            right as pointer == trace_source_pointer(src as pointer, m + k - a, s) &*&
-            left_rev as pointer == trace_source_pointer(src as pointer, m - 1 - k + d, s) &*&
-            right_rev as pointer == trace_source_pointer(src as pointer, n - 1 - d, s) &*&
-            dst as pointer == trace_destination_pointer(dst_base as pointer, k, s) &*&
-            dst_rev as pointer == trace_destination_pointer(dst_base as pointer, n - 1 - k, s) &*&
+            left as pointer == trace_source_pointer(src as pointer, a, std::mem::size_of::<T>()) &*&
+            right as pointer == trace_source_pointer(src as pointer, m + k - a, std::mem::size_of::<T>()) &*&
+            left_rev as pointer == trace_source_pointer(src as pointer, m - 1 - k + d, std::mem::size_of::<T>()) &*&
+            right_rev as pointer == trace_source_pointer(src as pointer, n - 1 - d, std::mem::size_of::<T>()) &*&
+            dst as pointer == trace_destination_pointer(dst_base as pointer, k, std::mem::size_of::<T>()) &*&
+            dst_rev as pointer == trace_destination_pointer(dst_base as pointer, n - 1 - k, std::mem::size_of::<T>()) &*&
             // The Rust MIR return local is compiler-created (`_0`) and has
             // no source-level binding.  Existentially frame its exact
             // uninitialized aggregate resources so the final aggregate
             // construction can consume them after the loop.
             lifetime_token(func_lft) &*&
-            struct_G2PointerTrace_padding::<T>(return_addr) &*&
+            struct_G2PointerTrace_padding::<T>(?return_addr) &*&
             G2PointerTrace_left_::<T>(return_addr, ?return_left) &*&
             G2PointerTrace_right_::<T>(return_addr, ?return_right) &*&
             G2PointerTrace_dst_::<T>(return_addr, ?return_dst) &*&

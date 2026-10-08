@@ -74,3 +74,16 @@ refinement, leak, dead-code and native/old-Rust compatibility checks enabled.
 The new `cleanup-cases.rs` supplies positive, false-unwind, mismatched fraction,
 escaped typed-resource and wrong-marker controls. A setup or frontend failure
 is not an intended proof negative.
+
+
+## Hosted conditional body result and exact cleanup controls
+
+Run37711781188/proof5bbd2ef first establishes unchanged actualup/down bodies
+with full current source/F ownership normal andunwind posts; run37713243201/
+c012b14 rechecks both. In the latter run positive cleanup and6 intendedproof
+negatives+4 distinct frontendadmission controls pass, allclassifiermutants pass.
+The global old/native/normalunwind/G2/A/B/W1/C1/Rust controls remain green.
+Kernel100eebae andtranslator0e450267 exact chain unchanged. Strict protocol
+component has this bounded admission evidence; broader M2 shape/substitution
+matrix and unrelated linear frame positive are still required for merged-profile
+admission. Original INCONCLUSIVE diagnostic classifications remain historical.

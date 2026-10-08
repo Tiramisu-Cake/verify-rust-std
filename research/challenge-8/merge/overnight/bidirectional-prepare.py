@@ -35,6 +35,28 @@ def strip_ghost(data: str) -> str:
     return re.sub(r"/\*@.*?@\*/", "", data, flags=re.S)
 
 
+def require_strip_exact(name: str, generated: str, original: str,
+                        evidence_path: Path) -> None:
+    stripped = strip_ghost(generated)
+    if stripped == original:
+        return
+    mismatch = next((i for i, (a, b) in enumerate(zip(stripped, original)) if a != b),
+                    min(len(stripped), len(original)))
+    report = {
+        "function": name,
+        "classification": "runtime_body_mismatch_after_ghost_strip",
+        "expected_source_sha256": sha(original.encode()),
+        "stripped_runtime_sha256": sha(stripped.encode()),
+        "expected_length": len(original),
+        "stripped_length": len(stripped),
+        "first_mismatch_character_offset": mismatch,
+        "expected_context": original[max(0, mismatch - 80):mismatch + 120],
+        "stripped_context": stripped[max(0, mismatch - 80):mismatch + 120],
+    }
+    evidence_path.write_text(json.dumps(report, indent=2) + "\n")
+    raise RuntimeError(f"ghost stripping changes actual runtime source: {name}")
+
+
 def extract(source: str, signature: str, name: str) -> str:
     if source.count(signature) != 1:
         raise RuntimeError(f"missing or ambiguous exact signature: {name}")
@@ -45,7 +67,8 @@ def extract(source: str, signature: str, name: str) -> str:
     return source[start:end + 2]
 
 
-def actual_helper(name: str, source: str, signature: str, helper: object) -> tuple[str, dict]:
+def actual_helper(name: str, source: str, signature: str, helper: object,
+                  strip_diff_path: Path) -> tuple[str, dict]:
     original = extract(source, signature, name)
     verified = original[:original.index("{")] + helper.contract(name) + original[original.index("{"):]
 
@@ -91,8 +114,7 @@ def actual_helper(name: str, source: str, signature: str, helper: object) -> tup
     if verified.count(call_end) != 1:
         raise RuntimeError(f"callback end anchor changed: {name}")
     verified = verified.replace(call_end, call_end + cleanup, 1)
-    if strip_ghost(verified) != original:
-        raise RuntimeError(f"ghost stripping changes actual runtime source: {name}")
+    require_strip_exact(name, verified, original, strip_diff_path)
     return verified, {
         "exact_source_sha256": sha(original.encode()),
         "fixture_body_sha256": sha(verified.encode()),
@@ -167,23 +189,20 @@ def insert_one_iteration_invariant(body: str) -> str:
         raise RuntimeError("bidirectional cursor/loop anchors changed")
     body = body.replace(src_init, src_init + "    //@ size_align::<T>();\n", 1)
     body = body.replace(dst_init, "        //@ let dst_base = dst;\n" + dst_init, 1)
-    invariant = """        /*@
-        inv thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
-            len == 2 &*& len_div_2 == 1 &*&
-            *src |-> ?inv_source0 &*& <T>.own(t, inv_source0) &*&
-            *(src + 1) |-> ?inv_source1 &*& <T>.own(t, inv_source1) &*&
-            *is_less |-> ?inv_f &*& <F>.own(t, inv_f) &*&
-            *dst_base |-?-> ?inv_dst0 &*& *(dst_base + 1) |-?-> ?inv_dst1 &*&
-            ((left == src && right == src + 1 && left_rev == src &&
-              right_rev == src + 1 && dst == dst_base && dst_rev == dst_base + 1) ||
-             ((left == src + 1 && right == src + 1 ||
-               left == src && right == src + 2) &&
-              ((left_rev == src && right_rev == src) ||
-               ((left_rev as pointer) == wrapping_pointer_offset(src as pointer,
-                 -std::mem::size_of::<T>()) && right_rev == src + 1)) &&
-              dst == dst_base + 1 && dst_rev == dst_base));
-        @*/
-"""
+    invariant = (
+        "        //@ inv thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*& "
+        "len == 2 &*& len_div_2 == 1 &*& *src |-> ?inv_source0 &*& "
+        "<T>.own(t, inv_source0) &*& *(src + 1) |-> ?inv_source1 &*& "
+        "<T>.own(t, inv_source1) &*& *is_less |-> ?inv_f &*& <F>.own(t, inv_f) &*& "
+        "*dst_base |-?-> ?inv_dst0 &*& *(dst_base + 1) |-?-> ?inv_dst1 &*& "
+        "((left == src && right == src + 1 && left_rev == src && right_rev == src + 1 && "
+        "dst == dst_base && dst_rev == dst_base + 1) || "
+        "((left == src + 1 && right == src + 1 || left == src && right == src + 2) && "
+        "((left_rev == src && right_rev == src) || "
+        "((left_rev as pointer) == wrapping_pointer_offset(src as pointer, "
+        "-std::mem::size_of::<T>()) && right_rev == src + 1)) && "
+        "dst == dst_base + 1 && dst_rev == dst_base));\n"
+    )
     return body.replace(loop, invariant + loop, 1)
 
 
@@ -206,6 +225,7 @@ def main() -> None:
     spec.loader.exec_module(gate)
     admission = gate.admit_source()
     source = SOURCE.read_text()
+    strip_diff_path = args.output.with_suffix(".strip-diff.json")
     freeze_source = FREEZE_SOURCE.read_text()
     if freeze_source.count(FREEZE_TRAIT) != 1 or sha(FREEZE_TRAIT.encode()) != FREEZE_TRAIT_SHA256:
         raise RuntimeError("exact repository FreezeMarker declaration changed")
@@ -220,7 +240,8 @@ def main() -> None:
     out += "// CASE_BEGIN bidirectional_merge_len2\n"
     records: dict[str, object] = {}
     for name in ("merge_up", "merge_down"):
-        prepared, record = actual_helper(name, source, gate.SIGNATURES[name], helper)
+        prepared, record = actual_helper(name, source, gate.SIGNATURES[name], helper,
+                                         strip_diff_path)
         out += prepared + "\n"
         records[name] = record
 
@@ -228,8 +249,8 @@ def main() -> None:
     if sha(panic.encode()) != PANIC_BODY_SHA256:
         raise RuntimeError("panic_on_ord_violation exact repository body changed")
     prepared_panic = panic[:panic.index("{")] + panic_contract() + panic[panic.index("{"):]
-    if strip_ghost(prepared_panic) != panic:
-        raise RuntimeError("panic contract changed actual runtime body")
+    require_strip_exact("panic_on_ord_violation", prepared_panic, panic,
+                        strip_diff_path)
     out += prepared_panic + "\n"
     records["panic_on_ord_violation"] = {
         "exact_source_sha256": sha(panic.encode()),
@@ -244,8 +265,8 @@ def main() -> None:
     bidir = extract(source, gate.SIGNATURES["bidirectional_merge"], "bidirectional_merge")
     verified = bidir[:bidir.index("{")] + bidirectional_contract() + bidir[bidir.index("{"):]
     verified = insert_one_iteration_invariant(verified)
-    if strip_ghost(verified) != bidir:
-        raise RuntimeError("bidirectional contract changed actual runtime body")
+    require_strip_exact("bidirectional_merge", verified, bidir,
+                        strip_diff_path)
     out += verified + "\n// CASE_END bidirectional_merge_len2\n"
     records["bidirectional_merge"] = {
         "exact_source_sha256": sha(bidir.encode()),

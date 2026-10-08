@@ -154,6 +154,11 @@ suite() {
   run_one tuple2-shape-admission 180 python3 research/challenge-8/merge/overnight/m2-admission-prove.py \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --evidence "$evidence/checked-m2-shape"
+  run_one tuple2-resource-diagnostics 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+    --scope 'full tuple2 field owners/thread/value and unrelated physical frame; new negatives require exact intended obligations' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/m2-resource-cases.rs --evidence "$evidence/checked-m2-resources"
   run_one callback-borrow-diagnostic 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'generic callback real loan protocol; full refreshed-value normal/unwind posts; no actual-source claim' \
@@ -164,6 +169,8 @@ suite() {
     --scope 'prepared real loans at exact HRTB FnMut call; full normal/unwind resources; wrong F/T/owner controls remain calibration' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/hrtb-prepared-cases.rs --evidence "$evidence/checked-hrtb-prepared"
+  run_one hrtb-admission-certificate 30 python3 research/challenge-8/merge/overnight/hrtb-admission-certificate.py \
+    --evidence-root "$evidence" --output "$evidence/checked-hrtb-admission"
   run_one callback-cleanup-diagnostics 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'strict opt-in callback lifetime scope and explicit normal/unwind current-value ownership recovery; controls remain calibration' \

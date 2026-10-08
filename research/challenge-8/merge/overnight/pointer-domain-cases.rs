@@ -54,6 +54,7 @@ lem address_stride_aligned_nat(base: usize, index: nat, stride: usize, alignment
         }
         succ(previous) => {
             address_stride_aligned_nat(base, previous, stride, alignment);
+            mul_mono_l(0, int_of_nat(previous), stride);
             aligned_address_step(base + int_of_nat(previous) * stride,
                 stride, alignment);
             assert int_of_nat(succ(previous)) == int_of_nat(previous) + 1;

@@ -23,7 +23,7 @@ control for every declaration-shape probe.
 
 Tuple shape controls ask whether the parser rejects variants of the generated
 tuple-2 declaration at the dedicated
-`std_tuple_2_ ownership expansion requires the pinned two-field tuple shape`
+`Parse error: std_tuple_2_ ownership expansion requires the pinned two-field tuple shape`
 error. The valid baseline must pass the complete body, normal return, leak,
 source-integrity, export/decode and refinement gates. Invalid controls require
 the exact parser error, successful export/decode/refinement, unchanged fixture
@@ -87,3 +87,43 @@ field as `Public`, so a visibility negative cannot be expressed by changing
 only a prelude declaration through that parser. Tuple resource ownership
 negatives and HRTB bound/call certificates remain explicit follow-up work; this
 shape-only result does not complete the whole M2 admission matrix.
+
+## Resource and HRTB certificate extension
+
+`m2-resource-cases.rs` adds one full positive tuple ownership/frame case and
+separate missing-first-owner, wrong-thread, and wrong-value tuple controls.
+Each carries current-thread, both field ownership, and frame obligations in
+both normal and unwind posts. A frame-value assertion control is included with
+a `TARGET` marker but no guessed error oracle; until a hosted log calibrates its
+exact diagnostic it must remain `INCONCLUSIVE`. The three tuple negatives
+predeclare the expected field-zero diagnostic and must execute their own marked
+close. That first-field diagnostic has not yet been observed in a hosted run;
+an exact mismatch remains `INCONCLUSIVE` until calibrated. These controls
+exercise the fixture's resource obligations only. The positive uses a body
+with no panic or callback, so its full unwind post is a contract check rather
+than evidence of unwind-path execution.
+
+`hrtb-admission-certificate.py` reads the callback and prepared-HRTB artifacts
+from one hosted evidence root. It cross-checks the recorded source fixture,
+decoded MIR bounds/output, `MERGE_HRTB_BOUND` and `MERGE_HRTB_CALL` records,
+call substitutions and locations in `proof-ast.ml`, every stage's source
+integrity and exit record, and full artifact hashes. Its matrix requires the
+exact two-call Boolean case to register twice; wrong output, unconstrained
+output, one-region bounds, wrong ghost F/T, unequal ghost lifetimes, and a
+sibling-body bound each have an explicit expected registration result. The
+prepared resource cases are certificates only: their proof classifications
+are copied separately and remain `INCONCLUSIVE` unless their own full proof
+gate says otherwise. The prepared missing-comparator-owner case is excluded
+because its normal and unwind posts are `true`.
+
+Hosted run 37713243201 currently records two registrations at the Boolean
+two-call fixture's distinct source locations and one at the prepared positive;
+the wrong ghost-F/T, unequal-lifetime, output, and body-scope controls record
+the expected zero-registration locations. Every sampled HRTB proof remains
+`INCONCLUSIVE` at earlier resource/aliasing obligations. These artifacts
+calibrate the certificate fields, not its fresh-run acceptance.
+
+Neither tool invokes compilation, VeriFast, decoding, or the refinement
+checker. A certificate records only source-bound and translation admission
+evidence; it never reclassifies an unrelated resource/setup error as an
+intended proof negative or accepts a registration marker as a proof result.
