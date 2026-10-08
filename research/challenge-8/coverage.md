@@ -6,6 +6,22 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
+Latest continuation M3n: proof `7a4e1ad19558717a33391d30b9a69af579dd5e57`,
+[run37762243525](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37762243525),
+541s. Actual up/down full PASS116/120exec,3returns/3leaks each; all accepted
+baselines preserved. Same-input stack MIR/AST linkage full PASS14addresses,
+9MIR+12AST controls and7frontend refusals PASS. New named/scalar role controls
+NOT VERIFIED (preparation stopped at hidden copied parameter).
+G2 quartet main415exec proves entry is live, but reverse destination
+pointer-limit obligation rejects ordinary sub; complete12-post trace OPEN.
+Actual bidirectional len23 main157exec,3returns/4leaks, no dead diagnostic;
+odd-copy/guard/normal path reached, C1 selected-source chunk rejects later path.
+Normal/unwind full function theorem OPEN. Panic origin13mutants PASS only
+CALIBRATION; expected compiler source SHA not yet pinned in that proof.
+Continuation2668/7200,4532remaining; historic3971/21600 and603/1800 separate.
+
+Historical full matrix below (claims retain their original SHA):
+
 OVERNIGHT-MERGE-26.10 latest full matrix: run
 [37752503002](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37752503002),
 proof/Actions SHA `77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`, job113228913710,

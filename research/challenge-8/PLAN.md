@@ -5,6 +5,13 @@ hosted-полномочия до14:30МСК2026-10-08 с лимитом новы
 История ночи3971/21600 и старые603/1800(1197) сохраняются отдельно.
 [STATUS](STATUS.md) фиксирует текущий расход и активный run.
 
+Ближайшая последовательность: same-input stack MIR→AST и адресные admission
+контроли; G2 trace live-body geometry; actual bidirectional 2/3 odd-copy и
+normal/unwind ресурсная композиция. M3n установил AST linkage и вход G2,
+но оба полных тела ещё отклонены конкретными pointer/resource obligations.
+M3k сохранён, штатный quartet representation сохраняет12полных relations.
+Проверяемые леммы/существующие ресурсы перед новыми семантическими расширениями.
+
 Приоритет A: штатные nested tuple projections, все12полных posts, arbitrary-n
 G2 loop geometry и terminal associations. B: actual bidirectional scope/iterator,
 actual up/down bodies, scratch/odd branch/wrapping/panic. C: C1caller/M2cleanup

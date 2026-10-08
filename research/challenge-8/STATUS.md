@@ -1,23 +1,42 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
-Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
-**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **2127/7200 job seconds**
-(204 + 209 + 55 + 130 + 224 + 266 + 260 + 381 + 398), осталось **5073/7200**. Ночная история **3971/21600** отдельно;
-старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
-Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
-`77f50f75c4b62f30fe2b477ba64f5f01e6cf0ccb`.
-[Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Последний [run 37752503002](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37752503002),
-job113228913710, 08:50:25–08:54:51 UTC, **266 seconds**; остальные jobs
-skipped. Job завершился success, артефакты полностью проверены; это успех диагностической
-матрицы, не theorem. До него:
-[37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894),
-proof `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34`, job113203193351,
-204 seconds. Активного run нет; M3k подготовлен: проверяемые panic-stage леммы,
-actual len2/3 с обеими ветвями и альтернативное штатное tuple-представление всех12
-координат. Новые results отсутствуют до fresh hosted matrix.
-Два setup failure run37748834934 (55s) и run37749632949 (130s) сохранены как setup-only.
-Run377501 и run377525 выполнили полные diagnostic matrices; активного run нет.
+Hosted-полномочия до **14:30 МСК 2026-10-08 (11:30 UTC)**.
+Продолжение: **2668/7200 job seconds**, остаток **4532**;
+история ночи **3971/21600**, старые **603/1800 (1197)** отдельно.
+Ветка `overnight/merge-26.10`; последний proof SHA
+`7a4e1ad19558717a33391d30b9a69af579dd5e57`,
+[run37762243525](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37762243525),
+job113261239759,10:15:17–10:24:18UTC,541s, diagnostic FAILURE.
+Активного run нет. [Фаза](merge/OVERNIGHT-26.10-PHASE.md).
+M3k и все исторические результаты сохранены; ниже текущие три независимые ворот:
+
+1. **Stack-address:** same-input normal MIR→proof AST PASS,14addresses,
+   four concrete Range/tuple locals,9MIR+12AST refusal controls. Seven exact
+   syntax/missing-ID/parameter frontend controls PASS, bodies unentered.
+   Named Range/tuple discovery/final roles stable but not yet verified;
+   hidden-scalar preparation SETUP: Add reads a hidden copy of parameter.
+   Prepared fix verifies its unique earlier same-block copy and source spans.
+   Address/permission admission beyond this bounded profile remains OPEN.
+2. **G2 trace:** штатный quartet adapter retains all12coordinates/posts;
+   main ENTERED415executions,13helpers checked. Concrete proof rejection
+   at `verified/lib.rs(518,36-42)`: reverse destination ordinary `sub(1)`
+   needs pointer limits. No complete trace proof; prior entry-death cases
+   preserved without identical rerun. Modular checked-helper alternative
+   prepared; no Z3 repeat (pointer_ctor backend SETUP unsupported).
+3. **Actual bidirectional 2/3:** 157executions,3return+4leak records;
+   odd-copy/guard/normal return reached, no dead-code record, but C1 copy
+   source chunk fails at `lib.rsspec(627,626-627)` on conditional tuple cursor.
+   Prepared proof-only source-address case split retains existing resources
+   and exact normal/unwind posts. Panic macro origin CALIBRATION passed13
+   controls; compiler panic.rs SHA independently recorded, final pinned
+   admission/counting remains next dependency. Full actual theorem OPEN.
+
+All accepted baselines and actual merge_up/down again full PASS (116/120exec,
+3return+3leak each). Checked panic-stage frame/3lemma bodies and exact suffix
+negative PASS. New candidates require fresh hosted evidence; no runtime/std,
+trusted semantic patch or functional safety restriction added.
+
+## Preserved historical evidence
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS;

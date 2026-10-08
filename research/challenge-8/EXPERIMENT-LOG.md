@@ -5166,3 +5166,33 @@ Ifdefaultfulltracecompletesacceptonlyfullgates+matchednegative; iftimeout
 pursuecheckedmodularhelperdecomposition retaining12relations. Ifactual
 2/3completesbody, macroanddead/source/leakgatesstillmandatory.
 No new semanticpatch or weakerpost. Budget5073jobseconds/window14:30MSK.
+
+### M3n outcome and M3o preparation
+
+Proof7a4e1ad19558717a33391d30b9a69af579dd5e57 /
+https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37762243525
+job11326123975910:15:17–10:24:18UTC541sFAILURE; continuation2668/7200.
+Actualup/downfullPASS116/120exec,3return/3leak each andallacceptedbaselines.
+StacksameinputMIR/ASTPASS14addresses9+12mutants;7exactfrontendcontrolsPASS.
+NamedRange/tuple rolesstable2pass buthiddenScalarpreparationSETUP:
+Add input _4 is unique hidden usize copy _1 earlier sameblock, notdirect_1.
+Fix reads concrete decoded copy/Add n→n+1 spans, unique definition, no ID guess;
+finalsource reexport still mandatory; no proof negatives accepted fromprep.
+G2 quartet415exec nowconcreteerror ordinarydst_rev.sub(1) bounds51836–42,
+notentrydead/nottimeout; fullmatchedfalse target16–21checkedseparately.
+Actual2/3 finishesmorepaths157exec3return4leak butC1copysourcepoints_to
+(get_tuple3__1(__result0),_) rejects627626–627. Pure case split afteractual
+last_src selection can expose existing oneofthreechunks, posts unchanged.
+PanicmacrooriginCALIBRATION13mutantsPASS, source/MIR/AST/logbound,3macroexec;
+independent nightlypanic.rs SHA b63eeb2d8e1fa130d3582253fd043fdcd722d16031b289c25f2437e2edda87dd.
+M3o mustpin literalexpectedSHA withrequirefinal beforeanyexecutioncountchange;
+allreturn/leak/dead/error/stage/source gates remainmandatory. Changedlog,
+missing/stale/calibration/wrongowner/source/compiler certificate yieldszero.
+G2 destinationbounds repair mustderive withinexisting positiveS endpoint
+premises andprovenance, neverturnordinarysub intowrapping. Modularalternative
+keepssamefull12relations andbothreadonlyfractions, allhelperbodieschecked,
+notactualcallback/copyreorderingclaim. MATRIXdefaultRedux/noZ3/knownlen2
+repeat; existingacceptedcombinedregressions maintained. Negativecases
+requireexactstage/span/predicate target; setupunsupported isINC.
+Decision: onlycompleteallgatespermitsconditionalcomponentacceptance;
+otherwiseinspectfreshcausalobligation andcontinueindependentcorrectwork.
