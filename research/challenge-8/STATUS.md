@@ -13,7 +13,10 @@ Main/upstream/other-agent branches are untouched by this direction.
 
 **Last completed O25:** [run37761756051](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37761756051),
 proof `8a7a698ed6001273b953987cd6fd7517ff6219d5`,10:10:51–10:13:56UTC=185s.
-Resumed **1407/7200**,5793remaining; no active run.
+Resumed completed **1407/7200**,5793remaining before active O26.
+**Active O26:** [run37763468180](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37763468180),
+proof `c19e4c50470d32199178d5229a2819554fc6b2f1`; exact main20 nineowner
+A1/SAFE-ownedforget composition, firstactualbody obligation and controls/S6.
 Main18 builds, exact9source/fullMIR and nestedH2 gates PASS; qualified nested
 call links but its body has not yet been verified. Prefix generic method
 normal/unwind return+leak checks pass, checked_transmute_neo_pointer fullbody
