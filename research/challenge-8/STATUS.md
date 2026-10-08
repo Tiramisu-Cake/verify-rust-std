@@ -1,3 +1,17 @@
+# Current phase: CLOUD-BUILD-MIGRATION — IN PROGRESS
+
+2026-10-09. Owner-authorized A/B/C transfer to existing Google Cloud Build;
+separate3600 summed buildseconds, max1800 perbuild/remaining, onequeuedactive.
+[Phase](cloud-build/PHASE.md), [ledger](cloud-build/BUDGET.json),
+[commands](cloud-build/README.md). No newhelper/sort4proofs.
+Branch research/cloud-build-migration, sameworktree, entry89e0a36f8df67bb2f66cf0564f497a0a4bad4aac.
+Initialtreeclean; oldbranch/main/upstream/otheragent untouched.
+A prepared next; stock baseline a0cfd30e and acceptedconstructor1378f0ff
+selected. No activebuild; preexisting f6f0f600-5558-4ac1-9011-0b73e4533a83 SUCCESS
+is owner setup evidence, not charged or relabeled as this phase.
+
+# Historical overnight checkpoint (preserved)
+
 # Challenge 8: current checkpoint
 
 2026-10-08. **RESUMED-SELECT-SORT4-26.10-08 EXTERNALLY BLOCKED: ACTIONS DISABLED**,

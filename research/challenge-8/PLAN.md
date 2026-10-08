@@ -1,3 +1,10 @@
+## Current authorization: CLOUD-BUILD-MIGRATION
+
+[Phase](cloud-build/PHASE.md): A storage/error/timeout → B stockbaseline →
+C cold sourcebuiltacceptedconstructor. Existing Cloud Build only; separate
+3600seconds, max1800/remaining; noactualproofdevelopment. Provider/path/
+time/evidence migrationonly, semantics frozen. Historicalroadmap follows.
+
 ## Current resumed authorization — 2026-10-08
 
 [RESUMED-SELECT-SORT4-26.10-08](RESUMED-SELECT-SORT4-26.10-08.md) EXTERNALLY BLOCKED

@@ -5103,3 +5103,20 @@ drafts and unchanged historical results. Confirmed1596 jobseconds plus
 [Final checkpoint](overnight-linkage/RESUMED-EXTERNAL-HANDOFF-2026-10-08.md)
 records exact main20/profile, unverified changed source, actual delta versus
 O22, remaining controls and next permitted hosted action. No local proof/build.
+
+### CLOUD-BUILD-MIGRATION before A/B/C, 2026-10-09
+
+Entry89e0a36f8df67bb2f66cf0564f497a0a4bad4aac clean; newownbranch
+research/cloud-build-migration. Owner explicitlyauthorizesexistingCloudBuild
+smallsort-ci/global,
+e2-standard-2 andexistingbucket. Noactivebuild initially; owner smoke
+f6f0f600-5558-4ac1-9011-0b73e4533a83 SUCCESS confirmedread-only.
+Freshphase3600seconds/max1800/build, separatefromhistory.
+Hypothesis: exactpublishedSHAs/pinnedUbuntu/provider-only guards preserve
+stock source/export/decode/refinement/proofclassifications and complete
+acceptedconstructor matrix on coldsourcebuiltS6+CFG.
+A probes must store/readhashes and fail finalverdict for original42/124.
+B history a0cfd30e066acbaf1b5406cd9773f54388cc45be, C history
+1378f0ffc8342233349fae3df5a938c4a021c8d7/run37700450091.
+Domains/posts/classifiers unchanged; baselineforgetinconclusive remains
+inconclusive, noadmissionhelper/sort4/merge. Allnewresource proofworkexcluded.

@@ -1,3 +1,14 @@
+## Current authorized provider: CLOUD-BUILD-MIGRATION
+
+For this phase, the owner explicitly replaces GitHub-hosted-only execution
+with Google Cloud Build in existing smallsort-ci/global. VPS still edits and
+orchestrates only. See [phase](research/challenge-8/cloud-build/PHASE.md) and
+[commands](research/challenge-8/cloud-build/README.md). Use explicit gcloud
+configuration/account/project and region where applicable. No fake GitHub
+identity. One queued/running build, max1800seconds and remaining3600 phase
+budget. Semantic profiles/contracts frozen; A/B/C only, no new actualproof.
+Older GitHub procedures below remain historical defaults for other phases.
+
 # Instructions for coding agents
 
 ## Project and first reads

@@ -1,3 +1,15 @@
+## Current Cloud Build execution procedure
+
+CLOUD-BUILD-MIGRATION explicitly authorizes existing Cloud Build instead of
+GitHub Actions for this phase. [Phase](cloud-build/PHASE.md),
+[commands](cloud-build/README.md), [new ledger](cloud-build/BUDGET.json).
+One queued/running build, exact published infrastructure and proof SHAs,
+no-source dispatch, unique BuildID bucketprefix, upload before final verdict.
+Use every gcloud invocation with explicit configuration/account/project and
+region if applicable; no credentials inspection or administrative changes.
+VPS static/edit/orchestration only. Historical Actions loop below does not
+authorize further Actions or actualproof experiments in migration.
+
 # Challenge 8 operating runbook
 
 This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
