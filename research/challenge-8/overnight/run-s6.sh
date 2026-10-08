@@ -2,7 +2,8 @@
 set -euo pipefail
 [[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && "${RUNNER_OS:-}" == Linux ]] || exit 2
 [[ "${GITHUB_REF:-}" == refs/heads/research/overnight-select-sort4-26.10 ]] || exit 2
-export OVERNIGHT_TARGETED_OWNER_CALIBRATION=1
+export OVERNIGHT_TARGETED_SOURCE_INTEGRATION=1
+export OVERNIGHT_TARGETED_POST_ADMISSION=1
 repo=$(git rev-parse --show-toplevel)
 cd "$repo"
 ev="$repo/research-results/overnight-s6"
@@ -34,6 +35,16 @@ patch_file="$repo/research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.
 cfg_patch="$repo/research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch"
 printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link+h2a+h2b+h2c+g1-call+hrtb-output+callback-unwind-diag+owner-complete-admission+nested-ghost-parent+failclosed-unit-capture-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
 sha256sum "$patch_file" >> "$ev/environment.txt"
+# Source-only gates run before any verifier download or console build.
+if [[ "${OVERNIGHT_TARGETED_SOURCE_INTEGRATION:-}" == 1 ]]; then
+ stage source-preflight python3 research/challenge-8/overnight/preflight-sources.py --repo "$repo" --evidence "$ev/source-preflight"
+ preflight_owner_status=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["components"]["owner-nine"]["exit"])' "$ev/source-preflight/summary.json")
+ preflight_sort4_status=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["components"]["sort4"]["exit"])' "$ev/source-preflight/summary.json")
+ if (( preflight_owner_status && preflight_sort4_status )); then
+  printf 'owner_preflight=%s\nsort4_preflight=%s\nverifier_build_started=false\n' "$preflight_owner_status" "$preflight_sort4_status" > "$ev/aggregate-stage-status.txt"
+  exit 1
+ fi
+fi
 stage download curl -fL --retry 2 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
 printf '%s  %s\n' 5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd "$stock_archive" | sha256sum -c -
 stage extract tar -xzf "$stock_archive" -C "$task_temp"
@@ -113,6 +124,23 @@ AUDIT
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 if grep -q 'not found' "$ev/console-ldd.txt"; then exit 2; fi
 export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
+if [[ "${OVERNIGHT_TARGETED_SOURCE_INTEGRATION:-}" == 1 ]]; then
+ owner_capture_status=$preflight_owner_status
+ if (( preflight_owner_status == 0 )); then
+  stage actual-owner-nine-source-capture python3 research/challenge-8/overnight-assume-actual/capture.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-nine-source-capture" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --fingerprint || owner_capture_status=$?
+ fi
+ sort4_capture_status=$preflight_sort4_status
+ if (( preflight_sort4_status == 0 )); then
+  stage actual-sort4-full-graph python3 research/challenge-8/overnight-callback/prepare-actual-sort4-first-call.py --repo-root "$repo" --output "$ev/actual-sort4-full-graph" --capture --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || sort4_capture_status=$?
+  sort4_start_status=0
+  stage actual-sort4-proof-start python3 research/challenge-8/overnight/source-proof-start.py --tool-home "$source_home" --fixture "$ev/actual-sort4-full-graph" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || sort4_start_status=$?
+ else
+  sort4_start_status=1
+ fi
+ printf 'owner_preflight=%s\nsort4_preflight=%s\nowner_capture=%s\nsort4_graph=%s\nsort4_proof_start=%s\nprofile=IDENTICAL_O23_MAIN16_SOURCE_INTEGRATION_ONLY\n' "$preflight_owner_status" "$preflight_sort4_status" "$owner_capture_status" "$sort4_capture_status" "$sort4_start_status" > "$ev/aggregate-stage-status.txt"
+ (( owner_capture_status == 0 && sort4_capture_status == 0 && sort4_start_status == 0 ))
+ exit $?
+fi
 if [[ "${OVERNIGHT_TARGETED_OWNER_CALIBRATION:-}" == 1 ]]; then
  sort4_calibration_status=0
  stage actual-sort4-first-call-calibration python3 research/challenge-8/overnight-callback/prepare-actual-sort4-first-call.py --repo-root "$repo" --output "$ev/actual-sort4-first-call-calibration" --capture --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || sort4_calibration_status=$?
