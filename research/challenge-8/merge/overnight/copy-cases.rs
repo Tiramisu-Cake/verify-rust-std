@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 // Restricted positive-size one-element model cases for copy.patch.
-// Every TARGET case has no guessed EXPECT_ERROR oracle and stays
-// INCONCLUSIVE until a hosted log establishes its stage/predicate/location.
+// TARGET controls without calibrated metadata stay INCONCLUSIVE. The overlap,
+// misalignment oracles were calibrated from run377501. ZST mapping stays open.
 
 /*@
 pred copy_one_domain<T>(src: *T, dst: *T) =
@@ -121,7 +121,7 @@ pub unsafe fn copy_one_uninitialized_source<T>(src: *mut T, dst: *mut T)
 // CASE_END copy_one_uninitialized_source
 
 // CASE_BEGIN copy_one_overlapping_ranges
-// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":622,"column_start":562,"column_end":564,"message":"Cannot prove condition. (Cannot prove (get_pointer_address(ptr) + sizeof(T_typeid)) <= get_pointer_address(ptr) || (get_pointer_address(ptr) + sizeof(T_typeid)) <= get_pointer_address(ptr).)"}
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":627,"column_start":562,"column_end":564,"message":"Cannot prove condition. (Cannot prove (get_pointer_address(ptr) + sizeof(T_typeid)) <= get_pointer_address(ptr) || (get_pointer_address(ptr) + sizeof(T_typeid)) <= get_pointer_address(ptr).)"}
 pub unsafe fn copy_one_overlapping_ranges<T>(ptr: *mut T)
 /*@ req 0 < ptr as usize &*& 0 < std::mem::size_of::<T>() &*&
     std::mem::size_of::<T>() <= isize::MAX &*&
@@ -136,7 +136,7 @@ pub unsafe fn copy_one_overlapping_ranges<T>(ptr: *mut T)
 // CASE_END copy_one_overlapping_ranges
 
 // CASE_BEGIN copy_one_misaligned_source
-// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":622,"column_start":143,"column_end":145,"message":"Cannot prove condition. (Cannot prove %(get_pointer_address(src), alignof(T_typeid)) = 0.)"}
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":627,"column_start":143,"column_end":145,"message":"Cannot prove condition. (Cannot prove %(get_pointer_address(src), alignof(T_typeid)) = 0.)"}
 pub unsafe fn copy_one_misaligned_source<T>(src: *mut T, dst: *mut T)
 /*@ req 0 < src as usize &*& 0 < dst as usize &*& 1 < std::mem::align_of::<T>() &*&
     src as usize % std::mem::align_of::<T>() != 0 &*&
@@ -156,7 +156,7 @@ pub unsafe fn copy_one_misaligned_source<T>(src: *mut T, dst: *mut T)
 // CASE_END copy_one_misaligned_source
 
 // CASE_BEGIN copy_one_misaligned_destination
-// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":622,"column_start":193,"column_end":195,"message":"Cannot prove condition. (Cannot prove %(get_pointer_address(dst), alignof(T_typeid)) = 0.)"}
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":627,"column_start":193,"column_end":195,"message":"Cannot prove condition. (Cannot prove %(get_pointer_address(dst), alignof(T_typeid)) = 0.)"}
 pub unsafe fn copy_one_misaligned_destination<T>(src: *mut T, dst: *mut T)
 /*@ req 0 < src as usize &*& 0 < dst as usize &*& 1 < std::mem::align_of::<T>() &*&
     src as usize % std::mem::align_of::<T>() == 0 &*&

@@ -417,7 +417,7 @@ on_unwind_ens false;
 // CASE_END frame_and_read_after_reentry
 
 // CASE_BEGIN unsupported_count_two
-// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":303,"column_start":25,"column_end":27,"message":"Cannot prove condition. (Cannot prove 2 = 0 || 2 = 1.)"}
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":308,"column_start":25,"column_end":27,"message":"Cannot prove condition. (Cannot prove 2 = 0 || 2 = 1.)"}
 pub unsafe fn unsupported_count_two<T>(base: *const T) -> *const T
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
@@ -433,7 +433,7 @@ on_unwind_ens false;
 // CASE_END unsupported_count_two
 
 // CASE_BEGIN unsupported_signed_offset
-// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":313,"column_start":35,"column_end":37,"message":"Cannot prove condition. (Cannot prove 2 <= 1.)"}
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"bin/rust/std/lib.rsspec","error_line":318,"column_start":35,"column_end":37,"message":"Cannot prove condition. (Cannot prove 2 <= 1.)"}
 pub unsafe fn unsupported_signed_offset(base: *const u8) -> *const u8
 /*@
 req 0 <= (base as pointer).address &*& (base as pointer).address <= usize::MAX &*&
