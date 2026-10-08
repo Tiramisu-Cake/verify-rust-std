@@ -13,7 +13,11 @@ Main/upstream/other-agent branches are untouched by this direction.
 
 **Last completed O24:** [run37760135524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37760135524),
 proof `2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`,09:56:44–09:57:37UTC=53s.
-Resumed **1222/7200**,5978remaining; no active run.
+Resumed completed **1222/7200**,5978remaining before active O25.
+**Active O25:** [run37761756051](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37761756051),
+proof `8a7a698ed6001273b953987cd6fd7517ff6219d5`; main18 exactowner9/nestedH2
+experimental composition, positivewholeunit and source2/MIR2 admission controls,
+fullS6 separate regression.
 Hosted independent owner9/sort4 sourcepreflight PASS BEFORE console, exactruntime
 strip/fragments retained. Cached main16 reused with exactprofile; unchangedS6 not
 rerun. Both whole NORMAL/readonly MIR exports/refinement0. Owner9 completeunit+
