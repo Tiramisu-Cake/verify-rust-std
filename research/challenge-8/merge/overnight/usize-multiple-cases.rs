@@ -6,7 +6,11 @@ pub fn repo_usize_is_multiple_of(value: usize, rhs: usize) -> bool
 /*@
 req true;
 @*//*@
-ens result == (if rhs == 0 { value == 0 } else { value % rhs == 0 });
+ens if rhs == 0 {
+    result == (value == 0)
+} else {
+    result == (value % rhs == 0)
+};
 @*//*@
 on_unwind_ens false;
 @*/
@@ -22,7 +26,11 @@ pub fn usize_multiple_adapter_formula(value: usize, rhs: usize) -> bool
 /*@
 req true;
 @*//*@
-ens result == (if rhs == 0 { value == 0 } else { value % rhs == 0 });
+ens if rhs == 0 {
+    result == (value == 0)
+} else {
+    result == (value % rhs == 0)
+};
 @*//*@
 on_unwind_ens false;
 @*/
@@ -35,13 +43,16 @@ on_unwind_ens false;
 pub fn usize_multiple_builtin_adapter_frame(
     value: usize,
     rhs: usize,
-    frame: *u32,
+    frame: *mut u32,
 ) -> bool
 /*@
 req [?f](*frame |-> ?saved);
 @*//*@
-ens result == (if rhs == 0 { value == 0 } else { value % rhs == 0 }) &*&
-    [f](*frame |-> saved);
+ens if rhs == 0 {
+    result == (value == 0) &*& [f](*frame |-> saved)
+} else {
+    result == (value % rhs == 0) &*& [f](*frame |-> saved)
+};
 @*//*@
 on_unwind_ens false;
 @*/
@@ -91,6 +102,7 @@ on_unwind_ens false;
 // CASE_END usize_multiple_zero_divisor_false_negative
 
 // CASE_BEGIN usize_multiple_odd_divisor_false_negative
+// EXPECT_ERROR {"stage":"verifast","predicate":"__result <==> true","line":"TARGET","column_start":30,"column_end":32}
 pub fn usize_multiple_odd_divisor_false_negative() -> ()
 /*@
 req true;

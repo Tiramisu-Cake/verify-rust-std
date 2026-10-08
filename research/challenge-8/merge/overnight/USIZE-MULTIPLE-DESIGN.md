@@ -30,9 +30,9 @@ equation from its ordinary body.
 
 Stock VeriFast 26.10 does not declare this `usize` method in
 `bin/rust/std/lib.rsspec`. The new declaration is a trusted primitive
-summary, with `req true`,
-`ens result == (if rhs == 0 { self == 0 } else { self % rhs == 0 })`,
-and `on_unwind_ens false`. The conditional keeps modulo out of the
+summary, with `req true`, a branch-form postcondition
+`ens if rhs == 0 { result == (self == 0) } else { result == (self % rhs == 0) }`,
+and `on_unwind_ens false`. The assertion-level branch keeps modulo out of the
 zero-divisor branch; the zero case matches the exact source body. The
 contract adds no heap permission, allocation premise, machine-overflow
 model, or postcondition about any other integer operation. This is an
@@ -44,12 +44,13 @@ specification. The pinned stock spec SHA-256 is
 four-patch input SHA-256 is
 `f550600564f5bfd3c618dcc4724452249c754a74e8895cbc11b60fafba994cf5`, taken
 from hosted run 37716179905's `build/std_lib.patched.rsspec`; applying this
-patch's unique `usize`-impl insertion yields predicted SHA-256
-`9933b6aafabcc8b4d854f769c96b1cdf2fe860499f8cdf75b886f9127e109682`.
-The final digest was calculated from the downloaded base bytes plus the
-literal insertion; the next hosted profile must verify patch application and
-recompute/record the actual staged spec hash. The new patch file SHA-256 is
-`a0b2365f4b152bd338e38ec4d4dd7ff0e3c2e47c25b82e570b714de816a9f4c5`.
+patch's unique `usize`-impl insertion with the branch-form post yields
+predicted SHA-256
+`9e5ca27b68806f29f41a986add42be5046d3d9e1ba3917a0c5b026d4104caa33`.
+This digest was computed by changing the annotation in hosted run
+37750163906's staged spec; the next hosted profile must verify patch
+application and recompute/record the actual staged spec hash. The updated
+patch SHA-256 is recorded below.
 
 ## Diagnostic fixtures and expected evidence
 
@@ -61,7 +62,7 @@ conditional formula through a direct adapter call. The cases are:
 | Case | Evidence sought |
 |---|---|
 | Adapter formula wrapper | Calls the shared checked adapter; its postcondition is the full zero-safe conditional formula and it does not unwind. |
-| Arbitrary builtin/adapter comparison with a framed `u32` points-to chunk | The post states the exact conditional result equation without calling a runtime method from ghost logic; the body still compares adapter and builtin results with an assertion, and returns the unrelated chunk unchanged. |
+| Arbitrary builtin/adapter comparison with a framed mutable `u32` points-to chunk | The branch-form post states the exact zero/nonzero result equation without calling a runtime method from ghost logic; the body still compares adapter and builtin results with an assertion, and returns the unrelated chunk unchanged. |
 | Zero/zero, positive/zero, even/2, and odd/2 cases | Establish the four source boundary examples without introducing another helper summary. |
 | Two deliberately false result assertions: positive dividend with zero divisor, and odd dividend with divisor two | Execute each builtin call into a local first, then assert that result is true with a `TARGET` marker. Do not guess an oracle; each is a useful negative only after hosted output reaches its exact assertion. |
 
@@ -95,3 +96,26 @@ This is setup rejection, not a proof result. Cache profile schema is now
 explicitly updated for the zero-safe usize profile and required usize_patch
 input; exact whole-profile/manifest/payload and all9 controls remain mandatory.
 No console digest is broadened; previous cache/profile evidence remains historic.
+
+Run 37750163906 built the current four-patch-plus-primitive profile. The
+adapter-formula wrapper passed, but the arbitrary frame, boundary, and
+zero-divisor negative cases were inconclusive: VeriFast terminated with
+`Division_by_zero` while evaluating the pure conditional-expression contract.
+The odd-divisor negative reached its assertion under the prior profile, but it
+must be recalibrated after the contract repair. The case file now uses the
+stock assertion-level `ens if` split in the primitive declaration, checked
+adapter, and wrappers, keeping `% rhs` solely in the nonzero branch; the
+unrelated frame is a mutable raw pointer so its points-to chunk is writable.
+The zero-divisor negative from this run is not counted as proof evidence.
+
+The updated patch is SHA-256
+`b4990d0708b343bce838811f33e43e5a5f4dd442201b7b4efe2c5800116288ca`; the
+predicted staged spec SHA-256 is
+`9e5ca27b68806f29f41a986add42be5046d3d9e1ba3917a0c5b026d4104caa33`.
+Both require confirmation in the next hosted build before proof outcomes are
+interpreted.
+
+Final declaration prints the same assertion-branch post on a single `//@ ens`
+line, preserving the5-line insertion count and downstream std-spec coordinates.
+Current patch SHA-256 `ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1`; exact staged spec SHA-256 `d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227`.
+The preceding multiline candidate was not dispatched.

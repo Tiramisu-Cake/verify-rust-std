@@ -10,5 +10,5 @@ diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
 +        fn is_multiple_of(self: usize, rhs: usize) -> bool;
          //@ req true;
 -        //@ ens result == (if self < other { 0 } else { self - other });
-+        //@ ens result == (if rhs == 0 { self == 0 } else { self % rhs == 0 });
++        //@ ens if rhs == 0 { result == (self == 0) } else { result == (self % rhs == 0) };
          //@ on_unwind_ens false;
