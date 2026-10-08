@@ -1254,10 +1254,11 @@ def quarantine_false_assert_success(evidence: Path, case_name: str,
 
 
 def main() -> None:
-    if os.environ.get("GITHUB_ACTIONS") != "true" or \
-            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or \
-            os.environ.get("RUNNER_OS") != "Linux":
-        raise SystemExit("MaybeUninit constructor checks require GitHub-hosted Linux Actions")
+    provider_path = Path(__file__).resolve().parents[1] / "cloud-build" / "provider.py"
+    spec = importlib.util.spec_from_file_location("smallsort_provider", provider_path)
+    provider = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(provider)
+    provider.require_supported_provider()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--stock-home", type=Path, required=True)
     parser.add_argument("--tool-home", type=Path, required=True)

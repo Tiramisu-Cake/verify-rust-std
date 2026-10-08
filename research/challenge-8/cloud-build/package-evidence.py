@@ -35,6 +35,12 @@ def digest_file(path: Path) -> str:
 def parse_json_or_none(value: bytes | None):
     if value is None:
         return None
+
+
+def named_json(payload: dict[str, bytes], *basenames: str) -> dict[str, object]:
+    wanted = set(basenames)
+    return {path: parsed for path, raw in sorted(payload.items())
+            if Path(path).name in wanted and (parsed := parse_json_or_none(raw)) is not None}
     try:
         return json.loads(value)
     except (ValueError, UnicodeDecodeError):
@@ -185,6 +191,18 @@ def main() -> int:
         manifest = {
             **summary,
             "infra_sha": infra_sha, "proof_sha": proof_sha,
+            "historical_comparison": parse_json_or_none(payload.get("comparison-manifest.json")),
+            "tool_profile": {
+                "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+                "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+                "rust_toolchain": "nightly-2026-09-25",
+                "compiler_commit": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+                "patches_in_application_order": ([
+                    {"path": "overnight-s6/verifast-s6-26.10-candidate.patch", "sha256": "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c"},
+                    {"path": "verifast-manuallydrop-new-cfg-2610.patch", "sha256": "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781"},
+                ] if lane == "constructor" else []),
+                "scope": "constructor-only historical component" if lane == "constructor" else "stock baseline" if lane == "stock" else "no proof tools executed",
+            },
             "pins": {"infra_sha": infra_sha, "proof_sha": proof_sha,
                      "submitted_config_sha256": config_sha,
                      "proof_image": proof_image},
@@ -197,10 +215,13 @@ def main() -> int:
             "environment": {k: v for k, v in sorted(env.items())
                             if k.startswith("SMALLSORT_") and not any(
                                 secret in k.upper() for secret in ("TOKEN", "KEY", "PASSWORD", "CREDENTIAL", "SECRET"))},
-            "profile_hashes": parse_json_or_none(next((v for k, v in sorted(payload.items())
-                                                        if Path(k).name == "profile-hashes.json"), None)),
-            "tools": parse_json_or_none(next((v for k, v in sorted(payload.items())
-                                               if Path(k).name == "tools.json"), None)),
+            "profile_hashes": named_json(payload, "profile-hashes.json"),
+            "tools": named_json(payload, "tools.json", "binary-hashes.json",
+                                "profile-binary-hashes.json"),
+            "specification_hashes": named_json(payload, "stock-spec-hashes.json", "spec-audit.json"),
+            "source_component_hashes": named_json(payload, "source-component-hashes.json"),
+            "std_export_source": named_json(payload, "std-export-source.json"),
+            "provider_overlays": named_json(payload, "provider-overlay-manifest.json"),
             "proof_audit": proof_audit,
             "proof_audit_path": audit_path,
             "proof_stage_artifacts": stage_artifacts,

@@ -10,7 +10,10 @@ def write(path,obj): path.write_text(json.dumps(obj,indent=2,sort_keys=True)+"\n
 def sha(b): return hashlib.sha256(b).hexdigest()
 
 def main():
- assert os.environ.get('GITHUB_ACTIONS')=='true' and os.environ.get('RUNNER_ENVIRONMENT')=='github-hosted'
+ provider_path = Path(__file__).resolve().parent / 'cloud-build' / 'provider.py'
+ spec = importlib.util.spec_from_file_location('smallsort_provider', provider_path)
+ provider = importlib.util.module_from_spec(spec); spec.loader.exec_module(provider)
+ provider.require_supported_provider()
  p=argparse.ArgumentParser(); p.add_argument('--tool-home',type=Path,required=True); p.add_argument('--schema',type=Path,required=True); p.add_argument('--compiler-sysroot',required=True); p.add_argument('--evidence',type=Path,required=True); p.add_argument('--deadline-epoch',type=int,required=True); a=p.parse_args(); a.dump_ast_with_locs=True
  here=Path(__file__).parent; g=load(here/'check-forget-generic.py','old_run_helpers'); c=g.strict_classifier()
  # Reuse only process/stage recording. No old certificates, profile or summaries.

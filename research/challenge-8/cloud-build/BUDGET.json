@@ -1,8 +1,8 @@
 {
   "phase": "CLOUD-BUILD-MIGRATION",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 39,
+  "remaining_build_seconds": 3561,
   "maximum_build_timeout_seconds": 1800,
   "active_build": null,
   "builds": [
@@ -31,6 +31,24 @@
       "accounted": true,
       "build_seconds": 0,
       "reason": "API buildstep argument limit10000bytes; exacttokenlookup noBuild; compressembeddedpackagebefore nextdispatch"
+    },
+    {
+      "dispatch_token": "dispatch-83b7fcf822644ebeb0736d7ae7cc19d0",
+      "infra_sha": "e863c2503789ecb307448959894626c7a481aebb",
+      "proof_sha": "89e0a36f8df67bb2f66cf0564f497a0a4bad4aac",
+      "lane": "smoke-success",
+      "submitted_config_sha256": "655e281465720b2c1d93aa922bf519e3fc522e81f6136f55a9fe82d4eeed4798",
+      "reserved_seconds": 240,
+      "timeout_seconds": 180,
+      "status": "FAILURE",
+      "build_id": "7bda20f0-cef7-4ff4-8c21-697374572b34",
+      "accounted": true,
+      "build_seconds": 39,
+      "execution_seconds": 39,
+      "create_time": "2026-10-08T23:30:57.751787011Z",
+      "start_time": "2026-10-08T23:30:58.572665201Z",
+      "finish_time": "2026-10-08T23:31:36.664015Z",
+      "result": "INCOMPLETE_EVIDENCE_PACKAGING_PYTHON_NOT_IN_SDK_PATH_NO_ARCHIVE"
     }
   ],
   "historical_accounts_unchanged": {

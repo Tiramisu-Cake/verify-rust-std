@@ -10,6 +10,7 @@ BUCKET='gs://smallsort-ci-evidence-504462351565/cloud-build'
 UBUNTU='ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401'
 SDK='gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9917bdc0a9fadd76d012f04f180a4409ec2ee534e832e'
 ACCOUNT='smallsort-builder@smallsort-ci.iam.gserviceaccount.com'
+SDK_PYTHON='/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3'
 TERMINAL={'SUCCESS','FAILURE','INTERNAL_ERROR','TIMEOUT','CANCELLED','EXPIRED'}
 
 def read(p):return json.loads(p.read_text())
@@ -50,7 +51,7 @@ def config(infra,proof,lane,seconds,token):
 mkdir -p /workspace/evidence
 printf '%s%s%s%s%s%s%s%s' "$CONFIG_PART_0" "$CONFIG_PART_1" "$CONFIG_PART_2" "$CONFIG_PART_3" "$CONFIG_PART_4" "$CONFIG_PART_5" "$CONFIG_PART_6" "$CONFIG_PART_7" | base64 --decode | gzip --decompress > /workspace/evidence/submitted-config.json
 printf '%s  %s\\n' "$SUBMITTED_CONFIG_SHA" /workspace/evidence/submitted-config.json | sha256sum -c -
-{ uname -a; nproc; cat /etc/os-release; cat /proc/meminfo; if test -f /sys/fs/cgroup/memory.max; then cat /sys/fs/cgroup/memory.max; fi; } > /workspace/evidence/environment.txt
+{ uname -a; nproc; cat /etc/os-release; cat /proc/meminfo; if test -f /sys/fs/cgroup/cpu.max; then cat /sys/fs/cgroup/cpu.max; fi; df -h /workspace; if test -f /sys/fs/cgroup/memory.max; then cat /sys/fs/cgroup/memory.max; fi; } > /workspace/evidence/environment.txt
 export SMALLSORT_DEADLINE_EPOCH=$(( $(date +%s) + WORK_SECONDS - 15 ))
 set +e
 timeout --signal=TERM --kill-after=10s "${WORK_SECONDS}s" bash -ceu WORK_BODY > /workspace/evidence/full-stdout.log 2> /workspace/evidence/full-stderr.log
@@ -69,12 +70,12 @@ mkdir -p /workspace/cloudsdk/configurations
 printf '[core]\\nproject = smallsort-ci\\naccount = ACCOUNT\\n' > /workspace/cloudsdk/configurations/config_smallsort-ci
 export CLOUDSDK_CONFIG=/workspace/cloudsdk
 printf '%s' PACKAGE_B64 | base64 --decode | gzip --decompress > /workspace/package-evidence.py
-python3 /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
+SDK_PYTHON /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
 prefix="BUCKET/$CLOUD_BUILD_ID"
 for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json; do
  gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 "/workspace/out/$file" "$prefix/$file"
 done
-python3 - <<'RECEIPT'
+SDK_PYTHON - <<'RECEIPT'
 import json,os,pathlib
 p=pathlib.Path('/workspace/out')
 h=(p/'archive.sha256').read_text().split()[0]
@@ -82,7 +83,7 @@ h=(p/'archive.sha256').read_text().split()[0]
 RECEIPT
 gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 /workspace/out/upload-complete.json "$prefix/upload-complete.json"
 touch /workspace/upload.ok
-'''.replace('ACCOUNT',ACCOUNT).replace('PACKAGE_B64',shquote(package)).replace('BUCKET',BUCKET).replace('$','$$')
+'''.replace('ACCOUNT',ACCOUNT).replace('SDK_PYTHON',SDK_PYTHON).replace('PACKAGE_B64',shquote(package)).replace('BUCKET',BUCKET).replace('$','$$')
  verdict='''import json,pathlib,sys
 p=pathlib.Path('/workspace/out')
 try:
@@ -93,10 +94,14 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':'python3','args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)}}}
+ return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)}}}
 
 def reconcile(state,ledger):
  for item in ledger['builds']:
+  if not item.get('build_id') and not item.get('accounted'):
+   matches=invoke(['builds','list','--region=global','--filter=tags:'+item['dispatch_token'],'--format=json'])
+   if len(matches)==1:item['build_id']=matches[0]['id']
+   elif len(matches)>1:raise RuntimeError('Multiple builds for one dispatch token; no further dispatch')
   if item.get('build_id') and not item.get('accounted'):
    b=invoke(['builds','describe',item['build_id'],'--region=global','--format=json'])
    write(state/(item['build_id']+'.json'),b)
@@ -125,6 +130,9 @@ def main():
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
    subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+  for name in ['control.py','package-evidence.py']:
+   expected=subprocess.check_output(['git','show',a.infra_sha+':research/challenge-8/cloud-build/'+name],cwd=ROOT)
+   if expected!=(DIR/name).read_bytes():raise SystemExit('Uncommitted/local '+name+' differs from infrastructure SHA; publish first')
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])
   if ongoing or ledger['active_build']:raise SystemExit('Queued/active or unresolved build: monitor/reconcile first')
   # queue envelope is reserved too, respecting phase/per-build ceiling.

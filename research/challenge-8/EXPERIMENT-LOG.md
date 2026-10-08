@@ -5120,3 +5120,16 @@ B history a0cfd30e066acbaf1b5406cd9773f54388cc45be, C history
 1378f0ffc8342233349fae3df5a938c4a021c8d7/run37700450091.
 Domains/posts/classifiers unchanged; baselineforgetinconclusive remains
 inconclusive, noadmissionhelper/sort4/merge. Allnewresource proofworkexcluded.
+
+### Cloud A0 setup outcomes and A1 packaging repair
+
+Two no-Build API validation refusals (4000-byte substitution /10000-byte
+step-argument limits), exactdispatchtoken lookups empty, zero timecharged.
+Request encoding repaired with bounded compressed chunks/package; commit
+inputs checked beforedispatch. A0 Build7bda20f0-cef7-4ff4-8c21-697374572b34,
+infrastructuree863c2503789ecb307448959894626c7a481aebb, executes smoke0,
+then package step127 Python3 absentfromSDKPATH and finalstep cannotstart.
+No bucketobjects/archive, incomplete evidence, no storageacceptance. Both
+pinnedimages match actualBuildStepImages. FullCloudLogging diagnostic retained
+by BuildID; budget charged conservativecreate→finish fromAPI. New repair uses
+SDKbundledPython absolute path; no tool/proofsemantic change.
