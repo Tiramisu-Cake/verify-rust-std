@@ -1,0 +1,12 @@
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -2582,6 +2582,9 @@
+       let outer_tenv =
+         if strict_lft_scope = None then outer_tenv else
+           List.map (fun (name, tp) ->
++            if Sys.getenv_opt "SORT4_STRICT_LFT_TRACE" = Some "1" then
++              Printf.eprintf "STRICT-CUT-ENTRY name=%s type=%s\n%!"
++                name (string_of_type tp);
+             name, freeze_strict_type l "entry outer type" [] tp) outer_tenv in
+       let entry_tparam_bounds =
+         if strict_lft_scope = None then !tparam_bounds_table else

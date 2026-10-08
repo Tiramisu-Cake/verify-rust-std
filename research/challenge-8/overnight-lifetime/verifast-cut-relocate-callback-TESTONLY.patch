@@ -1,0 +1,159 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2581,6 +2581,8 @@
+     val body_name : string
+     val body_tr_defs_ctx : body_tr_defs_ctx
+     val strict_lft_scope_ends : (Ast.loc * string) list
++    val strict_relocated_decls : (Ast.loc * Ast.stmt list) option ref
++    val strict_relocation_insertions : int ref
+     val local_decl_types : (string * D.ty) list
+   end) =
+   struct
+@@ -2591,6 +2593,9 @@
+       let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
+       let strict_lft_scope_ends = Args.strict_lft_scope_ends
++      let strict_relocated_decls = Args.strict_relocated_decls
++      let strict_relocation_insertions = Args.strict_relocation_insertions
++      let local_decl_types = Args.local_decl_types
+       (* Exact compiler-origin, higher-ranked FnOnce::Output = bool clauses
+          available for single-call instantiation in this body. *)
+       let hrtb_fnmut_output_enabled =
+@@ -5236,10 +5241,20 @@
+                 match List.assoc_opt closeBraceLoc State.strict_lft_scope_ends with
+                 | None -> []
+                 | Some name ->
+-                    [ Ast.ExprStmt
+-                        (Ast.CallExpr
+-                           (l, "#strict_lft_binding_scope",
+-                            [Ast.IdentTypeExpr (l, None, name)], [], [], Ast.Static)) ]
++                    let moved =
++                      match !State.strict_relocated_decls with
++                      | None -> []
++                      | Some (cut, decls) when cut = closeBraceLoc ->
++                          incr State.strict_relocation_insertions;
++                          decls
++                      | Some _ -> Ast.static_error l
++                          "Relocated MIR locals belong to another lifetime cut" None
++                    in
++                    Ast.ExprStmt
++                      (Ast.CallExpr
++                         (l, "#strict_lft_binding_scope",
++                          [Ast.IdentTypeExpr (l, None, name)], [], [], Ast.Static))
++                    :: moved
+               in
+               ( external_predecessor_count + internal_predecessor_count,
+                 [
+@@ -6331,6 +6346,8 @@
+          (LocalDeclIdRd.name_get (LocalDeclRd.id_get decl_cpn),
+           D.decode_ty (LocalDeclRd.ty_get decl_cpn))
+     in
++    let strict_relocated_decls = ref None in
++    let strict_relocation_insertions = ref 0 in
+     let open TrBody (struct
+       let var_id_trs_map_ref = var_id_trs_map_ref
+       let ghost_stmts = ghost_stmts
+@@ -6339,6 +6356,8 @@
+       let body_tr_defs_ctx = body_tr_defs_ctx
+       let strict_lft_scope_ends =
+         List.map (fun (_, new_close, name) -> (new_close, name)) strict_lft_scope_ends
++      let strict_relocated_decls = strict_relocated_decls
++      let strict_relocation_insertions = strict_relocation_insertions
+       let local_decl_types = local_decl_types
+     end) in
+     let callback_marker_name = "__vf_callback_unwind_pair" in
+@@ -6679,8 +6698,78 @@
+                       ],
+                       closing_cbrace_loc )))
+           else
++            (* TEST-only scope correction for the exact source-certified c1
++               fixture. The host runner independently pins both complete MIR
++               bodies. A changed source, local type, or cut fails closed. *)
++            let relocation_ids = ["_27"; "_28"; "_29"; "_30"; "_31"; "_32"] in
++            let relocate =
++              Sys.getenv_opt "SORT4_STRICT_LFT_RELOCATE" = Some "1" &&
++              name = "callback_positive" in
++            if relocate then begin
++              let (source_file, source_line, _) = fst (Ast.lexed_loc fn_sig_loc) in
++              let source_md5 =
++                try Digest.to_hex (Digest.file source_file)
++                with _ -> Ast.static_error fn_sig_loc
++                  "Strict relocation source file is unavailable" None in
++              if source_file <> "verified/lib.rs" || source_line <> 52 ||
++                 source_md5 <> "7b206fedf030cc663d77378b75e0d141" then
++                Ast.static_error fn_sig_loc
++                  "Strict relocation source certificate changed" None;
++              let cut_loc =
++                match State.strict_lft_scope_ends with
++                | [(cut_loc, "'cmp")] -> cut_loc
++                | _ -> Ast.static_error fn_sig_loc
++                    "Strict relocation requires one cmp lifetime cut" None in
++              let (_, cut_line, _) = fst (Ast.lexed_loc cut_loc) in
++              if cut_line <> 106 then Ast.static_error cut_loc
++                "Strict relocation cut coordinate changed" None;
++              let erased_t = function
++                | `Ref ("'<erased>", false, `Param "T") -> true
++                | _ -> false in
++              let exact_type id =
++                let ty = decode_ty (List.assoc id State.local_decl_types) in
++                match id, ty with
++                | "_27", `Ref ("'<erased>", true, `Param "F") -> true
++                | "_28", `Tuple [a; b] -> erased_t a && erased_t b
++                | ("_29" | "_30" | "_31" | "_32"), ty -> erased_t ty
++                | _ -> false in
++              if List.exists (fun id ->
++                  List.length (List.filter (fun (d : Mir.local_decl) -> d.id = id)
++                    local_decls) <> 1 ||
++                  not (List.mem_assoc id State.local_decl_types) ||
++                  not (exact_type id)) relocation_ids then
++                Ast.static_error fn_sig_loc
++                  "Strict relocation local type inventory changed" None;
++              let moved =
++                List.filter (fun (d : Mir.local_decl) ->
++                  List.mem d.id relocation_ids) local_decls
++                |> List.map (fun d ->
++                    let stmt = translate_to_vf_local_decl loc d in
++                    begin match stmt with
++                    | Ast.DeclStmt (_, [(_, Some _, _, _, (taken, _))]) ->
++                        if !taken then Ast.static_error fn_sig_loc
++                          "Strict relocation address-taken local" None;
++                        let shape =
++                          if d.id = "_27" then "&'<erased> mut F"
++                          else if d.id = "_28" then
++                            "(&'<erased> T, &'<erased> T)"
++                          else "&'<erased> T" in
++                        Printf.eprintf
++                          "STRICT-RELOCATE inner=%s type=%s addresstaken=false\n%!"
++                          d.id shape
++                    | _ -> Ast.static_error fn_sig_loc
++                        "Strict relocation declaration shape changed" None
++                    end;
++                    stmt) in
++              if List.length moved <> 6 then Ast.static_error fn_sig_loc
++                "Strict relocation declaration count changed" None;
++              State.strict_relocated_decls := Some (cut_loc, moved)
++            end;
+             let vf_local_decls =
+-              List.map (translate_to_vf_local_decl loc) (ret_place_decl :: local_decls)
++              List.map (translate_to_vf_local_decl loc)
++                (ret_place_decl ::
++                 List.filter (fun (d : Mir.local_decl) ->
++                   not (relocate && List.mem d.id relocation_ids)) local_decls)
+             in
+             let bblocks_cpn = basic_blocks_get_list body_cpn in
+             let* bblocks =
+@@ -6695,6 +6784,14 @@
+             let vf_bblocks =
+               translate_basic_blocks_to_stmts toplevel_blocks []
+             in
++            if relocate then begin
++              if !State.strict_relocation_insertions <> 1 then
++                Ast.static_error fn_sig_loc
++                  "Strict relocation did not insert exactly one declaration set"
++                  None;
++              Printf.eprintf
++                "STRICT-RELOCATE outer_removed=6 inner_insertions=1\n%!"
++            end;
+             if !State.pending_callback_unwind <> None then
+               State.fail_callback_unwind "marker has no matching following call";
+             let expected_markers =
