@@ -3,7 +3,7 @@
 @@ -12119,6 +12119,66 @@
        (pos generic_at) (pos (generic_at+1)) in
      Ok ()
- 
+
 +  (* O19 actual-owner capture: this is a fail-closed diagnostic, not an
 +     admission rule.  In particular, no redirect can follow this function.
 +     The complete generated decoder representation must be reviewed before

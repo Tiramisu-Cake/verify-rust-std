@@ -33,3 +33,7 @@ demotes negatives. Source-only full unchangedactualsort4 firstcall calibration
 adds real borrow/debt/cut/recover/join annotations, pairedMIR/refinement only;
 no frontend adapter, lifetime patch or fullverifier enabled in that capture.
 No actual memory/ZST/order claim derives from this ordinarylemma/calibration.
+
+Probe patch normalized blank context for whitespace checks (same applied source);
+active patch SHA256 `355eaa781d9857226f57fa32b03dc6725eb61196ac4e01d63c1c6e97c5653b5b`. Components retained in distinct patch/files;
+O21 integration commit groups calibration harnesses without merging semantics.
