@@ -11,8 +11,8 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **2516/21600 summed GitHub-hosted job seconds**, 19084 remain.
-Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O15 preparing ghost-position diagnosis and independent captures.
+New independent account **2674/21600 summed GitHub-hosted job seconds**, 18926 remain.
+Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O16 H2b and callback diagnostics preparing.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
 components ACCEPTED at1378f0ff/run37700450091, all8matrices and complete logs audited;
@@ -98,6 +98,19 @@ Genericctor+u32 witness return/leak complete, but Drop stops on FBCopen atline51
 not optionalstorage leak. Two collocated ghostcommands are being investigated;
 H2b remains dormant. ActualnestedDrop/helper/sort4 NOT_PROVEN. Combinedprofile
 experimental; primitive regressions do not establish new semantic soundness.
+
+O15 at63e2cf46/run37714432761,158s: two-line ghost correspondence repair
+advances honest SAFEguard through linkedgenericdrop and normalreturn/leak;
+firstdefect leftoveroptional points_to_<T>(inner,dummy) atverified54, causalH2b
+basis confirmed. Source2mutants exactreject, minimalgeneric4controls pass;
+fullS6 all8passes(console5e83cc87, translator4c1c292c). G1framedcalllane fullgraphs/
+refinement/normalreturnleak pass then mandatorysyntheticfalseunwind deadcode;
+newexactCFG overlay pending. Actualowner projection parses secondopen inone
+comment badly; namespacingquestion notanswered yet. Sort4borrowprefix let_lft
+parsefailure beforeborrowproof; fullsource/graphs/refinement captured. Bothsetup
+failures preserved, precise sourcefixes pending. H2b optionalstorage template and
+callbackdirectunwind recovery separate experimental components prepared forO16;
+no actualhelper/sort4 proof and no callbackacceptance.
 
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new

@@ -89,6 +89,11 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ open [?left_fraction]ref_initialized_::<T>(left_ref)();
         //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
         //@ open [?right_fraction]ref_initialized_::<T>(right_ref)();
+        /*@ {
+            __vf_callback_unwind_pair();
+            { close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction); }
+            { recover_pair::<T>(left, right); }
+        } @*/
         let answer = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right);
         //@ close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction);
         result = answer;
@@ -145,6 +150,11 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ open [?left_fraction]ref_initialized_::<T>(left_ref)();
         //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
         //@ open [?right_fraction]ref_initialized_::<T>(right_ref)();
+        /*@ {
+            __vf_callback_unwind_pair();
+            { close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction); }
+            { recover_pair::<T>(left, right); }
+        } @*/
         let answer = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right);
         //@ close comparison_debt::<T>(t, cmp_k, left, right, left_ref, right_ref, left_fraction, right_fraction);
         result = answer;

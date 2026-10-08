@@ -31,7 +31,7 @@ stock_home="$task_temp/verifast-26.10"
 source_home="$task_temp/source"
 patch_file="$repo/research/challenge-8/overnight-s6/verifast-s6-26.10-candidate.patch"
 cfg_patch="$repo/research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch"
-printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link+h2a-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
+printf 'Proof SHA: %s\nProfile: experimental-s6+cfg+a1-inhabited+a1-transmute+tuple2+a1-link+h2a+callback-unwind-diag-26.10\n' "$(git rev-parse HEAD)" > "$ev/environment.txt"
 sha256sum "$patch_file" >> "$ev/environment.txt"
 stage download curl -fL --retry 2 -o "$stock_archive" https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
 printf '%s  %s\n' 5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd "$stock_archive" | sha256sum -c -
@@ -50,7 +50,7 @@ stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
 stage cfg-patch-apply git -C "$source_home" apply "$cfg_patch"
-for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch; do
+for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch overnight-callback/verifast-callback-unwind-26.10.patch; do
  component_patch="$repo/research/challenge-8/$component"
  sha256sum "$component_patch" >> "$ev/environment.txt"
  stage "$(basename "$component" .patch)-check" git -C "$source_home" apply --check "$component_patch"
@@ -132,7 +132,7 @@ stage generic-forget-call-lane python3 research/challenge-8/overnight-helper/che
 owner_projection_status=0
 stage actual-owner-projection python3 research/challenge-8/overnight-helper/check-actual-owner-projection.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-projection" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --prove || owner_projection_status=$?
 tuple_status=0
-stage tuple2-capture python3 research/challenge-8/overnight-callback/run-tuple2-own-cases.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/tuple2" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+800))" --cumulative-profile --release-support-home "$stock_home" --release-archive "$stock_archive" || tuple_status=$?
+stage tuple2-capture python3 research/challenge-8/overnight-callback/run-tuple2-own-cases.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/tuple2" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+800))" --cumulative-profile --callback-unwind-matrix --release-support-home "$stock_home" --release-archive "$stock_archive" || tuple_status=$?
 generic_drop_status=0
 stage generic-pointer-drop-capture python3 research/challenge-8/overnight-guard/capture-generic-pointer-drop.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/generic-pointer-drop" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || generic_drop_status=$?
 guard_link_status=0

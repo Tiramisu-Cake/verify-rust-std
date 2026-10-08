@@ -19,8 +19,23 @@ SMALLSORT_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a1
 STOCK_FNMUT_SHA256 = "599abd73bc551804b41f2d82aeb9c4a42d4c1c2b40396cbabfb2099c0abe1564"
 SOURCE_CALL = b"is_less(&*v_base.add(1), &*v_base);"
 CASES = ("callback_positive", "callback_false_post")
+UNWIND_MATRIX_CASES = (
+    "unwind_missing_marker",
+    "unwind_duplicate_marker",
+    "unwind_moved_marker",
+    "unwind_foreign_marker",
+    "unwind_false_post",
+    "unwind_duplicate_f_owner",
+    "unwind_duplicate_left_owner",
+)
 GHOST_BLOCK = re.compile(rb"/\*@.*?@\*/", re.S)
 GHOST_LINE = re.compile(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)")
+UNWIND_MARKER = re.compile(
+    rb"        /\*@ \{\n"
+    rb"            __vf_callback_unwind_pair\(\);\n"
+    rb"            \{ close comparison_debt::<T>\([^\n]+\); \}\n"
+    rb"            \{ recover_pair::<T>\(left, right\); \}\n"
+    rb"        \} @\*/\n")
 
 
 def need(condition: bool, message: str) -> None:
@@ -138,6 +153,64 @@ def false_normal_post_span(source: bytes) -> tuple[int, int, int] | None:
         false_line = start + 1 + "\n".join(content).count("\n", 0, match.start())
         spans.append((start + 1, end + 1, false_line))
     return spans[0] if len(spans) == 1 else None
+
+
+def unwind_post_span(source: bytes) -> tuple[int, int]:
+    lines = source.decode().splitlines()
+    starts = [index for index, line in enumerate(lines)
+              if re.match(r"^\s*on_unwind_ens\b", line)]
+    need(len(starts) == 1, "unwind post is missing or ambiguous")
+    start = starts[0]
+    ends = [index for index in range(start, len(lines))
+            if ";" in lines[index]]
+    need(ends and all("@*/" not in line for line in lines[start:ends[0]]),
+         "unwind post has no matching semicolon")
+    return start + 1, ends[0] + 1
+
+
+def matrix_source(template: bytes, variant: str) -> tuple[bytes, str]:
+    """Mutate only a copy of the positive fixture; never relax its runtime call."""
+    source = select_case(template, "callback_positive")
+    target_fn = "callback_positive"
+    markers = list(UNWIND_MARKER.finditer(source))
+    need(len(markers) == 1, "positive callback marker shape changed")
+    marker = markers[0].group()
+    if variant == "unwind_missing_marker":
+        source = source.replace(marker, b"", 1)
+    elif variant == "unwind_duplicate_marker":
+        source = source.replace(marker, marker + marker, 1)
+    elif variant == "unwind_moved_marker":
+        source = source.replace(marker, marker + b"\n", 1)
+    elif variant == "unwind_foreign_marker":
+        source = source.replace(b"fn callback_positive<",
+                                b"fn callback_foreign<", 1)
+        target_fn = "callback_foreign"
+    else:
+        start, end = unwind_post_span(source)
+        lines = source.splitlines(keepends=True)
+        post = b"".join(lines[start - 1:end])
+        need(post.count(b"<F>.own(t, less_after)") == 1 and
+             post.count(b"<T>.own(t, left_after)") == 1,
+             "unwind post resource anchors changed")
+        if variant == "unwind_false_post":
+            amended = post.replace(b"<F>.own(t, less_after);",
+                                   b"<F>.own(t, less_after) &*& false;", 1)
+        elif variant == "unwind_duplicate_f_owner":
+            amended = post.replace(
+                b"<F>.own(t, less_after);",
+                b"<F>.own(t, less_after) &*& <F>.own(t, less_after);", 1)
+        elif variant == "unwind_duplicate_left_owner":
+            amended = post.replace(
+                b"<T>.own(t, left_after) &*&",
+                b"<T>.own(t, left_after) &*& <T>.own(t, left_after) &*&", 1)
+        else:
+            raise ValueError(f"unknown unwind matrix variant: {variant}")
+        need(amended != post, f"matrix post mutation was inert: {variant}")
+        lines[start - 1:end] = [amended]
+        source = b"".join(lines)
+    need(source != select_case(template, "callback_positive"),
+         f"matrix mutation was inert: {variant}")
+    return source, target_fn
 
 
 def mir_balanced_pairs(text: str) -> dict[int, int]:
@@ -336,10 +409,13 @@ def callback_mir_alias_audit(decoded: bytes, mode: str, source: bytes,
 
 def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
                   case_name: str, destination: Path) -> dict:
-    need(case_name in CASES, f"unknown fixture case: {case_name}")
+    need(case_name in (*CASES, *UNWIND_MATRIX_CASES),
+         f"unknown fixture case: {case_name}")
     template_path = Path(__file__).with_name("callback-cases.rs")
     template = template_path.read_bytes()
-    selected = select_case(template, case_name)
+    selected, target_fn = (matrix_source(template, case_name)
+                           if case_name in UNWIND_MATRIX_CASES
+                           else (select_case(template, case_name), case_name))
     original = strip_ghost(selected)
     positive_runtime = strip_ghost(select_case(template, "callback_positive"))
     false_runtime = strip_ghost(select_case(template, "callback_false_post"))
@@ -354,7 +430,7 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
          "callback input order or unrestricted generic FnMut bound changed")
     need(strip_ghost(selected) == original,
          "verified fixture does not strip to its original source")
-    need(selected.count(b"pub unsafe fn " + case_name.encode()) == 1 and
+    need(selected.count(b"pub unsafe fn " + target_fn.encode()) == 1 and
          selected.count(b"is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right)") == 1,
          "selected fixture is not a single exact generic callback call")
     need(original.count(b"is_less(&*left, &*right)") == 1,
@@ -375,6 +451,9 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
              "positive case unexpectedly contains false in a normal post")
     record.update({
         "case": case_name,
+        "target_function": target_fn,
+        "unwind_matrix_variant": case_name if case_name in UNWIND_MATRIX_CASES else None,
+        "unwind_marker_count": selected.count(b"__vf_callback_unwind_pair();"),
         "template_sha256": sha(template),
         "verified_sha256": sha(selected),
         "original_sha256": sha(original),
@@ -386,12 +465,15 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
             if target_contract_span else None,
         "expected_false_post_line": target_contract_span[2]
             if target_contract_span else None,
+        "expected_unwind_post_span": list(unwind_post_span(selected)),
         "domain": "generic sized T and F: FnMut(&T, &T) -> bool; two separated initialized slots",
         "normal_post": "current full T resources for both slots and current F resource; unconstrained bool",
         "unwind_post": "current full T resources for both slots and current F resource; no result or rollback",
         "proof_premises": [],
         "effective_patches": "provided common O2/O3 tool profile; FnMut contract must remain stock",
     })
+    if case_name in UNWIND_MATRIX_CASES:
+        record["predeclared_functions"] = [target_fn]
     (destination / "fixture.json").write_text(
         json.dumps(record, indent=2, sort_keys=True) + "\n")
     return record
@@ -512,10 +594,11 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
 
     alias_audits = {}
     verified_source = (case_dir / "verified/lib.rs").read_bytes()
+    target_fn = fixture["target_function"]
     for mode in ("normal", "readonly"):
         mir_path = case_dir / f"{mode}-mir.txt"
         alias_audits[mode] = (callback_mir_alias_audit(
-            mir_path.read_bytes(), mode, verified_source, case_name)
+            mir_path.read_bytes(), mode, verified_source, target_fn)
                               if mir_path.is_file() else None)
     alias_audit_ok = all(row is not None and row["passed"]
                          for row in alias_audits.values())
@@ -540,7 +623,7 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     full_log_path = case_dir / "full-verification.log"
     full_log = full_log_path.read_text(errors="replace") if full_log_path.is_file() else ""
     target_headers = re.findall(
-        rf"(?m)^\s*\d+(?:\.\d+)?s: verified/lib\.rs\([^)]*\): Verifying function '{re.escape(case_name)}'",
+        rf"(?m)^\s*\d+(?:\.\d+)?s: verified/lib\.rs\([^)]*\): Verifying function '{re.escape(target_fn)}'",
         full_log)
     errors = [line for line in full_log.splitlines() if ": error:" in line]
     source_integrity = all(
@@ -566,18 +649,64 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     if case_name == "callback_positive" and support_ok and source_integrity and \
             stages["full-verification"]["exit"] == 0 and len(target_headers) == 1:
         classification = "DIAGNOSTIC_POSITIVE_CANDIDATE_REVIEW_REQUIRED"
+    admission_certificates = {
+        "unwind_missing_marker": ("callback_positive", 0,
+                                  "exact callback fixture requires one marker; other bodies forbid it"),
+        "unwind_duplicate_marker": ("callback_positive", 2,
+                                    "exact callback fixture requires one marker; other bodies forbid it"),
+        "unwind_moved_marker": ("callback_positive", 1,
+                                "marker is not immediately before the actual call span"),
+        "unwind_foreign_marker": ("callback_foreign", 1,
+                                  "exact callback fixture requires one marker; other bodies forbid it"),
+    }
+    fatal_lines = [line for line in full_log.splitlines()
+                   if line.startswith("Fatal error:")]
+    certificate = admission_certificates.get(case_name)
+    if certificate is not None and support_ok and source_integrity and \
+            target_fn == certificate[0] and \
+            fixture["unwind_marker_count"] == certificate[1] and \
+            stages["full-verification"]["exit"] == 2 and \
+            len(target_headers) == 0 and len(errors) == 0 and \
+            fatal_lines == [
+                'Fatal error: exception Failure("CALLBACK-UNWIND: '
+                f'source/MIR certificate mismatch: {certificate[2]}")'
+            ]:
+        classification = "INTENDED_UNWIND_MARKER_ADMISSION_REJECTION"
+        intended_negative = True
+    if case_name == "unwind_false_post" and support_ok and source_integrity and \
+            stages["full-verification"]["exit"] == 1 and len(target_headers) == 1 and \
+            len(errors) == 1:
+        first_line, last_line = fixture["expected_unwind_post_span"]
+        if "Cannot prove false" in errors[0] and \
+                (location := re.search(r"verified/lib\.rs\((\d+),", errors[0])) is not None and \
+                first_line <= int(location.group(1)) <= last_line:
+            classification = "INTENDED_FALSE_UNWIND_POST"
+            intended_negative = True
+    if case_name in {"unwind_duplicate_f_owner", "unwind_duplicate_left_owner"} and \
+            support_ok and source_integrity and \
+            stages["full-verification"]["exit"] == 1 and \
+            len(target_headers) == 1 and len(errors) == 1:
+        first_line, last_line = fixture["expected_unwind_post_span"]
+        location = re.search(r"verified/lib\.rs\((\d+),", errors[0])
+        if location is not None and first_line <= int(location.group(1)) <= last_line and \
+                "No matching heap chunks" in errors[0]:
+            classification = "INTENDED_DUPLICATE_UNWIND_OWNER_CANDIDATE_REVIEW_REQUIRED"
+            intended_negative = True
     result = {
         "classification": classification,
         "accepted_callback_component": False,
         "actual_sort4_proved": False,
         "case": case_name,
+        "target_function": target_fn,
         "source_integrity": source_integrity,
         "support_exports_decode_refinement_all_zero": support_ok,
         "target_timed_header_count": len(target_headers),
         "target_timed_headers": target_headers,
         "first_error": errors[0] if errors else None,
         "all_errors": errors,
-        "intended_false_post": intended_negative,
+        "intended_false_post": classification in
+            {"INTENDED_FALSE_NORMAL_POST", "INTENDED_FALSE_UNWIND_POST"},
+        "intended_negative": intended_negative,
         "actual_argument_alias_audit": alias_audits,
         "actual_argument_alias_audit_passed": alias_audit_ok,
         "normal_mir_sha256": sha((case_dir / "normal-mir.txt").read_bytes())
@@ -606,7 +735,10 @@ def main() -> None:
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--compiler-sysroot", required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--case", choices=(*CASES, "all"), default="all")
+    parser.add_argument("--case", choices=(*CASES, *UNWIND_MATRIX_CASES, "all"),
+                        default="all")
+    parser.add_argument("--unwind-matrix", action="store_true",
+                        help="run isolated unwind admission and post controls")
     parser.add_argument("--deadline-epoch", type=int, required=True)
     parser.add_argument("--prepare-only", action="store_true",
                         help="generate/hash isolated source pairs without invoking tools")
@@ -621,7 +753,10 @@ def main() -> None:
     need(args.schema.is_file() and args.tool_home.is_dir() and
          args.source_checkout.is_dir(), "pinned tool/source inputs are missing")
     args.evidence.mkdir(parents=True, exist_ok=False)
-    names = CASES if args.case == "all" else (args.case,)
+    need(args.unwind_matrix or args.case not in UNWIND_MATRIX_CASES,
+         "unwind matrix case requires --unwind-matrix")
+    names = ((*CASES, *UNWIND_MATRIX_CASES) if args.unwind_matrix else CASES) \
+        if args.case == "all" else (args.case,)
     outcomes = {}
     if args.prepare_only:
         for case_name in names:

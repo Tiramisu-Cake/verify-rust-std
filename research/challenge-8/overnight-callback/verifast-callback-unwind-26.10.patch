@@ -1,0 +1,198 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2538,6 +2538,46 @@
+       let body_imp_loc = Args.body_imp_loc
+       let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
++      (* A source-written pair of ghost steps is attached to one exact FnMut
++         Continue edge.  The first step closes the framed borrow debt before
++         leaving let_lft; the second executes after the real block exit. *)
++      let pending_callback_unwind = ref None
++      let callback_unwind_recoveries = ref []
++      let callback_unwind_count = ref 0
++
++      let fail_callback_unwind why =
++        failwith ("CALLBACK-UNWIND: source/MIR certificate mismatch: " ^ why)
++
++      let rec callback_unwind_marker = function
++        | Ast.PureStmt (_, stmt) -> callback_unwind_marker stmt
++        | Ast.BlockStmt
++            ( _, [],
++              [ Ast.ExprStmt
++                  (Ast.CallExpr
++                    (_, "__vf_callback_unwind_pair", [], [], [], Ast.Static));
++                Ast.BlockStmt
++                  ( _, [],
++                    [Ast.Close
++                      (_, None, "comparison_debt", [_], [],
++                       [Ast.LitPat (Ast.Var (_, "t"));
++                        Ast.LitPat (Ast.Var (_, "cmp_k"));
++                        Ast.LitPat (Ast.Var (_, "left"));
++                        Ast.LitPat (Ast.Var (_, "right"));
++                        Ast.LitPat (Ast.Var (_, "left_ref"));
++                        Ast.LitPat (Ast.Var (_, "right_ref"));
++                        Ast.LitPat (Ast.Var (_, "left_fraction"));
++                        Ast.LitPat (Ast.Var (_, "right_fraction"))], None) as debt],
++                    _, _);
++                Ast.BlockStmt
++                  ( _, [],
++                    [Ast.ExprStmt
++                      (Ast.CallExpr
++                        (_, "recover_pair", [_], [],
++                         [Ast.LitPat (Ast.Var (_, "left"));
++                          Ast.LitPat (Ast.Var (_, "right"))], Ast.Static)) as recover],
++                    _, _) ],
++              _, _ ) -> Some (debt, recover)
++        | _ -> None
+ 
+       let fetch_ghost_stmts_before (l : Ast.loc0) =
+         let* gs_before, gs_rem =
+@@ -3518,10 +3558,63 @@
+         translate_fn_call_rexpr func_cpn args_cpn loc fn_loc
+           ghost_generic_arg_list_opt_cpn manuallydrop_new_identity_lowering
+       in
++      let callback_unwind =
++        match !State.pending_callback_unwind with
++        | None -> None
++        | Some (marker_loc, debt, recover) ->
++            let fail = State.fail_callback_unwind in
++            (match fn_call_rexpr with
++             | FnCallOutcome
++                 (Ast.CallExpr
++                   (_, name,
++                    [Ast.IdentTypeExpr (_, None, _);
++                     Ast.StructTypeExpr
++                       (_, Some "std_tuple_2_", None, [],
++                        [Ast.RustRefTypeExpr
++                          (_, Ast.IdentTypeExpr (_, None, left_lft),
++                           Ast.Shared, Ast.IdentTypeExpr (_, None, left_ty));
++                         Ast.RustRefTypeExpr
++                          (_, Ast.IdentTypeExpr (_, None, right_lft),
++                           Ast.Shared, Ast.IdentTypeExpr (_, None, right_ty))]);
++                     Ast.IdentTypeExpr (_, None, method_lft)],
++                    [], args, Ast.Static))
++               when canonicalize_item_name name =
++                      "std::ops::FnMut::call_mut" &&
++                    List.length args_cpn = 2 && List.length args = 2 &&
++                    left_ty = right_ty && left_lft = right_lft &&
++                    left_lft = method_lft -> ()
++             | _ -> fail "next call is not the exact two-argument FnMut::call_mut");
++            (match UnwindActionRd.get (unwind_action_get fn_call_data_cpn) with
++             | UnwindActionRd.Continue -> ()
++             | _ -> fail "marked call has no direct Continue unwind");
++            (match OptionRd.get (target_get fn_call_data_cpn) with
++             | OptionRd.Something _ -> ()
++             | _ -> fail "marked call has no normal successor");
++            if TranslatorArgs.ignore_unwind_paths then
++              fail "marked call translated with unwind paths disabled";
++            let _, (_, marker_end_line, _) = Ast.lexed_loc marker_loc in
++            let (call_start_pos, _) = Ast.lexed_loc fn_loc in
++            let (_, call_line, _) = call_start_pos in
++            if marker_end_line + 1 <> call_line then
++              fail "marker is not immediately before the actual call span";
++            let label =
++              Printf.sprintf "__vf_callback_unwind_recover_%d"
++                !State.callback_unwind_count in
++            incr State.callback_unwind_count;
++            State.pending_callback_unwind := None;
++            State.callback_unwind_recoveries :=
++              (label, recover, loc) :: !State.callback_unwind_recoveries;
++            Some (label, debt)
++      in
+       let unwind_stmts, unwind_targets =
+         if TranslatorArgs.ignore_unwind_paths then ([], [])
+         else translate_unwind_action (unwind_action_get fn_call_data_cpn) loc
+       in
++      let unwind_stmts =
++        match callback_unwind with
++        | None -> unwind_stmts
++        | Some (label, debt) -> [debt; Ast.GotoStmt (loc, label)]
++      in
+       let* dst, dst_is_mutable =
+         Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "destination" @@ fun () ->
+         translate_place (destination_get fn_call_data_cpn) loc
+@@ -3612,7 +3705,14 @@
+                   gsl_l = phl_l)
+                 !State.ghost_stmts
+             in
+-            ([ ghost_stmt ], targets)
++            (match State.callback_unwind_marker ghost_stmt with
++             | None -> ([ ghost_stmt ], targets)
++             | Some (debt, recover) ->
++                 if !State.pending_callback_unwind <> None then
++                   State.fail_callback_unwind "second marker before its call";
++                 State.pending_callback_unwind :=
++                   Some (Ast.stmt_loc ghost_stmt, debt, recover);
++                 ([Ast.NoopStmt call_loc], targets))
+         | _ ->
+             ( (if ListAux.is_empty fn_call_tmp_rval_ctx then call_stmts
+                else
+@@ -5872,6 +5972,34 @@
+       let body_tr_defs_ctx = body_tr_defs_ctx
+       let local_decl_types = local_decl_types
+     end) in
++    let callback_marker_name = "__vf_callback_unwind_pair" in
++    let mentions_callback_marker raw =
++      let marker_length = String.length callback_marker_name in
++      let rec scan i =
++        if i + marker_length > String.length raw then false
++        else if String.sub raw i marker_length = callback_marker_name then true
++        else scan (i + 1)
++      in scan 0 in
++    let declared_callback_markers =
++      List.length
++        (List.filter
++           (fun annot ->
++              mentions_callback_marker (AnnotationRd.raw_get annot))
++           ghost_stmts_cpn) in
++    let parsed_callback_markers =
++      List.length
++        (List.filter
++           (fun stmt -> State.callback_unwind_marker stmt <> None)
++           ghost_stmts) in
++    if declared_callback_markers <> parsed_callback_markers then
++      State.fail_callback_unwind "malformed source marker";
++    let callback_fixture =
++      State.body_name = "callback_positive" ||
++      State.body_name = "callback_false_post" in
++    if (callback_fixture && parsed_callback_markers <> 1) ||
++       (not callback_fixture && parsed_callback_markers <> 0) then
++      State.fail_callback_unwind
++        "exact callback fixture requires one marker; other bodies forbid it";
+     let vdis_cpn = var_debug_info_get_list body_cpn in
+     (* Since var id translation map is empty var debug info contains the plain Mir ids *)
+     let* vdis =
+@@ -6142,10 +6270,32 @@
+             let vf_bblocks =
+               translate_basic_blocks_to_stmts toplevel_blocks []
+             in
++            if !State.pending_callback_unwind <> None then
++              State.fail_callback_unwind "marker has no matching following call";
++            let expected_markers =
++              List.length
++                (List.filter
++                   (fun stmt -> State.callback_unwind_marker stmt <> None)
++                   ghost_stmts) in
++            if expected_markers <> !State.callback_unwind_count then
++              State.fail_callback_unwind
++                "source marker was not translated as a ghost command";
++            let callback_unwind_epilog =
++              !State.callback_unwind_recoveries
++              |> List.rev
++              |> Util.flatmap (fun (label, recover, call_loc) ->
++                   [Ast.LabelStmt (call_loc, label); recover;
++                    Ast.ReturnStmt
++                      (call_loc,
++                       Some
++                         (Ast.CallExpr
++                           (call_loc, "unwinding", [], [], [], Ast.Static)))])
++            in
+             Ok
+               (mk_fn_decl contract
+                  (Some
+-                    ( projection_clause_stmts @ vf_local_decls @ vf_bblocks,
++                    ( projection_clause_stmts @ vf_local_decls @ vf_bblocks
++                      @ callback_unwind_epilog,
+                       closing_cbrace_loc )))
+         in
+         let body_sig_opt =

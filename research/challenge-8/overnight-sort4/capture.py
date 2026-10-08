@@ -113,12 +113,10 @@ lem split_four_owned_cells<T>(base: *T, t: thread_id_t)
 """
 BORROW_PREFIX_FIRST_CALL = b"""        //@ interior_pointer_limits::<T>(v_base, 4, 1);
         //@ split_four_owned_cells::<T>(v_base, t);
-        //@ let cmp_k = begin_lifetime();
         //@ close_full_borrow_content::<T>(t, v_base + 1);
         //@ close_full_borrow_content::<T>(t, v_base);
         //@ borrow(cmp_k, <T>.full_borrow_content(t, v_base + 1));
         //@ borrow(cmp_k, <T>.full_borrow_content(t, v_base));
-        /*@ let_lft 'cmp = cmp_k; @*/
         //@ share_full_borrow::<T>(cmp_k, t, v_base + 1);
         //@ share_full_borrow::<T>(cmp_k, t, v_base);
         //@ let left_ref = precreate_ref(v_base + 1);
@@ -133,6 +131,12 @@ BORROW_PREFIX_FIRST_CALL = b"""        //@ interior_pointer_limits::<T>(v_base, 
         //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
         //@ open [?right_fraction]ref_initialized_::<T>(right_ref)();
         let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*v_base.add(1), &*v_base);"""
+BORROW_PREFIX_UNSAFE_ANCHOR = b"    unsafe {\n"
+BORROW_PREFIX_LIFETIME_SCOPE = (
+    b"    //@ let cmp_k = begin_lifetime();\n"
+    b"    unsafe {\n"
+    b"/*@ let_lft 'cmp = cmp_k; @*/\n"
+)
 MEMORY_PRE_CONTRACT = b"""/*@
 req thread_token(?t) &*& t == currentThread &*&
     type_interp::<T>() &*& type_interp::<F>() &*&
@@ -283,6 +287,12 @@ def write_fixture(repo: Path, out: Path, memory_pre: bool = False,
         verified_target = target.replace(anchor,
             BORROW_PREFIX_FIRST_CALL if borrow_prefix else
             MEMORY_PRE_BOUND_CALL + anchor, 1)
+        if borrow_prefix:
+            require(verified_target.count(BORROW_PREFIX_UNSAFE_ANCHOR) == 1,
+                    "actual sort4 unsafe block for lifetime scope is ambiguous")
+            verified_target = verified_target.replace(
+                BORROW_PREFIX_UNSAFE_ANCHOR,
+                BORROW_PREFIX_LIFETIME_SCOPE, 1)
         contract = MEMORY_PRE_CONTRACT
         lemma = (MEMORY_PRE_INTERIOR_LEMMA + BORROW_PREFIX_SPLIT_LEMMA
                  if borrow_prefix else MEMORY_PRE_INTERIOR_LEMMA)

@@ -25,13 +25,15 @@ OWNER_PRED = (
 OPEN_WRAPPERS = (
     b"    /*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/\n"
     b"    /*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/\n"
+    b"    /*@ assert *true_ptr |-> ?true_payload; @*/\n"
+    b"    /*@ assert *false_ptr |-> ?false_payload; @*/\n"
 )
 CLOSE_OWNER = (
     b"        /*@ if (condition) {\n"
-    b"                 close raw_ptr_own::<Element>()(t, true_val);\n"
+    b"                 close raw_ptr_own::<Element>()(t, true_payload);\n"
     b"                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n"
     b"             } else {\n"
-    b"                 close raw_ptr_own::<Element>()(t, false_val);\n"
+    b"                 close raw_ptr_own::<Element>()(t, false_payload);\n"
     b"                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n"
     b"             } @*/\n"
 )
@@ -43,8 +45,9 @@ CLOSE_UNSELECTED = (
     b"             } @*/\n"
 )
 OPEN_OWNER = (
-    b"        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n"
-    b"            open raw_ptr_own::<Element>()(t, payload); @*/\n"
+    b"        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/\n"
+    b"        /*@ assert *guard.inner |-> ?selected_payload; @*/\n"
+    b"        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n"
 )
 CLOSE_SELECTED = (
     b"        /*@ if (condition) {\n"

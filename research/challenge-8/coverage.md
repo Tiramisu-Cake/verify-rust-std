@@ -484,3 +484,11 @@ Minimal generic pointer-drop callee fullproof and three exact controls pass.
 Nominal owner genericconstructor and concrete u32 witness return/leak pass,
 but SAFE guard Drop FBC open fails before the generic call; full guard/protocol
 unaccepted. Sevenpatch console full eightstage S6 regression passes independently.
+
+O15 [63e2cf46/run37714432761](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37714432761)
+shows honest local SAFEguard owner opens and checkedgenericdrop executes;
+normalreturn/leak rejects remaining optional target storage under stocktemplate.
+H2b optionalpost is warranted but untested. Callable G1 framedcall normal body
+passes, finaldeadcode rejects syntheticfalseunwind branch; fullcallproof open.
+Newactualowner/sort4borrowprefix graphs captured but setupsyntax failures precede
+proof; no namespace/ref borrow/actual theorem inferred. FullS6 eightstagePASS.

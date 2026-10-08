@@ -41,6 +41,15 @@ it is not evidence of the callback obligation. A successful transition past
 reference creation must be observed in the full trace, not inferred from a
 missing error string.
 
+O15 (`37714432761`) rejected the first borrow-prefix fixture during ghost
+parsing at `let_lft` (verified line 95), before any lemma or callback proof.
+The declaration appeared after ghost call statements inside the existing
+`unsafe` block. The smallest fixture repair creates `cmp_k` immediately
+before that unchanged Rust `unsafe` statement and puts the `let_lft`
+declaration as the first ghost item inside the block, ahead of other ghost
+statements. Both are ghost-only and exact ghost stripping must still recover
+the original runtime body. O15 remains inconclusive for borrow-prefix.
+
 ## Semantic and trust boundary
 
 No trusted primitive or verifier patch is added here. The array and `foreach`

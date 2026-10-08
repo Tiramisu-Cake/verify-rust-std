@@ -41,6 +41,8 @@ CUMULATIVE_PATCHES = (
      "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"),
     ("research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch",
      "4a36239b68dade6aa486e4bccedf77e92f4104278456d1c568c58d28efa18a7a"),
+    ("research/challenge-8/overnight-callback/verifast-callback-unwind-26.10.patch",
+     "6df78294595d9e9001bc66cec85d9ddd98f4fd679534d7807b2ca08f7c97231a"),
 )
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
@@ -537,6 +539,8 @@ def main() -> None:
     parser.add_argument("--cumulative-profile", action="store_true",
                         help=("allow exactly the stock S6/A1/CFG source files "
                               "plus the exact tuple-2 parser patch"))
+    parser.add_argument("--callback-unwind-matrix", action="store_true",
+                        help="run separately experimental marked-callback controls")
     parser.add_argument("--release-support-home", type=Path,
                         help="extracted, archive-verified VeriFast 26.10 release support bundle")
     parser.add_argument("--release-archive", type=Path,
@@ -580,8 +584,10 @@ def main() -> None:
         "--evidence", str(callback_dir),
         "--deadline-epoch", str(args.deadline_epoch),
     ]
+    if args.callback_unwind_matrix:
+        callback_argv.append("--unwind-matrix")
     result = subprocess.run(callback_argv, check=False, env=os.environ.copy())
-    outcomes["unchanged-callback"] = {
+    outcomes["callback-diagnostic"] = {
         "classification": "CALLBACK_RUNNER_EXIT_RECORDED",
         "exit": result.returncode,
         "evidence": str(callback_dir),
