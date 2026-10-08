@@ -11,10 +11,24 @@ reports zero even though VeriFast's log shows the actual macro path.
 The gate does **not** alter source, proof AST, VeriFast, contracts or the
 classifier. It can produce an exclusively created JSON certificate only when
 all its source, normal MIR, proof AST, provenance and log checks pass. The
-runner may then count the three certified macro `Executing statement` records
-for this helper only. Its other body, return, leak, dead-code, refinement and
-actual-callee gates remain mandatory; a certificate cannot turn a failed
-verifier result into success.
+hosted pointer classifier invokes final mode with the separately reviewed
+literal compiler panic source SHA-256
+`b63eeb2d8e1fa130d3582253fd043fdcd722d16031b289c25f2437e2edda87dd`. It
+credits the three certified macro `Executing statement` records to
+`panic_on_ord_violation` only when status is exactly
+`PANIC_MACRO_BODY_ORIGIN_LINKED`, `require_final` is true, and the normal
+exporter, decoder, role, proof-AST and macro-certificate stages pass. The
+certificate must bind the exact case source, normal MIR, decoded MIR, proof
+AST and VeriFast log SHA-256 values; current hosted commit and run; helper
+owner; exact execution, return and leak counts; fail-closed control set; source
+blob/hash; and compiler panic.rs resolved path and SHA-256. The classifier
+recomputes the log hash for each classification, so a changed log cannot reuse
+an earlier credit. Initializer events never enter the count. Missing, stale,
+calibration-only, malformed or mismatched certificates credit zero events and
+force `INCONCLUSIVE` with an additional admission failure. All ordinary
+full-positive gates for bodies, stages, errors, dead code, returns, leak
+checks, refinement and actual callees remain mandatory; a certificate cannot
+turn a failed verifier result into success.
 
 Inputs are `--normal-decoded`, `--normal-mir`, `--proof-ast`, `--source`,
 `--provenance`, `--compiler-sysroot`, `--verifast-log` and `--output`. The normal
@@ -67,13 +81,20 @@ and a checked-source leak check. Function-scope local initializers cannot be
 counted as runtime-body evidence. The certificate records three macro-body
 execution events, two verified calls, one unwind return and one leak check.
 
+The final classifier pin is the literal above, reviewed against the hosted
+calibration artifact; it is never derived from the certificate being
+admitted.
+
 The hosted gate runs thirteen in-memory rejection controls: wrong owner,
 literal, unwind edge, macro span, duplicate owner, source hash, compiler
 version, compiler path, compiler source hash, missing second call log,
 missing unwind return log, initializers-only log and suppressed AST unwind
 return. They are checks of
 this classifier's fail-closed behavior, not evidence of proof soundness. The
-current file is a candidate; it has not been executed locally, in accordance
-with the repository's hosted-verification rule. A hosted admission failure
-leaves the actual-callee body gate open and requires inspecting its artifact
-before changing the acceptance rule.
+pointer classifier also has separate controls for missing/stale certificate,
+wrong owner, non-exact execution count, wrong source/log/compiler context,
+calibration-only status and incomplete support stages. Each must yield zero
+credited events and prevent a positive classification. These controls have
+not run locally or on a hosted runner for this integration yet. A hosted
+admission failure leaves the actual-callee body gate open and requires
+inspecting its artifact before changing the acceptance rule.

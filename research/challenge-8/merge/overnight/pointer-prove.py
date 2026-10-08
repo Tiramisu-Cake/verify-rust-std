@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import importlib.util
 import json
@@ -20,6 +21,7 @@ ROOT = HERE.parents[3]
 FIXTURE = HERE / "wrapping-cases.rs"
 MERGE_PROVE = HERE.parent / "stock-26.10/prove.py"
 TIMEOUT_SECONDS = 30
+EXPECTED_COMPILER_PANIC_SHA256 = "b63eeb2d8e1fa130d3582253fd043fdcd722d16031b289c25f2437e2edda87dd"
 CASE_MARKER = re.compile(rb"(?m)^// CASE_BEGIN ([a-z0-9_]+)\r?\n(.*?)^// CASE_END \1\r?\n", re.S)
 ANNOTATION_BLOCK = re.compile(rb"/\*@.*?@\*/", re.S)
 ANNOTATION_LINE = re.compile(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)")
@@ -577,9 +579,7 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
         }, indent=2) + "\n")
         if (stack_stages.get("roles") == 0 and
                 (case_dir / "proof-ast.ml").is_file()):
-            # Calibration only: external macro spans remain excluded from
-            # body accounting until the independent sysroot SHA is pinned.
-            run_stage(name, "panic-macro-origin", [
+            panic_macro_stage = run_stage(name, "panic-macro-origin", [
                 sys.executable, str(HERE / "panic-macro-admission.py"),
                 "--normal-decoded", str(case_dir / "normal-decode.out"),
                 "--normal-mir", str(case_dir / "normal-exporter.out"),
@@ -588,8 +588,40 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
                 "--provenance", str(case_dir / "normal-exporter-provenance.json"),
                 "--compiler-sysroot", str(args.compiler_sysroot),
                 "--verifast-log", str(case_dir / "verifast.log"),
+                "--require-final",
+                "--expected-compiler-panic-sha256", EXPECTED_COMPILER_PANIC_SHA256,
                 "--output", str(case_dir / "panic-macro-origin.json"),
             ], case_dir)
+            stack_stages["panic_macro_origin"] = panic_macro_stage
+
+    panic_macro_evidence = None
+    if "panic_on_ord_violation" in metadata["expected_bodies"]:
+        certificate_path = case_dir / "panic-macro-origin.json"
+        certificate = None
+        if certificate_path.is_file():
+            try:
+                certificate = json.loads(certificate_path.read_text())
+            except (OSError, json.JSONDecodeError):
+                certificate = None
+        def file_sha(path: Path) -> str | None:
+            return sha(path.read_bytes()) if path.is_file() else None
+        panic_source = verified.read_bytes()
+        panic_log = (case_dir / "verifast.log").read_bytes()
+        panic_macro_evidence = {
+            "certificate": certificate,
+            "support_stages": dict(stack_stages),
+            "source_sha256": sha(panic_source),
+            "source_initial_sha256": initial.get("verified/lib.rs"),
+            "normal_mir_sha256": file_sha(case_dir / "normal-exporter.out"),
+            "normal_decoded_sha256": file_sha(case_dir / "normal-decode.out"),
+            "proof_ast_sha256": file_sha(case_dir / "proof-ast.ml"),
+            "verifast_log_sha256": sha(panic_log),
+            "github_sha": os.environ.get("GITHUB_SHA"),
+            "github_run_id": os.environ.get("GITHUB_RUN_ID"),
+            "expected_compiler_panic_sha256": EXPECTED_COMPILER_PANIC_SHA256,
+            "compiler_panic_path": str((Path(args.compiler_sysroot) /
+                "lib/rustlib/src/rust/library/core/src/panic.rs").resolve()),
+        }
 
     # Refinement is independent of VF success, and always receives the stripped
     # original and full ghost-annotated projection.
@@ -607,7 +639,7 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
     result = classify(name, metadata, {
         "exporter": exporter, "decode": decoder, "verifast": verifier,
         "refinement": refinement,
-    }, log, unchanged)
+    }, log, unchanged, panic_macro_evidence=panic_macro_evidence)
     result.update({"case": name, "case_scope": metadata["case_scope"],
                    "source_before": initial, "source_after": after,
                    "source_unchanged_at_every_stage": unchanged,
@@ -633,6 +665,13 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
         if not stack_complete:
             result["classification"] = "INCONCLUSIVE"
             result["additional_admission_failure"] = "normal-MIR/role/proof-AST stack address certificate incomplete"
+    if ("panic_on_ord_violation" in metadata["expected_bodies"] and
+            not result["panic_macro_origin"]["accepted"]):
+        result["classification"] = "INCONCLUSIVE"
+        result["full_positive_gate"] = False
+        result["additional_admission_failure"] = (
+            "panic macro-origin certificate rejected: " +
+            result["panic_macro_origin"]["reason"])
     result["stage_diagnostics"] = stage_diagnostics
     result["first_failure"] = next(({
         "stage": stage, "exit_code": stage_diagnostics[stage]["exit_code"],
@@ -643,8 +682,94 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
     return result
 
 
+PANIC_ORIGIN_CONTROL_NAMES = {
+    "wrong_owner", "wrong_literal", "wrong_unwind_edge", "wrong_macro_span",
+    "duplicate_owner", "wrong_source_hash", "wrong_compiler_version",
+    "wrong_compiler_path", "wrong_compiler_source_hash", "missing_macro_call_log",
+    "missing_unwind_return_log", "initializers_only_log", "ast_return_suppressed",
+}
+
+
+def panic_macro_execution_credit(metadata: dict, log: str,
+                                 evidence: dict | None) -> tuple[int, dict]:
+    """Credit external panic! spans only from a final same-input certificate."""
+    result = {"accepted": False, "credited_records": 0, "reason": "missing certificate context"}
+    if "panic_on_ord_violation" not in metadata.get("expected_bodies", []):
+        return 0, {"accepted": True, "credited_records": 0, "reason": "not applicable"}
+    try:
+        if not isinstance(evidence, dict):
+            return 0, result
+        cert = evidence.get("certificate")
+        if not isinstance(cert, dict):
+            return 0, result
+        expected_stages = {
+            "normal_exporter": 0, "normal_decode": 0, "roles": 0,
+            "proof_ast": 0, "panic_macro_origin": 0,
+        }
+        if evidence.get("support_stages") != expected_stages:
+            result["reason"] = "normal MIR/role/AST/final-certificate stages incomplete"
+            return 0, result
+        if cert.get("status") != "PANIC_MACRO_BODY_ORIGIN_LINKED" or cert.get("require_final") is not True:
+            result["reason"] = "certificate is calibration-only or not final"
+            return 0, result
+        if cert.get("function") != "panic_on_ord_violation":
+            result["reason"] = "certificate owner mismatch"
+            return 0, result
+        for field in ("source_sha256", "normal_mir_sha256", "normal_decoded_sha256",
+                      "proof_ast_sha256", "verifast_log_sha256"):
+            if (not isinstance(evidence.get(field), str) or
+                    cert.get(field) != evidence[field]):
+                result["reason"] = f"certificate {field} does not match current input"
+                return 0, result
+        if evidence.get("source_initial_sha256") != evidence.get("source_sha256"):
+            result["reason"] = "checked source differs from initial source snapshot"
+            return 0, result
+        github_sha = evidence.get("github_sha")
+        github_run_id = evidence.get("github_run_id")
+        if (not isinstance(github_sha, str) or not re.fullmatch(r"[0-9a-f]{40}", github_sha) or
+                cert.get("github_sha") != github_sha or
+                not isinstance(github_run_id, str) or not github_run_id.isdigit() or
+                cert.get("github_run_id") != github_run_id):
+            result["reason"] = "certificate GitHub source/run does not match current job"
+            return 0, result
+        if (evidence.get("expected_compiler_panic_sha256") != EXPECTED_COMPILER_PANIC_SHA256 or
+                cert.get("expected_compiler_panic_rs_sha256") != EXPECTED_COMPILER_PANIC_SHA256 or
+                cert.get("compiler_panic_rs_sha256") != EXPECTED_COMPILER_PANIC_SHA256 or
+                cert.get("compiler_panic_rs") != evidence.get("compiler_panic_path")):
+            result["reason"] = "compiler panic source pin/path mismatch"
+            return 0, result
+        counts = cert.get("log")
+        if (type(cert.get("body_execution_records")) is not int or
+                cert["body_execution_records"] != 3 or not isinstance(counts, dict) or
+                type(counts.get("body_execution_records")) is not int or
+                counts["body_execution_records"] != 3 or
+                counts.get("verified_macro_calls") != 2 or
+                counts.get("unwind_return_records") != 1 or
+                counts.get("leak_check_records") != 1):
+            result["reason"] = "certificate execution/return/leak counts are not exact"
+            return 0, result
+        controls = cert.get("negative_controls")
+        if (not isinstance(controls, list) or len(controls) != len(PANIC_ORIGIN_CONTROL_NAMES) or
+                set(controls) != PANIC_ORIGIN_CONTROL_NAMES):
+            result["reason"] = "certificate fail-closed control set is incomplete"
+            return 0, result
+        if (cert.get("original_source_sha256") != "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1" or
+                cert.get("original_source_git_blob") != "40939f922bcb6fdc7ee0d30427fa861827043827"):
+            result["reason"] = "certificate actual-source pin mismatch"
+            return 0, result
+        if sha(log.encode("utf-8")) != evidence.get("verifast_log_sha256"):
+            result["reason"] = "current VeriFast log bytes differ from certificate input"
+            return 0, result
+    except (AttributeError, KeyError, TypeError, ValueError):
+        result["reason"] = "malformed panic-origin certificate context"
+        return 0, result
+    return 3, {"accepted": True, "credited_records": 3,
+               "reason": "final same-input panic macro origin certificate"}
+
+
 def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
-             unchanged: bool, mutation_checks: bool = True) -> dict:
+             unchanged: bool, mutation_checks: bool = True,
+             panic_macro_evidence: dict | None = None) -> dict:
     header_matches = list(HEADER_ANY.finditer(log))
     own_headers = [m for m in header_matches if m.group(1).endswith("verified/lib.rs")]
     headers = [m.group(3) for m in own_headers]
@@ -655,6 +780,10 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
         function: sum(ranges[function][0] <= line <= ranges[function][1] for line in execution_lines)
         for function in metadata["expected_bodies"]
     }
+    panic_credit, panic_origin_status = panic_macro_execution_credit(
+        metadata, log, panic_macro_evidence)
+    if "panic_on_ord_violation" in body_execution:
+        body_execution["panic_on_ord_violation"] += panic_credit
     body_records = {}
     for index, match in enumerate(header_matches):
         if not match.group(1).endswith("verified/lib.rs"):
@@ -708,7 +837,8 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
     expected_dead = metadata.get("expected_dead")
     expected_dead_ok = False
     dead_evidence = parse_dead_records(log)
-    classification = "PASS" if unchanged and full_stages and full_vf else "INCONCLUSIVE"
+    classification = ("PASS" if unchanged and full_stages and full_vf and
+                      panic_origin_status["accepted"] else "INCONCLUSIVE")
     if negative is not None:
         classification = "EXPECTED_FALSE_ASSERTION" if negative_ok else "INCONCLUSIVE"
     elif expected_dead is not None:
@@ -768,6 +898,9 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
             "EXPECTED_ADMISSION_REJECTION" if rejection_ok and admission_rejection else
             "EXPECTED_REJECTION" if rejection_ok else "INCONCLUSIVE"
         )
+    if ("panic_on_ord_violation" in metadata["expected_bodies"] and
+            not panic_origin_status["accepted"]):
+        classification = "INCONCLUSIVE"
     result = {
         "classification": classification,
         "stages": stages,
@@ -784,7 +917,9 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
         "expected_dead_code_gate": expected_dead_ok,
         "expected_error": negative,
         "observed_error": error_evidence,
-        "full_positive_gate": full_stages and full_vf and unchanged,
+        "full_positive_gate": (full_stages and full_vf and unchanged and
+                               ("panic_on_ord_violation" not in metadata["expected_bodies"] or
+                                panic_origin_status["accepted"])),
         "expected_rejection": rejection,
         "intended_rejection_gate": rejection_ok,
         "rejection_class": ("frontend_admission" if admission_rejection else
@@ -793,9 +928,11 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
                                    any(body_execution.get(function, 0) > 0
                                        for function in metadata["expected_bodies"]))
                                   if admission_rejection else None,
+        "panic_macro_origin": panic_origin_status,
     }
     if mutation_checks:
-        checks = classifier_mutations(metadata, stages, log, unchanged, result)
+        checks = classifier_mutations(metadata, stages, log, unchanged, result,
+                                      panic_macro_evidence)
         if rejection:
             expected_rejection_status = ("EXPECTED_ADMISSION_REJECTION" if admission_rejection
                                          else "EXPECTED_REJECTION")
@@ -849,7 +986,8 @@ def classify(name: str, metadata: dict, stages: dict[str, int], log: str,
 
 
 def classifier_mutations(metadata: dict, stages: dict[str, int], log: str,
-                         unchanged: bool, baseline: dict) -> dict[str, bool]:
+                         unchanged: bool, baseline: dict,
+                         panic_macro_evidence: dict | None = None) -> dict[str, bool]:
     """Hosted self-checks: perturb exact evidence and ensure no false acceptance."""
     checks: dict[str, bool] = {}
     case = metadata["case"]
@@ -961,24 +1099,32 @@ def classifier_mutations(metadata: dict, stages: dict[str, int], log: str,
         for key in ("exporter", "decode", "verifast", "refinement"):
             mutant_stages = dict(stages)
             mutant_stages[key] = 124
-            checks[f"positive_stage_{key}"] = classify(case, metadata, mutant_stages, log, unchanged, False)["classification"] != "PASS"
+            checks[f"positive_stage_{key}"] = classify(
+                case, metadata, mutant_stages, log, unchanged, False,
+                panic_macro_evidence=panic_macro_evidence)["classification"] != "PASS"
         for label, mutant_log, mutant_unchanged in (
             ("missing_body", re.sub(r"^.*Verifying function .*\n", "", log, flags=re.M), unchanged),
             ("error", log + "verified/lib.rs(1,1-2): error: synthetic\n", unchanged),
             ("dead_code", log + "verified/lib.rs(1,1-2): dead code\n", unchanged),
             ("source_changed", log, False),
         ):
-            checks[f"positive_{label}"] = classify(case, metadata, stages, mutant_log, mutant_unchanged, False)["classification"] != "PASS"
+            checks[f"positive_{label}"] = classify(
+                case, metadata, stages, mutant_log, mutant_unchanged, False,
+                panic_macro_evidence=panic_macro_evidence)["classification"] != "PASS"
         timeout_stages = dict(stages)
         timeout_stages["verifast"] = 124
-        checks["positive_timeout"] = classify(case, metadata, timeout_stages, log, unchanged, False)["classification"] != "PASS"
+        checks["positive_timeout"] = classify(
+            case, metadata, timeout_stages, log, unchanged, False,
+            panic_macro_evidence=panic_macro_evidence)["classification"] != "PASS"
         # Remove execution/return/leak traces independently.
         for label, mutant_log in (
             ("no_execution", re.sub(r"^.*Executing statement\n", "", log, flags=re.M)),
             ("no_return", re.sub(r"^.*Executing return statement\n", "", log, flags=re.M)),
             ("no_leak", log.replace("Leak check.", "Leak check removed.")),
         ):
-            checks[f"positive_{label}"] = classify(case, metadata, stages, mutant_log, unchanged, False)["classification"] != "PASS"
+            checks[f"positive_{label}"] = classify(
+                case, metadata, stages, mutant_log, unchanged, False,
+                panic_macro_evidence=panic_macro_evidence)["classification"] != "PASS"
     else:
         # An accepted negative must cease to classify when any exact component
         # changes, or when a setup/refinement/unrelated failure is substituted.
@@ -1020,6 +1166,49 @@ def classifier_mutations(metadata: dict, stages: dict[str, int], log: str,
         checks["negative_source_changed"] = classify(case, metadata, stages, log, False, False)["classification"] != "EXPECTED_FALSE_ASSERTION"
         checks["negative_missing_target_execution"] = classify(case, metadata, stages,
             re.sub(rf"^.*\({expected['line']},\d+-\d+\): Executing statement\n", "", log, flags=re.M), unchanged, False)["classification"] != "EXPECTED_FALSE_ASSERTION"
+    if "panic_on_ord_violation" in metadata.get("expected_bodies", []):
+        valid_count, _ = panic_macro_execution_credit(metadata, log, panic_macro_evidence)
+        checks["panic_origin_exact_three_records"] = valid_count == 3
+        if valid_count != 3 or not isinstance(panic_macro_evidence, dict):
+            checks["panic_origin_mutation_controls_not_run"] = False
+        else:
+            mutations = {}
+            missing = copy.deepcopy(panic_macro_evidence)
+            missing["certificate"] = None
+            mutations["missing_certificate"] = (missing, log)
+            stale = copy.deepcopy(panic_macro_evidence)
+            stale["certificate"]["github_run_id"] = str(
+                int(stale["certificate"].get("github_run_id", "0")) + 1)
+            mutations["stale_certificate"] = (stale, log)
+            owner = copy.deepcopy(panic_macro_evidence)
+            owner["certificate"]["function"] = "some_other_function"
+            mutations["wrong_owner"] = (owner, log)
+            extra = copy.deepcopy(panic_macro_evidence)
+            extra["certificate"]["body_execution_records"] = 4
+            extra["certificate"]["log"]["body_execution_records"] = 4
+            mutations["extra_execution_count"] = (extra, log)
+            source = copy.deepcopy(panic_macro_evidence)
+            source["source_sha256"] = "0" * 64
+            mutations["wrong_source"] = (source, log)
+            mutations["wrong_log"] = (copy.deepcopy(panic_macro_evidence),
+                                      log + "\nsynthetic log mutation\n")
+            compiler = copy.deepcopy(panic_macro_evidence)
+            compiler["expected_compiler_panic_sha256"] = "0" * 64
+            mutations["wrong_compiler"] = (compiler, log)
+            calibration = copy.deepcopy(panic_macro_evidence)
+            calibration["certificate"]["status"] = "CALIBRATION"
+            calibration["certificate"]["require_final"] = False
+            mutations["calibration_only"] = (calibration, log)
+            incomplete_stage = copy.deepcopy(panic_macro_evidence)
+            incomplete_stage["support_stages"]["proof_ast"] = 1
+            mutations["incomplete_support_stage"] = (incomplete_stage, log)
+
+            for label, (mutant_evidence, mutant_log) in mutations.items():
+                credited, _ = panic_macro_execution_credit(metadata, mutant_log, mutant_evidence)
+                mutant_classification = classify(
+                    case, metadata, stages, mutant_log, unchanged, False,
+                    panic_macro_evidence=mutant_evidence)["classification"]
+                checks[f"panic_origin_{label}"] = credited == 0 and mutant_classification != "PASS"
     return checks
 
 
