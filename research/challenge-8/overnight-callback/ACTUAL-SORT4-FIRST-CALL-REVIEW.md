@@ -217,3 +217,18 @@ at column zero; its content and the Rust call are unchanged, and the existing
 whole-body byte equality remains mandatory. This correction still awaits a
 fresh hosted source/MIR capture. O22's separate owner-preserving forget
 adapter result has no bearing on the sort4 callback gate.
+
+O23 repeated the same source preflight failure after the marker indentation
+change, again before any sort4 MIR export. A second deterministic whitespace
+source is the reused `callback-cases.rs` proof prefix: it contains two ghost
+declarations separated by `@*/\n\n/*@` and ends in `@*/\n\n`. The pinned
+`strip_ghost` removes each comment and at most one following newline, leaving
+the two extra blank-line bytes in the would-be original source before
+`sort4_stable`. The builder now normalizes only these exact ghost-only
+separators to one newline each and requires the isolated prefix to strip to
+the empty byte string. On any remaining whole-body
+mismatch, it saves the verified candidate, stripped candidate, expected
+original and first differing byte/window as hosted evidence before refusing.
+The explicit `--prepare-only` CLI performs this source preflight without
+export, refinement or verification. This correction has no hosted result;
+the next capture must still establish exact original bytes and paired MIR.

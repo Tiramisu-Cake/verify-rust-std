@@ -70,7 +70,46 @@ def callback_ghost_prefix() -> bytes:
          b"nonghost_callers_only" in prefix and
          prefix.count(b"end_lifetime(k);") == 1,
          "checked callback recovery lemma shape changed")
+    # The standalone callback file separates its two ghost declarations and
+    # the following case with blank lines.  The std source fixture has no
+    # corresponding executable blank lines.  Keep one newline after each
+    # @*/ so the shared strip_ghost removes the entire proof-only prefix.
+    separator = b"@*/\n\n/*@"
+    need(prefix.count(b"/*@") == 2 and prefix.count(separator) == 1 and
+         prefix.endswith(b"@*/\n\n"),
+         "checked callback ghost-only separators changed")
+    prefix = prefix.replace(separator, b"@*/\n/*@", 1)[:-1]
+    need(sort4_capture.strip_ghost(prefix) == b"",
+         "checked callback prefix leaves executable whitespace")
     return prefix
+
+
+def save_source_mismatch(output: Path, verified: bytes, stripped: bytes,
+                         expected: bytes) -> None:
+    """Keep the exact failed source pair for hosted preflight review."""
+    mismatch = next((i for i, (a, b) in enumerate(zip(stripped, expected))
+                     if a != b), min(len(stripped), len(expected)))
+    start = max(0, mismatch - 32)
+    end = mismatch + 33
+    output.mkdir(parents=True)
+    (output / "verified-candidate.rs").write_bytes(verified)
+    (output / "stripped-candidate.rs").write_bytes(stripped)
+    (output / "expected-original.rs").write_bytes(expected)
+    (output / "first-source-mismatch.json").write_text(json.dumps({
+        "classification": "SOURCE_PREFLIGHT_MISMATCH_NO_EXPORT",
+        "first_byte_offset": mismatch,
+        "expected_byte": expected[mismatch] if mismatch < len(expected) else None,
+        "stripped_byte": stripped[mismatch] if mismatch < len(stripped) else None,
+        "expected_line": expected[:mismatch].count(b"\n") + 1,
+        "stripped_line": stripped[:mismatch].count(b"\n") + 1,
+        "expected_window_hex": expected[start:end].hex(),
+        "stripped_window_hex": stripped[start:end].hex(),
+        "expected_length": len(expected),
+        "stripped_length": len(stripped),
+        "expected_sha256": sha(expected),
+        "stripped_sha256": sha(stripped),
+        "verified_candidate_sha256": sha(verified),
+    }, indent=2, sort_keys=True) + "\n")
 
 
 def prepare(repo: Path, output: Path) -> dict:
@@ -109,7 +148,10 @@ def prepare(repo: Path, output: Path) -> dict:
                 join + verified_target[:brace] +
                 sort4_capture.MEMORY_PRE_CONTRACT + verified_target[brace:])
     original = sort4_capture.strip_ghost(verified)
-    need(original == sort4_capture.PREFIX + target,
+    expected_original = sort4_capture.PREFIX + target
+    if original != expected_original:
+        save_source_mismatch(output, verified, original, expected_original)
+    need(original == expected_original,
          "ghost stripping failed to recover exact full sort4 runtime body")
     need(original.count(target) == 1 and
          verified.count(ANNOTATED_FIRST_CALL) == 1 and
@@ -241,7 +283,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--capture", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--capture", action="store_true")
+    mode.add_argument("--prepare-only", action="store_true",
+                      help="source certificate and exact ghost-strip preflight only")
     parser.add_argument("--source-checkout", type=Path)
     parser.add_argument("--tool-home", type=Path)
     parser.add_argument("--schema", type=Path)

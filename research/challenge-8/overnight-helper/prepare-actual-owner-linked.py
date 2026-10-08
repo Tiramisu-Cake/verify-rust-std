@@ -37,7 +37,8 @@ LINK = load(REPO / "research/challenge-8/overnight-linkage/"
 
 
 def write_case(repo: Path, out: Path, *, owner_safety_proof: bool = True,
-               annotate_nested_drop: bool = True) -> dict:
+               annotate_nested_drop: bool = True,
+               safety_proof_variant: str = "positive") -> dict:
     OWNER.require((os.environ.get("GITHUB_ACTIONS"),
                    os.environ.get("RUNNER_ENVIRONMENT"),
                    os.environ.get("RUNNER_OS")) ==
@@ -73,6 +74,7 @@ def write_case(repo: Path, out: Path, *, owner_safety_proof: bool = True,
                   "linked base executable tokens changed by strip convention")
     verified = OWNER.candidate(
         base_verified, base_original, owner_safety_proof=owner_safety_proof,
+        safety_proof_variant=safety_proof_variant,
         annotate_nested_drop=annotate_nested_drop)
     case = out / "linked-owner"
     (case / "original").mkdir(parents=True)
@@ -91,6 +93,10 @@ def write_case(repo: Path, out: Path, *, owner_safety_proof: bool = True,
         "stock_s6_gate_admitted": False,
         "full_source_admission_needed": True,
         "owner_safety_proof": owner_safety_proof,
+        "safety_proof_variant": safety_proof_variant,
+        "safety_proof_source": (
+            OWNER.SAFETY_PROOFS[safety_proof_variant].decode()
+            if owner_safety_proof else None),
         "actual_nested_drop_annotated": annotate_nested_drop,
         "original_sha256": OWNER.ACTUAL.digest(base_original),
         "verified_sha256": OWNER.ACTUAL.digest(verified),
@@ -116,11 +122,15 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--without-safety-proof", action="store_true")
     parser.add_argument("--without-nested-drop-opens", action="store_true")
+    parser.add_argument("--outcome-safety-proof", action="store_true",
+                        help="source-only fn_outcome_result projection")
     args = parser.parse_args()
     print(json.dumps(write_case(
         args.repo, args.out,
         owner_safety_proof=not args.without_safety_proof,
-        annotate_nested_drop=not args.without_nested_drop_opens),
+        annotate_nested_drop=not args.without_nested_drop_opens,
+        safety_proof_variant=(
+            "outcome_result" if args.outcome_safety_proof else "positive")),
         indent=2, sort_keys=True))
 
 

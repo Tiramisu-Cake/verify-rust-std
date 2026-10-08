@@ -29,6 +29,12 @@ SAFETY_PROOFS = {
         b"    open raw_ptr_own::<Element>()(_t, r);\n"
         b"}\n@*/\n"
     ),
+    "outcome_result": (
+        b"/*@\nsafety_proof {\n"
+        b"    let outcome = call();\n"
+        b"    open raw_ptr_own::<Element>()(_t, fn_outcome_result(outcome));\n"
+        b"}\n@*/\n"
+    ),
     "omitted_open": (
         b"/*@\nsafety_proof {\n"
         b"    let r = call();\n"

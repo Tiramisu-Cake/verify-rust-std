@@ -56,7 +56,11 @@ def write_case(repo: Path, out: Path, *, with_owned_forget: bool = False) -> dic
             "actual nested repository/evidence identity changed")
     out.mkdir(parents=True)
     base = out / "linked-owner-base"
-    base_record = OWNER.write_case(repo, base)
+    # O23 showed that the prototype implementation proof's call() returns
+    # fn_outcome<*Element>.  This new source-only variant projects its normal
+    # value while retaining the original full post and false unwind post.
+    base_record = OWNER.write_case(
+        repo, base, safety_proof_variant="outcome_result")
     base_case = base / "linked-owner"
     old_verified = (base_case / "verified/lib.rs").read_bytes()
     old_original = (base_case / "original/lib.rs").read_bytes()
@@ -108,6 +112,7 @@ def write_case(repo: Path, out: Path, *, with_owned_forget: bool = False) -> dic
             "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop",
         ],
         "base_linked_owner_source": base_record,
+        "actual_safety_proof_variant": "outcome_result",
         "generic_method_source_certificate": method_cert,
         "actual_source_certificate": actual_cert,
     }
@@ -122,7 +127,8 @@ def write_case(repo: Path, out: Path, *, with_owned_forget: bool = False) -> dic
         owned_header = owned_import + b"\n"
         require(owned_verified.startswith(owned_header) and
                 verified.count(import_line) == 1 and
-                verified.count(owned_import) == 0 and
+                verified.count(b"    use std::mem::ManuallyDrop;\n") == 1 and
+                verified.count(b"\nuse std::mem::ManuallyDrop;\n") == 0 and
                 verified.count(FORGET_MARKER) == 0,
                 "owner-preserving callee import/source boundary changed")
         owned_method = owned_verified[len(owned_header):]
