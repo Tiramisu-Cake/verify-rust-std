@@ -26,7 +26,8 @@ python3 research/challenge-8/overnight-helper/check-helper.py \
   --evidence "$ev/helper" \
   --deadline-epoch "$deadline" \
   --a1-primitive-matrix \
-  --a1-linkage-capture
+  --a1-linkage-capture \
+  --a1-linkage-proof
 ```
 
 `--s6-specs` supplies the exact ordered timed preamble names, comma separated;
@@ -42,6 +43,11 @@ optionally checks the direct-body primitive matrix and G1 variants. The
 source-specialized local callee precedes the exact method adapter, whose
 Rust call still resolves to `std::mem::transmute_neo`. It records complete
 typed MIR for both and never redirects the call or marks the method proved.
+`--a1-linkage-proof` exercises the separately patched opt-in redirect on the
+O9-reviewed two-body graph, source/admission mutations and the method's
+positive and negative contracts. Its first hosted run remains experimental
+until the exact failure locations and full return/leak/dead-code traces are
+reviewed.
 The primitive matrix includes exact admission and type controls; its O7
 evidence is specific to the pointer domain and cannot mark actual call
 linkage accepted. Every

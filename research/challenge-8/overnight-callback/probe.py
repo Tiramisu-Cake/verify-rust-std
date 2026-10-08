@@ -140,6 +140,200 @@ def false_normal_post_span(source: bytes) -> tuple[int, int, int] | None:
     return spans[0] if len(spans) == 1 else None
 
 
+def mir_balanced_pairs(text: str) -> dict[int, int]:
+    """Return matching () and [] delimiters, ignoring quoted strings."""
+    pairs: dict[int, int] = {}
+    stack: list[tuple[str, int]] = []
+    quoted = False
+    escaped = False
+    for index, char in enumerate(text):
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+            continue
+        if char == '"':
+            quoted = True
+        elif char in "([":
+            stack.append((char, index))
+        elif char in ")]":
+            if not stack:
+                continue
+            opening, start = stack[-1]
+            if (opening, char) in (("(", ")"), ("[", "]")):
+                stack.pop()
+                pairs[start] = index
+    return pairs
+
+
+def mir_enclosing_record(text: str, marker: str,
+                         pairs: dict[int, int]) -> tuple[int, int]:
+    marker_at = text.find(marker)
+    need(marker_at >= 0 and text.find(marker, marker_at + 1) < 0,
+         f"MIR marker missing or ambiguous: {marker}")
+    candidates = [(start, end) for start, end in pairs.items()
+                  if text[start] == "(" and start < marker_at < end]
+    need(candidates, f"no balanced record contains MIR marker: {marker}")
+    return min(candidates, key=lambda pair: pair[1] - pair[0])
+
+
+def mir_list_records(text: str, marker: str,
+                     pairs: dict[int, int]) -> list[str]:
+    marker_at = text.find(marker)
+    need(marker_at >= 0 and text.find(marker, marker_at + 1) < 0,
+         f"MIR list missing or ambiguous: {marker}")
+    start = text.find("[", marker_at + len(marker))
+    need(start >= 0 and start in pairs,
+         f"MIR list is not balanced: {marker}")
+    end = pairs[start]
+    result = []
+    cursor = start + 1
+    while cursor < end:
+        while cursor < end and text[cursor] in " \t\r\n,":
+            cursor += 1
+        if cursor == end:
+            break
+        need(text[cursor] == "(" and cursor in pairs,
+             f"unexpected MIR list entry for {marker}")
+        item_end = pairs[cursor]
+        result.append(text[cursor:item_end + 1])
+        cursor = item_end + 1
+    return result
+
+
+def mir_local(record: str, context: str) -> str:
+    matches = re.findall(r'local = \(name = "(_\d+)"\)', record)
+    need(len(matches) == 1, f"expected one MIR local in {context}")
+    return matches[0]
+
+
+def mir_lhs(statement: str) -> str | None:
+    match = re.search(r'lhsPlace = \(\s*local = \(name = "(_\d+)"\)',
+                      statement)
+    return match.group(1) if match else None
+
+
+def callback_mir_alias_audit(decoded: bytes, mode: str, source: bytes,
+                             case_name: str) -> dict:
+    """Trace both actual call tuple fields back to the named source inputs."""
+    text = decoded.decode(errors="replace")
+    pairs = mir_balanced_pairs(text)
+    body_start, body_end = mir_enclosing_record(
+        text, f'defPath = "{case_name}"', pairs)
+    body = text[body_start:body_end + 1]
+    source_text = source.decode()
+    source_lines = source_text.splitlines()
+    left_lines = [index for index, line in enumerate(source_lines, 1)
+                  if line.strip() == "left: *const T,"]
+    right_lines = [index for index, line in enumerate(source_lines, 1)
+                   if line.strip() == "right: *const T,"]
+    need(len(left_lines) == len(right_lines) == 1,
+         "source input declarations are missing or ambiguous")
+
+    body_pairs = mir_balanced_pairs(body)
+    body_local_decls = mir_list_records(body, "localDecls =", body_pairs)
+    input_ids = {}
+    for local_id, expected_line in (("_1", left_lines[0]),
+                                    ("_2", right_lines[0])):
+        rows = [row for row in body_local_decls
+                if f'id = (name = "{local_id}")' in row]
+        need(len(rows) == 1, f"source-bound input local is missing: {local_id}")
+        line_match = re.search(
+            r"sourceInfo = \(\s*span = \(\s*regular = \(\s*lo = \(.*?line = (\d+)",
+            rows[0], re.S)
+        need(line_match is not None and int(line_match.group(1)) == expected_line,
+             f"MIR input {local_id} no longer maps to its source parameter")
+        input_ids[local_id] = expected_line
+
+    blocks = mir_list_records(body, "basicBlocks =", body_pairs)
+    call_blocks = [block for block in blocks
+                   if block.count('name = "core::ops::FnMut::call_mut"') == 1]
+    need(len(call_blocks) == 1, "actual FnMut::call_mut block missing or ambiguous")
+    block = call_blocks[0]
+    block_pairs = mir_balanced_pairs(block)
+    statements = mir_list_records(block, "statements =", block_pairs)
+    terminator_start = block.find("terminator = (")
+    need(terminator_start >= 0, "FnMut call block has no terminator")
+    terminator = block[terminator_start:]
+    call_args = mir_list_records(terminator, "args =", mir_balanced_pairs(terminator))
+    need(len(call_args) == 2, "FnMut call does not have exactly receiver and Args")
+    args_local = mir_local(call_args[1], "FnMut::call_mut Args operand")
+
+    tuple_assignments = [statement for statement in statements
+                         if mir_lhs(statement) == args_local and
+                         "aggregateKind = (tuple = void)" in statement]
+    need(len(tuple_assignments) == 1,
+         "FnMut Args local has no unique two-field tuple assignment")
+    tuple_record = tuple_assignments[0]
+    tuple_operands = mir_list_records(
+        tuple_record, "operands =", mir_balanced_pairs(tuple_record))
+    need(len(tuple_operands) == 2, "FnMut Args tuple is not arity two")
+    field_refs = [mir_local(operand, "FnMut Args tuple field")
+                  for operand in tuple_operands]
+    need(field_refs[0] != field_refs[1], "FnMut Args tuple duplicates a field local")
+
+    chains = []
+    for field_ref in field_refs:
+        ref_assignments = [statement for statement in statements
+                           if mir_lhs(statement) == field_ref and
+                           "rhsRvalue = (" in statement and "ref = (" in statement]
+        need(len(ref_assignments) == 1,
+             f"tuple reference field has no unique borrow assignment: {field_ref}")
+        ref_record = ref_assignments[0]
+        ref_pairs = mir_balanced_pairs(ref_record)
+        ref_place_start = ref_record.find("place = (")
+        need(ref_place_start >= 0, "tuple reference assignment has no place")
+        ref_open = ref_record.find("(", ref_place_start)
+        ref_close = ref_pairs.get(ref_open)
+        need(ref_close is not None, "tuple reference place is malformed")
+        ref_place = ref_record[ref_open:ref_close + 1]
+        borrow_local = mir_local(ref_place, "call-reference borrow place")
+        ref_projection = re.search(r"projection = \[(.*?)\]", ref_place, re.S)
+        need(ref_projection is not None and "deref = void" in ref_projection.group(1),
+             "tuple field reference is not formed from its borrow local")
+
+        borrow_assignments = [statement for statement in statements
+                              if mir_lhs(statement) == borrow_local and
+                              "rhsRvalue = (" in statement and "ref = (" in statement]
+        need(len(borrow_assignments) == 1,
+             f"call-reference borrow has no unique source assignment: {borrow_local}")
+        borrow_record = borrow_assignments[0]
+        borrow_pairs = mir_balanced_pairs(borrow_record)
+        borrow_place_start = borrow_record.find("place = (")
+        need(borrow_place_start >= 0, "source borrow assignment has no place")
+        borrow_open = borrow_record.find("(", borrow_place_start)
+        borrow_close = borrow_pairs.get(borrow_open)
+        need(borrow_close is not None, "source borrow place is malformed")
+        source_place = borrow_record[borrow_open:borrow_close + 1]
+        source_local = mir_local(source_place, "source borrow place")
+        projection = re.search(r"projection = \[(.*?)\]", source_place, re.S)
+        need(projection is not None and "deref = void" in projection.group(1),
+             "actual comparator reference is not a dereference of an input pointer")
+        chains.append({"tuple_field_local": field_ref,
+                       "borrow_local": borrow_local,
+                       "source_input_local": source_local})
+
+    need([chain["source_input_local"] for chain in chains] == ["_1", "_2"],
+         "actual Args tuple fields do not preserve left/right source-input order")
+    return {
+        "classification": "ACTUAL_CALLBACK_MIR_ARGUMENT_ALIAS_CHECK",
+        "mir_mode": mode,
+        "passed": True,
+        "source_input_lines": input_ids,
+        "args_local": args_local,
+        "field_chains": chains,
+        "checked_both_actual_borrow_chains_and_fnmut_args_tuple": True,
+        "trusted_boundary": (
+            "pinned Rust MIR/source correspondence and ghost precreate_ref mapping; "
+            "the structural check traces both input parameters through the actual "
+            "FnMut::Args aggregate without assuming temporary-local numbers"
+        ),
+    }
+
+
 def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
                   case_name: str, destination: Path) -> dict:
     need(case_name in CASES, f"unknown fixture case: {case_name}")
@@ -147,6 +341,17 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     template = template_path.read_bytes()
     selected = select_case(template, case_name)
     original = strip_ghost(selected)
+    positive_runtime = strip_ghost(select_case(template, "callback_positive"))
+    false_runtime = strip_ghost(select_case(template, "callback_false_post"))
+    positive_runtime = positive_runtime.replace(
+        b"pub unsafe fn callback_positive", b"pub unsafe fn CALLBACK")
+    false_runtime = false_runtime.replace(
+        b"pub unsafe fn callback_false_post", b"pub unsafe fn CALLBACK")
+    need(positive_runtime == false_runtime,
+         "positive and false-post fixtures differ in ghost-stripped Rust")
+    need(b"left: *const T,\n    right: *const T,\n    is_less: &mut F," in original and
+         b"F: FnMut(&T, &T) -> bool" in original,
+         "callback input order or unrestricted generic FnMut bound changed")
     need(strip_ghost(selected) == original,
          "verified fixture does not strip to its original source")
     need(selected.count(b"pub unsafe fn " + case_name.encode()) == 1 and
@@ -174,6 +379,7 @@ def generate_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         "verified_sha256": sha(selected),
         "original_sha256": sha(original),
         "ghost_strip_exact": strip_ghost(selected) == original,
+        "positive_false_ghost_stripped_runtime_identical": True,
         "target_function_count": 1,
         "actual_callback_call_count": 1,
         "expected_false_post_span": list(target_contract_span[:2])
@@ -304,6 +510,15 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     else:
         stages["readonly-decode"] = {"exit": None, "skipped": "readonly export failed"}
 
+    alias_audits = {}
+    for mode in ("normal", "readonly"):
+        mir_path = case_dir / f"{mode}-mir.txt"
+        alias_audits[mode] = (callback_mir_alias_audit(
+            mir_path.read_bytes(), mode, selected, case_name)
+                              if mir_path.is_file() else None)
+    alias_audit_ok = all(row is not None and row["passed"]
+                         for row in alias_audits.values())
+
     verifier = str(tool_home / "bin/verifast")
     verifier_argv = [verifier, "-rustc_args", "--edition 2021",
                      "-verbose", "1", "verified/lib.rs"]
@@ -332,7 +547,8 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         if "source_exact" in row)
     support_stages = ("normal-export", "normal-decode", "readonly-export",
                       "readonly-decode", "refinement")
-    support_ok = all(stages.get(name, {}).get("exit") == 0 for name in support_stages)
+    support_ok = all(stages.get(name, {}).get("exit") == 0 for name in support_stages) and \
+        alias_audit_ok
     classification = "INCONCLUSIVE"
     intended_negative = False
     if case_name == "callback_false_post" and support_ok and source_integrity and \
@@ -361,6 +577,8 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         "first_error": errors[0] if errors else None,
         "all_errors": errors,
         "intended_false_post": intended_negative,
+        "actual_argument_alias_audit": alias_audits,
+        "actual_argument_alias_audit_passed": alias_audit_ok,
         "normal_mir_sha256": sha((case_dir / "normal-mir.txt").read_bytes())
             if (case_dir / "normal-mir.txt").is_file() else None,
         "readonly_mir_sha256": sha((case_dir / "readonly-mir.txt").read_bytes())

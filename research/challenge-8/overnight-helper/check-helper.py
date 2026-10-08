@@ -83,6 +83,10 @@ def run_stage(case: Path, name: str, command: list[str], args,
     env.pop("SORT4_MAYBEUNINIT_REPO_ROOT", None)
     env.pop("SORT4_SELECT_INTRINSIC_REPO_ROOT", None)
     env.pop("SORT4_POINTER_DROP_REPO_ROOT", None)
+    env.pop("SORT4_A1_LINK_REPO_ROOT", None)
+    if getattr(args, "a1_linkage_proof", False) and case.name.startswith(
+            "a1-link-proof-"):
+        env["SORT4_A1_LINK_REPO_ROOT"] = str(REPO)
     with ((case / stdin_file).open("rb") if stdin_file else
           open(os.devnull, "rb")) as inp:
         with stdout_path.open("wb") as out:
@@ -362,6 +366,8 @@ def run_all(args) -> dict:
     s6_specs = tuple(args.s6_specs.split(",")) if args.s6_specs else G1_PREAMBLE_DEFAULT
     require(len(set(s6_specs)) == len(s6_specs), "S6 expected header list duplicated")
     results: dict[str, object] = {"g1": [], "a1": {}, "a1_linkage": None,
+                                  "a1_linkage_proof": [],
+                                  "a1_linkage_source_controls": [],
                                   "a1_primitive": [], "a1_type_controls": [],
                                   "actual": None}
     # Capture both new std dependencies first; a long G1 negative matrix must
@@ -436,6 +442,156 @@ def run_all(args) -> dict:
         (evidence / "a1-linkage-result.json").write_text(
             json.dumps(result, indent=2, sort_keys=True) + "\n")
         results["a1_linkage"] = result
+    if args.a1_linkage_proof:
+        case = evidence / "a1-link-proof-baseline"
+        try:
+            A1.write_linkage_fixture(REPO, case)
+            stages = run_case(case, args, prove=True)
+            graph = {}
+            if stages.get("normal-decode", {}).get("exit") == 0:
+                for target, manifest in (
+                    ("transmute", HERE / "O4-A1-transmute-reviewed.json"),
+                    ("method", HERE / "O9-A1-linkage-method-reviewed.json")):
+                    graph[target] = A1.check_mir(case / "normal-mir.txt",
+                                                 manifest, REPO)
+            log = (case / "full-verification.log").read_text(
+                errors="replace") if (case / "full-verification.log").exists() else ""
+            fixture = json.loads((case / "fixture.json").read_text())
+            original = (case / "original/lib.rs").read_bytes()
+            verified = (case / "verified/lib.rs").read_bytes()
+            source_ok = (A1.strip_ghost(verified) == original and
+                         digest(original) == fixture["original_sha256"] and
+                         digest(verified) == fixture["verified_sha256"] and
+                         all(item.get("source_unchanged") for item in stages.values()
+                             if item.get("status") == "RAN"))
+            frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
+                "readonly-export", "readonly-decode", "normal-export",
+                "normal-decode", "refinement"))
+            timed = CLASSIFIER.timed_functions(log)
+            expected = [*s6_specs, A1.TRANSMUTE_ADAPTER_NAME, A1.ADAPTER_NAME]
+            full_body = (len(timed) == len(expected) and
+                         [item.function for item in timed] == expected and
+                         all(item.body_execution_seen and item.return_seen and
+                             item.leak_check_seen for item in timed))
+            proven = (source_ok and frontend and len(graph) == 2 and full_body and
+                      stages.get("full-verification", {}).get("exit") == 0 and
+                      "dead code" not in log.lower() and
+                      "SORT4-A1-LINK: redirected one typed" in log)
+            result = {
+                "variant": "baseline",
+                "classification": "EXPERIMENTAL_TWO_BODY_PROOF" if proven else
+                                  "INCONCLUSIVE",
+                "source_integrity": source_ok,
+                "frontend_refinement": frontend,
+                "full_mir_graphs": graph,
+                "full_body_return_leak_seen": full_body,
+                "stages": stages,
+                "actual_std_assume_init_proved": False,
+            }
+        except Exception as exc:
+            result = {"variant": "baseline", "classification": "INCONCLUSIVE",
+                      "harness_exception": f"{type(exc).__name__}: {exc}"}
+        (evidence / "a1-link-proof-baseline-result.json").write_text(
+            json.dumps(result, indent=2, sort_keys=True) + "\n")
+        results["a1_linkage_proof"].append(result)
+        for variant in A1.VARIANTS:
+            if args.deadline_epoch - time.time() < 35:
+                break
+            case = evidence / f"a1-link-proof-{variant}"
+            try:
+                A1.write_linkage_variant(REPO, case, variant)
+                stages = run_case(case, args, prove=True)
+                graph = {}
+                if stages.get("normal-decode", {}).get("exit") == 0:
+                    for target, manifest in (
+                        ("transmute", HERE / "O4-A1-transmute-reviewed.json"),
+                        ("method", HERE / "O9-A1-linkage-method-reviewed.json")):
+                        graph[target] = A1.check_mir(case / "normal-mir.txt",
+                                                     manifest, REPO)
+                log = (case / "full-verification.log").read_text(
+                    errors="replace") if (case / "full-verification.log").exists() else ""
+                errors = error_info(log)
+                source_ok = (A1.strip_ghost((case / "verified/lib.rs").read_bytes()) ==
+                             (case / "original/lib.rs").read_bytes() and
+                             all(item.get("source_unchanged") for item in stages.values()
+                                 if item.get("status") == "RAN"))
+                frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
+                    "readonly-export", "readonly-decode", "normal-export",
+                    "normal-decode", "refinement"))
+                timed = CLASSIFIER.timed_functions(log)
+                expected = [*s6_specs, A1.TRANSMUTE_ADAPTER_NAME,
+                            A1.ADAPTER_NAME, "assume_init_probe"]
+                full_body = ([item.function for item in timed] == expected and
+                             all(item.body_execution_seen and item.return_seen and
+                                 item.leak_check_seen for item in timed))
+                proven = (variant in A1.POSITIVES and source_ok and frontend and
+                          len(graph) == 2 and
+                          full_body and
+                          stages.get("full-verification", {}).get("exit") == 0 and
+                          not errors and "dead code" not in log.lower() and
+                          "SORT4-A1-LINK: redirected one typed" in log)
+                result = {
+                    "variant": variant,
+                    "classification": "EXPERIMENTAL_METHOD_POSITIVE" if proven else
+                                      "NEGATIVE_LOCATION_UNREVIEWED" if
+                                      variant in A1.NEGATIVES and source_ok and
+                                      frontend and len(graph) == 2 and
+                                      stages.get("full-verification", {}).get("exit") == 1
+                                      else "INCONCLUSIVE",
+                    "source_integrity": source_ok,
+                    "frontend_refinement": frontend,
+                    "full_mir_graphs": graph,
+                    "full_body_return_leak_seen": full_body,
+                    "first_error": errors[0] if errors else None,
+                    "stages": stages,
+                    "actual_std_assume_init_proved": False,
+                }
+            except Exception as exc:
+                result = {"variant": variant, "classification": "INCONCLUSIVE",
+                          "harness_exception": f"{type(exc).__name__}: {exc}"}
+            (evidence / f"a1-link-proof-{variant}-result.json").write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n")
+            results["a1_linkage_proof"].append(result)
+        for control in A1.LINKAGE_SOURCE_CONTROLS:
+            if args.deadline_epoch - time.time() < 35:
+                break
+            case = evidence / f"a1-link-proof-source-{control}"
+            try:
+                A1.write_linkage_source_control(REPO, case, control)
+                stages = run_case(case, args, prove=True)
+                log = (case / "full-verification.log").read_text(
+                    errors="replace") if (case / "full-verification.log").exists() else ""
+                fixture = json.loads((case / "fixture.json").read_text())
+                original = (case / "original/lib.rs").read_bytes()
+                verified = (case / "verified/lib.rs").read_bytes()
+                source_ok = (A1.strip_ghost(verified) == original and
+                             digest(original) == fixture["original_sha256"] and
+                             digest(verified) == fixture["verified_sha256"] and
+                             all(item.get("source_unchanged") for item in stages.values()
+                                 if item.get("status") == "RAN"))
+                frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
+                    "readonly-export", "readonly-decode", "normal-export",
+                    "normal-decode", "refinement"))
+                rejected = (source_ok and frontend and
+                            stages.get("full-verification", {}).get("exit") == 1 and
+                            log.splitlines() == [
+                                "MIR Translator Failed: SORT4-A1-LINK: certificate mismatch: two-body verified source prefix changed",
+                                "Rust Translator Error"])
+                result = {
+                    "control": control,
+                    "classification": "SOURCE_REJECTED_EXACT_GATE" if rejected else
+                                      "INCONCLUSIVE",
+                    "source_integrity": source_ok,
+                    "frontend_refinement": frontend,
+                    "stages": stages,
+                    "actual_std_proof": False,
+                }
+            except Exception as exc:
+                result = {"control": control, "classification": "INCONCLUSIVE",
+                          "harness_exception": f"{type(exc).__name__}: {exc}"}
+            (evidence / f"a1-link-proof-source-{control}-result.json").write_text(
+                json.dumps(result, indent=2, sort_keys=True) + "\n")
+            results["a1_linkage_source_controls"].append(result)
     if args.a1_primitive_matrix:
         for variant in PRIMITIVE.VARIANTS:
             if args.deadline_epoch - time.time() < 35:
@@ -575,6 +731,7 @@ def main() -> None:
     parser.add_argument("--actual-capture", action="store_true")
     parser.add_argument("--a1-primitive-matrix", action="store_true")
     parser.add_argument("--a1-linkage-capture", action="store_true")
+    parser.add_argument("--a1-linkage-proof", action="store_true")
     args = parser.parse_args()
     result = run_all(args)
     print(json.dumps({key: result[key] for key in (

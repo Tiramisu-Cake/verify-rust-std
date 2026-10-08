@@ -46,3 +46,26 @@ different method body. A result-expression rewrite could erase unwind; use
 the existing call outcome path. Do not classify the method as proved until
 the combined unit proves the local callee before consuming its summary and
 the complete normal/unwind method contract passes.
+
+O9 source/MIR review: run 37707055478, proof SHA `0781cdbd`. The combined
+fixture has source integrity and all export/decode/refinement stages passing.
+The callee's complete MIR record SHA is the same
+`743990d692c78f43b786768f777ea4b7063178732ac8fec119e6e2d26d44d9ea`
+as O4/O7, a single block with exact const-size assertion, plain local Move,
+one typed Transmute and return. The caller's complete MIR record SHA is
+`e50270cdd0ee9b08da77992b67b27a82d7ff57445ef8ab944a0bde3152396f47`:
+bb0 calls typed pointer `assert_inhabited` with unreachable unwind; bb1
+copies the input into `_3`, calls the real typed std `transmute_neo` with
+`Move(_3)`, normal bb2 and `unwind continue`; bb2 returns. The local callee
+fully verifies before the caller, which stops precisely at the missing std
+function summary. This is the reviewed input for the separate redirect patch.
+
+Patch self-review: opt-in `SORT4_A1_LINK_REPO_ROOT` checks four exact std
+source pins, the full O9 callee+caller source prefix, both exported contracts,
+generic and local types, and all ordered statements/terminators and successors
+of both bodies before enabling one typed call redirect. The hosted matrix also
+checks both full decoded MIR hashes. The redirect emits `FnCallOutcome` and
+leaves the original MIR unwind inventory in place. A source mutation control
+must fail the prefix gate, and a graph mutation must fail either the frontend
+graph gate or the separately pinned complete MIR check. A green O10 is still
+required; O9 itself is only applicability evidence.

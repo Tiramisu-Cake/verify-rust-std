@@ -440,3 +440,21 @@ exporter/refiner/schema unchanged stock. Compiler glue/source-copy/typed intrins
 correspondences TRUSTED; compiler_glue_body_proved=false. Actualcallee NOT_RUN
 in S6matrix; helper/sort4 notclosed. O6 only actualconstructor callslinked tochecked
 localbody, later unsupportedasptr; no full helper claim. Old S6/S7c unchanged.
+
+### Overnight26.10 O7–O10 actual linkage and new boundaries
+
+O7/O8 fullS6 regressions pass with experimentalA1/tuple overlays (consolecaf140b6),
+O10 proof6bf58027/run37707814634 links actualconstructor2/asptr2/intrinsic2+1/
+pointerdrop1 to checked localcontracts; firstactualdrop pre lacks initialized
+pointercell. Fullhelpernormal/unwind/leak stillOPEN, nominalowner/SAFEforget open.
+A1 exact localtransmutebody and initialized/frame+proof/type controls reviewed atO7,
+actualassume_init call-linkage next; compilerMU/rawpointerrepresentation TRUSTED.
+Fullactualsort4 source+NORMAL/readonly graph/refinement capturedO10; capturepre
+intentionally partial, boundsfailureexpected; noactualsort4 theorem. Tuple3own
+positives pass, fieldshare and callbackArgsown open; noHRTBacceptance. M1 stock
+copy into initialized/optional-none dst and one arbitraryowner frame3fullproof
+positives, falsepost/ownercreation/duplication3intendednegatives. StockDummyPat
+meansoptionalstorage, so no missing-dst-model extension needed. This is
+rawrepresentation copy usingstocksummary, not actualwrapperbody proof; noCopy/
+Freeze premise, explicitnonZSTpartialdomain, padding/provenance/caller/SWO
+composition remainrecordedopen. HistoricalS6/S7c claims unchanged.

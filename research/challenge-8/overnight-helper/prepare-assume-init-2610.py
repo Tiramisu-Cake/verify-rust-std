@@ -60,7 +60,7 @@ POSITIVES = ("initialized", "initialized_frame")
 NEGATIVES = (
     "none", "unknown", "false_post", "assert_false", "wrong_result",
     "frame_loss", "frame_duplication", "frame_wrong_value",
-    "thread_loss", "thread_duplication", "no_thread",
+    "thread_loss", "thread_duplication", "no_thread", "element_rights",
 )
 VARIANTS = POSITIVES + NEGATIVES
 MIR_REQUIRED_NAMES = (
@@ -215,6 +215,8 @@ def fixture_source(body: bytes, variant: str) -> tuple[bytes, bytes, dict]:
         post = b"result == p &*& *frame |-> flag"
     elif variant == "thread_duplication":
         post += b" &*& thread_token(tid)"
+    elif variant == "element_rights":
+        post += b" &*& *result |-> _"
     probe_contract = ghost(b"req " + pre + b";\nens " + post +
                            b";\non_unwind_ens false;")
     probe_body = b"{\n    let result = unsafe { " + ADAPTER_NAME.encode() + b"(storage) };\n"
@@ -244,6 +246,7 @@ def fixture_source(body: bytes, variant: str) -> tuple[bytes, bytes, dict]:
             "thread_loss": "probe thread-token leak",
             "thread_duplication": "probe duplicate thread-token postcondition",
             "no_thread": "adapter thread-token precondition",
+            "element_rights": "no Element pointee rights at probe postcondition",
         }.get(variant),
         "actual_method_adapter": True,
         "actual_method_called": False,
@@ -394,6 +397,88 @@ def linkage_fixture_source(repo: Path) -> tuple[bytes, bytes, dict]:
 
 def write_linkage_fixture(repo: Path, out: Path) -> dict:
     original, verified, record = linkage_fixture_source(repo)
+    require(not out.exists(), f"refusing to overwrite {out}")
+    (out / "original").mkdir(parents=True)
+    (out / "verified").mkdir()
+    (out / "original/lib.rs").write_bytes(original)
+    (out / "verified/lib.rs").write_bytes(verified)
+    (out / "fixture.json").write_text(json.dumps(record, indent=2,
+                                                  sort_keys=True) + "\n")
+    return record
+
+
+LINKAGE_SOURCE_CONTROLS = (
+    "weakened_callee_post", "changed_method_call", "extra_callee_statement",
+)
+
+
+def linkage_variant_source(repo: Path, variant: str) -> tuple[bytes, bytes, dict]:
+    require(variant in VARIANTS, "unknown method linkage variant")
+    _, base, base_record = linkage_fixture_source(repo)
+    body, _ = certify_source(repo)
+    _, candidate, probe_record = fixture_source(body, variant)
+    marker = b"pub unsafe fn assume_init_probe"
+    require(candidate.count(marker) == 1, "method probe identity changed")
+    probe = candidate[candidate.index(marker):]
+    verified = base + b"\n" + probe
+    original = strip_ghost(verified)
+    require(verified[:len(base)] == base and strip_ghost(verified) == original,
+            "linkage prefix or ghost stripping changed")
+    return original, verified, {
+        **base_record,
+        "variant": variant,
+        "probe_contract": probe_record["expected_failure"],
+        "classification": "LINKAGE_METHOD_MATRIX; NO PROOF UNTIL HOSTED",
+        "original_sha256": digest(original),
+        "verified_sha256": digest(verified),
+        "redirect_enabled": True,
+    }
+
+
+def write_linkage_variant(repo: Path, out: Path, variant: str) -> dict:
+    original, verified, record = linkage_variant_source(repo, variant)
+    require(not out.exists(), f"refusing to overwrite {out}")
+    (out / "original").mkdir(parents=True)
+    (out / "verified").mkdir()
+    (out / "original/lib.rs").write_bytes(original)
+    (out / "verified/lib.rs").write_bytes(verified)
+    (out / "fixture.json").write_text(json.dumps(record, indent=2,
+                                                  sort_keys=True) + "\n")
+    return record
+
+
+def linkage_source_control(repo: Path, control: str) -> tuple[bytes, bytes, dict]:
+    require(control in LINKAGE_SOURCE_CONTROLS, "unknown A1 linkage control")
+    _, base, record = linkage_fixture_source(repo)
+    replacements = {
+        "weakened_callee_post":
+            (b"ens thread_token(tid) &*& result == p &*& raw_ptr_own::<Element>()(tid, result);",
+             b"ens thread_token(tid) &*& true &*& raw_ptr_own::<Element>()(tid, result);"),
+        "changed_method_call":
+            (b"transmute_neo(storage)",
+             b"transmute_neo(MaybeUninit::new(std::ptr::null::<Element>()))"),
+        "extra_callee_statement":
+            (b"    const { assert!(<MaybeUninit<*const Element>",
+             b"    let _ = 0u8;\n    const { assert!(<MaybeUninit<*const Element>"),
+    }
+    old, new = replacements[control]
+    expected_count = 2 if control == "weakened_callee_post" else 1
+    require(base.count(old) == expected_count,
+            "source-control mutation site ambiguous")
+    verified = base.replace(old, new, 1)
+    original = strip_ghost(verified)
+    return original, verified, {
+        **record,
+        "control": control,
+        "classification": "SYNTHETIC_SOURCE_ADMISSION_CONTROL; NOT STD PROOF",
+        "original_sha256": digest(original),
+        "verified_sha256": digest(verified),
+        "redirect_enabled": True,
+    }
+
+
+def write_linkage_source_control(repo: Path, out: Path, control: str) -> dict:
+    original, verified, record = linkage_source_control(repo, control)
     require(not out.exists(), f"refusing to overwrite {out}")
     (out / "original").mkdir(parents=True)
     (out / "verified").mkdir()

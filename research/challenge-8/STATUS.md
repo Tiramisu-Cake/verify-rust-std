@@ -11,7 +11,7 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1664/21600 summed GitHub-hosted job seconds**, 19936 remain.
+New independent account **1736/21600 summed GitHub-hosted job seconds**, 19864 remain.
 Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
@@ -40,11 +40,19 @@ with untouchedprefix/body+equivalentcontracttoken checks). Sort4doc-anchor
 backticks mismatch stopped extraction (fixed). A1 two-body fullgraph captured,
 calleeproofcomplete then missingtransmuteNeo. M1 initialized+optional-none dst
 fullVF0: stock DummyPat lowers to optionalstorage, no new copyprimitive needed;
-falsepost/ownercreation fail at targetpost. O10 on unchanged semantic profile: targeted actual
-intrinsic/drop and tuple/callback, two-body A1 linkage MIR capture, complete
-actual sort4 graph capture, and stock scratch-copy boundary diagnostic. No new
-axiom/kernel. S6 regression reuse requires exact O8 profile identity; next
-semantic extension requires a fresh relevant regression gate.
+falsepost/ownercreation fail at targetpost. O10 at6bf58027/run37707814634 succeeds asdiagnostic: actual2+1intrinsics
+and pointerdrop linkage admitted; firstreal drop pre lacks initialized pointer
+cell, notforgetyet. Entire actualsort4 NORMAL/readonly/refinement graph captured,
+5callbacks/8selects/4copies; partialcapturepre firstfails pointerbounds asexpected.
+M1 initialized/none-dst/one-arbitrary-owner frame3pass, falsepost/ownercreation/
+duplication3intendednegatives. No new memoryprimitive needed, ZSTstillopen.
+Tuple3ownpositives pass, share field-expression boundary open, callbackArgsown
+notclosed yet (ghostresource correction beingprepared; noHRTBnewprofile yet).
+O11 nextadds separate source+complete typedgraph transmuteNeo call-linkage
+component afterO9callee/caller review; keepsunwindoutcomes. Methodmatrix/source
+controls, genericptr-drop capture andfullS6regression required. Nominalguard
+honestowner/SAFEtemplate extension remains stageddesign/capture, noown=true.
+Combinedprofile experimental; fullselect/sort4 open.
 
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new

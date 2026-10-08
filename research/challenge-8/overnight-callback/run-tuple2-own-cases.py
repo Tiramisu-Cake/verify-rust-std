@@ -35,18 +35,22 @@ CUMULATIVE_PATCHES = (
      "b3fdae6588c5d88a5151f9b103b2f5ab6d2d58db880955a1b975a7f88ca2feb9"),
     ("research/challenge-8/overnight-helper/verifast-a1-pointer-transmute-26.10.patch",
      "44b460e64eede02bb7776ef36c6be12eb2bed2e5a4fd37ad9b733c7b5633c8ab"),
+    ("research/challenge-8/overnight-helper/verifast-a1-transmute-linkage-26.10.patch",
+     "04a1820c6d86d880870c8df06d69287d12b08058e183cdb7fc905a2560a831e4"),
     ("research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch",
      "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"),
 )
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
-    "tuple2_share_compat",
+    "tuple2_share_compat", "tuple2_share_fields_boundary",
     "tuple2_false_post", "tuple2_resource_loss", "tuple2_resource_duplication",
     "tuple1_opaque_control", "tuple3_opaque_control", "tuple4_opaque_control",
     "unrelated_struct_opaque_control",
 )
 POSITIVE = {"tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
             "tuple2_share_compat"}
+OPAQUE_FAMILY_POSITIVE = {"unrelated_struct_opaque_control"}
+OPEN_BOUNDARY_CASES = {"tuple2_share_fields_boundary"}
 POST_NEGATIVE = {
     "tuple2_false_post", "tuple2_resource_loss", "tuple2_resource_duplication"
 }
@@ -72,7 +76,7 @@ def sha_file(path: Path) -> str:
 
 
 def expected_cumulative_parser(repo_root: Path, base_parser: bytes) -> tuple[bytes, list[dict]]:
-    """Replay the exact pinned five-patch profile, projecting only parser hunks."""
+    """Replay the exact pinned six-patch profile, projecting only parser hunks."""
     manifest = []
     with tempfile.TemporaryDirectory(prefix="tuple2-parser-profile-") as temporary:
         temp_root = Path(temporary)
@@ -156,6 +160,13 @@ def normal_ens_span(source: bytes) -> tuple[int, int] | None:
 
 def target_line(source: bytes, case_name: str) -> int | None:
     if case_name in POST_NEGATIVE:
+        lines = source.decode().splitlines()
+        if case_name == "tuple2_resource_loss":
+            return len(lines) if lines and lines[-1].strip() == "}" else None
+        if case_name == "tuple2_resource_duplication":
+            matches = [i for i, line in enumerate(lines, 1)
+                       if "<T>.own(t, result.0)" in line]
+            return matches[0] if len(matches) == 1 else None
         span = normal_ens_span(source)
         if span is None:
             return None
@@ -230,8 +241,8 @@ def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
         expected_parser, cumulative_patch_manifest = expected_cumulative_parser(
             repo_root, base)
         need(parser == expected_parser,
-             "source parser bytes differ from exact five-patch cumulative replay")
-        parser_diff_check = "exact_parser_bytes_from_pinned_five_patch_replay"
+             "source parser bytes differ from exact six-patch cumulative replay")
+        parser_diff_check = "exact_parser_bytes_from_pinned_six_patch_replay"
     else:
         actual_diff = subprocess.run(
             ["git", "-C", str(source), "diff", "--no-ext-diff", "--unified=3",
@@ -438,6 +449,10 @@ def run_case(repo_root: Path, tool_home: Path, schema: Path,
         rf"(?m)^\s*\d+(?:\.\d+)?s: verified/lib\.rs\([^)]*\): Verifying function '{re.escape(name)}'",
         log)
     errors = [line for line in log.splitlines() if ": error:" in line]
+    target_start = log.find(f"Verifying function '{name}'")
+    target_log = log[target_start:] if target_start >= 0 else ""
+    target_return_leak = ("Executing return statement" in target_log and
+                          "Leak check." in target_log)
     support = ("normal-export", "normal-decode", "readonly-export",
                "readonly-decode", "refinement")
     support_ok = all(stages.get(key, {}).get("exit") == 0 for key in support)
@@ -446,30 +461,39 @@ def run_case(repo_root: Path, tool_home: Path, schema: Path,
     intended = False
     classification = "INCONCLUSIVE"
     if name in POSITIVE and support_ok and integrity and \
-            stages["full-verification"].get("exit") == 0 and len(headers) == 1:
+            stages["full-verification"].get("exit") == 0 and len(headers) == 1 and \
+            target_return_leak and not errors and "dead code" not in log.lower():
         classification = "POSITIVE_CANDIDATE_REVIEW_REQUIRED"
     elif name in POST_NEGATIVE and support_ok and integrity and \
             stages["full-verification"].get("exit") == 1 and len(headers) == 1 and \
             len(errors) == 1:
-        span = normal_ens_span(verified)
         match = re.search(r"verified/lib\.rs\((\d+),", errors[0])
-        located = span is not None and match is not None and \
-            span[0] <= int(match.group(1)) <= span[1]
-        expected_error = ("Cannot prove false" in errors[0]
-                          if name == "tuple2_false_post" else
-                          any(fragment in errors[0] for fragment in
-                              ("Cannot prove", "No matching heap chunks",
-                               "Cannot produce")))
-        intended = located and expected_error
+        located = match is not None and line is not None and int(match.group(1)) == line
+        if name == "tuple2_false_post":
+            intended = located and "Cannot prove false" in errors[0]
+        elif name == "tuple2_resource_loss":
+            intended = located and "Function leaks heap chunks" in errors[0]
+        else:
+            intended = located and "No matching heap chunks" in errors[0]
         if intended:
             classification = "INTENDED_RESOURCE_POST_NEGATIVE"
     elif name.endswith("opaque_control") and support_ok and integrity and \
             stages["full-verification"].get("exit") == 1 and len(headers) == 1 and \
-            len(errors) == 1 and "No matching heap chunks" in errors[0]:
+            len(errors) == 1 and "No such predicate instance" in errors[0]:
         match = re.search(r"verified/lib\.rs\((\d+),", errors[0])
         intended = match is not None and int(match.group(1)) == line
         if intended:
             classification = "EXPECTED_OPAQUE_SCOPE_CONTROL"
+    elif name in OPAQUE_FAMILY_POSITIVE and support_ok and integrity and \
+            stages["full-verification"].get("exit") == 0 and len(headers) == 1 and \
+            target_return_leak and not errors and "dead code" not in log.lower():
+        classification = "EXPECTED_EXISTING_OPAQUE_FAMILY_AVAILABLE"
+    elif name in OPEN_BOUNDARY_CASES and support_ok and integrity and \
+            stages["full-verification"].get("exit") == 1 and len(headers) == 1 and \
+            len(errors) == 1 and "bin/rust/prelude.rsspec(34," in errors[0] and \
+            "No matching heap chunks: share(T1_typeid)" in errors[0] and \
+            "field_ptr(pair0, std_tuple_2__type_info" in errors[0]:
+        classification = "OPEN_SOURCE_FIELD_SHARE_ADDRESS_BOUNDARY"
     result = {
         "case": name, "classification": classification,
         "accepted_component": False, "actual_sort4_proved": False,
@@ -477,7 +501,10 @@ def run_case(repo_root: Path, tool_home: Path, schema: Path,
         "target_header_count": len(headers), "target_headers": headers,
         "first_error": errors[0] if errors else None,
         "all_errors": errors, "intended_negative": intended,
+        "target_return_leak": target_return_leak,
         "expected_target_line": line, "stages": stages,
+        "opaque_family_control": name in OPAQUE_FAMILY_POSITIVE,
+        "open_boundary_control": name in OPEN_BOUNDARY_CASES,
     }
     (case_dir / "outcome.json").write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n")

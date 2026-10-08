@@ -62,6 +62,23 @@ pub unsafe fn tuple2_share_compat<'a, T1, T2>(pair: &(T1, T2))
 /*@ req thread_token(?t) &*& t == currentThread &*&
     type_interp::<T1>() &*& type_interp::<T2>() &*&
     [?q]lifetime_token('a) &*&
+    [_](<(T1, T2)>.share('a, t, pair));
+@*/
+/*@ ens thread_token(t) &*& type_interp::<T1>() &*& type_interp::<T2>() &*&
+    [q]lifetime_token('a) &*&
+    [_](<(T1, T2)>.share('a, t, pair));
+@*/
+{
+    //@ open <(T1, T2)>.share('a, t, pair);
+    //@ close <(T1, T2)>.share('a, t, pair);
+}
+// CASE_END tuple2_share_compat
+
+// CASE_BEGIN tuple2_share_fields_boundary
+pub unsafe fn tuple2_share_fields_boundary<'a, T1, T2>(pair: &(T1, T2))
+/*@ req thread_token(?t) &*& t == currentThread &*&
+    type_interp::<T1>() &*& type_interp::<T2>() &*&
+    [?q]lifetime_token('a) &*&
     [_](<T1>.share('a, t, &(*pair).0)) &*&
     [_](<T2>.share('a, t, &(*pair).1));
 @*/
@@ -72,7 +89,7 @@ pub unsafe fn tuple2_share_compat<'a, T1, T2>(pair: &(T1, T2))
 {
     //@ close <(T1, T2)>.share('a, t, pair);
 }
-// CASE_END tuple2_share_compat
+// CASE_END tuple2_share_fields_boundary
 
 // CASE_BEGIN tuple2_false_post
 pub unsafe fn tuple2_false_post<T1, T2>(first: T1, second: T2) -> (T1, T2)

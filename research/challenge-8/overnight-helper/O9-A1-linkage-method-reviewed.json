@@ -1,0 +1,21 @@
+{
+  "adapter_defpath": "checked_assume_init_pointer",
+  "adapter_full_mir_sha256": "e50270cdd0ee9b08da77992b67b27a82d7ff57445ef8ab944a0bde3152396f47",
+  "classification": "SOURCE_AND_PREPATCH_TWO_BODY_MIR_APPLICABILITY_ONLY; NO LINKAGE PROOF",
+  "expected_calls": [
+    "assert_inhabited",
+    "transmute_neo"
+  ],
+  "proof_sha": "0781cdbd",
+  "reviewed": true,
+  "reviewed_by": "overnight helper manual complete two-body MIR review of hosted O9 run 37707055478",
+  "reviewed_run": 37707055478,
+  "source_sha256": {
+    "library/core/src/intrinsics/mod.rs": "de4a6d2afbd1d9f725222c1f4d95a107b8202586b952ce2a619a054c6f2f1865",
+    "library/core/src/mem/manually_drop.rs": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+    "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+    "library/core/src/mem/mod.rs": "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2"
+  },
+  "target": "method",
+  "typed_pointer_only": true
+}

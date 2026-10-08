@@ -35,6 +35,23 @@ PRIMITIVE = load(HERE / "prepare-a1-primitive-matrix.py",
 
 
 class SourceAndContractControls(unittest.TestCase):
+    def test_linkage_source_keeps_actual_symbol_and_separate_callee(self):
+        repo = HERE.parents[2]
+        original, verified, record = A1.linkage_fixture_source(repo)
+        self.assertEqual(A1.strip_ghost(verified), original)
+        self.assertEqual(verified.count(b"/*@\nreq "), 2)
+        self.assertEqual(verified.count(b"/*@\nens "), 2)
+        self.assertEqual(verified.count(b"/*@\non_unwind_ens "), 2)
+        self.assertEqual(original.count(b"transmute_neo(storage)"), 1)
+        self.assertEqual(original.count(b"transmute_unchecked(src)"), 1)
+        self.assertTrue(record["actual_std_call_symbol_retained"])
+        for variant in A1.VARIANTS:
+            _, candidate, _ = A1.linkage_variant_source(repo, variant)
+            self.assertTrue(candidate.startswith(verified))
+        for control in A1.LINKAGE_SOURCE_CONTROLS:
+            _, changed, _ = A1.linkage_source_control(repo, control)
+            self.assertNotEqual(changed[:len(verified)], verified)
+
     def test_separate_contract_clauses_and_ghost_stripping(self):
         g1_original, g1_verified, _ = G1.fixture("symbolic_frame")
         self.assertEqual(g1_verified.count(b"/*@\nreq "), 1)
