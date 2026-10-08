@@ -49,3 +49,16 @@ acceptance: unresolved-inference, live bounded heap, outer-variable escape,
 source-file mutant and direct MIR ingress/reentry negatives are mandatory.
 The complete actual sort4 body, operands, cleanup and resource protocol need
 their own certificate and proof after this component is accepted.
+
+## O22 setup correction
+
+O22 built the isolated CUT console. `positive_basic`, `ordinary_unmarked`,
+`positive_early_return`, and `positive_direct_unwind` each exported, decoded,
+refined, and verified with full VeriFast exit 0. The matrix stopped before
+exporting `positive_f_bound`: `select_case` required a literal `(` immediately
+after the function name, but this reviewed source has Rust generic arguments
+`<T, F: ...>`. This is a runner source-shape error, not a proof or frontend
+failure. Accept exactly `<` at that one generic target and continue requiring
+one matching target declaration, the case-specific function count, the reviewed template
+SHA, and exact ghost-strip identity. Do not change the source fixture, CUT
+console patch, expected proof errors, or component status on this correction.

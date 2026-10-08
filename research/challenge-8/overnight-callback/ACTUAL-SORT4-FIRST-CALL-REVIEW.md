@@ -206,3 +206,14 @@ annotated call bytes while still replacing only the original unannotated
 call in the pinned std body. The final ghost-strip equality remains the
 runtime-source guard. This is a source-builder correction only; it has no
 hosted MIR or refinement result yet and changes no verifier component.
+
+O22 run `37754201983` reached the next source integrity check and stopped
+before sort4 MIR export with `ghost stripping failed to recover exact full
+sort4 runtime body`. The inserted multiline first-unwind marker began with
+eight spaces before `/*@`. The shared `strip_ghost` removes the comment and
+its following newline but leaves those eight bytes, so the original eight
+spaces before `let c1` became sixteen. The builder now starts this marker
+at column zero; its content and the Rust call are unchanged, and the existing
+whole-body byte equality remains mandatory. This correction still awaits a
+fresh hosted source/MIR capture. O22's separate owner-preserving forget
+adapter result has no bearing on the sort4 callback gate.

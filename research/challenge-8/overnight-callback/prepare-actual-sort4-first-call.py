@@ -29,7 +29,7 @@ ANNOTATED_FIRST_CALL = (
 )
 UNSAFE_ANCHOR = sort4_capture.BORROW_PREFIX_UNSAFE_ANCHOR
 CUT = b"        //@ end_lft_binding::<'cmp>();\n"
-MARKER = b"""        /*@ {
+MARKER = b"""/*@ {
             __vf_sort4_first_unwind();
             { close comparison_debt::<T>(t, cmp_k, v_base + 1, v_base, left_ref, right_ref, left_fraction, right_fraction); }
             { recover_pair::<T>(v_base + 1, v_base); }
