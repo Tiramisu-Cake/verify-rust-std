@@ -1,3 +1,15 @@
+## Recovery/O17 — 2026-10-08
+
+Actual select_unpredictable/sort4_stable remain NOT_PROVEN. O17 at11d888ba/run37717092130:
+local truthful nominal guard constructor+genericmethod+SAFE Drop both outcomes and
+ordinary Drop fullVF0,4source+3resource controls; complete H2b admission open.
+Callback unwind recovery/fullpost/leak passes, normal FnOnce::Output/bool projection
+blocked; full callback unaccepted. Pointervalue completion lemma fullpositive plus
+4intended post negatives; no Element rights, no actualbody theorem. New owner
+projection source/MIR/refinement passes then MU::new admission missing25.
+Fresh S6 eight-stage matrix passes, combined9patch profile experimental.
+CI window expired; continuation preparation authorized, new runs await extension.
+
 ## Stock26.10 baseline — 2026-10-08 (separate phase)
 
 [Run37694000195](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37694000195),

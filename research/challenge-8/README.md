@@ -2,8 +2,8 @@
 
 ## Current owner authorization: OVERNIGHT-SELECT-SORT4-26.10
 
-2026-10-08 IN PROGRESS through09:30MSK/06:30UTC; new independent21600 hosted
-jobseconds. [Phase](OVERNIGHT-SELECT-SORT4-26.10.md) supersedes historical stage
+2026-10-08 CI window EXPIRED at09:30MSK/06:30UTC;3094/21600 hosted
+jobseconds used throughO17. Analysis/preparation authorized; new CI extension pending. [Phase](OVERNIGHT-SELECT-SORT4-26.10.md) supersedes historical stage
 stops: CFG26.10 → S6 transfer → actual helper → actual sort4 → profile reduction/
 dependent components. Semantic changes authorized after written rationale/trust/gates
 and self-review; no owner wait between these stages. Runtime/check integrity preserved.

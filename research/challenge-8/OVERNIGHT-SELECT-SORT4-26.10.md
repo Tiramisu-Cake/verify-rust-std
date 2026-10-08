@@ -1,3 +1,11 @@
+## Recovery authorization — 2026-10-08
+
+Previous CI window expired09:30MSK/06:30UTC. Owner resumed analysis, semantic
+preparation and static checks, but requires explicit new window/budget before
+any hosted dispatch. O17 completed before expiry;3094/21600 used, no active run.
+All below dated authorizations/results remain historical evidence. Current checkpoint
+is [STATUS](STATUS.md); H2b local fullnormal/unwind proof is not actual nested linkage.
+
 # OVERNIGHT-SELECT-SORT4-26.10
 
 Owner authorization received2026-10-08. Window ends09:30MSK (06:30UTC)2026-10-08;
