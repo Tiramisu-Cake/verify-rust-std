@@ -231,6 +231,7 @@ pub unsafe fn scratch_option_restore_concrete_u32_current_values(
 // CASE_END scratch_option_restore_concrete_u32_current_values
 
 // CASE_BEGIN scratch_option_duplicate_write_permission
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":62,"column_end":63,"message":"No matching heap chunks: points_to_<T>(ptr_add_(p, i, T_typeid), vi)"}
 pub unsafe fn scratch_option_duplicate_write_permission<T>(p: *mut T, n: usize,
                                                             i: i32, j: i32)
 /*@ req scratch_option_array_two_holes::<T>(p, n, i, j, ?vs) &*& n >= 2 &*&
@@ -245,6 +246,7 @@ pub unsafe fn scratch_option_duplicate_write_permission<T>(p: *mut T, n: usize,
 // CASE_END scratch_option_duplicate_write_permission
 
 // CASE_BEGIN scratch_option_wrong_old_list_rejected
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":59,"column_end":61,"message":"Assertion might not hold. (Cannot prove scratch_replace_two(T_typeid, vs, i, j, vi, vj) = vs.)"}
 pub unsafe fn scratch_option_wrong_old_list_rejected<T>(p: *mut T, n: usize,
                                                          i: i32, j: i32)
 /*@ req scratch_option_array_two_holes::<T>(p, n, i, j, ?vs) &*& n >= 2 &*&
@@ -261,6 +263,7 @@ pub unsafe fn scratch_option_wrong_old_list_rejected<T>(p: *mut T, n: usize,
 // CASE_END scratch_option_wrong_old_list_rejected
 
 // CASE_BEGIN scratch_option_does_not_create_owner
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":23,"column_end":24,"message":"No matching heap chunks: own(T_typeid)(t, v)"}
 pub unsafe fn scratch_option_does_not_create_owner<T>(p: *mut T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
     scratch_option_array::<T>(p, 1, cons(some(?v), nil)); @*/

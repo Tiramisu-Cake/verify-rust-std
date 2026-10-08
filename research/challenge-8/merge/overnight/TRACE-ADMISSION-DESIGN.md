@@ -56,6 +56,16 @@ merge source: this changes only the isolated proof adapter. It is not yet
 hosted-accepted; the next run must establish tuple return handling and all
 existing proof gates.
 
+The latest hosted artifact (run 37717433930) parsed the adapter and reached
+the main postcondition, then stopped at `result.1.0.0` in
+`verified/lib.rs(381,12-15)`. In the pinned lexer, an integer token consumes a
+following dot and digits, so adjacent numeric tuple selectors can be
+tokenized as a decimal rather than successive `.field` selectors. The fixture
+now parenthesizes each intermediate tuple projection, for example
+`((result.1).0).0`, while retaining the same 12 paths, leaf ordering, and
+postcondition equations. Parser source inspection supports this diagnosis;
+the syntax correction still needs a hosted parser/proof result.
+
 ## Fallback: narrowly certified stock-generated declarations
 
 If the tuple tree prevents the trace post from being expressed or makes the

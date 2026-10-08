@@ -4657,3 +4657,34 @@ prelude/toolchain/Z3/export/refiner checks andldd retained, sourceprofileSHA
 runcreatescache andchecks9failclosedcontrols; subsequenthitmustconfirmprofile
 andallproofmatrix unchanged. Cachingaddsno verifiersemanticrule. Fullruntime
 source/profile/evidence and jobseconds retainedincludingsetup/cache/artifacts.
+
+### M3f run37717433930 / proofb04b1b6 — recovered 2026-10-08
+
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37717433930).
+Sole job11311704619102:21:08–02:23:58UTC170seconds; night3971/21600.
+Full artifact audit: actualup/down116/120exec,3returns+3leaks each, all gates PASS.
+M2shape valid+6rejects,resources positive+4negatives; cleanup12cases and all
+mutants PASS. HRTB11admission certificates/failclosed PASS, underlying11proofs
+INCONCLUSIVE preserved. Cache coldmiss/build/publish fixed3a08722c PASS,9controls
+PASS; actualhit not exercised. Domainpair5checkedbodies fullPASS,2negatives reach
+callee n<n/separation premises but uncalibrated INCONCLUSIVE. Scratch3positive
+fullPASS;3negative reach duplicatepoints_to,wrongoldlist,missingTowner targets,
+originalINCONCLUSIVE retained. Trace frontendparse381 selectors: all bodyexec0;
+bidir invariant313 dst_baseunbound,actualbidir/panicbodyexec0. Existingcallees
+verifiedinfixturebeforelaterfailure, no wholebidirclaim from jobSUCCESS.
+
+### BEFORE continuation M3g — owner renewal and static preparation
+
+Owner renewed until14:30MSK(11:30UTC),7200newjobseconds; starting0/7200,
+night3971/21600,old603/1800 separate. Same semantic4patchchain/stdblob40939f92.
+HypothesisA: parentheses avoid numericfloatlexing of nestedtuple selectors;
+all12posts/14bodies/arbitrary-ngeometry/lifetime retained. HypothesisB: immutable
+parameterdst and translator cursor dst_1 remove independent-block ghostscope
+error; complete2source/F/options invariant retained. Len2 diagnostic remains
+unaccepted evenifproof reaches unavoidableodddeadcode; iterator/odd extension
+next independentdependency. Calibrate C1/scratch exact observed stage/predicate/
+coordinates with mutants in freshrun; do not reinterpret saved INCONCLUSIVE.
+Expected full positive gates and unchangedbody/normal-unwind/refinement; no
+semanticprofile extension or weakposts. Cachehit must preserve exact binary/
+profile/runtime manifest and fullmatrix. Pass=>continueactualM3 dependencies;
+new failure=>reassessnamedobligation and continueindependentresource/trace work.

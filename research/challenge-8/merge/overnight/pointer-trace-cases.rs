@@ -379,37 +379,37 @@ req 1 <= m &*& n == 2 * m + e &*& (e == 0 || e == 1) &*&
     [?fu]up_choices[..m] |-> ?up_values &*&
     [?fd]down_choices[..m] |-> ?down_values;
 @*//*@
-ens result.1.0.0 == trace_true_prefix(up_values, m) &*&
-    result.1.0.1 == trace_true_prefix(down_values, m) &*&
-    result.1.0.0 <= m &*& result.1.0.1 <= m &*&
-    result.0.0.0.0 as pointer == trace_source_pointer(
-        src as pointer, result.1.0.0 +
-            (if result.1.1.0 { 1 } else { 0 }),
+ens (((result.1).0).0) == trace_true_prefix(up_values, m) &*&
+    (((result.1).0).1) == trace_true_prefix(down_values, m) &*&
+    ((result.1).0).0 <= m &*& ((result.1).0).1 <= m &*&
+    ((((result.0).0).0).0) as pointer == trace_source_pointer(
+        src as pointer, ((result.1).0).0 +
+            (if ((result.1).1).0 { 1 } else { 0 }),
         std::mem::size_of::<T>()) &*&
-    result.0.0.0.1 as pointer == trace_source_pointer(
-        src as pointer, 2 * m - result.1.0.0 +
-            (if e == 1 && !result.1.1.0 { 1 } else { 0 }),
+    ((((result.0).0).0).1) as pointer == trace_source_pointer(
+        src as pointer, 2 * m - ((result.1).0).0 +
+            (if e == 1 && !((result.1).1).0 { 1 } else { 0 }),
         std::mem::size_of::<T>()) &*&
-    result.0.0.1.1 as pointer == trace_source_pointer(
-        src as pointer, result.1.0.1 - 1, std::mem::size_of::<T>()) &*&
-    result.0.1.0.0 as pointer == trace_source_pointer(
-        src as pointer, n - 1 - result.1.0.1, std::mem::size_of::<T>()) &*&
-    result.0.0.1.0 as pointer == trace_destination_pointer(
+    (((result.0).0).1).1 as pointer == trace_source_pointer(
+        src as pointer, ((result.1).0).1 - 1, std::mem::size_of::<T>()) &*&
+    (((result.0).1).0).0 as pointer == trace_source_pointer(
+        src as pointer, n - 1 - ((result.1).0).1, std::mem::size_of::<T>()) &*&
+    (((result.0).0).1).0 as pointer == trace_destination_pointer(
         dst_base as pointer, m, std::mem::size_of::<T>()) &*&
-    result.0.1.0.1 as pointer == trace_destination_pointer(
+    (((result.0).1).0).1 as pointer == trace_destination_pointer(
         dst_base as pointer, n - 1 - m, std::mem::size_of::<T>()) &*&
-    result.0.1.1.0 as pointer == trace_source_pointer(
-        src as pointer, result.1.0.1, std::mem::size_of::<T>()) &*&
-    result.0.1.1.1 as pointer == trace_source_pointer(
-        src as pointer, n - result.1.0.1, std::mem::size_of::<T>()) &*&
-    result.1.1.0 ==
-        (e == 1 && result.1.0.0 < result.1.0.1) &*&
-    result.1.1.1 ==
-        (result.1.0.0 +
-            (if result.1.1.0 { 1 } else { 0 }) != result.1.0.1 ||
-         2 * m - result.1.0.0 +
-            (if e == 1 && !result.1.1.0 { 1 } else { 0 }) !=
-                n - result.1.0.1) &*&
+    (((result.0).1).1).0 as pointer == trace_source_pointer(
+        src as pointer, ((result.1).0).1, std::mem::size_of::<T>()) &*&
+    (((result.0).1).1).1 as pointer == trace_source_pointer(
+        src as pointer, n - ((result.1).0).1, std::mem::size_of::<T>()) &*&
+    ((result.1).1).0 ==
+        (e == 1 && ((result.1).0).0 < ((result.1).0).1) &*&
+    ((result.1).1).1 ==
+        (((result.1).0).0 +
+            (if ((result.1).1).0 { 1 } else { 0 }) != ((result.1).0).1 ||
+         2 * m - ((result.1).0).0 +
+            (if e == 1 && !((result.1).1).0 { 1 } else { 0 }) !=
+                n - ((result.1).0).1) &*&
     [fu]up_choices[..m] |-> up_values &*&
     [fd]down_choices[..m] |-> down_values;
 @*//*@

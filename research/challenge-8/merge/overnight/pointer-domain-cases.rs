@@ -175,6 +175,7 @@ on_unwind_ens false;
 // CASE_END pointer_domain_pair
 
 // CASE_BEGIN pointer_domain_out_of_index
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"verified/lib.rs","error_line":92,"column_start":29,"column_end":30,"message":"Cannot prove condition. (Cannot prove n < n.)"}
 pub unsafe fn pointer_domain_out_of_index<T>(
     src_base: *const T,
     dst_base: *mut T,
@@ -208,6 +209,7 @@ on_unwind_ens false;
 // CASE_END pointer_domain_out_of_index
 
 // CASE_BEGIN pointer_domain_overlap
+// EXPECT_REJECTION {"kind":"primitive_precondition","error_file":"verified/lib.rs","error_line":106,"column_start":76,"column_end":78,"message":"Cannot prove condition. (Cannot prove (get_pointer_address(base) + (n * sizeof(T_typeid))) <= get_pointer_address(base) || (get_pointer_address(base) + (n * sizeof(T_typeid))) <= get_pointer_address(base).)"}
 pub unsafe fn pointer_domain_overlap<T>(base: *mut T, n: usize, i: usize, j: usize) -> ()
 /*@
 req 2 <= n &*& 0 <= i &*& i < n &*& 0 <= j &*& j < n &*&

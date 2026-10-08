@@ -1,14 +1,17 @@
-# OVERNIGHT-MERGE-26.10 — IN PROGRESS
+# OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
-Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC). Собственная ветка
-`overnight/merge-26.10`, entryb0af5613. [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Новый отдельный бюджет **0/21600 hosted job seconds**; старый merge603/1800
-(1197остаток) сохранён отдельно. Actual merge пока NOT PROVEN.
-Первый шагW1: exact0/1 wrapping, provenance+metadata+modular addresses, без
-прав доступа; затем полный указательный мост и actual merge normal/unwind.
-Новые смысловые зависимости раздельно закрепляются и проверяются. Исторические
-STOP/design-only/CI0 ниже не ограничивают авторизованную ночную фазу.
-Активного run нет; семантическая реализация ещё не выполнена.
+Восстановлен checkpoint b04b1b6 и последний run37717433930. Владелец продлил
+hosted-полномочия до14:30МСК2026-10-08 с лимитом новых запусков7200jobseconds.
+История ночи3971/21600 и старые603/1800(1197) сохраняются отдельно.
+[STATUS](STATUS.md) фиксирует текущий расход и активный run.
+
+Приоритет A: штатные nested tuple projections, все12полных posts, arbitrary-n
+G2 loop geometry и terminal associations. B: actual bidirectional scope/iterator,
+actual up/down bodies, scratch/odd branch/wrapping/panic. C: C1caller/M2cleanup
+admission, current resource composition и отдельный Freeze/shared-slice bridge.
+D: функциональная actual G2/A/B композиция с явными SWO/immutable-key/faithful-answer
+предпосылками. Продолжать несколько dependency-driven итераций; один блокер
+не завершает работу. Runtime std/обязательные проверки остаются неизменны.
 
 ---
 

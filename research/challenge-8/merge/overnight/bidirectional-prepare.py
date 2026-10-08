@@ -205,20 +205,23 @@ def insert_one_iteration_invariant(body: str) -> str:
     if body.count(dst_init) != 1 or body.count(loop) != 1 or body.count(src_init) != 1:
         raise RuntimeError("bidirectional cursor/loop anchors changed")
     body = body.replace(src_init, src_init + "    //@ size_align::<T>();\n", 1)
-    body = body.replace(dst_init, "        //@ let dst_base = dst;\n" + dst_init, 1)
+    # The pinned translator keeps the immutable parameter as dst and names
+    # the shadowing mutable cursor dst_1. Ghost locals are not in the kernel
+    # independent-block initial environment; use the actual parameter directly.
+    # This annotation remains diagnostic until iterator linkage is established.
     invariant = (
         "        //@ inv thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*& "
         "len == 2 &*& len_div_2 == 1 &*& *src |-> ?inv_source0 &*& "
         "<T>.own(t, inv_source0) &*& *(src + 1) |-> ?inv_source1 &*& "
         "<T>.own(t, inv_source1) &*& *is_less |-> ?inv_f &*& <F>.own(t, inv_f) &*& "
-        "*dst_base |-?-> ?inv_dst0 &*& *(dst_base + 1) |-?-> ?inv_dst1 &*& "
+        "*dst |-?-> ?inv_dst0 &*& *(dst + 1) |-?-> ?inv_dst1 &*& "
         "((left == src && right == src + 1 && left_rev == src && right_rev == src + 1 && "
-        "dst == dst_base && dst_rev == dst_base + 1) || "
+        "dst_1 == dst && dst_rev == dst + 1) || "
         "((left == src + 1 && right == src + 1 || left == src && right == src + 2) && "
         "((left_rev == src && right_rev == src) || "
         "((left_rev as pointer) == wrapping_pointer_offset(src as pointer, "
         "-std::mem::size_of::<T>()) && right_rev == src + 1)) && "
-        "dst == dst_base + 1 && dst_rev == dst_base));\n"
+        "dst_1 == dst + 1 && dst_rev == dst));\n"
     )
     return body.replace(loop, invariant + loop, 1)
 
@@ -276,7 +279,7 @@ def main() -> None:
         "fixture_body_sha256": sha(prepared_panic.encode()),
         "body_present": True,
         "normal_post": "false",
-        "unwind_post": "true (caller frame preserved)",
+        "unwind_post": "thread_token(t) (caller frame preserved)",
         "contract_basis": "actual body is the unconditional panic path; ens false rules out normal return; no extra semantic summary or termination assumption",
     }
 

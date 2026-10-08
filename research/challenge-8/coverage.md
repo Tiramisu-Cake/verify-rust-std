@@ -6,29 +6,30 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-OVERNIGHT-MERGE-26.10: unchanged actual `merge_up`/`merge_down` first full
-normal/unwind proof at `5bbd2ef2613106fdc38bd8aeea930cf344390275` /
+OVERNIGHT-MERGE-26.10: unchanged actual `merge_up`/`merge_down` full normal/unwind
+proof first `5bbd2ef2613106fdc38bd8aeea930cf344390275` /
 [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
-repeated at `6ddfd1999991478bdc511546afe5b21e4997e878` /
-[37715432190](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37715432190).
-Conditional positive-stride distinct initialized source cells and explicit C1
-pointer/writable option-destination domain. Arbitrary lawful FnMut effects/answers;
-normal preserves current source/F owners, copies selected current value and
-advances cursors; callback panic preserves destination option and recovers
-current source/F owners. No entry-value purity, duplicate T.own, ordering or
-safe-slice caller realization. Strict cleanup positive+6 proof+4 frontend
-admission controls pass; unrelated generic linear frame passes on both callback
-outcomes. M2 shape 6 controls and three tuple owner/thread/value negatives pass;
-remaining frame oracle and separate HRTB admission classifier need fresh run.
-G2/A/B, old Rust/native regressions, W1 22positive/5negative/9bridges and C1
-5positive/2stock/6negative remain PASS. Trusted W1/C1 summaries stay bounded.
-Generic two-hole current-owner restoration and concrete u32 update pass; full
-old-values/frame and negative calibration are pending. Full G2 pointer trace,
-caller pointer domain and actual bidirectional remain unproved. Actual bidir
-source preparation is exact, but contract syntax blocked body entry. Symbolic
-zero-size wrapping passes; concrete layout/ZST access remain open. Full generic
-Challenge contract, Freeze snapshot, panic caller cleanup and functional actual
-source links are separate open obligations; no whole actual merge claim.
+repeated `b04b1b6063e53d3bb543c117f5ea84d493ed01da` /
+[37717433930](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37717433930).
+Conditional positive stride, distinct source cells and explicit C1 pointer/separate
+writable-option destination. Arbitrary lawful FnMut effects/answers; current source/F
+owners preserved, selected current value copied, exact cursors; callback panic
+preserves destination option and restores current owners. No entry snapshot,
+ordering, duplicate owner or SAFE shared-slice caller realization.
+Cleanup12cases+mutants PASS; M2 shape valid+6 admission controls and resource
+positive+4 proof negatives PASS. HRTB11 admission certificates+failclosed PASS,
+but11 underlying proof statuses INCONCLUSIVE. Combined profile full admission
+still OPEN. G2/A/B, Rust/native baselines, W1/C1 bounded trusted primitives PASS.
+Owned-array3positive+2negatives full PASS. Arbitrary-index C1 geometry5checked
+bodies PASS;2 intended geometry negatives require fresh calibrated controls.
+Scratch3positive full PASS;3 resource negatives reached intended obligations,
+original uncalibrated INCONCLUSIVE retained. Neither array algebra nor pure C1
+geometry establishes all actual callers. G2 fulltrace blocked before body at
+nested tuple selector syntax; actual bidir len2 blocked at invariant ghostscope.
+Fixes prepared; iterator/odd branch/terminal guard/resource composition OPEN.
+Freeze/shared-slice, M2cleanup full admission, actual functional G2/A/B link and
+independent Challenge contract remain OPEN. Symbolic size0 wrapping PASS;
+concrete ZST layout/access and positive-stride inference for ZST remain OPEN.
 
 Current pointer-select phase: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile

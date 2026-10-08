@@ -76,9 +76,21 @@ normal or unwind posts.
 | Case | Intended obligation | Required evidence | Next decision |
 | --- | --- | --- | --- |
 | `pointer_domain_pair` | All pure C1 premises for arbitrary valid `i,j` | Exact source identity; helper body entered; constructor/provenance/metadata posts; normal, unwind, return, leak and dead-code gates | If green, add this checked adapter to the hosted merge matrix. |
-| `pointer_domain_out_of_index` | Caller cannot establish adapter precondition when `i == n` | Rejection at the adapter's `i < n` precondition, with no setup/frontend/helper failure | If another obligation rejects first, recalibrate from hosted evidence; do not count it as the intended negative. |
-| `pointer_domain_overlap` | Caller cannot establish whole-range separation when bases overlap | Rejection at the adapter's full-range disjointness precondition, with no setup/frontend/helper failure | If another obligation rejects first, recalibrate from hosted evidence; do not count it as the intended negative. |
+| `pointer_domain_out_of_index` | Caller cannot establish adapter precondition when `i == n` | Exact verifier diagnostic at `verified/lib.rs(92,29-30)`: `Cannot prove condition. (Cannot prove n < n.)`; stages exporter/decode/VeriFast/refinement = 0/0/1/0; the marked caller body executes. | Accept only this exact rejection and source integrity; any different failure remains inconclusive. |
+| `pointer_domain_overlap` | Caller cannot establish whole-range separation when bases overlap | Exact verifier diagnostic at `verified/lib.rs(106,76-78)` for the failed full-range separation disjunction; stages 0/0/1/0; the marked caller body executes. | Accept only this exact rejection and source integrity; any different failure remains inconclusive. |
 
-No expected diagnostic oracle is guessed in this fixture. The positive case is
-only a pointer-domain lemma for later caller integration. It does not accept C1
-memory safety, either merge callee, cleanup, or SmallSort.
+## Saved calibration and classification boundary
+
+The saved hosted artifact `37717433930` (source SHA
+`b04b1b6063e53d3bb543c117f5ea84d493ed01da`) recorded the two diagnostics above
+with the marked negative bodies entered. At that time both rows were
+`INCONCLUSIVE`, because the fixture did not yet carry exact rejection metadata.
+The current `EXPECT_REJECTION` declarations pin those observed diagnostics;
+they do not retroactively change the saved result. A fresh hosted run is required
+before either negative can be called `EXPECTED_REJECTION`.
+
+The matrix has one positive case and two negative controls. The positive
+`pointer_domain_pair` case checked five bodies (the adapter, wrapper, and three
+alignment helpers) with the full positive gate. Its contract remains a
+pointer-domain lemma only: it does not accept C1 memory safety, either merge
+callee, cleanup, or SmallSort.

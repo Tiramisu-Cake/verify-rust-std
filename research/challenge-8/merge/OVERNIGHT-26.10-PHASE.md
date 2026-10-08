@@ -86,4 +86,7 @@ are run. After evidence-driven fixes, proceed without routine owner approval.
 
 One active workflow from this agent, workflow_dispatch only, GitHub-hosted only.
 Reserve the end of the window for completing runs, downloading evidence and
-reporting. No new run with a bound extending past06:25UTC or remaining budget.
+reporting. Historical night cutoff was06:25UTC. Owner renewed on2026-10-08 until14:30MSK
+(11:30UTC), with a7200 summed hosted-job-seconds continuation cap. Historical
+night3971/21600 and old603/1800 stay separate. Stop new dispatches early enough
+to finish jobs/evidence/report by the renewed deadline; debit every job.

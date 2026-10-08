@@ -48,3 +48,17 @@ and owners, exact list replacement; duplicate-owner and wrong-value restoration
 at intended obligations. Full export/decode/refinement/body/return/leak/dead/source
 gates. No concrete actual M3 claim until unchanged body, callback outcomes,
 for-loop/guard/odd-copy and resource posts pass under the declared profile.
+
+## Continuation scope repair (not a new semantic rule)
+
+Recovered b04b1b6/run37717433930 fails typechecking the standalone invariant
+at313 before bidirectional body entry. Kernel verify_block checks labelled-block
+assertions using entry types before executing preceding ghost let declarations.
+Pinned translator make_var_id_name_maps retains parameter `dst`, renames the
+shadowing mutable program cursor `dst_1`, and explicitly does not substitute
+ghost surface names. Remove ghost dst_base; use parameter dst for both original
+option slots, dst_1 for current forward cursor, and unchanged dst_rev for reverse.
+No pointer/resource equation is weakened and no address equality yields ownership.
+Hosted source/AST gate must confirm this fixed name relation; whole iterator linkage
+and ordinary for-loop invariant attachment remain experimental. Len2 cannot pass
+strict wholebody acceptance while actual odd branch is unreachable.

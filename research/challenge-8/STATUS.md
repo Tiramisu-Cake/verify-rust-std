@@ -1,45 +1,61 @@
-# OVERNIGHT-MERGE-26.10 — IN PROGRESS
+# OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
-Авторизовано владельцем до 09:30 МСК 2026-10-08 (06:30 UTC).
-Ветка `overnight/merge-26.10`, entry `b0af5613`.
+Владелец возобновил работу 2026-10-08; новые hosted-запуски разрешены
+до **14:30 МСК (11:30 UTC)**, отдельный лимит продолжения **0/7200 job seconds**.
+Ночная история **3971/21600**; старые **603/1800, остаток 1197** отдельно.
+Ветка `overnight/merge-26.10`, восстановленный clean HEAD
+`b04b1b6063e53d3bb543c117f5ea84d493ed01da`.
 [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Ночной бюджет **3801/21600 hosted job seconds**; старые **603/1800, остаток1197** отдельно.
-Первый actual callee proof [37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
-proof `5bbd2ef2613106fdc38bd8aeea930cf344390275`, job113099112654,206seconds.
-Последний [37716179905](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37716179905),
-proof `4c7177b16fcc91cf86039fc862c833b607f28e39`, job113113037622,
-270seconds. Job FAIL: HRTB admission classifier три schema mismatches;
-исправлено, complete controls требуют fresh run. Нет активного run.
+Последний [37717433930](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37717433930),
+proof `b04b1b6063e53d3bb543c117f5ea84d493ed01da`, job113117046191,
+02:21:08–02:23:58 UTC, **170 seconds**. Все остальные jobs skipped/0.
+Полные артефакты восстановлены и прочитаны. Активного run нет.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
-полные normal/unwind body/return/leak/dead/source gates PASS впервые.
+полные normal/unwind body/return/leak/dead/source gates PASS;
+повторены в b04:116/120 execution records,3return+3leak каждый.
+Первый proof `5bbd2ef2613106fdc38bd8aeea930cf344390275` /
+[37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188).
 Условный домен: positive stride, различные source cells, явный C1 pointer
-и destination-option domain. Arbitrary lawful FnMut effects/answers;
+и отделённый writable destination-option. Arbitrary lawful FnMut effects/answers;
 normal сохраняет current source T.own/F.own, копирует выбранное current значение
-и двигает cursors; callback unwind сохраняет destination option, возвращает
-current source/F ownership. Нет обещания entry values, duplicate T.own или SWO.
-Cleanup patch94fe2cd6/kernel100eebae/translator0e450267 экспериментальны:
-positive+6 proof negatives+4 frontend admission controls и все fail-closed
-mutants PASS run37713243201. M2 broad admission отдельно ещё OPEN.
-Это условное доказательство actual callee; общий generic Challenge НЕ ДОКАЗАН.
+и двигает cursors; callback unwind сохраняет destination option и возвращает
+current source/F ownership. Нет entry snapshot, duplicate T.own или SWO.
+Общий generic Challenge НЕ ДОКАЗАН.
 
-G2/A/B, native C/C++, ordinary normal/unwind и старые Rust controls PASS;
-W1 22positive+5negative,9pointer bridges и C1 5positive+2stock+6negative PASS.
-Wrappings/copy — явно TRUSTED bounded primitive summaries. ZST4concrete
-layout цели OPEN,2reentry PASS; symbolic zero size PASS.
-Полный G2 pointer trace OPEN:14checked bodies, helpers PASS, main loop
-требует сохранения геометрии n=2m+e; без ослабления posts.
-Caller C1 domain OPEN: nat induction требует checked nonnegative lemma.
-Two-hole owned-array: все3 positive и2 intended negatives+mutants full PASS.
-Exact bidirectional source/strip/assume admission PASS; actualpanic helper
-требует stockformatter thread_token. Контракт исправлен с unwind preservation.
-Trace loop+terminalgeometry доходят до finalaggregate, ADTreturnchunksfailed;
-теперь stocktuple2 tree без localADT/helper exceptions, NOT RUN.
-[Ресурсный дизайн](merge/overnight/M3-RESOURCE-DESIGN.md) сохраняет
-current owners и все option scratch cells на panic; Freeze snapshot/functional
-bridge отдельно OPEN. Следующий шаг — fresh full hosted matrix этих зависимостей,
-затем exact bidirectional и дальнейшие resource/functional/caller obligations.
-Исторические STOP/design-only/CI0 ниже не ограничивают ночную авторизацию.
+G2/A/B, native C/C++, ordinary normal/unwind, старые Rust controls,
+W1 22positive+5negative/9bridges и C1 5positive+2stock+6negative PASS.
+W1/C1 — TRUSTED bounded primitive summaries. Symbolic zero size wrapping PASS;
+4concrete ZST layout цели OPEN,2reentry PASS. Two-hole owned-array3positive+
+2intended negatives+mutants PASS. В b04 C1 arbitrary-index geometry5checked
+bodies PASS; source/caller/resource связь отдельно OPEN. Scratch3positive
+full PASS;3negative достигают intended ресурсов, но исходные классификации
+INCONCLUSIVE, требуется новая матрица точных oracles.
+
+M2 shape valid+6admission negatives PASS; tuple resource positive+4proof negatives
+PASS. HRTB11/11 ADMISSION_CERTIFICATE+fail-closed controls PASS, underlying
+11proof statuses INCONCLUSIVE: сертификат допуска не является доказательством.
+Cleanup12cases (2positive/frame,6proof negatives,4frontend admission)+mutants PASS.
+Полная приёмка объединённого семантического профиля остаётся OPEN;
+cleanup patch94fe2cd6 меняет kernel100eebae/translator0e450267.
+Console cold build/cache publication и9cache controls PASS; actual cache-hit NOT RUN.
+
+Раздельные открытые блокеры/приоритеты:
+A. Full G2 pointer trace: nested tuple selector parse381 (`result.1.0.0`),
+body NOT ENTERED; подготовлены parenthesized штатные selectors,12posts сохранены.
+B. Actual bidirectional len2: invariant313 не видит ghost dst_base;
+подготовлено использование immutable parameter dst и actual cursor dst_1.
+Iterator linkage, odd branch, terminal wrapping и panic guard ещё OPEN;
+len2 остаётся диагностикой с обязательным dead-code gate.
+C. Caller C1 derivation, M2/cleanup full admission, resource composition и
+Freeze/shared-slice bridge OPEN; slice.share не создаёт T.own.
+D. Functional actual G2/A/B composition OPEN; SWO/immutable keys/faithful answers
+будут отдельными функциональными предпосылками.
+
+Следующее действие: fresh combined hosted matrix исправлений A/B и точных
+C1/scratch controls; затем dependency-driven actual bidirectional/resource
+итерации. Runtime std не меняется; main/upstream и worktree первого агента
+не трогаются. Исторические записи ниже сохранены без переноса proof SHA.
 
 ---
 
