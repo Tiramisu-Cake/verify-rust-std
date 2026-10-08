@@ -152,3 +152,62 @@ helper or supply any rights. Default-off path uses the unchanged old S6 rule.
 A later semantic gate needs a separately reviewed complete graph representation,
 strong integrity check, exact input source/qualifiedowner/signatures, positive
 resource proof and direct typed-MIR/source negatives; calibration is insufficient.
+
+## O21 reviewed admission design, before implementation
+
+O21 (`37750512251`) repeated the same NORMAL decoded unit and all five
+decoded bodies with `Marshal.No_sharing`; each first/repeat byte stream was
+identical. The complete unit was 60174 bytes with SHA-256
+`3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e`.
+The ordered constructor, as_mut_ptr, pointer-drop, outer actual helper and
+nested Drop body digests were respectively
+`6527c8df047e70602b40ec03b17614a3e278b19f23ef94a4aa5e87f6793c39b7`,
+`396dcf5b5a509121fcaf9afc35c8b64bff04a866140bec59b03a2d8724db4db7`,
+`5b495817c6ce57c0ff0bec146ffe0bde9f735900f75ac4f3cd72c13ead22a070`,
+`e44b5f3aec64a0ccf97cbf473c0d5fb348e5dd4e68b597e63a03ef255245c1e9`,
+and `70493e53b55743ead2f08035908d251656f3b55da123bee5c1ac2e93370e767f`.
+The complete verified source digest is
+`595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3`.
+The independent pinned std `hint.rs` digest is
+`ce89716d46b8060db2c2da1aef1d4bcccf90e0804fc021d4470c55203501315f`.
+The full unit digest binds every eager decoder field, including ADTs, full
+locals, statements, terminators, contracts, ghost batches, source spans,
+drop flags and cleanup successors; body digests identify any mismatch.
+
+The proposed opt-in gate checks these exact SHA-256 values, the five ordered
+DefPaths, pinned hint source and its reconstructed runtime body with every
+exact ghost insertion, full actual contract/safety proof/owner definition,
+existing separate local-callee certificates, explicit local ADT identity and
+typed pointer-drop receiver, intrinsic counts and shared cleanup. Its only
+effect is to admit the existing typed S6 redirects on this exact unit. It
+does not prove any owner predicate, nested Drop or SAFE forget. Default-off
+and frozen five-ghost admission remain unchanged. The gate rejects any
+changed source, representation or inventory before proof; a fresh source
+variant needs fresh review and fingerprints. Negative controls will mutate
+the source/ghosts, typed graph/cleanup, and admission opt-in and require an
+exact certificate refusal, not merely a verifier error.
+The three prepared ghost-only mutants exercise the verified-source SHA gate;
+they do **not** exercise the decoded-unit SHA gate. A separately labeled
+hosted negative must feed a valid altered Cap'n Proto MIR message with the
+same source bytes into a disposable verifier invocation and require the
+exact decoded-unit refusal. Such instrumentation is a control only and
+cannot support a positive proof or change the accepted compiler profile.
+`capture-actual-owner-mir-mutation.py` prepares precisely two such hosted
+controls: the actual `forget` operand in bb16 changes from plain `Move(_34)`
+to `Copy(_34)`, or its cleanup successor changes from shared bb23 to valid
+bb22. It first runs the real exporter in NORMAL/readonly modes and the real
+refiner, then a shadow console whose sibling exporter wrapper runs the same
+real exporter, decodes one complete message, mutates exactly one typed field
+and re-encodes it. The wrapper records canonical/mutated text and bytes,
+binary hashes and tool identity. The classifier accepts only the exact
+`owner complete decoded unit SHA256` frontend refusal before any target
+body proof, with unchanged source, successful real frontend/refinement and
+an exact recorded mutation. The shadow profile is never a positive proof.
+
+The compiler, generated decoder, OCaml Marshal representation and host OS
+`/usr/bin/sha256sum` binary are trusted correspondence dependencies pinned
+to the hosted profile. The SHA command receives only quoted temporary paths,
+checks its exit status and exact output format, and removes both files. The
+hosted run must recheck NORMAL/readonly export, refinement and full verifier
+under the new overlay. No disabled memory, validity, unwind, dead-code or
+leak checks are permitted.
