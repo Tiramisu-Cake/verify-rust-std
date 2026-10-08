@@ -1,0 +1,174 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2539,6 +2539,30 @@
+       let body_imp_loc = Args.body_imp_loc
+       let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
++      (* Exact compiler-origin, higher-ranked FnOnce::Output = bool clauses
++         available for single-call instantiation in this body. *)
++      let hrtb_fnmut_output_enabled =
++        match Sys.getenv_opt "SORT4_HRTB_OUTPUT",
++              Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" with
++        | None, None -> false
++        | Some "1", Some raw_targets ->
++            let targets = String.split_on_char ',' raw_targets in
++            let rec unique seen = function
++              | [] -> true
++              | target :: rest ->
++                  not (List.mem target seen) &&
++                  unique (target :: seen) rest in
++            if targets = [] ||
++               List.exists
++                 (fun target -> target = "" || String.trim target <> target)
++                 targets ||
++               not (unique [] targets) then
++              failwith "SORT4_HRTB_OUTPUT target list is malformed";
++            List.mem Args.body_name targets
++        | _ ->
++            failwith
++              "SORT4_HRTB_OUTPUT requires 1 and explicit target bodies"
++      let hrtb_fnmut_output_bounds : (string * string) list ref = ref []
+       (* A source-written pair of ghost steps is attached to one exact FnMut
+          Continue edge.  The first step closes the framed borrow debt before
+          leaving let_lft; the second executes after the real block exit. *)
+@@ -3736,7 +3760,76 @@
+                   targets
+               | _ -> targets @ unwind_targets) )
+       in
+-      Ok (full_call_stmts, terminator, targets)
++      let hrtb_projection_equality =
++        let open Ast in
++        if not State.hrtb_fnmut_output_enabled then [] else
++        match D.decode_operand func_cpn, fn_call_rexpr with
++        | ( Constant
++              {const = Val
++                {ty = {kind = FnDef
++                  {id = {name = source_name};
++                   substs = source_substs;
++                   late_bound_generic_param_count = 1}}}},
++            FnCallOutcome
++              (CallExpr
++                (_, translated_name,
++                 [ (IdentTypeExpr (_, None, ghost_f) as f_ty);
++                   (StructTypeExpr
++                     (_, Some "std_tuple_2_", None, [],
++                      [RustRefTypeExpr
++                        (_, IdentTypeExpr (_, None, lft1), Shared,
++                         IdentTypeExpr (_, None, ghost_t1));
++                       RustRefTypeExpr
++                        (_, IdentTypeExpr (_, None, lft2), Shared,
++                         IdentTypeExpr (_, None, ghost_t2))]) as args_ty);
++                   IdentTypeExpr (_, None, method_lft)],
++                 [], call_args, Static)) )
++          when canonicalize_item_name source_name =
++                 "std::ops::FnMut::call_mut" &&
++               canonicalize_item_name translated_name =
++                 "std::ops::FnMut::call_mut" &&
++               List.length args_cpn = 2 && List.length call_args = 2 &&
++               lft1 = lft2 && lft1 = method_lft &&
++               String.length lft1 > 0 && lft1.[0] = '\'' ->
++            (match List.map decode_generic_arg source_substs with
++             | [ `Type (`Param source_f);
++                 `Type
++                   (`Tuple
++                     [`Ref (_, false, `Param source_t1);
++                      `Ref (_, false, `Param source_t2)]) ]
++               when source_f = ghost_f && source_t1 = source_t2 &&
++                    source_t1 = ghost_t1 && source_t1 = ghost_t2 &&
++                    List.filter
++                      (fun (f, t) -> f = source_f && t = source_t1)
++                      !State.hrtb_fnmut_output_bounds
++                    = [(source_f, source_t1)] ->
++                 Printf.eprintf
++                   "CHALLENGE8_HRTB_EQ F=%s T=%s lifetime=%s call=%s\n%!"
++                   source_f source_t1 lft1 (Ast.string_of_loc fn_loc);
++                 [ExprStmt
++                    (CallExpr
++                      (fn_loc, "#register_type_projection_equality",
++                       [ProjectionTypeExpr
++                          (fn_loc, f_ty, "std::ops::FnOnce", [args_ty],
++                           "Output");
++                        ManifestTypeExpr (fn_loc, Bool)],
++                       [], [], Static))]
++             | _ -> [])
++        | _ -> []
++      in
++      if State.hrtb_fnmut_output_enabled then
++        (match D.decode_operand func_cpn, fn_call_rexpr with
++         | (Constant {const = Val {ty = {kind = FnDef {id = {name}; _}}}},
++            FnCallOutcome (Ast.CallExpr (_, translated_name, _, _, _, _)))
++           when canonicalize_item_name name =
++                  "std::ops::FnMut::call_mut" &&
++                canonicalize_item_name translated_name =
++                  "std::ops::FnMut::call_mut" ->
++             Printf.eprintf "CHALLENGE8_HRTB_CALL registered=%d call=%s\n%!"
++               (List.length hrtb_projection_equality)
++               (Ast.string_of_loc fn_loc)
++         | _ -> ());
++      Ok (hrtb_projection_equality @ full_call_stmts, terminator, targets)
+
+     let translate_sw_int (sw_int_data_cpn : SwitchIntDataRd.t) (loc : Ast.loc) =
+       let open SwitchIntDataRd in
+@@ -6076,6 +6169,62 @@
+           |> List.map D.decode_clause
+           |> List.map decode_clause
+         in
++        let hrtb_fnmut_output_bounds =
++          clauses
++          |> Util.flatmap (function
++               | `Projection projection ->
++                   let regions = projection.D.bound_regions in
++                   let args =
++                     List.map decode_generic_arg
++                       projection.projection_term.args in
++                   (match regions, args, projection.term with
++                    | ([r1; r2],
++                       [`Type (`Param f);
++                        `Type
++                          (`Tuple
++                            [`Ref (arg_r1, false, `Param t1);
++                             `Ref (arg_r2, false, `Param t2)])],
++                       Ty rhs)
++                      when r1 <> r2 && r1 = arg_r1 && r2 = arg_r2 &&
++                           f <> t1 && t1 = t2 &&
++                           List.mem f vf_tparams &&
++                           List.mem t1 vf_tparams &&
++                           decode_ty rhs = `Bool &&
++                           canonicalize_item_name
++                             projection.projection_term.def_id =
++                             "std::ops::FnOnce::Output" &&
++                           List.exists
++                             (function
++                               | `Trait (name, trait_args) ->
++                                   canonicalize_item_name name =
++                                     "std::ops::FnMut" && trait_args = args
++                               | _ -> false)
++                             clauses ->
++                        [(f, t1)]
++                    | _ -> [])
++               | _ -> [])
++        in
++        if State.hrtb_fnmut_output_enabled &&
++           hrtb_fnmut_output_bounds <> [] then begin
++          let local_ghost_types_absent = ref true in
++          List.iter
++            (Ast.stmt_iter (function
++               | Ast.BlockStmt (_, decls, _, _, _) ->
++                   List.iter
++                     (function
++                       | Ast.TypeWithTypeidDecl (_, name, _)
++                         when String.length name > 0 && name.[0] = '\'' -> ()
++                       | _ -> local_ghost_types_absent := false)
++                     decls
++               | _ -> ()))
++            ghost_stmts;
++          if not !local_ghost_types_absent then
++            failwith
++              "CHALLENGE8_HRTB: local ghost type-scope certificate mismatch"
++        end;
++        State.hrtb_fnmut_output_bounds :=
++          if State.hrtb_fnmut_output_enabled then
++            hrtb_fnmut_output_bounds else [];
+         let sized_tparams = compute_sized_tparams clauses in
+         let vf_tparams_with_bounds = vf_tparams |> List.map (fun x -> (x, {Ast.sized = List.mem x sized_tparams})) in
+         let projection_clauses =

@@ -170,3 +170,34 @@ research script was run. O17 must reproduce the full nine-case callback matrix
 and inspect the positive trace past the debt close. The deeper resource and
 ordinary/shared-cleanup controls remain acceptance requirements and are not
 claimed by this correction.
+
+## O17 hosted result and remaining output-type boundary
+
+O17 run `37717092130`, commit `11d888ba8ff2231a80c759148194aa9ae6b9d30e`,
+used the corrected patch with H2b. All nine callback cases passed NORMAL and
+readonly export/decode, source identity, both actual-argument alias audits and
+refinement. The four marker-admission mutations still exited 2 with their
+exact fail-closed `Fatal` reasons before target verification.
+
+In the remaining five cases, the real callback call's unwind arm executed
+the source-written debt close, the checked `recover_pair`, the natural scope
+exit, the complete unwind post and leak check. The false-unwind post then
+failed at its added `false` (`verified/lib.rs:67`); the duplicate F and left-T
+owners failed at the second respective `.own` conjunct (`:67` and `:65`).
+These are intended unwind-resource negatives. The positive and false-normal
+cases next entered the normal call arm and stopped at the call expression
+(`:96`) with `FnOnce<(&'cmp T, &'cmp T)>::Output` versus `bool`. Therefore the
+full positive body is **not** verified, and the false-normal control has not
+reached its intended postcondition.
+
+The NORMAL MIR for this exact generic body contains a higher-ranked
+`FnMut<F, (&'__11 T, &'__12 T)>` trait clause and a matching
+`FnOnce::Output = bool` projection clause over the same two distinct bound
+regions. The pinned 26.10 translator registers only projection clauses with
+`bound_regions = []` at `vf_mir_translator.ml:5011`, so the exported Boolean
+equality is unavailable when typing this call. A narrowly checked per-call
+instantiation of that compiler-origin clause is the next independent
+semantic candidate; it needs its own review and negative gates. No change to
+the callback unwind patch follows from this normal-arm failure. The direct
+unwind recovery remains diagnostic evidence, pending full positive, source/
+MIR/cleanup admission controls and the deeper missing-resource negatives.

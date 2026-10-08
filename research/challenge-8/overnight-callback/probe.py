@@ -524,7 +524,7 @@ def run_stage(name: str, argv: list[str], root: Path, env: dict[str, str],
 def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
              schema: Path, compiler_sysroot: str, evidence: Path,
              case_name: str, deadline_epoch: int,
-             capture_ast_diagnostic: bool) -> dict:
+             capture_ast_diagnostic: bool, enable_hrtb: bool) -> dict:
     case_dir = evidence / case_name
     fixture = generate_case(repo_root, source_checkout, tool_home,
                             case_name, case_dir)
@@ -541,6 +541,8 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         "schema_sha256": hash_tool(schema),
         "effective_fnmut_contract_sha256": sha(
             (tool_home / "bin/rust/std/lib.rsspec").read_bytes()),
+        "hrtb_output_opt_in": enable_hrtb,
+        "hrtb_output_target": fixture["target_function"] if enable_hrtb else None,
     }
     (case_dir / "fixture.json").write_text(
         json.dumps(fixture, indent=2, sort_keys=True) + "\n")
@@ -549,6 +551,8 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         "verified/lib.rs": fixture["verified_sha256"],
     }
     env = os.environ.copy()
+    env.pop("SORT4_HRTB_OUTPUT", None)
+    env.pop("SORT4_HRTB_OUTPUT_TARGETS", None)
     for key in ("SORT4_MAYBEUNINIT_REPO_ROOT", "SORT4_SELECT_INTRINSIC_REPO_ROOT",
                 "SORT4_POINTER_DROP_REPO_ROOT", "SORT4_MAYBEUNINIT_NEW_REPO_ROOT"):
         env.pop(key, None)
@@ -561,11 +565,16 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
 
     def execute(name: str, argv: list[str], cap: int,
                 stdin_name: str | None = None,
-                stdout_name: str | None = None) -> dict:
+                stdout_name: str | None = None,
+                hrtb_stage: bool = False) -> dict:
         seconds = stage_budget(cap)
         if seconds is None:
             return {"exit": None, "skipped": "artifact and cleanup reserve"}
-        return run_stage(name, argv, case_dir, env, source_hashes, seconds,
+        stage_env = env.copy()
+        if hrtb_stage and enable_hrtb:
+            stage_env["SORT4_HRTB_OUTPUT"] = "1"
+            stage_env["SORT4_HRTB_OUTPUT_TARGETS"] = fixture["target_function"]
+        return run_stage(name, argv, case_dir, stage_env, source_hashes, seconds,
                          stdin_name, stdout_name)
 
     exporter = str(tool_home / "bin/vf-rust-mir-exporter")
@@ -607,12 +616,13 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
     verifier_argv = [verifier, "-rustc_args", "--edition 2021",
                      "-verbose", "1", "verified/lib.rs"]
     stages["full-verification"] = execute(
-        "full-verification", verifier_argv, 180)
+        "full-verification", verifier_argv, 180, hrtb_stage=True)
     if capture_ast_diagnostic:
         stages["ast-diagnostic"] = execute(
             "ast-diagnostic", [verifier, "-rustc_args", "--edition 2021",
                                "-verbose", "1", "-dump_ast_with_locs",
-                               "verified-ast.txt", "verified/lib.rs"], 90)
+                               "verified-ast.txt", "verified/lib.rs"], 90,
+            hrtb_stage=True)
     else:
         stages["ast-diagnostic"] = {"exit": None, "skipped": "not requested"}
     stages["refinement"] = execute(
@@ -744,6 +754,8 @@ def main() -> None:
                         help="generate/hash isolated source pairs without invoking tools")
     parser.add_argument("--capture-ast-diagnostic", action="store_true",
                         help="run separate optional -dump_ast_with_locs diagnostic")
+    parser.add_argument("--enable-hrtb", action="store_true",
+                        help="opt in exact selected body to HRTB output component")
     args = parser.parse_args()
     args.repo_root = args.repo_root.resolve()
     args.source_checkout = args.source_checkout.resolve()
@@ -779,7 +791,7 @@ def main() -> None:
                 args.repo_root, args.source_checkout, args.tool_home,
                 args.schema, args.compiler_sysroot, args.evidence,
                 case_name, args.deadline_epoch,
-                args.capture_ast_diagnostic)
+                args.capture_ast_diagnostic, args.enable_hrtb)
     aggregate = {
         "profile_source_base": PROFILE_SOURCE,
         "cases": outcomes,
