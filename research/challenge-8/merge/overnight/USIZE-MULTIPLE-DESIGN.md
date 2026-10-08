@@ -45,11 +45,11 @@ four-patch input SHA-256 is
 `f550600564f5bfd3c618dcc4724452249c754a74e8895cbc11b60fafba994cf5`, taken
 from hosted run 37716179905's `build/std_lib.patched.rsspec`; applying this
 patch's unique `usize`-impl insertion yields predicted SHA-256
-`e53c53d54e452d0dca4be6253a5f036f3aace69cdf590bbef6ce5a2aabf668bd`.
+`9933b6aafabcc8b4d854f769c96b1cdf2fe860499f8cdf75b886f9127e109682`.
 The final digest was calculated from the downloaded base bytes plus the
 literal insertion; the next hosted profile must verify patch application and
 recompute/record the actual staged spec hash. The new patch file SHA-256 is
-`39a99b5878d3056153e7609d31dcf40dfa01923c68be52066a8b44ae94d2f9b9`.
+`a0b2365f4b152bd338e38ec4d4dd7ff0e3c2e47c25b82e570b714de816a9f4c5`.
 
 ## Diagnostic fixtures and expected evidence
 
@@ -82,3 +82,8 @@ Only whitespace/insertion-context preparation changed; exact contract stays.
 All55jobseconds charged; no proof or primitive-admission result obtained.
 The regenerated diff also removes spaces from the adjacent empty spec line,
 so the new patch itself passes strict whitespace checks. No declaration changes.
+Final static repair retains original surrounding spec whitespace. The diff
+uses the existing primitive declaration as leading context and the final
+on_unwind clause as trailing context, moving identical saturating clauses
+without changing their resulting association. No dirty blank line occurs in
+the patch text. Previous whitespace-cleanup draft was not dispatched.
