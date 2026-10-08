@@ -127,7 +127,7 @@ def candidate(decoded, source: bytes, name: str, common):
         need(name == 'stack_address_hidden_scalar', 'unknown scalar control')
         additions = []
         for block in body['basicBlocks']:
-            for stmt in block['statements']:
+            for stmt_index, stmt in enumerate(block['statements']):
                 assign = stmt['kind'].get('assign')
                 if assign is None:
                     continue
@@ -139,8 +139,29 @@ def candidate(decoded, source: bytes, name: str, common):
                 need('copy' in left or 'move' in left,
                      f'{name}: addition left operand is not a local')
                 left_place = left.get('copy', left.get('move'))
-                need(raw_name(left_place) == '_1',
-                     f'{name}: addition no longer uses source parameter')
+                left_id = raw_name(left_place)
+                if left_id != '_1':
+                    # Normal MIR materializes `n` in a hidden scalar before
+                    # Add. Admit only its unique same-block earlier copy of
+                    # the parameter; do not guess its compiler-generated ID.
+                    definitions = [(i, s) for i, s in enumerate(block['statements'])
+                                   if s['kind'].get('assign') is not None and
+                                   raw_name(s['kind']['assign']['lhsPlace']) == left_id]
+                    need(len(definitions) == 1 and definitions[0][0] < stmt_index,
+                         f'{name}: Add input lacks a unique preceding definition')
+                    need(sum(1 for b in body['basicBlocks'] for s in b['statements']
+                             if s['kind'].get('assign') is not None and
+                             raw_name(s['kind']['assign']['lhsPlace']) == left_id) == 1,
+                         f'{name}: parameter-copy temporary is reassigned')
+                    copied = definitions[0][1]
+                    use = copied['kind']['assign']['rhsRvalue'].get('use', {})
+                    need(set(use) == {'copy'} and raw_name(use['copy']) == '_1' and
+                         usize(identity(body, left_id)['ty']) and left_id not in aliases,
+                         f'{name}: Add input is not a hidden copy of the parameter')
+                    copied_span, copied_line = common.span_text(copied['sourceInfo']['span'], lines)
+                    add_span, add_line = common.span_text(stmt['sourceInfo']['span'], lines)
+                    need(copied_span == 'n' and copied_line == add_line and add_span == 'n + 1',
+                         f'{name}: parameter-copy/Add source correspondence changed')
                 constant = right.get('constant', {}).get('const', {}).get('val', {})
                 integer = constant.get('constValue', {}).get('scalar', {}).get('int', {})
                 need(integer.get('data') == {'h': 0, 'l': 1} and integer.get('size') == 8,
