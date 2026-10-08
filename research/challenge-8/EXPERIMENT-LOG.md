@@ -4822,3 +4822,12 @@ unified diff includes following closing-impl context and cleans adjacent blank
 whitespace; exact primitive contract unchanged. Exact staged bytehash recomputed
 from recovered f5506005 base replaces unconfirmed d5807998 prediction. Next
 fresh-SHA matrix repeats the same M3i contract/gates, no stack extension.
+
+### M3i second setup failure — run37749632949 /c54b9ee3
+
+Job11321941588508:24:37–08:26:47UTC130s; continuation598/7200,left6602.
+Patch apply and stagedstdlib9933b6aa confirmed, console3a08722c built. Cache
+self-test rejected newprofileID because cache helper schema stillold; matrix
+notstarted. Preserve setupclassification. BeforefreshM3i retry: explicitly
+update cachehelper ID+requiredusizeinput only, retain exactbinary/manifest/
+profile checks and9failclosed controls; no semanticproof gate disabled.

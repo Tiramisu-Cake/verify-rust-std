@@ -16,14 +16,14 @@ import tempfile
 from pathlib import Path
 
 
-PROFILE_ID = "vf26.10-w1-m2-c1-cleanup-ubuntu22.04-v1"
+PROFILE_ID = "vf26.10-w1-m2-c1-cleanup-usize-ubuntu22.04-v1"
 SCHEMA = "vf-source-console-cache-v1"
 CONSOLE_SHA256 = "3a08722cedc2f07daf26dfde2f46b8710662028ca5924212c4d1d92d68b70f1a"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 GIT_SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 REQUIRED_PROFILE_KEYS = {
     "profile_id", "runner_os", "runner_version", "source_commit",
-    "wrapping_patch", "callback_patch", "copy_patch", "cleanup_patch",
+    "wrapping_patch", "callback_patch", "copy_patch", "cleanup_patch", "usize_patch",
     "release_console", "release_exporter", "release_refiner", "vfdeps_archive",
     "decoder_revision", "build_toolchain", "build_script", "cache_helper", "applied_patch",
     "kernel_original", "kernel_patched", "translator_original", "translator_patched",

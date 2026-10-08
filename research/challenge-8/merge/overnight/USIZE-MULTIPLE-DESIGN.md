@@ -87,3 +87,11 @@ uses the existing primitive declaration as leading context and the final
 on_unwind clause as trailing context, moving identical saturating clauses
 without changing their resulting association. No dirty blank line occurs in
 the patch text. Previous whitespace-cleanup draft was not dispatched.
+
+Run37749632949/c54b9ee3 applied the repaired patch and checked staged
+9933b6aa bytes, then built the unchanged3a08722c console. It stopped at cache
+self-test because console-cache.py retained the older profile ID/key set.
+This is setup rejection, not a proof result. Cache profile schema is now
+explicitly updated for the zero-safe usize profile and required usize_patch
+input; exact whole-profile/manifest/payload and all9 controls remain mandatory.
+No console digest is broadened; previous cache/profile evidence remains historic.
