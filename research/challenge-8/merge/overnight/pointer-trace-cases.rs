@@ -122,15 +122,52 @@ lem trace_source_reverse_step(p: pointer, i: i32, s: i32, step: bool)
             assert trace_source_pointer(p, 0, s) ==
                 pointer_ctor(p.provenance, p.address, p.metadata);
             assert trace_source_pointer(p, -1, s) == wrapping_pointer_offset(p, -s);
+            if p.address < s {
+                assert p.address - s < 0;
+                assert 0 <= p.address - s + usize::MAX + 1;
+                assert p.address - s + usize::MAX + 1 <= usize::MAX;
+                assert wrapping_pointer_offset(p, -s).address ==
+                    p.address - s + usize::MAX + 1;
+                assert wrapping_pointer_offset(
+                    trace_source_pointer(p, 0, s), -s).address ==
+                    p.address - s + usize::MAX + 1;
+            } else {
+                assert 0 <= p.address - s;
+                assert p.address - s <= usize::MAX;
+                assert wrapping_pointer_offset(p, -s).address == p.address - s;
+                assert wrapping_pointer_offset(
+                    trace_source_pointer(p, 0, s), -s).address ==
+                    p.address - s;
+            }
+            assert wrapping_pointer_offset(
+                trace_source_pointer(p, 0, s), -s) ==
+                trace_source_pointer(p, -1, s);
         } else {
+            assert 0 < i;
             assert 0 <= i - 1;
+            mul_mono_l(0, i - 1, s);
+            mul_mono_l(i - 1, i, s);
             assert trace_source_pointer(p, i, s) ==
                 pointer_ctor(p.provenance, p.address + i * s, p.metadata);
             assert trace_source_pointer(p, i - 1, s) ==
                 pointer_ctor(p.provenance, p.address + (i - 1) * s, p.metadata);
+            assert p.address + (i - 1) * s == p.address + i * s - s;
+            assert 0 <= p.address + i * s - s;
+            assert p.address + i * s - s <= usize::MAX;
+            assert wrapping_pointer_offset(
+                trace_source_pointer(p, i, s), -s).address ==
+                p.address + i * s - s;
+            assert wrapping_pointer_offset(
+                trace_source_pointer(p, i, s), -s) ==
+                trace_source_pointer(p, i - 1, s);
         }
     } else {
-        assert trace_source_pointer(p, i, s) == trace_source_pointer(p, i, s);
+        assert 0 <= p.address + i * s;
+        assert p.address + i * s <= usize::MAX;
+        assert wrapping_pointer_offset(trace_source_pointer(p, i, s), 0) ==
+            trace_source_pointer(p, i, s);
+        assert trace_source_pointer(p, i, s) ==
+            trace_source_pointer(p, i, s);
     }
 }
 

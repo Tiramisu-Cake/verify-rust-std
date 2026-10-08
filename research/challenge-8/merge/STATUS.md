@@ -1,23 +1,27 @@
 # OVERNIGHT-MERGE-26.10 — IN PROGRESS
 
-Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC). Собственная ветка
-`overnight/merge-26.10`, entryb0af5613. [Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md).
-Новый отдельный бюджет **1455/21600 hosted job seconds**; старый merge603/1800
-(1197остаток) сохранён отдельно. Actual merge пока NOT PROVEN.
-Первый шагW1: exact0/1 wrapping, provenance+metadata+modular addresses, без
-прав доступа; затем полный указательный мост и actual merge normal/unwind.
-Новые смысловые зависимости раздельно закрепляются и проверяются. Исторические
-STOP/design-only/CI0 ниже не ограничивают авторизованную ночную фазу.
-W1d37700424582/proof8d97b6bc:22wrappingpositive+9pointerbridge+9oldRust
-positivePASS;5новыхnegative и2старыхnegative приняты на точныхобязательствах.
-Полная G2/A/B compatibility PASS. [Evidence](overnight/W1d-EVIDENCE.json).
-Отдельные baseline/unwind/C++ profile gates ещё OPEN; W1profile пока не принят
-целиком. Source wrapper summariesTRUSTED;actualтелamergeNOTPROVEN.
-W2b37702498147/proofa302d67a: tuple2 ownership и ordinary normal/unwind PASS.
-Точные lifetime/scalar syntax и classifier calibration исправляются; actual
-merge/source/export/decode/refinement соответствие проверено, bodyproof OPEN.
-Активногоrunнет. СледующийW2c/M2c: восстановление callbackloan, trace, ZST,
-negative calibration; отдельныйcopyoption model готовится по COPY-DESIGN.
+Авторизовано владельцем2026-10-08 до09:30МСК (06:30UTC).
+Собственная ветка `overnight/merge-26.10`, entryb0af5613.
+[Фаза/дизайн/матрица](OVERNIGHT-26.10-PHASE.md). Ночной бюджет **1647/21600 hosted job seconds**;
+старый merge603/1800 (1197остаток) сохранён отдельно. Actual merge NOT PROVEN.
+Исторические STOP/design-only/CI0 ниже не ограничивают эту ночную фазу.
+
+Последний полныйrun37706472350/proofba7db8cd: G2/A/B, nativeC/C++, ordinary
+normal/unwind PASS; falseunwind иmissingtuplefield intendednegative приняты.
+W1:22wrappingpositive+5точныхnegative,9bridge,9oldRust+2negative PASS
+под объединённым W1/M2/C1 diagnostic profile. Wrapping summaries TRUSTED,
+не доказательства реальных wrapperтел; concreteZSTlayout4goals OPEN,
+двухшаговый reentry2PASS, symboliczero-size PASS.
+Copy4fullresource+noown+count0/count2 allstages0/return/leak; classifier
+INCONCLUSIVE из-за unrelatedZST-generatedhelpers вprefix. Изоляция исправлена;
+3resourceoracles закреплены, overlap/alignment directprimitive calibration далее.
+Полный trace OPEN: reverse-step lemma дополнена разбором numericalwrap без
+суженияdomain. Actualup/down exactsource/export/decode/refinePASS; первый
+bodyfailure — fullunwind points_to<T>(left_src,_), sourceborrowrecovery OPEN.
+Cleanup strictscope/outcome epilogue отдельно проектируется/реализуется;
+patchне применён, ownershipаксиом/ослабленияpanic-postнет.
+Нет активногоrun после аудита; следующий — copy/trace/negative admission fixes,
+затем отдельная cleanup dependency иactual fullnormal/unwind proof.
 
 ---
 

@@ -4275,3 +4275,28 @@ function import rejected the newly added heredoc smoke checker (`fi` syntax).
 Replace checker with equivalent structured single Python -c argument; same
 semantic patches/hash, all obligations NOT RUN here. This is infrastructure
 failure, not a Rust/model negative. Fresh run required; no local runner execution.
+
+### C1d/W2f/M2f outcome / C1e/W2g BEFORE
+
+Run37706472350/sourceba7db8cd1ac392a43108e6b5202e391b2fc84214,
+job113081925876,00:11:58–00:15:10UTC=192seconds; cumulative1647/21600.
+Full audited G2/A/B/native/Rustordinarynormalunwind/W1/9bridge/oldRust PASS.
+Falseunwind and missing tuplefield exact intendednegative+failclosed controls
+accepted. Deadbody intended2deadcoordinates reached, stays calibration pending
+its exact dedicated classifier (not a failed setup). Actual unchanged up/down
+export/decode/refinement/sourceidentity PASS; genuine loans and FnMut reached,
+fullUNWIND posts fail source points_to<T>(left_src,_) atverified26:15–18.
+Borrowadapter/preparedpositive fail same fullUNWIND target27/31; no T/F purity
+assumption. Prepared wrongghostF/T reach exact type mismatch admission gate;
+missingFown reaches stockFnMut47:69–70. Original classifications preserved.
+Copy5resourcepositive+2countstockcontrols allfourstages0, fullbodyreturn/leak,
+noerror/dead, but unrelated prefixCopyControlZst generates7 helperheaders, so
+strictclassifier correctly INCONCLUSIVE. MoveZst ONLY intoitsowncase; keep
+strictbodyheader equality. Observedmissingdst/duplicateowner/uninitializedsrc
+oracles pinned; overlap/alignment revised directintrinsic calls with purely
+numericfacts so no impossibletypedmisalignedresource premises mask the gate.
+Trace reverse-step lemma fullpost fails numericalwrap case; checked body splits
+zero-step, decrementatindex0 withA<s vsA>=s, and positiveindex monotonicity.
+Same full trace domain/posts; no newsemanticpatch. Next fresh combinedmatrix
+accepts only exact new controls/completebody evidence, then follows actual
+cleanup dependency described BEFORE implementation in CLEANUP-DESIGN.

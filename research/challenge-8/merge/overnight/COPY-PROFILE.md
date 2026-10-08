@@ -28,9 +28,7 @@ scoped C1 lowering recorded below.
   pinned input SHA-256
   `dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b`.
 - Fixture: `copy-cases.rs`, SHA-256
-  `121105dd266fd90380b48adc9c31416563330c036011708ae448301d29ecdbb4`. The
-  fixture has no expected-error oracle; every `TARGET` remains inconclusive
-  until exact hosted diagnostics are reviewed.
+  `55dcf10a563726413e7e02c39d9c34260669181d57c6d1e86bb881ea09619b70`.
 
 ## Contract boundary
 
@@ -109,11 +107,9 @@ the shared file prefix, plus isolated cases for:
   mapping calibration expected to reach the synthetic positive-size gate. It
   is not accepted as proof evidence, nor evidence for general ZST support.
 
-The negative markers deliberately have no predicted diagnostic metadata.
-Hosted output must first show failures at their intended source line and
-primitive precondition, rather than setup, parser, or frontend errors. Add
-explicit expected stage/predicate/location only after observing the exact
-diagnostic. The fixture does not run local builds or verifier commands.
+The hosted run `37706472350` reached all fixture stages. The direct missing-destination case failed at the synthetic intrinsic destination `points_to_<T>` requirement, the duplicate-owner assertion failed for the second `<T>.own`, and the uninitialized source was rejected while eliminating the `none` option from the initialized source chunk. These three observed diagnostics are now pinned with exact rejection metadata. The other target negatives previously failed at the wrapper predicate `copy_one_domain`, so overlap and alignment cases now call the intrinsic directly and omit spatial chunks; they isolate only the corresponding pure range/alignment premise. Their exact diagnostics remain unknown until the next hosted run.
+
+The run also recorded successful copy helper and case return/leak checks for positive fixtures, but classified them `INCONCLUSIVE`: the common `CopyControlZst` declaration caused seven unrelated generated type helper headers in every case, violating exact header admission. The declaration now lives solely inside the ZST calibration case so ordinary positive cases contain no unrelated helpers. The ZST calibration remains support-only and inconclusive. No local builds or verifier commands were run.
 
 ## Hosted parser corrections and C1 lowering
 
