@@ -20,6 +20,9 @@ copy_patch="$repo/research/challenge-8/merge/overnight/copy.patch"
 copy_sha=da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5
 cleanup_patch="$repo/research/challenge-8/merge/overnight/cleanup.patch"
 cleanup_sha=94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604
+usize_patch="$repo/research/challenge-8/merge/overnight/usize-multiple.patch"
+usize_patch_sha=0d95bc58c9b5628fb7bd2157b3f1fbe7f3534729135b3dd15ea743ea3e533d92
+patched_stdlib_sha=d58079984bcb35819a4a54921e137f1e1cb3a8a3b588400189f167bea7076e94
 patched_kernel_sha=100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6
 patched_translator_sha=0e450267e453493f894b91763ef9412bf41b7ee8d3988115f24126456ab4e025
 vf_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
@@ -76,6 +79,8 @@ printf '%s  %s\n' "$cleanup_sha" "$cleanup_patch" | sha256sum -c -
 sha256sum "$callback_patch" >> "$evidence/source-build-inputs.txt"
 sha256sum "$copy_patch" >> "$evidence/source-build-inputs.txt"
 sha256sum "$cleanup_patch" >> "$evidence/source-build-inputs.txt"
+printf '%s  %s\n' "$usize_patch_sha" "$usize_patch" | sha256sum -c -
+sha256sum "$usize_patch" >> "$evidence/source-build-inputs.txt"
 
 # Pin the source tree by immutable commit, then check out only that commit.
 run_stage source-init git init "$source_home"
@@ -104,6 +109,7 @@ git -C "$source_home" apply --numstat "$patch_file" > "$evidence/patch-numstat.t
 git -C "$source_home" apply --numstat "$callback_patch" >> "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$copy_patch" >> "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$cleanup_patch" >> "$evidence/patch-numstat.txt"
+git -C "$source_home" apply --numstat "$usize_patch" >> "$evidence/patch-numstat.txt"
 awk -F '\t' 'NF != 3 { exit 1 } { print $3 }' "$evidence/patch-numstat.txt" | LC_ALL=C sort -u > "$evidence/patch-files.txt"
 [[ -s "$evidence/patch-files.txt" ]] || fail 'wrapping.patch contains no file changes'
 if comm -23 "$evidence/patch-files.txt" <(printf '%s\n' "$allowed_files") | grep -q .; then
@@ -117,6 +123,9 @@ run_stage copy-patch-check git -C "$source_home" apply --check "$copy_patch"
 run_stage copy-patch-apply git -C "$source_home" apply --whitespace=error "$copy_patch"
 run_stage cleanup-patch-check git -C "$source_home" apply --check "$cleanup_patch"
 run_stage cleanup-patch-apply git -C "$source_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$cleanup_patch"
+run_stage usize-patch-check git -C "$source_home" apply --check "$usize_patch"
+run_stage usize-patch-apply git -C "$source_home" apply --whitespace=error "$usize_patch"
+printf '%s  %s\n' "$patched_stdlib_sha" "$source_home/$std_lib_rel" | sha256sum -c -
 printf '%s  %s\n' "$patched_kernel_sha" "$source_home/src/verifast.ml" | sha256sum -c -
 printf '%s  %s\n' "$patched_translator_sha" "$source_home/$translator_rel" | sha256sum -c -
 printf '%s  %s\n' "$exporter_lib_sha" "$source_home/src/rust_frontend/vf_mir_exporter/src/lib.rs" | sha256sum -c -
@@ -199,12 +208,13 @@ profile_hash() {
   printf '%s=%s\n' "$key" "$digest"
 }
 {
-  printf 'profile_id=vf26.10-w1-m2-c1-cleanup-ubuntu22.04-v1\n'
+  printf 'profile_id=vf26.10-w1-m2-c1-cleanup-usize-ubuntu22.04-v1\n'
   printf 'runner_os=%s\nrunner_version=%s\nsource_commit=%s\n' "$RUNNER_OS" "$VERSION_ID" "$actual_commit"
   profile_hash wrapping_patch "$patch_file"
   profile_hash callback_patch "$callback_patch"
   profile_hash copy_patch "$copy_patch"
   profile_hash cleanup_patch "$cleanup_patch"
+  profile_hash usize_patch "$usize_patch"
   profile_hash release_console "$release_home/bin/verifast"
   profile_hash release_exporter "$release_home/bin/vf-rust-mir-exporter"
   profile_hash release_refiner "$release_home/bin/refinement-checker"

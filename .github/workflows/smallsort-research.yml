@@ -266,7 +266,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ runner.temp }}/challenge8-merge-console-cache
-          key: merge-console-ubuntu22-v1-${{ hashFiles('research/challenge-8/merge/overnight/build.sh', 'research/challenge-8/merge/overnight/console-cache.py', 'research/challenge-8/merge/overnight/wrapping.patch', 'research/challenge-8/merge/overnight/callback.patch', 'research/challenge-8/merge/overnight/copy.patch', 'research/challenge-8/merge/overnight/cleanup.patch') }}
+          key: merge-console-ubuntu22-v1-${{ hashFiles('research/challenge-8/merge/overnight/build.sh', 'research/challenge-8/merge/overnight/console-cache.py', 'research/challenge-8/merge/overnight/wrapping.patch', 'research/challenge-8/merge/overnight/callback.patch', 'research/challenge-8/merge/overnight/copy.patch', 'research/challenge-8/merge/overnight/cleanup.patch', 'research/challenge-8/merge/overnight/usize-multiple.patch') }}
       - name: Run reviewed exact-SHA overnight matrix
         env:
           VF_CONSOLE_CACHE_DIR: ${{ runner.temp }}/challenge8-merge-console-cache

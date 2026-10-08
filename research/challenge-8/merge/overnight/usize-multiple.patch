@@ -1,0 +1,13 @@
+diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
+--- a/bin/rust/std/lib.rsspec
++++ b/bin/rust/std/lib.rsspec
+@@ -187,4 +187,9 @@
+         fn saturating_sub(self: usize, other: usize) -> usize;
+         //@ req true;
+         //@ ens result == (if self < other { 0 } else { self - other });
+         //@ on_unwind_ens false;
++
++        fn is_multiple_of(self: usize, rhs: usize) -> bool;
++        //@ req true;
++        //@ ens result == (if rhs == 0 { self == 0 } else { self % rhs == 0 });
++        //@ on_unwind_ens false;
