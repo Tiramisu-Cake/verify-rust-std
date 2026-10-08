@@ -144,6 +144,48 @@ It clears semantic opt-ins, does not invoke full VeriFast, and reports
 source-integrity checks pass. A captured graph is still unreviewed until the
 separate admission gate and human full-graph review agree.
 
+## O24 exact-source and complete-MIR calibration (2026-10-08)
+
+Hosted run `37760135524`, proof SHA
+`2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`, generated the **entire**
+`sort4_stable` runtime body, with the marker, debt, strict-cut marker,
+recovery and join only in ghost comments. The independent source preflight
+passed byte-exact ghost stripping: verified unit SHA-256
+`fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9`,
+original unit SHA-256
+`3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72`.
+NORMAL and readonly export/decode and refinement all exited zero with unchanged
+source bytes. This supersedes the earlier unexecuted-builder description above;
+it does not admit the marker or prove sort4.
+
+The complete NORMAL `sort4_stable` MIR record SHA-256 is
+`667e43477674d9e834b462b612f498af81598ec18622f0a60337ae4fdc6b017d`
+(55 blocks, 137 locals); readonly is
+`925b05a8c2bb66be8ad5a7f091f8232d9e930782b5ca01067cf7d1bec349f5b5`
+(28 blocks, 110 locals). Each contains five `FnMut::call_mut`, eight
+`select_unpredictable`, four `copy_nonoverlapping`, no Cleanup block and no
+Drop terminator. The first `FnMut` has source span verified line 190,
+columns 17–88, normal target 24 from NORMAL block 23 and target 2 from
+readonly block 1, with direct `Continue` unwind in both. NORMAL uses the
+ordered tuple locals `(_29, _33)` in `_28`, readonly `(_7, _11)` in `_6`;
+the first field follows `v_base.add(1)`, the second `v_base`. Both exporter
+ghost declaration blocks still end at the real unsafe closing brace on line
+225. These observations are a manual static review of the saved complete
+records, not yet a passed exact admission certificate.
+
+The independent stock full-verifier diagnostic reached `sort4_stable` and
+checked the ghost setup and ordinary `recover_pair`/`join_four_owned_cells`
+definitions. Its first error is verified line 185,
+`No such function: __vf_sort4_first_unwind`, precisely the reserved marker.
+No marked callback unwind edge, lifetime cut, or full sort4 resource post was
+verified. The normal path cannot recover its two borrowed cells before `c2`
+while the stock `let_lft 'cmp` still closes at line 225; the proposed strict
+cut (or an independently reviewed equivalent scope rule) remains a separate
+prerequisite. The direct-Continue synthetic goto is absent from compiler MIR,
+so a later full-MIR certificate must also inspect the generated verifier AST:
+its strict-block containment, checked outgoing-goto exit, outer recovery,
+original unwinding return, and untouched real cleanup/other edges.
+
 The join-four lemma's array closure requires `pointer_within_limits` at all
 five boundaries, including the one-past-end `base+4`. Its body now calls
 the stock `points_to_limits` lemma on each of the four already-held

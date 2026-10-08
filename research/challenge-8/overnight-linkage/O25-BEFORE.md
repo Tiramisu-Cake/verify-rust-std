@@ -1,0 +1,12 @@
+# O25: exact owner9 admission and qualified nested H2 composition
+
+O24 source preparation now PASS for both owner9/sort4; do not repeat old prep diagnoses. Root reviewed17 wholeunit/all9body SHA against retained O24 snapshots, source reconstruction/outcome safety and 13 ghost commands (2nested+11outer), cleanup24 with10predecessors. Root reviewed18 typed generic T call Move(_4), bb3/Continue, qualified private inner ADT and exact17 prerequisite, ordinary sameunit FnCallOutcome and generated optional-storage tail on BOTH outcomes. No invented owner/chunk/Element pointee right; no kernel/memory/spec change. Both staticgitapply checks pass; no local compilation/execution.
+
+Main18 experimental profile extends exact main16 by ONLY:
+17 owner9 admission bafb47128b7dd9e8c84cd3492a609f00bbac193759492524b12cda7ba54effcb;
+18 nestedH2 07cc53e0823ae67ac6d53eb4e3add7bf7900261d3eb4528d6b20c3c1143bc0e1.
+Separate component rationale: ACTUAL-NINE-ADMISSION-BEFORE.md and ACTUAL-NESTED-H2-BEFORE.md. All old5/local components unchanged absent opt-in; actualSAFEforget and A1outer link inactive.
+
+Hosted independent sourcepreflight before download/build retained. Changed console must build, new exact cache key includes17+18; compiler/exporter/refiner/spec pins unchanged. Positive fresh9unit requires source/refinement0 then exact17/18 admission and checks every body/full normal-unwind/leak/dead-code/validity. A later firsterror is substantive blocker, never PASS. Sourceowner and sourceoutcome whitespace mutants retain runtime but must reject exactsourceSHA. Shadow exporter onefield forget Move34->Copy34 or sharedcleanup24->23 with original source/realpairedexports unchanged must reject exactcompleteunit SHA; setup failures inconclusive. No shadow console positive claim. Full S6 eightstage regression separate profile boundary.
+
+Desired delta: outcome-aware SAFE prototype check reaches actualbody (or reports first exact unsupported existing callee/link), nestedH2 realcall and bothstorage posts observable. Fullsameunit0 mandatory before nested/actualacceptance; not satisfied by admittance or isolatedH2. Actualhelper condition-result equality+rawpointerowner/thread and falseunwind retained. Sort4 O24 fullgraph/firstreservedhandler evidence cited, not repeated here. Resumed1222/7200 used,5978remain,11:30UTC deadline unchanged. Continue next actual obligation independently after this checkpoint.

@@ -5048,4 +5048,3 @@ translation obligation, fullcallback/arrayposts remain unproved. Runtimewholebod
 identity, all5FnMut/8select/4copy retained; no prematureacceptance.
 Next: exact9 source/MIR admission+existing nestedguard/forget/A1 integration;
 review firstFnMut handler against complete sourcegraph. [O24](overnight-linkage/O24-RESULTS.md).
-

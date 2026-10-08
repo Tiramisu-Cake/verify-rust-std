@@ -59,6 +59,10 @@ CUMULATIVE_PATCHES = (
      "11cdb0da938ed277a542181dcee5ba939b4c8b2bf15f957c389313115aeed694"),
     ("research/challenge-8/overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch",
      "cfc6b057af14cb611f9984f4eb6ee0398e3d844acaecce56f85070c42884892c"),
+    ("research/challenge-8/overnight-helper/verifast-actual-owner-nine-admission-26.10.patch",
+     "bafb47128b7dd9e8c84cd3492a609f00bbac193759492524b12cda7ba54effcb"),
+    ("research/challenge-8/overnight-helper/verifast-actual-nested-h2-26.10.patch",
+     "07cc53e0823ae67ac6d53eb4e3add7bf7900261d3eb4528d6b20c3c1143bc0e1"),
 )
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
