@@ -1,6 +1,14 @@
 # Overnight actual-helper candidates
 
-Status: O7 proves the pointer-specialized local `transmute_neo` body and
+Current resumed checkpoint O22: exact generic `checked_forget_owned` is an
+[accepted local component](../overnight-forget-own/RESULT-O22.md), returning
+the SAME T.own+thread under falseunwind. The complete actual-owner admission
+gate passes, then nested ghost metadata lookup fails before actualproof;
+[causal repair](ACTUAL-NESTED-GHOST-SCOPE-BEFORE.md) is separately reviewed.
+SAFEforget, actualnestedDrop and outerassume_init/helper remain unproved.
+The dated O7 account below is historical evidence.
+
+Historical status O7 proves the pointer-specialized local `transmute_neo` body and
 G1 direct framed-body fixtures under their recorded profile. The actual
 `assume_init` call linkage and actual helper remain **unproved**.
 O4 run 37702049156 and O5 run 37702922138 show the two G1 framed-call

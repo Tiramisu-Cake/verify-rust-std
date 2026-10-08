@@ -28,3 +28,11 @@ source/MIR controls, same-unitpositive/ordinaryDrop, genericresource controls;
 G1callmatrix; exact linkedactualowner source/MIR capture before new actualgate.
 FullfreshS6 regression. HRTB/lifetime drafts remain outside O18. No actual proof
 claim from capture or green workflow. Fullnormal/unwind targetposts unchanged.
+
+Current O22 checkpoint: completed915/7200seconds, noactive run; budget exactledger.
+H2b accepted LOCAL optionalstorage O20; G1owner-preserving exactbody generic
+callee accepted LOCAL O22; noactualSAFEforget/helper claim. Exactowner admission
+passes then nestedghost metadata defect blocks translation. O23 selected next:
+separatecertified two-record nested reparent; 6/7body fullMIR evidence for
+qualifiedDrop+strongforget; repairedsort4 calibration; isolatedCUT fullcontrols.
+Kernel candidate remains outside production; noownerwait at routine boundary.
