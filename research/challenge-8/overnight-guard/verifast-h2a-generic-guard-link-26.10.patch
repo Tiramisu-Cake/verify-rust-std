@@ -202,7 +202,7 @@
 +    let ptr_ty ty = match (D.decode_ty ty).kind with
 +      | D.RawPtr {ty={kind=D.Param "T"}; mutability=D.Mut} -> true
 +      | _ -> false in
-+    let guard_ty ty = match (D.decode_ty ty).kind with
++    let guard_ty (ty : D.ty) = match ty.kind with
 +      | D.Adt {id={name="DropOnPanic"}; kind=D.StructKind;
 +               substs=[{kind=D.Type {kind=D.Param "T"}}]} -> true
 +      | _ -> false in

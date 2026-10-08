@@ -40,7 +40,7 @@ CUMULATIVE_PATCHES = (
     ("research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch",
      "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"),
     ("research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch",
-     "5bcf462942ec405fb2d69bd39a74dd41f82e76fbadaf77520b8a346e5d78cbfb"),
+     "cc29a1855d9d129d07e61a759bb7163b65f5b6e6285d62e883207c9a9e73fe00"),
 )
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",

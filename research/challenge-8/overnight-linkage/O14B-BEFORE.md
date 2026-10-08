@@ -1,0 +1,5 @@
+# O14b: decoded type API repair
+
+O14 hosted compiler rejects H2a guard_ty recursive call at translator9481: D.decode_ty returns D.Ref containing decoded D.ty, whereas guard_ty originally decodes a reader. Repair by one reader boundary followed by recursion over decoded D.ty; preserve exact admitted shape &mut DropOnPanic<T> / DropOnPanic<T> and every source/MIR/owner/call/edge check. Review sibling recursive decoders for the same API mismatch. No target posts or active component added. Same O14 expected positive/negative stages and full fresh S6 matrix; original O14 build failure retained. H2b optional DummyPat correction remains dormant. All local checks static; fresh build/proof only hosted.
+
+Self-review: guard_ty now explicitly accepts D.ty and matches ty.kind; receiver retains the sole reader decode. ptr_ty callers remain reader-valued. No shape/ownership/edge gate weakened. New H2a SHA256 cc29a1855d9d129d07e61a759bb7163b65f5b6e6285d62e883207c9a9e73fe00. Dormant corrected H2b SHA256 fa04ebeeb76d5c7da0e16636f4b36d17945e43ed967c24471e8145f3ba3c55f1 remains excluded.
