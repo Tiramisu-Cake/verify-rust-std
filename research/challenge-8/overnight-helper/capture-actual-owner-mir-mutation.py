@@ -35,7 +35,8 @@ def load():
 
 PREP = load()
 REPO = PREP.REPO
-MUTATIONS = ("forget_move_to_copy", "forget_cleanup_to_bb22")
+MUTATIONS = ("forget_move_to_copy", "forget_cleanup_to_bb22",
+             "nested_ghost_span_line")
 SOURCE_SHA256 = "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3"
 EXPECTED_FATAL = (
     'Fatal error: exception Failure("SORT4-SELECT-INTRINSIC: '
@@ -56,12 +57,13 @@ def replace_once(source: str, before: str, after: str, label: str) -> str:
     return source.replace(before, after, 1)
 
 
-def actual_body(decoded: str) -> tuple[int, int, str]:
-    marker = 'defPath = "select_unpredictable"'
-    require(decoded.count(marker) == 1, "actual outer body not unique")
+def selected_body(decoded: str, def_path: str) -> tuple[int, int, str]:
+    marker = f'defPath = "{def_path}"'
+    require(decoded.count(marker) == 1,
+            f"selected exact MIR body not unique: {def_path}")
     at = decoded.index(marker)
     lead = decoded.rfind("    ( defKind =", 0, at)
-    require(lead >= 0, "actual outer body opening missing")
+    require(lead >= 0, "selected MIR body opening missing")
     opening = decoded.index("(", lead)
     body = PREP.LINK.CONSTRUCTOR.mir_balanced_item(decoded, opening)
     return opening, opening + len(body), body
@@ -69,7 +71,41 @@ def actual_body(decoded: str) -> tuple[int, int, str]:
 
 def mutate_actual_mir(decoded: str, mutation: str) -> str:
     require(mutation in MUTATIONS, "unknown direct actual-owner MIR mutation")
-    opening, tail, body = actual_body(decoded)
+    if mutation == "nested_ghost_span_line":
+        opening, tail, body = selected_body(
+            decoded,
+            "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop")
+        lo = body.index("      basicBlocks = [")
+        hi = body.index("\n      span = (", lo)
+        blocks = body[lo:hi]
+        marker = "( id = (index = 0),"
+        require(blocks.count(marker) == 1,
+                "qualified nested ghost bb0 not unique")
+        start = blocks.index(marker)
+        old_block = PREP.LINK.CONSTRUCTOR.mir_balanced_item(
+            blocks, blocks.index("(", start))
+        require(old_block.count('name = "VeriFast_ghost_command"') == 1,
+                "qualified nested first typed ghost call absent")
+        term_at = old_block.index("terminator = (") + len("terminator = ")
+        old_term = PREP.LINK.CONSTRUCTOR.mir_balanced_item(old_block, term_at)
+        source_lo = old_term.index("sourceInfo = (")
+        source_hi = old_term.index("kind = (", source_lo)
+        source_info = old_term[source_lo:source_hi]
+        line_lo = source_info.index("lo = (")
+        line_hi = source_info.index("hi = (", line_lo)
+        lo_record = source_info[line_lo:line_hi]
+        lo_record = replace_once(lo_record, "line = 95,", "line = 94,",
+                                 mutation)
+        source_info = (source_info[:line_lo] + lo_record +
+                       source_info[line_hi:])
+        term = old_term[:source_lo] + source_info + old_term[source_hi:]
+        block = old_block[:term_at] + term + old_block[term_at + len(old_term):]
+        blocks = blocks[:start] + block + blocks[start + len(old_block):]
+        body = body[:lo] + blocks + body[hi:]
+        require(body != decoded[opening:tail],
+                "nested ghost span mutation had no effect")
+        return decoded[:opening] + body + decoded[tail:]
+    opening, tail, body = selected_body(decoded, "select_unpredictable")
     lo = body.index("      basicBlocks = [")
     hi = body.index("\n      span = (", lo)
     blocks = body[lo:hi]

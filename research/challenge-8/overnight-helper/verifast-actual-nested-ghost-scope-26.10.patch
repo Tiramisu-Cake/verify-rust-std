@@ -1,0 +1,69 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -683,6 +683,7 @@
+     let actual_certified = ref false
+     let actual_projection = ref false
+     let actual_owner_admitted = ref false
++    let actual_nested_ghosts : AnnotationRd.t list ref = ref []
+     let projection_ghosts = [
+       "//@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);";
+       "//@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>);";
+@@ -6118,7 +6119,30 @@
+     let open BodyRd in
+     let var_id_trs_map_ref = ref [] in
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+-    let ghost_stmts_cpn = ghost_stmts_get_list body_cpn in
++    let exported_ghost_stmts = ghost_stmts_get_list body_cpn in
++    let body_name = TrName.translate_def_path (def_path_get body_cpn) in
++    let ghost_stmts_cpn =
++      if !Sort4SelectIntrinsic.actual_owner_admitted then
++        if body_name = "select_unpredictable" then
++          (match exported_ghost_stmts,
++                 !Sort4SelectIntrinsic.actual_nested_ghosts with
++           | first::second::rest,[nested_first;nested_second]
++             when AnnotationRd.raw_get first =
++                    AnnotationRd.raw_get nested_first &&
++                  AnnotationRd.raw_get second =
++                    AnnotationRd.raw_get nested_second -> rest
++           | _ -> Sort4SelectIntrinsic.reject
++               "actual outer/nested ghost scope inventory")
++        else if body_name =
++          "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
++        then
++          (match exported_ghost_stmts,
++                 !Sort4SelectIntrinsic.actual_nested_ghosts with
++           | [],[_;_] -> !Sort4SelectIntrinsic.actual_nested_ghosts
++           | _ -> Sort4SelectIntrinsic.reject
++               "actual qualified Drop ghost scope inventory")
++        else exported_ghost_stmts
++      else exported_ghost_stmts in
+     let* ghost_stmts = ListAux.try_map translate_ghost_stmt ghost_stmts_cpn in
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+@@ -12411,6 +12435,10 @@
+       | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
+     if cleanup_edges <> 9 then
+       reject "owner shared cleanup predecessor inventory";
++    (match BodyRd.ghost_stmts_get_list body with
++     | first::second::_ ->
++         Sort4SelectIntrinsic.actual_nested_ghosts := [first;second]
++     | _ -> reject "owner nested ghost metadata transfer source");
+     Printf.printf
+       "SORT4-ACTUAL-OWNER: exact source and complete decoded MIR admission only\n%!";
+     Ok ()
+@@ -12577,6 +12605,7 @@
+     let open Sort4SelectIntrinsic in
+     active := false; actual_certified := false; actual_projection := false;
+     actual_owner_admitted := false;
++    actual_nested_ghosts := [];
+     ptr_count := 0; mu_count := 0;
+     expected_ptr := 0; expected_mu := 0;
+     let intrinsic_path = Filename.concat root
+@@ -12979,6 +13008,7 @@
+             Sort4SelectIntrinsic.actual_certified := false;
+             Sort4SelectIntrinsic.actual_projection := false;
+             Sort4SelectIntrinsic.actual_owner_admitted := false;
++            Sort4SelectIntrinsic.actual_nested_ghosts := [];
+             Ok ()
+         | Some root -> certify_sort4_select_intrinsic vf_mir_cpn root
+       in

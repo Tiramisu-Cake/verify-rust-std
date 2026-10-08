@@ -192,10 +192,13 @@ hosted negative must feed a valid altered Cap'n Proto MIR message with the
 same source bytes into a disposable verifier invocation and require the
 exact decoded-unit refusal. Such instrumentation is a control only and
 cannot support a positive proof or change the accepted compiler profile.
-`capture-actual-owner-mir-mutation.py` prepares precisely two such hosted
+`capture-actual-owner-mir-mutation.py` prepares three such hosted
 controls: the actual `forget` operand in bb16 changes from plain `Move(_34)`
 to `Copy(_34)`, or its cleanup successor changes from shared bb23 to valid
-bb22. It first runs the real exporter in NORMAL/readonly modes and the real
+bb22, or the first qualified nested Drop ghost call's terminator source
+span moves only its start line from 95 to 94. The third control checks the
+compiler-origin ghost-call span bound by the same complete unit SHA. It
+first runs the real exporter in NORMAL/readonly modes and the real
 refiner, then a shadow console whose sibling exporter wrapper runs the same
 real exporter, decodes one complete message, mutates exactly one typed field
 and re-encodes it. The wrapper records canonical/mutated text and bytes,
