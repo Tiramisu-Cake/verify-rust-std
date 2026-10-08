@@ -174,18 +174,9 @@ def bidirectional_unwind_options_definition() -> str:
     # `p |-?-> some(?value)`) but not inside a pure equality expression. Keep
     # the exact staged option relation as a checked fixpoint using match arms;
     # this only names the three states already present in the contract.
-    return """/*@
-fix bidirectional_unwind_options<T>(dst0: option<T>, dst1: option<T>, partial0: option<T>, partial1: option<T>) -> bool {
-    match partial0 {
-        none => partial0 == dst0 && partial1 == dst1,
-        some(written0) => partial1 == dst1 || match partial1 {
-            none => false,
-            some(written1) => true
-        }
-    }
-}
-@*/
-"""
+    source = (HERE / "bidirectional-stage-cases.rs").read_text()
+    return source.split("// CASE_BEGIN", 1)[0] + "\n"
+
 
 
 def panic_contract() -> str:
@@ -239,7 +230,7 @@ def insert_one_iteration_invariant(body: str) -> str:
         "*dst |-?-> dst0 &*& *(dst + 1) |-?-> dst1 &*& "
         "left == src &*& right == src + 1 &*& left_rev == src &*& "
         "right_rev == src + 1 &*& dst_1 == dst &*& dst_rev == dst + 1;\n"
-        "            //@ size_align::<T>();\n"
+        "            //@ size_align::<T>(); bidirectional_stage_unchanged::<T>(dst0, dst1);\n"
         "            //@ aligned_address_step(src as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());\n"
         "            //@ aligned_address_step(dst as usize, std::mem::size_of::<T>(), std::mem::align_of::<T>());\n"
     )
