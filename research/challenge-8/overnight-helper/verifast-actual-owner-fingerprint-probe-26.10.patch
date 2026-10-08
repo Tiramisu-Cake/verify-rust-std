@@ -1,0 +1,82 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -12119,6 +12119,66 @@
+       (pos generic_at) (pos (generic_at+1)) in
+     Ok ()
+ 
++  (* O19 actual-owner capture: this is a fail-closed diagnostic, not an
++     admission rule.  In particular, no redirect can follow this function.
++     The complete generated decoder representation must be reviewed before
++     any fingerprint printed here is promoted to a certificate. *)
++  let sort4_actual_owner_fingerprint_probe
++      (vf_mir : VfMirRd.VfMir.t) root (body : BodyRd.t) =
++    let reject why = failwith
++      ("SORT4-ACTUAL-OWNER: diagnostic refusal: " ^ why) in
++    let* sig_loc = translate_span_data (BodyRd.fn_sig_span_get body) in
++    let path = match sig_loc with
++      | Ast.Lexed (((path,_,_),_)) when
++          Filename.check_suffix path "verified/lib.rs" -> path
++      | _ -> reject "actual signature source path" in
++    if Digest.to_hex (Digest.file path) <>
++         "43314f3ddc20140c918f549d7866b823" then
++      reject "exact O19 linked owner verified source";
++    if Digest.to_hex (Digest.file
++      (Filename.concat root "library/core/src/hint.rs")) <>
++         "362331eb7fa49dfa0ab4d656f4ed7fef" then
++      reject "pinned actual hint source";
++    let expected_names = [
++      "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
++      "sort4_checked_as_mut_ptr";
++      "sort4_checked_pointer_drop";
++      "select_unpredictable";
++      "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
++    ] in
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    if List.map (fun b ->
++      TrName.translate_def_path (BodyRd.def_path_get b)) bodies <>
++         expected_names then reject "exact five-body unit order";
++    let* () = sort4_select_check_actual_guard_adt vf_mir body in
++    let evidence_dir = match
++      Sys.getenv_opt "SORT4_ACTUAL_OWNER_EVIDENCE_DIR",
++      Sys.getenv_opt "SORT4_ACTUAL_OWNER_FINGERPRINT_RUN" with
++      | Some dir, Some ("first" as phase)
++      | Some dir, Some ("repeat" as phase)
++        when not (Filename.is_relative dir) -> dir,phase
++      | _ -> reject "hosted fingerprint evidence destination/phase" in
++    let dir,phase = evidence_dir in
++    let dump label bytes =
++      let path = Filename.concat dir
++        ("actual-owner-" ^ label ^ "-" ^ phase ^ ".marshal") in
++      let channel = open_out_bin path in
++      Fun.protect ~finally:(fun () -> close_out channel) (fun () ->
++        output_string channel bytes) in
++    let unit_bytes = Marshal.to_string
++      (D.decode_vf_mir vf_mir) [Marshal.No_sharing] in
++    dump "unit" unit_bytes;
++    Printf.printf "SORT4-ACTUAL-OWNER: diagnostic complete unit MD5 %s\n%!"
++      (Digest.to_hex (Digest.string unit_bytes));
++    List.iteri (fun index b ->
++      let name = List.nth expected_names index in
++      let decoded = D.decode_body b in
++      let bytes = Marshal.to_string decoded [Marshal.No_sharing] in
++      dump ("body-" ^ string_of_int index) bytes;
++      Printf.printf "SORT4-ACTUAL-OWNER: diagnostic decoded body %s MD5 %s\n%!"
++        name (Digest.to_hex (Digest.string bytes))) bodies;
++    reject "decoded representation not reviewed; no semantic admission"
++
+   let sort4_select_certify_helper root kind (body : BodyRd.t) =
+     let open Sort4SelectIntrinsic in
+     let signature, annotations, expected_name =
+@@ -12344,6 +12404,12 @@
+       let body = List.find (fun b ->
+         TrName.translate_def_path (BodyRd.def_path_get b) =
+           "select_unpredictable") bodies in
++      let* () = match Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" with
++       | Some owner_root when owner_root = root ->
++           sort4_actual_owner_fingerprint_probe vf_mir root body
++       | Some _ ->
++           Sort4SelectIntrinsic.reject "actual owner/root identity"
++       | None -> Ok () in
+       actual_projection :=
+         List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) =
+           projection_ghosts &&

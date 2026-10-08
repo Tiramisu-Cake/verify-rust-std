@@ -151,6 +151,22 @@ a ghost declaration block with a harmless predicate followed by the same
 local `abstract_type F/T`. The pinned preprocessor classifies a first-in-block
 annotation beginning `pred` as `BlockDecls`; the translator merges these into
 the body ghost statements traversed by the scope guard. This is a static
-syntax/path correction, **not** a hosted result. The exact scope-admission
-classification requires a fresh runner trace. Production HRTB patch bytes
-remain unchanged.
+syntax/path correction at preparation time. Production HRTB patch bytes
+remained unchanged.
+
+O20 run `37748156620` supplied the fresh matcher trace. All fifteen cases
+now have their intended *matcher/admission* classifications, with NORMAL and
+readonly export/decode, source integrity, refinement and expected MIR clause
+shapes true. `missing_projection` has zero `projectionTerm` clauses, one
+local result type alias mentioning `FnOnce::Output`, and call trace
+`registered=0`; it reaches the expected stock ownership failure.
+`shadowed_f` and `shadowed_t` each export a `ghostDeclBlocks` declaration and
+fail closed before target proof with the exact
+`CHALLENGE8_HRTB: local ghost type-scope certificate mismatch` Fatal,
+exit 2 and no call/equality trace. The other twelve keep the O19 expected
+traces, including the one-call positive registration, off-by-default zero,
+duplicate-clause zero and later-call `[1,0]` controls. These true-precondition
+fixtures still stop at stock reference-borrow ownership and are not function
+proofs. O20 did not rerun the nine callback cases; O19 remains their full
+normal/unwind evidence. This is local HRTB matcher admission on the exact
+profile, not an actual-sort4 proof.

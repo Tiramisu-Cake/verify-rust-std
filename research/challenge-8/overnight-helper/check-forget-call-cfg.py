@@ -62,6 +62,15 @@ def classifier_guard_selfcheck() -> None:
                     {LANE.CALLEE_NAME: 1, LANE.CALLER_NAME: 0}}),
                 fatal=[expected]),
             "admission refusal missing setup or no-body guard")
+    HELPER.require(
+        wrong_value_post_error("Cannot prove flag == !(flag)") and
+        not wrong_value_post_error("No matching heap chunks") and
+        not wrong_value_post_error("Cannot prove false"),
+        "O19 wrong-value post predicate replay changed")
+
+
+def wrong_value_post_error(message: str) -> bool:
+    return message == "Cannot prove flag == !(flag)"
 
 
 def load(path: Path, name: str):
@@ -213,7 +222,7 @@ def classify(case: Path, variant: str, stages: dict, graphs: dict,
                 errors[0]["line"] == str(caller_ens_line) and \
                 ("Cannot prove false" in errors[0]["message"] if
                  variant == "false_post" else
-                 errors[0]["message"] == "Cannot prove flag == !(flag)" if
+                 wrong_value_post_error(errors[0]["message"]) if
                  variant == "wrong_value" else
                  "No matching heap chunks" in errors[0]["message"]):
             classification = "INTENDED_NORMAL_POST_NEGATIVE"

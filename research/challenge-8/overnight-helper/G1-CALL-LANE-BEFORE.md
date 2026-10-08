@@ -89,3 +89,16 @@ specific source refusal (`exact caller post or runtime body/source suffix`
 for wrong callee, `exact checked callee and caller source prefix` for
 weakened unwind), full frontend/refinement and source integrity, and zero
 proof headers. A fresh hosted run is required for every proof claim.
+
+O19 (`37746579002`, `a6f9d5e0`) crossed that gate. The positive verifies
+the exact generic callee and framed caller in the same unit with full
+verifier exit zero, both MIR modes, refinement, normal/unwind posts,
+return/leak checks and no dead-code refusal. False post, frame and thread
+loss/duplication controls fail at their intended obligations. Wrong callee
+and weakened callee unwind now fail at their distinct exact source reasons.
+The `wrong_value` proof also failed at its intended caller post, line 22,
+with `Cannot prove flag == !(flag)`; its O19 classifier label remained
+INCONCLUSIVE because it expected a heap-chunk error. The next hosted
+classifier run will use that exact equality predicate and replay rejects
+the O18 common setup failure. These results qualify the isolated G1 call
+lane only after parent review; SAFE std `forget` remains unlinked.
