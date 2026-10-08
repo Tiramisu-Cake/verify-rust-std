@@ -141,6 +141,8 @@ manifest["effective_spec_sha256"] = prod_specs
 AUDIT
 
 schema="$cut_source/src/rust_frontend/vf_mir/vf_mir.capnp"
+lawful_test_positive_status=0
+stage lawful-test-positive python3 "$repo/research/challenge-8/overnight-lifetime-test/capture-positive.py"   --tool-home "$cut_source" --out "$evidence/lawful-test-positive"   --deadline-epoch "$deadline_epoch" || lawful_test_positive_status=$?
 cut_matrix_status=0
 stage cut-matrix python3 "$repo/research/challenge-8/overnight-lifetime/capture.py" \
   --tool-home "$cut_source" --out "$evidence/cut-matrix" --deadline-epoch "$deadline_epoch" || cut_matrix_status=$?
@@ -183,10 +185,10 @@ record={"expected":expected,"observed":observed,"exact_match":observed==expected
 output.write_text(json.dumps(record,indent=2,sort_keys=True)+"\n")
 if observed!=expected: raise SystemExit(1)
 CALLBACK
-printf 'cut_matrix_status=%s\nno_opt_in_status=%s\ns6_full_status=%s\ncallback_status=%s\ncallback_classifier_status=%s\nprofile=STRICT_CUT_DIAGNOSTIC_NOT_ACCEPTED\n' \
-  "$cut_matrix_status" "$no_optin_status" "$s6_status" "$callback_status" "$callback_classifier_status" > "$evidence/aggregate-stage-status.txt"
+printf 'lawful_test_positive_status=%s\ncut_matrix_status=%s\nno_opt_in_status=%s\ns6_full_status=%s\ncallback_status=%s\ncallback_classifier_status=%s\nprofile=STRICT_CUT_DIAGNOSTIC_NOT_ACCEPTED\n' \
+  "$lawful_test_positive_status" "$cut_matrix_status" "$no_optin_status" "$s6_status" "$callback_status" "$callback_classifier_status" > "$evidence/aggregate-stage-status.txt"
 git -C "$production_source" diff > "$evidence/production-after-applied.patch"
 cmp "$production_diff" "$evidence/production-after-applied.patch"
 [[ "$(hash "$production_source/bin/verifast")" == "$production_console_sha" ]] || exit 2
-if (( cut_matrix_status || no_optin_status || s6_status || callback_status || callback_classifier_status )); then exit 1; fi
+if (( lawful_test_positive_status || cut_matrix_status || no_optin_status || s6_status || callback_status || callback_classifier_status )); then exit 1; fi
 printf '%s\n' STRICT_CUT_DIAGNOSTIC_ONLY > "$evidence/PROFILE-STATUS.txt"

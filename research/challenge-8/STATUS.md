@@ -11,6 +11,12 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
+**O23 PREPARED:** [Before/root review](overnight-linkage/O23-BEFORE.md).
+Production16=O22main14+certifiednestedghost reparent15+always-refusing complete
+6/7/9unit diagnostic16; no newowner/spec/kernel in main. Correctedsort4capture,
+newlinkedqualifiedDrop/ownedforget/A1 fullpairedMIR-only variants and isolated
+CUTcomplete17matrix+lawfultestpositive pending hosted run. Noactualclosure.
+
 **Last completed O22:** [run37754201983](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37754201983),
 proof `02945280d4f335948c6edd60feb7ac62092a0256`,09:05:16–09:09:08UTC=232s.
 Resumed budget **915/7200**,6285remaining; no active run.
