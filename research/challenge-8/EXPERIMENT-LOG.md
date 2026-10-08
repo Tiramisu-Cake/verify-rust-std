@@ -5012,3 +5012,13 @@ No-key TEST positive fullnormal/unwind0; five generated-post mutants reach real 
 G1 all9 now intended, including exact preservation equality predicate classifier correction; O19 original INCONCLUSIVE unchanged. HRTB all15 matcher controls intended after projection-clause counting and parsed local ghost declaration fixes; no owner proof claim from matcher-only controls. O19 full callback normal/unwind/resource/leak proof remains separate evidence. Generated complete decoder captured for read-only audit of actual-owner fingerprint representation.
 
 Strict-lifetime draft remains inactive: static review found mutable inference references inside aliased entry metadata snapshot; fail-closed freezing/inference/escape controls are prerequisite to activation. No verifier/kernel checks weakened.
+
+## O21 — full decoded owner repeat, ordinary join-four and source-anchor failure
+
+Proof `d2f657be87ba58d77618950d8c030a31a21cbfb8`; [run37750512251](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750512251), job113222299883,08:32:33–08:35:25UTC=172s. Ledger683/7200,6517remaining,no active run. New thirteen-patch console (default-off mandatory-refusal probe) built and fresh fullS6 eight-stage matrix passes.
+
+Complete eager decoded VfMir bytes60174 and all five Bodies4498/4849/3503/38915/4920 repeat byte-identically across two same-binary/source invocations. Unit SHA256 `3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e`; outer `e44b5f3aec64a0ccf97cbf473c0d5fb348e5dd4e68b597e63a03ef255245c1e9`, nested `70493e53b55743ead2f08035908d251656f3b55da123bee5c1ac2e93370e767f`. Full source/refinement passes; probe always refuses before redirect. No digest-only semantic acceptance; next source/typed-fullunit admission needs separate strong integrity and pointer/cleanup/resource review.
+
+Ordinary current-cell join-four full proof0 (74statements), lemma and caller leakchecks; paired export/decode/refinement/source all0. MissingthirdTown fails at lemma pre8, duplicatefirstTown at caller post61, shiftedbase at missingfifthcell pre9. Reviewed local resource join, no comparator/sort4/initial-values theorem. Bounds obtained from four stockpoints_to_limits, no new provenance axiom.
+
+Workflow FAIL from actualsort4 calibration preparation only: BORROW_PREFIX_FIRST_CALL contains inline ghost typearguments, while source builder searched unannotated `is_less(...)`. Zero sort4MIR/proof in O21; none of setup failure counts as negative. Precise annotatedanchor repair prepared for a fresh run, source ghost-strip identity preserved. Strict-lifetime kernel draft inactive; revised deepfreeze/inference/sourcepath/CFGchecks under root review.

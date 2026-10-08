@@ -11,13 +11,16 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
-**Last completed O20:** [run37748156620](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37748156620),
-proof `e30bdc72d7af37222c401dd54ed50759eb840547`,08:11:09–08:12:34UTC=85s.
-New resumed account **511/7200**,6689remain completed plus activeO21
-[run37750512251](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750512251),
-proof `d2f657be87ba58d77618950d8c030a31a21cbfb8`, dispatched08:32:28UTC.
-Scope: mandatory-refusal decoded-owner repeat calibration, unchanged whole-sort4
-pairedMIR/refinement calibration, ordinary joinfour controls, freshfullS6 on13patches.
+**Last completed O21:** [run37750512251](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750512251),
+proof `d2f657be87ba58d77618950d8c030a31a21cbfb8`,08:32:33–08:35:25UTC=172s.
+New resumed account **683/7200**,6517remain; no active run.
+O21 collector FAILsole sort4 source-anchor preparation (inline ghost type args),
+no sort4 graph/proof; causal source-only repair prepared, untested. Ordinary
+joinfour fullgenericcurrent-cell lemma/caller0+three exact owner/cell negatives;
+no actualsort4 closure. Complete decoded-owner unit60174bytes and fivebody bytes
+repeatidentically across two calls, source/refinement intact; unconditionalprobe
+refusal retained. Wholeunit SHA256 `3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e`.
+New13patch profile fullS6 fresh8stagePASS, no actual-owner admission yet.
 Historical overnight3094/21600 (18506expired),stock99/1800,S7 5306/5400 separate.
 Production twelve-patch profile identical O19: console `d23f6552`,translator
 `6abe2aa9`; fullS6 eight-stage freshO19 evidence applies, not rerun in O20.

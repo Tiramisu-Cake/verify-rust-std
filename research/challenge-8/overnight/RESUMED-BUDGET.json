@@ -2,8 +2,8 @@
   "phase": "RESUMED-SELECT-SORT4-26.10-08",
   "authorization": "Owner selected until14:30MSK new independent7200jobseconds",
   "ceiling_job_seconds": 7200,
-  "used_job_seconds": 511,
-  "remaining_job_seconds": 6689,
+  "used_job_seconds": 683,
+  "remaining_job_seconds": 6517,
   "deadline_utc": "2026-10-08T11:30:00Z",
   "runs": [
     {
@@ -32,14 +32,18 @@
       "completed_at": "2026-10-08T08:12:34Z",
       "job_seconds": 85,
       "result": "G1_9_INTENDED_HRTB_15_INTENDED_H2D_NO_KEY_FULL_POSITIVE_5_GENERATED_POST_FAILURES_AUDITED"
+    },
+    {
+      "run_id": 37750512251,
+      "proof_sha": "d2f657be87ba58d77618950d8c030a31a21cbfb8",
+      "job_id": 113222299883,
+      "started_at": "2026-10-08T08:32:33Z",
+      "completed_at": "2026-10-08T08:35:25Z",
+      "job_seconds": 172,
+      "result": "COMPLETE_OWNER_UNIT_6_BYTE_REPEAT_IDENTICAL_JOIN_FOUR_FULL_POSITIVE_3_INTENDED_NEGATIVES_S6_FULL_PASS_SORT4_ANCHOR_SETUP_FAIL"
     }
   ],
-  "active_run": {
-    "run_id": 37750512251,
-    "proof_sha": "d2f657be87ba58d77618950d8c030a31a21cbfb8",
-    "dispatched_at": "2026-10-08T08:32:28Z",
-    "scope": "O21_OWNER_COMPLETE_REPRESENTATION_REPEAT_SORT4_MIR_JOIN_FOUR_S6_REGRESSION"
-  },
+  "active_run": null,
   "historical_accounts": {
     "OVERNIGHT-SELECT-SORT4-26.10": {
       "used": 3094,
