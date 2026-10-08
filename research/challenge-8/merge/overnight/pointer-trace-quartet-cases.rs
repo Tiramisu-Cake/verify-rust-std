@@ -293,6 +293,35 @@ lem trace_destination_reverse_step(p: pointer, i: i32, s: i32)
         pointer_ctor(p.provenance, p.address + (i - 1) * s, p.metadata);
 }
 
+// Endpoint bounds share the allocation provenance. Monotonic byte offsets
+// place every interior typed pointer within those same provenance limits.
+lem trace_destination_index_within_limits<T>(base: *mut T, index: usize, n: usize)
+    req 0 <= index &*& index <= n &*&
+        0 < std::mem::size_of::<T>() &*&
+        n * std::mem::size_of::<T>() <= isize::MAX &*&
+        (base as usize) + n * std::mem::size_of::<T>() <= usize::MAX &*&
+        pointer_within_limits(base) == true &*&
+        pointer_within_limits(base + n) == true;
+    ens pointer_within_limits(base + index) == true;
+{
+    let s = std::mem::size_of::<T>();
+    mul_mono_l(0, index, s);
+    mul_mono_l(index, n, s);
+    assert (base + index) as pointer == pointer_ctor(
+        (base as pointer).provenance,
+        (base as pointer).address + index * s,
+        (base as pointer).metadata);
+    assert (base + n) as pointer == pointer_ctor(
+        (base as pointer).provenance,
+        (base as pointer).address + n * s,
+        (base as pointer).metadata);
+    assert ptr_provenance_min_addr((base as pointer).provenance) <=
+        (base as pointer).address + index * s;
+    assert (base as pointer).address + index * s <=
+        ptr_provenance_max_addr((base as pointer).provenance);
+    assert pointer_within_limits(base + index) == true;
+}
+
 lem trace_stride_order(i: usize, j: usize, s: usize)
     req 0 <= i &*& 0 <= j &*& 0 < s &*& s <= usize::MAX;
     ens (i * s < j * s) == (i < j) &*&
@@ -456,6 +485,12 @@ on_unwind_ens false;
             right_rev as pointer == trace_source_pointer(src as pointer, n - 1 - d, std::mem::size_of::<T>()) &*&
             dst as pointer == trace_destination_pointer(dst_base as pointer, k, std::mem::size_of::<T>()) &*&
             dst_rev as pointer == trace_destination_pointer(dst_base as pointer, n - 1 - k, std::mem::size_of::<T>()) &*&
+            0 < std::mem::size_of::<T>() &*&
+            std::mem::size_of::<T>() <= usize::MAX &*&
+            n * std::mem::size_of::<T>() <= isize::MAX &*&
+            (dst_base as usize) + n * std::mem::size_of::<T>() <= usize::MAX &*&
+            pointer_within_limits(dst_base) == true &*&
+            pointer_within_limits(dst_base + n) == true &*&
             lifetime_token(func_lft) &*&
             [fu]up_choices[..m] |-> up_values &*&
             [fd]down_choices[..m] |-> down_values;
@@ -514,6 +549,11 @@ on_unwind_ens false;
         //@ trace_source_reverse_step(src as pointer, n - 1 - d, s, down);
         //@ trace_source_reverse_step(src as pointer, m - 1 - k + d, s, !down);
         //@ trace_destination_reverse_step(dst_base as pointer, n - 1 - k, s);
+        //@ assert 0 <= n - 2 - k;
+        //@ assert n - 2 - k <= n;
+        //@ trace_destination_index_within_limits(dst_base, n - 2 - k, n);
+        //@ trace_destination_nonnegative_index(dst_base as pointer, n - 2 - k, s);
+        //@ assert pointer_within_limits(trace_destination_pointer(dst_base as pointer, n - 2 - k, s)) == true;
         right_rev = right_rev.wrapping_sub(down as usize);
         left_rev = left_rev.wrapping_sub((!down) as usize);
         dst_rev = unsafe { dst_rev.sub(1) };
