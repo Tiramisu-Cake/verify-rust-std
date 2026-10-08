@@ -79,7 +79,7 @@ adds four cases without changing the main trace case or its contract:
 |---|---|---|
 | Generic unit-return function with the exact original parameters/precondition and both Boolean-array fractions returned | Tests whether the original generic pointer/provenance/array entry context is itself reachable, without tuple return or loop logic | Its body is executed and returned, or dead code identifies the shared precondition problem. |
 | Concrete `u32` unit-return function at `n=2,m=1,e=0` with positive aligned bases, numeric endpoint bounds, pointer limits, and length-one choice arrays returned | Distinguishes an impossible/wrong generic `size_of<T>` context from a broader common-domain issue | Executed body and array facts, or dead code/error at a specific entry obligation. |
-| Tuple-only constructor with the exact nested `G2PointerTrace<T>` alias, `req true`, and all 12 concrete coordinate associations | Separates stock tuple type/projection/return representation from the original domain | Return and postcondition evidence for all 12 leaves. |
+| Unsafe nested-tuple constructor with the exact original domain, the same nested `G2PointerTrace<T>` type, all 12 concrete coordinate associations, and both fractions returned | Separates tuple-return admissibility under the actual unsafe caller domain from main-loop geometry | Return and postcondition evidence for all 12 leaves, or a failure before the first body statement. |
 | Exact original-domain unit-return function with a deliberate `assert false` at the first body statement | Negative calibration target only after the assertion is reached | Record intended assertion location; no expected diagnostic is pre-guessed. |
 
 These fixtures do not establish the full trace proof. The unit cases expose no
@@ -90,6 +90,30 @@ Keep each case independently classified and require normal body, return,
 leak, stage, and source-integrity gates. A dead-body diagnostic is not a
 positive result, and the deliberate assertion is useful only if hosted evidence
 shows it was reached.
+
+Run 37746828112 established that the generic and concrete unit-return probes
+both PASS with one execution, return, and leak record. The exact-domain false
+assertion was reached at `verified/lib.rs(35,16-21)` with
+`Assertion might not hold. (Cannot prove false.)`. Thus the original scalar,
+pointer-limit, and Boolean-array requirements are inhabited. The first
+tuple-return probe was a safe function with `req true`; it failed before body
+verification at `verified/lib.rs(16,6-23)` because the implicit safe return
+admissibility required the nested `std_tuple_2__own` chunk. That result does
+not explain the original unsafe main, whose first dead-code record is still
+at its body entry (`verified/lib.rs(418,9-12)`) and has no verifier error.
+
+The source AST for the main reports the nested stock `std_tuple_2_` product
+return type. Before any source statement, it contains a declaration for the
+returned nested tuple and the usual compiler temporaries; the verifier log
+shows two function-location statements, then every source statement as dead.
+No helper body failed, and the first two autolemma sites are unchanged. The
+current probe replaces the safe `req true` constructor with one unsafe
+constructor carrying the exact original domain and all 12 zero-state pointer,
+counter, and Boolean associations. Its result will distinguish return
+admissibility under the actual domain from an early condition specific to the
+full main. It does not weaken or replace the main proof. Until that hosted
+result exists, the main's dead-body cause remains unresolved; do not admit or
+classify it as a positive.
 
 ## Fallback: narrowly certified stock-generated declarations
 
@@ -151,3 +175,8 @@ tuple encoding blocks checked ownership/postconditions, review and enable the
 separate certificate fallback only after exact AST matcher and trust-entry
 review. Either route still leaves actual bidirectional proof and full source
 caller bridge as separate obligations.
+
+The reached entry-domain false assertion is now predeclared with its exact
+VeriFast predicate `false` and columns16–21, relative to its TARGET line.
+Acceptance still requires a fresh run and all negative-oracle mutants; the
+original uncalibrated classification is retained.

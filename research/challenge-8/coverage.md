@@ -6,31 +6,56 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-OVERNIGHT-MERGE-26.10: unchanged actual `merge_up`/`merge_down` full normal/unwind
-proof first `5bbd2ef2613106fdc38bd8aeea930cf344390275` /
-[37711781188](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37711781188),
-repeated `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34` /
-[37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894).
-Conditional positive stride, distinct source cells and explicit C1 pointer/separate
-writable-option destination. Arbitrary lawful FnMut effects/answers; current source/F
-owners preserved, selected current value copied, exact cursors; callback panic
-preserves destination option and restores current owners. No entry snapshot,
-ordering, duplicate owner or SAFE shared-slice caller realization.
-Cleanup12cases+mutants PASS; M2 shape valid+6 admission controls and resource
-positive+4 proof negatives PASS. HRTB11 admission certificates+failclosed PASS,
-but11 underlying proof statuses INCONCLUSIVE. Combined profile full admission
-still OPEN. G2/A/B, Rust/native baselines, W1/C1 bounded trusted primitives PASS.
-Owned-array3positive+2negatives full PASS. Arbitrary-index C1 geometry5checked
-bodies+2 intended geometry negatives and allmutants PASS at6ba.
-Scratch3positive+3 intended resource negatives and allmutants PASS at6ba;
-originalb04 uncalibrated INCONCLUSIVE retained. Neither array algebra nor pure C1
-geometry establishes all actual callers. G2 fulltrace selectors parse fixed and13helpers PASS, main entirely deadcode;
-entry/tuple diagnosis OPEN. Actual bidir len2 scope fixed/body31exec but invariant
-leaks functionlifetime/internal Range andtuple stackframes. Stock Some/body invariant
-prepared; iterator/odd branch/terminal guard/resource composition OPEN.
-Freeze/shared-slice, M2cleanup full admission, actual functional G2/A/B link and
-independent Challenge contract remain OPEN. Symbolic size0 wrapping PASS;
-concrete ZST layout/access and positive-stride inference for ZST remain OPEN.
+OVERNIGHT-MERGE-26.10 latest full matrix: run
+[37746828112](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746828112),
+proof/Actions SHA `8ecc949df41c72c1c2a12371b486e97363a21a93`, job113210194939,
+209 seconds. Same actual source commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`
+and full-source SHA `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`;
+profile official-stock-VeriFast-26.10 plus W1/M2a/copy/strict-cleanup patches.
+The Actions job succeeded and all group commands/classifier controls completed;
+diagnostic `INCONCLUSIVE` rows below remain open and job success is not whole-proof
+acceptance.
+
+Unchanged actual `merge_up`/`merge_down` again passed full source/export/decode,
+refinement, body, normal/unwind, return/leak/dead-code gates (116/120 body records;
+3 return and 3 leak records each). This remains conditional on positive stride,
+distinct source cells and explicit C1 pointer/separate writable-option destination,
+with arbitrary lawful FnMut effects/answers. Current source/F owners are preserved,
+the selected current value is copied and cursors advance; callback unwind preserves
+the destination option and recovers current owners. No entry snapshot, SWO, duplicate
+T owner, SAFE shared-slice caller realization or general Challenge proof follows.
+
+Every row with a predeclared classification and every fail-closed classifier
+control matched its stated gate; exploratory rows below remain explicitly
+INCONCLUSIVE. Completed groups include: profile smoke; ordinary normal/unwind and dead-body
+baselines; native C/C++; G2 geometry (1 positive + 3 negatives), A occurrence IDs
+(2), B order/stability (4); nine Rust regressions (including two intended false
+assertions); 22 wrapping positives + 5 rejection/assertion controls; 9 pointer-bridge
+cases; pointer-domain positive + 2 exact precondition rejections; owned-array
+3 positive + 2 resource negatives; scratch-option 3 positive + 3 resource negatives;
+cleanup 2 positive/frame + 6 proof rejections + 4 frontend admission rejections;
+M2 tuple shape 6 admission rejections, tuple resources 1 positive + 4 negatives;
+and copy model 6 positive + 6 proof negatives. HRTB 11/11 source/AST admission
+certificates and fail-closed controls PASS, but all 11 proof statuses remain
+INCONCLUSIVE. The callback-borrow case is INCONCLUSIVE. Concrete ZST has two terminal
+reentry positives and four INCONCLUSIVE layout/access cases; the copy ZST mapping
+control is INCONCLUSIVE. These rows do not broaden the positive-stride domains.
+
+Cache restore was an exact hit on console `3a08722c…d68b70f1a`, profile
+`aeca556c…1906e6`, producer `b04b1b6063e53d3bb543c117f5ea84d493ed01da`; the full
+matrix ran on that payload, and all nine cache self-tests passed.
+
+Trace diagnostics remain separate. Generic and concrete-u32 trace-entry probes
+passed; the false-assertion target was reached at line35 but remains INCONCLUSIVE
+because no exact EXPECT_ERROR oracle was declared. The nested-tuple representation
+probe failed before entering its body on the implicit tuple ownership requirement.
+The main G2 trace remains INCONCLUSIVE: all 13 helper bodies passed, while the main
+body had zero executions and dead-code throughout. Actual `bidirectional_merge`
+executed 47 body statements and stopped at line387 because its loop invariant omits
+compiler-generated Range and nested tuple stack chunks; the log reports 11 return
+and 14 leak records across checked bodies, not a full main-body return. Iterator,
+odd branch, terminal wrapping and panic-frame composition remain open. Neither
+diagnostic is promoted by the successful workflow status.
 
 Current pointer-select phase: S4b source-linked SAFE as_mut_ptr accepted;
 S5k/37624082376/source128dd5673c7796c5916017ab4afafaeea8d836b8, profile

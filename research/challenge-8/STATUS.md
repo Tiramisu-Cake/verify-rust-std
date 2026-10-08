@@ -1,18 +1,18 @@
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
-Владелец возобновил работу 2026-10-08; новые hosted-запуски разрешены
-до **14:30 МСК (11:30 UTC)**, отдельный лимит продолжения **204/7200 job seconds**.
-Ночная история **3971/21600**; старые **603/1800, остаток 1197** отдельно.
-Ветка `overnight/merge-26.10`, восстановленный clean HEAD
-`b04b1b6063e53d3bb543c117f5ea84d493ed01da`.
+Владелец возобновил работу 2026-10-08; hosted-запуски разрешены до
+**14:30 МСК (11:30 UTC)**. Продолжение израсходовало **413/7200 job seconds**
+(204 + 209), осталось **6787/7200**. Ночная история **3971/21600** отдельно;
+старый бюджет **603/1800 (остаток 1197)** также отдельно и не прибавляется.
+Ветка `overnight/merge-26.10`; последний proof source / Actions SHA
+`8ecc949df41c72c1c2a12371b486e97363a21a93`.
 [Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md).
-Последний [37717433930](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37717433930),
-proof `b04b1b6063e53d3bb543c117f5ea84d493ed01da`, job113117046191,
-02:21:08–02:23:58 UTC, **170 seconds**. Все остальные jobs skipped/0.
-Полные артефакты восстановлены и прочитаны. Продолжение:
+Последний [run 37746828112](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746828112),
+job113210194939, 07:59:02–08:02:31 UTC, **209 seconds**; остальные jobs
+skipped. Артефакты полностью проверены. До него:
 [37744660894](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37744660894),
 proof `6ba53993ffc740a27ddb8bdcf6b9bf2c57bb9f34`, job113203193351,
-07:38:20–07:41:44UTC,204seconds. Активного run нет.
+204 seconds. Активного run нет.
 
 Actual `merge_up` и `merge_down`: exact source/export/decode/refinement,
 полные normal/unwind body/return/leak/dead/source gates PASS;
@@ -41,27 +41,46 @@ PASS. HRTB11/11 ADMISSION_CERTIFICATE+fail-closed controls PASS, underlying
 Cleanup12cases (2positive/frame,6proof negatives,4frontend admission)+mutants PASS.
 Полная приёмка объединённого семантического профиля остаётся OPEN;
 cleanup patch94fe2cd6 меняет kernel100eebae/translator0e450267.
-Console cold build/cache publication и9cache controls PASS; actual cache-hit
-fullmatrix PASS в6ba (тот же3a08722c/profileaeca556c/producerb04).
+Console cache exact-hit PASS and all9 cache self-tests PASS; full matrix ran on
+console `3a08722c…d68b70f1a`, profile `aeca556c…1906e6`, producer b04.
+
+В run 377468: `merge_up/down` вновь прошли полные normal/unwind/source/refinement
+gates (116/120 executions, по 3 return и leak checks); cleanup 12/12,
+M2-shape 6/6 admission controls и M2-resource 5/5, owned-array 5/5,
+pointer-domain 3/3, scratch 6/6. Trace entry: generic/u32 positive controls
+PASS, false assertion достигнута, но осталась INCONCLUSIVE без калиброванного
+oracle; nested tuple return probe остановился до входа в тело. G2 trace main
+остаётся INCONCLUSIVE: 13 helper bodies PASS, main 0 executions и dead-code.
+Actual `bidirectional_merge` выполнил 47 statements и остановился на loop leak
+compiler-generated Range/tuple stack chunks; полный proof не получен.
+Итог job `success` означает успешный сбор diagnostic matrix, не theorem.
 
 Раздельные открытые блокеры/приоритеты:
 A. Full G2 pointer trace: selectors parse FIXED,13helperbodies PASS; main
-целиком deadcode/0exec. Сохраняем12posts; отдельные entry/tuple диагностики
-подготовлены для проверки достижимости предусловия и представления результата.
-B. Actual bidirectional len2: dst_base scope FIXED, body31exec; invariant
-312 теряет func_lft и внутренние Range/tuple stack cells. Подготовлен stock
-Some/body invariant с iterator/cursors/current owners/geometry/lifetime.
-Iterator linkage, odd branch, terminal wrapping и panic guard ещё OPEN;
-len2 остаётся диагностикой с обязательным dead-code gate.
+целиком deadcode/0exec. Exact-domain generic и `u32` entry controls PASS;
+false-assertion target достигнут, но остаётся INCONCLUSIVE без oracle. Nested
+tuple return probe остановился до body на ownership admission; это не диагноз main.
+B. Actual bidirectional len2: `dst_base` scope FIXED, `bidirectional_merge`
+исполняет 47 statements; первый failure line387 — 14 leaked field/padding
+chunks в четырёх compiler-generated locals: два nested tuple3 и две `Range`
+структуры. Actual `merge_up/down` bodies проходят; panic helper body не входит.
+Iterator linkage, odd branch, terminal wrapping и panic-frame composition OPEN;
+len2 остаётся diagnostic, без full proof.
 C. Caller C1 derivation, M2/cleanup full admission, resource composition и
 Freeze/shared-slice bridge OPEN; slice.share не создаёт T.own.
 D. Functional actual G2/A/B composition OPEN; SWO/immutable keys/faithful answers
 будут отдельными функциональными предпосылками.
 
-Следующее действие: fresh combined hosted matrix исправлений A/B и точных
-C1/scratch controls; затем dependency-driven actual bidirectional/resource
-итерации. Runtime std не меняется; main/upstream и worktree первого агента
-не трогаются. Исторические записи ниже сохранены без переноса proof SHA.
+Следующий подготовленный hosted matrix добавляет отдельный TRUSTED
+`usize::is_multiple_of` std-spec summary (patch `0d95bc58…e533d92`, staged
+post-stdlib SHA `d5807998…7076e94`) с exact source/alpha-renaming certificate и
+6 fail-closed controls; false-result targets должны быть observed, без guessed
+oracle. Рядом остаётся exact-domain unsafe nested-tuple constructor для 12 trace
+coordinates, чтобы отделить return representation от loop proof. Все старые
+матрицы обязательны; stack-address patch в этот запуск не включён. До запуска
+осталось 6787 continuation job seconds. Подробный гипотетический исход и
+переходы записаны ниже в EXPERIMENT-LOG. Runtime std не меняется. Исторические
+результаты сохраняются под их исходными proof SHA.
 
 ---
 

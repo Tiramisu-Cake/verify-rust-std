@@ -4722,3 +4722,92 @@ representation. No original12traceposts weakened and no deadcodeexception.
 Passentry=>investigatewholemain proof environment; deadgeneric/concrete=>identify
 unsatdomain/auto facts; deadtuple=>representation/frontend model reassessment.
 Allsource/export/decode/refinement/normal-unwind/return/leak/dead gates retained.
+
+### M3h continuation run37746828112 / proof8ecc949d — 2026-10-08
+
+[Run](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746828112),
+proof/Actions SHA `8ecc949df41c72c1c2a12371b486e97363a21a93`; sole relevant job
+113210194939, 07:59:02–08:02:31 UTC, **209 seconds**. All other jobs skipped.
+Continuation budget now **413/7200 seconds** (previous 204 + 209), **6787 remain**.
+Night ledger remains **3971/21600**; prior **603/1800** stays a separate ledger.
+Full artifacts were inspected. Source is commit `cd371e035c7e573760c43bf934d53e8118ee3e7d`,
+source SHA `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`;
+toolchain nightly-2026-09-25 and VeriFast 26.10 (`f76012fb518703b1d98e243ac4f487f16877cfcb`).
+Profile is W1 + M2a + copy + strict cleanup and the explicit pinned kernel extension;
+stock exporter/refiner/schema remained unchanged. Exact console cache hit used
+binary SHA `3a08722cedc2f07daf26dfde2f46b8710662028ca5924212c4d1d92d68b70f1a`,
+profile SHA `aeca556cc0ecc630312ccfc04abf779ff47b1ee628330cd5989643c1741906e6`,
+producer proof b04; complete matrix ran and all nine cache self-tests passed.
+
+Actual `merge_up`/`merge_down` passed full source/export/decode/refinement,
+normal/unwind, return/leak/dead/source gates again (116/120 body executions;
+3 returns and 3 leak checks each). Profile smoke and ordinary unwind/dead controls
+passed. G2/A/B compatibility rows, C/C++, all nine Rust regressions (including
+two intended false assertions), and 22 wrapping cases passed. Copy had 6 positive
+and 6 intended proof rejections; its ZST calibration remains INCONCLUSIVE.
+Pointer bridge 9/9, pointer domain 1 positive + 2 exact precondition negatives,
+owned-array 3 + 2, scratch 3 + 3, M2 shape 6 exact admission negatives, M2 resource
+1 + 4, and cleanup 2 positive/frame + 6 proof negatives + 4 frontend admission
+negatives all matched their exact gates. Every aggregate classifier-control gate
+passed. These are component results, not a composed proof.
+
+HRTB source/AST admission certificate remained 11/11 with fail-closed controls,
+while all 11 proof rows are still INCONCLUSIVE. The generic callback-borrow case
+is INCONCLUSIVE at `points_to<T>(left_src, _)`. Concrete ZST has two terminal
+reentry positives; four layout/access rows remain INCONCLUSIVE.
+
+Trace-entry generic and `u32` unit-return controls passed with body/return/leak
+evidence. The exact-domain false assertion was reached at `verified/lib.rs(35,16-21)`
+but remains INCONCLUSIVE because this diagnostic fixture declared no calibrated
+rejection oracle. The nested-tuple representation probe failed before body entry
+on its implicit nested `std_tuple_2__own` requirement, so it does not test the main
+body. Full pointer trace still classifies INCONCLUSIVE: all 13 helper bodies pass,
+the main has zero executions and is dead code throughout. In the actual len2
+diagnostic, `bidirectional_merge` executes 47 statements and fails at line387 on
+loop leakage of compiler-generated nested tuple and `Range` stack chunks. Checked
+callees `merge_up/down` execute and pass; the panic helper body is not entered.
+No full bidirectional proof or whole SmallSort claim follows from the workflow's
+successful job status.
+
+### BEFORE continuation M3i — zero-safe `usize::is_multiple_of` and exact trace return
+
+The next hosted matrix isolates one explicitly trusted primitive extension from
+the prior frozen profile. The actual std obligation is the pinned unsigned
+`is_multiple_of` body in `library/core/src/num/uint_macros.rs` (blob
+`558763a41c013bcda43c4a64ec3c01e6a9f54229`, body SHA
+`67d3897787b9eb698ef9485939e36a378c56a63034c3d833f05f4b3d1837b56b`): zero
+divisor returns `self == 0`; otherwise the result is `self % rhs == 0`. Patch
+`0d95bc58c9b5628fb7bd2157b3f1fbe7f3534729135b3dd15ea743ea3e533d92` adds only a
+trusted `usize` standard-library specification with `req true`, the zero-safe
+conditional result equation, and `on_unwind_ens false`. It follows the existing
+W1/M2a/copy/strict-cleanup chain; predicted staged `std_lib.rsspec` SHA is
+`d58079984bcb35819a4a54921e137f1e1cb3a8a3b588400189f167bea7076e94`. This is a
+new named experimental trust profile, not proof of the std implementation.
+
+The exact-source adapter is an alpha-renamed copy (`Self -> usize`, `self -> value`)
+and is bound by the hosted file/blob/body hashes plus six fail-closed controls:
+changed zero answer, changed modulo answer, changed divisor, changed signature,
+duplicate adapter, and mutated pinned source body. Positive cases cover the adapter
+equation, actual builtin/adapter equality with a framed `u32`, and zero/positive/even/
+odd boundary examples. Two false-result targets (positive dividend with zero divisor;
+odd dividend with divisor two) must execute at their marked assertions; their
+diagnostics are intentionally uncalibrated and cannot be classified as intended
+negatives on guessed coordinates. All preexisting regression and full-matrix gates
+remain required, including actual caller method resolution and exact source identity.
+The design and harness received static review: ghost calls are distinguished from
+runtime calls, the shared adapter prefix is checked in each isolated case, and the
+false-result markers follow the builtin calls. These source-review corrections are
+not hosted validation.
+
+In the same diagnostic matrix, the unsafe nested-tuple constructor fixture tests
+all 12 original trace coordinate associations under the exact original generic
+domain and returns both array fractions unchanged. It separates nested return
+representation admission from loop-body reachability; it does not weaken or replace
+the main trace case. Require ordinary source/export/decode/refinement, body, exact
+post, return/leak/dead and source-integrity gates. The previous safe tuple probe's
+pre-body ownership failure is retained as evidence. Expected next decision: if the
+unsafe exact-domain constructor passes, representation is isolated from the main's
+entry/dead-body problem; otherwise retain the precise admission/proof failure and
+reassess. The main itself must still execute and pass its full original posts to
+count. No stack-address patch is integrated in this run. Before-dispatch budget:
+6787/7200 continuation seconds; night3971/21600 and old603/1800 remain separate.
