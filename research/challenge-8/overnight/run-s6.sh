@@ -64,7 +64,7 @@ stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
 stage cfg-patch-apply git -C "$source_home" apply "$cfg_patch"
-for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch overnight-callback/verifast-callback-unwind-26.10.patch overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch overnight-guard/verifast-h2c-guard-source-admission-26.10.patch overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch overnight-callback/verifast-fnmut-hrtb-26.10.patch overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch overnight-helper/verifast-actual-owner-admission-26.10.patch overnight-helper/verifast-actual-nested-ghost-scope-26.10.patch overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch overnight-helper/verifast-actual-owner-nine-admission-26.10.patch overnight-helper/verifast-actual-nested-h2-26.10.patch; do
+for component in overnight-helper/verifast-a1-assert-inhabited-26.10.patch overnight-helper/verifast-a1-pointer-transmute-26.10.patch overnight-callback/verifast-tuple2-own-26.10.patch overnight-helper/verifast-a1-transmute-linkage-26.10.patch overnight-guard/verifast-h2a-generic-guard-link-26.10.patch overnight-callback/verifast-callback-unwind-26.10.patch overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch overnight-guard/verifast-h2c-guard-source-admission-26.10.patch overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch overnight-callback/verifast-fnmut-hrtb-26.10.patch overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch overnight-helper/verifast-actual-owner-admission-26.10.patch overnight-helper/verifast-actual-nested-ghost-scope-26.10.patch overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch overnight-helper/verifast-actual-owner-nine-admission-26.10.patch overnight-helper/verifast-actual-nested-h2-26.10.patch overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch overnight-assume-actual/verifast-actual-nine-a1-26.10.patch; do
  component_patch="$repo/research/challenge-8/$component"
  sha256sum "$component_patch" >> "$ev/environment.txt"
  stage "$(basename "$component" .patch)-check" git -C "$source_home" apply --check "$component_patch"
@@ -128,12 +128,14 @@ if [[ "${OVERNIGHT_TARGETED_OWNER_NINE:-}" == 1 ]]; then
  owner_nine_status=$preflight_owner_status
  if (( preflight_owner_status == 0 )); then
   export SORT4_ACTUAL_NESTED_H2_REPO_ROOT="$repo"
+  export SORT4_ACTUAL_FORGET_OWN_REPO_ROOT="$repo"
+  export SORT4_A1_NINE_REPO_ROOT="$repo"
   stage actual-owner-nine-proof python3 research/challenge-8/overnight-assume-actual/check-owner-nine.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-nine-proof" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || owner_nine_status=$?
-  unset SORT4_ACTUAL_NESTED_H2_REPO_ROOT
+  unset SORT4_ACTUAL_NESTED_H2_REPO_ROOT SORT4_ACTUAL_FORGET_OWN_REPO_ROOT SORT4_A1_NINE_REPO_ROOT
  fi
  matrix_status=0
  stage s6-full-matrix python3 research/challenge-8/overnight-s6/accept-s6.py --stock-home "$stock_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-full" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || matrix_status=$?
- printf 'owner_nine=%s\ns6_matrix=%s\nprofile=EXPERIMENTAL_MAIN18\n' "$owner_nine_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
+ printf 'owner_nine=%s\ns6_matrix=%s\nprofile=EXPERIMENTAL_MAIN20\n' "$owner_nine_status" "$matrix_status" > "$ev/aggregate-stage-status.txt"
  (( owner_nine_status == 0 && matrix_status == 0 ))
  exit $?
 fi

@@ -63,6 +63,10 @@ CUMULATIVE_PATCHES = (
      "bafb47128b7dd9e8c84cd3492a609f00bbac193759492524b12cda7ba54effcb"),
     ("research/challenge-8/overnight-helper/verifast-actual-nested-h2-26.10.patch",
      "07cc53e0823ae67ac6d53eb4e3add7bf7900261d3eb4528d6b20c3c1143bc0e1"),
+    ("research/challenge-8/overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch",
+     "7cfa66625fdb6af94162e542b078c0a08ff07bac472a5d9643fea2d153842c44"),
+    ("research/challenge-8/overnight-assume-actual/verifast-actual-nine-a1-26.10.patch",
+     "a597d99a23895e02308f1f813c604a7dbc8235dbc3e04f3b08112087f6a572d4"),
 )
 CASES = (
     "tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",

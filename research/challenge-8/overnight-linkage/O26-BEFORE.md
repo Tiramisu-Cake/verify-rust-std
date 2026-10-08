@@ -1,0 +1,12 @@
+# O26: compose exact-nine owned SAFE forget and A1 links
+
+Root reviews19 and20 as separate semantics, after O25 realproof at localassume_init117 missingstdtransmute_neo. Exact17 fullsource+all9 bodies/unit/ADT/ghost spans remains prerequisite. Main18 source/profile remains historical evidence; source9 unchanged, no new ghost/resource restriction. Wholefunctionnormal conditionalresult+rawpointerown/thread and falseunwind retained.
+
+19 exactSAFEforget Move32/dst31/normal15/cleanup24 atblock14, flag41=false plusMoveguard24, calls sameunit checked_forget_owned with existing truthful closedowner. SameT.own returned is O22 provedexactstd-body theorem, sameunitcallee mustverifyagain; UNSAFE/nonconst adapter vs SAFE/const std correspondence is explicitly trusted for this exactsite. Result projection onlybecause provedfalseunwind; other9cleanup predecessors remain. NoTown fabrication/pointee Elementright.
+20 exactA1localtransmute/assume contracts+types/graph and outerstdassume_init Move37/dst0/normal21/cleanup24; sole pointerElement specialization. Ordinary FnCallOutcome preserves originaloutercleanup. Exactlocalcallee firstprovedO25transmute; localassume and actualouter mustfullyverify now. These are trustedcall-correspondence bridges with independently verified bodies, not axioms ofhelpergoal. Sameunitfull0 mandatory; no summaries accepted fromgateonly. Bothcomponentsdefaultoff, old2bodyA1/unqualifiedH2/5bodyowner unchanged.
+
+Newpatch SHA19 `7cfa66625fdb6af94162e542b078c0a08ff07bac472a5d9643fea2d153842c44`;
+20 `a597d99a23895e02308f1f813c604a7dbc8235dbc3e04f3b08112087f6a572d4`.
+Blankcontextline normalization changes patchbytes only, notappliedsource. Rootstatic checks17..20 forward/apply pass; no local build/proof. Newexactmain20 hostedbuild/cachemanifest includesbothpatches. Sourcepreflight staysbeforebuild. Positivewholeunit plus source2/MIR2 controls; staleMove34 fixedtofresh9Move32, O25inconclusivepreserved. Source/refinement/setupfailure nevernegative. Full8stageS6 separateprofileboundary; no independentCUT/modelbuild inthisrun.
+
+Expectedoutcomes: localassume_init+ownedforget verify then SAFEprototype and actualbody enter; if firsterror at resource/call/post/cleanup, preservefulltrace andadvance minimalcausalchange. Ifunit0, inspectallactual/nestedDropnormal+unwind/leak/deadcode andexplicittrustreview/adversarialposts beforeACCEPTED. Unrestrictedgenerichelper notprovedby pointerdomain. Budget1407/7200,5793remaining; deadline11:30UTC unchanged. Continue actualhelper thencallback/sort4; no phaseSTOP.
