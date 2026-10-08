@@ -142,7 +142,7 @@ def select_case(template: bytes, name: str) -> bytes:
 def normal_ens_span(source: bytes) -> tuple[int, int] | None:
     lines = source.decode().splitlines()
     starts = [i for i, line in enumerate(lines)
-              if re.match(r"^\s*ens\b", line)]
+              if re.match(r"^\s*(?:/\*@\s*)?ens\b", line)]
     if len(starts) != 1:
         return None
     start = starts[0]

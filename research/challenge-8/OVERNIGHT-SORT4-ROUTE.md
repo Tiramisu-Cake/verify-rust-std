@@ -46,3 +46,14 @@ For a ZST, four logical occurrences remain distinct although `.add(i)` can retai
 ## Review conclusion
 
 The callback-first fixture is the smallest independent next experiment once the common 26.10 profile is available; it should be preceded by tuple/HRTB source review and must retain both panic and normal full-resource posts. The actual helper remains a hard integration dependency, while `copy_nonoverlapping` into MaybeUninit is a separate missing memory-operation model. The pure permutation/SWO result is ready only as the final mathematical layer after actual pointer and callback correspondence. None of the static or historical components alone establishes actual `sort4_stable` safety, generic/ZST validity, or a combined accepted profile.
+
+## O9 correction: stock scratch destination already supported
+
+The earlier static reading of `dst[..count] |-> _` as an initialized
+requirement was incorrect. O9 run37707055478/proof0781cdbd M1 confirms
+uninitialized optional destination is accepted with full rawrepresentation
+post. Stock `verifast1.ml:6925` deliberately lowers DummyPat to `array_`;
+no new memory primitive is required for this isolated copy boundary. This
+supersedes the missing-uninitialized-destination assertion above, while
+keeping actual wrapper linkage, complete fourcopy geometry, padding,
+provenance, ownership/SWO composition and generic/ZST gates open.

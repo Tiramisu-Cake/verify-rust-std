@@ -28,7 +28,7 @@ FUNCTION_HEADER = (
     b") "
 )
 NEXT_SOURCE_ANCHOR = (
-    b"\n\n/// SAFETY: The caller MUST guarantee that v_base is valid for 8 reads and"
+    b"\n\n/// SAFETY: The caller MUST guarantee that `v_base` is valid for 8 reads and"
 )
 SOURCE_CALL_COUNTS = {
     b"is_less(": 5,

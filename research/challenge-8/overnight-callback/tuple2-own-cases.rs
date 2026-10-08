@@ -60,11 +60,13 @@ pub unsafe fn tuple2_noncopy_refs<'a>(
 // CASE_BEGIN tuple2_share_compat
 pub unsafe fn tuple2_share_compat<'a, T1, T2>(pair: &(T1, T2))
 /*@ req thread_token(?t) &*& t == currentThread &*&
+    type_interp::<T1>() &*& type_interp::<T2>() &*&
     [?q]lifetime_token('a) &*&
     [_](<T1>.share('a, t, &(*pair).0)) &*&
     [_](<T2>.share('a, t, &(*pair).1));
 @*/
-/*@ ens thread_token(t) &*& [q]lifetime_token('a) &*&
+/*@ ens thread_token(t) &*& type_interp::<T1>() &*& type_interp::<T2>() &*&
+    [q]lifetime_token('a) &*&
     [_](<(T1, T2)>.share('a, t, pair));
 @*/
 {

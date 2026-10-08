@@ -61,10 +61,16 @@ def canonical_actual_contract(source: bytes) -> bytes:
     LINK.require(source.count(CAPTURE_CONTRACT) == 1 and
                  source.count(INTRINSIC_GATE_CONTRACT) == 0,
                  "O4 actual capture contract no longer has exact reviewed bytes")
-    adjusted = source.replace(CAPTURE_CONTRACT, INTRINSIC_GATE_CONTRACT, 1)
-    LINK.require(CONSTRUCTOR.strip_ghost_annotations(adjusted) ==
-                 CONSTRUCTOR.strip_ghost_annotations(source),
-                 "intrinsic gate contract formatting changed runtime Rust")
+    prefix, suffix = source.split(CAPTURE_CONTRACT, 1)
+    LINK.require(suffix.startswith(b"{\n") and
+                 CONSTRUCTOR.strip_ghost_annotations(CAPTURE_CONTRACT).strip() == b"" and
+                 CONSTRUCTOR.strip_ghost_annotations(INTRINSIC_GATE_CONTRACT).strip() == b"",
+                 "intrinsic contract replacement crossed the actual body boundary")
+    def clauses(contract: bytes) -> bytes:
+        return b" ".join(contract.replace(b"/*@", b" ").replace(b"@*/", b" ").split())
+    LINK.require(clauses(CAPTURE_CONTRACT) == clauses(INTRINSIC_GATE_CONTRACT),
+                 "intrinsic contract replacement changed a clause token")
+    adjusted = prefix + INTRINSIC_GATE_CONTRACT + suffix
     LINK.require(adjusted.count(b"req thread_token(?t) &*& t == currentThread;") == 1 and
                  adjusted.count(b"ens thread_token(t) &*& (result as pointer) ==") == 1 and
                  adjusted.count(b"on_unwind_ens false;") == 1,

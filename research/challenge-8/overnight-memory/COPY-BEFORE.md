@@ -36,3 +36,21 @@ array precondition => justify precise optional-storage extension. Earlier
 frontend/setup failure => fix evidence, no semantic acceptance. Unexpected
 owner creation => reject candidate. Later actual use still requires all four
 copies, caller geometry and permutation/SWO bridges.
+
+## O9 outcome and corrected next decision
+
+O9 run37707055478/proof0781cdbd falsifies the initial premise: initialized AND
+`dst[..1] |-?-> cons(none,nil)` destination probes both pass full VF (return,
+leak,no deadcode), NORMAL/readonly/decode/refinement0. Original uninitialized
+classification remains INCONCLUSIVE because the initial classifier allowed
+only initialized positive; full log explicitly0errors. Kernel stock
+`verifast1.ml:6925` maps RHS DummyPat `_` to `array_` and optional values;
+`assertions.ml:1650` does the analogous points_to_ selection. No kernel/spec
+repair is warranted. Falsepost and owner_creation fail at target post line6.
+The target claim remains raw representation copy under stock summary, no
+actual wrapper body proof and no ZST conclusion. Next meaningful controls
+retain one arbitrary T.own in caller frame with uninitialized dst, and reject
+duplicating that owner after the copy. These verify the ownership separation
+without imposing Copy/Freeze or inventing T rights. Exact stock spec stanza
+and active spec hashes recorded; classified negatives require target entry,
+return and exact post file/line/predicate.

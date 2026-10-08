@@ -105,3 +105,84 @@ All normal and readonly exports, refinement, full verifier leak/dead-code
 checks, and exact actual body hash remain mandatory. This component's
 success would still leave wrapper selection and updated `assume_init`
 conversion to prove before claiming the helper's conditional pointer result.
+
+## Generic nested `Drop` must verify too: source-level architecture
+
+The nested `<select_unpredictable::DropOnPanic<T> as Drop>::drop` body is a
+separate MIR body in O7's export. The stock Rust frontend filters only
+closures by default (`vf_mir_translator.ml:8091–8121`);
+`skip_specless_fns` is false for Rust (`frontend/verifast0.ml:335`). It will
+verify this generic method even if the outer pointer-specialized helper's
+live-guard cleanup is later proved unreachable. Skipping it or making its
+precondition contradictory would hide a generic case and cannot justify an
+actual-helper PASS.
+
+For SAFE `Drop`, `translate_body` selects `gen_drop_contract` as the template
+(`vf_mir_translator.ml:5109–5152`). A user annotation does not freely replace
+that template: `verify_expr.ml:194–295` produces the generated pre before
+consuming the user pre, then produces the user post and consumes the generated
+post with a leak check. Therefore a source annotation requiring an extra
+selected-slot chunk would fail safety compatibility, and one returning an
+extra uninitialized chunk would fail the post compatibility leak check.
+
+The generated `DropOnPanic_full_borrow_content` combines the guard's `inner`
+field points-to, padding and nominal `DropOnPanic.own`
+(`vf_mir_translator.ml:5272–5384`). A truthful nominal own can state an
+initialized target-cell invariant, schematically
+`DropOnPanic<T>.own(t,g) = *g.inner |-> ?v &*& <T>.own(t,v)` plus pointer
+validity. It must be **constructed** by transferring the selected wrapper
+slot's real cell right to the guard; the unselected slot remains independent.
+For `T=*const Element`, the `<T>.own` part is the accepted empty raw-pointer
+value ownership and supplies no `Element` pointee right. The predicate is not
+`true` and is satisfiable whenever the caller owns that initialized slot.
+
+Opening this own from the generated borrow pre gives the actual generic
+destructor its unsafe call pre. The generic call in its MIR is
+`std::ptr::mut_ptr::<impl *mut T>::drop_in_place<T>`, not the pointer-only
+specialization used by the outer helper. The stock free
+`std::ptr::drop_in_place<T>` contract (`std/lib.rsspec:597–600`) consumes
+`*slot |-> v &*& <T>.own(t,v)` and returns `*slot |-> _` with thread on
+normal **and unwind**. A new same-source-verified generic method adapter for
+the exact `mut_ptr.rs` body must bridge this method call to that free
+contract. It cannot claim false unwind or preservation of an initialized
+cell for arbitrary `T`; those are valid only for the pointer-specialized O3
+component.
+
+The stock generated `Drop` post returns guard `inner` field/padding/thread
+but omits the now-uninitialized target slot. That leftover chunk is a real
+leak-check obstacle, even after the method call is supported. A narrowly
+reviewed nominal `gen_drop_contract` extension must expose the target slot
+as uninitialized in both normal and unwind posts, while preserving the
+ordinary field/padding/thread posts. It must be gated on the exact guard ADT,
+field type, source body and generic method MIR; ordinary `Drop` types retain
+their stock contracts. This is a contract-shape repair, not an axiom: the
+generic actual body must prove it from the truthful own pre and the verified
+generic pointer-drop callee. Negative controls need initialized-slot absence,
+wrong target, wrong post state, false unwind, source/MIR changes and a
+nonvacuous caller that constructs the guard from a real initialized slot.
+
+On the outer helper's normal path, exact nominal `forget` must consume the
+guard value **without** invoking Drop and return the initialized selected
+slot from the opened guard own. This is an ownership transfer, not a duplicate:
+the selected slot leaves the caller at guard construction and returns once
+on disarm. A typed unsafe adapter with the exact source body
+`let _ = ManuallyDrop::new(t);` can expose this stronger post; its current G1
+direct-body frame proof is only supporting evidence. Generic SAFE
+`forget<T>` still has the ordinary own-consuming post and cannot be weakened
+globally. The actual SAFE call needs a source/typed-MIR-certified, nominal
+single-call redirect to the proven adapter. If the source exactness gate
+cannot admit the necessary ghost type predicate and body annotations, that
+requires its own reviewed overlay; the accepted S6 gate must not be relaxed
+silently.
+
+The frontend already supports user-provided `.own` definitions for a
+**private-field local struct** (`vf_mir_translator.ml:6310–6362`), whereas it
+rejects user own definitions for public-field structs. The exact nested
+`DropOnPanic` has a private `inner` field, so this is a plausible source
+annotation mechanism; the qualified nested type syntax and exporter binding
+still need a hosted capture. The existing S6 intrinsic actual-body gate
+rejects extra body ghost-declaration blocks, so the owner predicate must be
+admitted through a reviewed top-level ghost declaration or a separate exact
+gate overlay. The `Drop` trait itself contributes no extra impl prototype in
+the translator (`vf_mir_translator.ml:7719–7723`); the generated SAFE Drop
+template and function body are the operative checks.

@@ -279,6 +279,24 @@ post weakening, cleanup edit or source-body edit is justified. The original
 O8 three `INCONCLUSIVE` outcomes remain recorded; only a fresh hosted run
 can assess actual intrinsic/drop admission and the next causal proof blocker.
 
+O9 run `37707055478` failed during fixture construction, before any of the
+three cases. The original replacement gate compared the *entire* ghost-stripped
+files byte for byte. The exact O4 contract has newline separators after each
+ghost block; the S6 gate contract has adjacent blocks. The constructor-family
+ghost stripper removes block contents but retains those separators, so the
+comparison rejects harmless whitespace between the signature and actual
+body. O9 is a setup failure, not a negative or intrinsic admission result.
+
+The revised gate splits at the unique, reviewed contract bytes and checks
+that the following suffix starts with the exact actual body's opening brace.
+It replaces only that ghost span, requires both spans to strip to whitespace,
+and compares their complete clause token sequences after whitespace
+normalization. The prefix and suffix, including every actual body byte, are
+unchanged. `make_case` still checks the source-certified body appears exactly
+once in both original and verified files and records the source certificate;
+the typed MIR and full source gates remain mandatory on the hosted runner.
+No proof or admissibility status changes until O10 completes.
+
 Hosted invocation after the as_mut_ptr result has been inspected:
 
 ~~~bash

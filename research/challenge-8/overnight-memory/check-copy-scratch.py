@@ -42,21 +42,35 @@ def main() -> None:
                "actual_wrapper_verified": False,
                "new_primitive_accepted": False,
                "generic_zst_contract_closed": False}
+    stock_clause = b"""    unsafe fn copy_nonoverlapping<T>(src: *mut T, dst: *mut T, count: usize);
+    //@ req [?f]src[..count] |-> ?vs &*& dst[..count] |-> _;
+    //@ ens [f]src[..count] |-> vs &*& dst[..count] |-> vs;
+    //@ on_unwind_ens false;
+    //@ terminates;
+"""
+    active_spec = (args.tool_home / "bin/rust/std/lib.rsspec").read_bytes()
+    DRIVER.require(active_spec.count(stock_clause) == 1, "stock copy summary stanza changed")
+    profile["stock_copy_summary_sha256"] = sha(stock_clause)
+    profile["active_spec_sha256"] = sha(active_spec)
     outcomes = {}
-    for variant in ("initialized", "uninitialized", "false_post", "owner_creation"):
+    for variant in ("initialized", "uninitialized", "owned_frame", "false_post", "owner_creation", "owner_duplication"):
         case = args.evidence / variant
         (case / "original").mkdir(parents=True)
         (case / "verified").mkdir()
-        destination = (b"dst[..1] |-?-> cons(none, nil)" if variant == "uninitialized"
+        destination = (b"dst[..1] |-?-> cons(none, nil)" if variant in {"uninitialized", "owned_frame", "owner_duplication"}
                        else b"dst[..1] |-> ?old_values")
         pre = (b"thread_token(?tid) &*& tid == currentThread &*& "
                b"src[..1] |-> ?values &*& " + destination +
                b" &*& *frame |-> ?flag &*& std::mem::size_of::<T>() > 0")
+        if variant in {"owned_frame", "owner_duplication"}:
+            pre += b" &*& <T>.own(tid, head(values))"
         post = (b"thread_token(tid) &*& src[..1] |-> values &*& "
                 b"dst[..1] |-> values &*& *frame |-> flag")
+        if variant in {"owned_frame", "owner_duplication"}:
+            post += b" &*& <T>.own(tid, head(values))"
         if variant == "false_post":
             post += b" &*& false"
-        if variant == "owner_creation":
+        if variant in {"owner_creation", "owner_duplication"}:
             post += b" &*& <T>.own(tid, head(values))"
         contract = (b"/*@\nreq " + pre + b";\n@*/\n/*@\nens " + post +
                     b";\n@*/\n/*@\non_unwind_ens false;\n@*/\n")
@@ -79,17 +93,24 @@ def main() -> None:
         intact = all(stage.get("source_unchanged") for stage in stages.values())
         intact = intact and (case / "original/lib.rs").read_bytes() == original and \
                  (case / "verified/lib.rs").read_bytes() == verified
-        target = log[log.find("Verifying function 'copy_scratch_probe'"):]
+        entered = "Verifying function 'copy_scratch_probe'" in log
+        target = log[log.find("Verifying function 'copy_scratch_probe'"):] if entered else ""
         body = ("Executing return statement" in target and "Leak check." in target)
         exit_code = stages.get("full-verification", {}).get("exit")
         label = "INCONCLUSIVE"
-        if frontend and intact and variant == "initialized" and exit_code == 0 and \
+        if frontend and intact and variant in {"initialized", "uninitialized", "owned_frame"} and exit_code == 0 and \
                 body and not errors and "dead code" not in log.lower():
-            label = "STOCK_INITIALIZED_CONTROL_PASS"
-        elif frontend and intact and exit_code == 1 and len(errors) == 1:
-            label = "CAPTURED_PROOF_BOUNDARY_UNREVIEWED"
+            label = "STOCK_RAW_REPRESENTATION_CONTROL_PASS"
+        elif frontend and intact and entered and exit_code == 1 and len(errors) == 1:
+            err = errors[0]
+            wanted = "Cannot prove false" if variant == "false_post" else "No matching heap chunks: own(T_typeid)(tid, head(values))"
+            if variant in {"false_post", "owner_creation", "owner_duplication"} and \
+                    "Executing return statement" in target and err["file"] == "verified/lib.rs" and \
+                    int(err["line"]) == 6 and wanted in err["message"]:
+                label = "INTENDED_TARGET_POST_NEGATIVE"
+
         record = {"classification": label, "stages": stages,
-                  "errors": errors, "target_return_leak": body,
+                  "errors": errors, "target_entry": entered, "target_return_leak": body,
                   "frontend_refinement": frontend, "source_integrity": intact,
                   "accepted": False, "actual_sort4_proved": False,
                   "actual_copy_wrapper_proved": False}

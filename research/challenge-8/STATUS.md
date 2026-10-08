@@ -11,7 +11,7 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1514/21600 summed GitHub-hosted job seconds**, 20086 remain.
+New independent account **1664/21600 summed GitHub-hosted job seconds**, 19936 remain.
 Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
@@ -33,7 +33,14 @@ profile remains EXPERIMENTAL. O8 at95e871c6/run37706123317: S6 eightstage regres
 caf140b6; intrinsic actual gate rejected equivalent ghost clause formatting
 before proof; tuple parser gate compared diff text/hunk context rather than
 resulting parser bytes. Both precise admission repairs are reviewed; original
-failures retained. O9 prepared on unchanged semantic profile: targeted actual
+failures retained. O9 at0781cdbd/run37707055478: tupleclose/open/noncopy3positivefullproof; share
+resource/type metadata error then falsepost-span harness abort (repaired).
+Intrinsic ghost-gap rawwhitespace identity check aborted before cases (fixed
+with untouchedprefix/body+equivalentcontracttoken checks). Sort4doc-anchor
+backticks mismatch stopped extraction (fixed). A1 two-body fullgraph captured,
+calleeproofcomplete then missingtransmuteNeo. M1 initialized+optional-none dst
+fullVF0: stock DummyPat lowers to optionalstorage, no new copyprimitive needed;
+falsepost/ownercreation fail at targetpost. O10 on unchanged semantic profile: targeted actual
 intrinsic/drop and tuple/callback, two-body A1 linkage MIR capture, complete
 actual sort4 graph capture, and stock scratch-copy boundary diagnostic. No new
 axiom/kernel. S6 regression reuse requires exact O8 profile identity; next
