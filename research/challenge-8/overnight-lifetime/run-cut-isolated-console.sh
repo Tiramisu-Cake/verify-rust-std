@@ -11,6 +11,7 @@ stock_home=
 compiler_sysroot=
 evidence=
 deadline_epoch=
+relocate_only=0
 while (($#)); do
   case "$1" in
     --production-source) production_source=$2; shift 2 ;;
@@ -19,6 +20,7 @@ while (($#)); do
     --compiler-sysroot) compiler_sysroot=$2; shift 2 ;;
     --evidence) evidence=$2; shift 2 ;;
     --deadline-epoch) deadline_epoch=$2; shift 2 ;;
+    --relocate-only) relocate_only=1; shift ;;
     *) printf 'Unknown CUT option: %s\n' "$1" >&2; exit 2 ;;
   esac
 done
@@ -60,10 +62,21 @@ cmp "$evidence/production-applied.patch" "$evidence/cut-before-applied.patch"
 [[ "$(hash "$cut_source/bin/verifast")" == "$production_console_sha" ]] || exit 2
 stage cut-patch-check git -C "$cut_source" apply --check "$cut_patch"
 stage cut-patch-apply git -C "$cut_source" apply "$cut_patch"
+if (( relocate_only )); then
+  for entry in 'verifast-cut-relocate-callback-TESTONLY.patch e7189430eca9a48ed49d280131bd22987af8d05ed43a88f9c4a5c9767e57bb9e' 'verifast-strict-cut-entry-trace-TESTONLY.patch bc129b381af7bfe8cd5ca56eef099d90312ad7695dbbf852864d0e28148a4c3b'; do
+    read -r name expected_sha <<< "$entry"
+    overlay="$repo/research/challenge-8/overnight-lifetime/$name"
+    printf '%s  %s\n' "$expected_sha" "$overlay" | sha256sum -c -
+    stage "$name-check" git -C "$cut_source" apply --check "$overlay"
+    stage "$name-apply" git -C "$cut_source" apply "$overlay"
+  done
+fi
 git -C "$cut_source" diff > "$evidence/cut-applied.patch"
 git -C "$cut_source" diff --name-only > "$evidence/cut-modified-files.txt"
 cmp "$evidence/cut-allowed-files.txt" "$evidence/cut-modified-files.txt"
-git -C "$cut_source" apply --reverse --check "$cut_patch"
+if (( relocate_only == 0 )); then
+  git -C "$cut_source" apply --reverse --check "$cut_patch"
+fi
 cmp "$production_source/src/rust_frontend/vf_mir/vf_mir.capnp" "$cut_source/src/rust_frontend/vf_mir/vf_mir.capnp"
 cmp "$production_source/bin/rust/std/lib.rsspec" "$cut_source/bin/rust/std/lib.rsspec"
 cmp "$production_source/src/rust_frontend/vf_mir_translator/rust_parser.ml" "$cut_source/src/rust_frontend/vf_mir_translator/rust_parser.ml"
@@ -111,9 +124,10 @@ if grep -q 'not found' "$evidence/cut-console-ldd.txt"; then exit 2; fi
   if command -v dune >/dev/null; then dune --version; fi
 } > "$evidence/hosted-build-versions.txt"
 
-python3 - "$repo" "$production_source" "$cut_source" "$stock_home" "$cut_patch" "$evidence" <<'AUDIT'
+python3 - "$repo" "$production_source" "$cut_source" "$stock_home" "$cut_patch" "$evidence" "$relocate_only" <<'AUDIT'
 import hashlib, json, pathlib, subprocess, sys
-repo,prod,cut,stock,patch,ev=map(pathlib.Path,sys.argv[1:])
+repo,prod,cut,stock,patch,ev=map(pathlib.Path,sys.argv[1:7])
+relocate_only=sys.argv[7]=="1"
 h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 paths=["bin/verifast","bin/vf-rust-mir-exporter","bin/refinement-checker",
        "bin/rust/std/lib.rsspec","src/rust_frontend/vf_mir/vf_mir.capnp",
@@ -133,6 +147,10 @@ manifest={"profile":"STRICT_CUT_DIAGNOSTIC_NOT_ACCEPTED",
           "production_cache_writes":False,
           "actual_sort4_proved":False,
           "mandatory_negative_controls_complete":False}
+manifest["relocate_test_only"] = relocate_only
+manifest["test_overlays"] = {name:h(repo/"research/challenge-8/overnight-lifetime"/name)
+    for name in ("verifast-cut-relocate-callback-TESTONLY.patch",
+                 "verifast-strict-cut-entry-trace-TESTONLY.patch")} if relocate_only else {}
 prod_specs={str(p.relative_to(prod)):h(p) for p in (prod/"bin/rust").rglob("*.rsspec")}
 cut_specs={str(p.relative_to(cut)):h(p) for p in (cut/"bin/rust").rglob("*.rsspec")}
 assert prod_specs==cut_specs
@@ -141,6 +159,17 @@ manifest["effective_spec_sha256"] = prod_specs
 AUDIT
 
 schema="$cut_source/src/rust_frontend/vf_mir/vf_mir.capnp"
+if (( relocate_only )); then
+  relocation_status=0
+  SORT4_STRICT_LFT_TRACE=1 stage relocation-diagnostic python3 "$repo/research/challenge-8/overnight-lifetime/capture-relocate.py" \
+    --tool-home "$cut_source" --out "$evidence/relocate" \
+    --deadline-epoch "$deadline_epoch" || relocation_status=$?
+  git -C "$production_source" diff > "$evidence/production-after-applied.patch"
+  cmp "$production_diff" "$evidence/production-after-applied.patch"
+  [[ "$(hash "$production_source/bin/verifast")" == "$production_console_sha" ]] || exit 2
+  printf 'relocation_status=%s\nprofile=TEST_RELOCATION_DIAGNOSTIC_ONLY\naccepted=false\nproduction_unchanged=true\n' "$relocation_status" > "$evidence/aggregate-stage-status.txt"
+  exit "$relocation_status"
+fi
 lawful_test_positive_status=0
 stage lawful-test-positive python3 "$repo/research/challenge-8/overnight-lifetime-test/capture-positive.py"   --tool-home "$cut_source" --out "$evidence/lawful-test-positive"   --deadline-epoch "$deadline_epoch" || lawful_test_positive_status=$?
 cut_matrix_status=0

@@ -2,7 +2,7 @@
 set -euo pipefail
 [[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && "${RUNNER_OS:-}" == Linux ]] || exit 2
 [[ "${GITHUB_REF:-}" == refs/heads/research/overnight-select-sort4-26.10 ]] || exit 2
-export OVERNIGHT_TARGETED_OWNER_NINE=1
+export OVERNIGHT_TARGETED_SOURCE_INTEGRATION=1
 export OVERNIGHT_TARGETED_POST_ADMISSION=1
 repo=$(git rev-parse --show-toplevel)
 cd "$repo"
@@ -144,16 +144,10 @@ if [[ "${OVERNIGHT_TARGETED_SOURCE_INTEGRATION:-}" == 1 ]]; then
  if (( preflight_owner_status == 0 )); then
   stage actual-owner-nine-source-capture python3 research/challenge-8/overnight-assume-actual/capture.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/actual-owner-nine-source-capture" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --fingerprint || owner_capture_status=$?
  fi
- sort4_capture_status=$preflight_sort4_status
- if (( preflight_sort4_status == 0 )); then
-  stage actual-sort4-full-graph python3 research/challenge-8/overnight-callback/prepare-actual-sort4-first-call.py --repo-root "$repo" --output "$ev/actual-sort4-full-graph" --capture --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || sort4_capture_status=$?
-  sort4_start_status=0
-  stage actual-sort4-proof-start python3 research/challenge-8/overnight/source-proof-start.py --tool-home "$source_home" --fixture "$ev/actual-sort4-full-graph" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || sort4_start_status=$?
- else
-  sort4_start_status=1
- fi
- printf 'owner_preflight=%s\nsort4_preflight=%s\nowner_capture=%s\nsort4_graph=%s\nsort4_proof_start=%s\nprofile=IDENTICAL_O23_MAIN16_SOURCE_INTEGRATION_ONLY\n' "$preflight_owner_status" "$preflight_sort4_status" "$owner_capture_status" "$sort4_capture_status" "$sort4_start_status" > "$ev/aggregate-stage-status.txt"
- (( owner_capture_status == 0 && sort4_capture_status == 0 && sort4_start_status == 0 ))
+ relocation_status=0
+ stage isolated-lifetime-relocation bash research/challenge-8/overnight-lifetime/run-cut-isolated-console.sh --production-source "$source_home" --production-applied-patch "$ev/applied.patch" --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/isolated-relocation" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --relocate-only || relocation_status=$?
+ printf 'owner_preflight=%s\nsort4_preflight=%s\nowner_capture=%s\nrelocation_diagnostic=%s\nprofile=IDENTICAL_O26_MAIN20_FRESH_OWNER_SOURCE_SEPARATE_TEST_CUT\n' "$preflight_owner_status" "$preflight_sort4_status" "$owner_capture_status" "$relocation_status" > "$ev/aggregate-stage-status.txt"
+ (( owner_capture_status == 0 && relocation_status == 0 ))
  exit $?
 fi
 if [[ "${OVERNIGHT_TARGETED_OWNER_CALIBRATION:-}" == 1 ]]; then
