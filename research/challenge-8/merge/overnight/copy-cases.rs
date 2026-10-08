@@ -23,8 +23,8 @@ struct CopyControlZst;
 // Harness prefix helper: this body directly checks the trusted intrinsic
 // contract. It transfers initializedness/value only and mentions no own<T>.
 unsafe fn copy_one<T>(src: *mut T, dst: *mut T)
-/*@ req copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v &*& *dst |-?-> ?old_dst; @*/
-/*@ ens copy_one_domain::<T>(src, dst) &*& [f]*src |-> v &*& *dst |-> v; @*/
+/*@ req copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v) &*& *dst |-?-> ?old_dst; @*/
+/*@ ens copy_one_domain::<T>(src, dst) &*& [f](*src |-> v) &*& *dst |-> v; @*/
 /*@ on_unwind_ens false; @*/
 {
     //@ open copy_one_domain::<T>(src, dst);
@@ -35,10 +35,10 @@ unsafe fn copy_one<T>(src: *mut T, dst: *mut T)
 // CASE_BEGIN copy_one_uninit_preserves_single_owner
 pub unsafe fn copy_one_uninit_preserves_single_owner<T>(src: *mut T, dst: *mut T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v &*& *dst |-?-> none &*&
+    copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v) &*& *dst |-?-> none &*&
     <T>.own(t, v); @*/
 /*@ ens thread_token(t) &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [f]*src |-> v &*& *dst |-> v &*&
+    copy_one_domain::<T>(src, dst) &*& [f](*src |-> v) &*& *dst |-> v &*&
     <T>.own(t, v); @*/
 /*@ on_unwind_ens false; @*/
 {
@@ -49,10 +49,10 @@ pub unsafe fn copy_one_uninit_preserves_single_owner<T>(src: *mut T, dst: *mut T
 // CASE_BEGIN copy_one_does_not_duplicate_own
 pub unsafe fn copy_one_does_not_duplicate_own<T>(src: *mut T, dst: *mut T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v &*& *dst |-?-> none &*&
+    copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v) &*& *dst |-?-> none &*&
     <T>.own(t, v); @*/
 /*@ ens thread_token(t) &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [f]*src |-> v &*& *dst |-> v &*&
+    copy_one_domain::<T>(src, dst) &*& [f](*src |-> v) &*& *dst |-> v &*&
     <T>.own(t, v); @*/
 /*@ on_unwind_ens false; @*/
 {
@@ -64,10 +64,10 @@ pub unsafe fn copy_one_does_not_duplicate_own<T>(src: *mut T, dst: *mut T)
 // CASE_BEGIN copy_one_existing_valid_maybe_value
 pub unsafe fn copy_one_existing_valid_maybe_value<T>(src: *mut T, dst: *mut T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v &*&
+    copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v) &*&
     *dst |-?-> some(?old_value) &*& <T>.own(t, v); @*/
 /*@ ens thread_token(t) &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [f]*src |-> v &*& *dst |-> v &*&
+    copy_one_domain::<T>(src, dst) &*& [f](*src |-> v) &*& *dst |-> v &*&
     <T>.own(t, v); @*/
 /*@ on_unwind_ens false; @*/
 {
@@ -78,10 +78,10 @@ pub unsafe fn copy_one_existing_valid_maybe_value<T>(src: *mut T, dst: *mut T)
 // CASE_BEGIN copy_one_preserves_disjoint_frame
 pub unsafe fn copy_one_preserves_disjoint_frame<T>(src: *mut T, dst: *mut T, frame: *mut T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v &*&
+    copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v) &*&
     *dst |-?-> ?old_dst &*& *frame |-> ?frame_value &*& <T>.own(t, v); @*/
 /*@ ens thread_token(t) &*& type_interp::<T>() &*&
-    copy_one_domain::<T>(src, dst) &*& [f]*src |-> v &*& *dst |-> v &*&
+    copy_one_domain::<T>(src, dst) &*& [f](*src |-> v) &*& *dst |-> v &*&
     *frame |-> frame_value &*& <T>.own(t, v); @*/
 /*@ on_unwind_ens false; @*/
 {
@@ -91,8 +91,8 @@ pub unsafe fn copy_one_preserves_disjoint_frame<T>(src: *mut T, dst: *mut T, fra
 
 // CASE_BEGIN copy_one_does_not_require_or_create_own
 pub unsafe fn copy_one_does_not_require_or_create_own<T>(src: *mut T, dst: *mut T)
-/*@ req copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v &*& *dst |-?-> none; @*/
-/*@ ens copy_one_domain::<T>(src, dst) &*& [f]*src |-> v &*& *dst |-> v; @*/
+/*@ req copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v) &*& *dst |-?-> none; @*/
+/*@ ens copy_one_domain::<T>(src, dst) &*& [f](*src |-> v) &*& *dst |-> v; @*/
 /*@ on_unwind_ens false; @*/
 {
     copy_one(src, dst);
@@ -101,7 +101,7 @@ pub unsafe fn copy_one_does_not_require_or_create_own<T>(src: *mut T, dst: *mut 
 
 // CASE_BEGIN copy_one_missing_destination_write
 pub unsafe fn copy_one_missing_destination_write<T>(src: *mut T, dst: *mut T)
-/*@ req copy_one_domain::<T>(src, dst) &*& [?f]*src |-> ?v; @*/
+/*@ req copy_one_domain::<T>(src, dst) &*& [?f](*src |-> ?v); @*/
 /*@ ens true; @*/
 /*@ on_unwind_ens false; @*/
 {

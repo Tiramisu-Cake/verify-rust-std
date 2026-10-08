@@ -123,6 +123,22 @@ suite() {
   set -uo pipefail
   suite_status=0
   printf 'Actual engine: experimental-merge-wrapping-callback-copy-v1 (DIAGNOSTIC, NOT ACCEPTED). Mathematical harness raw profile labels are historical; per-case binary SHA and build evidence bind this fresh execution.\n' > "$evidence/mathematical-profile-sidecar.txt"
+  run_one rust-profile-smoke 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --scope 'early complete ordinary normal/unwind body gate; prevents a global specification error masking the full matrix' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/baseline-cases.rs \
+    --cases ordinary_call_normal_unwind --evidence "$evidence/checked-profile-smoke"
+  if ! python3 - "$evidence/checked-profile-smoke/aggregate.json" <<'PY'
+import json, sys
+with open(sys.argv[1]) as stream:
+    result = json.load(stream)
+if result['cases'] != {'ordinary_call_normal_unwind': 'PASS'} or not result['classifier_controls_passed']:
+    raise SystemExit('Rust profile smoke failed; retain complete diagnostic evidence before another semantic matrix')
+PY
+  then
+    return 1
+  fi
   run_one G2-compatibility 90 python3 research/challenge-8/merge/stock-26.10/prove.py \
     --tool-home "$experimental_home" --evidence "$evidence/checked-g2"
   run_one A-compatibility 90 python3 research/challenge-8/merge/stock-26.10/functional-prove.py \

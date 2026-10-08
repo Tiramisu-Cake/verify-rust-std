@@ -4244,3 +4244,24 @@ Expected first failures now at actual borrow/callback/lifetime recovery or check
 trace lemmas, not global specification parsing. Outcome determines next local
 protocol correction or a separately designed strict cleanup extension. Combined
 profile remains experimental; no positive/negative claim before complete audit.
+
+### C1b/W2e/M2e outcome / C1c BEFORE
+
+Run37705502655/sourcef6c580559e1f0fbb9bdc4a4ba76ce70e0c09d180,
+job113078775822,00:01:32–00:04:50UTC=198seconds; cumulative1356/21600.
+Green collection only: G2/A/B/nativePASS; all87 Rust bodies blocked BEFORE
+execution at patchedstd622:626–627, “List expression must not contain patterns”.
+Exact character is the `[` in unparenthesized scalar `[?f]*src`; stock parser
+requires `[?f](*src |-> ?v)`. Repair scalar fractional syntax in copy spec/fixtures,
+no semantic or resource post changes. Actual extraction now ghost-strip exact
+both pinned functions; export/decode/refinement still0, VF global spec failure.
+New early ordinary normal/unwind fullbody smoke must PASS before the expensive
+combined matrix; any global parser/regression failure retains evidence and stops
+that run rather than masking all target controls. Original classifications kept.
+Read-review correction: Rust FnCallOutcome unwind uses ReturnStmt/Goto, which
+stock BlockStmt DOES wrap for token restoration; raw AST exception econt is not
+this path. Required source loan-end epilogue remains OPEN, but no generic
+exception-kernel extension is justified by the corrected trace alone.
+Fresh syntax-only copy patchda167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5;
+same exact pre/post/domain and count1 mapping. Positive early smoke at ordinary
+callee/caller normal/unwind is mandatory before all other matrix stages.

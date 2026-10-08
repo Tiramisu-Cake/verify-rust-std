@@ -1,5 +1,5 @@
 diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
-index a5d925d..137abe1 100644
+index a5d925d..331a5b2 100644
 --- a/bin/rust/std/lib.rsspec
 +++ b/bin/rust/std/lib.rsspec
 @@ -578,6 +578,13 @@ mod ptr {
@@ -9,8 +9,8 @@ index a5d925d..137abe1 100644
 +
 +    // Synthetic target used only for a source call with literal count 1.
 +    unsafe fn merge_copy_nonoverlapping_one<T>(src: *mut T, dst: *mut T, count: usize);
-+    //@ req count == 1 && 0 < std::mem::size_of::<T>() &*& 0 < src as usize &*& 0 < dst as usize &*& src as usize % std::mem::align_of::<T>() == 0 &*& dst as usize % std::mem::align_of::<T>() == 0 &*& std::mem::size_of::<T>() <= isize::MAX &*& src as usize <= usize::MAX - std::mem::size_of::<T>() &*& dst as usize <= usize::MAX - std::mem::size_of::<T>() &*& object_pointer_within_limits(src, std::mem::size_of::<T>()) == true &*& object_pointer_within_limits(dst, std::mem::size_of::<T>()) == true &*& (src as usize + std::mem::size_of::<T>() <= dst as usize || dst as usize + std::mem::size_of::<T>() <= src as usize) &*& [?f]*src |-> ?v &*& *dst |-?-> ?old_dst;
-+    //@ ens [f]*src |-> v &*& *dst |-> v;
++    //@ req count == 1 && 0 < std::mem::size_of::<T>() &*& 0 < src as usize &*& 0 < dst as usize &*& src as usize % std::mem::align_of::<T>() == 0 &*& dst as usize % std::mem::align_of::<T>() == 0 &*& std::mem::size_of::<T>() <= isize::MAX &*& src as usize <= usize::MAX - std::mem::size_of::<T>() &*& dst as usize <= usize::MAX - std::mem::size_of::<T>() &*& object_pointer_within_limits(src, std::mem::size_of::<T>()) == true &*& object_pointer_within_limits(dst, std::mem::size_of::<T>()) == true &*& (src as usize + std::mem::size_of::<T>() <= dst as usize || dst as usize + std::mem::size_of::<T>() <= src as usize) &*& [?f](*src |-> ?v) &*& *dst |-?-> ?old_dst;
++    //@ ens [f](*src |-> v) &*& *dst |-> v;
 +    //@ on_unwind_ens false;
 +    //@ terminates;
      

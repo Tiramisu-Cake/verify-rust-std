@@ -9,14 +9,15 @@ scoped C1 lowering recorded below.
 ## Exact inputs
 
 - VeriFast source: `f76012fb518703b1d98e243ac4f487f16877cfcb`.
-- Source patch: `copy.patch` (includes the C1 count-literal lowering), SHA-256
-  `0f1b65503d12affc3b45338304b64ebc85298034a23d83a814a4a8408966d518`.
+- Source patch: `copy.patch` (includes the C1 count-literal lowering and
+  scalar-fraction syntax correction), SHA-256
+  `da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5`.
 - Modified source paths: `bin/rust/std/lib.rsspec` and
   `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml` only.
 - Frozen input `bin/rust/std/lib.rsspec` SHA-256:
   `2da7acfb6596f8abec90c103ef7f294152c18f974b88124669882fc051272999`.
 - Patched `bin/rust/std/lib.rsspec` SHA-256:
-  `8901c1b30675ee48cdc2272787e53816573afe33e3a9765b434be79ca379f472`.
+  `5c55f95a6a098ef47ac9376e3bc6409fc744637da62d5b9b10b724c85dd9b5f8`.
 - Frozen `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml` SHA-256:
   `c1eb897673f88b0b8dc50798deca603bdad2c60818b6d5380ccf1dda055fe445`.
 - Patched translator SHA-256:
@@ -27,7 +28,7 @@ scoped C1 lowering recorded below.
   pinned input SHA-256
   `dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b`.
 - Fixture: `copy-cases.rs`, SHA-256
-  `42343dc6fb5c602a6feba753afb62d8327f2b17858feed138e2cd71dec41b971`. The
+  `121105dd266fd90380b48adc9c31416563330c036011708ae448301d29ecdbb4`. The
   fixture has no expected-error oracle; every `TARGET` remains inconclusive
   until exact hosted diagnostics are reviewed.
 
@@ -114,23 +115,22 @@ primitive precondition, rather than setup, parser, or frontend errors. Add
 explicit expected stage/predicate/location only after observing the exact
 diagnostic. The fixture does not run local builds or verifier commands.
 
-## Hosted parser-format correction and C1 lowering
+## Hosted parser corrections and C1 lowering
 
 The first hosted source run rejected a block-comment `req`/`ens` wrapper. A
-follow-up conditional-expression form exposed a separate binding issue: the
-Rust verifier checks both conditional assertion branches but does not export
-branch pattern variables to the following postcondition. The current patch
-leaves the original intrinsic contract unchanged and places the staged,
-unconditional precondition/postcondition on a synthetic spec target. C1
-translates only a call whose resolved name is exactly
-`std::ptr::copy_nonoverlapping`, whose three arguments are present, and whose
-translated third argument is an AST literal integer `1`; it preserves all
-three arguments and redirects that call to
-`std::ptr::merge_copy_nonoverlapping_one`. Dynamic count expressions and other
-names remain on the stock target. This translator change is an additional
-trusted semantic dependency and needs separate code review and hosted
-calibration. Static patch application and whitespace checks pass; hosted
-parsing/verifier evidence is still required.
+conditional-expression alternative exposed that branch pattern variables do
+not reach the postcondition, so the patch places the unconditional staged
+contract on a synthetic target and leaves the original intrinsic contract
+unchanged. A later hosted parse rejected scalar fractional points-to written
+as `[?f]*src |-> ?v`; the current patch uses the stock parser form
+`[?f](*src |-> ?v)` and `[f](*src |-> v)`. C1 translates only calls whose
+resolved name is exactly `std::ptr::copy_nonoverlapping`, with three arguments
+and translated third argument an AST integer literal `1`; it preserves all
+three arguments and redirects to `std::ptr::merge_copy_nonoverlapping_one`.
+Dynamic counts and other names remain on the stock target. The translator
+change is an additional trusted dependency requiring separate review and
+hosted calibration. Static patch application and whitespace checks pass;
+hosted parsing/verifier evidence is still required.
 
 ## Required next review gates
 
