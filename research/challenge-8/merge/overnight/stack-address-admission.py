@@ -255,10 +255,109 @@ def use_source(assign):
     return kind, place
 
 
-def tuple_roles(target, blocks, tuple_id, names, expected, call_line, lines):
+def named_cursor(names, name, input_count):
+    candidates = [identifier for identifier in names.get(name, [])
+                  if int(identifier[1:]) > input_count]
+    require(len(candidates) == 1,
+            f'expected one nonparameter source cursor {name}, found {candidates}')
+    return candidates[0]
+
+
+def referenced_locals(value):
+    if isinstance(value, dict):
+        if isinstance(value.get('local'), dict) and 'name' in value['local']:
+            yield value['local']['name']
+        for nested in value.values():
+            yield from referenced_locals(nested)
+    elif isinstance(value, list):
+        for nested in value:
+            yield from referenced_locals(nested)
+
+
+def mir_places(value):
+    """Enumerate every decoded MIR Place, preserving object identity."""
+    if isinstance(value, dict):
+        if isinstance(value.get('local'), dict) and 'name' in value['local']:
+            yield value
+        for nested in value.values():
+            yield from mir_places(nested)
+    elif isinstance(value, list):
+        for nested in value:
+            yield from mir_places(nested)
+
+
+def check_all_role_places(blocks, roles, allowed):
+    actual = [place for place in mir_places(blocks)
+              if path(place, 'local', 'name') in roles.values()]
+    require(len(actual) == len(allowed) and
+            {id(place) for place in actual} == set(allowed) and
+            len({id(place) for place in actual}) == len(actual),
+            'hidden role has an extra/missing MIR place read or write')
+
+
+def all_assignment_writes(blocks, identifier):
+    return [(block, stmt) for block in blocks
+            for stmt in path(block, 'statements')
+            if (a := assignment(stmt)) is not None and
+            path(a, 'lhsPlace', 'local', 'name') == identifier]
+
+
+def check_call_inputs(block, call, blocks, names, expected, input_count):
+    """Bind actual MIR operands to their last definitions in the call block."""
+    args = path(call, 'args')
+    require(len(args) == 4, 'merge call argument arity changed')
+    temps = []
+    for operand in args:
+        require(isinstance(operand, dict) and set(operand) == {'move'},
+                'merge call argument is not a moved temporary')
+        temps.append(local(operand['move']))
+    require(len(set(temps)) == 4, 'merge call argument temporaries alias')
+    statements = path(block, 'statements')
+    for index, (temp, source_name) in enumerate(zip(temps, (*expected, 'is_less'))):
+        writes = [(position, a) for position, stmt in enumerate(statements)
+                  if (a := assignment(stmt)) is not None and
+                  path(a, 'lhsPlace', 'local', 'name') == temp]
+        require(len(writes) == 1 and
+                path(writes[0][1], 'lhsPlace', 'projection') == [],
+                f'merge argument {index} has an extra/missing/intervening write')
+        require(len(all_assignment_writes(blocks, temp)) == 1,
+                f'merge argument {index} is written in another MIR block')
+        lives = [position for position, stmt in enumerate(statements)
+                 if path(stmt, 'kind').get('storageLive') == {'name': temp}]
+        deaths = [stmt for stmt in statements
+                  if path(stmt, 'kind').get('storageDead') == {'name': temp}]
+        require(len(lives) == 1 and lives[0] < writes[0][0] and not deaths,
+                f'merge argument {index} storage lifetime changed before call')
+        rhs = path(writes[0][1], 'rhsRvalue')
+        if index < 3:
+            source = named_cursor(names, source_name, input_count)
+            require(set(rhs) == {'use'} and
+                    set(rhs['use']) == {'copy'} and
+                    local(rhs['use']['copy']) == source,
+                    f'merge argument {index} is not the current {source_name} cursor')
+        else:
+            callback = path(names, 'is_less')
+            require(len(callback) == 1 and int(callback[0][1:]) <= input_count and
+                    set(rhs) == {'ref'}, 'merge callback argument shape changed')
+            borrowed = rhs['ref']
+            require(path(borrowed, 'borKind') == {'mut': None} and
+                    path(borrowed, 'place', 'local', 'name') == callback[0] and
+                    path(borrowed, 'place', 'projection') == [{'deref': None}] and
+                    path(borrowed, 'placeTy', 'kind', 'param') == 'F',
+                    'merge callback no longer borrows source is_less')
+        # The fresh argument temporary is never consumed in an earlier RHS.
+        require(not any(temp in referenced_locals(path(a, 'rhsRvalue'))
+                        for a in (assignment(stmt) for stmt in statements)
+                        if a is not None),
+                f'merge argument {index} is used before the call')
+
+
+def tuple_roles(target, blocks, tuple_id, names, expected, call_line, lines,
+                input_count):
     statements = path(target, 'statements')
     extracts = {}
-    for stmt in statements:
+    extracted_places = []
+    for position, stmt in enumerate(statements):
         assign = assignment(stmt)
         if assign is None:
             continue
@@ -277,42 +376,47 @@ def tuple_roles(target, blocks, tuple_id, names, expected, call_line, lines):
         span, line = span_text(path(stmt, 'sourceInfo', 'span'), lines)
         require(line == call_line and expected[field] in span,
                 'tuple extraction has wrong source binding')
-        extracts[field] = local(path(assign, 'lhsPlace'))
+        extracts[field] = (position, local(path(assign, 'lhsPlace')))
+        extracted_places.append(place)
     require(set(extracts) == {0, 1, 2}, 'missing tuple result field extraction')
-
-    # Follow only same-line, unprojected local copies from the extracted value
-    # to the source-named cursor. A mere matching source token is insufficient.
-    edges = {}
-    for block in blocks:
-        for stmt in path(block, 'statements'):
-            assign = assignment(stmt)
-            if assign is None:
-                continue
-            source = use_source(assign)
-            if source is None:
-                continue
-            _, place = source
-            if path(place, 'projection') != [] or path(assign, 'lhsPlace', 'projection') != []:
-                continue
-            line = path(stmt, 'sourceInfo', 'span', 'regular', 'lo', 'line')
-            if line == call_line:
-                edges.setdefault(path(place, 'local', 'name'), set()).add(
-                    local(path(assign, 'lhsPlace')))
+    require(extracts[0][0] < extracts[1][0] < extracts[2][0],
+            'tuple fields are extracted out of order')
+    writes = [(position, a) for position, stmt in enumerate(statements)
+              if (a := assignment(stmt)) is not None]
+    extract_positions = {position for position, _ in extracts.values()}
+    require(all((tuple_id not in referenced_locals(path(a, 'rhsRvalue')) or
+                 position in extract_positions) and
+                path(a, 'lhsPlace', 'local', 'name') != tuple_id
+                for position, a in writes),
+            'tuple result has an unexpected target-block read/write')
     for field, wanted_name in enumerate(expected):
-        pending = [extracts[field]]
-        reached = set()
-        while pending:
-            item = pending.pop()
-            if item not in reached:
-                reached.add(item)
-                pending.extend(edges.get(item, set()))
-        wanted = set(names.get(wanted_name, []))
-        require(len(wanted & reached) == 1,
-                f"tuple field {field} does not reach {wanted_name}")
-        for other_name in expected:
-            if other_name != wanted_name:
-                require(not (set(names.get(other_name, [])) & reached),
-                        f"tuple field {field} also reaches {other_name}")
+        start, seed = extracts[field]
+        bridges = [(position, local(path(a, 'lhsPlace')))
+                   for position, a in writes if position > start and
+                   (u := use_source(a)) is not None and
+                   path(u[1], 'projection') == [] and local(u[1]) == seed]
+        require(len(bridges) == 1 and bridges[0][0] > extracts[2][0],
+                f'tuple field {field} bridge is ambiguous or reordered')
+        middle, bridge = bridges[0]
+        target_id = named_cursor(names, wanted_name, input_count)
+        cursor_writes = [(position, a) for position, a in writes
+                         if path(a, 'lhsPlace', 'local', 'name') == target_id]
+        require(len(cursor_writes) == 1 and cursor_writes[0][0] > middle and
+                (u := use_source(cursor_writes[0][1])) is not None and
+                path(u[1], 'projection') == [] and local(u[1]) == bridge,
+                f'tuple field {field} does not update only {wanted_name}')
+        for identifier in (seed, bridge):
+            require(sum(path(a, 'lhsPlace', 'local', 'name') == identifier
+                        for _, a in writes) == 1,
+                    f'tuple field {field} intermediate is overwritten')
+            require(len(all_assignment_writes(blocks, identifier)) == 1,
+                    f'tuple field {field} intermediate is written in another MIR block')
+            require(sum(identifier in referenced_locals(path(a, 'rhsRvalue'))
+                        for _, a in writes) == 1,
+                    f'tuple field {field} intermediate has an extra read')
+        require(start < middle < cursor_writes[0][0],
+                f'tuple field {field} updates are reordered')
+    return extracted_places
 
 
 def inspect(decoded, source_text: str):
@@ -363,6 +467,10 @@ def inspect(decoded, source_text: str):
     require(loop_line < up_line < down_line, 'range and merge calls reordered')
     up_result = local(path(up_call, 'destination'))
     down_result = local(path(down_call, 'destination'))
+    check_call_inputs(up_block, up_call, blocks, names,
+                      ('left', 'right', 'dst'), len(path(body, 'inputs')))
+    check_call_inputs(down_block, down_call, blocks, names,
+                      ('left_rev', 'right_rev', 'dst_rev'), len(path(body, 'inputs')))
     roles = {'range_result': range_result, 'range_input': range_input,
              'merge_up_result': up_result, 'merge_down_result': down_result}
     require(len(set(roles.values())) == 4, 'hidden stack roles alias each other')
@@ -409,13 +517,20 @@ def inspect(decoded, source_text: str):
     iter_ids = names.get('iter', [])
     require(len(iter_ids) == 1, 'source iterator VDI is missing/ambiguous')
     iter_target = target_block(blocks, range_call)
-    require(any((a := assignment(s)) is not None and
-                path(a, 'lhsPlace', 'projection') == [] and
-                local(path(a, 'lhsPlace')) == iter_ids[0] and
-                (u := use_source(a)) is not None and u[0] == 'move' and
-                path(u[1], 'projection') == [] and local(u[1]) == range_result
-                for s in path(iter_target, 'statements')),
-            'range result is not moved to source iterator')
+    iter_moves = [(a, u[1]) for s in path(iter_target, 'statements')
+                  if (a := assignment(s)) is not None and
+                  path(a, 'lhsPlace', 'projection') == [] and
+                  local(path(a, 'lhsPlace')) == iter_ids[0] and
+                  (u := use_source(a)) is not None and u[0] == 'move' and
+                  path(u[1], 'projection') == [] and local(u[1]) == range_result]
+    require(len(iter_moves) == 1,
+            'range result is not uniquely moved to source iterator')
+
+    allowed_role_places = [id(path(stmt, 'kind', 'assign', 'lhsPlace')),
+                           id(path(range_call, 'args')[0][
+                               next(iter(path(range_call, 'args')[0]))]),
+                           id(path(range_call, 'destination')),
+                           id(iter_moves[0][1])]
 
     for block, call, result, expected, call_line in (
         (up_block, up_call, up_result, ('left', 'right', 'dst'), up_line),
@@ -423,7 +538,15 @@ def inspect(decoded, source_text: str):
          ('left_rev', 'right_rev', 'dst_rev'), down_line),
     ):
         target = target_block(blocks, call)
-        tuple_roles(target, blocks, result, names, expected, call_line, lines)
+        allowed_role_places.append(id(path(call, 'destination')))
+        allowed_role_places.extend(id(place) for place in
+                                   tuple_roles(target, blocks, result, names,
+                                               expected, call_line, lines,
+                                               len(path(body, 'inputs'))))
+    require(len(allowed_role_places) == 12 and
+            len(set(allowed_role_places)) == len(allowed_role_places),
+            'hidden role place whitelist is ambiguous')
+    check_all_role_places(blocks, roles, allowed_role_places)
 
     # All marker uses must be in the one body invariant. In discovery there
     # are no uses; after injection there are exactly 3+3+4+4 field/padding uses.
@@ -474,12 +597,14 @@ def negative_controls(decoded, source: str, certificate: dict) -> list[str]:
         require(len(calls) == 1, f'negative-control {name} setup failed')
         return calls[0]
 
-    def rejected(label, mutate, changed_source=None):
+    def rejected(label, mutate, changed_source=None, expected_reason=None):
         tree = copy.deepcopy(decoded)
         mutate(tree)
         try:
             inspect(tree, source if changed_source is None else changed_source)
-        except AdmissionError:
+        except AdmissionError as exc:
+            require(expected_reason is None or expected_reason in str(exc),
+                    f'negative control {label} failed at wrong gate: {exc}')
             checked.append(label)
             return
         raise AdmissionError(f'negative control {label} was unexpectedly admitted')
@@ -529,13 +654,117 @@ def negative_controls(decoded, source: str, certificate: dict) -> list[str]:
         call_of(body_of(tree), 'merge_down')['unwindAction'] = {'unreachable': None}
     rejected('callback_unwind_changed', wrong_unwind)
 
+    def wrong_call_operand(tree):
+        body = body_of(tree)
+        up = call_of(body, 'merge_up')
+        up['args'][0]['move']['local']['name'] = named_cursor(
+            vdi_map(body), 'dst', len(path(body, 'inputs')))
+    rejected('wrong_actual_mir_call_operand', wrong_call_operand)
+
+    def overwritten_call_temp(tree):
+        body = body_of(tree)
+        block = next(block for block in path(body, 'basicBlocks')
+                     if 'call' in path(block, 'terminator', 'kind') and
+                     call_name(path(block, 'terminator', 'kind', 'call')) == 'merge_up')
+        temp = operand_local(path(block, 'terminator', 'kind', 'call', 'args')[0])
+        original = next(stmt for stmt in path(block, 'statements')
+                        if (a := assignment(stmt)) is not None and
+                        local(path(a, 'lhsPlace')) == temp)
+        extra = copy.deepcopy(original)
+        extra['kind']['assign']['rhsRvalue']['use']['copy']['local']['name'] = \
+            named_cursor(vdi_map(body), 'right', len(path(body, 'inputs')))
+        path(block, 'statements').append(extra)
+    rejected('overwritten_actual_mir_argument', overwritten_call_temp)
+
+    def overwritten_field_temp(tree):
+        body = body_of(tree)
+        up = call_of(body, 'merge_up')
+        target = target_block(path(body, 'basicBlocks'), up)
+        tuple_id = local(path(up, 'destination'))
+        original = next(stmt for stmt in path(target, 'statements')
+                        if (a := assignment(stmt)) is not None and
+                        (u := use_source(a)) is not None and
+                        path(u[1], 'local', 'name') == tuple_id and
+                        path(u[1], 'projection') and
+                        path(u[1], 'projection')[0].get('field', {}).get('index') == 0)
+        path(target, 'statements').append(copy.deepcopy(original))
+    rejected('overwritten_tuple_field_temporary', overwritten_field_temp)
+
+    def overwritten_cursor(tree):
+        body = body_of(tree)
+        up = call_of(body, 'merge_up')
+        target = target_block(path(body, 'basicBlocks'), up)
+        cursor = named_cursor(vdi_map(body), 'left', len(path(body, 'inputs')))
+        original = next(stmt for stmt in path(target, 'statements')
+                        if (a := assignment(stmt)) is not None and
+                        local(path(a, 'lhsPlace')) == cursor)
+        path(target, 'statements').append(copy.deepcopy(original))
+    rejected('overwritten_tuple_cursor', overwritten_cursor)
+
+    def extra_hidden_role_read(tree):
+        body = body_of(tree)
+        blocks = path(body, 'basicBlocks')
+        into = call_of(body, 'std::iter::IntoIterator::into_iter')
+        target = target_block(blocks, into)
+        result = f"_{ids['range_result']}"
+        original = next(stmt for stmt in path(target, 'statements')
+                        if (a := assignment(stmt)) is not None and
+                        (u := use_source(a)) is not None and
+                        u[0] == 'move' and
+                        path(u[1], 'local', 'name') == result and
+                        path(u[1], 'projection') == [])
+        extra = copy.deepcopy(original)
+        extra['kind']['assign']['rhsRvalue']['use'] = {
+            'copy': extra['kind']['assign']['rhsRvalue']['use'].pop('move')}
+        path(target, 'statements').append(extra)
+    rejected('extra_hidden_role_read_in_other_statement', extra_hidden_role_read,
+             expected_reason='hidden role has an extra/missing MIR place')
+
+    def extra_hidden_role_write(tree):
+        body = body_of(tree)
+        blocks = path(body, 'basicBlocks')
+        block = next(block for block in blocks
+                     if 'call' in path(block, 'terminator', 'kind') and
+                     call_name(path(block, 'terminator', 'kind', 'call')) == 'merge_up')
+        original = next(stmt for stmt in path(block, 'statements')
+                        if (a := assignment(stmt)) is not None and
+                        (u := use_source(a)) is not None and u[0] == 'copy')
+        extra = copy.deepcopy(original)
+        path(extra, 'kind', 'assign', 'lhsPlace', 'local')['name'] = \
+            f"_{ids['range_input']}"
+        path(block, 'statements').append(extra)
+    rejected('extra_hidden_role_write_in_other_block', extra_hidden_role_write,
+             expected_reason='hidden role has an extra/missing MIR place')
+
+    def extra_nested_hidden_role_read(tree):
+        body = body_of(tree)
+        blocks = path(body, 'basicBlocks')
+        result = f"_{ids['range_result']}"
+        for block in blocks:
+            for stmt in path(block, 'statements'):
+                a = assignment(stmt)
+                if (a is None or
+                        path(a, 'lhsPlace', 'local', 'name') != f"_{ids['range_input']}" or
+                        path(a, 'lhsPlace', 'projection') != []):
+                    continue
+                aggregate = path(a, 'rhsRvalue').get('aggregate')
+                if aggregate is None:
+                    continue
+                operand = path(aggregate, 'operands')[0]
+                operand.clear()
+                operand['copy'] = {'local': {'name': result}, 'projection': []}
+                return
+        raise AdmissionError('nested hidden-role read negative-control setup failed')
+    rejected('extra_nested_hidden_role_read', extra_nested_hidden_role_read,
+             expected_reason='hidden role has an extra/missing MIR place')
+
     if certificate['status'] == 'final':
         require('mir_stack_addr(' in source, 'final marker negative-control setup failed')
         malformed = source.replace('mir_stack_addr(', 'mir_stack_addr(x', 1)
     else:
         malformed = source + '\n//@ inv mir_stack_addr(x);\n'
     rejected('malformed_marker', lambda tree: None, malformed)
-    require(len(checked) == 6, 'negative-control suite is incomplete')
+    require(len(checked) == 13, 'negative-control suite is incomplete')
     return checked
 
 

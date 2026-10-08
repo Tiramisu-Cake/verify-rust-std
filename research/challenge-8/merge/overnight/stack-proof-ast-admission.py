@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import copy
 from collections import Counter
 from dataclasses import dataclass
 import hashlib
@@ -276,65 +277,141 @@ def check_switch(sw, name, result, span):
     returned = narg(unwinding, 'ReturnStmt', 2)[1]
     outcome = narg(returned, 'Some', 1)[0]
     require(call_name(outcome) == 'unwinding', f'{name} unwind was suppressed')
-    return call
+    return call, assignment[1]
 
 
-def check_extracts(func, role_name, call_line, wanted):
-    seeds = {}
-    edges = {}
-    for assign in nodes(func, 'AssignExpr'):
-        args = narg(assign, 'AssignExpr', 4)
-        if location_line(args[0]) != call_line or not isinstance(args[1], Node) or args[1].name != 'Var':
-            continue
-        lhs = var(args[1])
-        rhs = args[3]
-        if isinstance(rhs, Node) and rhs.name == 'Select':
-            selector = narg(rhs, 'Select', 3)
-            if isinstance(selector[1], Node) and selector[1].name == 'Var' and var(selector[1]) == role_name:
-                field = selector[2]
-                require(field in ('0', '1', '2') and field not in seeds,
-                        'tuple result extraction field duplicate/changed')
-                seeds[field] = lhs
-        elif isinstance(rhs, Node) and rhs.name == 'Var':
-            edges.setdefault(var(rhs), set()).add(lhs)
-    require(set(seeds) == {'0', '1', '2'},
-            f'{role_name} tuple result is not destructured through three fields')
-    for index, target in enumerate(wanted):
-        pending = [seeds[str(index)]]
-        reached = set()
-        while pending:
-            current = pending.pop()
-            if current not in reached:
-                reached.add(current)
-                pending.extend(edges.get(current, ()))
-        require(target in reached and not (set(wanted) - {target}) & reached,
-                f'{role_name} field {index} does not reach unique {target}')
+def statement_list_containing(value, target):
+    found = []
+    def visit(item):
+        if isinstance(item, list):
+            if any(entry is target for entry in item):
+                found.append(item)
+            for entry in item:
+                visit(entry)
+        elif isinstance(item, tuple):
+            for entry in item:
+                visit(entry)
+        elif isinstance(item, Node):
+            for entry in item.args:
+                visit(entry)
+    visit(value)
+    return only(found, 'linear statement list containing checked call')
 
 
-def check_merge_inputs(func, call, line, expected):
+def ordered_assignment(stmt):
+    assignment = expr_stmt_assign(stmt)
+    require(isinstance(assignment[1], Node) and assignment[1].name == 'Var',
+            'checked call def-use assignment is not a local write')
+    return assignment
+
+
+def direct_assignment(stmt):
+    if (isinstance(stmt, Node) and stmt.name == 'ExprStmt' and
+            len(stmt.args) == 1 and isinstance(stmt.args[0], Node) and
+            stmt.args[0].name == 'AssignExpr'):
+        return narg(stmt.args[0], 'AssignExpr', 4)
+    return None
+
+
+def all_local_writes(func, name):
+    return [a.args for a in nodes(func, 'AssignExpr')
+            if len(a.args) == 4 and isinstance(a.args[1], Node) and
+            a.args[1].name == 'Var' and var(a.args[1]) == name]
+
+
+def check_all_role_vars(func, names, allowed):
+    role_names = set(names.values())
+    actual = [node for node in nodes(func, 'Var') if var(node) in role_names]
+    require(len(actual) == len(allowed) and
+            len({id(node) for node in actual}) == len(actual) and
+            {id(node) for node in actual} == {id(node) for node in allowed} and
+            len({id(node) for node in allowed}) == len(allowed),
+            'hidden role has an extra/missing proof AST variable read or write')
+
+
+def check_extracts(func, switch, role_name, call_line, wanted):
+    statements = statement_list_containing(func, switch)
+    at = next(index for index, stmt in enumerate(statements) if stmt is switch)
+    require(len(statements) >= at + 10,
+            'tuple result has fewer than nine immediate extraction writes')
+    following = [ordered_assignment(stmt) for stmt in statements[at + 1:at + 10]]
+    seeds = []
+    role_uses = []
+    for field, assignment in enumerate(following[:3]):
+        rhs = narg(assignment[3], 'Select', 3)
+        require(assignment[2] == Sym('Initialization') and
+                var(rhs[1]) == role_name and rhs[2] == str(field) and
+                location_line(assignment[0]) == call_line,
+                f'{role_name} field {field} extraction was reordered or changed')
+        seeds.append(var(assignment[1]))
+        role_uses.append(rhs[1])
+    require(len(set(seeds)) == 3, 'tuple result field seeds alias')
+    bridges = []
+    for field, target in enumerate(wanted):
+        first, second = following[3 + 2 * field:5 + 2 * field]
+        bridge = var(first[1])
+        require(first[2] == Sym('Mutation') and
+                var(first[3]) == seeds[field] and
+                second[2] == Sym('Mutation') and
+                var(second[1]) == target and var(second[3]) == bridge and
+                location_line(first[0]) == location_line(second[0]) == call_line,
+                f'{role_name} field {field} has an overwritten or wrong cursor path')
+        bridges.append(bridge)
+    require(len(set(seeds + bridges + list(wanted))) == 9,
+            'tuple field temporary/cursor identities alias')
+    for position, seed in enumerate(seeds):
+        writes = all_local_writes(func, seed)
+        require(len(writes) == 1 and writes[0] is following[position],
+                'tuple field seed is overwritten elsewhere in the AST')
+    for position, bridge in enumerate(bridges):
+        writes = all_local_writes(func, bridge)
+        require(len(writes) == 1 and writes[0] is following[3 + 2 * position],
+                'tuple field bridge is overwritten elsewhere in the AST')
+    tracked = set(seeds + bridges + list(wanted))
+    for stmt in statements[at + 10:]:
+        assignment = direct_assignment(stmt)
+        if (assignment is not None and location_line(assignment[0]) == call_line and
+                isinstance(assignment[1], Node) and assignment[1].name == 'Var'):
+            require(var(assignment[1]) not in tracked,
+                    'tuple field temporary/cursor has a later same-line overwrite')
+    return role_uses
+
+
+def check_merge_inputs(func, switch, call, line, expected):
     actual = narg(call, 'CallExpr', 6)[4]
     require(isinstance(actual, list) and len(actual) == 4,
             'merge call argument arity changed')
     arguments = [var(narg(item, 'LitPat', 1)[0]) for item in actual]
     require(len(set(arguments)) == 4, 'merge call arguments alias unexpectedly')
-    assignments = [a for a in nodes(func, 'AssignExpr')
-                   if location_line(a.args[0]) == line and
-                   isinstance(a.args[1], Node) and a.args[1].name == 'Var']
-    for argument, source in zip(arguments[:3], expected):
-        copies = [a for a in assignments if var(a.args[1]) == argument and
-                  isinstance(a.args[3], Node) and a.args[3].name == 'Var' and
-                  var(a.args[3]) == source]
-        only(copies, f'merge input {argument} from {source}')
-    callbacks = [a for a in assignments if var(a.args[1]) == arguments[3] and
-                 isinstance(a.args[3], Node) and a.args[3].name == 'AddressOf' and
-                 isinstance(a.args[3].args[1], Node) and
-                 a.args[3].args[1].name == 'Deref' and
-                 var(a.args[3].args[1].args[1]) == 'is_less']
-    only(callbacks, 'merge callback input from is_less')
+    statements = statement_list_containing(func, switch)
+    at = next(index for index, stmt in enumerate(statements) if stmt is switch)
+    require(at >= 4, 'merge call lacks four immediate argument definitions')
+    assignments = [ordered_assignment(stmt) for stmt in statements[at - 4:at]]
+    require(all(location_line(a[0]) == line and a[2] == Sym('Mutation')
+                for a in assignments) and
+            [var(a[1]) for a in assignments] == arguments,
+            'merge argument definitions are reordered, overwritten or missing')
+    for argument, assignment in zip(arguments, assignments):
+        writes = all_local_writes(func, argument)
+        require(len(writes) == 1 and writes[0] is assignment,
+                'merge argument temporary is overwritten elsewhere in the AST')
+    for stmt in statements[:at - 4]:
+        assignment = direct_assignment(stmt)
+        if (assignment is not None and location_line(assignment[0]) == line and
+                isinstance(assignment[1], Node) and assignment[1].name == 'Var'):
+            require(var(assignment[1]) not in arguments,
+                    'merge argument temporary has an earlier same-line write')
+    for assignment, source in zip(assignments[:3], expected):
+        require(var(assignment[3]) == source,
+                f'merge argument is not copied from {source}')
+    callback = narg(assignments[3][3], 'AddressOf', 2)[1]
+    require(var(narg(callback, 'Deref', 2)[1]) == 'is_less',
+            'merge callback input is not borrowed from is_less')
 
 
 def check_range_constructor(func, identifier, line):
     builds = {}
+    role_uses = {}
     for assign in nodes(func, 'AssignExpr'):
         args = narg(assign, 'AssignExpr', 4)
         if location_line(args[0]) != line or not isinstance(args[1], Node) or args[1].name != 'Select':
@@ -345,6 +422,7 @@ def check_range_constructor(func, identifier, line):
         require(field[2] in ('start', 'end') and field[2] not in builds,
                 'range input field construction changed')
         builds[field[2]] = args[3]
+        role_uses[field[2]] = field[1]
     require(set(builds) == {'start', 'end'}, 'range input fields not constructed')
     start = narg(builds['start'], 'CastExpr', 3)
     check_usize_type(start[1])
@@ -358,7 +436,7 @@ def check_range_constructor(func, identifier, line):
                   isinstance(a.args[3], Node) and a.args[3].name == 'Var' and
                   var(a.args[1]) == endpoint and var(a.args[3]) == 'len_div_2']
     only(candidates, 'range endpoint copy from len_div_2')
-    return builds
+    return [role_uses['start'], role_uses['end']]
 
 
 def validate(tree, cert):
@@ -373,6 +451,7 @@ def validate(tree, cert):
             len(set(roles.values())) == 4 and cert['marker_count'] == 14 and
             cert['status'] == 'final', 'final normal-MIR role certificate invalid')
     names = {role: f'$_{number}' for role, number in roles.items()}
+    allowed_role_vars = []
     require(all(cert['role_details'][role]['vf_name'] == name and
                 cert['role_details'][role]['raw_id'] == f'_{roles[role]}'
                 for role, name in names.items()), 'role detail identity changed')
@@ -401,35 +480,38 @@ def validate(tree, cert):
     ):
         sw = only([item for item in switches if call_name(item.args[1]) == callee],
                   f'{callee} switch')
-        call = check_switch(sw, callee, names[role],
-                            cert['role_details'][role]['declaration_span'])
+        call, destination = check_switch(sw, callee, names[role],
+                                         cert['role_details'][role]['declaration_span'])
+        allowed_role_vars.append(destination)
         require(location_line(sw.args[0]) == line, f'{callee} line changed')
-        check_merge_inputs(func, call, line,
+        check_merge_inputs(func, sw, call, line,
                            ('left', 'right', 'dst_1') if callee == 'merge_up'
                            else ('left_rev', 'right_rev', 'dst_rev'))
-    check_extracts(func, names['merge_up_result'], cert['merge_up_line'],
-                   ('left', 'right', 'dst_1'))
-    check_extracts(func, names['merge_down_result'], cert['merge_down_line'],
-                   ('left_rev', 'right_rev', 'dst_rev'))
+        allowed_role_vars.extend(check_extracts(
+            func, sw, names[role], line,
+            ('left', 'right', 'dst_1') if callee == 'merge_up'
+            else ('left_rev', 'right_rev', 'dst_rev')))
 
     range_calls = [sw for sw in switches if call_name(sw.args[1]).endswith('::into_iter')
                    and 'Range<usize>' in call_name(sw.args[1])]
     range_sw = only(range_calls, 'Range into_iter switch')
-    range_call = check_switch(range_sw, call_name(range_sw.args[1]),
-                              names['range_result'],
-                              cert['role_details']['range_result']['declaration_span'])
+    range_call, destination = check_switch(
+        range_sw, call_name(range_sw.args[1]), names['range_result'],
+        cert['role_details']['range_result']['declaration_span'])
+    allowed_role_vars.append(destination)
     arguments = range_call.args[4]
     require(isinstance(arguments, list) and len(arguments) == 1 and
             var(narg(arguments[0], 'LitPat', 1)[0]) == names['range_input'],
             'Range into_iter argument is not range_input')
+    allowed_role_vars.append(narg(arguments[0], 'LitPat', 1)[0])
     loop_line = cert['loop_line']
     iter_moves = [a for a in nodes(func, 'AssignExpr')
                   if location_line(a.args[0]) == loop_line and
                   isinstance(a.args[1], Node) and a.args[1].name == 'Var' and
                   isinstance(a.args[3], Node) and a.args[3].name == 'Var' and
                   var(a.args[1]) == 'iter' and var(a.args[3]) == names['range_result']]
-    only(iter_moves, 'Range result move to iter')
-    check_range_constructor(func, names['range_input'], loop_line)
+    allowed_role_vars.append(only(iter_moves, 'Range result move to iter').args[3])
+    allowed_role_vars.extend(check_range_constructor(func, names['range_input'], loop_line))
 
     invariant_line = loop_line + 1
     invariants = [node for node in nodes(func, 'InvariantStmt')
@@ -445,6 +527,11 @@ def validate(tree, cert):
             all(hidden_address(node) in set(names.values()) for node in inner_addresses) and
             all(location_line(node.args[0]) == invariant_line for node in inner_addresses),
             'hidden stack addresses escape, retarget or are missing from the invariant')
+    allowed_role_vars.extend(narg(address, 'AddressOf', 2)[1]
+                             for address in inner_addresses)
+    require(len(allowed_role_vars) == 27,
+            'hidden role proof AST whitelist has an unexpected size')
+    check_all_role_vars(func, names, allowed_role_vars)
     require(not [node for node in nodes(tree, 'CallExpr')
                  if call_name(node) == 'mir_stack_addr'],
             'untranslated mir_stack_addr remains in proof AST')
@@ -534,6 +621,20 @@ def negative_controls(tree, cert):
         finally:
             owner[index] = previous
 
+    def rejected_insert(label, owner, index, mutant, expected_reason=None):
+        owner.insert(index, mutant)
+        try:
+            try:
+                validate(tree, cert)
+            except AdmissionError as exc:
+                require(expected_reason is None or expected_reason in str(exc),
+                        f'{label} negative control failed at wrong gate: {exc}')
+                checked.append(label)
+            else:
+                raise AdmissionError(f'{label} negative control was admitted')
+        finally:
+            owner.pop(index)
+
     addresses = [a for a in nodes(invariant, 'AddressOf')
                  if role_address(a, {f'$_{n}' for n in roles.values()}) is not None]
     first = only(addresses[:1], 'negative-control hidden address')
@@ -550,6 +651,39 @@ def negative_controls(tree, cert):
     up = only([sw for sw in nodes(func, 'SwitchStmt') if
                isinstance(sw.args[1], Node) and sw.args[1].name == 'CallExpr' and
                call_name(sw.args[1]) == 'merge_up'], 'negative-control merge_up')
+    up_statements = statement_list_containing(func, up)
+    up_at = next(i for i, stmt in enumerate(up_statements) if stmt is up)
+    extra_arg_write = copy.deepcopy(up_statements[up_at - 4])
+    ordered_assignment(extra_arg_write)[3].args[1] = 'right'
+    rejected_insert('overwritten_call_argument_temporary',
+                    up_statements, up_at, extra_arg_write)
+    extra_field_write = copy.deepcopy(up_statements[up_at + 1])
+    narg(ordered_assignment(extra_field_write)[3], 'Select', 3)[2] = '1'
+    rejected_insert('overwritten_tuple_field_temporary',
+                    up_statements, up_at + 4, extra_field_write)
+    extra_cursor_write = copy.deepcopy(up_statements[up_at + 9])
+    ordered_assignment(extra_cursor_write)[3].args[1] = '$_999999'
+    rejected_insert('overwritten_tuple_cursor',
+                    up_statements, up_at + 10, extra_cursor_write)
+    extra_role_read = copy.deepcopy(up_statements[up_at - 4])
+    role_read_assign = ordered_assignment(extra_role_read)
+    narg(role_read_assign[1], 'Var', 2)[1] = '$_999999'
+    role_read_assign[3] = Node('Var', [role_read_assign[0],
+                                       f"$_{roles['merge_up_result']}"])
+    role_read_assign[0] = Node('loc', ['verified/lib.rs(1,1-2)'])
+    rejected_insert('extra_hidden_role_read_other_line',
+                    up_statements, up_at + 10, extra_role_read,
+                    expected_reason='hidden role has an extra/missing proof AST variable')
+    extra_role_write = copy.deepcopy(up_statements[up_at - 4])
+    role_write_assign = ordered_assignment(extra_role_write)
+    narg(role_write_assign[1], 'Var', 2)[1] = f"$_{roles['merge_down_result']}"
+    role_write_assign[0] = Node('loc', ['verified/lib.rs(1,1-2)'])
+    nested_write = Node('BlockStmt', [role_write_assign[0], [],
+                                      [extra_role_write], role_write_assign[0],
+                                      Node('ref', [[]])])
+    rejected_insert('extra_nested_hidden_role_write_other_line',
+                    up_statements, up_at + 10, nested_write,
+                    expected_reason='hidden role has an extra/missing proof AST variable')
     rejected('wrong_call_source_span', up.args, 0,
              Node('loc', ['verified/lib.rs(1,1-2)']))
     clauses = narg(up, 'SwitchStmt', 3)[2]
@@ -606,7 +740,7 @@ def negative_controls(tree, cert):
     point = only(tuple_points[:1], 'negative-control tuple points-to')
     rejected('wrong_field_mode', narg(point, 'PointsTo', 4), 2,
              'RegularPointsTo')
-    require(len(checked) == 12, 'AST negative-control suite incomplete')
+    require(len(checked) == 17, 'AST negative-control suite incomplete')
     return checked
 
 
