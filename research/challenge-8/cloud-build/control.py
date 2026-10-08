@@ -63,12 +63,12 @@ exit 0
 '''.replace(' + WORK_SECONDS - 15 ',f' + {work_seconds} - 15 ').replace('"${WORK_SECONDS}s"',f'"{work_seconds}s"').replace('WORK_BODY',shquote(work))
  # Shell dollar signs are escaped for Cloud Build substitutions; env builtins remain explicit.
  body=body.replace('$','$$')
- package=base64.b64encode((DIR/'package-evidence.py').read_bytes()).decode()
+ package=base64.b64encode(gzip.compress((DIR/'package-evidence.py').read_bytes(),mtime=0)).decode()
  upload='''set -euo pipefail
 mkdir -p /workspace/cloudsdk/configurations
 printf '[core]\\nproject = smallsort-ci\\naccount = ACCOUNT\\n' > /workspace/cloudsdk/configurations/config_smallsort-ci
 export CLOUDSDK_CONFIG=/workspace/cloudsdk
-printf '%s' PACKAGE_B64 | base64 --decode > /workspace/package-evidence.py
+printf '%s' PACKAGE_B64 | base64 --decode | gzip --decompress > /workspace/package-evidence.py
 python3 /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
 prefix="BUCKET/$CLOUD_BUILD_ID"
 for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json; do
@@ -130,7 +130,9 @@ def main():
   # queue envelope is reserved too, respecting phase/per-build ceiling.
   if not 90<=a.timeout<=1740 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
-  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token);raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
+  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token)
+  if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
+  raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
   item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING'};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
   compressed=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
   if len(compressed)>8*3500:raise SystemExit('Submitted config exceeds evidence transport limit; no dispatch')
@@ -140,6 +142,8 @@ def main():
   except Exception as e:
    print('Dispatch response uncertain/error:',str(e).split('substitution value')[0][:400],file=sys.stderr)
    matches=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json'])
+   if not matches and 'INVALID_ARGUMENT' in str(e):
+    item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,reason=str(e).split('substitution value')[0][:300]);ledger['active_build']=None;write(DIR/'BUDGET.json',ledger);raise SystemExit('Definitive API validation rejection; no build found and no time charged')
    if len(matches)!=1:raise SystemExit('No unique build resolved. Pending dispatch retained; lookup token before any retry: '+token)
    b=matches[0]
   item['build_id']=b['id'];item['status']=b.get('status');ledger['active_build']=b['id'];write(DIR/'BUDGET.json',ledger);write(state/(b['id']+'.json'),b)
