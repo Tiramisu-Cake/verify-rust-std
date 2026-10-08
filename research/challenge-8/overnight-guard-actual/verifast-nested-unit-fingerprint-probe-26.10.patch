@@ -1,0 +1,79 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -12986,9 +12986,76 @@
+         Ok ()
+     | _ -> reject "expected exactly one callee and one caller"
+
++  (* O23 diagnostic only.  A complete decoded-unit/body snapshot for the
++     six/seven/nine-body actual nested Drop fixture.  Even a perfect match to the
++     caller-provided source hash ends in refusal; this admits no operation. *)
++  let sort4_actual_nested_fingerprint_probe
++      (vf_mir : VfMirRd.VfMir.t) =
++    let reject why = failwith
++      ("SORT4-ACTUAL-NESTED-FINGERPRINT: diagnostic refusal: " ^ why) in
++    let mode,dir,expected_source_hash = match
++      Sys.getenv_opt "SORT4_NESTED_FINGERPRINT_MODE",
++      Sys.getenv_opt "SORT4_NESTED_FINGERPRINT_EVIDENCE_DIR",
++      Sys.getenv_opt "SORT4_NESTED_FINGERPRINT_SOURCE_SHA256" with
++      | Some (("6" | "7" | "9") as mode), Some dir, Some expected
++        when not (Filename.is_relative dir) && Sys.file_exists dir &&
++             Sys.is_directory dir && String.length expected = 64 &&
++             String.for_all (fun c ->
++               (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f')) expected ->
++          mode,dir,expected
++      | _ -> reject "complete mode/evidence/source SHA256 environment" in
++    let expected_names =
++      ["sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
++       "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
++       "sort4_checked_generic_drop"] @
++      (if mode = "9" then
++         ["checked_transmute_neo_pointer"; "checked_assume_init_pointer"]
++       else []) @
++      (if mode = "7" || mode = "9" then ["checked_forget_owned"] else []) @
++      ["select_unpredictable";
++       "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"] in
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    if List.map (fun body ->
++      TrName.translate_def_path (BodyRd.def_path_get body)) bodies <>
++         expected_names then reject "exact six/seven/nine body DefPath and order";
++    let outer = List.nth bodies (if mode = "9" then 7
++                                else if mode = "7" then 5 else 4) in
++    let* outer_span = translate_span_data (BodyRd.fn_sig_span_get outer) in
++    let source_path = match outer_span with
++      | Ast.Lexed (((path,_,_), (last_path,_,_)))
++        when path = last_path &&
++             Filename.check_suffix path "verified/lib.rs" -> path
++      | _ -> reject "actual source signature path" in
++    if sort4_actual_owner_sha256
++         (Sort4MaybeUninit.read_file source_path) <> expected_source_hash
++    then reject "caller-provided complete verified source SHA256";
++    let dump label value =
++      let bytes = Marshal.to_string value [Marshal.No_sharing] in
++      let path = Filename.concat dir
++        ("actual-nested-" ^ mode ^ "-" ^ label ^ ".marshal") in
++      if Sys.file_exists path then reject ("existing snapshot " ^ label);
++      let channel = open_out_bin path in
++      Fun.protect ~finally:(fun () -> close_out channel) (fun () ->
++        output_string channel bytes);
++      Printf.printf "SORT4-ACTUAL-NESTED-FINGERPRINT: %s bytes=%d\n%!"
++        label (String.length bytes) in
++    dump "unit" (D.decode_vf_mir vf_mir);
++    List.iteri (fun index body ->
++      dump ("body-" ^ string_of_int index) (D.decode_body body)) bodies;
++    reject "snapshot complete; no proof rule admitted"
++
+   let translate_vf_mir (extern_specs : string list)
+       (vf_mir_cpn : VfMirRd.VfMir.t) =
+     let job _ =
++      let* () = match Sys.getenv_opt "SORT4_NESTED_FINGERPRINT_MODE" with
++        | None ->
++            if Sys.getenv_opt "SORT4_NESTED_FINGERPRINT_EVIDENCE_DIR" <> None ||
++               Sys.getenv_opt "SORT4_NESTED_FINGERPRINT_SOURCE_SHA256" <> None
++            then failwith
++              "SORT4-ACTUAL-NESTED-FINGERPRINT: diagnostic refusal: partial environment";
++            Ok ()
++        | Some _ -> sort4_actual_nested_fingerprint_probe vf_mir_cpn
++      in
+       let* () = match Sys.getenv_opt "SORT4_MAYBEUNINIT_REPO_ROOT" with
+         | None ->
+             Sort4MaybeUninit.active := false;
