@@ -1,3 +1,4 @@
+<!-- O19 current delta: callback local full normal/unwind proof candidate, G1 generic framed call full proof candidate; HRTB admission12/15 matcher controls, actual helper/sort4 remain unproved. Exact proof a6f9d5e00cc99c06f8c49fa2e27e6a92308a1a79 run37746579002; see STATUS/log. -->
 ## O18 — 2026-10-08
 
 Proofbb9c46bc/run37745138207: freshS6eightstagePASS. LocalH2b normal/unwindpositive
