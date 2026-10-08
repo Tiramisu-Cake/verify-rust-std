@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import re
+import stat
 import subprocess
 import time
 
@@ -20,6 +21,8 @@ TRANSLATOR_REL = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 PARSER_BASE_SHA256 = "b26422aff8a6091181485a1355fc60e3a2afde5c8bff2bbe5176fdee07b08622"
 PRELUDE_SHA256 = "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5"
 FNMUT_SHA256 = "599abd73bc551804b41f2d82aeb9c4a42d4c1c2b40396cbabfb2099c0abe1564"
+RELEASE_ARCHIVE_SHA256 = "5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd"
+RELEASE_SUPPORT_FILES = ("bin/VERSION", "bin/libgtksourceview-2.0.so.0")
 STANDALONE_FILES = (PARSER_REL,)
 CUMULATIVE_FILES = (SPEC_REL, PARSER_REL, TRANSLATOR_REL)
 CASES = (
@@ -45,6 +48,27 @@ def need(condition: bool, message: str) -> None:
 
 def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def sha_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def support_file_identity(path: Path) -> dict:
+    metadata = path.lstat()
+    is_link = stat.S_ISLNK(metadata.st_mode)
+    need(is_link or stat.S_ISREG(metadata.st_mode),
+         f"release support path is not a file or symlink: {path}")
+    return {
+        "kind": "symlink" if is_link else "regular_file",
+        "mode": metadata.st_mode & 0o777,
+        "symlink_target": os.readlink(path) if is_link else None,
+        "content_sha256": sha_file(path),
+    }
 
 
 def hosted_only() -> None:
@@ -107,7 +131,9 @@ def target_line(source: bytes, case_name: str) -> int | None:
 
 
 def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
-                          evidence: Path, cumulative: bool) -> dict:
+                          evidence: Path, cumulative: bool,
+                          release_support_home: Path | None,
+                          release_archive: Path | None) -> dict:
     head = subprocess.run(["git", "-C", str(source), "rev-parse", "HEAD"],
                           check=True, capture_output=True, text=True).stdout.strip()
     need(head == VF_PIN, f"unexpected VeriFast source pin: {head}")
@@ -125,6 +151,32 @@ def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
         ["git", "-C", str(source), "status", "--porcelain", "--untracked-files=all"],
         check=True, capture_output=True, text=True).stdout.splitlines()
     expected_status = [f" M {rel}" for rel in expected_files]
+    release_support = {}
+    release_archive_sha = None
+    if cumulative:
+        need(release_support_home is not None and release_archive is not None,
+             "cumulative profile requires the pinned release support bundle and archive")
+        release_archive_sha = sha_file(release_archive) if release_archive.is_file() else None
+        need(release_archive_sha == RELEASE_ARCHIVE_SHA256,
+             "release support archive does not match pinned VeriFast 26.10 bundle")
+        expected_status.extend(f"?? {rel}" for rel in RELEASE_SUPPORT_FILES)
+        for rel in RELEASE_SUPPORT_FILES:
+            source_file = source / rel
+            release_file = release_support_home / rel
+            need(source_file.exists() and release_file.exists(),
+                 f"required release support file is missing: {rel}")
+            source_identity = support_file_identity(source_file)
+            release_identity = support_file_identity(release_file)
+            need(source_identity == release_identity,
+                 f"untracked release support file differs from pinned bundle: {rel}")
+            release_support[rel] = {
+                "source_checkout_identity": source_identity,
+                "pinned_release_bundle_identity": release_identity,
+                "matches_release_bundle_byte_for_byte": True,
+            }
+    else:
+        need(release_support_home is None and release_archive is None,
+             "standalone profile must not receive cumulative release support inputs")
     need(status == expected_status,
          f"source checkout has staged/untracked/unexpected changes: {status}")
 
@@ -201,6 +253,10 @@ def verify_source_profile(repo_root: Path, source: Path, tool_home: Path,
         "effective_source_diff_sha256": sha(full_diff),
         "effective_source_diff_path_from_evidence_root": "effective-source-diff.patch",
         "source_file_hashes": per_file,
+        "release_support_files": release_support,
+        "release_support_home": str(release_support_home) if cumulative else None,
+        "release_support_archive": str(release_archive) if cumulative else None,
+        "release_support_archive_sha256": release_archive_sha,
         "prelude_sha256": sha(prelude.read_bytes()),
         "active_tool_home_prelude_sha256": sha(active_prelude.read_bytes()),
         "stock_fnmut_clause_sha256": FNMUT_SHA256,
@@ -392,18 +448,28 @@ def main() -> None:
     parser.add_argument("--cumulative-profile", action="store_true",
                         help=("allow exactly the stock S6/A1/CFG source files "
                               "plus the exact tuple-2 parser patch"))
+    parser.add_argument("--release-support-home", type=Path,
+                        help="extracted, archive-verified VeriFast 26.10 release support bundle")
+    parser.add_argument("--release-archive", type=Path,
+                        help="downloaded VeriFast 26.10 release archive whose SHA is pinned")
     args = parser.parse_args()
     args.repo_root = args.repo_root.resolve()
     args.source_checkout = args.source_checkout.resolve()
     args.tool_home = args.tool_home.resolve()
     args.schema = args.schema.resolve()
     args.evidence = args.evidence.resolve()
+    if args.release_support_home is not None:
+        args.release_support_home = args.release_support_home.resolve()
+    if args.release_archive is not None:
+        args.release_archive = args.release_archive.resolve()
     need(args.schema.is_file() and args.source_checkout.is_dir() and
          args.tool_home.is_dir(), "pinned source-build inputs are missing")
     args.evidence.mkdir(parents=True, exist_ok=False)
     profile = verify_source_profile(args.repo_root, args.source_checkout,
                                     args.tool_home, args.evidence,
-                                    args.cumulative_profile)
+                                    args.cumulative_profile,
+                                    args.release_support_home,
+                                    args.release_archive)
     names = CASES if args.case == "all" else (args.case,)
     outcomes = {}
     for name in names:

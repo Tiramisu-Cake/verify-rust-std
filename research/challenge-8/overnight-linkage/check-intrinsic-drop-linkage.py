@@ -224,8 +224,9 @@ def classify(case: Path, variant: str, stages: dict) -> dict:
                     "std::mem::MaybeUninit::<T>::new",
                     "std::mem::MaybeUninit::<T>::as_mut_ptr",
                     "std::intrinsics::select_unpredictable")),
-            "verifier_completed_or_named_error": stages.get("full-verification", {}).get("exit") in (0, 1) and
-                (not errors or stages["full-verification"]["exit"] == 1),
+            "verifier_completed_or_named_error":
+                (stages.get("full-verification", {}).get("exit") == 0 and not errors) or
+                (stages.get("full-verification", {}).get("exit") == 1 and len(errors) == 1),
         }
         if variant == "pointer_drop":
             checks.update({

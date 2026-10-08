@@ -307,14 +307,29 @@ def classify_a1_primitive(case: Path, stages: dict, variant: str,
     positive = (variant in PRIMITIVE.POSITIVES and full_body and
                 verifier["exit"] == 0 and not errors and
                 "dead code" not in log.lower())
-    negative_reached = (variant in PRIMITIVE.NEGATIVES and no_setup and
-                        verifier["exit"] == 1 and len(errors) == 1)
-    # Initial hosted capture determines the exact predicate/span for each
-    # negative.  No negative is accepted from an unreviewed failure location.
+    expected_errors = {
+        "none": ("bin/rust/std/lib.rsspec", 539, "not an instance of constructor 'none'"),
+        "unknown": ("bin/rust/std/lib.rsspec", 539, "not an instance of constructor 'none'"),
+        "no_thread": ("bin/rust/std/lib.rsspec", 539, "No matching heap chunks: thread_token"),
+        "false_post": ("verified/lib.rs", 14, "Cannot prove false"),
+        "wrong_result": ("verified/lib.rs", 14, "Cannot prove !(result0 = p)"),
+        "frame_loss": ("verified/lib.rs", 25, "Function leaks heap chunks: points_to<bool>(frame, flag)"),
+        "frame_duplication": ("verified/lib.rs", 14, "No matching heap chunks: points_to<bool>(frame, flag)"),
+        "thread_loss": ("verified/lib.rs", 25, "Function leaks heap chunks: thread_token(tid)"),
+        "thread_duplication": ("verified/lib.rs", 14, "No matching heap chunks: thread_token(tid)"),
+        "element_rights": ("verified/lib.rs", 14, "No matching heap chunks: points_to_<Element>"),
+    }
+    negative_reached = False
+    if variant in expected_errors and no_setup and verifier["exit"] == 1 and len(errors) == 1:
+        suffix, line, fragment = expected_errors[variant]
+        err = errors[0]
+        negative_reached = (err["file"].endswith(suffix) and
+                            int(err["line"]) == line and
+                            fragment in err["message"])
     return {
         "variant": variant,
         "classification": "EXPERIMENTAL_POSITIVE_UNREVIEWED_MIR" if positive else
-                          "PROOF_FAILURE_UNREVIEWED" if negative_reached else
+                          "INTENDED_PROOF_NEGATIVE" if negative_reached else
                           "INCONCLUSIVE",
         "accepted_component": False,
         "actual_call_linkage": False,
@@ -411,22 +426,43 @@ def run_all(args) -> dict:
             try:
                 PRIMITIVE.write_type_control(REPO, case, control)
                 stages = run_case(case, args, prove=True)
+                fixture = json.loads((case / "fixture.json").read_text())
+                original = (case / "original/lib.rs").read_bytes()
+                verified = (case / "verified/lib.rs").read_bytes()
+                source_ok = (A1.strip_ghost(verified) == original and
+                             digest(original) == fixture["original_sha256"] and
+                             digest(verified) == fixture["verified_sha256"] and
+                             all(record.get("source_unchanged") for record in stages.values()
+                                 if record.get("status") == "RAN"))
                 frontend = all(stages.get(name, {}).get("exit") == 0 for name in (
                     "readonly-export", "readonly-decode", "normal-export",
                     "normal-decode", "refinement"))
                 log = (case / "full-verification.log").read_text(errors="replace") if (
                     case / "full-verification.log").exists() else ""
                 errors = error_info(log)
-                typed_failure = (frontend and
+                typed_failure = (frontend and source_ok and
                                  stages.get("full-verification", {}).get("exit") == 1 and
                                  len(errors) == 1 and
-                                 "Type mismatch" in errors[0]["message"])
+                                 control == "wrong_destination" and
+                                 errors[0]["file"] == "verified/lib.rs" and
+                                 int(errors[0]["line"]) == 24 and
+                                 "Type mismatch. Actual: std::mem::MaybeUninit<*Element>. Expected: usize." ==
+                                 errors[0]["message"])
+                admission = (frontend and source_ok and control in {
+                                 "wrong_source", "mutable_pointer_source",
+                                 "different_element", "box_source"} and
+                             stages.get("full-verification", {}).get("exit") == 1 and
+                             not errors and log.splitlines() == [
+                                 "MIR Translator Failed: uncertified const-pointer transmute source, kind, or operand",
+                                 "Rust Translator Error"])
                 result = {
                     "control": control,
-                    "classification": "TYPE_REJECTION_UNREVIEWED_LOCATION"
-                                      if typed_failure else "INCONCLUSIVE",
+                    "classification": "TYPE_REJECTION_EXACT_CAST" if typed_failure else
+                                      "ADMISSION_REJECTED_EXACT_RULE" if admission else
+                                      "INCONCLUSIVE",
                     "first_error": errors[0] if errors else None,
                     "frontend_refinement": frontend,
+                    "source_integrity": source_ok,
                     "stages": stages,
                     "actual_std_proof": False,
                 }

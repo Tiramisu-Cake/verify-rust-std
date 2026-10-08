@@ -4915,3 +4915,7 @@ ordinary/sharedcleanup regressions on extendedprofile. Onejob1200cap/1080inner,
 allsetup/build/artifactseconds counted. A failure localizes onecomponent; progress on
 independent captures continues. Source/libcallees still require proof before actual
 summary linkage; helper/sort4 generic/ZST and guardprotocol NOT_PROVEN.
+
+### OVERNIGHT O7 — 2026-10-07 23:56–23:59 UTC
+
+Proof `5463571c7e8924f77b73b665e6291bd62488f9ac`, [run37705052264](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37705052264), job113077309170, 190s (phase total1327/21600). Fivepatch console `caf140b61619aec1b4d4eb38d7dc24eb2ff6b2181f1d5959688a642b41eb1465`; kernel/schema/exporter/refiner stock. Full S6 eightstage regressions PASS, constructor3 and asptr2 source/linkage cases as intended, nextactualcall intrinsic. Source-exact transmute localbody VF0; A1 initialized/frame controls under full audit, method fails missing external transmute_neo. G1 directbody frames VF0 with13named negatives; generic SAFE/callable forget not accepted. Tuple setup rejects untracked pinnedrelease VERSION/sharedlibrary before any fixture; failure remains recorded, precision repair validates both against pinned archive/extraction. Workflow failure is setup provenance gate, not tuple negative or helper proof.

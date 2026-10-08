@@ -157,6 +157,43 @@ python3 research/challenge-8/overnight-linkage/check-asptr-linkage.py \
   --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))"
 ~~~
 
+## O7 result: constructor and `as_mut_ptr` actual-call linkage
+
+O7 run `37705052264` produced complete source, NORMAL and readonly MIR,
+export/decode/refinement and full-verifier logs. The three constructor cases
+all met their intended exact classifiers: the positive linked two actual
+`new` calls, proved the local constructor return/leak and stopped at the
+first missing `as_mut_ptr`; both auxiliary source mutants rejected before
+proof. This is the fresh hosted validation of O6's narrow classifier repair.
+
+The `asptr-linkage/positive` case passed all five exporter/decode/refinement
+stages with unchanged source hashes. Its actual-body hash was
+`0d4233fe67c243c9d46201603fb143182ba2f5caa35f5d63907a3d5c50ed9613`,
+the same as the constructor controls. The full verifier certified both local
+complete typed MIR graphs and checked both local bodies through return and
+leak; translation logged exactly two actual constructor redirects and two
+`as_mut_ptr` redirects (`2/2` each). It entered the actual body and stopped
+at the next unsupported `std::intrinsics::select_unpredictable` call, line
+92 in this fixture. The auxiliary `source_operand` case passed
+export/decode/refinement, then rejected the exact mutated two-cast body
+before any function proof. Both classes match the intended checks and no
+false negative was counted. The `asptr-linkage/summary.json` classification
+is `CONSTRUCTOR_ASPTR_LINKAGE_ACCEPTED`, with `actual_helper_proved=false`.
+
+The complete positive NORMAL and readonly graphs retain the three intrinsic
+calls, the actual pointer-drop call in block 6 with unwind to common cleanup
+13, and the same cleanup-13 predecessors from forget and assume_init. Blocks
+11/12/13 remain cleanup blocks, with block 13 switching to resume 11 or
+guard Drop block 12. The diagnostic proves linkage and local callees only;
+actual ownership, normal helper postcondition and unwind remain open.
+
+O7 also reran the full S6 matrix on the new combined experimental console.
+Its eight stages (`stock_controls`, constructor, asptr, intrinsic, pointer
+drop and three classifier checks) all completed and reported `ACCEPTED` for
+the explicit scope `stock+CFG and four separate S6 components; no actual
+helper`. This is compatibility evidence for the combined console, not a
+promotion of the actual helper or of unreviewed A1/tuple components.
+
 ## Next components: actual typed select and pointer drop — before implementation
 
 The O6 complete actual MIR contains two intrinsic selects specialized to

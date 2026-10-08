@@ -11,7 +11,7 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1137/21600 summed GitHub-hosted job seconds**, 20463 remain.
+New independent account **1327/21600 summed GitHub-hosted job seconds**, 20273 remain.
 Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
@@ -21,12 +21,17 @@ pointerdrop13+22. These are pointer-only primitive/resource contracts with trust
 sourcecopy/typedcompiler/layout correspondences; no Element pointee rights.
 O6 actualconstructor linkage succeeds through2calls, nextasptr. Extraunion negative
 classifier repaired against earlier exactADTgate; original failure retained.
-Current O7 prepared: same S6+CFG plus separate exact rawpointerinhabited/transmute
-and tuple2 ownership overlays. Mainreview strengthened sourcetype/mutability/field
-shape and outcome handling; kernel/schema/exporter/refiner unchanged. Newcomponents
-EXPERIMENTAL until hosted controls; source/typedMIR helper and callback captures
-available, G1 call deadcode and Args.own callback blocker witnessed, full helper open.
-O7 full S6 regressions and primitive/tuple/linkage diagnostics are next authorized action.
+O7 at5463571c/run37705052264: constructor and asptr actual linkage pass (2+2
+redirects), next actual intrinsic; full S6 matrix all8 passes with new overlays.
+A1 source-exact local transmute and direct frame positives complete full proof;
+its primitive controls are under audit, actual assume_init linkage still open.
+G1 direct generic body/frame positives and13negatives execute as intended;
+this is not SAFE forget or actual guard ownership acceptance. Tuple setup gate
+rejected two copied pinned-release support files before fixture execution;
+precise provenance validation repaired, original failure retained. Combined
+profile remains EXPERIMENTAL. O8 next: unchanged fivepatch profile, first
+intrinsic/drop actual linkage plus tuple/callback execution, no new axiom/kernel.
+
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new
 pointer drop → nominal guard/SAFE forget/actual linkage/assume_init → actual helper
