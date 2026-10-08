@@ -1,8 +1,8 @@
 {
   "phase": "CLOUD-BUILD-MIGRATION",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 39,
-  "remaining_build_seconds": 3561,
+  "used_build_seconds": 140,
+  "remaining_build_seconds": 3460,
   "maximum_build_timeout_seconds": 1800,
   "active_build": null,
   "builds": [
@@ -49,6 +49,44 @@
       "start_time": "2026-10-08T23:30:58.572665201Z",
       "finish_time": "2026-10-08T23:31:36.664015Z",
       "result": "INCOMPLETE_EVIDENCE_PACKAGING_PYTHON_NOT_IN_SDK_PATH_NO_ARCHIVE"
+    },
+    {
+      "dispatch_token": "dispatch-4fb07296eb4d45c199e7799ee3d337c2",
+      "infra_sha": "ac74f00c27207a0f23660b6a4de2e625dbec050e",
+      "proof_sha": "89e0a36f8df67bb2f66cf0564f497a0a4bad4aac",
+      "lane": "smoke-success",
+      "submitted_config_sha256": "59d2bed90e6e4dacb8fda9345fb20f607a487a1dc9bfcfe977a817013479c90d",
+      "reserved_seconds": 240,
+      "timeout_seconds": 180,
+      "status": "SUCCESS",
+      "build_id": "fd0020bd-967d-4e4b-ac20-83c578733389",
+      "start_time": "2026-10-08T23:35:24.769462213Z",
+      "finish_time": "2026-10-08T23:36:10.996362Z",
+      "create_time": "2026-10-08T23:35:24.001894408Z",
+      "build_seconds": 47,
+      "accounted": true,
+      "execution_seconds": 47,
+      "download_verified": true,
+      "archive_sha256": "dbbc6c7d8294ca6d5360e7807ec2c0c12e50b6997e4540b371b869f9620c387e"
+    },
+    {
+      "dispatch_token": "dispatch-f51c22504a224ebd81cbd62737af4c6c",
+      "infra_sha": "ac74f00c27207a0f23660b6a4de2e625dbec050e",
+      "proof_sha": "89e0a36f8df67bb2f66cf0564f497a0a4bad4aac",
+      "lane": "smoke-error",
+      "submitted_config_sha256": "d773eb4b0da288c33daa59eacc48150e8ce9fc876b20b3a6139bea81d5426b4a",
+      "reserved_seconds": 240,
+      "timeout_seconds": 180,
+      "status": "FAILURE",
+      "build_id": "63862150-33e7-4b9d-b692-1231f9c34520",
+      "start_time": "2026-10-08T23:38:47.555409392Z",
+      "finish_time": "2026-10-08T23:39:40.109466Z",
+      "create_time": "2026-10-08T23:38:46.840071503Z",
+      "build_seconds": 54,
+      "accounted": true,
+      "execution_seconds": 53,
+      "download_verified": true,
+      "archive_sha256": "d7416a4a8223dfca3dc76beb6166fcf1f1a0272ed658adc1dbf326c070387ab5"
     }
   ],
   "historical_accounts_unchanged": {

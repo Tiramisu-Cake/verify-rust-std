@@ -34,6 +34,8 @@ def config(infra,proof,lane,seconds,token):
   local target=$1 revision=$2
   git init "$target"
   git -C "$target" remote add origin https://github.com/Tiramisu-Cake/verify-rust-std.git
+  git -C "$target" config remote.origin.promisor true
+  git -C "$target" config remote.origin.partialclonefilter blob:none
   git -C "$target" sparse-checkout set research/challenge-8 library/core
   git -C "$target" fetch --depth=1 --filter=blob:none origin "$revision"
   git -C "$target" checkout --detach FETCH_HEAD
@@ -166,8 +168,8 @@ def main():
   item=next((x for x in ledger['builds'] if x.get('build_id')==a.build_id),None)
   if item is None:raise SystemExit('Not a recorded own build')
   a.output.mkdir(parents=True,exist_ok=False)
-  for filename in ['evidence.tar.gz','archive.sha256','summary.json','manifest.json','files-sha256.json','submitted-config.json','upload-complete.json']:
-   subprocess.run(GCLOUD+['storage','cp',BUCKET+'/'+a.build_id+'/'+filename,str(a.output/filename)],check=True)
+  names=['evidence.tar.gz','archive.sha256','summary.json','manifest.json','files-sha256.json','submitted-config.json','upload-complete.json']
+  subprocess.run(GCLOUD+['storage','cp',*[BUCKET+'/'+a.build_id+'/'+filename for filename in names],str(a.output)+'/'],check=True)
   subprocess.run([sys.executable,str(DIR/'verify-evidence.py'),'--directory',str(a.output),'--expected-build-id',a.build_id,'--expected-infra-sha',item['infra_sha'],'--expected-proof-sha',item['proof_sha'],'--expected-config-sha',item['submitted_config_sha256']],check=True)
   item['download_verified']=True;item['archive_sha256']=(a.output/'archive.sha256').read_text().split()[0];write(DIR/'BUDGET.json',ledger)
 

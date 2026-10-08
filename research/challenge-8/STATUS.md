@@ -6,8 +6,12 @@ separate3600 summed buildseconds, max1800 perbuild/remaining, onequeuedactive.
 [commands](cloud-build/README.md). No newhelper/sort4proofs.
 Branch research/cloud-build-migration, sameworktree, entry89e0a36f8df67bb2f66cf0564f497a0a4bad4aac.
 Initialtreeclean; oldbranch/main/upstream/otheragent untouched.
-A prepared next; stock baseline a0cfd30e and acceptedconstructor1378f0ff
-selected. No activebuild; preexisting f6f0f600-5558-4ac1-9011-0b73e4533a83 SUCCESS
+A progress: successfd0020bd archive/VPSfullhashcheckPASS; controlled
+error63862150 finalFAILURE/original42 withverifiedarchive. Initialsetup
+7bda20f0 FAILURE/SDKPythonPATH, noarchive, counted39s andpreserved.
+Current139/3600 conservativebuildseconds; timeoutcontrolnext, thenB/C.
+No activebuild. Stock baselinea0cfd30e/constructor1378f0ffselected.
+ preexisting f6f0f600-5558-4ac1-9011-0b73e4533a83 SUCCESS
 is owner setup evidence, not charged or relabeled as this phase.
 
 # Historical overnight checkpoint (preserved)

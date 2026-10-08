@@ -136,7 +136,7 @@ provider_src = cloud_dir / "provider.py"
 audit_src = cloud_dir / "proof-audit.py"
 if sha(provider_src.read_bytes()) != "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616":
     raise SystemExit("provider helper pin mismatch")
-if sha(audit_src.read_bytes()) != "71fd30ece0f1d9d086130064270c1d03e28bfb58bb85174da4e773c52d826516":
+if sha(audit_src.read_bytes()) != "5e0e0a0b9294cd1499afed9801963905441baf822dc708b9dc62f6fb58d998b6":
     raise SystemExit("proof audit pin mismatch")
 shutil.copyfile(provider_src, provider_dest)
 manifest["provider_sha256"] = sha(provider_dest.read_bytes())

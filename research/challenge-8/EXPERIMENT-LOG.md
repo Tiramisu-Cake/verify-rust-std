@@ -5133,3 +5133,21 @@ No bucketobjects/archive, incomplete evidence, no storageacceptance. Both
 pinnedimages match actualBuildStepImages. FullCloudLogging diagnostic retained
 by BuildID; budget charged conservativecreate→finish fromAPI. New repair uses
 SDKbundledPython absolute path; no tool/proofsemantic change.
+
+### Cloud A success and managed error confirmed
+
+Infrastructureac74f00c27207a0f23660b6a4de2e625dbec050e; smokepreparation
+proofSHA89e0a36f8df67bb2f66cf0564f497a0a4bad4aac (no proof tool invoked).
+fd0020bd-967d-4e4b-ac20-83c578733389 SUCCESS,47conservativeseconds;
+config59d2bed90e6e4dacb8fda9345fb20f607a487a1dc9bfcfe977a817013479c90d,
+archivedbbc6c7d8294ca6d5360e7807ec2c0c12e50b6997e4540b371b869f9620c387e.
+Cloudbuilder createdprobe+manifest anduploadeduniqueBuildIDprefix; VPS
+dispatcher downloaded/readprobe andverifiedallarchive/inventory/config/pins/
+receipt. CPU2, Ubuntu22.04.5, x86_64, MemTotal8147688kB.
+63862150-33e7-4b9d-b692-1231f9c34520 FAILURE,53seconds; originalexit42
+preserved, failureclass infrastructure-probe-error, uploadcompleteandVPS
+hashvalidationtrue. Configd773eb4b0da288c33daa59eacc48150e8ce9fc876b20b3a6139bea81d5426b4a,
+archived7416a4a8223dfca3dc76beb6166fcf1f1a0272ed658adc1dbf326c070387ab5.
+Eachprefixgs://smallsort-ci-evidence-504462351565/cloud-build/<BuildID>/.
+Neitherprobe is proof acceptance; smoke verification_acceptedfalse.
+Total39+47+53=139/3600; prioraccountsunchanged.

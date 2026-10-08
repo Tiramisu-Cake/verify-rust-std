@@ -69,13 +69,17 @@ def exact_dead_code(root: Path, name: str, item: dict) -> dict:
     strict = item.get("strict_original_classification", {})
     timed = [x for x in strict.get("timed_functions", [])
              if x.get("function") == function]
+    full_exit = item.get("stages", {}).get("full-verification", {}).get("exit")
     passed = (span in raw_dead and messages == raw_dead and
               all(x.startswith("verified/lib.rs(") for x in raw_dead)
+              and full_exit == 1 and strict.get("function_list_exact") is True
               and strict.get("error_count") == 0 and len(timed) == 1
               and timed[0].get("body_execution_seen") is False)
     return {"accepted": passed, "expected_span": span,
             "observed_dead_code_diagnostics": messages,
             "raw_log_dead_code_diagnostics": raw_dead,
+            "full_verification_exit": full_exit,
+            "function_list_exact": strict.get("function_list_exact"),
             "strict_original_classification": strict.get("classification"),
             "target_body_execution": timed[0].get("body_execution_seen") if len(timed) == 1 else None}
 
@@ -93,13 +97,32 @@ def stock_audit(root: Path) -> dict:
         raw_class = item.get("classification")
         dead_case = name in ("u32_contradictory_pre", "forget_contradictory_pre")
         dead = exact_dead_code(root, name, item) if dead_case else None
+        operational = (item.get("frontend_all_zero") is True and
+                       item.get("source_integrity") is True)
         if dead_case:
             accepted = (raw_class in ("INTENDED_DEAD_CODE_REJECTION", "INCONCLUSIVE")
-                        and dead["accepted"]
-                        and item.get("frontend_all_zero") is True
-                        and item.get("source_integrity") is True)
+                        and dead["accepted"] and operational)
+        elif name == "forget_positive":
+            strict = item.get("strict_original_classification", {})
+            functions = strict.get("timed_functions", [])
+            target = [x for x in functions if x.get("function") == "checked_forget_generic"]
+            stage_exit = item.get("stages", {}).get("full-verification", {}).get("exit")
+            log = (root / name / "full-verification.log").read_text(errors="replace")
+            dead_messages = item.get("dead_code_diagnostics", [])
+            raw_dead = [line for line in log.splitlines() if line.endswith(": dead code")]
+            historical_gate = (
+                raw_class == "INCONCLUSIVE" and stage_exit == 1 and
+                strict.get("error_count") == 0 and
+                strict.get("function_list_exact") is True and
+                bool(dead_messages) and dead_messages == raw_dead and
+                all(line.startswith("verified/lib.rs(") for line in raw_dead) and
+                len(target) == 1 and
+                target[0].get("body_execution_seen") is True and
+                target[0].get("return_seen") is True and
+                target[0].get("leak_check_seen") is True)
+            accepted = operational and historical_gate
         else:
-            accepted = raw_class == expected
+            accepted = operational and raw_class == expected
         rows[name] = {
             "raw_classification": raw_class,
             "strict_original_classification": item.get("strict_original_classification"),
@@ -109,6 +132,8 @@ def stock_audit(root: Path) -> dict:
             "frontend_all_zero": item.get("frontend_all_zero"),
             "stages": item.get("stages"),
             "exact_dead_code_gate": dead,
+            "forget_positive_historical_dead_code_gate": (
+                historical_gate if name == "forget_positive" else None),
         }
     complete = actual_names == expected_names and all(x["accepted"] for x in rows.values())
     return {
