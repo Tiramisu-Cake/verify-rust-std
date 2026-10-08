@@ -1,0 +1,227 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -655,6 +655,15 @@
+     let reject why = failwith ("SORT4-GENERIC-GUARD: certificate mismatch: " ^ why)
+   end
+
++  module Sort4ActualNestedH2 = struct
++    let active = ref false
++    let redirected = ref 0
++    let guard_name =
++      "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
++    let reject why =
++      failwith ("SORT4-ACTUAL-NESTED-H2: certificate mismatch: " ^ why)
++  end
++
+   module Sort4SelectIntrinsic = struct
+     let ptr_name = "sort4_checked_select_ptr"
+     let mu_name = "sort4_checked_select_mu"
+@@ -683,6 +692,7 @@
+     let actual_certified = ref false
+     let actual_projection = ref false
+     let actual_owner_admitted = ref false
++    let actual_nine_admitted = ref false
+     let actual_nested_ghosts : AnnotationRd.t list ref = ref []
+     let projection_ghosts = [
+       "//@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>);";
+@@ -3372,6 +3382,35 @@
+                  | _ -> Sort4PointerDrop.reject
+                      "method glue exact type/argument")
+             | "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
++              when !Sort4ActualNestedH2.active &&
++                   State.body_name = Sort4ActualNestedH2.guard_name ->
++                (match fn_def_ty_cpn.substs,
++                       fn_def_ty_cpn.late_bound_generic_param_count,
++                       substs_cpn, args_cpn, args with
++                 | [{kind=Type {kind=Param "T"}}], 0,
++                   [{kind=Type {kind=Param "T"}}], [operand], [slot] ->
++                     (match OperandRd.get operand with
++                      | OperandRd.Move place when
++                          LocalDeclIdRd.name_get (PlaceRd.local_get place) =
++                            "_4" &&
++                          PlaceRd.local_is_mutable_get place &&
++                          PlaceRd.projection_get_list place = [] &&
++                          VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
++                            VfMirRd.PlaceKind.Other -> ()
++                      | _ -> Sort4ActualNestedH2.reject
++                          "qualified real call receiver");
++                     incr Sort4ActualNestedH2.redirected;
++                     if !Sort4ActualNestedH2.redirected <> 1 then
++                       Sort4ActualNestedH2.reject
++                         "qualified generic pointer-drop count";
++                     Ok (tmp_rvalue_binders,
++                         FnCallOutcome (Ast.CallExpr
++                           (fn_loc, Sort4GenericGuard.method_name,
++                            [Ast.IdentTypeExpr (fn_loc, None, "T")],
++                            [], [LitPat slot], Static)))
++                 | _ -> Sort4ActualNestedH2.reject
++                     "qualified generic type/receiver")
++            | "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"
+               when !Sort4GenericGuard.active &&
+                    State.body_name = Sort4GenericGuard.guard_name ->
+                 (match fn_def_ty_cpn.substs,
+@@ -5743,8 +5782,10 @@
+           [ LitPat (Var (limpl, "self")) ],
+           Static ) in
+     let field_post_tail =
+-      if !Sort4GenericGuard.template_active &&
+-         self_ty = "DropOnPanic" &&
++      if ((!Sort4GenericGuard.template_active &&
++           self_ty = "DropOnPanic") ||
++          (!Sort4ActualNestedH2.active &&
++           self_ty = "select_unpredictable::DropOnPanic")) &&
+          tparams = ["T"] &&
+          (match fds_no_zst with
+           | [{name="inner";_}] -> true
+@@ -12509,6 +12550,7 @@
+      | first::second::_ ->
+          Sort4SelectIntrinsic.actual_nested_ghosts := [first;second]
+      | _ -> reject "owner nested ghost metadata transfer source");
++    Sort4SelectIntrinsic.actual_nine_admitted := nine;
+     Printf.printf
+       (if nine then
+          "SORT4-ACTUAL-OWNER-NINE: exact source and complete decoded MIR admission only\n%!"
+@@ -12678,6 +12720,7 @@
+     let open Sort4SelectIntrinsic in
+     active := false; actual_certified := false; actual_projection := false;
+     actual_owner_admitted := false;
++    actual_nine_admitted := false;
+     actual_nested_ghosts := [];
+     ptr_count := 0; mu_count := 0;
+     expected_ptr := 0; expected_mu := 0;
+@@ -13064,6 +13107,101 @@
+         Ok ()
+     | _ -> reject "expected exactly one callee and one caller"
+
++  let certify_sort4_actual_nested_h2
++      (vf_mir : VfMirRd.VfMir.t) root =
++    let open Sort4ActualNestedH2 in
++    active := false; redirected := 0;
++    if not !Sort4SelectIntrinsic.actual_nine_admitted ||
++       Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" then
++      reject "exact nine-body owner admission required";
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    let method_body,nested = match bodies with
++      | [_;_;_;method_body;_;_;_;_;nested] -> method_body,nested
++      | _ -> reject "exact nine-body positions" in
++    if TrName.translate_def_path (BodyRd.def_path_get method_body) <>
++         Sort4GenericGuard.method_name ||
++       TrName.translate_def_path (BodyRd.def_path_get nested) <>
++         guard_name ||
++       BodyRd.ghost_stmts_get_list method_body <> [] ||
++       BodyRd.ghost_stmts_get_list nested <> [] ||
++       List.length (BodyRd.local_decls_get_list nested) <> 5 then
++      reject "generic method/qualified Drop identity";
++    let method_contract =
++      ContractRd.annotations_get_list (BodyRd.contract_get method_body)
++      |> List.map AnnotationRd.raw_get in
++    if method_contract <> Sort4GenericGuard.annotations then
++      reject "same-unit generic method full contract";
++    let* method_loc = translate_span_data
++      (BodyRd.fn_sig_span_get method_body) in
++    let* nested_loc = translate_span_data
++      (BodyRd.fn_sig_span_get nested) in
++    let path = match method_loc,nested_loc with
++      | Ast.Lexed (((a,_,_), (b,_,_))),
++        Ast.Lexed (((c,_,_), (d,_,_)))
++        when a=b && b=c && c=d &&
++             Filename.check_suffix a "verified/lib.rs" -> a
++      | _ -> reject "same-unit generic/qualified source spans" in
++    let source = Sort4MaybeUninit.read_file path in
++    if Sort4PointerDrop.body_after source
++         Sort4GenericGuard.signature <> Sort4GenericGuard.local_body then
++      reject "same-unit generic method exact runtime body";
++    let ptr_source = Filename.concat root
++      "library/core/src/ptr/mut_ptr.rs" in
++    if Digest.to_hex (Digest.file ptr_source) <>
++         "3119613d189932586e3546f79d245e7e" ||
++       Sort4PointerDrop.body_after (Sort4MaybeUninit.read_file ptr_source)
++         Sort4PointerDrop.source_marker <> Sort4GenericGuard.source_body
++    then reject "pinned std generic pointer-drop body";
++    (match BodyRd.basic_blocks_get_list nested with
++     | [_;_;call_block;_] ->
++         (match TerminatorKindRd.get
++           (TerminatorRd.kind_get
++             (BasicBlockRd.terminator_get call_block)) with
++          | TerminatorKindRd.Call data ->
++              let open FnCallDataRd in
++              (match OperandRd.get (func_get data) with
++               | OperandRd.Constant c ->
++                   (match VfMirRd.MirConst.get
++                     (ConstOperandRd.const_get c) with
++                    | VfMirRd.MirConst.Val v ->
++                        (match (D.decode_ty
++                           (VfMirRd.MirConst.Val.ty_get v)).kind with
++                         | D.FnDef
++                             {id={name=
++                               "std::ptr::mut_ptr::<impl *mut T>::drop_in_place"};
++                              substs=[{kind=D.Type {kind=D.Param "T"}}];
++                              late_bound_generic_param_count=0} -> ()
++                         | _ -> reject "qualified typed pointer-drop FnDef")
++                    | _ -> reject "qualified method callee const")
++               | _ -> reject "qualified method callee operand");
++              (match args_get_list data with
++               | [operand] ->
++                   (match OperandRd.get operand with
++                    | OperandRd.Move place when
++                        LocalDeclIdRd.name_get
++                          (PlaceRd.local_get place) = "_4" &&
++                        PlaceRd.local_is_mutable_get place &&
++                        PlaceRd.projection_get_list place = [] &&
++                        VfMirRd.PlaceKind.get
++                          (PlaceRd.kind_get place) =
++                            VfMirRd.PlaceKind.Other -> ()
++                    | _ -> reject "qualified exact Move(_4)")
++               | _ -> reject "qualified method call arity");
++              (match UnwindActionRd.get (unwind_action_get data),
++                     OptionRd.get (target_get data) with
++               | UnwindActionRd.Continue,
++                 OptionRd.Something target when
++                     Stdint.Uint32.to_int (BasicBlockIdRd.index_get
++                       (VfMirRd.of_pointer target)) = 3 -> ()
++               | _ -> reject "qualified normal/unwind successors")
++          | _ -> reject "qualified real call terminator")
++     | _ -> reject "qualified complete four-block graph");
++    active := true;
++    Printf.printf
++      "SORT4-ACTUAL-NESTED-H2: exact nine-body same-unit method/Drop admitted\n%!";
++    Ok ()
++
+   (* O23 diagnostic only.  A complete decoded-unit/body snapshot for the
+      six/seven/nine-body actual nested Drop fixture.  Even a perfect match to the
+      caller-provided source hash ends in refusal; this admits no operation. *)
+@@ -13153,10 +13291,19 @@
+             Sort4SelectIntrinsic.actual_certified := false;
+             Sort4SelectIntrinsic.actual_projection := false;
+             Sort4SelectIntrinsic.actual_owner_admitted := false;
++            Sort4SelectIntrinsic.actual_nine_admitted := false;
+             Sort4SelectIntrinsic.actual_nested_ghosts := [];
+             Ok ()
+         | Some root -> certify_sort4_select_intrinsic vf_mir_cpn root
+       in
++      let* () = match Sys.getenv_opt
++        "SORT4_ACTUAL_NESTED_H2_REPO_ROOT" with
++        | None ->
++            Sort4ActualNestedH2.active := false;
++            Sort4ActualNestedH2.redirected := 0;
++            Ok ()
++        | Some root -> certify_sort4_actual_nested_h2 vf_mir_cpn root
++      in
+       let* () = match Sys.getenv_opt "SORT4_POINTER_DROP_REPO_ROOT" with
+         | None -> Sort4PointerDrop.active := false; Ok ()
+         | Some root ->
+@@ -13421,6 +13568,13 @@
+         Printf.printf
+           "SORT4-A1-LINK: redirected one typed std transmute_neo call to proved local body\n%!"
+       );
++      if !Sort4ActualNestedH2.active then (
++        if !Sort4ActualNestedH2.redirected <> 1 then
++          Sort4ActualNestedH2.reject
++            "one qualified generic pointer-drop redirect required";
++        Printf.printf
++          "SORT4-ACTUAL-NESTED-H2: one qualified generic pointer-drop call linked\n%!"
++      );
+       if !Sort4G1Call.active then (
+         if !Sort4G1Call.translated <> 1 then
+           Sort4G1Call.reject "expected exactly one checked generic call";
