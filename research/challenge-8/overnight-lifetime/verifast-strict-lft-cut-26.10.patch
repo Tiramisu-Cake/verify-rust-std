@@ -1,0 +1,526 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 8a8de1b..e0fad85 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2578,6 +2578,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     val body_imp_loc : Ast.loc
+     val body_name : string
+     val body_tr_defs_ctx : body_tr_defs_ctx
++    val strict_lft_scope_ends : (Ast.loc * string) list
+     val local_decl_types : (string * D.ty) list
+   end) =
+   struct
+@@ -2587,6 +2588,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let body_imp_loc = Args.body_imp_loc
+       let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
++      let strict_lft_scope_ends = Args.strict_lft_scope_ends
+       (* Exact compiler-origin, higher-ranked FnOnce::Output = bool clauses
+          available for single-call instantiation in this body. *)
+       let hrtb_fnmut_output_enabled =
+@@ -4901,6 +4903,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     let find_blocks (bblocks : Mir.basic_block list) =
+       let open Mir in
+       let explicit_block_heads_table = Hashtbl.create 10 in
++      let explicit_block_starts_table = Hashtbl.create 10 in
+       let bblocks_table = Hashtbl.create 100 in
+       let explicit_block_ends = ref [] in
+       let loop_spec_blocks = ref [] in
+@@ -4952,7 +4955,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                  in
+                  Hashtbl.add bblocks_table bb.id fixed_bb;
+                  Hashtbl.add bblocks_table id bh;
+-                 Hashtbl.add explicit_block_heads_table closeBraceLoc bh
++                 Hashtbl.add explicit_block_heads_table closeBraceLoc bh;
++                 Hashtbl.add explicit_block_starts_table closeBraceLoc bb.id
+              | [
+               Ast.ExprStmt
+                 (CallExpr
+@@ -5119,6 +5123,69 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                                   (bb :: path)))))))
+       in
+       iter [] 0 entry_id;
++      List.iter (fun (close_loc, _) ->
++        let head : Mir.basic_block =
++          match Hashtbl.find_opt explicit_block_heads_table close_loc with
++          | Some head -> head
++          | None -> Ast.static_error close_loc "Missing lifetime binding block head" None in
++        let entry_id =
++          match Hashtbl.find_opt explicit_block_starts_table close_loc with
++          | Some entry -> entry
++          | None -> Ast.static_error close_loc "Missing lifetime binding block entry" None in
++        let end_bb : Mir.basic_block =
++          match List.filter (fun (loc, _, _) -> loc = close_loc) !explicit_block_ends with
++          | [(_, _, original)] -> Hashtbl.find bblocks_table original.id
++          | _ -> Ast.static_error close_loc "Expected one lifetime binding end marker" None
++        in
++        let rec scoped_ids (bb : Mir.basic_block) =
++          bb.id :: Util.flatmap scoped_ids bb.children
++        in
++        let ids = scoped_ids head in
++        if List.mem entry_id ids then
++          Ast.static_error close_loc
++            "Lifetime binding entry belongs to its reconstructed prefix" None;
++        if not (List.mem end_bb.id ids) ||
++           not (List.mem head.id end_bb.successors) ||
++           not (List.exists (fun id -> id <> head.id && not (List.mem id ids)) end_bb.successors) ||
++           List.exists (fun id -> id <> head.id && List.mem id ids) end_bb.successors then
++          Ast.static_error close_loc
++            "Lifetime binding end marker must leave exactly its reconstructed prefix" None;
++        Hashtbl.iter (fun _ (bb : Mir.basic_block) ->
++          if not (List.mem bb.id ids) then
++            List.iter (fun successor ->
++              if List.mem successor ids &&
++                 not (bb.id = entry_id && successor = head.id) then
++                Ast.static_error close_loc
++                  "A goto enters an ended lifetime binding's prefix" None)
++              bb.successors)
++          bblocks_table;
++        (* Reaching the synthetic entry again from the post-cut continuation
++           would run a second binding inside one reconstructed scope.  A loop
++           around this strict cut needs a separate, reviewed correspondence. *)
++        let rec reaches_entry seen id =
++          if id = entry_id then true
++          else if List.mem id seen then false
++          else match Hashtbl.find_opt bblocks_table id with
++            | None -> false
++            | Some (bb : Mir.basic_block) ->
++                List.exists (reaches_entry (id :: seen)) bb.successors in
++        let scope_exits =
++          ids |> Util.flatmap (fun id ->
++            match Hashtbl.find_opt bblocks_table id with
++            | None -> []
++            | Some (bb : Mir.basic_block) ->
++                List.filter (fun successor -> not (List.mem successor ids))
++                  bb.successors) in
++        if List.exists (reaches_entry []) scope_exits then
++          Ast.static_error close_loc
++            "A goto reenters a shortened lifetime binding after its cut" None;
++        Hashtbl.iter (fun _ (bb : Mir.basic_block) ->
++          if List.mem bb.id ids && bb.id <> end_bb.id &&
++             List.mem head.id bb.successors then
++            Ast.static_error close_loc
++              "A goto reenters the shortened lifetime binding head" None)
++          bblocks_table)
++        State.strict_lft_scope_ends;
+       !toplevel_blocks
+
+     let rec translate_to_vf_basic_block
+@@ -5162,15 +5229,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               let children_stmts =
+                 translate_basic_blocks_to_stmts children []
+               in
++              let strict_scope_start =
++                match List.assoc_opt closeBraceLoc State.strict_lft_scope_ends with
++                | None -> []
++                | Some name ->
++                    [ Ast.ExprStmt
++                        (Ast.CallExpr
++                           (l, "#strict_lft_binding_scope",
++                            [Ast.IdentTypeExpr (l, None, name)], [], [], Ast.Static)) ]
++              in
+               ( external_predecessor_count + internal_predecessor_count,
+                 [
+                   Ast.BlockStmt
+                     ( loc,
+                       decls,
+-                      Ast.LabelStmt (loc, id)
++                      strict_scope_start @ (Ast.LabelStmt (loc, id)
+                       :: (stmts0
+                          @ [ Ast.GotoStmt (lg, target) ]
+-                         @ children_stmts),
++                         @ children_stmts)),
+                       closeBraceLoc,
+                       ref [] );
+                 ],
+@@ -6130,9 +6206,68 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       ListAux.try_map translate_ghost_decl_block
+         (ghost_decl_blocks_get_list body_cpn)
+     in
++    (* A regular ghost command may shorten the scope of the sole let_lft
++       declaration in a Rust block.  Keep both the original end (as a no-op)
++       and the new end: both correspond to real exporter dummy calls. *)
++    let marker_call = function
++      | Ast.PureStmt (_, Ast.ExprStmt (Ast.CallExpr (_, name, targs, [], args, Ast.Static)))
++      | Ast.ExprStmt (Ast.CallExpr (_, name, targs, [], args, Ast.Static))
++        when name = "end_lft_binding" -> Some (targs, args)
++      | _ -> None
++    in
++    let markers, ghost_stmts =
++      List.partition (fun stmt -> match marker_call stmt with Some _ -> true | None -> false) ghost_stmts
++    in
++    if markers <> [] && Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" then
++      Ast.static_error (Ast.stmt_loc (List.hd markers))
++        "Strict lifetime binding requires explicit overnight opt-in" None;
++    if List.length markers > 1 then
++      Ast.static_error (Ast.stmt_loc (List.hd markers))
++        "Strict lifetime binding expects exactly one cut marker per body" None;
++    let marker_pos l = fst (Ast.lexed_loc l) in
++    let same_source_file a b =
++      let (source_a, _, _) = marker_pos a in
++      let (source_b, _, _) = marker_pos b in
++      source_a = source_b in
++    let strict_lft_scope_ends =
++      markers |> List.map @@ fun marker ->
++        let marker_loc = Ast.stmt_loc marker in
++        let tname =
++          match marker_call marker with
++          | Some ([Ast.IdentTypeExpr (_, None, name)], [])
++            when String.starts_with ~prefix:"'" name -> name
++          | _ -> Ast.static_error marker_loc
++              "end_lft_binding expects exactly one named lifetime type and no arguments" None
++        in
++        let containing_blocks =
++          ghost_decl_blocks |> List.filter @@ function
++          | Ast.BlockStmt (start, _, [], close, _) ->
++              same_source_file start marker_loc &&
++              same_source_file marker_loc close &&
++              marker_pos start < marker_pos marker_loc &&
++              marker_pos marker_loc < marker_pos close
++          | _ -> false
++        in
++        match containing_blocks with
++        | [Ast.BlockStmt (_, [Ast.TypeWithTypeidDecl (_, bound_name, _)], [], original_close, _)]
++          when bound_name = tname -> (original_close, marker_loc, tname)
++        | _ -> Ast.static_error marker_loc
++            "end_lft_binding needs one enclosing ghost block containing only its let_lft declaration" None
++    in
++    List.iter (fun (original_close, marker_loc, _) ->
++      if List.length (List.filter (fun (close, _, _) -> close = original_close)
++            strict_lft_scope_ends) <> 1 then
++        Ast.static_error marker_loc "Duplicate end_lft_binding for one block" None)
++      strict_lft_scope_ends;
+     let ghost_decl_block_start_stmts =
+       ghost_decl_blocks
+       |> List.map @@ fun (Ast.BlockStmt (l, decls, [], closeBraceLoc, _)) ->
++         let closeBraceLoc =
++           match List.find_opt (fun (old_close, _, _) -> old_close = closeBraceLoc)
++             strict_lft_scope_ends with
++           | Some (_, new_close, _) -> new_close
++           | None -> closeBraceLoc
++         in
+          Ast.BlockStmt
+            ( l,
+              decls,
+@@ -6145,9 +6280,15 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+     in
+     let ghost_decl_block_end_stmts =
+       ghost_decl_blocks
+-      |> List.map @@ fun (Ast.BlockStmt (l, decls, [], closeBraceLoc, _)) ->
+-         Ast.ExprStmt
+-           (CallExpr (closeBraceLoc, "#ghost_decl_block_end", [], [], [], Static))
++      |> Util.flatmap @@ fun (Ast.BlockStmt (l, decls, [], closeBraceLoc, _)) ->
++         let end_stmt at =
++           Ast.ExprStmt
++             (CallExpr (at, "#ghost_decl_block_end", [], [], [], Static))
++         in
++         match List.find_opt (fun (old_close, _, _) -> old_close = closeBraceLoc)
++           strict_lft_scope_ends with
++         | Some (_, new_close, _) -> [end_stmt new_close; Ast.NoopStmt closeBraceLoc]
++         | None -> [end_stmt closeBraceLoc]
+     in
+     let* loop_spec_blocks =
+       ListAux.try_map translate_loop_spec_block
+@@ -6170,6 +6311,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let body_imp_loc = imp_loc
+       let body_name = TrName.translate_def_path (def_path_get body_cpn)
+       let body_tr_defs_ctx = body_tr_defs_ctx
++      let strict_lft_scope_ends =
++        List.map (fun (_, new_close, name) -> (new_close, name)) strict_lft_scope_ends
+       let local_decl_types = local_decl_types
+     end) in
+     let callback_marker_name = "__vf_callback_unwind_pair" in
+diff --git a/src/verifast.ml b/src/verifast.ml
+index 2b64679..1987066 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -2520,6 +2520,74 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+         ))
+       ))
+     | BlockStmt (l, ds, ss, closeBraceLoc, locals_to_free) ->
++      let outer_tparams = tparams in
++      let outer_tenv = tenv in
++      let outer_ghostenv = ghostenv in
++      let strict_lft_scope, ss =
++        match ss with
++        | ExprStmt (CallExpr (_, "#strict_lft_binding_scope", [IdentTypeExpr (_, None, name)], [], [], Static)) :: ss ->
++          Some name, ss
++        | _ -> None, ss
++      in
++      (* Strict scopes must not keep aliases to unification references across
++         their boundary.  A later EqConstraint could otherwise turn an outer
++         type or bound into a reference to the ending lifetime. *)
++      let rec freeze_strict_type at context seen tp =
++        let freeze = freeze_strict_type at context seen in
++        let freeze_list = List.map freeze in
++        match tp with
++        | InferredType (_, state) ->
++          if List.exists (fun previous -> previous == state) seen then
++            static_error at ("Strict lifetime binding has cyclic inference in " ^ context) None;
++          begin match !state with
++          | EqConstraint resolved -> freeze_strict_type at context (state :: seen) resolved
++          | _ -> static_error at
++              ("Strict lifetime binding has unresolved inference in " ^ context) None
++          end
++        | InferredRealType _ -> static_error at
++            ("Strict lifetime binding has unresolved real-type inference in " ^ context) None
++        | BoundedGhostTypeParam (name, bounds) ->
++          let eqs = List.map (fun ((trait, args, assoc), rhs) ->
++            ((trait, freeze_list args, assoc), freeze rhs)) bounds.eqs in
++          BoundedGhostTypeParam (name, {bounds with eqs = eqs})
++        | PtrType t -> PtrType (freeze t)
++        | RustRefType (lft, kind, t) -> RustRefType (freeze lft, kind, freeze t)
++        | InlineFuncType t -> InlineFuncType (freeze t)
++        | InductiveType (name, args) -> InductiveType (name, freeze_list args)
++        | PredType (binders, args, input_count, inductiveness) ->
++          PredType (binders, freeze_list args, input_count, inductiveness)
++        | PureFuncType (domain, range) -> PureFuncType (freeze domain, freeze range)
++        | ObjType (name, args) -> ObjType (name, freeze_list args)
++        | StructType (name, args) -> StructType (name, freeze_list args)
++        | ArrayType t -> ArrayType (freeze t)
++        | StaticArrayType (elem, size) -> StaticArrayType (freeze elem, freeze size)
++        | RefType t -> RefType (freeze t)
++        | ProjectionType (self, trait, args, assoc) ->
++          ProjectionType (freeze self, trait, freeze_list args, assoc)
++        | Slice t -> Slice (freeze t)
++        | Bool | Void | Int _ | RustChar | RealType | Float | Double
++        | LongDouble | UnionType _ | FuncType _ | LiteralConstType _
++        | BoxIdType | HandleIdType | AnyType | RealTypeParam _
++        | GhostTypeParam _ | ClassOrInterfaceName _ | PackageName _
++        | AbstractType _ | StaticLifetime | Str -> tp
++        | _ -> static_error at
++            ("Strict lifetime binding has unsupported type constructor in " ^ context) None
++      in
++      let freeze_strict_bounds at context bounds =
++        let eqs = List.map (fun ((trait, args, assoc), rhs) ->
++          ((trait, List.map (freeze_strict_type at context []) args, assoc),
++           freeze_strict_type at context [] rhs)) bounds.eqs in
++        {bounds with eqs = eqs}
++      in
++      let outer_tenv =
++        if strict_lft_scope = None then outer_tenv else
++          List.map (fun (name, tp) ->
++            name, freeze_strict_type l "entry outer type" [] tp) outer_tenv in
++      let entry_tparam_bounds =
++        if strict_lft_scope = None then !tparam_bounds_table else
++          List.map (fun (name, bounds) ->
++            name, freeze_strict_bounds l "entry bound" bounds)
++            !tparam_bounds_table in
+       let (lems, predinsts, localpreds, localpredinsts, typedecls) =
+         List.fold_left
+           begin fun (lems, predinsts, localpreds, localpredinsts, typedecls) decl ->
+@@ -2560,6 +2628,15 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+           ([], [], [], [], [])
+           ds
+       in
++      begin match strict_lft_scope, ds, typedecls with
++      | None, _, _ -> ()
++      | Some name, [TypeWithTypeidDecl _], [(bound_name, _)] when name = bound_name ->
++        if List.mem name outer_tparams ||
++           List.mem_assoc name outer_tenv ||
++           List.mem_assoc (name ^ "_typeid") outer_tenv then
++          static_error l "Lifetime binding name shadows an outer type or value" None
++      | Some _, _, _ -> static_error l "Strict lifetime scope requires exactly its local let_lft declaration" None
++      end;
+       let tparams = List.map fst typedecls @ tparams in
+       let env = List.map (fun (tn, (l, typeid_term)) -> tn ^ "_typeid", typeid_term) typedecls @ env in
+       let tenv = List.map (fun (tn, (l, typeid_term)) -> tn ^ "_typeid", voidPtrType) typedecls @ tenv in
+@@ -2645,12 +2722,82 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+       let rec type_mentions_typedecl_type b tp =
+         match unfold_inferred_type tp with
+           GhostTypeParam x when List.mem_assoc x typedecls -> true
++        | BoundedGhostTypeParam (x, {eqs}) when strict_lft_scope <> None ->
++          List.fold_left (fun b ((_, args, _), rhs) ->
++            let b = List.fold_left type_mentions_typedecl_type b args in
++            type_mentions_typedecl_type b rhs)
++            (b || List.mem_assoc x typedecls) eqs
++        | RealTypeParam x when strict_lft_scope <> None ->
++          b || List.mem_assoc x typedecls
+         | tp -> type_fold_open b type_mentions_typedecl_type tp
+       in
++      (* A bound on an outer type parameter is proof metadata.  A bound learned
++         in this block must not make an existing heap chunk of that outer type
++         appear to own the block's lifetime after the block has ended. *)
++      let rec rebase_outer_bounds shadowed tp =
++        match tp with
++        | BoundedGhostTypeParam (x, _) when List.mem x outer_tparams && not (List.mem x shadowed) ->
++          begin match List.assoc_opt x entry_tparam_bounds with
++          | None -> GhostTypeParam x
++          | Some bounds -> BoundedGhostTypeParam (x, bounds)
++          end
++        | InferredType _ | InferredRealType _ ->
++          static_error closeBraceLoc
++            "Strict lifetime binding cannot rebase unresolved inference" None
++        | PtrType t ->
++          let t' = rebase_outer_bounds shadowed t in
++          if t' == t then tp else PtrType t'
++        | RustRefType (lft, kind, t) ->
++          let lft' = rebase_outer_bounds shadowed lft in
++          let t' = rebase_outer_bounds shadowed t in
++          if lft' == lft && t' == t then tp else RustRefType (lft', kind, t')
++        | InlineFuncType t ->
++          let t' = rebase_outer_bounds shadowed t in
++          if t' == t then tp else InlineFuncType t'
++        | InductiveType (name, args) ->
++          let args' = rebase_outer_bounds_list shadowed args in
++          if args' == args then tp else InductiveType (name, args')
++        | PredType (binders, args, input_count, inductiveness) ->
++          let args' = rebase_outer_bounds_list (binders @ shadowed) args in
++          if args' == args then tp else PredType (binders, args', input_count, inductiveness)
++        | PureFuncType (domain, range) ->
++          let domain' = rebase_outer_bounds shadowed domain in
++          let range' = rebase_outer_bounds shadowed range in
++          if domain' == domain && range' == range then tp else PureFuncType (domain', range')
++        | ObjType (name, args) ->
++          let args' = rebase_outer_bounds_list shadowed args in
++          if args' == args then tp else ObjType (name, args')
++        | StructType (name, args) ->
++          let args' = rebase_outer_bounds_list shadowed args in
++          if args' == args then tp else StructType (name, args')
++        | ArrayType t ->
++          let t' = rebase_outer_bounds shadowed t in
++          if t' == t then tp else ArrayType t'
++        | StaticArrayType (elem, size) ->
++          let elem' = rebase_outer_bounds shadowed elem in
++          let size' = rebase_outer_bounds shadowed size in
++          if elem' == elem && size' == size then tp else StaticArrayType (elem', size')
++        | RefType t ->
++          let t' = rebase_outer_bounds shadowed t in
++          if t' == t then tp else RefType t'
++        | ProjectionType (self, trait, args, assoc) ->
++          let self' = rebase_outer_bounds shadowed self in
++          let args' = rebase_outer_bounds_list shadowed args in
++          if self' == self && args' == args then tp else ProjectionType (self', trait, args', assoc)
++        | Slice t ->
++          let t' = rebase_outer_bounds shadowed t in
++          if t' == t then tp else Slice t'
++        | _ -> tp
++      and rebase_outer_bounds_list shadowed ts =
++        let ts' = List.map (rebase_outer_bounds shadowed) ts in
++        if List.for_all2 (==) ts ts' then ts else ts'
++      in
+       let produce_consumed_lifetime_token_chunks h cont =
++        let would_discard (Chunk (_, targs, _, _, _)) =
++          List.fold_left type_mentions_typedecl_type false targs in
+         let h =
+-          if typedecls <> [] then
+-            h |> List.filter (fun (Chunk (_, targs, _, _, _)) -> not @@ List.fold_left type_mentions_typedecl_type false targs)
++          if typedecls <> [] && strict_lft_scope = None then
++            h |> List.filter (fun chunk -> not (would_discard chunk))
+           else
+             h
+         in
+@@ -2663,22 +2810,107 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+         iter h consumed_lifetime_token_chunks
+       in
+       check_block_declarations ss;
+-      let cont h env =
+-        cont h (List.filter (fun (x, _) -> List.mem_assoc x tenv) env)
++      let check_outer_scope_snapshot () =
++        if List.exists (fun (_, tp) -> type_mentions_typedecl_type false tp) outer_tenv then
++          static_error closeBraceLoc "A lifetime-scoped type escaped into an outer variable type" None;
++        if List.exists (fun (x, bounds) ->
++          List.mem_assoc x typedecls ||
++          List.exists (fun ((_, args, _), rhs) ->
++            List.fold_left type_mentions_typedecl_type false args ||
++            type_mentions_typedecl_type false rhs) bounds.eqs)
++          entry_tparam_bounds then
++          static_error closeBraceLoc "A lifetime-scoped type escaped into outer bound metadata" None
++      in
++      let check_strict_current_bounds () =
++        if strict_lft_scope <> None then
++          List.iter (fun (_, bounds) ->
++            ignore (freeze_strict_bounds closeBraceLoc "exit bound" bounds))
++            !tparam_bounds_table
++      in
++      let continue_outside_scope h exit_tenv cont =
++        match strict_lft_scope with
++        | None -> cont h
++        | Some _ ->
++          check_strict_current_bounds ();
++          let exit_tenv = List.map (fun (name, tp) ->
++            if List.mem_assoc name outer_tenv then
++              name, freeze_strict_type closeBraceLoc "exit outer type" [] tp
++            else name, tp) exit_tenv in
++          let h = List.map (function
++            | Chunk (symb, targs, coef, terms, size) ->
++              let targs = List.map
++                (freeze_strict_type closeBraceLoc "exit heap type" []) targs in
++              let targs' = rebase_outer_bounds_list [] targs in
++              Chunk (symb, targs', coef, terms, size)) h
++          in
++          let would_discard (Chunk (_, targs, _, _, _)) =
++            List.fold_left type_mentions_typedecl_type false targs in
++          begin match List.find_opt would_discard h with
++          | None -> ()
++          | Some (Chunk ((symb, _), targs, _, _, _)) ->
++            let rec directly_mentions_local b tp =
++              match unfold_inferred_type tp with
++              | GhostTypeParam x | RealTypeParam x | BoundedGhostTypeParam (x, _) ->
++                b || List.mem_assoc x typedecls
++              | tp -> type_fold_open b directly_mentions_local tp
++            in
++            let origin =
++              if List.fold_left directly_mentions_local false targs then "direct type argument"
++              else "bound metadata only"
++            in
++            static_error closeBraceLoc
++              ("A lifetime-scoped heap chunk is still live at the binding end: " ^
++               ctxt#pprint symb ^ "<" ^ String.concat ", " (List.map string_of_type targs) ^
++               "> (" ^ origin ^ ")") None
++          end;
++          if List.exists (fun (x, tp) ->
++            List.mem_assoc x outer_tenv &&
++            type_mentions_typedecl_type false (rebase_outer_bounds [] tp)) exit_tenv then
++            static_error closeBraceLoc "A lifetime-scoped local type escapes the binding" None;
++          check_outer_scope_snapshot ();
++          let saved_bounds = !tparam_bounds_table in
++          tparam_bounds_table := entry_tparam_bounds;
++          do_finally (fun () -> cont h) (fun () -> tparam_bounds_table := saved_bounds)
++      in
++      let outside_env env =
++        let visible_tenv = if strict_lft_scope = None then tenv else outer_tenv in
++        List.filter (fun (x, _) -> List.mem_assoc x visible_tenv) env
++      in
++      let cont h exit_tenv env =
++        continue_outside_scope h exit_tenv (fun h -> cont h (outside_env env))
+       in
+       let cont h tenv env =
+         produce_consumed_lifetime_token_chunks h $. fun h ->
+-        free_locals closeBraceLoc h tenv env !locals_to_free cont
++        free_locals closeBraceLoc h tenv env !locals_to_free (fun h env -> cont h tenv env)
+       in
+       let return_cont h tenv env retval =
+         produce_consumed_lifetime_token_chunks h $. fun h ->
+-        free_locals closeBraceLoc h tenv env !locals_to_free (fun h env -> return_cont h tenv env retval)
++        free_locals closeBraceLoc h tenv env !locals_to_free (fun h env ->
++          continue_outside_scope h tenv (fun h ->
++            if strict_lft_scope = None then return_cont h tenv env retval
++            else return_cont h outer_tenv (outside_env env) retval))
+       in
+       let lblenv = List.map (fun (lbl, lblcont) -> (lbl, (fun blocksdone sizemap tenv ghostenv h env ->
+         produce_consumed_lifetime_token_chunks h $. fun h ->
+-        free_locals closeBraceLoc h tenv env !locals_to_free (fun h env -> lblcont blocksdone sizemap tenv ghostenv h env)))) lblenv
++        free_locals closeBraceLoc h tenv env !locals_to_free (fun h env ->
++          continue_outside_scope h tenv (fun h ->
++            if strict_lft_scope = None then lblcont blocksdone sizemap tenv ghostenv h env
++            else lblcont blocksdone sizemap outer_tenv outer_ghostenv h (outside_env env)))))) lblenv
++      in
++      let scoped_econt throwl h env texcep excep =
++        if strict_lft_scope = None then econt throwl h env texcep excep
++        else static_error throwl "Exception escape from a shortened lifetime binding is unsupported" None
++      in
++      let verify_scoped_block () =
++        verify_block (pn,ilist) blocks_done lblenv tparams boxes pure leminfo funcmap predinstmap sizemap tenv ghostenv h env ss (fun sizemap tenv ghostenv h env -> cont h tenv env) return_cont scoped_econt
+       in
+-      verify_block (pn,ilist) blocks_done lblenv tparams boxes pure leminfo funcmap predinstmap sizemap tenv ghostenv h env ss (fun sizemap tenv ghostenv h env -> cont h tenv env) return_cont econt
++      if strict_lft_scope = None then verify_scoped_block ()
++      else do_finally (fun () ->
++        let result = verify_scoped_block () in
++        check_strict_current_bounds ();
++        check_outer_scope_snapshot ();
++        result)
++        (fun () -> tparam_bounds_table := entry_tparam_bounds)
+     | PureStmt (l, s) ->
+       begin
+         match s with
