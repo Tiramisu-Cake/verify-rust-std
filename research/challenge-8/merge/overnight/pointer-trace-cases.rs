@@ -238,7 +238,6 @@ lem trace_bool_choice_open(p: *const bool, values: list<bool>, count: usize, k: 
         [f](*(p + k) |-> nth(k, values)) &*&
         [f]p[k + 1..count] |-> drop(k + 1, values);
 {
-    array_inv(p);
     array_split(p, k);
     array_split(p + k, 1);
     drop_n_plus_one(k, values);
@@ -254,7 +253,7 @@ lem trace_bool_choice_close(p: *const bool, values: list<bool>, count: usize, k:
         count == length(values) &*& 0 <= k &*& k < count;
     ens [f]p[..count] |-> values;
 {
-    array_inv(p + k + 1);
+    assert pointer_within_limits(p + k + 1) == true;
     close [f]array::<bool>(p + k + 1, 0, nil);
     close [f]array::<bool>(p + k, 1, cons(nth(k, values), nil));
     array_join(p + k);
@@ -421,8 +420,8 @@ on_unwind_ens false;
 @*/
 {
     //@ let s = std::mem::size_of::<T>();
-    //@ array_inv(up_choices);
-    //@ array_inv(down_choices);
+    //@ assert m == length(up_values);
+    //@ assert m == length(down_values);
     //@ mul_mono_l(0, m, s);
     //@ mul_mono_l(m, n, s);
     //@ mul_mono_l(0, m - 1, s);

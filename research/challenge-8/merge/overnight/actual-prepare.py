@@ -28,6 +28,7 @@ def contract(name: str) -> str:
         "((result.0 as pointer == wrapping_pointer_offset(left_src as pointer, -std::mem::size_of::<T>()) && result.1 == right_src && copied == lv1) || "
         "(result.0 == left_src && result.1 as pointer == wrapping_pointer_offset(right_src as pointer, -std::mem::size_of::<T>()) && copied == rv1)) &*& result.2 == dst - 1"
     )
+    destination_cursor_limit = ("pointer_within_limits(dst + 1) == true" if name == "merge_up" else "pointer_within_limits(dst - 1) == true")
     common = """thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     *left_src |-> ?lv1 &*& <T>.own(t, lv1) &*&
     *right_src |-> ?rv1 &*& <T>.own(t, rv1) &*&
@@ -55,7 +56,7 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*& type_inte
     *dst |-?-> ?dst0 &*& *is_less |-> ?f0 &*& <F>.own(t, f0) &*&
     pointer_within_limits(left_src + 1) == true &*&
     pointer_within_limits(right_src + 1) == true &*&
-    pointer_within_limits(dst + 1) == true &*& pointer_within_limits(dst - 1) == true;
+    """ + destination_cursor_limit + """;
 @*//*@
 ens """ + common + " &*& *dst |-> ?copied &*&\n    " + result_posts + ";\n@*//*@\non_unwind_ens " + common + " &*& *dst |-?-> dst0;\n@*/"
 

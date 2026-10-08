@@ -4436,3 +4436,25 @@ Old wrong marker, false unwind, direct typed escape and strengthened right
 fraction+1 controls retained. Expected stages all0/0/1/0 for controls; intended
 frontend/resource distinction and exact locations must be audited after run.
 One hosted manual merge_geometry workflow, 30min ceiling, full existing matrix.
+
+### M2-cleanup-v2 outcome / exact-command diagnostics BEFORE
+
+Run37710362525/proof30adaca51566c2a7db0c13ca5d20c1f0254be031,
+job113094625240,00:56:33–01:00:04UTC=211seconds; cumulative2520/21600.
+Build/fulloldcompatibility PASS. Structural matcher rejects valid cleanup/actual
+protocol BEFORE body (`Unexpected callback borrow protocol inside lifetime
+scope`); intended owner/fraction/escape controls are masked and not accepted.
+Wrong marker reaches separate original frontend gate. Compare normalized AST
+from previous successful translation; add exact ordered-command diagnostics
+without relaxing type/k/P/ref constraints. Patch041372734f5803be8491ea1485c6f896924f4ffe0da29bc1b336a59e53a2e0bf,
+translatorb6be790ec6bad266db1b560a108e8d86249e2eee87b1a31216c01bef6583397a,
+kernel100eebae unchanged. Unknown causal mismatch requires diagnostic new run,
+not blind repeated proof or semantic weakening.
+Trace first helper fails wrong arity240:5–14 at array_inv(p). Stock lem_auto
+array_inv has zero formals and fires on array resources; replace explicit wrong
+arity calls with checked pure assertions where needed, existing pre/endpoints
+retained. No new trust rule. Actual merge_up had an unnecessary dst-1 limit
+from shared diagnostic contract; remove that requirement for up, keep dst+1;
+down needs dst-1. Fullposts/necessaryC1domain unchanged and first up at dstbase
+can now apply. Fresh source run mandatory. New pointer-domain caller bridge is
+independently drafted, not included until local review complete.

@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index fddcc70..53ee566 100644
+index fddcc70..6e423e8 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1942,6 +1942,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -187,7 +187,7 @@ index fddcc70..53ee566 100644
                        closeBraceLoc,
                        ref [] );
                  ],
-@@ -5026,9 +5131,250 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5026,9 +5131,255 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        ListAux.try_map translate_ghost_decl_block
          (ghost_decl_blocks_get_list body_cpn)
      in
@@ -368,33 +368,38 @@ index fddcc70..53ee566 100644
 +          in
 +          let scoped = ghost_stmts |> List.filter in_scope in
 +          let pure f = function Ast.PureStmt (_, inner) -> f inner | _ -> false in
-+          let protocol = function
-+            | [a; b; c; d; e; f; g; h; i; j; k; m; n; o; p; q; r; s] ->
-+                pure (close_full "left_src") a && pure (borrow "left_src") b &&
-+                pure (share "left_src") c && pure (close_full "right_src") d &&
-+                pure (borrow "right_src") e && pure (share "right_src") f &&
-+                pure (precreate "left_src" "left_ref") g && pure (init_ref "left_ref") h &&
-+                pure (open_frac "left_ref") i && pure (open_ref "left_ref" "left_ref_frac") j &&
-+                pure (close_ref "left_ref") k &&
-+                pure (precreate "right_src" "right_ref") m && pure (init_ref "right_ref") n &&
-+                pure (open_frac "right_ref") o && pure (open_ref "right_ref" "right_ref_frac") p &&
-+                pure (close_ref "right_ref") q && pure close_tuple r &&
-+                Ast.stmt_loc s = close_l
-+            | [a; b; c; d; e; f; g; h; i; j; k; m; n; o; p; q; r; s; extra] ->
-+                pure (close_full "left_src") a && pure (borrow "left_src") b &&
-+                pure (share "left_src") c && pure (close_full "right_src") d &&
-+                pure (borrow "right_src") e && pure (share "right_src") f &&
-+                pure (precreate "left_src" "left_ref") g && pure (init_ref "left_ref") h &&
-+                pure (open_frac "left_ref") i && pure (open_ref "left_ref" "left_ref_frac") j &&
-+                pure (close_ref "left_ref") k &&
-+                pure (precreate "right_src" "right_ref") m && pure (init_ref "right_ref") n &&
-+                pure (open_frac "right_ref") o && pure (open_ref "right_ref" "right_ref_frac") p &&
-+                pure (close_ref "right_ref") q && pure close_tuple r &&
-+                Ast.stmt_loc s = close_l && pure (close_ref "left_ref") extra
-+            | _ -> false
++          let expected =
++            ["left full content", pure (close_full "left_src");
++             "left borrow", pure (borrow "left_src");
++             "left share", pure (share "left_src");
++             "right full content", pure (close_full "right_src");
++             "right borrow", pure (borrow "right_src");
++             "right share", pure (share "right_src");
++             "left precreate", pure (precreate "left_src" "left_ref");
++             "left ref share", pure (init_ref "left_ref");
++             "left fraction open", pure (open_frac "left_ref");
++             "left ref initialized open", pure (open_ref "left_ref" "left_ref_frac");
++             "left ref own", pure (close_ref "left_ref");
++             "right precreate", pure (precreate "right_src" "right_ref");
++             "right ref share", pure (init_ref "right_ref");
++             "right fraction open", pure (open_frac "right_ref");
++             "right ref initialized open", pure (open_ref "right_ref" "right_ref_frac");
++             "right ref own", pure (close_ref "right_ref");
++             "tuple own", pure close_tuple;
++             "callback close", (fun stmt -> Ast.stmt_loc stmt = close_l)]
 +          in
-+          if not (protocol scoped) then
-+            Ast.static_error cut_l "Unexpected callback borrow protocol inside lifetime scope" None;
++          let expected =
++            match List.length scoped with
++            | 18 -> expected
++            | 19 -> expected @ ["escaped ref own control", pure (close_ref "left_ref")]
++            | n -> Ast.static_error cut_l
++                ("Unexpected callback borrow protocol length: " ^ string_of_int n) None
++          in
++          List.iter2 (fun (name, check) stmt ->
++            if not (check stmt) then
++              Ast.static_error (Ast.stmt_loc stmt)
++                ("Unexpected callback borrow protocol command: " ^ name) None)
++            expected scoped;
 +          let close_stmt =
 +            Ast.PureStmt (close_l,
 +              Ast.BlockStmt (close_l, [], close_commands, close_end, ref [])) in
@@ -438,7 +443,7 @@ index fddcc70..53ee566 100644
           Ast.BlockStmt
             ( l,
               decls,
-@@ -5041,9 +5387,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5041,9 +5392,17 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
      in
      let ghost_decl_block_end_stmts =
        ghost_decl_blocks
@@ -459,7 +464,7 @@ index fddcc70..53ee566 100644
      in
      let* loop_spec_blocks =
        ListAux.try_map translate_loop_spec_block
-@@ -5059,6 +5413,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5059,6 +5418,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        let ghost_stmts = ghost_stmts
        let body_imp_loc = imp_loc
        let body_tr_defs_ctx = body_tr_defs_ctx
@@ -470,7 +475,7 @@ index fddcc70..53ee566 100644
      end) in
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
-@@ -5366,6 +5724,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -5366,6 +5729,24 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              let vf_bblocks =
                translate_basic_blocks_to_stmts toplevel_blocks []
              in
