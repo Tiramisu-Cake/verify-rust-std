@@ -50,3 +50,54 @@ a separately reviewed exact ghost-statement extension, with its typed MIR
 graph and unchanged runtime body pinned. The nested Drop method's own
 ghost opens are a separate body and do not by themselves weaken the outer
 gate.
+
+## O11 generic method capture
+
+Run `37709227889`, H2a positive case, exported the same two-block
+shape in NORMAL and readonly. Local `sort4_checked_generic_drop<T>` has
+one input `*mut T`, `_0:()`, `_1:*mut T`, `_2:*mut T`, `unsafe=true`,
+`isDropFn=false`, a single `Sized<T>` clause and no extra ghost statements.
+Block 0 has `StorageLive(_2)`, `_2=Copy(_1)` and a zero-sized FnDef
+`std::ptr::drop_in_place<T>` call with `Move(_2)`, destination `_0`,
+normal target 1 and unwind `Continue`. Block 1 has `StorageDead(_2)` and
+`Return`; both blocks are non-cleanup. This is source-certified to the
+std method body after only `self→slot` and free-call qualification.
+
+Full VF exit 0 includes return and leak checks for the generic method and
+frame probe on normal **and unwind**. Three isolated controls fail at
+their target obligations: missing `<T>.own` at the free-drop call, false
+normal post, and false unwind post. All had NORMAL/readonly MIR, refinement
+and source-integrity success. These establish H2a's *local* adapter proof,
+not a redirect from the actual nested Drop method. Its future gate must
+pin the full local graph above and the actual nested graph above, and
+must keep their distinct DefPaths explicit.
+
+## O12 nominal guard capture
+
+Run `37710354025` removed the O11 parser obstruction. The source-equivalent
+local guard constructor proves its return and leak check from a real
+`*slot |-> value` and `<T>.own(t,value)`. The concrete `u32` witness then
+failed at the constructor's generic `<T>.own` pre: the stock `u32_own`
+predicate has body `true` but still requires an explicit `close` to produce
+its predicate chunk. The O13 fixture adds only that ghost close. In the
+missing-cell and wrong-target controls, the close of guard owner reaches
+the predicate's `*g.inner |-> ?payload` assertion and fails there, with
+the constructor and close statement in the trace. Ordinary Drop remains
+full-verifier exit 0. No local SAFE guard Drop body proof was reached in
+the positive case, and none is claimed for O12.
+
+The annotated local guard method now has exactly five locals: `_0:()`,
+`_1:&mut DropOnPanic<T>`, two unit ghost destinations `_2`/`_3`, and
+`_4:*mut T`. Its four non-cleanup blocks are: (0) `StorageLive(_2)` and
+zero-sized `VeriFast_ghost_command` for full-borrow open, normal target 1,
+unwind `Continue`; (1) `StorageDead(_2)`, `StorageLive(_3)` and the second
+ghost-command for nominal owner open, normal target 2, unwind `Continue`;
+(2) `StorageDead(_3)`, `StorageLive(_4)`, `_4=Copy((*_1).inner)` with the
+typed `inner:*mut T` field projection, then zero-sized generic FnDef
+`std::ptr::mut_ptr::<impl *mut T>::drop_in_place<T>`, `Move(_4)`, `_0`
+destination, normal target 3 and unwind `Continue`; (3)
+`StorageDead(_4)`, Return. NORMAL and readonly inventories agree. Both
+ghost statements appear separately in `ghostStmts`; generated template
+must retain both normal and unwind obligations. This is the **top-level
+adapter DefPath** `<DropOnPanic<T> as std::ops::Drop>::drop`, distinct from
+the nested actual std DefPath.

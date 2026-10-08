@@ -11,8 +11,8 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1891/21600 summed GitHub-hosted job seconds**, 19709 remain.
-Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
+New independent account **2130/21600 summed GitHub-hosted job seconds**, 19470 remain.
+Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O13 prepared.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
 components ACCEPTED at1378f0ff/run37700450091, all8matrices and complete logs audited;
@@ -58,6 +58,16 @@ audit harness NameError beforeproof; corrected ghostArgs protocol untested.
 O12 will retry existing fiveghost actualprojection on26.10 and repair affected
 certificate/fixture setup; no new goalpost or checks weakened. Nominalguard
 honestowner/SAFEtemplate extension remains stageddesign/capture, noown=true.
+O12 at165659d0/run37710354025: actual fiveghost projected fulltypedMIR admitted,
+pointerdrop+both closes pass, nextactualforget requires nominalguardown atstd420.
+A1 baseline two-body transmute+assume_init adapter fullVF0, allfive support stages0,
+3source mutants exactreject; probe positives leak rawpointervalueown due omitted
+probe post (repair onlyprobe contract). FullS6 eightstagePASS onf6cecf69console.
+H2b realgenericconstructor fullreturn/leak; scalarwitness needs stocku32ownclose;
+missingcell/wrongtarget fail atrealnominalownclose, ordinaryDropfull0. Callback
+Parseerror tupleaggregate, sort4ghoststrip newline abort; setupinconclusive,
+repairs prepared. O13 adds isolatedgenericforgetcallee qualification and replays
+affected boundaries; exactO12 seven-file identity permits S6regressionreuse.
 Combinedprofile experimental; fullselect/sort4 open.
 
 

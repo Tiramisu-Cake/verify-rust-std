@@ -217,6 +217,11 @@ def fixture_source(body: bytes, variant: str) -> tuple[bytes, bytes, dict]:
         post += b" &*& thread_token(tid)"
     elif variant == "element_rights":
         post += b" &*& *result |-> _"
+    # The checked method returns value ownership of the raw pointer itself.
+    # A successful probe must return that linear resource too; otherwise a
+    # positive leaks it, and frame/thread-loss controls fail for two reasons.
+    if variant not in {"none", "unknown", "no_thread"}:
+        post += b" &*& raw_ptr_own::<Element>()(tid, result)"
     probe_contract = ghost(b"req " + pre + b";\nens " + post +
                            b";\non_unwind_ens false;")
     probe_body = b"{\n    let result = unsafe { " + ADAPTER_NAME.encode() + b"(storage) };\n"

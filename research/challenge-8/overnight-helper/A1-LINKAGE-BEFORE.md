@@ -63,6 +63,32 @@ and unrelated errors. These are pending fresh classifications, not accepted
 O11 negatives. O11's two G1 framed positives remain separate diagnostics;
 the A1 primitive matrix was not rerun in this job.
 
+### O12 proof result and probe-contract repair, before O13
+
+O12 run `37710354025` proves the exact two-body unit by itself: the checked
+`transmute_neo` callee and exact updated-std `assume_init` adapter both execute
+their complete bodies, return and leak checks; full verifier exits zero after
+mandatory dead-code checks. NORMAL/readonly export/decode and refinement pass,
+and both full reviewed MIR graph pins match. The typed redirect is exercised
+once. This is a pointer-specialized local method theorem under its stated
+initialized-wrapper and pointer-value ownership precondition, not an actual
+outer helper or a generic `assume_init` theorem. Three source mutation
+controls reject at the exact A1 source gate before function proof.
+
+All 14 probe variants reached the two-body unit. The two positive probes
+then failed at their own return leak check because the probe post omitted
+`raw_ptr_own::<Element>()(tid,result)`, which the proved method returns.
+The frame-loss and thread-loss controls consequently leaked that ownership
+as well as their intended missing resource. O12's original classifications
+remain INCONCLUSIVE or location-unreviewed. The generator now returns
+`raw_ptr_own` in every probe with a successful initialized method call,
+without changing the method, primitive, source gate, or target post. The
+negative classifier is tightened to one error at the exact probe/adaptor
+obligation, requires both callee and method full return/leak traces, and
+rejects contaminated leak messages. A fresh hosted run is required before
+positive probe and intended-negative acceptance. The `none`/unknown and
+absent-thread precondition failures are not inferred from probe success.
+
 Self-review: an alias or import shadow would change the Rust call symbol and
 would not establish this obligation. Name-only redirection could prove a
 different method body. A result-expression rewrite could erase unwind; use

@@ -77,7 +77,6 @@ lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
     note(pointer_within_limits(base + count));
 }
 @*/
-
 """
 MEMORY_PRE_BOUND_CALL = (
     b"        //@ interior_pointer_limits::<T>(v_base, 4, 1);\n"

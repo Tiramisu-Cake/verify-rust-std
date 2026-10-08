@@ -349,6 +349,45 @@ def classify_a1_primitive(case: Path, stages: dict, variant: str,
     }
 
 
+def a1_linkage_negative_obligation(variant: str, verified: bytes) -> dict:
+    lines = verified.splitlines()
+    post_lines = [i for i, line in enumerate(lines, 1)
+                  if line.startswith(b"ens ")]
+    pre_lines = [i for i, line in enumerate(lines, 1)
+                 if line.startswith(b"req ")]
+    require(len(post_lines) == len(pre_lines) == 3,
+            "A1 linkage three-function contract inventory changed")
+    method_pre, probe_post, closing = pre_lines[1], post_lines[2], len(lines)
+    assert_lines = [i for i, line in enumerate(lines, 1)
+                    if b"//@ assert false;" in line]
+    expected = {
+        "none": (method_pre, "not an instance of constructor 'none'"),
+        "unknown": (method_pre, "not an instance of constructor 'none'"),
+        "false_post": (probe_post, "Cannot prove false"),
+        "wrong_result": (probe_post, "Cannot prove !(result0 = p)"),
+        "frame_loss": (closing,
+                       "Function leaks heap chunks: points_to<bool>(frame, flag)"),
+        "frame_duplication": (probe_post,
+                              "No matching heap chunks: points_to<bool>(frame, flag)"),
+        "frame_wrong_value": (probe_post,
+                              "Cannot prove !(flag = flag)"),
+        "thread_loss": (closing,
+                        "Function leaks heap chunks: thread_token(tid)"),
+        "thread_duplication": (probe_post,
+                               "No matching heap chunks: thread_token(tid)"),
+        "no_thread": (method_pre,
+                      "No matching heap chunks: thread_token"),
+        "element_rights": (probe_post,
+                           "No matching heap chunks: points_to_<Element>"),
+    }
+    if variant == "assert_false":
+        require(len(assert_lines) == 1, "A1 assertion control changed")
+        return {"line": assert_lines[0], "message": "Assertion might not hold"}
+    require(variant in expected, "unknown A1 linkage negative")
+    line, message = expected[variant]
+    return {"line": line, "message": message}
+
+
 def run_all(args) -> dict:
     require(os.environ.get("GITHUB_ACTIONS") == "true" and
             os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted" and
@@ -521,28 +560,47 @@ def run_all(args) -> dict:
                 timed = CLASSIFIER.timed_functions(log)
                 expected = [*s6_specs, A1.TRANSMUTE_ADAPTER_NAME,
                             A1.ADAPTER_NAME, "assume_init_probe"]
+                names = [item.function for item in timed]
                 full_body = ([item.function for item in timed] == expected and
                              all(item.body_execution_seen and item.return_seen and
                                  item.leak_check_seen for item in timed))
+                callee_method_proved = (
+                    names == expected and all(
+                        item.body_execution_seen and item.return_seen and
+                        item.leak_check_seen for item in timed[-3:-1]))
                 proven = (variant in A1.POSITIVES and source_ok and frontend and
                           len(graph) == 2 and
                           full_body and
                           stages.get("full-verification", {}).get("exit") == 0 and
                           not errors and "dead code" not in log.lower() and
                           "SORT4-A1-LINK: redirected one typed" in log)
+                obligation = (a1_linkage_negative_obligation(
+                    variant, (case / "verified/lib.rs").read_bytes())
+                    if variant in A1.NEGATIVES else None)
+                negative = (variant in A1.NEGATIVES and source_ok and
+                            frontend and len(graph) == 2 and
+                            callee_method_proved and
+                            stages.get("full-verification", {}).get("exit") == 1 and
+                            len(errors) == 1 and obligation is not None and
+                            errors[0]["file"] == "verified/lib.rs" and
+                            int(errors[0]["line"]) == obligation["line"] and
+                            obligation["message"] in errors[0]["message"] and
+                            (variant not in {"frame_loss", "thread_loss"} or
+                             errors[0]["message"] == obligation["message"]) and
+                            "Fatal error:" not in log and
+                            "dead code" not in log.lower())
                 result = {
                     "variant": variant,
                     "classification": "EXPERIMENTAL_METHOD_POSITIVE" if proven else
-                                      "NEGATIVE_LOCATION_UNREVIEWED" if
-                                      variant in A1.NEGATIVES and source_ok and
-                                      frontend and len(graph) == 2 and
-                                      stages.get("full-verification", {}).get("exit") == 1
-                                      else "INCONCLUSIVE",
+                                      "INTENDED_PROOF_NEGATIVE" if negative else
+                                      "INCONCLUSIVE",
                     "source_integrity": source_ok,
                     "frontend_refinement": frontend,
                     "full_mir_graphs": graph,
                     "full_body_return_leak_seen": full_body,
                     "first_error": errors[0] if errors else None,
+                    "expected_obligation": obligation,
+                    "callee_method_return_leak_seen": callee_method_proved,
                     "stages": stages,
                     "actual_std_assume_init_proved": False,
                 }

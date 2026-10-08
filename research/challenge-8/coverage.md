@@ -458,3 +458,13 @@ meansoptionalstorage, so no missing-dst-model extension needed. This is
 rawrepresentation copy usingstocksummary, not actualwrapperbody proof; noCopy/
 Freeze premise, explicitnonZSTpartialdomain, padding/provenance/caller/SWO
 composition remainrecordedopen. HistoricalS6/S7c claims unchanged.
+
+O12 [165659d0/run37710354025](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37710354025)
+advances the exact pointer-specialized actual helper through all five projection
+ghosts, checked pointer drop and both wrapper closes; next actual forget needs
+nominal guard ownership. It proves neither final helper post nor generic Drop.
+Separately the two-body local source-exact pointer transmute/assume_init adapter
+unit passes complete VF+NORMAL/readonly/refinement. Probe matrix acceptance
+remains open because returned raw-pointer value-own was omitted from probe posts;
+repair strengthens only those posts. No outer assume_init redirect yet. Element
+has ordinary implicit Sized bound; no Copy/Freeze/Element ownership premise.

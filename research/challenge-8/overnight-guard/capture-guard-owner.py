@@ -109,7 +109,10 @@ def concrete_u32_witness() -> bytes:
             b"req thread_token(?t) &*& t == currentThread &*& type_interp::<u32>() &*& *slot |-> ?value;",
             b"ens thread_token(t) &*& type_interp::<u32>() &*& <DropOnPanic<u32>>.own(t, result);",
             b"on_unwind_ens false;") +
-        b"{ unsafe { guard_owner_from_initialized_slot(slot) } }\n")
+        b"{\n"
+        b"    //@ close <u32>.own(t, value);\n"
+        b"    unsafe { guard_owner_from_initialized_slot(slot) }\n"
+        b"}\n")
 
 
 def ordinary_source() -> tuple[bytes, bytes]:
@@ -202,8 +205,12 @@ def classify(case: Path, variant: str, stages: dict) -> dict:
         result["classification"] = "ORDINARY_DROP_STOCK_PROOF_DIAGNOSTIC"
     elif variant in ("missing_cell", "wrong_target") and complete and intact and \
             stages["full-verification"]["exit"] == 1 and len(errors) == 1 and \
-            len(close_lines) == 1 and int(errors[0][1]) == close_lines[0] and \
-            result["owner_constructor_entered"] and not fatal:
+            len(close_lines) == 1 and \
+            errors[0][0] == "verified/lib.rs" and \
+            errors[0][3].startswith("No matching heap chunks: points_to<T>(") and \
+            b"*g.inner |-> ?payload" in (case / "verified/lib.rs").read_bytes().splitlines()[int(errors[0][1]) - 1] and \
+            result["owner_constructor_entered"] and \
+            "Executing statement" in ctor_log and not fatal:
         result["classification"] = "OWNER_CONSTRUCTION_FAILURE_DIAGNOSTIC"
     LINK.write_json(case / "classification.json", result)
     return result

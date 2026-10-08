@@ -84,7 +84,7 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ init_ref_share::<T>(cmp_k, t, right_ref);
         //@ close_ref_own::<'cmp, T>(left_ref);
         //@ close_ref_own::<'cmp, T>(right_ref);
-        //@ close <(&'cmp T, &'cmp T)>.own(t, (left_ref, right_ref));
+        //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: left_ref, 1: right_ref });
         //@ open_frac_borrow(cmp_k, ref_initialized_(left_ref), 1/4);
         //@ open [?left_fraction]ref_initialized_::<T>(left_ref)();
         //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
@@ -140,7 +140,7 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
         //@ init_ref_share::<T>(cmp_k, t, right_ref);
         //@ close_ref_own::<'cmp, T>(left_ref);
         //@ close_ref_own::<'cmp, T>(right_ref);
-        //@ close <(&'cmp T, &'cmp T)>.own(t, (left_ref, right_ref));
+        //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: left_ref, 1: right_ref });
         //@ open_frac_borrow(cmp_k, ref_initialized_(left_ref), 1/4);
         //@ open [?left_fraction]ref_initialized_::<T>(left_ref)();
         //@ open_frac_borrow(cmp_k, ref_initialized_(right_ref), 1/4);
