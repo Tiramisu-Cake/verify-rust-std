@@ -13,7 +13,10 @@ Main/upstream/other-agent branches are untouched by this direction.
 
 **Last completed O23:** [run37756681437](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37756681437),
 proof `94d055d5a0a531a3920acdc74e4cede5e9d0800b`,09:26:42–09:30:56UTC=254s.
-Resumed **1169/7200**,6031remaining; no active run.
+Resumed completed **1169/7200**,6031remaining before active O24.
+**Active O24:** [run37760135524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37760135524),
+proof `2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`; independent hostedsource
+preflight BEFORE build, selected9owner capture and sort4fullgraph/proofstart.
 Delta vs O22: nested ghost Not_found CLOSED by exact2record transfer; all12
 source commands conserved (2nested,10outer), typedcalls/spans/CFG unchanged.
 Actual fivebody owner reaches checked SAFE interface line77: `call()` now
