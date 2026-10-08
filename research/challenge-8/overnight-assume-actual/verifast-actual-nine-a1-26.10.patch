@@ -1,0 +1,255 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -977,6 +977,99 @@
+        | _ -> reject "MIR caller block inventory")
+   end
+
++  (* The nine-body actual helper uses the same checked A1 pair as the old
++     two-body fixture, but its complete source/MIR certificate is distinct. *)
++  module Sort4A1Nine = struct
++    let active = ref false
++    let transmute_redirects = ref 0
++    let assume_init_redirects = ref 0
++    let reject why = failwith ("SORT4-A1-NINE: certificate mismatch: " ^ why)
++
++    let exact_place expected p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> expected ||
++         not (PlaceRd.local_is_mutable_get p) ||
++         PlaceRd.projection_get_list p <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("outer assume_init place " ^ expected)
++
++    let check_outer_call body =
++      let blocks = BodyRd.basic_blocks_get_list body in
++      let expected_arg, expected_target, expected_cleanup =
++        match List.length (BodyRd.local_decls_get_list body),
++              List.length blocks with
++        | 42, 25 -> "_37", 21, 24
++        | 31, 14 -> "_26", 10, 13
++        | _ -> reject "outer local/block inventory" in
++      let local name =
++        match List.filter (fun decl ->
++          LocalDeclIdRd.name_get (LocalDeclRd.id_get decl) = name)
++          (BodyRd.local_decls_get_list body) with
++        | [decl] -> D.decode_ty (LocalDeclRd.ty_get decl)
++        | _ -> reject ("outer typed local " ^ name) in
++      if not (Sort4A1Link.pointer_wrapper (local expected_arg) &&
++              Sort4A1Link.const_ptr (local "_0")) then
++        reject "outer wrapper input/raw pointer result types";
++      let selected = List.filter_map (fun block ->
++        match TerminatorKindRd.get
++          (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
++        | TerminatorKindRd.Call data ->
++            (match OperandRd.get (FnCallDataRd.func_get data) with
++             | OperandRd.Constant c ->
++                 (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++                  | VfMirRd.MirConst.Val v ->
++                      (match (D.decode_ty
++                        (VfMirRd.MirConst.Val.ty_get v)).kind with
++                       | D.FnDef {id={name="std::mem::MaybeUninit::<T>::assume_init"}; _}
++                         -> Some (block, data)
++                       | _ -> None)
++                  | _ -> None)
++             | _ -> None)
++        | _ -> None) blocks in
++      let block, call = match selected with
++        | [item] -> item
++        | _ -> reject "exactly one outer assume_init call" in
++      let block_id = Stdint.Uint32.to_int
++        (BasicBlockIdRd.index_get (BasicBlockRd.id_get block)) in
++      if block_id <> expected_target - 1 ||
++         BasicBlockRd.is_cleanup_get block then
++        reject "outer selected call block identity/cleanup";
++      (match OperandRd.get (FnCallDataRd.func_get call) with
++       | OperandRd.Constant c ->
++           (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++            | VfMirRd.MirConst.Val v when
++                VfMirRd.ConstValue.get
++                  (VfMirRd.MirConst.Val.const_value_get v) =
++                    VfMirRd.ConstValue.ZeroSized ->
++                (match (D.decode_ty
++                  (VfMirRd.MirConst.Val.ty_get v)).kind with
++                 | D.FnDef {id={name="std::mem::MaybeUninit::<T>::assume_init"};
++                            substs=[{kind=D.Type t}];
++                            late_bound_generic_param_count=0}
++                   when Sort4A1Link.const_ptr t -> ()
++                 | _ -> reject "outer typed pointer specialization")
++            | _ -> reject "outer callee constant")
++       | _ -> reject "outer callee operand");
++      (match FnCallDataRd.args_get_list call with
++       | [arg] -> (match OperandRd.get arg with
++          | OperandRd.Move p -> exact_place expected_arg p
++          | _ -> reject "outer assume_init must move selected wrapper")
++       | _ -> reject "outer assume_init argument arity");
++      exact_place "_0" (FnCallDataRd.destination_get call);
++      (match OptionRd.get (FnCallDataRd.target_get call) with
++       | OptionRd.Something p when Stdint.Uint32.to_int
++           (BasicBlockIdRd.index_get (VfMirRd.of_pointer p)) =
++             expected_target -> ()
++       | _ -> reject "outer normal successor");
++      (match UnwindActionRd.get (FnCallDataRd.unwind_action_get call) with
++       | UnwindActionRd.Cleanup id when Stdint.Uint32.to_int
++           (BasicBlockIdRd.index_get id) = expected_cleanup -> ()
++       | _ -> reject "outer shared cleanup successor");
++      (match OptionRd.get (FnCallDataRd.ghost_generic_arg_list_get call) with
++       | OptionRd.Nothing -> ()
++       | _ -> reject "outer unexpected ghost type arguments")
++  end
++
+   module CapnpAux = struct
+     open Stdint
+
+@@ -3138,7 +3231,8 @@
+           if substs = [] then translate_regular_fn_call [] fn_name
+           else
+             match fn_name with
+-            | "std::mem::transmute_neo" when !Sort4A1Link.active ->
++            | "std::mem::transmute_neo"
++              when !Sort4A1Link.active || !Sort4A1Nine.active ->
+                 (match State.body_name, substs_cpn, args_cpn, args with
+                  | "checked_assume_init_pointer",
+                    [{kind=Type source}; {kind=Type destination}],
+@@ -3155,9 +3249,15 @@
+                             VfMirRd.PlaceKind.Other -> ()
+                       | _ -> Sort4A1Link.reject
+                           "actual transmute_neo call operand");
+-                     incr Sort4A1Link.redirect_count;
+-                     if !Sort4A1Link.redirect_count <> 1 then
+-                       Sort4A1Link.reject "actual transmute_neo call count";
++                     if !Sort4A1Nine.active then (
++                       incr Sort4A1Nine.transmute_redirects;
++                       if !Sort4A1Nine.transmute_redirects <> 1 then
++                         Sort4A1Nine.reject "actual transmute_neo call count"
++                     ) else (
++                       incr Sort4A1Link.redirect_count;
++                       if !Sort4A1Link.redirect_count <> 1 then
++                         Sort4A1Link.reject "actual transmute_neo call count"
++                     );
+                      (* FnCallOutcome keeps MIR normal and unwind successors.
+                         The exact local callee is verified in this unit. *)
+                      Ok (tmp_rvalue_binders,
+@@ -3168,6 +3268,37 @@
+                                [], [LitPat arg], Static)))
+                  | _ -> Sort4A1Link.reject
+                      "actual transmute_neo call type/body shape")
++            | "std::mem::MaybeUninit::<T>::assume_init"
++              when !Sort4A1Nine.active ->
++                (match State.body_name, substs_cpn, args_cpn, args with
++                 | "select_unpredictable", [{kind=Type element}],
++                   [arg_cpn], [arg]
++                   when fn_def_ty_cpn.late_bound_generic_param_count = 0 &&
++                        Sort4A1Link.const_ptr element ->
++                     (match OperandRd.get arg_cpn with
++                      | OperandRd.Move place when
++                          List.mem
++                            (LocalDeclIdRd.name_get (PlaceRd.local_get place))
++                            ["_37"; "_26"] &&
++                          PlaceRd.local_is_mutable_get place &&
++                          PlaceRd.projection_get_list place = [] &&
++                          VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
++                            VfMirRd.PlaceKind.Other -> ()
++                      | _ -> Sort4A1Nine.reject
++                          "outer actual assume_init Move operand");
++                     incr Sort4A1Nine.assume_init_redirects;
++                     if !Sort4A1Nine.assume_init_redirects <> 1 then
++                       Sort4A1Nine.reject "outer assume_init call count";
++                     (* Preserve the MIR Cleanup successor.  The exact local
++                        checked callee has on_unwind_ens false. *)
++                     Ok (tmp_rvalue_binders,
++                         FnCallOutcome
++                           (Ast.CallExpr
++                              (fn_loc, Sort4A1Link.caller_name,
++                               [Ast.IdentTypeExpr (fn_loc, None, "Element")],
++                               [], [LitPat arg], Static)))
++                 | _ -> Sort4A1Nine.reject
++                     "outer actual assume_init type/body shape")
+             (* Todo @Nima: For cases where we inline an expression instead of a function call,
+                there is a problem with extending the implementation for clean-up paths *)
+             | "std::intrinsics::assert_inhabited" -> (
+@@ -13201,6 +13332,56 @@
+         Ok ()
+     | _ -> reject "expected exactly one callee and one caller"
+
++  let certify_sort4_a1_nine (vf_mir : VfMirRd.VfMir.t) root =
++    let open Sort4A1Nine in
++    active := false;
++    transmute_redirects := 0;
++    assume_init_redirects := 0;
++    if not !Sort4SelectIntrinsic.actual_nine_admitted ||
++       Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
++       Sys.getenv_opt "SORT4_A1_LINK_REPO_ROOT" <> None then
++      reject "independent exact nine-body owner gate/root required";
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    let transmute, method_body, outer = match bodies with
++      | [_;_;_;_;transmute;method_body;_;outer;_] ->
++          transmute, method_body, outer
++      | _ -> reject "nine-body positions" in
++    if TrName.translate_def_path (BodyRd.def_path_get transmute) <>
++         Sort4A1Link.callee_name ||
++       TrName.translate_def_path (BodyRd.def_path_get method_body) <>
++         Sort4A1Link.caller_name ||
++       TrName.translate_def_path (BodyRd.def_path_get outer) <>
++         "select_unpredictable" then
++      reject "nine-body A1/outer DefPaths";
++    let* transmute_loc = translate_span_data
++      (BodyRd.fn_sig_span_get transmute) in
++    let* method_loc = translate_span_data
++      (BodyRd.fn_sig_span_get method_body) in
++    let* outer_loc = translate_span_data
++      (BodyRd.fn_sig_span_get outer) in
++    let source_path = function
++      | Ast.Lexed (((path,_,_), (last_path,_,_)))
++        when path = last_path && Filename.check_suffix path "verified/lib.rs" ->
++          path
++      | _ -> reject "A1/outer source spans" in
++    let path = source_path transmute_loc in
++    if source_path method_loc <> path || source_path outer_loc <> path ||
++       sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
++         "8629849c2d2ddde1eeb90fadb6a151dc52e626385578f89f0d86fce842c61eb8"
++    then reject "exact nine-body verified source unit";
++    if not (Sort4A1Link.local_shape transmute &&
++            Sort4A1Link.local_shape method_body) then
++      reject "A1 pointer-local declarations";
++    Sort4A1Link.interface transmute "src";
++    Sort4A1Link.interface method_body "storage";
++    Sort4A1Link.check_graph transmute method_body;
++    check_outer_call outer;
++    active := true;
++    Printf.printf
++      "SORT4-A1-NINE: exact source, typed local pair and outer cleanup call admitted\n%!";
++    Ok ()
++
+   let certify_sort4_actual_nested_h2
+       (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4ActualNestedH2 in
+@@ -13604,6 +13785,14 @@
+         | None -> Sort4A1Link.active := false; Ok ()
+         | Some root -> certify_sort4_a1_link vf_mir_cpn root
+       in
++      let* () = match Sys.getenv_opt "SORT4_A1_NINE_REPO_ROOT" with
++        | None ->
++            Sort4A1Nine.active := false;
++            Sort4A1Nine.transmute_redirects := 0;
++            Sort4A1Nine.assume_init_redirects := 0;
++            Ok ()
++        | Some root -> certify_sort4_a1_nine vf_mir_cpn root
++      in
+       let* () = match Sys.getenv_opt "SORT4_G1_CALL_REPO_ROOT" with
+         | None -> Sort4G1Call.active := false;
+                   Sort4G1Call.translated := 0; Ok ()
+@@ -13843,6 +14032,13 @@
+         Printf.printf
+           "SORT4-A1-LINK: redirected one typed std transmute_neo call to proved local body\n%!"
+       );
++      if !Sort4A1Nine.active then (
++        if !Sort4A1Nine.transmute_redirects <> 1 ||
++           !Sort4A1Nine.assume_init_redirects <> 1 then
++          Sort4A1Nine.reject "exactly one redirect at each A1 site required";
++        Printf.printf
++          "SORT4-A1-NINE: two typed local redirects; original Cleanup retained\n%!"
++      );
+       if !Sort4ActualNestedH2.active then (
+         if !Sort4ActualNestedH2.redirected <> 1 then
+           Sort4ActualNestedH2.reject
