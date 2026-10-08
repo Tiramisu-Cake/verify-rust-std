@@ -11,7 +11,8 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
-**O22 PREPARED, not yet dispatched.** [Before/review](overnight-linkage/O22-BEFORE.md).
+**O22 ACTIVE:** [run37754201983](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37754201983),
+proof `02945280d4f335948c6edd60feb7ac62092a0256`. [Before/review](overnight-linkage/O22-BEFORE.md).
 Exact main14 owner admission, two typed-MIR/three source negatives, separate
 owner-preserving generic forget probe, repaired sort4 capture and isolated
 strict lifetime diagnostic. No new actual proof claim; CUT kernel excluded
@@ -19,7 +20,7 @@ from production cache/main profile. Static patch composition passed.
 
 **Last completed O21:** [run37750512251](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37750512251),
 proof `d2f657be87ba58d77618950d8c030a31a21cbfb8`,08:32:33–08:35:25UTC=172s.
-New resumed account **683/7200**,6517remain; no active run.
+New resumed account **683/7200** completed,6517remain before active O22.
 O21 collector FAILsole sort4 source-anchor preparation (inline ghost type args),
 no sort4 graph/proof; causal source-only repair prepared, untested. Ordinary
 joinfour fullgenericcurrent-cell lemma/caller0+three exact owner/cell negatives;
