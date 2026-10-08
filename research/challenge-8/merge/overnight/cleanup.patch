@@ -1,5 +1,5 @@
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index fddcc70..6e423e8 100644
+index fddcc70..590c78f 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1942,6 +1942,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -377,11 +377,11 @@ index fddcc70..6e423e8 100644
 +             "right share", pure (share "right_src");
 +             "left precreate", pure (precreate "left_src" "left_ref");
 +             "left ref share", pure (init_ref "left_ref");
++             "right precreate", pure (precreate "right_src" "right_ref");
++             "right ref share", pure (init_ref "right_ref");
 +             "left fraction open", pure (open_frac "left_ref");
 +             "left ref initialized open", pure (open_ref "left_ref" "left_ref_frac");
 +             "left ref own", pure (close_ref "left_ref");
-+             "right precreate", pure (precreate "right_src" "right_ref");
-+             "right ref share", pure (init_ref "right_ref");
 +             "right fraction open", pure (open_frac "right_ref");
 +             "right ref initialized open", pure (open_ref "right_ref" "right_ref_frac");
 +             "right ref own", pure (close_ref "right_ref");

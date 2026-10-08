@@ -4458,3 +4458,28 @@ from shared diagnostic contract; remove that requirement for up, keep dst+1;
 down needs dst-1. Fullposts/necessaryC1domain unchanged and first up at dstbase
 can now apply. Fresh source run mandatory. New pointer-domain caller bridge is
 independently drafted, not included until local review complete.
+
+### Exact-command diagnostics outcome / corrected order + caller-domain BEFORE
+
+Run37711140900/proofc6210938e6b754986c5c5016a55b98ea8f2915f5,
+job113097092080,01:05:23–01:08:11UTC=168seconds; cumulative2688/21600.
+All previous compatibility controls retained. Exact first valid-protocol mismatch
+was reference-order checker: valid source precreates/initializes BOTH refs before
+opening either fraction. Fix exact sequence only; patch94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604,
+translator0e450267e453493f894b91763ef9412bf41b7ee8d3988115f24126456ab4e025;
+kernel100eebae unchanged. Localtype/P and physicalk controls reach exact right
+borrow admission error41:9–129/117/113; wrongmarker retains original gate.
+They remain calibration until positive + exact failclosed admission classifier.
+Trace array helpers now fullbody/return/leak PASS and main gets past full frame;
+next first proof fail485:35–37, m+k-a bounds. Add explicit natural0<=k/a/d in
+loop invariant, no narrowed input domain/removedpost/resource.
+New pointer-domain fixture has checked stock modular/layout lemmas, arbitrary
+i,j and whole-array endpoint/separation premises, full C1 element-domain posts.
+Its helper/positive/negative matrix is isolated; no new trust axiom/permission.
+Out-of-index and whole-span overlap controls target helper req, initially
+calibration. Extraction/predicate source was reviewed and fixed before dispatch
+(no runtime .add in ghost, fullpositive tuplepost, explicit closes/markers).
+Fresh one manual hosted fullmatrix 30min, no other active experiment.
+M3 owned-array/two-hole dependency design written before independent checked
+ghost implementation; actualcallee summaries not yet used, Freeze snapshot/
+functional transfer explicitly remain separate unresolved dependencies.

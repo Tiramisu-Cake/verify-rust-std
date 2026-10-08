@@ -180,6 +180,12 @@ suite() {
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/pointer-bridge-cases.rs \
     --evidence "$evidence/checked-pointer-bridge"
+  run_one pointer-domain-bridge 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+    --scope 'checked arbitrary-index C1 pointer domain from aligned bounded disjoint array spans; no access rights; positive stride only' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/pointer-domain-cases.rs \
+    --evidence "$evidence/checked-pointer-domain"
   run_one concrete-zst-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'compiler-backed concrete ZST wrapping identity without assumed size; no memory rights' \

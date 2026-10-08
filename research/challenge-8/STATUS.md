@@ -2,7 +2,7 @@
 
 Авторизовано владельцем 2026-10-08 до 09:30 МСК (06:30 UTC).
 Собственная ветка `overnight/merge-26.10`, entry `b0af5613`.
-[Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2520/21600 hosted job seconds**;
+[Фаза/дизайн/матрица](merge/OVERNIGHT-26.10-PHASE.md). Ночной бюджет **2688/21600 hosted job seconds**;
 старый merge 603/1800 (остаток 1197) сохранён отдельно. Actual merge NOT PROVEN.
 Исторические STOP/design-only/CI0 ниже не ограничивают эту ночную фазу.
 
@@ -29,6 +29,9 @@ epilogue; structural admission ужесточается, профиль НЕ П�
 Run `37710362525`/`30adaca5`: build/старые controls PASS; valid structural
 protocol отвергнут до body. Новый patch `04137273` локализует команду без
 ослабления gate; trace stock-call arity исправлена. Admission НЕ ПРИНЯТ.
+Run `37711140900`/`c6210938`: exact order mismatch локализован/исправлен;
+новый patch `94fe2cd6`; wrong type/k/P достигли admission gate. Trace helpers
+PASS, main требует natural bounds в loop. Caller-domain bridge подготовлен.
 Нет активного run. Следующий разрешённый шаг — свежая hosted сборка и полная
 матрица cleanup/actual/trace, затем последовательное закрытие actual merge.
 

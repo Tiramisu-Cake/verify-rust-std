@@ -451,7 +451,8 @@ on_unwind_ens false;
     //@ assert struct_G2PointerTrace_padding::<T>(?return_addr);
 
     while k < m {
-        /*@ inv k <= m &*& a <= k &*& d <= k &*&
+        /*@ inv 0 <= k &*& 0 <= a &*& 0 <= d &*&
+            k <= m &*& a <= k &*& d <= k &*&
             a == trace_true_prefix(up_values, k) &*&
             d == trace_true_prefix(down_values, k) &*&
             left as pointer == trace_source_pointer(src as pointer, a, s) &*&
