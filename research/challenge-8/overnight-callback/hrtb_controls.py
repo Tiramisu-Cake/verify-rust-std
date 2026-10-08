@@ -189,8 +189,10 @@ def run_case(args: argparse.Namespace, case: str) -> dict:
     normal_mir = normal_mir_path.read_text(errors="replace") \
         if normal_mir_path.is_file() else ""
     mir_calls = normal_mir.count('name = "core::ops::FnMut::call_mut"')
-    projection_count = normal_mir.count(
-        'defId = "core::ops::FnOnce::Output"')
+    # A projection alias in a local variable's type is not a compiler clause.
+    projection_count = len(re.findall(
+        r'(?m)^\s*projectionTerm = \(\s*\n\s*'
+        r'defId = "core::ops::FnOnce::Output"', normal_mir))
     fnmut_trait_count = normal_mir.count('defId = "core::ops::FnMut"')
     clause_shape_ok = (
         (projection_count == 0 and fnmut_trait_count == 1)

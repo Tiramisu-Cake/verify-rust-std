@@ -73,7 +73,7 @@ pub unsafe fn nonlifetime_method_arg<'cmp, T, F: FnMut(&T, &T) -> bool>(
 pub unsafe fn shadowed_f<'cmp, T, F: FnMut(&T, &T) -> bool>(
     left: &'cmp T, right: &'cmp T, compare: &mut F,
 ) /*@ req true; @*/ /*@ ens true; @*/ {
-    /*@ abstract_type F; @*/
+    /*@ pred shadow_witness() = true; abstract_type F; @*/
     let _ = compare/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(left, right);
 }
 // HRTB_END shadowed_f
@@ -82,7 +82,7 @@ pub unsafe fn shadowed_f<'cmp, T, F: FnMut(&T, &T) -> bool>(
 pub unsafe fn shadowed_t<'cmp, T, F: FnMut(&T, &T) -> bool>(
     left: &'cmp T, right: &'cmp T, compare: &mut F,
 ) /*@ req true; @*/ /*@ ens true; @*/ {
-    /*@ abstract_type T; @*/
+    /*@ pred shadow_witness() = true; abstract_type T; @*/
     let _ = compare/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(left, right);
 }
 // HRTB_END shadowed_t

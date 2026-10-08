@@ -125,3 +125,32 @@ No local builds, verifiers, extractors or research runners may execute. Static
 patch applicability, hashes and document checks are the only local checks.
 The owner has extended hosted CI through 11:30 UTC on 2026-10-08; the main
 agent owns the one-job-at-a-time dispatch. This worker prepares files only.
+
+## O19 hosted evidence and targeted control repair
+
+O19 run `37746579002`, commit `a6f9d5e00cc99c06f8c49fa2e27e6a92308a1a79`,
+used the production patch SHA above. The isolated `callback_positive` reached
+both the unwind and normal arms after one `CHALLENGE8_HRTB_EQ` and one
+registered call trace. Its checked `recover_pair`, complete current-cell and
+owner posts, and final leak checks passed: `0 errors found (94 statements
+verified)`. The four resource/post negatives failed at their added obligations:
+false normal, false unwind, duplicate F owner, and duplicate left T owner.
+The four marker admission variants failed closed before target proof. This
+qualifies the *isolated callback fixture* only. It does not establish an exact
+actual-sort4 call/source/MIR certificate, cleanup fidelity, or broader resource
+matrix.
+
+Twelve of fifteen HRTB matcher controls had their expected traces and decoded
+clause shapes. Three remained inconclusive for control-construction reasons.
+`missing_projection` had no projection *clause*, but its MIR contained an
+`FnOnce::Output` type alias for the local result, which the runner had counted
+as a clause. The runner now counts only `projectionTerm` entries. The
+`shadowed_f` and `shadowed_t` annotations were emitted as ordinary ghost
+statements and failed to parse before the scope guard. Their source now begins
+a ghost declaration block with a harmless predicate followed by the same
+local `abstract_type F/T`. The pinned preprocessor classifies a first-in-block
+annotation beginning `pred` as `BlockDecls`; the translator merges these into
+the body ghost statements traversed by the scope guard. This is a static
+syntax/path correction, **not** a hosted result. The exact scope-admission
+classification requires a fresh runner trace. Production HRTB patch bytes
+remain unchanged.

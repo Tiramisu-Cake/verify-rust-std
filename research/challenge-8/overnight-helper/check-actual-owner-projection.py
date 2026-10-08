@@ -47,6 +47,9 @@ def exact_drop_record(decoded: str) -> str:
 
 def capture_graph(case: Path, stages: dict) -> dict:
     result = {}
+    verified = (case / "verified/lib.rs").read_bytes()
+    nested_source_opens = all(verified.count(line) == 1 for line in (
+        PREP.NESTED_DROP_GHOST.splitlines(keepends=True)))
     for mode in ("normal", "readonly"):
         if stages.get(f"{mode}-decode", {}).get("exit") != 0:
             continue
@@ -60,10 +63,14 @@ def capture_graph(case: Path, stages: dict) -> dict:
             "outer_full_mir_sha256": HELPER.digest(outer.encode()),
             "nested_drop_defpath": DROP_DEF_PATH,
             "nested_drop_full_mir_sha256": HELPER.digest(drop.encode()),
+            # Inline //@ commands become typed MIR call terminators with
+            # source spans. Their command text is retained in source, not in
+            # the body's top-level ghostStmts list.
+            "nested_drop_ghost_call_count":
+                drop.count('name = "VeriFast_ghost_command"'),
             "nested_drop_ghost_opens_exported": (
-                "open <select_unpredictable::DropOnPanic<T>>.full_borrow_content"
-                in drop and
-                "open <select_unpredictable::DropOnPanic<T>>.own" in drop),
+                nested_source_opens and
+                drop.count('name = "VeriFast_ghost_command"') == 2),
             "decoded_full_mir_sha256": HELPER.digest(decoded.encode()),
             "nominal_owner_exported":
                 "pred<T> <select_unpredictable::DropOnPanic<T>>.own" in decoded,

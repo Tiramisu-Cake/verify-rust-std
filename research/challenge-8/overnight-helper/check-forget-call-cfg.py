@@ -213,6 +213,8 @@ def classify(case: Path, variant: str, stages: dict, graphs: dict,
                 errors[0]["line"] == str(caller_ens_line) and \
                 ("Cannot prove false" in errors[0]["message"] if
                  variant == "false_post" else
+                 errors[0]["message"] == "Cannot prove flag == !(flag)" if
+                 variant == "wrong_value" else
                  "No matching heap chunks" in errors[0]["message"]):
             classification = "INTENDED_NORMAL_POST_NEGATIVE"
         elif variant in ("frame_loss", "thread_loss") and proof == 1 and \
