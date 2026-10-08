@@ -1,18 +1,33 @@
 # Current phase: CLOUD-BUILD-MIGRATION — IN PROGRESS
 
-2026-10-09. Owner-authorized A/B/C transfer to existing Google Cloud Build;
-separate3600 summed buildseconds, max1800 perbuild/remaining, onequeuedactive.
-[Phase](cloud-build/PHASE.md), [ledger](cloud-build/BUDGET.json),
-[commands](cloud-build/README.md). No newhelper/sort4proofs.
-Branch research/cloud-build-migration, sameworktree, entry89e0a36f8df67bb2f66cf0564f497a0a4bad4aac.
-Initialtreeclean; oldbranch/main/upstream/otheragent untouched.
-A progress: successfd0020bd archive/VPSfullhashcheckPASS; controlled
-error63862150 finalFAILURE/original42 withverifiedarchive. Initialsetup
-7bda20f0 FAILURE/SDKPythonPATH, noarchive, counted39s andpreserved.
-Current139/3600 conservativebuildseconds; timeoutcontrolnext, thenB/C.
-No activebuild. Stock baselinea0cfd30e/constructor1378f0ffselected.
- preexisting f6f0f600-5558-4ac1-9011-0b73e4533a83 SUCCESS
-is owner setup evidence, not charged or relabeled as this phase.
+2026-10-09. The owner authorized A/B/C migration to the existing Cloud Build
+project. Budget: 3600 summed build seconds; at most 1800 per build within the
+remaining budget, and one queued or active build. No new helper/sort4 proofs.
+[Phase](cloud-build/PHASE.md), [budget](cloud-build/BUDGET.json),
+[commands](cloud-build/README.md), [results](cloud-build/RESULTS.md).
+
+Branch `research/cloud-build-migration`, same worktree; entry
+`89e0a36f8df67bb2f66cf0564f497a0a4bad4aac` was clean. The overnight branch,
+main, upstream and the second agent's worktree remain untouched.
+
+**A accepted for infrastructure only.** Success `fd0020bd`, managed error
+`63862150` (original 42), and internal timeout `6604590a` (original 124) all
+uploaded evidence; the VPS downloaded and verified archives and file hashes.
+Error and timeout builds ended FAILURE. Initial setup `7bda20f0` failed at
+SDK Python startup without an archive and remains incomplete evidence.
+
+**B blocked at source delivery, before proof tools.** Build `3e4c62e0` failed
+with original exit128. Its available evidence was uploaded, downloaded and
+hash-verified; it is not a proof-negative. Anonymous git/raw/codeload requests
+return404, although authenticated GitHub API reports PUBLIC. The owner has been
+asked to authorize credential-free transport of selected pinned Git objects.
+That alternative is prepared, pending response; no dependent dispatch yet.
+C has not run. Comparison inputs remain stock `a0cfd30e` and constructor
+`1378f0ff`; source/contract/checker semantics remain frozen.
+
+Usage **280/3600 conservative build seconds**, **3320 remaining**. No active
+build. Historical accounts remain separate. Owner setup build
+`f6f0f600-5558-4ac1-9011-0b73e4533a83` is not charged or relabeled as phase proof.
 
 # Historical overnight checkpoint (preserved)
 

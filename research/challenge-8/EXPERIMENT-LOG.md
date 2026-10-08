@@ -5151,3 +5151,53 @@ archived7416a4a8223dfca3dc76beb6166fcf1f1a0272ed658adc1dbf326c070387ab5.
 Eachprefixgs://smallsort-ci-evidence-504462351565/cloud-build/<BuildID>/.
 Neitherprobe is proof acceptance; smoke verification_acceptedfalse.
 Total39+47+53=139/3600; prioraccountsunchanged.
+
+### Cloud A timeout confirmed; A complete
+
+Build6604590a-f626-4ca0-81da-71f3d9091e25, infrastructure
+0de62646ddfdc36a8f2254a555f9a35cba94b000, FAILURE with original124,
+infrastructure-probe-timeout. Full evidence uploaded; VPS download/inventory/
+config/input/receipt/archive validation PASS. Archive
+1e103e19acedf068ed84b8ee95812fdbc2ea9e19675dbd010b1c4e81841b044c;
+configa3cd91b0a45aaef61eadad0b7eb52408f256474c993ddcff45a935cee8a4ea08.
+A positive/error/timeout accepted only as infrastructure controls; no proof.
+Accounting correction from API: conservative39+47+54+59=199/3600, remaining3401; old accounts unchanged.
+B hypothesis: frozen stocka0cfd30e fixtures retain original outcomes and all
+source/export/decode/refinement/body/return/leak/unwind gates under real
+cloud-build provider guard. Full stock diagnostic audit retains historical
+forget-positive/deadcode limitations; no upgrade to whole generic forget proof.
+B infrastructuref694acddad88d4c353850f3a170adb7adb30bdb0, cold timeout800.
+
+### Cloud B0 source-access failure, not a proof-negative
+
+Build3e4c62e0-744b-4278-b10e-fc74f599dbe7, infrastructuref694acdd,
+proofa0cfd30e, configf2108dd2bb82e9a2df20a56f861d65cc6f01e67cfe1e4e64a2ebf57a81c68138,
+FAILURE/original128 during anonymous GitHub fetch; no proof tools executed.
+81 conservative seconds, total280/3600,3320 remaining. Archive
+c474f40ca1209292cfafbb1f7424a8d2c58bb22e2b1fdda0e395dcf1e532b995
+complete available material downloaded and hash-verified; summary incomplete
+for proof, accepted=false. Anonymous API/raw/codeload also404, authenticated
+repository metadata PUBLIC. No invented GitHub identity or token export.
+Owner asked about credential-free pinned source archive transport; awaiting
+answer before dependent Cloud dispatch. Prepared infrastructure repairs:
+JSON helper fall-through prevented nested manifest/audit parsing (must not
+weaken acceptance); VFDeps root compiled-in prefix symlink points into
+/workspace alongside historical /tmp prefix. Neither changes proof semantics.
+
+### Prepared pinned-source transport; dispatch awaits owner answer
+
+Problem: public fetch is inaccessible despite PUBLIC repository metadata.
+Proposed infrastructure semantics: transmit only original commit/tree/blob
+objects for an explicit narrow allowlist, with gzip and SHA256 transport hash;
+restore a partial Git repository at the original SHA and verify each selected
+path/mode/blob before proof generation in Cloud Build. No runtime, contract,
+expected classifier or verifier semantics change; no credential transfer.
+Trust boundary: original published commit and content-addressed tree paths,
+explicit source bundle hash, unchanged source certificates/refinement/proof gates.
+Self-review corrected raw Git tree binary decoding and expanded dependency
+closure for C native fixtures and both provider-only checker overlays. Package
+and VPS checker require matching source archive/certificate for proof acceptance.
+Source reconstruction and B/C proof controls remain UNRUN. Current A evidence
+is unaffected; prior B original128 remains setup-only, never proof-negative.
+New module/control/provider/packaging preparation is reviewable in migration
+branch, not authorization to dispatch the alternative route before response.

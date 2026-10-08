@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
-import argparse,base64,datetime,gzip,hashlib,json,math,os,re,subprocess,sys,uuid
+import argparse,base64,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[3]
@@ -24,7 +24,7 @@ def invoke(args):
 
 def envs(infra,proof,lane):return [f'INFRA_SHA={infra}',f'PROOF_SHA={proof}',f'LANE={lane}',f'PROOF_IMAGE={UBUNTU}','CLOUD_BUILD_ID=${BUILD_ID}','CLOUD_BUILD_PROJECT_ID=${PROJECT_ID}','CLOUD_BUILD_REGION=global','SMALLSORT_EXECUTION_PROVIDER=cloud-build','SUBMITTED_CONFIG_SHA=${_CONFIG_SHA}',] + [f'CONFIG_PART_{i}=${{_CONFIG_{i}}}' for i in range(8)]
 
-def config(infra,proof,lane,seconds,token):
+def config(infra,proof,lane,seconds,token,source_payload=None):
  work_seconds=seconds-70
  work='''set -euo pipefail
  export DEBIAN_FRONTEND=noninteractive
@@ -46,6 +46,22 @@ def config(infra,proof,lane,seconds,token):
  export EVIDENCE_ROOT=/workspace/evidence
  bash /workspace/infra/research/challenge-8/cloud-build/run-proof.sh "$LANE"
 '''
+ source_parts=[]
+ source_env=[]
+ if source_payload is not None:
+  encoded=base64.b64encode(source_payload).decode()
+  source_parts=[encoded[i:i+3500] for i in range(0,len(encoded),3500)]
+  if len(source_parts)>180:raise SystemExit('Pinned source payload exceeds bounded transport; no dispatch')
+  groups=[source_parts[i:i+10] for i in range(0,len(source_parts),10)]
+  restore=base64.b64encode(gzip.compress((DIR/'source-input.py').read_bytes(),mtime=0)).decode()
+  replacement=("python3 -c "+shquote("import base64,os,pathlib; pathlib.Path('/workspace/source-inputs.json.gz').write_bytes(base64.b64decode(''.join(os.environ['SOURCE_GROUP_'+str(i)] for i in range("+str(len(groups))+"))))")+"\n"
+   +" printf '%s  %s\\n' "+shquote(digest(source_payload))+" /workspace/source-inputs.json.gz | sha256sum -c -\n"
+   +" printf '%s' "+shquote(restore)+" | base64 --decode | gzip --decompress > /workspace/source-input.py\n"
+   +" python3 /workspace/source-input.py restore --archive /workspace/source-inputs.json.gz --evidence /workspace/evidence\n")
+  start=work.index(' checkout /workspace/infra')
+  end=work.index(' export EVIDENCE_ROOT',start)
+  work=work[:start]+replacement+work[end:]
+  source_env=['SOURCE_GROUP_'+str(i)+'='+''.join('${_SOURCE_'+str(i*10+j)+'}' for j in range(len(group))) for i,group in enumerate(groups)]+[f'SOURCE_INPUT_SHA256={digest(source_payload)}','SOURCE_MODE=pinned-objects']
  if lane=='smoke-success':work="printf 'SMALLSORT_BUCKET_WRITE_PROBE\\n'; printf 'cloud-build bucket probe\\n' > /workspace/evidence/probe.txt"
  elif lane=='smoke-error':work="printf 'CONTROLLED_ERROR_START\\n'; printf 'deliberate exit 42\\n' >&2; exit 42"
  elif lane=='smoke-timeout':work="printf 'INTERNAL_TIMEOUT_START\\n'; timeout --signal=TERM --kill-after=1s 2s bash -c 'sleep 30'"
@@ -96,7 +112,7 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)}}}
+ return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
 def reconcile(state,ledger):
  for item in ledger['builds']:
@@ -123,7 +139,7 @@ def reconcile(state,ledger):
 def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state-dir',type=Path,default=Path('/tmp/smallsort-cloud-migration'))
  sub=p.add_subparsers(dest='command',required=True)
- q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',choices=['smoke-success','smoke-error','smoke-timeout','stock','constructor'],required=True);q.add_argument('--timeout',type=int,required=True)
+ q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',choices=['smoke-success','smoke-error','smoke-timeout','stock','constructor'],required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='public-git')
  q=sub.add_parser('status');q.add_argument('build_id',nargs='?')
  q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True)
  q=sub.add_parser('cancel');q.add_argument('build_id')
@@ -132,7 +148,7 @@ def main():
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
    subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-  for name in ['control.py','package-evidence.py']:
+  for name in ['control.py','package-evidence.py']+(['source-input.py'] if a.source_mode=='pinned-objects' else []):
    expected=subprocess.check_output(['git','show',a.infra_sha+':research/challenge-8/cloud-build/'+name],cwd=ROOT)
    if expected!=(DIR/name).read_bytes():raise SystemExit('Uncommitted/local '+name+' differs from infrastructure SHA; publish first')
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])
@@ -140,14 +156,24 @@ def main():
   # queue envelope is reserved too, respecting phase/per-build ceiling.
   if not 90<=a.timeout<=1740 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
-  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token)
+  source_payload=None
+  if a.source_mode=='pinned-objects':
+   if a.lane not in ('stock','constructor'):raise SystemExit('Pinned source mode is only for reviewed proof lanes')
+   sys.dont_write_bytecode=True
+   spec=importlib.util.spec_from_file_location('source_input',DIR/'source-input.py')
+   module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+   source_payload=module.make_payload(ROOT,a.infra_sha,a.proof_sha,a.lane)
+  cfg=config(a.infra_sha,a.proof_sha,a.lane,a.timeout,token,source_payload)
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
+  source_values={k:v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')}
+  for key in source_values:cfg['substitutions'][key]='placeholder'
   raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
   compressed=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
   if len(compressed)>8*3500:raise SystemExit('Submitted config exceeds evidence transport limit; no dispatch')
-  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING'};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
-  substitutions='_CONFIG_SHA='+h+','+','.join(f'_CONFIG_{i}='+compressed[i*3500:(i+1)*3500] for i in range(8))
-  cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--substitutions='+substitutions,'--format=json','--quiet']
+  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING','source_mode':a.source_mode,'source_input_sha256':digest(source_payload) if source_payload is not None else None};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
+  values={'_CONFIG_SHA':h,**{f'_CONFIG_{i}':compressed[i*3500:(i+1)*3500] for i in range(8)},**source_values}
+  flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
+  cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
   try:b=invoke(cmd)
   except Exception as e:
    print('Dispatch response uncertain/error:',str(e).split('substitution value')[0][:400],file=sys.stderr)
@@ -159,7 +185,8 @@ def main():
   item['build_id']=b['id'];item['status']=b.get('status');ledger['active_build']=b['id'];write(DIR/'BUDGET.json',ledger);write(state/(b['id']+'.json'),b)
   print(json.dumps({'build_id':b['id'],'config_sha256':h,'dispatch_token':token,'bucket_prefix':BUCKET+'/'+b['id']},indent=2))
  elif a.command=='status':
-  if a.build_id:print(json.dumps(invoke(['builds','describe',a.build_id,'--region=global','--format=json']),indent=2))
+  if a.build_id:
+   b=invoke(['builds','describe',a.build_id,'--region=global','--format=json']);print(json.dumps({key:b.get(key) for key in ['id','status','createTime','startTime','finishTime','logUrl']},indent=2))
   else:print(json.dumps(ledger,indent=2))
  elif a.command=='cancel':
   if not any(x.get('build_id')==a.build_id and not x.get('accounted') for x in ledger['builds']):raise SystemExit('Only own active build may be cancelled')

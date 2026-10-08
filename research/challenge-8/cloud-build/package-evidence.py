@@ -35,16 +35,16 @@ def digest_file(path: Path) -> str:
 def parse_json_or_none(value: bytes | None):
     if value is None:
         return None
+    try:
+        return json.loads(value)
+    except (ValueError, UnicodeDecodeError):
+        return None
 
 
 def named_json(payload: dict[str, bytes], *basenames: str) -> dict[str, object]:
     wanted = set(basenames)
     return {path: parsed for path, raw in sorted(payload.items())
             if Path(path).name in wanted and (parsed := parse_json_or_none(raw)) is not None}
-    try:
-        return json.loads(value)
-    except (ValueError, UnicodeDecodeError):
-        return None
 
 
 def cloud_config_matches(config, lane: str, infra_sha: str, proof_sha: str,
@@ -134,6 +134,25 @@ def main() -> int:
             config_valid = False
         config_valid = (config_valid and cloud_config_matches(
             config, lane, infra_sha, proof_sha, proof_image))
+        config_steps = config.get("steps") if isinstance(config, dict) else None
+        first_step = config_steps[0] if isinstance(config_steps, list) and config_steps else None
+        env_items = first_step.get("env", []) if isinstance(first_step, dict) else []
+        config_env = dict(item.split("=", 1) for item in env_items
+                          if isinstance(item, str) and "=" in item) if isinstance(env_items, list) else {}
+        source_mode = config_env.get("SOURCE_MODE", "public-git")
+        source_certificate = parse_json_or_none(payload.get("source-input-certificate.json"))
+        source_valid = source_mode == "public-git"
+        if source_mode == "pinned-objects":
+            source_valid = (isinstance(source_certificate, dict) and
+                isinstance(source_certificate.get("infra"), dict) and
+                isinstance(source_certificate.get("proof"), dict) and
+                digest(payload.get("source-input.gz", b"")) == config_env.get("SOURCE_INPUT_SHA256") and
+                source_certificate.get("archive_sha256") == config_env.get("SOURCE_INPUT_SHA256") and
+                source_certificate.get("lane") == lane and
+                source_certificate.get("infra", {}).get("commit") == infra_sha and
+                source_certificate.get("infra", {}).get("head") == infra_sha and
+                source_certificate.get("proof", {}).get("commit") == proof_sha and
+                source_certificate.get("proof", {}).get("head") == proof_sha)
         try:
             exit_code = int(payload["run-exit.txt"].decode("ascii").strip())
         except (ValueError, UnicodeDecodeError, KeyError):
@@ -150,7 +169,7 @@ def main() -> int:
             if not isinstance(proof_audit, dict) or not isinstance(proof_audit.get("accepted"), bool):
                 proof_audit = None
         smoke = lane in ("smoke-success", "smoke-error", "smoke-timeout")
-        complete = (exit_code is not None and not missing and config_valid and metadata_valid)
+        complete = (exit_code is not None and not missing and config_valid and metadata_valid and source_valid)
         if not smoke:
             stage_artifacts = [p for p in payload if p.startswith("allprooflogs/") and
                                not p.startswith("allprooflogs/cases/") and
@@ -186,12 +205,14 @@ def main() -> int:
                                   ([] if smoke or proof_audit is not None else ["allprooflogs/proof-audit.json"]) +
                                   ([] if smoke or stage_artifacts else ["allprooflogs stage logs/resource/exit files"]) +
                                   ([] if config_valid else ["valid submitted config/hash"]) +
-                                  ([] if metadata_valid else ["valid build/lane/pin metadata"])),
+                                  ([] if metadata_valid else ["valid build/lane/pin metadata"]) +
+                                  ([] if source_valid else ["valid pinned source archive/certificate"])),
         }
         manifest = {
             **summary,
             "infra_sha": infra_sha, "proof_sha": proof_sha,
             "historical_comparison": parse_json_or_none(payload.get("comparison-manifest.json")),
+            "source_delivery": {"mode": source_mode, "valid": source_valid, "certificate": source_certificate},
             "tool_profile": {
                 "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
                 "std_base_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",

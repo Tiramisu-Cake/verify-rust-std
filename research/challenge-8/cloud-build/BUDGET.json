@@ -1,8 +1,8 @@
 {
   "phase": "CLOUD-BUILD-MIGRATION",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 199,
-  "remaining_build_seconds": 3401,
+  "used_build_seconds": 280,
+  "remaining_build_seconds": 3320,
   "maximum_build_timeout_seconds": 1800,
   "active_build": null,
   "builds": [
@@ -106,6 +106,25 @@
       "execution_seconds": 58,
       "download_verified": true,
       "archive_sha256": "1e103e19acedf068ed84b8ee95812fdbc2ea9e19675dbd010b1c4e81841b044c"
+    },
+    {
+      "dispatch_token": "dispatch-48f14c91550d4f4eb7f697fce4cffc6a",
+      "infra_sha": "f694acddad88d4c353850f3a170adb7adb30bdb0",
+      "proof_sha": "a0cfd30e066acbaf1b5406cd9773f54388cc45be",
+      "lane": "stock",
+      "submitted_config_sha256": "f2108dd2bb82e9a2df20a56f861d65cc6f01e67cfe1e4e64a2ebf57a81c68138",
+      "reserved_seconds": 860,
+      "timeout_seconds": 800,
+      "status": "FAILURE",
+      "build_id": "3e4c62e0-744b-4278-b10e-fc74f599dbe7",
+      "start_time": "2026-10-08T23:45:41.459993111Z",
+      "finish_time": "2026-10-08T23:47:00.636531Z",
+      "create_time": "2026-10-08T23:45:40.613142133Z",
+      "build_seconds": 81,
+      "accounted": true,
+      "execution_seconds": 80,
+      "download_verified": true,
+      "archive_sha256": "c474f40ca1209292cfafbb1f7424a8d2c58bb22e2b1fdda0e395dcf1e532b995"
     }
   ],
   "historical_accounts_unchanged": {

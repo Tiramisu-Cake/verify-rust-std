@@ -319,11 +319,14 @@ printf '%s  %s\n' 8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee5
 stage deps-extract tar -xjf "$deps_archive" -C "$work_root"
 deps_home="$work_root/vfdeps-adf88dc"
 [[ -d "$deps_home" ]] || exit 2
-if [[ ! -e /tmp/vfdeps-adf88dc ]]; then
-  ln -s "$deps_home" /tmp/vfdeps-adf88dc
-elif [[ "$(readlink -f /tmp/vfdeps-adf88dc)" != "$deps_home" ]]; then
-  exit 2
-fi
+# Preserve upstream OCaml compiled-in prefixes while storing all data in /workspace.
+for prefix in /vfdeps-adf88dc /tmp/vfdeps-adf88dc; do
+  if [[ ! -e "$prefix" ]]; then
+    ln -s "$deps_home" "$prefix"
+  elif [[ "$(readlink -f "$prefix")" != "$deps_home" ]]; then
+    exit 2
+  fi
+done
 export PATH="$deps_home/bin:$PATH"
 export CAPNP_INC_DIR="$deps_home/include"
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$source_home/bin:$deps_home/lib:${LD_LIBRARY_PATH:-}"

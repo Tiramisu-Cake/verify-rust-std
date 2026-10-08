@@ -79,7 +79,7 @@ def main() -> int:
                     raise ValueError(f"cannot read archive entry: {name}")
                 digest = hashlib.sha256()
                 size = 0
-                keep = (name in ("summary.json", "manifest.json", "submitted-config.json", "files-sha256.json")
+                keep = (name in ("summary.json", "manifest.json", "submitted-config.json", "files-sha256.json", "source-input-certificate.json")
                         or PurePosixPath(name).name == "proof-audit.json")
                 chunks = [] if keep else None
                 while True:
@@ -137,6 +137,27 @@ def main() -> int:
                               (not manifest.get("proof_image") or
                                step.get("name") == manifest.get("proof_image")))
         config_valid = (config_matches and config_hash == manifest.get("submitted_config_sha256"))
+        source_mode = env.get("SOURCE_MODE", "public-git")
+        source_valid = source_mode == "public-git"
+        source_certificate = None
+        if "source-input-certificate.json" in small_files:
+            source_certificate = json.loads(small_files["source-input-certificate.json"])
+        if source_mode == "pinned-objects":
+            source_valid = (isinstance(source_certificate, dict) and
+                isinstance(source_certificate.get("infra"), dict) and
+                isinstance(source_certificate.get("proof"), dict) and
+                members.get("source-input.gz") == env.get("SOURCE_INPUT_SHA256") and
+                source_certificate.get("archive_sha256") == env.get("SOURCE_INPUT_SHA256") and
+                source_certificate.get("lane") == manifest.get("lane") and
+                source_certificate.get("infra", {}).get("commit") == env.get("INFRA_SHA") and
+                source_certificate.get("infra", {}).get("head") == env.get("INFRA_SHA") and
+                source_certificate.get("proof", {}).get("commit") == env.get("PROOF_SHA") and
+                source_certificate.get("proof", {}).get("head") == env.get("PROOF_SHA"))
+        delivery = manifest.get("source_delivery")
+        if delivery is not None and delivery != {"mode": source_mode, "valid": source_valid,
+                                                  "certificate": source_certificate}:
+            raise ValueError("source delivery certificate/hash flag differs from archived evidence")
+
         if manifest.get("environment_sha256") is not None:
             if "environment.txt" not in inventory or inventory["environment.txt"] != manifest["environment_sha256"]:
                 raise ValueError("manifest environment hash mismatch")
@@ -159,7 +180,7 @@ def main() -> int:
             raise ValueError("smoke scope marker is inconsistent with lane")
         proof_audit = manifest.get("proof_audit")
         proof_audit_file = None
-        complete_inputs = (manifest.get("run_exit_code") is not None and config_valid and
+        complete_inputs = (manifest.get("run_exit_code") is not None and config_valid and source_valid and
                            all(name in inventory for name in ("run-exit.txt", "full-stdout.log",
                                                               "full-stderr.log", "submitted-config.json",
                                                               "environment.txt")))

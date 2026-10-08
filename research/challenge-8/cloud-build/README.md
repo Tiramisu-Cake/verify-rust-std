@@ -75,3 +75,23 @@ needed. The second agent stays suspended during this phase.
 Cloud Build schema and no-source behavior were checked against official
 [build configuration documentation](https://docs.cloud.google.com/build/docs/build-config-file-schema)
 and [gcloud builds submit](https://docs.cloud.google.com/sdk/gcloud/reference/builds/submit).
+
+## Prepared source-access fallback
+
+The first B build found the public fork inaccessible anonymously: Git fetch
+failed128; raw, codeload and anonymous API returned404, while authenticated API
+reported PUBLIC. No GitHub credential is transferred to Cloud Build.
+
+A credential-free alternative is prepared, pending the owner's response to the
+explicit source-delivery exception request. Add `--source-mode pinned-objects`
+to the submit command only after approval. The client reads selected committed
+Git objects, not working-tree files, and sends a bounded gzip payload through
+explicit substitutions using a [gcloud flags file](https://docs.cloud.google.com/sdk/gcloud/reference/topic/flags-file).
+The receiver checks each original Git object ID, commit/root tree, selected path,
+mode, SHA256 and both actual HEADs. Only required scripts, two profile patches
+and source-certificate files are materialized. Partial repositories are intentional;
+their unselected objects are absent. No commit is fabricated and no fixture is
+generated on the VPS. The source archive and certificate enter evidence.
+
+This preserves `--no-source` and requires no bucket write from the dispatcher,
+new key, resource or IAM change. The default remains public Git fetch.

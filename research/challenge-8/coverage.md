@@ -1,3 +1,10 @@
+## CLOUD-BUILD-MIGRATION — infrastructure A accepted
+
+Success, managed exit42 and internal timeout124 preserve complete downloadable
+hash-verified evidence; error/timeout final Cloud Builds fail. No new Rust proof
+claim. B stock and C historical constructor pending; old GitHub evidence below
+remains historical. See [current status](STATUS.md) and [phase](cloud-build/PHASE.md).
+
 <!-- O23 delta: exactnestedghostscope2recordfix closesNot_found; actual5bodySAFE interface firsterror fn_outcome<*Element>vs*Element at77, noactualbodyproof. Source3/MIR3stronggates intended. Sort4strip/new7/9import setupblocked beforegraphs. Budget1169/7200; latestpriority hostedprep/integrationalreadybuiltcomponents beforeindependentmodels. -->
 <!-- Resumed O22 delta: proof02945280/run37754201983, full generic exactbody unsafe forget preserves SAME T.own+thread normal/unwindfalse, five post/leak negatives+deadcode+unwindtargetreject; ACCEPTED_LOCAL_COMPONENT only. Exactactualowner admission+3source/2MIR controls passed, later nestedghost-parent translatorNot_found; noactualhelper. Main14 and isolatedCUT fullS6 PASS; CUT4 positives/nooptin with13NOT_RUN header setup; sort4strip setup failed beforeMIR. Budget915/7200. -->
 <!-- O21 current delta: standalone checked joinfour currentcells/owners full0 +3 intended negatives; completeowner decodedbyte repeat6/6 diagnostic only; freshS6 regression13patchprofile. sort4 sourcepreparation fails beforeMIR, corrected untested; actualfunctions unproved. See STATUS/log. -->
