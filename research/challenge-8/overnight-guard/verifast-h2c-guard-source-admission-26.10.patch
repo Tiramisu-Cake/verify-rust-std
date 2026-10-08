@@ -1,0 +1,12 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -10083,5 +10083,9 @@
+      | _ -> reject "exported nominal owner predicate" in
+     let struct_at = exactly_once "struct DropOnPanic<T>" in
++    let method_end = method_brace + String.length local_body in
++    if method_end > struct_at ||
++       String.trim (String.sub source method_end (struct_at - method_end)) <> "" then
++      reject "local guard unreviewed pre-ADT source";
+     let guard_impl_marker = "impl<T> Drop for DropOnPanic<T>" in
+     let guard_impl_at = exactly_once guard_impl_marker in
+     let guard_impl_body =

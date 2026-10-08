@@ -200,6 +200,24 @@ def classify(case: Path, variant: str, stages: dict) -> dict:
             "No matching heap chunks:" in errors[0][3] and \
             ("points_to" if variant == "retains_initialized" else "own") in errors[0][3]:
         result["classification"] = "EXACT_CALLEE_RESOURCE_POST_NEGATIVE"
+    elif variant == "retains_initialized" and complete and intact and \
+            stages["full-verification"]["exit"] == 1 and \
+            len(errors) == 1 and not fatal and \
+            method_log.count("Leak check.") >= 2 and \
+            result["probe_entered"] and \
+            "Executing return statement" in probe_log and \
+            errors[0][0].endswith("/prelude_core.rsspec") and \
+            errors[0][1] == "213" and \
+            "Cannot prove that 'dummy' is not an instance of constructor 'none'" in errors[0][3]:
+        post_lines = [i for i, line in enumerate(
+            (case / "verified/lib.rs").read_bytes().splitlines(), 1)
+            if line.startswith(b"ens thread_token(t)") and
+            b"*slot |-> value" in line]
+        if len(post_lines) == 1 and \
+                f"verified/lib.rs({post_lines[0]}," in probe_log and \
+                "note: Consuming assertion" in probe_log:
+            result["classification"] = \
+                "EXACT_CALLEE_OPTIONAL_STORAGE_POST_NEGATIVE"
     LINK.write_json(case / "classification.json", result)
     return result
 
