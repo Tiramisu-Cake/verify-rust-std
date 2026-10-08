@@ -189,8 +189,9 @@ def bidirectional_contract23() -> str:
 def insert_len23_invariant(body: str) -> str:
     loop = "        for _ in 0..len_div_2 {\n"
     src_init = "    let src = v.as_ptr();\n"
-    if body.count(loop) != 1 or body.count(src_init) != 1:
-        raise RuntimeError("bidirectional cursor/loop anchors changed")
+    odd_source = "            let last_src = if left_nonempty { left } else { right };\n"
+    if body.count(loop) != 1 or body.count(src_init) != 1 or body.count(odd_source) != 1:
+        raise RuntimeError("bidirectional cursor/loop/odd-copy anchors changed")
     body = body.replace(src_init, src_init + "    //@ size_align::<T>();\n", 1)
 
     contract = bidirectional_contract23()
@@ -231,7 +232,23 @@ def insert_len23_invariant(body: str) -> str:
         "            //@ { address_stride_aligned(src as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); open c1_one_pointer_domain::<T>(src as *mut T); open c1_one_pointer_domain::<T>((src + 1) as *mut T); open c1_one_pointer_domain::<T>(dst); open c1_one_pointer_domain::<T>(dst + 1); }\n"
         "            //@ { address_stride_aligned(dst as usize, len - 1, std::mem::size_of::<T>(), std::mem::align_of::<T>()); open bidirectional_small_optional_slot::<T>(len, dst + 2, dst2); if len == 3 { open c1_one_pointer_domain::<T>((src + 2) as *mut T); open c1_one_pointer_domain::<T>(dst + 2); } }\n"
     )
-    return body.replace(loop, loop + invariant, 1)
+    body = body.replace(loop, loop + invariant, 1)
+    # The one forward merge leaves left at src or src+1 and right at src+1
+    # or src+2.  The actual odd copy uses their conditional result.  Split
+    # that result while the source chunks from both checked callees are still
+    # available, so C1 can associate its src points-to with a concrete cell.
+    # This assertion only observes existing chunks; it creates no permission.
+    odd_source_cases = (
+        "            //@ { assert len == 3; if left_nonempty { "
+        "if left == src { assert last_src == src; assert *last_src |-> ?odd_src0; } "
+        "else { assert left == src + 1; assert last_src == src + 1; "
+        "assert *last_src |-> ?odd_src1; } } else { "
+        "if right == src + 1 { assert last_src == src + 1; "
+        "assert *last_src |-> ?odd_src1; } "
+        "else { assert right == src + 2; assert last_src == src + 2; "
+        "assert *last_src |-> ?odd_src2; } } }\n"
+    )
+    return body.replace(odd_source, odd_source + odd_source_cases, 1)
 
 
 def main() -> None:
