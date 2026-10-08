@@ -492,3 +492,11 @@ H2b optionalpost is warranted but untested. Callable G1 framedcall normal body
 passes, finaldeadcode rejects syntheticfalseunwind branch; fullcallproof open.
 Newactualowner/sort4borrowprefix graphs captured but setupsyntax failures precede
 proof; no namespace/ref borrow/actual theorem inferred. FullS6 eightstagePASS.
+
+O16 [b149418c/run37715395739](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37715395739)
+executes first actualsort4 FnMut afterchecked4cell/owner split andlegitimate
+reference/Args initialization. Fullunwind sourcearray recovery fails; noordering
+orfullsorttheorem. Callback4 admissionnegativespass; ghostpurecontext lostbefore
+recoveryproof, component unaccepted. Actualnominalowner syntax/namespaceparses,
+but SAFEprototype compatibility fails onaddedempty rawpointer resultownerpost
+beforebody. Completion/interface theoremneeded, noownershipbridgeassumption.

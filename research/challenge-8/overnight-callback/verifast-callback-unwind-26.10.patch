@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -2538,6 +2538,46 @@
+@@ -2538,6 +2538,49 @@
        let body_imp_loc = Args.body_imp_loc
        let body_name = Args.body_name
        let body_tr_defs_ctx = Args.body_tr_defs_ctx
@@ -42,12 +42,15 @@
 +                         [Ast.LitPat (Ast.Var (_, "left"));
 +                          Ast.LitPat (Ast.Var (_, "right"))], Ast.Static)) as recover],
 +                    _, _) ],
-+              _, _ ) -> Some (debt, recover)
++              _, _ ) ->
++            Some
++              (Ast.PureStmt (Ast.stmt_loc debt, debt),
++               Ast.PureStmt (Ast.stmt_loc recover, recover))
 +        | _ -> None
 
        let fetch_ghost_stmts_before (l : Ast.loc0) =
          let* gs_before, gs_rem =
-@@ -3518,10 +3558,63 @@
+@@ -3518,10 +3561,63 @@
          translate_fn_call_rexpr func_cpn args_cpn loc fn_loc
            ghost_generic_arg_list_opt_cpn manuallydrop_new_identity_lowering
        in
@@ -111,7 +114,7 @@
        let* dst, dst_is_mutable =
          Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "destination" @@ fun () ->
          translate_place (destination_get fn_call_data_cpn) loc
-@@ -3612,7 +3705,14 @@
+@@ -3612,7 +3708,14 @@
                    gsl_l = phl_l)
                  !State.ghost_stmts
              in
@@ -127,7 +130,7 @@
          | _ ->
              ( (if ListAux.is_empty fn_call_tmp_rval_ctx then call_stmts
                 else
-@@ -5872,6 +5972,34 @@
+@@ -5872,6 +5975,34 @@
        let body_tr_defs_ctx = body_tr_defs_ctx
        let local_decl_types = local_decl_types
      end) in
@@ -162,7 +165,7 @@
      let vdis_cpn = var_debug_info_get_list body_cpn in
      (* Since var id translation map is empty var debug info contains the plain Mir ids *)
      let* vdis =
-@@ -6142,10 +6270,32 @@
+@@ -6142,10 +6273,32 @@
              let vf_bblocks =
                translate_basic_blocks_to_stmts toplevel_blocks []
              in

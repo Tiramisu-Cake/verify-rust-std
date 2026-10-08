@@ -11,8 +11,8 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **2674/21600 summed GitHub-hosted job seconds**, 18926 remain.
-Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O16 H2b and callback diagnostics preparing.
+New independent account **2860/21600 summed GitHub-hosted job seconds**, 18740 remain.
+Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow; O17 optional guard-template and callback pure-context repair preparing.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
 components ACCEPTED at1378f0ff/run37700450091, all8matrices and complete logs audited;
@@ -111,6 +111,19 @@ parsefailure beforeborrowproof; fullsource/graphs/refinement captured. Bothsetup
 failures preserved, precise sourcefixes pending. H2b optionalstorage template and
 callbackdirectunwind recovery separate experimental components prepared forO16;
 no actualhelper/sort4 proof and no callbackacceptance.
+
+O16 atb149418c/run37715395739,186s: 8patch consolebab31433, translatorb162c74e;
+fullS6 eightstagePASS. Callback4 missing/duplicate/moved/foreignmarker admissions
+exactreject withallsource/MIR/refinement/alias support0. Proof5cases stop atdebt
+close ghostfraction nonpure-context93; extractingAST lostPureStmt, narrowrepair
+prepared. Actualsort4 checked4cell/owner split andallref/Args preparation pass;
+FIRSTACTUALFnMut executes, directunwind failsunchangedsourcearraypost73. Thisis
+real borrowrecovery obligation, notsetupfailure. Actualownerprojection syntaxand
+namespace parsing pass; beforebody SAFEprototypecompat check leaksaddedempty
+raw_ptr_own resultpost. Needcheckedpost-equivalence completionlemma/interface,
+noElementright bridge or targetweakening. H2b optionaltemplate stillinactive;
+G1exactcallCFG draft needsfullopt-in source/MIRgate beforeactivation. Actualhelper/
+sort4 open, markedcallback unaccepted. Historicalclosedphasesremainunchanged.
 
 
 Next authorized sequence: CFG → constructor/as_mut_ptr/typed intrinsics/new

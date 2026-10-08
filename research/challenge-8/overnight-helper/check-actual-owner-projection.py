@@ -79,6 +79,8 @@ def main() -> None:
     parser.add_argument("--deadline-epoch", type=int, required=True)
     parser.add_argument("--prove", action="store_true",
                         help="capture first stock proof/parser barrier; never accept")
+    parser.add_argument("--owner-post-completion", action="store_true",
+                        help="retain prototype-compatible actual post; separate lemma required")
     args = parser.parse_args()
     HELPER.require((os.environ.get("GITHUB_ACTIONS"),
                     os.environ.get("RUNNER_ENVIRONMENT"),
@@ -86,7 +88,8 @@ def main() -> None:
                    ("true", "github-hosted", "Linux"),
                    "actual owner capture requires GitHub-hosted Linux")
     evidence = args.evidence.resolve()
-    PREP.write_case(REPO, evidence)
+    PREP.write_case(REPO, evidence,
+                    owner_post_completion=args.owner_post_completion)
     case = evidence / "owner-projection"
     # The first run measures source/parser/MIR applicability without silently
     # enabling an unrelated local guard or actual-helper admission overlay.
@@ -105,6 +108,8 @@ def main() -> None:
         "actual_helper_proved": False,
         "actual_nested_drop_proved": False,
         "actual_safe_forget_linked": False,
+        "owner_post_completion": args.owner_post_completion,
+        "full_pointer_value_post_derived": False,
         "source_integrity": (PREP.strip_ghost(verified) == original and
                              all(stage.get("source_unchanged") is True
                                  for stage in stages.values()

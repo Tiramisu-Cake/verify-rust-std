@@ -38,7 +38,7 @@ ACTUAL = LINK.ACTUAL
 METHOD = b"sort4_checked_generic_drop"
 PROBE = b"sort4_generic_drop_probe"
 VARIANTS = ("positive", "missing_owner", "false_normal_post",
-            "false_unwind_post")
+            "false_unwind_post", "retains_initialized", "retains_owner")
 
 
 def require(ok: bool, why: str) -> None:
@@ -94,7 +94,13 @@ def source_pair(body: bytes, variant: str) -> tuple[bytes, bytes]:
            (b"" if variant == "missing_owner" else b" &*& <T>.own(t, value)") +
            b" &*& [?f](*frame |-> ?frame_value);")
     retained = probe_common + b" &*& *slot |-> _ &*& [f](*frame |-> frame_value)"
-    post = b"ens " + (b"false" if variant == "false_normal_post" else retained) + b";"
+    normal_post = (
+        b"false" if variant == "false_normal_post" else
+        probe_common + b" &*& *slot |-> value &*& [f](*frame |-> frame_value)"
+        if variant == "retains_initialized" else
+        retained + b" &*& <T>.own(t, value)"
+        if variant == "retains_owner" else retained)
+    post = b"ens " + normal_post + b";"
     unwind = b"on_unwind_ens " + (
         b"false" if variant == "false_unwind_post" else retained) + b";"
     probe = (b"pub unsafe fn " + PROBE + b"<T>(slot: *mut T, frame: *const u8)\n" +
@@ -176,11 +182,24 @@ def classify(case: Path, variant: str, stages: dict) -> dict:
             result["generic_method_return_and_leak"] and \
             result["probe_return_and_leak"] and not errors and not fatal:
         result["classification"] = "GENERIC_METHOD_LOCAL_PROOF_DIAGNOSTIC"
-    elif variant != "positive" and complete and intact and \
+    elif variant in ("missing_owner", "false_normal_post",
+                    "false_unwind_post") and complete and intact and \
             stages["full-verification"]["exit"] == 1 and len(errors) == 1 and \
             not fatal and result["generic_method_return_and_leak"] and \
             result["probe_entered"]:
         result["classification"] = "TARGET_PROBE_FAILURE_DIAGNOSTIC"
+    elif variant in ("retains_initialized", "retains_owner") and \
+            complete and intact and \
+            stages["full-verification"]["exit"] == 1 and len(errors) == 1 and \
+            not fatal and result["generic_method_return_and_leak"] and \
+            result["probe_entered"] and \
+            errors[0][0] == "verified/lib.rs" and \
+            (b"*slot |-> value" if variant == "retains_initialized" else
+             b"<T>.own(t, value)") in \
+                (case / "verified/lib.rs").read_bytes().splitlines()[int(errors[0][1]) - 1] and \
+            "No matching heap chunks:" in errors[0][3] and \
+            ("points_to" if variant == "retains_initialized" else "own") in errors[0][3]:
+        result["classification"] = "EXACT_CALLEE_RESOURCE_POST_NEGATIVE"
     LINK.write_json(case / "classification.json", result)
     return result
 

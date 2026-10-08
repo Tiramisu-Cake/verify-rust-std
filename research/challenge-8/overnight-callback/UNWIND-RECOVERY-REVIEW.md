@@ -1,11 +1,15 @@
-# Callback unwind recovery component: pre-hosted review
+# Callback unwind recovery component: review and O16 correction
 
 The preceding [design boundary](UNWIND-RECOVERY-DESIGN.md) recorded the O13
 problem, semantics, trust boundary and controls before this draft. This note
 reviews `verifast-callback-unwind-26.10.patch` and the two source-only callback
-markers. They have **not** been compiled or verified. The patch is separate
-from the seven active O13 components and applies after H2a. Its SHA-256 is
-`6df78294595d9e9001bc66cec85d9ddd98f4fd679534d7807b2ca08f7c97231a`.
+markers. The initial O16 patch was hosted at run `37715395739`, source commit
+`b149418ce76ea2e877bb2107dd09afced69f6df5`, with artifact
+`overnight-s6/tuple2/callback`. The new O17 candidate below has **not** been
+compiled or verified. The patch is separate from the seven active O13
+components and applies after H2a. Its corrected SHA-256 is
+`61d7525cc8ff3e6e9c736ea00178c002f071b521c78845bf68d0e4890e2be07a`
+(O16 patch: `9eba374f4a1ff7fdd7057d09cab123e94e4948b06f00ec4e5ac66efee03d6d92`).
 Static `git apply --check` passes on a disposable pinned f76012fb checkout
 after these exact patches in workflow order:
 
@@ -136,3 +140,33 @@ original unwind return. The critical unproven fact is that the goto crosses
 the reconstructed `let_lft` scope exactly as intended while preserving all
 real unwind effects. The hosted trace and shared-cleanup negative must decide
 that; static review is not acceptance.
+
+## O16 trace and narrow correction for O17
+
+O16's four marker-admission controls rejected before target verification with
+the exact source/MIR certificate failures; NORMAL and readonly export/decode,
+both actual-argument alias audits, source integrity and refinement succeeded.
+The positive, false-normal, false-unwind, duplicate-F-owner and duplicate-left-
+owner cases all reached `callback_positive`/`callback_false_post` but stopped
+at `verified/lib.rs(93,42-43)` on `close comparison_debt`: `Cannot read a ghost
+variable in a non-pure context.` No postcondition, lifetime exit, recovery or
+leak conclusion follows from these five failures.
+
+The marker parser extracts the two inner source-written statements from an
+outer `Ast.PureStmt`; the O16 branch inserted the extracted bare `Ast.Close`
+and bare recovery call. The corrected frontend wraps **only** those two
+extracted statements in `Ast.PureStmt` at their original statement locations.
+The debt close remains inside `let_lft` and the recovery remains outside its
+scope. The synthetic `Ast.GotoStmt` stays in the non-pure call-unwind branch,
+as required by the stock verifier's goto rule. This restores the source
+annotation's ghost execution context without changing runtime MIR, stock
+`FnMut`, borrow/lifetime rules, kernel, normal successor or unwind return.
+The checked ordinary `recover_pair` must still receive the actual debt and
+reserved half lifetime token on the hosted trace; no resource is synthesized.
+
+`git apply --check` passes on the same disposable cumulative pinned checkout,
+and `git diff --check` passes. No local compilation, verification, extractor or
+research script was run. O17 must reproduce the full nine-case callback matrix
+and inspect the positive trace past the debt close. The deeper resource and
+ordinary/shared-cleanup controls remain acceptance requirements and are not
+claimed by this correction.

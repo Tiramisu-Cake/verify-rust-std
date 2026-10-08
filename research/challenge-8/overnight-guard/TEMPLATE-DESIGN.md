@@ -54,7 +54,7 @@ let suffix =
     Ast.Sep (limpl,
       Ast.PointsTo (limpl,
         Ast.Deref (limpl, Ast.Var (limpl, "inner")),
-        Ast.RegularPointsTo, Ast.DummyVarPat),
+        Ast.RegularPointsTo, Ast.DummyPat),
       padding)
   else padding
 in
@@ -68,6 +68,13 @@ the fold accumulator means the field chunk introduces `inner` before it
 is referenced. The post still goes to both normal and unwind. No
 `gen_contract`, ordinary ADT, free drop-glue, kernel, parser, prelude,
 leak/dead-code/refinement setting or generic SAFE Drop type is changed.
+
+`DummyPat` is required here. The Rust parser maps textual `*inner |-> _`
+to `DummyPat`; `assertions.ml` maps it to `None` and produces an
+uninitialized points-to chunk. `DummyVarPat` instead generates a fresh
+`Some` value and would assert an initialized cell, which stock generic
+`drop_in_place` does not return. The first unrun draft used
+`DummyVarPat`; this was corrected before H2b activation.
 
 ## Independent acceptance gates
 
@@ -113,3 +120,50 @@ of this template needs a fresh H2a proof on its revised minimal contract,
 then an isolated run with this template active and the concrete owner
 witness independently proved. A template-only PASS without body return
 and leak checks, both outcomes, and ordinary Drop controls does not count.
+
+## O15 causal evidence and same-unit ordinary Drop admission
+
+O15 (`37714432761`, H2a two-line source gate) proves the exact local generic
+callee and enters the source-equivalent SAFE guard Drop. Both guard ghost
+opens execute once, the checked generic call executes, and the first normal
+return/leak check fails with precisely
+`Function leaks heap chunks: points_to_<T>(inner, dummy)` at
+`verified/lib.rs:54`. This replaces the earlier hypothetical H2b blocker
+with a witnessed optional-storage resource. It does **not** prove the
+unwind branch or the actual nested std Drop. H2b must now add that optional
+cell to the selected generated post, then prove both normal and unwind
+return/leak paths. `DummyPat` remains mandatory; an initialized value or
+`<T>.own` would claim a resource the generic destructor does not return.
+
+The active template also needs an ordinary Drop body in the **same exported
+unit** to show the generated stock contract for unrelated ADTs is retained.
+The H2a gate currently uses a global unique `fn drop(&mut self)` source
+marker, which would reject that legitimate second method before proof.
+The H2b overlay may narrow this lookup to a unique
+`impl<T> Drop for DropOnPanic<T>` and exactly one `fn drop(&mut self)` inside
+its complete braced source span. It must keep the existing exact guard body,
+signature/body spans, ADT/field shapes, ghost coordinates, typed two-block
+graph and FnDef checks. The separate ordinary method is not selected by
+the template, and its body must pass return/leak under the same active
+console. This source-admission extension belongs only to the H2b overlay;
+the accepted H2a patch remains byte-for-byte unchanged.
+
+Negative controls need independent causal classifications: missing cell and
+wrong target reject at constructor owner close; owner/field source mutations
+reject at the exact H2a gate; a post demanding an extra `<T>.own` or an
+initialized pointee must fail at the generated Drop post, after the checked
+callee has run, not at setup. These controls must keep original and verified
+runtime bodies equal after ghost stripping and full NORMAL/readonly MIR plus
+refinement. A positive requires constructor and concrete `u32` witness
+return/leak, local generic callee both return/leak branches, two distinct
+guard return/leak pairs, and ordinary Drop return/leak with full verifier
+exit zero. All results remain local adapter evidence, never actual nested
+std Drop acceptance.
+
+For the narrow **callee** resource boundary, separate H2a framed probes may
+demand the old initialized slot or a retained `<T>.own` in the normal post.
+Their expected failures must occur at those exact posts after the generic
+callee's both return/leak paths prove. These controls demonstrate that the
+local method summary does not return the value or owner; they do not replace
+proof of the H2b generated Drop post. The H2b template itself must still be
+checked by the positive body proof and AST/source gate review.

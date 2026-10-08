@@ -1,0 +1,103 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -583,6 +583,7 @@
+      own certificate before this redirect can be used there. *)
+   module Sort4GenericGuard = struct
+     let active = ref false
++    let template_active = ref false
+     let redirected = ref 0
+     let method_name = "sort4_checked_generic_drop"
+     let guard_name = "<DropOnPanic<T> as std::ops::Drop>::drop"
+@@ -5447,6 +5448,28 @@
+               not identical to its lifetime parameters is not yet supported",
+              None ));
+     let tid = Ast.Var (limpl, "_t") in
++    let stock_padding =
++      Ast.CallExpr
++        ( limpl,
++          padding_pred_name self_ty,
++          self_ty_targs,
++          [],
++          [ LitPat (Var (limpl, "self")) ],
++          Static ) in
++    let field_post_tail =
++      if !Sort4GenericGuard.template_active &&
++         self_ty = "DropOnPanic" &&
++         tparams = ["T"] &&
++         (match fds_no_zst with
++          | [{name="inner";_}] -> true
++          | _ -> false) then
++        Ast.Sep
++          (limpl,
++           Ast.PointsTo
++             (limpl, Ast.Deref (limpl, Ast.Var (limpl, "inner")),
++              Ast.RegularPointsTo, Ast.DummyPat),
++           stock_padding)
++      else stock_padding in
+     let (Some post) =
+       AstAux.list_to_sep_conj
+         (List.map (fun e -> (limpl, e)) post_lft_tks)
+@@ -5477,13 +5500,7 @@
+                                 conjuncts for this field",
+                                None )))
+                   fds_no_zst
+-                  (Ast.CallExpr
+-                     ( limpl,
+-                       padding_pred_name self_ty,
+-                       self_ty_targs,
+-                       [],
+-                       [ LitPat (Var (limpl, "self")) ],
+-                       Static )) )))
++                  field_post_tail )))
+     in
+     Ok (pre, Rust_parser.mk_outcome_post limpl post post)
+
+@@ -9823,12 +9839,29 @@
+      | _ -> reject "exported nominal owner predicate" in
+     let struct_at = exactly_once "struct DropOnPanic<T>" in
+-    let guard_at = exactly_once "fn drop(&mut self)" in
++    let guard_impl_marker = "impl<T> Drop for DropOnPanic<T>" in
++    let guard_impl_at = exactly_once guard_impl_marker in
++    let guard_impl_body =
++      Sort4PointerDrop.body_after source guard_impl_marker in
++    let guard_impl_brace = match Sort4MaybeUninit.find_substring source
++      guard_impl_body guard_impl_at with
++      | Some at -> at | None -> reject "local guard impl body position" in
++    let guard_impl_end = guard_impl_brace + String.length guard_impl_body in
++    let guard_at = match Sort4MaybeUninit.find_substring source
++      "fn drop(&mut self)" guard_impl_brace with
++      | Some at when at < guard_impl_end &&
++          (match Sort4MaybeUninit.find_substring source
++             "fn drop(&mut self)" (at + 1) with
++           | Some later when later < guard_impl_end -> false
++           | _ -> true) -> at
++      | _ -> reject "local guard impl exact drop method" in
++    let guard_tail =
++      String.sub source guard_at (guard_impl_end - guard_at) in
+     if Sort4PointerDrop.body_after source "struct DropOnPanic<T>" <>
+          guard_struct ||
+-       Sort4PointerDrop.body_after source "fn drop(&mut self)" <>
++       Sort4PointerDrop.body_after guard_tail "fn drop(&mut self)" <>
+          guard_body ||
+        List.map AnnotationRd.raw_get
+          (BodyRd.ghost_stmts_get_list guard_body_mir) <>
+          ["//@ open <DropOnPanic<T>>.full_borrow_content(_t, self)();";
+           "//@ open <DropOnPanic<T>>.own(_t, ?g);"] then
+       reject "local guard exact source/ghost owner";
+@@ -12007,6 +12041,16 @@
+         | None -> Sort4GenericGuard.active := false; Ok ()
+         | Some root -> certify_sort4_generic_guard_link vf_mir_cpn root
+       in
++      let* () = match Sys.getenv_opt "SORT4_GUARD_TEMPLATE_REPO_ROOT" with
++        | None -> Sort4GenericGuard.template_active := false; Ok ()
++        | Some root ->
++            if not !Sort4GenericGuard.active ||
++               Sys.getenv_opt "SORT4_GUARD_REPO_ROOT" <> Some root then
++              Sort4GenericGuard.reject
++                "template requires same exact local source/MIR certificate";
++            Sort4GenericGuard.template_active := true;
++            Ok ()
++      in
+       let* () = match Sys.getenv_opt "SORT4_A1_LINK_REPO_ROOT" with
+         | None -> Sort4A1Link.active := false; Ok ()
+         | Some root -> certify_sort4_a1_link vf_mir_cpn root

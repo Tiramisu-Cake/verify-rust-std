@@ -55,3 +55,29 @@ may use a proved no-unwind outcome extraction while preserving every
 reachable shared cleanup predecessor. No blanket cleanup pruning, disabled
 dead-code check or assumed owner is allowed. The generic nested Drop body
 remains a separate normal/unwind proof obligation.
+
+## O16 compatibility finding and post-completion obligation
+
+O16 captured the revised ghost projection after separate `open` annotations
+fixed the O15 parser rejection. NORMAL/readonly export and decode, refinement
+and exact ghost stripping passed. The qualified nominal owner was present in
+both decoded graphs, and the outer body retained its shared cleanup. Full
+verification stopped before the body at the generic function prototype check:
+the specialized post's additional `raw_ptr_own::<Element>()(t,result)` leaked
+against the prototype. O16 therefore proves no ownership transfer, destructor
+body, or actual helper return.
+
+The next diagnostic `--owner-post-completion` keeps the actual helper's
+prototype-compatible normal post: the current thread and exact selected full
+pointer equality. The full intended pointer-value post remains required. It
+is packaged as a separate checked entailment lemma whose pre is exactly that
+normal post and whose conclusion adds `raw_ptr_own::<Element>()(t,result)`.
+The lemma body only closes this predicate. The pinned 26.10 definition is
+`pred_ctor raw_ptr_own<T>()(t,v)=true`, so it creates neither memory permission
+nor `Element` pointee ownership. Its proof must pass complete NORMAL/readonly
+export/decode, refinement and full verification. False, duplicated-thread,
+wrong-pointer and pointee-right post controls must fail at their intended
+obligations. Any change to the predicate definition reopens the trust review.
+The actual helper is accepted only when its complete body under the
+compatible post **and** the completion lemma both pass. Until then the
+`--owner-post-completion` run is diagnostic only.

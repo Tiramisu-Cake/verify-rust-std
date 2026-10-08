@@ -427,7 +427,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: ${{ runner.temp }}/overnight-console-cache
-          key: overnight-console-ubuntu22-vf2610-v1-${{ hashFiles('research/challenge-8/overnight-s6/*.patch', 'research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch', 'research/challenge-8/overnight-helper/*.patch', 'research/challenge-8/overnight-linkage/*.patch', 'research/challenge-8/overnight-callback/*.patch', 'research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch') }}
+          key: overnight-console-ubuntu22-vf2610-v1-${{ hashFiles('research/challenge-8/overnight-s6/*.patch', 'research/challenge-8/verifast-manuallydrop-new-cfg-2610.patch', 'research/challenge-8/overnight-helper/*.patch', 'research/challenge-8/overnight-linkage/*.patch', 'research/challenge-8/overnight-callback/*.patch', 'research/challenge-8/overnight-guard/verifast-h2a-generic-guard-link-26.10.patch', 'research/challenge-8/overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch') }}
       - name: Check selected overnight step
         run: |
           if [[ "${{ inputs.forget_guard_stage }}" == forget_cfg_accept ]]; then
