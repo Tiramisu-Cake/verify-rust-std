@@ -50,7 +50,7 @@ export VFVERSION="$vf_version" VFPLATFORM=linux RUSTUP_TOOLCHAIN=nightly-2026-09
   printf 'Actions SHA: %s\nBranch: overnight/merge-26.10\nSelection: merge_geometry; suite=W1 wrapping; experimental Rust regression\n' "$GITHUB_SHA"
   printf 'Actual source git commit: cd371e035c7e573760c43bf934d53e8118ee3e7d\nFull source SHA-256: 85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1\n'
   printf 'Profile: official-stock-VeriFast-%s (%s)\nRust toolchain: %s (minimal + rustc-dev + rust-src)\n' "$vf_version" "$vf_source_commit" "$RUSTUP_TOOLCHAIN"
-  printf 'Runner: %s/%s\nDistinct W1 + M2a + copy translator/parser/spec patches; stock kernel/exporter/refiner/schema unchanged\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
+  printf 'Runner: %s/%s\nDistinct W1 + M2a + copy + strict cleanup patches; explicit pinned strict kernel extension; stock exporter/refiner/schema unchanged\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
   sha256sum research/challenge-8/merge/stock-26.10/*.py \
     research/challenge-8/merge/stock-26.10/*.c \
     research/challenge-8/merge/stock-26.10/*.rs \
@@ -122,9 +122,9 @@ run_one() {
 suite() {
   set -uo pipefail
   suite_status=0
-  printf 'Actual engine: experimental-merge-wrapping-callback-copy-v1 (DIAGNOSTIC, NOT ACCEPTED). Mathematical harness raw profile labels are historical; per-case binary SHA and build evidence bind this fresh execution.\n' > "$evidence/mathematical-profile-sidecar.txt"
+  printf 'Actual engine: experimental-merge-wrapping-callback-copy-cleanup-v1 (DIAGNOSTIC, NOT ACCEPTED). Mathematical harness raw profile labels are historical; per-case binary SHA and build evidence bind this fresh execution.\n' > "$evidence/mathematical-profile-sidecar.txt"
   run_one rust-profile-smoke 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'early complete ordinary normal/unwind body gate; prevents a global specification error masking the full matrix' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/baseline-cases.rs \
@@ -142,52 +142,57 @@ suite() {
   run_one native-baselines 150 python3 research/challenge-8/merge/overnight/native-prove.py \
     --tool-home "$experimental_home" --evidence "$evidence/checked-native"
   run_one rust-unwind-baselines 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'ordinary call normal/unwind and calibrated false-unwind/dead-body baseline controls' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/baseline-cases.rs --evidence "$evidence/checked-baselines"
   run_one callback-model-diagnostics 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'tuple2 ownership and exact HRTB output instantiation support; resource-negative admission remains calibration' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/callback-cases.rs --evidence "$evidence/checked-callback-model"
   run_one callback-borrow-diagnostic 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'generic callback real loan protocol; full refreshed-value normal/unwind posts; no actual-source claim' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/callback-borrow-cases.rs --evidence "$evidence/checked-callback-borrow"
   run_one prepared-hrtb-diagnostics 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'prepared real loans at exact HRTB FnMut call; full normal/unwind resources; wrong F/T/owner controls remain calibration' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/hrtb-prepared-cases.rs --evidence "$evidence/checked-hrtb-prepared"
+  run_one callback-cleanup-diagnostics 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
+    --scope 'strict opt-in callback lifetime scope and explicit normal/unwind current-value ownership recovery; controls remain calibration' \
+    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
+    --fixture research/challenge-8/merge/overnight/cleanup-cases.rs --evidence "$evidence/checked-cleanup"
   run_one copy-model-diagnostics 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'trusted one-element positive-size option destination copy; full initializedness/value and single source owner/frame targets; generic invalid bytes/ZST excluded' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/copy-cases.rs --evidence "$evidence/checked-copy"
   run_one wrapping-acceptance 600 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --evidence "$evidence/checked-wrapping"
   run_one pointer-bridge-diagnostic 360 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/pointer-bridge-cases.rs \
     --evidence "$evidence/checked-pointer-bridge"
   run_one concrete-zst-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --scope 'compiler-backed concrete ZST wrapping identity without assumed size; no memory rights' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/concrete-zst-cases.rs --evidence "$evidence/checked-concrete-zst"
   run_one experimental-rust-regression 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/stock-26.10/pointer-cases.rs \
     --evidence "$evidence/checked-rust-regression" \
     --cases g2_steps,init_const,init_mut,destination_up,forward_left,forward_right,destination_down,pointer_order,pointer_guard,wrong_cursor,address_index
   run_one pointer-full-trace-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-    --profile experimental-merge-wrapping-callback-copy-v1 \
+    --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
     --fixture research/challenge-8/merge/overnight/pointer-trace-cases.rs \
     --evidence "$evidence/checked-pointer-trace"
@@ -195,7 +200,7 @@ suite() {
     --output "$evidence/actual-cases.rs"
   if [[ -f "$evidence/actual-cases.rs" ]]; then
     run_one actual-callee-applicability 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \
-      --profile experimental-merge-wrapping-callback-copy-v1 \
+      --profile experimental-merge-wrapping-callback-copy-cleanup-v1 \
       --scope 'unchanged actual merge_up/down diagnostic with full normal/unwind targets; distinct source initialized destination; genuine loan setup and open lifetime recovery' \
       --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \
       --fixture "$evidence/actual-cases.rs" --evidence "$evidence/checked-actual"

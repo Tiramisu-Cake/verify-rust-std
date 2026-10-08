@@ -426,7 +426,7 @@ def stage_case(name: str, metadata: dict, args, schema: Path) -> dict:
     if exporter == 0 and decoder == 0:
         verifier = run_stage(name, "verifast", [
             str(args.tool_home / "bin/verifast"), "-rustc_args", "--edition 2021",
-            "-verbose", "1", "verified/lib.rs",
+            "-verbose", "1", "-dump_ast_with_locs", "proof-ast.ml", "verified/lib.rs",
         ], case_dir, combine_output=True)
     else:
         verifier = 125

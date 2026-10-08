@@ -83,8 +83,8 @@ def main() -> None:
         verified = verified.replace(anchor,
             "let is_l = !is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*right_src, &*left_src);")
         # Establish the actual two shared-reference arguments from distinct
-        # initialized source cells. Release/recovery remains deliberately open:
-        # the full normal and unwind posts expose the next lifetime-cut debt.
+        # initialized source cells. The opt-in three-marker cleanup profile
+        # checks the exact callback/normal/Continue-unwind scope mapping.
         verified = verified.replace("    unsafe {\n",
             "    //@ let cmp_k = begin_lifetime();\n    unsafe {\n"
             "        //@ let_lft 'cmp = cmp_k;\n"
@@ -105,6 +105,15 @@ def main() -> None:
             "        //@ open [?right_ref_frac]ref_initialized_::<T>(right_ref)();\n"
             "        //@ close_ref_own::<'cmp, T>(right_ref);\n"
             "        //@ close <(&'cmp T, &'cmp T)>.own(t, std_tuple_2_::<&'cmp T, &'cmp T> { 0: right_ref, 1: left_ref });\n", 1)
+        cleanup = (
+            "        //@ { callback_close::<'cmp>(); close [left_ref_frac]ref_initialized_::<T>(left_ref)(); close_frac_borrow(left_ref_frac, ref_initialized_(left_ref)); close [right_ref_frac]ref_initialized_::<T>(right_ref)(); close_frac_borrow(right_ref_frac, ref_initialized_(right_ref)); }\n"
+            "        //@ callback_scope_end::<'cmp>();\n"
+            "        //@ { callback_recover::<'cmp>(); end_lifetime(cmp_k); borrow_end(cmp_k, <T>.full_borrow_content(t, left_src as *T)); open_full_borrow_content::<T>(t, left_src as *T); borrow_end(cmp_k, <T>.full_borrow_content(t, right_src as *T)); open_full_borrow_content::<T>(t, right_src as *T); }\n"
+        )
+        after_call = "(&*right_src, &*left_src);\n"
+        if verified.count(after_call) != 1:
+            raise RuntimeError(f"changed exact callback end: {name}")
+        verified = verified.replace(after_call, after_call + cleanup, 1)
         if strip(verified) != original:
             raise RuntimeError(f"ghost stripping changes actual runtime source: {name}")
         record["cases"][name] = {"source_line": source[:start].count("\n") + 1,

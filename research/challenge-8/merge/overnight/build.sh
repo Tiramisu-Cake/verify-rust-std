@@ -18,6 +18,10 @@ callback_patch="$repo/research/challenge-8/merge/overnight/callback.patch"
 callback_sha=0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e
 copy_patch="$repo/research/challenge-8/merge/overnight/copy.patch"
 copy_sha=da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5
+cleanup_patch="$repo/research/challenge-8/merge/overnight/cleanup.patch"
+cleanup_sha=97318f5176f28877a781298be97cba1be8068c144f6fcf994fcc6512173a15db
+patched_kernel_sha=100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6
+patched_translator_sha=86587aa649ba7728054f9ea16c65716366ec8a290fd571630e350e1e24accc13
 vf_commit=f76012fb518703b1d98e243ac4f487f16877cfcb
 vfdeps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
 decoder_rev=2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
@@ -30,7 +34,7 @@ translator_rel=src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 prelude_rel=bin/rust/prelude_core.rsspec
 std_lib_rel=bin/rust/std/lib.rsspec
 parser_rel=src/rust_frontend/vf_mir_translator/rust_parser.ml
-allowed_files=$(printf '%s\n' "$translator_rel" "$prelude_rel" "$std_lib_rel" "$parser_rel" | LC_ALL=C sort)
+allowed_files=$(printf '%s\n' "$translator_rel" "$prelude_rel" "$std_lib_rel" "$parser_rel" src/verifast.ml | LC_ALL=C sort)
 
 [[ ! -e "$evidence" ]] || fail "refusing to reuse evidence directory: $evidence"
 [[ ! -e "$source_home" ]] || fail "refusing to reuse source directory: $source_home"
@@ -56,7 +60,7 @@ run_stage() {
 }
 
 {
-  printf 'Profile: VeriFast26.10 source console + separate experimental wrapping/callback/copy patches\n'
+  printf 'Profile: VeriFast26.10 source console + separate experimental wrapping/callback/copy/strict-cleanup patches\n'
   printf 'Source commit: %s\nVFdeps archive SHA256: %s\nDecoder revision: %s\n' "$vf_commit" "$vfdeps_sha" "$decoder_rev"
   printf 'Runner: %s / %s\n' "$RUNNER_ENVIRONMENT" "$RUNNER_OS"
   cat /etc/os-release
@@ -67,8 +71,10 @@ run_stage() {
 printf '%s  %s\n' "$patch_sha" "$patch_file" | sha256sum -c -
 printf '%s  %s\n' "$callback_sha" "$callback_patch" | sha256sum -c -
 printf '%s  %s\n' "$copy_sha" "$copy_patch" | sha256sum -c -
+printf '%s  %s\n' "$cleanup_sha" "$cleanup_patch" | sha256sum -c -
 sha256sum "$callback_patch" >> "$evidence/source-build-inputs.txt"
 sha256sum "$copy_patch" >> "$evidence/source-build-inputs.txt"
+sha256sum "$cleanup_patch" >> "$evidence/source-build-inputs.txt"
 
 # Pin the source tree by immutable commit, then check out only that commit.
 run_stage source-init git init "$source_home"
@@ -79,7 +85,7 @@ actual_commit=$(git -C "$source_home" rev-parse HEAD)
 printf '%s\n' "$actual_commit" > "$evidence/verifast-source-commit.txt"
 [[ "$actual_commit" == "$vf_commit" ]] || fail "source pin mismatch: $actual_commit"
 
-# Verify the immutable kernel, exporter and refiner inputs directly.
+# Verify original kernel and immutable exporter/refiner inputs before the explicit cleanup patch.
 kernel_sha=adbf2c3de02cba7fbdb0b8e203a864e34c1b2ab16de4f6b153477106dbba04d0
 exporter_lib_sha=11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00
 printf '%s  %s\n' "$kernel_sha" "$source_home/src/verifast.ml" | sha256sum -c -
@@ -92,14 +98,15 @@ cp "$source_home/$parser_rel" "$evidence/parser.original.ml"
 cp "$source_home/$prelude_rel" "$evidence/prelude_core.original.rsspec"
 cp "$source_home/$std_lib_rel" "$evidence/std_lib.original.rsspec"
 
-# Audit patch paths before applying. No kernel, exporter, refiner, or extra file edits.
+# Audit the explicit frontend/spec/strict-kernel paths; exporter/refiner remain immutable.
 git -C "$source_home" apply --numstat "$patch_file" > "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$callback_patch" >> "$evidence/patch-numstat.txt"
 git -C "$source_home" apply --numstat "$copy_patch" >> "$evidence/patch-numstat.txt"
+git -C "$source_home" apply --numstat "$cleanup_patch" >> "$evidence/patch-numstat.txt"
 awk -F '\t' 'NF != 3 { exit 1 } { print $3 }' "$evidence/patch-numstat.txt" | LC_ALL=C sort -u > "$evidence/patch-files.txt"
 [[ -s "$evidence/patch-files.txt" ]] || fail 'wrapping.patch contains no file changes'
 if comm -23 "$evidence/patch-files.txt" <(printf '%s\n' "$allowed_files") | grep -q .; then
-  fail 'patch contains paths outside the translator/spec allowlist'
+  fail 'patch contains paths outside the explicit frontend/spec/strict-kernel allowlist'
 fi
 run_stage patch-check git -C "$source_home" apply --check "$patch_file"
 run_stage patch-apply git -C "$source_home" apply --whitespace=error "$patch_file"
@@ -107,6 +114,12 @@ run_stage callback-patch-check git -C "$source_home" apply --check "$callback_pa
 run_stage callback-patch-apply git -C "$source_home" apply --whitespace=error "$callback_patch"
 run_stage copy-patch-check git -C "$source_home" apply --check "$copy_patch"
 run_stage copy-patch-apply git -C "$source_home" apply --whitespace=error "$copy_patch"
+run_stage cleanup-patch-check git -C "$source_home" apply --check "$cleanup_patch"
+run_stage cleanup-patch-apply git -C "$source_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$cleanup_patch"
+printf '%s  %s\n' "$patched_kernel_sha" "$source_home/src/verifast.ml" | sha256sum -c -
+printf '%s  %s\n' "$patched_translator_sha" "$source_home/$translator_rel" | sha256sum -c -
+printf '%s  %s\n' "$exporter_lib_sha" "$source_home/src/rust_frontend/vf_mir_exporter/src/lib.rs" | sha256sum -c -
+cp "$source_home/src/verifast.ml" "$evidence/verifast.kernel.patched.ml"
 git -C "$source_home" diff --name-only > "$evidence/source-modified-files.txt"
 diff -u "$evidence/patch-files.txt" "$evidence/source-modified-files.txt" || fail 'applied tree differs from the audited patch paths'
 git -C "$source_home" diff --binary > "$evidence/applied-profile.patch"

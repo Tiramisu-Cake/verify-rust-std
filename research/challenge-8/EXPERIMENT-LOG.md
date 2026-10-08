@@ -4319,3 +4319,36 @@ exacttwo observed ownbody deadcoordinates; actualpanic predecessor executed,
 deadtargetNOTexecuted, strictstages/source/body/return/leak/noothererror gates;
 failclosedmutants covereachrequiredfact. Originaldeadclass preserved. This is
 negativeadmission only; allpositive/dead bans retained, noverifiercheckdisabled.
+
+### C1f/W2h outcome / M2-cleanup-v1 BEFORE
+
+Run37707794942/sourceb8f25c1831152660fa6b2eba667dc8d8e068d2ad,
+job113086234217,00:26:44–00:29:56UTC=192seconds; cumulative2030/21600.
+Copy5positive+2stockcountcontrols+6exactintendednegative PASS; all failclosed
+mutantsPASS. Ordinarynormal/unwind/falseunwind/deadbody expectednegative PASS;
+exactdead2coordinates, sourcepanicpredecessorexecution/no deadtargetexecution,
+bodyreturn/leak/allstages andmutants verified. FullW1/G2/A/B/native/oldRust/bridge
+retained. Trace checkedreverse/stridelemmas nowPASS; maininitialinvariant lacks
+prefixzero application at417:15–17. Invoke existing checkedzero lemma on each
+input decisionlist beforeloop; fullposts/domain retained. Actualcallbackunwind
+sourceownershipstillOPEN. No altered proof-source historicalclaims.
+
+New separate cleanup design/trust reviewed BEFORE implementation, then static
+implementation review found/repaired PureStmt scope-marker parsing. Patch
+97318f5176f28877a781298be97cba1be8068c144f6fcf994fcc6512173a15db,
+only translator andstrictkernel opt-in mode; originalkernelpin stillchecked,
+newpatchedkernel100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6.
+Explicit3ghostmarkers andclosed real-loan commandprofile, unique typedHRTB
+FnMut/boolcall+Continue unwind, exactscopeCFGcut; no borrowed resource dropped.
+Bothoutcomes closefractions; panic proofGoto exitsbinding, outertoken restoration
+precedes genuine end_lifetime/borrow_end/opencurrent sourceownership. No copy or
+cursor onpanic; sourcebytes unchanged. No genericASTexception extension, no
+ownership axiom, no pure/Freeze/Copy restriction, nochecksdisabled. Hosteddump
+of translated proofAST added for review; fullnormal/unwind/return/leak/dead/
+refinement/sourceidentity andcompletecompatibility beforeadmittingextension.
+Fivecleanupcasescalibrate positive/fullresource target plusfalseunwind/missing
+fraction/escapedtypedresource/wrongmarker at intendedproof/admissiongates.
+Experimental combinedcleanup profile NOTACCEPTED, actualcallee posts unchanged.
+Ifbuild/frontendfail, correctwithinthisexplicitprofile; ifrealresourcefail,
+inspectlivechunks andloanprotocol; iffullpositive+matrixpass, proceedactual
+conditionalcontract andpairedresource invariant, withoutroutineownerapproval.

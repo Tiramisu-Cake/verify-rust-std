@@ -413,6 +413,9 @@ on_unwind_ens false;
     let mut a = 0usize;
     let mut d = 0usize;
 
+    //@ trace_true_prefix_zero(up_values);
+    //@ trace_true_prefix_zero(down_values);
+
     while k < m {
         /*@ inv k <= m &*& a <= k &*& d <= k &*&
             a == trace_true_prefix(up_values, k) &*&
