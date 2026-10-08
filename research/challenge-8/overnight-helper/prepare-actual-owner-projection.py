@@ -22,6 +22,32 @@ OWNER_PRED = (
     b"/*@\npred<T> <select_unpredictable::DropOnPanic<T>>.own(t, g) =\n"
     b"    *g.inner |-> ?payload &*& <T>.own(t, payload);\n@*/\n"
 )
+SAFETY_PROOFS = {
+    "positive": (
+        b"/*@\nsafety_proof {\n"
+        b"    let r = call();\n"
+        b"    open raw_ptr_own::<Element>()(_t, r);\n"
+        b"}\n@*/\n"
+    ),
+    "omitted_open": (
+        b"/*@\nsafety_proof {\n"
+        b"    let r = call();\n"
+        b"}\n@*/\n"
+    ),
+    "wrong_pointer": (
+        b"/*@\nsafety_proof {\n"
+        b"    let r = call();\n"
+        b"    open raw_ptr_own::<Element>()(_t, true_val);\n"
+        b"}\n@*/\n"
+    ),
+}
+SAFETY_ANCHOR = b"/*@\non_unwind_ens false;\n@*/\n{\n"
+S6_SAFETY_ANCHOR = b"/*@ on_unwind_ens false; @*/\n{\n"
+NESTED_DROP_CALL = b"            unsafe { self.inner.drop_in_place() }\n"
+NESTED_DROP_GHOST = (
+    b"            //@ open <select_unpredictable::DropOnPanic<T>>.full_borrow_content(_t, self)();\n"
+    b"            //@ open <select_unpredictable::DropOnPanic<T>>.own(_t, ?g);\n"
+)
 OPEN_WRAPPERS = (
     b"    /*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/\n"
     b"    /*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/\n"
@@ -86,20 +112,57 @@ def require(ok: bool, why: str) -> None:
 def strip_ghost(source: bytes) -> bytes:
     source = re.sub(rb"(?m)^[ \t]*/\*@.*?@\*/(?:\r?\n)?", b"", source,
                     flags=re.S)
+    source = re.sub(rb"/\*@.*?@\*/(?:\r?\n)?", b"", source, flags=re.S)
     return re.sub(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)", b"", source)
 
 
 def candidate(base_verified: bytes, base_original: bytes,
-              owner_post_completion: bool = False) -> bytes:
+              owner_post_completion: bool = False,
+              owner_safety_proof: bool = False,
+              safety_proof_variant: str = "positive",
+              annotate_nested_drop: bool = False) -> bytes:
     verified = base_verified
-    normal_post = (b"    (if condition { true_val as pointer } else { false_val as pointer });")
-    require(verified.count(normal_post) == 1, "normal pointer post changed")
+    require(not (owner_post_completion and owner_safety_proof),
+            "completion and stock safety proof are separate experiments")
+    require(safety_proof_variant == "positive" or owner_safety_proof,
+            "a safety negative requires the stock safety proof lane")
+    require(safety_proof_variant in SAFETY_PROOFS,
+            "unknown safety proof variant")
+    normal_posts = (
+        b"\n    (if condition { true_val as pointer } else { false_val as pointer });",
+        b"\n        (if condition { true_val as pointer } else { false_val as pointer });",
+    )
+    matches = [post for post in normal_posts if verified.count(post) == 1]
+    require(len(matches) == 1 and
+            sum(verified.count(post) for post in normal_posts) == 1,
+            "normal pointer post changed or ambiguous")
+    normal_post = matches[0]
     if not owner_post_completion:
         # Historical O16 diagnostic: this stronger implementation post is
         # rejected by the generic std prototype before any body proof.
-        after = (b"    (if condition { true_val as pointer } else { false_val as pointer }) "
-                 b"&*& raw_ptr_own::<Element>()(t, result);")
+        after = normal_post[:-1] + b" &*& raw_ptr_own::<Element>()(t, result);"
         verified = verified.replace(normal_post, after, 1)
+    if owner_safety_proof:
+        anchors = [anchor for anchor in (SAFETY_ANCHOR, S6_SAFETY_ANCHOR)
+                   if verified.count(anchor) == 1]
+        require(len(anchors) == 1 and
+                verified.count(SAFETY_ANCHOR) +
+                verified.count(S6_SAFETY_ANCHOR) == 1,
+                "actual contract/safety proof insertion anchor changed")
+        proof = SAFETY_PROOFS[safety_proof_variant]
+        require(proof.count(b"call();") == 1 and
+                b"assume(" not in proof and b"assume_correct" not in proof and
+                proof.count(b"safety_proof {") == 1,
+                "safety proof changed its single-call/trust boundary")
+        verified = verified.replace(
+            anchors[0],
+            anchors[0][:-2] + proof + b"{\n",
+            1)
+    if annotate_nested_drop:
+        require(verified.count(NESTED_DROP_CALL) == 1,
+                "actual nested Drop unsafe call anchor changed")
+        verified = verified.replace(
+            NESTED_DROP_CALL, NESTED_DROP_GHOST + NESTED_DROP_CALL, 1)
     for anchor, ghost in INSERTIONS:
         require(verified.count(anchor) == 1,
                 f"actual owner insertion anchor ambiguous: {anchor.decode()}")
@@ -113,11 +176,18 @@ def candidate(base_verified: bytes, base_original: bytes,
             verified.count(b"unsafe { self.inner.drop_in_place() }") == 1 and
             verified.count(b"crate::intrinsics::select_unpredictable(") == 3,
             "actual call/destructor inventory changed")
+    require(verified.count(b"safety_proof {") == int(owner_safety_proof),
+            "actual safety proof admission inventory changed")
+    require(verified.count(NESTED_DROP_GHOST) == int(annotate_nested_drop),
+            "actual nested Drop ghost inventory changed")
     return verified
 
 
 def write_case(repo: Path, out: Path,
-               owner_post_completion: bool = False) -> dict:
+               owner_post_completion: bool = False,
+               owner_safety_proof: bool = False,
+               safety_proof_variant: str = "positive",
+               annotate_nested_drop: bool = False) -> dict:
     require(os.environ.get("GITHUB_ACTIONS") == "true" and
             os.environ.get("RUNNER_ENVIRONMENT") == "github-hosted" and
             os.environ.get("RUNNER_OS") == "Linux",
@@ -128,7 +198,10 @@ def write_case(repo: Path, out: Path,
     base_verified = (base / "verified/lib.rs").read_bytes()
     base_original = (base / "original/lib.rs").read_bytes()
     verified = candidate(base_verified, base_original,
-                         owner_post_completion=owner_post_completion)
+                         owner_post_completion=owner_post_completion,
+                         owner_safety_proof=owner_safety_proof,
+                         safety_proof_variant=safety_proof_variant,
+                         annotate_nested_drop=annotate_nested_drop)
     case = out / "owner-projection"
     (case / "original").mkdir(parents=True)
     (case / "verified").mkdir()
@@ -140,10 +213,20 @@ def write_case(repo: Path, out: Path,
         "actual_nested_drop_proved": False,
         "actual_safe_forget_linked": False,
         "owner_post_completion": owner_post_completion,
+        "owner_safety_proof": owner_safety_proof,
+        "safety_proof_variant": safety_proof_variant,
+        "safety_proof_source": (SAFETY_PROOFS[safety_proof_variant].decode()
+                                if owner_safety_proof else None),
+        "actual_nested_drop_annotated": annotate_nested_drop,
+        "nested_drop_ghost_source": (NESTED_DROP_GHOST.decode()
+                                     if annotate_nested_drop else None),
+        "actual_nested_drop_proved": False,
         "actual_normal_post": "prototype-compatible thread plus exact full selected pointer",
         "full_pointer_value_post_status": (
             "requires separately checked completion lemma; no actual helper proof"
-            if owner_post_completion else "O16 prototype-incompatible diagnostic"),
+            if owner_post_completion else
+            "full post retained; stock safety_proof must pass"
+            if owner_safety_proof else "O16 prototype-incompatible diagnostic"),
         "target_specialization": "T = *const Element; Element unrestricted",
         "source_certificate": base_record["source_certificate"],
         "original_sha256": ACTUAL.digest(base_original),
@@ -169,9 +252,18 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--owner-post-completion", action="store_true",
                         help="keep prototype-compatible post; require separate checked lemma")
+    parser.add_argument("--owner-safety-proof", action="store_true",
+                        help="full post with stock proof of safe prototype compatibility")
+    parser.add_argument("--safety-proof-variant", choices=tuple(SAFETY_PROOFS),
+                        default="positive")
+    parser.add_argument("--annotate-nested-drop", action="store_true",
+                        help="insert two truthful ghost opens in exact nested Drop")
     args = parser.parse_args()
     print(json.dumps(write_case(args.repo, args.out,
-                                owner_post_completion=args.owner_post_completion),
+                                owner_post_completion=args.owner_post_completion,
+                                owner_safety_proof=args.owner_safety_proof,
+                                safety_proof_variant=args.safety_proof_variant,
+                                annotate_nested_drop=args.annotate_nested_drop),
                      indent=2, sort_keys=True))
 
 

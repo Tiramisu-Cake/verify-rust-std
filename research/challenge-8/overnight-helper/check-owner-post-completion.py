@@ -129,10 +129,24 @@ def main() -> None:
     if args.variant == "positive" and frontend and proof == 0 and \
             not errors and lemma_headers == 1 and unchanged:
         classification = "EXPERIMENTAL_OWNER_POST_COMPLETION_PROVED"
-    elif args.variant != "positive" and frontend and proof == 1 and errors:
-        # Initially retain the raw error; obligation-specific negative
-        # classification is required after the first hosted capture.
-        classification = "DIAGNOSTIC_NEGATIVE; OBLIGATION_REVIEW_REQUIRED"
+    elif args.variant != "positive" and frontend and proof == 1 and \
+            lemma_headers == 1 and unchanged and len(errors) == 1:
+        # O17 (37717092130) established these exact normal-post obligations.
+        # Historical O17 labels remain in its immutable evidence; only future
+        # classifications use this stricter, reviewed predicate/location map.
+        expected = {
+            "false_post": "Cannot prove condition. (Cannot prove false.)",
+            "pointee_rights":
+                "No matching heap chunks: points_to_<Element>(result, _)",
+            "thread_duplication":
+                "No matching heap chunks: thread_token(t)",
+            "wrong_pointer": "Cannot prove condition. (Cannot prove result = "
+                             "(condition ? false_val : true_val).)",
+        }
+        error = errors[0]
+        if error["file"] == "verified/lib.rs" and error["line"] == "11" and \
+                error["message"] == expected[args.variant]:
+            classification = "INTENDED_OWNER_COMPLETION_POST_NEGATIVE"
     result = {
         "classification": classification, "variant": args.variant,
         "actual_helper_proved": False,

@@ -60,9 +60,14 @@ def capture_graph(case: Path, stages: dict) -> dict:
             "outer_full_mir_sha256": HELPER.digest(outer.encode()),
             "nested_drop_defpath": DROP_DEF_PATH,
             "nested_drop_full_mir_sha256": HELPER.digest(drop.encode()),
+            "nested_drop_ghost_opens_exported": (
+                "open <select_unpredictable::DropOnPanic<T>>.full_borrow_content"
+                in drop and
+                "open <select_unpredictable::DropOnPanic<T>>.own" in drop),
             "decoded_full_mir_sha256": HELPER.digest(decoded.encode()),
             "nominal_owner_exported":
                 "pred<T> <select_unpredictable::DropOnPanic<T>>.own" in decoded,
+            "stock_safety_proof_exported": "safety_proof {" in outer,
             "forget_call_present": 'name = "std::mem::forget"' in outer,
             "shared_cleanup_present": "isCleanup = true" in outer,
             "classification": "CAPTURE_ONLY; FULL GRAPH NOT YET CERTIFIED",
@@ -81,6 +86,12 @@ def main() -> None:
                         help="capture first stock proof/parser barrier; never accept")
     parser.add_argument("--owner-post-completion", action="store_true",
                         help="retain prototype-compatible actual post; separate lemma required")
+    parser.add_argument("--owner-safety-proof", action="store_true",
+                        help="retain full pointer post; prove safe prototype with stock hook")
+    parser.add_argument("--safety-proof-variant", choices=tuple(PREP.SAFETY_PROOFS),
+                        default="positive")
+    parser.add_argument("--annotate-nested-drop", action="store_true",
+                        help="source-only two-open nested Drop diagnostic")
     args = parser.parse_args()
     HELPER.require((os.environ.get("GITHUB_ACTIONS"),
                     os.environ.get("RUNNER_ENVIRONMENT"),
@@ -89,7 +100,10 @@ def main() -> None:
                    "actual owner capture requires GitHub-hosted Linux")
     evidence = args.evidence.resolve()
     PREP.write_case(REPO, evidence,
-                    owner_post_completion=args.owner_post_completion)
+                    owner_post_completion=args.owner_post_completion,
+                    owner_safety_proof=args.owner_safety_proof,
+                    safety_proof_variant=args.safety_proof_variant,
+                    annotate_nested_drop=args.annotate_nested_drop)
     case = evidence / "owner-projection"
     # The first run measures source/parser/MIR applicability without silently
     # enabling an unrelated local guard or actual-helper admission overlay.
@@ -109,6 +123,9 @@ def main() -> None:
         "actual_nested_drop_proved": False,
         "actual_safe_forget_linked": False,
         "owner_post_completion": args.owner_post_completion,
+        "owner_safety_proof": args.owner_safety_proof,
+        "safety_proof_variant": args.safety_proof_variant,
+        "actual_nested_drop_annotated": args.annotate_nested_drop,
         "full_pointer_value_post_derived": False,
         "source_integrity": (PREP.strip_ghost(verified) == original and
                              all(stage.get("source_unchanged") is True
@@ -119,6 +136,11 @@ def main() -> None:
                                                "readonly-export", "readonly-decode",
                                                "refinement")),
         "full_mir_capture": graph,
+        "prototype_compatibility_passed": (
+            args.prove and args.owner_safety_proof and
+            "Verifying function 'select_unpredictable'" in log and
+            not any("Function prototype implementation check" in
+                    error["message"] for error in errors)),
         "first_error": errors[0] if errors else None,
         "fatal": [line for line in log.splitlines()
                   if line.startswith("Fatal error:")],
