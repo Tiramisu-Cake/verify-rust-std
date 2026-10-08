@@ -5030,3 +5030,22 @@ Proof `02945280d4f335948c6edd60feb7ac62092a0256`, [run37754201983](https://githu
 ### O23 — source-command ownership fixed, first SAFE outcome obligation
 
 Proof94d055d5a0a531a3920acdc74e4cede5e9d0800b,[run37756681437](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37756681437),job11324284611009:26:42–09:30:56UTC=254s; resumed1169/7200,6031remain. Main16consoleeb0c7455/translatorafe841ec; fullS6PASS separately from actualprogress. Exactowner2nestedghostrecords transferred preservingall12 sourcecommands, text/span/realcalls/normal/unwind; oldNot_foundclosed. Source3/MIR3 includingnestedghostsource-line exactstronggatesreject, pairedsource/refinement0. Fivebodyowner first newerror checkedSAFEinterface77: fn_outcome<*Element> passedto pointerrawown; noactualbodymemory proof yet. Newsourceonlyoutcome_result ghostprojection prepared, fullnormal+falseunwindunchanged, needsfreshcertificate. 7/9sourceconstructionfailedbeforeexports because scopedmodule ManuallyDrop importincorrectlytreatedtop-level; minimalboundaryfixprepared. Sort4markerindentfixed, secondstripresidual twoblankline separatorsbeforeactualsignature; exactstrip guard retained and newmismatchcandidatefiles prepared. CUTfourpositives/eightintendednegatives, genuineFboundpositive unresolvedentrytype rejection; lastfour NOT_RUN secondgenericheaderguard; lawful live<T>positiveVF0/60. Bothproduction+isolatedS6 PASS and disabledCUTCB9PASSare regressionsnot actualcoverage. Latestownersteering prioritizes hostedsourcepreflightbeforebuild and one stableactualowner/sort4prep; pauseindependentnewmodelwork, preserveallcandidatefiles.
+
+### O24 — preparation closed, complete graph and first actual sort4 barrier
+
+ [run37760135524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37760135524),
+proof `2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`,09:56:44–09:57:37UTC=53s.
+Resumed **1222/7200**,5978remaining; no active run.
+Hosted independent owner9/sort4 sourcepreflight PASS BEFORE console, exactruntime
+strip/fragments retained. Cached main16 reused with exactprofile; unchangedS6 not
+rerun. Both whole NORMAL/readonly MIR exports/refinement0. Owner9 completeunit+
+9body eager snapshots captured, mandatoryrefusal remains: no semanticadmission,
+no actualhelperproof yet. Selectedowner source8629849c, original466882d7.
+Sort4 wholegraph obtained; fullsource check enters actual `sort4_stable`, first
+error `verified/lib.rs(185,13-36): No such function: __vf_sort4_first_unwind`.
+This closes preparation barriers O22/O23; reservedunwind handler is next exact
+translation obligation, fullcallback/arrayposts remain unproved. Runtimewholebody
+identity, all5FnMut/8select/4copy retained; no prematureacceptance.
+Next: exact9 source/MIR admission+existing nestedguard/forget/A1 integration;
+review firstFnMut handler against complete sourcegraph. [O24](overnight-linkage/O24-RESULTS.md).
+

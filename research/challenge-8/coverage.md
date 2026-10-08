@@ -532,3 +532,5 @@ orfullsorttheorem. Callback4 admissionnegativespass; ghostpurecontext lostbefore
 recoveryproof, component unaccepted. Actualnominalowner syntax/namespaceparses,
 but SAFEprototype compatibility fails onaddedempty rawpointer resultownerpost
 beforebody. Completion/interface theoremneeded, noownershipbridgeassumption.
+
+O24 (proof2ca66b89/run37760135524): hostedowner9/sort4sourcepreflight and wholepairedMIR/refinement PASS. Owner9 fullunit+9snapshots refusal-only, no helperproof. Actualsort4 fullsource checker enters body and stops first at reservedunwindmarker line185, no handler admitted. Preparation closed relativeO22/O23; actual safety/functional/ZST contracts remain open.

@@ -11,12 +11,25 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
+**Last completed O24:** [run37760135524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37760135524),
+proof `2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`,09:56:44–09:57:37UTC=53s.
+Resumed **1222/7200**,5978remaining; no active run.
+Hosted independent owner9/sort4 sourcepreflight PASS BEFORE console, exactruntime
+strip/fragments retained. Cached main16 reused with exactprofile; unchangedS6 not
+rerun. Both whole NORMAL/readonly MIR exports/refinement0. Owner9 completeunit+
+9body eager snapshots captured, mandatoryrefusal remains: no semanticadmission,
+no actualhelperproof yet. Selectedowner source8629849c, original466882d7.
+Sort4 wholegraph obtained; fullsource check enters actual `sort4_stable`, first
+error `verified/lib.rs(185,13-36): No such function: __vf_sort4_first_unwind`.
+This closes preparation barriers O22/O23; reservedunwind handler is next exact
+translation obligation, fullcallback/arrayposts remain unproved. Runtimewholebody
+identity, all5FnMut/8select/4copy retained; no prematureacceptance.
+Next: exact9 source/MIR admission+existing nestedguard/forget/A1 integration;
+review firstFnMut handler against complete sourcegraph. [O24](overnight-linkage/O24-RESULTS.md).
+
 **Last completed O23:** [run37756681437](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37756681437),
 proof `94d055d5a0a531a3920acdc74e4cede5e9d0800b`,09:26:42–09:30:56UTC=254s.
-Resumed completed **1169/7200**,6031remaining before active O24.
-**Active O24:** [run37760135524](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37760135524),
-proof `2ca66b89ed3b17c3a054c6bb5b9d1b4b3ad2348b`; independent hostedsource
-preflight BEFORE build, selected9owner capture and sort4fullgraph/proofstart.
+Resumed historical **1169/7200** throughO23; superseded by O24 above.
 Delta vs O22: nested ghost Not_found CLOSED by exact2record transfer; all12
 source commands conserved (2nested,10outer), typedcalls/spans/CFG unchanged.
 Actual fivebody owner reaches checked SAFE interface line77: `call()` now
