@@ -2,6 +2,7 @@
 set -euo pipefail
 [[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && "${RUNNER_OS:-}" == Linux ]] || exit 2
 [[ "${GITHUB_REF:-}" == refs/heads/research/overnight-select-sort4-26.10 ]] || exit 2
+export OVERNIGHT_TARGETED_POST_ADMISSION=1
 repo=$(git rev-parse --show-toplevel)
 cd "$repo"
 ev="$repo/research-results/overnight-s6"
@@ -43,9 +44,11 @@ stage packages sudo apt-get install --yes --no-install-recommends build-essentia
 stage compiler rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal --component rustc-dev --component llvm-tools-preview --component rust-src
 compiler_sysroot=$(rustc --print sysroot)
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock_home/bin:${LD_LIBRARY_PATH:-}"
+if [[ "${OVERNIGHT_TARGETED_POST_ADMISSION:-}" != 1 ]]; then
 stage stock-baseline python3 research/challenge-8/check-stock-2610.py --tool-home "$stock_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/stock/cases" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1000))"
 export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
 stage s6-stock-capture python3 research/challenge-8/overnight-s6/diagnose-s6.py --tool-home "$stock_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-stock-capture"
+fi
 stage patch-check git -C "$source_home" apply --check "$patch_file"
 stage patch-apply git -C "$source_home" apply "$patch_file"
 stage cfg-patch-check git -C "$source_home" apply --check "$cfg_patch"
@@ -110,6 +113,20 @@ AUDIT
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 if grep -q 'not found' "$ev/console-ldd.txt"; then exit 2; fi
 export SORT4_SELECT_PROFILE=experimental-s6-26.10-v1
+if [[ "${OVERNIGHT_TARGETED_POST_ADMISSION:-}" == 1 ]]; then
+ printf '%s\n' 'Identical O19 production profile; S6 evidence run37746579002/a6f9d5e; no full matrix rerun' > "$ev/targeted-boundary.txt"
+ g1_cfg_status=0
+ for variant in positive false_post frame_loss frame_duplication thread_loss thread_duplication wrong_value wrong_callee weakened_callee_unwind; do
+  stage "checked-forget-call-cfg-$variant" python3 research/challenge-8/overnight-helper/check-forget-call-cfg.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/g1-call-cfg/$variant" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" --variant "$variant" || g1_cfg_status=$?
+ done
+ hrtb_controls_status=0
+ stage hrtb-output-controls python3 research/challenge-8/overnight-callback/hrtb_controls.py --repo-root "$repo" --source-checkout "$source_home" --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/hrtb-output-controls" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || hrtb_controls_status=$?
+ h2d_status=0
+ stage h2d-isolated-test-console bash research/challenge-8/overnight-guard/run-h2d-test-console.sh --production-source "$source_home" --production-applied-patch "$ev/applied.patch" --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/h2d-test-only" --deadline-epoch "$((OVERNIGHT_JOB_STARTED_EPOCH+1020))" || h2d_status=$?
+ printf 'g1_cfg_stage=%s\nhrtb_controls_stage=%s\nh2d_test_stage=%s\nproduction_profile=IDENTICAL_TO_O19\n' "$g1_cfg_status" "$hrtb_controls_status" "$h2d_status" > "$ev/aggregate-stage-status.txt"
+ (( g1_cfg_status == 0 && hrtb_controls_status == 0 && h2d_status == 0 ))
+ exit $?
+fi
 stage s6-diagnostic python3 research/challenge-8/overnight-s6/diagnose-s6.py --tool-home "$source_home" --schema "$source_home/src/rust_frontend/vf_mir/vf_mir.capnp" --compiler-sysroot "$compiler_sysroot" --evidence "$ev/s6-diagnostic"
 # Independent diagnostics run before the larger component matrix. Their stage
 # failures are retained; neither diagnostic collection nor a green workflow
