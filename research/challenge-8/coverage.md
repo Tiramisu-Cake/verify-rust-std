@@ -536,3 +536,5 @@ beforebody. Completion/interface theoremneeded, noownershipbridgeassumption.
 O24 (proof2ca66b89/run37760135524): hostedowner9/sort4sourcepreflight and wholepairedMIR/refinement PASS. Owner9 fullunit+9snapshots refusal-only, no helperproof. Actualsort4 fullsource checker enters body and stops first at reservedunwindmarker line185, no handler admitted. Preparation closed relativeO22/O23; actual safety/functional/ZST contracts remain open.
 
 O25 proof8a7a698e/run37761756051: main18 exact9/H2gate accepted to proof, prefixgenericH2bothnormal/unwind and localtransmutebody pass. Firsterror localassume_init std::mem::transmute_neo117; actualhelper/nestedDropbody notyetverified. Source2+cleanupMIR intended; MovecontrolSETUP_INCONCLUSIVE stale34 actual32, preserved. S6eightstagePASS separate.
+
+O26 proofc19e4c50/run37763468180: all9prefixcallees+SAFEprototype pass, actualhelperbody entered. Firstguardownclose198 type mismatch oldpointer vs nominalGuard, not missingresource; ghostshadow/logicalrecordcorrespondence next, freshcert needed. Source2/MIR2 intended, fullS6PASS separate; actualnestedDropbody later/notyetverified.
