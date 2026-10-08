@@ -13,7 +13,11 @@ Main/upstream/other-agent branches are untouched by this direction.
 
 **Last completed O19:** [run37746579002](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37746579002),
 proof `a6f9d5e00cc99c06f8c49fa2e27e6a92308a1a79`,07:56:37–08:00:29UTC=232s.
-New resumed account **426/7200**,6774remain; no active run.
+New resumed account **426/7200**,6774remain completed plus active O20
+[run37748156620](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37748156620),
+proof `e30bdc72d7af37222c401dd54ed50759eb840547`, dispatched08:11:04UTC.
+O20 targets isolated H2d generated-post diagnostic and affected HRTB/G1 admission
+classifications; production twelve-patch profile identical to O19, fullS6 cited.
 Historical overnight **3094/21600**,18506 unspent expired; stock99/1800,
 S7 5306/5400 remain separate. O17/O18 evidence preserved in log and result notes.
 
