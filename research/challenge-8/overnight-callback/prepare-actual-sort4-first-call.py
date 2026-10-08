@@ -23,6 +23,10 @@ import probe  # noqa: E402
 
 
 FIRST_CALL = b"        let c1 = is_less(&*v_base.add(1), &*v_base);"
+ANNOTATED_FIRST_CALL = (
+    b"        let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"
+    b"(&*v_base.add(1), &*v_base);"
+)
 UNSAFE_ANCHOR = sort4_capture.BORROW_PREFIX_UNSAFE_ANCHOR
 CUT = b"        //@ end_lft_binding::<'cmp>();\n"
 MARKER = b"""        /*@ {
@@ -83,10 +87,13 @@ def prepare(repo: Path, output: Path) -> dict:
          NORMAL_AFTER_CALL.count(CUT) == 1,
          "source-written unwind/cut marker inventory changed")
 
+    need(sort4_capture.BORROW_PREFIX_FIRST_CALL.count(ANNOTATED_FIRST_CALL) == 1,
+         "source-pinned borrow prefix has no unique annotated first call")
     annotated_call = (sort4_capture.BORROW_PREFIX_FIRST_CALL.replace(
-        FIRST_CALL, MARKER + FIRST_CALL, 1) + NORMAL_AFTER_CALL)
-    need(annotated_call.count(FIRST_CALL) == 1,
-         "first-call borrow preparation changed the actual call")
+        ANNOTATED_FIRST_CALL, MARKER + ANNOTATED_FIRST_CALL, 1) +
+        NORMAL_AFTER_CALL)
+    need(annotated_call.count(ANNOTATED_FIRST_CALL) == 1,
+         "first-call borrow preparation changed the annotated call")
     verified_target = target.replace(FIRST_CALL, annotated_call, 1)
     verified_target = verified_target.replace(
         UNSAFE_ANCHOR, sort4_capture.BORROW_PREFIX_LIFETIME_SCOPE, 1)
@@ -105,7 +112,7 @@ def prepare(repo: Path, output: Path) -> dict:
     need(original == sort4_capture.PREFIX + target,
          "ghost stripping failed to recover exact full sort4 runtime body")
     need(original.count(target) == 1 and
-         verified.count(FIRST_CALL) == 1 and
+         verified.count(ANNOTATED_FIRST_CALL) == 1 and
          verified.count(b"let c2 = is_less(") == 1 and
          verified.count(CUT) == 1 and
          verified.count(b"__vf_sort4_first_unwind();") == 1,

@@ -180,6 +180,29 @@ absence of cleanup/Drop in both full graphs. Without a separately authored
 reviewed manifest pinning both complete record hashes and source hashes,
 its only classification is `CALIBRATION_REVIEW_REQUIRED`. Even with that
 manifest it reports only `EXACT_FIRST_CALL_SOURCE_MIR_ADMITTED_FOR_REVIEW`,
-never a proof or semantic acceptance. Neither script has been run; a hosted
-calibration must test the parser's actual decoded shape before it can gate a
-semantic overlay.
+never a proof or semantic acceptance. A hosted calibration must test the
+parser's actual decoded shape before it can gate a semantic overlay.
+
+## O21 join-four evidence and source-preparation correction
+
+O21 run `37750512251`, proof commit `d2f657be`, verified the ordinary
+`join_four_owned_cells` body and its framed caller with `0 errors found`
+and both leak checks. NORMAL/readonly export/decode, exact source integrity
+and refinement passed for all four controls. The missing-third-owner case
+failed at the join precondition `own(T_typeid)(t,x2)` on line 8; the
+extra-first-owner case failed only at its added caller post on line 61; the
+shifted-base case failed at the absent fifth `points_to<T>` on line 9.
+These are intended resource obligations after valid setup, not evidence for
+the actual callback or sort4 body. They establish the join lemma locally
+on this pinned profile and positive-size domain.
+
+O21's separate actual-sort4 preparation stopped before MIR export with
+`ValueError: first-call borrow preparation changed the actual call`.
+The source-pinned O19 borrow prefix deliberately contains the unchanged
+Rust call with an *inline ghost generic-argument annotation*. The builder
+had searched that prefix for the ghost-stripped call bytes, so it found
+zero matches. It now checks and inserts the marker beside the exact
+annotated call bytes while still replacing only the original unannotated
+call in the pinned std body. The final ghost-strip equality remains the
+runtime-source guard. This is a source-builder correction only; it has no
+hosted MIR or refinement result yet and changes no verifier component.
