@@ -11,16 +11,29 @@ Std `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches are untouched by this direction.
 
-**O23 ACTIVE:** [run37756681437](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37756681437),
-proof `94d055d5a0a531a3920acdc74e4cede5e9d0800b`. [Before/root review](overnight-linkage/O23-BEFORE.md).
-Production16=O22main14+certifiednestedghost reparent15+always-refusing complete
-6/7/9unit diagnostic16; no newowner/spec/kernel in main. Correctedsort4capture,
-newlinkedqualifiedDrop/ownedforget/A1 fullpairedMIR-only variants and isolated
-CUTcomplete17matrix+lawfultestpositive pending hosted run. Noactualclosure.
+**Last completed O23:** [run37756681437](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37756681437),
+proof `94d055d5a0a531a3920acdc74e4cede5e9d0800b`,09:26:42–09:30:56UTC=254s.
+Resumed **1169/7200**,6031remaining; no active run.
+Delta vs O22: nested ghost Not_found CLOSED by exact2record transfer; all12
+source commands conserved (2nested,10outer), typedcalls/spans/CFG unchanged.
+Actual fivebody owner reaches checked SAFE interface line77: `call()` now
+`fn_outcome<*Element>`, old ghost open expects pointer. First remaining obligation
+is exact checked outcome→payload safety_proof; newghost-only projection prepared
+with fullposts intact, fresh certificate required. Actual body memory proof
+has not started in this variant; S6 regression is separate evidence.
+Sort4 still BEFORE graph: two ghost-only blank separators survived strip;
+source-only fix prepared with exactbyte guard and saved mismatch diagnostics.
+7/9source prep failed scoped/top-level ManuallyDrop import guard; causalfix ready.
+Next hosted job generates/strips/checks fixtures BEFORE verifier build, isolates
+helper/sort4 outcomes, uses unchanged cachedmain16 and source/MIR capture.
+Isolated CUT remains unaccepted: fourfull positives/eightintended negatives,
+FnMut Fbound positive rejects unresolved erased lifetime at strictentry;
+lastfour NOT_RUN header setup. No newindependentmodel expansion until actual
+preparation/integration checked; all drafts preserved. [Scope evidence](overnight-lifetime/O23-RESULTS.md).
 
 **Last completed O22:** [run37754201983](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37754201983),
 proof `02945280d4f335948c6edd60feb7ac62092a0256`,09:05:16–09:09:08UTC=232s.
-Resumed budget **915/7200** completed,6285remaining before active O23.
+Resumed budget **915/7200** throughO22, superseded by O23 account above.
 Generic exact std-body unsafe forget adapter full0 (52statements), preserves
 SAME T.own+thread normal/unwindfalse; five exact post/leak controls, dead-code
 and separate unwind-target admission reject. [Local acceptance](overnight-forget-own/RESULT-O22.md);

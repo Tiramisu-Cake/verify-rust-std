@@ -62,3 +62,18 @@ failure. Accept exactly `<` at that one generic target and continue requiring
 one matching target declaration, the case-specific function count, the reviewed template
 SHA, and exact ghost-strip identity. Do not change the source fixture, CUT
 console patch, expected proof errors, or component status on this correction.
+
+## O23 second generic header and substantive blocker
+
+O23 reached `positive_f_bound` with exact source/normal+readonly MIR and
+refinement, but full verification failed after target entry at
+`verified/lib.rs(84,9-38): Strict lifetime binding has unresolved inference
+in entry outer type`. This is a substantive strict-freeze compatibility
+failure; its O23 classification remains `INCONCLUSIVE`, not a positive.
+The matrix subsequently stopped before exporting
+`negative_typed_chunk_survives_cut<T>()`: the same source-shape guard still
+expected `(` after this *different* generic function name. Extend only the
+header spelling inventory to these two specifically reviewed generic cases.
+Leave the fixture and semantic patch unchanged, preserve the O23 first error,
+and require fresh hosted proof for the unrun negatives. Do not infer CUT
+acceptance from a repaired runner.

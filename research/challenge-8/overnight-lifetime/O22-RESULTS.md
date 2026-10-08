@@ -46,3 +46,6 @@ classifier was changed. A new hosted run is required to observe it.
 The source-file, CFG ingress/reentry, unresolved-inference, live nested-bound
 heap, and outer-variable escape controls remain unimplemented or unverified.
 No CUT acceptance or actual sort4 lifetime claim follows from O22.
+
+Exact run: [37754201983](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37754201983),
+proof02945280d4f335948c6edd60feb7ac62092a0256.

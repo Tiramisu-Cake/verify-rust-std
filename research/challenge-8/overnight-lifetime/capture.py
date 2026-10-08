@@ -73,8 +73,9 @@ def select_case(template: bytes, name: str) -> bytes:
     need(b"// CASE_BEGIN " not in body and b"// CASE_END " not in body,
          "selected lifetime case contains another case")
     verified = header + body
+    generic_targets = {"positive_f_bound", "negative_typed_chunk_survives_cut"}
     target = (b"pub unsafe fn " + target_name(name).encode() +
-              (b"<" if name == "positive_f_bound" else b"("))
+              (b"<" if name in generic_targets else b"("))
     need(verified.count(target) == 1, "target function source shape changed")
     expected_count = 2 if name == "positive_direct_unwind" else 1
     need(verified.count(b"pub unsafe fn ") == expected_count,
