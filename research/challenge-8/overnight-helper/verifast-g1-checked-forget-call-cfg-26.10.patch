@@ -1,0 +1,380 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 377fd762..871be371 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -581,6 +581,54 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+   (* H2a is deliberately local to the source-equivalent standalone guard
+      fixture.  The actual nested guard has a different DefPath and needs its
+      own certificate before this redirect can be used there. *)
++  (* Opt-in G1 call-lane experiment.  The only admitted local unit contains
++     both the checked callee body and its framed caller.  This gate is off
++     for all other Rust source and all ordinary verifier invocations. *)
++  module Sort4G1Call = struct
++    let active = ref false
++    let translated = ref 0
++    let callee_name = "checked_forget_generic"
++    let caller_name = "checked_forget_call_probe"
++    let reject why = failwith ("G1-CALL-CFG: source/MIR certificate mismatch: " ^ why)
++    let prefix_len = 380
++    let prefix_md5 = "57a4de4bf1c42d5a88472a0fb6a95c0d"
++    let suffix_md5 = "cbf54dc8778c6d6eb9b096602e57041b"
++    let caller_posts = [
++      "ens thread_token(tid) &*& *frame |-> flag;";
++      "ens thread_token(tid) &*& *frame |-> flag &*& false;";
++      "ens thread_token(tid);";
++      "ens thread_token(tid) &*& *frame |-> flag &*& *frame |-> flag;";
++      "ens *frame |-> flag;";
++      "ens thread_token(tid) &*& thread_token(tid) &*& *frame |-> flag;";
++      "ens thread_token(tid) &*& *frame |-> !flag;";
++    ]
++    let callee_annotations = [
++      "/*@\nreq thread_token(?tid) &*& tid == currentThread;\n@*/";
++      "/*@\nens thread_token(tid);\n@*/";
++      "/*@\non_unwind_ens false;\n@*/";
++    ]
++    let caller_req =
++      "/*@\nreq thread_token(?tid) &*& tid == currentThread &*& *frame |-> ?flag;\n@*/"
++    let caller_unwind = "/*@\non_unwind_ens false;\n@*/"
++    let certified_source path =
++      let source = Sort4MaybeUninit.read_file path in
++      if not (Filename.check_suffix path "verified/lib.rs") ||
++         String.length source < prefix_len ||
++         Digest.to_hex (Digest.string
++           (String.sub source 0 prefix_len)) <> prefix_md5 then
++        reject "exact checked callee and caller source prefix";
++      let after = match String.index_from_opt source prefix_len ';' with
++        | Some i -> i + 1
++        | None -> reject "caller post terminator" in
++      let caller_post = String.sub source prefix_len (after-prefix_len) in
++      if not (List.mem caller_post caller_posts) ||
++         Digest.to_hex (Digest.string
++           (String.sub source after (String.length source-after))) <>
++           suffix_md5 then
++        reject "exact caller post or runtime body/source suffix";
++      caller_post
++  end
++
+   module Sort4GenericGuard = struct
+     let active = ref false
+     let template_active = ref false
+@@ -3559,6 +3607,44 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         translate_fn_call_rexpr func_cpn args_cpn loc fn_loc
+           ghost_generic_arg_list_opt_cpn manuallydrop_new_identity_lowering
+       in
++      let checked_g1_no_unwind =
++        if State.body_name <> Sort4G1Call.caller_name ||
++           not !Sort4G1Call.active then false
++        else
++          match
++            D.decode_operand func_cpn,
++            List.map D.decode_operand args_cpn,
++            fn_call_rexpr,
++            UnwindActionRd.get (unwind_action_get fn_call_data_cpn),
++            OptionRd.get (target_get fn_call_data_cpn)
++          with
++          | Constant
++              { const = Val
++                  { ty = { kind = FnDef
++                      { id = { name = "checked_forget_generic" };
++                        substs = [{ kind = Type { kind = Param "T" } }];
++                        late_bound_generic_param_count = 0 } } } },
++            [Move { local = { name = "_4" }; projection = [] }],
++            FnCallOutcome
++              (Ast.CallExpr
++                (_, "checked_forget_generic",
++                 [Ast.IdentTypeExpr (_, None, "T")], [],
++                 [Ast.LitPat _], Ast.Static)),
++            UnwindActionRd.Cleanup _, OptionRd.Something _
++              when not TranslatorArgs.ignore_unwind_paths ->
++                incr Sort4G1Call.translated;
++                if !Sort4G1Call.translated <> 1 then
++                  Sort4G1Call.reject "more than one checked call translated";
++                true
++          | _ -> Sort4G1Call.reject "typed checked-forget call/edge"
++      in
++      let fn_call_rexpr =
++        if checked_g1_no_unwind then
++          match fn_call_rexpr with
++          | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
++          | _ -> assert false
++        else fn_call_rexpr
++      in
+       let callback_unwind =
+         match !State.pending_callback_unwind with
+         | None -> None
+@@ -3727,9 +3813,10 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                  ]),
+               (match fn_call_rexpr, terminator with
+               | FnCallResult _, Mir.GotoTerminator _
+-                when !manuallydrop_new_identity_lowering ->
++                when !manuallydrop_new_identity_lowering || checked_g1_no_unwind ->
+                   (* The identity lowering emits only the normal assignment/goto.
+-                     Keep successor inventory faithful to that emitted CFG. *)
++                     The separately proved G1 callee has false unwind.  Keep
++                     successor inventory faithful to the emitted CFG. *)
+                   targets
+               | _ -> targets @ unwind_targets) )
+       in
+@@ -9826,6 +9913,237 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+      | _ -> reject "guard Drop complete four-block graph");
+     Printf.printf "SORT4-GENERIC-GUARD: full local guard MIR accepted\n%!"
+
++  let certify_sort4_g1_call (vf_mir : VfMirRd.VfMir.t) root =
++    let open Sort4G1Call in
++    active := false; translated := 0;
++    let pin relative md5 =
++      if Digest.to_hex (Digest.file (Filename.concat root relative)) <> md5
++      then reject ("pinned std source " ^ relative) in
++    pin "library/core/src/mem/mod.rs" "86ccae9a0955e840bab1822668cfce98";
++    pin "library/core/src/mem/manually_drop.rs"
++      "7e9e6b8ce4eab1bbaf06fbb8b39eeab8";
++    let bodies = VfMirRd.VfMir.bodies_get_list vf_mir in
++    let callee, caller = match bodies with
++      | [a;b] when TrName.translate_def_path (BodyRd.def_path_get a) =
++                     callee_name &&
++                   TrName.translate_def_path (BodyRd.def_path_get b) =
++                     caller_name -> a,b
++      | _ -> reject "exact two-body callee/caller order" in
++    let* callee_loc = translate_span_data
++      (BodyRd.fn_sig_span_get callee) in
++    let* caller_loc = translate_span_data
++      (BodyRd.fn_sig_span_get caller) in
++    let path = match callee_loc, caller_loc with
++      | Ast.Lexed (((a,3,0),_)), Ast.Lexed (((b,17,0),_))
++        when a=b && Filename.check_suffix a "verified/lib.rs" -> a
++      | _ -> reject "callee/caller signature source span" in
++    let caller_post = certified_source path in
++    let unit_ty ty = match (D.decode_ty ty).kind with
++      | D.Tuple [] -> true | _ -> false in
++    let param_ty ty = match (D.decode_ty ty).kind with
++      | D.Param "T" -> true | _ -> false in
++    let frame_ty ty = match (D.decode_ty ty).kind with
++      | D.RawPtr {ty={kind=D.Bool}; mutability=D.Mut} -> true
++      | _ -> false in
++    let md_ty ty = match (D.decode_ty ty).kind with
++      | D.Adt {id={name="std::mem::ManuallyDrop"};kind=D.StructKind;
++               substs=[{kind=D.Type {kind=D.Param "T"}}]} -> true
++      | _ -> false in
++    let check_interface body expected_inputs expected_anns =
++      if BodyRd.DefKind.get (BodyRd.def_kind_get body) <>
++           BodyRd.DefKind.Fn ||
++         UnsafetyRd.get (BodyRd.unsafety_get body) <>
++           UnsafetyRd.Unsafe ||
++         VisibilityRd.get (BodyRd.visibility_get body) <>
++           VisibilityRd.Public ||
++         BodyRd.module_def_path_get body <> "" ||
++         BodyRd.is_from_expansion_get body ||
++         BodyRd.is_trait_fn_get body || BodyRd.is_drop_fn_get body ||
++         BodyRd.impl_block_generics_get_list body <> [] ||
++         BodyRd.impl_block_clauses_get_list body <> [] ||
++         (match OptionRd.get (BodyRd.impl_block_hir_generics_get body) with
++          | OptionRd.Nothing -> false | _ -> true) ||
++         BodyRd.ghost_decl_blocks_get_list body <> [] ||
++         BodyRd.ghost_stmts_get_list body <> [] ||
++         BodyRd.loop_spec_blocks_get_list body <> [] ||
++         not (unit_ty (BodyRd.output_get body)) ||
++         List.map AnnotationRd.raw_get
++           (ContractRd.annotations_get_list (BodyRd.contract_get body)) <>
++             expected_anns ||
++         not (match BodyRd.generics_get_list body with
++              | [g] -> VfMirRd.GenericParamDef.name_get g = "T" &&
++                  VfMirRd.GenericParamDefKind.get
++                    (VfMirRd.GenericParamDef.kind_get g) =
++                      VfMirRd.GenericParamDefKind.Type
++              | _ -> false) ||
++         not (match BodyRd.clauses_get_list body
++                    |> List.map D.decode_clause with
++              | [D.Trait {def_id="std::marker::Sized";
++                   args=[{kind=D.Type {kind=D.Param "T"}}];
++                   bound_regions=[]}] -> true
++              | _ -> false) ||
++         not (expected_inputs (BodyRd.inputs_get_list body)) then
++        reject "exact exported body interface/contract" in
++    check_interface callee
++      (function [a] -> param_ty a | _ -> false) callee_annotations;
++    check_interface caller
++      (function [a;b] -> param_ty a && frame_ty b | _ -> false)
++      [caller_req; "/*@\n" ^ caller_post ^ "\n@*/"; caller_unwind];
++    let place id mutable_ p =
++      if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
++         PlaceRd.local_is_mutable_get p <> mutable_ ||
++         PlaceRd.projection_get_list p <> [] ||
++         VfMirRd.PlaceKind.get (PlaceRd.kind_get p) <>
++           VfMirRd.PlaceKind.Other then
++        reject ("plain MIR place " ^ id) in
++    let local id mutable_ kind d =
++      if LocalDeclIdRd.name_get (LocalDeclRd.id_get d) <> id ||
++         (match MutabilityRd.get (LocalDeclRd.mutability_get d) with
++          | MutabilityRd.Mut -> true
++          | MutabilityRd.Not -> false
++          | _ -> reject "local mutability") <> mutable_ ||
++         not (kind (LocalDeclRd.ty_get d)) then
++        reject ("exact MIR local " ^ id) in
++    (match BodyRd.local_decls_get_list callee with
++     | [r;t;m;tmp] ->
++         local "_0" true unit_ty r; local "_1" false param_ty t;
++         local "_2" true md_ty m; local "_3" true param_ty tmp
++     | _ -> reject "callee complete local inventory");
++    (match BodyRd.local_decls_get_list caller with
++     | [r;t;f;u;tmp] ->
++         local "_0" true unit_ty r; local "_1" false param_ty t;
++         local "_2" false frame_ty f; local "_3" false unit_ty u;
++         local "_4" true param_ty tmp
++     | _ -> reject "caller complete local inventory");
++    let debug names body =
++      let rows = BodyRd.var_debug_info_get_list body in
++      if List.length rows <> List.length names then
++        reject "debug binding count";
++      List.iter2 (fun (name,id) row ->
++        if SymbolRd.name_get (VarDebugInfoRd.name_get row) <> name then
++          reject "debug source name";
++        match VarDebugInfoContentsRd.get
++          (VarDebugInfoRd.value_get row) with
++        | VarDebugInfoContentsRd.Place p -> place id false p
++        | _ -> reject "debug place") names rows in
++    debug ["t","_1"] callee;
++    debug ["t","_1";"frame","_2"] caller;
++    let storage live id s =
++      match StatementKindRd.get (StatementRd.kind_get s) with
++      | StatementKindRd.StorageLive x when live &&
++          LocalDeclIdRd.name_get x = id -> ()
++      | StatementKindRd.StorageDead x when not live &&
++          LocalDeclIdRd.name_get x = id -> ()
++      | _ -> reject ("ordered storage " ^ id) in
++    let assign_move id source s =
++      match StatementKindRd.get (StatementRd.kind_get s) with
++      | StatementKindRd.Assign data ->
++          place id true (StatementKindRd.AssignData.lhs_place_get data);
++          (match RvalueRd.get (StatementKindRd.AssignData.rhs_rvalue_get data) with
++           | RvalueRd.Use op ->
++               (match OperandRd.get op with
++                | OperandRd.Move p -> place source false p
++                | _ -> reject "assignment not a plain Move")
++           | _ -> reject "assignment not Use")
++      | _ -> reject "ordered Move assignment" in
++    let assign_unit s =
++      match StatementKindRd.get (StatementRd.kind_get s) with
++      | StatementKindRd.Assign data ->
++          place "_0" true (StatementKindRd.AssignData.lhs_place_get data);
++          (match RvalueRd.get (StatementKindRd.AssignData.rhs_rvalue_get data) with
++           | RvalueRd.Use op ->
++               (match OperandRd.get op with
++                | OperandRd.Constant c ->
++                    (match VfMirRd.MirConst.get (ConstOperandRd.const_get c) with
++                     | VfMirRd.MirConst.Val v when
++                         VfMirRd.ConstValue.get
++                           (VfMirRd.MirConst.Val.const_value_get v) =
++                             VfMirRd.ConstValue.ZeroSized &&
++                         unit_ty (VfMirRd.MirConst.Val.ty_get v) -> ()
++                     | _ -> reject "unit return constant")
++                | _ -> reject "unit return operand")
++           | _ -> reject "unit return rvalue")
++      | _ -> reject "unit return assignment" in
++    let block id cleanup b =
++      if Stdint.Uint32.to_int
++           (BasicBlockIdRd.index_get (BasicBlockRd.id_get b)) <> id ||
++         BasicBlockRd.is_cleanup_get b <> cleanup then
++        reject "basic block identity/cleanup" in
++    let terminator expected b =
++      match expected, TerminatorKindRd.get
++        (TerminatorRd.kind_get (BasicBlockRd.terminator_get b)) with
++      | `Return, TerminatorKindRd.Return
++      | `Resume, TerminatorKindRd.UnwindResume -> ()
++      | _ -> reject "return/cleanup terminator" in
++    let checked_call callee_name input_id input_mut dest b =
++      match TerminatorKindRd.get
++        (TerminatorRd.kind_get (BasicBlockRd.terminator_get b)) with
++      | TerminatorKindRd.Call c ->
++          let open FnCallDataRd in
++          (match OperandRd.get (func_get c) with
++           | OperandRd.Constant operand ->
++               (match VfMirRd.MirConst.get (ConstOperandRd.const_get operand) with
++                | VfMirRd.MirConst.Val v when
++                    VfMirRd.ConstValue.get
++                      (VfMirRd.MirConst.Val.const_value_get v) =
++                        VfMirRd.ConstValue.ZeroSized ->
++                    (match (D.decode_ty
++                      (VfMirRd.MirConst.Val.ty_get v)).kind with
++                     | D.FnDef {id={name};
++                                substs=[{kind=D.Type {kind=D.Param "T"}}];
++                                late_bound_generic_param_count=0}
++                       when name = callee_name -> ()
++                     | _ -> reject "typed MIR function definition")
++                | _ -> reject "call constant")
++           | _ -> reject "call not constant FnDef");
++          (match args_get_list c with
++           | [arg] -> (match OperandRd.get arg with
++               | OperandRd.Move p -> place input_id input_mut p
++               | _ -> reject "call argument not Move")
++           | _ -> reject "call argument count");
++          place dest (dest <> "_3") (destination_get c);
++          (match UnwindActionRd.get (unwind_action_get c) with
++           | UnwindActionRd.Cleanup ptr when
++               Stdint.Uint32.to_int
++                 (BasicBlockIdRd.index_get ptr) = 2 -> ()
++           | _ -> reject "MIR call cleanup edge");
++          (match OptionRd.get (target_get c) with
++           | OptionRd.Something ptr when
++               Stdint.Uint32.to_int
++                 (BasicBlockIdRd.index_get (VfMirRd.of_pointer ptr)) = 1 -> ()
++           | _ -> reject "MIR call normal edge");
++          (match OptionRd.get (ghost_generic_arg_list_get c) with
++           | OptionRd.Nothing -> ()
++           | _ -> reject "call extra generic annotation")
++      | _ -> reject "call terminator" in
++    let graph body first second call_name input_id input_mut dest =
++      match BodyRd.basic_blocks_get_list body with
++      | [b0;b1;b2] ->
++          block 0 false b0; block 1 false b1; block 2 true b2;
++          (match BasicBlockRd.statements_get_list b0 with
++           | [a;b;c] ->
++               storage true first a; storage true second b;
++               assign_move second "_1" c
++           | _ -> reject "call block complete statement inventory");
++          checked_call call_name input_id input_mut dest b0;
++          (match BasicBlockRd.statements_get_list b1 with
++           | [a;b;c] ->
++               storage false second a; storage false first b;
++               assign_unit c
++           | _ -> reject "return block complete statement inventory");
++          terminator `Return b1;
++          if BasicBlockRd.statements_get_list b2 <> [] then
++            reject "cleanup has statements";
++          terminator `Resume b2
++      | _ -> reject "complete three-block CFG" in
++    graph callee "_2" "_3"
++      "std::mem::ManuallyDrop::<T>::new" "_3" true "_2";
++    graph caller "_3" "_4"
++      callee_name "_4" true "_3";
++    active := true;
++    Printf.printf "G1-CALL-CFG: exact source and complete typed callee/caller MIR accepted\n%!";
++    Ok ()
++
+   let certify_sort4_generic_guard_link
+       (vf_mir : VfMirRd.VfMir.t) root =
+     let open Sort4GenericGuard in
+@@ -12222,6 +12540,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         | None -> Sort4A1Link.active := false; Ok ()
+         | Some root -> certify_sort4_a1_link vf_mir_cpn root
+       in
++      let* () = match Sys.getenv_opt "SORT4_G1_CALL_REPO_ROOT" with
++        | None -> Sort4G1Call.active := false;
++                  Sort4G1Call.translated := 0; Ok ()
++        | Some root -> certify_sort4_g1_call vf_mir_cpn root
++      in
+       Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
+       (* Todo @Nima: we should add necessary inclusions during translation *)
+       let extern_header_names =
+@@ -12456,6 +12779,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         Printf.printf
+           "SORT4-A1-LINK: redirected one typed std transmute_neo call to proved local body\n%!"
+       );
++      if !Sort4G1Call.active then (
++        if !Sort4G1Call.translated <> 1 then
++          Sort4G1Call.reject "expected exactly one checked generic call";
++        Printf.printf
++          "G1-CALL-CFG: one source-certified false-unwind call projected\n%!"
++      );
+       if !Sort4MaybeUninit.active then (
+         if !Sort4MaybeUninit.inner_call_count <> 1 ||
+            !Sort4MaybeUninit.aggregate_count <> 1 ||
