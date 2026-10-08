@@ -37,6 +37,7 @@ SOURCE_CALL_COUNTS = {
 }
 FNMUT_TARGET = "FnMut::call_mut"
 GHOST_BLOCK = re.compile(rb"/\*@.*?@\*/(?:\r?\n)?", re.S)
+GHOST_LINE = re.compile(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)")
 FNMUT_CALL_NAME = re.compile(r'fnDef = \(\s*id = \(\s*name = "([^"]+)"')
 FUNCTION_DEF = re.compile(r'defPath = "([^"]+)"')
 
@@ -60,6 +61,72 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
 @*/
 """
 
+MEMORY_PRE_INTERIOR_LEMMA = b"""/*@
+lem interior_pointer_limits<T>(base: *T, count: usize, index: usize)
+    req [?f]base[..count] |-> ?xs &*& 1 <= count &*& 0 <= index &*& index <= count;
+    ens [f]base[..count] |-> xs &*& pointer_within_limits(base + index) == true;
+{
+    open array(base, count, xs);
+    points_to_limits(base);
+    close [f]array(base, count, xs);
+    note(0 <= std::mem::size_of::<T>());
+    array_inv::<T>();
+    mul_mono_l(0, index, std::mem::size_of::<T>());
+    mul_mono_l(index, count, std::mem::size_of::<T>());
+    note(pointer_within_limits(base));
+    note(pointer_within_limits(base + count));
+}
+@*/
+
+"""
+MEMORY_PRE_BOUND_CALL = (
+    b"        //@ interior_pointer_limits::<T>(v_base, 4, 1);\n"
+)
+MEMORY_PRE_CONTRACT = b"""/*@
+req thread_token(?t) &*& t == currentThread &*&
+    type_interp::<T>() &*& type_interp::<F>() &*&
+    0 < std::mem::size_of::<T>() &*&
+    v_base[..4] |-> ?source_before &*&
+    foreach(source_before, own::<T>(t)) &*&
+    array_::<T>(dst, 4, ?destination_before) &*&
+    *is_less |-> ?less_before &*& <F>.own(t, less_before);
+@*/
+/*@
+ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
+    v_base[..4] |-> ?source_after &*&
+    foreach(source_after, own::<T>(t)) &*&
+    array_::<T>(dst, 4, ?destination_after) &*&
+    *is_less |-> ?less_after &*& <F>.own(t, less_after);
+@*/
+/*@
+on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
+    v_base[..4] |-> ?source_after &*&
+    foreach(source_after, own::<T>(t)) &*&
+    array_::<T>(dst, 4, ?destination_after) &*&
+    *is_less |-> ?less_after &*& <F>.own(t, less_after);
+@*/
+"""
+MEMORY_PRE_INTENDED_NORMAL_POST = (
+    "thread_token(t), type_interp<T/F>, current initialized v_base[..4] with "
+    "foreach(current_values, own<T>), initialized dst[..4], and current F.own; "
+    "destination values carry no second T.own sequence."
+)
+MEMORY_PRE_INTENDED_UNWIND_POST = (
+    "thread_token(t), type_interp<T/F>, current initialized v_base[..4] with "
+    "foreach(current_values, own<T>), unchanged optional dst[..4] storage "
+    "(all five callbacks precede the first write), and current F.own."
+)
+MEMORY_PRE_PARTIAL_NORMAL_POST = (
+    "active diagnostic ens: current source values and exactly one own<T> per "
+    "source element, current optional dst[..4] storage, and current F.own; "
+    "does not claim dst is initialized after normal return."
+)
+MEMORY_PRE_PARTIAL_UNWIND_POST = (
+    "active diagnostic on_unwind_ens: current source values and exactly one "
+    "own<T> per source element, current optional dst[..4] storage, and current "
+    "F.own; does not establish full panic-path restoration."
+)
+
 
 def require(ok: bool, message: str) -> None:
     if not ok:
@@ -71,7 +138,8 @@ def digest(data: bytes) -> str:
 
 
 def strip_ghost(source: bytes) -> bytes:
-    return GHOST_BLOCK.sub(b"", source)
+    source = GHOST_BLOCK.sub(b"", source)
+    return GHOST_LINE.sub(b"", source)
 
 
 def extract_target(source: bytes) -> tuple[bytes, int]:
@@ -149,13 +217,25 @@ def source_certificate_control(repo: Path, source: bytes,
     }
 
 
-def write_fixture(repo: Path, out: Path) -> dict:
+def write_fixture(repo: Path, out: Path, memory_pre: bool = False) -> dict:
     source = (repo / SOURCE_REL).read_bytes()
     target, source_record = source_certificate(repo, source)
     negative = source_certificate_control(repo, source, source_record)
     open_brace = target.index(b"{")
-    verified = (PREFIX + target[:open_brace] + CAPTURE_CONTRACT +
-                target[open_brace:])
+    if memory_pre:
+        anchor = b"        let c1 = is_less(&*v_base.add(1), &*v_base);"
+        require(target.count(anchor) == 1,
+                "first actual pointer-add anchor is absent or ambiguous")
+        verified_target = target.replace(
+            anchor, MEMORY_PRE_BOUND_CALL + anchor, 1)
+        contract = MEMORY_PRE_CONTRACT
+        lemma = MEMORY_PRE_INTERIOR_LEMMA
+    else:
+        verified_target = target
+        contract = CAPTURE_CONTRACT
+        lemma = b""
+    verified = (PREFIX + lemma + verified_target[:open_brace] + contract +
+                verified_target[open_brace:])
     original = strip_ghost(verified)
     require(original == PREFIX + target,
             "ghost stripping did not recover exact source signature and body")
@@ -167,13 +247,49 @@ def write_fixture(repo: Path, out: Path) -> dict:
     (out / "original/lib.rs").write_bytes(original)
     (out / "verified/lib.rs").write_bytes(verified)
     record = {
-        "classification": "CAPTURE_ONLY_NOT_A_SORT4_PROOF",
+        "classification": ("MEMORY_PRE_DIAGNOSTIC_NOT_A_SORT4_PROOF"
+                            if memory_pre else "CAPTURE_ONLY_NOT_A_SORT4_PROOF"),
+        "fixture_mode": "memory_pre" if memory_pre else "capture_only",
         "source_certificate": source_record,
         "source_alter_control": negative,
-        "capture_contract": "thread/type resources and current comparator resource only; no element or pointer permissions",
+        "capture_contract": (
+            "positive-size T; four initialized source elements with one own<T> "
+            "each; four optional destination cells; current F own; exact actual "
+            "source+owners/current F/dst memory post"
+            if memory_pre else
+            "thread/type resources and current comparator resource only; no element or pointer permissions"),
+        "memory_pre_bound_lemma": (
+            "checked historical interior_pointer_limits<T>(v_base, 4, 1), "
+            "inserted immediately before the unchanged first v_base.add(1)"
+            if memory_pre else None),
+        "full_generic_domain": "all sized T, including ZST, with F: FnMut(&T, &T) -> bool",
+        "memory_pre_domain_restriction": (
+            "0 < size_of::<T>(); ZST excluded from this diagnostic; no Copy, "
+            "Freeze, or comparator-purity premise"
+            if memory_pre else None),
+        "intended_full_normal_post": (
+            MEMORY_PRE_INTENDED_NORMAL_POST if memory_pre else None),
+        "intended_full_unwind_post": (
+            MEMORY_PRE_INTENDED_UNWIND_POST if memory_pre else None),
+        "active_partial_normal_diagnostic_post": (
+            MEMORY_PRE_PARTIAL_NORMAL_POST if memory_pre else None),
+        "active_partial_unwind_diagnostic_post": (
+            MEMORY_PRE_PARTIAL_UNWIND_POST if memory_pre else None),
+        "partial_first_callback_resource_debt": (
+            "Not added: no ref/precreate/borrow resource is manufactured by this "
+            "memory-pre fixture. If the actual first reference needs a checked "
+            "borrow protocol, preserve its concrete borrow_end/ref_initialized "
+            "debt in a separately reviewed continuation; do not hide it in this post."
+            if memory_pre else None),
         "full_generic_safety_contract": "NOT_PROVED",
-        "normal_target_posts": "capture-only token/type resources and current comparator resource",
-        "unwind_target_posts": "capture-only token/type resources and current comparator resource",
+        "normal_target_posts": (
+            "active diagnostic partial memory post; no dst initialization guarantee"
+            if memory_pre else
+            "capture-only token/type resources and current comparator resource"),
+        "unwind_target_posts": (
+            "active diagnostic partial memory post; no full unwind restoration claim"
+            if memory_pre else
+            "capture-only token/type resources and current comparator resource"),
         "normal_source_sha256": digest(original),
         "verified_source_sha256": digest(verified),
         "ghost_strip_identity": strip_ghost(verified) == original,
@@ -330,7 +446,7 @@ def execute(args: argparse.Namespace) -> dict:
             "pinned hosted tool inputs are missing")
     args.evidence.mkdir(parents=True, exist_ok=False)
     fixture_dir = args.evidence / "fixture"
-    fixture = write_fixture(args.repo_root, fixture_dir)
+    fixture = write_fixture(args.repo_root, fixture_dir, args.memory_pre)
     hashes = {"original/lib.rs": fixture["normal_source_sha256"],
               "verified/lib.rs": fixture["verified_source_sha256"]}
     env = os.environ.copy()
@@ -349,7 +465,9 @@ def execute(args: argparse.Namespace) -> dict:
         "tool_hashes": tool_hashes,
         "schema_sha256": digest(args.schema.read_bytes()),
         "compiler_version_verbose": compiler,
-        "capture_only": True,
+        "capture_only": not args.memory_pre,
+        "memory_pre_diagnostic": args.memory_pre,
+        "fixture_mode": fixture["fixture_mode"],
         "actual_sort4_proved": False,
     }
     (args.evidence / "hosted-profile.json").write_text(
@@ -423,7 +541,7 @@ def execute(args: argparse.Namespace) -> dict:
     source_integrity = fixture_integrity and source_repository_integrity
     graph_complete = normal_graph is not None and readonly_graph is not None
     result = {
-        "classification": "CAPTURE_ONLY_NOT_A_SORT4_PROOF",
+        "classification": fixture["classification"],
         "accepted_component": False,
         "actual_sort4_proved": False,
         "full_generic_safety_contract_proved": False,
@@ -464,6 +582,11 @@ def main() -> None:
     parser.add_argument("--compiler-sysroot", required=True)
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--deadline-epoch", type=int, required=True)
+    parser.add_argument(
+        "--memory-pre", action="store_true",
+        help=("opt into a separate positive-size memory-pre diagnostic with "
+              "initialized source array, optional destination storage, and "
+              "the checked first-pointer-add bounds lemma"))
     args = parser.parse_args()
     args.compiler_sysroot = str(Path(args.compiler_sysroot).resolve())
     execute(args)

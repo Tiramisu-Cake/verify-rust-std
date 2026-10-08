@@ -573,10 +573,11 @@ def run_all(args) -> dict:
                     "readonly-export", "readonly-decode", "normal-export",
                     "normal-decode", "refinement"))
                 rejected = (source_ok and frontend and
-                            stages.get("full-verification", {}).get("exit") == 1 and
-                            log.splitlines() == [
-                                "MIR Translator Failed: SORT4-A1-LINK: certificate mismatch: two-body verified source prefix changed",
-                                "Rust Translator Error"])
+                            stages.get("full-verification", {}).get("exit") == 2 and
+                            log.splitlines()[:1] == [
+                                'Fatal error: exception Failure("SORT4-A1-LINK: certificate mismatch: two-body verified source prefix changed")'] and
+                            "Verifying function '" not in log and
+                            ": error:" not in log)
                 result = {
                     "control": control,
                     "classification": "SOURCE_REJECTED_EXACT_GATE" if rejected else

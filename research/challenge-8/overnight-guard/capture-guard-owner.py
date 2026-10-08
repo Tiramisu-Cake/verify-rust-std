@@ -44,8 +44,8 @@ OWNER_PRED = (
     b"    *g.inner |-> ?payload &*& <T>.own(t, payload);\n@*/\n"
 )
 OPEN_OWNER = (
-    b"/*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); "
-    b"open <DropOnPanic<T>>.own(_t, ?g); @*/"
+    b"/*@ open <DropOnPanic<T>>.full_borrow_content(_t, self)(); @*/"
+    b"/*@ open <DropOnPanic<T>>.own(_t, ?g); @*/"
 )
 
 

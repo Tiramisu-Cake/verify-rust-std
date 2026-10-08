@@ -511,10 +511,11 @@ def run_case(repo_root: Path, source_checkout: Path, tool_home: Path,
         stages["readonly-decode"] = {"exit": None, "skipped": "readonly export failed"}
 
     alias_audits = {}
+    verified_source = (case_dir / "verified/lib.rs").read_bytes()
     for mode in ("normal", "readonly"):
         mir_path = case_dir / f"{mode}-mir.txt"
         alias_audits[mode] = (callback_mir_alias_audit(
-            mir_path.read_bytes(), mode, selected, case_name)
+            mir_path.read_bytes(), mode, verified_source, case_name)
                               if mir_path.is_file() else None)
     alias_audit_ok = all(row is not None and row["passed"]
                          for row in alias_audits.values())

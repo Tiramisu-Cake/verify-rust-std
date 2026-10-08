@@ -117,7 +117,7 @@
 +      let assign target rhs_check s =
 +        match StatementKindRd.get (StatementRd.kind_get s) with
 +        | StatementKindRd.Assign data ->
-+            place target true (StatementKindRd.AssignData.lhs_place_get data);
++            place target (target <> "_2") (StatementKindRd.AssignData.lhs_place_get data);
 +            rhs_check (StatementKindRd.AssignData.rhs_rvalue_get data)
 +        | _ -> reject ("MIR assignment " ^ target)
 +      in
@@ -187,7 +187,7 @@
 +                 | OperandRd.Move p -> place "_3" true p
 +                 | _ -> reject "MIR transmute call Move")
 +             | _ -> reject "MIR call argument arity");
-+            place destination true (destination_get data);
++            place destination (destination <> "_2") (destination_get data);
 +            (match expected_unwind, UnwindActionRd.get
 +                  (unwind_action_get data) with
 +             | `Unreachable, UnwindActionRd.Unreachable

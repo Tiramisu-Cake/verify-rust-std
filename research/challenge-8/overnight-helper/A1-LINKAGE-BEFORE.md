@@ -40,6 +40,29 @@ specified proof obligation. Wrong source/destination/pointee, mutable raw
 pointer, Copy, projection, changed source body or call graph reject admission.
 S6 full profile and standalone A1 primitive matrix must continue to pass.
 
+### O11 failure and O12 repair decision, before rerun
+
+O11 first hosted linkage gate: run `37709227889`, proof SHA
+`480cb9f10fa8bf11cb70b7f9925e19eaadf6c92a`. The exact combined source
+and NORMAL/readonly export/decode/refinement passed for all 15 method cases,
+but none reached a function proof. The first frontend certificate mismatch was
+`MIR place/projection _2`. There are **two distinct immutable destinations**
+in the reviewed O9/O11 graph: callee `_2` receives the constant-size assertion
+as an assignment; caller `_2` receives the `assert_inhabited` unit result as a
+call destination. The draft graph gate had required mutable destinations at
+both sites. The separate linkage patch now requires `_2` immutable at both,
+and retains mutable checks for every other assignment and call destination.
+This exact-graph correction changes only admission; source, call redirection,
+pointer primitive and normal/unwind behavior are unchanged. It needs a **new**
+hosted run. O11
+source-mutation controls independently produced the exact source-prefix
+certificate fatal before any function proof, but their classifier expected a
+different exit format and therefore reported `INCONCLUSIVE`. The classifier
+now checks the observed exact fatal first line, exit 2, and absence of proof
+and unrelated errors. These are pending fresh classifications, not accepted
+O11 negatives. O11's two G1 framed positives remain separate diagnostics;
+the A1 primitive matrix was not rerun in this job.
+
 Self-review: an alias or import shadow would change the Rust call symbol and
 would not establish this obligation. Name-only redirection could prove a
 different method body. A result-expression rewrite could erase unwind; use

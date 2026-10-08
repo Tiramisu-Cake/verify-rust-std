@@ -36,7 +36,7 @@ CUMULATIVE_PATCHES = (
     ("research/challenge-8/overnight-helper/verifast-a1-pointer-transmute-26.10.patch",
      "44b460e64eede02bb7776ef36c6be12eb2bed2e5a4fd37ad9b733c7b5633c8ab"),
     ("research/challenge-8/overnight-helper/verifast-a1-transmute-linkage-26.10.patch",
-     "04a1820c6d86d880870c8df06d69287d12b08058e183cdb7fc905a2560a831e4"),
+     "40fb77888c9b907f150d32f9d85769512cad9c57bb0b14f9c9dbd593fc44c0e7"),
     ("research/challenge-8/overnight-callback/verifast-tuple2-own-26.10.patch",
      "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"),
 )
@@ -47,10 +47,10 @@ CASES = (
     "tuple1_opaque_control", "tuple3_opaque_control", "tuple4_opaque_control",
     "unrelated_struct_opaque_control",
 )
-POSITIVE = {"tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs",
-            "tuple2_share_compat"}
+POSITIVE = {"tuple2_close_generic", "tuple2_open_generic", "tuple2_noncopy_refs"}
 OPAQUE_FAMILY_POSITIVE = {"unrelated_struct_opaque_control"}
 OPEN_BOUNDARY_CASES = {"tuple2_share_fields_boundary"}
+OPEN_SHARE_ROUNDTRIP_CASES = {"tuple2_share_compat"}
 POST_NEGATIVE = {
     "tuple2_false_post", "tuple2_resource_loss", "tuple2_resource_duplication"
 }
@@ -505,6 +505,12 @@ def run_case(repo_root: Path, tool_home: Path, schema: Path,
         "expected_target_line": line, "stages": stages,
         "opaque_family_control": name in OPAQUE_FAMILY_POSITIVE,
         "open_boundary_control": name in OPEN_BOUNDARY_CASES,
+        "open_share_roundtrip_control": name in OPEN_SHARE_ROUNDTRIP_CASES,
+        "share_roundtrip_field_address_witness": (
+            name in OPEN_SHARE_ROUNDTRIP_CASES and len(errors) == 1 and
+            "bin/rust/prelude.rsspec(34," in errors[0] and
+            "No matching heap chunks: share(T1_typeid)" in errors[0] and
+            "field_ptr(pair0, std_tuple_2__type_info" in errors[0]),
     }
     (case_dir / "outcome.json").write_text(
         json.dumps(result, indent=2, sort_keys=True) + "\n")
@@ -585,6 +591,8 @@ def main() -> None:
     }
     (args.evidence / "summary.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    if result.returncode != 0:
+        raise SystemExit(result.returncode)
 
 
 if __name__ == "__main__":

@@ -101,3 +101,21 @@ the stock generated template still verifies without a nominal extension.
 The H2b capture does not redirect the generic method; an unresolved method
 or target-post leak is expected causal evidence. Full NORMAL/readonly MIR,
 refinement and source integrity run even when full verification stops.
+
+## O11 capture and parser-only amendment
+
+O11 run `37709227889` completed both MIR export modes, decoding and
+refinement for every H2a/H2b case. H2a's source-equivalent generic method
+and frame probe fully verified; missing owner and false normal/unwind posts
+failed at their intended proof obligations. These are **local method**
+results only; no actual generic method redirect occurred. The isolated
+ordinary public-field Drop control fully verified on the same profile.
+
+All three H2b owner variants stopped before body verification at a parser
+error on the **second** `open` statement within one inline `/*@...@*/`
+block. O11 gives no owner-construction or generic SAFE Drop proof result.
+The fixture now emits two adjacent single-statement ghost blocks. Both are
+removed without changing a byte of the pinned Drop runtime body; no
+predicate, method contract, normal/unwind post, verifier rule or target
+classification has changed. A fresh hosted run must confirm the parser
+accepts this exact encoding before any semantic extension is judged.

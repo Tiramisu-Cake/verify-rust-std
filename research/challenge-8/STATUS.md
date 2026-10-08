@@ -11,7 +11,7 @@ Std/upstream `cd371e035c7e573760c43bf934d53e8118ee3e7d`, VF26.10
 `f76012fb518703b1d98e243ac4f487f16877cfcb`, nightly2026-09-25.
 Main/upstream/other-agent branches remain unchanged by this direction.
 
-New independent account **1736/21600 summed GitHub-hosted job seconds**, 19864 remain.
+New independent account **1891/21600 summed GitHub-hosted job seconds**, 19709 remain.
 Historical stock99/1800 and S7 5306/5400 remain separate. No active workflow.
 Independent stock+CFG26.10 ACCEPTED at e6c02f22/run37698481357 (5positive,
 4falsepost,2deadcode controls; ordinary/sharedcleanup retained). Four separate S6
@@ -48,9 +48,15 @@ M1 initialized/none-dst/one-arbitrary-owner frame3pass, falsepost/ownercreation/
 duplication3intendednegatives. No new memoryprimitive needed, ZSTstillopen.
 Tuple3ownpositives pass, share field-expression boundary open, callbackArgsown
 notclosed yet (ghostresource correction beingprepared; noHRTBnewprofile yet).
-O11 nextadds separate source+complete typedgraph transmuteNeo call-linkage
-component afterO9callee/caller review; keepsunwindoutcomes. Methodmatrix/source
-controls, genericptr-drop capture andfullS6regression required. Nominalguard
+O11 at480cb9f1/run37709227889 SUCCESS diagnostic,155jobseconds: fullS6 eightstage
+regression PASS on new c6a80333console. A1-linkmethod15cases reject MIRplace _2
+beforeproof; sourcecontrols inconclusive. Narrow certificate repair pending.
+H2a same-source genericmethod+frame fullproof passes, missingowner/false normal
+andunwind targetnegatives witnessed; actualgenericDrop linkage remains open.
+H2b ownerfixture parseerror beforebody, ordinaryDrop fullproof passes. Callback
+audit harness NameError beforeproof; corrected ghostArgs protocol untested.
+O12 will retry existing fiveghost actualprojection on26.10 and repair affected
+certificate/fixture setup; no new goalpost or checks weakened. Nominalguard
 honestowner/SAFEtemplate extension remains stageddesign/capture, noown=true.
 Combinedprofile experimental; fullselect/sort4 open.
 
