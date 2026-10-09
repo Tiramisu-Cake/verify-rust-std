@@ -66,3 +66,11 @@ path lacks a lawful early lifetime recovery under the frozen kernel, a future
 handler can fail normally before direct unwind is checked. AST containment
 alone is never an unwind proof, an accepted semantic patch, or a license to
 assume an actual select summary.
+
+Cloud Build347068de failed while building the isolated print-only console:
+`Args.body_name` is unavailable in the enclosing Make functor at the probe
+insertion point. The existing local TrBody exposes `State.body_name` and
+`State.body_imp_loc`, while `local_decl_types` is already a lexical binding.
+The new PROBE revision fixes those three metadata references only. No AST
+node or verification rule changes; all same-source/on-off/refusal gates remain.
+This was a setup failure before the probe ran, never a proof negative.

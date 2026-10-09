@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -14109,6 +14109,102 @@
+@@ -14109,6 +14109,120 @@
        *)
        let body_sigs = AstAux.sort_decls_lexically body_sigs in
        let body_decls = AstAux.sort_decls_lexically body_decls in
@@ -27,8 +27,8 @@
 +            "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
 +          ] in
 +          let expected_positions =
-+            [(18,4);(33,0);(49,0);(65,0);(82,0);(100,0);(121,0);
-+             (135,0);(165,8)] in
++            [(18,5);(33,1);(49,1);(65,1);(82,1);(100,1);(121,1);
++             (135,1);(165,9)] in
 +          if List.length bodies_cpn <> 9 || List.length body_decls <> 9 ||
 +             List.map (fun b -> TrName.translate_def_path
 +               (BodyRd.def_path_get b)) bodies_cpn <> expected_names then
@@ -42,9 +42,27 @@
 +             sort4_actual_owner_sha256 nested_bytes <>
 +               "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a" then
 +            reject "complete unit and actual nested body-8 bytes";
-+          let path = match Ast.lexed_loc
-+            (AstAux.decl_loc (snd (List.nth body_decls 8))) with
-+            | ((path,165,8), (path2,170,9)) when
++          let nested_cpn = List.nth bodies_cpn 8 in
++          let translated_span label span =
++            match translate_span_data span with
++            | Ok loc -> Ast.lexed_loc loc
++            | Error _ -> reject label in
++          let body_span = translated_span "actual nested MIR body span"
++            (BodyRd.span_get nested_cpn) in
++          let sig_span = translated_span "actual nested MIR signature span"
++            (BodyRd.fn_sig_span_get nested_cpn) in
++          let decl_span = Ast.lexed_loc
++            (AstAux.decl_loc (snd (List.nth body_decls 8))) in
++          (match body_span, sig_span with
++           | (((body_path,165,9),(body_path2,170,10)),
++              ((sig_path,165,9),(sig_path2,165,27))) when
++                body_path = body_path2 && body_path = sig_path &&
++                body_path = sig_path2 &&
++                Filename.check_suffix body_path "verified/lib.rs" &&
++                decl_span = body_span -> ()
++           | _ -> reject "actual nested complete MIR/AST spans");
++          let path = match decl_span with
++            | ((path,165,9), (path2,170,10)) when
 +                path = path2 && Filename.check_suffix path "verified/lib.rs" -> path
 +            | _ -> reject "actual nested full source span" in
 +          if sort4_actual_owner_sha256
@@ -103,7 +121,7 @@
        let traits_and_body_decls = traits_decls @ List.map snd body_decls in
        let debug_infos = VF0.DbgInfoRustFe debug_infos in
        let trait_impl_prototypes =
-@@ -14126,7 +14222,7 @@
+@@ -14126,7 +14240,7 @@
          @ ghost_decls
          @ List.map
              (modularize_fn_decl module_imports_map)

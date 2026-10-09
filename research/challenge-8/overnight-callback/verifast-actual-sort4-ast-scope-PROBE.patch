@@ -17,13 +17,13 @@
 +                    @ callback_unwind_epilog,
 +                    closing_cbrace_loc)) in
 +            if Sys.getenv_opt "SORT4_AST_SCOPE_PROBE" = Some "1" &&
-+               Args.body_name = "sort4_stable" then begin
++               State.body_name = "sort4_stable" then begin
 +              let reject why = failwith
 +                ("SORT4-AST-PROBE: source/scope diagnostic refused: " ^ why) in
 +              let dir = match Sys.getenv_opt "SORT4_AST_SCOPE_PROBE_DIR" with
 +                | Some value when not (Filename.is_relative value) -> value
 +                | _ -> reject "absolute output directory required" in
-+              let source_path = match Args.body_imp_loc with
++              let source_path = match State.body_imp_loc with
 +                | Ast.Lexed (((path, _, _), (last_path, _, _)))
 +                  when path = last_path &&
 +                       Filename.check_suffix path "verified/lib.rs" -> path
@@ -43,7 +43,7 @@
 +                   "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9  " ^
 +                   source_path then reject "exact O24 verified source SHA256";
 +              if List.length bblocks_cpn <> 55 ||
-+                 List.length Args.local_decl_types <> 137 then
++                 List.length local_decl_types <> 137 then
 +                reject "complete NORMAL body block/local inventory";
 +              let snapshot = Filename.concat dir "sort4-ast-decl.marshal" in
 +              let trace = Filename.concat dir "sort4-ast-scope.txt" in

@@ -40,6 +40,20 @@ duplicate, missing, unexpected or reordered declaration. This is an explicit
 trusted frontend TEST change, not a production profile or kernel theorem.
 The inventory prints each body’s qualified name directly from its decoded MIR,
 alongside the separate AST module/function key and full serialized AST hash.
+The complete nested `Body.span`, its separate `fnSigSpan`, and the AST
+declaration span must agree with their exact pinned coordinates. The MIR
+columns are zero-based: `Body.span` is 165:8–170:9 and `fnSigSpan` is
+165:8–165:26. The translator adds one to each column, so their translated
+spans are 165:9–170:10 and 165:9–165:27 respectively; the AST declaration
+must equal the full translated body span. All nine AST start columns use this
+one-based convention.
+
+The first hosted TEST in build `347068de` stopped at the nested full-source
+span certificate before any proof header. Its complete unit and body-8 byte
+checks had passed. The certificate had compared the translated AST span to
+the raw MIR columns, causing a false refusal; the corrected coordinate checks
+retain the full-span and byte-for-byte admission requirements. That run is
+inconclusive for the nested proof and does not establish any proof outcome.
 
 The production source, std source, runtime, contracts, normal and unwind posts,
 compiler/exporter/refiner/parser, kernel, ownership model, and target CFG do
