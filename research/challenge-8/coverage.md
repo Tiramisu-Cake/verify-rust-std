@@ -716,3 +716,16 @@ COLUMN wrong-first intended route refusal observed, combined audit false-incompl
 from misplaced later receiver expectation; wrongsecond/missingcandidate/nested
 NOT_RUN. Audit correctionc0436cd5 NOT_RUN. All frontendprofiles conditional and
 unaccepted, malformed source/unit/span gatesOPEN. Day1734/3600,1866unused.
+
+
+Afternoon Build1e75b8ec (infra/proof02dad7a) executes all corrected COLUMN6
+and nested scheduling4 cases on unchanged R3 sourcea95aff/unit407acb/body8e0508d.
+Actual nested Drop fullnormal+unwind body trace has2eachreturn/leak/lifetime/free-
+locals before outerprototype/body; sevenprerequisites checked first, no cycle.
+This is conditional experimental-profile component evidence, not accepted
+admission/soundness or wholeouter theorem. Aggregate INCONCLUSIVE is nested
+negative-oracle/trace-boundary audit defect, preserved in phase evidence.
+Outer first240 persists: selectedpayload lost from abstract existentialown across
+forget; initial183/184pass, late242–244unreached. THREADONLYFRAME sourcecapture
+proposal preserves concrete selectedslot via verifiedthreadonlyforget, NOT_RUN;
+fullactualpointerselect/genericT/ZST/sort4/permutation/order/stability remain OPEN.

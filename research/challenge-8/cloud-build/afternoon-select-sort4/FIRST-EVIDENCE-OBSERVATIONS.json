@@ -1,0 +1,109 @@
+{
+  "build_id": "1e75b8ec-5f8e-4647-9e41-898a7da35dc7",
+  "infra_sha": "02dad7a520318295574a9e6199bf6a1d69476110",
+  "proof_sha": "02dad7a520318295574a9e6199bf6a1d69476110",
+  "archive_sha256": "24a3343977a87e2f39daf80844172ef9b6b88b04bcfedb963ced8ca152b4e6b8",
+  "collector_diagnostic_complete": false,
+  "verification_accepted": false,
+  "evidence_analysis_only": true,
+  "cases": {
+    "column-off": {
+      "exit": 1,
+      "log_sha256": "b9cdbc2261244ff5cf2361fca47654a0170284f4451b25998b5e27583c2d574f",
+      "scope_markers": 1,
+      "receiver_markers": 2,
+      "column_routes": 0,
+      "first_error": "verified/lib.rs(155,9-25): error: Declaration hides existing local variable 'saved_true_input'.",
+      "function_headers": 23
+    },
+    "column-partial": {
+      "exit": 2,
+      "log_sha256": "427abda51a35ec473d9032496bacae0d27e6cd879b02e9611ec1837905029cdd",
+      "scope_markers": 0,
+      "receiver_markers": 0,
+      "column_routes": 0,
+      "first_error": "Fatal error: exception Failure(\"SORT4-AS-MUT-PTR: certificate mismatch: R3 ghost-column TEST partial or invalid opt-in\")",
+      "function_headers": 0
+    },
+    "column-on": {
+      "exit": 1,
+      "log_sha256": "0c035232d74265371dbd0687b8d5cbd130026a50d8032c887070e3677c3be7d2",
+      "scope_markers": 1,
+      "receiver_markers": 2,
+      "column_routes": 2,
+      "first_error": "verified/lib.rs(240,71-73): error: Assertion might not hold. (Cannot prove std::mem::MaybeUninit::inner(pointer_typeid(Element_typeid), std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), payload)) = some(true_val).)",
+      "function_headers": 24
+    },
+    "wrong-first": {
+      "exit": 2,
+      "log_sha256": "1f3b40024532f657421fe7278499dc1f6e1d4a86804a322ee4814f48992012bd",
+      "scope_markers": 1,
+      "receiver_markers": 0,
+      "column_routes": 0,
+      "first_error": "Fatal error: exception Failure(\"SORT4-AS-MUT-PTR: certificate mismatch: R3 ghost-column TEST exact one-to-one ordered route\")",
+      "function_headers": 0
+    },
+    "wrong-second": {
+      "exit": 2,
+      "log_sha256": "aa5f902ca670571e1936d7e749a0674457e1fb41dbde7946ec2806b2b52621b7",
+      "scope_markers": 1,
+      "receiver_markers": 0,
+      "column_routes": 1,
+      "first_error": "Fatal error: exception Failure(\"SORT4-AS-MUT-PTR: certificate mismatch: R3 ghost-column TEST exact one-to-one ordered route\")",
+      "function_headers": 0
+    },
+    "missing-candidate": {
+      "exit": 2,
+      "log_sha256": "6ba11ef2c1d9cd77c8b5616ce158f7009a0fb94196ce141dbf3adba25a5b21c4",
+      "scope_markers": 1,
+      "receiver_markers": 0,
+      "column_routes": 0,
+      "first_error": "Fatal error: exception Failure(\"SORT4-AS-MUT-PTR: certificate mismatch: R3 ghost-column TEST exact two distinct AST candidates\")",
+      "function_headers": 0
+    },
+    "nested-off": {
+      "exit": 1,
+      "log_sha256": "303333c1e4d727116df8347703dbaaa36a2b12bc22962cdfb49e33973cb900f8",
+      "scope_markers": 1,
+      "receiver_markers": 2,
+      "column_routes": 2,
+      "first_error": "verified/lib.rs(240,71-73): error: Assertion might not hold. (Cannot prove std::mem::MaybeUninit::inner(pointer_typeid(Element_typeid), std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), payload)) = some(true_val).)",
+      "function_headers": 24
+    },
+    "nested-partial": {
+      "exit": 2,
+      "log_sha256": "e7e11aa3ad05554049a9fc6b5d58e354be71de50e433579bd0816f2ec6985baa",
+      "scope_markers": 1,
+      "receiver_markers": 2,
+      "column_routes": 2,
+      "first_error": "Fatal error: exception Failure(\"SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: exact root/test opt-in pair\")",
+      "function_headers": 0
+    },
+    "nested-on": {
+      "exit": 1,
+      "log_sha256": "75c9ddbc769c575ce061ae7b67a0927079c5ee4aa611b2d460c8931587c4b0a3",
+      "scope_markers": 1,
+      "receiver_markers": 2,
+      "column_routes": 2,
+      "first_error": "verified/lib.rs(240,71-73): error: Assertion might not hold. (Cannot prove std::mem::MaybeUninit::inner(pointer_typeid(Element_typeid), std::mem::MaybeUninit::new(pointer_typeid(Element_typeid), payload)) = some(true_val).)",
+      "function_headers": 25,
+      "nested_observed_counts": {
+        "Executing return statement": 2,
+        "Leak check.": 2,
+        "Consuming function lifetime token": 2,
+        "Freeing locals.": 2
+      },
+      "nested_errors": [],
+      "exact_nested_call": true
+    },
+    "nested-wrong-permutation": {
+      "exit": 2,
+      "log_sha256": "5c5ab2836396f32a18d7d16b7cfe203be9d3e3fe2acdd259fd9009e90e1d7b8d",
+      "scope_markers": 1,
+      "receiver_markers": 2,
+      "column_routes": 2,
+      "first_error": "Fatal error: exception Failure(\"SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: function body loss/change/duplication\")",
+      "function_headers": 0
+    }
+  }
+}

@@ -33,7 +33,7 @@ ROUTE_FATAL = 'Fatal error: exception Failure("SORT4-AS-MUT-PTR: certificate mis
 CANDIDATE_FATAL = 'Fatal error: exception Failure("SORT4-AS-MUT-PTR: certificate mismatch: R3 ghost-column TEST exact two distinct AST candidates")'
 NESTED_MARK = "SORT4-R3-NESTED-BEFORE-OUTER-TEST:"
 NESTED_FATAL = 'Fatal error: exception Failure("SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: exact root/test opt-in pair")'
-NESTED_BAD_ORDER = 'Fatal error: exception Failure("SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: exact qualified key inventory")'
+NESTED_BAD_ORDER = 'Fatal error: exception Failure("SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: function body loss/change/duplication")'
 NAMES = (
     "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new",
     "sort4_checked_as_mut_ptr", "sort4_checked_pointer_drop",
@@ -269,7 +269,13 @@ def schedule(a, r2, r3, case, column_tool, column_snapshot, m_column, column_on_
                  [after[i][3].split(":")[-2:] for i in range(9)] ==
                     [loc.split(":") for loc in expected_locs[:7] + [expected_locs[8], expected_locs[7]]],
                  "nested AST full source locations changed")
-            nested_text = log[nested:outer] if outer > nested else log[nested:]
+            # The outer prototype implementation check runs before its body header.
+            # Its leak check belongs to outer, not to the nested function.
+            outer_prototype = log.find("Function '" + NAMES[7] +
+                                       "': Function prototype implementation check", nested)
+            boundaries = [x for x in (outer, outer_prototype) if x > nested]
+            nested_end = min(boundaries) if boundaries else len(log)
+            nested_text = log[nested:nested_end]
             counts = {k: nested_text.count(k) for k in
                       ("Executing return statement", "Leak check.",
                        "Consuming function lifetime token", "Freeing locals.")}

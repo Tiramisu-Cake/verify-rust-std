@@ -5,17 +5,36 @@ Start11:20:06UTC/14:20:06MSK, main13:20:06UTC/16:20:06MSK,
 absolute13:50:06UTC/16:50:06MSK. Ownerselect-sort4, ownworktree/branch unchanged.
 DAY1734/3600+1866unused, NIGHT/migration accounts closed/untouched.
 
-Firstproof unchangedc0436cd5: corrected COLUMN gates then actualnested scheduling,
-then truthful currentwrapper/input relation240 and fullpointer-select. PR2 already
-ancestral andremoteconfirmed6acfe96a. Merge-owner18case dispatcherregression
-a0f40e03-fb76-4974-893b-3aad48331f7f pending; codecompatibility checkedread-only,
-sharedactive.json observedv2. No own newclient mutation/submit before applicable
-regression result and fullpairedpreflight. Afternoonused0/3600, no ownbuild.
+PR #2 ancestral55414a5c/e4224b0f; applicable dispatcher Build a0f40e03
+18/18 PASS on e918eb87, common protocol byte-compatible; shared state v2.
+[Dispatcher gate](cloud-build/afternoon-select-sort4/DISPATCHER-GATE.json).
 
-Baseline b23 COLUMN-on two savedlets andpayloadassertions183/184 pass, first
-outererror240currentwrapperinputequality. Late242–244 not reached, source-shadow
-notconfirmed. Fullouter normal/unwind/return/leak andactualnested OPEN.
-Profiles experimental/unaccepted; exactsource/MIR/tool andfullposts preserved.
+Fresh Build1e75b8ec-5f8e-4647-9e41-898a7da35dc7 terminal FAILURE478s;
+infra=proof02dad7a520318295574a9e6199bf6a1d69476110, all74 selectedproof blobs
+identicalc043, actual190parts. Complete archive/textindex verified.
+[Per-case observations](cloud-build/afternoon-select-sort4/FIRST-EVIDENCE-OBSERVATIONS.json).
+COLUMNoff/partial/on/wrongfirst/wrongsecond/missingcandidate all ran at their
+expected stages, routes0/1/0 for the three early negatives. Source/runtime/posts
+unchanged. Nestedoff/partial/on/wrongpermutation also ran; exactfull9AST permutation
+and unchanged3signatures. Actual nested Drop has conditional same-version body
+normal+unwind return/leak/lifetime/free-locals evidence (2 each), no body error.
+Collector INCONCLUSIVE: wrongpermutation expected wrongfatal; nested audit also
+counted outerprototype leak. [Audit-only correction](cloud-build/afternoon-select-sort4/NESTED-AUDIT-CORRECTION.md)
+prepared NOT_EXECUTED; source/tool evidence manually reviewed without rerunning
+unchanged matrix or claiming collector SUCCESS/profile acceptance.
+
+Outer still fails240 on conditiontrue selectedslot. Initialpayload183/184 pass;
+selected cell is folded into existential GuardOwn, generic checkedforget post
+restores own(t,g) but not exact payload. Thus saved-input equality is unavailable;
+stock MaybeUninit identity does not restore it. Late242–244 not reached.
+[THREADONLYFRAME card](cloud-build/afternoon-select-sort4/THREADONLY-FRAME-CARD.md):
+prepare isolated source-only capture retaining concrete selectedcell as frame,
+thread-only same-runtime forget helper; freshsource/MIR/refinement required and
+old R3 certificate must refuse. No semantic proof rule yet enabled.
+
+Afternoon478/3600,3122remaining, no ownactive/unresolved build. Profiles experimental/
+unaccepted; admission OPEN; fullactualselect normal/unwind/return/leak, genericT/ZST
+and actualsort4 NOT_PROVED. Documentation head is not tested proof SHA.
 
 # Historical DAY checkpoint (closed)
 

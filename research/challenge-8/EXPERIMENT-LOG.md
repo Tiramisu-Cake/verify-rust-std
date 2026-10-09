@@ -6279,3 +6279,31 @@ Remote concurrently advanced290c299d->e4224b0f via externalCI PR2/two-slot merge
 preserved without forcepush by ordinary merge. All own experiments used earlier
 one-slot dispatcher pins, no experiment with external change. Final checkpoint
 head is documentation/integration only, not verifiedproofSHA. Stop until new task.
+
+
+### AFTERNOON phase, corrected COLUMN and actual nested Drop — 2026-10-09
+
+New account3600, start11:20:06UTC/14:20:06MSK, main13:20:06UTC/16:20:06MSK,
+absolute13:50:06UTC/16:50:06MSK. Closed DAY1734/3600 untouched. PR2 present;
+merge-owner dispatcherregressiona0f40e03 18/18PASS, no duplicate charge.
+Infra02dad/c043 pair193parts NOT_READY. Coalesced infra=proof02dad7a520318295574a9e6199bf6a1d69476110 has190parts, all74proofpaths exactc043
+blobs; sourcepayload559476f72f31715c5c5e7fe3817066f46f576c91ec2d44a044a9758191cca791.
+Build1e75b8ec-5f8e-4647-9e41-898a7da35dc7 FAILURE478conservative seconds,
+11:40:41.366571795Z->11:48:38.504160Z, timeout900. Config3cbb77237ed22656c20552ca3ad2f7322334c535efd0cb6599ffbfb3985ca5e7.
+Fullarchive24a3343977a87e2f39daf80844172ef9b6b88b04bcfedb963ced8ca152b4e6b8,
+textindex5969bacb33f61e90963f324042b96fec2b3c62e176acbbdd16d91cf4ed8253ab,
+integrity complete. COLUMN6cases and nested4cases execute; source/tool/profile pins
+unchanged from DAY card. Three early negatives exactfatal+exit2+scope/no receiver/
+noheaders, route0/1/0. Nestedon full9body AST permutation,3signatures invariant,
+actual nested Drop two normal/unwind completions return/leak/lifetime/free-locals,
+then outer240 failure. The original nested-body-evidence flagfalse counts outer
+prototype leak (3ratherthan2), not nested failure. Wrongpermutation intentionally
+refuses combined key/multiset gate; helper incorrectly expected shape-construction
+fatal. Audit-only attribution/oracle fix prepared; collector verdict preserved.
+Per-case observations and correction rationale in afternoon phase. No rerun of
+unchanged matrix solely for audit bookkeeping; component evidence conditional.
+Line240 reason: selected payload existentially hidden by GuardOwn and forgotten
+by same-index own contract, while unselected pointer-drop preserves exactvalue.
+Source-shadow not evidenced. Separate reviewed THREADONLYFRAME sourcecapture
+candidate being prepared; no snapshot substitution or assumed exact-value post.
+478/3600 charged,3122remain, no own active. Wholeactualselect/generic/sort4 open.
