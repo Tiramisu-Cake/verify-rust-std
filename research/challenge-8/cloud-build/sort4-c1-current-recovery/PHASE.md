@@ -127,3 +127,16 @@ are conditional on admitting the exact baseline; a preheader/hash refusal remain
 a preparation/admission result, never an intended owner negative. No whole17 or
 unchanged select matrices repeat. Actual tuple/storage/alias/liveness qualification
 remains open; no scope filtered heap is permitted even diagnostically.
+
+## First submitted run
+
+Build9b1cbdbd-4f9f-47ea-a7af-8194fcccbc33, infra=proof
+4058e8bf45eb567e4656d953274c96bf8488a7a3, timeout1200+60queue.
+Credential-free committed-object payload451224bytes/151parts, SHA256
+3f70fd879187685181e7836ea4eb690b1cc571361e24aeacfa4085194f4cadbb.
+Configada3e95b8b164f15bf7aa2752e15b5054211d734cb06fb0f4e426f872cdf5fe1.
+An invalid fullSHA and an oversized previous closure were rejected BEFORE
+reservation/build, charged0. Bound closure removes unrelated selector source
+preflight/capture/proof hooks only for c1 lane; exact O26 patch22/tool validation,
+full actual sort4 source and all recovery dependencies retained. Other lanes
+unchanged. New run pins remain immutable.

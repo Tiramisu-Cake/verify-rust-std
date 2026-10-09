@@ -153,15 +153,36 @@ def setup(a, env: dict[str, str]) -> tuple[Path, Path, dict]:
                                         *args], env=env, cap=1000) == 0,
          "strict relocation failed; no actual c1 proof")
     relocation_audit = read(relocation / "diagnostic-audit.json")
+    source_audit = read(relocation / "source-audit.json")
+    relocation_classifier = module(a.cloud_dir / "cut-relocate-audit.py",
+                                   "c1_relocation_classifier")
+    # Recompute the old diagnostic from its unchanged raw artifacts. The
+    # classifier has no `diagnostic_match` field: its exact `checks` map and
+    # stage exits carry the proof boundary.
+    replay = relocation_classifier.classify(relocation / "relocation", 0, source_audit)
+    checks = relocation_audit.get("checks", {})
+    exits = relocation_audit.get("stage_exits", {})
     need(relocation_audit.get("classification") == "FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY" and
-         relocation_audit.get("diagnostic_match") is True and
-         relocation_audit.get("accepted") is False,
+         relocation_audit == replay and relocation_audit.get("raw_capture_exit") == 0 and
+         set(checks) == {"translated_ids_patch_pin", "support", "exact_source_pair",
+                         "complete_target_mir_pins", "direct_unwind_continue",
+                         "baseline_boundary", "ast_six_removed_one_inserted",
+                         "relocated_proof_entry", "diagnostic_outcome"} and
+         all(value is True for value in checks.values()) and
+         all(exits.get(key) == 0 for key in
+             ("normal-export", "normal-decode", "readonly-export",
+              "readonly-decode", "refinement", "relocated-verification")) and
+         exits.get("baseline-verification") in (1, 2) and
+         relocation_audit.get("relocated_first_error") is None and
+         relocation_audit.get("unwind_storage_dead_assumed") is False and
+         relocation_audit.get("accepted") is False and
+         relocation_audit.get("actual_sort4_proved") is False,
          "strict relocation proof gate differs")
     base_snapshot = snapshot(a, base)
     need(base_snapshot["critical"][str(KERNEL)] ==
          sha(relocation / "cut-verifast-before-relocation.ml") and
          base_snapshot["binaries"]["bin/verifast"] ==
-         read(relocation / "source-audit.json")["relocation_console_sha256"],
+         source_audit["relocation_console_sha256"],
          "frozen d557 kernel/strict console differs")
     record(a.evidence / "strict-base-snapshot.json", base_snapshot)
     return base, patch, base_snapshot
