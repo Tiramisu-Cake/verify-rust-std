@@ -58,6 +58,20 @@ def sort4_capture(ev):
     return {'requested':True,'complete':complete,'classification':result.get('classification','INCONCLUSIVE'),
             'helper_exit':code,'actual_sort4_proved':False,'first_error':result.get('first_verifier_error')}
 
+def a1_test(ev):
+    requested=(ev/'cases/a1-isolated-test-request.json').exists()
+    if not requested:return {'requested':False,'complete':False,'classification':'NOT_RUN','accepted':False}
+    result=read(ev/'cases/a1-isolated-test/diagnostic-audit.json') or {}
+    try:code=int((ev/'cases/a1-isolated-test-helper-exit-code.txt').read_text().strip())
+    except (OSError,ValueError):code=None
+    complete=(code==0 and result.get('classification')=='ISOLATED_A1_MOVE_NEGATIVE_MATCH' and
+              result.get('diagnostic_complete') is True and
+              result.get('verification_accepted') is False and
+              result.get('production_unchanged') is True and
+              result.get('test_profile_only') is True)
+    return {'requested':True,'complete':complete,'classification':result.get('classification','INCONCLUSIVE'),
+            'helper_exit':code,'test_only':True,'accepted':False}
+
 def main():
     p=argparse.ArgumentParser()
     for name in ('evidence','output'):p.add_argument('--'+name,type=Path,required=True)
@@ -105,9 +119,11 @@ def main():
     cut=relocation(ev)
     owner=owner_controls(ev)
     sort4=sort4_capture(ev)
+    a1=a1_test(ev)
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
                          (not owner['requested'] or owner['complete']) and
                          (not sort4['requested'] or sort4['complete']) and
+                         (not a1['requested'] or a1['complete']) and
                          (not cut['requested'] or cut.get('diagnostic_match') is True))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
@@ -127,6 +143,7 @@ def main():
       'controls':controls,'pending_gates':profile.get('acceptance_pending',[]),
       'owner17_control_diagnostic':owner,
       'actual_sort4_capture_diagnostic':sort4,
+      'a1_isolated_test_diagnostic':a1,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
     a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')

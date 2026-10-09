@@ -151,7 +151,7 @@ def collect(root: Path) -> tuple[dict[str, bytes], list[dict[str, object]]]:
     for path in listed:
         rel = path.relative_to(root).as_posix()
         parts = PurePosixPath(rel).parts
-        if path.name == "mutation-profile.json" and path.parent.parent.name == "cases" and (
+        if path.name == "mutation-profile.json" and parts[:2] == ("allprooflogs", "cases") and len(parts) >= 4 and (
                 path.parent / "mutation-profile" / "bin").exists():
             if path.is_symlink() or not path.is_file():
                 fail(f"mutation profile identity manifest is not a regular file: {rel}")

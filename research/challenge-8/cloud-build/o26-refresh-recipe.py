@@ -94,6 +94,9 @@ def proof(repo: Path, ev: Path, cloud_dir: Path, tool_home: Path, schema: Path,
                            'refreshed-proof','refresh')
     write(ev/'cases/candidate/proof-stage.json', {'proof_sha':mod.git_sha(repo),
           'stage':result,'actual_verification_accepted':False})
+    log=case/'refreshed-proof.log'
+    if log.is_file():
+        print(log.read_text(errors='replace'),flush=True)
     print(json.dumps({'proof_exit':result.get('exit'),
                       'source_unchanged':result.get('source_unchanged')}),flush=True)
 

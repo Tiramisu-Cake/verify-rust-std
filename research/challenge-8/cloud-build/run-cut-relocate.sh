@@ -160,6 +160,15 @@ stage relocation-diagnostic python3 "$capture" \
   --tool-home "$relocation_source" --out "$evidence/relocation" \
   --deadline-epoch "$deadline_epoch" || raw_capture_exit=$?
 printf '%s\n' "$raw_capture_exit" > "$evidence/raw-capture-exit-code.txt"
+if [[ -f "$evidence/relocation/summary.json" ]]; then
+  cat "$evidence/relocation/summary.json"
+fi
+for proof_log in "$evidence/relocation/callback-positive/baseline-verification.log" \
+                 "$evidence/relocation/callback-positive/relocated-verification.log"; do
+  if [[ -f "$proof_log" ]]; then
+    cat "$proof_log"
+  fi
+done
 python3 "$cloud_dir/cut-relocate-audit.py" classify \
   --production-source "$production_source" --snapshot "$evidence/production-snapshot.json" \
   --relocation-source "$relocation_source" --stock-home "$stock_home" \

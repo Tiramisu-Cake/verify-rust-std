@@ -15,6 +15,8 @@ controls_mode=${O26_WITH_OWNER_CONTROLS:-0}
 [[ "$controls_mode" == 0 || "$controls_mode" == 1 ]] || exit 2
 sort4_mode=${O26_WITH_SORT4_CAPTURE:-0}
 [[ "$sort4_mode" == 0 || "$sort4_mode" == 1 ]] || exit 2
+a1_mode=${O26_WITH_A1_ISOLATED_TEST:-0}
+[[ "$a1_mode" == 0 || "$a1_mode" == 1 ]] || exit 2
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -229,6 +231,17 @@ if [[ "$controls_mode" == 1 ]]; then
     --tool-home "$source_home" --schema "$schema" \
     --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" || controls_status=$?
   printf '%s\n' "$controls_status" > "$ev/cases/owner17-controls-helper-exit-code.txt"
+fi
+
+if [[ "$a1_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/a1-isolated-test-request.json"
+  a1_status=0
+  stage a1-isolated-test bash "$cloud_dir/run-a1-isolated-test.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/a1-isolated-test" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || a1_status=$?
+  printf '%s\n' "$a1_status" > "$ev/cases/a1-isolated-test-helper-exit-code.txt"
 fi
 
 if [[ "$relocate_mode" == 1 ]]; then
