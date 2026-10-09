@@ -1,4 +1,4 @@
-# AFTERNOON merge guard phase — IN PROGRESS
+# AFTERNOON merge guard phase — CLOSED_SESSION / PROFILE NOT ACCEPTED
 
 Owner merge; worktree /root/verify-rust-std; branch overnight/merge-26.10.
 New owner authorization supersedes historical STOP/Actions/branch/single-slot rules.
