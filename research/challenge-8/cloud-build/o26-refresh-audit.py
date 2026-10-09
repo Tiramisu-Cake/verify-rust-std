@@ -98,7 +98,7 @@ def main():
       frozen.get('applied_diff_sha256')=='6c4c5a7708af3bdec585abd308d37383a7de522a1aaecf2c01e1f94181324c25' and
       profile.get('kernel_modified') is False and len(profile.get('refresh_patches',[]))==2 and
       tools.get('actual',{}).get('src/rust_frontend/vf_mir_translator/vf_mir_translator.ml')==
-        '595f4db4574b3f9b946c7f28024f9e8a3c2af70bbe4765368b581f6d2345c87a' and
+        '0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a' and
       (ev/'refreshed-applied.patch').is_file() and
       (ev/'frozen20-applied.patch').is_file() and
       digest(ev/'frozen20-applied.patch')==frozen['applied_diff_sha256'])

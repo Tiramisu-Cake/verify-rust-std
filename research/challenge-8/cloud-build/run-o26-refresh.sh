@@ -165,7 +165,7 @@ done
 git -C "$source_home" diff --name-only > "$ev/refreshed-modified-files.txt"
 cmp "$ev/modified-files.txt" "$ev/refreshed-modified-files.txt"
 git -C "$source_home" diff > "$ev/refreshed-applied.patch"
-[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 595f4db4574b3f9b946c7f28024f9e8a3c2af70bbe4765368b581f6d2345c87a ]] || exit 2
+[[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a ]] || exit 2
 
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
