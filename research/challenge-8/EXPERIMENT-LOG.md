@@ -5805,3 +5805,42 @@ unchanged transport bound, rejected locally before reserve/Build/0s. Split retai
 complete committed inputs and original Git closure separately. R2 payload511544B,
 171 parts. Changed AST and mapped-ID recovery recipe512e0b19 remains a later
 independent slot; no unchanged nested/source-only/coordination stages repeated.
+
+
+NIGHT-CLOUD-8 outcome:218568df-ca79-43c5-a758-44764f1bac5c SUCCESS diagnostic,
+04:37:23.014533561–04:43:45.847774 UTC,383 conservative seconds;2748/10800,
+8052 remaining. Fullarchive f87639b62f606c21053dfbb5474e78433f8e05ef05ead32ab432cc31afa8f457,
+textindex48a6bae22057dac4dedeadf0e1323a8fa4ee5544474c788db104f40b911c5950;
+publication/config/inventory/originalGitclosure verified. diagnostic=true,
+run_exit0/evidence_complete=true/verification=false; positive actual proof exit1.
+R2 source/typed52/35/2+8/18 admission, NORMAL/readonly/refinement/all9+10 and
+unchanged eight canonical bodies PASS. Full positive log proves seven prefix
+callees, executes both ownership rebase closes236–237, selected-wrapper
+intrinsic241 and checkedassume_init241, reaches normal return243/free_locals/
+thread token consumption. Old stdspec462 missing owner is absent. FIRST error
+verified/lib.rs143:45–47 pure post: cannot prove result6 equals condition-selected
+original input. No full outer normal/unwind/leak theorem, and nested body not
+reached in R2. A source-only checked input/payload/wrapper equality diagnostic
+is the next hypothesis; assertions are obligations, never assumptions.
+All four owner17 negatives first refuse at intended exactsource/unit gates with
+zero function headers. Independent A1 negative reaches exact Move requirement;
+component19 negative reaches exact forget argument plainMove requirement, both
+zero body headers and correct shadow-only two-hash delta. Full logs inspected.
+Offcanonical same462/offR2 old17refusal, production/profile/kernel/parser/spec/
+schema/exporter/refiner/stockbinary identities unchanged. R2 NOT_ACCEPTED.
+
+NIGHT-CLOUD-9 pre-experiment/dispatch:bf77d8a1-cda1-4426-9fc9-1a0f119e926f,
+laneo26-recovery-tests; infra512e0b19989f821b923124dea9b403477c90e474,
+proof00ccde64680e53236ca29c17f035cade2cb9f791,
+config77871f4871f27bc7c4c10ad03a59817f315721790cea63895e36f8cdda82f999,
+source input5e99795b4dce986d29ce7bae6090e6c5f9f54b32eb4aa792205f7f26930872d2,
+tokendispatch-129c04f5416347c48afa615703203d04. Timeout1200/reserve1260;
+own2748 used/8052 remaining before reservation. Complete exact transport
+payload558131B/187parts. Cards retain strictCUTfreeze,6raw/translated matching
+with explicitMir.local_decl annotation (compilefixonly) and print-only AST
+R2descriptor extension with unchanged fullFunc snapshotdc7e8487. Hypotheses:
+relocation proceeds to its actual strict lifetime obligation, AST captures exact
+localdeclaration/Close/call/free metadata without altering AST/stock first185.
+Each has separate raw proof/diagnostic verdict; acceptedfalse. Unchanged nested,
+coordination and source-wrapper stages absent. Next decision uses actual observed
+scope/operand metadata or first substantive relocationblocker; setup is inconclusive.

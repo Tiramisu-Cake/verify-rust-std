@@ -1,36 +1,38 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**2365/10800 conservative Cloud Build seconds used;8435 remaining**.
+**2748/10800 conservative Cloud Build seconds used;8052 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
-`218568df-ca79-43c5-a758-44764f1bac5c`, lane `o26-wrapper-controls`,
-infra `77238833cd1dc0f558d0c3798a1e383228d51447`,
+`bf77d8a1-cda1-4426-9fc9-1a0f119e926f`, lane `o26-recovery-tests`,
+infra `512e0b19989f821b923124dea9b403477c90e474`,
 proof `00ccde64680e53236ca29c17f035cade2cb9f791`; timeout1200/reserve1260.
-R2 full proof/owner17/A1/component19 pending; accepted=false.
-Combined payload606345B failed local Git transport preflight before dispatch
-and cost0s. Split R2 payload511544B/171parts fits unchanged transport bound.
-Independent changed AST/mapped-ID recipe is prepared for a separate turn.
-Latest Build `293435cf-8457-42ea-97a0-b37589f4fa76` FAILURE at isolated
-relocation compile gate; full evidence verified, charged361s.
-Infra `8d299748b14c3d5b567d935f96ec75e357dfe650`,
-proof `96289411a12da79ed4a410a882be5c856952b546`.
-Archive `13b4fbe0054c2d6e29fc0fbec9476494a4136b2d6f0288cec089856e96625d89`.
-Exact infra transport positive plus five intended negatives PASS. Fresh wrapper
-syntax capture has source11067f06/unit9c63ec19/body7 00fafebc, exact52 locals /
-35 blocks,2+8 new ghost sites,18 shared cleanup edges; other8 bodies unchanged.
-This is capture only. R2 component23 proof/certificates now follow this observed
-inventory, remain NOT ACCEPTED and await fresh proof plus changed controls.
-Isolated nested-order TEST checks the actual generic nested Drop body165–170,
-including actual generic drop call and full normal/unwind return/leak; PASS.
-Canonical outer still fails462. TEST scheduling is not accepted in main profile.
-Actual sort4 AST PROBE captures complete unchanged function and first callback
-scope/normal/unwind structure; diagnostic only. Relocation TEST fails compilation
-before proof: ambiguous local-declaration record inferred as var_id_trs_entry.
-Explicit Mir.local_decl annotation is prepared; this is not a negative proof.
-Next: fresh R2 full O26 proof/controls, changed mapped-ID TEST and detailed AST
-PROBE, then actual sort4 scope/recovery obligations. Full generic/ZST select,
-sort4 safety and separate permutation/order/stability remain open.
+Changed AST-detail PROBE and corrected mapped-ID strictCUT TEST are pending.
+Latest `218568df-ca79-43c5-a758-44764f1bac5c` SUCCESS **diagnostic only**,
+383s, infra77238833/proof00ccde64; full archive integrity verified:
+`f87639b62f606c21053dfbb5474e78433f8e05ef05ead32ab432cc31afa8f457`.
+R2 source11067f06/unit9c63ec19/body7 00fafebc, full NORMAL/readonly/refinement,
+all9+10 snapshots and exact52/35/2+8/18 graph PASS. Actual seven prefix callees
+pass, truthful guard/unselected drop/SAFE forget/rebase and final assume_init
+call reach normal return. **Missing462 ownership is closed in this diagnostic.**
+Outer first fails pure normal result identity at verified/lib.rs143:45–47:
+`result6 == (condition ? true_val : false_val)`; full outer posts/leak remain
+UNPROVED. Nested body not reached in R2. Profile component23R2 NOT ACCEPTED.
+Four owner17 intended negatives, independent A1 Move(_47)/Copy(_47), independent
+SAFE forget component19 Move(_34)/Copy(_34), default-off and tool identities PASS.
+Next source-only ghost input/payload/wrapper equality assertions will localize
+where the pure relation is lost; fresh capture/graph needed before R3 pins.
+
+Prior293435cf fresh source syntax/graph capture PASS; isolated nested-order TEST
+proves actual generic nested Drop165–170 full normal/unwind return/leak; its
+scheduling is not production acceptance. Actualsort4 print-only AST PROBE
+captures complete unchanged function and first callback scope. Relocation
+compile failure is setup, no negative credit; explicit type correction is in
+activebf77. Generic/ZST select, complete sort4 safety and separate functional
+permutation/order/stability remain open ([generic gap](overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md)).
+Combined payload606345B refused before reservation/0s; split retains complete
+committed paths/original Git closures, R2 511544B/171parts and recovery558131B/
+187parts within unchanged limit. No migration A/B/C or constructor replay.
 Latest Build `b0382472-9685-44b3-955f-88f037d1c144` FAILURE at diagnostic
 verdict; full publication/archive integrity verified, charged368s.
 Infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,

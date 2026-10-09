@@ -627,3 +627,14 @@ safety theorem. Mapped-ID relocation stops at compile-time record ambiguity,
 not an intended proof refusal. Exact transport five controls are infrastructure
 evidence only. R2 component23/new controls, generic/ZST select and complete
 sort4 safety/permutation/order/stability remain open.
+
+
+Build218568df (infra77238833/proof00ccde64, verifiedfullarchive) closes the
+missing462 pointer-wrapper ownership precondition in component23R2 diagnostic:
+seven actual prefix bodies pass, outer executes guard/SAFEforget, both checked
+rebases, finalwrapperselect and assume_init and reachesnormalreturn. Firstfailure
+is now PURE normal result-identity post143; full normal/unwind/leak not proved,
+R2 actual nestedbody not reached and profile NOT_ACCEPTED. Exactowner17/A1/
+component19 negatives and default-off/identity controls PASS. Generic/ZST select
+and all fullsort4/functional obligations remain OPEN; separate293 nestedTEST
+result is not silently inherited. Activebf77 checks changed AST/CUT only.
