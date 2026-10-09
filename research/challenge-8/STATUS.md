@@ -22,11 +22,11 @@ classifier rejected stock wrapper calls; exact saved replay under independent
 review repairs service verdict only. All6 intended resource/post negatives pinned.
 Still conditional size/type/dst/resources; native subset not yet a full actual
 caller chain. Default-off whole sort4 VF1 at c2 source195/aliasing token88.
-1798/3600 seconds accounted,1802 remaining,no active Build. DBB9 new frontend
-compiled/default-offC1VF0/export0/refinement0, decode1 due mixed diagnostic stderr;
-C2 originalAST diagnostic NOT_RUN. Narrow stream fix independently reviewed.
-Next fresh C2 original-AST
-capture/refinement with exactsource, always refusal and no proofcredit, then raw
-correspondence review before any second-call projection. Profiles unaccepted.
+2117/3600 seconds accounted,1483 remaining,no active Build. FreshC974/dfe8:
+C2 full normal/readonly MIR/export/decode/refinement0, original AST blocked by
+mid-block let_lft parse196. No C2 proof; exact raw correspondence under review.
+Next current session: isolated typed native subset positive/missing-T/F controls;
+stock logical production/frame restoration only. C2 binding/projection requires
+new narrow rationale/review, strict checks preserved. Profiles unaccepted.
 Prior select and conditional c1 keep their exact scope; profile unaccepted.
 Historical STATUS retained in [branch archive](archive/select-adoption-2026-10-10/README.md).

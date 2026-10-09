@@ -6543,3 +6543,10 @@ fresh C1 confirmedVF0/allcontrols, C2translatorcompile/default-offC1VF0/sourceEC
 exports0/refinement0; decode1 stdoutstderrmixing, actualC2diagnosticNOT_RUN.
 360Cloudsec,total1798/3600; archivec4144a11/inventory711. Exact failure
 and independently reviewed infrastructure stream fix in C2-PREPARATION-DBB9.
+
+FreshC974 c9746cd5-7ef6-4481-9011-63c472db3afb/proof=infradfe8a19de11ca583a02a5ab20f41591909c127be: C2 completeexport/decode/
+refinement0,82/164normal and28/110readonly graphs; ghostparse196 midblocklet_lft
+blocks originalAST, noC2proof. Exact sourcehashmutant admissionnegative passed.
+319Cloudsec,total2117/3600,1483remain. Archivea92288cc/inventory755.
+See C2-FRESH-C974-EVIDENCE for exactgraph/tool/profile/source; typednativefallback
+reviewed/prepared afterthisfailure, no assumption or disabledchecks.

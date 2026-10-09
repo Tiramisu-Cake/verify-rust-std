@@ -260,6 +260,43 @@ class ClassifierTests(unittest.TestCase):
             "range-negative", cert, verified, log.replace("Verifying call", "Consuming call"), [0],
             ["prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove 9 <= ptr_len(v).)"], 1))
 
+    def test_typed_positive_requires_producers_helper_source_and_both_leaks(self):
+        cert = {"targeted_ghost_statement_lines": {
+            "source_subset_four": 4, "produce_type_interp_T": 5,
+            "produce_type_interp_F": 6, "source_typed_identity_call": 7,
+            "leak_type_interp_T": 8, "leak_type_interp_F": 9}}
+        log = "".join(f"1.0s: verified/lib.rs({line},1-8): Executing statement\n"
+                       for line in range(4, 10))
+        self.assertTrue(namespace["native_case_targets_reached"](
+            "source-typed-frame-positive", cert, log))
+        self.assertFalse(namespace["native_case_targets_reached"](
+            "source-typed-frame-positive", cert, log.replace("(9,", "(10,")))
+        good = dict(controls_passed=True, support_gates_passed=True,
+                    source_mir_trace_passed=True, verifier_exit=0,
+                    proof_entries=[20], caller_log="Leak check.", errors=[],
+                    full_vf0_log=True, full_native_contract=True)
+        self.assertTrue(namespace["positive_full_vf0"]("source-typed-frame-positive", **good))
+        good["full_native_contract"] = False
+        self.assertFalse(namespace["positive_full_vf0"]("source-typed-frame-positive", **good))
+
+    def test_typed_missing_producer_controls_are_never_credited_without_review(self):
+        cert = {"expected_negative_first_error": {
+            "marker": "SOURCE_TYPED_IDENTITY_CALL", "obligation": "type_interp<T>"}}
+        self.assertFalse(namespace["native_expected_negative"](
+            "source-typed-missing-T-negative", cert, b"", "", [0],
+            ["Cannot prove type_interp<T>"] , 1))
+
+    def test_typed_controls_differ_from_positive_only_by_the_matching_producer(self):
+        case_dir = COLLECTOR.parents[1] / "caller-entry"
+        positive = (case_dir / "source-typed-frame-positive.gh").read_bytes()
+        missing_t = (case_dir / "source-typed-missing-T-negative.gh").read_bytes()
+        missing_f = (case_dir / "source-typed-missing-F-negative.gh").read_bytes()
+        self.assertEqual(positive.replace(b"produce_type_interp::<T>();\n", b""), missing_t)
+        self.assertEqual(positive.replace(b"produce_type_interp::<F>();\n", b""), missing_f)
+        for block in (positive, missing_t, missing_f):
+            self.assertIn(b"c1_source_typed_identity::<T, F>", block)
+            self.assertNotRegex(block, rb"scratch_base|scratch\.len|size_of|dst|sort4_stable|assert.*assume")
+
     def test_bridge_identity_aliases_must_agree_and_pin_exact_call(self):
         lines = ["fn entry() {", "    c1_entry_identity::<T, F>(v_base, scratch_base, is_less as *mut F);", "}"]
         cert = {"targeted_ghost_statement_lines": {"positive_identity_lemma": 2},

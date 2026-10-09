@@ -293,6 +293,8 @@ def native_post_ast_evidence(path, cert):
 def native_expected_negative(case, cert, verified, log, entries, errors, verifier_exit):
     """Accept only the marker-pinned single first obligation for a native negative."""
     expected=cert.get('expected_negative_first_error')
+    # Typed missing-producer controls deliberately remain uncredited until a
+    # fresh Cloud log pins the exact callee predicate and source location.
     supported={'range-negative','duplicate-negative','source-post-negative'}
     if (case not in supported or not isinstance(expected,dict) or
         verifier_exit!=1 or len(entries)!=1 or len(errors)!=1):
@@ -340,7 +342,7 @@ def positive_full_vf0(case, *, controls_passed, support_gates_passed,
                       source_mir_trace_passed, verifier_exit, proof_entries,
                       caller_log, errors, full_vf0_log, full_native_contract):
     """Require all evidence gates before assigning positive native resource credit."""
-    return (case in {'source-frame-positive','bridge-positive','prefix-native','native-scratch-frame'} and
+    return (case in {'source-frame-positive','source-typed-frame-positive','bridge-positive','prefix-native','native-scratch-frame'} and
             controls_passed is True and support_gates_passed is True and
             source_mir_trace_passed is True and verifier_exit==0 and
             len(proof_entries)==1 and 'Leak check.' in caller_log and not errors and
@@ -354,6 +356,11 @@ def native_case_targets_reached(case, cert, caller_log, source_lines=None):
     if case=='prefix-native':return True
     if case=='source-frame-positive':
         required=[targets.get('source_subset_four')]
+    elif case=='source-typed-frame-positive':
+        required=[targets.get('source_subset_four'),
+                  targets.get('produce_type_interp_T'),targets.get('produce_type_interp_F'),
+                  targets.get('source_typed_identity_call'),
+                  targets.get('leak_type_interp_T'),targets.get('leak_type_interp_F')]
     elif case=='bridge-positive':
         identity_line=native_identity_call_target(cert, source_lines)
         required=[targets.get('positive_size_guard'),targets.get('bridge_scratch_guard'),identity_line]
@@ -584,9 +591,11 @@ def run_case(a, prep, capture, parser, case, env):
         entries=parser.proof_entries(log,'small_sort_general_with_scratch')
         helpers=parser.proof_entries(log,'c1_entry_identity')
         caller_ok=len(entries)==1
-        helper_name=('c1_source_identity' if case in ('source-frame-positive','source-post-negative') else 'c1_entry_identity')
+        typed_case=case.startswith('source-typed-')
+        helper_name=('c1_source_typed_identity' if typed_case else
+                     'c1_source_identity' if case in ('source-frame-positive','source-post-negative') else 'c1_entry_identity')
         helper_entries=parser.proof_entries(log,helper_name)
-        helper_required=(native_mode and case in ('source-frame-positive','source-post-negative','bridge-positive')) or (not native_mode and case=='bridge-positive')
+        helper_required=(native_mode and (typed_case or case in ('source-frame-positive','source-post-negative','bridge-positive'))) or (not native_mode and case=='bridge-positive')
         helper_ok=(not helper_required) or (len(helper_entries)==1 and caller_ok and helper_entries[0]<entries[0] and 'Leak check.' in log[helper_entries[0]:entries[0]] and ': error:' not in log[helper_entries[0]:entries[0]])
         targets=cert.get('targeted_ghost_statement_lines',{})
         identity_line=targets.get('positive_identity_lemma') if isinstance(targets,dict) else None
@@ -595,14 +604,15 @@ def run_case(a, prep, capture, parser, case, env):
                             if native_mode and case=='bridge-positive' else
                             targets.get('identity_lemma_call') if isinstance(targets,dict) else None)
         source_identity_line=targets.get('source_identity_lemma') if isinstance(targets,dict) else None
-        native_identity_line=source_identity_line if case in ('source-frame-positive','source-post-negative') else identity_call_line
-        if native_mode and case in ('source-frame-positive','source-post-negative','bridge-positive'):
+        native_identity_line=(targets.get('source_typed_identity_call') if typed_case else
+                              source_identity_line if case in ('source-frame-positive','source-post-negative') else identity_call_line)
+        if native_mode and (typed_case or case in ('source-frame-positive','source-post-negative','bridge-positive')):
             identity_reached=(caller_ok and native_identity_line is not None and
                 executed_line(log[entries[0]:],native_identity_line))
         else:
             identity_reached=(not (case=='bridge-positive' and not native_mode)) or (caller_ok and identity_line is not None and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(identity_line)+r',[^\n]*\): Executing ',log[entries[0]:],re.M) is not None)
         subset_line=targets.get('source_subset_four') if isinstance(targets,dict) else None
-        subset_reached=(case!='source-frame-positive') or (caller_ok and subset_line is not None and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(subset_line)+r',[^\n]*\): Executing ',log[entries[0]:],re.M) is not None)
+        subset_reached=(case not in ('source-frame-positive','source-typed-frame-positive','source-typed-missing-T-negative','source-typed-missing-F-negative')) or (caller_ok and subset_line is not None and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(subset_line)+r',[^\n]*\): Executing ',log[entries[0]:],re.M) is not None)
         caller_log=log[entries[0]:] if caller_ok else ''
         mapping=(native_entry_mapping(fixture,cert,records.get('normal',''),records.get('readonly',''),caller_log,entries[0] if caller_ok else None)
                  if native_mode else caller_mapping(root,fixture,cert,records.get('normal',''),records.get('readonly',''),caller_log,entries[0] if caller_ok else None))
@@ -644,13 +654,28 @@ def run_case(a, prep, capture, parser, case, env):
         first_location=re.match(r'verified/lib\.rs\((\d+),',first or '')
         prefix_blocker=(not native_mode and representation_gates and caller_ok and first_location is not None and int(first_location.group(1)) < cert['targeted_ghost_statement_lines']['source_sort8_condition'])
         observed={name:[n for n in numbers if caller_ok and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(n)+r',[^\n]*\): Executing ',log[entries[0]:],re.M)] for name,numbers in cert.get('targeted_ghost_statement_line_lists',{}).items()}
-        size_status=('C1_PREMISE_CONDITIONAL_ONLY; NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH' if case=='bridge-positive' else 'NOT_REQUIRED_FOR_SOURCE_F_THREAD_SUBSET' if case=='source-frame-positive' else 'NOT_APPLICABLE_TO_CASE')
-        native_class=('NATIVE_ENTRY_FULL_VF0_CONDITIONAL_MODEL' if complete and case in ('prefix-native','native-scratch-frame') else 'NATIVE_SOURCE_FRAME_AND_RETURN_FULL_VF0' if complete and case=='source-frame-positive' else 'NATIVE_BRIDGE_AND_RETURN_FULL_VF0' if complete and case=='bridge-positive' else 'NATIVE_SOURCE_POST_NEGATIVE_AT_CERTIFIED_POST' if case=='source-post-negative' and intended else 'INTENDED_RESOURCE_CONTROL' if intended else 'NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER')
+        size_status=('C1_PREMISE_CONDITIONAL_ONLY; NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH' if case=='bridge-positive' else 'NOT_REQUIRED_FOR_SOURCE_F_THREAD_SUBSET' if case in ('source-frame-positive','source-typed-frame-positive','source-typed-missing-T-negative','source-typed-missing-F-negative') else 'NOT_APPLICABLE_TO_CASE')
+        native_class=('NATIVE_ENTRY_FULL_VF0_CONDITIONAL_MODEL' if complete and case in ('prefix-native','native-scratch-frame') else 'NATIVE_SOURCE_FRAME_AND_RETURN_FULL_VF0' if complete and case=='source-frame-positive' else 'NATIVE_TYPED_SOURCE_FRAME_AND_RETURN_FULL_VF0' if complete and case=='source-typed-frame-positive' else 'NATIVE_BRIDGE_AND_RETURN_FULL_VF0' if complete and case=='bridge-positive' else 'NATIVE_SOURCE_POST_NEGATIVE_AT_CERTIFIED_POST' if case=='source-post-negative' and intended else 'INTENDED_RESOURCE_CONTROL' if intended else 'NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER')
         legacy_class=('NATIVE_PREFIX_FULL_VF0_CONDITIONAL_MODEL' if complete and case=='prefix-native' else 'C1_ENTRY_ENTAILMENT_AND_NATIVE_FRAME_RETURN_CONDITIONAL' if complete and case=='bridge-positive' else 'SOURCE4_CURRENT_OWNERS_F_THREAD_AND_NATIVE_FRAME_RETURN_CONDITIONAL' if complete and case=='source-frame-positive' else 'INTENDED_RESOURCE_CONTROL' if intended else 'NATIVE_ENTRY_OR_PREFIX_ADMISSION_BLOCKER' if not gates or not caller_ok else 'FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER' if case=='bridge-positive' else 'INCONCLUSIVE_WRONG_FIRST_OBLIGATION')
         result.update(classification=native_class if native_mode else legacy_class,support_gates_passed=gates,verifier_exit=rows['verification'].get('exit'),first_error=first,proof_entries=len(entries),identity_helper_verified_before_caller=helper_ok,native_prefix_complete=complete if case=='prefix-native' else False,bridge_premises_derived=complete and case=='bridge-positive',bridge_actual_caller_applicability='NOT_PROVED',native_case_resource_targets_reached=case_targets,positive_size_condition=size_status,full_actual_caller_proved=False,actual_sort4_run=False,intended_resource_negative=intended,leak_seen=leak_seen,full_log_sha256=sha(fixture/'verification.log'),source_hashes=before,stages={n:r.get('exit') for n,r in rows.items()})
         result.update(identity_call_reached=identity_reached if case=='bridge-positive' else None,observed_target_statement_lines=observed,representation_and_fragment_refinement_passed=all(rows.get(n,{}).get('exit')==0 for n in ('normal-export','normal-decode','readonly-export','readonly-decode','refinement')) and all(sha(fixture/n)==h for n,h in before.items()),proof_ast_capture=ast_record,source_mir_proof_mapping=mapping,caller_mapping_gate_passed=mapping_passed,first_prefix_proof_obligation=prefix_blocker)
         result['source_frame_subset_derived']=complete and case=='source-frame-positive'
+        result['typed_source_frame_subset_derived']=complete and case=='source-typed-frame-positive'
         result['source_subset_assertion_reached']=subset_reached if case=='source-frame-positive' else None
+        if case.startswith('source-typed-'):
+            result['typed_source_control']={
+                'classification':'TYPED_NATIVE_SOURCE_RESOURCE_DIAGNOSTIC_NOT_CALLER_PROOF',
+                'positive_full_vf0':complete if case=='source-typed-frame-positive' else False,
+                'missing_type_interp_negative_credit':'INCONCLUSIVE_UNTIL_FRESH_EXACT_FIRST_ERROR_REVIEW' if case!='source-typed-frame-positive' else 'NOT_APPLICABLE',
+                'helper_entry_before_native_entry':bool(helper_required and helper_ok and caller_ok and helper_entries[0]<entries[0]) if helper_entries else False,
+                'helper_reached':identity_reached,
+                'expected_missing_obligation':'type_interp<T>' if case=='source-typed-missing-T-negative' else 'type_interp<F>' if case=='source-typed-missing-F-negative' else None,
+                'source_typed_identity_helper':'c1_source_typed_identity',
+                'type_chunks_claimed_from_native_heap':False,
+                'actual_caller_or_sort4_applicability':False,
+            }
+            if case in ('source-typed-missing-T-negative','source-typed-missing-F-negative'):
+                result['classification']='TYPED_SOURCE_MISSING_PRODUCER_CONTROL_UNREVIEWED'
         if prefix_blocker and case in ('prefix-native','source-frame-positive','bridge-positive'):result['classification']='NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER'
         if legacy_dead_code_vf1(errors):result['classification']='STRICT_DEAD_CODE_REJECTION_AFTER_SELECTED_PATH_FILTER'
         need(all(sha(fixture/n)==h for n,h in before.items()),'source pair changed')
@@ -681,7 +706,7 @@ def main():
         rows[case]=run_case(a,prep,capture,parser,case,env)
         write(a.evidence/'case-results-so-far.json',rows)
     need(snapshot(a)==before,'production tool changed during bridge')
-    result={'classification':'NATIVE_ENTRY_RESOURCE_DIAGNOSTIC_COMPLETE','accepted':False,'slice_projection_controls':control_result,'candidate_controls_passed':a.candidate_controls_passed,'diagnostic_complete':all('verifier_exit' in r for r in rows.values()),'source_frame_subset_derived':rows['source-frame-positive']['source_frame_subset_derived'],'bridge_premises_derived':rows['bridge-positive']['bridge_premises_derived'],'full_actual_caller_proved':False,'actual_sort4_proved':False,'c1_branch_proof_new':'NOT_RUN','c1_positive_size_premise_is_conditional':True,'source_frame_positive_size_premise_required':False,'positive_size_status_by_case':{name:row.get('positive_size_condition','NOT_CONFIRMED') for name,row in rows.items()},'cases':rows,'profile_status':'EXPERIMENTAL_O26_NATIVE_ENTRY_NOT_ACCEPTED','source_linkage':'Exact native signature and read-only source operation bytes, complete normal/readonly lemma MIR, artificial ghost boundary, proof trace; no caller CFG projection','proof_sha':os.environ['PROOF_SHA'],'tool_snapshot_sha256':sha(a.evidence/'tool-snapshot.json')}
+    result={'classification':'NATIVE_ENTRY_RESOURCE_DIAGNOSTIC_COMPLETE','accepted':False,'slice_projection_controls':control_result,'candidate_controls_passed':a.candidate_controls_passed,'diagnostic_complete':all('verifier_exit' in r for r in rows.values()),'source_frame_subset_derived':rows['source-frame-positive']['source_frame_subset_derived'],'typed_source_frame_subset_derived':rows['source-typed-frame-positive']['typed_source_frame_subset_derived'],'typed_missing_producer_controls_unreviewed':{name:rows[name].get('typed_source_control',{}).get('missing_type_interp_negative_credit') for name in ('source-typed-missing-T-negative','source-typed-missing-F-negative')},'bridge_premises_derived':rows['bridge-positive']['bridge_premises_derived'],'full_actual_caller_proved':False,'actual_sort4_proved':False,'c1_branch_proof_new':'NOT_RUN','c1_positive_size_premise_is_conditional':True,'source_frame_positive_size_premise_required':False,'positive_size_status_by_case':{name:row.get('positive_size_condition','NOT_CONFIRMED') for name,row in rows.items()},'cases':rows,'profile_status':'EXPERIMENTAL_O26_NATIVE_ENTRY_NOT_ACCEPTED','source_linkage':'Exact native signature and read-only source operation bytes, complete normal/readonly lemma MIR, artificial ghost boundary, proof trace; no caller CFG projection','proof_sha':os.environ['PROOF_SHA'],'tool_snapshot_sha256':sha(a.evidence/'tool-snapshot.json')}
     write(a.evidence/'diagnostic-audit.json',result);print(json.dumps(result,sort_keys=True),flush=True)
 
 if __name__=='__main__': main()

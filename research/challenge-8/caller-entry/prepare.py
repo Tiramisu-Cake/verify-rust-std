@@ -19,7 +19,9 @@ SHARED_REL = Path("library/core/src/slice/sort/shared/mod.rs")
 CAPTURE_REL = Path("research/challenge-8/overnight-sort4/capture.py")
 HERE = Path(__file__).resolve().parent
 CASES = ("prefix-native", "source-frame-positive", "bridge-positive", "range-negative",
-         "duplicate-negative", "native-scratch-frame", "source-post-negative")
+         "duplicate-negative", "native-scratch-frame", "source-post-negative",
+         "source-typed-frame-positive", "source-typed-missing-T-negative",
+         "source-typed-missing-F-negative")
 FUNCTION_NAME = b"fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>("
 SCRATCH_LINE = b"        let scratch_base = scratch.as_mut_ptr() as *mut T;"
 SORT8_CONDITION = b"if const { size_of::<T>() <= 16 } && len >= 16 {"
@@ -141,6 +143,13 @@ def _memory_pre_contract(capture: bytes) -> bytes:
 
 
 def _case_source(name: str) -> bytes:
+    if name.startswith("source-typed-"):
+        path = HERE / (name + ".gh")
+        _need(path.is_file(), f"typed source case is missing: {name}")
+        body = path.read_bytes()
+        _need(body.startswith(b"/*@\n") and body.rstrip().endswith(b"@*/"),
+              f"typed source case must be one ghost block: {name}")
+        return body[len(b"/*@\n"):].rstrip()[:-len(b"@*/")].strip(b"\r\n")
     cases = (HERE / "bridge-cases.rs").read_bytes()
     marker = b"// CASE " + name.encode() + b"\n"
     _need(cases.count(marker) == 1, f"case block missing or ambiguous: {name}")
@@ -182,6 +191,16 @@ def _source_identity_lemma() -> bytes:
         b"{}\n"
         b"@*/\n"
     )
+
+
+def _source_typed_identity_lemma() -> bytes:
+    resources = (b"type_interp::<T>() &*& type_interp::<F>() &*& "
+                 b"thread_token(t) &*& t == currentThread &*& "
+                 b"v_base[..4] |-> source4 &*& foreach(source4, own::<T>(t)) &*& "
+                 b"*is_less |-> less &*& <F>.own(t, less)")
+    return (b"/*@\nlem c1_source_typed_identity<T, F>(v_base: *T, is_less: *F, t: thread_id_t, "
+            b"source4: list<T>, less: F)\n    req " + resources + b";\n    ens " + resources +
+            b";\n{}\n@*/\n")
 
 
 def _source_line_bytes(source: bytes, anchor: bytes) -> tuple[bytes, int]:
@@ -261,7 +280,9 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
     case_body = b"assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n" + case_body
     indented_case = b"            " + case_body.replace(b"\n", b"\n            ").rstrip()
     fragment = native_body + indented_case + b"\n        } @*/\n    }\n}"
-    source_lemma = (_source_identity_lemma()
+    source_lemma = (_source_typed_identity_lemma()
+                    if case.startswith("source-typed-") else
+                    _source_identity_lemma()
                     if case in ("source-frame-positive", "source-post-negative") else b"")
     bridge_lemma = _lemma(memory_pre) if case == "bridge-positive" else b""
     common_preamble = FEATURES + freeze_marker + b"\n" + source_lemma + bridge_lemma
@@ -293,6 +314,11 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("source_array", b"assert v_base[..len] |-> ?source_all;"),
         ("source_subset_four", b"assert v_base[..4] |-> ?first_four;"),
         ("source_identity_lemma", b"c1_source_identity::<T, F>"),
+        ("source_typed_identity_lemma", b"c1_source_typed_identity::<T, F>"),
+        ("produce_type_interp_T", b"produce_type_interp::<T>();"),
+        ("produce_type_interp_F", b"produce_type_interp::<F>();"),
+        ("leak_type_interp_T", b"leak type_interp::<T>();"),
+        ("leak_type_interp_F", b"leak type_interp::<F>();"),
         ("positive_identity_lemma", b"c1_entry_identity::<T, F>"),
         ("positive_size_guard", b"if (0 < std::mem::size_of::<T>() && scratch_len >= 4)"),
         ("bridge_scratch_guard", b"scratch_len >= 4"),
@@ -304,6 +330,15 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         if needle in verified:
             at = verified.index(needle)
             line_targets[label] = verified[:at].count(b"\n") + 1
+    if case.startswith("source-typed-"):
+        typed_marker = {
+            "source-typed-frame-positive": b"// SOURCE_TYPED_IDENTITY_CALL",
+            "source-typed-missing-T-negative": b"// SOURCE_TYPED_IDENTITY_CALL",
+            "source-typed-missing-F-negative": b"// SOURCE_TYPED_IDENTITY_CALL",
+        }[case]
+        _need(verified.count(typed_marker) == 1, "typed identity call marker absent or ambiguous")
+        at = verified.index(typed_marker)
+        line_targets["source_typed_identity_call"] = verified[:at].count(b"\n") + 1
     boundary_line = verified[:verified.index(marker_line)].count(b"\n") + 1
     artificial_compatibility_targets = (
         "inline_const_value_path_filter", "overflow_runtime_size_guard",
@@ -323,6 +358,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("source_array_split", b"array_split::<T>(v_base, 4);"),
         ("source_owners_split", b"foreach_split(source_all, own::<T>(t), 4);"),
         ("source_identity_lemma", b"c1_source_identity::<T, F>"),
+        ("source_typed_identity_lemma", b"c1_source_typed_identity::<T, F>"),
         ("native_scratch_array", b"assert mu_base[..scratch_len] |-> ?mu_all;"),
         ("native_scratch_owners", b"assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));"),
         ("positive_size_guard", b"if (0 < std::mem::size_of::<T>() && scratch_len >= 4)"),
@@ -402,11 +438,18 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             "zst_admitted": True,
             "no_runtime_guard_or_caller_cfg_projection": True,
         },
-        "type_interp_disposition": {
+        "type_interp_disposition": ({
             "source-frame-positive": "no type_interp assertion or production; no type_interp caller premise claimed",
             "bridge-positive": "stock produce_type_interp::<T/F>() in the real diagnostic function, followed by explicit stock leak type_interp::<T/F>(); trusted logical production, not native heap derivation",
             "other_cases": "no explicit type_interp production",
-        },
+            case: ("stock produce_type_interp::<T/F>() in the real diagnostic function; both stock chunks are required/returned by the checked identity lemma and explicitly leaked after frame restoration"
+                   if case == "source-typed-frame-positive" else
+                   "stock peer chunk produced; this chunk's producer is omitted to target the checked identity lemma's matching type_interp precondition; first-error attribution awaits Cloud review"),
+        } if case.startswith("source-typed-") else {
+            "source-frame-positive": "no type_interp assertion or production; no type_interp caller premise claimed",
+            "bridge-positive": "stock produce_type_interp::<T/F>() in the real diagnostic function, followed by explicit stock leak type_interp::<T/F>(); trusted logical production, not native heap derivation",
+            "other_cases": "no explicit type_interp production",
+        }),
         "bridge_diagnostic_subdomain": {
             "guard": "ghost condition size_of<T>() > 0 && scratch_len >= 4",
             "caller_scratch_success_implies_lower_bound_claim": False,
@@ -432,7 +475,22 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             "duplicate-negative": "duplicate whole-array authority assertion is the intended duplicate-authority control",
             "native-scratch-frame": "asserts native MaybeUninit array/owners and leaves them untouched",
             "source-post-negative": "after source4 identity lemma, false current-value post is the intended negative",
+            "source-typed-frame-positive": "stock T/F type_interp production, checked source4/F/thread identity, complete native frame restoration and both stock logical chunk leaks; typed logical-subset diagnostic only",
+            "source-typed-missing-T-negative": "omits only stock T type_interp producer; exact callee first-error classification awaits fresh Cloud evidence",
+            "source-typed-missing-F-negative": "omits only stock F type_interp producer; exact callee first-error classification awaits fresh Cloud evidence",
         }[case],
+        **({"typed_source_control": {
+            "checked_identity_helper": "c1_source_typed_identity",
+            "requires_and_returns": ["type_interp<T>", "type_interp<F>", "thread_token(currentThread)",
+                                      "source4 owners", "F cell", "F.own"],
+            "stock_producers_executed_by_real_native_function": {
+                "T": "produce_type_interp::<T>()" if case != "source-typed-missing-T-negative" else None,
+                "F": "produce_type_interp::<F>()" if case != "source-typed-missing-F-negative" else None,
+            },
+            "missing_producer_negative_credit": "INCONCLUSIVE_UNTIL_FRESH_EXACT_FIRST_ERROR_REVIEW",
+            "type_chunks_claimed_from_native_heap": False,
+            "actual_caller_or_sort4_applicability": False,
+        }} if case.startswith("source-typed-") else {}),
         "targeted_ghost_statement_lines": line_targets,
         "targeted_ghost_statement_line_lists": line_lists,
         "targeted_ghost_statement_line_kinds": {
