@@ -1,3 +1,26 @@
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / PREPARING
+
+Owner resumed this direction through **11:00MSK /08:00UTC2026-10-09**.
+Independent Cloud budget **0/10800s**; historical accounts below are preserved.
+Branch `overnight/merge-26.10`; entry HEAD
+`fa7f3974c490ee4624583de88ea39752fa6ef814`; last proof
+`7a4e1ad19558717a33391d30b9a69af579dd5e57` remains the latest proof evidence.
+No active merge Cloud build; common atomic-lock handoff is not present yet.
+No submission until `/root/smallsort-ci-coordination/HANDOFF.md` is ready.
+[Authorized Cloud phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md).
+
+First run will assess preserved candidates separately: exhaustive stack MIR/AST
+admission/refusals, full12G2 quartet reverse destination bounds, actual2/3 odd
+source association plus pinned panic classifier and actual up/down regressions.
+Accepted A/B/C infrastructure will be reused without repeating migration cases.
+All saved candidates remain CLOUD_UNTESTED; transfer does not accept the
+experimental semantic profile. Generic/ZST/caller resources and arbitrary-n
+composition remain OPEN. Current preparation changes runtime SmallSort by0bytes.
+
+---
+
+## Historical checkpoint (previous pause/deadline superseded above)
+
 # OVERNIGHT-MERGE-26.10 — CHECKPOINT / HOSTED ACCESS BLOCKED
 
 Hosted-полномочия до **14:30 МСК 2026-10-08 (11:30 UTC)**.

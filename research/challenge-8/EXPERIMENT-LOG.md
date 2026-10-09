@@ -5247,3 +5247,39 @@ initializedu32dstwritebeforepanic, intendedfuturehostedsourceadmission/
 compile/execute. UNEXECUTED candidate, notcounterexampletotheconditional
 VF separation contract. Currentcallees/posts retained. No cost/newjobsafter
 HTTP422;2668/7200,4532left; historic3971/21600 and603/1800 unchanged.
+
+
+## NIGHT-MERGE-CLOUD-2026-10-09: authorization and first transfer card
+
+2026-10-09. Owner resumes merge through08:00UTC with a new separate10800s
+Cloud budget. Entryfa7f3974; previous proof7a4e1ad. Accepted migration65a456b8
+and infrastructure30fc3b42 are read, not rerun. First exact-SHA experiment tests
+whether unchanged pinned wrapping/callback/copy/cleanup/usize/stack semantics
+plus saved proof/admission candidates reproduce and advance the merge matrix
+in Cloud. Same actual source SmallSort40939f922bcb6fdc7ee0d30427fa861827043827.
+Domain: positive-stride conditional pointers/resources for actual up/down,
+bidirectional len2/3 with all current source/F owners and destination options,
+and full G2 choice arrays/all12terminal relations. Safety permits arbitrary
+resource-compatible callback effects/answers; ordering is separate. Normal and
+unwind posts unchanged; earlier copied values are not later current snapshots.
+
+Profile unchanged: VFf76012fb/nightly2026-09-25, original exporter/refiner,
+separate existing six reviewed patches, explicit unaccepted cleanup kernel.
+Cloud recipe changes only provider guards/transport/execution, not semantics.
+Admission must separately pass strengthened actual-call operand/ordered-def-use/
+exhaustive hidden-role MIR and AST gates and exact refusal controls. G2 must
+check its helper bodies, retain12posts and either pass or reach the specific
+reverse destination sub(1) pointer-limits VC; actual2/3 must reach odd-copy
+source chunks, guard, full normal/unwind/return/leak/dead/source/refinement and
+final pinned panic-origin classification. Baselines/up/down separate results.
+Setup/unsupported/frontend or wrong-location refusal is INCONCLUSIVE, never
+an intended negative. Diagnostic collection status is separate from theorem.
+
+Decision mapping: new admission failure -> localize exact omitted role/edge
+and fail-closed repair with full affected controls; concrete G2 VC -> checked
+bounds or saved modular helper adapter with identical12posts; actual resource
+VC -> existing-owner association/phase derivation without weakened posts;
+bounded success -> arbitrary-n and actual caller callback-frame/C1/ownership
+work. No unsupported Z3 repetition or new unreviewed semantic rule. One common
+project lock, own budget/state, pinned objects/no-source and <=1800s envelope
+per build; build IDs/full source/profile hashes recorded when dispatched.
