@@ -18,7 +18,10 @@ merge PR и не миграция executable coordinator. Основная ко�
    границах. Не запускать чужие client commands и не редактировать чужие worktrees.
 3. Каждый записывает ACK в своей существующей session card/checkpoint, с policy
    SHA, local docs commit, mission/scope, более конкретным текущим поручением,
-   deadline/account state и следующим разрешённым действием. Не плодить отдельный
+   временем наблюдения, main/absolute deadlines, подтверждённым account state и
+   следующим разрешённым шагом. Окончание main окна означает finishing-only до
+   absolute deadline, не автоматическое CLOSED и не stale AUTHORIZED; закрытие
+   счёта подтверждается записью владельца с точным SHA/временем. Не плодить отдельный
    общий ledger. VeriFast ACK также ссылается на scope своего review/integration
    задания и потребительские profiles; upstream publication не подразумевается.
 4. Сверить три ACK и общую редакцию. Если обновление позднее текущего snapshot,
@@ -98,7 +101,7 @@ links. Main STATUS/snapshot в рабочую ветку не копироват
 | Агент | Где принимать | Что сохранить |
 | --- | --- | --- |
 | select/sort4 | Назначенный `/root/verify-rust-std-select-night`, `research/night-select-sort4-cloud-2026-10-09`, либо более поздний явно назначенный worktree | Latest C1 bridge checkpoint, supplied-premise debts, closed ledger, own stable owner `select-sort4` и allowlist |
-| merge/insert_tail | Новейший назначенный `/root/verify-rust-std-merge-origin`, `merge/incoming-origin-20261009`; старый `/root/verify-rust-std` не переключать | Incoming-origin evidence и expired deadline, prior lifetime NO-GO, owner `merge`, свой учёт и tool scope; не оживлять remaining seconds |
+| merge/insert_tail | Новейший назначенный `/root/verify-rust-std-merge-origin`, `merge/incoming-origin-20261009`; старый `/root/verify-rust-std` не переключать | Incoming-origin closeout `9da02971a162468cd06602585a0dcd4a1e8d67a1`: CLOSED владельцем в 2026-10-09T21:18:12.966107Z (774/3600; 2826 closed), prior lifetime NO-GO; main 21:16:40Z и absolute 21:46:40Z 9 октября различать, сверять время наблюдения, owner `merge`, свой учёт и tool scope |
 | VeriFast maintainer | Собственный назначенный `verify-rust-std` review/infra worktree (на snapshot `/root/verify-rust-std-verifast-infra`, `infra/verifast-mdnew-cfg`) | Свой fullmake checkpoint/ledger и review packages; branch STATUS может быть старым select snapshot — сверять latest RESULT. В отдельном VeriFast repo ссылаться на принятую общую редакцию, не заменять его собственный AGENTS |
 
 Пути выше — адреса snapshot, не вечные branch defaults. Новое назначение важнее.
