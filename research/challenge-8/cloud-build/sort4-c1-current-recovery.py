@@ -394,7 +394,9 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
                             if "postcondition" in s.lower() or "ensuring" in s.lower()][:24],
             "unwind": [s for s in on_log.splitlines() if "unwinding" in s.lower()][:24],
             "leak_check": [s for s in on_log.splitlines() if "Leak check." in s][:12]},
-        "mutation_controls": "NOT_RUN: exact AST admission and a substantive resource obligation must be observed first; no frontend refusal credited as resource negative",
+        "mutation_controls": ("NOT_RUN_READY_FOR_REVIEWED_AST_MUTANTS" if complete else
+                              "NOT_RUN_BASELINE_NOT_COMPLETE"),
+        "mutation_control_limit": "Source/hash admission failures are frontend refusals, not missing-debt/wrong-edge/duplicate resource negatives; separate reviewed AST mutants are required",
         "open_gates": ["actual c2 through c5 and select/copy calls", "full destination initialization",
                        "unrestricted generic/ZST", "all-path liveness and alias/escape mutations",
                        "pointer provenance, ownership, no-cut/S6 integration", "functional composition"]}
