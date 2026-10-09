@@ -30,6 +30,18 @@ def relocation(ev):
     try: code=int((ev/'cases/cut-relocate-helper-exit-code.txt').read_text().strip())
     except (OSError,ValueError):code=None
     matched=code==0 and result.get('classification') not in (None,'INCONCLUSIVE') and result.get('accepted') is False
+    if os.environ.get('LANE')=='o26-recovery-tests':
+        checks=result.get('checks') or {}
+        required={'translated_ids_patch_pin','support','exact_source_pair',
+                  'complete_target_mir_pins','direct_unwind_continue',
+                  'baseline_boundary','ast_six_removed_one_inserted',
+                  'relocated_proof_entry','diagnostic_outcome'}
+        matched=(matched and result.get('classification') in
+                 ('FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY',
+                  'NEXT_PROOF_BLOCKER_DIAGNOSTIC_ONLY') and
+                 set(checks)==required and all(value is True for value in checks.values()) and
+                 result.get('raw_capture_exit')==0 and
+                 result.get('unwind_storage_dead_assumed') is False)
     return {'requested':True,'classification':result.get('classification','INCONCLUSIVE'),
             'diagnostic_match':matched,'helper_exit':code,'test_only':True,'accepted':False}
 
@@ -135,6 +147,16 @@ def sort4_ast_probe(ev):
               result.get('probe_off_ast_output_empty') is True and
               result.get('frontend_semantics_accepted') is False and
               result.get('actual_sort4_proved') is False)
+    if os.environ.get('LANE')=='o26-recovery-tests':
+        detail=result.get('r2_detail_observation') or {}
+        required={'root_local_declarations','cmp_typeid_declaration',
+                  'cmp_block_free_metadata','first_fnmut_operands',
+                  'normal_debt_close','normal_recovery_call',
+                  'local_assignment_descriptors'}
+        complete=(complete and set(detail)==required and
+                  all(value in ('OBSERVED','UNOBSERVED') for value in detail.values()) and
+                  isinstance(result.get('first_call_returning_arm_zero'),bool) and
+                  isinstance(result.get('first_call_unwinding_arm_one'),bool))
     return {'requested':True,'complete':complete,'classification':result.get('classification','INCONCLUSIVE'),
             'helper_exit':code,'test_only':True,'accepted':False,
             'scope_observation':observation,
@@ -362,10 +384,16 @@ def main():
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
     rebase_profile=wrapper_profile(ev)
     independent=os.environ.get('LANE')=='o26-independent-tests'
+    recovery=os.environ.get('LANE')=='o26-recovery-tests'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
                            not owner['requested'] and not sort4['requested'] and
                            not a1['requested'] and not cut['requested'])
+    recovery_requested=(cut['requested'] and ast_probe['requested'] and
+                        not owner['requested'] and not sort4['requested'] and
+                        not a1['requested'] and not coordination['requested'] and
+                        not nested_order['requested'] and not wrapper_rebase['requested'] and
+                        not rebase_profile['requested'])
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
                          (not owner['requested'] or owner['complete']) and
                          (not sort4['requested'] or sort4['complete']) and
@@ -376,7 +404,8 @@ def main():
                          (not ast_probe['requested'] or ast_probe['complete']) and
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
-                         (not independent or independent_requested))
+                         (not independent or independent_requested) and
+                         (not recovery or recovery_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
     # component 20 A1 negatives are still pending. These cannot be inferred from
@@ -386,10 +415,11 @@ def main():
                          ast_probe['requested'] or wrapper_rebase['requested'] or
                          rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
-              all(controls.values()) and not test_only_requested and not independent)
+              all(controls.values()) and not test_only_requested and not independent and not recovery)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
+         'RECOVERY_TESTS_DIAGNOSTIC_COMPLETE' if recovery and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
@@ -407,6 +437,7 @@ def main():
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
       'independent_test_scope_complete':independent_requested if independent else False,
+      'recovery_test_scope_complete':recovery_requested if recovery else False,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
     a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
