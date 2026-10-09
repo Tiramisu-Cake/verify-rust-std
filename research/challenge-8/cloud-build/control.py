@@ -159,9 +159,12 @@ def reconcile(state,ledger,ledger_path):
 
 
 def reconcile_global(caller_owner,caller_ledger):
- """Observe another owner's reservation without editing its ledger or state."""
- record=coordination.active()
- if record is None:return
+ """Reconcile both slots without editing another owner's ledger or state."""
+ for record in coordination.reservations():
+  reconcile_reservation(record,caller_owner,caller_ledger)
+
+
+def reconcile_reservation(record,caller_owner,caller_ledger):
  token=record['dispatch_token']
  ledger_path=Path(record['ledger'])
  if not ledger_path.is_absolute():raise RuntimeError('Global reservation has a nonabsolute ledger path')
@@ -304,7 +307,8 @@ def run_command(a,state,ledger,ledger_path):
   now=datetime.datetime.now(datetime.timezone.utc)
   if now+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Timeout plus queue reserve exceeds phase deadline')
   coordination.request(a.owner,a.phase_id,ledger_path,ledger['deadline_utc'])
-  if coordination.last_owner()==a.owner and coordination.pending_others(a.owner):raise SystemExit('Another owner has a pending turn; wait for its submit or withdrawal')
+  # Requests are informational. One slot per owner provides isolation without
+  # making an idle/pending peer serialize the other owner's work.
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
    subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
@@ -312,7 +316,8 @@ def run_command(a,state,ledger,ledger_path):
    expected=subprocess.check_output(['git','show',a.infra_sha+':research/challenge-8/cloud-build/'+name],cwd=ROOT)
    if expected!=(DIR/name).read_bytes():raise SystemExit('Uncommitted/local '+name+' differs from infrastructure SHA; publish first')
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])
-  if ongoing or ledger['active_build'] or coordination.active():raise SystemExit('Queued/active or unresolved build: monitor/reconcile first')
+  if ledger['active_build']:raise SystemExit('Own queued/active or unresolved build: monitor/reconcile first')
+  coordination.require_capacity(a.owner,ledger_path,ongoing or [])
   # queue envelope is reserved too, respecting phase/per-build ceiling.
   if not 90<=a.timeout<=1740 or a.timeout+60>1800 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
@@ -357,7 +362,7 @@ def run_command(a,state,ledger,ledger_path):
    b=invoke(['builds','describe',a.build_id,'--region=global','--format=json']);print(json.dumps({key:b.get(key) for key in ['id','status','createTime','startTime','finishTime','logUrl']},indent=2))
   else:print(json.dumps(ledger,indent=2))
  elif a.command=='cancel':
-  active=coordination.active()
+  active=coordination.active(a.owner)
   if not active or active.get('build_id')!=a.build_id or active.get('owner')!=a.owner or active.get('phase_id')!=a.phase_id or active.get('ledger')!=str(ledger_path):raise SystemExit('Only the explicitly selected owner may cancel its active build')
   if not any(x.get('build_id')==a.build_id and not x.get('accounted') for x in ledger['builds']):raise SystemExit('Only own active build may be cancelled')
   invoke(['builds','cancel',a.build_id,'--region=global','--format=json']);print('Cancellation requested; status remains authoritative')

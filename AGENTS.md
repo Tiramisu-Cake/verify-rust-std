@@ -1,3 +1,10 @@
+## Cloud Build concurrency — owner update 2026-10-09
+
+Use at most two project-wide queued/running/unresolved builds, at most one per
+stable agent owner and ledger. Follow [the two-slot protocol and transition](research/challenge-8/cloud-build/PARALLEL-BUILDS.md).
+This supersedes shared single-slot and turn-alternation instructions in older
+phase documents. Preserve all existing budgets, deadlines and proof scopes.
+
 ## Permanent execution boundary
 
 For SmallSort verification, builds, executable tests, source extraction and
@@ -75,7 +82,7 @@ A green fixture permits the next already-agreed step, not a new architecture,
 tool extension or phase. At a phase boundary, unresolved material decision or
 new trust requirement, checkpoint and ask the owner before expanding scope.
 
-One relevant Cloud Build at a time. Use only reviewed lanes and no speculative
+One relevant Cloud Build per agent owner, at most two across the project. Use only reviewed lanes and no speculative
 jobs or duplicate submissions. Do not dispatch GitHub Actions without direct
 owner instruction. Do not modify existing workflow triggers under this policy;
 their current automatic filters are listed in

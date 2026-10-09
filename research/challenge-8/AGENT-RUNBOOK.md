@@ -3,7 +3,10 @@
 The permanent SmallSort execution provider is existing Cloud Build.
 [Phase](cloud-build/PHASE.md),
 [commands](cloud-build/README.md), [new ledger](cloud-build/BUDGET.json).
-One queued/running build, exact published infrastructure and proof SHAs,
+At most two project-wide queued/running/unresolved builds, one per agent owner
+and ledger. Follow the [two-slot transition](cloud-build/PARALLEL-BUILDS.md);
+this supersedes older shared single-slot and turn-alternation rules without
+changing any phase deadline or budget. Exact published infrastructure and proof SHAs,
 no-source pinned-object submission, unique BuildID bucketprefix, upload before
 final verdict.
 Use every gcloud invocation with explicit configuration/account/project and
