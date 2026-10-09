@@ -149,13 +149,13 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
         # The exact runtime read and initializer remain adjacent after ghost strip.
         verified = verified.replace(READ, READ + ANNOTATIONS, 1)
         close = MISSING_OWNER_CLOSE if name == "missing_held_owner" else OWN_CLOSE
-        middle = close + FBC_CLOSE
+        middle = SOURCE_IDENTITY + close + FBC_CLOSE
         if name == "double_physical_fbc":
             middle += DOUBLE_FBC_CLOSE
         middle += FBC_OPEN + OWN_OPEN
         if name == "after_fbc_false":
             middle += FBC_FALSE
-        middle += SOURCE_IDENTITY + ALIGNMENT + SOURCE_LIMITS + b"".join(GEOMETRY)
+        middle += ALIGNMENT + SOURCE_LIMITS + b"".join(GEOMETRY)
         verified = verified.replace(GUARD, GUARD + middle, 1)
         verified = verified.replace(COPY, COPY + RECOVER +
                                     (FALSE if name == "after_recovery_false" else b""), 1)
