@@ -18,6 +18,19 @@ the actual callback frame, source-slice ownership bridge, or generic ZST path.
 
 ## Parser-stage repair and evidence boundary
 
+### RESOURCE10 pure range/order preconditions
+
+The a643d1e1 run reached VeriFast but stopped while parsing the first native
+helper contract: `native_pair_index_in_range` was reported as an unknown
+predicate. The name is a `fix` returning `bool`, so it is a pure condition, not
+a resource predicate. The same issue affected the pure ordered/distinct and
+current-value match conditions in the helper contracts. Spell each such
+condition explicitly as `... == true` while retaining `&*&` only to separate
+the existing resource chunks and pure facts. This is a grammar/type-category
+repair: it keeps every range, ordering, and current-value condition, and leaves
+all resources, helper bodies, and normal/unwind posts unchanged. Fresh hosted
+evidence is required; this draft has no proof result from the repair.
+
 ### RESOURCE10 parse-syntax follow-up
 
 The 54a22b0d run confirms that the earlier multi-line `/*@ ... @*/` wrapper

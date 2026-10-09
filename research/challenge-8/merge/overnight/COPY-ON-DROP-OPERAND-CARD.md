@@ -65,3 +65,24 @@ Both gates additionally refuse dead-code records anywhere in the saved VF
 log, including outside the target-body segment. The matched first false
 requires zero target copy executions/returns/leak records after its failure;
 these zeros identify this diagnostic and do not remove target positive posts.
+
+
+## Fresh Cloud outcome — a643d1e1
+
+Build `a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`, proof/infra
+`20184556bc04ff33185fb4922617077a0326a383`, archive SHA
+`72e2c38acfe349b901b36605210ef5abdecfbddd03465925941ff3606a266f55`, config
+`0f9a50564f04dc067a5d1998a81e9191d340d1c75278114cf6588c016ff083e0`, sourceinput
+`e61f9a792fa9f2cfc16e0822ae00e10028614272e9f601a45ad783713e4843c2`. Both stock
+and resource-profile positives are `PASS_COMPONENT_ONLY`; their matched false
+controls are `EXPECTED_FALSE_ASSERTION` at `verified/lib.rs(85,20-25)`. Positive
+source/MIR/runtime-AST/refinement/VeriFast gates pass with one actual body, five recorded copy-call executions, one return and one leak check; no error/dead records.
+The negative enters the same actual body and reaches only the exact false assertion,
+with zero copy/return/leak records afterward. Both cases admit physical field origins
+`[0,1,2]` for `self.src`, `self.dst`, `self.len`, preserve dynamic `self.len` count,
+and retain returning/unwinding clauses.
+
+This validates the bounded body classifier and its intended negative. It does not
+resolve the separate prototype compatibility path: `CopyOnDrop_own` remains
+`NOT_ESTABLISHED` for callable public Drop/caller cleanup, and no ownership transfer
+or caller theorem follows.

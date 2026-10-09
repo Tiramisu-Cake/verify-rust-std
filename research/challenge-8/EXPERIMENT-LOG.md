@@ -6300,3 +6300,44 @@ does not make the incomplete shape matrix complete. Overall diagnostic/profile
 acceptance remains false. Resource10 was separately submitted as asynchronous build
 `a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`; its reservation is 1800s and was not yet
 charged at this checkpoint.
+
+
+### NIGHT-MERGE — resource10 Drop admission, native-pair stop and permutation control
+
+Build `a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`, proof/infra
+`20184556bc04ff33185fb4922617077a0326a383`, collector SUCCESS 297s
+(07:17:31.823942–07:22:28.815509 UTC); archive SHA
+`72e2c38acfe349b901b36605210ef5abdecfbddd03465925941ff3606a266f55`. Config
+`0f9a50564f04dc067a5d1998a81e9191d340d1c75278114cf6588c016ff083e0`; sourceinput
+`e61f9a792fa9f2cfc16e0822ae00e10028614272e9f601a45ad783713e4843c2`. Full artifact
+and case logs verified. Own usage is 8007/10800 charged, 2793 remaining; no active
+own build.
+
+Actual `CopyOnDrop::drop` positive passes `PASS_COMPONENT_ONLY` in both stock and
+six-patch resource profiles: source, structured MIR, runtime AST, verifier and
+refinement gates pass; the runtime body has one copy call, one return and one leak
+check, with no errors/dead code. The linked field/operand admission confirms actual
+`self.src`, `self.dst`, `self.len` origins `[0,1,2]`, the count is dynamically read
+from `self.len`, and both returning/unwinding branches remain admitted. Matching
+first-body-false controls are `EXPECTED_FALSE_ASSERTION` in both profiles at exactly
+`verified/lib.rs(85,20-25)`; they enter the target body, and have zero copy-call,
+return and leak records after the intentional assertion. This component result does
+not establish the `CopyOnDrop_own` callable-trait/caller path: compatibility status
+remains `NOT_ESTABLISHED`, and the recorded prototype proof is not runtime body.
+
+All four native-source-pair cases in both stock and six-patch profiles are
+INCONCLUSIVE before any body executes. Exporter/decode/refinement are 0; VeriFast
+exits 1 with `verified/lib.rs(129,19-45): No such predicate:
+native_pair_index_in_range`. This is a source/spec name mismatch, not a negative
+or a failed proof obligation.
+
+Current-owner arbitrary-`usize` transposition positives PASS in both profiles
+(6/6 bodies, 10 returns, 10 leak checks, all stages zero, no error/dead records).
+Matched false entry is `EXPECTED_FALSE_ASSERTION` at `238:16-21`, with all five
+helpers checked and 9 return/leak records. The double-owner calibration executes
+the target (6 records) and five helpers (9 return/leak records) before failing at
+`verified/lib.rs(242,95-102)` for no matching `foreach<T>(..., own0(...))` heap
+chunk. It remains INCONCLUSIVE, with no intended negative credit.
+
+Next OR shape-controls candidate `e3fc8001aa87339029a739c6807bb07968239829` is
+published/registered pending the foreign turn; it is not yet submitted as a build.

@@ -6,7 +6,20 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Latest bounded diagnostic: build `9ad825fa-23f2-49f6-bc6c-db2052fe755c`, proof
+Latest bounded diagnostic: resource10 build `a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`, proof
+`20184556bc04ff33185fb4922617077a0326a383`, archive SHA
+`72e2c38acfe349b901b36605210ef5abdecfbddd03465925941ff3606a266f55`. Actual
+CopyOnDrop positives and exact first-body-false controls PASS_COMPONENT_ONLY /
+EXPECTED_FALSE_ASSERTION in both profiles, at `85:20–25`; callable Drop/C1 remains
+unestablished. Current-owner transposition positives and matched false entry pass
+in both profiles (6 bodies, 10 returns/leaks; false at `238:16–21`). Its double-
+owner calibration remains inconclusive at the missing `own0` chunk (`242:95–102`).
+All native source-pair cases remain inconclusive before body execution at the missing
+predicate `native_pair_index_in_range` (`129:19–45`), so they provide no native
+pair proof or negative. The prior 9ad bounded merge result and its control limits
+are recorded below.
+
+Historical bounded diagnostic: build `9ad825fa-23f2-49f6-bc6c-db2052fe755c`, proof
 `96086b2b6c150346e9d3cd1dad30778845880011`, archive SHA
 `21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`. The
 actual unchanged len2/3 projection PASSed all 11 body, 28 return, 31 leak, source,

@@ -389,14 +389,52 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             row.get("dead_code_records")):
                         return False
                 elif name == "current_owner_transposition_double_owner_calibration":
-                    if (meta.get("negative") is not False or
+                    expected = meta.get("expected_rejection")
+                    target_line = meta.get("marked_target_line")
+                    expected_message = (
+                        "No matching heap chunks: foreach<T>(cons(head("
+                        "transposition_values(T_typeid, vs, i, j)), nil), own0(T_typeid, t))")
+                    exact_error = (f"verified/lib.rs({target_line},95-102): error: "
+                                   f"{expected_message}")
+                    if (meta.get("negative") is not True or
                             meta.get("unclassified_target") is not False or
                             meta.get("expected_error") is not None or
-                            meta.get("expected_rejection") is not None or
                             meta.get("expected_dead") is not None or
                             row.get("expected_error") is not None or
-                            classification not in {"PASS", "INCONCLUSIVE"}):
+                            not isinstance(expected, dict) or
+                            expected != {
+                                "kind": "memory_permission",
+                                "error_file": "verified/lib.rs",
+                                "error_line": target_line,
+                                "column_start": 95,
+                                "column_end": 102,
+                                "message": expected_message,
+                                "target_line": target_line,
+                            } or
+                            type(target_line) is not int or target_line <= 0 or
+                            row.get("expected_rejection") != expected or
+                            row.get("rejection_class") != "proof" or
+                            type(row.get("intended_rejection_gate")) is not bool or
+                            classification not in {"EXPECTED_REJECTION", "INCONCLUSIVE"}):
                         return False
+                    if classification == "EXPECTED_REJECTION":
+                        first_failure = row.get("first_failure")
+                        target_log = (case_dir / "verifast.log").read_text(errors="replace")
+                        if (row.get("intended_rejection_gate") is not True or
+                                row.get("full_positive_gate") is not False or
+                                stages != {"exporter": 0, "decode": 0,
+                                           "verifast": 1, "refinement": 0} or
+                                row.get("error_lines") != [exact_error] or
+                                row.get("dead_code_records") != [] or
+                                not isinstance(first_failure, dict) or
+                                first_failure.get("stage") != "verifast" or
+                                first_failure.get("exit_code") != 1 or
+                                first_failure.get("diagnostic") != exact_error or
+                                not all(body_execution.get(body, 0) > 0 for body in bodies) or
+                                not re.search(rf"(?m)^.*verified/lib\.rs\({target_line},"
+                                              r"\d+(?:-\d+)?\): (?:note: )?Executing statement$",
+                                              target_log)):
+                            return False
                 else:
                     if (meta.get("negative") is not False or
                             meta.get("expected_error") is not None or
@@ -426,12 +464,17 @@ def audit(root: Path, selection_path: Path, run_status: int,
             artifact_status[group] = valid
             try:
                 aggregate = json.loads((cases / spec["directory"] / "aggregate.json").read_text())
+                double_owner = aggregate.get("cases", {}).get(
+                    "current_owner_transposition_double_owner_calibration", "INCONCLUSIVE")
                 permutation_cases[group] = {
                     "accepted": False,
                     "raw_case_statuses": aggregate.get("cases", {}),
-                    "double_owner_calibration": aggregate.get("cases", {}).get(
-                        "current_owner_transposition_double_owner_calibration", "INCONCLUSIVE"),
-                    "double_owner_interpretation": "CALIBRATION_ONLY_NO_INTENDED_ORACLE",
+                    "double_owner_intended_negative": double_owner,
+                    "double_owner_interpretation": (
+                        "FRESH_MATCHED_MEMORY_PERMISSION_REJECTION_UNACCEPTED"
+                        if valid and double_owner == "EXPECTED_REJECTION" else
+                        "INTENDED_NEGATIVE_INCONCLUSIVE" if valid else
+                        "AUDIT_INVALID_NO_NEGATIVE_CREDIT"),
                     "audit_valid": valid,
                 }
             except (OSError, ValueError, TypeError, AttributeError):

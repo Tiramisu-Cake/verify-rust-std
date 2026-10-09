@@ -126,8 +126,8 @@ pred native_pair_array_domain<T>(p: *T, n: usize) =
     pointer_within_limits(p + n) == true;
 
 lem native_pair_index_step_in_range(index: option<usize>, n: usize)
-    req n > 0 &*& native_pair_index_in_range(index, n);
-    ens native_pair_index_in_range(native_pair_step(index), n - 1);
+    req n > 0 &*& native_pair_index_in_range(index, n) == true;
+    ens native_pair_index_in_range(native_pair_step(index), n - 1) == true;
 {
     match index {
         none => {}
@@ -144,10 +144,10 @@ lem native_pair_index_step_in_range(index: option<usize>, n: usize)
 }
 
 lem native_pair_ordered_step(i: option<usize>, j: option<usize>, n: usize)
-    req n > 0 &*& native_pair_index_in_range(i, n) &*&
-        native_pair_index_in_range(j, n) &*&
-        native_pair_ordered_distinct(i, j);
-    ens native_pair_ordered_distinct(native_pair_step(i), native_pair_step(j));
+    req n > 0 &*& native_pair_index_in_range(i, n) == true &*&
+        native_pair_index_in_range(j, n) == true &*&
+        native_pair_ordered_distinct(i, j) == true;
+    ens native_pair_ordered_distinct(native_pair_step(i), native_pair_step(j)) == true;
 {
     match i {
         none => {}
@@ -173,11 +173,11 @@ lem native_pair_ordered_step(i: option<usize>, j: option<usize>, n: usize)
 lem native_pair_extract_rec<T>(t: thread_id_t, p: *T, n: usize,
     i: option<usize>, j: option<usize>, vs: list<T>, vi: T, vj: T)
     req native_pair_owned_array::<T>(t, p, n, vs) &*&
-        native_pair_index_in_range(i, n) &*&
-        native_pair_index_in_range(j, n) &*&
-        native_pair_ordered_distinct(i, j) &*&
-        native_pair_current_matches::<T>(vs, i, vi) &*&
-        native_pair_current_matches::<T>(vs, j, vj);
+        native_pair_index_in_range(i, n) == true &*&
+        native_pair_index_in_range(j, n) == true &*&
+        native_pair_ordered_distinct(i, j) == true &*&
+        native_pair_current_matches::<T>(vs, i, vi) == true &*&
+        native_pair_current_matches::<T>(vs, j, vj) == true;
     ens native_pair_holes::<T>(t, p, n, i, j, vs) &*&
         native_pair_selected::<T>(t, p, n, i, j, vi, vj);
 {
@@ -205,9 +205,9 @@ lem native_pair_restore_rec<T>(t: thread_id_t, p: *T, n: usize,
     vi: T, vj: T)
     req native_pair_holes::<T>(t, p, n, i, j, vs) &*&
         native_pair_selected::<T>(t, p, n, i, j, vi, vj) &*&
-        native_pair_index_in_range(i, n) &*&
-        native_pair_index_in_range(j, n) &*&
-        native_pair_ordered_distinct(i, j);
+        native_pair_index_in_range(i, n) == true &*&
+        native_pair_index_in_range(j, n) == true &*&
+        native_pair_ordered_distinct(i, j) == true;
     ens native_pair_owned_array::<T>(t, p, n,
         native_pair_replace::<T>(vs, i, j, vi, vj));
 {
@@ -233,11 +233,11 @@ lem native_pair_extract<T>(t: thread_id_t, p: *T, n: usize,
     i: option<usize>, j: option<usize>, vs: list<T>, vi: T, vj: T)
     req native_pair_array_domain::<T>(p, n) &*&
         native_pair_owned_array::<T>(t, p, n, vs) &*&
-        native_pair_index_in_range(i, n) &*&
-        native_pair_index_in_range(j, n) &*&
-        native_pair_ordered_distinct(i, j) &*&
-        native_pair_current_matches::<T>(vs, i, vi) &*&
-        native_pair_current_matches::<T>(vs, j, vj);
+        native_pair_index_in_range(i, n) == true &*&
+        native_pair_index_in_range(j, n) == true &*&
+        native_pair_ordered_distinct(i, j) == true &*&
+        native_pair_current_matches::<T>(vs, i, vi) == true &*&
+        native_pair_current_matches::<T>(vs, j, vj) == true;
     ens native_pair_array_domain::<T>(p, n) &*&
         native_pair_holes::<T>(t, p, n, i, j, vs) &*&
         native_pair_selected::<T>(t, p, n, i, j, vi, vj);
@@ -253,9 +253,9 @@ lem native_pair_restore<T>(t: thread_id_t, p: *T, n: usize,
     req native_pair_array_domain::<T>(p, n) &*&
         native_pair_holes::<T>(t, p, n, i, j, vs) &*&
         native_pair_selected::<T>(t, p, n, i, j, vi, vj) &*&
-        native_pair_index_in_range(i, n) &*&
-        native_pair_index_in_range(j, n) &*&
-        native_pair_ordered_distinct(i, j);
+        native_pair_index_in_range(i, n) == true &*&
+        native_pair_index_in_range(j, n) == true &*&
+        native_pair_ordered_distinct(i, j) == true;
     ens native_pair_array_domain::<T>(p, n) &*&
         native_pair_owned_array::<T>(t, p, n,
             native_pair_replace::<T>(vs, i, j, vi, vj));

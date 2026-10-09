@@ -1,7 +1,7 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED BODY DIAGNOSTICS, LIVENESS AND TRUST OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **7710/10800 charged
-Cloud seconds**, remaining **3090**. Branch `overnight/merge-26.10`.
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **8007/10800 charged
+Cloud seconds**, remaining **2793**. Branch `overnight/merge-26.10`.
 
 Latest OR Build **9ad825fa-23f2-49f6-bc6c-db2052fe755c**, proof/infra
 `96086b2b6c150346e9d3cd1dad30778845880011`, collector SUCCESS 1416s;
@@ -20,16 +20,27 @@ All 17 shape controls are SETUP/INCONCLUSIVE (manual exporter exit 2: missing
 `goto` in normal MIR); separate source-hash refusal passed at source admission,
 but no matcher-negative credit. Overall profile/acceptance gates remain false.
 
-Latest own resource10 Build **a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7** WORKING at latest API check,
-exact `20184556bc04ff33185fb4922617077a0326a383`, config
+Latest own resource10 Build **a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7**, collector
+SUCCESS 297s; 07:17:31.823942–07:22:28.815509 UTC. Proof/infra
+`20184556bc04ff33185fb4922617077a0326a383`, archive SHA
+`72e2c38acfe349b901b36605210ef5abdecfbddd03465925941ff3606a266f55`, config
 `0f9a50564f04dc067a5d1998a81e9191d340d1c75278114cf6588c016ff083e0`, sourceinput
-`e61f9a792fa9f2cfc16e0822ae00e10028614272e9f601a45ad783713e4843c2`;
-1800s reservation not yet charged. Historical accounts below remain unchanged.
-Next prepared targeted OR gate uses `SHAPE_CONTROLS_ONLY`: fresh short unchanged
-full-post MIR/AST/refinement capture and all17 controls, corrected exact block32
-predecessor. Complete9ad actual7/same6 evidence is separate; current short capture
-cannot credit target PASS. Production semantic profile/full7diff/posts unchanged.
-No fresh shape result yet; common alternating client required.
+`e61f9a792fa9f2cfc16e0822ae00e10028614272e9f601a45ad783713e4843c2`.
+Both stock and experimental Drop positives PASS_COMPONENT_ONLY; the matching
+first-body-false controls are EXPECTED_FALSE_ASSERTION exactly at 85:20–25, with
+full source/MIR/refinement/body admission, one positive body/return/leak, and zero
+copy/return/leak after negative assertion. Prototype `CopyOnDrop_own` remains
+vacuous and callable Drop/C1 cleanup compatibility remains NOT_ESTABLISHED.
+Native-pair all four cases in both profiles stop before bodies at the frontend
+predicate error `No such predicate: native_pair_index_in_range` (129:19–45),
+therefore all remain INCONCLUSIVE. Current-owner permutation positives PASS in
+both profiles (6 bodies, 10 returns, 10 leaks); its false-entry is EXPECTED_FALSE
+at 238:16–21. Double-owner calibration reaches the target and five helpers but
+fails matching current owner chunks at 242:95–102; retain INCONCLUSIVE/no intended
+negative credit. Own charged 8007/10800, remaining 2793; no active own build.
+The next OR shape-controls candidate `f9139fc26db535a9552f26a84085a57f6014702e`
+is published/registered and waiting for the foreign turn; it is not yet a run.
+Historical accounts below remain unchanged.
 
 Previous completed resource9 Build **54a22b0d-782c-4056-a512-6dfa31f3fff8**, proof/infra
 7655795962bf7f151643ba1f1b123b721acdf5ed, collectorSUCCESS395s;
@@ -591,3 +602,10 @@ return-slot vacuity. Ghost-only hiddenStruct stackaddress patch +14existing
 field/padding invariant, fresh normal-preprocess rolecertificate; finalAST
 correspondence gate remainsOPEN so no actualbidir/profile acceptance.
 First console for stackprofile coldbuilt; oldcache never reused.
+
+Current separate RESOURCE11 draft: native pure bool contract applications use
+explicit `== true`, retaining all range/ordering/current-value/owner/frame/posts.
+Permutation double-owner case now has a fresh predeclared exact memory-permission
+oracle; a643 stays historical INCONCLUSIVE. Selected7 groups check both tools
+plus source preparations/smoke; Drop gates unchanged and not repeated. New Cloud
+required. OR shape candidate remains independently pinned f9139fc2.

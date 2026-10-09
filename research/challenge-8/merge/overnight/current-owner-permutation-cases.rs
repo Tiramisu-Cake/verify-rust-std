@@ -271,9 +271,8 @@ on_unwind_ens false;
 }
 // CASE_END current_owner_transposition_false_entry
 
-// Calibration-only duplicate-owner probe. It opens the destination owner
-// sequence, then requests a second copy of one current T.own chunk. Do not
-// count this as a negative until hosted evidence localizes that failure to T.own.
+// Intended duplicate-owner proof negative. The historical case name remains
+// stable; fresh Cloud evidence must match the exact predeclared resource error.
 // CASE_BEGIN current_owner_transposition_double_owner_calibration
 pub unsafe fn current_owner_transposition_double_owner_calibration<T, F: FnMut(&T, &T) -> bool>(
     src: *mut T, dst: *mut T, n: usize, i: usize, j: usize, is_less: &mut F,
@@ -303,6 +302,7 @@ on_unwind_ens false;
     //@ open foreach(transposition_values::<T>(vs, i, j), own::<T>(t));
     //@ close foreach(nil, own::<T>(t));
     //@ close foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t));
-    //@ assert foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)) &*& foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)); // CALIBRATION_TARGET: duplicate one transferred owner
+    // EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":95,"column_end":102,"message":"No matching heap chunks: foreach<T>(cons(head(transposition_values(T_typeid, vs, i, j)), nil), own0(T_typeid, t))"}
+    //@ assert foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)) &*& foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)); // TARGET: duplicate one transferred owner
 }
 // CASE_END current_owner_transposition_double_owner_calibration
