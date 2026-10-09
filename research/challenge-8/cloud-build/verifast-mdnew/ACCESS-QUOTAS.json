@@ -1,0 +1,148 @@
+{
+  "project": "smallsort-ci",
+  "location": "global",
+  "pool": "non-regional default (no options.pool)",
+  "machine_type": "E2_STANDARD_2",
+  "dispatcher": "smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com",
+  "builder": "smallsort-builder@smallsort-ci.iam.gserviceaccount.com",
+  "quota_source": "gcloud alpha services quota list --service=cloudbuild.googleapis.com --consumer=projects/504462351565",
+  "source_sha256": "f2fb2d494f1b40202c06b1ec88fcff1439e355cd01d44259645f7d8286812c3a",
+  "quota_metrics": [
+    {
+      "consumerQuotaLimits": [
+        {
+          "isPrecise": true,
+          "metric": "cloudbuild.googleapis.com/concurrent_public_pool_build_cpus",
+          "quotaBuckets": [
+            {
+              "defaultLimit": "10",
+              "effectiveLimit": "10"
+            },
+            {
+              "defaultLimit": "20",
+              "dimensions": {
+                "build_origin": "app-engine"
+              },
+              "effectiveLimit": "20"
+            },
+            {
+              "defaultLimit": "20",
+              "dimensions": {
+                "build_origin": "cloud-deploy"
+              },
+              "effectiveLimit": "20"
+            },
+            {
+              "defaultLimit": "40",
+              "dimensions": {
+                "build_origin": "cloud-functions"
+              },
+              "effectiveLimit": "40"
+            },
+            {
+              "defaultLimit": "40",
+              "dimensions": {
+                "build_origin": "cloud-run"
+              },
+              "effectiveLimit": "40"
+            },
+            {
+              "defaultLimit": "20",
+              "dimensions": {
+                "build_origin": "cmle"
+              },
+              "effectiveLimit": "20"
+            },
+            {
+              "defaultLimit": "20",
+              "dimensions": {
+                "build_origin": "firebase-app-hosting"
+              },
+              "effectiveLimit": "20"
+            }
+          ],
+          "supportedLocations": [
+            "africa-south1",
+            "asia-east1",
+            "asia-east2",
+            "asia-northeast1",
+            "asia-northeast2",
+            "asia-northeast3",
+            "asia-south1",
+            "asia-south2",
+            "asia-southeast1",
+            "asia-southeast2",
+            "asia-southeast3",
+            "australia-southeast1",
+            "australia-southeast2",
+            "europe-central2",
+            "europe-north1",
+            "europe-north2",
+            "europe-southwest1",
+            "europe-west1",
+            "europe-west10",
+            "europe-west12",
+            "europe-west2",
+            "europe-west3",
+            "europe-west4",
+            "europe-west6",
+            "europe-west8",
+            "europe-west9",
+            "me-central1",
+            "me-central2",
+            "me-west1",
+            "northamerica-northeast1",
+            "northamerica-northeast2",
+            "northamerica-south1",
+            "southamerica-east1",
+            "southamerica-west1",
+            "us-central1",
+            "us-east1",
+            "us-east4",
+            "us-east5",
+            "us-south1",
+            "us-west1",
+            "us-west2",
+            "us-west3",
+            "us-west4"
+          ],
+          "unit": "1/{project}/{region}/{build_origin}"
+        }
+      ],
+      "displayName": "Concurrent Build CPUs (Regional Default Pool)",
+      "metric": "cloudbuild.googleapis.com/concurrent_public_pool_build_cpus",
+      "unit": "1{CPU}"
+    },
+    {
+      "consumerQuotaLimits": [
+        {
+          "isPrecise": true,
+          "metric": "cloudbuild.googleapis.com/ongoing_builds",
+          "quotaBuckets": [
+            {
+              "defaultLimit": "10",
+              "effectiveLimit": "10"
+            }
+          ],
+          "unit": "1/{project}"
+        }
+      ],
+      "displayName": "Concurrent Builds (Non-regional Default Pool)",
+      "metric": "cloudbuild.googleapis.com/ongoing_builds"
+    }
+  ],
+  "observed_build_access": true,
+  "builder_identity_describe": true,
+  "capacity_interpretation": "Limits allow three 2-CPU builds; current free capacity not confirmed and live quota remains Cloud-enforced.",
+  "read_failures": {
+    "worker_pools_list": "PERMISSION_DENIED (private pool unused)",
+    "cloud_quotas_api": "SERVICE_DISABLED; not enabled",
+    "bucket_metadata": "storage.buckets.get denied; object read tested separately"
+  },
+  "credentials_printed": false,
+  "object_read_probe": {
+    "build_id": "12d6a399-0cd3-4d58-9624-dd5b8c506c15",
+    "object": "upload-complete.json",
+    "read_succeeded": true
+  }
+}

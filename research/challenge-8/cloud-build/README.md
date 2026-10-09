@@ -1,3 +1,21 @@
+# VeriFast MDnew lane (2026-10-09)
+
+The separately authorized owner `verifast` uses
+[its own phase and 3600-second ledger](verifast-mdnew/PHASE.md), the committed
+`verifast-mdnew-cfg` recipe, and the existing `smallsort-ci/global` dispatcher.
+Pinned tool source is delivered as ordinary committed bundle/manifest blobs
+under `research/challenge-8/verifast-input/<tool-SHA>/`; the helper restores
+original upstream/candidate Git identities before compilation. The two source
+consoles consume identical five fixtures. Diagnostic negative copies remove only
+the should_fail marker, preserve line numbers, and receive separate hashes.
+Binary components and source bundle provenance are recorded separately.
+
+The active coordinator remains v2/max2 pending
+[exact peer adoption and locked migration](verifast-mdnew/ADOPTION.md).
+The portable v3 protocol does not change phase budgets or authorize submissions.
+Peer phase-specific `control.py` must be preserved. No new verifast submissions
+are allowed after16:27:32Z; finish already-started work only until16:57:32Z.
+
 # Current shared Cloud interface — nightly phases
 
 The accepted migration below stays closed. New owner-authorized phases use

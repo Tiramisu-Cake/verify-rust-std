@@ -396,6 +396,16 @@ def main() -> int:
                                     if "environment.txt" in payload else None),
             "inventory_excludes": ["manifest.json", "files-sha256.json"],
         }
+        if lane == "verifast-mdnew-cfg":
+            manifest["tool_profile"] = {
+                "scope": "five focused MDnew fixtures; consumer integration and upstream suite separate",
+                "baseline_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+                "candidate_source_sha": "1435539475fdaa7810bc2bc780fba0514f765f48",
+                "candidate_tree": "be55d8d934fb10617309a289e0d546ca1aed6ea0",
+                "runtime_components": parse_json_or_none(payload.get("allprooflogs/runtime-components.json")),
+                "source_bundle_delivery": parse_json_or_none(payload.get("allprooflogs/restore-receipt.json")),
+                "source_bundle_and_binary_kit_are_separate": True,
+            }
         # Replace only this package's known output names; preserve unrelated files.
         files = dict(payload)
         files["text-logs-index.json"] = text_logs_index_bytes
