@@ -379,20 +379,20 @@ capture_case() {
   stages[refinement]=$rc
   cp "$all/$name-stderr.log" "$outdir/$side-refinement.log"
   if [[ "$side" == candidate ]]; then
-    cp "$workdir/normal-mir.bin" "$outdir/normal-mir.bin"
-    cp "$workdir/readonly-mir.bin" "$outdir/readonly-mir.bin"
-    cp "$workdir/refinement.log" "$outdir/refinement.log"
-    cp "$workdir/normal-mir.txt" "$outdir/normal-mir.txt"
-    cp "$workdir/readonly-mir.txt" "$outdir/readonly-mir.txt"
-    cp "$workdir/verified-ast.txt" "$outdir/verified-ast.txt"
+    [[ ! -f "$workdir/normal-mir.bin" ]] || cp "$workdir/normal-mir.bin" "$outdir/normal-mir.bin"
+    [[ ! -f "$workdir/readonly-mir.bin" ]] || cp "$workdir/readonly-mir.bin" "$outdir/readonly-mir.bin"
+    [[ ! -f "$workdir/refinement.log" ]] || cp "$workdir/refinement.log" "$outdir/refinement.log"
+    [[ ! -f "$workdir/normal-mir.txt" ]] || cp "$workdir/normal-mir.txt" "$outdir/normal-mir.txt"
+    [[ ! -f "$workdir/readonly-mir.txt" ]] || cp "$workdir/readonly-mir.txt" "$outdir/readonly-mir.txt"
+    [[ ! -f "$workdir/verified-ast.txt" ]] || cp "$workdir/verified-ast.txt" "$outdir/verified-ast.txt"
   fi
   if [[ "$side" == baseline ]]; then
-    cp "$workdir/normal-mir.bin" "$outdir/baseline-normal-mir.bin"
-    cp "$workdir/readonly-mir.bin" "$outdir/baseline-readonly-mir.bin"
-    cp "$workdir/refinement.log" "$outdir/baseline-refinement.log"
-    cp "$workdir/normal-mir.txt" "$outdir/baseline-normal-mir.txt"
-    cp "$workdir/readonly-mir.txt" "$outdir/baseline-readonly-mir.txt"
-    cp "$workdir/verified-ast.txt" "$outdir/baseline-verified-ast.txt"
+    [[ ! -f "$workdir/normal-mir.bin" ]] || cp "$workdir/normal-mir.bin" "$outdir/baseline-normal-mir.bin"
+    [[ ! -f "$workdir/readonly-mir.bin" ]] || cp "$workdir/readonly-mir.bin" "$outdir/baseline-readonly-mir.bin"
+    [[ ! -f "$workdir/refinement.log" ]] || cp "$workdir/refinement.log" "$outdir/baseline-refinement.log"
+    [[ ! -f "$workdir/normal-mir.txt" ]] || cp "$workdir/normal-mir.txt" "$outdir/baseline-normal-mir.txt"
+    [[ ! -f "$workdir/readonly-mir.txt" ]] || cp "$workdir/readonly-mir.txt" "$outdir/baseline-readonly-mir.txt"
+    [[ ! -f "$workdir/verified-ast.txt" ]] || cp "$workdir/verified-ast.txt" "$outdir/baseline-verified-ast.txt"
   fi
   local status_file="$outdir/baseline-capture-status.json"
   [[ "$side" == candidate ]] && status_file="$outdir/capture-status.json"

@@ -281,6 +281,14 @@ def verify_positive(root: Path, side: str, case: str) -> str:
     return body
 
 
+def require_completed_control(log: str, body: str, label: str) -> None:
+    # A false unwind post intentionally stops the function before normal return
+    # and leak closure. The control must still reach its target and finish the
+    # verifier run, which consumes the original should_fail marker.
+    require(bool(body.strip()) and SUCCESS.search(log) is not None,
+            f"{label} lacks target entry or complete verifier success summary")
+
+
 def verify_baseline_forget(root: Path) -> None:
     base = root / "baseline/forget"
     log = read(base / "full-verification.log")
@@ -332,6 +340,7 @@ def verify_negative(root: Path, side: str, case: str, annotation: str) -> None:
             f"{side}/{case} allow_should_fail has a verifier diagnostic")
     require(not DEAD.search(allow) and len(ERROR.findall(allow)) <= 1,
             f"{side}/{case} allow_should_fail has extra diagnostics")
+    require_completed_control(allow, allow_body, f"{side}/{case} allow_should_fail")
 
 
 def verify_dead_pre(root: Path, side: str) -> None:

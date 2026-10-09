@@ -74,6 +74,16 @@ class ClassifierControls(unittest.TestCase):
                 m.audit(Path(temp))
             self.assertEqual(ctx.exception.classification, "INCONCLUSIVE")
 
+    def test_allow_control_requires_completed_run_and_target_entry(self):
+        complete = ("0 errors found (8 statements verified)\n"
+                    "x.rs(1,1): Verifying function 'forget_false_normal_post'\n")
+        body = m.target_log(complete, "forget_false_normal_post")
+        m.require_completed_control(complete, body, "control")
+        truncated = "x.rs(1,1): Verifying function 'forget_false_normal_post'\n"
+        with self.assertRaises(m.AuditIssue):
+            m.require_completed_control(
+                truncated, m.target_log(truncated, "forget_false_normal_post"), "control")
+
     def test_negative_diagnostic_copy_only_removes_marker(self):
         original = (b"pub unsafe fn forget_false_normal_post<T>(t: T)\n"
                     b"//@ req thread_token(?tid) &*& tid == currentThread;\n"
