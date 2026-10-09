@@ -3,7 +3,11 @@
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
 **1314/10800 conservative Cloud Build seconds used;9486 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
+`347068de-0fb2-45e6-bc00-f8ac3ccd2581`, lane `o26-independent-tests`,
+infra `fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27`,
+proof `73493da558365dcc8c83d6d6941e782d7dfee455`, timeout1200 +60 queue reserve.
+This reserves1260 within remaining9486; actual accounting awaits terminal API.
 Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
 `/root/verify-rust-std-select-night`, preserves accepted migration65a456b8 and
 saved select/sort4 drafts. Common client65565744/source transportea9e68fc;
@@ -16,7 +20,7 @@ gate; full evidence publication completed. Infra/proof `accb752d22df6e39c1485760
 archive SHA-256 `0df8a1682e6fe47123273ab30eaa58bec0d3d92d10160afb60cf1616dd65969e`,
 text index `6fc4ff7ec5a4df8cff031017827135e3cb610b20fe19f6450b854347a577bfed`
 verified. Publisher: `run_exit_code=0`, `evidence_complete=true`,
-`verification_accepted=false`, `diagnostic_complete=false`. No own active Build.
+`verification_accepted=false`, `diagnostic_complete=false`.
 The exact nine-body pointer-domain candidate passes all seven prefix callees,
 guard close at line198, unselected actual Drop at203 and SAFE forget at210.
 Actual `select_unpredictable` remains **UNPROVED**: its first body failure is

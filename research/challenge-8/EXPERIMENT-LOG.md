@@ -5579,3 +5579,32 @@ controls and production acceptance remain open. Next actual select work must
 derive the missing pointer MaybeUninit owner from valid source resources and
 recheck the full original contract; no summary is assumed from this failed
 body proof.
+
+
+NIGHT-CLOUD-5 pre-experiment: see cloud-build/night-select-sort4/INDEPENDENT-TESTS-CARD.md
+and separate wrapper-rebase/nested-order/AST-scope cards. Pointer outer exactnormal
+thread_token+selectedpointer equality+raw_ptr_own, falseunwind; actual genericnested
+Drop fulloptionalcell owner/thread normal/unwind remain unchanged. Hypothesis:
+two reversible ghostblocks consume both prior wrapper-indexed owners and reconstruct
+current-wrapper owners via existingcheckedlemma (no pointee permission), thenfresh
+source/MIR/refinement/nine-body inventory supplies source/unit/body7 certificate pins.
+Captureonly, no refresh/proof of changed source yet. Expected8otherMarshalbody hashes
+unchanged; mismatch/unsupported/setup remainsinconclusive. Independent translator-only
+TEST changes only proof scheduling to exposeactualnested before blockedouter; printonly
+ASTPROBE off/on retainsreserved185 and identifiesrealCMPscope; isolatedcoordination
+10controls exerciseschangedcommonclient withmockAPI/privateCloudstate. RequiredsameBuild
+canonicalbaseline fullpairedcapture/proof; no owner17/A1/relocation matrices repeated.
+All independent results keepverification_acceptedfalse; fullarchive mandatory.
+Outcome→observednewsourcepins/fullgraph then separate opt-in component23 decision;
+nestedbodyblocker→causalresource repair; ASTscope→bounded frontend scope design with
+no-resource-loss/escape gates; orchestrationrefusal→fixboundary before nextdispatch.
+
+Dispatched Build347068de-0fb2-45e6-bc00-f8ac3ccd2581, infra
+fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27/proof73493da558365dcc8c83d6d6941e782d7dfee455,
+config770cef0847d297fa4186f64cc3def80239fafe1f6c94b90aa28fb7ca33ae8e50,
+dispatch-f7658e28265541e09895a00b22163035; exactsourceinput
+4bcb378c3dcc2d28835144f46012524791974428d79719befdb3ee9078257418.
+Timeout1200/reserve1260, ownremaining9486/deadline08UTC. Globalflock reconciled
+foreignterminal60fdb811 to sharedreceipt without foreignledger/state writes; no
+foreignbudget borrowed. One earliercommand usedabbreviatedSHA andwas refused
+beforeBuild/reservation0s; fullpublishedSHA dispatch succeeds. Awaitfullartifact.
