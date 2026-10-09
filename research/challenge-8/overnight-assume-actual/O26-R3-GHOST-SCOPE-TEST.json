@@ -1,0 +1,25 @@
+{
+  "classification": "EXPERIMENTAL_O26_R3_GHOST_SCOPE_TEST_NOT_ACCEPTED",
+  "parent_profile": "overnight-assume-actual/O26-WRAPPER-INPUT-RELATION-PROFILE.json",
+  "parent_translator_sha256": "34a03879b45377570eab81ee384ade01ebea9d5d216eb6223c6c742c5819dc15",
+  "test_patch": "overnight-assume-actual/verifast-r3-ghost-scope-TEST.patch",
+  "test_patch_sha256": "d98eca93e6f0f1d961988a7352eddf6799804530979f8e2be5abf4f2d93fb990",
+  "test_translator_sha256": "8fdcfb8327e4d35f66364673d65320b9c8a619a211dbc8788409b78d2c6f0e49",
+  "source": {
+    "verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463",
+    "unit_sha256": "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92"
+  },
+  "opt_in": {
+    "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT": "exact proof root",
+    "SORT4_R3_GHOST_SCOPE_TEST": "1"
+  },
+  "rule": "after exact R3 admission, retain exactly the two saved input let annotations in the outer select body and transfer only the two original nested open annotations to the qualified Drop body",
+  "changed_trusted_component": "vf_mir_translator.ml exported ghost annotation routing",
+  "source_runtime_spec_kernel_parser_exporter_refiner_modified": false,
+  "mutation_controls_complete": false,
+  "actual_nested_drop_credit": false,
+  "actual_helper_proved": false,
+  "verification_accepted": false,
+  "accepted": false,
+  "diagnostic_marker": "R3-GHOST-SCOPE-TEST: retained two input lets; nested opens transferred"
+}

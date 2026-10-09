@@ -148,6 +148,8 @@ def main() -> None:
                               help="separate source-only wrapper-owner ghost candidate")
     source_modes.add_argument("--wrapper-input-relation", action="store_true",
                               help="separate source-only selected-input equality diagnostic")
+    source_modes.add_argument("--wrapper-input-relation-shadow", action="store_true",
+                              help="blocked source-only shadow-binding revision diagnostic")
     args = parser.parse_args()
     PREP.require((os.environ.get("GITHUB_ACTIONS"),
                   os.environ.get("RUNNER_ENVIRONMENT"),
@@ -156,7 +158,14 @@ def main() -> None:
                  "nine-body capture requires GitHub-hosted Linux")
     evidence = args.evidence.resolve()
     clear_semantic_opt_ins()
-    if args.wrapper_input_relation:
+    if args.wrapper_input_relation_shadow:
+        for key in ("SORT4_WRAPPER_REBASE_REPO_ROOT", "SORT4_WRAPPER_REBASE_ADMISSION",
+                    "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT",
+                    "SORT4_WRAPPER_INPUT_RELATION_ADMISSION"):
+            os.environ.pop(key, None)
+        preparer = load(HERE / "prepare-wrapper-input-relation-shadow.py",
+                        "nine_body_wrapper_input_relation_shadow_source")
+    elif args.wrapper_input_relation:
         preparer = load(HERE / "prepare-wrapper-input-relation.py",
                         "nine_body_wrapper_input_relation_source")
     elif args.wrapper_rebase:
@@ -199,6 +208,8 @@ def main() -> None:
         record["source_mode"] = "wrapper-rebase-source-only"
     elif args.wrapper_input_relation:
         record["source_mode"] = "wrapper-input-relation-source-only"
+    elif args.wrapper_input_relation_shadow:
+        record["source_mode"] = "wrapper-input-relation-shadow-source-only"
     (evidence / "summary.json").write_text(json.dumps(
         record, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"classification": record["classification"],

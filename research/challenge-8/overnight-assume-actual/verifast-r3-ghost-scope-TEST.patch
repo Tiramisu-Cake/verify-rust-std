@@ -1,0 +1,71 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6419,18 +6419,59 @@
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+     let exported_ghost_stmts = ghost_stmts_get_list body_cpn in
+     let body_name = TrName.translate_def_path (def_path_get body_cpn) in
++    (* R3 ghost-scope TEST is opt-in and only applies after exact R3 admission.
++       Preserve the two new outer input bindings while transferring precisely
++       the two original nested opens to the qualified Drop body. *)
++    let r3_ghost_scope_test_requested =
++      match Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT",
++            Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" with
++      | None, None -> false
++      | Some _, Some "1" -> true
++      | _ -> Sort4SelectIntrinsic.reject
++          "R3 ghost-scope TEST partial or invalid opt-in" in
+     let ghost_stmts_cpn =
+       if !Sort4SelectIntrinsic.actual_owner_admitted then
+         if body_name = "select_unpredictable" then
+-          (match exported_ghost_stmts,
+-                 !Sort4SelectIntrinsic.actual_nested_ghosts with
+-           | first::second::rest,[nested_first;nested_second]
+-             when AnnotationRd.raw_get first =
+-                    AnnotationRd.raw_get nested_first &&
+-                  AnnotationRd.raw_get second =
+-                    AnnotationRd.raw_get nested_second -> rest
+-           | _ -> Sort4SelectIntrinsic.reject
+-               "actual outer/nested ghost scope inventory")
++          if r3_ghost_scope_test_requested then
++            let root = match Sys.getenv_opt
++              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" with
++              | Some root -> root
++              | None -> Sort4SelectIntrinsic.reject
++                  "R3 ghost-scope TEST missing root" in
++            if Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <>
++                 Some root ||
++               Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <>
++                 Some "1" ||
++               not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++               not !Sort4SelectIntrinsic.actual_nine_admitted then
++              Sort4SelectIntrinsic.reject
++                "R3 ghost-scope TEST exact parent admission";
++            (match exported_ghost_stmts,
++                   !Sort4SelectIntrinsic.actual_nested_ghosts with
++             | saved_true::saved_false::open_full::open_own::rest,
++               [nested_full;nested_own]
++               when AnnotationRd.raw_get saved_true =
++                      "/*@ let saved_true_input = true_val; @*/" &&
++                    AnnotationRd.raw_get saved_false =
++                      "/*@ let saved_false_input = false_val; @*/" &&
++                    AnnotationRd.raw_get open_full =
++                      AnnotationRd.raw_get nested_full &&
++                    AnnotationRd.raw_get open_own =
++                      AnnotationRd.raw_get nested_own ->
++                 Printf.printf "R3-GHOST-SCOPE-TEST: retained two input lets; nested opens transferred\n%!";
++                 saved_true::saved_false::rest
++             | _ -> Sort4SelectIntrinsic.reject
++                 "R3 outer/nested ghost scope inventory")
++          else
++            (match exported_ghost_stmts,
++                   !Sort4SelectIntrinsic.actual_nested_ghosts with
++             | first::second::rest,[nested_first;nested_second]
++               when AnnotationRd.raw_get first =
++                      AnnotationRd.raw_get nested_first &&
++                    AnnotationRd.raw_get second =
++                      AnnotationRd.raw_get nested_second -> rest
++             | _ -> Sort4SelectIntrinsic.reject
++                 "actual outer/nested ghost scope inventory")
+         else if body_name =
+           "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
+         then
