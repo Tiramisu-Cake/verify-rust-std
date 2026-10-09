@@ -1,0 +1,48 @@
+diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
+index a5d925d..331a5b2 100644
+--- a/bin/rust/std/lib.rsspec
++++ b/bin/rust/std/lib.rsspec
+@@ -578,6 +578,13 @@ mod ptr {
+     //@ ens [f]src[..count] |-> vs &*& dst[..count] |-> vs;
+     //@ on_unwind_ens false;
+     //@ terminates;
++
++    // Synthetic target used only for a source call with literal count 1.
++    unsafe fn merge_copy_nonoverlapping_one<T>(src: *mut T, dst: *mut T, count: usize);
++    //@ req count == 1 && 0 < std::mem::size_of::<T>() &*& 0 < src as usize &*& 0 < dst as usize &*& src as usize % std::mem::align_of::<T>() == 0 &*& dst as usize % std::mem::align_of::<T>() == 0 &*& std::mem::size_of::<T>() <= isize::MAX &*& src as usize <= usize::MAX - std::mem::size_of::<T>() &*& dst as usize <= usize::MAX - std::mem::size_of::<T>() &*& object_pointer_within_limits(src, std::mem::size_of::<T>()) == true &*& object_pointer_within_limits(dst, std::mem::size_of::<T>()) == true &*& (src as usize + std::mem::size_of::<T>() <= dst as usize || dst as usize + std::mem::size_of::<T>() <= src as usize) &*& [?f](*src |-> ?v) &*& *dst |-?-> ?old_dst;
++    //@ ens [f](*src |-> v) &*& *dst |-> v;
++    //@ on_unwind_ens false;
++    //@ terminates;
+     
+     unsafe fn write_bytes<T>(dst: *mut T, val: u8, count: usize);
+     //@ req dst[..count] |-> _ &*& (dst as usize % std::mem::align_of::<T>()) == 0;
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 4e237a6..6433640 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2350,6 +2350,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         Rocq_writer.rocq_print_big_record_field TranslatorArgs.rocq_writer "args" @@ fun () ->
+         translate_operands_core true args
+       in
++      let is_ast_literal_one = function
++        | Ast.CastExpr (_, _, Ast.IntLit (_, value, _, _, _))
++        | Ast.IntLit (_, value, _, _, _) ->
++            Big_int.compare_big_int value Big_int.unit_big_int = 0
++        | _ -> false
++      in
+       let translate_regular_fn_call substs fn_name =
+         let targs =
+           substs
+@@ -2573,6 +2579,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                            (*decimal*) true,
+                            (*U suffix*) false,
+                            (*int literal*) Ast.NoLSuffix )) )
++            | "std::ptr::copy_nonoverlapping"
++              when (match args with
++                    | [ _src; _dst; count ] -> is_ast_literal_one count
++                    | _ -> false) ->
++                translate_regular_fn_call substs
++                  "std::ptr::merge_copy_nonoverlapping_one"
+             | "std::ptr::read" | "std::ptr::mut_ptr::<impl *mut T>::read"
+             | "std::ptr::const_ptr::<impl *const T>::read" ->
+                 let [ src_cpn ] = args_cpn in

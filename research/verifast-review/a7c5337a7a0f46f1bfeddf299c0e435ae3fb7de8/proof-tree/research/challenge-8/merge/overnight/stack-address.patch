@@ -1,0 +1,270 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -5115,9 +5115,40 @@
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
+     let open BodyRd in
++    (* This is a source-admission count, not a parser for annotations.  Every
++       occurrence must later be replaced in a parsed ghost expression. *)
++    let stack_addr_spelling = "mir_stack_addr" in
++    let stack_addr_count raw =
++      let width = String.length stack_addr_spelling in
++      let rec count at total =
++        if at + width > String.length raw then total
++        else if String.sub raw at width = stack_addr_spelling then
++          count (at + width) (total + 1)
++        else count (at + 1) total
++      in
++      count 0 0
++    in
+     let var_id_trs_map_ref = ref [] in
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+     let ghost_stmts_cpn = ghost_stmts_get_list body_cpn in
++    let stack_addr_occurrences =
++      List.fold_left
++        (fun total annot -> total + stack_addr_count (AnnotationRd.raw_get annot))
++        0 ghost_stmts_cpn
++    in
++    let reject_stack_addr_in_annotation annot =
++      if stack_addr_count (AnnotationRd.raw_get annot) <> 0 then
++        Ast.static_error fn_sig_loc
++          "mir_stack_addr is allowed only in body ghost statements and loop specifications"
++          None
++    in
++    List.iter
++      (fun block ->
++        reject_stack_addr_in_annotation
++          (BodyRd.GhostDeclBlock.start_get block))
++      (ghost_decl_blocks_get_list body_cpn);
++    List.iter reject_stack_addr_in_annotation
++      (ContractRd.annotations_get_list (contract_get body_cpn));
+     let* ghost_stmts = ListAux.try_map translate_ghost_stmt ghost_stmts_cpn in
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+@@ -5408,6 +5439,15 @@
+       ListAux.try_map translate_loop_spec_block
+         (loop_spec_blocks_get_list body_cpn)
+     in
++    let stack_addr_occurrences =
++      stack_addr_occurrences
++      + List.fold_left
++          (fun total block ->
++            total
++            + stack_addr_count
++                (AnnotationRd.raw_get (BodyRd.LoopSpecBlock.start_get block)))
++          0 (loop_spec_blocks_get_list body_cpn)
++    in
+     let ghost_stmts =
+       ghost_decl_block_start_stmts @ ghost_decl_block_end_stmts @ loop_spec_blocks @ ghost_stmts
+     in
+@@ -5563,6 +5603,7 @@
+                 Rocq_writer.rocq_print_big_list_element Args.rocq_writer @@ fun () ->
+                   translate_local_decl local_decl_cpn
+         in
++        let all_local_decls = local_decls in
+         (* There should always be a return place for each function *)
+         let (ret_place_decl :: local_decls) = local_decls in
+         let* ret_ty_info =
+@@ -5694,6 +5735,9 @@
+               (*overrides*) [] )
+         in
+         let contract, assume_false = contract in
++        if assume_false && stack_addr_occurrences <> 0 then
++          Ast.static_error fn_sig_loc
++            "mir_stack_addr is not admitted in an assumed-false body" None;
+         let* body =
+           if assume_false then
+             Ok
+@@ -5713,6 +5757,191 @@
+                       ],
+                       closing_cbrace_loc )))
+           else
++            let rewritten_stack_addrs = ref 0 in
++            let resolve_stack_addr use_loc n =
++              let raw_id = "_" ^ string_of_int n in
++              let matches =
++                List.mapi
++                  (fun index decl_cpn ->
++                    (index, LocalDeclIdRd.name_get
++                              (LocalDeclRd.id_get decl_cpn)))
++                  local_decls_cpn
++                |> List.filter (fun (_, found) -> found = raw_id)
++              in
++              let fail reason =
++                Ast.static_error use_loc
++                  (Printf.sprintf "mir_stack_addr(%d): %s" n reason) None
++              in
++              let index =
++                match matches with
++                | [(index, _)] when index = n && index > arg_count -> index
++                | [(index, _)] when index <= arg_count ->
++                    fail "return place and parameters are forbidden"
++                | [(index, _)] -> fail "raw MIR local ID does not match its declaration index"
++                | [] -> fail "raw MIR local ID is absent"
++                | _ -> fail "raw MIR local ID is duplicated"
++              in
++              let decl = List.nth all_local_decls index in
++              let ({ Mir.id = vf_name; ty = (lazy ty_info); loc = decl_loc; _ }
++                    : Mir.local_decl) = decl in
++              if List.exists
++                   (fun ({ id; _ } : var_id_trs_entry) ->
++                     id = TrName.tag_internal raw_id)
++                   trs_map
++              then fail "local has a source/debug name";
++              if vf_name <> TrName.tag_internal raw_id then
++                fail "translated local name is not the hidden MIR name";
++              if List.length
++                   (List.filter
++                      (fun ({ Mir.id; _ } : Mir.local_decl) -> id = vf_name)
++                      all_local_decls)
++                 <> 1
++              then fail "translated local name is not unique";
++              let rec type_description = function
++                | Ast.StructTypeExpr (_, Some name, None, [], args) ->
++                    name ^ "<" ^ String.concat "," (List.map type_description args) ^ ">"
++                | Ast.PtrTypeExpr (_, ty) -> "*" ^ type_description ty
++                | Ast.IdentTypeExpr (_, None, name) -> name
++                | Ast.ManifestTypeExpr (_, Ast.Int (Ast.Unsigned, Ast.PtrRank)) ->
++                    "usize"
++                | _ -> fail "struct type contains an unsupported argument shape"
++              in
++              let type_name =
++                match ty_info.vf_ty with
++                | Ast.StructTypeExpr (_, Some _, None, [], _) as ty ->
++                    type_description ty
++                | _ -> fail "local is not a stock materialized struct"
++              in
++              Printf.eprintf
++                "mir_stack_addr certificate: MIR=%s VF=%s type=%s decl=%s use=%s\n%!"
++                raw_id vf_name type_name (Ast.string_of_loc decl_loc)
++                (Ast.string_of_loc use_loc);
++              Ast.AddressOf (use_loc, Ast.Var (use_loc, vf_name))
++            in
++            let rec rewrite_pat = function
++              | Ast.LitPat expr -> Ast.LitPat (rewrite_expr expr)
++              | Ast.CtorPat (loc, name, pats) ->
++                  Ast.CtorPat (loc, name, List.map rewrite_pat pats)
++              | pat -> pat
++            and rewrite_expr = function
++              | Ast.CallExpr (loc, "mir_stack_addr", [], [],
++                    [Ast.LitPat (Ast.IntLit (_, value, true, false,
++                       Ast.NoLSuffix))], Ast.Static) ->
++                  let spelling = Big_int.string_of_big_int value in
++                  let n = int_of_string_opt spelling in
++                  let n = match n with
++                    | Some n when n > 0 && string_of_int n = spelling -> n
++                    | _ -> Ast.static_error loc
++                        "mir_stack_addr requires one positive decimal MIR local ID"
++                        None
++                  in
++                  incr rewritten_stack_addrs;
++                  resolve_stack_addr loc n
++              | Ast.CallExpr (loc, "mir_stack_addr", _, _, _, _) ->
++                  Ast.static_error loc
++                    "mir_stack_addr requires exactly one unsuffixed decimal literal, no type arguments or indices"
++                    None
++              | Ast.Operation (loc, op, exprs) ->
++                  Ast.Operation (loc, op, List.map rewrite_expr exprs)
++              | Ast.CallExpr (loc, name, targs, indices, args, binding) ->
++                  Ast.CallExpr (loc, name, targs, List.map rewrite_pat indices,
++                    List.map rewrite_pat args, binding)
++              | Ast.ExprCallExpr (loc, callee, args) ->
++                  Ast.ExprCallExpr
++                    (loc, rewrite_expr callee, List.map rewrite_pat args)
++              | Ast.PredAsn (loc, name, targs, indices, args, binding) ->
++                  Ast.PredAsn (loc, name, targs, List.map rewrite_pat indices,
++                    List.map rewrite_pat args, binding)
++              | Ast.PredExprAsn (loc, pred, args) ->
++                  Ast.PredExprAsn
++                    (loc, rewrite_expr pred, List.map rewrite_pat args)
++              | Ast.PointsTo (loc, addr, kind, value) ->
++                  Ast.PointsTo
++                    (loc, rewrite_expr addr, kind, rewrite_pat value)
++              | Ast.Sep (loc, left, right) ->
++                  Ast.Sep (loc, rewrite_expr left, rewrite_expr right)
++              | Ast.IfAsn (loc, cond, left, right) ->
++                  Ast.IfAsn
++                    (loc, rewrite_expr cond, rewrite_expr left,
++                     rewrite_expr right)
++              | Ast.CoefAsn (loc, coef, asn) ->
++                  Ast.CoefAsn (loc, rewrite_pat coef, rewrite_expr asn)
++              | Ast.ExprAsn (loc, expr) ->
++                  Ast.ExprAsn (loc, rewrite_expr expr)
++              | Ast.ForallAsn (loc, ty, name, expr) ->
++                  Ast.ForallAsn (loc, ty, name, rewrite_expr expr)
++              | Ast.EnsuresAsn (loc, name, asn) ->
++                  Ast.EnsuresAsn (loc, name, rewrite_expr asn)
++              | Ast.MatchAsn (loc, expr, pat) ->
++                  Ast.MatchAsn
++                    (loc, rewrite_expr expr, rewrite_pat pat)
++              | Ast.AddressOf (loc, expr) ->
++                  Ast.AddressOf (loc, rewrite_expr expr)
++              | Ast.Deref (loc, expr) ->
++                  Ast.Deref (loc, rewrite_expr expr)
++              | Ast.Select (loc, expr, field) ->
++                  Ast.Select (loc, rewrite_expr expr, field)
++              | Ast.Read (loc, expr, field) ->
++                  Ast.Read (loc, rewrite_expr expr, field)
++              | Ast.CastExpr (loc, ty, expr) ->
++                  Ast.CastExpr (loc, ty, rewrite_expr expr)
++              | Ast.ReadArray (loc, array, index) ->
++                  Ast.ReadArray
++                    (loc, rewrite_expr array, rewrite_expr index)
++              | Ast.IfExpr (loc, cond, yes, no) ->
++                  Ast.IfExpr
++                    (loc, rewrite_expr cond, rewrite_expr yes,
++                     rewrite_expr no)
++              | Ast.InitializerList (loc, fields) ->
++                  Ast.InitializerList
++                    (loc, List.map (fun (field, expr) ->
++                      (field, rewrite_expr expr)) fields)
++              | Ast.Typeid (loc, expr) ->
++                  Ast.Typeid (loc, rewrite_expr expr)
++              | expr -> expr
++            in
++            let rec rewrite_stmt = function
++              | Ast.PureStmt (loc, stmt) ->
++                  Ast.PureStmt (loc, rewrite_stmt stmt)
++              | Ast.BlockStmt (loc, decls, stmts, close, addresses) ->
++                  Ast.BlockStmt
++                    (loc, decls, List.map rewrite_stmt stmts, close, addresses)
++              | Ast.InvariantStmt (loc, asn) ->
++                  Ast.InvariantStmt (loc, rewrite_expr asn)
++              | Ast.Assert (loc, asn) ->
++                  Ast.Assert (loc, rewrite_expr asn)
++              | Ast.Leak (loc, asn) ->
++                  Ast.Leak (loc, rewrite_expr asn)
++              | Ast.SpecStmt (loc, pre, post) ->
++                  Ast.SpecStmt
++                    (loc, rewrite_expr pre, rewrite_expr post)
++              | Ast.ExprStmt expr ->
++                  Ast.ExprStmt (rewrite_expr expr)
++              | Ast.DeclStmt (loc, decls) ->
++                  Ast.DeclStmt (loc, List.map
++                    (fun (at, ty, name, init, refs) ->
++                      (at, ty, name, Option.map rewrite_expr init, refs)) decls)
++              | Ast.Open (loc, target, name, targs, indices, args, coef) ->
++                  Ast.Open
++                    (loc, Option.map rewrite_expr target, name, targs,
++                     List.map rewrite_pat indices, List.map rewrite_pat args,
++                     Option.map rewrite_pat coef)
++              | Ast.Close (loc, target, name, targs, indices, args, coef) ->
++                  Ast.Close
++                    (loc, Option.map rewrite_expr target, name, targs,
++                     List.map rewrite_pat indices, List.map rewrite_pat args,
++                     Option.map rewrite_pat coef)
++              | Ast.IfStmt (loc, cond, yes, no) ->
++                  Ast.IfStmt
++                    (loc, rewrite_expr cond, List.map rewrite_stmt yes,
++                     List.map rewrite_stmt no)
++              | stmt -> stmt
++            in
++            State.ghost_stmts := List.map rewrite_stmt !State.ghost_stmts;
++            if !rewritten_stack_addrs <> stack_addr_occurrences then
++              Ast.static_error fn_sig_loc
++                "mir_stack_addr appears in an unsupported ghost syntax position"
++                None;
+             let vf_local_decls =
+               List.map (translate_to_vf_local_decl loc) (ret_place_decl :: local_decls)
+             in

@@ -1,0 +1,49 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "927c03d6b053cc1a18db6492199b7ab7f362ddcbd074926ee7c17759bbb5362d",
+    "verified/lib.rs": "927c03d6b053cc1a18db6492199b7ab7f362ddcbd074926ee7c17759bbb5362d",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "927c03d6b053cc1a18db6492199b7ab7f362ddcbd074926ee7c17759bbb5362d",
+    "verified/lib.rs": "927c03d6b053cc1a18db6492199b7ab7f362ddcbd074926ee7c17759bbb5362d",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_plain_diverge",
+  "callee": "origin_plain_never",
+  "argument": "local",
+  "kind": "diverging_extern",
+  "target": "plain diverging extern call",
+  "semantic_expectation": "PASS_CONTROL",
+  "obligation": "baseline ordinary extern noncontinuation",
+  "target_line": 20,
+  "source_sha256": "927c03d6b053cc1a18db6492199b7ab7f362ddcbd074926ee7c17759bbb5362d",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 0
+  },
+  "case": "origin_plain_diverge",
+  "classification": "FRONTEND_REJECTION",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "decoded MIR or proof AST missing"
+  },
+  "target_executed": false,
+  "errors": [
+    "verified/lib.rs(11,1-3): error: Parse error: Parse error."
+  ],
+  "local_unwind_gate": null,
+  "unwind_log_gate": null,
+  "obligation_line": 20,
+  "accepted": false
+}

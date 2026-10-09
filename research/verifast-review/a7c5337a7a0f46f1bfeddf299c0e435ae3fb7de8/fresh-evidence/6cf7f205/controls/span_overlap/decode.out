@@ -1,0 +1,965 @@
+( adtDefs = (nil = void),
+  bodies = [
+    ( defKind = (fn = void),
+      defPath = "span_overlap",
+      contract = (
+        annotations = [
+          ( raw = "/*@ req 0 < std::mem::size_of::<u64>() &*& p as usize != 0 &*&\n    p as usize % std::mem::align_of::<u64>() == 0 &*&\n    object_pointer_within_limits(p, std::mem::size_of::<u64>()) == true &*&\n    p as usize <= usize::MAX - std::mem::size_of::<u64>() &*&\n    [?f](*p |-> ?v);\n@*/",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 10,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 15,
+                  col = (pos = 3) ) ) ),
+            startLine = 10,
+            startCol = 1,
+            endLine = 15,
+            endCol = 4 ),
+          ( raw = "/*@ ens [f](*p |-> v); @*/",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 15,
+                  col = (pos = 4) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 15,
+                  col = (pos = 30) ) ) ),
+            startLine = 15,
+            startCol = 5,
+            endLine = 15,
+            endCol = 31 ) ],
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "verified/lib.rs" ) ) ),
+              line = 9,
+              col = (pos = 41) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "verified/lib.rs" ) ) ),
+              line = 15,
+              col = (pos = 31) ) ) ) ),
+      inputs = [
+        ( kind = (
+            rawPtr = (
+              ty = (
+                kind = (uInt = (u64 = void)) ),
+              mutability = (not = void) ) ) ) ],
+      localDecls = [
+        ( mutability = (mut = void),
+          id = (name = "_0"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 9,
+                  col = (pos = 41) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 9,
+                  col = (pos = 41) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_1"),
+          ty = (
+            kind = (
+              rawPtr = (
+                ty = (
+                  kind = (uInt = (u64 = void)) ),
+                mutability = (not = void) ) ) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 9,
+                  col = (pos = 27) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 9,
+                  col = (pos = 28) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_2"),
+          ty = (
+            kind = (
+              rawPtr = (
+                ty = (
+                  kind = (uInt = (u64 = void)) ),
+                mutability = (not = void) ) ) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 9) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_3"),
+          ty = (
+            kind = (uInt = (u64 = void)) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 17,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 17,
+                  col = (pos = 13) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_4"),
+          ty = (
+            kind = (uInt = (u64 = void)) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 18,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 18,
+                  col = (pos = 14) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_5"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 17) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_6"),
+          ty = (
+            kind = (uInt = (u64 = void)) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 20) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 25) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_7"),
+          ty = (
+            kind = (uInt = (u64 = void)) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 29) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 35) ) ) ) ) ) ],
+      basicBlocks = [
+        ( id = (index = 0),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 9) ) ) ) ),
+              kind = (
+                storageLive = (name = "_2") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 13) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_2"),
+                    projection = [],
+                    localIsMutable = false,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_1"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 17,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 17,
+                      col = (pos = 13) ) ) ) ),
+              kind = (
+                storageLive = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 17,
+                      col = (pos = 25) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 17,
+                      col = (pos = 27) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_3"),
+                    projection = [],
+                    localIsMutable = false,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_1"),
+                        projection = [(deref = void)],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 18,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 18,
+                      col = (pos = 14) ) ) ) ),
+              kind = (
+                storageLive = (name = "_4") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 18,
+                      col = (pos = 26) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 18,
+                      col = (pos = 28) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_4"),
+                    projection = [],
+                    localIsMutable = false,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_2"),
+                        projection = [(deref = void)],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 17) ) ) ) ),
+              kind = (
+                storageLive = (name = "_5") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 20) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 25) ) ) ) ),
+              kind = (
+                storageLive = (name = "_6") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 20) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 25) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_6"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_3"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 29) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 35) ) ) ) ),
+              kind = (
+                storageLive = (name = "_7") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 29) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 35) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_7"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_4"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 20) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 35) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_5"),
+                    projection = [],
+                    localIsMutable = false,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    binaryOp = (
+                      operator = (eq = void),
+                      operandl = (
+                        move = (
+                          local = (name = "_6"),
+                          projection = [],
+                          localIsMutable = true,
+                          kind = (other = void) ) ),
+                      operandr = (
+                        move = (
+                          local = (name = "_7"),
+                          projection = [],
+                          localIsMutable = true,
+                          kind = (other = void) ) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 34) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 35) ) ) ) ),
+              kind = (
+                storageDead = (name = "_7") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 34) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 35) ) ) ) ),
+              kind = (
+                storageDead = (name = "_6") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 15,
+                      col = (pos = 31) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_0"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      constant = (
+                        span = (
+                          regular = (
+                            lo = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "verified/lib.rs" ) ) ),
+                              line = 15,
+                              col = (pos = 31) ),
+                            hi = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "verified/lib.rs" ) ) ),
+                              line = 21,
+                              col = (pos = 1) ) ) ),
+                        const = (
+                          val = (
+                            constValue = (zeroSized = void),
+                            ty = (kind = (tuple = [])) ) ) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                storageDead = (name = "_5") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                storageDead = (name = "_4") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                storageDead = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "verified/lib.rs" ) ) ),
+                      line = 21,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                storageDead = (name = "_2") ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "verified/lib.rs" ) ) ),
+                    line = 21,
+                    col = (pos = 1) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "verified/lib.rs" ) ) ),
+                    line = 21,
+                    col = (pos = 1) ) ) ) ),
+            kind = (return = void) ),
+          isCleanup = false ) ],
+      span = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "verified/lib.rs" ) ) ),
+            line = 9,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "verified/lib.rs" ) ) ),
+            line = 21,
+            col = (pos = 1) ) ) ),
+      impSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "verified/lib.rs" ) ) ),
+            line = 15,
+            col = (pos = 31) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "verified/lib.rs" ) ) ),
+            line = 21,
+            col = (pos = 1) ) ) ),
+      varDebugInfo = [
+        ( name = (name = "p"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 9,
+                  col = (pos = 27) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 9,
+                  col = (pos = 28) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_1"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ),
+        ( name = (name = "q"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 9) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_2"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ),
+        ( name = (name = "first"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 17,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 17,
+                  col = (pos = 13) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_3"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ),
+        ( name = (name = "second"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 18,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 18,
+                  col = (pos = 14) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_4"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ),
+        ( name = (name = "_observed"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "verified/lib.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 17) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_5"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ) ],
+      ghostStmts = [
+        ( raw = "//@ assert (p as usize + std::mem::size_of::<u64>() <= q as usize || q as usize + std::mem::size_of::<u64>() <= p as usize); // TARGET: overlapping aliases",
+          span = (
+            regular = (
+              lo = (
+                file = (
+                  name = (
+                    real = (
+                      localPath = "verified/lib.rs" ) ) ),
+                line = 20,
+                col = (pos = 4) ),
+              hi = (
+                file = (
+                  name = (
+                    real = (
+                      localPath = "verified/lib.rs" ) ) ),
+                line = 20,
+                col = (pos = 158) ) ) ),
+          startLine = 20,
+          startCol = 5,
+          endLine = 20,
+          endCol = 160 ) ],
+      unsafety = (unsafe = void),
+      hirGenerics = (
+        params = [],
+        whereClause = void,
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "verified/lib.rs" ) ) ),
+              line = 9,
+              col = (pos = 26) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "verified/lib.rs" ) ) ),
+              line = 9,
+              col = (pos = 26) ) ) ) ),
+      isTraitFn = false,
+      isDropFn = false,
+      ghostDeclBlocks = [],
+      output = (kind = (tuple = [])),
+      clauses = [],
+      generics = [],
+      fnSigSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "verified/lib.rs" ) ) ),
+            line = 9,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "verified/lib.rs" ) ) ),
+            line = 9,
+            col = (pos = 41) ) ) ),
+      visibility = (public = void),
+      isFromExpansion = false,
+      loopSpecBlocks = [] ) ],
+  ghostDeclBatches = [],
+  traitImpls = [],
+  directives = [],
+  traits = (nil = void),
+  modules = [],
+  targetTriple = "x86_64-unknown-linux-gnu",
+  pointerWidth = 64,
+  tyAliases = [] )

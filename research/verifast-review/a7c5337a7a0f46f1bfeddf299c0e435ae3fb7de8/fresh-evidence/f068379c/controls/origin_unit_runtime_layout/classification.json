@@ -1,0 +1,49 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+    "verified/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+    "verified/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_unit_runtime_layout",
+  "callee": null,
+  "argument": null,
+  "kind": "layout_diagnostic",
+  "target": "runtime concrete unit size zero",
+  "semantic_expectation": "DIAGNOSTIC_ONLY",
+  "obligation": "compiler-produced size_of::<()> result agrees with zero layout",
+  "target_line": 10,
+  "source_sha256": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": null
+  },
+  "case": "origin_unit_runtime_layout",
+  "classification": "MODEL_LAYOUT_FAILURE",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "no call-origin correlation for diagnostic"
+  },
+  "target_executed": true,
+  "errors": [
+    "verified/lib.rs(10,29-31): error: Assertion might not hold. (Cannot prove __result = 0.)"
+  ],
+  "local_unwind_gate": null,
+  "unwind_log_gate": null,
+  "obligation_line": 10,
+  "accepted": false
+}

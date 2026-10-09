@@ -1,0 +1,42 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 0,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+    "verified/lib.rs": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+    "verified/lib.rs": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "span_positive",
+  "target": "positive local versus incoming fractional frame",
+  "expectation": "PASS_CONTROL",
+  "verifast": 0,
+  "requires_target_execution": true,
+  "requires_normal_return_and_leak_check": true,
+  "target_line": 20,
+  "read_lines": [],
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 0
+  },
+  "source_sha256": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+  "case": "span_positive",
+  "errors": [],
+  "target_executed": true,
+  "reads_executed": true,
+  "retired_mir_ast_gate": null,
+  "classification": "PASS_CONTROL",
+  "accepted": false,
+  "meaning": "incoming-span mechanism control only"
+}

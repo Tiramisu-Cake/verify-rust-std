@@ -1,0 +1,49 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "125c6238b88113c2906f908fc0c4e137ab0961bfa8d0b3abc256e925bbed665c",
+    "verified/lib.rs": "125c6238b88113c2906f908fc0c4e137ab0961bfa8d0b3abc256e925bbed665c",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "125c6238b88113c2906f908fc0c4e137ab0961bfa8d0b3abc256e925bbed665c",
+    "verified/lib.rs": "125c6238b88113c2906f908fc0c4e137ab0961bfa8d0b3abc256e925bbed665c",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_branch_unwind_resource",
+  "callee": "origin_may_unwind",
+  "argument": "p",
+  "kind": "branch_unwind_positive",
+  "target": "branch callback normal and unwind resource",
+  "semantic_expectation": "PASS_CONTROL",
+  "obligation": "both branch return and may-unwind callback preserve the physical cell",
+  "target_line": 22,
+  "source_sha256": "125c6238b88113c2906f908fc0c4e137ab0961bfa8d0b3abc256e925bbed665c",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 0
+  },
+  "case": "origin_branch_unwind_resource",
+  "classification": "FRONTEND_REJECTION",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "decoded MIR or proof AST missing"
+  },
+  "target_executed": false,
+  "errors": [
+    "verified/lib.rs(11,1-3): error: Parse error: Parse error."
+  ],
+  "local_unwind_gate": null,
+  "unwind_log_gate": null,
+  "obligation_line": 22,
+  "accepted": false
+}

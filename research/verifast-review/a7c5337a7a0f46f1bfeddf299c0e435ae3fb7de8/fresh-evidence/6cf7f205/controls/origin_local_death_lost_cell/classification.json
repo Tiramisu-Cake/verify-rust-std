@@ -1,0 +1,52 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+    "verified/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+    "verified/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_local_death_lost_cell",
+  "callee": null,
+  "argument": null,
+  "kind": "local_death_negative",
+  "target": "local death after physical cell leak",
+  "error_contains": "No matching heap chunks:",
+  "semantic_expectation": "EXPECTED_REJECTION",
+  "obligation": "StorageDead cleanup must reject lost local physical permission",
+  "target_line": 15,
+  "source_sha256": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 1
+  },
+  "case": "origin_local_death_lost_cell",
+  "classification": "PRE_TARGET_REJECTION",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": true,
+    "mir_local": "_2",
+    "mir_storage_dead_line": 15,
+    "obligation_line": 15,
+    "decoded_sha256": "54f8d1211a342f767b0e490312b34b815f19ff02a2d7269f5792db4e4b4347b7",
+    "proof_ast_sha256": "da166c3ccd3b23a89f776f2526b8ed9ee1624be0b9d7e606bdcd7681885aa3cc"
+  },
+  "target_executed": false,
+  "errors": [
+    "verified/lib.rs(13,34-35): error: No matching heap chunks: points_to<u64>(tmp_addr, _)"
+  ],
+  "obligation_line": 15,
+  "accepted": false
+}

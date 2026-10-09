@@ -1,0 +1,7 @@
+0 errors found (2 statements verified)
+Linking...
+Fatal error: exception Failure("VeriFast link phase error: could not find .vfmanifest file '/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/crt.dll.vfmanifest'. Re-verify the module using the -emit_vfmanifest or -emit_dll_vfmanifest option.")
+Raised at Stdlib.failwith in file "stdlib.ml", line 29, characters 17-33
+Called from Verifast.link_program.get_lines_from_file in file "verifast.ml", line 4955, characters 10-199
+Called from Verifast.link_program in file "verifast.ml", line 5092, characters 40-75
+Called from Dune__exe__Vfconsole in file "vfconsole/vfconsole.ml", line 739, characters 10-89

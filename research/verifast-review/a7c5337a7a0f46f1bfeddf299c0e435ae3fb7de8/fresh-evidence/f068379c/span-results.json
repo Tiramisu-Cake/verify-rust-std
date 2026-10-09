@@ -1,0 +1,168 @@
+{
+  "profile": "experimental-merge-incoming-origin-onecell-v3",
+  "accepted": false,
+  "manifest_sha256": "a76b4e74719efd4844cbdf9d95f3db740616d9f899f7e840c281ec8dc63a6343",
+  "controls": {
+    "span_positive": "PASS_CONTROL",
+    "span_retired_local_reuse": "EXPECTED_REJECTION",
+    "span_overlap": "EXPECTED_REJECTION",
+    "span_raw_arbitrary": "EXPECTED_REJECTION",
+    "span_lost_incoming_authority": "EXPECTED_REJECTION",
+    "span_zero_extent": "EXPECTED_REJECTION"
+  },
+  "case_details": {
+    "span_positive": {
+      "source_sha256": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+      "target_line": 20,
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "read_lines": [],
+      "classification": "PASS_CONTROL",
+      "retired_mir_ast_gate": null
+    },
+    "span_retired_local_reuse": {
+      "source_sha256": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+      "target_line": 30,
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "read_lines": [],
+      "classification": "EXPECTED_REJECTION",
+      "retired_mir_ast_gate": {
+        "admitted": true,
+        "reason": "decoded MIR and internal events agree on retirement order",
+        "decode_sha256": "db2b20a34c45218f20682b9a99e0f56543888f9b2d6184d14b97f2eaa2c2a9f9",
+        "proof_ast_sha256": "9bca9d1b211f1984da67f9342ba650ce1d4d5740eb7ff4647a45c0f17d1a6fe7",
+        "mir_body": "span_retired_local_reuse",
+        "locals": {
+          "tmp0": "_2",
+          "tmp1": "_12"
+        },
+        "storage_dead": {
+          "block": 7,
+          "statement": 4,
+          "source_line": 23,
+          "local": "_2"
+        },
+        "storage_live": {
+          "block": 7,
+          "statement": 5,
+          "source_line": 24,
+          "local": "_12"
+        },
+        "same_block_order": true,
+        "translated_ast": {
+          "storage_dead": {
+            "constructor": "RustStorageDeadStmt",
+            "mir_local": "_2",
+            "argument": "tmp0",
+            "source_line": 23
+          },
+          "storage_live": {
+            "constructor": "RustStorageLiveStmt",
+            "mir_local": "_12",
+            "argument": "tmp1",
+            "source_line": 24
+          },
+          "order": true
+        }
+      }
+    },
+    "span_overlap": {
+      "source_sha256": "c70396ca050c3bf7e644b0d4186d0d845f5f0e0a06550e735717be817f6372eb",
+      "target_line": 20,
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "read_lines": [
+        17,
+        18
+      ],
+      "classification": "EXPECTED_REJECTION",
+      "retired_mir_ast_gate": null
+    },
+    "span_raw_arbitrary": {
+      "source_sha256": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+      "target_line": 21,
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "read_lines": [],
+      "classification": "EXPECTED_REJECTION",
+      "retired_mir_ast_gate": null
+    },
+    "span_lost_incoming_authority": {
+      "source_sha256": "df37c2a83f011623e2706c60077f83e86147143df35a3ae6b93aee7ee9939859",
+      "target_line": 20,
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "read_lines": [],
+      "classification": "EXPECTED_REJECTION",
+      "retired_mir_ast_gate": null
+    },
+    "span_zero_extent": {
+      "source_sha256": "5937df78548dc08296d8cbbbe6f1cd350935e3871fd70570a8b9fe5c70a4460a",
+      "target_line": 23,
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "read_lines": [],
+      "classification": "EXPECTED_REJECTION",
+      "retired_mir_ast_gate": null
+    }
+  },
+  "case_artifacts": {
+    "span_positive": {
+      "directory": "controls/span_positive",
+      "log": "controls/span_positive/verifast.log",
+      "classification": "controls/span_positive/classification.json"
+    },
+    "span_retired_local_reuse": {
+      "directory": "controls/span_retired_local_reuse",
+      "log": "controls/span_retired_local_reuse/verifast.log",
+      "classification": "controls/span_retired_local_reuse/classification.json"
+    },
+    "span_overlap": {
+      "directory": "controls/span_overlap",
+      "log": "controls/span_overlap/verifast.log",
+      "classification": "controls/span_overlap/classification.json"
+    },
+    "span_raw_arbitrary": {
+      "directory": "controls/span_raw_arbitrary",
+      "log": "controls/span_raw_arbitrary/verifast.log",
+      "classification": "controls/span_raw_arbitrary/classification.json"
+    },
+    "span_lost_incoming_authority": {
+      "directory": "controls/span_lost_incoming_authority",
+      "log": "controls/span_lost_incoming_authority/verifast.log",
+      "classification": "controls/span_lost_incoming_authority/classification.json"
+    },
+    "span_zero_extent": {
+      "directory": "controls/span_zero_extent",
+      "log": "controls/span_zero_extent/verifast.log",
+      "classification": "controls/span_zero_extent/classification.json"
+    }
+  },
+  "all_matched": true,
+  "evidence_class": "mechanism controls only; no proof or consumer acceptance"
+}

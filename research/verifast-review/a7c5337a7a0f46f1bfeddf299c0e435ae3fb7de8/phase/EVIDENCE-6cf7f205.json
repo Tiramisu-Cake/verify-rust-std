@@ -1,0 +1,451 @@
+{
+  "schema": "challenge8-incoming-origin-evidence-v1",
+  "build": {
+    "dispatch_token": "dispatch-5bc52bb83a61452e927a17df31069f6f",
+    "owner": "merge",
+    "phase_id": "MERGE-INCOMING-ORIGIN-CLOUD-2026-10-09",
+    "infra_sha": "01c832b272ddfe45c0df8298a278761c6aae3aaa",
+    "proof_sha": "01c832b272ddfe45c0df8298a278761c6aae3aaa",
+    "lane": "merge",
+    "submitted_config_sha256": "3245b943b08f8e98aa780050726caab9d5ec1b760c743548ef3c38b9490852c8",
+    "reserved_seconds": 1260,
+    "timeout_seconds": 1200,
+    "status": "FAILURE",
+    "publish_text_logs": true,
+    "source_mode": "pinned-objects",
+    "source_input_sha256": "141ce16408f43c3ee9c619c6a0366f2aa0ab45afd3723ffb8b89d43a2888e563",
+    "build_id": "6cf7f205-a3a0-46d3-9419-938c5b20d72b",
+    "start_time": "2026-10-09T20:41:20.069148220Z",
+    "finish_time": "2026-10-09T20:47:52.595215Z",
+    "create_time": "2026-10-09T20:41:19.273177187Z",
+    "build_seconds": 394,
+    "accounted": true,
+    "execution_seconds": 393,
+    "download_verified": true,
+    "archive_sha256": "9f5827069039d6b8ff2a87135ed5d4f940b8868e865b14e401ed5ec1683c02c7"
+  },
+  "proof_infra_sha": "01c832b272ddfe45c0df8298a278761c6aae3aaa",
+  "tool_commit": "6cb7b6736c4ef7978d2f3a80737952ac7148cccb",
+  "profile": {
+    "schema": "smallsort-tracked-md-profile-v1",
+    "profile": "experimental-merge-incoming-origin-onecell-v3",
+    "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+    "translator_sha256": "207a4e0d82553ce28c8e27c44bc4e6a4fdb78f16661ec53c044c7632611b4e0c",
+    "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+    "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
+    "kernel_sha256": "419585581ad01e9ecded6fb17d87bc67107991bbe42e7eedb1ef4a3650529694",
+    "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "refiner_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "accepted": false,
+    "z3_sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+    "baseline_emitter_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+    "emitter_sha256": "e5fd582d6d90f96a9c527a9070e583577ed52d16a8f75a9f6c9a3af0f9b516c6",
+    "baseline_kernel_sha256": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+    "allocation_span_patch_sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b",
+    "allocation_span_tool_commit": "6cb7b6736c4ef7978d2f3a80737952ac7148cccb",
+    "geometry_domain": "fixed scalar/pointer extents; abstract generic/struct/array types excluded",
+    "lifetime_boundary": "internal MIR-origin AST statements, original MIR span/local identity, path-local binding and surviving entry Chunk",
+    "ast_sha256": "1fb8528f755586ba04dae86933c0cfad6c514188267c5de5d43525eb53feca35",
+    "sexpression_sha256": "33e5fe0b39447bc10ee2a79c9c9bb6ca29c268da2527f3d121ad94f252a51b80",
+    "verify_expr_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+    "console_sha256": "2e51f3b87149cf8ff612ecd45523b01eddc4ed52adc238431cbdf3f5e97a59b8",
+    "proof_sha": "01c832b272ddfe45c0df8298a278761c6aae3aaa",
+    "baseline_build_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+    "provider": {
+      "provider": "cloud-build",
+      "build_id": "6cf7f205-a3a0-46d3-9419-938c5b20d72b",
+      "project": "smallsort-ci",
+      "region": "global",
+      "os": "ubuntu-22.04",
+      "arch": "x86_64"
+    },
+    "build_exit": 0
+  },
+  "archive_sha256": "9f5827069039d6b8ff2a87135ed5d4f940b8868e865b14e401ed5ec1683c02c7",
+  "manifest_sha256": "979f0b4d533b0a75c98a3b903d58eea61dc4d50a85dd01d04b476bc6d79dac4e",
+  "summary": {
+    "build_id": "6cf7f205-a3a0-46d3-9419-938c5b20d72b",
+    "diagnostic_complete": false,
+    "evidence_complete": true,
+    "failure_class": "run-failed",
+    "lane": "merge",
+    "missing_mandatory": [],
+    "run_exit_code": 1,
+    "schema_version": 1,
+    "smoke_success": false,
+    "text_logs_complete": true,
+    "text_logs_index_sha256": "85db34b285d96678e555042c8cc4e096d3aae3fd56fe03ae572f4ddba1742379",
+    "verification_accepted": false
+  },
+  "integrity": "control download verified archive/config/source/file inventory/upload receipt; external text index checked, chunks not downloaded",
+  "fresh_proof": {
+    "span": {
+      "span_positive": "PASS_CONTROL",
+      "span_retired_local_reuse": "INCONCLUSIVE",
+      "span_overlap": "EXPECTED_REJECTION",
+      "span_raw_arbitrary": "EXPECTED_REJECTION",
+      "span_lost_incoming_authority": "EXPECTED_REJECTION",
+      "span_zero_extent": "EXPECTED_REJECTION"
+    },
+    "origin": {
+      "origin_reserved_dead_diverge": "FRONTEND_REJECTION",
+      "origin_reserved_live_diverge": "FRONTEND_REJECTION",
+      "origin_plain_diverge": "FRONTEND_REJECTION",
+      "origin_reserved_dead_requires_resource": "PRE_TARGET_REJECTION",
+      "origin_reserved_dead_extern_requires_resource": "FRONTEND_REJECTION",
+      "origin_reserved_live_preserves_resource": "PRE_TARGET_REJECTION",
+      "origin_unit_layout": "MODEL_LAYOUT_FAILURE",
+      "origin_unit_runtime_layout": "MODEL_LAYOUT_FAILURE",
+      "origin_ghost_reserved_call": "FRONTEND_REJECTION",
+      "origin_local_death_lost_cell": "PRE_TARGET_REJECTION",
+      "origin_branch_unwind_resource": "FRONTEND_REJECTION"
+    },
+    "cases": {
+      "origin_branch_unwind_resource": {
+        "classification": "FRONTEND_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "e67be7692bb2d9e25980a9432b58c3e064364aab3b42558deb2b808166f77e26",
+        "target_line": 19,
+        "errors": [
+          "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "decoded MIR or proof AST missing"
+        },
+        "classification_sha256": "5372d986998fb2dfc6c14b2e8a912b40b92f9659d2461c4adf1fff2c9c4527b2",
+        "verifast_log_sha256": "0a15c976fefcc4200eb46ae1e9555183ee05aa62f3dc139ae6ad2fc36e0c982f"
+      },
+      "origin_ghost_reserved_call": {
+        "classification": "FRONTEND_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+        "target_line": 17,
+        "errors": [
+          "verified/lib.rs(8,5-26): error: The name of a user-defined function must not start with 'vf__'."
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "no call-origin correlation for diagnostic"
+        },
+        "classification_sha256": "cd28c393a7b887ec228c792a60b488afd069df3c9cfcbec9eaa544c0b1afae8b",
+        "verifast_log_sha256": "ce7b5f6a4566bc918de016d622da4d8a3be5d74b72e12eddc0e11dc5e030252f"
+      },
+      "origin_local_death_lost_cell": {
+        "classification": "PRE_TARGET_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+        "target_line": 15,
+        "errors": [
+          "verified/lib.rs(13,34-35): error: No matching heap chunks: points_to<u64>(tmp_addr, _)"
+        ],
+        "gate": {
+          "admitted": true,
+          "mir_local": "_2",
+          "mir_storage_dead_line": 15,
+          "obligation_line": 15,
+          "decoded_sha256": "54f8d1211a342f767b0e490312b34b815f19ff02a2d7269f5792db4e4b4347b7",
+          "proof_ast_sha256": "da166c3ccd3b23a89f776f2526b8ed9ee1624be0b9d7e606bdcd7681885aa3cc"
+        },
+        "classification_sha256": "82e54116d5d5b504699b07a8fc290360d54b716c6d4635c2a0a2b8cc791b731f",
+        "verifast_log_sha256": "a0e7d09a3ca096cdb568ed719705da456c8985195024452064d9b46439784cc6"
+      },
+      "origin_plain_diverge": {
+        "classification": "FRONTEND_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "44c0fd5b5ae16ab204b24299976c6ba92aed467939dba3b534e9767a7a553364",
+        "target_line": 16,
+        "errors": [
+          "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "decoded MIR or proof AST missing"
+        },
+        "classification_sha256": "940299e58213aea650676822f8d1e5ba7ed7b3d5838d2a444de74ddf8f189e63",
+        "verifast_log_sha256": "d139fe3a89b929faccc2c1b1994816289f1528e734d4daf81ed148a7559ff722"
+      },
+      "origin_reserved_dead_diverge": {
+        "classification": "FRONTEND_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "7210146dc723a3ca0e810a96db7f2af40295cbd895c5b67e07d83f18f263f27a",
+        "target_line": 16,
+        "errors": [
+          "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "decoded MIR or proof AST missing"
+        },
+        "classification_sha256": "d9a448864d43c312eee4ae5accbf734a332c615673605c1baf859c3c38145bd5",
+        "verifast_log_sha256": "d139fe3a89b929faccc2c1b1994816289f1528e734d4daf81ed148a7559ff722"
+      },
+      "origin_reserved_dead_extern_requires_resource": {
+        "classification": "FRONTEND_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "8492022263c76baeac877ae232816e5352518a2a3666b554ab5079ef445c795a",
+        "target_line": 15,
+        "errors": [
+          "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "decoded MIR or proof AST missing"
+        },
+        "classification_sha256": "3a9ae953cb61ab0d36a015b37275c5e98a27835a2c4fb7816ef4980f6e32e4f2",
+        "verifast_log_sha256": "0a15c976fefcc4200eb46ae1e9555183ee05aa62f3dc139ae6ad2fc36e0c982f"
+      },
+      "origin_reserved_dead_requires_resource": {
+        "classification": "PRE_TARGET_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "8afa99b5be8482e60e2a9861c7cb1e5f208045814dd855ea1170ff5b4c929ff9",
+        "target_line": 14,
+        "errors": [
+          "verified/lib.rs(8,12-15): error: No matching heap chunks: points_to<u64>(p, _)"
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "origin MIR/AST correlation failed: target AST argument is '$_3', expected 'p'"
+        },
+        "classification_sha256": "1801a61d1bb2ad880c3a2b438910cd70dc1d68ff0bb21a2ff2997ae242e77738",
+        "verifast_log_sha256": "f790cfbb5031c425a587144e07c0266dc9e256f689ea710c958ce83b9f90f829"
+      },
+      "origin_reserved_live_diverge": {
+        "classification": "FRONTEND_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "f653f51934949d21b739758849d30c8d0ac723ead0d4e4ba3826caf915ba5475",
+        "target_line": 16,
+        "errors": [
+          "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "decoded MIR or proof AST missing"
+        },
+        "classification_sha256": "23d351fe189d83642f8795b6da4b17b5b90622b582c3bfc431ece6b24f1df095",
+        "verifast_log_sha256": "d139fe3a89b929faccc2c1b1994816289f1528e734d4daf81ed148a7559ff722"
+      },
+      "origin_reserved_live_preserves_resource": {
+        "classification": "PRE_TARGET_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "9d32ca7e7427bede662337e0e0d0d2ea5e42ab02dad42cd7e3196c48d5a77428",
+        "target_line": 14,
+        "errors": [
+          "verified/lib.rs(8,12-15): error: No matching heap chunks: points_to<u64>(p, _)"
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "origin MIR/AST correlation failed: target AST argument is '$_3', expected 'p'"
+        },
+        "classification_sha256": "1e43d93199854376c702e8cc60193d4bafdb2fca6fbcb5dd1828227723880029",
+        "verifast_log_sha256": "da6c6916b5a2138d3f0c2216a8830573049a3b8ddd7f9628fa30fbb3f2b33f11"
+      },
+      "origin_unit_layout": {
+        "classification": "MODEL_LAYOUT_FAILURE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+        "target_line": 9,
+        "errors": [
+          "verified/lib.rs(9,42-44): error: Assertion might not hold. (Cannot prove sizeof(std_tuple_0__type_info) = 0.)"
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "no call-origin correlation for diagnostic"
+        },
+        "classification_sha256": "4b339bb6f67fd4e00504bf79c142b424d84db3ed74bdc44bb5a05bc340587f37",
+        "verifast_log_sha256": "e5804489bb7f5aad007ad5bea0559c78a1eb04fb2e8f6eb811d6f92ae8b6c518"
+      },
+      "origin_unit_runtime_layout": {
+        "classification": "MODEL_LAYOUT_FAILURE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+        "target_line": 10,
+        "errors": [
+          "verified/lib.rs(10,29-31): error: Assertion might not hold. (Cannot prove __result = 0.)"
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "no call-origin correlation for diagnostic"
+        },
+        "classification_sha256": "38cd91b785174f12c687c8e7beee691043ff1c22b914c9697815d8adcf326d6b",
+        "verifast_log_sha256": "38ce49462fe6bc74fcff5303fd3be7339f18a80f85794a6cd54319527b8dcb35"
+      },
+      "span_lost_incoming_authority": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "df37c2a83f011623e2706c60077f83e86147143df35a3ae6b93aee7ee9939859",
+        "target_line": 20,
+        "errors": [
+          "verified/lib.rs(20,71-73): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + 8) <= get_pointer_address(p) || (get_pointer_address(p) + 8) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+        ],
+        "gate": null,
+        "classification_sha256": "d8bd0e6023a4b87407e0df68c1f8bb351c81046baa1957e9fd1298b38e11739e",
+        "verifast_log_sha256": "580b978c54146c40f51808494d7019dc9f7def5e3831cf35f5df1f1192a25417"
+      },
+      "span_overlap": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "c70396ca050c3bf7e644b0d4186d0d845f5f0e0a06550e735717be817f6372eb",
+        "target_line": 20,
+        "errors": [
+          "verified/lib.rs(20,71-73): error: Assertion might not hold. (Cannot prove (get_pointer_address(p) + 8) <= get_pointer_address(p) || (get_pointer_address(p) + 8) <= get_pointer_address(p).)"
+        ],
+        "gate": null,
+        "classification_sha256": "14ef4fc43715528944934199e6f8005fd31b98c202e95ea95943bc2401626315",
+        "verifast_log_sha256": "b8070f69b0619b5c5e227442c8d7b9dee7174d01be5043b586844164929591c5"
+      },
+      "span_positive": {
+        "classification": "PASS_CONTROL",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 0,
+          "refinement": 0
+        },
+        "source_sha256": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+        "target_line": 20,
+        "errors": [],
+        "gate": null,
+        "classification_sha256": "01dac3a5b055e88a17fe43018df2cb1d044c81d8088eb98dda122f4b53ce508c",
+        "verifast_log_sha256": "4d09f39b3d97d14838baa8aadbd628b2830a001204e508026a6bdfc5ecc0ac81"
+      },
+      "span_raw_arbitrary": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+        "target_line": 21,
+        "errors": [
+          "verified/lib.rs(21,71-73): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + 8) <= get_pointer_address(p) || (get_pointer_address(p) + 8) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+        ],
+        "gate": null,
+        "classification_sha256": "babfa25f285eeeb6bac2705de997af2021337109ba74b50a29aaad182e747e0a",
+        "verifast_log_sha256": "b9850fc6f6c5dd1a8d67e2ad9d612a480150a5f6533a882d4381c735cbb731f9"
+      },
+      "span_retired_local_reuse": {
+        "classification": "INCONCLUSIVE",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+        "target_line": 30,
+        "errors": [
+          "verified/lib.rs(30,30-32): error: Assertion might not hold. (Cannot prove !(get_pointer_address(fn_outcome_result(outcome2)) = get_pointer_address(fn_outcome_result(outcome0))).)"
+        ],
+        "gate": {
+          "admitted": false,
+          "reason": "retirement MIR/AST gate failed: expected exactly one translated RustStorageLiveStmt event"
+        },
+        "classification_sha256": "31397018e84b3721138aaefafa18d1a1df1a5af25644f1318160bceaf70eca67",
+        "verifast_log_sha256": "3eee57fbe298c928afabfa0ecd53fa1edd241e8967e0c22dc06d57fba5ced8b6"
+      },
+      "span_zero_extent": {
+        "classification": "EXPECTED_REJECTION",
+        "stages": {
+          "exporter": 0,
+          "decode": 0,
+          "verifast": 1,
+          "refinement": 0
+        },
+        "source_sha256": "5937df78548dc08296d8cbbbe6f1cd350935e3871fd70570a8b9fe5c70a4460a",
+        "target_line": 23,
+        "errors": [
+          "verified/lib.rs(23,27-29): error: Assertion might not hold. (Cannot prove !(get_pointer_address(fn_outcome_result(outcome0)) = get_pointer_address(p)).)"
+        ],
+        "gate": null,
+        "classification_sha256": "4f67056e35851dcb580fa41479e5dda61e807d3b4b9f7c633811bc46c48d8ff2",
+        "verifast_log_sha256": "f69e93ac6c25c099b267948cbc4495bd4fafee1116d537e03e8076fff8e41625"
+      }
+    },
+    "actual": "NOT_RUN: origin-only change cannot cure generic separation",
+    "native": "body verified 0 errors/2 statements; exit2 at linking missing crt.dll.vfmanifest, not full PASS"
+  },
+  "replay": {
+    "legacy_CallExpr_rejected_by_internal_origin_gate": true,
+    "credit": "classifier service only, no new proof"
+  },
+  "not_run": [
+    "full Rust suite",
+    "full make test",
+    "actual generic reproducer",
+    "true comparator caller",
+    "all Drop/loop/reentry paths"
+  ],
+  "candidate_status": "NOT_FOR_INTEGRATION pending exact origin and affected-path validation; generic extent remains unsupported"
+}

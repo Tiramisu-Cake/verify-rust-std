@@ -1,0 +1,50 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "5d9c81abe7f8135c0385db8c1a37aefc3871c7a759bf322a6751f2c21ec2cccb",
+    "verified/lib.rs": "5d9c81abe7f8135c0385db8c1a37aefc3871c7a759bf322a6751f2c21ec2cccb",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "5d9c81abe7f8135c0385db8c1a37aefc3871c7a759bf322a6751f2c21ec2cccb",
+    "verified/lib.rs": "5d9c81abe7f8135c0385db8c1a37aefc3871c7a759bf322a6751f2c21ec2cccb",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_reserved_dead_extern_requires_resource",
+  "callee": "vf__rust_storage_dead",
+  "argument": "p",
+  "kind": "ordinary_contract_negative",
+  "target": "reserved extern callee precondition",
+  "error_contains": "No matching heap chunks:",
+  "semantic_expectation": "EXPECTED_REJECTION",
+  "obligation": "ordinary extern contract cannot be forged into a storage event",
+  "target_line": 19,
+  "source_sha256": "5d9c81abe7f8135c0385db8c1a37aefc3871c7a759bf322a6751f2c21ec2cccb",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 1
+  },
+  "case": "origin_reserved_dead_extern_requires_resource",
+  "classification": "FRONTEND_REJECTION",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "decoded MIR or proof AST missing"
+  },
+  "target_executed": false,
+  "errors": [
+    "verified/lib.rs(11,1-3): error: Parse error: Parse error."
+  ],
+  "local_unwind_gate": null,
+  "unwind_log_gate": null,
+  "obligation_line": 19,
+  "accepted": false
+}

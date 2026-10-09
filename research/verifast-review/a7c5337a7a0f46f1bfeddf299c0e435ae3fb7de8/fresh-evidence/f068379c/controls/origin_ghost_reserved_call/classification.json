@@ -1,0 +1,49 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+    "verified/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+    "verified/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_ghost_reserved_call",
+  "callee": null,
+  "argument": null,
+  "kind": "ghost_frontend_diagnostic",
+  "target": "ghost reserved name cannot forge storage event",
+  "semantic_expectation": "FRONTEND_REJECTION_ONLY",
+  "obligation": "reserved ghost declaration/call must not be admitted as lifecycle",
+  "target_line": 17,
+  "source_sha256": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": null
+  },
+  "case": "origin_ghost_reserved_call",
+  "classification": "FRONTEND_REJECTION",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "no call-origin correlation for diagnostic"
+  },
+  "target_executed": false,
+  "errors": [
+    "verified/lib.rs(8,5-26): error: The name of a user-defined function must not start with 'vf__'."
+  ],
+  "local_unwind_gate": null,
+  "unwind_log_gate": null,
+  "obligation_line": 17,
+  "accepted": false
+}

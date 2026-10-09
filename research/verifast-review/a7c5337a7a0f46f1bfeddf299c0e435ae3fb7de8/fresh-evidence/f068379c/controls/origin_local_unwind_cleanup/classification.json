@@ -1,0 +1,78 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "3e265a6321b130caa263cf88c97b8df11b4afc9dae800d1a3067b68e24b57a76",
+    "verified/lib.rs": "3e265a6321b130caa263cf88c97b8df11b4afc9dae800d1a3067b68e24b57a76",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "3e265a6321b130caa263cf88c97b8df11b4afc9dae800d1a3067b68e24b57a76",
+    "verified/lib.rs": "3e265a6321b130caa263cf88c97b8df11b4afc9dae800d1a3067b68e24b57a76",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_local_unwind_cleanup",
+  "callee": "origin_local_may_panic",
+  "argument": "panic_flag",
+  "kind": "local_unwind_positive",
+  "target": "live physical local crosses may-unwind callback",
+  "semantic_expectation": "PASS_CONTROL",
+  "obligation": "local physical cell and incoming fraction close on both normal and unwind paths",
+  "target_line": 30,
+  "source_sha256": "3e265a6321b130caa263cf88c97b8df11b4afc9dae800d1a3067b68e24b57a76",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 0
+  },
+  "case": "origin_local_unwind_cleanup",
+  "classification": "INCONCLUSIVE",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": true,
+    "reason": "source call remains an ordinary CallExpr; lifecycle events match MIR provenance",
+    "decoded_sha256": "b472b468acdd8d85c63409da409e6965fa47dcb18514336d59d79598859b3d87",
+    "proof_ast_sha256": "d4432172c0651a6d649e1003c20e0576074921af6e5290162d0158b9ba748346",
+    "mir_call": {
+      "callee": "origin_local_may_panic",
+      "source_line": 30,
+      "has_normal_target": true,
+      "argument_raw": "_20",
+      "unwind_action": {
+        "continue": null
+      }
+    },
+    "argument_copy_chain": [
+      "_20",
+      "_3"
+    ],
+    "source_argument_mir_local": "_3",
+    "ast_call": {
+      "callee": "origin_local_may_panic",
+      "argument": "$_20",
+      "source_line": 30
+    },
+    "mir_lifecycle_count": 36,
+    "ast_lifecycle_count": 36
+  },
+  "target_executed": true,
+  "errors": [
+    "verified/lib.rs(32,27-29): error: No matching heap chunks: [_]points_to<u64>(fn_outcome_result(outcome0), _)"
+  ],
+  "local_unwind_gate": {
+    "admitted": false,
+    "reason": "local unwind MIR/AST gate failed: missing decoded MIR field cleanup"
+  },
+  "unwind_log_gate": {
+    "admitted": false,
+    "reason": "caller log segment or AST outcome gate missing"
+  },
+  "obligation_line": 30,
+  "accepted": false
+}

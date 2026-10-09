@@ -1,0 +1,49 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "a06cf793851322f4ed1584e7007211c4976b3e6a56aae7565d8d2f551cd062da",
+    "verified/lib.rs": "a06cf793851322f4ed1584e7007211c4976b3e6a56aae7565d8d2f551cd062da",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "a06cf793851322f4ed1584e7007211c4976b3e6a56aae7565d8d2f551cd062da",
+    "verified/lib.rs": "a06cf793851322f4ed1584e7007211c4976b3e6a56aae7565d8d2f551cd062da",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_reserved_live_diverge",
+  "callee": "vf__rust_storage_live",
+  "argument": "local",
+  "kind": "diverging_extern",
+  "target": "reserved live diverging extern call",
+  "semantic_expectation": "PASS_CONTROL",
+  "obligation": "ordinary extern noncontinuation without lifecycle dispatch",
+  "target_line": 20,
+  "source_sha256": "a06cf793851322f4ed1584e7007211c4976b3e6a56aae7565d8d2f551cd062da",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 0
+  },
+  "case": "origin_reserved_live_diverge",
+  "classification": "FRONTEND_REJECTION",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "decoded MIR or proof AST missing"
+  },
+  "target_executed": false,
+  "errors": [
+    "verified/lib.rs(11,1-3): error: Parse error: Parse error."
+  ],
+  "local_unwind_gate": null,
+  "unwind_log_gate": null,
+  "obligation_line": 20,
+  "accepted": false
+}

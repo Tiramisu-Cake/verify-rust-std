@@ -1,0 +1,5 @@
+make: Entering directory '/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/src'
+  DUNE  _build/default/vfconsole/vfconsole.exe
+dune build _build/default/vfconsole/vfconsole.exe
+if [ ! -e ../bin/verifast -o _build/default/vfconsole/vfconsole.exe -nt ../bin/verifast ]; then cp -f _build/default/vfconsole/vfconsole.exe ../bin/verifast; fi
+make: Leaving directory '/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/src'

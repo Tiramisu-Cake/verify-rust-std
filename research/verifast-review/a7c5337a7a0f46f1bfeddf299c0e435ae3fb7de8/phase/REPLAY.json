@@ -1,0 +1,30 @@
+{
+  "schema": "incoming-origin-saved-classifier-replay-v1",
+  "credit": "service classifier replay only; no compiler, extraction, verifier or fresh proof",
+  "cases": {
+    "origin_branch_unwind_resource": "FRONTEND_REJECTION",
+    "origin_ghost_reserved_call": "FRONTEND_REJECTION",
+    "origin_local_death_lost_cell": "EXPECTED_REJECTION",
+    "origin_local_unwind_cleanup": "INCONCLUSIVE",
+    "origin_plain_diverge": "FRONTEND_REJECTION",
+    "origin_reserved_dead_diverge": "FRONTEND_REJECTION",
+    "origin_reserved_dead_extern_requires_resource": "FRONTEND_REJECTION",
+    "origin_reserved_live_diverge": "FRONTEND_REJECTION",
+    "origin_reserved_live_preserves_resource": "FRONTEND_REJECTION",
+    "origin_unit_layout": "MODEL_LAYOUT_FAILURE",
+    "origin_unit_runtime_layout": "MODEL_LAYOUT_FAILURE",
+    "span_lost_incoming_authority": "EXPECTED_REJECTION",
+    "span_overlap": "EXPECTED_REJECTION",
+    "span_positive": "PASS_CONTROL",
+    "span_raw_arbitrary": "EXPECTED_REJECTION",
+    "span_retired_local_reuse": "EXPECTED_REJECTION",
+    "span_zero_extent": "EXPECTED_REJECTION"
+  },
+  "legacy_CallExpr_gate": {
+    "admitted": false,
+    "reason": "retirement MIR/AST gate failed: expected exactly one translated RustStorageDeadStmt event"
+  },
+  "all_classifications_identical": true,
+  "origin_gate_status": "OPEN: Rust extern cases stop before target and normal/unwind case lacks resource",
+  "tool_commit": "6cb7b6736c4ef7978d2f3a80737952ac7148cccb"
+}

@@ -1,0 +1,810 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "verified/lib.rs": "88890f1342d213e6ad5fb640f1c121327aa3943bfdaa2fd768717a019b9f01d4",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "verified/lib.rs": "88890f1342d213e6ad5fb640f1c121327aa3943bfdaa2fd768717a019b9f01d4",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "case": "positive",
+  "source_admission": {
+    "admitted": true,
+    "read_line": 58,
+    "guard_line": 63,
+    "copy_line": 87,
+    "exact_runtime_source_after_ghost_strip": true
+  },
+  "mir_admission": {
+    "admitted": true,
+    "body_count": 1,
+    "field_names": [
+      "src",
+      "dst",
+      "len"
+    ],
+    "implements_drop": false,
+    "guard_debug_count": 1,
+    "guard_aggregates": [
+      {
+        "source_line": 63,
+        "operand_count": 3,
+        "field_names": [
+          "src",
+          "dst",
+          "len"
+        ]
+      }
+    ],
+    "basic_block_count": 6,
+    "terminators": [
+      {
+        "call": {
+          "func": {
+            "constant": {
+              "span": {
+                "regular": {
+                  "lo": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 58,
+                    "col": {
+                      "pos": 41
+                    }
+                  },
+                  "hi": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 58,
+                    "col": {
+                      "pos": 45
+                    }
+                  }
+                }
+              },
+              "const": {
+                "val": {
+                  "constValue": {
+                    "zeroSized": null
+                  },
+                  "ty": {
+                    "kind": {
+                      "fnDef": {
+                        "id": {
+                          "name": "core::ptr::mut_ptr::<impl *mut T>::read"
+                        },
+                        "substs": [
+                          {
+                            "kind": {
+                              "type": {
+                                "kind": {
+                                  "param": "T"
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "lateBoundGenericParamCount": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "args": [
+            {
+              "move": {
+                "local": {
+                  "name": "_4"
+                },
+                "projection": [],
+                "localIsMutable": true,
+                "kind": {
+                  "other": null
+                }
+              }
+            }
+          ],
+          "destination": {
+            "local": {
+              "name": "_3"
+            },
+            "projection": [],
+            "localIsMutable": true,
+            "kind": {
+              "other": null
+            }
+          },
+          "callSpan": {
+            "regular": {
+              "lo": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 58,
+                "col": {
+                  "pos": 41
+                }
+              },
+              "hi": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 58,
+                "col": {
+                  "pos": 47
+                }
+              }
+            }
+          },
+          "unwindAction": {
+            "continue": null
+          },
+          "target": {
+            "something": {
+              "index": 1
+            }
+          }
+        }
+      },
+      {
+        "call": {
+          "func": {
+            "constant": {
+              "span": {
+                "regular": {
+                  "lo": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 58,
+                    "col": {
+                      "pos": 18
+                    }
+                  },
+                  "hi": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 58,
+                    "col": {
+                      "pos": 35
+                    }
+                  }
+                }
+              },
+              "const": {
+                "val": {
+                  "constValue": {
+                    "zeroSized": null
+                  },
+                  "ty": {
+                    "kind": {
+                      "fnDef": {
+                        "id": {
+                          "name": "core::mem::ManuallyDrop::<T>::new"
+                        },
+                        "substs": [
+                          {
+                            "kind": {
+                              "type": {
+                                "kind": {
+                                  "param": "T"
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "lateBoundGenericParamCount": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "args": [
+            {
+              "move": {
+                "local": {
+                  "name": "_3"
+                },
+                "projection": [],
+                "localIsMutable": true,
+                "kind": {
+                  "other": null
+                }
+              }
+            }
+          ],
+          "destination": {
+            "local": {
+              "name": "_2"
+            },
+            "projection": [],
+            "localIsMutable": false,
+            "kind": {
+              "other": null
+            }
+          },
+          "callSpan": {
+            "regular": {
+              "lo": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 58,
+                "col": {
+                  "pos": 18
+                }
+              },
+              "hi": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 58,
+                "col": {
+                  "pos": 48
+                }
+              }
+            }
+          },
+          "unwindAction": {
+            "cleanup": {
+              "index": 5
+            }
+          },
+          "target": {
+            "something": {
+              "index": 2
+            }
+          }
+        }
+      },
+      {
+        "call": {
+          "func": {
+            "constant": {
+              "span": {
+                "regular": {
+                  "lo": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 63,
+                    "col": {
+                      "pos": 47
+                    }
+                  },
+                  "hi": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 63,
+                    "col": {
+                      "pos": 51
+                    }
+                  }
+                }
+              },
+              "const": {
+                "val": {
+                  "constValue": {
+                    "zeroSized": null
+                  },
+                  "ty": {
+                    "kind": {
+                      "fnDef": {
+                        "id": {
+                          "name": "core::ops::Deref::deref"
+                        },
+                        "substs": [
+                          {
+                            "kind": {
+                              "type": {
+                                "kind": {
+                                  "adt": {
+                                    "id": {
+                                      "name": "core::mem::ManuallyDrop"
+                                    },
+                                    "kind": {
+                                      "structKind": null
+                                    },
+                                    "substs": [
+                                      {
+                                        "kind": {
+                                          "type": {
+                                            "kind": {
+                                              "param": "T"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "lateBoundGenericParamCount": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "args": [
+            {
+              "move": {
+                "local": {
+                  "name": "_9"
+                },
+                "projection": [],
+                "localIsMutable": true,
+                "kind": {
+                  "other": null
+                }
+              }
+            }
+          ],
+          "destination": {
+            "local": {
+              "name": "_8"
+            },
+            "projection": [],
+            "localIsMutable": false,
+            "kind": {
+              "other": null
+            }
+          },
+          "callSpan": {
+            "regular": {
+              "lo": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 63,
+                "col": {
+                  "pos": 47
+                }
+              },
+              "hi": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 63,
+                "col": {
+                  "pos": 51
+                }
+              }
+            }
+          },
+          "unwindAction": {
+            "continue": null
+          },
+          "target": {
+            "something": {
+              "index": 3
+            }
+          }
+        }
+      },
+      {
+        "call": {
+          "func": {
+            "constant": {
+              "span": {
+                "regular": {
+                  "lo": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 87,
+                    "col": {
+                      "pos": 8
+                    }
+                  },
+                  "hi": {
+                    "file": {
+                      "name": {
+                        "real": {
+                          "localPath": "verified/lib.rs"
+                        }
+                      }
+                    },
+                    "line": 87,
+                    "col": {
+                      "pos": 32
+                    }
+                  }
+                }
+              },
+              "const": {
+                "val": {
+                  "constValue": {
+                    "zeroSized": null
+                  },
+                  "ty": {
+                    "kind": {
+                      "fnDef": {
+                        "id": {
+                          "name": "core::ptr::copy_nonoverlapping"
+                        },
+                        "substs": [
+                          {
+                            "kind": {
+                              "type": {
+                                "kind": {
+                                  "param": "T"
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "lateBoundGenericParamCount": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "args": [
+            {
+              "move": {
+                "local": {
+                  "name": "_12"
+                },
+                "projection": [],
+                "localIsMutable": true,
+                "kind": {
+                  "other": null
+                }
+              }
+            },
+            {
+              "move": {
+                "local": {
+                  "name": "_13"
+                },
+                "projection": [],
+                "localIsMutable": true,
+                "kind": {
+                  "other": null
+                }
+              }
+            },
+            {
+              "constant": {
+                "span": {
+                  "regular": {
+                    "lo": {
+                      "file": {
+                        "name": {
+                          "real": {
+                            "localPath": "verified/lib.rs"
+                          }
+                        }
+                      },
+                      "line": 87,
+                      "col": {
+                        "pos": 63
+                      }
+                    },
+                    "hi": {
+                      "file": {
+                        "name": {
+                          "real": {
+                            "localPath": "verified/lib.rs"
+                          }
+                        }
+                      },
+                      "line": 87,
+                      "col": {
+                        "pos": 64
+                      }
+                    }
+                  }
+                },
+                "const": {
+                  "val": {
+                    "constValue": {
+                      "scalar": {
+                        "int": {
+                          "data": {
+                            "h": 0,
+                            "l": 1
+                          },
+                          "size": 8
+                        }
+                      }
+                    },
+                    "ty": {
+                      "kind": {
+                        "uInt": {
+                          "uSize": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "destination": {
+            "local": {
+              "name": "_11"
+            },
+            "projection": [],
+            "localIsMutable": false,
+            "kind": {
+              "other": null
+            }
+          },
+          "callSpan": {
+            "regular": {
+              "lo": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 87,
+                "col": {
+                  "pos": 8
+                }
+              },
+              "hi": {
+                "file": {
+                  "name": {
+                    "real": {
+                      "localPath": "verified/lib.rs"
+                    }
+                  }
+                },
+                "line": 87,
+                "col": {
+                  "pos": 65
+                }
+              }
+            }
+          },
+          "unwindAction": {
+            "continue": null
+          },
+          "target": {
+            "something": {
+              "index": 4
+            }
+          }
+        }
+      },
+      {
+        "return": null
+      },
+      {
+        "unwindResume": null
+      }
+    ]
+  },
+  "ast_admission": {
+    "admitted": true,
+    "own_count": 1,
+    "fbc_count": 1,
+    "body_count": 1,
+    "physical_fbc_field_count": 3,
+    "fbc_calls": [
+      "struct_CopyOnDrop_padding",
+      "CopyOnDrop_own"
+    ],
+    "own_physical_points": 2,
+    "fbc_close_count": 1,
+    "fbc_open_count": 1,
+    "read_runtime_count": 3,
+    "read_linked": true,
+    "immutable_typed_tmp": true,
+    "own_recursive_lines": [
+      16
+    ],
+    "fbc_field_lines": [
+      5,
+      6,
+      7
+    ],
+    "exact_guard_type_count": 1,
+    "runtime_calls": [
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "unwinding",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "begin_lifetime",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "precreate_ref",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "lifetime_token",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "init_ref_readonly",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "fn_outcome_result",
+      "create_ref",
+      "vf__rust_storage_dead",
+      "fn_outcome_result",
+      "reborrow_ref",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "initialized_storage_alignment",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "points_to_limits",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "initialized_storage_alignment",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "points_to_limits",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "object_pointer_within_limits",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "uninitialized_storage_alignment",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "points_to__limits",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "object_pointer_within_limits",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "vf__rust_storage_live",
+      "std::ptr::merge_copy_nonoverlapping_one",
+      "returning",
+      "unwinding",
+      "unwinding",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "end_ref_readonly",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "points_to",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "end_lifetime",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_live",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "vf__rust_storage_dead",
+      "returning"
+    ]
+  },
+  "body_seen": true,
+  "copy_executed": false,
+  "errors": [
+    "verified/lib.rs(69,97-99): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + sizeof(T_typeid)) <= get_pointer_address(tail0) || (get_pointer_address(tail0) + sizeof(T_typeid)) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+  ],
+  "dead_code": [],
+  "classification": "INCONCLUSIVE",
+  "accepted": false,
+  "scope": "conditional quiescent one-cell fragment; actual Drop/glue OPEN"
+}

@@ -1,0 +1,47 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "verified/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "verified/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "span_retired_local_reuse",
+  "target": "retired local address is not globally fresh",
+  "expectation": "EXPECTED_REJECTION",
+  "verifast": 1,
+  "requires_target_execution": true,
+  "requires_retired_mir_ast_gate": true,
+  "target_line": 30,
+  "read_lines": [],
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 1
+  },
+  "source_sha256": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+  "case": "span_retired_local_reuse",
+  "errors": [
+    "verified/lib.rs(30,30-32): error: Assertion might not hold. (Cannot prove !(get_pointer_address(fn_outcome_result(outcome2)) = get_pointer_address(fn_outcome_result(outcome0))).)"
+  ],
+  "target_executed": true,
+  "reads_executed": true,
+  "retired_mir_ast_gate": {
+    "admitted": false,
+    "reason": "retirement MIR/AST gate failed: expected exactly one translated RustStorageLiveStmt event"
+  },
+  "classification": "INCONCLUSIVE",
+  "accepted": false,
+  "meaning": "incoming-span mechanism control only"
+}

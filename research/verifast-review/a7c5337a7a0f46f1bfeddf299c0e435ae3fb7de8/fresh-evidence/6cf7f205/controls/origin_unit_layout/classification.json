@@ -1,0 +1,47 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+    "verified/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+    "verified/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "origin_unit_layout",
+  "callee": null,
+  "argument": null,
+  "kind": "layout_diagnostic",
+  "target": "concrete unit size zero",
+  "semantic_expectation": "DIAGNOSTIC_ONLY",
+  "obligation": "concrete unit layout is a model diagnostic, never an origin negative",
+  "target_line": 9,
+  "source_sha256": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": null
+  },
+  "case": "origin_unit_layout",
+  "classification": "MODEL_LAYOUT_FAILURE",
+  "semantic_evidence": false,
+  "origin_gate": {
+    "admitted": false,
+    "reason": "no call-origin correlation for diagnostic"
+  },
+  "target_executed": true,
+  "errors": [
+    "verified/lib.rs(9,42-44): error: Assertion might not hold. (Cannot prove sizeof(std_tuple_0__type_info) = 0.)"
+  ],
+  "obligation_line": 9,
+  "accepted": false
+}

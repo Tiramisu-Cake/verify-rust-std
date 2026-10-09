@@ -1,0 +1,553 @@
+{
+  "schema": "incoming-origin-controls-v1",
+  "profile": "experimental-merge-incoming-origin-onecell-v3",
+  "accepted": false,
+  "manifest_sha256": "f3d30a82c72cd669d873e72cbc7481381ec966e0d4a6257ed915cabf11fd941d",
+  "source_file_sha256": "f48202eb740594ad2ce0a1e6e9cb862ae7577d243281e779e8b63c8393dc951a",
+  "controls": {
+    "origin_reserved_dead_diverge": "FRONTEND_REJECTION",
+    "origin_reserved_live_diverge": "FRONTEND_REJECTION",
+    "origin_plain_diverge": "FRONTEND_REJECTION",
+    "origin_reserved_dead_requires_resource": "PRE_TARGET_REJECTION",
+    "origin_reserved_dead_extern_requires_resource": "FRONTEND_REJECTION",
+    "origin_reserved_live_preserves_resource": "PRE_TARGET_REJECTION",
+    "origin_unit_layout": "MODEL_LAYOUT_FAILURE",
+    "origin_unit_runtime_layout": "MODEL_LAYOUT_FAILURE",
+    "origin_ghost_reserved_call": "FRONTEND_REJECTION",
+    "origin_local_death_lost_cell": "PRE_TARGET_REJECTION",
+    "origin_branch_unwind_resource": "FRONTEND_REJECTION"
+  },
+  "case_details": {
+    "origin_reserved_dead_diverge": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "7210146dc723a3ca0e810a96db7f2af40295cbd895c5b67e07d83f18f263f27a",
+        "verified/lib.rs": "7210146dc723a3ca0e810a96db7f2af40295cbd895c5b67e07d83f18f263f27a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "7210146dc723a3ca0e810a96db7f2af40295cbd895c5b67e07d83f18f263f27a",
+        "verified/lib.rs": "7210146dc723a3ca0e810a96db7f2af40295cbd895c5b67e07d83f18f263f27a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_reserved_dead_diverge",
+      "callee": "vf__rust_storage_dead",
+      "argument": "local",
+      "kind": "diverging_extern",
+      "target": "reserved dead diverging extern call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "ordinary extern noncontinuation without lifecycle dispatch",
+      "target_line": 16,
+      "source_sha256": "7210146dc723a3ca0e810a96db7f2af40295cbd895c5b67e07d83f18f263f27a",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "case": "origin_reserved_dead_diverge",
+      "classification": "FRONTEND_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "decoded MIR or proof AST missing"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+      ],
+      "obligation_line": 16,
+      "accepted": false
+    },
+    "origin_reserved_live_diverge": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "f653f51934949d21b739758849d30c8d0ac723ead0d4e4ba3826caf915ba5475",
+        "verified/lib.rs": "f653f51934949d21b739758849d30c8d0ac723ead0d4e4ba3826caf915ba5475",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "f653f51934949d21b739758849d30c8d0ac723ead0d4e4ba3826caf915ba5475",
+        "verified/lib.rs": "f653f51934949d21b739758849d30c8d0ac723ead0d4e4ba3826caf915ba5475",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_reserved_live_diverge",
+      "callee": "vf__rust_storage_live",
+      "argument": "local",
+      "kind": "diverging_extern",
+      "target": "reserved live diverging extern call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "ordinary extern noncontinuation without lifecycle dispatch",
+      "target_line": 16,
+      "source_sha256": "f653f51934949d21b739758849d30c8d0ac723ead0d4e4ba3826caf915ba5475",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "case": "origin_reserved_live_diverge",
+      "classification": "FRONTEND_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "decoded MIR or proof AST missing"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+      ],
+      "obligation_line": 16,
+      "accepted": false
+    },
+    "origin_plain_diverge": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "44c0fd5b5ae16ab204b24299976c6ba92aed467939dba3b534e9767a7a553364",
+        "verified/lib.rs": "44c0fd5b5ae16ab204b24299976c6ba92aed467939dba3b534e9767a7a553364",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "44c0fd5b5ae16ab204b24299976c6ba92aed467939dba3b534e9767a7a553364",
+        "verified/lib.rs": "44c0fd5b5ae16ab204b24299976c6ba92aed467939dba3b534e9767a7a553364",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_plain_diverge",
+      "callee": "origin_plain_never",
+      "argument": "local",
+      "kind": "diverging_extern",
+      "target": "plain diverging extern call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "baseline ordinary extern noncontinuation",
+      "target_line": 16,
+      "source_sha256": "44c0fd5b5ae16ab204b24299976c6ba92aed467939dba3b534e9767a7a553364",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "case": "origin_plain_diverge",
+      "classification": "FRONTEND_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "decoded MIR or proof AST missing"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+      ],
+      "obligation_line": 16,
+      "accepted": false
+    },
+    "origin_reserved_dead_requires_resource": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "8afa99b5be8482e60e2a9861c7cb1e5f208045814dd855ea1170ff5b4c929ff9",
+        "verified/lib.rs": "8afa99b5be8482e60e2a9861c7cb1e5f208045814dd855ea1170ff5b4c929ff9",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "8afa99b5be8482e60e2a9861c7cb1e5f208045814dd855ea1170ff5b4c929ff9",
+        "verified/lib.rs": "8afa99b5be8482e60e2a9861c7cb1e5f208045814dd855ea1170ff5b4c929ff9",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_reserved_dead_requires_resource",
+      "callee": "vf__rust_storage_dead",
+      "argument": "p",
+      "kind": "ordinary_contract_negative",
+      "target": "reserved name ordinary callee precondition",
+      "error_contains": "No matching heap chunks:",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "ordinary function contract cannot be forged into a storage event",
+      "target_line": 14,
+      "source_sha256": "8afa99b5be8482e60e2a9861c7cb1e5f208045814dd855ea1170ff5b4c929ff9",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "case": "origin_reserved_dead_requires_resource",
+      "classification": "PRE_TARGET_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "origin MIR/AST correlation failed: target AST argument is '$_3', expected 'p'"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(8,12-15): error: No matching heap chunks: points_to<u64>(p, _)"
+      ],
+      "obligation_line": 14,
+      "accepted": false
+    },
+    "origin_reserved_dead_extern_requires_resource": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "8492022263c76baeac877ae232816e5352518a2a3666b554ab5079ef445c795a",
+        "verified/lib.rs": "8492022263c76baeac877ae232816e5352518a2a3666b554ab5079ef445c795a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "8492022263c76baeac877ae232816e5352518a2a3666b554ab5079ef445c795a",
+        "verified/lib.rs": "8492022263c76baeac877ae232816e5352518a2a3666b554ab5079ef445c795a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_reserved_dead_extern_requires_resource",
+      "callee": "vf__rust_storage_dead",
+      "argument": "p",
+      "kind": "ordinary_contract_negative",
+      "target": "reserved extern callee precondition",
+      "error_contains": "No matching heap chunks:",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "ordinary extern contract cannot be forged into a storage event",
+      "target_line": 15,
+      "source_sha256": "8492022263c76baeac877ae232816e5352518a2a3666b554ab5079ef445c795a",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "case": "origin_reserved_dead_extern_requires_resource",
+      "classification": "FRONTEND_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "decoded MIR or proof AST missing"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+      ],
+      "obligation_line": 15,
+      "accepted": false
+    },
+    "origin_reserved_live_preserves_resource": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "9d32ca7e7427bede662337e0e0d0d2ea5e42ab02dad42cd7e3196c48d5a77428",
+        "verified/lib.rs": "9d32ca7e7427bede662337e0e0d0d2ea5e42ab02dad42cd7e3196c48d5a77428",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "9d32ca7e7427bede662337e0e0d0d2ea5e42ab02dad42cd7e3196c48d5a77428",
+        "verified/lib.rs": "9d32ca7e7427bede662337e0e0d0d2ea5e42ab02dad42cd7e3196c48d5a77428",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_reserved_live_preserves_resource",
+      "callee": "vf__rust_storage_live",
+      "argument": "p",
+      "kind": "ordinary_contract_positive",
+      "target": "reserved ordinary callee preserves resource",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "ordinary contract restores a physical cell at normal return and leak check",
+      "target_line": 14,
+      "source_sha256": "9d32ca7e7427bede662337e0e0d0d2ea5e42ab02dad42cd7e3196c48d5a77428",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "case": "origin_reserved_live_preserves_resource",
+      "classification": "PRE_TARGET_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "origin MIR/AST correlation failed: target AST argument is '$_3', expected 'p'"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(8,12-15): error: No matching heap chunks: points_to<u64>(p, _)"
+      ],
+      "obligation_line": 14,
+      "accepted": false
+    },
+    "origin_unit_layout": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+        "verified/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+        "verified/lib.rs": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_unit_layout",
+      "callee": null,
+      "argument": null,
+      "kind": "layout_diagnostic",
+      "target": "concrete unit size zero",
+      "semantic_expectation": "DIAGNOSTIC_ONLY",
+      "obligation": "concrete unit layout is a model diagnostic, never an origin negative",
+      "target_line": 9,
+      "source_sha256": "765f0e57a6f1c229e184e728b82417f1967459c431846be50adbc32a268f5d1a",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": null
+      },
+      "case": "origin_unit_layout",
+      "classification": "MODEL_LAYOUT_FAILURE",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "no call-origin correlation for diagnostic"
+      },
+      "target_executed": true,
+      "errors": [
+        "verified/lib.rs(9,42-44): error: Assertion might not hold. (Cannot prove sizeof(std_tuple_0__type_info) = 0.)"
+      ],
+      "obligation_line": 9,
+      "accepted": false
+    },
+    "origin_unit_runtime_layout": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+        "verified/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+        "verified/lib.rs": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_unit_runtime_layout",
+      "callee": null,
+      "argument": null,
+      "kind": "layout_diagnostic",
+      "target": "runtime concrete unit size zero",
+      "semantic_expectation": "DIAGNOSTIC_ONLY",
+      "obligation": "compiler-produced size_of::<()> result agrees with zero layout",
+      "target_line": 10,
+      "source_sha256": "f241cf5a04397e9f6fca52a9c5f71f647eb6f553434bd28b31139c5acaadbc27",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": null
+      },
+      "case": "origin_unit_runtime_layout",
+      "classification": "MODEL_LAYOUT_FAILURE",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "no call-origin correlation for diagnostic"
+      },
+      "target_executed": true,
+      "errors": [
+        "verified/lib.rs(10,29-31): error: Assertion might not hold. (Cannot prove __result = 0.)"
+      ],
+      "obligation_line": 10,
+      "accepted": false
+    },
+    "origin_ghost_reserved_call": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+        "verified/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+        "verified/lib.rs": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_ghost_reserved_call",
+      "callee": null,
+      "argument": null,
+      "kind": "ghost_frontend_diagnostic",
+      "target": "ghost reserved name cannot forge storage event",
+      "semantic_expectation": "FRONTEND_REJECTION_ONLY",
+      "obligation": "reserved ghost declaration/call must not be admitted as lifecycle",
+      "target_line": 17,
+      "source_sha256": "df0bc7aa654485244381ba1a48195c40fd2a1f17970cf3502c918d2ab6adf09a",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": null
+      },
+      "case": "origin_ghost_reserved_call",
+      "classification": "FRONTEND_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "no call-origin correlation for diagnostic"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(8,5-26): error: The name of a user-defined function must not start with 'vf__'."
+      ],
+      "obligation_line": 17,
+      "accepted": false
+    },
+    "origin_local_death_lost_cell": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+        "verified/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+        "verified/lib.rs": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_local_death_lost_cell",
+      "callee": null,
+      "argument": null,
+      "kind": "local_death_negative",
+      "target": "local death after physical cell leak",
+      "error_contains": "No matching heap chunks:",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "StorageDead cleanup must reject lost local physical permission",
+      "target_line": 15,
+      "source_sha256": "f762632989e35484f6d9625730d36ffb80cfe795f5cbf5a102c564ef3846d568",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 1
+      },
+      "case": "origin_local_death_lost_cell",
+      "classification": "PRE_TARGET_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": true,
+        "mir_local": "_2",
+        "mir_storage_dead_line": 15,
+        "obligation_line": 15,
+        "decoded_sha256": "54f8d1211a342f767b0e490312b34b815f19ff02a2d7269f5792db4e4b4347b7",
+        "proof_ast_sha256": "da166c3ccd3b23a89f776f2526b8ed9ee1624be0b9d7e606bdcd7681885aa3cc"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(13,34-35): error: No matching heap chunks: points_to<u64>(tmp_addr, _)"
+      ],
+      "obligation_line": 15,
+      "accepted": false
+    },
+    "origin_branch_unwind_resource": {
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "e67be7692bb2d9e25980a9432b58c3e064364aab3b42558deb2b808166f77e26",
+        "verified/lib.rs": "e67be7692bb2d9e25980a9432b58c3e064364aab3b42558deb2b808166f77e26",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "e67be7692bb2d9e25980a9432b58c3e064364aab3b42558deb2b808166f77e26",
+        "verified/lib.rs": "e67be7692bb2d9e25980a9432b58c3e064364aab3b42558deb2b808166f77e26",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "name": "origin_branch_unwind_resource",
+      "callee": "origin_may_unwind",
+      "argument": "p",
+      "kind": "branch_unwind_positive",
+      "target": "branch callback normal and unwind resource",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "both branch return and may-unwind callback preserve the physical cell",
+      "target_line": 19,
+      "source_sha256": "e67be7692bb2d9e25980a9432b58c3e064364aab3b42558deb2b808166f77e26",
+      "expected_stages": {
+        "exporter": 0,
+        "decode": 0,
+        "refinement": 0,
+        "verifast": 0
+      },
+      "case": "origin_branch_unwind_resource",
+      "classification": "FRONTEND_REJECTION",
+      "semantic_evidence": false,
+      "origin_gate": {
+        "admitted": false,
+        "reason": "decoded MIR or proof AST missing"
+      },
+      "target_executed": false,
+      "errors": [
+        "verified/lib.rs(9,9-12): error: Parse error: Parse error."
+      ],
+      "obligation_line": 19,
+      "accepted": false
+    }
+  },
+  "all_matched": false,
+  "layout_diagnostics": {
+    "origin_unit_layout": "MODEL_LAYOUT_FAILURE",
+    "origin_unit_runtime_layout": "MODEL_LAYOUT_FAILURE"
+  },
+  "ghost_frontend_diagnostic": "FRONTEND_REJECTION",
+  "evidence_class": "origin and call-dispatch controls only; no consumer or upstream acceptance"
+}
