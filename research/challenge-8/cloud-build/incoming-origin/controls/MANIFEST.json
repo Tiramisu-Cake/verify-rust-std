@@ -10,6 +10,8 @@
       "argument": "local",
       "kind": "diverging_extern",
       "target": "reserved dead diverging extern call",
+      "prototype_note": "contract is in the loaded .rsspec; Rust declaration remains -> ! and MIR must have no normal target",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_dead(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "false"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "ordinary extern noncontinuation without lifecycle dispatch"
     },
@@ -19,6 +21,8 @@
       "argument": "local",
       "kind": "diverging_extern",
       "target": "reserved live diverging extern call",
+      "prototype_note": "contract is in the loaded .rsspec; Rust declaration remains -> ! and MIR must have no normal target",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_live(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "false"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "ordinary extern noncontinuation without lifecycle dispatch"
     },
@@ -28,6 +32,8 @@
       "argument": "local",
       "kind": "diverging_extern",
       "target": "plain diverging extern call",
+      "prototype_note": "contract is in the loaded .rsspec; Rust declaration remains -> ! and MIR must have no normal target",
+      "extern_spec": {"signature": "unsafe fn origin_plain_never(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "false"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "baseline ordinary extern noncontinuation"
     },
@@ -37,6 +43,7 @@
       "argument": "p",
       "kind": "ordinary_contract_negative",
       "target": "reserved extern callee precondition",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_dead(p: *mut u64);", "req": "*p |-> ?v", "ens": "*p |-> v", "on_unwind_ens": "*p |-> v"},
       "error_contains": "No matching heap chunks:",
       "semantic_expectation": "EXPECTED_REJECTION",
       "obligation": "ordinary extern contract cannot be forged into a storage event"
@@ -47,8 +54,37 @@
       "argument": "p",
       "kind": "ordinary_contract_positive",
       "target": "reserved ordinary callee preserves resource",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_live(p: *mut u64);", "req": "*p |-> ?v", "ens": "*p |-> v", "on_unwind_ens": "*p |-> v"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "ordinary extern contract restores a physical cell at normal return and leak check"
+    },
+    {
+      "name": "origin_body_near_reserved_live",
+      "callee": "vf_rust_storage_live",
+      "argument": "local",
+      "kind": "ordinary_body_call_positive",
+      "target": "similar user body is an ordinary function call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "near-reserved source function name remains a regular body call"
+    },
+    {
+      "name": "origin_body_near_reserved_dead",
+      "callee": "vf_rust_storage_dead",
+      "argument": "local",
+      "kind": "ordinary_body_call_positive",
+      "target": "similar user body keeps normal continuation",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "near-reserved source function call keeps its normal continuation"
+    },
+    {
+      "name": "origin_reserved_suffix_extern",
+      "callee": "vf__rust_storage_livex",
+      "argument": "local",
+      "kind": "ordinary_extern_prefix_positive",
+      "target": "reserved-prefix suffix stays ordinary extern",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_livex(value: u64);", "req": "true", "ens": "true", "on_unwind_ens": "true"},
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "nearby reserved-prefix extern name stays an ordinary call"
     },
     {
       "name": "origin_unit_layout",
@@ -93,8 +129,22 @@
       "argument": "p",
       "kind": "branch_unwind_positive",
       "target": "branch callback normal and unwind resource",
+      "extern_spec": {"signature": "unsafe fn origin_may_unwind(p: *mut u64);", "req": "*p |-> ?v", "ens": "*p |-> v", "on_unwind_ens": "*p |-> v"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "both branch return and may-unwind callback preserve the physical cell"
+    },
+    {
+      "name": "origin_unwind_missing_resource_negative",
+      "callee": "origin_unwind_loses_resource",
+      "argument": "p",
+      "kind": "unwind_contract_negative",
+      "target": "caller requires resource omitted by callee unwind post",
+      "extern_spec": {"signature": "unsafe fn origin_unwind_loses_resource(p: *mut u64);", "req": "*p |-> ?v", "ens": "*p |-> v", "on_unwind_ens": "true"},
+      "error_contains": "No matching heap chunks:",
+      "error_resource": "points_to",
+      "error_address": "p",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "caller full unwind post rejects a callee contract that drops the physical cell"
     },
     {
       "name": "origin_local_unwind_cleanup",
