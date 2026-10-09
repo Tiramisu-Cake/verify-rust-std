@@ -34,3 +34,12 @@ Stock produce_type_interp<T/F> is explicit logical production in bridge diagnost
 not heap derivation. No whole bridge post/leak, no dst4 premise removal.
 Original collector mapping fails only multiline ghost-marker containment; local
 service replay repairs classification on saved raw evidence, creates no new proof.
+
+Service-only replay completed: [record](BEF9-SOURCE-MAPPING-REPLAY.json),
+[reproducer](replay_bef9_mapping.py). Mapping NOT_CONFIRMED→PASS all7 by exact
+source marker and one containing ghost span in each full MIR record; ordinary BB
+lookup remainsnull for ghost-only line. Inputs/logs/hashes unchanged; no new proof.
+9 isolated classifier tests pass; raw negatives retain intended obligations above.
+Fresh C1 Build32c43f9f-bcef-4a15-bc95-1455305ebaeb submitted at proof/infra
+7511ddcdbb3250c4cd408c83aff86960f6df1f6a; 71eb recipe failed dispatch validation
+before Build and consumed0Cloudsec, corrected sorted exact transportpaths.

@@ -14,10 +14,11 @@ source4/CURRENT owners, F cell/F.own/thread and exact frame restoration; native
 scratch MU frame untouched. No size/type_interp/dst supplied in this subset.
 Actual caller CFG/sort4 invocation absent, so full applicability still unproved.
 Bridge VF1 at105 MU inverse roundtrip; positive-size/type/dst remain open.
-Raw proof complete; multiline ghost mapping classifier repair is service replay.
-287/3600 Cloud seconds used,3313 remaining, no active build.
+Raw proof complete; multiline ghost mapping PASS all7 by hash-checked service replay.
+287/3600 Cloud seconds accounted,3313 remaining before active Build
+`32c43f9f-bcef-4a15-bc95-1455305ebaeb` at proof/infra7511ddcd (timeout1200).
 Next: independently reviewed actual c1 bounded-prefix normal/direct-unwind full
 post/leak proof; exact source/full MIR/pre-AST admission, no callable/full sort4
-summary. Candidate profile unaccepted; new c1 fresh proof NOT_RUN.
+summary. Candidate profile unaccepted; new c1 fresh proof RUNNING, exact result pending.
 Prior select and conditional c1 keep their exact scope; profile unaccepted.
 Historical STATUS retained in [branch archive](archive/select-adoption-2026-10-10/README.md).

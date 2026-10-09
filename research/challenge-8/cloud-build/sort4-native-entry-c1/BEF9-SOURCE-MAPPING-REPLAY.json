@@ -1,0 +1,527 @@
+{
+  "accepted": false,
+  "build_id": "bef9a3fd-a991-41b4-bca3-3d8e4a424b0d",
+  "cases": {
+    "bridge-positive": {
+      "boundary_line": 43,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": "verified/lib.rs(105,39-42): error: Cannot prove std::mem::MaybeUninit::new_maybe_uninit(T_typeid, value6) == value2",
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "c38421bb3d0ec4ffc19f4fba5ef3e86b71c283c6d830fd7330e1465dd997e225",
+          "ghost_span": {
+            "end_line": 128,
+            "index": 0,
+            "start_line": 42
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "8f66bdd412757a1e2960fb76fd124ef557d8a2616b735c1919e8b15d95cc9a17",
+          "ghost_span": {
+            "end_line": 128,
+            "index": 0,
+            "start_line": 42
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": "verified/lib.rs(105,39-42): error: Cannot prove std::mem::MaybeUninit::new_maybe_uninit(T_typeid, value6) == value2",
+      "raw_full_vf0": false,
+      "raw_identity_call_line": 97,
+      "raw_identity_call_source_text": "                c1_entry_identity::<T, F>(v_base, scratch_base, is_less as *mut F);",
+      "raw_identity_call_trace_reached": true,
+      "raw_verifier_exit_unchanged": 1,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "8f6d1e4e141d4db3e10f6f40186be742fb636ecaafe100f1fc1275bd95c0eb79",
+        "fixture/verified/lib.rs": "27059f1b6e6e0473c4db4c18554be2defdba1e06460ddaea7929a46089bfb57b",
+        "normal-full-prefix-mir.txt": "c38421bb3d0ec4ffc19f4fba5ef3e86b71c283c6d830fd7330e1465dd997e225",
+        "readonly-full-prefix-mir.txt": "8f66bdd412757a1e2960fb76fd124ef557d8a2616b735c1919e8b15d95cc9a17",
+        "source-certificate.json": "af11c8b34b85c9798641273fd69f9f97a1c5124f386f4f8cf8d2305a70ff7c8b"
+      },
+      "source_operations_status": "PASS"
+    },
+    "duplicate-negative": {
+      "boundary_line": 25,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": null,
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "9eae0002bd6f1d0f5614a2e500752e15ec096a409494984dbb702dc1960a94e3",
+          "ghost_span": {
+            "end_line": 27,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "0e121d36bb737450f2fe6c606e654492ee679a4f8f3373c8217730977536aace",
+          "ghost_span": {
+            "end_line": 27,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": "verified/lib.rs(26,60-63): error: No matching heap chunks: array<T>(strip_pointer_metadata(v), ptr_len(fn_outcome_result(outcome)), _v0_v)",
+      "raw_full_vf0": false,
+      "raw_identity_call_line": null,
+      "raw_identity_call_source_text": null,
+      "raw_identity_call_trace_reached": null,
+      "raw_verifier_exit_unchanged": 1,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "3286b57899b227d7ed5e9a70f3d663287ec83fc96cd0eb935c150e3fe84ed480",
+        "fixture/verified/lib.rs": "030232d271c7d747c4db99c98358a203ae72bf28adc545fc1bd46b3e2e7bde1b",
+        "normal-full-prefix-mir.txt": "9eae0002bd6f1d0f5614a2e500752e15ec096a409494984dbb702dc1960a94e3",
+        "readonly-full-prefix-mir.txt": "0e121d36bb737450f2fe6c606e654492ee679a4f8f3373c8217730977536aace",
+        "source-certificate.json": "2416954b4fcc26420e330a61876d6a10054ba054c36321fef43560b72a52eb35"
+      },
+      "source_operations_status": "PASS"
+    },
+    "native-scratch-frame": {
+      "boundary_line": 25,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": null,
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "fc5563c86dbcc43ce3bb45eb8ae0001f274bfa98738f761e528355c5c80185fd",
+          "ghost_span": {
+            "end_line": 32,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "c6118fdc0e51baed22bef62a92d32330e115cebf6e53fab51e828a5289bc400b",
+          "ghost_span": {
+            "end_line": 32,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": null,
+      "raw_full_vf0": true,
+      "raw_identity_call_line": null,
+      "raw_identity_call_source_text": null,
+      "raw_identity_call_trace_reached": null,
+      "raw_verifier_exit_unchanged": 0,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "db354794bf08f41e4774bd4431573665483202f9dc68f4f3c1d24a9ec814071c",
+        "fixture/verified/lib.rs": "0aa43a1e298d538cbc212d809dd5886340c6e2b2ced5a0350cfe40998e3b1323",
+        "normal-full-prefix-mir.txt": "fc5563c86dbcc43ce3bb45eb8ae0001f274bfa98738f761e528355c5c80185fd",
+        "readonly-full-prefix-mir.txt": "c6118fdc0e51baed22bef62a92d32330e115cebf6e53fab51e828a5289bc400b",
+        "source-certificate.json": "0722e02878b859ca7554c5aa3331a772f6caa1682a695c04fe2a7cbbc5e5f8eb"
+      },
+      "source_operations_status": "PASS"
+    },
+    "prefix-native": {
+      "boundary_line": 25,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": null,
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "b9cc47c9046e210a4ba2a61bce7fe9e1eb1de3d2559971f3b955dbb979f820fb",
+          "ghost_span": {
+            "end_line": 26,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "8093010484290802a774c79624781662036eb581a49750cb4eae83155c0316a7",
+          "ghost_span": {
+            "end_line": 26,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": null,
+      "raw_full_vf0": true,
+      "raw_identity_call_line": null,
+      "raw_identity_call_source_text": null,
+      "raw_identity_call_trace_reached": null,
+      "raw_verifier_exit_unchanged": 0,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "a45bcb0f80731ac42e8cbc6f32b30b3528993338f30a111a47d541f164fe0f24",
+        "fixture/verified/lib.rs": "fbace57e0d8a9bd6f2a5c5d0bf20d83e8c0b54e06451dd946ece9ad7264a73c4",
+        "normal-full-prefix-mir.txt": "b9cc47c9046e210a4ba2a61bce7fe9e1eb1de3d2559971f3b955dbb979f820fb",
+        "readonly-full-prefix-mir.txt": "8093010484290802a774c79624781662036eb581a49750cb4eae83155c0316a7",
+        "source-certificate.json": "82826e2922797a3c22dba5735c93cb199391608748f6f87969d9446571a93101"
+      },
+      "source_operations_status": "PASS"
+    },
+    "range-negative": {
+      "boundary_line": 25,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": null,
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "3bb2597dc499be291363f78fe2459ac3cb5a243cb0c00464d933e24300036ae8",
+          "ghost_span": {
+            "end_line": 30,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "4ead1b5a58aa150856411e02c593bb2200f0e72b1e86b890e125de508c57c5a4",
+          "ghost_span": {
+            "end_line": 30,
+            "index": 0,
+            "start_line": 24
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": "/workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove 9 <= ptr_len(v).)",
+      "raw_full_vf0": false,
+      "raw_identity_call_line": null,
+      "raw_identity_call_source_text": null,
+      "raw_identity_call_trace_reached": null,
+      "raw_verifier_exit_unchanged": 1,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "a26b98c29a20530545bb65cab5bd3fde7c9ea0c12c501faab89b09614854b077",
+        "fixture/verified/lib.rs": "24b9440f91615f89f14b69f4531e1e67acd807fbbbf567f627ef059c5f793abf",
+        "normal-full-prefix-mir.txt": "3bb2597dc499be291363f78fe2459ac3cb5a243cb0c00464d933e24300036ae8",
+        "readonly-full-prefix-mir.txt": "4ead1b5a58aa150856411e02c593bb2200f0e72b1e86b890e125de508c57c5a4",
+        "source-certificate.json": "744b154386fadd97d1188b9a4cd4ba3095db4408e7469b6e8f352f270018d0ea"
+      },
+      "source_operations_status": "PASS"
+    },
+    "source-frame-positive": {
+      "boundary_line": 31,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": null,
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "c5b95e590b2ed89492d639c6ea4dc8632034927fc3da26e417c0553993a2fa0f",
+          "ghost_span": {
+            "end_line": 49,
+            "index": 0,
+            "start_line": 30
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "ed6a9f5638cb0b158460df806871c61bb19135c1575580a208ae7ddf391b31e1",
+          "ghost_span": {
+            "end_line": 49,
+            "index": 0,
+            "start_line": 30
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": null,
+      "raw_full_vf0": true,
+      "raw_identity_call_line": null,
+      "raw_identity_call_source_text": null,
+      "raw_identity_call_trace_reached": null,
+      "raw_verifier_exit_unchanged": 0,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "4f227d97a40ea3e63c83300f17eb97dc55b841c5de94e3784604f9ab46f46153",
+        "fixture/verified/lib.rs": "95acb011cae8d058f8c1394e1a851339287ef4d4e28ee2b5fb1f7ead5f5356d3",
+        "normal-full-prefix-mir.txt": "c5b95e590b2ed89492d639c6ea4dc8632034927fc3da26e417c0553993a2fa0f",
+        "readonly-full-prefix-mir.txt": "ed6a9f5638cb0b158460df806871c61bb19135c1575580a208ae7ddf391b31e1",
+        "source-certificate.json": "2861ca16199ed38121a65dce0b12265ee3842ba39009266f6a632b91d8adca99"
+      },
+      "source_operations_status": "PASS"
+    },
+    "source-post-negative": {
+      "boundary_line": 31,
+      "boundary_source_text": "            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+      "bridge_first_vc_after_identity": null,
+      "case_verdict_changed": false,
+      "changed_gate": true,
+      "ghost_spans_normal_readonly": {
+        "normal": {
+          "complete_basic_blocks": 6,
+          "full_mir_sha256": "6a072de8752ca494ab2c204438065bb990fa6e5325e7680c4324da49aab66e94",
+          "ghost_span": {
+            "end_line": 45,
+            "index": 0,
+            "start_line": 30
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        },
+        "readonly": {
+          "complete_basic_blocks": 5,
+          "full_mir_sha256": "ee3e611c175570afcdbdb747275db48c8a8b2d382224d4221339f692cd6e7542",
+          "ghost_span": {
+            "end_line": 45,
+            "index": 0,
+            "start_line": 30
+          },
+          "ordinary_basic_block_for_ghost_line": null,
+          "source_marker_exact": true,
+          "unique_containing_ghost_span": true
+        }
+      },
+      "normal_readonly_ghost_span_gate": "PASS",
+      "old_mapping_gate": "NOT_CONFIRMED",
+      "operation_statuses": {
+        "len": "PASS",
+        "len_div_2": "PASS",
+        "scratch_base": "PASS",
+        "unsafe": "PASS",
+        "v_base": "PASS"
+      },
+      "proof_credit": false,
+      "proof_execution_trace": {
+        "evidence_kind": "native lemma verifier execution trace; no caller CFG projection claimed",
+        "statement_hits": {
+          "len": true,
+          "len_div_2": true,
+          "native_entry_ghost_boundary": true,
+          "scratch_base": true,
+          "unsafe": true,
+          "v_base": true
+        },
+        "status": "PASS"
+      },
+      "raw_classification_unchanged": "NATIVE_ENTRY_OR_POST_ADMISSION_BLOCKER",
+      "raw_first_error_unchanged": "verified/lib.rs(44,31-33): error: Assertion might not hold. (Cannot prove !(_v0_is_less = _v0_is_less).)",
+      "raw_full_vf0": false,
+      "raw_identity_call_line": null,
+      "raw_identity_call_source_text": null,
+      "raw_identity_call_trace_reached": null,
+      "raw_verifier_exit_unchanged": 1,
+      "replayed_mapping_gate": "PASS",
+      "saved_input_sha256": {
+        "fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "fixture/verification.log": "a25986f61ecc823df2a07e5439802f3e3ac17fc3d598c037b4f535be1836d1e9",
+        "fixture/verified/lib.rs": "1e8dc8f8d8334861d7e4691c8c6941ed01cfaa43c1822642b066b6945b9cb418",
+        "normal-full-prefix-mir.txt": "6a072de8752ca494ab2c204438065bb990fa6e5325e7680c4324da49aab66e94",
+        "readonly-full-prefix-mir.txt": "ee3e611c175570afcdbdb747275db48c8a8b2d382224d4221339f692cd6e7542",
+        "source-certificate.json": "07004f11209c379effd2dcc4b84583b3f2f15af2ab435dc7f00829d9fb4f1b81"
+      },
+      "source_operations_status": "PASS"
+    }
+  },
+  "changed_gate": "source_mir_proof_mapping only: require exact artificial marker line, one containing ghost statement span in both complete MIR records, exact operation spans, and saved verifier trace; no ordinary basic-block requirement for ghost-only source line.",
+  "changed_gate_case_count": 7,
+  "classification": "SERVICE_MAPPING_REPLAY_NO_PROOF_CREDIT",
+  "infra_sha": "d4b2d6f2e0dc6b1c9f1e0f8362bb08f04bf67d4d",
+  "lane": "o26-sort4-caller-entry",
+  "prior_diagnostic_audit_sha256": "e1db36afba133d360fd725aaa7124a578e759e2af6056f17a86ae6277f53b967",
+  "proof_credit": "NONE",
+  "proof_image": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+  "proof_sha": "d4b2d6f2e0dc6b1c9f1e0f8362bb08f04bf67d4d",
+  "raw_case_verdicts_or_logs_rewritten": false,
+  "replay_collector_sha256": "eb7d874fbf98c574c1f4729b0ca34ee4518bf648d8899ce0842cc31316d5c2f6",
+  "replay_command": "python3 -B research/challenge-8/cloud-build/sort4-native-entry-c1/replay_bef9_mapping.py --extracted /tmp/native-bef9-read --record research/challenge-8/cloud-build/sort4-native-entry-c1/BEF9-SOURCE-MAPPING-REPLAY.json",
+  "replay_script_sha256": "b01e819ee300ed4fc64563a798cd1d2402e6aac79f6708a50b5d28a4b966c57f",
+  "source_input_archive_sha256": "ddc5a0be72567f51025024fec74ec1abefa7301e0cef5b6588caaee36253a17e",
+  "source_input_certificate_sha256": "22bd3462c3f583269640448f81070314a3199c2a47949d6601ac50d13cb3f49e",
+  "test_command": "python3 -B research/challenge-8/cloud-build/sort4-native-entry-c1/test_native_entry_classifier.py",
+  "test_result": "9 tests passed"
+}

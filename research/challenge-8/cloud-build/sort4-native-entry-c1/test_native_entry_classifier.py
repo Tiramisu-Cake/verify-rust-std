@@ -74,7 +74,9 @@ class NativeSourceTests(unittest.TestCase):
         signature = b"fn small_sort_general_with_scratch<T>() "
         statements = [value for _, value in namespace["NATIVE_ENTRY_OPERATIONS"]]
         lines = [signature + b"{\n"] + [b"    " + x + b"\n" for x in statements]
-        lines.append(b"    //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n")
+        lines.append(b"        /*@ if (len >= 8) {\n")
+        lines.append(b"            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n")
+        lines.append(b"        } @*/\n")
         lines.append(b"}\n")
         source = b"".join(lines)
         rows = operation_rows(source)
@@ -105,10 +107,18 @@ class NativeSourceTests(unittest.TestCase):
             "ghost_boundary_is_artificial": True,
         }
         actual = source
-        basic_lines = ", ".join(f"line = {i}," for i in range(1, len(lines)))
+        operation_lines = [i for i, line in enumerate(lines, 1)
+                           if any(statement in line for statement in statements)]
+        basic_lines = ", ".join(f"line = {i}," for i in operation_lines)
+        ghost_start = next(i for i, line in enumerate(lines, 1) if b"/*@ if" in line)
+        ghost_end = next(i for i, line in enumerate(lines, 1) if b"} @*/" in line)
+        marker_line = next(i for i, line in enumerate(lines, 1)
+                           if b"FIRST_SORT4_CALLSITE_BOUNDARY" in line)
+        ghost_raw = "/*@ if (len >= 8) {\n            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n        } @*/"
         record = ("basicBlocks = [\n  ( id = (index = 0), " + basic_lines + " )\n]\n" +
-                  "ghostStmts = [\n  ( raw = \"assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\", startLine = 7, endLine = 7, span = 0 )\n]\n")
-        log = "".join(f"1.0s: verified/lib.rs({i},1-8): Executing statement\n" for i in (2, 3, 4, 6, 7))
+                  f'ghostStmts = [\n  ( raw = "{ghost_raw}", startLine = {ghost_start}, endLine = {ghost_end}, span = 0 )\n]\n')
+        log = "".join(f"1.0s: verified/lib.rs({i},1-8): Executing statement\n"
+                      for i in (*operation_lines, marker_line))
         with tempfile.TemporaryDirectory() as temp:
             fixture = Path(temp)
             (fixture / "verified").mkdir()
@@ -120,6 +130,66 @@ class NativeSourceTests(unittest.TestCase):
                 row["source_byte_start"] = row["caller_relative_byte_start"]
             mapping = namespace["native_entry_mapping"](fixture, cert, record, record, log, 0)
         self.assertEqual(mapping["status"], "PASS", mapping)
+        self.assertIsNone(mapping["artificial_ghost_boundary"]["normal_and_readonly"]["normal"]["source_line_to_basic_blocks"])
+        self.assertTrue(mapping["artificial_ghost_boundary"]["normal_and_readonly"]["normal"]["ghost_span_uniquely_covers_marker_line"])
+
+    def test_ghost_marker_must_be_inside_both_complete_records(self):
+        signature = b"fn small_sort_general_with_scratch<T>() "
+        statements = [value for _, value in namespace["NATIVE_ENTRY_OPERATIONS"]]
+        lines = [signature + b"{\n"] + [b"    " + x + b"\n" for x in statements]
+        lines.extend((b"        /*@ if (len >= 8) {\n",
+                      b"            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n",
+                      b"        } @*/\n", b"}\n"))
+        source = b"".join(lines)
+        rows = operation_rows(source)
+        ghost_start = next(i for i, line in enumerate(lines, 1) if b"/*@ if" in line)
+        ghost_end = next(i for i, line in enumerate(lines, 1) if b"} @*/" in line)
+        marker_line = next(i for i, line in enumerate(lines, 1)
+                           if b"FIRST_SORT4_CALLSITE_BOUNDARY" in line)
+        ghost_raw = "/*@ if (len >= 8) {\n            assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n        } @*/"
+        operation_lines = [i for i, line in enumerate(lines, 1)
+                           if any(statement in line for statement in statements)]
+        record = ("basicBlocks = [\n  ( id = (index = 0), " +
+                  ", ".join(f"line = {i}," for i in operation_lines) + " )\n]\n" +
+                  f'ghostStmts = [\n  ( raw = "{ghost_raw}", startLine = {ghost_start}, endLine = {ghost_end}, span = 0 )\n]\n')
+        log = "".join(f"1.0s: verified/lib.rs({i},1-8): Executing statement\n"
+                      for i in (*operation_lines, marker_line))
+        cert = {
+            "classification": namespace["NATIVE_ENTRY_CERT_CLASS"],
+            "source_certificate": {
+                "caller_byte_start": 0, "caller_start_line": 1,
+                "full_original_caller_sha256": hashlib.sha256(source[:-1]).hexdigest(),
+                "native_entry_signature_exact": True,
+                "native_entry_is_separate_resource_lemma": True,
+                "native_entry_signature": signature.decode(),
+                "caller_signature_sha256": hashlib.sha256(signature).hexdigest(),
+            },
+            "native_entry_contract": {
+                "signature_is_exact_actual_caller_signature": True,
+                "full_native_precondition_from_generated_mutable_reference_contract": True,
+                "automatic_native_normal_post_checked": True,
+                "automatic_native_unwind_post_checked": True,
+                "automatic_native_leak_check_required": True,
+                "all_lengths_admitted": True, "all_scratch_lengths_admitted": True,
+                "zst_admitted": True, "no_runtime_guard_or_caller_cfg_projection": True,
+            },
+            "source_mapped_condition_bytes": {
+                "operation_map": rows, "source_runtime_identity_claim": False,
+                "caller_cfg_projection_claim": False, "ghost_boundary_marker": "FIRST_SORT4_CALLSITE_BOUNDARY",
+                "ghost_boundary_is_artificial": True,
+            },
+        }
+        with tempfile.TemporaryDirectory() as temp:
+            fixture = Path(temp)
+            (fixture / "verified").mkdir()
+            (fixture / "verified/lib.rs").write_bytes(source)
+            (fixture / "actual-caller.rs").write_bytes(source)
+            for row in rows.values():
+                row["source_byte_start"] = row["caller_relative_byte_start"]
+            malformed = record.replace(f"endLine = {ghost_end}",
+                                       f"endLine = {marker_line - 1}")
+            mapping = namespace["native_entry_mapping"](fixture, cert, malformed, malformed, log, 0)
+        self.assertEqual(mapping["artificial_ghost_boundary"]["status"], "NOT_CONFIRMED")
 
 
 class ClassifierTests(unittest.TestCase):

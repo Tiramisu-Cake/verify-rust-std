@@ -217,16 +217,24 @@ def native_entry_mapping(fixture, cert, normal_record, readonly_record, log, ent
     boundary_line=marker_lines[0] if len(marker_lines)==1 else None
     boundary_text=source_line(source_lines,boundary_line)
     boundary_ghost={};trace_hits['native_entry_ghost_boundary']=executed_line(log,boundary_line)
+    boundary_source_exact=(isinstance(marker,str) and
+                           boundary_text is not None and
+                           boundary_text.strip()==f'assert len >= 8; // {marker}')
     for mode,record in (('normal',normal_record),('readonly',readonly_record)):
         blocks=mir_basic_blocks(record)
         ghost=mir_ghost_statement(record,boundary_line,marker) if boundary_line else None
         block_hits=mir_line_blocks(blocks,boundary_line) if boundary_line else None
-        boundary_ghost[mode]={'status':'PASS' if blocks is not None and ghost and block_hits else 'NOT_CONFIRMED',
+        unique_cover=(isinstance(ghost,list) and len(ghost)==1 and
+                      ghost[0].get('start_line',boundary_line+1)<=boundary_line<=
+                      ghost[0].get('end_line',boundary_line-1))
+        boundary_ghost[mode]={'status':'PASS' if blocks is not None and unique_cover and boundary_source_exact else 'NOT_CONFIRMED',
                               'complete_basic_block_inventory':len(blocks) if blocks is not None else None,
                               'source_line_to_basic_blocks':block_hits,'mir_ghost_statement':ghost,
+                              'ghost_span_uniquely_covers_marker_line':unique_cover,
+                              'source_marker_line_exact':boundary_source_exact,
                               'full_function_record_sha256':hashlib.sha256(record.encode()).hexdigest() if record else None}
     boundary_ok=(isinstance(source_mapping,dict) and source_mapping.get('ghost_boundary_is_artificial') is True and boundary_line is not None and
-                 'FIRST_SORT4_CALLSITE_BOUNDARY' in (boundary_text or '') and
+                 boundary_source_exact and
                  all(row['status']=='PASS' for row in boundary_ghost.values()))
     trace_ok=all(trace_hits.values())
     mir_ok=all(row['status']=='PASS' for row in modes.values())

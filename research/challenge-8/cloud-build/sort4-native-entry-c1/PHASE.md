@@ -37,7 +37,7 @@ Frozen experimental O26 + exact slice-as-mut-ptr value-only candidate preserved.
 No kernel/spec/ownership change. New stronger bridge may retain positive-size
 premise, type_interp and MU roundtrip remain separate, not native-derived.
 Controls: positive native/subset/MU-frame VF0/full posts; range split and duplicate
-source fail at intended resource obligation; false native post fails at post.
+source fail at intended resource obligation; false CURRENT-F value assertion fails at its source equality obligation.
 Source paired refinement, both full typed MIR and proof AST/trace captured.
 PASS subset permits its use in actual c1; failure localizes resource or admission
 without counting intermediate assertions as proof. No repeated unchanged failure.
