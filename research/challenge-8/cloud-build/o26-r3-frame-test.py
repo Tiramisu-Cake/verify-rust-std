@@ -433,7 +433,9 @@ def log_proof_evidence(log: str, stage: dict) -> dict:
         return {key:text.count(key) for key in ("Executing return statement","Leak check.",
             "Consuming function lifetime token","Freeing locals.")}
     helper_counts=counts(helper_segment); nested_counts=counts(nested_segment)
-    helper_full=all(v==2 for v in helper_counts.values())
+    # Exact ManuallyDrop::new runtime is pure/no-unwind in the frozen model.
+    # Both old owner and thread-only helper have one normal return; no unwind return.
+    helper_full=all(v==1 for v in helper_counts.values())
     nested_full=(bool(nested_boundaries) and all(v==2 for v in nested_counts.values()) and
         "verified/lib.rs(169,33-48): Verifying call" in nested_segment and
         ERROR.search(nested_segment) is None)

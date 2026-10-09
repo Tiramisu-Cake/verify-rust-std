@@ -22,3 +22,9 @@ R3/nested runners/entrypoints/cards retains full proof chain and immutable exact
 infra core; actualpair4ab4d568a852c0848a9160a53f90df103b4e789a is186parts,
 554364gzipbytes, payload053dbdbb4184172718814999075cc323339bc2d89cee35b6a593ff7aab3df28a.
 Runtime/posts/certificates/guards unmodified by selection pruning.
+
+Build6ad collector failed an audit-only count: actual forget helper has one normal
+return/leak/free/lifetime and no reachable unwind return under existing pure
+ManuallyDrop::new identity (false unwind contract), not two. Actualnested has two
+normal/unwind paths. Audit count correction prepared for next changed-source run,
+not an unexecuted theoremcredit. Actualouter reaches229/230 then late231typeerror.

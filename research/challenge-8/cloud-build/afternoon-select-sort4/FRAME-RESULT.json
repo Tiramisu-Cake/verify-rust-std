@@ -1,0 +1,24 @@
+{
+  "build_id": "6ad52849-ff34-43f4-bd4a-49b810d52d45",
+  "infra_sha": "4ab4d568a852c0848a9160a53f90df103b4e789a",
+  "proof_sha": "4ab4d568a852c0848a9160a53f90df103b4e789a",
+  "helper_counts": {
+    "Executing return statement": 1,
+    "Leak check.": 1,
+    "Consuming function lifetime token": 1,
+    "Freeing locals.": 1
+  },
+  "nested_counts": {
+    "Executing return statement": 2,
+    "Leak check.": 2,
+    "Consuming function lifetime token": 2,
+    "Freeing locals.": 2
+  },
+  "first_error": "verified/lib.rs(231,49-57): error: Type mismatch. Actual: *Element. Expected: std::mem::MaybeUninit<?>.",
+  "current_wrapper_true_assertion_executed": true,
+  "current_wrapper_false_assertion_executed": true,
+  "outer_whole_function_proved": false,
+  "profile_accepted": false,
+  "archive_sha256": "61bb5e45d531251f7589a17423d02b19e8da021eb754dfb690c5225db9a86746",
+  "text_index_sha256": "a2dbe0e6e4c85a61117b80373db486ddf4f220e6951b1d30a8ee158fd538316d"
+}

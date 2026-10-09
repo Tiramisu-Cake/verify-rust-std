@@ -150,6 +150,8 @@ def main() -> None:
                               help="separate source-only selected-input equality diagnostic")
     source_modes.add_argument("--wrapper-input-relation-frame", action="store_true",
                               help="source-only thread-token frame candidate; never enables a proof rule")
+    source_modes.add_argument("--wrapper-input-relation-frame-shadow", action="store_true",
+                              help="source-only late FRAME ghost-name capture; no proof rule")
     source_modes.add_argument("--wrapper-input-relation-shadow", action="store_true",
                               help="blocked source-only shadow-binding revision diagnostic")
     args = parser.parse_args()
@@ -160,7 +162,10 @@ def main() -> None:
                  "nine-body capture requires GitHub-hosted Linux")
     evidence = args.evidence.resolve()
     clear_semantic_opt_ins()
-    if args.wrapper_input_relation_shadow:
+    if args.wrapper_input_relation_frame_shadow:
+        preparer = load(HERE / "prepare-wrapper-input-relation-frame-shadow.py",
+                        "nine_body_wrapper_input_relation_frame_shadow_source")
+    elif args.wrapper_input_relation_shadow:
         for key in ("SORT4_WRAPPER_REBASE_REPO_ROOT", "SORT4_WRAPPER_REBASE_ADMISSION",
                     "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT",
                     "SORT4_WRAPPER_INPUT_RELATION_ADMISSION"):
@@ -215,6 +220,8 @@ def main() -> None:
         record["source_mode"] = "wrapper-input-relation-source-only"
     elif args.wrapper_input_relation_frame:
         record["source_mode"] = "wrapper-input-relation-frame-source-only"
+    elif args.wrapper_input_relation_frame_shadow:
+        record["source_mode"] = "wrapper-input-relation-frame-shadow-source-only"
     elif args.wrapper_input_relation_shadow:
         record["source_mode"] = "wrapper-input-relation-shadow-source-only"
     (evidence / "summary.json").write_text(json.dumps(

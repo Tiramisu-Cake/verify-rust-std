@@ -6322,3 +6322,23 @@ actualnestedbody8 unchangede0508d6c. Source FRAME keeps selectedcell concrete,
 thread-only same-runtime forget. Full observedpins and typed56local/39block/18cleanup
 certificate recorded in O26-R3-FRAME-TEST.json before enabling experimentalrule.
 Phase768/3600; oldaccountsuntouched.
+
+## 2026-10-09 AFTERNOON exact FRAME TEST
+
+Build6ad52849-ff34-43f4-bd4a-49b810d52d45 terminal FAILURE351s, infra=proof
+4ab4d568a852c0848a9160a53f90df103b4e789a, laneo26-input-relation-frame-test,
+actual186parts/payload053dbdbb4184172718814999075cc323339bc2d89cee35b6a593ff7aab3df28a.
+Fullarchive61bb5e45d531251f7589a17423d02b19e8da021eb754dfb690c5225db9a86746
+and textindexa2dbe0e6e4c85a61117b80373db486ddf4f220e6951b1d30a8ee158fd538316d
+verified. Translatora8421aac6bc2863e6df8d5ca9fc94b15251123f5203cf92d271529a595bad243;
+source8543/unitdd53398b, oldR3 source off still240; FRAMEsourceoff/partial exact
+preheader refusals. On prefix7/helper complete one normal return (false unwind),
+actualnestedtwo normal/unwind returns/leaks/lifetime/free before outer. Outer
+executes229/230 currentwrapper=input assertions on conditiontrue, then231 type
+mismatch: inner(true_val) selects original *Element input rather than shadow
+MaybeUninit. CapturedNORMAL/readonlydebug-name order + frozen translator binds
+true_val_1/false_val_1 to actualwrappers. Newsemanticcard before three lateghost
+substitutions; no runtime or fullpost/resource change. CollectorINCONCLUSIVE due
+incorrect helper count2expected, actual1normal/no-unwind under existing pure
+ManuallyDrop constructor. Audit-only fix prepared, not rerunning unchangedmatrix.
+No fullouter/acceptedprofile/genericselect/ZST/sort4 theorem; 1119/3600 newaccount.

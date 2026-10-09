@@ -729,3 +729,14 @@ Outer first240 persists: selectedpayload lost from abstract existentialown acros
 forget; initial183/184pass, late242–244unreached. THREADONLYFRAME sourcecapture
 proposal preserves concrete selectedslot via verifiedthreadonlyforget, NOT_RUN;
 fullactualpointerselect/genericT/ZST/sort4/permutation/order/stability remain OPEN.
+
+Afternoon4077 FRAME capture fresh source8543/unitdd53398b, full9body NORMAL/
+readonly/refinement10Marshal, no proof. Followup6ad FRAME TEST checks same-version
+thread-only actualforget helper (one normal return, falseunwind) and unchanged
+actualnestedDrop (two normal/unwind returns/leaks/free/lifetime) before outer.
+Currentwrapper assertions229/230 now pass on reached conditiontrue, old240
+witnessloss bypassed by concrete selectedcell frame. Next231 exactlateghost
+name binding typeerror (*Element vsMaybeUninit), so bothbranches/finalresult/
+return/leak/unwind/deadcode outer remain OPEN. Collector audit helpercount defect
+retained; exact source/internalname repair now evidencejustified, not preventive.
+All experimentalprofiles unaccepted; actualsort4 callback/fourcells/functionals OPEN.

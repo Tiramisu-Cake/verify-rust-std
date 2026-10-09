@@ -23,7 +23,7 @@ counted outerprototype leak. [Audit-only correction](cloud-build/afternoon-selec
 prepared NOT_EXECUTED; source/tool evidence manually reviewed without rerunning
 unchanged matrix or claiming collector SUCCESS/profile acceptance.
 
-Outer still fails240 on conditiontrue selectedslot. Initialpayload183/184 pass;
+Original R3 source still fails240 on conditiontrue selectedslot. Initialpayload183/184 pass;
 selected cell is folded into existential GuardOwn, generic checkedforget post
 restores own(t,g) but not exact payload. Thus saved-input equality is unavailable;
 stock MaybeUninit identity does not restore it. Late242–244 not reached.
@@ -32,12 +32,19 @@ Build4077ed0a-75ba-4f2b-9ada-1e20a036098d SUCCESS290s source-only capture,
 infra=proof70e5dfa3917a36620b0ac6a1734a677f97332db4,165parts. Fullarchive/index
 verified. Exactruntime/source strip and fullNORMAL/readonly9body/refinement pass;
 newverified8543e999/unitdd53398b,body6/7 changed,0–5/8 unchanged. No proof run.
-Separate default-off FRAME TEST prepared with freshpins; helper/nested/outer
-obligations and profileadmissibility remain open pending hosted checks.
+Separate default-off FRAME TEST uses these freshpins. Its actualhelper/nested
+component evidence follows below; outer/profilestatus remain open.
 
-Afternoon768/3600 accounted,2832remaining before reservation. OwnFRAMEBuild
-6ad52849-ff34-43f4-bd4a-49b810d52d45 queued/running, infra=proof4ab4d568a852c0848a9160a53f90df103b4e789a,
-timeout900+60reserved, actual186parts; monitor/reconcile specific token before retry. Profiles experimental/
+Build6ad52849-ff34-43f4-bd4a-49b810d52d45 FAILURE351s, infra=proof4ab4d568a852c0848a9160a53f90df103b4e789a,186parts.
+FRAMEoffoldR3 retains240, sourceoff/partial exactpreheader refusals. FRAMEon
+checks prefix7/helper/nested thenouter: currentwrapper assertions229/230 pass
+on conditiontrue; next231 inner(true_val) wrongly binds originalpointerinput.
+NORMAL/readonlydebug order maps realwrapper to true_val_1/false_val_1. Three
+lateghost substitutions prepared, runtime andfulltargetposts unchanged;
+[card](cloud-build/afternoon-select-sort4/FRAME-SHADOW-CARD.md).
+CollectorINCONCLUSIVE duehelperreturn-count audit mismatch (expects2, actual1
+normal; falseunwind contract andpureManuallyDrop body). Audit-only fix prepared.
+Afternoon1119/3600,2481remaining, no ownactive/unresolved build. Profiles experimental/
 unaccepted; admission OPEN; fullactualselect normal/unwind/return/leak, genericT/ZST
 and actualsort4 NOT_PROVED. Documentation head is not tested proof SHA.
 

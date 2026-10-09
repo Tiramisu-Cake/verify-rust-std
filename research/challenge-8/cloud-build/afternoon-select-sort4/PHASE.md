@@ -71,3 +71,8 @@ The separately reviewed default-off `o26-input-relation-frame-test` selection
 is registered only in this phase/account. It checks exact FRAME source/tool/CFG
 and same-unit helper/nested prerequisites before outer, full original targetposts.
 See [semantic card](FRAME-PROFILE-CARD.md); no baseline or other phase relaxation.
+
+After observed Build6ad late231 type failure, exact additional lane
+`o26-input-relation-frame-shadow-capture` collects FRAME+three ghost binding
+substitutions only. Runtime unchanged; source-shadow is now evidence justified,
+not preventive. New phases or budgets are not created by this narrow selection.
