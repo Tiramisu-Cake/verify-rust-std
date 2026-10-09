@@ -416,6 +416,8 @@ def read_cases(fixture: Path, workdir: Path, selected: list[str] | None = None) 
             if len(target_owners) != 1:
                 raise RuntimeError(f"{name}: rejection TARGET must lie in exactly one checked body")
             meta["expected_rejection"] = rejection
+            # A validated exact oracle classifies this TARGET; retain strict outer audit.
+            meta["unclassified_target"] = False
             meta["marked_target_line"] = target_line
             meta["negative"] = True
             meta["case_scope"] = (

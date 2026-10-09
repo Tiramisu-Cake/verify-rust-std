@@ -6398,3 +6398,11 @@ len2/3 theorem remains conditional positive-stride/FreezeMarker projection;
 no caller/arbitrary-n/generic/ZST credit. Next RESOURCE11 exactproof07d0dc8 with
 DAY infrastructurea92f5d97, then isolated physicalpoints-to and actualguardpayload
 construction/FBC diagnostics; no new theorem from collectorSUCCESS.
+
+## DAY-MERGE — RESOURCE11
+
+See current phase outcome/card for exact identities. Build3a000599 FAILURE324s,
+raw permutation positives/exact negatives reached; own0 refusal only. Native
+8 cases INCONCLUSIVE at helper81:11–13 before target. Collector rejects stale
+unclassified_target metadata; strict fix and native base inversion require new
+run.813/3600charged,2787remaining, no active own build. Full evidence verified.

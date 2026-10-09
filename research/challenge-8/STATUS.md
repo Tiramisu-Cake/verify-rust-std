@@ -7,13 +7,15 @@ absolute11:16:19UTC /14:16:19MSK. Independent3600Cloud seconds,
 Cloud workflow/overnight/merge-26.10 supersedes historical Actions/branch rules.
 Fresh OR Build3c26cfa6-5263-4287-9f1c-fe1a13068ef2 completes17 shape modes:
 roundtrip admission +16 intended matcher refusals and separate sourcehashgate.
-Full archive/text verified;489/3600charged,3111remaining. Short capture124
-INCONCLUSIVE. [Remaining gates](merge/overnight/or-join-liveness/DAY-GATE-MAP.md).
-RESOURCE11 active Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5,
-proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc/infraa92f5d97efc8a15af4398a7df14037f42ebb4b33,
-timeout960+60queue. T.own chunk refusal is not universal cell uniqueness.
-Next committed selection7groups isolates new guardpayload and same-cell memory
-controls in stock/six profiles; these candidates are NOT_RUN.
+Full archive/text verified. RESOURCE11 Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5
+terminal FAILURE, exact proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc,
+infraa92f5d97efc8a15af4398a7df14037f42ebb4b33;324charged.
+813/3600 total,2787remaining; no own active build. Raw permutation positives and
+matched negatives pass; collector rejected stale unclassified_target metadata.
+Native cases INCONCLUSIVE at extract_rec empty suffix (cannot prove i=none),
+before target bodies. Fresh repair + physical same-cell calibration prepared.
+Annotation-only guard candidate NOT_RUN: source-linked prototype post has no
+payload and would leak actual Drop resources; narrow contract/glue design OPEN.
 Full seven/six/kernel/cleanup profile unaccepted; actual bounded9ad remains
 conditional positive-stride/FreezeMarker projection, not caller/arbitrary-n/generic/ZST.
 Prior cutoff and exact evidence preserved below; documentation HEAD is not proof SHA.

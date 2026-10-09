@@ -76,3 +76,42 @@ refinement, and dead-code gate. Count the false-entry control only if the
 predeclared full-domain target executes and fails at its exact `assert false`
 predicate and location. A parse, exporter, decode, unrelated helper, or source
 admission failure remains inconclusive.
+
+## RESOURCE11 empty-suffix option-index proof repair (candidate, unrun)
+
+Fresh Build `3a000599` / proof `07d0dc5` confirms the pure boolean range/order
+contracts are admitted: all three pure helpers pass in both profiles, and the
+first three helper bodies are visited. The first failure is the intended
+`native_pair_extract_rec` close of `native_pair_selected` at generated
+`verified/lib.rs:81:11–13`: VeriFast cannot prove `i == none`. In the recursive
+base branch `n == 0`, `native_pair_selected` requires both option indices to
+be `none`, while the helper preconditions only give
+`native_pair_index_in_range(i, n) == true` and the corresponding fact for `j`.
+The range definition makes `some(k)` impossible at zero length, but the current
+body does not explicitly split/unfold that case before closing the predicate.
+
+Candidate repair: inside only the `n == 0` branch of
+`native_pair_extract_rec`, explicitly match each option index. The `none` arm
+continues directly. In a `some(k)` arm, expose the range fix's definition
+(`0 <= k && k < n`) from the unchanged range precondition and use `n == 0` to
+discharge the arm as contradictory. Then close the same holes and selected
+predicates. This adds no precondition, assumption, axiom, arithmetic cast,
+resource conversion, or postcondition weakening; it preserves full source
+ownership, current values, all frame resources, and the native-`usize` domain.
+
+Static review of the corresponding `native_pair_restore_rec` base branch shows
+that it first opens `native_pair_selected`, which itself yields `i == none` and
+`j == none` as pure facts when `n == 0`. Its subsequent owned-array close does
+not require a fresh range-to-option derivation. Keep that branch unchanged
+unless a new hosted failure gives contrary evidence. This does not claim its
+body has been verified; it was not reached in Build `3a000599`.
+
+The proposed candidate is unrun. Its next hosted run must check both profiles,
+all four case bodies, and the full expected helper inventory, including return,
+leak, source, refinement, and dead-code gates. In particular it must reach
+`native_pair_restore_rec` and the wrapper cases. A failure to prove the explicit
+range unfolding, any other helper/body failure, or a failure before the
+full-positive gates is inconclusive and requires reading the complete Cloud
+evidence. The matched false-entry counts only at its existing target. No claim
+about the actual SmallSort caller or source-pair turnover is licensed by this
+local proof repair.

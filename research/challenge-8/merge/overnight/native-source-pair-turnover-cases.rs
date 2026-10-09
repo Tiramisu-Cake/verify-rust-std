@@ -183,6 +183,25 @@ lem native_pair_extract_rec<T>(t: thread_id_t, p: *T, n: usize,
 {
     open native_pair_owned_array::<T>(t, p, n, vs);
     if n == 0 {
+        // The selected predicate's empty suffix requires exhausted indices.
+        // Make the range-to-none implication explicit instead of relying on
+        // the verifier to invert native_pair_index_in_range while closing it.
+        match i {
+            none => {}
+            some(k) => {
+                assert native_pair_index_in_range(i, n) ==
+                    (0 <= k && k < n);
+                assert false;
+            }
+        }
+        match j {
+            none => {}
+            some(k) => {
+                assert native_pair_index_in_range(j, n) ==
+                    (0 <= k && k < n);
+                assert false;
+            }
+        }
         close native_pair_holes::<T>(t, p, n, i, j, vs);
         close native_pair_selected::<T>(t, p, n, i, j, vi, vj);
     } else {

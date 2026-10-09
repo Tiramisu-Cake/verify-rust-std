@@ -116,3 +116,35 @@ records and unaccepted status; no completeprofile/theorem inferred fromcollector
 Static review: shell syntax, Python AST, sortedunique recipeclosure, known group
 selection/dependencies; precise generic own `pred<T> <CopyOnDrop<T>>.own(t,v;)`,
 nonFalse structural gate rejects saved defaultFalseAST. No localheavy execution.
+
+## RESOURCE11 outcome and next targeted card
+
+Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5, proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc,
+infraa92f5d97efc8a15af4398a7df14037f42ebb4b33, FAILURE324charged.
+Both permutation positives PASS; false controls reach exact assertions;
+owner-chunk control reaches exact foreach own0 refusal (not physical uniqueness).
+Outer audit rejects stale unclassified_target=true although expected_rejection
+is validated. Fix sets false only after exact oracle validation, leaves all
+outer body/stage/location/message gates unchanged. Native all8 cases stop at
+native_pair_extract_rec base close,81:11–13 Cannot prove i=none; target not entered.
+Fresh native repair explicitly inverts both range conditions in n=0 branches;
+all original posts/resources/helper inventory unchanged, restore base audited.
+Archivef9f7eda6314fe62005c73a32a190a1e59c73c25d3087687f0f6325a0aa03fbd8,
+sourceinput137ff741ad2c6426318bf78e4fbbca2d09a73c86a5cdb62c5b4fd1e7d07bb690,
+config4b5a4cfddd8673e066b5d06ad570fa8d45b2df5b5cbe7d21319c3225579d2853.
+
+Next9groups: native/permutation/memory-cell stock+six, smoke and sourcepreparations.
+Hypothesis: base inversion admits full native proof and its matched false control;
+metadata correction admits already calibrated permutation negatives without
+loosening oracle; memory-cell positive reaches actual full cell and raw double
+assertion calibrates intended permission refusal. No fresh calibrated-negative
+credit until exact physical-cell oracle published and rerun. Timeout1080+60queue,
+previous324s plus two isolated cases/profiles; remaining2787 and >70min mainwindow.
+At native/helper/frontend failure retain INCONCLUSIVE, inspect entire affected
+schema/proof before repeat; no baseline OR/full actual matrix rerun.
+
+Annotation-only guard selection withdrawn BEFORE run: pinned prototype post
+returns guard fields/padding but no payload. Strong actual Drop leaves arrays/
+owners at mandatory compatibility leak-check. This is a paired-contract blocker,
+not grounds to weaken posts or leaks. Source-specific contract/glue needs its own
+semantic card, actual callee proof, reachable own construction and exact controls.
