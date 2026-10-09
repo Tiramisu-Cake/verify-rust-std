@@ -218,3 +218,11 @@ log into ordered chunks and include a small index with chunk names, byte lengths
 and per-chunk SHA-256 values. Reassemble and verify against the uploaded
 manifest/archive inventory before interpreting a truncated or chunked log. The
 VPS wrapper's `download` command remains the independent full archive/hash path.
+
+
+Recipe source transport remains original pinned objects. Large night scenarios
+allow at most191 source substitutions of3990 bytes each, plus the existing9
+config substitutions, within Cloud Build's documented200 parameters/4000 bytes.
+[Official substitution limits](https://docs.cloud.google.com/build/docs/configuring-builds/substitute-variable-values).
+No source input or exact closure check is omitted. Pre-dispatch overflow creates
+no reservation/build and charges0s; use a bounded independent scenario if larger.

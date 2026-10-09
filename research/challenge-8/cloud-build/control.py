@@ -56,8 +56,10 @@ def config(infra,proof,lane,seconds,token,source_payload=None):
  source_env=[]
  if source_payload is not None:
   encoded=base64.b64encode(source_payload).decode()
-  source_parts=[encoded[i:i+3900] for i in range(0,len(encoded),3900)]
-  if len(source_parts)>180:raise SystemExit('Pinned source payload exceeds bounded transport; no dispatch')
+  # Nine config substitutions leave 191 of the documented 200 slots for source.
+  # Keep each value ten bytes below the documented 4000-byte ceiling.
+  source_parts=[encoded[i:i+3990] for i in range(0,len(encoded),3990)]
+  if len(source_parts)>191:raise SystemExit('Pinned source payload exceeds bounded transport; no dispatch')
   groups=[source_parts[i:i+10] for i in range(0,len(source_parts),10)]
   restore=base64.b64encode(gzip.compress((DIR/'source-input.py').read_bytes(),mtime=0)).decode()
   replacement=("python3 -c "+shquote("import base64,os,pathlib; pathlib.Path('/workspace/source-inputs.json.gz').write_bytes(base64.b64decode(''.join(os.environ['SOURCE_GROUP_'+str(i)] for i in range("+str(len(groups))+"))))")+"\n"

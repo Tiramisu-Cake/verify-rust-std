@@ -5482,3 +5482,12 @@ matches exactCloudcandidate. StaticGit applycheck on savedmatchingfrozen20 sourc
 (no compiler/verifier/runner) passed21+22. Translator0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a,
 patch21 0a6ac67c31b785acd5b2ab5eb9eb0158e0b5603dafda05033b7c58a6ef941c54.
 Cloud freshchangedprofile stillmandatory; unchangedhistoricalmatricesnotreplayed.
+
+
+NIGHT-CLOUD-3 dispatch preflight0s: exact2repo o26-night payload551915bytes,
+base64735888chars requires189 old3900parts, exceeds180. NoBuild/reservation.
+Existingclient source transport now191parts*3990, plus9configparams=200exact,
+within officialCloudBuild200/4000 limits (checked2026-10-09), no inputomission
+or semantic/source/object-closure change. Samearchive remainsindividuallygzip
+originalobjects/sharedpool. Updatedtransport gate combineswithnewresearchBuild,
+noinfra-only smoke/A/B/C replay; overlimitstillfailclosedbeforedispatch.
