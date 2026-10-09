@@ -23,7 +23,7 @@ Actual557/558/Drop/comparator/full insertion NOT_RUN; caller premises still supp
 All3 builds terminal,1045/3600 charged,2555 unspent CLOSED. Immutable archives and
 external text verified; own active/unresolved/reservation none, ready withdrawn.
 Saved classifier/error-site replay separate, original Cloud verdicts retained.
-Review publication research-only via review/verifast; no receipt/integration accepted.
+[Review no-go package](https://github.com/Tiramisu-Cake/verify-rust-std/tree/63b54dcd4a8367ff0e37b308c82b8bc1e3592a0e/research/verifast-review/2973280748cdc4eff447404a59fda197aa8b3a78) published on review/verifast; remote/API53files verified. No maintainer receipt/integration/acceptance confirmed.
 No new experiment after main deadline; shared coordinatorv2/max2 unchanged.
 
 # MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED

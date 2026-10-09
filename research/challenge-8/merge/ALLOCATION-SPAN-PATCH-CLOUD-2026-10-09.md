@@ -30,3 +30,5 @@ review/verifast using Git plumbing, preserving prior packages and all other tree
 ## Closeout
 
 CLOSED_NO_GO,1045/3600 conservative Cloud seconds,2555 closed unspent. Three builds terminal; all immutable evidence verified; no own active/unresolved/reservation; ready withdrawn. [Final checkpoint](ALLOCATION-SPAN-PATCH-CHECKPOINT-2026-10-09.md). Candidate general heap scan rejected for integration on actual Rust local lifetime/address reuse; narrower incoming-only mechanism unimplemented. Final bounded experiment created before main cutoff failed bootstrap before any cases, NOT_RUN. After cutoff only evidence/replay/accounting/review package/checkpoint; no firstshift or new mechanism.
+
+[Published research no-go package](https://github.com/Tiramisu-Cake/verify-rust-std/tree/63b54dcd4a8367ff0e37b308c82b8bc1e3592a0e/research/verifast-review/2973280748cdc4eff447404a59fda197aa8b3a78), review commit63b54dcd4a8367ff0e37b308c82b8bc1e3592a0e. Receipt verified, no recipient/integration/acceptance claim.
