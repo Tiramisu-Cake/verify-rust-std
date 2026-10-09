@@ -6492,3 +6492,20 @@ Saved first hash and third deadcode replays/manual AST CFG add no proof. Final
 ownreservation/active/unresolved0, readywithdrawn, v2/max2 unchanged. Temporary
 foreign file incident restored with no lastingdiff, no foreignindex/ref/build/ledger
 mutation. See sort4-c1-caller-bridge checkpoint and semantic card. Stop.
+
+## 2026-10-10 native entry / c1 session (start 21:52:33 UTC 9 October)
+
+Direct owner resume; policy c7ca8c467aecf10a4b53039372ee97714f854ee3 adopted at
+6726a08d30b37d6d0f4ae65c3d8c2861615d249a; branch-local docs/status archived.
+Main 23:52:33 UTC, absolute 00:22:33 UTC10October; new3600Cloudsec, ownerselect-sort4.
+[Phase/card](cloud-build/sort4-native-entry-c1/PHASE.md) and
+[independent design review](cloud-build/sort4-native-entry-c1/ENTRY-DESIGN-REVIEW.md).
+Hypothesis: standalone native-resource entailment closes source4/CURRENT owners,
+F cell/F.own/thread/frame with full VF0, avoiding structurally unreachable branches
+of historical filtered fragment. No original caller CFG projection or full caller
+claim; exact read-only source operation correspondence only. All T incl ZST,
+all native lengths, queried ghost len>=8 boundary. Full native normal/unwind return
+and leak checks; no comparator/copy. Range/duplicate/false-post negatives isolated.
+Stronger optional-dst bridge separately tracks size/type_interp/MU restoration.
+Preparation fixes734af5d8/9be26c41 already applied; saved replay before fresh proof.
+Fresh proof NOT_RUN at card preparation; no proof credit from docs/replay.
