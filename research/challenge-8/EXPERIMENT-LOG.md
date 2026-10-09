@@ -6071,3 +6071,34 @@ ends08UTC. All runtime library diff checks and accepted65a456b8 ancestry pass.
 Final original-Git transport preflights infra2bee8747/proof7b68fc9b:
 [{"bounded": true, "lane": "o26-r3-ghost-scope-test", "payload_bytes": 554457, "sha256": "3acd0e021d597d096474c86247f81fe2ee7c1f0f4b2d8eb06cfedf114b7c3b99", "source_parts": 186}, {"bounded": true, "lane": "o26-input-relation-shadow-capture", "payload_bytes": 500155, "sha256": "1820dad739f1f543e0566e5bf48de8892ab9fe81eda132b398f7154dee8158a6", "source_parts": 168}, {"bounded": false, "lane": "o26-shadow-generic-sort4-diagnostics", "payload_bytes": 582727, "sha256": "9a13219618d7cbf627f70d12e2764298a94de68071d00a2d3ababc669b0c34bb", "source_parts": 195}]
 No Clouddispatch fromthese profiles; blockedsourceJSON remainsunchanged.
+
+## DAY-SELECT-SORT4 startup / first R3 TEST — 2026-10-09 08:45:54 UTC
+
+New owner phase/day ledger3600s, main10:45:54UTC/absolute11:15:54UTC. Clean own
+worktree and remote HEAD20258b67c17d7e17ae25967488a98060969915a8 agree; no active
+coordination record/requests; gh run list returned no runs. Historical5030/10800
+is not reset. Read current instructions/roadmap/runbook/checkpoint/requirements/
+shared handoff, actual hint select and scope cards/runner before editing.
+
+First obligation: actual hint::select_unpredictable pointer-specialized result
+identity, with two saved inputs preserved in outer and original nested opens
+transferred to actual nested Drop. Hypothesis: exact R3 let2+open2 routing mismatch
+alone explains prior pre-header refusal; TEST can cross it without source/MIR/
+post/resource/kernel/spec/exporter/refiner delta. Domain T=*const Element only,
+no pointee ownership; full normal selected-input identity/current value ownership
+and pointer-unwind-false target retained; generic normal selected current T.own /
+unwind cleanup consumes both inputs remains open. Off must repeat exact inventory
+Fatal pre-header exit2, partial must reject exact opt-in pre-header exit2, on must
+emit scope marker once and retain full log; next binding/type failure may justify
+shadow source, otherwise inspect nearest proof resource obligation. Setup is
+inconclusive, not intended negative. Profile experimental R3 ghost-scope TEST,
+proof7b68fc9b36b0341210d48b857b010caea7344e9e / baseinfra2bee8747b2aa5f73f120989e2fb1de6a2d9d6791;
+TEST translator ed8ee5ed8a7f8abb7d9c7cee3a978059b55c0a02e34f908170a80d6cc3ed4102.
+
+Orchestration self-review: old control rejects every ledger after08UTC and
+requires local control bytes equal infra. Register exact day phase/owner3600s/
+absolute deadline while preserving night cutoff and all coordination/transport/
+per-build gates. Hence actual submitted infra is a published descendant rather
+than literal2bee8747; every prepared semantic/proof/runner input stays unchanged.
+No verifier semantics changed by phase registration; static AST/diff/payload review
+before submit. First timeout1200+60queue fits account/calendar with checkpoint reserve.

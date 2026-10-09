@@ -1,3 +1,16 @@
+# Current phase: DAY-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
+
+New owner authorization; separate 3600-second Cloud account, ownerselect-sort4.
+Start08:45:54UTC/11:45:54MSK; main deadline10:45:54UTC/13:45:54MSK;
+absolute deadline11:15:54UTC/14:15:54MSK (completion only after main deadline).
+[Phase](cloud-build/day-select-sort4/PHASE.md), [new ledger](cloud-build/day-select-sort4/BUDGET.json).
+Ownworktree/branch unchanged; historical accounts below remain closed.
+First prepared R3 ghost-scope TEST pending: proof7b68fc9b, baseinfra2bee8747.
+Dispatcher receives only new phase authorization registration; exact proof/profile
+and existing transport/packager preserved. Actual outer/nested/fullsort4 remainOPEN.
+
+# Historical night checkpoint (closed)
+
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / DEADLINE
 
 Authorized window ends08:00 UTC /11:00MSK,9October2026. **5030/10800**

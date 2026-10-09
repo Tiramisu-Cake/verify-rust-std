@@ -1,3 +1,11 @@
+## Current authorization: DAY-SELECT-SORT4-CLOUD-2026-10-09
+
+[Day phase](cloud-build/day-select-sort4/PHASE.md) authorizes prepared R3 scope TEST,
+actual input/result identity and nested Drop, full select, then actual sort4 safety
+and separate functional composition. New3600-second account; 08:45:54UTC start,
+10:45:54UTC main/11:15:54UTC absolute completion-only deadline. All older accounts
+stay closed; STATUS is current. Original runtime and proof integrity preserved.
+
 ## Current authorization: NIGHT-SELECT-SORT4-CLOUD-2026-10-09
 
 [Phase](cloud-build/night-select-sort4/PHASE.md) supersedes expired windows and
