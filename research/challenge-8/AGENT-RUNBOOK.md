@@ -1,3 +1,23 @@
+## Accepted operating update — 2026-10-09
+
+First read [WORK-POLICY](WORK-POLICY.md) and [COMPLETION-PLAN](COMPLETION-PLAN.md).
+The policy supersedes older conflicting execution, budget-window and priority
+wording below; historical Actions examples do not authorize Actions dispatch.
+Use the assigned branch/phase and Cloud Build; two project-wide active/unresolved
+slots, one per owner/ledger. Two-hour sessions; up to 30 minutes for finishing an
+existing step/checkpoint only. Cloud budget remains the one in the assignment.
+
+Before a new experiment identify the actual caller and where its premises come
+from. Separate new proof runs, classifier-only replay of saved evidence and
+NOT_RUN cases. Small isolated local classifier/parser tests are now allowed as
+specified in WORK-POLICY; compilers, verifiers and proof runners remain Cloud-only.
+Do not cold-build the proof toolchain solely to test an evidence classifier.
+
+On entry fetch/integrate the docs without overwriting local work, read the latest
+checkpoint and record the policy revision. In a running session adopt at the
+next safe step; keep active Build inputs fixed. Add caller progress and separate
+replay/new proof results to the existing checkpoint format.
+
 # Challenge 8 agent runbook
 
 ## Mission and working context
@@ -236,3 +256,4 @@ README run log in a small commit, then push it. Record:
 Never infer that a later documentation commit was verified by an older run.
 If the session must stop, checkpoint this information before stopping. Autonomous
 polling continues only while an agent session is active; this file is not a daemon.
+
