@@ -53,10 +53,9 @@ NEW_GROUPS = {
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {
-    "insertion-onecell-guard-diagnostic": {
-        "actual-source-preparation", "bidirectional-small-source-preparation",
-        "rust-profile-smoke",
-    },
+    # This diagnostic performs its own exact std-source extraction/admission.
+    # Historical actual/bidirectional preparation artifacts are not consumed.
+    "insertion-onecell-guard-diagnostic": {"rust-profile-smoke"},
     "guard-construction-fbc-v4-diagnostic": {"actual-source-preparation", "bidirectional-small-source-preparation", "rust-profile-smoke"},
     "guard-construction-fbc-v4-stock-diagnostic": {"actual-source-preparation", "bidirectional-small-source-preparation", "rust-profile-smoke"},
     "guard-drop-geometry-v3-diagnostic": {"actual-source-preparation", "rust-profile-smoke"},

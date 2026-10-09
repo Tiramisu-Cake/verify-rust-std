@@ -75,6 +75,11 @@ def _rewrite_types(raw: bytes) -> bytes:
     # Remaining stand-alone T tokens are the pointer/size/alignment parameters
     # of the now-concrete function, predicates and helper lemmas.
     result = re.sub(rb"\bT\b", b"u64", result)
+    # This source-linked scalar protocol borrows half of an existing const
+    # half-share. Preserve its exact quarter when packing the nonprecise own.
+    # Folding still consumes that physical share; no resource is introduced.
+    result = result.replace(b"[?f](*v.src |-> ?current)",
+                            b"[1/4](*v.src |-> ?current)")
     if re.search(rb"\bT\b|CopyOnDrop<T>|insertion_onecell<T>", result):
         raise ValueError("concrete specialization retained an uninstantiated T")
     return result
@@ -774,4 +779,5 @@ def _ghost_strip_equal(original: bytes, verified: bytes, prep, name: str) -> boo
 
 def _hashes(case: Path) -> dict:
     paths = ("original/lib.rs", "verified/lib.rs")
-    return {path: _sha((case / path).read_bytes()) for path in paths}
+    return {**{path: _sha((case / path).read_bytes()) for path in paths},
+            "small_sort_source": _sha(SOURCE.read_bytes())}

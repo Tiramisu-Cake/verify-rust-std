@@ -1,0 +1,64 @@
+{
+  "schema": "saved-concrete-u64-classifier-replay-v1",
+  "replay_status": "REPLAY_NOT_FRESH_PROOF",
+  "method": "pure _classify on temporary copies of saved case artifacts; only source/MIR/AST parsers loaded",
+  "original_evidence": {
+    "cloud_build_id": "0bee7b5b-b2db-4e5c-b829-6ae8d48843dc",
+    "proof_sha": "21eab4b8bccd76c46d9cbff2ebc13f9a0379cb12",
+    "archive": "/tmp/c8-merge-origin-layout-unpacked-0bee7b5b/allprooflogs/cases/insertion-onecell-guard-diagnostic/concrete-u64",
+    "original_artifacts_modified": false
+  },
+  "classifier_revision": "cc28407f",
+  "current_cloud_context": "fresh build e3acf at cc284 remains pending; this replay does not classify it",
+  "gates": {
+    "all_five_source_gates_admitted": true,
+    "all_five_mir_gates_admitted": true,
+    "all_five_exact_u64_ast_gates_admitted": true,
+    "saved_stage_source_unchanged": true
+  },
+  "cases": {
+    "positive": {
+      "classification": "INCONCLUSIVE",
+      "semantic_evidence": false,
+      "copy_executed": true,
+      "first_error": "verified/lib.rs(88,40-41): Cannot use field dereference in this context",
+      "reason": "saved source predates pointer-local adaptation; no positive recovery, return, leak, or post credit"
+    },
+    "after_fbc_false": {
+      "classification": "EXPECTED_REJECTION",
+      "semantic_evidence": true,
+      "copy_executed": false,
+      "first_error": "verified/lib.rs(74,20-25): Assertion might not hold (Cannot prove false)",
+      "reason": "intended false assertion is reached after canonical FBC open and before copy"
+    },
+    "after_recovery_false": {
+      "classification": "INCONCLUSIVE",
+      "semantic_evidence": false,
+      "copy_executed": true,
+      "first_error": "verified/lib.rs(88,40-41): Cannot use field dereference in this context",
+      "reason": "frontend error precedes recovery completion and the target false assertion"
+    },
+    "missing_held_owner": {
+      "classification": "NOT_APPLICABLE_CONCRETE_EMPTY_OWN",
+      "semantic_evidence": false,
+      "copy_executed": true,
+      "first_error": "verified/lib.rs(88,40-41): Cannot use field dereference in this context",
+      "reason": "u64 own is empty/autoproducible; the owner-removal case is not a meaningful negative"
+    },
+    "double_physical_fbc": {
+      "classification": "EXPECTED_REJECTION",
+      "semantic_evidence": true,
+      "copy_executed": false,
+      "first_error": "verified/lib.rs(5,5-20): No matching heap chunks: CopyOnDrop_src(gap_guard_addr, _)",
+      "reason": "duplicate FBC consumption rejected at the intended physical source-field obligation"
+    }
+  },
+  "limits": {
+    "runtime_or_proof_tools_invoked": false,
+    "fresh_proof_claim": false,
+    "actual_CopyOnDrop_drop_called": false,
+    "actual_drop_glue": "OPEN",
+    "unwind_credit": "NOT_EXERCISED",
+    "accepted": false
+  }
+}

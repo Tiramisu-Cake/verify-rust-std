@@ -158,7 +158,7 @@ CONCRETE_U64_CASES = (
 )
 NATIVE_UNIT_SMOKES = (
     ("c", "unit_name_c_smoke"),
-    ("cpp", "unit_name_cpp_smoke"),
+    ("cpp", "unit_name_cpp_smoke()"),
 )
 ONECELL_CAMPAIGN_BASELINE = {
     "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",

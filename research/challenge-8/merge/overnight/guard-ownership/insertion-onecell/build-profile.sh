@@ -149,7 +149,7 @@ for native_suffix in c cpp; do
     # Match the existing C++ frontend's empty process environment and argv.
     set +e
     timeout --signal=TERM --kill-after=5s 20s env -i "$new_home/bin/vf-cxx-ast-exporter" \
-      "$native_source" -allow_macro_expansion=__VF_CXX_CLANG_FRONTEND__ -- \
+      "$native_source" -allow_macro_expansion=__VF_CXX_CLANG_FRONTEND__,__INT8_TYPE__,__INT16_TYPE__,__INT32_TYPE__,__INT64_TYPE__,__UINT8_TYPE__,__UINT16_TYPE__,__UINT32_TYPE__,__UINT64_TYPE__ -- \
       -xc++ -std=c++17 "-I$new_home/bin" -D__VF_CXX_CLANG_FRONTEND__ \
       > "$evidence/native-unit-cpp-exporter.bin" 2> "$evidence/native-unit-cpp-exporter.log"
     native_exporter_status=$?
