@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import importlib.util
 from pathlib import Path
 import re
 import sys
@@ -110,11 +111,16 @@ GUARD_CONSTRUCTION_V3_GROUPS = {
         "profile": "stock-26.10",
     },
 }
-GUARD_CONSTRUCTION_V3_PROFILE = "copy-on-drop-source-construction-full-source-nonprecise-fragment-v3"
+GUARD_GEOMETRY_GROUPS = {
+    "guard-drop-geometry-v3-diagnostic": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    "guard-drop-geometry-v3-stock-diagnostic": "stock-26.10",
+}
+GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
+GUARD_CONSTRUCTION_V3_PROFILE = "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b"
 GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256 = hashlib.sha256(
     b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n"
     b"        //@ open <CopyOnDrop<T>>.own(t, drop_guard);\n"
-    b"        //@ assert scratch_base[..len] |-> src_values &*& v_base[..len] |-> _ &*& foreach(src_values, own::<T>(t));\n"
+    b"        //@ assert scratch_base[..len] |-> ?current_src_values &*& v_base[..len] |-> _ &*& foreach(current_src_values, own::<T>(t));\n"
     b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n").hexdigest()
 GUARD_CONSTRUCTION_CASES = ("positive", "first_body_false")
 GUARD_CONSTRUCTION_STAGES = ("exporter", "decode", "verifast", "refinement")
@@ -226,6 +232,16 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     skipped_have_no_exit_records and
                     all(value == "0" for value in observed.values()))
 
+    def raw_cases(aggregate_rel: str, group: str) -> dict:
+        if group not in selected:
+            return {"classification": "NOT_RUN"}
+        try:
+            value = json.loads((evidence / aggregate_rel).read_text())
+            return value.get("cases", {}) if isinstance(value, dict) else {"_aggregate": "MALFORMED"}
+        except (OSError, ValueError):
+            return {"_aggregate": "MISSING_OR_MALFORMED"}
+
+
     mandatory: dict[str, list[str]] = {}
     for group in selected:
         if group in POINTER_GROUPS:
@@ -270,6 +286,11 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 *[f"cases/{dirname}/cases/{case}/classification.json"
                   for case in GUARD_CONSTRUCTION_CASES],
             ]
+        elif group in GUARD_GEOMETRY_GROUPS:
+            mandatory[group] = [f"cases/{group}/{name}.json" for name in
+                                ("environment", "extraction", "results", "aggregate")]
+            mandatory[group].extend(f"cases/{group}/cases/{name}/classification.json"
+                                    for name in GUARD_GEOMETRY_CASES)
         elif group == OR_JOIN_GROUP:
             mandatory[group] = OR_JOIN_MINIMUM_ARTIFACTS
         elif group in OTHER_ARTIFACTS:
@@ -893,12 +914,13 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         "z3_runtime": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
                         "applied_patch_sha256": "b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927",
                         "profile_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
-                        "build_runtime_sha256": "d72d1e9a6a1cf0aba606f117bd47def28045877d2fdd31ebebbab5259575cedc",
                         "experimental_console_sha256": "354436b99d7225e86271f211a43969b0c7f11f3c7f823a7d718abe00946a4f47",
                         "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
                         "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
                     }
-                    if any(pins.get(key) != value for key, value in expected_pins.items()):
+                    if (any(pins.get(key) != value for key, value in expected_pins.items()) or
+                            pins.get("build_runtime_sha256") !=
+                            sha256_file(evidence / "build/source-build-runtime.txt")):
                         return False
             result_cases = results.get("cases")
             aggregate_cases = aggregate.get("cases")
@@ -1161,6 +1183,24 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     "raw_case_classifications": cases_raw,
                     "actual_drop_compatibility": "OPEN",
                 }
+
+    guard_geometry_reports = {}
+    for group, profile in GUARD_GEOMETRY_GROUPS.items():
+        if group not in selected:
+            guard_geometry_reports[group] = {"classification": "NOT_RUN", "accepted": False}
+            continue
+        try:
+            helper_path = Path(__file__).resolve().parent / "guard-geometry-audit.py"
+            helper_spec = importlib.util.spec_from_file_location("guard_geometry_outer_audit", helper_path)
+            helper = importlib.util.module_from_spec(helper_spec)
+            helper_spec.loader.exec_module(helper)
+            report = helper.audit_geometry(root, group, profile, proof_sha, build_id)
+            guard_geometry_reports[group] = report
+            artifact_status[group] = artifact_status.get(group, False) and report["artifact_bindings_valid"]
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, ImportError) as error:
+            artifact_status[group] = False
+            guard_geometry_reports[group] = {"classification": "INCONCLUSIVE", "accepted": False,
+                                            "artifact_bindings_valid": False, "reason": str(error)}
 
     guard_payload_reports = {}
     for group in ("guard-payload-own-diagnostic", "guard-payload-own-stock-diagnostic"):
@@ -1684,14 +1724,6 @@ def audit(root: Path, selection_path: Path, run_status: int,
     stages_complete = all(row["log"] and row["exit_code_file"] and row["exit_code"] == 0 and row["matches_status"]
                           for row in stage_status.values())
 
-    def raw_cases(aggregate_rel: str, group: str) -> dict:
-        if group not in selected:
-            return {"classification": "NOT_RUN"}
-        try:
-            value = json.loads((evidence / aggregate_rel).read_text())
-            return value.get("cases", {}) if isinstance(value, dict) else {"_aggregate": "MALFORMED"}
-        except (OSError, ValueError):
-            return {"_aggregate": "MISSING_OR_MALFORMED"}
 
     quartet_cases = raw_cases("cases/checked-pointer-trace-quartets/aggregate.json",
                               "pointer-quartet-trace-diagnostic")
@@ -1849,6 +1881,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             "guard_construction_fragment_diagnostics": guard_construction_reports,
             "guard_construction_nonprecise_v3_diagnostics": guard_construction_v3_reports,
             "guard_payload_own_diagnostics": guard_payload_reports,
+            "canonical_fbc_drop_geometry_v3": guard_geometry_reports,
             "physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell/aggregate.json", "current-owner-memory-cell-diagnostic"),
             "stock_physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell-stock/aggregate.json", "current-owner-memory-cell-stock-diagnostic"),
             "current_owner_permutation_diagnostics": permutation_cases,

@@ -7,8 +7,8 @@
   "main_deadline_utc": "2026-10-09T13:15:53Z",
   "deadline_utc": "2026-10-09T13:45:53Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 100,
-  "remaining_build_seconds": 3500,
+  "used_build_seconds": 488,
+  "remaining_build_seconds": 3112,
   "allowed_lanes": [
     "coordination-regression",
     "merge"
@@ -37,6 +37,30 @@
       "execution_seconds": 99,
       "download_verified": true,
       "archive_sha256": "8e838ed8daaef679bef763435213410b1e51068986feefc527b99d59e2ae171f"
+    },
+    {
+      "dispatch_token": "dispatch-7159a14fbe22425dadca806762518fdc",
+      "owner": "merge",
+      "phase_id": "AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09",
+      "infra_sha": "c2a6324ea96e1da2f3e77224b1c784a9f3aa06d2",
+      "proof_sha": "c2a6324ea96e1da2f3e77224b1c784a9f3aa06d2",
+      "lane": "merge",
+      "submitted_config_sha256": "9212de49a9e6d599015fa78e346ac2ea9819ace8aadbf15366462659c508c1e6",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "e9f108f592d9f82c32ed3b6484e67b3aba6c87f404e6ecae639d58ea8ac7f42f",
+      "build_id": "79da8283-9f44-4624-a76b-b68a72106999",
+      "start_time": "2026-10-09T11:57:02.140223079Z",
+      "finish_time": "2026-10-09T12:03:28.423559Z",
+      "create_time": "2026-10-09T11:57:01.331591253Z",
+      "build_seconds": 388,
+      "accounted": true,
+      "execution_seconds": 387,
+      "download_verified": true,
+      "archive_sha256": "1d27d0fb6c7446d322ddd208b05c4ecf37aa66324f07e1619f4a0e35aefc4483"
     }
   ],
   "active_build": null,

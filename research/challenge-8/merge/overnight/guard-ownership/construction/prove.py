@@ -406,7 +406,25 @@ def ast_gate(case: Path, line: int, variant: str) -> dict:
                     "foreach" in expression_calls and "own" in expression_calls and
                     all(name in repr(expression) for name in
                         ("scratch_base", "v_base", "len", "src_values"))):
-                roundtrip_assertions.append(node)
+                points = ast.nodes(expression, "PointsTo")
+                source_current = [item for item in points
+                    if len(item.args) == 4 and isinstance(item.args[1], ast.Node) and
+                    item.args[1].name == "ReadArray" and len(item.args[1].args) == 3 and
+                    var_name(item.args[1].args[1]) == "scratch_base" and
+                    isinstance(item.args[3], ast.Node) and item.args[3].name == "VarPat" and
+                    item.args[3].args[-1] == "current_src_values"]
+                destination_current = [item for item in points
+                    if len(item.args) == 4 and isinstance(item.args[1], ast.Node) and
+                    item.args[1].name == "ReadArray" and
+                    var_name(item.args[1].args[1]) == "v_base" and
+                    item.args[3] == ast.Sym("DummyPat")]
+                current_foreach = [item for item in ast.nodes(expression, "CallExpr")
+                    if len(item.args) == 6 and item.args[1] == "foreach" and
+                    len(item.args[4]) == 2 and isinstance(item.args[4][0], ast.Node) and
+                    item.args[4][0].name == "LitPat" and
+                    var_name(item.args[4][0].args[0]) == "current_src_values"]
+                if len(points) == 2 and len(source_current) == len(destination_current) == len(current_foreach) == 1:
+                    roundtrip_assertions.append(node)
     roundtrip_shape = False
     if variant == "v3" and len(own_closes) == 2 and len(own_opens) == 1 and \
             len(all_closes) == 2 and len(all_opens) == 1 and \

@@ -106,3 +106,33 @@ and self-geometry gaps. V3 exercises the already supported nonprecise interface
 without pretending to prove V2's precision property. It preserves every existing
 owner and target post. This reasoning supports an isolated conditional diagnostic;
 tests alone do not prove tool soundness or applicability to the actual Drop type.
+
+## Evidence-directed V3b CURRENT roundtrip amendment (before implementation)
+
+Build79da8283-9f44-4624-a76b-b68a72106999 at c2a6324e reached exactconstructor73,
+closed fullown74 and reopened75 on bothstock/six; AST/MIR/refinement passed.
+All4cases stop at76: Cannot prove src_values0 == src_values. Thus V3 is
+INCONCLUSIVE, not body/post theorem or intendednegative. Nonprecise existential
+own hides knowledge of the entry list when reopened; no operation changed data.
+The original normal post was existential own, not an entry-list equality theorem.
+
+New separately named profile
+`copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b`
+retains exact own/entry/normal/unwind posts and runtime. Checked assertion binds
+`?current_src_values` from the recovered full source array and demands exactly
+`foreach(current_src_values, own::<T>(t))` alongside the full writable destination.
+It then closes the same complete own. This preserves CURRENT value/owner association
+and every resource, without falsely claiming an unproved entry snapshot equality.
+No memory-to-own creation, external payload, wrapper axiom or precision claim.
+The logical existential abstraction hides list identity, not its resources. A
+caller needing equality to an external snapshot still needs a separate proved
+bridge; V3b gives no such credit. Normal target post is byte-identical V2.
+Positive must finish actual statement+roundtrip+fullpost+return/leak/no-dead;
+negative must reach false after the same resource recovery and reclose.
+AST must bind the same CURRENT list used by foreach. All original gates remain.
+
+Audit repair separately: a runtime evidence text contains timings/host state and
+cannot have historical constant hash. Bind its recorded hash to the fresh build
+artifact while retaining every exact compiled tool/patch/profile/source pin.
+Move raw_cases helper before first use; report failed admission as INCONCLUSIVE.
+These collector fixes do not prove any theorem or reinterpret failed V3 evidence.

@@ -94,3 +94,30 @@ full post/return/leak/no-dead; negative exact false after same construction/roun
 Sol review found audit incorrectly requiring AST pass for INCONCLUSIVE; fixed so
 failed admission remains reportable with no proof credit, credited cases requireallgates.
 No semantic tool modification and no canonical Drop/caller/glue credit fromfragment.
+
+### V3 outcome and addressed continuation
+
+Build79da8283-9f44-4624-a76b-b68a72106999 at c2a6324ea96e1da2f3e77224b1c784a9f3aa06d2
+FAILURE388charged; all5groups collected, all4constructor cases INCONCLUSIVE.
+Actualconstructor73/close74/open75 reached, AST/MIR/refinement admitted, no dead;
+fail76 Cannot prove src_values0 == src_values before return/fullpost/false78.
+Own+FBC nonprecise/fullpayload structure confirmed; no constructor theorem credited.
+Collector failed separately: historical ASLR-dependent runtime text hash plus
+raw_cases helper called before definition. Runtime text diff inspected: only
+loader addresses differ, compiled tools/specs/profile/kernel bytes identical.
+Archive1d27d0fb6c7446d322ddd208b05c4ecf37aa66324f07e1619f4a0e35aefc4483,
+full text/archive integrity verified. This failure remains historical.
+
+V3b CURRENT-list binding amendment/card and Sol review precede implementation.
+Full own/entry/normal/unwind unchanged; assertion binds recovered CURRENT array
+list and demands its same foreach owners, then recloses completeown. No claimed
+entry snapshot equality. Exact runtime-helper binding replaced with fresh artifact
+hash, all compiled pins retained. raw_cases moved before firstuse.
+Nextcombinedgate: sourcepreparations+smoke+V3b stock/six, followed by isolated
+[canonical FBC selfgeometry](overnight/guard-ownership/drop-geometry/SEMANTIC-CARD.md)
+stock/six. Newhelper never affects oldprofile semanticrules. Both3geometry cases
+keep actualDrop/strongreq/fullnormal/unwind/canonicalcompatibility, all6selfasserts;
+exactprototypeFalse andactualbodyFalse gates, geometry frontier INCONCLUSIVE.
+Combinedtimeout1500+60queue: 360secondsV3 +480geometry +140audit/upload lane
+reserve, plus coldmatrix/setup; observedV3elapsed388. Within3112remaining and
+main/absolute deadlines, ample evidenceanalysisreserve. No unchangedlarge matrices.

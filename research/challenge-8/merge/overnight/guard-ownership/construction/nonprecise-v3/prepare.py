@@ -18,7 +18,7 @@ V2 = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(V2)
 P = V2.P
 B = V2.B
-PROFILE = "copy-on-drop-source-construction-full-source-nonprecise-fragment-v3"
+PROFILE = "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b"
 
 # V2's source permission and owner payload are retained byte-for-byte; only
 # dropping the semicolon changes the pinned predicate precision annotation.
@@ -39,7 +39,7 @@ if CONSTRUCTOR_RUNTIME == P.CONSTRUCTOR:
 ROUNDTRIP = (
     b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n"
     b"        //@ open <CopyOnDrop<T>>.own(t, drop_guard);\n"
-    b"        //@ assert scratch_base[..len] |-> src_values &*& v_base[..len] |-> _ &*& foreach(src_values, own::<T>(t));\n"
+    b"        //@ assert scratch_base[..len] |-> ?current_src_values &*& v_base[..len] |-> _ &*& foreach(current_src_values, own::<T>(t));\n"
     b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n")
 
 
