@@ -286,6 +286,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("overflow_small_type_bound", b"assert len < 16;"),
         ("original_scratch_len_plus_16_check", scratch_limit_check),
         ("positive_identity_lemma", b"c1_entry_identity::<T, F>"),
+        ("source_subset_four", b"assert v_base[..4] |-> ?first_four;"),
         ("positive_size_guard", b"if (0 < std::mem::size_of::<T>())"),
         ("range_negative_split", b"array_split::<T>(v_base, len + 1);"),
         ("duplicate_negative_authority", b"v_base[..len] |-> ?xs"),
