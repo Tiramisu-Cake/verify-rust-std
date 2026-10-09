@@ -16,17 +16,22 @@ binding/type error observed. Investigate exact R3 receiver MIR and separate narr
 source-linked TEST with affected controls. Current R3 actual outer/nested NOT_PROVED;
 full genericT/ZST and sort4 remainOPEN; historical R2 result-identity gap preserved.
 
-Day accounted expense428/3600seconds (87setup +341scope),3172remaining,2terminal Builds.
-Receiver diagnostic Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9 submitted,
-infra/proofb6a45161cdf7309b10f0198a1bbd1f43c225d715, timeout900+60reserved.
-Separate default-off receiver TEST maps exact NORMAL_11/_13 after source/unit
-admission; scope off/partial/on plus receiver off/partial/on/wrong-ID controls.
-Actual payload186parts; [review/card](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md).
-Accepted=false; malformed-place/source-unit affected acceptance controls remainOPEN.
-Earlier full archive and text index integrity verified. First setup failure
-Build5c8cd72b preserved and archiveverified; minimal explicit recipe self-path fix.
-Source payload186parts in both submitted runs; original runtime/posts/resources/
-kernel/spec/exporter/refiner preserved; TEST translator remainsUNACCEPTED.
+Receiver Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9 SUCCESS/diagnostic complete,
+infra/proofb6a45161cdf7309b10f0198a1bbd1f43c225d715. Full archive/index verified.
+Scope controls retained; receiver off/partial and wrongfirst/wrongsecond fail exact
+predicates; on emits_11 then_13, preserves source/MIR/full unit and tool identity.
+Seven same-version prefix bodies (including actual as_mut_ptr) return/leak observed
+in this CONDITIONAL UNACCEPTED translator profile. Outer begins, then FIRST error
+verified/lib.rs(155,9-25): Declaration hides existing local variable saved_true_input.
+Nested Drop not reached; full outer normal/unwind/return/leak NOT_PROVED.
+This is an early saved-let scope/duplication issue, not late Rust-shadow evidence.
+Source-shadow remainsBLOCKED. Trace exact ghost execution and prepare isolated
+single-execution rule; independent same-source nested scheduling is now justified
+by outer verification-time failure, with fresh combined parent/pins/controls.
+Day expense831/3600seconds (87setup+341scope+403receiver),2769remaining,3terminal.
+No own active Build; actual payload186parts. No runtime/posts/resources/kernel/
+spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),
+[result/identities](cloud-build/day-select-sort4/RECEIVER-RESULT.json).
 
 # Historical night checkpoint (closed)
 

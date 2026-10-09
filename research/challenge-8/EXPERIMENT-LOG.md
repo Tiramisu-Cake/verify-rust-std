@@ -6185,3 +6185,24 @@ Outcome pending; no source-shadow activation absent actual late-binding evidence
 Next candidate same-source scheduling requires fresh receiver-parent pins and complete
 AST-node inventory; generic nested body only calls same-unit prefix generic-drop,
 no dependency on outer. No old preheader failure grants nested credit.
+
+### R3 receiver result — 2026-10-09 09:49UTC
+
+Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9 terminalSUCCESS: create09:40:46.802719669,
+start09:40:47.545930907,finish09:47:29.689782UTC;403conservative seconds.
+Collector and receiver diagnostic complete; verification_accepted/actual-source/
+whole-function false. Off repeats exact AS-MUT-PTR receiver refusal; partial exact
+opt-in refusal; on markers_11 then_13; wrongfirst/second isolate intended receiver
+predicate (second after one positive marker). Parent/source/tool snapshots unchanged
+except translator/bin-verifast in each isolated copy. Positiveconsole
+291d498652c00a1f357cf039f14551bbca96bcb25406b95622fe5963718853bd.
+All7same-version prefix bodies through normal returns/leaks; generic drop also unwind
+return/leak. Full on log518lines; actualouter header135, firsterror155:9-25
+Declaration hides existing local variable saved_true_input. Not a postcondition
+negative and not late shadow binding; nested not reached. Investigate first saved
+let scope/execution duplication; source-shadow staysBLOCKED. Independent scheduling
+of actual nested before failedouter is now source-linked justified, not circular.
+
+Fullarchivea3b6e79c2a5a7eba8ab269b689b6698c56f2d6c5a421d92fd0cd77c41905afa5,
+textindex863c21d23ebb8a6894166e53c5288c96ba61b76f20459a03e83bfe371f7c0ff1
+integrityverified. Day831/3600,2769remaining, no own active.

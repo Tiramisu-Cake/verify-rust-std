@@ -699,3 +699,11 @@ as_mut_ptr receiver operand/binding before all proof headers. No current R3 nest
 Drop or outer theorem; R2 seven-prefix/result-identity boundary remains historical.
 GenericT/ZST/fullsort4/unwind recovery/functional composition remain OPEN. See
 [day phase](cloud-build/day-select-sort4/PHASE.md) and current STATUS/evidence log.
+
+Day2026-10-09 receiver diagnostic Buildb4e9a631, infra/proofb6a45161:
+exact NORMAL receivers now traverse scope+receiver TEST into7same-version prefix
+body return/leak proofs, including checked actual as_mut_ptr, under conditional
+UNACCEPTED translator7451dee6. Outer starts but first saved let155 is rejected for
+hiding existing saved_true_input. No nested header; wholeouter/nested theorem open,
+source-shadow stillBLOCKED because late assertions242-244 were not reached.
+Runtime/posts/resources/source/MIR/kernel/spec/exporter/refiner unchanged.
