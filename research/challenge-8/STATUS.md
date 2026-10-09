@@ -2,8 +2,11 @@
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **1188/10800 elapsed
 Cloud seconds**, remaining **9612**. Historical accounts below are unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Common global slot belongs
-to the other owner; use the common alternating coordinator only.
+Branch `overnight/merge-26.10`; active own Build
+**cf07b549-3df4-4c92-8454-9dfdfb48982a**, proof/infra
+**c06d684186e394a2ef21d078f37289208a1022db**,16targeted groups.
+Timeout1740s +queue60 envelope1800 reserved through the common coordinator.
+Config SHA6eb3b218cab8a928f49c0728dd4c14e5ff3ef9ed26425d41712adc693152cef8.
 [Current phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
 [commands](merge/cloud-build/README.md),
 [ledger](cloud-build/night-merge/BUDGET.json).
@@ -55,9 +58,8 @@ remain explicit. Targeted collector/provider repairs are being reviewed.
 No std runtime, semantic verifier patch or target post changed. SmallSort
 blob40939f922bcb6fdc7ee0d30427fa861827043827; six patches unchanged.
 
-Next permitted action: commit/push the reviewed targeted recipe with all affected
-same-source dependencies, then submit a NEW exact-SHA Cloud Build through the
-common lock after the foreign slot clears. Inspect all gates/negative locations,
+Next permitted action: monitor exact active cf07b549 Build and download/verify
+metadata/archive/separate text evidence. Inspect all gates/negative locations,
 then continue within own budget. No local executable verification/build/tests
 or Actions dispatch. Generic/ZST, arbitrary-n caller resources, cleanup kernel,
 Freeze/share and ownership transfer remain OPEN. Accepted migration A/B/C and

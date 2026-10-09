@@ -5494,3 +5494,12 @@ Second Build metadata/archive/separate text-log integrity is fully verified;
 no active own Build. Budget1188/10800,remaining9612. Next request uses the common
 atomic global lock after the foreign546547c0 Build completes, maximum1740s plus
 60s queue and upload reserved by the common client. No migration A/B/C rerun.
+
+Targeted dispatch: proof/infra c06d684186e394a2ef21d078f37289208a1022db,
+Build cf07b549-3df4-4c92-8454-9dfdfb48982a,
+token dispatch-f1e051c86dc64b22961e328e0178f254,
+configSHA6eb3b218cab8a928f49c0728dd4c14e5ff3ef9ed26425d41712adc693152cef8.
+Exact remote branch confirmed before common-client request/submit;
+foreign546547c0 terminal reconciled first, no overlapping Build. Timeout1740,
+queue60,envelope1800,16groups selected/runtime probe false. New own evidence
+required; no proof result yet. Retained profile/runtime/posts unchanged.
