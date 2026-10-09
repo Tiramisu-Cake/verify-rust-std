@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner prompt2026-10-09: actual sort4 c1 CURRENT cells1/0 recovery normal/direct unwind, exact continuation + resource gates; main60min, finishing<=30min.",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T15:08:25Z",
   "main_deadline_utc": "2026-10-09T16:08:25Z",
   "deadline_utc": "2026-10-09T16:38:25Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 706,
-  "remaining_build_seconds": 2894,
+  "used_build_seconds": 1060,
+  "remaining_build_seconds": 2540,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -62,6 +62,34 @@
       "execution_seconds": 332,
       "download_verified": true,
       "archive_sha256": "400693a2b4f8770febe54d826ed9f7069e639c3373dc84ae6a507bcd6a2c3418"
+    },
+    {
+      "dispatch_token": "dispatch-a727a3c4a8b745c7ac2354f46856ce64",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09",
+      "infra_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+      "proof_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "cf9bbe9c66c933b6c952e048a1fbb55a47659fc05b10e4d2bb7d66cde8c808bd",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "106a7bd29a3d3d3eee8a2b82eadcdf0756cc97aa91414455ae0981e615ca6591",
+      "build_id": "4fa47604-3792-4533-88da-1e4ae7d52a23",
+      "start_time": "2026-10-09T15:58:02.958761503Z",
+      "finish_time": "2026-10-09T16:03:56.127465Z",
+      "create_time": "2026-10-09T15:58:02.245089302Z",
+      "build_seconds": 354,
+      "accounted": true,
+      "execution_seconds": 354,
+      "download_verified": true,
+      "archive_sha256": "bc500a145dd09f8e70ffc382f9a5fb58ff71b4bd22558788ce1ff7d730ca6859"
     }
-  ]
+  ],
+  "closed_at_utc": "2026-10-09T16:12:41.295606+00:00",
+  "unused_build_seconds_closed": 2540,
+  "ready_request_withdrawn": true,
+  "closing_reason": "Main60min finished; completion-only evidence/replay/checkpoint. Actual c1 normal/direct unwind NOT_RUN; no automatic continuation."
 }

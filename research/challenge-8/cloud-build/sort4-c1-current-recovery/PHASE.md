@@ -158,3 +158,43 @@ applies with standard git apply --check. Old --unidiff-zero and new ordinary
 application yield identical translator26eb4a73497bd66b921305ecae48d8843ac8339ec960e2fbf1ced1683b149ece.
 No local compilation/proof execution. This repair changes patch transport only;
 all predeclared exact-source/AST/strict-scope/resource gates remain required.
+
+## Audit-only callee-order gate review
+
+Read-only review found the new driver relied on capture's callee-count gate but
+did not explicitly assert proof order. Added the existing strict-controls rule:
+one cut_maybe_unwind header before one positive_direct_unwind header.
+CALLEE-ORDER-GATE-REPLAY.json records an AST-isolated classifier test on saved
+673526ac evidence: saved order passes; missing/reversed/duplicate callee rejects.
+This does not execute proof tooling or upgrade the saved/current Cloud verdict.
+Build4fa47604 remains pinned12ceb649 and is not modified by this service edit;
+fresh control evidence must be independently checked with the strengthened gate.
+The tiny true-normal/true-unwind helper control tests modeled scope exit, not
+arbitrary FnMut recovery or a demonstrated runtime panic.
+
+## Terminal result and completion-only replay
+
+Third Build4fa47604-3792-4533-88da-1e4ae7d52a23 infra=proof
+12ceb64996156f2a07c60987e59d388f687b8791, FAILURE354seconds,
+archivebc500a145dd09f8e70ffc382f9a5fb58ff71b4bd22558788ce1ff7d730ca6859
+and contained hashes/index verified. Existing exactoverlay compiles translator
+26eb4a73 with frozenstrictkernel37ed2550. Six selected scope controls ran;
+positive directunwind has sameunit helper first and two targetreturn/free/leak
+checks. Actual off/on was NOT_RUN due false-post audit refusing impSpan position.
+
+Saved complete NORMAL/readonly graphs differ only by the reviewed contract raw
+and impSpan coordinate. Audit-only repair applies existing coordinate policy
+to impSpan too; no block/local/call/type/post semantics redaction added. Parse
+timestamped proof entries separately from diagnostic notes, retain/validate old
+capture metadata and require one actual callee entry before caller. Separate
+FALSE-POST-SAVED-RAW-REPLAY.json confirms intended normal false line9 and unwind
+false line17 after helper/call/unwinding return; synthetic parser negatives
+retain noncoordinate span tags/raw text and detect duplicate trace entries.
+OriginalCloudFAILURE and saved files unchanged, no new proof or actualc1 credit.
+
+Final1060/3600;2540unusedclosed. Allthreeown builds terminal/reconciled/integrity
+verified; active/unresolved/reservations0, readyrequest withdrawn. No newbuild
+aftermain16:08:25; completion-only evidence/replay/checkpoint withinabsolute
+16:38:25. See END-CHECKPOINT-2026-10-09.md. Actual c1 representation, normal
+CURRENT recovery and directunwind CURRENT recovery remain NOT_RUN; nextowner
+assignment must run these before c2/selector.

@@ -1,6 +1,10 @@
-# Current phase: SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
-[Phase/card](cloud-build/sort4-c1-current-recovery/PHASE.md), [separate ledger](cloud-build/sort4-c1-current-recovery/BUDGET.json). Ownerselect-sort4, own isolated worktree/branch; policy d389ff64. Start15:08:25UTC/18:08:25MSK, main16:08:25UTC/19:08:25MSK, absolute16:38:25UTC/19:38:25MSK. New3600Cloudseconds, no old2913carry. Exactactualc1 CURRENTpair/fourcell normal/directunwind recovery only; suppliedpremises distinguished; newcallercertificate required. Priorpointerselect result preserved.
+[Checkpoint](cloud-build/sort4-c1-current-recovery/END-CHECKPOINT-2026-10-09.md), [phase/card](cloud-build/sort4-c1-current-recovery/PHASE.md), [ledger](cloud-build/sort4-c1-current-recovery/BUDGET.json), [result](cloud-build/sort4-c1-current-recovery/FINAL-TEST-RESULT.json). Own isolatedselect worktree/branch; ownerselect-sort4; policy d389ff64. Start15:08:25UTC, main16:08:25, absolute16:38:25; aftermain onlyevidence/replay/checkpoint.
+
+Actualsort4c1 cells1/0 normal/directunwind CURRENT recovery **NOT_RUN**; no restoredactualowners/frame/debts claimed. Freshfullactualsource/MIR/refinement calibration; exactdraft ASTpatchcontext repaired and translator26eb4a73 compiled with frozenstrictkernel37ed2550. Selectedisolatedscopecontrols pass positives/fullreturns and intendedresource/admission negatives, notactualFnMut recovery. ThirdBuildstoppedinfalsepostaudit beforeactualon/off. Source/model entry remainsconditional suppliedpositiveT/source4owners/dst4/F/thread/types; genericZST/legalshared-entry andprofileadmission OPEN. Comparatorunwind retained.
+
+ThreeownterminalFAILURE/reconciled/archive+indexverified builds:9b1c/4058 (371s),3221/337e (335s),4fa4/12ce (354s). Rawcontrol proof andservicefailure/replay separate. [Savedfalsepostreplay](cloud-build/sort4-c1-current-recovery/FALSE-POST-SAVED-RAW-REPLAY.json) confirmsbothintendedposts afterimpSpan/note-parser repair; noactualc1 credit. Final1060/3600,2540unusedclosed; ownactive/unresolved/reservations0, readywithdrawn. Priorpointerselecte2/raw0 preservedwithoutrepeat. Next: correctedfalsepostservicegate freshc1 Cloud/admission/resourcecontinuations, no c2/selector advance. Stopuntilnextassignment.
 
 # Historical NEXT checkpoint (closed)
 

@@ -1,0 +1,73 @@
+{
+  "phase": "SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09",
+  "build_id": "4fa47604-3792-4533-88da-1e4ae7d52a23",
+  "infra_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+  "proof_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+  "cloud_status": "FAILURE",
+  "conservative_seconds": 354,
+  "archive_sha256": "bc500a145dd09f8e70ffc382f9a5fb58ff71b4bd22558788ce1ff7d730ca6859",
+  "text_index_sha256": "6f23895bf354be409eb73dcd078bffc3bcf3e40d0589c8f48b284d709f3fd123",
+  "full_integrity_verified": true,
+  "new_cloud_proof": "isolated strict scope controls only",
+  "strict_controls": {
+    "negative_duplicate_marker": {
+      "raw_classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "raw_full_exit": 1,
+      "first_error": "verified/lib.rs(13,9-14,1): error: Strict lifetime binding expects exactly one cut marker per body",
+      "log_sha256": "f84619fc3e8f9766c7bd12961d9293d5b0cc6d9e27fb154a99776ce22f100bb5",
+      "limit": "Isolated strict-scope control; no actual sort4 CURRENT recovery claim"
+    },
+    "negative_typed_chunk_survives_cut": {
+      "raw_classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "raw_full_exit": 1,
+      "first_error": "verified/lib.rs(18,9-19,1): error: A lifetime-scoped heap chunk is still live at the binding end: live<'cmp, T> (direct type argument)",
+      "log_sha256": "2917cc5b588997ea6c46e2205adac35bd2aeaf5a973d298f750eca235ae9b41f",
+      "limit": "Isolated strict-scope control; no actual sort4 CURRENT recovery claim"
+    },
+    "negative_unclosed_fractional_access": {
+      "raw_classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "raw_full_exit": 1,
+      "first_error": "verified/lib.rs(22,20-34): error: No matching heap chunks: lifetime_token(cmp_k)",
+      "log_sha256": "9bf14a8eee66b366981882fde6123859a12c1ca44676d44e243f1177bb4113c0",
+      "limit": "Isolated strict-scope control; no actual sort4 CURRENT recovery claim"
+    },
+    "negative_wrong_marker": {
+      "raw_classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "raw_full_exit": 1,
+      "first_error": "verified/lib.rs(13,9-14,1): error: end_lft_binding needs one enclosing ghost block containing only its let_lft declaration",
+      "log_sha256": "21730441cbaaa05a72294e159a7cb6bff2ab1ff0659a3b53419b53fe8abc8b58",
+      "limit": "Isolated strict-scope control; no actual sort4 CURRENT recovery claim"
+    },
+    "positive_basic": {
+      "raw_classification": "POSITIVE_CANDIDATE_REVIEW_REQUIRED",
+      "raw_full_exit": 0,
+      "first_error": null,
+      "log_sha256": "74a853c7a803d9e485c1d51b382db5632057df5a5f60b87a377c079615b3e9ab",
+      "limit": "Isolated strict-scope control; no actual sort4 CURRENT recovery claim"
+    },
+    "positive_direct_unwind": {
+      "raw_classification": "POSITIVE_CANDIDATE_REVIEW_REQUIRED",
+      "raw_full_exit": 0,
+      "first_error": null,
+      "log_sha256": "1f0b20e7663dbf25b87bd340162b2a79e62cf253f78e831158eea618521b0628",
+      "limit": "Isolated strict-scope control; no actual sort4 CURRENT recovery claim",
+      "fresh_callee_before_target": true,
+      "target_return_leak_free_counts": [
+        2,
+        2,
+        2
+      ]
+    }
+  },
+  "actual_full_source_mir_refinement": "fresh exact O24 calibration; reserved-marker baseline",
+  "c1_patch_and_console": "compiled exact translator26eb4a73497bd66b921305ecae48d8843ac8339ec960e2fbf1ced1683b149ece; frozen kernel37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "actual_on_off": "NOT_RUN",
+  "continuation_representation": "NOT_RUN",
+  "c1_normal_current_owners_frame_debts": "NOT_RUN",
+  "c1_direct_unwind_current_owners_frame_debts": "NOT_RUN",
+  "actual_entry_applicability": "OPEN; strong diagnostic premises supplied",
+  "accepted_profile": false,
+  "false_post_audit": "Original Cloud INCONCLUSIVE preserved; separate saved-raw replay confirms both intended first false-post boundaries",
+  "prior_select_proof": "e2b249674cbe505f2d073e0df8da023a6e6406ce preserved without rerun",
+  "false_post_replay": "FALSE-POST-SAVED-RAW-REPLAY.json"
+}

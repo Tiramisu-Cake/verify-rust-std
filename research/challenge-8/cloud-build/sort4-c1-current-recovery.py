@@ -286,6 +286,13 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
              f"strict control {key} changed first obligation")
         proof_log = (path / key / "full-verification.log").read_text(errors="replace")
         proof_exit = row["stages"]["full-verification"]["exit"]
+        if key == "positive_direct_unwind":
+            callee_header = "Verifying function 'cut_maybe_unwind'"
+            target_header = "Verifying function 'positive_direct_unwind'"
+            need(proof_log.count(callee_header) == 1 and
+                 proof_log.count(target_header) == 1 and
+                 proof_log.index(callee_header) < proof_log.index(target_header),
+                 "direct unwind callee proof must precede target proof")
         if key.startswith("negative_"):
             target_header = "Verifying function '" + key + "'"
             errors = row.get("full_error_lines", [])

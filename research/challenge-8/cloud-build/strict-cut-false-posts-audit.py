@@ -15,6 +15,7 @@ SUPPORT = ("normal-export", "normal-decode", "readonly-export",
 ERROR = re.compile(r"^verified/lib\.rs\((\d+),([^)]+)\): error: (.+)$")
 LOC_FIELD = re.compile(r"\b(startLine|startCol|endLine|endCol)\s*=\s*\d+")
 SPAN_COORD = re.compile(r"\b(line|pos)\s*=\s*\d+")
+TRACE_ENTRY = re.compile(r"(?m)^\s*\d+\.\d+s: [^\n]*: Verifying function '([^']+)'\s*$")
 OPEN_GATES = (
     "exact first false-post verifier diagnostics and spans require human review",
     "all-path liveness and source/MIR CFG mutation negatives",
@@ -93,6 +94,12 @@ def raw_fields(data: str) -> list[str]:
     return found
 
 
+def proof_entries(log: str, name: str) -> list[int]:
+    """Positions of timestamped proof entries; diagnostic `note:` lines are excluded."""
+    return [match.start() for match in TRACE_ENTRY.finditer(log)
+            if match.group(1) == name]
+
+
 def normalize_coordinates(data: str, pattern: re.Pattern[str]) -> str:
     out = []
     at = 0
@@ -123,8 +130,9 @@ def normalize_mir(data: str, target_raw: str | None = None,
             end = quoted_end(data, at)
             out.append(data[at:end])
             at = end
-        elif data.startswith("span = (", at):
-            end = balanced_end(data, at + len("span = "))
+        elif data.startswith("span = (", at) or data.startswith("impSpan = (", at):
+            tag = "impSpan = " if data.startswith("impSpan = (", at) else "span = "
+            end = balanced_end(data, at + len(tag))
             out.append(normalize_coordinates(data[at:end], SPAN_COORD))
             at = end
         elif data.startswith('raw = "', at):
@@ -254,18 +262,37 @@ def audit_case(a, key: str, capture, prepare) -> dict:
     errors = [line for line in log.splitlines()
               if ": error:" in line or line.startswith("Fatal error:")]
     target_header = f"Verifying function '{case}'"
+    target_entries = proof_entries(log, case)
+    legacy_headers = record.get("header_count_semantics") is None
+    need(record.get("header_count_semantics") in (None, "trace_entry_v1") and
+         record.get("target_headers") ==
+         (log.count(target_header) if legacy_headers else len(target_entries)) and
+         len(target_entries) == 1,
+         f"{key}: target trace-entry inventory differs")
     need(errors == record.get("full_error_lines") and
          record.get("first_error") == (errors[0] if errors else None) and
-         log.count(target_header) == 1 and record.get("target_headers") == 1,
+         (legacy_headers or record.get("target_headers") == 1),
          f"{key}: target proof/error inventory differs")
+    callee_entries = proof_entries(log, "cut_maybe_unwind")
+    callee_header = "Verifying function 'cut_maybe_unwind'"
+    legacy_callee_before = (log.count(callee_header) == 1 and
+                            log.count(target_header) == 1 and
+                            log.index(callee_header) < log.index(target_header))
+    expected_callee_before = (
+        (legacy_callee_before if legacy_headers else
+         len(callee_entries) == 1 and callee_entries[0] < target_entries[0])
+        if key == "unwind-false" else None)
+    need(record.get("callee_headers") ==
+         (log.count(callee_header) if legacy_headers else len(callee_entries)) and
+         record.get("callee_before_target") == expected_callee_before,
+         f"{key}: capture header metadata differs from raw log")
     if key == "unwind-false":
-        callee_header = "Verifying function 'cut_maybe_unwind'"
-        need(log.count(callee_header) == 1 and
-             log.index(callee_header) < log.index(target_header) and
-             record.get("callee_before_target") is True,
+        need(len(callee_entries) == 1 and callee_entries[0] < target_entries[0],
              "unwind callee must prove before target")
+    else:
+        need(len(callee_entries) == 0, "normal control gained an unrelated callee")
     need(stage_exits.get("full-verification") in (1, 2) and len(errors) == 1 and
-         log.index(target_header) < log.index(errors[0]),
+         target_entries[0] < log.index(errors[0]),
          f"{key}: first failure did not follow target proof header")
     match = ERROR.match(errors[0])
     need(match is not None, f"{key}: first failure has no target source span")
@@ -286,7 +313,14 @@ def audit_case(a, key: str, capture, prepare) -> dict:
             "target_post_line": post_line, "target_end_line": target_end_line,
             "stage_exits": stage_exits, "source_hashes": record["source_hashes"],
             "mir": mode_rows,
-            "callee_before_target": record.get("callee_before_target")}
+            "actual_target_trace_entries": len(target_entries),
+            "actual_callee_trace_entries": len(callee_entries),
+            "callee_before_target":
+                (callee_entries[0] < target_entries[0]) if key == "unwind-false" else None,
+            "actual_callee_before_target":
+                (callee_entries[0] < target_entries[0]) if key == "unwind-false" else None,
+            "capture_header_count_semantics":
+                "legacy_substring_includes_notes" if legacy_headers else "trace_entry_v1"}
 
 
 def main() -> None:

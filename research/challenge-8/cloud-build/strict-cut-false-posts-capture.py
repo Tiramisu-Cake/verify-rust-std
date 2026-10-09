@@ -15,6 +15,7 @@ CASES = {"normal-false": "positive_basic",
          "unwind-false": "positive_direct_unwind"}
 SUPPORT = ("normal-export", "normal-decode", "readonly-export",
            "readonly-decode", "refinement")
+TRACE_ENTRY = re.compile(r"(?m)^\s*\d+\.\d+s: [^\n]*: Verifying function '([^']+)'\s*$")
 
 
 def need(ok: bool, why: str) -> None:
@@ -124,8 +125,9 @@ def run(a) -> dict:
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines()
               if ": error:" in line or line.startswith("Fatal error:")]
-    target_header = f"Verifying function '{case}'"
-    callee_header = "Verifying function 'cut_maybe_unwind'"
+    entries = [(match.group(1), match.start()) for match in TRACE_ENTRY.finditer(log)]
+    target_entries = [at for name, at in entries if name == case]
+    callee_entries = [at for name, at in entries if name == "cut_maybe_unwind"]
     result = {
         "classification": "FALSE_POST_CAPTURE_REVIEW_REQUIRED",
         "case": key, "target_function": case,
@@ -134,11 +136,12 @@ def run(a) -> dict:
         "decoded_body_inventory": inventory,
         "support_stages_complete": all(stages.get(name, {}).get("exit") == 0
                                        for name in SUPPORT),
-        "target_headers": log.count(target_header),
-        "callee_headers": log.count(callee_header),
-        "callee_before_target": (log.count(callee_header) == 1 and
-                                 log.count(target_header) == 1 and
-                                 log.index(callee_header) < log.index(target_header))
+        "header_count_semantics": "trace_entry_v1",
+        "target_headers": len(target_entries),
+        "callee_headers": len(callee_entries),
+        "callee_before_target": (len(callee_entries) == 1 and
+                                 len(target_entries) == 1 and
+                                 callee_entries[0] < target_entries[0])
         if key == "unwind-false" else None,
         "full_error_lines": errors,
         "first_error": errors[0] if errors else None,

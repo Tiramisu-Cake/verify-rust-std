@@ -1,0 +1,170 @@
+{
+  "actual_c1_proof_execution": false,
+  "actual_sort4_proved": false,
+  "change_reason": "Normalize only line/pos coordinates in span and impSpan; count timestamped verification entries, excluding diagnostic note echoes. Exact source, complete MIR except reviewed post/coordinates, refinement, first false post and helper-before-caller remain required.",
+  "classification": "FALSE_POSTS_RECLASSIFIED_SAVED_RAW_ONLY",
+  "future_capture_parser_sha256": "1f248bd22b4a3f9a2241fa6772ce0904800f6f5b17eb6059488b8b933414ec34",
+  "infra_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+  "new_auditor_sha256": "4acfac4d589f713605bb09f8c3dcd503225f863a3024298dacd3a37cfee10d87",
+  "new_proof_execution": false,
+  "new_saved_raw_verdict": {
+    "normal-false": {
+      "accepted": false,
+      "actual_callee_before_target": null,
+      "actual_callee_trace_entries": 0,
+      "actual_target_trace_entries": 1,
+      "callee_before_target": null,
+      "capture_header_count_semantics": "legacy_substring_includes_notes",
+      "case": "normal-false",
+      "classification": "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(9,58-63): error: Cannot prove condition. (Cannot prove false.)",
+      "first_error_source_line": 9,
+      "mir": {
+        "normal": {
+          "baseline_binary_sha256": "f2cfbe50a8649c9ad66dc80103d90f1f8dcd0661ce4e12b25ec663f23198fb05",
+          "baseline_full_mir_sha256": "ff9cede75da4499a9b71bb701da676078044985c4d511bcd0aa66b15b20983f6",
+          "baseline_normalized_full_mir_sha256": "87a91afb08243f2837cba88d3e37f529059b35800d74b7a04d544297314e9c30",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "aec2b59c02f2fc20a9f9ab21fb7362d85bc05f4fe1c5a6b0ce5274de85c07c10",
+          "mutant_full_mir_sha256": "7292c515cb7359c7ef2f1a14c3c3897b18c9ee7ea270f76886e73c397c69e1b2",
+          "normalized_full_mir_sha256": "87a91afb08243f2837cba88d3e37f529059b35800d74b7a04d544297314e9c30",
+          "reviewed_contract_raw_change_only": true
+        },
+        "readonly": {
+          "baseline_binary_sha256": "0fbb58ab89dfb8db967b6a581fbd07fd35c4ae734f7e5ab795e0d028b820ea6b",
+          "baseline_full_mir_sha256": "0298afa13d6af7dc74b6438fc7ce601df5b1d4be3785e528cb45fa32e01d610b",
+          "baseline_normalized_full_mir_sha256": "356aef11d32e6a212c598a929c1d49a7dbcb4ced88a2b79e3b13fde842732b59",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "80efbb69c34b09e75e393f0b1cefe3161c1eb231ae727e9fd261f5be02cd2e98",
+          "mutant_full_mir_sha256": "e11143ecee8f5240f259b1d33925d0f26a1b3e209863a692a03c44d793a02c17",
+          "normalized_full_mir_sha256": "356aef11d32e6a212c598a929c1d49a7dbcb4ced88a2b79e3b13fde842732b59",
+          "reviewed_contract_raw_change_only": true
+        }
+      },
+      "parent_case": "positive_basic",
+      "source_hashes": {
+        "original/lib.rs": "bf602a50aeaa379da835e8f77ac9ca51b74fc89d4637ec7d31fcaea04f577958",
+        "verified/lib.rs": "0203816434b59d25afd0074c4ac385835ce1586910a6fb4f9307e27919e0cde4"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      },
+      "target_end_line": 17,
+      "target_post_line": 9
+    },
+    "unwind-false": {
+      "accepted": false,
+      "actual_callee_before_target": true,
+      "actual_callee_trace_entries": 1,
+      "actual_target_trace_entries": 1,
+      "callee_before_target": true,
+      "capture_header_count_semantics": "legacy_substring_includes_notes",
+      "case": "unwind-false",
+      "classification": "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(17,49-54): error: Cannot prove condition. (Cannot prove false.)",
+      "first_error_source_line": 17,
+      "mir": {
+        "normal": {
+          "baseline_binary_sha256": "51f0f867836bde01352da4a3b973542d0cde0fd66637407c15e77a152f8bf231",
+          "baseline_full_mir_sha256": "f7ab599d7fcc486ae9b1b603812c7aa727689553a959c24dd1ca4c3774cdadc6",
+          "baseline_normalized_full_mir_sha256": "58ba60e6b976eaa80462c559970fd13060a098b837b383996098505e3724f907",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "921d1b3d54a955cda8ff93790efc0d86e311069735f3835c8795a38619145a91",
+          "mutant_full_mir_sha256": "19c6bc3c6e01227dbbb1b05e1ffb735d6b66e193deae5d0d94b0d7bfd4ff4a70",
+          "normalized_full_mir_sha256": "58ba60e6b976eaa80462c559970fd13060a098b837b383996098505e3724f907",
+          "reviewed_contract_raw_change_only": true
+        },
+        "readonly": {
+          "baseline_binary_sha256": "6ed07826ca0faa49460517c94e9281ca2d82cef52c26b262e1937e6246f4f9a6",
+          "baseline_full_mir_sha256": "9c2d780e97562a17c841f6ddb1f33420fa44e15d718af1c6c072323e329cfc62",
+          "baseline_normalized_full_mir_sha256": "2c53f8d79fcbf412c1b45a9afefa1413f1683f4d5275ad6896b6d0130582ca96",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "69b8aad5f17c9c293561c903c602ef0db994917ec061bf391941ca93668d407c",
+          "mutant_full_mir_sha256": "6c856d2880c1b57a442533c6546cd5ec6634c169cc353d148e6cb00c15270c40",
+          "normalized_full_mir_sha256": "2c53f8d79fcbf412c1b45a9afefa1413f1683f4d5275ad6896b6d0130582ca96",
+          "reviewed_contract_raw_change_only": true
+        }
+      },
+      "parent_case": "positive_direct_unwind",
+      "source_hashes": {
+        "original/lib.rs": "56ff69110e6d472940fc08721db538e1262ca9f135d46c89b35a4e9883164c28",
+        "verified/lib.rs": "8f6692b9ee704d11a143331659f14da80566a7b3039e304b8d85cbd0f958995b"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      },
+      "target_end_line": 24,
+      "target_post_line": 17
+    }
+  },
+  "old_cloud_verdict": {
+    "build_failure_class": "run-failed",
+    "classification": "INCONCLUSIVE_SETUP_OR_GATE",
+    "reason": "normal-false: complete normal MIR graph differs beyond source spans/post raw",
+    "run_exit_code": 1
+  },
+  "original_archive_sha256": "bc500a145dd09f8e70ffc382f9a5fb58ff71b4bd22558788ce1ff7d730ca6859",
+  "original_artifact_sha256": {
+    "controls/cases/positive_basic/positive_basic/full-verification.log": "74a853c7a803d9e485c1d51b382db5632057df5a5f60b87a377c079615b3e9ab",
+    "controls/cases/positive_basic/positive_basic/normal-mir.bin": "f2cfbe50a8649c9ad66dc80103d90f1f8dcd0661ce4e12b25ec663f23198fb05",
+    "controls/cases/positive_basic/positive_basic/normal-mir.txt": "ff9cede75da4499a9b71bb701da676078044985c4d511bcd0aa66b15b20983f6",
+    "controls/cases/positive_basic/positive_basic/original/lib.rs": "bf602a50aeaa379da835e8f77ac9ca51b74fc89d4637ec7d31fcaea04f577958",
+    "controls/cases/positive_basic/positive_basic/readonly-mir.bin": "0fbb58ab89dfb8db967b6a581fbd07fd35c4ae734f7e5ab795e0d028b820ea6b",
+    "controls/cases/positive_basic/positive_basic/readonly-mir.txt": "0298afa13d6af7dc74b6438fc7ce601df5b1d4be3785e528cb45fa32e01d610b",
+    "controls/cases/positive_basic/positive_basic/verified/lib.rs": "b99b1a59efaa50dc719f82e796623dc886ff839d35f42b5f8e4c206d7faa7280",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/full-verification.log": "1f0b20e7663dbf25b87bd340162b2a79e62cf253f78e831158eea618521b0628",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/normal-mir.bin": "51f0f867836bde01352da4a3b973542d0cde0fd66637407c15e77a152f8bf231",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/normal-mir.txt": "f7ab599d7fcc486ae9b1b603812c7aa727689553a959c24dd1ca4c3774cdadc6",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/original/lib.rs": "56ff69110e6d472940fc08721db538e1262ca9f135d46c89b35a4e9883164c28",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/readonly-mir.bin": "6ed07826ca0faa49460517c94e9281ca2d82cef52c26b262e1937e6246f4f9a6",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/readonly-mir.txt": "9c2d780e97562a17c841f6ddb1f33420fa44e15d718af1c6c072323e329cfc62",
+    "controls/cases/positive_direct_unwind/positive_direct_unwind/verified/lib.rs": "9223cdb1f43907e865e34ff2dad44aefacd35036b3cbd569d9343421cbf0e0f2",
+    "diagnostic-audit.json": "df97b3baaa279a0ae27c6322f7b7fd55eed49e3c7a1cc5d9099fcaeb98089fb4",
+    "false-posts/cases/normal-false/capture-result.json": "1b9615746c935cbe03cd7ceec86fb8be2d4cd85c59b0b5e70acad8114195b48e",
+    "false-posts/cases/normal-false/full-verification.log": "906e08062c558f26d53367535e760bbc28af9eb59aa9fa523df301d48f0071ea",
+    "false-posts/cases/normal-false/normal-mir.bin": "aec2b59c02f2fc20a9f9ab21fb7362d85bc05f4fe1c5a6b0ce5274de85c07c10",
+    "false-posts/cases/normal-false/normal-mir.txt": "7292c515cb7359c7ef2f1a14c3c3897b18c9ee7ea270f76886e73c397c69e1b2",
+    "false-posts/cases/normal-false/original/lib.rs": "bf602a50aeaa379da835e8f77ac9ca51b74fc89d4637ec7d31fcaea04f577958",
+    "false-posts/cases/normal-false/readonly-mir.bin": "80efbb69c34b09e75e393f0b1cefe3161c1eb231ae727e9fd261f5be02cd2e98",
+    "false-posts/cases/normal-false/readonly-mir.txt": "e11143ecee8f5240f259b1d33925d0f26a1b3e209863a692a03c44d793a02c17",
+    "false-posts/cases/normal-false/verified/lib.rs": "0203816434b59d25afd0074c4ac385835ce1586910a6fb4f9307e27919e0cde4",
+    "false-posts/cases/unwind-false/capture-result.json": "214dc13d4a7189a1554533fa6f4e4b0f3fa30aa12681845d1836ae7fe4c5e513",
+    "false-posts/cases/unwind-false/full-verification.log": "e418ff8a56e5e0cddfa7b6d9153cbcc57bb85aaf61fa584d0300fcc4950e31ae",
+    "false-posts/cases/unwind-false/normal-mir.bin": "921d1b3d54a955cda8ff93790efc0d86e311069735f3835c8795a38619145a91",
+    "false-posts/cases/unwind-false/normal-mir.txt": "19c6bc3c6e01227dbbb1b05e1ffb735d6b66e193deae5d0d94b0d7bfd4ff4a70",
+    "false-posts/cases/unwind-false/original/lib.rs": "56ff69110e6d472940fc08721db538e1262ca9f135d46c89b35a4e9883164c28",
+    "false-posts/cases/unwind-false/readonly-mir.bin": "69b8aad5f17c9c293561c903c602ef0db994917ec061bf391941ca93668d407c",
+    "false-posts/cases/unwind-false/readonly-mir.txt": "6c856d2880c1b57a442533c6546cd5ec6634c169cc353d148e6cb00c15270c40",
+    "false-posts/cases/unwind-false/verified/lib.rs": "8f6692b9ee704d11a143331659f14da80566a7b3039e304b8d85cbd0f958995b",
+    "false-posts/source-manifest.json": "27c51b94dca6a4f484a05ee96fb8eba43978efff49ed0a2dd00b852de4726021"
+  },
+  "overlay_patch_sha256": "5b9cac9657916aa00466440d3ad41a1724f96dbb613c6d7896d9448cddc9235f",
+  "profile": "o26-sort4-c1-current-recovery / isolated frozen strict d557 plus exact AST overlay",
+  "proof_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+  "replay_invocation": {
+    "command": "python3 - <<'PYREPLAY'\nimport importlib.util\nfrom pathlib import Path\nfrom types import SimpleNamespace\ncloud=Path('research/challenge-8/cloud-build')\nroot=Path('/tmp/smallsort-cloud-evidence-4fa47604-3792-4533-88da-1e4ae7d52a23/extracted/allprooflogs/cases/sort4-c1-current-recovery')\ndef load(name,path):\n    spec=importlib.util.spec_from_file_location(name,path)\n    module=importlib.util.module_from_spec(spec)\n    spec.loader.exec_module(module)\n    return module\naudit=load('saved_false_audit',cloud/'strict-cut-false-posts-audit.py')\ncapture=load('saved_strict_parser',Path('research/challenge-8/overnight-lifetime/capture.py'))\nprepare=load('saved_false_prepare',cloud/'strict-cut-false-posts-prepare.py')\nargs=SimpleNamespace(controls_evidence=root/'controls',evidence=root/'false-posts')\nfor key in ('normal-false','unwind-false'):\n    row=audit.audit_case(args,key,capture,prepare)\n    print(key,row['classification'],row['first_error'],row['callee_before_target'])\nPYREPLAY",
+    "executes_proof_or_extractor": false,
+    "extract_if_needed": "tar -xzf /tmp/smallsort-cloud-evidence-4fa47604-3792-4533-88da-1e4ae7d52a23/evidence.tar.gz -C /tmp/smallsort-cloud-evidence-4fa47604-3792-4533-88da-1e4ae7d52a23/extracted allprooflogs/cases/sort4-c1-current-recovery",
+    "input_root": "/tmp/smallsort-cloud-evidence-4fa47604-3792-4533-88da-1e4ae7d52a23/extracted/allprooflogs/cases/sort4-c1-current-recovery",
+    "kind": "in-process classifier-only saved-raw replay"
+  },
+  "source_build_id": "4fa47604-3792-4533-88da-1e4ae7d52a23",
+  "synthetic_parser_negatives": [
+    "non-coordinate impSpan tag mutation retained",
+    "quoted raw line text retained",
+    "duplicate timestamped proof entry counted twice",
+    "diagnostic note excluded"
+  ],
+  "tool_console_sha256": "0e7ded13989ae89f7507ffa4d7cfebf25b6dd8bab42b9b5a47af8193f208cf83",
+  "verification_accepted": false
+}
