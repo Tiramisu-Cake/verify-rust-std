@@ -16,9 +16,13 @@ original `3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72`.
 The complete NORMAL and readonly function MIR hashes remain
 `667e43477674d9e834b462b612f498af81598ec18622f0a60337ae4fdc6b017d`
 and `925b05a8c2bb66be8ad5a7f091f8232d9e930782b5ca01067cf7d1bec349f5b5`.
-Both modes retain 55 blocks, 137 local declarations, five FnMut calls,
-eight select calls, four copy calls, direct first-call `Continue`, and no
-Cleanup/Drop; refinement must pass. The production translator hash is
+NORMAL retains 55 blocks, 137 local declarations and 54 unwind actions;
+readonly retains 28 blocks, 110 local declarations and 27 unwind actions.
+Both complete records retain five FnMut calls, eight select calls, four copy
+calls, direct first-call `Continue`, and no Cleanup/Drop; refinement must
+pass. The post-mark AST trace is from the NORMAL verification path, so its
+137-or-more printed local rows are not the readonly MIR local count. The
+production translator hash is
 `0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a`.
 The unmodified verifier-core source at stock commit
 `f76012fb518703b1d98e243ac4f487f16877cfcb` has SHA-256
