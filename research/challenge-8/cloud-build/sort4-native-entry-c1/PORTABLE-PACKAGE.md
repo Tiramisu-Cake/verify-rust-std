@@ -7,8 +7,8 @@ refresh, strict/relocation, actual first-scope, Output-equality and debt overlay
 
 [Prefix patch](verifast-actual-c1-prefix-TEST.patch) applies only after assembled
 translator SHA256 `4aa487b5a000aa4ee045836059bdf34793db9d752300b3d0b55299ca95bac8a1`.
-Patch SHA256 `40f4b7af9db6ff24b54954f94915dd4e5f51629892e638b022b136a0e4891d82`;
-result translator SHA256 `a3813a752bc0f8a8ad7f15147f26c74f69ce8036b6f11a089275965b860e1cff`.
+Patch SHA256 `2e1621b735e9d8af1d7c73b29d09daf1cd576943307521f67096917d342130e0`;
+result translator SHA256 `590483304f55d744389f294a1dcc09053ba484d682d45d81ee6520d92b06f854`.
 [Profile](C1-PREFIX-PROFILE.json), [rationale](C1-PREFIX-SEMANTIC-CARD.md),
 [independent review/fixes](C1-PREFIX-IMPLEMENTATION-REVIEW.md).
 Static git-apply reverse/check verified exact base/result. No local tool execution.

@@ -304,18 +304,30 @@ def native_expected_negative(case, cert, verified, log, entries, errors, verifie
     if len(marker_lines)!=1 or not isinstance(obligation,str) or not obligation:
         return False
     line=marker_lines[0]
-    loc=re.match(r'verified/lib\.rs\((\d+),',errors[0])
-    if loc is None or int(loc.group(1))!=line or not executed_line(log,line):
+    if not executed_line(log,line):
         return False
     if case=='range-negative':
+        # The failed VC is in the stock array_split contract, not at the
+        # source callsite. Attribute it only through the exact executed call
+        # and VeriFast's matching "Verifying call" note at that marker line.
+        call_note=(re.search(r'verified/lib\.rs\('+str(line)+r',[^\n]*\): note: Verifying call\n'+
+                              re.escape(str(line)+' |')+r'[^\n]*array_split::<T>\(v_base, 9\); // RANGE_AUTHORITY_CONTROL',log) is not None)
+        first_error_is_stock_split_bound=(
+            re.search(r'(?:^|/)prelude_core\.rsspec\(261,\d+-\d+\): error: Cannot prove condition\. \(Cannot prove 9 <= ptr_len\(v\)\.\)$',errors[0]) is not None)
+        source_guard=(line>=5 and 'if (len == 8)' in source_lines[line-3] and
+                      'if (len >= 8)' in source_lines[line-5])
         semantic=('array_split::<T>(v_base, 9)' in source_lines[line-1] and
                   'RANGE_AUTHORITY_CONTROL' in source_lines[line-1] and
-                  'Cannot prove condition' in errors[0])
+                  call_note and first_error_is_stock_split_bound and source_guard)
     elif case=='duplicate-negative':
+        loc=re.match(r'verified/lib\.rs\((\d+),',errors[0])
         semantic=('DUPLICATE_AUTHORITY_CONTROL' in source_lines[line-1] and
+                  loc is not None and int(loc.group(1))==line and
                   'No matching heap chunks: array<T>' in errors[0])
     else:
+        loc=re.match(r'verified/lib\.rs\((\d+),',errors[0])
         semantic=('SOURCE_CURRENT_VALUE_POST_CONTROL' in source_lines[line-1] and
+                  loc is not None and int(loc.group(1))==line and
                   'less_after != less_before' in source_lines[line-1] and
                   ('Cannot prove condition' in errors[0] or 'Cannot prove' in errors[0]))
     return semantic and obligation in {
@@ -334,7 +346,7 @@ def positive_full_vf0(case, *, controls_passed, support_gates_passed,
             len(proof_entries)==1 and 'Leak check.' in caller_log and not errors and
             full_vf0_log is True and full_native_contract is True)
 
-def native_case_targets_reached(case, cert, caller_log):
+def native_case_targets_reached(case, cert, caller_log, source_lines=None):
     """Require each positive case's named resource assertions to execute."""
     targets=cert.get('targeted_ghost_statement_lines',{})
     line_lists=cert.get('targeted_ghost_statement_line_lists',{})
@@ -343,13 +355,37 @@ def native_case_targets_reached(case, cert, caller_log):
     if case=='source-frame-positive':
         required=[targets.get('source_subset_four')]
     elif case=='bridge-positive':
-        required=[targets.get('positive_size_guard'),targets.get('bridge_scratch_guard'),targets.get('identity_lemma_call')]
+        identity_line=native_identity_call_target(cert, source_lines)
+        required=[targets.get('positive_size_guard'),targets.get('bridge_scratch_guard'),identity_line]
     elif case=='native-scratch-frame':
         required=[targets.get('native_scratch_array')]
         required.extend(line_lists.get('native_scratch_owners',[]))
     else:
         return True
     return bool(required) and all(type(line) is int and executed_line(caller_log,line) for line in required)
+
+def native_identity_call_target(cert, source_lines):
+    """Resolve only agreeing bridge identity aliases and its exact source call."""
+    targets=cert.get('targeted_ghost_statement_lines',{})
+    line_lists=cert.get('targeted_ghost_statement_line_lists',{})
+    if not isinstance(targets,dict) or not isinstance(line_lists,dict):return None
+    candidates=[]
+    for key in ('identity_lemma_call','positive_identity_lemma'):
+        if key in targets:
+            value=targets[key]
+            if type(value) is not int:return None
+            candidates.append(value)
+    if 'identity_lemma_call' in line_lists:
+        values=line_lists['identity_lemma_call']
+        if not isinstance(values,list) or len(values)!=1 or type(values[0]) is not int:return None
+        candidates.extend(values)
+    if not candidates or len(set(candidates))!=1:return None
+    line=candidates[0]
+    if source_lines is not None:
+        text=source_line(source_lines,line)
+        if not isinstance(text,str) or not re.search(r'\bc1_entry_identity::<T,\s*F>\(v_base,\s*scratch_base,\s*is_less\s+as\s+\*mut\s+F\);',text):
+            return None
+    return line
 
 def legacy_dead_code_vf1(errors):
     """Keep the VF1 strict dead-code refusal distinct from proof obligations."""
@@ -554,12 +590,15 @@ def run_case(a, prep, capture, parser, case, env):
         helper_ok=(not helper_required) or (len(helper_entries)==1 and caller_ok and helper_entries[0]<entries[0] and 'Leak check.' in log[helper_entries[0]:entries[0]] and ': error:' not in log[helper_entries[0]:entries[0]])
         targets=cert.get('targeted_ghost_statement_lines',{})
         identity_line=targets.get('positive_identity_lemma') if isinstance(targets,dict) else None
-        identity_call_line=targets.get('identity_lemma_call') if isinstance(targets,dict) else None
+        source_lines=(fixture/'verified/lib.rs').read_text(errors='replace').splitlines()
+        identity_call_line=(native_identity_call_target(cert,source_lines)
+                            if native_mode and case=='bridge-positive' else
+                            targets.get('identity_lemma_call') if isinstance(targets,dict) else None)
         source_identity_line=targets.get('source_identity_lemma') if isinstance(targets,dict) else None
         native_identity_line=source_identity_line if case in ('source-frame-positive','source-post-negative') else identity_call_line
         if native_mode and case in ('source-frame-positive','source-post-negative','bridge-positive'):
             identity_reached=(caller_ok and native_identity_line is not None and
-                re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(native_identity_line)+r',[^\n]*\): Executing ',log[entries[0]:],re.M) is not None)
+                executed_line(log[entries[0]:],native_identity_line))
         else:
             identity_reached=(not (case=='bridge-positive' and not native_mode)) or (caller_ok and identity_line is not None and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(identity_line)+r',[^\n]*\): Executing ',log[entries[0]:],re.M) is not None)
         subset_line=targets.get('source_subset_four') if isinstance(targets,dict) else None
@@ -583,7 +622,7 @@ def run_case(a, prep, capture, parser, case, env):
         full_vf0=(rows['verification'].get('exit')==0 and not errors and
                   re.search(r'0 errors found \(\d+ statements verified\)',log) is not None)
         if native_mode:
-            case_targets=native_case_targets_reached(case,cert,caller_log)
+            case_targets=native_case_targets_reached(case,cert,caller_log,source_lines)
             native_full_vf0=positive_full_vf0(case,
                 controls_passed=getattr(a,'candidate_controls_passed',False),
                 support_gates_passed=gates,source_mir_trace_passed=mapping_passed,

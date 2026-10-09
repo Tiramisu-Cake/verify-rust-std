@@ -6522,3 +6522,10 @@ intended; mapping classifier multiline ghost span repaired by saved replay only.
 Archive dd421621c255db15e0e0cbdea91dd3628ed9d9e19a87495bd8201c122cb138bc,
 562 files/text integrity checked; 287 Cloudsec,3313 remaining. Experimental profile
 unaccepted. See [fresh evidence](cloud-build/sort4-native-entry-c1/NATIVE-ENTRY-EVIDENCE.md).
+
+C1 Build32c43f9f-bcef-4a15-bc95-1455305ebaeb / proof=infra7511ddcd failed
+isolated frontend console compilation (contract tuple versus option at7491), before
+new c1 cases, all NOT_RUN/no proofcredit.352Cloudsec accounted inclfailure,
+639/3600total,2961remaining; 354files/hashverified archive9b6bd493. Corrected only
+falsepost tuple reconstruction, independentreview; newpatch2e1621b7, translator
+59048330, profileunaccepted, exact frozen source unchanged. See preparationfailure.

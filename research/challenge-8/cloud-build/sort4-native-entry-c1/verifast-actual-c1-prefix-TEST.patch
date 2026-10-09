@@ -104,15 +104,15 @@
 +                   if prefix_control = "normal-false-post" ||
 +                      prefix_control = "unwind-false-post" then
 +                     match contract with
-+                     | Some (req, (outcome,
-+                         Ast.SwitchExpr (l, e,
++                     | (nonghost, fn_type_clause,
++                        Some (req, (outcome, Ast.SwitchExpr (l, e,
 +                           [Ast.SwitchExprClause (ln, "returning", [result], pn);
-+                            Ast.SwitchExprClause (lu, "unwinding", [], pu)], None))) ->
-+                       Some (req, (outcome, Ast.SwitchExpr (l, e,
++                            Ast.SwitchExprClause (lu, "unwinding", [], pu)], None))), terminates) ->
++                       (nonghost, fn_type_clause, Some (req, (outcome, Ast.SwitchExpr (l, e,
 +                         [Ast.SwitchExprClause (ln, "returning", [result],
 +                            (if prefix_control = "normal-false-post" then Ast.False ln else pn));
 +                          Ast.SwitchExprClause (lu, "unwinding", [],
-+                            (if prefix_control = "unwind-false-post" then Ast.False lu else pu))], None)))
++                            (if prefix_control = "unwind-false-post" then Ast.False lu else pu))], None))), terminates)
 +                     | _ -> reject "bounded post outcome shape"
 +                   else contract in
                   let changed_decl =

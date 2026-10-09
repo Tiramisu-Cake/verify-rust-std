@@ -15,10 +15,11 @@ scratch MU frame untouched. No size/type_interp/dst supplied in this subset.
 Actual caller CFG/sort4 invocation absent, so full applicability still unproved.
 Bridge VF1 at105 MU inverse roundtrip; positive-size/type/dst remain open.
 Raw proof complete; multiline ghost mapping PASS all7 by hash-checked service replay.
-287/3600 Cloud seconds accounted,3313 remaining before active Build
-`32c43f9f-bcef-4a15-bc95-1455305ebaeb` at proof/infra7511ddcd (timeout1200).
+639/3600 Cloud seconds accounted,2961 remaining, no active Build.
+32c43/7511ddcd failed isolated console tuple type at7491 before new c1 proof;
+corrected control tuple shape independently reviewed, fresh retry pending.
 Next: independently reviewed actual c1 bounded-prefix normal/direct-unwind full
 post/leak proof; exact source/full MIR/pre-AST admission, no callable/full sort4
-summary. Candidate profile unaccepted; new c1 fresh proof RUNNING, exact result pending.
+summary. Candidate profile unaccepted; new c1 fresh proof NOT_RUN after preparation failure.
 Prior select and conditional c1 keep their exact scope; profile unaccepted.
 Historical STATUS retained in [branch archive](archive/select-adoption-2026-10-10/README.md).

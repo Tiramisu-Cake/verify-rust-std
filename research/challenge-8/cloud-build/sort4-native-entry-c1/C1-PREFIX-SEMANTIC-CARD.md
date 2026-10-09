@@ -70,3 +70,9 @@ fixture-relative actual-c1-prefix-post-ast.ml. This serializes the same immutabl
 AST object passed to verification; no serializer/kernel/spec change and no effect
 on default-off mode or the returned AST. Full proof still mandatory. Fresh named
 function inventory must distinguish ghost Output registration from runtime c1.
+
+32c43 preparation failure: contract is `(nonghost, (fn_type_clause,safetyProof),
+pre_post option, terminates)`, not a pre_post option alone. Correct only the false-
+post control match/reconstruction to retain three surrounding fields and mutate
+one outcome arm in pre_post. Positive/default-off projection unchanged; required
+independent targeted review and fresh Cloud console build/control proof remain.

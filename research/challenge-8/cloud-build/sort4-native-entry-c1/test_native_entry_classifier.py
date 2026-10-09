@@ -15,7 +15,7 @@ SELECTED = {
     "mir_basic_blocks", "matching_bracket", "mir_ghost_statement", "mir_line_blocks",
     "executed_line", "source_line", "native_entry_source_operations",
     "native_entry_mapping", "native_post_ast_evidence", "native_expected_negative", "positive_full_vf0",
-    "native_case_targets_reached", "legacy_dead_code_vf1",
+    "native_case_targets_reached", "native_identity_call_target", "legacy_dead_code_vf1",
 }
 NAMES = {"NATIVE_ENTRY_CERT_CLASS", "NATIVE_ENTRY_OPERATIONS"}
 DEFS = [node for node in TREE.body if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name in SELECTED]
@@ -238,18 +238,43 @@ class ClassifierTests(unittest.TestCase):
         self.assertFalse(namespace["positive_full_vf0"]("native-scratch-frame", **good))
 
     def test_negative_requires_single_marker_pinned_error(self):
-        verified = b"fn entry() {\n    array_split::<T>(v_base, 9); // RANGE_AUTHORITY_CONTROL\n}\n"
+        verified = (b"fn entry() {\n/*@ if (len >= 8) {\n            assert len >= 8;\n"
+                    b"            if (len == 8) {\n                assert v_base[..len] |-> ?xs;\n"
+                    b"                array_split::<T>(v_base, 9); // RANGE_AUTHORITY_CONTROL\n"
+                    b"            }\n} @*/\n}\n")
         cert = {"expected_negative_first_error": {
             "marker": "RANGE_AUTHORITY_CONTROL",
             "obligation": "array_split at 9 with len==8",
         }}
-        log = "1.0s: verified/lib.rs(2,5-10): Executing statement\n"
+        log = ("1.0s: verified/lib.rs(6,17-30): Executing statement\n"
+               "prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove 9 <= ptr_len(v).)\n"
+               "verified/lib.rs(6,33-34): note: Verifying call\n"
+               "6 |                 array_split::<T>(v_base, 9); // RANGE_AUTHORITY_CONTROL\n")
         self.assertTrue(namespace["native_expected_negative"](
             "range-negative", cert, verified, log, [0],
-            ["verified/lib.rs(2,5-10): error: Cannot prove condition."], 1))
+            ["prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove 9 <= ptr_len(v).)"], 1))
         self.assertFalse(namespace["native_expected_negative"](
             "range-negative", cert, verified, log, [0],
-            ["verified/lib.rs(2,5-10): error: unrelated failure"], 1))
+            ["prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove 8 <= ptr_len(v).)"], 1))
+        self.assertFalse(namespace["native_expected_negative"](
+            "range-negative", cert, verified, log.replace("Verifying call", "Consuming call"), [0],
+            ["prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove 9 <= ptr_len(v).)"], 1))
+
+    def test_bridge_identity_aliases_must_agree_and_pin_exact_call(self):
+        lines = ["fn entry() {", "    c1_entry_identity::<T, F>(v_base, scratch_base, is_less as *mut F);", "}"]
+        cert = {"targeted_ghost_statement_lines": {"positive_identity_lemma": 2},
+                "targeted_ghost_statement_line_lists": {"identity_lemma_call": [2]}}
+        self.assertEqual(namespace["native_identity_call_target"](cert, lines), 2)
+        self.assertTrue(namespace["native_case_targets_reached"](
+            "bridge-positive", {**cert, "targeted_ghost_statement_lines": {
+                "positive_identity_lemma": 2, "positive_size_guard": 3, "bridge_scratch_guard": 3}},
+            "1.0s: verified/lib.rs(2,1-70): Executing statement\n"
+            "1.0s: verified/lib.rs(3,1-8): Executing statement\n", lines))
+        ambiguous = {**cert, "targeted_ghost_statement_lines": {"positive_identity_lemma": 2,
+                                                                 "identity_lemma_call": 3}}
+        self.assertIsNone(namespace["native_identity_call_target"](ambiguous, lines))
+        self.assertIsNone(namespace["native_identity_call_target"](
+            cert, ["fn entry() {", "    unrelated();", "}"]))
 
 
 if __name__ == "__main__":

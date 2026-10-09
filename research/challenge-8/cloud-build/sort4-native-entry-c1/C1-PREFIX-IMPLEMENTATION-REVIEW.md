@@ -32,3 +32,9 @@ Fixed file removed before positive; preserved/hash before controls; formatter
 whitespace accepted. Patch SHA40f4b7af9db6ff24b54954f94915dd4e5f51629892e638b022b136a0e4891d82;
 translator SHAa3813a752bc0f8a8ad7f15147f26c74f69ce8036b6f11a089275965b860e1cff.
 No diagnostic serializer/kernel/spec change, all historical declarations retained.
+
+32c43 Cloud console type failure independently reviewed after correction:
+contract pattern now retains complete four-field tuple, only selected outcome
+post replaced by false. Positive/default-off branch unchanged; exact post-shape
+mismatch rejects. Corrected patch2e1621b7 / translator59048330 (full profile pins).
+Review found no further static tuple defect; fresh Cloud required, NOT_RUN proof.
