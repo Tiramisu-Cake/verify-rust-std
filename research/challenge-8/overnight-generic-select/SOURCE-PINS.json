@@ -1,0 +1,30 @@
+{
+  "classification": "GENERIC_NEW_SOURCE_ONLY_PIN_NOT_PROOF",
+  "repository_std_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "files_sha256": {
+    "library/core/src/hint.rs": "ce89716d46b8060db2c2da1aef1d4bcccf90e0804fc021d4470c55203501315f",
+    "library/core/src/mem/manually_drop.rs": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+    "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0"
+  },
+  "union_signature": "pub union MaybeUninit<T>",
+  "union_fields": "{\n    uninit: (),\n    value: ManuallyDrop<T>,\n}",
+  "inherent_impl_signature": "impl<T> MaybeUninit<T>",
+  "new_signature": "pub const fn new(val: T) -> MaybeUninit<T>",
+  "new_body": "{\n        MaybeUninit { value: ManuallyDrop::new(val) }\n    }",
+  "actual_select_new_call_count": 2,
+  "omitted_union_metadata": [
+    "#[stable(feature = \"maybe_uninit\", since = \"1.36.0\")]",
+    "#[lang = \"maybe_uninit\"]",
+    "#[derive(Copy)]",
+    "#[rustc_pub_transparent]"
+  ],
+  "retained_union_metadata": ["#[repr(transparent)]"],
+  "omitted_new_metadata": [
+    "#[stable(feature = \"maybe_uninit\", since = \"1.36.0\")]",
+    "#[rustc_const_stable(feature = \"const_maybe_uninit\", since = \"1.36.0\")]",
+    "#[must_use = \"use `forget` to avoid running Drop code\"]",
+    "#[inline(always)]"
+  ],
+  "different_defid_from_actual_core": true,
+  "accepted": false
+}
