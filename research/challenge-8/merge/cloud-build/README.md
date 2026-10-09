@@ -80,3 +80,11 @@ controls until fresh Cloud evidence establishes the intended stage/location;
 current-owner handoff contains three conditional positives (identity/swap pair
 and native-usize identity array), with a separate exact-fixture stock probe and
 no ownership-duplication negative. None derives the actual caller bridge.
+
+Native source-pair turnover has separate experimental and stock groups using
+the exact same committed fixture. Recursive indices are option<usize> with
+explicit nonnegative bounds; arbitrary current selected values replace the
+historical selected positions. These empty-runtime/false-unwind components do
+not derive the actual caller/C1/F-frame bridge. Fresh exact negative metadata
+for old source-pair duplication and hidden recovery requires fresh Cloud proof
+and frontend gates respectively; historical calibration stays INCONCLUSIVE.

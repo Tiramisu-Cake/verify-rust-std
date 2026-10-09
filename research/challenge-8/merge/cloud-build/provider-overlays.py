@@ -136,13 +136,13 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --evidence "$evidence/checked-pointer-modular-trace"\n'
                  b'  run_one source-pair-turnover-resource-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
                  b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
-                 b"    --scope 'draft source current-owner turnover; overlap/same-pair positives and uncalibrated duplicate-full-cell target' \\\n"
+                 b"    --scope 'draft source current-owner turnover; overlap/same-pair positives and freshly predeclared duplicate-full-cell control' \\\n"
                  b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --fixture research/challenge-8/merge/overnight/source-pair-turnover-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-source-pair-turnover"\n'
                  b'  run_one cleanup-recovery-hidden-type-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
                  b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
-                 b"    --scope 'draft callback recovery hidden-type admission control; target remains uncalibrated' \\\n"
+                 b"    --scope 'freshly predeclared callback recovery hidden-type frontend refusal control' \\\n"
                  b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --fixture research/challenge-8/merge/overnight/cleanup-recovery-hidden-type-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-cleanup-recovery-hidden-type"\n'
@@ -158,6 +158,18 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --fixture research/challenge-8/merge/overnight/current-owner-handoff-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-current-owner-handoff-stock"\n'
+                 b'  run_one native-source-pair-turnover-resource-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'conditional native-index current-source turnover; current owners conserved, actual caller bridge open' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/native-source-pair-turnover-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-native-source-pair-turnover"\n'
+                 b'  run_one native-source-pair-turnover-stock-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile stock-26.10-native-source-pair-turnover \\\n'
+                 b"    --scope 'conditional native-index current-source turnover; current owners conserved, actual caller bridge open' \\\n"
+                 b'    --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/native-source-pair-turnover-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-native-source-pair-turnover-stock"\n'
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
             data = replace_once(data,
                 b'run_one bidirectional-len23-diagnostic 400 python3',

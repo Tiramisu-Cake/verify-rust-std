@@ -144,6 +144,10 @@ lem current_owner_handoff_array_identity_rec<T>(t: thread_id_t,
         close current_handoff_values_array::<T>(src, n, vs);
         close current_handoff_owned_array::<T>(t, dst, n, vs);
     } else {
+        assert *src |-> ?source_head;
+        assert *dst |-> ?value_head;
+        assert current_handoff_owned_array::<T>(t, src + 1, n - 1, ?source_tail);
+        assert current_handoff_values_array::<T>(dst + 1, n - 1, ?value_tail);
         assert source_head == head(vs);
         assert value_head == head(vs);
         assert source_tail == tail(vs);

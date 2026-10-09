@@ -40,6 +40,8 @@ POINTER_GROUPS = {
     "pointer-modular-trace-entry-negative": "checked-pointer-modular-trace-entry-negative",
     "pointer-modular-trace-diagnostic": "checked-pointer-modular-trace",
     "source-pair-turnover-resource-diagnostic": "checked-source-pair-turnover",
+    "native-source-pair-turnover-resource-diagnostic": "checked-native-source-pair-turnover",
+    "native-source-pair-turnover-stock-diagnostic": "checked-native-source-pair-turnover-stock",
     "cleanup-recovery-hidden-type-diagnostic": "checked-cleanup-recovery-hidden-type",
     "current-owner-handoff-resource-diagnostic": "checked-current-owner-handoff",
     "current-owner-handoff-stock-diagnostic": "checked-current-owner-handoff-stock",
@@ -243,6 +245,10 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                     "pointer-modular-trace-diagnostic")
     pair_turnover_cases = raw_cases("cases/checked-source-pair-turnover/aggregate.json",
                                     "source-pair-turnover-resource-diagnostic")
+    native_pair_cases = raw_cases("cases/checked-native-source-pair-turnover/aggregate.json",
+                                  "native-source-pair-turnover-resource-diagnostic")
+    native_stock_pair_cases = raw_cases("cases/checked-native-source-pair-turnover-stock/aggregate.json",
+                                        "native-source-pair-turnover-stock-diagnostic")
     cleanup_hidden_cases = raw_cases("cases/checked-cleanup-recovery-hidden-type/aggregate.json",
                                      "cleanup-recovery-hidden-type-diagnostic")
 
@@ -379,6 +385,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
             "actual_bidirectional_len2_len3_cases": bidirectional_cases,
             "actual_merge_up_down_cases": actual_merge_cases,
             "source_pair_turnover_cases": pair_turnover_cases,
+            "native_source_pair_turnover_cases": native_pair_cases,
+            "stock_native_source_pair_turnover_cases": native_stock_pair_cases,
             "cleanup_recovery_hidden_type_cases": cleanup_hidden_cases,
         },
         "separate_runtime_candidate": runtime,

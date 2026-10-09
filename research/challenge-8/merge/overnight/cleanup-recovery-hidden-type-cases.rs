@@ -136,5 +136,5 @@ on_unwind_ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
     }
     result
 }
-// EXPECT_REJECTION_CALIBRATION {"kind":"frontend_admission","error_file":"verified/lib.rs","message":"Unsupported callback loan cleanup command sequence","location":"UNCALIBRATED","body_entry":"must remain zero","classification":"CALIBRATION_ONLY"}
+// EXPECT_REJECTION {"kind":"frontend_admission","error_file":"verified/lib.rs","error_line":67,"error_end_line":68,"column_start":9,"column_end":1,"message":"Unsupported callback loan cleanup command sequence"}
 // CASE_END callback_cleanup_recovery_hidden_type_negative

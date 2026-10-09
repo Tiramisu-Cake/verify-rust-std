@@ -1,9 +1,24 @@
+## Fresh modular/resource controls — 60fdb811 / e2453336
+
+Modular G2 positive PASS again17bodies/36return/40leak; matched full-domain entry
+EXPECTED_FALSE_ASSERTION exactly670cols16–21 under predeclared fresh oracle.
+All12coordinates/posts preserved, no actual memory/callback/ownership theorem.
+Source-pair overlap/same-pair ghost components PASS sevenbodies/21return/21leak
+each: current-value restore/reextract, empty runtime and unwindfalse, old i32
+interface. Dup-full-cell negative only observed TARGET242cols88–91, calibration
+INCONCLUSIVE until new exact oracle run. Cleanup hidden recovery positive PASS
+61exec/2return/2leak/full normal/unwind under experimental profile; hidden-type
+negative frontend67–68 before body only calibrationINCONCLUSIVE. HRTB11admission
+controls pass, all11proofstatusesINCONCLUSIVE. Owner handoff all3stock+experimental
+cases INCONCLUSIVE setup missing source_head before case bodies, source repair
+unverified. Collector complete/acceptedfalse. Full archive/text hashes verified.
+
 ## Modular G2 Cloud positive — cf07b549 / c06d6841
 
 Full12coordinate pointer-trace projection PASS:17checked bodies,414statements,
 36return/40leak, all export/decode/VF/refinement gates0/no error/dead/source change.
-Current matched modular entry first-body false target669cols16–21 is observed,
-but UNCALIBRATED until a NEW exact-oracle run. No actual std body, permission,
+At cf07 matched modular entry first-body false target669cols16–21 was observed
+and remained UNCALIBRATED; new60fdb control result is recorded separately above. No actual std body, permission,
 callback effects/ownership/functional sorting theorem follows from this projection.
 Quartet timeout124 is preserved; typed reverse destination bound progresses.
 Actual len23 timeout124 reaches C1copy/final guard but main remains5return/6leak;

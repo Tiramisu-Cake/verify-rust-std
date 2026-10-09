@@ -26,6 +26,8 @@ FULL_GROUPS = {
     "pointer-modular-trace-diagnostic",
 }
 NEW_GROUPS = {
+    "native-source-pair-turnover-resource-diagnostic",
+    "native-source-pair-turnover-stock-diagnostic",
     "source-pair-turnover-resource-diagnostic",
     "cleanup-recovery-hidden-type-diagnostic",
     "current-owner-handoff-resource-diagnostic",

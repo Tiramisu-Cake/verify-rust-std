@@ -179,3 +179,20 @@ provenance inequality is required. A separate stock26.10 probe of the exact
 fixture will distinguish this resource component from the experimental kernel;
 all cases/checked bodies and refusal gates remain required. No actual copy-count-n,
 CopyOnDrop or caller/current-equality derivation is asserted.
+
+## Fresh partial resource evidence60fdb811
+
+Source-pair overlap and same-pair ghost components pass full stages/source/
+refinement/seven bodies/21return+21leak each. Restoration uses arbitrary current
+selected values, not old snapshot; pure holes preserve only nonselected values.
+These empty runtime/false-unwind/i32-interface proofs do not verify callback
+effects, actual arbitrary-n merge or caller. Native option<usize> replacement
+draft uses explicit nonnegative bounds because ghost integer types are
+mathematical; it remains Cloud untested. Dup-full-cell control and hidden-type
+recovery refusal are observed calibration INCONCLUSIVE until fresh exact oracle.
+Cleanup hidden positive full normal/unwind passes under experimental profile;
+owner identity/swap/native-array handoff both tool profiles fail setup on missing
+predicate-local source_head before all case bodies. Explicit existing-chunk
+binding repair is drafted, no ownership/post change or theorem credit.
+Current-owner list identity prerequisite and caller/C1/F-frame/Freeze-share/kernel
+closure obligations above stay open.

@@ -279,10 +279,10 @@ on_unwind_ens false;
 }
 // CASE_END source_pair_turnover_same_pair
 
-// This target is uncalibrated until a Cloud run establishes its exact stage,
-// predicate and location. It matches the overlap positive contract and frames.
+// Exact oracle follows the observed60fdb811 calibration and requires a fresh
+// Cloud check. It matches the overlap positive contract and frames.
 // CASE_BEGIN source_pair_turnover_does_not_duplicate_cell
-// EXPECT_REJECTION_CALIBRATION {"kind":"memory_permission","message":"uncalibrated duplicate-full-cell rejection after source-pair turnover","location":"UNCALIBRATED"}
+// EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":88,"column_end":91,"message":"No matching heap chunks: points_to<T>(ptr_add_(p, k, T_typeid), nth(k, replace_two(T_typeid, oldvs, i, j, vi, vj)))"}
 pub unsafe fn source_pair_turnover_does_not_duplicate_cell<T, F: FnMut(&T, &T) -> bool>(
     p: *mut T, n: usize, i: i32, j: i32, k: i32, l: i32,
     dst0: *mut T, dst1: *mut T, is_less: &mut F,

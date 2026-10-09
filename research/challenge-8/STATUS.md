@@ -1,67 +1,71 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / MODULAR G2 POSITIVE PASS
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / MODULAR G2 CONTROL PASS
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **2433/10800 elapsed
-Cloud seconds**, remaining **8367**. Historical accounts below unchanged.
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **3064/10800 elapsed
+Cloud seconds**, remaining **7736**. Historical accounts below unchanged.
 Branch `overnight/merge-26.10`; active own Build
-**60fdb811-f832-4076-87e0-9fc8043fb8ec**, proof/infra
-**e2453336c0a6eb1c2b2d30a624cd066599bbb505**,11resource/modular-control groups.
-Config SHAb116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe.
-Timeout1740s +queue60 envelope1800 reserved; common alternating lock.
+**b34c2f3c-5759-457c-84dc-ef74a901bca0**, actual600s diagnostic,
+proof/infra **34021e39ed0e7dd55db1be449b01ba73745ea762**,9actual/dependency/stack
+control groups, timeout1740s+queue60 envelope1800 reserved. Config
+7ccfc6a6907a789eda5a5b67e06cf3913caba44f9201d54f1009c8d71f2fae6c.
+Common alternating lock; foreign347068de terminal reconciled read-only. New client65565744 imported only
+control.py: foreign worktree/ledger/state are read-only; shared terminal receipts.
 [Phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
 [commands](merge/cloud-build/README.md), [ledger](cloud-build/night-merge/BUDGET.json).
 
-Latest Build **cf07b549-3df4-4c92-8454-9dfdfb48982a**, SUCCESS collector;
-proof/infra **c06d684186e394a2ef21d078f37289208a1022db**,
-02:11:38.526–02:32:23.014 UTC,1245s. Config SHA
-6eb3b218cab8a928f49c0728dd4c14e5ff3ef9ed26425d41712adc693152cef8.
-All16selected groups and full metadata/archive/separate text logs verified;
-archive SHA d54b4168cc4a1c7074ed8947fa1172628b7b916a6af6cccecdcd3cc2e8b1c522.
+Latest own Build **60fdb811-f832-4076-87e0-9fc8043fb8ec**, SUCCESS collector,
+proof/infra **e2453336c0a6eb1c2b2d30a624cd066599bbb505**;
+02:47:48.935–02:58:19.424 UTC,631s. Config SHA
+b116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe.
+All11selected groups and full metadata/archive/separate text logs verified;
+archive SHA f82c51e91a7fa54c428da97e4dcbab6d50d4da336afd263e01aae6ca4dd791cf.
 `diagnostic_complete=true`, PARTIAL_DIAGNOSTIC, **accepted=false**.
-Evidence `gs://smallsort-ci-evidence-504462351565/cloud-build/cf07b549-3df4-4c92-8454-9dfdfb48982a/`.
-Previous be12 full37matrix1093s and d549 setup failure95s remain in log/ledger;
-pre-submit0s refusal and every historical failure retained.
+Evidence `gs://smallsort-ci-evidence-504462351565/cloud-build/60fdb811-f832-4076-87e0-9fc8043fb8ec/`.
+Prior cf071245s/be121093s/d54995s preserved with all failures and old budgets.
 
-* Modular G2 isolated positive **PASS**, stages0/0/0/0,all17bodies checked,
-  414statements,36return/40leak (main6/6). All12coordinates/posts preserved;
-  positive stride/pointer bounds/trusted W1 domain, no actual merge resources.
-  Matched entry rejected exactly at669cols16–21 Cannot prove false, but remains
-  INCONCLUSIVE until fresh predeclared oracle run. No whole profile acceptance.
-* Quartet **INCONCLUSIVE timeout124**,493main statements,6return/8leak;
-  reverse destination typed bound progresses, last reverse wrapping step557–558,
-  no failed predicate/dead records. Modular closes same12relations; no identical
-  inlined timeout rerun or unsupported Z3 backend retry.
-* Actual up/down full conditional gates PASS again,116/120executions,
-  3return/3leak each. Actual len2/3 **INCONCLUSIVE timeout124**:234main records,
-  same5return/6leak. Alias lemma checked1/1/1; C1copy and final guard reached.
-  Remaining slow post/resource retries need localization/time-limit diagnostic,
-  not another assumed pointer association or weakened target post.
-* Strengthened same-input stack gates pass12MIR Places/27AST Vars/14addresses,
-  16MIR+17AST controls; scalar input-copy linkage/pinned final panic origin pass.
-  These admissions are separate from the actual full body theorem.
-* Fresh mathematical G2/A/B compatibility source/positive/negative gates PASS;
-  SWO/immutable-key/faithful normal answers remain separate sorting premises.
-  M2/cleanup/HRTB/resource/runtime statuses from be12 retain their exact limits.
+* Modular G2 positive **PASS** again, all17bodies/36return/40leak/source/refinement.
+  All12coordinates/posts retained, positive stride/bounds and shared decision
+  buffers; no actual merge memory/callback/ownership claim. Matched full-domain
+  entry **EXPECTED_FALSE_ASSERTION** exactly670cols16–21 under fresh predeclared
+  oracle. The cf07 uncalibrated failure remains historically INCONCLUSIVE.
+* Source-pair overlap/same-pair partial resource components **PASS**, each seven
+  bodies/21return/21leak/all stages0/no dead/source change. Arbitrary current
+  selected values feed replacement; F/destination options frame through empty
+  runtime bodies, unwind false. Existing i32 interface, no actual caller theorem.
+  Dup-full-cell negative observed exact points_to TARGET242cols88–91 after all
+  six helpers, but INCONCLUSIVE calibration; new oracle needs fresh run.
+* Cleanup hidden recovery positive **PASS**,61executions/2return/2leak/full
+  normal/unwind under experimental profile. Negative frontend refusal67–68
+  before body remains INCONCLUSIVE; exact oracle now prepared for NEW run.
+  HRTB11bound/call/AST registration controls pass, all11proof statuses remain
+  INCONCLUSIVE. No-comparator-owner weak-post fixture is excluded.
+* Current-owner identity/swap/native-array handoff both stock and experimental
+  **INCONCLUSIVE**, same unresolved source_head name in recursive helper before
+  all case bodies; no ownership theorem/refutation. Source-only explicit binding
+  repair drafted, preserving every resource/assertion/post; recheck both tools.
+* cf07 actual len2/3 remains **INCONCLUSIVE timeout124**:234main executions,
+  5return/6leak; alias helper checked and C1copy/final guard reached. Same-source
+  up/down full conditional PASS116/120exec/3return/3leak. Strengthened same-input
+  stack gates12MIR/27AST/14addresses with16MIR+17AST controls and pinned panic pass.
+  Math G2/A/B gates pass with separate SWO/immutable-key/faithful-answer premises.
 
-New partial resources: source-pair current-owner turnover, cleanup recovery
-hidden-type refusal, identity/swap/current-array owner handoff. All Cloud UNTESTED;
-negative oracles CALIBRATION_ONLY. Native-usize array handoff requires destination
-already equal the CURRENT source list; no snapshot/Copy/share-to-own bridge.
-Exact-fixture stock probe planned independently of experimental kernel.
+Native option<usize> source-pair current-value replacement draft is Cloud UNTESTED;
+ghost integers are mathematical, explicit nonnegative range gates required.
+Native array owner handoff requires destination already equal the CURRENT source
+list; no snapshot/Copy/share-to-own bridge. Runtime raw-destination alias observation
+is not a symbolic or public-caller theorem; FnMut alone does not establish F-frame.
 
-No std runtime, algorithm/signature, semantic verifier patch or target post changed.
+No std runtime/algorithm/signature, semantic verifier patch or target post changed.
 SmallSort blob40939f922bcb6fdc7ee0d30427fa861827043827; six patches unchanged.
 Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
-capture and marker-origin invariant unresolved, not covered by green controls.
-Generic/ZST, arbitrary-n actual/caller/C1count-n/F-frame, Freeze/share and ownership
-transfer OPEN. Source-level alias observation is not public-caller counterexample.
+capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
+caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
 
-Next permitted action: monitor exact active60fdb811, download/verify complete
-metadata/archive/separate text evidence, inspect full proofs/negative locations
-and continue within budget. Actual600s operational draft is a separate next
-experiment; no current result or weakened gate follows from a changed limit.
+Next permitted action: monitor exact b34c2f3c, download/verify full evidence;
+next ready seven-group resource recipe (native and handoff stock+experimental,
+exact pair/cleanup controls and smoke) follows common alternating lock. Continue
+justified independent resource/caller work within own budget/window.
 No local executable verification/build/tests or Actions dispatch. Accepted
 migration A/B/C and constructor are not repeated.
-
 ---
 
 ## Historical checkpoint (previous pause/deadline superseded above)

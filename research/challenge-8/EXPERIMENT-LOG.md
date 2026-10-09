@@ -5715,3 +5715,64 @@ separate budgets/no foreign cancellation. Includes common191x3990 bounded source
 transport ceiling, identical original-object identity/closure checks. Static AST
 read/diff review only; next actual600s research dispatch gates changed client,
 no separate migration smoke or proof/profile acceptance transfer.
+
+Resource repair/control card from60fdb811, before edit: both handoff tool
+profiles hit the same missing predicate-local name source_head at147 before
+case bodies. Explicitly bind existing head points-to and tail predicate chunks
+after open via checked assert patterns; retain all old assertions/owners/posts/
+domains, no assumed equality/ownership or model patch. Recheck exact same
+fixture under stock and experimental; setup error remains INCONCLUSIVE.
+Observed source-pair negative points_to full-cell duplication rejected at
+TARGET242cols88–91 after all six helpers and target entry; predeclare exact
+memory_permission oracle/message. Cleanup hidden recovery refusal observed
+67cols9–68cols1 before body, TARGET68; replace calibration metadata in place
+with exact frontend_admission oracle without shifting target or runtime.
+Fresh positives plus matched negatives must pass source/refinement/body or
+zero-body checks and classifier controls; old controls remain INCONCLUSIVE.
+Kernel closure soundness/caller bridge are not inferred from either result.
+
+Result60fdb811-f832-4076-87e0-9fc8043fb8ec / proof+infrae2453336c0a6eb1c2b2d30a624cd066599bbb505:
+create02:47:48.935138143Z/start02:47:49.669496434Z/finish02:58:19.424960Z,
+631elapsedseconds; own3064/10800 remaining7736, old accounts unchanged.
+Configb116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe;
+sourcebundle002f37d1208b7320752231870a53d7bf93bfe4516b20b655418079d825fe410f.
+SUCCESScollector/all11groupstatuses0/PARTIAL_DIAGNOSTIC/acceptedfalse; full
+metadata/archive/separate text logs verified. Archivef82c51e91a7fa54c428da97e4dcbab6d50d4da336afd263e01aae6ca4dd791cf,
+textindexa6f153fbc4b40b656c7b299da49403683c35ef59bb5625082177eef8e19702c1.
+Bucketcloud-build/60fdb811-f832-4076-87e0-9fc8043fb8ec/. ModularpositivePASS
+17bodies/36return40leak; exactfreshfalseentry670cols16–21EXPECTED_FALSE_ASSERTION,
+allotherstages0/sourceunchanged/nodead/allhelperschecked. Priorcf07INC preserved.
+Sourcepair2positivesPASS7bodies/21return21leak each/allstages0; memorydupnegative
+INC observedTARGET242cols88–91 points_to<T> after6helpers/20return20leak and2main
+exec0return0leak; no predeclaredoracle. CleanuphiddenpositivePASS61exec2return2leak
+fullnormal/unwind; negativeINCfrontend67cols9–68cols1 zeroexec/return/leak.
+HRTB11admission bound/call/ASTregistrationcontrolspass, all11proofstatusesINC;
+missing-comparator-owner weakpostfixtureexcludedexplicitly. Ownerhandoffall3
+stock+experimentalINCname-resolution source_head147 after3simplehelpers+n0exit,
+beforetargetbodies; unchangedfixtureSHAbothprofilesedd2947052caa632d6ac3008a154c62da260c96044e018d4485c12f853687108.
+Cleanuphiddenfixture958477d53e660bec2c9bf95e2fa4046452d3fbebc37d39e954dd65bd4d8db0c6.
+No actuallen23/callees selected60fdb. Isolated resource passes neither derive
+callerframe nor justify experimental kernel closure semantics. Nextactual600
+ready published34021e39ed0e7dd55db1be449b01ba73745ea762 uses9dependency/stack
+groups and unchangedfullbody/posts; foreign347068de stillworking/commonfairturn.
+
+Actual600s exact dispatchb34c2f3c-5759-457c-84dc-ef74a901bca0:
+proof/infra34021e39ed0e7dd55db1be449b01ba73745ea762,
+config7ccfc6a6907a789eda5a5b67e06cf3913caba44f9201d54f1009c8d71f2fae6c,
+tokendispatch-bd48192b2a094d35bbbd32c1f87d06bc. Foreign347068de terminal
+confirmed and read-only shared receipt cleared slot; no foreign ledger/state
+write by newclient.9actual/full dependency/stackrefusal groups, runtime false,
+whole1300suite1200actual760/VF600, Cloud1740queue60uploadreserve70.
+Own3064charged/7736remaining,1800envelope reserved. No actualresult yet.
+
+Next independent resource iteration integration: new nativeoptionusize draft
+threepositives has explicit0<=activek<n because ghostusize is mathematical;
+checkedrange/orderstep helpers, holes preserve only nonselectedcurrentowners,
+restore arbitraryselectedvi/vj→replace(oldvs,currentvalues), stock+experimental
+samefixture probes. No C1copy/callback/actualcaller execution or sorting claim.
+Sevenselectedgroups: smoke,oldsourcepairwithfreshexactnegative, hiddenrecovery
+withfreshfrontendnegative, existinghandoffbindingrepair bothprofiles, nativepair
+bothprofiles. Exactrecipe adds one source input, knowngroups/audit strict artifact
+requirements and rawpercase statuses extended; acceptedfalse remains hard-coded.
+No semantics/pins/runtime/post weakening. Static AST/JSON/case markers/diffcheck
+only, all new/changed cases still CloudUNTESTED until freshBuild.

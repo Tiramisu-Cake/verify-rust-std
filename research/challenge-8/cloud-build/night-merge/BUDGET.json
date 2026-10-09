@@ -4,8 +4,8 @@
   "authorization": "Owner prompt2026-10-09 resumes merge research, supersedes prior pause/deadlines/GitHub-hosted-only, separately authorizes10800 Cloud Build seconds through08:00UTC.",
   "deadline_utc": "2026-10-09T08:00:00Z",
   "ceiling_build_seconds": 10800,
-  "used_build_seconds": 2433,
-  "remaining_build_seconds": 8367,
+  "used_build_seconds": 3064,
+  "remaining_build_seconds": 7736,
   "allowed_lanes": [
     "merge"
   ],
@@ -92,17 +92,38 @@
       "submitted_config_sha256": "b116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe",
       "reserved_seconds": 1800,
       "timeout_seconds": 1740,
-      "status": "WORKING",
+      "status": "SUCCESS",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "002f37d1208b7320752231870a53d7bf93bfe4516b20b655418079d825fe410f",
       "build_id": "60fdb811-f832-4076-87e0-9fc8043fb8ec",
       "start_time": "2026-10-09T02:47:49.669496434Z",
-      "finish_time": null,
-      "create_time": "2026-10-09T02:47:48.935138143Z"
+      "finish_time": "2026-10-09T02:58:19.424960Z",
+      "create_time": "2026-10-09T02:47:48.935138143Z",
+      "build_seconds": 631,
+      "accounted": true,
+      "execution_seconds": 630,
+      "download_verified": true,
+      "archive_sha256": "f82c51e91a7fa54c428da97e4dcbab6d50d4da336afd263e01aae6ca4dd791cf"
+    },
+    {
+      "dispatch_token": "dispatch-bd48192b2a094d35bbbd32c1f87d06bc",
+      "owner": "merge",
+      "phase_id": "NIGHT-MERGE-CLOUD-2026-10-09",
+      "infra_sha": "34021e39ed0e7dd55db1be449b01ba73745ea762",
+      "proof_sha": "34021e39ed0e7dd55db1be449b01ba73745ea762",
+      "lane": "merge",
+      "submitted_config_sha256": "7ccfc6a6907a789eda5a5b67e06cf3913caba44f9201d54f1009c8d71f2fae6c",
+      "reserved_seconds": 1800,
+      "timeout_seconds": 1740,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "f28960e70e1a68dc4065e244dd00495739e62dbcc41552a519fa824a0c299947",
+      "build_id": "b34c2f3c-5759-457c-84dc-ef74a901bca0"
     }
   ],
-  "active_build": "60fdb811-f832-4076-87e0-9fc8043fb8ec",
+  "active_build": "b34c2f3c-5759-457c-84dc-ef74a901bca0",
   "historical_accounts": [
     {
       "name": "merge-continuation-2026-10-08",
