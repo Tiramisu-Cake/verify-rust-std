@@ -6049,3 +6049,25 @@ Semantic/source/runtime/posts/pins unchanged; all execution directories now
 outside evidence, proof logs immediately echoed. Static AST/diff gates passed.
 Foreign Builda643d1e1-48e4-4b24-bc6e-90e8c1bc11e7 takes next fair turn;
 its account is separate and never charged to select.
+
+NIGHT-CLOUD-15 dispatch:{"build_id": "03b0aa85-d825-4ccb-b5ec-b42939db7520", "dispatch_token": "dispatch-d6994e88824d455da38131fd2a06992f", "infra_sha": "cbe6c439ff625b43328e304373b79465481cb94d", "lane": "o26-wrapper-r3-nested-diagnostics", "owner": "select-sort4", "phase_id": "NIGHT-SELECT-SORT4-CLOUD-2026-10-09", "proof_sha": "256254c01a77653ec056c91755ac636e9e76fb9d", "publish_text_logs": true, "reserved_seconds": 1260, "source_input_sha256": "d1abe8f216fb173157d2171de512c5cb2b4de8f659fb2a7a2bf29b8ecdb7a2e9", "source_mode": "pinned-objects", "status": "QUEUED", "submitted_config_sha256": "674c80c0b7a8896e40418412a6d6289e6c7dc3070be079cd1e3b5e421d0e9ee3", "timeout_seconds": 1200}
+No semantic/source/post/pin changes from14; isolated execution copies outside
+evidence and full proof stdout backup repaired. Freshrun requiredfor full witness.
+
+NIGHT-CLOUD-15 outcome03b FAILURE/diagnosticincomplete,evidencecomplete:true,
+create07:26:31.650355492,start07:26:32.402623330,finish07:32:17.972492UTC=347s.
+Own5030/10800,5770unused,15terminal,no ownactive/requestwithdrawn.
+Archive2375dcd912679550a44e0971b0c4601ee1e291b3a55a7de1f310b143f11fe904,
+textindexf36378fb59b6f8fa66d041955eab7cdef22efef9b6e39d4e3c8961aa446b489b
+verified. Actual R3/nestedfullrawlogs both firstFatal ghostscope inventory before
+VFheaders. Exact savedlet2/nestedopen2 mismatch localized; full6control logs
+independently reviewed at intended owner17source/unit,A1Move,SAFEforgetMove gates.
+No actualproof/semanticadmission. Separate R3scopeTEST proof7b68fc9b,
+infra2bee8747 prepared/staticchecked/NOT_RUN. Source-shadowDRAFT staysBLOCKED;
+no observed latebinding failure. No new hosted run fits remaining deadline with
+fullpreparation/queue/upload margin. Complete checkpoint saved; authorization
+ends08UTC. All runtime library diff checks and accepted65a456b8 ancestry pass.
+
+Final original-Git transport preflights infra2bee8747/proof7b68fc9b:
+[{"bounded": true, "lane": "o26-r3-ghost-scope-test", "payload_bytes": 554457, "sha256": "3acd0e021d597d096474c86247f81fe2ee7c1f0f4b2d8eb06cfedf114b7c3b99", "source_parts": 186}, {"bounded": true, "lane": "o26-input-relation-shadow-capture", "payload_bytes": 500155, "sha256": "1820dad739f1f543e0566e5bf48de8892ab9fe81eda132b398f7154dee8158a6", "source_parts": 168}, {"bounded": false, "lane": "o26-shadow-generic-sort4-diagnostics", "payload_bytes": 582727, "sha256": "9a13219618d7cbf627f70d12e2764298a94de68071d00a2d3ababc669b0c34bb", "source_parts": 195}]
+No Clouddispatch fromthese profiles; blockedsourceJSON remainsunchanged.

@@ -682,3 +682,9 @@ witnesses. Infrastructure cbe6c439 moves execution copies outside evidence and
 prints raw full proof logs; a fresh run with unchanged source/profile is pending.
 Generic/ZST select, full actual nested Drop and full sort4 safety/functional
 composition remain OPEN. Separate diagnostic ready lanes grant no coverage.
+
+Build03b fullarchiveverified fixes evidencepublication and identifies exact R3
+outer/nested ghostscope refusal BEFOREproofheaders. All6componentcertificate
+negatives hit intended first predicates, not safety proof negatives. No outer,
+nestedDrop or generic/sort4 closure. Separate R3scopeTEST prepared/NOT_RUN;
+source-shadow revision BLOCKED because late-binding failure is not observed.

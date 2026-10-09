@@ -1,71 +1,33 @@
-# Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / DEADLINE
 
-Authorized through **08:00 UTC / 11:00 MSK, 9 October**. Separate Cloud Build
-account: **4683/10800 conservative seconds used; 6117 remaining**.
-No own active Build. Build **755bf768-3700-407b-9c70-3605b4d8f4a4**
-FAILURE/incomplete evidence,355s; R3 collector and nested scheduling audit failed,
-then packaging rejected a symlink from an isolated tool copy under evidence.
-Full raw proof logs were not uploaded and their exact first boundary is UNKNOWN.
-Infrastructure-only repair moves execution tools outside evidence and echoes full
-proof logs; same-source semantic rerun is required. No credit from this Build.
-Fresh input-relation capture
-`93da48d0-d720-4179-8d2c-d8b7495703bf` SUCCESS diagnostic only,337s;
-infra `e4e9eacfebef52293b5404c74b316fe76a413e4b`, proof
-`d253128ac42f5788cc322201bdfcc6c1e2e36f76`. Strict17 first matrix Build673526ac completed all17cases but audit refused
-callee-spec error attribution for repeated end_lifetime; false-post2 did not
-run. Full archive verified. R3 full-evidence rerun is being prepared; baseline and nested TEST remain
-separate diagnostics with false acceptance flags. Independent combined
-generic/postmark and strict17 reuse/fresh2 diagnostics remain READY.
- [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json),
-[experiment history](EXPERIMENT-LOG.md). Branch
-`research/night-select-sort4-cloud-2026-10-09`, worktree
-`/root/verify-rust-std-select-night`. Migration's account remains closed.
+Authorized window ends08:00 UTC /11:00MSK,9October2026. **5030/10800**
+conservative Cloud seconds used, **5770 unused**,15terminal Builds.
+No own active/unresolved Build; own ready request withdrawn. Migration account
+772/3600 and2828unused remains closed/separate. No new experiments under this
+expired authorization; a new window/account requires owner authorization.
 
-Latest Build `bf77d8a1-cda1-4426-9fc9-1a0f119e926f` **SUCCESS, diagnostic
-only** (354s), lane `o26-recovery-tests`, infrastructure
-`512e0b19989f821b923124dea9b403477c90e474`, proof
-`00ccde64680e53236ca29c17f035cade2cb9f791`. Full archive and text index
-were verified; archive SHA-256
-`990877254380a79c5a0612ca8aa6bb42b9245bfe8515b1c42e1113b9089f9883`.
-The isolated strict CUT mapped-ID relocation retains the baseline lifetime
-refusal at `verified/lib.rs:84`, matches six raw/translated declarations, and
-reaches **VF exit 0 on its callback fixture**, including normal/unwind returns
-and leak checks. Its liveness, alias/escape, bounds, heap, source/MIR mutation
-and combined regressions remain OPEN; this TEST changes an isolated frontend
-profile and grants no production or actual-sort4 proof. The print-only AST
-PROBE observes all seven requested metadata groups and the first FnMut call
-inside the unique comparison block (`root[138]`), with return arm 0 and unwind
-arm 1. Its complete function snapshot is unchanged (`dc7e8487…`); the stock
-first reserved-handler refusal remains at `verified/lib.rs:185`. Neither
-probe nor TEST is accepted verifier semantics or a sort4 theorem.
+[Complete checkpoint, domains, exact source/tool/proof/infra pins and commands](cloud-build/night-select-sort4/END-CHECKPOINT-2026-10-09.md),
+[ledger](cloud-build/night-select-sort4/BUDGET.json), [history](EXPERIMENT-LOG.md).
+Branchresearch/night-select-sort4-cloud-2026-10-09,ownworktree
+/root/verify-rust-std-select-night; accepted65a456b8 ancestry preserved.
 
-The latest actual `select_unpredictable` result is Build
-`218568df-ca79-43c5-a758-44764f1bac5c` on exact R2 component23 profile:
-seven same-version prefix callees and the outer guard, unselected Drop, SAFE
-forget, wrapper rebases and final `assume_init` reach normal return. The
-previous `lib.rsspec:462` ownership blocker is absent in this **experimental
-diagnostic**. Its first remaining failure is the pure result-identity post at
-`verified/lib.rs:143:45–47`; full outer normal/unwind/leak posts and the actual
-nested Drop body are not proved. R2 remains **NOT ACCEPTED** despite its
-owner17, A1, component19, default-off and identity controls. Separate
-nested-order TEST coverage does not transfer to this R2 proof. Input-relation source capture f9617843 failed before the candidate stage:
-two baseline refresh patches were absent from its recipe. No proof or intended
-negative credit; charged178s, archive2f20a83a… verified. Recipe repaired in
-e4e9eacf, full baseline/manifest input sets checked, proof source unchanged.
-Build84076 strictCUT discovery then failed in the audit CLI with missing
-classification after successful preflight: no matrix case ran, no negative
-credit. Complete archive b2f63f0a… verified, charged327s. A separate reporting
-fix and first strict17+false-post2 matrix are prepared. Fresh93da capture observes source a95aff14…/unit407acbae…/body7f8374652…,
-paired MIR/refinement, all9bodies and10snapshots; eight unchanged bodies and
-runtime identity verified. Historical owner17 refusal remains predicted, not
-executed. R3 profile and fresh controls are being prepared from those observations;
-source-only shadow-binding revision remains blocked and not verified.
-The isolated CUT's open matrix needs review.
-Generic/ZST select and complete sort4 safety, five unwind paths and separate
-functional permutation/order/stability composition remain open
-([generic gap](overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md)).
-No migration replay, local verification, changed runtime or weakened posts.
+Latest03b0aa85-d825-4ccb-b5ec-b42939db7520 FAILURE,347s,fullarchive/textindex
+integrityverified. R3 and nested-order TEST both refuse exact outer/nested ghost
+scope inventory BEFOREanyVFheader. Six changed-source certificate controls pass
+intended pre-proof refusals; neither actual outer nor nested body proved. Prior
+755bf768 incomplete evidence failure preserved; tool-copy packaging fixed.
+R2 reaches return after truthful guard/unselected pointerDrop/SAFEforget/assume_init,
+but pure result-identity post143fails. Fullnormal/unwind/return/leak, genericT/ZST
+and complete actualsort4 safety/FnMut recovery/functional composition remainOPEN.
+
+Default-off R3scope TEST now prepared but NOT_RUN, separate experimental profile:
+infra2bee8747b2aa5f73f120989e2fb1de6a2d9d6791,
+proof7b68fc9b36b0341210d48b857b010caea7344e9e. Retain savedlet2, transfer nestedopen2;
+no source/runtime/post/resource/kernel/spec/exporter/refiner changes or proof credit.
+Shadow-source and combined diagnostics remain BLOCKED on actual late-binding
+failure, which the current refusal does not establish. Independent generic/postmark
+and strict historical17re-audit/newfalsepost2 remain ready diagnostics, NOT_RUN.
+No local verifier/build, Actions dispatch, std runtime diff or weakened obligations.
 
 # Accepted migration checkpoint (historical)
 
