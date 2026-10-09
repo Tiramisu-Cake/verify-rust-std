@@ -16,6 +16,29 @@ Relevant frozen files:
 
 ## Current merge count-n boundary (2026-10-09)
 
+The later f0b1ff62 Cloud diagnostic reached the actual generic Drop body in
+both stock and six-patch consoles: the positive had VeriFast exit 0 with a
+return and leak check; the `first_body_false` control stopped at its intended
+`false` assertion at `verified/lib.rs(85,20-25)`. Both classifications stayed
+INCONCLUSIVE because the local admission readers refused. The saved MIR
+contains one dynamic `core::ptr::copy_nonoverlapping` call in block 0;
+its three operands are read at statement indices 2/4/6 from `self` fields
+0/1/2. Its `callSpan` omits the semicolon while the exact prepared source
+line includes it. The reader now compares the span to the exact call text
+without `;` and separately requires the full unchanged source statement
+with `;`.
+
+The f0 proof AST follows pinned `Ast.Func`'s 13-field constructor: field 7
+is the separate prototype implementation proof, field 8 the contract, and
+field 10 the optional runtime body. The declaration has field 10 `None`;
+the body has field 10 `Some (statement list, closing location)`. The private
+`full_borrow_content`/`own` opens at source lines 80–83 are field 7 ghost
+code. They do not establish public caller compatibility and cannot satisfy
+the runtime-call gate. The revised reader scans only field 10 for the one
+dynamic count-n copy, the ordered `$_3/$_4/$_5` operands and both normal and
+unwind continuations. These are classifier fixes based on saved f0 evidence;
+they require a new Cloud run before any Drop-body result can be claimed.
+
 The 74227266 Cloud diagnostic reached readonly MIR export/decode and
 refinement in both stock and six-patch profiles, but VeriFast stopped before
 entering `CopyOnDrop::drop`: `verified/lib.rs(21,5-9)` reports a type mismatch
@@ -24,9 +47,10 @@ for the first ghost `self as usize` (`&'__17 mut CopyOnDrop<T>` versus
 proof result. The saved MIR nevertheless has exactly one runtime
 `core::ptr::copy_nonoverlapping` call in entry block 0, with its three
 operands read from `self.src`, `self.dst`, and `self.len`, and an unwind
-continuation. The current local MIR parser refused the unrelated decoded
+continuation. The then-current local MIR parser refused the unrelated decoded
 ADT-variance enum `invariant`, while the AST scanner looked at `Func` arg 8
-(the contract) instead of arg 7 (the runtime body). The dump contains the
+(the contract); a later interim reader also incorrectly treated arg 7 as
+the runtime body. The dump contains the
 canonical declaration plus body and a `SwitchStmt` call to the AST callee
 `std::ptr::copy_nonoverlapping` with the dynamic `$_5` count.
 

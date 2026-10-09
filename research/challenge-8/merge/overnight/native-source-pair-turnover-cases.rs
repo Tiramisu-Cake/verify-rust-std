@@ -294,10 +294,12 @@ ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
 on_unwind_ens false;
 @*/
 {
-    //@ native_pair_extract::<T>(t, p, n, some(i), some(j), vs,
-    //@     nth(i, vs), nth(j, vs));
-    //@ native_pair_restore::<T>(t, p, n, some(i), some(j), vs,
-    //@     nth(i, vs), nth(j, vs));
+    /*@
+    native_pair_extract::<T>(t, p, n, some(i), some(j), vs,
+        nth(i, vs), nth(j, vs));
+    native_pair_restore::<T>(t, p, n, some(i), some(j), vs,
+        nth(i, vs), nth(j, vs));
+    @*/
 }
 // CASE_END native_source_pair_extract_restore_current
 
@@ -332,11 +334,13 @@ ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
 on_unwind_ens false;
 @*/
 {
-    //@ native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
-    //@ native_pair_extract::<T>(t, p, n, some(i), some(j),
-    //@     native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
-    //@     nth(i, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
-    //@     nth(j, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+    /*@
+    native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
+    native_pair_extract::<T>(t, p, n, some(i), some(j),
+        native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
+        nth(i, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
+        nth(j, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+    @*/
 }
 // CASE_END native_source_pair_turnover_same_pair
 
@@ -372,11 +376,13 @@ ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
 on_unwind_ens false;
 @*/
 {
-    //@ native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
-    //@ native_pair_extract::<T>(t, p, n, some(k), some(l),
-    //@     native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
-    //@     nth(k, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
-    //@     nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+    /*@
+    native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
+    native_pair_extract::<T>(t, p, n, some(k), some(l),
+        native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
+        nth(k, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
+        nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+    @*/
 }
 // CASE_END native_source_pair_turnover_overlap
 
@@ -411,11 +417,13 @@ ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
 on_unwind_ens false;
 @*/
 {
-    //@ assert false; // TARGET: full-domain native pair entry must be reachable
-    //@ native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
-    //@ native_pair_extract::<T>(t, p, n, some(k), some(l),
-    //@     native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
-    //@     nth(k, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
-    //@     nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+    /*@
+        assert false; // TARGET: full-domain native pair entry must be reachable
+    native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
+    native_pair_extract::<T>(t, p, n, some(k), some(l),
+        native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
+        nth(k, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
+        nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+    @*/
 }
 // CASE_END native_source_pair_turnover_false_entry

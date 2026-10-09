@@ -416,6 +416,11 @@ def mir_admission(case_dir: Path) -> dict:
         operands.append(name)
         origins.append(field_origin(name, writes, "_1", len(statements)) if name else None)
     expected_line = preparation.COPY_CALL.decode().strip()
+    # rustc's callSpan ends before the Rust statement terminator. Keep the
+    # prepared runtime source line pinned including its semicolon.
+    if not expected_line.endswith(";"):
+        raise RuntimeError("pinned CopyOnDrop source call lost its semicolon")
+    expected_call_span = expected_line[:-1]
     source_line = lines[line - 1].strip() if 1 <= line <= len(lines) else ""
     origins_valid = len(origins) == 3 and all(isinstance(origin, tuple) for origin in origins)
     field_origins = [field for field, _ in origins] if origins_valid else []
@@ -423,7 +428,7 @@ def mir_admission(case_dir: Path) -> dict:
     admitted = (len(args) == 3 and all(operand is not None for operand in operands) and
                 origins_valid and field_origins == [0, 1, 2] and
                 all(index < len(statements) for index in origin_indices) and
-                snippet.strip() == expected_line and
+                snippet.strip() == expected_call_span and
                 source_line == expected_line)
     return {"target_count": 1, "copy_call_count": len(calls),
             "copy_call_name": MIR_COPY_CALLEE,
@@ -434,6 +439,8 @@ def mir_admission(case_dir: Path) -> dict:
             "projected_self_writes": projected_self_writes,
             "unsupported_pre_copy_ops": unsupported_ops,
             "copy_call_source_line": line, "copy_call_snippet": snippet,
+            "copy_call_expected_span": expected_call_span,
+            "copy_call_full_source_line": source_line,
             "copy_call_operands": operands,
             "argument_field_origins": field_origins,
             "argument_field_read_statement_indices": origin_indices,
@@ -468,34 +475,58 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
         return {"admitted": False, "reason": "proof AST missing"}
     tree = ast_helper.OcamlAstText(ast_text).parse()
     drop_funcs = [node for node in ast_helper.nodes(tree, "Func")
-                  if len(node.args) > 8 and isinstance(node.args[4], str) and
+                  if len(node.args) == 13 and isinstance(node.args[4], str) and
                   node.args[4] in {TARGET,
                       TARGET.replace("core::ops::Drop", "std::ops::Drop")} and
                   "verified/lib.rs(" in repr(node.args[0])]
     # The canonical dump has one declaration and one body with the same name.
-    # Func arg 7 is (ghost_body, runtime_body); arg 8 is the contract. Reading
-    # arg 8 would wrongly search the pre/postcondition instead of Drop's body.
+    # Pinned Ast.Func has 13 fields: arg 7 is the optional prototype
+    # implementation proof, arg 8 is the contract, and arg 10 is the actual
+    # runtime body. The private full-borrow/own opens in arg 7 cannot satisfy
+    # a runtime-copy or public-caller gate.
     declarations = []
     bodies = []
     for function in drop_funcs:
-        shape = function.args[7]
-        if not isinstance(shape, tuple) or len(shape) != 2 or \
-                shape[0] != ast_helper.Sym("None"):
+        prototype_shape = function.args[7]
+        if (not isinstance(prototype_shape, tuple) or
+                len(prototype_shape) != 2 or
+                prototype_shape[0] != ast_helper.Sym("None") or
+                not isinstance(function.args[8], ast_helper.Node) or
+                function.args[8].name != "Some" or
+                function.args[6] != ast_helper.Sym("false") or
+                function.args[9] != ast_helper.Sym("false") or
+                function.args[11] != ast_helper.Sym("false") or
+                function.args[12] != []):
             return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
-                    "reason": "Drop Func has noncanonical ghost/runtime body pair"}
-        if shape[1] == ast_helper.Sym("None"):
+                    "reason": "Drop Func has noncanonical contract/prototype/runtime flags"}
+        runtime = function.args[10]
+        if runtime == ast_helper.Sym("None"):
+            if prototype_shape[1] != ast_helper.Sym("None"):
+                return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
+                        "reason": "Drop declaration carries a prototype implementation proof"}
             declarations.append(function)
             continue
-        if not isinstance(shape[1], ast_helper.Node) or shape[1].name != "Some" or \
-                len(shape[1].args) != 1:
+        if not isinstance(runtime, ast_helper.Node) or runtime.name != "Some" or \
+                len(runtime.args) != 1:
             return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
                     "reason": "Drop Func has noncanonical runtime body option"}
-        body_tuple = shape[1].args[0]
-        if not isinstance(body_tuple, tuple) or len(body_tuple) != 3 or \
-                not isinstance(body_tuple[1], list):
+        body_tuple = runtime.args[0]
+        if not isinstance(body_tuple, tuple) or len(body_tuple) != 2 or \
+                not isinstance(body_tuple[0], list):
             return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
                     "reason": "Drop Func body is not a source-located statement list"}
-        bodies.append((function, body_tuple))
+        prototype = prototype_shape[1]
+        if (not isinstance(prototype, ast_helper.Node) or
+                prototype.name != "Some" or len(prototype.args) != 1 or
+                not isinstance(prototype.args[0], tuple) or
+                len(prototype.args[0]) != 3 or
+                not isinstance(prototype.args[0][1], list)):
+            return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
+                    "reason": "Drop body has noncanonical separate prototype proof"}
+        prototype_opens = [node.args[2] for node in
+                           ast_helper.nodes(prototype.args[0][1], "Open")
+                           if len(node.args) >= 3]
+        bodies.append((function, body_tuple, prototype_opens))
     if len(drop_funcs) != 2 or len(declarations) != 1 or len(bodies) != 1:
         return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
                 "declaration_count": len(declarations), "body_count": len(bodies),
@@ -503,8 +534,8 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
     # The AST's source location and exact function body must both identify the
     # extracted Drop. Do not let a support/helper function satisfy the call gate.
     candidates = []
-    function, body_tuple = bodies[0]
-    body_start, statements, body_end = body_tuple
+    function, body_tuple, prototype_opens = bodies[0]
+    statements, body_end = body_tuple
     try:
         function_loc = ast_helper.loc(function.args[0])
         location_match = re.fullmatch(
@@ -513,7 +544,8 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
         source_bounds = (location_match is not None and
                          int(location_match.group(1)) < copy_line <
                          int(location_match.group(2)) and
-                         ast_helper.location_line(body_start) < copy_line and
+                         ast_helper.location_line(body_end) ==
+                         int(location_match.group(2)) and
                          ast_helper.location_line(body_end) > copy_line)
     except (ValueError, TypeError, ast_helper.AdmissionError):
         source_bounds = False
@@ -559,6 +591,8 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
     admitted = len(candidates) == 1 and candidates[0]["dynamic_count"]
     return {"admitted": admitted, "actual_drop_function_count": len(drop_funcs),
             "declaration_count": len(declarations), "body_count": len(bodies),
+            "separate_prototype_proof_open_names": prototype_opens,
+            "prototype_proof_is_runtime_body": False,
             "source_bounds_match": source_bounds,
             "body_copy_call_count": len(copy_calls),
             "copy_call_candidates": candidates,
