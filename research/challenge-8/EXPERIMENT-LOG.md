@@ -6033,3 +6033,59 @@ axiom; positives+matched negatives -> conditional resource evidence only and
 fresh source pins for separate OR trial. Cloud work1600s + tail reserve140,
 Build1740 + queue60 within own remaining6123 and 08:00 UTC cutoff. No local
 execution or repeat of unchanged full matrices; shared alternating lock only.
+
+
+### NIGHT-MERGE-CLOUD f0b1ff62 — source pin and localized resource failures
+
+Build f0b1ff62-bae7-4ac0-9c3e-dda341e6146a, proof/infra
+694feb56aaa585347ab235ea37547c34b48e4d38, config984e3e4950288c0945ef6d47e8cad068780f1159c4dcc5845264605ad195bafe,
+04:59:25.918–05:05:18.669 UTC, FAILURE353s. Own5030/10800,5770remaining.
+Full metadata/archive/text logs verified;
+archive95b69393552aef2e74e8a1c2606a06fb35f8a3874fff9db2c1a16085e49a1d60.
+All9groups exit0, but collector correctly fails mandatory permutation inventory;
+old audit expected main-only/incorrect body count and omitted row classification.
+This historical failure is preserved, not retrospectively converted to green.
+
+Actual Drop body BOTH tools verifies full conditional count-n normal/unwind
+posts,1return/1leak, all4stages0. Its first false rejects exact85cols20–25
+before copy. Admission remains INCONCLUSIVE: MIR source snippet linkage and AST
+runtime body field wrong (canonical Func arg10, not contract ghost arg7).
+Neither prototype nor contract compatibility is runtime-body credit.
+Native all4 BOTH profiles parse296/301/303 with0bodies. Permutation pure lemmas
+pass, resource replacement fails own0(T_typeid,t)(h0) at list.rsspec181cols23–24;
+wrapper and false oracle not reached. Double-owner fails grammar. No intended
+proof-negative credited at these earlier failures. Minimal localized drafts
+preserve all assertions/resources/posts; changed code requires NEW run.
+
+New exact-current helper source extraction and source-only inventory PASS:
+fixture804ca58912a35a4e34c3cac2dc563bcc154daed709477071217d90bd2de8fb47,
+verified sourcee03a0398a590fb409d892f2cfad90d2d4b2c4c15949df6feda44852a21aa7d18,
+overlaid harnessec82511289297f898c4b2442fbc5024c1f55ec919de6d9d5a59d1764615eb3d6,
+signature398/guard551,11body names. No actual merge body proof was selected.
+Existing6diff/console unchanged;7component inactive. Evidence:
+gs://smallsort-ci-evidence-504462351565/cloud-build/f0b1ff62-bae7-4ac0-9c3e-dda341e6146a/.
+
+### Next Cloud card — isolated OR-origin component trial
+
+Obligation: actual bidirectional_merge current len2/3 full source association,
+odd copy, guard, normal/unwind, return/leak/dead-code and all11callee/lemma bodies.
+Hypothesis: exact same-source no-op OR panic-entry location grouping removes
+only synthetic duplicate coverage; exact-current ghost helper removes impossible
+ghost branches while preserving current values and all resources.
+Profile: separately rebuilt six-plus-MIR-OR-JOIN-LIVENESS-v1 UNACCEPTED; pins
+and rule/soundness/refusal argument in CARD.md/PINNED-INPUTS.json. No kernel,
+parser, prelude, memory, alias, provenance, exporter or refiner change.
+First calibrated negative: retained unreachable_after_panic exact dead-code gate.
+Four new real-return/panic/break/continue fixtures are calibration only.
+Two optional changed-MIR controls require exact frontend matcher refusal before
+body execution; setup/parse/other errors remain INCONCLUSIVE, no proof-negative.
+No full7acceptance until complete refusal/coverage matrix and same-source-six
+comparison; existing kernel/cleanup trust gap remains open regardless of green.
+
+Selected groups: actual preparation, strengthened bounded preparation, unchanged
+smoke and isolated OR diagnostic. Global OR900s incl cleanup/audit, actualVF600s,
+optionalcontrols180s from remaining same budget; lane1600+tail140, Build1740+
+queue60 within own5770 and08:00UTC. Positive => bounded conditional evidence,
+continue missing trust/caller/arbitrary-n obligations; helper VC => localized
+checked lemma repair; shape/compile refusal => inspect exact artifact, reviewed
+revision plus NEW run. No weakened post or disabled dead/unwind/leak gate.

@@ -188,3 +188,14 @@ Positive-size premise remains component-local. G2/A/B and their premises/results
 preserved. Same budget **512/1800 used,1288remaining**,182newseconds including
 setup/evidence. No active run, tool patch, network/exactN13 work, budget transfer
 or first-agent-tree change. P1/P2 failures remain recorded in RESULTS/journal.
+
+
+2026-10-09 Cloud f0b1ff62 (694feb56): Drop actual copy body conditional
+count-n verifier PASS both stock/six,1return1leak and matched85cols20–25 false
+assertion, but full admission INCONCLUSIVE pending MIR/AST checker repair.
+Native grammar and arbitrary-native-index permutation own0 resource failure are
+INCONCLUSIVE, no wrapper/negative credit. Fresh exact-current bounded helper
+source pin is provenance only (11 bodies, sig398/guard551), no merge proof.
+Separate seventh OR-origin trial remains unaccepted and needs full controls;
+all caller/current-value/F-frame/arbitrary-n/kernel/generic/ZST boundaries above
+remain open. Full failure archive95b69393552aef2e74e8a1c2606a06fb35f8a3874fff9db2c1a16085e49a1d60.

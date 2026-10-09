@@ -1,24 +1,32 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED POSTS COMPLETE, LIVENESS OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4677/10800 elapsed
-Cloud seconds**, remaining **6123**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Latest Build
-**74227266-b453-46ff-9008-cdbab57a6192**, proof/infra
-95f0fb462e7ae476c49a1af6d8d9a79d6c91e9f7, SUCCESS collector340s;
-04:24:21.726–04:30:01.473 UTC. Config
-0d7083f1ea8c4923bd1ec97d10804f7973bdbc92faa5b8d3ab246a046061fe1f;
-archive87ead4a69da4d7d5cc83a29d8d878bd1d670494f95c6779446da81a6643c308e.
-Full archive/metadata/separate text logs verified; seven groups, accepted=false.
-Native turnover all4cases BOTH profiles **INCONCLUSIVE parse109cols18–19**,
-zero bodies/returns/leaks. CopyOnDrop positive and entryfalse BOTH profiles
-**INCONCLUSIVE before target body**, VF1 reference-to-usize ghost cast type
-mismatch/export/decode/refinement0; MIR reader refuses variance enum `invariant`,
-AST distinguishes prototype/body incompletely.
-No intended negative credit. Ordinary normal/unwind smoke PASS4returns/4leaks.
-Source preparation completed; its ghost helper post is the older existential
-current-value form. Working draft strengthens it to preserve the exact current
-value; this draft needs NEW Cloud evidence, as do separate inactive OR component
-and arbitrary-index owner-transposition fixture. Source/runtime/posts unchanged.
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5030/10800 elapsed
+Cloud seconds**, remaining **5770**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Latest completed Build
+**f0b1ff62-bae7-4ac0-9c3e-dda341e6146a**, proof/infra
+694feb56aaa585347ab235ea37547c34b48e4d38, FAILURE collector353s;
+04:59:25.918–05:05:18.669 UTC. Config
+984e3e4950288c0945ef6d47e8cad068780f1159c4dcc5845264605ad195bafe;
+archive95b69393552aef2e74e8a1c2606a06fb35f8a3874fff9db2c1a16085e49a1d60.
+Complete archive/metadata/separate text logs verified. Nine group exits0,
+overall FAILURE at mandatory permutation artifact inventory, not a theorem.
+Drop positive BOTH profiles: verifier/export/decode/refinement0, actual copy
+body1return/1leak. Entry false hits exact85cols20–25 assertion before copy.
+Both remain **INCONCLUSIVE admission**: MIR operand/source linkage and AST
+runtime body reader need localized repair; prototype/contract ghost body is not
+runtime. Native all4 BOTH profiles **INCONCLUSIVE parse296/301/303**, zero bodies.
+Permutation both positives/false **INCONCLUSIVE own0 chunk at list.rsspec181**;
+first2pure lemmas checked, resource helper fails, wrapper never reached.
+Double-owner calibration is a grammar failure, no intended negative credit.
+Smoke normal/unwind PASS4returns/4leaks. New exact-current ghost helper extraction
+is **source provenance only**, not a new actual merge proof: fixture804ca589,
+verified sourcee03a0398, retained overlaid harnessec825112, signature398/guard551;
+11 body names. These exact pins permit a separately named seven-component
+OR-join experimental trial; profile/kernel/cleanup remain unaccepted.
+Previous Build **74227266-b453-46ff-9008-cdbab57a6192**, proof95f0fb46,
+SUCCESS collector340s; archive87ead4a69da4d7d5cc83a29d8d878bd1d670494f95c6779446da81a6643c308e.
+Its native parse109 and Drop ghost cast/reader failures remain historical evidence.
+No std runtime, algorithm, signature or target post changed.
 Previous setup Build **8a60b6aa-0c8f-4b7b-bf29-7902192e06da**,
 proof/infra440a2dac7225027570d6b98a2d511604ed6b937a, FAILURE87s;
 04:17:00.811–04:18:27.268 UTC. Config
@@ -113,14 +121,14 @@ Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
 
-Next permitted action: isolated arbitrary-native-index current-owner permutation
-stock+experimental with fresh strengthened ghost source preparation, then separately
-pinned seventh OR-origin Cloud diagnostic. Localize native/Drop failures while
-preserving full target posts; changed drafts require fresh exact-SHA evidence.
-OR profile remains REFUSE/null-source-pins until new Cloud source hashes; existing
-six kernel/cleanup profile remains unaccepted. Full semantic gates still required.
-No local executable verification/build/tests or Actions dispatch. Accepted
-migration A/B/C and constructor are not repeated.
+Next permitted action: isolated seventh OR-origin Cloud diagnostic at fresh exact
+f0 source pins, with actual len2/3 full posts and separate calibrated dead-code
+and frontend refusal controls. No acceptance follows from diagnostic completion.
+Native block grammar, Drop admission and permutation owner-wrapper bridge drafts
+require NEW Cloud evidence. Existing six kernel/cleanup profile remains
+unaccepted; full semantic gates still required. No local executable verification,
+build/tests or Actions dispatch. Migration A/B/C/constructor are not repeated.
+
 ---
 
 ## Historical checkpoint (previous pause/deadline superseded above)
