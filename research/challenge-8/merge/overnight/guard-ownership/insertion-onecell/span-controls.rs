@@ -21,13 +21,13 @@ lem initialized_storage_alignment<T>(p: *T)
 // independent incoming fractional points-to chunk through the read/copy cycle.
 pub unsafe fn span_positive<T>(p: *mut T, frame: *const T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
-    0 < core::mem::size_of::<T>() &*& core::mem::size_of::<T>() <= isize::MAX &*&
-    p as usize != 0 &*& p as usize % core::mem::align_of::<T>() == 0 &*&
-    object_pointer_within_limits(p, core::mem::size_of::<T>()) == true &*&
-    p as usize <= usize::MAX - core::mem::size_of::<T>() &*&
-    frame as usize != 0 &*& frame as usize % core::mem::align_of::<T>() == 0 &*&
-    object_pointer_within_limits(frame, core::mem::size_of::<T>()) == true &*&
-    frame as usize <= usize::MAX - core::mem::size_of::<T>() &*&
+    0 < std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= isize::MAX &*&
+    p as usize != 0 &*& p as usize % std::mem::align_of::<T>() == 0 &*&
+    object_pointer_within_limits(p, std::mem::size_of::<T>()) == true &*&
+    p as usize <= usize::MAX - std::mem::size_of::<T>() &*&
+    frame as usize != 0 &*& frame as usize % std::mem::align_of::<T>() == 0 &*&
+    object_pointer_within_limits(frame, std::mem::size_of::<T>()) == true &*&
+    frame as usize <= usize::MAX - std::mem::size_of::<T>() &*&
     *p |-> ?v &*& <T>.own(t, v) &*& [?f](*frame |-> ?framed);
 @*/ /*@ ens thread_token(t) &*& type_interp::<T>() &*& *p |-> v &*&
     <T>.own(t, v) &*& [f](*frame |-> framed); @*/ {
@@ -37,8 +37,8 @@ pub unsafe fn span_positive<T>(p: *mut T, frame: *const T)
     //@ merge_fractions lifetime_token(k);
     //@ init_ref_readonly(held_ref, 1/2);
     let q = &*tmp as *const T;
-    //@ assert (q as usize + core::mem::size_of::<T>() <= frame as usize || frame as usize + core::mem::size_of::<T>() <= q as usize); // TARGET: positive local versus incoming fractional frame
-    //@ assert (q as usize + core::mem::size_of::<T>() <= p as usize || p as usize + core::mem::size_of::<T>() <= q as usize);
+    //@ assert (q as usize + std::mem::size_of::<T>() <= frame as usize || frame as usize + std::mem::size_of::<T>() <= q as usize); // TARGET: positive local versus incoming fractional frame
+    //@ assert (q as usize + std::mem::size_of::<T>() <= p as usize || p as usize + std::mem::size_of::<T>() <= q as usize);
     //@ initialized_storage_alignment::<T>(q as *mut T);
     //@ points_to_limits::<T>(q as *mut T);
     unsafe { ptr::copy_nonoverlapping(q, p, 1); }
@@ -51,14 +51,17 @@ pub unsafe fn span_positive<T>(p: *mut T, frame: *const T)
 // CASE_BEGIN span_overlap
 // Negative: two readonly aliases identify the same positive-sized allocation.
 pub unsafe fn span_overlap(p: *const i32)
-/*@ req 0 < core::mem::size_of::<i32>() &*& p as usize != 0 &*&
-    p as usize % core::mem::align_of::<i32>() == 0 &*&
-    object_pointer_within_limits(p, core::mem::size_of::<i32>()) == true &*&
-    p as usize <= usize::MAX - core::mem::size_of::<i32>() &*&
+/*@ req 0 < std::mem::size_of::<i32>() &*& p as usize != 0 &*&
+    p as usize % std::mem::align_of::<i32>() == 0 &*&
+    object_pointer_within_limits(p, std::mem::size_of::<i32>()) == true &*&
+    p as usize <= usize::MAX - std::mem::size_of::<i32>() &*&
     [?f](*p |-> ?v);
 @*/ /*@ ens [f](*p |-> v); @*/ {
     let q = p;
-    //@ assert (p as usize + core::mem::size_of::<i32>() <= q as usize || q as usize + core::mem::size_of::<i32>() <= p as usize); // TARGET: overlapping aliases
+    let first = unsafe { *p };
+    let second = unsafe { *q };
+    let _observed = first == second;
+    //@ assert (p as usize + std::mem::size_of::<i32>() <= q as usize || q as usize + std::mem::size_of::<i32>() <= p as usize); // TARGET: overlapping aliases
 }
 // CASE_END span_overlap
 
@@ -66,9 +69,9 @@ pub unsafe fn span_overlap(p: *const i32)
 // Negative: a new local allocation is compared with an arbitrary incoming raw
 // address that carries no storage/points-to fact.
 pub unsafe fn span_raw_arbitrary(p: *const i32) -> i32
-/*@ req p as usize != 0 &*& p as usize % core::mem::align_of::<i32>() == 0 &*&
-    object_pointer_within_limits(p, core::mem::size_of::<i32>()) == true &*&
-    p as usize <= usize::MAX - core::mem::size_of::<i32>();
+/*@ req p as usize != 0 &*& p as usize % std::mem::align_of::<i32>() == 0 &*&
+    object_pointer_within_limits(p, std::mem::size_of::<i32>()) == true &*&
+    p as usize <= usize::MAX - std::mem::size_of::<i32>();
 @*/ /*@ ens result == 7; @*/ {
     let tmp = ManuallyDrop::new(7_i32);
     //@ let k = begin_lifetime();
@@ -76,7 +79,7 @@ pub unsafe fn span_raw_arbitrary(p: *const i32) -> i32
     //@ merge_fractions lifetime_token(k);
     //@ init_ref_readonly(held_ref, 1/2);
     let q = &*tmp as *const i32;
-    //@ assert (q as usize + core::mem::size_of::<i32>() <= p as usize || p as usize + core::mem::size_of::<i32>() <= q as usize); // TARGET: arbitrary incoming raw address
+    //@ assert (q as usize + std::mem::size_of::<i32>() <= p as usize || p as usize + std::mem::size_of::<i32>() <= q as usize); // TARGET: arbitrary incoming raw address
     let result = unsafe { *q };
     //@ end_ref_readonly(held_ref);
     //@ merge_fractions points_to::<i32>(&tmp, _);
@@ -91,9 +94,9 @@ pub unsafe fn span_raw_arbitrary(p: *const i32) -> i32
 // a distinct numeric address is not guaranteed by positive-sized disjointness.
 pub unsafe fn span_zero_extent<T>(p: *mut T)
 /*@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
-    core::mem::size_of::<T>() == 0 &*& p as usize != 0 &*&
-    p as usize % core::mem::align_of::<T>() == 0 &*&
-    object_pointer_within_limits(p, core::mem::size_of::<T>()) == true &*&
+    std::mem::size_of::<T>() == 0 &*& p as usize != 0 &*&
+    p as usize % std::mem::align_of::<T>() == 0 &*&
+    object_pointer_within_limits(p, std::mem::size_of::<T>()) == true &*&
     *p |-> ?v &*& <T>.own(t, v);
 @*/ /*@ ens thread_token(t) &*& type_interp::<T>() &*& *p |-> v &*& <T>.own(t, v); @*/ {
     let tmp = ManuallyDrop::new(unsafe { ptr::read(p) });
@@ -117,13 +120,13 @@ pub unsafe fn span_retired_local_reuse() -> i32
 /*@ req true; @*/ /*@ ens result == 9; @*/ {
     let saved = {
         let tmp0 = ManuallyDrop::new(7_i32);
+        // Keep this retired epoch free of explicit fraction merges so a later
+        // address-taken local remains representable to precreate_ref.
         //@ let k0 = begin_lifetime();
         //@ let ref0 = precreate_ref(&tmp0);
-        //@ merge_fractions lifetime_token(k0);
         //@ init_ref_readonly(ref0, 1/2);
         let q0 = &*tmp0 as *const i32;
         //@ end_ref_readonly(ref0);
-        //@ merge_fractions points_to::<i32>(&tmp0, _);
         //@ end_lifetime(k0);
         q0
     };

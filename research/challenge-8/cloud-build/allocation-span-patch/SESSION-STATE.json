@@ -5,7 +5,7 @@
   "start_utc": "2026-10-09T17:32:10Z",
   "main_deadline_utc": "2026-10-09T18:32:10Z",
   "deadline_utc": "2026-10-09T19:02:10Z",
-  "status": "ACTIVE_DESIGN",
+  "status": "SECOND_EXPERIMENT_READY",
   "worktree": "/root/verify-rust-std",
   "branch": "overnight/merge-26.10",
   "preserved_checkpoint": "8d57c9f3991aeb820d1c6ab5b025ebd6944c9aed",
@@ -15,6 +15,12 @@
   "state_dir": "/tmp/c8-merge-allocation-span-20261009",
   "profile": "NOT_ACCEPTED",
   "coordinator": "v2/max2 unchanged",
-  "new_proof": "NOT_RUN",
-  "replay": "NOT_RUN"
+  "new_proof": "first Build numeric separation before/after FBC observed; copy blocked on dst alignment; controls INCONCLUSIVE",
+  "replay": "saved span collector valid; controls_match false",
+  "candidate_tool_commit": "8c1386a802ba2ff43ffdd6787eaef5e47bf068e1",
+  "proof_infra_sha": "4b4faaaa75e064ad4426b74c077f8f6ffe389673",
+  "tool_profile": "experimental-merge-allocation-span-onecell-v1",
+  "trust_status": "NOT_ACCEPTED; exact concrete ZST layout instantiation gate remains open",
+  "pre_api_refusal": "36f5ea8d unsorted recipe path inventory; no reservation/Build/seconds; corrected4b4faaaa",
+  "budget_used_seconds": 362
 }

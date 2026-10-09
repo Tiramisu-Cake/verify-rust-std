@@ -140,7 +140,7 @@ ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
 ONECELL_CAMPAIGN = "allocation-span-positive-and-recovery-v1"
-ONECELL_CAMPAIGN_CASES = {"positive", "after_recovery_false"}
+ONECELL_CAMPAIGN_CASES = set(ONECELL_CASES)
 ONECELL_CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
 ONECELL_CAMPAIGN_BASELINE = {
     "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",

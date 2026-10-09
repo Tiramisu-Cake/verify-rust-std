@@ -56,3 +56,11 @@ No new concrete struct/ZST layout claim is made. This scope restriction avoids r
 on the misleading concrete struct positivity axiom. Dedicated generic zero-extent and
 retired-local numeric distinctness controls must reject at intended assertion; they
 are no longer omitted gates. Concrete layout qualification remains open independently.
+
+Remaining independent review caveat: the whitelist does not repair the upstream
+concrete-struct sizeof axiom through generic specialization (e.g. T=()). The new
+conditional formula is valid with true live byte extents, and the actual fragment
+has its original positive-size domain. This candidate therefore is NOT an all-T/
+ZST model qualification. Generic size0 and retired-address controls probe the rule;
+they do not certify accurate concrete ZST instantiation. Maintainer review must
+retain this existing trusted-size-model gate before common-profile acceptance.

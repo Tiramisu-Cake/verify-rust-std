@@ -359,3 +359,25 @@ pointer/abstract generic type extents on BOTH sides. Concrete struct size axioms
 include known ZST inaccuracy; unsupported sizeof types must not cause new static
 errors. These forms are skipped, not declared disjoint. Abstract zero extent and
 retired-local address-reuse negatives are selected. No concrete layout acceptance.
+
+## First candidate result and resource-preserving destination geometry continuation
+
+Fresh Buildcbc4e39e at4b4faaaa terminalSUCCESS362 conservative seconds. Exact
+candidate compiles; actual constructor span and post-FBC current src/dst span
+assertions execute successfully. First refusal is literal-one copy callee627 dst
+alignment, before bytes/owner transfer or reference recovery. Controls are all
+INCONCLUSIVE setup: four use unsupported ghost core::mem namespace; retired local
+later precreate falls after the translator's existing merge_fractions cutoff.
+These are not intended negatives or mechanism acceptance. No control credit.
+
+Before next dispatch: correct control setup without translator semantics change.
+For actual current destination, derive alignment with a fully-bodied generic
+uninitialized_storage_alignment lemma: existing to_u8s_/from_u8s_ round trip
+returns the SAME option value and fraction. Existing points_to__limits provides
+current dst limits; preserve explicit dst nonnull/alignment/limits/nonoverflow
+assertions before unchanged copy. No separation or geometry is added to supplied
+precondition; no storage/owner/ref permission minted. Source helper and original
+pre/post-FBC span assertions retained, full posts/cleanup/recoveryfalse unchanged.
+Fresh helper body/caller checks required. First new refusal after geometry/copy
+is reported, not removed. Re-run all five actual FBC/owner controls since guard
+own's span interface changed on this new kernel profile; no historical PASS reuse.

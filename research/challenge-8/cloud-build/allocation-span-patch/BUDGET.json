@@ -8,11 +8,36 @@
   "status": "AUTHORIZED",
   "authorization": "Explicit owner assignment 2026-10-09: narrow allocation/span patch for actual tmp-to-tail; own isolated VeriFast tree, Cloud validation and review publication; 60+30 finishing only; new3600s no carryover.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 362,
+  "remaining_build_seconds": 3238,
   "allowed_lanes": [
     "merge"
   ],
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-2725c1aee7c84b9aa6230a106751322c",
+      "owner": "merge",
+      "phase_id": "MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09",
+      "infra_sha": "4b4faaaa75e064ad4426b74c077f8f6ffe389673",
+      "proof_sha": "4b4faaaa75e064ad4426b74c077f8f6ffe389673",
+      "lane": "merge",
+      "submitted_config_sha256": "571bb3a6b02dccf18e13c3c8fd912af6962809b074220cf940915462a92ff1d8",
+      "reserved_seconds": 1560,
+      "timeout_seconds": 1500,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "045f11b2dcd8ddd060e181692d658bbdd5934958f75897b8e3fd6533685f9cb6",
+      "build_id": "cbc4e39e-2322-4ed2-afd2-685541518388",
+      "start_time": "2026-10-09T18:00:04.127575657Z",
+      "finish_time": "2026-10-09T18:06:04.689776Z",
+      "create_time": "2026-10-09T18:00:03.289586845Z",
+      "build_seconds": 362,
+      "accounted": true,
+      "execution_seconds": 361,
+      "download_verified": true,
+      "archive_sha256": "72efceef90642e059820fbfb78c21de0ec0940c700db07f2c79e7be2cf715d26"
+    }
+  ],
   "active_build": null
 }

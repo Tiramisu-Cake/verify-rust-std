@@ -43,7 +43,7 @@ CAMPAIGN_BASELINE = {
     "profile_sha256": "11ccd16ec9df56e7165cf75b1800d48b367c3b65f20c9ea8656fc2b7779bed90",
     "results_sha256": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2",
 }
-CAMPAIGN_RUN_CASES = ("positive", "after_recovery_false")
+CAMPAIGN_RUN_CASES = CASES
 MD_CASES = (
     "positive_manually_drop_after_merge",
     "negative_missing_precreated_reference",
@@ -72,6 +72,8 @@ def source_gate(case: Path, metadata: dict) -> dict:
              metadata.get("constructor_geometry_sha256") == prep.sha(prep.CONSTRUCTOR_GEOMETRY) and
              verified.count(prep.SOURCE_LIMITS) == 1 and
              all(verified.count(item) == 1 for item in prep.GEOMETRY) and
+             verified.count(prep.DESTINATION_GEOMETRY) == 1 and
+             metadata.get("destination_geometry_sha256") == prep.sha(prep.DESTINATION_GEOMETRY) and
              verified.count(b"*tail |-> held &*& <T>.own(t, held);") == 2 and
              b"on_unwind_ens thread_token(t)" in verified and
              b"on_unwind_ens false" not in verified and

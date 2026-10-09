@@ -39,7 +39,15 @@ def prepare(evidence: Path) -> dict:
         for tree in ("original", "verified"):
             (case / tree).mkdir(parents=True, exist_ok=True)
             (case / tree / "lib.rs").write_bytes(unit)
+        read_lines = []
+        if function == "span_overlap":
+            for needle in (b"    let first = unsafe { *p };\n",
+                           b"    let second = unsafe { *q };\n"):
+                if unit.count(needle) != 1:
+                    raise RuntimeError("overlap read marker changed")
+                read_lines.append(unit[:unit.index(needle)].count(b"\n") + 1)
         result[function] = {"target_line": matches[0], "target": {"line": matches[0]},
+                            "read_lines": read_lines,
                             "expected_stages": {"exporter": 0, "decode": 0,
                                                  "refinement": 0,
                                                  "verifast": 0 if function == "span_positive" else 1},
@@ -57,6 +65,10 @@ def classify(function: str, case: Path, meta: dict, execution: dict) -> dict:
     target_executed = re.search(
         rf"verified/lib\.rs\({meta['target_line']},\d+(?:-\d+(?:,\d+)?)?\): "
         r"(?:note: )?Executing statement", log) is not None
+    reads_executed = all(re.search(
+        rf"verified/lib\.rs\({line},\d+(?:-\d+(?:,\d+)?)?\): "
+        r"(?:note: )?Executing statement", log) is not None
+        for line in meta.get("read_lines", []))
     pipeline_ok = (execution.get("source_unchanged_at_every_stage") is True and
                    all(stages.get(stage) == code for stage, code in
                        meta["expected_stages"].items()))
@@ -66,10 +78,12 @@ def classify(function: str, case: Path, meta: dict, execution: dict) -> dict:
                   "Executing return statement" in log)
         classification = "PASS_CONTROL" if passed else "INCONCLUSIVE"
     else:
-        intended = exact_target and "Cannot prove" in errors[0]
+        intended = (exact_target and "Cannot prove" in errors[0] and
+                    (function != "span_overlap" or reads_executed))
         classification = "EXPECTED_REJECTION" if pipeline_ok and stages.get("verifast") == 1 and intended else "INCONCLUSIVE"
     result = {**execution, "case": function, **meta, "errors": errors,
               "target_executed": target_executed,
+              "reads_executed": reads_executed,
               "classification": classification, "accepted": False,
               "meaning": "allocation-span soundness control only"}
     (case / "classification.json").write_text(json.dumps(result, indent=2) + "\n")
@@ -87,6 +101,7 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
                  "case_details": {name: {"source_sha256": row["source_sha256"],
                                           "target_line": row["target_line"],
                                           "expected_stages": row["expected_stages"],
+                                          "read_lines": row["read_lines"],
                                           "classification": row["classification"]}
                                   for name, row in results.items()},
                  "case_artifacts": {name: {"directory": f"span-controls/{name}",

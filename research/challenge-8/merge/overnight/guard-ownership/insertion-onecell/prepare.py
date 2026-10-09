@@ -51,6 +51,25 @@ lem initialized_storage_alignment<T>(p: *T)
 @*/
 
 """
+ALIGNMENT_LEMMA += b"""/*@
+lem uninitialized_storage_alignment<T>(p: *T)
+    req [?f]points_to_::<T>(p, ?v);
+    ens [f]points_to_::<T>(p, v) &*& p as usize % std::mem::align_of::<T>() == 0;
+{
+    to_u8s_::<T>(p);
+    from_u8s_::<T>(p);
+}
+@*/
+
+"""
+DESTINATION_GEOMETRY = (
+    b"        //@ uninitialized_storage_alignment::<T>(gap_guard.dst);\n"
+    b"        //@ points_to__limits::<T>(gap_guard.dst);\n"
+    b"        //@ assert gap_guard.dst as usize != 0;\n"
+    b"        //@ assert gap_guard.dst as usize % std::mem::align_of::<T>() == 0;\n"
+    b"        //@ assert object_pointer_within_limits(gap_guard.dst, std::mem::size_of::<T>()) == true;\n"
+    b"        //@ assert gap_guard.dst as usize <= usize::MAX - std::mem::size_of::<T>();\n"
+)
 ALIGNMENT = b"        //@ initialized_storage_alignment::<T>(gap_guard.src as *mut T);\n"
 SOURCE_IDENTITY = b"        //@ assert gap_guard.src == held_ref;\n"
 
@@ -168,7 +187,7 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
         middle += FBC_OPEN + OWN_OPEN
         if name == "after_fbc_false":
             middle += FBC_FALSE
-        middle += ALIGNMENT + SOURCE_LIMITS + b"".join(GEOMETRY)
+        middle += ALIGNMENT + SOURCE_LIMITS + b"".join(GEOMETRY) + DESTINATION_GEOMETRY
         verified = verified.replace(GUARD, GUARD + middle, 1)
         verified = verified.replace(COPY, COPY + RECOVER +
                                     (FALSE if name == "after_recovery_false" else b""), 1)
@@ -202,6 +221,7 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
             "own_close_line": line(verified, close),
             "geometry_lines": [line(verified, item) for item in GEOMETRY],
             "geometry_labels": list(GEOMETRY_LABELS),
+            "destination_geometry_sha256": sha(DESTINATION_GEOMETRY),
             "target": None if target is None else {
                 "line": line(verified, target), "column_start": target.index(
                     b"false" if target in (FALSE, FBC_FALSE) else b"tail.read" if target == READ
