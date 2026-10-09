@@ -5314,3 +5314,9 @@ transport. Original-object gzip before base64 reduces measured same input to
 Source substitution chunk3900 (below API4000) with180part cap leaves margin;
 config evidence transport remains3500. No input removed or source compressed
 lossily. New Cloud restore checks exact original bytes; no verifier profile change.
+
+Third preflight refused expanded restore script in >10000-byte execute argument,
+no Build0s. Move pinned restore bytes into explicit env like existing packager;
+execute argument decodes that value. Source/script bytes remain in hashed exact
+submitted config, local-vs-infra source-input check unchanged. API env mechanism
+already exercised by packager; actual new restore/O26 is the joint fresh gate.
