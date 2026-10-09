@@ -41,6 +41,8 @@ NEW_GROUPS = {
     "current-owner-memory-cell-stock-diagnostic",
     "guard-payload-own-diagnostic",
     "guard-payload-own-stock-diagnostic",
+    "guard-construction-fragment-diagnostic",
+    "guard-construction-fragment-stock-diagnostic",
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {
@@ -52,6 +54,12 @@ DEPENDENCIES = {
     },
     "hrtb-admission-certificate": {
         "callback-model-diagnostics", "prepared-hrtb-diagnostics",
+    },
+    "guard-construction-fragment-diagnostic": {
+        "actual-source-preparation", "rust-profile-smoke",
+    },
+    "guard-construction-fragment-stock-diagnostic": {
+        "actual-source-preparation", "rust-profile-smoke",
     },
     "mir-or-join-seven-diagnostic": {
         "actual-source-preparation", "bidirectional-small-source-preparation",

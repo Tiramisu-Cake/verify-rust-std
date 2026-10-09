@@ -159,3 +159,13 @@ recipeclosure/allPythonAST checked, not just membership. No theorem weakened.
 913charged,2687remaining; same9groups/hypothesis, timeout1080+60.
 Rejected explicit-Drop-signature replacement design stored separately; canonical
 FBC/own applies safeDrop and cannot be bypassed by stronger conditionalreq.
+
+Build8dc37178-6d72-4061-be01-7b9aec2d212e active from09:51:01UTC,
+exactproof/infra4e25d13540f916f6a2c8f7405a330cfac2d1504a, timeout1080+60.
+Shared alternating slot waited for foreignb4e9a631 terminal; no foreignstateedit.
+Prepared constructor fragment under guard-ownership/construction has source
+statement279 + originalstruct subset only, explicit suppliedpayload and
+nonFalseown, positive/exactfalse, no Drop/call/unwind/cleanup MIR allowed.
+This partial theorem cannot establish safeDrop/caller applicability, which
+remainOPEN. Integration separate rawchecker/profile acceptedFalse, NOT_SELECTED
+in this activeproof. [Current scratch handoff](overnight/CALLER-C1-CURRENT-SCRATCH-HANDOFF.md).

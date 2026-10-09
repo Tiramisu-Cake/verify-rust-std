@@ -586,3 +586,13 @@ admission controls (roundtrip +16 exact matcher refusals, separate sourcehashgat
 See [remaining gate map](merge/overnight/or-join-liveness/DAY-GATE-MAP.md).
 No new actual-function theorem: short full-post capture124; historical9ad bounded
 len2/3 stays conditional and fullprofile/kernel/cleanup/caller trust remainsOPEN.
+
+DAY RESOURCE11 Build3a000599/proof07d0dc8: both stock/six permutation positives
+PASS and exact false/own0 controls reached. Own0 is not physicalpermission oracle.
+All8 native cases INCONCLUSIVE at helper81:11–13 before target. Collector
+metadata defect isolated; nativebase/metadata fix + physicalcell calibration
+require fresh run. Buildb4b47061/cd93e557 fails setup on unsortedselection, no
+proofcredit. [Actual current scratch handoff](merge/overnight/CALLER-C1-CURRENT-SCRATCH-HANDOFF.md)
+is the source-linked constructionpre still missing. Annotationpayloadguard
+NOT_RUN: canonicalDrop return omits payload, geometrybridge OPEN; replacing
+canonicalsafeDrop with strongerpre was rejected BEFORE implementation.

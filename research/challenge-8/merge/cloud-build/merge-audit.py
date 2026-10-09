@@ -90,11 +90,27 @@ DROP_GROUPS = {
         "profile": "stock-26.10",
     },
 }
+GUARD_CONSTRUCTION_GROUPS = {
+    "guard-construction-fragment-diagnostic": {
+        "directory": "guard-construction-fragment-diagnostic",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    },
+    "guard-construction-fragment-stock-diagnostic": {
+        "directory": "guard-construction-fragment-stock-diagnostic",
+        "profile": "stock-26.10",
+    },
+}
+GUARD_CONSTRUCTION_CASES = ("positive", "first_body_false")
+GUARD_CONSTRUCTION_STAGES = ("exporter", "decode", "verifast", "refinement")
+GUARD_CONSTRUCTION_LINE_SHA256 = "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb"
 DROP_CASES = ("positive", "first_body_false")
 DROP_STAGES = ("exporter", "decode", "verifast", "refinement")
 DROP_SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
 DROP_SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
 DROP_BLOCK_SHA256 = "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a"
+GUARD_CONSTRUCTION_SOURCE_SHA256 = DROP_SOURCE_SHA256
+GUARD_CONSTRUCTION_SOURCE_BLOB = DROP_SOURCE_BLOB
+GUARD_CONSTRUCTION_BLOCK_SHA256 = DROP_BLOCK_SHA256
 OR_JOIN_GROUP = "mir-or-join-seven-diagnostic"
 OR_JOIN_PROFILE = "experimental-merge-six-plus-mir-or-join-liveness-v1-unaccepted"
 OR_JOIN_COMPONENT = Path(
@@ -217,6 +233,16 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 *[f"cases/{dirname}/cases/{case}/classification.json" for case in
                   (("positive", "prototype_false", "first_body_false", "missing_payload", "constructor")
                    if group.startswith("guard-payload-own") else DROP_CASES)],
+            ]
+        elif group in GUARD_CONSTRUCTION_GROUPS:
+            dirname = GUARD_CONSTRUCTION_GROUPS[group]["directory"]
+            mandatory[group] = [
+                f"cases/{dirname}/environment.json",
+                f"cases/{dirname}/extraction.json",
+                f"cases/{dirname}/results.json",
+                f"cases/{dirname}/aggregate.json",
+                *[f"cases/{dirname}/cases/{case}/classification.json"
+                  for case in GUARD_CONSTRUCTION_CASES],
             ]
         elif group == OR_JOIN_GROUP:
             mandatory[group] = OR_JOIN_MINIMUM_ARTIFACTS
@@ -739,6 +765,249 @@ def audit(root: Path, selection_path: Path, run_status: int,
             continue
         if group in selected:
             artifact_status[group] = artifact_status.get(group, False) and audit_copy_on_drop(group, spec)
+
+    guard_construction_reports = {}
+
+    def audit_guard_construction(group: str, spec: dict) -> bool:
+        base = cases / spec["directory"]
+        try:
+            environment = json.loads((base / "environment.json").read_text())
+            extraction = json.loads((base / "extraction.json").read_text())
+            results = json.loads((base / "results.json").read_text())
+            aggregate = json.loads((base / "aggregate.json").read_text())
+            if (environment.get("accepted") is not False or
+                    environment.get("diagnostic_profile") != "copy-on-drop-source-construction-fragment-v1" or
+                    environment.get("tool_profile") != spec["profile"] or
+                    environment.get("source_sha256") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
+                    environment.get("source_git_blob") != GUARD_CONSTRUCTION_SOURCE_BLOB or
+                    environment.get("proof_sha") != proof_sha or
+                    extraction.get("profile") != "copy-on-drop-source-construction-fragment-v1" or
+                    extraction.get("accepted") is not False or
+                    extraction.get("source_sha256") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
+                    extraction.get("source_git_blob") != GUARD_CONSTRUCTION_SOURCE_BLOB or
+                    extraction.get("complete_guard_drop_block_sha256") != GUARD_CONSTRUCTION_BLOCK_SHA256 or
+                    extraction.get("source_constructor_line") != 279 or
+                    extraction.get("source_constructor_sha256") != GUARD_CONSTRUCTION_LINE_SHA256 or
+                    extraction.get("no_drop_impl_in_fragment") is not True or
+                    extraction.get("unsafe_wrapper_for_conditional_explicit_contract") is not True):
+                return False
+            result_cases = results.get("cases")
+            aggregate_cases = aggregate.get("cases")
+            extraction_cases = extraction.get("cases")
+            names = set(GUARD_CONSTRUCTION_CASES)
+            if (results.get("accepted") is not False or aggregate.get("accepted") is not False or
+                    not all(isinstance(value, dict) for value in
+                            (result_cases, aggregate_cases, extraction_cases)) or
+                    set(result_cases) != names or set(aggregate_cases) != names or
+                    set(extraction_cases) != names or
+                    aggregate_cases != {name: result_cases[name].get("classification") for name in names}):
+                return False
+            raw_cases = {}
+            case_evidence = {}
+            for name in GUARD_CONSTRUCTION_CASES:
+                meta = extraction_cases[name]
+                row = result_cases[name]
+                case_dir = base / "cases" / name
+                classification_path = case_dir / "classification.json"
+                classification = json.loads(classification_path.read_text())
+                if (not isinstance(row, dict) or not isinstance(classification, dict) or
+                        row != classification or row.get("accepted") is not False or
+                        row.get("case") != name or
+                        row.get("classification") not in {
+                            "PASS_FRAGMENT_ONLY", "EXPECTED_FALSE_ASSERTION", "INCONCLUSIVE"} or
+                        meta.get("runtime_source_identical_after_ghost_strip") is not True or
+                        meta.get("source_statement_line") != 279 or
+                        meta.get("source_statement_sha256") != GUARD_CONSTRUCTION_LINE_SHA256 or
+                        type(meta.get("verified_statement_line")) is not int):
+                    return False
+                for rel, key in (("original/lib.rs", "original_sha256"),
+                                 ("verified/lib.rs", "verified_sha256")):
+                    path = case_dir / rel
+                    if not path.is_file() or path.is_symlink() or sha256_file(path) != meta.get(key):
+                        return False
+                initial = row.get("initial_source_hashes")
+                final = row.get("final_source_hashes")
+                source_before = json.loads((case_dir / "source-before.json").read_text())
+                if (row.get("source_unchanged_at_every_stage") is not True or
+                        not isinstance(initial, dict) or final != initial or source_before != initial or
+                        initial.get("small_sort_source") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
+                        initial.get("original/lib.rs") != meta.get("original_sha256") or
+                        initial.get("verified/lib.rs") != meta.get("verified_sha256")):
+                    return False
+                stages = row.get("stages")
+                if not isinstance(stages, dict) or set(stages) != set(GUARD_CONSTRUCTION_STAGES):
+                    return False
+                for stage in GUARD_CONSTRUCTION_STAGES:
+                    stage_json = case_dir / f"{stage}-stage.json"
+                    stage_log = case_dir / f"{stage}.log"
+                    stage_out = case_dir / ("compiler-mir.bin" if stage == "exporter" else f"{stage}.out")
+                    stage_resources = case_dir / f"{stage}-resources.txt"
+                    stage_exit = case_dir / f"{stage}-exit-code.txt"
+                    if not all(path.is_file() and not path.is_symlink() for path in
+                               (stage_json, stage_log, stage_out, stage_resources, stage_exit)):
+                        return False
+                    stage_record = json.loads(stage_json.read_text())
+                    code = stages.get(stage)
+                    if (type(code) is not int or stage_record.get("exit_code") != code or
+                            int(stage_exit.read_text().strip()) != code):
+                        return False
+                    if stage_record.get("status") == "NOT_RUN":
+                        if stage != "decode" or stages.get("exporter") == 0:
+                            return False
+                    elif (stage_record.get("source_unchanged") is not True or
+                          stage_record.get("source_before") != initial or
+                          stage_record.get("source_after") != final):
+                        return False
+                mir_binary = case_dir / "compiler-mir.bin"
+                mir_hash_file = case_dir / "compiler-mir-sha256.txt"
+                if (not mir_binary.is_file() or mir_binary.is_symlink() or
+                        not mir_hash_file.is_file() or mir_hash_file.is_symlink() or
+                        mir_hash_file.read_text().strip() != sha256_file(mir_binary)):
+                    return False
+                mir_gate = row.get("mir_admission")
+                ast_gate = row.get("ast_admission")
+                if (not isinstance(mir_gate, dict) or type(mir_gate.get("admitted")) is not bool or
+                        not isinstance(ast_gate, dict) or type(ast_gate.get("admitted")) is not bool or
+                        type(row.get("constructor_body_count")) is not int or
+                        type(row.get("source_statement_executed")) is not bool or
+                        not isinstance(row.get("global_errors"), list) or
+                        not isinstance(row.get("dead_code_records"), list)):
+                    return False
+                log = (case_dir / "verifast.log").read_text(errors="replace")
+                headers = [(match.start(), match.group(1)) for match in re.finditer(
+                    r"^\s*\d+(?:\.\d+)?s: [^\s(]+\([0-9]+,[0-9]+"
+                    r"(?:-[0-9]+(?:,[0-9]+)?)?\): Verifying function '([^']+)'$",
+                    log, re.M)]
+                body_segments = []
+                for index, (start, function) in enumerate(headers):
+                    if function == "source_guard_construction" or function.startswith(
+                            "source_guard_construction<"):
+                        end = headers[index + 1][0] if index + 1 < len(headers) else len(log)
+                        body_segments.append(log[start:end])
+                body_segment = body_segments[0] if len(body_segments) == 1 else ""
+                log_errors = [line for line in log.splitlines()
+                              if re.search(r"\berror:", line, re.I)]
+                log_dead = [line for line in log.splitlines()
+                            if re.search(r"dead code", line, re.I)]
+                statement_seen = bool(re.search(
+                    rf"verified/lib\.rs\({meta['verified_statement_line']},[0-9]+"
+                    r"(?:-[0-9]+(?:,[0-9]+)?)?\): (?:note: )?Executing statement",
+                    body_segment))
+                if (row.get("global_errors") != log_errors or
+                        row.get("dead_code_records") != log_dead or
+                        row.get("source_statement_executed") is not statement_seen):
+                    return False
+                common = (row.get("source_unchanged_at_every_stage") is True and
+                          stages.get("exporter") == 0 and stages.get("decode") == 0 and
+                          stages.get("refinement") == 0 and mir_gate.get("admitted") is True and
+                          ast_gate.get("admitted") is True and len(body_segments) == 1 and
+                          statement_seen and not log_dead)
+                if name == "positive":
+                    expected_classification = (
+                        "PASS_FRAGMENT_ONLY" if common and stages.get("verifast") == 0 and
+                        not log_errors and "Executing return statement" in body_segment and
+                        "Leak check." in body_segment and "0 errors found" in log
+                        else "INCONCLUSIVE")
+                else:
+                    oracle = meta.get("intended_failure", {})
+                    target_error = (len(log_errors) == 1 and
+                        bool(re.search(
+                            rf"verified/lib\.rs\({oracle.get('line')},{oracle.get('column_start')}-"
+                            rf"{oracle.get('column_end')}\): error: Assertion might not hold\. "
+                            r"\(Cannot prove false\.\)", log_errors[0])))
+                    expected_classification = (
+                        "EXPECTED_FALSE_ASSERTION" if common and
+                        stages.get("verifast") == 1 and target_error and
+                        "Executing return statement" not in body_segment and
+                        "Leak check." not in body_segment else "INCONCLUSIVE")
+                if row.get("classification") != expected_classification:
+                    return False
+                case_evidence[name] = {
+                    "classification": row["classification"],
+                    "stages": stages,
+                    "source_hashes_unchanged": row.get("source_unchanged_at_every_stage"),
+                    "runtime_source_identical_after_ghost_strip": meta.get(
+                        "runtime_source_identical_after_ghost_strip"),
+                    "mir_admitted": mir_gate.get("admitted"),
+                    "ast_admitted": ast_gate.get("admitted"),
+                    "constructor_body_count": row.get("constructor_body_count"),
+                    "source_statement_executed": statement_seen,
+                    "positive_return_seen": "Executing return statement" in body_segment,
+                    "positive_leak_check_seen": "Leak check." in body_segment,
+                    "global_errors": log_errors,
+                    "dead_code_records": log_dead,
+                }
+                if row["classification"] == "PASS_FRAGMENT_ONLY":
+                    if (name != "positive" or stages != {"exporter": 0, "decode": 0,
+                            "verifast": 0, "refinement": 0} or
+                            mir_gate.get("admitted") is not True or ast_gate.get("admitted") is not True or
+                            row.get("constructor_body_count") != 1 or
+                            row.get("source_statement_executed") is not True or
+                            row.get("global_errors") or row.get("dead_code_records") or
+                            len(body_segments) != 1 or
+                            "Executing return statement" not in body_segment or
+                            "Leak check." not in body_segment or
+                            "0 errors found" not in log):
+                        return False
+                if row["classification"] == "EXPECTED_FALSE_ASSERTION":
+                    oracle = meta.get("intended_failure")
+                    if (name != "first_body_false" or not isinstance(oracle, dict) or
+                            stages != {"exporter": 0, "decode": 0, "verifast": 1, "refinement": 0} or
+                            mir_gate.get("admitted") is not True or ast_gate.get("admitted") is not True or
+                            row.get("constructor_body_count") != 1 or
+                            row.get("source_statement_executed") is not True or
+                            len(row.get("global_errors", [])) != 1 or row.get("dead_code_records") or
+                            len(body_segments) != 1 or
+                            "Executing return statement" in body_segment or
+                            "Leak check." in body_segment):
+                        return False
+                    expected = re.compile(
+                        rf"verified/lib\.rs\({oracle['line']},{oracle['column_start']}-{oracle['column_end']}\): "
+                        r"error: Assertion might not hold\. \(Cannot prove false\.\)")
+                    if not any(expected.search(line) for line in row["global_errors"]):
+                        return False
+                raw_cases[name] = row["classification"]
+            expected_fragment_pass = (
+                raw_cases["positive"] == "PASS_FRAGMENT_ONLY" and
+                raw_cases["first_body_false"] == "EXPECTED_FALSE_ASSERTION")
+            if aggregate.get("fragment_pass") is not expected_fragment_pass:
+                return False
+            guard_construction_reports[group] = {
+                "classification": "EVIDENCE_COMPLETE_DIAGNOSTIC",
+                "accepted": False, "artifact_bindings_valid": True,
+                "raw_case_classifications": raw_cases,
+                "case_evidence": case_evidence,
+                "fragment_pass": expected_fragment_pass,
+                "actual_drop_compatibility": "OPEN",
+                "scope": "isolated constructor fragment only; no Drop/caller compatibility",
+            }
+            return True
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            guard_construction_reports[group] = {
+                "classification": "INCONCLUSIVE", "accepted": False,
+                "artifact_bindings_valid": False,
+            }
+            return False
+
+    for group, spec in GUARD_CONSTRUCTION_GROUPS.items():
+        if group not in selected:
+            guard_construction_reports[group] = {
+                "classification": "NOT_RUN", "accepted": False,
+                "artifact_bindings_valid": False,
+                "raw_case_classifications": {name: "NOT_RUN" for name in GUARD_CONSTRUCTION_CASES},
+            }
+        else:
+            construction_valid = audit_guard_construction(group, spec)
+            artifact_status[group] = artifact_status.get(group, False) and construction_valid
+            if group not in guard_construction_reports:
+                raw = raw_cases(f"cases/{spec['directory']}/aggregate.json", group)
+                cases_raw = raw.get("cases", raw) if isinstance(raw, dict) else {}
+                guard_construction_reports[group] = {
+                    "classification": "INCONCLUSIVE", "accepted": False,
+                    "artifact_bindings_valid": False,
+                    "raw_case_classifications": cases_raw,
+                    "actual_drop_compatibility": "OPEN",
+                }
 
     guard_payload_reports = {}
     for group in ("guard-payload-own-diagnostic", "guard-payload-own-stock-diagnostic"):
@@ -1424,6 +1693,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
         "panic_certificate_complete": panic_ok,
         "theorem_statuses": {
             "whole_small_sort_challenge": "NOT_PROVEN",
+            "guard_construction_fragment_diagnostics": guard_construction_reports,
             "guard_payload_own_diagnostics": guard_payload_reports,
             "physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell/aggregate.json", "current-owner-memory-cell-diagnostic"),
             "stock_physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell-stock/aggregate.json", "current-owner-memory-cell-stock-diagnostic"),

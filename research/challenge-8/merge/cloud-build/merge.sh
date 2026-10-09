@@ -128,6 +128,19 @@ for candidate in actual-copy-on-drop-resource-diagnostic actual-copy-on-drop-sto
     fi
   fi
 done
+guard_construction_groups_selected=0
+for candidate in guard-construction-fragment-diagnostic guard-construction-fragment-stock-diagnostic; do
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$candidate"; then
+    guard_construction_groups_selected=$((guard_construction_groups_selected + 1))
+  else
+    selection_status=$?
+    if [[ "$selection_status" -ne 1 ]]; then
+      printf 'guard construction selection validation failed for %s\n' "$candidate" >&2
+      exit 2
+    fi
+  fi
+done
 or_join_selected=0
 if python3 "$selection_tool" contains --selection "$selection_file" \
     --sha256 "$selection_sha" mir-or-join-seven-diagnostic; then
@@ -190,6 +203,8 @@ paths.extend([
   "research/challenge-8/merge/overnight/or-join-liveness/audit-seven.py",
   "research/challenge-8/merge/overnight/or-join-liveness/control-driver.py",
   "research/challenge-8/merge/overnight/or-join-liveness/control-exporter.py",
+  "research/challenge-8/merge/overnight/guard-ownership/construction/prepare.py",
+  "research/challenge-8/merge/overnight/guard-ownership/construction/prove.py",
 ])
 for rel in paths:
     if not rel.endswith(".py"):
@@ -282,6 +297,7 @@ matrix_timeout=1300
 if (( drop_groups_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
   matrix_reserve=$((300 * drop_groups_selected + 140))
+  matrix_reserve=$((matrix_reserve + 180 * guard_construction_groups_selected))
   (( or_join_selected == 0 )) || matrix_reserve=$((matrix_reserve + or_join_reserve))
   matrix_budget=$((lane_work_budget_seconds - elapsed - matrix_reserve))
   (( matrix_budget > 0 )) || matrix_budget=1
@@ -290,8 +306,16 @@ if (( drop_groups_selected > 0 )); then
 elif (( or_join_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
   matrix_budget=$((lane_work_budget_seconds - elapsed - or_join_reserve - 140))
+  matrix_budget=$((matrix_budget - 180 * guard_construction_groups_selected))
   (( matrix_budget > 0 )) || matrix_budget=1
   matrix_timeout=650
+  (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
+fi
+if (( drop_groups_selected == 0 && or_join_selected == 0 && guard_construction_groups_selected > 0 )); then
+  elapsed=$((SECONDS - lane_started))
+  matrix_budget=$((lane_work_budget_seconds - elapsed - 140 - 180 * guard_construction_groups_selected))
+  (( matrix_budget > 0 )) || matrix_budget=1
+  matrix_timeout=900
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
 fi
 matrix_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
@@ -500,6 +524,57 @@ run_copy_on_drop_group actual-copy-on-drop-resource-diagnostic \
   experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
   "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
 run_copy_on_drop_group actual-copy-on-drop-stock-diagnostic \
+  stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
+
+run_guard_construction_group() {
+  local group=$1 profile=$2 tool_home=$3 profile_evidence=$4
+  local selected_status=0 driver_status=0 remaining group_timeout groups_left evidence_dir
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$group"; then
+    :
+  else
+    selected_status=$?
+    if [[ "$selected_status" -eq 1 ]]; then return 0; fi
+    status=1
+    return 0
+  fi
+  groups_left=$guard_construction_groups_selected
+  guard_construction_groups_selected=$((guard_construction_groups_selected - 1))
+  CURRENT_STAGE=$group
+  evidence_dir="$allprooflogs/cases/$group"
+  remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+  group_timeout=0
+  if (( remaining > 0 && groups_left > 0 )); then
+    group_timeout=$((remaining / groups_left))
+    (( group_timeout > 180 )) && group_timeout=180
+  fi
+  if [[ -e "$evidence_dir" ]]; then
+    printf 'refusing to reuse guard-construction evidence path: %s\n' "$evidence_dir" >&2
+    driver_status=2
+  elif (( group_timeout > 0 )); then
+    /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${group_timeout}s" python3 \
+      "$proof_root/research/challenge-8/merge/overnight/guard-ownership/construction/prove.py" \
+      --profile "$profile" --profile-evidence "$profile_evidence" \
+      --tool-home "$tool_home" --compiler-sysroot "$(rustc --print sysroot)" \
+      --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
+      --stage-seconds 30 --verifier-seconds 35 --evidence "$evidence_dir" \
+      > "$allprooflogs/group-$group.log" 2>&1 || driver_status=$?
+  else
+    driver_status=124
+    printf 'NOT_RUN: lane budget exhausted\n' > "$allprooflogs/group-$group.log"
+    printf 'NOT_RUN\n' > "$allprooflogs/group-$group-resources.txt"
+  fi
+  printf 'group_%s_timeout_seconds=%s\n' "$group" "$group_timeout" \
+    >> "$evidence_root/lane-work-budget.txt"
+  printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
+  printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
+  if (( driver_status != 0 )); then status=1; fi
+}
+run_guard_construction_group guard-construction-fragment-diagnostic \
+  experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+  "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
+run_guard_construction_group guard-construction-fragment-stock-diagnostic \
   stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
 
 run_mir_or_join_group() {
