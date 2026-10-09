@@ -238,7 +238,7 @@ if (( drop_groups_selected > 0 )); then
 fi
 printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nretained_matrix_timeout_seconds=%s\n' \
   "$lane_work_budget_seconds" "$drop_groups_selected" "$matrix_timeout" \
-  > "$allprooflogs/drop-lane-budget.txt"
+  > "$evidence_root/drop-lane-budget.txt"
 timeout --signal=TERM --kill-after=10s "${matrix_timeout}s" \
   bash research/challenge-8/merge/overnight/run.sh merge_geometry || status=$?
 printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"
@@ -303,7 +303,7 @@ run_copy_on_drop_group() {
     fi
   fi
   printf 'group_%s_timeout_seconds=%s\n' "$group" "$group_timeout" \
-    >> "$allprooflogs/drop-lane-budget.txt"
+    >> "$evidence_root/drop-lane-budget.txt"
   printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
   printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
   if (( driver_status != 0 )); then status=1; fi

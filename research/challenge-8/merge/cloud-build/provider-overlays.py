@@ -24,7 +24,7 @@ FILES = {
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
     "research/challenge-8/merge/overnight/pointer-prove.py": "4e0a73b3e969477c27879c8c802029d07e9c246565bddf770ba7db89bf0a704d",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
-    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "9c77b67e92b2c000458524902793716053ba03b400a8dcc0f38d77b53a978ecf",
+    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "89d592d4358d358ecdd1086b7eb45352b7b358bfe60d0602c9f00fd5171a0a88",
     "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
     "research/challenge-8/merge/overnight/stack-address-admission.py": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
     "research/challenge-8/merge/overnight/stack-proof-ast-admission.py": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",

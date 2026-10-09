@@ -5943,3 +5943,18 @@ dispatch-cc8d02e533f945d8873b75809ff8f771. Commonclient first refusedwhileforeig
 293435cf working, then read-only terminalFAILURE reconciled exactID andgaveownslot.
 Drop2/nativefix2/sourceprep2/smoke, own4250charged6550remaining1800reserved.
 Separate liveness prototype NOTselected/inactive inthisBuild; sixpatchunchanged.
+
+Result8a60b6aa-0c8f-4b7b-bf29-7902192e06da / proof+infra440a2dac7225027570d6b98a2d511604ed6b937a:
+create04:17:00.811129176Z/start04:17:01.534997798Z/finish04:18:27.268572Z,
+87elapsedseconds; own4337/10800 remaining6463. FAILUREbeforeverifier/preparation,
+provider-overlay stale bidirectional-small-prepare.py base SHA; actual
+89d592d4358d358ecdd1086b7eb45352b7b358bfe60d0602c9f00fd5171a0a88 vsold
+9c77b67e92b2c000458524902793716053ba03b400a8dcc0f38d77b53a978ecf.
+Configf78a5b252170dcfa580bc191b3bb2ab72ab2d221fe9bdefe1d76eb5b60583390;
+archive df1174e6b87982c722cee17135c44baf45e1ae556d6eb0dacb9d24802694ae16.
+Fullmetadata/archive/text integrity verified; runexit1/acceptedfalse. Allnew
+Drop/nativefix/ghostsourcepreparation UNTESTED; notintendednegative. Operational
+fix pinnewpreparer and checkALL18basehashes statically; no semanticchanges.
+Main also identified latent budget-log write before allprooflogs exists; moved
+bothwrites toexisting evidence_root, preservinglegacyrun refusal on reusedroot.
+It was not the failure reachedin8a60. FreshBuildrequiredforbothfixes.

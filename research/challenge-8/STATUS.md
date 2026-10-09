@@ -1,11 +1,18 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED POSTS COMPLETE, LIVENESS OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4250/10800 elapsed
-Cloud seconds**, remaining **6550**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; active own Build **8a60b6aa-0c8f-4b7b-bf29-7902192e06da**,
-proof/infra440a2dac7225027570d6b98a2d511604ed6b937a, seven Drop/native/preparation
-groups, timeout1740+queue60; config
-f78a5b252170dcfa580bc191b3bb2ab72ab2d221fe9bdefe1d76eb5b60583390.
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4337/10800 elapsed
+Cloud seconds**, remaining **6463**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Latest setup Build
+**8a60b6aa-0c8f-4b7b-bf29-7902192e06da**, proof/infra
+440a2dac7225027570d6b98a2d511604ed6b937a, FAILURE87s;
+04:17:00.811–04:18:27.268 UTC. Config
+f78a5b252170dcfa580bc191b3bb2ab72ab2d221fe9bdefe1d76eb5b60583390;
+archive df1174e6b87982c722cee17135c44baf45e1ae556d6eb0dacb9d24802694ae16.
+Complete failure evidence/text verified. Provider-overlay stale preparer base
+SHA refused BEFORE any verifier/source preparation. All new Drop/native/ghost
+candidates UNTESTED. Base hash updated to actual89d592d4, all18basehashes checked;
+budget-log path also moved outside runner-created allprooflogs (latent setup
+ordering issue). These operational fixes require fresh exact-SHA Build.
 Latest resource Build
 **a3553e9e-c9f6-431d-9175-8969b3adf2c3**, proof/infra
 777d5e9f1e6270f3aa4fc4027f605124bd0785de,333s/SUCCESScollector;
