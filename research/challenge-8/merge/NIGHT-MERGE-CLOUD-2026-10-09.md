@@ -108,3 +108,22 @@ All transformed files must equal recorded base hashes; exact diffs and output
 hashes are published. Missing/changed guard token, source closure/hash mismatch,
 malformed/stale ID, setup failure or unknown/missing group refuses completion.
 Collector completion is independent of every per-case theorem classification.
+
+## Cleanup applicability review (read-only, not acceptance)
+
+The existing cleanup frontend whitelist fixes the physical cmp_k, source/ref
+operands, T.full_borrow_content predicates and exact ordered ghost-command
+sequence. Existing wrong-local-type control puts a &'cmp T in the loan
+predicate and must refuse at frontend admission before body entry. A useful
+additional recovery-site control changes T.full_borrow_content to
+<&'cmp T>.full_borrow_content in callback_recover; expected frontend refusal
+is Unsupported callback loan cleanup command sequence, requiring fresh exact
+location calibration in Cloud. It is an admission negative, never a proof-negative.
+
+This supports only the fixed source protocol plus checked same-input MIR/AST
+and stock loan/FnMut primitives. It does not establish the generic patched
+kernel lifetime-exit rule: arbitrary heap predicate terms/captures are not
+scanned there. The current kernel pin remains experimental/unaccepted. Green
+bounded bodies or independent resource lemmas cannot promote it or derive the
+public-caller source-owner/callback-frame bridge. A wider rule would need its
+own argument and gates before inclusion; no such rule is introduced here.

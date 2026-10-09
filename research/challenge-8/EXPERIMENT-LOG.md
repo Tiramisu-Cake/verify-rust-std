@@ -5342,3 +5342,29 @@ Source bundleSHAb0365752f9ba229132bb550d056e5662ff27b8c5e74f2ffe5f5d1dc972d84f43
 All37profile/candidate groups plus one separate source-admitted runtime alias
 observation selected; no migration A/B/C/constructor repetition. Active; no
 result or charged seconds yet. Own envelope1800 reserved, prior accounts kept.
+
+Cloud d5496348 result (2026-10-09 01:18UTC): FAILURE,95elapsed seconds from
+create01:16:42.230834022Z tofinish01:18:16.379077Z; own95/10800,
+remaining10705. Source restoration certificate and SmallSort SHA check passed.
+Provider overlay aborted with `bidirectional-small-prepare.py: expected one
+identity guard/token, found 0`, before compiler/verifier/proof body entry.
+Audit failed_stage=provider-overlay, diagnostic_complete=false, accepted=false.
+All retained candidate outcomes remain UNTESTED; no intended proof-negative.
+Full stdout/stderr and metadata/archive/text logs inspected/verified with the
+common client. ArchiveSHA cb9f154a5794b34fb69ca7cce4682f29ea7deeddca4c7771025c261b7aa2b9b4;
+source bundle/config/proof pins remain those recorded above. Complete evidence
+and standalone text logs are under bucket cloud-build/d5496348-be44-4223-8cbe-9304427cceed/.
+Decision: exact provider-guard repair and static audit of every retained target,
+then a NEW pinned Cloud matrix. No semantic changes/posts weakened and no
+migration A/B/C rerun; common project slot released after authoritative terminal.
+
+Provider repair card: actual retained bounded preparer RuntimeError contains
+`bounded bidirectional preparation`; previous overlay omitted `bounded`.
+Correct only that expected byte literal, retaining unchanged base SHA and all
+source/pre/post/admission semantics. Static AST-guided first-guard literal
+inspection of all13overlay targets found exactly one match each; all13base
+hashes and every Python import/main insertion marker plus both Cloud-UUID
+classifier replacement markers rechecked. No overlay/runner executed on VPS.
+Criteria: fresh Cloud overlay must complete and publish all13hash-bound diffs;
+then unchanged matrix gates determine proof statuses separately. Any remaining
+missing marker remains fail-closed setup INCONCLUSIVE, never proof-negative.

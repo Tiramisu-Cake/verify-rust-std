@@ -133,7 +133,7 @@ def transform(path: str, original: bytes) -> bytes:
             old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
                    b'            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
                    b'            os.environ.get("GITHUB_REF") != "refs/heads/overnight/merge-26.10"):\n'
-                   b'        raise RuntimeError("bidirectional preparation requires own GitHub-hosted Actions branch")')
+                   b'        raise RuntimeError("bounded bidirectional preparation requires own GitHub-hosted Actions branch")')
             new = (b'    if not _require_cloud_provider():\n'
                    b'        raise RuntimeError("unsupported execution provider")')
         elif path.endswith("stack-address-controls-prepare.py"):

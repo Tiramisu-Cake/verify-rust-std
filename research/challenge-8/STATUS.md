@@ -1,19 +1,24 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / CLOUD BUILD ACTIVE
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / PROVIDER REPAIR
 
-Window **2026-10-09 08:00UTC /11:00MSK**, own budget **0/10800 elapsed Cloud s**
-charged; first build envelope1800s reserved. Historical accounts below preserved.
+Window **2026-10-09 08:00UTC /11:00MSK**, own budget **95/10800 elapsed Cloud s**
+charged; remaining10705s. Historical accounts below preserved.
 Branch `overnight/merge-26.10`; exact proof/infra SHA
 `aa8dce14aca4b03701bddd6fc99cb5e01eafee9e`.
-Active own Build **d5496348-be44-4223-8cbe-9304427cceed**;
+Last own Build **d5496348-be44-4223-8cbe-9304427cceed**, FAILURE;
 configSHA8a923649138eaeb6ebe5ff6ba8a298cd6636659a8c5d0c07afe7a4b3e0b5fa3d.
-Common atomic lock/independent account active; no other merge submission.
+01:16:42.230–01:18:16.379UTC,95s including setup/upload. No active own build.
+Common atomic lock/independent account retained; no other merge submission.
 Own ledger [cloud-build/night-merge/BUDGET.json](cloud-build/night-merge/BUDGET.json).
 [Current phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
 [exact continuation commands](merge/cloud-build/README.md).
 
 First Cloud matrix:37separate retained/modular groups plus saved runtime
 callback destination-alias observation. Candidate f096/cd425/1958/77def/366/6c8f
-claims remain CLOUD_UNTESTED until evidence is inspected. Full stack actual
+claims remain CLOUD_UNTESTED: provider overlay failed before verifier entry.
+Exact failure: bidirectional-small-prepare.py identity token matched zero
+times. Source restore/HEAD/path/hash/mode and SmallSort source checks passed;
+archive/text log integrity verified (archiveSHA cb9f154a5794b34fb69ca7cce4682f29ea7deeddca4c7771025c261b7aa2b9b4).
+This is setup INCONCLUSIVE, no intended proof-negative. Full stack actual
 operands/ordered def-use/exhaustive MIR/AST/refusals, all12quartet/modular posts,
 actual2/3 odd-copy/guard/normal/unwind/leak/dead/source/refinement, pinned final
 panic origin and actual up/down regressions are required. Collector completion
@@ -24,9 +29,10 @@ transfer remain OPEN. Runtime SmallSort blob40939f9 and six patches unchanged.
 First pre-submit1e9ab refused transport size before reservation/Build, charged0.
 Shared transport ea9e68fc/controlc433 imported without foreign proofs/STATUS/
 budget; all exact inputs retained. Accepted A/B/C migration not repeated.
-Next permitted action: monitor this exact Build, download/verify all current
-metadata/archive/text evidence, classify each candidate, then iterate within
-this phase and own remaining budget. No local proof/build or Actions dispatch.
+Next permitted action: repair the provider-only exact guard substitutions,
+review all retained guard forms statically, commit/push and request a fresh
+exact-SHA full matrix through the common lock. No local proof/build or Actions
+dispatch. The accepted migration lanes will not be repeated.
 
 ---
 
