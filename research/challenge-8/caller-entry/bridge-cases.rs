@@ -3,6 +3,30 @@
 return;
 // END CASE
 
+// CASE source-frame-positive
+/*@
+if (0 < std::mem::size_of::<T>()) {
+    assert thread_token(?t);
+    assert t == currentThread;
+    assert v_base[..len] |-> ?source_all;
+    assert foreach(source_all, own::<T>(t));
+    assert *is_less |-> ?less_before;
+    assert <F>.own(t, less_before);
+    array_split::<T>(v_base, 4);
+    foreach_split(source_all, own::<T>(t), 4);
+    assert v_base[..4] |-> ?first_four;
+    assert foreach(first_four, own::<T>(t));
+    assert *is_less |-> less_before;
+    assert <F>.own(t, less_before);
+    array_join::<T>(v_base);
+    foreach_append(take(4, source_all), drop(4, source_all));
+    assert v_base[..len] |-> source_all;
+    assert foreach(source_all, own::<T>(t));
+}
+@*/
+return;
+// END CASE
+
 // CASE bridge-positive
 /*@
 if (0 < std::mem::size_of::<T>()) {

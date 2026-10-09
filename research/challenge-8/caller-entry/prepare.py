@@ -18,7 +18,7 @@ MARKER_REL = Path("library/core/src/marker.rs")
 SHARED_REL = Path("library/core/src/slice/sort/shared/mod.rs")
 CAPTURE_REL = Path("research/challenge-8/overnight-sort4/capture.py")
 HERE = Path(__file__).resolve().parent
-CASES = ("prefix-native", "bridge-positive", "range-negative", "duplicate-negative")
+CASES = ("prefix-native", "source-frame-positive", "bridge-positive", "range-negative", "duplicate-negative")
 FUNCTION_NAME = b"fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>("
 SCRATCH_LINE = b"        let scratch_base = scratch.as_mut_ptr() as *mut T;"
 SORT8_CONDITION = b"if const { size_of::<T>() <= 16 } && len >= 16 {"
@@ -220,13 +220,15 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
     )
     overflow_bound_check = (
         b"/*@\n"
-        b"let v_len_base = strip_pointer_metadata(v as pointer) as *T;\n"
-        b"assert v_len_base[..len] |-> ?v_len_elems;\n"
-        b"array_inv::<T>();\n"
-        b"if (16 < std::mem::size_of::<T>()) {\n"
-        b"    mul_mono_l(1, std::mem::size_of::<T>(), len);\n"
-        b"} else {\n"
-        b"    assert len < 16;\n"
+        b"if (true) {\n"
+        b"    let v_len_base = strip_pointer_metadata(v as pointer) as *T;\n"
+        b"    assert v_len_base[..len] |-> ?v_len_elems;\n"
+        b"    array_inv::<T>();\n"
+        b"    if (16 < std::mem::size_of::<T>()) {\n"
+        b"        mul_mono_l(1, std::mem::size_of::<T>(), len);\n"
+        b"    } else {\n"
+        b"        assert len < 16;\n"
+        b"    }\n"
         b"}\n"
         b"@*/\n"
     )
@@ -404,6 +406,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         "sort8_or_later_call_summaries": False,
         "case_constraints": {
             "prefix-native": "no added proof requirement or post; native generated mutable-reference entry only",
+            "source-frame-positive": "checks source4 owners/F/thread subset and restores native frame inside existing positive-size c1 domain; no dst/type resources supplied or asserted",
             "bridge-positive": "identity boundary entailment uses exact captured c1 pre inside a ghost positive-size guard; actual branch domain remains unrestricted in the saved caller",
             "range-negative": "array_split at len+1 is intended out-of-range authority control",
             "duplicate-negative": "duplicate whole-array authority assertion is intended duplicate-authority control",

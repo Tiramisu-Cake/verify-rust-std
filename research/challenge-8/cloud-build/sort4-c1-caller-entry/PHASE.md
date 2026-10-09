@@ -51,3 +51,14 @@ published coordinatoractivev2/max2 atstart; adoptportable487dc39c inownclient
 with phasebaseline ack, no sharedstate/limit migration bythisagent. Reconcile
 allownedbuildstoterminal byabsolute; preserve unresolvedreservation otherwise.
 45–50mincompletionassessment; finalreadywithdraw/account/checkpointpush.
+
+## Mid-window completion assessment (19:01:45 UTC, minute44–45)
+
+First Build terminal/download integrity verified/accounted290sec; native representation
+and fragment-refinement support pass, proof first overflow beforecallsite. Second
+Build ff3a7698-3731-41ac-a0f0-36a408d5e4e8 running at c1b0b56a with exactselected
+path filters plus checkedstockarraybounds; no trustedsemanticpatch. Estimate cold
+setup ~5min; enough mainwindow for inspect and atmost one narrowly justified
+iteration based on its actual firsterror. No newexperiment after19:17:12UTC.
+Current shared activeclient uses v2/max2 unchanged, oneownactive/reservation.
+No fullcaller/c1integration/c2/selector proof scheduled. Budget ceiling not target.
