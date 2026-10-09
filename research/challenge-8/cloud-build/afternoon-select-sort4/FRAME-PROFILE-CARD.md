@@ -11,3 +11,14 @@ Self-review: source-only thread-only contract is not proof; fresh same-unit veri
 Affected hosted gates: unchanged old-source baseline must still reach240; changed-source FRAME-off must refuse old exact source certificate; partial/root mismatch preheaders; FRAME-on must verify prefix7 and actualnested before outer, retaining fullposts and all runtime resources; wrong expected helper annotations / wrong exact typed Move/edge must refuse at their intended first gate; on body error must be attributed to exact actual nested/outer function, never setup/frontend. Capture/tool/source identities verified before/after every stage. Additional malformed-source/body/span, missing-cell/wrong-branch, falsepost/threadloss/dup controls remain open unless actually executed; do not promote profile/admission from diagnostic progress. Every first causal failure is recorded.
 
 Confirmation: initial input/payload assertions and both current-wrapper assertions advance, or a precisely located earlier/later obligation explains the remaining gap. A full outer result additionally needs complete normal/unwind/result posts and return/leak/dead-code traces, same-version callees and correspondence. No collector certificate alone is credited. Off/source mismatch failures are admission controls, not theorem negatives.
+
+Static second review 12:32UTC: observed CFG deltas agree at every changed
+translator site; FRAME-off old branches preserve their source/ghost/order/typed
+constants. No compiler was run locally. Fixed metadata drift and separate
+NESTED_REGRESSION_OUTER_NOT_REACHED classification before Cloud. Malformed helper
+contract/body/typed-Move/edge controls remain OPEN; no profile acceptance follows.
+Transport791b2de9 was NOT_READY201parts. Dependency-traced removal of old inactive
+R3/nested runners/entrypoints/cards retains full proof chain and immutable exact
+infra core; actualpair4ab4d568a852c0848a9160a53f90df103b4e789a is186parts,
+554364gzipbytes, payload053dbdbb4184172718814999075cc323339bc2d89cee35b6a593ff7aab3df28a.
+Runtime/posts/certificates/guards unmodified by selection pruning.

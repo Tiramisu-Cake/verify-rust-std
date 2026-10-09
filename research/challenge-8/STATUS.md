@@ -35,7 +35,9 @@ newverified8543e999/unitdd53398b,body6/7 changed,0–5/8 unchanged. No proof run
 Separate default-off FRAME TEST prepared with freshpins; helper/nested/outer
 obligations and profileadmissibility remain open pending hosted checks.
 
-Afternoon768/3600,2832remaining, no ownactive/unresolved build. Profiles experimental/
+Afternoon768/3600 accounted,2832remaining before reservation. OwnFRAMEBuild
+6ad52849-ff34-43f4-bd4a-49b810d52d45 queued/running, infra=proof4ab4d568a852c0848a9160a53f90df103b4e789a,
+timeout900+60reserved, actual186parts; monitor/reconcile specific token before retry. Profiles experimental/
 unaccepted; admission OPEN; fullactualselect normal/unwind/return/leak, genericT/ZST
 and actualsort4 NOT_PROVED. Documentation head is not tested proof SHA.
 
