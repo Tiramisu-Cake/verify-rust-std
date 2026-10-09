@@ -1,0 +1,15 @@
+# MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09
+
+Owner merge; start18:49:50UTC, main19:49:50, absolute20:19:50. New3600 conservative Cloud seconds, old2555 closed/no carryover. Own proof tree overnight/merge-26.10 clean at a61cc2b6; fetched exact own remote equal, no history integration necessary. Preserve29732807 and review package63b54dcd unchanged. Policy1fcd91ef; current AGENTS/workpolicy/completion/runbook and original span/lifetime evidence read; maintainer WORKFLOW/STATUS at1ed47966 read, preexisting review edits untouched. Shared coordinatorv2/max2 unchanged.
+
+[Ledger](../cloud-build/incoming-span-lifetime/BUDGET.json), [state](../cloud-build/incoming-span-lifetime/SESSION-STATE.json). Isolated tool tree /root/verifast-merge-incoming-span branch merge/incoming-span-lifetime-20261009 at exact upstreambasef76012fb; rejected2f61f966/8c1386a8 not ancestors and broad scan absent. Upstream README/src README/Linux guidance previously read at samebase, retained. Current task: genuine incoming runtime live region through actual tail.read→tmp allocation, no global memory rewrite; no actual557/558/comparator/fullinsertion in this window. Old candidate numeric successes are historical diagnostics only, not new-profile proof.
+
+Preimplementation design gate: entryheap/pointerparameter/symbol origin insufficient. Require concrete storage runtime lifetime evidence and current authority, not snapshot immortality or reference lifetime alone. Inspect ignored StorageDead/caller stale chunk concern before any geometry assumption. Calls/deallocation/callbacks/opaque resource transitions need explicit conservation or invalidation. No supplied separation or unjustified live-token axiom.
+
+Narrow dependency fix for absent frozen exporter/refiner prepared independently; hashes and executable checks retained, compiler/provider frozen. First substantive Cloud run must exercise selected mechanismgates with exact profile/infra/source, not merely setup. Review publication only research/verifast-review/FULL-CHECKPOINT-SHA on review/verifast via plumbing preserving old package; no maintainer receipt/integration/acceptance claim.
+
+Closed:760/3600 charged, both own builds terminal/download verified, ready withdrawn.
+[Final checkpoint](INCOMING-SPAN-LIFETIME-CHECKPOINT-2026-10-09.md): candidate
+NOT_FOR_INTEGRATION (marker origin) and actual generic span remains blocked before
+FBC (runtime extent bridge missing); six controls matched. No new experiment after
+19:49:50UTC. Publication receipt follows in own phase directory.

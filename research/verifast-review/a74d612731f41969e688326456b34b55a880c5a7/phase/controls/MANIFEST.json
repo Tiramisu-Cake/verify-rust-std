@@ -1,0 +1,58 @@
+{
+  "schema": "incoming-span-lifetime-controls-v1",
+  "accepted": false,
+  "evidence_class": "mechanism controls only; no proof or consumer acceptance",
+  "required_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0
+  },
+  "cases": [
+    {
+      "name": "span_positive",
+      "target": "positive local versus incoming fractional frame",
+      "expectation": "PASS_CONTROL",
+      "verifast": 0,
+      "requires_target_execution": true,
+      "requires_normal_return_and_leak_check": true
+    },
+    {
+      "name": "span_retired_local_reuse",
+      "target": "retired local address is not globally fresh",
+      "expectation": "EXPECTED_REJECTION",
+      "verifast": 1,
+      "requires_target_execution": true,
+      "requires_retired_mir_ast_gate": true
+    },
+    {
+      "name": "span_overlap",
+      "target": "overlapping aliases",
+      "expectation": "EXPECTED_REJECTION",
+      "verifast": 1,
+      "requires_target_execution": true,
+      "requires_reads_before_target": true
+    },
+    {
+      "name": "span_raw_arbitrary",
+      "target": "arbitrary incoming raw address",
+      "expectation": "EXPECTED_REJECTION",
+      "verifast": 1,
+      "requires_target_execution": true
+    },
+    {
+      "name": "span_lost_incoming_authority",
+      "target": "leaked incoming authority cannot prove local separation",
+      "expectation": "EXPECTED_REJECTION",
+      "verifast": 1,
+      "requires_target_execution": true
+    },
+    {
+      "name": "span_zero_extent",
+      "target": "zero-sized read has no positive extent",
+      "expectation": "EXPECTED_REJECTION",
+      "verifast": 1,
+      "requires_target_execution": true,
+      "qualification": "abstract generic zero only; frontend/verifier inability is INCONCLUSIVE and this case does not qualify concrete ZST layout"
+    }
+  ]
+}

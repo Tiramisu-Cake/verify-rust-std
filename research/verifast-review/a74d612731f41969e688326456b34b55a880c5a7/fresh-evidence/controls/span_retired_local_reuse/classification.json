@@ -1,0 +1,80 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "verified/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "verified/lib.rs": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "span_retired_local_reuse",
+  "target": "retired local address is not globally fresh",
+  "expectation": "EXPECTED_REJECTION",
+  "verifast": 1,
+  "requires_target_execution": true,
+  "requires_retired_mir_ast_gate": true,
+  "target_line": 30,
+  "read_lines": [],
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 1
+  },
+  "source_sha256": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+  "case": "span_retired_local_reuse",
+  "errors": [
+    "verified/lib.rs(30,30-32): error: Assertion might not hold. (Cannot prove !(get_pointer_address(fn_outcome_result(outcome2)) = get_pointer_address(fn_outcome_result(outcome0))).)"
+  ],
+  "target_executed": true,
+  "reads_executed": true,
+  "retired_mir_ast_gate": {
+    "admitted": true,
+    "reason": "decoded MIR and translated vf__ markers agree on retirement order",
+    "decode_sha256": "a7f9950ebe4c888eea6d11241bf1afd99d9e76c025fcaeaff1c838eede3aba59",
+    "proof_ast_sha256": "a44d4a7b420b9a4df4fe58e84e3b94ce43d82d162dc29cd23c557bcf3447a15f",
+    "mir_body": "span_retired_local_reuse",
+    "locals": {
+      "tmp0": "_2",
+      "tmp1": "_7"
+    },
+    "storage_dead": {
+      "block": 2,
+      "statement": 7,
+      "source_line": 23,
+      "local": "_2"
+    },
+    "storage_live": {
+      "block": 2,
+      "statement": 8,
+      "source_line": 24,
+      "local": "_7"
+    },
+    "same_block_order": true,
+    "translated_ast": {
+      "storage_dead": {
+        "callee": "vf__rust_storage_dead",
+        "argument": "tmp0",
+        "source_line": 23
+      },
+      "storage_live": {
+        "callee": "vf__rust_storage_live",
+        "argument": "tmp1",
+        "source_line": 24
+      },
+      "order": true
+    }
+  },
+  "classification": "EXPECTED_REJECTION",
+  "accepted": false,
+  "meaning": "incoming-span mechanism control only"
+}

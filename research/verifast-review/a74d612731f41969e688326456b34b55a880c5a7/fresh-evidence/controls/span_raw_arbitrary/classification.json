@@ -1,0 +1,43 @@
+{
+  "stages": {
+    "exporter": 0,
+    "decode": 0,
+    "verifast": 1,
+    "refinement": 0
+  },
+  "source_before": {
+    "original/lib.rs": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+    "verified/lib.rs": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_after": {
+    "original/lib.rs": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+    "verified/lib.rs": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+    "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_unchanged_at_every_stage": true,
+  "name": "span_raw_arbitrary",
+  "target": "arbitrary incoming raw address",
+  "expectation": "EXPECTED_REJECTION",
+  "verifast": 1,
+  "requires_target_execution": true,
+  "target_line": 21,
+  "read_lines": [],
+  "expected_stages": {
+    "exporter": 0,
+    "decode": 0,
+    "refinement": 0,
+    "verifast": 1
+  },
+  "source_sha256": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+  "case": "span_raw_arbitrary",
+  "errors": [
+    "verified/lib.rs(21,71-73): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + 8) <= get_pointer_address(p) || (get_pointer_address(p) + 8) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+  ],
+  "target_executed": true,
+  "reads_executed": true,
+  "retired_mir_ast_gate": null,
+  "classification": "EXPECTED_REJECTION",
+  "accepted": false,
+  "meaning": "incoming-span mechanism control only"
+}
