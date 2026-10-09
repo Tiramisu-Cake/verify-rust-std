@@ -1,0 +1,71 @@
+{
+  "schema": "incoming-origin-controls-v1",
+  "accepted": false,
+  "evidence_class": "origin and call-dispatch controls only; no consumer or upstream acceptance",
+  "required_stages": {"exporter": 0, "decode": 0, "refinement": 0},
+  "cases": [
+    {
+      "name": "origin_reserved_dead_diverge",
+      "callee": "vf__rust_storage_dead",
+      "argument": "local",
+      "kind": "diverging_extern",
+      "target": "reserved dead diverging extern call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "ordinary extern noncontinuation without lifecycle dispatch"
+    },
+    {
+      "name": "origin_reserved_live_diverge",
+      "callee": "vf__rust_storage_live",
+      "argument": "local",
+      "kind": "diverging_extern",
+      "target": "reserved live diverging extern call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "ordinary extern noncontinuation without lifecycle dispatch"
+    },
+    {
+      "name": "origin_plain_diverge",
+      "callee": "origin_plain_never",
+      "argument": "local",
+      "kind": "diverging_extern",
+      "target": "plain diverging extern call",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "baseline ordinary extern noncontinuation"
+    },
+    {
+      "name": "origin_reserved_dead_requires_resource",
+      "callee": "vf__rust_storage_dead",
+      "argument": "p",
+      "kind": "ordinary_contract_negative",
+      "target": "reserved name ordinary callee precondition",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "ordinary function contract cannot be forged into a storage event"
+    },
+    {
+      "name": "origin_reserved_dead_extern_requires_resource",
+      "callee": "vf__rust_storage_dead",
+      "argument": "p",
+      "kind": "ordinary_contract_negative",
+      "target": "reserved extern callee precondition",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "ordinary extern contract cannot be forged into a storage event"
+    },
+    {
+      "name": "origin_reserved_live_preserves_resource",
+      "callee": "vf__rust_storage_live",
+      "argument": "p",
+      "kind": "ordinary_contract_positive",
+      "target": "reserved ordinary callee preserves resource",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "ordinary contract restores a physical cell at normal return and leak check"
+    },
+    {
+      "name": "origin_unit_layout",
+      "callee": null,
+      "argument": null,
+      "kind": "layout_diagnostic",
+      "target": "concrete unit size zero",
+      "semantic_expectation": "DIAGNOSTIC_ONLY",
+      "obligation": "concrete unit layout is a model diagnostic, never an origin negative"
+    }
+  ]
+}
