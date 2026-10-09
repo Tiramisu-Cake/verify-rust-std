@@ -6505,3 +6505,15 @@ Supported fractional syntax and precreation-before-merge use unchanged trusted
 profile/pins. Four isolated MD units first; one-cell conditional on MD gate PASS.
 Fresh source/proof requires exact-SHA Cloud. No replay proof credit or prior
 INCONCLUSIVE upgrade. Profile NOT_ACCEPTED.
+
+MD phase Build2095adca /8933d472 FAILURE235s: source-build matrix timeout63s,
+partial EXIT0 insufficient; missing exporter blocks all MD/proofs (NOT_RUN).
+Full archive057f7041/external text verified. Stock V3b full-post positive and
+false control pass; six setup incomplete. No target credit.
+Build2eadf304 /121f9471 SUCCESS diagnostic359s, acceptedfalse: complete MD
+positive result7/read/return/leak; missing-init ref_initialized at aliasing88;
+missing-precreate source12 unsupported address admission-only. Read-negative
+INC at preparatory hardcodedhalf leak15. Five one-cell NOT_RUN. Six V3b fullpost
+positive/false and ordinary normal/unwind smoke PASS. Full archivef607bdf3/text
+verified. Combined594seconds. Next exact-SHA changes only read-negative actual
+fraction capture/removal, preserving initialization and all runtime/posts/pins.

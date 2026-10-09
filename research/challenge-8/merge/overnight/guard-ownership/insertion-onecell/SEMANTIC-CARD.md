@@ -188,3 +188,25 @@ not post-if ghost recovery. First shift is before later callback566, so a narrow
 bounded transition may be tested without promoting readonly tmp across callback.
 Actual Drop/glue on sift==begin remains separate. This contract review is static,
 not proof execution or closure of an actual obligation.
+
+## Read-authority negative repair — before implementation/dispatch
+
+Build2eadf304 /121f9471,359s: MD immutable i32 positive all stages0, named
+read/return/leak and result7 PASS; missing-init exact aliasing.rsspec88
+ref_initialized<i32>(held_ref) refusal; missing-precreate exact frontend source12
+unsupported address ADMISSION_ONLY. Fixed-half read control stops at leak15,
+not read16, hence INCONCLUSIVE. Five one-cell cases correctly NOT_RUN.
+Existing source/new/init storage permission can be fractional for immutable
+addressed tmp: init creates coef*f, not a guaranteed1/2. The failed hardcoded
+leak also uses runtime p from call-outcome; do not infer a read-authority theorem.
+
+Next narrow fixture-only hypothesis: assert/bind actual available read fraction
+at held_ref and actual complementary storage fraction at &tmp; leak exactly those
+existing chunks, keep ref_initialized/precreation/end bookkeeping, then execute
+unchanged &*tmp-derived p read. No assumed f=1, pointer equality, resource creation
+or changed runtime. No tool/profile/trusted semantic change. Removal statements
+must both execute and sole failure must be missing points_to at actual *p;
+preparatory assert/leak, reference, cleanup or helper failure stays INCONCLUSIVE.
+All positive source and result/return/leak checks remain unchanged. PASS all MD
+gates permits corrected one-cell constructor/FBC in main window; FAIL identifies
+only that first resource/removal mechanism. No more control groups are added.

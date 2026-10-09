@@ -1,0 +1,120 @@
+{
+  "kind": "CLASSIFIER_ONLY_REPLAY",
+  "source_build": "5fddf20d-a40f-4559-ac7c-c7c304d0ca22",
+  "proof_infra_sha": "d793eaa25f5cb4de92cda44ba9fc94ea1162d296",
+  "source_archive_sha256": "6c2f55a9d0ff430efc508310801cd07f5dff18f8a595b11e264e5a4695ea8e09",
+  "profile": {
+    "schema": "smallsort-tracked-md-profile-v1",
+    "profile": "experimental-merge-six-tracked-md-onecell-v1",
+    "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+    "translator_sha256": "528d2c133d789eb88726356c7f21f57673b3d3a57ce3a7b006e7906ae7b2eeb9",
+    "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+    "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
+    "kernel_sha256": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+    "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "refiner_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "accepted": false,
+    "z3_sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+    "baseline_emitter_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+    "emitter_sha256": "831edeec84e50b3ca2c0c6f3bb5a2ad36bf177a58db59806a2a260dd0e37313c",
+    "console_sha256": "d631913a27b35331ef63325011173638e64bb81f3c4aec5def317f995cef57a5",
+    "proof_sha": "d793eaa25f5cb4de92cda44ba9fc94ea1162d296",
+    "baseline_build_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+    "provider": {
+      "provider": "cloud-build",
+      "build_id": "5fddf20d-a40f-4559-ac7c-c7c304d0ca22",
+      "project": "smallsort-ci",
+      "region": "global",
+      "os": "ubuntu-22.04",
+      "arch": "x86_64"
+    },
+    "build_exit": 0
+  },
+  "classifier_commit": "121f947121360c2f71b4756cb4bbe6b9f309804e",
+  "classifier_sha256": "b884b1f4166087449e8bd641bb5dee806bf8aa9c6e9a80d74878f17b756230e0",
+  "replay_command": "PYTHONDONTWRITEBYTECODE=1 python3 /tmp/c8-md-authority-replay.py /tmp/smallsort-next-merge-drop-caller/evidence-5fddf20d/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic /tmp/c8-md-replay-old-5fddf20d",
+  "replay_script_sha256": "1b77435d1d7db79bd14d343d33a72f8d51bb5525f6acb26573265c0faa4e5dde",
+  "cases": {
+    "negative_missing_precreated_reference": {
+      "old": "INCONCLUSIVE",
+      "new": {
+        "case": "negative_missing_precreated_reference",
+        "classification": "REGRESSION_MATCHED",
+        "body_seen": true,
+        "return_seen": false,
+        "leak_seen": false,
+        "read_seen": false,
+        "errors": [
+          "verified/lib.rs(11,15-18): error: Taking the address of this expression is not supported."
+        ],
+        "dead_code": [],
+        "gate_kind": "ADMISSION_ONLY"
+      },
+      "log_path": "/tmp/smallsort-next-merge-drop-caller/evidence-5fddf20d/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic/md-controls/negative_missing_precreated_reference/verifast.log",
+      "log_sha256": "5b7d0fea49105c4e756f2b17891b98f86379662090423b9159c7f20e0ddb0962",
+      "classification_sha256": "50e140bd62e2bb24c6b0200b826aaa34236a0e881c40213bd83917b833180056"
+    },
+    "negative_missing_reference_initialization": {
+      "old": "INCONCLUSIVE",
+      "new": {
+        "case": "negative_missing_reference_initialization",
+        "classification": "INCONCLUSIVE",
+        "body_seen": true,
+        "return_seen": false,
+        "leak_seen": false,
+        "read_seen": false,
+        "errors": [
+          "verified/lib.rs(11,38-39): error: Taking the address of this expression is not supported."
+        ],
+        "dead_code": [],
+        "gate_kind": "PROOF"
+      },
+      "log_path": "/tmp/smallsort-next-merge-drop-caller/evidence-5fddf20d/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic/md-controls/negative_missing_reference_initialization/verifast.log",
+      "log_sha256": "1d61ceeabcfcf0a1377f7c98ff2109fc9e66f3c2ab0bf1d690c132feab80e86c",
+      "classification_sha256": "a5d7b7105f45c8e8d657f3b4f83ef9dc7c1096b3058a2b3d1291adce72153b2c"
+    },
+    "negative_read_without_permission": {
+      "old": "INCONCLUSIVE",
+      "new": {
+        "case": "negative_read_without_permission",
+        "classification": "INCONCLUSIVE",
+        "body_seen": true,
+        "return_seen": false,
+        "leak_seen": false,
+        "read_seen": false,
+        "errors": [
+          "verified/lib.rs(11,38-39): error: Taking the address of this expression is not supported."
+        ],
+        "dead_code": [],
+        "gate_kind": "PROOF"
+      },
+      "log_path": "/tmp/smallsort-next-merge-drop-caller/evidence-5fddf20d/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic/md-controls/negative_read_without_permission/verifast.log",
+      "log_sha256": "d9fb5ad8ee58ca2a660d678f3c7448e786d34fb8a95bbdfde732e748f794eb87",
+      "classification_sha256": "aba2ed06ce144d4e9e21430feb0259e2a2c61f153ac3f0d6f1894145bac9aa91"
+    },
+    "positive_manually_drop_after_merge": {
+      "old": "INCONCLUSIVE",
+      "new": {
+        "case": "positive_manually_drop_after_merge",
+        "classification": "INCONCLUSIVE",
+        "body_seen": true,
+        "return_seen": false,
+        "leak_seen": false,
+        "read_seen": false,
+        "errors": [
+          "verified/lib.rs(11,38-39): error: Taking the address of this expression is not supported."
+        ],
+        "dead_code": [],
+        "gate_kind": "PROOF"
+      },
+      "log_path": "/tmp/smallsort-next-merge-drop-caller/evidence-5fddf20d/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic/md-controls/positive_manually_drop_after_merge/verifast.log",
+      "log_sha256": "bb6ecb81a5f16e5cfacf22616903147ebad327d3c49be5006189e51db9953521",
+      "classification_sha256": "809c6218147b245c28ae78d9d0c31589b19020eae6a7d4bb40d1ffb118314fd3"
+    }
+  },
+  "boundary": "New admission-only criterion recognizes old unsupported address. No old authority/theorem upgraded; old phase intended resource-negative stays inconclusive. Resource controls/positive remain INCONCLUSIVE. No toolchain run, no evidence mutation."
+}
