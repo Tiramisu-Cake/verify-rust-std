@@ -5927,3 +5927,27 @@ Same-Build isolated relocation FULLVF0 is prerequisite for17 matrix/off
 controls. All negative stage/predicate/source locations are prospective until
 full source/MIR/log review; classificationDISCOVERY_REVIEW_REQUIRED, allacceptedfalse.
 False-normal/unwind, liveness/alias/heap/bounds and actualscope gates OPEN.
+
+NIGHT-CLOUD-11 outcome:84076ff3 FAILURE,05:30:27.594882163–05:35:54.265608UTC,
+327 conservative seconds; own3607used/7193remaining. run_exit0 and complete
+evidence are diagnostic collector results only, diagnostic_complete=false,
+verification=false. Archive b2f63f0a0096174586cd8bd9661e18557c7d74da891ef568b8ebca25886e56e0
+and textindex445c471fb66ae6cceb1872a217d487d4817ceea0d205a0b153da215bbe629cd3
+verified. Unchanged baseline462 and isolated relocated fixture VF0 repeated
+inside the requested dependency run. Strict preflight source/tool/patch/Fbound
+gates pass, then CLI KeyError classification before overlay/matrix creation.
+No intended-negative credit. baf9dfb7 adds the missing preflight report field
+without tool/fixture change; 9f22416a adds isolated normal/unwind false-post
+controls to the first genuinely executed strict17 discovery matrix. Its
+source-only Git transport preflight530397B/178parts, SHA256
+ba841e72e891cd69612ddceb47f76c06bf223767327b6375bf21535c0abbac57.
+Expected refusal stage/predicate/span remains prospective until full logs;
+wrong-stage failures are INCONCLUSIVE, all acceptance flags stay false.
+
+NIGHT-CLOUD-12 dispatch:93da48d0-d720-4179-8d2c-d8b7495703bf,
+infra e4e9eacfebef52293b5404c74b316fe76a413e4b, proof d253128ac42f5788cc322201bdfcc6c1e2e36f76,
+lane o26-input-relation-capture, config d6029fc2c39e3f3833b1b9f20a22b7cb070bccd0ff0628495a296b9e602f221a,
+token dispatch-8bfd49680e934814b330aa5ccd3f5348. Same source/profile and target
+as NIGHT-CLOUD-10; only missing baseline input recipe repaired. No unchanged
+infrastructure smoke. Complete original-Git payload477962B/160parts verified
+pre-submit. Fresh full source/MIR/refinement/nine-body capture, no proof credit.

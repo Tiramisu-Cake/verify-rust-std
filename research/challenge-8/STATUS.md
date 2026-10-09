@@ -1,10 +1,11 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized through **08:00 UTC / 11:00 MSK, 9 October**. Separate Cloud Build
-account: **3280/10800 conservative seconds used; 7520 remaining**. Active own Build
-`84076ff3-a9bd-4fa9-bae4-ce6bc5dc6aa1`, strictCUT matrix discovery,
-infra `9dc0f99a59fdfee75b8740d18160e483373f379a`,
-proof `d253128ac42f5788cc322201bdfcc6c1e2e36f76`, timeout1200/reserve1260. [Phase](cloud-build/night-select-sort4/PHASE.md),
+account: **3607/10800 conservative seconds used; 7193 remaining** before current
+submission. Fresh input-relation source capture submitted from repaired
+infra `e4e9eacfebef52293b5404c74b316fe76a413e4b`, proof
+`d253128ac42f5788cc322201bdfcc6c1e2e36f76`, timeout1200/reserve1260;
+active Build `93da48d0-d720-4179-8d2c-d8b7495703bf`. [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json),
 [experiment history](EXPERIMENT-LOG.md). Branch
 `research/night-select-sort4-cloud-2026-10-09`, worktree
@@ -41,7 +42,10 @@ nested-order TEST coverage does not transfer to this R2 proof. Input-relation so
 two baseline refresh patches were absent from its recipe. No proof or intended
 negative credit; charged178s, archive2f20a83a… verified. Recipe repaired in
 e4e9eacf, full baseline/manifest input sets checked, proof source unchanged.
-Fresh capture is ready after current strictCUT matrix slot. R3 requires observed
+Build84076 strictCUT discovery then failed in the audit CLI with missing
+classification after successful preflight: no matrix case ran, no negative
+credit. Complete archive b2f63f0a… verified, charged327s. A separate reporting
+fix and first strict17+false-post2 matrix are prepared. R3 requires observed
 new source/MIR hashes and graph; the isolated CUT's open matrix needs review.
 Generic/ZST select and complete sort4 safety, five unwind paths and separate
 functional permutation/order/stability composition remain open

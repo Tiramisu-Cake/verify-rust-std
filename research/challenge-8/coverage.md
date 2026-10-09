@@ -652,3 +652,11 @@ comparison block root138, with return arm0/unwind arm1; unchanged full AST
 snapshot and stock marker185 refusal persist. Direct unwind recovery remains
 unproved. Actual select remains at R2's pure line143 result-identity failure;
 generic/ZST select and full sort4 safety/functionality remain OPEN.
+
+Build84076ff3 retains baseline462 and isolated CUT fixture VF0 but fails
+audit CLI classification lookup after successful preflight. No strict matrix
+case ran; no additional negative or actual function coverage. Reporting-only
+fix and first17+2 controls prepared separately. Generic source/MIR capture
+(proof981a5509) is a diagnostic with distinct local-copy DefId and no ownership
+summary. Actual sort4 first-scope rewrite remains BLOCKED on storage/alias/
+cleanup controls; all full safety/functional obligations remain OPEN.
