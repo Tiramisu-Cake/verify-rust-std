@@ -24,7 +24,41 @@
      let open BodyRd in
      let var_id_trs_map_ref = ref [] in
      let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
-@@ -6542,7 +6559,15 @@
+@@ -6512,7 +6529,32 @@
+                "actual qualified Drop ghost scope inventory")
+         else exported_ghost_stmts
+       else exported_ghost_stmts in
+-    let* ghost_stmts = ListAux.try_map translate_ghost_stmt ghost_stmts_cpn in
++    let c2_unbound_decl_count = ref 0 in
++    let translate_c2_scaffold_stmt gs_cpn =
++      if c2_discovery_requested && AnnotationRd.raw_get gs_cpn =
++         "/*@ let_lft 'cmp2 = cmp2_k; @*/" then begin
++        let* annot = translate_annotation gs_cpn in
++        let (file, line, _), _ = Ast.lexed_loc annot.span in
++        if body_name <> "sort4_stable" || Filename.basename file <> "lib.rs" ||
++           line <> 196 then
++          failwith "SORT4-C2-DISCOVERY: unbound declaration location differs";
++        let decls = VfMirAnnotParser.parse_ghost_decl_batch
++          (translate_annot_to_vf_parser_inp annot) in
++        (match decls with
++         | [Ast.TypeWithTypeidDecl (_, "'cmp2",
++              Ast.CallExpr (_, "typeid_of_lft", [], [],
++                [Ast.LitPat (Ast.Var (_, "cmp2_k"))], Ast.Static))] -> ()
++         | _ -> failwith "SORT4-C2-DISCOVERY: unbound declaration shape differs");
++        incr c2_unbound_decl_count;
++        Ok (Ast.PureStmt (annot.span,
++          Ast.BlockStmt (annot.span, decls,
++            [Ast.ExprStmt (Ast.CallExpr (annot.span,
++              "__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER", [], [], [],
++              Ast.Static))], annot.span, ref [])))
++      end else translate_ghost_stmt gs_cpn in
++    let* ghost_stmts = ListAux.try_map translate_c2_scaffold_stmt ghost_stmts_cpn in
++    if c2_discovery_requested && !c2_unbound_decl_count <> 1 then
++      failwith "SORT4-C2-DISCOVERY: exact-one unbound declaration required";
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+         (fun s1 s2 ->
+@@ -6542,7 +6584,15 @@
          let cuts = List.filter
            (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
            ghost_stmts in
@@ -41,7 +75,7 @@
            Ast.static_error fn_sig_loc
              "Actual sort4 AST scope test requires one cut marker" None;
          ([], ghost_stmts)
-@@ -7131,7 +7156,24 @@
+@@ -7131,7 +7181,24 @@
                 let original_decl =
                   mk_fn_decl contract
                     (Some (original_body, closing_cbrace_loc)) in
@@ -60,14 +94,14 @@
 +                 exact_line 218 "            __vf_sort4_second_unwind();";
 +                 exact_line 223 "        let c2 = is_less/*@::<F, (&'cmp2 T, &'cmp2 T), 'cmp2>@*/(&*v_base.add(3), &*v_base.add(2));";
 +                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
-+                   "actual-c2-original-ast.ml"
++                   "actual-c2-unbound-scaffold-ast.ml"
 +                   (Ocaml_expr_of_ast.of_decl original_decl);
-+                 failwith "SORT4-C2-DISCOVERY: DISCOVERY_ONLY_NOT_PROOF original_AST_emitted"
++                 failwith "SORT4-C2-DISCOVERY: UNBOUND_C2_LIFETIME_NOT_PROOF scaffold_AST_emitted"
 +               end else if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
                    State.body_name <> "sort4_stable" then original_decl
                 else begin
                   let reject why =
-@@ -14703,6 +14745,16 @@
+@@ -14703,6 +14770,16 @@
               "sort4_stable" then
            failwith "SORT4-C1-PREFIX: isolated exact-one body, unwind and full checks required"
        end;

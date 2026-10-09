@@ -22,7 +22,8 @@ classifier rejected stock wrapper calls; exact saved replay under independent
 review repairs service verdict only. All6 intended resource/post negatives pinned.
 Still conditional size/type/dst/resources; native subset not yet a full actual
 caller chain. Default-off whole sort4 VF1 at c2 source195/aliasing token88.
-2117/3600 seconds accounted,1483 remaining,no active Build. FreshC974/dfe8:
+2485/3600 seconds accounted,1115 remaining,typed46bb terminalSUCCESS;
+text archive reconciliation pending. FreshC974/dfe8:
 C2 full normal/readonly MIR/export/decode/refinement0, original AST blocked by
 mid-block let_lft parse196. No C2 proof; exact raw correspondence under review.
 Next current session: isolated typed native subset positive/missing-T/F controls;
@@ -30,3 +31,8 @@ stock logical production/frame restoration only. C2 binding/projection requires
 new narrow rationale/review, strict checks preserved. Profiles unaccepted.
 Prior select and conditional c1 keep their exact scope; profile unaccepted.
 Historical STATUS retained in [branch archive](archive/select-adoption-2026-10-10/README.md).
+
+Fresh typed46bb/ff5d4b85 native entry VF0 (82 statements), stock logical T/F
+production, checked typed source identity, exact native frame/posts/return/leak.
+No heap type_interp derivation, actual caller CFG or callback unwind claim.
+Current C2 next: reviewed unbound declaration scaffold capture, NOT_PROOF.

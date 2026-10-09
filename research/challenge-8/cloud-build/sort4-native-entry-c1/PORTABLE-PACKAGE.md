@@ -33,3 +33,12 @@ and [independent review](C2-DISCOVERY-IMPLEMENTATION-REVIEW.md) extend only the 
 translator, after the exact C1 profile. Full source ECD83, two cut bindings, original
 complete AST capture and intentional refusal; never a C2 proof. This package is
 internal and portable, pending Cloud compile/capture and later maintainer review.
+
+Current C2 package supersedes the original-AST diagnostic with an explicitly
+unbound declaration scaffold. See C2-UNBOUND-SCAFFOLD-CARD.md (independent design
+and implementation review). Exact second source196 let_lft is parsed by the stock
+declaration parser into a closed local declaration/placeholder block, and the
+translator always refuses before proof/summary. No lifetime escapes into C2.
+Patch2a1ffa0bb1b472869a7697eb93bc9c45d671870de930791b13e725baf67d9cc8
+from590483 yields8e467ca535bfcead8555a717897ec0355261ee8ccb011f98441e2dba80b5984f.
+Historical original diagnostic remains at dfe8a19/ff5d4b85; no proof upgraded.

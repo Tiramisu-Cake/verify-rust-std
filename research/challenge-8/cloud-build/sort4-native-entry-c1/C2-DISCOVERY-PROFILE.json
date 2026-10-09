@@ -1,19 +1,19 @@
 {
-  "classification": "EXPERIMENTAL_C2_DISCOVERY_ONLY_NOT_PROOF",
+  "classification": "EXPERIMENTAL_C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF",
   "base_translator_sha256": "590483304f55d744389f294a1dcc09053ba484d682d45d81ee6520d92b06f854",
-  "patched_translator_sha256": "b33ca54a8d20aff2e03725b492e8f0e98adab7925420200a98288bb3b5f3343c",
-  "patch_sha256": "d9ac74e030a84b7926573d3426142fc0122367df7a9f432d74fd00a9b8954c95",
+  "patched_translator_sha256": "8e467ca535bfcead8555a717897ec0355261ee8ccb011f98441e2dba80b5984f",
+  "patch_sha256": "2a1ffa0bb1b472869a7697eb93bc9c45d671870de930791b13e725baf67d9cc8",
   "profile_accepted": false,
   "cloud_discovery_enabled": true,
   "kernel_changed": false,
   "memory_model_changed": false,
   "source_sha256": "ecd83f8c0840a07f138bc8afa2a36c661f296d748693afa2a0a61667cb3372e4",
   "source_pin": "C2-SOURCE-PIN.json",
-  "always_reject_after_original_ast_emit": true,
   "default_off_unchanged": true,
   "original_source_sha256": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
   "c1_base_source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9",
-  "intentional_refusal_marker": "SORT4-C2-DISCOVERY: DISCOVERY_ONLY_NOT_PROOF original_AST_emitted",
+  "intentional_refusal_marker": "SORT4-C2-DISCOVERY: UNBOUND_C2_LIFETIME_NOT_PROOF scaffold_AST_emitted",
   "source_refusal_marker": "SORT4-C2-DISCOVERY: verified source SHA256 differs",
-  "original_ast_filename": "actual-c2-original-ast.ml"
+  "always_reject_after_scaffold_ast_emit": true,
+  "scaffold_ast_filename": "actual-c2-unbound-scaffold-ast.ml"
 }

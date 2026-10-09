@@ -66,9 +66,9 @@ def resolve_c2_activation(profile: dict, env_value: str | None) -> dict:
     need(type(enabled_field) is bool,
          "C2 cloud_discovery_enabled profile field must be an exact JSON boolean")
     profile_valid = (profile.get("classification") ==
-                     "EXPERIMENTAL_C2_DISCOVERY_ONLY_NOT_PROOF" and
+                     "EXPERIMENTAL_C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF" and
                      profile.get("profile_accepted") is False and
-                     profile.get("always_reject_after_original_ast_emit") is True)
+                     profile.get("always_reject_after_scaffold_ast_emit") is True)
     if env_value == "0":
         enabled = False
         source = "explicit_environment_off_overrides_profile"
@@ -1126,7 +1126,7 @@ def main() -> None:
                 c2_result = {
                     "classification": "C2_NOT_RUN_C1_BOUNDARY_NOT_GREEN",
                     "accepted": False, "actual_sort4_proved": False,
-                    "callable_summary": "C2_DISCOVERY_ONLY_NOT_PROOF",
+                    "callable_summary": "C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF",
                     "c1_prefix_classification": c1_positive.get("classification"),
                     "proof_credit": False}
             result["c2_discovery"] = c2_result

@@ -26,3 +26,19 @@ translatorb33ca54a are fully pinned in C2-DISCOVERY-PROFILE. Both profiles remai
 unaccepted. Cloud gates rebuild, frozen critical/spec/library checks, default-off
 C1 prefix VF0, complete MIR/refinement capture, original AST inventory and exact
 source-hash refusal. No new projection or C2 proof authorized by discovery output.
+
+## 2026-10-09 unbound scaffold delta
+
+Main developed the translator in its own detached VeriFast worktree, changing
+only the opt-in C2 statement classification and diagnostic filename/refusal.
+Independent Sol review before implementation accepted the diagnostic boundary;
+implementation review found card wording and runner lifetime declaration count
+issues, both fixed. Exact source196 raw annotation, stock singleton declaration
+parser match, source/hash/one-body/unwind gates and exact-one placeholder are
+required. The block closes at the annotation; no binding escapes. Kernel never
+sees this scaffold; fail-closed refusal occurs during target translation.
+
+Worker wrote only assigned own-worktree classifier/activation/recipe/review files.
+Main checked diff boundaries. Synthetic classifier controls and saved-byte splice
+match ECD83; no local compiler/proof execution. Fresh Cloud compile/default-off C1
+regression/MIR/scaffold/negative admission outcomes remain NOT_RUN until artifact.

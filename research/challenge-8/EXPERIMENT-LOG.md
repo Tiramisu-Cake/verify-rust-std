@@ -6550,3 +6550,22 @@ blocks originalAST, noC2proof. Exact sourcehashmutant admissionnegative passed.
 319Cloudsec,total2117/3600,1483remain. Archivea92288cc/inventory755.
 See C2-FRESH-C974-EVIDENCE for exactgraph/tool/profile/source; typednativefallback
 reviewed/prepared afterthisfailure, no assumption or disabledchecks.
+
+### 2026-10-09 23:48 UTC — typed native entry, fresh46bb/ff5d
+
+See cloud-build/sort4-native-entry-c1/TYPED-NATIVE-FRESH-46BB-EVIDENCE.md.
+Positive raw VF0/82 statements: stock logical T/F production, source4/CURRENT
+owners, F cell/F.own/thread, identity helper and exact full native frame/posts/return/leak.
+No callback; automatic unwind post captured/vacuous, no actual caller CFG or sort4.
+Both missing-producer controls independently reviewed at exact callee16/caller43;
+raw service labels remain UNREVIEWED, no rerun/replay proof credit.
+Charged368sec; cumulative2485/3600; archive/text receiptsverified.
+
+Next C2 diagnostic hypothesis: source196 second let_lft can be represented by a
+stock-parsed singleton declaration inside a closed unresolved placeholder block,
+while preserving full runtime AST/call inventory. Exact ECD83/fullunwind source;
+semantic rationale/review C2-UNBOUND-SCAFFOLD-CARD.md. Expected intentional
+UNBOUND_C2_LIFETIME_NOT_PROOF refusal AFTER fresh scaffold emission, beforekernel.
+Source-operand mutation must refuse before AST. DefaultoffC1mustremain VF0.
+Success only unlocks separately reviewed sibling-scope projection; parse/shape
+failure remains a localized frontend preparation blocker, noC2proof.

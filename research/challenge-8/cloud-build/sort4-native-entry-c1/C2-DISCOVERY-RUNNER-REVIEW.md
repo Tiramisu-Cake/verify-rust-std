@@ -69,3 +69,22 @@ DBB9 failure/review: exporter TRACE stderr contaminated binary MIR because the n
 stage helper merged stderr. Corrected to stock capture stream routing and separate
 stdout/stderr hashes/PWD. Independent Sol static review found no trust change;
 old files preserved, next fresh export required. No local exporter/decode executed.
+
+## Current input: unbound C2 lifetime scaffold
+
+The transported card `C2-UNBOUND-SCAFFOLD-CARD.md` replaces the previous
+original-declaration discovery target. The collector now requires profile class
+`EXPERIMENTAL_C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF`,
+`always_reject_after_scaffold_ast_emit=true`, and the exact
+`actual-c2-unbound-scaffold-ast.ml` output name. It accepts only the exact
+`SORT4-C2-DISCOVERY: UNBOUND_C2_LIFETIME_NOT_PROOF scaffold_AST_emitted`
+refusal after a fresh nonempty AST emission in that same invocation. The AST
+classifier requires the target to retain the five FnMut/eight selector/four
+copy runtime inventory and one source-196 `TypeWithTypeidDecl` for `'cmp2` using
+`typeid_of_lft(cmp2_k)`, enclosed in the same `PureStmt`/`BlockStmt` as the unique
+explicit `__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER` command. This is an
+unbound structural scaffold only; it does not claim the later C2 use is bound,
+prove a lifetime/type/ownership fact, or emit a proof summary. All outputs remain
+`accepted=false`, `actual_sort4_proved=false`, and
+`C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF`. Historical original-declaration evidence
+and filenames are not overwritten or relabeled.

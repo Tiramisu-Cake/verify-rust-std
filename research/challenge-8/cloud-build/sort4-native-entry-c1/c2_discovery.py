@@ -34,6 +34,9 @@ C2_SOURCE_LINE = ANNOTATED_C2.decode("ascii")
 GHOST_BLOCK = re.compile(rb"/\*@.*?@\*/(?:\r?\n)?", re.S)
 GHOST_LINE = re.compile(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)")
 FUNC_NAME = "sort4_stable"
+C2_PLACEHOLDER = "__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER"
+C2_PLACEHOLDER_SOURCE_LINE = 196
+C2_SCAFFOLD_CLASS = "EXPERIMENTAL_C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF"
 
 
 def need(ok: bool, message: str) -> None:
@@ -118,7 +121,7 @@ def source_inventory(source: bytes, pin: dict[str, Any]) -> dict[str, Any]:
     lines = text.splitlines()
     expected = pin.get("source_lines", {})
     marker_lines = {"c1_marker": [], "c2_marker": [], "c1_cut": [],
-                    "c2_cut": [], "c2_call": []}
+                    "c2_cut": [], "c2_call": [], "c2_lft_annotation": []}
     for n, line in enumerate(lines, 1):
         if "__vf_sort4_first_unwind();" in line:
             marker_lines["c1_marker"].append(n)
@@ -130,6 +133,9 @@ def source_inventory(source: bytes, pin: dict[str, Any]) -> dict[str, Any]:
             marker_lines["c2_cut"].append(n)
         if line == C2_SOURCE_LINE:
             marker_lines["c2_call"].append(n)
+        if line.strip() == "/*@ let_lft 'cmp2 = cmp2_k; @*/":
+            marker_lines["c2_lft_annotation"].append(n)
+    expected.setdefault("c2_lft_annotation", C2_PLACEHOLDER_SOURCE_LINE)
     unique_expected = all(len(marker_lines[key]) == 1 and
                           marker_lines[key][0] == expected.get(key)
                           for key in marker_lines)
@@ -138,7 +144,8 @@ def source_inventory(source: bytes, pin: dict[str, Any]) -> dict[str, Any]:
                marker_lines["c2_cut"][0]) if unique_expected else False
     return {"source_lines": marker_lines,
             "expected_source_lines": expected,
-            "source_contract_ok": unique_expected and ordered,
+            "source_contract_ok": (unique_expected and ordered and
+                                   marker_lines["c2_lft_annotation"] == [C2_PLACEHOLDER_SOURCE_LINE]),
             "full_verified_source_sha256": digest(source),
             "original_runtime_call_preserved": source.count(ANNOTATED_C2) == 1}
 
@@ -201,6 +208,130 @@ def ast_runtime_inventory(text: str, c2_line: int = 223) -> dict[str, Any]:
             "copy_count": len(copies), "copy_calls": copies,
             "expected": {"fnmut": 5, "c2_fnmut_line": c2_line,
                          "selectors": 8, "copies": 4}, **shape}
+
+
+def _constructor_spans(text: str, constructor: str) -> list[tuple[int, int]]:
+    """Return balanced serialized-AST constructor spans, respecting quoted strings."""
+    spans = []
+    for match in re.finditer(r"(?<![\w])" + re.escape(constructor) + r"\s*\(", text):
+        opening = text.find("(", match.start())
+        depth, quoted, escaped = 0, False, False
+        for at in range(opening, len(text)):
+            ch = text[at]
+            if quoted:
+                if escaped:
+                    escaped = False
+                elif ch == "\\":
+                    escaped = True
+                elif ch == '"':
+                    quoted = False
+            elif ch == '"':
+                quoted = True
+            elif ch == "(":
+                depth += 1
+            elif ch == ")":
+                depth -= 1
+                if depth == 0:
+                    spans.append((match.start(), at + 1))
+                    break
+    return spans
+
+
+def unbound_scaffold_ast_inventory(text: str, c2_line: int = 223) -> dict[str, Any]:
+    """Require the emitted target AST's exact unbound declaration/placeholder block."""
+    runtime = ast_runtime_inventory(text, c2_line)
+    runtime_ok = runtime.get("status") == "CONFIRMED_C2_ORIGINAL_DECL_RUNTIME_INVENTORY"
+    runtime["status"] = "C2_RUNTIME_INVENTORY_PRESERVED" if runtime_ok else "NOT_CONFIRMED"
+    body, shape = named_function_span(text)
+    if body is None:
+        return {"status": "NOT_CONFIRMED", "runtime_inventory": runtime, **shape}
+    decls = _constructor_spans(body, "TypeWithTypeidDecl")
+    decl_texts = [body[start:end] for start, end in decls]
+    named_decls = []
+    for span, text in zip(decls, decl_texts):
+        match = re.search(r'"\'(cmp2?)"', text)
+        if match:
+            named_decls.append((span, match.group(1)))
+    decl_names = [name for _, name in named_decls]
+    cmp2_decls = [span for span, name in named_decls if name == "cmp2"]
+    placeholders = [m.start() for m in re.finditer(re.escape(C2_PLACEHOLDER), body)]
+    calls = _constructor_spans(body, "CallExpr")
+    expr_stmts = _constructor_spans(body, "ExprStmt")
+    blocks = _constructor_spans(body, "BlockStmt")
+    pures = _constructor_spans(body, "PureStmt")
+    decl_span = cmp2_decls[0] if len(cmp2_decls) == 1 else None
+    call_spans = [span for span in calls if C2_PLACEHOLDER in body[span[0]:span[1]]]
+    call_span = call_spans[0] if len(call_spans) == 1 else None
+    decl_text = body[decl_span[0]:decl_span[1]] if decl_span else ""
+    compact_decl = re.sub(r"\s+", "", decl_text)
+    # Locations are tuples serialized before declaration payloads; check payload
+    # structure independently of their concrete source-span formatting.
+    declaration_shape = ("TypeWithTypeidDecl" in compact_decl and
+                         bool(re.search(r'"\'cmp2"', decl_text)) and
+                         "typeid_of_lft" in compact_decl and
+                         "cmp2_k" in compact_decl and
+                         "LitPat(Var" in compact_decl and "Static" in compact_decl)
+    enclosing_blocks = [span for span in blocks if decl_span and call_span and
+                        span[0] <= decl_span[0] < decl_span[1] <= span[1] and
+                        span[0] <= call_span[0] < call_span[1] <= span[1]]
+    smallest_blocks = [span for span in enclosing_blocks
+                       if not any((other[1] - other[0]) < (span[1] - span[0])
+                                  for other in enclosing_blocks)]
+    scaffold_block = smallest_blocks[0] if len(smallest_blocks) == 1 else None
+    enclosing_pures = [span for span in pures if scaffold_block and
+                       span[0] <= scaffold_block[0] < scaffold_block[1] <= span[1]]
+    smallest_pures = [span for span in enclosing_pures
+                      if not any((other[1] - other[0]) < (span[1] - span[0])
+                                 for other in enclosing_pures)]
+    scaffold_pure = smallest_pures[0] if len(smallest_pures) == 1 else None
+    enclosing_exprs = [span for span in expr_stmts if call_span and
+                       span[0] <= call_span[0] < call_span[1] <= span[1]]
+    smallest_exprs = [span for span in enclosing_exprs
+                      if not any((other[1] - other[0]) < (span[1] - span[0])
+                                 for other in enclosing_exprs)]
+    scaffold_expr = smallest_exprs[0] if len(smallest_exprs) == 1 else None
+    call_text = body[call_span[0]:call_span[1]] if call_span else ""
+    compact_call = re.sub(r"\s+", "", call_text)
+    exact_placeholder_call = (C2_PLACEHOLDER in call_text and
+                              compact_call.count('"' + C2_PLACEHOLDER +
+                                                 '",[],[],[],Static)') == 1 and
+                              compact_call.endswith('"' + C2_PLACEHOLDER +
+                                                    '",[],[],[],Static)'))
+    block_text = body[scaffold_block[0]:scaffold_block[1]] if scaffold_block else ""
+    block_decl_count = sum(1 for start, end in decls if scaffold_block and
+                           scaffold_block[0] <= start < end <= scaffold_block[1])
+    block_expr_count = sum(1 for start, end in expr_stmts if scaffold_block and
+                           scaffold_block[0] <= start < end <= scaffold_block[1])
+    location_ok = (f"verified/lib.rs({C2_PLACEHOLDER_SOURCE_LINE}," in
+                   (body[scaffold_pure[0]:scaffold_pure[1]] if scaffold_pure else ""))
+    structure_ok = (decl_names.count("cmp") == 1 and decl_names.count("cmp2") == 1 and
+                    not any(name not in ("cmp", "cmp2") and name.startswith("cmp") for name in decl_names) and
+                    len(cmp2_decls) == len(placeholders) == len(call_spans) == 1 and
+                    block_decl_count == block_expr_count == 1 and
+                    declaration_shape and scaffold_block is not None and scaffold_pure is not None and
+                    scaffold_expr is not None and exact_placeholder_call and location_ok and
+                    block_text.find(decl_text) < block_text.find(call_text))
+    status = "CONFIRMED_C2_UNBOUND_SCAFFOLD_RUNTIME_INVENTORY" if (
+        runtime_ok and structure_ok
+    ) else "NOT_CONFIRMED"
+    return {"status": status, "runtime_inventory": runtime,
+            "placeholder": C2_PLACEHOLDER,
+            "placeholder_occurrences_in_target": len(placeholders),
+            "placeholder_source_line": C2_PLACEHOLDER_SOURCE_LINE,
+            "type_with_typeid_decl_count_in_target": len(decls),
+            "cmp_type_with_typeid_decl_count_in_target": decl_names.count("cmp"),
+            "cmp2_type_with_typeid_decl_count_in_target": decl_names.count("cmp2"),
+            "declaration_count_inside_scaffold_block": block_decl_count,
+            "expression_statement_count_inside_scaffold_block": block_expr_count,
+            "other_cmp_lifetime_declarations": [name for name in decl_names if name.startswith("cmp") and name not in ("cmp", "cmp2")],
+            "typeid_of_lft_and_cmp2_k_shape": declaration_shape,
+            "placeholder_call_exact": exact_placeholder_call,
+            "same_pure_block_and_order": scaffold_block is not None and scaffold_pure is not None and
+                                         scaffold_expr is not None and
+                                         bool(block_text) and block_text.find(decl_text) < block_text.find(call_text),
+            "placeholder_location_is_source_196": location_ok,
+            "full_target_ast_sha256": digest(body.encode()),
+            "not_a_bound_lifetime_ast": True}
 
 
 def _record(path: Path, value: dict[str, Any]) -> None:
@@ -445,12 +576,12 @@ def run_discovery(a, fixture: Path, c1_tool: Path, env: dict[str, str],
     pin = json.loads(pin_path.read_text())
     profile = json.loads(profile_path.read_text())
     patch = a.proof_root / PATCH
-    need(profile.get("classification") == "EXPERIMENTAL_C2_DISCOVERY_ONLY_NOT_PROOF" and
+    need(profile.get("classification") == C2_SCAFFOLD_CLASS and
          profile.get("source_sha256") == pin["annotated_verified_sha256"] and
          profile.get("original_source_sha256") == pin["ghost_stripped_runtime_sha256"] and
          profile.get("c1_base_source_sha256") == pin["base_verified_sha256"] and
          profile.get("patch_sha256") == digest(patch.read_bytes()) and
-         profile.get("always_reject_after_original_ast_emit") is True and
+         profile.get("always_reject_after_scaffold_ast_emit") is True and
          profile.get("default_off_unchanged") is True and
          profile.get("cloud_discovery_enabled") is True,
          "C2 discovery profile/source/patch pin differs")
@@ -553,48 +684,52 @@ def run_discovery(a, fixture: Path, c1_tool: Path, env: dict[str, str],
          "C2 full normal/readonly MIR and refinement support failed")
     c2_env["SORT4_ACTUAL_C2_DISCOVERY_TEST"] = "1"
     c2_env["SORT4_C2_DISCOVERY"] = "1"
-    ast_name = profile.get("original_ast_filename")
+    ast_name = profile.get("scaffold_ast_filename")
     expected_diagnostic = profile.get("intentional_refusal_marker")
     expected_refusal = profile.get("source_refusal_marker")
-    need(ast_name == "actual-c2-original-ast.ml" and
+    need(ast_name == "actual-c2-unbound-scaffold-ast.ml" and
          isinstance(expected_diagnostic, str) and expected_diagnostic and
-         isinstance(expected_refusal, str) and expected_refusal,
-         "C2 profile lacks exact AST path/diagnostic/refusal markers")
+         isinstance(expected_refusal, str) and expected_refusal and
+         expected_diagnostic == "SORT4-C2-DISCOVERY: UNBOUND_C2_LIFETIME_NOT_PROOF scaffold_AST_emitted",
+         "C2 profile lacks exact scaffold AST path/diagnostic/refusal markers")
     ast_path = evidence_fixture / ast_name
     if ast_path.exists():
         ast_path.unlink()
     verifier = [str(c2_source / "bin/verifast"), "-rustc_args", "--edition 2021",
                 "-verbose", "2", "verified/lib.rs"]
-    diag_code = _run_stage(a, "positive-original-declaration-diagnostic", verifier,
+    diag_code = _run_stage(a, "positive-unbound-scaffold-diagnostic", verifier,
                            evidence_fixture, c2_env, cap=600)
-    diag_log_path = a.evidence / "c2-positive-original-declaration-diagnostic.log"
+    diag_log_path = a.evidence / "c2-positive-unbound-scaffold-diagnostic.log"
     diag_log = diag_log_path.read_text(errors="replace") if diag_log_path.exists() else ""
     ast_fresh = ast_path.is_file() and ast_path.stat().st_size > 0
-    ast_copy = a.evidence / "actual-c2-original-ast.ml"
+    ast_copy = a.evidence / "actual-c2-unbound-scaffold-ast.ml"
     if ast_fresh:
         shutil.copy2(ast_path, ast_copy)
     ast_hash = digest(ast_copy.read_bytes()) if ast_copy.is_file() else None
-    ast_inv = ast_runtime_inventory(ast_copy.read_text(errors="replace")) if ast_copy.is_file() else {"status": "NOT_CONFIRMED"}
+    ast_inv = unbound_scaffold_ast_inventory(ast_copy.read_text(errors="replace")) if ast_copy.is_file() else {"status": "NOT_CONFIRMED"}
     diag_errors = [line for line in diag_log.splitlines()
                    if ": error:" in line or line.startswith("Fatal error:")]
     diagnosis_ok = (diag_code in (1, 2) and len(diag_errors) == 1 and
                     expected_diagnostic in diag_errors[0] and
                     diag_log.count(expected_diagnostic) == 1 and ast_fresh and
-                    ast_inv.get("status") == "CONFIRMED_C2_ORIGINAL_DECL_RUNTIME_INVENTORY")
-    diag = {"classification": "C2_DISCOVERY_ONLY_NOT_PROOF" if diagnosis_ok else "C2_DISCOVERY_INCONCLUSIVE",
+                    ast_inv.get("status") == "CONFIRMED_C2_UNBOUND_SCAFFOLD_RUNTIME_INVENTORY")
+    diag = {"classification": "C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF" if diagnosis_ok else "C2_UNBOUND_SCAFFOLD_INCONCLUSIVE",
             "exit": diag_code, "expected_diagnostic_marker": expected_diagnostic,
             "error_lines": diag_errors,
             "diagnostic_marker_count": diag_log.count(expected_diagnostic),
-            "fresh_nonempty_original_ast": ast_fresh, "original_ast_sha256": ast_hash,
+            "fresh_nonempty_unbound_scaffold_ast": ast_fresh, "unbound_scaffold_ast_sha256": ast_hash,
             "ast_inventory": ast_inv, "source_certificate_sha256": digest((a.evidence / "c2-source-certificate.json").read_bytes()),
             "raw_log_sha256": digest(diag_log_path.read_bytes()) if diag_log_path.exists() else None,
-            "invocation_stage_sha256": digest((a.evidence / "c2-positive-original-declaration-diagnostic-stage.json").read_bytes()),
+            "invocation_stage_sha256": digest((a.evidence / "c2-positive-unbound-scaffold-diagnostic-stage.json").read_bytes()),
             "pinned_translator_sha256": patched_translator,
             "same_invocation_ast_emission": ast_fresh and diag_log.count(expected_diagnostic) == 1,
             "source_pair_sha256_after": [digest((evidence_fixture / p).read_bytes()) for p in
                                           ("verified/lib.rs", "original/lib.rs")],
             "actual_sort4_proved": False, "accepted": False,
-            "proof_credit_scope": "original declaration/MIR discovery only; no C2 proof or summary"}
+            "proof_credit_scope": "unbound declaration scaffold structure only; no C2 proof or summary",
+            "placeholder": C2_PLACEHOLDER,
+            "placeholder_source_line": C2_PLACEHOLDER_SOURCE_LINE,
+            "type_interp_or_lifetime_binding_proved": False}
     _record(a.evidence / "c2-diagnostic-result.json", diag)
 
     mutant = a.evidence / "c2-source-hash-mutant"
@@ -632,12 +767,13 @@ def run_discovery(a, fixture: Path, c1_tool: Path, env: dict[str, str],
         "proof_credit": False})
     result = {"classification": diag["classification"], "accepted": False,
               "actual_sort4_proved": False, "full_body_exit_zero": False,
-              "callable_summary": "C2_DISCOVERY_ONLY_NOT_PROOF",
+              "callable_summary": "C2_UNBOUND_SCAFFOLD_ONLY_NOT_PROOF",
               "diagnostic": diag, "support": support,
               "c2_ordered_operands_unwind_status": "UNREVIEWED_COMPLETE_GRAPH_CAPTURE",
               "default_off_c1_prefix_regression": default_off_probe,
               "source_hash_mutant_intended": refusal,
               "translator_profile_inputs": "c2-translator-profile-inputs.json",
-              "proof_credit_scope": "discovery evidence only; no C2 bounded theorem"}
+              "proof_credit_scope": "unbound C2 scaffold diagnostic only; no C2 bounded theorem",
+              "type_interp_or_lifetime_binding_proved": False}
     _record(a.evidence / "c2-discovery-result.json", result)
     return result
