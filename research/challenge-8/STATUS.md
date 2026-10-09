@@ -1,3 +1,20 @@
+# Active merge phase: internal MIR lifecycle origin
+
+2026-10-09 20:16:40–21:16:40UTC; finishing only until21:46:40UTC.
+User authorized origin repair, then runtime extent investigation; Cloud owner merge,
+new3600s create→finish. Old a74d6127/fbc063ce checkpoint and packages preserved.
+Own project worktree /root/verify-rust-std-merge-origin, branch merge/incoming-origin-20261009.
+Own tool candidate6cb7b6736c4ef7978d2f3a80737952ac7148cccb in
+/root/verifast-merge-incoming-span (branch merge/incoming-span-lifetime-20261009).
+Profile experimental-merge-incoming-origin-onecell-v3, NOT_ACCEPTED; geometry fixed
+scalar/pointer only. Source-call lifecycle dispatch removed; Cloud origin gate pending.
+Actual generic rerun NOT_RUN: origin-only change cannot cure separation; exact
+runtime extent bridge absent and concrete unit layout diagnostic pending.
+Phase ledger/evidence: [incoming-origin](cloud-build/incoming-origin/RATIONALE.md).
+No consumer pin, ownership transfer, integration or upstream publication.
+
+---
+
 # MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09 — CLOSED / NO-GO
 
 Owner merge; [checkpoint](merge/INCOMING-SPAN-LIFETIME-CHECKPOINT-2026-10-09.md).

@@ -264,7 +264,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
     exporter = base.run_stage(case, "exporter", [
         str(args.tool_home / "bin/vf-rust-mir-exporter"), "verified/lib.rs",
         f"--sysroot={args.compiler_sysroot}", "--edition", "2021", "--crate-type", "lib",
-        "--vf-rust-mir-exporter:preprocess-readonly"], env,
+        ], env,
         timeout_seconds=args.stage_seconds, stdout_name="compiler-mir.bin")
     if exporter == 0:
         decode = base.run_stage(case, "decode", ["capnp", "decode", "-I",

@@ -9,3 +9,23 @@ Design: replace ordinary CallExpr lifecycle interception with internal AST stora
 Actual obligation: unchanged generic CopyOnDrop tmp->tail span at diagnostic line69, caller insert_tail in actual SmallSort. Origin repair alone cannot remove the size/domain separation refusal, so do not rerun actual with only this repair. After origin, investigate exact runtime layout and concrete unit; prepare missing-rule/minimal reproducer if no sound patch is available. No supplied separation premise.
 
 Validation: fresh Cloud source build, prior six controls with MIR/AST binding adapted to internal event shape; extern prototype/diverging route recorded separately as frontend rejection or verified ordinary-call semantic behavior; ghost/source forgery and targeted cleanup/normal/unwind cases. Frontend/setup failures earn no semantic negative credit. Existing proof outcomes are historical; replay creates no new proof. Independent implementation review remains necessary before integration. Own3600-second Cloud ledger; v2 coordinator/max2 unchanged, owner merge.
+
+## Fresh first-build findings and exact MIR origin capture
+
+Build6cf7f205 on01c832b2 compiled the profile and verified five of six controls;
+retirement was INCONCLUSIVE because standalone exporter used preprocess-readonly
+and verifier used default in-memory ghost preprocessing. Its MIR raw IDs differ
+(_7 vs _12 for tmp1). Do not equate raw local IDs across those two MIR artifacts.
+Next pipeline mirrors verifier's default exporter preprocessing so the origin
+auditor checks actual AST events against the matching compiler input. FileLoader
+returns transformed source in memory; it never writes source files (lib.rs
+source fingerprints remain checked at every stage). Original readonly evidence
+and classifications remain immutable; no old proof is promoted without replay.
+Native C test verified both ordinary calls, then link failed because cached source
+profile has no crt.dll.vfmanifest; next targeted verification uses documented -c.
+Extern fixtures had incorrectly positioned req/ens inside Rust extern blocks
+and failed frontend parsing; they provide no semantic negative or proof of an
+extern-prototype rejection rule. Source/contract positioning is repaired before
+next run. Concrete unit ghost and runtime-result assertions both failed at their
+marked obligations, confirming that modeled extent cannot be used as actual
+unit layout. The exact generic runtime rule remains missing.

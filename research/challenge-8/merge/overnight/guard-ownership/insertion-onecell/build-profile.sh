@@ -101,7 +101,7 @@ FINAL
 
 # Native regression for ordinary prototypes with the historical marker spelling.
 set +e
-timeout --signal=TERM --kill-after=5s 35s "$new_home/bin/verifast" \
+timeout --signal=TERM --kill-after=5s 35s "$new_home/bin/verifast" -c \
   "$new_home/tests/rust_storage_marker_name_calls.c" \
   > "$evidence/native-origin.log" 2>&1
 native_status=$?

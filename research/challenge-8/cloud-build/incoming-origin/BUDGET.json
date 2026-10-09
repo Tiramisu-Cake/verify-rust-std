@@ -9,11 +9,36 @@
   "status": "AUTHORIZED",
   "authorization": "User assignment resume a74d6127/fbc063ce: fix MIR lifetime event origin and Cloud verify extern/diverging, six controls and affected normal/unwind; then runtime extent; own worktrees; owner merge; new3600s create-to-finish;60+30 finishing only; portable packet and pushed checkpoint authorized. No upstream publication.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 394,
+  "remaining_build_seconds": 3206,
   "allowed_lanes": [
     "merge"
   ],
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-5bc52bb83a61452e927a17df31069f6f",
+      "owner": "merge",
+      "phase_id": "MERGE-INCOMING-ORIGIN-CLOUD-2026-10-09",
+      "infra_sha": "01c832b272ddfe45c0df8298a278761c6aae3aaa",
+      "proof_sha": "01c832b272ddfe45c0df8298a278761c6aae3aaa",
+      "lane": "merge",
+      "submitted_config_sha256": "3245b943b08f8e98aa780050726caab9d5ec1b760c743548ef3c38b9490852c8",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "141ce16408f43c3ee9c619c6a0366f2aa0ab45afd3723ffb8b89d43a2888e563",
+      "build_id": "6cf7f205-a3a0-46d3-9419-938c5b20d72b",
+      "start_time": "2026-10-09T20:41:20.069148220Z",
+      "finish_time": "2026-10-09T20:47:52.595215Z",
+      "create_time": "2026-10-09T20:41:19.273177187Z",
+      "build_seconds": 394,
+      "accounted": true,
+      "execution_seconds": 393,
+      "download_verified": true,
+      "archive_sha256": "9f5827069039d6b8ff2a87135ed5d4f940b8868e865b14e401ed5ec1683c02c7"
+    }
+  ],
   "active_build": null
 }
