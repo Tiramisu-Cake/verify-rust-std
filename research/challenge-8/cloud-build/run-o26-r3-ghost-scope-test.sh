@@ -3,6 +3,8 @@
 set -euo pipefail
 [[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build &&
    "${LANE:-}" == o26-r3-ghost-scope-test && -z "${GITHUB_ACTIONS:-}" ]] || exit 2
+export O26_WITH_R3_RECEIVER_TEST=${O26_WITH_R3_RECEIVER_TEST:-0}
+[[ "$O26_WITH_R3_RECEIVER_TEST" == 0 || "$O26_WITH_R3_RECEIVER_TEST" == 1 ]] || exit 2
 cloud_dir=${INFRA_CLOUD_DIR:-/workspace/infra/research/challenge-8/cloud-build}
 work_root=${WORK_ROOT:-/workspace/smallsort-work}
 compiler_sysroot=

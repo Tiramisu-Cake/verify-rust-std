@@ -1,0 +1,55 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -3698,12 +3698,38 @@
+                    when Sort4MaybeUninit.pointer_element raw_pointer &&
+                         raw_pointer = element_pointer ->
+                      if State.body_name = "select_unpredictable" then (
++                       let receiver_test_requested =
++                         match Sys.getenv_opt
++                           "SORT4_R3_RECEIVER_TEST_REPO_ROOT",
++                               Sys.getenv_opt "SORT4_R3_RECEIVER_TEST" with
++                         | None, None -> false
++                         | Some _, Some "1" -> true
++                         | _ -> Sort4AsMutPtr.reject
++                             "R3 receiver TEST partial or invalid opt-in" in
++                       if receiver_test_requested then (
++                         let root = match Sys.getenv_opt
++                           "SORT4_R3_RECEIVER_TEST_REPO_ROOT" with
++                           | Some root -> root
++                           | None -> Sort4AsMutPtr.reject
++                               "R3 receiver TEST missing root" in
++                         if Sys.getenv_opt
++                              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" <> Some root ||
++                            Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" <> Some "1" ||
++                            Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <> Some root ||
++                            Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <> Some "1" ||
++                            not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++                            not !Sort4SelectIntrinsic.actual_owner_admitted ||
++                            not !Sort4SelectIntrinsic.actual_nine_admitted then
++                           Sort4AsMutPtr.reject
++                             "R3 receiver TEST exact parent admission");
+                        let expected_local =
+-                         if !Sort4AsMutPtr.redirect_count = 0 then "_9"
+-                         else if !Sort4AsMutPtr.redirect_count = 1 then "_11"
++                         if !Sort4AsMutPtr.redirect_count = 0 then
++                           if receiver_test_requested then "_11" else "_9"
++                         else if !Sort4AsMutPtr.redirect_count = 1 then
++                           if receiver_test_requested then "_13" else "_11"
+                          else Sort4AsMutPtr.reject
+                            "actual external receiver call count" in
+-                       match OperandRd.get receiver_cpn with
++                       (match OperandRd.get receiver_cpn with
+                        | OperandRd.Move place when
+                            LocalDeclIdRd.name_get (PlaceRd.local_get place) =
+                              expected_local &&
+@@ -3713,6 +3739,10 @@
+                              VfMirRd.PlaceKind.Other -> ()
+                        | _ -> Sort4AsMutPtr.reject
+                            "actual external receiver operand/binding");
++                       if receiver_test_requested then
++                         Printf.printf
++                           "R3-RECEIVER-TEST: accepted NORMAL receiver %s\n%!"
++                           expected_local);
+                      incr Sort4AsMutPtr.redirect_count;
+                      Printf.printf
+                        "SORT4-AS-MUT-PTR: redirected typed external call %d\n%!"

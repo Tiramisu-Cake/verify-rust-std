@@ -914,6 +914,18 @@ def r3_ghost_scope_test(ev):
               report.get('verification_accepted') is False and
               report.get('actual_nested_drop_credit') is False and
               report.get('actual_helper_proved') is False)
+    receiver_requested=os.environ.get('O26_WITH_R3_RECEIVER_TEST','0')=='1'
+    receiver=report.get('receiver_test') or {}
+    if receiver_requested:
+        complete=(complete and report.get('receiver_test_requested') is True and
+                  receiver.get('classification')=='R3_RECEIVER_TEST_DIAGNOSTIC_COMPLETE' and
+                  receiver.get('diagnostic_complete') is True and
+                  all(receiver.get(k) is True for k in
+                      ('exact_scope_parent','default_off_refusal','partial_pair_refusal',
+                       'receiver_on_markers','wrong_first_receiver_negative','wrong_second_receiver_negative')) and
+                  all(receiver.get(k) is False for k in
+                      ('accepted','verification_accepted','actual_source_accepted','target_contract_proved',
+                       'malformed_place_admissibility_complete')))
     return {'requested':True,'complete':complete,'helper_exit':code,
             'parent_helper_exit':parent_code,'accepted':False,
             'actual_nested_drop_credit':False,'actual_helper_proved':False,

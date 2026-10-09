@@ -57,5 +57,39 @@ Drop not credited before its same-version body. Collector/TEST pass is not theor
 
 Infrastructure uses existing scope lane runner plus opt-in receiver diagnostic
 extension in a separate copied tool; same current source/proof closure, added
-committed TEST inputs only, <=191parts. One shared Build, timeout1200+60queue reserve
+committed TEST inputs only, <=191parts. One shared Build, timeout900+60queue reserve
 within new3172remaining and deadline/evidence reserve. No old budget is spent.
+
+## Implementation pins and controls
+
+Implemented as a separate optional nested diagnostic in the existing
+`o26-r3-ghost-scope-test` lane. `O26_WITH_R3_RECEIVER_TEST=1` requests it;
+absence defaults to `0`. The exact receiver opt-in pair is
+`SORT4_R3_RECEIVER_TEST_REPO_ROOT` and `SORT4_R3_RECEIVER_TEST=1`; its root
+must equal the exact scope and R2 roots and both R3 owner/nine plus R2
+input-relation admissions must be active. The changed mapping is in translator
+hash `7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6`,
+from exact scope parent `ed8ee5ed8a7f8abb7d9c7cee3a978059b55c0a02e34f908170a80d6cc3ed4102`.
+Patch SHA-256 is `284a135f0c43c0ef50a7d48cd5bc6e294415e0168fa9e11a9238c0ab9c0c6c09`.
+The parent reconstruction follows frozen20, refresh22, R2 component24 and the
+scope TEST patch from source object
+`f76012fb518703b1d98e243ac4f487f16877cfcb`.
+
+The Cloud helper retains full receiver-off, partial-pair, receiver-on, wrong-first
+and wrong-second logs, stage summaries, tool snapshots, and patch/console hashes.
+A receiver control is valid only after the ghost-scope marker and exact source
+admission. The two wrong-identity runs are translator fault-injection diagnostics
+for the intended receiver predicate; they do not test malformed-place
+admissibility. An incomplete requested nested gate fails the outer scope audit.
+All acceptance, target-contract, malformed-place admissibility and theorem-credit
+fields remain false. The full target NORMAL and unwind posts, source, unit, body,
+specification, kernel, exporter and refiner are unchanged. Builds and proof runs
+remain Cloud-only; this implementation has only received static checks so far.
+
+The current candidate recipe uses an explicit receiver entrypoint under the same
+scope lane identity; it sets receiver flag1 and delegates to the unchanged-default0
+scope launcher. No lane alias or new scheduler registration. Main review corrected
+OCaml let scope, nested scope/R3 env propagation, exact snapshot key sets, timeout
+refusal, marker order and separate log/binary hashes. Architectural review confirms
+this diagnostic mapping only; fresh malformed place/Move/mutability/type and
+source/unit/body controls and actual callee obligations remain acceptance blockers.

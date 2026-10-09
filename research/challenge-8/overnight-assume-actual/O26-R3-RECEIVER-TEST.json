@@ -1,0 +1,42 @@
+{
+  "accepted": false,
+  "actual_source_acceptance": false,
+  "changed_trusted_component": "vf_mir_translator.ml source-linked external receiver local admission",
+  "classification": "EXPERIMENTAL_O26_R3_RECEIVER_TEST_NOT_ACCEPTED",
+  "diagnostic_marker": "R3-RECEIVER-TEST: accepted NORMAL receiver",
+  "expected_controls": {
+    "receiver_off": "scope TEST remains opted in; no receiver TEST pair; fail at actual external receiver operand/binding before proof headers",
+    "receiver_on": "exactly two NORMAL markers, first _11 then _13; retain complete full proof log and exit/first failure without theorem credit",
+    "receiver_partial": "scope TEST remains opted in; incomplete receiver pair fails at R3 receiver TEST partial or invalid opt-in before proof headers",
+    "scope_parent": "exact source/unit/body capture and R3/nine/R2/scope admission remains intact",
+    "wrong_first_and_wrong_second": "isolated translator fault injections fail at actual external receiver operand/binding after scope marker and unchanged source admission"
+  },
+  "malformed_place_admissibility_complete": false,
+  "mutation_controls_complete": false,
+  "opt_in": {
+    "SORT4_R3_RECEIVER_TEST": "1",
+    "SORT4_R3_RECEIVER_TEST_REPO_ROOT": "exact proof root"
+  },
+  "parent_scope_test": "O26-R3-GHOST-SCOPE-TEST.json",
+  "parent_translator_sha256": "ed8ee5ed8a7f8abb7d9c7cee3a978059b55c0a02e34f908170a80d6cc3ed4102",
+  "required_contract_gates": {
+    "callee_type_lifetime_arity": true,
+    "exact_source_unit_body_correspondence": true,
+    "malformed_place_negative_admissibility": false,
+    "normal_and_unwind_posts_unchanged": true,
+    "operand_move_mutable_other_unprojected": true,
+    "source_shadow_or_readonly_mapping": false,
+    "two_call_count": true
+  },
+  "rule": "after exact R3/nine/R2 and scope TEST admission, map only the two NORMAL select_unpredictable as_mut_ptr Move receivers to _11 then _13; preserve every existing exact callee/type/lifetime/arity/count/mutable/unprojected/Other/Move gate",
+  "source": {
+    "unit_sha256": "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92",
+    "verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463"
+  },
+  "source_runtime_spec_kernel_parser_exporter_refiner_modified": false,
+  "target_contract_proved": false,
+  "test_patch": "overnight-assume-actual/verifast-r3-receiver-TEST.patch",
+  "test_patch_sha256": "284a135f0c43c0ef50a7d48cd5bc6e294415e0168fa9e11a9238c0ab9c0c6c09",
+  "test_translator_sha256": "7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6",
+  "verification_accepted": false
+}

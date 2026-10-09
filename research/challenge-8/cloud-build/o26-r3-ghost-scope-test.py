@@ -112,6 +112,8 @@ def main():
     result = {"classification": "INCONCLUSIVE", "diagnostic_complete": False,
               "accepted": False, "verification_accepted": False,
               "actual_nested_drop_credit": False, "actual_helper_proved": False}
+    receiver_result = None
+    receiver_flag = os.environ.get("O26_WITH_R3_RECEIVER_TEST", "0")
     try:
         proof = a.proof_root / "research/challenge-8/overnight-assume-actual"
         m = read(proof / "O26-R3-GHOST-SCOPE-TEST.json")
@@ -180,6 +182,27 @@ def main():
         need(r2.tool_snapshot(a.r3_source, a.proof_root) == before and
              r2.tool_snapshot(test, a.proof_root) == after,
              "R3 TEST source/tool changed during proof controls")
+        need(receiver_flag in ("0", "1"), "invalid receiver TEST runner flag")
+        if receiver_flag == "1":
+            receiver = module("r3_receiver_diagnostic",
+                             a.cloud_dir / "o26-r3-receiver-test.py")
+            try:
+                receiver_result = receiver.run(a, r3, r2, case, test, after)
+            except Exception as receiver_error:
+                receiver_result = {"classification": "INCONCLUSIVE",
+                                   "diagnostic_complete": False, "accepted": False,
+                                   "verification_accepted": False,
+                                   "actual_source_accepted": False,
+                                   "target_contract_proved": False,
+                                   "reason": str(receiver_error)}
+                receiver_dir = a.evidence / "r3-receiver-test"
+                receiver_dir.mkdir(exist_ok=True)
+                write(receiver_dir / "diagnostic-audit.json", receiver_result)
+                raise RuntimeError("nested receiver TEST incomplete: " + str(receiver_error))
+            need(receiver_result.get("diagnostic_complete") is True and
+                 receiver_result.get("accepted") is False and
+                 receiver_result.get("verification_accepted") is False,
+                 "nested receiver TEST controls incomplete")
         result.update({"classification": "R3_GHOST_SCOPE_TEST_DIAGNOSTIC_COMPLETE",
                        "diagnostic_complete": True,
                        "r3_capture_rechecked": True, "tool_identity_rechecked": True,
@@ -187,9 +210,13 @@ def main():
                        "enabled_scope_marker": True, "enabled_full_exit": on["exit"],
                        "enabled_full_exit_zero": on["exit"] == 0,
                        "first_enabled_error": next((line for line in on_log.splitlines()
-                           if re.search(r": error: |^Fatal error:", line)), None)})
+                           if re.search(r": error: |^Fatal error:|^Error:", line)), None),
+                       "receiver_test_requested": receiver_flag == "1",
+                       "receiver_test": receiver_result})
     except Exception as exc:
         result["reason"] = str(exc)
+        result["receiver_test_requested"] = receiver_flag == "1"
+        result["receiver_test"] = receiver_result
     write(a.evidence / "diagnostic-audit.json", result)
     if not result["diagnostic_complete"]:
         raise SystemExit("R3 ghost-scope TEST inconclusive: " + result["reason"])
