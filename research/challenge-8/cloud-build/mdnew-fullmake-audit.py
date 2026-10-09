@@ -33,7 +33,7 @@ def stage(root,name):
 def verify_make_completion(make_out):
  need(re.search(r'(?m)^\s+MYSH\s+testsuite\s*$',make_out) is not None and
       re.search(r'(?m)^\s+MYSH\s+assignments/run_model_solutions\s*$',make_out) is not None,
-      'normal root and assignments suite completion is not visible')
+      'normal root and assignments make targets are not visible')
  need(re.search(r'(?m)^0 failed processes$',make_out) is not None,
       'full suite lacked a zero-failed mysh summary')
 def affected(root):
@@ -124,7 +124,9 @@ def audit(repo,root):
   out['make_test']={'exit_status':make_code,'stdout_sha256':h(make_out.encode()),
                     'stderr_sha256':h(make_err.encode()),
                     'failed_process_lines':re.findall(r'(?m)^\d+ failed processes$',make_out),
-                    'conditional_skip_lines':re.findall(r'(?m)^SKIP:.*$',make_out)}
+                    'conditional_skip_lines':re.findall(r'(?m)^SKIP:.*$',make_out),
+                    'assignment_models': 'EXECUTED' if (repo/'assignments').is_dir() else 'SKIPPED_DIRECTORY_ABSENT',
+                    'java_frontend': 'NOT_ENABLED' }
   if make_code in (124,137):raise Failure('full make test reached its bounded deadline','INCOMPLETE_TIMEOUT')
   need(make_code==0,f'full make test exited {make_code}','TEST_FAILURE')
   verify_make_completion(make_out)
