@@ -19,6 +19,21 @@ if path.is_absolute() or '..' in path.parts or not entry.startswith('research/ch
 print(root/entry)
 RECIPE
   )
+  recipe_transport=$(python3 - "$recipe_root" "$lane" <<'TRANSPORT'
+import json,pathlib,sys
+root=pathlib.Path(sys.argv[1]);lane=sys.argv[2]
+recipe=json.loads((root/'research/challenge-8/cloud-build/recipes'/f'{lane}.json').read_text())
+print(recipe.get('infra_transport','legacy'))
+TRANSPORT
+  )
+  if [[ "$recipe_transport" == exact-recipe-v1 ]]; then
+    python3 "$recipe_root/research/challenge-8/cloud-build/exact-infra-transport-controls.py" \
+      --archive /workspace/evidence/source-input.gz \
+      --evidence /workspace/evidence \
+      --infra "$recipe_root" --lane "$lane"
+  elif [[ "$recipe_transport" != legacy ]]; then
+    printf 'unsupported recipe infrastructure transport\n' >&2; exit 2
+  fi
   exec bash "$recipe_entry" "$lane"
 fi
 proof_root=${PROOF_ROOT:-/workspace/proof}

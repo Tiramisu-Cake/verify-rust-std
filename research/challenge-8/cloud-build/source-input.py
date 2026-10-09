@@ -51,6 +51,17 @@ CONSTRUCTOR_PATHS = (
 INFRA_EXACT_PATHS = (
     "research/challenge-8/cloud-build/run-proof.sh",
 )
+EXACT_INFRA_TRANSPORT = "exact-recipe-v1"
+EXACT_INFRA_CORE = (
+    *INFRA_EXACT_PATHS,
+    "research/challenge-8/cloud-build/control.py",
+    "research/challenge-8/cloud-build/coordination.py",
+    "research/challenge-8/cloud-build/exact-infra-transport-controls.py",
+    "research/challenge-8/cloud-build/package-evidence.py",
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/cloud-build/source-input.py",
+    "research/challenge-8/cloud-build/verify-evidence.py",
+)
 RECIPE_PREFIX = "research/challenge-8/cloud-build/recipes/"
 INFRA_PYTHON_PREFIXES = (
     "research/challenge-8/cloud-build/",
@@ -185,6 +196,9 @@ def infra_paths(repo: Path, commit: str) -> list[str]:
 def validate_recipe(recipe: dict, lane: str) -> dict:
     if recipe.get("schema") != "smallsort-cloud-recipe-v1" or recipe.get("lane") != lane:
         stop("recipe schema/lane mismatch")
+    transport = recipe.get("infra_transport")
+    if transport is not None and transport != EXACT_INFRA_TRANSPORT:
+        stop("unknown recipe infrastructure transport policy")
     for key in ("proof_paths", "infra_paths"):
         paths = recipe.get(key)
         if not isinstance(paths, list) or not paths or paths != sorted(set(paths)):
@@ -196,6 +210,10 @@ def validate_recipe(recipe: dict, lane: str) -> dict:
     entrypoint = valid_path(recipe.get("entrypoint", ""))
     if entrypoint not in recipe["infra_paths"] or not entrypoint.startswith("research/challenge-8/cloud-build/") or not entrypoint.endswith(".sh"):
         stop("recipe entrypoint must be an explicit infrastructure shell input")
+    if transport == EXACT_INFRA_TRANSPORT and not all(
+            path.startswith("research/challenge-8/cloud-build/")
+            for path in recipe["infra_paths"]):
+        stop("exact recipe infrastructure input outside Cloud module tree")
     if "baseline_sha" in recipe:
         if not OBJECT_ID.fullmatch(recipe["baseline_sha"]):
             stop("recipe baseline SHA must be full")
@@ -242,8 +260,12 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
     """Return deterministic gzip JSON for the requested source commits."""
     repo = repo.resolve()
     recipe = None if lane in ("stock", "constructor") else committed_recipe(repo, infra_sha, lane)
-    selected_infra = infra_paths(repo, infra_sha)
-    if recipe:
+    if recipe and recipe.get("infra_transport") == EXACT_INFRA_TRANSPORT:
+        selected_infra = sorted(set(EXACT_INFRA_CORE + tuple(recipe["infra_paths"]) +
+                                    (RECIPE_PREFIX + lane + ".json",)))
+    else:
+        selected_infra = infra_paths(repo, infra_sha)
+    if recipe and recipe.get("infra_transport") != EXACT_INFRA_TRANSPORT:
         selected_infra = sorted(set(selected_infra + recipe["infra_paths"] + [RECIPE_PREFIX + lane + ".json"]))
     infra, _ = repo_record(repo, infra_sha, selected_infra)
     proof_paths = recipe["proof_paths"] if recipe else STOCK_PATHS if lane == "stock" else CONSTRUCTOR_PATHS
@@ -286,6 +308,15 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
 def expected_infra_paths(repo_record_data: dict, recipe: dict | None = None) -> list[str]:
     # Validate the exact narrow path policy without consulting a worktree.
     paths = [item.get("path") for item in repo_record_data.get("paths", [])]
+    if recipe and recipe.get("infra_transport") == EXACT_INFRA_TRANSPORT:
+        expected = sorted(set(EXACT_INFRA_CORE + tuple(recipe["infra_paths"]) +
+                              (RECIPE_PREFIX + recipe["lane"] + ".json",)))
+        if paths != expected:
+            stop("exact recipe infrastructure path set differs")
+        if any(item.get("mode") not in ("100644", "100755")
+               for item in repo_record_data.get("paths", [])):
+            stop("exact recipe infrastructure input is not a regular file")
+        return expected
     def allowed_python(path: str) -> bool:
         for prefix in INFRA_PYTHON_PREFIXES:
             remainder = path.removeprefix(prefix)
