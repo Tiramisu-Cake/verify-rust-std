@@ -381,3 +381,9 @@ pre/post-FBC span assertions retained, full posts/cleanup/recoveryfalse unchange
 Fresh helper body/caller checks required. First new refusal after geometry/copy
 is reported, not removed. Re-run all five actual FBC/owner controls since guard
 own's span interface changed on this new kernel profile; no historical PASS reuse.
+
+## Final main-window continuation selected18:28UTC
+
+Second Build11cc507f terminalFAILURE diagnostic/run-failed,387s, exacte6d30d02: actual numeric spans before/after FBC and literal-onecopy passed; first error end_ref_readonly(held_ref), no matching old source points_to at aliasing50. Both helpers checked return/leak. Sole CURRENT owner remains framed; full recovery/posts not reached. FBCfalse/missingowner/doubleFBC intendedrejects matched. Overlap two-read, arbitraryraw and abstractzero negatives matched intended assertions. Positive reached target/return/leak but exited1 dead code at an unexecuted compiler unwind return. Retired source scope is flattened to one AST block, storage only freed at function return: inequality PASS is not a retired-address test; gate remains OPEN/INCONCLUSIVE.
+
+Last bounded experiment replaces only minimal mechanism positive with actual initialized i32 local vs incoming readonly fraction; return7/fullframe/localcleanup required. Existing generic read/copy source/evidence retained at e6d30d02, never credited PASS. Actual source adds post-copy assertions linking current source value to destination bytes and the sole framed CURRENT logical owner, separately from bytecopy. Endref/complement/cleanup/fullposts unchanged. No suppliedprecondition, kernel/profile or classification weakened; invalid translated-retirement gate stays INCONCLUSIVE. No new hypothesis after18:32:10.

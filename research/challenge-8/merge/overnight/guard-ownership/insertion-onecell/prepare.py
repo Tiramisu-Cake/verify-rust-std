@@ -100,6 +100,8 @@ ANNOTATIONS = (
     b"        //@ init_ref_readonly(held_ref, 1/2);\n"
 )
 RECOVER = (
+    b"        //@ assert [?copy_f](*gap_guard.src |-> ?copied);\n"
+    b"        //@ assert *gap_guard.dst |-> copied &*& <T>.own(t, copied);\n"
     b"        //@ end_ref_readonly(held_ref);\n"
     b"        //@ merge_fractions points_to::<T>(&tmp, _);\n"
     b"        //@ end_lifetime(held_k);\n"

@@ -8,8 +8,8 @@
   "status": "AUTHORIZED",
   "authorization": "Explicit owner assignment 2026-10-09: narrow allocation/span patch for actual tmp-to-tail; own isolated VeriFast tree, Cloud validation and review publication; 60+30 finishing only; new3600s no carryover.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 362,
-  "remaining_build_seconds": 3238,
+  "used_build_seconds": 749,
+  "remaining_build_seconds": 2851,
   "allowed_lanes": [
     "merge"
   ],
@@ -37,6 +37,30 @@
       "execution_seconds": 361,
       "download_verified": true,
       "archive_sha256": "72efceef90642e059820fbfb78c21de0ec0940c700db07f2c79e7be2cf715d26"
+    },
+    {
+      "dispatch_token": "dispatch-639fa35ee44040b6a0ae710ae15df8b5",
+      "owner": "merge",
+      "phase_id": "MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09",
+      "infra_sha": "e6d30d025f87c3eb51af7a4c32120ca885c217a3",
+      "proof_sha": "e6d30d025f87c3eb51af7a4c32120ca885c217a3",
+      "lane": "merge",
+      "submitted_config_sha256": "d14c1251491e9b5745b5a59714045d276158423de9d1c8ce3e8d2dc36e065ef5",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "c89847a604fbc335ed051f67045dd1991554dae6068a191c4c930de294ddc356",
+      "build_id": "11cc507f-231a-4b50-81ab-30d3389cd104",
+      "start_time": "2026-10-09T18:16:30.738627975Z",
+      "finish_time": "2026-10-09T18:22:56.118741Z",
+      "create_time": "2026-10-09T18:16:29.873194394Z",
+      "build_seconds": 387,
+      "accounted": true,
+      "execution_seconds": 386,
+      "download_verified": true,
+      "archive_sha256": "b8216006ea7e4f0d708bc2878128563b248e344421da6e263362d3384901ab85"
     }
   ],
   "active_build": null
