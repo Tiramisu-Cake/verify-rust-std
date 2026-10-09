@@ -1,4 +1,4 @@
-# DAY-SELECT-SORT4-CLOUD-2026-10-09 — AUTHORIZED
+# DAY-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 Owner select-sort4, own worktree /root/verify-rust-std-select-night, branch
 research/night-select-sort4-cloud-2026-10-09. Start 2026-10-09 08:45:54 UTC /
@@ -51,3 +51,6 @@ full evidence analysis and final checkpoint. No new direction/large iteration.
 Budget remains3600; latest permitted900s submit10:53:54UTC reserves at least6min
 for evidence/checkpoint beforeabsolute11:15:54UTC. If slot unavailable, do not
 dispatch a run that cannot fit; preserve candidate and withdraw ready request.
+
+Final1734/3600used,1866unused,5terminal; own active/unresolved NONE, request withdrawn.
+No further work/dispatch in this session; see END-CHECKPOINT-2026-10-09.md.

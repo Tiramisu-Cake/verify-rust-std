@@ -1,10 +1,44 @@
-# DAY-SELECT-SORT4-CLOUD-2026-10-09 checkpoint (DRAFT — run pending)
+# DAY-SELECT-SORT4-CLOUD-2026-10-09 — FINAL CHECKPOINT / STOP
 
 Owner select-sort4. Worktree /root/verify-rust-std-select-night; branch
 research/night-select-sort4-cloud-2026-10-09, fork Tiramisu-Cake/verify-rust-std.
 Start08:45:54UTC/11:45:54MSK; main10:45:54UTC/13:45:54MSK;
 absolute11:15:54UTC/14:15:54MSK. New separate3600s account; historical night
 5030/10800+5770unused and migration772/3600 remain closed and untouched.
+
+## Final result and first remaining blocker
+
+1734/3600 conservative Cloud seconds used;1866unused,5terminal Builds. Own
+active/unresolved Build NONE; ready request withdrawn11:07UTC; state
+/tmp/smallsort-day-select-sort4-2026-10-09. Completion extension used only for
+one addressed COLUMN/nested check and evidence/checkpoint. Session stops now;
+no further dispatch under this CHECKPOINT ledger.
+
+Latest b23 COLUMN-on exact155:1->AST1 and155:73->AST41 markers, both savedlets
+execute, initial payload assertions183/184 pass. First actualouter prooferror
+verified/lib.rs240:71-73: cannot establish current_true_wrapper inner(new(payload))
+==some(saved_true_input), rendered saved input as true_val. This precedes late
+242–244 shadow checks; source-shadow remainsBLOCKED. Outer return/leak and
+full normal/unwind NOT_PROVED. Actual nested body not executed.
+
+|Layer|Final status|
+|---|---|
+|scope component|savedlet2 retained /nestedopen2 moved, off/partial observed|
+|receiver component|exact NORMAL_11/_13 controls complete in b4e9|
+|prefix bodies|7same-version bodies return/leak observed, genericdrop normal+unwind; CONDITIONAL|
+|COLUMN component|positive mapping and payload183/184 observed; off/partial and wrongfirst observed; remaining negatives NOT_RUN|
+|nested scheduling|prepared exact AST/source-linked acyclic permutation, NOT_RUN|
+|frontend profiles|EXPERIMENTAL /UNACCEPTED; no soundness inference|
+|admission|source/MIR/unit identities checked; malformed source/unit/span gates OPEN|
+|whole actualselect|pointer domain NOT_PROVED; unrestricted genericT/ZST OPEN|
+|whole actualsort4/functional|NOT_STARTED this day; safety/recovery/permutation/ordering/stability OPEN|
+
+Latest b23 wrong-first got exact intended ordered-route Fatal, exit2, scope
+marker and no verifier header. Receiver marker is absent because ghostcall155
+is translated before receivercalls173/174. Helper required that later marker and
+falsely rejected intended negative; wrongsecond/missingcandidate/nested not run.
+This is aggregate audit failure, not another theorem counterexample. Minimal
+source-linked audit correction is published NOT_RUN, no new semantic delta.
 
 ## Provenance and trust
 
@@ -43,7 +77,7 @@ Actual generic nested Drop NOT_PROVED as of receiver run. Generic unrestricted T
 ZST and complete actual sort4/callback panic recovery, permutation, ordering and
 stability remain OPEN. Safety does not acquire SWO/purity/Copy/Freeze assumptions.
 
-## First observed blocker and candidate
+## Earlier causal findings and tested candidate pins
 
 Receiver-on firsterror verified/lib.rs155:9-25 Declaration hides existing local
 variable saved_true_input. Line-only TrBody ghostcommand List.find selects the
@@ -78,8 +112,10 @@ removed from delivery only. All scripts/manifest/patch/source dependencies kept.
 |5c8cd72b-2e5d-4927-a9e3-72a885cfb309|6eb1da5b5c3962c356ebd9a658c06decaeaa023d /7b68fc9b36b0341210d48b857b010caea7344e9e|setupFAILURE, missing recipe self dependency, no proof credit|87|
 |9bdd5622-7000-483f-8e83-e9847412ddba|574484e7cff6c53a15ff7e76b3aec133f6c87ef2 /7b68fc9b36b0341210d48b857b010caea7344e9e|scope diagnostic complete, receiver gate blocks preheaders|341|
 |b4e9a631-e8bf-4b9a-a86d-6fcb920da4a9|b6a45161cdf7309b10f0198a1bbd1f43c225d715 both|receiver diagnostic complete, outer saved-let collision|403|
+|5a3d3312-3a9e-4bad-9488-714ad62b48be|8bf37946451829978451731a77f622144826ae11 both|audit build-log path failure after COLUMN-off; on/nested not run|442|
+|b23ab12e-fecf-4a0c-ad99-191b24c057d6|bfdb776bcebfd51a0829bf4451869f8b6dee6529 both|COLUMN-on reaches240; wrongfirst intended refusal but audit order failure; nested not run|461|
 
-1273/3600 charged,2327remaining before addressed check; ledger authoritative. All four
+1734/3600 charged,1866unused final; ledger authoritative. All five
 archives and text indexes integrity verified. Collector SUCCESS means complete
 diagnostic evidence, not verification_accepted or whole-function theorem.
 
@@ -108,9 +144,56 @@ bc05a87ee325454c436d34337e9d6787153aaecce890ef467519e0ea7bde7abf.
 One completing run, selected timeout720+60queue after shared-turn wait; remaining
 2327s covers it. Main deadline passed; no new direction/task/large iteration.
 
-Final outcome, own request state and continuation command are pending terminal
-COLUMN evidence review; this file is explicitly a draft until replaced.
 
-Completing ACTIVE Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6, config
+
+Terminal FAILURE Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6, config
 12e3de6df5ed6b8c9eb7bee3a3eb139b2029c49fb69cc7aa9f0408d45f34ddb6.
 Actual submitted flags189parts, timeout720+60queue, no additional dispatches.
+
+Latest b23 fullarchive e963111bd928094ce3bb434ab8ab33d5cda47b2427561f6ed1875405047fc004;
+textindex87323f4c43c80d17ede0b61e66bc80cbf5f5caef4b5f9b1887ac6fc53fae46a8.
+Both integrity verified with exact build/proof/infra/config. Full sources, MIR,
+marshal inventory, stage records, positive/off/partial/wrongfirst logs reviewed.
+Positiveconsole ddf876d0b263272ad4438886a352c906018cdfd42d2b4af0a8d4679698ba2618;
+positivelog4984197390059ef672d1cc08113aa6c48ad1afba135b7997fb67f46c8fb33513.
+
+## Prepared unverified continuation and recommendation
+
+Audit-only correction infra/proofc0436cd5e964c91424f7bf0f648e65d7801120a1
+NOT_RUN, payload563929bytes/189parts, SHA
+955bcfceac07b5509f7b0ff0b1fa44166db73aae56e4fddee31358796a091b81.
+Require exact fatal+exit2+scope/noheaders/noreceiver and routecount0(first/missing)
+or1(second). All positive/source/tool/post/resource gates retained; semantic
+COLUMN/NESTED translator and patch pins above unchanged. Source-shadow remains
+BLOCKED; independent historical diagnostics above NOT_RUN, not preventive nextsteps.
+
+Exact archived submit parameters for this unverified candidate (do not execute
+against the closed DAY ledger; a new authorized window/account and compatible
+registered dispatcher infra must be prepared first, using c043 proof unchanged):
+
+```bash
+python3 research/challenge-8/cloud-build/control.py \
+  --phase-id DAY-SELECT-SORT4-CLOUD-2026-10-09 \
+  --ledger /root/verify-rust-std-select-night/research/challenge-8/cloud-build/day-select-sort4/BUDGET.json \
+  --state-dir /tmp/smallsort-day-select-sort4-2026-10-09 --owner select-sort4 \
+  submit --infra-sha c0436cd5e964c91424f7bf0f648e65d7801120a1 \
+  --proof-sha c0436cd5e964c91424f7bf0f648e65d7801120a1 \
+  --lane o26-r3-ghost-scope-test --source-mode pinned-objects --timeout 900
+```
+
+This command requires dispatcher bytes from the c043 Git object, not the final
+documentation/integration head. Historical day authorization is now CHECKPOINT.
+Recommended orchestrator discussion: complete corrected affected COLUMN gates
+and actual same-version nested Drop before any outer summary use; separately
+trace current-wrapper input equality after actual drop/forget from existing
+resources and values. No ownership/address bridge or snapshot substitution.
+No soundness/admissibility acceptance from these micro/diagnostic controls.
+
+## Concurrent remote integration
+
+After all own runs, remote advanced290c299d->e4224b0f (external PR2, two-slot CI).
+Preserved external change by ordinary merge, no forcepush. All five day experiments
+used pinned earlier one-slot dispatcher; no hosted experiment of external CI
+change in this phase. It does not change source/tool proof identities above.
+Final checkpoint head includes documentation plus preserved external integration;
+it is not a verified proof SHA. No own queued/running/unresolved builds or requests.

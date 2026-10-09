@@ -1,14 +1,14 @@
 {
   "phase": "DAY-SELECT-SORT4-CLOUD-2026-10-09",
-  "status": "AUTHORIZED",
+  "status": "CHECKPOINT",
   "authorization": "Owner prompt 2026-10-09: independent daytime actual select/nested Drop/sort4 Cloud phase, 2h + up to 30m completion only",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T08:45:54Z",
   "main_deadline_utc": "2026-10-09T10:45:54Z",
   "deadline_utc": "2026-10-09T11:15:54Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1273,
-  "remaining_build_seconds": 2327,
+  "used_build_seconds": 1734,
+  "remaining_build_seconds": 1866,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-r3-ghost-scope-test",
@@ -17,7 +17,7 @@
     "o26-generic-sort4-postmark-diagnostics",
     "o26-strict-cut-reuse-false-posts"
   ],
-  "active_build": "b23ab12e-fecf-4a0c-ad99-191b24c057d6",
+  "active_build": null,
   "builds": [
     {
       "dispatch_token": "dispatch-35cd6eefd85a4c52b93292703465f683",
@@ -125,11 +125,22 @@
       "submitted_config_sha256": "12e3de6df5ed6b8c9eb7bee3a3eb139b2029c49fb69cc7aa9f0408d45f34ddb6",
       "reserved_seconds": 780,
       "timeout_seconds": 720,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "bc05a87ee325454c436d34337e9d6787153aaecce890ef467519e0ea7bde7abf",
-      "build_id": "b23ab12e-fecf-4a0c-ad99-191b24c057d6"
+      "build_id": "b23ab12e-fecf-4a0c-ad99-191b24c057d6",
+      "start_time": "2026-10-09T10:55:31.067191854Z",
+      "finish_time": "2026-10-09T11:03:11.295591Z",
+      "create_time": "2026-10-09T10:55:30.349990585Z",
+      "build_seconds": 461,
+      "accounted": true,
+      "execution_seconds": 461,
+      "download_verified": true,
+      "archive_sha256": "e963111bd928094ce3bb434ab8ab33d5cda47b2427561f6ed1875405047fc004"
     }
-  ]
+  ],
+  "checkpoint_utc": "2026-10-09T11:10:56Z",
+  "own_request_state": "withdrawn",
+  "next_action": "No further dispatch in this session; discuss COLUMN affected gates/current-wrapper equality and same-version actual nested Drop with orchestrator."
 }

@@ -6257,3 +6257,25 @@ config12e3de6df5ed6b8c9eb7bee3a3eb139b2029c49fb69cc7aa9f0408d45f34ddb6.
 Timeout720+60 queue after fair shared-turn wait; unchanged target/control scope,
 no semantic patch change. Main deadline completion extension only. After terminal
 evidence/checkpoint stop; no additional dispatch in this session.
+
+### Final daytime evidence — b23, checkpoint
+
+Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6 FAILURE461s, infra/proofbfdb776b
+(full pins/result COLUMN-RESULT.json), actual189parts. All evidence/archive/textindex
+integrity verified. COLUMN-on exact two route markers, first payload assertions
+183/184 pass; firstouter prooferror240 current-wrapper/pure input equality, BEFORE
+late shadow242–244; no outer return/leak and no nested body. Wrong-first intended
+ordered-route refusal exit2 before receiver marker/header; immutable source/unit
+and gates active. Helper expected later receiver marker, incorrectly aggregate
+INCONCLUSIVE. Wrongsecond/missingcandidate/nested not executed.
+
+Audit-only temporal correctionc0436cd5e964c91424f7bf0f648e65d7801120a1 NOT_RUN:
+exactfatal+exit2+scope+noheaders/receiver+routecount0/1 retained/strengthened.
+No additional Cloud check after one addressed finishing run. Day1734/3600,1866
+unused,5terminal, no ownactive/unresolved, readyrequestwithdrawn. Scope/receiver/
+COLUMN conditional component evidence, frontendprofiles/admissibility unaccepted;
+wholeactualselect/nested/genericT/ZST/sort4 functionaltheorems OPEN.
+Remote concurrently advanced290c299d->e4224b0f via externalCI PR2/two-slot merge;
+preserved without forcepush by ordinary merge. All own experiments used earlier
+one-slot dispatcher pins, no experiment with external change. Final checkpoint
+head is documentation/integration only, not verifiedproofSHA. Stop until new task.

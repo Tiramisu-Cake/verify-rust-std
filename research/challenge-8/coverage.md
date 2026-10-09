@@ -707,3 +707,12 @@ UNACCEPTED translator7451dee6. Outer starts but first saved let155 is rejected f
 hiding existing saved_true_input. No nested header; wholeouter/nested theorem open,
 source-shadow stillBLOCKED because late assertions242-244 were not reached.
 Runtime/posts/resources/source/MIR/kernel/spec/exporter/refiner unchanged.
+
+Day final b23 (infra/proofbfdb776b): scope+receiver+COLUMN actual pointer select
+now executes two saved input lets and establishes initial payload assertions183/184.
+First current-wrapper equality assertion240 fails. No outer return/leak, no late
+shadow242–244, no nested header; genericT/ZST and actualsort4 whole contracts OPEN.
+COLUMN wrong-first intended route refusal observed, combined audit false-incomplete
+from misplaced later receiver expectation; wrongsecond/missingcandidate/nested
+NOT_RUN. Audit correctionc0436cd5 NOT_RUN. All frontendprofiles conditional and
+unaccepted, malformed source/unit/span gatesOPEN. Day1734/3600,1866unused.

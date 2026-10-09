@@ -1,46 +1,45 @@
-# Current phase: DAY-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: DAY-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
-[Phase](cloud-build/day-select-sort4/PHASE.md), [separate ledger](cloud-build/day-select-sort4/BUDGET.json).
+[Final checkpoint](cloud-build/day-select-sort4/END-CHECKPOINT-2026-10-09.md),
+[phase](cloud-build/day-select-sort4/PHASE.md), [separate ledger](cloud-build/day-select-sort4/BUDGET.json).
 Start08:45:54UTC/11:45:54MSK; main10:45:54UTC/13:45:54MSK;
-absolute11:15:54UTC/14:15:54MSK (completion only after main deadline).
-Ownerselect-sort4, ownworktree/branch unchanged; historical accounts stay closed.
+absolute11:15:54UTC/14:15:54MSK. Completion extension used only for one addressed
+COLUMN/nested check and evidence/checkpoint. No new session dispatch.
 
-Prepared R3 scope TEST outcome was observed on original proof7b68fc9b: source let2
-retained, nested open2 transferred, off/partial refused; Build9bdd cleared inventory
-and exposed frozen receiver local mismatch. Fresh receiver TEST now clears that gate
-under exact source/unit and separate opt-in. Both profiles remainUNACCEPTED.
+1734/3600 conservative Cloud seconds used,1866unused,5terminal Builds.
+No own active/unresolved build; ready request withdrawn. Historical accounts
+closed/untouched. Own worktree /root/verify-rust-std-select-night, branch
+research/night-select-sort4-cloud-2026-10-09.
 
-Receiver Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9 SUCCESS/diagnostic complete,
-infra/proofb6a45161cdf7309b10f0198a1bbd1f43c225d715. Full archive/index verified.
-Scope controls retained; receiver off/partial and wrongfirst/wrongsecond fail exact
-predicates; on emits_11 then_13, preserves source/MIR/full unit and tool identity.
-Seven same-version prefix bodies (including actual as_mut_ptr) return/leak observed
-in this CONDITIONAL UNACCEPTED translator profile. Outer begins, then FIRST error
-verified/lib.rs(155,9-25): Declaration hides existing local variable saved_true_input.
-Nested Drop not reached; full outer normal/unwind/return/leak NOT_PROVED.
-This is an early saved-let scope/duplication issue, not late Rust-shadow evidence.
-Source-shadow remainsBLOCKED. Cause now confirmed: line-only ghostcommand lookup
-selects first saved let for both same-line calls; admission body_text reconstruction
-is not executable insertion. Preserve both lets. Prepared rule maps exact source-
-pinned MIR155:1/73 to AST155:1/41 with distinct/order/count guards. Next separate
-COLUMN+acyclic nested-scheduling TEST under receiver parent7451dee6 is published,
-[review/card](cloud-build/day-select-sort4/GHOST-COLUMN-NESTED-CARD.md).
-Candidate infra/proof8bf37946451829978451731a77f622144826ae11,
-[preflight](cloud-build/day-select-sort4/COLUMN-NESTED-PREFLIGHT.json):189parts.
-Original062d193parts NOT_READY, never submitted; only eight historical documents
-removed from delivery, all runtime dependencies/guards retained. Build5a3d3312 terminalFAILURE442s; archive/index integrityverified,
-COLUMN-off repeats saved-let collision. First failure is audit-only missing inner
-on-console-build.log; COLUMN-on and nested never executed. All affected build-log
-paths corrected without semantic delta. Addressed completion candidate
-infra/proofbfdb776bcebfd51a0829bf4451869f8b6dee6529 published, actual563849bytes/189parts;
-[preflight](cloud-build/day-select-sort4/COLUMN-AUDIT-FIX-PREFLIGHT.json).
-Day1273/3600 charged,2327remaining,4terminal; completing Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6 ACTIVE.
-Exact infra/proofbfdb776b, timeout720+60queue reserved780, actual189parts.
-Own ready request removed by submit. Current concrete COLUMN/nested step only
-may finish in completion extension, no new research after10:45:54UTC.
-No runtime/posts/resources/kernel/
-spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),
-[result/identities](cloud-build/day-select-sort4/RECEIVER-RESULT.json).
+R3 scope TEST on originalproof7b68 retained savedlet2/transferred nestedopen2,
+off/partial intended controls observed; receiver TEST exact_11/_13 then reaches
+seven same-version prefix body return/leak paths (generic drop normal+unwind).
+Separate source-pinned COLUMN now executes both distinct savedlets and passes
+initial payload assertions183/184. Latest actualouter firsterror240: current wrapper
+inner(new(payload)) == some(saved input) cannot be proved. Late242–244 shadow
+checks not reached; source-shadow draft remainsBLOCKED. Actual nested not run.
+
+Latest Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6 terminalFAILURE,461s,
+infra/proofbfdb776bcebfd51a0829bf4451869f8b6dee6529, actual189parts. Complete
+archive/index verified. COLUMN-off/partial/on and wrong-first ran. Wrong-first
+correctly refused exact ordered route before receiver admission; helper expected
+a later receiver marker and falsely marked gate incomplete. Wrong-second/missing
+candidate and nested schedule not run. [Result](cloud-build/day-select-sort4/COLUMN-RESULT.json).
+
+Minimal audit-order correctionc0436cd5e964c91424f7bf0f648e65d7801120a1 is
+published NOT_RUN,189parts; no semantic source/tool profile change.
+[Candidate](cloud-build/day-select-sort4/COLUMN-NEGATIVE-AUDIT-PREFLIGHT.json).
+Component progress is CONDITIONAL; scope/receiver/COLUMN profiles UNACCEPTED,
+malformed source/unit/span admissibility gates OPEN. Full actualselect normal/
+unwind/return/leak and originalgenericT/ZST NOT_PROVED; full actualsort4 and
+functional permutation/ordering/stability OPEN. No unverified nested summary used.
+
+Remote concurrently merged externalCIe4224b0f/two-slot policy after all five own
+runs; preserved by ordinary history merge, not experimented with in this phase.
+Final documentation head is not the tested proof/infra SHA. Discuss next step:
+complete corrected affected COLUMN gates, run same-version actualnested body,
+then isolate truthful current-wrapper/input value relation without ownership bridge
+or snapshot substitution. New authorization/window/account required after stop.
 
 # Historical night checkpoint (closed)
 
