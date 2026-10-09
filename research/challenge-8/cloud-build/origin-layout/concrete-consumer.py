@@ -38,6 +38,10 @@ def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _file_sha(path: Path) -> str:
+    return _sha(path.read_bytes())
+
+
 def _blob(data: bytes) -> str:
     return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
 
@@ -124,6 +128,137 @@ def _source_gate(case: Path, metadata: dict, prep) -> dict:
                 b"on_unwind_ens thread_token(t)" in verified and
                 b"*tail |-> ?unwound &*& <u64>.own(t, unwound);" in verified,
             "no_false_unwind_post": b"on_unwind_ens false" not in verified}
+
+
+def _validate_receipt(args, receipt: dict, provider: dict, proof_sha: str) -> dict:
+    """Bind classification to the parent's already-validated Cloud profile receipt."""
+    if not isinstance(receipt, dict):
+        raise TypeError("validated_receipt must be a dictionary")
+    if getattr(args, "profile", None) != PROFILE or receipt.get("profile") != PROFILE:
+        raise RuntimeError("concrete-u64 consumer profile identity differs")
+    if receipt.get("accepted") is not False:
+        raise RuntimeError("experimental profile receipt must remain unaccepted")
+    receipt_provider = receipt.get("provider")
+    if not isinstance(receipt_provider, dict) or \
+            receipt_provider.get("build_id") != provider.get("build_id"):
+        raise RuntimeError("Cloud provider/build identity differs from validated receipt")
+    if receipt.get("proof_sha") != proof_sha:
+        raise RuntimeError("Cloud proof SHA differs from validated receipt")
+
+    tool_home = Path(args.tool_home)
+    tool_files = {
+        "vf-rust-mir-exporter": tool_home / "bin/vf-rust-mir-exporter",
+        "verifast": tool_home / "bin/verifast",
+        "refinement-checker": tool_home / "bin/refinement-checker",
+    }
+    receipt_tools = receipt.get("tool_sha256")
+    if not isinstance(receipt_tools, dict):
+        raise RuntimeError("validated receipt has no tool_sha256 map")
+    actual_tools = {}
+    for name, path in tool_files.items():
+        if not path.is_file():
+            raise RuntimeError(f"pinned tool binary missing: {path}")
+        actual_tools[name] = _file_sha(path)
+        if receipt_tools.get(name) != actual_tools[name]:
+            raise RuntimeError(f"actual {name} hash differs from validated receipt")
+
+    profile_evidence_value = receipt.get("profile_evidence")
+    if not isinstance(profile_evidence_value, (str, Path)):
+        raise RuntimeError("validated receipt has no profile_evidence path")
+    profile_evidence = Path(profile_evidence_value).resolve()
+    profile_build_path = profile_evidence / "profile-build.json"
+    if not profile_build_path.is_file():
+        raise RuntimeError("pinned profile-build.json is absent")
+    profile_build = json.loads(profile_build_path.read_text())
+    if (profile_build.get("profile") != PROFILE or profile_build.get("build_exit") != 0 or
+            profile_build.get("proof_sha") != proof_sha or
+            profile_build.get("provider", {}).get("build_id") != provider.get("build_id")):
+        raise RuntimeError("profile-build receipt identity or completion differs")
+    profile_tool_hashes = {
+        "vf-rust-mir-exporter": profile_build.get("exporter_sha256"),
+        "verifast": profile_build.get("console_sha256"),
+        "refinement-checker": profile_build.get("refiner_sha256"),
+    }
+    if profile_tool_hashes != actual_tools:
+        raise RuntimeError("tool binaries differ from the pinned profile-build receipt")
+    if profile_build.get("accepted") is True:
+        raise RuntimeError("experimental profile-build receipt unexpectedly claims acceptance")
+
+    schema = Path(args.schema)
+    if not schema.is_file():
+        raise RuntimeError("pinned MIR schema is absent")
+    schema_sha = _file_sha(schema)
+    if receipt.get("schema_sha256") != schema_sha:
+        raise RuntimeError("MIR schema hash differs from validated receipt")
+    if profile_build.get("schema_sha256") not in (None, schema_sha):
+        raise RuntimeError("profile-build MIR schema hash differs")
+
+    compiler_version = receipt.get("rustc_version", receipt.get("compiler_version"))
+    if not isinstance(compiler_version, str) or \
+            "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f" not in compiler_version or \
+            "2026-09-24" not in compiler_version:
+        raise RuntimeError("compiler version receipt differs from frozen nightly pin")
+    toolchain = receipt.get("rustc_toolchain")
+    if toolchain != "nightly-2026-09-25":
+        raise RuntimeError("compiler toolchain receipt differs from frozen nightly pin")
+    for key in ("rustc_version", "compiler_version"):
+        pinned_version = profile_build.get(key)
+        if pinned_version is not None and pinned_version != compiler_version:
+            raise RuntimeError(f"profile-build compiler identity differs: {key}")
+
+    # Require a JSON-roundtrippable receipt before hashing/recording the exact
+    # parent input. This is metadata validation only; no toolchain is invoked.
+    receipt_bytes = json.dumps(receipt, sort_keys=True, separators=(",", ":")).encode()
+    return {"receipt": receipt, "receipt_sha256": _sha(receipt_bytes),
+            "profile_evidence": str(profile_evidence),
+            "profile_build_sha256": _file_sha(profile_build_path),
+            "actual_tool_sha256": actual_tools, "schema_sha256": schema_sha,
+            "rustc_version": compiler_version,
+            "rustc_toolchain": toolchain}
+
+
+def _stage_receipts(case: Path, stages: dict, baseline: dict) -> dict:
+    expected = ("exporter", "decode", "verifast", "refinement")
+    rows = {}
+    valid = True
+    current = _hashes(case)
+    for name in expected:
+        path = case / f"{name}-stage.json"
+        if not path.is_file():
+            rows[name] = {"present": False, "admitted": False,
+                          "reason": "required stage receipt missing"}
+            valid = False
+            continue
+        try:
+            data = json.loads(path.read_text())
+        except Exception as error:
+            rows[name] = {"present": True, "admitted": False,
+                          "reason": f"invalid stage receipt: {error}"}
+            valid = False
+            continue
+        code = stages.get(name)
+        source_before = data.get("source_before", {})
+        source_after = data.get("source_after", {})
+        status = data.get("status")
+        status_ok = status is None or status in {"SUCCESS", "SUCCEEDED", "COMPLETED"}
+        stage_valid = (data.get("stage") == name and status_ok and
+                       isinstance(code, int) and data.get("exit_code") == code and
+                       data.get("source_unchanged") is True and
+                       source_before == source_after and
+                       source_before.get("original/lib.rs") == baseline.get("original/lib.rs") and
+                       source_after.get("original/lib.rs") == baseline.get("original/lib.rs") and
+                       source_before.get("verified/lib.rs") == baseline.get("verified/lib.rs") and
+                       source_after.get("verified/lib.rs") == baseline.get("verified/lib.rs") and
+                       source_before.get("small_sort_source") == _file_sha(SOURCE) and
+                       source_after.get("small_sort_source") == _file_sha(SOURCE) and
+                       current.get("original/lib.rs") == baseline.get("original/lib.rs") and
+                       current.get("verified/lib.rs") == baseline.get("verified/lib.rs"))
+        rows[name] = {"present": True, "admitted": stage_valid,
+                      "exit_code": data.get("exit_code"), "callback_exit_code": code,
+                      "source_unchanged": data.get("source_unchanged"),
+                      "status": data.get("status")}
+        valid = valid and stage_valid
+    return {"admitted": valid, "stages": rows}
 
 
 def _mir_gate(case: Path, metadata: dict, mir) -> dict:
@@ -376,7 +511,8 @@ def _classify(name: str, case: Path, meta: dict, execution: dict,
     return row
 
 
-def run(evidence: Path, args, env: dict, execute_case) -> dict:
+def run(evidence: Path, args, env: dict, execute_case,
+        validated_receipt: dict) -> dict:
     """Prepare/classify isolated cases; caller supplies the pinned Cloud executor."""
     if not callable(execute_case):
         raise TypeError("execute_case callback is required")
@@ -385,6 +521,7 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
     # one-cell driver.  No source extraction is performed at import time.
     proof = _load("concrete_onecell_base_proof", OLD / "prove.py")
     provider, proof_sha = proof.base.require_hosted_cloud()
+    receipt_identity = _validate_receipt(args, validated_receipt, provider, proof_sha)
     if evidence.exists():
         raise FileExistsError(f"refusing to reuse concrete-u64 evidence: {evidence}")
     source = SOURCE.read_bytes()
@@ -464,7 +601,7 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
             row[field] = _line(verified, _rewrite_types(generic_anchor))
         row["target"] = target
         row["case"] = name
-        row["ghost_fragments"] = [_specialize(part, prep).decode("ascii") for part in
+        row["ghost_fragments"] = [_rewrite_types(part).decode("ascii") for part in
                                   _ghost_fragments(prep, name)]
         row["runtime_ghost_strip_equal"] = True
         post_fbc_lines = [row["alignment_lemma_line"], row["source_limits_line"],
@@ -487,9 +624,17 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
     # are materialized; deleting them prevents a generic case from being
     # mistaken for the concrete-u64 proof input.
     shutil.rmtree(staging)
+    (evidence / "metadata.json").write_text(json.dumps(rows, indent=2, sort_keys=True) + "\n")
     environment = {"profile": getattr(args, "profile", PROFILE),
                    "helper_profile": PROFILE, "proof_sha": proof_sha,
                    "provider": provider,
+                   "validated_receipt": receipt_identity["receipt"],
+                   "validated_receipt_sha256": receipt_identity["receipt_sha256"],
+                   "profile_build_sha256": receipt_identity["profile_build_sha256"],
+                   "actual_tool_sha256": receipt_identity["actual_tool_sha256"],
+                   "schema_sha256": receipt_identity["schema_sha256"],
+                   "rustc_version": receipt_identity["rustc_version"],
+                   "rustc_toolchain": receipt_identity["rustc_toolchain"],
                    "source_sha256": extraction["source_sha256"],
                    "source_git_blob": extraction["source_git_blob"],
                    "source_block_sha256": extraction["source_block_sha256"],
@@ -516,20 +661,22 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
         before = _hashes(case)
         execution = execute_case(case, args, env)
         after = _hashes(case)
-        unchanged = before == after and all(
-            json.loads(path.read_text()).get("source_unchanged") is True
-            for path in case.glob("*-stage.json")
-            if json.loads(path.read_text()).get("status") != "NOT_RUN")
+        stage_gate = _stage_receipts(case, execution.get("stages", {}), before)
+        unchanged = before == after and stage_gate["admitted"]
         execution["source_unchanged_at_every_stage"] = unchanged
         execution["source_before"] = before
         execution["source_after"] = after
+        execution["stage_receipt_gate"] = stage_gate
         classified = _classify(name, case, metadata, execution, prep,
                                proof.mir, proof.ast)
         environment["cases"][name] = classified["classification"]
     summary = {"schema": "concrete-u64-onecell-consumer-v1", **environment,
                "case_details": {name: json.loads(
                    (cases_root / name / "classification.json").read_text()) for name in CASES},
-               "normal_unwind_posts": "unchanged full conditional contract retained",
+               "normal_post_contract": "full conditional normal post retained",
+               "normal_post_credit": "PASS_FRAGMENT_ONLY" if
+               environment["cases"].get("positive") == "PASS_FRAGMENT_ONLY" else "INCONCLUSIVE",
+               "unwind_credit": "NOT_EXERCISED: quiescent witness has no panicking runtime call",
                "mutable_fbc": "separate close/open and post-FBC false case",
                "held_recovery": "first failure visible; after_recovery_false only counts after copy",
                "accepted": False}
@@ -559,7 +706,7 @@ def _ghost_fragments(prep, name: str) -> tuple[bytes, ...]:
 def _ghost_strip_equal(original: bytes, verified: bytes, prep, name: str) -> bool:
     stripped = verified
     for chunk in _ghost_fragments(prep, name):
-        specialized = _specialize(chunk, prep)
+        specialized = _rewrite_types(chunk)
         if stripped.count(specialized) != 1:
             return False
         stripped = stripped.replace(specialized, b"", 1)

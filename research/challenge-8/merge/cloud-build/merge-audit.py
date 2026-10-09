@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 from pathlib import Path
 import re
+import shutil
 import sys
 import tempfile
 
@@ -136,13 +137,29 @@ GUARD_GEOMETRY_GROUPS = {
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
 ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
-ONECELL_PROFILE = "experimental-merge-incoming-origin-onecell-v3"
+ONECELL_PROFILE = "experimental-merge-origin-layout-concrete-u64-v1"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
 ONECELL_CAMPAIGN = "incoming-origin-controls-only-v1"
 ONECELL_CAMPAIGN_CASES = set()
 ONECELL_CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
+LAYOUT_CONTROL_CASES = (
+    "unit_ghost_size", "unit_ghost_alignment", "unit_runtime_size",
+    "unit_runtime_alignment", "unit_wrapper_runtime_size", "scalar_wrapper_runtime_size",
+    "unit_positive_extent_false", "unit_wrong_alignment_false",
+    "unit_generic_instantiation", "scalar_generic_instantiation",
+    "unknown_struct_no_positivity", "unit_pointer_zero_step",
+    "unit_pointer_unequal_false", "unit_local_storage",
+)
+CONCRETE_U64_CASES = (
+    "positive", "after_fbc_false", "after_recovery_false",
+    "missing_held_owner", "double_physical_fbc",
+)
+NATIVE_UNIT_SMOKES = (
+    ("c", "unit_name_c_smoke"),
+    ("cpp", "unit_name_cpp_smoke"),
+)
 ONECELL_CAMPAIGN_BASELINE = {
     "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
     "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
@@ -294,6 +311,224 @@ def audit_origin_controls(base: Path, aggregate: dict, profile: str) -> tuple[bo
             classified = runner.classify(name, replay, meta, row)
             valid = valid and classified == row and summary["controls"][name] == row.get("classification")
     return bool(valid), summary
+
+
+def _audit_four_stage_case(case: Path, row: dict) -> bool:
+    """Bind each nested diagnostic's four stage receipts to its row."""
+    stages = row.get("stages")
+    before, after = row.get("source_before"), row.get("source_after")
+    if (not isinstance(stages, dict) or set(stages) !=
+            {"exporter", "decode", "verifast", "refinement"} or
+            row.get("source_unchanged_at_every_stage") is not True or
+            not isinstance(before, dict) or before != after):
+        return False
+    for relative in ("original/lib.rs", "verified/lib.rs"):
+        try:
+            source_hash = sha256_file(case / relative)
+        except OSError:
+            return False
+        if before.get(relative) != source_hash or after.get(relative) != source_hash:
+            return False
+    for stage, code in stages.items():
+        if not isinstance(code, int) or isinstance(code, bool):
+            return False
+        try:
+            receipt = json.loads((case / f"{stage}-stage.json").read_text())
+            exit_code = int((case / f"{stage}-exit-code.txt").read_text().strip())
+        except (OSError, ValueError, TypeError):
+            return False
+        if receipt.get("stage") != stage or receipt.get("exit_code") != code or exit_code != code:
+            return False
+        if receipt.get("status") == "NOT_RUN":
+            if code != 125 or not isinstance(receipt.get("reason"), str) or not receipt["reason"]:
+                return False
+            continue
+        if (receipt.get("source_before") != before or receipt.get("source_after") != after or
+                receipt.get("source_unchanged") is not True):
+            return False
+    return True
+
+
+def audit_onecell_nested_controls(base: Path, aggregate: dict,
+                                  tracked_build: Path) -> dict:
+    """Replay unit-layout and concrete-u64 classifiers from retained artifacts.
+
+    Semantic classifications are reported as observations; this audit checks
+    source/helper reproducibility and artifact bindings without upgrading the
+    profile or requiring the expected proof outcomes to pass.
+    """
+    report = {"artifact_bindings_valid": False, "accepted": False,
+              "layout_controls": "INCONCLUSIVE",
+              "concrete_u64_consumer": "INCONCLUSIVE",
+              "native_unit_smokes": {"c": "INCONCLUSIVE", "cpp": "INCONCLUSIVE"}}
+    try:
+        layout_path = Path(__file__).resolve().parents[2] / "cloud-build/origin-layout/layout-controls.py"
+        consumer_path = Path(__file__).resolve().parents[2] / "cloud-build/origin-layout/concrete-consumer.py"
+        spec = importlib.util.spec_from_file_location("onecell_layout_audit", layout_path)
+        layout = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(layout)
+        spec = importlib.util.spec_from_file_location("onecell_concrete_audit", consumer_path)
+        consumer = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = consumer
+        spec.loader.exec_module(consumer)
+
+        valid = aggregate.get("accepted") is False
+        layout_root = base / "layout-controls"
+        layout_summary = json.loads((layout_root / "summary.json").read_text())
+        valid = valid and layout_summary == aggregate.get("layout_controls")
+        with tempfile.TemporaryDirectory(prefix="onecell-layout-audit-") as temporary:
+            metadata = layout.prepare(Path(temporary) / "prepared")
+            valid = valid and set(metadata) == set(LAYOUT_CONTROL_CASES) == set(layout_summary.get("cases", {}))
+            for name, meta in metadata.items():
+                case = layout_root / name
+                row = json.loads((case / "classification.json").read_text())
+                valid = valid and row == layout_summary["cases"].get(name)
+                source_hashes = {}
+                for tree in ("original", "verified"):
+                    source_hashes[f"{tree}/lib.rs"] = sha256_file(case / f"{tree}/lib.rs")
+                    valid = valid and source_hashes[f"{tree}/lib.rs"] == meta["source_sha256"]
+                before = row.get("source_before", {})
+                after = row.get("source_after", {})
+                valid = (valid and before.get("original/lib.rs") == meta["source_sha256"] and
+                         before.get("verified/lib.rs") == meta["source_sha256"] and
+                         after.get("original/lib.rs") == meta["source_sha256"] and
+                         after.get("verified/lib.rs") == meta["source_sha256"] and
+                         before.get("small_sort_source") == DROP_SOURCE_SHA256 and
+                         after.get("small_sort_source") == DROP_SOURCE_SHA256)
+                execution = {key: row[key] for key in
+                             ("stages", "source_unchanged_at_every_stage", "source_before", "source_after")
+                             if key in row}
+                replay = Path(temporary) / "replay" / name
+                (replay / "original").mkdir(parents=True)
+                (replay / "verified").mkdir()
+                for filename in ("original/lib.rs", "verified/lib.rs", "verifast.log"):
+                    shutil.copyfile(case / filename, replay / filename)
+                classified = layout.classify(replay, meta, execution)
+                valid = valid and classified == row and _audit_four_stage_case(case, row)
+        report["layout_controls"] = ("REPLAYED_DIAGNOSTIC" if valid else "INCONCLUSIVE")
+
+        concrete_root = base / "concrete-u64"
+        concrete_summary = json.loads((concrete_root / "concrete-u64-results.json").read_text())
+        concrete_metadata = json.loads((concrete_root / "metadata.json").read_text())
+        environment = json.loads((base / "environment.json").read_text())
+        profile_build = json.loads((tracked_build / "profile-build.json").read_text())
+        valid = valid and concrete_summary == aggregate.get("concrete_u64_consumer")
+        valid = valid and concrete_summary.get("schema") == "concrete-u64-onecell-consumer-v1" and \
+                concrete_summary.get("accepted") is False and \
+                set(concrete_summary.get("case_details", {})) == \
+                set(concrete_metadata) == set(CONCRETE_U64_CASES)
+        receipt = concrete_summary.get("validated_receipt")
+        receipt_digest = (hashlib.sha256(json.dumps(
+            receipt, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+            if isinstance(receipt, dict) else None)
+        provider = concrete_summary.get("provider")
+        build_provider = profile_build.get("provider")
+        build_id = (provider.get("build_id") if isinstance(provider, dict) else None)
+        valid = (valid and receipt == environment and
+                 concrete_summary.get("validated_receipt_sha256") == receipt_digest and
+                 concrete_summary.get("profile") == aggregate.get("profile") ==
+                 environment.get("profile") == concrete_summary.get("helper_profile") and
+                 concrete_summary.get("accepted") is False and
+                 concrete_summary.get("proof_sha") == environment.get("proof_sha") ==
+                 profile_build.get("proof_sha") and
+                 provider == environment.get("provider") == build_provider and
+                 isinstance(build_id, str) and build_id and
+                 environment.get("cloud_build_id") == build_id and
+                 profile_build.get("provider", {}).get("build_id") == build_id and
+                 profile_build.get("profile") == concrete_summary.get("profile") and
+                 profile_build.get("accepted") is False)
+        # Import only static helpers/constants. The extraction and proof entry
+        # points are deliberately never called by this audit.
+        old = consumer._load("onecell_concrete_prepare_audit", consumer.OLD / "prepare.py")
+        stage_proof = consumer._load("onecell_concrete_stage_helpers_audit",
+                                     consumer.OLD.parents[1] / "copy-on-drop-prove.py")
+        with tempfile.TemporaryDirectory(prefix="onecell-concrete-audit-") as temporary:
+            for name in CONCRETE_U64_CASES:
+                case = concrete_root / "cases" / name
+                row = json.loads((case / "classification.json").read_text())
+                valid = valid and row == concrete_summary["case_details"].get(name)
+                meta = concrete_metadata[name]
+                original = (case / "original/lib.rs").read_bytes()
+                verified = (case / "verified/lib.rs").read_bytes()
+                expected_ghosts = [consumer._rewrite_types(part).decode("ascii")
+                                   for part in consumer._ghost_fragments(old, name)]
+                valid = valid and meta.get("case") == name and \
+                    meta.get("original_sha256") == consumer._sha(original) and \
+                    meta.get("verified_sha256") == consumer._sha(verified) and \
+                    meta.get("ghost_fragments") == expected_ghosts and \
+                    meta.get("runtime_ghost_strip_equal") is True and \
+                    consumer._ghost_strip_equal(original, verified, old, name)
+                # Independently bind the persisted per-case metadata to the
+                # pinned source anchors and classifier helper constants.
+                anchor_fields = {
+                    "read_line": old.READ, "guard_line": old.GUARD, "copy_line": old.COPY,
+                    "fbc_close_line": old.FBC_CLOSE, "fbc_open_line": old.FBC_OPEN,
+                    "source_limits_line": old.SOURCE_LIMITS,
+                    "alignment_lemma_line": old.ALIGNMENT,
+                    "source_identity_line": old.SOURCE_IDENTITY,
+                    "constructor_span_line": old.CONSTRUCTOR_SPAN,
+                    "own_close_line": (old.MISSING_OWNER_CLOSE if name == "missing_held_owner"
+                                       else old.OWN_CLOSE),
+                }
+                for field, anchor in anchor_fields.items():
+                    valid = valid and meta.get(field) == consumer._line(
+                        verified, consumer._rewrite_types(anchor))
+                valid = valid and meta.get("geometry_lines") == [
+                    consumer._line(verified, consumer._rewrite_types(anchor))
+                    for anchor in old.GEOMETRY]
+                target_anchor = (old.FBC_FALSE if name == "after_fbc_false" else
+                                 old.FALSE if name == "after_recovery_false" else
+                                 old.READ if name == "missing_held_owner" else
+                                 old.DOUBLE_FBC_CLOSE if name == "double_physical_fbc" else None)
+                expected_target = None if target_anchor is None else {
+                    "line": consumer._line(verified, consumer._rewrite_types(target_anchor)),
+                    "column_start": target_anchor.index(
+                        b"false" if target_anchor in (old.FALSE, old.FBC_FALSE) else
+                        b"tail.read" if target_anchor == old.READ else b"close") + 1,
+                    "predicate": "false" if target_anchor in (old.FALSE, old.FBC_FALSE) else
+                    "held owner" if target_anchor == old.READ else "physical FBC"}
+                valid = valid and meta.get("target") == expected_target
+                execution = {key: row[key] for key in
+                             ("stages", "source_unchanged_at_every_stage", "source_before",
+                              "source_after", "stage_receipt_gate")
+                             if key in row}
+                stage_gate = consumer._stage_receipts(case, execution.get("stages", {}),
+                                                       execution.get("source_before", {}))
+                valid = valid and execution.get("stage_receipt_gate") == stage_gate and \
+                    _audit_four_stage_case(case, row)
+                replay = Path(temporary) / name
+                (replay / "original").mkdir(parents=True)
+                (replay / "verified").mkdir()
+                for filename in ("original/lib.rs", "verified/lib.rs", "decode.out", "proof-ast.ml", "verifast.log"):
+                    shutil.copyfile(case / filename, replay / filename)
+                replayed = consumer._classify(name, replay, meta, execution,
+                                              old, stage_proof.mir_helper, stage_proof.ast_helper)
+                valid = valid and replayed == row
+        report["concrete_u64_consumer"] = ("REPLAYED_DIAGNOSTIC" if valid else "INCONCLUSIVE")
+
+        native_valid = True
+        native_report = {}
+        for suffix, function in NATIVE_UNIT_SMOKES:
+            log_path = tracked_build / f"native-unit-{suffix}.log"
+            exit_path = tracked_build / f"native-unit-{suffix}-exit-code.txt"
+            log = log_path.read_text(errors="replace")
+            code = int(exit_path.read_text().strip())
+            errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+            smoke_ok = (code == 0 and not errors and "0 errors found" in log and
+                        re.search(rf"Verifying function '{re.escape(function)}'", log) is not None)
+            native_report[suffix] = {"exit_code": code, "errors": errors,
+                                     "function_seen": function in log,
+                                     "zero_errors": "0 errors found" in log,
+                                     "complete": smoke_ok}
+            native_valid = native_valid and smoke_ok
+        report["native_unit_smokes"] = native_report
+        report["artifact_bindings_valid"] = bool(valid and native_valid)
+        report["classification"] = ("EVIDENCE_COMPLETE_DIAGNOSTIC"
+                                    if report["artifact_bindings_valid"] else "INCONCLUSIVE")
+        report["accepted"] = False
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, ImportError) as error:
+        report["reason"] = str(error)
+    return report
 
 
 def audit_span_controls(base: Path, aggregate: dict, profile: str) -> tuple[bool, bool]:
@@ -1489,6 +1724,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     pins.get("patch_sha256") == sha256_file(component / "tracked-md.patch") and
                 sha256_file(evidence / "tracked-md-build/emitter.patched.ml") == pins.get("emitter_sha256") and
                 sha256_file(evidence / "tracked-md-build/kernel.patched.ml") == pins.get("kernel_sha256") and
+                sha256_file(evidence / "tracked-md-build/model.patched.ml") == pins.get("model_sha256") and
+                sha256_file(evidence / "tracked-md-build/unit-layout.patch") ==
+                    pins.get("unit_layout_patch_sha256") == sha256_file(component.parents[3] / "cloud-build/origin-layout/unit-layout.patch") and
                 sha256_file(evidence / "tracked-md-build/allocation-span.patch") ==
                     pins.get("allocation_span_patch_sha256") == sha256_file(component / "allocation-span.patch") and
                 all(build.get(key) == value for key, value in pins.items()) and
@@ -1624,7 +1862,10 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         break
             spans_valid, spans_matched = audit_span_controls(base, aggregate, ONECELL_PROFILE)
             origin_valid, origin_summary = audit_origin_controls(base, aggregate, ONECELL_PROFILE)
-            rows_valid = rows_valid and spans_valid and origin_valid
+            nested_controls = audit_onecell_nested_controls(
+                base, aggregate, evidence / "tracked-md-build")
+            rows_valid = (rows_valid and spans_valid and origin_valid and
+                          nested_controls.get("artifact_bindings_valid") is True)
             expected_md = (False if campaign_mode else
                 all(results[name].get("classification") == "REGRESSION_MATCHED"
                     for name in ONECELL_MD_CASES)) if rows_valid else False
@@ -1648,6 +1889,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                               "raw_case_classifications": case_classes,
                               "allocation_span_controls": aggregate.get("allocation_span_controls"),
                               "origin_controls": origin_summary,
+                              "nested_controls": nested_controls,
                               "native_origin_exit": int((evidence / "tracked-md-build/native-origin-exit-code.txt").read_text()),
                               "actual_drop_glue": "OPEN"}
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:

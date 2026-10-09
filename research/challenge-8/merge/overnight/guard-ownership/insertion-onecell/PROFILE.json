@@ -1,6 +1,6 @@
 {
   "schema": "smallsort-tracked-md-profile-v1",
-  "profile": "experimental-merge-incoming-origin-onecell-v3",
+  "profile": "experimental-merge-origin-layout-concrete-u64-v1",
   "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
   "translator_sha256": "207a4e0d82553ce28c8e27c44bc4e6a4fdb78f16661ec53c044c7632611b4e0c",
@@ -23,5 +23,10 @@
   "lifetime_boundary": "internal MIR-origin AST statements, original MIR span/local identity, path-local binding and surviving entry Chunk",
   "ast_sha256": "1fb8528f755586ba04dae86933c0cfad6c514188267c5de5d43525eb53feca35",
   "sexpression_sha256": "33e5fe0b39447bc10ee2a79c9c9bb6ca29c268da2527f3d121ad94f252a51b80",
-  "verify_expr_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5"
+  "verify_expr_sha256": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+  "model_baseline_sha256": "b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7",
+  "model_sha256": "be824fcd39fd145c1eea21cbb2ad88ad3bb5ced53701d4f42ef8ced476e39271",
+  "unit_layout_patch_sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a",
+  "layout_tool_commit": "8cb0121b03a5164495bf0d7c6c236ea9504d5ce4",
+  "layout_domain": "canonical Rust unit size0/align1; ManuallyDrop erases to qualified inner type; u64 concrete specialization only"
 }

@@ -771,7 +771,7 @@ if python3 "$selection_tool" contains --selection "$selection_file" \
       /usr/bin/time -v -o "$allprooflogs/group-$onecell_group-resources.txt" \
         timeout --signal=TERM --kill-after=10s "${onecell_proof_timeout}s" \
         python3 "$onecell_component/prove.py" \
-          --profile experimental-merge-incoming-origin-onecell-v3 \
+          --profile experimental-merge-origin-layout-concrete-u64-v1 \
           --profile-evidence "$onecell_build" --tool-home "$onecell_home" \
           --compiler-sysroot "$(rustc --print sysroot)" \
           --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \

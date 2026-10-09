@@ -10,8 +10,8 @@
       "argument": "local",
       "kind": "diverging_extern",
       "target": "reserved dead diverging extern call",
-      "prototype_note": "contract is in the loaded .rsspec; Rust declaration remains -> ! and MIR must have no normal target",
-      "extern_spec": {"signature": "unsafe fn vf__rust_storage_dead(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "false"},
+      "prototype_note": "loaded .rsspec permits unwind; Rust declaration remains -> ! and MIR must have no normal target",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_dead(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "true"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "ordinary extern noncontinuation without lifecycle dispatch"
     },
@@ -21,8 +21,8 @@
       "argument": "local",
       "kind": "diverging_extern",
       "target": "reserved live diverging extern call",
-      "prototype_note": "contract is in the loaded .rsspec; Rust declaration remains -> ! and MIR must have no normal target",
-      "extern_spec": {"signature": "unsafe fn vf__rust_storage_live(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "false"},
+      "prototype_note": "loaded .rsspec permits unwind; Rust declaration remains -> ! and MIR must have no normal target",
+      "extern_spec": {"signature": "unsafe fn vf__rust_storage_live(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "true"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "ordinary extern noncontinuation without lifecycle dispatch"
     },
@@ -32,8 +32,8 @@
       "argument": "local",
       "kind": "diverging_extern",
       "target": "plain diverging extern call",
-      "prototype_note": "contract is in the loaded .rsspec; Rust declaration remains -> ! and MIR must have no normal target",
-      "extern_spec": {"signature": "unsafe fn origin_plain_never(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "false"},
+      "prototype_note": "loaded .rsspec permits unwind; Rust declaration remains -> ! and MIR must have no normal target",
+      "extern_spec": {"signature": "unsafe fn origin_plain_never(value: u64) -> !;", "req": "true", "ens": "false", "on_unwind_ens": "true"},
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "baseline ordinary extern noncontinuation"
     },

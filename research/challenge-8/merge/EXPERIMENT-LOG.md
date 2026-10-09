@@ -543,3 +543,7 @@ Artifact11514548135404018bytesZIPe20a93c8cc5494761354cceebdeb57f451bf97cd35e9c1c
 matched GitHub digest. Setup32s,suite50.79s,peakRSS274168KiB. No local executable
 checks. Documentation closeout requires no extra run. Proposed design-only next
 phase remains unapproved; actual merge/FnMut/memory/unwind/ZST bridge OPEN.
+
+## MERGE origin/layout fresh diagnostic —2026-10-09T22:19:12Z
+
+Buildfdfb7175-e4ad-4da4-b300-196866612372 proof/infra41c097aa42d613b57c735591309312dc90ab435b, experimental6cboriginprofile.361s create→finish in new3600s account; FAILURE, fullarchive72d4c87e168db056718b766496de44eec5089d8d255db0bcf01bd7e4c7f0c655 verified. Sixspan controls matched; twoordinary near-name sourcebodies PASS and lostlocalresource atStorageDead EXPECTED_REJECTION. Rustextern parsing/export/decode/refinement pass but targetcalls No such function because firstline-onlyfileoption reader ignoredline3externspec; notsemanticnegatives. Localnormal/unwind fullresource scalarfixture verifier0/refinement0 withfull return/leak, collector externalmacrospan failed origin gate. Optionaldivergingcalltarget absent indecode collector defect. Unitghost/runtime model failures reproduced. Genericactual andMDdependencies NOT_RUN; no acceptance upgrade. Repairprepare andcollectors beforefreshcombined actualu64consumer; seecloud-build/origin-layout/SESSION.md.

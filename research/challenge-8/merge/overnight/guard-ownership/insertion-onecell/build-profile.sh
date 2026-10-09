@@ -56,7 +56,7 @@ import hashlib,json,pathlib,sys
 here,home,evidence=map(pathlib.Path,sys.argv[1:])
 pins=json.loads((here/'PROFILE.json').read_text())
 assert pins['schema']=='smallsort-tracked-md-profile-v1' and not pins['accepted']
-paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'baseline_kernel_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
+paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'baseline_kernel_sha256','src/verifast1.ml':'model_baseline_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
 for path,key in paths.items():
  assert hashlib.sha256((home/path).read_bytes()).hexdigest()==pins[key],(path,key)
 assert hashlib.sha256((here/'tracked-md.patch').read_bytes()).hexdigest()==pins['patch_sha256']
@@ -73,6 +73,15 @@ SPANPIN
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$here/allocation-span.patch"
 git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$here/allocation-span.patch"
 cp "$here/allocation-span.patch" "$evidence/allocation-span.patch"
+layout_patch="$here/../../../../cloud-build/origin-layout/unit-layout.patch"
+python3 - "$here" "$layout_patch" <<'LAYOUTPIN'
+import hashlib,json,pathlib,sys
+h,p=map(pathlib.Path,sys.argv[1:]);pins=json.loads((h/'PROFILE.json').read_text())
+assert hashlib.sha256(p.read_bytes()).hexdigest()==pins['unit_layout_patch_sha256']
+LAYOUTPIN
+git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$layout_patch"
+git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$layout_patch"
+cp "$layout_patch" "$evidence/unit-layout.patch"
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$new_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
@@ -90,13 +99,14 @@ import hashlib,json,os,pathlib,runpy,sys
 here,home,evidence,base_evidence=map(pathlib.Path,sys.argv[1:])
 pins=json.loads((here/'PROFILE.json').read_text())
 h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256','src/verifast.ml':'kernel_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256','src/frontend/ast.ml':'ast_sha256','src/SExpressionEmitter.ml':'sexpression_sha256','src/verify_expr.ml':'verify_expr_sha256'}
+paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256','src/verifast.ml':'kernel_sha256','src/verifast1.ml':'model_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256','src/frontend/ast.ml':'ast_sha256','src/SExpressionEmitter.ml':'sexpression_sha256','src/verify_expr.ml':'verify_expr_sha256'}
 for path,key in paths.items(): assert h(home/path)==pins[key],(path,key)
 pins.update(console_sha256=h(home/'bin/verifast'),proof_sha=os.environ['PROOF_SHA'],baseline_build_manifest_sha256=h(base_evidence/'console-cache-profile.txt'),provider=runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider'](),build_exit=0)
 (evidence/'profile-build.json').write_text(json.dumps(pins,indent=2)+'\n')
 (evidence/'translator.patched.ml').write_bytes((home/'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml').read_bytes())
 (evidence/'emitter.patched.ml').write_bytes((home/'src/frontend/ocaml_expr_of_ast.ml').read_bytes())
 (evidence/'kernel.patched.ml').write_bytes((home/'src/verifast.ml').read_bytes())
+(evidence/'model.patched.ml').write_bytes((home/'src/verifast1.ml').read_bytes())
 FINAL
 
 # Native regression for ordinary prototypes with the historical marker spelling.
@@ -109,3 +119,15 @@ set -e
 printf '%s\n' "$native_status" > "$evidence/native-origin-exit-code.txt"
 cat "$evidence/native-origin.log"
 # Record diagnostics separately; never promote failed native test to PASS.
+
+# Dialect isolation: exact unit spelling in C/C++ retains ordinary positive size.
+for native_suffix in c cpp; do
+  native_source="$here/../../../../cloud-build/origin-layout/unit-name.$native_suffix"
+  set +e
+  timeout --signal=TERM --kill-after=5s 25s "$new_home/bin/verifast" -verbose 1 -c "$native_source" \
+    > "$evidence/native-unit-$native_suffix.log" 2>&1
+  native_unit_status=$?
+  set -e
+  printf '%s\n' "$native_unit_status" > "$evidence/native-unit-$native_suffix-exit-code.txt"
+  cat "$evidence/native-unit-$native_suffix.log"
+done

@@ -38,6 +38,34 @@ def _sha(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
+def _call_target_option(call: dict) -> dict:
+    """Return a checked MIR call-target Option, accepting old omitted fields.
+
+    Older decoded MIR omits `target` for calls with no normal successor. Only
+    absence gets normalized to `nothing`; a present but malformed Option stays
+    an error so the compatibility path cannot hide damaged evidence.
+    """
+    if not isinstance(call, dict):
+        raise ValueError("MIR call is not a record")
+    if "target" not in call:
+        return {"nothing": None}
+    target = call["target"]
+    if not isinstance(target, dict) or len(target) != 1:
+        raise ValueError("MIR call target is not a checked Option")
+    if "nothing" in target:
+        if target["nothing"] is not None:
+            raise ValueError("MIR call target has malformed nothing payload")
+        return target
+    if "something" in target:
+        value = target["something"]
+        if (not isinstance(value, dict) or set(value) != {"index"} or
+                not isinstance(value["index"], int) or isinstance(value["index"], bool) or
+                value["index"] < 0):
+            raise ValueError("MIR call target has malformed successor")
+        return target
+    raise ValueError("MIR call target is not a checked Option")
+
+
 def _mir_successors(mir, block: dict) -> list[int]:
     """Decode the successor forms used by MIR terminators; unknown is fatal."""
     kind = mir.path(block, "terminator", "kind")
@@ -53,8 +81,8 @@ def _mir_successors(mir, block: dict) -> list[int]:
     if "call" in kind:
         call = kind["call"]
         edges = []
-        target = mir.path(call, "target")
-        if isinstance(target, dict) and "something" in target:
+        target = _call_target_option(call)
+        if "something" in target:
             edges.append(mir.path(target, "something", "index"))
         unwind = mir.path(call, "unwindAction")
         if isinstance(unwind, dict) and "cleanup" in unwind:
@@ -310,6 +338,10 @@ def prepare(evidence: Path) -> tuple[dict, dict]:
             required = {"signature", "req", "ens", "on_unwind_ens"}
             if set(extern_spec) != required:
                 raise RuntimeError(f"malformed extern spec contract for {name}")
+            if spec["kind"] == "diverging_extern" and (
+                    extern_spec["ens"] != "false" or
+                    extern_spec["on_unwind_ens"] != "true"):
+                raise RuntimeError(f"{name} must forbid normal return and permit unwind")
             extern_spec_text = (extern_spec["signature"] + "\n" +
                                 "//@ req " + extern_spec["req"] + ";\n" +
                                 "//@ ens " + extern_spec["ens"] + ";\n" +
@@ -373,16 +405,13 @@ def origin_gate(case: Path, meta: dict) -> dict:
                             set(operands[0]) not in ({"copy"}, {"move"}):
                         raise ValueError("target MIR call does not carry one source argument")
                     argument_raw = mir.local(next(iter(operands[0].values())))
-                    target_option = mir.path(call, "target")
-                    if not isinstance(target_option, dict) or set(target_option) not in (
-                            {"nothing"}, {"something"}):
-                        raise ValueError("MIR call target is not a checked Option")
+                    target_option = _call_target_option(call)
                     unwind_action = mir.path(call, "unwindAction")
                     if meta["kind"] in {"branch_unwind_positive", "local_unwind_positive",
-                                         "unwind_contract_negative"} and (
+                                         "unwind_contract_negative", "diverging_extern"} and (
                             not isinstance(unwind_action, dict) or
                             set(unwind_action) not in ({"continue"}, {"cleanup"})):
-                        raise ValueError("branch callback has no MIR unwind successor")
+                        raise ValueError("callback has no MIR unwind continuation/cleanup")
                     mir_calls.append({"callee": callee, "source_line": line,
                                       "source_col": col, "block": block_id,
                                       "has_normal_target": "something" in target_option,
@@ -460,13 +489,20 @@ def origin_gate(case: Path, meta: dict) -> dict:
         if len(functions) != 1:
             raise ValueError(f"expected one translated caller body; found {len(functions)}")
         runtime = functions[0].args[10]
-        outcome_posts = [clause.args[1] for clause in
-                         ast.nodes(functions[0].args[8], "SwitchExprClause")
-                         if len(clause.args) >= 2 and isinstance(clause.args[1], str)]
+        outcome_post_clauses = {clause.args[1]: clause for clause in
+                                ast.nodes(functions[0].args[8], "SwitchExprClause")
+                                if len(clause.args) >= 4 and isinstance(clause.args[1], str)}
+        outcome_posts = list(outcome_post_clauses)
         caller_unwind_post = ("returning" in outcome_posts and
                               "unwinding" in outcome_posts)
-        if meta["kind"] == "unwind_contract_negative" and not caller_unwind_post:
+        if meta["kind"] in {"unwind_contract_negative", "diverging_extern"} and not caller_unwind_post:
             raise ValueError("caller AST does not expose both postcondition outcome branches")
+        if meta["kind"] == "diverging_extern":
+            normal_post = outcome_post_clauses["returning"].args[3]
+            unwind_post = outcome_post_clauses["unwinding"].args[3]
+            if not (isinstance(normal_post, ast.Node) and normal_post.name == "False" and
+                    isinstance(unwind_post, ast.Node) and unwind_post.name == "True"):
+                raise ValueError("diverging caller AST does not retain ens false / unwind true")
         ast_bindings, ast_declared = _ast_local_bindings(ast, runtime)
         ast_cfg = _check_ast_mir_branch_targets(ast, runtime, mir, body, blocks)
         ast_calls = [node for node in ast.nodes(runtime, "CallExpr")
@@ -476,6 +512,26 @@ def origin_gate(case: Path, meta: dict) -> dict:
                      ast.location_line(node.args[0]) == target]
         if len(ast_calls) != 1:
             raise ValueError(f"target is not one ordinary AST CallExpr; found {len(ast_calls)}")
+        ast_unwind_returns = [node for node in ast.nodes(runtime, "ReturnStmt")
+                              if len(node.args) == 2 and
+                              any(len(call.args) == 6 and call.args[1] == "unwinding"
+                                  for call in ast.nodes(node.args[1], "CallExpr"))]
+        if meta["kind"] == "diverging_extern":
+            if len(ast_unwind_returns) != 1:
+                raise ValueError("diverging call has no unique translated unwind return")
+            unwind_action = mir_calls[0]["unwind_action"]
+            unwind_return_line = ast.location_line(ast_unwind_returns[0].args[0])
+            if "continue" in unwind_action and unwind_return_line != target:
+                raise ValueError("continue unwind does not return from the translated call site")
+            if "cleanup" in unwind_action:
+                cleanup_target = mir.path(unwind_action, "cleanup", "index")
+                goto_targets = {node.args[1] for node in ast.nodes(runtime, "GotoStmt")
+                                if len(node.args) == 2 and isinstance(node.args[1], str)}
+                if str(cleanup_target) not in goto_targets:
+                    raise ValueError("MIR cleanup successor has no matching AST goto")
+        else:
+            ast_unwind_returns = [node for node in ast_unwind_returns
+                                  if ast.location_line(node.args[0]) == target]
         arguments = ast_calls[0].args[4]
         if not isinstance(arguments, list) or len(arguments) != 1:
             raise ValueError("target AST call does not carry one argument")
@@ -533,6 +589,8 @@ def origin_gate(case: Path, meta: dict) -> dict:
                 "ast_call": {"callee": ast_calls[0].args[1],
                              "argument": argument, "source_line": target},
                 "caller_unwind_post": caller_unwind_post,
+                "ast_unwind_return_line": (ast.location_line(ast_unwind_returns[0].args[0])
+                                            if ast_unwind_returns else None),
                 "mir_lifecycle_count": len(mir_events),
                 "ast_lifecycle_count": matched_ast_event_count,
                 "ast_declared_local_count": len(ast_declared),
@@ -658,21 +716,6 @@ def local_unwind_gate(case: Path, meta: dict) -> dict:
         if live[0]["source_line"] >= meta["target_line"]:
             raise ValueError("tmp StorageLive is not before callback source line")
 
-        def successors(kind: dict) -> list[int]:
-            if "goto" in kind:
-                return [mir.path(kind, "goto", "index")]
-            if "switchInt" in kind:
-                return [mir.path(item, "index") for item in mir.path(kind, "switchInt", "targets")]
-            if "call" in kind:
-                return [mir.path(kind, "call", "target", "something", "index")]
-            if "drop" in kind:
-                return [mir.path(kind, "drop", "target", "index")]
-            if "assert" in kind:
-                return [mir.path(kind, "assert", "target", "index")]
-            if set(kind) <= {"return", "unwindResume", "unwindTerminate", "unreachable"}:
-                return []
-            raise ValueError(f"unsupported post-call MIR terminator {list(kind)}")
-
         def every_path_reaches_dead(start: int) -> bool:
             memo = {}
             def visit(block_id: int, ancestors: frozenset[int]) -> bool:
@@ -684,7 +727,9 @@ def local_unwind_gate(case: Path, meta: dict) -> dict:
                 if any(row["block"] == block_id for row in dead):
                     memo[block_id] = True
                     return True
-                next_blocks = successors(mir.path(block, "terminator", "kind"))
+                # Include normal and cleanup successors for intervening calls,
+                # drops, and assertions. Unknown MIR forms fail closed.
+                next_blocks = _mir_successors(mir, block)
                 result = bool(next_blocks) and all(
                     visit(next_id, ancestors | {block_id}) for next_id in next_blocks)
                 memo[block_id] = result
@@ -780,6 +825,40 @@ def unwind_log_gate(log: str, meta: dict, ast_gate: dict) -> dict:
             "leak_check_count": leak_checks}
 
 
+def diverging_unwind_log_gate(log: str, meta: dict, ast_gate: dict) -> dict:
+    """Require verifier traversal of the diverging call's unwind-only return."""
+    headers = [(match.start(), match.group(1)) for match in re.finditer(
+        r"^\s*\d+(?:\.\d+)?s: [^\s(]+\([0-9]+,[0-9]+"
+        r"(?:-[0-9]+(?:,[0-9]+)?)?\): Verifying function '([^']+)'$", log, re.M)]
+    segments = []
+    for index, (start, function) in enumerate(headers):
+        if function == meta["name"]:
+            end = headers[index + 1][0] if index + 1 < len(headers) else len(log)
+            segments.append(log[start:end])
+    if len(segments) != 1 or not ast_gate.get("admitted") or \
+            not ast_gate.get("caller_unwind_post"):
+        return {"admitted": False, "reason": "caller log or AST unwind-post gate missing"}
+    segment = segments[0]
+    return_matches = list(re.finditer(
+        r"verified/lib\.rs\(([0-9]+),\d+(?:-\d+(?:,\d+)?)?\): "
+        r"(?:note: )?Executing return statement", segment))
+    return_lines = [int(match.group(1)) for match in return_matches]
+    unwind_line = ast_gate.get("ast_unwind_return_line")
+    unwind_matches = [match for match in return_matches
+                      if int(match.group(1)) == unwind_line]
+    unwind_seen = len(unwind_matches) == 1
+    leak_checks = segment.count("Leak check.")
+    leak_after_unwind = ("Leak check." in segment[unwind_matches[0].end():]
+                         if unwind_seen else False)
+    admitted = unwind_seen and leak_after_unwind
+    return {"admitted": admitted,
+            "reason": "verifier traversed unwind return and leak check"
+            if admitted else "diverging caller log lacks unwind return or leak check",
+            "return_lines": return_lines, "ast_unwind_return_line": unwind_line,
+            "unwind_return_seen": unwind_seen, "normal_return_required": False,
+            "leak_check_count": leak_checks, "leak_after_unwind_return": leak_after_unwind}
+
+
 def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     stages = execution.get("stages", {})
     log_path = case / "verifast.log"
@@ -818,6 +897,9 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
                    and stages.get("decode") == 0 else None)
     unwind_log = (unwind_log_gate(log, meta, unwind_gate) if
                   meta["kind"] == "local_unwind_positive" and unwind_gate else None)
+    diverging_unwind_log = (diverging_unwind_log_gate(log, meta, gate)
+                            if meta["kind"] == "diverging_extern" and stages.get("decode") == 0
+                            else None)
     if not stage_inputs_ok:
         classification = "SETUP_REJECTION"
     elif stages.get("verifast") != 0 and (not (case / "proof-ast.ml").is_file() or
@@ -842,6 +924,9 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
         if meta["kind"] == "local_unwind_positive":
             matched = (matched and bool(unwind_gate and unwind_gate.get("admitted")) and
                        bool(unwind_log and unwind_log.get("admitted")))
+        if meta["kind"] == "diverging_extern":
+            matched = (matched and bool(diverging_unwind_log and
+                                        diverging_unwind_log.get("admitted")))
         classification = "PASS_CONTROL" if matched else "INCONCLUSIVE"
     else:
         matched = (stages.get("verifast") == 1 and gate.get("admitted") is True and
@@ -856,6 +941,7 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
               "origin_gate": gate, "target_executed": executed, "errors": errors,
               "local_unwind_gate": unwind_gate,
               "unwind_log_gate": unwind_log,
+              "diverging_unwind_log_gate": diverging_unwind_log,
               "obligation_line": target,
               "obligation_error_line": error_line,
               "unwind_resource_error": unwind_resource_error,

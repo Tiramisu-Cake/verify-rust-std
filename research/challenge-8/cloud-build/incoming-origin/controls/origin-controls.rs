@@ -1,6 +1,6 @@
+// verifast_options{extern_spec:=origin-control.rsspec}
 #![no_std]
 #![allow(dead_code)]
-// verifast_options{extern_spec:=origin-control.rsspec}
 
 // Each case is extracted with this common header and its one delimited body.
 // The extern cases intentionally retain their exact reserved symbol spelling.
@@ -10,7 +10,7 @@ extern "Rust" {
     fn vf__rust_storage_dead(value: u64) -> !;
 }
 pub unsafe fn origin_reserved_dead_diverge() -> u64
-/*@ req true; @*/ /*@ ens false; @*/ {
+/*@ req true; @*/ /*@ ens false; @*/ /*@ on_unwind_ens true; @*/ {
     let local = 7_u64;
     unsafe { vf__rust_storage_dead(local) } // TARGET: reserved dead diverging extern call
 }
@@ -21,7 +21,7 @@ extern "Rust" {
     fn vf__rust_storage_live(value: u64) -> !;
 }
 pub unsafe fn origin_reserved_live_diverge() -> u64
-/*@ req true; @*/ /*@ ens false; @*/ {
+/*@ req true; @*/ /*@ ens false; @*/ /*@ on_unwind_ens true; @*/ {
     let local = 7_u64;
     unsafe { vf__rust_storage_live(local) } // TARGET: reserved live diverging extern call
 }
@@ -32,7 +32,7 @@ extern "Rust" {
     fn origin_plain_never(value: u64) -> !;
 }
 pub unsafe fn origin_plain_diverge() -> u64
-/*@ req true; @*/ /*@ ens false; @*/ {
+/*@ req true; @*/ /*@ ens false; @*/ /*@ on_unwind_ens true; @*/ {
     let local = 7_u64;
     unsafe { origin_plain_never(local) } // TARGET: plain diverging extern call
 }
@@ -185,7 +185,7 @@ pub unsafe fn origin_local_unwind_cleanup(frame: *const u64, take: bool, panic_f
     // Keep tmp address-taken and in lexical scope across the callback. The
     // post-call scalar read makes this a local lifecycle control, without
     // carrying a shared reference through the callback.
-    let q = core::ptr::addr_of!(tmp) as *const u64;
+    let q = &raw const tmp as *const u64;
     //@ assert (q as usize + std::mem::size_of::<u64>() <= frame as usize || frame as usize + std::mem::size_of::<u64>() <= q as usize);
     if take {
         origin_local_may_panic(panic_flag); // TARGET: live physical local crosses may-unwind callback

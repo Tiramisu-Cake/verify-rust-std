@@ -27,13 +27,15 @@ def load(name: str, path: Path):
 
 
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
+layout_controls = load("unit_layout_controls", HERE.parents[3] / "cloud-build/origin-layout/layout-controls.py")
+concrete_consumer = load("concrete_u64_consumer", HERE.parents[3] / "cloud-build/origin-layout/concrete-consumer.py")
 origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
 span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-incoming-origin-onecell-v3"
+PROFILE = "experimental-merge-origin-layout-concrete-u64-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "incoming-origin-controls-only-v1"
@@ -447,7 +449,7 @@ def main() -> int:
         raise RuntimeError("tracked MD opt-in profile manifest differs")
     for key in ("patch_sha256", "translator_sha256", "emitter_sha256", "kernel_sha256",
                 "ast_sha256", "sexpression_sha256", "verify_expr_sha256",
-                "parser_sha256", "prelude_sha256", "stdlib_sha256",
+                "model_sha256", "unit_layout_patch_sha256", "parser_sha256", "prelude_sha256", "stdlib_sha256",
                 "exporter_sha256", "refiner_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
             raise RuntimeError(f"tracked MD profile pin differs: {key}")
@@ -465,6 +467,7 @@ def main() -> int:
         "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "translator_sha256",
         "src/frontend/ocaml_expr_of_ast.ml": "emitter_sha256",
         "src/verifast.ml": "kernel_sha256",
+        "src/verifast1.ml": "model_sha256",
         "src/frontend/ast.ml": "ast_sha256",
         "src/SExpressionEmitter.ml": "sexpression_sha256",
         "src/verify_expr.ml": "verify_expr_sha256",
@@ -508,11 +511,13 @@ def main() -> int:
                    "profile_evidence": str(args.profile_evidence.resolve()),
                    "schema_sha256": base.file_sha(args.schema),
                    "source_sha256": base.file_sha(prep.SOURCE),
-                   "rustc_version": version, "accepted": False}
+                   "rustc_version": version, "rustc_toolchain": os.environ["RUSTUP_TOOLCHAIN"], "accepted": False}
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
     # Execute isolated address-span controls before any actual one-cell cases.
     mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)
     origin_summary = origin_controls.run(args.evidence, args, env, execute_case)
+    layout_summary = layout_controls.run(args.evidence, args, env, execute_case)
+    concrete_summary = concrete_consumer.run(args.evidence / "concrete-u64", args, env, execute_case, environment)
     results = {}
     md_pass = False
     if campaign_mode:
@@ -589,6 +594,8 @@ def main() -> int:
                  "actual_drop_glue": "OPEN",
                  "allocation_span_controls": json.loads((args.evidence / "span-results.json").read_text()),
                  "origin_controls": origin_summary,
+                 "layout_controls": layout_summary,
+                 "concrete_u64_consumer": concrete_summary,
                  "cases": {
                      name: row["classification"] for name, row in results.items()}}
     (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2) + "\n")
