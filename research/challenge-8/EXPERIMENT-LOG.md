@@ -5820,3 +5820,28 @@ would require its own soundness/admission/gates decision. C1 stock count-n
 specification remains TRUSTED, not intrinsic/body theorem; bytecopy creates no
 T.own. Callback/current-value/caller Fframe and normalpermutation bridges OPEN.
 Only merge ownprep/runner newfiles, no trustedsemantics/actualruntime change.
+
+
+Result b34c2f3c-5759-457c-84dc-ef74a901bca0 / proof+infra34021e39ed0e7dd55db1be449b01ba73745ea762:
+create03:19:59.389995021Z/start03:20:00.087260966Z/finish03:34:11.497736Z,
+853elapsedseconds; own3917/10800 remaining6883, oldaccounts unchanged.
+Config7ccfc6a6907a789eda5a5b67e06cf3913caba44f9201d54f1009c8d71f2fae6c;
+archive85501d454094d5182b01834b62da0a0df5c48032e873abf110843fdc649f92a6.
+Fullmetadata/archive/separate text logs independently hashed/read. SUCCESScollector
+all9groups/diagnosticcomplete/PARTIAL_DIAGNOSTIC/acceptedfalse. Actual23 VF1
+484.47wall/484.21CPU, nottimeout:365mainexec10return12leak,total26return29leak,
+all10bodies visited/noassertionerror/exportdecode/refinement0/unchangedsource
+1e43b90d3b6e9238c8410ffdc39f861cb361e23855e96b8f13ff8d6a1721a4eb.
+Sixdeadrecords:ghost504cols443–449,405–406,310–316,282–288,258–264;
+runtimeguard513cols51–515cols10. Overall actual INCONCLUSIVE, notfullPASS.
+Up/down fullconditionalPASS116/120exec3return3leak; strengthened same-input stack
+and pinned panic certificates PASS. Panicbody has two live explored paths and
+checked unwind exits; only second expanded OR synthetic transfer impossible
+because remaining left/right counts agree. Pinned vfconsole uses physical loc
+identity and registers nontransparent Goto; same source span does not merge
+physical statements. No deadcode/log filtering or allGoto-transparency allowed.
+Ghost left_nonempty under n3 implies left==src; five other ghost records lie
+in impossible else. Equivalent proof restructure must preserve resources,
+assertion consequences and full domain/posts. Any synthetic-origin repair needs
+separate semantic card/soundness/exact MIR↔AST admission/real-dead refusal controls
+and combined profile gates before acceptance. No trusted rule changed yet.

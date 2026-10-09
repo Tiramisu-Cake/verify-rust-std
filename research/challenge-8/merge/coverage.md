@@ -1,3 +1,15 @@
+## Bounded posts complete, liveness unresolved — b34c2f3c / 34021e39
+
+Actual len2/3 completed VF484.47s,365executions/10return/12leak; all ten checked
+bodies, no assertion error, export/decode/refinement0, unchanged runtime/source,
+full strengthened stack and pinned panic admission. INCONCLUSIVE due six dead
+records: five impossible ghost else paths and one impossible synthetic OR edge.
+Panic body is live; normal/unwind posts reached. This is not full dead-code gate
+PASS or a whole merge/Challenge theorem. Exact source origin/liveness repair
+requires separately reviewed semantic component and real-dead controls.
+Actual up/down conditional PASS again116/120exec/3return+3leak.
+Full archive/text evidence verified; collector SUCCESS/accepted=false.
+
 ## Fresh modular/resource controls — 60fdb811 / e2453336
 
 Modular G2 positive PASS again17bodies/36return/40leak; matched full-domain entry

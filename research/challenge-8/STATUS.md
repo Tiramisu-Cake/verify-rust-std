@@ -1,18 +1,28 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / MODULAR G2 CONTROL PASS
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED POSTS COMPLETE, LIVENESS OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **3064/10800 elapsed
-Cloud seconds**, remaining **7736**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; active own Build
-**b34c2f3c-5759-457c-84dc-ef74a901bca0**, actual600s diagnostic,
-proof/infra **34021e39ed0e7dd55db1be449b01ba73745ea762**,9actual/dependency/stack
-control groups, timeout1740s+queue60 envelope1800 reserved. Config
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **3917/10800 elapsed
+Cloud seconds**, remaining **6883**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Latest own Build
+**b34c2f3c-5759-457c-84dc-ef74a901bca0**, proof/infra
+**34021e39ed0e7dd55db1be449b01ba73745ea762**, SUCCESS diagnostic collector;
+03:19:59.389–03:34:11.497 UTC,853s. Config
 7ccfc6a6907a789eda5a5b67e06cf3913caba44f9201d54f1009c8d71f2fae6c.
-Common alternating lock; foreign347068de terminal reconciled read-only. New client65565744 imported only
-control.py: foreign worktree/ledger/state are read-only; shared terminal receipts.
+All nine groups/full archive/separate text logs verified; archive
+85501d454094d5182b01834b62da0a0df5c48032e873abf110843fdc649f92a6.
+Actual len2/3 VF finishes484.47s,365executions/10return/12leak, no assertion errors,
+all ten bodies visited/export/decode/refinement0/source unchanged/stack+panic pass.
+**INCONCLUSIVE**, six dead-code records: five impossible left!=src ghost paths
+at504 and one synthetic second true OR transfer at513:51–515:10. Actual panic
+body is live and its unwind posts checked; source/MIR origin repair is separate
+trusted frontend work, not permission to filter/disable dead-code. All target
+normal/unwind posts/resources remain required. Actual up/down conditional PASS
+again116/120exec/3return+3leak. Collector PARTIAL_DIAGNOSTIC/accepted=false.
+Common alternating lock; client65565744 foreign ledger/state read-only;
+shared terminal receipts. Foreign b0382472 terminal FAILURE observed read-only.
 [Phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
 [commands](merge/cloud-build/README.md), [ledger](cloud-build/night-merge/BUDGET.json).
 
-Latest own Build **60fdb811-f832-4076-87e0-9fc8043fb8ec**, SUCCESS collector,
+Previous own Build **60fdb811-f832-4076-87e0-9fc8043fb8ec**, SUCCESS collector,
 proof/infra **e2453336c0a6eb1c2b2d30a624cd066599bbb505**;
 02:47:48.935–02:58:19.424 UTC,631s. Config SHA
 b116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe.
@@ -60,10 +70,11 @@ Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
 
-Next permitted action: monitor exact b34c2f3c, download/verify full evidence;
-next ready seven-group resource recipe (native and handoff stock+experimental,
-exact pair/cleanup controls and smoke) follows common alternating lock. Continue
-justified independent resource/caller work within own budget/window.
+Next permitted action: fresh seven-group resource recipe (native and handoff
+stock+experimental, exact pair/cleanup controls and smoke) follows common lock.
+Direct count-n actual Drop body draft has no Cloud result. Prepare separately
+reviewed exact MIR-origin liveness component and equivalent ghost restructuring;
+continue justified independent resource/caller work within own budget/window.
 No local executable verification/build/tests or Actions dispatch. Accepted
 migration A/B/C and constructor are not repeated.
 ---
