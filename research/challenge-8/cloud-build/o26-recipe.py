@@ -19,6 +19,8 @@ import sys
 
 
 BASELINE_SHA = "c19e4c50470d32199178d5229a2819554fc6b2f1"
+BASELINE_SOURCE = "8629849c2d2ddde1eeb90fadb6a151dc52e626385578f89f0d86fce842c61eb8"
+ORIGINAL_SOURCE = "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5"
 PROVIDER_SHA = "771970340f4fa928063cfa25db451535eb60ee1b246ef63c3cda4689842be616"
 ROOT = Path("research/challenge-8")
 OVERLAYS = (
@@ -120,6 +122,72 @@ def load_capture(repo: Path, label: str):
     return module
 
 
+def source_preflight(baseline: Path, proof: Path, evidence: Path) -> dict:
+    """Generate both exact source pairs before any tool installation/build."""
+    if git_sha(baseline) != BASELINE_SHA or git_sha(proof) == BASELINE_SHA:
+        raise ValueError("O26 preflight proof checkout identities differ")
+    if (evidence / "source-preflight.json").exists():
+        raise ValueError("refusing existing O26 source preflight")
+    root = evidence / "preflight"
+    root.mkdir(parents=True, exist_ok=False)
+    rows = {}
+    for label, repo in (("baseline", baseline), ("candidate", proof)):
+        cap = load_capture(repo, "preflight_" + label)
+        cap.clear_semantic_opt_ins()
+        out = root / label
+        source = cap.PREP.write_case(repo, out)
+        case = out / cap.PREP.CASE_NAME
+        original = case / "original/lib.rs"
+        verified = case / "verified/lib.rs"
+        if (source["ghost_strip_identity"] is not True or
+                source["original_sha256"] != sha(original.read_bytes()) or
+                source["verified_sha256"] != sha(verified.read_bytes()) or
+                len(source["source_order"]) != 9):
+            raise ValueError(f"{label} preflight source integrity failed")
+        rows[label] = {
+            "proof_sha": git_sha(repo),
+            "source": source,
+            "original_file": str(original.relative_to(evidence)),
+            "verified_file": str(verified.relative_to(evidence)),
+            "source_generation_complete": True,
+            "compiler_or_verifier_invoked": False,
+        }
+    if (rows["baseline"]["source"]["verified_sha256"] != BASELINE_SOURCE or
+            rows["candidate"]["source"]["verified_sha256"] == BASELINE_SOURCE or
+            rows["baseline"]["source"]["original_sha256"] != ORIGINAL_SOURCE or
+            rows["candidate"]["source"]["original_sha256"] != ORIGINAL_SOURCE):
+        raise ValueError("historical/candidate exact source relationship changed")
+    result = {"classification": "O26_SOURCE_ONLY_PREFLIGHT",
+              "preflight_complete": True, "compiler_or_verifier_invoked": False,
+              "cases": rows}
+    (evidence / "source-preflight.json").write_text(
+        json.dumps(result, indent=2, sort_keys=True) + "\n")
+    return result
+
+
+def compare_capture(evidence: Path, label: str, output: Path) -> dict:
+    preflight = json.loads((evidence / "source-preflight.json").read_text())
+    prior = preflight["cases"][label]
+    capture = evidence / "cases" / label / "capture"
+    summary = json.loads((capture / "summary.json").read_text())
+    source = summary["source"]
+    case = capture / "nine-body-a1-owned-forget"
+    same = (source["source_order"] == prior["source"]["source_order"] and
+            source["original_sha256"] == prior["source"]["original_sha256"] and
+            source["verified_sha256"] == prior["source"]["verified_sha256"] and
+            (case / "original/lib.rs").read_bytes() ==
+                (evidence / prior["original_file"]).read_bytes() and
+            (case / "verified/lib.rs").read_bytes() ==
+                (evidence / prior["verified_file"]).read_bytes())
+    result = {"label": label, "exact_preflight_source_pair_reproduced": same,
+              "original_sha256": source["original_sha256"],
+              "verified_sha256": source["verified_sha256"]}
+    output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
+    if not same:
+        raise ValueError(f"{label} source pair changed after preflight")
+    return result
+
+
 def proof_stage(repo: Path, case: Path, tool_home: Path, schema: Path,
                 sysroot: Path, deadline: int, name: str, label: str) -> dict:
     cap = load_capture(repo, label)
@@ -152,6 +220,13 @@ def main() -> None:
     a = sub.add_parser("overlay")
     for name in ("baseline", "proof", "provider", "evidence"):
         a.add_argument("--" + name, type=Path, required=True)
+    a = sub.add_parser("preflight")
+    for name in ("baseline", "proof", "evidence"):
+        a.add_argument("--" + name, type=Path, required=True)
+    a = sub.add_parser("compare")
+    a.add_argument("--evidence", type=Path, required=True)
+    a.add_argument("--label", choices=("baseline", "candidate"), required=True)
+    a.add_argument("--output", type=Path, required=True)
     a = sub.add_parser("proof")
     for name in ("repo", "case", "tool-home", "schema", "compiler-sysroot", "output"):
         a.add_argument("--" + name, type=Path, required=True)
@@ -166,6 +241,15 @@ def main() -> None:
         args.evidence.mkdir(parents=True, exist_ok=True)
         for label, repo in (("baseline", args.baseline), ("candidate", args.proof)):
             overlay(repo, args.provider, args.evidence / f"{label}-provider-overlay.json")
+        return
+    if args.mode == "preflight":
+        result = source_preflight(args.baseline, args.proof, args.evidence)
+        print(json.dumps({"classification": result["classification"],
+                          "preflight_complete": True}), flush=True)
+        return
+    if args.mode == "compare":
+        print(json.dumps(compare_capture(args.evidence, args.label,
+                                         args.output), sort_keys=True), flush=True)
         return
     result = proof_stage(args.repo, args.case, args.tool_home, args.schema,
                          args.compiler_sysroot, args.deadline_epoch,

@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 
@@ -27,12 +28,38 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def trace_audit(ev: Path) -> dict:
+    request_path = ev / "cases/cut-trace-request.json"
+    if not request_path.exists():
+        return {"requested": False, "classification": "NOT_RUN",
+                "diagnostic_match": None, "accepted": False}
+    request = read(request_path) or {}
+    diagnostic = read(ev / "cases/cut-trace/diagnostic-audit.json")
+    exit_file = ev / "cases/cut-trace-helper-exit-code.txt"
+    try:
+        helper_exit = int(exit_file.read_text().strip())
+    except (OSError, ValueError):
+        helper_exit = None
+    matched = (request.get("requested") is True and helper_exit == 0 and
+               diagnostic is not None and
+               diagnostic.get("classification") == "CUT_TRACE_ENTRY_DIAGNOSTIC_MATCH" and
+               diagnostic.get("accepted") is False and
+               diagnostic.get("source_audit", {}).get("production_unchanged") is True)
+    return {"requested": True, "classification":
+            "CUT_TRACE_ENTRY_DIAGNOSTIC_MATCH" if matched else "INCONCLUSIVE",
+            "diagnostic_match": matched, "accepted": False,
+            "helper_exit": helper_exit,
+            "raw_capture_exit": diagnostic.get("raw_capture_exit") if diagnostic else None,
+            "last_trace_entry": diagnostic.get("last_trace_entry") if diagnostic else None}
+
+
 def case_audit(ev: Path, label: str) -> dict:
     root = ev / "cases" / label
     summary = read(root / "capture/summary.json")
     proof = read(root / "proof-stage.json")
-    if summary is None or proof is None:
-        return {"complete": False, "reason": "capture or proof stage missing"}
+    compare = read(root / "source-compare.json")
+    if summary is None or proof is None or compare is None:
+        return {"complete": False, "reason": "capture, source comparison or proof stage missing"}
     case = root / "capture/nine-body-a1-owned-forget"
     source = summary.get("source", {})
     full = summary.get("full_body_capture", {})
@@ -58,6 +85,9 @@ def case_audit(ev: Path, label: str) -> dict:
                      path.stat().st_size == row.get("bytes") and row.get("bytes", 0) > 0)
     source_ok = (summary.get("frontend_refinement_and_full_body_capture") is True and
                  source.get("ghost_strip_identity") is True and
+                 compare.get("exact_preflight_source_pair_reproduced") is True and
+                 compare.get("original_sha256") == source.get("original_sha256") and
+                 compare.get("verified_sha256") == source.get("verified_sha256") and
                  (case / "original/lib.rs").is_file() and
                  (case / "verified/lib.rs").is_file() and
                  digest(case / "original/lib.rs") == source.get("original_sha256") and
@@ -107,15 +137,22 @@ def main() -> None:
     baseline = case_audit(ev, "baseline")
     candidate = case_audit(ev, "candidate")
     profile = read(ev / "profile-hashes.json")
+    trace = trace_audit(ev)
+    preflight = read(ev / "source-preflight.json")
+    preflight_ok = (preflight is not None and
+                    preflight.get("preflight_complete") is True and
+                    preflight.get("compiler_or_verifier_invoked") is False and
+                    set(preflight.get("cases", {})) == {"baseline", "candidate"})
     original_equal = (baseline.get("original_source_sha256") is not None and
                       baseline.get("original_source_sha256") ==
                           candidate.get("original_source_sha256"))
     complete = (args.runner_exit == 0 and baseline.get("complete") is True and
                 candidate.get("complete") is True and profile is not None and
-                original_equal)
+                original_equal and preflight_ok and
+                (not trace["requested"] or trace["diagnostic_match"] is True))
     console_equal = profile.get("console_byte_identical") if profile else None
     record = {
-        "lane": "o26", "classification":
+        "lane": os.environ["LANE"], "classification":
             ("DIAGNOSTIC_COMPLETE_BYTE_IDENTICAL_PROFILE" if console_equal else
              "DIAGNOSTIC_COMPLETE_REBUILT_PROFILE") if complete else "INCONCLUSIVE",
         "diagnostic_complete": complete,
@@ -125,6 +162,8 @@ def main() -> None:
         "candidate_certificate_refreshed": False,
         "baseline": baseline, "candidate": candidate,
         "runtime_original_equal": original_equal,
+        "source_only_preflight_complete": preflight_ok,
+        "cut_trace_test_diagnostic": trace,
         "profile_hashes_available": profile is not None,
         "console_byte_identical_to_historical": console_equal,
         "runner_exit": args.runner_exit, "failed_stage": args.failed_stage,

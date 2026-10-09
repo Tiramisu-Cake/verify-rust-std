@@ -10,6 +10,8 @@ work_root=${WORK_ROOT:-/workspace/smallsort-work}
 evidence_root=${EVIDENCE_ROOT:-/workspace/evidence}
 deadline=${SMALLSORT_DEADLINE_EPOCH:?SMALLSORT_DEADLINE_EPOCH is required}
 current_sha=${PROOF_SHA:?PROOF_SHA is required}
+trace_mode=${O26_WITH_CUT_TRACE:-0}
+[[ "$trace_mode" == 0 || "$trace_mode" == 1 ]] || exit 2
 baseline_sha=c19e4c50470d32199178d5229a2819554fc6b2f1
 for path in "$proof_root" "$baseline_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
@@ -55,6 +57,8 @@ stage() {
 stage provider-overlays python3 "$cloud_dir/o26-recipe.py" overlay \
   --baseline "$baseline_root" --proof "$proof_root" \
   --provider "$cloud_dir/provider.py" --evidence "$ev"
+stage source-preflight python3 "$cloud_dir/o26-recipe.py" preflight \
+  --baseline "$baseline_root" --proof "$proof_root" --evidence "$ev"
 
 export RUSTUP_HOME="$work_root/rustup"
 export CARGO_HOME="$work_root/cargo"
@@ -184,6 +188,9 @@ for label in baseline candidate; do
     --tool-home "$source_home" --schema "$schema" \
     --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/$label/capture" \
     --deadline-epoch "$deadline" --fingerprint
+  stage "$label-source-compare" python3 "$cloud_dir/o26-recipe.py" compare \
+    --evidence "$ev" --label "$label" \
+    --output "$ev/cases/$label/source-compare.json"
   if [[ "$label" == baseline ]]; then name=historical-proof; else name=stale-certificate; fi
   case_dir="$ev/cases/$label/capture/nine-body-a1-owned-forget"
   stage "$label-proof" python3 "$cloud_dir/o26-recipe.py" proof \
@@ -192,6 +199,18 @@ for label in baseline candidate; do
     --deadline-epoch "$deadline" --name "$name" \
     --output "$ev/cases/$label/proof-stage.json"
 done
+
+if [[ "$trace_mode" == 1 ]]; then
+  mkdir -p "$ev/cases"
+  printf '{"requested":true}\n' > "$ev/cases/cut-trace-request.json"
+  trace_status=0
+  stage cut-trace bash "$cloud_dir/run-cut-trace.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/cut-trace" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || trace_status=$?
+  printf '%s\n' "$trace_status" > "$ev/cases/cut-trace-helper-exit-code.txt"
+fi
 
 current_stage=audit
 python3 "$cloud_dir/o26-audit.py" --evidence "$ev" \
