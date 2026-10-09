@@ -1,46 +1,133 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 4e237a61..ed72a777 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -3602,13 +3602,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+           Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "StorageLive" @@ fun () ->
+           Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
+           Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer local;
+-          Ok [] (* FIXME https://github.com/verifast/verifast/issues/947 *)
++          Ok [Ast.ExprStmt (Ast.CallExpr (loc, "vf__rust_storage_live", [], [], [Ast.LitPat (Ast.Var (loc, local))], Ast.Static))]
+       | StorageDead local ->
+           let local = translate_local_decl_id local in
+           Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "StorageDead" @@ fun () ->
+           Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
+           Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer local;
+-          Ok [] (* FIXME https://github.com/verifast/verifast/issues/947 *)
++          Ok [Ast.ExprStmt (Ast.CallExpr (loc, "vf__rust_storage_dead", [], [], [Ast.LitPat (Ast.Var (loc, local))], Ast.Static))]
+       | PlaceMention _ -> failwith "TODO: StatementKind::PlaceMention"
+       | Assume operand_cpn ->
+           let* operand = translate_operand operand_cpn loc in
 diff --git a/src/verifast.ml b/src/verifast.ml
-index 2b64679e..b5ec7803 100644
+index 2b64679e..c578980c 100644
 --- a/src/verifast.ml
 +++ b/src/verifast.ml
-@@ -1114,6 +1114,41 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
-             if !address_taken then begin
-               let addr = get_unique_var_symb_non_ghost (x ^ "_addr") (PtrType t) in
-               if pure then static_error l "Taking the address of a ghost variable is not allowed." None;
-+              (* A new live Rust stack object cannot overlap existing live storage.
-+                 Inspect only exposed physical chunks, never arbitrary pointers or
-+                 provenance inequality. This does not add or consume permissions. *)
-+              (* Concrete Rust struct layout may include zero-sized subobjects;
-+                 its existing sizeof axioms do not model these accurately. Keep
-+                 this rule to scalar/pointer or abstract generic extents, and
-+                 skip unsupported sizeof forms rather than rejecting a program. *)
-+              let extent_type_supported tp =
-+                match unfold_inferred_type tp with
-+                  Bool | Int _ | RustChar | Float | Double | PtrType _ | RustRefType _
-+                | GhostTypeParam _ | BoundedGhostTypeParam _ -> true
-+                | _ -> false
-+              in
-+              let rec exclude_live_storage chunks cont =
-+                match chunks with
-+                  [] -> cont ()
-+                | Chunk ((g, true), [tp], coef, [p; _], _) :: chunks
-+                  when dialect = Some Rust && extent_type_supported t &&
-+                    extent_type_supported tp &&
-+                    (g == generic_points_to_symb () || g == generic_points_to__symb ()) &&
-+                    not (is_dummy_frac_term coef) &&
-+                    ctxt#query (ctxt#mk_real_lt real_zero coef) ->
-+                  let a = mk_ptr_address addr in
-+                  let b = mk_ptr_address p in
-+                  let n = sizeof_core l env t in
-+                  let m = sizeof_core l env tp in
-+                  let disjoint = ctxt#mk_or
-+                    (ctxt#mk_le (ctxt#mk_add a n) b)
-+                    (ctxt#mk_le (ctxt#mk_add b m) a) in
-+                  assume (ctxt#mk_or (ctxt#mk_le n int_zero_term)
-+                    (ctxt#mk_or (ctxt#mk_le m int_zero_term) disjoint)) $. fun () ->
-+                  exclude_live_storage chunks cont
-+                | _ :: chunks -> exclude_live_storage chunks cont
-+              in
-+              exclude_live_storage h $. fun () ->
-               let v = if e = None then None else Some v in
-               produce_points_to_chunk_ l h t (if is_const_var then real_half else real_unit) addr RegularPointsTo v $. fun h ->
-               iter h ((x, RefType(t)) :: tenv) ghostenv ((x, addr)::env) xs
+@@ -71,6 +71,11 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+   
+   include CheckFile_VerifyExpr(CheckFileArgs)
+   
++  (* Experimental Rust MIR storage domain. Context lists are immutable during
++     a body proof; active epochs live in the path-local environment. An entry
++     chunk is usable only while that exact resource object remains in the heap. *)
++  let rust_storage_context = ref ([], [], [])
++
+   (* Region: verification of statements *)
+   
+   let verify_expr readonly (pn,ilist) tparams pure leminfo funcmap sizemap tenv ghostenv h env xo e cont econt =
+@@ -985,6 +990,53 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+           cont h
+       end $. fun h ->
+       cont (Chunk ((module_symb, true), [], real_unit, [current_module_term; ctxt#mk_false], None)::h) env
++    | ExprStmt (CallExpr (l, ("vf__rust_storage_live" | "vf__rust_storage_dead" as marker), [], [], [LitPat (Var (_, x))], Static)) ->
++      if dialect <> Some Rust || pure then
++        static_error l "MIR storage markers require a real Rust execution context." None;
++      let incoming, deferred, consts = !rust_storage_context in
++      begin match try_assoc x tenv with
++        Some (RefType t) | Some (StaticArrayType _ as t) ->
++        let is_const = match try_assoc x consts with Some b -> b | None ->
++          static_error l "MIR storage marker has no local declaration." None in
++        if marker = "vf__rust_storage_dead" then begin
++          if not (List.mem_assoc x env) then
++            static_error l "StorageDead requires a currently live local." None;
++          free_locals l h tenv env [x, is_const] $. fun h env ->
++          cont h (List.remove_assoc x env)
++        end else begin
++          if List.mem_assoc x env then
++            static_error l "StorageLive requires a currently dead local." None;
++          if not (List.mem x deferred) then
++            static_error l "StorageLive local was not deferred." None;
++          let addr = get_unique_var_symb_non_ghost (x ^ "_addr") (PtrType t) in
++          (* No abstract generic/layout-dependent types: sizeof specialization
++             does not yet qualify concrete Rust ZSTs in the existing model. *)
++          let extent_supported tp = match unfold_inferred_type tp with
++            Bool | Int _ | RustChar | Float | Double | PtrType _ | RustRefType _ -> true
++          | _ -> false in
++          let rec exclude_incoming chunks k = match chunks with
++            [] -> k ()
++          | (Chunk ((g, true), [tp], coef, [p; _], _) as chunk) :: rest
++            when extent_supported t && extent_supported tp &&
++              List.exists (fun entry -> entry == chunk) incoming &&
++              (g == generic_points_to_symb () || g == generic_points_to__symb ()) &&
++              not (is_dummy_frac_term coef) && ctxt#query (ctxt#mk_real_lt real_zero coef) ->
++            let a = mk_ptr_address addr in let b = mk_ptr_address p in
++            let n = sizeof_core l env t in let m = sizeof_core l env tp in
++            let apart = ctxt#mk_or (ctxt#mk_le (ctxt#mk_add a n) b)
++              (ctxt#mk_le (ctxt#mk_add b m) a) in
++            assume (ctxt#mk_or (ctxt#mk_le n int_zero_term)
++              (ctxt#mk_or (ctxt#mk_le m int_zero_term) apart)) $. fun () ->
++            exclude_incoming rest k
++          | _ :: rest -> exclude_incoming rest k in
++          exclude_incoming h $. fun () ->
++          let verify_ctor_call = verify_ctor_call (pn, ilist) leminfo funcmap predinstmap sizemap tenv ghostenv h env addr (Some x) in
++          produce_cxx_object l (if is_const then real_half else real_unit) addr t eval_h verify_ctor_call Uninitialized true true h env $. fun h env ->
++          cont h ((x, addr) :: env)
++        end
++      | Some _ -> cont h (if marker = "vf__rust_storage_dead" then List.remove_assoc x env else env)
++      | None -> static_error l "MIR storage marker names an unknown local." None
++      end
+     | DeclStmt (ld, xs) ->
+       let rec iter h tenv ghostenv env xs =
+         match xs with
+@@ -1057,7 +1109,15 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+             | _ -> true
+           in
+           match t with
+-            StaticArrayType (elemTp, elemCount) ->
++          | _ when dialect = Some Rust &&
++              let _, deferred, _ = !rust_storage_context in List.mem x deferred &&
++              (!address_taken || match t with StructType _ | UnionType _ | StaticArrayType _ -> true | _ -> false) ->
++            if e <> None then static_error l "Deferred MIR storage declaration has an initializer." None;
++            let Some block = !blockPtr in
++            if not (List.mem_assoc x !block) then block := (x, is_const_var) :: !block;
++            let env_tp = match t with StaticArrayType _ -> t | _ -> RefType t in
++            iter h ((x, env_tp) :: tenv) ghostenv env xs
++          | StaticArrayType (elemTp, elemCount) ->
+             produce_object t
+           | StructType (sn, targs) when
+               !address_taken ||
+@@ -3270,6 +3330,16 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+       iter [] ss
+ 
+   and verify_c_func_body loc (pn, ilist) tparams boxes in_pure_context leminfo funcmap predinstmap sizemap heapy_ps varargsLastParam h tenv env ghostenv post ss close_brace_loc return_cont =
++    let previous_context = !rust_storage_context in
++    let collect (lives, consts) = function
++      ExprStmt (CallExpr (_, "vf__rust_storage_live", [], [], [LitPat (Var (_, x))], Static)) -> (x :: lives, consts)
++    | DeclStmt (_, ds) ->
++      (lives, List.fold_left (fun cs (_, te, x, _, _) ->
++        (x, match te with Some (ConstTypeExpr _) -> true | _ -> false) :: cs) consts ds)
++    | _ -> (lives, consts) in
++    let lives, consts = List.fold_left (stmt_fold collect) ([], []) ss in
++    rust_storage_context := ((if dialect = Some Rust then h else []), lives, consts);
++    do_finally (fun () ->
+     begin fun tcont ->
+       heapify_params h tenv env heapy_ps $. fun h tenv env ->
+       let h =
+@@ -3285,6 +3355,8 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+     end @@ fun sizemap tenv ghostenv h env ->
+     verify_return_stmt (pn, ilist) [] [] tparams boxes in_pure_context leminfo funcmap predinstmap sizemap tenv ghostenv h env false close_brace_loc None [] return_cont (fun _ _ _ -> assert false)
+ 
++    ) (fun () -> rust_storage_context := previous_context)
++
+   and verify_func pn ilist gs lems boxes predinstmap funcmap tparams env l k tparams'_with_bounds rt g ps const_params nonghost_callers_only pre pre_tenv post terminates ss closeBraceLoc =
+     if startswith g "vf__" then static_error l "The name of a user-defined function must not start with 'vf__'." None;
+     Rocq_writer.rocq_print_big_list_element rocq_writer @@ fun () ->

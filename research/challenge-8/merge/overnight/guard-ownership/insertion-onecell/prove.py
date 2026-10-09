@@ -27,12 +27,12 @@ def load(name: str, path: Path):
 
 
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
-span_controls = load("allocation_span_controls", HERE / "span-controls.py")
+span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-allocation-span-onecell-v1"
+PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "allocation-span-positive-and-recovery-v1"
@@ -506,7 +506,7 @@ def main() -> int:
                    "rustc_version": version, "accepted": False}
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
     # Execute isolated address-span controls before any actual one-cell cases.
-    span_controls.run(args.evidence, args, env, execute_case)
+    mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)
     results = {}
     md_pass = False
     if campaign_mode:
@@ -530,12 +530,12 @@ def main() -> int:
     for name in CASES:
         case = args.evidence / "cases" / name
         if campaign_mode:
-            if name in CAMPAIGN_RUN_CASES:
+            if name in CAMPAIGN_RUN_CASES and mechanism_summary.get("all_matched") is True:
                 results[name] = classify_onecell(name, case, extraction["cases"][name],
                                                  execute_case(case, args, env))
             else:
                 before = base.hashes(case)
-                reason = "outside registered allocation-span campaign"
+                reason = ("incoming mechanism controls did not pass" if name in CAMPAIGN_RUN_CASES else "outside registered incoming span campaign")
                 for stage in ("exporter", "decode", "verifast", "refinement"):
                     base.not_run(case, stage, reason)
                 results[name] = {"case": name, "classification": "NOT_RUN", "accepted": False,

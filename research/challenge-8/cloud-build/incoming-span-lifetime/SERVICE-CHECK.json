@@ -1,0 +1,27 @@
+{
+  "schema": "incoming-span-service-validation-v1",
+  "evidence_class": "isolated synthetic service tests; no compiler/extractor/proof execution",
+  "bootstrap_tests": [
+    {
+      "scenario": "missing-copy",
+      "matched": true,
+      "expected_rejection": false
+    },
+    {
+      "scenario": "present-match",
+      "matched": true,
+      "expected_rejection": false
+    },
+    {
+      "scenario": "present-mismatch",
+      "matched": true,
+      "expected_rejection": true
+    },
+    {
+      "scenario": "release-mismatch",
+      "matched": true,
+      "expected_rejection": true
+    }
+  ],
+  "code_sha256": "44a88cf48c5e507953ae5831f25a9adc2893421448ede474a5546bbe54ac3c0c"
+}

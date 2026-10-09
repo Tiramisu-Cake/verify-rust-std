@@ -1,0 +1,62 @@
+{
+  "schema": "incoming-span-lifetime-retirement-service-controls-v1",
+  "accepted": false,
+  "toolchain_or_proof_run": false,
+  "inputs_sha256": {
+    "run.py": "8f5275866f45b63293bcf32ef1cfce08c29fc29ed85a5cfd0c86c0ee44c0b66d",
+    "service_check.py": "dd69c4236c84aa8fc1cef8eb13c27bcd9edd466406a7920a906791e830237114",
+    "span-controls.rs": "bb109210feeb5505777ffbcc081f87788fe885d2a71cbb5bd63140db0568732c",
+    "MANIFEST.json": "a76b4e74719efd4844cbdf9d95f3db740616d9f899f7e840c281ec8dc63a6343"
+  },
+  "checks": {
+    "matching_markers_amid_other_lifetimes": {
+      "admitted": true,
+      "reason": "decoded MIR and translated vf__ markers agree on retirement order"
+    },
+    "reject_wrong_mir_mapped_dead_local": {
+      "admitted": false,
+      "reason": "retirement MIR/AST gate failed: expected exactly one translated vf__rust_storage_dead marker"
+    }
+  },
+  "positive_gate": {
+    "admitted": true,
+    "reason": "decoded MIR and translated vf__ markers agree on retirement order",
+    "decode_sha256": "5b295cf244874cecf0226cd0f63b95da8f924c2102c614cf3c31c9b221914950",
+    "proof_ast_sha256": "bbabd7b33a0618efd12cdd304e52be74713183f4fd69c379355f4bcd6e73a0ae",
+    "mir_body": "span_retired_local_reuse",
+    "locals": {
+      "tmp0": "_1",
+      "tmp1": "_2"
+    },
+    "storage_dead": {
+      "block": 0,
+      "statement": 1,
+      "source_line": 10,
+      "local": "_1"
+    },
+    "storage_live": {
+      "block": 0,
+      "statement": 2,
+      "source_line": 12,
+      "local": "_2"
+    },
+    "same_block_order": true,
+    "translated_ast": {
+      "storage_dead": {
+        "callee": "vf__rust_storage_dead",
+        "argument": "tmp0",
+        "source_line": 10
+      },
+      "storage_live": {
+        "callee": "vf__rust_storage_live",
+        "argument": "tmp1",
+        "source_line": 12
+      },
+      "order": true
+    }
+  },
+  "negative_gate": {
+    "admitted": false,
+    "reason": "retirement MIR/AST gate failed: expected exactly one translated vf__rust_storage_dead marker"
+  }
+}

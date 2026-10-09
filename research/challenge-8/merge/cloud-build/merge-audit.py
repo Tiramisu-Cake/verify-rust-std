@@ -8,6 +8,7 @@ import importlib.util
 from pathlib import Path
 import re
 import sys
+import tempfile
 
 from selection import KNOWN_GROUPS, load
 
@@ -135,7 +136,7 @@ GUARD_GEOMETRY_GROUPS = {
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
 ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
-ONECELL_PROFILE = "experimental-merge-allocation-span-onecell-v1"
+ONECELL_PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v1"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
@@ -221,7 +222,14 @@ OTHER_ARTIFACTS = {
 }
 
 
-SPAN_CONTROL_NAMES = {"span_positive", "span_overlap", "span_raw_arbitrary", "span_zero_extent", "span_retired_local_reuse"}
+SPAN_CONTROL_NAMES = {
+    "span_positive",
+    "span_retired_local_reuse",
+    "span_overlap",
+    "span_raw_arbitrary",
+    "span_lost_incoming_authority",
+    "span_zero_extent",
+}
 
 
 def onecell_negative_site_matches(name: str, source: str, error: str,
@@ -254,43 +262,95 @@ def onecell_negative_site_matches(name: str, source: str, error: str,
 
 
 def audit_span_controls(base: Path, aggregate: dict, profile: str) -> tuple[bool, bool]:
+    controls_dir = (Path(__file__).resolve().parents[2] /
+                    "cloud-build/incoming-span-lifetime/controls")
+    manifest_path = controls_dir / "MANIFEST.json"
+    runner_path = controls_dir / "run.py"
     summary = json.loads((base / "span-results.json").read_text())
-    valid = (summary == aggregate.get("allocation_span_controls") and
+    manifest = json.loads(manifest_path.read_text())
+    runner_spec = importlib.util.spec_from_file_location(
+        "incoming_span_lifetime_controls", runner_path)
+    runner = importlib.util.module_from_spec(runner_spec)
+    runner_spec.loader.exec_module(runner)
+    valid = (manifest.get("schema") == "incoming-span-lifetime-controls-v1" and
+             manifest.get("accepted") is False and
+             {item.get("name") for item in manifest.get("cases", [])} == SPAN_CONTROL_NAMES and
+             summary == aggregate.get("allocation_span_controls") and
+             summary.get("manifest_sha256") == sha256_file(manifest_path) and
              summary.get("profile") == profile and summary.get("accepted") is False and
-             set(summary.get("controls", {})) == SPAN_CONTROL_NAMES)
+             set(summary.get("controls", {})) == SPAN_CONTROL_NAMES and
+             set(summary.get("case_details", {})) == SPAN_CONTROL_NAMES and
+             set(summary.get("case_artifacts", {})) == SPAN_CONTROL_NAMES)
+    if not valid:
+        return False, False
     matched = True
-    for name in SPAN_CONTROL_NAMES:
-        case = base / "span-controls" / name
-        row = json.loads((case / "classification.json").read_text())
-        source = case / "verified/lib.rs"
-        stages = row.get("stages", {})
-        before = row.get("source_before", {})
-        valid = (valid and row.get("case") == name and row.get("accepted") is False and
-                 row.get("source_sha256") == sha256_file(source) == sha256_file(case / "original/lib.rs") and
-                 before.get("verified/lib.rs") == row.get("source_sha256") and
-                 row.get("source_after") == before and row.get("source_unchanged_at_every_stage") is True and
-                 summary["controls"][name] == row.get("classification") and
-                 summary.get("case_details", {}).get(name, {}).get("source_sha256") == row.get("source_sha256") and
-                 summary.get("case_details", {}).get(name, {}).get("target_line") == row.get("target_line"))
-        for stage in ("exporter", "decode", "verifast", "refinement"):
-            data = json.loads((case / f"{stage}-stage.json").read_text())
-            valid = (valid and data.get("exit_code") == stages.get(stage) ==
-                     int((case / f"{stage}-exit-code.txt").read_text()) and
-                     data.get("source_unchanged") is True)
-        log = (case / "verifast.log").read_text(errors="replace")
-        errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
-        pipeline = stages.get("exporter") == stages.get("decode") == stages.get("refinement") == 0
-        if name == "span_positive":
-            expected = "PASS_CONTROL" if (pipeline and stages.get("verifast") == 0 and not errors and
-                "Leak check." in log and "0 errors found" in log and "Executing return statement" in log and
-                re.search(rf"verified/lib\.rs\({row.get('target_line')},\d+(?:-\d+(?:,\d+)?)?\): (?:note: )?Executing statement", log)) else "INCONCLUSIVE"
-        else:
-            location = re.search(r"verified/lib\.rs\((\d+),", errors[0]) if len(errors) == 1 else None
-            expected = "EXPECTED_REJECTION" if (pipeline and stages.get("verifast") == 1 and
-                location is not None and int(location.group(1)) == row.get("target_line") and
-                "Cannot prove" in errors[0]) else "INCONCLUSIVE"
-        valid = valid and row.get("classification") == expected
-        matched = matched and expected != "INCONCLUSIVE"
+    # Use the package's pure saved-log classifier with fresh metadata derived
+    # from its pinned source and manifest. It writes only under this temp dir.
+    with tempfile.TemporaryDirectory(prefix="merge-span-audit-") as temp_dir:
+        _, metadata = runner.prepare(Path(temp_dir) / "prepared")
+        for name in sorted(SPAN_CONTROL_NAMES):
+            case = base / "controls" / name
+            row = json.loads((case / "classification.json").read_text())
+            source = case / "verified/lib.rs"
+            stages = row.get("stages", {})
+            before = row.get("source_before", {})
+            source_sha = sha256_file(source)
+            valid = (valid and row.get("case") == name and row.get("accepted") is False and
+                     source_sha == sha256_file(case / "original/lib.rs") ==
+                     metadata[name].get("source_sha256") == row.get("source_sha256") and
+                     before.get("verified/lib.rs") == source_sha and
+                     before.get("original/lib.rs") == source_sha and
+                     row.get("source_after") == before and
+                     row.get("source_unchanged_at_every_stage") is True and
+                     summary["controls"][name] == row.get("classification") and
+                     summary["case_details"][name].get("source_sha256") == source_sha and
+                     summary["case_details"][name].get("target_line") ==
+                     metadata[name].get("target_line"))
+            expected_artifacts = {
+                "directory": f"controls/{name}",
+                "log": f"controls/{name}/verifast.log",
+                "classification": f"controls/{name}/classification.json",
+            }
+            valid = valid and summary["case_artifacts"][name] == expected_artifacts
+            source_unchanged = True
+            for stage in ("exporter", "decode", "verifast", "refinement"):
+                data = json.loads((case / f"{stage}-stage.json").read_text())
+                stage_unchanged = data.get("source_unchanged") is True
+                source_unchanged = source_unchanged and stage_unchanged
+                valid = (valid and data.get("exit_code") == stages.get(stage) ==
+                         int((case / f"{stage}-exit-code.txt").read_text()) and
+                         stage_unchanged)
+            temp_case = Path(temp_dir) / name
+            temp_case.mkdir(parents=True, exist_ok=True)
+            (temp_case / "verifast.log").write_bytes((case / "verifast.log").read_bytes())
+            if name == "span_retired_local_reuse":
+                decode_bytes = (case / "decode.out").read_bytes()
+                ast_bytes = (case / "proof-ast.ml").read_bytes()
+                (temp_case / "decode.out").write_bytes(decode_bytes)
+                (temp_case / "proof-ast.ml").write_bytes(ast_bytes)
+                gate = runner.retired_mir_ast_gate(temp_case, name)
+                valid = (valid and gate.get("admitted") is True and
+                         gate.get("decode_sha256") == hashlib.sha256(decode_bytes).hexdigest() and
+                         gate.get("proof_ast_sha256") == hashlib.sha256(ast_bytes).hexdigest() and
+                         row.get("retired_mir_ast_gate") == gate and
+                         summary["case_details"][name].get("retired_mir_ast_gate") == gate)
+            execution = {key: row[key] for key in
+                         ("stages", "source_unchanged_at_every_stage") if key in row}
+            execution["source_unchanged_at_every_stage"] = source_unchanged
+            independent = runner.classify(name, temp_case, metadata[name], execution)
+            derived_keys = ("case", "classification", "accepted", "meaning",
+                            "target_line", "read_lines", "expected_stages", "source_sha256",
+                            "expectation", "target_executed", "reads_executed",
+                            "retired_mir_ast_gate")
+            valid = (valid and all(independent.get(key) == row.get(key)
+                                   for key in derived_keys) and
+                     summary["case_details"][name].get("classification") ==
+                     independent.get("classification") and
+                     summary["case_details"][name].get("expected_stages") ==
+                     independent.get("expected_stages") and
+                     summary["case_details"][name].get("read_lines") ==
+                     independent.get("read_lines"))
+            matched = matched and independent.get("classification") != "INCONCLUSIVE"
     valid = (valid and summary.get("all_matched") is matched and
              aggregate.get("allocation_span_controls_match") is matched)
     return bool(valid), bool(matched)
@@ -424,6 +484,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                     for name in ONECELL_CASES)
             mandatory[group].extend(f"cases/{group}/md-controls/{name}/classification.json"
                                     for name in ONECELL_MD_CASES)
+            mandatory[group].extend(
+                f"cases/{group}/controls/{name}/classification.json"
+                for name in sorted(SPAN_CONTROL_NAMES))
         elif group == OR_JOIN_GROUP:
             mandatory[group] = OR_JOIN_MINIMUM_ARTIFACTS
         elif group in OTHER_ARTIFACTS:

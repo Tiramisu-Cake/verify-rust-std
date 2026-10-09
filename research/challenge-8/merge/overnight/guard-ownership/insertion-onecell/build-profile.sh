@@ -16,6 +16,41 @@ here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 [[ "$(cat "$base_evidence/source-build-exit-code.txt")" == 0 ]] || exit 2
 mkdir -p "$evidence"
 cp -a "$base_home" "$new_home"
+python3 - "$here" "$base_home" "$new_home" "$evidence" <<'BOOTSTRAP'
+import hashlib,json,pathlib,shutil,sys
+here,base,home,evidence=map(pathlib.Path,sys.argv[1:])
+pins=json.loads((here/'PROFILE.json').read_text())
+# The console cache contract restores only bin/verifast.  Keep the two frozen
+# helpers sourced from the same pinned 26.10 release archive used by run.sh;
+# fill only omissions, and never replace a present but mismatched dependency.
+release=base.parent/'verifast-26.10'
+deps={'bin/vf-rust-mir-exporter':'exporter_sha256',
+      'bin/refinement-checker':'refiner_sha256'}
+report={'schema':'onecell-frozen-dependency-bootstrap-v1',
+        'release_home':str(release),'dependencies':{}}
+for relative,key in deps.items():
+    target=home/relative
+    source=release/relative
+    expected=pins[key]
+    def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+    if target.exists():
+        before=sha(target)
+        assert before==expected,(relative,'present baseline dependency has wrong SHA-256',before,expected)
+        action='baseline-present'
+    else:
+        assert source.is_file() and source.stat().st_mode & 0o111,(relative,'pinned release dependency missing or not executable')
+        source_sha=sha(source)
+        assert source_sha==expected,(relative,'release dependency has wrong SHA-256',source_sha,expected)
+        target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copy2(source,target)
+        action='copied-from-pinned-release'
+    after=sha(target)
+    assert after==expected,(relative,'bootstrapped dependency has wrong SHA-256',after,expected)
+    report['dependencies'][relative]={'action':action,'expected_sha256':expected,
+                                      'sha256':after,'executable':bool(target.stat().st_mode & 0o111)}
+    assert report['dependencies'][relative]['executable'],(relative,'dependency is not executable')
+(evidence/'frozen-dependency-bootstrap.json').write_text(json.dumps(report,indent=2)+'\n')
+BOOTSTRAP
 python3 - "$here" "$new_home" "$evidence" <<'PINS'
 import hashlib,json,pathlib,sys
 here,home,evidence=map(pathlib.Path,sys.argv[1:])
