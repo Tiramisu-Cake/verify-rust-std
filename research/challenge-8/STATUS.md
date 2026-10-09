@@ -1,3 +1,11 @@
+# MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — IN PROGRESS
+
+Owner merge, branch overnight/merge-26.10; checkpoint83b22ba6 preserved.
+[Phase](merge/SRC-ALIGN-RECOVERY-CLOUD-2026-10-09.md), [new ledger](cloud-build/src-align-recovery/BUDGET.json).
+Policy1fcd91ef; start15:58:54UTC, main16:58:54, absolute17:28:54;60+max30 finishing-only; new3600s. Existing shared-derived src alignment investigation first; no new proof yet. MD/FBC/replay baseline retained below. Full positive/recovery, actual557/558, caller/Drop/comparator/moving-gap debts and NOT_ACCEPTED profile remain open.
+
+---
+
 # MERGE-MD-AUTHORITY-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 
 Owner `merge`, assigned `/root/verify-rust-std`, `overnight/merge-26.10`.

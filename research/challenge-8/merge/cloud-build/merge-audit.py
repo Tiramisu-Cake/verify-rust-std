@@ -139,6 +139,15 @@ ONECELL_PROFILE = "experimental-merge-six-tracked-md-onecell-v1"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
+ONECELL_CAMPAIGN = "geometry-positive-and-recovery-false-v1"
+ONECELL_CAMPAIGN_CASES = {"positive", "after_recovery_false"}
+ONECELL_CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
+ONECELL_CAMPAIGN_BASELINE = {
+    "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+    "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+    "profile_sha256": "11ccd16ec9df56e7165cf75b1800d48b367c3b65f20c9ea8656fc2b7779bed90",
+    "results_sha256": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2",
+}
 ONECELL_MD_CASES = ("positive_manually_drop_after_merge",
                     "negative_missing_precreated_reference",
                     "negative_missing_reference_initialization",
@@ -1338,6 +1347,20 @@ def audit(root: Path, selection_path: Path, run_status: int,
                           set(case_classes) == names and aggregate.get("profile") == ONECELL_PROFILE and
                           aggregate.get("accepted") is False and
                           aggregate.get("actual_drop_glue") == "OPEN")
+            campaign_mode = aggregate.get("campaign") == ONECELL_CAMPAIGN
+            dependency = aggregate.get("md_dependency_basis")
+            dependency_valid = (isinstance(dependency, dict) and
+                dependency.get("classification") == "PRIOR_MATCHED_BASELINE_UNCHANGED" and
+                dependency.get("source_sha256") == ONECELL_CAMPAIGN_MD_SOURCE_SHA256 and
+                all(dependency.get(key) == value for key, value in ONECELL_CAMPAIGN_BASELINE.items()) and
+                sha256_file(component / "PROFILE.json") == dependency.get("profile_sha256") and
+                sha256_file(selection_path.parent.parent.parent /
+                    "verifast-tracked-manually-drop-regressions.rs") ==
+                    ONECELL_CAMPAIGN_MD_SOURCE_SHA256)
+            rows_valid = (rows_valid and (
+                (campaign_mode and dependency_valid and
+                 aggregate.get("md_regressions_matched") is False) or
+                (not campaign_mode and dependency is None)))
             if rows_valid:
                 for name in names:
                     case = base / ("cases" if name in ONECELL_CASES else "md-controls") / name
@@ -1374,10 +1397,16 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     if not rows_valid:
                         break
                     if row.get("classification") == "NOT_RUN":
-                        rows_valid = (name in ONECELL_CASES and
-                            row.get("reason") == "isolated MD gates did not pass" and
-                            all(value == 125 for value in stages.values()) and
-                            aggregate.get("md_regressions_matched") is False)
+                        expected_not_run = (
+                            campaign_mode and
+                            ((name in ONECELL_CASES and name not in ONECELL_CAMPAIGN_CASES and
+                              row.get("reason") == "outside registered geometry-only campaign") or
+                             (name in ONECELL_MD_CASES and
+                              row.get("reason") == "geometry-only campaign; unchanged MD baseline dependency"))
+                        ) or (not campaign_mode and name in ONECELL_CASES and
+                              row.get("reason") == "isolated MD gates did not pass" and
+                              aggregate.get("md_regressions_matched") is False)
+                        rows_valid = (expected_not_run and all(value == 125 for value in stages.values()))
                     elif name in ONECELL_CASES and row.get("classification") != "INCONCLUSIVE":
                         rows_valid = (row.get("source_admission", {}).get("admitted") is True and
                                       row.get("mir_admission", {}).get("admitted") is True and
@@ -1411,12 +1440,16 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                           predicate in log_errors[0])
                     if not rows_valid:
                         break
-            expected_md = all(results[name].get("classification") == "REGRESSION_MATCHED"
-                              for name in ONECELL_MD_CASES) if rows_valid else False
-            expected_fragment = (expected_md and
+            expected_md = (False if campaign_mode else
+                all(results[name].get("classification") == "REGRESSION_MATCHED"
+                    for name in ONECELL_MD_CASES)) if rows_valid else False
+            expected_fragment = ((dependency_valid and
+                results["positive"].get("classification") == "PASS_FRAGMENT_ONLY" and
+                results["after_recovery_false"].get("classification") == "EXPECTED_REJECTION")
+                if campaign_mode else (expected_md and
                 results["positive"].get("classification") == "PASS_FRAGMENT_ONLY" and
                 all(results[name].get("classification") == "EXPECTED_REJECTION"
-                    for name in ONECELL_CASES if name != "positive")) if rows_valid else False
+                    for name in ONECELL_CASES if name != "positive"))) if rows_valid else False
             rows_valid = (rows_valid and aggregate.get("md_regressions_matched") is expected_md and
                           aggregate.get("fragment_pass") is expected_fragment)
             valid = bool(artifact_status.get(ONECELL_GROUP, False) and build_identity and
@@ -1425,6 +1458,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
             onecell_report = {"classification": "EVIDENCE_COMPLETE_DIAGNOSTIC" if valid else "INCONCLUSIVE",
                               "accepted": False, "artifact_bindings_valid": valid,
                               "fragment_pass": aggregate.get("fragment_pass") is True if valid else False,
+                              "campaign": aggregate.get("campaign"),
+                              "md_dependency_basis": dependency if valid else None,
                               "raw_case_classifications": case_classes,
                               "actual_drop_glue": "OPEN"}
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:

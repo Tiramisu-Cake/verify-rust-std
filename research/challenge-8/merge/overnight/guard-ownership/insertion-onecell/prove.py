@@ -34,6 +34,15 @@ mir = base.mir_helper
 PROFILE = "experimental-merge-six-tracked-md-onecell-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
+CAMPAIGN = "geometry-positive-and-recovery-false-v1"
+CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
+CAMPAIGN_BASELINE = {
+    "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+    "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+    "profile_sha256": "11ccd16ec9df56e7165cf75b1800d48b367c3b65f20c9ea8656fc2b7779bed90",
+    "results_sha256": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2",
+}
+CAMPAIGN_RUN_CASES = ("positive", "after_recovery_false")
 MD_CASES = (
     "positive_manually_drop_after_merge",
     "negative_missing_precreated_reference",
@@ -55,6 +64,9 @@ def source_gate(case: Path, metadata: dict) -> dict:
              verified.count(prep.FBC_OPEN) == 1 and
              verified.count(prep.ANNOTATIONS) == 1 and
              verified.count(prep.RECOVER) == 1 and
+             verified.count(prep.ALIGNMENT_LEMMA) == 1 and
+             verified.count(prep.ALIGNMENT) == 1 and
+             verified.count(prep.SOURCE_IDENTITY) == 1 and
              verified.count(prep.SOURCE_LIMITS) == 1 and
              all(verified.count(item) == 1 for item in prep.GEOMETRY) and
              verified.count(b"*tail |-> held &*& <T>.own(t, held);") == 2 and
@@ -401,6 +413,8 @@ def main() -> int:
     parser.add_argument("--compiler-sysroot", type=Path, required=True)
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
+    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1"),
+                        default=CAMPAIGN)
     parser.add_argument("--stage-seconds", type=int, default=35)
     parser.add_argument("--verifier-seconds", type=int, default=50)
     args = parser.parse_args()
@@ -432,6 +446,9 @@ def main() -> int:
             raise RuntimeError(f"tracked MD profile pin differs: {key}")
     if base.file_sha(HERE / "tracked-md.patch") != profile_card["patch_sha256"]:
         raise RuntimeError("tracked MD patch identity differs")
+    if (base.file_sha(prep.ROOT / "research/challenge-8/verifast-tracked-manually-drop-regressions.rs")
+            != CAMPAIGN_MD_SOURCE_SHA256):
+        raise RuntimeError("geometry campaign tracked-MD baseline input identity differs")
     if profile_build.get("baseline_build_manifest_sha256") != base.file_sha(
             args.profile_evidence.parent / "build/console-cache-profile.txt"):
         raise RuntimeError("tracked MD build is not linked to this six-profile build")
@@ -472,6 +489,7 @@ def main() -> int:
     args.evidence.mkdir(parents=True)
     extraction = prep.extract(args.evidence / "cases", args.evidence / "extraction.json")
     md_meta = prepare_md_controls(args.evidence)
+    campaign_mode = args.campaign == CAMPAIGN
     env = dict(os.environ)
     env["LD_LIBRARY_PATH"] = ":".join(filter(None, [str(args.compiler_sysroot / "lib"),
         str(args.tool_home / "bin"), env.get("LD_LIBRARY_PATH", "")]))
@@ -483,14 +501,45 @@ def main() -> int:
                    "rustc_version": version, "accepted": False}
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
     results = {}
-    for name in MD_CASES:
-        case = args.evidence / "md-controls" / name
-        results[name] = classify_md(name, case, md_meta[name], execute_case(case, args, env))
-        (args.evidence / "results.json").write_text(json.dumps(results, indent=2) + "\n")
-    md_pass = all(results[name]["classification"] == "REGRESSION_MATCHED" for name in MD_CASES)
+    md_pass = False
+    if campaign_mode:
+        if base.file_sha(HERE / "PROFILE.json") != CAMPAIGN_BASELINE["profile_sha256"]:
+            raise RuntimeError("geometry campaign baseline dependency identity differs")
+        for name in MD_CASES:
+            case = args.evidence / "md-controls" / name
+            before = base.hashes(case)
+            for stage in ("exporter", "decode", "verifast", "refinement"):
+                base.not_run(case, stage, "geometry-only campaign; unchanged MD baseline dependency")
+            results[name] = {"case": name, **md_meta[name], "classification": "NOT_RUN",
+                "accepted": False, "reason": "geometry-only campaign; unchanged MD baseline dependency",
+                "stages": {stage: 125 for stage in ("exporter", "decode", "verifast", "refinement")},
+                "source_before": before, "source_after": before,
+                "source_unchanged_at_every_stage": True}
+            (case / "classification.json").write_text(json.dumps(results[name], indent=2) + "\n")
+    else:
+        for name in MD_CASES:
+            case = args.evidence / "md-controls" / name
+            results[name] = classify_md(name, case, md_meta[name], execute_case(case, args, env))
+            (args.evidence / "results.json").write_text(json.dumps(results, indent=2) + "\n")
+        md_pass = all(results[name]["classification"] == "REGRESSION_MATCHED" for name in MD_CASES)
     for name in CASES:
         case = args.evidence / "cases" / name
-        if md_pass:
+        if campaign_mode:
+            if name in CAMPAIGN_RUN_CASES:
+                results[name] = classify_onecell(name, case, extraction["cases"][name],
+                                                 execute_case(case, args, env))
+            else:
+                before = base.hashes(case)
+                reason = "outside registered geometry-only campaign"
+                for stage in ("exporter", "decode", "verifast", "refinement"):
+                    base.not_run(case, stage, reason)
+                results[name] = {"case": name, "classification": "NOT_RUN", "accepted": False,
+                    "reason": reason, "stages": {stage: 125 for stage in
+                        ("exporter", "decode", "verifast", "refinement")},
+                    "source_before": before, "source_after": before,
+                    "source_unchanged_at_every_stage": True}
+                (case / "classification.json").write_text(json.dumps(results[name], indent=2) + "\n")
+        elif md_pass:
             results[name] = classify_onecell(name, case, extraction["cases"][name],
                                              execute_case(case, args, env))
         else:
@@ -504,12 +553,21 @@ def main() -> int:
                 "source_unchanged_at_every_stage": True}
             (case / "classification.json").write_text(json.dumps(results[name], indent=2) + "\n")
         (args.evidence / "results.json").write_text(json.dumps(results, indent=2) + "\n")
+    dependency_basis = ({"classification": "PRIOR_MATCHED_BASELINE_UNCHANGED",
+        "source_sha256": CAMPAIGN_MD_SOURCE_SHA256, **CAMPAIGN_BASELINE}
+        if campaign_mode else None)
+    fragment_pass = ((campaign_mode and
+        results["positive"]["classification"] == "PASS_FRAGMENT_ONLY" and
+        results["after_recovery_false"]["classification"] == "EXPECTED_REJECTION") or
+        (not campaign_mode and md_pass and
+         results["positive"]["classification"] == "PASS_FRAGMENT_ONLY" and
+         all(results[name]["classification"] == "EXPECTED_REJECTION"
+             for name in CASES if name != "positive")))
     aggregate = {"profile": PROFILE, "accepted": False,
-                 "md_regressions_matched": md_pass,
-                 "fragment_pass": (md_pass and
-                     results["positive"]["classification"] == "PASS_FRAGMENT_ONLY" and
-                     all(results[name]["classification"] == "EXPECTED_REJECTION"
-                         for name in CASES if name != "positive")),
+                 "campaign": CAMPAIGN if campaign_mode else "legacy-full-controls-v1",
+                 "md_regressions_matched": False if campaign_mode else md_pass,
+                 "md_dependency_basis": dependency_basis,
+                 "fragment_pass": fragment_pass,
                  "actual_drop_glue": "OPEN", "cases": {
                      name: row["classification"] for name, row in results.items()}}
     (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2) + "\n")

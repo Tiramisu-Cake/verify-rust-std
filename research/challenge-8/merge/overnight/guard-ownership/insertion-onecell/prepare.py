@@ -36,6 +36,22 @@ pred<T> <CopyOnDrop<T>>.own(t, v) =
 
 """
 
+ALIGNMENT_LEMMA = b"""/*@
+lem initialized_storage_alignment<T>(p: *T)
+    req [?f](*p |-> ?v);
+    ens [f](*p |-> v) &*& p as usize % std::mem::align_of::<T>() == 0;
+{
+    open [f]points_to::<T>(p, v);
+    to_u8s_::<T>(p);
+    from_u8s_::<T>(p);
+    close [f]points_to::<T>(p, v);
+}
+@*/
+
+"""
+ALIGNMENT = b"        //@ initialized_storage_alignment::<T>(gap_guard.src as *mut T);\n"
+SOURCE_IDENTITY = b"        //@ assert gap_guard.src == held_ref;\n"
+
 CONTRACT = b"""/*@
 req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
     0 < std::mem::size_of::<T>() &*&
@@ -129,7 +145,7 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
             if name == "missing_held_owner" else CONTRACT)
         if name == "missing_held_owner" and case_contract == CONTRACT:
             raise ValueError("missing-owner negative did not remove supplied owner")
-        verified = PREFIX + struct + OWN + FN.replace(CONTRACT, case_contract, 1)
+        verified = PREFIX + struct + OWN + ALIGNMENT_LEMMA + FN.replace(CONTRACT, case_contract, 1)
         # The exact runtime read and initializer remain adjacent after ghost strip.
         verified = verified.replace(READ, READ + ANNOTATIONS, 1)
         close = MISSING_OWNER_CLOSE if name == "missing_held_owner" else OWN_CLOSE
@@ -139,11 +155,11 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
         middle += FBC_OPEN + OWN_OPEN
         if name == "after_fbc_false":
             middle += FBC_FALSE
-        middle += SOURCE_LIMITS + b"".join(GEOMETRY)
+        middle += SOURCE_IDENTITY + ALIGNMENT + SOURCE_LIMITS + b"".join(GEOMETRY)
         verified = verified.replace(GUARD, GUARD + middle, 1)
         verified = verified.replace(COPY, COPY + RECOVER +
                                     (FALSE if name == "after_recovery_false" else b""), 1)
-        stripped = verified.replace(OWN, b"", 1).replace(case_contract, b"", 1)
+        stripped = verified.replace(OWN, b"", 1).replace(ALIGNMENT_LEMMA, b"", 1).replace(case_contract, b"", 1)
         for ghost in (ANNOTATIONS, middle, RECOVER, FALSE):
             stripped = stripped.replace(ghost, b"", 1)
         if stripped != original:
@@ -166,6 +182,8 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
             "fbc_close_line": line(verified, FBC_CLOSE),
             "fbc_open_line": line(verified, FBC_OPEN),
             "source_limits_line": line(verified, SOURCE_LIMITS),
+            "alignment_lemma_line": line(verified, ALIGNMENT),
+            "source_identity_line": line(verified, SOURCE_IDENTITY),
             "own_close_line": line(verified, close),
             "geometry_lines": [line(verified, item) for item in GEOMETRY],
             "geometry_labels": list(GEOMETRY_LABELS),
@@ -185,6 +203,8 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
         "own_sha256": sha(OWN), "contract_sha256": sha(CONTRACT),
         "recovery_sha256": sha(RECOVER), "no_drop_impl_in_fragment": True,
         "source_limits_sha256": sha(SOURCE_LIMITS),
+        "alignment_lemma_sha256": sha(ALIGNMENT_LEMMA),
+        "alignment_call_sha256": sha(ALIGNMENT),
         "geometry_assertions_sha256": [sha(item) for item in GEOMETRY],
         "supplied_entry_resources": True, "accepted": False, "cases": rows,
     }

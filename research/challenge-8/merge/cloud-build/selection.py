@@ -55,7 +55,7 @@ KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {
     "insertion-onecell-guard-diagnostic": {
         "actual-source-preparation", "bidirectional-small-source-preparation",
-        "rust-profile-smoke", "guard-construction-nonprecise-v3-diagnostic",
+        "rust-profile-smoke",
     },
     "guard-construction-fbc-v4-diagnostic": {"actual-source-preparation", "bidirectional-small-source-preparation", "rust-profile-smoke"},
     "guard-construction-fbc-v4-stock-diagnostic": {"actual-source-preparation", "bidirectional-small-source-preparation", "rust-profile-smoke"},
