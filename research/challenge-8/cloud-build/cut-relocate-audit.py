@@ -112,10 +112,12 @@ def classify(capture: Path, raw_exit: int, source_audit: dict) -> dict:
                 baseline_log.count("Verifying function 'callback_positive'") == 1 and
                 report.get("baseline_first_boundary_preserved") is True)
     moved_lines = [line for line in moved_log.splitlines() if "STRICT-RELOCATE inner=" in line]
-    moved_ids = [re.search(r"STRICT-RELOCATE inner=(_\d+) type=(.+) addresstaken=false$", line)
+    moved_ids = [re.search(r"STRICT-RELOCATE inner=(_\d+) translated=(\$_\d+) "
+                           r"type=(.+) addresstaken=false$", line)
                  for line in moved_lines]
     ast_trace = (len(moved_ids) == 6 and all(moved_ids) and
                  {m.group(1) for m in moved_ids if m} == {f"_{n}" for n in range(27, 33)} and
+                 all(m.group(2) == "$" + m.group(1) for m in moved_ids if m) and
                  moved_log.count("STRICT-RELOCATE outer_removed=6 inner_insertions=1") == 1 and
                  report.get("relocated_declaration_trace_six") is True and
                  report.get("relocated_exactly_one_inner_insertion") is True)

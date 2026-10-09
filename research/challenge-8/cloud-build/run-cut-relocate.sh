@@ -46,6 +46,8 @@ required_proof_files=(
   research/challenge-8/overnight-lifetime/cases.rs
   research/challenge-8/overnight-lifetime/verifast-strict-lft-cut-26.10.patch
   research/challenge-8/overnight-lifetime/verifast-cut-relocate-callback-TESTONLY.patch
+  research/challenge-8/overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch
+  research/challenge-8/overnight-lifetime/CLOUD-RELOCATE-IDS-TEST-CARD.md
 )
 for relative in "${required_proof_files[@]}"; do
   [[ -f "$proof_root/$relative" ]] || {
@@ -65,7 +67,8 @@ done > "$evidence/required-proof-files-sha256.txt"
   printf 'proof_sha=%s\n' "$(git -C "$proof_root" rev-parse HEAD)"
   printf 'production_source_head=%s\n' "$(git -C "$production_source" rev-parse HEAD)"
   printf 'deadline_epoch=%s\n' "$deadline_epoch"
-  printf 'profile=STRICT_CUT_RELOCATION_TEST_DIAGNOSTIC_ONLY_NOT_ACCEPTED\n'
+  printf 'profile=STRICT_CUT_RELOCATION_TRANSLATED_IDS_TEST_DIAGNOSTIC_ONLY_NOT_ACCEPTED\n'
+  printf 'patch_chain=d557082b+e7189430+6266c198\n'
   printf 'fixture=callback_positive_from_positive_f_bound\n'
   printf 'normal_and_unwind_post=thread/type resources, both T cells/owners, comparator F cell/owner\n'
   printf 'unwind=direct Continue; StorageDead at line 103 is not assumed on unwind\n'
@@ -83,8 +86,10 @@ PROVIDER
 
 cut_patch="$proof_root/research/challenge-8/overnight-lifetime/verifast-strict-lft-cut-26.10.patch"
 relocation_patch="$proof_root/research/challenge-8/overnight-lifetime/verifast-cut-relocate-callback-TESTONLY.patch"
+translated_ids_patch="$proof_root/research/challenge-8/overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch"
 printf '%s  %s\n' d557082b0c17771acd7386ad6caca7bc139877cf1ca513d9570da210b1b542d8 "$cut_patch" | sha256sum -c -
 printf '%s  %s\n' e7189430eca9a48ed49d280131bd22987af8d05ed43a88f9c4a5c9767e57bb9e "$relocation_patch" | sha256sum -c -
+printf '%s  %s\n' 6266c198ecc4bb56e81bbf195e6478fd7326a67c0ed063232636749a395f09ae "$translated_ids_patch" | sha256sum -c -
 relocation_source="$work_root/cut-relocation-isolated-source"
 [[ ! -e "$relocation_source" ]] || { printf 'CUT relocation source exists: %s\n' "$relocation_source" >&2; exit 2; }
 mkdir -p "$work_root"
@@ -117,6 +122,10 @@ cp "$relocation_source/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 cp "$relocation_source/src/verifast.ml" "$evidence/cut-verifast-before-relocation.ml"
 stage relocation-check git -C "$relocation_source" apply --check "$relocation_patch"
 stage relocation-apply git -C "$relocation_source" apply "$relocation_patch"
+cp "$relocation_source/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" \
+  "$evidence/relocation-translator-before-translated-ids.ml"
+stage translated-ids-check git -C "$relocation_source" apply --check "$translated_ids_patch"
+stage translated-ids-apply git -C "$relocation_source" apply "$translated_ids_patch"
 cmp "$evidence/cut-verifast-before-relocation.ml" "$relocation_source/src/verifast.ml"
 git -C "$relocation_source" diff --binary HEAD > "$evidence/relocation-applied.patch"
 
