@@ -1,0 +1,58 @@
+{
+  "kind": "SAVED_RAW_CASE_CLASSIFIER_REPLAY",
+  "build_id": "0e77d0f7-9d34-406b-88eb-1e18f1fde2d2",
+  "infra_proof_sha": "4ad3b12f8e5f90e62f089acdc52a108c7fbb1d32",
+  "original_cloud_status": "SUCCESS",
+  "original_case_inconclusive_preserved": true,
+  "reason": "Primary error span is the verified recover_pair requires at68, with timestamped selected caller recover193/187. Collector incorrectly expected primary error span at call site. No new verifier execution; no wrong/setup obligation counted.",
+  "cases": {
+    "normal-missing-close": {
+      "classification": "INTENDED_MISSING_C1_DEBT_AT_CHECKED_RECOVER_PAIR_REQUIREMENT",
+      "checks": {
+        "exact_source": true,
+        "raw_exit1": true,
+        "one_error": true,
+        "missing_debt_at_callee_requirement": true,
+        "timestamped_caller_unique_before_error": true,
+        "selected_recover_call_unique_before_error": true,
+        "last_assertion_consumption_is_requirement68": true,
+        "diagnostic_call_note_exact": true
+      },
+      "original_collector_result": {
+        "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+        "exit": 1,
+        "first_error": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, 1, T_typeid), v_base, _, _, _, _)",
+        "intended_resource_negative": false,
+        "log_sha256": "d4be6342d85926c39dd2cba173c87f1271a1666d8ac63206bc84914ceb691dae",
+        "mode": "normal-missing-close",
+        "source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
+      },
+      "reclassification_only": true,
+      "new_proof_by_replay": false
+    },
+    "unwind-missing-close": {
+      "classification": "INTENDED_MISSING_C1_DEBT_AT_CHECKED_RECOVER_PAIR_REQUIREMENT",
+      "checks": {
+        "exact_source": true,
+        "raw_exit1": true,
+        "one_error": true,
+        "missing_debt_at_callee_requirement": true,
+        "timestamped_caller_unique_before_error": true,
+        "selected_recover_call_unique_before_error": true,
+        "last_assertion_consumption_is_requirement68": true,
+        "diagnostic_call_note_exact": true
+      },
+      "original_collector_result": {
+        "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+        "exit": 1,
+        "first_error": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, 1, T_typeid), v_base, _, _, _, _)",
+        "intended_resource_negative": false,
+        "log_sha256": "f18cfb908bb3368c4e492bc9952d47647a2999324ab371fb93f3c82b90f20c0c",
+        "mode": "unwind-missing-close",
+        "source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
+      },
+      "reclassification_only": true,
+      "new_proof_by_replay": false
+    }
+  }
+}

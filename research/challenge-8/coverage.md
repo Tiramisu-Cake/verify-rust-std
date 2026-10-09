@@ -755,3 +755,18 @@ NEXT phase correctedFRAME-shadow4763 actual helper/nested are checked in final54
 NEXT finalf4dc/e2b24967/translator9cf8bc32 verifiesfullconditionalactualpointer-select in exactFRAME-shadow+cleanup-projection profile: sevenprerequisites, same-versionthreadonlyforget andnestedDrop beforeouter, bothconditionnormalpaths,231–233 twice, targetselectedoriginalpointer/thread/raw_ptr_own/falseunwind/fullresource-return-leak-deadcode/refinement. Strictdeadcleanup artificialASTsuccessors closedbyexactcheckedfalseunwindprojection, no disabledchecks. Actualprofileadmission/soundness andgenericT/ZST remainOPEN. Actualsort4 nearestc1 currentfourcell/F/thread recovery/handler-scope admission NOT_RUN; source/typefit alone doesnotgrantpointeerights orcallbackresources. Finalrawproofexit0 isseparatefromCloudFAILURE stalecollector andaudit-onlysavedreplay.
 
 SORT4-C1-CURRENT-RECOVERY 2026-10-09: actual620 c1 remains NOT_RUN on normal anddirectunwind; strong diagnosticentrypremises notactualcaller derivation. FreshO24fullsource/MIR/refinement andexactscopepatchcontext/consolecompiled; isolatedstrictscopepositive basic+directunwind raw0 andintendedresource/admission negatives, noactualCURRENTowner/frame/debt credit. Build4fa4/12ce stopsfalsepostaudit impSpancoordinate mismatch beforeactualoff/on; rawfalsepost failures andseparate savedreplay preserveCloudFAILURE. Profileadmission/storage-alias/genericZST andallsort4 obligations OPEN; priorpointerselecte2 retained. Closed1060/3600,2540unused.
+
+
+SORT4-C1-ACTUAL-EXECUTION 2026-10-09 (supersedes previous NOT_RUN only for c1):
+actual source/paired typedMIR/preAST/exact c1 normal/direct Continue continuation
+admitted. Fresh3c845 and a80/0e77 runs; lastinfra/proof4ad3b12f. Conditional
+CURRENT recovery and four-owner join steps checked on both edges inside failed
+wholefunction VC; directunwind fullpost/return/leak226 reached. Normal fullfunction
+post/return/leak/initializeddestination NOT_PROVED (c2 preparation195 missing
+ref_precreated_token). Actual missing-debt controls separately normal193/unwind187
+fail recover_pair requires68; originalcollector inconclusive preserved and saved
+raw replay confirms intended obligation, no newproof byreplay. Strong source4/
+T.own/F/thread/type supplied, actualcaller ownershipbridge/sharedentry/genericZST
+OPEN; experimental relocation/scope/profile UNACCEPTED. No arbitraryFnMut/wholeR6
+or c2/select/copy/functionals upgrade; selecte2 exactpriorproof preserved. Four
+terminalbuilds,1395/3600s; checkpoint cloud-build/sort4-c1-actual-execution.

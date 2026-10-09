@@ -6410,3 +6410,29 @@ Added unchanged trailing block context, no changed desired translator bytes;
 repair0f3389ca published, ordinary patch structural counts checked. No unidiff-zero.
 Audit-only note-stage improvements separately replayed on first new Build raw.
 Third exact Cloud submission0f3389ca with900s timeout started within main window.
+
+
+### Exact actual c1 final — main deadline / checkpoint
+
+Thirda80d95f6/0f3389ca terminalFAILURE378s, archive7a47136c verified. Actual-on1
+reaches both c1 recovery/join continuations; unwind fullpost/leak226, normal
+first later c2 ref_precreated_token failure195. Cloud collector rejected library
+error span; saved-raw audit corrects interpretation only, originalFAILURE retained.
+Default-none actual missing-debt controls rationale/conservation before4ad3 patch.
+Last0e77d0f7-9d34-406b-88eb-1e18f1fde2d2/4ad3b12f terminalSUCCESS355s;
+archive84954e457b10a4994d61cfb7da50c4f4a2960383545c9220e49cd1323fea6ac1
+integrity/index verified; rawpositive1 same exactc1/postAST/fullposts, c2 stillblock.
+Twoactualcontrols1 intendedmissing comparison_debt atcallee requires68, targeted
+caller193normal/187unwind. OriginalcollectorINCONCLUSIVE dueprimaryspanexpected
+atcaller preserved; precise saved-raw replay plus independent review confirms
+intendedprecondition, no newproof byreplay. Individualraw/status/results survive
+aggregate. Sameunitrecover/join beforecaller andfreshprerequisites documented.
+Normal intermediateCURRENT owner/frame/debt closure only; fullnormalfunction
+post/return/leakNOT_REACHED, dstinitializationNOT_PROVED. Unwind branchconditional
+fullpost/leak, no wholesort4 theorem orprofileacceptance. ActualRustcallerstrong
+premises/legalsharedentry/genericZST remainOPEN; no Freeze/purity/no-panic added.
+No c2/selector experiments. Aftermain17:52:10 onlyevidence/account/checkpoint.
+Final1395/3600 (312+350+378+355),2205unusedclosed; ownterminal4/reconciled,
+allarchiveverified, active/unresolved/reservations0, readywithdrawn, v2/max2intact.
+Finalsort4-c1-actual-execution/END-CHECKPOINT-2026-10-09.md. Nextsingle task derive
+suppliedc1entryfromoneactualcaller/bounddomains before proceedingbeyondc1.

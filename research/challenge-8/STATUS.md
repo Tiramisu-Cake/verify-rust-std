@@ -1,20 +1,27 @@
-# Current phase: SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
-Direct owner continuation; [phase](cloud-build/sort4-c1-actual-execution/PHASE.md),
-[separate ledger](cloud-build/sort4-c1-actual-execution/BUDGET.json).
-Start16:52:10UTC; main17:52:10; absolute18:22:10. New3600s; old2540 closed.
-First actual Build3c845267 terminalSUCCESS diagnostic312s (infra=proofe878dcf2),
-full archive verified d3d615ee. Exact continuation observed. Direct unwind reached
-source debt/strict exit/recover_pair/join/original unwind return/full post+leak.
-Normal first blocked by c1 FnOnce::Output expected bool before normal recovery.
-Conditional exact domain only; source owners/F/thread/type premises supplied;
-profile unaccepted, scope/storage/alias qualification and legal-entry/generic/ZST OPEN.
-Narrow compiler-origin c1-only Output equality65495dcf failed ordinary patch apply
-before actual,350s; no actual credit. Trailing unified context repaired0f3389ca,
-third submission pending; equality OFF must reproduce original type obligation;
-fresh affected gates before actual ON. Used662s before pending third Build.
-No c2/selector work. [First actual path result](cloud-build/sort4-c1-actual-execution/FIRST-ACTUAL-RESULT.json).
-Policy d389ff64 read, own remote=clean7fa5da3a after fetch; prior checkpoints preserved.
+[Checkpoint](cloud-build/sort4-c1-actual-execution/END-CHECKPOINT-2026-10-09.md),
+[result](cloud-build/sort4-c1-actual-execution/FINAL-TEST-RESULT.json),
+[ledger](cloud-build/sort4-c1-actual-execution/BUDGET.json).
+First exact actual c1 source/MIR/AST continuation admitted. Conditional direct
+unwind completes close186/recover187/join188/original return190/full unwind
+post+leak226. Normal completes close191/strict exit192/recover193/join194,
+then c2 preparation195 fails missing ref_precreated_token at aliasing.rsspec88.
+Normal whole-function post/return/leak and initialized dst NOT_PROVED. Observed
+successful c1 steps inside failed overall VC; no accepted standalone/whole sort4
+proof. Last Build0e77/4ad3 terminalSUCCESS diagnostic, raw actual-on1.
+Actual-off strict opt-in refusal; equality-off intended Output/bool type failure.
+Two actual missing-debt controls reach recover_pair requires68 via193/187;
+saved-raw replay corrects callsite-span collector INCONCLUSIVE, originals retained.
+Fresh strict/false-post gates and same-unit helpers before caller; no skipped gates.
+Strong entry source4/four CURRENT owners/F/thread/type supplied; lawful interior
+mutation and compatible aliases retained. Legal shared-entry/generic/ZST caller
+premise derivation and experimental profile qualification OPEN. No c2/selector.
+Start16:52:10UTC, main17:52:10/absolute18:22:10; no new experiments after main.
+Final1395/3600s,2205unusedclosed; fourown builds terminal/archive verified/accounted,
+active0/unresolved0/reservations0, requestwithdrawn, coordinatorv2/max2 unchanged.
+Policy d389ff64; preserved7fa5da3a/d707d79e/selectproofe2b24967. Next single task:
+derive supplied c1 entry from one actual caller and bound remaining domains.
 
 # Historical closed checkpoint follows
 

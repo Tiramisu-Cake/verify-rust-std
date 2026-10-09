@@ -1,0 +1,19 @@
+{
+  "kind": "SAVED_RAW_RECLASSIFICATION_ONLY",
+  "source_build_id": "a80d95f6-936a-48ec-92a2-7f4c82365f25",
+  "source_infra_proof_sha": "0f3389cae20d1233abac1d5d963ae8d021fc91fb",
+  "raw_log_sha256": "de8b9464da2a889d4add89a71f38f5e5b94cdaeddb15d4a52ca66320859e4c6c",
+  "old_classification": "INCONCLUSIVE_SETUP_OR_AST_ADMISSION",
+  "new_classification": "ACTUAL_C1_RECOVERY_BOTH_EDGES_LATER_C2_RESOURCE_REFUSAL",
+  "old_cloud_failure_preserved": true,
+  "new_proof_execution": false,
+  "checks": {
+    "actual_caller_unique_entry": true,
+    "library_first_error_after_caller": true,
+    "one_compiler_equality_site": true,
+    "normal_recover193_before_error": true,
+    "normal_join194_before_c2": true,
+    "unwind_return_before_normal_close": true
+  },
+  "limit": "Normal full function post/return/leak absent; supplied entry/profile only"
+}

@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner prompt 2026-10-09: first exact actual c1 continuation with repaired audit; independent normal/direct-unwind CURRENT recovery; main60min, finishing<=30min; narrow registrations authorized.",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T16:52:10Z",
   "main_deadline_utc": "2026-10-09T17:52:10Z",
   "deadline_utc": "2026-10-09T18:22:10Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1040,
-  "remaining_build_seconds": 2560,
+  "used_build_seconds": 1395,
+  "remaining_build_seconds": 2205,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -86,6 +86,33 @@
       "execution_seconds": 377,
       "download_verified": true,
       "archive_sha256": "7a47136c7174ea02098429d31ba397f27a70698021b595f896adc10b3bd1fdc5"
+    },
+    {
+      "dispatch_token": "dispatch-baf0e55cf0eb4dbcb096d26e7029c3c1",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09",
+      "infra_sha": "4ad3b12f8e5f90e62f089acdc52a108c7fbb1d32",
+      "proof_sha": "4ad3b12f8e5f90e62f089acdc52a108c7fbb1d32",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "855fbe95d404c8232a50dfcfc4c593f4afbb6764bc69bc1531e302168d3a23dc",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "c6dfd77d11d7dd6ad6816749523d3875dbd92be49b7cae0190f395e980cd8b37",
+      "build_id": "0e77d0f7-9d34-406b-88eb-1e18f1fde2d2",
+      "start_time": "2026-10-09T17:44:51.852726311Z",
+      "finish_time": "2026-10-09T17:50:45.478982Z",
+      "create_time": "2026-10-09T17:44:51.004088056Z",
+      "build_seconds": 355,
+      "accounted": true,
+      "execution_seconds": 354,
+      "download_verified": true,
+      "archive_sha256": "84954e457b10a4994d61cfb7da50c4f4a2960383545c9220e49cd1323fea6ac1"
     }
-  ]
+  ],
+  "unused_seconds_closed": 2205,
+  "closed_at_utc": "2026-10-09T17:55:49Z",
+  "close_reason": "Main deadline reached; terminal last-started controls/evidence only; no carry."
 }

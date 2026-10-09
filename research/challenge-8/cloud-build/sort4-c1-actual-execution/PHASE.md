@@ -58,3 +58,14 @@ only affected controls. 45–50min assess completing current step.
 Same v2 coordinator max2 published slots, one owner/ledger queued/running/unresolved;
 no peer state or limits changed. Only lane o26-sort4-c1-current-recovery; exact
 published infra/proof SHA, source/proof compilation/extraction Cloud-only.
+
+## CLOSED checkpoint
+
+Actual continuation admitted; conditional direct-unwind post/leak and normal
+intermediate CURRENT recovery/join observed. Normal whole-function posts blocked
+at c2, NOT_PROVED. Independent actual debt negatives confirmed by saved-raw
+replay; original collector classifications preserved. Profile/premise applicability
+OPEN. All4 builds terminal/integrity verified;1395/3600,2205unusedclosed;
+active/unresolved/reservations0, request withdrawn; v2/max2 unchanged.
+[Final checkpoint](END-CHECKPOINT-2026-10-09.md), [result](FINAL-TEST-RESULT.json).
+No new experiment after17:52:10UTC; stop until new assignment.

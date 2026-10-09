@@ -1,0 +1,175 @@
+{
+  "build_id": "0e77d0f7-9d34-406b-88eb-1e18f1fde2d2",
+  "infra_proof_sha": "4ad3b12f8e5f90e62f089acdc52a108c7fbb1d32",
+  "cloud_status": "SUCCESS",
+  "raw_driver_exit": 0,
+  "actual_on_exit": 1,
+  "conservative_seconds": 355,
+  "archive_sha256": "84954e457b10a4994d61cfb7da50c4f4a2960383545c9220e49cd1323fea6ac1",
+  "integrity_verified": true,
+  "new_cloud_execution": true,
+  "conditional_path_review": {
+    "normal": {
+      "result": "CURRENT_PAIR_AND_FOUR_OWNERS_JOIN_CONTRACT_ESTABLISHED_WITH_FRAME",
+      "debt_close191": true,
+      "strict_exit192": true,
+      "recover193": true,
+      "join194": true,
+      "F_thread_type_destination_cells2_3": "conserved by checked callee contracts and frame",
+      "comparator_lifetime": "ended by verified recover_pair",
+      "scoped_reference_debts": "strict scope exit + recovery closure",
+      "full_function_normal_post_return_leak": "NOT_REACHED_BECAUSE_C2_BLOCKS",
+      "initialized_destination": "NOT_PROVED"
+    },
+    "direct_unwind": {
+      "result": "CONDITIONAL_C1_CURRENT_RECOVERY_FULL_UNWIND_POST_LEAK_PASS",
+      "debt186": true,
+      "strict_exit192": true,
+      "recover187": true,
+      "join188": true,
+      "original_return190": true,
+      "full_unwind_post_and_leak226": true
+    }
+  },
+  "original_actual_on_result": {
+    "accepted": false,
+    "actual_debt_controls": {
+      "normal-missing-close": {
+        "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+        "exit": 1,
+        "first_error": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, 1, T_typeid), v_base, _, _, _, _)",
+        "intended_resource_negative": false,
+        "log_sha256": "d4be6342d85926c39dd2cba173c87f1271a1666d8ac63206bc84914ceb691dae",
+        "mode": "normal-missing-close",
+        "source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
+      },
+      "unwind-missing-close": {
+        "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+        "exit": 1,
+        "first_error": "verified/lib.rs(68,29-30): error: No matching heap chunks: comparison_debt<T>(t, _, ptr_add_(v_base, 1, T_typeid), v_base, _, _, _, _)",
+        "intended_resource_negative": false,
+        "log_sha256": "f18cfb908bb3368c4e492bc9952d47647a2999324ab371fb93f3c82b90f20c0c",
+        "mode": "unwind-missing-close",
+        "source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
+      }
+    },
+    "actual_debt_controls_all_intended": false,
+    "actual_on_exit": 1,
+    "actual_sort4_proved": false,
+    "admission_hashes": [
+      "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9",
+      "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39",
+      "c4f0fdd1439a821933800405835c0ae2e7f8f6c15352d9a9805ec1c821fe01c0",
+      "23b6309ae9bf4a14abb31b78d87c9317c3b72b23c2d1ded70151e8ef9f6c761c"
+    ],
+    "c1_direct_unwind_resource_recovery": "NOT_PROVED_BY_THIS_DIAGNOSTIC",
+    "c1_normal_resource_recovery": "NOT_PROVED_BY_THIS_DIAGNOSTIC",
+    "classification": "C1_FIRST_SUBSTANTIVE_BLOCKER_DIAGNOSTIC",
+    "compiler_c1_output_equality": {
+      "gate_passed": true,
+      "sites": [
+        "SORT4-C1-OUTPUT-EQ compiler_clause=unique_F_T_bool site=verified/lib.rs(190,18-89) count=1 later_calls=0"
+      ]
+    },
+    "continuation_representation_observed": true,
+    "diagnostic_complete": true,
+    "first_error": "/workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/aliasing.rsspec(88,9-29): error: No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 3, T_typeid), _)",
+    "full_body_exit_zero_diagnostic": false,
+    "mutation_control_limit": "Source/hash admission failures are frontend refusals, not missing-debt/wrong-edge/duplicate resource negatives; separate reviewed AST mutants are required",
+    "mutation_controls": "NOT_RUN_BASELINE_NOT_COMPLETE",
+    "normal_and_unwind_path_independently_proved": false,
+    "off_first_error": "verified/lib.rs(192,9-193,1): error: Strict lifetime binding requires explicit overnight opt-in",
+    "open_gates": [
+      "actual c2 through c5 and select/copy calls",
+      "full destination initialization",
+      "unrestricted generic/ZST",
+      "all-path liveness and alias/escape mutations",
+      "pointer provenance, ownership, no-cut/S6 integration",
+      "functional composition"
+    ],
+    "raw_log_paths": {
+      "off": "actual-off.log",
+      "on": "actual-on.log"
+    },
+    "raw_observations_not_path_proofs": {
+      "c1_source_call": [
+        "  0.240498s: verified/lib.rs(190,63-78): Verifying call",
+        "  0.240781s: verified/lib.rs(190,63-78): Verifying call",
+        "  0.240992s: verified/lib.rs(190,80-88): Verifying call",
+        "  0.241236s: verified/lib.rs(190,80-88): Verifying call",
+        "  0.241484s: verified/lib.rs(190,18-89): Verifying call"
+      ],
+      "debt": [
+        "192 |         //@ end_lft_binding::<'cmp>();"
+      ],
+      "four_cell_join": [
+        "  0.211636s: verified/lib.rs(91,5-26): Verifying function 'join_four_owned_cells'",
+        "188 |             { join_four_owned_cells::<T>(v_base, t); }",
+        "194 |         //@ join_four_owned_cells::<T>(v_base, t);"
+      ],
+      "leak_check": [
+        "  0.118647s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(10,5-6): Leak check.",
+        "  0.118880s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(13,9-10): Leak check.",
+        "  0.119326s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(19,1-2): Leak check.",
+        "  0.123602s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(29,1-2): Leak check.",
+        "  0.126383s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(58,9-10): Leak check.",
+        "  0.127658s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(67,1-2): Leak check.",
+        "  0.156731s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(456,5-6): Leak check.",
+        "  0.156941s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(456,5-6): Leak check.",
+        "  0.158389s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Leak check.",
+        "  0.158548s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Leak check.",
+        "  0.159006s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Leak check.",
+        "  0.159131s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Leak check."
+      ],
+      "normal_post": [
+        "  0.118612s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(10,5-6): Consuming function type postcondition",
+        "  0.118850s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(13,9-10): Consuming function type postcondition",
+        "  0.126360s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(58,9-10): Consuming function type postcondition"
+      ],
+      "pair_recovery": [
+        "  0.208142s: verified/lib.rs(65,5-17): Verifying function 'recover_pair'",
+        "187 |             { recover_pair::<T>(v_base + 1, v_base); }",
+        "193 |         //@ recover_pair::<T>(v_base + 1, v_base);"
+      ],
+      "return": [
+        "  0.119299s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(19,1-2): Executing return statement",
+        "  0.123561s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(29,1-2): Executing return statement",
+        "  0.127568s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/rust_belt/lem_aux.rsspec(67,1-2): Executing return statement",
+        "  0.156691s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(456,5-6): Executing return statement",
+        "  0.156909s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(456,5-6): Executing return statement",
+        "  0.158335s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement",
+        "  0.158510s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement",
+        "  0.158967s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement",
+        "  0.159095s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement",
+        "  0.159696s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement",
+        "  0.159838s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement",
+        "  0.160209s: /workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/std/lib.rsspec(481,5-6): Executing return statement"
+      ],
+      "unwind": []
+    },
+    "reserved_handler_refusal_absent": true,
+    "same_unit_recovery_callees_verified_before_caller": true,
+    "target_header_seen": true
+  },
+  "debt_replay_file": "ACTUAL-DEBT-CONTROLS-SAVED-RAW-REPLAY.json",
+  "debt_cases_intended_by_saved_raw_review": true,
+  "debt_replay_new_proof": false,
+  "positive_post_ast_unchanged_from_third": true,
+  "first_remaining_observation": "/workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/aliasing.rsspec(88,9-29): error: No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 3, T_typeid), _)",
+  "first_remaining_classification": "MISSING_RESOURCE_AT_C2_PREPARATION_OUTSIDE_SESSION_SCOPE",
+  "full_sort4_proof": false,
+  "profile_accepted": false,
+  "hashes": {
+    "actual-on.log": "4553dd7cedfeb2b671810251a9c6395b1b9794d2bc34aad454b5a372f66d7567",
+    "actual-off.log": "51a0dbd634073b236653a13e93eb5c82dd14989e16739bb4a7c828e021429937",
+    "actual-output-eq-off.log": "8498fab873108fec4389949e82a14537c80a4584954d82992fc640eea1af4bb4",
+    "actual-normal-missing-close.log": "d4be6342d85926c39dd2cba173c87f1271a1666d8ac63206bc84914ceb691dae",
+    "actual-unwind-missing-close.log": "f18cfb908bb3368c4e492bc9952d47647a2999324ab371fb93f3c82b90f20c0c",
+    "controls-check.json": "4a4ed53a2b1357fb16b506095cb8f915118defdd911a7bdf2fcf4e70641d0502",
+    "baseline-check.json": "cf27173586e377bafe279759dd272877658f2d8a0c2a676d01e804e79fafc914",
+    "actual-admission-prerequisites.json": "fb6442731d6c19dfa00a23d39e58304ae3acb9b16fce6c9c8b0c16d438098967",
+    "same-unit-callee-gate.json": "556ac254bb7ad27261627db9f7b3484c5243a7118f91986b0b5f817ffc54aeb4",
+    "c1-tool-snapshot.json": "e2923bc762598b2ca0270db2097c5355bbe4db8e5eaa99e2392634cff2946fc1",
+    "stage-progress.json": "b1d1d7c293e3784df050fa2929ad9c85e16c6d6d4759f2077415d593bc7eefbf"
+  }
+}

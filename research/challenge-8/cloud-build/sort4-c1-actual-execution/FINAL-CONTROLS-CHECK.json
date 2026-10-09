@@ -1,0 +1,203 @@
+{
+  "accepted": false,
+  "classification": "AFFECTED_STRICT_CONTROLS_AND_FALSE_POSTS_CANDIDATE",
+  "controls": {
+    "negative_duplicate_marker": {
+      "classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(13,9-14,1): error: Strict lifetime binding expects exactly one cut marker per body",
+      "source_hashes": {
+        "original/lib.rs": "aa395def98d3500f63a57eac2ac5e6993f0921ba946be039fd6c2e11820c864c",
+        "verified/lib.rs": "4122bb8f979be55ae3f1f9fe33c9601c74eae78af3c016022d5c554bc1aa8d18"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      }
+    },
+    "negative_typed_chunk_survives_cut": {
+      "classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(18,9-19,1): error: A lifetime-scoped heap chunk is still live at the binding end: live<'cmp, T> (direct type argument)",
+      "source_hashes": {
+        "original/lib.rs": "96a14a8ed20c1d7f00da5b1ad1a5167ca18905fef6ceb9f2d0c4019b03912685",
+        "verified/lib.rs": "e94cbf0d0b6853ee1fa3eeee052f1fbf9f946f391eb6ad9e88ee1daaa46e6f8e"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      }
+    },
+    "negative_unclosed_fractional_access": {
+      "classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(22,20-34): error: No matching heap chunks: lifetime_token(cmp_k)",
+      "source_hashes": {
+        "original/lib.rs": "6a888d5a08020c816ed48d6fb1639b8b8b7eccbe46bad96937651c169318a6b1",
+        "verified/lib.rs": "69dbe6aecaf2132c1247dacad41ff8aa77f03ffbb3d87a875648bc5a912393c0"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      }
+    },
+    "negative_wrong_marker": {
+      "classification": "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(13,9-14,1): error: end_lft_binding needs one enclosing ghost block containing only its let_lft declaration",
+      "source_hashes": {
+        "original/lib.rs": "7c5ba937cfc040645772155d29823b9884bfcb338431713b25261ff1ab1384c5",
+        "verified/lib.rs": "978f771a7b4f3508aadbad05a1730e46c279b816c0bb9f95717f5495d38c3edd"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      }
+    },
+    "positive_basic": {
+      "classification": "POSITIVE_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": null,
+      "source_hashes": {
+        "original/lib.rs": "bf602a50aeaa379da835e8f77ac9ca51b74fc89d4637ec7d31fcaea04f577958",
+        "verified/lib.rs": "b99b1a59efaa50dc719f82e796623dc886ff839d35f42b5f8e4c206d7faa7280"
+      },
+      "stage_exits": {
+        "full-verification": 0,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      }
+    },
+    "positive_direct_unwind": {
+      "classification": "POSITIVE_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": null,
+      "source_hashes": {
+        "original/lib.rs": "56ff69110e6d472940fc08721db538e1262ca9f135d46c89b35a4e9883164c28",
+        "verified/lib.rs": "9223cdb1f43907e865e34ff2dad44aefacd35036b3cbd569d9343421cbf0e0f2"
+      },
+      "stage_exits": {
+        "full-verification": 0,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      }
+    }
+  },
+  "false_posts": {
+    "normal-false": {
+      "accepted": false,
+      "actual_callee_before_target": null,
+      "actual_callee_trace_entries": 0,
+      "actual_target_trace_entries": 1,
+      "callee_before_target": null,
+      "capture_header_count_semantics": "trace_entry_v1",
+      "case": "normal-false",
+      "classification": "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(9,58-63): error: Cannot prove condition. (Cannot prove false.)",
+      "first_error_source_line": 9,
+      "mir": {
+        "normal": {
+          "baseline_binary_sha256": "f2cfbe50a8649c9ad66dc80103d90f1f8dcd0661ce4e12b25ec663f23198fb05",
+          "baseline_full_mir_sha256": "ff9cede75da4499a9b71bb701da676078044985c4d511bcd0aa66b15b20983f6",
+          "baseline_normalized_full_mir_sha256": "87a91afb08243f2837cba88d3e37f529059b35800d74b7a04d544297314e9c30",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "aec2b59c02f2fc20a9f9ab21fb7362d85bc05f4fe1c5a6b0ce5274de85c07c10",
+          "mutant_full_mir_sha256": "7292c515cb7359c7ef2f1a14c3c3897b18c9ee7ea270f76886e73c397c69e1b2",
+          "normalized_full_mir_sha256": "87a91afb08243f2837cba88d3e37f529059b35800d74b7a04d544297314e9c30",
+          "reviewed_contract_raw_change_only": true
+        },
+        "readonly": {
+          "baseline_binary_sha256": "0fbb58ab89dfb8db967b6a581fbd07fd35c4ae734f7e5ab795e0d028b820ea6b",
+          "baseline_full_mir_sha256": "0298afa13d6af7dc74b6438fc7ce601df5b1d4be3785e528cb45fa32e01d610b",
+          "baseline_normalized_full_mir_sha256": "356aef11d32e6a212c598a929c1d49a7dbcb4ced88a2b79e3b13fde842732b59",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "80efbb69c34b09e75e393f0b1cefe3161c1eb231ae727e9fd261f5be02cd2e98",
+          "mutant_full_mir_sha256": "e11143ecee8f5240f259b1d33925d0f26a1b3e209863a692a03c44d793a02c17",
+          "normalized_full_mir_sha256": "356aef11d32e6a212c598a929c1d49a7dbcb4ced88a2b79e3b13fde842732b59",
+          "reviewed_contract_raw_change_only": true
+        }
+      },
+      "parent_case": "positive_basic",
+      "source_hashes": {
+        "original/lib.rs": "bf602a50aeaa379da835e8f77ac9ca51b74fc89d4637ec7d31fcaea04f577958",
+        "verified/lib.rs": "0203816434b59d25afd0074c4ac385835ce1586910a6fb4f9307e27919e0cde4"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      },
+      "target_end_line": 17,
+      "target_post_line": 9
+    },
+    "unwind-false": {
+      "accepted": false,
+      "actual_callee_before_target": true,
+      "actual_callee_trace_entries": 1,
+      "actual_target_trace_entries": 1,
+      "callee_before_target": true,
+      "capture_header_count_semantics": "trace_entry_v1",
+      "case": "unwind-false",
+      "classification": "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(17,49-54): error: Cannot prove condition. (Cannot prove false.)",
+      "first_error_source_line": 17,
+      "mir": {
+        "normal": {
+          "baseline_binary_sha256": "51f0f867836bde01352da4a3b973542d0cde0fd66637407c15e77a152f8bf231",
+          "baseline_full_mir_sha256": "f7ab599d7fcc486ae9b1b603812c7aa727689553a959c24dd1ca4c3774cdadc6",
+          "baseline_normalized_full_mir_sha256": "58ba60e6b976eaa80462c559970fd13060a098b837b383996098505e3724f907",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "921d1b3d54a955cda8ff93790efc0d86e311069735f3835c8795a38619145a91",
+          "mutant_full_mir_sha256": "19c6bc3c6e01227dbbb1b05e1ffb735d6b66e193deae5d0d94b0d7bfd4ff4a70",
+          "normalized_full_mir_sha256": "58ba60e6b976eaa80462c559970fd13060a098b837b383996098505e3724f907",
+          "reviewed_contract_raw_change_only": true
+        },
+        "readonly": {
+          "baseline_binary_sha256": "6ed07826ca0faa49460517c94e9281ca2d82cef52c26b262e1937e6246f4f9a6",
+          "baseline_full_mir_sha256": "9c2d780e97562a17c841f6ddb1f33420fa44e15d718af1c6c072323e329cfc62",
+          "baseline_normalized_full_mir_sha256": "2c53f8d79fcbf412c1b45a9afefa1413f1683f4d5275ad6896b6d0130582ca96",
+          "complete_graph_equal_after_source_coordinate_and_contract_raw_redaction": true,
+          "mutant_binary_sha256": "69b8aad5f17c9c293561c903c602ef0db994917ec061bf391941ca93668d407c",
+          "mutant_full_mir_sha256": "6c856d2880c1b57a442533c6546cd5ec6634c169cc353d148e6cb00c15270c40",
+          "normalized_full_mir_sha256": "2c53f8d79fcbf412c1b45a9afefa1413f1683f4d5275ad6896b6d0130582ca96",
+          "reviewed_contract_raw_change_only": true
+        }
+      },
+      "parent_case": "positive_direct_unwind",
+      "source_hashes": {
+        "original/lib.rs": "56ff69110e6d472940fc08721db538e1262ca9f135d46c89b35a4e9883164c28",
+        "verified/lib.rs": "8f6692b9ee704d11a143331659f14da80566a7b3039e304b8d85cbd0f958995b"
+      },
+      "stage_exits": {
+        "full-verification": 1,
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0
+      },
+      "target_end_line": 24,
+      "target_post_line": 17
+    }
+  },
+  "whole_17_matrix_repeated": false
+}
