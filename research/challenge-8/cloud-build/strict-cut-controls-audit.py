@@ -239,9 +239,37 @@ def read_case(a, case: str, opt_in: bool) -> dict:
              report.get("classification") ==
              "OPT_IN_ABSENT_INTENDED_REJECTION_CANDIDATE",
              "opt-in-absent rejection missed")
-    location = LOCATION.match(errors[0]).group(1) if errors and LOCATION.match(errors[0]) else None
-    need(not errors or location is not None, f"{key}: first error has no source location")
-    return {"case": case, "strict_lifetime_opt_in": opt_in,
+    source_match = LOCATION.match(errors[0]) if errors else None
+    location = source_match.group(1) if source_match else None
+    error_location = f"verified/lib.rs({location})" if location else None
+    caller_note_location = None
+    if opt_in and case == "negative_end_lifetime_twice":
+        # The missing precondition is attributed to its pinned rsspec, while
+        # VeriFast reports the second, failing call in a separate source note.
+        spec_location = (str(a.relocation_source) +
+                         "/bin/rust/rust_belt/lifetime_logic.rsspec(78,9-23)")
+        first_call = "verified/lib.rs(14,13-25): Verifying call"
+        second_call = "verified/lib.rs(15,13-25): Verifying call"
+        caller_note = "verified/lib.rs(15,13-25): note: Verifying call"
+        target_line = ("verified/lib.rs(9,1-17,2): Verifying function "
+                       "'negative_end_lifetime_twice'")
+        need(location is None and errors == [
+                 spec_location + ": error: No matching heap chunks: "
+                 "lifetime_token(cmp_k)"] and
+             log.count(target_line) == 1 and
+             log.count(first_call) == 1 and
+             log.count(second_call) == 1 and
+             log.count(caller_note) == 1 and
+             0 <= log.index(target_line) < log.index(first_call) <
+             log.index(second_call) < log.index(errors[0]) <
+             log.index(caller_note),
+             f"{key}: pinned callee precondition/caller attribution differs")
+        error_location = spec_location
+        caller_note_location = "verified/lib.rs(15,13-25)"
+    else:
+        need(not errors or location is not None,
+             f"{key}: first error has no source location")
+    result = {"case": case, "strict_lifetime_opt_in": opt_in,
             "classification": report["classification"], "accepted": False,
             "source_hashes": source_hashes, "mir": mir,
             "stage_exits": stage_exits, "target_headers": report.get("target_headers"),
@@ -255,6 +283,10 @@ def read_case(a, case: str, opt_in: bool) -> dict:
                                    if not opt_in else None),
             "error_count": len(errors), "normal_post": report.get("normal_post"),
             "unwind_post": report.get("unwind_post")}
+    if caller_note_location is not None:
+        result["first_error_location"] = error_location
+        result["first_error_caller_note_location"] = caller_note_location
+    return result
 
 
 def final(a) -> dict:

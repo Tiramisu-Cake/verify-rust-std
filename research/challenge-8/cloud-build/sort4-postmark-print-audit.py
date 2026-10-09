@@ -132,7 +132,7 @@ def classify(a: argparse.Namespace) -> dict:
          "post-mark trace status missing")
     blocks = [line for line in lines[1:] if line.startswith("block ")]
     locals_ = [line for line in lines[1:] if line.startswith("local ")]
-    need(blocks and len(locals_) >= 137 and
+    need(blocks and len(locals_) == manifest.get("expected_ast_local_rows") == 137 and
          len(blocks) + len(locals_) == len(lines) - 1,
          "post-mark block/local inventory absent or malformed")
     parsed = {}
