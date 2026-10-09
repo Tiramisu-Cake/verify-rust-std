@@ -1,0 +1,820 @@
+{
+  "proof_sha": "f854de7235169cd7fc50ed43b2c96e7e6160ed50",
+  "classification": "C1_CALLER_ENTRY_DIAGNOSTIC_COMPLETE",
+  "accepted": false,
+  "full_actual_caller_proved": false,
+  "source_frame_subset_derived": false,
+  "bridge_premises_derived": false,
+  "candidate_controls_passed": false,
+  "c1_branch_proof_new": "NOT_RUN",
+  "build_id": "c8ae2005-7b50-41fa-a926-0319bf9787e3",
+  "infra_sha": "f854de7235169cd7fc50ed43b2c96e7e6160ed50",
+  "archive_sha256": "214d6c4ab212f1f9a4168e05aeac2df1dd16c03a86b0408627123803a7978679",
+  "build_seconds": 303,
+  "raw_audit_sha256": "d5a5d6e0a62f98abc23c6c0eb21cc4023841f6897c1963a537b62a99ee48e6fc",
+  "cases": {
+    "bridge-positive": {
+      "classification": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+      "first_error": "verified/lib.rs(90,78-89): error: No such inductive type, class, or interface: 'MaybeUninit'",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": false,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              15
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 76,
+                "index": 1,
+                "start_line": 76
+              }
+            ],
+            "complete_basic_block_inventory": 31,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "b5bab01cf9edfb4fa6baaa85299ec9e28adf6dd3b8a69349d664821575d63060",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                15
+              ],
+              "original_scratch_len_plus_16_check": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "scratch_as_mut_ptr": [
+                18,
+                19
+              ],
+              "scratch_success_path_filter": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "v_as_mut_ptr": [
+                16,
+                17
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              14
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 76,
+                "index": 1,
+                "start_line": 76
+              }
+            ],
+            "complete_basic_block_inventory": 28,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "86b30bcef7cfa6b398868e38c1210573a077fa45a20da7a0472431208732a75e",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                14
+              ],
+              "original_scratch_len_plus_16_check": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "scratch_as_mut_ptr": [
+                17,
+                18
+              ],
+              "scratch_success_path_filter": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "v_as_mut_ptr": [
+                15,
+                16
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 50542,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 76,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 64,
+          "original_check_line": 63,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 72,
+            "v_as_mut_ptr": 67
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 56,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.24",
+          "maximum_resident_set_kb": "101980",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/fixture/verification-resources.txt",
+          "sha256": "e52583a1e1a89b9f10a36a3b6e53e49bf3f3f14237d806dd900efddeff6ea246",
+          "status": "CAPTURED",
+          "system_seconds": "0.06",
+          "user_seconds": "0.18"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "07ca5eba76b1826aecdc5495eb141ba114ef41ee8e090782438b5019a277ac12",
+        "source_pair_pins": {
+          "original/lib.rs": "b04026f9bb1605f9840f208c906ff0aefe115887cc21267f7fa5e400d00ab202",
+          "verified/lib.rs": "b82a787f040d3563b85d39012408911bc2879cc5d52af67d69bfcc4d8c41c695"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "8e5f6a9e6f29705aad29812a88f877f4db606876f71a4c13789923707e633446"
+    },
+    "duplicate-negative": {
+      "classification": "INTENDED_RESOURCE_CONTROL",
+      "first_error": "verified/lib.rs(59,64-67): error: No matching heap chunks: array<T>(strip_pointer_metadata(v), ptr_len(fn_outcome_result(outcome)), _v0_v)",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              15
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 31,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "24c74fda65f1465d2803e5fdb2ba77b147497393901595fd0e71a30243c6d8cc",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                15
+              ],
+              "original_scratch_len_plus_16_check": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "scratch_as_mut_ptr": [
+                18,
+                19
+              ],
+              "scratch_success_path_filter": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "v_as_mut_ptr": [
+                16,
+                17
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              14
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 28,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "9ae026d481d149a2b22d68649f8ed3d1a3992816044765bbd484f61c28b88afe",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                14
+              ],
+              "original_scratch_len_plus_16_check": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "scratch_as_mut_ptr": [
+                17,
+                18
+              ],
+              "scratch_success_path_filter": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "v_as_mut_ptr": [
+                15,
+                16
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47307,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 58,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 46,
+          "original_check_line": 45,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 54,
+            "v_as_mut_ptr": 49
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 38,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.25",
+          "maximum_resident_set_kb": "102152",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/fixture/verification-resources.txt",
+          "sha256": "9b475ba92a7af8110710f86890ba3892d704e10eeb657fcda1e53b8cfb4717e3",
+          "status": "CAPTURED",
+          "system_seconds": "0.06",
+          "user_seconds": "0.19"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "ac4f8895b44796e731cd7f563bfe0e97bb135c3f0ce0bc2d1dc6fd9790e94b9a",
+        "source_pair_pins": {
+          "original/lib.rs": "41f4f6796afa50566385947bc15bc4c0a6d95175f178da90ef70ee3c592f408d",
+          "verified/lib.rs": "e2338621eaf173759feea0df9306beb1bdc0b3871856e30909f941fe52edc208"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "39eb93e5b1977aad5f6f6bf44937f5e14f9589c38ad20caa57b69bb1425f329a"
+    },
+    "prefix-native": {
+      "classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(34,20-21): error: Assertion might not hold. (Cannot prove ptr_len(fn_outcome_result(outcome)) < 16.)",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              15
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 30,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "910345339abca60a8082b42636a63648d83e96b7263c89d9195e2a0974b1a3bf",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                15
+              ],
+              "original_scratch_len_plus_16_check": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "scratch_as_mut_ptr": [
+                18,
+                19
+              ],
+              "scratch_success_path_filter": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "v_as_mut_ptr": [
+                16,
+                17
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              14
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 28,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "ef7fede2e1464a458f34303c6c546c8b646fec369bce71c082f6f5e228e52b6c",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                14
+              ],
+              "original_scratch_len_plus_16_check": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "scratch_as_mut_ptr": [
+                17,
+                18
+              ],
+              "scratch_success_path_filter": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "v_as_mut_ptr": [
+                15,
+                16
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47306,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 58,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 46,
+          "original_check_line": 45,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 54,
+            "v_as_mut_ptr": 49
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 38,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.24",
+          "maximum_resident_set_kb": "101064",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/prefix-native/fixture/verification-resources.txt",
+          "sha256": "a1e4cba76e02bd2a8fe4fd050027f0ac5f7b24ac163ce61013942385974cb86c",
+          "status": "CAPTURED",
+          "system_seconds": "0.06",
+          "user_seconds": "0.19"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "9df8d29b5ff4b5dcd97be679d35dc2685eace2c4ceb8376e59cf3b0de1adb33e",
+        "source_pair_pins": {
+          "original/lib.rs": "41f4f6796afa50566385947bc15bc4c0a6d95175f178da90ef70ee3c592f408d",
+          "verified/lib.rs": "854e8044cb62c2d117245a409e47b92764aae833b5c25c6eab22dc22c301a1f1"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "a8e5e2f740856a76125bbd065ba0dccc5bc9de11ef5cd6dfba5db85184f2c03f"
+    },
+    "range-negative": {
+      "classification": "INTENDED_RESOURCE_CONTROL",
+      "first_error": "/workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 1) <= ptr_len(v).)",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              15
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 31,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "1c9c9dc22d8a2b65678653099c35ff314b4fd31358913d655f960aa10547d8df",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                15
+              ],
+              "original_scratch_len_plus_16_check": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "scratch_as_mut_ptr": [
+                18,
+                19
+              ],
+              "scratch_success_path_filter": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "v_as_mut_ptr": [
+                16,
+                17
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              14
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 28,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "d9d32e5dc5d2b76b94c52c9151a86a7db480393072f12296d1b5dd461577824c",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                14
+              ],
+              "original_scratch_len_plus_16_check": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "scratch_as_mut_ptr": [
+                17,
+                18
+              ],
+              "scratch_success_path_filter": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "v_as_mut_ptr": [
+                15,
+                16
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47307,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 58,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 46,
+          "original_check_line": 45,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 54,
+            "v_as_mut_ptr": 49
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 38,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.25",
+          "maximum_resident_set_kb": "102224",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/range-negative/fixture/verification-resources.txt",
+          "sha256": "b183f04ce91a6072aeca93697430e5f3b5016331305df6e413d09b5982fba20b",
+          "status": "CAPTURED",
+          "system_seconds": "0.03",
+          "user_seconds": "0.22"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "296fbb6bb59dcbaea507fd702662256168f82558ade17a155a9847fa0cd6b7fb",
+        "source_pair_pins": {
+          "original/lib.rs": "41f4f6796afa50566385947bc15bc4c0a6d95175f178da90ef70ee3c592f408d",
+          "verified/lib.rs": "951aa3dada7cbb6b742c14e6c8fc167e54f4626a750d62a684f99c9ccf4bcab5"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "daf87ed0b37b35dddaf09a89db28fd461f6ec5da29dedb6c88d056ca5a0aa3d9"
+    },
+    "source-frame-positive": {
+      "classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(34,20-21): error: Assertion might not hold. (Cannot prove ptr_len(fn_outcome_result(outcome)) < 16.)",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              15
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 31,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "f5f08cb2485e2a675eff4101a5b936ea3630e8802cb514d324974cdde9e1e9f4",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                15
+              ],
+              "original_scratch_len_plus_16_check": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "scratch_as_mut_ptr": [
+                18,
+                19
+              ],
+              "scratch_success_path_filter": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "v_as_mut_ptr": [
+                16,
+                17
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              14
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 58,
+                "index": 1,
+                "start_line": 58
+              }
+            ],
+            "complete_basic_block_inventory": 28,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "1f103b3a6ed92cf7ed6f940a76c7b673a5fff191ba60a65c0216eebc8fdec942",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                14
+              ],
+              "original_scratch_len_plus_16_check": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "scratch_as_mut_ptr": [
+                17,
+                18
+              ],
+              "scratch_success_path_filter": [
+                7,
+                8,
+                9,
+                10
+              ],
+              "v_as_mut_ptr": [
+                15,
+                16
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47307,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 58,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 46,
+          "original_check_line": 45,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 54,
+            "v_as_mut_ptr": 49
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 38,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.28",
+          "maximum_resident_set_kb": "101160",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/fixture/verification-resources.txt",
+          "sha256": "8ae641ad4405dcd92110a2260ecbf9b6ec07a87fbd884e01117148405805380a",
+          "status": "CAPTURED",
+          "system_seconds": "0.08",
+          "user_seconds": "0.19"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "31aa1f1b32ff97fd2b18ec21106c2646239c4a973d2ff62b8d7a1556bcd13304",
+        "source_pair_pins": {
+          "original/lib.rs": "b04026f9bb1605f9840f208c906ff0aefe115887cc21267f7fa5e400d00ab202",
+          "verified/lib.rs": "640fc1298dd70c750fbe4ed035f4729407e1717f259fc7269911d2db58cbd600"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "91f80ac5c4ff04d40b7d13caa2444677a468744d93b2e73e4f1d392809ec98f6"
+    }
+  },
+  "controls": {
+    "maybe-uninit-positive": {
+      "classification": "NOT_CONFIRMED",
+      "verification_exit": 1,
+      "first_error": "verified/lib.rs(4,62-73): error: No such inductive type, class, or interface: 'MaybeUninit'",
+      "proof_entries": 1,
+      "intended_negative": false,
+      "full_native_post_and_leak": false,
+      "verification_log_sha256": "e2e524b733e3d083c504bb2354b852f11837fbb855bd22b8934a759b815893a1"
+    },
+    "rawdst-ownership-negative": {
+      "classification": "NOT_CONFIRMED",
+      "verification_exit": 1,
+      "first_error": null,
+      "proof_entries": 2,
+      "intended_negative": false,
+      "full_native_post_and_leak": false,
+      "verification_log_sha256": "461fbfefb744a29ddfc83cebb6e536bce88130ca3b57b3739b861ff755c3cde8"
+    },
+    "slice-positive": {
+      "classification": "PASS",
+      "verification_exit": 0,
+      "first_error": null,
+      "proof_entries": 1,
+      "intended_negative": false,
+      "full_native_post_and_leak": true,
+      "verification_log_sha256": "b9e1ae2cebcac14075fb6bd43756ed0cb47be3f3dc7249e5838141fb418469f8"
+    },
+    "wrong-equality-negative": {
+      "classification": "NOT_CONFIRMED",
+      "verification_exit": 1,
+      "first_error": null,
+      "proof_entries": 2,
+      "intended_negative": false,
+      "full_native_post_and_leak": false,
+      "verification_log_sha256": "e4e154d10b128f2f7ecad993f74729adff76769d41ad0c2f1f7ec8949c43b89e"
+    }
+  }
+}

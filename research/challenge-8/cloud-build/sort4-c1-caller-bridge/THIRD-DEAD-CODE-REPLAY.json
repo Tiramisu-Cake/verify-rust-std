@@ -1,0 +1,35 @@
+{
+  "classification": "SAVED_RAW_DEAD_CODE_CLASSIFIER_REPLAY_NO_NEW_PROOF",
+  "build_id": "4a7eedc5-655f-44a0-b8df-9ba9b22f7dcd",
+  "original_audit_sha256": "df877cddd575947ef3ebb5e69c7d9ebb925c199e5344273bf169c3a6bdb98aa9",
+  "proof_credit_changed": false,
+  "cases": {
+    "prefix-native": {
+      "raw_verifier_exit": 1,
+      "dead_code_diagnostics": [
+        "verified/lib.rs(49,9-28): dead code",
+        "verified/lib.rs(64,13-19): dead code"
+      ],
+      "classification": "STRICT_DEAD_CODE_REJECTION_AFTER_SELECTED_PATH_FILTER",
+      "raw_log_sha256": "360507e1a94685bbff9e52033b575f8eac00112f34119359290593e74109fd3b",
+      "completed_native_theorem": false
+    },
+    "source-frame-positive": {
+      "raw_verifier_exit": 1,
+      "dead_code_diagnostics": [
+        "verified/lib.rs(49,9-28): dead code",
+        "verified/lib.rs(84,13-19): dead code"
+      ],
+      "classification": "STRICT_DEAD_CODE_REJECTION_AFTER_SELECTED_PATH_FILTER",
+      "raw_log_sha256": "2ff20732d132e50c115a5bae4bda227c63e4949008efb7ccbed060f6949535b0",
+      "completed_native_theorem": false
+    },
+    "bridge-positive": {
+      "raw_verifier_exit": 1,
+      "dead_code_diagnostics": [],
+      "classification": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+      "raw_log_sha256": "f0b75d6d490919d7cc98097d65e6a845ccdffaf9b3df3e99914e1e2b2fe8243b",
+      "completed_native_theorem": false
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "classification": "AUDIT_ONLY_SAVED_RAW_REPLAY_NO_NEW_PROOF",
+  "build": "e97528f0-80a2-4e23-9b43-80601e06f3bb",
+  "source_sha": "15056f9e820633fbe047f6a064eb2374076ce9ae",
+  "repair": "compare exact caller payload excluding separately saved newline; originals retained",
+  "new_proof_credit": false,
+  "callsite_reached": false,
+  "cases": {
+    "prefix-native": {
+      "mapping_status": "NOT_CONFIRMED",
+      "source": {
+        "status": "PASS",
+        "scratch_filter_line": 38,
+        "scratch_filter_text": "    if scratch.len() < len + 16 {",
+        "original_check_line": 45,
+        "original_check_text": "    if scratch.len() < len + 16 {",
+        "condition_text_equal": true,
+        "boundary_marker_line": 58,
+        "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+        "pointer_operation_lines": {
+          "v_as_mut_ptr": 49,
+          "scratch_as_mut_ptr": 54
+        },
+        "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+        "actual_caller_sha_matches_certificate": true,
+        "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "saved_file_trailing_newline_excluded_from_payload_hash": true,
+        "source_order_places_guards_before_pointer_operations": true,
+        "original_abort_line": 46
+      },
+      "mir": {
+        "normal": {
+          "status": "PASS",
+          "blocks": 30,
+          "hash": "910345339abca60a8082b42636a63648d83e96b7263c89d9195e2a0974b1a3bf",
+          "abort_linked": true
+        },
+        "readonly": {
+          "status": "PASS",
+          "blocks": 28,
+          "hash": "ef7fede2e1464a458f34303c6c546c8b646fec369bce71c082f6f5e228e52b6c",
+          "abort_linked": true
+        }
+      },
+      "trace": {
+        "status": "NOT_CONFIRMED",
+        "statement_hits": {
+          "scratch_success_path_filter": true,
+          "original_scratch_len_plus_16_check": true,
+          "first_sort4_callsite_boundary": false,
+          "original_abort_statement_executed": false
+        },
+        "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed"
+      },
+      "first_error": "verified/lib.rs(49,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr"
+    },
+    "source-frame-positive": {
+      "mapping_status": "NOT_CONFIRMED",
+      "source": {
+        "status": "PASS",
+        "scratch_filter_line": 38,
+        "scratch_filter_text": "    if scratch.len() < len + 16 {",
+        "original_check_line": 45,
+        "original_check_text": "    if scratch.len() < len + 16 {",
+        "condition_text_equal": true,
+        "boundary_marker_line": 58,
+        "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+        "pointer_operation_lines": {
+          "v_as_mut_ptr": 49,
+          "scratch_as_mut_ptr": 54
+        },
+        "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+        "actual_caller_sha_matches_certificate": true,
+        "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "saved_file_trailing_newline_excluded_from_payload_hash": true,
+        "source_order_places_guards_before_pointer_operations": true,
+        "original_abort_line": 46
+      },
+      "mir": {
+        "normal": {
+          "status": "PASS",
+          "blocks": 31,
+          "hash": "f5f08cb2485e2a675eff4101a5b936ea3630e8802cb514d324974cdde9e1e9f4",
+          "abort_linked": true
+        },
+        "readonly": {
+          "status": "PASS",
+          "blocks": 28,
+          "hash": "1f103b3a6ed92cf7ed6f940a76c7b673a5fff191ba60a65c0216eebc8fdec942",
+          "abort_linked": true
+        }
+      },
+      "trace": {
+        "status": "NOT_CONFIRMED",
+        "statement_hits": {
+          "scratch_success_path_filter": true,
+          "original_scratch_len_plus_16_check": true,
+          "first_sort4_callsite_boundary": false,
+          "original_abort_statement_executed": false
+        },
+        "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed"
+      },
+      "first_error": "verified/lib.rs(49,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr"
+    },
+    "bridge-positive": {
+      "mapping_status": "NOT_CONFIRMED",
+      "source": {
+        "status": "PASS",
+        "scratch_filter_line": 56,
+        "scratch_filter_text": "    if scratch.len() < len + 16 {",
+        "original_check_line": 63,
+        "original_check_text": "    if scratch.len() < len + 16 {",
+        "condition_text_equal": true,
+        "boundary_marker_line": 76,
+        "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+        "pointer_operation_lines": {
+          "v_as_mut_ptr": 67,
+          "scratch_as_mut_ptr": 72
+        },
+        "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+        "actual_caller_sha_matches_certificate": true,
+        "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "saved_file_trailing_newline_excluded_from_payload_hash": true,
+        "source_order_places_guards_before_pointer_operations": true,
+        "original_abort_line": 64
+      },
+      "mir": {
+        "normal": {
+          "status": "PASS",
+          "blocks": 31,
+          "hash": "b5bab01cf9edfb4fa6baaa85299ec9e28adf6dd3b8a69349d664821575d63060",
+          "abort_linked": true
+        },
+        "readonly": {
+          "status": "PASS",
+          "blocks": 28,
+          "hash": "86b30bcef7cfa6b398868e38c1210573a077fa45a20da7a0472431208732a75e",
+          "abort_linked": true
+        }
+      },
+      "trace": {
+        "status": "NOT_CONFIRMED",
+        "statement_hits": {
+          "scratch_success_path_filter": true,
+          "original_scratch_len_plus_16_check": true,
+          "first_sort4_callsite_boundary": false,
+          "original_abort_statement_executed": false
+        },
+        "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed"
+      },
+      "first_error": "verified/lib.rs(67,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr"
+    },
+    "range-negative": {
+      "mapping_status": "NOT_CONFIRMED",
+      "source": {
+        "status": "PASS",
+        "scratch_filter_line": 38,
+        "scratch_filter_text": "    if scratch.len() < len + 16 {",
+        "original_check_line": 45,
+        "original_check_text": "    if scratch.len() < len + 16 {",
+        "condition_text_equal": true,
+        "boundary_marker_line": 58,
+        "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+        "pointer_operation_lines": {
+          "v_as_mut_ptr": 49,
+          "scratch_as_mut_ptr": 54
+        },
+        "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+        "actual_caller_sha_matches_certificate": true,
+        "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "saved_file_trailing_newline_excluded_from_payload_hash": true,
+        "source_order_places_guards_before_pointer_operations": true,
+        "original_abort_line": 46
+      },
+      "mir": {
+        "normal": {
+          "status": "PASS",
+          "blocks": 31,
+          "hash": "1c9c9dc22d8a2b65678653099c35ff314b4fd31358913d655f960aa10547d8df",
+          "abort_linked": true
+        },
+        "readonly": {
+          "status": "PASS",
+          "blocks": 28,
+          "hash": "d9d32e5dc5d2b76b94c52c9151a86a7db480393072f12296d1b5dd461577824c",
+          "abort_linked": true
+        }
+      },
+      "trace": {
+        "status": "NOT_CONFIRMED",
+        "statement_hits": {
+          "scratch_success_path_filter": true,
+          "original_scratch_len_plus_16_check": true,
+          "first_sort4_callsite_boundary": false,
+          "original_abort_statement_executed": false
+        },
+        "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed"
+      },
+      "first_error": "verified/lib.rs(49,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr"
+    },
+    "duplicate-negative": {
+      "mapping_status": "NOT_CONFIRMED",
+      "source": {
+        "status": "PASS",
+        "scratch_filter_line": 38,
+        "scratch_filter_text": "    if scratch.len() < len + 16 {",
+        "original_check_line": 45,
+        "original_check_text": "    if scratch.len() < len + 16 {",
+        "condition_text_equal": true,
+        "boundary_marker_line": 58,
+        "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+        "pointer_operation_lines": {
+          "v_as_mut_ptr": 49,
+          "scratch_as_mut_ptr": 54
+        },
+        "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+        "actual_caller_sha_matches_certificate": true,
+        "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "saved_file_trailing_newline_excluded_from_payload_hash": true,
+        "source_order_places_guards_before_pointer_operations": true,
+        "original_abort_line": 46
+      },
+      "mir": {
+        "normal": {
+          "status": "PASS",
+          "blocks": 31,
+          "hash": "24c74fda65f1465d2803e5fdb2ba77b147497393901595fd0e71a30243c6d8cc",
+          "abort_linked": true
+        },
+        "readonly": {
+          "status": "PASS",
+          "blocks": 28,
+          "hash": "9ae026d481d149a2b22d68649f8ed3d1a3992816044765bbd484f61c28b88afe",
+          "abort_linked": true
+        }
+      },
+      "trace": {
+        "status": "NOT_CONFIRMED",
+        "statement_hits": {
+          "scratch_success_path_filter": true,
+          "original_scratch_len_plus_16_check": true,
+          "first_sort4_callsite_boundary": false,
+          "original_abort_statement_executed": false
+        },
+        "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed"
+      },
+      "first_error": "verified/lib.rs(49,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr"
+    }
+  }
+}

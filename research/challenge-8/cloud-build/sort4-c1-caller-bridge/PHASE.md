@@ -6,7 +6,8 @@ research/night-select-sort4-cloud-2026-10-09, git-dir
 /root/verify-rust-std/.git/worktrees/verify-rust-std-select-night. Clean at entry.
 Start19:43:08UTC; main20:43:08UTC; absolute21:13:08UTC. New3600-second
 create-to-finish ledger, no historical carry. State /tmp/smallsort-sort4-c1-caller-bridge.
-Coordinator active v2/max2 retained; foreign worktrees/builds/ledgers untouched.
+Coordinator active v2/max2 retained; foreign builds/ledgers untouched; temporary foreign-file scope incident was
+restored with no lasting diff (see SLICE-PROJECTION-SEMANTIC-CARD.md).
 Policy revision d389ff641194364e5eeda4ea4e66bedac4915a79 read; fetch origin/main
 d8a3207bbf3a0c865745152162753aa733b41fba has identical WORK-POLICY/COMPLETION-PLAN.
 Read own AGENTS/WORK-POLICY/COMPLETION-PLAN/runbook, prior checkpoint/PREMISE-ORIGIN,

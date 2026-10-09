@@ -1,16 +1,30 @@
-# Active phase: actual first sort4 c1 caller bridge
+# Current phase: c1 actual caller bridge — CHECKPOINT / STOP
 
-2026-10-09. User resumed checkpoint789b0daffcdd3d1b49c83e979aec486542334b46.
-Own worktree/branch verified clean; start19:43:08UTC, main20:43:08,
-absolute21:13:08. [New phase](cloud-build/sort4-c1-caller-bridge/PHASE.md),
-[new independent3600s ledger](cloud-build/sort4-c1-caller-bridge/BUDGET.json).
-Owner select-sort4, coordinator v2/max2, no foreign state modification.
-Goal: derive c1 premises from actual first sort4 entry on source-linked scratch
-success path while retaining original check. No c2, no new assumptions or native
-contract strengthening. type_interp and size>0 tracked separately; ZST remains
-possible in actual branch. Previous select and conditional c1 evidence preserved,
-not rerun unless affected. Preparation audit and narrow path filter in progress;
-new proof NOT_RUN at phase opening. Prior checkpoint follows unchanged.
+[Checkpoint](cloud-build/sort4-c1-caller-bridge/END-CHECKPOINT-2026-10-09.md),
+[result](cloud-build/sort4-c1-caller-bridge/FINAL-TEST-RESULT.json),
+[premise origin](cloud-build/sort4-c1-caller-bridge/PREMISE-ORIGIN.md),
+[ledger](cloud-build/sort4-c1-caller-bridge/BUDGET.json).
+Resumed789b0daf;60-minute main19:43:08–20:43:08UTC, then evidence/account only.
+First actual SmallSort254 entry boundary reached in saved source/MIR/AST fragment;
+actual sort4 invocation absent, whole caller NOT_RUN. Original scratch check/abort
+retained; selected continuing path excludes scratch failure. Numeric duplicate
+filter handles opaque inline-const translation without claiming const linkage.
+Fresh source4/CURRENT owners/F/thread/frame target and selected-return checks
+execute, but native positives rawVF1: strict dead code at original abort and
+synthetic len<8 fallback. **No supplied premise eliminated as completed theorem.**
+Bridge opens native MU storage and constructs optional dst4, then bool-as-predicate
+syntax failure126; corrected734af5d8 NOT_RUN. type_interp/identity NOT_REACHED;
+size>0 remains conditional (ZST8..15 legal), generic MU identity/owner return OPEN.
+Narrow value-only slice as_mut_ptr candidate prepared + independent soundness
+review: third all4 projection controls intendedPASS, T/MU positives raw0/full
+post/leak; wrong pointer/foreign rights negatives intended1. Range/duplicate
+controls intended1. Profile/consumer/upstream acceptance unchanged UNACCEPTED.
+Prior select/conditional c1 preserved, no new actual c1 normal/unwind/c2 proof.
+All3 own builds terminal/accounted/archive+index verified:934/3600 seconds,
+2666 unused closed/no carry. Own active/unresolved/reservations0, readywithdrawn;
+existing coordinator v2/max2 unchanged. Own checkpoint pushed; no upstream PR.
+Next authorized task must close strict selected-path admission with sound exact
+correspondence, then continue same c1 bridge. Historical checkpoint follows.
 
 # Current phase: SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09 — CHECKPOINT / STOP
 

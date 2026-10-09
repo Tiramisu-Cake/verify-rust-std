@@ -1,0 +1,1058 @@
+{
+  "proof_sha": "5e821db1310b006309e8cc7ad9c21142ac6d9b78",
+  "classification": "C1_CALLER_ENTRY_DIAGNOSTIC_COMPLETE",
+  "accepted": false,
+  "full_actual_caller_proved": false,
+  "source_frame_subset_derived": false,
+  "bridge_premises_derived": false,
+  "candidate_controls_passed": true,
+  "c1_branch_proof_new": "NOT_RUN",
+  "build_id": "4a7eedc5-655f-44a0-b8df-9ba9b22f7dcd",
+  "infra_sha": "5e821db1310b006309e8cc7ad9c21142ac6d9b78",
+  "archive_sha256": "bb2bca7d3a5577bb508c0437be579f017f6d91d4178b5978a73ab6bc0c139956",
+  "build_seconds": 299,
+  "raw_audit_sha256": "df877cddd575947ef3ebb5e69c7d9ebb925c199e5344273bf169c3a6bdb98aa9",
+  "derived_premises": [],
+  "entry_boundary_reached": true,
+  "actual_sort4_invocation_present": false,
+  "cases": {
+    "bridge-positive": {
+      "classification": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+      "first_error": "verified/lib.rs(126,24-45): error: No such predicate: pointer_within_limits",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": false,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              21
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 79,
+                "index": 1,
+                "start_line": 79
+              }
+            ],
+            "complete_basic_block_inventory": 37,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "0ea82516a255b5a2ad48ef2c44ea8942212940f6eff89014fcaf1d140fa69830",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                21
+              ],
+              "original_scratch_len_plus_16_check": [
+                19,
+                20,
+                21,
+                22
+              ],
+              "scratch_as_mut_ptr": [
+                24,
+                25
+              ],
+              "scratch_success_path_filter": [
+                14,
+                15,
+                16,
+                17
+              ],
+              "v_as_mut_ptr": [
+                22,
+                23
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              20
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 79,
+                "index": 1,
+                "start_line": 79
+              }
+            ],
+            "complete_basic_block_inventory": 34,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "c0c5e7f30dec0c28fa585d7d193970b4e0c5b41868a11eaf5edfaaf60c6b3411",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                20
+              ],
+              "original_scratch_len_plus_16_check": [
+                18,
+                19,
+                20,
+                21
+              ],
+              "scratch_as_mut_ptr": [
+                23,
+                24
+              ],
+              "scratch_success_path_filter": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "v_as_mut_ptr": [
+                21,
+                22
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 50549,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 79,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 67,
+          "original_check_line": 66,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 75,
+            "v_as_mut_ptr": 70
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 59,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.27",
+          "maximum_resident_set_kb": "101252",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/fixture/verification-resources.txt",
+          "sha256": "77944c7fdb67eb0a6e12255b26d48f0e59ef2dac400f623b3cc744ce042c67f2",
+          "status": "CAPTURED",
+          "system_seconds": "0.06",
+          "user_seconds": "0.21"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "299cc4b58c328e4908af4238e356e95e3693c855de77b09895b348df0dab3eeb",
+        "source_pair_pins": {
+          "original/lib.rs": "78a629224e10bb4089f111c6d3003194aca9ddeae8f440c4b9cac651cf55826a",
+          "verified/lib.rs": "27a6ce6054cf57c907c886ff965292c3d5f564c5b829a75c32ba42c234feb417"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "f0b75d6d490919d7cc98097d65e6a845ccdffaf9b3df3e99914e1e2b2fe8243b",
+      "observed_target_statement_lines": {
+        "array_optional_close": [
+          120,
+          121,
+          122,
+          123,
+          124
+        ],
+        "current_thread": [
+          83
+        ],
+        "destination_array_for_c1": [],
+        "identity_lemma_call": [],
+        "inline_const_value_path_filter": [
+          38
+        ],
+        "maybeuninit_array": [
+          94
+        ],
+        "maybeuninit_open_lemma": [
+          100,
+          103,
+          106,
+          109
+        ],
+        "maybeuninit_pointer": [
+          93
+        ],
+        "overflow_array_invariant": [
+          51
+        ],
+        "overflow_large_type_mono": [],
+        "overflow_runtime_len_guard": [
+          44
+        ],
+        "overflow_runtime_size_guard": [
+          41,
+          76
+        ],
+        "overflow_slice_array": [
+          50
+        ],
+        "overflow_small_type_bound": [
+          55
+        ],
+        "pointer_limits": [
+          126
+        ],
+        "positive_size_guard": [
+          81
+        ],
+        "scratch_length": [
+          92
+        ],
+        "source_array": [
+          84
+        ],
+        "source_array_join": [],
+        "source_array_split": [
+          89
+        ],
+        "source_owner_append": [],
+        "source_owners": [
+          85
+        ],
+        "source_owners_split": [
+          90
+        ],
+        "thread_token": [
+          82
+        ],
+        "type_interp_F": [],
+        "type_interp_T": []
+      }
+    },
+    "duplicate-negative": {
+      "classification": "INTENDED_RESOURCE_CONTROL",
+      "first_error": "verified/lib.rs(62,64-67): error: No matching heap chunks: array<T>(strip_pointer_metadata(v), ptr_len(fn_outcome_result(outcome)), _v0_v)",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              21
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 37,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "63d3ae0f52804b4339ff609ee93c0a3aba97da025e9cf8dcd27499d174d61eb8",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                21
+              ],
+              "original_scratch_len_plus_16_check": [
+                19,
+                20,
+                21,
+                22
+              ],
+              "scratch_as_mut_ptr": [
+                24,
+                25
+              ],
+              "scratch_success_path_filter": [
+                14,
+                15,
+                16,
+                17
+              ],
+              "v_as_mut_ptr": [
+                22,
+                23
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              20
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 34,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "a44fe7d110079887e178e20f51cae51a6bee59a66cec1ff61264b9df77d1711d",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                20
+              ],
+              "original_scratch_len_plus_16_check": [
+                18,
+                19,
+                20,
+                21
+              ],
+              "scratch_as_mut_ptr": [
+                23,
+                24
+              ],
+              "scratch_success_path_filter": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "v_as_mut_ptr": [
+                21,
+                22
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47314,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 61,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 49,
+          "original_check_line": 48,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 57,
+            "v_as_mut_ptr": 52
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 41,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.23",
+          "maximum_resident_set_kb": "101340",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/fixture/verification-resources.txt",
+          "sha256": "1a339979dd3d3f06eb69992a24aa58bc5ff2ca2571eafd6af89e66121b275571",
+          "status": "CAPTURED",
+          "system_seconds": "0.06",
+          "user_seconds": "0.18"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "bd9c6823f915abc8b27dd1281fd1727b5e75e1d33b3d27b421ad72a40f7908f8",
+        "source_pair_pins": {
+          "original/lib.rs": "09de82cc0cfb60ff093c248ea14ff5b373dfab33ad3de31b18fc0e42d0b73447",
+          "verified/lib.rs": "8d1b42e7f43a91a874aca1e37de80c8cf2b3052b0e45278e59bad697bc3fb1c0"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "6f41d092333512154d006995191c08c84637e0afaa1ca0bf5e53f911c897b37c",
+      "observed_target_statement_lines": {
+        "duplicate_negative": [
+          62
+        ],
+        "inline_const_value_path_filter": [
+          20
+        ],
+        "overflow_array_invariant": [
+          33
+        ],
+        "overflow_large_type_mono": [],
+        "overflow_runtime_len_guard": [
+          26
+        ],
+        "overflow_runtime_size_guard": [
+          23,
+          58
+        ],
+        "overflow_slice_array": [
+          32
+        ],
+        "overflow_small_type_bound": [
+          37
+        ]
+      }
+    },
+    "prefix-native": {
+      "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "first_error": null,
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              21
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 36,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "e4b5984501afc6539799357cdd052bf253e1375ed6a9f0dcee112602847432ca",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                21
+              ],
+              "original_scratch_len_plus_16_check": [
+                19,
+                20,
+                21,
+                22
+              ],
+              "scratch_as_mut_ptr": [
+                24,
+                25
+              ],
+              "scratch_success_path_filter": [
+                14,
+                15,
+                16,
+                17
+              ],
+              "v_as_mut_ptr": [
+                22,
+                23
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              20
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 34,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "f526ce4bdb54c388a058f31870abbbc08ffa871b9d81f84f1af5a7d0f30e9bc7",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                20
+              ],
+              "original_scratch_len_plus_16_check": [
+                18,
+                19,
+                20,
+                21
+              ],
+              "scratch_as_mut_ptr": [
+                23,
+                24
+              ],
+              "scratch_success_path_filter": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "v_as_mut_ptr": [
+                21,
+                22
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47313,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 61,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 49,
+          "original_check_line": 48,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 57,
+            "v_as_mut_ptr": 52
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 41,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.24",
+          "maximum_resident_set_kb": "102264",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/prefix-native/fixture/verification-resources.txt",
+          "sha256": "5f3d581dbfc3e93d260702d56806fac1866e81c47314d9ed71d9816a9e67e766",
+          "status": "CAPTURED",
+          "system_seconds": "0.07",
+          "user_seconds": "0.18"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "791fd6cc21672f76698349177cdf548efd5af3e1a497d055c2da52c94ead212f",
+        "source_pair_pins": {
+          "original/lib.rs": "09de82cc0cfb60ff093c248ea14ff5b373dfab33ad3de31b18fc0e42d0b73447",
+          "verified/lib.rs": "b05f115712c8b03950d82427fc1f3763de755e204c4251c7656b6f3c867377a2"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "360507e1a94685bbff9e52033b575f8eac00112f34119359290593e74109fd3b",
+      "observed_target_statement_lines": {
+        "inline_const_value_path_filter": [
+          20
+        ],
+        "overflow_array_invariant": [
+          33
+        ],
+        "overflow_large_type_mono": [
+          35
+        ],
+        "overflow_runtime_len_guard": [
+          26
+        ],
+        "overflow_runtime_size_guard": [
+          23,
+          58
+        ],
+        "overflow_slice_array": [
+          32
+        ],
+        "overflow_small_type_bound": [
+          37
+        ]
+      }
+    },
+    "range-negative": {
+      "classification": "INTENDED_RESOURCE_CONTROL",
+      "first_error": "/workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 1) <= ptr_len(v).)",
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              21
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 37,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "458c688749c435689cab4fe2a184c88b50634bfa19399e2670ec2e464df6b281",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                21
+              ],
+              "original_scratch_len_plus_16_check": [
+                19,
+                20,
+                21,
+                22
+              ],
+              "scratch_as_mut_ptr": [
+                24,
+                25
+              ],
+              "scratch_success_path_filter": [
+                14,
+                15,
+                16,
+                17
+              ],
+              "v_as_mut_ptr": [
+                22,
+                23
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              20
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 34,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "978236777ddd7451dd828d6006da08038e64df00872cd2ed40c61a5beee54cdf",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                20
+              ],
+              "original_scratch_len_plus_16_check": [
+                18,
+                19,
+                20,
+                21
+              ],
+              "scratch_as_mut_ptr": [
+                23,
+                24
+              ],
+              "scratch_success_path_filter": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "v_as_mut_ptr": [
+                21,
+                22
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47314,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 61,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 49,
+          "original_check_line": 48,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 57,
+            "v_as_mut_ptr": 52
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 41,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.23",
+          "maximum_resident_set_kb": "101052",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/range-negative/fixture/verification-resources.txt",
+          "sha256": "e16e2caa2c513de12070ae32539e3f74c70aec73cc4baaa3c1ef2768b64b53b0",
+          "status": "CAPTURED",
+          "system_seconds": "0.07",
+          "user_seconds": "0.16"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "88bc01e499c56637ed6c89da148990a4b0d4f5264c58a24ec5309804c5d0b82f",
+        "source_pair_pins": {
+          "original/lib.rs": "09de82cc0cfb60ff093c248ea14ff5b373dfab33ad3de31b18fc0e42d0b73447",
+          "verified/lib.rs": "8124e9e0ba6944193b2937ba3fefaee965ac9de8aea6a27ee3831c2b3b446a17"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "e73cbb254e8341e84d45a7a6f9a6d83e086ddbb41942736f6f345a02403894cd",
+      "observed_target_statement_lines": {
+        "inline_const_value_path_filter": [
+          20
+        ],
+        "overflow_array_invariant": [
+          33
+        ],
+        "overflow_large_type_mono": [],
+        "overflow_runtime_len_guard": [
+          26
+        ],
+        "overflow_runtime_size_guard": [
+          23,
+          58
+        ],
+        "overflow_slice_array": [
+          32
+        ],
+        "overflow_small_type_bound": [
+          37
+        ],
+        "range_negative": [
+          62
+        ]
+      }
+    },
+    "source-frame-positive": {
+      "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "first_error": null,
+      "verifier_exit": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "bridge_premises_derived": false,
+      "identity_call_reached": null,
+      "native_prefix_complete": false,
+      "source_mir_proof_mapping": {
+        "mir": {
+          "normal": {
+            "abort_target_blocks": [
+              21
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 37,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "a03ad29bb83bf07d9cd2edf3bccf5d0e24494ba00b00ac0815542970567644ca",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                21
+              ],
+              "original_scratch_len_plus_16_check": [
+                19,
+                20,
+                21,
+                22
+              ],
+              "scratch_as_mut_ptr": [
+                24,
+                25
+              ],
+              "scratch_success_path_filter": [
+                14,
+                15,
+                16,
+                17
+              ],
+              "v_as_mut_ptr": [
+                22,
+                23
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          },
+          "readonly": {
+            "abort_target_blocks": [
+              20
+            ],
+            "abort_target_linked_to_original_abort_span": true,
+            "callsite_boundary_mir_ghost_statement": [
+              {
+                "end_line": 61,
+                "index": 1,
+                "start_line": 61
+              }
+            ],
+            "complete_basic_block_inventory": 34,
+            "control_flow_precedence_proved": false,
+            "full_function_record_sha256": "4a49f7f96f4ae8aa5bf8271fdcb066e8d8d23ffff20ac8989de803de121016fc",
+            "source_line_to_basic_blocks": {
+              "original_abort_statement": [
+                20
+              ],
+              "original_scratch_len_plus_16_check": [
+                18,
+                19,
+                20,
+                21
+              ],
+              "scratch_as_mut_ptr": [
+                23,
+                24
+              ],
+              "scratch_success_path_filter": [
+                13,
+                14,
+                15,
+                16
+              ],
+              "v_as_mut_ptr": [
+                21,
+                22
+              ]
+            },
+            "source_ordered_lines_all_present_in_mir": true,
+            "status": "PASS"
+          }
+        },
+        "proof_entry_log_offset": 47314,
+        "proof_execution_trace": {
+          "evidence_kind": "verifier execution trace locations; no complete proof AST dump claimed",
+          "statement_hits": {
+            "first_sort4_callsite_boundary": true,
+            "original_abort_statement_executed": false,
+            "original_scratch_len_plus_16_check": true,
+            "scratch_success_path_filter": true
+          },
+          "status": "PASS"
+        },
+        "source": {
+          "actual_caller_file_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+          "actual_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+          "actual_caller_sha_matches_certificate": true,
+          "boundary_marker_line": 61,
+          "boundary_marker_text": "            //@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY",
+          "condition_text_equal": true,
+          "original_abort_line": 49,
+          "original_check_line": 48,
+          "original_check_text": "    if scratch.len() < len + 16 {",
+          "pointer_operation_lines": {
+            "scratch_as_mut_ptr": 57,
+            "v_as_mut_ptr": 52
+          },
+          "saved_file_trailing_newline_excluded_from_payload_hash": true,
+          "scratch_filter_line": 41,
+          "scratch_filter_text": "    if scratch.len() < len + 16 {",
+          "source_order_places_guards_before_pointer_operations": true,
+          "status": "PASS"
+        },
+        "status": "PASS",
+        "verification_resources": {
+          "elapsed_wall_seconds": "0:00.28",
+          "maximum_resident_set_kb": "102228",
+          "path": "/workspace/evidence/allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/fixture/verification-resources.txt",
+          "sha256": "53e3b6f5e8d37c5e12753f98ca95a89da3460ac1d6a2e74965e58339ebdbeedd",
+          "status": "CAPTURED",
+          "system_seconds": "0.04",
+          "user_seconds": "0.24"
+        }
+      },
+      "proof_ast_capture": {
+        "classification": "CAPTURED_PRE_VERIFICATION_AST",
+        "emission_does_not_replace_mandatory_verification": true,
+        "proof_verdict": null,
+        "sha256": "c0ca5f9231bd33e9b244bf88556cc6f44606be1b50449a8fae020cdf777e872c",
+        "source_pair_pins": {
+          "original/lib.rs": "78a629224e10bb4089f111c6d3003194aca9ddeae8f440c4b9cac651cf55826a",
+          "verified/lib.rs": "aafe46c5267fdfa2c197cbfa7cdeb14ba5279fea1b4be045e3c4b078e879094f"
+        },
+        "stage_exit": 1
+      },
+      "full_log_sha256": "2ff20732d132e50c115a5bae4bda227c63e4949008efb7ccbed060f6949535b0",
+      "observed_target_statement_lines": {
+        "current_thread": [
+          65
+        ],
+        "inline_const_value_path_filter": [
+          20
+        ],
+        "overflow_array_invariant": [
+          33
+        ],
+        "overflow_large_type_mono": [
+          35
+        ],
+        "overflow_runtime_len_guard": [
+          26
+        ],
+        "overflow_runtime_size_guard": [
+          23,
+          58
+        ],
+        "overflow_slice_array": [
+          32
+        ],
+        "overflow_small_type_bound": [
+          37
+        ],
+        "source_array": [
+          66
+        ],
+        "source_array_join": [
+          76
+        ],
+        "source_array_split": [
+          70
+        ],
+        "source_owner_append": [
+          77
+        ],
+        "source_owners": [
+          67,
+          79
+        ],
+        "source_owners_split": [
+          71
+        ],
+        "thread_token": [
+          64
+        ]
+      }
+    }
+  },
+  "controls": {
+    "maybe-uninit-positive": {
+      "classification": "PASS",
+      "verification_exit": 0,
+      "first_error": null,
+      "proof_entries": 1,
+      "intended_negative": false,
+      "full_native_post_and_leak": true,
+      "verification_log_sha256": "6f6b4e7b268e37575f122195405cd9422466f3416e40a23f4b9e0de70632d697"
+    },
+    "rawdst-ownership-negative": {
+      "classification": "PASS",
+      "verification_exit": 1,
+      "first_error": "verified/lib.rs(4,24-27): error: No matching heap chunks: points_to<T>(rawdst, _)",
+      "proof_entries": 1,
+      "intended_negative": true,
+      "full_native_post_and_leak": false,
+      "verification_log_sha256": "adc06ffd9398edd53bc2b380094fffb435472fe2f3b752bef26e890f3be9ffb2"
+    },
+    "slice-positive": {
+      "classification": "PASS",
+      "verification_exit": 0,
+      "first_error": null,
+      "proof_entries": 1,
+      "intended_negative": false,
+      "full_native_post_and_leak": true,
+      "verification_log_sha256": "039f75843ca72582eb994e6fb9b3be1c7cf70a9cc13ae393e5b44f27af11a5f5"
+    },
+    "wrong-equality-negative": {
+      "classification": "PASS",
+      "verification_exit": 1,
+      "first_error": "verified/lib.rs(5,22-24): error: Assertion might not hold. (Cannot prove strip_pointer_metadata(v) = ptr_add_(strip_pointer_metadata(v), 1, T_typeid).)",
+      "proof_entries": 1,
+      "intended_negative": true,
+      "full_native_post_and_leak": false,
+      "verification_log_sha256": "cd9a190413e997c5bf8bcd89e05e04636179506d76ceb7b15a283cce6362f673"
+    }
+  },
+  "tool_snapshot": {
+    "base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "c1_overlay_active": false,
+    "critical": {
+      "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+      "bin/verifast": "cb7d9ff0a1ba281310ea4cf5694a58b99f1ebad8136b16d3007c9402ece44817",
+      "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4d3a190fcec695415b41162ddf8d71aec6e2826d2b69e7692df306a568add98c",
+      "src/verifast.ml": "adbf2c3de02cba7fbdb0b8e203a864e34c1b2ab16de4f6b153477106dbba04d0"
+    },
+    "effective_rsspec": {
+      "bin/rust/aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
+      "bin/rust/counting.rsspec": "67c22244b47af891ffe5c21641fb26ea55fd0cf38381e60f9e723a5e0c714258",
+      "bin/rust/ghost_cells.rsspec": "fef7475f2ad6d79e1904b23a234d3aa8b3befc7300bc15231d93fd6b53a52227",
+      "bin/rust/list.rsspec": "27f6020a56262544ca8fabd636999c7cfae551be578769d7be9e7ceb1c70d97e",
+      "bin/rust/listex.rsspec": "7e4bb22a0207b97d76e47c2e4bafecbd4e1770299c0721fe61e3b9cbd3e2fd36",
+      "bin/rust/mask.rsspec": "ff0d295ffcc268df404605a2d3be944e53447d8774d83cb0f8bf8c9ea5adbf8f",
+      "bin/rust/nat.rsspec": "c26a8e7ec30843c60d7915cde0ab7d2cf9408eaa9c9c4916b0c463b7aac894ec",
+      "bin/rust/prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+      "bin/rust/prelude_core.rsspec": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
+      "bin/rust/prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c",
+      "bin/rust/ptr_rels.rsspec": "506fdb20e30f49565face1e2d40a636afa92760e0c7c621dddcf940cc30972cf",
+      "bin/rust/rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
+      "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+      "bin/rust/rust_belt/lem_aux.rsspec": "b4a3a831fbc4e15d6b3bf5d67c616cf94d51a7c753d5ef72e07fb4def65a9278",
+      "bin/rust/rust_belt/lifetime_logic.rsspec": "516fefc4f5ba2ba9e73250196f2652a40d2dc586df9b40c93364cd7f21397f54",
+      "bin/rust/rust_belt/points_to_at_lifetime.rsspec": "dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b",
+      "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+    },
+    "infra_sha": "5e821db1310b006309e8cc7ad9c21142ac6d9b78",
+    "new_semantic_patch": true,
+    "production_applied_patch_sha256": "4113d043fb4d7373dd1eb394af1a9d385ee2fa73de3428c50ceb0b28607deaeb",
+    "profile_accepted": false,
+    "proof_sha": "5e821db1310b006309e8cc7ad9c21142ac6d9b78",
+    "semantic_variant": "exact_slice_as_mut_ptr_value_projection_candidate"
+  }
+}

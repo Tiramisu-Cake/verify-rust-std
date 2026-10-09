@@ -6468,3 +6468,27 @@ terminal19:16:18, aftermainonlyfinishingevidence/account/checkpoint. Ownterminal
 accounted/downloadverified; readywithdrawn, active/unresolved/reservation0, sharedv2/
 max2 unchanged andpeerstatepreserved. Nextone: actual scratch-success source-linked
 prefix admission and SAME callsitepremise lane. Details finalcheckpoint/map/reproducer.
+
+
+## SORT4-C1-CALLER-BRIDGE-CLOUD-2026-10-09 — closed
+
+Continued789b0daf in own select-night worktree; main19:43:08–20:43:08UTC,
+aftermain only evidence/account/checkpoint. Source-linked success selector retains
+original scratch check; actual first-sort4 boundary reached, invocation absent.
+Builds15056f9e/e97528f0 (332s), f854de72/c8ae2005 (303s), 5e821db1/4a7eedc5
+(299s), exact full SHA/buildIDs/archivehashes in final checkpoint/ledger/result.
+All raw caller positives1; third source4/owners/F/thread and native selected-return
+checks intermediate only due strict dead code abort/fallback. No supplied premise
+eliminated as fully admitted caller theorem. Bridge optionalstorage assembly
+reached then pure-bool-as-predicate syntax error126. Bool/classifier734af5d8 and
+trace needles9be26c41 NOT_RUN. type_interp, generic MU identity/owner restoration,
+ZST applicability remain OPEN; no inverse/ownership assumption or disabled check.
+Narrow exact slice as_mut_ptr value-only candidate patch f200a581: independent
+review and third all4 projection controls PASS; native T/MU raw0+post/leak,
+wrongvalue/rawdst rights negatives intended1; source range/duplicate intended1.
+Experimental profile NOT_ACCEPTED; historical select/c1 preserved, c2 NOT_RUN.
+Saved first hash and third deadcode replays/manual AST CFG add no proof. Final
+934/3600 used,2666 unused closed/no carry; all3 terminal/integrityverified/accounted,
+ownreservation/active/unresolved0, readywithdrawn, v2/max2 unchanged. Temporary
+foreign file incident restored with no lastingdiff, no foreignindex/ref/build/ledger
+mutation. See sort4-c1-caller-bridge checkpoint and semantic card. Stop.
