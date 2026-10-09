@@ -33,6 +33,18 @@ def option_stage_ghost() -> str:
 pred bidirectional_small_optional_slot<T>(len: usize, slot: *mut T; old: option<T>) =
     if len == 3 { *slot |-?-> old } else { old == none };
 
+// Reattribute exactly one existing current cell to a full-pointer-equal alias.
+// Provenance and metadata equality are required; no permission is produced by
+// address arithmetic and no source owner is duplicated or reset to a snapshot.
+lem bidirectional_small_current_cell_alias<T>(t: thread_id_t,
+        original: *T, selected: *T)
+    req original as pointer == selected as pointer &*&
+        *original |-> ?current_value &*& <T>.own(t, current_value);
+    ens *selected |-> current_value &*& <T>.own(t, current_value);
+{
+    assert original as pointer == selected as pointer;
+}
+
 fix bidirectional_small_option_same<T>(old_value: option<T>, new_value: option<T>) -> bool {
     old_value == new_value
 }
@@ -240,12 +252,12 @@ def insert_len23_invariant(body: str) -> str:
     # This assertion only observes existing chunks; it creates no permission.
     odd_source_cases = (
         "            //@ { assert len == 3; if left_nonempty { "
-        "if left == src { assert last_src == src; assert *last_src |-> ?odd_src0; } "
-        "else { assert left == src + 1; assert last_src == src + 1; "
+        "if left == src { assert last_src == src; assert last_src as pointer == src as pointer; bidirectional_small_current_cell_alias::<T>(t, src as *T, last_src as *T); assert *last_src |-> ?odd_src0; } "
+        "else { assert left == src + 1; assert last_src == src + 1; assert last_src as pointer == (src + 1) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 1) as *T, last_src as *T); "
         "assert *last_src |-> ?odd_src1; } } else { "
-        "if right == src + 1 { assert last_src == src + 1; "
+        "if right == src + 1 { assert last_src == src + 1; assert last_src as pointer == (src + 1) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 1) as *T, last_src as *T); "
         "assert *last_src |-> ?odd_src1; } "
-        "else { assert right == src + 2; assert last_src == src + 2; "
+        "else { assert right == src + 2; assert last_src == src + 2; assert last_src as pointer == (src + 2) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 2) as *T, last_src as *T); "
         "assert *last_src |-> ?odd_src2; } } }\n"
     )
     return body.replace(odd_source, odd_source + odd_source_cases, 1)

@@ -596,7 +596,8 @@ on_unwind_ens false;
         //@ assert n - 2 - k <= n;
         //@ trace_destination_index_within_limits(dst_base, n - 2 - k, n);
         //@ trace_destination_nonnegative_index(dst_base as pointer, n - 2 - k, s);
-        //@ assert pointer_within_limits(trace_destination_pointer(dst_base as pointer, n - 2 - k, s)) == true;
+        //@ assert (dst_rev - 1) as pointer == (dst_base + (n - 2 - k)) as pointer;
+        //@ assert pointer_within_limits(dst_rev - 1) == true;
         right_rev = right_rev.wrapping_sub(down as usize);
         left_rev = left_rev.wrapping_sub((!down) as usize);
         dst_rev = unsafe { dst_rev.sub(1) };
@@ -667,7 +668,7 @@ on_unwind_ens false;
 @*/
 {
     //@ assert false; // TARGET: full-domain modular trace entry is reachable
-    let (left, right, dst, a) = unsafe {
+    let (mut left, mut right, dst, a) = unsafe {
         g2_trace_forward(src, dst_base, n, m, e, up_choices, down_choices)
     };
     let (left_rev, right_rev, dst_rev, d) = unsafe {
