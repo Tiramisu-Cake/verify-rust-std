@@ -1,14 +1,14 @@
 {
   "phase": "NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09",
-  "status": "AUTHORIZED",
+  "status": "CHECKPOINT",
   "authorization": "Direct owner prompt2026-10-09: corrected FRAME-shadow TEST -> full conditional actual pointer-select -> one nearest actualsort4 caller obligation; main60min, completion-only<=30min.",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T14:03:33Z",
   "main_deadline_utc": "2026-10-09T15:03:33Z",
   "deadline_utc": "2026-10-09T15:33:33Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 347,
-  "remaining_build_seconds": 3253,
+  "used_build_seconds": 687,
+  "remaining_build_seconds": 2913,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-input-relation-frame-shadow-test",
@@ -39,6 +39,35 @@
       "execution_seconds": 346,
       "download_verified": true,
       "archive_sha256": "0e68c01a435cf1cfd5e14edf734bce71e7f0d75a2ae766c2e90d0b81fd5495eb"
+    },
+    {
+      "dispatch_token": "dispatch-e26e9d08da3146be8a111b7a30423264",
+      "owner": "select-sort4",
+      "phase_id": "NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09",
+      "infra_sha": "e2b249674cbe505f2d073e0df8da023a6e6406ce",
+      "proof_sha": "e2b249674cbe505f2d073e0df8da023a6e6406ce",
+      "lane": "o26-input-relation-frame-shadow-test",
+      "submitted_config_sha256": "2e9356927c57d9f3e691f87e73849a4937140be9745290942051440cf98e449d",
+      "reserved_seconds": 780,
+      "timeout_seconds": 720,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "cf1d3d8e1d7c1800420a1959a4d6a90f6d97c2152e4b0f31c88b6a3b1d28b54c",
+      "build_id": "f4dc1ddf-c995-4650-a4d0-896cf14ad565",
+      "start_time": "2026-10-09T14:46:33.157235055Z",
+      "finish_time": "2026-10-09T14:52:11.279471Z",
+      "create_time": "2026-10-09T14:46:31.771113430Z",
+      "build_seconds": 340,
+      "accounted": true,
+      "execution_seconds": 339,
+      "download_verified": true,
+      "archive_sha256": "8482a76817dac9413f0bc7ee7d37c6665d28941de67ca6eb8c8e5dc82f65592f"
     }
-  ]
+  ],
+  "closed_unused_seconds": 2913,
+  "stop_reason": "Conditional pointer-select completed; nearest actual caller applicability/blocker saved; no large iteration fits remaining main window. Ready request withdrawn, own terminal builds reconciled.",
+  "own_ready_request": "WITHDRAWN",
+  "own_reservations": 0,
+  "own_unresolved_builds": 0
 }

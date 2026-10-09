@@ -986,6 +986,20 @@ def r3_frame_shadow_test_diagnostic(ev):
     if not isinstance(stages,dict):stages={}
     required={'old-frame-source-shadow-off','frame-shadow-source-off',
               'frame-shadow-source-partial','frame-shadow-source-on'}
+    cleanup_requested='cleanup_projection_full_conditional_pointer_contract' in result
+    if cleanup_requested:required |= {'cleanup-projection-partial','cleanup-projection-on'}
+    cleanup=stages.get('cleanup-projection-on') or {}
+    cleanup_partial=stages.get('cleanup-projection-partial') or {}
+    strict_dead=['verified/lib.rs(135,1-239,2): dead code', 'verified/lib.rs(238,5-6): dead code', 'verified/lib.rs(238,5-6): dead code']
+    cleanup_full=(cleanup_requested and result.get('cleanup_projection_full_conditional_pointer_contract') is True and
+        cleanup.get('proof_exit')==0 and cleanup.get('strict_dead_code')==[] and
+        sorted(cleanup.get('projection_markers') or [])==['assume-init','pointer-drop'] and
+        cleanup.get('full_conditional_pointer_contract') is True and
+        cleanup.get('prefix7_ordered') is True and cleanup.get('nested_before_outer') is True and
+        cleanup.get('helper_full_normal_unwind_observed') is True and
+        cleanup.get('nested_full_normal_unwind_observed') is True and
+        cleanup.get('outer_full_normal_unwind_observed') is True and
+        cleanup_partial.get('exit')==2 and cleanup_partial.get('preheader_refusal') is True)
     old=result.get('source_capture_old_frame') or {}
     shadow=result.get('source_capture_frame_shadow') or {}
     on=stages.get('frame-shadow-source-on') or {}
@@ -1016,7 +1030,11 @@ def r3_frame_shadow_test_diagnostic(ev):
         on.get('outer_header_seen') is True and
         (on.get('outer_actual_failure') is True or
          (result.get('frame_shadow_outer_full_normal_unwind_observed') is True and
-          on.get('proof_exit')==0)))
+          on.get('proof_exit')==0) or
+         (cleanup_full and on.get('proof_exit')==1 and on.get('strict_dead_code')==strict_dead and
+          on.get('both_normal_returns_resources_observed') is True and
+          len(on.get('outer_counts') or {})==4 and
+          all(value==2 for value in on['outer_counts'].values()))))
     return {'requested':True,'complete':complete,'classification':result.get('classification','INCONCLUSIVE'),
         'helper_exit':code,'accepted':False,'verification_accepted':False,
         'target_contract_proved':False,'actual_source_accepted':False,
@@ -1025,7 +1043,9 @@ def r3_frame_shadow_test_diagnostic(ev):
         'frame_shadow_on_first_error':result.get('frame_shadow_on_first_error'),
         'outer_reached':result.get('frame_shadow_outer_reached') is True,
         'outer_full_normal_unwind':result.get('frame_shadow_outer_full_normal_unwind_observed') is True,
-        'wrong_shadow_binding_negative_complete':False}
+        'wrong_shadow_binding_negative_complete':False,
+        'cleanup_projection_conditional_pointer_contract_observed':cleanup_full,
+        'profile_admission_accepted':False}
 
 def wrapper_input_relation_shadow_capture(ev):
     name='wrapper-input-relation-shadow-capture'

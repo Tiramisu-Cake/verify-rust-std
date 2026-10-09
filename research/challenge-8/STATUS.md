@@ -1,18 +1,14 @@
-# Current phase: NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
-[Phase](cloud-build/next-select-frame-caller/PHASE.md), [separate3600ledger](cloud-build/next-select-frame-caller/BUDGET.json). Start14:03:33UTC/17:03:33MSK, main15:03:33UTC/18:03:33MSK, absolute15:33:33UTC/18:33:33MSK. Main60min, completion-only<=30min bydirectowner override. Policyrevisiond389ff64 read, PR4 alreadyancestral; local/remote f398c06b clean atstart.
+[Checkpoint](cloud-build/next-select-frame-caller/END-CHECKPOINT-2026-10-09.md), [phase](cloud-build/next-select-frame-caller/PHASE.md), [separate ledger](cloud-build/next-select-frame-caller/BUDGET.json). Policyd389ff64; owner override60min14:03:33–15:03:33UTC /17:03:33–18:03:33MSK, absolute15:33:33UTC /18:33:33MSK. Closed old accounts untouched.
 
-Corrected FRAME-shadow Build4763ca49-4420-4ab8-9bdc-bcee05246228 terminal FAILURE,
-infra=proof0ecff7ee7e6fd5d88082915252cae5dd2395bf93; full archive/hash inventory verified.
-Old-231 baseline, fresh off/partial/on all executed; off/partial exact preheader refusals.
-Helper and actual nested Drop verified before outer in translator54fd5dd6 profile.
-Outer BOTH condition branches pass231–233 and full normal return/leak/lifetime/resources,
-but exit1 remains three strict dead-code reports at outer header and238. No whole theorem.
-New ledger347/3600, remainder3253. Exact cleanup bb38→37→36 remains in emitted AST because
-pointer-drop/assume-init retain synthetic unwind successors despite checked false-unwind
-callee contracts. [Semantic card](cloud-build/next-select-frame-caller/CLEANUP-PROJECTION-CARD.md)
-records narrow default-off source-certified projection before implementation; new TEST preparing.
-Saved-log replay is separate from new Cloud proof; admission and generic/ZST/sort4 remain open.
+**Full conditional actual pointer-select** in experimental FRAME-shadow+cleanup-projection profile: Buildf4dc1ddf-c995-4650-a4d0-896cf14ad565, infra=proofe2b249674cbe505f2d073e0df8da023a6e6406ce, translator9cf8bc32, rawproofexit0/141statements. Helper/nested checked beforeouter; bothconditionbranches pass231–233 and complete selected-original-pointer/thread/raw_ptr_own/falseunwind/return/leak/resource/deadcode/refinement checks. No pointee rights. New exactfalse-unwind CFG projection closes artificialcleanup36/37/38; fullMIR inventory and checks retained. Profile/sourceadmission NOT_ACCEPTED, genericT/ZST OPEN.
+
+First4763/0ecf fourcontrols ran; fullnormalposts blockedonlystrictdeadcode. Finalf4dc raw6case helperaudit COMPLETE; CloudFAILURE/collectorINCONCLUSIVE becauseoldcollector expects4cases. Fullarchive8482a768/allhashes/indexverified; [audit-only replay](cloud-build/next-select-frame-caller/FINAL-COLLECTOR-REPLAY.json) reclassifies diagnostic without changingrawverdict/newproofcredit. [Exactresult](cloud-build/next-select-frame-caller/FINAL-TEST-RESULT.json).
+
+[Nearestactualcaller](cloud-build/next-select-frame-caller/SORT4-CALLER-APPLICABILITY.md): pointertype fits actualsort4; currentfourcell/F/thread callbackrecovery and reservedunwindhandler stillOPEN/NOT_RUN. Source-linked staticcheck only; no sort4 theorem or suppliedpremise transfer. Next: exactc1 normal/directunwind recovery/admission, thenconditional selectorlinkage. Admissionmutation/falsepost/reachableunwind gates remain OPEN.
+
+NewCloud **687/3600**,2913unusedclosed; twoown terminal/reconciled/downloadverified builds,0active/unresolved/reservations, readyrequestwithdrawn. v2/max2 intact; peer untouched. No executablelocalproof/build, unchangedfullmatrices or extra coordinationregression. Stop until next owner assignment.
 
 # Historical AFTERNOON checkpoint (closed)
 

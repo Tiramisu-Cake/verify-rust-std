@@ -1,0 +1,346 @@
+{
+  "classification": "CONDITIONAL_ACTUAL_POINTER_SELECT_FULL_CONTRACT_IN_EXPERIMENTAL_PROFILE",
+  "accepted": false,
+  "admission": "OPEN",
+  "build_id": "f4dc1ddf-c995-4650-a4d0-896cf14ad565",
+  "infra_sha": "e2b249674cbe505f2d073e0df8da023a6e6406ce",
+  "proof_sha": "e2b249674cbe505f2d073e0df8da023a6e6406ce",
+  "archive_sha256": "8482a76817dac9413f0bc7ee7d37c6665d28941de67ca6eb8c8e5dc82f65592f",
+  "source": {
+    "verified_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "unit_sha256": "203989644124ecd20473efc286cb43a148de4f196c10b4a037f4bdb04cd2d098",
+    "body_sha256": [
+      "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+      "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+      "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+      "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+      "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+      "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+      "3346dfaf24b95e4802303674696dc9caab0ee31306e65bfc1ec885f40dbe4cff",
+      "404bf9dade6187f40836abc7be359d56103fc9a26d0d2e4abcb6e405c78e6107",
+      "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+    ],
+    "nested_body8_sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+  },
+  "tool_snapshot": {
+    "binary_sha256": {
+      "bin/libz3.so": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+      "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+      "bin/verifast": "bfb91291fb9c76080c3e6c48b06ae1a38270d85dabd320de8c11990d1240a2af",
+      "bin/vf-cxx-ast-exporter": "9f3793b0420c727e9c290884313b9f129552aa7536ef0c15e47e91a9cb76de17",
+      "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+    },
+    "critical_source_sha256": {
+      "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9cf8bc328a2a12c97b9ae04b359f8a4c59f1d561ae768f1e6bde4146d247a041",
+      "src/verifast.ml": "adbf2c3de02cba7fbdb0b8e203a864e34c1b2ab16de4f6b153477106dbba04d0"
+    },
+    "effective_rsspec_sha256": {
+      "bin/rust/aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
+      "bin/rust/counting.rsspec": "67c22244b47af891ffe5c21641fb26ea55fd0cf38381e60f9e723a5e0c714258",
+      "bin/rust/ghost_cells.rsspec": "fef7475f2ad6d79e1904b23a234d3aa8b3befc7300bc15231d93fd6b53a52227",
+      "bin/rust/list.rsspec": "27f6020a56262544ca8fabd636999c7cfae551be578769d7be9e7ceb1c70d97e",
+      "bin/rust/listex.rsspec": "7e4bb22a0207b97d76e47c2e4bafecbd4e1770299c0721fe61e3b9cbd3e2fd36",
+      "bin/rust/mask.rsspec": "ff0d295ffcc268df404605a2d3be944e53447d8774d83cb0f8bf8c9ea5adbf8f",
+      "bin/rust/nat.rsspec": "c26a8e7ec30843c60d7915cde0ab7d2cf9408eaa9c9c4916b0c463b7aac894ec",
+      "bin/rust/prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+      "bin/rust/prelude_core.rsspec": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
+      "bin/rust/prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c",
+      "bin/rust/ptr_rels.rsspec": "506fdb20e30f49565face1e2d40a636afa92760e0c7c621dddcf940cc30972cf",
+      "bin/rust/rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
+      "bin/rust/rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
+      "bin/rust/rust_belt/lem_aux.rsspec": "b4a3a831fbc4e15d6b3bf5d67c616cf94d51a7c753d5ef72e07fb4def65a9278",
+      "bin/rust/rust_belt/lifetime_logic.rsspec": "516fefc4f5ba2ba9e73250196f2652a40d2dc586df9b40c93364cd7f21397f54",
+      "bin/rust/rust_belt/points_to_at_lifetime.rsspec": "dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b",
+      "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf"
+    },
+    "head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "modified_tracked_source_sha256": {
+      "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+      "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "9cf8bc328a2a12c97b9ae04b359f8a4c59f1d561ae768f1e6bde4146d247a041"
+    },
+    "proof_std_sha256": {
+      "library/core/src/hint.rs": "ce89716d46b8060db2c2da1aef1d4bcccf90e0804fc021d4470c55203501315f",
+      "library/core/src/intrinsics/mod.rs": "de4a6d2afbd1d9f725222c1f4d95a107b8202586b952ce2a619a054c6f2f1865",
+      "library/core/src/mem/manually_drop.rs": "f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25",
+      "library/core/src/mem/maybe_dangling.rs": "0e1ec6f588f2c314751054b39c73d19517eb1fd03e31e7865c95813c389d1182",
+      "library/core/src/mem/maybe_uninit.rs": "1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0",
+      "library/core/src/mem/mod.rs": "b86a596a58dcb21a45e8b29b33327ca8c7bde708aa6fca158d4366e51403daf2",
+      "library/core/src/ptr/mod.rs": "5f70e87f1d2d8becf475ff88c48fb4c718895d3249ed7b45a0cddf68c2e663f8",
+      "library/core/src/ptr/mut_ptr.rs": "f10ffcdeed5a97d1f219ddbfa2e1fd11e7b4ca3825189801985b96629cda16f7"
+    },
+    "tracked_diff_sha256": "887c885492b9288319bd7ac41ac1952093597463ccbb699b716a48f8f804cca7"
+  },
+  "profile": {
+    "classification": "EXPERIMENTAL_O26_R3_CLEANUP_PROJECTION_TEST_NOT_ACCEPTED",
+    "accepted": false,
+    "verification_accepted": false,
+    "parent_profile": "overnight-assume-actual/O26-R3-FRAME-SHADOW-TEST.json",
+    "parent_translator_sha256": "54fd5dd628d8e9dac3b0a702cb13bf4ab6d2d235d0f157eb5228082b4954adf6",
+    "test_patch": "overnight-assume-actual/verifast-r3-cleanup-projection-TEST.patch",
+    "test_patch_sha256": "74694608a600bb043816f5345e3173666b5e5fd8ab9b98263f98ec05e12ff150",
+    "test_translator_sha256": "9cf8bc328a2a12c97b9ae04b359f8a4c59f1d561ae768f1e6bde4146d247a041",
+    "source": {
+      "verified_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "unit_sha256": "203989644124ecd20473efc286cb43a148de4f196c10b4a037f4bdb04cd2d098",
+      "body_sha256": [
+        "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+        "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+        "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+        "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+        "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+        "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+        "3346dfaf24b95e4802303674696dc9caab0ee31306e65bfc1ec885f40dbe4cff",
+        "404bf9dade6187f40836abc7be359d56103fc9a26d0d2e4abcb6e405c78e6107",
+        "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+      ],
+      "nested_body8_sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+    },
+    "runtime_spec_kernel_parser_exporter_refiner_modified": false,
+    "opt_in": {
+      "SORT4_R3_CLEANUP_PROJECTION_TEST_REPO_ROOT": "exact proof root",
+      "SORT4_R3_CLEANUP_PROJECTION_TEST": "1"
+    },
+    "rationale_card_sha256": "bdaa723a51117063d90d9e8ac3f81e5a2a8d64e11c7400595ae9aa8e80a12532",
+    "rule": "exact same-unit checked false-unwind pointer-drop and assume-init executable CFG projection; full original MIR and contracts retained",
+    "domain": "exact FRAME-shadow pointer-select T=*const Element, no pointee rights",
+    "full_contract": "thread_token and selected original pointer identity and raw_ptr_own(pointer); on_unwind false; return/leak/resource/deadcode/refinement checks enabled",
+    "trusted_premises": "existing experimental chain including A1 pointer transmute plus exact source-linked no-unwind CFG projection; admission not accepted",
+    "open_gates": [
+      "altered callee contract/body",
+      "typed Move/destination/edge/branch mutations",
+      "reachable-unwind projection refusal",
+      "false normal/unwind resource post",
+      "profile soundness/admission"
+    ],
+    "expected_controls": {
+      "off": "exact three dead-code spans after both normal posts",
+      "partial": "Fatal error: exception Failure(\"SORT4-R3-CLEANUP-PROJECTION-TEST: certificate mismatch: exact root/test opt-in pair\")",
+      "on": "full unit exit0; helper before nested before outer; two normal condition returns, no unwind; no dead-code"
+    },
+    "typed_outer_graph_sha256": "92f942a44944bd4eba4da22ccc4fbbe10901b3e9e64072d2478edbc930049c35"
+  },
+  "cases": {
+    "cleanup-projection-on": {
+      "accepted": false,
+      "errors_before_nested": false,
+      "first_error": null,
+      "first_error_in_nested": false,
+      "first_error_in_outer": false,
+      "full_conditional_pointer_contract": true,
+      "headers": [
+        38154,
+        39426,
+        40406,
+        41379,
+        42687,
+        43606,
+        44664,
+        47558,
+        45538
+      ],
+      "helper_full_normal_unwind_observed": true,
+      "helper_normal_unwind_return_leak_lifetime_freelocals": {
+        "Consuming function lifetime token": 1,
+        "Executing return statement": 1,
+        "Freeing locals.": 1,
+        "Leak check.": 1
+      },
+      "nested_before_outer": true,
+      "nested_full_normal_unwind_observed": true,
+      "nested_normal_unwind_return_leak_lifetime_freelocals": {
+        "Consuming function lifetime token": 2,
+        "Executing return statement": 2,
+        "Freeing locals.": 2,
+        "Leak check.": 2
+      },
+      "outer_counts": {
+        "Consuming function lifetime token": 2,
+        "Executing return statement": 2,
+        "Freeing locals.": 2,
+        "Leak check.": 2
+      },
+      "outer_full_normal_unwind_observed": true,
+      "outer_header_seen": true,
+      "outer_prototype_seen": true,
+      "prefix7_ordered": true,
+      "projection_markers": [
+        "pointer-drop",
+        "assume-init"
+      ],
+      "proof_exit": 0,
+      "strict_dead_code": []
+    },
+    "cleanup-projection-partial": {
+      "exit": 2,
+      "fatal": "Fatal error: exception Failure(\"SORT4-R3-CLEANUP-PROJECTION-TEST: certificate mismatch: exact root/test opt-in pair\")",
+      "preheader_refusal": true
+    },
+    "frame-shadow-source-off": {
+      "accepted": false,
+      "exit": 2,
+      "fatal": "Fatal error: exception Failure(\"SORT4-SELECT-INTRINSIC: certificate mismatch: owner exact verified source SHA256\")",
+      "preheader_refusal": true
+    },
+    "frame-shadow-source-on": {
+      "accepted": false,
+      "both_normal_returns_resources_observed": true,
+      "errors_before_nested": false,
+      "first_error": null,
+      "first_error_in_nested": false,
+      "first_error_in_outer": false,
+      "headers": [
+        37922,
+        39194,
+        40174,
+        41147,
+        42455,
+        43374,
+        44432,
+        47326,
+        45306
+      ],
+      "helper_full_normal_unwind_observed": true,
+      "helper_normal_unwind_return_leak_lifetime_freelocals": {
+        "Consuming function lifetime token": 1,
+        "Executing return statement": 1,
+        "Freeing locals.": 1,
+        "Leak check.": 1
+      },
+      "nested_before_outer": true,
+      "nested_full_normal_unwind_observed": true,
+      "nested_normal_unwind_return_leak_lifetime_freelocals": {
+        "Consuming function lifetime token": 2,
+        "Executing return statement": 2,
+        "Freeing locals.": 2,
+        "Leak check.": 2
+      },
+      "outer_actual_failure": false,
+      "outer_counts": {
+        "Consuming function lifetime token": 2,
+        "Executing return statement": 2,
+        "Freeing locals.": 2,
+        "Leak check.": 2
+      },
+      "outer_full_normal_unwind_observed": false,
+      "outer_header_seen": true,
+      "outer_prototype_seen": true,
+      "past_three_late_wrapper_assertions": true,
+      "prefix7_ordered": true,
+      "proof_exit": 1,
+      "strict_dead_code": [
+        "verified/lib.rs(135,1-239,2): dead code",
+        "verified/lib.rs(238,5-6): dead code",
+        "verified/lib.rs(238,5-6): dead code"
+      ]
+    },
+    "frame-shadow-source-partial": {
+      "accepted": false,
+      "exit": 2,
+      "fatal": "Fatal error: exception Failure(\"SORT4-R3-FRAME-SHADOW-TEST: certificate mismatch: exact root/test opt-in pair\")",
+      "preheader_refusal": true
+    },
+    "old-frame-source-shadow-off": {
+      "accepted": false,
+      "exit": 1,
+      "first_error": "verified/lib.rs(231,49-57): error: Type mismatch. Actual: *Element. Expected: std::mem::MaybeUninit<?>.",
+      "first_error_in_outer": true,
+      "helper_full_normal_unwind_observed": true,
+      "intended_theorem_negative": false,
+      "prefix7_ordered": true,
+      "reached_line_231": true
+    }
+  },
+  "late_assertions_executions": {
+    "231": 2,
+    "232": 2,
+    "233": 2
+  },
+  "both_condition_normal_paths": true,
+  "full_posts": "selected original pointer equality, thread token, raw_ptr_own(pointer); on_unwind false; return/leak/lifetime/free/deadcode/refinement enabled",
+  "pointee_rights": false,
+  "generic_T_ZST": "NOT_PROVED",
+  "actual_sort4": "NOT_RUN",
+  "classifier_replay_is_not_new_proof": true,
+  "tool_chain": [
+    {
+      "kind": "R2",
+      "parent_translator_sha256": "0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a",
+      "patch": "overnight-assume-actual/verifast-o26-wrapper-rebase-profile-26.10.patch",
+      "patch_sha256": "f7b74745ef088f82598b409fbba347d8671691905048c1c6ed715b9226e4830b",
+      "result_translator_sha256": "2a9d9fc989dcf5564c16dc5a4f8df90755257138a9f4cadde1ff9d7c7ae9fef5"
+    },
+    {
+      "kind": "R3",
+      "parent_translator_sha256": "2a9d9fc989dcf5564c16dc5a4f8df90755257138a9f4cadde1ff9d7c7ae9fef5",
+      "patch": "overnight-assume-actual/verifast-o26-wrapper-input-relation-profile-26.10.patch",
+      "patch_sha256": "da62de4fe2a166e15e298d7a8f333e6524267392f36e3c196b81726299a47f8a",
+      "result_translator_sha256": "34a03879b45377570eab81ee384ade01ebea9d5d216eb6223c6c742c5819dc15"
+    },
+    {
+      "kind": "scope",
+      "parent_translator_sha256": "34a03879b45377570eab81ee384ade01ebea9d5d216eb6223c6c742c5819dc15",
+      "patch": "overnight-assume-actual/verifast-r3-ghost-scope-TEST.patch",
+      "patch_sha256": "127143ffec8499202817f6aca5041fb6c6c5c6899cc4f5e3601d97cd0b8e29e8",
+      "result_translator_sha256": "ed8ee5ed8a7f8abb7d9c7cee3a978059b55c0a02e34f908170a80d6cc3ed4102"
+    },
+    {
+      "kind": "receiver",
+      "parent_translator_sha256": "ed8ee5ed8a7f8abb7d9c7cee3a978059b55c0a02e34f908170a80d6cc3ed4102",
+      "patch": "overnight-assume-actual/verifast-r3-receiver-TEST.patch",
+      "patch_sha256": "284a135f0c43c0ef50a7d48cd5bc6e294415e0168fa9e11a9238c0ab9c0c6c09",
+      "result_translator_sha256": "7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6"
+    },
+    {
+      "kind": "column",
+      "parent_translator_sha256": "7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6",
+      "patch": "overnight-assume-actual/verifast-r3-ghost-column-TEST.patch",
+      "patch_sha256": "7e77dcc7200a141beb0a3a48ee9f0634f0e1ef7f866f992d44d820b9d58d11f6",
+      "result_translator_sha256": "f57415ab49abef2bdc5632ca47962502be8732a1321cabd607d04501c6612a86"
+    },
+    {
+      "kind": "nested",
+      "parent_translator_sha256": "f57415ab49abef2bdc5632ca47962502be8732a1321cabd607d04501c6612a86",
+      "patch": "overnight-assume-actual/verifast-r3-column-nested-TEST.patch",
+      "patch_sha256": "e4cf0424921f66bbfd0af99757b3eb9198a2f25e41bd0e8f9386d81dd53be268",
+      "result_translator_sha256": "17ea15e06cee10724022df97a34d763ddf406dd8ce7bde517f205f1741402b8d"
+    },
+    {
+      "kind": "frame",
+      "parent_translator_sha256": "17ea15e06cee10724022df97a34d763ddf406dd8ce7bde517f205f1741402b8d",
+      "patch": "overnight-assume-actual/verifast-r3-frame-TEST.patch",
+      "patch_sha256": "a15489c1e9b76db3d113e1f58a5531d240db2c31e23362b3b9a8c1fb656128ca",
+      "result_translator_sha256": "a8421aac6bc2863e6df8d5ca9fc94b15251123f5203cf92d271529a595bad243"
+    },
+    {
+      "kind": "frame-shadow",
+      "parent_translator_sha256": "a8421aac6bc2863e6df8d5ca9fc94b15251123f5203cf92d271529a595bad243",
+      "patch": "overnight-assume-actual/verifast-r3-frame-shadow-TEST.patch",
+      "patch_sha256": "6e49d7f7c1eb43288a0ad0e6f8dd8518e76218a57c3d9a6c7a7b6cf7a953a1ee",
+      "result_translator_sha256": "54fd5dd628d8e9dac3b0a702cb13bf4ab6d2d235d0f157eb5228082b4954adf6"
+    },
+    {
+      "kind": "cleanup-projection",
+      "parent_translator_sha256": "54fd5dd628d8e9dac3b0a702cb13bf4ab6d2d235d0f157eb5228082b4954adf6",
+      "patch": "overnight-assume-actual/verifast-r3-cleanup-projection-TEST.patch",
+      "patch_sha256": "74694608a600bb043816f5345e3173666b5e5fd8ab9b98263f98ec05e12ff150",
+      "result_translator_sha256": "9cf8bc328a2a12c97b9ae04b359f8a4c59f1d561ae768f1e6bde4146d247a041"
+    }
+  ],
+  "compiler_nightly": "nightly-2026-09-25",
+  "component_status": {
+    "seven_prefix_callees": "VERIFIED_IN_EXACT_EXPERIMENTAL_PROFILE",
+    "actual_generic_threadonly_forget": "VERIFIED_NORMAL_FALSE_UNWIND",
+    "actual_nested_Drop": "VERIFIED_NORMAL_AND_UNWIND",
+    "actual_outer_pointer_select": "FULL_CONDITIONAL_CONTRACT_VERIFIED",
+    "profile_admission": "OPEN_NOT_ACCEPTED",
+    "unrestricted_generic_T_ZST": "OPEN",
+    "actual_sort4": "STATIC_APPLICABILITY_ONLY_NOT_RUN"
+  },
+  "profile_manifest_sha256": "a16edc90a4d778cd3dd742a4d4a0db9ef739e69e87b77eaa5808e8255422bacd",
+  "metadata_acceptance_booleans": "raw auditor target_contract_proved/actual_helper_proved remain false as acceptance flags; conditional proof credit is recorded separately from profile/source acceptance"
+}

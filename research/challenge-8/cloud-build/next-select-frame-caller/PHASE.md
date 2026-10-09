@@ -17,3 +17,13 @@ Semantic changes require rationale/domain/resources/criticalselfreview/affectedg
 Build4763ca49-4420-4ab8-9bdc-bcee05246228, infra=proof0ecff7ee7e6fd5d88082915252cae5dd2395bf93, laneo26-input-relation-frame-shadow-test, timeout720+60queue,191parts569421bytes, payload59952ffeb2031e88676ededab2db6b8e7a9ff40c6ea6fda558be4c77419b058e. All selectedproofblob IDs/modes identical0378; newSHA carries phase registration/card only, no semantic/proof source changes. Local andremote clean/equal before edits; oldcheckpoint/candidate preserved. Independent peer reservation occupies its own slot/ledger; commonprotocolunchanged and applicable18case gate not rerun.
 
 Separate saved-log replay: AST-isolated log_proof_evidence (only constants andpure function, no adapter imports/toolchain) on old6ad FRAME-on verifieshelper1/nested2 counts andfirstouter231 typeerror. It corrects helpercount classification only, withsaved log/stage/classifier hashes recorded in SAVED-FRAME-CLASSIFIER-REPLAY.json; raw evidence unchanged, no newproofcredit or profile transfer. Source-old nested component remains atits exactprofile.
+
+## Concrete cleanup-projection step started before main deadline
+
+New Buildf4dc1ddf-c995-4650-a4d0-896cf14ad565, infra=proofe2b249674cbe505f2d073e0df8da023a6e6406ce, timeout720+60queue. Payloadcf1d3d8e1d7c1800420a1959a4d6a90f6d97c2152e4b0f31c88b6a3b1d28b54c,191parts571518bytes. Prior192parts fd50dae8 preflight NOT_SUBMITTED; only inherited redundant CFG copy replaced by exact parent inventory hash, full graph and checks preserved. Old unused card excluded from recipe, not an executable dependency. Selected actual source/proof/runtime blobs remain0ecf-identical; new additive semantic defaultoff patch/profile9cf8bc32 and affected adapter only.
+
+At45min assessment, finish this concrete proof step/evidence/account; no broad sort4 profile or new memory/alias architecture. No new hypothesis/experiment after15:03:33UTC. Caller callback recovery requires independent currentfourcells/F/thread proof and remains open; only sufficient exact callee result permits conditional applicability work.
+
+## Closed checkpoint
+
+Fullconditionalpointerselector result saved, nearestactualcaller applicability/blocker staticchecked. New687/3600,2913unusedclosed; bothownterminal/downloadverified/accounted, readyrequestwithdrawn/0reservation. No extension needed; no new largeiteration fitsremainingmainwindow. FinalSTATUS/checkpoint distinguishrawproofexit0, unacceptedprofile, stalecollectorCloudFAILURE, andseparateaudit-onlyreplay. STOP untilnewassignment.
