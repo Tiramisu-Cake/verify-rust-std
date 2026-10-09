@@ -35,3 +35,5 @@ same checkedhelper/nested andouter. Wrongname/binding/span/source/Move/edge, wro
 branch/frame/falsepost remain open until individuallytested. Positive progress
 requires execution past231–233; completeouter additionallybothnormal/unwind/
 return/leak/deadcode andsource/refinement. Setup/typefail not theoremnegative.
+
+Completion preflight: initial full pair d2e0a2fa was192parts and NOT_SUBMITTED. The old FRAME lane transport recipe and FRAME design card are not read by the new adapter/shared helper/collector; remove these two documentation/selection inputs only from infra transport. Preserve shared actual runner, all tool patches/manifests, guards, profiles and source/capture dependencies. Parent card remains published in Git. Capture60bf reached complete source/MIR/refinement/10snapshots; its final collector NameError NAMES is audit-only, fixed to the explicit same nine defpaths. Raw archive4c67905d complete/verified; no repeat capture proof/tool build for that classifier correction.
