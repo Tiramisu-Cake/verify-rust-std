@@ -44,3 +44,10 @@ static parsing/hash/evidence/orchestration. No Actions, main/upstream/foreign
 worktree, IAM/keys/billing/resources, external messages/PR/application/submission.
 One global queued/running/unresolved Build; client timeouts require reconciliation.
 Checkpoint and withdraw own request; leave no own active Build at absolute cutoff.
+
+Completion step if needed after10:45:54UTC: finish already-started COLUMN/nested
+TEST audit-path correction publishedbfdb776b, at most one addressed hosted check,
+full evidence analysis and final checkpoint. No new direction/large iteration.
+Budget remains3600; latest permitted900s submit10:53:54UTC reserves at least6min
+for evidence/checkpoint beforeabsolute11:15:54UTC. If slot unavailable, do not
+dispatch a run that cannot fit; preserve candidate and withdraw ready request.

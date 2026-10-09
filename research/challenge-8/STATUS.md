@@ -29,9 +29,16 @@ Day expense831/3600seconds (87setup+341scope+403receiver),2769remaining,3termina
 Candidate infra/proof8bf37946451829978451731a77f622144826ae11,
 [preflight](cloud-build/day-select-sort4/COLUMN-NESTED-PREFLIGHT.json):189parts.
 Original062d193parts NOT_READY, never submitted; only eight historical documents
-removed from delivery, all runtime dependencies/guards retained. Build5a3d3312-3a9e-4bad-9488-714ad62b48be ACTIVE, exact published candidate;
-submitted config6b7cc4f27bf9d5df12817375e0ddca277ab25b9ddf5fb53ab19ce73b2b9d9341,
-actual flags189parts. Timeout900+60queue, reserved960; final budget awaits terminal. No runtime/posts/resources/kernel/
+removed from delivery, all runtime dependencies/guards retained. Build5a3d3312 terminalFAILURE442s; archive/index integrityverified,
+COLUMN-off repeats saved-let collision. First failure is audit-only missing inner
+on-console-build.log; COLUMN-on and nested never executed. All affected build-log
+paths corrected without semantic delta. Addressed completion candidate
+infra/proofbfdb776bcebfd51a0829bf4451869f8b6dee6529 published, actual563849bytes/189parts;
+[preflight](cloud-build/day-select-sort4/COLUMN-AUDIT-FIX-PREFLIGHT.json).
+Day1273/3600,2327remaining,4terminal; no own active/unresolved build. Own ready
+request registered behind merge turn. Current concrete COLUMN/nested step only
+may finish in completion extension, no new research after10:45:54UTC.
+ No runtime/posts/resources/kernel/
 spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),
 [result/identities](cloud-build/day-select-sort4/RECEIVER-RESULT.json).
 
