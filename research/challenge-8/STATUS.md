@@ -1,3 +1,24 @@
+# Current phase: AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
+
+[Phase](cloud-build/afternoon-select-sort4/PHASE.md), [new separate3600 ledger](cloud-build/afternoon-select-sort4/BUDGET.json).
+Start11:20:06UTC/14:20:06MSK, main13:20:06UTC/16:20:06MSK,
+absolute13:50:06UTC/16:50:06MSK. Ownerselect-sort4, ownworktree/branch unchanged.
+DAY1734/3600+1866unused, NIGHT/migration accounts closed/untouched.
+
+Firstproof unchangedc0436cd5: corrected COLUMN gates then actualnested scheduling,
+then truthful currentwrapper/input relation240 and fullpointer-select. PR2 already
+ancestral andremoteconfirmed6acfe96a. Merge-owner18case dispatcherregression
+a0f40e03-fb76-4974-893b-3aad48331f7f pending; codecompatibility checkedread-only,
+sharedactive.json observedv2. No own newclient mutation/submit before applicable
+regression result and fullpairedpreflight. Afternoonused0/3600, no ownbuild.
+
+Baseline b23 COLUMN-on two savedlets andpayloadassertions183/184 pass, first
+outererror240currentwrapperinputequality. Late242–244 not reached, source-shadow
+notconfirmed. Fullouter normal/unwind/return/leak andactualnested OPEN.
+Profiles experimental/unaccepted; exactsource/MIR/tool andfullposts preserved.
+
+# Historical DAY checkpoint (closed)
+
 # Current phase: DAY-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Final checkpoint](cloud-build/day-select-sort4/END-CHECKPOINT-2026-10-09.md),

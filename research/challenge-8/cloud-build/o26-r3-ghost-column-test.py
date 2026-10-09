@@ -243,10 +243,13 @@ def schedule(a, r2, r3, case, column_tool, column_snapshot, m_column, column_on_
                  (outer_header < 0 or nested_header < 0 or outer_header < nested_header),
                  "nested-off differs from COLUMN-on lexical schedule/error")
         elif name == "nested-partial":
-            need(fatals == [NESTED_FATAL] and "Verifying function '" not in log,
+            need(stage.get("exit") == 2 and fatals == [NESTED_FATAL] and
+                 ERROR.findall(log) == [NESTED_FATAL] and "Verifying function '" not in log,
                  "nested partial pair did not fail preheaders")
         elif name == "nested-wrong-permutation":
-            need(fatals == [NESTED_BAD_ORDER] and COLUMN_MARK in log and
+            need(stage.get("exit") == 2 and fatals == [NESTED_BAD_ORDER] and
+                 ERROR.findall(log) == [NESTED_BAD_ORDER] and
+                 "Verifying function '" not in log and COLUMN_MARK in log and
                  RECEIVER_MARK in log and SCOPE_MARK in log,
                  "wrong nested permutation missed exact inventory gate")
         else:
@@ -413,7 +416,8 @@ def run(a, r2, r3, case, receiver_tool, receiver_snapshot):
             column_on_stage = stage
         else:
             expected_route_markers = 1 if name == "wrong-second" else 0
-            need(stage.get("exit") == 2 and fatals == [fault] and SCOPE_MARK in log and
+            need(stage.get("exit") == 2 and fatals == [fault] and
+                 ERROR.findall(log) == [fault] and SCOPE_MARK in log and
                  RECEIVER_MARK not in log and "Verifying function '" not in log and
                  log.count(COLUMN_MARK) == expected_route_markers,
                  name + " fault did not fail exact pre-receiver mapping gate")

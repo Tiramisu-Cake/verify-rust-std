@@ -1,3 +1,11 @@
+## Current authorization: AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09
+
+[Phase](cloud-build/afternoon-select-sort4/PHASE.md): corrected COLUMN gates ->
+same-version actualnested Drop -> wrapper/input240 -> fullpointer-select ->
+applicable actualsort4. New3600Cloudseconds,11:20:06UTCstart,13:20:06main/
+13:50:06absolute completion-only limit. PR2two-slot checked protocol, one ownslot.
+Runtime/posts/resources andproofintegrity fixed; STATUS current, older accountsclosed.
+
 ## Current authorization: DAY-SELECT-SORT4-CLOUD-2026-10-09
 
 [Day phase](cloud-build/day-select-sort4/PHASE.md) authorizes prepared R3 scope TEST,
