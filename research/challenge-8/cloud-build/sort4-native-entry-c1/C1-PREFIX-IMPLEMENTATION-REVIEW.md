@@ -38,3 +38,10 @@ contract pattern now retains complete four-field tuple, only selected outcome
 post replaced by false. Positive/default-off branch unchanged; exact post-shape
 mismatch rejects. Corrected patch2e1621b7 / translator59048330 (full profile pins).
 Review found no further static tuple defect; fresh Cloud required, NOT_RUN proof.
+
+Additional saved raw full-target attribution correction: source195 is caller note,
+primary exact error is aliasing.rsspec(88,9-29) ref_precreated_token at v_base+3.
+Runner now requires that unique primary error, callee note, exact source195 trace/
+note/excerpt and both helper completed gates; saved replay plus wrong predicate/
+location/duplicate error/failed helper mutants tested. Require VF1 specifically.
+This service fix changes no proof/tool/source; next fresh prefix case remains needed.

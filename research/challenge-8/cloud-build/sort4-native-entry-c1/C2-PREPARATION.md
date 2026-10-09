@@ -86,3 +86,10 @@ interpretation, and destination obligations remain explicit. The separate
 native-entry subset theorem may be cited only as a prerequisite if its own
 proof and source binding are accepted; it does not silently discharge those
 other debts or compose a whole-sort summary.
+
+Main revision before discovery: manual four-part __vf_sort4_second_unwind marker,
+not generic callback matcher; distinct left2_ref/right2_ref/fractions to prevent
+pre-splice shadowing. Body blank lines removed and marker starts column0 so
+comment stripping is byte-identical to original C1 runtime. Annotated source pin
+ecd83f8c0840a07f138bc8afa2a36c661f296d748693afa2a0a61667cb3372e4;
+source225 secondcut,223 c2call. No generated source committed, no proof run.

@@ -42,6 +42,15 @@ CONTROLS = ("positive_basic", "positive_direct_unwind",
             "negative_wrong_marker", "negative_duplicate_marker",
             "negative_typed_chunk_survives_cut", "negative_unclosed_fractional_access")
 FALSE_POSTS = ("normal-false", "unwind-false")
+C2_BLOCKER_CALLEE_ERROR = re.compile(
+    r"/workspace/.*/bin/rust/aliasing\.rsspec\(88,9-29\): error: No matching heap chunks: "
+    r"ref_precreated_token<T>\(ptr_add_\(v_base, 3, T_typeid\), _\)")
+C2_BLOCKER_CALLEE_NOTE = re.compile(
+    r"/workspace/.*/bin/rust/aliasing\.rsspec\(88,9-29\): note: Consuming assertion$")
+C2_CALL_NOTE = "verified/lib.rs(195,26-41): note: Verifying call"
+C2_CALL_TRACE = re.compile(
+    r"^\s*\d+\.\d+s: verified/lib.rs\(195,26-41\): Verifying call$")
+C2_CALL_SOURCE = "195 |         let c2 = is_less(&*v_base.add(3), &*v_base.add(2));"
 
 
 def need(ok: bool, why: str) -> None:
@@ -102,6 +111,58 @@ def stage(a, name: str, command: list[str], *, cwd: Path | None = None,
         "stage": name, "status": "TERMINAL", "exit": code,
         "finished_epoch": int(time.time()), "proof_verdict": "NO_VERDICT"})
     return code
+
+
+def classify_prefix_off_full_target(log: str, exit_code: int, helper_gate: dict,
+                                    proof_entries) -> dict:
+    """Classify only the exact saved source-195 callee-boundary diagnostic."""
+    lines = log.splitlines()
+    errors = [s for s in lines if ": error:" in s or s.startswith("Fatal error:")]
+    target_entries = proof_entries(log, "sort4_stable")
+    recover_entries = proof_entries(log, "recover_pair")
+    join_entries = proof_entries(log, "join_four_owned_cells")
+    exact_error = len(errors) == 1 and C2_BLOCKER_CALLEE_ERROR.fullmatch(errors[0]) is not None
+    aliasing_note = [i for i, line in enumerate(lines) if C2_BLOCKER_CALLEE_NOTE.fullmatch(line)]
+    c2_call_note = [i for i, line in enumerate(lines) if line == C2_CALL_NOTE]
+    c2_call_trace = [i for i, line in enumerate(lines) if C2_CALL_TRACE.fullmatch(line)]
+    c2_call_source = [i for i, line in enumerate(lines) if line == C2_CALL_SOURCE]
+    c2_call_source_after_note = ([i for i in c2_call_source if 0 < i - c2_call_note[0] <= 4]
+                                 if len(c2_call_note) == 1 else [])
+    error_at = log.find(errors[0]) if len(errors) == 1 else -1
+    error_line_at = lines.index(errors[0]) if len(errors) == 1 else -1
+    target_order = len(target_entries) == 1 and 0 <= target_entries[0] < error_at
+    helpers_before_target = (len(target_entries) == len(recover_entries) == len(join_entries) == 1 and
+                             recover_entries[0] < target_entries[0] and
+                             join_entries[0] < target_entries[0] and
+                             helper_gate.get("gate_passed") is True and
+                             all(helper_gate.get("helpers", {}).get(name, {}).get("before_caller") is True and
+                                 helper_gate.get("helpers", {}).get(name, {}).get("return_seen") is True and
+                                 helper_gate.get("helpers", {}).get(name, {}).get("leak_seen") is True and
+                                 helper_gate.get("helpers", {}).get(name, {}).get("error_absent") is True
+                                 for name in ("recover_pair", "join_four_owned_cells")))
+    source195_context = (len(c2_call_note) == len(c2_call_trace) == 1 and
+                         len(c2_call_source_after_note) == 1 and
+                         0 <= c2_call_trace[0] < error_line_at < c2_call_note[0] <
+                         c2_call_source_after_note[0])
+    exact_context = (len(aliasing_note) == 1 and 0 <= error_line_at < aliasing_note[0])
+    accepted = (exit_code == 1 and exact_error and exact_context and
+                target_order and helpers_before_target and source195_context)
+    return {"classification": "FULL_TARGET_CONTROL_C2_SOURCE195_BLOCKER_NO_PROOF_CREDIT"
+            if accepted else "INCONCLUSIVE_FULL_TARGET_CONTROL_WRONG_OR_AMBIGUOUS_FIRST_OBLIGATION",
+            "matches_expected_blocker": accepted, "exit": exit_code,
+            "first_error": errors[0] if errors else None,
+            "exact_primary_callee_predicate": "aliasing.rsspec(88,9-29): ref_precreated_token<T>(ptr_add_(v_base, 3, T_typeid), _)",
+            "error_count": len(errors), "exact_error": exact_error,
+            "exact_source195_and_callee_notes_ordered": source195_context and exact_context,
+            "callee_consuming_assertion_note_count": len(aliasing_note),
+            "source195_call_note_count": len(c2_call_note),
+            "source195_call_trace_count": len(c2_call_trace),
+            "source195_callsite_excerpt_after_note_count": len(c2_call_source_after_note),
+            "target_entry_count": len(target_entries),
+            "unique_target_entry_before_error": target_order,
+            "recover_pair_entry_count": len(recover_entries),
+            "join_entry_count": len(join_entries),
+            "recovery_helpers_proved_before_target": helpers_before_target}
 
 
 def snapshot(a, root: Path) -> dict:
@@ -452,16 +513,16 @@ def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
     # The already-existing full-target run is a required c2 control with prefix
     # explicitly disabled. It must fail at the original source-195 token blocker.
     full = (a.evidence / "actual-on.log").read_text(errors="replace")
-    full_errors = [s for s in full.splitlines() if ": error:" in s or s.startswith("Fatal error:")]
     full_code = int((a.evidence / "actual-on-exit-code.txt").read_text().strip())
-    need(full_code in (1, 2) and len(full_errors) == 1 and
-         full_errors[0].startswith("verified/lib.rs(195,") and
-         "ref_precreated_token" in full_errors[0],
-         "fresh prefix-off full-target control did not reproduce c2 source-195 blocker")
+    blocker_audit = module(a.cloud_dir / "strict-cut-false-posts-audit.py",
+                           "c2_full_target_blocker_entries")
+    helper_gate = read(a.evidence / "same-unit-callee-gate.json")
+    blocker_result = classify_prefix_off_full_target(
+        full, full_code, helper_gate, blocker_audit.proof_entries)
+    need(blocker_result["matches_expected_blocker"],
+         "fresh prefix-off full-target control did not match exact aliasing callee/source195 blocker")
     record(a.evidence / "prefix-off-full-target-control.json", {
-        "classification": "FULL_TARGET_CONTROL_C2_SOURCE195_BLOCKER_NO_PROOF_CREDIT",
-        "prefix_env": "0/default-off", "exit": full_code,
-        "first_error": full_errors[0], "source_sha256": SOURCE,
+        **blocker_result, "prefix_env": "0/default-off", "source_sha256": SOURCE,
         "log_sha256": sha(a.evidence / "actual-on.log"), "proof_credit": False})
 
     def run_case(name: str, case_env: dict[str, str], *, cwd: Path = fixture,
