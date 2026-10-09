@@ -22,7 +22,7 @@ import sys
 FILES = {
     "research/challenge-8/merge/overnight/run.sh": "a2a3474323873f9e3c62448196b0a1f93978f7f0c4ac6e188a34f827a197b4c7",
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
-    "research/challenge-8/merge/overnight/pointer-prove.py": "4e0a73b3e969477c27879c8c802029d07e9c246565bddf770ba7db89bf0a704d",
+    "research/challenge-8/merge/overnight/pointer-prove.py": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
     "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "d3ff063f4c02cebc71f60e493198872eda06093bafcde9a7e4a6c9711dddaa4c",
     "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",

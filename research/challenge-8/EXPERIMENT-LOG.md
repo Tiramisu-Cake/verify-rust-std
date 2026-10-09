@@ -6410,3 +6410,7 @@ run.813/3600charged,2787remaining, no active own build. Full evidence verified.
 DAY setup failure Buildb4b47061, exactcd93e557,100s: selection list unsorted;
 verifier never ran. Archive8307679f661f443ff4538d87c4f735cf9551946351200f5f9897f53668e7eca4.
 Preserved as failure; fresh sorted descendant required.913/3600used.
+
+DAY setup failure Build8dc37178/4e25d135,92s: stale pointer-prove basehash
+in provideroverlay. Verifier never ran. Archive1c606fb7355975039da0d9cd089e9f0bd6bc76b957579baef881a8bbc3ba470b.
+Fresh explicitpin matched all18baseinputs.1005/3600 charged.

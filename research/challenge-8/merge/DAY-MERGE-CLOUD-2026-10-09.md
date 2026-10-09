@@ -169,3 +169,27 @@ nonFalseown, positive/exactfalse, no Drop/call/unwind/cleanup MIR allowed.
 This partial theorem cannot establish safeDrop/caller applicability, which
 remainOPEN. Integration separate rawchecker/profile acceptedFalse, NOT_SELECTED
 in this activeproof. [Current scratch handoff](overnight/CALLER-C1-CURRENT-SCRATCH-HANDOFF.md).
+
+## Combined third resource attempt / construction fragment
+
+Build8dc37178-6d72-4061-be01-7b9aec2d212e FAILURE92charged,
+09:51:01.235–09:52:32.592UTC, exact4e25d13540f916f6a2c8f7405a330cfac2d1504a.
+Provideroverlay refuses pointer-prove basehash: metadata fix changedcb6d43c9,
+oldpin4e0a73b3 retained. NO verifier stage/no negative credit. Archive
+1c606fb7355975039da0d9cd089e9f0bd6bc76b957579baef881a8bbc3ba470b.
+Fresh descendant updates that exactpin, all18basehashes statically matched.
+Native/metadata changes already reviewed; no semanticproviderchange.
+1005/3600charged,2595remaining.
+
+Selection11groups now combines resource9groups with isolated constructionpair
+in bothstock/six. Full schema/knownnames/sorted/dependencies/smoke/recipeclosure/
+allPythonAST and shellsyntax checked. Original source and tool profiles pinned;
+constructor MIR/AST prediction untested butfailclosed, strictnonDrop context.
+Constructor hypothesis: supplied current payload can be packaged by exact279
+into nonFalseown withoutassume; positivefullnormal/unwindfalse and matchedfirst
+bodyfalse. Missinghelper/frontend/matcherfailure remainsINCONCLUSIVE, noDrop
+credit. Resultmaps: positivefragment -> closestconstructionpre stillneedsactual
+seed/sort/insert ownershipderivation; failure -> exactformation/gategap card.
+Memorynegative rawcalibration remainsnotaccepted until fresh exactoracle.
+Timeout1200+60queue, estimated previousresource324 +constructorpair<180pergroup,
+remaining2595 and >45minmainwindow, evidenceanalysis reserve retained.
