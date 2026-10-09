@@ -15,11 +15,13 @@ strict_cut_controls_mode=${O26_WITH_STRICT_CUT_CONTROLS:-0}
 [[ "$strict_cut_controls_mode" == 0 || "$strict_cut_controls_mode" == 1 ]] || exit 2
 [[ "$strict_cut_controls_mode" == 0 ||
    ( ( "${LANE:-}" == o26-strict-cut-controls ||
+       "${LANE:-}" == o26-strict-cut-false-posts ||
        "${LANE:-}" == o26-sort4-scope-tests ) && "$relocate_mode" == 1 ) ]] || exit 2
 strict_cut_false_posts_mode=${O26_WITH_STRICT_CUT_FALSE_POSTS:-0}
 [[ "$strict_cut_false_posts_mode" == 0 || "$strict_cut_false_posts_mode" == 1 ]] || exit 2
 [[ "$strict_cut_false_posts_mode" == 0 ||
-   ( "${LANE:-}" == o26-sort4-scope-tests && "$strict_cut_controls_mode" == 1 ) ]] || exit 2
+   ( ( "${LANE:-}" == o26-strict-cut-false-posts ||
+       "${LANE:-}" == o26-sort4-scope-tests ) && "$strict_cut_controls_mode" == 1 ) ]] || exit 2
 controls_mode=${O26_WITH_OWNER_CONTROLS:-0}
 [[ "$controls_mode" == 0 || "$controls_mode" == 1 ]] || exit 2
 sort4_mode=${O26_WITH_SORT4_CAPTURE:-0}

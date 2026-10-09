@@ -23,6 +23,16 @@ REQUIRED = {
         "run-o26-strict-cut-controls.sh", "run-strict-cut-controls.sh",
         "strict-cut-controls-audit.py",
     ),
+    "o26-strict-cut-false-posts": (
+        "cut-relocate-audit.py", "cut-relocate-provider-overlay.py",
+        "cut-trace-provider-overlay.py", "exact-infra-transport-controls.py",
+        "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
+        "run-cut-relocate.sh", "run-o26-refresh.sh",
+        "run-o26-strict-cut-false-posts.sh", "run-strict-cut-controls.sh",
+        "strict-cut-controls-audit.py", "run-strict-cut-false-posts.sh",
+        "strict-cut-false-posts-prepare.py", "strict-cut-false-posts-capture.py",
+        "strict-cut-false-posts-audit.py",
+    ),
     "o26-input-relation-capture": (
         "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
         "run-o26-input-relation-capture.sh", "run-o26-refresh.sh",

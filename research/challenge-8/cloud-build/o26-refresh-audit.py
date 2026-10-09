@@ -31,6 +31,7 @@ def relocation(ev):
     except (OSError,ValueError):code=None
     matched=code==0 and result.get('classification') not in (None,'INCONCLUSIVE') and result.get('accepted') is False
     if os.environ.get('LANE') in ('o26-recovery-tests','o26-strict-cut-controls',
+                                  'o26-strict-cut-false-posts',
                                   'o26-sort4-scope-tests'):
         checks=result.get('checks') or {}
         required={'translated_ids_patch_pin','support','exact_source_pair',
@@ -43,7 +44,9 @@ def relocation(ev):
                  set(checks)==required and all(value is True for value in checks.values()) and
                  result.get('raw_capture_exit')==0 and
                  result.get('unwind_storage_dead_assumed') is False)
-    if os.environ.get('LANE') in ('o26-strict-cut-controls','o26-sort4-scope-tests'):
+    if os.environ.get('LANE') in ('o26-strict-cut-controls',
+                                  'o26-strict-cut-false-posts',
+                                  'o26-sort4-scope-tests'):
         matched=matched and result.get('classification')=='FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY'
     return {'requested':True,'classification':result.get('classification','INCONCLUSIVE'),
             'diagnostic_match':matched,'helper_exit':code,'test_only':True,'accepted':False}
@@ -688,6 +691,7 @@ def main():
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
     strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
+    strict_false_posts_lane=os.environ.get('LANE')=='o26-strict-cut-false-posts'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
@@ -706,6 +710,14 @@ def main():
                           not wrapper_rebase['requested'] and
                           not input_relation['requested'] and
                           not rebase_profile['requested'])
+    strict_false_posts_requested=(cut['requested'] and strict_cut['requested'] and
+                                  false_posts['requested'] and
+                                  not owner['requested'] and not sort4['requested'] and
+                                  not a1['requested'] and not coordination['requested'] and
+                                  not nested_order['requested'] and not ast_probe['requested'] and
+                                  not wrapper_rebase['requested'] and
+                                  not input_relation['requested'] and
+                                  not rebase_profile['requested'])
     input_relation_requested=(input_relation['requested'] and
                               not cut['requested'] and not strict_cut['requested'] and
                               not false_posts['requested'] and
@@ -730,6 +742,7 @@ def main():
                          (not independent or independent_requested) and
                          (not recovery or recovery_requested) and
                          (not strict_cut_lane or strict_cut_requested) and
+                         (not strict_false_posts_lane or strict_false_posts_requested) and
                          (not input_relation_lane or input_relation_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
@@ -743,12 +756,14 @@ def main():
                          input_relation['requested'] or rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
-              not recovery and not strict_cut_lane and not input_relation_lane)
+              not recovery and not strict_cut_lane and
+              not strict_false_posts_lane and not input_relation_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
          'RECOVERY_TESTS_DIAGNOSTIC_COMPLETE' if recovery and diagnostic_complete else
          'STRICT_CUT_CONTROLS_DISCOVERY_COMPLETE' if strict_cut_lane and diagnostic_complete else
+         'STRICT_CUT_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_false_posts_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
@@ -771,6 +786,7 @@ def main():
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
       'strict_cut_controls_scope_complete':strict_cut_requested if strict_cut_lane else False,
+      'strict_cut_false_posts_scope_complete':strict_false_posts_requested if strict_false_posts_lane else False,
       'strict_cut_controls_diagnostic':strict_cut,
       'strict_cut_false_posts_diagnostic':false_posts,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
