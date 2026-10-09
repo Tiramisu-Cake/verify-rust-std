@@ -8,9 +8,9 @@ Candidate NOT_FOR_INTEGRATION: ordinary named lifecycle calls have an unresolved
 marker-origin gate; generic runtime byte extent bridge missing. Actual generic
 reproducer fails span69 before FBC; downstream copy/recovery/posts NOT_REACHED.
 Exactv2 proofinfra ca0dfad5; two terminal Builds,760/3600s,2840 unused CLOSED;
-ready withdrawn/no own reservation. Coordinatorv2/max2 unchanged. New internal
-review package publication receipt in cloud-build/incoming-span-lifetime follows;
-previous checkpoint29732807/package63b54dcd preserved. No receipt/integration/acceptance.
+ready withdrawn/no own reservation. Coordinatorv2/max2 unchanged. [New internal review package](https://github.com/Tiramisu-Cake/verify-rust-std/tree/c2c70aa4785e76f42a0c6efdc4022e531ed67533/research/verifast-review/a74d612731f41969e688326456b34b55a880c5a7) published on review/verifast;
+remote/API/95 file hashes verified. [Publication receipt](cloud-build/incoming-span-lifetime/PUBLICATION.json).
+Previous checkpoint29732807/package63b54dcd preserved. No receipt/integration/acceptance.
 Next: unforgeable internal MIR/AST lifecycle events and forgery/lifetime gates.
 
 # MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09 — CLOSED / NO-GO FOR INTEGRATION
