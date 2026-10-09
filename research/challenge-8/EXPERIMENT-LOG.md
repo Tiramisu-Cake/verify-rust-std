@@ -5845,3 +5845,12 @@ in impossible else. Equivalent proof restructure must preserve resources,
 assertion consequences and full domain/posts. Any synthetic-origin repair needs
 separate semantic card/soundness/exact MIR↔AST admission/real-dead refusal controls
 and combined profile gates before acceptance. No trusted rule changed yet.
+
+Fresh resource dispatch a3553e9e-c9f6-431d-9175-8969b3adf2c3 via common alternating lock:
+proof/infra777d5e9f1e6270f3aa4fc4027f605124bd0785de,config
+2fac29eb5d1c503de4dfe45a1d33daef94743043d6704529482ffcd942a7ed0c, token
+dispatch-4ae19e4bf1494be9b50dad23cf60bcc9. Seven previously documented resource
+groups: native4cases bothtools/currentowner3cases bothtools/fresh exact oldpair
+negative/hiddencleanup refusal/smoke. No Drop source included. Own3917charged,
+6883remaining,1800envelope reserved. Foreignb0382472 terminal observed read-only;
+nextpreparedownrequest afterthisBuild mustrespect foreign readyturn.
