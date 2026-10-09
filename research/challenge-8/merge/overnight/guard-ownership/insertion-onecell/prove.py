@@ -27,15 +27,16 @@ def load(name: str, path: Path):
 
 
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
+origin_controls = load("incoming_origin_controls", HERE.parents[3] / "cloud-build/incoming-origin/controls/run.py")
 span_controls = load("allocation_span_controls", HERE.parents[3] / "cloud-build/incoming-span-lifetime/controls/run.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v2"
+PROFILE = "experimental-merge-incoming-origin-onecell-v3"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
-CAMPAIGN = "allocation-span-positive-and-recovery-v1"
+CAMPAIGN = "incoming-origin-controls-only-v1"
 CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
 CAMPAIGN_BASELINE = {
     "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
@@ -43,7 +44,7 @@ CAMPAIGN_BASELINE = {
     "profile_sha256": "11ccd16ec9df56e7165cf75b1800d48b367c3b65f20c9ea8656fc2b7779bed90",
     "results_sha256": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2",
 }
-CAMPAIGN_RUN_CASES = CASES
+CAMPAIGN_RUN_CASES = ()  # Origin repair alone cannot resolve generic runtime extent.
 MD_CASES = (
     "positive_manually_drop_after_merge",
     "negative_missing_precreated_reference",
@@ -445,6 +446,7 @@ def main() -> int:
             profile_card.get("accepted") is not False:
         raise RuntimeError("tracked MD opt-in profile manifest differs")
     for key in ("patch_sha256", "translator_sha256", "emitter_sha256", "kernel_sha256",
+                "ast_sha256", "sexpression_sha256", "verify_expr_sha256",
                 "parser_sha256", "prelude_sha256", "stdlib_sha256",
                 "exporter_sha256", "refiner_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
@@ -463,6 +465,9 @@ def main() -> int:
         "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "translator_sha256",
         "src/frontend/ocaml_expr_of_ast.ml": "emitter_sha256",
         "src/verifast.ml": "kernel_sha256",
+        "src/frontend/ast.ml": "ast_sha256",
+        "src/SExpressionEmitter.ml": "sexpression_sha256",
+        "src/verify_expr.ml": "verify_expr_sha256",
         "src/rust_frontend/vf_mir_translator/rust_parser.ml": "parser_sha256",
         "bin/rust/prelude_core.rsspec": "prelude_sha256",
         "bin/rust/std/lib.rsspec": "stdlib_sha256",
@@ -507,6 +512,7 @@ def main() -> int:
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
     # Execute isolated address-span controls before any actual one-cell cases.
     mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)
+    origin_summary = origin_controls.run(args.evidence, args, env, execute_case)
     results = {}
     md_pass = False
     if campaign_mode:
@@ -535,7 +541,7 @@ def main() -> int:
                                                  execute_case(case, args, env))
             else:
                 before = base.hashes(case)
-                reason = ("incoming mechanism controls did not pass" if name in CAMPAIGN_RUN_CASES else "outside registered incoming span campaign")
+                reason = ("incoming mechanism controls did not pass" if name in CAMPAIGN_RUN_CASES else "runtime extent bridge absent; origin-only change cannot cure separation")
                 for stage in ("exporter", "decode", "verifast", "refinement"):
                     base.not_run(case, stage, reason)
                 results[name] = {"case": name, "classification": "NOT_RUN", "accepted": False,
@@ -582,6 +588,7 @@ def main() -> int:
                  "fragment_pass": fragment_pass,
                  "actual_drop_glue": "OPEN",
                  "allocation_span_controls": json.loads((args.evidence / "span-results.json").read_text()),
+                 "origin_controls": origin_summary,
                  "cases": {
                      name: row["classification"] for name, row in results.items()}}
     (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2) + "\n")

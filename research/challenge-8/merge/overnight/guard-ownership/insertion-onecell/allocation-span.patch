@@ -1,25 +1,107 @@
+diff --git a/src/SExpressionEmitter.ml b/src/SExpressionEmitter.ml
+index d7eaf9b6..5613e637 100644
+--- a/src/SExpressionEmitter.ml
++++ b/src/SExpressionEmitter.ml
+@@ -844,6 +844,10 @@ let rec sexpr_of_stmt (stmt : stmt) : sexpression =
+     | ExprStmt expr ->
+       List [ Symbol "stmt-expression"
+            ; sexpr_of_expr expr ]
++    | RustStorageLiveStmt (_, _, mir_local_id, local) ->
++      List [ Symbol "stmt-rust-storage-live"; Symbol mir_local_id; Symbol local ]
++    | RustStorageDeadStmt (_, _, mir_local_id, local) ->
++      List [ Symbol "stmt-rust-storage-dead"; Symbol mir_local_id; Symbol local ]
+     | WhileStmt (loc, cond, invariant, expr, body, final_ss) ->
+       build_list [ Symbol "stmt-while" ]
+                  [ "condition", sexpr_of_expr cond
+diff --git a/src/frontend/ast.ml b/src/frontend/ast.ml
+index e55645cc..b6f712ea 100644
+--- a/src/frontend/ast.ml
++++ b/src/frontend/ast.ml
+@@ -765,6 +765,9 @@ and
+       loc *
+       (loc * type_expr option * string * expr option * (bool ref (* indicates whether address is taken *) * (string * bool (*is_const_var*)) list ref option ref (* pointer to enclosing block's list of variables whose address is taken *))) list
+   | ExprStmt of expr
++  (* Internal MIR storage events; source calls cannot construct these. *)
++  | RustStorageLiveStmt of loc * loc (* original MIR span *) * string (* MIR local id *) * string (* translated local *)
++  | RustStorageDeadStmt of loc * loc (* original MIR span *) * string (* MIR local id *) * string (* translated local *)
+   | IfStmt of (* if  regel-conditie-branch1-branch2  *)
+       loc *
+       expr *
+@@ -1269,6 +1272,7 @@ let stmt_loc s =
+     PureStmt (l, _) -> l
+   | NonpureStmt (l, _, _) -> l
+   | ExprStmt e -> expr_loc e
++  | RustStorageLiveStmt (l, _, _, _) | RustStorageDeadStmt (l, _, _, _) -> l
+   | DeclStmt (l, _) -> l
+   | IfStmt (l, _, _, _) -> l
+   | SwitchStmt (l, _, _) -> l
+diff --git a/src/frontend/ocaml_expr_of_ast.ml b/src/frontend/ocaml_expr_of_ast.ml
+index 959ce64b..884128c6 100644
+--- a/src/frontend/ocaml_expr_of_ast.ml
++++ b/src/frontend/ocaml_expr_of_ast.ml
+@@ -786,6 +786,8 @@ and of_stmt = function
+     end ds
+   ])
+ | ExprStmt e -> C ("ExprStmt", [of_expr e])
++| RustStorageLiveStmt (l, mir_l, id, x) -> C ("RustStorageLiveStmt", [of_loc l; of_loc mir_l; S id; S x])
++| RustStorageDeadStmt (l, mir_l, id, x) -> C ("RustStorageDeadStmt", [of_loc l; of_loc mir_l; S id; S x])
+ | IfStmt (l, e, sst, ssf) ->
+   C ("IfStmt", [
+     of_loc l;
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index 4e237a61..ed72a777 100644
+index 4e237a61..e19b25bc 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -3602,13 +3602,13 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+@@ -3445,7 +3445,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       | Undefined _ -> Error (`TrRvalue "Unknown Rvalue kind")
+ 
+     let translate_statement_kind (statement_kind_cpn : StatementKindRd.t)
+-        (loc : Ast.loc) =
++        (loc : Ast.loc) (mir_loc : Ast.loc) =
+       let open StatementKindRd in
+       match get statement_kind_cpn with
+       | Assign assign_data_cpn -> (
+@@ -3598,17 +3598,19 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+               Ok (init_stmts_builder (lhs_place, lhs_place_is_mutable)))
+       | SetDiscriminant -> failwith "TODO: StatementKind::SetDiscriminant"
+       | StorageLive local ->
++          let mir_local_id = LocalDeclIdRd.name_get local in
+           let local = translate_local_decl_id local in
            Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "StorageLive" @@ fun () ->
            Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
            Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer local;
 -          Ok [] (* FIXME https://github.com/verifast/verifast/issues/947 *)
-+          Ok [Ast.ExprStmt (Ast.CallExpr (loc, "vf__rust_storage_live", [], [], [Ast.LitPat (Ast.Var (loc, local))], Ast.Static))]
++          Ok [Ast.RustStorageLiveStmt (loc, mir_loc, mir_local_id, local)]
        | StorageDead local ->
++          let mir_local_id = LocalDeclIdRd.name_get local in
            let local = translate_local_decl_id local in
            Rocq_writer.rocq_print_application TranslatorArgs.rocq_writer "StorageDead" @@ fun () ->
            Rocq_writer.rocq_print_argument TranslatorArgs.rocq_writer @@ fun () ->
            Rocq_writer.rocq_print_string_literal TranslatorArgs.rocq_writer local;
 -          Ok [] (* FIXME https://github.com/verifast/verifast/issues/947 *)
-+          Ok [Ast.ExprStmt (Ast.CallExpr (loc, "vf__rust_storage_dead", [], [], [Ast.LitPat (Ast.Var (loc, local))], Ast.Static))]
++          Ok [Ast.RustStorageDeadStmt (loc, mir_loc, mir_local_id, local)]
        | PlaceMention _ -> failwith "TODO: StatementKind::PlaceMention"
        | Assume operand_cpn ->
            let* operand = translate_operand operand_cpn loc in
+@@ -3639,6 +3641,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+       let open StatementRd in
+       let src_info_cpn = source_info_get statement_cpn in
+       let* { Mir.span = loc; Mir.scope } = translate_source_info src_info_cpn in
++      let mir_loc = loc in
+       (* Todo @Nima: The following `loc` substitution is due to deal with statements with their location equal to the whole body of the function.
+          They prevent us from embedding ghost statements into the MIR statements. The ghost embedding approach should be changed.
+          After that this `loc` changing and the `body_imp_loc` in the State are not necessary anymore. *)
+@@ -3649,7 +3652,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+         else loc
+       in
+       let kind_cpn = kind_get statement_cpn in
+-      translate_statement_kind kind_cpn loc
++      translate_statement_kind kind_cpn loc mir_loc
+ 
+     let translate_basic_block (ret_place_id : string)
+         (bblock_cpn : BasicBlockRd.t) =
 diff --git a/src/verifast.ml b/src/verifast.ml
-index 2b64679e..c578980c 100644
+index 2b64679e..03fe22f2 100644
 --- a/src/verifast.ml
 +++ b/src/verifast.ml
 @@ -71,6 +71,11 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
@@ -34,11 +116,12 @@ index 2b64679e..c578980c 100644
    (* Region: verification of statements *)
    
    let verify_expr readonly (pn,ilist) tparams pure leminfo funcmap sizemap tenv ghostenv h env xo e cont econt =
-@@ -985,6 +990,53 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -985,6 +990,54 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
            cont h
        end $. fun h ->
        cont (Chunk ((module_symb, true), [], real_unit, [current_module_term; ctxt#mk_false], None)::h) env
-+    | ExprStmt (CallExpr (l, ("vf__rust_storage_live" | "vf__rust_storage_dead" as marker), [], [], [LitPat (Var (_, x))], Static)) ->
++    | (RustStorageLiveStmt (l, _, _, x) | RustStorageDeadStmt (l, _, _, x)) as storage_stmt ->
++      let is_dead = match storage_stmt with RustStorageDeadStmt _ -> true | _ -> false in
 +      if dialect <> Some Rust || pure then
 +        static_error l "MIR storage markers require a real Rust execution context." None;
 +      let incoming, deferred, consts = !rust_storage_context in
@@ -46,7 +129,7 @@ index 2b64679e..c578980c 100644
 +        Some (RefType t) | Some (StaticArrayType _ as t) ->
 +        let is_const = match try_assoc x consts with Some b -> b | None ->
 +          static_error l "MIR storage marker has no local declaration." None in
-+        if marker = "vf__rust_storage_dead" then begin
++        if is_dead then begin
 +          if not (List.mem_assoc x env) then
 +            static_error l "StorageDead requires a currently live local." None;
 +          free_locals l h tenv env [x, is_const] $. fun h env ->
@@ -82,13 +165,13 @@ index 2b64679e..c578980c 100644
 +          produce_cxx_object l (if is_const then real_half else real_unit) addr t eval_h verify_ctor_call Uninitialized true true h env $. fun h env ->
 +          cont h ((x, addr) :: env)
 +        end
-+      | Some _ -> cont h (if marker = "vf__rust_storage_dead" then List.remove_assoc x env else env)
++      | Some _ -> cont h (if is_dead then List.remove_assoc x env else env)
 +      | None -> static_error l "MIR storage marker names an unknown local." None
 +      end
      | DeclStmt (ld, xs) ->
        let rec iter h tenv ghostenv env xs =
          match xs with
-@@ -1057,7 +1109,15 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -1057,7 +1110,15 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
              | _ -> true
            in
            match t with
@@ -105,13 +188,13 @@ index 2b64679e..c578980c 100644
              produce_object t
            | StructType (sn, targs) when
                !address_taken ||
-@@ -3270,6 +3330,16 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -3270,6 +3331,16 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
        iter [] ss
  
    and verify_c_func_body loc (pn, ilist) tparams boxes in_pure_context leminfo funcmap predinstmap sizemap heapy_ps varargsLastParam h tenv env ghostenv post ss close_brace_loc return_cont =
 +    let previous_context = !rust_storage_context in
 +    let collect (lives, consts) = function
-+      ExprStmt (CallExpr (_, "vf__rust_storage_live", [], [], [LitPat (Var (_, x))], Static)) -> (x :: lives, consts)
++      RustStorageLiveStmt (_, _, _, x) -> (x :: lives, consts)
 +    | DeclStmt (_, ds) ->
 +      (lives, List.fold_left (fun cs (_, te, x, _, _) ->
 +        (x, match te with Some (ConstTypeExpr _) -> true | _ -> false) :: cs) consts ds)
@@ -122,7 +205,7 @@ index 2b64679e..c578980c 100644
      begin fun tcont ->
        heapify_params h tenv env heapy_ps $. fun h tenv env ->
        let h =
-@@ -3285,6 +3355,8 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+@@ -3285,6 +3356,8 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
      end @@ fun sizemap tenv ghostenv h env ->
      verify_return_stmt (pn, ilist) [] [] tparams boxes in_pure_context leminfo funcmap predinstmap sizemap tenv ghostenv h env false close_brace_loc None [] return_cont (fun _ _ _ -> assert false)
  
@@ -131,3 +214,49 @@ index 2b64679e..c578980c 100644
    and verify_func pn ilist gs lems boxes predinstmap funcmap tparams env l k tparams'_with_bounds rt g ps const_params nonghost_callers_only pre pre_tenv post terminates ss closeBraceLoc =
      if startswith g "vf__" then static_error l "The name of a user-defined function must not start with 'vf__'." None;
      Rocq_writer.rocq_print_big_list_element rocq_writer @@ fun () ->
+diff --git a/src/verify_expr.ml b/src/verify_expr.ml
+index b26182a0..79f5cfed 100644
+--- a/src/verify_expr.ml
++++ b/src/verify_expr.ml
+@@ -66,6 +66,7 @@ module VerifyExpr(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+       PureStmt (l, s) -> assigned_variables s
+     | NonpureStmt (l, _, s) -> assigned_variables s
+     | ExprStmt e -> expr_assigned_variables e
++    | RustStorageLiveStmt _ | RustStorageDeadStmt _ -> []
+     | DeclStmt (l, xs) -> flatmap (fun (_, _, x, e, _) -> (match e with None -> [] | Some e -> expr_assigned_variables e)) xs
+     | IfStmt (l, e, ss1, ss2) -> expr_assigned_variables e @ block_assigned_variables ss1 @ block_assigned_variables ss2
+     | ProduceLemmaFunctionPointerChunkStmt (l, e, ftclause, body) ->
+diff --git a/tests/rust_storage_marker_name_calls.c b/tests/rust_storage_marker_name_calls.c
+new file mode 100644
+index 00000000..df443dfb
+--- /dev/null
++++ b/tests/rust_storage_marker_name_calls.c
+@@ -0,0 +1,16 @@
++void vf__rust_storage_dead(int x);
++    //@ requires true;
++    //@ ensures true;
++
++void vf__rust_storage_live(int x);
++    //@ requires true;
++    //@ ensures false;
++
++void test_storage_names(int x)
++    //@ requires true;
++    //@ ensures true;
++{
++    vf__rust_storage_dead(x);
++    vf__rust_storage_live(x);
++    //@ assert false; // The preceding ordinary call has no continuation.
++}
+diff --git a/testsuite.mysh b/testsuite.mysh
+index da04825c..96dfedd0 100644
+--- a/testsuite.mysh
++++ b/testsuite.mysh
+@@ -478,6 +478,7 @@ cd tutorial_solutions
+   verifast_both -target 32bit students.c
+ cd ..
+ cd tests
++  verifast -c rust_storage_marker_name_calls.c
+   verifast -c issue974.c
+   verifast -c issue766.c
+   [ "$(verifast issue739.c)" = $'issue739.c(1,11-13): error: Parse error: Bad fraction literal\n1 | float i = 0e;\n  |           ^^' ]

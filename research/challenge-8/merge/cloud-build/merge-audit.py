@@ -136,12 +136,12 @@ GUARD_GEOMETRY_GROUPS = {
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
 ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
-ONECELL_PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v2"
+ONECELL_PROFILE = "experimental-merge-incoming-origin-onecell-v3"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
-ONECELL_CAMPAIGN = "allocation-span-positive-and-recovery-v1"
-ONECELL_CAMPAIGN_CASES = set(ONECELL_CASES)
+ONECELL_CAMPAIGN = "incoming-origin-controls-only-v1"
+ONECELL_CAMPAIGN_CASES = set()
 ONECELL_CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
 ONECELL_CAMPAIGN_BASELINE = {
     "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
@@ -259,6 +259,41 @@ def onecell_negative_site_matches(name: str, source: str, error: str,
             if line == start + offset:
                 return f"No matching heap chunks: CopyOnDrop_{field}<T>(" in error
     return False
+
+
+def audit_origin_controls(base: Path, aggregate: dict, profile: str) -> tuple[bool, dict]:
+    controls_dir = Path(__file__).resolve().parents[2] / "cloud-build/incoming-origin/controls"
+    summary = json.loads((base / "origin-results.json").read_text())
+    runner_spec = importlib.util.spec_from_file_location("origin_audit_classifier", controls_dir / "run.py")
+    runner = importlib.util.module_from_spec(runner_spec)
+    runner_spec.loader.exec_module(runner)
+    valid = (summary == aggregate.get("origin_controls") and summary.get("profile") == profile and
+             summary.get("accepted") is False and
+             summary.get("manifest_sha256") == sha256_file(controls_dir / "MANIFEST.json") and
+             summary.get("source_file_sha256") == sha256_file(controls_dir / "origin-controls.rs"))
+    with tempfile.TemporaryDirectory(prefix="merge-origin-audit-") as temporary:
+        _, metadata = runner.prepare(Path(temporary) / "controls")
+        valid = valid and set(summary.get("controls", {})) == set(metadata) == set(summary.get("case_details", {}))
+        for name, meta in metadata.items():
+            case = base / "controls" / name
+            row = json.loads((case / "classification.json").read_text())
+            valid = (valid and row == summary["case_details"][name] and
+                     row.get("source_sha256") == meta["source_sha256"] == sha256_file(case / "verified/lib.rs") ==
+                     sha256_file(case / "original/lib.rs") and row.get("source_unchanged_at_every_stage") is True and
+                     row.get("source_before") == row.get("source_after") and
+                     row["source_before"].get("verified/lib.rs") == meta["source_sha256"] and
+                     row["source_before"].get("original/lib.rs") == meta["source_sha256"])
+            for stage, code in row.get("stages", {}).items():
+                stage_data = json.loads((case / (stage + "-stage.json")).read_text())
+                valid = valid and stage_data.get("exit_code") == code == int((case / (stage + "-exit-code.txt")).read_text())
+            replay = Path(temporary) / "controls" / name
+            for filename in ("verifast.log", "decode.out", "proof-ast.ml"):
+                source = case / filename
+                if source.is_file():
+                    (replay / filename).write_bytes(source.read_bytes())
+            classified = runner.classify(name, replay, meta, row)
+            valid = valid and classified == row and summary["controls"][name] == row.get("classification")
+    return bool(valid), summary
 
 
 def audit_span_controls(base: Path, aggregate: dict, profile: str) -> tuple[bool, bool]:
@@ -1545,8 +1580,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     if row.get("classification") == "NOT_RUN":
                         expected_not_run = (
                             campaign_mode and
-                            ((name in ONECELL_CASES and name not in ONECELL_CAMPAIGN_CASES and
-                              row.get("reason") == "outside registered allocation-span campaign") or
+                            ((name in ONECELL_CASES and
+                              row.get("reason") == "runtime extent bridge absent; origin-only change cannot cure separation") or
                              (name in ONECELL_MD_CASES and
                               row.get("reason") == "allocation-span campaign; MD controls NOT_RUN on new profile"))
                         ) or (not campaign_mode and name in ONECELL_CASES and
@@ -1588,7 +1623,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     if not rows_valid:
                         break
             spans_valid, spans_matched = audit_span_controls(base, aggregate, ONECELL_PROFILE)
-            rows_valid = rows_valid and spans_valid
+            origin_valid, origin_summary = audit_origin_controls(base, aggregate, ONECELL_PROFILE)
+            rows_valid = rows_valid and spans_valid and origin_valid
             expected_md = (False if campaign_mode else
                 all(results[name].get("classification") == "REGRESSION_MATCHED"
                     for name in ONECELL_MD_CASES)) if rows_valid else False
@@ -1611,6 +1647,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                               "md_dependency_basis": dependency if valid else None,
                               "raw_case_classifications": case_classes,
                               "allocation_span_controls": aggregate.get("allocation_span_controls"),
+                              "origin_controls": origin_summary,
+                              "native_origin_exit": int((evidence / "tracked-md-build/native-origin-exit-code.txt").read_text()),
                               "actual_drop_glue": "OPEN"}
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
             artifact_status[ONECELL_GROUP] = False

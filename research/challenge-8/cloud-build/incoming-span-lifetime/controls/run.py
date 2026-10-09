@@ -31,7 +31,7 @@ def _helpers():
 
 
 def retired_mir_ast_gate(case: Path, function: str = "span_retired_local_reuse") -> dict:
-    """Bind retirement rejection to decoded MIR events and translated vf__ calls."""
+    """Bind retirement rejection to decoded MIR events and internal MIR-origin statements."""
     decoded = case / "decode.out"
     translated = case / "proof-ast.ml"
     if not decoded.is_file() or not translated.is_file():
@@ -88,42 +88,43 @@ def retired_mir_ast_gate(case: Path, function: str = "span_retired_local_reuse")
             raise ValueError("MIR does not order tmp0 StorageDead before tmp1 StorageLive in one block")
 
         ast_tree = ast.OcamlAstText(ast_bytes.decode("utf-8")).parse()
-        calls = ast.nodes(ast_tree, "CallExpr")
+        markers = [node for node in ast.nodes(ast_tree, "RustStorageDeadStmt") +
+                   ast.nodes(ast_tree, "RustStorageLiveStmt")]
+        # Preserve the AST traversal order across both event constructors.
+        all_nodes = []
+        def walk(value):
+            if isinstance(value, ast.Node):
+                all_nodes.append(value)
+                for arg in value.args: walk(arg)
+            elif isinstance(value, (list, tuple)):
+                for arg in value: walk(arg)
+        walk(ast_tree)
+        markers = [node for node in all_nodes if node.name in
+                   {"RustStorageDeadStmt", "RustStorageLiveStmt"}]
 
-        def translated_marker(callee: str, source_name: str, source_line: int) -> tuple[dict, int]:
-            matches = []
-            for index, call in enumerate(calls):
-                if len(call.args) != 6 or call.args[1] != callee:
-                    continue
-                args = call.args[4]
-                if not isinstance(args, list) or len(args) != 1:
-                    continue
-                try:
-                    var = ast.narg(args[0], "LitPat", 1)[0]
-                    translated_name = ast.var(var)
-                except Exception:
-                    continue
-                if translated_name == source_name:
-                    matches.append((index, call, translated_name))
+        def translated_marker(constructor, source_name, mir_local_id, source_line):
+            matches = [(index, node) for index, node in enumerate(markers)
+                       if node.name == constructor and len(node.args) == 4 and
+                       node.args[2] == mir_local_id and node.args[3] == source_name]
             if len(matches) != 1:
-                raise ValueError(f"expected exactly one translated {callee} marker")
-            index, call, translated_name = matches[0]
-            line = ast.location_line(call.args[0])
+                raise ValueError(f"expected exactly one translated {constructor} event")
+            index, node = matches[0]
+            line = ast.location_line(node.args[1])
             if line != source_line:
-                raise ValueError(f"translated {callee} source line differs from decoded MIR")
-            return {"callee": callee, "argument": translated_name,
-                    "source_line": line}, index
+                raise ValueError(f"translated {constructor} original MIR span differs")
+            return {"constructor": constructor, "mir_local": mir_local_id,
+                    "argument": source_name, "source_line": line}, index
 
         dead_marker, dead_index = translated_marker(
-            "vf__rust_storage_dead", "tmp0", dead["source_line"])
+            "RustStorageDeadStmt", "tmp0", tmp0, dead["source_line"])
         live_marker, live_index = translated_marker(
-            "vf__rust_storage_live", "tmp1", live["source_line"])
+            "RustStorageLiveStmt", "tmp1", tmp1, live["source_line"])
         ast_order = dead_index < live_index
         if not ast_order:
             raise ValueError("translated AST reverses StorageDead/StorageLive markers")
         return {
             "admitted": True,
-            "reason": "decoded MIR and translated vf__ markers agree on retirement order",
+            "reason": "decoded MIR and internal events agree on retirement order",
             "decode_sha256": hashlib.sha256(decode_bytes).hexdigest(),
             "proof_ast_sha256": hashlib.sha256(ast_bytes).hexdigest(),
             "mir_body": function,

@@ -1,0 +1,11 @@
+# MIR lifetime origin repair phase
+
+Start20:16:40UTC, main cutoff21:16:40UTC, finishing cutoff21:46:40UTC.
+Exact starting checkpoint a74d612731f41969e688326456b34b55a880c5a7; publication fbc063ce609cc549358e3bbc0f8b3a12b75b3945. Policy1fcd91eff1507fe0bd0620a23b578edb454f1c3e read from checkpoint.
+Project worktree /root/verify-rust-std-merge-origin, branch merge/incoming-origin-20261009, starting HEADfbc063ce, git-dir /root/verify-rust-std/.git/worktrees/verify-rust-std-merge-origin. Tool worktree /root/verifast-merge-incoming-span, branch merge/incoming-span-lifetime-20261009, starting HEAD75099c958eb6a6d46016babf0a845a624f77d9ab; clean status confirmed by code owner.
+
+Design: replace ordinary CallExpr lifecycle interception with internal AST storage statements emitted exclusively by trusted MIR StorageLive/StorageDead lowering. Store source location, original MIR local identity and translated local name; kernel resolves against translated declaration context. No source/ghost parser syntax constructs these nodes. Ordinary source calls use normal function resolution and diverging contract/terminator processing. Renaming markers is insufficient. Preserve path-local address epochs, resource cleanup and same-entry-Chunk authority; generic geometry remains disabled.
+
+Actual obligation: unchanged generic CopyOnDrop tmp->tail span at diagnostic line69, caller insert_tail in actual SmallSort. Origin repair alone cannot remove the size/domain separation refusal, so do not rerun actual with only this repair. After origin, investigate exact runtime layout and concrete unit; prepare missing-rule/minimal reproducer if no sound patch is available. No supplied separation premise.
+
+Validation: fresh Cloud source build, prior six controls with MIR/AST binding adapted to internal event shape; extern prototype/diverging route recorded separately as frontend rejection or verified ordinary-call semantic behavior; ghost/source forgery and targeted cleanup/normal/unwind cases. Frontend/setup failures earn no semantic negative credit. Existing proof outcomes are historical; replay creates no new proof. Independent implementation review remains necessary before integration. Own3600-second Cloud ledger; v2 coordinator/max2 unchanged, owner merge.
