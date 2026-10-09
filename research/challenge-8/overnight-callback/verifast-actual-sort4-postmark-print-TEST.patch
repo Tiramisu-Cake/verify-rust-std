@@ -1,0 +1,140 @@
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -3280,6 +3280,137 @@
+       in
+       let outer_locals = ref [] in 
+       stmts_mark_addr_taken ss [(outer_locals, [])] in_pure_context (fun _ -> ());
++      if Sys.getenv_opt "SORT4_POSTMARK_TEST" = Some "1" then begin
++        let marker = "__vf_sort4_first_unwind" in
++        let body_bytes = Marshal.to_string ss [Marshal.No_sharing] in
++        let rec count_marker at count =
++          if at + String.length marker > String.length body_bytes then count
++          else if String.sub body_bytes at (String.length marker) = marker then
++            count_marker (at + String.length marker) (count + 1)
++          else count_marker (at + 1) count in
++        let marker_count = count_marker 0 0 in
++        if marker_count > 1 then failwith "SORT4-POSTMARK-TEST: duplicate marker";
++        if marker_count = 1 then begin
++          let reject why = failwith ("SORT4-POSTMARK-TEST: " ^ why) in
++          let source_path = match loc with
++            | Lexed (((path, _, _), (last_path, _, _)))
++                when path = last_path && Filename.check_suffix path "verified/lib.rs" -> path
++            | _ -> reject "exact verified source location" in
++          let temp = Filename.temp_file "sort4-postmark-sha-" ".txt" in
++          let source_sha = Fun.protect
++            ~finally:(fun () -> try Sys.remove temp with Sys_error _ -> ())
++            (fun () ->
++              let command = "/usr/bin/sha256sum -- " ^ Filename.quote source_path ^
++                " > " ^ Filename.quote temp in
++              if Sys.command command <> 0 then reject "source sha256sum";
++              let channel = open_in temp in
++              Fun.protect ~finally:(fun () -> close_in channel)
++                (fun () -> let line = input_line channel in
++                   if String.length line < 64 then reject "source SHA length";
++                   String.sub line 0 64)) in
++          if source_sha <>
++            "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
++          then reject "exact O24 verified source SHA256";
++          let dir = match Sys.getenv_opt "SORT4_POSTMARK_TEST_DIR" with
++            | Some value when not (Filename.is_relative value) -> value
++            | _ -> reject "absolute output directory required" in
++          let before_path = Filename.concat dir "postmark-before.marshal" in
++          let after_path = Filename.concat dir "postmark-after.marshal" in
++          let trace_path = Filename.concat dir "postmark-local-trace.txt" in
++          if List.exists Sys.file_exists [before_path; after_path; trace_path] then
++            reject "existing output";
++          let owners = ref [("outer", outer_locals)] in
++          let rec walk path stmt =
++            match stmt with
++            | BlockStmt (_, _, body, _, locals_to_free) ->
++                owners := (path, locals_to_free) :: !owners;
++                List.iteri (fun i child ->
++                  walk (Printf.sprintf "%s/block[%d]" path i) child) body
++            | SwitchStmt (_, _, clauses) ->
++                List.iteri (fun i clause ->
++                  let body = match clause with
++                    | SwitchStmtClause (_, _, body) | SwitchStmtDefaultClause (_, body) -> body in
++                  List.iteri (fun j child ->
++                    walk (Printf.sprintf "%s/arm[%d]/stmt[%d]" path i j) child)
++                    body) clauses
++            | IfStmt (_, _, yes, no) ->
++                List.iteri (fun i child -> walk (Printf.sprintf "%s/then[%d]" path i) child) yes;
++                List.iteri (fun i child -> walk (Printf.sprintf "%s/else[%d]" path i) child) no
++            | WhileStmt (_, _, _, _, body, final) ->
++                List.iteri (fun i child -> walk (Printf.sprintf "%s/while[%d]" path i) child) body;
++                List.iteri (fun i child -> walk (Printf.sprintf "%s/final[%d]" path i) child) final
++            | PureStmt (_, inner) -> walk (path ^ "/pure") inner
++            | NonpureStmt (_, _, inner) -> walk (path ^ "/nonpure") inner
++            | _ -> () in
++          List.iteri (fun i stmt -> walk (Printf.sprintf "root[%d]" i) stmt) ss;
++          let owner_path block_ptr = match !block_ptr with
++            | None -> "UNOBSERVED(no-owner)"
++            | Some block ->
++                let hits = List.filter (fun (_, candidate) -> candidate == block) !owners in
++                (match hits with
++                 | [(path, _)] -> path
++                 | [] -> "UNOBSERVED(unmapped-owner)"
++                 | _ -> "UNOBSERVED(ambiguous-owner)") in
++          let hex_marshaled value =
++            let bytes = Marshal.to_string value [Marshal.No_sharing] in
++            let result = Buffer.create (String.length bytes * 2) in
++            String.iter (fun char -> Buffer.add_string result
++              (Printf.sprintf "%02x" (Char.code char))) bytes;
++            Buffer.contents result in
++          let rendered = Buffer.create 65536 in
++          Buffer.add_string rendered
++            "classification=PRINT_ONLY_POSTMARK_TEST locals_to_free=LAZY_OR_UNOBSERVED\n";
++          List.iter (fun (path, locals_to_free) ->
++            let names = String.concat ";" (List.map (fun (name, is_const) ->
++              String.escaped name ^ ":const=" ^ string_of_bool is_const) !locals_to_free) in
++            Buffer.add_string rendered
++              (Printf.sprintf "block path=%s locals_to_free=[%s]\n" path names))
++            (List.rev !owners);
++          let rec print_decls path stmt = match stmt with
++            | DeclStmt (_, decls) ->
++                List.iteri (fun i (dloc, ty, name, init, (taken, block_ptr)) ->
++                  let location = match dloc with
++                    | Lexed (((file, line, col), (_, end_line, end_col))) ->
++                        Printf.sprintf "%s:%d:%d-%d:%d" file line col end_line end_col
++                    | _ -> "UNOBSERVED(non-lexed)" in
++                  Buffer.add_string rendered
++                    (Printf.sprintf
++                      "local path=%s/local[%d] name=%s loc=%s address_taken=%b owner=%s type_marshal_hex=%s init_marshal_hex=%s\n"
++                      path i (String.escaped name) location !taken (owner_path block_ptr)
++                      (hex_marshaled ty) (hex_marshaled init))) decls
++            | BlockStmt (_, _, body, _, _) ->
++                List.iteri (fun i child ->
++                  print_decls (Printf.sprintf "%s/block[%d]" path i) child) body
++            | SwitchStmt (_, _, clauses) ->
++                List.iteri (fun i clause ->
++                  let body = match clause with
++                    | SwitchStmtClause (_, _, body) | SwitchStmtDefaultClause (_, body) -> body in
++                  List.iteri (fun j child ->
++                    print_decls (Printf.sprintf "%s/arm[%d]/stmt[%d]" path i j) child)
++                    body) clauses
++            | IfStmt (_, _, yes, no) ->
++                List.iteri (fun i child -> print_decls (Printf.sprintf "%s/then[%d]" path i) child) yes;
++                List.iteri (fun i child -> print_decls (Printf.sprintf "%s/else[%d]" path i) child) no
++            | WhileStmt (_, _, _, _, body, final) ->
++                List.iteri (fun i child -> print_decls (Printf.sprintf "%s/while[%d]" path i) child) body;
++                List.iteri (fun i child -> print_decls (Printf.sprintf "%s/final[%d]" path i) child) final
++            | PureStmt (_, inner) -> print_decls (path ^ "/pure") inner
++            | NonpureStmt (_, _, inner) -> print_decls (path ^ "/nonpure") inner
++            | _ -> () in
++          List.iteri (fun i stmt -> print_decls (Printf.sprintf "root[%d]" i) stmt) ss;
++          let after_bytes = Marshal.to_string ss [Marshal.No_sharing] in
++          if body_bytes <> after_bytes then reject "AST changed during print";
++          let save path bytes =
++            let channel = open_out_bin path in
++            Fun.protect ~finally:(fun () -> close_out channel)
++              (fun () -> output_string channel bytes) in
++          save before_path body_bytes;
++          save after_path after_bytes;
++          save trace_path (Buffer.contents rendered);
++          Printf.printf "SORT4-POSTMARK-TEST: snapshot=%s trace=%s\n%!"
++            after_path trace_path
++        end
++      end;
+       let body = [BlockStmt(loc, [], ss, close_brace_loc, outer_locals)] in
+       verify_block (pn, ilist) [] [] tparams boxes in_pure_context leminfo funcmap predinstmap sizemap tenv ghostenv h env body tcont return_cont (fun _ _ _ -> assert false)
+     end @@ fun sizemap tenv ghostenv h env ->
