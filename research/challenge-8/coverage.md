@@ -688,3 +688,14 @@ outer/nested ghostscope refusal BEFOREproofheaders. All6componentcertificate
 negatives hit intended first predicates, not safety proof negatives. No outer,
 nestedDrop or generic/sort4 closure. Separate R3scopeTEST prepared/NOT_RUN;
 source-shadow revision BLOCKED because late-binding failure is not observed.
+
+## Day select/sort4 phase — 2026-10-09
+
+Build9bdd5622-7000-483f-8e83-e9847412ddba closes the prepared R3 let2/open2
+routing diagnostic with off/partial/on and unchanged source/MIR/identity checks;
+component=DIAGNOSTIC_COMPLETE, profile=NOT_ACCEPTED, admission=R3 exact input plus
+scope gate observed, whole-function=NOT_PROVED. First remaining gate is actual
+as_mut_ptr receiver operand/binding before all proof headers. No current R3 nested
+Drop or outer theorem; R2 seven-prefix/result-identity boundary remains historical.
+GenericT/ZST/fullsort4/unwind recovery/functional composition remain OPEN. See
+[day phase](cloud-build/day-select-sort4/PHASE.md) and current STATUS/evidence log.

@@ -6122,3 +6122,42 @@ files and verifier/proof/profile semantics. No preflight guard disabled; recipe
 bytes/infra SHA/payload change; same proof7b68fc9b. Before next submission review
 entire REQUIRED, schema/entrypoint/path lists and unchanged dynamic runner chain.
 The first setup failure is not a negative and reached no verifier header.
+
+Setup Build5c8cd72b terminalFAILURE finish08:54:26.310751UTC; conservative87s,
+newaccount87/3600,3513remaining. Archive79022eeef76db914c4c2463f2e011970813acd64ad1fa9df11c2a3442d6ceabf,
+textindexbab4a642ef32a2329f193eae1d2c63d958fc7ab3777e8fc585eac5dc46b6489a
+verified (full archive and index; no independent text chunk download). Archive
+captures full setup failure; proof evidence_complete=false and no proof credit.
+Recipe fix published infra574484e7cff6c53a15ff7e76b3aec133f6c87ef2,
+payload554599B/186parts SHA657f087857cc328bcdddbe79cbb4c29b544ada364c528b0aced06c852cc039f3.
+Static42Python/7JSON/5shell syntax and every reviewed dependency/path gate pass.
+Next submit refused before reservation because ownermerge Build3c26cfa6-5263-4287-9f1c-fe1a13068ef2
+is WORKING. Own ready request remains registered; no new own Build,0extracharge,
+foreign account/worktree unchanged. Continue through existing atomic client after
+that run reaches terminal state. No shadow source experiment authorized by setup failure.
+
+## Day R3 ghost-scope TEST observed — Build9bdd5622
+
+Build9bdd5622-7000-483f-8e83-e9847412ddba SUCCESS for diagnostic only,
+create09:07:18.632667678/start09:07:19.459354113/finish09:12:58.818151UTC;
+341conservative seconds (340execution), new428/3600used/3172remaining.
+Infra574484e7cff6c53a15ff7e76b3aec133f6c87ef2, proof7b68fc9b36b0341210d48b857b010caea7344e9e;
+configc294829ba90c0fde1d9a896914229d28677000656d3df26c4f1082b0890b0dcc,
+payload657f087857cc328bcdddbe79cbb4c29b544ada364c528b0aced06c852cc039f3,
+actual186sourceparts/3990max/195allsubstitutions. No source/profile/runtime post change.
+
+Off exact inventory Fatalexit2preheaders, partial exact TEST opt-in Fatalexit2preheaders,
+on emits `R3-GHOST-SCOPE-TEST: retained two input lets; nested opens transferred`
+once and clears prior inventory mismatch. FIRST enabled failure is instead
+`SORT4-AS-MUT-PTR: certificate mismatch: actual external receiver operand/binding`,
+translate_fn_call_rexpr3714, still before ANYproof function header. Two constructor
+redirects occur before this receiver refusal. This is a frontend/certificate setup
+boundary, not an intended proof negative, pointer relation failure or shadow binding
+failure. Do NOT activate shadow draft. Scope routing diagnostic complete; profile
+admissibility/source/open mutation controls and fullactual outer/nested proof OPEN.
+Next: exact typed R3 receiver/binding inspection and isolated default-off receiver
+recertification TEST preserving old gate, observed source/unit/body/domain, checked
+as_mut_ptr body and memory/provenance/borrow contracts; affected gate negatives.
+Complete archive download remains pending here; collector alone is not proof credit.
+
+Full scope archive022c270e720db480f9e9bef027bd6cda787a99395217b1e30b8ad7dbb4350c66 and textindex63de8b090cca213b5f3709da2267711f0c48f571061f3c5976be54c8eaac5996 verified on VPS. Full logs extracted for reading; no independent text chunk download needed because complete archive checked. Enabled log has no VF headers; setup gate above is confirmed.

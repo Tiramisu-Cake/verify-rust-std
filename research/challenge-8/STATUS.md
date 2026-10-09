@@ -1,18 +1,26 @@
 # Current phase: DAY-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
-New owner authorization; separate 3600-second Cloud account, ownerselect-sort4.
-Start08:45:54UTC/11:45:54MSK; main deadline10:45:54UTC/13:45:54MSK;
-absolute deadline11:15:54UTC/14:15:54MSK (completion only after main deadline).
-[Phase](cloud-build/day-select-sort4/PHASE.md), [new ledger](cloud-build/day-select-sort4/BUDGET.json).
-Ownworktree/branch unchanged; historical accounts below remain closed.
-First R3 ghost-scope TEST setup FAILURE: Build5c8cd72b-2e5d-4927-a9e3-72a885cfb309,
-proof7b68fc9b36b0341210d48b857b010caea7344e9e,
-infra6eb1da5b5c3962c356ebd9a658c06decaeaa023d (authorization-only delta).
-Payload186parts/554581bytes; restore succeeded, reviewed infra dependency gate
-refused missing explicit recipe self-path. No proof headers. Minimal recipe fix
-prepared; new Build required, same proof. Day charge 87/3600seconds.
-Dispatcher receives only new phase authorization registration; exact proof/profile
-and existing transport/packager preserved. Actual outer/nested/fullsort4 remainOPEN.
+[Phase](cloud-build/day-select-sort4/PHASE.md), [separate ledger](cloud-build/day-select-sort4/BUDGET.json).
+Start08:45:54UTC/11:45:54MSK; main10:45:54UTC/13:45:54MSK;
+absolute11:15:54UTC/14:15:54MSK (completion only after main deadline).
+Ownerselect-sort4, ownworktree/branch unchanged; historical accounts stay closed.
+
+Prepared R3 ghost-scope TEST observed in Build9bdd5622-7000-483f-8e83-e9847412ddba,
+infra574484e7cff6c53a15ff7e76b3aec133f6c87ef2,
+proof7b68fc9b36b0341210d48b857b010caea7344e9e. CollectorSUCCESS/diagnostic complete,
+verification_accepted=false. Off exact inventory refusal, partial exact opt-in refusal,
+on retains savedlet2/transfers nestedopen2 and clears original routing gate.
+Next FIRST refusal before proof headers: SORT4-AS-MUT-PTR `actual external receiver
+operand/binding` at translator3714. Shadow-source remainsBLOCKED: no late ghost
+binding/type error observed. Investigate exact R3 receiver MIR and separate narrow
+source-linked TEST with affected controls. Current R3 actual outer/nested NOT_PROVED;
+full genericT/ZST and sort4 remainOPEN; historical R2 result-identity gap preserved.
+
+Day expense428/3600seconds (87setup +341scope),3172remaining,2terminal Builds.
+No own active Build; full archive and text index integrity verified. First setup failure
+Build5c8cd72b preserved and archiveverified; minimal explicit recipe self-path fix.
+Source payload186parts in both submitted runs; original runtime/posts/resources/
+kernel/spec/exporter/refiner preserved; TEST translator remainsUNACCEPTED.
 
 # Historical night checkpoint (closed)
 
