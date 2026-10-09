@@ -49,17 +49,22 @@ for relative,key in deps.items():
     report['dependencies'][relative]={'action':action,'expected_sha256':expected,
                                       'sha256':after,'executable':bool(target.stat().st_mode & 0o111)}
     assert report['dependencies'][relative]['executable'],(relative,'dependency is not executable')
-# The base source builder already copied these exact frozen C++ dependencies.
-# Retain explicit evidence, without changing the Rust trusted profile.
+# Restore only missing C++ dependencies from the same already SHA-pinned release.
+# Present mismatches still fail; Rust trusted sources and helper pins stay unchanged.
 for relative in ('bin/vf-cxx-ast-exporter','bin/prelude_cxx.h'):
     target=home/relative
     source=release/relative
-    assert target.is_file() and source.is_file(),(relative,'frozen C++ dependency missing')
+    assert source.is_file(),(relative,'frozen release C++ dependency missing')
     expected=sha(source)
-    assert sha(target)==expected,(relative,'C++ dependency differs from frozen release')
+    action='baseline-present'
+    if not target.exists():
+        target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copy2(source,target)
+        action='copied-from-pinned-release'
+    assert target.is_file() and sha(target)==expected,(relative,'C++ dependency differs from frozen release')
     if relative.endswith('vf-cxx-ast-exporter'):
         assert target.stat().st_mode & 0o111,(relative,'C++ exporter is not executable')
-    report['dependencies'][relative]={'action':'baseline-present',
+    report['dependencies'][relative]={'action':action,
         'expected_sha256':expected,'sha256':sha(target),
         'executable':bool(target.stat().st_mode & 0o111),
         'domain':'frozen-release C++ diagnostic only'}
