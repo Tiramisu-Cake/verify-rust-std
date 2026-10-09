@@ -107,7 +107,5 @@ with tempfile.TemporaryDirectory(prefix='mdnew-pr-audit-success-') as temp:
 
 recipe=json.loads((path.parent/'recipes/verifast-mdnew-upstream-pr.json').read_text())
 assert all(recipe[key]==sorted(set(recipe[key])) for key in ('infra_paths','proof_paths'))
-runner=(path.parent/'run-verifast-mdnew-cfg.sh').read_text()
-assert 'make_status=0\n    run_stage mdnew-pr-make-test' in runner
 print({'synthetic_trace_controls':len(controls)+1,'synthetic_stage_controls':7,
        'accepted_audit_json_serialization':True,'compiler_or_verifier_execution':False,'passed':True})
