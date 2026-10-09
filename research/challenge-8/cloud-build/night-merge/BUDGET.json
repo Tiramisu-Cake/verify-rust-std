@@ -4,8 +4,8 @@
   "authorization": "Owner prompt2026-10-09 resumes merge research, supersedes prior pause/deadlines/GitHub-hosted-only, separately authorizes10800 Cloud Build seconds through08:00UTC.",
   "deadline_utc": "2026-10-09T08:00:00Z",
   "ceiling_build_seconds": 10800,
-  "used_build_seconds": 5030,
-  "remaining_build_seconds": 5770,
+  "used_build_seconds": 5899,
+  "remaining_build_seconds": 4901,
   "allowed_lanes": [
     "merge"
   ],
@@ -236,14 +236,22 @@
       "submitted_config_sha256": "09c4b13851cf3e727f138e853440f4602eec222a073a7e2d836c598ed9cebac3",
       "reserved_seconds": 1800,
       "timeout_seconds": 1740,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "9fa772b6e61bdea8446ac17943d248c8b47a1774468dd68e3dbc636b8c7f7168",
-      "build_id": "fde74800-236a-480d-bcfd-289327d923be"
+      "build_id": "fde74800-236a-480d-bcfd-289327d923be",
+      "start_time": "2026-10-09T05:38:37.726462293Z",
+      "finish_time": "2026-10-09T05:53:05.002992Z",
+      "create_time": "2026-10-09T05:38:36.989035443Z",
+      "build_seconds": 869,
+      "accounted": true,
+      "execution_seconds": 868,
+      "download_verified": true,
+      "archive_sha256": "47e99e175f87af21fa4cf7cbb08da75d1c638f15ca55d8bb61d7e38561523e15"
     }
   ],
-  "active_build": "fde74800-236a-480d-bcfd-289327d923be",
+  "active_build": null,
   "historical_accounts": [
     {
       "name": "merge-continuation-2026-10-08",

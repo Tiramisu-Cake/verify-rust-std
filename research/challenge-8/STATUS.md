@@ -1,14 +1,33 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED BODY DIAGNOSTICS, LIVENESS AND TRUST OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5030/10800 elapsed
-Cloud seconds**, remaining **5770**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; active own Build
-**fde74800-236a-480d-bcfd-289327d923be**, proof/infra
-2276446b979178c8fed57ae893e91a77c2297bf3, timeout1740/reserve1800;
-config09c4b13851cf3e727f138e853440f4602eec222a073a7e2d836c598ed9cebac3.
-Isolated OR4 selection, separate unaccepted seven console; monitor own run via
-common client. Charged5030 excludes this active reservation; available after
-reserve3970. Latest completed Build
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5899/10800 elapsed
+Cloud seconds**, remaining **4901**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Own resource9 ready
+request is registered; common client waits for the other ready sender's turn.
+Latest OR Build **fde74800-236a-480d-bcfd-289327d923be**, proof/infra
+2276446b979178c8fed57ae893e91a77c2297bf3, FAILURE869s;
+05:38:36.989–05:53:05.002 UTC, config
+09c4b13851cf3e727f138e853440f4602eec222a073a7e2d836c598ed9cebac3;
+archive47e99e175f87af21fa4cf7cbb08da75d1c638f15ca55d8bb61d7e38561523e15.
+Full metadata/archive/separate text logs verified. Actual bounded len2/3 **PASS
+under separately named experimental7profile**, all11bodies,28return/31leak,
+main362exec/10return12leak, VF467.19s exit0; source/refinement/stack/panic0,
+no error/dead records. Exact-current helper2returns/2leaks checks both feasible
+branches. Panic remains live; full original conditional normal/unwind posts.
+This is the explicit positive-stride/FreezeMarker resource projection domain,
+not generic/ZST/public caller or accepted Challenge/kernel/profile evidence.
+Seven console71b8389dc9a2626cc71c23e74044a9c71210ac91ca91c73e93b7541058a1d68a,
+full7diffdcda873b16d23f4d16301b9ff20c35c5b23a18ec64dfad5184fb94e608e60e2f;
+translatorb60ded76, six/kernel/parser/prelude/std/exporter/refiner unchanged.
+Calibrated real-dead negative EXPECTED_DEAD_CODE. Two schema-certified MIR
+mutations give exact matcher FRONTEND_REFUSAL before target execution;
+roundtrip is lossless/source-certified but classifier INCONCLUSIVE due AST
+next-Func boundary bug (shortVF124, no theorem credit). Four new liveness
+fixtures remain calibration only; break/continue have no dead record.
+Overall FAILURE: outer audit treats silent-success empty logs as missing and
+short-circuits raw OR evidence. Minimal reader/log fixes and full shape matrix
+are prepared; NEW Cloud required. Seven gates/profile/kernel remain unaccepted.
+Previous completed Build
 **f0b1ff62-bae7-4ac0-9c3e-dda341e6146a**, proof/infra
 694feb56aaa585347ab235ea37547c34b48e4d38, FAILURE collector353s;
 04:59:25.918–05:05:18.669 UTC. Config
@@ -130,13 +149,13 @@ Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
 
-Next permitted action: isolated seventh OR-origin Cloud diagnostic at fresh exact
-f0 source pins, with actual len2/3 full posts and separate calibrated dead-code
-and frontend refusal controls. No acceptance follows from diagnostic completion.
-Native block grammar, Drop admission and permutation owner-wrapper bridge drafts
-require NEW Cloud evidence. Existing six kernel/cleanup profile remains
-unaccepted; full semantic gates still required. No local executable verification,
-build/tests or Actions dispatch. Migration A/B/C/constructor are not repeated.
+Next permitted action: Cloud resource9 at7655795962bf7f151643ba1f1b123b721acdf5ed
+through alternating common client, then complete OR frontend/coverage and
+same-source-six gates at separately pinned seven profile. Native block grammar,
+canonical foreach permutation and Drop runtime10 admission require NEW evidence.
+No current-value/owner/callback/caller bridge is assumed. See M2 reassessment.
+Existing kernel/cleanup unaccepted. No local executable verification/build/tests
+or Actions dispatch. Migration A/B/C/constructor are not repeated.
 
 ---
 

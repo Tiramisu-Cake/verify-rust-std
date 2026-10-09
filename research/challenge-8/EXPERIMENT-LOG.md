@@ -6128,3 +6128,45 @@ tokendispatch-43161a8c299f44fab57d61e5bf7e8651,timeout1740/reserve1800.
 Shared alternating client after foreign terminal; no direct submit/foreignbudget.
 Charged5030/10800 remains until terminal; available afterreservation3970.
 Current branch's prepared9resource selection is NOT this older OR4Build input.
+
+
+### NIGHT-MERGE-CLOUD fde74800 — bounded conditional PASS, unaccepted OR profile
+
+Buildfde74800-236a-480d-bcfd-289327d923be,proof/infra2276446b979178c8fed57ae893e91a77c2297bf3,
+config09c4b13851cf3e727f138e853440f4602eec222a073a7e2d836c598ed9cebac3,
+05:38:36.989–05:53:05.002UTC,FAILURE869s. Own5899/10800,4901remaining.
+Full archive/metadata/text verified:47e99e175f87af21fa4cf7cbb08da75d1c638f15ca55d8bb61d7e38561523e15.
+All4outergroups exit0; OR inneractual/calibrated/newcontrols/admission exit0.
+Actual bidirectional len2/3 rawPASS:11bodies28returns31leaks,main362exec10r12l,
+VF467.19s0/exportdecode/refine0,sourceunchanged,stack+panicfull0,noerrors/dead.
+New exact-current ghost helper13exec2return2leak; actualup/down116/120exec,
+3r3l/3r4l,ppanic3originrecords1r1l. Full conditional posts retained; positive
+stride/FreezeMarker projection, not generic/ZST/fullfunction/publiccaller/
+Challenge acceptance. Runtime std body and all target assertions unchanged.
+
+Separate console71b8389dc9a2626cc71c23e74044a9c71210ac91ca91c73e93b7541058a1d68a;
+translatorb60ded76027ca641117463a5b9369a336b59de0bab6f590ba083cd82ddea0953,
+componentpatchd799950e2037c0b1b6b1a94f2b9c5e44da3261e3d0658dd1ab772a2c15269949,
+full7diffdcda873b16d23f4d16301b9ff20c35c5b23a18ec64dfad5184fb94e608e60e2f;
+consolebuild4.57s. Original6console/kernel/parser/prelude/std/exporter/refiner
+byteidentical aftercopy; no kernel or memory-model change. Sourcee03a0398,
+fixture804ca589,harnessec825112,sig398/guard551 remain exactf0 pins.
+
+Calibrated unreachable_after_panic EXPECTED_DEAD_CODE. Newrealreturn has2dead
+records12cols16–17+15col2; newpanic has2compilerpanic.rs61dead spans. Both
+remain uncalibrated INC until oracle registration; sourcebreak/continue VF0
+withno deadrecord, no proofnegative. Two MIRcontrols storageLive34/Goto38
+both EXACTnewmatcher FRONTEND_REFUSAL, certifiedsinglefieldfulltree/source/
+normalmessage/refinement,productiontoolhomesunchanged. Roundtripdecodedtext
+byteidentical; driverregex starts nextFuncsearch inside currentindentedheader,
+truncatingASTbefore2Gotos/panic. Thusadmissionpositive INC,not theorem;
+minimalboundfix prepared,needsNEWCloud.
+
+OverallhistoricalFAILURE isouterartifact-audit: successlogs preflight/control
+areemptyregularfiles; genericnonemptygate shortcircuitsORauditor so manifest
+reportedMISSING/rawnull. Fixallows silentstage logs ONLY and alwaysreadsrawOR
+beforemandatoryconjunction. Historicalfailure notrewritten. Internal7audit
+DIAGNOSTIC_COMPLETE_UNACCEPTED/actualfullpositive true,allacceptancefalse;
+fullshape/same-source6/coverage gatesandkernelcapturetrustOPEN.
+Evidence gs://smallsort-ci-evidence-504462351565/cloud-build/fde74800-236a-480d-bcfd-289327d923be/.
+Resource9 ready76557959 remainsindependent; sharedclienthonorsforeignpendingturn.

@@ -199,3 +199,13 @@ source pin is provenance only (11 bodies, sig398/guard551), no merge proof.
 Separate seventh OR-origin trial remains unaccepted and needs full controls;
 all caller/current-value/F-frame/arbitrary-n/kernel/generic/ZST boundaries above
 remain open. Full failure archive95b69393552aef2e74e8a1c2606a06fb35f8a3874fff9db2c1a16085e49a1d60.
+
+
+Cloudfde74800 /2276446b: actual bounded2/3 conditional rawPASS under isolated
+unaccepted7OR-origin profile,11bodies28returns31leaks/main362exec10r12l,
+source/refinement/stack/panic complete/noerror/dead. Newcurrent-value helper
+2r2l feasiblebothbranches. Toolconsole71b8389d/full7diffdcda873b; original6
+kernel/parser/prelude/std/export/refiner unchanged. OverallcollectorFAILURE
+(empty-success log inventory), roundtrip admission classifierINC;2exactfrontend
+shape refusals, fullmatrix andsame-source6 stillopen. Generic/ZST/Freeze public
+boundary, arbitrary-n/caller C1/F/ownership/kernelcapture obligations unchanged.
