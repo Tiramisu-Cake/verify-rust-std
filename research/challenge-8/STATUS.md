@@ -1,3 +1,11 @@
+# NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09 — IN PROGRESS / PROFILE NOT_ACCEPTED
+
+Owner merge, overnight/merge-26.10. [Phase](merge/NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09.md), [own ledger](cloud-build/next-merge-drop-caller/BUDGET.json). Start13:27:15UTC /16:27:15MSK; main14:27:15UTC /17:27:15MSK; absolute14:57:15UTC /17:57:15MSK. User window **60min + <=30min finishing only**, ceiling3600Cloudseconds, no carryover. Policy revision1fcd91eff1507fe0bd0620a23b578edb454f1c3e; PR5cba39579 safely integrated, checkpoint5eeead52 retained.
+
+Selected caller actual insert_tail: mutable gap_guard storage bypasses general immutable local V4 blocker; immutable tmp/shared-derived src/current held owner remain separate. One limited source-linked onecell transition in preparation. No new proof result; all prior theorem domains/NOT_ACCEPTED/trust debts preserved below. Own builds0, no active/unresolved at start. New phases do not reopen historical accounts.
+
+---
+
 # AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT ACCEPTED
 
 Owner merge, existing worktree/branch `overnight/merge-26.10` and Cloud workflow.
