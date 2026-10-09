@@ -6102,3 +6102,23 @@ per-build gates. Hence actual submitted infra is a published descendant rather
 than literal2bee8747; every prepared semantic/proof/runner input stays unchanged.
 No verifier semantics changed by phase registration; static AST/diff/payload review
 before submit. First timeout1200+60queue fits account/calendar with checkpoint reserve.
+
+First day dispatch Build5c8cd72b-2e5d-4927-a9e3-72a885cfb309, create08:52:59.469643243UTC,
+start08:53:00.294273213UTC; infra6eb1da5b5c3962c356ebd9a658c06decaeaa023d,
+proof7b68fc9b36b0341210d48b857b010caea7344e9e, timeout1200/envelope1260.
+Payload554581B/186parts SHAa30ec9f8b49cfc5a7b2de173bfeeaaa4dfda7081c6391e467dfc592f974e0bf6;
+config6317aca779bdda898bbc58cbcabe6e1007d60cd9848dacbf41a73b3ee0d46d57.
+Published remote SHA confirmed; no duplicate dispatch. Actual proof/profile/runner
+files have zero diff from prepared2bee8747; source-input preflight validates recipe
+sorted paths/closure/modes/OIDs. Build is WORKING; no result credit yet.
+
+First day R3 setup failure: exact original-object restoration succeeded, then
+exact-infra-transport-controls.py:189 refused `reviewed transitive Cloud runner
+dependency absent from recipe`. Static literal REQUIRED comparison isolates only
+recipes/o26-r3-ghost-scope-test.json itself: transport already includes that committed
+object automatically, but the reviewed minimum expects it explicitly in infra_paths.
+Minimal fix adds the exact recipe self-path to its sorted list, preserving all input
+files and verifier/proof/profile semantics. No preflight guard disabled; recipe
+bytes/infra SHA/payload change; same proof7b68fc9b. Before next submission review
+entire REQUIRED, schema/entrypoint/path lists and unchanged dynamic runner chain.
+The first setup failure is not a negative and reached no verifier header.

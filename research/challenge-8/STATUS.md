@@ -5,7 +5,12 @@ Start08:45:54UTC/11:45:54MSK; main deadline10:45:54UTC/13:45:54MSK;
 absolute deadline11:15:54UTC/14:15:54MSK (completion only after main deadline).
 [Phase](cloud-build/day-select-sort4/PHASE.md), [new ledger](cloud-build/day-select-sort4/BUDGET.json).
 Ownworktree/branch unchanged; historical accounts below remain closed.
-First prepared R3 ghost-scope TEST pending: proof7b68fc9b, baseinfra2bee8747.
+First R3 ghost-scope TEST setup FAILURE: Build5c8cd72b-2e5d-4927-a9e3-72a885cfb309,
+proof7b68fc9b36b0341210d48b857b010caea7344e9e,
+infra6eb1da5b5c3962c356ebd9a658c06decaeaa023d (authorization-only delta).
+Payload186parts/554581bytes; restore succeeded, reviewed infra dependency gate
+refused missing explicit recipe self-path. No proof headers. Minimal recipe fix
+prepared; new Build required, same proof. Day charge 87/3600seconds.
 Dispatcher receives only new phase authorization registration; exact proof/profile
 and existing transport/packager preserved. Actual outer/nested/fullsort4 remainOPEN.
 
