@@ -6119,3 +6119,12 @@ plus NEW Cloud; PASS+exactfalse => conditional component only, proceed to actual
 caller/resource composition; duplicate-owner failure remains uncounted until
 predicate/location is calibrated. Existing6profile/kernel/cleanup unaccepted;
 ORnotselected. No heavy local check or repeated unchanged full matrix.
+
+OR card exact dispatch: Buildfde74800-236a-480d-bcfd-289327d923be,
+proof/infra2276446b979178c8fed57ae893e91a77c2297bf3,
+config09c4b13851cf3e727f138e853440f4602eec222a073a7e2d836c598ed9cebac3,
+sourceinput9fa772b6e61bdea8446ac17943d248c8b47a1774468dd68e3dbc636b8c7f7168,
+tokendispatch-43161a8c299f44fab57d61e5bf7e8651,timeout1740/reserve1800.
+Shared alternating client after foreign terminal; no direct submit/foreignbudget.
+Charged5030/10800 remains until terminal; available afterreservation3970.
+Current branch's prepared9resource selection is NOT this older OR4Build input.

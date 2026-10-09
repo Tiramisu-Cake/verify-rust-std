@@ -2,7 +2,13 @@
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5030/10800 elapsed
 Cloud seconds**, remaining **5770**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Latest completed Build
+Branch `overnight/merge-26.10`; active own Build
+**fde74800-236a-480d-bcfd-289327d923be**, proof/infra
+2276446b979178c8fed57ae893e91a77c2297bf3, timeout1740/reserve1800;
+config09c4b13851cf3e727f138e853440f4602eec222a073a7e2d836c598ed9cebac3.
+Isolated OR4 selection, separate unaccepted seven console; monitor own run via
+common client. Charged5030 excludes this active reservation; available after
+reserve3970. Latest completed Build
 **f0b1ff62-bae7-4ac0-9c3e-dda341e6146a**, proof/infra
 694feb56aaa585347ab235ea37547c34b48e4d38, FAILURE collector353s;
 04:59:25.918–05:05:18.669 UTC. Config
