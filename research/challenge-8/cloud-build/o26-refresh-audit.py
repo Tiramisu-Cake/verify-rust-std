@@ -32,6 +32,32 @@ def relocation(ev):
     return {'requested':True,'classification':result.get('classification','INCONCLUSIVE'),
             'diagnostic_match':matched,'helper_exit':code,'test_only':True,'accepted':False}
 
+def owner_controls(ev):
+    requested=(ev/'cases/owner17-controls-request.json').exists()
+    if not requested:return {'requested':False,'complete':False,'classification':'NOT_RUN'}
+    result=read(ev/'cases/owner17-controls/summary.json') or {}
+    try:code=int((ev/'cases/owner17-controls-helper-exit-code.txt').read_text().strip())
+    except (OSError,ValueError):code=None
+    complete=(code==0 and result.get('classification')=='COMPONENT17_CONTROLS_COMPLETE' and
+              result.get('diagnostic_complete') is True and
+              len(result.get('negative_cases',[]))==4 and
+              all(r.get('intended_component17_refusal') is True for r in result['negative_cases']))
+    return {'requested':True,'complete':complete,'classification':result.get('classification','INCONCLUSIVE'),
+            'helper_exit':code,'a1_isolated_negative':False}
+
+def sort4_capture(ev):
+    requested=(ev/'cases/actual-sort4-request.json').exists()
+    if not requested:return {'requested':False,'complete':False,'classification':'NOT_RUN'}
+    result=read(ev/'cases/actual-sort4/actual-sort4-result.json') or {}
+    try:code=int((ev/'cases/actual-sort4-helper-exit-code.txt').read_text().strip())
+    except (OSError,ValueError):code=None
+    complete=(code==0 and result.get('classification')=='O24_EXACT_GRAPH_RESERVED_MARKER_DIAGNOSTIC' and
+              result.get('support_stages_complete') is True and
+              result.get('complete_graph_matches_O24') is True and
+              result.get('semantic_handler_enabled') is False)
+    return {'requested':True,'complete':complete,'classification':result.get('classification','INCONCLUSIVE'),
+            'helper_exit':code,'actual_sort4_proved':False,'first_error':result.get('first_verifier_error')}
+
 def main():
     p=argparse.ArgumentParser()
     for name in ('evidence','output'):p.add_argument('--'+name,type=Path,required=True)
@@ -77,13 +103,17 @@ def main():
       (ev/'frozen20-applied.patch').is_file() and
       digest(ev/'frozen20-applied.patch')==frozen['applied_diff_sha256'])
     cut=relocation(ev)
+    owner=owner_controls(ev)
+    sort4=sort4_capture(ev)
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
+                         (not owner['requested'] or owner['complete']) and
+                         (not sort4['requested'] or sort4['complete']) and
                          (not cut['requested'] or cut.get('diagnostic_match') is True))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
     # component 20 A1 negatives are still pending. These cannot be inferred from
     # a positive full proof or an earlier owner-certificate rejection.
-    controls={'owner_source_mir_isolated':False,'a1_isolated':False}
+    controls={'owner_source_mir_isolated':owner['complete'],'a1_isolated':False}
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()))
     result={'lane':os.environ.get('LANE','o26-refresh'),
@@ -95,6 +125,8 @@ def main():
       'full_proof_exit':stage.get('exit'),'prefix_callees_before_outer':callees_before_outer,
       'nested_drop_header_visible':nested_visible,
       'controls':controls,'pending_gates':profile.get('acceptance_pending',[]),
+      'owner17_control_diagnostic':owner,
+      'actual_sort4_capture_diagnostic':sort4,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
     a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')

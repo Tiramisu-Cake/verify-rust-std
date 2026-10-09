@@ -11,6 +11,10 @@ deadline=${SMALLSORT_DEADLINE_EPOCH:?SMALLSORT_DEADLINE_EPOCH is required}
 current_sha=${PROOF_SHA:?PROOF_SHA is required}
 relocate_mode=${O26_WITH_CUT_RELOCATE:-0}
 [[ "$relocate_mode" == 0 || "$relocate_mode" == 1 ]] || exit 2
+controls_mode=${O26_WITH_OWNER_CONTROLS:-0}
+[[ "$controls_mode" == 0 || "$controls_mode" == 1 ]] || exit 2
+sort4_mode=${O26_WITH_SORT4_CAPTURE:-0}
+[[ "$sort4_mode" == 0 || "$sort4_mode" == 1 ]] || exit 2
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -217,6 +221,16 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
 
+if [[ "$controls_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/owner17-controls-request.json"
+  controls_status=0
+  stage owner17-controls python3 "$cloud_dir/o26-refresh-controls.py" \
+    --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
+    --tool-home "$source_home" --schema "$schema" \
+    --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline" || controls_status=$?
+  printf '%s\n' "$controls_status" > "$ev/cases/owner17-controls-helper-exit-code.txt"
+fi
+
 if [[ "$relocate_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/cut-relocate-request.json"
   relocate_status=0
@@ -226,6 +240,16 @@ if [[ "$relocate_mode" == 1 ]]; then
     --evidence "$ev/cases/cut-relocate" --deadline-epoch "$deadline" \
     --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || relocate_status=$?
   printf '%s\n' "$relocate_status" > "$ev/cases/cut-relocate-helper-exit-code.txt"
+fi
+
+if [[ "$sort4_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/actual-sort4-request.json"
+  sort4_status=0
+  stage actual-sort4 python3 "$cloud_dir/actual-sort4-capture.py" \
+    --proof-root "$proof_root" --cloud-dir "$cloud_dir" --tool-home "$source_home" \
+    --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/actual-sort4" --deadline-epoch "$deadline" || sort4_status=$?
+  printf '%s\n' "$sort4_status" > "$ev/cases/actual-sort4-helper-exit-code.txt"
 fi
 
 current_stage=audit
