@@ -5787,3 +5787,36 @@ decode/refinement0 and verifier1 exactly at firsttarget after helpers checked;
 setup/helper/timeout/otherlocations remainINCONCLUSIVE. Run together with all
 threepositivecases on sameexperimental andstockfixture; no weakerposts or
 concrete-u32-only substitute for generic domain. New negatives have no result.
+
+Actual count-n Drop direct-body card, before implementation: reuse the saved
+extract-verifast-drop.py source-exact pattern/CONTRACT, not historical26.09
+semantic patches. Target current actual CopyOnDrop struct/Drop impl/signature/
+copy(self.src,self.dst,self.len) from SmallSort85c75bc.../blob40939f9, source
+block anchors and retained364bytes/caff1edb hash checked in Cloud; any mismatch
+is setup refusal for review, never substituted handwritten runtime. Original/
+verified differ only contract/safetyproof comments; exact current fullsource
+SHA required. Direct method uses symboliclen initialized srcfraction/dstarray,
+field/padding/currentownerforeach once; normalpost exact copied CURRENT list and
+same fields/source/owners, unwindfalse. Add explicit valid positive-stride byte
+count/base alignment/non-null/object/end/overflow/separation premises for this
+diagnostic; generic/ZST claims unchanged/open, no Copy/Freeze/purity restriction.
+
+Falsifiable hypothesis: existing native Drop body/annotation syntax passes frozen
+f760+current sixpatches and separately originalstock26.10, dynamic self.len
+reaches stock count-n summary rather than literal1 C1redirect. Require readonly
+MIR/export/decode exact nativeDrop target/copyargs+symboliclen linkage, proof AST
+body+copyline/return/leak/compatibility checks, full refined/runtime identity,
+all stages/source hashes/pins/no dead/errors. Matched first-body false control
+predeclared exactfalse/TARGET columns; missingdst/owner controls calibrationonly
+until actual intended proofVC after body entry. Setup/frontend/otherhelper/
+unsupported/timeout failures countINCONCLUSIVE, not intendednegative.
+
+This is explicitly partial actual callee proof, not caller cleanup admission: the
+private default guard own=false makes generated safeDrop compatibility vacuous,
+while the separate explicit bodyreq is checked. No assumption/own=true bridge.
+Frozen generic drop_in_place forget outputs/normalmemforget require guardown;
+old same-unit localDrop semanticpatch NOT imported. New routing/guard protocol
+would require its own soundness/admission/gates decision. C1 stock count-n
+specification remains TRUSTED, not intrinsic/body theorem; bytecopy creates no
+T.own. Callback/current-value/caller Fframe and normalpermutation bridges OPEN.
+Only merge ownprep/runner newfiles, no trustedsemantics/actualruntime change.

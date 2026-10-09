@@ -14,6 +14,31 @@ Relevant frozen files:
 | `bin/rust/rust_belt/points_to_at_lifetime.rsspec` | `40939f922bcb6fdc7ee0d30427fa861827043827` | `dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b` |
 | actual `smallsort.rs` | `e555fce440872898e47fd5114f32eb15401d07df` | `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1` |
 
+## Current merge count-n boundary (2026-10-09)
+
+The active actual SmallSort Git blob is
+`40939f922bcb6fdc7ee0d30427fa861827043827`, full SHA-256
+`85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`.
+The older table's actual source Git-blob label is historical and is superseded
+by this exact current source identity; no source runtime change is made here.
+
+`CopyOnDrop::drop` calls the stock initialized-array copy summary with symbolic
+`self.len`. Only literal count1 maps to the experimental C1 into-option primitive.
+Neither summary creates T.own. Source-exact direct Drop body extraction exists
+from the historical26.09 profile; current f760 stock and six-patch proofs are
+UNTESTED. An annotation-only conditional probe with explicit positive-size,
+byte/address/alignment/object/non-overlap domains is being prepared. Its normal
+post preserves fields/source/current owner sequence once and sets destination to
+the CURRENT source list; unwindfalse follows the trusted copy summary.
+
+Private default CopyOnDrop.own=false makes generated safe-Drop compatibility
+unreachable; a direct-body check is separate and must execute the actual copy.
+Frozen generic drop_in_place and normal mem::forget do not provide a usable
+caller ownership/resource route. Historical local-Drop semantic routing patches
+are not current-profile components. The normal merge output/current-owner
+relation and callback frame remain separate obligations; no entry snapshot,
+Copy/Freeze/share-to-own or whole-caller claim follows.
+
 ## What the frozen model says
 
 In `prelude_core.rsspec`, `points_to_<T>(p; v)` and `array_<T>(p,n;vs)`
