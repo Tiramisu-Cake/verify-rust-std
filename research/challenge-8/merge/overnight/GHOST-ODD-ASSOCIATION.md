@@ -34,3 +34,11 @@ paths, final panic/unwind behavior, unchanged full normal/unwind posts, and
 the existing return, leak, source-identity and refinement gates. Any new
 helper/precondition failure is inconclusive. This draft is Cloud-unverified;
 no generated source or verifier run is included here.
+
+Self-review strengthening: the lemma takes explicit ghost `value: T`, requires
+the existing selected cell and owner for that exact current value, and returns
+the same value on `last_src`. The caller observes `*left |-> ?left_current`
+after deriving `left == src` and passes that current witness. This avoids
+forgetting the current-value association through an existential post; it does
+not equate it to any pre-callback snapshot. Both former assertion branches
+remain body-checked. The change needs new Cloud source and proof evidence.

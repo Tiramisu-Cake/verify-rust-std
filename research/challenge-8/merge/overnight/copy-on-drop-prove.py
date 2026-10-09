@@ -32,6 +32,8 @@ preparation = load_module("copy_on_drop_prepare", HERE / "copy-on-drop-prepare.p
 mir_helper = load_module("drop_capnp_admission", HERE / "stack-address-admission.py")
 ast_helper = load_module("drop_ast_admission", HERE / "stack-proof-ast-admission.py")
 TARGET = preparation.TARGET
+MIR_COPY_CALLEE = "core::ptr::copy_nonoverlapping"
+AST_COPY_CALLEE = "std::ptr::copy_nonoverlapping"
 TIMEOUT_SECONDS = 240
 
 STOCK_PINS = {
@@ -327,7 +329,26 @@ def contains_key(tree, key: str) -> bool:
 
 def mir_admission(case_dir: Path) -> dict:
     decoded = (case_dir / "decode.out").read_text(errors="replace")
-    tree = mir_helper.CapnpText(decoded).parse()
+    # capnp's enum printer emits this one unquoted ADT-variance value. The
+    # retained generic parser intentionally refuses unknown bare scalars;
+    # normalize only the exact pinned CopyOnDrop metadata field, then parse
+    # the entire decoded MIR normally. Any other enum or shape still refuses.
+    variance_field = "variances = [invariant]"
+    if decoded.count(variance_field) != 1 or len(re.findall(r"\bvariances\s*=", decoded)) != 1:
+        raise RuntimeError("Drop MIR must have exactly one invariant T variance field")
+    normalized = decoded.replace(variance_field, 'variances = ["invariant"]', 1)
+    tree = mir_helper.CapnpText(normalized).parse()
+    adt = mir_helper.path(tree, "adtDefs", "cons", "h")
+    variants = mir_helper.path(adt, "variants")
+    if (mir_helper.path(adt, "id", "name") != "CopyOnDrop" or
+            mir_helper.path(adt, "variances") != ["invariant"] or
+            mir_helper.path(adt, "kind") != {"structKind": None} or
+            mir_helper.path(tree, "adtDefs", "cons", "t") != {"nil": None} or
+            not isinstance(variants, list) or len(variants) != 1 or
+            mir_helper.path(variants[0], "name") != "CopyOnDrop" or
+            [mir_helper.path(field, "name", "name") for field in
+             mir_helper.path(variants[0], "fields")] != ["src", "dst", "len"]):
+        raise RuntimeError("normalized variance is not the exact CopyOnDrop<T> ADT field")
     bodies = mir_helper.path(tree, "bodies")
     matches = [body for body in bodies if mir_helper.path(body, "defPath") == TARGET]
     if len(matches) != 1:
@@ -350,7 +371,7 @@ def mir_admission(case_dir: Path) -> dict:
                 name = mir_helper.call_name(call)
             except mir_helper.AdmissionError:
                 name = "<unrecognized>"
-            if name == "std::ptr::copy_nonoverlapping":
+            if name == MIR_COPY_CALLEE:
                 args = mir_helper.path(call, "args")
                 snippet, line = mir_helper.span_text(mir_helper.path(call, "callSpan"), lines)
                 calls.append((block_index, block, call, args, snippet, line))
@@ -405,7 +426,8 @@ def mir_admission(case_dir: Path) -> dict:
                 snippet.strip() == expected_line and
                 source_line == expected_line)
     return {"target_count": 1, "copy_call_count": len(calls),
-            "copy_call_name": "std::ptr::copy_nonoverlapping",
+            "copy_call_name": MIR_COPY_CALLEE,
+            "decoded_variance_admission": variance_field,
             "body_call_count": all_call_count, "unexpected_call_count": all_call_count - 1,
             "copy_block_index": block_index,
             "copy_preceding_statement_count": len(statements),
@@ -450,41 +472,95 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
                   node.args[4] in {TARGET,
                       TARGET.replace("core::ops::Drop", "std::ops::Drop")} and
                   "verified/lib.rs(" in repr(node.args[0])]
+    # The canonical dump has one declaration and one body with the same name.
+    # Func arg 7 is (ghost_body, runtime_body); arg 8 is the contract. Reading
+    # arg 8 would wrongly search the pre/postcondition instead of Drop's body.
+    declarations = []
+    bodies = []
+    for function in drop_funcs:
+        shape = function.args[7]
+        if not isinstance(shape, tuple) or len(shape) != 2 or \
+                shape[0] != ast_helper.Sym("None"):
+            return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
+                    "reason": "Drop Func has noncanonical ghost/runtime body pair"}
+        if shape[1] == ast_helper.Sym("None"):
+            declarations.append(function)
+            continue
+        if not isinstance(shape[1], ast_helper.Node) or shape[1].name != "Some" or \
+                len(shape[1].args) != 1:
+            return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
+                    "reason": "Drop Func has noncanonical runtime body option"}
+        body_tuple = shape[1].args[0]
+        if not isinstance(body_tuple, tuple) or len(body_tuple) != 3 or \
+                not isinstance(body_tuple[1], list):
+            return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
+                    "reason": "Drop Func body is not a source-located statement list"}
+        bodies.append((function, body_tuple))
+    if len(drop_funcs) != 2 or len(declarations) != 1 or len(bodies) != 1:
+        return {"admitted": False, "actual_drop_function_count": len(drop_funcs),
+                "declaration_count": len(declarations), "body_count": len(bodies),
+                "reason": "actual Drop needs exactly one declaration and one runtime body"}
     # The AST's source location and exact function body must both identify the
     # extracted Drop. Do not let a support/helper function satisfy the call gate.
     candidates = []
-    for function in drop_funcs:
-        try:
-            function_loc = ast_helper.loc(function.args[0])
-            location_match = re.fullmatch(
-                r"verified/lib\.rs\(([1-9][0-9]*),[0-9]+-([1-9][0-9]*),[0-9]+\)",
-                function_loc)
-            if location_match is None or not (int(location_match.group(1)) <= copy_line <= int(location_match.group(2))):
-                continue
-        except Exception:
-            continue
-        body = function.args[8]
-        for call in ast_helper.nodes(body, "CallExpr"):
-            if len(call.args) < 5 or call.args[1] != "std::ptr::copy_nonoverlapping":
-                continue
-            try:
-                line = ast_helper.location_line(call.args[0])
-            except Exception:
-                continue
-            if line != copy_line:
-                continue
-            arguments = call.args[4]
-            if not isinstance(arguments, list) or len(arguments) != 3:
-                continue
-            try:
-                third = ast_helper.narg(arguments[2], "LitPat", 1)[0]
-                dynamic = isinstance(third, ast_helper.Node) and third.name == "Var"
-            except Exception:
-                dynamic = False
-            candidates.append({"function": function.args[4], "line": line,
-                               "callee": call.args[1], "dynamic_count": dynamic})
+    function, body_tuple = bodies[0]
+    body_start, statements, body_end = body_tuple
+    try:
+        function_loc = ast_helper.loc(function.args[0])
+        location_match = re.fullmatch(
+            r"verified/lib\.rs\(([1-9][0-9]*),[0-9]+-([1-9][0-9]*),[0-9]+\)",
+            function_loc)
+        source_bounds = (location_match is not None and
+                         int(location_match.group(1)) < copy_line <
+                         int(location_match.group(2)) and
+                         ast_helper.location_line(body_start) < copy_line and
+                         ast_helper.location_line(body_end) > copy_line)
+    except (ValueError, TypeError, ast_helper.AdmissionError):
+        source_bounds = False
+    copy_calls = [call for call in ast_helper.nodes(statements, "CallExpr")
+                  if len(call.args) == 6 and call.args[1] == AST_COPY_CALLEE]
+    switches = [switch for switch in ast_helper.nodes(statements, "SwitchStmt")
+                if len(switch.args) == 3 and switch.args[1] in copy_calls]
+    if source_bounds and len(copy_calls) == 1 and len(switches) == 1:
+        call = copy_calls[0]
+        switch = switches[0]
+        arguments = call.args[4]
+        argument_vars = []
+        if isinstance(arguments, list) and len(arguments) == 3:
+            for argument in arguments:
+                try:
+                    argument_vars.append(ast_helper.var(
+                        ast_helper.narg(argument, "LitPat", 1)[0]))
+                except ast_helper.AdmissionError:
+                    argument_vars.append(None)
+        clauses = switch.args[2]
+        outcomes = []
+        if isinstance(clauses, list) and len(clauses) == 2:
+            for clause in clauses:
+                if isinstance(clause, ast_helper.Node) and clause.name == "SwitchStmtClause" and \
+                        len(clause.args) == 3 and isinstance(clause.args[2], list):
+                    outcome = clause.args[1]
+                    outcomes.append(outcome.args[1] if isinstance(outcome, ast_helper.Node)
+                                    and outcome.name == "CallExpr" and len(outcome.args) == 6
+                                    else None)
+                else:
+                    outcomes.append(None)
+        dynamic = (argument_vars == ["$_3", "$_4", "$_5"] and
+                   outcomes == ["returning", "unwinding"] and
+                   any(isinstance(stmt, ast_helper.Node) and stmt.name == "ReturnStmt"
+                       for stmt in statements) and
+                   len(ast_helper.nodes(clauses[1].args[2], "ReturnStmt")) == 1 and
+                   ast_helper.location_line(call.args[0]) == copy_line and
+                   ast_helper.location_line(switch.args[0]) == copy_line)
+        candidates.append({"function": function.args[4], "line": copy_line,
+                           "callee": call.args[1], "argument_vars": argument_vars,
+                           "normal_unwind_clauses": outcomes,
+                           "dynamic_count": dynamic})
     admitted = len(candidates) == 1 and candidates[0]["dynamic_count"]
     return {"admitted": admitted, "actual_drop_function_count": len(drop_funcs),
+            "declaration_count": len(declarations), "body_count": len(bodies),
+            "source_bounds_match": source_bounds,
+            "body_copy_call_count": len(copy_calls),
             "copy_call_candidates": candidates,
             "reason": None if admitted else "actual Drop AST lacks one dynamic count-n copy call"}
 
@@ -503,7 +579,8 @@ def verifier_admission(case_dir: Path, case_name: str, metadata: dict,
                     for line in target_execution)
     return_records = len(re.findall(r"Executing return statement", segment))
     leak_records = len(re.findall(r"Leak check\.", segment))
-    errors = [line for line in segment.splitlines() if re.search(r"\berror:", line)]
+    errors = [line for line in segment.splitlines() if re.search(r"\berror:", line, re.I)]
+    global_errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
     dead = [line for line in segment.splitlines() if re.search(r"dead code", line, re.I)]
     copy_call_executed = sum(1 for line in segment.splitlines() if call.search(line))
     copy_statement_executed = sum(1 for line in segment.splitlines() if statement.search(line))
@@ -524,18 +601,19 @@ def verifier_admission(case_dir: Path, case_name: str, metadata: dict,
             segment))
     successful = (case_name == "positive" and target_log_count == 1 and body_exec and
         copy_call_executed == 1 and copy_statement_executed >= 1 and
-        return_records >= 1 and leak_records >= 1 and not errors and not dead and
+        return_records >= 1 and leak_records >= 1 and not global_errors and not dead and
         stage_status == 0 and "0 errors found" in log and ast_call["admitted"])
     expected_negative = (case_name == "first_body_false" and target_log_count == 1 and
-        exact_false and len(errors) == 1 and not dead and ast_call["admitted"] and
-        stage_status != 0 and
+        exact_false and len(errors) == 1 and len(global_errors) == 1 and
+        not dead and ast_call["admitted"] and stage_status == 1 and
         return_records == 0 and leak_records == 0 and
         copy_call_executed == 0 and copy_statement_executed == 0)
     return {"target_body_count": target_log_count, "body_statement_seen": body_exec,
             "copy_call_verifying_records": copy_call_executed,
             "copy_call_execution_records": copy_statement_executed,
             "return_records": return_records, "leak_checks": leak_records,
-            "errors": errors, "dead_code_records": dead,
+            "errors": errors, "global_error_lines": global_errors,
+            "dead_code_records": dead,
             "ast_sha256": sha(ast.encode()) if ast else None,
             "ast_nonempty": bool(ast), "ast_drop_call": ast_call,
             "compatibility_functions_observed": compatibility,

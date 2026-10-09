@@ -50,7 +50,7 @@ lem bidirectional_small_current_cell_alias<T>(t: thread_id_t,
 // after deriving left == src from left_nonempty; keeping that stronger fact
 // out of this contract makes both checked proof branches feasible here.
 lem bidirectional_small_left_cell_association<T>(t: thread_id_t,
-        src: *T, left: *const T, last_src: *const T)
+        src: *T, left: *const T, last_src: *const T, value: T)
     req (left == src || left == src + 1) &*& last_src == left &*&
         0 < std::mem::size_of::<T>() &*&
         std::mem::size_of::<T>() <= isize::MAX &*&
@@ -63,11 +63,11 @@ lem bidirectional_small_left_cell_association<T>(t: thread_id_t,
         object_pointer_within_limits(src, std::mem::size_of::<T>()) == true &*&
         object_pointer_within_limits(src + 1, std::mem::size_of::<T>()) == true &*&
         (if left == src {
-            *src |-> ?source0 &*& <T>.own(t, source0)
+            *src |-> value &*& <T>.own(t, value)
          } else {
-            *(src + 1) |-> ?source1 &*& <T>.own(t, source1)
+            *(src + 1) |-> value &*& <T>.own(t, value)
          });
-    ens *last_src |-> ?current_value &*& <T>.own(t, current_value);
+    ens *last_src |-> value &*& <T>.own(t, value);
 {
     if left == src {
         assert last_src == src;
@@ -290,7 +290,7 @@ def insert_len23_invariant(body: str) -> str:
     # The actual call remains on the derived src cell and uses existing chunks.
     odd_source_cases = (
         "            //@ { assert len == 3; if left_nonempty { assert left == src; "
-        "bidirectional_small_left_cell_association::<T>(t, src as *T, left, last_src); } else { "
+        "assert *left |-> ?left_current; bidirectional_small_left_cell_association::<T>(t, src as *T, left, last_src, left_current); } else { "
         "if right == src + 1 { assert last_src == src + 1; assert last_src as pointer == (src + 1) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 1) as *T, last_src as *T); "
         "assert *last_src |-> ?odd_src1; } "
         "else { assert right == src + 2; assert last_src == src + 2; assert last_src as pointer == (src + 2) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 2) as *T, last_src as *T); "

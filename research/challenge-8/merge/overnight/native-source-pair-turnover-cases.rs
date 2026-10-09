@@ -106,7 +106,7 @@ lem native_pair_replace_length<T>(vs: list<T>, i: option<usize>,
     ens length(native_pair_replace::<T>(vs, i, j, vi, vj)) == length(vs);
 {
     match vs {
-        nil => {},
+        nil => {}
         cons(head, tail) => {
             native_pair_replace_length::<T>(tail,
                 native_pair_step(i), native_pair_step(j), vi, vj);
@@ -131,7 +131,7 @@ lem native_pair_index_step_in_range(index: option<usize>, n: usize)
     ens native_pair_index_in_range(native_pair_step(index), n - 1);
 {
     match index {
-        none => {},
+        none => {}
         some(k) => {
             if k == 0 {
                 assert native_pair_step(index) == none;
@@ -151,18 +151,20 @@ lem native_pair_ordered_step(i: option<usize>, j: option<usize>, n: usize)
     ens native_pair_ordered_distinct(native_pair_step(i), native_pair_step(j));
 {
     match i {
-        none => {},
-        some(left) => match j {
-            none => {},
-            some(right) => {
-                if left == 0 {
-                    assert 0 < right;
-                    assert native_pair_step(i) == none;
-                    assert 0 <= right - 1;
-                } else {
-                    assert 0 < left;
-                    assert 0 < right;
-                    assert left - 1 < right - 1;
+        none => {}
+        some(left) => {
+            match j {
+                none => {}
+                some(right) => {
+                    if left == 0 {
+                        assert 0 < right;
+                        assert native_pair_step(i) == none;
+                        assert 0 <= right - 1;
+                    } else {
+                        assert 0 < left;
+                        assert 0 < right;
+                        assert left - 1 < right - 1;
+                    }
                 }
             }
         }

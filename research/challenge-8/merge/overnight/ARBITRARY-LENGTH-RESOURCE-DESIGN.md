@@ -211,3 +211,32 @@ and no owner from slice.share. Native optional-index turnover still fails setup
 on recursive-predicate punctuation; source-only two-semicolon repair needs
 fresh both-tool evidence. Current F-frame/caller/C1count-n/cleanup routing/normal
 permutation/generic-ZST/Freeze-share and experimental-kernel closure remain open.
+
+## Native source-pair statement-match parser repair (74227266)
+
+Both stock26.10 and experimental native source-pair groups reached VeriFast
+parse failure before any body: `verified/lib.rs(109,18-19)` points at the comma
+after the empty `nil => {}` block in `native_pair_replace_length`. The pinned
+parser's statement-match arm is `parse_expr => parse_block_stmt`, and the arm
+list is `rep parse_match_stmt_arm` (`parser.original.ml:626–627,677`); unlike
+expression matches, statement arms have no comma separator. The original
+`native_pair_ordered_step` also had a nested `match` directly as an arm body,
+so the source-only repair removes statement-arm commas and wraps that nested
+match in its required block. It changes no predicates, bounds, resources,
+posts, assertions, or target lines.
+
+The failed 74227266 projections had zero bodies/returns/leaks and remain
+INCONCLUSIVE. They are tied to the same source projections in both profiles:
+
+| Case | Extracted source SHA | Verified projection SHA |
+|---|---|---|
+| `native_source_pair_extract_restore_current` | `358f8f5476cff357e5d4995ce127e1d312ccaaba529bec14fbea6c54862b96b7` | `94112c9f150ae1014926f3fc8326594cce1f0a2f2404185c64a22f8d8a8f2bbb` |
+| `native_source_pair_turnover_same_pair` | `7d615c2062f530aa63c742983055cee534c749f25b5e1c2c615ec6f4da9297d1` | `b255f2e541178fb8f9db44e3fbc0a4772073e13fee311a4c266f43c9fd7fccb8` |
+| `native_source_pair_turnover_overlap` | `0c9be47633cba28683083f6149bc631de273d993cc9c7216f9f769903db9ef54` | `2607966bca6b0fb29842bc65eca63790f33d2958d11b5eeee7480c0d777629cc` |
+| `native_source_pair_turnover_false_entry` | `7b8e12607a0684230a0255aeb9631aa7c8525ea49a859604239a2f346b51c9e9` | `ad728a08ff06556c97e7b33d6373785e839d2663492fcb144c68efc51fb5f32b` |
+
+The repaired fixture source hash is `f2f244145ba065ffe255e680f0d125d68b520f0f6437fcdd1d4ed1a64b2bd2d0`.
+This is only a grammar repair candidate; fresh stock and experimental Cloud
+results are required before any resource-body or false-entry credit. The
+separate transposition fixture's statement matches use block arms without
+commas; its expression matches use comma-separated value arms.

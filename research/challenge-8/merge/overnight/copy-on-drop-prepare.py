@@ -33,10 +33,10 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
     len * std::mem::size_of::<T>() <= isize::MAX &*&
     0 < std::mem::size_of::<CopyOnDrop<T>>() &*&
     0 < std::mem::align_of::<CopyOnDrop<T>>() &*&
-    self as usize != 0 &*&
-    self as usize % std::mem::align_of::<CopyOnDrop<T>>() == 0 &*&
-    object_pointer_within_limits(self, std::mem::size_of::<CopyOnDrop<T>>()) == true &*&
-    self as usize <= usize::MAX - std::mem::size_of::<CopyOnDrop<T>>() &*&
+    (self as *mut CopyOnDrop<T>) as usize != 0 &*&
+    (self as *mut CopyOnDrop<T>) as usize % std::mem::align_of::<CopyOnDrop<T>>() == 0 &*&
+    object_pointer_within_limits(self as *mut CopyOnDrop<T>, std::mem::size_of::<CopyOnDrop<T>>()) == true &*&
+    (self as *mut CopyOnDrop<T>) as usize <= usize::MAX - std::mem::size_of::<CopyOnDrop<T>>() &*&
     src as usize != 0 &*& dst as usize != 0 &*&
     src as usize % std::mem::align_of::<T>() == 0 &*&
     dst as usize % std::mem::align_of::<T>() == 0 &*&
@@ -50,11 +50,11 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<T>() &*&
         src as usize + len * std::mem::size_of::<T>() <= dst as usize ||
         dst as usize + len * std::mem::size_of::<T>() <= src as usize) &*&
     (len == 0 ||
-        self as usize + std::mem::size_of::<CopyOnDrop<T>>() <= src as usize ||
-        src as usize + len * std::mem::size_of::<T>() <= self as usize) &*&
+        (self as *mut CopyOnDrop<T>) as usize + std::mem::size_of::<CopyOnDrop<T>>() <= src as usize ||
+        src as usize + len * std::mem::size_of::<T>() <= (self as *mut CopyOnDrop<T>) as usize) &*&
     (len == 0 ||
-        self as usize + std::mem::size_of::<CopyOnDrop<T>>() <= dst as usize ||
-        dst as usize + len * std::mem::size_of::<T>() <= self as usize) &*&
+        (self as *mut CopyOnDrop<T>) as usize + std::mem::size_of::<CopyOnDrop<T>>() <= dst as usize ||
+        dst as usize + len * std::mem::size_of::<T>() <= (self as *mut CopyOnDrop<T>) as usize) &*&
     [?f]src[..len] |-> ?src_values &*& dst[..len] |-> _ &*&
     foreach(src_values, own::<T>(t));
 @*//*@
@@ -67,10 +67,10 @@ ens thread_token(t) &*& type_interp::<T>() &*&
     len * std::mem::size_of::<T>() <= isize::MAX &*&
     0 < std::mem::size_of::<CopyOnDrop<T>>() &*&
     0 < std::mem::align_of::<CopyOnDrop<T>>() &*&
-    self as usize != 0 &*&
-    self as usize % std::mem::align_of::<CopyOnDrop<T>>() == 0 &*&
-    object_pointer_within_limits(self, std::mem::size_of::<CopyOnDrop<T>>()) == true &*&
-    self as usize <= usize::MAX - std::mem::size_of::<CopyOnDrop<T>>() &*&
+    (self as *mut CopyOnDrop<T>) as usize != 0 &*&
+    (self as *mut CopyOnDrop<T>) as usize % std::mem::align_of::<CopyOnDrop<T>>() == 0 &*&
+    object_pointer_within_limits(self as *mut CopyOnDrop<T>, std::mem::size_of::<CopyOnDrop<T>>()) == true &*&
+    (self as *mut CopyOnDrop<T>) as usize <= usize::MAX - std::mem::size_of::<CopyOnDrop<T>>() &*&
     src as usize != 0 &*& dst as usize != 0 &*&
     src as usize % std::mem::align_of::<T>() == 0 &*&
     dst as usize % std::mem::align_of::<T>() == 0 &*&
@@ -84,11 +84,11 @@ ens thread_token(t) &*& type_interp::<T>() &*&
         src as usize + len * std::mem::size_of::<T>() <= dst as usize ||
         dst as usize + len * std::mem::size_of::<T>() <= src as usize) &*&
     (len == 0 ||
-        self as usize + std::mem::size_of::<CopyOnDrop<T>>() <= src as usize ||
-        src as usize + len * std::mem::size_of::<T>() <= self as usize) &*&
+        (self as *mut CopyOnDrop<T>) as usize + std::mem::size_of::<CopyOnDrop<T>>() <= src as usize ||
+        src as usize + len * std::mem::size_of::<T>() <= (self as *mut CopyOnDrop<T>) as usize) &*&
     (len == 0 ||
-        self as usize + std::mem::size_of::<CopyOnDrop<T>>() <= dst as usize ||
-        dst as usize + len * std::mem::size_of::<T>() <= self as usize) &*&
+        (self as *mut CopyOnDrop<T>) as usize + std::mem::size_of::<CopyOnDrop<T>>() <= dst as usize ||
+        dst as usize + len * std::mem::size_of::<T>() <= (self as *mut CopyOnDrop<T>) as usize) &*&
     [f]src[..len] |-> src_values &*& dst[..len] |-> src_values &*&
     foreach(src_values, own::<T>(t));
 @*//*@ on_unwind_ens false; @*//*@

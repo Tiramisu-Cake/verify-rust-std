@@ -16,6 +16,32 @@ Relevant frozen files:
 
 ## Current merge count-n boundary (2026-10-09)
 
+The 74227266 Cloud diagnostic reached readonly MIR export/decode and
+refinement in both stock and six-patch profiles, but VeriFast stopped before
+entering `CopyOnDrop::drop`: `verified/lib.rs(21,5-9)` reports a type mismatch
+for the first ghost `self as usize` (`&'__17 mut CopyOnDrop<T>` versus
+`usize`). Neither the positive case nor the `assert false` control is a
+proof result. The saved MIR nevertheless has exactly one runtime
+`core::ptr::copy_nonoverlapping` call in entry block 0, with its three
+operands read from `self.src`, `self.dst`, and `self.len`, and an unwind
+continuation. The current local MIR parser refused the unrelated decoded
+ADT-variance enum `invariant`, while the AST scanner looked at `Func` arg 8
+(the contract) instead of arg 7 (the runtime body). The dump contains the
+canonical declaration plus body and a `SwitchStmt` call to the AST callee
+`std::ptr::copy_nonoverlapping` with the dynamic `$_5` count.
+
+The next diagnostic revision changes only ghost address expressions for
+`self` to an explicit `*mut CopyOnDrop<T>` cast, preserving every resource
+and normal/unwind post. It admits only the exact single `variances =
+[invariant]` metadata field on the sole `CopyOnDrop` struct with its three
+named fields, the observed MIR `core::ptr` callee and the
+canonical declaration/body AST shape with all three operand locals and
+normal/unwind clauses. The classifier now records global VeriFast errors;
+the negative can count only as the unique first-body `false` failure, never
+as an unrelated pre-body type error. These are source/probe repairs, not a
+proof of the Drop body or of a caller route. A new Cloud run is required
+because the verified source and checker scripts changed.
+
 The active actual SmallSort Git blob is
 `40939f922bcb6fdc7ee0d30427fa861827043827`, full SHA-256
 `85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`.
