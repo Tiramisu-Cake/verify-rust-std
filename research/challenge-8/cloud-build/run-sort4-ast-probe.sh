@@ -39,7 +39,7 @@ card="$proof_root/research/challenge-8/overnight-callback/CLOUD-ACTUAL-AST-PROBE
 capture="$cloud_dir/actual-sort4-capture.py"
 audit="$cloud_dir/sort4-ast-audit.py"
 for file in "$patch" "$card" "$capture" "$audit"; do [[ -f "$file" ]] || exit 2; done
-patch_sha=3c7a8edb6f4a1fab88dff0aba10b982826c0467b1e7ec1591254817de2002023
+patch_sha=3686a672c8f7fac08d591cf45ca23a6a75367869f6911ce1a877235f50f3ada9
 printf '%s  %s\n' "$patch_sha" "$patch" | sha256sum -c -
 python3 - "$patch" "$translator" <<'PATCH_SCOPE'
 from pathlib import Path

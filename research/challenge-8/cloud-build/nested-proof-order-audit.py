@@ -13,7 +13,7 @@ import sys
 SOURCE='1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6'
 ORIGINAL='466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5'
 TRANSLATOR='0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a'
-TEST_PATCH='da3c79529a1b78fc6f9c22eb7695b908646b8acb4c6eafde1daf3e059ee3a482'
+TEST_PATCH='6ecf8184a6dfb483b950adb9ef752a89116c5915f655100c254568ab33b78051'
 VF_HEAD='f76012fb518703b1d98e243ac4f487f16877cfcb'
 TRANSLATOR_PATH='src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'
 BINARIES=('bin/verifast','bin/vf-rust-mir-exporter','bin/refinement-checker',

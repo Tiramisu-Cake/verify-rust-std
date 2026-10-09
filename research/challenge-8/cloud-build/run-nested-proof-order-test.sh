@@ -69,7 +69,7 @@ production,applied,delta,ev,proof=map(pathlib.Path,sys.argv[1:])
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 translator=production/'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'
 assert sha(translator)=='0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a'
-assert sha(delta)=='da3c79529a1b78fc6f9c22eb7695b908646b8acb4c6eafde1daf3e059ee3a482'
+assert sha(delta)=='6ecf8184a6dfb483b950adb9ef752a89116c5915f655100c254568ab33b78051'
 actual=subprocess.check_output(['git','-C',str(production),'diff'])
 assert actual==applied.read_bytes()
 profile=json.loads((proof/'research/challenge-8/overnight-assume-actual/O26-REFRESH-PROFILE.json').read_text())
