@@ -279,11 +279,29 @@ def execute_case(case: Path, args, env: dict) -> dict:
         "-rustc_args", "--edition 2021", "-verbose", "1", "-dump_ast_with_locs",
         "proof-ast.ml"]
     extern_spec = case / "origin-control.rsspec"
+    extern_spec_binding = None
     if extern_spec.is_file() and extern_spec.read_bytes():
-        vf_arguments.extend(["-extern_spec", "=" + str(extern_spec.resolve())])
+        case_root = case.resolve()
+        target_path = extern_spec.resolve()
+        if target_path != case_root / "origin-control.rsspec":
+            raise RuntimeError("extern spec target is outside the current case root")
+        source_sha_before = base.file_sha(extern_spec)
+        vf_arguments.extend(["-extern_spec", "=" + str(target_path)])
+        extern_spec_binding = {
+            "case_root": str(case_root),
+            "target_path": str(target_path),
+            "source_sha256_before": source_sha_before,
+        }
     vf_arguments.append("verified/lib.rs")
     vf = base.run_stage(case, "verifast", vf_arguments, env, combine=True,
         timeout_seconds=args.verifier_seconds)
+    if extern_spec_binding is not None:
+        source_sha_after = base.file_sha(extern_spec)
+        extern_spec_binding["source_sha256_after"] = source_sha_after
+        receipt_path = case / "verifast-stage.json"
+        receipt = json.loads(receipt_path.read_text())
+        receipt["extern_spec_binding"] = extern_spec_binding
+        receipt_path.write_text(json.dumps(receipt, indent=2) + "\n")
     refinement = base.run_stage(case, "refinement", [
         str(args.tool_home / "bin/refinement-checker"), "--rustc-args", "--edition 2021",
         "original/lib.rs", "verified/lib.rs"], env,
@@ -295,6 +313,7 @@ def execute_case(case: Path, args, env: dict) -> dict:
         if json.loads(path.read_text()).get("status") != "NOT_RUN")
     return {"stages": {"exporter": exporter, "decode": decode,
                        "verifast": vf, "refinement": refinement},
+            **({"extern_spec_binding": extern_spec_binding} if extern_spec_binding is not None else {}),
             "source_before": source_before, "source_after": source_after,
             "source_unchanged_at_every_stage": unchanged}
 

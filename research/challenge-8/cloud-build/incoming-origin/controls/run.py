@@ -859,8 +859,9 @@ def diverging_unwind_log_gate(log: str, meta: dict, ast_gate: dict) -> dict:
             "leak_check_count": leak_checks, "leak_after_unwind_return": leak_after_unwind}
 
 
-def extern_spec_cli_gate(case: Path, name: str, meta: dict, stages: dict) -> bool:
-    """Require the exact per-case extern header to reach VeriFast via argv."""
+def extern_spec_cli_gate(case: Path, name: str, meta: dict, stages: dict,
+                         execution_binding) -> bool:
+    """Bind VeriFast argv to the recorded absolute case file and its bytes."""
     if not meta.get("extern_spec"):
         return True
     try:
@@ -868,9 +869,11 @@ def extern_spec_cli_gate(case: Path, name: str, meta: dict, stages: dict) -> boo
     except (OSError, ValueError, TypeError):
         return False
     argv = receipt.get("argv")
+    binding = receipt.get("extern_spec_binding")
     if (receipt.get("stage") != "verifast" or
             receipt.get("exit_code") != stages.get("verifast") or
-            not isinstance(argv, list) or not all(isinstance(arg, str) for arg in argv)):
+            not isinstance(argv, list) or not all(isinstance(arg, str) for arg in argv) or
+            not isinstance(binding, dict) or binding != execution_binding):
         return False
     flags = [index for index, arg in enumerate(argv)
              if arg == "-extern_spec" or arg.startswith("-extern_spec=")]
@@ -879,9 +882,24 @@ def extern_spec_cli_gate(case: Path, name: str, meta: dict, stages: dict) -> boo
     value = argv[flags[0] + 1]
     if not value.startswith("=") or value.startswith("=="):
         return False
-    path = Path(value[1:])
-    return (path.is_absolute() and
-            path.parts[-3:] == ("controls", name, "origin-control.rsspec"))
+    case_root_raw = binding.get("case_root")
+    target_raw = binding.get("target_path")
+    expected_sha = meta.get("extern_spec_sha256")
+    if not isinstance(case_root_raw, str) or not isinstance(target_raw, str):
+        return False
+    case_root, target_path = Path(case_root_raw), Path(target_raw)
+    if (not case_root.is_absolute() or not target_path.is_absolute() or
+            case_root.name != name or case_root.parent.name != "controls" or
+            target_raw != str(case_root / "origin-control.rsspec") or
+            value != "=" + target_raw or
+            binding.get("source_sha256_before") != expected_sha or
+            binding.get("source_sha256_after") != expected_sha):
+        return False
+    # Replay runs under a temporary local path, while the receipt retains the
+    # original Cloud absolute path. Bind that path to the copied local header
+    # by requiring all local source/header copies to carry the recorded hash.
+    local_header = case / "origin-control.rsspec"
+    return local_header.is_file() and _sha(local_header.read_bytes()) == expected_sha
 
 
 def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
@@ -911,7 +929,8 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
                       all(path.is_file() and _sha(path.read_bytes()) == expected_spec_sha
                           for path in spec_paths) and
                       spec_paths[0].read_bytes() == spec_paths[1].read_bytes())
-    spec_cli_ok = extern_spec_cli_gate(case, name, meta, stages)
+    spec_cli_ok = extern_spec_cli_gate(case, name, meta, stages,
+                                       execution.get("extern_spec_binding"))
     stage_inputs_ok = stage_inputs_ok and spec_inputs_ok and spec_cli_ok
     gate = (origin_gate(case, meta) if stages.get("decode") == 0 and
             meta["kind"] not in {"layout_diagnostic", "ghost_frontend_diagnostic", "local_death_negative"}

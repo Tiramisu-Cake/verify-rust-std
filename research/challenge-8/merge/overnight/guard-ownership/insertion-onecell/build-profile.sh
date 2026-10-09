@@ -135,8 +135,28 @@ done
 # Independent concrete ABI observation by the pinned compiler, separate from VF.
 compiler_layout_source="$here/../../../../cloud-build/origin-layout/compiler-layout.rs"
 cp "$compiler_layout_source" "$evidence/compiler-layout.rs"
+python3 - "$compiler_layout_source" "$evidence" <<'COMPILER_RECEIPT'
+import hashlib,json,os,pathlib,runpy,shutil,subprocess,sys
+source,evidence=map(pathlib.Path,sys.argv[1:])
+version=subprocess.check_output(['rustc','-vV'],text=True)
+resolved=subprocess.check_output(['rustup','which','rustc'],text=True).strip()
+assert subprocess.check_output([resolved,'-vV'],text=True)==version
+assert os.environ.get('RUSTUP_TOOLCHAIN')=='nightly-2026-09-25'
+assert 'commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f' in version
+assert 'host: x86_64-unknown-linux-gnu' in version
+receipt={'schema':'compiler-layout-fact-v1','classification':'COMPILER_FACT_DIAGNOSTIC_NOT_PROOF',
+ 'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+ 'rustc_version':version,'rustc_command':shutil.which('rustc'),'rustc_resolved':resolved,
+ 'rustc_sha256':hashlib.sha256(pathlib.Path(resolved).read_bytes()).hexdigest(),
+ 'toolchain':os.environ['RUSTUP_TOOLCHAIN'],'target':'x86_64-unknown-linux-gnu',
+ 'proof_sha':os.environ['PROOF_SHA'],
+ 'provider':runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider']()}
+(evidence/'compiler-layout-receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(evidence/'compiler-layout-rustc.txt').write_text(resolved+'\n')
+COMPILER_RECEIPT
+compiler_layout_rustc=$(cat "$evidence/compiler-layout-rustc.txt")
 set +e
-timeout --signal=TERM --kill-after=5s 25s rustc --edition=2021 --crate-name=compiler_layout --crate-type=bin \
+timeout --signal=TERM --kill-after=5s 25s "$compiler_layout_rustc" --edition=2021 --crate-name=compiler_layout --crate-type=bin \
   --target=x86_64-unknown-linux-gnu "$compiler_layout_source" -o "$evidence/compiler-layout" \
   > "$evidence/compiler-layout-compile.log" 2>&1
 compiler_layout_status=$?

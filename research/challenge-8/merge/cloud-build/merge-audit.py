@@ -524,7 +524,7 @@ def audit_onecell_nested_controls(base: Path, aggregate: dict,
             native_valid = native_valid and smoke_ok
         report["native_unit_smokes"] = native_report
         report["compiler_layout_fact"] = layout.classify_compiler_facts(
-            tracked_build, layout_path.parent / "compiler-layout.rs")
+            tracked_build, layout_path.parent / "compiler-layout.rs", environment, profile_build)
         report["artifact_bindings_valid"] = bool(
             valid and native_valid and report["compiler_layout_fact"]["valid"])
         report["classification"] = ("EVIDENCE_COMPLETE_DIAGNOSTIC"

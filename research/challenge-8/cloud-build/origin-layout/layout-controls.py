@@ -88,19 +88,34 @@ def run(root, args, env, execute_case):
     return summary
 
 
-def classify_compiler_facts(evidence: Path, source: Path):
+def classify_compiler_facts(evidence: Path, source: Path, environment: dict, profile_build: dict):
     """Read a saved Cloud compiler observation; no compiler/proof execution."""
     expected = {"unit": [0, 1], "manually_drop_unit": [0, 1],
                 "u64": [8, 8], "manually_drop_u64": [8, 8],
                 "unit_array_stride": 0, "u64_array_stride": 8,
                 "classification": "COMPILER_FACT_DIAGNOSTIC_NOT_PROOF"}
     observed = json.loads((evidence / "compiler-layout.json").read_text())
-    valid = (observed == expected and
+    receipt = json.loads((evidence / "compiler-layout-receipt.json").read_text())
+    receipt_valid = (receipt.get("schema") == "compiler-layout-fact-v1" and
+        receipt.get("classification") == "COMPILER_FACT_DIAGNOSTIC_NOT_PROOF" and
+        receipt.get("source_sha256") == hashlib.sha256(source.read_bytes()).hexdigest() and
+        receipt.get("toolchain") == environment.get("rustc_toolchain") == "nightly-2026-09-25" and
+        receipt.get("target") == "x86_64-unknown-linux-gnu" and
+        receipt.get("rustc_version") == environment.get("rustc_version") and
+        "commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f" in receipt.get("rustc_version", "") and
+        "host: x86_64-unknown-linux-gnu" in receipt.get("rustc_version", "") and
+        receipt.get("proof_sha") == environment.get("proof_sha") == profile_build.get("proof_sha") and
+        receipt.get("provider") == environment.get("provider") == profile_build.get("provider") and
+        Path(receipt.get("rustc_command", "")).is_absolute() and
+        Path(receipt.get("rustc_resolved", "")).is_absolute() and
+        (evidence / "compiler-layout-rustc.txt").read_text().strip() == receipt.get("rustc_resolved") and
+        re.fullmatch(r"[0-9a-f]{64}", receipt.get("rustc_sha256", "")) is not None)
+    valid = (receipt_valid and observed == expected and
              hashlib.sha256((evidence / "compiler-layout.rs").read_bytes()).digest() ==
              hashlib.sha256(source.read_bytes()).digest() and
              (evidence / "compiler-layout-compile-exit-code.txt").read_text().strip() == "0" and
              (evidence / "compiler-layout-run-exit-code.txt").read_text().strip() == "0" and
              not re.search(r"\berror:", (evidence / "compiler-layout-compile.log").read_text(), re.I) and
              not (evidence / "compiler-layout-run.log").read_text().strip())
-    return {"valid": bool(valid), "observed": observed, "accepted": False,
+    return {"valid": bool(valid), "receipt": receipt, "observed": observed, "accepted": False,
             "classification": "COMPILER_FACT_DIAGNOSTIC_NOT_PROOF"}
