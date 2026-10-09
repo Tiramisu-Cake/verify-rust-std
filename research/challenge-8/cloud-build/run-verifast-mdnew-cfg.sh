@@ -2,8 +2,8 @@
 # Bounded Cloud-only source-built baseline/candidate gate for MDnew CFG.
 set -euo pipefail
 
-lane=${1:?usage: run-verifast-mdnew-cfg.sh verifast-mdnew-cfg|verifast-mdnew-regressions}
-[[ "$lane" == verifast-mdnew-cfg || "$lane" == verifast-mdnew-regressions ]] || {
+lane=${1:?usage: run-verifast-mdnew-cfg.sh verifast-mdnew-cfg|verifast-mdnew-regressions|verifast-mdnew-upstream-pr}
+[[ "$lane" == verifast-mdnew-cfg || "$lane" == verifast-mdnew-regressions || "$lane" == verifast-mdnew-upstream-pr ]] || {
   echo 'unexpected lane' >&2; exit 2;
 }
 infra_root=${INFRA_ROOT:-/workspace/infra}
@@ -35,7 +35,15 @@ source_certificate="$evidence_root/source-input-certificate.json"
 proof_audit="$evidence_root/proof-audit.json"
 auditor="$cloud_dir/mdnew-audit.py"
 regression_auditor="$cloud_dir/mdnew-regression-audit.py"
+pr_auditor="$cloud_dir/mdnew-upstream-pr-audit.py"
 restore="$cloud_dir/restore-verifast-input.py"
+if [[ "$lane" == verifast-mdnew-upstream-pr ]]; then
+  candidate_sha=da4beb61a6c2dd0e80fe4a74c5c230f3adac7cab
+  candidate_tree=50481095a79cb8f517fb61c0a4aa5d026b591b91
+  input_rel="research/challenge-8/verifast-input/$candidate_sha"
+  verifast_input="$proof_root/$input_rel"
+  restore="$cloud_dir/restore-verifast-pr-input.py"
+fi
 audited=0
 status=0
 
@@ -50,7 +58,10 @@ write_incomplete_audit() {
   local code=$?
   trap - EXIT
   if (( audited == 0 )); then
-    if [[ "$lane" == verifast-mdnew-regressions ]]; then
+    if [[ "$lane" == verifast-mdnew-upstream-pr ]]; then
+      python3 "$pr_auditor" "$candidate_tool" "$all" --output "$proof_audit" \
+        > "$all/audit-failure.log" 2>&1 || true
+    elif [[ "$lane" == verifast-mdnew-regressions ]]; then
       python3 "$regression_auditor" "$candidate_tool" "$all" --output "$proof_audit" \
         > "$all/audit-failure.log" 2>&1 || true
     else
@@ -294,8 +305,8 @@ path={'baseline_source_sha':subprocess.check_output(['git','-C',str(base),'rev-p
 pathlib.Path(out).write_text(json.dumps(path,indent=2,sort_keys=True)+'\n')
 COMPONENTS
 
-# The focused lane prepares its fixtures. The regression lane runs only pinned
-# upstream tests after the same source-built candidate and provenance setup.
+# The focused lane prepares fixtures. Regression and native PR lanes use the
+# same source-built candidate and exact source-delivery provenance.
 if [[ "$lane" == verifast-mdnew-cfg ]]; then
 python3 - "$candidate_tool" "$baseline_tool" "$candidate_sha" "$cases" <<'FIXTURES'
 import hashlib,pathlib,shutil,subprocess,sys
@@ -423,6 +434,106 @@ record={'schema':'verifast-mdnew-capture-v1','case':case,'side':side,'source_sha
 pathlib.Path(out).write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
 CAPTURE
 }
+
+if [[ "$lane" == verifast-mdnew-upstream-pr ]]; then
+  registration_file="$candidate_tool/tests/rust/testsuite.mysh"
+  selected_script="$all/selected-manuallydrop-registration.mysh"
+  python3 - "$registration_file" "$candidate_tool" "$selected_script" "$all/native-input.json" "$cases" <<'NATIVE_INPUT'
+import hashlib,json,pathlib,subprocess,sys
+registration,tool,selected,receipt=map(pathlib.Path,sys.argv[1:5]); cases=pathlib.Path(sys.argv[5])/'manuallydrop-native'
+raw=registration.read_bytes(); lines=raw.decode().splitlines(keepends=True)
+starts=[i for i,line in enumerate(lines) if line.strip()=="cd manuallydrop_new_cfg"]
+if len(starts)!=1: raise SystemExit('native registration block is absent or duplicated')
+start=starts[0]; end=next((i for i in range(start+1,len(lines)) if lines[i].strip()=="cd .."),None)
+if end is None: raise SystemExit('native registration block is unterminated')
+block=''.join(lines[start:end+1])
+expected=['cd manuallydrop_new_cfg','verifast forget.rs','verifast shared_cleanup.rs',
+          'verifast -allow_should_fail false_normal_post.rs',
+          'verifast -allow_should_fail shared_false_unwind.rs',
+          '! verifast dead_code_pre.rs','cd ..']
+actual=[line.strip() for line in block.splitlines() if line.strip()]
+if actual!=expected: raise SystemExit('native registration commands/options differ from approved five-fixture block')
+if '-ignore_unwind_paths' in block or '-allow_dead_code' in block:
+ raise SystemExit('native registration disables a required checker')
+selected_bytes=('cd purely_unsafe\n'+block+'cd ..\n').encode()
+selected.write_bytes(selected_bytes)
+cases.mkdir(parents=True,exist_ok=True); (cases/'selected-registration.mysh').write_bytes(selected_bytes)
+fixtures={}
+for name in ('forget','shared_cleanup','false_normal_post','shared_false_unwind','dead_code_pre'):
+ rel='tests/rust/purely_unsafe/manuallydrop_new_cfg/'+name+'.rs'; data=(tool/rel).read_bytes()
+ oid=subprocess.check_output(['git','-C',str(tool),'rev-parse','HEAD:'+rel],text=True).strip()
+ fixtures[name]={'path':rel,'sha256':hashlib.sha256(data).hexdigest(),'git_blob':oid}
+pathlib.Path(receipt).write_text(json.dumps({'registration_path':'tests/rust/testsuite.mysh',
+ 'registration_sha256':hashlib.sha256(raw).hexdigest(),'registration_git_blob':subprocess.check_output(
+ ['git','-C',str(tool),'rev-parse','HEAD:tests/rust/testsuite.mysh'],text=True).strip(),
+ 'selected_script_sha256':hashlib.sha256(selected_bytes).hexdigest(),
+ 'selected_commands':actual,'fixtures':fixtures},indent=2,sort_keys=True)+'\n')
+NATIVE_INPUT
+  export PATH="$candidate_tool/bin:$PATH"
+  registration_status=0
+  run_stage mdnew-pr-registration 240 "$candidate_tool/tests/rust" \
+    "$all/native-registration.log" combined "$candidate_tool/bin/mysh" -verbose \
+    "$selected_script" || registration_status=$?
+  rust_status=0
+  if (( registration_status == 0 )); then
+    run_stage mdnew-pr-rust-suite 1200 "$candidate_tool/tests/rust" \
+      "$all/rust-testsuite.log" combined "$candidate_tool/bin/mysh" -cpus 4 \
+      testsuite.mysh || rust_status=$?
+  else
+    rust_status=125
+    printf 'NOT_RUN: selected native registration failed\n' > "$all/rust-testsuite.log"
+    printf 'NOT_RUN\n' > "$all/mdnew-pr-rust-suite-resources.txt"
+    printf '125\n' > "$all/mdnew-pr-rust-suite-exit-code.txt"
+  fi
+  make_status=125
+  if (( registration_status == 0 && rust_status == 0 )) &&
+     remaining_budget=$(remaining) && (( remaining_budget > 700 )); then
+    run_stage mdnew-pr-make-test 650 "$candidate_tool/src" \
+      "$all/make-test.log" combined make test NUMCPU=4 || make_status=$?
+  else
+    printf 'NOT_RUN: bounded phase time after mandatory native gates\n' > "$all/make-test.log"
+    printf 'NOT_RUN\n' > "$all/mdnew-pr-make-test-resources.txt"
+    printf '125\n' > "$all/mdnew-pr-make-test-exit-code.txt"
+  fi
+  python3 - "$all/native-input.json" "$all" "$registration_status" "$rust_status" "$make_status" "$candidate_tool" "$cases" <<'NATIVE_RESULTS'
+import hashlib,json,pathlib,re,subprocess,sys
+path=pathlib.Path(sys.argv[1]); root=pathlib.Path(sys.argv[2]); registration,rust,make=map(int,sys.argv[3:6]); tool=pathlib.Path(sys.argv[6]); cases=pathlib.Path(sys.argv[7])/'manuallydrop-native'; data=json.loads(path.read_text())
+def rec(name,code,stage):
+ p=root/name
+ exit_file=root/(stage+'-exit-code.txt'); resources=root/(stage+'-resources.txt')
+ return {'exit_status':int(code),'path':name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+  'exit_status_path':exit_file.name,'resources_path':resources.name,
+  'resources_sha256':hashlib.sha256(resources.read_bytes()).hexdigest()}
+data['registration_run']=rec('native-registration.log',registration,'mdnew-pr-registration')
+data['rust_suite_run']=rec('rust-testsuite.log',rust,'mdnew-pr-rust-suite')
+data['make_test_run']=rec('make-test.log',make,'mdnew-pr-make-test')
+log=(root/'native-registration.log').read_text(errors='replace'); captured={}
+mapping={'forget':'verifast forget.rs','shared_cleanup':'verifast shared_cleanup.rs',
+ 'false_normal_post':'verifast -allow_should_fail false_normal_post.rs',
+ 'shared_false_unwind':'verifast -allow_should_fail shared_false_unwind.rs',
+ 'dead_code_pre':'! verifast dead_code_pre.rs'}
+for case,command in mapping.items():
+ suffix=re.escape(command); start=re.search(r'(?m)^Starting process \d+: (?:[^\n]*\$ )?'+suffix+r'$',log)
+ after=log[start.end():] if start else ''; finish=re.search(r'(?m)^PASS: (?:[^\n]*\$ )?'+suffix+r' \(',after)
+ if start is None or finish is None: continue
+ end=log.find('\n',start.end()+finish.start()); end=len(log) if end<0 else end+1
+ trace=log[start.start():end]
+ out=cases/case; out.mkdir(parents=True,exist_ok=True)
+ rel='tests/rust/purely_unsafe/manuallydrop_new_cfg/'+case+'.rs'; source=(tool/rel).read_bytes(); (out/'source.rs').write_bytes(source); (out/'native-mysh-trace.log').write_text(trace)
+ record={'path':rel,'command':command,'source_sha256':hashlib.sha256(source).hexdigest(),
+  'git_blob':subprocess.check_output(['git','-C',str(tool),'rev-parse','HEAD:'+rel],text=True).strip(),
+  'trace_path':'native-mysh-trace.log','trace_sha256':hashlib.sha256(trace.encode()).hexdigest()}
+ (out/'case.json').write_text(json.dumps(record,indent=2,sort_keys=True)+'\n'); captured[case]=record
+data['case_evidence']=captured
+path.write_text(json.dumps(data,indent=2,sort_keys=True)+'\n')
+(cases/'manifest.json').write_bytes(path.read_bytes())
+NATIVE_RESULTS
+  python3 "$pr_auditor" "$candidate_tool" "$all" --output "$proof_audit" \
+    > "$all/mdnew-pr-audit.log" 2>&1 || status=$?
+  audited=1
+  if (( status != 0 )); then cat "$all/mdnew-pr-audit.log"; exit "$status"; fi
+  exit 0
+fi
 
 if [[ "$lane" == verifast-mdnew-regressions ]]; then
   regression_dir="$all/regressions"
