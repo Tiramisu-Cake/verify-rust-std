@@ -136,6 +136,16 @@ def shadow_chain(a, shared):
     need(sha(a.proof_root / ROOT / item["patch"]) == item["patch_sha256"],
          "FRAME-shadow patch bytes differ from the manifest pin")
     chain.append(item)
+    cleanup = read(a.proof_root / ROOT / "overnight-assume-actual/O26-R3-CLEANUP-PROJECTION-TEST.json")
+    need(cleanup.get("accepted") is False and cleanup.get("parent_translator_sha256") == item["result"] and
+         cleanup.get("source") == profile["source"] and cleanup.get("typed_outer_graph") == profile["typed_outer_graph"] and
+         cleanup.get("runtime_spec_kernel_parser_exporter_refiner_modified") is False,
+         "cleanup projection source/parent/domain certificate differs")
+    extra = {"kind":"cleanup-projection", "parent":cleanup["parent_translator_sha256"],
+        "patch":cleanup["test_patch"], "patch_sha256":cleanup["test_patch_sha256"],
+        "result":cleanup["test_translator_sha256"]}
+    need(sha(a.proof_root / ROOT / extra["patch"]) == extra["patch_sha256"], "cleanup projection patch pin")
+    chain.append(extra)
     return manifests, profile, chain
 
 
@@ -293,7 +303,12 @@ def run(a):
     on_audit=shared.log_proof_evidence(on_log,on)
     outer_seen=on_audit["outer_header_seen"] or on_audit["outer_prototype_seen"]
     error_span=re.search(r"verified/lib.rs\((\d+),", on_audit["first_error"] or "")
-    beyond_late=(on_audit["proof_exit"]==0 or
+    strict_dead = re.findall(r"(?m)^verified/lib\.rs\([^\n]+\): dead code$", on_log)
+    expected_dead = ["verified/lib.rs(135,1-239,2): dead code", "verified/lib.rs(238,5-6): dead code", "verified/lib.rs(238,5-6): dead code"]
+    cleanup_baseline = (on.get("exit") == 1 and strict_dead == expected_dead and
+        on_audit["first_error"] is None and all(v == 2 for v in on_audit["outer_counts"].values()) and
+        len(on_audit["outer_counts"]) == 4)
+    beyond_late=(cleanup_baseline or on_audit["proof_exit"]==0 or
         (error_span is not None and int(error_span.group(1))>233))
     on_audit["past_three_late_wrapper_assertions"]=beyond_late
     outer_failure=(outer_seen and on_audit["nested_full_normal_unwind_observed"] and
@@ -304,7 +319,7 @@ def run(a):
     on_ok=(beyond_late and on_audit["prefix7_ordered"] and on_audit["nested_before_outer"] and
         not on_audit["errors_before_nested"] and on_audit["helper_full_normal_unwind_observed"] and
         on_audit["nested_full_normal_unwind_observed"] and outer_seen and
-        (outer_failure or outer_full))
+        (cleanup_baseline or outer_failure or outer_full))
     need(on_ok,"FRAME-shadow-on failed before the intended helper/nested/outer proof diagnostic")
     on_audit["outer_actual_failure"]=outer_failure
     on_audit["outer_full_normal_unwind_observed"]=outer_full
@@ -313,6 +328,30 @@ def run(a):
     stages["frame-shadow-source-partial"]={"exit":partial.get("exit"),"fatal":partial_fatal,
         "preheader_refusal":partial_ok,"accepted":False}
     stages["frame-shadow-source-on"]=on_audit
+    need(cleanup_baseline, "projection-off did not preserve exact strict dead-cleanup diagnostic")
+    stages["frame-shadow-source-on"]["strict_dead_code"] = strict_dead
+    stages["frame-shadow-source-on"]["both_normal_returns_resources_observed"] = cleanup_baseline
+    cleanup_pair=("SORT4_R3_CLEANUP_PROJECTION_TEST_REPO_ROOT", "SORT4_R3_CLEANUP_PROJECTION_TEST")
+    shared.FRAME_PAIR=cleanup_pair
+    shared.PARENT_PAIRS=(*old_parent_pairs,FRAME_PAIR,SHADOW_PAIR)
+    partial_cleanup,partial_cleanup_log=shared.proof_stage(a,recipe,tool_snapshot,candidate,shadow_case,
+        "cleanup-projection-partial",shadow_receipt["source_sha256"],"partial",snapshot)
+    cleanup_fatal='Fatal error: exception Failure("SORT4-R3-CLEANUP-PROJECTION-TEST: certificate mismatch: exact root/test opt-in pair")'
+    need(exact_preheader(partial_cleanup,partial_cleanup_log,cleanup_fatal), "cleanup partial exact preheader refusal")
+    stages["cleanup-projection-partial"]={"exit":partial_cleanup["exit"],"fatal":cleanup_fatal,"preheader_refusal":True}
+    cleanup_on,cleanup_on_log=shared.proof_stage(a,recipe,tool_snapshot,candidate,shadow_case,
+        "cleanup-projection-on",shadow_receipt["source_sha256"],"on",snapshot)
+    cleanup_audit=shared.log_proof_evidence(cleanup_on_log,cleanup_on)
+    cleanup_dead=re.findall(r"(?m)^.*: dead code$",cleanup_on_log)
+    projected_markers=re.findall(r"(?m)^SORT4-R3-CLEANUP-PROJECTION-TEST: projected exact (pointer-drop|assume-init) false-unwind call$",cleanup_on_log)
+    cleanup_full=(cleanup_on["exit"]==0 and not cleanup_dead and cleanup_audit["prefix7_ordered"] and
+        cleanup_audit["nested_before_outer"] and cleanup_audit["helper_full_normal_unwind_observed"] and
+        cleanup_audit["nested_full_normal_unwind_observed"] and cleanup_audit["outer_full_normal_unwind_observed"] and
+        sorted(projected_markers)==["assume-init","pointer-drop"])
+    stages["cleanup-projection-on"]={**cleanup_audit,"strict_dead_code":cleanup_dead,"projection_markers":projected_markers,
+        "full_conditional_pointer_contract":cleanup_full,"accepted":False}
+    write(a.evidence/"cleanup-projection-observations.json",{"stages":stages,"full_conditional_pointer_contract":cleanup_full,"accepted":False})
+    need(cleanup_full,"cleanup projection did not discharge the full exact pointer-select contract")
     need(tool_snapshot.tool_snapshot(a.production_source,a.proof_root)==a.production_snapshot and
          tool_snapshot.tool_snapshot(candidate,a.proof_root)==snapshot,
          "canonical production or candidate tool changed during FRAME-shadow controls")
@@ -329,6 +368,8 @@ def run(a):
         "old_frame_line231_baseline_is_not_an_intended_theorem_negative":True,
         "nested_actual_failure":False,"frame_shadow_outer_reached":outer_seen,
         "frame_shadow_outer_full_normal_unwind_observed":outer_full,
+        "cleanup_projection_full_conditional_pointer_contract":cleanup_full,
+        "conditional_profile_theorem_only":True,
         "outer_credit":False,"actual_outer_240_progress":False,
         "wrong_shadow_binding_negative_complete":False,
         "open_gates":["wrong shadow binding/name/source/unit/span controls not run",

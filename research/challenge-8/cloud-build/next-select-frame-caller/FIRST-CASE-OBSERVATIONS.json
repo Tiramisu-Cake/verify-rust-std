@@ -1,0 +1,194 @@
+{
+  "build_id": "4763ca49-4420-4ab8-9bdc-bcee05246228",
+  "infra_sha": "0ecff7ee7e6fd5d88082915252cae5dd2395bf93",
+  "proof_sha": "0ecff7ee7e6fd5d88082915252cae5dd2395bf93",
+  "archive_sha256": "0e68c01a435cf1cfd5e14edf734bce71e7f0d75a2ae766c2e90d0b81fd5495eb",
+  "cases": {
+    "old-frame-shadow-off-baseline": {
+      "headers": [
+        37850,
+        39122,
+        40102,
+        41075,
+        42383,
+        43302,
+        44360,
+        47254,
+        45234
+      ],
+      "prefix7_ordered": true,
+      "nested_before_outer": true,
+      "errors_before_nested": false,
+      "helper_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 1,
+        "Leak check.": 1,
+        "Consuming function lifetime token": 1,
+        "Freeing locals.": 1
+      },
+      "helper_full_normal_unwind_observed": true,
+      "nested_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 2,
+        "Leak check.": 2,
+        "Consuming function lifetime token": 2,
+        "Freeing locals.": 2
+      },
+      "nested_full_normal_unwind_observed": true,
+      "outer_header_seen": true,
+      "outer_prototype_seen": true,
+      "outer_counts": {
+        "Executing return statement": 0,
+        "Leak check.": 0,
+        "Consuming function lifetime token": 0,
+        "Freeing locals.": 0
+      },
+      "outer_full_normal_unwind_observed": false,
+      "first_error": "verified/lib.rs(231,49-57): error: Type mismatch. Actual: *Element. Expected: std::mem::MaybeUninit<?>.",
+      "first_error_in_outer": true,
+      "first_error_in_nested": false,
+      "proof_exit": 1,
+      "accepted": false,
+      "strict_dead_code": [],
+      "log_sha256": "8f270935325ddfa72bb542fac2b45b305b6786740b565bf4bf933389d8e0911c",
+      "stage_sha256": "0db5d5c133706be7919ac358bf79b77ee641251543cc5993bf4e59ddac53c9e4"
+    },
+    "frame-shadow-source-off": {
+      "headers": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "prefix7_ordered": false,
+      "nested_before_outer": false,
+      "errors_before_nested": true,
+      "helper_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 0,
+        "Leak check.": 0,
+        "Consuming function lifetime token": 0,
+        "Freeing locals.": 0
+      },
+      "helper_full_normal_unwind_observed": false,
+      "nested_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 0,
+        "Leak check.": 0,
+        "Consuming function lifetime token": 0,
+        "Freeing locals.": 0
+      },
+      "nested_full_normal_unwind_observed": false,
+      "outer_header_seen": false,
+      "outer_prototype_seen": false,
+      "outer_counts": {},
+      "outer_full_normal_unwind_observed": false,
+      "first_error": "Fatal error: exception Failure(\"SORT4-SELECT-INTRINSIC: certificate mismatch: owner exact verified source SHA256\")",
+      "first_error_in_outer": false,
+      "first_error_in_nested": false,
+      "proof_exit": 2,
+      "accepted": false,
+      "strict_dead_code": [],
+      "log_sha256": "3fa4b707eea2173c07bbdbdb2c252590d20e85a5717a463bb1a8bc41b2a86f88",
+      "stage_sha256": "94922cc99575ebb9b01e9b0bd7803d2c23ebe7e83aadd95f3313bd09f45b485a"
+    },
+    "frame-shadow-source-partial": {
+      "headers": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "prefix7_ordered": false,
+      "nested_before_outer": false,
+      "errors_before_nested": true,
+      "helper_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 0,
+        "Leak check.": 0,
+        "Consuming function lifetime token": 0,
+        "Freeing locals.": 0
+      },
+      "helper_full_normal_unwind_observed": false,
+      "nested_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 0,
+        "Leak check.": 0,
+        "Consuming function lifetime token": 0,
+        "Freeing locals.": 0
+      },
+      "nested_full_normal_unwind_observed": false,
+      "outer_header_seen": false,
+      "outer_prototype_seen": false,
+      "outer_counts": {},
+      "outer_full_normal_unwind_observed": false,
+      "first_error": "Fatal error: exception Failure(\"SORT4-R3-FRAME-SHADOW-TEST: certificate mismatch: exact root/test opt-in pair\")",
+      "first_error_in_outer": false,
+      "first_error_in_nested": false,
+      "proof_exit": 2,
+      "accepted": false,
+      "strict_dead_code": [],
+      "log_sha256": "2f2dad58cf6652cb1e97dbb0113a31ea4f8a1218f491d9cc3cee787c999bdd7a",
+      "stage_sha256": "5643e22213c66cf24cfa4301cde46286b04af8546c0eeaf9d5632d4792bb88eb"
+    },
+    "frame-shadow-source-on": {
+      "headers": [
+        37922,
+        39194,
+        40174,
+        41147,
+        42455,
+        43374,
+        44432,
+        47326,
+        45306
+      ],
+      "prefix7_ordered": true,
+      "nested_before_outer": true,
+      "errors_before_nested": false,
+      "helper_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 1,
+        "Leak check.": 1,
+        "Consuming function lifetime token": 1,
+        "Freeing locals.": 1
+      },
+      "helper_full_normal_unwind_observed": true,
+      "nested_normal_unwind_return_leak_lifetime_freelocals": {
+        "Executing return statement": 2,
+        "Leak check.": 2,
+        "Consuming function lifetime token": 2,
+        "Freeing locals.": 2
+      },
+      "nested_full_normal_unwind_observed": true,
+      "outer_header_seen": true,
+      "outer_prototype_seen": true,
+      "outer_counts": {
+        "Executing return statement": 2,
+        "Leak check.": 2,
+        "Consuming function lifetime token": 2,
+        "Freeing locals.": 2
+      },
+      "outer_full_normal_unwind_observed": false,
+      "first_error": null,
+      "first_error_in_outer": false,
+      "first_error_in_nested": false,
+      "proof_exit": 1,
+      "accepted": false,
+      "strict_dead_code": [
+        "verified/lib.rs(135,1-239,2): dead code",
+        "verified/lib.rs(238,5-6): dead code",
+        "verified/lib.rs(238,5-6): dead code"
+      ],
+      "log_sha256": "17a50e2010d0821f056d236a703ae88a3ae4595272a155133e96410d293d724c",
+      "stage_sha256": "f6c21bd013bf1a2f4fe7801360dec912a9064c2be1d306ef1a8093096f3c4278"
+    }
+  },
+  "new_proof_cases_executed": true,
+  "pure_classifier_replay_only_for_attribution": true,
+  "whole_function_theorem": false,
+  "accepted": false
+}

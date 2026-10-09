@@ -2,7 +2,17 @@
 
 [Phase](cloud-build/next-select-frame-caller/PHASE.md), [separate3600ledger](cloud-build/next-select-frame-caller/BUDGET.json). Start14:03:33UTC/17:03:33MSK, main15:03:33UTC/18:03:33MSK, absolute15:33:33UTC/18:33:33MSK. Main60min, completion-only<=30min bydirectowner override. Policyrevisiond389ff64 read, PR4 alreadyancestral; local/remote f398c06b clean atstart.
 
-CorrectedFRAME-shadow adapter0378 is startingcandidate READY_STATIC_NOT_RUN. No freshbaseline/off/partial/on/helper/nested/outer result yet. Preserve fulltargetposts/resources and selectedproofblobs; sourcecapture not proof, historicalnested onlyatits exactprofiles, oldFRAME currentwrapper equality onlyreached conditiontrue. Newphase narrowregistration and preparation inprogress; no Cloud spend yet.
+Corrected FRAME-shadow Build4763ca49-4420-4ab8-9bdc-bcee05246228 terminal FAILURE,
+infra=proof0ecff7ee7e6fd5d88082915252cae5dd2395bf93; full archive/hash inventory verified.
+Old-231 baseline, fresh off/partial/on all executed; off/partial exact preheader refusals.
+Helper and actual nested Drop verified before outer in translator54fd5dd6 profile.
+Outer BOTH condition branches pass231–233 and full normal return/leak/lifetime/resources,
+but exit1 remains three strict dead-code reports at outer header and238. No whole theorem.
+New ledger347/3600, remainder3253. Exact cleanup bb38→37→36 remains in emitted AST because
+pointer-drop/assume-init retain synthetic unwind successors despite checked false-unwind
+callee contracts. [Semantic card](cloud-build/next-select-frame-caller/CLEANUP-PROJECTION-CARD.md)
+records narrow default-off source-certified projection before implementation; new TEST preparing.
+Saved-log replay is separate from new Cloud proof; admission and generic/ZST/sort4 remain open.
 
 # Historical AFTERNOON checkpoint (closed)
 

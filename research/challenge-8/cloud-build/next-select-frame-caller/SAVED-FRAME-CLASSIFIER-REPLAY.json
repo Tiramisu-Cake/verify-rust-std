@@ -1,0 +1,63 @@
+{
+  "kind": "isolated saved-log classifier replay; no proof adapter or tool execution",
+  "original_build": "6ad52849-ff34-43f4-bd4a-49b810d52d45",
+  "original_infra_sha": "4ab4d568a852c0848a9160a53f90df103b4e789a",
+  "original_proof_sha": "4ab4d568a852c0848a9160a53f90df103b4e789a",
+  "original_profile_translator_sha256": "a8421aac6bc2863e6df8d5ca9fc94b15251123f5203cf92d271529a595bad243",
+  "original_aggregate": "INCONCLUSIVE (helper count expected2 but exactpure falseunwind helper has1)",
+  "new_classification": "HELPER_NESTED_COMPONENT_TRACE_CONFIRMED_OUTER_231_NOT_PROVED",
+  "log_path": "/tmp/smallsort-cloud-evidence-6ad52849-ff34-43f4-bd4a-49b810d52d45/extracted/allprooflogs/cases/r3-frame-test/frame-source-on.log",
+  "log_sha256": "be080df614b6d2615e546780960fcdee80b2a635d1ced40169942042df022f35",
+  "stage_path": "/tmp/smallsort-cloud-evidence-6ad52849-ff34-43f4-bd4a-49b810d52d45/extracted/allprooflogs/cases/r3-frame-test/frame-source-on-stage.json",
+  "stage_sha256": "e15aa7671a266bf57f497b039102378ded182c7ca9adf44fc3c3a73d10bf50d6",
+  "classifier_file": "research/challenge-8/cloud-build/o26-r3-frame-test.py",
+  "classifier_sha256": "12ae7d1a328b0fc17e56462ba87727418901475978320127286b4893ae827f8f",
+  "executed_function": "AST-isolated log_proof_evidence plus NAMES/ERROR constants only",
+  "observations": {
+    "headers": [
+      37850,
+      39122,
+      40102,
+      41075,
+      42383,
+      43302,
+      44360,
+      47254,
+      45234
+    ],
+    "prefix7_ordered": true,
+    "nested_before_outer": true,
+    "errors_before_nested": false,
+    "helper_normal_unwind_return_leak_lifetime_freelocals": {
+      "Executing return statement": 1,
+      "Leak check.": 1,
+      "Consuming function lifetime token": 1,
+      "Freeing locals.": 1
+    },
+    "helper_full_normal_unwind_observed": true,
+    "nested_normal_unwind_return_leak_lifetime_freelocals": {
+      "Executing return statement": 2,
+      "Leak check.": 2,
+      "Consuming function lifetime token": 2,
+      "Freeing locals.": 2
+    },
+    "nested_full_normal_unwind_observed": true,
+    "outer_header_seen": true,
+    "outer_prototype_seen": true,
+    "outer_counts": {
+      "Executing return statement": 0,
+      "Leak check.": 0,
+      "Consuming function lifetime token": 0,
+      "Freeing locals.": 0
+    },
+    "outer_full_normal_unwind_observed": false,
+    "first_error": "verified/lib.rs(231,49-57): error: Type mismatch. Actual: *Element. Expected: std::mem::MaybeUninit<?>.",
+    "first_error_in_outer": true,
+    "first_error_in_nested": false,
+    "proof_exit": 1,
+    "accepted": false
+  },
+  "saved_evidence_unchanged": true,
+  "new_proof_credit": false,
+  "accepted": false
+}

@@ -749,3 +749,5 @@ freshsourcecontrols oranyproofbody. Thus latebindingfix andwholepointerselect
 NOT_PROVED; finalFRAME-shadownestedNOT_RUN, historicalconditionalnested unchanged.
 Infra-only pathfix0378 staticreadyNOT_RUN; fullprofile/admission/genericT-ZST/
 actualsort4 safety/functions OPEN. Phaseclosed2070/3600,1530unused.
+
+NEXT phase correctedFRAME-shadow4763 actual helper/nested are checked in final54fd profile beforeouter. Both boolean normalbranches reach late231–233 and fulltarget return/leak/resources, unlike historicaltrue-only FRAME. Still exit1: three exactstrictdeadcleanup nodes bb36/37/38; wholepointer-select remainsOPEN. Source/MIR/refinement and correctedbinding have fresh evidence, no profile acceptance/soundness or genericT/ZST/sort4 transfer. Narrowdefaultoff false-unwind CFG projection underreview; all checks retained.

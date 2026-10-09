@@ -11,3 +11,9 @@ Actualcaller: sort4_stable selects pointer values `*const T` (8calls); initializ
 Use existing smallsort-ci/global/E2_STANDARD_2, immutablepublished fullSHA pair, no-source pinned Git objects <=191parts, same evidencebucket/dispatcher/builder/v2 protocol. Max2project slots, oneowner/ledger. No coordinator changes/regression repeat/packager/cache project/Actions/externalmessages/resources changes. Local small isolated classifier/parser tests only after import/entrypoint review, no proof adapter/compiler/verifier/extraction execution.
 
 Semantic changes require rationale/domain/resources/criticalselfreview/affectedgates before implementation; all existing integrity restrictions retained. New proof/replay/NOT_RUN separate. Final checkpoint must close own readyrequest and reconcile terminal builds, preserving unresolved reservation if terminal unknown.
+
+## First dispatch and replay
+
+Build4763ca49-4420-4ab8-9bdc-bcee05246228, infra=proof0ecff7ee7e6fd5d88082915252cae5dd2395bf93, laneo26-input-relation-frame-shadow-test, timeout720+60queue,191parts569421bytes, payload59952ffeb2031e88676ededab2db6b8e7a9ff40c6ea6fda558be4c77419b058e. All selectedproofblob IDs/modes identical0378; newSHA carries phase registration/card only, no semantic/proof source changes. Local andremote clean/equal before edits; oldcheckpoint/candidate preserved. Independent peer reservation occupies its own slot/ledger; commonprotocolunchanged and applicable18case gate not rerun.
+
+Separate saved-log replay: AST-isolated log_proof_evidence (only constants andpure function, no adapter imports/toolchain) on old6ad FRAME-on verifieshelper1/nested2 counts andfirstouter231 typeerror. It corrects helpercount classification only, withsaved log/stage/classifier hashes recorded in SAVED-FRAME-CLASSIFIER-REPLAY.json; raw evidence unchanged, no newproofcredit or profile transfer. Source-old nested component remains atits exactprofile.

@@ -1,0 +1,17 @@
+# Exact pointer-select false-unwind cleanup projection TEST
+
+Recorded before implementation, 2026-10-09 14:32 UTC. Baseline Build 4763ca49-4420-4ab8-9bdc-bcee05246228, proof/infra 0ecff7ee7e6fd5d88082915252cae5dd2395bf93, translator 54fd5dd628d8e9dac3b0a702cb13bf4ab6d2d235d0f157eb5228082b4954adf6.
+
+## Observed blocker and rule
+Both normal condition branches discharge late assertions 231–233, final equality, thread token, raw_ptr_own of the returned pointer, return/lifetime/leak checks. Exit 1 remains: dead cleanup bb36 (resume), bb37 (guard drop), bb38 (drop-flag switch), exactly the three dead-code spans. The complete captured MIR has 18 Cleanup(38) call predecessors: fifteen ghost commands, checked forget, pointer drop bb16 and assume_init bb34. Existing ghost/forget lowering already emits normal-only successors. The last two emit FnCallOutcome unwind arms although their same-unit checked callees have on_unwind_ens false and are verified before outer.
+
+Proposed separate default-off TEST: only when the exact FRAME-shadow source/unit/body certificate and inherited profile have admitted the unit, project these two exact typed calls to result_of_outcome and normal-only emitted AST successors. Keep original source, full 39-block MIR and 18-edge inventory in the certificate. Do not modify the kernel, contracts, runtime, exporter/refiner, memory model, unwind or dead-code check. Existing full-unit verification must check each callee before the outer caller; no cyclic summary is added.
+
+## Domain and premises
+Only exact pointer specialization T = *const Element, current nine-body source and compiler identities. Target remains selected ORIGINAL input pointer according to condition, thread_token, raw_ptr_own(pointer), false unwind, all return/leak/resource checks. No pointee rights and no generic T/ZST theorem. Existing A1 pointer-transmute and other experimental frontend premises remain conditional, not accepted. New trusted component is exact source-certified false-unwind executable CFG projection; it is not justified by observing a green trace alone.
+
+## Critical self-review
+False unwind must come from verified same-source callee contracts, not a name heuristic. Exact source and marshalled body hashes protect callee body/contract and all predecessor/dropflag identities; additional typed-call admission must reject changed argument/destination/normal/cleanup/type. The emitted successor inventory must agree with projected call statements. No reachable cleanup may be erased. If inherited admission or scheduling does not establish these facts, reject rather than broadening the rule. Full source/MIR capture remains diagnostic evidence and is not itself proof.
+
+## Affected gates and decision
+Preserve old-231 baseline, fresh shadow off/partial, new projection-off exact three dead-code failure, new projection-partial preheader refusal, projection-on full-unit exit zero and both normal branch return/resources. Exact typed/source/edge and false-post/reachable-unwind admission gates remain open unless explicitly executed. A full run with these open gates gives only a conditional experimental result, not admission or soundness. Any unrelated setup/frontend failure gives no negative credit. If the exact positive fails, investigate its first causal obligation; do not disable checks. Caller use is permitted only after the actual full-unit proof succeeds in this exact profile, and remains conditional on all stated premises.

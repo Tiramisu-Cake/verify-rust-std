@@ -1,0 +1,177 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -713,6 +713,22 @@
+           reject "exact inherited FRAME root/test pair";
+         Printf.printf "SORT4-R3-FRAME-SHADOW-TEST: exact three late wrapper references enabled\n%!"
+       )
++  end
++
++  (* Exact FRAME-shadow pointer-only false-unwind cleanup projection TEST.
++     The original MIR cleanup graph remains in the admitted full-unit hash. *)
++  module Sort4R3CleanupProjectionTest = struct
++    let reject why = failwith
++      ("SORT4-R3-CLEANUP-PROJECTION-TEST: certificate mismatch: " ^ why)
++    let root = match
++      Sys.getenv_opt "SORT4_R3_CLEANUP_PROJECTION_TEST_REPO_ROOT",
++      Sys.getenv_opt "SORT4_R3_CLEANUP_PROJECTION_TEST" with
++      | None, None -> None
++      | Some root, Some "1" -> Some root
++      | _ -> reject "exact root/test opt-in pair"
++    let active = ref false
++    let pointer_drop_projected = ref 0
++    let assume_init_projected = ref 0
+   end
+ 
+   module Sort4ActualForgetOwn = struct
+@@ -4055,8 +4071,96 @@
+           | _ -> Sort4ActualForgetOwn.reject
+               "typed SAFE forget call/outcome/shared cleanup"
+       in
++      let checked_r3_cleanup_no_unwind =
++        if not !Sort4R3CleanupProjectionTest.active ||
++           State.body_name <> "select_unpredictable" then false
++        else
++          let site = match Ast.lexed_loc fn_loc with
++            | ((path, 202, 14), (end_path, 202, 29))
++                when path = end_path &&
++                     Filename.check_suffix path "verified/lib.rs" ->
++                Some (`PointerDrop,
++                      "std::ptr::mut_ptr::<impl *mut T>::drop_in_place",
++                      Sort4PointerDrop.local_name, "_33", "_32", false, 17)
++            | ((path, 237, 81), (end_path, 237, 94))
++                when path = end_path &&
++                     Filename.check_suffix path "verified/lib.rs" ->
++                Some (`AssumeInit,
++                      "std::mem::MaybeUninit::<T>::assume_init",
++                      Sort4A1Link.caller_name, "_51", "_0", true, 35)
++            | _ -> None
++          in
++          match site with
++          | None -> false
++          | Some (kind, expected_fn, expected_checked, expected_arg,
++                  expected_dst, dst_mutable, expected_normal) ->
++              let reject = Sort4R3CleanupProjectionTest.reject in
++              let exact_place name mutable_local place =
++                LocalDeclIdRd.name_get (PlaceRd.local_get place) = name &&
++                PlaceRd.local_is_mutable_get place = mutable_local &&
++                PlaceRd.projection_get_list place = [] &&
++                VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
++                  VfMirRd.PlaceKind.Other
++              in
++              let exact_fn = match D.decode_operand func_cpn with
++                | Constant {const=Val {ty={kind=FnDef
++                    {id={name}; substs=[{kind=Type {kind=RawPtr
++                       {ty={kind=Param "Element"}; mutability=Not}}}];
++                     late_bound_generic_param_count=0}}}} ->
++                    name = expected_fn
++                | _ -> false
++              in
++              let exact_arg = match args_cpn with
++                | [operand] ->
++                    (match OperandRd.get operand with
++                     | OperandRd.Move place ->
++                         exact_place expected_arg true place
++                     | _ -> false)
++                | _ -> false
++              in
++              let exact_expr = match fn_call_rexpr with
++                | FnCallOutcome (Ast.CallExpr
++                    (_, name, [Ast.IdentTypeExpr (_, None, "Element")],
++                     [], [Ast.LitPat _], Ast.Static)) ->
++                    name = expected_checked
++                | _ -> false
++              in
++              let exact_edges =
++                match UnwindActionRd.get
++                        (unwind_action_get fn_call_data_cpn),
++                      OptionRd.get (target_get fn_call_data_cpn) with
++                | UnwindActionRd.Cleanup cleanup,
++                  OptionRd.Something normal ->
++                    Stdint.Uint32.to_int
++                      (BasicBlockIdRd.index_get cleanup) = 38 &&
++                    Stdint.Uint32.to_int
++                      (BasicBlockIdRd.index_get
++                        (VfMirRd.of_pointer normal)) = expected_normal
++                | _ -> false
++              in
++              if not (exact_fn && exact_arg && exact_expr && exact_edges &&
++                      exact_place expected_dst dst_mutable
++                        (destination_get fn_call_data_cpn) &&
++                      not TranslatorArgs.ignore_unwind_paths) then
++                reject "exact typed call/Move/destination/normal/cleanup";
++              (match kind with
++               | `PointerDrop ->
++                   incr Sort4R3CleanupProjectionTest.pointer_drop_projected;
++                   if !Sort4R3CleanupProjectionTest.pointer_drop_projected <> 1
++                   then reject "pointer-drop call count";
++                   Printf.printf
++                     "SORT4-R3-CLEANUP-PROJECTION-TEST: projected exact pointer-drop false-unwind call\n%!"
++               | `AssumeInit ->
++                   incr Sort4R3CleanupProjectionTest.assume_init_projected;
++                   if !Sort4R3CleanupProjectionTest.assume_init_projected <> 1
++                   then reject "assume-init call count";
++                   Printf.printf
++                     "SORT4-R3-CLEANUP-PROJECTION-TEST: projected exact assume-init false-unwind call\n%!");
++              true
++      in
+       let fn_call_rexpr =
+-        if checked_g1_no_unwind || checked_owner_no_unwind then
++        if checked_g1_no_unwind || checked_owner_no_unwind ||
++           checked_r3_cleanup_no_unwind then
+           match fn_call_rexpr with
+           | FnCallOutcome call -> FnCallResult (result_of_outcome fn_loc call)
+           | _ -> assert false
+@@ -4276,7 +4380,8 @@
+               (match fn_call_rexpr, terminator with
+               | FnCallResult _, Mir.GotoTerminator _
+                 when !manuallydrop_new_identity_lowering ||
+-                     checked_g1_no_unwind || checked_owner_no_unwind ->
++                     checked_g1_no_unwind || checked_owner_no_unwind ||
++                     checked_r3_cleanup_no_unwind ->
+                   (* The identity lowering emits only the normal assignment/goto.
+                      The separately proved G1 callee has false unwind.  Keep
+                      successor inventory faithful to the emitted CFG. *)
+@@ -14306,6 +14411,30 @@
+                   Sort4G1Call.translated := 0; Ok ()
+         | Some root -> certify_sort4_g1_call vf_mir_cpn root
+       in
++      Sort4R3CleanupProjectionTest.active := false;
++      Sort4R3CleanupProjectionTest.pointer_drop_projected := 0;
++      Sort4R3CleanupProjectionTest.assume_init_projected := 0;
++      (match Sort4R3CleanupProjectionTest.root with
++       | None -> ()
++       | Some root ->
++           if Sort4R3FrameShadowTest.root <> Some root ||
++              Sort4R3FrameTest.root <> Some root ||
++              Sys.getenv_opt "SORT4_SELECT_INTRINSIC_REPO_ROOT" <> Some root ||
++              Sys.getenv_opt "SORT4_POINTER_DROP_REPO_ROOT" <> Some root ||
++              Sys.getenv_opt "SORT4_A1_NINE_REPO_ROOT" <> Some root ||
++              Sys.getenv_opt "SORT4_ACTUAL_FORGET_OWN_REPO_ROOT" <> Some root ||
++              not !Sort4SelectIntrinsic.actual_certified ||
++              not !Sort4SelectIntrinsic.actual_owner_admitted ||
++              not !Sort4SelectIntrinsic.actual_nine_admitted ||
++              not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++              not !Sort4PointerDrop.active ||
++              not !Sort4A1Nine.active ||
++              not !Sort4ActualForgetOwn.active then
++             Sort4R3CleanupProjectionTest.reject
++               "exact admitted FRAME-shadow source/unit and checked callees required";
++           Sort4R3CleanupProjectionTest.active := true;
++           Printf.printf
++             "SORT4-R3-CLEANUP-PROJECTION-TEST: exact FRAME-shadow admission enabled\n%!");
+       Rocq_writer.rocq_print Args.rocq_writer "From VeriFast Require Export VfMir.\n\n";
+       (* Todo @Nima: we should add necessary inclusions during translation *)
+       let extern_header_names =
+@@ -14568,6 +14697,12 @@
+         Printf.printf
+           "G1-CALL-CFG: one source-certified false-unwind call projected\n%!"
+       );
++      if !Sort4R3CleanupProjectionTest.active then (
++        if !Sort4R3CleanupProjectionTest.pointer_drop_projected <> 1 ||
++           !Sort4R3CleanupProjectionTest.assume_init_projected <> 1 then
++          Sort4R3CleanupProjectionTest.reject
++            "exactly one pointer-drop and one assume-init projection required"
++      );
+       if !Sort4MaybeUninit.active then (
+         if !Sort4MaybeUninit.inner_call_count <> 1 ||
+            !Sort4MaybeUninit.aggregate_count <> 1 ||
