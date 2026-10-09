@@ -114,3 +114,66 @@ The arbitrary-index transposition component now checked in this same Build
 helps only when the needed CURRENT destinationvalue relation has already been
 proved; it supplies neither initializedbytes from arithmetic nor callbackframe
 nor this guard/genericdrop applicability bridge.
+
+## C1 own predicate feasibility and drop-glue boundary — resource10 review
+
+A non-vacuous private-struct `.own` is syntactically supported by the pinned
+frontend without changing the Rust layout. In the downloaded a643 artifact's
+pinned `build/parser.original.ml`, the production grammar at lines 812–839
+parses `pred <Type>.own(...) = assertion;` as a `TypePredDef` with a predicate
+body. `build/translator.original.ml:6310–6336` looks up a user-provided `.own`
+for the local struct; the rejection at 6344–6353 applies when a struct has any
+public field. `CopyOnDrop` has only private fields (`smallsort.rs:295–299`), so
+an explicit source ghost/spec definition could replace its generated default.
+Absent such a definition, the translator emits the private-struct default
+`.own(t, v) = false` (`translator.original.ml:6688–6703`). The a643 runtime AST
+confirms that default at `proof-ast.ml:99`; its `CopyOnDrop::drop` prototype
+`safety_proof` opens full-borrow content and then `.own` at source lines 81–82.
+That open of `false` contributes no payload permission.
+
+This supported syntax is not yet a caller bridge. The generated
+`CopyOnDrop_full_borrow_content` combines field points-to chunks, padding, and
+the struct's `.own` over the by-value field initializer
+(`translator.original.ml:5321–5380`). A wrapper-only custom `.own` could be
+checked as an annotation-only diagnostic at the physical construction
+`smallsort.rs:278–279` and normal `mem::forget` at 291, but it cannot be credited
+as the actual destructor precondition: `Drop::drop` has its explicit strong
+source/destination/owner precondition, and the `safety_proof` must derive those
+resources from the non-vacuous FBC and surrounding call frame. No wrapper-only
+predicate may be treated as supplying the source owner pool or destination
+write chunk. Conversely, placing the payload pool inside `.own` would make
+`mem::forget` consume that predicate (`std_lib.rsspec:419–422`); no current
+proof shows that doing so preserves the normal caller's destination owners and
+current `F` state after merge.
+
+The frozen generic drop route does not close this gap. `std_lib.rsspec:597–600`
+requires the target cell plus `<T>.own(t, value)` and returns the cell as
+unknown on both normal and unwind outcomes. It does not state the verified
+`CopyOnDrop::drop` copy effect or the actual caller's `src`/`dst` transition.
+The same generic spec does not itself establish that the compiler's
+`drop_in_place` call reaches the separately verified method contract; the
+resource10 classifier still reports `compatibility_path_status=NOT_ESTABLISHED`.
+The direct body result remains the distinct component claim documented above:
+resource10 verifies its explicit actual body contract and matched false control
+in both profiles, while public caller/drop-glue applicability remains open.
+
+Any later source-linked caller proof must preserve these transitions without
+snapshot substitution or duplicate ownership: at construction, transfer each
+existing current `T.own` from the initialized input pool to the fully initialized
+scratch source exactly once while retaining destination bytes without a second
+owner; on normal return, transfer each current source owner to the destination
+exactly once before `mem::forget`, retain the current callback state, and avoid
+losing caller post resources through the forgotten guard; on unwind, use the
+verified guard body to copy the current scratch values back and restore each
+existing owner to the destination exactly once, with its full source, pointer,
+frame, and unwind posts. Wrapper field/padding resources and the payload owner
+pool must be tracked separately until a checked bridge relates them.
+
+A future source-specific Drop-glue lowering or contract would need its own
+semantic/admissibility card and decision before implementation: pin and inspect
+the exact compiler MIR/drop terminator, prove the exact callee body at that
+source version, show its generated pre/post from a non-vacuous FBC/own model,
+check constructor and normal-forget resource closure, and retain full normal,
+unwind, return, leak, dead-code, and frame gates. The existing generic
+`drop_in_place` spec and direct Drop-body PASS are not that bridge and do not
+automatically authorize a new lowering or trusted rule.

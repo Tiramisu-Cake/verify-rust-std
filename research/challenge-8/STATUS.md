@@ -3,6 +3,17 @@
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **8007/10800 charged
 Cloud seconds**, remaining **2793**. Branch `overnight/merge-26.10`.
 
+Active own targeted OR Build **ad653ca9-cab0-437d-a170-b15c3ad6ebbe**, exact
+infra/proof `f9139fc26db535a9552f26a84085a57f6014702e`, config
+`a9f82ebbdab8e6917e4bff1d7127373b90e9ca67037dd390f0f8cca61d527f77`, sourceinput
+`be85aa23b49de3ca1198736bb791769f624f5cc1d69fa2dc391651e3cf097dd4`;
+timeout1200/reservation1260 notyet charged. SHAPE_CONTROLS_ONLY deliberately
+uses fresh short full-post MIR/AST/refiner capture plus17 controls/sourcehash;
+no current whole-function PASS. RESOURCE11 candidate
+`07d0dc8bb9adbe375fb58c2b45d460f76359b9cc` separately published, ready for next
+permitted alternating turn if deadline leaves enough build+evidence time.
+No fresh resource11 result.
+
 Latest OR Build **9ad825fa-23f2-49f6-bc6c-db2052fe755c**, proof/infra
 `96086b2b6c150346e9d3cd1dad30778845880011`, collector SUCCESS 1416s;
 06:35:47.343–06:59:22.780 UTC. Config
@@ -37,7 +48,7 @@ therefore all remain INCONCLUSIVE. Current-owner permutation positives PASS in
 both profiles (6 bodies, 10 returns, 10 leaks); its false-entry is EXPECTED_FALSE
 at 238:16–21. Double-owner calibration reaches the target and five helpers but
 fails matching current owner chunks at 242:95–102; retain INCONCLUSIVE/no intended
-negative credit. Own charged 8007/10800, remaining 2793; no active own build.
+negative credit. Own charged 8007/10800, remaining 2793 before active ad653 reservation.
 The next OR shape-controls candidate `f9139fc26db535a9552f26a84085a57f6014702e`
 is published/registered and waiting for the foreign turn; it is not yet a run.
 Historical accounts below remain unchanged.
