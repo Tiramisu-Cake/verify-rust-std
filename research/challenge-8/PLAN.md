@@ -1,3 +1,11 @@
+## Current authorization: NIGHT-SELECT-SORT4-CLOUD-2026-10-09
+
+[Phase](cloud-build/night-select-sort4/PHASE.md) supersedes expired windows and
+migration helper/two-lane restrictions. O26 restore + fresh guard evidence →
+truthful full actual select → actual sort4 recovery/safety → separate functional
+composition. Deadline08:00UTC9October; new10800-second Cloud account. Earlier
+acceptances/profiles and all historical budgets keep their documented scope.
+
 ## Current authorization: CLOUD-BUILD-MIGRATION — COMPLETE
 
 [Phase](cloud-build/PHASE.md): A/B/C accepted within772/3600seconds;2828 remain.

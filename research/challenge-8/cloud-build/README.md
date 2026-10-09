@@ -1,8 +1,102 @@
+# Current shared Cloud interface — nightly phases
+
+The accepted migration below stays closed. New owner-authorized phases use
+independent ledgers, exact committed recipes and the global lock. Common CLI:
+
+```bash
+python3 research/challenge-8/cloud-build/control.py \
+  --phase-id NIGHT-SELECT-SORT4-CLOUD-2026-10-09 \
+  --ledger /root/verify-rust-std-select-night/research/challenge-8/cloud-build/night-select-sort4/BUDGET.json \
+  --state-dir /tmp/smallsort-night-select-sort4 --owner select-sort4 request
+```
+
+Replace `request` with `submit --infra-sha FULL_SHA --proof-sha FULL_SHA
+--lane o26 --source-mode pinned-objects --timeout 1200`, `status BUILD_ID`,
+`download BUILD_ID --output NEW_DIR`, `withdraw-request`, or `cancel BUILD_ID`.
+Global arguments precede the command. Each agent keeps its own ledger/worktree,
+proof SHA, infra SHA, recipe/profile, state directory and owner. Account requires
+phase/status=AUTHORIZED/authorization/deadline_utc/ceiling_build_seconds/
+allowed_lanes/builds; timestamps determine actual conservative charge.
+The select account is10800 seconds, cutoff2026-10-09T08:00:00Z. Earlier accounts
+are not reset or transferred. Migration submit is refused.
+
+`/root/smallsort-ci-coordination/lock` uses flock. Under it the client reconciles
+active.json (owner, phase, absolute ledger/state, token, Build ID or unresolved),
+checks API ongoing builds, reserves atomically before sending and records the
+response. Crashes or uncertain replies keep reservations. No unique API match
+means unresolved, not permission to retry. Terminal API evidence or a recorded
+conclusive INVALID_ARGUMENT with no token match clears it. Never manually remove
+an unresolved reservation to retry. Status reconciles a crashed foreign account
+under the same lock; cancel checks explicit owner/phase/ledger. Download transfers
+outside the lock and atomically updates its own account after hash checks.
+
+Ready senders register `request`; a sender that was last may not dispatch again
+while another unexpired request is present. `last-owner.json` and requests/*.json
+preserve turns. Withdraw when no recipe is ready; do not leave a speculative
+request blocking another ready agent. No scheduler/service is introduced.
+
+New lanes register `recipes/LANE.json` in the infrastructure commit with schema
+smallsort-cloud-recipe-v1, lane, entrypoint (infra shell script), sorted exact
+infra_paths and proof_paths; optional baseline_sha/baseline_paths retain original
+historical source separately. The committed registry, original commits/root and
+ancestor trees/blobs, file modes/hashes, explicit input set and exact selected
+object closure are checked before proof preparation. Every imported script,
+patch, certificate/data and std input must be present. No worktree data enters.
+Add only the new lane to your own allowed_lanes and publish its infra commit;
+never inherit another direction's proof acceptance. Recipes route through the
+existing run-proof entrypoint and preserve pinned images/--no-source/publication.
+
+A complete diagnostic collector may finish SUCCESS with diagnostic_complete=true;
+verification_accepted remains a separate false/true proof verdict and requires its
+own audit. Read complete logs/source/profile and actual target checks before any
+claim. No build solely to repeat migration smoke or unchanged constructor acceptance.
+
+# Accepted migration workflow (historical commands/accounts)
+
 # Accepted Cloud Build workflow
 
 A/B/C migration accepted; [scope, pins, Build IDs and budget](ACCEPTANCE.md).
 The tested infrastructure SHA is `30fc3b42a2fb980b49174d459ec5cfbea778379b`.
-Use it for the commands below; newer documentation HEADs are not new proof runs.
+The migration commands below identify the historical runs; that phase is closed
+and the client refuses further migration submissions. Newer documentation HEADs
+are not new proof runs.
+
+## Authorized phase accounts and shared turn gate
+
+New submissions require explicit `--phase-id`, absolute `--ledger`, absolute
+`--state-dir`, and an owner identifier before the subcommand. The selected
+ledger must name an `AUTHORIZED` phase, record its owner's authorization and
+deadline, and list the reviewed lanes. The 2026-10-09 select account is
+`night-select-sort4/BUDGET.json`; its ceiling is 10800 seconds and its deadline
+is 08:00 UTC. A separately authorized merge direction uses its own ledger and
+recipe. Every new submission uses pinned Git objects and a published full
+infrastructure/proof SHA. For example, after publishing those commits:
+
+```bash
+python3 research/challenge-8/cloud-build/control.py \
+  --phase-id NIGHT-SELECT-SORT4-CLOUD-2026-10-09 \
+  --ledger /root/verify-rust-std-select-night/research/challenge-8/cloud-build/night-select-sort4/BUDGET.json \
+  --state-dir /tmp/smallsort-select-cloud --owner select-agent request
+
+python3 research/challenge-8/cloud-build/control.py \
+  --phase-id NIGHT-SELECT-SORT4-CLOUD-2026-10-09 \
+  --ledger /root/verify-rust-std-select-night/research/challenge-8/cloud-build/night-select-sort4/BUDGET.json \
+  --state-dir /tmp/smallsort-select-cloud --owner select-agent submit \
+  --infra-sha PUBLISHED_INFRA_SHA --proof-sha PUBLISHED_PROOF_SHA \
+  --lane o26 --source-mode pinned-objects --timeout 1500
+```
+
+The client holds `/root/smallsort-ci-coordination/lock` while reconciling the
+global reservation and submitting. `active.json` retains token, owner, phase,
+ledger and build ID through crashes and uncertain API responses. A missing
+build ID blocks a retry until its token resolves; only terminal API status or
+definitive API validation rejection clears the reservation. One queued or
+running project build is allowed across worktrees. An owner can register a
+pending turn with `request` and remove it with `withdraw-request`. If another
+owner has a pending turn, the last submitting owner waits for that owner to
+submit or withdraw. `status`, `download`, and `cancel` use the same phase
+arguments; cancellation additionally requires the matching owner and active
+build ID. Download and hashing release the shared lock while they run.
 
 The VPS runs only this lightweight
 control client and evidence hash checker. No Docker, compiler, executable test

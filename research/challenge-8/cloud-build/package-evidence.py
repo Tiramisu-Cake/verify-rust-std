@@ -305,6 +305,9 @@ def main() -> int:
         smoke_success = lane == "smoke-success" and exit_code == 0 and complete
         accepted = (not smoke and exit_code == 0 and proof_audit is not None and
                     proof_audit.get("accepted") is True and complete)
+        diagnostic_complete = (not smoke and exit_code == 0 and complete and
+                               proof_audit is not None and
+                               proof_audit.get("diagnostic_complete") is True)
         if lane == "smoke-error" and exit_code == 42:
             failure_class = "infrastructure-probe-error"
         elif lane == "smoke-timeout" and exit_code == 124:
@@ -323,6 +326,7 @@ def main() -> int:
             "run_exit_code": exit_code, "failure_class": failure_class,
             "evidence_complete": complete, "smoke_success": smoke_success,
             "verification_accepted": accepted,
+            "diagnostic_complete": diagnostic_complete,
             "text_logs_complete": text_logs_complete,
             "text_logs_index_sha256": text_logs_index_sha,
             "missing_mandatory": (missing + ([] if smoke or case_paths else ["allprooflogs/cases/*"]) +

@@ -2,8 +2,25 @@
 # SmallSort B stock diagnostics and C source-built constructor component.
 set -euo pipefail
 
-lane=${1:?usage: run-proof.sh stock|constructor}
-[[ "$lane" == stock || "$lane" == constructor ]] || exit 2
+lane=${1:?usage: run-proof.sh LANE}
+if [[ "$lane" != stock && "$lane" != constructor ]]; then
+  [[ "$lane" =~ ^[a-z][a-z0-9-]{0,63}$ ]] || exit 2
+  recipe_root=${INFRA_ROOT:-/workspace/infra}
+  recipe_entry=$(python3 - "$recipe_root" "$lane" <<'RECIPE'
+import json,pathlib,sys
+root=pathlib.Path(sys.argv[1]);lane=sys.argv[2]
+recipe=json.loads((root/'research/challenge-8/cloud-build/recipes'/f'{lane}.json').read_text())
+entry=recipe['entrypoint']
+if recipe.get('schema')!='smallsort-cloud-recipe-v1' or recipe.get('lane')!=lane or entry not in recipe['infra_paths']:
+ raise SystemExit('recipe identity/entrypoint mismatch')
+path=pathlib.PurePosixPath(entry)
+if path.is_absolute() or '..' in path.parts or not entry.startswith('research/challenge-8/cloud-build/') or not entry.endswith('.sh'):
+ raise SystemExit('invalid recipe entrypoint')
+print(root/entry)
+RECIPE
+  )
+  exec bash "$recipe_entry" "$lane"
+fi
 proof_root=${PROOF_ROOT:-/workspace/proof}
 infra_root=${INFRA_ROOT:-/workspace/infra}
 cloud_dir=${INFRA_CLOUD_DIR:-$infra_root/research/challenge-8/cloud-build}

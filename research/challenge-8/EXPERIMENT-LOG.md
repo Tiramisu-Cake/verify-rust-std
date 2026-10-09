@@ -5265,3 +5265,35 @@ strict classifier/deadcode/genericforget historical limits. A/B/C accepted only 
 [reported](cloud-build/ACCEPTANCE.md). PermanentCloud workflow, source delivery,
 MCPreader/separate<=8MiBlogs and exact second-direction commands documented;
 no resumed proofwork, external publication or automaticActions trigger changes.
+
+
+## NIGHT-CLOUD-1 — minimal shared interface and O26 restore card
+
+Actual target: repository hint.rs select_unpredictable, nested DropOnPanic::drop;
+then smallsort.rs sort4_stable. Infrastructure-only common interface retains
+accepted images, no-source Git-object restore and full bucket publisher. Atomic
+flock covers global reconciliation/API ongoing check/reservation/submit; uncertain
+response or crash keeps owner/token/BuildID; independent phase ledgers and ready
+requests arbitrate turns. No proof semantics are changed by orchestration.
+
+First falsifiable proof hypothesis: unchanged O26 source/profile reproduces its
+198 guard-shadow type rejection and prefix callees, while prepared guard-literal
+source has exact runtime twin and fresh full paired MIR/refinement/nine-body
+inventory. Old17/20 must refuse changed source; refusal is admission, not intended
+ownership negative. Historical proof c19e4c50470d32199178d5229a2819554fc6b2f1;
+20-patch manifest O26-PROFILE-MANIFEST.json, stdcd371e03/VFf76012fb/nightly2026-09-25.
+Pointer-specialized T=*const Element, unrestricted implicit-Sized Element:
+thread_token(t), t=currentThread; normal same thread plus condition-selected
+pointer and raw_ptr_own<Element>; unwindfalse. No Element pointee permission.
+Actual nested Drop and complete helper/return/leak remain open until verified.
+Source/MIR/setup refusal cannot count as resource failure. Full checks retained.
+
+O26 baseline and candidate results are isolated; no historical constructor smoke
+or unchanged full S6 matrix. Record new console/profile hashes and original
+exporter/refiner equality. Fresh body/unit digests and ghost ownership/inventory
+review permit separately identified17/20 refresh and affected source/MIR refusal
+controls; parser/resource error instead selects a narrow causal repair. A collector
+PASS is explicitly diagnostic_complete, never verification_accepted by itself.
+No unchanged failure rerun. Initial timeout1200 plus60 queue, within1800 and own
+10800/deadline08:00UTC. Semantic/card/regression requirements apply to each later
+change. Runtime/std/signatures are unchanged.

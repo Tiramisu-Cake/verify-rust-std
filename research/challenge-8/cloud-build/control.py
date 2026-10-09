@@ -2,6 +2,7 @@
 """Lightweight VPS orchestration only. Never executes proof tools locally."""
 import argparse,base64,datetime,gzip,hashlib,importlib.util,json,math,os,re,subprocess,sys,uuid
 from pathlib import Path
+import coordination
 
 ROOT=Path(__file__).resolve().parents[3]
 DIR=Path(__file__).resolve().parent
@@ -12,9 +13,14 @@ SDK='gcr.io/google.com/cloudsdktool/google-cloud-cli@sha256:c631b05e8121048b29c9
 ACCOUNT='smallsort-builder@smallsort-ci.iam.gserviceaccount.com'
 SDK_PYTHON='/usr/lib/google-cloud-sdk/platform/bundledpythonunix/bin/python3'
 TERMINAL={'SUCCESS','FAILURE','INTERNAL_ERROR','TIMEOUT','CANCELLED','EXPIRED'}
+NIGHT_PHASE='NIGHT-SELECT-SORT4-CLOUD-2026-10-09'
+NIGHT_DEADLINE='2026-10-09T08:00:00Z'
+LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
+PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
+OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
 
-def read(p):return json.loads(p.read_text())
-def write(p,x):p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(x,indent=2)+'\n')
+def read(p):return coordination.read(p)
+def write(p,x):coordination.write(p,x)
 def shquote(x):return "'"+x.replace("'","'\\''")+"'"
 def digest(b):return hashlib.sha256(b).hexdigest()
 def invoke(args):
@@ -107,18 +113,18 @@ touch /workspace/upload.ok
 p=pathlib.Path('/workspace/out')
 try:
  s=json.loads((p/'summary.json').read_text())
- ok=pathlib.Path('/workspace/upload.ok').is_file() and ((s.get('verification_accepted') is True) or (s.get('smoke_success') is True))
- print('SMALLSORT_FINAL_VERDICT',json.dumps(s,sort_keys=True),'upload_complete=',pathlib.Path('/workspace/upload.ok').is_file())
+ ok=pathlib.Path('/workspace/upload.ok').is_file() and ((s.get('verification_accepted') is True) or (s.get('smoke_success') is True) or (s.get('diagnostic_complete') is True))
+ print('SMALLSORT_FINAL_VERDICT',json.dumps(s,sort_keys=True),'upload_complete=',pathlib.Path('/workspace/upload.ok').is_file(),'verification_accepted=',s.get('verification_accepted'),'diagnostic_complete=',s.get('diagnostic_complete'))
  sys.exit(0 if ok else 1)
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
  return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
-def reconcile(state,ledger):
+def reconcile(state,ledger,ledger_path):
  for item in ledger['builds']:
   if not item.get('build_id') and not item.get('accounted'):
-   matches=invoke(['builds','list','--region=global','--filter=tags:'+item['dispatch_token'],'--format=json'])
+   matches=invoke(['builds','list','--region=global','--filter=tags:'+item['dispatch_token'],'--format=json']) or []
    if len(matches)==1:item['build_id']=matches[0]['id']
    elif len(matches)>1:raise RuntimeError('Multiple builds for one dispatch token; no further dispatch')
   if item.get('build_id') and not item.get('accounted'):
@@ -134,32 +140,141 @@ def reconcile(state,ledger):
  ledger['used_build_seconds']=sum(x.get('build_seconds',0) for x in ledger['builds'])
  ledger['remaining_build_seconds']=ledger['ceiling_build_seconds']-ledger['used_build_seconds']
  ledger['active_build']=next((x.get('build_id') or x['dispatch_token'] for x in ledger['builds'] if not x.get('accounted')),None)
- write(DIR/'BUDGET.json',ledger)
+ write(ledger_path,ledger)
+
+
+def reconcile_global():
+ """Resolve the shared token under flock, including a crashed submitter's ledger."""
+ record=coordination.active()
+ if record is None:return
+ ledger_path=Path(record['ledger'])
+ if not ledger_path.is_absolute():raise RuntimeError('Global reservation has a nonabsolute ledger path')
+ ledger=read(ledger_path)
+ if ledger.get('phase')!=record['phase_id']:raise RuntimeError('Global reservation phase/ledger mismatch')
+ matches=[x for x in ledger['builds'] if x.get('dispatch_token')==record['dispatch_token']]
+ if len(matches)>1:raise RuntimeError('Duplicate token in phase ledger')
+ if not matches:
+  ledger['builds'].append(record['item'])
+  write(ledger_path,ledger)
+ reconcile(Path(record['state_dir']),ledger,ledger_path)
+ item=next(x for x in ledger['builds'] if x.get('dispatch_token')==record['dispatch_token'])
+ if item.get('build_id'):
+  coordination.submitted(record['owner'],record['dispatch_token'])
+ if record.get('validation_rejection') and not item.get('accounted') and not item.get('build_id'):
+  possible=invoke(['builds','list','--region=global','--filter=tags:'+record['dispatch_token'],'--format=json']) or []
+  if possible:raise RuntimeError('Build exists despite recorded validation rejection')
+  item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,reason=record.get('rejection_reason','API validation rejection'))
+  ledger['used_build_seconds']=sum(x.get('build_seconds',0) for x in ledger['builds'])
+  ledger['remaining_build_seconds']=ledger['ceiling_build_seconds']-ledger['used_build_seconds']
+  ledger['active_build']=next((x.get('build_id') or x['dispatch_token'] for x in ledger['builds'] if not x.get('accounted')),None)
+  write(ledger_path,ledger)
+ if item.get('accounted'):
+  if item.get('status')=='NOT_CREATED_INVALID_ARGUMENT' and record.get('validation_rejection'):
+   coordination.clear(record['dispatch_token'])
+  elif item.get('build_id') and item.get('status') in TERMINAL:
+   confirmed=invoke(['builds','describe',item['build_id'],'--region=global','--format=json'])
+   if confirmed.get('status') not in TERMINAL:raise RuntimeError('Ledger terminal state not confirmed by API')
+   coordination.clear(record['dispatch_token'])
+  else:raise RuntimeError('Cannot clear reservation without authoritative terminal state')
+ elif item.get('build_id')!=record.get('build_id'):
+  record['build_id']=item.get('build_id')
+  coordination.update(record)
+
+
+def authorized_phase(a,ledger):
+ if not a.phase_id or not PHASE_PATTERN.fullmatch(a.phase_id) or ledger.get('phase')!=a.phase_id:raise SystemExit('Explicit phase ID must match the selected account')
+ if a.phase_id=='CLOUD-BUILD-MIGRATION' or ledger.get('status')!='AUTHORIZED' or not isinstance(ledger.get('authorization'),str) or not ledger['authorization'].strip():raise SystemExit('Phase account is closed or has no explicit authorization')
+ if not a.owner or not OWNER_PATTERN.fullmatch(a.owner):raise SystemExit('Explicit valid --owner is required')
+ if not isinstance(ledger.get('ceiling_build_seconds'),int) or ledger['ceiling_build_seconds']<=0:raise SystemExit('Invalid phase ceiling')
+ if a.phase_id==NIGHT_PHASE and ledger['ceiling_build_seconds']!=10800:raise SystemExit('Select phase requires its separate 10800-second ceiling')
+ if not isinstance(ledger.get('allowed_lanes'),list):raise SystemExit('Phase account needs an explicit lane allowlist')
+ try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
+ except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
+ cutoff=datetime.datetime.fromisoformat(NIGHT_DEADLINE.replace('Z','+00:00'))
+ if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds authorized 08:00 UTC cutoff')
+ if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
+ if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
+ return deadline
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state-dir',type=Path,default=Path('/tmp/smallsort-cloud-migration'))
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state-dir',type=Path);p.add_argument('--phase-id');p.add_argument('--ledger',type=Path);p.add_argument('--owner')
  sub=p.add_subparsers(dest='command',required=True)
- q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',choices=['smoke-success','smoke-error','smoke-timeout','stock','constructor'],required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='public-git')
+ q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='pinned-objects')
  q=sub.add_parser('status');q.add_argument('build_id',nargs='?')
  q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True);q.add_argument('--text-logs',action='store_true')
  q=sub.add_parser('cancel');q.add_argument('build_id')
- a=p.parse_args();state=a.state_dir;state.mkdir(parents=True,exist_ok=True);ledger=read(DIR/'BUDGET.json');reconcile(state,ledger)
+ sub.add_parser('request')
+ sub.add_parser('withdraw-request')
+ a=p.parse_args()
+ if a.command in ('submit','request','withdraw-request') and (not a.phase_id or not a.ledger or not a.state_dir or not a.owner):raise SystemExit('phase operation requires explicit --phase-id, --ledger, --state-dir and --owner')
+ ledger_path=(a.ledger or DIR/'BUDGET.json').resolve()
+ state=(a.state_dir or Path('/tmp/smallsort-cloud-migration')).resolve()
+ if a.phase_id and a.phase_id!=read(ledger_path).get('phase'):raise SystemExit('Phase ID does not match the selected ledger')
+ if a.command=='download':
+  with coordination.locked():
+   reconcile_global()
+   ledger=read(ledger_path)
+   reconcile(state,ledger,ledger_path)
+   item=next((x.copy() for x in ledger['builds'] if x.get('build_id')==a.build_id),None)
+   if item is None:raise SystemExit('Not a recorded own build')
+  download(a,item)
+  with coordination.locked():
+   ledger=read(ledger_path)
+   current=next((x for x in ledger['builds'] if x.get('build_id')==a.build_id),None)
+   if current is None or current.get('submitted_config_sha256')!=item['submitted_config_sha256']:raise RuntimeError('Ledger changed during evidence download')
+   current['download_verified']=True;current['archive_sha256']=(a.output/'archive.sha256').read_text().split()[0]
+   write(ledger_path,ledger)
+  return
+ with coordination.locked():
+  if a.command in ('request','withdraw-request'):
+   ledger=read(ledger_path)
+   run_command(a,state,ledger,ledger_path)
+   return
+  reconcile_global()
+  state.mkdir(parents=True,exist_ok=True)
+  ledger=read(ledger_path)
+  reconcile(state,ledger,ledger_path)
+  run_command(a,state,ledger,ledger_path)
+
+
+def run_command(a,state,ledger,ledger_path):
+ if a.command=='request':
+  authorized_phase(a,ledger)
+  coordination.request(a.owner,a.phase_id,ledger_path,ledger['deadline_utc'])
+  print('Turn requested for',a.owner)
+  return
+ if a.command=='withdraw-request':
+  if not a.owner or not OWNER_PATTERN.fullmatch(a.owner):raise SystemExit('Explicit valid --owner is required')
+  request_path=coordination.COORDINATION/'requests'/(a.owner+'.json')
+  if request_path.exists():
+   request=read(request_path)
+   if request.get('phase_id')!=a.phase_id or request.get('ledger')!=str(ledger_path):raise SystemExit('Request does not match the selected phase account')
+  coordination.withdraw(a.owner)
+  print('Turn request withdrawn for',a.owner)
+  return
  if a.command=='submit':
+  deadline=authorized_phase(a,ledger)
+  if a.lane not in ledger.get('allowed_lanes',[]):raise SystemExit('Lane is not approved in the phase account')
+  if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
+  if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
+  now=datetime.datetime.now(datetime.timezone.utc)
+  if now+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Timeout plus queue reserve exceeds phase deadline')
+  coordination.request(a.owner,a.phase_id,ledger_path,ledger['deadline_utc'])
+  if coordination.last_owner()==a.owner and coordination.pending_others(a.owner):raise SystemExit('Another owner has a pending turn; wait for its submit or withdrawal')
   for sha in [a.infra_sha,a.proof_sha]:
    if not re.fullmatch('[0-9a-f]{40}',sha):raise SystemExit('Full published SHA required')
    subprocess.run(['git','cat-file','-e',sha+'^{commit}'],cwd=ROOT,check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-  for name in ['control.py','package-evidence.py']+(['source-input.py'] if a.source_mode=='pinned-objects' else []):
+  for name in ['control.py','coordination.py','package-evidence.py','source-input.py']:
    expected=subprocess.check_output(['git','show',a.infra_sha+':research/challenge-8/cloud-build/'+name],cwd=ROOT)
    if expected!=(DIR/name).read_bytes():raise SystemExit('Uncommitted/local '+name+' differs from infrastructure SHA; publish first')
   ongoing=invoke(['builds','list','--region=global','--ongoing','--format=json'])
-  if ongoing or ledger['active_build']:raise SystemExit('Queued/active or unresolved build: monitor/reconcile first')
+  if ongoing or ledger['active_build'] or coordination.active():raise SystemExit('Queued/active or unresolved build: monitor/reconcile first')
   # queue envelope is reserved too, respecting phase/per-build ceiling.
-  if not 90<=a.timeout<=1740 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
+  if not 90<=a.timeout<=1740 or a.timeout+60>1800 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
   source_payload=None
   if a.source_mode=='pinned-objects':
-   if a.lane not in ('stock','constructor'):raise SystemExit('Pinned source mode is only for reviewed proof lanes')
    sys.dont_write_bytecode=True
    spec=importlib.util.spec_from_file_location('source_input',DIR/'source-input.py')
    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
@@ -168,39 +283,45 @@ def main():
   if any(len(arg.encode())>10000 for step in cfg['steps'] for arg in step.get('args',[])):raise SystemExit('Config argument exceeds Cloud Build 10000-byte limit; no dispatch')
   source_values={k:v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')}
   for key in source_values:cfg['substitutions'][key]='placeholder'
-  raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
+  raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');coordination.write_bytes(path,raw)
   compressed=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
   if len(compressed)>8*3500:raise SystemExit('Submitted config exceeds evidence transport limit; no dispatch')
-  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING','publish_text_logs':True,'source_mode':a.source_mode,'source_input_sha256':digest(source_payload) if source_payload is not None else None};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
+  item={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING','publish_text_logs':True,'source_mode':a.source_mode,'source_input_sha256':digest(source_payload) if source_payload is not None else None}
   values={'_CONFIG_SHA':h,**{f'_CONFIG_{i}':compressed[i*3500:(i+1)*3500] for i in range(8)},**source_values}
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
+  reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
+  coordination.reserve(reservation)
+  ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
   try:b=invoke(cmd)
   except Exception as e:
    print('Dispatch response uncertain/error:',str(e).split('substitution value')[0][:400],file=sys.stderr)
-   matches=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json'])
-   if not matches and 'INVALID_ARGUMENT' in str(e):
-    item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,reason=str(e).split('substitution value')[0][:300]);ledger['active_build']=None;write(DIR/'BUDGET.json',ledger);raise SystemExit('Definitive API validation rejection; no build found and no time charged')
+   matches=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json']) or []
+   if not matches and re.search(r'ERROR: \(gcloud\.builds\.submit\) INVALID_ARGUMENT\b',str(e)):
+    reservation['validation_rejection']=True;reservation['rejection_reason']=str(e).split('substitution value')[0][:300];coordination.update(reservation)
+    item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,reason=str(e).split('substitution value')[0][:300]);ledger['active_build']=None;write(ledger_path,ledger);coordination.clear(token);raise SystemExit('Definitive API validation rejection; no build found and no time charged')
    if len(matches)!=1:raise SystemExit('No unique build resolved. Pending dispatch retained; lookup token before any retry: '+token)
    b=matches[0]
-  item['build_id']=b['id'];item['status']=b.get('status');ledger['active_build']=b['id'];write(DIR/'BUDGET.json',ledger);write(state/(b['id']+'.json'),b)
+  item['build_id']=b['id'];item['status']=b.get('status');ledger['active_build']=b['id'];write(ledger_path,ledger);reservation['build_id']=b['id'];coordination.update(reservation);write(state/(b['id']+'.json'),b)
+  coordination.submitted(a.owner,token)
   print(json.dumps({'build_id':b['id'],'config_sha256':h,'dispatch_token':token,'bucket_prefix':BUCKET+'/'+b['id']},indent=2))
  elif a.command=='status':
   if a.build_id:
    b=invoke(['builds','describe',a.build_id,'--region=global','--format=json']);print(json.dumps({key:b.get(key) for key in ['id','status','createTime','startTime','finishTime','logUrl']},indent=2))
   else:print(json.dumps(ledger,indent=2))
  elif a.command=='cancel':
+  active=coordination.active()
+  if not active or active.get('build_id')!=a.build_id or active.get('owner')!=a.owner or active.get('phase_id')!=a.phase_id or active.get('ledger')!=str(ledger_path):raise SystemExit('Only the explicitly selected owner may cancel its active build')
   if not any(x.get('build_id')==a.build_id and not x.get('accounted') for x in ledger['builds']):raise SystemExit('Only own active build may be cancelled')
   invoke(['builds','cancel',a.build_id,'--region=global','--format=json']);print('Cancellation requested; status remains authoritative')
- elif a.command=='download':
-  item=next((x for x in ledger['builds'] if x.get('build_id')==a.build_id),None)
-  if item is None:raise SystemExit('Not a recorded own build')
-  a.output.mkdir(parents=True,exist_ok=False)
-  names=['evidence.tar.gz','archive.sha256','summary.json','manifest.json','files-sha256.json','submitted-config.json','upload-complete.json']
-  if item.get('publish_text_logs'):names.append('text-logs-index.json')
-  subprocess.run(GCLOUD+['storage','cp',*[BUCKET+'/'+a.build_id+'/'+filename for filename in names],str(a.output)+'/'],check=True)
-  if a.text_logs:subprocess.run(GCLOUD+['storage','cp','--recursive',BUCKET+'/'+a.build_id+'/text-logs',str(a.output)+'/'],check=True)
-  subprocess.run([sys.executable,str(DIR/'verify-evidence.py'),'--directory',str(a.output),'--expected-build-id',a.build_id,'--expected-infra-sha',item['infra_sha'],'--expected-proof-sha',item['proof_sha'],'--expected-config-sha',item['submitted_config_sha256']],check=True)
-  item['download_verified']=True;item['archive_sha256']=(a.output/'archive.sha256').read_text().split()[0];write(DIR/'BUDGET.json',ledger)
+
+
+def download(a,item):
+ a.output.mkdir(parents=True,exist_ok=False)
+ names=['evidence.tar.gz','archive.sha256','summary.json','manifest.json','files-sha256.json','submitted-config.json','upload-complete.json']
+ if item.get('publish_text_logs'):names.append('text-logs-index.json')
+ subprocess.run(GCLOUD+['storage','cp',*[BUCKET+'/'+a.build_id+'/'+filename for filename in names],str(a.output)+'/'],check=True)
+ if a.text_logs:subprocess.run(GCLOUD+['storage','cp','--recursive',BUCKET+'/'+a.build_id+'/text-logs',str(a.output)+'/'],check=True)
+ subprocess.run([sys.executable,str(DIR/'verify-evidence.py'),'--directory',str(a.output),'--expected-build-id',a.build_id,'--expected-infra-sha',item['infra_sha'],'--expected-proof-sha',item['proof_sha'],'--expected-config-sha',item['submitted_config_sha256']],check=True)
 
 if __name__=='__main__':main()

@@ -50,6 +50,7 @@ CONSTRUCTOR_PATHS = (
 INFRA_EXACT_PATHS = (
     "research/challenge-8/cloud-build/run-proof.sh",
 )
+RECIPE_PREFIX = "research/challenge-8/cloud-build/recipes/"
 INFRA_PYTHON_PREFIXES = (
     "research/challenge-8/cloud-build/",
     "research/challenge-8/cloud-build/overlays/",
@@ -180,6 +181,42 @@ def infra_paths(repo: Path, commit: str) -> list[str]:
     return sorted(set(valid_path(path) for path in paths))
 
 
+def validate_recipe(recipe: dict, lane: str) -> dict:
+    if recipe.get("schema") != "smallsort-cloud-recipe-v1" or recipe.get("lane") != lane:
+        stop("recipe schema/lane mismatch")
+    for key in ("proof_paths", "infra_paths"):
+        paths = recipe.get(key)
+        if not isinstance(paths, list) or not paths or paths != sorted(set(paths)):
+            stop(f"recipe {key} must be a nonempty sorted exact path list")
+        for path in paths:
+            valid_path(path)
+            if not path.startswith(("research/challenge-8/", "library/core/")):
+                stop("recipe input outside research/std scope")
+    entrypoint = valid_path(recipe.get("entrypoint", ""))
+    if entrypoint not in recipe["infra_paths"] or not entrypoint.startswith("research/challenge-8/cloud-build/") or not entrypoint.endswith(".sh"):
+        stop("recipe entrypoint must be an explicit infrastructure shell input")
+    if "baseline_sha" in recipe:
+        if not OBJECT_ID.fullmatch(recipe["baseline_sha"]):
+            stop("recipe baseline SHA must be full")
+        paths = recipe.get("baseline_paths")
+        if not isinstance(paths, list) or not paths or paths != sorted(set(paths)):
+            stop("recipe baseline_paths must be exact sorted paths")
+        for path in paths:
+            valid_path(path)
+            if not path.startswith(("research/challenge-8/", "library/core/")):
+                stop("baseline input outside research/std scope")
+    elif "baseline_paths" in recipe:
+        stop("baseline paths without original SHA")
+    return recipe
+
+
+def committed_recipe(repo: Path, infra_sha: str, lane: str) -> dict:
+    if not re.fullmatch(r"[a-z][a-z0-9-]{0,63}", lane):
+        stop("invalid recipe lane")
+    raw = git(repo, "show", infra_sha + ":" + RECIPE_PREFIX + lane + ".json")
+    return validate_recipe(json.loads(raw), lane)
+
+
 def repo_record(repo: Path, commit: str, paths: list[str]) -> tuple[dict, dict[str, tuple[str, bytes]]]:
     if not OBJECT_ID.fullmatch(commit):
         stop(f"commit must be a full 40-digit SHA-1: {commit}")
@@ -202,14 +239,20 @@ def repo_record(repo: Path, commit: str, paths: list[str]) -> tuple[dict, dict[s
 
 def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes:
     """Return deterministic gzip JSON for the requested source commits."""
-    if lane not in ("stock", "constructor"):
-        stop("lane must be stock or constructor")
     repo = repo.resolve()
-    infra, _ = repo_record(repo, infra_sha, infra_paths(repo, infra_sha))
-    proof_paths = STOCK_PATHS if lane == "stock" else CONSTRUCTOR_PATHS
+    recipe = None if lane in ("stock", "constructor") else committed_recipe(repo, infra_sha, lane)
+    selected_infra = infra_paths(repo, infra_sha)
+    if recipe:
+        selected_infra = sorted(set(selected_infra + recipe["infra_paths"] + [RECIPE_PREFIX + lane + ".json"]))
+    infra, _ = repo_record(repo, infra_sha, selected_infra)
+    proof_paths = recipe["proof_paths"] if recipe else STOCK_PATHS if lane == "stock" else CONSTRUCTOR_PATHS
     proof, _ = repo_record(repo, proof_sha, list(proof_paths))
     payload = {"schema": SCHEMA, "lane": lane,
                "infra": infra, "proof": proof}
+    if recipe:
+        payload["recipe"] = recipe
+        if "baseline_sha" in recipe:
+            payload["baseline"], _ = repo_record(repo, recipe["baseline_sha"], recipe["baseline_paths"])
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
@@ -218,7 +261,7 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
     return buffer.getvalue()
 
 
-def expected_infra_paths(repo_record_data: dict) -> list[str]:
+def expected_infra_paths(repo_record_data: dict, recipe: dict | None = None) -> list[str]:
     # Validate the exact narrow path policy without consulting a worktree.
     paths = [item.get("path") for item in repo_record_data.get("paths", [])]
     def allowed_python(path: str) -> bool:
@@ -228,11 +271,14 @@ def expected_infra_paths(repo_record_data: dict) -> list[str]:
                 return True
         return False
 
-    expected = [path for path in paths if path in INFRA_EXACT_PATHS or allowed_python(path)]
+    recipe_paths = set(recipe["infra_paths"] + [RECIPE_PREFIX + recipe["lane"] + ".json"]) if recipe else set()
+    expected = [path for path in paths if path in INFRA_EXACT_PATHS or allowed_python(path) or path in recipe_paths]
     if sorted(set(expected)) != sorted(paths):
         stop("bundle contains an unapproved infra path")
     if not set(INFRA_EXACT_PATHS).issubset(expected):
         stop("bundle is missing an infra runner path")
+    if not recipe_paths.issubset(expected):
+        stop("bundle is missing recipe infrastructure inputs")
     return sorted(expected)
 
 
@@ -338,13 +384,26 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
         stop("infra commit differs from explicit INFRA_SHA environment")
     if os.environ.get("PROOF_SHA") != proof_record_data.get("commit"):
         stop("proof commit differs from explicit PROOF_SHA environment")
-    infra_paths_allowed = expected_infra_paths(infra_record)
-    proof_paths_allowed = expected_proof_paths(lane)
+    recipe = None if lane in ("stock", "constructor") else validate_recipe(payload.get("recipe", {}), lane)
+    infra_paths_allowed = expected_infra_paths(infra_record, recipe)
+    proof_paths_allowed = recipe["proof_paths"] if recipe else expected_proof_paths(lane)
     if [item.get("path") for item in proof_record_data.get("paths", [])] != proof_paths_allowed:
         stop("proof archive paths do not match lane allowlist")
     infra_dir, proof_dir = WORKSPACE / "infra", WORKSPACE / "proof"
     infra_restored = restore_repo(infra_record, infra_dir, infra_paths_allowed)
+    if recipe:
+        restored_recipe = json.loads((infra_dir / (RECIPE_PREFIX + lane + ".json")).read_bytes())
+        if restored_recipe != recipe:
+            stop("recipe differs from original infrastructure Git object")
     proof_restored = restore_repo(proof_record_data, proof_dir, proof_paths_allowed)
+    baseline_restored = None
+    if recipe and "baseline_sha" in recipe:
+        baseline_record = payload.get("baseline", {})
+        if baseline_record.get("commit") != recipe["baseline_sha"]:
+            stop("baseline commit differs from recipe")
+        baseline_restored = restore_repo(baseline_record, WORKSPACE / "baseline", recipe["baseline_paths"])
+    elif "baseline" in payload:
+        stop("unexpected baseline repository")
     evidence.mkdir(parents=True, exist_ok=True)
     saved_archive = evidence / "source-input.gz"
     saved_archive.write_bytes(compressed)
@@ -363,6 +422,11 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
                   "head": git(proof_dir, "rev-parse", "HEAD").decode().strip()},
         "archive_copy": str(saved_archive),
     }
+    if recipe:
+        record["recipe"] = recipe
+    if baseline_restored is not None:
+        record["baseline"] = {"commit": recipe["baseline_sha"], "root_tree": payload["baseline"]["root_tree"], "restored_paths": baseline_restored,
+                              "head": git(WORKSPACE / "baseline", "rev-parse", "HEAD").decode().strip()}
     (evidence / "source-input-certificate.json").write_text(
         json.dumps(record, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"lane": lane, "archive_sha256": record["archive_sha256"],

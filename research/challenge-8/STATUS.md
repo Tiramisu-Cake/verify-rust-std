@@ -1,3 +1,19 @@
+# Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
+
+Owner authorized actual select then sort4 until **08:00UTC /11:00MSK 9 October**.
+New independent **10800 conservative Cloud Build seconds**; used0, remaining10800.
+[Phase](cloud-build/night-select-sort4/PHASE.md),
+[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active build yet.
+Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
+`/root/verify-rust-std-select-night`, starts at accepted migration65a456b8.
+O26 baseline profile and guard-literal candidate are being restored on Cloud;
+fresh certificates17/20 require observed evidence. Actual helper/sort4 remain
+NOT PROVEN. Global coordination and independent recipe/input interface are
+published separately from proof changes; permanent Cloud-only execution applies.
+Migration and all earlier accounts remain closed/separate; no A/B/C rerun.
+
+# Accepted migration checkpoint (historical)
+
 # Current phase: CLOUD-BUILD-MIGRATION — ACCEPTED / COMPLETE
 
 2026-10-09. A/B/C completed within the owner-authorized Cloud Build budget.
