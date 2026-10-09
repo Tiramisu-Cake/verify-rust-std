@@ -76,3 +76,7 @@ After observed Build6ad late231 type failure, exact additional lane
 `o26-input-relation-frame-shadow-capture` collects FRAME+three ghost binding
 substitutions only. Runtime unchanged; source-shadow is now evidence justified,
 not preventive. New phases or budgets are not created by this narrow selection.
+
+The same evidence-justified repair may use exact default-off
+`o26-input-relation-frame-shadow-test` with fresh source/tool pins, preserved FRAME
+baseline and partial/source controls before full actualouter. Registered only here.

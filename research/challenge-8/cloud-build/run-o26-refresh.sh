@@ -62,6 +62,10 @@ input_relation_frame_shadow_mode=${O26_WITH_WRAPPER_INPUT_RELATION_FRAME_SHADOW_
 [[ "$input_relation_frame_shadow_mode" == 0 || "$input_relation_frame_shadow_mode" == 1 ]] || exit 2
 [[ "$input_relation_frame_shadow_mode" == 0 ||
    "${LANE:-}" == o26-input-relation-frame-shadow-capture ]] || exit 2
+frame_shadow_test_mode=${O26_WITH_R3_FRAME_SHADOW_TEST:-0}
+[[ "$frame_shadow_test_mode" == 0 || "$frame_shadow_test_mode" == 1 ]] || exit 2
+[[ "$frame_shadow_test_mode" == 0 ||
+   "${LANE:-}" == o26-input-relation-frame-shadow-test ]] || exit 2
 [[ "$input_relation_frame_mode" == 0 ||
    ( "$input_relation_mode" == 0 && "$input_relation_shadow_mode" == 0 &&
      "$input_relation_frame_shadow_mode" == 0 ) ]] || exit 2
@@ -122,12 +126,14 @@ if [[ "$frame_test_mode" == 1 ]]; then
      "$input_relation_mode" == 0 && "$input_relation_shadow_mode" == 0 &&
      "$input_relation_frame_mode" == 0 && "$generic_new_mode" == 0 &&
      "$input_relation_frame_shadow_mode" == 0 &&
+     "$frame_shadow_test_mode" == 0 &&
      "$postmark_mode" == 0 && "$r3_profile_mode" == 0 &&
      "$ghost_scope_mode" == 0 && "$r3_nested_mode" == 0 &&
      "$wrapper_profile_mode" == 0 && "$comp19_mode" == 0 &&
      "${O26_WITH_R3_RECEIVER_TEST:-0}" == 0 &&
      "${O26_WITH_R3_GHOST_COLUMN_TEST:-0}" == 0 &&
-     "${O26_WITH_R3_COLUMN_NESTED_TEST:-0}" == 0 ]] || exit 2
+     "${O26_WITH_R3_COLUMN_NESTED_TEST:-0}" == 0 &&
+     "$frame_shadow_test_mode" == 0 ]] || exit 2
 fi
 if [[ "$input_relation_frame_shadow_mode" == 1 ]]; then
   [[ "${LANE:-}" == o26-input-relation-frame-shadow-capture &&
@@ -141,7 +147,21 @@ if [[ "$input_relation_frame_shadow_mode" == 1 ]]; then
      "$postmark_mode" == 0 && "$r3_profile_mode" == 0 &&
      "$ghost_scope_mode" == 0 && "$r3_nested_mode" == 0 &&
      "$wrapper_profile_mode" == 0 && "$comp19_mode" == 0 &&
-     "$frame_test_mode" == 0 ]] || exit 2
+     "$frame_test_mode" == 0 && "$frame_shadow_test_mode" == 0 ]] || exit 2
+fi
+if [[ "$frame_shadow_test_mode" == 1 ]]; then
+  [[ "${LANE:-}" == o26-input-relation-frame-shadow-test &&
+     "$relocate_mode" == 0 && "$strict_cut_controls_mode" == 0 &&
+     "$strict_cut_false_posts_mode" == 0 && "$reuse_strict_matrix_mode" == 0 &&
+     "$controls_mode" == 0 && "$sort4_mode" == 0 && "$a1_mode" == 0 &&
+     "$coordination_mode" == 0 && "$nested_order_mode" == 0 &&
+     "$ast_probe_mode" == 0 && "$wrapper_rebase_mode" == 0 &&
+     "$input_relation_mode" == 0 && "$input_relation_shadow_mode" == 0 &&
+     "$input_relation_frame_mode" == 0 && "$input_relation_frame_shadow_mode" == 0 &&
+     "$generic_new_mode" == 0 && "$postmark_mode" == 0 &&
+     "$r3_profile_mode" == 0 && "$ghost_scope_mode" == 0 &&
+     "$r3_nested_mode" == 0 && "$wrapper_profile_mode" == 0 &&
+     "$comp19_mode" == 0 && "$frame_test_mode" == 0 ]] || exit 2
 fi
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
@@ -487,6 +507,17 @@ if [[ "$frame_test_mode" == 1 ]]; then
     --evidence "$ev/cases/r3-frame-test" --work-root "$work_root" \
     --deadline-epoch "$deadline" || frame_test_status=$?
   printf '%s\n' "$frame_test_status" > "$ev/cases/r3-frame-test-helper-exit-code.txt"
+fi
+
+if [[ "$frame_shadow_test_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/r3-frame-shadow-test-request.json"
+  frame_shadow_test_status=0
+  stage r3-frame-shadow-test python3 "$cloud_dir/o26-r3-frame-shadow-test.py" \
+    --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --production-source "$source_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/r3-frame-shadow-test" --work-root "$work_root" \
+    --deadline-epoch "$deadline" || frame_shadow_test_status=$?
+  printf '%s\n' "$frame_shadow_test_status" > "$ev/cases/r3-frame-shadow-test-helper-exit-code.txt"
 fi
 
 if [[ "$input_relation_shadow_mode" == 1 ]]; then
