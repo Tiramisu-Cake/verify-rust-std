@@ -1,0 +1,3161 @@
+diff --git a/.gitignore b/.gitignore
+index a98335bf..d7c145f3 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -57,3 +57,6 @@ esbmc
+ 
+ #/target
+ testable-simd-models/target
++
++# Local verifast dispatcher state; never committed build input.
++/.verifast-cloud-state/
+diff --git a/research/challenge-8/cloud-build/PARALLEL-BUILDS-V3.md b/research/challenge-8/cloud-build/PARALLEL-BUILDS-V3.md
+new file mode 100644
+index 00000000..a701e399
+--- /dev/null
++++ b/research/challenge-8/cloud-build/PARALLEL-BUILDS-V3.md
+@@ -0,0 +1,62 @@
++# Three-owner Cloud Build coordinator: staged transition
++
++This is a portable protocol change for stable owners `select-sort4`, `merge`,
++and `verifast`. It permits at most three project-wide queued, running, or
++unresolved Builds and at most one reservation per owner and absolute ledger.
++It does not grant a phase, budget, Build submission, or proof credit. The
++existing v2 envelope remains the default until an explicit migration.
++
++## Adoption order
++
++1. Publish the portable protocol commit **`<PORTABLE_PROTOCOL_COMMIT>`**.
++   Cherry-pick only `coordination.py`, `coordination-v3-transition.py`,
++   `coordination-v3-test.py`, and this document into each proof client.
++   Do not replace a peer's `control.py`: select, merge, and verifast have
++   different phase registrations and dispatch rules. Preserve each client's
++   phase constants, `authorized_phase`, recipes, proof tree, ledger and pin.
++2. In each client checkout, finish any in-flight dispatcher command. Adopt
++   the matching coordination source in that client's committed infrastructure
++   revision. Record its exact `coordination.py` SHA-256 and current `control.py`
++   SHA-256 and the exact infrastructure commit containing both files. Record
++   a full baseline commit whose `control.py` has the same phase
++   registrations as the adopted dispatcher. It must be an ancestor of, and
++   distinct from, the adoption commit. Use the commit after phase registration
++   and before dispatcher-only edits.
++3. Each stable owner acknowledges its installed source with a JSON file:
++
++   ```json
++   {"owner":"select-sort4","coordination_sha256":"<64 lowercase hex>","control_sha256":"<64 lowercase hex>","infra_commit":"<40 lowercase hex>","baseline_control_commit":"<40 lowercase hex>"}
++   ```
++
++   Repeat for `merge` and `verifast`. The transition command verifies the
++   installed source bytes, dispatcher bytes, committed infrastructure source,
++   coordinator API calls, and phase
++   registration AST against each baseline commit. Its source hash must match
++   the helper's own `coordination.py` bytes. Acknowledgments are explicit
++   adoption evidence, not authority to dispatch.
++4. With all three client checkouts and acknowledgments available, run
++   `coordination-v3-transition.py --client select-sort4=<checkout> --client
++   merge=<checkout> --client verifast=<checkout> --ack select-sort4=<json>
++   --ack merge=<json> --ack verifast=<json>`. It takes the existing shared
++   flock, rejects absent/legacy/already-v3 state, validates all active v2
++   reservations, and atomically writes the v3 envelope. It preserves active
++   records losslessly as JSON values, including dispatch tokens and Build
++   IDs. It never deletes `active.json`, receipts, requests, or ledgers.
++5. Read back `schema_version: 3`, `max_active: 3`, active tokens, and each
++   owner's status/ledger. Only then may a separately authorized phase submit
++   against that client's exact published infrastructure SHA.
++
++`coordination.py` reads both v2 and v3 envelopes. Every reservation mutation
++preserves the active envelope's version and capacity. Unknown versions or
++capacity mismatches fail closed. A v2 client rejects the v3 envelope; do not
++delete or reset `active.json` to let it proceed. Admission counts active
++reservations plus unmatched live project Builds. A visible Build carrying a
++reserved token consumes that reservation's slot once; conflicting tokens or
++IDs fail closed. An unresolved submission still occupies its slot. Updates and
++clear operations select one exact dispatch token and preserve peer records.
++Terminal API evidence or definitive validation rejection remains the release
++condition; cancellation alone does not free a slot.
++
++Run `python3 coordination-v3-test.py` only against its disposable temporary
++state. It makes no Cloud API calls. Full Cloud regression and operational v3
++acceptance remain **NOT_RUN** until an explicitly authorized Cloud phase.
+diff --git a/research/challenge-8/cloud-build/README.md b/research/challenge-8/cloud-build/README.md
+index fdba6369..6994315a 100644
+--- a/research/challenge-8/cloud-build/README.md
++++ b/research/challenge-8/cloud-build/README.md
+@@ -1,3 +1,21 @@
++# VeriFast MDnew lane (2026-10-09)
++
++The separately authorized owner `verifast` uses
++[its own phase and 3600-second ledger](verifast-mdnew/PHASE.md), the committed
++`verifast-mdnew-cfg` recipe, and the existing `smallsort-ci/global` dispatcher.
++Pinned tool source is delivered as ordinary committed bundle/manifest blobs
++under `research/challenge-8/verifast-input/<tool-SHA>/`; the helper restores
++original upstream/candidate Git identities before compilation. The two source
++consoles consume identical five fixtures. Diagnostic negative copies remove only
++the should_fail marker, preserve line numbers, and receive separate hashes.
++Binary components and source bundle provenance are recorded separately.
++
++The active coordinator remains v2/max2 pending
++[exact peer adoption and locked migration](verifast-mdnew/ADOPTION.md).
++The portable v3 protocol does not change phase budgets or authorize submissions.
++Peer phase-specific `control.py` must be preserved. No new verifast submissions
++are allowed after16:27:32Z; finish already-started work only until16:57:32Z.
++
+ # Current shared Cloud interface — nightly phases
+ 
+ The accepted migration below stays closed. New owner-authorized phases use
+diff --git a/research/challenge-8/cloud-build/control.py b/research/challenge-8/cloud-build/control.py
+index b671019e..9e283376 100644
+--- a/research/challenge-8/cloud-build/control.py
++++ b/research/challenge-8/cloud-build/control.py
+@@ -30,6 +30,11 @@ C1_START='2026-10-09T15:08:25Z'
+ C1_MAIN_DEADLINE='2026-10-09T16:08:25Z'
+ C1_DEADLINE='2026-10-09T16:38:25Z'
+ C1_LANES=frozenset(('o26-sort4-c1-current-recovery',))
++VERIFAST_PHASE='VERIFAST-MDNEW-CFG-CLOUD-2026-10-09'
++VERIFAST_START='2026-10-09T15:27:32Z'
++VERIFAST_MAIN_DEADLINE='2026-10-09T16:27:32Z'
++VERIFAST_DEADLINE='2026-10-09T16:57:32Z'
++VERIFAST_LANES=frozenset(('verifast-mdnew-cfg',))
+ LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
+ PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
+ OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
+@@ -244,12 +249,15 @@ def authorized_phase(a,ledger):
+  if a.phase_id==NIGHT_PHASE and ledger['ceiling_build_seconds']!=10800:raise SystemExit('Select phase requires its separate 10800-second ceiling')
+  if a.phase_id==DAY_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4'):raise SystemExit('Day select phase requires its separate 3600-second account and owner')
+  if not isinstance(ledger.get('allowed_lanes'),list):raise SystemExit('Phase account needs an explicit lane allowlist')
++ if a.phase_id==VERIFAST_PHASE:
++  if (ledger['ceiling_build_seconds']!=3600 or a.owner!='verifast' or ledger.get('owner')!='verifast' or set(ledger['allowed_lanes'])!=VERIFAST_LANES or ledger.get('start_utc')!=VERIFAST_START or ledger.get('main_deadline_utc')!=VERIFAST_MAIN_DEADLINE or ledger.get('deadline_utc')!=VERIFAST_DEADLINE):raise SystemExit('Verifast phase requires its exact separate account, owner, window and lanes')
++  if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(VERIFAST_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Verifast main window ended; no new submissions or requests')
+  if a.phase_id==C1_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_START or ledger.get('main_deadline_utc')!=C1_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_DEADLINE):raise SystemExit('C1 phase requires its exact separate account, owner, window and lane')
+  if a.phase_id==AFTERNOON_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=AFTERNOON_LANES):raise SystemExit('Afternoon select phase requires its separate 3600-second account, exact owner and approved lanes')
+  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
+  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
+  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
+- cutoff=datetime.datetime.fromisoformat((C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
++ cutoff=datetime.datetime.fromisoformat((VERIFAST_DEADLINE if a.phase_id==VERIFAST_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
+  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
+  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
+@@ -356,6 +364,9 @@ def run_command(a,state,ledger,ledger_path):
+   values={'_CONFIG_SHA':h,**{f'_CONFIG_{i}':compressed[i*3500:(i+1)*3500] for i in range(8)},**source_values}
+   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
+   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
++  # Payload/API preflight may take time; recheck authorization immediately before reserving.
++  deadline=authorized_phase(a,ledger)
++  if datetime.datetime.now(datetime.timezone.utc)+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Preflight elapsed: timeout plus queue reserve exceeds phase deadline')
+   coordination.reserve(reservation)
+   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
+   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
+diff --git a/research/challenge-8/cloud-build/coordination-v3-test.py b/research/challenge-8/cloud-build/coordination-v3-test.py
+new file mode 100644
+index 00000000..100acc8b
+--- /dev/null
++++ b/research/challenge-8/cloud-build/coordination-v3-test.py
+@@ -0,0 +1,170 @@
++#!/usr/bin/env python3
++"""Disposable local coordinator protocol checks; no Cloud calls or proof tools."""
++
++import hashlib
++import importlib.util
++import json
++from pathlib import Path
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++
++HERE = Path(__file__).resolve().parent
++sys.path.insert(0, str(HERE))
++import coordination
++
++spec = importlib.util.spec_from_file_location('coordination_v3_transition', HERE / 'coordination-v3-transition.py')
++transition = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(transition)
++
++
++def record(base, owner, token=None):
++    return {'owner': owner, 'phase_id': 'PHASE', 'ledger': str(base / (owner + '.json')),
++            'state_dir': str(base / (owner + '-state')),
++            'dispatch_token': token or ('token-' + owner), 'build_id': None,
++            'item': {'status': 'DISPATCH_PENDING'}}
++
++
++CONTROL = b'''import coordination
++SELECT_PHASE='P'
++SELECT_DEADLINE='D'
++def authorized_phase(a): return SELECT_PHASE
++def run():
++    coordination.locked()
++    coordination.reservations()
++    coordination.require_capacity('x', '/tmp/x')
++    coordination.reserve({})
++    coordination.update({})
++    coordination.clear('x')
++'''
++
++
++class CoordinatorV3Tests(unittest.TestCase):
++    def setUp(self):
++        self.temp = tempfile.TemporaryDirectory()
++        self.addCleanup(self.temp.cleanup)
++        self.root = Path(self.temp.name)
++        old = coordination.COORDINATION
++        coordination.COORDINATION = self.root / 'coordination'
++        self.addCleanup(setattr, coordination, 'COORDINATION', old)
++
++    def activate(self, records=()):
++        coordination.write(coordination.COORDINATION / 'active.json',
++                           {'schema_version': 3, 'max_active': 3, 'reservations': list(records)})
++
++    def test_default_v2_and_v3_three_owners(self):
++        with coordination.locked():
++            coordination.reserve(record(self.root, 'select-sort4'))
++            self.assertEqual(coordination.protocol(), (2, 2))
++            coordination.clear('token-select-sort4')
++            self.assertEqual(coordination.protocol(), (2, 2))
++            self.activate()
++            for owner in ('select-sort4', 'merge', 'verifast'):
++                coordination.reserve(record(self.root, owner))
++            self.assertEqual(len(coordination.reservations()), 3)
++            with self.assertRaisesRegex(RuntimeError, 'occupied'):
++                coordination.reserve(record(self.root, 'fourth'))
++            with self.assertRaisesRegex(RuntimeError, 'Owner or ledger'):
++                coordination.reserve(record(self.root, 'merge', 'other-token'))
++            duplicate_ledger = record(self.root, 'fourth')
++            duplicate_ledger['ledger'] = str(self.root / 'merge.json')
++            with self.assertRaisesRegex(RuntimeError, 'Owner or ledger'):
++                coordination.reserve(duplicate_ledger)
++            coordination.clear('token-verifast')
++            aliased_ledger = record(self.root, 'verifast')
++            aliased_ledger['ledger'] = str(self.root / 'ignored' / '..' / 'merge.json')
++            with self.assertRaisesRegex(RuntimeError, 'Owner or ledger'):
++                coordination.reserve(aliased_ledger)
++            with self.assertRaisesRegex(RuntimeError, 'Unsupported v3'):
++                coordination.reserve(record(self.root, 'fourth'))
++
++    def test_unresolved_untracked_and_peer_preservation(self):
++        first = record(self.root, 'select-sort4')
++        second = record(self.root, 'merge')
++        with coordination.locked():
++            self.activate([first])
++            ongoing = [{'id': 'visible-first', 'tags': [first['dispatch_token']]},
++                       {'id': 'external', 'tags': []}]
++            coordination.require_capacity('merge', second['ledger'], ongoing)
++            coordination.reserve(second)
++            with self.assertRaisesRegex(RuntimeError, 'occupied'):
++                coordination.require_capacity('verifast', self.root / 'verifast.json', ongoing)
++            updated = {**second, 'build_id': 'build-merge'}
++            coordination.update(updated)
++            self.assertEqual(coordination.active('select-sort4'), first)
++            coordination.clear(first['dispatch_token'])
++            self.assertEqual(coordination.reservations(), [updated])
++            self.assertEqual(coordination.protocol(), (3, 3))
++            with self.assertRaisesRegex(RuntimeError, 'Build ID changed'):
++                coordination.update({**updated, 'build_id': 'other'})
++
++    def clients(self):
++        clients, acks = {}, {}
++        source = (HERE / 'coordination.py').read_bytes()
++        hash_value = hashlib.sha256(source).hexdigest()
++        for owner in sorted(coordination.V3_OWNERS):
++            root = self.root / owner
++            folder = root / 'research/challenge-8/cloud-build'
++            folder.mkdir(parents=True)
++            (folder / 'coordination.py').write_bytes(source)
++            (folder / 'control.py').write_bytes(CONTROL)
++            clients[owner] = root
++            ack = self.root / (owner + '-ack.json')
++            ack.write_text(json.dumps({'owner': owner, 'coordination_sha256': hash_value,
++                                       'control_sha256': hashlib.sha256(CONTROL).hexdigest(),
++                                       'baseline_control_commit': 'a' * 40,
++                                       'infra_commit': 'b' * 40}))
++            acks[owner] = ack
++        return clients, acks
++
++    def test_migration_preserves_active_records_and_rejects_old_v2(self):
++        first = record(self.root, 'select-sort4')
++        first['build_id'] = 'live-build'
++        second = record(self.root, 'merge')
++        clients, acks = self.clients()
++        with coordination.locked():
++            coordination.save_reservations([first, second])
++        def committed(args):
++            return (HERE / 'coordination.py').read_bytes() if args[-1].endswith('coordination.py') else CONTROL
++        with patch.object(transition.subprocess, 'check_output', side_effect=committed), \
++                patch.object(transition.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)):
++            result = transition.migrate(clients, acks)
++        self.assertEqual(result['active_tokens'], [first['dispatch_token'], second['dispatch_token']])
++        envelope = coordination.read(coordination.COORDINATION / 'active.json')
++        self.assertEqual(envelope, {'schema_version': 3, 'max_active': 3,
++                                    'reservations': [first, second]})
++        # Execute the exact v2 reader from the pre-transition protocol commit.
++        source = subprocess.check_output(['git', '-C', str(HERE), 'show',
++            '4058e8bf45eb567e4656d953274c96bf8488a7a3:research/challenge-8/cloud-build/coordination.py'])
++        old_path = self.root / 'coordination-v2.py'
++        old_path.write_bytes(source)
++        old_spec = importlib.util.spec_from_file_location('historical_coordination_v2', old_path)
++        old = importlib.util.module_from_spec(old_spec)
++        old_spec.loader.exec_module(old)
++        old.COORDINATION = coordination.COORDINATION
++        with self.assertRaisesRegex(RuntimeError, 'Unsupported Cloud Build coordination protocol'):
++            old.reservations()
++        with coordination.locked():
++            coordination.reserve(record(self.root, 'verifast'))
++            coordination.clear(second['dispatch_token'])
++            self.assertEqual(coordination.protocol(), (3, 3))
++
++    def test_migration_rejects_incomplete_adoption_without_writing(self):
++        clients, acks = self.clients()
++        with coordination.locked():
++            coordination.save_reservations([record(self.root, 'select-sort4')])
++        before = (coordination.COORDINATION / 'active.json').read_bytes()
++        bad = json.loads(acks['merge'].read_text())
++        bad['coordination_sha256'] = '0' * 64
++        acks['merge'].write_text(json.dumps(bad))
++        with patch.object(transition.subprocess, 'check_output', return_value=CONTROL):
++            with self.assertRaisesRegex(RuntimeError, 'acknowledgment'):
++                transition.migrate(clients, acks)
++        self.assertEqual((coordination.COORDINATION / 'active.json').read_bytes(), before)
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/research/challenge-8/cloud-build/coordination-v3-transition.py b/research/challenge-8/cloud-build/coordination-v3-transition.py
+new file mode 100644
+index 00000000..ce7d7e64
+--- /dev/null
++++ b/research/challenge-8/cloud-build/coordination-v3-transition.py
+@@ -0,0 +1,131 @@
++#!/usr/bin/env python3
++"""Explicit, locked v2-to-v3 coordinator migration. No Cloud API calls."""
++
++import argparse
++import ast
++import hashlib
++import json
++from pathlib import Path
++import subprocess
++
++import coordination
++
++
++CONTROL = 'research/challenge-8/cloud-build/control.py'
++COORDINATION = 'research/challenge-8/cloud-build/coordination.py'
++OWNERS = coordination.V3_OWNERS
++
++
++def digest(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def mapping(values, label):
++    result = {}
++    for value in values:
++        owner, separator, path = value.partition('=')
++        if not separator or owner not in OWNERS or owner in result or not path:
++            raise RuntimeError('Expected one ' + label + ' path for each stable owner')
++        result[owner] = Path(path).resolve()
++    if set(result) != OWNERS:
++        raise RuntimeError('Expected ' + label + ' paths for all three stable owners')
++    return result
++
++
++def phase_projection(source):
++    """Compare phase registrations and their named constants across adoption."""
++    tree = ast.parse(source)
++    selected = []
++    for node in tree.body:
++        if isinstance(node, (ast.Assign, ast.AnnAssign)):
++            names = [target.id for target in getattr(node, 'targets', [getattr(node, 'target', None)])
++                     if isinstance(target, ast.Name)]
++            if any(any(part in name for part in ('PHASE', 'DEADLINE', 'LANES', 'START'))
++                   for name in names):
++                selected.append(ast.dump(node, include_attributes=False))
++        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and node.name == 'authorized_phase':
++            selected.append(ast.dump(node, include_attributes=False))
++    if not any('authorized_phase' in item for item in selected):
++        raise RuntimeError('Dispatcher has no authorized_phase registration')
++    return selected
++
++
++def check_dispatcher(source):
++    tree = ast.parse(source)
++    imports = any(isinstance(node, ast.Import) and
++                  any(alias.name == 'coordination' for alias in node.names)
++                  for node in tree.body)
++    calls = {node.func.attr for node in ast.walk(tree)
++             if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
++             and isinstance(node.func.value, ast.Name) and node.func.value.id == 'coordination'}
++    required = {'locked', 'reservations', 'require_capacity', 'reserve', 'update', 'clear'}
++    if not imports or not required <= calls:
++        raise RuntimeError('Dispatcher has not adopted the shared coordinator API')
++
++
++def verify_clients(clients, acknowledgments):
++    expected = digest(Path(coordination.__file__).read_bytes())
++    for owner in sorted(OWNERS):
++        root = clients[owner]
++        ack = json.loads(acknowledgments[owner].read_text())
++        source = (root / COORDINATION).read_bytes()
++        control = (root / CONTROL).read_bytes()
++        if (ack.get('owner') != owner or ack.get('coordination_sha256') != expected or
++                digest(source) != expected or ack.get('control_sha256') != digest(control)):
++            raise RuntimeError('Client acknowledgment or installed source differs: ' + owner)
++        baseline = ack.get('baseline_control_commit')
++        adopted = ack.get('infra_commit')
++        for label, commit in (('baseline control', baseline), ('adopted infrastructure', adopted)):
++            if not isinstance(commit, str) or len(commit) != 40 or any(c not in '0123456789abcdef' for c in commit):
++                raise RuntimeError('Missing exact ' + label + ' commit: ' + owner)
++        if baseline == adopted:
++            raise RuntimeError('Phase baseline must precede dispatcher adoption: ' + owner)
++        if subprocess.run(['git', '-C', str(root), 'merge-base', '--is-ancestor',
++                           baseline, adopted], check=False).returncode != 0:
++            raise RuntimeError('Phase baseline is not an ancestor of adoption: ' + owner)
++        def committed(commit, relative):
++            return subprocess.check_output(['git', '-C', str(root), 'show',
++                                            commit + ':' + relative])
++        if committed(adopted, COORDINATION) != source or committed(adopted, CONTROL) != control:
++            raise RuntimeError('Installed dispatcher differs from adopted infrastructure commit: ' + owner)
++        original = committed(baseline, CONTROL)
++        if phase_projection(original) != phase_projection(control):
++            raise RuntimeError('Phase registration changed during dispatcher adoption: ' + owner)
++        check_dispatcher(control)
++    return expected
++
++
++def migrate(clients, acknowledgments):
++    # The same flock spans validation and the atomic envelope replacement.
++    with coordination.locked():
++        source_hash = verify_clients(clients, acknowledgments)
++        path = coordination.COORDINATION / 'active.json'
++        if not path.exists():
++            raise RuntimeError('No v2 envelope to migrate; initialize v2 first')
++        version, capacity = coordination.protocol()
++        if (version, capacity) != (2, 2) or 'schema_version' not in coordination.read(path):
++            raise RuntimeError('Migration requires an existing v2 envelope')
++        records = coordination.reservations()
++        if any(record['owner'] not in OWNERS for record in records):
++            raise RuntimeError('Active reservation has an unknown v3 owner')
++        # Re-read immediately before the single atomic replacement; all token,
++        # Build ID and receipt relationships remain the same records.
++        coordination.write(path, {'schema_version': 3, 'max_active': 3,
++                                  'reservations': records})
++        if coordination.reservations() != records:
++            raise RuntimeError('Migration readback differs from v2 records')
++        return {'schema_version': 3, 'max_active': 3,
++                'active_tokens': [r['dispatch_token'] for r in records],
++                'coordination_sha256': source_hash}
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--client', action='append', required=True, metavar='OWNER=CHECKOUT')
++    parser.add_argument('--ack', action='append', required=True, metavar='OWNER=JSON')
++    args = parser.parse_args()
++    print(json.dumps(migrate(mapping(args.client, 'client'), mapping(args.ack, 'ack')), indent=2))
++
++
++if __name__ == '__main__':
++    main()
+diff --git a/research/challenge-8/cloud-build/coordination.py b/research/challenge-8/cloud-build/coordination.py
+index befc0740..1fd8b97b 100644
+--- a/research/challenge-8/cloud-build/coordination.py
++++ b/research/challenge-8/cloud-build/coordination.py
+@@ -12,6 +12,8 @@ import datetime
+ COORDINATION = Path('/root/smallsort-ci-coordination')
+ MAX_ACTIVE = 2
+ SCHEMA_VERSION = 2
++PROTOCOLS = {2: 2, 3: 3}
++V3_OWNERS = frozenset(('select-sort4', 'merge', 'verifast'))
+ 
+ 
+ def read(path):
+@@ -53,8 +55,34 @@ def locked():
+             fcntl.flock(handle, fcntl.LOCK_UN)
+ 
+ 
++def protocol():
++    """Return the active envelope version and capacity; caller holds locked().
++
++    Absence and legacy single-record state remain v2 on their first mutation.
++    Only the explicit migration helper may change an existing v2 envelope to v3.
++    """
++    path = COORDINATION / 'active.json'
++    if not path.exists():
++        return SCHEMA_VERSION, MAX_ACTIVE
++    data = read(path)
++    if not isinstance(data, dict):
++        raise RuntimeError('Invalid Cloud Build coordination state')
++    if 'schema_version' not in data:
++        return SCHEMA_VERSION, MAX_ACTIVE
++    version = data['schema_version']
++    if type(version) is not int or version not in PROTOCOLS or data.get('max_active') != PROTOCOLS[version]:
++        raise RuntimeError('Unsupported Cloud Build coordination protocol')
++    return version, PROTOCOLS[version]
++
++
++def ledger_key(value):
++    if not isinstance(value, (str, Path)) or not Path(value).is_absolute():
++        raise RuntimeError('Reservation ledger must be absolute')
++    return str(Path(value).resolve())
++
++
+ def reservations():
+-    """Read legacy single-slot or v2 state; caller holds locked().
++    """Read legacy single-slot, v2 or v3 state; caller holds locked().
+ 
+     Keep the same file and lock. A v1 client sees the v2 envelope as occupied
+     and cannot reconcile its missing record fields, so it fails closed.
+@@ -66,13 +94,12 @@ def reservations():
+     data = read(path)
+     if not isinstance(data, dict):
+         raise RuntimeError('Invalid Cloud Build coordination state')
++    version, capacity = protocol()
+     if 'schema_version' in data:
+-        if data['schema_version'] != SCHEMA_VERSION or data.get('max_active') != MAX_ACTIVE:
+-            raise RuntimeError('Unsupported Cloud Build coordination protocol')
+         records = data.get('reservations')
+     else:
+         records = [data]
+-    if not isinstance(records, list) or len(records) > MAX_ACTIVE:
++    if not isinstance(records, list) or len(records) > capacity:
+         raise RuntimeError('Invalid Cloud Build reservation count')
+     tokens, owners, ledgers = set(), set(), set()
+     for record in records:
+@@ -80,11 +107,15 @@ def reservations():
+             raise RuntimeError('Invalid Cloud Build reservation')
+         for key, seen in (('dispatch_token', tokens), ('owner', owners), ('ledger', ledgers)):
+             value = record.get(key)
+-            if not isinstance(value, str) or not value or value in seen:
++            if not isinstance(value, str) or not value:
++                raise RuntimeError('Missing or duplicate reservation ' + key)
++            if key == 'ledger':
++                value = ledger_key(value)
++            if value in seen:
+                 raise RuntimeError('Missing or duplicate reservation ' + key)
+             seen.add(value)
+-        if not Path(record['ledger']).is_absolute():
+-            raise RuntimeError('Reservation ledger must be absolute')
++        if version == 3 and record['owner'] not in V3_OWNERS:
++            raise RuntimeError('Unsupported v3 Cloud Build owner')
+     return records
+ 
+ 
+@@ -98,8 +129,13 @@ def active(owner=None):
+ 
+ 
+ def save_reservations(records):
++    version, capacity = protocol()
++    if len(records) > capacity:
++        raise RuntimeError('Cloud Build reservation capacity exceeded')
++    if version == 3 and any(r['owner'] not in V3_OWNERS for r in records):
++        raise RuntimeError('Unsupported v3 Cloud Build owner')
+     write(COORDINATION / 'active.json', {
+-        'schema_version': SCHEMA_VERSION, 'max_active': MAX_ACTIVE,
++        'schema_version': version, 'max_active': capacity,
+         'reservations': records,
+     })
+ 
+@@ -112,7 +148,8 @@ def require_capacity(owner, ledger, ongoing=()):
+     All project builds count, including ones submitted outside this client.
+     """
+     records = reservations()
+-    if any(r['owner'] == owner or r['ledger'] == str(ledger) for r in records):
++    requested_ledger = ledger_key(ledger)
++    if any(r['owner'] == owner or ledger_key(r['ledger']) == requested_ledger for r in records):
+         raise RuntimeError('Owner or ledger already has an active or unresolved build')
+     ids, matched_tokens = set(), set()
+     occupied = len(records)
+@@ -134,8 +171,12 @@ def require_capacity(owner, ledger, ongoing=()):
+             matched_tokens.add(token)
+         else:
+             occupied += 1
+-    if occupied >= MAX_ACTIVE:
+-        raise RuntimeError('Both Cloud Build slots are occupied; monitor/reconcile first')
++    _, capacity = protocol()
++    if occupied >= capacity:
++        raise RuntimeError(('Both' if capacity == 2 else 'All') +
++                           ' Cloud Build slots are occupied; monitor/reconcile first')
++    if capacity == 3 and owner not in V3_OWNERS:
++        raise RuntimeError('Unsupported v3 Cloud Build owner')
+ 
+ 
+ def reserve(record):
+diff --git a/research/challenge-8/cloud-build/mdnew-audit-test.py b/research/challenge-8/cloud-build/mdnew-audit-test.py
+new file mode 100644
+index 00000000..476c49e4
+--- /dev/null
++++ b/research/challenge-8/cloud-build/mdnew-audit-test.py
+@@ -0,0 +1,140 @@
++#!/usr/bin/env python3
++"""Small parser/classifier controls; no compiler, verifier, or source extractor."""
++from __future__ import annotations
++
++import importlib.util
++import hashlib
++import json
++from pathlib import Path
++import tempfile
++import unittest
++
++MODULE = Path(__file__).with_name("mdnew-audit.py")
++spec = importlib.util.spec_from_file_location("mdnew_audit", MODULE)
++assert spec and spec.loader
++m = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(m)
++
++
++class ClassifierControls(unittest.TestCase):
++    def test_first_diagnostic_cannot_be_hidden_by_later_expected_error(self):
++        log = ("forget.rs(2,1): error: earlier frontend failure\n"
++               "forget.rs(3,9): error: Cannot prove condition. (Cannot prove false.)\n")
++        self.assertEqual(m.first_diagnostic(log)[1],
++                         "forget.rs(2,1): error: earlier frontend failure")
++        self.assertFalse(m.target_location(m.first_diagnostic(log)[1], "forget", 3))
++
++    def test_exact_annotated_location(self):
++        msg = "shared_false_unwind.rs(14,19-24): error: Cannot prove condition. (Cannot prove false.)"
++        self.assertTrue(m.target_location(msg, "shared_false_unwind", 14))
++        self.assertFalse(m.target_location(msg, "shared_false_unwind", 15))
++        self.assertFalse(m.target_location(msg, "false_normal_post", 14))
++
++    def test_mir_call_edges_are_scoped_to_named_body(self):
++        mir = '''  bodies = [
++    (
++      defPath = "new",
++      basicBlocks = [
++        ( id = (index = 0),
++          terminator = (kind = (call = (func = (constant = (val = (fnDef = (id = (name = "wrong"))))),
++            unwindAction = (continue = void), target = (something = (index = 1))))), isCleanup = false ) ] ),
++    (
++      defPath = "shared_cleanup",
++      basicBlocks = [
++        ( id = (index = 0),
++          terminator = (kind = (call = (func = (constant = (val = (fnDef = (id = (name = "std::mem::ManuallyDrop::<T>::new"))))),
++            args = [( move = (local = (name = "_4")))], unwindAction = (cleanup = (index = 3)),
++            target = (something = (index = 1))))), isCleanup = false ),
++        ( id = (index = 1),
++          terminator = (kind = (call = (func = (constant = (val = (fnDef = (id = (name = "new"))))),
++            unwindAction = (cleanup = (index = 3)), target = (something = (index = 2))))), isCleanup = false ),
++        ( id = (index = 2), terminator = (kind = (return = void)), isCleanup = false ),
++        ( id = (index = 3), terminator = (kind = (unwindResume = void)), isCleanup = true ) ] ) ]
++'''
++        body = m.mir_body(mir, "shared_cleanup")
++        self.assertEqual(m.call_edge(body, "std::mem::ManuallyDrop::<T>::new"), (3, 1))
++        self.assertEqual(m.call_edge(body, "new"), (3, 2))
++        with self.assertRaises(m.AuditIssue):
++            m.call_edge(m.mir_body(mir, "new"), "new")
++
++    def test_ast_function_scope_excludes_callee_marker(self):
++        ast = '''    Func (loc "x.rs(1,1-2)", Regular, "new", false, Some (([
++      ReturnStmt (loc "x.rs(2,1)", Some (CallExpr (loc "x.rs(2,1)", "unwinding", [], [], [], Static)))
++    ], loc "x.rs(2,1)")), false, []);
++    Func (loc "x.rs(4,1-5)", Regular, "shared_cleanup", false, Some (([
++      ReturnStmt (loc "x.rs(5,1)", Some (CallExpr (loc "x.rs(5,1)", "returning", [], [], [], Static)))
++    ], loc "x.rs(5,1)")), false, [])
++'''
++        self.assertIn('"unwinding"', m.ast_body(ast, "new"))
++        self.assertNotIn('"unwinding"', m.ast_body(ast, "shared_cleanup"))
++
++    def test_missing_evidence_is_inconclusive(self):
++        with tempfile.TemporaryDirectory() as temp:
++            with self.assertRaises(m.AuditIssue) as ctx:
++                m.audit(Path(temp))
++            self.assertEqual(ctx.exception.classification, "INCONCLUSIVE")
++
++    def test_negative_diagnostic_copy_only_removes_marker(self):
++        original = (b"pub unsafe fn forget_false_normal_post<T>(t: T)\n"
++                    b"//@ req thread_token(?tid) &*& tid == currentThread;\n"
++                    b"//@ ens false; //~should_fail\n"
++                    b"//@ on_unwind_ens false;\n"
++                    b"{\n    let _ = std::mem::ManuallyDrop::new(t);\n}\n")
++        self.assertEqual(hashlib.sha256(original).hexdigest(), m.FIXTURES["false_normal_post"][0])
++        derived = original.replace(b" //~should_fail", b"", 1)
++        sha = hashlib.sha256(derived).hexdigest()
++        with tempfile.TemporaryDirectory() as temp:
++            folder = Path(temp) / "candidate/false_normal_post"
++            folder.mkdir(parents=True)
++            (folder / "source.rs").write_bytes(original)
++            (folder / "diagnostic-source.rs").write_bytes(derived)
++            (folder / "diagnostic-source-sha256.txt").write_text(sha + "\n")
++            (folder / "fixture.json").write_text(json.dumps({
++                "diagnostic_source_sha256": sha, "diagnostic_source_path": "diagnostic-source.rs",
++                "diagnostic_line_count_preserved": True, "should_fail_marker_count_removed": 1}))
++            (folder / "diagnostic-source.json").write_text(json.dumps({
++                "original_sha256": m.FIXTURES["false_normal_post"][0],
++                "diagnostic_sha256": sha, "marker_count_removed": 1,
++                "line_count_preserved": True}))
++            m.verify_diagnostic_derivative(Path(temp), "candidate", "false_normal_post")
++            (folder / "diagnostic-source.rs").write_bytes(derived.replace(b"ens false", b"ens true"))
++            with self.assertRaises(m.AuditIssue):
++                m.verify_diagnostic_derivative(Path(temp), "candidate", "false_normal_post")
++
++    def test_failed_or_tampered_capture_cannot_pass(self):
++        with tempfile.TemporaryDirectory() as temp:
++            folder = Path(temp) / "captures/forget"
++            folder.mkdir(parents=True)
++            files = {"normal-export": "normal-mir.bin", "normal-decode": "normal-mir.txt",
++                     "readonly-export": "readonly-mir.bin", "readonly-decode": "readonly-mir.txt",
++                     "refinement": "refinement.log"}
++            stages = {}
++            for name, filename in files.items():
++                data = (name + "-data").encode()
++                (folder / filename).write_bytes(data)
++                stages[name] = {"exit_status": 0, "output_sha256": hashlib.sha256(data).hexdigest()}
++            ast = b"ast-data"
++            (folder / "verified-ast.txt").write_bytes(ast)
++            record = {"schema": "verifast-mdnew-capture-v1", "case": "forget",
++                      "side": "candidate", "tool_source_sha": m.CANDIDATE,
++                      "source_sha256": m.FIXTURES["forget"][0],
++                      "infra_sha": "a" * 40, "proof_sha": "a" * 40,
++                      "stages": stages,
++                      "verified_ast_sha256": hashlib.sha256(ast).hexdigest()}
++            status = folder / "capture-status.json"
++            status.write_text(json.dumps(record))
++            provenance = {"infra_sha": "a" * 40, "proof_sha": "a" * 40}
++            m.verify_capture_status(Path(temp), "forget", "candidate", provenance)
++            stages["refinement"]["exit_status"] = 1
++            status.write_text(json.dumps(record))
++            with self.assertRaises(m.AuditIssue):
++                m.verify_capture_status(Path(temp), "forget", "candidate", provenance)
++            stages["refinement"]["exit_status"] = 0
++            status.write_text(json.dumps(record))
++            (folder / "normal-mir.txt").write_text("tampered")
++            with self.assertRaises(m.AuditIssue):
++                m.verify_capture_status(Path(temp), "forget", "candidate", provenance)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/research/challenge-8/cloud-build/mdnew-audit.py b/research/challenge-8/cloud-build/mdnew-audit.py
+new file mode 100644
+index 00000000..27b8faa1
+--- /dev/null
++++ b/research/challenge-8/cloud-build/mdnew-audit.py
+@@ -0,0 +1,551 @@
++#!/usr/bin/env python3
++"""Fail-closed focused evidence audit for the ManuallyDrop::new CFG repair.
++
++This checks observations in a Cloud evidence bundle; it never runs VeriFast.  A
++verifier exit, successful refinement, or equal exported MIR alone earns no credit.
++"""
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++from pathlib import Path
++import re
++import sys
++
++FIXTURES = {
++    "forget": ("2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7", "forget"),
++    "shared_cleanup": ("c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f", "shared_cleanup"),
++    "false_normal_post": ("23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d", "forget_false_normal_post"),
++    "shared_false_unwind": ("886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e", "shared_cleanup_false_unwind_post"),
++    "dead_code_pre": ("b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2", "forget_from_dead_precondition"),
++}
++BASE = "f76012fb518703b1d98e243ac4f487f16877cfcb"
++CANDIDATE = "1435539475fdaa7810bc2bc780fba0514f765f48"
++TREE = "be55d8d934fb10617309a289e0d546ca1aed6ea0"
++REF = "refs/heads/challenge8/manuallydrop-new-cfg-upstream-candidate"
++BUNDLE = "a87775fabeec73187f6da91d4944281232b74bc70aeeb5642d6043056cb000d0"
++STOCK_ARCHIVE = "5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd"
++DEPS_ARCHIVE = "8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580"
++RUSTC = "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f"
++ERROR = re.compile(r"(?m)^([^\n]*\.(?:rs|rsspec)\(\d+,[^\n]*?: error: [^\n]+|Fatal error:[^\n]+)")
++DEAD = re.compile(r"(?m)^([^\n]*?\(\d+,[^\n]*?\): dead code)\s*$")
++SUCCESS = re.compile(r"(?m)^0 errors found \(\d+ statements verified\)")
++
++
++class AuditIssue(Exception):
++    def __init__(self, message: str, classification: str = "INCONCLUSIVE"):
++        super().__init__(message)
++        self.classification = classification
++
++
++def require(ok: bool, reason: str, classification: str = "INCONCLUSIVE") -> None:
++    if not ok:
++        raise AuditIssue(reason, classification)
++
++
++def read(path: Path) -> str:
++    require(path.is_file(), f"missing evidence: {path}")
++    return path.read_text(errors="replace")
++
++
++def digest(path: Path) -> str:
++    require(path.is_file(), f"missing evidence: {path}")
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++
++def obj(path: Path) -> dict:
++    try:
++        value = json.loads(read(path))
++    except json.JSONDecodeError as ex:
++        raise AuditIssue(f"invalid JSON: {path}: {ex}") from ex
++    require(isinstance(value, dict), f"expected JSON object: {path}")
++    return value
++
++
++def sha64(value: object) -> bool:
++    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
++
++
++def verify_provenance(root: Path) -> dict:
++    all_logs = root.parent
++    evidence = all_logs.parent
++    manifest_path = all_logs / "tool-input" / "manifest"
++    bundle_path = manifest_path.with_name("bundle")
++    manifest = obj(manifest_path)
++    receipt = obj(all_logs / "restore-receipt.json")
++    identities = obj(all_logs / "identities.json")
++    runtime = obj(all_logs / "runtime-components.json")
++    certificate = obj(evidence / "source-input-certificate.json")
++    require(manifest.get("schema") == "verifast-input-bundle-v1" and
++            manifest.get("purpose") == "mdnew-cfg-cloud-delivery" and
++            manifest.get("base_commit") == BASE and
++            manifest.get("candidate_commit") == CANDIDATE and
++            manifest.get("candidate_ref") == REF and
++            manifest.get("candidate_tree") == TREE and
++            manifest.get("bundle_sha256") == BUNDLE and digest(bundle_path) == BUNDLE,
++            "committed tool bundle/manifest differs from pinned delivery")
++    require(receipt.get("classification") == "RESTORED_GIT_INPUT" and
++            receipt.get("base_commit") == BASE and
++            receipt.get("candidate_commit") == CANDIDATE and
++            receipt.get("candidate_ref") == REF and
++            receipt.get("candidate_tree") == TREE and
++            receipt.get("bundle_sha256") == BUNDLE and
++            receipt.get("manifest_sha256") == digest(manifest_path) and
++            receipt.get("git_identity_preserved") is True,
++            "restore receipt does not bind original candidate Git identities")
++    proof = identities.get("proof_sha")
++    infra = identities.get("infra_sha")
++    require(isinstance(proof, str) and re.fullmatch(r"[0-9a-f]{40}", proof) is not None and
++            proof == infra == receipt.get("proof_sha") == receipt.get("infra_sha") and
++            identities.get("source_input_archive_sha256") == certificate.get("archive_sha256") and
++            certificate.get("lane") == "verifast-mdnew-cfg" and
++            certificate.get("proof", {}).get("commit") == proof == certificate.get("proof", {}).get("head") and
++            certificate.get("infra", {}).get("commit") == infra == certificate.get("infra", {}).get("head") and
++            certificate.get("proof", {}).get("root_tree") == identities.get("proof_tree") and
++            certificate.get("infra", {}).get("root_tree") == identities.get("infra_tree"),
++            "infra/proof identity or source transport certificate differs")
++    input_prefix = "research/challenge-8/verifast-input/" + CANDIDATE + "/"
++    for rel, expected in ((input_prefix + "bundle", BUNDLE),
++                          (input_prefix + "manifest", digest(manifest_path))):
++        rows = [row for row in certificate.get("proof", {}).get("restored_paths", [])
++                if row.get("path") == rel]
++        require(len(rows) == 1 and rows[0].get("sha256") == expected,
++                f"source transport did not restore pinned {rel}")
++    auditor_rel = "research/challenge-8/cloud-build/mdnew-audit.py"
++    auditor_rows = [row for row in certificate.get("infra", {}).get("restored_paths", [])
++                    if row.get("path") == auditor_rel]
++    require(len(auditor_rows) == 1 and
++            auditor_rows[0].get("sha256") == digest(Path(__file__)),
++            "auditor bytes are not bound to restored infrastructure commit")
++    require(runtime.get("baseline_source_sha") == BASE and
++            runtime.get("candidate_source_sha") == CANDIDATE and
++            runtime.get("candidate_tree") == TREE and
++            runtime.get("stock_distribution_sha256") == STOCK_ARCHIVE and
++            runtime.get("vfdeps_archive_sha256") == DEPS_ARCHIVE and
++            f"commit-hash: {RUSTC}" in runtime.get("rustc_verbose", ""),
++            "tool runtime profile differs from pinned source/archive/compiler")
++    consoles = runtime.get("console_binary_sha256", {})
++    require(sha64(consoles.get("baseline")) and sha64(consoles.get("candidate")) and
++            consoles["baseline"] != consoles["candidate"],
++            "source-built baseline/candidate console identities absent or equal")
++    for name in ("vf-rust-mir-exporter", "refinement-checker", "vf-cxx-ast-exporter",
++                 "libz3.so", "rust/std/lib.rsspec"):
++        record = runtime.get("pinned_stock_binaries", {}).get(name, {})
++        require(sha64(record.get("sha256")) and record.get("baseline_equal") is True and
++                record.get("candidate_equal") is True,
++                f"unchanged runtime component {name} lacks profile equality")
++    for name in ("src/rust_frontend/vf_mir_exporter",
++                 "src/rust_frontend/vf_mir_decoder", "src/refinement_checker"):
++        record = runtime.get("components", {}).get(name, {})
++        require(isinstance(record.get("source_file_count"), int) and
++                record["source_file_count"] > 0 and
++                sha64(record.get("source_files_sha256")),
++                f"unchanged source component {name} lacks inventory")
++    for case, (expected, _) in FIXTURES.items():
++        rel = "tests/rust/purely_unsafe/manuallydrop_new_cfg/" + case + ".rs"
++        manifest_row = manifest.get("fixtures", {}).get(rel, {})
++        require(manifest_row.get("sha256") == expected and
++                receipt.get("fixture_hashes", {}).get(rel) == expected and
++                receipt.get("selected_files", {}).get(rel) == expected,
++                f"{case} fixture delivery receipt differs")
++        for side in ("baseline", "candidate"):
++            row = obj(root / side / case / "fixture.json")
++            require(row.get("source_sha256") == expected and
++                    row.get("candidate_commit") == CANDIDATE and
++                    row.get("git_blob") == manifest_row.get("git_blob"),
++                    f"{side}/{case} fixture copy is not bound to original Git blob")
++    return {"infra_sha": infra, "proof_sha": proof,
++            "bundle_sha256": BUNDLE, "manifest_sha256": digest(manifest_path),
++            "console_binary_sha256": consoles}
++
++
++def verify_capture_status(root: Path, case: str, side: str, provenance: dict) -> None:
++    folder = root / "captures" / case
++    prefix = "baseline-" if side == "baseline" else ""
++    status_file = folder / ("baseline-capture-status.json" if side == "baseline"
++                            else "capture-status.json")
++    record = obj(status_file)
++    require(record.get("schema") == "verifast-mdnew-capture-v1" and
++            record.get("case") == case and record.get("side") == side and
++            record.get("tool_source_sha") == (BASE if side == "baseline" else CANDIDATE) and
++            record.get("source_sha256") == FIXTURES[case][0] and
++            record.get("infra_sha") == provenance["infra_sha"] and
++            record.get("proof_sha") == provenance["proof_sha"],
++            f"{side}/{case} capture status has wrong source/profile identities")
++    stages = record.get("stages", {})
++    paths = {"normal-export": folder / f"{prefix}normal-mir.bin",
++             "normal-decode": folder / f"{prefix}normal-mir.txt",
++             "readonly-export": folder / f"{prefix}readonly-mir.bin",
++             "readonly-decode": folder / f"{prefix}readonly-mir.txt",
++             "refinement": folder / f"{prefix}refinement.log"}
++    for name, path in paths.items():
++        stage = stages.get(name, {})
++        require(stage.get("exit_status") == 0 and
++                stage.get("output_sha256") == digest(path),
++                f"{side}/{case} {name} failed or captured output digest differs")
++    require(record.get("verified_ast_sha256") == digest(folder / f"{prefix}verified-ast.txt"),
++            f"{side}/{case} captured verifier AST digest differs")
++
++
++def status(path: Path) -> int:
++    value = read(path).strip()
++    require(re.fullmatch(r"\d+", value) is not None, f"invalid exit status: {path}")
++    return int(value)
++
++
++def source_line(source: str, prefix: str) -> int:
++    rows = [i for i, s in enumerate(source.splitlines(), 1) if s.strip().startswith(prefix)]
++    require(len(rows) == 1, f"annotation {prefix!r} is not unique")
++    return rows[0]
++
++
++def target_log(log: str, name: str) -> str:
++    starts = []
++    position = 0
++    for line in log.splitlines(keepends=True):
++        if ": Verifying function '" in line and ": note:" not in line:
++            starts.append((position, line))
++        position += len(line)
++    matches = [i for i, (_, line) in enumerate(starts)
++               if f"Verifying function '{name}'" in line]
++    require(len(matches) == 1, f"target function {name} was not reached exactly once")
++    i = matches[0]
++    return log[starts[i][0]:starts[i + 1][0] if i + 1 < len(starts) else len(log)]
++
++
++def first_diagnostic(log: str) -> tuple[str, str] | None:
++    rows = [(m.start(), "error", m.group(1)) for m in ERROR.finditer(log)]
++    rows += [(m.start(), "dead code", m.group(1)) for m in DEAD.finditer(log)]
++    if not rows:
++        return None
++    _, kind, message = min(rows)
++    return kind, message
++
++
++def target_location(message: str, case: str, line: int | None = None) -> bool:
++    # The verifier can report the original fixture or the generated verified file.
++    m = re.search(r"([^\s():]+\.(?:rs|rsspec))\((\d+),", message)
++    if not m:
++        return False
++    path, actual = m.group(1), int(m.group(2))
++    if not (path.endswith("/" + case + ".rs") or path == case + ".rs"):
++        return False
++    return line is None or actual == line
++
++
++def verify_source(root: Path, side: str, case: str) -> str:
++    data = (root / side / case / "source.rs").read_bytes() if (root / side / case / "source.rs").is_file() else None
++    require(data is not None, f"missing {side}/{case}/source.rs")
++    require(hashlib.sha256(data).hexdigest() == FIXTURES[case][0],
++            f"{side}/{case} differs from candidate 1435539475fdaa7810bc2bc780fba0514f765f48")
++    return data.decode("utf-8")
++
++
++def verify_diagnostic_derivative(root: Path, side: str, case: str) -> None:
++    folder = root / side / case
++    original = (folder / "source.rs").read_bytes()
++    marker = b" //~should_fail"
++    require(original.count(marker) == 1,
++            f"{side}/{case} exact fixture lacks one expected should_fail marker")
++    derived = original.replace(marker, b"", 1)
++    require((folder / "diagnostic-source.rs").read_bytes() == derived and
++            derived.count(b"\n") == original.count(b"\n"),
++            f"{side}/{case} diagnostic source changed more than marker")
++    expected = hashlib.sha256(derived).hexdigest()
++    require(read(folder / "diagnostic-source-sha256.txt").strip() == expected,
++            f"{side}/{case} diagnostic source digest receipt differs")
++    fixture = obj(folder / "fixture.json")
++    require(fixture.get("diagnostic_source_sha256") == expected and
++            fixture.get("diagnostic_source_path") == "diagnostic-source.rs" and
++            fixture.get("diagnostic_line_count_preserved") is True and
++            fixture.get("should_fail_marker_count_removed") == 1,
++            f"{side}/{case} fixture derivative receipt differs")
++    sidecar = obj(folder / "diagnostic-source.json")
++    require(sidecar.get("original_sha256") == FIXTURES[case][0] and
++            sidecar.get("diagnostic_sha256") == expected and
++            sidecar.get("marker_count_removed") == 1 and
++            sidecar.get("line_count_preserved") is True,
++            f"{side}/{case} diagnostic derivative sidecar differs")
++
++
++def verify_positive(root: Path, side: str, case: str) -> str:
++    base = root / side / case
++    log = read(base / "full-verification.log")
++    require(status(base / "exit-status.txt") == 0, f"{side}/{case} did not exit 0")
++    require(first_diagnostic(log) is None and SUCCESS.search(log) is not None,
++            f"{side}/{case} has a verifier diagnostic or no complete success summary")
++    body = target_log(log, FIXTURES[case][1])
++    require("Executing return statement" in body and "Leak check." in body,
++            f"{side}/{case} lacks target return/leak evidence")
++    return body
++
++
++def verify_baseline_forget(root: Path) -> None:
++    base = root / "baseline/forget"
++    log = read(base / "full-verification.log")
++    require(status(base / "exit-status.txt") == 1, "baseline forget did not exit 1")
++    body = target_log(log, "forget")
++    diagnostic = first_diagnostic(log)
++    require(diagnostic is not None and diagnostic[0] == "dead code" and
++            target_location(diagnostic[1], "forget", 1),
++            "baseline forget first diagnostic is not whole-function orphan dead code")
++    require(body.find("Executing return statement") >= 0 and
++            body.find("Leak check.") > body.find("Executing return statement") and
++            body.find(diagnostic[1]) > body.find("Leak check."),
++            "baseline forget did not reach normal return/leak before orphan dead code")
++    require(not ERROR.search(log), "baseline forget has a separate verifier error")
++    # The dead-code location is the whole function, never the statement in its body.
++    require(len(DEAD.findall(log)) == 1, "baseline forget has extra dead-code diagnostics")
++
++
++def verify_shared_log_paths(root: Path, side: str) -> None:
++    log = read(root / side / "shared_cleanup/full-verification.log")
++    for name in ("new", "ordinary_caller", "shared_cleanup"):
++        body = target_log(log, name)
++        require(body.count("Executing return statement") >= 2 and
++                body.count("Leak check.") >= 2,
++                f"{side}/shared_cleanup lacks both real outcomes and token/leak closure in {name}")
++
++
++def verify_negative(root: Path, side: str, case: str, annotation: str) -> None:
++    verify_diagnostic_derivative(root, side, case)
++    source = verify_source(root, side, case)
++    line = source_line(source, annotation)
++    base = root / side / case
++    log = read(base / "full-verification.log")
++    require(status(base / "exit-status.txt") == 1, f"{side}/{case} diagnostic copy did not exit 1")
++    body = target_log(log, FIXTURES[case][1])
++    diagnostic = first_diagnostic(log)
++    require(diagnostic is not None and diagnostic[0] == "error" and
++            "Cannot prove false" in diagnostic[1] and
++            target_location(diagnostic[1], case, line),
++            f"{side}/{case} first diagnostic is not Cannot prove false at marked post")
++    require(diagnostic[1] in body, f"{side}/{case} diagnostic predates target entry")
++    require(len(ERROR.findall(log)) == 1 and not DEAD.search(log),
++            f"{side}/{case} has additional errors or dead code")
++    allow = read(base / "allow-full-verification.log")
++    require(status(base / "allow-exit-status.txt") == 0,
++            f"{side}/{case} allow_should_fail did not complete successfully")
++    allow_body = target_log(allow, FIXTURES[case][1])
++    require(first_diagnostic(allow) is None,
++            f"{side}/{case} allow_should_fail has a verifier diagnostic")
++    require(not DEAD.search(allow) and len(ERROR.findall(allow)) <= 1,
++            f"{side}/{case} allow_should_fail has extra diagnostics")
++
++
++def verify_dead_pre(root: Path, side: str) -> None:
++    case = "dead_code_pre"
++    base = root / side / case
++    log = read(base / "full-verification.log")
++    require(status(base / "exit-status.txt") == 1, f"{side} contradictory pre did not exit 1")
++    body = target_log(log, FIXTURES[case][1])
++    diagnostic = first_diagnostic(log)
++    require(diagnostic is not None and diagnostic[0] == "dead code" and
++            target_location(diagnostic[1], case, 1) and diagnostic[1] in body,
++            f"{side} contradictory pre first diagnostic is not whole-function dead code")
++    require(len(DEAD.findall(log)) >= 2,
++            f"{side} contradictory pre lacks target-body dead-code diagnostics")
++    require("Executing statement" not in body and "Executing return statement" not in body,
++            f"{side} contradictory pre executed target body")
++    require(not ERROR.search(log), f"{side} contradictory pre has another verifier error")
++
++
++def mir_body(mir: str, name: str) -> str:
++    found = list(re.finditer(r'(?m)^\s+defPath = "([^\"]+)"', mir))
++    matches = [i for i, m in enumerate(found) if m.group(1) == name]
++    require(len(matches) == 1, f"MIR target {name} absent or ambiguous")
++    i = matches[0]
++    return mir[found[i].start(): found[i + 1].start() if i + 1 < len(found) else len(mir)]
++
++
++def mir_blocks(body: str) -> dict[int, str]:
++    found = list(re.finditer(r"(?m)^\s{8}\( id = \(index = (\d+)\),", body))
++    require(bool(found), "MIR basic blocks absent")
++    result: dict[int, str] = {}
++    for i, m in enumerate(found):
++        key = int(m.group(1))
++        require(key not in result, "duplicate MIR block id")
++        result[key] = body[m.start(): found[i + 1].start() if i + 1 < len(found) else len(body)]
++    return result
++
++
++def call_record(body: str, callee: str) -> tuple[int | None, int, str]:
++    # Bind the fnDef, type substitution, argument, unwind and target in one
++    # terminator; matches in another statement or function cannot contribute.
++    edges = []
++    for block in mir_blocks(body).values():
++        if "terminator = (" not in block:
++            continue
++        term = block.split("terminator = (", 1)[1].split("isCleanup =", 1)[0]
++        if "kind = (" not in term or "call = (" not in term:
++            continue
++        for m in re.finditer(r'fnDef = \(\s*id = \(\s*name = "([^\"]+)"', term):
++            if m.group(1) != callee:
++                continue
++            tail = term[m.end():]
++            action = re.search(r"unwindAction = \((cleanup = \(index = (\d+)\)|continue = void)\).*?target = \(something = \(index = (\d+)\)\)", tail, re.S)
++            require(action is not None, f"MIR {callee} lacks explicit unwind action/normal target")
++            edges.append((int(action.group(2)) if action.group(2) else None,
++                          int(action.group(3)), term))
++    require(len(edges) == 1, f"MIR {callee} call absent or ambiguous")
++    return edges[0]
++
++
++def call_edge(body: str, callee: str) -> tuple[int | None, int]:
++    cleanup, target, _ = call_record(body, callee)
++    return cleanup, target
++
++
++def ast_function(ast: str, name: str) -> str:
++    found = list(re.finditer(r"(?m)^\s{4}Func \(loc [^\n]+", ast))
++    matches = [i for i, m in enumerate(found) if re.search(r'"' + re.escape(name) + r'"', m.group())]
++    require(len(matches) == 1, f"AST function {name} absent or ambiguous")
++    i = matches[0]
++    return ast[found[i].start():found[i + 1].start() if i + 1 < len(found) else len(ast)]
++
++
++def ast_body(ast: str, name: str) -> str:
++    fn = ast_function(ast, name)
++    marker = "false, Some ((["
++    require(marker in fn, f"AST function {name} has no body")
++    return fn.split(marker, 1)[1]
++
++
++def verify_mir_ast(root: Path) -> dict:
++    cap = root / "captures"
++    findings = {}
++    for case in ("forget", "shared_cleanup"):
++        folder = cap / case
++        normal = read(folder / "normal-mir.txt")
++        readonly = read(folder / "readonly-mir.txt")
++        require(normal == readonly, f"{case} NORMAL/readonly decoded MIR differ")
++        if case == "forget":
++            require(normal == read(folder / "baseline-normal-mir.txt"),
++                    "forget baseline/candidate MIR changed; normal assignment/target is not preserved")
++        ast = read(folder / "verified-ast.txt")
++        body = mir_body(normal, case)
++        md_cleanup, md_target, md_term = call_record(body, "std::mem::ManuallyDrop::<T>::new")
++        md_edge = (md_cleanup, md_target)
++        require(re.search(r'substs = \[.*?param = "T"', md_term, re.S) is not None and
++                re.search(r'args = \[\s*\( move = \(', md_term) is not None,
++                f"{case} lacks typed MDnew Move<T> argument")
++        blocks = mir_blocks(body)
++        require(md_edge[1] in blocks, f"{case} MDnew normal target absent")
++        if case == "forget":
++            require(md_edge[0] is not None and md_edge[0] in blocks and
++                    "isCleanup = true" in blocks[md_edge[0]] and
++                    "unwindResume = void" in blocks[md_edge[0]],
++                    "forget MIR cleanup shape differs")
++            candidate = ast_body(ast, "forget")
++            require('"returning"' in candidate and
++                    not re.search(r'ReturnStmt .*?"unwinding"', candidate) and
++                    not re.search(r'LabelStmt \([^\n]*"' + str(md_edge[0]) + r'"', candidate),
++                    "forget caller AST has missing normal path or orphan unwind return")
++            baseline_ast = root / "captures/forget/baseline-verified-ast.txt"
++            old = ast_body(read(baseline_ast), "forget")
++            require(re.search(r'GotoStmt \([^\n]*"' + str(md_edge[1]) + r'"', old) is not None and
++                    re.search(r'LabelStmt \([^\n]*"' + str(md_edge[0]) +
++                              r'"\);\s*ReturnStmt \([^\n]*"unwinding"', old) is not None and
++                    re.search(r'GotoStmt \([^\n]*"' + str(md_edge[0]) + r'"', old) is None,
++                    "baseline AST lacks concrete orphan cleanup beside preserved normal goto")
++            assignments = lambda text: re.findall(r"(?m)^\s*ExprStmt \(AssignExpr [^\n]+", text)
++            require(assignments(old) and assignments(old) == assignments(candidate),
++                    "forget caller's normal assignments changed between baseline and candidate AST")
++            findings[case] = {"mdnew_cleanup": md_edge[0], "normal_target": md_edge[1],
++                              "baseline_ast_checked": True}
++        else:
++            ordinary = call_edge(body, "new")
++            require(md_edge[0] is not None and md_edge[0] == ordinary[0] and
++                    ordinary[1] in blocks and md_edge[0] in blocks and
++                    "isCleanup = true" in blocks[md_edge[0]] and
++                    "unwindResume = void" in blocks[md_edge[0]],
++                    "shared caller calls do not retain one real cleanup/UnwindResume")
++            caller = ast_body(ast, "shared_cleanup")
++            label = str(md_edge[0])
++            new_switch = re.search(r'SwitchStmt \(loc "([^"]+)", CallExpr \(loc "[^"]+", "new"', caller)
++            switch_loc = re.escape(new_switch.group(1)) if new_switch else "<missing>"
++            unwind_arm = re.search(r'SwitchStmtClause \(loc "' + switch_loc +
++                                   r'"[^\n]*"unwinding"[^\n]*GotoStmt \([^\n]*"' +
++                                   re.escape(label) + r'"', caller)
++            returning_arm = re.search(r'SwitchStmtClause \(loc "' + switch_loc +
++                                      r'"[^\n]*"returning"', caller)
++            cleanup_return = re.search(r'LabelStmt \([^\n]*"' + re.escape(label) + r'"\);\s*ReturnStmt \([^\n]*"unwinding"', caller)
++            require(new_switch is not None and returning_arm is not None and
++                    unwind_arm is not None and cleanup_return is not None,
++                    "shared caller AST lacks ordinary new unwind arm to retained cleanup return")
++            # Ordinary caller must have its own Continue action, independently of shared caller.
++            ordinary_mir = mir_body(normal, "ordinary_caller")
++            cont, _ = call_edge(ordinary_mir, "new")
++            ordinary_ast = ast_body(ast, "ordinary_caller")
++            ordinary_switch = re.search(r'SwitchStmt \(loc "([^"]+)", CallExpr \(loc "[^"]+", "new"', ordinary_ast)
++            ordinary_loc = re.escape(ordinary_switch.group(1)) if ordinary_switch else "<missing>"
++            require(cont is None and ordinary_switch is not None and
++                    re.search(r'SwitchStmtClause \(loc "' + ordinary_loc +
++                              r'"[^\n]*"returning"', ordinary_ast) is not None and
++                    re.search(r'SwitchStmtClause \(loc "' + ordinary_loc +
++                              r'"[^\n]*"unwinding"[^\n]*ReturnStmt \([^\n]*"unwinding"',
++                              ordinary_ast) is not None,
++                    "ordinary caller lacks direct Continue unwind switch/return")
++            findings[case] = {"shared_cleanup": md_edge[0], "mdnew_target": md_edge[1],
++                              "ordinary_target": ordinary[1], "ordinary_caller_continue": True}
++    return findings
++
++
++def audit(root: Path) -> dict:
++    root = root.resolve()
++    provenance = verify_provenance(root)
++    for case in FIXTURES:
++        for side in ("baseline", "candidate"):
++            verify_source(root, side, case)
++    for case in FIXTURES:
++        for side in ("baseline", "candidate"):
++            verify_capture_status(root, case, side, provenance)
++        folder = root / "captures" / case
++        normal = read(folder / "normal-mir.txt")
++        require(normal == read(folder / "readonly-mir.txt") and
++                normal == read(folder / "baseline-normal-mir.txt") and
++                normal == read(folder / "baseline-readonly-mir.txt"),
++                f"{case} decoded NORMAL/readonly or baseline/candidate MIR differs")
++    verify_baseline_forget(root)
++    verify_positive(root, "candidate", "forget")
++    verify_positive(root, "baseline", "shared_cleanup")
++    verify_positive(root, "candidate", "shared_cleanup")
++    verify_shared_log_paths(root, "baseline")
++    verify_shared_log_paths(root, "candidate")
++    verify_negative(root, "candidate", "false_normal_post", "//@ ens false;")
++    verify_negative(root, "candidate", "shared_false_unwind", "//@ on_unwind_ens false;")
++    # Baseline may stop at the old CFG defect for false_normal_post.
++    verify_negative(root, "baseline", "shared_false_unwind", "//@ on_unwind_ens false;")
++    verify_dead_pre(root, "baseline")
++    verify_dead_pre(root, "candidate")
++    structure = verify_mir_ast(root)
++    return {"classification": "FOCUSED_GATE_PASS", "accepted": True,
++            "fixture_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++            "structure": structure, "provenance": provenance,
++            "scope": "five focused fixtures only; no consumer or upstream acceptance"}
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("evidence", type=Path)
++    parser.add_argument("--output", type=Path, help="write JSON result here")
++    args = parser.parse_args()
++    try:
++        result = audit(args.evidence)
++        code = 0
++    except AuditIssue as ex:
++        result = {"classification": ex.classification, "accepted": False, "reason": str(ex)}
++        code = 2 if ex.classification == "INCONCLUSIVE" else 1
++    except (OSError, UnicodeError, ValueError, TypeError, KeyError, AttributeError) as ex:
++        result = {"classification": "INCONCLUSIVE", "accepted": False, "reason": str(ex)}
++        code = 2
++    rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
++    if args.output:
++        args.output.write_text(rendered)
++    sys.stdout.write(rendered)
++    return code
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/research/challenge-8/cloud-build/package-evidence.py b/research/challenge-8/cloud-build/package-evidence.py
+index 437da560..af70b7d6 100644
+--- a/research/challenge-8/cloud-build/package-evidence.py
++++ b/research/challenge-8/cloud-build/package-evidence.py
+@@ -396,6 +396,16 @@ def main() -> int:
+                                     if "environment.txt" in payload else None),
+             "inventory_excludes": ["manifest.json", "files-sha256.json"],
+         }
++        if lane == "verifast-mdnew-cfg":
++            manifest["tool_profile"] = {
++                "scope": "five focused MDnew fixtures; consumer integration and upstream suite separate",
++                "baseline_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
++                "candidate_source_sha": "1435539475fdaa7810bc2bc780fba0514f765f48",
++                "candidate_tree": "be55d8d934fb10617309a289e0d546ca1aed6ea0",
++                "runtime_components": parse_json_or_none(payload.get("allprooflogs/runtime-components.json")),
++                "source_bundle_delivery": parse_json_or_none(payload.get("allprooflogs/restore-receipt.json")),
++                "source_bundle_and_binary_kit_are_separate": True,
++            }
+         # Replace only this package's known output names; preserve unrelated files.
+         files = dict(payload)
+         files["text-logs-index.json"] = text_logs_index_bytes
+diff --git a/research/challenge-8/cloud-build/recipes/verifast-mdnew-cfg.json b/research/challenge-8/cloud-build/recipes/verifast-mdnew-cfg.json
+new file mode 100644
+index 00000000..d06ac1f1
+--- /dev/null
++++ b/research/challenge-8/cloud-build/recipes/verifast-mdnew-cfg.json
+@@ -0,0 +1,16 @@
++{
++  "schema": "smallsort-cloud-recipe-v1",
++  "lane": "verifast-mdnew-cfg",
++  "infra_transport": "exact-recipe-v1",
++  "entrypoint": "research/challenge-8/cloud-build/run-verifast-mdnew-cfg.sh",
++  "infra_paths": [
++    "research/challenge-8/cloud-build/mdnew-audit.py",
++    "research/challenge-8/cloud-build/restore-verifast-input.py",
++    "research/challenge-8/cloud-build/run-verifast-mdnew-cfg.sh",
++    "research/challenge-8/cloud-build/test-verifast-mdnew-delivery.py"
++  ],
++  "proof_paths": [
++    "research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/bundle",
++    "research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/manifest"
++  ]
++}
+diff --git a/research/challenge-8/cloud-build/restore-verifast-input.py b/research/challenge-8/cloud-build/restore-verifast-input.py
+new file mode 100644
+index 00000000..23ef7e30
+--- /dev/null
++++ b/research/challenge-8/cloud-build/restore-verifast-input.py
+@@ -0,0 +1,148 @@
++#!/usr/bin/env python3
++"""Restore the pinned VeriFast candidate bundle into a disposable checkout."""
++from __future__ import annotations
++import argparse, hashlib, json, re, subprocess
++from pathlib import Path, PurePosixPath
++
++BASE = "f76012fb518703b1d98e243ac4f487f16877cfcb"
++CANDIDATE = "1435539475fdaa7810bc2bc780fba0514f765f48"
++TREE = "be55d8d934fb10617309a289e0d546ca1aed6ea0"
++REF = "refs/heads/challenge8/manuallydrop-new-cfg-upstream-candidate"
++INPUT_ROOT = "research/challenge-8/verifast-input/" + CANDIDATE + "/"
++FIXTURES = (
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs",
++)
++SELECTED = (
++    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/README.md",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs",
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs",
++    "tests/rust/testsuite.mysh",
++)
++
++class DeliveryError(ValueError):
++    pass
++
++def run(argv: list[str], *, cwd: Path | None = None) -> bytes:
++    p = subprocess.run(argv, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    if p.returncode:
++        raise DeliveryError(f"command failed ({p.returncode}): {' '.join(argv)}: " +
++                            p.stderr.decode(errors="replace")[-2000:])
++    return p.stdout
++
++def sha(data: bytes) -> str:
++    return hashlib.sha256(data).hexdigest()
++
++def check(cond: bool, reason: str) -> None:
++    if not cond:
++        raise DeliveryError(reason)
++
++def validate(repo: Path, bundle: Path, manifest_path: Path) -> dict:
++    try:
++        m = json.loads(manifest_path.read_text())
++    except (OSError, json.JSONDecodeError) as exc:
++        raise DeliveryError(f"cannot read manifest: {exc}") from exc
++    check(m.get("schema") == "verifast-input-bundle-v1" and
++          m.get("purpose") == "mdnew-cfg-cloud-delivery", "manifest schema/purpose mismatch")
++    check(m.get("base_commit") == BASE and m.get("candidate_commit") == CANDIDATE and
++          m.get("candidate_tree") == TREE and m.get("candidate_ref") == REF,
++          "manifest pinned Git identities mismatch")
++    check(m.get("bundle_relative_path") == INPUT_ROOT + "bundle", "bundle path mismatch")
++    check(set(m.get("selected_files", {})) == set(SELECTED), "selected source inventory differs from audited allowlist")
++    bundle_bytes = bundle.read_bytes()
++    check(sha(bundle_bytes) == m.get("bundle_sha256"), "bundle digest mismatch")
++    check(run(["git", "-C", str(repo), "rev-parse", "HEAD"]).decode().strip() == BASE,
++          "tool checkout is not the exact prerequisite base")
++    check(not run(["git", "-C", str(repo), "status", "--porcelain"]).strip(),
++          "tool checkout is not clean")
++    header = bundle_bytes.split(b"\n\n", 1)[0].decode("ascii", errors="strict").splitlines()
++    prerequisites = [line[1:].split(" ", 1)[0] for line in header if line.startswith("-")]
++    check(prerequisites == [BASE], "bundle prerequisite header must name exactly the pinned base")
++    check(run(["git", "-C", str(repo), "bundle", "verify", str(bundle)]).decode().find(BASE) >= 0,
++          "bundle prerequisite verification did not name base")
++    heads = run(["git", "-C", str(repo), "bundle", "list-heads", str(bundle)]).decode().splitlines()
++    check(heads == [CANDIDATE + " " + REF], "bundle ref set differs")
++    check(set(m.get("fixtures", {})) == set(FIXTURES), "fixture inventory mismatch")
++    selected = m.get("selected_files")
++    check(isinstance(selected, dict) and set(FIXTURES).issubset(selected),
++          "selected source inventory incomplete")
++    check("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" in selected,
++          "translator source absent from selected inventory")
++    for rel, record in selected.items():
++        posix = PurePosixPath(rel)
++        check(rel and "\\" not in rel and not rel.startswith("/") and
++              posix.as_posix() == rel and all(part not in ("", ".", "..") for part in rel.split("/")) and
++              not any(part in (".git", ".config", "hooks", "config") for part in posix.parts),
++              f"unsafe selected path: {rel}")
++        check(isinstance(record, dict) and re.fullmatch(r"[0-9a-f]{40}", record.get("git_blob", "")) is not None,
++              f"invalid blob identity for {rel}")
++        check(re.fullmatch(r"[0-9a-f]{64}", record.get("sha256", "")) is not None,
++              f"invalid digest for {rel}")
++    run(["git", "-C", str(repo), "fetch", str(bundle), REF + ":refs/verifast-delivery/candidate"])
++    check(run(["git", "-C", str(repo), "rev-parse", "refs/verifast-delivery/candidate"]).decode().strip() == CANDIDATE,
++          "fetched candidate commit identity differs")
++    check(run(["git", "-C", str(repo), "rev-parse", CANDIDATE + "^{tree}"]).decode().strip() == TREE,
++          "candidate tree identity differs")
++    for rel, record in selected.items():
++        oid = run(["git", "-C", str(repo), "rev-parse", CANDIDATE + ":" + rel]).decode().strip()
++        raw = run(["git", "-C", str(repo), "show", CANDIDATE + ":" + rel])
++        check(oid == record["git_blob"] and sha(raw) == record["sha256"] and
++              len(raw) == record["bytes"], f"selected candidate bytes mismatch: {rel}")
++    check(set(m["fixtures"]) == set(FIXTURES), "fixture keys differ")
++    for rel in FIXTURES:
++        check(m["fixtures"][rel] == selected[rel], f"fixture manifest mismatch: {rel}")
++    return m
++
++def main() -> int:
++    p = argparse.ArgumentParser(description=__doc__)
++    p.add_argument("--repository", type=Path, required=True)
++    p.add_argument("--bundle", type=Path, required=True)
++    p.add_argument("--manifest", type=Path, required=True)
++    p.add_argument("--destination", type=Path, required=True)
++    p.add_argument("--receipt", type=Path, required=True)
++    p.add_argument("--infra-sha", required=True)
++    p.add_argument("--proof-sha", required=True)
++    a = p.parse_args()
++    if not re.fullmatch(r"[0-9a-f]{40}", a.infra_sha) or not re.fullmatch(r"[0-9a-f]{40}", a.proof_sha):
++        p.error("infra/proof identities must be full lowercase SHA-1 values")
++    try:
++        m = validate(a.repository.resolve(), a.bundle.resolve(), a.manifest.resolve())
++        check(not a.destination.exists(), "candidate destination already exists")
++        a.destination.parent.mkdir(parents=True, exist_ok=True)
++        run(["git", "-C", str(a.repository), "worktree", "add", "--detach",
++             str(a.destination), CANDIDATE])
++        check(run(["git", "-C", str(a.destination), "rev-parse", "HEAD"]).decode().strip() == CANDIDATE,
++              "restored candidate checkout SHA differs")
++        check(run(["git", "-C", str(a.destination), "rev-parse", "HEAD^{tree}"]).decode().strip() == TREE,
++              "restored candidate checkout tree differs")
++        check(not run(["git", "-C", str(a.destination), "status", "--porcelain"]).strip(),
++              "restored candidate checkout is not clean")
++        for rel, record in m["selected_files"].items():
++            restored = (a.destination / rel).read_bytes()
++            check(sha(restored) == record["sha256"] and len(restored) == record["bytes"],
++                  f"restored worktree bytes differ: {rel}")
++        receipt = {"classification":"RESTORED_GIT_INPUT", "infra_sha":a.infra_sha,
++                   "proof_sha":a.proof_sha, "base_commit":BASE,
++                   "candidate_commit":CANDIDATE, "candidate_tree":TREE,
++                   "candidate_ref":REF, "bundle_sha256":m["bundle_sha256"],
++                   "manifest_sha256":sha(a.manifest.read_bytes()),
++                   "selected_files":{k:v["sha256"] for k,v in m["selected_files"].items()},
++                   "fixture_hashes":{k:v["sha256"] for k,v in m["fixtures"].items()},
++                   "destination":str(a.destination), "git_identity_preserved":True}
++        a.receipt.parent.mkdir(parents=True, exist_ok=True)
++        a.receipt.write_text(json.dumps(receipt, indent=2, sort_keys=True)+"\n")
++        print(json.dumps(receipt, sort_keys=True))
++        return 0
++    except (DeliveryError, OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
++        print(f"delivery restore rejected: {exc}", file=__import__('sys').stderr)
++        return 2
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/research/challenge-8/cloud-build/run-verifast-mdnew-cfg.sh b/research/challenge-8/cloud-build/run-verifast-mdnew-cfg.sh
+new file mode 100755
+index 00000000..4275a3c3
+--- /dev/null
++++ b/research/challenge-8/cloud-build/run-verifast-mdnew-cfg.sh
+@@ -0,0 +1,443 @@
++#!/usr/bin/env bash
++# Bounded Cloud-only source-built baseline/candidate gate for MDnew CFG.
++set -euo pipefail
++
++lane=${1:?usage: run-verifast-mdnew-cfg.sh verifast-mdnew-cfg}
++[[ "$lane" == verifast-mdnew-cfg ]] || { echo 'unexpected lane' >&2; exit 2; }
++infra_root=${INFRA_ROOT:-/workspace/infra}
++proof_root=${PROOF_ROOT:-/workspace/proof}
++evidence_root=${EVIDENCE_ROOT:-/workspace/evidence}
++cloud_dir="$infra_root/research/challenge-8/cloud-build"
++all="$evidence_root/allprooflogs"
++cases="$all/cases"
++deadline=${SMALLSORT_DEADLINE_EPOCH:?SMALLSORT_DEADLINE_EPOCH is required}
++base_sha=f76012fb518703b1d98e243ac4f487f16877cfcb
++candidate_sha=1435539475fdaa7810bc2bc780fba0514f765f48
++candidate_tree=be55d8d934fb10617309a289e0d546ca1aed6ea0
++rustc_commit=f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f
++archive_sha=5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd
++deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
++rustup_sha=20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c
++schema_sha=f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469
++input_rel="research/challenge-8/verifast-input/$candidate_sha"
++work=/workspace/verifast-mdnew-cfg
++source_repo="$work/source"
++baseline_tool="$source_repo"
++candidate_tool="$work/candidate"
++stock_archive="$work/verifast-26.10-linux.tar.gz"
++stock_home="$work/verifast-26.10"
++deps_archive="$work/vfdeps-adf88dc-linux.txz"
++deps_home="$work/vfdeps-adf88dc"
++verifast_input="$proof_root/$input_rel"
++source_certificate="$evidence_root/source-input-certificate.json"
++proof_audit="$evidence_root/proof-audit.json"
++auditor="$cloud_dir/mdnew-audit.py"
++restore="$cloud_dir/restore-verifast-input.py"
++audited=0
++status=0
++
++mkdir -p "$all" "$work"
++[[ -d "$cloud_dir" && -d "$proof_root" && -d "$evidence_root" ]] || exit 2
++if [[ -n "$(find "$all" -mindepth 1 -print -quit)" ]]; then
++  echo "evidence lane already contains files: $all" >&2; exit 2
++fi
++mkdir -p "$cases"
++
++write_incomplete_audit() {
++  local code=$?
++  trap - EXIT
++  if (( audited == 0 )); then
++    python3 "$auditor" "$cases" --output "$proof_audit" > "$all/audit-failure.log" 2>&1 || true
++    audited=1
++  fi
++  if (( code != 0 )) && [[ -f "$proof_audit" ]]; then
++    python3 - "$proof_audit" "$code" <<'FAILCLOSED'
++import json,pathlib,sys
++p=pathlib.Path(sys.argv[1])
++try: d=json.loads(p.read_text())
++except Exception: d={}
++d.update({'accepted':False,'classification':'INCONCLUSIVE','runner_exit_status':int(sys.argv[2])})
++d.setdefault('reason','runner failed before successful completion')
++p.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
++FAILCLOSED
++  fi
++  if (( code == 0 )); then
++    python3 - "$proof_audit" <<'CHECK'
++import json,pathlib,sys
++p=pathlib.Path(sys.argv[1])
++try: d=json.loads(p.read_text())
++except Exception: raise SystemExit(2)
++raise SystemExit(0 if d.get('accepted') is True else 2)
++CHECK
++    code=$?
++  fi
++  exit "$code"
++}
++trap write_incomplete_audit EXIT
++
++remaining() {
++  local seconds=$((deadline - $(date +%s)))
++  (( seconds > 0 )) || { echo 'Cloud deadline elapsed' >&2; return 124; }
++  echo "$seconds"
++}
++run_stage() {
++  local name=$1 limit=$2 cwd=$3 output=$4 mode=$5; shift 5
++  local budget rc=0
++  budget=$(remaining)
++  (( budget > limit )) && budget=$limit
++  mkdir -p "$(dirname "$output")"
++  if [[ "$mode" == combined ]]; then
++    /usr/bin/time -v -o "$all/$name-resources.txt" \
++      timeout --signal=TERM --kill-after=10s "${budget}s" \
++      bash -c 'cd "$1"; shift; exec "$@"' bash "$cwd" "$@" \
++      > "$output" 2>&1 || rc=$?
++    printf 'stderr merged into %s\n' "$output" > "$all/$name-stderr.log"
++  else
++    /usr/bin/time -v -o "$all/$name-resources.txt" \
++      timeout --signal=TERM --kill-after=10s "${budget}s" \
++      bash -c 'cd "$1"; shift; exec "$@"' bash "$cwd" "$@" \
++      > "$output" 2> "$all/$name-stderr.log" || rc=$?
++  fi
++  printf '%s\n' "$rc" > "$all/$name-exit-code.txt"
++  return "$rc"
++}
++
++# Only an identified Cloud Build on the pinned lane may proceed.
++[[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build && -z "${GITHUB_ACTIONS:-}" ]] || {
++  echo 'explicit Cloud Build provider required' >&2; exit 2;
++}
++provider_json=$(CLOUD_BUILD_ID=${CLOUD_BUILD_ID:-} \
++  CLOUD_BUILD_PROJECT_ID=${CLOUD_BUILD_PROJECT_ID:-} \
++  CLOUD_BUILD_REGION=${CLOUD_BUILD_REGION:-} \
++  python3 "$cloud_dir/provider.py")
++printf '%s\n' "$provider_json" > "$all/provider.json"
++
++python3 - "$source_certificate" "$proof_root" "$infra_root" "$all/identities.json" <<'IDENTITIES'
++import json,pathlib,subprocess,sys
++certificate,proof,infra,out=map(pathlib.Path,sys.argv[1:])
++c=json.loads(certificate.read_text())
++if c.get('lane')!='verifast-mdnew-cfg': raise SystemExit('source-input lane mismatch')
++for key,root in (('proof',proof),('infra',infra)):
++ rec=c.get(key,{})
++ if not rec.get('commit') or not rec.get('head'): raise SystemExit(f'{key} source identity absent')
++ if rec.get('commit') != rec.get('head'): raise SystemExit(f'{key} source-input commit/head mismatch')
++actual_proof=subprocess.check_output(['git','-C',str(proof),'rev-parse','HEAD'],text=True).strip()
++actual_infra=subprocess.check_output(['git','-C',str(infra),'rev-parse','HEAD'],text=True).strip()
++if actual_proof != c['proof']['head'] or actual_infra != c['infra']['head']:
++ raise SystemExit('restored Git heads differ from source-input certificate')
++if c['proof']['head'] != c['infra']['head']:
++ raise SystemExit('proof and infrastructure must be the same frozen delivery commit')
++for envkey,key in (('PROOF_SHA','proof'),('INFRA_SHA','infra')):
++ expected=__import__('os').environ.get(envkey)
++ if expected and expected != c[key]['commit']: raise SystemExit(f'{envkey} differs from source-input certificate')
++out.write_text(json.dumps({'infra_sha':c['infra']['commit'],'proof_sha':c['proof']['commit'],
++ 'infra_tree':c['infra']['root_tree'],'proof_tree':c['proof']['root_tree'],
++ 'source_input_archive_sha256':c['archive_sha256']},indent=2,sort_keys=True)+'\n')
++IDENTITIES
++infra_sha=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["infra_sha"])' "$all/identities.json")
++proof_sha=$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["proof_sha"])' "$all/identities.json")
++[[ -f "$verifast_input/bundle" && -f "$verifast_input/manifest" ]] || {
++  echo 'committed VeriFast delivery bundle/manifest absent from proof input' >&2; exit 2;
++}
++mkdir -p "$all/tool-input"
++cp "$verifast_input/bundle" "$all/tool-input/bundle"
++cp "$verifast_input/manifest" "$all/tool-input/manifest"
++
++export RUSTUP_HOME="$work/rustup" CARGO_HOME="$work/cargo"
++export RUSTUP_TOOLCHAIN=nightly-2026-09-25
++export PATH="$CARGO_HOME/bin:$PATH"
++export TMPDIR="$work/tmp"
++mkdir -p "$RUSTUP_HOME" "$CARGO_HOME" "$TMPDIR"
++export LANG=C.UTF-8 LC_ALL=C.UTF-8
++printf 'lane=%s\ninfra_sha=%s\nproof_sha=%s\nbase_sha=%s\ncandidate_sha=%s\nprovider=%s\ndeadline=%s\n' \
++  "$lane" "$infra_sha" "$proof_sha" "$base_sha" "$candidate_sha" \
++  "$provider_json" "$deadline" > "$all/environment.txt"
++
++run_stage package-index 300 /workspace "$all/package-index.log" split apt-get update
++run_stage packages-install 300 /workspace "$all/packages-install.log" split \
++  apt-get install --yes --no-install-recommends build-essential m4 patch unzip \
++  capnproto ripgrep time libgmp10 libmpfr6 libgomp1 libffi8 libncurses6 \
++  libtinfo6 zlib1g libz3-4 libgtk-3-0 libgtksourceview-4-0
++run_stage vfdeps-download 180 /workspace "$all/vfdeps-download.log" split curl -fL --retry 2 -o "$deps_archive" \
++  https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
++printf '%s  %s\n' "$deps_sha" "$deps_archive" | sha256sum -c - > "$all/vfdeps-sha256.log"
++run_stage vfdeps-extract 120 /workspace "$all/vfdeps-extract.log" split tar -xjf "$deps_archive" -C "$work"
++[[ -d "$deps_home" ]] || { echo 'pinned vfdeps directory absent' >&2; exit 2; }
++for prefix in /vfdeps-adf88dc /tmp/vfdeps-adf88dc; do
++  if [[ ! -e "$prefix" ]]; then ln -s "$deps_home" "$prefix"
++  elif [[ "$(readlink -f "$prefix")" != "$deps_home" ]]; then echo "conflicting dependency prefix $prefix" >&2; exit 2
++  fi
++done
++export PATH="$deps_home/bin:$PATH" CAPNP_INC_DIR="$deps_home/include"
++
++run_stage stock-download 180 /workspace "$all/stock-download.log" split curl -fL --retry 2 -o "$stock_archive" \
++  https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
++printf '%s  %s\n' "$archive_sha" "$stock_archive" | sha256sum -c - > "$all/stock-archive-sha256.log"
++mkdir -p "$stock_home"
++run_stage stock-extract 120 /workspace "$all/stock-extract.log" split tar -xzf "$stock_archive" -C "$work"
++
++run_stage tool-checkout 240 /workspace "$all/tool-checkout.log" split \
++  git clone --no-checkout https://github.com/verifast/verifast.git "$source_repo"
++run_stage tool-base-checkout 120 /workspace "$all/tool-base-checkout.log" split \
++  git -C "$source_repo" checkout --detach "$base_sha"
++[[ "$(git -C "$source_repo" rev-parse HEAD)" == "$base_sha" ]] || { echo 'upstream base checkout mismatch' >&2; exit 2; }
++python3 "$restore" --repository "$source_repo" --bundle "$verifast_input/bundle" \
++  --manifest "$verifast_input/manifest" --destination "$candidate_tool" \
++  --receipt "$all/restore-receipt.json" --infra-sha "$infra_sha" --proof-sha "$proof_sha" \
++  > "$all/restore.log" 2>&1 || { cat "$all/restore.log"; exit 2; }
++[[ "$(git -C "$candidate_tool" rev-parse HEAD^{tree})" == "$candidate_tree" ]] || exit 2
++schema="$baseline_tool/src/rust_frontend/vf_mir/vf_mir.capnp"
++candidate_schema="$candidate_tool/src/rust_frontend/vf_mir/vf_mir.capnp"
++[[ "$(sha256sum "$schema" | cut -d' ' -f1)" == "$schema_sha" ]] || { echo 'pinned MIR schema mismatch' >&2; exit 2; }
++cmp "$schema" "$candidate_schema"
++
++rustup_init="$work/rustup-init-1.28.2"
++run_stage rustup-init-download 180 /workspace "$all/rustup-init-download.log" split \
++  curl -fL --retry 2 -o "$rustup_init" \
++  https://static.rust-lang.org/rustup/archive/1.28.2/x86_64-unknown-linux-gnu/rustup-init
++printf '%s  %s\n' "$rustup_sha" "$rustup_init" | sha256sum -c - > "$all/rustup-init-sha256.log"
++chmod +x "$rustup_init"
++run_stage rustup-init 120 /workspace "$all/rustup-init.log" split "$rustup_init" -y --no-modify-path --default-toolchain none --profile minimal
++run_stage compiler-install 300 /workspace "$all/compiler-install.log" split rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal \
++  --component rustc-dev --component llvm-tools-preview --component rust-src
++compiler_sysroot=$(rustc --print sysroot)
++rustc --version --verbose > "$all/compiler-version.txt"
++python3 - "$all/compiler-version.txt" "$rustc_commit" <<'RUSTPIN'
++import pathlib,sys
++rows=dict(line.split(': ',1) for line in pathlib.Path(sys.argv[1]).read_text().splitlines() if ': ' in line)
++if rows.get('commit-hash')!=sys.argv[2] or rows.get('host')!='x86_64-unknown-linux-gnu': raise SystemExit('rustc pin mismatch')
++RUSTPIN
++export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock_home/bin:$deps_home/lib:${LD_LIBRARY_PATH:-}"
++run_stage decoder-install 300 /workspace "$all/decoder-install.log" split cargo install --locked --git \
++  https://github.com/btj/capnpc-ocaml-decoder --rev 2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
++
++for tree in "$baseline_tool" "$candidate_tool"; do
++  name=baseline
++  [[ "$tree" == "$candidate_tool" ]] && name=candidate
++  target="$tree/bin"
++  mkdir -p "$target"
++  cp -an "$stock_home/bin/." "$target/"
++  rm -f "$target/verifast"
++  if [[ -d "$stock_home/lib" ]]; then mkdir -p "$tree/lib"; cp -an "$stock_home/lib/." "$tree/lib/"; fi
++  [[ "$(sha256sum "$tree/bin/rust/std/lib.rsspec" | cut -d' ' -f1)" == "$(sha256sum "$stock_home/bin/rust/std/lib.rsspec" | cut -d' ' -f1)" ]] || exit 2
++done
++for pair in 'baseline_tool baseline' 'candidate_tool candidate'; do
++  read -r var profile <<< "$pair"
++  tree=${!var}
++  run_stage "$profile-console-build" 720 "$tree" "$all/$profile-console-build.log" split \
++    make -C "$tree/src" ../bin/verifast WITHOUT_LABLGTK=yes VERBOSE=yes
++  ldd "$tree/bin/verifast" > "$all/$profile-console-ldd.txt"
++  if rg -q 'not found' "$all/$profile-console-ldd.txt"; then echo "$profile console has missing shared libraries" >&2; exit 2; fi
++done
++
++python3 - "$stock_home" "$baseline_tool" "$candidate_tool" "$all/runtime-components.json" "$compiler_sysroot" "$verifast_input/manifest" <<'COMPONENTS'
++import hashlib,json,pathlib,subprocess,sys
++stock,base,candidate,out,sysroot,manifest_path=map(pathlib.Path,sys.argv[1:])
++BASE="f76012fb518703b1d98e243ac4f487f16877cfcb"
++manifest=json.loads(manifest_path.read_text())
++candidate_sha=manifest["candidate_commit"]
++changed=subprocess.check_output(["git","-C",str(candidate),"diff","--name-only",BASE,candidate_sha],text=True).splitlines()
++if sorted(changed)!=sorted(manifest["selected_files"]): raise SystemExit("candidate changed-path set differs from committed input manifest")
++h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
++paths=['src/rust_frontend/vf_mir_exporter','src/rust_frontend/vf_mir_decoder','src/refinement_checker']
++components={}
++def committed_files(repo,prefix):
++ import os
++ rows={}
++ raw=subprocess.check_output(['git','-C',str(repo),'ls-tree','-r','-z','HEAD','--',prefix])
++ for item in raw.split(b'\0'):
++  if not item: continue
++  meta,path=item.split(b'\t',1); mode,kind,oid=meta.decode().split(' '); rel=path.decode(); checkout=repo/rel
++  if kind!='blob' or mode not in ('100644','100755','120000'): raise SystemExit(f'unsupported component Git entry: {rel}')
++  committed=subprocess.check_output(['git','-C',str(repo),'show','HEAD:'+rel])
++  if mode=='120000':
++   if not checkout.is_symlink() or os.readlink(checkout).encode()!=committed: raise SystemExit(f'component symlink differs from committed blob: {rel}')
++  elif checkout.is_symlink() or not checkout.is_file() or checkout.read_bytes()!=committed:
++   raise SystemExit(f'component checkout differs from committed blob: {rel}')
++  rows[rel[len(prefix)+1:]]={'mode':mode,'git_blob':oid,'sha256':hashlib.sha256(committed).hexdigest()}
++ return rows
++for prefix in paths:
++ fa=committed_files(base,prefix); fb=committed_files(candidate,prefix)
++ if fa!=fb: raise SystemExit(f'baseline/candidate component source differs: {prefix}')
++ components[prefix]={'source_file_count':len(fa),'source_files_sha256':hashlib.sha256(json.dumps(fa,sort_keys=True).encode()).hexdigest()}
++specs={}
++for tree_name,tree in (('baseline',base),('candidate',candidate)):
++ rows={str(p.relative_to(tree/'bin/rust')):h(p) for p in sorted((tree/'bin/rust').rglob('*.rsspec')) if p.is_file()}
++ specs[tree_name]=rows
++stock_specs={str(p.relative_to(stock/'bin/rust')):h(p) for p in sorted((stock/'bin/rust').rglob('*.rsspec')) if p.is_file()}
++if not stock_specs or specs['baseline']!=specs['candidate'] or specs['baseline']!=stock_specs: raise SystemExit('effective stock/baseline/candidate specification inventory mismatch')
++binaries={}
++for name in ('vf-rust-mir-exporter','refinement-checker','vf-cxx-ast-exporter','libz3.so','rust/std/lib.rsspec'):
++ a=stock/'bin'/name; b=base/'bin'/name; c=candidate/'bin'/name
++ if not a.is_file() or not b.is_file() or not c.is_file() or b.read_bytes()!=c.read_bytes() or a.read_bytes()!=b.read_bytes(): raise SystemExit(f'unchanged pinned component mismatch: {name}')
++ binaries[name]={'sha256':h(a),'baseline_equal':True,'candidate_equal':True}
++version=subprocess.check_output(['rustc','--version','--verbose'],text=True)
++path={'baseline_source_sha':subprocess.check_output(['git','-C',str(base),'rev-parse','HEAD'],text=True).strip(),
++      'candidate_source_sha':subprocess.check_output(['git','-C',str(candidate),'rev-parse','HEAD'],text=True).strip(),
++      'candidate_tree':subprocess.check_output(['git','-C',str(candidate),'rev-parse','HEAD^{tree}'],text=True).strip(),
++      'changed_paths':changed,
++      'stock_distribution_sha256':h(pathlib.Path('/workspace/verifast-mdnew-cfg/verifast-26.10-linux.tar.gz')),
++      'distribution_provenance':{'release':'26.10','tag_commit':BASE,'github_release_asset_id':611766606,'asset_bytes':97804993,'asset_url':'https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz'},
++      'vfdeps_archive_sha256':h(pathlib.Path('/workspace/verifast-mdnew-cfg/vfdeps-adf88dc-linux.txz')),
++      'compiler_sysroot':str(sysroot),'rustc_verbose':version,
++      'components':components,'pinned_stock_binaries':binaries,'specification_inventory':specs,'stock_specification_inventory':stock_specs,
++      'console_binary_sha256':{'baseline':h(base/'bin/verifast'),'candidate':h(candidate/'bin/verifast')},
++      'console_profile':'two source-built verifast consoles at pinned base and candidate; stock-26.10 exporter/refiner/specs reused identically after source-component audit'}
++pathlib.Path(out).write_text(json.dumps(path,indent=2,sort_keys=True)+'\n')
++COMPONENTS
++
++# Assert all fixtures are the exact candidate Git blobs before either console sees them.
++python3 - "$candidate_tool" "$baseline_tool" "$candidate_sha" "$cases" <<'FIXTURES'
++import hashlib,pathlib,shutil,subprocess,sys
++candidate,baseline,cases=map(pathlib.Path,(sys.argv[1],sys.argv[2],sys.argv[4]))
++sha=sys.argv[3]
++for name in ('forget','shared_cleanup','false_normal_post','shared_false_unwind','dead_code_pre'):
++ rel=pathlib.Path('tests/rust/purely_unsafe/manuallydrop_new_cfg')/(name+'.rs')
++ src=candidate/rel; data=src.read_bytes()
++ recorded=subprocess.check_output(['git','-C',str(candidate),'show',sha+':'+rel.as_posix()])
++ if data!=recorded: raise SystemExit(f'candidate fixture differs: {name}')
++ digest=hashlib.sha256(data).hexdigest()
++ for side,tree in (('baseline',baseline),('candidate',candidate)):
++  out=cases/side/name
++  out.mkdir(parents=True)
++  (out/'source.rs').write_bytes(data)
++  if hashlib.sha256((out/'source.rs').read_bytes()).hexdigest()!=digest: raise SystemExit(f'{side} fixture copy changed: {name}')
++  run=out/'run'; run.mkdir()
++  (run/(name+'.rs')).write_bytes(data)
++  original=run/'original'; verified=run/'verified'; original.mkdir(); verified.mkdir()
++  import re
++  original_bytes=re.sub(rb"(?m)^[ \t]*//@[^\n]*(?:\n|$)",lambda m: b"\n" if m.group().endswith(b"\n") else b"",data)
++  (original/'lib.rs').write_bytes(original_bytes); (verified/'lib.rs').write_bytes(data)
++  (out/'fixture.json').write_text(__import__('json').dumps({'source_sha256':digest,'source_bytes':len(data),'original_sha256':hashlib.sha256(original_bytes).hexdigest(),'verified_sha256':digest,'ghost_strip_exact':True,'candidate_commit':str(sha),'git_blob':subprocess.check_output(['git','-C',str(candidate),'rev-parse',str(sha)+':'+rel.as_posix()],text=True).strip()},indent=2,sort_keys=True)+'\n')
++FIXTURES
++
++run_verifast() {
++  local side=$1 case=$2 mode=$3; shift 3
++  local tree binary out_dir log name rc=0
++  if [[ "$side" == baseline ]]; then tree=$baseline_tool; else tree=$candidate_tool; fi
++  binary="$tree/bin/verifast"
++  out_dir="$cases/$side/$case/run"
++  case "$mode" in
++    diagnostic) log="$cases/$side/$case/full-verification.log"; name="$side-$case-diagnostic" ;;
++    allow) log="$cases/$side/$case/allow-full-verification.log"; name="$side-$case-allow" ;;
++  esac
++  local args=("$binary" -rustc_args '--edition 2021' -verbose 1 -dump_ast_with_locs "$out_dir/verified-ast.txt")
++  if [[ "$mode" == allow ]]; then args+=( -allow_should_fail ); fi
++  args+=("$case.rs")
++  if [[ "$mode" == diagnostic && ( "$case" == false_normal_post || "$case" == shared_false_unwind ) ]]; then
++    python3 - "$out_dir/$case.rs" "$cases/$side/$case/source.rs" "$cases/$side/$case" <<'DIAGCOPY'
++import hashlib,json,pathlib,sys
++work,source,out=map(pathlib.Path,sys.argv[1:]); raw=source.read_bytes(); marker=b" //~should_fail"
++if raw.count(marker)!=1: raise SystemExit("expected one should_fail marker")
++derived=raw.replace(marker,b"",1); work.write_bytes(derived)
++(out/"diagnostic-source.rs").write_bytes(derived)
++(out/"diagnostic-source-sha256.txt").write_text(hashlib.sha256(derived).hexdigest()+"\n")
++fixture=json.loads((out/"fixture.json").read_text()); fixture.update({"diagnostic_source_sha256":hashlib.sha256(derived).hexdigest(),"diagnostic_source_path":"diagnostic-source.rs","diagnostic_line_count_preserved":len(raw.splitlines())==len(derived.splitlines()),"should_fail_marker_count_removed":1}); (out/"fixture.json").write_text(json.dumps(fixture,indent=2,sort_keys=True)+"\n")
++(out/"diagnostic-source.json").write_text(json.dumps({"original_sha256":hashlib.sha256(raw).hexdigest(),"diagnostic_sha256":hashlib.sha256(derived).hexdigest(),"marker_count_removed":1,"line_count_preserved":len(raw.splitlines())==len(derived.splitlines())},indent=2,sort_keys=True)+"\n")
++DIAGCOPY
++  fi
++  run_stage "$name" 180 "$out_dir" "$log" combined "${args[@]}" || rc=$?
++  if [[ "$mode" == diagnostic ]]; then printf '%s\n' "$rc" > "$cases/$side/$case/exit-status.txt"
++  else printf '%s\n' "$rc" > "$cases/$side/$case/allow-exit-status.txt"; fi
++  # The root stage receipt always mirrors the verifier log for complete packaging.
++  cp "$log" "$all/$name.log"
++  cp "$all/$name-stderr.log" "$cases/$side/$case/$name-stderr.log"
++  if [[ "$mode" == diagnostic && ( "$case" == false_normal_post || "$case" == shared_false_unwind ) ]]; then cp "$cases/$side/$case/source.rs" "$out_dir/$case.rs"; fi
++  cp "$all/$name-resources.txt" "$cases/$side/$case/$name-resources.txt"
++  cp "$all/$name-exit-code.txt" "$cases/$side/$case/$name-exit-code.txt"
++  return 0
++}
++
++# Captures use each source tree's own schema and unchanged pinned exporter/refiner.
++capture_case() {
++  local side=$1 case=$2 tree exporter refiner schema workdir outdir source_hash mode name rc
++  if [[ "$side" == baseline ]]; then tree=$baseline_tool; else tree=$candidate_tool; fi
++  exporter="$tree/bin/vf-rust-mir-exporter"; refiner="$tree/bin/refinement-checker"
++  schema="$tree/src/rust_frontend/vf_mir/vf_mir.capnp"
++  workdir="$cases/$side/$case/run"; outdir="$cases/captures/$case"
++  mkdir -p "$outdir"
++  source_hash=$(sha256sum "$cases/$side/$case/source.rs" | cut -d' ' -f1)
++  declare -A stages=()
++  for mode in normal readonly; do
++    local suffix=(); [[ "$mode" == readonly ]] && suffix+=(--vf-rust-mir-exporter:preprocess-readonly)
++    name="$side-$case-$mode-export"; rc=0
++    run_stage "$name" 180 "$workdir" "$workdir/$mode-mir.bin" split \
++       "$exporter" "$case.rs" "--sysroot=$compiler_sysroot" --edition 2021 --crate-type lib "${suffix[@]}" || rc=$?
++    stages["$mode-export"]=$rc
++    cp "$all/$name-stderr.log" "$outdir/$side-$mode-export.log"
++    if (( rc == 0 )); then
++      name="$side-$case-$mode-decode"; rc=0
++      run_stage "$name" 120 "$workdir" "$workdir/$mode-mir.txt" split capnp decode "$schema" VfMir < "$workdir/$mode-mir.bin" || rc=$?
++      stages["$mode-decode"]=$rc
++      cp "$all/$name-stderr.log" "$outdir/$side-$mode-decode.log"
++      cp "$workdir/$mode-mir.txt" "$outdir/$side-$mode-mir.txt"
++    else stages["$mode-decode"]=-1; fi
++  done
++  name="$side-$case-refinement"; rc=0
++  run_stage "$name" 180 "$workdir" "$workdir/refinement.log" split \
++    "$refiner" --rustc-args '--edition 2021' original/lib.rs verified/lib.rs || rc=$?
++  stages[refinement]=$rc
++  cp "$all/$name-stderr.log" "$outdir/$side-refinement.log"
++  if [[ "$side" == candidate ]]; then
++    cp "$workdir/normal-mir.bin" "$outdir/normal-mir.bin"
++    cp "$workdir/readonly-mir.bin" "$outdir/readonly-mir.bin"
++    cp "$workdir/refinement.log" "$outdir/refinement.log"
++    cp "$workdir/normal-mir.txt" "$outdir/normal-mir.txt"
++    cp "$workdir/readonly-mir.txt" "$outdir/readonly-mir.txt"
++    cp "$workdir/verified-ast.txt" "$outdir/verified-ast.txt"
++  fi
++  if [[ "$side" == baseline ]]; then
++    cp "$workdir/normal-mir.bin" "$outdir/baseline-normal-mir.bin"
++    cp "$workdir/readonly-mir.bin" "$outdir/baseline-readonly-mir.bin"
++    cp "$workdir/refinement.log" "$outdir/baseline-refinement.log"
++    cp "$workdir/normal-mir.txt" "$outdir/baseline-normal-mir.txt"
++    cp "$workdir/readonly-mir.txt" "$outdir/baseline-readonly-mir.txt"
++    cp "$workdir/verified-ast.txt" "$outdir/baseline-verified-ast.txt"
++  fi
++  local status_file="$outdir/baseline-capture-status.json"
++  [[ "$side" == candidate ]] && status_file="$outdir/capture-status.json"
++  python3 - "$status_file" "$case" "$side" "$source_hash" \
++    "$infra_sha" "$proof_sha" "$([[ "$side" == baseline ]] && echo "$base_sha" || echo "$candidate_sha")" "${stages[normal-export]}" "${stages[normal-decode]}" \
++    "${stages[readonly-export]}" "${stages[readonly-decode]}" "${stages[refinement]}" \
++    "$workdir/normal-mir.bin" "$workdir/normal-mir.txt" \
++    "$workdir/readonly-mir.bin" "$workdir/readonly-mir.txt" \
++    "$workdir/refinement.log" "$workdir/verified-ast.txt" <<'CAPTURE'
++import hashlib,json,pathlib,sys
++out,case,side,src,infra,proof,tool,*rest=sys.argv[1:]
++exits=list(map(int,rest[:5])); files=list(map(pathlib.Path,rest[5:]))
++names=('normal-export','normal-decode','readonly-export','readonly-decode','refinement')
++stages={}
++for name,code,path in zip(names,exits,files): stages[name]={'exit_status':code,'output_sha256':hashlib.sha256(path.read_bytes()).hexdigest() if path.is_file() else None}
++record={'schema':'verifast-mdnew-capture-v1','case':case,'side':side,'source_sha256':src,'tool_source_sha':tool,'infra_sha':infra,'proof_sha':proof,'stages':stages,'verified_ast_sha256':hashlib.sha256(files[5].read_bytes()).hexdigest() if files[5].is_file() else None}
++pathlib.Path(out).write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
++CAPTURE
++}
++
++# Run the same five source bytes through each exact source-built console.
++for side in baseline candidate; do
++  for case in forget shared_cleanup false_normal_post shared_false_unwind dead_code_pre; do
++    case "$case" in
++      false_normal_post) run_verifast "$side" "$case" diagnostic; if [[ "$side" == candidate ]]; then run_verifast "$side" "$case" allow; fi ;;
++      shared_false_unwind) run_verifast "$side" "$case" diagnostic; run_verifast "$side" "$case" allow ;;
++      *) run_verifast "$side" "$case" diagnostic ;;
++    esac
++  done
++done
++for side in baseline candidate; do
++  for case in forget shared_cleanup false_normal_post shared_false_unwind dead_code_pre; do
++    capture_case "$side" "$case"
++  done
++done
++
++python3 "$auditor" "$cases" --output "$proof_audit" > "$all/mdnew-audit.log" 2>&1 || status=$?
++audited=1
++if (( status != 0 )); then cat "$all/mdnew-audit.log"; exit "$status"; fi
++python3 - "$proof_audit" "$all/runtime-components.json" "$all/restore-receipt.json" <<'FINALIZE'
++import json,pathlib,sys
++proof=pathlib.Path(sys.argv[1]); result=json.loads(proof.read_text())
++if result.get('accepted') is not True: raise SystemExit('focused audit did not accept evidence')
++for p in map(pathlib.Path,sys.argv[2:]):
++ if not p.is_file(): raise SystemExit(f'missing runtime provenance: {p}')
++json.loads(pathlib.Path(sys.argv[2]).read_text()); json.loads(pathlib.Path(sys.argv[3]).read_text())
++FINALIZE
++exit 0
+diff --git a/research/challenge-8/cloud-build/test-verifast-mdnew-delivery.py b/research/challenge-8/cloud-build/test-verifast-mdnew-delivery.py
+new file mode 100644
+index 00000000..4f23bf15
+--- /dev/null
++++ b/research/challenge-8/cloud-build/test-verifast-mdnew-delivery.py
+@@ -0,0 +1,118 @@
++#!/usr/bin/env python3
++"""Small Git-only delivery tests; does not compile or execute VeriFast."""
++from __future__ import annotations
++import hashlib, importlib.util, json, shutil, subprocess, tempfile, unittest
++from pathlib import Path
++
++HERE = Path(__file__).resolve().parent
++RESTORE = HERE / "restore-verifast-input.py"
++SPEC = importlib.util.spec_from_file_location("mdnew_restore", RESTORE)
++MODULE = importlib.util.module_from_spec(SPEC)
++assert SPEC and SPEC.loader
++SPEC.loader.exec_module(MODULE)
++
++
++def git(*args: str) -> bytes:
++    return subprocess.check_output(["git", *args])
++
++
++class DeliveryTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls) -> None:
++        import argparse
++        p = argparse.ArgumentParser()
++        p.add_argument("--source-repository", type=Path, required=True)
++        p.add_argument("--bundle", type=Path, required=True)
++        p.add_argument("--manifest", type=Path, required=True)
++        cls.args = p.parse_args()
++        cls.source = cls.args.source_repository.resolve()
++        cls.bundle_source = cls.args.bundle.resolve()
++        cls.manifest_source = cls.args.manifest.resolve()
++
++    def setUp(self) -> None:
++        self.tmp = tempfile.TemporaryDirectory(prefix="mdnew-delivery-test-")
++        self.root = Path(self.tmp.name)
++        self.repo = self.root / "tool"
++        subprocess.run(["git", "clone", "--quiet", "--shared", str(self.source), str(self.repo)], check=True)
++        subprocess.run(["git", "-C", str(self.repo), "checkout", "--quiet", "--detach", MODULE.BASE], check=True)
++        self.bundle = self.root / "bundle"
++        self.manifest = self.root / "manifest"
++        shutil.copyfile(self.bundle_src, self.bundle)
++        shutil.copyfile(self.manifest_src, self.manifest)
++
++    @property
++    def bundle_src(self) -> Path:
++        return self.bundle_source
++
++    @property
++    def manifest_src(self) -> Path:
++        return self.manifest_source
++
++    def tearDown(self) -> None:
++        self.tmp.cleanup()
++
++    def altered(self, mutate) -> dict:
++        data=json.loads(self.manifest.read_text())
++        mutate(data)
++        self.manifest.write_text(json.dumps(data,indent=2,sort_keys=True)+"\n")
++        return data
++
++    def reject(self, expected: str) -> None:
++        with self.assertRaisesRegex(MODULE.DeliveryError, expected):
++            MODULE.validate(self.repo, self.bundle, self.manifest)
++
++    def test_exact_git_identity_restore(self) -> None:
++        receipt=self.root/"receipt.json"; dest=self.root/"candidate"
++        proc=subprocess.run(["python3",str(RESTORE),"--repository",str(self.repo),"--bundle",str(self.bundle),
++            "--manifest",str(self.manifest),"--destination",str(dest),"--receipt",str(receipt),
++            "--infra-sha","4058e8bf45eb567e4656d953274c96bf8488a7a3","--proof-sha","4058e8bf45eb567e4656d953274c96bf8488a7a3"],capture_output=True,text=True)
++        self.assertEqual(proc.returncode,0,proc.stderr)
++        self.assertEqual(git("-C",str(dest),"rev-parse","HEAD").decode().strip(),MODULE.CANDIDATE)
++        self.assertEqual(git("-C",str(dest),"rev-parse","HEAD^{tree}").decode().strip(),MODULE.TREE)
++        data=json.loads(receipt.read_text())
++        self.assertTrue(data["git_identity_preserved"])
++        self.assertEqual(data["candidate_commit"],MODULE.CANDIDATE)
++        self.assertEqual(data["bundle_sha256"],hashlib.sha256(self.bundle.read_bytes()).hexdigest())
++
++    def test_wrong_bundle_digest_rejected(self) -> None:
++        self.altered(lambda m:m.update(bundle_sha256="0"*64))
++        self.reject("bundle digest mismatch")
++
++    def test_wrong_prerequisite_header_rejected(self) -> None:
++        raw=self.bundle.read_bytes(); old=b"-"+MODULE.BASE.encode()
++        self.assertEqual(raw.count(old),1)
++        self.bundle.write_bytes(raw.replace(old,b"-"+b"1"*40,1))
++        self.altered(lambda m:m.update(bundle_sha256=hashlib.sha256(self.bundle.read_bytes()).hexdigest()))
++        self.reject("prerequisite header")
++
++    def test_wrong_ref_rejected(self) -> None:
++        self.altered(lambda m:m.update(candidate_ref="refs/heads/other"))
++        self.reject("Git identities mismatch")
++
++    def test_wrong_tree_rejected(self) -> None:
++        self.altered(lambda m:m.update(candidate_tree="0"*40))
++        self.reject("Git identities mismatch")
++
++    def test_wrong_fixture_blob_rejected(self) -> None:
++        rel=MODULE.FIXTURES[0]
++        self.altered(lambda m:m["fixtures"][rel].update(sha256="0"*64))
++        self.reject("fixture manifest mismatch")
++
++    def test_unsafe_selected_path_rejected(self) -> None:
++        def mutate(m):
++            item=m["selected_files"].pop(MODULE.SELECTED[0])
++            m["selected_files"]["../.git/config"]=item
++        self.altered(mutate)
++        self.reject("selected source inventory")
++
++    def test_wrong_base_checkout_rejected(self) -> None:
++        subprocess.run(["git","-C",str(self.repo),"checkout","--quiet","--detach",MODULE.CANDIDATE],check=True)
++        self.reject("not the exact prerequisite base")
++
++
++def main() -> int:
++    unittest.main(argv=[__file__], verbosity=2)
++    return 0
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/research/challenge-8/cloud-build/verifast-capture-log-test.py b/research/challenge-8/cloud-build/verifast-capture-log-test.py
+new file mode 100644
+index 00000000..9259ee53
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-capture-log-test.py
+@@ -0,0 +1,26 @@
++"""Isolated shell capture wiring test; fake stages, no compiler or verifier."""
++import hashlib,json,subprocess,tempfile
++from pathlib import Path
++runner=Path(__file__).with_name('run-verifast-mdnew-cfg.sh').read_text()
++function=runner[runner.index('capture_case() {'):runner.index('# Run the same five source bytes')]
++with tempfile.TemporaryDirectory(prefix='mdnew-capture-log-') as td:
++ root=Path(td);cases=root/'cases';all_logs=root/'logs'
++ for side in ('baseline','candidate'):
++  run=cases/side/'forget'/'run';run.mkdir(parents=True)
++  (run/'verified-ast.txt').write_text('fake AST for service wiring only')
++  (run.parent/'source.rs').write_text('fake source for service wiring only')
++ all_logs.mkdir()
++ env='set -euo pipefail\nall='+str(all_logs)+'\ncases='+str(cases)+'\nbaseline_tool=/fake/base\ncandidate_tool=/fake/candidate\ncompiler_sysroot=/fake/sysroot\ninfra_sha=infra\nproof_sha=proof\nbase_sha=base\ncandidate_sha=candidate\n'
++ fake='run_stage() { printf "output:%s\\n" "$1" > "$4"; printf "diagnostic:%s\\n" "$1" > "$all/$1-stderr.log"; }\n'
++ script=env+fake+function+'\ncapture_case baseline forget\ncapture_case candidate forget\n'
++ subprocess.run(['bash','-c',script],check=True,capture_output=True)
++ out=cases/'captures'/'forget'
++ for side,status in [('baseline','baseline-capture-status.json'),('candidate','capture-status.json')]:
++  record=json.loads((out/status).read_text());assert all(v['exit_status']==0 for v in record['stages'].values())
++  for mode in ('normal','readonly'):
++   assert (out/f'{side}-{mode}-export.log').read_text()==f'diagnostic:{side}-forget-{mode}-export\n'
++   assert (out/f'{side}-{mode}-decode.log').read_text()==f'diagnostic:{side}-forget-{mode}-decode\n'
++  run=cases/side/'forget'/'run'
++  assert record['stages']['normal-export']['output_sha256']==hashlib.sha256((run/'normal-mir.bin').read_bytes()).hexdigest()
++  assert not (all_logs/f'{side}-forget-normal-export.log').exists()
++print(json.dumps({'service_test':'capture log publication with separate binary/text stdout and stderr','sides':2,'compiler_or_verifier_execution':False,'passed':True}))
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/ACCESS-QUOTAS.json b/research/challenge-8/cloud-build/verifast-mdnew/ACCESS-QUOTAS.json
+new file mode 100644
+index 00000000..f480415d
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/ACCESS-QUOTAS.json
+@@ -0,0 +1,148 @@
++{
++  "project": "smallsort-ci",
++  "location": "global",
++  "pool": "non-regional default (no options.pool)",
++  "machine_type": "E2_STANDARD_2",
++  "dispatcher": "smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com",
++  "builder": "smallsort-builder@smallsort-ci.iam.gserviceaccount.com",
++  "quota_source": "gcloud alpha services quota list --service=cloudbuild.googleapis.com --consumer=projects/504462351565",
++  "source_sha256": "f2fb2d494f1b40202c06b1ec88fcff1439e355cd01d44259645f7d8286812c3a",
++  "quota_metrics": [
++    {
++      "consumerQuotaLimits": [
++        {
++          "isPrecise": true,
++          "metric": "cloudbuild.googleapis.com/concurrent_public_pool_build_cpus",
++          "quotaBuckets": [
++            {
++              "defaultLimit": "10",
++              "effectiveLimit": "10"
++            },
++            {
++              "defaultLimit": "20",
++              "dimensions": {
++                "build_origin": "app-engine"
++              },
++              "effectiveLimit": "20"
++            },
++            {
++              "defaultLimit": "20",
++              "dimensions": {
++                "build_origin": "cloud-deploy"
++              },
++              "effectiveLimit": "20"
++            },
++            {
++              "defaultLimit": "40",
++              "dimensions": {
++                "build_origin": "cloud-functions"
++              },
++              "effectiveLimit": "40"
++            },
++            {
++              "defaultLimit": "40",
++              "dimensions": {
++                "build_origin": "cloud-run"
++              },
++              "effectiveLimit": "40"
++            },
++            {
++              "defaultLimit": "20",
++              "dimensions": {
++                "build_origin": "cmle"
++              },
++              "effectiveLimit": "20"
++            },
++            {
++              "defaultLimit": "20",
++              "dimensions": {
++                "build_origin": "firebase-app-hosting"
++              },
++              "effectiveLimit": "20"
++            }
++          ],
++          "supportedLocations": [
++            "africa-south1",
++            "asia-east1",
++            "asia-east2",
++            "asia-northeast1",
++            "asia-northeast2",
++            "asia-northeast3",
++            "asia-south1",
++            "asia-south2",
++            "asia-southeast1",
++            "asia-southeast2",
++            "asia-southeast3",
++            "australia-southeast1",
++            "australia-southeast2",
++            "europe-central2",
++            "europe-north1",
++            "europe-north2",
++            "europe-southwest1",
++            "europe-west1",
++            "europe-west10",
++            "europe-west12",
++            "europe-west2",
++            "europe-west3",
++            "europe-west4",
++            "europe-west6",
++            "europe-west8",
++            "europe-west9",
++            "me-central1",
++            "me-central2",
++            "me-west1",
++            "northamerica-northeast1",
++            "northamerica-northeast2",
++            "northamerica-south1",
++            "southamerica-east1",
++            "southamerica-west1",
++            "us-central1",
++            "us-east1",
++            "us-east4",
++            "us-east5",
++            "us-south1",
++            "us-west1",
++            "us-west2",
++            "us-west3",
++            "us-west4"
++          ],
++          "unit": "1/{project}/{region}/{build_origin}"
++        }
++      ],
++      "displayName": "Concurrent Build CPUs (Regional Default Pool)",
++      "metric": "cloudbuild.googleapis.com/concurrent_public_pool_build_cpus",
++      "unit": "1{CPU}"
++    },
++    {
++      "consumerQuotaLimits": [
++        {
++          "isPrecise": true,
++          "metric": "cloudbuild.googleapis.com/ongoing_builds",
++          "quotaBuckets": [
++            {
++              "defaultLimit": "10",
++              "effectiveLimit": "10"
++            }
++          ],
++          "unit": "1/{project}"
++        }
++      ],
++      "displayName": "Concurrent Builds (Non-regional Default Pool)",
++      "metric": "cloudbuild.googleapis.com/ongoing_builds"
++    }
++  ],
++  "observed_build_access": true,
++  "builder_identity_describe": true,
++  "capacity_interpretation": "Non-regional default pool concurrent Build effective limit10 is confirmed. Public-pool CPU metric reports default effective limit10 per project/region/build_origin, with no explicit global dimension bucket. A separate global CPU mapping/free capacity is not confirmed by this read; three-client admission does not guarantee Cloud scheduling capacity.",
++  "read_failures": {
++    "worker_pools_list": "PERMISSION_DENIED (private pool unused)",
++    "cloud_quotas_api": "SERVICE_DISABLED; not enabled",
++    "bucket_metadata": "storage.buckets.get denied; object read tested separately"
++  },
++  "credentials_printed": false,
++  "object_read_probe": {
++    "build_id": "12d6a399-0cd3-4d58-9624-dd5b8c506c15",
++    "object": "upload-complete.json",
++    "read_succeeded": true
++  }
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/ADOPTION.md b/research/challenge-8/cloud-build/verifast-mdnew/ADOPTION.md
+new file mode 100644
+index 00000000..29fbab3f
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/ADOPTION.md
+@@ -0,0 +1,25 @@
++# Exact adoption instruction: two → three slots
++
++Portable protocol commit `487dc39ccea94e29f203b7a57baf87d71d539038`:
++https://github.com/Tiramisu-Cake/verify-rust-std/commit/487dc39ccea94e29f203b7a57baf87d71d539038
++
++Both proof owners (`select-sort4`, `merge`) must inspect and cherry-pick this
++four-file commit at their next safe dispatcher boundary, preserving their own
++control.py phase registrations, recipes, ledgers, active Build IDs and pins.
++Do not cherry-pick the later verifast-specific registration/delivery commit.
++No merge of research histories or edit by the VeriFast maintainer is required.
++
++Publish each resulting branch infrastructure SHA and verify API availability.
++Run isolated `coordination-v3-test.py`, then own explicit-owner status/ledger
++reconciliation under the existing lock. Create an acknowledgment with owner,
++installed coordination/control hashes, exact adopted infra_commit and distinct
++ancestor baseline_control_commit carrying unchanged phase registrations.
++See ../PARALLEL-BUILDS-V3.md and ../coordination-v3-transition.py for exact fields
++and the locked migration command. Never delete or reset active.json.
++
++Current live protocol remains v2/max2. VeriFast joins as the third stable owner
++competing for these two slots; no three concurrent Builds are claimed.
++Peer compatibility acknowledgments were not available in this session.
++Migration/actual three-owner overlap remain NOT_RUN. Non-regional Build limit10
++is confirmed. Public CPU quota default10 is regional; separate global mapping
++and currently free Cloud capacity are not confirmed by that read.
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/BUDGET.json b/research/challenge-8/cloud-build/verifast-mdnew/BUDGET.json
+new file mode 100644
+index 00000000..55ed76a4
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/BUDGET.json
+@@ -0,0 +1,98 @@
++{
++  "phase": "VERIFAST-MDNEW-CFG-CLOUD-2026-10-09",
++  "owner": "verifast",
++  "status": "CLOSED",
++  "authorization": "Direct user assignment 2026-10-09: connect verifast, pinned MDnew delivery, protocol transition preparation, Cloud execution and publication; see PHASE.md. Separate new budget; no inherited balance.",
++  "start_utc": "2026-10-09T15:27:32Z",
++  "main_deadline_utc": "2026-10-09T16:27:32Z",
++  "deadline_utc": "2026-10-09T16:57:32Z",
++  "ceiling_build_seconds": 3600,
++  "used_build_seconds": 786,
++  "remaining_build_seconds": 2814,
++  "allowed_lanes": [
++    "verifast-mdnew-cfg"
++  ],
++  "active_build": null,
++  "builds": [
++    {
++      "dispatch_token": "dispatch-c1c02a80df7d48be847abe4931230778",
++      "owner": "verifast",
++      "phase_id": "VERIFAST-MDNEW-CFG-CLOUD-2026-10-09",
++      "infra_sha": "6c51e8c1c9ec6a1be45a0c974accffd42cb6ca92",
++      "proof_sha": "6c51e8c1c9ec6a1be45a0c974accffd42cb6ca92",
++      "lane": "verifast-mdnew-cfg",
++      "submitted_config_sha256": "62ce5e6c2abb8a7528485843c132af7bbeb6421a4956d46b4abdcd81a395ee78",
++      "reserved_seconds": 1800,
++      "timeout_seconds": 1740,
++      "status": "FAILURE",
++      "publish_text_logs": true,
++      "source_mode": "pinned-objects",
++      "source_input_sha256": "8c6f108424ab5a89334b38e2ebecffcc749b999e91a45878eaf95e69ff93758f",
++      "build_id": "9082cb24-4616-4d2d-b8e7-ab6bdb790cba",
++      "start_time": "2026-10-09T15:56:54.047858298Z",
++      "finish_time": "2026-10-09T15:58:09.138056Z",
++      "create_time": "2026-10-09T15:56:53.307690792Z",
++      "build_seconds": 76,
++      "accounted": true,
++      "execution_seconds": 76,
++      "download_verified": true,
++      "archive_sha256": "b964d63584b8dcf66a9afbd0e6d58e0b8a5a56437ed94a2f2e8204fe73a22f9c",
++      "verification_accepted": false,
++      "first_failure": "runner created cases before empty-evidence guard; before tool restore or compiler"
++    },
++    {
++      "dispatch_token": "dispatch-f39733abe19f449e894adb127afeed75",
++      "owner": "verifast",
++      "phase_id": "VERIFAST-MDNEW-CFG-CLOUD-2026-10-09",
++      "infra_sha": "00401111e8c7f911cbad7550351d7a2a0c608ee6",
++      "proof_sha": "00401111e8c7f911cbad7550351d7a2a0c608ee6",
++      "lane": "verifast-mdnew-cfg",
++      "submitted_config_sha256": "3a6f987b5f241e172348dc4293c595ac835e9cdd5e676e01b5b84dcb7fca4469",
++      "reserved_seconds": 1800,
++      "timeout_seconds": 1740,
++      "status": "FAILURE",
++      "publish_text_logs": true,
++      "source_mode": "pinned-objects",
++      "source_input_sha256": "a196aaae48364f61daef6fb1496a949505363a7f66db3a14c4608362cd7f5a7b",
++      "build_id": "0b91057a-72d5-480b-973b-61f38c97d749",
++      "start_time": "2026-10-09T16:07:40.640377706Z",
++      "finish_time": "2026-10-09T16:13:32.966043Z",
++      "create_time": "2026-10-09T16:07:39.944007939Z",
++      "build_seconds": 354,
++      "accounted": true,
++      "execution_seconds": 353,
++      "download_verified": true,
++      "archive_sha256": "6395bbb6095d0a70fe6b5be4e0b2861d4e6d5b3490167bf8aed40218cd369c79",
++      "verification_accepted": false,
++      "first_failure": "source consoles compiled; component audit dereferenced Git symlink LICENSE; before fixture execution"
++    },
++    {
++      "dispatch_token": "dispatch-fe55c4218de64701a4c53f58ed88bd2a",
++      "owner": "verifast",
++      "phase_id": "VERIFAST-MDNEW-CFG-CLOUD-2026-10-09",
++      "infra_sha": "390aecedc9ac975df6bace0a9bb0bc6b145dc5f6",
++      "proof_sha": "390aecedc9ac975df6bace0a9bb0bc6b145dc5f6",
++      "lane": "verifast-mdnew-cfg",
++      "submitted_config_sha256": "ce1d2a576124c632c64f0a3f14c60071583133fbf91a2438320c5f76dbd13811",
++      "reserved_seconds": 1800,
++      "timeout_seconds": 1740,
++      "status": "FAILURE",
++      "publish_text_logs": true,
++      "source_mode": "pinned-objects",
++      "source_input_sha256": "794022932a57debdb993ea246c7b1bd0667348893a191dc46319fc419e6021b3",
++      "build_id": "91e5ba26-9a4e-44e0-8bf3-92dc1e4455bd",
++      "start_time": "2026-10-09T16:25:32.551451715Z",
++      "finish_time": "2026-10-09T16:31:27.196479Z",
++      "create_time": "2026-10-09T16:25:31.810290272Z",
++      "build_seconds": 356,
++      "accounted": true,
++      "execution_seconds": 355,
++      "download_verified": true,
++      "archive_sha256": "a9bb99d25291d458dd5d0cec2532faf9d96f43c95153f43afa155e92ae5f2502",
++      "verification_accepted": false,
++      "first_failure": "ten fixture diagnostic runs completed; MIR capture aborted at nonexistent baseline-forget-normal-export.log; false-unwind allow run has extra unmarked dead code"
++    }
++  ],
++  "closed_utc": "2026-10-09T16:38:41.223101Z",
++  "closure": "All three own builds terminal/accounted and integrity-verified; no own reservation/unresolved submission; no further submissions. Main window expired."
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/CLOUD-OBSERVATIONS.json b/research/challenge-8/cloud-build/verifast-mdnew/CLOUD-OBSERVATIONS.json
+new file mode 100644
+index 00000000..21de0b2a
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/CLOUD-OBSERVATIONS.json
+@@ -0,0 +1,365 @@
++{
++  "build_id": "91e5ba26-9a4e-44e0-8bf3-92dc1e4455bd",
++  "infra_proof_sha": "390aecedc9ac975df6bace0a9bb0bc6b145dc5f6",
++  "acceptance": "INCONCLUSIVE",
++  "reason": "missing function-bound MIR/AST captures after nonexistent log path; original false-unwind allow_should_fail additionally reaches unmarked closing-brace dead code",
++  "observed_only": [
++    {
++      "side": "baseline",
++      "case": "forget",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "ghost_strip_exact": true,
++        "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
++        "original_sha256": "7dc90d00b96e54e2ce07d917a46deae8fc35e62b7da7dce6f6fd010a092a9db7",
++        "source_bytes": 183,
++        "source_sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7",
++        "verified_sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "36833f4a9a2daebfd54924dc202dfa1be8129e07bf4b29fc3736f5ad773c6179",
++      "final_diagnostic": "forget.rs(1,1-7,2): dead code",
++      "structural_gate_accepted": false
++    },
++    {
++      "side": "baseline",
++      "case": "shared_cleanup",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "ghost_strip_exact": true,
++        "git_blob": "b150b3f622f629007fbef25724735028ba851683",
++        "original_sha256": "f4c5be939fe14897e998c5e7f504923c586e2994108b67b76302b97e92d79fa0",
++        "source_bytes": 610,
++        "source_sha256": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f",
++        "verified_sha256": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f"
++      },
++      "exit_status": 0,
++      "diagnostic_log_sha256": "b9094de128f0d3900862b08efc75c56b07f948fa0347715527f6ed162356ddef",
++      "final_diagnostic": "0 errors found (49 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
++      "structural_gate_accepted": false
++    },
++    {
++      "side": "baseline",
++      "case": "false_normal_post",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "diagnostic_line_count_preserved": true,
++        "diagnostic_source_path": "diagnostic-source.rs",
++        "diagnostic_source_sha256": "fdf1d08ec43845335a0821deb2020d72cc69e978f63a4cf908da7d2ff40b68b4",
++        "ghost_strip_exact": true,
++        "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
++        "original_sha256": "13ca0f57f8160eeef83e6bcdb2b397e04877afedf20604f7d0493d7c02a1f4ce",
++        "should_fail_marker_count_removed": 1,
++        "source_bytes": 204,
++        "source_sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d",
++        "verified_sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "cdfbd7501474f22d34fc9a5b368fa4ea19f8e8c54b5b04121e1cf04544469270",
++      "final_diagnostic": "  |  ^",
++      "structural_gate_accepted": false
++    },
++    {
++      "side": "baseline",
++      "case": "shared_false_unwind",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "diagnostic_line_count_preserved": true,
++        "diagnostic_source_path": "diagnostic-source.rs",
++        "diagnostic_source_sha256": "6972a0d9659b73cd8add35541cbc16c455c942cea868bd421b274564d9bd372c",
++        "ghost_strip_exact": true,
++        "git_blob": "330439af7ad92b2b99d13b0b668a5debcb83ff8d",
++        "original_sha256": "3e079fe4bab4e055d70262e92e6cd43cfb88e7f5f8e13e1c0d1977f230907fe2",
++        "should_fail_marker_count_removed": 1,
++        "source_bytes": 458,
++        "source_sha256": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e",
++        "verified_sha256": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "7cdb4300be0cc643636f386b98d2c89d57bcd82d5c6ce71e1d6f1722cf66904e",
++      "final_diagnostic": "   |  ^",
++      "structural_gate_accepted": false,
++      "allow_should_fail_exit": 1
++    },
++    {
++      "side": "baseline",
++      "case": "dead_code_pre",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "ghost_strip_exact": true,
++        "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
++        "original_sha256": "ca8c2e76d27af069d58d593d1fec97ecc869efc324ddab0ff56be38b940ebb2c",
++        "source_bytes": 216,
++        "source_sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2",
++        "verified_sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "469a791e4b5026ed89ccebfcc19c6ecf6e2e6ccc1a7e2bcfb1c433f0d4c85007",
++      "final_diagnostic": "dead_code_pre.rs(7,2): dead code",
++      "structural_gate_accepted": false
++    },
++    {
++      "side": "candidate",
++      "case": "forget",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "ghost_strip_exact": true,
++        "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
++        "original_sha256": "7dc90d00b96e54e2ce07d917a46deae8fc35e62b7da7dce6f6fd010a092a9db7",
++        "source_bytes": 183,
++        "source_sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7",
++        "verified_sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7"
++      },
++      "exit_status": 0,
++      "diagnostic_log_sha256": "7dac0cc966f39b288fcb92bf87f53a8965f610eabb086da4f8be91a10992d343",
++      "final_diagnostic": "0 errors found (40 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
++      "structural_gate_accepted": false
++    },
++    {
++      "side": "candidate",
++      "case": "shared_cleanup",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "ghost_strip_exact": true,
++        "git_blob": "b150b3f622f629007fbef25724735028ba851683",
++        "original_sha256": "f4c5be939fe14897e998c5e7f504923c586e2994108b67b76302b97e92d79fa0",
++        "source_bytes": 610,
++        "source_sha256": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f",
++        "verified_sha256": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f"
++      },
++      "exit_status": 0,
++      "diagnostic_log_sha256": "901aa3d59fac0fc15d3367b665865ca2fd0cdfa993a714911b6a7cfdd30d876a",
++      "final_diagnostic": "0 errors found (49 statements verified) (target: x86_64-unknown-linux-gnu (LP64))",
++      "structural_gate_accepted": false
++    },
++    {
++      "side": "candidate",
++      "case": "false_normal_post",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "diagnostic_line_count_preserved": true,
++        "diagnostic_source_path": "diagnostic-source.rs",
++        "diagnostic_source_sha256": "fdf1d08ec43845335a0821deb2020d72cc69e978f63a4cf908da7d2ff40b68b4",
++        "ghost_strip_exact": true,
++        "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
++        "original_sha256": "13ca0f57f8160eeef83e6bcdb2b397e04877afedf20604f7d0493d7c02a1f4ce",
++        "should_fail_marker_count_removed": 1,
++        "source_bytes": 204,
++        "source_sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d",
++        "verified_sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "5c9e4c169ea4e542bad400051d1fa8814e17e28169c1f24886decf055108a4d8",
++      "final_diagnostic": "  |  ^",
++      "structural_gate_accepted": false,
++      "allow_should_fail_exit": 0
++    },
++    {
++      "side": "candidate",
++      "case": "shared_false_unwind",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "diagnostic_line_count_preserved": true,
++        "diagnostic_source_path": "diagnostic-source.rs",
++        "diagnostic_source_sha256": "6972a0d9659b73cd8add35541cbc16c455c942cea868bd421b274564d9bd372c",
++        "ghost_strip_exact": true,
++        "git_blob": "330439af7ad92b2b99d13b0b668a5debcb83ff8d",
++        "original_sha256": "3e079fe4bab4e055d70262e92e6cd43cfb88e7f5f8e13e1c0d1977f230907fe2",
++        "should_fail_marker_count_removed": 1,
++        "source_bytes": 458,
++        "source_sha256": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e",
++        "verified_sha256": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "cd0e40119a86ce58a256ffb2c5c22a350397763e9b07f6d8e346c0c097f5eb67",
++      "final_diagnostic": "   |  ^",
++      "structural_gate_accepted": false,
++      "allow_should_fail_exit": 1
++    },
++    {
++      "side": "candidate",
++      "case": "dead_code_pre",
++      "fixture": {
++        "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++        "ghost_strip_exact": true,
++        "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
++        "original_sha256": "ca8c2e76d27af069d58d593d1fec97ecc869efc324ddab0ff56be38b940ebb2c",
++        "source_bytes": 216,
++        "source_sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2",
++        "verified_sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2"
++      },
++      "exit_status": 1,
++      "diagnostic_log_sha256": "22f36f71179a402f5fce7fface2baf1371dd1082f8630d1357b48db51c5d0b67",
++      "final_diagnostic": "dead_code_pre.rs(7,2): dead code",
++      "structural_gate_accepted": false
++    }
++  ],
++  "runtime_components": {
++    "baseline_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb",
++    "candidate_source_sha": "1435539475fdaa7810bc2bc780fba0514f765f48",
++    "candidate_tree": "be55d8d934fb10617309a289e0d546ca1aed6ea0",
++    "changed_paths": [
++      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/README.md",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs",
++      "tests/rust/testsuite.mysh"
++    ],
++    "compiler_sysroot": "/workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
++    "components": {
++      "src/refinement_checker": {
++        "source_file_count": 5,
++        "source_files_sha256": "f73a6639e9586d3799deef527c6d9d14e7c9d378024d244768ec558c9e835a4c"
++      },
++      "src/rust_frontend/vf_mir_decoder": {
++        "source_file_count": 1,
++        "source_files_sha256": "4ba7e27bb1f0e338bc36cce10ae5d0c3774cd5e21d9802557c295382c001bc1e"
++      },
++      "src/rust_frontend/vf_mir_exporter": {
++        "source_file_count": 260,
++        "source_files_sha256": "aae1e4ed94a06279f26752c4a6e5f75a81bb1ede1f9dc19674d082d10d723429"
++      }
++    },
++    "console_binary_sha256": {
++      "baseline": "2c83fc28ad8ce06936cd5990bc6593d7efd1fca8f121e4f0d9c7cd645cb733b1",
++      "candidate": "fb9f110b32db277eb5642d0f9e18880717f7859ce334aa49c3a82a52aad9ef70"
++    },
++    "console_profile": "two source-built verifast consoles at pinned base and candidate; stock-26.10 exporter/refiner/specs reused identically after source-component audit",
++    "distribution_provenance": {
++      "asset_bytes": 97804993,
++      "asset_url": "https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz",
++      "github_release_asset_id": 611766606,
++      "release": "26.10",
++      "tag_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb"
++    },
++    "pinned_stock_binaries": {
++      "libz3.so": {
++        "baseline_equal": true,
++        "candidate_equal": true,
++        "sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea"
++      },
++      "refinement-checker": {
++        "baseline_equal": true,
++        "candidate_equal": true,
++        "sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
++      },
++      "rust/std/lib.rsspec": {
++        "baseline_equal": true,
++        "candidate_equal": true,
++        "sha256": "2da7acfb6596f8abec90c103ef7f294152c18f974b88124669882fc051272999"
++      },
++      "vf-cxx-ast-exporter": {
++        "baseline_equal": true,
++        "candidate_equal": true,
++        "sha256": "9f3793b0420c727e9c290884313b9f129552aa7536ef0c15e47e91a9cb76de17"
++      },
++      "vf-rust-mir-exporter": {
++        "baseline_equal": true,
++        "candidate_equal": true,
++        "sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
++      }
++    },
++    "rustc_verbose": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
++    "specification_inventory": {
++      "baseline": {
++        "aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
++        "counting.rsspec": "67c22244b47af891ffe5c21641fb26ea55fd0cf38381e60f9e723a5e0c714258",
++        "ghost_cells.rsspec": "fef7475f2ad6d79e1904b23a234d3aa8b3befc7300bc15231d93fd6b53a52227",
++        "list.rsspec": "27f6020a56262544ca8fabd636999c7cfae551be578769d7be9e7ceb1c70d97e",
++        "listex.rsspec": "7e4bb22a0207b97d76e47c2e4bafecbd4e1770299c0721fe61e3b9cbd3e2fd36",
++        "mask.rsspec": "ff0d295ffcc268df404605a2d3be944e53447d8774d83cb0f8bf8c9ea5adbf8f",
++        "nat.rsspec": "c26a8e7ec30843c60d7915cde0ab7d2cf9408eaa9c9c4916b0c463b7aac894ec",
++        "prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
++        "prelude_core.rsspec": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
++        "prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c",
++        "ptr_rels.rsspec": "506fdb20e30f49565face1e2d40a636afa92760e0c7c621dddcf940cc30972cf",
++        "rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
++        "rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
++        "rust_belt/lem_aux.rsspec": "b4a3a831fbc4e15d6b3bf5d67c616cf94d51a7c753d5ef72e07fb4def65a9278",
++        "rust_belt/lifetime_logic.rsspec": "516fefc4f5ba2ba9e73250196f2652a40d2dc586df9b40c93364cd7f21397f54",
++        "rust_belt/points_to_at_lifetime.rsspec": "dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b",
++        "std/lib.rsspec": "2da7acfb6596f8abec90c103ef7f294152c18f974b88124669882fc051272999"
++      },
++      "candidate": {
++        "aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
++        "counting.rsspec": "67c22244b47af891ffe5c21641fb26ea55fd0cf38381e60f9e723a5e0c714258",
++        "ghost_cells.rsspec": "fef7475f2ad6d79e1904b23a234d3aa8b3befc7300bc15231d93fd6b53a52227",
++        "list.rsspec": "27f6020a56262544ca8fabd636999c7cfae551be578769d7be9e7ceb1c70d97e",
++        "listex.rsspec": "7e4bb22a0207b97d76e47c2e4bafecbd4e1770299c0721fe61e3b9cbd3e2fd36",
++        "mask.rsspec": "ff0d295ffcc268df404605a2d3be944e53447d8774d83cb0f8bf8c9ea5adbf8f",
++        "nat.rsspec": "c26a8e7ec30843c60d7915cde0ab7d2cf9408eaa9c9c4916b0c463b7aac894ec",
++        "prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
++        "prelude_core.rsspec": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
++        "prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c",
++        "ptr_rels.rsspec": "506fdb20e30f49565face1e2d40a636afa92760e0c7c621dddcf940cc30972cf",
++        "rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
++        "rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
++        "rust_belt/lem_aux.rsspec": "b4a3a831fbc4e15d6b3bf5d67c616cf94d51a7c753d5ef72e07fb4def65a9278",
++        "rust_belt/lifetime_logic.rsspec": "516fefc4f5ba2ba9e73250196f2652a40d2dc586df9b40c93364cd7f21397f54",
++        "rust_belt/points_to_at_lifetime.rsspec": "dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b",
++        "std/lib.rsspec": "2da7acfb6596f8abec90c103ef7f294152c18f974b88124669882fc051272999"
++      }
++    },
++    "stock_distribution_sha256": "5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd",
++    "stock_specification_inventory": {
++      "aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
++      "counting.rsspec": "67c22244b47af891ffe5c21641fb26ea55fd0cf38381e60f9e723a5e0c714258",
++      "ghost_cells.rsspec": "fef7475f2ad6d79e1904b23a234d3aa8b3befc7300bc15231d93fd6b53a52227",
++      "list.rsspec": "27f6020a56262544ca8fabd636999c7cfae551be578769d7be9e7ceb1c70d97e",
++      "listex.rsspec": "7e4bb22a0207b97d76e47c2e4bafecbd4e1770299c0721fe61e3b9cbd3e2fd36",
++      "mask.rsspec": "ff0d295ffcc268df404605a2d3be944e53447d8774d83cb0f8bf8c9ea5adbf8f",
++      "nat.rsspec": "c26a8e7ec30843c60d7915cde0ab7d2cf9408eaa9c9c4916b0c463b7aac894ec",
++      "prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
++      "prelude_core.rsspec": "435146cd4632541241563ae45b146704c14f6f7cdd3b5d404837617f08bc91b8",
++      "prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c",
++      "ptr_rels.rsspec": "506fdb20e30f49565face1e2d40a636afa92760e0c7c621dddcf940cc30972cf",
++      "rust_belt/aliasing.rsspec": "0e1d8cc59e823afe83c6be5088d41de7ad7fd6ec844204e6a06ec715f9bf128e",
++      "rust_belt/general.rsspec": "ef2ff16dffd472bbc5fd7fa17e7f13a03d83919520da5ce7e2d7095194790d1d",
++      "rust_belt/lem_aux.rsspec": "b4a3a831fbc4e15d6b3bf5d67c616cf94d51a7c753d5ef72e07fb4def65a9278",
++      "rust_belt/lifetime_logic.rsspec": "516fefc4f5ba2ba9e73250196f2652a40d2dc586df9b40c93364cd7f21397f54",
++      "rust_belt/points_to_at_lifetime.rsspec": "dd27384b6c17b733c8e36487ed82574fdf290ac5bc4e4becd24076dbebfffe4b",
++      "std/lib.rsspec": "2da7acfb6596f8abec90c103ef7f294152c18f974b88124669882fc051272999"
++    },
++    "vfdeps_archive_sha256": "8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580"
++  },
++  "restore": {
++    "base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
++    "bundle_sha256": "a87775fabeec73187f6da91d4944281232b74bc70aeeb5642d6043056cb000d0",
++    "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++    "candidate_ref": "refs/heads/challenge8/manuallydrop-new-cfg-upstream-candidate",
++    "candidate_tree": "be55d8d934fb10617309a289e0d546ca1aed6ea0",
++    "classification": "RESTORED_GIT_INPUT",
++    "destination": "/workspace/verifast-mdnew-cfg/candidate",
++    "fixture_hashes": {
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e"
++    },
++    "git_identity_preserved": true,
++    "infra_sha": "390aecedc9ac975df6bace0a9bb0bc6b145dc5f6",
++    "manifest_sha256": "593f3540f7db94ab3667af1ef226c2d2005d8eaf0e0d2d54778060e507d6094f",
++    "proof_sha": "390aecedc9ac975df6bace0a9bb0bc6b145dc5f6",
++    "selected_files": {
++      "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "a15a743c4106891e2fde892e26dd3ab2ab87adca04c12b333e6000c4c063509f",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/README.md": "c960ed19945b56bd8e455dde05accb96956d8e649bd29f61f41247e7b05310d5",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f",
++      "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e",
++      "tests/rust/testsuite.mysh": "39a33b218ba87ba502c1ba691afc7254aa522ffa1171ac68114e42b79dfc59d5"
++    }
++  },
++  "audit": {
++    "accepted": false,
++    "classification": "INCONCLUSIVE",
++    "reason": "missing evidence: /workspace/evidence/allprooflogs/cases/captures/forget/baseline-capture-status.json",
++    "runner_exit_status": 1
++  },
++  "full_upstream_suite": "NOT_RUN"
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/CONTINUATION.md b/research/challenge-8/cloud-build/verifast-mdnew/CONTINUATION.md
+new file mode 100644
+index 00000000..cf8b467c
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/CONTINUATION.md
+@@ -0,0 +1,29 @@
++# Continuation after closed VeriFast phase
++
++Recorded Builds can be inspected without reopening the expired phase:
++
++```sh
++cd /root/verify-rust-std-verifast-infra
++PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/cloud-build/control.py \
++  --phase-id VERIFAST-MDNEW-CFG-CLOUD-2026-10-09 \
++  --ledger "$PWD/research/challenge-8/cloud-build/verifast-mdnew/BUDGET.json" \
++  --state-dir "$PWD/.verifast-cloud-state" --owner verifast \
++  status 91e5ba26-9a4e-44e0-8bf3-92dc1e4455bd
++PYTHONDONTWRITEBYTECODE=1 python3 research/challenge-8/cloud-build/control.py \
++  --phase-id VERIFAST-MDNEW-CFG-CLOUD-2026-10-09 \
++  --ledger "$PWD/research/challenge-8/cloud-build/verifast-mdnew/BUDGET.json" \
++  --state-dir "$PWD/.verifast-cloud-state" --owner verifast \
++  download 91e5ba26-9a4e-44e0-8bf3-92dc1e4455bd \
++  --output /tmp/verifast-continued-91e5ba26
++```
++
++Do not submit with this closed account. A further paid attempt needs a new
++explicitly authorized phase/window/budget, its own ledger/state, exact published
++infra/source pin and acceptance through the same coordinator. Preserve these
++historical accounts and token receipts. No inherited balance or deadline extension.
++
++Proof owners follow ADOPTION.md and PARALLEL-BUILDS-V3.md for the portable protocol
++commit; no later verifast-specific control.py replaces theirs. Three slots remain
++inactive until all installed-client acknowledgments and locked migration succeed.
++
++One next assignment: resolve the false-unwind fixture's unmarked closing-brace dead code; if fixture bytes change, create a new original tool/test commit, manifest and bundle; repeat all focused gates with capture-log correction cbfe28393e1e61aacf0957466ee91e9243b25d2f in a new separately authorized Cloud phase. No complete structural unwind acceptance exists yet.
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/FINAL-RESULT.json b/research/challenge-8/cloud-build/verifast-mdnew/FINAL-RESULT.json
+new file mode 100644
+index 00000000..a8a10e80
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/FINAL-RESULT.json
+@@ -0,0 +1,30 @@
++{
++  "verdict": "FOCUSED_BASELINE_CANDIDATE_NOT_ACCEPTED",
++  "summary": {
++    "build_id": "91e5ba26-9a4e-44e0-8bf3-92dc1e4455bd",
++    "diagnostic_complete": false,
++    "evidence_complete": true,
++    "failure_class": "run-failed",
++    "lane": "verifast-mdnew-cfg",
++    "missing_mandatory": [],
++    "run_exit_code": 1,
++    "schema_version": 1,
++    "smoke_success": false,
++    "text_logs_complete": true,
++    "text_logs_index_sha256": "ddfd3638876cb169a93e57a18cdf27209ddb86b06013204f30242ae4a20d1290",
++    "verification_accepted": false
++  },
++  "audit": {
++    "accepted": false,
++    "classification": "INCONCLUSIVE",
++    "reason": "missing evidence: /workspace/evidence/allprooflogs/cases/captures/forget/baseline-capture-status.json",
++    "runner_exit_status": 1
++  },
++  "used_build_seconds": 786,
++  "remaining_build_seconds": 2814,
++  "live_protocol": "v2/max2",
++  "full_upstream_suite": "NOT_RUN",
++  "consumer_integration": "NOT_RUN",
++  "consumer_pin": "NOT_ACCEPTED",
++  "upstream_acceptance": "NOT_ACCEPTED"
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/FINISH-RECEIPT.json b/research/challenge-8/cloud-build/verifast-mdnew/FINISH-RECEIPT.json
+new file mode 100644
+index 00000000..a1e317b0
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/FINISH-RECEIPT.json
+@@ -0,0 +1,13 @@
++{
++  "recorded_utc": "2026-10-09T16:40:08.542145+00:00",
++  "owner": "verifast",
++  "protocol": 2,
++  "capacity": 2,
++  "own_reservations": 0,
++  "own_unresolved_submissions": 0,
++  "own_request_exists": false,
++  "used_build_seconds": 786,
++  "remaining_build_seconds": 2814,
++  "status": "CLOSED",
++  "foreign_records_preserved": true
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/LOCAL-VALIDATION.json b/research/challenge-8/cloud-build/verifast-mdnew/LOCAL-VALIDATION.json
+new file mode 100644
+index 00000000..e6c16eca
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/LOCAL-VALIDATION.json
+@@ -0,0 +1,40 @@
++{
++  "proof_execution": false,
++  "coordinator_isolated_tests": 4,
++  "phase_tests": 3,
++  "git_delivery_controls": 8,
++  "classifier_tests": 7,
++  "transport_controls": [
++    "exact committed recipe restore",
++    "bundle/manifest bytes",
++    "archive receipt",
++    "source bounds",
++    "command lengths",
++    "oversize rejection",
++    "wrong proof identity rejection"
++  ],
++  "payloads": {
++    "6c51e8c1c9ec6a1be45a0c974accffd42cb6ca92": {
++      "bytes": 85373,
++      "parts": 29,
++      "sha256": "8c6f108424ab5a89334b38e2ebecffcc749b999e91a45878eaf95e69ff93758f"
++    },
++    "00401111e8c7f911cbad7550351d7a2a0c608ee6": {
++      "bytes": 85343,
++      "parts": 29,
++      "sha256": "a196aaae48364f61daef6fb1496a949505363a7f66db3a14c4608362cd7f5a7b"
++    }
++  },
++  "static_checks": [
++    "Python AST",
++    "embedded Python AST",
++    "shell syntax",
++    "Git diff check",
++    "exact recipe validation"
++  ],
++  "old_O1_usage": "saved MIR/AST parser development only; no new proof credit",
++  "partial_git_diagnostic": "gitmodulesMissing for unselected .gitmodules; unchanged selected-object transport still verifies original Git IDs/closure/path bytes, no full fsck acceptance",
++  "git_component_mode_controls": 3,
++  "phase_tests_rechecked_after_preflight_guard": 3,
++  "capture_log_wiring_fake_stage_sides": 2
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/OWN-CLIENT-ACK.json b/research/challenge-8/cloud-build/verifast-mdnew/OWN-CLIENT-ACK.json
+new file mode 100644
+index 00000000..54427c57
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/OWN-CLIENT-ACK.json
+@@ -0,0 +1,9 @@
++{
++  "owner": "verifast",
++  "coordination_sha256": "49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc",
++  "control_sha256": "03a7667babc1b93d19f7779dff659e616201cdc663364effd0701e03a488e30d",
++  "baseline_control_commit": "6c51e8c1c9ec6a1be45a0c974accffd42cb6ca92",
++  "infra_commit": "cbfe28393e1e61aacf0957466ee91e9243b25d2f",
++  "publication_api_verified": true,
++  "migration_executed": false
++}
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/PHASE.md b/research/challenge-8/cloud-build/verifast-mdnew/PHASE.md
+new file mode 100644
+index 00000000..d9ea4a4d
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/PHASE.md
+@@ -0,0 +1,38 @@
++# VERIFAST-MDNEW-CFG-CLOUD-2026-10-09
++
++Direct authorization: user assignment in the 2026-10-09 VeriFast maintainer
++session, starting “Задача этой сессии — подключить роль `verifast` к существующему
++Google Cloud Build”. This authorizes infrastructure editing, Cloud execution,
++separate 3600-second account, and own infra/review branch publication. It
++supersedes old zero-budget/no-coordinator-change restrictions within this scope.
++
++Actual first clock: 2026-10-09T15:27:32Z. Main deadline16:27:32Z;
++absolute finish16:57:32Z. No new submissions after main deadline; extension only
++finishes an already started step/evidence/account/checkpoint. Existing timeout
++90–1740s, queue reserve60s, envelope<=1800s, and sufficient budget remain enforced.
++Own ledger BUDGET.json; stable owner verifast; no balances inherited.
++
++Worktree /root/verify-rust-std-verifast-infra, branch infra/verifast-mdnew-cfg,
++published exact base4058e8bf45eb567e4656d953274c96bf8488a7a3 (API verified).
++Infrastructure service tests are local isolated Git/Python only; compiler,
++MIR/exporter, verifier and full regressions exclusively in Cloud.
++
++Explicit paid lane allowlist: `verifast-mdnew-cfg` (delivery and focused
++baseline/candidate). Protocol tests and delivery controls use isolated local
++state; no paid demonstration builds. Protocol remains v2/max2 until all clients
++confirm compatibility and migration under common lock. Separate migration patch
++must preserve peers’ phase-specific control.py and live records.
++
++Tool upstreamf76012fb518703b1d98e243ac4f487f16877cfcb; candidate
++1435539475fdaa7810bc2bc780fba0514f765f48; root tree
++be55d8d934fb10617309a289e0d546ca1aed6ea0. Actual obligation: generic
++stdlib mem::forget identity lowering, paired ordinary/shared cleanup callers
++and false-normal/false-unwind/dead-pre controls. Compiler/exporter/refiner/spec
++composition recorded per execution. No translator semantics changes, consumer
++pin/integration, main merge, upstream issues/PR/fork or proof worktree writes.
++
++Reads: VeriFast0542ed1adfcb6ae2a7ae7b90baa8a332d67076fe AGENTS/WORKFLOW/STATUS,
++CLOUD-VALIDATION and upstream READMEs; proof4058e8bf45eb567e4656d953274c96bf8488a7a3
++AGENTS/WORK-POLICY/COMPLETION-PLAN, current phase/checkpoint, Cloud README/protocol,
++control/coordination/source transport. Previous review publication
++71522fbb12b20474d91c37221c48bcb0380e7ea8. Policy revisiond389ff641194364e5eeda4ea4e66bedac4915a79.
+diff --git a/research/challenge-8/cloud-build/verifast-mdnew/SESSION-STATE.json b/research/challenge-8/cloud-build/verifast-mdnew/SESSION-STATE.json
+new file mode 100644
+index 00000000..495fa09a
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-mdnew/SESSION-STATE.json
+@@ -0,0 +1,24 @@
++{
++  "owner": "verifast",
++  "phase": "VERIFAST-MDNEW-CFG-CLOUD-2026-10-09",
++  "infra_base": "4058e8bf45eb567e4656d953274c96bf8488a7a3",
++  "tool_candidate": "1435539475fdaa7810bc2bc780fba0514f765f48",
++  "protocol_active": "v2/max2",
++  "state_dir": "/root/verify-rust-std-verifast-infra/.verifast-cloud-state",
++  "status": "CLOSED_FOCUSED_INCONCLUSIVE",
++  "infra_source_pin": "390aecedc9ac975df6bace0a9bb0bc6b145dc5f6",
++  "portable_protocol_commit": "487dc39ccea94e29f203b7a57baf87d71d539038",
++  "build_ids": [
++    "9082cb24-4616-4d2d-b8e7-ab6bdb790cba",
++    "0b91057a-72d5-480b-973b-61f38c97d749",
++    "91e5ba26-9a4e-44e0-8bf3-92dc1e4455bd"
++  ],
++  "used_build_seconds": 786,
++  "current_reserved_seconds": 0,
++  "remaining_build_seconds": 2814,
++  "own_active_reservations": 0,
++  "own_unresolved_submissions": 0,
++  "next_infra_code_pin": "cbfe28393e1e61aacf0957466ee91e9243b25d2f",
++  "next_code_cloud_validation": "NOT_RUN",
++  "verifast_checkpoint": "a87bfb4f6e9f45cf221b6f4b7c58315a0fb00f47"
++}
+diff --git a/research/challenge-8/cloud-build/verifast-phase-test.py b/research/challenge-8/cloud-build/verifast-phase-test.py
+new file mode 100644
+index 00000000..3e00354b
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-phase-test.py
+@@ -0,0 +1,35 @@
++#!/usr/bin/env python3
++"""Isolated authorization checks; no Cloud API or proof execution."""
++import copy
++import datetime
++import json
++from pathlib import Path
++from types import SimpleNamespace
++from unittest.mock import patch
++import unittest
++import control
++
++class PhaseTest(unittest.TestCase):
++ def setUp(self):
++  self.ledger=json.loads((Path(__file__).parent/'verifast-mdnew/BUDGET.json').read_text())
++  self.args=SimpleNamespace(phase_id=control.VERIFAST_PHASE,owner='verifast')
++ def at(self,stamp):
++  real=datetime.datetime
++  class Clock(real):
++   @classmethod
++   def now(cls,tz=None):return real.fromisoformat(stamp.replace('Z','+00:00'))
++  return patch.object(control.datetime,'datetime',Clock)
++ def test_authorized_exact_account(self):
++  with self.at(control.VERIFAST_START):
++   self.assertEqual(control.authorized_phase(self.args,self.ledger).isoformat(),'2026-10-09T16:57:32+00:00')
++ def test_account_identity_budget_and_allowlist(self):
++  with self.at(control.VERIFAST_START):
++   for key,value in [('ceiling_build_seconds',7200),('owner','merge'),('allowed_lanes',['merge']),('start_utc','2026-10-09T15:00:00Z'),('deadline_utc','2026-10-09T17:00:00Z')]:
++    account=copy.deepcopy(self.ledger);account[key]=value
++    with self.assertRaises(SystemExit):control.authorized_phase(self.args,account)
++   with self.assertRaises(SystemExit):control.authorized_phase(SimpleNamespace(phase_id=control.VERIFAST_PHASE,owner='alias'),self.ledger)
++ def test_main_window_no_new_submission(self):
++  for stamp in [control.VERIFAST_MAIN_DEADLINE,'2026-10-09T16:40:00Z',control.VERIFAST_DEADLINE]:
++   with self.at(stamp),self.assertRaisesRegex(SystemExit,'main window ended'):control.authorized_phase(self.args,self.ledger)
++
++if __name__=='__main__':unittest.main()
+diff --git a/research/challenge-8/cloud-build/verifast-transport-test.py b/research/challenge-8/cloud-build/verifast-transport-test.py
+new file mode 100644
+index 00000000..2b83ab92
+--- /dev/null
++++ b/research/challenge-8/cloud-build/verifast-transport-test.py
+@@ -0,0 +1,50 @@
++#!/usr/bin/env python3
++"""Small isolated committed-object transport controls; Git/JSON only."""
++import argparse
++import gzip
++import hashlib
++import importlib.util
++import json
++import os
++from pathlib import Path
++import subprocess
++import tempfile
++from unittest.mock import patch
++import control
++
++HERE=Path(__file__).resolve().parent
++spec=importlib.util.spec_from_file_location('source_input',HERE/'source-input.py')
++m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
++
++def main():
++ p=argparse.ArgumentParser();p.add_argument('--sha',required=True);a=p.parse_args()
++ repo=HERE.parents[2]
++ payload=m.make_payload(repo,a.sha,a.sha,'verifast-mdnew-cfg')
++ cfg=control.config(a.sha,a.sha,'verifast-mdnew-cfg',1740,'dispatch-isolated-preflight',payload)
++ parts=[v for k,v in cfg['substitutions'].items() if k.startswith('_SOURCE_')]
++ assert len(parts)<=191 and all(len(v)<=3990 for v in parts)
++ assert all(len(arg.encode())<=10000 for step in cfg['steps'] for arg in step.get('args',[]))
++ try:control.config(a.sha,a.sha,'verifast-mdnew-cfg',1740,'dispatch-isolated-preflight',b'x'*572000)
++ except SystemExit:pass
++ else:raise AssertionError('Oversize payload did not reject')
++ raw=json.loads(gzip.decompress(payload))
++ with tempfile.TemporaryDirectory(prefix='mdnew-transport-') as directory:
++  root=Path(directory);workspace=root/'workspace';workspace.mkdir()
++  archive=workspace/'archive.gz';archive.write_bytes(payload)
++  with patch.object(m,'WORKSPACE',workspace),patch.dict(os.environ,{'LANE':'verifast-mdnew-cfg','INFRA_SHA':a.sha,'PROOF_SHA':a.sha}):
++   receipt=m.restore_archive(archive,workspace/'evidence')
++   for role in ('infra','proof'):
++    assert receipt[role]['head']==a.sha
++    assert subprocess.check_output(['git','-C',str(workspace/role),'rev-parse','HEAD'],text=True).strip()==a.sha
++   candidate='1435539475fdaa7810bc2bc780fba0514f765f48'
++   inputs=workspace/'proof/research/challenge-8/verifast-input'/candidate
++   manifest=json.loads((inputs/'manifest').read_text())
++   assert hashlib.sha256((inputs/'bundle').read_bytes()).hexdigest()==manifest['bundle_sha256']
++   assert receipt['archive_sha256']==hashlib.sha256(payload).hexdigest()
++  with patch.object(m,'WORKSPACE',workspace),patch.dict(os.environ,{'LANE':'verifast-mdnew-cfg','INFRA_SHA':a.sha,'PROOF_SHA':'0'*40}):
++   try:m.restore_archive(archive,workspace/'mismatch-evidence')
++   except SystemExit:pass
++   else:raise AssertionError('Wrong source identity did not reject')
++ print(json.dumps({'classification':'LOCAL_GIT_SERVICE_PASS','infra_sha':a.sha,'proof_sha':a.sha,'payload_bytes':len(payload),'source_parts':len(parts),'payload_sha256':hashlib.sha256(payload).hexdigest(),'controls':['exact recipe Git restoration','bundle bytes bound to committed manifest','archive receipt identity','191-part bound','10000-byte command bound','oversize rejection','wrong proof identity rejection'],'proof_execution':False},indent=2))
++
++if __name__=='__main__':main()
+diff --git a/research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/bundle b/research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/bundle
+new file mode 100644
+index 00000000..bebc8709
+Binary files /dev/null and b/research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/bundle differ
+diff --git a/research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/manifest b/research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/manifest
+new file mode 100644
+index 00000000..1b979e75
+--- /dev/null
++++ b/research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/manifest
+@@ -0,0 +1,79 @@
++{
++  "base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
++  "bundle_relative_path": "research/challenge-8/verifast-input/1435539475fdaa7810bc2bc780fba0514f765f48/bundle",
++  "bundle_sha256": "a87775fabeec73187f6da91d4944281232b74bc70aeeb5642d6043056cb000d0",
++  "candidate_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
++  "candidate_ref": "refs/heads/challenge8/manuallydrop-new-cfg-upstream-candidate",
++  "candidate_tree": "be55d8d934fb10617309a289e0d546ca1aed6ea0",
++  "fixtures": {
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs": {
++      "bytes": 216,
++      "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
++      "sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs": {
++      "bytes": 204,
++      "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
++      "sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs": {
++      "bytes": 183,
++      "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
++      "sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs": {
++      "bytes": 610,
++      "git_blob": "b150b3f622f629007fbef25724735028ba851683",
++      "sha256": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs": {
++      "bytes": 458,
++      "git_blob": "330439af7ad92b2b99d13b0b668a5debcb83ff8d",
++      "sha256": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e"
++    }
++  },
++  "purpose": "mdnew-cfg-cloud-delivery",
++  "schema": "verifast-input-bundle-v1",
++  "selected_files": {
++    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": {
++      "bytes": 321720,
++      "git_blob": "03e7e4079fa3424d1be80a4d0b5d620b899a937f",
++      "sha256": "a15a743c4106891e2fde892e26dd3ab2ab87adca04c12b333e6000c4c063509f"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/README.md": {
++      "bytes": 1701,
++      "git_blob": "5a9439058732e6ae933eb5d81c6f37edfecfea22",
++      "sha256": "c960ed19945b56bd8e455dde05accb96956d8e649bd29f61f41247e7b05310d5"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs": {
++      "bytes": 216,
++      "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
++      "sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs": {
++      "bytes": 204,
++      "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
++      "sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs": {
++      "bytes": 183,
++      "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
++      "sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs": {
++      "bytes": 610,
++      "git_blob": "b150b3f622f629007fbef25724735028ba851683",
++      "sha256": "c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f"
++    },
++    "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs": {
++      "bytes": 458,
++      "git_blob": "330439af7ad92b2b99d13b0b668a5debcb83ff8d",
++      "sha256": "886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e"
++    },
++    "tests/rust/testsuite.mysh": {
++      "bytes": 7564,
++      "git_blob": "ef3ad1b9833516580b7c83516817c41042f7fbe0",
++      "sha256": "39a33b218ba87ba502c1ba691afc7254aa522ffa1171ac68114e42b79dfc59d5"
++    }
++  }
++}
