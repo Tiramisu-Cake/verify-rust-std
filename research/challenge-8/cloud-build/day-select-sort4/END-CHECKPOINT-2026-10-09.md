@@ -33,7 +33,12 @@ All seven same-version prefix bodies through return/leak observed in receiver-on
 profile: certified MaybeUninit constructor, actual as_mut_ptr, pointer drop,
 generic drop, checked pointer transmute, assume_init, owned forget. Generic drop
 also observed unwind return/leak. This is CONDITIONAL component evidence. Actual
-outer pointer-specialized select normal/unwind/return/leak/full-function NOT_PROVED.
+outer specializes payload to *const Element, unrestricted Element including
+possible pointee ZST but not generic select<T> with owned non-pointer T. Pre
+thread_token(t), t=currentThread; normalpost preserves token and raw_ptr_own of
+result and result==(if condition then true_input else false_input); unwindpost
+false. Both condition branches, return/leak/dead-code obligations remain active.
+Outer normal/unwind/return/leak/full-function NOT_PROVED.
 Actual generic nested Drop NOT_PROVED as of receiver run. Generic unrestricted T/
 ZST and complete actual sort4/callback panic recovery, permutation, ordering and
 stability remain OPEN. Safety does not acquire SWO/purity/Copy/Freeze assumptions.
@@ -74,7 +79,7 @@ removed from delivery only. All scripts/manifest/patch/source dependencies kept.
 |9bdd5622-7000-483f-8e83-e9847412ddba|574484e7cff6c53a15ff7e76b3aec133f6c87ef2 /7b68fc9b36b0341210d48b857b010caea7344e9e|scope diagnostic complete, receiver gate blocks preheaders|341|
 |b4e9a631-e8bf-4b9a-a86d-6fcb920da4a9|b6a45161cdf7309b10f0198a1bbd1f43c225d715 both|receiver diagnostic complete, outer saved-let collision|403|
 
-831/3600 charged,2769remaining before COLUMN run; ledger authoritative. All three
+1273/3600 charged,2327remaining before addressed check; ledger authoritative. All four
 archives and text indexes integrity verified. Collector SUCCESS means complete
 diagnostic evidence, not verification_accepted or whole-function theorem.
 
@@ -86,9 +91,26 @@ freshfalsepost2 infra99f4269b8f84f1b85d2092d41bd830243ae8a681 /
 proofd253128ac42f5788cc322201bdfcc6c1e2e36f76, NOT_RUN. No nearest actual
 uncertainty justifies preventive full diagnostics. Compound195parts NOT_READY.
 
-ACTIVE own Build5a3d3312-3a9e-4bad-9488-714ad62b48be, config
+Build5a3d3312-3a9e-4bad-9488-714ad62b48be terminalFAILURE442s, config
 6b7cc4f27bf9d5df12817375e0ddca277ab25b9ddf5fb53ab19ce73b2b9d9341,
-timeout900+60queue, actual submitted189parts.
+timeout900+60queue, actual submitted189parts. Completearchive
+45109f1ded3fc05ed7b0354ab09f4821e541d9bf9ad17555afca303f8880f2c6,
+textindex9c99381605ec2a1d526c8961ab56e0e5255e0e0aa214e384cb81c0aba7ea4f66
+integrityverified. COLUMN+threefault tools compiled and exact source/tool identity
+snapshots passed. COLUMN-off repeated155hide; helper then read missing inner
+on-console-build.log; actual build log is at outer case evidence root. COLUMN-on
+and nested never executed, no intended theorem negative. All build-log audit
+paths reviewed/fixed, including nested-off/partial mapping to shared nested-on
+build log. No semantic delta. Addressed candidate infra/proof
+bfdb776bcebfd51a0829bf4451869f8b6dee6529, same source/tool/profile hashes.
+Actual563849bytes/189parts, payloadSHA
+bc05a87ee325454c436d34337e9d6787153aaecce890ef467519e0ea7bde7abf.
+One completing run, selected timeout720+60queue after shared-turn wait; remaining
+2327s covers it. Main deadline passed; no new direction/task/large iteration.
 
 Final outcome, own request state and continuation command are pending terminal
 COLUMN evidence review; this file is explicitly a draft until replaced.
+
+Completing ACTIVE Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6, config
+12e3de6df5ed6b8c9eb7bee3a3eb139b2029c49fb69cc7aa9f0408d45f34ddb6.
+Actual submitted flags189parts, timeout720+60queue, no additional dispatches.

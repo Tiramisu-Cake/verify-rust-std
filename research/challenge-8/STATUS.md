@@ -25,7 +25,6 @@ is not executable insertion. Preserve both lets. Prepared rule maps exact source
 pinned MIR155:1/73 to AST155:1/41 with distinct/order/count guards. Next separate
 COLUMN+acyclic nested-scheduling TEST under receiver parent7451dee6 is published,
 [review/card](cloud-build/day-select-sort4/GHOST-COLUMN-NESTED-CARD.md).
-Day expense831/3600seconds (87setup+341scope+403receiver),2769remaining,3terminal.
 Candidate infra/proof8bf37946451829978451731a77f622144826ae11,
 [preflight](cloud-build/day-select-sort4/COLUMN-NESTED-PREFLIGHT.json):189parts.
 Original062d193parts NOT_READY, never submitted; only eight historical documents
@@ -35,10 +34,11 @@ on-console-build.log; COLUMN-on and nested never executed. All affected build-lo
 paths corrected without semantic delta. Addressed completion candidate
 infra/proofbfdb776bcebfd51a0829bf4451869f8b6dee6529 published, actual563849bytes/189parts;
 [preflight](cloud-build/day-select-sort4/COLUMN-AUDIT-FIX-PREFLIGHT.json).
-Day1273/3600,2327remaining,4terminal; no own active/unresolved build. Own ready
-request registered behind merge turn. Current concrete COLUMN/nested step only
+Day1273/3600 charged,2327remaining,4terminal; completing Buildb23ab12e-fecf-4a0c-ad99-191b24c057d6 ACTIVE.
+Exact infra/proofbfdb776b, timeout720+60queue reserved780, actual189parts.
+Own ready request removed by submit. Current concrete COLUMN/nested step only
 may finish in completion extension, no new research after10:45:54UTC.
- No runtime/posts/resources/kernel/
+No runtime/posts/resources/kernel/
 spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),
 [result/identities](cloud-build/day-select-sort4/RECEIVER-RESULT.json).
 
