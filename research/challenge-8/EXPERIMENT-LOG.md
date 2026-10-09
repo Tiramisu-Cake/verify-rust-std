@@ -5648,3 +5648,32 @@ Remote exact SHA confirmed; foreign6c560082 terminal reconciled before common
 submit.11groups (9resources/admission/stock plus modular positive/calibrated
 matchedentry),runtimeprobe false,timeout1740+queue60/envelope1800. Own2433charged/
 8367remaining, new envelope reserved; no result yet. Actual body not selected.
+
+Actual600s diagnostic card (before edit; separate from active60fdb811): actual
+std obligation is unchanged bidirectional_merge len2/3 conditional full normal/
+callback-unwind/guard-panic posts, current source owners/F, exact destination
+option stages, provenance/validity/return/leak/dead/source/refinement. New evidence
+cf07 shows completed exits spending13chunk retries (~35–50s) plus unwind
+predicate-open/cleanup costs; source alias/C1copy/final guard now reached, no
+assertion failure. Falsifiable hypothesis: 300s truncates remaining legal exits;
+600s completes the SAME full proof, without changing actual source, proof body,
+premises/posts or six semantic patches. If completed exits remain5return/6leak
+or a concrete VC appears, inspect named terminal resources/assemble a separately
+checked exact-post helper; do not repeat larger limits indefinitely or add pointer
+assertions without evidence. Any timeout remainsINCONCLUSIVE; no theorem credit
+from counts or completed collector. Safety callback answers/effects unchanged,
+no SWO/Freeze/Copy/purity requirement added. Domain stayspositive stride/exact
+source2/3 ownership/C1/option destination and current F-compatible resources.
+
+Operational rule: raise CLI admitted per-case verifier limit from300 to600,
+keep default/rejection classifier/timeouts/source/export/decode/refinement/
+normal/unwind/leak/dead checks unchanged. Only actual len23 invocation uses600;
+its outer named group bound becomes760, suite1200/whole1300 and Cloud1740+queue60
+bounds unchanged, upload reserve retained. Valid CLI may choose1..600; malformed
+out-of-bound value still refuses before proofs. Matched same-source up/down,
+option stages and full stack-role/refusal dependencies run again; internal
+classifier mutations still refuse timeout124/setup/other source/location/guards.
+Semantic components/compiler/prelude/kernel/exporter/refiner unchanged and pinned;
+only orchestration time budget differs. Helper summaries require verified bodies
+at this exact source version as before. Positive expectation: actual all gates0
+and complete return/leak checks; negatives are existing exact controls only.

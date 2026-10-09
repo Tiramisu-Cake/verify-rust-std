@@ -22,7 +22,7 @@ import sys
 FILES = {
     "research/challenge-8/merge/overnight/run.sh": "a2a3474323873f9e3c62448196b0a1f93978f7f0c4ac6e188a34f827a197b4c7",
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
-    "research/challenge-8/merge/overnight/pointer-prove.py": "de9de3500181cf32cc3e718dc7ea3e4d0527a397581077e2d6ce542cd00a2ddc",
+    "research/challenge-8/merge/overnight/pointer-prove.py": "4e0a73b3e969477c27879c8c802029d07e9c246565bddf770ba7db89bf0a704d",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
     "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "9c77b67e92b2c000458524902793716053ba03b400a8dcc0f38d77b53a978ecf",
     "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
@@ -159,6 +159,12 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --fixture research/challenge-8/merge/overnight/current-owner-handoff-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-current-owner-handoff-stock"\n'
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
+            data = replace_once(data,
+                b'run_one bidirectional-len23-diagnostic 400 python3',
+                b'run_one bidirectional-len23-diagnostic 760 python3', path)
+            data = replace_once(data,
+                b'--verifier-seconds 300 --fixture "$evidence/bidirectional-small-cases.rs"',
+                b'--verifier-seconds 600 --fixture "$evidence/bidirectional-small-cases.rs"', path)
             data = replace_once(data,
                                 b'suite bound=900s; whole step bound=1700s.',
                                 b'suite bound=1200s; whole step bound=1300s.', path)

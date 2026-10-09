@@ -1235,12 +1235,12 @@ def main() -> int:
     parser.add_argument("--cases", default="all",
                         help="comma-separated fixture cases, or all (default)")
     parser.add_argument("--verifier-seconds", type=int, default=TIMEOUT_SECONDS,
-                        help="per-case hosted verifier limit, at most 300 seconds")
+                        help="per-case hosted verifier limit, at most 600 seconds")
     parser.add_argument("--prover", choices=("Redux", "Z3v4.5"),
                         help="explicit existing bundled backend; default remains console default")
     args = parser.parse_args()
-    if not 1 <= args.verifier_seconds <= 300:
-        raise RuntimeError("verifier limit must be between 1 and 300 seconds")
+    if not 1 <= args.verifier_seconds <= 600:
+        raise RuntimeError("verifier limit must be between 1 and 600 seconds")
     if (os.environ.get("GITHUB_ACTIONS") != "true" or
             os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or
             os.environ.get("RUNNER_OS") != "Linux" or
