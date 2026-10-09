@@ -1,0 +1,325 @@
+{
+  "build_id": "cae0f3cc-9ca4-4ceb-b570-ab5e26e6ce82",
+  "proof_infra_sha": "ca0dfad5f771fd686c5dc9a49899d79be1a1bdc2",
+  "status": "SUCCESS diagnostic collector; not theorem acceptance",
+  "archive_uri": "gs://smallsort-ci-evidence-504462351565/cloud-build/cae0f3cc-9ca4-4ceb-b570-ab5e26e6ce82/evidence.tar.gz",
+  "archive_sha256": "49c7cf722e561812b18e6112442c3b29b960a6e70dd2dd971075a870ad8b89b8",
+  "integrity_verified": true,
+  "text_log_index_verified": true,
+  "external_text_chunks_downloaded": false,
+  "archived_logs_read": true,
+  "profile_build": {
+    "schema": "smallsort-tracked-md-profile-v1",
+    "profile": "experimental-merge-incoming-span-lifetime-onecell-v2",
+    "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+    "translator_sha256": "ab0b995cbcb618625d423ab8bb518367fc2a0fed0a0371c7068ec21f976de420",
+    "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+    "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
+    "kernel_sha256": "69953aef45c3256887bc76e678ba062ed7f32f658c4c707bb700a4ddb636652e",
+    "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "refiner_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "accepted": false,
+    "z3_sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+    "baseline_emitter_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+    "emitter_sha256": "831edeec84e50b3ca2c0c6f3bb5a2ad36bf177a58db59806a2a260dd0e37313c",
+    "baseline_kernel_sha256": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+    "allocation_span_patch_sha256": "b5e93e38c972e3490b9809b9e8852302a935cba34f67ebe54d774ec3de5a76aa",
+    "allocation_span_tool_commit": "75099c958eb6a6d46016babf0a845a624f77d9ab",
+    "geometry_domain": "fixed scalar/pointer extents; abstract generic/struct/array types excluded",
+    "lifetime_boundary": "actual MIR StorageLive and StorageDead, path-local address binding, surviving entry Chunk object",
+    "console_sha256": "9e38349aa6e74a3653f50f0d8179874b85779a1476635aa07e51316a5b0152a5",
+    "proof_sha": "ca0dfad5f771fd686c5dc9a49899d79be1a1bdc2",
+    "baseline_build_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+    "provider": {
+      "provider": "cloud-build",
+      "build_id": "cae0f3cc-9ca4-4ceb-b570-ab5e26e6ce82",
+      "project": "smallsort-ci",
+      "region": "global",
+      "os": "ubuntu-22.04",
+      "arch": "x86_64"
+    },
+    "build_exit": 0
+  },
+  "profile_build_sha256": "29e710eacec89bb88247e2a5c54d9b3a6c5c1ec59362e3b5124d1dd78d358985",
+  "aggregate_sha256": "c32cc4a50ceb31eab7bd667feb938a15807ceafd5f49b6918d233eb3ee768d85",
+  "source_input_sha256": "c222e81d902e391b7b6f2674deee50c2fa61982e7c045808d639e9a09364ec31",
+  "submitted_config_sha256": "87900c1c898a4d391165788c5cf6bcb128b660d537efbf98bce59abedb2e607d",
+  "controls": {
+    "profile": "experimental-merge-incoming-span-lifetime-onecell-v2",
+    "accepted": false,
+    "manifest_sha256": "a76b4e74719efd4844cbdf9d95f3db740616d9f899f7e840c281ec8dc63a6343",
+    "controls": {
+      "span_positive": "PASS_CONTROL",
+      "span_retired_local_reuse": "EXPECTED_REJECTION",
+      "span_overlap": "EXPECTED_REJECTION",
+      "span_raw_arbitrary": "EXPECTED_REJECTION",
+      "span_lost_incoming_authority": "EXPECTED_REJECTION",
+      "span_zero_extent": "EXPECTED_REJECTION"
+    },
+    "case_details": {
+      "span_positive": {
+        "source_sha256": "bda38bd7522e4c4d91bd208845f59652c5453ffa519e49cb2d4d50f604c7429f",
+        "target_line": 20,
+        "expected_stages": {
+          "exporter": 0,
+          "decode": 0,
+          "refinement": 0,
+          "verifast": 0
+        },
+        "read_lines": [],
+        "classification": "PASS_CONTROL",
+        "retired_mir_ast_gate": null
+      },
+      "span_retired_local_reuse": {
+        "source_sha256": "7b83903217fd63c464800fc2bb1df3cbfed0671e2dee31f45adfe9f7ab3a2ff2",
+        "target_line": 30,
+        "expected_stages": {
+          "exporter": 0,
+          "decode": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "read_lines": [],
+        "classification": "EXPECTED_REJECTION",
+        "retired_mir_ast_gate": {
+          "admitted": true,
+          "reason": "decoded MIR and translated vf__ markers agree on retirement order",
+          "decode_sha256": "a7f9950ebe4c888eea6d11241bf1afd99d9e76c025fcaeaff1c838eede3aba59",
+          "proof_ast_sha256": "a44d4a7b420b9a4df4fe58e84e3b94ce43d82d162dc29cd23c557bcf3447a15f",
+          "mir_body": "span_retired_local_reuse",
+          "locals": {
+            "tmp0": "_2",
+            "tmp1": "_7"
+          },
+          "storage_dead": {
+            "block": 2,
+            "statement": 7,
+            "source_line": 23,
+            "local": "_2"
+          },
+          "storage_live": {
+            "block": 2,
+            "statement": 8,
+            "source_line": 24,
+            "local": "_7"
+          },
+          "same_block_order": true,
+          "translated_ast": {
+            "storage_dead": {
+              "callee": "vf__rust_storage_dead",
+              "argument": "tmp0",
+              "source_line": 23
+            },
+            "storage_live": {
+              "callee": "vf__rust_storage_live",
+              "argument": "tmp1",
+              "source_line": 24
+            },
+            "order": true
+          }
+        }
+      },
+      "span_overlap": {
+        "source_sha256": "c70396ca050c3bf7e644b0d4186d0d845f5f0e0a06550e735717be817f6372eb",
+        "target_line": 20,
+        "expected_stages": {
+          "exporter": 0,
+          "decode": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "read_lines": [
+          17,
+          18
+        ],
+        "classification": "EXPECTED_REJECTION",
+        "retired_mir_ast_gate": null
+      },
+      "span_raw_arbitrary": {
+        "source_sha256": "01d343433468c89835e0413bac0bc1dfd003c0284345db6b3dd8e068366804d0",
+        "target_line": 21,
+        "expected_stages": {
+          "exporter": 0,
+          "decode": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "read_lines": [],
+        "classification": "EXPECTED_REJECTION",
+        "retired_mir_ast_gate": null
+      },
+      "span_lost_incoming_authority": {
+        "source_sha256": "df37c2a83f011623e2706c60077f83e86147143df35a3ae6b93aee7ee9939859",
+        "target_line": 20,
+        "expected_stages": {
+          "exporter": 0,
+          "decode": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "read_lines": [],
+        "classification": "EXPECTED_REJECTION",
+        "retired_mir_ast_gate": null
+      },
+      "span_zero_extent": {
+        "source_sha256": "5937df78548dc08296d8cbbbe6f1cd350935e3871fd70570a8b9fe5c70a4460a",
+        "target_line": 23,
+        "expected_stages": {
+          "exporter": 0,
+          "decode": 0,
+          "refinement": 0,
+          "verifast": 1
+        },
+        "read_lines": [],
+        "classification": "EXPECTED_REJECTION",
+        "retired_mir_ast_gate": null
+      }
+    },
+    "case_artifacts": {
+      "span_positive": {
+        "directory": "controls/span_positive",
+        "log": "controls/span_positive/verifast.log",
+        "classification": "controls/span_positive/classification.json"
+      },
+      "span_retired_local_reuse": {
+        "directory": "controls/span_retired_local_reuse",
+        "log": "controls/span_retired_local_reuse/verifast.log",
+        "classification": "controls/span_retired_local_reuse/classification.json"
+      },
+      "span_overlap": {
+        "directory": "controls/span_overlap",
+        "log": "controls/span_overlap/verifast.log",
+        "classification": "controls/span_overlap/classification.json"
+      },
+      "span_raw_arbitrary": {
+        "directory": "controls/span_raw_arbitrary",
+        "log": "controls/span_raw_arbitrary/verifast.log",
+        "classification": "controls/span_raw_arbitrary/classification.json"
+      },
+      "span_lost_incoming_authority": {
+        "directory": "controls/span_lost_incoming_authority",
+        "log": "controls/span_lost_incoming_authority/verifast.log",
+        "classification": "controls/span_lost_incoming_authority/classification.json"
+      },
+      "span_zero_extent": {
+        "directory": "controls/span_zero_extent",
+        "log": "controls/span_zero_extent/verifast.log",
+        "classification": "controls/span_zero_extent/classification.json"
+      }
+    },
+    "all_matched": true,
+    "evidence_class": "mechanism controls only; no proof or consumer acceptance"
+  },
+  "actual": {
+    "positive": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_admitted": true,
+      "mir_admitted": true,
+      "ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "copy_executed": false,
+      "errors": [
+        "verified/lib.rs(69,97-99): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + sizeof(T_typeid)) <= get_pointer_address(tail0) || (get_pointer_address(tail0) + sizeof(T_typeid)) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+      ],
+      "classification_sha256": "e5e5b5bf6b495c3bc9ad148adda8fa33323b884586532c5f8ba156b250ca8cc5",
+      "verifast_log_sha256": "5e3c0b768a9377e4448c2e8559dcca9744c35f5767266b1cbb18b16a1d38a2c0"
+    },
+    "after_fbc_false": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_admitted": true,
+      "mir_admitted": true,
+      "ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "copy_executed": false,
+      "errors": [
+        "verified/lib.rs(69,97-99): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + sizeof(T_typeid)) <= get_pointer_address(tail0) || (get_pointer_address(tail0) + sizeof(T_typeid)) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+      ],
+      "classification_sha256": "77a064b7f47feb122956639f3313e22bc95c39b64da579a0cf61c104d9c5e5e4",
+      "verifast_log_sha256": "550b1bc04b901f985be76f9eb3f393bb4d9752d1b205f000ddacda8c9f2b12c3"
+    },
+    "after_recovery_false": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_admitted": true,
+      "mir_admitted": true,
+      "ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "copy_executed": false,
+      "errors": [
+        "verified/lib.rs(69,97-99): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + sizeof(T_typeid)) <= get_pointer_address(tail0) || (get_pointer_address(tail0) + sizeof(T_typeid)) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+      ],
+      "classification_sha256": "ec1efa24db9d9ec270138399145bcd7deed7e876d6f9ed2a58c03b5b4997482e",
+      "verifast_log_sha256": "bc1917c60a5a0280cb9ca0411330ad69911a550e3d6290ff231b0abb05308a09"
+    },
+    "missing_held_owner": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_admitted": true,
+      "mir_admitted": true,
+      "ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "copy_executed": false,
+      "errors": [
+        "verified/lib.rs(69,97-99): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + sizeof(T_typeid)) <= get_pointer_address(tail0) || (get_pointer_address(tail0) + sizeof(T_typeid)) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+      ],
+      "classification_sha256": "6b69214a25fac6a501802f433606b282313043043a3da74a98f4e1e1c2825c1c",
+      "verifast_log_sha256": "74f84d6bcf55cd23b22f3c7679b8185ea02012078d6ac4417473876156da0191"
+    },
+    "double_physical_fbc": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_admitted": true,
+      "mir_admitted": true,
+      "ast_admitted": true,
+      "source_unchanged_at_every_stage": true,
+      "copy_executed": false,
+      "errors": [
+        "verified/lib.rs(69,97-99): error: Assertion might not hold. (Cannot prove (get_pointer_address(fn_outcome_result(outcome0)) + sizeof(T_typeid)) <= get_pointer_address(tail0) || (get_pointer_address(tail0) + sizeof(T_typeid)) <= get_pointer_address(fn_outcome_result(outcome0)).)"
+      ],
+      "classification_sha256": "b3e4ccf07b154f92e0a665df9274e1dba8db854b81827f1e0c7b58c71ba4c71a",
+      "verifast_log_sha256": "22287d4b810de6d0720505506cf9c50b72d21abe90f37a7d3b8c4d800cbc7d1a"
+    }
+  },
+  "admission": "NOT_FOR_INTEGRATION; generic runtime extent bridge missing; marker origin gate open",
+  "build_seconds": 391,
+  "actual_obligations": {
+    "current_src_held_ref_and_dst_tail": "checked anew at lines64/65",
+    "alignment_source_limits_no_overflow": "checked anew through line68",
+    "pre_fbc_span": "FAIL_TO_DERIVE at line69; generic T excluded from geometry domain",
+    "post_fbc_span": "NOT_REACHED",
+    "literal_one_copy": "NOT_REACHED",
+    "end_ref_readonly_recovery_posts": "NOT_REACHED; historical end_ref_readonly failure is not current first blocker",
+    "values_fractions": "real read/ref initialization reached; no source or resource replacement; full end-to-end association open"
+  }
+}

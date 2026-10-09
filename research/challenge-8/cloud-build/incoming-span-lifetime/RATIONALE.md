@@ -73,3 +73,16 @@ struct and array extents; it is a runtime-lifetime primitive and fixed-size rule
 not a complete solution for the unchanged generic actual consumer. Re-enabling T
 requires an independently valid runtime extent/layout bridge; do not add an axiom.
 Old broad candidates2f61/8c are not ancestors and their declaration-heap scan is absent.
+
+## Final admission gate after static review
+
+Tool75099c95 is NOT_FOR_INTEGRATION. Six Cloud mechanism controls match, including
+verified actual MIR retirement, but ordinary CallExpr marker spelling is not an
+unforgeable origin. The extern-prototype/diverging-call route described by the
+independent reviewer is a code-derived potential soundness defect, NOT a tested
+exploit. No new experiment or implementation was started after the main deadline.
+An internal AST event with trusted MIR origin is required before integration.
+Separately, generic/struct/array geometry is excluded until a sound runtime byte
+extent bridge is available. The actual generic consumer therefore fails pre-FBC
+span at line69; reusing an old candidate PASS or adding separation premises is
+not permitted. See EVIDENCE-cae0f3cc.json for exact new-profile results.

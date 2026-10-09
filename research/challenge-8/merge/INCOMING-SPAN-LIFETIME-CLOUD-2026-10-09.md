@@ -7,3 +7,9 @@ Owner merge; start18:49:50UTC, main19:49:50, absolute20:19:50. New3600 conservat
 Preimplementation design gate: entryheap/pointerparameter/symbol origin insufficient. Require concrete storage runtime lifetime evidence and current authority, not snapshot immortality or reference lifetime alone. Inspect ignored StorageDead/caller stale chunk concern before any geometry assumption. Calls/deallocation/callbacks/opaque resource transitions need explicit conservation or invalidation. No supplied separation or unjustified live-token axiom.
 
 Narrow dependency fix for absent frozen exporter/refiner prepared independently; hashes and executable checks retained, compiler/provider frozen. First substantive Cloud run must exercise selected mechanismgates with exact profile/infra/source, not merely setup. Review publication only research/verifast-review/FULL-CHECKPOINT-SHA on review/verifast via plumbing preserving old package; no maintainer receipt/integration/acceptance claim.
+
+Closed:760/3600 charged, both own builds terminal/download verified, ready withdrawn.
+[Final checkpoint](INCOMING-SPAN-LIFETIME-CHECKPOINT-2026-10-09.md): candidate
+NOT_FOR_INTEGRATION (marker origin) and actual generic span remains blocked before
+FBC (runtime extent bridge missing); six controls matched. No new experiment after
+19:49:50UTC. Publication receipt follows in own phase directory.

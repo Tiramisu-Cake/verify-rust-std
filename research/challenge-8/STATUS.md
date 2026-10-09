@@ -1,11 +1,17 @@
-# Active incoming-span lifetime phase — 2026-10-09
+# MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09 — CLOSED / NO-GO
 
-Direct owner assignment MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09, ownermerge;
-start18:49:50UTC, main19:49:50, absolute20:19:50, new3600s old2555closed.
-[Phase](merge/INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09.md). Preserved29732807/package63b54dcd;
-new isolated toolbranchbasef76012fb, old broadgeometrycode absent/NOT_FOR_INTEGRATION.
-Incomingruntime-lifetime design pending; newproof NOT_RUN/profileNOT_ACCEPTED.
-Actual557/558/comparator/fullinsertion outofscope. Coordinatorv2/max2 unchanged.
+Owner merge; [checkpoint](merge/INCOMING-SPAN-LIFETIME-CHECKPOINT-2026-10-09.md).
+Tool75099c95/basef76012fb implements MIR storage lifetime and fixed-extent incoming
+geometry; old2f61/8c broad rule absent. Six fresh controls match, including real
+StorageDead→StorageLive retirement and rejection of address inequality after death.
+Candidate NOT_FOR_INTEGRATION: ordinary named lifecycle calls have an unresolved
+marker-origin gate; generic runtime byte extent bridge missing. Actual generic
+reproducer fails span69 before FBC; downstream copy/recovery/posts NOT_REACHED.
+Exactv2 proofinfra ca0dfad5; two terminal Builds,760/3600s,2840 unused CLOSED;
+ready withdrawn/no own reservation. Coordinatorv2/max2 unchanged. New internal
+review package publication receipt in cloud-build/incoming-span-lifetime follows;
+previous checkpoint29732807/package63b54dcd preserved. No receipt/integration/acceptance.
+Next: unforgeable internal MIR/AST lifecycle events and forgery/lifetime gates.
 
 # MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09 — CLOSED / NO-GO FOR INTEGRATION
 
