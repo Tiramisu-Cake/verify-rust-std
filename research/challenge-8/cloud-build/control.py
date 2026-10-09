@@ -45,6 +45,11 @@ VERIFAST_PR_START='2026-10-09T18:34:08Z'
 VERIFAST_PR_MAIN_DEADLINE='2026-10-09T19:34:08Z'
 VERIFAST_PR_DEADLINE='2026-10-09T20:04:08Z'
 VERIFAST_PR_LANES=frozenset(('verifast-mdnew-upstream-pr',))
+VERIFAST_FULLMAKE_PHASE='VERIFAST-MDNEW-FULLMAKE-CLOUD-2026-10-09'
+VERIFAST_FULLMAKE_START='2026-10-09T20:21:27Z'
+VERIFAST_FULLMAKE_MAIN_DEADLINE='2026-10-09T21:21:27Z'
+VERIFAST_FULLMAKE_DEADLINE='2026-10-09T21:51:27Z'
+VERIFAST_FULLMAKE_LANES=frozenset(('verifast-mdnew-fullmake',))
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -268,13 +273,17 @@ def authorized_phase(a,ledger):
  if a.phase_id==VERIFAST_PR_PHASE:
   if (ledger['ceiling_build_seconds']!=3600 or a.owner!='verifast' or ledger.get('owner')!='verifast' or set(ledger['allowed_lanes'])!=VERIFAST_PR_LANES or ledger.get('start_utc')!=VERIFAST_PR_START or ledger.get('main_deadline_utc')!=VERIFAST_PR_MAIN_DEADLINE or ledger.get('deadline_utc')!=VERIFAST_PR_DEADLINE):raise SystemExit('Verifast upstream PR phase requires its exact separate account, owner, window and lane')
   if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(VERIFAST_PR_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Verifast upstream PR main window ended; no new submissions or requests')
+ if a.phase_id==VERIFAST_FULLMAKE_PHASE:
+  if (ledger['ceiling_build_seconds']!=3600 or a.owner!='verifast' or ledger.get('owner')!='verifast' or set(ledger['allowed_lanes'])!=VERIFAST_FULLMAKE_LANES or ledger.get('start_utc')!=VERIFAST_FULLMAKE_START or ledger.get('main_deadline_utc')!=VERIFAST_FULLMAKE_MAIN_DEADLINE or ledger.get('deadline_utc')!=VERIFAST_FULLMAKE_DEADLINE):raise SystemExit('Verifast fullmake requires its exact separate account, owner, window and lane')
+  if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(VERIFAST_FULLMAKE_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Verifast fullmake main window ended; no new submissions or requests')
  if a.phase_id==C1_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_START or ledger.get('main_deadline_utc')!=C1_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_DEADLINE):raise SystemExit('C1 phase requires its exact separate account, owner, window and lane')
  if a.phase_id==AFTERNOON_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=AFTERNOON_LANES):raise SystemExit('Afternoon select phase requires its separate 3600-second account, exact owner and approved lanes')
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((VERIFAST_PR_DEADLINE if a.phase_id==VERIFAST_PR_PHASE else VERIFAST_VALIDATION_DEADLINE if a.phase_id==VERIFAST_VALIDATION_PHASE else VERIFAST_DEADLINE if a.phase_id==VERIFAST_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((VERIFAST_FULLMAKE_DEADLINE if a.phase_id==VERIFAST_FULLMAKE_PHASE else VERIFAST_PR_DEADLINE if a.phase_id==VERIFAST_PR_PHASE else VERIFAST_VALIDATION_DEADLINE if a.phase_id==VERIFAST_VALIDATION_PHASE else VERIFAST_DEADLINE if a.phase_id==VERIFAST_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if a.phase_id==VERIFAST_PR_PHASE and deadline!=cutoff:raise SystemExit('Verifast upstream PR phase requires its exact absolute deadline')
+ if a.phase_id==VERIFAST_FULLMAKE_PHASE and deadline!=cutoff:raise SystemExit('Verifast fullmake phase requires its exact absolute deadline')
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
@@ -362,7 +371,9 @@ def run_command(a,state,ledger,ledger_path):
   if ledger['active_build']:raise SystemExit('Own queued/active or unresolved build: monitor/reconcile first')
   coordination.require_capacity(a.owner,ledger_path,ongoing or [])
   # queue envelope is reserved too, respecting phase/per-build ceiling.
-  if not 90<=a.timeout<=1740 or a.timeout+60>1800 or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
+  build_cap=3000 if a.phase_id==VERIFAST_FULLMAKE_PHASE and a.lane=='verifast-mdnew-fullmake' else 1740
+  reservation_cap=3060 if a.phase_id==VERIFAST_FULLMAKE_PHASE and a.lane=='verifast-mdnew-fullmake' else 1800
+  if not 90<=a.timeout<=build_cap or a.timeout+60>reservation_cap or a.timeout+60>ledger['remaining_build_seconds']:raise SystemExit('Invalid timeout or insufficient phase budget (60s queue reserve included)')
   token='dispatch-'+uuid.uuid4().hex
   source_payload=None
   if a.source_mode=='pinned-objects':

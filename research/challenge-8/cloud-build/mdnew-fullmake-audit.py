@@ -1,0 +1,179 @@
+#!/usr/bin/env python3
+"""Classify one exact-source Linux make test and its five native controls."""
+import argparse, hashlib, importlib.util, json, re, subprocess
+from pathlib import Path
+
+BASE="0a83dba42db7ce0b445034ece5298afe980e57dc"
+HEAD="bf63b7dff2e053eea8541996d856fac4be11f6f1"
+TREE="687ae7dab447c94c4b87362d3d880d959c89e3de"
+REF="refs/heads/upstream/manuallydrop-new-final-20261009"
+RUSTC="f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f"
+COMPONENTS=("verifast","vf-rust-mir-exporter","refinement-checker","vf-cxx-ast-exporter")
+COMMANDS=("verifast forget.rs","verifast shared_cleanup.rs",
+          "verifast -allow_should_fail false_normal_post.rs",
+          "verifast -allow_should_fail shared_false_unwind.rs")
+class Failure(Exception):
+ def __init__(self,message,kind="INCOMPLETE_EVIDENCE"):
+  super().__init__(message);self.kind=kind
+def need(ok,message,kind="INCOMPLETE_EVIDENCE"):
+ if not ok:raise Failure(message,kind)
+def read(path):
+ need(path.is_file(),f"missing evidence {path}")
+ return path.read_bytes()
+def j(path):return json.loads(read(path))
+def h(data):return hashlib.sha256(data).hexdigest()
+def oid(repo,*args):return subprocess.check_output(["git","-C",str(repo),*args],text=True).strip()
+def stage(root,name):
+ code=int(read(root/f"{name}-exit-code.txt").strip())
+ stdout=read(root/f"{name}.stdout.log")
+ stderr=read(root/f"{name}.stderr.log")
+ resources=read(root/f"{name}-resources.txt")
+ need(b'Elapsed (wall clock) time' in resources,f"{name} resource report incomplete")
+ return code,stdout.decode(errors="replace"),stderr.decode(errors="replace")
+def verify_make_completion(make_out):
+ need(re.search(r'(?m)^\s+MYSH\s+testsuite\s*$',make_out) is not None and
+      re.search(r'(?m)^\s+MYSH\s+assignments/run_model_solutions\s*$',make_out) is not None,
+      'normal root and assignments suite completion is not visible')
+ need(re.search(r'(?m)^0 failed processes$',make_out) is not None,
+      'full suite lacked a zero-failed mysh summary')
+def affected(root):
+ helper_path=Path(__file__).with_name('mdnew-audit.py')
+ spec=importlib.util.spec_from_file_location('mdnew_structural_helpers',helper_path)
+ module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+ findings={}
+ for case in ('forget','shared_cleanup'):
+  folder=root/'affected'/case
+  for op in ('verifast','exporter','decode'):
+   code,_,_=stage(root,f'affected-{case}-{op}')
+   need(code==0,f'{case} fresh {op} stage failed','AFFECTED_GATE_FAILED')
+  mir=read(folder/'normal-mir.txt').decode(errors='replace')
+  ast=read(folder/'verified-ast.txt').decode(errors='replace')
+  body=module.mir_body(mir,case)
+  cleanup,target,term=module.call_record(body,'std::mem::ManuallyDrop::<T>::new')
+  blocks=module.mir_blocks(body)
+  need(cleanup is not None and cleanup in blocks and target in blocks and
+       'isCleanup = true' in blocks[cleanup] and 'unwindResume = void' in blocks[cleanup],
+       f'{case} typed ManuallyDrop call lacks original cleanup block','AFFECTED_GATE_FAILED')
+  need(re.search(r'substs = \[.*?param = "T"',term,re.S) is not None,
+       f'{case} MIR call lacks generic T substitution','AFFECTED_GATE_FAILED')
+  caller=module.ast_body(ast,case)
+  if case=='forget':
+   need('"returning"' in caller and
+        re.search(r'ReturnStmt .*?"unwinding"',caller) is None and
+        re.search(r'LabelStmt \([^\n]*"'+str(cleanup)+r'"',caller) is None,
+        'forget AST contains orphan cleanup or lacks normal successor','AFFECTED_GATE_FAILED')
+  else:
+   ordinary_cleanup,ordinary_target=module.call_edge(body,'new')
+   need(cleanup==ordinary_cleanup and ordinary_target in blocks,
+        'shared cleanup call edges differ','AFFECTED_GATE_FAILED')
+   label=str(cleanup)
+   match=re.search(r'SwitchStmt \(loc "([^"]+)", CallExpr \(loc "[^"]+", "new"',caller)
+   loc=re.escape(match.group(1)) if match else '<missing>'
+   need(match is not None and
+        re.search(r'SwitchStmtClause \(loc "'+loc+r'"[^\n]*"unwinding"[^\n]*GotoStmt \([^\n]*"'+label+r'"',caller) is not None and
+        re.search(r'LabelStmt \([^\n]*"'+label+r'"\);\s*ReturnStmt \([^\n]*"unwinding"',caller) is not None,
+        'shared cleanup AST lacks concrete unwind arm/return','AFFECTED_GATE_FAILED')
+   ordinary_body=module.mir_body(mir,'ordinary_caller')
+   ordinary_cont,_=module.call_edge(ordinary_body,'new')
+   ordinary_ast=module.ast_body(ast,'ordinary_caller')
+   ordinary_switch=re.search(r'SwitchStmt \(loc "([^"]+)", CallExpr \(loc "[^"]+", "new"',ordinary_ast)
+   ordinary_loc=re.escape(ordinary_switch.group(1)) if ordinary_switch else '<missing>'
+   need(ordinary_cont is None and ordinary_switch is not None and
+        re.search(r'SwitchStmtClause \(loc "'+ordinary_loc+r'"[^\n]*"unwinding"[^\n]*ReturnStmt \([^\n]*"unwinding"',ordinary_ast) is not None,
+        'ordinary caller AST lacks real unwind return','AFFECTED_GATE_FAILED')
+  findings[case]={'cleanup_block':cleanup,'normal_target':target,
+                  'mir_sha256':h(mir.encode()),'ast_sha256':h(ast.encode())}
+ return findings
+def audit(repo,root):
+ out={"schema":"verifast-mdnew-fullmake-audit-v1","classification":"INCOMPLETE_EVIDENCE",
+      "accepted":False,"base":BASE,"head":HEAD,"tree":TREE}
+ try:
+  identity=j(root/'source-identity.json'); cert=j(root.parent/'source-input-certificate.json')
+  need(cert.get('lane')=='verifast-mdnew-fullmake','source lane differs')
+  need(identity['infra_sha']==identity['proof_sha']==cert['infra']['commit']==cert['proof']['commit'],
+       'infra/proof source commit differs')
+  need(identity['source_input_archive_sha256']==cert['archive_sha256'],'source archive differs')
+  manifest=j(root/'tool-input.manifest');restore=j(root/'restore.json')
+  need(manifest.get('base_commit')==BASE and manifest.get('candidate_commit')==HEAD and
+       manifest.get('candidate_tree')==TREE and manifest.get('candidate_ref')==REF,
+       'manifest source identity differs')
+  need(h(read(root/'tool-input.bundle'))==manifest['bundle_sha256'],'bundle hash differs')
+  need(restore.get('classification')=='RESTORED_GIT_INPUT' and
+       restore.get('base_commit')==BASE and restore.get('candidate_commit')==HEAD and
+       restore.get('candidate_tree')==TREE and restore.get('candidate_ref')==REF and
+       restore.get('bundle_sha256')==manifest['bundle_sha256'] and
+       restore.get('manifest_sha256')==h(read(root/'tool-input.manifest')) and
+       restore.get('git_identity_preserved') is True,
+       'restore receipt differs')
+  need(oid(repo,'rev-parse','HEAD')==HEAD and oid(repo,'rev-parse','HEAD^{tree}')==TREE,
+       'restored Git head/tree differs')
+  for rel,record in manifest['selected_files'].items():
+   blob=read(repo/rel)
+   need(h(blob)==record['sha256'] and len(blob)==record['bytes'] and
+        oid(repo,'rev-parse',f'HEAD:{rel}')==record['git_blob'],
+        f'selected source bytes differ: {rel}')
+  version=read(root/'rustc.verbose.txt').decode()
+  need(f'commit-hash: {RUSTC}' in version,'Rust compiler pin differs')
+  need(read(root/'rustc.sysroot.txt').strip(),'Rust compiler sysroot absent')
+  for dep in ('vfdeps','stock','rustup','llvm'):
+   need(b': OK' in read(root/f'{dep}-sha256.txt'),f'{dep} archive checksum missing')
+  pre=j(root/'pre-build-components.json')
+  need(pre.get('all_absent_before_build') is True and set(pre.get('removed_stock_binaries',[]))==set(COMPONENTS),
+       'old executable may have survived before source build')
+  make_code,make_out,make_err=stage(root,'make-test')
+  out['make_test']={'exit_status':make_code,'stdout_sha256':h(make_out.encode()),
+                    'stderr_sha256':h(make_err.encode()),
+                    'failed_process_lines':re.findall(r'(?m)^\d+ failed processes$',make_out),
+                    'conditional_skip_lines':re.findall(r'(?m)^SKIP:.*$',make_out)}
+  if make_code in (124,137):raise Failure('full make test reached its bounded deadline','INCOMPLETE_TIMEOUT')
+  need(make_code==0,f'full make test exited {make_code}','TEST_FAILURE')
+  verify_make_completion(make_out)
+  post=j(root/'build-components.json')
+  need(post.get('make_exit_code')==0 and set(post.get('components',{}))==set(COMPONENTS),
+       'source-built component receipt incomplete')
+  for name,expected in post['components'].items():
+   need(isinstance(expected,str) and re.fullmatch('[0-9a-f]{64}',expected) and
+        h(read(repo/'bin'/name))==expected,f'{name} component digest differs')
+  reg='tests/rust/testsuite.mysh'; reg_bytes=read(repo/reg)
+  need(h(reg_bytes)==manifest['selected_files'][reg]['sha256'],
+       'native registration differs from pinned source')
+  registration=reg_bytes.decode()
+  need(registration.count('cd manuallydrop_new_cfg')==1 and
+       all(registration.count(command)==1 for command in COMMANDS) and
+       'dead_code_pre.rs(1,1-7,2): dead code' in registration and
+       'EXIT:1' in registration and '-allow_dead_code' not in registration,
+       'five native registrations or exact dead diagnostic assertion absent')
+  diagnostic_code,diagnostic_stdout,diagnostic_stderr=stage(root,'dead-diagnostic')
+  need(diagnostic_code==1,'dead code control did not exit exactly 1','WRONG_DIAGNOSTIC')
+  need('dead_code_pre.rs(1,1-7,2): dead code' in diagnostic_stdout+diagnostic_stderr,
+       'negative control lacks exact whole-function dead-code diagnostic','WRONG_DIAGNOSTIC')
+  changed=affected(root)
+  out.update(classification='FULL_LINUX_MAKE_TEST_PASS',accepted=True,
+             provenance={'infra_sha':identity['infra_sha'],'proof_sha':identity['proof_sha'],
+                         'bundle_sha256':manifest['bundle_sha256'],
+                         'manifest_sha256':h(read(root/'tool-input.manifest')),
+                         'rustc_commit':RUSTC,'components':post['components']},
+             selected_native={'positive_and_expected_failure_commands':list(COMMANDS),
+                              'exact_dead_code_diagnostic':True,
+                              'dead_code_exit_status':diagnostic_code},
+             affected_structural=changed)
+ except Failure as exc:
+  out.update(classification=exc.kind,reason=str(exc),accepted=False)
+ except Exception as exc:
+  out.update(classification='INCOMPLETE_EVIDENCE',reason=f'{type(exc).__name__}: {exc}',accepted=False)
+ return out
+def main():
+ p=argparse.ArgumentParser()
+ p.add_argument('repo',type=Path);p.add_argument('root',type=Path)
+ p.add_argument('--output',required=True,type=Path)
+ p.add_argument('--runner-status',type=int,required=True)
+ p.add_argument('--failed-stage',required=True)
+ a=p.parse_args(); result=audit(a.repo,a.root)
+ result['runner_status']=a.runner_status;result['failed_stage']=a.failed_stage
+ if a.runner_status not in (0,):
+  result['accepted']=False
+  if a.runner_status in (124,137):result['classification']='INCOMPLETE_TIMEOUT'
+ a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+ print(json.dumps(result,sort_keys=True))
+ return 0 if result['accepted'] else 2
+if __name__=='__main__':raise SystemExit(main())

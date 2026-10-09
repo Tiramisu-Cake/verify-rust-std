@@ -1,0 +1,208 @@
+#!/usr/bin/env bash
+# Exact-source, single-pass upstream Linux make test; Cloud execution only.
+set -euo pipefail
+[[ "${1:-}" == verifast-mdnew-fullmake ]] || exit 2
+[[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build && -z "${GITHUB_ACTIONS:-}" ]] || exit 2
+
+infra_root=${INFRA_ROOT:-/workspace/infra}
+proof_root=${PROOF_ROOT:-/workspace/proof}
+evidence_root=${EVIDENCE_ROOT:-/workspace/evidence}
+all="$evidence_root/allprooflogs"
+work=/workspace/verifast-mdnew-fullmake
+source_repo="$work/source"
+candidate="$work/candidate"
+stock="$work/verifast-26.10"
+deps="$work/vfdeps-adf88dc"
+deadline=${SMALLSORT_DEADLINE_EPOCH:?}
+base=0a83dba42db7ce0b445034ece5298afe980e57dc
+head=bf63b7dff2e053eea8541996d856fac4be11f6f1
+tree=687ae7dab447c94c4b87362d3d880d959c89e3de
+rustc_commit=f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f
+stock_sha=5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd
+deps_sha=8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580
+rustup_sha=20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c
+llvm_sha=7bc39ea82589679a10a4d03cbd7e1d032fffb644774aff60a46bdf973171ef7a
+input="$proof_root/research/challenge-8/verifast-input/$head"
+cloud_dir="$infra_root/research/challenge-8/cloud-build"
+mkdir -p "$all" "$work"
+[[ -z "$(find "$all" -mindepth 1 -print -quit)" ]] || exit 2
+status=1
+stage=initial
+finished=0
+finish() {
+  local rc=$?
+  trap - EXIT
+  if (( finished == 0 )); then
+    python3 "$cloud_dir/mdnew-fullmake-audit.py" "$candidate" "$all" \
+      --output "$evidence_root/proof-audit.json" --runner-status "$rc" --failed-stage "$stage" \
+      > "$all/fullmake-audit.log" 2>&1 || true
+  fi
+  exit "$rc"
+}
+trap finish EXIT
+
+remaining() {
+  local seconds=$((deadline-$(date +%s)))
+  (( seconds > 0 )) || return 124
+  printf '%s\n' "$seconds"
+}
+snapshot() {
+  local name=$1
+  { date -u +%FT%TZ; ps -eo pid,ppid,stat,etimes,%cpu,%mem,rss,comm,args --sort=-rss | head -80
+    cat /sys/fs/cgroup/memory.current /sys/fs/cgroup/memory.events /sys/fs/cgroup/cpu.stat 2>/dev/null || true
+    df -h /workspace; free -m; } > "$all/$name" 2>&1 || true
+}
+run_stage() {
+  local name=$1 limit=$2 cwd=$3 mode=$4; shift 4
+  local budget rc=0 watcher=
+  stage=$name
+  budget=$(remaining) || return 124
+  (( budget > limit )) && budget=$limit
+  if [[ "$name" == make-test ]]; then
+    (sleep "$((budget>10?budget-10:1))"; snapshot make-test-before-timeout.txt) & watcher=$!
+  fi
+  if [[ "$mode" == combined ]]; then
+    /usr/bin/time -v -o "$all/$name-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${budget}s" \
+      bash -c 'cd "$1"; shift; exec "$@"' bash "$cwd" "$@" \
+      > "$all/$name.stdout.log" 2>&1 || rc=$?
+    printf 'combined into %s\n' "$name.stdout.log" > "$all/$name.stderr.log"
+  else
+    /usr/bin/time -v -o "$all/$name-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${budget}s" \
+      bash -c 'cd "$1"; shift; exec "$@"' bash "$cwd" "$@" \
+      > "$all/$name.stdout.log" 2> "$all/$name.stderr.log" || rc=$?
+  fi
+  if [[ -n "$watcher" ]]; then kill "$watcher" 2>/dev/null || true; wait "$watcher" 2>/dev/null || true; fi
+  printf '%s\n' "$rc" > "$all/$name-exit-code.txt"
+  if (( rc == 124 || rc == 137 )); then snapshot "$name-after-timeout.txt"; fi
+  return "$rc"
+}
+
+[[ -d "$infra_root" && -d "$proof_root" && -f "$input/bundle" && -f "$input/manifest" ]] || exit 2
+python3 "$cloud_dir/provider.py" > "$all/provider.json"
+python3 - "$evidence_root/source-input-certificate.json" "$infra_root" "$proof_root" "$all/source-identity.json" <<'IDENTITY'
+import json,pathlib,subprocess,sys
+cert,infra,proof,out=map(pathlib.Path,sys.argv[1:])
+c=json.loads(cert.read_text())
+assert c['lane']=='verifast-mdnew-fullmake'
+for key,root in [('infra',infra),('proof',proof)]:
+ assert c[key]['commit']==c[key]['head']==subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip()
+ assert c[key]['commit']==__import__('os').environ[key.upper()+'_SHA']
+assert c['infra']['head']==c['proof']['head']
+out.write_text(json.dumps({'infra_sha':c['infra']['head'],'proof_sha':c['proof']['head'],
+ 'source_input_archive_sha256':c['archive_sha256'],'infra_tree':c['infra']['root_tree'],
+ 'proof_tree':c['proof']['root_tree']},indent=2,sort_keys=True)+'\n')
+IDENTITY
+cp "$input/bundle" "$all/tool-input.bundle"
+cp "$input/manifest" "$all/tool-input.manifest"
+export RUSTUP_HOME="$work/rustup" CARGO_HOME="$work/cargo" TMPDIR="$work/tmp"
+export RUSTUP_TOOLCHAIN=nightly-2026-09-25 LANG=C.UTF-8 LC_ALL=C.UTF-8
+mkdir -p "$RUSTUP_HOME" "$CARGO_HOME" "$TMPDIR"
+export PATH="$CARGO_HOME/bin:$PATH"
+printf 'base=%s\nhead=%s\ntree=%s\nNUMCPU=4\n' "$base" "$head" "$tree" > "$all/fullmake-plan.txt"
+
+run_stage package-index 300 /workspace split apt-get update
+run_stage packages-install 300 /workspace split apt-get install --yes --no-install-recommends \
+  build-essential m4 patch unzip capnproto ripgrep time libgmp10 libmpfr6 libgomp1 \
+  libffi8 libncurses6 libtinfo6 zlib1g libz3-4 libgtk-3-0 libgtksourceview-4-0 cmake ninja-build
+{ cmake --version; ninja --version; } > "$all/build-dependencies.txt"
+run_stage vfdeps-download 180 /workspace split curl -fL --retry 2 \
+  -o "$work/vfdeps-adf88dc-linux.txz" https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
+printf '%s  %s\n' "$deps_sha" "$work/vfdeps-adf88dc-linux.txz" | sha256sum -c - > "$all/vfdeps-sha256.txt"
+run_stage vfdeps-extract 120 /workspace split tar -xjf "$work/vfdeps-adf88dc-linux.txz" -C "$work"
+[[ -d "$deps" ]] || exit 2
+for prefix in /vfdeps-adf88dc /tmp/vfdeps-adf88dc; do
+  if [[ ! -e "$prefix" ]]; then ln -s "$deps" "$prefix"; fi
+  [[ "$(readlink -f "$prefix")" == "$deps" ]] || exit 2
+done
+export PATH="$deps/bin:$PATH" CAPNP_INC_DIR="$deps/include"
+run_stage stock-download 180 /workspace split curl -fL --retry 2 \
+  -o "$work/verifast-26.10-linux.tar.gz" https://github.com/verifast/verifast/releases/download/26.10/verifast-26.10-linux.tar.gz
+printf '%s  %s\n' "$stock_sha" "$work/verifast-26.10-linux.tar.gz" | sha256sum -c - > "$all/stock-sha256.txt"
+run_stage stock-extract 120 /workspace split tar -xzf "$work/verifast-26.10-linux.tar.gz" -C "$work"
+run_stage checkout 240 /workspace split git clone --no-checkout https://github.com/verifast/verifast.git "$source_repo"
+run_stage base-checkout 120 /workspace split git -C "$source_repo" checkout --detach "$base"
+[[ "$(git -C "$source_repo" rev-parse HEAD)" == "$base" ]] || exit 2
+python3 "$cloud_dir/restore-verifast-fullmake-input.py" \
+ --repository "$source_repo" --bundle "$input/bundle" --manifest "$input/manifest" \
+ --destination "$candidate" --receipt "$all/restore.json" \
+ --infra-sha "$INFRA_SHA" --proof-sha "$PROOF_SHA" \
+ > "$all/restore.stdout.log" 2> "$all/restore.stderr.log"
+[[ "$(git -C "$candidate" rev-parse HEAD)" == "$head" && "$(git -C "$candidate" rev-parse HEAD^{tree})" == "$tree" ]] || exit 2
+
+run_stage rustup-download 180 /workspace split curl -fL --retry 2 \
+  -o "$work/rustup-init-1.28.2" https://static.rust-lang.org/rustup/archive/1.28.2/x86_64-unknown-linux-gnu/rustup-init
+printf '%s  %s\n' "$rustup_sha" "$work/rustup-init-1.28.2" | sha256sum -c - > "$all/rustup-sha256.txt"
+chmod +x "$work/rustup-init-1.28.2"
+run_stage rustup-init 120 /workspace split "$work/rustup-init-1.28.2" -y --no-modify-path --default-toolchain none --profile minimal
+run_stage compiler-install 300 /workspace split rustup toolchain install "$RUSTUP_TOOLCHAIN" --profile minimal \
+  --component rustc-dev --component llvm-tools-preview --component rust-src
+compiler_sysroot=$(rustc --print sysroot)
+rustc --version --verbose > "$all/rustc.verbose.txt"
+[[ "$(rg '^commit-hash:' "$all/rustc.verbose.txt" | cut -d' ' -f2)" == "$rustc_commit" ]] || exit 2
+printf '%s\n' "$compiler_sysroot" > "$all/rustc.sysroot.txt"
+export LD_LIBRARY_PATH="$compiler_sysroot/lib:$stock/bin:$deps/lib:${LD_LIBRARY_PATH:-}"
+run_stage decoder-install 300 /workspace split cargo install --locked --git \
+  https://github.com/btj/capnpc-ocaml-decoder --rev 2d6606d9b59cd0c88a66729f3f076c10c0c8e0b2
+run_stage llvm-download 180 /workspace split curl -fL --retry 2 \
+  -o "$work/vf-llvm-clang-build-5710e1b-Linux.tar.gz" \
+  https://github.com/verifast/vf-llvm-clang-build/releases/download/v3/vf-llvm-clang-build-5710e1b-Linux.tar.gz
+printf '%s  %s\n' "$llvm_sha" "$work/vf-llvm-clang-build-5710e1b-Linux.tar.gz" | sha256sum -c - > "$all/llvm-sha256.txt"
+run_stage llvm-extract 180 /workspace split tar -xzf "$work/vf-llvm-clang-build-5710e1b-Linux.tar.gz" -C /
+[[ -d /vf-llvm-clang-build-5710e1b ]] || exit 2
+if [[ ! -e /tmp/vf-llvm-clang-build-5710e1b ]]; then ln -s /vf-llvm-clang-build-5710e1b /tmp/vf-llvm-clang-build-5710e1b; fi
+[[ "$(readlink -f /tmp/vf-llvm-clang-build-5710e1b)" == /vf-llvm-clang-build-5710e1b ]] || exit 2
+export VF_LLVM_INSTALL_DIR=/tmp/vf-llvm-clang-build-5710e1b VF_VFDEPS_DIR="$deps"
+
+# Copy specification/runtime data, then remove every executable rebuilt by
+# make test; a 26.10 binary cannot stand in for the changed master sources.
+mkdir -p "$candidate/bin" "$candidate/lib"
+cp -an "$stock/bin/." "$candidate/bin/"
+[[ ! -d "$stock/lib" ]] || cp -an "$stock/lib/." "$candidate/lib/"
+for name in verifast vf-rust-mir-exporter refinement-checker vf-cxx-ast-exporter; do rm -f "$candidate/bin/$name"; done
+python3 - "$candidate" "$all/pre-build-components.json" <<'BEFORE'
+import json,pathlib,sys
+root=pathlib.Path(sys.argv[1]); names=['verifast','vf-rust-mir-exporter','refinement-checker','vf-cxx-ast-exporter']
+assert all(not (root/'bin'/x).exists() for x in names)
+pathlib.Path(sys.argv[2]).write_text(json.dumps({'removed_stock_binaries':names,
+ 'all_absent_before_build':True},indent=2,sort_keys=True)+'\n')
+BEFORE
+snapshot make-test-before.txt
+make_status=0
+run_stage make-test 2250 "$candidate/src" split make test NUMCPU=4 || make_status=$?
+snapshot make-test-after.txt
+python3 - "$candidate" "$all/build-components.json" "$make_status" <<'AFTER'
+import hashlib,json,pathlib,sys
+root,out,code=sys.argv[1:];root=pathlib.Path(root)
+names=['verifast','vf-rust-mir-exporter','refinement-checker','vf-cxx-ast-exporter']
+rows={name:hashlib.sha256((root/'bin'/name).read_bytes()).hexdigest()
+      if (root/'bin'/name).is_file() else None for name in names}
+pathlib.Path(out).write_text(json.dumps({'make_exit_code':int(code),'components':rows},indent=2,sort_keys=True)+'\n')
+AFTER
+if (( make_status == 0 )); then
+  diagnostic_status=0
+  run_stage dead-diagnostic 60 "$candidate/tests/rust/purely_unsafe/manuallydrop_new_cfg" split \
+    "$candidate/bin/verifast" dead_code_pre.rs || diagnostic_status=$?
+  printf '%s\n' "$diagnostic_status" > "$all/dead-diagnostic-observed-exit.txt"
+  for case in forget shared_cleanup; do
+    capture="$all/affected/$case"
+    mkdir -p "$capture"
+    cp "$candidate/tests/rust/purely_unsafe/manuallydrop_new_cfg/$case.rs" "$capture/$case.rs"
+    run_stage "affected-$case-verifast" 120 "$capture" split \
+      "$candidate/bin/verifast" -rustc_args '--edition 2021' -dump_ast_with_locs \
+      "$capture/verified-ast.txt" "$case.rs"
+    run_stage "affected-$case-exporter" 120 "$capture" split \
+      "$candidate/bin/vf-rust-mir-exporter" "$case.rs" "--sysroot=$compiler_sysroot" \
+      --edition 2021 --crate-type lib
+    run_stage "affected-$case-decode" 120 "$capture" split \
+      capnp decode "$candidate/src/rust_frontend/vf_mir/vf_mir.capnp" VfMir \
+      < "$all/affected-$case-exporter.stdout.log"
+    cp "$all/affected-$case-decode.stdout.log" "$capture/normal-mir.txt"
+  done
+fi
+python3 "$cloud_dir/mdnew-fullmake-audit.py" "$candidate" "$all" \
+  --output "$evidence_root/proof-audit.json" --runner-status "$make_status" --failed-stage make-test \
+  > "$all/fullmake-audit.log" 2>&1
+finished=1
+[[ "$make_status" == 0 ]]
