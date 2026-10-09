@@ -5297,3 +5297,13 @@ PASS is explicitly diagnostic_complete, never verification_accepted by itself.
 No unchanged failure rerun. Initial timeout1200 plus60 queue, within1800 and own
 10800/deadline08:00UTC. Semantic/card/regression requirements apply to each later
 change. Runtime/std/signatures are unchanged.
+
+
+NIGHT-CLOUD-1 pre-dispatch: O26 config refused bounded180-part source payload;
+no reservation or Build,0s. New source-input v2 transports a shared original
+Git-object pool once across infrastructure/proof/baseline. Each repository still
+checks its exact required closure, object identity/type/size, original commit/tree,
+mode/path bytes and HEAD. Pool must equal union of all three original closures;
+no additional objects or missing references. Legacy v1 remains readable and is
+used when no baseline. This is transport only, no verifier semantics or source
+change. Fresh actual O26 restore is the positive gate; old A/B/C need no replay.

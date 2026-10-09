@@ -21,6 +21,7 @@ import sys
 
 
 SCHEMA = "smallsort-git-source-input-v1"
+SHARED_SCHEMA = "smallsort-git-source-input-v2-shared-objects"
 OBJECT_ID = re.compile(r"^[0-9a-f]{40}$")
 WORKSPACE = Path("/workspace")
 STD_PATHS = (
@@ -253,6 +254,19 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         payload["recipe"] = recipe
         if "baseline_sha" in recipe:
             payload["baseline"], _ = repo_record(repo, recipe["baseline_sha"], recipe["baseline_paths"])
+            # Identical std/tool input blobs occur in both original checkouts.
+            # Transfer each original object once; each repo keeps its exact closure.
+            pool = {}
+            for name in ("infra", "proof", "baseline"):
+                record = payload[name]
+                for item in record["objects"]:
+                    oid = item["oid"]
+                    if oid in pool and pool[oid] != item:
+                        stop("same object ID has inconsistent source records")
+                    pool[oid] = item
+                record["objects"] = [{"oid": item["oid"]} for item in record["objects"]]
+            payload["schema"] = SHARED_SCHEMA
+            payload["shared_objects"] = [pool[oid] for oid in sorted(pool)]
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
@@ -373,8 +387,31 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
         payload = json.loads(raw)
     except (OSError, json.JSONDecodeError) as error:
         stop(f"source archive is unreadable: {error}")
-    if payload.get("schema") != SCHEMA:
+    if payload.get("schema") not in (SCHEMA, SHARED_SCHEMA):
         stop("unsupported source archive schema")
+    if payload["schema"] == SHARED_SCHEMA:
+        pool = {}
+        for item in payload.get("shared_objects", []):
+            oid = item.get("oid")
+            if not isinstance(oid, str) or not OBJECT_ID.fullmatch(oid) or oid in pool:
+                stop("invalid or duplicated shared Git object")
+            pool[oid] = item
+        referenced = set()
+        for name in ("infra", "proof", "baseline"):
+            record = payload.get(name)
+            if not isinstance(record, dict):
+                stop("shared schema requires all three original repositories")
+            expanded = []
+            for ref in record.get("objects", []):
+                if set(ref) != {"oid"} or ref["oid"] not in pool:
+                    stop("invalid shared-object reference")
+                referenced.add(ref["oid"])
+                expanded.append(pool[ref["oid"]])
+            record["objects"] = expanded
+        if referenced != set(pool):
+            stop("shared Git object pool differs from repository closure union")
+    elif "shared_objects" in payload:
+        stop("unexpected shared Git object pool")
     lane = payload.get("lane")
     infra_record = payload.get("infra", {})
     proof_record_data = payload.get("proof", {})
@@ -408,7 +445,7 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
     saved_archive = evidence / "source-input.gz"
     saved_archive.write_bytes(compressed)
     record = {
-        "schema": SCHEMA, "lane": lane,
+        "schema": payload["schema"], "lane": lane,
         "archive_sha256": hashlib.sha256(compressed).hexdigest(),
         "archive_size": len(compressed),
         "payload_sha256": hashlib.sha256(raw).hexdigest(),
