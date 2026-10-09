@@ -2,12 +2,15 @@
   "active_protocol": "v2/max2",
   "portable_commit": "487dc39ccea94e29f203b7a57baf87d71d539038",
   "peer_exact_reads": {
-    "select-sort4": "e878dcf21e382935a1b31fe39a17f40fbb5bde5d",
+    "select-sort4": "0f3389cae20d1233abac1d5d963ae8d021fc91fb",
     "merge": "334c837991ec3d034a375807219b8648dfcbb611"
   },
   "peer_installed_coordination_sha256": "4d3f2af4490fdac6d25d6d5077bf5a7b54aeab82c090af6c81f37661cd256c07",
   "portable_coordination_sha256": "49464b5a1078c99f8f44ef0bba06bb285c039ca0a0ab10d104bc7b54f32cb4bc",
   "peer_acknowledgments": "NOT_AVAILABLE",
   "migration": "NOT_RUN",
-  "acceptance_instruction": "Each proof owner cherry-picks only 487dc39ccea94e29f203b7a57baf87d71d539038, preserving its phase registrations and ledger/pins; publish own infrastructure SHA, run isolated coordination-v3-test.py, reconcile own status, and supply owner+infra_commit+baseline_control_commit+installed coordination/control hashes as prescribed by ../verifast-mdnew/ADOPTION.md and ../PARALLEL-BUILDS-V3.md. Migrate only after all verified acknowledgments under the existing common lock, preserving active records."
+  "acceptance_instruction": "Each proof owner cherry-picks only 487dc39ccea94e29f203b7a57baf87d71d539038, preserving its phase registrations and ledger/pins; publish own infrastructure SHA, run isolated coordination-v3-test.py, reconcile own status, and supply owner+infra_commit+baseline_control_commit+installed coordination/control hashes as prescribed by ../verifast-mdnew/ADOPTION.md and ../PARALLEL-BUILDS-V3.md. Migrate only after all verified acknowledgments under the existing common lock, preserving active records.",
+  "recheck_utc": "2026-10-09T17:38:00Z",
+  "merge_current_proof_head": "8444589f486e82f23c910bcc918cee1e4681b7ee",
+  "merge_coordination_exact_read": "334c837991ec3d034a375807219b8648dfcbb611"
 }

@@ -1,0 +1,49 @@
+{
+  "execution_boundary": "No compiler, MIR extraction, verifier, proof runner or full regression ran on VPS.",
+  "phase_admission_controls": {
+    "passed": 4,
+    "separate_new_account": true,
+    "old_phase_remains_closed": true
+  },
+  "focused_classifier_controls": {
+    "passed": 9,
+    "timeout_missing_incomplete_and_early_failure_distinct": true
+  },
+  "capture_fake_stage_control": {
+    "passed": true,
+    "both_sides": true,
+    "all_five_output_hashes_and_ast_hash": true,
+    "separate_stdout_stderr": true,
+    "failed_export_receipt": true,
+    "test_extraction_fix": "cf938bb31348c598de3d261f4169fa13a4bd11ab"
+  },
+  "regression_classifier_controls": {
+    "passed_scenarios": 5,
+    "synthetic_only": true
+  },
+  "delivery": {
+    "first_fixture_pin_git_controls": 8,
+    "tail_fixture_exact_original_commit_tree_blobs_restore": true,
+    "receipt": "mdnew-validation-tail-restore.json",
+    "tool_test_pin": "8f0b701e9f2a3da124372c5d37d4cda408d45001"
+  },
+  "transport": {
+    "infra_source_pin": "cf938bb31348c598de3d261f4169fa13a4bd11ab",
+    "payload_bytes": 89199,
+    "source_parts": 30,
+    "source_input_sha256": "ec70c4159a43576a805aa86e7480c54e3e9cdb1bf2fd24388add2f66c408252e",
+    "191_part_and_10000_byte_argument_bounds": true,
+    "oversize_and_wrong_identity_reject": true
+  },
+  "syntax_and_diff": "Python AST/bytecode parsing, bash -n, recipe JSON, git diff --check passed.",
+  "historical_execution_credit": "NONE for changed fixtures or runner; prior archives are diagnosis/comparison only.",
+  "regression_packaging_layout": {
+    "passed": true,
+    "old_case_gate_rejection_reproduced": true,
+    "real_case_manifest_stdout_copied_unchanged": true,
+    "packager_checks_unchanged": true,
+    "no_new_execution_credit": true,
+    "receipt": "mdnew-validation-regression-packaging-test.json",
+    "fix": "09f8fea4ab3ad987c66e68cd6e7405c9de278161"
+  }
+}
