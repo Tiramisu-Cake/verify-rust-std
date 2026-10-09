@@ -1,16 +1,36 @@
+## Accepted operating update — 2026-10-09
+
+First read [WORK-POLICY](WORK-POLICY.md) and [COMPLETION-PLAN](COMPLETION-PLAN.md).
+The policy supersedes older conflicting execution, budget-window and priority
+wording below; historical Actions examples do not authorize Actions dispatch.
+Use the assigned branch/phase and Cloud Build; two project-wide active/unresolved
+slots, one per owner/ledger. Two-hour sessions; up to 30 minutes for finishing an
+existing step/checkpoint only. Cloud budget remains the one in the assignment.
+
+Before a new experiment identify the actual caller and where its premises come
+from. Separate new proof runs, classifier-only replay of saved evidence and
+NOT_RUN cases. Small isolated local classifier/parser tests are now allowed as
+specified in WORK-POLICY; compilers, verifiers and proof runners remain Cloud-only.
+Do not cold-build the proof toolchain solely to test an evidence classifier.
+
+On entry fetch/integrate the docs without overwriting local work, read the latest
+checkpoint and record the policy revision. In a running session adopt at the
+next safe step; keep active Build inputs fixed. Add caller progress and separate
+replay/new proof results to the existing checkpoint format.
+
 ## Current Cloud Build coordination procedure
 
 At most two project queued/running/unresolved builds, one per stable owner and
 ledger. [Two-slot transition](cloud-build/PARALLEL-BUILDS.md) supersedes historical
 single-slot/alternating-ready rules. Preserve exact phase deadlines/budgets and
 proof scopes from STATUS. Use existing Cloud provider, full published infra/proof
-SHAs, pinned objects and --no-source. VPS only reads/edits/orchestrates; all
-executable checks/source extraction run in Cloud. Historical Actions procedures
+SHAs, pinned objects and --no-source. VPS reads/edits/orchestrates and permits the WORK-POLICY section 4 service tests;
+proof checks/source extraction run in Cloud. Historical Actions procedures
 below authorize neither Actions dispatch nor trigger changes.
 
 # Challenge 8 operating runbook
 
-This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
+This is an operating procedure, not a progress log. Read [AGENTS.md](../../../AGENTS.md)
 and [STATUS.md](STATUS.md) first, followed by [PLAN.md](PLAN.md) and the phase
 document linked from STATUS. The current authorization state and phase there
 override historical instructions. The pre-reorganization runbook is preserved
@@ -27,7 +47,7 @@ verbatim in [the archive](AGENT-RUNBOOK-ARCHIVE-2026-10-06.md).
 - Current evidence: [STATUS.md](STATUS.md), [coverage](coverage.md),
   [experiment log](EXPERIMENT-LOG.md). Topic notes are indexed in [README](README.md).
 
-The server only edits/orchestrates. No compiler, verifier, executable tests,
+The server only edits/orchestrates. No compiler, verifier, proof tests,
 extractors, research runners or build dependencies there, including containers.
 Read-only GitHub access and non-executing static checks are allowed.
 
@@ -174,3 +194,4 @@ Do not add another chronological handoff block to this runbook.
 Documentation-only changes need static review, not a cold verification run.
 On interruption record any active run and unapplied drafts without overstating
 what was verified. Stopped experiments resume only by explicit owner instruction.
+
