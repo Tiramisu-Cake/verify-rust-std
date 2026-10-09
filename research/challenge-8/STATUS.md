@@ -1,13 +1,23 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**1636/10800 conservative Cloud Build seconds used;9164 remaining**.
+**2004/10800 conservative Cloud Build seconds used;8796 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
-`b0382472-9685-44b3-955f-88f037d1c144`, lane `o26-wrapper-profile`,
-infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,
-proof `debd540555206a4694250b7586c4cec70d95a727`. Timeout1200, reserve1260;
-monitored under the shared lock. No proof verdict yet.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
+Latest Build `b0382472-9685-44b3-955f-88f037d1c144` FAILURE at diagnostic
+verdict; full publication/archive integrity verified, charged368s.
+Infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,
+proof `debd540555206a4694250b7586c4cec70d95a727`.
+Archive `baa28829915a2d1ecfb101b5fad0eb7c5c02d266d9d039dca7f7e590fb0fd2b6`.
+Component23 rebuilt console, exact capture and17/19/20 admission pass;
+four owner17 intended negatives and independent A1 Move/Copy negative pass.
+Default-off canonical first462 and changed-source old17 refusal pass.
+Full positive fails **before any function header** at ghost parser second
+`assert`, verified source178:5–11. This is a syntax/setup failure, not a
+resource negative or an actual proof. Production/profile identities match
+after all controls. Source-only ghost-command syntax repair and fresh
+capture/graph recertification are next; old pins cannot cover changed source.
+The separate component19 negative hook is prepared but not run.
 Latest independent Build `347068de-0fb2-45e6-bc00-f8ac3ccd2581` FAILURE at
 TEST diagnostic gates; full publication/archive integrity verified, charged322s.
 Infra `fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27`,

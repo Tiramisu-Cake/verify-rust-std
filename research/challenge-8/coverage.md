@@ -604,3 +604,13 @@ no candidateownership/return/leak proof yet. Canonicalpointerhelper remains462
 blocked. Coordination10 controlsPASS is infrastructure evidence only. Nested
 proof-order and actualsort4 ASTprobe stop beforeproof/observation due span-column
 and metadata-build failures; corrected drafts are untested. No coverage closure.
+
+
+Build b0382472 (infra f5a82bcd/proof debd5405, full archive verified)
+checks experimental component23 wrapper-rebase admission and changed controls.
+Source/MIR/refinement/10 Marshal, four intended owner17 refusals, independent
+A1 Move/Copy refusal and default-off controls pass. The positive fails at
+ghost parser178 before any function header: **no actual-source body proof**.
+Canonical462 barrier remains unchanged. Full outer/nested normal/unwind/
+return/leak, generic/ZST and sort4 obligations remain open. The source ghost
+syntax must be repaired and recaptured; previous pins do not transfer.

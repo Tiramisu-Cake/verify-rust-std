@@ -4,8 +4,8 @@
   "authorization": "Owner prompt 2026-10-09, actual select then sort4 on Cloud Build",
   "deadline_utc": "2026-10-09T08:00:00Z",
   "ceiling_build_seconds": 10800,
-  "used_build_seconds": 1636,
-  "remaining_build_seconds": 9164,
+  "used_build_seconds": 2004,
+  "remaining_build_seconds": 8796,
   "maximum_build_timeout_seconds": 1800,
   "allowed_lanes": [
     "o26",
@@ -15,9 +15,11 @@
     "o26-night",
     "o26-a1-test",
     "o26-independent-tests",
-    "o26-wrapper-profile"
+    "o26-wrapper-profile",
+    "o26-wrapper-controls",
+    "o26-recovery-tests"
   ],
-  "active_build": "b0382472-9685-44b3-955f-88f037d1c144",
+  "active_build": null,
   "builds": [
     {
       "dispatch_token": "dispatch-d2629f25c87d495b8ce7aefa4e92d546",
@@ -147,14 +149,19 @@
       "submitted_config_sha256": "418d7912d846c590670e8c2d0f56179ba355c3d8b0fcd8a131db88a9e87aea80",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "WORKING",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "a37053c6e92c6b985e8a65bdf099a1f2120af122c212aa7f3bb9ae35b2a09a80",
       "build_id": "b0382472-9685-44b3-955f-88f037d1c144",
       "start_time": "2026-10-09T03:43:03.356452944Z",
-      "finish_time": null,
-      "create_time": "2026-10-09T03:43:02.609532970Z"
+      "finish_time": "2026-10-09T03:49:09.958351Z",
+      "create_time": "2026-10-09T03:43:02.609532970Z",
+      "build_seconds": 368,
+      "accounted": true,
+      "execution_seconds": 367,
+      "download_verified": true,
+      "archive_sha256": "baa28829915a2d1ecfb101b5fad0eb7c5c02d266d9d039dca7f7e590fb0fd2b6"
     }
   ]
 }

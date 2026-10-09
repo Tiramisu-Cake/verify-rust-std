@@ -5675,3 +5675,35 @@ resource failure drives source-grounded ghost repair; a source/graph/setup
 refusal is inconclusive and requires exact correction with a fresh Run.
 Collector success does not prove the function; accepted remainsfalse in this
 experimental lane. No historic A/B/C or unrelated matrix is repeated.
+
+
+NIGHT-CLOUD-6 outcome: Build b0382472-9685-44b3-955f-88f037d1c144 FAILURE,
+03:43:02.609532970–03:49:09.958351 UTC;368 conservative seconds. Own
+2004/10800 used,8796 remaining/no active Build. Full archive
+`baa28829915a2d1ecfb101b5fad0eb7c5c02d266d9d039dca7f7e590fb0fd2b6`,
+text index `0250be132778ea4b1b2b52c97ced34f46085f9c81babd19148d9c4992be14ad3`,
+config/inventory/original Git closure/publication hashes verified. Publisher
+run_exit0/evidence_complete=true/diagnostic=false/verification=false.
+
+Canonical paired capture and proof reproduce the462 owner barrier. Separate
+component23 console builds and fresh wrapper source/MIR/refinement/all10
+Marshal plus exact graph pin checks pass. Positive translator emits all
+17/18/19/20 admission markers, then ghost parser refuses the second assertion
+at verified/lib.rs178:5–11. There is **no function verification header** in
+the positive log. Therefore no seven-prefix or actual outer/nested proof is
+credited for this changed source, despite successful frontend admission.
+
+All four component17 source/unit-hash negatives first fail at the intended
+certificate obligations. Independent A1 TEST17 observed two-hash delta first
+allows owner17 and refuses at20's selected-wrapper Move requirement, no body
+header. Off-canonical same first462 and off-rebase old source-pin refusal
+pass. Complete production/profile source/spec/kernel/parser/exporter/refiner/
+stock binary snapshots remain equal after all stages. No component19 TEST
+run yet; its separate hook is ready, not accepted.
+
+New evidence requires stock-parser-compatible source ghost commands, with
+old-wrapper binding scope preserved. This changes source identities and may
+change CFG; obtain fresh paired capture and full nine-body inventory before
+new exact pins. No parser extension or weakening is justified. The next
+bounded recovery lane also checks the three previously corrected independent
+TEST/PROBEs. No unchanged failed positive is rerun.
