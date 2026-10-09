@@ -48,38 +48,163 @@
     "local_count": 61,
     "block_count": 44,
     "ghost_calls": [
-      {"block": 0, "destination_local": "_4", "normal_block": 1, "unwind": "Continue"},
-      {"block": 1, "destination_local": "_5", "normal_block": 2, "unwind": "Continue"},
-      {"block": 6, "destination_local": "_14", "normal_block": 7, "unwind": "Continue"},
-      {"block": 7, "destination_local": "_15", "normal_block": 8, "unwind": "Continue"},
-      {"block": 12, "destination_local": "_20", "normal_block": 13, "unwind": "Continue"},
-      {"block": 13, "destination_local": "_21", "normal_block": 14, "unwind": "Continue"},
-      {"block": 25, "destination_local": "_43", "normal_block": 26, "cleanup_block": 43},
-      {"block": 26, "destination_local": "_44", "normal_block": 27, "cleanup_block": 43},
-      {"block": 27, "destination_local": "_45", "normal_block": 28, "cleanup_block": 43},
-      {"block": 28, "destination_local": "_46", "normal_block": 29, "cleanup_block": 43},
-      {"block": 29, "destination_local": "_47", "normal_block": 30, "cleanup_block": 43},
-      {"block": 30, "destination_local": "_48", "normal_block": 31, "cleanup_block": 43},
-      {"block": 31, "destination_local": "_49", "normal_block": 32, "cleanup_block": 43},
-      {"block": 32, "destination_local": "_50", "normal_block": 33, "cleanup_block": 43},
-      {"block": 33, "destination_local": "_51", "normal_block": 34, "cleanup_block": 43},
-      {"block": 34, "destination_local": "_52", "normal_block": 35, "cleanup_block": 43},
-      {"block": 35, "destination_local": "_53", "normal_block": 36, "cleanup_block": 43},
-      {"block": 36, "destination_local": "_54", "normal_block": 37, "cleanup_block": 43},
-      {"block": 37, "destination_local": "_55", "normal_block": 38, "cleanup_block": 43}
+      {
+        "block": 0,
+        "destination_local": "_4",
+        "normal_block": 1,
+        "unwind": "Continue"
+      },
+      {
+        "block": 1,
+        "destination_local": "_5",
+        "normal_block": 2,
+        "unwind": "Continue"
+      },
+      {
+        "block": 6,
+        "destination_local": "_14",
+        "normal_block": 7,
+        "unwind": "Continue"
+      },
+      {
+        "block": 7,
+        "destination_local": "_15",
+        "normal_block": 8,
+        "unwind": "Continue"
+      },
+      {
+        "block": 12,
+        "destination_local": "_20",
+        "normal_block": 13,
+        "unwind": "Continue"
+      },
+      {
+        "block": 13,
+        "destination_local": "_21",
+        "normal_block": 14,
+        "unwind": "Continue"
+      },
+      {
+        "block": 25,
+        "destination_local": "_43",
+        "normal_block": 26,
+        "cleanup_block": 43
+      },
+      {
+        "block": 26,
+        "destination_local": "_44",
+        "normal_block": 27,
+        "cleanup_block": 43
+      },
+      {
+        "block": 27,
+        "destination_local": "_45",
+        "normal_block": 28,
+        "cleanup_block": 43
+      },
+      {
+        "block": 28,
+        "destination_local": "_46",
+        "normal_block": 29,
+        "cleanup_block": 43
+      },
+      {
+        "block": 29,
+        "destination_local": "_47",
+        "normal_block": 30,
+        "cleanup_block": 43
+      },
+      {
+        "block": 30,
+        "destination_local": "_48",
+        "normal_block": 31,
+        "cleanup_block": 43
+      },
+      {
+        "block": 31,
+        "destination_local": "_49",
+        "normal_block": 32,
+        "cleanup_block": 43
+      },
+      {
+        "block": 32,
+        "destination_local": "_50",
+        "normal_block": 33,
+        "cleanup_block": 43
+      },
+      {
+        "block": 33,
+        "destination_local": "_51",
+        "normal_block": 34,
+        "cleanup_block": 43
+      },
+      {
+        "block": 34,
+        "destination_local": "_52",
+        "normal_block": 35,
+        "cleanup_block": 43
+      },
+      {
+        "block": 35,
+        "destination_local": "_53",
+        "normal_block": 36,
+        "cleanup_block": 43
+      },
+      {
+        "block": 36,
+        "destination_local": "_54",
+        "normal_block": 37,
+        "cleanup_block": 43
+      },
+      {
+        "block": 37,
+        "destination_local": "_55",
+        "normal_block": 38,
+        "cleanup_block": 43
+      }
     ],
     "pointer_drop_receiver_local": "_34",
-    "pointer_drop": {"block": 17, "source_local": "_26", "move_argument_local": "_34", "destination_local": "_33", "normal_block": 18, "cleanup_block": 43},
-    "forget": {"block": 20, "guard_source_local": "_30", "move_argument_local": "_38", "destination_local": "_37", "normal_block": 21, "cleanup_block": 43, "negative_cleanup_block": 42},
-    "assume_init": {"block": 39, "move_argument_local": "_56", "destination_local": "_0", "normal_block": 40, "cleanup_block": 43},
-    "unwind_chain": {"resume_block": 41, "drop_block": 42, "switch_block": 43, "switch_local": "_60", "switch_targets": [41, 42]},
+    "pointer_drop": {
+      "block": 17,
+      "source_local": "_26",
+      "move_argument_local": "_34",
+      "destination_local": "_33",
+      "normal_block": 18,
+      "cleanup_block": 43
+    },
+    "forget": {
+      "block": 20,
+      "guard_source_local": "_30",
+      "move_argument_local": "_38",
+      "destination_local": "_37",
+      "normal_block": 21,
+      "cleanup_block": 43,
+      "negative_cleanup_block": 42
+    },
+    "assume_init": {
+      "block": 39,
+      "move_argument_local": "_56",
+      "destination_local": "_0",
+      "normal_block": 40,
+      "cleanup_block": 43
+    },
+    "unwind_chain": {
+      "resume_block": 41,
+      "drop_block": 42,
+      "switch_block": 43,
+      "switch_local": "_60",
+      "switch_targets": [
+        41,
+        42
+      ]
+    },
     "shared_cleanup_predecessor_count": 23
   },
   "kernel_modified": false,
   "verification_accepted": false,
   "controls_pending": [
     "R3 proof with seven same-version callees and generic nested Drop before any outer whole-function claim",
-    "four isolated component-17 source/unit/body-7/ghost-CFG negatives",
+    "four isolated component-17 two-source/two-unit negatives; independent body-7 and ghost-CFG target checks OPEN",
     "independent component-20 A1 Move(_56) to Copy(_56) TEST negative",
     "independent component-19 SAFE forget Move(_38) to Copy(_38) TEST negative",
     "full normal/unwind/dead/leak/validity/resource proof"
