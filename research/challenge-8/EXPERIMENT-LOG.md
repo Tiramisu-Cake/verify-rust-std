@@ -6006,3 +6006,11 @@ Both canonical/profile/dependency path sets checked, below191sourceparts bound.
 R3pendingactualcallee scheduling, independentbody7/ghostCFG targetnegatives,
 fullnormal/unwind/return/leak; printcoreTEST changesonlyisolatedinstrumentation,
 requireson/off185boundary and ASTidentity, no cleanup orsemanticacceptance.
+
+NIGHT-CLOUD-14 dispatch: {"build_id": "755bf768-3700-407b-9c70-3605b4d8f4a4", "create_time": "2026-10-09T07:06:04.732807983Z", "dispatch_token": "dispatch-891ec6af6c3548319c43c7ea48ac202c", "finish_time": null, "infra_sha": "5a0a819ac782cc80a3050386614a3bcd7913627b", "lane": "o26-wrapper-r3-nested-diagnostics", "owner": "select-sort4", "phase_id": "NIGHT-SELECT-SORT4-CLOUD-2026-10-09", "proof_sha": "256254c01a77653ec056c91755ac636e9e76fb9d", "publish_text_logs": true, "reserved_seconds": 1260, "source_input_sha256": "b62338015145328176452bf8245dd38f3919d202352f973027e9ef4a90b1ddc9", "source_mode": "pinned-objects", "start_time": "2026-10-09T07:06:05.646300624Z", "status": "WORKING", "submitted_config_sha256": "b5a2f9b2aa8cb4b3d31907421ff5f2e8d43d1bba423b492d1d509cd37965b9dd", "timeout_seconds": 1200}
+Separate R3 component24 first semantic run plus isolated scheduling TEST;
+full canonical baseline, fresh paired source/MIR/refinement/nine-body inventory,
+R3 controls and TEST evidence separately retained. Original runtime/fullposts
+unchanged; TEST grants no nested/whole-helper credit. All selected paths and
+parent proof dependency sets checked before client original-Git object closure
+transport preflight under atomic API/reservation/submit lock. No repeated smoke.

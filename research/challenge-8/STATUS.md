@@ -2,13 +2,17 @@
 
 Authorized through **08:00 UTC / 11:00 MSK, 9 October**. Separate Cloud Build
 account: **4328/10800 conservative seconds used; 6472 remaining**.
-No own active Build. Fresh input-relation capture
+Active Build **755bf768-3700-407b-9c70-3605b4d8f4a4**, compound R3/nested TEST,
+infra `5a0a819ac782cc80a3050386614a3bcd7913627b`, proof
+`256254c01a77653ec056c91755ac636e9e76fb9d`, timeout1200s.
+Fresh input-relation capture
 `93da48d0-d720-4179-8d2c-d8b7495703bf` SUCCESS diagnostic only,337s;
 infra `e4e9eacfebef52293b5404c74b316fe76a413e4b`, proof
 `d253128ac42f5788cc322201bdfcc6c1e2e36f76`. Strict17 first matrix Build673526ac completed all17cases but audit refused
 callee-spec error attribution for repeated end_lifetime; false-post2 did not
-run. Full archive verified. R3 first semantic run is READY after current merge
-slot; independent combined generic/postmark diagnostic also READY.
+run. Full archive verified. R3 first semantic run is dispatched under the common atomic lock; baseline
+and separate nested scheduling TEST results remain diagnostics, with all
+acceptance/actual nested proof credits false. Independent combined generic/postmark diagnostic remains READY.
  [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json),
 [experiment history](EXPERIMENT-LOG.md). Branch
