@@ -45,6 +45,44 @@ lem bidirectional_small_current_cell_alias<T>(t: thread_id_t,
     assert original as pointer == selected as pointer;
 }
 
+// Check either of the two forward-left cursor cells in a context that does
+// not assume which one is selected.  The actual odd-copy caller invokes this
+// after deriving left == src from left_nonempty; keeping that stronger fact
+// out of this contract makes both checked proof branches feasible here.
+lem bidirectional_small_left_cell_association<T>(t: thread_id_t,
+        src: *T, left: *const T, last_src: *const T)
+    req (left == src || left == src + 1) &*& last_src == left &*&
+        0 < std::mem::size_of::<T>() &*&
+        std::mem::size_of::<T>() <= isize::MAX &*&
+        0 < std::mem::align_of::<T>() &*&
+        0 < src as usize &*& 0 < (src + 1) as usize &*&
+        src as usize % std::mem::align_of::<T>() == 0 &*&
+        (src + 1) as usize % std::mem::align_of::<T>() == 0 &*&
+        pointer_within_limits(src) == true &*&
+        pointer_within_limits(src + 1) == true &*&
+        object_pointer_within_limits(src, std::mem::size_of::<T>()) == true &*&
+        object_pointer_within_limits(src + 1, std::mem::size_of::<T>()) == true &*&
+        (if left == src {
+            *src |-> ?source0 &*& <T>.own(t, source0)
+         } else {
+            *(src + 1) |-> ?source1 &*& <T>.own(t, source1)
+         });
+    ens *last_src |-> ?current_value &*& <T>.own(t, current_value);
+{
+    if left == src {
+        assert last_src == src;
+        assert last_src as pointer == src as pointer;
+        bidirectional_small_current_cell_alias::<T>(t, src as *T, last_src as *T);
+        assert *last_src |-> ?odd_src0;
+    } else {
+        assert left == src + 1;
+        assert last_src == src + 1;
+        assert last_src as pointer == (src + 1) as pointer;
+        bidirectional_small_current_cell_alias::<T>(t, (src + 1) as *T, last_src as *T);
+        assert *last_src |-> ?odd_src1;
+    }
+}
+
 fix bidirectional_small_option_same<T>(old_value: option<T>, new_value: option<T>) -> bool {
     old_value == new_value
 }
@@ -246,15 +284,13 @@ def insert_len23_invariant(body: str) -> str:
     )
     body = body.replace(loop, loop + invariant, 1)
     # The one forward merge leaves left at src or src+1 and right at src+1
-    # or src+2.  The actual odd copy uses their conditional result.  Split
-    # that result while the source chunks from both checked callees are still
-    # available, so C1 can associate its src points-to with a concrete cell.
-    # This assertion only observes existing chunks; it creates no permission.
+    # or src+2.  In the left-nonempty branch, strict cursor ordering derives
+    # left == src.  The checked helper has a broader precondition without that
+    # ordering fact, so both left-cell associations are verified in its body.
+    # The actual call remains on the derived src cell and uses existing chunks.
     odd_source_cases = (
-        "            //@ { assert len == 3; if left_nonempty { "
-        "if left == src { assert last_src == src; assert last_src as pointer == src as pointer; bidirectional_small_current_cell_alias::<T>(t, src as *T, last_src as *T); assert *last_src |-> ?odd_src0; } "
-        "else { assert left == src + 1; assert last_src == src + 1; assert last_src as pointer == (src + 1) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 1) as *T, last_src as *T); "
-        "assert *last_src |-> ?odd_src1; } } else { "
+        "            //@ { assert len == 3; if left_nonempty { assert left == src; "
+        "bidirectional_small_left_cell_association::<T>(t, src as *T, left, last_src); } else { "
         "if right == src + 1 { assert last_src == src + 1; assert last_src as pointer == (src + 1) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 1) as *T, last_src as *T); "
         "assert *last_src |-> ?odd_src1; } "
         "else { assert right == src + 2; assert last_src == src + 2; assert last_src as pointer == (src + 2) as pointer; bidirectional_small_current_cell_alias::<T>(t, (src + 2) as *T, last_src as *T); "

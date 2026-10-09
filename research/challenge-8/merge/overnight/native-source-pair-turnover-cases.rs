@@ -69,7 +69,7 @@ pred native_pair_holes<T>(t: thread_id_t, p: *T, n: usize,
             *p |-> current &*& <T>.own(t, current)
         }) &*&
         native_pair_holes::<T>(t, p + 1, n - 1,
-            native_pair_step(i), native_pair_step(j), tail);
+            native_pair_step(i), native_pair_step(j), tail)
     };
 
 // The selected predicate carries the full current points-to and owner chunk
@@ -87,7 +87,7 @@ pred native_pair_selected<T>(t: thread_id_t, p: *T, n: usize,
             *p |-> vj &*& <T>.own(t, vj)
         } else { true }) &*&
         native_pair_selected::<T>(t, p + 1, n - 1,
-            native_pair_step(i), native_pair_step(j), vi, vj);
+            native_pair_step(i), native_pair_step(j), vi, vj)
     };
 
 pred native_pair_owned_array<T>(t: thread_id_t, p: *T, n: usize,
