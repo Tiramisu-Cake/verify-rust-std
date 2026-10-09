@@ -1,3 +1,18 @@
+## Drop/native diagnostic failures —74227266 /95f0fb46
+
+CopyOnDrop both stock/experimental positive and full-domain first-body false:
+INCONCLUSIVE before Drop body, VF1 (reference-to-usize ghost cast type mismatch),
+export/decode/refinement0, no copy/return/leak and no intended negative credit.
+MIR reader invariant-variance and AST prototype/body defects separately localized.
+Ghost pointer-cast/admission repair is untested. Exact count-n runtime unchanged;
+caller cleanup/ownership transfer not established. Native pair turnover all4
+both profiles INCONCLUSIVE parse109cols18–19, zero bodies/return/leak; ghost
+statement-match comma repair is untested. Ordinary normal/unwind smoke PASS.
+All full archive/separate text evidence verified, accepted=false.
+Exact-current-value odd association helper, inactive separately committed
+MIR-OR-JOIN-LIVENESS component, and arbitrary-index owner transposition are new
+Cloud-untested drafts; historical b34 liveness failure remains unchanged.
+
 ## Current-owner handoff stock and experimental — a3553e9e / 777d5e9f
 
 Identity/swap/native-usize arbitrary-n array identity PASS both tools:

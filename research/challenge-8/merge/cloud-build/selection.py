@@ -34,6 +34,9 @@ NEW_GROUPS = {
     "cleanup-recovery-hidden-type-diagnostic",
     "current-owner-handoff-resource-diagnostic",
     "current-owner-handoff-stock-diagnostic",
+    "mir-or-join-seven-diagnostic",
+    "checked-current-owner-permutation",
+    "checked-current-owner-permutation-stock",
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {
@@ -45,6 +48,15 @@ DEPENDENCIES = {
     },
     "hrtb-admission-certificate": {
         "callback-model-diagnostics", "prepared-hrtb-diagnostics",
+    },
+    "mir-or-join-seven-diagnostic": {
+        "actual-source-preparation", "bidirectional-small-source-preparation",
+    },
+    "checked-current-owner-permutation": {
+        "actual-source-preparation", "bidirectional-small-source-preparation",
+    },
+    "checked-current-owner-permutation-stock": {
+        "actual-source-preparation", "bidirectional-small-source-preparation",
     },
 }
 

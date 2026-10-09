@@ -1,18 +1,31 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED POSTS COMPLETE, LIVENESS OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4337/10800 elapsed
-Cloud seconds**, remaining **6463**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Latest setup Build
-**8a60b6aa-0c8f-4b7b-bf29-7902192e06da**, proof/infra
-440a2dac7225027570d6b98a2d511604ed6b937a, FAILURE87s;
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4677/10800 elapsed
+Cloud seconds**, remaining **6123**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Latest Build
+**74227266-b453-46ff-9008-cdbab57a6192**, proof/infra
+95f0fb462e7ae476c49a1af6d8d9a79d6c91e9f7, SUCCESS collector340s;
+04:24:21.726–04:30:01.473 UTC. Config
+0d7083f1ea8c4923bd1ec97d10804f7973bdbc92faa5b8d3ab246a046061fe1f;
+archive87ead4a69da4d7d5cc83a29d8d878bd1d670494f95c6779446da81a6643c308e.
+Full archive/metadata/separate text logs verified; seven groups, accepted=false.
+Native turnover all4cases BOTH profiles **INCONCLUSIVE parse109cols18–19**,
+zero bodies/returns/leaks. CopyOnDrop positive and entryfalse BOTH profiles
+**INCONCLUSIVE before target body**, VF1 reference-to-usize ghost cast type
+mismatch/export/decode/refinement0; MIR reader refuses variance enum `invariant`,
+AST distinguishes prototype/body incompletely.
+No intended negative credit. Ordinary normal/unwind smoke PASS4returns/4leaks.
+Source preparation completed; its ghost helper post is the older existential
+current-value form. Working draft strengthens it to preserve the exact current
+value; this draft needs NEW Cloud evidence, as do separate inactive OR component
+and arbitrary-index owner-transposition fixture. Source/runtime/posts unchanged.
+Previous setup Build **8a60b6aa-0c8f-4b7b-bf29-7902192e06da**,
+proof/infra440a2dac7225027570d6b98a2d511604ed6b937a, FAILURE87s;
 04:17:00.811–04:18:27.268 UTC. Config
 f78a5b252170dcfa580bc191b3bb2ab72ab2d221fe9bdefe1d76eb5b60583390;
-archive df1174e6b87982c722cee17135c44baf45e1ae556d6eb0dacb9d24802694ae16.
-Complete failure evidence/text verified. Provider-overlay stale preparer base
-SHA refused BEFORE any verifier/source preparation. All new Drop/native/ghost
-candidates UNTESTED. Base hash updated to actual89d592d4, all18basehashes checked;
-budget-log path also moved outside runner-created allprooflogs (latent setup
-ordering issue). These operational fixes require fresh exact-SHA Build.
+archivedf1174e6b87982c722cee17135c44baf45e1ae556d6eb0dacb9d24802694ae16.
+Stale overlay preparer SHA refused before verifier; infrastructure hash/order
+fixes were exercised by742. Failure/historical budgets preserved.
 Latest resource Build
 **a3553e9e-c9f6-431d-9175-8969b3adf2c3**, proof/infra
 777d5e9f1e6270f3aa4fc4027f605124bd0785de,333s/SUCCESScollector;
@@ -99,11 +112,12 @@ Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
 
-Next permitted action: prepared Drop stock+experimental/native turnover repair
-stock+experimental/source preparation/smoke recipe follows common lock.
-Direct count-n actual Drop body draft has no Cloud result. Prepare separately
-reviewed exact MIR-origin liveness component and equivalent ghost restructuring;
-continue justified independent resource/caller work within own budget/window.
+Next permitted action: isolated arbitrary-native-index current-owner permutation
+stock+experimental with fresh strengthened ghost source preparation, then separately
+pinned seventh OR-origin Cloud diagnostic. Localize native/Drop failures while
+preserving full target posts; changed drafts require fresh exact-SHA evidence.
+OR profile remains REFUSE/null-source-pins until new Cloud source hashes; existing
+six kernel/cleanup profile remains unaccepted. Full semantic gates still required.
 No local executable verification/build/tests or Actions dispatch. Accepted
 migration A/B/C and constructor are not repeated.
 ---

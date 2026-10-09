@@ -24,7 +24,7 @@ FILES = {
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
     "research/challenge-8/merge/overnight/pointer-prove.py": "4e0a73b3e969477c27879c8c802029d07e9c246565bddf770ba7db89bf0a704d",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
-    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "89d592d4358d358ecdd1086b7eb45352b7b358bfe60d0602c9f00fd5171a0a88",
+    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "d3ff063f4c02cebc71f60e493198872eda06093bafcde9a7e4a6c9711dddaa4c",
     "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
     "research/challenge-8/merge/overnight/stack-address-admission.py": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
     "research/challenge-8/merge/overnight/stack-proof-ast-admission.py": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
@@ -158,6 +158,18 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --fixture research/challenge-8/merge/overnight/current-owner-handoff-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-current-owner-handoff-stock"\n'
+                 b'  run_one checked-current-owner-permutation 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'isolated current-owner permutation; exact source/stage/body/return/leak/dead gates; double-owner case remains calibration only without an intended oracle' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/current-owner-permutation-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-current-owner-permutation"\n'
+                 b'  run_one checked-current-owner-permutation-stock 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile stock-26.10-current-owner-permutation \\\n'
+                 b"    --scope 'stock isolation of the exact current-owner permutation fixture; double-owner case remains calibration only without an intended oracle' \\\n"
+                 b'    --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/current-owner-permutation-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-current-owner-permutation-stock"\n'
                  b'  run_one native-source-pair-turnover-resource-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
                  b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
                  b"    --scope 'conditional native-index current-source turnover; current owners conserved, actual caller bridge open' \\\n"

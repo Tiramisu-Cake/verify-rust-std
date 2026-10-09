@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
+import re
 import sys
 
 from selection import KNOWN_GROUPS, load
@@ -45,6 +47,28 @@ POINTER_GROUPS = {
     "cleanup-recovery-hidden-type-diagnostic": "checked-cleanup-recovery-hidden-type",
     "current-owner-handoff-resource-diagnostic": "checked-current-owner-handoff",
     "current-owner-handoff-stock-diagnostic": "checked-current-owner-handoff-stock",
+    "checked-current-owner-permutation": "checked-current-owner-permutation",
+    "checked-current-owner-permutation-stock": "checked-current-owner-permutation-stock",
+}
+PERMUTATION_GROUPS = {
+    "checked-current-owner-permutation": {
+        "directory": "checked-current-owner-permutation",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    },
+    "checked-current-owner-permutation-stock": {
+        "directory": "checked-current-owner-permutation-stock",
+        "profile": "stock-26.10-current-owner-permutation",
+    },
+}
+PERMUTATION_CASES = (
+    "current_owner_transposition",
+    "current_owner_transposition_false_entry",
+    "current_owner_transposition_double_owner_calibration",
+)
+BOUNDED_REQUIRED_BODIES = {
+    "merge_up", "merge_down", "panic_on_ord_violation", "bidirectional_merge",
+    "bidirectional_small_left_cell_association",
+    "bidirectional_small_current_cell_alias",
 }
 DROP_GROUPS = {
     "actual-copy-on-drop-resource-diagnostic": {
@@ -61,6 +85,20 @@ DROP_STAGES = ("exporter", "decode", "verifast", "refinement")
 DROP_SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
 DROP_SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
 DROP_BLOCK_SHA256 = "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a"
+OR_JOIN_GROUP = "mir-or-join-seven-diagnostic"
+OR_JOIN_PROFILE = "experimental-merge-six-plus-mir-or-join-liveness-v1-unaccepted"
+OR_JOIN_COMPONENT = Path(
+    "research/challenge-8/merge/overnight/or-join-liveness")
+OR_JOIN_MINIMUM_ARTIFACTS = [
+    f"cases/{OR_JOIN_GROUP}/manifest-PINNED-INPUTS.json",
+    f"cases/{OR_JOIN_GROUP}/seven-audit.json",
+    f"cases/{OR_JOIN_GROUP}/seven-run-exit-code.txt",
+    f"cases/{OR_JOIN_GROUP}/preflight.log",
+    f"cases/{OR_JOIN_GROUP}/preflight-exit-code.txt",
+    f"cases/{OR_JOIN_GROUP}/work-budget.txt",
+    *[f"cases/{OR_JOIN_GROUP}/{name}-exit-code.txt" for name in
+      ("calibrated-real-dead", "uncalibrated-liveness-controls", "actual-bounded")],
+]
 OTHER_ARTIFACTS = {
     "G2-compatibility": [
         "cases/checked-g2/results.json", "cases/checked-g2/source-admission.json",
@@ -149,6 +187,11 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 f"cases/{name}/aggregate.json",
                 f"cases/{name}/full-small-sort-source-admission.json",
             ]
+            if group in PERMUTATION_GROUPS:
+                mandatory[group].extend([
+                    f"cases/{name}/fixture-manifest.json",
+                    f"cases/{name}/results.json",
+                ])
         elif group in DROP_GROUPS:
             dirname = DROP_GROUPS[group]["directory"]
             mandatory[group] = [
@@ -158,6 +201,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 f"cases/{dirname}/aggregate.json",
                 *[f"cases/{dirname}/cases/{case}/classification.json" for case in DROP_CASES],
             ]
+        elif group == OR_JOIN_GROUP:
+            mandatory[group] = OR_JOIN_MINIMUM_ARTIFACTS
         elif group in OTHER_ARTIFACTS:
             mandatory[group] = OTHER_ARTIFACTS[group]
         else:
@@ -209,6 +254,257 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 case_sets_valid)
         except (OSError, ValueError):
             artifact_status[group] = False
+
+    def audit_current_owner_permutation(group: str, spec: dict) -> bool:
+        base = cases / spec["directory"]
+        fixture_path = (Path(__file__).resolve().parents[4] /
+                        "research/challenge-8/merge/overnight/current-owner-permutation-cases.rs")
+        try:
+            aggregate = json.loads((base / "aggregate.json").read_text())
+            fixture = json.loads((base / "fixture-manifest.json").read_text())
+            results = json.loads((base / "results.json").read_text())
+            admission_path = base / "full-small-sort-source-admission.json"
+            admission = json.loads(admission_path.read_text())
+            if not all(isinstance(value, dict) for value in
+                       (aggregate, fixture, results, admission)):
+                return False
+            case_order = fixture.get("case_order")
+            metadata = fixture.get("cases")
+            rows = results.get("cases")
+            raw_aggregate = aggregate.get("cases")
+            if (case_order != list(PERMUTATION_CASES) or
+                    not isinstance(metadata, dict) or not isinstance(rows, dict) or
+                    not isinstance(raw_aggregate, dict) or
+                    set(metadata) != set(PERMUTATION_CASES) or
+                    set(rows) != set(PERMUTATION_CASES) or
+                    set(raw_aggregate) != set(PERMUTATION_CASES) or
+                    any(not isinstance(rows.get(name), dict) for name in PERMUTATION_CASES) or
+                    raw_aggregate != {name: rows[name].get("classification")
+                                      for name in PERMUTATION_CASES} or
+                    fixture.get("fixture_sha256") != sha256_file(fixture_path) or
+                    not isinstance(results.get("profile"), str) or
+                    results.get("profile", "").split(";", 1)[0] != spec["profile"] or
+                    results.get("source_admission_sha256") != sha256_file(admission_path) or
+                    aggregate.get("evidence_collection_completed") is not True or
+                    aggregate.get("classifier_controls_passed") is not True):
+                return False
+            if (admission.get("full_source_sha256") !=
+                    "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"):
+                return False
+            for name in PERMUTATION_CASES:
+                meta = metadata[name]
+                row = rows[name]
+                if not isinstance(meta, dict) or not isinstance(row, dict):
+                    return False
+                if (meta.get("case") != name or meta.get("ghost_strip_exact_bytes") is not True or
+                        meta.get("expected_bodies") != [name] or
+                        row.get("accepted") is not False or
+                        row.get("source_unchanged_at_every_stage") is not True or
+                        row.get("source_before") != row.get("source_after") or
+                        not isinstance(row.get("source_before"), dict) or
+                        row["source_before"].get("original/lib.rs") != meta.get("original_sha256") or
+                        row["source_before"].get("verified/lib.rs") != meta.get("verified_sha256")):
+                    return False
+                case_dir = base / "cases" / name
+                for rel, expected in (("original/lib.rs", meta.get("original_sha256")),
+                                      ("verified/lib.rs", meta.get("verified_sha256"))):
+                    path = case_dir / rel
+                    if (not path.is_file() or path.is_symlink() or
+                            sha256_file(path) != expected):
+                        return False
+                unchanged_hashes = row.get("source_before")
+                if (not isinstance(unchanged_hashes, dict) or
+                        unchanged_hashes.get("original/lib.rs") != sha256_file(case_dir / "original/lib.rs") or
+                        unchanged_hashes.get("verified/lib.rs") != sha256_file(case_dir / "verified/lib.rs")):
+                    return False
+                stages = row.get("stages")
+                if not isinstance(stages, dict) or set(stages) != {"exporter", "decode", "verifast", "refinement"}:
+                    return False
+                for stage, code in stages.items():
+                    paths = (case_dir / f"{stage}.out", case_dir / f"{stage}.log",
+                             case_dir / f"{stage}-resources.txt", case_dir / f"{stage}-exit-code.txt",
+                             case_dir / f"source-integrity-{stage}.json")
+                    if any(not path.is_file() or path.is_symlink() for path in paths):
+                        return False
+                    integrity = json.loads(paths[-1].read_text())
+                    if (int(paths[3].read_text().strip()) != code or
+                            integrity.get("exit_code") != code or integrity.get("unchanged") is not True or
+                            integrity.get("source_before") != unchanged_hashes or
+                            integrity.get("source_after") != unchanged_hashes):
+                        return False
+                classification = row.get("classification")
+                bodies = meta.get("expected_bodies")
+                body_execution = row.get("body_execution_records")
+                body_records = row.get("per_body_records")
+                classifier_controls = row.get("classifier_fail_closed_mutations")
+                if (not isinstance(bodies, list) or bodies != [name] or
+                        not isinstance(body_execution, dict) or not isinstance(body_records, dict) or
+                        not isinstance(classifier_controls, dict) or not classifier_controls or
+                        not all(value is True for value in classifier_controls.values()) or
+                        any(not isinstance(body_records.get(body), dict) for body in bodies) or
+                        any(type(stages.get(stage)) is not int for stage in stages)):
+                    return False
+                if name == "current_owner_transposition_false_entry":
+                    expected = meta.get("expected_error")
+                    observed_error = row.get("observed_error")
+                    if (meta.get("negative") is not True or
+                            meta.get("unclassified_target") is not False or
+                            not isinstance(expected, dict) or
+                            row.get("expected_error") != expected or classification not in
+                            {"EXPECTED_FALSE_ASSERTION", "INCONCLUSIVE"}):
+                        return False
+                    if classification == "EXPECTED_FALSE_ASSERTION" and (
+                            expected.get("stage") != "verifast" or
+                            expected.get("predicate") != "false" or
+                            expected.get("line") != meta.get("marked_target_line") or
+                            row.get("full_positive_gate") is not False or
+                            row.get("stages") != {"exporter": 0, "decode": 0, "verifast": 1, "refinement": 0} or
+                            not isinstance(observed_error, dict) or
+                            any(observed_error.get(key) != expected.get(key) for key in
+                                ("line", "column_start", "column_end", "predicate")) or
+                            observed_error.get("target_executed") is not True or
+                            any(body_execution.get(body, 0) <= 0 for body in bodies) or
+                            row.get("dead_code_records")):
+                        return False
+                elif name == "current_owner_transposition_double_owner_calibration":
+                    if (meta.get("negative") is not False or
+                            meta.get("unclassified_target") is not True or
+                            meta.get("expected_error") is not None or
+                            meta.get("expected_rejection") is not None or
+                            meta.get("expected_dead") is not None or
+                            classification not in {"PASS", "INCONCLUSIVE"}):
+                        return False
+                    if classification == "PASS" and not row.get("full_positive_gate"):
+                        return False
+                else:
+                    if (meta.get("negative") is not False or
+                            meta.get("expected_error") is not None or
+                            classification not in {"PASS", "INCONCLUSIVE"}):
+                        return False
+                    if classification == "PASS" and not row.get("full_positive_gate"):
+                        return False
+                if classification == "PASS":
+                    if (not all(stages.get(stage) == 0 for stage in stages) or
+                            row.get("error_lines") or row.get("dead_code_records") or
+                            any(body_execution.get(body, 0) <= 0 for body in bodies) or
+                            any(body_records.get(body, {}).get("return", 0) <= 0 or
+                                body_records.get(body, {}).get("leak", 0) <= 0 for body in bodies) or
+                            not row.get("classifier_fail_closed_mutations") or
+                            not all(row["classifier_fail_closed_mutations"].values())):
+                        return False
+            return True
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            return False
+
+    permutation_cases: dict[str, dict] = {}
+    for group, spec in PERMUTATION_GROUPS.items():
+        if group in selected:
+            valid = artifact_status.get(group, False) and audit_current_owner_permutation(group, spec)
+            artifact_status[group] = valid
+            try:
+                aggregate = json.loads((cases / spec["directory"] / "aggregate.json").read_text())
+                permutation_cases[group] = {
+                    "accepted": False,
+                    "raw_case_statuses": aggregate.get("cases", {}),
+                    "double_owner_calibration": aggregate.get("cases", {}).get(
+                        "current_owner_transposition_double_owner_calibration", "INCONCLUSIVE"),
+                    "double_owner_interpretation": "CALIBRATION_ONLY_NO_INTENDED_ORACLE",
+                    "audit_valid": valid,
+                }
+            except (OSError, ValueError, TypeError, AttributeError):
+                permutation_cases[group] = {"classification": "INCONCLUSIVE", "accepted": False,
+                                            "cases": {}, "audit_valid": False}
+        else:
+            permutation_cases[group] = {"classification": "NOT_RUN", "accepted": False, "cases": {}}
+
+    bounded_source_pin: dict = {"classification": "NOT_RUN", "accepted": False}
+    bounded_source_pin_ok = "bidirectional-small-source-preparation" not in selected
+    if "bidirectional-small-source-preparation" in selected:
+        try:
+            pin_path = root / "bounded-source-pin.json"
+            pin = json.loads(pin_path.read_text())
+            pin_cases = root / "bounded-source-pin/cases"
+            extracted = json.loads((pin_cases / "extraction.json").read_text())
+            case_meta = extracted.get("cases", {}).get("bidirectional_merge_len23", {})
+            fixture_path = evidence / "bidirectional-small-cases.rs"
+            admission_path = evidence / "bidirectional-small-cases.admission.json"
+            actual_source = (Path(__file__).resolve().parents[4] /
+                             "library/core/src/slice/sort/shared/smallsort.rs")
+            harness = (Path(__file__).resolve().parents[4] /
+                       "research/challenge-8/merge/overnight/pointer-prove.py")
+            original = pin_cases / "bidirectional_merge_len23/original/lib.rs"
+            verified = pin_cases / "bidirectional_merge_len23/verified/lib.rs"
+            build_runtime = evidence / "build/source-build-runtime.txt"
+            runtime_first = build_runtime.read_text(errors="replace").splitlines()[0].split()
+            fresh_console = runtime_first[0] if len(runtime_first) == 2 else None
+            admission = json.loads(admission_path.read_text())
+            body_meta = admission.get("cases", {}).get("bidirectional_merge", {})
+            source_signature = "unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>("
+            guard_statement = "if left != left_end || right != right_end {"
+            actual_bytes = actual_source.read_bytes()
+            verified_bytes = verified.read_bytes()
+            actual_signature_line = actual_bytes[:actual_bytes.index(source_signature.encode())].count(b"\n") + 1
+            actual_guard_line = actual_bytes[:actual_bytes.index(guard_statement.encode())].count(b"\n") + 1
+            verified_signature_line = verified_bytes[:verified_bytes.index(source_signature.encode())].count(b"\n") + 1
+            verified_guard_line = verified_bytes[:verified_bytes.index(guard_statement.encode())].count(b"\n") + 1
+            actual_body_start = actual_bytes.index(source_signature.encode())
+            actual_body_end = actual_bytes.index(b"\n}\n", actual_body_start) + 2
+            actual_body_sha256 = hashlib.sha256(actual_bytes[actual_body_start:actual_body_end]).hexdigest()
+            extracted_body_names = checked_body_names(verified_bytes)
+            bounded_source_pin_ok = (
+                pin.get("schema") == "smallsort-bounded-source-pin-v1" and
+                pin.get("accepted") is False and
+                pin.get("admission_state") == "PINNED_LITERAL_CANDIDATE" and
+                pin.get("classification") == "SOURCE_PROVENANCE_ONLY" and
+                pin.get("case") == "bidirectional_merge_len23" and
+                pin.get("small_sort_source_sha256") ==
+                    "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1" ==
+                    sha256_file(actual_source) == pin.get("small_sort_source_sha256") and
+                pin.get("fixture_sha256") == sha256_file(fixture_path) ==
+                    extracted.get("fixture_sha256") and
+                pin.get("retained_pointer_prove_sha256") == sha256_file(harness) and
+                pin.get("verified_lib_sha256") == sha256_file(verified) ==
+                    case_meta.get("verified_sha256") and
+                pin.get("original_lib_sha256") == sha256_file(original) ==
+                    case_meta.get("original_sha256") and
+                case_meta.get("ghost_strip_exact_bytes") is True and
+                case_meta.get("expected_bodies") == extracted_body_names and
+                BOUNDED_REQUIRED_BODIES.issubset(set(extracted_body_names)) and
+                body_meta.get("exact_source_sha256") == pin.get("actual_bidirectional_body_sha256") == actual_body_sha256 and
+                pin.get("base_stock_console_sha256") ==
+                    "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1" and
+                pin.get("fresh_experimental_console_sha256") == fresh_console and
+                pin.get("source_signature") == source_signature and
+                actual_bytes.count(source_signature.encode()) == 1 and
+                verified_bytes.count(source_signature.encode()) == 1 and
+                pin.get("guard_statement") == guard_statement and
+                actual_bytes.count(guard_statement.encode()) == 1 and
+                verified_bytes.count(guard_statement.encode()) == 1 and
+                pin.get("actual_source_signature_line") == actual_signature_line == 754 and
+                pin.get("actual_source_guard_line") == actual_guard_line == 831 and
+                pin.get("verified_signature_line") == verified_signature_line > 0 and
+                pin.get("verified_guard_line") == verified_guard_line > verified_signature_line and
+                pin.get("expected_bodies") == extracted_body_names
+            )
+            bounded_source_pin = {
+                "classification": pin.get("classification", "INCONCLUSIVE"),
+                "admission_state": pin.get("admission_state", "INCONCLUSIVE"),
+                "accepted": False,
+                "audit_valid": bounded_source_pin_ok,
+                "fixture_sha256": pin.get("fixture_sha256"),
+                "actual_bidirectional_body_sha256": pin.get("actual_bidirectional_body_sha256"),
+                "expected_bodies": pin.get("expected_bodies"),
+                "small_sort_source_sha256": pin.get("small_sort_source_sha256"),
+                "actual_source_signature_line": pin.get("actual_source_signature_line"),
+                "actual_source_guard_line": pin.get("actual_source_guard_line"),
+                "verified_signature_line": pin.get("verified_signature_line"),
+                "verified_guard_line": pin.get("verified_guard_line"),
+                "base_stock_console_sha256": pin.get("base_stock_console_sha256"),
+                "fresh_experimental_console_sha256": pin.get("fresh_experimental_console_sha256"),
+            }
+        except (OSError, ValueError, KeyError, TypeError, IndexError, AttributeError):
+            bounded_source_pin = {"classification": "INCONCLUSIVE", "accepted": False,
+                                  "audit_valid": False}
 
     def audit_copy_on_drop(group: str, spec: dict) -> bool:
         base = cases / spec["directory"]
@@ -363,6 +659,222 @@ def audit(root: Path, selection_path: Path, run_status: int,
     for group, spec in DROP_GROUPS.items():
         if group in selected:
             artifact_status[group] = artifact_status.get(group, False) and audit_copy_on_drop(group, spec)
+
+    or_join_status = {
+        "component": "MIR-OR-JOIN-LIVENESS",
+        "profile": OR_JOIN_PROFILE,
+        "accepted": False,
+        "component_gates_complete": False,
+        "manifest_admission_state": "MISSING",
+        "raw_seven_audit": None,
+        "artifact_hash_bindings_valid": False,
+        "diagnostic_complete": False,
+        "note": "coverage-origin experiment remains separate from theorem and profile acceptance",
+    }
+    def audit_or_join() -> bool:
+        base = cases / OR_JOIN_GROUP
+        try:
+            manifest_path = base / "manifest-PINNED-INPUTS.json"
+            manifest = json.loads(manifest_path.read_text())
+            seven = json.loads((base / "seven-audit.json").read_text())
+            original_manifest = (Path(__file__).resolve().parents[4] /
+                                OR_JOIN_COMPONENT / "PINNED-INPUTS.json")
+            manifest_bytes_match = (original_manifest.is_file() and
+                                    manifest_path.read_bytes() == original_manifest.read_bytes())
+            or_join_status.update({
+                "manifest_admission_state": manifest.get("admission_state"),
+                "manifest_sha256": sha256_file(manifest_path),
+                "raw_seven_audit": seven,
+                "diagnostic_complete": seven.get("diagnostic_complete") is True,
+            })
+            raw_groups = base / "group-status.txt"
+            or_join_status["raw_component_group_statuses"] = (
+                raw_groups.read_text(errors="replace").splitlines()
+                if raw_groups.is_file() else [])
+            minimum = all((evidence / rel).is_file() and not (evidence / rel).is_symlink()
+                          for rel in OR_JOIN_MINIMUM_ARTIFACTS)
+            run_status_path = base / "seven-run-exit-code.txt"
+            run_status = int(run_status_path.read_text().strip()) if run_status_path.is_file() else None
+            group_exit = evidence / f"group-{OR_JOIN_GROUP}-exit-code.txt"
+            external_status = int(group_exit.read_text().strip()) if group_exit.is_file() else None
+            inner_group_names = ("calibrated-real-dead", "uncalibrated-liveness-controls",
+                                 "actual-bounded")
+            raw_inner_groups = seven.get("group_status")
+            inner_statuses_bound = isinstance(raw_inner_groups, dict) and set(raw_inner_groups) == set(inner_group_names)
+            if inner_statuses_bound:
+                inner_statuses_bound = all(
+                    (base / f"{name}-exit-code.txt").read_text().strip() == raw_inner_groups[name]
+                    for name in inner_group_names)
+            budget_text = (base / "work-budget.txt").read_text(errors="replace")
+            budget_match = re.search(r"\bbudget=([0-9]+)\b", budget_text)
+            lane_budget_lines = (root / "lane-work-budget.txt").read_text(errors="replace").splitlines()
+            lane_budget_match = next((re.fullmatch(r"mir_or_join_work_seconds=([0-9]+)", line)
+                                      for line in lane_budget_lines
+                                      if line.startswith("mir_or_join_work_seconds=")), None)
+            inner_budget = int(budget_match.group(1)) if budget_match else None
+            outer_budget = int(lane_budget_match.group(1)) if lane_budget_match else None
+            budget_bound = (inner_budget is not None and inner_budget == outer_budget and
+                            1 <= inner_budget <= 900)
+            or_join_status["raw_inner_group_statuses"] = raw_inner_groups
+            or_join_status["inner_group_statuses_bound"] = bool(inner_statuses_bound)
+            or_join_status["work_budget_seconds"] = inner_budget
+            or_join_status["outer_work_budget_seconds"] = outer_budget
+            component_identity = (
+                seven.get("component") == "MIR-OR-JOIN-LIVENESS" and
+                seven.get("profile") == OR_JOIN_PROFILE and
+                seven.get("accepted") is False and
+                seven.get("component_gates_complete") is False and
+                seven.get("base_six_profile_accepted") is False and
+                seven.get("invalid_shape_admission_controls") == "NOT_RUN" and
+                seven.get("same_source_six_component_comparison") == "NOT_RUN")
+            pin_fields = (
+                manifest.get("component") == "MIR-OR-JOIN-LIVENESS" and
+                manifest.get("verifast_commit") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
+                manifest.get("baseline_profile") == "existing-six-patch-experimental-unaccepted" and
+                manifest.get("admission_state") == "EXPERIMENTAL_CLOUD_TRIAL" and
+                all(isinstance(manifest.get(key), str) and
+                    len(manifest[key]) == 64 and
+                    all(ch in "0123456789abcdef" for ch in manifest[key])
+                    for key in ("baseline_applied_profile_sha256",
+                                "baseline_translator_sha256", "baseline_console_sha256",
+                                "baseline_kernel_sha256", "baseline_parser_sha256",
+                                "baseline_prelude_sha256", "baseline_stdlib_sha256",
+                                "release_exporter_sha256", "release_refiner_sha256",
+                                "component_patch_sha256", "component_translator_sha256",
+                                "admission_checker_sha256", "preflight_checker_sha256",
+                                "audit_checker_sha256", "retained_pointer_prove_sha256",
+                                "diagnostic_source_sha256", "admitted_fixture_sha256",
+                                "admitted_source_sha256")) and
+                isinstance(manifest.get("admitted_signature_line"), int) and
+                isinstance(manifest.get("admitted_guard_line"), int) and
+                manifest.get("admitted_signature_line") > 0 and
+                manifest.get("admitted_guard_line") > manifest.get("admitted_signature_line"))
+            pin_bindings = False
+            full_evidence_valid = False
+            if pin_fields:
+                preflight = json.loads((base / "preflight/or-join-preflight.json").read_text())
+                fixture = evidence / "bidirectional-small-cases.rs"
+                harness = (Path(__file__).resolve().parents[4] /
+                           "research/challenge-8/merge/overnight/pointer-prove.py")
+                actual_source = base / "actual/cases/bidirectional_merge_len23/verified/lib.rs"
+                pin_bindings = (
+                    preflight.get("accepted") is False and
+                    preflight.get("fixture_sha256") == manifest.get("admitted_fixture_sha256") ==
+                        sha256_file(fixture) and
+                    preflight.get("verified_sha256") == manifest.get("admitted_source_sha256") ==
+                        sha256_file(actual_source) and
+                    preflight.get("retained_pointer_prove_sha256") ==
+                        manifest.get("retained_pointer_prove_sha256") == sha256_file(harness))
+                if seven.get("diagnostic_complete") is True:
+                    complete_paths = [
+                        "build/seven-profile-manifest.json",
+                        "build/seven-build-exit-code.txt",
+                        "build/seven-source-home.txt",
+                        "build/translator.six.ml", "build/translator.seven.ml",
+                        "build/full-seven-applied-profile.patch",
+                        "build/base-six-applied-profile.patch",
+                        "build/seven-modified-files.txt", "build/seven-profile-hashes.txt",
+                        "preflight/or-join-preflight.json",
+                        "preflight/extraction.json",
+                        "preflight/bidirectional_merge_len23/original/lib.rs",
+                        "preflight/bidirectional_merge_len23/verified/lib.rs",
+                        "source-admission.log", "source-admission-exit-code.txt",
+                        "actual/aggregate.json", "actual/results.json",
+                        "calibrated-real-dead/aggregate.json",
+                        "calibrated-real-dead/results.json",
+                        "uncalibrated-liveness-controls/aggregate.json",
+                        "uncalibrated-liveness-controls/results.json",
+                    ]
+                    complete_files = all(
+                        (base / rel).is_file() and not (base / rel).is_symlink()
+                        for rel in complete_paths)
+                    build = json.loads((base / "build/seven-profile-manifest.json").read_text())
+                    actual_results = json.loads((base / "actual/results.json").read_text())
+                    actual_aggregate = json.loads((base / "actual/aggregate.json").read_text())
+                    dead_results = json.loads((base / "calibrated-real-dead/results.json").read_text())
+                    dead_aggregate = json.loads((base / "calibrated-real-dead/aggregate.json").read_text())
+                    control_results = json.loads((base / "uncalibrated-liveness-controls/results.json").read_text())
+                    control_aggregate = json.loads((base / "uncalibrated-liveness-controls/aggregate.json").read_text())
+                    case_name = "bidirectional_merge_len23"
+                    actual_row = actual_results.get("cases", {}).get(case_name, {})
+                    dead_row = dead_results.get("cases", {}).get("unreachable_body_after_panic", {})
+                    control_rows = control_results.get("cases", {})
+                    expected_controls = {"dead_real_return", "dead_panic_body",
+                                         "dead_source_break", "dead_source_continue"}
+                    build_home = Path((base / "build/seven-source-home.txt").read_text().strip())
+                    seven_console = build_home / "bin/verifast"
+                    actual_case = base / "actual/cases" / case_name
+                    preflight_source = base / "preflight" / case_name / "verified/lib.rs"
+                    full_evidence_valid = (
+                        complete_files and build.get("accepted") is False and
+                        build.get("source_commit") == manifest.get("verifast_commit") and
+                        build.get("base_six_console_sha256") == manifest.get("baseline_console_sha256") and
+                        build.get("base_six_full_diff_sha256") ==
+                            manifest.get("baseline_applied_profile_sha256") and
+                        build.get("seven_full_diff_sha256") ==
+                            sha256_file(base / "build/full-seven-applied-profile.patch") and
+                        build.get("component_manifest_sha256") == sha256_file(manifest_path) and
+                        build.get("component_patch_sha256") == manifest.get("component_patch_sha256") and
+                        build.get("baseline_translator_sha256") == manifest.get("baseline_translator_sha256") and
+                        build.get("component_translator_sha256") == manifest.get("component_translator_sha256") and
+                        build.get("kernel_unchanged") is True and build.get("parser_unchanged") is True and
+                        build.get("prelude_unchanged") is True and build.get("stdlib_unchanged") is True and
+                        build.get("exporter_unchanged") is True and build.get("refiner_unchanged") is True and
+                        (base / "build/seven-modified-files.txt").read_text().splitlines() ==
+                            ["src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"] and
+                        sha256_file(seven_console) == build.get("seven_console_sha256") and
+                        actual_aggregate.get("evidence_collection_completed") is True and
+                        actual_aggregate.get("classifier_controls_passed") is True and
+                        set(actual_results.get("cases", {})) == {case_name} and
+                        set(actual_aggregate.get("cases", {})) == {case_name} and
+                        preflight.get("verified_sha256") == sha256_file(preflight_source) ==
+                            sha256_file(actual_case / "verified/lib.rs") and
+                        preflight.get("original_sha256") == sha256_file(actual_case / "original/lib.rs") and
+                        isinstance(actual_row, dict) and isinstance(dead_row, dict) and
+                        actual_row.get("classification") == seven.get("actual_bounded_raw_classification") and
+                        seven.get("actual_bounded_full_positive") ==
+                            (actual_row.get("full_positive_gate") is True) and
+                        actual_aggregate.get("cases", {}).get(case_name) == actual_row.get("classification") and
+                        dead_aggregate.get("evidence_collection_completed") is True and
+                        dead_aggregate.get("classifier_controls_passed") is True and
+                        set(dead_results.get("cases", {})) == {"unreachable_body_after_panic"} and
+                        set(dead_aggregate.get("cases", {})) == {"unreachable_body_after_panic"} and
+                        dead_row.get("classification") == seven.get("calibrated_real_dead_raw_classification") and
+                        seven.get("calibrated_real_dead_proof_negative") ==
+                            (dead_row.get("expected_dead_code_gate") is True) and
+                        dead_aggregate.get("cases", {}).get("unreachable_body_after_panic") ==
+                            dead_row.get("classification") and
+                        control_aggregate.get("evidence_collection_completed") is True and
+                        control_aggregate.get("classifier_controls_passed") is True and
+                        set(control_rows) == expected_controls == set(seven.get("new_liveness_controls", {})) ==
+                            set(control_aggregate.get("cases", {})) and
+                        all(isinstance(row, dict) and
+                            control_aggregate["cases"].get(name) == row.get("classification")
+                            for name, row in control_rows.items()) and
+                        all(seven["new_liveness_controls"][name].get("raw_classification") ==
+                            control_rows[name].get("classification") and
+                            seven["new_liveness_controls"][name].get("classification") in
+                                {"CALIBRATION_ONLY", "INCONCLUSIVE"} and
+                            seven["new_liveness_controls"][name].get("complete") is True
+                            for name in expected_controls)
+                    )
+            or_join_status["artifact_hash_bindings_valid"] = bool(
+                manifest_bytes_match and pin_bindings and
+                (seven.get("diagnostic_complete") is not True or full_evidence_valid))
+            or_join_status["complete_evidence_hash_bindings_valid"] = bool(full_evidence_valid)
+            or_join_status["run_script_exit_code"] = run_status
+            or_join_status["lane_group_exit_code"] = external_status
+            return bool(minimum and manifest_bytes_match and component_identity and
+                        run_status is not None and external_status is not None and
+                        inner_statuses_bound and budget_bound and
+                        (not pin_fields or pin_bindings) and
+                        (seven.get("diagnostic_complete") is not True or full_evidence_valid))
+        except (OSError, ValueError, KeyError, TypeError):
+            return False
+
+    if OR_JOIN_GROUP in selected:
+        artifact_status[OR_JOIN_GROUP] = (
+            artifact_status.get(OR_JOIN_GROUP, False) and audit_or_join())
 
     # The three stock mathematical proof components each emit a source
     # certificate and bind its exact bytes from results.json.
@@ -538,7 +1050,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         "artifacts_complete": True})
         runtime_ok = True
 
-    artifacts_complete = all(artifact_status.values()) and stages_complete and panic_ok and runtime_ok
+    artifacts_complete = (all(artifact_status.values()) and stages_complete and panic_ok and
+                          runtime_ok and bounded_source_pin_ok)
     complete = (run_status == 0 and groups_exact and artifacts_complete and
                 (cases.is_dir() or not any("cases/" in p for ps in mandatory.values() for p in ps)))
     mode_class = "FULL_TRANSFER_DIAGNOSTIC" if selection["full_transfer"] else "PARTIAL_DIAGNOSTIC"
@@ -556,12 +1069,14 @@ def audit(root: Path, selection_path: Path, run_status: int,
         "not_run_groups_have_no_exit_records": skipped_have_no_exit_records,
         "per_group_stage_records": stage_status,
         "per_group_mandatory_artifacts": artifact_status,
+        "bounded_source_pin": bounded_source_pin,
         "mandatory_artifacts_complete": artifacts_complete,
         "final_panic_origin_certificates": panic_candidates,
         "panic_certificate_required": panic_required,
         "panic_certificate_complete": panic_ok,
         "theorem_statuses": {
             "whole_small_sort_challenge": "NOT_PROVEN",
+            "current_owner_permutation_diagnostics": permutation_cases,
             "current_owner_handoff_cases": owner_handoff_cases,
             "stock_current_owner_handoff_cases": stock_owner_handoff_cases,
             "g2_quartet_trace_cases": quartet_cases,
@@ -576,6 +1091,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
             "actual_copy_on_drop_resource_cases": copy_on_drop_resource_cases,
             "actual_copy_on_drop_stock_cases": copy_on_drop_stock_cases,
         },
+        "separate_semantic_component": {
+            "mir_or_join_liveness": or_join_status,
+        },
         "separate_runtime_candidate": runtime,
         "raw_group_status_path": "allprooflogs/group-status.txt",
         "raw_not_run_group_path": "allprooflogs/group-not-run.txt",
@@ -585,8 +1103,18 @@ def audit(root: Path, selection_path: Path, run_status: int,
 
 
 def sha256_file(path: Path) -> str:
-    import hashlib
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def checked_body_names(source: bytes) -> list[str]:
+    function_pattern = re.compile(
+        rb"(?m)^[ \t]*(?:pub\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^\r\n{}]*>)?\s*\(")
+    lemma_pattern = re.compile(rb"\blem\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?:<[^>{}]*>)?\s*\(")
+    names = ([match.group(1).decode("ascii") for match in function_pattern.finditer(source)] +
+             [match.group(1).decode("ascii") for match in lemma_pattern.finditer(source)])
+    if not names or len(names) != len(set(names)):
+        raise ValueError("bounded source pin has missing/duplicate checked body names")
+    return names
 
 
 def main() -> int:

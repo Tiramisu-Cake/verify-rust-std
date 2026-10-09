@@ -116,6 +116,17 @@ for candidate in actual-copy-on-drop-resource-diagnostic actual-copy-on-drop-sto
     fi
   fi
 done
+or_join_selected=0
+if python3 "$selection_tool" contains --selection "$selection_file" \
+    --sha256 "$selection_sha" mir-or-join-seven-diagnostic; then
+  or_join_selected=1
+else
+  selection_status=$?
+  if [[ "$selection_status" -ne 1 ]]; then
+    printf 'MIR-OR-JOIN selection validation failed\n' >&2
+    exit 2
+  fi
+fi
 
 expected_source_sha=85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1
 printf '%s  %s\n' "$expected_source_sha" \
@@ -149,6 +160,9 @@ paths.extend([
     "research/challenge-8/merge/cloud-build/merge-audit.py",
   "research/challenge-8/merge/overnight/copy-on-drop-prepare.py",
   "research/challenge-8/merge/overnight/copy-on-drop-prove.py",
+  "research/challenge-8/merge/overnight/or-join-liveness/preflight-source.py",
+  "research/challenge-8/merge/overnight/or-join-liveness/admit-source.py",
+  "research/challenge-8/merge/overnight/or-join-liveness/audit-seven.py",
 ])
 for rel in paths:
     if not rel.endswith(".py"):
@@ -157,9 +171,18 @@ for rel in paths:
     ast.parse(source.read_bytes(), filename=rel)
     print("AST OK", rel)
 STATIC
+  python3 - "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/PINNED-INPUTS.json" <<'ORJOINJSON'
+import json, pathlib, sys
+manifest=json.loads(pathlib.Path(sys.argv[1]).read_text())
+if manifest.get("component") != "MIR-OR-JOIN-LIVENESS":
+    raise SystemExit("MIR-OR-JOIN manifest component identity mismatch")
+print("JSON OK MIR-OR-JOIN manifest; admission state remains enforced by pinned component scripts")
+ORJOINJSON
   bash -n "$proof_root/research/challenge-8/merge/overnight/run.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/build.sh"
-  printf 'bash -n OK run.sh and build.sh\n'
+  bash -n "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/run-seven.sh"
+  bash -n "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/build-seven.sh"
+  printf 'bash -n OK retained and MIR-OR-JOIN build/run scripts\n'
 } > "$evidence_root/cloud-static-preflight.log" 2>&1
 
 export PROOF_ROOT="$proof_root" INFRA_ROOT="$infra_root" INFRA_CLOUD_DIR="$cloud_dir"
@@ -231,14 +254,22 @@ CURRENT_STAGE=retained-merge-matrix
 matrix_timeout=1300
 if (( drop_groups_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
-  matrix_budget=$((lane_work_budget_seconds - elapsed - 300 * drop_groups_selected - 140))
+  matrix_reserve=$((300 * drop_groups_selected + 140))
+  (( or_join_selected == 0 )) || matrix_reserve=$((matrix_reserve + 900))
+  matrix_budget=$((lane_work_budget_seconds - elapsed - matrix_reserve))
   (( matrix_budget > 0 )) || matrix_budget=1
   matrix_timeout=900
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
+elif (( or_join_selected > 0 )); then
+  elapsed=$((SECONDS - lane_started))
+  matrix_budget=$((lane_work_budget_seconds - elapsed - 900 - 140))
+  (( matrix_budget > 0 )) || matrix_budget=1
+  matrix_timeout=650
+  (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
 fi
-printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nretained_matrix_timeout_seconds=%s\n' \
-  "$lane_work_budget_seconds" "$drop_groups_selected" "$matrix_timeout" \
-  > "$evidence_root/drop-lane-budget.txt"
+printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nor_join_selected=%s\nretained_matrix_timeout_seconds=%s\n' \
+  "$lane_work_budget_seconds" "$drop_groups_selected" "$or_join_selected" "$matrix_timeout" \
+  > "$evidence_root/lane-work-budget.txt"
 timeout --signal=TERM --kill-after=10s "${matrix_timeout}s" \
   bash research/challenge-8/merge/overnight/run.sh merge_geometry || status=$?
 printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"
@@ -247,6 +278,131 @@ printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"
   status=1
 }
 mv "$group_not_run_template" "$allprooflogs/group-not-run.txt"
+
+# Reuse the retained read_cases admission to publish a literal-source pin for
+# later Cloud trials. This records provenance only; it adds no verifier proof
+# or caller-bridge claim.
+CURRENT_STAGE=bounded-source-pin
+python3 - "$proof_root" "$allprooflogs" "$evidence_root" \
+  "$RUNNER_TEMP/challenge8-merge-overnight/source" \
+  "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" <<'SOURCEPIN'
+import hashlib, importlib.util, json, pathlib, sys
+
+proof, logs, evidence, experimental_home, stock_home = map(pathlib.Path, sys.argv[1:])
+fixture = logs / "bidirectional-small-cases.rs"
+admission_path = logs / "bidirectional-small-cases.admission.json"
+group_status = logs / "group-status.txt"
+target = evidence / "bounded-source-pin"
+case_root = target / "cases"
+case_name = "bidirectional_merge_len23"
+source_path = proof / "library/core/src/slice/sort/shared/smallsort.rs"
+harness = proof / "research/challenge-8/merge/overnight/pointer-prove.py"
+source_sha = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+base_console_sha = "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1"
+candidate = {
+    "schema": "smallsort-bounded-source-pin-v1",
+    "accepted": False,
+    "classification": "INCONCLUSIVE",
+    "admission_state": "INCONCLUSIVE",
+    "scope": "literal bounded actual-source candidate provenance only; no proof result or caller bridge",
+}
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+try:
+    if not fixture.is_file() or not admission_path.is_file() or not group_status.is_file():
+        raise RuntimeError("bidirectional source preparation evidence is missing")
+    statuses = [line.split() for line in group_status.read_text().splitlines()]
+    if [row for row in statuses if len(row) == 2 and row[0] ==
+            "bidirectional-small-source-preparation"] != [[
+                "bidirectional-small-source-preparation", "0"]]:
+        raise RuntimeError("bidirectional source preparation did not complete exactly once with exit 0")
+    if sha(source_path) != source_sha:
+        raise RuntimeError("actual SmallSort source SHA differs from its frozen pin")
+    if sha(stock_home / "bin/verifast") != base_console_sha:
+        raise RuntimeError("stock base console differs from its frozen binary pin")
+    if not (experimental_home / "bin/verifast").is_file():
+        raise RuntimeError("fresh experimental console is missing")
+
+    admission = json.loads(admission_path.read_text())
+    bidirectional = admission.get("cases", {}).get("bidirectional_merge", {})
+    if (admission.get("source_admission", {}).get("full_source_sha256") != source_sha or
+            bidirectional.get("body_present") is not True or
+            bidirectional.get("ghost_strip_exact") is not True):
+        raise RuntimeError("preparer certificate does not bind the exact actual body")
+
+    spec = importlib.util.spec_from_file_location("retained_pointer_prove", harness)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("cannot load retained pointer-prove parser")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    case_root.mkdir(parents=True, exist_ok=False)
+    manifest, _ = module.read_cases(fixture, case_root, [case_name])
+    case_meta = manifest["cases"][case_name]
+    original = case_root / case_name / "original/lib.rs"
+    verified = case_root / case_name / "verified/lib.rs"
+    actual = source_path.read_bytes()
+    verified_bytes = verified.read_bytes()
+    signature = b"unsafe fn bidirectional_merge<T: FreezeMarker, F: FnMut(&T, &T) -> bool>("
+    guard = b"if left != left_end || right != right_end {"
+    if actual.count(signature) != 1 or actual.count(guard) != 1:
+        raise RuntimeError("actual body signature or panic guard is missing/ambiguous")
+    if verified_bytes.count(signature) != 1 or verified_bytes.count(guard) != 1:
+        raise RuntimeError("extracted verified signature or panic guard is missing/ambiguous")
+    expected_bodies = module.body_names(verified_bytes)
+    required_bodies = {
+        "merge_up", "merge_down", "panic_on_ord_violation", "bidirectional_merge",
+        "bidirectional_small_left_cell_association",
+        "bidirectional_small_current_cell_alias",
+    }
+    if (case_meta.get("ghost_strip_exact_bytes") is not True or
+            case_meta.get("expected_bodies") != expected_bodies or
+            not required_bodies.issubset(set(expected_bodies)) or
+            case_meta.get("original_sha256") != sha(original) or
+            case_meta.get("verified_sha256") != sha(verified) or
+            bidirectional.get("exact_source_sha256") is None):
+        raise RuntimeError("retained parser manifest does not bind both extracted source forms")
+    start = actual.index(signature)
+    end = actual.index(b"\n}\n", start) + 2
+    actual_signature_line = actual[:start].count(b"\n") + 1
+    actual_guard_line = actual[:actual.index(guard)].count(b"\n") + 1
+    verified_signature_line = verified_bytes[:verified_bytes.index(signature)].count(b"\n") + 1
+    verified_guard_line = verified_bytes[:verified_bytes.index(guard)].count(b"\n") + 1
+    if (actual_signature_line, actual_guard_line) != (754, 831):
+        raise RuntimeError("actual source signature/guard line locations changed")
+    if verified_signature_line < 1 or verified_guard_line <= verified_signature_line:
+        raise RuntimeError("extracted source signature/guard order is invalid")
+    if hashlib.sha256(actual[start:end]).hexdigest() != bidirectional["exact_source_sha256"]:
+        raise RuntimeError("preparer exact body hash does not match the pinned source body")
+    candidate.update({
+        "admission_state": "PINNED_LITERAL_CANDIDATE",
+        "classification": "SOURCE_PROVENANCE_ONLY",
+        "fixture_sha256": manifest["fixture_sha256"],
+        "retained_pointer_prove_sha256": sha(harness),
+        "verified_lib_sha256": sha(verified),
+        "original_lib_sha256": sha(original),
+        "actual_bidirectional_body_sha256": bidirectional["exact_source_sha256"],
+        "source_signature": signature.decode(),
+        "actual_source_signature_line": actual_signature_line,
+        "guard_statement": guard.decode(),
+        "actual_source_guard_line": actual_guard_line,
+        "verified_signature_line": verified_signature_line,
+        "verified_guard_line": verified_guard_line,
+        "expected_bodies": expected_bodies,
+        "required_bodies": sorted(required_bodies),
+        "small_sort_source_sha256": source_sha,
+        "base_stock_console_sha256": base_console_sha,
+        "fresh_experimental_console_sha256": sha(experimental_home / "bin/verifast"),
+        "case": case_name,
+        "accepted": False,
+    })
+except Exception as error:
+    candidate["reason"] = str(error)
+
+target.mkdir(parents=True, exist_ok=True)
+(evidence / "bounded-source-pin.json").write_text(json.dumps(candidate, sort_keys=True, indent=2) + "\n")
+SOURCEPIN
 
 # The direct Drop diagnostic uses the retained stock and six-patch tool homes
 # from run.sh, but publishes its own source/contract/stage evidence policy.
@@ -303,7 +459,7 @@ run_copy_on_drop_group() {
     fi
   fi
   printf 'group_%s_timeout_seconds=%s\n' "$group" "$group_timeout" \
-    >> "$evidence_root/drop-lane-budget.txt"
+    >> "$evidence_root/lane-work-budget.txt"
   printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
   printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
   if (( driver_status != 0 )); then status=1; fi
@@ -314,6 +470,71 @@ run_copy_on_drop_group actual-copy-on-drop-resource-diagnostic \
   "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
 run_copy_on_drop_group actual-copy-on-drop-stock-diagnostic \
   stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
+
+run_mir_or_join_group() {
+  local group=mir-or-join-seven-diagnostic selected_status=0 driver_status=0
+  local elapsed remaining group_timeout group_evidence component fixture schema sysroot base
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$group"; then
+    :
+  else
+    selected_status=$?
+    if [[ "$selected_status" -eq 1 ]]; then return 0; fi
+    status=1
+    return 0
+  fi
+  CURRENT_STAGE=$group
+  group_evidence="$allprooflogs/cases/$group"
+  component="$proof_root/research/challenge-8/merge/overnight/or-join-liveness"
+  fixture="$allprooflogs/bidirectional-small-cases.rs"
+  schema="$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp"
+  sysroot=$(rustc --print sysroot)
+  base="$RUNNER_TEMP/challenge8-merge-overnight/source"
+  elapsed=$((SECONDS - lane_started))
+  remaining=$((lane_work_budget_seconds - elapsed - 140))
+  group_timeout=0
+  if (( remaining > 0 )); then
+    group_timeout=900
+    (( remaining < group_timeout )) && group_timeout=$remaining
+  fi
+  if [[ -e "$group_evidence" ]]; then
+    printf 'refusing to reuse MIR-OR-JOIN evidence path: %s\n' "$group_evidence" >&2
+    driver_status=2
+  elif (( group_timeout > 0 )); then
+    export OR_JOIN_WORK_SECONDS="$group_timeout"
+    /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${group_timeout}s" \
+      bash "$component/run-seven.sh" "$base" "$allprooflogs/build" \
+        "$fixture" "$schema" "$sysroot" "$group_evidence" \
+      > "$allprooflogs/group-$group.log" 2>&1 || driver_status=$?
+  else
+    driver_status=124
+    mkdir -p "$group_evidence"
+    printf 'MIR-OR-JOIN group not started: shared lane work budget exhausted.\n' \
+      > "$allprooflogs/group-$group.log"
+    printf 'stage not run; lane budget exhausted\n' \
+      > "$allprooflogs/group-$group-resources.txt"
+    python3 - "$group_evidence/seven-audit.json" <<'PARTIAL'
+import json,pathlib,sys
+pathlib.Path(sys.argv[1]).write_text(json.dumps({
+  "component":"MIR-OR-JOIN-LIVENESS","accepted":False,
+  "component_gates_complete":False,"diagnostic_complete":False,
+  "classification":"INCONCLUSIVE","failed_stage":"lane-budget"
+},sort_keys=True,indent=2)+"\n")
+PARTIAL
+    printf '124\n' > "$group_evidence/seven-run-exit-code.txt"
+  fi
+  if [[ -d "$group_evidence" && ! -f "$group_evidence/manifest-PINNED-INPUTS.json" ]]; then
+    cp "$component/PINNED-INPUTS.json" "$group_evidence/manifest-PINNED-INPUTS.json"
+  fi
+  printf 'mir_or_join_work_seconds=%s\n' "$group_timeout" \
+    >> "$evidence_root/lane-work-budget.txt"
+  printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
+  printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
+  if (( driver_status != 0 )); then status=1; fi
+}
+
+run_mir_or_join_group
 
 # The independent saved runtime observation runs only when explicitly selected.
 probe_driver_status=NOT_RUN

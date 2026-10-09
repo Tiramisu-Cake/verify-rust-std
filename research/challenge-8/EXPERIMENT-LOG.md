@@ -5958,3 +5958,78 @@ fix pinnewpreparer and checkALL18basehashes statically; no semanticchanges.
 Main also identified latent budget-log write before allprooflogs exists; moved
 bothwrites toexisting evidence_root, preservinglegacyrun refusal on reusedroot.
 It was not the failure reachedin8a60. FreshBuildrequiredforbothfixes.
+
+Ghostodd helper self-review card beforestrengthening: newlemma's existential
+post retains one pointsto/Town but forgets its exact CURRENT input value. This
+is a conservative overapproximation yet loses useful source-copy linkage. Add
+ghost argumentvalue:T, require conditional selected cell with EXACTvalue and
+post *last_src|->value &Town(t,value); caller obtainsvalue byasserting existing
+*left pointsto afterderivedleft==src. Alloldassertions/alias checks remain in
+bothfeasiblehelperbranches. No runtime bytes, permissions, owners, domain or
+targetnormal/unwindpost weakened; no entrysnapshot substitutes forcurrentvalue.
+Falsifiable acceptance: newhelperbothbranches checked/nodead, caller exactcurrent
+value consumed/returned once, fullactual/source/MIR/AST/return/leak/refinement
+gates. Existing742Cloud stilluses95f0oldhelper andcannotvalidatethisnewchange.
+NewCloudsourcepin required beforeseparateORtrial; no localextractor execution.
+
+
+### NIGHT-MERGE-CLOUD 74227266 — new Drop/native diagnostics (04:40 UTC review)
+
+Proof/infra95f0fb462e7ae476c49a1af6d8d9a79d6c91e9f7; Build
+74227266-b453-46ff-9008-cdbab57a6192, create04:24:21.726/start04:24:22.500/
+finish04:30:01.473 UTC, charged340seconds; own4677/10800, remaining6123.
+Config0d7083f1ea8c4923bd1ec97d10804f7973bdbc92faa5b8d3ab246a046061fe1f;
+archive87ead4a69da4d7d5cc83a29d8d878bd1d670494f95c6779446da81a6643c308e.
+Full archive + indexed separate text logs downloaded, independently hashed and
+unpacked. SUCCESS is collector only; verification_accepted=false.
+Native source turnover all4cases each stock and experimental VF1 parse109:18–19
+before every body; exporter/decode/refinement0, sources unchanged. No intended
+negative credit. CopyOnDrop both profiles positive/first_body_false VF1 before
+Drop body; actual VF type mismatch at21cols5–9 (`self as usize`, reference
+instead ofrawpointer) is the first blocker. Reader also rejects decoded variance
+enum invariant, AST target count2 (prototype/body) with wrong body argument
+selection; no dynamic-copy/return/leak records. All remain
+INCONCLUSIVE. Independent ordinary normal/unwind smoke PASS4return/4leak.
+New source preparation exists for prior weaker existential helper only; exact
+current-value strengthening is a later untested draft. Next decision: correct
+source-only grammar and fail-closed admission schema, independent owner resource
+transposition + fresh ghost preparation; never call setup failure proof-negative.
+Evidence gs://smallsort-ci-evidence-504462351565/cloud-build/74227266-b453-46ff-9008-cdbab57a6192/.
+
+
+### Next Cloud card — repaired resource diagnostics and exact source pin
+
+Actual obligations: unchanged CopyOnDrop::drop count-n body and conditional
+arbitrary-native-index resource operations needed for future caller ownership.
+Nine selected groups: smoke, actual/bounded source preparation, owner
+transposition stock/experimental, native turnover stock/experimental, direct
+Drop stock/experimental. Existing six-patch profile remains experimental;
+separate MIR-OR-JOIN component is inactive and not inherited.
+
+Falsifiable hypotheses: reference-to-raw-pointer ghost cast permits entry to the
+actual Drop copy VC; corrected canonical MIR/AST readers admit exactly its
+three actual self-field operands and normal/unwind split. Removing statement
+match commas admits native recursion without changing its option-index/current
+value resource contract. Structural checked list recursion transfers one
+existing owner sequence to an already-current-value-transposed destination.
+Domains and full normal/unwind/frame posts are specified verbatim in
+COPY-DESIGN.md, ARBITRARY-LENGTH-RESOURCE-DESIGN.md and
+CURRENT-OWNER-PERMUTATION.md and their fixtures; positive T stride/ZST boundary
+is explicit. No actual caller/Freeze/raw-alias/byte-equality derivation is assumed
+by these component results. New bounded ghost helper preserves the exact current
+selected value; source pin extraction is provenance only, not a proof.
+
+Expected negatives: first-body false at predeclared TARGET16–21 for native and
+transposition; Drop first-body false at exact prepared TARGET20–25 before actual
+copy. All setup/frontend/type/unsupported/timeout failures remain INCONCLUSIVE,
+never intended proof negatives. Transposition double-owner request is only
+calibration until full logs identify the missing-own predicate/location.
+All positive/helper bodies, full posts, return/leak, unchanged source, no dead,
+export/decode/refinement and tool-profile gates are retained.
+
+Outcome mapping: setup/grammar error -> minimal localized repair plus NEW run;
+real resource VC -> inspect current chunks/owner conservation, no new ownership
+axiom; positives+matched negatives -> conditional resource evidence only and
+fresh source pins for separate OR trial. Cloud work1600s + tail reserve140,
+Build1740 + queue60 within own remaining6123 and 08:00 UTC cutoff. No local
+execution or repeat of unchanged full matrices; shared alternating lock only.
