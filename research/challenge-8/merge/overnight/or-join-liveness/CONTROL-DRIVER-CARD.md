@@ -62,7 +62,7 @@ schema/parser hashes and byte-identical official normal Capnp output to the
 production seven capture. A readonly export cannot enter the control.
 The provider overlay changes the working-tree admission helper, so the
 driver extracts the exact pre-overlay `stack-address-admission.py` parser
-blob from the Cloud checkout's `GITHUB_SHA` into private evidence, requires
+blob from the Cloud checkout's `PROOF_SHA` into private evidence, requires
 its known SHA-256, and gives only that private parser to the wrapper. It
 records the current overlaid helper's distinct hash; no overlay change is
 silently accepted as the diagnostic message parser.

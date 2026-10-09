@@ -173,9 +173,8 @@ def main() -> None:
     parser.add_argument("--work-seconds", type=int, default=180)
     args = parser.parse_args()
     start = time.monotonic()
-    require(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
-            os.environ.get("GITHUB_ACTIONS") == "true",
-            "Cloud Build / GitHub-hosted provider identity required")
+    require(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build",
+            "Cloud Build provider identity required")
     require(1 <= args.work_seconds <= 180, "driver work cap must be 1..180 seconds")
     require(str(args.evidence).startswith("/workspace/") and not args.evidence.exists(),
             "fresh /workspace diagnostic evidence path required")
@@ -220,27 +219,27 @@ def main() -> None:
                 "seven build or six baseline identity mismatch")
         require(file_sha(args.schema) == SCHEMA_SHA,
                 "normal MIR schema pin mismatch")
-        github_sha = os.environ.get("GITHUB_SHA", "")
-        require(re.fullmatch(r"[0-9a-f]{40}", github_sha) is not None,
-                "exact GitHub source commit is absent")
+        proof_sha = os.environ.get("PROOF_SHA", "")
+        require(re.fullmatch(r"[0-9a-f]{40}", proof_sha) is not None,
+                "exact Cloud proof source commit is absent")
         repo = HERE.parents[4]
         head_status = subprocess_stage(
             ["git", "-C", str(repo), "rev-parse", "HEAD"], repo,
             dict(os.environ), evidence / "proof-checkout-head.stdout",
             evidence / "proof-checkout-head.stderr", 5, deadline)
         require(head_status == 0 and
-                (evidence / "proof-checkout-head.stdout").read_text().strip() == github_sha,
-                "Cloud proof checkout differs from exact GitHub SHA")
+                (evidence / "proof-checkout-head.stdout").read_text().strip() == proof_sha,
+                "Cloud proof checkout differs from exact proof SHA")
         parser_copy = evidence / "stack-address-capnp-parser.original.py"
         parser_show = subprocess_stage(
             ["git", "-C", str(repo), "show",
-             f"{github_sha}:{PARSER_REPO_PATH}"], repo,
+             f"{proof_sha}:{PARSER_REPO_PATH}"], repo,
             dict(os.environ), parser_copy,
             evidence / "parser-git-show.stderr", 10, deadline)
         require(parser_show == 0 and file_sha(parser_copy) == PARSER_SHA,
                 "exact committed pre-overlay Capnp parser blob differs")
         report["parser_identity"] = {
-            "github_sha": github_sha,
+            "proof_sha": proof_sha,
             "committed_parser_sha256": file_sha(parser_copy),
             "cloud_overlay_parser_sha256": file_sha(OVERLAID_PARSER)}
         verified = args.prepared_case / "verified/lib.rs"
