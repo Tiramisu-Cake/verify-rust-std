@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Cloud-only O26 baseline followed by three changed, independent diagnostics.
+# Cloud-only O26 baseline followed by four changed, independent diagnostics.
 set -euo pipefail
 [[ "$#" == 1 && "$1" == o26-recovery-tests &&
    "${LANE:-}" == o26-recovery-tests ]] || exit 2
@@ -8,7 +8,7 @@ export O26_WITH_OWNER_CONTROLS=0
 export O26_WITH_A1_ISOLATED_TEST=0
 export O26_WITH_SORT4_CAPTURE=0
 export O26_WITH_COORDINATION_REGRESSION=0
-export O26_WITH_WRAPPER_REBASE_CAPTURE=0
+export O26_WITH_WRAPPER_REBASE_CAPTURE=1
 export O26_WITH_WRAPPER_REBASE_PROFILE=0
 export O26_WITH_WRAPPER_COMP19_TEST=0
 export O26_WITH_NESTED_PROOF_ORDER_TEST=1
