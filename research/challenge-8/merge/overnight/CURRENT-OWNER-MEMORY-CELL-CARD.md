@@ -102,3 +102,36 @@ group command environment to sysroot/lib:toolhome/bin:/tmp/vfdeps-adf88dc/lib
 plus existing path; record sysroot/toolhome identity. Hypothesis exporter now
 reaches decode/VF, then positiveonecell and raw duplicate calibration. Any
 remaining setup/frontend/helper failure retains INCONCLUSIVE/nooracle.
+
+## Fresh Cloud evidence — Build 9ed4 raw calibration
+
+Build `9ed4` completed for both `checked-current-owner-memory-cell` and
+`checked-current-owner-memory-cell-stock`. In both profiles the positive case
+is `PASS`: exporter, decode, VeriFast, and refinement all exit zero; all six
+expected bodies are visited (the case plus the five checked helpers); all ten
+return and ten leak records are present; source hashes remain unchanged; there
+are no VeriFast errors or dead-code records; and `full_positive_gate` is true.
+This establishes the one-full-head-cell assertion and successful restoration
+to the original complete normal post under the fixture's unchanged domain,
+frames, `F`, owners, and false unwind post.
+
+In both profiles the duplicate case reaches its unique `TARGET` assertion
+after all six expected bodies are visited. Its raw VeriFast refusal is exactly:
+
+`verified/lib.rs(240,76-79): error: No matching heap chunks: points_to<T>(dst, head(transposition_values(T_typeid, vs, i, j)))`
+
+The negative has no target-case return/leak record, as expected after this
+assertion failure; the five helper bodies have their expected ten return and
+leak records. Exporter, decode, and refinement exit zero, sources are unchanged,
+and there are no dead-code records or earlier errors. This is raw calibration
+evidence only; both aggregate classifiers still report the negative as
+`INCONCLUSIVE` because no rejection oracle was yet declared.
+
+For the next fresh hosted run, annotate only the duplicate `TARGET` line with
+`EXPECT_REJECTION` kind `memory_permission`, file `verified/lib.rs`, dynamic
+`error_line=TARGET`, columns 76–79, and the exact diagnostic above. The
+classifier must continue to require a full-positive pass in the same profile
+and the negative's exact target-only refusal. Keep the source/helper prefix,
+both complete posts, and all resources unchanged. A fresh run is required to
+accept this oracle; Build 9ed4 itself remains a calibration result and does not
+change the existing fixture's original positive or false-entry cases.

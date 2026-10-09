@@ -273,6 +273,7 @@ on_unwind_ens false;
     //@ current_owner_transposition_resource::<T>(t, src, dst, n, vs, i, j);
     //@ open current_owner_transposition_destination_owned::<T>(t, dst, n, transposition_values::<T>(vs, i, j));
     //@ open array::<T>(dst, n, transposition_values::<T>(vs, i, j));
+    // EXPECT_REJECTION {"kind":"memory_permission","error_file":"verified/lib.rs","error_line":"TARGET","column_start":76,"column_end":79,"message":"No matching heap chunks: points_to<T>(dst, head(transposition_values(T_typeid, vs, i, j)))"}
     //@ assert *dst |-> head(transposition_values::<T>(vs, i, j)) &*& *dst |-> head(transposition_values::<T>(vs, i, j)); // TARGET: request duplicate full permission for the same physical destination cell
     //@ close array::<T>(dst, n, transposition_values::<T>(vs, i, j));
     //@ close current_owner_transposition_destination_owned::<T>(t, dst, n, transposition_values::<T>(vs, i, j));

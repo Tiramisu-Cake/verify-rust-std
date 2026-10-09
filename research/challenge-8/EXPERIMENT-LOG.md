@@ -6421,3 +6421,10 @@ Rawpermutation2profilespositive/exactcontrolsPASS; nativeINCrecursivecurrent
 match179, memoryINCexport127missingdriver, constructorINCprecision33 before
 bodies. No newactualtheorem.1355/3600charged; addressed continuation card
 in currentphase preserves all original claims/failures and v1 fractional gap.
+
+DAY9ed49fda/4305274b collectorSUCCESS409s, full archive/textverified
+3ad99bbd85cc97f83afc879127883f40296a22f67d5ace1fabd630af5003535d.
+PhysicalonecellPASSbothprofiles; duplicatedsamecelltarget240:76–79 rawrefusal,
+INCuntilnewexactoracle. Nativefalse351matched, positivesstrictdeadrecords
+222/230 remainINC. Constructorv2foreachprecision35 beforebody, MIRASTpass.
+1764charged1836remaining; closingphysicalpermission-onlyselectionprepared.

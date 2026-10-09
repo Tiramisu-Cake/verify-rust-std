@@ -124,3 +124,36 @@ array remains OPEN. Generic Drop/FBC and original complete caller remain
 OPEN as above. Positive and first-body-false controls rerun on Cloud with a
 new profile identity; the first error and all full stage logs determine the
 next decision.
+
+## Build 9ed4 outcome: V2 remains at the precision interface
+
+All four V2 cases (experimental/stock × positive/first-body-false) have
+exporter, MIR decoder, and refinement exit 0, unchanged source hashes at
+every stage, and VeriFast exit 1. Each has the same first and sole error at
+`verified/lib.rs(35,5-12)`: `Preciseness check failure: callee is not precise.`
+Line 35 is `foreach(src_values, own::<T>(t))` within the precise custom
+`CopyOnDrop<T>.own(t,v;)`. The full source-array permission removed V1's
+coefficient-pattern error, but did not make the generic element-owner
+iteration precise. No constructor body segment or source statement executed;
+both matched-false controls fail before their intended assertion. All four
+are `INCONCLUSIVE`, and there is no owner-packaging theorem.
+
+The saved MIR and AST admissions are true in each case: exact three-field
+struct and source aggregate; ordered argument-to-temporary-to-field links;
+no MIR Drop/call/cleanup path or Drop implementation; non-False own with
+both array resources and `foreach`; full supplied pre, full normal field
+equalities and own, and literal false unwind. These structural gates do not
+override the VeriFast precision rejection. The V1 fractional case and V2
+full-source case are both open at different precision checks.
+
+A future admissible route must first define a precise, generic representation
+of **all current element owners** that preserves their identity and
+one-time transfer, with a separately reviewed justification that the
+generated FBC can consume and return it. That requires a new semantic/trust
+decision and regression gate before any frontend, kernel, or prelude change.
+It must then prove the exact physical constructor against its full post and
+matched false control; independently discharge the actual Drop callee's
+full safety proof and FBC post, self geometry, caller supply of the required
+array/owners, normal forget, unwind, and compiler drop-glue paths. None is
+established by Build 9ed4. No deletion or replacement of `foreach`, owner
+assumption, imprecise own, or further local proof patch is authorized here.

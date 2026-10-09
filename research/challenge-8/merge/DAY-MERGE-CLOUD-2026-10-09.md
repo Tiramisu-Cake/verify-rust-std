@@ -243,3 +243,30 @@ sourceinput732f4bb598e9c099ede1e6224f073dc9002d83970ac58a31d92a5b371474f5bc.
 Own active reserve1140; no duplicate. Foreignready10:29 willkeepits turn.
 [DRAFT checkpoint](DAY-MERGE-CHECKPOINT-2026-10-09.md) mustbe finalized after
 terminal raw evidence; documentationSHA doesnotchange proofpin4305274b.
+
+##9ed terminal and closing physicalpermission gate
+
+Build9ed49fda-fc30-492f-8e3f-9404be9aae19 collectorSUCCESS409charged,
+10:21:24.240–10:28:12.989UTC, exact4305274bcd402fe4b626a62cded417ea8e473867.
+Fullarchive/text verified3ad99bbd85cc97f83afc879127883f40296a22f67d5ace1fabd630af5003535d.
+1764/3600charged,1836remaining, noownactive. PositivephysicalcellPASSboth
+profiles, all6bodies10returns/leaks, allstages0, fullposts/source/refinement/
+noerror/dead. Duplicatenegative rawerror240:76–79 exactpoints_to<T>(dst,
+head(transposition_values(T_typeid,vs,i,j))), stagesexport/decode/refine0/VF1,
+uniquetargeterrorafterall6bodies, noearlierfailure. RawcalibrationonlyINC.
+Newcomment-only EXPECT_REJECTION oracle kindmemory_permission, dynamicTARGET
+line, exact76–79/message, allresource/pre/normal/unwindpostsunchanged.
+Nativefalsecontrol reaches351:16–21 bothprofiles. Positives keepdead222/230
+records (baseassertfalse), noacceptance; noassertsdeleted/deadchecksdisabled.
+Constructorv2all4INC35:5–12 foreachcallee notprecise, stages0/0/1/0, MIR/AST
+admitted, targetbody0; noctorcredit. Precision/ownership/trustbridgeOPEN.
+
+Closingselection5groups memorycellstock/six +source2/smoke. Unchangednative/
+constructor/permutation/OR omitted. Hypothesiscommentexactoracleclassifies
+samepositive/rawnegative through strictmatcherandclassifiercontrolsgates.
+Setup/helper/othererrorINC; positiveORduplicatepassingfalsifiescalibration.
+Timeout720+60queue, previouscombined350/409s withmorecases; enoughbuild/evidence
+margin and1836budget. Fairqueueforeign5a3d3312 first; noforeigncancel/bypass.
+Thisisoneaddressedcompletionofalreadybegunphysicalpermissiongate; no next
+architecture/largeiteration ornewtasks duringfinishingextension. Need fresh
+publishedSHA andterminalfullevidence beforeclaim EXPECTED_REJECTION.
