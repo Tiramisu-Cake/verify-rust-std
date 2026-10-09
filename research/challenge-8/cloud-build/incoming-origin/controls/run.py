@@ -183,8 +183,11 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
              if meta["kind"] == "layout_diagnostic" else "decode did not pass"})
     if not stage_inputs_ok:
         classification = "SETUP_REJECTION"
-    elif stages.get("verifast") != 0 and not (case / "proof-ast.ml").is_file():
+    elif stages.get("verifast") != 0 and (not (case / "proof-ast.ml").is_file() or
+          "The name of a user-defined function must not start with 'vf__'" in log):
         classification = "FRONTEND_REJECTION"
+    elif stages.get("verifast") != 0 and not executed:
+        classification = "PRE_TARGET_REJECTION"
     elif meta["kind"] == "layout_diagnostic":
         if stages.get("verifast") == 0 and executed and not errors and "0 errors found" in log:
             classification = "MODEL_LAYOUT_PASS"
