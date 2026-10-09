@@ -211,6 +211,9 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
           "original scratch len+16 check absent or ambiguous")
     len_end = source_prefix.index(len_line) + len(len_line)
     runtime_path_filters = (
+        b"    if size_of::<T>() <= 16 && len >= 16 {\n"
+        b"        return;\n"
+        b"    }\n"
         b"    if const { size_of::<T>() <= 16 } && len >= 16 {\n"
         b"        return;\n"
         b"    }\n"
@@ -284,6 +287,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
 
     line_targets = {}
     for label, needle in (
+        ("inline_const_value_path_filter", b"if size_of::<T>() <= 16 && len >= 16"),
         ("overflow_runtime_size_guard", b"if const { size_of::<T>() <= 16 } && len >= 16"),
         ("overflow_runtime_len_guard", b"if len < 8 {"),
         ("overflow_array_invariant", b"array_inv::<T>();"),
@@ -309,6 +313,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("overflow_array_invariant", b"array_inv::<T>();"),
         ("overflow_large_type_mono", b"mul_mono_l(1, std::mem::size_of::<T>(), len);"),
         ("overflow_small_type_bound", b"assert len < 16;"),
+        ("inline_const_value_path_filter", b"if size_of::<T>() <= 16 && len >= 16"),
         ("overflow_runtime_size_guard", b"if const { size_of::<T>() <= 16 } && len >= 16"),
         ("overflow_runtime_len_guard", b"if len < 8 {"),
         ("thread_token", b"assert thread_token(?t);"),
@@ -382,6 +387,8 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             "original_scratch_len_plus_16_check_byte_start":
                 caller_start + caller.index(scratch_limit_check),
             "runtime_filter_insertion_sha256": _sha(runtime_path_filters),
+            "inline_const_value_filter": "size_of::<T>() <= 16 && len >= 16",
+            "inline_const_value_filter_basis": "same pure size_of expression as original inline const; duplicate path selector only; original const condition retained",
             "scratch_success_filter_sha256": _sha(scratch_success_filter),
             "scratch_success_filter_matches_original_condition": True,
             "original_abort_check_retained_verbatim": True,

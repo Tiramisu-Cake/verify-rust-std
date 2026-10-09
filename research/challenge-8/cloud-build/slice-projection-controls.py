@@ -64,7 +64,7 @@ def run_controls(a, env: dict[str, str]) -> dict:
     cases = {
         "slice-positive": (_function(source, "slice_projection"), True, None),
         "maybe-uninit-positive": (_function(source, "maybe_uninit_projection"), True, None),
-        "wrong-equality-negative": (_function(source, "wrong_pointer_projection"), False, "Cannot prove condition"),
+        "wrong-equality-negative": (_function(source, "wrong_pointer_projection"), False, "Assertion might not hold."),
         "rawdst-ownership-negative": (_function(source, "unrelated_raw_destination"), False, "No matching heap chunks"),
     }
     results = {}
@@ -91,7 +91,7 @@ def run_controls(a, env: dict[str, str]) -> dict:
         log = (case / "verification.log").read_text(errors="replace") if vf_log.exists() else ""
         function_name = {"slice-positive":"slice_projection", "maybe-uninit-positive":"maybe_uninit_projection",
                          "wrong-equality-negative":"wrong_pointer_projection", "rawdst-ownership-negative":"unrelated_raw_destination"}[name]
-        entry_matches = list(re.finditer(r"Verifying function ['\"]" + re.escape(function_name) + r"(?:<|['\"])", log))
+        entry_matches = list(re.finditer(r"(?m)^\s*\d+(?:\.\d+)?s: verified/lib\.rs\([^\n]*\): Verifying function ['\"]" + re.escape(function_name) + r"(?:<|['\"])", log))
         own_log = log[entry_matches[0].start():] if len(entry_matches) == 1 else ""
         entries = re.findall(r"(?m)^\s*\d+(?:\.\d+)?s: verified/lib\.rs\((\d+),[^\n]*\): Executing statement", own_log)
         errors = [line for line in own_log.splitlines() if ": error:" in line or line.startswith("Fatal error:")]
@@ -110,9 +110,9 @@ def run_controls(a, env: dict[str, str]) -> dict:
                                     projection_line is not None and
                                     first_error_line > projection_line and
                                     projection_executed)
-        expected_match = (expected in errors[0] if errors and expected == "Cannot prove condition"
+        expected_match = (expected in errors[0] if errors and expected == "Assertion might not hold."
                           else bool(errors and any(token in errors[0] for token in
-                               ("No matching heap chunks", "Cannot prove assertion", "Cannot prove condition"))))
+                               ("No matching heap chunks",))))
         intended = (stages["verification"].get("exit") == 1 and len(errors) == 1 and
                     expected_match and len(entry_matches) == 1 and failure_after_projection) if not positive else False
         passed = (stages["refinement"].get("exit") == 0 and source_pair_ok and

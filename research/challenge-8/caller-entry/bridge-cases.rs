@@ -41,24 +41,24 @@ if (0 < std::mem::size_of::<T>()) {
     foreach_split(source_all, own::<T>(t), 4);
 
     let scratch_len = ptr_len(scratch);
-    let mu_base = strip_pointer_metadata(scratch as pointer) as *MaybeUninit<T>;
+    let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
     assert mu_base[..scratch_len] |-> ?mu_all;
-    assert foreach(mu_all, own::<MaybeUninit<T>>(t));
-    array_split::<MaybeUninit<T>>(mu_base, 4);
+    assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
+    array_split::<std::mem::MaybeUninit<T>>(mu_base, 4);
 
-    open array::<MaybeUninit<T>>(mu_base, 4, ?mu_first4);
+    open array::<std::mem::MaybeUninit<T>>(mu_base, 4, ?mu_first4);
     assert *mu_base |-> ?mu0;
     std::mem::open_MaybeUninit::<T>(mu_base);
-    open array::<MaybeUninit<T>>(mu_base + 1, 3, ?mu_rest3);
+    open array::<std::mem::MaybeUninit<T>>(mu_base + 1, 3, ?mu_rest3);
     assert *(mu_base + 1) |-> ?mu1;
     std::mem::open_MaybeUninit::<T>(mu_base + 1);
-    open array::<MaybeUninit<T>>(mu_base + 2, 2, ?mu_rest2);
+    open array::<std::mem::MaybeUninit<T>>(mu_base + 2, 2, ?mu_rest2);
     assert *(mu_base + 2) |-> ?mu2;
     std::mem::open_MaybeUninit::<T>(mu_base + 2);
-    open array::<MaybeUninit<T>>(mu_base + 3, 1, ?mu_rest1);
+    open array::<std::mem::MaybeUninit<T>>(mu_base + 3, 1, ?mu_rest1);
     assert *(mu_base + 3) |-> ?mu3;
     std::mem::open_MaybeUninit::<T>(mu_base + 3);
-    open array::<MaybeUninit<T>>(mu_base + 4, 0, nil);
+    open array::<std::mem::MaybeUninit<T>>(mu_base + 4, 0, nil);
 
     assert *scratch_base |-?-> ?storage0;
     points_to__limits::<T>(scratch_base + 0);
@@ -96,16 +96,16 @@ if (0 < std::mem::size_of::<T>()) {
     std::mem::close_MaybeUninit_::<T>(mu_base);
     assert *mu_base |-> mu0;
 
-    close array::<MaybeUninit<T>>(mu_base + 4, 0, nil);
-    close array::<MaybeUninit<T>>(mu_base + 3, 1, cons(mu3, nil));
-    close array::<MaybeUninit<T>>(mu_base + 2, 2, cons(mu2, cons(mu3, nil)));
-    close array::<MaybeUninit<T>>(mu_base + 1, 3, cons(mu1, cons(mu2, cons(mu3, nil))));
-    close array::<MaybeUninit<T>>(mu_base, 4, cons(mu0, cons(mu1, cons(mu2, cons(mu3, nil)))));
-    array_join::<MaybeUninit<T>>(mu_base);
+    close array::<std::mem::MaybeUninit<T>>(mu_base + 4, 0, nil);
+    close array::<std::mem::MaybeUninit<T>>(mu_base + 3, 1, cons(mu3, nil));
+    close array::<std::mem::MaybeUninit<T>>(mu_base + 2, 2, cons(mu2, cons(mu3, nil)));
+    close array::<std::mem::MaybeUninit<T>>(mu_base + 1, 3, cons(mu1, cons(mu2, cons(mu3, nil))));
+    close array::<std::mem::MaybeUninit<T>>(mu_base, 4, cons(mu0, cons(mu1, cons(mu2, cons(mu3, nil)))));
+    array_join::<std::mem::MaybeUninit<T>>(mu_base);
     array_join::<T>(v_base);
     foreach_append(take(4, source_all), drop(4, source_all));
     assert mu_base[..scratch_len] |-> mu_all;
-    assert foreach(mu_all, own::<MaybeUninit<T>>(t));
+    assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
     assert v_base[..len] |-> source_all;
     assert foreach(source_all, own::<T>(t));
 }
