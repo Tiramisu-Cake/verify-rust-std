@@ -15,16 +15,16 @@ import sys
 
 FIXTURES = {
     "forget": ("2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7", "forget"),
-    "shared_cleanup": ("b6c987840157618067e9eab8163c3ae14e42dfd56c2988ec1ea2198404dd8abe", "shared_cleanup"),
+    "shared_cleanup": ("e3f91c8a2e0dfa9a1c281350b59318b5553847b1940add46d44061662d456d33", "shared_cleanup"),
     "false_normal_post": ("23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d", "forget_false_normal_post"),
-    "shared_false_unwind": ("5487633fdaa2c68d4ec1207c258f6518c1821a24cff5f05ae91fa83dcd32d31a", "shared_cleanup_false_unwind_post"),
+    "shared_false_unwind": ("24c003dcb4f99c8bec2240dc3a61d5747f8c96b27b518686a0dbe32aef1158db", "shared_cleanup_false_unwind_post"),
     "dead_code_pre": ("b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2", "forget_from_dead_precondition"),
 }
 BASE = "f76012fb518703b1d98e243ac4f487f16877cfcb"
-CANDIDATE = "fc03ad9e5ab3404398404f3bba9d7bcacec01c43"
-TREE = "b292b2e0549db791e57245b0218c4f519e8b821e"
+CANDIDATE = "8f0b701e9f2a3da124372c5d37d4cda408d45001"
+TREE = "de79cb7af14ebf1d60cc11f00eeb9940f003951d"
 REF = "refs/heads/challenge8/mdnew-focused-validation"
-BUNDLE = "b4c774a12100b6ed40a0c6368b4b026ab14738d622f3f98f179bcc4e6be0aa7d"
+BUNDLE = "42465e1fec4eaf373ecc62d9e0e46beb8d44ac1b7e68b21dff04fd129e6fe382"
 STOCK_ARCHIVE = "5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd"
 DEPS_ARCHIVE = "8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580"
 RUSTC = "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f"
@@ -259,7 +259,7 @@ def verify_source(root: Path, side: str, case: str) -> str:
     data = (root / side / case / "source.rs").read_bytes() if (root / side / case / "source.rs").is_file() else None
     require(data is not None, f"missing {side}/{case}/source.rs")
     require(hashlib.sha256(data).hexdigest() == FIXTURES[case][0],
-            f"{side}/{case} differs from candidate fc03ad9e5ab3404398404f3bba9d7bcacec01c43")
+            f"{side}/{case} differs from candidate 8f0b701e9f2a3da124372c5d37d4cda408d45001")
     return data.decode("utf-8")
 
 
@@ -561,7 +561,7 @@ def audit(root: Path) -> dict:
     verify_dead_pre(root, "candidate")
     structure = verify_mir_ast(root)
     return {"classification": "FOCUSED_GATE_PASS", "accepted": True,
-            "fixture_commit": "fc03ad9e5ab3404398404f3bba9d7bcacec01c43",
+            "fixture_commit": "8f0b701e9f2a3da124372c5d37d4cda408d45001",
             "structure": structure, "provenance": provenance,
             "negative_controls": negative_controls,
             "scope": "five focused fixtures only; no consumer or upstream acceptance"}

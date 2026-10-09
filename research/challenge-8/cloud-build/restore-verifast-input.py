@@ -5,8 +5,8 @@ import argparse, hashlib, json, re, subprocess
 from pathlib import Path, PurePosixPath
 
 BASE = "f76012fb518703b1d98e243ac4f487f16877cfcb"
-CANDIDATE = "fc03ad9e5ab3404398404f3bba9d7bcacec01c43"
-TREE = "b292b2e0549db791e57245b0218c4f519e8b821e"
+CANDIDATE = "8f0b701e9f2a3da124372c5d37d4cda408d45001"
+TREE = "de79cb7af14ebf1d60cc11f00eeb9940f003951d"
 REF = "refs/heads/challenge8/mdnew-focused-validation"
 INPUT_ROOT = "research/challenge-8/verifast-input/" + CANDIDATE + "/"
 FIXTURES = (

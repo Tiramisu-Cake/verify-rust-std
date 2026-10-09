@@ -36,7 +36,7 @@ def main():
    for role in ('infra','proof'):
     assert receipt[role]['head']==a.sha
     assert subprocess.check_output(['git','-C',str(workspace/role),'rev-parse','HEAD'],text=True).strip()==a.sha
-   candidate='fc03ad9e5ab3404398404f3bba9d7bcacec01c43'
+   candidate='8f0b701e9f2a3da124372c5d37d4cda408d45001'
    inputs=workspace/'proof/research/challenge-8/verifast-input'/candidate
    manifest=json.loads((inputs/'manifest').read_text())
    assert hashlib.sha256((inputs/'bundle').read_bytes()).hexdigest()==manifest['bundle_sha256']
