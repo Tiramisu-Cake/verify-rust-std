@@ -3,7 +3,10 @@
 Use only the separately authorized merge account and common coordinator.
 Accepted migration65a456b8 is infrastructure evidence, not merge acceptance.
 Common base from02d43040907c017abff20887704252f220ab79cc; large-recipe
-control/source transport fix fromea9e68fc9a873a995363efffa471e683f9755863.
+source transport fix fromea9e68fc9a873a995363efffa471e683f9755863; control
+foreign-worktree boundary from655657444d2990c2746abf0518057da31dfe1f94.
+Foreign terminal receipts are stored only under shared coordination; each owner
+accounts its own ledger. No foreign worktree/state/budget write is authorized.
 Runtime SmallSort and existing six semantic patches are unchanged; provider
 adapter pins every base script and publishes exact guard/identity/selection diffs.
 The recipe restores exact committed proof inputs, no foreign proof/profile or ledger.

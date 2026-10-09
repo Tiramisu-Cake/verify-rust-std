@@ -5677,3 +5677,41 @@ Semantic components/compiler/prelude/kernel/exporter/refiner unchanged and pinne
 only orchestration time budget differs. Helper summaries require verified bodies
 at this exact source version as before. Positive expectation: actual all gates0
 and complete return/leak checks; negatives are existing exact controls only.
+
+Native source-pair state design card (before draft implementation): pinned
+verifast-probe.md90–94 says annotation integer types are mathematical; original
+i32 ghost recursion therefore has no machine signed-overflow cutoff. Its runtime
+wrappers still accept i32 inputs, and a narrowing runtime/ghost cast has not
+been justified. Retain old draft/evidence; avoid claiming full native indices.
+
+Proposed separate source resource model reuses our owned-array/current-turnover
+construction with remaining pair indices option<usize>. Some(0) selects the
+current cell then becomes None; Some(k>0) decrements to Some(k-1); None stays
+None. No negative sentinel/narrowing cast. Bounds keep every active index<n and
+ordered distinct pair if both active; n decreases only for n>0. Source holes
+predicate excludes exactly active selected cells and owns every other current
+cell once; selected-cell predicate supplies existing full points-to/T.own only
+for Some index. Restoration consumes current selected values/owners and updates
+the pure list via matching replace-state; extraction partitions the same array.
+Check all helper bodies at same source; no trusted array/ghost axiom or semantic
+patch. Pointer association uses full pointer/provenance-preserving offset facts;
+no permission from arithmetic. Domainpositive stride/n*size<=isizeMAX plus
+explicit base/end bounds/limits and existing owned source resources. Helpers
+prove size-span/index range arithmetic, no out-of-range usize→isize conversion.
+Two current destination options/F state frame through empty-runtime positive
+extract/restore and overlap/same-pair turnover wrappers. Current return values,
+not entry snapshot, feed restoration. Full componentnormalpost and impossible
+runtimeunwind kept; actual callback/C1/sourceShare/caller/cleanup bridge OPEN.
+Negative physical cell duplication, if added, remains calibration-only until
+fresh exact stage/predicate/location and all positive/source/helper gates.
+This independent draft does not replace actual full len23 posts or old failures.
+
+Common-client import card: read new handoff65565744; transfer ONLY control.py.
+Rule: global reconciliation validates foreign ledger/token/BuildID/tag read-only,
+records authoritative terminal/zero-validation receipt atomically in shared
+coordination, then releases global slot; only owner charges own ledger/state.
+Uncertain submission/no unique token match remains unresolved. Same lock/fairness,
+separate budgets/no foreign cancellation. Includes common191x3990 bounded source
+transport ceiling, identical original-object identity/closure checks. Static AST
+read/diff review only; next actual600s research dispatch gates changed client,
+no separate migration smoke or proof/profile acceptance transfer.
