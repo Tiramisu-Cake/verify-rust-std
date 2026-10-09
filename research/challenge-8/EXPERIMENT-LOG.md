@@ -6517,3 +6517,11 @@ INC at preparatory hardcodedhalf leak15. Five one-cell NOT_RUN. Six V3b fullpost
 positive/false and ordinary normal/unwind smoke PASS. Full archivef607bdf3/text
 verified. Combined594seconds. Next exact-SHA changes only read-negative actual
 fraction capture/removal, preserving initialization and all runtime/posts/pins.
+
+Build12d6a399 /4a401ab2 terminal diagnosticSUCCESS365s, complete archivea48c9d76
+and external text verified. MD positive/init/admission match, read-control INC
+at cleanup aliasing50 after read20; leak retained dummy read authority. No
+kernel/tool failure inferred. All five one-cell NOT_RUN. Combined959s. Last
+within-hour repair conserves both actual fractions in existing closed full
+borrows via mk_points_to/scaledp/borrow, retains ref_initialized and requires
+read-stage points_to refusal. No new semantic patch or permission creation.

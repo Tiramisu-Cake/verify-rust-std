@@ -70,12 +70,16 @@ pub unsafe fn negative_read_without_permission() -> i32
     //@ merge_fractions lifetime_token(k);
     //@ init_ref_readonly(held_ref, 1/2);
     let p = &*tmp as *const i32;
-    // Discard only the actual fractions returned by readonly initialization.
-    // Keep ref_initialized live so the intended refusal is the physical read.
+    // Keep initialized reference identity, but seal actual physical fractions.
+    // Existing borrow consumes the real resources; leak would retain dummy reads.
     //@ assert [?read_f](*held_ref |-> ?read_v);
-    //@ leak [read_f]points_to::<i32>(held_ref, read_v);
+    //@ close [read_f]mk_points_to::<i32>(held_ref, read_v)();
+    //@ close scaledp(read_f, mk_points_to(held_ref, read_v))();
+    //@ borrow(k, scaledp(read_f, mk_points_to(held_ref, read_v)));
     //@ assert [?storage_f]points_to::<i32>(&tmp, ?stored_v);
-    //@ leak [storage_f]points_to::<i32>(&tmp, stored_v);
+    //@ close [storage_f]mk_points_to::<i32>(&tmp, stored_v)();
+    //@ close scaledp(storage_f, mk_points_to(&tmp, stored_v))();
+    //@ borrow(k, scaledp(storage_f, mk_points_to(&tmp, stored_v)));
     let result = *p;
     //@ end_ref_readonly(held_ref);
     //@ merge_fractions points_to::<i32>(&tmp, _);

@@ -7,7 +7,7 @@
   "deadline_utc": "2026-10-09T15:58:08Z",
   "status": "IN_PROGRESS",
   "own_active_unresolved": [
-    "2095adca-1110-4ab1-8e50-a8460e9d71c4"
+    "12d6a399-0cd3-4d58-9624-dd5b8c506c15"
   ],
   "worktree": "/root/verify-rust-std",
   "absolute_git_directory": "/root/verify-rust-std/.git",
@@ -15,7 +15,14 @@
   "preserved_checkpoint": "3ecfc92ddb61c8c19715d690619e03395d740b48",
   "state_dir": "/tmp/c8-merge-md-authority-20261009",
   "next_permitted_action": "isolated MD gates",
-  "proof_infra_sha": "8933d4721f866dc22f97f3bdf4a3edf1eae0c9e4",
-  "dispatch_token": "dispatch-ede0732da11c478f941b3a00b58a836f",
-  "build_status": "SUBMITTED"
+  "proof_infra_sha": "4a401ab23977b7aaf3aff40aa2fdd17092819d02",
+  "dispatch_token": "dispatch-afb793ae86d24f869e6c021a58fa3a22",
+  "build_status": "SUBMITTED",
+  "used_build_seconds": 594,
+  "last_checkpoint_utc": "2026-10-09T15:08:30Z",
+  "md_positive": "PASS concrete i32 full result7/read/return/leak",
+  "missing_init": "EXPECTED ref_initialized at aliasing88",
+  "missing_precreation": "EXPECTED frontend admission-only",
+  "read_permission": "prior preparatory leak INC; exact-fraction repair in flight",
+  "constructor_fbc": "NOT_RUN until MD gates pass"
 }

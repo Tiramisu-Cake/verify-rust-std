@@ -210,3 +210,24 @@ preparatory assert/leak, reference, cleanup or helper failure stays INCONCLUSIVE
 All positive source and result/return/leak checks remain unchanged. PASS all MD
 gates permits corrected one-cell constructor/FBC in main window; FAIL identifies
 only that first resource/removal mechanism. No more control groups are added.
+
+## Exact-fraction outcome and genuine resource exclusion — before last repair
+
+Build12d6a399 /4a401ab2 terminalSUCCESS diagnostic,365s. Positive/init/admission
+repeat intended gates; exact fractions exist and both removal statements execute.
+Runtime read20 also executes successfully; refusal is later end_ref_readonly at
+aliasing50 for concrete1/4 points_to, hence read-negative INCONCLUSIVE and all
+one-cell NOT_RUN. The hypothesis that leak discards read authority was wrong:
+frozen kernel Leak consumes the real chunk and produces it at dummy fraction.
+Thus dummy read authority legitimately remains; no model unsoundness claim.
+
+Last local fixture-only correction: close each actual fractional chunk into
+existing mk_points_to/scaledp, then existing lifetime_logic borrow(k,P) consumes
+P and retains full_borrow plus borrow_end_token. No Leak, no created permission,
+new abstract lemma/summary or trusted semantic change. ref_initialized remains
+available, and both physical fractions are kept conserved inside closed borrows,
+not available to raw read until explicitly opened. Use actual pointers held_ref
+and &tmp and bound fractions; runtime statements and full positive/posts unchanged.
+Intended sole refusal remains missing points_to at *p, after both borrow calls.
+Setup/closure/borrow/recovery failures do not count. This is the same failed
+read-authority question, not another group or broader model experiment.
