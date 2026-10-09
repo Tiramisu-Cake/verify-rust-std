@@ -69,6 +69,21 @@ REQUIRED = {
         "strict-cut-false-posts-prepare.py", "strict-cut-false-posts-capture.py",
         "strict-cut-false-posts-audit.py",
     ),
+    "o26-strict-cut-reuse-false-posts": (
+        "cut-relocate-audit.py", "cut-relocate-provider-overlay.py",
+        "cut-trace-provider-overlay.py", "exact-infra-transport-controls.py",
+        "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
+        "provider.py", "source-input.py", "verify-evidence.py",
+        "recipes/o26-refresh.json", "recipes/o26-strict-cut-reuse-false-posts.json",
+        "recipes/o26-strict-cut-false-posts.json",
+        "run-cut-relocate.sh", "run-o26-refresh.sh",
+        "run-o26-strict-cut-reuse-false-posts.sh",
+        "run-strict-cut-reuse-controls.sh", "strict-cut-reuse-controls.py",
+        "strict-cut-controls-audit.py", "run-strict-cut-false-posts.sh",
+        "strict-cut-false-posts-prepare.py", "strict-cut-false-posts-capture.py",
+        "strict-cut-false-posts-audit.py",
+        "night-select-sort4/STRICT-CUT-REUSE-FALSE-POSTS-CARD.md",
+    ),
     "o26-input-relation-capture": (
         "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
         "run-o26-input-relation-capture.sh", "run-o26-refresh.sh",
@@ -190,6 +205,11 @@ def main() -> None:
                          "prepare-wrapper-rebase.py", "prepare-wrapper-input-relation.py", "capture.py"))
         need((set(canonical["proof_paths"]) | refresh | variants).issubset(recipe["proof_paths"]),
              "R3 recipe omits canonical or profile proof dependency")
+    if a.lane == "o26-strict-cut-reuse-false-posts":
+        parent = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                   "o26-strict-cut-false-posts.json").read_text()), "o26-strict-cut-false-posts")
+        need(set(parent["proof_paths"]).issubset(recipe["proof_paths"]),
+             "strict reuse recipe omits canonical or historical matrix proof dependency")
     if a.lane == "o26-wrapper-r3-nested-diagnostics":
         parent = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
                    "o26-wrapper-input-relation-r3.json").read_text()), "o26-wrapper-input-relation-r3")

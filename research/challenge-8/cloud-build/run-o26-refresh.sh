@@ -16,12 +16,22 @@ strict_cut_controls_mode=${O26_WITH_STRICT_CUT_CONTROLS:-0}
 [[ "$strict_cut_controls_mode" == 0 ||
    ( ( "${LANE:-}" == o26-strict-cut-controls ||
        "${LANE:-}" == o26-strict-cut-false-posts ||
+       "${LANE:-}" == o26-strict-cut-reuse-false-posts ||
        "${LANE:-}" == o26-sort4-scope-tests ) && "$relocate_mode" == 1 ) ]] || exit 2
 strict_cut_false_posts_mode=${O26_WITH_STRICT_CUT_FALSE_POSTS:-0}
 [[ "$strict_cut_false_posts_mode" == 0 || "$strict_cut_false_posts_mode" == 1 ]] || exit 2
 [[ "$strict_cut_false_posts_mode" == 0 ||
    ( ( "${LANE:-}" == o26-strict-cut-false-posts ||
+       "${LANE:-}" == o26-strict-cut-reuse-false-posts ||
        "${LANE:-}" == o26-sort4-scope-tests ) && "$strict_cut_controls_mode" == 1 ) ]] || exit 2
+reuse_strict_matrix_mode=${O26_REUSE_STRICT_MATRIX:-0}
+[[ "$reuse_strict_matrix_mode" == 0 || "$reuse_strict_matrix_mode" == 1 ]] || exit 2
+[[ "$reuse_strict_matrix_mode" == 0 ||
+   ( "${LANE:-}" == o26-strict-cut-reuse-false-posts &&
+     "$strict_cut_controls_mode" == 1 && "$strict_cut_false_posts_mode" == 1 &&
+     "$relocate_mode" == 1 ) ]] || exit 2
+[[ "${LANE:-}" != o26-strict-cut-reuse-false-posts ||
+   "$reuse_strict_matrix_mode" == 1 ]] || exit 2
 controls_mode=${O26_WITH_OWNER_CONTROLS:-0}
 [[ "$controls_mode" == 0 || "$controls_mode" == 1 ]] || exit 2
 sort4_mode=${O26_WITH_SORT4_CAPTURE:-0}
@@ -431,7 +441,11 @@ if [[ "$strict_cut_controls_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/strict-cut-controls-request.json"
   strict_cut_controls_status=0
   if [[ "$relocate_status" == 0 ]]; then
-    stage strict-cut-controls bash "$cloud_dir/run-strict-cut-controls.sh" \
+    strict_cut_controls_runner="$cloud_dir/run-strict-cut-controls.sh"
+    if [[ "$reuse_strict_matrix_mode" == 1 ]]; then
+      strict_cut_controls_runner="$cloud_dir/run-strict-cut-reuse-controls.sh"
+    fi
+    stage strict-cut-controls bash "$strict_cut_controls_runner" \
       --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
       --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
       --evidence "$ev/cases/strict-cut-controls" --deadline-epoch "$deadline" \

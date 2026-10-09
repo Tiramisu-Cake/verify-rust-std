@@ -32,6 +32,7 @@ def relocation(ev):
     matched=code==0 and result.get('classification') not in (None,'INCONCLUSIVE') and result.get('accepted') is False
     if os.environ.get('LANE') in ('o26-recovery-tests','o26-strict-cut-controls',
                                   'o26-strict-cut-false-posts',
+                                  'o26-strict-cut-reuse-false-posts',
                                   'o26-sort4-scope-tests'):
         checks=result.get('checks') or {}
         required={'translated_ids_patch_pin','support','exact_source_pair',
@@ -46,10 +47,64 @@ def relocation(ev):
                  result.get('unwind_storage_dead_assumed') is False)
     if os.environ.get('LANE') in ('o26-strict-cut-controls',
                                   'o26-strict-cut-false-posts',
+                                  'o26-strict-cut-reuse-false-posts',
                                   'o26-sort4-scope-tests'):
         matched=matched and result.get('classification')=='FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY'
     return {'requested':True,'classification':result.get('classification','INCONCLUSIVE'),
             'diagnostic_match':matched,'helper_exit':code,'test_only':True,'accepted':False}
+
+def strict_cut_error_attribution(key,row):
+    if row.get('first_error') is None:
+        return key[1] and key[0] in {'positive_basic','ordinary_unmarked',
+                                      'positive_early_return','positive_direct_unwind'}
+    if key == ('negative_end_lifetime_twice',True):
+        location=row.get('first_error_location')
+        return (row.get('first_error_source_location') is None and
+                isinstance(location,str) and
+                location.endswith('/bin/rust/rust_belt/lifetime_logic.rsspec(78,9-23)') and
+                row.get('first_error')==location+
+                ': error: No matching heap chunks: lifetime_token(cmp_k)' and
+                row.get('first_error_caller_note_location')==
+                'verified/lib.rs(15,13-25)')
+    return bool(row.get('first_error_source_location'))
+
+def strict_cut_reuse_provenance(ev):
+    root=ev/'cases/strict-cut-controls'
+    report=read(root/'reuse-provenance.json') or {}
+    old=read(root/'historical-diagnostic-audit.json') or {}
+    receipt=read(root/'historical-upload-complete.json') or {}
+    current=root/'diagnostic-audit.json'
+    prior=root/'historical-diagnostic-audit.json'
+    complete=(prior.is_file() and
+              report.get('classification')=='HISTORICAL_STRICT_CUT_MATRIX_REAUDITED' and
+              report.get('accepted') is False and
+              report.get('historical_build_id')==
+              '673526ac-6556-40bc-9ebe-7792e257bfcd' and
+              report.get('historical_case_count')==17 and
+              report.get('historical_cases_executed_in_this_build')==0 and
+              report.get('new_false_post_cases_executed_here')==0 and
+              report.get('archive_sha256')==
+              '11ebebd82f74b42b4fd1a66cfa9959dc58bc4793629569545d35a2447c20e861' and
+              report.get('infra_sha')=='9f22416ac13ac006f505605b57b50f37629caef1' and
+              report.get('proof_sha')=='d253128ac42f5788cc322201bdfcc6c1e2e36f76' and
+              report.get('config_sha256')==
+              '0d3bdf60f461b0fb6eff7c55664ccd7ab094ac179f59be611c66294989e28e25' and
+              report.get('verified_inventory') is True and
+              report.get('fresh_tool_identity_equal') is True and
+              report.get('historical_audit_sha256')==digest(prior))
+    complete=(complete and current.is_file() and
+              report.get('current_audit_sha256')==digest(current) and
+              old.get('classification')=='INCONCLUSIVE' and
+              old.get('accepted') is False and
+              old.get('reason')==
+              'negative_end_lifetime_twice: first error has no source location' and
+              receipt.get('uploaded') is True and
+              receipt.get('build_id')=='673526ac-6556-40bc-9ebe-7792e257bfcd' and
+              receipt.get('archive_sha256')==report.get('archive_sha256'))
+    return {'requested':True,'complete':complete,'accepted':False,
+            'historical_matrix_cases':17 if complete else 0,
+            'historical_cases_executed_in_this_build':0 if complete else None,
+            'new_false_posts_expected_in_this_build':2}
 
 def strict_cut_controls(ev):
     name='strict-cut-controls'
@@ -75,6 +130,8 @@ def strict_cut_controls(ev):
     pre=result.get('preflight') or {}
     if not isinstance(pre,dict):pre={}
     open_gates=result.get('open_gates') or []
+    reuse=os.environ.get('LANE')=='o26-strict-cut-reuse-false-posts'
+    provenance=strict_cut_reuse_provenance(ev) if reuse else None
     complete=(code==0 and result.get('classification')==
               'CONTROLS_DISCOVERY_REVIEW_REQUIRED' and
               result.get('accepted') is False and
@@ -111,12 +168,11 @@ def strict_cut_controls(ev):
                       'POSITIVE_CANDIDATE_REVIEW_REQUIRED' if key[1] and key[0] in positives else
                       'INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED' if key[1] else
                       'OPT_IN_ABSENT_INTENDED_REJECTION_CANDIDATE') and
-                  (row.get('first_error') is None if key[1] and key[0] in positives else
-                   isinstance(row.get('first_error'),str) and
-                   bool(row.get('first_error_source_location')))
+                  strict_cut_error_attribution(key,row)
                   for key,row in keyed.items()) and
               isinstance(open_gates,list) and len(open_gates)>=8 and
-              all(isinstance(gate,str) and gate for gate in open_gates))
+              all(isinstance(gate,str) and gate for gate in open_gates) and
+              (not reuse or provenance['complete']))
     return {'requested':True,'complete':complete,
             'classification':result.get('classification','INCONCLUSIVE'),
             'helper_exit':code,'test_only':True,'accepted':False,
@@ -124,6 +180,7 @@ def strict_cut_controls(ev):
             pre.get('distinct_f_bound_full_vf0') is True,
             'normal_unwind_negative_gates_open':
             any('false normal-post and false unwind-post' in gate for gate in open_gates),
+            'historical_reuse':provenance,
             'actual_sort4_accepted':False}
 
 def strict_cut_false_posts(ev):
@@ -854,6 +911,7 @@ def main():
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
     strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
     strict_false_posts_lane=os.environ.get('LANE')=='o26-strict-cut-false-posts'
+    strict_reuse_lane=os.environ.get('LANE')=='o26-strict-cut-reuse-false-posts'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
     generic_new_lane=os.environ.get('LANE')=='o26-generic-new-capture'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
@@ -927,6 +985,9 @@ def main():
                          (not recovery or recovery_requested) and
                          (not strict_cut_lane or strict_cut_requested) and
                          (not strict_false_posts_lane or strict_false_posts_requested) and
+                         (not strict_reuse_lane or
+                          (strict_false_posts_requested and
+                           (strict_cut.get('historical_reuse') or {}).get('complete') is True)) and
                          (not input_relation_lane or input_relation_requested) and
                          (not generic_new_lane or generic_new_requested))
     proof_zero=proof_ran and stage.get('exit')==0
@@ -943,7 +1004,8 @@ def main():
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
               not recovery and not strict_cut_lane and
-              not strict_false_posts_lane and not input_relation_lane and
+              not strict_false_posts_lane and not strict_reuse_lane and
+              not input_relation_lane and
               not generic_new_lane and not r3_lane and not postmark_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
@@ -951,6 +1013,7 @@ def main():
          'RECOVERY_TESTS_DIAGNOSTIC_COMPLETE' if recovery and diagnostic_complete else
          'STRICT_CUT_CONTROLS_DISCOVERY_COMPLETE' if strict_cut_lane and diagnostic_complete else
          'STRICT_CUT_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_false_posts_lane and diagnostic_complete else
+         'STRICT_CUT_REUSED_MATRIX_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_reuse_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
          'GENERIC_SORT4_POSTMARK_DIAGNOSTICS_COMPLETE' if postmark_lane and diagnostic_complete else
@@ -986,6 +1049,10 @@ def main():
       'generic_new_source_scope_complete':generic_new_requested if generic_new_lane else False,
       'strict_cut_controls_scope_complete':strict_cut_requested if strict_cut_lane else False,
       'strict_cut_false_posts_scope_complete':strict_false_posts_requested if strict_false_posts_lane else False,
+      'strict_cut_reuse_scope_complete':(
+          strict_false_posts_requested and
+          (strict_cut.get('historical_reuse') or {}).get('complete') is True)
+          if strict_reuse_lane else False,
       'strict_cut_controls_diagnostic':strict_cut,
       'strict_cut_false_posts_diagnostic':false_posts,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
