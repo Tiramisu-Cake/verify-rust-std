@@ -136,7 +136,7 @@ GUARD_GEOMETRY_GROUPS = {
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
 ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
-ONECELL_PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v1"
+ONECELL_PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v2"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")

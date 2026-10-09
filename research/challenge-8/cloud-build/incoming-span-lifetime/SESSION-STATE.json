@@ -5,7 +5,7 @@
   "start_utc": "2026-10-09T18:49:50Z",
   "main_deadline_utc": "2026-10-09T19:49:50Z",
   "deadline_utc": "2026-10-09T20:19:50Z",
-  "status": "CANDIDATE_PREPARED_WAITING_SHARED_CAPACITY",
+  "status": "CLOUD_MECHANISM_GATES_RUNNING",
   "worktree": "/root/verify-rust-std",
   "branch": "overnight/merge-26.10",
   "entry_head": "a61cc2b6b3cc44e92c19eafaf118ac0edb93243b",
@@ -17,12 +17,14 @@
   "state_dir": "/tmp/c8-merge-incoming-span-20261009",
   "coordinator": "v2/max2 unchanged",
   "old_candidate": "NOT_FOR_INTEGRATION; absent from new branch ancestry/code",
-  "new_proof": "NOT_RUN",
-  "replay": "dependency bootstrap synthetic service scenarios PASS",
+  "new_proof": "PENDING: first fixed-extent candidate build and six fresh controls; actual gated",
+  "replay": "synthetic dependency/retirement service checks PASS; saved legacy-profile audit refusal",
   "profile": "NOT_ACCEPTED",
   "candidate_tool_commit": "75099c958eb6a6d46016babf0a845a624f77d9ab",
   "tool_profile": "experimental-merge-incoming-span-lifetime-onecell-v1",
   "geometry_domain": "fixed scalar/pointer only; generic actual consumer no-go pending correct layout bridge",
   "ready_request": "REQUESTED",
-  "own_reservation": null
+  "own_reservation": null,
+  "build_id": "af5c4a35-b9f1-4e39-9775-142d236193a2",
+  "proof_infra_sha": "7ee5435c833d2a5e480ddbaa4cb05e01bbac883d"
 }

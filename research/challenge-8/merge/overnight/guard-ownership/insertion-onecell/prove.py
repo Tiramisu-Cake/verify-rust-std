@@ -32,7 +32,7 @@ prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v1"
+PROFILE = "experimental-merge-incoming-span-lifetime-onecell-v2"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
 CAMPAIGN = "allocation-span-positive-and-recovery-v1"

@@ -8,11 +8,36 @@
   "status": "AUTHORIZED",
   "authorization": "Explicit owner assignment incoming-only allocation span with sound runtime lifetime boundary; isolated tool commits and Cloud controls/actual reproducer; new3600s;60+30 finishing only; old2555 closed; review packet publication authorized.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 369,
+  "remaining_build_seconds": 3231,
   "allowed_lanes": [
     "merge"
   ],
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-e36d88920d7849c19008ad8c6f66c27f",
+      "owner": "merge",
+      "phase_id": "MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09",
+      "infra_sha": "7ee5435c833d2a5e480ddbaa4cb05e01bbac883d",
+      "proof_sha": "7ee5435c833d2a5e480ddbaa4cb05e01bbac883d",
+      "lane": "merge",
+      "submitted_config_sha256": "a57c46ddcf7219cad14c81f1c0e5be0043e5fdac29f75bd3998a1978d9e07b0d",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "5e29fffa3aaa0306d735c4da4505c53d6fcb29ddd629f38666f8cd9656fc4347",
+      "build_id": "af5c4a35-b9f1-4e39-9775-142d236193a2",
+      "start_time": "2026-10-09T19:22:46.142655567Z",
+      "finish_time": "2026-10-09T19:28:52.372677Z",
+      "create_time": "2026-10-09T19:22:43.899671899Z",
+      "build_seconds": 369,
+      "accounted": true,
+      "execution_seconds": 367,
+      "download_verified": true,
+      "archive_sha256": "a7bc574ce49bc261c0dd890dce27c2f2808d7a8472d8c9fdc0f8545478c41982"
+    }
+  ],
   "active_build": null
 }
