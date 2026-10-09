@@ -6192,3 +6192,35 @@ The complete7source-diff dcda873b... is now independently identitypinned; no
 changedsemanticpatch/post/kernel/parser/refiner. StaticAST/JSON closure95paths,
 bash-n/diffcheck pass; newCloud required. Allacceptancefalse and historicalfde
 failure preserved.
+
+
+### NIGHT-MERGE — resource9 current-owner transposition and actual Drop positive
+
+54a22b0d-782c-4056-a512-6dfa31f3fff8 proof/infra7655795962bf7f151643ba1f1b123b721acdf5ed,
+collectorSUCCESS395s 06:14:30.062–06:21:04.251UTC. Config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2,
+sourceinput38888f86ef9d3dc5b92874f3066eeebde827acd1e1b88454385c01fc8ed69d01.
+Archive4c5c38d5062b69545eb049cb241f34f0d2898f81f88bce469c61c4bff82be908 and
+fulltextindex/chunks verified. Own6294/10800,4506remaining, noactiveownBuild.
+
+Permutation conditional arbitraryn/nativeusize positive BOTHstock/six PASS:
+6bodies10returns10leaks, fullnormal/unwindfalse/source/dest/frame current-value
+posts, noerror/dead. Fivehelpers execute andreturn/leak beforewrapper summary.
+Matchedfalse EXPECTED_FALSE_ASSERTION238cols16–21: all5helpers9r9l, targetexec1.
+Existing currentfullvalue owners moved through foreach/singletons once; dstbytes
+already equaltransposition, sourcebytesretained, noactualcopy/caller/Fframebridge.
+Doubleowner CALIBRATION parse239, nobody, notintendednegative.
+
+ActualCopyOnDrop positive BOTH PASS_COMPONENT_ONLY: fieldreads self0/1/2 at
+MIRindices2/4/6 ordered, operands3/4/5 nooverwrite, runtimeAST13fieldsarg10
+copycallcount1 returning/unwinding; actualbody1r1l allstages0, sourceunchanged.
+Matchedfirstfalse actuallyexecutes actualDrop at85cols20–25 but classifier INC:
+unanchoredheader regex also matchesdiagnostic note and reports2targetsegments;
+ASTlocalnames shift4/5/6 yet actualreachingreads are src/dst/len. Newlinkedfield
+classifier repair/negativegate needsnewCloud, nothistoricalreclassification.
+
+Native all4 BOTHparse299/302/303 zero bodies, runtime ghostblockcall grammar,
+notpureVC. Nextone-line ghostcommands match acceptedpermutation syntax and retain
+allposts/asserts; removesunnecessaryRustdead_code lintonly (VFdeadchecks alwayson).
+OR17/same-sourcegate published96086b2b independently; sharedforeign673526ac active
+and alternationhonored. Kernelcleanup/C1/M2/arbitraryactualmerge remainopen.
+Evidence gs://smallsort-ci-evidence-504462351565/cloud-build/54a22b0d-782c-4056-a512-6dfa31f3fff8/.

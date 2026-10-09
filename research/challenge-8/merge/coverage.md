@@ -1,3 +1,19 @@
+## Resource9 evidence —54a22b0d /76557959
+
+Conditional arbitrary native-usize n transposition of existing CURRENT owners
+PASS both stock/six (6bodies,10returns10leaks), matchedsame-domain false238
+cols16–21 EXPECTED_FALSE_ASSERTION. Full positive-stride/nonnull/alignment/
+no-wrap/isize-endpoint/disjoint-span/sourcevalue/destvalue/F-frame posts stay.
+Destination bytes must already equal the full-value transposition; empty runtime
+wrapper and false unwind, no actualcopy/caller callbackframe derivation.
+CopyOnDrop actual count-n body PASS_COMPONENT_ONLY both profiles, physical
+self.src/dst/len orderedMIR linkage and actual ASTcopy normal/unwind1r1l.
+Its matchedfirstfalse remains INC classifier; native all4 parse withzero bodies;
+permutation duplicateowner calibration parse is NOT an intended negative.
+Archive4c5c38d5062b69545eb049cb241f34f0d2898f81f88bce469c61c4bff82be908,
+complete archive/metadata/text hashes verified; collectorSUCCESS is not profile
+or wholefunction acceptance. Historic failure evidence below remains.
+
 ## Drop/native diagnostic failures —74227266 /95f0fb46
 
 CopyOnDrop both stock/experimental positive and full-domain first-body false:

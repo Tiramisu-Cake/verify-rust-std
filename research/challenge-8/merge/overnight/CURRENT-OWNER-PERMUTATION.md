@@ -75,3 +75,17 @@ owners explicit. Fresh helper-body PASS is required before any wrapper or
 negative credit. If the pinned parser rejects singleton `foreach` operations,
 retain the exact failure and revisit the resource representation without
 adding an ownership axiom or dropping resource posts.
+
+## Fresh Cloud evidence — resource9
+
+Build54a22b0d-782c-4056-a512-6dfa31f3fff8, proof/infra7655795962bf7f151643ba1f1b123b721acdf5ed,
+collectorSUCCESS395s, archive4c5c38d5062b69545eb049cb241f34f0d2898f81f88bce469c61c4bff82be908.
+BOTHstock/six positive PASS, all6bodies10return10leak noerror/dead; same-domain
+false-entry EXPECTED_FALSE_ASSERTION238cols16–21 after5checkedhelpers9r9l,
+targetexecuted. These are conditional arbitrary nativeindex/n owner-transposition
+components with existing currentdestinationvalues; noactualcopy/caller assumption
+was added. Pure helpers, ownerreplace/exchange and resourcewrapper checked in the
+same run before usingtheir summaries. Canonical foreach owns the CURRENT full
+values, singletonowner moved exactlyonce, no copy/Freeze/snapshot/purity axiom.
+Double-owner calibration remains INC parse239, zero bodies; source grammar
+repair needsnewCloud, no negativecredit.

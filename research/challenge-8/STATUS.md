@@ -1,17 +1,30 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED BODY DIAGNOSTICS, LIVENESS AND TRUST OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5899/10800 elapsed
-Cloud seconds**, remaining **4901**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; active own resource9 Build
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **6294/10800 elapsed
+Cloud seconds**, remaining **4506**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Latest resource9
 **54a22b0d-782c-4056-a512-6dfa31f3fff8**, proof/infra
-7655795962bf7f151643ba1f1b123b721acdf5ed; create06:14:30.062UTC,
-config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2,
-source-input38888f86ef9d3dc5b92874f3066eeebde827acd1e1b88454385c01fc8ed69d01.
-Reservation1800s is not yet charged; use common client to monitor/download.
-Next separate OR full gate is prepared:17 independent shape modes plus source
-hash refusal and same-source six comparison, unchanged semantic patch/posts,
-full7diff identity pinned fromfde. RequestedOR1300s capped at lane remainder;
-no new gate is checked until its own fresh Cloud run.
+7655795962bf7f151643ba1f1b123b721acdf5ed, collectorSUCCESS395s;
+06:14:30.062–06:21:04.251UTC, config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2;
+archive4c5c38d5062b69545eb049cb241f34f0d2898f81f88bce469c61c4bff82be908.
+Full archive, separate text logs and metadata verified. Conditional arbitrary
+n/native-usize current-owner transposition PASS BOTHstock/six:6bodies10return
+10leak, same-domain false-entry exact238cols16–21 EXPECTED_FALSE_ASSERTION.
+Destination bytes already equal current full-value transposition; source bytes
+remain, existing owners move once through canonical foreach/singletons. No
+actual-copy/public-caller/F-frame/ZST claim. ActualDrop positive BOTH profiles
+PASS_COMPONENT_ONLY: source/MIR/runtimeAST/copy1return1leak/stages0; full
+count-n bytes/resource posts, not caller ownership transfer. Its matched
+first-bodyfalse85cols20–25 is still INC: log-header duplicatecontext and AST
+localnumber hardcodes; localized dynamicfield-linkage repair prepared.
+Native all4/BOTHprofiles INC parse299/302/303, no bodies: runtime ghostblock
+commands need the already accepted single-line spelling. Perm double-owner
+INC parse239, no intended owner-negative credit; grammar repair prepared.
+Next separate OR full gate is published96086b2b6c150346e9d3cd1dad30778845880011:
+17 independent shape modes, source hash refusal and same-source six comparison,
+unchanged semantic patch/posts, full7diff identity pinned fromfde. Requested
+OR1300s capped at lane remainder; no new gate is checked until fresh Cloud.
+Own common ready request registered; foreign673526ac active, do not bypass.
 Latest OR Build **fde74800-236a-480d-bcfd-289327d923be**, proof/infra
 2276446b979178c8fed57ae893e91a77c2297bf3, FAILURE869s;
 05:38:36.989–05:53:05.002 UTC, config
