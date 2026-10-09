@@ -6537,3 +6537,9 @@ return/leak; fulltarget still c2token88/source195 VF1. Six causal negatives inte
 at exactVCs; classifier stockwrappermultiset replay changes no proof. See fresh
 phase evidence for fullSHA/time/archive/profile/debts. Earlier dbe/7456 stopped
 collector attribution, prefixNOT_RUN;412s. Total1438/3600,2162 remaining at23:03:46.
+
+DBB9 dbb9d393-e8e7-4caa-9b84-5592c17443b9 / proof=infra0b26303a1d873bcd5ca3d40428fa1dcb79abf244:
+fresh C1 confirmedVF0/allcontrols, C2translatorcompile/default-offC1VF0/sourceECD83/
+exports0/refinement0; decode1 stdoutstderrmixing, actualC2diagnosticNOT_RUN.
+360Cloudsec,total1798/3600; archivec4144a11/inventory711. Exact failure
+and independently reviewed infrastructure stream fix in C2-PREPARATION-DBB9.

@@ -214,23 +214,34 @@ def _run_stage(a, name: str, argv: list[str], cwd: Path, env: dict[str, str],
     seconds = min(cap, a.deadline_epoch - int(time.time()) - 30)
     need(seconds > 0, f"deadline before C2 stage {name}")
     log = a.evidence / f"c2-{name}.log"
+    stderr_path = a.evidence / f"c2-{name}-stderr.log" if stdout_path else None
     resources = a.evidence / f"c2-{name}-resources.txt"
     out_file = stdout_path.open("wb") if stdout_path else log.open("wb")
+    err_file = stderr_path.open("wb") if stderr_path else subprocess.STDOUT
     in_file = stdin_path.open("rb") if stdin_path else open(os.devnull, "rb")
+    stage_env = env.copy()
+    stage_env["PWD"] = str(cwd)
     try:
         code = subprocess.run(("/usr/bin/time", "-v", "-o", str(resources),
                                "timeout", "--signal=TERM", "--kill-after=10s",
-                               f"{seconds}s", *argv), cwd=cwd, env=env,
+                               f"{seconds}s", *argv), cwd=cwd, env=stage_env,
                               stdin=in_file, stdout=out_file,
-                              stderr=subprocess.STDOUT, check=False).returncode
+                              stderr=err_file, check=False).returncode
     finally:
         in_file.close()
         out_file.close()
+        if stderr_path:
+            err_file.close()
     _record(a.evidence / f"c2-{name}-stage.json", {
         "argv": argv, "cwd": str(cwd), "exit": code,
         "timeout_seconds": seconds,
         "log": str(log.relative_to(a.evidence)) if stdout_path is None else None,
         "stdout": str(stdout_path.relative_to(a.evidence)) if stdout_path else None,
+        "stdout_sha256": digest(stdout_path.read_bytes()) if stdout_path and stdout_path.is_file() else None,
+        "stderr": str(stderr_path.relative_to(a.evidence)) if stderr_path else None,
+        "stderr_sha256": digest(stderr_path.read_bytes()) if stderr_path and stderr_path.is_file() else None,
+        "stderr_merged_into_log": stdout_path is None,
+        "effective_pwd": str(cwd),
         "resources": str(resources.relative_to(a.evidence))})
     return code
 

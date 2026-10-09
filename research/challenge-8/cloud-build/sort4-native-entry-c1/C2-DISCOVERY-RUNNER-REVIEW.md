@@ -64,3 +64,8 @@ The profile and patch are experimental, default-off diagnostic inputs only.
 This runner does not alter the compiler, specification, kernel, or live
 evidence. It runs only in the assigned Cloud lane; local checks are limited to
 Python syntax and pure byte/AST classifiers.
+
+DBB9 failure/review: exporter TRACE stderr contaminated binary MIR because the new
+stage helper merged stderr. Corrected to stock capture stream routing and separate
+stdout/stderr hashes/PWD. Independent Sol static review found no trust change;
+old files preserved, next fresh export required. No local exporter/decode executed.
