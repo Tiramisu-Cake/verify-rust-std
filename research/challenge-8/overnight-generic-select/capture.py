@@ -91,6 +91,9 @@ def inventory(path: Path) -> dict:
             "return_markers": len(re.findall(r'\breturn\b', body, re.I)),
             "unwind_action_lines": [line.strip() for line in lines
                                     if "unwindAction" in line],
+            "normal_successor_lines": [line.strip() for line in lines
+                                       if any(token in line for token in
+                                              ("target =", "goto =", "return ="))],
             "constructor_or_union_lines": [line.strip() for line in lines
                                            if any(token in line for token in
                                                   ("MaybeUninit", "ManuallyDrop", "value", "uninit"))],
@@ -127,7 +130,8 @@ def inventory(path: Path) -> dict:
             local_new[0]["field_or_move_lines"] if len(local_new) == 1
             else "UNOBSERVED"),
         "local_constructor_normal_unwind_lines": (
-            local_new[0]["unwind_action_lines"] if len(local_new) == 1
+            (local_new[0]["normal_successor_lines"] +
+             local_new[0]["unwind_action_lines"]) if len(local_new) == 1
             else "UNOBSERVED"),
         "interpretation": "Raw candidate lines only; full decoded MIR is retained for review",
     }
@@ -227,7 +231,16 @@ def capture(a: argparse.Namespace) -> dict:
     complete_three = all(row.get("selected_body_counts") ==
                          {"new": 1, "local_new_call": 1, "external_new_call": 1}
                          for row in mir.values())
-    complete_capture = all_stages_zero and complete_three
+    local_retained_mir_observed = all(
+        isinstance(row.get("local_constructor_field_and_move_lines"), list) and
+        any("field" in line.lower() for line in row["local_constructor_field_and_move_lines"]) and
+        any("move" in line.lower() for line in row["local_constructor_field_and_move_lines"]) and
+        isinstance(row.get("local_constructor_normal_unwind_lines"), list) and
+        any(any(token in line for token in ("target =", "goto =", "return ="))
+            for line in row["local_constructor_normal_unwind_lines"]) and
+        any("unwindAction" in line for line in row["local_constructor_normal_unwind_lines"])
+        for row in mir.values())
+    complete_capture = all_stages_zero and complete_three and local_retained_mir_observed
     result = {
         "classification": ("SOURCE_MIR_CAPTURE_CANDIDATE_REVIEW_REQUIRED"
                            if complete_capture else "INCONCLUSIVE"),
@@ -243,6 +256,7 @@ def capture(a: argparse.Namespace) -> dict:
         "source_sha256": source_sha, "provider": identity,
         "tool_file_sha256": tool_sha, "stages": stages,
         "complete_three_local_bodies": complete_three,
+        "local_constructor_retained_mir_observed": local_retained_mir_observed,
         "mir": mir,
         "raw_artifact_sha256": {path.name: sha(path.read_bytes())
                                 for path in root.glob("*mir.*") if path.is_file()},
