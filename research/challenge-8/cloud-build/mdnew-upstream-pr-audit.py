@@ -193,7 +193,7 @@ def verify_stage(root: Path, record: dict, key: str, allowed: tuple[int,...]=(0,
     if code in (124,137,-9):
         if key=="make_test_run": return "TIMEOUT"
         raise AuditFailure(f"{key} timed out (exit {code})","TIMEOUT")
-    need(code in allowed,f"{stem} exited {code}")
+    need(code in allowed,f"{key} exited {code}")
     return "PASS" if code==0 else "NOT_RUN"
 
 def audit(tool: Path, all_logs: Path) -> dict:

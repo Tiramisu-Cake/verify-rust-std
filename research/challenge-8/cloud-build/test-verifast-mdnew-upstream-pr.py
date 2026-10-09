@@ -2,6 +2,8 @@
 """Small synthetic classifier controls; this never runs compiler or VeriFast."""
 import importlib.util
 from pathlib import Path
+import hashlib
+import tempfile
 
 path=Path(__file__).with_name('mdnew-upstream-pr-audit.py')
 spec=importlib.util.spec_from_file_location('mdnew_upstream_pr_audit',path)
@@ -32,4 +34,36 @@ for name,log,code,kind in controls:
     try: m.verify_trace(log,code)
     except m.AuditFailure as error: assert error.kind==kind,(name,error.kind)
     else: raise AssertionError(f'{name} control passed')
-print({'synthetic_trace_controls':len(controls)+1,'compiler_or_verifier_execution':False,'passed':True})
+
+with tempfile.TemporaryDirectory(prefix='mdnew-pr-stage-audit-') as temp:
+    root=Path(temp); log=root/'stage.log'; status=root/'stage-exit.txt'; resources=root/'stage-resources.txt'
+    log.write_text('stage output\n'); status.write_text('0\n'); resources.write_text('elapsed: 1s\n')
+    record={'run':{'path':log.name,'sha256':hashlib.sha256(log.read_bytes()).hexdigest(),
+                   'exit_status':0,'exit_status_path':status.name,'resources_path':resources.name,
+                   'resources_sha256':hashlib.sha256(resources.read_bytes()).hexdigest()}}
+    assert m.verify_stage(root,record,'run')=='PASS'
+    for name,change,kind in (
+        ('missing log',lambda r:r.update(run={**r['run'],'path':'missing.log'}),'MISSING_EVIDENCE'),
+        ('exit mismatch',lambda r:status.write_text('1\n'),'INCOMPLETE_EVIDENCE'),
+        ('resource mismatch',lambda r:resources.write_text('tampered\n'),'INCOMPLETE_EVIDENCE')):
+        log.write_text('stage output\n'); status.write_text('0\n'); resources.write_text('elapsed: 1s\n')
+        record['run']['sha256']=hashlib.sha256(log.read_bytes()).hexdigest()
+        record['run']['resources_sha256']=hashlib.sha256(resources.read_bytes()).hexdigest()
+        broken={'run':dict(record['run'])}; change(broken)
+        try: m.verify_stage(root,broken,'run')
+        except m.AuditFailure as error: assert error.kind==kind,(name,error.kind)
+        else: raise AssertionError(f'{name} stage control passed')
+    log.write_text('stage output\n'); resources.write_text('elapsed: 1s\n'); status.write_text('1\n')
+    record['run'].update({'exit_status':1,'sha256':hashlib.sha256(log.read_bytes()).hexdigest(),
+                          'resources_sha256':hashlib.sha256(resources.read_bytes()).hexdigest()})
+    try: m.verify_stage(root,record,'run')
+    except m.AuditFailure as error: assert error.kind=='EARLY_OR_WRONG_DIAGNOSTIC'
+    else: raise AssertionError('nonzero stage control passed')
+    status.write_text('124\n'); record['run']['exit_status']=124
+    try: m.verify_stage(root,record,'run')
+    except m.AuditFailure as error: assert error.kind=='TIMEOUT'
+    else: raise AssertionError('mandatory stage timeout control passed')
+    record['make_test_run']=dict(record['run'])
+    assert m.verify_stage(root,record,'make_test_run',(0,124,125,137))=='TIMEOUT'
+print({'synthetic_trace_controls':len(controls)+1,'synthetic_stage_controls':7,
+       'compiler_or_verifier_execution':False,'passed':True})
