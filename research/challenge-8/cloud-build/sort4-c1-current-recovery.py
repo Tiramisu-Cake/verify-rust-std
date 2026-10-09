@@ -22,6 +22,8 @@ from types import SimpleNamespace
 
 
 PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-first-scope-TEST.patch")
+DEBT_PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-c1-debt-controls-TEST.patch")
+DEBT_MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-C1-DEBT-CONTROLS-TEST.json")
 OUTPUT_PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch")
 OUTPUT_MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-C1-OUTPUT-EQ-TEST.json")
 MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-AST-SCOPE-TEST.json")
@@ -79,6 +81,9 @@ def stage(a, name: str, command: list[str], *, cwd: Path | None = None,
     log = a.evidence / f"{name}.log"
     resource = a.evidence / f"{name}-resources.txt"
     log.parent.mkdir(parents=True, exist_ok=True)
+    record(a.evidence / "stage-progress.json", {
+        "stage": name, "status": "RUNNING", "argv": command,
+        "started_epoch": int(time.time()), "proof_verdict": "NO_VERDICT"})
     with log.open("wb") as output:
         code = subprocess.run(
             ("/usr/bin/time", "-v", "-o", str(resource), "timeout",
@@ -90,6 +95,9 @@ def stage(a, name: str, command: list[str], *, cwd: Path | None = None,
         "argv": command, "cwd": str(cwd) if cwd else None,
         "exit": code, "timeout_seconds": seconds, "log": str(log.relative_to(a.evidence)),
         "resources": str(resource.relative_to(a.evidence))})
+    record(a.evidence / "stage-progress.json", {
+        "stage": name, "status": "TERMINAL", "exit": code,
+        "finished_epoch": int(time.time()), "proof_verdict": "NO_VERDICT"})
     return code
 
 
@@ -233,6 +241,13 @@ def build_overlay(a, base: Path, patch: Path, old: dict, env: dict[str, str]) ->
          "c1 Output equality patch cannot apply")
     need(stage(a, "c1-output-patch-apply", ["git", "-C", str(target), "apply", str(output_patch)], cap=60) == 0,
          "c1 Output equality patch apply failed")
+    debt_patch = a.proof_root / DEBT_PATCH
+    debt_manifest = read(a.proof_root / DEBT_MANIFEST)
+    need(sha(debt_patch) == debt_manifest["patch_sha256"], "c1 negative debt patch pin differs")
+    need(stage(a, "c1-debt-patch-check", ["git", "-C", str(target), "apply", "--check", str(debt_patch)], cap=60) == 0,
+         "c1 debt control patch cannot apply")
+    need(stage(a, "c1-debt-patch-apply", ["git", "-C", str(target), "apply", str(debt_patch)], cap=60) == 0,
+         "c1 debt control patch apply failed")
     need(sha(target / KERNEL) == old["critical"][str(KERNEL)],
          "AST overlay changed frozen strict kernel")
     patched_translator = sha(target / TRANSLATOR)
@@ -372,8 +387,9 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     env.pop("SORT4_CALLBACK_UNWIND", None)
     env.pop("SORT4_STRICT_LFT_TRACE", None)
     env.pop("SORT4_STRICT_LFT_RELOCATE", None)
+    env.pop("SORT4_C1_DEBT_CONTROL", None)
     verifier = [str(tool / "bin/verifast"), "-rustc_args", "--edition 2021",
-                "-verbose", "1", "verified/lib.rs"]
+                "-verbose", "2", "verified/lib.rs"]
     off = env.copy()
     off["SORT4_ACTUAL_AST_SCOPE_TEST"] = "0"
     off.pop("SORT4_STRICT_LFT_CUT", None)
@@ -448,8 +464,34 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
                 re.search(r"0 errors found \(\d+ statements verified\)", on_log) is not None)
     substantive = (output_eq_ok and helpers_ok and admitted_ok and marker_absent and entered and
                    on_code in (1, 2) and bool(errors) and
-                   errors[0].startswith("verified/lib.rs(") and
+                   (errors[0].startswith("verified/lib.rs(") or
+                    (errors[0].startswith("/workspace/") and "/bin/rust/" in errors[0] and
+                     ".rsspec(" in errors[0])) and
                    caller_entries[0] < on_log.index(errors[0]))
+    debt_manifest = read(a.proof_root / DEBT_MANIFEST)
+    need(admitted_ok and admitted[0][2] == debt_manifest["positive_post_ast_sha256"] and
+         admitted[0][3] == debt_manifest["header_posts_sha256"],
+         "positive c1 AST/posts changed under negative-control console")
+    debt_rows = {}
+    for mode, source_line in (("normal-missing-close", 193), ("unwind-missing-close", 187)):
+        case_env = on.copy()
+        case_env["SORT4_C1_DEBT_CONTROL"] = mode
+        case_name = "actual-" + mode
+        code = stage(a, case_name, verifier, cwd=fixture, env=case_env, cap=420)
+        case_log = (a.evidence / (case_name + ".log")).read_text(errors="replace")
+        case_errors = [line for line in case_log.splitlines() if ": error:" in line or line.startswith("Fatal error:")]
+        entries = proof_parser.proof_entries(case_log, "sort4_stable")
+        intended = (code == 1 and len(case_errors) == 1 and len(entries) == 1 and
+                    case_errors[0].startswith(f"verified/lib.rs({source_line},") and
+                    "No matching heap chunks: comparison_debt<T>" in case_errors[0] and
+                    entries[0] < case_log.index(case_errors[0]))
+        row = {"mode": mode, "exit": code, "first_error": case_errors[0] if case_errors else None,
+               "intended_resource_negative": intended, "source_sha256": sha(verified),
+               "log_sha256": sha(a.evidence / (case_name + ".log")),
+               "classification": "INTENDED_MISSING_C1_DEBT" if intended else "INCONCLUSIVE_WRONG_FIRST_OBLIGATION"}
+        debt_rows[mode] = row
+        record(a.evidence / (case_name + "-result.json"), row)
+    debt_controls_ok = all(row["intended_resource_negative"] for row in debt_rows.values())
     need((sha(verified), sha(original)) == before,
          "actual source pair changed during verification")
     result = {
@@ -465,6 +507,8 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         "normal_and_unwind_path_independently_proved": False,
         "actual_on_exit": on_code, "first_error": errors[0] if errors else None,
         "off_first_error": off_errors[0], "admission_hashes": admitted[0] if admitted else None,
+        "actual_debt_controls": debt_rows,
+        "actual_debt_controls_all_intended": debt_controls_ok,
         "compiler_c1_output_equality": {"gate_passed": output_eq_ok, "sites": output_eq_sites},
         "same_unit_recovery_callees_verified_before_caller": helpers_ok,
         "target_header_seen": entered, "reserved_handler_refusal_absent": marker_absent,
@@ -537,8 +581,8 @@ def main() -> None:
                 "classification": "INCONCLUSIVE_SETUP_OR_GATE",
                 "reason": str(exc), "accepted": False, "diagnostic_complete": False,
                 "actual_sort4_proved": False,
-                "last_completed_stage": sorted(
-                    p.name for p in a.evidence.glob("*-stage.json"))[-1:]})
+                "last_stage": (read(a.evidence / "stage-progress.json")
+                               if (a.evidence / "stage-progress.json").is_file() else None)})
         raise
 
 

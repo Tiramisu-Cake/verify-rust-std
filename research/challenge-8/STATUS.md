@@ -9,8 +9,10 @@ source debt/strict exit/recover_pair/join/original unwind return/full post+leak.
 Normal first blocked by c1 FnOnce::Output expected bool before normal recovery.
 Conditional exact domain only; source owners/F/thread/type premises supplied;
 profile unaccepted, scope/storage/alias qualification and legal-entry/generic/ZST OPEN.
-Narrow compiler-origin c1-only Output equality65495dcf now submitted; equality OFF
-must reproduce original type obligation; fresh affected gates before actual ON.
+Narrow compiler-origin c1-only Output equality65495dcf failed ordinary patch apply
+before actual,350s; no actual credit. Trailing unified context repaired0f3389ca,
+third submission pending; equality OFF must reproduce original type obligation;
+fresh affected gates before actual ON. Used662s before pending third Build.
 No c2/selector work. [First actual path result](cloud-build/sort4-c1-actual-execution/FIRST-ACTUAL-RESULT.json).
 Policy d389ff64 read, own remote=clean7fa5da3a after fetch; prior checkpoints preserved.
 

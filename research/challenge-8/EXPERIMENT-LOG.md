@@ -6398,3 +6398,15 @@ Compiler-origin HRTB clause in exact full MIR16950–16991 explains mismatch.
 Preimplementation rationale C1-OUTPUT-EQUALITY-RATIONALE.md; new separate exact
 c1-only typing patch65495dcf, no kernel/alias/prelude/runtime/post changes.
 Fresh strict/false-post gates plus actual equality-OFF type negative precede ON.
+
+
+### Output interface patch transport correction
+
+Build57753d6f-5151-4403-afb3-bd370f9cc1b4 terminalFAILURE350s; infra=proof65495dcf159226692852646c12e8d24e8a236f28.
+Archive39482cf4 full integrity/index verified. Normal git apply --check rejected
+hunk7375 lacking trailing context; no actual-off/output-off/on. Source/MIR baseline
+fresh, but setup-only failure gives no resource negative/new recovery credit.
+Added unchanged trailing block context, no changed desired translator bytes;
+repair0f3389ca published, ordinary patch structural counts checked. No unidiff-zero.
+Audit-only note-stage improvements separately replayed on first new Build raw.
+Third exact Cloud submission0f3389ca with900s timeout started within main window.

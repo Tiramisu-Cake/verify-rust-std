@@ -1,0 +1,28 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -7280,3 +7280,9 @@
++                 let c1_debt_control =
++                   match Sys.getenv_opt "SORT4_C1_DEBT_CONTROL" with
++                   | None | Some "none" -> "none"
++                   | Some "normal-missing-close" -> "normal-missing-close"
++                   | Some "unwind-missing-close" -> "unwind-missing-close"
++                   | _ -> reject "c1 debt control opt-in malformed" in
+                  let epilogue_label =
+                    "#sort4_actual_first_unwind_epilogue" in
+                  let unwind_return, changed_switch =
+@@ -7340,6 +7340,6 @@
+                            (unwind_loc, unwind_case,
+-                            [debt_stmt;
+-                             Ast.GotoStmt (unwind_loc, epilogue_label)]) in
++                            (if c1_debt_control = "unwind-missing-close" then [] else [debt_stmt]) @
++                            [Ast.GotoStmt (unwind_loc, epilogue_label)]) in
+                        (unwind_return,
+                         Ast.SwitchStmt
+                           (call_loc, call, [normal; unwind_clause]))
+@@ -7420,4 +7420,6 @@
+                         else if i = 32 then c1_output_equality @ [changed_switch]
++                        else if i = 33 && c1_debt_control = "normal-missing-close" then
++                          [Ast.NoopStmt (Ast.stmt_loc stmt)]
+                         else [stmt])
+                    |> List.flatten in
+                  let child =

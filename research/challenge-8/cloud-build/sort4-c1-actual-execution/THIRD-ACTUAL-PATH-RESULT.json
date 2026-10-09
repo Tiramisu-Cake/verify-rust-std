@@ -1,0 +1,56 @@
+{
+  "build_id": "a80d95f6-936a-48ec-92a2-7f4c82365f25",
+  "infra_proof_sha": "0f3389cae20d1233abac1d5d963ae8d021fc91fb",
+  "cloud_status": "FAILURE",
+  "raw_driver_exit": 0,
+  "actual_on_exit": 1,
+  "conservative_seconds": 378,
+  "archive_sha256": "7a47136c7174ea02098429d31ba397f27a70698021b595f896adc10b3bd1fdc5",
+  "integrity_verified": true,
+  "new_proof": true,
+  "original_collector_classification": "INCONCLUSIVE_SETUP_OR_AST_ADMISSION",
+  "revised_path_review": "ACTUAL_C1_BOTH_CURRENT_RECOVERY_REACHED_LATER_C2_RESOURCE_FAILURE",
+  "revision_reason": "First error in called aliasing.rsspec; timestamped actual caller/c1 normal recovery precedes library error; original Cloud verdict preserved. No new proof by classification.",
+  "actual_off": "RUN_STRICT_OPT_IN_ADMISSION_REFUSAL",
+  "output_equality_off": "RUN_INTENDED_ORIGINAL_C1_OUTPUT_BOOL_TYPE_FAILURE_NOT_RESOURCE_NEGATIVE",
+  "representation": "EXACT_SOURCE_TYPED_MIR_PREAST_C1_CONTINUATION_OBSERVED",
+  "admission_hashes": [
+    "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9",
+    "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39",
+    "c4f0fdd1439a821933800405835c0ae2e7f8f6c15352d9a9805ec1c821fe01c0",
+    "23b6309ae9bf4a14abb31b78d87c9317c3b72b23c2d1ded70151e8ef9f6c761c"
+  ],
+  "normal": {
+    "result": "CURRENT_PAIR_AND_FOUR_OWNERS_JOIN_CONTRACT_ESTABLISHED_WITH_FRAME",
+    "debt_close191": true,
+    "strict_exit192": true,
+    "recover193": true,
+    "join194": true,
+    "F_thread_type_destination_cells2_3": "conserved by checked callee contracts and frame",
+    "comparator_lifetime": "ended by verified recover_pair",
+    "scoped_reference_debts": "strict scope exit + recovery closure",
+    "full_function_normal_post_return_leak": "NOT_REACHED_BECAUSE_C2_BLOCKS",
+    "initialized_destination": "NOT_PROVED"
+  },
+  "direct_unwind": {
+    "result": "CONDITIONAL_C1_CURRENT_RECOVERY_FULL_UNWIND_POST_LEAK_PASS",
+    "debt186": true,
+    "strict_exit192": true,
+    "recover187": true,
+    "join188": true,
+    "original_return190": true,
+    "full_unwind_post_and_leak226": true
+  },
+  "first_remaining_observation": "/workspace/smallsort-work/sort4-c1-current-isolated-source/bin/rust/aliasing.rsspec(88,9-29): error: No matching heap chunks: ref_precreated_token<T>(ptr_add_(v_base, 3, T_typeid), _)",
+  "c2_fixed_or_experimented": false,
+  "whole_sort4_proved": false,
+  "profile_accepted": false,
+  "strong_premises": "supplied positive-size source4/four T.own optional destination F/thread/type; legal shared-entry and generic/ZST OPEN",
+  "hashes": {
+    "actual-on.log": "de8b9464da2a889d4add89a71f38f5e5b94cdaeddb15d4a52ca66320859e4c6c",
+    "actual-off.log": "51a0dbd634073b236653a13e93eb5c82dd14989e16739bb4a7c828e021429937",
+    "actual-output-eq-off.log": "8509e12495fff1a8d8c875c5447a83be45f1f63e76c46e232869785344462d9c",
+    "controls-check.json": "4a4ed53a2b1357fb16b506095cb8f915118defdd911a7bdf2fcf4e70641d0502",
+    "c1-tool-snapshot.json": "d203babeadbaa5d884070689ec69b08e2b6243909fe6c9e4d35dbf9e8156b598"
+  }
+}
