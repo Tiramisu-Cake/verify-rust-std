@@ -42,29 +42,25 @@ BEFORE_OPEN = (
 BEFORE_FINAL = (
     b"        // Note that it is important to use the values here. Reading from the pointer we got makes\n"
 )
-SAVE_OLD = b"""    /*@
-    assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_true_wrapper &*&
-        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper);
-    assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_false_wrapper &*&
-        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper);
-    @*/
+SAVE_OLD = b"""    /*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_true_wrapper &*&
+        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper); @*/
+    /*@ assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_false_wrapper &*&
+        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper); @*/
 """
-REBASE_BOTH = b"""        /*@
-        assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_true_wrapper;
-        assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_false_wrapper;
-        open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper);
-        match std::mem::MaybeUninit::inner(old_true_wrapper) {
+REBASE_BOTH = b"""        /*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_true_wrapper; @*/
+        /*@ assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_false_wrapper; @*/
+        /*@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper); @*/
+        /*@ match std::mem::MaybeUninit::inner(old_true_wrapper) {
             none => {}
             some(p) => { open raw_ptr_own::<Element>()(t, p); }
-        }
-        open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper);
-        match std::mem::MaybeUninit::inner(old_false_wrapper) {
+        } @*/
+        /*@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper); @*/
+        /*@ match std::mem::MaybeUninit::inner(old_false_wrapper) {
             none => {}
             some(p) => { open raw_ptr_own::<Element>()(t, p); }
-        }
-        std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_true_wrapper);
-        std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_false_wrapper);
-        @*/
+        } @*/
+        /*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_true_wrapper); @*/
+        /*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_false_wrapper); @*/
 """
 
 
