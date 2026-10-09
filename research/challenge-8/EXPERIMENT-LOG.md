@@ -5333,3 +5333,12 @@ public-caller alias admissibility under its mutable-slice borrows. It supplies
 one concrete runtime witness about the function type; full callback footprint
 /C1/caller ownership and all symbolic safety/normal/unwind posts remain OPEN.
 No permissions, owners, verifier rule or std runtime changed.
+
+First actual Cloud dispatch: proof/infra aa8dce14aca4b03701bddd6fc99cb5e01eafee9e,
+Build d5496348-be44-4223-8cbe-9304427cceed, token dispatch-7a0625bd556c46b084425ff02d0dec42.
+Timeout1740s +queue60, E2_STANDARD_2/global, pinned-objects/no-source.
+ConfigSHA8a923649138eaeb6ebe5ff6ba8a298cd6636659a8c5d0c07afe7a4b3e0b5fa3d.
+Source bundleSHAb0365752f9ba229132bb550d056e5662ff27b8c5e74f2ffe5f5d1dc972d84f43.
+All37profile/candidate groups plus one separate source-admitted runtime alias
+observation selected; no migration A/B/C/constructor repetition. Active; no
+result or charged seconds yet. Own envelope1800 reserved, prior accounts kept.

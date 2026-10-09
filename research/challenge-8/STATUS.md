@@ -1,27 +1,32 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / PREPARING
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / CLOUD BUILD ACTIVE
 
-Owner resumed this direction through **11:00MSK /08:00UTC2026-10-09**.
-Independent Cloud budget **0/10800s**; historical accounts below are preserved.
-Branch `overnight/merge-26.10`; entry HEAD
-`fa7f3974c490ee4624583de88ea39752fa6ef814`; last proof
-`7a4e1ad19558717a33391d30b9a69af579dd5e57` remains the latest proof evidence.
-No active merge Cloud build. Common atomic-lock handoff is ready at
-`02d43040907c017abff20887704252f220ab79cc`; only its shared infrastructure
-files were transferred. Own ledger: cloud-build/night-merge/BUDGET.json.
-Merge recipe was published at1e9abfcd497732ef125cefa7532ad0298bff27b6.
-First pre-submit refused oversized source payload before any reservation/Build;
-charge0. Imported shared transport fixea9e68fc/controlc433, preserving all
-inputs/checks. Saved366fcc78runtime alias probe is added as a separate diagnostic.
-Own ready request withdrawn until the new exact-SHA recipe is published.
-[Authorized Cloud phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md).
+Window **2026-10-09 08:00UTC /11:00MSK**, own budget **0/10800 elapsed Cloud s**
+charged; first build envelope1800s reserved. Historical accounts below preserved.
+Branch `overnight/merge-26.10`; exact proof/infra SHA
+`aa8dce14aca4b03701bddd6fc99cb5e01eafee9e`.
+Active own Build **d5496348-be44-4223-8cbe-9304427cceed**;
+configSHA8a923649138eaeb6ebe5ff6ba8a298cd6636659a8c5d0c07afe7a4b3e0b5fa3d.
+Common atomic lock/independent account active; no other merge submission.
+Own ledger [cloud-build/night-merge/BUDGET.json](cloud-build/night-merge/BUDGET.json).
+[Current phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
+[exact continuation commands](merge/cloud-build/README.md).
 
-First run will assess preserved candidates separately: exhaustive stack MIR/AST
-admission/refusals, full12G2 quartet reverse destination bounds, actual2/3 odd
-source association plus pinned panic classifier and actual up/down regressions.
-Accepted A/B/C infrastructure will be reused without repeating migration cases.
-All saved candidates remain CLOUD_UNTESTED; transfer does not accept the
-experimental semantic profile. Generic/ZST/caller resources and arbitrary-n
-composition remain OPEN. Current preparation changes runtime SmallSort by0bytes.
+First Cloud matrix:37separate retained/modular groups plus saved runtime
+callback destination-alias observation. Candidate f096/cd425/1958/77def/366/6c8f
+claims remain CLOUD_UNTESTED until evidence is inspected. Full stack actual
+operands/ordered def-use/exhaustive MIR/AST/refusals, all12quartet/modular posts,
+actual2/3 odd-copy/guard/normal/unwind/leak/dead/source/refinement, pinned final
+panic origin and actual up/down regressions are required. Collector completion
+is not theorem PASS; existing cleanup kernel100eebae remains experimental.
+Generic/ZST, arbitrary-n/caller resources, F callback footprint and ownership
+transfer remain OPEN. Runtime SmallSort blob40939f9 and six patches unchanged.
+
+First pre-submit1e9ab refused transport size before reservation/Build, charged0.
+Shared transport ea9e68fc/controlc433 imported without foreign proofs/STATUS/
+budget; all exact inputs retained. Accepted A/B/C migration not repeated.
+Next permitted action: monitor this exact Build, download/verify all current
+metadata/archive/text evidence, classify each candidate, then iterate within
+this phase and own remaining budget. No local proof/build or Actions dispatch.
 
 ---
 
