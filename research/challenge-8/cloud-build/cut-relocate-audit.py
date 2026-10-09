@@ -21,6 +21,8 @@ MIR_SHA = {"normal": "10356bf128753db09e17b968e859957121cb3f5a2684c3b608abd4152f
            "readonly": "9fdee7643ff66e8f3a12fc37b489100b7280ded0489a20ab1da11c67f24032c4"}
 BASE_ERROR = ("verified/lib.rs(84,9-38): error: Strict lifetime binding "
               "has unresolved inference in entry outer type")
+TRANSLATED_IDS_PATCH_SHA = "fa862fe86406d95eb921f2935b2e4f6cf048c5366ece8d8836e5fcd7b41a9145"
+TRANSLATED_IDS_PATCH_NAME = "verifast-cut-relocate-translated-ids-TEST.patch"
 
 
 def need(ok: bool, message: str) -> None:
@@ -87,6 +89,11 @@ def compare(prod: Path, moved: Path, stock: Path, before: Path,
 def classify(capture: Path, raw_exit: int, source_audit: dict) -> dict:
     path = capture / "summary.json"
     report = json.loads(path.read_text()) if path.is_file() else {}
+    proof_inputs = capture.parent / "required-proof-files-sha256.txt"
+    input_rows = proof_inputs.read_text().splitlines() if proof_inputs.is_file() else []
+    patch_pin = sum(row.startswith(TRANSLATED_IDS_PATCH_SHA + "  ") and
+                    row.endswith("/" + TRANSLATED_IDS_PATCH_NAME)
+                    for row in input_rows) == 1
     root = capture / "callback-positive"
     stages = report.get("stages", {})
     required = ("normal-export", "normal-decode", "readonly-export",
@@ -133,7 +140,7 @@ def classify(capture: Path, raw_exit: int, source_audit: dict) -> dict:
     if result_class == "NEXT_PROOF_BLOCKER_DIAGNOSTIC_ONLY":
         diagnosed = (diagnosed and stages.get("relocated-verification", {}).get("exit") in (1, 2) and
                      bool(report.get("relocated_first_error")))
-    matched = (raw_exit == 0 and support and source_pair and body and direct_continue and
+    matched = (raw_exit == 0 and patch_pin and support and source_pair and body and direct_continue and
                baseline and ast_trace and entry and diagnosed)
     return {"classification": result_class if matched else "INCONCLUSIVE",
             "accepted": False, "actual_sort4_proved": False,
@@ -142,7 +149,8 @@ def classify(capture: Path, raw_exit: int, source_audit: dict) -> dict:
             "baseline_first_error": report.get("baseline_first_error"),
             "relocated_first_error": report.get("relocated_first_error"),
             "stage_exits": {k: v.get("exit") for k, v in stages.items()},
-            "checks": {"support": support, "exact_source_pair": source_pair,
+            "checks": {"translated_ids_patch_pin": patch_pin,
+                       "support": support, "exact_source_pair": source_pair,
                        "complete_target_mir_pins": body, "direct_unwind_continue": direct_continue,
                        "baseline_boundary": baseline, "ast_six_removed_one_inserted": ast_trace,
                        "relocated_proof_entry": entry, "diagnostic_outcome": diagnosed},

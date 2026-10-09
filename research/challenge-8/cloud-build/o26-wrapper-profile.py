@@ -32,19 +32,30 @@ VARIANTS = ('source_owner', 'source_outcome', 'forget_move_to_copy',
             'forget_cleanup_to_wrong_block')
 TYPED_OUTER = {
     'indexing':'zero-based decoded MIR block indexes; exporter local names',
-    'local_count':44,'block_count':27,
-    'first_new_ghost_call':{'block':8,'destination_local':'_16',
-                            'normal_block':9,'unwind':'Continue'},
-    'second_new_ghost_call':{'block':20,'destination_local':'_38',
-                             'normal_block':21,'cleanup_block':26},
-    'pointer_drop_receiver_local':'_29',
-    'forget':{'block':15,'guard_source_local':'_25','move_argument_local':'_33',
-              'destination_local':'_32','normal_block':16,'cleanup_block':26,
-              'negative_cleanup_block':25},
-    'assume_init':{'block':22,'move_argument_local':'_39',
-                   'destination_local':'_0','normal_block':23,'cleanup_block':26},
-    'unwind_chain':{'resume_block':24,'drop_block':25,'switch_block':26,
-                    'switch_local':'_43','switch_targets':[24,25]},
+    'local_count':52,'block_count':35,
+    'save_old_ghost_calls':[
+        {'block':4,'destination_local':'_12','normal_block':5,'unwind':'Continue'},
+        {'block':5,'destination_local':'_13','normal_block':6,'unwind':'Continue'},
+    ],
+    'rebase_both_ghost_calls':[
+        {'block':21,'destination_local':'_39','normal_block':22,'cleanup_block':34},
+        {'block':22,'destination_local':'_40','normal_block':23,'cleanup_block':34},
+        {'block':23,'destination_local':'_41','normal_block':24,'cleanup_block':34},
+        {'block':24,'destination_local':'_42','normal_block':25,'cleanup_block':34},
+        {'block':25,'destination_local':'_43','normal_block':26,'cleanup_block':34},
+        {'block':26,'destination_local':'_44','normal_block':27,'cleanup_block':34},
+        {'block':27,'destination_local':'_45','normal_block':28,'cleanup_block':34},
+        {'block':28,'destination_local':'_46','normal_block':29,'cleanup_block':34},
+    ],
+    'pointer_drop_receiver_local':'_30',
+    'forget':{'block':16,'guard_source_local':'_26','move_argument_local':'_34',
+              'destination_local':'_33','normal_block':17,'cleanup_block':34,
+              'negative_cleanup_block':33},
+    'assume_init':{'block':30,'move_argument_local':'_47',
+                   'destination_local':'_0','normal_block':31,'cleanup_block':34},
+    'unwind_chain':{'resume_block':32,'drop_block':33,'switch_block':34,
+                    'switch_local':'_51','switch_targets':[32,33]},
+    'shared_cleanup_predecessor_count':18,
 }
 
 
@@ -78,7 +89,7 @@ def profile(proof):
     m = read(proof/MANIFEST)
     s = m['source']
     h = re.compile(r'[0-9a-f]{64}\Z')
-    need(m['classification']=='EXPERIMENTAL_O26_WRAPPER_REBASE_COMPONENT23_NOT_ACCEPTED',
+    need(m['classification']=='EXPERIMENTAL_O26_WRAPPER_REBASE_COMPONENT23_R2_NOT_ACCEPTED',
          'component-23 manifest classification differs')
     need(m['component23_patch']=='overnight-assume-actual/verifast-o26-wrapper-rebase-profile-26.10.patch',
          'component-23 patch path differs')
@@ -294,22 +305,35 @@ def selected_call(decoded,proof,kind):
 
 def outer_shape(decoded,proof):
     mut,start,end,body,lo,hi,blocks=outer_parts(decoded,proof)
-    for key in ('first_new_ghost_call','second_new_ghost_call'):
-        site=TYPED_OUTER[key]
-        marker=f'( id = (index = {site["block"]}),'
-        need(blocks.count(marker)==1,f'{key} not unique')
-        at=blocks.index(marker)
-        block=mut.PREP.LINK.CONSTRUCTOR.mir_balanced_item(blocks,blocks.index('(',at))
-        need('name = "VeriFast_ghost_command"' in block and
-             f'local = (name = "{site["destination_local"]}")' in block and
-             f'target = (something = (index = {site["normal_block"]}))' in block,
-             f'{key} ghost call/destination/normal edge differs')
-        if 'cleanup_block' in site:
-            need(f'unwindAction = (cleanup = (index = {site["cleanup_block"]}))' in block,
-                 f'{key} cleanup edge differs')
-        else:
-            need(site['unwind']=='Continue' and 'unwindAction = (continue = void)' in block,
-                 f'{key} continue edge differs')
+    save=TYPED_OUTER['save_old_ghost_calls']
+    rebase=TYPED_OUTER['rebase_both_ghost_calls']
+    need(len(save)==2 and len(rebase)==8 and
+         [site['block'] for site in save]==[4,5] and
+         [site['block'] for site in rebase]==list(range(21,29)) and
+         save[-1]['normal_block']<TYPED_OUTER['forget']['block']<rebase[0]['block'] and
+         rebase[-1]['normal_block']<TYPED_OUTER['assume_init']['block'],
+         'R2 ghost-call cardinality or order differs')
+    for group,sites in (('SAVE_OLD',save),('REBASE_BOTH',rebase)):
+        for site in sites:
+            marker=f'( id = (index = {site["block"]}),'
+            need(blocks.count(marker)==1,f'{group} block index not unique')
+            at=blocks.index(marker)
+            block=mut.PREP.LINK.CONSTRUCTOR.mir_balanced_item(blocks,blocks.index('(',at))
+            need(block.count('name = "VeriFast_ghost_command"')==1 and
+                 'args = []' in block and
+                 f'local = (name = "{site["destination_local"]}")' in block and
+                 f'target = (something = (index = {site["normal_block"]}))' in block,
+                 f'{group} ghost call/destination/normal edge differs')
+            if group=='REBASE_BOTH':
+                need(f'unwindAction = (cleanup = (index = {site["cleanup_block"]}))' in block,
+                     'REBASE_BOTH cleanup edge differs')
+            else:
+                need(site['unwind']=='Continue' and
+                     'unwindAction = (continue = void)' in block,
+                     'SAVE_OLD continue edge differs')
+    need(blocks.count('unwindAction = (cleanup = (index = 34))')==
+         TYPED_OUTER['shared_cleanup_predecessor_count'],
+         'R2 shared cleanup predecessor count differs')
     for kind in ('forget','assume_init'):
         selected_call(decoded,proof,kind)
     need(f'local = (name = "{TYPED_OUTER["pointer_drop_receiver_local"]}")' in body,

@@ -1,9 +1,9 @@
 # Wrapper-rebase component 19 Move/Copy negative — draft Cloud TEST
 
 The actual `select_unpredictable` SAFE forget in the wrapper-rebase source is
-block 15 of the observed 44-local/27-block NORMAL typed MIR graph. Its single
-argument is `Move(_33)`, destination `_32`, normal successor 16, and cleanup
-successor 26. This TEST changes only that argument operand to `Copy(_33)` in a
+block 16 of the freshly observed 52-local/35-block NORMAL typed MIR graph. Its single
+argument is `Move(_34)`, destination `_33`, normal successor 17, and cleanup
+successor 34. This TEST changes only that argument operand to `Copy(_34)` in a
 disposable exporter wrapper. The source, real exporter, READONLY export,
 refinement, cleanup edge and all other NORMAL MIR fields remain exact.
 
@@ -28,4 +28,4 @@ An exact component-19 refusal is an independent negative for this new graph,
 not a positive proof. A source mismatch, setup error, wrong predicate, missing
 artifact, timeout, or extra mutation is inconclusive. This TEST does not alter
 production owner pins or admit the full normal/unwind post of the actual helper.
-It is a future opt-in hook; the current profile recipe remains unchanged.
+It runs in the opt-in R2 combined controls recipe; no production acceptance follows.

@@ -282,7 +282,7 @@ def wrapper_profile(ev):
                  a1test.get('intended_a1_refusal') is True and
                  a1test.get('verification_accepted') is False)
     complete=(code==0 and
-              manifest.get('classification')=='EXPERIMENTAL_O26_WRAPPER_REBASE_COMPONENT23_NOT_ACCEPTED' and
+              manifest.get('classification')=='EXPERIMENTAL_O26_WRAPPER_REBASE_COMPONENT23_R2_NOT_ACCEPTED' and
               identity.get('stock_binaries_unchanged') is True and
               identity.get('kernel_schema_parser_unchanged') is True and
               identity.get('all_other_tracked_sources_and_rsspec_unchanged') is True and

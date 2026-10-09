@@ -21,6 +21,8 @@ CALLS = {"std::ops::FnMut::call_mut": 5,
          "std::ptr::copy_nonoverlapping": 4}
 TRANSLATOR = "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
 PRODUCTION_TRANSLATOR = "0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a"
+FULL_FUNC_SNAPSHOT = "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39"
+PROBE_PATCH = "83a609b0b428dbb224c88b1482c6974f5184ccdfbad1d180dec666af42e31deb"
 
 
 def need(condition: bool, reason: str) -> None:
@@ -112,7 +114,14 @@ def classify(args: argparse.Namespace) -> dict:
          "probe altered stock reserved-marker first refusal")
     snapshot = args.probe_output / "sort4-ast-decl.marshal"
     trace = args.probe_output / "sort4-ast-scope.txt"
-    need(snapshot.is_file() and snapshot.stat().st_size > 0 and trace.is_file(),
+    inputs = args.probe_output.parent / "inputs-sha256.txt"
+    input_rows = inputs.read_text().splitlines() if inputs.is_file() else []
+    need(sum(row.startswith(PROBE_PATCH + "  ") and
+             row.endswith("/verifast-actual-sort4-ast-scope-PROBE.patch")
+             for row in input_rows) == 1,
+         "R2 print-only patch pin absent")
+    need(snapshot.is_file() and snapshot.stat().st_size > 0 and trace.is_file() and
+         sha(snapshot) == FULL_FUNC_SNAPSHOT,
          "full AST snapshot or ordered scope trace absent")
     lines = trace.read_text().splitlines()
     need(lines and lines[0].startswith(f"O24 verified_sha256={VERIFIED} ") and
@@ -120,10 +129,14 @@ def classify(args: argparse.Namespace) -> dict:
          "probe header source/body inventory differs")
     cmp_paths = []
     first_paths = []
+    detail_tags = []
     for line in lines[1:]:
         match = re.match(r"^\d+ (\S+) (.+) (\S+)$", line)
         need(match is not None, "malformed ordered AST trace row")
         path, tag, _location = match.groups()
+        need(re.search(r" node_sha256=[0-9a-f]{64}$", tag) is not None,
+             "R2 trace row lacks full-node SHA-256")
+        detail_tags.append((path, tag))
         if tag.startswith("BlockStmt ") and "cmp_lifetime=true" in tag:
             cmp_paths.append(path)
         if tag.startswith("SwitchStmt ") and "fnmut=true" in tag and \
@@ -145,8 +158,25 @@ def classify(args: argparse.Namespace) -> dict:
                      "/arm[1:unwinding]") for line in lines[1:]) if len(first_paths) == 1 else False
     if len(first_paths) == 1 and (not returning or not unwinding):
         observation = "AST_FIRST_CALL_ARMS_MISSING_OR_REORDERED"
+    def observed(path: str, marker: str) -> str:
+        return "OBSERVED" if any(p == path and marker in tag
+                                 for p, tag in detail_tags) else "UNOBSERVED"
+    detail_observation = {
+        "root_local_declarations": "OBSERVED" if sum(
+            path.startswith("root[") and "/local[" in path and
+            "LocalDecl name=" in tag for path, tag in detail_tags) >= 100
+            else "UNOBSERVED",
+        "cmp_typeid_declaration": observed("root[138]/decl[0]", "TypeWithTypeidDecl"),
+        "cmp_block_free_metadata": observed("root[138]", "locals_to_free=["),
+        "first_fnmut_operands": observed("root[138]/block[32]", "expr=Call("),
+        "normal_debt_close": observed("root[138]/block[33]/pure", "Close pred="),
+        "normal_recovery_call": observed("root[138]/block[35]/pure", "recover_pair"),
+        "local_assignment_descriptors": "OBSERVED" if any(
+            "expr=Assign(" in tag for _, tag in detail_tags) else "UNOBSERVED",
+    }
     return {**prior, "classification": "PRINT_ONLY_AST_SCOPE_DIAGNOSTIC",
             "scope_observation": observation, "cmp_block_paths": cmp_paths,
+            "r2_detail_observation": detail_observation,
             "first_call_switch_paths": first_paths,
             "first_call_returning_arm_zero": returning,
             "first_call_unwinding_arm_one": unwinding,

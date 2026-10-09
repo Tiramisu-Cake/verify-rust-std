@@ -68,7 +68,7 @@ done > "$evidence/required-proof-files-sha256.txt"
   printf 'production_source_head=%s\n' "$(git -C "$production_source" rev-parse HEAD)"
   printf 'deadline_epoch=%s\n' "$deadline_epoch"
   printf 'profile=STRICT_CUT_RELOCATION_TRANSLATED_IDS_TEST_DIAGNOSTIC_ONLY_NOT_ACCEPTED\n'
-  printf 'patch_chain=d557082b+e7189430+6266c198\n'
+  printf 'patch_chain=d557082b+e7189430+fa862fe8\n'
   printf 'fixture=callback_positive_from_positive_f_bound\n'
   printf 'normal_and_unwind_post=thread/type resources, both T cells/owners, comparator F cell/owner\n'
   printf 'unwind=direct Continue; StorageDead at line 103 is not assumed on unwind\n'
@@ -89,7 +89,7 @@ relocation_patch="$proof_root/research/challenge-8/overnight-lifetime/verifast-c
 translated_ids_patch="$proof_root/research/challenge-8/overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch"
 printf '%s  %s\n' d557082b0c17771acd7386ad6caca7bc139877cf1ca513d9570da210b1b542d8 "$cut_patch" | sha256sum -c -
 printf '%s  %s\n' e7189430eca9a48ed49d280131bd22987af8d05ed43a88f9c4a5c9767e57bb9e "$relocation_patch" | sha256sum -c -
-printf '%s  %s\n' 6266c198ecc4bb56e81bbf195e6478fd7326a67c0ed063232636749a395f09ae "$translated_ids_patch" | sha256sum -c -
+printf '%s  %s\n' fa862fe86406d95eb921f2935b2e4f6cf048c5366ece8d8836e5fcd7b41a9145 "$translated_ids_patch" | sha256sum -c -
 relocation_source="$work_root/cut-relocation-isolated-source"
 [[ ! -e "$relocation_source" ]] || { printf 'CUT relocation source exists: %s\n' "$relocation_source" >&2; exit 2; }
 mkdir -p "$work_root"

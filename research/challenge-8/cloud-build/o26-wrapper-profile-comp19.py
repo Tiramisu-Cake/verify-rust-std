@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cloud-only independent SAFE-forget Move(_33) to Copy(_33) negative."""
+"""Cloud-only independent R2 SAFE-forget Move(_34) to Copy(_34) negative."""
 from __future__ import annotations
 
 import argparse
@@ -90,9 +90,10 @@ def mutation_record(a1,profile,proof,case,source,normal):
 
 def capture(args):
     a1,profile,cap,prep,mut,m=common(args)
-    a1.need(m['typed_outer_mir']['forget']['block']==15 and
-            m['typed_outer_mir']['forget']['move_argument_local']=='_33' and
-            m['typed_outer_mir']['forget']['cleanup_block']==26,
+    a1.need(m['typed_outer_mir']['forget']==
+            {'block':16,'guard_source_local':'_26','move_argument_local':'_34',
+             'destination_local':'_33','normal_block':17,'cleanup_block':34,
+             'negative_cleanup_block':33},
             'component-19 typed target differs')
     parent=args.evidence.parent
     positive=parent/'capture/nine-body-wrapper-rebase'
