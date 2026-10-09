@@ -5904,3 +5904,26 @@ nine bodies/ten Marshal records only. Fingerprint collector refusal is observed
 separately from predicted oldowner17 refusal; no actual proof is requested.
 Fresh evidence permits explicit R3 pin/graph review; mismatch/setup/refinement
 failure is inconclusive and permits only evidence-based repair.
+
+NIGHT-CLOUD-10 outcome: f9617843 FAILURE/run_exit1,05:22:26.894056453–
+05:25:24.621011UTC=178s; own3280 used/7520remaining. Complete archive
+2f20a83a6d8b58a2dc874c68594f3f459644aafca5dce86bb883824d7e10c5ff
+and textindexd7f0e9c87cdc14affb5b631e64c870e983824bfd4dc1b43f3d9dd08559a358e9
+verified. Published evidence incomplete for requested scenario: missingcases,
+refresh21 patch FileNotFoundError before candidate proof/capture. This is setup,
+not an intended negative. Source/proof unchanged; repair infrae4e9eacfebef52293b5404c74b316fe76a413e4b
+adds both baseline21/22 patches. Static complete canonical path set and
+refresh manifest references checked for both newscenarios. Newpayload477962B/160parts,
+b77202087a2344ed472e8762b1827d4ebcc12870b8581f8ecdf6677b3288cf59.
+
+NIGHT-CLOUD-11 dispatch:84076ff3-a9bd-4fa9-bae4-ce6bc5dc6aa1,
+laneo26-strict-cut-controls,infra9dc0f99a59fdfee75b8740d18160e483373f379a,
+proofd253128ac42f5788cc322201bdfcc6c1e2e36f76,
+configecfcc78bd5fcdc12cccf1a390898b756331553014355788d369478611befb2a2,
+sourceinput742513f8eaf8a3c38871fade3932f02d7245c901668a1e36c0561fbc121fc260,
+tokendispatch-98b54306c6344639a19e5dde9cf77530. Timeout1200/reserve1260;
+3280used/7520remaining before reserve. Exactsource/Gitpayload515185B/173parts.
+Same-Build isolated relocation FULLVF0 is prerequisite for17 matrix/off
+controls. All negative stage/predicate/source locations are prospective until
+full source/MIR/log review; classificationDISCOVERY_REVIEW_REQUIRED, allacceptedfalse.
+False-normal/unwind, liveness/alias/heap/bounds and actualscope gates OPEN.

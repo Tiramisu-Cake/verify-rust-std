@@ -4,8 +4,8 @@
   "authorization": "Owner prompt 2026-10-09, actual select then sort4 on Cloud Build",
   "deadline_utc": "2026-10-09T08:00:00Z",
   "ceiling_build_seconds": 10800,
-  "used_build_seconds": 3102,
-  "remaining_build_seconds": 7698,
+  "used_build_seconds": 3280,
+  "remaining_build_seconds": 7520,
   "maximum_build_timeout_seconds": 1800,
   "allowed_lanes": [
     "o26",
@@ -21,7 +21,7 @@
     "o26-input-relation-capture",
     "o26-strict-cut-controls"
   ],
-  "active_build": "f9617843-c38b-4a64-91da-86d65548d40c",
+  "active_build": "84076ff3-a9bd-4fa9-bae4-ce6bc5dc6aa1",
   "builds": [
     {
       "dispatch_token": "dispatch-d2629f25c87d495b8ce7aefa4e92d546",
@@ -247,11 +247,35 @@
       "submitted_config_sha256": "f89c2050de008d57afc89acaaf5bd0df77ae611ba1f17186153a9a5d9cb55ff8",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "7cc56715768ab852269d59bfb14a8617b59828e538769b28e83779641bfe72e4",
-      "build_id": "f9617843-c38b-4a64-91da-86d65548d40c"
+      "build_id": "f9617843-c38b-4a64-91da-86d65548d40c",
+      "start_time": "2026-10-09T05:22:27.753928249Z",
+      "finish_time": "2026-10-09T05:25:24.621011Z",
+      "create_time": "2026-10-09T05:22:26.894056453Z",
+      "build_seconds": 178,
+      "accounted": true,
+      "execution_seconds": 177,
+      "download_verified": true,
+      "archive_sha256": "2f20a83a6d8b58a2dc874c68594f3f459644aafca5dce86bb883824d7e10c5ff"
+    },
+    {
+      "dispatch_token": "dispatch-98b54306c6344639a19e5dde9cf77530",
+      "owner": "select-sort4",
+      "phase_id": "NIGHT-SELECT-SORT4-CLOUD-2026-10-09",
+      "infra_sha": "9dc0f99a59fdfee75b8740d18160e483373f379a",
+      "proof_sha": "d253128ac42f5788cc322201bdfcc6c1e2e36f76",
+      "lane": "o26-strict-cut-controls",
+      "submitted_config_sha256": "ecfcc78bd5fcdc12cccf1a390898b756331553014355788d369478611befb2a2",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "742513f8eaf8a3c38871fade3932f02d7245c901668a1e36c0561fbc121fc260",
+      "build_id": "84076ff3-a9bd-4fa9-bae4-ce6bc5dc6aa1"
     }
   ]
 }

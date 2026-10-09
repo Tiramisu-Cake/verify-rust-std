@@ -1,9 +1,9 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized through **08:00 UTC / 11:00 MSK, 9 October**. Separate Cloud Build
-account: **3102/10800 conservative seconds used; 7698 remaining**. Active own Build
-`f9617843-c38b-4a64-91da-86d65548d40c`, source-only input relation capture,
-infra `eac773eadb46b72dd3af99656739aaeb164a5ed0`,
+account: **3280/10800 conservative seconds used; 7520 remaining**. Active own Build
+`84076ff3-a9bd-4fa9-bae4-ce6bc5dc6aa1`, strictCUT matrix discovery,
+infra `9dc0f99a59fdfee75b8740d18160e483373f379a`,
 proof `d253128ac42f5788cc322201bdfcc6c1e2e36f76`, timeout1200/reserve1260. [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json),
 [experiment history](EXPERIMENT-LOG.md). Branch
@@ -37,9 +37,12 @@ diagnostic**. Its first remaining failure is the pure result-identity post at
 `verified/lib.rs:143:45–47`; full outer normal/unwind/leak posts and the actual
 nested Drop body are not proved. R2 remains **NOT ACCEPTED** despite its
 owner17, A1, component19, default-off and identity controls. Separate
-nested-order TEST coverage does not transfer to this R2 proof. Next work is a
-source-only checked input/payload/wrapper relation capture before any R3
-source/MIR pins, plus review of the isolated CUT's open negative matrix.
+nested-order TEST coverage does not transfer to this R2 proof. Input-relation source capture f9617843 failed before the candidate stage:
+two baseline refresh patches were absent from its recipe. No proof or intended
+negative credit; charged178s, archive2f20a83a… verified. Recipe repaired in
+e4e9eacf, full baseline/manifest input sets checked, proof source unchanged.
+Fresh capture is ready after current strictCUT matrix slot. R3 requires observed
+new source/MIR hashes and graph; the isolated CUT's open matrix needs review.
 Generic/ZST select and complete sort4 safety, five unwind paths and separate
 functional permutation/order/stability composition remain open
 ([generic gap](overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md)).
