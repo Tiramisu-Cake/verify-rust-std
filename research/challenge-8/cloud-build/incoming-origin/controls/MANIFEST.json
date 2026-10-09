@@ -105,6 +105,15 @@
       "target": "branch callback normal and unwind resource",
       "semantic_expectation": "PASS_CONTROL",
       "obligation": "both branch return and may-unwind callback preserve the physical cell"
+    },
+    {
+      "name": "origin_local_unwind_cleanup",
+      "callee": "origin_local_may_panic",
+      "argument": "panic_flag",
+      "kind": "local_unwind_positive",
+      "target": "live physical local crosses may-unwind callback",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "local physical cell and incoming fraction close on both normal and unwind paths"
     }
   ]
 }
