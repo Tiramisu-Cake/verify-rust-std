@@ -5776,3 +5776,14 @@ bothprofiles. Exactrecipe adds one source input, knowngroups/audit strict artifa
 requirements and rawpercase statuses extended; acceptedfalse remains hard-coded.
 No semantics/pins/runtime/post weakening. Static AST/JSON/case markers/diffcheck
 only, all new/changed cases still CloudUNTESTED until freshBuild.
+
+Native full-domain entry control card, before edit: duplicate only the overlap
+wrapper with identical full req/ens/F/thread/destination/source/currentreplace
+resources and all checked helpers, add first-body assertfalse with predeclared
+EXPECT_ERROR stageverifast/predicatefalse/TARGET/columns16–21. This controls
+reachability of native optional-index resource domain; it does not refute
+positive turnover theorem or create resource permissions. Expected exporter/
+decode/refinement0 and verifier1 exactly at firsttarget after helpers checked;
+setup/helper/timeout/otherlocations remainINCONCLUSIVE. Run together with all
+threepositivecases on sameexperimental andstockfixture; no weakerposts or
+concrete-u32-only substitute for generic domain. New negatives have no result.

@@ -377,3 +377,43 @@ on_unwind_ens false;
     //@     nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
 }
 // CASE_END native_source_pair_turnover_overlap
+
+// Matched entry reachability control; same full domain/posts/helper bodies.
+// CASE_BEGIN native_source_pair_turnover_false_entry
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
+pub unsafe fn native_source_pair_turnover_false_entry<T, F: FnMut(&T, &T) -> bool>(
+    p: *mut T, n: usize, i: usize, j: usize, k: usize, l: usize,
+    dst0: *mut T, dst1: *mut T, is_less: &mut F,
+)
+/*@
+req thread_token(?t) &*& t == currentThread &*&
+    type_interp::<T>() &*& type_interp::<F>() &*&
+    native_pair_array_domain::<T>(p, n) &*&
+    native_pair_holes::<T>(t, p, n, some(i), some(j), ?oldvs) &*&
+    native_pair_selected::<T>(t, p, n, some(i), some(j), ?vi, ?vj) &*&
+    i < j &*& j < n &*& k < l &*& l < n &*&
+    dst0 as pointer != dst1 as pointer &*&
+    *dst0 |-?-> ?dst0_old &*& *dst1 |-?-> ?dst1_old &*&
+    *is_less |-> ?f0 &*& <F>.own(t, f0);
+@*//*@
+ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
+    native_pair_array_domain::<T>(p, n) &*&
+    native_pair_holes::<T>(t, p, n, some(k), some(l),
+        native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)) &*&
+    native_pair_selected::<T>(t, p, n, some(k), some(l),
+        nth(k, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
+        nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj))) &*&
+    *dst0 |-?-> dst0_old &*& *dst1 |-?-> dst1_old &*&
+    *is_less |-> f0 &*& <F>.own(t, f0);
+@*//*@
+on_unwind_ens false;
+@*/
+{
+    //@ assert false; // TARGET: full-domain native pair entry must be reachable
+    //@ native_pair_restore::<T>(t, p, n, some(i), some(j), oldvs, vi, vj);
+    //@ native_pair_extract::<T>(t, p, n, some(k), some(l),
+    //@     native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj),
+    //@     nth(k, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)),
+    //@     nth(l, native_pair_replace::<T>(oldvs, some(i), some(j), vi, vj)));
+}
+// CASE_END native_source_pair_turnover_false_entry
