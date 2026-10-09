@@ -166,3 +166,25 @@ PASS selects already-authorized constructor→FBC next; resource FAIL identifies
 its missing premise; frontend FAIL selects narrow source-linked routing analysis
 before any semantic edit. No new group without a question. Actual first-shift/
 dst-update and comparator recovery remain open even after diagnostic PASS.
+
+## Next actual first-shift contract — design only, NOT_RUN
+
+Before actual557, sift=tail.sub(1), guard.dst=tail, len1, src=tmp shared-derived.
+Need initialized source sift points_to and writable destination gap points_to,
+CURRENT sift own, sole held CURRENT owner, thread/type/F/frame, immutable tmp
+complementary fractions and genuine reference debts, full mutable guard fields/
+padding. Literal-one copy preserves source physical bytes and writes destination
+current sift value; it does not transfer T.own. Transfer existing sift owner to
+old gap, keep copied source bytes non-owning, then actual558 stores dst=sift
+using its writable field permission. src/len/padding/held owner stay intact.
+Derive adjacent pointer geometry from valid begin..tail bounds/provenance;
+positive-size byte separation is not assumed by numeric address coincidence.
+Check canonical FBC own after updating destination using new physical gap.
+
+All these are caller debts. First comparator541 can change interior state and
+must return CURRENT tail/sift owners/values, F, thread/frame and closed cmp_k/
+borrow/ref fractions on true. False and panic before read need full caller posts,
+not post-if ghost recovery. First shift is before later callback566, so a narrow
+bounded transition may be tested without promoting readonly tmp across callback.
+Actual Drop/glue on sift==begin remains separate. This contract review is static,
+not proof execution or closure of an actual obligation.

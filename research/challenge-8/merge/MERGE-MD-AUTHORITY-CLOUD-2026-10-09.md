@@ -20,3 +20,17 @@ historical/semantic cards from merge recipe transport only; cards remain in Git,
 all executable source/proof/profile/spec/patch inputs and static checks remain.
 No cache/filter/runner/proof semantic change. Git search confirms runner does not
 read these markdown inputs. Fresh descendant exact-SHA required for submission.
+
+First Build2095adca-1110-4ab1-8e50-a8460e9d71c4 /8933d472 terminalFAILURE,
+235s, complete archive/external text integrity verified. First causal blocker:
+retained source-build matrix timeout124 during setup, before baseline exporter
+staging/console manifest; inherited EXIT marker0 is not completed build evidence.
+MD profile then refuses missing vf-rust-mir-exporter; no MD body executed, no
+admission/authority result. Stock V3b PASS full posts only; six V3b setup INC.
+Next candidate increases per-build timeout1500 and drops already-passed unaffected
+stock V3b repeat/dependency, retaining six V3b and ordinary normal/unwind smoke.
+This is budget allocation/input registration, not another memory hypothesis.
+Pure MD classifier repair is locally tested/replayed separately; read failure at
+preparatory leak is INCONCLUSIVE, missing-init binds ref_initialized plus target
+create_ref call/spec location, positive binds named read/return/leak. New runtime
+fixtures are unchanged; tool semantics/pins unchanged.

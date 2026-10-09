@@ -8,11 +8,36 @@
   "status": "AUTHORIZED",
   "authorization": "Owner prompt 2026-10-09: isolated MD authority/admission repair, then mutable constructor canonical FBC if gates pass; 60+max30 minutes; new3600 seconds no carryover.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 235,
+  "remaining_build_seconds": 3365,
   "allowed_lanes": [
     "merge"
   ],
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-ede0732da11c478f941b3a00b58a836f",
+      "owner": "merge",
+      "phase_id": "MERGE-MD-AUTHORITY-CLOUD-2026-10-09",
+      "infra_sha": "8933d4721f866dc22f97f3bdf4a3edf1eae0c9e4",
+      "proof_sha": "8933d4721f866dc22f97f3bdf4a3edf1eae0c9e4",
+      "lane": "merge",
+      "submitted_config_sha256": "db5ea1b61bb36eb2c1171e77a47ede80e7406dfc7caa4db657b7eca9f6c34b1f",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "804abce00efc6974a4eddef515c7f5121e84b69343fb733d698e62f891aab73e",
+      "build_id": "2095adca-1110-4ab1-8e50-a8460e9d71c4",
+      "start_time": "2026-10-09T14:43:28.987805038Z",
+      "finish_time": "2026-10-09T14:47:23.211074Z",
+      "create_time": "2026-10-09T14:43:28.217698968Z",
+      "build_seconds": 235,
+      "accounted": true,
+      "execution_seconds": 235,
+      "download_verified": true,
+      "archive_sha256": "057f7041e66425980a2dbd50f71b2e85837d61042e18d266df99a60d41bad58e"
+    }
+  ],
   "active_build": null
 }

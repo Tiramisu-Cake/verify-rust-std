@@ -26,6 +26,7 @@ def load(name: str, path: Path):
     return module
 
 
+md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
@@ -302,29 +303,16 @@ def prepare_md_controls(evidence: Path) -> dict:
             name != "negative_read_without_permission" else prep.line(
                 original, b"    let result = *p;\n")
         result[name] = {"source_sha256": prep.sha(original), "target_line": target_line,
+                        "read_line": prep.line(original, b"    let result = *p;\n"),
+                        "spec_init_line": 88,
                         "service_control_only": name == "negative_read_without_permission"}
     return result
 
 
 def classify_md(name: str, case: Path, meta: dict, execution: dict) -> dict:
     log = (case / "verifast.log").read_text(errors="replace")
-    errors = re.findall(r"^.*\berror:.*$", log, re.M | re.I)
-    stages = execution["stages"]
-    common = (execution["source_unchanged_at_every_stage"] and
-              stages["exporter"] == stages["decode"] == stages["refinement"] == 0 and
-              execution["source_before"]["original/lib.rs"] == meta["source_sha256"])
-    if name.startswith("positive"):
-        matched = common and stages["verifast"] == 0 and not errors and \
-            "Leak check." in log and "0 errors found" in log
-    else:
-        matched = (common and stages["verifast"] == 1 and len(errors) == 1 and
-                   f"verified/lib.rs({meta['target_line']}," in errors[0] and
-                   ("Taking the address of this expression is not supported" in errors[0]
-                    if name == "negative_missing_precreated_reference" else
-                    "No matching heap chunks" in errors[0]))
-    result = {**execution, **meta, "case": name,
-              "errors": errors, "classification":
-              "REGRESSION_MATCHED" if matched else "INCONCLUSIVE", "accepted": False}
+    result = {**execution, **meta, **md_classifier.classify_log(name, log, meta, execution),
+              "accepted": False}
     (case / "classification.json").write_text(json.dumps(result, indent=2) + "\n")
     return result
 
