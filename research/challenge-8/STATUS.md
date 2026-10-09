@@ -10,14 +10,17 @@ roundtrip admission +16 intended matcher refusals and separate sourcehashgate.
 Full archive/text verified. RESOURCE11 Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5
 terminal FAILURE, exact proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc,
 infraa92f5d97efc8a15af4398a7df14037f42ebb4b33;324charged.
-1005/3600 charged,2595 unspent; active Build742da9ef-c853-473d-b2c1-d38ff55a04c1,
-proof/infra8b3d747109fc643215bce4906dc0834836200623, timeout1200+60queue.
-Build8dc37178/4e25d135 setup failure92s preserved (stale provider basehash).
-Fresh pin/all18base hashes checked; combined11groups includes construction pair.
+1355/3600 charged,2245 unspent; active Build9ed49fda-fc30-492f-8e3f-9404be9aae19,
+proof/infra4305274bcd402fe4b626a62cded417ea8e473867, timeout1080+60queue.
+Build742da9ef/8b3d7471 collectorSUCCESS350s: permutation PASS/matched controls;
+native recursivecurrentmatch blocker179, memory export127 missingdriver,
+constructor fractionalprecision33. No newactual theorem; full evidence verified.
+Active addressedcandidate: native transportlemma, memoryenvironment, full-source
+constructorv2 (separate narrowerfragment). [Draft checkpoint](merge/DAY-MERGE-CHECKPOINT-2026-10-09.md).
 Buildb4b47061/cd93e557 setup failure100s preserved (selection sorting). Raw permutation positives and
 matched negatives pass; collector rejected stale unclassified_target metadata.
-Native cases INCONCLUSIVE at extract_rec empty suffix (cannot prove i=none),
-before target bodies. Fresh repair + physical same-cell calibration are selected in active proof.
+Earlier native empty suffix fixed; next recursive currentmatch remains INCONCLUSIVE
+before target bodies in742d. Fresh repair + physical same-cell calibration are selected in active proof.
 Separate exact source constructor fragment selected in current run; no Drop
 impl in fragment, no compiler glue/caller credit. Actual current-scratch handoff OPEN.
 Annotation-only guard candidate NOT_RUN: source-linked prototype post has no

@@ -235,3 +235,11 @@ Timeout1080+60queue within2245 and~27minmainwindow; expected~400s, evidence
 andcheckpointtail reserved, mustfinishspecificstep ifmainwindowend approaches.
 All18providerpins +schema/sortedgroups/deps/recipeclosure/PythonAST/bashsyntax
 checked BEFOREpublish/submit. No new tool semantics or stdruntime changes.
+
+Build9ed49fda-fc30-492f-8e3f-9404be9aae19 active, create10:21:24.240UTC,
+proof/infra4305274bcd402fe4b626a62cded417ea8e473867.
+Config9b2d75054aaf8159c64e8f939c864e70e85215819de8bfb1c363876420b30b73;
+sourceinput732f4bb598e9c099ede1e6224f073dc9002d83970ac58a31d92a5b371474f5bc.
+Own active reserve1140; no duplicate. Foreignready10:29 willkeepits turn.
+[DRAFT checkpoint](DAY-MERGE-CHECKPOINT-2026-10-09.md) mustbe finalized after
+terminal raw evidence; documentationSHA doesnotchange proofpin4305274b.
