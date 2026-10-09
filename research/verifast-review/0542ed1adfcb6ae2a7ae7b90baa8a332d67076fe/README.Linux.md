@@ -1,0 +1,73 @@
+Building VeriFast on Linux
+==========================
+
+Note: binary downloads are available, both ["nightly" builds](https://github.com/verifast/verifast#binaries) of the latest commit, and binaries for [named releases](https://github.com/verifast/verifast/releases).
+
+Note: The instructions below may get out of date. When that happens, please submit an issue. In the meantime, guaranteed up-to-date instructions can be found by looking at the script, [.github/workflows/build.yml](https://github.com/verifast/verifast/blob/master/.github/workflows/build.yml), used by the Github Actions CI service that automatically builds and tests VeriFast after each commit. This script uses the `build_ubuntu` job, which runs on a Ubuntu 18.04 virtual machine. It first runs the command listed below `Build setup:`, and then the command listed below `Build:`.
+
+Devcontainer
+------------
+
+The easiest way to get started is to use VSCode's support for Dev Containers. Simply choose the Dev Containers: Clone Repository in Container Volume command from the VSCode Command Palette, and enter the `https://github.com/verifast/verifast` repository URL.
+
+On Linux, you can run the VeriFast IDE from inside the dev container by creating a file `.devcontainer/devcontainer.local.json` with the following contents:
+```json
+{
+  "runArgs": [
+    "-e", "DISPLAY=${localEnv:DISPLAY}",
+    "-v", "/tmp/.X11-unix:/tmp/.X11-unix"
+  ]
+}
+```
+In a host terminal, run `xhost +local:docker` to ensure the container has access to your X11 server.
+
+An alternative is to use the VeriFast VSCode extension. This works even in GitHub Codespaces.
+
+Dependencies
+------------
+
+To install the software needed to build VeriFast, run [setup-build.sh](https://github.com/verifast/verifast/blob/master/setup-build.sh). This script does the following:
+
+- It installs some non-OCaml-based dependencies using `apt-get`:
+    ```
+    sudo apt-get install -y --no-install-recommends \
+      git wget ca-certificates m4 \
+      patch unzip libgtk2.0-dev \
+      valac libgtksourceview2.0-dev \
+      cmake build-essential
+    ```
+- It installs LLVM/Clang 23 (a language front-end and tooling infrastructure for languages in the C language family).
+- It installs the OCaml-based dependencies:
+  - OCaml 4.13.0
+  - Findlib 1.9.1 (for the `ocamlfind` tool, used by Z3's install script and dune)
+  - OCaml-Num 1.4 (arbitrary-precision arithmetic)
+  - Ocamlbuild 0.14.0 (to build Camlp4)
+  - Camlp4 4.13+1 (an OCaml preprocessor, for the streams notation used in VeriFast's parser)
+  - GTK+ (a cross-platform GUI toolkit)
+  - Lablgtk 2.18.11 (OCaml bindings to GTK+)
+  - Z3 4.8.5 (a powerful theorem prover, including OCaml bindings)
+  - Dune 2.9.1 (to build and install other OCaml dependencies)
+  - Cap'n Proto 0.9.1 (fast data interchange format)
+  - Capnp 3.4.0 (OCaml plugin for Cap'n Proto)
+  - Other dependencies, mainly to support Capnp:
+    - Csexp 1.5.1
+    - Sexplib0 0.14.0
+    - Base 0.14.1
+    - Res 5.0.1
+    - Stdio 0.14.0
+    - Cppo 1.6.8
+    - Ocplib-endian 1.1
+    - Stdint 0.7.0
+    - Result 1.5
+  
+  It does so by downloading a [vf-llvm-clang-build](https://github.com/verifast/vf-llvm-clang-build/releases) and [VFDeps](https://github.com/verifast/vfdeps) package with pre-compiled versions of these dependencies. Note: these binaries are location-dependent. They need to be below `/tmp/vf-llvm-clang-build-$VERSION` and `/tmp/vfdeps-$VERSION`, where `$VERSION` is the version (Git hash) of the package; that is, extract the archives into `/tmp`. (You can also extract it elsewhere and then create symlinks called `vf-llvm-clang-build-$VERSION` and `/tmp/vfdeps-$VERSION` that point there.) To see which version is currently being used, see [config.sh](https://github.com/verifast/verifast/blob/master/config.sh).
+
+Building VeriFast
+-----------------
+
+To build VeriFast:
+1. `cd src`
+2. Make sure all dependencies are in your `PATH`. For example: `export PATH=/tmp/vfdeps-$VERSION/bin:$PATH`.
+3. `make`
+
+If `make` fails (probably due to broken intermediate output files left by earlier failed attempts), try `make clean; make depend; make`.
