@@ -6,6 +6,8 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
+2026-10-09 NEXT insertion one-cell phase: [exact result](merge/overnight/guard-ownership/insertion-onecell/RESULT.md). Mutable actual guard storage is confirmed; no constructor→FBC/Drop/copy/recovery theorem was proved. Both new Cloud runs have complete verified evidence; the second stops before target bodies at own syntax and tracked-MD unsupported address. All new positives/negatives INCONCLUSIVE, no authority or duplicate-consumption credit. Existing V3b stock/six and normal/unwind smoke controls pass. Saved-MIR replay is parser evidence only. Readonly no-callback adapter is inapplicable as a full insertion invariant across arbitrary comparator effects; caller CURRENT acquisition, first shift/dst update, actual Drop/glue/cleanup and ZST remain open.
+
 Latest bounded diagnostic: targeted OR shape-controls build `ad653ca9-cab0-437d-a170-b15c3ad6ebbe`, proof
 `f9139fc26db535a9552f26a84085a57f6014702e`, archive SHA
 `68104ce01cfce1936c533ef22f436fb10799e6cd833c80a30db4deab55c0a0c1`. Fresh

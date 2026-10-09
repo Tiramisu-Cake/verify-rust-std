@@ -1,8 +1,14 @@
-# NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09 — IN PROGRESS / PROFILE NOT_ACCEPTED
+# NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 
-Owner merge, overnight/merge-26.10. [Phase](merge/NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09.md), [own ledger](cloud-build/next-merge-drop-caller/BUDGET.json). Start13:27:15UTC /16:27:15MSK; main14:27:15UTC /17:27:15MSK; absolute14:57:15UTC /17:57:15MSK. User window **60min + <=30min finishing only**, ceiling3600Cloudseconds, no carryover. Policy revision1fcd91eff1507fe0bd0620a23b578edb454f1c3e; PR5cba39579 safely integrated, checkpoint5eeead52 retained.
+Owner `merge`, branch `overnight/merge-26.10`. [Checkpoint](merge/NEXT-MERGE-DROP-CALLER-CHECKPOINT-2026-10-09.md), [case results](merge/overnight/guard-ownership/insertion-onecell/RESULT.md), [own ledger](cloud-build/next-merge-drop-caller/BUDGET.json).
+Policy revision `1fcd91eff1507fe0bd0620a23b578edb454f1c3e`; PR #5 integrated, `5eeead52` preserved.
+Owner window **60 minutes + at most 30 finishing only**: start 13:27:15 UTC, main deadline 14:27:15 UTC, absolute 14:57:15 UTC. Finished within main hour; no extension.
 
-Selected caller actual insert_tail: mutable gap_guard storage bypasses general immutable local V4 blocker; immutable tmp/shared-derived src/current held owner remain separate. One limited source-linked onecell transition in preparation. No new proof result; all prior theorem domains/NOT_ACCEPTED/trust debts preserved below. Own Build000add59-443d-4cc6-bc67-cc412e3fc9bd at exact proof/infra6d138cd960b04078bbc3432782abe466cbb17c32 QUEUED/RUNNING, 1560s reservation (1500 timeout+60 queue), no result yet. New phases do not reopen historical accounts.
+Actual `insert_tail` mutable guard storage differs from immutable general V4 storage; tmp shared-source/complementary fractions/CURRENT owner remain distinct. New diagnostic has **no theorem or intended-negative credit**. Build `000add59` / `6d138cd9` stops at serializer TODO; Build `5fddf20d` / `d793eaa2` repairs serialization but five target cases stop at own syntax, four MD controls at unsupported local address. All target results INCONCLUSIVE. Source/MIR/refinement admission alone is not proof. Saved-MIR parser replay is separate; stock/six V3b and ordinary-call controls remain green in their original domains.
+
+Readonly quiescent adapter is not a reachable actual Drop edge: insertion first shifts and updates dst, and later comparator permits interior mutation. First actual caller premise remains comparator recovery of CURRENT tail/sift owners/F/frame. Recommended next task: isolated source-linked MD/own admission repair with positive/authority gates, then mutable FBC if those pass. Callable Drop/canonical payload/glue/forget/full insertion and profile acceptance remain OPEN.
+
+**677/3600 Cloud seconds charged; 2923 unspent closed.** Both own builds terminal, complete archive/external text integrity verified; own active/unresolved none, ready withdrawn. No coordinator18/V4/OR17/RESOURCE11/native rerun. Stop until next owner instruction; historical claims below retain their exact domains.
 
 ---
 

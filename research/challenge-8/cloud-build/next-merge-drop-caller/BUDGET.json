@@ -1,15 +1,15 @@
 {
   "phase": "NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09",
   "owner": "merge",
-  "status": "AUTHORIZED",
+  "status": "SESSION_CLOSED",
   "authorization": "Owner prompt2026-10-09: actual insert_tail one-cell mutable guard/Drop caller transition; main60min plus max30min finishing only; new3600 conservative Cloud seconds, no carryover.",
   "policy_revision": "1fcd91eff1507fe0bd0620a23b578edb454f1c3e",
   "start_utc": "2026-10-09T13:27:15Z",
   "main_deadline_utc": "2026-10-09T14:27:15Z",
   "deadline_utc": "2026-10-09T14:57:15Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 359,
-  "remaining_build_seconds": 3241,
+  "used_build_seconds": 677,
+  "remaining_build_seconds": 2923,
   "allowed_lanes": [
     "merge"
   ],
@@ -37,7 +37,33 @@
       "execution_seconds": 358,
       "download_verified": true,
       "archive_sha256": "bc5362e9a01237b15be2c1c1c9552ad6e7502d8fa424fabd95e640fbb1114f11"
+    },
+    {
+      "dispatch_token": "dispatch-829e69c95b384a45912f70dd869b27ee",
+      "owner": "merge",
+      "phase_id": "NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09",
+      "infra_sha": "d793eaa25f5cb4de92cda44ba9fc94ea1162d296",
+      "proof_sha": "d793eaa25f5cb4de92cda44ba9fc94ea1162d296",
+      "lane": "merge",
+      "submitted_config_sha256": "9d2838a3466425dd4a45a5fb014220800a7295c69e57b3cd49081ce2f267e286",
+      "reserved_seconds": 1460,
+      "timeout_seconds": 1400,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "7feac65b5637abde582fcab35c722f57229495f24a742e8208ae442bbe6d09a6",
+      "build_id": "5fddf20d-a40f-4559-ac7c-c7c304d0ca22",
+      "start_time": "2026-10-09T14:05:55.510088383Z",
+      "finish_time": "2026-10-09T14:11:12.533421Z",
+      "create_time": "2026-10-09T14:05:54.669870523Z",
+      "build_seconds": 318,
+      "accounted": true,
+      "execution_seconds": 318,
+      "download_verified": true,
+      "archive_sha256": "6c2f55a9d0ff430efc508310801cd07f5dff18f8a595b11e264e5a4695ea8e09"
     }
   ],
-  "active_build": null
+  "active_build": null,
+  "closeout": "Both own builds terminal/accounted/evidence verified; ready withdrawn. 2923 unused seconds closed; no carryover. No actual target proof.",
+  "finishing_extension_used": false
 }

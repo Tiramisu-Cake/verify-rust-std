@@ -205,3 +205,9 @@ recovery, domain без новых ограничений и явный trust/ad
 или запрета interior mutation, сохранить milestones и запросить решение.
 Более простой generic swap/sort4 — возможная альтернатива для обсуждения,
 а не автоматически разрешённая новая работа.
+
+## NEXT 2026-10-09 mutable one-cell guard diagnostic closeout
+
+[Fresh evidence and boundaries](merge/overnight/guard-ownership/insertion-onecell/RESULT.md): actual guard551 is mutable, unlike general guard279; immutable tmp, shared-derived src fractions and logical held CURRENT owner are independent. New fragments supply entry tail/owner/geometry and remove Drop; neither build reaches the target FBC/copy/recovery proof. Second exact-SHA run stops at own syntax; MD controls stop unsupported address. All intended negatives remain INCONCLUSIVE. No new actual insertion obligation is closed.
+
+First caller debt remains comparator541→CURRENT tail/sift/F/frame/closed shared borrows before read550. Actual next guard transition is copy557 then dst update558; immediate held→tail adapter is not that edge. Readonly init_ref protocol has no applicability across legal interior mutation at comparator566. Genuine share/reborrow/CURRENT and normal/unwind tmp storage cleanup are required; no Freeze/Copy/purity or ownership bridge permitted. Next recommended single task is supported source-linked MD/own admission with isolated positive and authority controls before mutable FBC. General immutable V4 fix is not a prerequisite. Session closed677Cloudseconds, no own unresolved Build; profileNOT_ACCEPTED.

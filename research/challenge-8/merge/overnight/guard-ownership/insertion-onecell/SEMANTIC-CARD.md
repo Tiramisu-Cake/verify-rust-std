@@ -134,3 +134,7 @@ serializer fails at another unsupported node, record INCONCLUSIVE and assess it;
 no broad emitter rewrite or semantic shortcut is implied. Classifier-only replay
 of the saved decoded MIR may repair its nonassignment handling, but cannot give
 credit to proof bodies that never executed.
+
+## Outcome
+
+Session closed with all new cases INCONCLUSIVE at admission, no target proof or intended-negative credit. See [RESULT.md](RESULT.md). The readonly no-callback adapter cannot be reused across the actual later comparator; actual Drop requires first shift/dst update and separate generic borrow/cleanup proof. No further runnable repair was introduced after the closing time assessment.
