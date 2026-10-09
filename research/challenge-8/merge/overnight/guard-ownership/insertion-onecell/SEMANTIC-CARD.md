@@ -138,3 +138,31 @@ credit to proof bodies that never executed.
 ## Outcome
 
 Session closed with all new cases INCONCLUSIVE at admission, no target proof or intended-negative credit. See [RESULT.md](RESULT.md). The readonly no-callback adapter cannot be reused across the actual later comparator; actual Drop requires first shift/dst update and separate generic borrow/cleanup proof. No further runnable repair was introduced after the closing time assessment.
+
+## MD authority phase — first hypothesis, before fresh dispatch
+
+Phase MERGE-MD-AUTHORITY-CLOUD-2026-10-09, start14:28:08UTC, main15:28:08,
+absolute15:58:08; new3600seconds, owner60+max30finishing override; policy1fcd91ef.
+Actual consumer and unresolved premises remain as above. This run resolves whether
+existing immutable-local address discovery works when precreate_ref precedes the
+fraction-merge cutoff. Own repair `[?f](*v.src |-> ?current)` preserves value,
+fraction, logical owner and complete contract across all five generated cases.
+No tool patch/profile/runtime change. MD units execute separately and before
+one-cell; if MD gates fail, all five one-cell stages are explicitly NOT_RUN.
+
+MD positive requires full result7/return/leak checks, not just admission.
+Missing precreate deliberately retains merge before raw address and expects
+frontend unsupported-address there (admission-only). Missing init expects a
+missing tracked reference resource at &*tmp; missing read expects points_to at
+*p after discarding its exact half. Neither resource negative can count an
+unsupported-address or unrelated failure. Exact generated lines/hashes are in
+case metadata; manual predicate/body/post audit required in addition to classifier.
+precreate_ref requires true and supplies no storage, initialization, read
+permission or owner: storage comes from ManuallyDrop::new, read fraction/debt
+from consuming initialized storage via init_ref_readonly, logical generic held
+owner from the supplied tail owner and ptr::read. Complementary storage is kept.
+
+PASS selects already-authorized constructor→FBC next; resource FAIL identifies
+its missing premise; frontend FAIL selects narrow source-linked routing analysis
+before any semantic edit. No new group without a question. Actual first-shift/
+dst-update and comparator recovery remain open even after diagnostic PASS.

@@ -30,7 +30,7 @@ SOURCE_LIMITS = b"        //@ points_to_limits::<T>(gap_guard.src as *mut T);\n"
 OWN = b"""/*@
 pred<T> <CopyOnDrop<T>>.own(t, v) =
     type_interp::<T>() &*& v.len == 1 &*&
-    [?f]*v.src |-> ?current &*& *v.dst |-?-> ?old_gap &*&
+    [?f](*v.src |-> ?current) &*& *v.dst |-?-> ?old_gap &*&
     <T>.own(t, current);
 @*/
 
@@ -58,8 +58,8 @@ FN = (b"unsafe fn insertion_onecell<T>(tail: *mut T)" + CONTRACT + b" {\n"
       b"    unsafe {\n" + READ + GUARD + COPY + b"    }\n}\n")
 ANNOTATIONS = (
     b"        //@ let held_k = begin_lifetime();\n"
-    b"        //@ merge_fractions lifetime_token(held_k);\n"
     b"        //@ let held_ref = precreate_ref(&tmp);\n"
+    b"        //@ merge_fractions lifetime_token(held_k);\n"
     b"        //@ init_ref_readonly(held_ref, 1/2);\n"
 )
 RECOVER = (

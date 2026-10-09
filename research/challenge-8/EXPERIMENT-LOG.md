@@ -6493,3 +6493,15 @@ Replay separately: scratch /tmp/smallsort-onecell-mir-replay-000add59/mir-admiss
 Build `5fddf20d-a40f-4559-ac7c-c7c304d0ca22`, proof/infra `d793eaa25f5cb4de92cda44ba9fc94ea1162d296`, create14:05:54.669–finish14:11:12.533UTC, collectorSUCCESS / verification_accepted=false, charged318s. Config9d2838a3466425dd4a45a5fb014220800a7295c69e57b3cd49081ce2f267e286; sourceinput7feac65b5637abde582fcab35c722f57229495f24a742e8208ae442bbe6d09a6; archive6c2f55a9d0ff430efc508310801cd07f5dff18f8a595b11e264e5a4695ea8e09. Full archive/external text/index/config/source integrity verified. Observational merge serializer now works; allfive onecell cases stages0/0/1/0 stop at own13:5–6 List-expression-pattern admission error before target body; allfour MD controls stages0/0/1/0 stop unsupported address11:38–39/precreate or11:15–18/runtime raw source. All new cases INCONCLUSIVE; no intended negative/FBC/copy/recovery/Drop credit. V3b stock/six positive/false and smoke controls pass. [Full result and applicability no-go](merge/overnight/guard-ownership/insertion-onecell/RESULT.md).
 
 Read-only source/spec review: mutable guard separates storage from general V4, but readonly held-reference protocol cannot span actual comparator interior mutation; immediate no-Drop adapter is not reachable actual Drop edge. First comparator/current-owner recovery, actual first shift/dst update, tmp cleanup and genuine reference debts remain open. No model contradiction or impossibility of mutable FBC claimed. At minute46 chose no new experiment. Closed within owner60min window, no finishing extension. Total677/3600,2923unspent closed, bothownBuild terminal/evidence verified, ready withdrawn, ownactive/unresolved none. [Checkpoint](merge/NEXT-MERGE-DROP-CALLER-CHECKPOINT-2026-10-09.md).
+
+## 2026-10-09 MERGE-MD-AUTHORITY — authorized first admission hypothesis
+
+Owner merge; clean assigned worktree/branch3ecfc92d, own remote equal after fetch,
+policy1fcd91ef. Start14:28:08 UTC; main15:28:08, absolute15:58:08; new3600seconds.
+[Phase and predispatch gates](merge/MERGE-MD-AUTHORITY-CLOUD-2026-10-09.md).
+Actual insert_tail550–551 consumer; supplied entry resources/current owner,
+comparator recovery and first-shift/dst-update debt explicitly retained.
+Supported fractional syntax and precreation-before-merge use unchanged trusted
+profile/pins. Four isolated MD units first; one-cell conditional on MD gate PASS.
+Fresh source/proof requires exact-SHA Cloud. No replay proof credit or prior
+INCONCLUSIVE upgrade. Profile NOT_ACCEPTED.

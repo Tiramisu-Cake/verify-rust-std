@@ -1,3 +1,9 @@
+# MERGE-MD-AUTHORITY-CLOUD-2026-10-09 — IN PROGRESS
+
+Owner merge, overnight/merge-26.10, /root/verify-rust-std. [Phase](merge/MERGE-MD-AUTHORITY-CLOUD-2026-10-09.md). Policy1fcd91ef; checkpoint3ecfc92d preserved; remote equal after fetch. Start14:28:08 UTC, main15:28:08, absolute15:58:08, 60+max30finishing; new3600seconds. Isolated MD admission/authority first, then mutable constructor FBC only on PASS. Profile NOT_ACCEPTED; no new actual theorem.
+
+---
+
 # NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 
 Owner `merge`, branch `overnight/merge-26.10`. [Checkpoint](merge/NEXT-MERGE-DROP-CALLER-CHECKPOINT-2026-10-09.md), [case results](merge/overnight/guard-ownership/insertion-onecell/RESULT.md), [own ledger](cloud-build/next-merge-drop-caller/BUDGET.json).

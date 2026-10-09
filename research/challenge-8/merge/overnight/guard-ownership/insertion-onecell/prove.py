@@ -319,7 +319,9 @@ def classify_md(name: str, case: Path, meta: dict, execution: dict) -> dict:
     else:
         matched = (common and stages["verifast"] == 1 and len(errors) == 1 and
                    f"verified/lib.rs({meta['target_line']}," in errors[0] and
-                   "No matching heap chunks" in errors[0])
+                   ("Taking the address of this expression is not supported" in errors[0]
+                    if name == "negative_missing_precreated_reference" else
+                    "No matching heap chunks" in errors[0]))
     result = {**execution, **meta, "case": name,
               "errors": errors, "classification":
               "REGRESSION_MATCHED" if matched else "INCONCLUSIVE", "accepted": False}
@@ -424,8 +426,19 @@ def main() -> int:
     md_pass = all(results[name]["classification"] == "REGRESSION_MATCHED" for name in MD_CASES)
     for name in CASES:
         case = args.evidence / "cases" / name
-        results[name] = classify_onecell(name, case, extraction["cases"][name],
-                                         execute_case(case, args, env))
+        if md_pass:
+            results[name] = classify_onecell(name, case, extraction["cases"][name],
+                                             execute_case(case, args, env))
+        else:
+            for stage in ("exporter", "decode", "verifast", "refinement"):
+                base.not_run(case, stage, "isolated MD gates did not pass")
+            before = base.hashes(case)
+            results[name] = {"case": name, "classification": "NOT_RUN", "accepted": False,
+                "reason": "isolated MD gates did not pass", "stages": {stage: 125 for stage in
+                    ("exporter", "decode", "verifast", "refinement")},
+                "source_before": before, "source_after": before,
+                "source_unchanged_at_every_stage": True}
+            (case / "classification.json").write_text(json.dumps(results[name], indent=2) + "\n")
         (args.evidence / "results.json").write_text(json.dumps(results, indent=2) + "\n")
     aggregate = {"profile": PROFILE, "accepted": False,
                  "md_regressions_matched": md_pass,

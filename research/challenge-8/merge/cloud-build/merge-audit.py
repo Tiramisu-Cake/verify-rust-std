@@ -1373,7 +1373,12 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             break
                     if not rows_valid:
                         break
-                    if name in ONECELL_CASES and row.get("classification") != "INCONCLUSIVE":
+                    if row.get("classification") == "NOT_RUN":
+                        rows_valid = (name in ONECELL_CASES and
+                            row.get("reason") == "isolated MD gates did not pass" and
+                            all(value == 125 for value in stages.values()) and
+                            aggregate.get("md_regressions_matched") is False)
+                    elif name in ONECELL_CASES and row.get("classification") != "INCONCLUSIVE":
                         rows_valid = (row.get("source_admission", {}).get("admitted") is True and
                                       row.get("mir_admission", {}).get("admitted") is True and
                                       row.get("ast_admission", {}).get("admitted") is True and
