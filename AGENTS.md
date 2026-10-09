@@ -16,7 +16,7 @@ never transfer GitHub credentials or use the working tree/configuration/hooks
 as build input. The archive contains committed objects only and restores the
 original commit/tree/blob identities without creating a commit.
 
-## Current authorized phase: CLOUD-BUILD-MIGRATION
+## Completed phase: CLOUD-BUILD-MIGRATION
 
 The owner authorized the A/B/C migration checks in existing
 `smallsort-ci/global`; this phase has its own remaining-build budget and only
@@ -24,8 +24,9 @@ the reviewed stock/constructor lanes. See [phase](research/challenge-8/cloud-bui
 and [commands](research/challenge-8/cloud-build/README.md). Use explicit gcloud
 configuration/account/project and region where applicable. No fake GitHub
 identity. One queued/running build. Semantic profiles/contracts frozen; do not
-expand the lanes or begin actual-callee proof work. B/C are not accepted until
-their Cloud restoration and evidence gates complete. Older GitHub procedures
+expand the lanes or begin actual-callee proof work. A/B/C are accepted in the
+[reported scope](research/challenge-8/cloud-build/ACCEPTANCE.md); this phase is
+complete and does not authorize further proof development. Older GitHub procedures
 below are historical and require a direct owner instruction before use.
 
 # Instructions for coding agents
@@ -44,7 +45,8 @@ Before acting, read:
 4. The actual SmallSort source, relevant specification and proof/runner files
    for the authorized task.
 
-Work in `Tiramisu-Cake/verify-rust-std` on `challenge-8/research`. Inspect the
+Work in `Tiramisu-Cake/verify-rust-std` on the branch named in STATUS
+(current migration checkpoint: `research/cloud-build-migration`). Inspect the
 working tree, remotes, branch heads and Cloud Build ledger; recorded status is
 dated.
 Preserve unrelated user changes. No force-push or destructive reset. Always use

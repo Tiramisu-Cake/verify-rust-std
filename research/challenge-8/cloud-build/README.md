@@ -1,10 +1,10 @@
-# Permanent Cloud Build research and evidence procedure
+# Accepted Cloud Build workflow
 
-All SmallSort CI, proof, fixture, MIR and source-build work runs in Cloud Build.
-GitHub hosts source, branches, pull requests and documentation; no GitHub Actions
-dispatch or rerun is authorized without direct owner instruction. Existing
-automatic workflow triggers remain unchanged and are inventoried in
-[GITHUB-TRIGGERS.md](GITHUB-TRIGGERS.md). The VPS runs only this lightweight
+A/B/C migration accepted; [scope, pins, Build IDs and budget](ACCEPTANCE.md).
+The tested infrastructure SHA is `30fc3b42a2fb980b49174d459ec5cfbea778379b`.
+Use it for the commands below; newer documentation HEADs are not new proof runs.
+
+The VPS runs only this lightweight
 control client and evidence hash checker. No Docker, compiler, executable test
 or full research runner runs on the VPS.
 
@@ -43,12 +43,12 @@ Pick the reviewed lane and use the historical proof SHA:
 
 ```bash
 python3 research/challenge-8/cloud-build/control.py submit \
-  --infra-sha FULL_PUBLISHED_INFRA_SHA \
+  --infra-sha 30fc3b42a2fb980b49174d459ec5cfbea778379b \
   --proof-sha a0cfd30e066acbaf1b5406cd9773f54388cc45be \
   --lane stock --source-mode pinned-objects --timeout 800
 
 python3 research/challenge-8/cloud-build/control.py submit \
-  --infra-sha FULL_PUBLISHED_INFRA_SHA \
+  --infra-sha 30fc3b42a2fb980b49174d459ec5cfbea778379b \
   --proof-sha 1378f0ffc8342233349fae3df5a938c4a021c8d7 \
   --lane constructor --source-mode pinned-objects --timeout 1500
 
@@ -103,9 +103,13 @@ now the permanent source path for these reviewed builds. It preserves
 change, and carries only selected committed objects in a bounded gzip payload.
 The restore module is separately embedded in the build config, verifies the
 explicit `LANE`, `INFRA_SHA` and `PROOF_SHA` environment values, and writes its
-source archive plus `source-input-certificate.json` to evidence. Source restore
-has not yet been validated by B/C; neither lane is accepted until its restore,
-source gates, full evidence upload and independent acceptance summary pass.
+source archive plus `source-input-certificate.json` to evidence. B validated
+source restore: both original HEADs, selected object closure and path/blob hashes
+passed; all11 stock cases retained their historical outcomes. C validated the
+cold console source build and complete constructor component matrix. Both
+complete archives and all separately
+published text files were downloaded and checked on VPS. This accepts only
+the documented stock and constructor scopes, not new actual-callee proofs.
 
 ChatGPT reads bucket evidence through the connected **SmallSort CI — Read Only**
 connector. The publisher currently emits the archive plus

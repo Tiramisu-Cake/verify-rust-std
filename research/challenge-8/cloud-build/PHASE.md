@@ -54,3 +54,13 @@ The VPS edits/orchestrates/analyzes only. ChatGPT already reads the bucket using
 SmallSort CI — Read Only. Publish manifest, summary and all text logs separately
 from the archive, <=8MiB per MCP object with lossless indexed chunks if needed.
 No new authorization to run the suspended second direction or new actual proofs.
+
+
+## Completion checkpoint — 2026-10-09
+
+A/B/C accepted within [ACCEPTANCE.md](ACCEPTANCE.md)'s explicit scopes.
+Bce77c943 and Cd9e4538a use testedinfra30fc3b42 with original historical proof
+SHAs, Cloud-verified pinned object delivery and independently reviewed proof gates.
+Both archives and all separately published text files were downloaded and hashed
+on VPS. Ledger772/3600,2828remaining, no active build. Permanent Cloud procedure
+is effective; no additional actual-proof authorization derives from this completion.

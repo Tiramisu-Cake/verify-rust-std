@@ -1,43 +1,42 @@
-# Current phase: CLOUD-BUILD-MIGRATION — IN PROGRESS
+# Current phase: CLOUD-BUILD-MIGRATION — ACCEPTED / COMPLETE
 
-2026-10-09. The owner authorized A/B/C migration to the existing Cloud Build
-project. Budget: 3600 summed build seconds; at most 1800 per build within the
-remaining budget, and one queued or active build. No new helper/sort4 proofs.
-[Phase](cloud-build/PHASE.md), [budget](cloud-build/BUDGET.json),
-[commands](cloud-build/README.md), [results](cloud-build/RESULTS.md).
+2026-10-09. A/B/C completed within the owner-authorized Cloud Build budget.
+[Acceptance report](cloud-build/ACCEPTANCE.md), [ledger](cloud-build/BUDGET.json),
+[exact commands](cloud-build/README.md), [chronological results](cloud-build/RESULTS.md).
+Branch `research/cloud-build-migration`; entry `89e0a36f8df67bb2f66cf0564f497a0a4bad4aac`
+was preserved, as were the overnight branch, main/upstream and second worktree.
 
-Branch `research/cloud-build-migration`, same worktree; entry
-`89e0a36f8df67bb2f66cf0564f497a0a4bad4aac` was clean. The overnight branch,
-main, upstream and the second agent's worktree remain untouched.
+A: storage success and original42/124 error/timeout controls uploaded evidence,
+VPS downloads/hashes passed; failed controls stayed FAILURE. Initial SDK startup
+failure without archive remains incomplete evidence, charged and preserved.
+B: stock Build `ce77c943-f657-47da-9dfa-4b6e16d3679e` SUCCESS,164s,
+proof `a0cfd30e066acbaf1b5406cd9773f54388cc45be`;11-case historical matrix
+reproduced. Genericforget remains INCONCLUSIVE; strict dead-code classification
+limits are preserved separately. No whole repository std theorem.
+C: Build `d9e4538a-c6c0-4881-b422-de6ceae72d19` SUCCESS,328s,
+proof `1378f0ffc8342233349fae3df5a938c4a021c8d7`; cold source-built S6+CFG
+constructor component accepted:16 source/proof,9 MIR,10 native,4 false/frame.
+Actual callee NOT_RUN; local-copy source/MIR applicability is not DefId equality.
+Both runs use infrastructure `30fc3b42a2fb980b49174d459ec5cfbea778379b`, VF
+f76012fb/nightly2026-09-25/stdcd371e03. Exactly the historical two patches,
+not O26. No new helper/sort4/merge proof, broader S6 profile or trust expansion.
 
-**A accepted for infrastructure only.** Success `fd0020bd`, managed error
-`63862150` (original 42), and internal timeout `6604590a` (original 124) all
-uploaded evidence; the VPS downloaded and verified archives and file hashes.
-Error and timeout builds ended FAILURE. Initial setup `7bda20f0` failed at
-SDK Python startup without an archive and remains incomplete evidence.
+Approved source delivery: committed allowlisted original Git objects, --no-source,
+source SHA256/object closure/path hashes and original HEADs checked in Cloud.
+No credentials/worktree/hooks/config transfer or hidden origin fetch. Both complete
+archives plus all204 B /482 C separate text files downloaded and verified on VPS;
+metadata/log objects <=8MiB. ChatGPT bucket reader: SmallSort CI — Read Only.
 
-**B/C resumed with approved pinned Git-object delivery.** Earlier B build
-`3e4c62e0` failed128 before tools; its evidence and historical classification
-are preserved. The owner explicitly replaced anonymous GitHub source fetch with
-credential-free committed-object transport. Pre-dispatch Git/hash inspection
-checked every included object and confirmed bounded configs (B255463bytes,
-C343353bytes for preparation infra24ff4ff5, final bundles recomputed per SHA).
-B Cloud SUCCESS: ce77c943-f657-47da-9dfa-4b6e16d3679e,164s,
-infra30fc3b42, proofa0cfd30e; archive and all separate text logs downloaded and
-hash-verified. Original commits/HEADs and selected Git-object closure verified
-in Cloud; no hidden source download. Stock11-case matrix reproduces four
-positives, four false-post/unwind negatives, two dead-code rejections and
-historical generic-forget INCONCLUSIVE. Classification
-STOCK_CHAIN_OPERATIONAL_WITH_HISTORICAL_LIMITS; no full generic forget theorem.
-C historicalconstructor1378f0ff next, same source-built S6+CFG profile.
+Permanent workflow: Cloud Build executes CI/heavy checks; GitHub stores source,
+branches, PRs and docs. Actions requires explicit owner instruction. VPS edits,
+orchestrates and analyzes only. [Remaining automatic triggers](cloud-build/GITHUB-TRIGGERS.md)
+were inventoried without modification. Second agent remains suspended during
+this completed phase; its own proof SHA/profile must be selected in a separately
+authorized recipe/account, without inheriting this constructor acceptance.
 
-Permanent workflow: Cloud Build for CI/heavy checks, GitHub for source/branches/
-PR/docs; Actions only on explicit user instruction. VPS edit/orchestration/
-analysis only. ChatGPT bucket reader: SmallSort CI — Read Only. Separate full
-text logs with lossless <=8MiB chunks are being added before B dispatch.
-
-Usage **444/3600 conservative build seconds**, **3156 remaining**. B terminal; C next. Historical accounts remain separate. Owner setup build
-`f6f0f600-5558-4ac1-9011-0b73e4533a83` is not charged or relabeled as phase proof.
+Usage **772/3600 conservative build seconds**, **2828 remaining**; historical
+accounts unchanged. No active or queued build. Phase complete; do not resume
+new actual proof work under migration authorization.
 
 # Historical overnight checkpoint (preserved)
 

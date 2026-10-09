@@ -1,7 +1,7 @@
-## Current authorization: CLOUD-BUILD-MIGRATION
+## Current authorization: CLOUD-BUILD-MIGRATION — COMPLETE
 
-[Phase](cloud-build/PHASE.md): A accepted infrastructure controls → B frozen stock
-baseline → C cold source-built historical constructor. Same3600-second ledger,
+[Phase](cloud-build/PHASE.md): A/B/C accepted within772/3600seconds;2828 remain.
+[Acceptance](cloud-build/ACCEPTANCE.md). No active build or new proof work. Same3600-second ledger,
 max1800/remaining, one active build; no new actual proof development. The owner
 approved committed Git-object delivery from VPS with original SHA restoration.
 Permanent CI/heavy execution is Cloud Build; GitHub stores source/branches/PR/docs,

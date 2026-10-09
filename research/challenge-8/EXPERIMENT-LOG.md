@@ -5235,3 +5235,33 @@ NextC: historical accepted constructor1378f0ff/run37700450091 with exact
 S6candidate20f7d07a thenCFG593d0940, cold source-built console and all16source/
 proof+9MIR/native10/false-frame4 controls; actualcallee NOT_RUN. Unchanged
 semantics/posts/classifiers. Max1500s build withinremaining; no otherbuildactive.
+
+
+### Cloud C1: historical constructor reproduced; migration A/B/C accepted
+
+2026-10-09 Buildd9e4538a-c6c0-4881-b422-de6ceae72d19 SUCCESS,328 conservative
+seconds. Infra30fc3b42a2fb980b49174d459ec5cfbea778379b; proof1378f0ffc8342233349fae3df5a938c4a021c8d7,
+comparison O3/run37700450091. Config15db37f3bb8b331e06f747c51078d0430e17ecba827ef28c9aeec8269e83fc99;
+sourcebundle5a36ec008dbc0db57bcf69efe616057bc93c54c82cb8d97a2e9500344bf78b1c.
+Cloud verified original HEADs/object closure/file hashes before cold VF source build.
+Exact historical S6candidate20f7d07a thenCFG593d0940 only; source console compiled,
+16source/proof+9MIR+10native+4false/frame accepted at original expected boundaries.
+Exporter/decode/refinement/source-integrity/return/leak gates preserved. Independent
+artifact review confirmed component profile, ownership controls and admission
+failures. Actualcallee NOT_RUN; source-localcopy applicability/def-path matching is
+not DefId equality. No helper/sort4/merge, wholeS6/O26 or generic/ZST theorem added.
+
+Archived2ef48f11744fd622520524e2ab859c479a400e17385ddcf982546b0f885d18c;
+textindex72007409313e1d94691b7e465ee214451ceb6d52391aa5d0bd576b30f6136f15.
+VPS verified archive, externalmetadata, inventory and all482 separate text files,
+including lossless reconstruction. Sourcebuiltconsolef0d3c92651d98d91ceed57d58d93087bee0106a094b7efc1e956820c46132642;
+no historicalbinary byteidentity assumed. Existing permitted duplicate mutation
+profile tool omission810entries explicitly inventoried; all MIR/wrappers/logs retained.
+2CPUs, MemTotal8147688KiB; compile53.49s/398136KiB/185%CPU; largeststageRSS546084KiB.
+
+Total772/3600,2828remaining; historicalaccounts preserved, no active/queuedbuild.
+A not repeated; Aerror42/timeout124 still FAILURE with verified evidence. B retains
+strict classifier/deadcode/genericforget historical limits. A/B/C accepted only as
+[reported](cloud-build/ACCEPTANCE.md). PermanentCloud workflow, source delivery,
+MCPreader/separate<=8MiBlogs and exact second-direction commands documented;
+no resumed proofwork, external publication or automaticActions trigger changes.

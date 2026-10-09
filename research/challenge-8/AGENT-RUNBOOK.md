@@ -36,13 +36,16 @@ Git-object archive: the original commits, trees, blobs, modes and selected file
 bytes are verified on restore; no working-tree, index, Git configuration, hook
 or GitHub credential enters the archive. The resulting partial repositories
 retain their original commit IDs and do not fabricate commits. Cloud restoration
-is not considered validated until the current B/C builds complete their source
-and evidence gates. The historical GitHub dispatch procedure below is retained
-for audit context only and is not current authorization.
+was validated by the accepted B/C builds linked from STATUS; preserve their
+original SHA and profile scope when repeating a reviewed lane. The historical
+GitHub dispatch procedure below is retained for audit context only and is not
+current authorization.
 
 ## Working context
 
-- Fork: `Tiramisu-Cake/verify-rust-std`; branch: `challenge-8/research`.
+- Fork: `Tiramisu-Cake/verify-rust-std`; migration branch:
+  `research/cloud-build-migration`. Historical research branch:
+  `challenge-8/research`; always read STATUS for the active checkpoint.
 - Upstream: `model-checking/verify-rust-std`; no external publication authorized.
 - Source: `library/core/src/slice/sort/shared/smallsort.rs`.
 - Historical workflow: `.github/workflows/smallsort-research.yml`; no current

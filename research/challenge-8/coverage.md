@@ -1,9 +1,14 @@
-## CLOUD-BUILD-MIGRATION — infrastructure A accepted
+## CLOUD-BUILD-MIGRATION — A/B/C accepted
 
-Success, managed exit42 and internal timeout124 preserve complete downloadable
-hash-verified evidence; error/timeout final Cloud Builds fail. No new Rust proof
-claim. B stock and C historical constructor pending; old GitHub evidence below
-remains historical. See [current status](STATUS.md) and [phase](cloud-build/PHASE.md).
+A storage/error42/timeout124 retained failure verdicts and hash-verified evidence.
+B stock11 cases reproduced at ce77c943; genericforget remains INCONCLUSIVE.
+C cold source-built constructor accepted at d9e4538a:16 source/proof,9 MIR,
+10 native,4 false/frame controls. Original source/HEADs and full archives plus
+204/482 separate logs hash-verified. Runtime/contracts/checkers unchanged except
+provider guards; source-built two-patch profile only. Actual callee NOT_RUN;
+no full S6/O26/helper/sort4/merge theorem.772/3600 used,2828 remaining, no active
+build. [Acceptance](cloud-build/ACCEPTANCE.md); historical GitHub evidence below
+remains historical.
 
 <!-- O23 delta: exactnestedghostscope2recordfix closesNot_found; actual5bodySAFE interface firsterror fn_outcome<*Element>vs*Element at77, noactualbodyproof. Source3/MIR3stronggates intended. Sort4strip/new7/9import setupblocked beforegraphs. Budget1169/7200; latestpriority hostedprep/integrationalreadybuiltcomponents beforeindependentmodels. -->
 <!-- Resumed O22 delta: proof02945280/run37754201983, full generic exactbody unsafe forget preserves SAME T.own+thread normal/unwindfalse, five post/leak negatives+deadcode+unwindtargetreject; ACCEPTED_LOCAL_COMPONENT only. Exactactualowner admission+3source/2MIR controls passed, later nestedghost-parent translatorNot_found; noactualhelper. Main14 and isolatedCUT fullS6 PASS; CUT4 positives/nooptin with13NOT_RUN header setup; sort4strip setup failed beforeMIR. Budget915/7200. -->

@@ -1,3 +1,10 @@
+# Current acceptance
+
+A/B/C completed,772/3600s charged,2828 remaining; no active build.
+[Final acceptance and scope](ACCEPTANCE.md). The entries below retain the
+chronological states and historical failures; superseded pending/active statements
+are not current instructions.
+
 # Cloud Build migration evidence
 
 Checkpoint: 2026-10-09; phase still in progress. A is accepted for infrastructure;
@@ -92,3 +99,47 @@ separate text index SHA256
 Archive and all separate text chunks downloaded and verified on VPS, including
 lossless concatenation hashes. Prefix uses the full BuildID as above.
 Usage444/3600, remaining3156. C remains pending, so full migration not accepted.
+
+B independent artifact review confirms provider-only guard changes, all17
+RSSpecs byte-equal pinned VF source, full11-case normal/readonly exports,
+decodes and refinement exits0. False controls stop at exact expected obligations,
+not setup. The two dead-code controls retain strict INCONCLUSIVE/raw intended
+rejection separately. Exported fixture body comes from pinned repository source;
+external std metadata comes from nightly sysroot, whose mem/mod.rs and ptr/mod.rs
+files differ from repository files. This is the preserved historical trust scope,
+not a rebuilt repository std or actual SmallSort proof. Peak measured B stage
+RSS543236KiB (toolchain install); matrix5.04s/96020KiB, compiler39.24s, packages22.91s.
+C active `d9e4538a-c6c0-4881-b422-de6ceae72d19`, sameinfra30fc3b42, proof1378f0ff,
+config15db37f3bb8b331e06f747c51078d0430e17ecba827ef28c9aeec8269e83fc99,
+timeout1500s. No semantic/fixture change; fullmigration acceptance remains pendingC.
+
+## C confirmed — cold historical constructor source profile
+
+Build `d9e4538a-c6c0-4881-b422-de6ceae72d19` SUCCESS,328 conservative seconds.
+Infrastructure `30fc3b42a2fb980b49174d459ec5cfbea778379b`, original proof
+`1378f0ffc8342233349fae3df5a938c4a021c8d7`, O3/run37700450091 comparison.
+Config SHA256 `15db37f3bb8b331e06f747c51078d0430e17ecba827ef28c9aeec8269e83fc99`;
+source bundle `5a36ec008dbc0db57bcf69efe616057bc93c54c82cb8d97a2e9500344bf78b1c`.
+Cloud restore verified original commit/HEADs, selected object closure and path hashes.
+Pinned source build applies exactly S6candidate20f7d07a thenCFG593d0940, builds
+console cold and preserves all selected obligations:16source/proof,9MIR admission,
+10native,4false/frame. Classifier CONSTRUCTOR_COMPONENT_ACCEPTED, exit0.
+Independent full-artifact review confirmed expected refusals, source/profile identity
+and unchanged kernel/parser. Actualcallee NOT_RUN; localcopy/def-path applicability
+is not DefId equality, generic/ZST closure or full S6/O26/helper/sort4/merge proof.
+
+Archive SHA256 `d2ef48f11744fd622520524e2ab859c479a400e17385ddcf982546b0f885d18c`;
+text index `72007409313e1d94691b7e465ee214451ceb6d52391aa5d0bd576b30f6136f15`.
+Complete archive plus all482 separate text files downloaded and SHA256/lossless
+reconstruction verified on VPS. Largest text object149690bytes;8MiB cap preserved.
+New source-built console SHA256
+`f0d3c92651d98d91ceed57d58d93087bee0106a094b7efc1e956820c46132642`.
+C compile53.49s/398136KiB/185%CPU; largest measured stage RSS546084KiB
+(toolchain install);2CPUs, MemTotal8147688KiB. Historical permitted omission of
+810 duplicate mutation-tool entries is explicitly inventoried; wrappers/MIR/logs
+and original diagnostics remain. No binary reproducibility claim vs GitHub.
+
+Cumulative772/3600,2828remaining, no active build. All A/B/C migration gates accepted
+in the final report's scope. Further actual proof development not part of this phase.
+Permanent Cloud workflow and second-direction handoff documented without resuming
+that agent, altering its worktree, or changing automatic Actions triggers.
