@@ -1,7 +1,9 @@
 # Current shared Cloud interface — nightly phases
 
 The accepted migration below stays closed. New owner-authorized phases use
-independent ledgers, exact committed recipes and the global lock. Common CLI:
+independent ledgers, exact committed recipes and the global lock. The owner
+approved two project-wide slots, one per agent owner/ledger, on 2026-10-09.
+See [the protocol, transition and validation status](PARALLEL-BUILDS.md). Common CLI:
 
 ```bash
 python3 research/challenge-8/cloud-build/control.py \
@@ -21,7 +23,8 @@ The select account is10800 seconds, cutoff2026-10-09T08:00:00Z. Earlier accounts
 are not reset or transferred. Migration submit is refused.
 
 `/root/smallsort-ci-coordination/lock` uses flock. Under it the client reconciles
-active.json (owner, phase, absolute ledger/state, token, Build ID or unresolved),
+the two active.json reservations (owner, phase, absolute ledger/state, token,
+Build ID or unresolved),
 checks API ongoing builds, reserves atomically before sending and records the
 response. Crashes or uncertain replies keep reservations. No unique API match
 means unresolved, not permission to retry. Terminal API evidence or a recorded
@@ -30,10 +33,10 @@ an unresolved reservation to retry. Status reconciles a crashed foreign account
 under the same lock; cancel checks explicit owner/phase/ledger. Download transfers
 outside the lock and atomically updates its own account after hash checks.
 
-Ready senders register `request`; a sender that was last may not dispatch again
-while another unexpired request is present. `last-owner.json` and requests/*.json
-preserve turns. Withdraw when no recipe is ready; do not leave a speculative
-request blocking another ready agent. No scheduler/service is introduced.
+Ready senders may register `request`; requests are advisory and no longer impose
+turn alternation. A sender may submit when its own slot is clear and the project
+has fewer than two occupied slots. Withdraw stale requests. No scheduler/service
+is introduced.
 
 New lanes register `recipes/LANE.json` in the infrastructure commit with schema
 smallsort-cloud-recipe-v1, lane, entrypoint (infra shell script), sorted exact
@@ -61,7 +64,7 @@ The migration commands below identify the historical runs; that phase is closed
 and the client refuses further migration submissions. Newer documentation HEADs
 are not new proof runs.
 
-## Authorized phase accounts and shared turn gate
+## Authorized phase accounts and shared two-slot gate
 
 New submissions require explicit `--phase-id`, absolute `--ledger`, absolute
 `--state-dir`, and an owner identifier before the subcommand. The selected
@@ -87,14 +90,13 @@ python3 research/challenge-8/cloud-build/control.py \
 ```
 
 The client holds `/root/smallsort-ci-coordination/lock` while reconciling the
-global reservation and submitting. `active.json` retains token, owner, phase,
-ledger and build ID through crashes and uncertain API responses. A missing
-build ID blocks a retry until its token resolves; only terminal API status or
-definitive API validation rejection clears the reservation. One queued or
-running project build is allowed across worktrees. An owner can register a
-pending turn with `request` and remove it with `withdraw-request`. If another
-owner has a pending turn, the last submitting owner waits for that owner to
-submit or withdraw. `status`, `download`, and `cancel` use the same phase
+reservations and submitting. The v2 `active.json` retains each token, owner,
+phase, ledger and build ID through crashes and uncertain API responses. A missing
+build ID blocks that owner's retry until its token resolves; only terminal API
+status or definitive API validation rejection clears the reservation. At most
+two project builds are allowed across worktrees, one per owner/ledger. Untracked
+API builds also consume capacity. Requests are advisory.
+`status`, `download`, and `cancel` use the same phase
 arguments; cancellation additionally requires the matching owner and active
 build ID. Download and hashing release the shared lock while they run.
 
@@ -111,8 +113,8 @@ printed or copied by these scripts.
 The control client submits `--no-source --async`; it captures the exact config
 file bytes/hash and sends them as explicit substitutions alongside infrastructure
 SHA and proof SHA. It looks up a dispatch token after an uncertain response and
-retains unresolved state rather than dispatching a duplicate. One queued/running
-build is enforced. A sixty-second queue envelope is reserved on top of the
+retains unresolved state rather than dispatching a duplicate. Two project-wide
+slots and one slot per owner/ledger are enforced. A sixty-second queue envelope is reserved on top of the
 requested timeout; timeout is at most1740s, keeping the envelope within1800s.
 The phase ledger charges the conservative rounded createTime–finishTime interval,
 including queue, preparation, execution and upload. Execution startTime–finishTime
@@ -176,10 +178,10 @@ a missing result, bad summary, incomplete archive or upload cannot yield PASS.
 
 For a separately authorized second direction or agent, preserve that agent's own
 proof SHA and reviewed profile, and record a separately authorized budget before
-submission. All agents share the same project-level one-queued/running-build
-limit enforced by the client API check. Keep each phase account separately in
-the ledger; never reset historical usage or spend another phase's budget. No
-second build may start while one is active or unresolved. A second
+submission. All agents share the project-level two-slot limit enforced by the client API
+check, with at most one queued/running/unresolved build per owner and ledger. Keep each phase account separately in
+the ledger; never reset historical usage or spend another phase's budget. An independent owner's second build may start while the first is active or
+unresolved; a third build or same-owner retry must wait. A second
 agent must not edit this worktree or silently use another branch's sources.
 Existing lanes remain stock and historical constructor only; do not merge
 research histories, load other patches, or extend the semantic profile.

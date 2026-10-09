@@ -1,3 +1,13 @@
+## Current Cloud Build coordination procedure
+
+At most two project queued/running/unresolved builds, one per stable owner and
+ledger. [Two-slot transition](cloud-build/PARALLEL-BUILDS.md) supersedes historical
+single-slot/alternating-ready rules. Preserve exact phase deadlines/budgets and
+proof scopes from STATUS. Use existing Cloud provider, full published infra/proof
+SHAs, pinned objects and --no-source. VPS only reads/edits/orchestrates; all
+executable checks/source extraction run in Cloud. Historical Actions procedures
+below authorize neither Actions dispatch nor trigger changes.
+
 # Challenge 8 operating runbook
 
 This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)

@@ -1,3 +1,12 @@
+## Cloud Build concurrency — owner update 2026-10-09
+
+At most two project queued/running/unresolved builds, one per stable owner and
+ledger. Follow [the v2 protocol](research/challenge-8/cloud-build/PARALLEL-BUILDS.md).
+This supersedes historical single-slot/turn rules. Budgets, phase scopes and
+execution boundaries remain separate. The current user authorization names
+Cloud Build and the existing worktree/branch; historical Actions rules below
+are not permission to dispatch Actions or alter triggers.
+
 # Instructions for coding agents
 
 ## Project and first reads
@@ -40,9 +49,9 @@ A green fixture permits the next already-agreed step, not a new architecture,
 tool extension or phase. At a phase boundary, unresolved material decision or
 new trust requirement, checkpoint and ask the owner before expanding scope.
 
-One relevant hosted experiment at a time. Keep `workflow_dispatch` as the only
-research trigger; no push, pull_request or scheduled triggers, speculative jobs
-or duplicate dispatches. No upstream PR, external comments, tool application or
+One relevant Cloud Build per owner and ledger, at most two across the project.
+Use reviewed lanes, no speculative jobs or duplicate submissions. Do not
+dispatch Actions or modify workflow triggers without direct owner instruction. No upstream PR, external comments, tool application or
 bounty submission without separate user authorization.
 
 ## Hard rule: no verification or builds on the user's server
