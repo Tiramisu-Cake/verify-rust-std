@@ -1,3 +1,23 @@
+## Accepted operating update — 2026-10-09
+
+First read [WORK-POLICY](WORK-POLICY.md) and [COMPLETION-PLAN](COMPLETION-PLAN.md).
+The policy supersedes older conflicting execution, budget-window and priority
+wording below; historical Actions examples do not authorize Actions dispatch.
+Use the assigned branch/phase and Cloud Build; two project-wide active/unresolved
+slots, one per owner/ledger. Two-hour sessions; up to 30 minutes for finishing an
+existing step/checkpoint only. Cloud budget remains the one in the assignment.
+
+Before a new experiment identify the actual caller and where its premises come
+from. Separate new proof runs, classifier-only replay of saved evidence and
+NOT_RUN cases. Small isolated local classifier/parser tests are now allowed as
+specified in WORK-POLICY; compilers, verifiers and proof runners remain Cloud-only.
+Do not cold-build the proof toolchain solely to test an evidence classifier.
+
+On entry fetch/integrate the docs without overwriting local work, read the latest
+checkpoint and record the policy revision. In a running session adopt at the
+next safe step; keep active Build inputs fixed. Add caller progress and separate
+replay/new proof results to the existing checkpoint format.
+
 ## Current Cloud Build execution procedure
 
 The permanent SmallSort execution provider is existing Cloud Build.
@@ -11,13 +31,13 @@ no-source pinned-object submission, unique BuildID bucketprefix, upload before
 final verdict.
 Use every gcloud invocation with explicit configuration/account/project and
 region if applicable; no credentials inspection or administrative changes.
-VPS static/edit/orchestration only. Historical Actions loop below does not
+VPS static/edit/orchestration plus the WORK-POLICY section 4 service-test exception. Historical Actions loop below does not
 authorize Actions runs. Actual-proof work still requires its separate phase
 authorization.
 
 # Challenge 8 operating runbook
 
-This is an operating procedure, not a progress log. Read [AGENTS.md](../../AGENTS.md)
+This is an operating procedure, not a progress log. Read [AGENTS.md](../../../AGENTS.md)
 and [STATUS.md](STATUS.md) first, followed by [PLAN.md](PLAN.md) and the phase
 document linked from STATUS. The current authorization state and phase there
 override historical instructions. The pre-reorganization runbook is preserved
@@ -25,8 +45,8 @@ verbatim in [the archive](AGENT-RUNBOOK-ARCHIVE-2026-10-06.md).
 
 ## Permanent execution policy
 
-SmallSort CI, compilation, proof runners, source extraction and executable
-checks use Cloud Build permanently. GitHub is the source/branch/pull-request/
+SmallSort CI, compilation, proof runners, source extraction and proof
+checks use Cloud Build permanently. Local service tests follow WORK-POLICY section 4. GitHub is the source/branch/pull-request/
 documentation host. Do not dispatch or rerun GitHub Actions for proof or heavy
 checks without direct owner instruction. Existing repository Actions triggers
 are unchanged and may still run automatically; their exact current filters are
@@ -58,7 +78,7 @@ current authorization.
 - Current evidence: [STATUS.md](STATUS.md), [coverage](coverage.md),
   [experiment log](EXPERIMENT-LOG.md). Topic notes are indexed in [README](README.md).
 
-The VPS only edits/orchestrates. No compiler, verifier, executable tests,
+The VPS only edits/orchestrates. No compiler, verifier, proof tests,
 extractors, research runners or build dependencies there, including containers.
 GitHub is used for source and review operations; non-executing static checks are
 allowed locally. Proof work runs only in Cloud Build.
@@ -211,3 +231,4 @@ Do not add another chronological handoff block to this runbook.
 Documentation-only changes need static review, not a cold verification run.
 On interruption record any active run and unapplied drafts without overstating
 what was verified. Stopped experiments resume only by explicit owner instruction.
+
