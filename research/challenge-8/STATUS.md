@@ -1,14 +1,40 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**943/10800 conservative Cloud Build seconds used;9857 remaining**.
+**1314/10800 conservative Cloud Build seconds used;9486 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
 Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
 `/root/verify-rust-std-select-night`, preserves accepted migration65a456b8 and
-saved select/sort4 drafts. Common interface02d43040/source transportea9e68fc;
+saved select/sort4 drafts. Common client65565744/source transportea9e68fc;
 atomic shared HANDOFF published separately. Ready merge requests get alternating
 slots under shared flock/API reconciliation; budgets stay independent.
+
+Latest Build `6c560082-2359-4444-85ec-8bb247aea7ae` FAILURE at diagnostic
+gate; full evidence publication completed. Infra/proof `accb752d22df6e39c148576086da3d6d591a4a00` /
+`61034fd53009056deff0ae1d70650a9f1542322f`; charged 371s. Complete
+archive SHA-256 `0df8a1682e6fe47123273ab30eaa58bec0d3d92d10160afb60cf1616dd65969e`,
+text index `6fc4ff7ec5a4df8cff031017827135e3cb610b20fe19f6450b854347a577bfed`
+verified. Publisher: `run_exit_code=0`, `evidence_complete=true`,
+`verification_accepted=false`, `diagnostic_complete=false`. No own active Build.
+The exact nine-body pointer-domain candidate passes all seven prefix callees,
+guard close at line198, unselected actual Drop at203 and SAFE forget at210.
+Actual `select_unpredictable` remains **UNPROVED**: its first body failure is
+`lib.rsspec(462,47-48)`, missing `MaybeUninit_pointer_own<Element>(t,
+MaybeUninit::new(pointer_typeid(Element), payload))` at the final
+`select_unpredictable(...).assume_init()` call. Outer return/leak and nested
+actual Drop body are not proved. Four component17 source/MIR negatives refuse
+at intended certificate gates. Independent A1 TEST gets production17 unit-SHA
+refusal, then TEST20 exact Move-to-Copy rejection; it is not accepted.
+Actual sort4 independently reproduces exact O24 source, paired whole MIR and
+refinement, five/eight/four call inventory and first reserved marker185 refusal;
+its positive-size partial contract is not full generic/ZST safety. Relocation
+TEST fails an untranslated-vs-translated local-ID comparison before any proof
+verdict; mapped-ID TEST remains pending. Next: investigate the real
+source-only symmetric wrapper rebase capture, isolated nested proof scheduling,
+actual sort4 AST-scope PROBE and mapped-ID relocation TEST separately;
+retain production profile and full normal/unwind posts. The earlier 546547
+Build still has no archive and is not upgraded by this fresh run.
 
 Cloud Build `a24604cd-e1d2-43ef-8e4e-f2e313ec44e5` SUCCESS **diagnostic only**,
 infra/proof `ad1e0e9f8ac776f3814426015fa270b55b4fcffc`, o26-trace/timeout1200,
@@ -26,7 +52,8 @@ consolee1b447b6 differs from historical bytes, no inherited binary equality.
 Isolated strictCUT+print-only TRACE identifies first unresolved entry
 `$_32 : &? T`, same84:9-38 strict freeze refusal; source/MIR/refinement complete,
 production unchanged. TRACE console83f6e0e, TEST unaccepted and excluded from
-production. Next permitted: separate observed guard certificate refresh17/20,
+production. At that checkpoint, next permitted work was observed guard
+certificate refresh17/20,
 affected admission controls/full actual proof; independent exact-source/MIR
 six-declaration relocation TEST preserving strict freeze, with mandatory
 liveness/alias/bound/heap/CFG controls still OPEN before acceptance.
@@ -35,7 +62,7 @@ composition remain OPEN. No proof post/check/runtime/signature weakened.
 Earlier Build680ea0b2 SETUP missing dependency is retained and charged321s;
 new preflight fixes it. No migration A/B/C, constructor or unchanged matrix replay.
 
-Latest Build `546547c0-60e1-4d32-a7f5-8404790a5630` FAILURE, infra
+Earlier Build `546547c0-60e1-4d32-a7f5-8404790a5630` FAILURE, infra
 `cbd1e103ca15f99b207b6edc5606a06edf6a3d71`, proof
 `4ab01bd1a0c13868732abe2e24ad7ee59b5e522e`, o26-night,308s.
 Execute reported refreshed proof exit1, four intended owner17 refusals and exact
@@ -45,8 +72,9 @@ identity manifests were not indexed. **No full evidence / no accepted proof**;
 complete Cloud log and step failure preserved outside Git. New infrastructure
 accb752d fixes only manifest discovery depth (all required hashes remain), exposes
 full proof/relocation logs, and adds an isolated two-hash A1 Move-to-Copy TEST.
-Next fresh combined run recollects lost evidence with this changed packager,
-canonical refreshed profile unchanged; no stale run or weakened gate reuse.
+Build 6c560082 above recollected fresh evidence with this changed packager;
+canonical refreshed profile remained unchanged. The 546547 outcome remains
+provisional because its own archive was never published.
 
 # Accepted migration checkpoint (historical)
 

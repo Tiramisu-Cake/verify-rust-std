@@ -4,8 +4,8 @@
   "authorization": "Owner prompt 2026-10-09, actual select then sort4 on Cloud Build",
   "deadline_utc": "2026-10-09T08:00:00Z",
   "ceiling_build_seconds": 10800,
-  "used_build_seconds": 943,
-  "remaining_build_seconds": 9857,
+  "used_build_seconds": 1314,
+  "remaining_build_seconds": 9486,
   "maximum_build_timeout_seconds": 1800,
   "allowed_lanes": [
     "o26",
@@ -86,6 +86,30 @@
       "build_seconds": 308,
       "accounted": true,
       "execution_seconds": 308
+    },
+    {
+      "dispatch_token": "dispatch-08d81f509fcb4643bb9810d45d4a75d7",
+      "owner": "select-sort4",
+      "phase_id": "NIGHT-SELECT-SORT4-CLOUD-2026-10-09",
+      "infra_sha": "accb752d22df6e39c148576086da3d6d591a4a00",
+      "proof_sha": "61034fd53009056deff0ae1d70650a9f1542322f",
+      "lane": "o26-night",
+      "submitted_config_sha256": "6b16df49b5277927aa5a0c96f89479acc6e7eca9b30b5308553c1ecea8a922e1",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "011b82ba53cf7a02f5ff8585ce6f989a97552e7cf377760f706788cd25f5afda",
+      "build_id": "6c560082-2359-4444-85ec-8bb247aea7ae",
+      "start_time": "2026-10-09T02:37:55.597276175Z",
+      "finish_time": "2026-10-09T02:44:05.369658Z",
+      "create_time": "2026-10-09T02:37:54.844606334Z",
+      "build_seconds": 371,
+      "accounted": true,
+      "execution_seconds": 370,
+      "download_verified": true,
+      "archive_sha256": "0df8a1682e6fe47123273ab30eaa58bec0d3d92d10160afb60cf1616dd65969e"
     }
   ]
 }

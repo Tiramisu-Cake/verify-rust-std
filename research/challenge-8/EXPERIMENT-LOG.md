@@ -5528,3 +5528,54 @@ Outcomes: canonicalproofblocker→causal ghost/proof repair; A1 exactfatal→rec
 isolatednegative only; anyearlierfatal→inconclusive; relocationnextcondition→
 localizeusingcompletearchive, neverdisablefreeze/liveness/unwind/resources.
 Timeout1200+60queue within own9857/deadline08UTC; oneglobalatomicreservation.
+
+NIGHT-CLOUD-4 outcome: Build `6c560082-2359-4444-85ec-8bb247aea7ae`,
+infra `accb752d22df6e39c148576086da3d6d591a4a00`, proof
+`61034fd53009056deff0ae1d70650a9f1542322f`; 371 conservative seconds,
+own account 1314/10800, 9486 remaining, no active Build. Full archive SHA-256
+`0df8a1682e6fe47123273ab30eaa58bec0d3d92d10160afb60cf1616dd65969e`
+and text index `6fc4ff7ec5a4df8cff031017827135e3cb610b20fe19f6450b854347a577bfed`
+verified after the depth-only packager fix. Publisher run_exit0/evidence_complete
+true, diagnostic_complete false, verification_accepted false. This fresh
+archive does not retroactively complete 546547, whose evidence was lost.
+
+Canonical refreshed20+21/22 profile translator SHA `0862e635` and exact
+nine-body source/paired MIR/refinement gates pass. All seven prefix callees
+verify their returns and leak checks. Actual `select_unpredictable` enters its
+body; line198 truthful nominal guard close, line203 unselected guard Drop call,
+and line210 SAFE forget pass. At the final normal
+`select_unpredictable(condition, true_val, false_val).assume_init()` call,
+stock `lib.rsspec(462,47-48)` first rejects absent
+`MaybeUninit_pointer_own<Element>(t,
+MaybeUninit::new(pointer_typeid(Element), payload))`. This is an ownership
+precondition failure, not a proved return or leak post. The actual nested Drop
+body, outer normal/unwind completion and generic theorem remain unproved; no
+new ownership bridge or weakened post was admitted.
+
+Four owner17 controls independently reach their intended first certificate
+refusals after source/MIR setup: two exact verified-source SHA mutations and
+the real-exporter-wrapped forget Move-to-Copy and cleanup-target MIR mutations
+at complete decoded-unit SHA. The isolated A1 TEST first reproduces the
+production17 unit-SHA refusal, then a separate TEST17 observed-hash variant
+first rejects synthetic NORMAL selected-wrapper Move-to-Copy at A1 component20.
+It is a diagnostic negative only; production A1 root mismatch and actual
+positive helper proof remain open.
+
+Independent actual sort4 capture has byte-exact O24 verified/original source
+`fddb6f1a`/`3602050e`, complete NORMAL/readonly body hashes
+`667e4347`/`925b05a8`, refinement zero, five FnMut/eight select/four copy,
+and first stock refusal `verified/lib.rs(185,13-36)` at reserved
+`__vf_sort4_first_unwind`. Its first-call audit is only
+`CALIBRATION_REVIEW_REQUIRED`; active sized-T normal post is partial, and
+full normal/five unwind safety, generic/ZST and ordering are unproved.
+
+Separate strict CUT relocation TEST retains exact source/MIR support and the
+baseline strict `84:9-38` refusal, but relocation fails earlier at
+`verified/lib.rs(52,1-56,10): Strict relocation local type inventory changed`.
+The comparison used raw versus translated local IDs; this is a diagnostic
+admission failure, not a changed proof verdict. A mapped-ID TEST is the next
+separate diagnostic; six-declaration relocation, liveness/alias/bound/heap/CFG
+controls and production acceptance remain open. Next actual select work must
+derive the missing pointer MaybeUninit owner from valid source resources and
+recheck the full original contract; no summary is assumed from this failed
+body proof.

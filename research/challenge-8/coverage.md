@@ -576,3 +576,21 @@ old source certificate. No actual proof yet. Isolated strictCUT TRACE names
 $_32:&?T first unresolved entry at same strict freeze; production unchanged,
 TEST unaccepted. Refreshed17/20 and six-declaration relocation are separate next
 experiments with full target posts and affected gates, not coverage closure.
+
+Night Cloud Build6c560082 (proof61034fd5, full archive verified): refreshed
+exact nine-body pointer-domain profile advances actual `select_unpredictable`
+past guard close198, unselected Drop call203 and SAFE forget210. All seven
+prefix callee bodies pass their return/leak checks, but the outer body first
+fails at stock
+`lib.rsspec(462,47-48)` on missing
+`MaybeUninit_pointer_own<Element>(t, MaybeUninit::new(..., payload))` for
+the final `.assume_init()` call. No outer completion or actual nested Drop body
+proof; actual select remains unproved. Four owner17 certificate negatives are
+intended. Isolated A1 Move-to-Copy TEST rejects at component20 after expected
+production17 refusal; it does not establish the positive actual helper.
+Actual sort4 only reaffirms exact O24 complete source/paired MIR/refinement
+and reserved first-unwind marker185 refusal, with partial sized-T diagnostic
+normal contract. No full normal/unwind safety, generic/ZST or sorting theorem.
+Strict relocation TEST stops at raw/translated local-ID diagnostic admission;
+no relocation proof verdict or accepted CUT capability. Older Build546547
+remains without a published archive.
