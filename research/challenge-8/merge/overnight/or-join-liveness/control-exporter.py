@@ -196,7 +196,7 @@ def target_tree(parsed: dict, guard: int) -> tuple[dict, dict[int, dict]]:
                      "block 37 terminator kind")["call"]
     call = need_keys(call, {"func", "args", "destination", "callSpan", "unwindAction"},
                      "block 37 panic call")
-    need(path(call, "func", "constant", "const", "ty", "kind", "fnDef", "id", "name") ==
+    need(path(call, "func", "constant", "const", "val", "ty", "kind", "fnDef", "id", "name") ==
          "panic_on_ord_violation" and call["args"] == [] and
          call["unwindAction"] == {"continue": None},
          "block 37 panic callee, arguments, or unwind action differs from the frozen form")
@@ -405,7 +405,7 @@ def main() -> int:
                                      'name = "std::process::abort"',
                                      block_text[2], count=1)
             need(count == 1, "block 37 panic callee mutation did not match")
-            expected_blocks[37]["terminator"]["kind"]["call"]["func"]["constant"]["const"]["ty"]["kind"]["fnDef"]["id"]["name"] = "std::process::abort"
+            expected_blocks[37]["terminator"]["kind"]["call"]["func"]["constant"]["const"]["val"]["ty"]["kind"]["fnDef"]["id"]["name"] = "std::process::abort"
             change = "body.bidirectional_merge.block37.call.func.fnDef.id.name:panic_on_ord_violation->std::process::abort"
             changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
         elif mode == "panic-unwind":

@@ -83,3 +83,17 @@ before block33's guard. The exporter and driver must bind that exact block id,
 field shape, and original target33; the expected-tree certificate still allows
 only the one block32 target change to37. This corrects diagnostic bookkeeping
 only. It changes no production source, MIR exporter, verifier, or theorem.
+
+## RESOURCE10 panic-callee field-path correction
+
+The ad653ca9 control capture passed the normal-exporter hash and decoded the
+exact admitted normal MIR, but every manual mutation refused before applying a
+change. The decoded declaration records contain `ty` for the Boolean
+comparison locals. The refusal was in the separate panic-callee check: the
+decoded field nesting is `func.constant.const.val.ty.kind.fnDef`, so looking
+for `ty` directly below `const` stopped at a nonexistent field. Bind that
+observed `val` layer both when checking the original panic callee and when
+building the expected one-field callee-name mutation. This retains the exact
+field/key/type/callee checks and full-tree mutation certificate. The ad653
+attempt contributes no mutation/refusal classifications; fresh Cloud evidence
+is required.
