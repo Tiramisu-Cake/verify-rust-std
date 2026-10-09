@@ -2,6 +2,7 @@
 """Cloud-only nested R3 receiver TEST; diagnostic with no theorem credit."""
 import hashlib
 import json
+import importlib.util
 import os
 from pathlib import Path
 import re
@@ -64,6 +65,8 @@ def run(a, r3, r2, case, scope_tool, scope_snapshot):
          "scope tool changed after its completed controls")
     configs = [("on", None), ("wrong-first", "_11"), ("wrong-second", "_13")]
     all_stages = {}
+    receiver_on_tool = None
+    receiver_on_snapshot = None
     for name, wrong in configs:
         tool = a.work_root / ("r3-receiver-" + name + "-tool")
         need(not tool.exists() and not tool.is_relative_to(e), "receiver tool copy must be fresh/outside evidence")
@@ -119,6 +122,8 @@ def run(a, r3, r2, case, scope_tool, scope_snapshot):
         write(e / (name + "-tool-identity.json"), {"parent": scope_snapshot,
               "candidate": snapshot, "patch_sha256": patch_hash, "accepted": False})
         if name == "on":
+            receiver_on_tool, receiver_on_snapshot = tool, snapshot
+        if name == "on":
             modes = [("off", False), ("partial", "partial"), ("on", True)]
         else:
             modes = [("negative", True)]
@@ -149,6 +154,8 @@ def run(a, r3, r2, case, scope_tool, scope_snapshot):
                  stage.get("exit") not in (None, 124, 137) and
                  stage.get("source_unchanged") is True and
                  stage.get("source_before") == stage.get("source_after") and
+                 stage.get("source_before", {}).get("verified/lib.rs") == m["source"]["verified_sha256"] and
+                 stage.get("source_before", {}).get("original/lib.rs") == "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5" and
                  stage.get("intrinsic_gate_active") is True and stage.get("pointer_drop_gate_active") is True,
                  logname + " full proof stage incomplete")
             fatals = [line for line in log.splitlines() if line.startswith("Fatal error:")]
@@ -175,12 +182,39 @@ def run(a, r3, r2, case, scope_tool, scope_snapshot):
                                    "patch_sha256": patch_hash,
                                    "log_sha256": hashlib.sha256(log.encode()).hexdigest(),
                                    "console_sha256": snapshot["binary_sha256"]["bin/verifast"],
+                                   "console_build_log_sha256": sha(e / (name + "-console-build.log")),
                                    "accepted": False}
     need(r2.tool_snapshot(a.r3_source, a.proof_root) == parent_snapshot and
          r2.tool_snapshot(scope_tool, a.proof_root) == scope_snapshot,
          "receiver TEST mutated production or parent scope tool")
+    column_flag = os.environ.get("O26_WITH_R3_GHOST_COLUMN_TEST", "0")
+    nested_flag = os.environ.get("O26_WITH_R3_COLUMN_NESTED_TEST", "0")
+    need(column_flag in ("0", "1") and nested_flag in ("0", "1") and
+         (nested_flag == "0" or column_flag == "1"),
+         "invalid/missing parent ghost-column/nested runner flag")
+    column_result = None
+    if column_flag == "1":
+        column_helper = importlib.util.spec_from_file_location(
+            "r3_ghost_column_diagnostic", a.cloud_dir / "o26-r3-ghost-column-test.py")
+        need(column_helper is not None and column_helper.loader is not None,
+             "ghost-column helper unavailable")
+        column_module = importlib.util.module_from_spec(column_helper)
+        import sys
+        sys.modules[column_helper.name] = column_module
+        column_helper.loader.exec_module(column_module)
+        column_result = column_module.run(a, r2, r3, case, receiver_on_tool,
+                                          receiver_on_snapshot)
+        need(column_result.get("diagnostic_complete") is True and
+             column_result.get("accepted") is False and
+             column_result.get("verification_accepted") is False,
+             "requested ghost-column TEST controls incomplete")
     result.update({"classification": "R3_RECEIVER_TEST_DIAGNOSTIC_COMPLETE",
                    "diagnostic_complete": True, "exact_scope_parent": True,
+                   "ghost_column_test_requested": column_flag == "1",
+                   "ghost_column_test": column_result,
+                   "nested_scheduler_test_requested": nested_flag == "1",
+                   "nested_scheduler_test": (column_result.get("nested_scheduler_test")
+                       if column_result else None),
                    "default_off_refusal": True, "partial_pair_refusal": True,
                    "receiver_on_markers": True, "wrong_first_receiver_negative": True,
                    "wrong_second_receiver_negative": True, "malformed_place_admissibility_complete": False,

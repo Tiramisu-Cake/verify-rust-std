@@ -1,0 +1,36 @@
+{
+  "accepted": false,
+  "actual_source_accepted": false,
+  "changed_trusted_component": "vf_mir_translator.ml source-linked ghost command AST routing",
+  "classification": "EXPERIMENTAL_O26_R3_GHOST_COLUMN_TEST_NOT_ACCEPTED",
+  "diagnostic_markers": [
+    "R3-GHOST-COLUMN-TEST: call 155:1 -> AST 155:1",
+    "R3-GHOST-COLUMN-TEST: call 155:73 -> AST 155:41"
+  ],
+  "mutation_controls_complete": false,
+  "opt_in": {
+    "SORT4_R3_GHOST_COLUMN_TEST": "1",
+    "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT": "exact proof root"
+  },
+  "parent_profile": "overnight-assume-actual/O26-R3-RECEIVER-TEST.json",
+  "parent_translator_sha256": "7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6",
+  "required_parent_opt_ins": [
+    "SORT4_WRAPPER_REBASE_REPO_ROOT/ADMISSION",
+    "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT/ADMISSION",
+    "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_RECEIVER_TEST_REPO_ROOT/TEST"
+  ],
+  "rule": "For the exact admitted select_unpredictable source only, route source call spans 155:1-32 and 155:73-104 to the two existing saved-let AST candidates at 155:1 and 155:41, preserving exact source raws/spans, AST candidate multiset, all other line-only routing, and exact route count two.",
+  "source": {
+    "outer_body_sha256": "f8374652a11e36073ad6ed10ec39b0f8de62da53265dd80d2dc2c3565491cee1",
+    "unit_sha256": "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92",
+    "verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463"
+  },
+  "source_runtime_spec_kernel_parser_exporter_refiner_modified": false,
+  "source_unit_span_negative_gates_complete": false,
+  "target_contract_proved": false,
+  "test_patch": "overnight-assume-actual/verifast-r3-ghost-column-TEST.patch",
+  "test_patch_sha256": "7e77dcc7200a141beb0a3a48ee9f0634f0e1ef7f866f992d44d820b9d58d11f6",
+  "test_translator_sha256": "f57415ab49abef2bdc5632ca47962502be8732a1321cabd607d04501c6612a86",
+  "verification_accepted": false
+}

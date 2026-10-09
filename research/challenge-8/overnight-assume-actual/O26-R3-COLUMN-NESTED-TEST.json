@@ -1,0 +1,67 @@
+{
+  "accepted": false,
+  "actual_helper_proved": false,
+  "actual_nested_drop_credit": false,
+  "actual_source_accepted": false,
+  "changed_trusted_component": "vf_mir_translator.ml exact nine-body declaration permutation, nested body 8 before outer body 7",
+  "classification": "EXPERIMENTAL_O26_R3_COLUMN_NESTED_TEST_NOT_ACCEPTED",
+  "controls_complete": false,
+  "diagnostic_markers": [
+    "SORT4-R3-NESTED-BEFORE-OUTER-TEST: before[0..8]",
+    "SORT4-R3-NESTED-BEFORE-OUTER-TEST: after[0..8]",
+    "SORT4-R3-NESTED-BEFORE-OUTER-TEST: exact nine-body one-item permutation"
+  ],
+  "nested_body_full_normal_unwind_log_observed": false,
+  "normal_unwind_target": {
+    "nested_body": "same-unit generic Drop body must reach normal and unwind return/leak/lifetime/free-local obligations, with two each and no error before/inside nested segment for full-body credit",
+    "outer_body": "same source full target normal and unwind posts retained; first-error evidence remains diagnostic"
+  },
+  "opt_in": {
+    "SORT4_R3_COLUMN_NESTED_TEST": "1",
+    "SORT4_R3_COLUMN_NESTED_TEST_REPO_ROOT": "exact proof root"
+  },
+  "parent_profile": "overnight-assume-actual/O26-R3-GHOST-COLUMN-TEST.json",
+  "parent_translator_sha256": "f57415ab49abef2bdc5632ca47962502be8732a1321cabd607d04501c6612a86",
+  "required_parent_opt_ins": [
+    "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_RECEIVER_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT/TEST",
+    "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT/ADMISSION",
+    "SORT4_WRAPPER_REBASE_REPO_ROOT/ADMISSION",
+    "SORT4_ACTUAL_OWNER_REPO_ROOT/NINE_ADMISSION",
+    "SORT4_ACTUAL_NESTED_H2_REPO_ROOT"
+  ],
+  "rule": "After exact COLUMN-on parent, require nine existing full FuncBody AST declarations and exact source/unit/body8 pins; schedule seven prefix declarations, actual qualified nested Drop body8, outer body7. Preserve all AST nodes, multiset, names, qualified keys, locations, signatures/contracts, predicates, ghost commands and full-source proof.",
+  "self_review": {
+    "conditional_boundary": "Observed scheduling and body logs are conditional on the unaccepted translator chain; not soundness/admissibility or proof acceptance.",
+    "open_gates": [
+      "malformed source/unit/span controls",
+      "frontend admissibility",
+      "outer full contract",
+      "source/runtime/spec/kernel/parser/exporter/refiner unchanged checks"
+    ],
+    "trust_premises": [
+      "frozen parser/compiler/exporter/refiner and existing kernel/memory model",
+      "exact source-linked admitted R3/R2/scope/receiver/COLUMN parent",
+      "generic nested body and prefix callee remain same-source functions"
+    ]
+  },
+  "source": {
+    "body7_loc": [
+      "verified/lib.rs:135:1",
+      "verified/lib.rs:151:2"
+    ],
+    "body8_loc": [
+      "verified/lib.rs:165:9",
+      "verified/lib.rs:170:10"
+    ],
+    "nested_body8_sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "unit_sha256": "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92",
+    "verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463"
+  },
+  "test_patch": "overnight-assume-actual/verifast-r3-column-nested-TEST.patch",
+  "test_patch_sha256": "e4cf0424921f66bbfd0af99757b3eb9198a2f25e41bd0e8f9386d81dd53be268",
+  "test_translator_sha256": "17ea15e06cee10724022df97a34d763ddf406dd8ce7bde517f205f1741402b8d",
+  "verification_accepted": false
+}

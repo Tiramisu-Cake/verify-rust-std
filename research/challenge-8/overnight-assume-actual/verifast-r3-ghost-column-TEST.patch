@@ -1,0 +1,193 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2706,6 +2706,9 @@
+   module TrBody (Args : sig
+     val var_id_trs_map_ref : var_id_trs_map ref
+     val ghost_stmts : Ast.stmt list
++    val r3_ghost_column_test_active : bool
++    val r3_ghost_column_test_candidates : Ast.stmt list
++    val r3_ghost_column_test_routes : int ref
+     val body_imp_loc : Ast.loc
+     val body_name : string
+     val body_tr_defs_ctx : body_tr_defs_ctx
+@@ -2715,6 +2718,9 @@
+     module State = struct
+       let var_id_trs_map_ref = Args.var_id_trs_map_ref
+       let ghost_stmts = ref Args.ghost_stmts
++      let r3_ghost_column_test_active = Args.r3_ghost_column_test_active
++      let r3_ghost_column_test_candidates = Args.r3_ghost_column_test_candidates
++      let r3_ghost_column_test_routes = Args.r3_ghost_column_test_routes
+       let body_imp_loc = Args.body_imp_loc
+       let body_name = Args.body_name
+       let body_tr_defs_ctx = Args.body_tr_defs_ctx
+@@ -4140,12 +4146,57 @@
+             in
+             let phl = get_start_loc (Ast.lexed_loc call_loc) in
+             let ghost_stmt =
+-              List.find
+-                (fun gs ->
+-                  let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
+-                  let (gsl_l, gsl_c), (phl_l, phl_c) = (gsl, phl) in
+-                  gsl_l = phl_l)
+-                !State.ghost_stmts
++              if State.r3_ghost_column_test_active &&
++                 State.body_name = "select_unpredictable" then
++                (match phl with
++                 | (155, _) ->
++                     let (((call_path, call_line, call_col),
++                           (call_end_path, call_end_line, call_end_col))) =
++                       Ast.lexed_loc call_loc in
++                     if call_path <> call_end_path then
++                       Sort4AsMutPtr.reject "R3 ghost-column TEST call path";
++                     let expected_call, expected_ast_col =
++                       match call_line, call_col, call_end_line, call_end_col with
++                       | 155, 1, 155, 32 -> "155:1", 1
++                       | 155, 73, 155, 104 -> "155:73", 41
++                       | _ -> Sort4AsMutPtr.reject
++                           "R3 ghost-column TEST exact call span" in
++                     let next_route = !State.r3_ghost_column_test_routes in
++                     if (next_route = 0 && (call_line, call_col, call_end_col,
++                                           expected_ast_col) <> (155,1,32,1)) ||
++                        (next_route = 1 && (call_line, call_col, call_end_col,
++                                           expected_ast_col) <> (155,73,104,41)) ||
++                        next_route > 1 then
++                       Sort4AsMutPtr.reject
++                         "R3 ghost-column TEST exact one-to-one ordered route";
++                     let candidates = List.filter (fun gs ->
++                       match Ast.lexed_loc Ast.(gs |> stmt_loc) with
++                       | ((path, 155, col), _) ->
++                           path = call_path && col = expected_ast_col
++                       | _ -> false) State.r3_ghost_column_test_candidates in
++                     (match candidates with
++                      | [gs] ->
++                          incr State.r3_ghost_column_test_routes;
++                          Printf.printf
++                            "R3-GHOST-COLUMN-TEST: call %s -> AST 155:%d\n%!"
++                            expected_call expected_ast_col;
++                          gs
++                      | _ -> Sort4AsMutPtr.reject
++                          "R3 ghost-column TEST exact distinct candidate route")
++                 | _ ->
++                     List.find
++                       (fun gs ->
++                         let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
++                         let (gsl_l, _gsl_c), (phl_l, _phl_c) = (gsl, phl) in
++                         gsl_l = phl_l)
++                       !State.ghost_stmts)
++              else
++                List.find
++                  (fun gs ->
++                    let gsl = get_start_loc Ast.(gs |> stmt_loc |> lexed_loc) in
++                    let (gsl_l, _gsl_c), (phl_l, _phl_c) = (gsl, phl) in
++                    gsl_l = phl_l)
++                  !State.ghost_stmts
+             in
+             (match State.callback_unwind_marker ghost_stmt with
+              | None -> ([ ghost_stmt ], targets)
+@@ -6449,6 +6500,33 @@
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+     let exported_ghost_stmts = ghost_stmts_get_list body_cpn in
+     let body_name = TrName.translate_def_path (def_path_get body_cpn) in
++    let r3_ghost_column_test_requested =
++      match Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT",
++            Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST" with
++      | None, None -> false
++      | Some _, Some "1" -> true
++      | _ -> Sort4AsMutPtr.reject
++          "R3 ghost-column TEST partial or invalid opt-in" in
++    if r3_ghost_column_test_requested && body_name = "select_unpredictable" then (
++      let root = match Sys.getenv_opt "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT" with
++        | Some root -> root
++        | None -> Sort4AsMutPtr.reject "R3 ghost-column TEST missing root" in
++      if Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
++         Sys.getenv_opt "SORT4_ACTUAL_NESTED_H2_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_R3_GHOST_SCOPE_TEST" <> Some "1" ||
++         Sys.getenv_opt "SORT4_R3_RECEIVER_TEST_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_R3_RECEIVER_TEST" <> Some "1" ||
++         Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <> Some "1" ||
++         Sys.getenv_opt "SORT4_WRAPPER_REBASE_REPO_ROOT" <> Some root ||
++         Sys.getenv_opt "SORT4_WRAPPER_REBASE_ADMISSION" <> Some "1" ||
++         not !Sort4SelectIntrinsic.wrapper_rebase_active ||
++         not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++         not !Sort4SelectIntrinsic.actual_owner_admitted ||
++         not !Sort4SelectIntrinsic.actual_nine_admitted then
++        Sort4AsMutPtr.reject "R3 ghost-column TEST exact parent admission");
+     (* R3 ghost-scope TEST is opt-in and only applies after exact R3 admission.
+        Preserve the two new outer input bindings while transferring precisely
+        the two original nested opens to the qualified Drop body. *)
+@@ -6476,7 +6554,24 @@
+                not !Sort4SelectIntrinsic.actual_nine_admitted then
+               Sort4SelectIntrinsic.reject
+                 "R3 ghost-scope TEST exact parent admission";
+-            (match exported_ghost_stmts,
++            if r3_ghost_column_test_requested then (
++               let start ann =
++                 Stdint.Uint64.to_int (AnnotationRd.start_line_get ann),
++                 Stdint.Uint64.to_int (AnnotationRd.start_col_get ann) in
++               let finish ann =
++                 Stdint.Uint64.to_int (AnnotationRd.end_line_get ann),
++                 Stdint.Uint64.to_int (AnnotationRd.end_col_get ann) in
++               match exported_ghost_stmts with
++               | saved_true::saved_false::_
++                 when AnnotationRd.raw_get saved_true =
++                        "/*@ let saved_true_input = true_val; @*/" &&
++                      AnnotationRd.raw_get saved_false =
++                        "/*@ let saved_false_input = false_val; @*/" &&
++                      start saved_true = (155,1) && finish saved_true = (155,41) &&
++                      start saved_false = (155,41) && finish saved_false = (155,83) -> ()
++               | _ -> Sort4AsMutPtr.reject
++                   "R3 ghost-column TEST exact source annotation raws/spans");
++             (match exported_ghost_stmts,
+                    !Sort4SelectIntrinsic.actual_nested_ghosts with
+              | saved_true::saved_false::open_full::open_own::rest,
+                [nested_full;nested_own]
+@@ -6521,6 +6616,24 @@
+           LocAux.try_compare_loc l1 l2)
+         ghost_stmts
+     in
++    let r3_ghost_column_test_candidates =
++      if r3_ghost_column_test_requested && body_name = "select_unpredictable" then (
++        let at155 = List.filter (fun stmt ->
++          match Ast.lexed_loc Ast.(stmt |> stmt_loc) with
++          | ((_, 155, _), _) -> true
++          | _ -> false) ghost_stmts in
++        match at155 with
++        | [first; second]
++          when Ast.lexed_loc Ast.(first |> stmt_loc) <>
++                 Ast.lexed_loc Ast.(second |> stmt_loc) &&
++               (match Ast.lexed_loc Ast.(first |> stmt_loc) with
++                | ((_,155,1),_) -> true | _ -> false) &&
++               (match Ast.lexed_loc Ast.(second |> stmt_loc) with
++                | ((_,155,41),_) -> true | _ -> false) -> [first;second]
++        | _ -> Sort4AsMutPtr.reject
++            "R3 ghost-column TEST exact two distinct AST candidates")
++      else [] in
++    let r3_ghost_column_test_routes = ref 0 in
+     let* ghost_decl_blocks =
+       ListAux.try_map translate_ghost_decl_block
+         (ghost_decl_blocks_get_list body_cpn)
+@@ -6562,6 +6675,10 @@
+     let open TrBody (struct
+       let var_id_trs_map_ref = var_id_trs_map_ref
+       let ghost_stmts = ghost_stmts
++      let r3_ghost_column_test_active =
++        r3_ghost_column_test_requested && body_name = "select_unpredictable"
++      let r3_ghost_column_test_candidates = r3_ghost_column_test_candidates
++      let r3_ghost_column_test_routes = r3_ghost_column_test_routes
+       let body_imp_loc = imp_loc
+       let body_name = TrName.translate_def_path (def_path_get body_cpn)
+       let body_tr_defs_ctx = body_tr_defs_ctx
+@@ -6921,6 +7038,10 @@
+             let vf_bblocks =
+               translate_basic_blocks_to_stmts toplevel_blocks []
+             in
++            if State.r3_ghost_column_test_active &&
++               !State.r3_ghost_column_test_routes <> 2 then
++              Sort4AsMutPtr.reject
++                "R3 ghost-column TEST exact two translated routes";
+             if !State.pending_callback_unwind <> None then
+               State.fail_callback_unwind "marker has no matching following call";
+             let expected_markers =

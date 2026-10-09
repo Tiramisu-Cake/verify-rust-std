@@ -926,6 +926,25 @@ def r3_ghost_scope_test(ev):
                   all(receiver.get(k) is False for k in
                       ('accepted','verification_accepted','actual_source_accepted','target_contract_proved',
                        'malformed_place_admissibility_complete')))
+    column_requested=os.environ.get('O26_WITH_R3_GHOST_COLUMN_TEST','0')=='1'
+    nested_requested=os.environ.get('O26_WITH_R3_COLUMN_NESTED_TEST','0')=='1'
+    column=report.get('ghost_column_test') or {}
+    if column_requested:
+        complete=(complete and report.get('ghost_column_test_requested') is True and
+                  column.get('classification')=='R3_GHOST_COLUMN_TEST_DIAGNOSTIC_COMPLETE' and
+                  column.get('diagnostic_complete') is True and
+                  all(column.get(k) is False for k in
+                      ('accepted','verification_accepted','actual_source_accepted','target_contract_proved',
+                       'source_unit_span_negative_gates_complete')))
+    nested=column.get('nested_scheduler_test') or {}
+    if nested_requested:
+        complete=(complete and column_requested and
+                  column.get('nested_scheduler_test_requested') is True and
+                  nested.get('classification')=='R3_COLUMN_NESTED_SCHEDULER_DIAGNOSTIC_COMPLETE' and
+                  nested.get('diagnostic_complete') is True and
+                  all(nested.get(k) is False for k in
+                      ('accepted','verification_accepted','actual_nested_drop_credit','actual_helper_proved')) and
+                  isinstance(nested.get('actual_nested_drop_full_normal_unwind_observed'),bool))
     return {'requested':True,'complete':complete,'helper_exit':code,
             'parent_helper_exit':parent_code,'accepted':False,
             'actual_nested_drop_credit':False,'actual_helper_proved':False,

@@ -38,8 +38,7 @@ All accepted/whole-function flagsfalse even on collector/pass. Any next binding/
 failure must be located precisely: source-shadow draft only for its corresponding
 late242-244 Rust-wrapper error, not this saved-let route.
 
-Independent NESTED scheduling TEST AFTER COLUMN-on (or receiver-on if column diagnosis
-fails, using a separately pinned parent): before outer uses Drop summary, verify same-
+Independent NESTED scheduling TEST ONLY AFTER the completed COLUMN-on profile and its exact new parent: before outer uses Drop summary, verify same-
 source actual qualified body8 first. Exact sourcea95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463,
 original466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5,
 unit407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92,
@@ -69,3 +68,24 @@ optional nested diagnostics after completed receiver gate; all copies outside ev
 production and every parent immutable. Exact payload<=191, no transport/packager/
 scheduler rewrite. Next Build timeout900+60queue within2769remaining, reserve time
 for evidence+checkpoint and shared ready alternation; heavy work Cloud only.
+
+
+## Static implementation pins
+
+The frozen translator chain was reconstructed from original source object
+`f76012fb518703b1d98e243ac4f487f16877cfcb`, applying the complete sorted frozen-20
+profile, refresh-22, R2 rebase/input-relation, scope TEST, and receiver TEST patches.
+The exact reconstructed receiver parent is
+`7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6`.
+The full source-linked COLUMN patch is
+`overnight-assume-actual/verifast-r3-ghost-column-TEST.patch`, SHA-256
+`7e77dcc7200a141beb0a3a48ee9f0634f0e1ef7f866f992d44d820b9d58d11f6`, producing
+translator SHA-256 `f57415ab49abef2bdc5632ca47962502be8732a1321cabd607d04501c6612a86`.
+The independent nested permutation patch is
+`overnight-assume-actual/verifast-r3-column-nested-TEST.patch`, SHA-256
+`e4cf0424921f66bbfd0af99757b3eb9198a2f25e41bd0e8f9386d81dd53be268`, producing
+translator SHA-256 `17ea15e06cee10724022df97a34d763ddf406dd8ce7bde517f205f1741402b8d`.
+Both are statically applied and hashed in disposable Cloud-profile source copies;
+no local compilation, verifier execution, fixture generation, or proof runner was run.
+All acceptance, theorem, admissibility, and malformed-source/unit/span gates remain
+false/open until separately observed on the authenticated Cloud lane.

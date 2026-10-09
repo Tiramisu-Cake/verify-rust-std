@@ -66,6 +66,8 @@ def run_proof(a, r3, case, tool, name, mode):
          stage.get("exit") not in (None, 124, 137) and
          stage.get("source_unchanged") is True and
          stage.get("source_before") == stage.get("source_after") and
+         stage.get("source_before", {}).get("verified/lib.rs") == "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463" and
+         stage.get("source_before", {}).get("original/lib.rs") == "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5" and
          stage.get("intrinsic_gate_active") is True and
          stage.get("pointer_drop_gate_active") is True,
          name + ": full source/profile proof stage incomplete")
@@ -114,7 +116,14 @@ def main():
               "actual_nested_drop_credit": False, "actual_helper_proved": False}
     receiver_result = None
     receiver_flag = os.environ.get("O26_WITH_R3_RECEIVER_TEST", "0")
+    column_flag = os.environ.get("O26_WITH_R3_GHOST_COLUMN_TEST", "0")
+    nested_flag = os.environ.get("O26_WITH_R3_COLUMN_NESTED_TEST", "0")
     try:
+        need(receiver_flag in ("0", "1") and column_flag in ("0", "1") and
+             nested_flag in ("0", "1") and
+             (column_flag == "0" or receiver_flag == "1") and
+             (nested_flag == "0" or column_flag == "1"),
+             "invalid/missing parent receiver/column/nested runner flag")
         proof = a.proof_root / "research/challenge-8/overnight-assume-actual"
         m = read(proof / "O26-R3-GHOST-SCOPE-TEST.json")
         parent = read(proof / "O26-WRAPPER-INPUT-RELATION-PROFILE.json")
@@ -182,7 +191,6 @@ def main():
         need(r2.tool_snapshot(a.r3_source, a.proof_root) == before and
              r2.tool_snapshot(test, a.proof_root) == after,
              "R3 TEST source/tool changed during proof controls")
-        need(receiver_flag in ("0", "1"), "invalid receiver TEST runner flag")
         if receiver_flag == "1":
             receiver = module("r3_receiver_diagnostic",
                              a.cloud_dir / "o26-r3-receiver-test.py")
@@ -212,11 +220,36 @@ def main():
                        "first_enabled_error": next((line for line in on_log.splitlines()
                            if re.search(r": error: |^Fatal error:|^Error:", line)), None),
                        "receiver_test_requested": receiver_flag == "1",
-                       "receiver_test": receiver_result})
+                       "receiver_test": receiver_result,
+                       "ghost_column_test_requested": column_flag == "1",
+                       "ghost_column_test": (receiver_result.get("ghost_column_test")
+                           if receiver_result else None),
+                       "nested_scheduler_test_requested": nested_flag == "1",
+                       "nested_scheduler_test": (receiver_result.get("nested_scheduler_test")
+                           if receiver_result else None)})
+        need((column_flag == "0" or
+              (result["ghost_column_test"] is not None and
+               result["ghost_column_test"].get("diagnostic_complete") is True and
+               result["ghost_column_test"].get("accepted") is False)) and
+             (nested_flag == "0" or
+              (result["nested_scheduler_test"] is not None and
+               result["nested_scheduler_test"].get("diagnostic_complete") is True and
+               result["nested_scheduler_test"].get("accepted") is False)),
+             "requested column/nested diagnostic did not complete")
     except Exception as exc:
+        result["classification"] = "INCONCLUSIVE"
+        result["diagnostic_complete"] = False
+        result["accepted"] = False
+        result["verification_accepted"] = False
         result["reason"] = str(exc)
         result["receiver_test_requested"] = receiver_flag == "1"
         result["receiver_test"] = receiver_result
+        result["ghost_column_test_requested"] = column_flag == "1"
+        result["ghost_column_test"] = (receiver_result.get("ghost_column_test")
+            if receiver_result else None)
+        result["nested_scheduler_test_requested"] = nested_flag == "1"
+        result["nested_scheduler_test"] = (receiver_result.get("nested_scheduler_test")
+            if receiver_result else None)
     write(a.evidence / "diagnostic-audit.json", result)
     if not result["diagnostic_complete"]:
         raise SystemExit("R3 ghost-scope TEST inconclusive: " + result["reason"])
