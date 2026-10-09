@@ -106,8 +106,9 @@ Native array owner handoff requires destination already equal the CURRENT source
 list; no snapshot/Copy/share-to-own bridge. Runtime raw-destination alias observation
 is not a symbolic or public-caller theorem; FnMut alone does not establish F-frame.
 
-No std runtime/algorithm/signature, semantic verifier patch or target post changed.
-SmallSort blob40939f922bcb6fdc7ee0d30427fa861827043827; six patches unchanged.
+No std runtime/algorithm/signature or target post changed. Existing six verifier
+patches unchanged; separately committed seventh coverage-origin draft is inactive
+and unaccepted. SmallSort blob40939f922bcb6fdc7ee0d30427fa861827043827.
 Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
