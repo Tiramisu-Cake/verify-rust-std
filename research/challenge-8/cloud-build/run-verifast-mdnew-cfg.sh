@@ -242,16 +242,19 @@ h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 paths=['src/rust_frontend/vf_mir_exporter','src/rust_frontend/vf_mir_decoder','src/refinement_checker']
 components={}
 def committed_files(repo,prefix):
+ import os
  rows={}
  raw=subprocess.check_output(['git','-C',str(repo),'ls-tree','-r','-z','HEAD','--',prefix])
  for item in raw.split(b'\0'):
   if not item: continue
-  meta,path=item.split(b'\t',1); mode,kind,oid=meta.decode().split(' '); rel=path.decode()
-  if kind!='blob': continue
+  meta,path=item.split(b'\t',1); mode,kind,oid=meta.decode().split(' '); rel=path.decode(); checkout=repo/rel
+  if kind!='blob' or mode not in ('100644','100755','120000'): raise SystemExit(f'unsupported component Git entry: {rel}')
   committed=subprocess.check_output(['git','-C',str(repo),'show','HEAD:'+rel])
-  checkout=(repo/rel).read_bytes()
-  if h(repo/rel)!=hashlib.sha256(committed).hexdigest(): raise SystemExit(f'component checkout differs from committed blob: {rel}')
-  rows[rel[len(prefix)+1:]]={'git_blob':oid,'sha256':hashlib.sha256(committed).hexdigest()}
+  if mode=='120000':
+   if not checkout.is_symlink() or os.readlink(checkout).encode()!=committed: raise SystemExit(f'component symlink differs from committed blob: {rel}')
+  elif checkout.is_symlink() or not checkout.is_file() or checkout.read_bytes()!=committed:
+   raise SystemExit(f'component checkout differs from committed blob: {rel}')
+  rows[rel[len(prefix)+1:]]={'mode':mode,'git_blob':oid,'sha256':hashlib.sha256(committed).hexdigest()}
  return rows
 for prefix in paths:
  fa=committed_files(base,prefix); fb=committed_files(candidate,prefix)
