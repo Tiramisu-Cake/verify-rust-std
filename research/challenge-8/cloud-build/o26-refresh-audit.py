@@ -898,6 +898,74 @@ def wrapper_input_relation_frame_capture(ev,canonical):
         'accepted_actual_source':False,'actual_helper_proved':False,'actual_safe_forget_linked':False,
         'full_actual_proof_run':False}
 
+def r3_frame_test_diagnostic(ev):
+    name='r3-frame-test'
+    requested=(ev/'cases/r3-frame-test-request.json').is_file()
+    if not requested:
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'accepted':False,'verification_accepted':False,
+                'target_contract_proved':False}
+    root=ev/'cases'/name
+    result=read(root/'diagnostic-audit.json') or {}
+    if not isinstance(result,dict):result={}
+    code=helper_exit(ev,name)
+    stages=result.get('stages') or {}
+    if not isinstance(stages,dict):stages={}
+    frame=result.get('source_capture_frame') or {}
+    old=result.get('source_capture_old_r3') or {}
+    outcome=result.get('classification')
+    nested_regression=(outcome=='R3_FRAME_TEST_NESTED_REGRESSION_OUTER_NOT_REACHED')
+    required={'old-r3-source-off','frame-source-off','frame-source-partial','frame-source-on'}
+    classification_ok=((outcome=='R3_FRAME_TEST_DIAGNOSTIC_COMPLETE' and
+                        result.get('nested_actual_failure') is False) or nested_regression)
+    nested_regression_ok=(not nested_regression or (
+        result.get('nested_actual_failure') is True and
+        result.get('frame_on_outer_reached') is False and
+        (stages.get('frame-source-on') or {}).get('outer_header_seen') is False and
+        (stages.get('frame-source-on') or {}).get('outer_prototype_seen') is False and
+        (stages.get('frame-source-on') or {}).get('first_error_in_nested') is True and
+        (stages.get('frame-source-on') or {}).get('nested_full_normal_unwind_observed') is False and
+        (stages.get('frame-source-on') or {}).get('proof_exit') in (1,2)))
+    complete=(code==0 and classification_ok and
+        result.get('diagnostic_complete') is True and result.get('accepted') is False and
+        result.get('verification_accepted') is False and
+        result.get('actual_source_accepted') is False and
+        result.get('target_contract_proved') is False and
+        result.get('actual_helper_proved') is False and
+        result.get('actual_safe_forget_linked') is False and set(stages)==required and
+        result.get('outer_credit') is False and
+        result.get('actual_outer_240_progress') is False and nested_regression_ok and
+        result.get('wrong_helper_contract_negative_complete') is False and
+        result.get('wrong_typed_move_edge_negative_complete') is False and
+        frame.get('source_pair_exact') is True and frame.get('ten_fingerprints_exact') is True and
+        frame.get('full_normal_readonly_nine_body_capture') is True and
+        frame.get('normal_readonly_refinement') is True and
+        old.get('source_pair_exact') is True and old.get('ten_fingerprints_exact') is True and
+        old.get('full_normal_readonly_nine_body_capture') is True and
+        old.get('normal_readonly_refinement') is True and
+        stages['old-r3-source-off'].get('reached_outer_240') is True and
+        stages['frame-source-off'].get('preheader_refusal') is True and
+        stages['frame-source-partial'].get('preheader_refusal') is True and
+        stages['frame-source-on'].get('prefix7_ordered') is True and
+        stages['frame-source-on'].get('nested_before_outer') is True and
+        stages['frame-source-on'].get('errors_before_nested') is False and
+        stages['frame-source-on'].get('helper_full_normal_unwind_observed') is True and
+        stages['frame-source-on'].get('first_causal_error_attributed') is True)
+    return {'requested':True,'complete':complete,
+        'classification':result.get('classification','INCONCLUSIVE'),
+        'helper_exit':code,'accepted':False,'verification_accepted':False,
+        'target_contract_proved':False,'actual_source_accepted':False,
+        'nested_actual_failure':result.get('nested_actual_failure') is True,
+        'frame_on_outer_reached':result.get('frame_on_outer_reached') is True,
+        'outer_credit':False,'actual_outer_240_progress':False,
+        'source_capture_and_stage_gates_complete':complete,
+        'first_frame_error':result.get('frame_on_first_error'),
+        'nested_full_normal_unwind':result.get('frame_on_nested_full_normal_unwind') is True,
+        'outer_full_normal_unwind':result.get('frame_on_outer_full_normal_unwind') is True,
+        'first_causal_error_attributed':(stages.get('frame-source-on') or {}).get('first_causal_error_attributed') is True,
+        'wrong_helper_contract_negative_complete':False,
+        'wrong_typed_move_edge_negative_complete':False}
+
 def wrapper_input_relation_shadow_capture(ev):
     name='wrapper-input-relation-shadow-capture'
     if not (ev/'cases'/f'{name}-request.json').exists():
@@ -1340,6 +1408,7 @@ def main():
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
     input_relation=wrapper_input_relation_capture(ev,cap)
     input_relation_frame=wrapper_input_relation_frame_capture(ev,cap)
+    frame_test=r3_frame_test_diagnostic(ev)
     input_relation_shadow=wrapper_input_relation_shadow_capture(ev)
     generic_new=generic_new_capture(ev)
     rebase_profile=wrapper_profile(ev)
@@ -1358,6 +1427,7 @@ def main():
     strict_reuse_lane=os.environ.get('LANE')=='o26-strict-cut-reuse-false-posts'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
     input_relation_frame_lane=os.environ.get('LANE')=='o26-input-relation-frame-capture'
+    frame_test_lane=os.environ.get('LANE')=='o26-input-relation-frame-test'
     input_relation_shadow_lane=os.environ.get('LANE')=='o26-input-relation-shadow-capture'
     shadow_generic_lane=os.environ.get('LANE')=='o26-shadow-generic-sort4-diagnostics'
     generic_new_lane=os.environ.get('LANE')=='o26-generic-new-capture'
@@ -1405,6 +1475,18 @@ def main():
                               not generic_new['requested'] and not rebase_profile['requested'] and
                               not r3_profile['requested'] and not ghost_scope['requested'] and
                               not r3_nested['requested'] and not postmark['requested'])
+    frame_test_requested=(frame_test['requested'] and
+                              not cut['requested'] and not strict_cut['requested'] and
+                              not false_posts['requested'] and not ast_probe['requested'] and
+                              not owner['requested'] and not sort4['requested'] and
+                              not a1['requested'] and not coordination['requested'] and
+                              not nested_order['requested'] and not wrapper_rebase['requested'] and
+                              not input_relation['requested'] and
+                              not input_relation_frame['requested'] and
+                              not input_relation_shadow['requested'] and
+                              not generic_new['requested'] and not rebase_profile['requested'] and
+                              not r3_profile['requested'] and not ghost_scope['requested'] and
+                              not r3_nested['requested'] and not postmark['requested'])
     input_relation_shadow_requested=(input_relation_shadow['requested'] and
                                      not any(x['requested'] for x in
                                      (cut,strict_cut,false_posts,ast_probe,owner,sort4,a1,
@@ -1448,6 +1530,7 @@ def main():
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
                          (not input_relation['requested'] or input_relation['complete']) and
                          (not input_relation_frame['requested'] or input_relation_frame['complete']) and
+                         (not frame_test['requested'] or frame_test['complete']) and
                          (not input_relation_shadow['requested'] or input_relation_shadow['complete']) and
                          (not generic_new['requested'] or generic_new['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
@@ -1469,6 +1552,7 @@ def main():
                            (strict_cut.get('historical_reuse') or {}).get('complete') is True)) and
                          (not input_relation_lane or input_relation_requested) and
                          (not input_relation_frame_lane or input_relation_frame_requested) and
+                         (not frame_test_lane or frame_test_requested) and
                          (not input_relation_shadow_lane or input_relation_shadow_requested) and
                          (not shadow_generic_lane or shadow_generic_requested) and
                          (not generic_new_lane or generic_new_requested))
@@ -1482,6 +1566,7 @@ def main():
                          false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
                          input_relation['requested'] or input_relation_frame['requested'] or
+                         frame_test['requested'] or
                          input_relation_shadow['requested'] or
                          generic_new['requested'] or
                          rebase_profile['requested'] or r3_profile['requested'] or
@@ -1491,6 +1576,7 @@ def main():
               not recovery and not strict_cut_lane and
               not strict_false_posts_lane and not strict_reuse_lane and
               not input_relation_lane and not input_relation_frame_lane and
+              not frame_test_lane and
               not input_relation_shadow_lane and
               not shadow_generic_lane and
               not generic_new_lane and not r3_lane and not ghost_scope_lane and not postmark_lane)
@@ -1503,6 +1589,7 @@ def main():
          'STRICT_CUT_REUSED_MATRIX_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_reuse_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'THREADONLY_FRAME_SOURCE_CAPTURE_COMPLETE' if input_relation_frame_lane and diagnostic_complete else
+         'R3_FRAME_TEST_DIAGNOSTIC_COMPLETE' if frame_test_lane and diagnostic_complete else
          'SHADOW_BINDING_SOURCE_CAPTURE_COMPLETE' if input_relation_shadow_lane and diagnostic_complete else
          'SHADOW_GENERIC_SORT4_DIAGNOSTICS_COMPLETE' if shadow_generic_lane and diagnostic_complete else
          'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
@@ -1513,8 +1600,8 @@ def main():
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
-      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane and not ghost_scope_lane and not input_relation_frame_lane,
-      'actual_safe_forget_linked':False if input_relation_frame_lane else None,
+              'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane and not ghost_scope_lane and not input_relation_frame_lane and not frame_test_lane,
+      'actual_safe_forget_linked':False if input_relation_frame_lane or frame_test_lane else None,
       'generic_constructor_helper_proved':False,
       'source_mir_refinement_complete':pair,'profile_pins_complete':profile_ok,
       'full_proof_exit':stage.get('exit'),'prefix_callees_before_outer':callees_before_outer,
@@ -1529,6 +1616,7 @@ def main():
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
       'wrapper_input_relation_source_capture_diagnostic':input_relation,
       'threadonly_frame_source_capture_diagnostic':input_relation_frame,
+      'r3_frame_test_diagnostic':frame_test,
       'wrapper_input_relation_shadow_source_capture_diagnostic':input_relation_shadow,
       'generic_new_source_mir_capture_diagnostic':generic_new,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
@@ -1543,6 +1631,7 @@ def main():
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
       'threadonly_frame_source_scope_complete':input_relation_frame_requested if input_relation_frame_lane else False,
+      'r3_frame_test_scope_complete':frame_test_requested if frame_test_lane else False,
       'input_relation_shadow_source_scope_complete':input_relation_shadow_requested if input_relation_shadow_lane else False,
       'shadow_generic_sort4_scope_complete':shadow_generic_requested if shadow_generic_lane else False,
       'shadow_generic_sort4_three_independent_results':{
