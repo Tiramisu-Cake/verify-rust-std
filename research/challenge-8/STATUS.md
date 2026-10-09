@@ -1,6 +1,9 @@
 # MERGE incoming-origin phase — CLOSED, NOT_FOR_INTEGRATION
 
 Checkpoint [incoming origin](merge/INCOMING-ORIGIN-CHECKPOINT-2026-10-09.md).
+Checkpointa7c5337a pushed; [portable review packet](https://github.com/Tiramisu-Cake/verify-rust-std/tree/940c3c6fffb8cef7eb4abe12cb13489f3b049059/research/verifast-review/a7c5337a7a0f46f1bfeddf299c0e435ae3fb7de8)
+published at940c3c6f,396file hashes/GitHub API tree and manifest verified.
+Previous packets preserved; publication receipt in cloud-build/incoming-origin/PUBLICATION.json.
 User60-minute main window20:16:40–21:16:40UTC; finishing only afterwards.
 Tool6cb7b673; proof/infra2bf268f7, profilev3. Private MIR-origin AST storage
 statements replace ordinary CallExpr lifecycle dispatch; independent static
