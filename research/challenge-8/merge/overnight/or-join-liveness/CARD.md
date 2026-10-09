@@ -140,6 +140,12 @@ skipped groups are explicitly `NOT_RUN`. The actual group receives at most
 or depleted budget yields partial, unaccepted evidence.
 `audit-seven.py`
 keeps `accepted=false` and `component_gates_complete=false` in all cases.
+Its independent tool inventory requires the outer build-wrapper exit 0 and
+rehashes the retained baseline/component translators, component patch,
+six-component full diff, seven-component full diff, and installed seventh
+translator against the recorded manifests. The seven-component full-diff
+digest is still a build record, not a separately admitted expected digest;
+this audit does not establish component soundness.
 It reports the actual full positive and calibrated proof negative only
 when the retained harness's full gates and source/tool certificates match.
 The four new controls cannot be counted as proof negatives until their

@@ -107,13 +107,33 @@ def main() -> None:
         pin = {}
     build = read_json(args.evidence / "build/seven-profile-manifest.json")
     preflight = read_json(args.evidence / "preflight/or-join-preflight.json")
+    translator = Path("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml")
+    build_dir = args.evidence / "build"
     manifest_ok = (pin.get("component") == "MIR-OR-JOIN-LIVENESS" and
                    pin.get("admission_state") == "EXPERIMENTAL_CLOUD_TRIAL" and
                    isinstance(build, dict) and build.get("accepted") is False and
+                   exit_zero(args.evidence / "build-wrapper-exit-code.txt") and
                    build.get("component_manifest_sha256") == safe_digest(args.manifest) and
                    build.get("component_patch_sha256") == pin.get("component_patch_sha256") and
+                   safe_digest(args.manifest.parent / "or-join-liveness.patch") ==
+                       pin.get("component_patch_sha256") and
                    build.get("baseline_translator_sha256") == pin.get("baseline_translator_sha256") and
+                   safe_digest(build_dir / "translator.six.ml") ==
+                       pin.get("baseline_translator_sha256") and
                    build.get("component_translator_sha256") == pin.get("component_translator_sha256") and
+                   safe_digest(build_dir / "translator.seven.ml") ==
+                       pin.get("component_translator_sha256") and
+                   safe_digest(args.tool_home / translator) ==
+                       pin.get("component_translator_sha256") and
+                   build.get("base_six_console_sha256") ==
+                       pin.get("baseline_console_sha256") and
+                   build.get("base_six_full_diff_sha256") ==
+                       pin.get("baseline_applied_profile_sha256") and
+                   safe_digest(build_dir / "base-six-applied-profile.patch") ==
+                       pin.get("baseline_applied_profile_sha256") and
+                   isinstance(build.get("seven_full_diff_sha256"), str) and
+                   build.get("seven_full_diff_sha256") ==
+                       safe_digest(build_dir / "full-seven-applied-profile.patch") and
                    build.get("kernel_unchanged") is True and
                    build.get("parser_unchanged") is True and
                    build.get("prelude_unchanged") is True and
@@ -131,6 +151,7 @@ def main() -> None:
                        safe_digest(args.manifest.parent.parent / "pointer-prove.py") ==
                        pin.get("retained_pointer_prove_sha256") and
                    safe_digest(args.fixture) == pin.get("admitted_fixture_sha256") and
+                   isinstance(build.get("seven_console_sha256"), str) and
                    safe_digest(args.tool_home / "bin/verifast") ==
                        build.get("seven_console_sha256"))
     positive = case_inventory(args.evidence / "actual", "bidirectional_merge_len23", args.profile)
