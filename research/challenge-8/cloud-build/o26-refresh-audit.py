@@ -647,6 +647,21 @@ def sort4_postmark_print(ev):
             'report_sha256':digest(inner/'sort4-postmark-result.json') if (inner/'sort4-postmark-result.json').is_file() else None}
 
 
+def r3_nested_order(ev):
+    requested=(ev/'cases/r3-nested-order-test-request.json').exists()
+    if not requested:return {'requested':False,'complete':False}
+    report=read(ev/'cases/r3-nested-order-test/diagnostic-audit.json') or {}
+    code=helper_exit(ev,'r3-nested-order-test')
+    complete=(code==0 and report.get('classification')=='R3_NESTED_ORDER_TEST_DIAGNOSTIC_COMPLETE' and
+              report.get('diagnostic_complete') is True and
+              report.get('nested_normal_unwind_return_leak_log_observed') is True and
+              report.get('seven_prefix_then_nested_then_outer') is True and
+              report.get('verification_accepted') is False and report.get('accepted') is False and
+              report.get('actual_nested_drop_credit') is False)
+    return {'requested':True,'complete':complete,'helper_exit':code,'accepted':False,
+            'actual_helper_proved':False,'report':report}
+
+
 def wrapper_r3_profile(ev):
     requested=(ev/'cases/wrapper-r3-profile-request.json').exists()
     if not requested:
@@ -832,7 +847,9 @@ def main():
     r3_profile=wrapper_r3_profile(ev)
     postmark=sort4_postmark_print(ev)
     postmark_lane=os.environ.get('LANE')=='o26-generic-sort4-postmark-diagnostics'
-    r3_lane=os.environ.get('LANE')=='o26-wrapper-input-relation-r3'
+    r3_lane=os.environ.get('LANE') in ('o26-wrapper-input-relation-r3','o26-wrapper-r3-nested-diagnostics')
+    r3_nested=r3_nested_order(ev)
+    r3_nested_lane=os.environ.get('LANE')=='o26-wrapper-r3-nested-diagnostics'
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
     strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
@@ -902,6 +919,8 @@ def main():
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
                          (not r3_profile['requested'] or r3_profile['complete']) and
                          (not r3_lane or r3_requested) and
+                         (not r3_nested['requested'] or r3_nested['complete']) and
+                         (not r3_nested_lane or r3_nested['requested']) and
                          (not postmark['requested'] or postmark['complete']) and
                          (not postmark_lane or postmark_requested) and
                          (not independent or independent_requested) and
@@ -920,7 +939,7 @@ def main():
                          false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
                          input_relation['requested'] or generic_new['requested'] or
-                         rebase_profile['requested'] or r3_profile['requested'] or postmark['requested'])
+                         rebase_profile['requested'] or r3_profile['requested'] or postmark['requested'] or r3_nested['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
               not recovery and not strict_cut_lane and
@@ -935,11 +954,12 @@ def main():
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
          'GENERIC_SORT4_POSTMARK_DIAGNOSTICS_COMPLETE' if postmark_lane and diagnostic_complete else
+         'WRAPPER_R3_NESTED_DIAGNOSTICS_COMPLETE' if r3_nested_lane and diagnostic_complete else
          'WRAPPER_R3_PROFILE_DIAGNOSTIC_COMPLETE' if r3_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
-      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible,
+      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane,
       'generic_constructor_helper_proved':False,
       'source_mir_refinement_complete':pair,'profile_pins_complete':profile_ok,
       'full_proof_exit':stage.get('exit'),'prefix_callees_before_outer':callees_before_outer,
@@ -956,6 +976,7 @@ def main():
       'generic_new_source_mir_capture_diagnostic':generic_new,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
       'wrapper_r3_profile_diagnostic':r3_profile,
+      'r3_nested_order_test_diagnostic':r3_nested,
       'sort4_postmark_print_diagnostic':postmark,
       'generic_sort4_postmark_scope_complete':postmark_requested if postmark_lane else False,
       'wrapper_r3_scope_complete':r3_requested if r3_lane else False,

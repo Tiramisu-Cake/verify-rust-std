@@ -15,6 +15,15 @@ import tempfile
 
 ROOT = "research/challenge-8/cloud-build/"
 REQUIRED = {
+    "o26-wrapper-r3-nested-diagnostics": (
+        "exact-infra-transport-controls.py", "o26-recipe.py",
+        "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
+        "recipes/o26-refresh.json", "recipes/o26-wrapper-input-relation-r3.json",
+        "source-input.py", "o26-r3-profile.py", "o26-r3-controls.py", "o26-r3-audit.py",
+        "o26-wrapper-profile.py", "run-o26-wrapper-r3-profile.sh", "run-o26-refresh.sh",
+        "run-o26-wrapper-r3-nested-diagnostics.sh", "run-o26-r3-nested-order-test.sh",
+        "o26-r3-nested-order-test.py", "night-select-sort4/WRAPPER-R3-PROFILE-CARD.md",
+    ),
     "o26-generic-sort4-postmark-diagnostics": (
         "exact-infra-transport-controls.py", "o26-recipe.py",
         "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
@@ -166,7 +175,7 @@ def main() -> None:
         postmark.add("library/core/src/slice/sort/shared/smallsort.rs")
         need((set(parent["proof_paths"]) | set(canonical["proof_paths"]) | refresh | postmark).issubset(recipe["proof_paths"]),
              "combined generic/postmark recipe omits canonical or scenario proof dependency")
-    if a.lane == "o26-wrapper-input-relation-r3":
+    if a.lane in ("o26-wrapper-input-relation-r3", "o26-wrapper-r3-nested-diagnostics"):
         canonical = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
                               "o26-refresh.json").read_text()), "o26-refresh")
         proof_root = Path("/workspace/proof/research/challenge-8")
@@ -181,6 +190,14 @@ def main() -> None:
                          "prepare-wrapper-rebase.py", "prepare-wrapper-input-relation.py", "capture.py"))
         need((set(canonical["proof_paths"]) | refresh | variants).issubset(recipe["proof_paths"]),
              "R3 recipe omits canonical or profile proof dependency")
+    if a.lane == "o26-wrapper-r3-nested-diagnostics":
+        parent = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                   "o26-wrapper-input-relation-r3.json").read_text()), "o26-wrapper-input-relation-r3")
+        nested = {"research/challenge-8/overnight-assume-actual/" + name for name in
+                  ("O26-R3-NESTED-BEFORE-OUTER-TEST.json", "verifast-r3-nested-before-outer-TEST.patch",
+                   "CLOUD-R3-NESTED-BEFORE-OUTER-TEST-CARD.md")}
+        need((set(parent["proof_paths"]) | nested).issubset(recipe["proof_paths"]),
+             "R3 nested recipe omits parent or TEST proof dependency")
     certificate = json.loads((a.evidence / "source-input-certificate.json").read_text())
     need(certificate.get("lane") == a.lane and certificate.get("recipe") == recipe and
          certificate.get("infra", {}).get("commit") == os.environ.get("INFRA_SHA"),

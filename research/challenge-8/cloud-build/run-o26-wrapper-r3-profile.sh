@@ -33,7 +33,8 @@ for path in "$production_source" "$production_patch" "$stock_home" \
 done
 [[ "$deadline_epoch" =~ ^[0-9]+$ ]] || exit 2
 [[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build && -z "${GITHUB_ACTIONS:-}" &&
-   "${LANE:-}" == o26-wrapper-input-relation-r3 ]] || exit 2
+   ( "${LANE:-}" == o26-wrapper-input-relation-r3 ||
+     "${LANE:-}" == o26-wrapper-r3-nested-diagnostics ) ]] || exit 2
 [[ "$(git -C "$proof_root" rev-parse HEAD)" == "${PROOF_SHA:?}" &&
    -d "$production_source/.git" && -f "$production_patch" &&
    -f "$production_source/bin/verifast" ]] || exit 2

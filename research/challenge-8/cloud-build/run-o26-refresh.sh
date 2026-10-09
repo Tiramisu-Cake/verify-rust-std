@@ -49,7 +49,12 @@ postmark_mode=${O26_WITH_SORT4_POSTMARK_PRINT_TEST:-0}
    ( "${LANE:-}" == o26-generic-sort4-postmark-diagnostics && "$generic_new_mode" == 1 ) ]] || exit 2
 r3_profile_mode=${O26_WITH_R3_PROFILE:-0}
 [[ "$r3_profile_mode" == 0 || "$r3_profile_mode" == 1 ]] || exit 2
-[[ "$r3_profile_mode" == 0 || "${LANE:-}" == o26-wrapper-input-relation-r3 ]] || exit 2
+[[ "$r3_profile_mode" == 0 || "${LANE:-}" == o26-wrapper-input-relation-r3 ||
+   "${LANE:-}" == o26-wrapper-r3-nested-diagnostics ]] || exit 2
+r3_nested_mode=${O26_WITH_R3_NESTED_ORDER_TEST:-0}
+[[ "$r3_nested_mode" == 0 || "$r3_nested_mode" == 1 ]] || exit 2
+[[ "$r3_nested_mode" == 0 ||
+   ( "${LANE:-}" == o26-wrapper-r3-nested-diagnostics && "$r3_profile_mode" == 1 ) ]] || exit 2
 wrapper_profile_mode=${O26_WITH_WRAPPER_REBASE_PROFILE:-0}
 [[ "$wrapper_profile_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
 comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
@@ -315,6 +320,17 @@ if [[ "$r3_profile_mode" == 1 ]]; then
     --evidence "$ev/cases/wrapper-r3-profile" --deadline-epoch "$deadline" \
     --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || r3_status=$?
   printf '%s\n' "$r3_status" > "$ev/cases/wrapper-r3-profile-helper-exit-code.txt"
+fi
+
+if [[ "$r3_nested_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/r3-nested-order-test-request.json"
+  r3_nested_status=0
+  stage r3-nested-order-test bash "$cloud_dir/run-o26-r3-nested-order-test.sh" \
+    --r3-source "$work_root/o26-r3-profile-source" \
+    --r3-evidence "$ev/cases/wrapper-r3-profile" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/r3-nested-order-test" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || r3_nested_status=$?
+  printf '%s\n' "$r3_nested_status" > "$ev/cases/r3-nested-order-test-helper-exit-code.txt"
 fi
 
 if [[ "$wrapper_profile_mode" == 1 ]]; then
