@@ -16,8 +16,14 @@ binding/type error observed. Investigate exact R3 receiver MIR and separate narr
 source-linked TEST with affected controls. Current R3 actual outer/nested NOT_PROVED;
 full genericT/ZST and sort4 remainOPEN; historical R2 result-identity gap preserved.
 
-Day expense428/3600seconds (87setup +341scope),3172remaining,2terminal Builds.
-No own active Build; full archive and text index integrity verified. First setup failure
+Day accounted expense428/3600seconds (87setup +341scope),3172remaining,2terminal Builds.
+Receiver diagnostic Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9 submitted,
+infra/proofb6a45161cdf7309b10f0198a1bbd1f43c225d715, timeout900+60reserved.
+Separate default-off receiver TEST maps exact NORMAL_11/_13 after source/unit
+admission; scope off/partial/on plus receiver off/partial/on/wrong-ID controls.
+Actual payload186parts; [review/card](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md).
+Accepted=false; malformed-place/source-unit affected acceptance controls remainOPEN.
+Earlier full archive and text index integrity verified. First setup failure
 Build5c8cd72b preserved and archiveverified; minimal explicit recipe self-path fix.
 Source payload186parts in both submitted runs; original runtime/posts/resources/
 kernel/spec/exporter/refiner preserved; TEST translator remainsUNACCEPTED.

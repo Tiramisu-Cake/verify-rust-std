@@ -6161,3 +6161,27 @@ as_mut_ptr body and memory/provenance/borrow contracts; affected gate negatives.
 Complete archive download remains pending here; collector alone is not proof credit.
 
 Full scope archive022c270e720db480f9e9bef027bd6cda787a99395217b1e30b8ad7dbb4350c66 and textindex63de8b090cca213b5f3709da2267711f0c48f571061f3c5976be54c8eaac5996 verified on VPS. Full logs extracted for reading; no independent text chunk download needed because complete archive checked. Enabled log has no VF headers; setup gate above is confirmed.
+
+## DAY select-sort4 — R3 NORMAL receiver TEST dispatched 2026-10-09
+
+Observed Build9bdd first AS-MUT-PTR receiver refusal is explained by exact NORMAL
+Move(_11)/Move(_13) from wrappers _6/_8 vs frozen _9/_11 (READONLY ghost-let removal).
+Preimplementation card committed7c3e5cbc; isolated TEST patch284a135f0c43c0ef50a7d48cd5bc6e294415e0168fa9e11a9238c0ab9c0c6c09,
+parented8ee5ed8a7f8abb7d9c7cee3a978059b55c0a02e34f908170a80d6cc3ed4102,
+newtranslator7451dee6edcd63a4151eb45816a882f51107c7f096b047762cc482b154f61fd6.
+Full runtime/posts/source/kernel/spec/exporter/refiner unchanged. Exact scope/R3/nine
+opt-ins, defaultoff frozen receivers, partial refusal and wrong first/second checker-ID
+fault injections. These are mapping diagnostics, not malformed-place soundness proof;
+acceptance/whole-function fields false. Main/static review corrected OCaml let scope,
+R3+scope env propagation, timeout refusal, snapshot key sets, marker order/log-binary
+hashes and failclosed aggregate. Existing scope lane explicit receiver entrypoint
+enables1; base scope launcher remains default0.
+
+Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9, infra/proof
+b6a45161cdf7309b10f0198a1bbd1f43c225d715, timeout900+60, payload555348bytes/186parts
+SHA01e703f3d812540d796ef4a77882214014a9255239ef454cd93c4e93d6c8201e.
+Config125e739a38abf029764a250ff3c835d3003b6d5ca0ebd034b303f9d0d7d2f0fb.
+Outcome pending; no source-shadow activation absent actual late-binding evidence.
+Next candidate same-source scheduling requires fresh receiver-parent pins and complete
+AST-node inventory; generic nested body only calls same-unit prefix generic-drop,
+no dependency on outer. No old preheader failure grants nested credit.
