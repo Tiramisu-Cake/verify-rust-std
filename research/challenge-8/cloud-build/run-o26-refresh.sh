@@ -27,6 +27,10 @@ wrapper_rebase_mode=${O26_WITH_WRAPPER_REBASE_CAPTURE:-0}
 [[ "$wrapper_rebase_mode" == 0 || "$wrapper_rebase_mode" == 1 ]] || exit 2
 wrapper_profile_mode=${O26_WITH_WRAPPER_REBASE_PROFILE:-0}
 [[ "$wrapper_profile_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
+comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
+[[ "$comp19_mode" == 0 || "$comp19_mode" == 1 ]] || exit 2
+[[ "$comp19_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
+[[ "$comp19_mode" == 0 || "${LANE:-}" == o26-wrapper-controls ]] || exit 2
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -40,7 +44,22 @@ ev="$evidence_root/allprooflogs"
 mkdir "$ev"
 mkdir "$ev/cases"
 current_stage=provider
-trap 'status=$?; if [[ ! -f "$evidence_root/proof-audit.json" ]]; then python3 "$cloud_dir/o26-refresh-audit.py" --evidence "$ev" --output "$evidence_root/proof-audit.json" --runner-exit "$status" --failed-stage "$current_stage" || true; fi' EXIT
+audit_result() {
+  local status=$1 failed=$2
+  if [[ "$comp19_mode" == 1 ]]; then
+    python3 "$cloud_dir/o26-refresh-audit.py" --evidence "$ev" \
+      --output "$evidence_root/profile-proof-audit.json" \
+      --runner-exit "$status" --failed-stage "$failed"
+    python3 "$cloud_dir/o26-wrapper-controls-audit.py" --evidence "$ev" \
+      --base "$evidence_root/profile-proof-audit.json" \
+      --output "$evidence_root/proof-audit.json"
+  else
+    python3 "$cloud_dir/o26-refresh-audit.py" --evidence "$ev" \
+      --output "$evidence_root/proof-audit.json" \
+      --runner-exit "$status" --failed-stage "$failed"
+  fi
+}
+trap 'status=$?; if [[ ! -f "$evidence_root/proof-audit.json" ]]; then audit_result "$status" "$current_stage" || true; fi' EXIT
 
 CLOUD_BUILD_ID=${CLOUD_BUILD_ID:?} \
 CLOUD_BUILD_PROJECT_ID=${CLOUD_BUILD_PROJECT_ID:?} \
@@ -328,5 +347,4 @@ if [[ "$sort4_mode" == 1 ]]; then
 fi
 
 current_stage=audit
-python3 "$cloud_dir/o26-refresh-audit.py" --evidence "$ev" \
-  --output "$evidence_root/proof-audit.json" --runner-exit 0 --failed-stage complete
+audit_result 0 complete

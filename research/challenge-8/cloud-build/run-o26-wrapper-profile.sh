@@ -11,6 +11,9 @@ deadline_epoch=
 proof_root=
 work_root=
 cloud_dir=
+comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
+[[ "$comp19_mode" == 0 || "$comp19_mode" == 1 ]] || exit 2
+[[ "$comp19_mode" == 0 || "${LANE:-}" == o26-wrapper-controls ]] || exit 2
 while (($#)); do
   case "$1" in
     --production-source) production_source=$2; shift 2 ;;
@@ -115,5 +118,14 @@ stage a1-test-console-build make -C "$test_source/src" ../bin/verifast WITHOUT_L
 ldd "$test_source/bin/verifast" > "$a1/test-console-ldd.txt"
 ! rg -q 'not found' "$a1/test-console-ldd.txt"
 stage a1-move-copy-negative python3 "$a1script" test "${a1common[@]}"
+comp19_status=0
+if [[ "$comp19_mode" == 1 ]]; then
+  stage comp19-isolated-test bash "$cloud_dir/run-o26-wrapper-comp19-test.sh" \
+    --profile-source "$profile_source" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$evidence/comp19-isolated-test" --deadline-epoch "$deadline_epoch" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || comp19_status=$?
+  printf '%s\n' "$comp19_status" > "$evidence/comp19-helper-exit-code.txt"
+fi
 stage profile-final-identity python3 "$script" final-identity "${common[@]}"
 printf '%s\n' 'WRAPPER_REBASE_COMPONENT23_DIAGNOSTIC_NOT_ACCEPTED' > "$evidence/PROFILE-STATUS.txt"
+(( comp19_status == 0 )) || exit "$comp19_status"
