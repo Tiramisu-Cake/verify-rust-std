@@ -142,7 +142,7 @@ for candidate in guard-construction-fragment-diagnostic guard-construction-fragm
   fi
 done
 guard_construction_v3_groups_selected=0
-for candidate in guard-construction-nonprecise-v3-diagnostic guard-construction-nonprecise-v3-stock-diagnostic; do
+for candidate in guard-construction-nonprecise-v3-diagnostic guard-construction-nonprecise-v3-stock-diagnostic guard-construction-fbc-v4-diagnostic guard-construction-fbc-v4-stock-diagnostic; do
   if python3 "$selection_tool" contains --selection "$selection_file" \
       --sha256 "$selection_sha" "$candidate"; then
     guard_construction_v3_groups_selected=$((guard_construction_v3_groups_selected + 1))
@@ -232,6 +232,7 @@ paths.extend([
   "research/challenge-8/merge/overnight/guard-ownership/construction/prepare.py",
   "research/challenge-8/merge/overnight/guard-ownership/construction/prove.py",
   "research/challenge-8/merge/overnight/guard-ownership/construction/nonprecise-v3/prepare.py",
+  "research/challenge-8/merge/overnight/guard-ownership/construction/fbc-v4/prepare.py",
   "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prepare.py",
   "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prove.py",
   "research/challenge-8/merge/cloud-build/guard-geometry-audit.py",
@@ -610,7 +611,7 @@ run_guard_construction_group guard-construction-fragment-stock-diagnostic \
   stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
 
 run_guard_construction_v3_group() {
-  local group=$1 profile=$2 tool_home=$3 profile_evidence=$4
+  local group=$1 profile=$2 tool_home=$3 profile_evidence=$4 variant=${5:-v3}
   local selected_status=0 driver_status=0 remaining group_timeout groups_left evidence_dir
   if python3 "$selection_tool" contains --selection "$selection_file" \
       --sha256 "$selection_sha" "$group"; then
@@ -638,7 +639,7 @@ run_guard_construction_v3_group() {
     /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
       timeout --signal=TERM --kill-after=10s "${group_timeout}s" python3 \
       "$proof_root/research/challenge-8/merge/overnight/guard-ownership/construction/prove.py" \
-      --variant v3 --profile "$profile" --profile-evidence "$profile_evidence" \
+      --variant "$variant" --profile "$profile" --profile-evidence "$profile_evidence" \
       --tool-home "$tool_home" --compiler-sysroot "$(rustc --print sysroot)" \
       --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
       --stage-seconds 30 --verifier-seconds 35 --evidence "$evidence_dir" \
@@ -659,6 +660,12 @@ run_guard_construction_v3_group guard-construction-nonprecise-v3-diagnostic \
   "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
 run_guard_construction_v3_group guard-construction-nonprecise-v3-stock-diagnostic \
   stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
+
+run_guard_construction_v3_group guard-construction-fbc-v4-diagnostic \
+  experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+  "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build" v4
+run_guard_construction_v3_group guard-construction-fbc-v4-stock-diagnostic \
+  stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs" v4
 
 run_guard_geometry_group() {
   local group=$1 profile=$2 tool_home=$3 profile_evidence=$4

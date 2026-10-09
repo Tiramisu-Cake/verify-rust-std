@@ -140,3 +140,18 @@ Geometry-only stock/six + sourcepreparations/smoke; constructor unchanged notrer
 Timeout1000+60queue covers coldmatrix/setup,480geometry+140audit/upload reserve,
 within2808remaining and >40min mainwindow. Positive expectedadvance toalignment
 or exacthelper/frontier refusal; never negativecredit except recordedfalse controls.
+
+### Independent construction → canonical FBC packaging candidate V4
+
+[Preimplementation card](overnight/guard-ownership/construction/fbc-v4/SEMANTIC-CARD.md)
+retains actualinitializer/full V3b entry/normal/unwind/payload, adds only generated
+FBC close/open using same t and &actualdrop_guard between existing own close/open.
+Physical fields/padding must already exist; no ghost-created owner or memory.
+Stock/six isolated noDrop-impl fragment; even PASS cannotadmitactualtype/Drop/glue.
+Schema paths statically compared with retained1219 FBCOpen; address expression
+AST remains predictive and fails closed. Sol implementation/integration review
+findsno concretewiring mismatch. False oracle shifts+2lines, runtimeunchanged.
+Sharedconstructor runner modified additively; targetedcombined V3b/V4 stock/six
+plus sourcepreparations/smoke repeats affectedexistingcontrols, not OR/native/fullmatrix.
+Timeout1500+60queue, four180second diagnostics +140audit/upload pluscoldmatrix;
+within remainingbudget/calendar/evidence reserve atsubmit. No newdirection beyondW2.

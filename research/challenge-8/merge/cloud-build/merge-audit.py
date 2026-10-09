@@ -111,6 +111,24 @@ GUARD_CONSTRUCTION_V3_GROUPS = {
         "profile": "stock-26.10",
     },
 }
+GUARD_CONSTRUCTION_V4_GROUPS = {
+    "guard-construction-fbc-v4-diagnostic": {
+        "directory": "guard-construction-fbc-v4-diagnostic",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    },
+    "guard-construction-fbc-v4-stock-diagnostic": {
+        "directory": "guard-construction-fbc-v4-stock-diagnostic",
+        "profile": "stock-26.10",
+    },
+}
+GUARD_CONSTRUCTION_V4_PROFILE = "copy-on-drop-source-construction-canonical-fbc-fragment-v4"
+GUARD_CONSTRUCTION_V4_ROUNDTRIP_SHA256 = hashlib.sha256(
+    b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n"
+    b"        //@ close CopyOnDrop_full_borrow_content::<T>(t, &drop_guard)();\n"
+    b"        //@ open CopyOnDrop_full_borrow_content::<T>(t, &drop_guard)();\n"
+    b"        //@ open <CopyOnDrop<T>>.own(t, drop_guard);\n"
+    b"        //@ assert scratch_base[..len] |-> ?current_src_values &*& v_base[..len] |-> _ &*& foreach(current_src_values, own::<T>(t));\n"
+    b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n").hexdigest()
 GUARD_GEOMETRY_GROUPS = {
     "guard-drop-geometry-v3-diagnostic": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
     "guard-drop-geometry-v3-stock-diagnostic": "stock-26.10",
@@ -286,6 +304,12 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 *[f"cases/{dirname}/cases/{case}/classification.json"
                   for case in GUARD_CONSTRUCTION_CASES],
             ]
+        elif group in GUARD_CONSTRUCTION_V4_GROUPS:
+            dirname = GUARD_CONSTRUCTION_V4_GROUPS[group]["directory"]
+            mandatory[group] = [f"cases/{dirname}/{name}.json" for name in
+                                ("environment", "extraction", "results", "aggregate")]
+            mandatory[group].extend(f"cases/{dirname}/cases/{name}/classification.json"
+                                    for name in GUARD_CONSTRUCTION_CASES)
         elif group in GUARD_GEOMETRY_GROUPS:
             mandatory[group] = [f"cases/{group}/{name}.json" for name in
                                 ("environment", "extraction", "results", "aggregate")]
@@ -815,17 +839,20 @@ def audit(root: Path, selection_path: Path, run_status: int,
 
     guard_construction_reports = {}
     guard_construction_v3_reports = {}
+    guard_construction_v4_reports = {}
 
     def audit_guard_construction(group: str, spec: dict, variant: str = "v2") -> bool:
         base = cases / spec["directory"]
-        reports = guard_construction_v3_reports if variant == "v3" else guard_construction_reports
+        reports = (guard_construction_v4_reports if variant == "v4" else
+                   guard_construction_v3_reports if variant == "v3" else guard_construction_reports)
         try:
             environment = json.loads((base / "environment.json").read_text())
             extraction = json.loads((base / "extraction.json").read_text())
             results = json.loads((base / "results.json").read_text())
             aggregate = json.loads((base / "aggregate.json").read_text())
             provider_info = environment.get("provider")
-            diagnostic_profile = (GUARD_CONSTRUCTION_V3_PROFILE if variant == "v3" else
+            diagnostic_profile = (GUARD_CONSTRUCTION_V4_PROFILE if variant == "v4" else
+                                  GUARD_CONSTRUCTION_V3_PROFILE if variant == "v3" else
                                   "copy-on-drop-source-construction-full-source-fragment-v2")
             if (environment.get("accepted") is not False or
                     environment.get("diagnostic_profile") != diagnostic_profile or
@@ -847,14 +874,14 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     extraction.get("full_source_permission_only") is not True or
                     extraction.get("unsafe_wrapper_for_conditional_explicit_contract") is not True):
                 return False
-            if variant == "v3":
+            if variant in {"v3", "v4"}:
                 pins = environment.get("profile_pins")
                 compiler = environment.get("rustc_version", "")
                 drivers = environment.get("compiler_drivers")
                 expected_profile_evidence = (evidence /
                     ("build" if spec["profile"] != "stock-26.10" else "")).resolve()
                 actual_profile_evidence = Path(environment.get("profile_evidence", "")).resolve()
-                if (extraction.get("profile") != GUARD_CONSTRUCTION_V3_PROFILE or
+                if (extraction.get("profile") != diagnostic_profile or
                         extraction.get("nonprecise_own") is not True or
                         extraction.get("own_payload_body_matches_v2") is not True or
                         extraction.get("v2_full_source_own_sha256") !=
@@ -865,7 +892,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f" or
                         not isinstance(extraction.get("roundtrip_sha256"), str) or
                         extraction.get("roundtrip_sha256") !=
-                            GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256 or
+                            (GUARD_CONSTRUCTION_V4_ROUNDTRIP_SHA256 if variant == "v4" else
+                             GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256) or
                         "commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f" not in compiler or
                         "host: x86_64-unknown-linux-gnu" not in compiler or
                         not isinstance(environment.get("rustc_sha256"), str) or
@@ -953,7 +981,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         meta.get("source_statement_sha256") != GUARD_CONSTRUCTION_LINE_SHA256 or
                         type(meta.get("verified_statement_line")) is not int):
                     return False
-                if variant == "v3" and row.get("classification") != "INCONCLUSIVE":
+                if variant in {"v3", "v4"} and row.get("classification") != "INCONCLUSIVE":
                     ast_gate = row.get("ast_admission")
                     if (not isinstance(ast_gate, dict) or
                             ast_gate.get("admitted") is not True or
@@ -968,6 +996,18 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             ast_gate.get("full_normal_post_shape") is not True or
                             ast_gate.get("literal_unwind_false") is not True or
                             ast_gate.get("runtime_assume_count") != 0):
+                        return False
+                if variant == "v4":
+                    if (extraction.get("canonical_fbc_packaging_only") is not True or
+                            extraction.get("parent_v3b_profile") != GUARD_CONSTRUCTION_V3_PROFILE or
+                            extraction.get("parent_v3b_roundtrip_sha256") != GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256 or
+                            extraction.get("fbc_roundtrip_sha256") != GUARD_CONSTRUCTION_V4_ROUNDTRIP_SHA256 or
+                            meta.get("fbc_roundtrip_sha256") != GUARD_CONSTRUCTION_V4_ROUNDTRIP_SHA256):
+                        return False
+                    if row.get("classification") != "INCONCLUSIVE" and (
+                            ast_gate.get("fbc_close_count") != 1 or
+                            ast_gate.get("fbc_open_count") != 1 or
+                            ast_gate.get("fbc_roundtrip_same_guard_and_ordered") is not True):
                         return False
                 for rel, key in (("original/lib.rs", "original_sha256"),
                                  ("verified/lib.rs", "verified_sha256")):
@@ -1080,6 +1120,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     "mir_admitted": mir_gate.get("admitted"),
                     "ast_admitted": ast_gate.get("admitted"),
                     "own_precision": ast_gate.get("own_precision"),
+                    "fbc_roundtrip_same_guard_and_ordered": ast_gate.get("fbc_roundtrip_same_guard_and_ordered"),
                     "payload_roundtrip_open_assert_close": ast_gate.get(
                         "payload_roundtrip_open_assert_close"),
                     "constructor_body_count": row.get("constructor_body_count"),
@@ -1131,7 +1172,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 "case_evidence": case_evidence,
                 "fragment_pass": expected_fragment_pass,
                 "actual_drop_compatibility": "OPEN",
-                "scope": ("isolated nonprecise-own constructor fragment with exact payload "
+                "scope": ("isolated actual construction/physical canonical-FBC packaging fragment; Drop/caller OPEN" if variant == "v4" else
+                          "isolated nonprecise-own constructor fragment with exact payload "
                           "roundtrip; no Drop/caller compatibility" if variant == "v3" else
                           "isolated constructor fragment only; no Drop/caller compatibility"),
             }
@@ -1183,6 +1225,17 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     "raw_case_classifications": cases_raw,
                     "actual_drop_compatibility": "OPEN",
                 }
+
+    for group, spec in GUARD_CONSTRUCTION_V4_GROUPS.items():
+        if group not in selected:
+            guard_construction_v4_reports[group] = {"classification": "NOT_RUN", "accepted": False}
+            continue
+        construction_valid = audit_guard_construction(group, spec, variant="v4")
+        artifact_status[group] = artifact_status.get(group, False) and construction_valid
+        if group not in guard_construction_v4_reports:
+            guard_construction_v4_reports[group] = {"classification": "INCONCLUSIVE", "accepted": False,
+                                                    "artifact_bindings_valid": False,
+                                                    "raw_case_classifications": raw_cases(f"cases/{spec['directory']}/aggregate.json", group)}
 
     guard_geometry_reports = {}
     for group, profile in GUARD_GEOMETRY_GROUPS.items():
@@ -1880,6 +1933,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             "whole_small_sort_challenge": "NOT_PROVEN",
             "guard_construction_fragment_diagnostics": guard_construction_reports,
             "guard_construction_nonprecise_v3_diagnostics": guard_construction_v3_reports,
+            "guard_construction_canonical_fbc_v4_diagnostics": guard_construction_v4_reports,
             "guard_payload_own_diagnostics": guard_payload_reports,
             "canonical_fbc_drop_geometry_v3": guard_geometry_reports,
             "physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell/aggregate.json", "current-owner-memory-cell-diagnostic"),

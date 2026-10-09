@@ -47,9 +47,13 @@ NEW_GROUPS = {
     "guard-construction-nonprecise-v3-stock-diagnostic",
     "guard-drop-geometry-v3-diagnostic",
     "guard-drop-geometry-v3-stock-diagnostic",
+    "guard-construction-fbc-v4-diagnostic",
+    "guard-construction-fbc-v4-stock-diagnostic",
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {
+    "guard-construction-fbc-v4-diagnostic": {"actual-source-preparation", "bidirectional-small-source-preparation", "rust-profile-smoke"},
+    "guard-construction-fbc-v4-stock-diagnostic": {"actual-source-preparation", "bidirectional-small-source-preparation", "rust-profile-smoke"},
     "guard-drop-geometry-v3-diagnostic": {"actual-source-preparation", "rust-profile-smoke"},
     "guard-drop-geometry-v3-stock-diagnostic": {"actual-source-preparation", "rust-profile-smoke"},
     "actual-callee-applicability": {"actual-source-preparation"},
