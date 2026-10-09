@@ -304,7 +304,8 @@ def audit_origin_controls(base: Path, aggregate: dict, profile: str) -> tuple[bo
                 stage_data = json.loads((case / (stage + "-stage.json")).read_text())
                 valid = valid and stage_data.get("exit_code") == code == int((case / (stage + "-exit-code.txt")).read_text())
             replay = Path(temporary) / "controls" / name
-            for filename in ("verifast.log", "decode.out", "proof-ast.ml"):
+            for filename in ("verifast.log", "decode.out", "proof-ast.ml",
+                             "verifast-stage.json"):
                 source = case / filename
                 if source.is_file():
                     (replay / filename).write_bytes(source.read_bytes())
@@ -522,7 +523,10 @@ def audit_onecell_nested_controls(base: Path, aggregate: dict,
                                      "complete": smoke_ok}
             native_valid = native_valid and smoke_ok
         report["native_unit_smokes"] = native_report
-        report["artifact_bindings_valid"] = bool(valid and native_valid)
+        report["compiler_layout_fact"] = layout.classify_compiler_facts(
+            tracked_build, layout_path.parent / "compiler-layout.rs")
+        report["artifact_bindings_valid"] = bool(
+            valid and native_valid and report["compiler_layout_fact"]["valid"])
         report["classification"] = ("EVIDENCE_COMPLETE_DIAGNOSTIC"
                                     if report["artifact_bindings_valid"] else "INCONCLUSIVE")
         report["accepted"] = False

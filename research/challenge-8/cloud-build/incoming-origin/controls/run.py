@@ -859,6 +859,31 @@ def diverging_unwind_log_gate(log: str, meta: dict, ast_gate: dict) -> dict:
             "leak_check_count": leak_checks, "leak_after_unwind_return": leak_after_unwind}
 
 
+def extern_spec_cli_gate(case: Path, name: str, meta: dict, stages: dict) -> bool:
+    """Require the exact per-case extern header to reach VeriFast via argv."""
+    if not meta.get("extern_spec"):
+        return True
+    try:
+        receipt = json.loads((case / "verifast-stage.json").read_text())
+    except (OSError, ValueError, TypeError):
+        return False
+    argv = receipt.get("argv")
+    if (receipt.get("stage") != "verifast" or
+            receipt.get("exit_code") != stages.get("verifast") or
+            not isinstance(argv, list) or not all(isinstance(arg, str) for arg in argv)):
+        return False
+    flags = [index for index, arg in enumerate(argv)
+             if arg == "-extern_spec" or arg.startswith("-extern_spec=")]
+    if len(flags) != 1 or argv[flags[0]] != "-extern_spec" or flags[0] + 1 >= len(argv):
+        return False
+    value = argv[flags[0] + 1]
+    if not value.startswith("=") or value.startswith("=="):
+        return False
+    path = Path(value[1:])
+    return (path.is_absolute() and
+            path.parts[-3:] == ("controls", name, "origin-control.rsspec"))
+
+
 def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     stages = execution.get("stages", {})
     log_path = case / "verifast.log"
@@ -886,7 +911,8 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
                       all(path.is_file() and _sha(path.read_bytes()) == expected_spec_sha
                           for path in spec_paths) and
                       spec_paths[0].read_bytes() == spec_paths[1].read_bytes())
-    stage_inputs_ok = stage_inputs_ok and spec_inputs_ok
+    spec_cli_ok = extern_spec_cli_gate(case, name, meta, stages)
+    stage_inputs_ok = stage_inputs_ok and spec_inputs_ok and spec_cli_ok
     gate = (origin_gate(case, meta) if stages.get("decode") == 0 and
             meta["kind"] not in {"layout_diagnostic", "ghost_frontend_diagnostic", "local_death_negative"}
             else death_gate if death_gate else
@@ -938,6 +964,7 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     result = {**execution, **meta, "case": name, "classification": classification,
               "semantic_evidence": classification in {"PASS_CONTROL", "EXPECTED_REJECTION"},
               "extern_spec_inputs_unchanged": spec_inputs_ok,
+              "extern_spec_cli_bound": spec_cli_ok,
               "origin_gate": gate, "target_executed": executed, "errors": errors,
               "local_unwind_gate": unwind_gate,
               "unwind_log_gate": unwind_log,

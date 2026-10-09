@@ -131,3 +131,23 @@ for native_suffix in c cpp; do
   printf '%s\n' "$native_unit_status" > "$evidence/native-unit-$native_suffix-exit-code.txt"
   cat "$evidence/native-unit-$native_suffix.log"
 done
+
+# Independent concrete ABI observation by the pinned compiler, separate from VF.
+compiler_layout_source="$here/../../../../cloud-build/origin-layout/compiler-layout.rs"
+cp "$compiler_layout_source" "$evidence/compiler-layout.rs"
+set +e
+timeout --signal=TERM --kill-after=5s 25s rustc --edition=2021 --crate-name=compiler_layout --crate-type=bin \
+  --target=x86_64-unknown-linux-gnu "$compiler_layout_source" -o "$evidence/compiler-layout" \
+  > "$evidence/compiler-layout-compile.log" 2>&1
+compiler_layout_status=$?
+set -e
+printf '%s\n' "$compiler_layout_status" > "$evidence/compiler-layout-compile-exit-code.txt"
+(( compiler_layout_status == 0 )) || exit "$compiler_layout_status"
+set +e
+timeout --signal=TERM --kill-after=5s 5s "$evidence/compiler-layout" \
+  > "$evidence/compiler-layout.json" 2> "$evidence/compiler-layout-run.log"
+compiler_layout_status=$?
+set -e
+printf '%s\n' "$compiler_layout_status" > "$evidence/compiler-layout-run-exit-code.txt"
+(( compiler_layout_status == 0 )) || exit "$compiler_layout_status"
+rm "$evidence/compiler-layout"

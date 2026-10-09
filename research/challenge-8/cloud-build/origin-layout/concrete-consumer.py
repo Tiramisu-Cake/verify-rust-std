@@ -546,7 +546,7 @@ def run(evidence: Path, args, env: dict, execute_case,
     if direct_copy != expected_direct or b"len: 1" not in prep.GUARD:
         raise ValueError("literal-one recovery witness no longer matches one-cell guard")
     actual_copy = drop_source.COPY_CALL
-    if actual_copy != b"ptr::copy_nonoverlapping(self.src, self.dst, self.len);":
+    if actual_copy.strip() != b"ptr::copy_nonoverlapping(self.src, self.dst, self.len);":
         raise ValueError("pinned actual CopyOnDrop copy operands changed")
 
     cases_root = evidence / "cases"

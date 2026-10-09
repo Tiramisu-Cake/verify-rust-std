@@ -275,9 +275,14 @@ def execute_case(case: Path, args, env: dict) -> dict:
     else:
         decode = 125
         base.not_run(case, "decode", "exporter failed")
-    vf = base.run_stage(case, "verifast", [str(args.tool_home / "bin/verifast"),
+    vf_arguments = [str(args.tool_home / "bin/verifast"),
         "-rustc_args", "--edition 2021", "-verbose", "1", "-dump_ast_with_locs",
-        "proof-ast.ml", "verified/lib.rs"], env, combine=True,
+        "proof-ast.ml"]
+    extern_spec = case / "origin-control.rsspec"
+    if extern_spec.is_file() and extern_spec.read_bytes():
+        vf_arguments.extend(["-extern_spec", "=" + str(extern_spec.resolve())])
+    vf_arguments.append("verified/lib.rs")
+    vf = base.run_stage(case, "verifast", vf_arguments, env, combine=True,
         timeout_seconds=args.verifier_seconds)
     refinement = base.run_stage(case, "refinement", [
         str(args.tool_home / "bin/refinement-checker"), "--rustc-args", "--edition 2021",

@@ -1,4 +1,4 @@
-// verifast_options{extern_spec:=origin-control.rsspec}
+// Cloud runner supplies the exact ordinary extern specification through CLI.
 #![no_std]
 #![allow(dead_code)]
 

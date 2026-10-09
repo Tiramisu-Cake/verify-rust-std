@@ -24,7 +24,7 @@ CASES = {
     'unknown_struct_no_positivity': ('struct LayoutUnknown {}\n\n', '    //@ assert std::mem::size_of::<LayoutUnknown>() > 0; // TARGET\n', 'EXPECTED_REJECTION'),
     'unit_pointer_zero_step': ('', '    let p = 1_usize as *const ();\n    let q = p.wrapping_add(1);\n    //@ assert q as usize == p as usize; // TARGET\n', 'PASS'),
     'unit_pointer_unequal_false': ('', '    let p = 1_usize as *const ();\n    let q = p.wrapping_add(1);\n    //@ assert q as usize != p as usize; // TARGET\n', 'EXPECTED_REJECTION'),
-    'unit_local_storage': ('', '    let tmp = ManuallyDrop::new(());\n    //@ assert std::mem::size_of::<ManuallyDrop<()>>() == 0; // TARGET\n', 'PASS'),
+    'unit_local_storage': ('', '    let tmp = ManuallyDrop::new(());\n    let n = core::mem::size_of::<ManuallyDrop<()>>();\n    //@ assert n == 0; // TARGET\n', 'PASS'),
 }
 
 
@@ -86,3 +86,21 @@ def run(root, args, env, execute_case):
                'generic_runtime_extent':'OPEN', 'zst_address_separation':'NOT_CLAIMED'}
     (evidence/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     return summary
+
+
+def classify_compiler_facts(evidence: Path, source: Path):
+    """Read a saved Cloud compiler observation; no compiler/proof execution."""
+    expected = {"unit": [0, 1], "manually_drop_unit": [0, 1],
+                "u64": [8, 8], "manually_drop_u64": [8, 8],
+                "unit_array_stride": 0, "u64_array_stride": 8,
+                "classification": "COMPILER_FACT_DIAGNOSTIC_NOT_PROOF"}
+    observed = json.loads((evidence / "compiler-layout.json").read_text())
+    valid = (observed == expected and
+             hashlib.sha256((evidence / "compiler-layout.rs").read_bytes()).digest() ==
+             hashlib.sha256(source.read_bytes()).digest() and
+             (evidence / "compiler-layout-compile-exit-code.txt").read_text().strip() == "0" and
+             (evidence / "compiler-layout-run-exit-code.txt").read_text().strip() == "0" and
+             not re.search(r"\berror:", (evidence / "compiler-layout-compile.log").read_text(), re.I) and
+             not (evidence / "compiler-layout-run.log").read_text().strip())
+    return {"valid": bool(valid), "observed": observed, "accepted": False,
+            "classification": "COMPILER_FACT_DIAGNOSTIC_NOT_PROOF"}
