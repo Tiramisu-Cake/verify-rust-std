@@ -5924,3 +5924,22 @@ preparedghostsource hash for separate origin-component admission. Ghostodd card
 movesALLpriorassertions/checks into bodychecked helper with both feasiblepositions;
 actualcaller derivesleft==src, allcurrentowners/posts/sourceidentity preserved.
 No executable localextractor/proof/tests; staticAST/JSON/bash-n/diffchecks only.
+
+Liveness card correction after pinned source review: readonly decode has
+BB28/30→31, but VF proof AST is from normal-decode, whose true-edge blocks are
+BB34/36→37, tests33/35, normal38. Do not mix stages or credit readonly evidence
+for normal AST. Separate draft now uses exact normal CFG and guard-relative
+source spans; null source/signature/guard pins remain failclosed until fresh
+Cloud preparation. Any CFG identity change requires reviewed explicit newpin.
+Prototype patch d799950e2037c0b1b6b1a94f2b9c5e44da3261e3d0658dd1ab772a2c15269949,
+translator b60ded76027ca641117463a5b9369a336b59de0bab6f590ba083cd82ddea0953,
+checker4e7056144a24c478ab662bbbf9dd0aeeaa9149625adea85080eb9b7d44506b0c.
+These are draft hashes/no compilation/noCloudgate/notacceptedprofile.
+
+Dispatch8a60b6aa-0c8f-4b7b-bf29-7902192e06da proof+infra
+440a2dac7225027570d6b98a2d511604ed6b937a; config
+f78a5b252170dcfa580bc191b3bb2ab72ab2d221fe9bdefe1d76eb5b60583390; token
+dispatch-cc8d02e533f945d8873b75809ff8f771. Commonclient first refusedwhileforeign
+293435cf working, then read-only terminalFAILURE reconciled exactID andgaveownslot.
+Drop2/nativefix2/sourceprep2/smoke, own4250charged6550remaining1800reserved.
+Separate liveness prototype NOTselected/inactive inthisBuild; sixpatchunchanged.

@@ -2,7 +2,11 @@
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4250/10800 elapsed
 Cloud seconds**, remaining **6550**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Latest resource Build
+Branch `overnight/merge-26.10`; active own Build **8a60b6aa-0c8f-4b7b-bf29-7902192e06da**,
+proof/infra440a2dac7225027570d6b98a2d511604ed6b937a, seven Drop/native/preparation
+groups, timeout1740+queue60; config
+f78a5b252170dcfa580bc191b3bb2ab72ab2d221fe9bdefe1d76eb5b60583390.
+Latest resource Build
 **a3553e9e-c9f6-431d-9175-8969b3adf2c3**, proof/infra
 777d5e9f1e6270f3aa4fc4027f605124bd0785de,333s/SUCCESScollector;
 03:59:48.790–04:05:21.070 UTC. Config
