@@ -5368,3 +5368,30 @@ classifier replacement markers rechecked. No overlay/runner executed on VPS.
 Criteria: fresh Cloud overlay must complete and publish all13hash-bound diffs;
 then unchanged matrix gates determine proof statuses separately. Any remaining
 missing marker remains fail-closed setup INCONCLUSIVE, never proof-negative.
+
+Fresh full merge dispatch: proof/infra69adf2f624ff323b077d6b22846567b4368311fe,
+Build be12e7b2-e674-49c8-bce2-d0a8c68d9c1d, token dispatch-dbb9e4f760744954a8cc4d85309add16.
+ConfigSHA2616a67bbd68ec292822a97fe9546b910b17ab92050392a47e7ef488cc50cd8c;
+source bundleSHA1c472948212eebeeb5d8c4e7f5908be6bec4c454450dc8e85d2454f24ac3c515.
+Same37matrix groups +separate saved runtime probe, timeout1740/queue60,
+common lock after foreign terminal reconciliation. Only provider literal changed;
+new proof evidence required. Own95charged/10705remaining;1800 envelope reserved.
+
+Prepared independent cleanup recovery-site control card (NOT in current recipe):
+problem: fixed borrow-prefix whitelist does not alone test the recover_shape
+refusal at a locally typed predicate. Rule under test is existing exact recovery
+whitelist, unchanged cleanup/kernel pin. New isolated fixture keeps an ordinary
+full normal/unwind positive and matched negative; only negative recovery
+T.full_borrow_content argument changes to <&'cmp T>.full_borrow_content.
+Trusted premises: exact admitted callback protocol/physical k/current source
+owners and current F ownership, stock primitive contracts, explicit conditional
+experimental kernel. Domain: supported generic two-reference callback protocol,
+no arbitrary heap-term kernel acceptance, caller/resource bridge or destination
+frame theorem. Positive needs all source/refinement/body/normal/unwind/leak/dead
+checks. Negative expects recover_shape frontend refusal text Unsupported callback
+loan cleanup command sequence, zero body entry; location remains UNCALIBRATED.
+The TARGET-only calibration metadata cannot count as an intended proof-negative.
+Self-review: normal/unwind current values preserved, no synthetic permission,
+extra owner, initial snapshot, weak post or new semantic rule. Static pair
+comparison finds the single ghost type argument difference. Draft source only;
+future fresh Cloud calibration and exact oracle are required before gate credit.

@@ -1,12 +1,17 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / PROVIDER REPAIR
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / FRESH CLOUD MATRIX ACTIVE
 
 Window **2026-10-09 08:00UTC /11:00MSK**, own budget **95/10800 elapsed Cloud s**
 charged; remaining10705s. Historical accounts below preserved.
 Branch `overnight/merge-26.10`; exact proof/infra SHA
-`aa8dce14aca4b03701bddd6fc99cb5e01eafee9e`.
+`69adf2f624ff323b077d6b22846567b4368311fe`.
+Active Build **be12e7b2-e674-49c8-bce2-d0a8c68d9c1d**, WORKING;
+created01:28:54.028UTC, timeout1740s +queue60 envelope1800 reserved.
+ConfigSHA2616a67bbd68ec292822a97fe9546b910b17ab92050392a47e7ef488cc50cd8c.
+Same full37groups and separate runtime probe; provider-only guard repair.
 Last own Build **d5496348-be44-4223-8cbe-9304427cceed**, FAILURE;
 configSHA8a923649138eaeb6ebe5ff6ba8a298cd6636659a8c5d0c07afe7a4b3e0b5fa3d.
-01:16:42.230–01:18:16.379UTC,95s including setup/upload. No active own build.
+Proof/infra aa8dce14aca4b03701bddd6fc99cb5e01eafee9e,
+01:16:42.230–01:18:16.379UTC,95s including setup/upload.
 Common atomic lock/independent account retained; no other merge submission.
 Own ledger [cloud-build/night-merge/BUDGET.json](cloud-build/night-merge/BUDGET.json).
 [Current phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
@@ -29,9 +34,11 @@ transfer remain OPEN. Runtime SmallSort blob40939f9 and six patches unchanged.
 First pre-submit1e9ab refused transport size before reservation/Build, charged0.
 Shared transport ea9e68fc/controlc433 imported without foreign proofs/STATUS/
 budget; all exact inputs retained. Accepted A/B/C migration not repeated.
-Next permitted action: repair the provider-only exact guard substitutions,
-review all retained guard forms statically, commit/push and request a fresh
-exact-SHA full matrix through the common lock. No local proof/build or Actions
+Independent isolated cleanup recovery hidden-type pair saved at5d383a21,
+UNCALIBRATED/NOT_IN_RECIPE; it tests existing frontend refusal, not kernel
+soundness. Next permitted action: monitor exact active Build, download/verify
+current full metadata/archive/text evidence, classify each candidate and iterate
+within own remaining budget/common lock. No local proof/build or Actions
 dispatch. The accepted migration lanes will not be repeated.
 
 ---
