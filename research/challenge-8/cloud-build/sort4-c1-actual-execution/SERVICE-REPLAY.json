@@ -1,0 +1,72 @@
+{
+  "archive_sha256": "bc500a145dd09f8e70ffc382f9a5fb58ff71b4bd22558788ce1ff7d730ca6859",
+  "compiler_verifier_extractor_execution": false,
+  "false_post_cases": {
+    "normal-false": {
+      "actual_callee_trace_entries": 0,
+      "actual_target_trace_entries": 1,
+      "callee_before_target": null,
+      "classification": "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(9,58-63): error: Cannot prove condition. (Cannot prove false.)",
+      "first_error_source_line": 9
+    },
+    "unwind-false": {
+      "actual_callee_trace_entries": 1,
+      "actual_target_trace_entries": 1,
+      "callee_before_target": true,
+      "classification": "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
+      "first_error": "verified/lib.rs(17,49-54): error: Cannot prove condition. (Cannot prove false.)",
+      "first_error_source_line": 17
+    }
+  },
+  "impSpan_normalization_tests": {
+    "coordinate_only_change_normalized": true,
+    "non_target_raw_change_preserved": true,
+    "real_full_mir_matches_after_coordinate_and_target_post_normalization": true,
+    "semantic_field_change_preserved": true,
+    "tag_change_preserved": true
+  },
+  "kind": "AUDIT_ONLY_SAVED_RAW_CLASSIFIER_PARSER_REPLAY",
+  "new_proof_execution": false,
+  "relocation": {
+    "checks": {
+      "ast_six_removed_one_inserted": true,
+      "baseline_boundary": true,
+      "complete_target_mir_pins": true,
+      "diagnostic_outcome": true,
+      "direct_unwind_continue": true,
+      "exact_source_pair": true,
+      "relocated_proof_entry": true,
+      "support": true,
+      "translated_ids_patch_pin": true
+    },
+    "classification": "FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY",
+    "diagnostic_match_field_present": false,
+    "equal_to_saved_classifier_audit": true
+  },
+  "saved_build_id": "4fa47604-3792-4533-88da-1e4ae7d52a23",
+  "saved_infra_proof_sha": "12ceb64996156f2a07c60987e59d388f687b8791",
+  "sha256": {
+    "capture_parser": "01422a459e82a29dd962e28e2b0984cb073efff5886d32cc1884d7b5895e7f34",
+    "false_post_auditor": "4acfac4d589f713605bb09f8c3dcd503225f863a3024298dacd3a37cfee10d87",
+    "false_post_prepare": "e3ce4a7e40f6e7fb937cc309811fab14b0e479a28e51e22f8f0ff8c01093d88f",
+    "normal-false_capture_result": "1b9615746c935cbe03cd7ceec86fb8be2d4cd85c59b0b5e70acad8114195b48e",
+    "relocation_auditor": "d0bb96dcf227a59da999bf6dfb64b751e957124ad81f94db159d389aca6d13e0",
+    "saved_normal_false_log": "906e08062c558f26d53367535e760bbc28af9eb59aa9fa523df301d48f0071ea",
+    "saved_normal_mir": "7292c515cb7359c7ef2f1a14c3c3897b18c9ee7ea270f76886e73c397c69e1b2",
+    "saved_normal_readonly_mir": "e11143ecee8f5240f259b1d33925d0f26a1b3e209863a692a03c44d793a02c17",
+    "saved_relocation_audit": "382503eeba9d99d30bdb8f26eddd865b7896572ab0939b8e3f07e7e0b36524df",
+    "saved_source_audit": "91cc069d0930c321ac5f9edb638746326c9c8e303d31534878b787479612d94c",
+    "saved_unwind_false_log": "e418ff8a56e5e0cddfa7b6d9153cbcc57bb85aaf61fa584d0300fcc4950e31ae",
+    "saved_unwind_mir": "19c6bc3c6e01227dbbb1b05e1ffb735d6b66e193deae5d0d94b0d7bfd4ff4a70",
+    "saved_unwind_readonly_mir": "6c856d2880c1b57a442533c6546cd5ec6634c169cc353d148e6cb00c15270c40",
+    "unwind-false_capture_result": "214dc13d4a7189a1554533fa6f4e4b0f3fa30aa12681845d1836ae7fe4c5e513"
+  },
+  "timestamp_entry_tests": {
+    "duplicate_callee_rejected": true,
+    "missing_callee_rejected": true,
+    "note_echo_ignored": true,
+    "real_helper_before_target": true,
+    "reversed_callee_rejected": true
+  }
+}

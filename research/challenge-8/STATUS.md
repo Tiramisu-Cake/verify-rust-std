@@ -1,3 +1,14 @@
+# Current phase: SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09 — IN PROGRESS
+
+Direct owner continuation; [phase](cloud-build/sort4-c1-actual-execution/PHASE.md),
+[separate ledger](cloud-build/sort4-c1-actual-execution/BUDGET.json).
+Start16:52:10UTC; main17:52:10; absolute18:22:10. New3600s; old2540 closed.
+Exact actual c1 admission/normal/direct-unwind recovery initially NOT_RUN.
+Corrected audit service chain first; no c2/selector; experimental profile unchanged.
+Policy d389ff64 read, own remote=clean7fa5da3a after fetch; prior checkpoints preserved.
+
+# Historical closed checkpoint follows
+
 # Current phase: SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Checkpoint](cloud-build/sort4-c1-current-recovery/END-CHECKPOINT-2026-10-09.md), [phase/card](cloud-build/sort4-c1-current-recovery/PHASE.md), [ledger](cloud-build/sort4-c1-current-recovery/BUDGET.json), [result](cloud-build/sort4-c1-current-recovery/FINAL-TEST-RESULT.json). Own isolatedselect worktree/branch; ownerselect-sort4; policy d389ff64. Start15:08:25UTC, main16:08:25, absolute16:38:25; aftermain onlyevidence/replay/checkpoint.

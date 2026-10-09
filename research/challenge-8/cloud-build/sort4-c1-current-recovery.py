@@ -264,6 +264,7 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
     capture = a.proof_root / "research/challenge-8/overnight-lifetime/capture.py"
     capture_module = module(capture, "c1_strict_capture")
     rows = {}
+    false_audit = module(a.cloud_dir / "strict-cut-false-posts-audit.py", "c1_false_audit")
     env = env.copy()
     env["SMALLSORT_CLOUD_PROVIDER_PATH"] = str(a.cloud_dir / "provider.py")
     env["LD_LIBRARY_PATH"] = f"{a.compiler_sysroot}/lib:{tool}/bin:" + env.get("LD_LIBRARY_PATH", "")
@@ -277,6 +278,7 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
         need(stage(a, f"controls/capture-{key}", command, env=env, cap=260) == 0,
              f"strict control {key} setup/proof inconclusive")
         row = read(path / key / "result.json")
+        record(path / "raw-case-result.json", row)
         expected = ("POSITIVE_CANDIDATE_REVIEW_REQUIRED" if key.startswith("positive_")
                     else "INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED")
         need(row.get("classification") == expected and
@@ -287,11 +289,11 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
         proof_log = (path / key / "full-verification.log").read_text(errors="replace")
         proof_exit = row["stages"]["full-verification"]["exit"]
         if key == "positive_direct_unwind":
-            callee_header = "Verifying function 'cut_maybe_unwind'"
             target_header = "Verifying function 'positive_direct_unwind'"
-            need(proof_log.count(callee_header) == 1 and
-                 proof_log.count(target_header) == 1 and
-                 proof_log.index(callee_header) < proof_log.index(target_header),
+            callee_entries = false_audit.proof_entries(proof_log, "cut_maybe_unwind")
+            target_entries = false_audit.proof_entries(proof_log, "positive_direct_unwind")
+            need(len(callee_entries) == len(target_entries) == 1 and
+                 callee_entries[0] < target_entries[0],
                  "direct unwind callee proof must precede target proof")
         if key.startswith("negative_"):
             target_header = "Verifying function '" + key + "'"
@@ -315,6 +317,7 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
                      "first_error": (row.get("full_error_lines") or [None])[0],
                      "source_hashes": row.get("source_hashes"),
                      "stage_exits": {k: v.get("exit") for k, v in row.get("stages", {}).items()}}
+        record(path / "gate-result.json", {"gate_passed": True, **rows[key]})
     false = a.evidence / "false-posts"
     false.mkdir()
     prepare = module(a.cloud_dir / "strict-cut-false-posts-prepare.py", "c1_false_prepare")
@@ -329,11 +332,11 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
                    "--deadline-epoch", str(a.deadline_epoch)]
         need(stage(a, f"false-posts/capture-{key}", command, env=env, cap=340) == 0,
              f"false post {key} capture failed")
-    false_audit = module(a.cloud_dir / "strict-cut-false-posts-audit.py", "c1_false_audit")
     ns = SimpleNamespace(controls_evidence=controls, evidence=false)
     false_rows = {}
     for key in FALSE_POSTS:
         row = false_audit.audit_case(ns, key, capture_module, prepare)
+        record(false / "cases" / key / "audit-result.json", row)
         need(row["classification"] == "FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED",
              f"{key}: first false post obligation changed")
         false_rows[key] = row
@@ -366,6 +369,9 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     off_log = (a.evidence / "actual-off.log").read_text(errors="replace")
     off_errors = [s for s in off_log.splitlines()
                   if ": error:" in s or s.startswith("Fatal error:")]
+    record(a.evidence / "actual-off-result.json", {
+        "exit": off_code, "errors": off_errors, "raw_log": "actual-off.log",
+        "kind": "admission_control_only_not_resource_negative"})
     need(off_code in (1, 2) and len(off_errors) == 1 and
          "Strict lifetime binding requires explicit overnight opt-in" in off_errors[0] and
          "SORT4-ACTUAL-AST-SCOPE-TEST admitted" not in off_log,
@@ -375,6 +381,9 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     on["SORT4_STRICT_LFT_CUT"] = "1"
     on_code = stage(a, "actual-on", verifier, cwd=fixture, env=on, cap=850)
     on_log = (a.evidence / "actual-on.log").read_text(errors="replace")
+    record(a.evidence / "actual-on-raw-result.json", {
+        "exit": on_code, "raw_log": "actual-on.log", "source_hashes": list(before),
+        "proof_verdict": "PENDING_SEPARATE_AUDIT"})
     admitted = re.findall(
         r"SORT4-ACTUAL-AST-SCOPE-TEST admitted source=([0-9a-f]{64}) "
         r"pre_ast=([0-9a-f]{64}) post_ast=([0-9a-f]{64}) "
@@ -386,11 +395,28 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     marker_absent = not any("No such function: __vf_sort4_first_unwind" in s
                             for s in errors)
     target = "Verifying function 'sort4_stable'"
-    entered = target in on_log
-    complete = (admitted_ok and marker_absent and entered and on_code == 0 and
+    proof_parser = module(a.cloud_dir / "strict-cut-false-posts-audit.py", "c1_actual_entries")
+    caller_entries = proof_parser.proof_entries(on_log, "sort4_stable")
+    entered = len(caller_entries) == 1
+    helper_rows = {}
+    for name in ("recover_pair", "join_four_owned_cells"):
+        entries = proof_parser.proof_entries(on_log, name)
+        before_caller = entered and len(entries) == 1 and entries[0] < caller_entries[0]
+        segment = on_log[entries[0]:caller_entries[0]] if before_caller else ""
+        helper_rows[name] = {"entries": len(entries), "before_caller": before_caller,
+                             "return_seen": "Executing return statement" in segment,
+                             "leak_seen": "Leak check." in segment,
+                             "error_absent": ": error:" not in segment}
+    helpers_ok = all(row["before_caller"] and row["return_seen"] and
+                     row["leak_seen"] and row["error_absent"] for row in helper_rows.values())
+    record(a.evidence / "same-unit-callee-gate.json", {
+        "gate_passed": helpers_ok, "proof_sha": os.environ["PROOF_SHA"],
+        "source_sha256": before[0], "actual_on_log_sha256": sha(a.evidence / "actual-on.log"),
+        "helpers": helper_rows})
+    complete = (helpers_ok and admitted_ok and marker_absent and entered and on_code == 0 and
                 not errors and "Leak check." in on_log and
                 re.search(r"0 errors found \(\d+ statements verified\)", on_log) is not None)
-    substantive = (admitted_ok and marker_absent and entered and
+    substantive = (helpers_ok and admitted_ok and marker_absent and entered and
                    on_code in (1, 2) and bool(errors) and
                    errors[0].startswith("verified/lib.rs(") and
                    on_log.index(target) < on_log.index(errors[0]))
@@ -409,6 +435,7 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         "normal_and_unwind_path_independently_proved": False,
         "actual_on_exit": on_code, "first_error": errors[0] if errors else None,
         "off_first_error": off_errors[0], "admission_hashes": admitted[0] if admitted else None,
+        "same_unit_recovery_callees_verified_before_caller": helpers_ok,
         "target_header_seen": entered, "reserved_handler_refusal_absent": marker_absent,
         "raw_log_paths": {"off": "actual-off.log", "on": "actual-on.log"},
         "raw_observations_not_path_proofs": {
@@ -428,6 +455,7 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         "open_gates": ["actual c2 through c5 and select/copy calls", "full destination initialization",
                        "unrestricted generic/ZST", "all-path liveness and alias/escape mutations",
                        "pointer provenance, ownership, no-cut/S6 integration", "functional composition"]}
+    record(a.evidence / "actual-on-result.json", result)
     record(a.evidence / "diagnostic-audit.json", result)
     return result
 
@@ -452,7 +480,15 @@ def main() -> None:
         base, patch, old = setup(a, env)
         fixture = baseline(a, env)
         tool = build_overlay(a, base, patch, old, env)
-        strict_controls(a, tool, env)
+        controls = strict_controls(a, tool, env)
+        need(set(controls["controls"]) == set(CONTROLS) and
+             set(controls["false_posts"]) == set(FALSE_POSTS),
+             "explicit prerequisite gate set incomplete")
+        record(a.evidence / "actual-admission-prerequisites.json", {
+            "gates_passed": True, "controls_check_sha256": sha(a.evidence / "controls-check.json"),
+            "baseline_check_sha256": sha(a.evidence / "baseline-check.json"),
+            "tool_snapshot_sha256": sha(a.evidence / "c1-tool-snapshot.json"),
+            "reuse_saved_controls": False, "actual_started_only_after_gates": True})
         result = actual(a, fixture, tool, env)
         need(snapshot(a, base) == old and
              git(a.production_source, "diff", "--binary", "HEAD") ==
@@ -462,7 +498,11 @@ def main() -> None:
                           "first_error": result["first_error"]}, sort_keys=True), flush=True)
     except Exception as exc:
         if a.evidence.is_dir():
-            record(a.evidence / "diagnostic-audit.json", {
+            record(a.evidence / "collector-error.json", {
+                "classification": "AUDIT_OR_STAGE_ERROR_NOT_PROOF_VERDICT",
+                "reason": str(exc), "existing_actual_results_preserved": True})
+            if not (a.evidence / "diagnostic-audit.json").exists():
+                record(a.evidence / "diagnostic-audit.json", {
                 "classification": "INCONCLUSIVE_SETUP_OR_GATE",
                 "reason": str(exc), "accepted": False, "diagnostic_complete": False,
                 "actual_sort4_proved": False,

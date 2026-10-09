@@ -6376,3 +6376,10 @@ Second c1 Build3221200b, infra=proof337ea6a5, FAILURE335s; archive400693a2 integ
 Thirdc1 Build4fa47604-3792-4533-88da-1e4ae7d52a23 infra=proof12ceb64996156f2a07c60987e59d388f687b8791 FAILURE354s; archivebc500a145dd09f8e70ffc382f9a5fb58ff71b4bd22558788ce1ff7d730ca6859/index6f23895b integrityverified. Exactpatchcompiledtranslator26eb4a73/frozenkernel37ed2550. Freshselectedisolatedscopepositives0; directunwindhelperbeforecaller+2targetreturn/free/leak checks. Typedlive/missinglifetime resource negatives intended; wrong/duplicate marker negatives frontendonly. Bothfalseposts rawintendedfail; aggregateauditmissingimpSpancoordinate normalization and note-vs-trace header distinction. Savedreplay separatefromoriginalCloudFAILURE; actualoff/on/c1normal/c1directunwind NOT_RUN. After60min no newbuild; ledgerclosed1060/3600+2540unused, ownterminal3/reconciled/readywithdrawn/reservations0. Checkpointsort4-c1-current-recovery/END-CHECKPOINT-2026-10-09.md.
 
 Completion-only saved4fa falsepostreplay: normalizeonlyline/pos insideimpSpan asspan; parse timestampedproofentries separatelyfromnotes, exactsource/rawcontract/fullgraph/refinement checksretained. Bothnormal9false anddirectunwind17false intendedfirstpostsconfirmed, helperbeforecaller; four parsernegativeschecked. OriginalCloudFAILURE/rawsavedcaptures unchanged; actualc1normal/directunwind stillNOT_RUN. FALSE-POST-SAVED-RAW-REPLAY.json recordsfullrawhashesandtool/sourcepins. No freshproof after60min.
+
+
+## 2026-10-09 16:52:10UTC — exact actual c1 execution authorized
+
+Separate SORT4-C1-ACTUAL-EXECUTION account3600s, main17:52:10/absolute18:22:10.
+Experiment card/rationale/domain/posts/decision gates: cloud-build/sort4-c1-actual-execution/PHASE.md.
+Old7fa5da3a/d707d79e and exact select e2b24967 preserved. Service replay is not new proof.

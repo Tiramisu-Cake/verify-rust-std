@@ -30,6 +30,10 @@ C1_START='2026-10-09T15:08:25Z'
 C1_MAIN_DEADLINE='2026-10-09T16:08:25Z'
 C1_DEADLINE='2026-10-09T16:38:25Z'
 C1_LANES=frozenset(('o26-sort4-c1-current-recovery',))
+C1_ACTUAL_PHASE='SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09'
+C1_ACTUAL_START='2026-10-09T16:52:10Z'
+C1_ACTUAL_MAIN_DEADLINE='2026-10-09T17:52:10Z'
+C1_ACTUAL_DEADLINE='2026-10-09T18:22:10Z'
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -245,11 +249,12 @@ def authorized_phase(a,ledger):
  if a.phase_id==DAY_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4'):raise SystemExit('Day select phase requires its separate 3600-second account and owner')
  if not isinstance(ledger.get('allowed_lanes'),list):raise SystemExit('Phase account needs an explicit lane allowlist')
  if a.phase_id==C1_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_START or ledger.get('main_deadline_utc')!=C1_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_DEADLINE):raise SystemExit('C1 phase requires its exact separate account, owner, window and lane')
+ if a.phase_id==C1_ACTUAL_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_ACTUAL_START or ledger.get('main_deadline_utc')!=C1_ACTUAL_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_ACTUAL_DEADLINE):raise SystemExit('Actual C1 phase requires its exact separate account, owner, window and lane')
  if a.phase_id==AFTERNOON_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=AFTERNOON_LANES):raise SystemExit('Afternoon select phase requires its separate 3600-second account, exact owner and approved lanes')
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
@@ -323,6 +328,7 @@ def run_command(a,state,ledger,ledger_path):
   if not LANE_PATTERN.fullmatch(a.lane):raise SystemExit('Invalid lane name')
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
+  if a.phase_id==C1_ACTUAL_PHASE and now>=datetime.datetime.fromisoformat(C1_ACTUAL_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Actual C1 main window ended; no new experiment')
   if now+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Timeout plus queue reserve exceeds phase deadline')
   coordination.request(a.owner,a.phase_id,ledger_path,ledger['deadline_utc'])
   # Requests are informational. One slot per owner provides isolation without
