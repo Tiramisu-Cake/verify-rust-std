@@ -1,3 +1,16 @@
+## Modular G2 Cloud positive — cf07b549 / c06d6841
+
+Full12coordinate pointer-trace projection PASS:17checked bodies,414statements,
+36return/40leak, all export/decode/VF/refinement gates0/no error/dead/source change.
+Current matched modular entry first-body false target669cols16–21 is observed,
+but UNCALIBRATED until a NEW exact-oracle run. No actual std body, permission,
+callback effects/ownership/functional sorting theorem follows from this projection.
+Quartet timeout124 is preserved; typed reverse destination bound progresses.
+Actual len23 timeout124 reaches C1copy/final guard but main remains5return/6leak;
+checked alias lemma improves local association only. Same-input stack/panic
+admission and actual up/down fullconditional gates pass; math G2/A/B gates pass
+with their separate premises. Experimental kernel trust remains unaccepted.
+
 ## Fresh Cloud transfer checkpoint — 2026-10-09
 
 Build be12e7b2-e674-49c8-bce2-d0a8c68d9c1d / proof69adf2f624ff323b077d6b22846567b4368311fe.

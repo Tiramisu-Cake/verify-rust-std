@@ -5582,3 +5582,59 @@ Positive stock result establishes only the explicit current-equality resource
 component, independent of experimental lifetime-exit rule. Caller/F/copy-count-n/
 cleanup/current-value bridge and full actual theorem stay OPEN. New selection
 has9groups including separate stock handoff, each with its own artifacts/logs.
+
+cf07b549 result: SUCCESS collector, create02:11:38.526072064Z to
+finish02:32:23.014986Z,1245elapsed seconds. Own2433/10800,remaining8367.
+Full metadata/archive/separate text chunks verified by common client; archiveSHA
+d54b4168cc4a1c7074ed8947fa1172628b7b916a6af6cccecdcd3cc2e8b1c522.
+Source bundleSHA4c66156b91c7374393036d9b7153e903bc5a413e27c090ca5402d4829f635b23.
+All16selected groups/artifacts exact; diagnostic_complete=true,
+classificationPARTIAL_DIAGNOSTIC, accepted=false. NOT_RUN rows exact, no invented
+exit statuses. Tool/source/semantic sixpatch/std pins unchanged.
+
+Modular G2 isolated positive PASS: stagesexport/decode/VF/refinement0/0/0/0,
+all17declared bodies (16helpers+main) checked,414statements,36return/40leak
+(main6/6), no error/dead, original/verified/source hashes stable. Full12leaf
+coordinates retained:8pointers,2counts,odd-left and residual-guard relations.
+FixtureSHA0a87864c27c814b9db8d48d5b4573f0bd058e81f9bbfea77be9967948562b272;
+VF230.85wall seconds. This is the handwritten pointer-trace projection under
+explicit positive-size/bounds and existing trusted W1 profile, no actual Rust
+merge permission/ownership/callback/unwind theorem. Matched modular entry first
+body executes once then Cannot prove false at verified/lib.rs669cols16–21,
+stages0/0/1/0,all16helper bodies checked. Status remains INCONCLUSIVE because
+oracle was absent; exact classifier-only calibration requires a NEW run.
+
+Quartet: stages0/0/124/0, no failed predicate/dead record, all14helpers checked,
+493main statements,6mainreturn/8leak, VF300s timeout at reverse wrapping step
+verified/lib.rs557–558. Typed ordinary dst_rev-1 assertion no longer rejects;
+no full inlined trace proof. No identical quartet timeout rerun planned; modular
+already preserves the full trace relations. Quartet entry control stays accepted
+under its predeclared exact false oracle. Fresh math G2/A/B compatibility all
+positive/negative/source/classifier gates passed after provider hash-chain repair;
+ordering needs SWO/immutable-key/faithful-answer premises separately from safety.
+
+Actual len23: stages0/0/124/0,234main executions vs204previous, but same5return/
+6leak completed records. Checked alias lemma1body/1return/1leak; fixture totals
+21return/23leak are +1 solely from that lemma. C1copy at505 and final guard513
+are reached; no assertion/dead errors. Late guard/post-resource consumption
+retries at517 remain computationally unresolved; no actual full theorem or
+confirmed false VC. Same-source up/down fullconditionalPASS116/120executions,
+3return/3leak each. Strengthened same-input admission again12MIR Places/27AST
+Vars,14addresses,16MIR+17AST controls,roles34/35/53/65. New sourcehash1e43b90d3b6e9238c8410ffdc39f861cb361e23855e96b8f13ff8d6a1721a4eb,
+MIR8ab9ae0be3df3b3f56efc3b89115ff5115d1d4a869d2b64415a3ca123554c008,
+decoded293d8e04958a0fe4dd3ad2963a340d30c214116ebc74e95804befcec41570a3d,
+proofAST28d294411c6b299dde8514371bdc4e800aa946eaf7384ab67c6795a6356cbf52
+pinned certificate; final panic origin linked3records.
+Current experimental kernel soundness still unaccepted; generic/ZST/caller Fframe,
+Freeze/share/current-copy values and ownership transfer remain OPEN.
+
+Next modular control card (classifier calibration only): insert exact EXPECT_ERROR
+stageverifast/predicatefalse/lineTARGET/columns16–21 into matchedentry source,
+using cf07 observed first-body target with full helpers and source/refinement.
+No runtime/ghostpost/helper change; lineTARGET recalculates after metadata line.
+Run new positive+matchednegative together with next9group resource recipe
+(11total), retaining all current posts/12coordinates and internal classifier
+controls. Expected intended false only at that exact target; frontend/setup/
+helper/timeout/other predicate failures remainINCONCLUSIVE. Fresh PASS allows
+component-control acceptance only, not wholeprofile/actual Challenge. Foreign
+6c560082 occupies common slot; next own request remains ready and alternates.

@@ -1,69 +1,62 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / NEXT TARGETED CHECK PREPARING
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / MODULAR G2 POSITIVE PASS
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **1188/10800 elapsed
-Cloud seconds**, remaining **9612**. Historical accounts below are unchanged.
-Branch `overnight/merge-26.10`; active own Build
-**cf07b549-3df4-4c92-8454-9dfdfb48982a**, proof/infra
-**c06d684186e394a2ef21d078f37289208a1022db**,16targeted groups.
-Timeout1740s +queue60 envelope1800 reserved through the common coordinator.
-Config SHA6eb3b218cab8a928f49c0728dd4c14e5ff3ef9ed26425d41712adc693152cef8.
-[Current phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
-[commands](merge/cloud-build/README.md),
-[ledger](cloud-build/night-merge/BUDGET.json).
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **2433/10800 elapsed
+Cloud seconds**, remaining **8367**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Foreign6c560082 owns the
+common slot; next11group resource/modular-control recipe ready, obey alternation.
+[Phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
+[commands](merge/cloud-build/README.md), [ledger](cloud-build/night-merge/BUDGET.json).
 
-Latest proof/infra `69adf2f624ff323b077d6b22846567b4368311fe`, Build
-**be12e7b2-e674-49c8-bce2-d0a8c68d9c1d**, FAILURE,
-01:28:54.028–01:47:06.052 UTC,1093s. Config SHA
-2616a67bbd68ec292822a97fe9546b910b17ab92050392a47e7ef488cc50cd8c.
-Full archive **and separate text logs** verified; archive SHA
-7734552ad79c4f413ecf73b10e5de1e5d67987587d9738f37b1bb5373244a950.
-Published evidence: `gs://smallsort-ci-evidence-504462351565/cloud-build/be12e7b2-e674-49c8-bce2-d0a8c68d9c1d/`.
-All37groups/runtime probe collected; package evidence_complete=true, but
-run_exit1, diagnostic_complete=false and accepted=false. Collector completion
-is not theorem PASS. First provider-overlay setup failure d5496348 cost95s;
-its evidence and the0s pre-submit refusal remain in EXPERIMENT-LOG/ledger.
+Latest Build **cf07b549-3df4-4c92-8454-9dfdfb48982a**, SUCCESS collector;
+proof/infra **c06d684186e394a2ef21d078f37289208a1022db**,
+02:11:38.526–02:32:23.014 UTC,1245s. Config SHA
+6eb3b218cab8a928f49c0728dd4c14e5ff3ef9ed26425d41712adc693152cef8.
+All16selected groups and full metadata/archive/separate text logs verified;
+archive SHA d54b4168cc4a1c7074ed8947fa1172628b7b916a6af6cccecdcd3cc2e8b1c522.
+`diagnostic_complete=true`, PARTIAL_DIAGNOSTIC, **accepted=false**.
+Evidence `gs://smallsort-ci-evidence-504462351565/cloud-build/cf07b549-3df4-4c92-8454-9dfdfb48982a/`.
+Previous be12 full37matrix1093s and d549 setup failure95s remain in log/ledger;
+pre-submit0s refusal and every historical failure retained.
 
-Fresh findings, conditional on the unchanged experimental merge profile:
+* Modular G2 isolated positive **PASS**, stages0/0/0/0,all17bodies checked,
+  414statements,36return/40leak (main6/6). All12coordinates/posts preserved;
+  positive stride/pointer bounds/trusted W1 domain, no actual merge resources.
+  Matched entry rejected exactly at669cols16–21 Cannot prove false, but remains
+  INCONCLUSIVE until fresh predeclared oracle run. No whole profile acceptance.
+* Quartet **INCONCLUSIVE timeout124**,493main statements,6return/8leak;
+  reverse destination typed bound progresses, last reverse wrapping step557–558,
+  no failed predicate/dead records. Modular closes same12relations; no identical
+  inlined timeout rerun or unsupported Z3 backend retry.
+* Actual up/down full conditional gates PASS again,116/120executions,
+  3return/3leak each. Actual len2/3 **INCONCLUSIVE timeout124**:234main records,
+  same5return/6leak. Alias lemma checked1/1/1; C1copy and final guard reached.
+  Remaining slow post/resource retries need localization/time-limit diagnostic,
+  not another assumed pointer association or weakened target post.
+* Strengthened same-input stack gates pass12MIR Places/27AST Vars/14addresses,
+  16MIR+17AST controls; scalar input-copy linkage/pinned final panic origin pass.
+  These admissions are separate from the actual full body theorem.
+* Fresh mathematical G2/A/B compatibility source/positive/negative gates PASS;
+  SWO/immutable-key/faithful normal answers remain separate sorting premises.
+  M2/cleanup/HRTB/resource/runtime statuses from be12 retain their exact limits.
 
-* Actual merge_up/down: all exact normal/unwind/source/export/decode/refinement/
-  body/return/leak/dead gates PASS,116/120executions,3return+3leak each. Their
-  positive-stride, distinct owned source cells and explicit C1/option-cell domain
-  is unchanged; no whole caller or Challenge claim.
-* Strengthened stack admission: actual call operands, ordered def-use and hidden
-  role discovery pass same-input normal MIR/proof AST checks,14addresses,
-  16MIR+17AST refusal controls. Scalar-copy input linkage is admitted. Final
-  pinned panic-origin certificate links3execution records. These are admission
-  gates, not a proof of the full actual body or a general address/permission rule.
-* Actual bidirectional len2/3: VF timeout124 after204main executions,
-  5return/6leak; export/decode/refinement0. Odd-source association and a C1copy
-  path reached. Full normal/unwind/guard/return/leak theorem remains OPEN.
-* G2 quartet: all14helper bodies checked; main reaches405executions but fails
-  a typed pointer_within_limits assertion at verified/lib.rs555cols42–67,
-  before reverse destination sub(1). Full-domain entry false control accepted
-  at446cols16–21. Modular adapters fail setup E0384 immutable left/right;
-  matched modular entry remains UNCALIBRATED. All12relations/posts retained.
-* G2/A/B compatibility and HRTB certificate hit remaining provider identity/
-  manifest defects; no new mathematical/certificate result. M2shape/resource
-  and cleanup exact controls pass. Kernel100eebae remains experimental/unaccepted.
-* Saved366 probe compiles/runs with pinned compiler and byte-equal actual helper:
-  captured raw destination write9 survives callback unwind. FnMut type alone
-  does not derive a destination frame. Public mutable-slice caller admissibility
-  and full F footprint/ownership derivation remain OPEN.
+New partial resources: source-pair current-owner turnover, cleanup recovery
+hidden-type refusal, identity/swap/current-array owner handoff. All Cloud UNTESTED;
+negative oracles CALIBRATION_ONLY. Native-usize array handoff requires destination
+already equal the CURRENT source list; no snapshot/Copy/share-to-own bridge.
+Exact-fixture stock probe planned independently of experimental kernel.
 
-Prepared proof-only repairs at85b5ae4c: typed full-pointer reverse bound,
-modular mutable bindings, checked existing-cell alias lemma for odd-copy.
-Isolated cleanup hidden-type and source-pair current-value turnover drafts are
-Cloud UNTESTED; signed index representability and exact negative calibration
-remain explicit. Targeted collector/provider repairs are being reviewed.
-No std runtime, semantic verifier patch or target post changed. SmallSort
-blob40939f922bcb6fdc7ee0d30427fa861827043827; six patches unchanged.
+No std runtime, algorithm/signature, semantic verifier patch or target post changed.
+SmallSort blob40939f922bcb6fdc7ee0d30427fa861827043827; six patches unchanged.
+Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
+capture and marker-origin invariant unresolved, not covered by green controls.
+Generic/ZST, arbitrary-n actual/caller/C1count-n/F-frame, Freeze/share and ownership
+transfer OPEN. Source-level alias observation is not public-caller counterexample.
 
-Next permitted action: monitor exact active cf07b549 Build and download/verify
-metadata/archive/separate text evidence. Inspect all gates/negative locations,
-then continue within own budget. No local executable verification/build/tests
-or Actions dispatch. Generic/ZST, arbitrary-n caller resources, cleanup kernel,
-Freeze/share and ownership transfer remain OPEN. Accepted migration A/B/C and
-constructor are not repeated.
+Next permitted action: commit/push calibrated modular control and prepared
+11group recipe, submit NEW exact-SHA Cloud Build via common coordinator after
+foreign turn, inspect full proofs/negative locations and continue within budget.
+No local executable verification/build/tests or Actions dispatch. Accepted
+migration A/B/C and constructor are not repeated.
 
 ---
 
