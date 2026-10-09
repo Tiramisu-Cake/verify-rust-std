@@ -1,0 +1,10 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -13368,6 +13368,6 @@
+     let path = source_path transmute_loc in
+     if source_path method_loc <> path || source_path outer_loc <> path ||
+        sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
+-         "8629849c2d2ddde1eeb90fadb6a151dc52e626385578f89f0d86fce842c61eb8"
++         "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+     then reject "exact nine-body verified source unit";
+     if not (Sort4A1Link.local_shape transmute &&

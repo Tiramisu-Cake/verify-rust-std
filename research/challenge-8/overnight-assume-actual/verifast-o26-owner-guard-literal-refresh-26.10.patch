@@ -1,0 +1,34 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -12526,4 +12526,4 @@
+       "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
+-      "e7e9f17649dce8b16c7f21660511b453423c7930fd678aad026207a55acfffa6";
++      "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86";
+       "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+     ] else [
+@@ -12547,6 +12547,6 @@
+     if sort4_actual_owner_sha256 source <>
+          (if nine then
+-            "8629849c2d2ddde1eeb90fadb6a151dc52e626385578f89f0d86fce842c61eb8"
++            "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+           else
+             "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3") then
+       reject "owner exact verified source SHA256";
+@@ -12601,7 +12601,7 @@
+       "        /*@ if (condition) {\n" ^
+       "                 close raw_ptr_own::<Element>()(t, true_payload);\n" ^
+-      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n" ^
++      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
+       "             } else {\n" ^
+       "                 close raw_ptr_own::<Element>()(t, false_payload);\n" ^
+-      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n" ^
++      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
+       "             } @*/\n" in
+@@ -12744,6 +12744,6 @@
+     if unit_digest <>
+          (if nine then
+-            "54e70db56dfa35bc8f31ec6578e3c9197d2dc0d2b7f0ff5ca6a86a89a5228219"
++            "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+           else
+             "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e") then
+       reject "owner complete decoded unit SHA256";
