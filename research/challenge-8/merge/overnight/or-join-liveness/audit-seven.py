@@ -220,6 +220,13 @@ def main() -> None:
                             isinstance(control_cases, dict) and
                             set(control_cases) == set(control_names) and
                             all(c["complete"] for c in controls.values()))
+    driver = read_json(args.evidence / "admission-controls/control-driver.json")
+    driver_status = group_status(args.evidence, "admission-controls")
+    driver_observed = (manifest_ok and driver_status == "0" and
+                       isinstance(driver, dict) and driver.get("accepted") is False and
+                       driver.get("proof_accepted") is False and
+                       driver.get("tool_homes_unchanged") is True and
+                       driver.get("classification") == "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED")
     diagnostic_complete = bool(manifest_ok and positive["complete"] and
                                calibrated["complete"] and calibration_complete)
     report = {
@@ -239,8 +246,16 @@ def main() -> None:
         "new_liveness_controls_calibration_complete": bool(calibration_complete),
         "group_status": {name: group_status(args.evidence, name) for name in
                          ("calibrated-real-dead", "uncalibrated-liveness-controls",
-                          "actual-bounded")},
-        "invalid_shape_admission_controls": "NOT_RUN",
+                          "actual-bounded", "admission-controls")},
+        "invalid_shape_admission_controls": {
+            "classification": ("OBSERVED_UNACCEPTED" if driver_observed else
+                               "NOT_RUN" if driver_status == "NOT_RUN" else "INCONCLUSIVE"),
+            "group_status": driver_status,
+            "report_sha256": safe_digest(args.evidence / "admission-controls/control-driver.json"),
+            "raw_report": driver,
+            "accepted": False,
+            "full_shape_matrix_complete": False,
+        },
         "same_source_six_component_comparison": "NOT_RUN",
         "live_panic_body_coverage": bool(positive_full),
         "notes": ["Positive/negative classifications are conditional diagnostics only.",

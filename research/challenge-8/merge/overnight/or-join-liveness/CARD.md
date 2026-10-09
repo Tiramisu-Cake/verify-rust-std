@@ -113,7 +113,7 @@ runtime code and relative source spans stay the same. Any resulting
 refusal requires a newly pinned, reviewed component revision, rather
 than relaxing the matcher in a running profile.
 
-## Separate Cloud recipe and current refusal state
+## Separate Cloud recipe and experimental trial state
 
 `build-seven.sh` copies the exact six-component source into a fresh
 `RUNNER_TEMP` home, checks the baseline translator, full six-patch diff,
@@ -151,11 +151,15 @@ when the retained harness's full gates and source/tool certificates match.
 The four new controls cannot be counted as proof negatives until their
 expected stage and location are registered from a separate Cloud run.
 
-The current `PINNED-INPUTS.json` has null exact fixture/source/harness pins
-and `admission_state=REFUSE_UNTIL_NEW_SOURCE_HASH_AND_CLOUD_CONTROLS`.
-The baseline console pin is from b34 and must be compared with the fresh
-six-component build; any difference requires a new reviewed pin. The
-current scripts therefore refuse before any seventh-profile proof run.
+The current manifest pins the exact strengthened-helper source and unchanged
+fresh six-component console from f0b1ff62 below. It permits only an explicitly
+unaccepted experimental Cloud trial. `control-driver.py` may use at most180s
+of the same900s budget after the actual proof, in a third disposable tool home.
+It round-trips the actual normal MIR and tests exactly two schema-valid shape
+mutations; positive admission and exact frontend refusals are diagnostics only.
+Production six/seven binaries, exporter, refiner and source must remain unchanged.
+See CONTROL-DRIVER-CARD.md. Budget exhaustion records NOT_RUN/INCONCLUSIVE.
+The complete refusal and same-source-six matrix remains required for acceptance.
 
 ## Cloud gates before any positive classification
 
@@ -195,3 +199,19 @@ current scripts therefore refuse before any seventh-profile proof run.
 
 No positive result is accepted on this card alone. Full logs, separate
 stage exits, proof/source/tool hashes and the exact controls are required.
+
+
+## Fresh pinned trial — f0b1ff62 source provenance only
+
+The new helper preserves the exact selected current value. Build
+f0b1ff62-bae7-4ac0-9c3e-dda341e6146a at694feb56 publishes its checked literal
+fixture/source extraction and source-only audit. Its overall FAILURE is an
+independent permutation artifact-audit defect, not a source preparation failure;
+it proves no bounded body. The source pin is accepted only as provenance:
+fixture804ca58912a35a4e34c3cac2dc563bcc154daed709477071217d90bd2de8fb47;
+verified sourcee03a0398a590fb409d892f2cfad90d2d4b2c4c15949df6feda44852a21aa7d18;
+overlaid retained harnessec82511289297f898c4b2442fbc5024c1f55ec919de6d9d5a59d1764615eb3d6;
+signature398, guard551. Fresh baseline console is unchanged354436b9.
+The manifest now authorizes an EXPERIMENTAL_CLOUD_TRIAL at these exact pins.
+There is still no seventh-component compile/translation/body/control evidence;
+full semantic gates and the existing kernel/cleanup trust review remain open.

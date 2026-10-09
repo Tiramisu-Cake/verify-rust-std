@@ -41,7 +41,7 @@ budget_cap() {
 mkdir -p "$evidence"
 printf 'budget=%s timeout_grace=10 audit_reserve=30 started_seconds=%s\n' \
   "$work_budget" "$work_started" > "$evidence/work-budget.txt"
-for name in calibrated-real-dead uncalibrated-liveness-controls actual-bounded; do
+for name in calibrated-real-dead uncalibrated-liveness-controls actual-bounded admission-controls; do
   printf 'NOT_RUN\n' > "$evidence/$name-exit-code.txt"
   printf 'NOT_RUN: stage has not started\n' > "$evidence/$name.log"
   printf 'NOT_RUN: stage has not started\n' > "$evidence/$name-resources.txt"
@@ -55,7 +55,7 @@ write_partial_audit() {
 import json,pathlib,sys
 path,status,stage,budget=sys.argv[1:]
 root=pathlib.Path(path).parent
-names=("calibrated-real-dead","uncalibrated-liveness-controls","actual-bounded")
+names=("calibrated-real-dead","uncalibrated-liveness-controls","actual-bounded","admission-controls")
 groups={name:(root/(name+"-exit-code.txt")).read_text().strip()
         for name in names}
 pathlib.Path(path).write_text(json.dumps({
@@ -78,7 +78,9 @@ import hashlib, json, pathlib, sys
 pin=json.loads(pathlib.Path(sys.argv[1]).read_text())
 root=pathlib.Path(sys.argv[2])
 for key,name in (("preflight_checker_sha256","preflight-source.py"),
-                 ("audit_checker_sha256","audit-seven.py")):
+                 ("audit_checker_sha256","audit-seven.py"),
+                 ("control_driver_sha256","control-driver.py"),
+                 ("control_exporter_sha256","control-exporter.py")):
     expected=pin.get(key)
     actual=hashlib.sha256((root/name).read_bytes()).hexdigest()
     if actual != expected:
@@ -189,6 +191,28 @@ run_group actual-bounded 680 70 python3 "$pointer_prove" \
   --tool-home "$seven" --compiler-sysroot "$sysroot" --schema "$schema" \
   --verifier-seconds "$actual_vf" --fixture "$fixture" \
   --cases bidirectional_merge_len23 --evidence "$evidence/actual"
+
+# These short tests use a third diagnostic tool copy. They cannot produce a
+# theorem PASS and do not modify the production six/seven tool homes.
+CURRENT_STAGE=admission-controls
+driver_cap=$(budget_cap 180)
+driver_work=$((driver_cap - 8))
+if (( driver_work < 1 )); then driver_work=1; fi
+if [[ -f "$evidence/actual/cases/bidirectional_merge_len23/normal-exporter.out" &&
+      -f "$evidence/actual/cases/bidirectional_merge_len23/normal-exporter-provenance.json" ]]; then
+  run_group admission-controls 180 30 python3 "$component/control-driver.py" \
+    --six-home "$base" --seven-home "$seven" \
+    --seven-build-manifest "$evidence/build/seven-profile-manifest.json" \
+    --prepared-case "$evidence/preflight/bidirectional_merge_len23" \
+    --preflight "$evidence/preflight/or-join-preflight.json" \
+    --normal-mir-reference "$evidence/actual/cases/bidirectional_merge_len23/normal-exporter.out" \
+    --schema "$schema" --sysroot "$sysroot" \
+    --work-seconds "$driver_work" --evidence "$evidence/admission-controls"
+else
+  printf 'NOT_RUN: exact production normal MIR evidence unavailable\n' \
+    > "$evidence/admission-controls.log"
+  printf 'admission-controls NOT_RUN source\n' >> "$evidence/group-status.txt"
+fi
 
 CURRENT_STAGE=seventh-diagnostic-audit
 audit_cap=$((work_started + work_budget - SECONDS))
