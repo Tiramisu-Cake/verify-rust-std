@@ -1,16 +1,29 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
-Owner authorized actual select then sort4 until **08:00UTC /11:00MSK 9 October**.
-New independent **10800 conservative Cloud Build seconds**; used0, remaining10800.
+Authorized until **08:00UTC /11:00MSK 9 October**. Separate account:
+**321/10800 conservative Cloud Build seconds used;10479 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active build yet.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
 Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
-`/root/verify-rust-std-select-night`, starts at accepted migration65a456b8.
-O26 baseline profile and guard-literal candidate are being restored on Cloud;
-fresh certificates17/20 require observed evidence. Actual helper/sort4 remain
-NOT PROVEN. Global coordination and independent recipe/input interface are
-published separately from proof changes; permanent Cloud-only execution applies.
-Migration and all earlier accounts remain closed/separate; no A/B/C rerun.
+`/root/verify-rust-std-select-night`, ancestry includes accepted migration65a456b8
+and saved select/sort4 drafts. Common interface initial02d43040, large recipe
+transport currentea9e68fc; atomic shared HANDOFF published independently of proof.
+
+Build `680ea0b2-a453-476b-800b-85cb631a455a`, infra/proof
+`c43300c027752e7baffc1aaca3326564baabe7a2`, laneo26/timeout1200, FAILURE/SETUP,
+01:04:08.919889–01:09:29.270511UTC=321s. Full archive/inventory/config/source
+and text-index hashes verified; all evidence published. Original three-repo
+Git object restore/closure/HEADs passed. Cold O26 exactly20patch applied diff,
+parser/translator/spec/exporter/refiner/schema pins match historical manifest;
+new consolee1b447b6, binary equality with historical console not assumed.
+Baseline preparation then refused missing dynamic source import
+`overnight-s6/prepare-and-check-sort4-select.py`. No fresh actual source/MIR or
+proof yet; no intended negative. Input closure+source preflight before build are
+being repaired. Actual helper/sort4 NOT PROVEN;17/20 refresh still requires
+observed nine-body evidence. Isolated print-only CUT TRACE prepared separately;
+production kernel unchanged. Ready merge requests get alternating Cloud slots.
+Migration/all historical accounts and acceptance scopes remain separate/closed;
+no A/B/C, constructor or unchanged full matrix replay.
 
 # Accepted migration checkpoint (historical)
 

@@ -5320,3 +5320,61 @@ no Build0s. Move pinned restore bytes into explicit env like existing packager;
 execute argument decodes that value. Source/script bytes remain in hashed exact
 submitted config, local-vs-infra source-input check unchanged. API env mechanism
 already exercised by packager; actual new restore/O26 is the joint fresh gate.
+
+
+## NIGHT-CLOUD-TRACE — independent CUT instrumentation card
+
+Actual sort4 first FnMut recovery requires current four-cell/F resources on
+normal and each unwind before subsequent calls. Current isolated CUT blocks local
+positive_f_bound at84:9-38 strict entry freeze; actualsort4 handler185 unproved.
+Hypothesis: an erased nonparameter temporary declared outside the scoped callback
+is first unresolved outer_tenv entry. Prepared bc129b38 TRACE print-only overlay
+must name/type each entry before unchanged freeze and retain the EXACT strict
+entry rejection. No inference assignment, owner creation, resource/post change,
+exception suppression or production/kernel promotion. Keep TEST console separate:
+production source → isolated unchanged d557082b strictCUT (translator+kernel) →
+print-only TRACE affecting only src/verifast.ml. Verify exact resulting diff/file
+inventory, exporter/refiner/schema/spec identities and production unchanged.
+
+Run only exact positive_f_bound same source pair/full NORMAL+readonly/refinement,
+F:FnMut current cells and unchanged normal/unwind recovery contracts. Existing
+lawful CUT positive not rerun. Expected diagnostic error at original84:9-38
+Strict lifetime binding has unresolved inference in entry outer type; last
+STRICT-CUT-ENTRY identifies cause. Changed error/stage, no trace, missing MIR,
+refinement/source mismatch or production mutation means inconclusive, not negative.
+Outcomes: named dead local permits new separate liveness/alias/admission review
+before saved relocation TEST; live formal/bound/heap type needs a different sound
+scope/inference design. Never skip unresolved live types or borrow-end resources.
+This independent diagnostic can join a later new actual candidate Cloud build;
+its success is not CUT/actualsort4 acceptance. No extra infrastructure smoke.
+
+
+### NIGHT-CLOUD-1 result — SETUP, no actual proof
+
+Cloud Build680ea0b2-a453-476b-800b-85cb631a455a FAILURE,
+infra/proofc43300c027752e7baffc1aaca3326564baabe7a2, timeout1200/reserve1260,
+create01:04:08.919889445Z/start01:04:09.658136434Z/finish01:09:29.270511Z,
+charged321s (own321/10800,10479remaining). Three original Git-object checkouts
+restored with selected closure/path/type/mode/byte hashes and exact HEADs.
+Source pool8ac1128f32c46031a6677b529baefb3ba50b124dfcc50c9471b18450be1c8427;
+config4ab5e78809de7734cb505110a15a0fd0d281c88200832724f95bde0bb454a5ea.
+Cold exact O26 twenty patches/applied6c4c5a77, exporter b00c75f4/refinerb049c8d1,
+specd33b2a7a/parser7bf12f12/translator737e16e3/schemaf48fcf29 match historical.
+Consolee1b447b65c32d7177734b05481ead86c989d14be3cfdef6660df44e179d8839c;
+console bytes differ from historical, no equality assumed. Kernel unchanged.
+
+First failure baseline-capture PREP.write_case → constructor source certificate
+imports missing overnight-s6/prepare-and-check-sort4-select.py. This is a registered
+input-dependency omission despite correct selected Git closure; no generated actual
+source/MIR/cert17/20 or body proof/negative result. Falsifiable next change: add
+exact missing file to both current and baseline and generate both sources BEFORE
+console/tool preparation; freeze/compare runtime twin/source fingerprints. Further
+import failures fail early. A successful cold tool build alone is not O26 acceptance.
+
+Publisher/evidence complete true, run-exit1, diagnostic_completefalse,
+verification_acceptedfalse; full bucket prefixcloud-build/680ea0b2-a453-476b-800b-85cb631a455a.
+Archive361ca3c7f8521930e7e2e9d2e34f819ac4824a2178eb354d0044a08d0eed0c8c
+and all included files/input/config/upload receipt/text index verified on VPS in
+/tmp/smallsort-cloud-evidence-680ea0b2-a453-476b-800b-85cb631a455a.
+Separate text chunks not redundantly downloaded; original included logs retained.
+No migration or second-agent budget spent, no Actions/local proof execution.

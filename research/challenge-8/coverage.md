@@ -560,3 +560,10 @@ body remain open; A1-specific controls also remain pending. Independent
 local H2b/O20 and owner-preserving forget/O22 acceptances retain their exact
 scopes. Production main20 is EXPERIMENTAL, TEST strictCUT/relocation excluded.
 [Full checkpoint](overnight-linkage/RESUMED-EXTERNAL-HANDOFF-2026-10-08.md).
+
+
+Night Cloud2026-10-09 first O26 migration attempt: Build680ea0b2, proofc43300c0,
+full evidence retained/verified, exact historical20-patch source/spec/profile built.
+Actual helper preparation SETUP missing dynamic source input; no fresh actual
+MIR/refinement/body claim or certificate refresh. Actual select/sort4 coverage and
+all historical accepted domain limits remain unchanged; production kernel unchanged.
