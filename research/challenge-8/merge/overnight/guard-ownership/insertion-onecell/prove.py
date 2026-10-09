@@ -160,14 +160,71 @@ def ast_gate(case: Path, metadata: dict) -> dict:
     fbc_calls = [node.args[1] for node in ast.nodes(fbc_body, "CallExpr")
                  if len(node.args) > 1 and isinstance(node.args[1], str)]
     own_points = ast.nodes(own_body, "PointsTo")
+    own_recursive_calls = [node for node in ast.nodes(own_body, "TypePredExpr")
+                           if len(node.args) >= 2 and node.args[-1] == "own"]
+    own_recursive_lines = [ast.location_line(node.args[0]) for node in own_recursive_calls]
+    fbc_field_lines = [ast.location_line(node.args[0]) for node in fields]
     read_loc = metadata["read_line"]
     guard_loc = metadata["guard_line"]
-    read_runtimes = [node for node in ast.nodes(runtime, "CallExpr")
-                     if ast.location_line(node.args[0]) == read_loc]
+    def local_name(value):
+        return (value.args[1] if isinstance(value, ast.Node) and value.name == "Var" and
+                len(value.args) == 2 else None)
+
+    # Rust's `tail.read()` is emitted as a typed load chain, not a CallExpr:
+    # tail -> $_4, *$_4 -> $_3, then immutable `tmp: T = $_3`.
+    read_assignments = [node.args for node in ast.nodes(runtime, "AssignExpr")
+                        if len(node.args) == 4 and
+                        ast.location_line(node.args[0]) == read_loc]
+    read_linked = False
+    immutable_tmp = False
+    if len(read_assignments) == 3:
+        first, load, init = read_assignments
+        pvar = local_name(first[1])
+        loaded = local_name(load[1])
+        tmp_name = local_name(init[1])
+        deref = load[3]
+        deref_pointer = (local_name(deref.args[1]) if isinstance(deref, ast.Node) and
+                         deref.name == "Deref" and len(deref.args) == 2 else None)
+        read_linked = (
+            first[2] == ast.Sym("Mutation") and local_name(first[3]) == "tail" and
+            pvar is not None and
+            load[2] == ast.Sym("Mutation") and loaded is not None and
+            deref_pointer == pvar and
+            init[2] == ast.Sym("Initialization") and tmp_name == "tmp" and
+            local_name(init[3]) == loaded)
+        tmp_decls = []
+        for decl in ast.nodes(runtime, "DeclStmt"):
+            if len(decl.args) != 2 or not isinstance(decl.args[1], list):
+                continue
+            for binding in decl.args[1]:
+                if isinstance(binding, tuple) and len(binding) >= 3 and binding[2] == "tmp":
+                    tmp_decls.append(binding)
+        if len(tmp_decls) == 1:
+            type_opt = tmp_decls[0][1]
+            some = (type_opt.args[0] if isinstance(type_opt, ast.Node) and
+                    type_opt.name == "Some" and len(type_opt.args) == 1 else None)
+            const_args = (some.args if isinstance(some, ast.Node) and
+                          some.name == "ConstTypeExpr" else [])
+            inner = const_args[1] if len(const_args) == 2 else None
+            immutable_tmp = (isinstance(inner, ast.Node) and inner.name == "IdentTypeExpr" and
+                             len(inner.args) == 3 and inner.args[2] == "T")
+        # The three linked locals must have exactly these single definitions.
+        definition_counts = {"tmp": 0}
+        if pvar is not None:
+            definition_counts[pvar] = 0
+        if loaded is not None:
+            definition_counts[loaded] = 0
+        for assignment in ast.nodes(runtime, "AssignExpr"):
+            if len(assignment.args) == 4:
+                name = local_name(assignment.args[1])
+                if name in definition_counts:
+                    definition_counts[name] += 1
+        read_linked = (read_linked and immutable_tmp and
+                       all(count == 1 for count in definition_counts.values()))
     guard_types = [node for node in ast.nodes(runtime, "StructTypeExpr")
                    if ast.location_line(node.args[0]) == guard_loc and
                    "CopyOnDrop" in repr(node)]
-    admitted = (len(read_runtimes) >= 1 and len(guard_types) == 1 and
+    admitted = (read_linked and len(guard_types) == 1 and
                 len(fields) == 3 and "struct_CopyOnDrop_padding" in fbc_calls and
                 "CopyOnDrop_own" in fbc_calls and len(own_points) >= 2 and
                 len(close) >= 1 and len(opened) == 1 and
@@ -177,7 +234,10 @@ def ast_gate(case: Path, metadata: dict) -> dict:
             "body_count": len(bodies), "physical_fbc_field_count": len(fields),
             "fbc_calls": fbc_calls, "own_physical_points": len(own_points),
             "fbc_close_count": len(close), "fbc_open_count": len(opened),
-            "read_runtime_count": len(read_runtimes),
+            "read_runtime_count": len(read_assignments),
+            "read_linked": read_linked, "immutable_typed_tmp": immutable_tmp,
+            "own_recursive_lines": own_recursive_lines,
+            "fbc_field_lines": fbc_field_lines,
             "exact_guard_type_count": len(guard_types), "runtime_calls": calls}
 
 
@@ -255,21 +315,37 @@ def classify_onecell(name: str, case: Path, meta: dict, execution: dict) -> dict
         line_pattern = rf"verified/lib\.rs\({target['line']},\d+(?:-\d+)?\): error:"
         exact_line = len(errors) == 1 and re.search(line_pattern, errors[0]) is not None
         if name == "missing_held_owner" and len(errors) == 1:
-            alternate = rf"verified/lib\.rs\({meta['own_close_line']},\d+(?:-\d+)?\): error:"
-            exact_line = exact_line or re.search(alternate, errors[0]) is not None
+            own_lines = ast_result.get("own_recursive_lines", [])
+            exact_line = (len(own_lines) == 1 and
+                          re.search(rf"verified/lib\.rs\({own_lines[0]},\d+(?:-\d+)?\): error:",
+                                    errors[0]) is not None)
+        if name == "double_physical_fbc" and len(errors) == 1:
+            field_lines = ast_result.get("fbc_field_lines", [])
+            exact_line = (len(field_lines) == 3 and
+                          re.search(rf"verified/lib\.rs\({field_lines[0]},\d+(?:-\d+)?\): error:",
+                                    errors[0]) is not None)
         if name in {"after_fbc_false", "after_recovery_false"}:
             intended = exact_line and "Cannot prove false" in errors[0]
         elif name == "missing_held_owner":
             intended = (exact_line and "No matching heap chunks" in errors[0] and
-                        re.search(r"own\b|T_typeid|ManuallyDrop", errors[0], re.I) is not None)
+                        re.search(r"own\(T_typeid\)\(t, held\)", errors[0]) is not None)
+        elif name == "double_physical_fbc":
+            intended = (exact_line and "No matching heap chunks" in errors[0] and
+                        "CopyOnDrop_src<T>" in errors[0])
         else:
             intended = (exact_line and "No matching heap chunks" in errors[0] and
                         re.search(r"CopyOnDrop|padding|points_to|field", errors[0], re.I) is not None)
         reached = (copy_executed if name == "after_recovery_false" else
                    f"verified/lib.rs({meta['fbc_open_line']}," in segment if name ==
                    "after_fbc_false" else
-                   f"verified/lib.rs({meta['fbc_close_line']}," in log if name ==
-                   "double_physical_fbc" else body)
+                   (re.search(rf"verified/lib\.rs\({target['line']},\d+(?:-\d+(?:,\d+)?)?\): "
+                              r"(?:note: )?Executing statement", segment) is not None and
+                    segment.find(f"verified/lib.rs({target['line']},") <
+                    segment.find(errors[0])) if name == "double_physical_fbc" else
+                   (re.search(rf"verified/lib\.rs\({meta['own_close_line']},\d+(?:-\d+(?:,\d+)?)?\): "
+                              r"(?:note: )?Executing statement", segment) is not None and
+                    segment.find(f"verified/lib.rs({meta['own_close_line']},") <
+                    segment.find(errors[0])) if name == "missing_held_owner" else body)
         matched = (all_gates and stages["verifast"] == 1 and exact_line and
                    intended and reached and "Leak check." not in segment)
         classification = "EXPECTED_REJECTION" if matched else "INCONCLUSIVE"

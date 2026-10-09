@@ -1,3 +1,68 @@
+# MD authority and mutable constructor — 2026-10-09 current result
+
+Phase `MERGE-MD-AUTHORITY-CLOUD-2026-10-09`, owner `merge`.
+[Session checkpoint](../../../MD-AUTHORITY-CHECKPOINT-2026-10-09.md) and
+[ledger](../../../../cloud-build/md-authority/BUDGET.json) retain all four Builds,
+exact source/tool/config/archive identities and accounting. The historical
+results below retain their original run domains.
+
+Final fresh Build `d1bfa119-b1d4-4667-8c2b-21d37b215aef`, proof=infra
+`633c0c09cda0f4c40c6664722209f2a9d5792b4b`, terminal SUCCESS / diagnostic,
+verification accepted false. All MD gates match:
+
+| MD case | Actual result |
+| --- | --- |
+| immutable ManuallyDrop positive | Export/decode/VF/refinement 0; runtime read, result 7, full post, return/leak, zero errors; 51 statements |
+| missing initialization | Sole missing `[_]ref_initialized<i32>(held_ref)` at frozen aliasing.rsspec88:41–42, during runtime reference creation |
+| read without permission | Both actual physical fractions sealed in existing closed full borrows; sole missing `[_]points_to<i32>(fn_outcome_result(outcome0), _)` at actual read24:18–20 |
+| missing precreation | Sole unsupported-address refusal at runtime `&*tmp`,12:15–18; **ADMISSION_ONLY**, no physical authority theorem |
+
+Supported fractional own syntax now preserves value/fraction/owner. Moving
+precreation before fraction merge admits immutable tmp without a new trusted
+semantic patch. `precreate_ref` registers bookkeeping only; initialized storage
+comes from new/read and real points_to, read authority from init_ref_readonly,
+CURRENT logical ownership from supplied entry owner and read. The first two
+read-control drafts failed at preparatory leak/cleanup; neither is an intended
+resource-negative. Leak retains dummy read authority; closed borrow consumes
+the genuine chunk into conserved full_borrow/borrow_end_token resources.
+
+All five constructor bodies execute with exact source/MIR/refinement admission.
+Fresh logs show mutable guard own, full physical fields/padding and canonical
+FBC close41/open42 succeed. `after_fbc_false` reaches false44. Missing-owner
+fails at own definition14 while closing own40. Duplicate FBC fails at physical
+src field definition5 on second close42. Positive and recovery-false stop at
+source alignment46 before copy50; recovery target55, target return/leak and
+full normal/unwind posts are **not verified**. Raw Cloud classifier reports all
+five INCONCLUSIVE because its read AST matcher expects CallExpr, while frozen
+translation uses exact linked assignments/Deref/new initialization. Audit-only
+replay is separate from this new proof evidence; no new proof is inferred.
+
+Six V3b full-post positives/matching false controls and ordinary normal/unwind
+smoke pass in the final run in their original conditional domains. No unchanged
+V4/coordinator18/OR17/RESOURCE11/native/broad matrix rerun. Profile
+`experimental-merge-six-tracked-md-onecell-v1` remains **NOT_ACCEPTED**.
+
+The diagnostic has supplied positive-size T/tail geometry/initialized writable
+cell/CURRENT owner/type/thread premises, excludes Drop impl and immediately
+copies held→tail. Actual insert_tail first shifts sift→gap and updates dst.
+No callable actual Drop, glue, moving-gap invariant, ZST or whole insertion
+claim. Comparator541→CURRENT tail/sift owners/F/frame/shared-borrow closure
+remains the first actual caller debt. Readonly quiescent tmp diagnostic cannot
+be carried through later comparator566, which may legally mutate interior state;
+no Freeze/Copy/purity bound added. First-shift resource contract remains
+DESIGN_ONLY / NOT_RUN.
+
+Next single proof task: derive shared-derived src alignment using existing
+source-linked resources, then rerun the exact positive and recovery control
+with full posts. No alignment assumption or created storage authority.
+
+**1327/3600 conservative Cloud seconds; 2273 unspent closed.** All four own
+Builds terminal and full archive/external text verified; own active/reservation
+none, ready withdrawn. Applied 60 minutes + finishing-only extension, with no
+new proof experiment after the main deadline.
+
+---
+
 # One-cell insertion diagnostic — INCONCLUSIVE, no actual theorem
 
 Phase `NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09`, owner `merge`.
@@ -123,3 +188,16 @@ setup, other controls and publication; no unsupported exact setup/verification
 split is claimed. Both own builds terminal and download verified; own slot
 released, ready request withdrawn. No new experiment after the minute-46
 reassessment; session checkpoint completed within the main hour.
+
+
+Audit-only final one-cell replay: [receipt](../../../../cloud-build/md-authority/REPLAY-FINAL-ONECELL.json) recomputes the exact
+immutable typed load-chain AST gate and routes the sole resource error through
+its declared own/FBC field line after the intended executed close. Source/MIR
+admission is reused only from SHA-bound saved classifications. No proof or tool
+semantics are executed/changed. `after_fbc_false`, `missing_held_owner` and
+`double_physical_fbc` become **EXPECTED_REJECTION** on the final fresh Build's
+already-recorded intended obligations. Positive and `after_recovery_false`
+remain **INCONCLUSIVE** at alignment46; fragment_pass remains false. Five saved/
+synthetic mutation controls reject mutable tmp, disconnected load, wrong source,
+and absent executed own/FBC close. Raw Cloud verdicts and older failures are
+retained; replay does not establish a positive or reach recovery.

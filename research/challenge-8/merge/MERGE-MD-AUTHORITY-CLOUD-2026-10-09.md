@@ -1,4 +1,4 @@
-# MERGE-MD-AUTHORITY-CLOUD-2026-10-09 — IN PROGRESS
+# MERGE-MD-AUTHORITY-CLOUD-2026-10-09 — SESSION CLOSED
 
 Owner merge, /root/verify-rust-std, overnight/merge-26.10. Actual start14:28:08 UTC (17:28:08 MSK), main15:28:08 UTC, absolute15:58:08 UTC. Owner60+max30min finishing-only override; new3600 conservative Cloud seconds, no carryover. [Ledger](../cloud-build/md-authority/BUDGET.json), [state](../cloud-build/md-authority/SESSION-STATE.json).
 
@@ -34,3 +34,22 @@ Pure MD classifier repair is locally tested/replayed separately; read failure at
 preparatory leak is INCONCLUSIVE, missing-init binds ref_initialized plus target
 create_ref call/spec location, positive binds named read/return/leak. New runtime
 fixtures are unchanged; tool semantics/pins unchanged.
+
+
+## Closeout
+
+Final Build d1bfa119 /633c0c09 terminal SUCCESS diagnostic,368s. MD4 matched,
+including actual read24 missing points_to after both real fractions sealed in
+existing full borrows. All constructor bodies execute; mutable own and canonical
+FBC close/open reached. Positive/recovery-false stop src alignment46 before
+copy50; three intended negative refusals are present. Raw one-cell audit misses
+the specialized read AST; separate classifier replay does not create new proof.
+[Final case results](overnight/guard-ownership/insertion-onecell/RESULT.md),
+[checkpoint](MD-AUTHORITY-CHECKPOINT-2026-10-09.md).
+
+1327/3600 conservative seconds charged,2273 unspent closed. Four own builds
+terminal and archive/external text integrity verified; ready withdrawn, own
+reservation/active/unresolved none. Main cutoff respected; finishing only.
+Trusted profile semantics unchanged and NOT_ACCEPTED. No actual obligation
+upgrade. Next owner-authorized task is existing-resource source alignment plus
+fresh positive/recovery, before actual first-shift/dst-update adaptation.

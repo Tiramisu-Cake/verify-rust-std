@@ -231,3 +231,50 @@ and &tmp and bound fractions; runtime statements and full positive/posts unchang
 Intended sole refusal remains missing points_to at *p, after both borrow calls.
 Setup/closure/borrow/recovery failures do not count. This is the same failed
 read-authority question, not another group or broader model experiment.
+
+
+## Final observed boundary — MD authority / mutable FBC
+
+Build d1bfa119 /633c0c09 proves the four isolated MD gates on the frozen
+profile. Concrete i32 positive verifies entire body/result7/return/leak. Missing
+init fails ref_initialized at spec88; missing read authority fails points_to
+at actual read24 after both genuine storage/read fractions enter existing closed
+borrows. Missing precreation fails frontend source12; admission-only. Registration
+with req true does not provide initialized bytes or authority. All profile pins
+match; no trusted semantic change in this session.
+
+Corrected supported own syntax admits all five one-cell bodies. Mutable guard
+physical src/dst/len/padding plus one logical owner support own40 and canonical
+FBC close41/open42. after_fbc_false refuses false44 after these transitions.
+Missing owner refuses own at definition14 during close40; second physical FBC
+close refuses src field at definition5 during second close42. These are narrow
+reached negative obligations, not unrestricted T ownership uniqueness. Positive
+and after_recovery_false stop alignment46 before physical copy50. Full target
+normal/unwind posts and compiler cleanup are still unchecked past this point.
+
+Raw audit AST read gate misses specialized tail->temporary, Deref->value,
+value->immutable tmp assignment chain at line34; source/MIR identities are exact.
+A separate saved-data classifier replay can correct this observational mismatch
+and exact predicate-definition error routing, but cannot improve the failed
+positive, reach recovery or turn collector SUCCESS into accepted profile.
+
+First remaining diagnostic obligation is deriving src alignment from real
+immutable tmp/shared-derived pointer resources using existing trusted mechanisms.
+points_to_limits44 and nonnull45 execute; their facts do not establish alignment.
+Next fresh proof must preserve full contracts and examine all subsequently reached
+bounds/separation/copy/borrow recovery/return/leak obligations. It must not assume
+alignment or mint read/ownership authority. Actual first-shift/dst-update remains
+subsequent source-linked work and all comparator limitations above still apply.
+
+
+Audit-only final one-cell replay: [receipt](../../../../cloud-build/md-authority/REPLAY-FINAL-ONECELL.json) recomputes the exact
+immutable typed load-chain AST gate and routes the sole resource error through
+its declared own/FBC field line after the intended executed close. Source/MIR
+admission is reused only from SHA-bound saved classifications. No proof or tool
+semantics are executed/changed. `after_fbc_false`, `missing_held_owner` and
+`double_physical_fbc` become **EXPECTED_REJECTION** on the final fresh Build's
+already-recorded intended obligations. Positive and `after_recovery_false`
+remain **INCONCLUSIVE** at alignment46; fragment_pass remains false. Five saved/
+synthetic mutation controls reject mutable tmp, disconnected load, wrong source,
+and absent executed own/FBC close. Raw Cloud verdicts and older failures are
+retained; replay does not establish a positive or reach recovery.

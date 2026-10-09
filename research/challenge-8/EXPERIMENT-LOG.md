@@ -6525,3 +6525,45 @@ kernel/tool failure inferred. All five one-cell NOT_RUN. Combined959s. Last
 within-hour repair conserves both actual fractions in existing closed full
 borrows via mk_points_to/scaledp/borrow, retains ref_initialized and requires
 read-stage points_to refusal. No new semantic patch or permission creation.
+
+
+## MERGE-MD-AUTHORITY final exact-SHA evidence — 2026-10-09
+
+Build `d1bfa119-b1d4-4667-8c2b-21d37b215aef`, proof/infra
+`633c0c09cda0f4c40c6664722209f2a9d5792b4b`, terminal SUCCESS / diagnostic,
+verification accepted false; create15:19:44.865992371–finish15:25:52.850842 UTC.
+368 conservative seconds (367 execution), total1327/3600;2273unspent closed.
+Config b2208029f8b86c75d352ebfc82c18fa16f6527d4ceb5e716c07bbec37a08e797;
+source input13b0f1fe4b25104fb8ab89c0a550eee956ce6fb75903c38ac45b4c360905b39b;
+archive0cc4da6ad3880aeb8ab4f37350212e50feb8286a2d4d7cdddf9c9728a25171c7.
+All archive/external text/config/source identities verified.
+
+Four MD gates REGRESSION_MATCHED: concrete immutable i32 positive full result7,
+read/return/leak51statements; missing-init aliasing88 ref_initialized; missing
+precreation source12 unsupported address ADMISSION_ONLY; read-control source24
+missing points_to after both actual fractions sealed using existing borrow.
+No changed trusted semantics/runtime/posts. Six V3b full-post/false and ordinary
+normal/unwind smoke pass in original domains. Constructor all five bodies
+execute; own40/FBC41/open42 reached. after_fbc_false reaches44, missingheld rejects
+own14 during40, duplicate physical FBC rejects srcfield5 during second42.
+Positive/recovery false stop alignment46, beforecopy50/recovery/return/leak.
+Raw classifier allINC due requiring CallExpr at read34 instead of frozen
+Deref/assignments; audit-only replay recorded separately. No actual theorem,
+Drop/glue/movinggap/wholeinsert or profile acceptance. Next task existing-resource
+src alignment, then fresh positive/recovery. Full boundaries and pins in
+[checkpoint](merge/MD-AUTHORITY-CHECKPOINT-2026-10-09.md). Main deadline15:28:08
+respected; finishing extension only evidence/replay/accounting/checkpoint.
+All four own builds terminal, ownreservation/active none, readywithdrawn.
+
+
+Audit-only final one-cell replay: [receipt](cloud-build/md-authority/REPLAY-FINAL-ONECELL.json) recomputes the exact
+immutable typed load-chain AST gate and routes the sole resource error through
+its declared own/FBC field line after the intended executed close. Source/MIR
+admission is reused only from SHA-bound saved classifications. No proof or tool
+semantics are executed/changed. `after_fbc_false`, `missing_held_owner` and
+`double_physical_fbc` become **EXPECTED_REJECTION** on the final fresh Build's
+already-recorded intended obligations. Positive and `after_recovery_false`
+remain **INCONCLUSIVE** at alignment46; fragment_pass remains false. Five saved/
+synthetic mutation controls reject mutable tmp, disconnected load, wrong source,
+and absent executed own/FBC close. Raw Cloud verdicts and older failures are
+retained; replay does not establish a positive or reach recovery.

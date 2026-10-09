@@ -1,0 +1,119 @@
+{
+  "ast_helper_sha256": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
+  "cloud_build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+  "command": "python3 /tmp/c8-onecell-audit-replay.py --evidence-root /tmp/c8-merge-md-authority-20261009/evidence-d1bfa119/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic --repo-root /root/verify-rust-std --output /tmp/c8-onecell-audit-replay-20261009-1552Z",
+  "environment_json_sha256": "1c4126261d4f9c5c24ba51890a0f837e934e710a22114fb8614af47c12b13eb2",
+  "extraction_json_sha256": "e86e0219405a877c1dfd8ad2c8145839395a75a1a5927f01efa6689f945523e4",
+  "input_hashes": {
+    "after_fbc_false/classification.json": "abbcd1e089fbea2c1b8e49f473aa8ce89a9d2c3400c50cba31bfebea6d3a1175",
+    "after_fbc_false/original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "after_fbc_false/proof-ast.ml": "921d5cfe819f0a2963ccc812945f2665678cb5cdc1963076e48fb2c0ec7cbf17",
+    "after_fbc_false/verifast.log": "13a2d300231dde41d47d63b034a61c81aa9b24d62a8f7ac2eb2aefb7b3917636",
+    "after_fbc_false/verified/lib.rs": "00119fe61dcaacac3e86b46e0e7315d97291e5f27c37b00a8d0482c978160b45",
+    "after_recovery_false/classification.json": "31d2719ad2c054d84f97c9999817a42f7473ced8080decd974d4d6494812bd60",
+    "after_recovery_false/original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "after_recovery_false/proof-ast.ml": "d272a1d277e02b715d12540128c892eb067c92bc8517abf7d3ed1392d9c75fa8",
+    "after_recovery_false/verifast.log": "1462c9ac6f1db7f8d56704d2c8ae630f9c336c9b871493730c0fc90bbdfab6a9",
+    "after_recovery_false/verified/lib.rs": "e85e91e2ff38993055b2db6e04b165306f2503dabec342cabb9e646174d4287d",
+    "double_physical_fbc/classification.json": "93a5467b269dbb4217f011cdb0b379f15352acf524ec4b0cda07a67081cae122",
+    "double_physical_fbc/original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "double_physical_fbc/proof-ast.ml": "cfe8c54145585f50f803c648d5e3b10d118ec2d727b677a4bc1fe7c896705df9",
+    "double_physical_fbc/verifast.log": "c2938d3c6066f07be491a7be13d43138d60e849c3993c218ac937e4babc327d6",
+    "double_physical_fbc/verified/lib.rs": "7a9416c1cb2c087ce2440ea64f2784ed6f8b21fbaac4caf64d47f23eaf158cb1",
+    "missing_held_owner/classification.json": "367763338a1a9a30e0a607a5bcab57235233d83d725c8a33b5815edf7abac6f0",
+    "missing_held_owner/original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "missing_held_owner/proof-ast.ml": "7af38039742be2ee0581bd3334b30a000fb541445a6f0e3c74c12d42a5d70dec",
+    "missing_held_owner/verifast.log": "374507561642b96a25d876fd925cf724a635d415e1271c201be7399ba42e80f2",
+    "missing_held_owner/verified/lib.rs": "7d9d4b64c55d5dacd1646d8e282d7df37f7b091bc5f02d7098a0d7f0ea2bf38d",
+    "positive/classification.json": "6de1654e1fa6e01723323a97a4ec46f917c3ea566a266d31107ba88aaa042421",
+    "positive/original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+    "positive/proof-ast.ml": "a3985a1cb6cf8ef9931d2cc17fea83ca6a53229a2daa1e36ab06e9d42d09eb31",
+    "positive/verifast.log": "04447425d0f26991e885221d06c6226bb6a990ccf32b0e181db1e78dbb2bd600",
+    "positive/verified/lib.rs": "f0f750836171be4dd1bff0317c825c27a98fbb86e8808a85eef2e4960f45f373"
+  },
+  "interpretation": "Evidence-only replay: source/MIR admission records were read from each saved classification.json; AST gate and log classifier were extracted from prove.py via Python AST. No runner entrypoint, proof tool, or compiler ran.",
+  "kind": "saved-evidence-replay",
+  "negative_controls": {
+    "disconnected_load": true,
+    "double_physical_fbc_without_executed_close": true,
+    "missing_held_owner_without_executed_close": true,
+    "mutable_tmp": true,
+    "wrong_source": true
+  },
+  "output": "/tmp/c8-onecell-audit-replay-20261009-1552Z",
+  "profile": "experimental-merge-six-tracked-md-onecell-v1",
+  "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+  "prove_py_sha256": "8a8098a4c038c87ca2b9d22e1bf2e3759d32036140f67cc84d0c829ade43b094",
+  "replay_driver_sha256": "c2664b912590e564f0eb2d77141c651efae3e253c769e321cff44e9d0746c43b",
+  "results": {
+    "after_fbc_false": {
+      "ast_admitted": true,
+      "body_seen": true,
+      "classification": "EXPECTED_REJECTION",
+      "errors": [
+        "verified/lib.rs(44,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "read_linked": true
+    },
+    "after_recovery_false": {
+      "ast_admitted": true,
+      "body_seen": true,
+      "classification": "INCONCLUSIVE",
+      "errors": [
+        "verified/lib.rs(46,71-73): error: Assertion might not hold. (Cannot prove %(get_pointer_address(src), alignof(T_typeid)) = 0.)"
+      ],
+      "read_linked": true
+    },
+    "double_physical_fbc": {
+      "ast_admitted": true,
+      "body_seen": true,
+      "classification": "EXPECTED_REJECTION",
+      "errors": [
+        "verified/lib.rs(5,5-18): error: No matching heap chunks: CopyOnDrop_src<T>(gap_guard_addr, _)"
+      ],
+      "read_linked": true
+    },
+    "missing_held_owner": {
+      "ast_admitted": true,
+      "body_seen": true,
+      "classification": "EXPECTED_REJECTION",
+      "errors": [
+        "verified/lib.rs(14,12-13): error: No matching heap chunks: own(T_typeid)(t, held)"
+      ],
+      "read_linked": true
+    },
+    "positive": {
+      "ast_admitted": true,
+      "body_seen": true,
+      "classification": "INCONCLUSIVE",
+      "errors": [
+        "verified/lib.rs(46,71-73): error: Assertion might not hold. (Cannot prove %(get_pointer_address(src), alignof(T_typeid)) = 0.)"
+      ],
+      "read_linked": true
+    }
+  },
+  "saved_results_json_sha256": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2",
+  "source_mir_stub_inputs": {
+    "classification_json_sha256": {
+      "after_fbc_false": "abbcd1e089fbea2c1b8e49f473aa8ce89a9d2c3400c50cba31bfebea6d3a1175",
+      "after_recovery_false": "31d2719ad2c054d84f97c9999817a42f7473ced8080decd974d4d6494812bd60",
+      "double_physical_fbc": "93a5467b269dbb4217f011cdb0b379f15352acf524ec4b0cda07a67081cae122",
+      "missing_held_owner": "367763338a1a9a30e0a607a5bcab57235233d83d725c8a33b5815edf7abac6f0",
+      "positive": "6de1654e1fa6e01723323a97a4ec46f917c3ea566a266d31107ba88aaa042421"
+    },
+    "mir_admission_sha256": {
+      "after_fbc_false": "158dfe7831f6a438fb1c3811054b24d8be8d60740d64c102b007698e44d5213d",
+      "after_recovery_false": "c275f77d56f6e0f8b8af167bad680bb0d4521caa08c41188e5cc7a33bdaa71ee",
+      "double_physical_fbc": "158dfe7831f6a438fb1c3811054b24d8be8d60740d64c102b007698e44d5213d",
+      "missing_held_owner": "c275f77d56f6e0f8b8af167bad680bb0d4521caa08c41188e5cc7a33bdaa71ee",
+      "positive": "c275f77d56f6e0f8b8af167bad680bb0d4521caa08c41188e5cc7a33bdaa71ee"
+    },
+    "source_admission_sha256": {
+      "after_fbc_false": "04adacdff3cd6e2cbe6ac840f65353ac4f4bdd1bb8c6e474b32c18538c77e74c",
+      "after_recovery_false": "d9770928327b2cd0a2cb8dfa2b5e31d6b34acc2c280c57df82d3629734d7a16b",
+      "double_physical_fbc": "04adacdff3cd6e2cbe6ac840f65353ac4f4bdd1bb8c6e474b32c18538c77e74c",
+      "missing_held_owner": "d9770928327b2cd0a2cb8dfa2b5e31d6b34acc2c280c57df82d3629734d7a16b",
+      "positive": "d9770928327b2cd0a2cb8dfa2b5e31d6b34acc2c280c57df82d3629734d7a16b"
+    }
+  }
+}

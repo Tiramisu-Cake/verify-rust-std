@@ -1,0 +1,641 @@
+{
+  "kind": "NEW_CLOUD_PROOF_EVIDENCE_RECEIPT",
+  "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+  "proof_infra_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+  "archive_sha256": "0cc4da6ad3880aeb8ab4f37350212e50feb8286a2d4d7cdddf9c9728a25171c7",
+  "profile": {
+    "schema": "smallsort-tracked-md-profile-v1",
+    "profile": "experimental-merge-six-tracked-md-onecell-v1",
+    "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+    "translator_sha256": "528d2c133d789eb88726356c7f21f57673b3d3a57ce3a7b006e7906ae7b2eeb9",
+    "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+    "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
+    "kernel_sha256": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+    "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "refiner_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "accepted": false,
+    "z3_sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+    "baseline_emitter_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+    "emitter_sha256": "831edeec84e50b3ca2c0c6f3bb5a2ad36bf177a58db59806a2a260dd0e37313c",
+    "console_sha256": "d631913a27b35331ef63325011173638e64bb81f3c4aec5def317f995cef57a5",
+    "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+    "baseline_build_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+    "provider": {
+      "provider": "cloud-build",
+      "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+      "project": "smallsort-ci",
+      "region": "global",
+      "os": "ubuntu-22.04",
+      "arch": "x86_64"
+    },
+    "build_exit": 0
+  },
+  "environment": {
+    "profile": "experimental-merge-six-tracked-md-onecell-v1",
+    "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+    "provider": {
+      "provider": "cloud-build",
+      "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+      "project": "smallsort-ci",
+      "region": "global",
+      "os": "ubuntu-22.04",
+      "arch": "x86_64"
+    },
+    "cloud_build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+    "tool_sha256": {
+      "vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+      "verifast": "d631913a27b35331ef63325011173638e64bb81f3c4aec5def317f995cef57a5",
+      "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28"
+    },
+    "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+    "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+    "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+    "accepted": false
+  },
+  "collector_summary": {
+    "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+    "diagnostic_complete": true,
+    "evidence_complete": true,
+    "failure_class": "none",
+    "lane": "merge",
+    "missing_mandatory": [],
+    "run_exit_code": 0,
+    "schema_version": 1,
+    "smoke_success": false,
+    "text_logs_complete": true,
+    "text_logs_index_sha256": "f9c7e2ee5941e2a6713aa915a9c10abe6a3146739248a90694dbce27004d9847",
+    "verification_accepted": false
+  },
+  "raw_aggregate": {
+    "profile": "experimental-merge-six-tracked-md-onecell-v1",
+    "accepted": false,
+    "md_regressions_matched": true,
+    "fragment_pass": false,
+    "actual_drop_glue": "OPEN",
+    "cases": {
+      "positive_manually_drop_after_merge": "REGRESSION_MATCHED",
+      "negative_missing_precreated_reference": "REGRESSION_MATCHED",
+      "negative_missing_reference_initialization": "REGRESSION_MATCHED",
+      "negative_read_without_permission": "REGRESSION_MATCHED",
+      "positive": "INCONCLUSIVE",
+      "after_fbc_false": "INCONCLUSIVE",
+      "after_recovery_false": "INCONCLUSIVE",
+      "missing_held_owner": "INCONCLUSIVE",
+      "double_physical_fbc": "INCONCLUSIVE"
+    }
+  },
+  "cases": {
+    "negative_missing_precreated_reference": {
+      "raw_classification": "REGRESSION_MATCHED",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "ce47f94e9665dca0216da00ca1586c3bd3c87501d28faf3bdbc05e281e7975f5",
+        "verified/lib.rs": "ce47f94e9665dca0216da00ca1586c3bd3c87501d28faf3bdbc05e281e7975f5",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "ce47f94e9665dca0216da00ca1586c3bd3c87501d28faf3bdbc05e281e7975f5",
+        "verified/lib.rs": "ce47f94e9665dca0216da00ca1586c3bd3c87501d28faf3bdbc05e281e7975f5",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(12,15-18): error: Taking the address of this expression is not supported."
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "3380fde7f677512252fb327b0fbf6e74c734d045a367f9bff0dc5700baa04a78",
+        "original/lib.rs": "ce47f94e9665dca0216da00ca1586c3bd3c87501d28faf3bdbc05e281e7975f5",
+        "verified/lib.rs": "ce47f94e9665dca0216da00ca1586c3bd3c87501d28faf3bdbc05e281e7975f5",
+        "proof-ast.ml": "c12f9c98e22578f0af743667823020020bc189e0572ac6e2dee86001d597e186",
+        "verifast.log": "9ffcac2f1e3439de2c6b55b52c2f0e1af2d6578a44693d61ddaed7eca3e32ad2",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "0b9024e91c55cb83828dd03f46d4b5fac524a8d98ee155c5444d95950e08ef94"
+      },
+      "read_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "gate_kind": "ADMISSION_ONLY"
+    },
+    "negative_missing_reference_initialization": {
+      "raw_classification": "REGRESSION_MATCHED",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "8d660d56696b06f08221209bcd178d81ea600806f59655e345e6c5e26ce3c76c",
+        "verified/lib.rs": "8d660d56696b06f08221209bcd178d81ea600806f59655e345e6c5e26ce3c76c",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "8d660d56696b06f08221209bcd178d81ea600806f59655e345e6c5e26ce3c76c",
+        "verified/lib.rs": "8d660d56696b06f08221209bcd178d81ea600806f59655e345e6c5e26ce3c76c",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-tracked-md-source/bin/rust/aliasing.rsspec(88,41-42): error: No matching heap chunks: [_]ref_initialized<i32>(held_ref)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "ac76388ef7e033024a0acf8ea6bad64172f530f8a379fc555f964f1edda95ddc",
+        "original/lib.rs": "8d660d56696b06f08221209bcd178d81ea600806f59655e345e6c5e26ce3c76c",
+        "verified/lib.rs": "8d660d56696b06f08221209bcd178d81ea600806f59655e345e6c5e26ce3c76c",
+        "proof-ast.ml": "ce2de55bbe4c5af5f5a2089284053131142488e02cd056916d77569336b77609",
+        "verifast.log": "6f9f3654f23dcedc45572ca18028e497d4cf3d34ceb5fdc95c0924a54df1dab5",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "b37e47963ca557f1386dd44e86a7d62ad8fb83a334a38b81ef3285478342068a"
+      },
+      "read_seen": false,
+      "return_seen": false,
+      "leak_seen": false,
+      "gate_kind": "PROOF"
+    },
+    "negative_read_without_permission": {
+      "raw_classification": "REGRESSION_MATCHED",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "7da6130dc2f91aca9afd57d2b2221e0910472bd06c9f19dd4ce08a05f3008125",
+        "verified/lib.rs": "7da6130dc2f91aca9afd57d2b2221e0910472bd06c9f19dd4ce08a05f3008125",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "7da6130dc2f91aca9afd57d2b2221e0910472bd06c9f19dd4ce08a05f3008125",
+        "verified/lib.rs": "7da6130dc2f91aca9afd57d2b2221e0910472bd06c9f19dd4ce08a05f3008125",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(24,18-20): error: No matching heap chunks: [_]points_to<i32>(fn_outcome_result(outcome0), _)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "28887c9572481b0fc5cd1098d82fc973c83824b1cdff3fbd27477fa8c426e68f",
+        "original/lib.rs": "7da6130dc2f91aca9afd57d2b2221e0910472bd06c9f19dd4ce08a05f3008125",
+        "verified/lib.rs": "7da6130dc2f91aca9afd57d2b2221e0910472bd06c9f19dd4ce08a05f3008125",
+        "proof-ast.ml": "53af3d087256a32b0e8586d2034d8e13f6efef932639d7fb70b47df6ce4b9f54",
+        "verifast.log": "2ca2d61ce99100f19155d7c60d414604681472bf5ddf3fe1d7cd8f51acd79f6a",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "3330236d07394ef8523c5b7557160e2e46cd1788d0c9e913ac75e5dccd37f205"
+      },
+      "read_seen": true,
+      "return_seen": false,
+      "leak_seen": false,
+      "gate_kind": "PROOF"
+    },
+    "positive_manually_drop_after_merge": {
+      "raw_classification": "REGRESSION_MATCHED",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 0,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "c2e66cb105b272e3d05e93d802f6b99396e68ca819740ea094be61f2af848ea1",
+        "verified/lib.rs": "c2e66cb105b272e3d05e93d802f6b99396e68ca819740ea094be61f2af848ea1",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "c2e66cb105b272e3d05e93d802f6b99396e68ca819740ea094be61f2af848ea1",
+        "verified/lib.rs": "c2e66cb105b272e3d05e93d802f6b99396e68ca819740ea094be61f2af848ea1",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "6c020e4a5e1414b7a928952184091909ad8d054e74ceb59bd17d5303937c2c03",
+        "original/lib.rs": "c2e66cb105b272e3d05e93d802f6b99396e68ca819740ea094be61f2af848ea1",
+        "verified/lib.rs": "c2e66cb105b272e3d05e93d802f6b99396e68ca819740ea094be61f2af848ea1",
+        "proof-ast.ml": "75166cd141d668c5198416edde34433fd92a14bef94724f193cf0e49501bb9cd",
+        "verifast.log": "a616cfaa8699f9b61a7c48d5e5cc592231f83b04f4bcdd3c72d68f61c79b0f9d",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "adb7139dde48436f2afe3d18b55c12da1794e91c8f340a72b2d8594ec0db2d0f"
+      },
+      "read_seen": true,
+      "return_seen": true,
+      "leak_seen": true,
+      "gate_kind": "PROOF"
+    },
+    "after_fbc_false": {
+      "raw_classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "00119fe61dcaacac3e86b46e0e7315d97291e5f27c37b00a8d0482c978160b45",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "00119fe61dcaacac3e86b46e0e7315d97291e5f27c37b00a8d0482c978160b45",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(44,20-25): error: Assertion might not hold. (Cannot prove false.)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "abbcd1e089fbea2c1b8e49f473aa8ce89a9d2c3400c50cba31bfebea6d3a1175",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "00119fe61dcaacac3e86b46e0e7315d97291e5f27c37b00a8d0482c978160b45",
+        "proof-ast.ml": "921d5cfe819f0a2963ccc812945f2665678cb5cdc1963076e48fb2c0ec7cbf17",
+        "verifast.log": "13a2d300231dde41d47d63b034a61c81aa9b24d62a8f7ac2eb2aefb7b3917636",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "1ccd68aa486d4060bb069a9160a17cfd3277c6b66e6871c0cbf2a1ed15929a24"
+      },
+      "copy_executed": false,
+      "source_admission": {
+        "admitted": true,
+        "read_line": 34,
+        "guard_line": 39,
+        "copy_line": 51,
+        "exact_runtime_source_after_ghost_strip": true
+      },
+      "ast_admission": {
+        "admitted": false,
+        "own_count": 1,
+        "fbc_count": 1,
+        "body_count": 1,
+        "physical_fbc_field_count": 3,
+        "fbc_calls": [
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_own"
+        ],
+        "own_physical_points": 2,
+        "fbc_close_count": 1,
+        "fbc_open_count": 1,
+        "read_runtime_count": 0,
+        "exact_guard_type_count": 1,
+        "runtime_calls": [
+          "unwinding",
+          "begin_lifetime",
+          "precreate_ref",
+          "lifetime_token",
+          "init_ref_readonly",
+          "fn_outcome_result",
+          "create_ref",
+          "fn_outcome_result",
+          "reborrow_ref",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "std::ptr::merge_copy_nonoverlapping_one",
+          "returning",
+          "unwinding",
+          "unwinding",
+          "end_ref_readonly",
+          "points_to",
+          "end_lifetime",
+          "returning"
+        ]
+      }
+    },
+    "after_recovery_false": {
+      "raw_classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "e85e91e2ff38993055b2db6e04b165306f2503dabec342cabb9e646174d4287d",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "e85e91e2ff38993055b2db6e04b165306f2503dabec342cabb9e646174d4287d",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(46,71-73): error: Assertion might not hold. (Cannot prove %(get_pointer_address(src), alignof(T_typeid)) = 0.)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "31d2719ad2c054d84f97c9999817a42f7473ced8080decd974d4d6494812bd60",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "e85e91e2ff38993055b2db6e04b165306f2503dabec342cabb9e646174d4287d",
+        "proof-ast.ml": "d272a1d277e02b715d12540128c892eb067c92bc8517abf7d3ed1392d9c75fa8",
+        "verifast.log": "1462c9ac6f1db7f8d56704d2c8ae630f9c336c9b871493730c0fc90bbdfab6a9",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "c339e2a180d39f935b3c693382d1735544f503e019506b86349c7289048c6922"
+      },
+      "copy_executed": false,
+      "source_admission": {
+        "admitted": true,
+        "read_line": 34,
+        "guard_line": 39,
+        "copy_line": 50,
+        "exact_runtime_source_after_ghost_strip": true
+      },
+      "ast_admission": {
+        "admitted": false,
+        "own_count": 1,
+        "fbc_count": 1,
+        "body_count": 1,
+        "physical_fbc_field_count": 3,
+        "fbc_calls": [
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_own"
+        ],
+        "own_physical_points": 2,
+        "fbc_close_count": 1,
+        "fbc_open_count": 1,
+        "read_runtime_count": 0,
+        "exact_guard_type_count": 1,
+        "runtime_calls": [
+          "unwinding",
+          "begin_lifetime",
+          "precreate_ref",
+          "lifetime_token",
+          "init_ref_readonly",
+          "fn_outcome_result",
+          "create_ref",
+          "fn_outcome_result",
+          "reborrow_ref",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "std::ptr::merge_copy_nonoverlapping_one",
+          "returning",
+          "unwinding",
+          "unwinding",
+          "end_ref_readonly",
+          "points_to",
+          "end_lifetime",
+          "returning"
+        ]
+      }
+    },
+    "double_physical_fbc": {
+      "raw_classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "7a9416c1cb2c087ce2440ea64f2784ed6f8b21fbaac4caf64d47f23eaf158cb1",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "7a9416c1cb2c087ce2440ea64f2784ed6f8b21fbaac4caf64d47f23eaf158cb1",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(5,5-18): error: No matching heap chunks: CopyOnDrop_src<T>(gap_guard_addr, _)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "93a5467b269dbb4217f011cdb0b379f15352acf524ec4b0cda07a67081cae122",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "7a9416c1cb2c087ce2440ea64f2784ed6f8b21fbaac4caf64d47f23eaf158cb1",
+        "proof-ast.ml": "cfe8c54145585f50f803c648d5e3b10d118ec2d727b677a4bc1fe7c896705df9",
+        "verifast.log": "c2938d3c6066f07be491a7be13d43138d60e849c3993c218ac937e4babc327d6",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "d2392265f447bf714bd77a9822ad6a374540d371f678195cbaebd48a8d71a5c8"
+      },
+      "copy_executed": false,
+      "source_admission": {
+        "admitted": true,
+        "read_line": 34,
+        "guard_line": 39,
+        "copy_line": 51,
+        "exact_runtime_source_after_ghost_strip": true
+      },
+      "ast_admission": {
+        "admitted": false,
+        "own_count": 1,
+        "fbc_count": 1,
+        "body_count": 1,
+        "physical_fbc_field_count": 3,
+        "fbc_calls": [
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_own"
+        ],
+        "own_physical_points": 2,
+        "fbc_close_count": 2,
+        "fbc_open_count": 1,
+        "read_runtime_count": 0,
+        "exact_guard_type_count": 1,
+        "runtime_calls": [
+          "unwinding",
+          "begin_lifetime",
+          "precreate_ref",
+          "lifetime_token",
+          "init_ref_readonly",
+          "fn_outcome_result",
+          "create_ref",
+          "fn_outcome_result",
+          "reborrow_ref",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "std::ptr::merge_copy_nonoverlapping_one",
+          "returning",
+          "unwinding",
+          "unwinding",
+          "end_ref_readonly",
+          "points_to",
+          "end_lifetime",
+          "returning"
+        ]
+      }
+    },
+    "missing_held_owner": {
+      "raw_classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "7d9d4b64c55d5dacd1646d8e282d7df37f7b091bc5f02d7098a0d7f0ea2bf38d",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "7d9d4b64c55d5dacd1646d8e282d7df37f7b091bc5f02d7098a0d7f0ea2bf38d",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(14,12-13): error: No matching heap chunks: own(T_typeid)(t, held)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "367763338a1a9a30e0a607a5bcab57235233d83d725c8a33b5815edf7abac6f0",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "7d9d4b64c55d5dacd1646d8e282d7df37f7b091bc5f02d7098a0d7f0ea2bf38d",
+        "proof-ast.ml": "7af38039742be2ee0581bd3334b30a000fb541445a6f0e3c74c12d42a5d70dec",
+        "verifast.log": "374507561642b96a25d876fd925cf724a635d415e1271c201be7399ba42e80f2",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "825619331016313f05f12b80887a1c11175dc267a3d225a82698cc1723813f89"
+      },
+      "copy_executed": false,
+      "source_admission": {
+        "admitted": true,
+        "read_line": 34,
+        "guard_line": 39,
+        "copy_line": 50,
+        "exact_runtime_source_after_ghost_strip": true
+      },
+      "ast_admission": {
+        "admitted": false,
+        "own_count": 1,
+        "fbc_count": 1,
+        "body_count": 1,
+        "physical_fbc_field_count": 3,
+        "fbc_calls": [
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_own"
+        ],
+        "own_physical_points": 2,
+        "fbc_close_count": 1,
+        "fbc_open_count": 1,
+        "read_runtime_count": 0,
+        "exact_guard_type_count": 1,
+        "runtime_calls": [
+          "unwinding",
+          "begin_lifetime",
+          "precreate_ref",
+          "lifetime_token",
+          "init_ref_readonly",
+          "fn_outcome_result",
+          "create_ref",
+          "fn_outcome_result",
+          "reborrow_ref",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "std::ptr::merge_copy_nonoverlapping_one",
+          "returning",
+          "unwinding",
+          "unwinding",
+          "end_ref_readonly",
+          "points_to",
+          "end_lifetime",
+          "returning"
+        ]
+      }
+    },
+    "positive": {
+      "raw_classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "source_before": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "f0f750836171be4dd1bff0317c825c27a98fbb86e8808a85eef2e4960f45f373",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_after": {
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "f0f750836171be4dd1bff0317c825c27a98fbb86e8808a85eef2e4960f45f373",
+        "small_sort_source": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+      },
+      "source_unchanged_at_every_stage": true,
+      "body_seen": true,
+      "errors": [
+        "verified/lib.rs(46,71-73): error: Assertion might not hold. (Cannot prove %(get_pointer_address(src), alignof(T_typeid)) = 0.)"
+      ],
+      "dead_code": [],
+      "artifact_sha256": {
+        "classification.json": "6de1654e1fa6e01723323a97a4ec46f917c3ea566a266d31107ba88aaa042421",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "verified/lib.rs": "f0f750836171be4dd1bff0317c825c27a98fbb86e8808a85eef2e4960f45f373",
+        "proof-ast.ml": "a3985a1cb6cf8ef9931d2cc17fea83ca6a53229a2daa1e36ab06e9d42d09eb31",
+        "verifast.log": "04447425d0f26991e885221d06c6226bb6a990ccf32b0e181db1e78dbb2bd600",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "decode.out": "fffb862a2fdf2ca6e2a6619aa8d5736c72225284bd05368901c7e665b2a4c9e6"
+      },
+      "copy_executed": false,
+      "source_admission": {
+        "admitted": true,
+        "read_line": 34,
+        "guard_line": 39,
+        "copy_line": 50,
+        "exact_runtime_source_after_ghost_strip": true
+      },
+      "ast_admission": {
+        "admitted": false,
+        "own_count": 1,
+        "fbc_count": 1,
+        "body_count": 1,
+        "physical_fbc_field_count": 3,
+        "fbc_calls": [
+          "struct_CopyOnDrop_padding",
+          "CopyOnDrop_own"
+        ],
+        "own_physical_points": 2,
+        "fbc_close_count": 1,
+        "fbc_open_count": 1,
+        "read_runtime_count": 0,
+        "exact_guard_type_count": 1,
+        "runtime_calls": [
+          "unwinding",
+          "begin_lifetime",
+          "precreate_ref",
+          "lifetime_token",
+          "init_ref_readonly",
+          "fn_outcome_result",
+          "create_ref",
+          "fn_outcome_result",
+          "reborrow_ref",
+          "points_to_limits",
+          "object_pointer_within_limits",
+          "std::ptr::merge_copy_nonoverlapping_one",
+          "returning",
+          "unwinding",
+          "unwinding",
+          "end_ref_readonly",
+          "points_to",
+          "end_lifetime",
+          "returning"
+        ]
+      }
+    }
+  },
+  "audit_only_replay_receipt": "REPLAY-FINAL-ONECELL.json",
+  "boundaries": "MD4 matched in fresh proof. Raw onecell5 INC retained; separate replay may identify intended failures only. Positive/recovery align46 fail, no copy/return/leak/full posts or actual insertion/Drop theorem. Profile NOT_ACCEPTED."
+}

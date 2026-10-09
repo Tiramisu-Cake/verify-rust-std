@@ -1,6 +1,32 @@
-# MERGE-MD-AUTHORITY-CLOUD-2026-10-09 — IN PROGRESS
+# MERGE-MD-AUTHORITY-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 
-Owner merge, overnight/merge-26.10, /root/verify-rust-std. [Phase](merge/MERGE-MD-AUTHORITY-CLOUD-2026-10-09.md). Policy1fcd91ef; checkpoint3ecfc92d preserved; remote equal after fetch. Start14:28:08 UTC, main15:28:08, absolute15:58:08, 60+max30finishing; new3600seconds. Isolated MD admission/authority first, then mutable constructor FBC only on PASS. Profile NOT_ACCEPTED; no new actual theorem.
+Owner `merge`, assigned `/root/verify-rust-std`, `overnight/merge-26.10`.
+[Checkpoint](merge/MD-AUTHORITY-CHECKPOINT-2026-10-09.md),
+[results](merge/overnight/guard-ownership/insertion-onecell/RESULT.md),
+[ledger](cloud-build/md-authority/BUDGET.json). Policy revision
+`1fcd91eff1507fe0bd0620a23b578edb454f1c3e`; checkpoint `3ecfc92d` preserved.
+Start14:28:08 UTC, main15:28:08, absolute15:58:08: **60 + maximum30 finishing only**.
+
+Existing own syntax and precreation order repaired; immutable tmp/runtime/posts
+and frozen trusted semantics retained. Final Build `d1bfa119` / proof `633c0c09`
+closes four MD gates: positive full result7/read/return/leak, missing-init exact
+ref_initialized, read-permission exact points_to at runtime read24, missing
+precreation frontend ADMISSION_ONLY. Mutable own and canonical FBC close/open
+are reached. Constructor positive remains INCONCLUSIVE at src alignment46
+before copy; recovery false not reached. Three constructor negatives
+match after [audit-only saved replay](cloud-build/md-authority/REPLAY-FINAL-ONECELL.json);
+raw Cloud INC verdicts retained. No new actual obligation or profile acceptance.
+
+Supplied CURRENT owner/storage/geometry and comparator recovery remain caller
+debts. Immediate no-Drop fragment is not actual first-shift/dst-update; readonly
+protocol cannot span arbitrary interior-mutable comparator. Next single task:
+existing-resource shared-derived src alignment, then fresh positive/recovery
+checks. Actual Drop/glue/full insertion remain OPEN.
+
+**1327/3600 seconds charged; 2273 unspent closed.** Four own builds terminal,
+archive/external text verified; own active/unresolved/reservation none, ready
+withdrawn. Finishing extension only evidence/replay/accounting/checkpoint.
+Stop until next owner instruction; historical results below are unchanged.
 
 ---
 

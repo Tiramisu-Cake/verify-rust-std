@@ -642,3 +642,16 @@ coefficients1/2 vs canonical1. No permission/ownership creation, no source mut
 change or fractional target acceptance. Actual move/implicit Drop mutable-self
 transition, completed CURRENT payload post, compiler glue and normal forget need
 a justified source-linked conservation interface. No such rule implemented.
+
+
+MERGE-MD-AUTHORITY 2026-10-09, final Buildd1bfa119 /633c0c09: isolated concrete
+MD positive full post/read/result7/return/leak plus missing-init and actual
+read-permission negatives matched; missing-precreation ADMISSION_ONLY. Existing
+syntax/address order repaired with frozen semantics. Mutable one-cell own and
+canonical FBC close/open reached; positive src alignment fails before copy and
+full posts, recovery negative not reached. Three intended constructor refusals
+matched by separate audit-only replay; raw Cloud audit INC retained.
+No actual insert_tail/Drop/glue/comparator/first-shift/ZST obligation closed;
+profile NOT_ACCEPTED. [Current result](merge/overnight/guard-ownership/insertion-onecell/RESULT.md)
+records supplied CURRENT owner/geometry, readonly comparator limitation and
+1327/3600seconds; unspent closed, allownterminal/reservationnone.

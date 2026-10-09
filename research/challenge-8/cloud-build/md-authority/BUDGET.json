@@ -5,11 +5,11 @@
   "start_utc": "2026-10-09T14:28:08Z",
   "main_deadline_utc": "2026-10-09T15:28:08Z",
   "deadline_utc": "2026-10-09T15:58:08Z",
-  "status": "AUTHORIZED",
+  "status": "SESSION_CLOSED",
   "authorization": "Owner prompt 2026-10-09: isolated MD authority/admission repair, then mutable constructor canonical FBC if gates pass; 60+max30 minutes; new3600 seconds no carryover.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 959,
-  "remaining_build_seconds": 2641,
+  "used_build_seconds": 1327,
+  "remaining_build_seconds": 2273,
   "allowed_lanes": [
     "merge"
   ],
@@ -85,7 +85,36 @@
       "execution_seconds": 365,
       "download_verified": true,
       "archive_sha256": "a48c9d764e6654d654ec8a3baa7a09c181b9f1330034b1d19aa4d3a42e72f21d"
+    },
+    {
+      "dispatch_token": "dispatch-f7e51b7c18534ee6a1746cf029100366",
+      "owner": "merge",
+      "phase_id": "MERGE-MD-AUTHORITY-CLOUD-2026-10-09",
+      "infra_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+      "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+      "lane": "merge",
+      "submitted_config_sha256": "b2208029f8b86c75d352ebfc82c18fa16f6527d4ceb5e716c07bbec37a08e797",
+      "reserved_seconds": 1560,
+      "timeout_seconds": 1500,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "13b0f1fe4b25104fb8ab89c0a550eee956ce6fb75903c38ac45b4c360905b39b",
+      "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+      "start_time": "2026-10-09T15:19:46.102454212Z",
+      "finish_time": "2026-10-09T15:25:52.850842Z",
+      "create_time": "2026-10-09T15:19:44.865992371Z",
+      "build_seconds": 368,
+      "accounted": true,
+      "execution_seconds": 367,
+      "download_verified": true,
+      "archive_sha256": "0cc4da6ad3880aeb8ab4f37350212e50feb8286a2d4d7cdddf9c9728a25171c7"
     }
   ],
-  "active_build": null
+  "active_build": null,
+  "unspent_seconds_closed": 2273,
+  "finishing_extension_used": true,
+  "own_active_unresolved": [],
+  "ready_request": "WITHDRAWN",
+  "closeout": "All four builds terminal and archive/external text integrity verified; no own reservation. No new experiment after main deadline."
 }
