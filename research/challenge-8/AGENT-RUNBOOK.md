@@ -1,14 +1,16 @@
 ## Current Cloud Build execution procedure
 
-CLOUD-BUILD-MIGRATION explicitly authorizes existing Cloud Build instead of
-GitHub Actions for this phase. [Phase](cloud-build/PHASE.md),
+The permanent SmallSort execution provider is existing Cloud Build.
+[Phase](cloud-build/PHASE.md),
 [commands](cloud-build/README.md), [new ledger](cloud-build/BUDGET.json).
 One queued/running build, exact published infrastructure and proof SHAs,
-no-source dispatch, unique BuildID bucketprefix, upload before final verdict.
+no-source pinned-object submission, unique BuildID bucketprefix, upload before
+final verdict.
 Use every gcloud invocation with explicit configuration/account/project and
 region if applicable; no credentials inspection or administrative changes.
 VPS static/edit/orchestration only. Historical Actions loop below does not
-authorize further Actions or actualproof experiments in migration.
+authorize Actions runs. Actual-proof work still requires its separate phase
+authorization.
 
 # Challenge 8 operating runbook
 
@@ -18,22 +20,47 @@ document linked from STATUS. The current authorization state and phase there
 override historical instructions. The pre-reorganization runbook is preserved
 verbatim in [the archive](AGENT-RUNBOOK-ARCHIVE-2026-10-06.md).
 
+## Permanent execution policy
+
+SmallSort CI, compilation, proof runners, source extraction and executable
+checks use Cloud Build permanently. GitHub is the source/branch/pull-request/
+documentation host. Do not dispatch or rerun GitHub Actions for proof or heavy
+checks without direct owner instruction. Existing repository Actions triggers
+are unchanged and may still run automatically; their exact current filters are
+listed in [GITHUB-TRIGGERS.md](cloud-build/GITHUB-TRIGGERS.md). This policy
+does not alter those workflow files.
+
+The VPS may edit, hash committed inputs, publish source, orchestrate Cloud Build,
+and read/verify evidence. Cloud input uses the approved credential-free pinned
+Git-object archive: the original commits, trees, blobs, modes and selected file
+bytes are verified on restore; no working-tree, index, Git configuration, hook
+or GitHub credential enters the archive. The resulting partial repositories
+retain their original commit IDs and do not fabricate commits. Cloud restoration
+is not considered validated until the current B/C builds complete their source
+and evidence gates. The historical GitHub dispatch procedure below is retained
+for audit context only and is not current authorization.
+
 ## Working context
 
 - Fork: `Tiramisu-Cake/verify-rust-std`; branch: `challenge-8/research`.
 - Upstream: `model-checking/verify-rust-std`; no external publication authorized.
 - Source: `library/core/src/slice/sort/shared/smallsort.rs`.
-- Workflow: `.github/workflows/smallsort-research.yml` (SmallSort research).
+- Historical workflow: `.github/workflows/smallsort-research.yml`; no current
+  Actions dispatch is authorized by its presence.
 - Requirements: [Challenge 8](../../doc/src/challenges/0008-smallsort.md) and
   [general rules](../../doc/src/general-rules.md).
 - Current evidence: [STATUS.md](STATUS.md), [coverage](coverage.md),
   [experiment log](EXPERIMENT-LOG.md). Topic notes are indexed in [README](README.md).
 
-The server only edits/orchestrates. No compiler, verifier, executable tests,
+The VPS only edits/orchestrates. No compiler, verifier, executable tests,
 extractors, research runners or build dependencies there, including containers.
-Read-only GitHub access and non-executing static checks are allowed.
+GitHub is used for source and review operations; non-executing static checks are
+allowed locally. Proof work runs only in Cloud Build.
 
-## Session entry and stop handling
+## Historical GitHub session procedure (not current execution authorization)
+
+The following Actions-specific commands are preserved as historical procedure.
+Do not use them unless the owner directly orders a GitHub Actions run.
 
 Inspect local changes, remotes, current branch, remote heads and active research
 runs before acting. Preserve user changes. In a clean clone with the fork as origin:
@@ -70,7 +97,7 @@ Append a compact card to EXPERIMENT-LOG; keep only its current decision in STATU
 - One falsifiable hypothesis; why the latest evidence supports testing it.
 - Exact input domain, resources, safety premises and full normal/unwind target
   posts; distinguish a deliberately partial fixture from the final contract.
-- Allowed tool/pin/patch profile and hashes; any unresolved trust/admissibility
+- Allowed Cloud Build lane, tool/pin/patch profile and hashes; any unresolved trust/admissibility
   assumptions. Do not quietly add a patch to the chain.
 - Cases: positive outcomes and each negative's expected stage, predicate and
   source location. Baseline controls must not import an unrelated failing helper.
@@ -78,14 +105,14 @@ Append a compact card to EXPERIMENT-LOG; keep only its current decision in STATU
   MIR/AST, refinement, leak/unwind and relevant covers/UB checks.
 - Decision for each plausible outcome: routine within-phase fix, advance to an
   already agreed step, or STOP for a new semantic/trust/architecture decision.
-- Exact workflow selection, total budget and stop boundary.
+- Exact lane/timeout selection, total budget and stop boundary.
 
 For a memory-safety claim, retain unrestricted target types/comparator behavior;
 state ordering assumptions separately. Match pointer provenance and ownership,
 not just equal numeric addresses. A compiler, refiner or unrelated helper failure
 does not test the intended resource hypothesis.
 
-## Authorized edit → push → dispatch → inspect loop
+## Historical GitHub edit → push → dispatch → inspect loop
 
 Use this loop only for the recorded approved phase. On beginning a READY phase,
 record IN PROGRESS and the selected within-phase step in STATUS.
@@ -160,10 +187,12 @@ No blind unchanged retries, speculative jobs, self-hosted or paid-compute fallba
 
 ## Workflow and checkpoint discipline
 
-The research trigger stays `workflow_dispatch` only. New selections must remain
+The current execution trigger is the explicit Cloud Build submission described
+in [cloud-build/README.md](cloud-build/README.md). New selections must remain
 inside the authorized phase; semantic tool changes require a separate decision.
-If exposing an authorized selection requires a default-branch workflow update,
-make only that reviewed workflow change on main. Never merge/fast-forward all
+Do not change GitHub workflow triggers or dispatch Actions without a direct
+owner instruction. The existing automatic events are documented in
+[GITHUB-TRIGGERS.md](cloud-build/GITHUB-TRIGGERS.md). Never merge/fast-forward
 research history into main just to expose a choice.
 
 After each meaningful result, update STATUS's latest run, evidence boundary,

@@ -16,14 +16,19 @@ uploaded evidence; the VPS downloaded and verified archives and file hashes.
 Error and timeout builds ended FAILURE. Initial setup `7bda20f0` failed at
 SDK Python startup without an archive and remains incomplete evidence.
 
-**B blocked at source delivery, before proof tools.** Build `3e4c62e0` failed
-with original exit128. Its available evidence was uploaded, downloaded and
-hash-verified; it is not a proof-negative. Anonymous git/raw/codeload requests
-return404, although authenticated GitHub API reports PUBLIC. The owner has been
-asked to authorize credential-free transport of selected pinned Git objects.
-That alternative is prepared, pending response; no dependent dispatch yet.
-C has not run. Comparison inputs remain stock `a0cfd30e` and constructor
-`1378f0ff`; source/contract/checker semantics remain frozen.
+**B/C resumed with approved pinned Git-object delivery.** Earlier B build
+`3e4c62e0` failed128 before tools; its evidence and historical classification
+are preserved. The owner explicitly replaced anonymous GitHub source fetch with
+credential-free committed-object transport. Pre-dispatch Git/hash inspection
+checked every included object and confirmed bounded configs (B255463bytes,
+C343353bytes for preparation infra24ff4ff5, final bundles recomputed per SHA).
+Cloud restore and original HEAD checks will run before proof setup; missing
+objects have no origin fallback. B and C not yet accepted.
+
+Permanent workflow: Cloud Build for CI/heavy checks, GitHub for source/branches/
+PR/docs; Actions only on explicit user instruction. VPS edit/orchestration/
+analysis only. ChatGPT bucket reader: SmallSort CI — Read Only. Separate full
+text logs with lossless <=8MiB chunks are being added before B dispatch.
 
 Usage **280/3600 conservative build seconds**, **3320 remaining**. No active
 build. Historical accounts remain separate. Owner setup build

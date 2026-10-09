@@ -5201,3 +5201,16 @@ Source reconstruction and B/C proof controls remain UNRUN. Current A evidence
 is unaffected; prior B original128 remains setup-only, never proof-negative.
 New module/control/provider/packaging preparation is reviewable in migration
 branch, not authorization to dispatch the alternative route before response.
+
+### Cloud migration resumed: pinned object delivery authorized
+
+Owner explicitly approves delivery of original committed Git objects from VPS;
+this supersedes anonymous-fork fetch requirement. Budget not reset:280 used,
+3320 remaining. Pure Git/hash/config preparation checked every transmitted
+object; B bundle255463bytes/10proofpaths and C343353bytes/16proofpaths at infra
+24ff4ff5, max step argument8579/8581bytes, env29/33, substitutions107/140.
+No compilation/verification/fixture generation or restore test on VPS.
+Cloud must validate all original OIDs, selected closure, SHA256 and exactHEADs
+before tools; static source restore review confirms no remote configured.
+MCP separate logs/index <=8MiB, permanentCloud workflow and trigger inventory
+prepared before next cold B. HistoricalA not repeated, no proof claim yet.

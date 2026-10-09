@@ -1,9 +1,12 @@
 ## Current authorization: CLOUD-BUILD-MIGRATION
 
-[Phase](cloud-build/PHASE.md): A storage/error/timeout → B stockbaseline →
-C cold sourcebuiltacceptedconstructor. Existing Cloud Build only; separate
-3600seconds, max1800/remaining; noactualproofdevelopment. Provider/path/
-time/evidence migrationonly, semantics frozen. Historicalroadmap follows.
+[Phase](cloud-build/PHASE.md): A accepted infrastructure controls → B frozen stock
+baseline → C cold source-built historical constructor. Same3600-second ledger,
+max1800/remaining, one active build; no new actual proof development. The owner
+approved committed Git-object delivery from VPS with original SHA restoration.
+Permanent CI/heavy execution is Cloud Build; GitHub stores source/branches/PR/docs,
+Actions require explicit owner instruction. VPS edit/orchestration/analysis only.
+Historical roadmap and budgets below remain unchanged.
 
 ## Current resumed authorization — 2026-10-08
 

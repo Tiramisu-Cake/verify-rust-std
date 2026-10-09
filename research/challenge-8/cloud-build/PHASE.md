@@ -38,3 +38,19 @@ time forupload beforeoveralltimeout. Neverarchivehome/credentials/toolchains.
 
 Completion gates A/B/C only; no resumedactualhelper/sort4/merge proofdevelopment.
 Newcloudresults retain distinct IDs; historicalGitHubevidence notrelabeled.
+
+## Continued authorization and permanent execution policy
+
+Owner resumed with the same ledger (280 used, 3320 remaining at resumption),
+explicitly replacing anonymous public-fork fetch with pinned original Git object
+transport from the VPS. Only committed allowlisted objects and run data are sent;
+no working tree, .git/config, hooks, home or credentials. Cloud validates original
+commit/root-tree/blob identities, complete selected-object closure and both HEADs.
+No substitute commits or hidden missing-blob downloads. Dispatch stays --no-source.
+
+Permanent policy: Cloud Build executes CI/heavy checks; GitHub stores sources,
+branches, PRs and documentation. Actions requires a separate explicit user order.
+The VPS edits/orchestrates/analyzes only. ChatGPT already reads the bucket using
+SmallSort CI — Read Only. Publish manifest, summary and all text logs separately
+from the archive, <=8MiB per MCP object with lossless indexed chunks if needed.
+No new authorization to run the suspended second direction or new actual proofs.

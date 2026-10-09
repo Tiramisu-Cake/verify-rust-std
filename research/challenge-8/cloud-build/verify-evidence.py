@@ -11,6 +11,10 @@ import re
 import sys
 import tarfile
 
+MAX_TEXT_CHUNK_BYTES = 8 * 1024 * 1024
+MAX_METADATA_BYTES = 8 * 1024 * 1024
+MAX_INVENTORY_BYTES = 8 * 1024 * 1024
+
 
 ARCHIVE = "evidence.tar.gz"
 SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
@@ -46,6 +50,7 @@ def main() -> int:
     parser.add_argument("--expected-config-sha")
     parser.add_argument("--expected-build-id")
     parser.add_argument("--expected-lane")
+    parser.add_argument("--require-text-logs", action="store_true")
     args = parser.parse_args()
     try:
         root = args.directory
@@ -66,6 +71,7 @@ def main() -> int:
             raise ValueError("upload receipt does not attest this archive hash")
 
         members: dict[str, str] = {}
+        member_sizes: dict[str, int] = {}
         small_files: dict[str, bytes] = {}
         with tarfile.open(archive, "r:gz") as tar:
             for member in tar:
@@ -80,7 +86,11 @@ def main() -> int:
                 digest = hashlib.sha256()
                 size = 0
                 keep = (name in ("summary.json", "manifest.json", "submitted-config.json", "files-sha256.json", "source-input-certificate.json")
+                        or name == "text-logs-index.json"
                         or PurePosixPath(name).name == "proof-audit.json")
+                limit = (MAX_INVENTORY_BYTES if name == "files-sha256.json" else MAX_METADATA_BYTES)
+                if keep and member.size > limit:
+                    raise ValueError(f"oversized metadata entry: {name}")
                 chunks = [] if keep else None
                 while True:
                     chunk = stream.read(1024 * 1024)
@@ -93,6 +103,7 @@ def main() -> int:
                 if size != member.size:
                     raise ValueError(f"truncated archive entry: {name}")
                 members[name] = digest.hexdigest()
+                member_sizes[name] = size
                 if chunks is not None:
                     small_files[name] = b"".join(chunks)
 
@@ -161,6 +172,124 @@ def main() -> int:
         if manifest.get("environment_sha256") is not None:
             if "environment.txt" not in inventory or inventory["environment.txt"] != manifest["environment_sha256"]:
                 raise ValueError("manifest environment hash mismatch")
+        has_text_log_index = "text-logs-index.json" in small_files
+        require_text_logs = (args.require_text_logs or
+                             "text_logs_index_sha256" in manifest or
+                             "text_logs_index_sha256" in summary)
+        if require_text_logs and not has_text_log_index:
+            raise ValueError("archive is missing required text-logs-index.json")
+        index_hash = None
+        if has_text_log_index:
+            index_bytes = small_files["text-logs-index.json"]
+            index_hash = sha(index_bytes)
+            if (manifest.get("text_logs_index_sha256") != index_hash or
+                    summary.get("text_logs_index_sha256") != index_hash or
+                    manifest.get("text_log_delivery", {}).get("index_sha256") != index_hash or
+                    manifest.get("text_log_delivery", {}).get("index_size_bytes") != len(index_bytes)):
+                raise ValueError("text log index digest/size differs from archive/manifest/summary")
+            external_index = root / "text-logs-index.json"
+            if external_index.exists() or external_index.is_symlink():
+                if external_index.is_symlink() or not external_index.is_file() or sha_file(external_index) != index_hash:
+                    raise ValueError("separately downloaded text log index differs from archive")
+            if receipt.get("text_logs_index_sha256") not in (None, index_hash):
+                raise ValueError("upload receipt text-log index hash mismatch")
+            if require_text_logs and receipt.get("text_logs_index_sha256") != index_hash:
+                raise ValueError("upload receipt does not attest required text-log index")
+            log_index = json.loads(index_bytes)
+        else:
+            log_index = None
+            if (root / "text-logs-index.json").exists() or (root / "text-logs-index.json").is_symlink():
+                raise ValueError("external text log index is absent from archive")
+        if log_index is not None and (log_index.get("schema_version") != 1 or
+                                      log_index.get("chunk_size_limit_bytes") != MAX_TEXT_CHUNK_BYTES):
+            raise ValueError("unsupported text log index schema or chunk limit")
+        log_files = log_index.get("files") if log_index is not None else []
+        if not isinstance(log_files, list):
+            raise ValueError("text log index files must be a list")
+        source_paths = [item.get("source_path") for item in log_files if isinstance(item, dict)]
+        expected_logs = {name for name in inventory if PurePosixPath(name).suffix.lower() in (".log", ".txt")}
+        if (log_index is not None and
+                (len(source_paths) != len(log_files) or len(set(source_paths)) != len(source_paths) or
+                 set(source_paths) != expected_logs)):
+            raise ValueError("text log index does not cover every archived .log/.txt source exactly once")
+        declared_chunks = set()
+        total_chunks = 0
+        for entry in log_files:
+            source_path = safe_name(entry.get("source_path", ""))
+            if (entry.get("sha256") != members.get(source_path) or
+                    entry.get("size_bytes") != member_sizes.get(source_path)):
+                raise ValueError(f"text log source hash/size mismatch: {source_path}")
+            if entry.get("encoding_note") not in (
+                    "valid UTF-8; split on code-point boundaries where possible; original bytes preserved",
+                    "not valid UTF-8; treated as raw bytes without decoding or modification"):
+                raise ValueError(f"invalid text-log encoding note: {source_path}")
+            chunks = entry.get("chunks")
+            if not isinstance(chunks, list) or not chunks:
+                raise ValueError(f"text log has no chunks: {source_path}")
+            source_path_id = hashlib.sha256(source_path.encode("utf-8")).hexdigest()
+            chunk_size_sum = 0
+            for i, chunk in enumerate(chunks):
+                chunk_path = safe_name(chunk.get("path", ""))
+                expected_chunk_path = f"text-logs/{source_path_id}.part-{i:06d}.txt"
+                if chunk_path != expected_chunk_path or chunk_path in declared_chunks:
+                    raise ValueError(f"non-deterministic or duplicate text chunk path: {chunk_path}")
+                declared_chunks.add(chunk_path)
+                size = chunk.get("size_bytes")
+                chunk_hash = chunk.get("sha256")
+                if (not isinstance(size, int) or size < 0 or size > MAX_TEXT_CHUNK_BYTES or
+                        not re.fullmatch(r"[0-9a-f]{64}", str(chunk_hash))):
+                    raise ValueError(f"invalid chunk hash/size: {chunk_path}")
+                chunk_size_sum += size
+                total_chunks += 1
+            reconstruction = entry.get("reconstruction")
+            if (chunk_size_sum != entry.get("size_bytes") or
+                    reconstruction != {"method": "concatenate-in-listed-order",
+                                       "sha256": entry.get("sha256"),
+                                       "size_bytes": entry.get("size_bytes")}):
+                raise ValueError(f"text log reconstruction metadata mismatch: {source_path}")
+        if (log_index is not None and (log_index.get("source_count") != len(log_files) or
+                log_index.get("chunk_count") != total_chunks or
+                manifest.get("text_log_delivery", {}).get("source_count") != len(log_files) or
+                manifest.get("text_log_delivery", {}).get("chunk_count") != total_chunks)):
+            raise ValueError("text log index counts disagree")
+        chunks_dir = root / "text-logs"
+        chunks_downloaded = chunks_dir.exists()
+        if chunks_downloaded and log_index is None:
+            raise ValueError("downloaded text chunks have no archive index")
+        if chunks_dir.is_symlink():
+            raise ValueError("downloaded text-logs path is a symlink")
+        if chunks_downloaded:
+            downloaded = {}
+            for path in chunks_dir.rglob("*"):
+                if path.is_symlink():
+                    raise ValueError(f"symlink in downloaded text logs: {path}")
+                if path.is_file():
+                    downloaded[path.relative_to(root).as_posix()] = path
+                elif not path.is_dir():
+                    raise ValueError(f"non-regular downloaded text log entry: {path}")
+            if set(downloaded) != declared_chunks:
+                raise ValueError("downloaded text log chunks do not match the index")
+            for entry in log_files:
+                reconstructed = hashlib.sha256()
+                reconstructed_size = 0
+                for chunk in entry["chunks"]:
+                    path = downloaded[chunk["path"]]
+                    if path.stat().st_size != chunk["size_bytes"] or sha_file(path) != chunk["sha256"]:
+                        raise ValueError(f"downloaded text log chunk hash/size mismatch: {chunk['path']}")
+                    with path.open("rb") as stream:
+                        for data in iter(lambda: stream.read(1024 * 1024), b""):
+                            reconstructed.update(data)
+                            reconstructed_size += len(data)
+                if reconstructed.hexdigest() != entry["sha256"] or reconstructed_size != entry["size_bytes"]:
+                    raise ValueError(f"downloaded text log reconstruction failed: {entry['source_path']}")
+        logs_complete = (True if log_index is None else
+                         all(name in expected_logs for name in
+                             ("full-stdout.log", "full-stderr.log", "environment.txt")) and bool(log_files))
+        if (log_index is not None and
+                (manifest.get("text_logs_complete") is not logs_complete or
+                 summary.get("text_logs_complete") is not logs_complete or
+                 manifest.get("text_log_delivery", {}).get("complete") is not logs_complete)):
+            raise ValueError("text log completeness flag disagrees with archived inputs")
         if manifest.get("build_id") != receipt.get("build_id"):
             raise ValueError("receipt build_id does not match manifest")
         for field, arg in (("infra_sha", args.expected_infra_sha),
@@ -170,7 +299,8 @@ def main() -> int:
             if arg is not None and manifest.get(field) != arg:
                 raise ValueError(f"expected {field} mismatch")
         for key in ("build_id", "lane", "run_exit_code", "failure_class", "evidence_complete",
-                    "smoke_success", "verification_accepted", "missing_mandatory"):
+                    "smoke_success", "verification_accepted", "missing_mandatory",
+                    "text_logs_complete", "text_logs_index_sha256"):
             if manifest.get(key) != summary.get(key):
                 raise ValueError(f"summary/manifest mismatch: {key}")
         # Integrity is independent of proof outcome. Never infer proof success from upload.
@@ -181,6 +311,7 @@ def main() -> int:
         proof_audit = manifest.get("proof_audit")
         proof_audit_file = None
         complete_inputs = (manifest.get("run_exit_code") is not None and config_valid and source_valid and
+                           logs_complete and
                            all(name in inventory for name in ("run-exit.txt", "full-stdout.log",
                                                               "full-stderr.log", "submitted-config.json",
                                                               "environment.txt")))
@@ -212,7 +343,9 @@ def main() -> int:
                           "build_id": manifest.get("build_id"), "lane": manifest.get("lane"),
                           "run_exit_code": manifest.get("run_exit_code"),
                           "failure_class": manifest.get("failure_class"),
-                          "verification_accepted": accepted}, sort_keys=True))
+                          "verification_accepted": accepted,
+                          "text_log_index_verified": True,
+                          "text_log_chunks_downloaded": chunks_downloaded}, sort_keys=True))
         return 0
     except Exception as exc:
         print(f"evidence verification failed: {exc}", file=sys.stderr)

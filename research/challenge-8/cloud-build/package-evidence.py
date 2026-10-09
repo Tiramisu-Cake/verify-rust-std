@@ -9,6 +9,7 @@ import os
 import argparse
 from pathlib import Path, PurePosixPath
 import re
+import shutil
 import sys
 import tarfile
 import tempfile
@@ -18,6 +19,9 @@ EVIDENCE = Path("/workspace/evidence")
 OUT = Path("/workspace/out")
 ARCHIVE_NAME = "evidence.tar.gz"
 SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
+TEXT_LOG_CHUNK_BYTES = 8 * 1024 * 1024
+METADATA_MAX_BYTES = 8 * 1024 * 1024
+INVENTORY_MAX_BYTES = 8 * 1024 * 1024
 
 
 def digest(data: bytes) -> str:
@@ -45,6 +49,66 @@ def named_json(payload: dict[str, bytes], *basenames: str) -> dict[str, object]:
     wanted = set(basenames)
     return {path: parsed for path, raw in sorted(payload.items())
             if Path(path).name in wanted and (parsed := parse_json_or_none(raw)) is not None}
+
+
+def write_text_log_chunks(payload: dict[str, bytes], out: Path) -> tuple[bytes, dict[str, object]]:
+    chunk_root = out / "text-logs"
+    if chunk_root.is_symlink():
+        fail("text-logs output path is a symlink")
+    if chunk_root.exists():
+        shutil.rmtree(chunk_root)
+    chunk_root.mkdir(parents=True)
+    entries = []
+    chunk_count = 0
+    for source_path, data in sorted(payload.items()):
+        if Path(source_path).suffix.lower() not in (".log", ".txt"):
+            continue
+        safe_rel(source_path)
+        path_id = hashlib.sha256(source_path.encode("utf-8")).hexdigest()
+        try:
+            data.decode("utf-8", errors="strict")
+            encoding_note = "valid UTF-8; split on code-point boundaries where possible; original bytes preserved"
+            utf8 = True
+        except UnicodeDecodeError:
+            encoding_note = "not valid UTF-8; treated as raw bytes without decoding or modification"
+            utf8 = False
+        chunks = []
+        offset = 0
+        index = 0
+        while offset < len(data) or index == 0:
+            end = min(offset + TEXT_LOG_CHUNK_BYTES, len(data))
+            if utf8 and end < len(data):
+                while end > offset and (data[end] & 0xC0) == 0x80:
+                    end -= 1
+            if end <= offset and len(data):
+                fail(f"cannot form bounded text chunk for {source_path}")
+            part = data[offset:end]
+            rel = f"text-logs/{path_id}.part-{index:06d}.txt"
+            target = out / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(part)
+            chunks.append({"path": rel, "sha256": digest(part), "size_bytes": len(part)})
+            chunk_count += 1
+            offset = end
+            index += 1
+            if not data:
+                break
+        source_sha = digest(data)
+        entries.append({
+            "source_path": source_path, "sha256": source_sha, "size_bytes": len(data),
+            "encoding_note": encoding_note, "chunks": chunks,
+            "reconstruction": {"method": "concatenate-in-listed-order",
+                               "sha256": source_sha, "size_bytes": len(data)},
+        })
+    index = {
+        "schema_version": 1, "chunk_size_limit_bytes": TEXT_LOG_CHUNK_BYTES,
+        "chunk_directory": "text-logs", "source_count": len(entries),
+        "chunk_count": chunk_count, "files": entries,
+    }
+    encoded = (json.dumps(index, sort_keys=True, indent=2) + "\n").encode("utf-8")
+    if len(encoded) > METADATA_MAX_BYTES:
+        fail("text log index exceeds 8 MiB; cannot publish complete index")
+    return encoded, index
 
 
 def cloud_config_matches(config, lane: str, infra_sha: str, proof_sha: str,
@@ -79,10 +143,59 @@ def safe_rel(rel: str) -> str:
     return p.as_posix()
 
 
-def collect(root: Path) -> dict[str, bytes]:
+def collect(root: Path) -> tuple[dict[str, bytes], list[dict[str, object]]]:
     result: dict[str, bytes] = {}
+    exclusions = []
+    listed = list(root.rglob("*"))
+    profile_manifests = {}
+    for path in listed:
+        rel = path.relative_to(root).as_posix()
+        parts = PurePosixPath(rel).parts
+        if path.name == "mutation-profile.json" and path.parent.parent.name == "cases" and (
+                path.parent / "mutation-profile" / "bin").exists():
+            if path.is_symlink() or not path.is_file():
+                fail(f"mutation profile identity manifest is not a regular file: {rel}")
+            raw = path.read_bytes()
+            profile = parse_json_or_none(raw)
+            identity_fields = ("base_console_sha256", "shadow_console_sha256",
+                               "real_exporter_sha256", "wrapper_sha256")
+            if not isinstance(profile, dict) or any(
+                    not isinstance(profile.get(key), str) or
+                    not re.fullmatch(r"[0-9a-f]{64}", profile[key])
+                    for key in identity_fields):
+                fail(f"mutation profile lacks required hash identities: {rel}")
+            profile_manifests[rel] = {"sha256": digest(raw),
+                                      "identities": {key: profile[key] for key in identity_fields}}
     for path in sorted(root.rglob("*")):
         rel = safe_rel(path.relative_to(root).as_posix())
+        parts = PurePosixPath(rel).parts
+        bin_index = next((i for i in range(len(parts) - 1)
+                          if parts[i:i + 2] == ("mutation-profile", "bin")), None)
+        if bin_index is not None:
+            prefix = PurePosixPath(*parts[:bin_index + 2]).as_posix()
+            case_manifest = PurePosixPath(*parts[:bin_index], "mutation-profile.json").as_posix()
+            identity = profile_manifests.get(case_manifest)
+            if identity is None:
+                fail(f"refusing mutation tool-tree exclusion without identity manifest: {case_manifest}")
+            if path.is_symlink():
+                kind = "symlink"
+                identity_sha = hashlib.sha256(os.readlink(path).encode("utf-8")).hexdigest()
+            elif path.is_dir():
+                kind = "directory"
+                identity_sha = None
+            elif path.is_file():
+                kind = "regular-file"
+                identity_sha = None
+            else:
+                fail(f"unsupported mutation profile entry: {rel}")
+            exclusions.append({
+                "path": rel, "kind": kind, "identity_sha256": identity_sha,
+                "case_profile_manifest": case_manifest,
+                "case_profile_manifest_sha256": identity["sha256"],
+                "mutation_profile_identities": identity["identities"],
+                "reason": "Duplicate disposable mutation-profile/bin tool tree; historical REVIEW.md:260 permits excluding */mutation-profile/bin/** after preserving case artifacts.",
+            })
+            continue
         if any(part.lower() in {"home", "credential", "credentials", "toolchain", "toolchains"}
                for part in PurePosixPath(rel).parts):
             fail(f"private/toolchain path forbidden in evidence input: {rel}")
@@ -93,7 +206,7 @@ def collect(root: Path) -> dict[str, bytes]:
         if not path.is_file():
             fail(f"non-regular evidence entry: {rel}")
         result[rel] = path.read_bytes()
-    return result
+    return result, exclusions
 
 
 def main() -> int:
@@ -114,8 +227,8 @@ def main() -> int:
                         if not SHA_RE.fullmatch(value)]
         metadata_valid = bool(build_id and lane and not invalid_pins)
 
-        payload = collect(args.evidence)
-        for reserved in ("summary.json", "manifest.json", "files-sha256.json"):
+        payload, artifact_exclusions = collect(args.evidence)
+        for reserved in ("summary.json", "manifest.json", "files-sha256.json", "text-logs-index.json"):
             if reserved in payload:
                 payload[f"input-{reserved}"] = payload.pop(reserved)
         required = ("run-exit.txt", "full-stdout.log", "full-stderr.log",
@@ -180,6 +293,15 @@ def main() -> int:
             stage_artifacts = []
         if not smoke and proof_audit is None:
             complete = False
+        out = args.out
+        out.mkdir(parents=True, exist_ok=True)
+        text_logs_index_bytes, text_logs_index = write_text_log_chunks(payload, out)
+        text_logs_index_sha = digest(text_logs_index_bytes)
+        text_logs_complete = all(path in payload for path in
+                                 ("full-stdout.log", "full-stderr.log", "environment.txt"))
+        if text_logs_index.get("source_count", 0) == 0:
+            text_logs_complete = False
+        complete = complete and text_logs_complete
         smoke_success = lane == "smoke-success" and exit_code == 0 and complete
         accepted = (not smoke and exit_code == 0 and proof_audit is not None and
                     proof_audit.get("accepted") is True and complete)
@@ -201,12 +323,15 @@ def main() -> int:
             "run_exit_code": exit_code, "failure_class": failure_class,
             "evidence_complete": complete, "smoke_success": smoke_success,
             "verification_accepted": accepted,
+            "text_logs_complete": text_logs_complete,
+            "text_logs_index_sha256": text_logs_index_sha,
             "missing_mandatory": (missing + ([] if smoke or case_paths else ["allprooflogs/cases/*"]) +
                                   ([] if smoke or proof_audit is not None else ["allprooflogs/proof-audit.json"]) +
                                   ([] if smoke or stage_artifacts else ["allprooflogs stage logs/resource/exit files"]) +
                                   ([] if config_valid else ["valid submitted config/hash"]) +
                                   ([] if metadata_valid else ["valid build/lane/pin metadata"]) +
-                                  ([] if source_valid else ["valid pinned source archive/certificate"])),
+                                  ([] if source_valid else ["valid pinned source archive/certificate"]) +
+                                  ([] if text_logs_complete else ["complete text-log chunk index"])),
         }
         manifest = {
             **summary,
@@ -243,6 +368,22 @@ def main() -> int:
             "source_component_hashes": named_json(payload, "source-component-hashes.json"),
             "std_export_source": named_json(payload, "std-export-source.json"),
             "provider_overlays": named_json(payload, "provider-overlay-manifest.json"),
+            "artifact_exclusions": {
+                "patterns": ["*/mutation-profile/bin/**"],
+                "justification": "Duplicate disposable MIR mutation tool trees are excluded as allowed by research/challenge-8/overnight-s6/REVIEW.md:260; all case sources, wrappers, mutation records, MIR, logs, fixture and classification files remain included.",
+                "entries": artifact_exclusions,
+            },
+            "text_log_delivery": {
+                "mode": "external-byte-exact-chunks",
+                "index_path": "text-logs-index.json",
+                "index_sha256": text_logs_index_sha,
+                "index_size_bytes": len(text_logs_index_bytes),
+                "chunk_size_limit_bytes": TEXT_LOG_CHUNK_BYTES,
+                "source_count": text_logs_index["source_count"],
+                "chunk_count": text_logs_index["chunk_count"],
+                "complete": text_logs_complete,
+                "reconstruction": "concatenate listed chunks in order; verify source SHA-256 and byte size",
+            },
             "proof_audit": proof_audit,
             "proof_audit_path": audit_path,
             "proof_stage_artifacts": stage_artifacts,
@@ -251,17 +392,22 @@ def main() -> int:
                                     if "environment.txt" in payload else None),
             "inventory_excludes": ["manifest.json", "files-sha256.json"],
         }
-        out = args.out
-        out.mkdir(parents=True, exist_ok=True)
         # Replace only this package's known output names; preserve unrelated files.
         files = dict(payload)
+        files["text-logs-index.json"] = text_logs_index_bytes
         files["summary.json"] = (json.dumps(summary, sort_keys=True, indent=2) + "\n").encode()
         if config_bytes:
             files["submitted-config.json"] = config_bytes
         inventory = {p: digest(b) for p, b in sorted(files.items())}
         files["files-sha256.json"] = (json.dumps(inventory, sort_keys=True, indent=2) + "\n").encode()
+        if len(files["files-sha256.json"]) > INVENTORY_MAX_BYTES:
+            fail("file hash inventory exceeds 8 MiB")
         manifest["files_inventory_sha256"] = digest(files["files-sha256.json"])
         files["manifest.json"] = (json.dumps(manifest, sort_keys=True, indent=2) + "\n").encode()
+        if len(files["summary.json"]) > METADATA_MAX_BYTES:
+            fail("external summary exceeds 8 MiB")
+        if len(files["manifest.json"]) > METADATA_MAX_BYTES:
+            fail("external manifest exceeds 8 MiB")
 
         archive = out / ARCHIVE_NAME
         with tempfile.NamedTemporaryFile(dir=out, prefix=".evidence-", delete=False) as tmp:
@@ -282,6 +428,7 @@ def main() -> int:
         if config_bytes:
             (out / "submitted-config.json").write_bytes(config_bytes)
         (out / "files-sha256.json").write_bytes(files["files-sha256.json"])
+        (out / "text-logs-index.json").write_bytes(text_logs_index_bytes)
         archive_sha = digest_file(archive)
         (out / "archive.sha256").write_text(f"{archive_sha}  {ARCHIVE_NAME}\n")
         print(json.dumps({**summary, "archive_sha256": archive_sha}, sort_keys=True))

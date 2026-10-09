@@ -1,8 +1,12 @@
-# Explicit Cloud Build research commands
+# Permanent Cloud Build research and evidence procedure
 
-The VPS runs only this lightweight control client and evidence hash checker.
-Proofs, fixture generation, MIR and source builds run inside Cloud Build.
-No Docker, compiler or full research runner runs on the VPS.
+All SmallSort CI, proof, fixture, MIR and source-build work runs in Cloud Build.
+GitHub hosts source, branches, pull requests and documentation; no GitHub Actions
+dispatch or rerun is authorized without direct owner instruction. Existing
+automatic workflow triggers remain unchanged and are inventoried in
+[GITHUB-TRIGGERS.md](GITHUB-TRIGGERS.md). The VPS runs only this lightweight
+control client and evidence hash checker. No Docker, compiler, executable test
+or full research runner runs on the VPS.
 
 Every gcloud invocation uses configuration `smallsort-ci`, account
 `smallsort-dispatcher@smallsort-ci.iam.gserviceaccount.com`, project `smallsort-ci`
@@ -28,25 +32,31 @@ Ubuntu22.04 setup build. Upload/verdict use pinned Google Cloud CLI stable:
 Files shared between steps live in `/workspace`; no filesystem outside it is
 assumed to persist. First proofs use cold installs/builds without a cache.
 
-Before submit, commit/push the migration branch and resolve the full published
-infrastructure SHA. Proof input is an independent full published SHA. Choose one
-lane; the historical comparison targets are fixed in the phase note:
+Before submit, publish the infrastructure source and resolve its full SHA.
+Proof input is an independent full committed SHA. The approved
+`pinned-objects` mode packs only selected Git objects from those commits; it
+reads no working-tree/index/config/hook data and transfers no GitHub credential.
+Cloud restore verifies the original commit/root-tree/blob identities, selected
+paths, modes and bytes, then sets each repository HEAD to the original commit.
+The restored repositories are intentionally partial and no commit is invented.
+Pick the reviewed lane and use the historical proof SHA:
 
 ```bash
 python3 research/challenge-8/cloud-build/control.py submit \
   --infra-sha FULL_PUBLISHED_INFRA_SHA \
   --proof-sha a0cfd30e066acbaf1b5406cd9773f54388cc45be \
-  --lane stock --timeout 800
+  --lane stock --source-mode pinned-objects --timeout 800
 
 python3 research/challenge-8/cloud-build/control.py submit \
   --infra-sha FULL_PUBLISHED_INFRA_SHA \
   --proof-sha 1378f0ffc8342233349fae3df5a938c4a021c8d7 \
-  --lane constructor --timeout 1500
+  --lane constructor --source-mode pinned-objects --timeout 1500
 
 python3 research/challenge-8/cloud-build/control.py status BUILD_ID
 python3 research/challenge-8/cloud-build/control.py download BUILD_ID \
   --output /tmp/smallsort-cloud-evidence-BUILD_ID
 python3 research/challenge-8/cloud-build/control.py cancel BUILD_ID
+(cd /tmp/smallsort-cloud-evidence-BUILD_ID && sha256sum --check archive.sha256)
 ```
 
 The client refuses a timeout outside the current remaining budget. Status updates
@@ -55,6 +65,10 @@ poll until terminal status and do not assume VPS timeout stopped a build. Forced
 termination may leave incomplete evidence. The ledger's active/unresolved build
 must be resolved before another submission. Compact API/config/download files stay
 in `/tmp`, not Git. Commit only the ledger and summaries/reports as checkpoints.
+These are the wrapper's exact command forms: `status BUILD_ID` takes a positional
+build ID; `download BUILD_ID --output DIR` performs its own manifest/input/archive
+hash verification; `cancel BUILD_ID` requests cancellation only. The explicit
+`sha256sum --check` command independently rechecks the downloaded evidence archive.
 
 Evidence prefix:
 `gs://smallsort-ci-evidence-504462351565/cloud-build/BUILD_ID/`.
@@ -65,33 +79,38 @@ with original42/124, even though their evidence uploads successfully. The packag
 and upload steps have allowFailure only to reach the independent final verdict;
 a missing result, bad summary, incomplete archive or upload cannot yield PASS.
 
-For the second direction: use this migration infrastructure SHA with its own
-explicit proof SHA/profile and a separately authorized ledger/selection. Existing
-lanes are the reviewed stock and historical constructor matrix only. Do not
-silently load its verifier patches or extend these lanes to another semantic
-profile. No merge of research histories, IAM change, cloud resource or trigger is
-needed. The second agent stays suspended during this phase.
+For a separately authorized second direction or agent, preserve that agent's own
+proof SHA and reviewed profile, and record a separately authorized budget before
+submission. All agents share the same one-queued/running-build limit and budget
+ledger, so no second build may start while one is active or unresolved. A second
+agent must not edit this worktree or silently use another branch's sources.
+Existing lanes remain stock and historical constructor only; do not merge
+research histories, load other patches, or extend the semantic profile.
 
 Cloud Build schema and no-source behavior were checked against official
 [build configuration documentation](https://docs.cloud.google.com/build/docs/build-config-file-schema)
 and [gcloud builds submit](https://docs.cloud.google.com/sdk/gcloud/reference/builds/submit).
 
-## Prepared source-access fallback
+## Approved pinned-source delivery
 
-The first B build found the public fork inaccessible anonymously: Git fetch
-failed128; raw, codeload and anonymous API returned404, while authenticated API
-reported PUBLIC. No GitHub credential is transferred to Cloud Build.
+The owner approved credential-free source delivery by pinned Git objects. The
+public Git transport failure and approval are historical context; this mode is
+now the permanent source path for these reviewed builds. It preserves
+`--no-source`, requires no dispatcher bucket write, new key, resource or IAM
+change, and carries only selected committed objects in a bounded gzip payload.
+The restore module is separately embedded in the build config, verifies the
+explicit `LANE`, `INFRA_SHA` and `PROOF_SHA` environment values, and writes its
+source archive plus `source-input-certificate.json` to evidence. Source restore
+has not yet been validated by B/C; neither lane is accepted until its restore,
+source gates, full evidence upload and independent acceptance summary pass.
 
-A credential-free alternative is prepared, pending the owner's response to the
-explicit source-delivery exception request. Add `--source-mode pinned-objects`
-to the submit command only after approval. The client reads selected committed
-Git objects, not working-tree files, and sends a bounded gzip payload through
-explicit substitutions using a [gcloud flags file](https://docs.cloud.google.com/sdk/gcloud/reference/topic/flags-file).
-The receiver checks each original Git object ID, commit/root tree, selected path,
-mode, SHA256 and both actual HEADs. Only required scripts, two profile patches
-and source-certificate files are materialized. Partial repositories are intentional;
-their unselected objects are absent. No commit is fabricated and no fixture is
-generated on the VPS. The source archive and certificate enter evidence.
-
-This preserves `--no-source` and requires no bucket write from the dispatcher,
-new key, resource or IAM change. The default remains public Git fetch.
+ChatGPT reads bucket evidence through the connected **SmallSort CI — Read Only**
+connector. The publisher currently emits the archive plus
+separate `manifest.json`, `summary.json`, `files-sha256.json`,
+`submitted-config.json`, `archive.sha256` and `upload-complete.json` objects.
+Read the compact manifest/summary first, then retrieve only the relevant log
+files. Keep any connector-readable log object at or below 8 MiB; split a larger
+log into ordered chunks and include a small index with chunk names, byte lengths
+and per-chunk SHA-256 values. Reassemble and verify against the uploaded
+manifest/archive inventory before interpreting a truncated or chunked log. The
+VPS wrapper's `download` command remains the independent full archive/hash path.

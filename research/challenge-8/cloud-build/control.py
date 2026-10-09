@@ -90,18 +90,19 @@ export CLOUDSDK_CONFIG=/workspace/cloudsdk
 printf '%s' PACKAGE_B64 | base64 --decode | gzip --decompress > /workspace/package-evidence.py
 SDK_PYTHON /workspace/package-evidence.py --evidence /workspace/evidence --out /workspace/out
 prefix="BUCKET/$CLOUD_BUILD_ID"
-for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json; do
+for file in evidence.tar.gz archive.sha256 summary.json manifest.json files-sha256.json submitted-config.json text-logs-index.json; do
  gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 "/workspace/out/$file" "$prefix/$file"
 done
+gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --recursive --if-generation-match=0 /workspace/out/text-logs "$prefix/"
 SDK_PYTHON - <<'RECEIPT'
 import json,os,pathlib
 p=pathlib.Path('/workspace/out')
 h=(p/'archive.sha256').read_text().split()[0]
-(p/'upload-complete.json').write_text(json.dumps({'build_id':os.environ['CLOUD_BUILD_ID'],'archive_sha256':h,'uploaded':True},indent=2)+'\\n')
+(p/'upload-complete.json').write_text(json.dumps({'build_id':os.environ['CLOUD_BUILD_ID'],'archive_sha256':h,'uploaded':True,'text_logs_index_sha256':__import__('hashlib').sha256((p/'text-logs-index.json').read_bytes()).hexdigest()},indent=2)+'\\n')
 RECEIPT
 gcloud --configuration=smallsort-ci --account=ACCOUNT --project=smallsort-ci storage cp --if-generation-match=0 /workspace/out/upload-complete.json "$prefix/upload-complete.json"
 touch /workspace/upload.ok
-'''.replace('ACCOUNT',ACCOUNT).replace('SDK_PYTHON',SDK_PYTHON).replace('PACKAGE_B64',shquote(package)).replace('BUCKET',BUCKET).replace('$','$$')
+'''.replace('ACCOUNT',ACCOUNT).replace('SDK_PYTHON',SDK_PYTHON).replace('PACKAGE_B64','"$PACKAGER_BYTES"').replace('BUCKET',BUCKET).replace('$','$$')
  verdict='''import json,pathlib,sys
 p=pathlib.Path('/workspace/out')
 try:
@@ -112,7 +113,7 @@ try:
 except Exception as e:
  print('INCOMPLETE_EVIDENCE',type(e).__name__,str(e));sys.exit(2)
 '''
- return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane),'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
+ return {'steps':[{'id':'execute','name':UBUNTU,'entrypoint':'bash','args':['-ceu',body],'env':envs(infra,proof,lane)+source_env,'allowFailure':True},{'id':'package-upload','name':SDK,'entrypoint':'bash','args':['-ceu',upload],'env':envs(infra,proof,lane)+['PACKAGER_BYTES='+package],'allowFailure':True},{'id':'verdict','name':SDK,'entrypoint':SDK_PYTHON,'args':['-c',verdict]}],'timeout':f'{seconds}s','queueTtl':'60s','options':{'machineType':'E2_STANDARD_2','logging':'CLOUD_LOGGING_ONLY'},'serviceAccount':f'projects/smallsort-ci/serviceAccounts/{ACCOUNT}','tags':['smallsort-cloud-migration',token],'substitutions':{'_CONFIG_SHA':'placeholder',**{f'_CONFIG_{i}':'placeholder' for i in range(8)},**{f'_SOURCE_{i}':part for i,part in enumerate(source_parts)}}}
 
 def reconcile(state,ledger):
  for item in ledger['builds']:
@@ -141,7 +142,7 @@ def main():
  sub=p.add_subparsers(dest='command',required=True)
  q=sub.add_parser('submit');q.add_argument('--infra-sha',required=True);q.add_argument('--proof-sha',required=True);q.add_argument('--lane',choices=['smoke-success','smoke-error','smoke-timeout','stock','constructor'],required=True);q.add_argument('--timeout',type=int,required=True);q.add_argument('--source-mode',choices=['public-git','pinned-objects'],default='public-git')
  q=sub.add_parser('status');q.add_argument('build_id',nargs='?')
- q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True)
+ q=sub.add_parser('download');q.add_argument('build_id');q.add_argument('--output',type=Path,required=True);q.add_argument('--text-logs',action='store_true')
  q=sub.add_parser('cancel');q.add_argument('build_id')
  a=p.parse_args();state=a.state_dir;state.mkdir(parents=True,exist_ok=True);ledger=read(DIR/'BUDGET.json');reconcile(state,ledger)
  if a.command=='submit':
@@ -170,7 +171,7 @@ def main():
   raw=(json.dumps(cfg,indent=2)+'\n').encode();h=digest(raw);path=state/(token+'.json');path.write_bytes(raw)
   compressed=base64.b64encode(gzip.compress(raw,mtime=0)).decode()
   if len(compressed)>8*3500:raise SystemExit('Submitted config exceeds evidence transport limit; no dispatch')
-  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING','source_mode':a.source_mode,'source_input_sha256':digest(source_payload) if source_payload is not None else None};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
+  item={'dispatch_token':token,'infra_sha':a.infra_sha,'proof_sha':a.proof_sha,'lane':a.lane,'submitted_config_sha256':h,'reserved_seconds':a.timeout+60,'timeout_seconds':a.timeout,'status':'DISPATCH_PENDING','publish_text_logs':True,'source_mode':a.source_mode,'source_input_sha256':digest(source_payload) if source_payload is not None else None};ledger['builds'].append(item);ledger['active_build']=token;write(DIR/'BUDGET.json',ledger)
   values={'_CONFIG_SHA':h,**{f'_CONFIG_{i}':compressed[i*3500:(i+1)*3500] for i in range(8)},**source_values}
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
@@ -196,7 +197,9 @@ def main():
   if item is None:raise SystemExit('Not a recorded own build')
   a.output.mkdir(parents=True,exist_ok=False)
   names=['evidence.tar.gz','archive.sha256','summary.json','manifest.json','files-sha256.json','submitted-config.json','upload-complete.json']
+  if item.get('publish_text_logs'):names.append('text-logs-index.json')
   subprocess.run(GCLOUD+['storage','cp',*[BUCKET+'/'+a.build_id+'/'+filename for filename in names],str(a.output)+'/'],check=True)
+  if a.text_logs:subprocess.run(GCLOUD+['storage','cp','--recursive',BUCKET+'/'+a.build_id+'/text-logs',str(a.output)+'/'],check=True)
   subprocess.run([sys.executable,str(DIR/'verify-evidence.py'),'--directory',str(a.output),'--expected-build-id',a.build_id,'--expected-infra-sha',item['infra_sha'],'--expected-proof-sha',item['proof_sha'],'--expected-config-sha',item['submitted_config_sha256']],check=True)
   item['download_verified']=True;item['archive_sha256']=(a.output/'archive.sha256').read_text().split()[0];write(DIR/'BUDGET.json',ledger)
 

@@ -60,3 +60,14 @@ because it changes the requested public Git fetch route. It transfers committed
 source objects only, checks original commit/tree/blob identities and source-file
 hashes, and needs no credential export or cloud resource changes. See
 [commands and second-direction requirements](README.md).
+
+## Continuation authorization
+
+The owner has approved pinned Git-object delivery, replacing anonymous fork
+fetch. The280-second account carries forward,3320 remaining at resumption.
+Pre-dispatch Git/hash preparation checked original objects and bounded config
+shape for B/C without any verifier, fixture generator or compilation on VPS.
+Cloud restore validation and B/C acceptance remain pending the new builds.
+The permanent workflow and remaining automatic Actions triggers are documented
+separately. ChatGPT already reads the evidence bucket via SmallSort CI — Read Only;
+new builds will publish full indexed text logs separately with <=8MiB objects.
