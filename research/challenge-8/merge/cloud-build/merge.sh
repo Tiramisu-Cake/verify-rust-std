@@ -167,6 +167,17 @@ for candidate in guard-drop-geometry-v3-diagnostic guard-drop-geometry-v3-stock-
     fi
   fi
 done
+onecell_selected=0
+if python3 "$selection_tool" contains --selection "$selection_file" \
+    --sha256 "$selection_sha" insertion-onecell-guard-diagnostic; then
+  onecell_selected=1
+else
+  selected_status=$?
+  if [[ "$selected_status" -ne 1 ]]; then
+    printf 'one-cell selection validation failed\n' >&2
+    exit 2
+  fi
+fi
 or_join_selected=0
 if python3 "$selection_tool" contains --selection "$selection_file" \
     --sha256 "$selection_sha" mir-or-join-seven-diagnostic; then
@@ -235,6 +246,8 @@ paths.extend([
   "research/challenge-8/merge/overnight/guard-ownership/construction/fbc-v4/prepare.py",
   "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prepare.py",
   "research/challenge-8/merge/overnight/guard-ownership/drop-geometry/prove.py",
+  "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py",
+  "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prove.py",
   "research/challenge-8/merge/cloud-build/guard-geometry-audit.py",
 ])
 for rel in paths:
@@ -255,6 +268,7 @@ ORJOINJSON
   bash -n "$proof_root/research/challenge-8/merge/overnight/build.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/run-seven.sh"
   bash -n "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/build-seven.sh"
+  bash -n "$proof_root/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/build-profile.sh"
   printf 'bash -n OK retained and MIR-OR-JOIN build/run scripts\n'
 } > "$evidence_root/cloud-static-preflight.log" 2>&1
 
@@ -329,7 +343,7 @@ if (( drop_groups_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
   matrix_reserve=$((300 * drop_groups_selected + 140))
   matrix_reserve=$((matrix_reserve + 180 * guard_construction_groups_selected))
-  matrix_reserve=$((matrix_reserve + 180 * guard_construction_v3_groups_selected + 240 * guard_geometry_groups_selected))
+  matrix_reserve=$((matrix_reserve + 180 * guard_construction_v3_groups_selected + 240 * guard_geometry_groups_selected + 450 * onecell_selected))
   (( or_join_selected == 0 )) || matrix_reserve=$((matrix_reserve + or_join_reserve))
   matrix_budget=$((lane_work_budget_seconds - elapsed - matrix_reserve))
   (( matrix_budget > 0 )) || matrix_budget=1
@@ -339,14 +353,14 @@ elif (( or_join_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
   matrix_budget=$((lane_work_budget_seconds - elapsed - or_join_reserve - 140))
   matrix_budget=$((matrix_budget - 180 * guard_construction_groups_selected))
-  matrix_budget=$((matrix_budget - 180 * guard_construction_v3_groups_selected - 240 * guard_geometry_groups_selected))
+  matrix_budget=$((matrix_budget - 180 * guard_construction_v3_groups_selected - 240 * guard_geometry_groups_selected - 450 * onecell_selected))
   (( matrix_budget > 0 )) || matrix_budget=1
   matrix_timeout=650
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
 fi
-if (( drop_groups_selected == 0 && or_join_selected == 0 && (guard_construction_groups_selected > 0 || guard_construction_v3_groups_selected > 0 || guard_geometry_groups_selected > 0) )); then
+if (( drop_groups_selected == 0 && or_join_selected == 0 && (guard_construction_groups_selected > 0 || guard_construction_v3_groups_selected > 0 || guard_geometry_groups_selected > 0 || onecell_selected > 0) )); then
   elapsed=$((SECONDS - lane_started))
-  matrix_budget=$((lane_work_budget_seconds - elapsed - 140 - 180 * guard_construction_groups_selected - 180 * guard_construction_v3_groups_selected - 240 * guard_geometry_groups_selected))
+  matrix_budget=$((lane_work_budget_seconds - elapsed - 140 - 180 * guard_construction_groups_selected - 180 * guard_construction_v3_groups_selected - 240 * guard_geometry_groups_selected - 450 * onecell_selected))
   (( matrix_budget > 0 )) || matrix_budget=1
   matrix_timeout=900
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
@@ -630,7 +644,11 @@ run_guard_construction_v3_group() {
   group_timeout=0
   if (( remaining > 0 && groups_left > 0 )); then
     group_timeout=$((remaining / groups_left))
-    (( group_timeout > 180 )) && group_timeout=180
+    if (( onecell_selected > 0 )); then
+      (( group_timeout > 120 )) && group_timeout=120
+    else
+      (( group_timeout > 180 )) && group_timeout=180
+    fi
   fi
   if [[ -e "$evidence_dir" ]]; then
     printf 'refusing to reuse V3 guard-construction evidence path: %s\n' "$evidence_dir" >&2
@@ -717,6 +735,73 @@ run_guard_geometry_group guard-drop-geometry-v3-diagnostic \
   "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
 run_guard_geometry_group guard-drop-geometry-v3-stock-diagnostic \
   stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
+
+# One opt-in translator rebase and quiescent source-linked one-cell fragment.
+# All retained selected constructor controls above execute before this group.
+onecell_group=insertion-onecell-guard-diagnostic
+if python3 "$selection_tool" contains --selection "$selection_file" \
+    --sha256 "$selection_sha" "$onecell_group"; then
+  CURRENT_STAGE=$onecell_group
+  onecell_component="$proof_root/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
+  onecell_home="$RUNNER_TEMP/challenge8-merge-overnight/verifast-tracked-md-source"
+  onecell_build="$allprooflogs/tracked-md-build"
+  onecell_case="$allprooflogs/cases/$onecell_group"
+  onecell_status=0
+  onecell_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+  onecell_build_timeout=$onecell_remaining
+  (( onecell_build_timeout <= 300 )) || onecell_build_timeout=300
+  if (( onecell_build_timeout > 0 )); then
+    /usr/bin/time -v -o "$allprooflogs/group-$onecell_group-build-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${onecell_build_timeout}s" \
+      bash "$onecell_component/build-profile.sh" \
+        "$RUNNER_TEMP/challenge8-merge-overnight/source" "$onecell_home" \
+        "$onecell_build" "$allprooflogs/build" \
+      > "$allprooflogs/group-$onecell_group.log" 2>&1 || onecell_status=$?
+  else
+    onecell_status=124
+    printf 'NOT_RUN: lane budget exhausted before tracked-MD build\n' \
+      > "$allprooflogs/group-$onecell_group.log"
+    printf 'NOT_RUN\n' > "$allprooflogs/group-$onecell_group-build-resources.txt"
+  fi
+  if (( onecell_status == 0 )); then
+    onecell_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+    onecell_proof_timeout=$onecell_remaining
+    (( onecell_proof_timeout <= 300 )) || onecell_proof_timeout=300
+    if (( onecell_proof_timeout > 0 )); then
+      /usr/bin/time -v -o "$allprooflogs/group-$onecell_group-resources.txt" \
+        timeout --signal=TERM --kill-after=10s "${onecell_proof_timeout}s" \
+        python3 "$onecell_component/prove.py" \
+          --profile experimental-merge-six-tracked-md-onecell-v1 \
+          --profile-evidence "$onecell_build" --tool-home "$onecell_home" \
+          --compiler-sysroot "$(rustc --print sysroot)" \
+          --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
+          --stage-seconds 25 --verifier-seconds 35 --evidence "$onecell_case" \
+        >> "$allprooflogs/group-$onecell_group.log" 2>&1 || onecell_status=$?
+    else
+      onecell_status=124
+      printf 'NOT_RUN: lane budget exhausted before one-cell proof\n' \
+        >> "$allprooflogs/group-$onecell_group.log"
+      printf 'NOT_RUN\n' > "$allprooflogs/group-$onecell_group-resources.txt"
+    fi
+  else
+    printf 'NOT_RUN: tracked-MD profile build failed\n' \
+      > "$allprooflogs/group-$onecell_group-resources.txt"
+  fi
+  printf 'onecell_build_timeout_seconds=%s\nonecell_proof_timeout_seconds=%s\n' \
+    "$onecell_build_timeout" "${onecell_proof_timeout:-0}" \
+    >> "$evidence_root/lane-work-budget.txt"
+  printf '%s %s\n' "$onecell_group" "$onecell_status" \
+    >> "$allprooflogs/group-status.txt"
+  printf '%s\n' "$onecell_status" \
+    > "$allprooflogs/group-$onecell_group-exit-code.txt"
+  if (( onecell_status != 0 )); then status=1; fi
+else
+  selected_status=$?
+  if [[ "$selected_status" -ne 1 ]]; then
+    printf 'one-cell group selection validation failed\n' >&2
+    status=1
+  fi
+fi
 
 run_mir_or_join_group() {
   local group=mir-or-join-seven-diagnostic selected_status=0 driver_status=0

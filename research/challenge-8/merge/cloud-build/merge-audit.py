@@ -134,6 +134,15 @@ GUARD_GEOMETRY_GROUPS = {
     "guard-drop-geometry-v3-stock-diagnostic": "stock-26.10",
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
+ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
+ONECELL_PROFILE = "experimental-merge-six-tracked-md-onecell-v1"
+ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
+ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
+                 "double_physical_fbc")
+ONECELL_MD_CASES = ("positive_manually_drop_after_merge",
+                    "negative_missing_precreated_reference",
+                    "negative_missing_reference_initialization",
+                    "negative_read_without_permission")
 GUARD_CONSTRUCTION_V3_PROFILE = "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b"
 GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256 = hashlib.sha256(
     b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n"
@@ -315,6 +324,18 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                 ("environment", "extraction", "results", "aggregate")]
             mandatory[group].extend(f"cases/{group}/cases/{name}/classification.json"
                                     for name in GUARD_GEOMETRY_CASES)
+        elif group == ONECELL_GROUP:
+            mandatory[group] = [
+                "tracked-md-build/profile-build.json",
+                "tracked-md-build/profile-input.json",
+                "tracked-md-build/tracked-md.patch",
+            ]
+            mandatory[group].extend(f"cases/{group}/{name}.json" for name in
+                                    ("environment", "extraction", "results", "aggregate"))
+            mandatory[group].extend(f"cases/{group}/cases/{name}/classification.json"
+                                    for name in ONECELL_CASES)
+            mandatory[group].extend(f"cases/{group}/md-controls/{name}/classification.json"
+                                    for name in ONECELL_MD_CASES)
         elif group == OR_JOIN_GROUP:
             mandatory[group] = OR_JOIN_MINIMUM_ARTIFACTS
         elif group in OTHER_ARTIFACTS:
@@ -1255,6 +1276,154 @@ def audit(root: Path, selection_path: Path, run_status: int,
             guard_geometry_reports[group] = {"classification": "INCONCLUSIVE", "accepted": False,
                                             "artifact_bindings_valid": False, "reason": str(error)}
 
+    onecell_report = {"classification": "NOT_RUN", "accepted": False,
+                      "actual_drop_glue": "OPEN"}
+    if ONECELL_GROUP in selected:
+        try:
+            component = selection_path.parent.parent / "overnight/guard-ownership/insertion-onecell"
+            pins = json.loads((component / "PROFILE.json").read_text())
+            build = json.loads((evidence / "tracked-md-build/profile-build.json").read_text())
+            profile_input = json.loads((evidence / "tracked-md-build/profile-input.json").read_text())
+            base = cases / ONECELL_GROUP
+            environment = json.loads((base / "environment.json").read_text())
+            extraction = json.loads((base / "extraction.json").read_text())
+            results = json.loads((base / "results.json").read_text())
+            aggregate = json.loads((base / "aggregate.json").read_text())
+            names = set(ONECELL_CASES) | set(ONECELL_MD_CASES)
+            case_classes = aggregate.get("cases", {})
+            build_identity = (pins == profile_input and
+                build.get("schema") == pins.get("schema") == "smallsort-tracked-md-profile-v1" and
+                build.get("profile") == pins.get("profile") == ONECELL_PROFILE and
+                build.get("accepted") is False and build.get("build_exit") == 0 and
+                build.get("proof_sha") == proof_sha and
+                build.get("provider", {}).get("build_id") == build_id and
+                sha256_file(evidence / "tracked-md-build/tracked-md.patch") ==
+                    pins.get("patch_sha256") == sha256_file(component / "tracked-md.patch") and
+                all(build.get(key) == value for key, value in pins.items()) and
+                re.fullmatch(r"[0-9a-f]{64}", build.get("console_sha256", "")))
+            extraction_identity = (
+                extraction.get("profile") == ONECELL_DIAGNOSTIC and
+                extraction.get("source_sha256") == DROP_SOURCE_SHA256 and
+                extraction.get("source_git_blob") == DROP_SOURCE_BLOB and
+                extraction.get("source_block_sha256") == DROP_BLOCK_SHA256 and
+                extraction.get("source_read_sha256") ==
+                    hashlib.sha256(b"        let tmp = ManuallyDrop::new(tail.read());\n").hexdigest() and
+                extraction.get("source_guard_sha256") == hashlib.sha256(
+                    b"        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n").hexdigest() and
+                extraction.get("no_drop_impl_in_fragment") is True and
+                extraction.get("supplied_entry_resources") is True and
+                extraction.get("accepted") is False and
+                set(extraction.get("cases", {})) == set(ONECELL_CASES))
+            environment_identity = (
+                environment.get("profile") == ONECELL_PROFILE and
+                environment.get("accepted") is False and
+                environment.get("proof_sha") == proof_sha and
+                environment.get("cloud_build_id") == build_id and
+                environment.get("provider", {}).get("build_id") == build_id and
+                environment.get("schema_sha256") ==
+                    "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469" and
+                environment.get("source_sha256") == DROP_SOURCE_SHA256 and
+                environment.get("tool_sha256", {}).get("verifast") == build.get("console_sha256") and
+                environment.get("tool_sha256", {}).get("vf-rust-mir-exporter") ==
+                    pins.get("exporter_sha256") and
+                environment.get("tool_sha256", {}).get("refinement-checker") ==
+                    pins.get("refiner_sha256") and
+                Path(environment.get("profile_evidence", "")).resolve() ==
+                    (evidence / "tracked-md-build").resolve())
+            rows_valid = (isinstance(results, dict) and set(results) == names and
+                          set(case_classes) == names and aggregate.get("profile") == ONECELL_PROFILE and
+                          aggregate.get("accepted") is False and
+                          aggregate.get("actual_drop_glue") == "OPEN")
+            if rows_valid:
+                for name in names:
+                    case = base / ("cases" if name in ONECELL_CASES else "md-controls") / name
+                    row = results[name]
+                    retained = json.loads((case / "classification.json").read_text())
+                    orig = case / "original/lib.rs"
+                    verified = case / "verified/lib.rs"
+                    meta = extraction["cases"].get(name) if name in ONECELL_CASES else None
+                    stages = row.get("stages", {})
+                    before = row.get("source_before", {})
+                    rows_valid = (row == retained and row.get("accepted") is False and
+                        row.get("case") == name and case_classes[name] == row.get("classification") and
+                        row.get("source_unchanged_at_every_stage") is True and
+                        row.get("source_after") == before and
+                        before.get("small_sort_source") == DROP_SOURCE_SHA256 and
+                        before.get("original/lib.rs") == sha256_file(orig) and
+                        before.get("verified/lib.rs") == sha256_file(verified) and
+                        set(stages) == {"exporter", "decode", "verifast", "refinement"} and
+                        (meta is None or (meta.get("original_sha256") == sha256_file(orig) and
+                            meta.get("verified_sha256") == sha256_file(verified) and
+                            meta.get("runtime_ghost_strip_equal") is True and
+                            meta.get("source_read_line") == 550 and
+                            meta.get("source_guard_line") == 551)))
+                    if not rows_valid:
+                        break
+                    for stage in stages:
+                        stage_row = json.loads((case / f"{stage}-stage.json").read_text())
+                        rows_valid = (stage_row.get("exit_code") == stages[stage] and
+                                      int((case / f"{stage}-exit-code.txt").read_text()) == stages[stage] and
+                                      (stage_row.get("status") == "NOT_RUN" or
+                                       stage_row.get("source_unchanged") is True))
+                        if not rows_valid:
+                            break
+                    if not rows_valid:
+                        break
+                    if name in ONECELL_CASES and row.get("classification") != "INCONCLUSIVE":
+                        rows_valid = (row.get("source_admission", {}).get("admitted") is True and
+                                      row.get("mir_admission", {}).get("admitted") is True and
+                                      row.get("ast_admission", {}).get("admitted") is True and
+                                      stages.get("exporter") == stages.get("decode") ==
+                                      stages.get("refinement") == 0)
+                        log = (case / "verifast.log").read_text(errors="replace")
+                        log_errors = [line for line in log.splitlines()
+                                      if re.search(r"\berror:", line, re.I)]
+                        if name == "positive":
+                            rows_valid = (rows_valid and row.get("classification") ==
+                                          "PASS_FRAGMENT_ONLY" and stages.get("verifast") == 0 and
+                                          not log_errors and "Leak check." in log and
+                                          "0 errors found" in log and row.get("copy_executed") is True)
+                        else:
+                            target = meta.get("target", {})
+                            expected_line = target.get("line")
+                            if name == "missing_held_owner":
+                                expected_lines = {expected_line, meta.get("own_close_line")}
+                            else:
+                                expected_lines = {expected_line}
+                            error_line = re.search(r"verified/lib\.rs\((\d+),", log_errors[0]) \
+                                if len(log_errors) == 1 else None
+                            predicate = ("Cannot prove false" if name in
+                                         {"after_fbc_false", "after_recovery_false"}
+                                         else "No matching heap chunks")
+                            rows_valid = (rows_valid and row.get("classification") ==
+                                          "EXPECTED_REJECTION" and stages.get("verifast") == 1 and
+                                          error_line is not None and
+                                          int(error_line.group(1)) in expected_lines and
+                                          predicate in log_errors[0])
+                    if not rows_valid:
+                        break
+            expected_md = all(results[name].get("classification") == "REGRESSION_MATCHED"
+                              for name in ONECELL_MD_CASES) if rows_valid else False
+            expected_fragment = (expected_md and
+                results["positive"].get("classification") == "PASS_FRAGMENT_ONLY" and
+                all(results[name].get("classification") == "EXPECTED_REJECTION"
+                    for name in ONECELL_CASES if name != "positive")) if rows_valid else False
+            rows_valid = (rows_valid and aggregate.get("md_regressions_matched") is expected_md and
+                          aggregate.get("fragment_pass") is expected_fragment)
+            valid = bool(artifact_status.get(ONECELL_GROUP, False) and build_identity and
+                         extraction_identity and environment_identity and rows_valid)
+            artifact_status[ONECELL_GROUP] = valid
+            onecell_report = {"classification": "EVIDENCE_COMPLETE_DIAGNOSTIC" if valid else "INCONCLUSIVE",
+                              "accepted": False, "artifact_bindings_valid": valid,
+                              "fragment_pass": aggregate.get("fragment_pass") is True if valid else False,
+                              "raw_case_classifications": case_classes,
+                              "actual_drop_glue": "OPEN"}
+        except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
+            artifact_status[ONECELL_GROUP] = False
+            onecell_report = {"classification": "INCONCLUSIVE", "accepted": False,
+                              "artifact_bindings_valid": False, "reason": str(error),
+                              "actual_drop_glue": "OPEN"}
+
     guard_payload_reports = {}
     for group in ("guard-payload-own-diagnostic", "guard-payload-own-stock-diagnostic"):
         if group not in selected:
@@ -1936,6 +2105,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             "guard_construction_canonical_fbc_v4_diagnostics": guard_construction_v4_reports,
             "guard_payload_own_diagnostics": guard_payload_reports,
             "canonical_fbc_drop_geometry_v3": guard_geometry_reports,
+            "insertion_onecell_guard_fragment": onecell_report,
             "physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell/aggregate.json", "current-owner-memory-cell-diagnostic"),
             "stock_physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell-stock/aggregate.json", "current-owner-memory-cell-stock-diagnostic"),
             "current_owner_permutation_diagnostics": permutation_cases,
