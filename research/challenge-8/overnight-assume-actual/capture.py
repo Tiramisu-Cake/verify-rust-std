@@ -143,6 +143,8 @@ def main() -> None:
     parser.add_argument("--deadline-epoch", type=int, required=True)
     parser.add_argument("--fingerprint", action="store_true",
                         help="diagnostic refusal dump only, after paired MIR/refinement")
+    parser.add_argument("--wrapper-rebase", action="store_true",
+                        help="separate source-only wrapper-owner ghost candidate")
     args = parser.parse_args()
     PREP.require((os.environ.get("GITHUB_ACTIONS"),
                   os.environ.get("RUNNER_ENVIRONMENT"),
@@ -151,8 +153,11 @@ def main() -> None:
                  "nine-body capture requires GitHub-hosted Linux")
     evidence = args.evidence.resolve()
     clear_semantic_opt_ins()
-    source = PREP.write_case(REPO, evidence)
-    case = evidence / PREP.CASE_NAME
+    preparer = (load(HERE / "prepare-wrapper-rebase.py",
+                     "nine_body_wrapper_rebase_source")
+                if args.wrapper_rebase else PREP)
+    source = preparer.write_case(REPO, evidence)
+    case = evidence / preparer.CASE_NAME
     args.first_barrier = False
     args.fingerprint_probe = False
     guard = GUARD.capture_case(case, source, args)
@@ -182,6 +187,8 @@ def main() -> None:
         "a1_nine_body_admission": False,
         "semantic_rule_enabled": False,
     }
+    if args.wrapper_rebase:
+        record["source_mode"] = "wrapper-rebase-source-only"
     (evidence / "summary.json").write_text(json.dumps(
         record, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"classification": record["classification"],
