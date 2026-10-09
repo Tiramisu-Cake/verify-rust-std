@@ -412,8 +412,11 @@ def run(a, r2, r3, case, receiver_tool, receiver_snapshot):
             column_on_log = log
             column_on_stage = stage
         else:
-            need(fatals == [fault] and SCOPE_MARK in log and RECEIVER_MARK in log,
-                 name + " fault did not fail exact admitted mapping gate")
+            expected_route_markers = 1 if name == "wrong-second" else 0
+            need(stage.get("exit") == 2 and fatals == [fault] and SCOPE_MARK in log and
+                 RECEIVER_MARK not in log and "Verifying function '" not in log and
+                 log.count(COLUMN_MARK) == expected_route_markers,
+                 name + " fault did not fail exact pre-receiver mapping gate")
         stage_snapshot = fault_tools[name][1] if name in fault_tools else column_snapshot
         build_log_name = name if name in fault_tools else "on"
         all_stages[name] = {"exit": stage.get("exit"), "fatal": fatals,
