@@ -90,13 +90,16 @@ not derive the actual caller/C1/F-frame bridge. Fresh exact negative metadata
 for old source-pair duplication and hidden recovery requires fresh Cloud proof
 and frontend gates respectively; historical calibration stays INCONCLUSIVE.
 
-The current targeted selection contains `rust-profile-smoke`, both exact source
-preparations, and `mir-or-join-seven-diagnostic`. Its activated manifest binds
-the fresh source-pin Cloud trial, including the admitted source signature at
-line 398 and guard at line 551. The component remains a conditional,
-unaccepted coverage-origin diagnostic. It builds a separate seventh console
-and records actual-bounded, calibrated-dead, and liveness-control results
-without changing theorem or profile acceptance.
+The committed selection file determines each exact-SHA request. The resource
+bundle contains smoke, both source preparations and stock/experimental native,
+current-owner permutation and Drop groups. The separate OR bundle contains
+smoke, both preparations and `mir-or-join-seven-diagnostic`; it does not combine
+those resource probes with its bounded actual proof. The activated OR manifest
+binds the fresh source-pin trial, including signature398/guard551. Its component
+remains a conditional unaccepted coverage-origin diagnostic. It builds a
+separate seventh console and records actual-bounded, calibrated-dead and
+liveness-control results without profile acceptance. See STATUS for the active
+request/checkpoint; editing selection does not change an older exact-SHA Build.
 
 The optional `admission-controls` stage runs only when exact production normal
 MIR evidence is available and budget remains. Its separate control driver and

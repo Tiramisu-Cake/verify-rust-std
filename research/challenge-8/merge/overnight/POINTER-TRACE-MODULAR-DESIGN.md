@@ -58,6 +58,23 @@ dead-code checks. It is an alternate proof adapter only; it does not prove the
 actual merge implementation. Any function helper precondition, dead body,
 partial post, missing array fraction, frontend/Z3 setup failure, or unsupported
 operation is inconclusive. A same-shape first-body `assert false` is kept in a
-separate case with the same full domain, return type, and posts. It remains
-uncalibrated until a fresh hosted run reaches that exact assertion. No local runner,
+separate case with the same full domain, return type, and posts. Fresh Cloud60fdb811 reached its exact first-body assertion at670cols16–21
+and classified EXPECTED_FALSE_ASSERTION under the unchanged full domain. No local runner,
 extraction, or solver execution is part of this design.
+
+
+Cloud cf07b549 (c06d684186e394a2ef21d078f37289208a1022db) and60fdb811
+(e2453336c0a6eb1c2b2d30a624cd066599bbb505) checked the modular positive:
+17declared bodies,36return/40leak records, all12terminal relations, source/
+refinement/zero-dead gates. The concrete reverse dst_rev.sub(1) is in the
+checked g2_trace_reverse body; its bounds follow the endpoint/interior interval
+lemma, not an added endpoint or ownership premise. cf07 entry false was only
+calibration;60f provides the separately calibrated exact670cols16–21 gate.
+Full archived evidence and tool profile are recorded in EXPERIMENT-LOG/ledger;
+archivesd54b4168cc4a1c7074ed8947fa1172628b7b916a6af6cccecdcd3cc2e8b1c522
+andf82c51e91a7fa54c428da97e4dcbab6d50d4da336afd263e01aae6ca4dd791cf.
+No unchanged matrix rerun is required by this documentation update. This is a
+conditional trace adapter, with fixed readonly choice-buffer lists and positive
+T stride. Actual callback answers/current source values, copies and ownership
+are separate; SWO/immutable-key/faithful-answer assumptions belong only to the
+functional G2/A/B composition, never unrestricted memory-safety premises.
