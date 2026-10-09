@@ -76,7 +76,8 @@ with tempfile.TemporaryDirectory(prefix='mdnew-pr-audit-success-') as temp:
     script=('cd purely_unsafe\n'+'\n'.join(m.REGISTRATION)+'\ncd ..\n').encode()
     (all_logs/'selected-manuallydrop-registration.mysh').write_bytes(script)
     (all_logs/'native-registration.log').write_text(valid)
-    for name in ('rust-testsuite.log','make-test.log'): (all_logs/name).write_text('mocked pass\n')
+    (all_logs/'rust-testsuite.log').write_text('mocked pass\n')
+    (all_logs/'make-test.log').write_text('NOT_RUN: synthetic budget control\n')
     case_commands={'forget':commands[0],'shared_cleanup':commands[1],
       'false_normal_post':commands[2],'shared_false_unwind':commands[3],
       'dead_code_pre':commands[4]}
@@ -95,11 +96,11 @@ with tempfile.TemporaryDirectory(prefix='mdnew-pr-audit-success-') as temp:
         (case_dir/'case.json').write_text(json.dumps(item,indent=2,sort_keys=True)+'\n'); synthetic[name]=item
     native={'selected_commands':m.REGISTRATION,'selected_script_sha256':hashlib.sha256(script).hexdigest(),
       'registration_sha256':m.REGISTRATION_SHA256,'registration_git_blob':m.REGISTRATION_BLOB,
-      'registration_run':{'exit_status':0},'rust_suite_run':{},'make_test_run':{},'case_evidence':synthetic}
+      'registration_run':{'exit_status':0},'rust_suite_run':{},'make_test_run':{'path':'make-test.log'},'case_evidence':synthetic}
     (all_logs/'native-input.json').write_text(json.dumps(native,indent=2,sort_keys=True)+'\n')
     (cases/'selected-registration.mysh').write_bytes(script)
     (cases/'manifest.json').write_text(json.dumps(native,indent=2,sort_keys=True)+'\n')
-    m.verify_stage=lambda *args,**kwargs:'PASS'
+    m.verify_stage=lambda *args,**kwargs: ('NOT_RUN' if len(args)>2 and args[2]=='make_test_run' else 'PASS')
     m.verify_provenance=lambda *args,**kwargs:{'mocked_pins':True}
     accepted=m.audit(root/'tool',all_logs)
     assert accepted['accepted'] is True

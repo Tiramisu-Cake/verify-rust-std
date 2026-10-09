@@ -219,6 +219,44 @@ def audit(tool: Path, all_logs: Path) -> dict:
         need(note.startswith("NOT_RUN:"),"make test has no explicit NOT_RUN reason","INCOMPLETE_EVIDENCE")
         make_label="NOT_RUN_BUDGET"
     else: make_label="PASS"
+    if make_label=="PASS":
+        def receipt_bytes(key: str) -> bytes:
+            item=native.get(key,{})
+            name=item.get("path")
+            need(isinstance(name,str) and name==Path(name).name,
+                 f"{key} path is absent or unsafe","INCOMPLETE_EVIDENCE")
+            data=read(all_logs/name)
+            need(hashlib.sha256(data).hexdigest()==item.get("sha256"),
+                 f"{key} digest mismatch","INCOMPLETE_EVIDENCE")
+            return data
+        deps=json.loads(receipt_bytes("make_dependency_receipt"))
+        need(deps=={"schema":"verifast-mdnew-pr-make-deps-v1",
+             "llvm_clang_archive_sha256":"7bc39ea82589679a10a4d03cbd7e1d032fffb644774aff60a46bdf973171ef7a",
+             "llvm_clang_release":"vf-llvm-clang-build-5710e1b-Linux",
+             "llvm_install_dir":"/tmp/vf-llvm-clang-build-5710e1b",
+             "vfdeps_archive_sha256":DEPS},
+             "full make test did not use the pinned LLVM/Clang and VFDeps packages")
+        checksum=receipt_bytes("llvm_checksum_receipt").decode(errors="replace")
+        need("vf-llvm-clang-build-5710e1b-Linux.tar.gz: OK" in checksum,
+             "pinned LLVM/Clang download checksum receipt is absent","INCOMPLETE_EVIDENCE")
+        build_deps=receipt_bytes("make_build_dependencies").decode(errors="replace")
+        need(re.search(r"cmake version \d",build_deps) is not None and
+             re.search(r"\d+\.\d+(?:\.\d+)?",build_deps.splitlines()[-1]) is not None,
+             "CMake/Ninja dependency versions were not captured","INCOMPLETE_EVIDENCE")
+        for stage in ("llvm_download","llvm_extract"):
+            need(verify_stage(all_logs,native.get("make_setup_stages",{}),stage)=="PASS",
+                 f"pinned make dependency {stage} stage did not pass")
+        components=json.loads(receipt_bytes("make_component_receipt"))
+        need(components.get("schema")=="verifast-mdnew-pr-make-components-v1" and
+             components.get("make_exit_status")==0,
+             "successful make test lacks a successful post-build component receipt","INCOMPLETE_EVIDENCE")
+        expected_components={"bin/verifast","bin/vf-cxx-ast-exporter",
+                             "bin/vf-rust-mir-exporter","bin/refinement-checker"}
+        rows=components.get("components",{})
+        need(set(rows)==expected_components and all(re.fullmatch(r"[0-9a-f]{64}",rows[x] or "")
+             for x in expected_components),"post-make component hashes are incomplete","INCOMPLETE_EVIDENCE")
+        for name,expected in rows.items():
+            need(sha(tool/name)==expected,f"post-make component hash mismatch: {name}","INCOMPLETE_EVIDENCE")
     provenance=verify_provenance(tool,all_logs,native)
     case_records=native.get("case_evidence",{})
     need(set(case_records)==set(FIXTURES),"native per-fixture evidence set is incomplete","INCOMPLETE_EVIDENCE")

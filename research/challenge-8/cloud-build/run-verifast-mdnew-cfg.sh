@@ -173,10 +173,16 @@ printf 'lane=%s\ninfra_sha=%s\nproof_sha=%s\nbase_sha=%s\ncandidate_sha=%s\nprov
   "$provider_json" "$deadline" > "$all/environment.txt"
 
 run_stage package-index 300 /workspace "$all/package-index.log" split apt-get update
+packages=(build-essential m4 patch unzip capnproto ripgrep time libgmp10 libmpfr6 \
+  libgomp1 libffi8 libncurses6 libtinfo6 zlib1g libz3-4 libgtk-3-0 libgtksourceview-4-0)
+if [[ "$lane" == verifast-mdnew-upstream-pr ]]; then
+  packages+=(cmake ninja-build)
+fi
 run_stage packages-install 300 /workspace "$all/packages-install.log" split \
-  apt-get install --yes --no-install-recommends build-essential m4 patch unzip \
-  capnproto ripgrep time libgmp10 libmpfr6 libgomp1 libffi8 libncurses6 \
-  libtinfo6 zlib1g libz3-4 libgtk-3-0 libgtksourceview-4-0
+  apt-get install --yes --no-install-recommends "${packages[@]}"
+if [[ "$lane" == verifast-mdnew-upstream-pr ]]; then
+  { cmake --version; ninja --version; } > "$all/mdnew-pr-build-dependencies.txt"
+fi
 run_stage vfdeps-download 180 /workspace "$all/vfdeps-download.log" split curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
 printf '%s  %s\n' "$deps_sha" "$deps_archive" | sha256sum -c - > "$all/vfdeps-sha256.log"
@@ -486,13 +492,50 @@ NATIVE_INPUT
     printf '125\n' > "$all/mdnew-pr-rust-suite-exit-code.txt"
   fi
   make_status=125
+  llvm_archive="$work/vf-llvm-clang-build-5710e1b-Linux.tar.gz"
+  llvm_sha=7bc39ea82589679a10a4d03cbd7e1d032fffb644774aff60a46bdf973171ef7a
   if (( registration_status == 0 && rust_status == 0 )) &&
-     remaining_budget=$(remaining) && (( remaining_budget > 700 )); then
+     remaining_budget=$(remaining) && (( remaining_budget > 1050 )); then
+    run_stage mdnew-pr-llvm-download 180 /workspace "$all/mdnew-pr-llvm-download.log" split \
+      curl -fL --retry 2 -o "$llvm_archive" \
+      https://github.com/verifast/vf-llvm-clang-build/releases/download/v3/vf-llvm-clang-build-5710e1b-Linux.tar.gz
+    printf '%s  %s\n' "$llvm_sha" "$llvm_archive" | sha256sum -c - > "$all/mdnew-pr-llvm-sha256.log"
+    run_stage mdnew-pr-llvm-extract 180 /workspace "$all/mdnew-pr-llvm-extract.log" split \
+      tar -xzf "$llvm_archive" -C /
+    llvm_home=/vf-llvm-clang-build-5710e1b
+    [[ -d "$llvm_home" ]] || { echo 'pinned LLVM/Clang directory absent after extraction' >&2; exit 2; }
+    if [[ ! -e /tmp/vf-llvm-clang-build-5710e1b ]]; then
+      ln -s "$llvm_home" /tmp/vf-llvm-clang-build-5710e1b
+    elif [[ "$(readlink -f /tmp/vf-llvm-clang-build-5710e1b)" != "$llvm_home" ]]; then
+      echo 'conflicting pinned LLVM/Clang prefix' >&2; exit 2
+    fi
+    export VF_LLVM_INSTALL_DIR=/tmp/vf-llvm-clang-build-5710e1b VF_VFDEPS_DIR="$deps_home"
+    python3 - "$llvm_archive" "$all/mdnew-pr-make-dependencies.json" "$llvm_sha" "$deps_sha" <<'PR_DEPS'
+import hashlib,json,pathlib,sys
+archive,out,expected,deps_sha=sys.argv[1:]
+archive=pathlib.Path(archive); data=archive.read_bytes(); actual=hashlib.sha256(data).hexdigest()
+if actual!=expected: raise SystemExit('pinned LLVM/Clang release checksum mismatch')
+pathlib.Path(out).write_text(json.dumps({'schema':'verifast-mdnew-pr-make-deps-v1',
+ 'llvm_clang_archive_sha256':actual,'llvm_clang_release':'vf-llvm-clang-build-5710e1b-Linux',
+ 'llvm_install_dir':'/tmp/vf-llvm-clang-build-5710e1b','vfdeps_archive_sha256':deps_sha},indent=2,sort_keys=True)+'\n')
+PR_DEPS
     make_status=0
     run_stage mdnew-pr-make-test 650 "$candidate_tool/src" \
       "$all/make-test.log" combined make test NUMCPU=4 || make_status=$?
+    python3 - "$candidate_tool" "$all/mdnew-pr-make-components.json" "$make_status" <<'PR_COMPONENTS'
+import hashlib,json,pathlib,sys
+tool,out,code=sys.argv[1:]; tool=pathlib.Path(tool)
+names=('bin/verifast','bin/vf-cxx-ast-exporter','bin/vf-rust-mir-exporter','bin/refinement-checker')
+components={}
+for name in names:
+ p=tool/name
+ components[name]=hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None
+if int(code)==0 and any(value is None for value in components.values()): raise SystemExit('successful make test lacks built component')
+pathlib.Path(out).write_text(json.dumps({'schema':'verifast-mdnew-pr-make-components-v1','make_exit_status':int(code),
+ 'components':components},indent=2,sort_keys=True)+'\n')
+PR_COMPONENTS
   else
-    printf 'NOT_RUN: bounded phase time after mandatory native gates\n' > "$all/make-test.log"
+    printf 'NOT_RUN: insufficient bounded time for pinned LLVM/Clang bootstrap and full make test after mandatory native gates\n' > "$all/make-test.log"
     printf 'NOT_RUN\n' > "$all/mdnew-pr-make-test-resources.txt"
     printf '125\n' > "$all/mdnew-pr-make-test-exit-code.txt"
   fi
@@ -508,6 +551,15 @@ def rec(name,code,stage):
 data['registration_run']=rec('native-registration.log',registration,'mdnew-pr-registration')
 data['rust_suite_run']=rec('rust-testsuite.log',rust,'mdnew-pr-rust-suite')
 data['make_test_run']=rec('make-test.log',make,'mdnew-pr-make-test')
+if (root/'mdnew-pr-make-dependencies.json').is_file():
+ for key,name in (('make_dependency_receipt','mdnew-pr-make-dependencies.json'),
+                  ('make_component_receipt','mdnew-pr-make-components.json'),
+                  ('make_build_dependencies','mdnew-pr-build-dependencies.txt'),
+                  ('llvm_checksum_receipt','mdnew-pr-llvm-sha256.log')):
+  p=root/name
+  if p.is_file(): data[key]={'path':name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+ data['make_setup_stages']={key:rec(f'{stage}.log',0,stage) for key,stage in
+  (('llvm_download','mdnew-pr-llvm-download'),('llvm_extract','mdnew-pr-llvm-extract'))}
 log=(root/'native-registration.log').read_text(errors='replace'); captured={}
 mapping={'forget':'verifast forget.rs','shared_cleanup':'verifast shared_cleanup.rs',
  'false_normal_post':'verifast -allow_should_fail false_normal_post.rs',
