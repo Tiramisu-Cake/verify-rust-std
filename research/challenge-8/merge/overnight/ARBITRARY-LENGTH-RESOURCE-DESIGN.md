@@ -3,10 +3,15 @@
 This is a prepared design, not a verified new component. It follows the exact
 repository SmallSort blob `40939f922bcb6fdc7ee0d30427fa861827043827` and the
 conditional actual merge_up/down proof first established at
-`5bbd2ef2613106fdc38bd8aeea930cf344390275`. The latest combined replay is
-`7a4e1ad19558717a33391d30b9a69af579dd5e57`, run37762243525. The bounded
-bidirectional 2/3 body remains rejected at an odd-copy source chunk; its
-prepared address case split has no fresh hosted evidence.
+`5bbd2ef2613106fdc38bd8aeea930cf344390275`. The fresh Cloud transfer uses proof69adf2f624ff323b077d6b22846567b4368311fe,
+Build be12e7b2-e674-49c8-bce2-d0a8c68d9c1d: actual up/down full conditional
+gates pass again; bounded bidirectional2/3 is INCONCLUSIVE after VFtimeout124,
+204main executions,5return/6leak. Odd-source association and a C1copy path
+are reached, but the full body contract remains OPEN. Strengthened stack and
+pinned panic-origin admission pass separately. Source-pair current-value turnover
+and cleanup hidden-type controls are unverified isolated drafts. The source-level
+destination-alias observation passed with exact helper/compiler pins; it supports
+the need to derive the F footprint, not public-caller raw-alias admissibility.
 
 ## Contract and trust boundary
 

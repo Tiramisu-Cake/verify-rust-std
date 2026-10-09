@@ -137,8 +137,9 @@ then extracts the next arbitrary distinct pair from the updated owned_array.
 Reuse our existing owned-array predicate/extract/restore bodies; no trusted axiom,
 new semantic patch, callee summary, callback call or actual-function claim.
 
-Domain: arbitrary n>=2, positive stride, n*size<=isize::MAX, first and second
-ordered in-range distinct pairs (overlap between pairs allowed), pre-existing
+Candidate domain: n>=2, positive stride, n*size<=isize::MAX, first and second
+ordered in-range distinct pairs through the inherited signed i32 interface
+(overlap between pairs allowed), pre-existing
 source holes plus exactly the first pair current points-to/owners. Frame two
 existing destination option cells and current F owner/state unchanged. Post is
 the second holes/pair for replace_two(old_values, first_pair, current_values),
@@ -153,7 +154,37 @@ Every reused/helper lemma body must be checked fresh. Positive same-pair and
 arbitrary overlapping-pair wrappers need full export/decode/refinement/body/
 return/leak/dead gates; no runtime call means an impossible runtime unwind post
 is honest for this isolated component. Negative stale-array restoration and
-second owner claims need exact calibrated stage/predicate/location, with entry
+duplicate full points-to claims need exact calibrated stage/predicate/location, with entry
 proved reachable; uncalibrated/setup cases stay INCONCLUSIVE. Caller ownership,
 F callback-footprint, actual paired calls, cleanup kernel and slice.share bridge
 remain separate open obligations. Draft is not added to the active matrix.
+
+## Targeted collector selection card (operational only)
+
+Problem: repeating unchanged whole matrices spends the independent Cloud budget
+without testing a new hypothesis. A committed selection may choose explicit
+named run_one groups from the retained suite plus two isolated draft groups,
+with the profile-smoke and each selected group's actual preparation/certificate
+dependencies mandatory. Selection is a proof input restored/hashed by the exact
+recipe; it cannot come from a local uncommitted file or env flag alone. The
+full-transfer selection remains the original37groups and saved runtime probe.
+
+No case post/primitive/semantic patch or export/decode/refinement/unwind/leak/
+dead gate changes. Selected commands keep their existing arguments and all
+internal gates. Unselected groups are explicitly listed as NOT_RUN, never PASS.
+Targeted diagnostic completion requires the exact selected group set, all stage
+exit records and required group artifacts; it is tagged partial and cannot be
+combined-profile acceptance. accepted remains false in every mode. Unknown group,
+missing preparation/dependency, malformed selection or missing evidence refuses
+completion. Full relevant gates are still required when the combined profile
+changes. This uses the existing one global coordinator/own account, not a new
+scheduler. New draft cases remain UNTESTED until fresh Cloud calibration.
+
+Resource draft review correction: T.own can be empty/copyable or supplied twice
+by two distinct equal-valued source cells; an extra-own assertion cannot serve
+as a universal uniqueness negative. The matched negative now requests two full
+points-to chunks for the same non-ZST physical source cell, keeping all positive
+resources/posts/frame and remaining CALIBRATION_ONLY until Cloud. The signed
+i32 recursive index/decrement representability gate is unresolved; no native
+usize/full arbitrary-n loop claim is made. A full-length generalization must
+resolve this interface/definedness rather than relabel this draft as accepted.

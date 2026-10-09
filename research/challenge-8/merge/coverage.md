@@ -1,3 +1,22 @@
+## Fresh Cloud transfer checkpoint — 2026-10-09
+
+Build be12e7b2-e674-49c8-bce2-d0a8c68d9c1d / proof69adf2f624ff323b077d6b22846567b4368311fe.
+Actual up/down full conditional gates PASS (116/120executions,3return+3leak).
+Strengthened same-input stack admission16MIR+17AST controls and pinned final
+panic-origin admission PASS; these do not establish the full actual body.
+Actual len2/3 INCONCLUSIVE VFtimeout124,204main executions,5return/6leak,
+export/decode/refinement0. G2 quartet INCONCLUSIVE typed pointer assertion
+at555cols42–67 before ordinary reverse sub(1), all14helper bodies checked;
+full-domain entry false control at446cols16–21 accepted. Modular setup E0384;
+G2/A/B provider guard and HRTB manifest identity failures give no new proof credit.
+M2 and cleanup retained exact controls pass on the unchanged experimental kernel.
+Runtime destination-alias observation is not a symbolic or public-caller theorem.
+
+All previous exact domains/posts/trust boundaries below remain. Current profile
+is unaccepted; arbitrary-n/current-value/F-frame/caller/ownership/generic/ZST
+and Freeze/share bridges OPEN. Draft repairs and new isolated resource/admission
+fixtures require fresh Cloud gates; static checks are not evidence of a theorem.
+
 ## Actual callee conditional checkpoint — 2026-10-08 Moscow
 
 Run37711781188/proof5bbd2ef: unchanged actual merge_up/down full normal/unwind

@@ -5395,3 +5395,102 @@ Self-review: normal/unwind current values preserved, no synthetic permission,
 extra owner, initial snapshot, weak post or new semantic rule. Static pair
 comparison finds the single ghost type argument difference. Draft source only;
 future fresh Cloud calibration and exact oracle are required before gate credit.
+
+First substantive Cloud transfer be12e7b2 (proof/infra69adf2f6): FAILURE,
+create01:28:54.028011367Z–finish01:47:06.052739Z,1093elapsed seconds;
+own1188/10800,remaining9612. Full archiveSHA7734552ad79c4f413ecf73b10e5de1e5d67987587d9738f37b1bb5373244a950
+independently verified; package summary evidence_complete=true,missing_mandatory=[],
+but diagnostic_complete=false/run_exit1/accepted=false. All37group artifacts
+and separate saved runtime probe collected. Exact Source input/proof/kernel/
+translator/compiler pins retained. Current archive/text evidence is in bucket
+cloud-build/be12e7b2-e674-49c8-bce2-d0a8c68d9c1d/. Metadata/archive AND all separate text logs now verified by the common client;
+ledger download_verified=true. Results below use the complete hash-checked archive.
+
+Actual up/down full conditional gates PASS again:116/120executions,3return+
+3leak each, stages0/source unchanged/no dead records. Actual len23 exporter/
+decode/refinement0, same-input stackMIR/proofASTadmitted, final panic-origin
+pinned and linked3records; VFtimeout124,204main executions,5return/6leak,
+20return/22leak fixture totals. Last working branch is f096 right==src+2
+source association at verified/lib.rs492cols376–382; other path reaches C1copy493.
+This is timeout, not assertion refutation or full normal/unwind theorem.
+
+G2 quartet: exporter/decode/refinement0, VF1 after405main executions and all14
+helper bodies/returns/leaks checked, full-domain entryfalse446cols16–21 accepted
+with10classifier refusalmutants. Concrete new failure verified/lib.rs555cols42–67:
+Type mismatch Actual:pointer Expected:*_; cd425 passed a ghost pointer term to
+typed pointer_within_limits, before the ordinary reverse sub(1) obligation.
+Modular positive and matched entry: exporter/refinement1,decode/verifier125,
+zero body entry because E0384 reassignment of immutable left/right bindings.
+Neither is intended negative; entrycontrol stillUNCALIBRATED.
+
+G2/A/Bcompatibility3groups exit2 due shared GitHub-hosted-only guard.
+HRTBcert exit2 before reading its11cases: source manifest now says Cloud proof
+SHA while certificate still requires Actions SHA literal. These are provider
+transfer defects, not proof results. Separate M2shape1positive+6parser refusals,
+M2resource1positive+4intended resource rejections, cleanup2positives+6proof+
+4frontend refusals passed their existing exact gates; earlier HRTBresource
+fixtures remain INCONCLUSIVE. Existing cleanup kernel remains unaccepted.
+
+Saved366runtime probe: byte-equal actual merge_up source admitted, independently
+pinned nightly compiled0/run0; catch_unwind observed dstwrite9. This witnesses
+FnMut type alone allowing this separate raw-destination write+panic; it is not
+VF theorem or public mutable-slice caller alias counterexample. Conditional
+callee frame and full caller ownership/footprint obligations remain unchanged.
+
+Next G2 proof-only repair card: typed pointer_within_limits requires *T, not
+logical pointer; replace wrongtyped assertion by explicit typed bound at
+current dst_rev-1, preserving checked full-pointer/provenance relation through
+trace_destination_reverse_step/nonnegative_index/index_within_limits. Assert
+same full pointer relation to dst_base+(n-2-k), not address-only equality. No
+resource is created by these arithmetic facts. Correct mut bindings only in
+our modular adapter (actual std untouched), keeping12terminal coordinates,
+all helper bodies/posts and matchedentry control. Same profile/defaultRedux;
+no Z3repeat. Positive needs all normal/unwind/body/return/leak/dead/source/
+export/decode/refinement gates; type/setup failure remainsINCONCLUSIVE.
+A new concrete sub(1)VC is next localization; full quartet/modular PASS permits
+checked functional/source composition with their separate ordering premises.
+
+Next actual source-association card: full-pointer equality (provenance/address/
+metadata) may reattribute an EXISTING current source cell/owner to its actual
+selected alias. A short checked lemma consumes one original *T cell/T.own and
+returns the same cell/T.own at the full-pointer-equal selected *T; all other
+source/destination/F chunks frame. No new owner, duplicated permission,
+address-only rewrite, runtime/std change or snapshot. Keep every f096 source
+assertion and all original target posts; call lemma before selected chunk lookup
+in each concrete source case, proving full-pointer equality explicitly. Its
+body must pass at the same source version before a summary is used; failure
+of full-pointer equality or chunk transfer refuses this alternative. Fresh
+same-input strengthened MIR/AST, actual callees, panic origin, full normal/
+unwind/guard/return/leak/dead/source/refinement remain mandatory; timeout cannot
+be called theoremPASS. Isolated partial association controls will not stand in
+for the actual whole len23 body.
+
+Next targeted experiment card (before submit,16selected groups): actual std
+obligation remains the exact conditional len2/3 bidirectional normal/unwind,
+odd-copy/guard/current-source/F/destination-option, return/leak/dead/provenance/
+validity/refinement contract plus G2 all12pointer relations/full normal posts.
+Hypothesis: typed dst_rev-1 bound fixes the quartet type mismatch; modular mut
+bindings allow exporter/decode to reach body; checked full-pointer alias lemma
+moves the existing selected current-cell resource without adding ownership.
+Same-source actual up/down and option stages are mandatory dependencies;
+strengthened stack address diagnostics/role controls and final pinned panic
+origin run again on the changed actual preparation. Positive requirements:
+every target/assertion/body/return/leak/dead/source/export/decode/refinement
+and normal/unwind gate must pass; admission success alone is insufficient.
+Quartet entry negative retains calibrated false assertion446cols16–21;
+modular entry remains exact TARGET calibration only until a fresh location is
+observed. Type/frontend/setup/timeout is INCONCLUSIVE, never an intended negative.
+Tool profile: unchanged six patches/kernel100eebae/translatorffd6fe92,
+nightly2026-09-25 exact commit f7575a9d/default Redux. No Z3 backend retry.
+Changed operational network-guard hash chain runs G2/A/B compatibility with
+SWO/immutable-key/faithful-answer premises still explicitly separate from safety.
+Outcome mapping: concrete new reverse sub(1) VC => localize its typed/full-pointer
+bound; alias VC => require actual provenance/chunk evidence, never assume it;
+complete bounded result => pursue arbitrary-n current-resource/caller bridge;
+timeout => independent isolated resources or evidence-based path decomposition.
+HRTB certificate/new isolated resource/cleanup drafts and unchanged whole
+matrices are explicitly NOT_RUN in this selection and receive no new credit.
+Second Build metadata/archive/separate text-log integrity is fully verified;
+no active own Build. Budget1188/10800,remaining9612. Next request uses the common
+atomic global lock after the foreign546547c0 Build completes, maximum1740s plus
+60s queue and upload reserved by the common client. No migration A/B/C rerun.
