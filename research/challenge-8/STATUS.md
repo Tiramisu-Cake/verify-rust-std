@@ -3,7 +3,11 @@
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
 **1636/10800 conservative Cloud Build seconds used;9164 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
+`b0382472-9685-44b3-955f-88f037d1c144`, lane `o26-wrapper-profile`,
+infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,
+proof `debd540555206a4694250b7586c4cec70d95a727`. Timeout1200, reserve1260;
+monitored under the shared lock. No proof verdict yet.
 Latest independent Build `347068de-0fb2-45e6-bc00-f8ac3ccd2581` FAILURE at
 TEST diagnostic gates; full publication/archive integrity verified, charged322s.
 Infra `fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27`,
@@ -13,8 +17,10 @@ Source-only wrapper candidate passes paired full MIR/refinement/all10 Marshal:
 verified86e00ada/unit35518405/body7 784dd0c7, other8 bodies identical,
 original466882d7/ghost-strip unchanged. **Capture only, not proof.** New ghost
 metadata also changes outer typed CFG to44 locals/27 blocks; old17/19/20
-shape/sites cannot be reused. Separate exact experimental component23 DRAFT
-is being reviewed against full observed forget/assume_init/cleanup graph.
+shape/sites cannot be reused. Separate exact experimental component23 is implemented against the observed
+forget/assume_init/cleanup graph and remains **NOT ACCEPTED**. This fresh Build
+checks its source/graph admission, full positive proof, default-off behavior,
+four owner controls and the independent A1 Move/Copy TEST.
 Coordination10 isolated controls PASS. Nested TEST column-base mismatch and
 AST PROBE unavailable Args metadata caused pre-proof failures; corrected
 TEST/PROBE await fresh Cloud, no intended-negative credit. Canonical main

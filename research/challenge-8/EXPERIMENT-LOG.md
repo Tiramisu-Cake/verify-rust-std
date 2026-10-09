@@ -5637,3 +5637,41 @@ metadata resides State/bodylocalbinding;3references corrected(SHA3686a672...),
 no ASTsemanticrewrite. Bothare setup/admission failuresnotproofnegatives.
 Next: actualnewpointerouterfullproof+affected17/19/20controls; independent
 changedTEST/AST thenlawfulactualsort4 scope/recovery. No unchanged failedrunrepeat.
+
+
+NIGHT-CLOUD-6 pre-experiment and dispatch: Build
+`b0382472-9685-44b3-955f-88f037d1c144`, lane `o26-wrapper-profile`.
+Infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`; proof
+`debd540555206a4694250b7586c4cec70d95a727`. Config
+`418d7912d846c590670e8c2d0f56179ba355c3d8b0fcd8a131db88a9e87aea80`,
+source input `a37053c6e92c6b985e8a65bdf099a1f2120af122c212aa7f3bb9ae35b2a09a80`,
+token `dispatch-344fe23e8b2f46d4ac5284b95dafc839`. Timeout1200, reserve1260.
+The shared lock reconciled foreign terminal Build b34c2f3c to a receipt
+without charging or modifying its owner's ledger. Previous foreign-active
+submission refusal cost0s and created no Build.
+
+Cards: `overnight-assume-actual/CLOUD-WRAPPER-REBASE-PROFILE-CARD.md` and
+`cloud-build/night-select-sort4/WRAPPER-REBASE-PROFILE-CARD.md`. Hypothesis:
+existing checked ghost lemmas lawfully reconstruct both canonical wrapper
+owners from their current cells, allowing the final actual intrinsic and
+assume_init under the full pointer-domain normal equality/owner/thread post
+and false unwind post. The actual generic nested Drop full normal/unwind
+optional-owner/thread posts remain unchanged. Experimental component23
+recertifies the exact observed44-local/27-block graph; it changes translator
+admission metadata, not the kernel/spec/std runtime. The canonical profile
+and actual seven same-version prefix callees are checked before the candidate.
+
+Controls: unchanged canonical source with flag off must reproduce the462
+owner blocker; changed source without opt-in must refuse at17 sourceSHA.
+Four source/MIR owner mutations must refuse first at17's intended SHA gates.
+A separately rebuilt two-hash TEST must admit synthetic owner17 then reject
+selected-wrapper Move-to-Copy at20 before any proof header. Full tool/spec/
+kernel/parser/exporter/refiner/stock-binary and source snapshots must match
+after all stages. Baseline and candidate outcomes remain separate.
+
+Outcome mapping: positive full outer and nested return/leak completion enables
+remaining changed-profile controls before any admissibility claim; a new
+resource failure drives source-grounded ghost repair; a source/graph/setup
+refusal is inconclusive and requires exact correction with a fresh Run.
+Collector success does not prove the function; accepted remainsfalse in this
+experimental lane. No historic A/B/C or unrelated matrix is repeated.
