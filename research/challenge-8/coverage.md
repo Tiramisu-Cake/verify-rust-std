@@ -637,4 +637,18 @@ is now PURE normal result-identity post143; full normal/unwind/leak not proved,
 R2 actual nestedbody not reached and profile NOT_ACCEPTED. Exactowner17/A1/
 component19 negatives and default-off/identity controls PASS. Generic/ZST select
 and all fullsort4/functional obligations remain OPEN; separate293 nestedTEST
-result is not silently inherited. Activebf77 checks changed AST/CUT only.
+result is not silently inherited.
+
+Build bf77d8a1 (infra512e0b19/proof00ccde64, full archive verified) adds
+diagnostic evidence only. The isolated mapped-ID strict CUT relocation matches
+six raw/translated declarations and moves one binding, retaining baseline
+lifetime refusal84; its callback fixture then verifies normal/unwind paths,
+return/leak with VF0, 95 statements and 20 leak checks. It is neither an
+accepted lifetime-rule extension nor an actual sort4 theorem: all-path
+liveness, alias/escape, heap/bounds, source/MIR mutation negatives, combined
+regressions and actual-sort4 admission are OPEN. The print-only AST PROBE
+observes seven metadata groups and the first FnMut call inside unique
+comparison block root138, with return arm0/unwind arm1; unchanged full AST
+snapshot and stock marker185 refusal persist. Direct unwind recovery remains
+unproved. Actual select remains at R2's pure line143 result-identity failure;
+generic/ZST select and full sort4 safety/functionality remain OPEN.

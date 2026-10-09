@@ -40,7 +40,8 @@ preparers remain unchanged.
 
 The first Cloud run is capture only: paired NORMAL and readonly MIR, refinement,
 all nine decoded bodies, ten independently hashed Marshal records, and the
-historical exact-source refusal. No proof profile may admit this source until
+fingerprint collector refusal. The old owner17 refusal is predicted and is
+not executed by this capture; it requires a separate later control. No proof profile may admit this source until
 its new source/unit/body-7 pins, ghost metadata and typed graph have been
 observed and reviewed as a separate R3 profile. A failed assertion identifies
 the first unavailable pure link; an old-certificate refusal, setup failure,

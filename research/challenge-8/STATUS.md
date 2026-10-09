@@ -1,140 +1,49 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
-Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**2748/10800 conservative Cloud Build seconds used;8052 remaining**.
-[Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
-`bf77d8a1-cda1-4426-9fc9-1a0f119e926f`, lane `o26-recovery-tests`,
-infra `512e0b19989f821b923124dea9b403477c90e474`,
-proof `00ccde64680e53236ca29c17f035cade2cb9f791`; timeout1200/reserve1260.
-Changed AST-detail PROBE and corrected mapped-ID strictCUT TEST are pending.
-Latest `218568df-ca79-43c5-a758-44764f1bac5c` SUCCESS **diagnostic only**,
-383s, infra77238833/proof00ccde64; full archive integrity verified:
-`f87639b62f606c21053dfbb5474e78433f8e05ef05ead32ab432cc31afa8f457`.
-R2 source11067f06/unit9c63ec19/body7 00fafebc, full NORMAL/readonly/refinement,
-all9+10 snapshots and exact52/35/2+8/18 graph PASS. Actual seven prefix callees
-pass, truthful guard/unselected drop/SAFE forget/rebase and final assume_init
-call reach normal return. **Missing462 ownership is closed in this diagnostic.**
-Outer first fails pure normal result identity at verified/lib.rs143:45–47:
-`result6 == (condition ? true_val : false_val)`; full outer posts/leak remain
-UNPROVED. Nested body not reached in R2. Profile component23R2 NOT ACCEPTED.
-Four owner17 intended negatives, independent A1 Move(_47)/Copy(_47), independent
-SAFE forget component19 Move(_34)/Copy(_34), default-off and tool identities PASS.
-Next source-only ghost input/payload/wrapper equality assertions will localize
-where the pure relation is lost; fresh capture/graph needed before R3 pins.
+Authorized through **08:00 UTC / 11:00 MSK, 9 October**. Separate Cloud Build
+account: **3102/10800 conservative seconds used; 7698 remaining**. Active own Build
+`f9617843-c38b-4a64-91da-86d65548d40c`, source-only input relation capture,
+infra `eac773eadb46b72dd3af99656739aaeb164a5ed0`,
+proof `d253128ac42f5788cc322201bdfcc6c1e2e36f76`, timeout1200/reserve1260. [Phase](cloud-build/night-select-sort4/PHASE.md),
+[ledger](cloud-build/night-select-sort4/BUDGET.json),
+[experiment history](EXPERIMENT-LOG.md). Branch
+`research/night-select-sort4-cloud-2026-10-09`, worktree
+`/root/verify-rust-std-select-night`. Migration's account remains closed.
 
-Prior293435cf fresh source syntax/graph capture PASS; isolated nested-order TEST
-proves actual generic nested Drop165–170 full normal/unwind return/leak; its
-scheduling is not production acceptance. Actualsort4 print-only AST PROBE
-captures complete unchanged function and first callback scope. Relocation
-compile failure is setup, no negative credit; explicit type correction is in
-activebf77. Generic/ZST select, complete sort4 safety and separate functional
-permutation/order/stability remain open ([generic gap](overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md)).
-Combined payload606345B refused before reservation/0s; split retains complete
-committed paths/original Git closures, R2 511544B/171parts and recovery558131B/
-187parts within unchanged limit. No migration A/B/C or constructor replay.
-Latest Build `b0382472-9685-44b3-955f-88f037d1c144` FAILURE at diagnostic
-verdict; full publication/archive integrity verified, charged368s.
-Infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,
-proof `debd540555206a4694250b7586c4cec70d95a727`.
-Archive `baa28829915a2d1ecfb101b5fad0eb7c5c02d266d9d039dca7f7e590fb0fd2b6`.
-Component23 rebuilt console, exact capture and17/19/20 admission pass;
-four owner17 intended negatives and independent A1 Move/Copy negative pass.
-Default-off canonical first462 and changed-source old17 refusal pass.
-Full positive fails **before any function header** at ghost parser second
-`assert`, verified source178:5–11. This is a syntax/setup failure, not a
-resource negative or an actual proof. Production/profile identities match
-after all controls. Source-only ghost-command syntax repair and fresh
-capture/graph recertification are next; old pins cannot cover changed source.
-The separate component19 negative hook is prepared but not run.
-Latest independent Build `347068de-0fb2-45e6-bc00-f8ac3ccd2581` FAILURE at
-TEST diagnostic gates; full publication/archive integrity verified, charged322s.
-Infra `fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27`,
-proof `73493da558365dcc8c83d6d6941e782d7dfee455`.
-Archive `249350fcdd5b33682d11f4a081c65e34c1b64b939fd333ca0f6ff91ec48dc329`.
-Source-only wrapper candidate passes paired full MIR/refinement/all10 Marshal:
-verified86e00ada/unit35518405/body7 784dd0c7, other8 bodies identical,
-original466882d7/ghost-strip unchanged. **Capture only, not proof.** New ghost
-metadata also changes outer typed CFG to44 locals/27 blocks; old17/19/20
-shape/sites cannot be reused. Separate exact experimental component23 is implemented against the observed
-forget/assume_init/cleanup graph and remains **NOT ACCEPTED**. This fresh Build
-checks its source/graph admission, full positive proof, default-off behavior,
-four owner controls and the independent A1 Move/Copy TEST.
-Coordination10 isolated controls PASS. Nested TEST column-base mismatch and
-AST PROBE unavailable Args metadata caused pre-proof failures; corrected
-TEST/PROBE await fresh Cloud, no intended-negative credit. Canonical main
-proof repeats the462 wrapper-owner blocker, actual select/sort4 still unproved.
-Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
-`/root/verify-rust-std-select-night`, preserves accepted migration65a456b8 and
-saved select/sort4 drafts. Common client65565744/source transportea9e68fc;
-atomic shared HANDOFF published separately. Ready merge requests get alternating
-slots under shared flock/API reconciliation; budgets stay independent.
+Latest Build `bf77d8a1-cda1-4426-9fc9-1a0f119e926f` **SUCCESS, diagnostic
+only** (354s), lane `o26-recovery-tests`, infrastructure
+`512e0b19989f821b923124dea9b403477c90e474`, proof
+`00ccde64680e53236ca29c17f035cade2cb9f791`. Full archive and text index
+were verified; archive SHA-256
+`990877254380a79c5a0612ca8aa6bb42b9245bfe8515b1c42e1113b9089f9883`.
+The isolated strict CUT mapped-ID relocation retains the baseline lifetime
+refusal at `verified/lib.rs:84`, matches six raw/translated declarations, and
+reaches **VF exit 0 on its callback fixture**, including normal/unwind returns
+and leak checks. Its liveness, alias/escape, bounds, heap, source/MIR mutation
+and combined regressions remain OPEN; this TEST changes an isolated frontend
+profile and grants no production or actual-sort4 proof. The print-only AST
+PROBE observes all seven requested metadata groups and the first FnMut call
+inside the unique comparison block (`root[138]`), with return arm 0 and unwind
+arm 1. Its complete function snapshot is unchanged (`dc7e8487…`); the stock
+first reserved-handler refusal remains at `verified/lib.rs:185`. Neither
+probe nor TEST is accepted verifier semantics or a sort4 theorem.
 
-Latest Build `6c560082-2359-4444-85ec-8bb247aea7ae` FAILURE at diagnostic
-gate; full evidence publication completed. Infra/proof `accb752d22df6e39c148576086da3d6d591a4a00` /
-`61034fd53009056deff0ae1d70650a9f1542322f`; charged 371s. Complete
-archive SHA-256 `0df8a1682e6fe47123273ab30eaa58bec0d3d92d10160afb60cf1616dd65969e`,
-text index `6fc4ff7ec5a4df8cff031017827135e3cb610b20fe19f6450b854347a577bfed`
-verified. Publisher: `run_exit_code=0`, `evidence_complete=true`,
-`verification_accepted=false`, `diagnostic_complete=false`.
-The exact nine-body pointer-domain candidate passes all seven prefix callees,
-guard close at line198, unselected actual Drop at203 and SAFE forget at210.
-Actual `select_unpredictable` remains **UNPROVED**: its first body failure is
-`lib.rsspec(462,47-48)`, missing `MaybeUninit_pointer_own<Element>(t,
-MaybeUninit::new(pointer_typeid(Element), payload))` at the final
-`select_unpredictable(...).assume_init()` call. Outer return/leak and nested
-actual Drop body are not proved. Four component17 source/MIR negatives refuse
-at intended certificate gates. Independent A1 TEST gets production17 unit-SHA
-refusal, then TEST20 exact Move-to-Copy rejection; it is not accepted.
-Actual sort4 independently reproduces exact O24 source, paired whole MIR and
-refinement, five/eight/four call inventory and first reserved marker185 refusal;
-its positive-size partial contract is not full generic/ZST safety. Relocation
-TEST fails an untranslated-vs-translated local-ID comparison before any proof
-verdict; mapped-ID TEST remains pending. Next: investigate the real
-source-only symmetric wrapper rebase capture, isolated nested proof scheduling,
-actual sort4 AST-scope PROBE and mapped-ID relocation TEST separately;
-retain production profile and full normal/unwind posts. The earlier 546547
-Build still has no archive and is not upgraded by this fresh run.
-
-Cloud Build `a24604cd-e1d2-43ef-8e4e-f2e313ec44e5` SUCCESS **diagnostic only**,
-infra/proof `ad1e0e9f8ac776f3814426015fa270b55b4fcffc`, o26-trace/timeout1200,
-01:21:29.299094–01:26:42.306230 UTC=314s. Full evidence archive
-`e41b837f9d141c46594dc3f861f02e755b291d50bb1feb02aa5395110fee95a3`,
-inventory/config/source/text index verified. Exact original Git closures restored.
-Source preflight and paired NORMAL/readonly MIR/refinement/all9 complete bodies
-and10 Marshal.No_sharing snapshots passed independently baseline/candidate.
-Baseline reproduces guard type error198; candidate old17/20 refuses source SHA.
-Candidate verified SHA1798132f, original466882d7 unchanged; only body7/unit
-Marshal hashes changed (9577c649/10cf6e4d). Actual helper **NOT PROVEN**.
-Frozen20 source/spec/parser/translator/exporter/refiner/schema retained; rebuilt
-consolee1b447b6 differs from historical bytes, no inherited binary equality.
-
-Isolated strictCUT+print-only TRACE identifies first unresolved entry
-`$_32 : &? T`, same84:9-38 strict freeze refusal; source/MIR/refinement complete,
-production unchanged. TRACE console83f6e0e, TEST unaccepted and excluded from
-production. At that checkpoint, next permitted work was observed guard
-certificate refresh17/20,
-affected admission controls/full actual proof; independent exact-source/MIR
-six-declaration relocation TEST preserving strict freeze, with mandatory
-liveness/alias/bound/heap/CFG controls still OPEN before acceptance.
-Actual sort4 first unwind handler185 and complete generic/ZST safety/functional
-composition remain OPEN. No proof post/check/runtime/signature weakened.
-Earlier Build680ea0b2 SETUP missing dependency is retained and charged321s;
-new preflight fixes it. No migration A/B/C, constructor or unchanged matrix replay.
-
-Earlier Build `546547c0-60e1-4d32-a7f5-8404790a5630` FAILURE, infra
-`cbd1e103ca15f99b207b6edc5606a06edf6a3d71`, proof
-`4ab01bd1a0c13868732abe2e24ad7ee59b5e522e`, o26-night,308s.
-Execute reported refreshed proof exit1, four intended owner17 refusals and exact
-O24 graph/reserved-marker diagnostic. Relocation admission inconclusive. These
-reports are provisional: package failed before archive because nested shadow
-identity manifests were not indexed. **No full evidence / no accepted proof**;
-complete Cloud log and step failure preserved outside Git. New infrastructure
-accb752d fixes only manifest discovery depth (all required hashes remain), exposes
-full proof/relocation logs, and adds an isolated two-hash A1 Move-to-Copy TEST.
-Build 6c560082 above recollected fresh evidence with this changed packager;
-canonical refreshed profile remained unchanged. The 546547 outcome remains
-provisional because its own archive was never published.
+The latest actual `select_unpredictable` result is Build
+`218568df-ca79-43c5-a758-44764f1bac5c` on exact R2 component23 profile:
+seven same-version prefix callees and the outer guard, unselected Drop, SAFE
+forget, wrapper rebases and final `assume_init` reach normal return. The
+previous `lib.rsspec:462` ownership blocker is absent in this **experimental
+diagnostic**. Its first remaining failure is the pure result-identity post at
+`verified/lib.rs:143:45–47`; full outer normal/unwind/leak posts and the actual
+nested Drop body are not proved. R2 remains **NOT ACCEPTED** despite its
+owner17, A1, component19, default-off and identity controls. Separate
+nested-order TEST coverage does not transfer to this R2 proof. Next work is a
+source-only checked input/payload/wrapper relation capture before any R3
+source/MIR pins, plus review of the isolated CUT's open negative matrix.
+Generic/ZST select and complete sort4 safety, five unwind paths and separate
+functional permutation/order/stability composition remain open
+([generic gap](overnight-assume-actual/ACTUAL-GENERIC-SELECT-GAP-2026-10-09.md)).
+No migration replay, local verification, changed runtime or weakened posts.
 
 # Accepted migration checkpoint (historical)
 

@@ -5844,3 +5844,63 @@ localdeclaration/Close/call/free metadata without altering AST/stock first185.
 Each has separate raw proof/diagnostic verdict; acceptedfalse. Unchanged nested,
 coordination and source-wrapper stages absent. Next decision uses actual observed
 scope/operand metadata or first substantive relocationblocker; setup is inconclusive.
+
+NIGHT-CLOUD-9 outcome: Build `bf77d8a1-cda1-4426-9fc9-1a0f119e926f`
+**SUCCESS, diagnostic only**, 04:51:07.810619030–04:57:00.963114 UTC;
+354 conservative seconds charged, own account **3102/10800**, 7698 remaining,
+no active Build. Exact infrastructure `512e0b19989f821b923124dea9b403477c90e474`,
+proof `00ccde64680e53236ca29c17f035cade2cb9f791`, config SHA-256
+`77871f4871f27bc7c4c10ad03a59817f315721790cea63895e36f8cdda82f999`.
+Full archive SHA-256 `990877254380a79c5a0612ca8aa6bb42b9245bfe8515b1c42e1113b9089f9883`,
+text index `365f17f57d63950593f4b844d4656a20f9fafab7fb124bb298f6c48a862bb7e0`;
+publication, original Git-object closure and complete archive verified.
+Runner exit0, `diagnostic_complete=true`, `verification_accepted=false`.
+
+The isolated mapped-ID strict CUT TEST retains the unmodified baseline's first
+`verified/lib.rs(84,9-38)` lifetime-inference refusal, verifies the six matched
+raw/translated local declarations and exactly one moved inner binding, and
+preserves exact source pair, paired NORMAL/readonly MIR and refinement exit0.
+The changed translated-ID patch compiles. Relocated fixture verification exits0
+with **0 errors, 95 statements and 20 leak checks**; the full log contains
+both normal and unwind return/leak paths. Its source/MIR hashes and production
+tool/spec identities are recorded, and the isolated relocation changes only
+its translator relative to the strict CUT baseline. This is a fixture result,
+not a validated change to production lifetime semantics or actual sort4.
+All-path liveness, alias/address escape, heap/bound retention, source/MIR
+mutation negatives, combined S6/no-CUT regression and actual-sort4 admission
+remain OPEN; no direct actual-sort4 unwind result follows from this VF0.
+
+The independent print-only AST PROBE observes all seven requested R2 metadata
+groups: root local declarations, comparison `typeid` declaration and block-free
+metadata, first FnMut operands, local assignment descriptors, normal debt close
+and recovery call. Complete function snapshot SHA-256
+`dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39`
+is unchanged. The first callback is inside the unique comparison block
+`root[138]`, with switch `root[138]/block[32]`, returning arm 0 and unwinding
+arm 1. Probe-on and probe-off retain the same stock first error at
+`verified/lib.rs(185,13-36)`: missing `__vf_sort4_first_unwind`; neither
+verifier execution exits0. This observation does not establish direct unwind,
+resource recovery, actual sort4 safety or accepted frontend semantics.
+
+NIGHT-CLOUD-9 resolves the prior translator record-type setup failure and
+the missing AST-detail observation. Next decisions: source-only checked
+input/payload/wrapper relation capture for the separate R2 actual-helper
+identity blocker at line143 (fresh hashes/graph before any R3 admission), and
+a separately reviewed strict CUT negative matrix before any semantic adoption.
+No unchanged nested/coordination/source-wrapper stages or local verifier run.
+
+NIGHT-CLOUD-10 pre-experiment/dispatch: f9617843-c38b-4a64-91da-86d65548d40c,
+lane o26-input-relation-capture, infra eac773eadb46b72dd3af99656739aaeb164a5ed0,
+proof d253128ac42f5788cc322201bdfcc6c1e2e36f76,
+config f89c2050de008d57afc89acaaf5bd0df77ae611ba1f17186153a9a5d9cb55ff8,
+source input 7cc56715768ab852269d59bfb14a8617b59828e538769b28e83779641bfe72e4,
+token dispatch-d454b092f5c44e4397d56aec84ba1454. Timeout1200/reserve1260;
+own3102 used/7698 remaining before reservation. Complete original Git transport
+payload474405B/159parts. New9 checked ghost commands in3 byte-reversible
+regions retain runtime/fullposts and introduce no assumptions/resources.
+Two bindings inline preserve nested Drop spans; eight unchanged body hashes
+are predictions until observed. This run captures fresh source/MIR/refinement/
+nine bodies/ten Marshal records only. Fingerprint collector refusal is observed
+separately from predicted oldowner17 refusal; no actual proof is requested.
+Fresh evidence permits explicit R3 pin/graph review; mismatch/setup/refinement
+failure is inconclusive and permits only evidence-based repair.

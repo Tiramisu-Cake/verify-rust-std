@@ -4,8 +4,8 @@
   "authorization": "Owner prompt 2026-10-09, actual select then sort4 on Cloud Build",
   "deadline_utc": "2026-10-09T08:00:00Z",
   "ceiling_build_seconds": 10800,
-  "used_build_seconds": 2748,
-  "remaining_build_seconds": 8052,
+  "used_build_seconds": 3102,
+  "remaining_build_seconds": 7698,
   "maximum_build_timeout_seconds": 1800,
   "allowed_lanes": [
     "o26",
@@ -17,9 +17,11 @@
     "o26-independent-tests",
     "o26-wrapper-profile",
     "o26-wrapper-controls",
-    "o26-recovery-tests"
+    "o26-recovery-tests",
+    "o26-input-relation-capture",
+    "o26-strict-cut-controls"
   ],
-  "active_build": "bf77d8a1-cda1-4426-9fc9-1a0f119e926f",
+  "active_build": "f9617843-c38b-4a64-91da-86d65548d40c",
   "builds": [
     {
       "dispatch_token": "dispatch-d2629f25c87d495b8ce7aefa4e92d546",
@@ -221,11 +223,35 @@
       "submitted_config_sha256": "77871f4871f27bc7c4c10ad03a59817f315721790cea63895e36f8cdda82f999",
       "reserved_seconds": 1260,
       "timeout_seconds": 1200,
-      "status": "QUEUED",
+      "status": "SUCCESS",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "5e99795b4dce986d29ce7bae6090e6c5f9f54b32eb4aa792205f7f26930872d2",
-      "build_id": "bf77d8a1-cda1-4426-9fc9-1a0f119e926f"
+      "build_id": "bf77d8a1-cda1-4426-9fc9-1a0f119e926f",
+      "start_time": "2026-10-09T04:51:08.572625295Z",
+      "finish_time": "2026-10-09T04:57:00.963114Z",
+      "create_time": "2026-10-09T04:51:07.810619030Z",
+      "build_seconds": 354,
+      "accounted": true,
+      "execution_seconds": 353,
+      "download_verified": true,
+      "archive_sha256": "990877254380a79c5a0612ca8aa6bb42b9245bfe8515b1c42e1113b9089f9883"
+    },
+    {
+      "dispatch_token": "dispatch-d454b092f5c44e4397d56aec84ba1454",
+      "owner": "select-sort4",
+      "phase_id": "NIGHT-SELECT-SORT4-CLOUD-2026-10-09",
+      "infra_sha": "eac773eadb46b72dd3af99656739aaeb164a5ed0",
+      "proof_sha": "d253128ac42f5788cc322201bdfcc6c1e2e36f76",
+      "lane": "o26-input-relation-capture",
+      "submitted_config_sha256": "f89c2050de008d57afc89acaaf5bd0df77ae611ba1f17186153a9a5d9cb55ff8",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "QUEUED",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "7cc56715768ab852269d59bfb14a8617b59828e538769b28e83779641bfe72e4",
+      "build_id": "f9617843-c38b-4a64-91da-86d65548d40c"
     }
   ]
 }
