@@ -37,6 +37,7 @@
       "argument": "p",
       "kind": "ordinary_contract_negative",
       "target": "reserved name ordinary callee precondition",
+      "error_contains": "No matching heap chunks:",
       "semantic_expectation": "EXPECTED_REJECTION",
       "obligation": "ordinary function contract cannot be forged into a storage event"
     },
@@ -46,6 +47,7 @@
       "argument": "p",
       "kind": "ordinary_contract_negative",
       "target": "reserved extern callee precondition",
+      "error_contains": "No matching heap chunks:",
       "semantic_expectation": "EXPECTED_REJECTION",
       "obligation": "ordinary extern contract cannot be forged into a storage event"
     },
@@ -66,6 +68,43 @@
       "target": "concrete unit size zero",
       "semantic_expectation": "DIAGNOSTIC_ONLY",
       "obligation": "concrete unit layout is a model diagnostic, never an origin negative"
+    },
+    {
+      "name": "origin_unit_runtime_layout",
+      "callee": null,
+      "argument": null,
+      "kind": "layout_diagnostic",
+      "target": "runtime concrete unit size zero",
+      "semantic_expectation": "DIAGNOSTIC_ONLY",
+      "obligation": "compiler-produced size_of::<()> result agrees with zero layout"
+    },
+    {
+      "name": "origin_ghost_reserved_call",
+      "callee": null,
+      "argument": null,
+      "kind": "ghost_frontend_diagnostic",
+      "target": "ghost reserved name cannot forge storage event",
+      "semantic_expectation": "FRONTEND_REJECTION_ONLY",
+      "obligation": "reserved ghost declaration/call must not be admitted as lifecycle"
+    },
+    {
+      "name": "origin_local_death_lost_cell",
+      "callee": null,
+      "argument": null,
+      "kind": "local_death_negative",
+      "target": "local death after physical cell leak",
+      "error_contains": "No matching heap chunks:",
+      "semantic_expectation": "EXPECTED_REJECTION",
+      "obligation": "StorageDead cleanup must reject lost local physical permission"
+    },
+    {
+      "name": "origin_branch_unwind_resource",
+      "callee": "origin_may_unwind",
+      "argument": "p",
+      "kind": "branch_unwind_positive",
+      "target": "branch callback normal and unwind resource",
+      "semantic_expectation": "PASS_CONTROL",
+      "obligation": "both branch return and may-unwind callback preserve the physical cell"
     }
   ]
 }

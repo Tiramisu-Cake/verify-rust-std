@@ -89,3 +89,58 @@ pub unsafe fn origin_unit_layout()
     //@ assert std::mem::size_of::<()>() == 0; // TARGET: concrete unit size zero
 }
 // CASE_END origin_unit_layout
+
+// CASE_BEGIN origin_unit_runtime_layout
+pub unsafe fn origin_unit_runtime_layout()
+/*@ req true; @*/ /*@ ens true; @*/ {
+    let runtime_size = core::mem::size_of::<()>();
+    //@ assert runtime_size == 0; // TARGET: runtime concrete unit size zero
+}
+// CASE_END origin_unit_runtime_layout
+
+// CASE_BEGIN origin_ghost_reserved_call
+/*@
+lem vf__rust_storage_dead(value: u64)
+    req true;
+    ens true;
+{
+}
+@*/
+pub unsafe fn origin_ghost_reserved_call()
+/*@ req true; @*/ /*@ ens true; @*/ {
+    let local = 7_u64;
+    //@ vf__rust_storage_dead(local); // TARGET: ghost reserved name cannot forge storage event
+}
+// CASE_END origin_ghost_reserved_call
+
+// CASE_BEGIN origin_local_death_lost_cell
+use core::mem::ManuallyDrop;
+
+pub unsafe fn origin_local_death_lost_cell() -> u64
+/*@ req true; @*/ /*@ ens result == 9; @*/ {
+    let result = {
+        let tmp = ManuallyDrop::new(7_u64);
+        //@ leak points_to::<u64>(&tmp, _);
+        9_u64
+    }; // TARGET: local death after physical cell leak
+    result
+}
+// CASE_END origin_local_death_lost_cell
+
+// CASE_BEGIN origin_branch_unwind_resource
+extern "Rust" {
+    fn origin_may_unwind(p: *mut u64);
+    //@ req *p |-> ?v;
+    //@ ens *p |-> v;
+    //@ on_unwind_ens *p |-> v;
+}
+
+pub unsafe fn origin_branch_unwind_resource(p: *mut u64, take: bool)
+/*@ req *p |-> ?v; @*/
+/*@ ens *p |-> v; @*/
+/*@ on_unwind_ens *p |-> v; @*/ {
+    if take {
+        unsafe { origin_may_unwind(p) }; // TARGET: branch callback normal and unwind resource
+    }
+}
+// CASE_END origin_branch_unwind_resource

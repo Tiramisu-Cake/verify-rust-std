@@ -110,8 +110,14 @@ def origin_gate(case: Path, meta: dict) -> dict:
                     if not isinstance(target_option, dict) or set(target_option) not in (
                             {"nothing"}, {"something"}):
                         raise ValueError("MIR call target is not a checked Option")
+                    unwind_action = mir.path(call, "unwindAction")
+                    if meta["kind"] == "branch_unwind_positive" and (
+                            not isinstance(unwind_action, dict) or
+                            set(unwind_action) not in ({"continue"}, {"cleanup"})):
+                        raise ValueError("branch callback has no MIR unwind successor")
                     mir_calls.append({"callee": callee, "source_line": line,
-                                      "has_normal_target": "something" in target_option})
+                                      "has_normal_target": "something" in target_option,
+                                      "unwind_action": unwind_action})
             for stmt in mir.path(block, "statements"):
                 stmt_kind = mir.path(stmt, "kind")
                 for key, constructor in (("storageLive", "RustStorageLiveStmt"),
@@ -165,22 +171,71 @@ def origin_gate(case: Path, meta: dict) -> dict:
         return {"admitted": False, "reason": f"origin MIR/AST correlation failed: {error}"}
 
 
+def local_death_gate(case: Path, function: str = "origin_local_death_lost_cell") -> dict:
+    """Bind the missing-resource negative to one tmp StorageDead provenance."""
+    decoded, ast_path = case / "decode.out", case / "proof-ast.ml"
+    if not decoded.is_file() or not ast_path.is_file():
+        return {"admitted": False, "reason": "decoded MIR or proof AST missing"}
+    try:
+        mir, ast = _helpers()
+        decoded_bytes, ast_bytes = decoded.read_bytes(), ast_path.read_bytes()
+        tree = mir.CapnpText(decoded_bytes.decode("utf-8").replace(
+            "variances = [invariant]", 'variances = ["invariant"]')).parse()
+        bodies = [body for body in mir.path(tree, "bodies")
+                  if mir.path(body, "defPath") == function]
+        if len(bodies) != 1:
+            raise ValueError("missing unique local-death MIR body")
+        body = bodies[0]
+        ids = mir.vdi_map(body).get("tmp", [])
+        if len(ids) != 1:
+            raise ValueError("missing unique tmp MIR debug-local identity")
+        dead = []
+        for block in mir.path(body, "basicBlocks"):
+            for statement in mir.path(block, "statements"):
+                kind = mir.path(statement, "kind")
+                if isinstance(kind, dict) and kind.get("storageDead") == {"name": ids[0]}:
+                    dead.append(mir.path(statement, "sourceInfo", "span", "regular", "lo", "line"))
+        if len(dead) != 1:
+            raise ValueError("tmp does not have one decoded StorageDead")
+        ast_tree = ast.OcamlAstText(ast_bytes.decode("utf-8")).parse()
+        funcs = [node for node in ast.nodes(ast_tree, "Func")
+                 if len(node.args) == 13 and node.args[4] == function and
+                 node.args[10] != ast.Sym("None")]
+        if len(funcs) != 1:
+            raise ValueError("missing unique local-death translated function")
+        markers = [node for node in ast.nodes(funcs[0].args[10], "RustStorageDeadStmt")
+                   if len(node.args) == 4 and node.args[2] == ids[0] and
+                   ast.location_line(node.args[1]) == dead[0]]
+        if len(markers) != 1:
+            raise ValueError("tmp StorageDead does not have one dedicated translated marker")
+        obligation_line = ast.location_line(markers[0].args[0])
+        return {"admitted": True, "mir_local": ids[0], "mir_storage_dead_line": dead[0],
+                "obligation_line": obligation_line, "decoded_sha256": _sha(decoded_bytes),
+                "proof_ast_sha256": _sha(ast_bytes)}
+    except Exception as error:
+        return {"admitted": False, "reason": f"local death MIR/AST gate failed: {error}"}
+
+
 def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     stages = execution.get("stages", {})
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = re.findall(r"^.*\berror:.*$", log, re.M | re.I)
-    target = meta["target_line"]
+    death_gate = local_death_gate(case) if meta["kind"] == "local_death_negative" and stages.get("decode") == 0 else None
+    target = (death_gate["obligation_line"] if death_gate and death_gate.get("admitted")
+              else meta["target_line"])
     at_target = rf"verified/lib\.rs\({target},\d+(?:-\d+(?:,\d+)?)?\): "
     executed = re.search(at_target + r"(?:note: )?Executing statement", log) is not None
     exact_error = len(errors) == 1 and re.search(at_target + r"error:", errors[0]) is not None
     stage_inputs_ok = (execution.get("source_unchanged_at_every_stage") is True and
                        all(stages.get(stage) == code for stage, code in
                            meta["expected_stages"].items() if stage != "verifast"))
-    gate = (origin_gate(case, meta) if stages.get("decode") == 0
-            and meta["kind"] != "layout_diagnostic" else
-            {"admitted": False, "reason": "no origin correlation for layout diagnostic"
-             if meta["kind"] == "layout_diagnostic" else "decode did not pass"})
+    gate = (origin_gate(case, meta) if stages.get("decode") == 0 and
+            meta["kind"] not in {"layout_diagnostic", "ghost_frontend_diagnostic", "local_death_negative"}
+            else death_gate if death_gate else
+            {"admitted": False, "reason": "no call-origin correlation for diagnostic"
+             if meta["kind"] in {"layout_diagnostic", "ghost_frontend_diagnostic"}
+             else "decode did not pass"})
     if not stage_inputs_ok:
         classification = "SETUP_REJECTION"
     elif stages.get("verifast") != 0 and (not (case / "proof-ast.ml").is_file() or
@@ -188,6 +243,8 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
         classification = "FRONTEND_REJECTION"
     elif stages.get("verifast") != 0 and not executed:
         classification = "PRE_TARGET_REJECTION"
+    elif meta["kind"] == "ghost_frontend_diagnostic":
+        classification = "INCONCLUSIVE"
     elif meta["kind"] == "layout_diagnostic":
         if stages.get("verifast") == 0 and executed and not errors and "0 errors found" in log:
             classification = "MODEL_LAYOUT_PASS"
@@ -198,16 +255,17 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     elif meta["semantic_expectation"] == "PASS_CONTROL":
         matched = (stages.get("verifast") == 0 and gate.get("admitted") is True and
                    executed and not errors and "0 errors found" in log and
-                   (meta["kind"] != "ordinary_contract_positive" or
+                   (meta["kind"] not in {"ordinary_contract_positive", "branch_unwind_positive"} or
                     ("Leak check." in log and "Executing return statement" in log)))
         classification = "PASS_CONTROL" if matched else "INCONCLUSIVE"
     else:
         matched = (stages.get("verifast") == 1 and gate.get("admitted") is True and
-                   executed and exact_error and "Cannot prove" in errors[0])
+                   executed and exact_error and meta.get("error_contains", "Cannot prove") in errors[0])
         classification = "EXPECTED_REJECTION" if matched else "INCONCLUSIVE"
     result = {**execution, **meta, "case": name, "classification": classification,
               "semantic_evidence": classification in {"PASS_CONTROL", "EXPECTED_REJECTION"},
               "origin_gate": gate, "target_executed": executed, "errors": errors,
+              "obligation_line": target,
               "accepted": False}
     (case / "classification.json").write_text(json.dumps(result, indent=2) + "\n")
     return result
@@ -227,8 +285,10 @@ def run(evidence: Path, args, env: dict, execute_case) -> dict:
                  "controls": {name: row["classification"] for name, row in rows.items()},
                  "case_details": {name: row for name, row in rows.items()},
                  "all_matched": all(row["semantic_evidence"] for row in rows.values()
-                                    if row["kind"] != "layout_diagnostic"),
-                 "layout_diagnostic": rows["origin_unit_layout"]["classification"],
+                                    if row["kind"] not in {"layout_diagnostic", "ghost_frontend_diagnostic"}),
+                 "layout_diagnostics": {name: row["classification"] for name, row in rows.items()
+                                        if row["kind"] == "layout_diagnostic"},
+                 "ghost_frontend_diagnostic": rows["origin_ghost_reserved_call"]["classification"],
                  "evidence_class": manifest["evidence_class"]}
     (evidence / "origin-results.json").write_text(json.dumps(aggregate, indent=2) + "\n")
     return aggregate
