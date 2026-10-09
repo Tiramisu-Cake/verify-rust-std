@@ -87,6 +87,96 @@ lem current_owner_handoff_swap_lemma<T>(t: thread_id_t,
     close current_source_pair_values::<T>(src0, src1, v0, v1);
     close current_destination_pair_owned::<T>(t, dst0, dst1, v1, v0);
 }
+
+// Arbitrary-n identity transfer. These recursive predicates retain the
+// current values and pointer limits down to the one-past endpoint; destination
+// values use the same points-to-only predicate as source values.
+pred current_handoff_owned_array<T>(t: thread_id_t, p: *T,
+                                    n: usize, vs: list<T>) =
+    n == length(vs) &*& pointer_within_limits(p) == true &*&
+    if n == 0 {
+        vs == nil
+    } else {
+        *p |-> ?source_head &*& <T>.own(t, source_head) &*&
+        current_handoff_owned_array::<T>(t, p + 1, n - 1, ?source_tail) &*&
+        vs == cons(source_head, source_tail)
+    };
+
+pred current_handoff_values_array<T>(p: *T, n: usize, vs: list<T>) =
+    n == length(vs) &*& pointer_within_limits(p) == true &*&
+    if n == 0 {
+        vs == nil
+    } else {
+        *p |-> ?value_head &*&
+        current_handoff_values_array::<T>(p + 1, n - 1, ?value_tail) &*&
+        vs == cons(value_head, value_tail)
+    };
+
+pred current_handoff_array_domain<T>(src: *T, dst: *T, n: usize) =
+    0 <= n &*&
+    0 < std::mem::size_of::<T>() &*&
+    std::mem::size_of::<T>() <= isize::MAX &*&
+    n * std::mem::size_of::<T>() <= isize::MAX &*&
+    src as usize <= usize::MAX - n * std::mem::size_of::<T>() &*&
+    dst as usize <= usize::MAX - n * std::mem::size_of::<T>() &*&
+    pointer_within_limits(src) == true &*&
+    pointer_within_limits(src + n) == true &*&
+    pointer_within_limits(dst) == true &*&
+    pointer_within_limits(dst + n) == true &*&
+    (n == 0 || (src as pointer) != (dst as pointer)) &*&
+    (src as usize + n * std::mem::size_of::<T>() <= dst as usize ||
+     dst as usize + n * std::mem::size_of::<T>() <= src as usize);
+
+lem current_owner_handoff_array_identity_rec<T>(t: thread_id_t,
+    src: *T, dst: *T, n: usize, vs: list<T>)
+    req current_handoff_owned_array::<T>(t, src, n, vs) &*&
+        current_handoff_values_array::<T>(dst, n, vs) &*&
+        0 <= n &*&
+        0 < std::mem::size_of::<T>() &*&
+        std::mem::size_of::<T>() <= isize::MAX &*&
+        n * std::mem::size_of::<T>() <= isize::MAX;
+    ens current_handoff_values_array::<T>(src, n, vs) &*&
+        current_handoff_owned_array::<T>(t, dst, n, vs);
+{
+    open current_handoff_owned_array::<T>(t, src, n, vs);
+    open current_handoff_values_array::<T>(dst, n, vs);
+    if n == 0 {
+        close current_handoff_values_array::<T>(src, n, vs);
+        close current_handoff_owned_array::<T>(t, dst, n, vs);
+    } else {
+        assert source_head == head(vs);
+        assert value_head == head(vs);
+        assert source_tail == tail(vs);
+        assert value_tail == tail(vs);
+        assert source_head == value_head;
+        assert source_tail == value_tail;
+        assert 0 <= n - 1;
+        assert n - 1 <= n;
+        mul_mono_l(0, n - 1, std::mem::size_of::<T>());
+        mul_mono_l(n - 1, n, std::mem::size_of::<T>());
+        assert (n - 1) * std::mem::size_of::<T>() <=
+            n * std::mem::size_of::<T>();
+        assert (n - 1) * std::mem::size_of::<T>() <= isize::MAX;
+        current_owner_handoff_array_identity_rec::<T>(
+            t, src + 1, dst + 1, n - 1, source_tail);
+        close current_handoff_values_array::<T>(src, n, vs);
+        close current_handoff_owned_array::<T>(t, dst, n, vs);
+    }
+}
+
+lem current_owner_handoff_array_identity_lemma<T>(t: thread_id_t,
+    src: *T, dst: *T, n: usize, vs: list<T>)
+    req current_handoff_array_domain::<T>(src, dst, n) &*&
+        current_handoff_owned_array::<T>(t, src, n, vs) &*&
+        current_handoff_values_array::<T>(dst, n, vs);
+    ens current_handoff_array_domain::<T>(src, dst, n) &*&
+        current_handoff_values_array::<T>(src, n, vs) &*&
+        current_handoff_owned_array::<T>(t, dst, n, vs);
+{
+    open current_handoff_array_domain::<T>(src, dst, n);
+    current_owner_handoff_array_identity_rec::<T>(t, src, dst, n, vs);
+    close current_handoff_array_domain::<T>(src, dst, n);
+}
 @*/
 
 // Conditional positive: destination bytes already equal the current source
@@ -145,3 +235,31 @@ on_unwind_ens false;
     //@ current_owner_handoff_swap_lemma::<T>(t, src0, src1, dst0, dst1, v0, v1);
 }
 // CASE_END current_owner_handoff_swap
+
+// Conditional arbitrary-n identity handoff for equal CURRENT source and
+// initialized destination lists. This proves only the resource transfer;
+// deriving that equality and the actual CopyOnDrop caller contract remains open.
+// CASE_BEGIN current_owner_handoff_array_identity
+pub unsafe fn current_owner_handoff_array_identity<T, F: FnMut(&T, &T) -> bool>(
+    src: *mut T, dst: *mut T, n: usize, is_less: &mut F,
+)
+/*@
+req thread_token(?t) &*& t == currentThread &*&
+    type_interp::<T>() &*& type_interp::<F>() &*&
+    current_handoff_array_domain::<T>(src, dst, n) &*&
+    current_handoff_owned_array::<T>(t, src, n, ?vs) &*&
+    current_handoff_values_array::<T>(dst, n, vs) &*&
+    *is_less |-> ?f0 &*& <F>.own(t, f0);
+@*//*@
+ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
+    current_handoff_array_domain::<T>(src, dst, n) &*&
+    current_handoff_values_array::<T>(src, n, vs) &*&
+    current_handoff_owned_array::<T>(t, dst, n, vs) &*&
+    *is_less |-> f0 &*& <F>.own(t, f0);
+@*//*@
+on_unwind_ens false;
+@*/
+{
+    //@ current_owner_handoff_array_identity_lemma::<T>(t, src, dst, n, vs);
+}
+// CASE_END current_owner_handoff_array_identity

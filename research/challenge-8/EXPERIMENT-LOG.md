@@ -5548,3 +5548,37 @@ negative permits exact oracle pin then NEW run. No duplication of T.own negative
 no share/Copy bridge, no pointer arithmetic permissions and no snapshot overwrite.
 All unselected groups explicitly NOT_RUN; prior exact same-source/regression
 evidence retained, no combined profile acceptance or semantic kernel change.
+
+Native-usize identity handoff extension card (draft, before implementation):
+problem: two-cell transfer alone cannot express a full CopyOnDrop current-array
+handoff. Add a ghost-only recursive identity component for arbitrary n>=0,
+positive T size and n*size<=isize::MAX. Require an existing source-owned array
+and destination initialized value-only array with the SAME CURRENT value list;
+all current F/thread/type and explicit disjoint source/destination domain frame.
+Return source value-only array and destination-owned array with that list.
+Rule is checked structural recursion on n: consume matching head source owner
+into initialized destination head and recurse on tails; no owner creation,
+copy operation, snapshot or callback. Native usize n-1 occurs only for n>0;
+no signed pair index interface. Every recursive/helper body checked fresh.
+This is partial resource transfer under an explicit current-array equality
+hypothesis, not actual CopyOnDrop, C1 count-n or caller normal/unwind proof.
+Actual count-n copy/refinement and Freeze/share/current-equality derivation are
+OPEN. Existing profile/semantic patches/std untouched; no new trusted summary.
+Positive full body/return/leak/dead/export/decode/refinement gates required;
+any unsupported primitive/definedness/source failure stays INCONCLUSIVE.
+
+Stock isolation card (before next resource submit): hypothesis: the current-owner
+pair/native-usize identity handoff contains no runtime FnMut/wrapping/copy/
+cleanup/stack operation and needs only stock points-to/own/folding/arithmetic.
+Run the EXACT SAME committed current-owner-handoff fixture separately through
+our unchanged pointer harness with the original release26.10 tool_home,
+stock exporter/refiner/spec pins and same pinned nightly/schema. Its existing
+F:FnMut bound remains; if that unused bound needs experimental frontend support,
+report stock setup INCONCLUSIVE rather than rewrite or claim stock PASS.
+All3positive cases and all shared helper bodies require full source/export/decode/
+refinement/body/return/leak/dead gates. No new backend/rule/semantic profile or
+full matrix; original stock is already an independent pinned dependency.
+Positive stock result establishes only the explicit current-equality resource
+component, independent of experimental lifetime-exit rule. Caller/F/copy-count-n/
+cleanup/current-value bridge and full actual theorem stay OPEN. New selection
+has9groups including separate stock handoff, each with its own artifacts/logs.

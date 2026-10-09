@@ -170,3 +170,12 @@ opaque T.own/F.own and every marker's provenance still need a semantic closure
 argument. All surviving chunks/terms must remain typable in the outer environment;
 current bounded admission/green controls do not establish this invariant. No new
 kernel rule is implemented or accepted by this draft.
+
+The same draft now includes native-usize arbitrary-n identity handoff: structural
+recursion consumes each existing source owner once into the matching initialized
+destination array, retaining source bytes without owners. Current lists must
+already be equal; whole ranges are disjoint with explicit bounds/limits. No
+provenance inequality is required. A separate stock26.10 probe of the exact
+fixture will distinguish this resource component from the experimental kernel;
+all cases/checked bodies and refusal gates remain required. No actual copy-count-n,
+CopyOnDrop or caller/current-equality derivation is asserted.
