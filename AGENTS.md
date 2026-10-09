@@ -1,3 +1,23 @@
+## Accepted work policy — owner decision 2026-10-09
+
+Read [WORK-POLICY](research/challenge-8/WORK-POLICY.md) and
+[COMPLETION-PLAN](research/challenge-8/COMPLETION-PLAN.md) before new experiments.
+They govern scope, priorities, evidence replay and the narrow permission for
+small isolated local classifier/parser tests. This explicitly supersedes older
+blanket bans on executable tests and any requirement to rebuild the verifier
+for a classifier-only change. Compiler/verifier/proof execution remains Cloud-only.
+
+Use the current assigned worktree/branch and authorized phase, not an old branch
+name or workflow example below. Research Actions dispatch is not authorized by
+historical instructions. Keep two project-wide queued/running/unresolved Cloud
+Builds at most, one per stable owner/ledger; preserve the v2 coordinator protocol.
+Sessions last two hours, with up to 30 minutes only to finish the current step
+and checkpoint; the assignment supplies the Cloud budget. This policy adds none.
+
+Fetch and integrate these documentation updates at the next safe step or before
+the next session. Record the policy revision read. Do not interrupt a useful
+running build or change its pinned inputs. No proof status is upgraded by docs.
+
 ## Cloud Build concurrency — owner update 2026-10-09
 
 Use at most two project-wide queued/running/unresolved builds, at most one per
@@ -7,7 +27,7 @@ phase documents. Preserve all existing budgets, deadlines and proof scopes.
 
 ## Permanent execution boundary
 
-For SmallSort verification, builds, executable tests, source extraction and
+For SmallSort verification, builds, proof tests, source extraction and
 evidence packaging, Cloud Build is the permanent execution provider. GitHub is
 used for source history, branches, pull requests and documentation. Do not
 dispatch or rerun GitHub Actions for research or heavy checks without a direct
@@ -16,9 +36,9 @@ remain configured and can still fire under their recorded event filters; this
 policy does not alter or disable those triggers. See the unchanged inventory in
 [GitHub triggers](research/challenge-8/cloud-build/GITHUB-TRIGGERS.md).
 
-The VPS edits, publishes, orchestrates Cloud Build, and reads/hashes evidence
-only. All compilation, verification and executable tests run in the authorized
-Cloud Build environment. Use credential-free pinned Git-object source delivery;
+The VPS edits, publishes, orchestrates Cloud Build, and reads/hashes evidence;
+small local service tests follow WORK-POLICY section 4. All compilation,
+verification and proof tests run in the authorized Cloud Build environment. Use credential-free pinned Git-object source delivery;
 never transfer GitHub credentials or use the working tree/configuration/hooks
 as build input. The archive contains committed objects only and restores the
 original commit/tree/blob identities without creating a commit.
@@ -90,21 +110,19 @@ their current automatic filters are listed in
 upstream PR, external comments, tool application or bounty submission without
 separate user authorization.
 
-## Hard rule: no verification or builds on the user's server
+## Execution boundary and local service-test exception
 
-The VPS is an editing and orchestration machine only. ALL compilation,
-verification and executable tests run in the authorized Cloud Build environment
-for SmallSort.
+All compilation and proof verification run in authorized Cloud Build lanes.
 Never run Kani, CBMC, VeriFast, Cargo builds/checks/tests, rustc, bootstrap/x.py,
-research runners/extractors, scripts/run-kani.sh, or containers/remote subprocesses
-that perform these tasks on the VPS. Do not install build/verifier dependencies
-there or run a "quick" compile check. Use only the authorized Cloud Build
-configuration; no self-hosted runner.
+proof runners/extractors or equivalent container/subprocess tasks on the VPS.
+Do not install build/verifier dependencies or use a self-hosted runner.
 
-Local reading/editing, git/gh operations and downloading/reading authorized
-Cloud Build evidence,
-`git diff --check`, `bash -n` and lightweight non-executing document/YAML parsing
-are allowed. GitHub failure is not permission to verify locally.
+Local reading/editing, Git operations, evidence reading/hashing, syntax and
+non-executing parsing remain allowed. WORK-POLICY section 4 additionally permits
+small isolated executable classifier/parser tests on saved or synthetic data.
+Inspect imports/entrypoints first; do not execute proof toolchains or modify live
+evidence/coordinator state. This exception is not permission for local proof work.
+An access failure does not expand these permissions.
 
 ## Frozen trust boundary and proof integrity
 
@@ -157,3 +175,4 @@ within-phase work; do not offload monitoring to the owner. Report concisely in
 Russian. On stop or session limits, save a checkpoint with exact state, active
 run ID (if any), draft status and the next permitted action. Do not promise work
 after the session ends. Documentation-only changes require no verification run.
+
