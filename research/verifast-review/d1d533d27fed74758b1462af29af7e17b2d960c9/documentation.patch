@@ -1,0 +1,400 @@
+From d1d533d27fed74758b1462af29af7e17b2d960c9 Mon Sep 17 00:00:00 2001
+From: root <root@03ohba7t.vm>
+Date: Fri, 9 Oct 2026 17:21:03 +0300
+Subject: [PATCH] docs: establish Challenge 8 VeriFast maintainer workflow
+
+---
+ AGENTS.md                   |  62 +++++++++++
+ docs/challenge8/STATUS.md   | 103 ++++++++++++++++++
+ docs/challenge8/WORKFLOW.md | 203 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 368 insertions(+)
+ create mode 100644 AGENTS.md
+ create mode 100644 docs/challenge8/STATUS.md
+ create mode 100644 docs/challenge8/WORKFLOW.md
+
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..d346b55e456b2be2a2ca6dd76c45cff807c6b520
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,62 @@
++# Challenge 8: сопровождение VeriFast
++
++Обязательная точка входа для роли `verifast`. Здесь сопровождаются изменения
++VeriFast, общие specs и воспроизводимые поставки инструмента для двух
++proof-направлений Challenge 8: select/sort4 и merge/guard/Drop/insertion/fallback.
++Основные агенты продолжают свои экспериментальные доказательства и патчи;
++они не обязаны передавать всю разработку или ждать нашего review.
++
++## Первые чтения и границы
++
++1. Прочитать текущее поручение, этот файл, [WORKFLOW](docs/challenge8/WORKFLOW.md)
++   и [STATUS](docs/challenge8/STATUS.md). Чтение инструкций **не разрешает новую
++   фазу** разработки, review, вычислений или публикации.
++2. Проверить каталог, Git status, ветку, HEAD, remotes и незавершённую передачу.
++   Сохранить изменения пользователя; не делать reset/force-push, не менять
++   глобальную Git-конфигурацию. Новые clones/worktrees — только по необходимости.
++3. По точным коммитам proof-репозитория прочитать `AGENTS.md`,
++   `research/challenge-8/WORK-POLICY.md`, `COMPLETION-PLAN.md`, checkpoint нужного
++   направления и описание coordinator. Начальные пути и версии — в STATUS.
++   Записать версии чтений; при расхождении правил следовать явному поручению,
++   а существенную неясность разрешить до зависимых действий.
++4. Для разрешённой технической задачи прочитать upstream [README.txt](README.txt),
++   [src/README.txt](src/README.txt), [README.Linux.md](README.Linux.md) и нужные
++   инструкции подсистемы. Сохранять upstream style, тестовые требования и
++   дисциплину symbolic execution; проектные правила не заменяют их документацию.
++
++Доказательства, контракты SmallSort и source correspondence принадлежат
++proof-агентам в `verify-rust-std`. Их деревья читать через точные коммиты;
++не переключать ветки и не менять index, файлы, remotes, ledgers или pins.
++Здесь править только в рамках поручения; при переносе патча явно закреплять
++единственного активного владельца и место разработки по WORKFLOW.
++
++## Вычисления, версии и завершение
++
++На VPS разрешены редактирование, Git, чтение evidence, hashing, syntax/static
++parsing и только малые изолированные tests служебных классификаторов по
++WORK-POLICY. Компиляция VeriFast/Rust, proof execution и полноценные регрессии —
++только в Cloud; тяжёлые build dependencies на VPS не устанавливать.
++Будущему owner `verifast` нужны отдельные разрешённые фаза, бюджет, ledger и
++подключение к существующему coordinator: максимум два queued/running/unresolved
++Build суммарно и один на owner/ledger. Исторические бюджеты не наследуются.
++
++Использовать точные SHA и состав профиля, различать candidate, regression,
++consumer acceptance и upstream acceptance. Не ослаблять проверки ради PASS;
++ownership/lifetime/kernel changes требуют объяснения сохранения ресурсов и
++независимого review. Эксперимент на candidate SHA не квалифицирует профиль
++для итогового доказательства; старое evidence не становится новым proof result.
++
++По умолчанию окно — 60 минут; ещё максимум 30 только на завершение начатого
++и checkpoint, если поручение не задаёт иное. В начале выбрать разрешённую
++задачу; в конце проверить diff/ссылки/границы, выполнить допустимую validation,
++сохранить локальный commit и checkpoint с точными версиями и NOT_RUN.
++Организационные commits держать отдельно от будущих upstream-патчей.
++Если задача закончена раньше, завершить сессию без новой фазы.
++
++GitHub-форка пока нет; локальные ветки/commits/bundles допустимы. Push, issues,
++PR, форк и внешние сообщения сейчас не разрешены. Будущее разрешение на
++upstream PR и ответы должно быть явно записано; этот файл его не выдаёт.
++
++Делегировать существенное независимое чтение/реализацию встроенным subagents,
++когда это экономит контекст или время; мелкие задачи делать напрямую.
++Выбор модели, контракт worker и ответственность main agent — в WORKFLOW.
+diff --git a/docs/challenge8/STATUS.md b/docs/challenge8/STATUS.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..a1dac52e490fd77610617cb88c7d9bb91e045154
+--- /dev/null
++++ b/docs/challenge8/STATUS.md
+@@ -0,0 +1,103 @@
++# Checkpoint: подготовка роли verifast
++
++2026-10-09, обследование с 14:11 UTC. Разрешённый scope: только постоянные
++инструкции и документация. [AGENTS.md](../../AGENTS.md), [WORKFLOW.md](WORKFLOW.md).
++Это снимок первого запуска, а не текущее состояние работающих proof-агентов.
++
++## Checkout и доступ
++
++- VeriFast: `/root/verifast`, единственный зарегистрированный worktree;
++  при входе чистый, ветка `research/challenge-8`, HEAD
++  `f76012fb518703b1d98e243ac4f487f16877cfcb` (upstream base первого запуска).
++- Для документации создана локальная ветка `challenge8/verifast-maintainer`
++  от этого HEAD. Документационный commit определяется через
++  `git log -1 --format=%H -- docs/challenge8/STATUS.md`; SHA сообщается в отчёте.
++- Единственный remote VeriFast: `upstream`, fetch/push URL
++  `https://github.com/verifast/verifast.git`. Fork/origin не настроены.
++- Proof-проект: `/root/verify-rust-std`, общий Git dir
++  `/root/verify-rust-std/.git`; `origin` (fetch/push) —
++  `https://github.com/Tiramisu-Cake/verify-rust-std.git`.
++- Аккаунт владельца ограничен по сообщению владельца. Доступ к GitHub/Cloud
++  в этом запуске не проверялся; fetch/push/внешних сообщений не было.
++  Локальные SHA не объявляются опубликованными или доступными Cloud.
++
++Найденные и проверенные read-only Git-командами proof-worktrees:
++
++| Путь | Ветка (либо detached) | HEAD при обследовании |
++| --- | --- | --- |
++| `/root/verify-rust-std` | `overnight/merge-26.10` | `d793eaa25f5cb4de92cda44ba9fc94ea1162d296` |
++| `/root/verify-rust-std-select-night` | `research/night-select-sort4-cloud-2026-10-09` | `0ecff7ee7e6fd5d88082915252cae5dd2395bf93` |
++| `/root/verify-rust-std-merge` | `challenge-8/merge` | `8444589f486e82f23c910bcc918cee1e4681b7ee` |
++| `/root/verify-rust-std-networks` | `challenge-8/networks` | `a9c8913317cbc6d17a8100a8237d50f2356cb5f3` |
++| `/dev/shm/c8-preserved-sort4-night-workflow` | detached | `4771dd9894b28312edf40e16d6398628beaf498f` |
++| `/dev/shm/c8-stock-2610` | `research/stock-26.10-baseline` | `80d9c0c318f71f49c3531883f7953883cb04c2f4` |
++| `/dev/shm/c8-sync-main` | `sync/upstream-cd371-main` | `af1ef9d0747b2f77febe2c3be7d7e6b65d9cdb27` |
++| `/dev/shm/c8-sync-merge` | `sync/upstream-cd371-merge` | `b0af5613e18699c877ef9b7a7ea27b00c7827dda` |
++| `/dev/shm/c8-sync-research` | `sync/upstream-cd371-research` | `a06cfb9d9dd95cf5a8875bd5d2f9bd85df47fadd` |
++| `/tmp/challenge8-workflow-default` | detached | `3d8c8c082a69dbb66c4ab566892e6be71d87a86d` |
++| `/tmp/sort4-constructor-workflow` | detached | `196121c11fee754327692a6aae7c97670d809c74` |
++
++При входе в основном proof-tree изменён
++`research/challenge-8/cloud-build/next-merge-drop-caller/BUDGET.json`; в select-tree
++был untracked `next-select-frame-caller/FIRST-PREFLIGHT.json`, при чтении агент
++также наблюдал изменённый `BUDGET.json` этой фазы. Это активные чужие деревья;
++содержимое этих незакоммиченных изменений не читалось и не менялось.
++Остальные перечисленные деревья при проверке были чистыми. Новые clones/worktrees
++не создавались; чужие ветки/index/remotes/pins/ledgers не менялись.
++
++## Прочитанные версии
++
++Все proof-материалы читались через `git show <full-sha>:<path>` из двух точных
++деревьев выше: **M** = `d793eaa25f5cb4de92cda44ba9fc94ea1162d296`,
++**S** = `0ecff7ee7e6fd5d88082915252cae5dd2395bf93`.
++Пути ниже относительны корню proof-проекта; SHA в правой колонке — последнее
++изменение файла в соответствующем дереве, а M/S — версия целиком прочитанного дерева.
++
++| Прочитано | Дерево | Последнее изменение |
++| --- | --- | --- |
++| `AGENTS.md`, `research/challenge-8/WORK-POLICY.md`, `COMPLETION-PLAN.md` в той же директории | M | `1fcd91eff1507fe0bd0620a23b578edb454f1c3e` |
++| Та же тройка | S | `d389ff641194364e5eeda4ea4e66bedac4915a79` |
++| `research/challenge-8/merge/NEXT-MERGE-DROP-CALLER-CHECKPOINT-2026-10-09.md` | M | `d793eaa25f5cb4de92cda44ba9fc94ea1162d296` |
++| `research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/SEMANTIC-CARD.md` | M | `d793eaa25f5cb4de92cda44ba9fc94ea1162d296` |
++| `research/challenge-8/merge/NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09.md` | M | `731fab682b0ffc262098c0fd5f3876427154311e` |
++| `research/challenge-8/cloud-build/next-select-frame-caller/PHASE.md` (нового END-CHECKPOINT в этом дереве ещё нет) | S | `0ecff7ee7e6fd5d88082915252cae5dd2395bf93` |
++| `research/challenge-8/cloud-build/afternoon-select-sort4/END-CHECKPOINT-2026-10-09.md` | S | `f398c06b99d706a2bf8fa80e56478fd3cf36b7ed` |
++| `research/challenge-8/cloud-build/night-select-sort4/END-CHECKPOINT-2026-10-09.md` | S | `20258b67c17d7e17ae25967488a98060969915a8` |
++| `research/challenge-8/cloud-build/README.md`, `PARALLEL-BUILDS.md` в той же директории | M | `c81fd1a517b9ad2b3ecf0b6d6ab3f50b841d5f8c` |
++| Те же coordinator docs | S | `55414a5c8168061ad960d1f36983334e13699a12` |
++
++Дополнительно для понимания checkpoint прочитаны committed M
++`research/challenge-8/cloud-build/next-merge-drop-caller/{SESSION-STATE.json,BUDGET.json}`
++и S `research/challenge-8/cloud-build/next-select-frame-caller/BUDGET.json`.
++Различия policy/coordinator docs сопоставлены: обе версии требуют v2 two-slot
++admission, а S подробнее закрепляет постоянную Cloud-границу и pinned-object input.
++Исторические разрешения фаз не перенесены новой роли.
++
++В VeriFast на `f76012fb518703b1d98e243ac4f487f16877cfcb` прочитаны
++`README.md`, `README.txt`, `README.Linux.md`, `src/README.txt`,
++`tests/rust/README.md`, `src/rust_frontend/vf_mir_exporter/README.md`.
++Существующих `AGENTS.md`/CONTRIBUTING-инструкций для самого VeriFast не найдено;
++upstream документы сохранены без изменений. Правила делегирования пользователя
++включены в новые инструкции.
++
++## Результат и следующий запуск
++
++Инфраструктура роли `verifast` **ещё не подключена**: нет разрешённой Cloud-фазы,
++бюджета, собственного ledger/регистрации. Существующий coordinator не менялся.
++Очередь передачи, review и tool release ещё не начаты.
++
++Новых proof results нет. Build, proof execution, полноценные регрессии,
++повторная проверка старых результатов и review `ManuallyDrop::new` — **NOT_RUN**.
++Инвентаризация патчей и перенос кода/specs/tests не выполнялись. Выполнена только
++статическая проверка документации, ссылок и diff перед локальным commit.
++
++В M checkpoint/session-state описывают unresolved Build, тогда как committed
++ledger уже отмечает его terminal; семантическая карточка описывает сбой до proof
++execution. Это документальное расхождение не было reconciled с Cloud API и не
++даёт proof credit. Перед зависимым execution владелец должен сверить текущие
++evidence/ledger. Подготовке инструкций и отдельному локальному review оно не мешает.
++
++Рекомендуемое следующее задание: независимое review конкретного candidate
++`ManuallyDrop::new` по предоставленному точному SHA и воспроизводимому caller
++блокеру, с карточкой передачи и планом минимальных регрессий. Разрешение Cloud
++и бюджет для их исполнения оформляются отдельно; это предложение не начинает review.
+diff --git a/docs/challenge8/WORKFLOW.md b/docs/challenge8/WORKFLOW.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..710d07dc9ed7bf06409da48f6b475eb062e26177
+--- /dev/null
++++ b/docs/challenge8/WORKFLOW.md
+@@ -0,0 +1,203 @@
++# Рабочий процесс роли verifast
++
++Вход: [AGENTS.md](../../AGENTS.md). Снимок первого запуска и точные источники:
++[STATUS.md](STATUS.md). Этот процесс описывает будущую работу; разрешённый
++объём каждой сессии определяет отдельное поручение. Подготовка документации
++не разрешает перенос, review, Cloud execution или внешнюю публикацию.
++
++## Ответственность и очередь
++
++Proof-агент владеет доказательствами, контрактами SmallSort и соответствием
++исходному Rust (source correspondence) своего направления. Роль `verifast`
++сопровождает изменения инструмента, общие specs, review, минимальные примеры,
++регрессии, интеграцию, поставки и будущие upstream-подачи. Вопросы на границе
++spec/proof согласовывать с владельцем; перенос tool-патча не передаёт proof.
++Основные агенты могут независимо продолжать эксперименты без ожидания review.
++
++Очередь и история передачи хранятся здесь: `docs/challenge8/handoffs/<id>.md`,
++одна карточка на изменение или воспроизводимый блокер, создаваемая при первом
++поручении на его обработку. Пока очередь не заведена. В карточке сохранять
++последовательность событий и ссылки на точные commits/evidence; STATUS остаётся
++коротким checkpoint роли, а не вторым реестром патчей. Большие логи/артефакты
++хранить в разрешённом evidence-хранилище, фиксируя путь/URI и checksum.
++
++Минимальные поля карточки (отдельный шаблон не нужен):
++
++- ID, направление, цель, вызывающий код и фактический блокер;
++- отправитель, источник: repo + полный опубликованный commit SHA + пути патча,
++  upstream base и зависимости; отдельно статус проверки доступности;
++- до/после передачи: активный repo/ветка/commit, ответственный и подтверждение
++  передачи; соответствие исходного и перенесённого commits;
++- минимальный пример, ожидаемое/фактическое поведение, гипотеза классификации,
++  ресурсы/контракты и затрагиваемая семантика;
++- профиль и рецепт воспроизведения; regression/evidence с Build ID и hashes
++  либо NOT_RUN с причиной;
++- review: reviewer, замечания, исправляющие SHA, открытые вопросы;
++- отдельно candidate, regression, принятие каждым consumer и upstream-статус;
++  ссылки на разрешение Cloud/публикации, если оно появилось.
++
++## Получение и передача патча
++
++1. Получить от proof-агента опубликованный commit `verify-rust-std`, точные
++   пути, upstream base, зависимости и воспроизводимый блокер. Доступность
++   commit проверить отдельно: наличие объекта на VPS не доказывает публикацию
++   или доступность Cloud. Локальный непубликовавшийся источник допустим лишь
++   как явно помеченный локальный кандидат с согласованным способом передачи.
++2. Читать `git show <full-sha>:<path>` и историю точного commit; не переносить
++   mutable working tree. Извлечь patch через `git show` или `format-patch`
++   применительно к его формату. Патч-файл внутри proof-repo извлечь как blob;
++   commit, меняющий непосредственно tool-код, переносить с явной фильтрацией
++   путей. Не переносить случайно proofs, ledgers, evidence или pins.
++3. В разрешённом задании применить изменение в локальной ветке VeriFast,
++   проверить diff/base/зависимости и зафиксировать связь SHA. При необходимости
++   адаптации записать её отдельно. Не править чужие proof-worktrees.
++4. Явно согласовать момент передачи и единственное активное место разработки
++   конкретного изменения. До подтверждения перенесённая копия — кандидат
++   передачи, исходный владелец остаётся активным. После передачи исходная
++   версия — исторический источник; дальнейшие правки tool-патча идут здесь.
++   Если proof-агенту нужен новый эксперимент, явно завести отдельный variant
++   или вернуть владение. Две расходящиеся копии не считать одним принятым патчем.
++5. Интегрировать совместимые изменения с явным списком зависимостей. Review
++   и возврат замечаний записывать в карточку; внешние сообщения отправлять
++   только при явном разрешении. Текущий запуск не разрешает этот перенос.
++
++## Review и evidence
++
++Сначала различить ошибку инструмента, неподдержанную конструкцию, недостаточный
++контракт и инфраструктурный сбой. Отказ верификатора не является основанием
++менять семантику. Ошибки exporter/serializer/runner до проверки и timeout не
++считать FAIL/PASS доказательства; хранить их как отдельную категорию.
++
++Проверять реальную obligation и caller, предусловия, соответствие исходнику,
++отрицательные примеры и границу действующих гарантий. Не добавлять assumptions,
++не ослаблять ownership/контракты/проверки и не снижать целевые гарантии ради PASS.
++Для ownership/lifetime/kernel changes обязательны содержательное объяснение
++сохранения ресурсов по путям, включая unwind/Drop где применимо, и независимое
++review другим reviewer; самопроверка автора этого не заменяет.
++
++Замечание должно указывать конкретный файл/символ/пример, нарушенное условие,
++ожидаемое поведение и требуемую validation. Возвращать локальные замечания
++активному владельцу; фиксировать исправляющий SHA и результат повторного review.
++Незавершённый soundness-вопрос блокирует принятие, а не эксперимент на точном
++candidate SHA.
++
++Сохранять upstream требования из `README.txt`: стиль, просмотр diff, тест для
++изменения поведения, build и test suite. Для технического принятия запускать
++их в разрешённом Cloud, сначала минимальный пример и целевые регрессии, затем
++нужный общий suite. Положительный тест дополнить отрицательным, когда меняется
++граница допустимости. После достаточных checks не повторять их без причины.
++Локальный экспериментальный commit до Cloud checks допустим как candidate
++с NOT_RUN; такой commit не означает проверенную поставку. Для документационного
++commit достаточно статических checks, компиляция и proof execution — NOT_RUN.
++
++Различать четыре события, фиксируя каждое по exact SHA/profile:
++
++| Событие | Что оно означает |
++| --- | --- |
++| Candidate подготовлен | Есть проверяемый diff и рецепт; регрессии могут быть NOT_RUN |
++| Регрессии выполнены | Есть конкретные cases, команды, профиль и evidence; это не принятие consumer |
++| Consumer принял pin | Его владелец независимо проверил свой caller/obligation и записал принятие |
++| Upstream принял | Патч принят upstream с точным SHA; это не автоматическое принятие proof pin |
++
++Классификация сохранённых логов и replay ранее полученного evidence не создают
++нового proof credit. Изменившиеся source, семантика или профиль требуют новой
++применимой проверки. Эксперимент можно продолжать до review на точном candidate
++SHA; профиль этим не квалифицируется для итогового доказательства Challenge 8.
++
++## Воспроизводимая версия и принятие pin
++
++В карточке поставки фиксировать полный upstream base и tool commit, упорядоченный
++состав patch-профиля/опции, точные specs, exporter, translator, Rust toolchain,
++существенные зависимости/solver/container, команды и окружение сборки, hashes
++артефактов, точные source/proof/infra commits, cases и Build IDs/evidence.
++Для компонента внутри tool tree достаточно явно указать тот же SHA и путь;
++для внешнего компонента нужен собственный pin. Сохранять известные ограничения,
++статус review и NOT_RUN. Не использовать плавающий `latest`/`nightly` как proof
++pin и не переписывать опубликованные версии; исправление получает новый SHA.
++
++Потребитель самостоятельно проверяет доступность версии и состав профиля,
++воспроизводит сборку/регрессии в своей разрешённой фазе и проверяет нужный
++caller, source correspondence и гарантии. Он записывает accepted/rejected/
++pending с exact pin и evidence в своём репозитории, а результат передачи —
++в нашей карточке. Только proof-владелец меняет свой pin. До его принятия
++предыдущий accepted pin сохраняет статус; наша поставка его не заменяет.
++
++## Cloud и VPS
++
++На VPS допустимы редактура, Git, чтение evidence, hashing и syntax/static
++parsing. Исключение WORK-POLICY §4: малые изолированные executable tests
++служебных classifiers/parsers на сохранённых логах или синтетических данных.
++Сначала проверить entrypoint/imports; использовать уже установленный лёгкий
++runtime и отдельный временный каталог. Не вызывать compiler/verifier,
++proof runner, source extractor, dependency installer или Cloud dispatch;
++не менять реальное evidence, чужие файлы и coordinator. Это не proof result.
++
++Компиляция VeriFast/Rust, Cargo build/check/test, rustc, VeriFast, Kani/CBMC,
++bootstrap/x.py, proof runners/extractors и полноценные tool-regressions выполняются
++в Cloud, включая wrappers/containers. Не ставить тяжёлые build dependencies
++на VPS. GitHub Actions также требуют отдельного явного разрешения.
++
++Будущий стабильный owner — `verifast`. До первого Build нужны отдельное
++разрешение на фазу, её собственный бюджет и ledger, проверенная lane и подключение
++к **существующему** coordinator. Исторические бюджеты, deadlines и разрешения
++`merge`/`select-sort4` не переходят этой роли. Точные infra/proof SHAs обязательны.
++Документация не разрешает создавать регистрацию, менять dispatcher или coordinator.
++Передавать Cloud committed Git objects с сохранением исходных commit/tree/blob
++идентичностей; не передавать GitHub credentials, рабочее дерево, config или hooks
++как build input. Доступность такого входа проверять отдельно от наличия GitHub-форка.
++
++Протокол v2 описан в proof-repo: `research/challenge-8/cloud-build/README.md`
++и `PARALLEL-BUILDS.md`; клиенты — `control.py`/`coordination.py`. Shared state:
++`/root/smallsort-ci-coordination/active.json`, lock: соседний `lock`. Максимум
++два queued/running/unresolved Cloud Build суммарно, один на owner и ledger.
++Request носит advisory-характер; admission и token reservation обязательны.
++Неопределённый submit занимает слот до terminal API evidence или окончательного
++подтверждения отказа; timeout клиента не разрешает повторный submit/снятие слота.
++Чужие reservations/ledgers не исправлять. Перед разрешённым Cloud-заданием
++перечитать актуальный протокол из точного commit; старые single-slot правила
++не применять вместо согласованного v2. В первом запуске Cloud полностью NOT_RUN.
++
++## Upstream и временная работа без форка
++
++Готовить необходимые зрелые патчи заранее: минимальный reproducer, объяснение
++проблемы и сохранения soundness, отдельные focused commits, tests, evidence,
++описание зависимостей и черновик PR. Upstream acceptance может повлиять на сроки
++итоговой квалификации Challenge 8; обязательность со стороны организаторов
++**пока не установлена**. Не откладывать подготовку до окончания всех proofs.
++
++Сейчас аккаунт владельца ограничен и своего GitHub-форка VeriFast нет. Работать
++локально, без создания форка, push, issues/PR и внешних сообщений. Разрешение
++на будущую публикацию PR и ответы на review должно быть отдельно явно записано
++в поручении/карточке. Готовый черновик и чтение этих инструкций его не выдают.
++После разрешения отслеживать upstream, связывать принятые SHA с местными патчами
++и удалять заменённые обходы через review и regression/consumer acceptance.
++
++Локальный commit не считать опубликованным или доступным Cloud без проверки.
++При необходимости сохранять контрольный Git bundle с перечнем refs и checksum;
++копия на этом VPS не является внешним резервированием. Не переписывать чужую
++историю, не делать force-push/reset и не менять глобальную Git-конфигурацию.
++Организационные документы держать отдельно от подаваемых upstream code commits.
++
++## Сессия и делегирование
++
++В начале зафиксировать scope, timebox, каталог, Git status/ветку/HEAD/remotes,
++источники инструкций и незавершённые карточки. Выбрать одну реальную obligation
++и caller для технического задания. Обычно окно — 60 минут, ещё максимум 30
++только на завершение начатого и checkpoint; конкретное поручение может его менять.
++Не заполнять оставшееся время новой фазой без разрешения.
++
++Перед завершением проверить diff, relative links, согласованность разрешений,
++отсутствие посторонних изменений, сохранить только свои файлы отдельным локальным
++commit. Checkpoint содержит exact commits/profile, выполненные проверки,
++proof/replay/NOT_RUN отдельно, blockers и одно рекомендуемое следующее задание.
++Не включать чужие изменения в commit и не устранять их для «чистого» status.
++
++Использовать explorer для существенного чтения и worker для существенной
++реализации после выбора поведения и границ. По умолчанию subagent GPT-6 Luna;
++для сложного локального анализа повышать reasoning, для архитектурных решений
++и неоднозначного review выбирать GPT-6 Sol, Astra — только для особенно трудного.
++Не делегировать мелкие edits/поиски. Worker получает цель, scope, acceptance
++criteria, invariants, validation и non-goals; неоднозначности возвращает main
++agent. Параллельные writes допустимы только в независимых областях; у изменения
++один активный владелец. Main agent отвечает за решения, интеграцию, validation
++и отчёт; не повторяет исследование explorer без конкретной причины.
