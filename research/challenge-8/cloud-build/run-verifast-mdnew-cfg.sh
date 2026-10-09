@@ -364,12 +364,12 @@ capture_case() {
     run_stage "$name" 180 "$workdir" "$workdir/$mode-mir.bin" split \
        "$exporter" "$case.rs" "--sysroot=$compiler_sysroot" --edition 2021 --crate-type lib "${suffix[@]}" || rc=$?
     stages["$mode-export"]=$rc
-    cp "$all/$name.log" "$outdir/$side-$mode-export.log"
+    cp "$all/$name-stderr.log" "$outdir/$side-$mode-export.log"
     if (( rc == 0 )); then
       name="$side-$case-$mode-decode"; rc=0
       run_stage "$name" 120 "$workdir" "$workdir/$mode-mir.txt" split capnp decode "$schema" VfMir < "$workdir/$mode-mir.bin" || rc=$?
       stages["$mode-decode"]=$rc
-      cp "$all/$name.log" "$outdir/$side-$mode-decode.log"
+      cp "$all/$name-stderr.log" "$outdir/$side-$mode-decode.log"
       cp "$workdir/$mode-mir.txt" "$outdir/$side-$mode-mir.txt"
     else stages["$mode-decode"]=-1; fi
   done
@@ -377,7 +377,7 @@ capture_case() {
   run_stage "$name" 180 "$workdir" "$workdir/refinement.log" split \
     "$refiner" --rustc-args '--edition 2021' original/lib.rs verified/lib.rs || rc=$?
   stages[refinement]=$rc
-  cp "$all/$name.log" "$outdir/$side-refinement.log"
+  cp "$all/$name-stderr.log" "$outdir/$side-refinement.log"
   if [[ "$side" == candidate ]]; then
     cp "$workdir/normal-mir.bin" "$outdir/normal-mir.bin"
     cp "$workdir/readonly-mir.bin" "$outdir/readonly-mir.bin"
