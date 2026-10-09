@@ -30,7 +30,8 @@ def relocation(ev):
     try: code=int((ev/'cases/cut-relocate-helper-exit-code.txt').read_text().strip())
     except (OSError,ValueError):code=None
     matched=code==0 and result.get('classification') not in (None,'INCONCLUSIVE') and result.get('accepted') is False
-    if os.environ.get('LANE') in ('o26-recovery-tests','o26-strict-cut-controls'):
+    if os.environ.get('LANE') in ('o26-recovery-tests','o26-strict-cut-controls',
+                                  'o26-sort4-scope-tests'):
         checks=result.get('checks') or {}
         required={'translated_ids_patch_pin','support','exact_source_pair',
                   'complete_target_mir_pins','direct_unwind_continue',
@@ -42,7 +43,7 @@ def relocation(ev):
                  set(checks)==required and all(value is True for value in checks.values()) and
                  result.get('raw_capture_exit')==0 and
                  result.get('unwind_storage_dead_assumed') is False)
-    if os.environ.get('LANE')=='o26-strict-cut-controls':
+    if os.environ.get('LANE') in ('o26-strict-cut-controls','o26-sort4-scope-tests'):
         matched=matched and result.get('classification')=='FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY'
     return {'requested':True,'classification':result.get('classification','INCONCLUSIVE'),
             'diagnostic_match':matched,'helper_exit':code,'test_only':True,'accepted':False}
@@ -121,6 +122,66 @@ def strict_cut_controls(ev):
             'normal_unwind_negative_gates_open':
             any('false normal-post and false unwind-post' in gate for gate in open_gates),
             'actual_sort4_accepted':False}
+
+def strict_cut_false_posts(ev):
+    name='strict-cut-false-posts'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'test_only':True,'accepted':False}
+    result=read(ev/'cases'/name/'diagnostic-audit.json') or {}
+    if not isinstance(result,dict):result={}
+    code=helper_exit(ev,name)
+    rows=result.get('cases') or []
+    if not isinstance(rows,list):rows=[]
+    keyed={row.get('case'):row for row in rows if isinstance(row,dict)}
+    expected={'normal-false':'positive_basic',
+              'unwind-false':'positive_direct_unwind'}
+    complete=(code==0 and result.get('classification')==
+              'FALSE_POST_CONTROLS_DISCOVERY_REVIEW_REQUIRED' and
+              result.get('accepted') is False and
+              result.get('strictcut_accepted') is False and
+              result.get('actual_sort4_accepted') is False and
+              len(rows)==2 and set(keyed)==set(expected) and
+              all(row.get('parent_case')==parent and
+                  row.get('classification')==
+                  'FALSE_POST_FIRST_BOUNDARY_CANDIDATE_REVIEW_REQUIRED' and
+                  row.get('accepted') is False and
+                  isinstance(row.get('first_error'),str) and
+                  row['first_error'].endswith(
+                      'Cannot prove condition. (Cannot prove false.)') and
+                  row.get('first_error_source_line') in
+                  (row.get('target_post_line'),row.get('target_end_line')) and
+                  isinstance(row.get('source_hashes'),dict) and
+                  set(row['source_hashes'])=={'verified/lib.rs','original/lib.rs'} and
+                  isinstance(row.get('stage_exits'),dict) and
+                  all(row['stage_exits'].get(stage)==0 for stage in
+                      ('normal-export','normal-decode','readonly-export',
+                       'readonly-decode','refinement')) and
+                  row['stage_exits'].get('full-verification') in (1,2) and
+                  isinstance(row.get('mir'),dict) and
+                  set(row['mir'])=={'normal','readonly'} and
+                  all(isinstance(row['mir'][mode],dict) and
+                      row['mir'][mode].get(
+                          'complete_graph_equal_after_source_coordinate_and_contract_raw_redaction') is True and
+                      row['mir'][mode].get('reviewed_contract_raw_change_only') is True and
+                      isinstance(row['mir'][mode].get('normalized_full_mir_sha256'),str) and
+                      re.fullmatch('[0-9a-f]{64}',row['mir'][mode]['normalized_full_mir_sha256']) and
+                      row['mir'][mode].get('baseline_normalized_full_mir_sha256')==
+                      row['mir'][mode]['normalized_full_mir_sha256']
+                      for mode in ('normal','readonly')) and
+                  (row.get('callee_before_target') is True
+                   if key=='unwind-false' else True)
+                  for key,parent in expected.items() for row in (keyed[key],)) and
+              isinstance(result.get('open_gates'),list) and
+              len(result['open_gates'])>=5)
+    return {'requested':True,'complete':complete,
+            'classification':result.get('classification','INCONCLUSIVE'),
+            'helper_exit':code,'test_only':True,'accepted':False,
+            'normal_first_false_post':
+            keyed.get('normal-false',{}).get('first_error'),
+            'unwind_first_false_post':
+            keyed.get('unwind-false',{}).get('first_error'),
+            'source_mir_gates_complete':complete}
 
 def owner_controls(ev):
     requested=(ev/'cases/owner17-controls-request.json').exists()
@@ -614,6 +675,7 @@ def main():
       digest(ev/'frozen20-applied.patch')==frozen['applied_diff_sha256'])
     cut=relocation(ev)
     strict_cut=strict_cut_controls(ev)
+    false_posts=strict_cut_false_posts(ev)
     owner=owner_controls(ev)
     sort4=sort4_capture(ev)
     a1=a1_test(ev)
@@ -637,6 +699,7 @@ def main():
                         not nested_order['requested'] and not wrapper_rebase['requested'] and
                         not rebase_profile['requested'])
     strict_cut_requested=(cut['requested'] and strict_cut['requested'] and
+                          not false_posts['requested'] and
                           not owner['requested'] and not sort4['requested'] and
                           not a1['requested'] and not coordination['requested'] and
                           not nested_order['requested'] and not ast_probe['requested'] and
@@ -645,6 +708,7 @@ def main():
                           not rebase_profile['requested'])
     input_relation_requested=(input_relation['requested'] and
                               not cut['requested'] and not strict_cut['requested'] and
+                              not false_posts['requested'] and
                               not ast_probe['requested'] and
                               not owner['requested'] and not sort4['requested'] and
                               not a1['requested'] and not coordination['requested'] and
@@ -656,6 +720,7 @@ def main():
                          (not a1['requested'] or a1['complete']) and
                          (not cut['requested'] or cut.get('diagnostic_match') is True) and
                          (not strict_cut['requested'] or strict_cut['complete']) and
+                         (not false_posts['requested'] or false_posts['complete']) and
                          (not coordination['requested'] or coordination['complete']) and
                          (not nested_order['requested'] or nested_order['complete']) and
                          (not ast_probe['requested'] or ast_probe['complete']) and
@@ -673,6 +738,7 @@ def main():
     controls={'owner_source_mir_isolated':owner['complete'],'a1_isolated':False}
     test_only_requested=(coordination['requested'] or nested_order['requested'] or
                          strict_cut['requested'] or
+                         false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
                          input_relation['requested'] or rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
@@ -706,6 +772,7 @@ def main():
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
       'strict_cut_controls_scope_complete':strict_cut_requested if strict_cut_lane else False,
       'strict_cut_controls_diagnostic':strict_cut,
+      'strict_cut_false_posts_diagnostic':false_posts,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
     a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')

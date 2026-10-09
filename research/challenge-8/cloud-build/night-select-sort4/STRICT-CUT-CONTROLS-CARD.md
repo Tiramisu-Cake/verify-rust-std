@@ -63,3 +63,10 @@ retention, nested bounds, alias/address escape, all-path liveness and
 hidden heap-term controls are likewise OPEN. A stock block filter is
 forbidden. The absence of those controls prevents accepted strictCUT or
 actual-sort4 scope claims, even if every existing matrix case is green.
+
+Build84076ff3 recreated isolated relocation FULLVF0 and passed all control
+preflight source/tool pins. The preflight report lacked classification and
+the CLI raised KeyError before overlay or the matrix. No matrix case ran;
+no intended-negative credit. Add the explicit preflight classification only,
+keeping frozen proof/kernel/translator/fixtures and planned obligations exact.
+A new Cloud run is necessary because old Build ran old infra.

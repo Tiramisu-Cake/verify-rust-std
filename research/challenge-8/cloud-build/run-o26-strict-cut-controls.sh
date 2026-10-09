@@ -16,6 +16,7 @@ export O26_WITH_WRAPPER_REBASE_PROFILE=0
 export O26_WITH_WRAPPER_COMP19_TEST=0
 export O26_WITH_CUT_RELOCATE=1
 export O26_WITH_STRICT_CUT_CONTROLS=1
+export O26_WITH_STRICT_CUT_FALSE_POSTS=0
 
 cloud_dir=${INFRA_CLOUD_DIR:-/workspace/infra/research/challenge-8/cloud-build}
 exec bash "$cloud_dir/run-o26-refresh.sh" "$1"

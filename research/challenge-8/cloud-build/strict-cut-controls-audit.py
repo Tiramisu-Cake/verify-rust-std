@@ -140,7 +140,8 @@ def preflight(a, overlaid: bool = False) -> dict:
          "31fc83eea22c92ee73b1fc17a79f24ca057c343fbca2699673b4a6bc5c93bb10" and
          manifest.get("provider_sha256") == sha(a.cloud_dir / "provider.py"),
          "prior provider overlay is not guard-only")
-    return {"production_unchanged": True, "isolated_tool_unchanged": True,
+    return {"classification": "STRICT_CUT_PREFLIGHT_COMPLETE",
+            "production_unchanged": True, "isolated_tool_unchanged": True,
             "patch_chain_pinned": True, "distinct_f_bound_full_vf0": True,
             "prior_relocation_classification": diagnostic["classification"],
             "relocation_console_sha256": source_audit["relocation_console_sha256"],
