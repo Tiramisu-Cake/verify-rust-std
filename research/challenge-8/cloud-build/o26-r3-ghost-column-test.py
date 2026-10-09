@@ -292,7 +292,10 @@ def schedule(a, r2, r3, case, column_tool, column_snapshot, m_column, column_on_
         stages[name] = {"exit": stage.get("exit"), "fatal": fatals,
                         "console_sha256": (bad_snapshot if name == "nested-wrong-permutation" else on_snapshot)
                             ["binary_sha256"]["bin/verifast"],
-                        "console_build_log_sha256": sha(e / (name + "-console-build.log")),
+                        "console_build_log_sha256": sha(a.evidence / (
+                            "nested-wrong-permutation-console-build.log"
+                            if name == "nested-wrong-permutation" else
+                            "nested-on-console-build.log")),
                         "log_sha256": hashlib.sha256(log.encode()).hexdigest(),
                         "accepted": False}
     need(r2.tool_snapshot(column_tool, a.proof_root) == column_snapshot and
@@ -416,7 +419,7 @@ def run(a, r2, r3, case, receiver_tool, receiver_snapshot):
         all_stages[name] = {"exit": stage.get("exit"), "fatal": fatals,
                             "log_sha256": hashlib.sha256(log.encode()).hexdigest(),
                             "console_sha256": stage_snapshot["binary_sha256"]["bin/verifast"],
-                            "console_build_log_sha256": sha(e / (build_log_name + "-console-build.log")),
+                            "console_build_log_sha256": sha(a.evidence / (build_log_name + "-console-build.log")),
                             "patch_sha256": patch_hash if name == "column-on" else
                                 (fault_tools[name][2] if name in fault_tools else None),
                             "accepted": False}

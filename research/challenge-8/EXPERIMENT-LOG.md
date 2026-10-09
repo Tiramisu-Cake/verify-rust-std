@@ -6236,3 +6236,16 @@ No duplicate/uncertain own submit, old account and foreign ledger untouched.
 10:30UTC: shared slot released and exact candidate Build5a3d3312-3a9e-4bad-9488-714ad62b48be submitted,
 config6b7cc4f27bf9d5df12817375e0ddca277ab25b9ddf5fb53ab19ce73b2b9d9341.
 Actual submitted flags189parts, max3990; no proof credit until full evidence reviewed.
+
+### 10:40 UTC — COLUMN preparation audit filename failure
+
+Build5a3d3312 terminalFAILURE,442s (day1273/3600,2327left). Fullarchive
+45109f1ded3fc05ed7b0354ab09f4821e541d9bf9ad17555afca303f8880f2c6 and
+textindex9c99381605ec2a1d526c8961ab56e0e5255e0e0aa214e384cb81c0aba7ea4f66 verified.
+COLUMN tool and isolated fault copies built; COLUMN-off repeated exact old155 hide.
+Helper then hashes missing inner/on-console-build.log, but build_copy emits log
+under a.evidence root. COLUMN-on/nested not run; not intended theorem negative.
+Minimal audit-only fix uses outer evidence root and maps nested off/partial/on
+to their actual shared nested-on build log, fault to own build log. All affected
+preparation paths reviewed before one addressed completion check. No semantic/
+source/post/resource/check/packager changes; same translator/patch profile pins.

@@ -7,8 +7,8 @@
   "main_deadline_utc": "2026-10-09T10:45:54Z",
   "deadline_utc": "2026-10-09T11:15:54Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 831,
-  "remaining_build_seconds": 2769,
+  "used_build_seconds": 1273,
+  "remaining_build_seconds": 2327,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-r3-ghost-scope-test",
@@ -17,7 +17,7 @@
     "o26-generic-sort4-postmark-diagnostics",
     "o26-strict-cut-reuse-false-posts"
   ],
-  "active_build": "5a3d3312-3a9e-4bad-9488-714ad62b48be",
+  "active_build": null,
   "builds": [
     {
       "dispatch_token": "dispatch-35cd6eefd85a4c52b93292703465f683",
@@ -101,11 +101,19 @@
       "submitted_config_sha256": "6b7cc4f27bf9d5df12817375e0ddca277ab25b9ddf5fb53ab19ce73b2b9d9341",
       "reserved_seconds": 960,
       "timeout_seconds": 900,
-      "status": "QUEUED",
+      "status": "FAILURE",
       "publish_text_logs": true,
       "source_mode": "pinned-objects",
       "source_input_sha256": "9818cb226242b80d129644da3dddfa943a2740aa154cac914f6b089b857e744a",
-      "build_id": "5a3d3312-3a9e-4bad-9488-714ad62b48be"
+      "build_id": "5a3d3312-3a9e-4bad-9488-714ad62b48be",
+      "start_time": "2026-10-09T10:30:15.935459966Z",
+      "finish_time": "2026-10-09T10:37:36.631550Z",
+      "create_time": "2026-10-09T10:30:15.198413074Z",
+      "build_seconds": 442,
+      "accounted": true,
+      "execution_seconds": 441,
+      "download_verified": true,
+      "archive_sha256": "45109f1ded3fc05ed7b0354ab09f4821e541d9bf9ad17555afca303f8880f2c6"
     }
   ]
 }
