@@ -333,6 +333,37 @@ cmp "$ev/modified-files.txt" "$ev/refreshed-modified-files.txt"
 git -C "$source_home" diff > "$ev/refreshed-applied.patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a ]] || exit 2
 
+# This one-symbol candidate is restricted to the actual caller-entry lane.
+# It extends the existing slice as_ptr typed-cast lowering to as_mut_ptr.
+if [[ "${LANE:-}" == o26-sort4-caller-entry ]]; then
+  slice_patch="$proof_root/research/challenge-8/caller-entry/verifast-slice-as-mut-ptr.patch"
+  [[ "$(sha256sum "$slice_patch" | cut -d' ' -f1)" == f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916 ]] || exit 2
+  slice_translator="$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+  sha256sum "$slice_translator" > "$ev/slice-projection-translator-before.sha256"
+  stage slice-projection-patch-check git -C "$source_home" apply --check "$slice_patch"
+  stage slice-projection-patch-apply git -C "$source_home" apply "$slice_patch"
+  sha256sum "$slice_translator" > "$ev/slice-projection-translator-after.sha256"
+  git -C "$source_home" diff -- src/rust_frontend/vf_mir_translator/vf_mir_translator.ml > "$ev/slice-projection-translator.diff"
+  git -C "$source_home" diff > "$ev/candidate-applied.patch"
+  sha256sum "$ev/candidate-applied.patch" > "$ev/candidate-applied.sha256"
+  python3 - "$ev" <<'SLICE_IDENTITY'
+import hashlib,json,pathlib,sys
+root=pathlib.Path(sys.argv[1])
+before=root/'slice-projection-translator-before.sha256'
+after=root/'slice-projection-translator-after.sha256'
+diff=root/'slice-projection-translator.diff'
+full=root/'candidate-applied.patch'
+def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+record={'candidate':'exact std::slice::<impl [T]>::as_mut_ptr name alias to existing typed pointer-cast lowering',
+ 'before_translator_sha256':before.read_text().split()[0],
+ 'after_translator_sha256':after.read_text().split()[0],
+ 'translator_diff_sha256':digest(diff),'candidate_applied_diff_sha256':digest(full),
+ 'semantic_delta':'one function-name alternative in existing as_ptr lowering',
+ 'kernel_or_ownership_changes':False}
+(root/'slice-projection-translator-identity.json').write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+SLICE_IDENTITY
+fi
+
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz
@@ -663,8 +694,10 @@ if [[ "${LANE:-}" == o26-sort4-c1-current-recovery ]]; then
 fi
 
 if [[ "${LANE:-}" == o26-sort4-caller-entry ]]; then
+  caller_patch="$ev/refreshed-applied.patch"
+  [[ ! -f "$ev/candidate-applied.patch" ]] || caller_patch="$ev/candidate-applied.patch"
   stage sort4-caller-entry bash "$cloud_dir/run-sort4-caller-entry.sh" \
-    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --production-source "$source_home" --production-applied-patch "$caller_patch" \
     --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
     --evidence "$ev/cases/sort4-caller-entry" --deadline-epoch "$deadline" \
     --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"

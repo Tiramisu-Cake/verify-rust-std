@@ -111,7 +111,9 @@ def caller_mapping(root, fixture, cert, normal_record, readonly_record, log, ent
     actual=actual_path.read_text(errors='replace').splitlines() if actual_path.is_file() else []
     caller_cert=cert.get('source_certificate',{})
     if not isinstance(caller_cert,dict):caller_cert={}
-    actual_sha=hashlib.sha256(actual_path.read_bytes()).hexdigest() if actual_path.is_file() else None
+    actual_bytes=actual_path.read_bytes() if actual_path.is_file() else b''
+    actual_sha=hashlib.sha256(actual_bytes[:-1]).hexdigest() if actual_bytes.endswith(b'\n') else None
+    actual_file_sha=hashlib.sha256(actual_bytes).hexdigest() if actual_bytes else None
     source_cert=cert.get('source_mapped_condition_bytes',{})
     if not isinstance(source_cert,dict):source_cert={}
     expected=source_cert.get('scratch_success_filter_condition')
@@ -190,6 +192,8 @@ def caller_mapping(root, fixture, cert, normal_record, readonly_record, log, ent
             'boundary_marker_text':boundary_text,'pointer_operation_lines':pointer_lines,
             'actual_caller_sha256':actual_sha,
             'actual_caller_sha_matches_certificate':actual_sha==caller_cert.get('full_original_caller_sha256'),
+            'actual_caller_file_sha256':actual_file_sha,
+            'saved_file_trailing_newline_excluded_from_payload_hash':True,
             'source_order_places_guards_before_pointer_operations':bool(order_ok),
             'original_abort_line':abort_line,
         },
@@ -206,7 +210,7 @@ def caller_mapping(root, fixture, cert, normal_record, readonly_record, log, ent
 def snapshot(a):
     root=a.production_source
     paths=['src/verifast.ml','src/rust_frontend/vf_mir_translator/vf_mir_translator.ml','src/rust_frontend/vf_mir_translator/rust_parser.ml','src/rust_frontend/vf_mir/vf_mir.capnp','bin/verifast','bin/vf-rust-mir-exporter','bin/refinement-checker']
-    return {'critical':{p:sha(root/p) for p in paths},'effective_rsspec':{str(p.relative_to(root)):sha(p) for p in sorted((root/'bin/rust').rglob('*.rsspec'))},'base_commit':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'production_applied_patch_sha256':sha(a.production_applied_patch),'proof_sha':os.environ['PROOF_SHA'],'infra_sha':os.environ['INFRA_SHA'],'new_semantic_patch':False,'c1_overlay_active':False,'profile_accepted':False}
+    return {'critical':{p:sha(root/p) for p in paths},'effective_rsspec':{str(p.relative_to(root)):sha(p) for p in sorted((root/'bin/rust').rglob('*.rsspec'))},'base_commit':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'production_applied_patch_sha256':sha(a.production_applied_patch),'proof_sha':os.environ['PROOF_SHA'],'infra_sha':os.environ['INFRA_SHA'],'new_semantic_patch':True,'semantic_variant':'exact_slice_as_mut_ptr_value_projection_candidate','c1_overlay_active':False,'profile_accepted':False}
 
 def stage(a, root, name, argv, env, cap, stdin=None, stdout=None):
     seconds=min(cap,a.deadline_epoch-int(time.time())-15)
@@ -256,6 +260,10 @@ def run_case(a, prep, capture, parser, case, env):
         write(root/'admission-gates.json',{'gates_passed':gates,'source_pair_immutable':all(sha(fixture/n)==h for n,h in before.items()),'fragment_only':True,'all_support_exits':{n:r.get('exit') for n,r in rows.items()},'skipped_prerequisites':False})
         # Diagnostic verifier invocation is an independent admission probe if support failed.
         # It cannot receive resource proof credit unless every gate passed.
+        rows['proof-ast-diagnostic']=stage(a,fixture,'proof-ast-diagnostic',[vf,'-dump_ast_with_locs','proof-ast.ml','-rustc_args','--edition 2021','verified/lib.rs'],env,90)
+        ast_path=fixture/'proof-ast.ml'
+        ast_record={'classification':'CAPTURED_PRE_VERIFICATION_AST' if ast_path.is_file() else 'NOT_CONFIRMED','sha256':sha(ast_path) if ast_path.is_file() else None,'stage_exit':rows['proof-ast-diagnostic'].get('exit'),'proof_verdict':None,'source_pair_pins':before,'emission_does_not_replace_mandatory_verification':True}
+        write(root/'proof-ast-capture.json',ast_record)
         rows['verification']=stage(a,fixture,'verification',[vf,'-rustc_args','--edition 2021','-verbose','2','verified/lib.rs'],env,240)
         log=(fixture/'verification.log').read_text(errors='replace') if (fixture/'verification.log').exists() else ''
         errors=[line for line in log.splitlines() if ': error:' in line or line.startswith('Fatal error:')]
@@ -270,6 +278,7 @@ def run_case(a, prep, capture, parser, case, env):
         caller_log=log[entries[0]:] if caller_ok else ''
         mapping=caller_mapping(root,fixture,cert,records.get('normal',''),records.get('readonly',''),caller_log,entries[0] if caller_ok else None)
         mapping_passed=mapping['status']=='PASS'
+        representation_gates=gates
         gates=gates and mapping_passed
         write(root/'admission-gates.json',{
             'gates_passed':gates,
@@ -281,18 +290,18 @@ def run_case(a, prep, capture, parser, case, env):
             'skipped_prerequisites':False,
         })
         leak_seen=caller_ok and 'Leak check.' in caller_log
-        complete=(gates and caller_ok and helper_ok and identity_reached and subset_reached and leak_seen and rows['verification'].get('exit')==0 and not errors and re.search(r'0 errors found \(\d+ statements verified\)',log) is not None)
+        complete=(getattr(a,'candidate_controls_passed',False) and gates and caller_ok and helper_ok and identity_reached and subset_reached and leak_seen and rows['verification'].get('exit')==0 and not errors and re.search(r'0 errors found \(\d+ statements verified\)',log) is not None)
         intended=False
         if gates and caller_ok and len(errors)==1 and rows['verification'].get('exit')==1 and entries[0]<log.index(errors[0]):
             if case=='range-negative': intended=('Cannot prove condition' in errors[0] and 'array_split' in log[entries[0]:] and 'len + 1' in log[log.index(errors[0]):])
             if case=='duplicate-negative': intended=('No matching heap chunks: array<T>' in errors[0] and 'DUPLICATE_AUTHORITY_CONTROL' in log[log.index(errors[0]):])
         first=errors[0] if errors else next((line for line in log.splitlines() if line.startswith('error[') or line.startswith('error:')),None)
         first_location=re.match(r'verified/lib\.rs\((\d+),',first or '')
-        prefix_blocker=(gates and caller_ok and first_location is not None and int(first_location.group(1)) < cert['targeted_ghost_statement_lines']['source_sort8_condition'])
+        prefix_blocker=(representation_gates and caller_ok and first_location is not None and int(first_location.group(1)) < cert['targeted_ghost_statement_lines']['source_sort8_condition'])
         observed={name:[n for n in numbers if caller_ok and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(n)+r',[^\n]*\): Executing ',log[entries[0]:],re.M)] for name,numbers in cert.get('targeted_ghost_statement_line_lists',{}).items()}
         size_status=('C1_PREMISE_CONDITIONAL_ONLY; NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH' if case=='bridge-positive' else 'NOT_REQUIRED_FOR_SOURCE_F_THREAD_SUBSET' if case=='source-frame-positive' else 'NOT_APPLICABLE_TO_CASE')
         result.update(classification=('NATIVE_PREFIX_FULL_VF0_CONDITIONAL_MODEL' if complete and case=='prefix-native' else 'C1_ENTRY_ENTAILMENT_AND_NATIVE_FRAME_RETURN_CONDITIONAL' if complete and case=='bridge-positive' else 'SOURCE4_CURRENT_OWNERS_F_THREAD_AND_NATIVE_FRAME_RETURN_CONDITIONAL' if complete and case=='source-frame-positive' else 'INTENDED_RESOURCE_CONTROL' if intended else 'NATIVE_ENTRY_OR_PREFIX_ADMISSION_BLOCKER' if not gates or not caller_ok else 'FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER' if case=='bridge-positive' else 'INCONCLUSIVE_WRONG_FIRST_OBLIGATION'),support_gates_passed=gates,verifier_exit=rows['verification'].get('exit'),first_error=first,proof_entries=len(entries),identity_helper_verified_before_caller=helper_ok,native_prefix_complete=complete if case=='prefix-native' else False,bridge_premises_derived=complete and case=='bridge-positive',positive_size_condition=size_status,full_actual_caller_proved=False,actual_sort4_run=False,intended_resource_negative=intended,leak_seen=leak_seen,full_log_sha256=sha(fixture/'verification.log'),source_hashes=before,stages={n:r.get('exit') for n,r in rows.items()})
-        result.update(identity_call_reached=identity_reached if case=='bridge-positive' else None,observed_target_statement_lines=observed,representation_and_fragment_refinement_passed=all(rows.get(n,{}).get('exit')==0 for n in ('normal-export','normal-decode','readonly-export','readonly-decode','refinement')) and all(sha(fixture/n)==h for n,h in before.items()),source_mir_proof_mapping=mapping,caller_mapping_gate_passed=mapping_passed,first_prefix_proof_obligation=prefix_blocker)
+        result.update(identity_call_reached=identity_reached if case=='bridge-positive' else None,observed_target_statement_lines=observed,representation_and_fragment_refinement_passed=all(rows.get(n,{}).get('exit')==0 for n in ('normal-export','normal-decode','readonly-export','readonly-decode','refinement')) and all(sha(fixture/n)==h for n,h in before.items()),proof_ast_capture=ast_record,source_mir_proof_mapping=mapping,caller_mapping_gate_passed=mapping_passed,first_prefix_proof_obligation=prefix_blocker)
         result['source_frame_subset_derived']=complete and case=='source-frame-positive'
         result['source_subset_assertion_reached']=subset_reached if case=='source-frame-positive' else None
         if prefix_blocker and case in ('prefix-native','source-frame-positive','bridge-positive'):result['classification']='NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER'
@@ -315,13 +324,16 @@ def main():
         target=a.evidence/'model'/rel;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes((a.production_source/'bin/rust'/rel).read_bytes())
     (a.evidence/'model/vf_mir_translator.ml').write_bytes((a.production_source/'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml').read_bytes())
     env=os.environ.copy();deps=a.work_root/'vfdeps-adf88dc';env['PATH']=str(a.production_source/'bin')+':'+str(deps/'bin')+':'+env.get('PATH','');env['LD_LIBRARY_PATH']=str(a.compiler_sysroot/'lib')+':'+str(a.production_source/'bin')+':'+str(deps/'lib');env['CAPNP_INC_DIR']=str(deps/'include');env['RUSTUP_TOOLCHAIN']='nightly-2026-09-25'
+    controls=load_module(a.cloud_dir/'slice-projection-controls.py','slice_projection_controls')
+    control_result=controls.run_controls(a,env)
+    a.candidate_controls_passed=control_result.get('all_intended') is True
     prep=load_module(a.proof_root/'research/challenge-8/caller-entry/prepare.py','caller_prepare');capture=load_module(a.proof_root/'research/challenge-8/overnight-sort4/capture.py','caller_mir_static');parser=load_module(a.cloud_dir/'strict-cut-false-posts-audit.py','caller_proof_parser')
     rows={}
     for case in prep.CASES:
         rows[case]=run_case(a,prep,capture,parser,case,env)
         write(a.evidence/'case-results-so-far.json',rows)
     need(snapshot(a)==before,'production tool changed during bridge')
-    result={'classification':'C1_CALLER_ENTRY_DIAGNOSTIC_COMPLETE','accepted':False,'diagnostic_complete':all('verifier_exit' in r for r in rows.values()),'source_frame_subset_derived':rows['source-frame-positive']['source_frame_subset_derived'],'bridge_premises_derived':rows['bridge-positive']['bridge_premises_derived'],'full_actual_caller_proved':False,'actual_sort4_proved':False,'c1_branch_proof_new':'NOT_RUN','c1_positive_size_premise_is_conditional':True,'source_frame_positive_size_premise_required':False,'positive_size_status_by_case':{name:row.get('positive_size_condition','NOT_CONFIRMED') for name,row in rows.items()},'cases':rows,'profile_status':'EXPERIMENTAL_O26_NATIVE_PREFIX_NOT_ACCEPTED','source_linkage':'Exact common actual prefix/conditions, explicit callsite boundaries, fragment refiner only','proof_sha':os.environ['PROOF_SHA'],'tool_snapshot_sha256':sha(a.evidence/'tool-snapshot.json')}
+    result={'classification':'C1_CALLER_ENTRY_DIAGNOSTIC_COMPLETE','accepted':False,'slice_projection_controls':control_result,'candidate_controls_passed':a.candidate_controls_passed,'diagnostic_complete':all('verifier_exit' in r for r in rows.values()),'source_frame_subset_derived':rows['source-frame-positive']['source_frame_subset_derived'],'bridge_premises_derived':rows['bridge-positive']['bridge_premises_derived'],'full_actual_caller_proved':False,'actual_sort4_proved':False,'c1_branch_proof_new':'NOT_RUN','c1_positive_size_premise_is_conditional':True,'source_frame_positive_size_premise_required':False,'positive_size_status_by_case':{name:row.get('positive_size_condition','NOT_CONFIRMED') for name,row in rows.items()},'cases':rows,'profile_status':'EXPERIMENTAL_O26_NATIVE_PREFIX_NOT_ACCEPTED','source_linkage':'Exact common actual prefix/conditions, explicit callsite boundaries, fragment refiner only','proof_sha':os.environ['PROOF_SHA'],'tool_snapshot_sha256':sha(a.evidence/'tool-snapshot.json')}
     write(a.evidence/'diagnostic-audit.json',result);print(json.dumps(result,sort_keys=True),flush=True)
 
 if __name__=='__main__': main()
