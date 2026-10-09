@@ -487,6 +487,10 @@ REGRESSION_RECORD
     -ignore_unwind_paths -ignore_ref_creation -disable_overflow_check
   run_regression generic_structs purely_unsafe/generic_structs.rs
   run_regression scalars purely_unsafe/scalars.rs
+  # The common packager requires case evidence in allprooflogs/cases. Preserve
+  # actual upstream per-case outputs and their manifest there as well as at the
+  # regression auditor's canonical path; do not substitute a marker receipt.
+  cp -a "$regression_dir" "$cases/upstream-regressions"
   python3 "$regression_auditor" "$candidate_tool" "$all" \
     --output "$proof_audit" > "$all/mdnew-regression-audit.log" 2>&1 || status=$?
   audited=1
