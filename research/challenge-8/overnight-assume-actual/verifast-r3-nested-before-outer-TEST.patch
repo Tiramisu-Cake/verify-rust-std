@@ -1,0 +1,149 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -14109,6 +14109,137 @@
+       *)
+       let body_sigs = AstAux.sort_decls_lexically body_sigs in
+       let body_decls = AstAux.sort_decls_lexically body_decls in
++      (* Exact R3 TEST: declaration scheduling only.  All production body,
++         signature, predicate and ghost AST nodes remain untouched. *)
++      let proof_body_decls = match Sys.getenv_opt
++        "SORT4_R3_NESTED_ORDER_TEST_REPO_ROOT",
++        Sys.getenv_opt "SORT4_R3_NESTED_ORDER_TEST" with
++        | None, None -> body_decls
++        | Some root, Some "1" ->
++          let reject why = failwith
++            ("SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: " ^ why) in
++          if Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_WRAPPER_INPUT_RELATION_ADMISSION" <> Some "1" ||
++             Sys.getenv_opt "SORT4_WRAPPER_REBASE_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_WRAPPER_REBASE_ADMISSION" <> Some "1" ||
++             Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_ACTUAL_NESTED_H2_REPO_ROOT" <> Some root ||
++             Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
++             not !Sort4SelectIntrinsic.actual_nine_admitted ||
++             not !Sort4SelectIntrinsic.wrapper_input_relation_active ||
++             not !Sort4ActualNestedH2.active then
++            reject "R3 exact nine-body owner/nested admission required";
++          let expected_names = [
++            "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
++            "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
++            "sort4_checked_generic_drop"; "checked_transmute_neo_pointer";
++            "checked_assume_init_pointer"; "checked_forget_owned";
++            "select_unpredictable";
++            "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
++          ] in
++          let expected_positions =
++            [(18,5);(33,1);(49,1);(65,1);(82,1);(100,1);(121,1);
++             (135,1);(165,9)] in
++          if List.length bodies_cpn <> 9 || List.length body_decls <> 9 ||
++             List.length body_sigs <> 3 ||
++             List.map (fun b -> TrName.translate_def_path
++               (BodyRd.def_path_get b)) bodies_cpn <> expected_names then
++            reject "complete nine MIR/AST body inventory";
++          let unit_bytes = Marshal.to_string
++            (D.decode_vf_mir vf_mir_cpn) [Marshal.No_sharing] in
++          let nested_bytes = Marshal.to_string
++            (D.decode_body (List.nth bodies_cpn 8)) [Marshal.No_sharing] in
++          if sort4_actual_owner_sha256 unit_bytes <>
++               "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92" ||
++             sort4_actual_owner_sha256 nested_bytes <>
++               "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a" then
++            reject "complete unit and actual nested body-8 bytes";
++          let nested_cpn = List.nth bodies_cpn 8 in
++          let translated_span label span =
++            match translate_span_data span with
++            | Ok loc -> Ast.lexed_loc loc
++            | Error _ -> reject label in
++          let body_span = translated_span "actual nested MIR body span"
++            (BodyRd.span_get nested_cpn) in
++          let sig_span = translated_span "actual nested MIR signature span"
++            (BodyRd.fn_sig_span_get nested_cpn) in
++          let decl_span = Ast.lexed_loc
++            (AstAux.decl_loc (snd (List.nth body_decls 8))) in
++          (match body_span, sig_span with
++           | (((body_path,165,9),(body_path2,170,10)),
++              ((sig_path,165,9),(sig_path2,165,27))) when
++                body_path = body_path2 && body_path = sig_path &&
++                body_path = sig_path2 &&
++                Filename.check_suffix body_path "verified/lib.rs" &&
++                decl_span = body_span -> ()
++           | _ -> reject "actual nested complete MIR/AST spans");
++          let path = match decl_span with
++            | ((path,165,9), (path2,170,10)) when
++                path = path2 && Filename.check_suffix path "verified/lib.rs" -> path
++            | _ -> reject "actual nested full source span" in
++          if sort4_actual_owner_sha256
++               (Sort4MaybeUninit.read_file path) <>
++               "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463" then
++            reject "canonical verified source bytes";
++          let expected_keys = List.map (fun b ->
++            let name = TrName.translate_def_path (BodyRd.def_path_get b) in
++            TrName.split_def_path (BodyRd.module_def_path_get b) name)
++            bodies_cpn in
++          if List.map fst body_decls <> expected_keys then
++            reject "lexical qualified declaration order/identity";
++          let describe phase ds =
++            List.iteri (fun i (key, d) ->
++              (match d with
++               | Ast.Func (_,_,_,_,_,_,_,_,_,_,Some _,_,_) -> ()
++               | _ -> reject "body declaration is not a function definition");
++              let ((file,line,col), (file2,_,_)) =
++                Ast.lexed_loc (AstAux.decl_loc d) in
++              let original_index = if phase = "before" then i
++                else if i = 7 then 8 else if i = 8 then 7 else i in
++              let expected_line,expected_col =
++                List.nth expected_positions original_index in
++              let body_name = TrName.translate_def_path
++                (BodyRd.def_path_get (List.nth bodies_cpn original_index)) in
++              if file <> file2 ||
++                 not (Filename.check_suffix file "verified/lib.rs") ||
++                 line <> expected_line || col <> expected_col then
++                reject "exact declaration source location";
++              let bytes = Marshal.to_string (key,d) [Marshal.No_sharing] in
++              Printf.printf
++                "SORT4-R3-NESTED-BEFORE-OUTER-TEST: %s[%d] body_name=%s module=%s fn=%s type=FuncBody loc=%s:%d:%d ast_sha256=%s\n%!"
++                phase i body_name (fst key) (snd key) file line col
++                (sort4_actual_owner_sha256 bytes)) ds in
++          let signature_bytes = Marshal.to_string body_sigs
++            [Marshal.No_sharing] in
++          let signature_sha = sort4_actual_owner_sha256
++            signature_bytes in
++          describe "before" body_decls;
++          let reordered = match body_decls with
++            | [a;b;c;d;e;f;g;outer;nested] ->
++                [a;b;c;d;e;f;g;nested;outer]
++            | _ -> reject "exact one-item permutation shape" in
++          let expected_reordered_keys = match expected_keys with
++            | [a;b;c;d;e;f;g;outer;nested] ->
++                [a;b;c;d;e;f;g;nested;outer]
++            | _ -> reject "exact qualified key inventory" in
++          if List.map fst reordered <> expected_reordered_keys ||
++             List.sort compare (List.map (fun (_,d) ->
++               Marshal.to_string d [Marshal.No_sharing]) reordered) <>
++             List.sort compare (List.map (fun (_,d) ->
++               Marshal.to_string d [Marshal.No_sharing]) body_decls) then
++            reject "function body loss/change/duplication";
++          describe "after" reordered;
++          let signature_after_sha = sort4_actual_owner_sha256
++            (Marshal.to_string body_sigs [Marshal.No_sharing]) in
++          if signature_after_sha <> signature_sha then
++            reject "signature or contract AST changed";
++          Printf.printf
++            "SORT4-R3-NESTED-BEFORE-OUTER-TEST: exact nine-body one-item permutation, signatures=%d signatures_sha256_before=%s signatures_sha256_after=%s and prior predicates/ghosts unchanged\n%!"
++            (List.length body_sigs) signature_sha signature_after_sha;
++          reordered
++        | _ -> failwith
++          "SORT4-R3-NESTED-BEFORE-OUTER-TEST: certificate mismatch: exact root/test opt-in pair"
++      in
+       let traits_and_body_decls = traits_decls @ List.map snd body_decls in
+       let debug_infos = VF0.DbgInfoRustFe debug_infos in
+       let trait_impl_prototypes =
+@@ -14126,7 +14257,7 @@
+         @ ghost_decls
+         @ List.map
+             (modularize_fn_decl module_imports_map)
+-            (body_sigs @ body_decls)
++            (body_sigs @ proof_body_decls)
+       in
+       Ok
+         ( headers,

@@ -1,0 +1,27 @@
+{
+  "classification": "EXPERIMENTAL_O26_R3_NESTED_BEFORE_OUTER_TEST_NOT_ACCEPTED",
+  "parent_profile": "overnight-assume-actual/O26-WRAPPER-INPUT-RELATION-PROFILE.json",
+  "parent_translator_sha256": "34a03879b45377570eab81ee384ade01ebea9d5d216eb6223c6c742c5819dc15",
+  "test_patch": "overnight-assume-actual/verifast-r3-nested-before-outer-TEST.patch",
+  "test_patch_sha256": "d7712df4a72167b3ac55f611e693176a065051de95ba85123a859373ed0b1e26",
+  "test_translator_sha256": "85962191c8613fbddae4931f65e32da06abca3df158d0dcb92cc21c4411986a6",
+  "source": {
+    "verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "unit_sha256": "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92",
+    "nested_body8_sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+  },
+  "opt_in": {
+    "SORT4_R3_NESTED_ORDER_TEST_REPO_ROOT": "exact proof root",
+    "SORT4_R3_NESTED_ORDER_TEST": "1"
+  },
+  "rule": "after exact R3 nine-body admission, swap only the top-level nested Drop and outer Func body declarations; all nine body AST nodes and all signatures keep their serialized bytes",
+  "changed_trusted_component": "vf_mir_translator.ml top-level declaration scheduling only",
+  "source_runtime_spec_kernel_parser_exporter_refiner_modified": false,
+  "mutation_controls_complete": false,
+  "normal_unwind_return_leak_log_required": true,
+  "actual_nested_drop_credit": false,
+  "actual_helper_proved": false,
+  "verification_accepted": false,
+  "accepted": false
+}

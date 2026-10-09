@@ -21,7 +21,7 @@ readonly retains 28 blocks, 110 local declarations and 27 unwind actions.
 Both complete records retain five FnMut calls, eight select calls, four copy
 calls, direct first-call `Continue`, and no Cleanup/Drop; refinement must
 pass. The post-mark AST trace is from the NORMAL verification path, so its
-137-or-more printed local rows are not the readonly MIR local count. The
+exactly 137 printed local rows are distinct from the readonly MIR local count. The
 production translator hash is
 `0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a`.
 The unmodified verifier-core source at stock commit
