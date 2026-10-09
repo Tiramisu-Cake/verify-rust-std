@@ -1,3 +1,18 @@
+# DAY-MERGE-CLOUD-2026-10-09 — IN PROGRESS
+
+New explicit owner authorization: [current phase](merge/DAY-MERGE-CLOUD-2026-10-09.md).
+Start08:46:19UTC /11:46:19MSK; main10:46:19UTC /13:46:19MSK;
+absolute11:16:19UTC /14:16:19MSK. Independent3600Cloud seconds,
+[ledger](cloud-build/day-merge/BUDGET.json), owner merge; no active own Build.
+Cloud workflow/overnight/merge-26.10 supersedes historical Actions/branch rules.
+Preparing repaired OR-only selection after complete static normal-MIR schema audit.
+RESOURCE11 remains unrun; T.own chunk refusal is not universal cell uniqueness.
+Full seven/six/kernel/cleanup profile unaccepted; actual bounded9ad remains
+conditional positive-stride/FreezeMarker projection, not caller/arbitrary-n/generic/ZST.
+Prior cutoff and exact evidence preserved below; documentation HEAD is not proof SHA.
+
+---
+
 # NIGHT-MERGE-CLOUD-2026-10-09 — CUTOFF CHECKPOINT / RESEARCH AND TRUST OPEN
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **8357/10800 charged
