@@ -1,3 +1,9 @@
+# Current phase: SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09 — IN PROGRESS
+
+[Phase/card](cloud-build/sort4-c1-current-recovery/PHASE.md), [separate ledger](cloud-build/sort4-c1-current-recovery/BUDGET.json). Ownerselect-sort4, own isolated worktree/branch; policy d389ff64. Start15:08:25UTC/18:08:25MSK, main16:08:25UTC/19:08:25MSK, absolute16:38:25UTC/19:38:25MSK. New3600Cloudseconds, no old2913carry. Exactactualc1 CURRENTpair/fourcell normal/directunwind recovery only; suppliedpremises distinguished; newcallercertificate required. Priorpointerselect result preserved.
+
+# Historical NEXT checkpoint (closed)
+
 # Current phase: NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Checkpoint](cloud-build/next-select-frame-caller/END-CHECKPOINT-2026-10-09.md), [phase](cloud-build/next-select-frame-caller/PHASE.md), [separate ledger](cloud-build/next-select-frame-caller/BUDGET.json). Policyd389ff64; owner override60min14:03:33–15:03:33UTC /17:03:33–18:03:33MSK, absolute15:33:33UTC /18:33:33MSK. Closed old accounts untouched.

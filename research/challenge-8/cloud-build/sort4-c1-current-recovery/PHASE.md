@@ -1,0 +1,129 @@
+# SORT4-C1-CURRENT-RECOVERY-CLOUD-2026-10-09
+
+Owner `select-sort4`, worktree `/root/verify-rust-std-select-night`, branch
+`research/night-select-sort4-cloud-2026-10-09`. Direct owner authorization on
+2026-10-09 opens only actual sort4 first callback CURRENT recovery. Policy read:
+`d389ff641194364e5eeda4ea4e66bedac4915a79`; PR4 already in ancestry.
+Fetched own remote and confirmed clean/equal HEAD `d707d79e`; preserved that
+checkpoint and proof `e2b249674cbe505f2d073e0df8da023a6e6406ce`.
+No whole main/peer merge, reset or force push. Distinct physical worktree,
+HEAD and index; common directory `/root/verify-rust-std/.git` is shared only.
+
+Start **15:08:25 UTC /18:08:25 MSK**, main deadline **16:08:25 UTC /19:08:25 MSK**,
+absolute deadline **16:38:25 UTC /19:38:25 MSK**. Main60min; extra <=30min only
+finish an existing step, evidence/account/checkpoint. New separate3600 conservative
+Cloud seconds; old2913 closed, no carry. Only lane `o26-sort4-c1-current-recovery`.
+At45–50min assess finishing. No new hypothesis/experiment/callback after main.
+Submit timeouts retain queue/upload/evidence reserve. v2 coordinator max2 project,
+one owner/ledger; peer untouched. State `/tmp/smallsort-sort4-c1-current-recovery`.
+
+## One transition and premise provenance (written before implementation)
+
+Actual std blob `40939f922bcb6fdc7ee0d30427fa861827043827`, SmallSort SHA256
+`85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1`, line620
+`is_less(&*v_base.add(1), &*v_base)`. Caller sort4_stable, first c1 before c2
+and before any selector/write. Exact O24 verified caller fddb6f1a, NORMAL
+667e4347 and readonly925b05a8, whole AST dc7e8487; fresh full identities required.
+
+Falsifiable hypothesis: exact source/MIR/AST-linked continuation moves the
+source-written debt closure to c1's direct Continue unwind, exits the checked
+comparator scope on both edges, executes ordinary verified recovery and rejoins
+four CURRENT owners with complete context. Representation, resource proof and
+actual-entry applicability are three independent results.
+
+Actual Rust safety comments require four readable source representations and
+four writable destination slots. They do not establish the verification model's
+exclusive current array+foreach owners, type/thread interpretations or F owner.
+The diagnostic supplies these: positive-size T, initialized source4+four T.own,
+optional destination4, unrestricted compatible F.own, thread and T/F type
+resources. Their derivation from actual sort4 callers, generic/ZST coverage and
+all lawful shared-entry cases remain OPEN. Source/destination disjointness follows
+only where the supplied separating storage resources entail it; numeric pointer
+inequality is not used to create ownership.
+
+Split owners1/0; create ordered shared arguments1 then0 through stock full-borrow
+and fractional-reference protocol. Keep cells2/3, destination and current F/thread/
+type context framed. Do not assert F cannot have other legal references into T:
+generic F.own can carry shares/aliases compatible with the supplied resources.
+This does not prove that every legal unsafe sort4 entry satisfies these strong
+diagnostic premises. Shared/interior mutable effects may change CURRENT values;
+no equality with old source/comparator snapshot is required.
+
+Both c1 normal and direct-unwind target: thread/type resources, current source4
+with exactly four current owners, current F cell/owner, optional destination4,
+no remaining comparison debt or scoped-reference resource. For the whole sort4
+normal target initialized destination remains an additional later obligation.
+O19 recover_pair consumes actual reference shares, close_frac tokens, both
+borrow_end tokens and half lifetime token, ends lifetime and restores CURRENT
+cells. O21 join requires four current cell/owner resources, never old snapshots.
+Same bodies must verify before caller use in the new unit/profile.
+
+PASS permits c2 applicability only within main hour. FAIL at scope/debt/owner
+identifies minimal next obligation; frontend/hash/setup failure tests only
+representability and gives no recovery credit. Repeated failures with no new
+evidence stop/reassess. No unchanged select rerun and no transfer of its unit
+certificate to this caller.
+
+## Semantic rationale, critical self-review and gates
+
+Reserved `__vf_sort4_first_unwind` is a proof-placement marker, no callable
+runtime callee. MIR has direct Continue, not a cleanup body. The existing exact
+default-off AST splice consumes its four-part source ghost record and retains
+the original c1 call, ordered arguments and normal assignment. On unwind it
+closes the source debt, takes an outgoing goto through strict scope exit, then
+runs ordinary recover_pair/join before the original unwinding return. On normal
+it closes debt, exits scope and uses the original recover/join suffix. No resource
+summary is fabricated, no comparator unwind removed. Other actual operations,
+posts, signatures, typed MIR and runtime body must be unchanged.
+
+This changes trusted translation; declared local scope/tuple storage relocation
+may change proof state. Exact whole AST and nodes, declaration dominance, no
+unwind epilog normal ingress, sole c1 edge and complete source/paired MIR binding
+are mandatory. Wrong edge/source/marker must refuse, separately from resource
+negative outcomes. Stock scope filtering is forbidden. Use frozen d557 strict
+exit kernel in an isolated Cloud tool checkout, preserving every heap chunk and
+rejecting escaped lifetime/type/local/borrow resources. No common memory/alias
+model changes, new kernel mechanism, dependency cache or broad architecture.
+
+Before enabling actual overlay inspect saved strict controls and execute targeted
+controls under the new console: normal/direct-unwind positives, surviving typed
+resource/unclosed fractional debt, incorrect marker/scope and false posts where
+relevant. A negative must reach its recorded predicate/location; setup/frontend
+failure is not a resource negative. Whole-source source-strip/refinement and
+leak/dead-code/validity/uninitialized checks remain enabled. No positive claim
+without reached recovery statements and corresponding return/leak checks.
+Altered callback proof unit needs its own certificate; selector nine-body unit
+cannot certify it. Full profile qualification and source/admission gates remain
+unaccepted even if this conditional diagnostic succeeds.
+
+Existing exact selector rawproof exit0/141 statements and Cloud collector FAILURE
+plus corrected audit-only replay remain separately preserved at e2b24967.
+No pointee, unrestricted generic/ZST or accepted-tool claim is added.
+
+## First exact Cloud diagnostic controls and preflight decision
+
+Saved673526ac strict relocation is only an isolated candidate; the17case audit
+was inconclusive on second end_lifetime RSSpec attribution. Old false-posts
+were NOT_RUN. No old complete/admission result is borrowed. The fresh selected
+controls must pass exact source/MIR/refinement and raw intended diagnostics before
+the driver enables actual overlay. This is a TEST experiment release under the
+owner's new narrow authorization, not release/acceptance of old blocked design.
+
+| Control | Expected first obligation |
+|---|---|
+| positive_basic | full normal return/lifetime/leak exit0 |
+| positive_direct_unwind | same-unit callee + directContinue lifetime return/leak exit0 |
+| negative_wrong_marker | strict marker shape/binding admission, not resource negative |
+| negative_duplicate_marker | duplicate cut marker admission, not resource negative |
+| negative_typed_chunk_survives_cut | retained live<'cmp,T> at strict scope exit |
+| negative_unclosed_fractional_access | outstanding fractional borrow at lifetime end |
+| normal-false | false normal post at complete return |
+| unwind-false | false unwind post on actual tiny callee directContinue path |
+
+These isolate strict lifetime mechanism. They do not prove actual arbitraryFnMut
+recovery. Actual source run must separately verify same-unit recovery/join before
+caller and inspect each c1 continuation. Missing actual debt/edge/resource controls
+are conditional on admitting the exact baseline; a preheader/hash refusal remains
+a preparation/admission result, never an intended owner negative. No whole17 or
+unchanged select matrices repeat. Actual tuple/storage/alias/liveness qualification
+remains open; no scope filtered heap is permitted even diagnostically.

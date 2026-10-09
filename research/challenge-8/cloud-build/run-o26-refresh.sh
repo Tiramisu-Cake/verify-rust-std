@@ -371,6 +371,7 @@ HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
 
+if [[ "${LANE:-}" != o26-sort4-c1-current-recovery ]]; then
 mkdir -p "$ev/cases/candidate"
 stage candidate-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
   --tool-home "$source_home" --schema "$schema" \
@@ -383,6 +384,8 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+
+fi
 
 if [[ "$generic_new_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/generic-new-capture-request.json"
@@ -644,6 +647,16 @@ if [[ "$sort4_mode" == 1 ]]; then
     --schema "$schema" --compiler-sysroot "$compiler_sysroot" \
     --evidence "$ev/cases/actual-sort4" --deadline-epoch "$deadline" || sort4_status=$?
   printf '%s\n' "$sort4_status" > "$ev/cases/actual-sort4-helper-exit-code.txt"
+fi
+
+if [[ "${LANE:-}" == o26-sort4-c1-current-recovery ]]; then
+  stage sort4-c1-current-recovery bash "$cloud_dir/run-sort4-c1-current-recovery.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/sort4-c1-current-recovery" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
+  cp "$ev/cases/sort4-c1-current-recovery/diagnostic-audit.json" "$evidence_root/proof-audit.json"
+  exit 0
 fi
 
 current_stage=audit
