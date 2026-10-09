@@ -3,7 +3,9 @@
 import importlib.util
 from pathlib import Path
 import hashlib
+import json
 import tempfile
+import re
 
 path=Path(__file__).with_name('mdnew-upstream-pr-audit.py')
 spec=importlib.util.spec_from_file_location('mdnew_upstream_pr_audit',path)
@@ -65,5 +67,47 @@ with tempfile.TemporaryDirectory(prefix='mdnew-pr-stage-audit-') as temp:
     else: raise AssertionError('mandatory stage timeout control passed')
     record['make_test_run']=dict(record['run'])
     assert m.verify_stage(root,record,'make_test_run',(0,124,125,137))=='TIMEOUT'
+
+# Exercise audit() through its accepted result serialization path with temporary
+# native case evidence and mocked stage/provenance readers.
+with tempfile.TemporaryDirectory(prefix='mdnew-pr-audit-success-') as temp:
+    root=Path(temp); all_logs=root/'allprooflogs'; cases=all_logs/'cases/manuallydrop-native'
+    all_logs.mkdir(parents=True); cases.mkdir(parents=True)
+    script=('cd purely_unsafe\n'+'\n'.join(m.REGISTRATION)+'\ncd ..\n').encode()
+    (all_logs/'selected-manuallydrop-registration.mysh').write_bytes(script)
+    (all_logs/'native-registration.log').write_text(valid)
+    for name in ('rust-testsuite.log','make-test.log'): (all_logs/name).write_text('mocked pass\n')
+    case_commands={'forget':commands[0],'shared_cleanup':commands[1],
+      'false_normal_post':commands[2],'shared_false_unwind':commands[3],
+      'dead_code_pre':commands[4]}
+    synthetic={}; m.FIXTURES={}
+    for index,(name,command) in enumerate(case_commands.items()):
+        source=f'synthetic fixture {name}\n'.encode(); source_hash=hashlib.sha256(source).hexdigest(); blob=f'{index+1:040x}'
+        m.FIXTURES[name]=(source_hash,blob)
+        start=re.search(r'(?m)^Starting process \d+: (?:[^\n]*\$ )?'+re.escape(command)+r'$',valid)
+        after=valid[start.end():]; finish=re.search(r'(?m)^PASS: (?:[^\n]*\$ )?'+re.escape(command)+r' \(',after)
+        end=valid.find('\n',start.end()+finish.start()); case_trace=valid[start.start():end+1]
+        case_dir=cases/name; case_dir.mkdir()
+        (case_dir/'source.rs').write_bytes(source); (case_dir/'native-mysh-trace.log').write_text(case_trace)
+        item={'path':f'tests/rust/purely_unsafe/manuallydrop_new_cfg/{name}.rs','command':command,
+              'source_sha256':source_hash,'git_blob':blob,'trace_path':'native-mysh-trace.log',
+              'trace_sha256':hashlib.sha256(case_trace.encode()).hexdigest()}
+        (case_dir/'case.json').write_text(json.dumps(item,indent=2,sort_keys=True)+'\n'); synthetic[name]=item
+    native={'selected_commands':m.REGISTRATION,'selected_script_sha256':hashlib.sha256(script).hexdigest(),
+      'registration_sha256':m.REGISTRATION_SHA256,'registration_git_blob':m.REGISTRATION_BLOB,
+      'registration_run':{'exit_status':0},'rust_suite_run':{},'make_test_run':{},'case_evidence':synthetic}
+    (all_logs/'native-input.json').write_text(json.dumps(native,indent=2,sort_keys=True)+'\n')
+    (cases/'selected-registration.mysh').write_bytes(script)
+    (cases/'manifest.json').write_text(json.dumps(native,indent=2,sort_keys=True)+'\n')
+    m.verify_stage=lambda *args,**kwargs:'PASS'
+    m.verify_provenance=lambda *args,**kwargs:{'mocked_pins':True}
+    accepted=m.audit(root/'tool',all_logs)
+    assert accepted['accepted'] is True
+    assert json.loads(json.dumps(accepted))['selected_registration']['dead_code_diagnostic'] is True
+
+recipe=json.loads((path.parent/'recipes/verifast-mdnew-upstream-pr.json').read_text())
+assert all(recipe[key]==sorted(set(recipe[key])) for key in ('infra_paths','proof_paths'))
+runner=(path.parent/'run-verifast-mdnew-cfg.sh').read_text()
+assert 'make_status=0\n    run_stage mdnew-pr-make-test' in runner
 print({'synthetic_trace_controls':len(controls)+1,'synthetic_stage_controls':7,
-       'compiler_or_verifier_execution':False,'passed':True})
+       'accepted_audit_json_serialization':True,'compiler_or_verifier_execution':False,'passed':True})

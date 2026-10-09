@@ -488,6 +488,7 @@ NATIVE_INPUT
   make_status=125
   if (( registration_status == 0 && rust_status == 0 )) &&
      remaining_budget=$(remaining) && (( remaining_budget > 700 )); then
+    make_status=0
     run_stage mdnew-pr-make-test 650 "$candidate_tool/src" \
       "$all/make-test.log" combined make test NUMCPU=4 || make_status=$?
   else

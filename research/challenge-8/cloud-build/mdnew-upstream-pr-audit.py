@@ -207,7 +207,7 @@ def audit(tool: Path, all_logs: Path) -> dict:
     need("-ignore_unwind_paths" not in text and "-allow_dead_code" not in text,
          "selected script disables a required check")
     log=read(all_logs/"native-registration.log").decode(errors="replace")
-    trace=verify_trace(log,native.get("registration_run",{}).get("exit_status"))
+    trace_summary=verify_trace(log,native.get("registration_run",{}).get("exit_status"))
     need(verify_stage(all_logs,native,"registration_run")=="PASS","native registration did not pass")
     rust_status=verify_stage(all_logs,native,"rust_suite_run")
     need(rust_status=="PASS","full native tests/rust/testsuite.mysh did not pass")
@@ -226,14 +226,14 @@ def audit(tool: Path, all_logs: Path) -> dict:
     for name,(expected,blob) in FIXTURES.items():
         case_dir=all_logs/"cases/manuallydrop-native"/name
         record=json_file(case_dir/"case.json")
-        source=read(case_dir/"source.rs"); trace=read(case_dir/"native-mysh-trace.log")
+        source=read(case_dir/"source.rs"); case_trace=read(case_dir/"native-mysh-trace.log")
         native_record=case_records[name]
         need(record==native_record and hashlib.sha256(source).hexdigest()==expected==native_record.get("source_sha256") and
-             native_record.get("git_blob")==blob and hashlib.sha256(trace).hexdigest()==native_record.get("trace_sha256") and
-             trace in whole_log,f"{name} preserved native case evidence does not match the full mysh trace",
+             native_record.get("git_blob")==blob and hashlib.sha256(case_trace).hexdigest()==native_record.get("trace_sha256") and
+             case_trace in whole_log,f"{name} preserved native case evidence does not match the full mysh trace",
              "INCOMPLETE_EVIDENCE")
         if name=="dead_code_pre":
-            need(DEAD.search(trace.decode(errors="replace")) is not None,
+            need(DEAD.search(case_trace.decode(errors="replace")) is not None,
                  "preserved dead_code_pre trace lacks the exact diagnostic")
     need(native.get("registration_sha256")==REGISTRATION_SHA256 and
          native.get("registration_git_blob")==REGISTRATION_BLOB,
@@ -242,7 +242,7 @@ def audit(tool: Path, all_logs: Path) -> dict:
          json_file(all_logs/"cases/manuallydrop-native/manifest.json")==native,
          "preserved native registration script/manifest differs from executed inputs","INCOMPLETE_EVIDENCE")
     return {"classification":"UPSTREAM_NATIVE_REGISTRATION_AND_RUST_SUITE_PASS","accepted":True,
-            "provenance":provenance,"selected_registration":trace,
+            "provenance":provenance,"selected_registration":trace_summary,
             "full_rust_testsuite":"PASS","make_test":make_label,
             "scope":"native selected registration and full tests/rust suite; broader make test status shown separately"}
 
