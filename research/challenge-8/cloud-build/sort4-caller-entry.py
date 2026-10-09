@@ -266,7 +266,7 @@ def run_case(a, prep, capture, parser, case, env):
         write(root/'proof-ast-capture.json',ast_record)
         rows['verification']=stage(a,fixture,'verification',[vf,'-rustc_args','--edition 2021','-verbose','2','verified/lib.rs'],env,240)
         log=(fixture/'verification.log').read_text(errors='replace') if (fixture/'verification.log').exists() else ''
-        errors=[line for line in log.splitlines() if ': error:' in line or line.startswith('Fatal error:')]
+        errors=[line for line in log.splitlines() if ': error:' in line or line.startswith('Fatal error:') or re.search(r'\): dead code$',line)]
         entries=parser.proof_entries(log,'small_sort_general_with_scratch')
         helpers=parser.proof_entries(log,'c1_entry_identity')
         caller_ok=len(entries)==1
@@ -305,6 +305,7 @@ def run_case(a, prep, capture, parser, case, env):
         result['source_frame_subset_derived']=complete and case=='source-frame-positive'
         result['source_subset_assertion_reached']=subset_reached if case=='source-frame-positive' else None
         if prefix_blocker and case in ('prefix-native','source-frame-positive','bridge-positive'):result['classification']='NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER'
+        if any(re.search(r'\): dead code$',line) for line in errors):result['classification']='STRICT_DEAD_CODE_REJECTION_AFTER_SELECTED_PATH_FILTER'
         need(all(sha(fixture/n)==h for n,h in before.items()),'source pair changed')
     except Exception as exc:
         result.update(classification='SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT',collector_error=str(exc))

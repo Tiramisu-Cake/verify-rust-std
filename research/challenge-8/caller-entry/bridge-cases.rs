@@ -74,8 +74,8 @@ if (0 < std::mem::size_of::<T>()) {
     close array_::<T>(scratch_base + 1, 3, cons(storage1, cons(storage2, cons(storage3, nil))));
     close array_::<T>(scratch_base, 4,
         cons(storage0, cons(storage1, cons(storage2, cons(storage3, nil)))));
-    assert pointer_within_limits(scratch_base);
-    assert pointer_within_limits(scratch_base + 4);
+    assert pointer_within_limits(scratch_base) == true;
+    assert pointer_within_limits(scratch_base + 4) == true;
 
     assert array_::<T>(scratch_base, 4, ?destination_before);
     assert type_interp::<T>();
