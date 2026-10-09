@@ -2,37 +2,33 @@
   "mode": "saved/synthetic isolated classifier/parser",
   "extractor_invoked": false,
   "compiler_verifier_invoked": false,
-  "all_matched": true,
-  "cases": {
-    "positive": {
-      "ghost_strip": true,
-      "anchors_unique": true,
-      "instantiated_T_absent": true,
-      "domain": "saved-byte parser/service check; NOT_PROOF"
-    },
-    "after_fbc_false": {
-      "ghost_strip": true,
-      "anchors_unique": true,
-      "instantiated_T_absent": true,
-      "domain": "saved-byte parser/service check; NOT_PROOF"
-    },
-    "after_recovery_false": {
-      "ghost_strip": true,
-      "anchors_unique": true,
-      "instantiated_T_absent": true,
-      "domain": "saved-byte parser/service check; NOT_PROOF"
-    },
-    "missing_held_owner": {
-      "ghost_strip": true,
-      "anchors_unique": true,
-      "instantiated_T_absent": true,
-      "domain": "saved-byte parser/service check; NOT_PROOF"
-    },
-    "double_physical_fbc": {
-      "ghost_strip": true,
-      "anchors_unique": true,
-      "instantiated_T_absent": true,
-      "domain": "saved-byte parser/service check; NOT_PROOF"
-    }
+  "proof_status": "NOT_RUN",
+  "all_service_checks_pass": true,
+  "source_linked_failure_context": {
+    "build_archive": "0bee7b5b",
+    "case": "insertion-onecell-guard-diagnostic/concrete-u64/after_recovery_false",
+    "first_saved_error": "Cannot use field dereference in this context at post-copy *gap_guard.src ghost assertion",
+    "interpretation": "frontend syntax failure before the intended recovery assertion; no semantic recovery outcome inferred"
+  },
+  "concrete_ghost_adapter": {
+    "saved_or_synthetic_cases": 5,
+    "adaptation_and_ghost_strip_passed": 5,
+    "stable_pointer_ghost_bindings": true,
+    "runtime_read_guard_and_literal_one_copy_unchanged": true,
+    "full_posts_or_resource_contracts_weakened": false,
+    "domain": "synthetic source bytes only; NOT_PROOF"
+  },
+  "saved_ast_type_gate": {
+    "saved_concrete_u64_ast_parsed": true,
+    "exact_unsigned_fixed_width_rank_3_admitted": true,
+    "altered_width_rank_2_rejected": true,
+    "domain": "saved typed AST parser service check; NOT_PROOF"
+  },
+  "remaining_first_candidate": "fresh Cloud verifier result after the localized adapter fix; retain its first recovery failure verbatim, if any",
+  "scope_limits": {
+    "actual_CopyOnDrop_drop_called": false,
+    "actual_drop_glue": "OPEN",
+    "unwind_credit": "NOT_EXERCISED",
+    "accepted": false
   }
 }

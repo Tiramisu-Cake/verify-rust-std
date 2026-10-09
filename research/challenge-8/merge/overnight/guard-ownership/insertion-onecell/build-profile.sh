@@ -49,6 +49,20 @@ for relative,key in deps.items():
     report['dependencies'][relative]={'action':action,'expected_sha256':expected,
                                       'sha256':after,'executable':bool(target.stat().st_mode & 0o111)}
     assert report['dependencies'][relative]['executable'],(relative,'dependency is not executable')
+# The base source builder already copied these exact frozen C++ dependencies.
+# Retain explicit evidence, without changing the Rust trusted profile.
+for relative in ('bin/vf-cxx-ast-exporter','bin/prelude_cxx.h'):
+    target=home/relative
+    source=release/relative
+    assert target.is_file() and source.is_file(),(relative,'frozen C++ dependency missing')
+    expected=sha(source)
+    assert sha(target)==expected,(relative,'C++ dependency differs from frozen release')
+    if relative.endswith('vf-cxx-ast-exporter'):
+        assert target.stat().st_mode & 0o111,(relative,'C++ exporter is not executable')
+    report['dependencies'][relative]={'action':'baseline-present',
+        'expected_sha256':expected,'sha256':sha(target),
+        'executable':bool(target.stat().st_mode & 0o111),
+        'domain':'frozen-release C++ diagnostic only'}
 (evidence/'frozen-dependency-bootstrap.json').write_text(json.dumps(report,indent=2)+'\n')
 BOOTSTRAP
 python3 - "$here" "$new_home" "$evidence" <<'PINS'
@@ -130,6 +144,19 @@ for native_suffix in c cpp; do
   set -e
   printf '%s\n' "$native_unit_status" > "$evidence/native-unit-$native_suffix-exit-code.txt"
   cat "$evidence/native-unit-$native_suffix.log"
+  if [[ "$native_suffix" == cpp && "$native_unit_status" != 0 ]]; then
+    # Reveal exporter stderr hidden by vfconsole's dummy-location formatter.
+    # Match the existing C++ frontend's empty process environment and argv.
+    set +e
+    timeout --signal=TERM --kill-after=5s 20s env -i "$new_home/bin/vf-cxx-ast-exporter" \
+      "$native_source" -allow_macro_expansion=__VF_CXX_CLANG_FRONTEND__ -- \
+      -xc++ -std=c++17 "-I$new_home/bin" -D__VF_CXX_CLANG_FRONTEND__ \
+      > "$evidence/native-unit-cpp-exporter.bin" 2> "$evidence/native-unit-cpp-exporter.log"
+    native_exporter_status=$?
+    set -e
+    printf '%s\n' "$native_exporter_status" > "$evidence/native-unit-cpp-exporter-exit-code.txt"
+    cat "$evidence/native-unit-cpp-exporter.log"
+  fi
 done
 
 # Independent concrete ABI observation by the pinned compiler, separate from VF.

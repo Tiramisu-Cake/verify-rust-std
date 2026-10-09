@@ -88,6 +88,20 @@ def _specialize(raw: bytes, prep) -> bytes:
     return result
 
 
+def _adapt_concrete_recovery(verified: bytes, prep) -> bytes:
+    """Use stable ghost pointer locals in only the concrete specialized file."""
+    geometry = _rewrite_types(prep.DESTINATION_GEOMETRY)
+    recovery = _rewrite_types(prep.RECOVER)
+    bindings = (b"        //@ let recovery_src = gap_guard.src;\n"
+                b"        //@ let recovery_dst = gap_guard.dst;\n")
+    adapted_recovery = recovery.replace(b"gap_guard.src", b"recovery_src").replace(
+        b"gap_guard.dst", b"recovery_dst")
+    if verified.count(geometry) != 1 or verified.count(recovery) != 1:
+        raise ValueError("concrete recovery adaptation anchors are not unique")
+    verified = verified.replace(geometry, geometry + bindings, 1)
+    return verified.replace(recovery, adapted_recovery, 1)
+
+
 def _source_gate(case: Path, metadata: dict, prep) -> dict:
     original = (case / "original/lib.rs").read_bytes()
     verified = (case / "verified/lib.rs").read_bytes()
@@ -356,8 +370,31 @@ def _ast_gate(case: Path, metadata: dict, ast) -> dict:
             return value.args[1] if isinstance(value, ast.Node) and \
                 value.name == "Var" and len(value.args) == 2 else None
 
+        def is_node(value, name: str, arity: int | None = None) -> bool:
+            return (isinstance(value, ast.Node) and value.name == name and
+                    (arity is None or len(value.args) == arity))
+
+        def is_u64_type(value) -> bool:
+            # The pinned AST spells u64 as Some(ConstTypeExpr(loc,
+            # ManifestTypeExpr(loc, Int(Unsigned, FixedWidthRank(3))))).
+            # Check the full type tree rather than accepting a substring.
+            if not is_node(value, "Some", 1):
+                return False
+            const = value.args[0]
+            if not is_node(const, "ConstTypeExpr", 2):
+                return False
+            manifest = const.args[1]
+            if not is_node(manifest, "ManifestTypeExpr", 2):
+                return False
+            integer = manifest.args[1]
+            if not is_node(integer, "Int", 2) or integer.args[0] != ast.Sym("Unsigned"):
+                return False
+            rank = integer.args[1]
+            return is_node(rank, "FixedWidthRank", 1) and rank.args[0] == 3
+
         read_linked = False
         concrete_tmp = False
+        tmp_types = []
         if len(read_assignments) == 3:
             first, load, init = read_assignments
             pvar, loaded, tmp = local(first[1]), local(load[1]), local(init[1])
@@ -376,7 +413,7 @@ def _ast_gate(case: Path, metadata: dict, ast) -> dict:
                 for binding in decl.args[1]:
                     if isinstance(binding, tuple) and len(binding) >= 3 and binding[2] == "tmp":
                         tmp_types.append(binding[1])
-            concrete_tmp = len(tmp_types) == 1 and "u64" in repr(tmp_types[0])
+            concrete_tmp = len(tmp_types) == 1 and is_u64_type(tmp_types[0])
         guard_types = [node for node in ast.nodes(runtime, "StructTypeExpr")
                        if ast.location_line(node.args[0]) == metadata["guard_line"] and
                        "CopyOnDrop" in repr(node)]
@@ -400,7 +437,9 @@ def _ast_gate(case: Path, metadata: dict, ast) -> dict:
                     not any(name in {"assume", "#assume", "leak"}
                             for name in runtime_calls))
         return {"admitted": admitted, "read_linked": read_linked,
-                "concrete_u64_tmp": concrete_tmp, "guard_type_count": len(guard_types),
+                "concrete_u64_tmp": concrete_tmp,
+                "tmp_ast_type": repr(tmp_types[0]) if len(tmp_types) == 1 else None,
+                "guard_type_count": len(guard_types),
                 "fbc_field_count": len(fbc_points), "own_physical_points": len(physical),
                 "own_recursive_count": len(calls_own), "false_in_own_count": len(false_nodes),
                 "fbc_close_count": len(close), "fbc_open_count": len(opened),
@@ -557,7 +596,8 @@ def run(evidence: Path, args, env: dict, execute_case,
         (case / "original").mkdir(parents=True)
         (case / "verified").mkdir()
         original = _specialize((generic_case / "original/lib.rs").read_bytes(), prep)
-        verified = _specialize((generic_case / "verified/lib.rs").read_bytes(), prep)
+        verified = _adapt_concrete_recovery(
+            _specialize((generic_case / "verified/lib.rs").read_bytes(), prep), prep)
         # Specialization is textual but source-specific and conservative: the
         # two runtime files must still differ only by the recorded ghost bytes.
         generic_meta = extraction["cases"][name]
@@ -566,8 +606,9 @@ def run(evidence: Path, args, env: dict, execute_case,
         # specialized original below, not inferred from an execution result.
         generic_verified = (generic_case / "verified/lib.rs").read_bytes()
         generic_original = (generic_case / "original/lib.rs").read_bytes()
+        specialized_verified = _adapt_concrete_recovery(_specialize(generic_verified, prep), prep)
         if _specialize(generic_original, prep) != original or \
-                _specialize(generic_verified, prep) != verified:
+                specialized_verified != verified:
             raise ValueError(f"{name}: specialization was not deterministic")
         # The existing prepare module has already validated its full ghost
         # strip. Recheck it post-specialization using the same authored chunks.
@@ -599,6 +640,18 @@ def run(evidence: Path, args, env: dict, execute_case,
                 "own_close_line": "MISSING_OWNER_CLOSE" if name == "missing_held_owner" else "OWN_CLOSE",
             }[field])
             row[field] = _line(verified, _rewrite_types(generic_anchor))
+        target_anchor = {
+            "after_fbc_false": prep.FBC_FALSE,
+            "after_recovery_false": prep.FALSE,
+            "missing_held_owner": prep.READ,
+            "double_physical_fbc": prep.DOUBLE_FBC_CLOSE,
+        }.get(name)
+        if target_anchor is not None:
+            specialized_target = _rewrite_types(target_anchor)
+            if verified.count(specialized_target) != 1:
+                raise ValueError(f"{name}: specialized target anchor is not unique")
+            target = dict(target or {})
+            target["line"] = _line(verified, specialized_target)
         row["target"] = target
         row["case"] = name
         row["ghost_fragments"] = [_rewrite_types(part).decode("ascii") for part in
@@ -698,7 +751,13 @@ def _ghost_fragments(prep, name: str) -> tuple[bytes, ...]:
     if name == "after_fbc_false":
         middle += prep.FBC_FALSE
     middle += prep.ALIGNMENT + prep.SOURCE_LIMITS + b"".join(prep.GEOMETRY) + prep.DESTINATION_GEOMETRY
-    recovery = prep.RECOVER + (prep.FALSE if name == "after_recovery_false" else b"")
+    # Snapshot guard fields while the canonical predicate is open. The
+    # post-copy ghost-expression grammar rejects direct field dereferences.
+    middle += (b"        //@ let recovery_src = gap_guard.src;\n"
+               b"        //@ let recovery_dst = gap_guard.dst;\n")
+    recovery = prep.RECOVER.replace(b"gap_guard.src", b"recovery_src").replace(
+        b"gap_guard.dst", b"recovery_dst")
+    recovery += prep.FALSE if name == "after_recovery_false" else b""
     return (prep.OWN, prep.ALIGNMENT_LEMMA, contract, prep.ANNOTATIONS,
             middle, recovery)
 

@@ -1,3 +1,7 @@
+## Origin / canonical unit / concrete-u64 source fragment — 0bee7b5b /21eab4b8
+
+Experimental tool8cb0121b, NOT_FOR_INTEGRATION.14unit/layoutcontrolsmatched (ghost/runtime/wrapper/primitiveinstantiation/pointerzero-step and exactfalsecontrols); compiler observation confirms canonicalunit/ManuallyDropunit size0/align1,u64/wrapper8/8,arraystride0/8 atfrozennightly/target, NOT_PROOF and exactreceiptpending. Rustdivergers ordinary/no false continuation and normal/unwindresourcepositivespassed; missingunwindpointsto/lostcellStorageDead targetednegativesretained. Externpreconditionnegative needs RSSpecreq+sourcecall error mapping. Concrete source-linked actualread/tmp/guard constructorseparation, canonicalFBCandpostFBCgeometry +literalonecopy reached; recovery frontenderrfielddereference, fullpost/return/leaknotreached. ASTprimitivecollector repairpending. Generic/ZST/fullinsert_tail/caller/comparator/actualDropglueOPEN; no supplied separationpremise.
+
 ## Resource9 evidence —54a22b0d /76557959
 
 Conditional arbitrary native-usize n transposition of existing CURRENT owners

@@ -902,6 +902,52 @@ def extern_spec_cli_gate(case: Path, name: str, meta: dict, stages: dict,
     return local_header.is_file() and _sha(local_header.read_bytes()) == expected_sha
 
 
+def extern_req_negative_gate(name: str, meta: dict, log: str, errors: list[str],
+                             gate: dict, target: int, executed: bool,
+                             extern_spec_binding) -> dict:
+    """Match this extern precondition failure at its RSSpec declaration site.
+
+    VeriFast reports the missing function-type precondition at the generated
+    RSSpec `req` expression, while retaining a call-site note. This exception
+    is deliberately limited to the one resource-negative case and exact spec
+    predicate; other negatives continue to require their source obligation.
+    """
+    result = {"admitted": False, "reason": "case is not the extern req negative"}
+    if (name != "origin_reserved_dead_extern_requires_resource" or
+            meta.get("kind") != "ordinary_contract_negative" or
+            meta.get("semantic_expectation") != "EXPECTED_REJECTION" or
+            not isinstance(meta.get("extern_spec"), dict) or
+            meta["extern_spec"].get("req") != "*p |-> ?v"):
+        return result
+    if not gate.get("admitted") or not executed or len(errors) != 1:
+        return {"admitted": False,
+                "reason": "ordinary source-call gate, target execution, or unique error missing"}
+    mir_call, ast_call = gate.get("mir_call", {}), gate.get("ast_call", {})
+    if (mir_call.get("callee") != meta.get("callee") or
+            mir_call.get("source_line") != target or
+            mir_call.get("has_normal_target") is not True or
+            ast_call.get("callee") != meta.get("callee") or
+            ast_call.get("source_line") != target):
+        return {"admitted": False, "reason": "ordinary MIR/AST call does not match target"}
+    if not isinstance(extern_spec_binding, dict) or not isinstance(
+            extern_spec_binding.get("target_path"), str):
+        return {"admitted": False, "reason": "extern spec file binding missing"}
+    error_pattern = (re.escape(extern_spec_binding["target_path"]) +
+                     r"\(2,12-15\): error: "
+                     r"No matching heap chunks: points_to<u64>\(p, _\)$")
+    if re.search(error_pattern, errors[0]) is None:
+        return {"admitted": False, "reason": "extern req error site or points-to predicate differs"}
+    call_pattern = (rf"verified/lib\.rs\({target},\d+(?:-\d+(?:,\d+)?)?\): "
+                    r"note: Verifying call$")
+    call_notes = [line for line in log.splitlines() if re.search(call_pattern, line)]
+    if len(call_notes) != 1:
+        return {"admitted": False, "reason": "unique target Verifying call note missing"}
+    return {"admitted": True,
+            "reason": "exact extern req predicate failed at the ordinary target call",
+            "error_site": "origin-control.rsspec(2,12-15)",
+            "call_note": call_notes[0]}
+
+
 def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     stages = execution.get("stages", {})
     log_path = case / "verifast.log"
@@ -945,6 +991,9 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
     diverging_unwind_log = (diverging_unwind_log_gate(log, meta, gate)
                             if meta["kind"] == "diverging_extern" and stages.get("decode") == 0
                             else None)
+    extern_req_gate = extern_req_negative_gate(
+        name, meta, log, errors, gate, target, executed,
+        execution.get("extern_spec_binding"))
     if not stage_inputs_ok:
         classification = "SETUP_REJECTION"
     elif stages.get("verifast") != 0 and (not (case / "proof-ast.ml").is_file() or
@@ -974,11 +1023,15 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
                                         diverging_unwind_log.get("admitted")))
         classification = "PASS_CONTROL" if matched else "INCONCLUSIVE"
     else:
-        matched = (stages.get("verifast") == 1 and gate.get("admitted") is True and
-                   executed and exact_error and
-                   meta.get("error_contains", "Cannot prove") in errors[0] and
-                   (meta["kind"] != "unwind_contract_negative" or
-                    (gate.get("caller_unwind_post") is True and unwind_resource_error)))
+        if name == "origin_reserved_dead_extern_requires_resource":
+            matched = (stages.get("verifast") == 1 and gate.get("admitted") is True and
+                       executed and extern_req_gate.get("admitted") is True)
+        else:
+            matched = (stages.get("verifast") == 1 and gate.get("admitted") is True and
+                       executed and exact_error and
+                       meta.get("error_contains", "Cannot prove") in errors[0] and
+                       (meta["kind"] != "unwind_contract_negative" or
+                        (gate.get("caller_unwind_post") is True and unwind_resource_error)))
         classification = "EXPECTED_REJECTION" if matched else "INCONCLUSIVE"
     result = {**execution, **meta, "case": name, "classification": classification,
               "semantic_evidence": classification in {"PASS_CONTROL", "EXPECTED_REJECTION"},
@@ -988,6 +1041,7 @@ def classify(name: str, case: Path, meta: dict, execution: dict) -> dict:
               "local_unwind_gate": unwind_gate,
               "unwind_log_gate": unwind_log,
               "diverging_unwind_log_gate": diverging_unwind_log,
+              "extern_req_negative_gate": extern_req_gate,
               "obligation_line": target,
               "obligation_error_line": error_line,
               "unwind_resource_error": unwind_resource_error,
