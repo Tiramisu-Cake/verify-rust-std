@@ -1,0 +1,16 @@
+[
+  PackageDecl (loc "<dummy location>", "", [], [
+    Func (loc "forget.rs(1,1-7,2)", Regular, [("T", (true))], Some (ConstructedTypeExpr (loc "forget.rs(1,30)", "fn_outcome", [ManifestTypeExpr (loc "forget.rs(1,30)", StructType ("std_tuple_0_", []))])), "forget", [(ConstTypeExpr (loc "forget.rs(1,25-26)", IdentTypeExpr (loc "forget.rs(1,25-26)", None, "T")), "t")], false, (None, None), Some ((Sep (loc "forget.rs(2,28-31)", CallExpr (loc "forget.rs(2,9-21)", "thread_token", [], [], [VarPat (loc "forget.rs(2,23-26)", "tid")], Static), Operation (loc "forget.rs(2,36-38)", Eq, [Var (loc "forget.rs(2,32-35)", "tid"); Var (loc "forget.rs(2,39-52)", "currentThread")])), ("outcome", SwitchExpr (loc "forget.rs(1,30-5,1)", Var (loc "forget.rs(1,30-5,1)", "outcome"), [
+      SwitchExprClause (loc "forget.rs(3,9-21)", "returning", ["result"], CallExpr (loc "forget.rs(3,9-21)", "thread_token", [], [], [LitPat (Var (loc "forget.rs(3,22-25)", "tid"))], Static));
+      SwitchExprClause (loc "forget.rs(4,19-24)", "unwinding", [], False (loc "forget.rs(4,19-24)"))
+    ], None)))), false, Some (([
+      DeclStmt (loc "forget.rs(1,1-7,2)", [(loc "forget.rs(1,1-7,2)", Some (ManifestTypeExpr (loc "forget.rs(1,30)", StructType ("std_tuple_0_", []))), "$_0", None, (ref (false), ref (None)))]);
+      DeclStmt (loc "forget.rs(1,1-7,2)", [(loc "forget.rs(1,1-7,2)", Some (IdentTypeExpr (loc "forget.rs(6,13-43)", None, "T")), "$_2", None, (ref (false), ref (None)))]);
+      DeclStmt (loc "forget.rs(1,1-7,2)", [(loc "forget.rs(1,1-7,2)", Some (IdentTypeExpr (loc "forget.rs(6,41-42)", None, "T")), "$_3", None, (ref (false), ref (None)))]);
+      LabelStmt (loc "forget.rs(6,41-42)", "0");
+      ExprStmt (AssignExpr (loc "forget.rs(6,41-42)", Var (loc "forget.rs(6,41-42)", "$_3"), Mutation, Var (loc "forget.rs(6,41-42)", "t")));
+      ExprStmt (AssignExpr (loc "forget.rs(6,13-43)", Var (loc "forget.rs(6,13-43)", "$_2"), Mutation, Var (loc "forget.rs(6,13-43)", "$_3")));
+      ReturnStmt (loc "forget.rs(7,2)", Some (CallExpr (loc "forget.rs(7,2)", "returning", [], [], [LitPat (Var (loc "forget.rs(7,2)", "$_0"))], Static)))
+    ], loc "forget.rs(7,1-2)")), false, [])
+  ])
+]

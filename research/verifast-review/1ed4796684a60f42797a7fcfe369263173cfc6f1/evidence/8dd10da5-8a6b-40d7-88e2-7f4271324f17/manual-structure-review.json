@@ -1,0 +1,48 @@
+{
+  "build_id": "8dd10da5-8a6b-40d7-88e2-7f4271324f17",
+  "details": {
+    "normal_first_cleanup": {
+      "call_argument_true": true,
+      "cleanup_unwind_resume": true,
+      "new_cleanup": 5,
+      "new_normal_target": 4,
+      "normal_mir_sha256": "9fdbc921148690c7d99dad8942ae54b20f03007d9a2fbcd81306e6ef9cd2607c",
+      "normal_target_is_direct_return": true,
+      "verified_ast_sha256": "8fbfe7bebd7eb40c6219473154a16be2a80575edad2e07dd1a7c3a6011ee99d7"
+    },
+    "shared_cleanup_false_unwind_post": {
+      "call_argument_true": true,
+      "cleanup_unwind_resume": true,
+      "new_cleanup": 5,
+      "new_normal_target": 4,
+      "normal_mir_sha256": "9237eed0fd45fe54bbaba880ac1b05878e057d6a95bea36ceaf5d9d4103163f7",
+      "normal_target_is_direct_return": true,
+      "verified_ast_sha256": "5ec7368715c8f439b52ce9db250976836d966c08b37afc5cb0f1197ccdedd67f"
+    }
+  },
+  "method": "Read and parse fresh integrity-verified Cloud evidence; no new verifier execution or replay proof credit",
+  "ordinary_and_shared": {
+    "forget": {
+      "baseline_ast_checked": true,
+      "mdnew_cleanup": 2,
+      "normal_target": 1
+    },
+    "shared_cleanup": {
+      "mdnew_target": 1,
+      "ordinary_caller_continue": true,
+      "ordinary_target": 2,
+      "shared_cleanup": 3
+    }
+  },
+  "original_negative_coverage": {
+    "false_normal_baseline_diagnostic": "EXACT_EXPECTED_LINE_3",
+    "false_normal_baseline_original": "NOT_RUN (not an acceptance gate; historical Cloud plan55 permits baseline orphan defect, no negative credit inferred)",
+    "false_normal_candidate_original": "PASS",
+    "independent_coverage_review": "GPT-6 Sol: exact planned acceptance and fresh outcomes reviewed; baseline false-normal allow characterization adds no required gate",
+    "shared_false_unwind_both_originals": "PASS"
+  },
+  "proof_audit_sha256": "61ae88b89d8f321d4b18610c34cc73eb8666669c407345d19c2eb9d68b3690dc",
+  "result": "PASS",
+  "reviewer": "Independent built-in GPT-6 Sol explorer; main verified recorded IDs/hashes with function-scoped parser",
+  "tool_test_commit": "8f0b701e9f2a3da124372c5d37d4cda408d45001"
+}

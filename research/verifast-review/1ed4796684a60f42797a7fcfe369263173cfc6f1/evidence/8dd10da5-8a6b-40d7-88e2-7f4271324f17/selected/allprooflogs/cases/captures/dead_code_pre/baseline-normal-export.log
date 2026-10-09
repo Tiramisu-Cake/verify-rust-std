@@ -1,0 +1,143 @@
+[2m2026-10-09T17:25:27.659873Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Calling the Rust Compiler with args: ["/workspace/verifast-mdnew-cfg/source/bin/vf-rust-mir-exporter", "dead_code_pre.rs", "--sysroot=/workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu", "--edition", "2021", "--crate-type", "lib", "-Coverflow_checks=off", "--crate-type=lib", "--error-format=json"]
+[2m2026-10-09T17:25:27.663326Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m FileLoader::read_file("dead_code_pre.rs")
+{"$message_type":"diagnostic","message":"function cannot return without recursing","code":{"code":"unconditional_recursion","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":255,"byte_end":287,"line_start":11,"line_end":11,"column_start":1,"column_end":33,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":1,"highlight_end":33}],"label":"cannot return without recursing","suggested_replacement":null,"suggestion_applicability":null,"expansion":null},{"file_name":"dead_code_pre.rs","byte_start":290,"byte_end":306,"line_start":11,"line_end":11,"column_start":36,"column_end":52,"is_primary":false,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":36,"highlight_end":52}],"label":"recursive call site","suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"a `loop` may express intention better if this is on purpose","code":null,"level":"help","spans":[],"children":[],"rendered":null},{"message":"`#[warn(unconditional_recursion)]` on by default","code":null,"level":"note","spans":[],"children":[],"rendered":null}],"rendered":"warning: function cannot return without recursing\n  --> dead_code_pre.rs:11:1\n   |\n11 | fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }\n   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   ---------------- recursive call site\n   | |\n   | cannot return without recursing\n   |\n   = help: a `loop` may express intention better if this is on purpose\n   = note: `#[warn(unconditional_recursion)]` on by default\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_ghost_command` is never used","code":{"code":"dead_code","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":227,"byte_end":249,"line_start":10,"line_end":10,"column_start":10,"column_end":32,"is_primary":true,"text":[{"text":"const fn VeriFast_ghost_command() {}","highlight_start":10,"highlight_end":32}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"`#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default","code":null,"level":"note","spans":[],"children":[],"rendered":null}],"rendered":"warning: function `VeriFast_ghost_command` is never used\n  --> dead_code_pre.rs:10:10\n   |\n10 | const fn VeriFast_ghost_command() {}\n   |          ^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_alloc` is never used","code":{"code":"dead_code","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":258,"byte_end":272,"line_start":11,"line_end":11,"column_start":4,"column_end":18,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":4,"highlight_end":18}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[],"rendered":"warning: function `VeriFast_alloc` is never used\n  --> dead_code_pre.rs:11:4\n   |\n11 | fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }\n   |    ^^^^^^^^^^^^^^\n\n"}
+{"$message_type":"diagnostic","message":"function `VF_free` is never used","code":{"code":"dead_code","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":312,"byte_end":319,"line_start":12,"line_end":12,"column_start":4,"column_end":11,"is_primary":true,"text":[{"text":"fn VF_free<T>(_ptr: *mut T) {}","highlight_start":4,"highlight_end":11}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[],"rendered":"warning: function `VF_free` is never used\n  --> dead_code_pre.rs:12:4\n   |\n12 | fn VF_free<T>(_ptr: *mut T) {}\n   |    ^^^^^^^\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_ghost_command` should have a snake case name","code":{"code":"non_snake_case","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":227,"byte_end":249,"line_start":10,"line_end":10,"column_start":10,"column_end":32,"is_primary":true,"text":[{"text":"const fn VeriFast_ghost_command() {}","highlight_start":10,"highlight_end":32}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"`#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default","code":null,"level":"note","spans":[],"children":[],"rendered":null},{"message":"convert the identifier to snake case","code":null,"level":"help","spans":[{"file_name":"dead_code_pre.rs","byte_start":227,"byte_end":249,"line_start":10,"line_end":10,"column_start":10,"column_end":32,"is_primary":true,"text":[{"text":"const fn VeriFast_ghost_command() {}","highlight_start":10,"highlight_end":32}],"label":null,"suggested_replacement":"veri_fast_ghost_command","suggestion_applicability":"MaybeIncorrect","expansion":null}],"children":[],"rendered":null}],"rendered":"warning: function `VeriFast_ghost_command` should have a snake case name\n  --> dead_code_pre.rs:10:10\n   |\n10 | const fn VeriFast_ghost_command() {}\n   |          ^^^^^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `veri_fast_ghost_command`\n   |\n   = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_alloc` should have a snake case name","code":{"code":"non_snake_case","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":258,"byte_end":272,"line_start":11,"line_end":11,"column_start":4,"column_end":18,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":4,"highlight_end":18}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"convert the identifier to snake case","code":null,"level":"help","spans":[{"file_name":"dead_code_pre.rs","byte_start":258,"byte_end":272,"line_start":11,"line_end":11,"column_start":4,"column_end":18,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":4,"highlight_end":18}],"label":null,"suggested_replacement":"veri_fast_alloc","suggestion_applicability":"MaybeIncorrect","expansion":null}],"children":[],"rendered":null}],"rendered":"warning: function `VeriFast_alloc` should have a snake case name\n  --> dead_code_pre.rs:11:4\n   |\n11 | fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }\n   |    ^^^^^^^^^^^^^^ help: convert the identifier to snake case: `veri_fast_alloc`\n\n"}
+{"$message_type":"diagnostic","message":"function `VF_free` should have a snake case name","code":{"code":"non_snake_case","explanation":null},"level":"warning","spans":[{"file_name":"dead_code_pre.rs","byte_start":312,"byte_end":319,"line_start":12,"line_end":12,"column_start":4,"column_end":11,"is_primary":true,"text":[{"text":"fn VF_free<T>(_ptr: *mut T) {}","highlight_start":4,"highlight_end":11}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"convert the identifier to snake case","code":null,"level":"help","spans":[{"file_name":"dead_code_pre.rs","byte_start":312,"byte_end":319,"line_start":12,"line_end":12,"column_start":4,"column_end":11,"is_primary":true,"text":[{"text":"fn VF_free<T>(_ptr: *mut T) {}","highlight_start":4,"highlight_end":11}],"label":null,"suggested_replacement":"vf_free","suggestion_applicability":"MaybeIncorrect","expansion":null}],"children":[],"rendered":null}],"rendered":"warning: function `VF_free` should have a snake case name\n  --> dead_code_pre.rs:12:4\n   |\n12 | fn VF_free<T>(_ptr: *mut T) {}\n   |    ^^^^^^^ help: convert the identifier to snake case (notice the capitalization): `vf_free`\n\n"}
+[2m2026-10-09T17:25:27.673803Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Collecting MIR bodies
+[2m2026-10-09T17:25:27.673898Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Ghost Ranges:
+[
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 53,
+            byte_pos: 52,
+        },
+        start: SrcPos {
+            line: 2,
+            column: 1,
+            byte_pos: 53,
+        },
+        end: SrcPos {
+            line: 2,
+            column: 63,
+            byte_pos: 114,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread &*& false;",
+        span: Some(
+            dead_code_pre.rs:2:1: 2:62 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 53,
+            byte_pos: 52,
+        },
+        start: SrcPos {
+            line: 3,
+            column: 1,
+            byte_pos: 116,
+        },
+        end: SrcPos {
+            line: 3,
+            column: 27,
+            byte_pos: 141,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            dead_code_pre.rs:3:1: 3:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 53,
+            byte_pos: 52,
+        },
+        start: SrcPos {
+            line: 4,
+            column: 1,
+            byte_pos: 143,
+        },
+        end: SrcPos {
+            line: 4,
+            column: 25,
+            byte_pos: 166,
+        },
+        contents: "//@ on_unwind_ens false;",
+        span: Some(
+            dead_code_pre.rs:4:1: 4:24 (#0),
+        ),
+    },
+]
+[2m2026-10-09T17:25:27.673993Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(dead_code_pre.rs:2:1: 2:62 (#0))
+[2m2026-10-09T17:25:27.674007Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(dead_code_pre.rs:3:1: 3:26 (#0))
+[2m2026-10-09T17:25:27.674018Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(dead_code_pre.rs:4:1: 4:24 (#0))
+[2m2026-10-09T17:25:27.674133Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:3 ~ dead_code_pre[ee7c]::forget_from_dead_precondition))
+[2m2026-10-09T17:25:27.681453Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:3 ~ dead_code_pre[ee7c]::forget_from_dead_precondition)) with span dead_code_pre.rs:1:1: 7:2 (#0)
+fn forget_from_dead_precondition(_1: T) -> () {
+    debug t => _1;
+    let mut _0: ();
+    let mut _2: std::mem::ManuallyDrop<T>;
+    let mut _3: T;
+    scope 1 {
+    }
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        _3 = move _1;
+        _2 = std::mem::ManuallyDrop::<T>::new(move _3) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        StorageDead(_3);
+        StorageDead(_2);
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+
+[2m2026-10-09T17:25:27.681545Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [GenericParam { hir_id: HirId(DefId(0:3 ~ dead_code_pre[ee7c]::forget_from_dead_precondition).17), def_id: DefId(0:4 ~ dead_code_pre[ee7c]::forget_from_dead_precondition::T), name: Plain(T#0), span: dead_code_pre.rs:1:45: 1:46 (#0), pure_wrt_drop: false, kind: Type { default: None, synthetic: false }, colon_span: None, source: Generics }], predicates: [], has_where_clause_predicates: false, where_clause_span: dead_code_pre.rs:1:53: 1:53 (#0), span: dead_code_pre.rs:1:44: 1:47 (#0) }
+[2m2026-10-09T17:25:27.681690Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: [(Binder { value: TraitClause(<T as std::marker::Sized>, polarity:Positive), bound_vars: [] }, dead_code_pre.rs:1:45: 1:46 (#0))]
+[2m2026-10-09T17:25:27.681745Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:25:27.681767Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:3 ~ dead_code_pre[ee7c]::forget_from_dead_precondition)) is dead_code_pre.rs:1:53: 5:1 (#0)
+[2m2026-10-09T17:25:27.681822Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:1:53: 1:53 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:27.681851Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:1:48: 1:49 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:27.681869Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:1:48: 1:49 (#0), scope: scope[0] } } at BytePos(46)
+[2m2026-10-09T17:25:27.681893Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::mem::ManuallyDrop<T/#0>, user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:6:13: 6:43 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:27.681914Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::mem::ManuallyDrop
+[2m2026-10-09T17:25:27.681931Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:25:27.681951Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:6:41: 6:42 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:27.681997Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue move _1
+[2m2026-10-09T17:25:27.682011Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _1
+[2m2026-10-09T17:25:27.682024Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:1:48: 1:49 (#0), scope: scope[0] } } at BytePos(46)
+[2m2026-10-09T17:25:27.682048Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::mem::ManuallyDrop::<T>::new
+[2m2026-10-09T17:25:27.682074Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:2654 ~ core[b5b9]::mem::manually_drop::{impl#0}::new), Binder { value: [T/#0], bound_vars: [] })
+[2m2026-10-09T17:25:27.682112Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::mem::ManuallyDrop::<T>::new with 0 late-bound generic params and substs [T/#0]
+[2m2026-10-09T17:25:27.682136Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:25:27.682151Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _3
+[2m2026-10-09T17:25:27.682194Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:25:27.682209Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:25:27.682226Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:25:27.682269Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:3 ~ dead_code_pre[ee7c]::forget_from_dead_precondition)) at dead_code_pre.rs:1:1: 7:2 (#0) is dead_code_pre.rs:5:1: 7:2 (#0)
+[2m2026-10-09T17:25:27.682294Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo t => _1
+[2m2026-10-09T17:25:27.682315Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: dead_code_pre.rs:1:48: 1:49 (#0), scope: scope[0] } } at BytePos(46)
+{"$message_type":"diagnostic","message":"7 warnings emitted","code":null,"level":"warning","spans":[],"children":[],"rendered":"warning: 7 warnings emitted\n\n"}

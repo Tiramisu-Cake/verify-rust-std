@@ -1,0 +1,135 @@
+[2m2026-10-09T17:25:28.831976Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Calling the Rust Compiler with args: ["/workspace/verifast-mdnew-cfg/candidate/bin/vf-rust-mir-exporter", "false_normal_post.rs", "--sysroot=/workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu", "--edition", "2021", "--crate-type", "lib", "-Coverflow_checks=off", "--crate-type=lib", "--error-format=json"]
+[2m2026-10-09T17:25:28.835156Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m FileLoader::read_file("false_normal_post.rs")
+[2m2026-10-09T17:25:28.844167Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Collecting MIR bodies
+[2m2026-10-09T17:25:28.844273Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Ghost Ranges:
+[
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 48,
+            byte_pos: 47,
+        },
+        start: SrcPos {
+            line: 2,
+            column: 1,
+            byte_pos: 48,
+        },
+        end: SrcPos {
+            line: 2,
+            column: 53,
+            byte_pos: 99,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            false_normal_post.rs:2:1: 2:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 48,
+            byte_pos: 47,
+        },
+        start: SrcPos {
+            line: 3,
+            column: 1,
+            byte_pos: 101,
+        },
+        end: SrcPos {
+            line: 3,
+            column: 30,
+            byte_pos: 129,
+        },
+        contents: "//@ ens false; //~should_fail",
+        span: Some(
+            false_normal_post.rs:3:1: 3:29 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 48,
+            byte_pos: 47,
+        },
+        start: SrcPos {
+            line: 4,
+            column: 1,
+            byte_pos: 131,
+        },
+        end: SrcPos {
+            line: 4,
+            column: 25,
+            byte_pos: 154,
+        },
+        contents: "//@ on_unwind_ens false;",
+        span: Some(
+            false_normal_post.rs:4:1: 4:24 (#0),
+        ),
+    },
+]
+[2m2026-10-09T17:25:28.844362Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(false_normal_post.rs:2:1: 2:52 (#0))
+[2m2026-10-09T17:25:28.844375Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(false_normal_post.rs:3:1: 3:29 (#0))
+[2m2026-10-09T17:25:28.844387Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(false_normal_post.rs:4:1: 4:24 (#0))
+[2m2026-10-09T17:25:28.844498Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:3 ~ false_normal_post[c45f]::forget_false_normal_post))
+[2m2026-10-09T17:25:28.851575Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:3 ~ false_normal_post[c45f]::forget_false_normal_post)) with span false_normal_post.rs:1:1: 7:2 (#0)
+fn forget_false_normal_post(_1: T) -> () {
+    debug t => _1;
+    let mut _0: ();
+    let mut _2: std::mem::ManuallyDrop<T>;
+    let mut _3: T;
+    scope 1 {
+    }
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        _3 = move _1;
+        _2 = std::mem::ManuallyDrop::<T>::new(move _3) -> [return: bb1, unwind: bb2];
+    }
+
+    bb1: {
+        StorageDead(_3);
+        StorageDead(_2);
+        _0 = const ();
+        return;
+    }
+
+    bb2 (cleanup): {
+        resume;
+    }
+}
+
+[2m2026-10-09T17:25:28.851671Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [GenericParam { hir_id: HirId(DefId(0:3 ~ false_normal_post[c45f]::forget_false_normal_post).17), def_id: DefId(0:4 ~ false_normal_post[c45f]::forget_false_normal_post::T), name: Plain(T#0), span: false_normal_post.rs:1:40: 1:41 (#0), pure_wrt_drop: false, kind: Type { default: None, synthetic: false }, colon_span: None, source: Generics }], predicates: [], has_where_clause_predicates: false, where_clause_span: false_normal_post.rs:1:48: 1:48 (#0), span: false_normal_post.rs:1:39: 1:42 (#0) }
+[2m2026-10-09T17:25:28.851764Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: [(Binder { value: TraitClause(<T as std::marker::Sized>, polarity:Positive), bound_vars: [] }, false_normal_post.rs:1:40: 1:41 (#0))]
+[2m2026-10-09T17:25:28.851803Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:25:28.851825Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:3 ~ false_normal_post[c45f]::forget_false_normal_post)) is false_normal_post.rs:1:48: 5:1 (#0)
+[2m2026-10-09T17:25:28.851875Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:1:48: 1:48 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:28.851903Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:1:43: 1:44 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:28.851921Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:1:43: 1:44 (#0), scope: scope[0] } } at BytePos(41)
+[2m2026-10-09T17:25:28.851945Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::mem::ManuallyDrop<T/#0>, user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:6:13: 6:43 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:28.851966Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::mem::ManuallyDrop
+[2m2026-10-09T17:25:28.851982Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:25:28.852002Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:6:41: 6:42 (#0), scope: scope[0] } }
+[2m2026-10-09T17:25:28.852048Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue move _1
+[2m2026-10-09T17:25:28.852061Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _1
+[2m2026-10-09T17:25:28.852074Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:1:43: 1:44 (#0), scope: scope[0] } } at BytePos(41)
+[2m2026-10-09T17:25:28.852098Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::mem::ManuallyDrop::<T>::new
+[2m2026-10-09T17:25:28.852132Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:2654 ~ core[b5b9]::mem::manually_drop::{impl#0}::new), Binder { value: [T/#0], bound_vars: [] })
+[2m2026-10-09T17:25:28.852170Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::mem::ManuallyDrop::<T>::new with 0 late-bound generic params and substs [T/#0]
+[2m2026-10-09T17:25:28.852185Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:25:28.852200Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _3
+[2m2026-10-09T17:25:28.852241Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:25:28.852262Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:25:28.852280Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:25:28.852314Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:3 ~ false_normal_post[c45f]::forget_false_normal_post)) at false_normal_post.rs:1:1: 7:2 (#0) is false_normal_post.rs:5:1: 7:2 (#0)
+[2m2026-10-09T17:25:28.852339Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo t => _1
+[2m2026-10-09T17:25:28.852359Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: false_normal_post.rs:1:43: 1:44 (#0), scope: scope[0] } } at BytePos(41)

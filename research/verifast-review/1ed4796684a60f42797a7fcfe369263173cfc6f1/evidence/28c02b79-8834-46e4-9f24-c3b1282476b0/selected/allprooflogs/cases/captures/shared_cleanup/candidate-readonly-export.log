@@ -1,0 +1,608 @@
+[2m2026-10-09T17:12:07.130198Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Calling the Rust Compiler with args: ["/workspace/verifast-mdnew-cfg/candidate/bin/vf-rust-mir-exporter", "shared_cleanup.rs", "--sysroot=/workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu", "--edition", "2021", "--crate-type", "lib", "-Coverflow_checks=off", "--crate-type=lib", "--error-format=json"]
+[2m2026-10-09T17:12:07.133471Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m FileLoader::read_file("shared_cleanup.rs")
+[2m2026-10-09T17:12:07.144760Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Collecting MIR bodies
+[2m2026-10-09T17:12:07.144863Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Ghost Ranges:
+[
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 27,
+            byte_pos: 26,
+        },
+        start: SrcPos {
+            line: 2,
+            column: 1,
+            byte_pos: 27,
+        },
+        end: SrcPos {
+            line: 2,
+            column: 53,
+            byte_pos: 78,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            shared_cleanup.rs:2:1: 2:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 27,
+            byte_pos: 26,
+        },
+        start: SrcPos {
+            line: 3,
+            column: 1,
+            byte_pos: 80,
+        },
+        end: SrcPos {
+            line: 3,
+            column: 27,
+            byte_pos: 105,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:3:1: 3:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 27,
+            byte_pos: 26,
+        },
+        start: SrcPos {
+            line: 4,
+            column: 1,
+            byte_pos: 107,
+        },
+        end: SrcPos {
+            line: 4,
+            column: 37,
+            byte_pos: 142,
+        },
+        contents: "//@ on_unwind_ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:4:1: 4:36 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 11,
+            column: 39,
+            byte_pos: 251,
+        },
+        start: SrcPos {
+            line: 12,
+            column: 1,
+            byte_pos: 252,
+        },
+        end: SrcPos {
+            line: 12,
+            column: 53,
+            byte_pos: 303,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            shared_cleanup.rs:12:1: 12:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 11,
+            column: 39,
+            byte_pos: 251,
+        },
+        start: SrcPos {
+            line: 13,
+            column: 1,
+            byte_pos: 305,
+        },
+        end: SrcPos {
+            line: 13,
+            column: 27,
+            byte_pos: 330,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:13:1: 13:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 11,
+            column: 39,
+            byte_pos: 251,
+        },
+        start: SrcPos {
+            line: 14,
+            column: 1,
+            byte_pos: 332,
+        },
+        end: SrcPos {
+            line: 14,
+            column: 37,
+            byte_pos: 367,
+        },
+        contents: "//@ on_unwind_ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:14:1: 14:36 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 19,
+            column: 47,
+            byte_pos: 432,
+        },
+        start: SrcPos {
+            line: 20,
+            column: 1,
+            byte_pos: 433,
+        },
+        end: SrcPos {
+            line: 20,
+            column: 53,
+            byte_pos: 484,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            shared_cleanup.rs:20:1: 20:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 19,
+            column: 47,
+            byte_pos: 432,
+        },
+        start: SrcPos {
+            line: 21,
+            column: 1,
+            byte_pos: 486,
+        },
+        end: SrcPos {
+            line: 21,
+            column: 27,
+            byte_pos: 511,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:21:1: 21:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 19,
+            column: 47,
+            byte_pos: 432,
+        },
+        start: SrcPos {
+            line: 22,
+            column: 1,
+            byte_pos: 513,
+        },
+        end: SrcPos {
+            line: 22,
+            column: 37,
+            byte_pos: 548,
+        },
+        contents: "//@ on_unwind_ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:22:1: 22:36 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 29,
+            column: 53,
+            byte_pos: 742,
+        },
+        start: SrcPos {
+            line: 30,
+            column: 1,
+            byte_pos: 743,
+        },
+        end: SrcPos {
+            line: 30,
+            column: 53,
+            byte_pos: 794,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            shared_cleanup.rs:30:1: 30:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 29,
+            column: 53,
+            byte_pos: 742,
+        },
+        start: SrcPos {
+            line: 31,
+            column: 1,
+            byte_pos: 796,
+        },
+        end: SrcPos {
+            line: 31,
+            column: 27,
+            byte_pos: 821,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:31:1: 31:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 29,
+            column: 53,
+            byte_pos: 742,
+        },
+        start: SrcPos {
+            line: 32,
+            column: 1,
+            byte_pos: 823,
+        },
+        end: SrcPos {
+            line: 32,
+            column: 37,
+            byte_pos: 858,
+        },
+        contents: "//@ on_unwind_ens thread_token(tid);",
+        span: Some(
+            shared_cleanup.rs:32:1: 32:36 (#0),
+        ),
+    },
+]
+[2m2026-10-09T17:12:07.145096Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:2:1: 2:52 (#0))
+[2m2026-10-09T17:12:07.145109Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:3:1: 3:26 (#0))
+[2m2026-10-09T17:12:07.145118Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:4:1: 4:36 (#0))
+[2m2026-10-09T17:12:07.145127Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:12:1: 12:52 (#0))
+[2m2026-10-09T17:12:07.145136Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:13:1: 13:26 (#0))
+[2m2026-10-09T17:12:07.145151Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:14:1: 14:36 (#0))
+[2m2026-10-09T17:12:07.145160Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:20:1: 20:52 (#0))
+[2m2026-10-09T17:12:07.145169Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:21:1: 21:26 (#0))
+[2m2026-10-09T17:12:07.145178Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:22:1: 22:36 (#0))
+[2m2026-10-09T17:12:07.145187Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:30:1: 30:52 (#0))
+[2m2026-10-09T17:12:07.145196Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:31:1: 31:26 (#0))
+[2m2026-10-09T17:12:07.145205Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_cleanup.rs:32:1: 32:36 (#0))
+[2m2026-10-09T17:12:07.145310Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:3 ~ shared_cleanup[e2f7]::new))
+[2m2026-10-09T17:12:07.152261Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:3 ~ shared_cleanup[e2f7]::new)) with span shared_cleanup.rs:1:1: 9:2 (#0)
+fn new(_1: bool) -> () {
+    debug b => _1;
+    let mut _0: ();
+    let mut _2: bool;
+    let mut _3: !;
+    let _4: !;
+    let _5: !;
+    let mut _6: std::fmt::Arguments<'_>;
+
+    bb0: {
+        StorageLive(_2);
+        _2 = copy _1;
+        switchInt(move _2) -> [0: bb3, otherwise: bb1];
+    }
+
+    bb1: {
+        StorageLive(_5);
+        StorageLive(_6);
+        _6 = std::fmt::Arguments::<'_>::from_str(const "ManuallyDrop CFG regression") -> [return: bb2, unwind continue];
+    }
+
+    bb2: {
+        _5 = std::rt::panic_fmt(move _6) -> unwind continue;
+    }
+
+    bb3: {
+        _0 = const ();
+        StorageDead(_2);
+        return;
+    }
+}
+
+alloc1 (size: 27, align: 1) {
+    0x00 │ 4d 61 6e 75 61 6c 6c 79 44 72 6f 70 20 43 46 47 │ ManuallyDrop CFG
+    0x10 │ 20 72 65 67 72 65 73 73 69 6f 6e                │  regression
+}
+
+[2m2026-10-09T17:12:07.152441Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [], predicates: [], has_where_clause_predicates: false, where_clause_span: shared_cleanup.rs:1:27: 1:27 (#0), span: shared_cleanup.rs:1:18: 1:18 (#0) }
+[2m2026-10-09T17:12:07.152495Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: []
+[2m2026-10-09T17:12:07.152511Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:3 ~ shared_cleanup[e2f7]::new)) is shared_cleanup.rs:1:27: 5:1 (#0)
+[2m2026-10-09T17:12:07.152565Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:1:27: 1:27 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152592Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:1:19: 1:20 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152608Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:1:19: 1:20 (#0), scope: scope[0] } } at BytePos(17)
+[2m2026-10-09T17:12:07.152628Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:6:8: 6:9 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152647Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:6:10: 8:6 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152676Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:58:21: 62:6 (#7), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152699Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:58:21: 62:6 (#7), scope: scope[0] } } at BytePos(398399)
+[2m2026-10-09T17:12:07.152721Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:9: 61:73 (#7), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152734Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:9: 61:73 (#7), scope: scope[0] } } at BytePos(398564)
+[2m2026-10-09T17:12:07.152789Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::fmt::Arguments<'{erased}>, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:38: 61:72 (#8), scope: scope[0] } }
+[2m2026-10-09T17:12:07.152819Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::fmt::Arguments
+[2m2026-10-09T17:12:07.152836Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg '{erased}
+[2m2026-10-09T17:12:07.152856Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding region '{erased}
+[2m2026-10-09T17:12:07.152918Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue copy _1
+[2m2026-10-09T17:12:07.152934Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand copy _1
+[2m2026-10-09T17:12:07.152944Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:1:19: 1:20 (#0), scope: scope[0] } } at BytePos(17)
+[2m2026-10-09T17:12:07.152968Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _2
+[2m2026-10-09T17:12:07.153010Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::fmt::Arguments::<'_>::from_str
+[2m2026-10-09T17:12:07.153045Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:13909 ~ core[b5b9]::fmt::{impl#6}::from_str), Binder { value: ['{erased}], bound_vars: [] })
+[2m2026-10-09T17:12:07.153086Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::fmt::Arguments::<'a>::from_str with 0 late-bound generic params and substs ['{erased}]
+[2m2026-10-09T17:12:07.153099Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg '{erased}
+[2m2026-10-09T17:12:07.153109Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding region '{erased}
+[2m2026-10-09T17:12:07.153132Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const "ManuallyDrop CFG regression"
+[2m2026-10-09T17:12:07.153154Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding region '{erased}
+[2m2026-10-09T17:12:07.153186Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::rt::panic_fmt
+[2m2026-10-09T17:12:07.153205Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:12372 ~ core[b5b9]::panicking::panic_fmt), Binder { value: [], bound_vars: [] })
+[2m2026-10-09T17:12:07.153220Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::rt::panic_fmt with 1 late-bound generic params and substs []
+[2m2026-10-09T17:12:07.153231Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _6
+[2m2026-10-09T17:12:07.153243Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:9: 61:73 (#7), scope: scope[0] } } at BytePos(398564)
+[2m2026-10-09T17:12:07.153278Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:07.153291Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:07.153305Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:07.153333Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:3 ~ shared_cleanup[e2f7]::new)) at shared_cleanup.rs:1:1: 9:2 (#0) is shared_cleanup.rs:5:1: 9:2 (#0)
+[2m2026-10-09T17:12:07.153354Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo b => _1
+[2m2026-10-09T17:12:07.153372Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:1:19: 1:20 (#0), scope: scope[0] } } at BytePos(17)
+[2m2026-10-09T17:12:07.153405Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:4 ~ shared_cleanup[e2f7]::ordinary_caller))
+[2m2026-10-09T17:12:07.153448Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:4 ~ shared_cleanup[e2f7]::ordinary_caller)) with span shared_cleanup.rs:11:1: 17:2 (#0)
+fn ordinary_caller(_1: bool) -> () {
+    debug b => _1;
+    let mut _0: ();
+    let _2: ();
+    let mut _3: bool;
+
+    bb0: {
+        StorageLive(_2);
+        StorageLive(_3);
+        _3 = copy _1;
+        _2 = new(move _3) -> [return: bb1, unwind continue];
+    }
+
+    bb1: {
+        StorageDead(_3);
+        StorageDead(_2);
+        _0 = const ();
+        return;
+    }
+}
+
+[2m2026-10-09T17:12:07.153468Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [], predicates: [], has_where_clause_predicates: false, where_clause_span: shared_cleanup.rs:11:39: 11:39 (#0), span: shared_cleanup.rs:11:30: 11:30 (#0) }
+[2m2026-10-09T17:12:07.153492Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: []
+[2m2026-10-09T17:12:07.153504Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:4 ~ shared_cleanup[e2f7]::ordinary_caller)) is shared_cleanup.rs:11:39: 15:1 (#0)
+[2m2026-10-09T17:12:07.153540Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:11:39: 11:39 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.153567Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:11:31: 11:32 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.153581Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:11:31: 11:32 (#0), scope: scope[0] } } at BytePos(242)
+[2m2026-10-09T17:12:07.153599Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:16:5: 16:11 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.153612Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:16:5: 16:11 (#0), scope: scope[0] } } at BytePos(374)
+[2m2026-10-09T17:12:07.153630Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:16:9: 16:10 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.153666Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue copy _1
+[2m2026-10-09T17:12:07.153676Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand copy _1
+[2m2026-10-09T17:12:07.153686Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:11:31: 11:32 (#0), scope: scope[0] } } at BytePos(242)
+[2m2026-10-09T17:12:07.153705Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand new
+[2m2026-10-09T17:12:07.153721Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(0:3 ~ shared_cleanup[e2f7]::new), Binder { value: [], bound_vars: [] })
+[2m2026-10-09T17:12:07.153735Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for new with 0 late-bound generic params and substs []
+[2m2026-10-09T17:12:07.153746Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _3
+[2m2026-10-09T17:12:07.153758Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:16:5: 16:11 (#0), scope: scope[0] } } at BytePos(374)
+[2m2026-10-09T17:12:07.153794Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:07.153804Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:07.153819Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:07.153838Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:4 ~ shared_cleanup[e2f7]::ordinary_caller)) at shared_cleanup.rs:11:1: 17:2 (#0) is shared_cleanup.rs:15:1: 17:2 (#0)
+[2m2026-10-09T17:12:07.153857Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo b => _1
+[2m2026-10-09T17:12:07.153873Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:11:31: 11:32 (#0), scope: scope[0] } } at BytePos(242)
+[2m2026-10-09T17:12:07.153899Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:5 ~ shared_cleanup[e2f7]::shared_cleanup))
+[2m2026-10-09T17:12:07.153955Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:5 ~ shared_cleanup[e2f7]::shared_cleanup)) with span shared_cleanup.rs:19:1: 26:2 (#0)
+fn shared_cleanup(_1: T, _2: bool) -> () {
+    debug t => _1;
+    debug b => _2;
+    let mut _0: ();
+    let mut _3: std::mem::ManuallyDrop<T>;
+    let mut _4: T;
+    let _5: ();
+    let mut _6: bool;
+    scope 1 {
+    }
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = move _1;
+        _3 = std::mem::ManuallyDrop::<T>::new(move _4) -> [return: bb1, unwind: bb3];
+    }
+
+    bb1: {
+        StorageDead(_4);
+        StorageDead(_3);
+        StorageLive(_5);
+        StorageLive(_6);
+        _6 = copy _2;
+        _5 = new(move _6) -> [return: bb2, unwind: bb3];
+    }
+
+    bb2: {
+        StorageDead(_6);
+        StorageDead(_5);
+        _0 = const ();
+        return;
+    }
+
+    bb3 (cleanup): {
+        resume;
+    }
+}
+
+[2m2026-10-09T17:12:07.153973Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [GenericParam { hir_id: HirId(DefId(0:5 ~ shared_cleanup[e2f7]::shared_cleanup).25), def_id: DefId(0:6 ~ shared_cleanup[e2f7]::shared_cleanup::T), name: Plain(T#0), span: shared_cleanup.rs:19:30: 19:31 (#0), pure_wrt_drop: false, kind: Type { default: None, synthetic: false }, colon_span: None, source: Generics }], predicates: [], has_where_clause_predicates: false, where_clause_span: shared_cleanup.rs:19:47: 19:47 (#0), span: shared_cleanup.rs:19:29: 19:32 (#0) }
+[2m2026-10-09T17:12:07.154029Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: [(Binder { value: TraitClause(<T as std::marker::Sized>, polarity:Positive), bound_vars: [] }, shared_cleanup.rs:19:30: 19:31 (#0))]
+[2m2026-10-09T17:12:07.154067Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:07.154082Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:5 ~ shared_cleanup[e2f7]::shared_cleanup)) is shared_cleanup.rs:19:47: 23:1 (#0)
+[2m2026-10-09T17:12:07.154126Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:47: 19:47 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154148Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:33: 19:34 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154161Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:33: 19:34 (#0), scope: scope[0] } } at BytePos(417)
+[2m2026-10-09T17:12:07.154181Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:39: 19:40 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154194Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:39: 19:40 (#0), scope: scope[0] } } at BytePos(423)
+[2m2026-10-09T17:12:07.154212Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::mem::ManuallyDrop<T/#0>, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:24:13: 24:43 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154229Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::mem::ManuallyDrop
+[2m2026-10-09T17:12:07.154246Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:07.154263Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:24:41: 24:42 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154283Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:25:5: 25:11 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154299Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:25:5: 25:11 (#0), scope: scope[0] } } at BytePos(599)
+[2m2026-10-09T17:12:07.154317Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:25:9: 25:10 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.154354Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue move _1
+[2m2026-10-09T17:12:07.154364Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _1
+[2m2026-10-09T17:12:07.154374Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:33: 19:34 (#0), scope: scope[0] } } at BytePos(417)
+[2m2026-10-09T17:12:07.154395Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::mem::ManuallyDrop::<T>::new
+[2m2026-10-09T17:12:07.154413Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:2654 ~ core[b5b9]::mem::manually_drop::{impl#0}::new), Binder { value: [T/#0], bound_vars: [] })
+[2m2026-10-09T17:12:07.154433Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::mem::ManuallyDrop::<T>::new with 0 late-bound generic params and substs [T/#0]
+[2m2026-10-09T17:12:07.154444Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:07.154455Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _4
+[2m2026-10-09T17:12:07.154500Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue copy _2
+[2m2026-10-09T17:12:07.154510Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand copy _2
+[2m2026-10-09T17:12:07.154519Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:39: 19:40 (#0), scope: scope[0] } } at BytePos(423)
+[2m2026-10-09T17:12:07.154540Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand new
+[2m2026-10-09T17:12:07.154555Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(0:3 ~ shared_cleanup[e2f7]::new), Binder { value: [], bound_vars: [] })
+[2m2026-10-09T17:12:07.154568Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for new with 0 late-bound generic params and substs []
+[2m2026-10-09T17:12:07.154579Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _6
+[2m2026-10-09T17:12:07.154591Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:25:5: 25:11 (#0), scope: scope[0] } } at BytePos(599)
+[2m2026-10-09T17:12:07.154632Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:07.154644Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:07.154658Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:07.154683Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:5 ~ shared_cleanup[e2f7]::shared_cleanup)) at shared_cleanup.rs:19:1: 26:2 (#0) is shared_cleanup.rs:23:1: 26:2 (#0)
+[2m2026-10-09T17:12:07.154701Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo t => _1
+[2m2026-10-09T17:12:07.154718Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:33: 19:34 (#0), scope: scope[0] } } at BytePos(417)
+[2m2026-10-09T17:12:07.154732Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo b => _2
+[2m2026-10-09T17:12:07.154747Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:19:39: 19:40 (#0), scope: scope[0] } } at BytePos(423)
+[2m2026-10-09T17:12:07.154774Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:7 ~ shared_cleanup[e2f7]::normal_first_cleanup))
+[2m2026-10-09T17:12:07.154892Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:7 ~ shared_cleanup[e2f7]::normal_first_cleanup)) with span shared_cleanup.rs:29:1: 39:2 (#0)
+fn normal_first_cleanup(_1: T, _2: bool) -> () {
+    debug t => _1;
+    debug b => _2;
+    let mut _0: ();
+    let mut _3: std::mem::ManuallyDrop<T>;
+    let mut _4: T;
+    let mut _5: bool;
+    let _6: ();
+    scope 1 {
+    }
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = move _1;
+        _3 = std::mem::ManuallyDrop::<T>::new(move _4) -> [return: bb1, unwind: bb6];
+    }
+
+    bb1: {
+        StorageDead(_4);
+        StorageDead(_3);
+        StorageLive(_5);
+        _5 = copy _2;
+        switchInt(move _5) -> [0: bb3, otherwise: bb2];
+    }
+
+    bb2: {
+        _0 = const ();
+        goto -> bb5;
+    }
+
+    bb3: {
+        StorageLive(_6);
+        _6 = new(const true) -> [return: bb4, unwind: bb6];
+    }
+
+    bb4: {
+        StorageDead(_6);
+        _0 = const ();
+        goto -> bb5;
+    }
+
+    bb5: {
+        StorageDead(_5);
+        return;
+    }
+
+    bb6 (cleanup): {
+        resume;
+    }
+}
+
+[2m2026-10-09T17:12:07.154930Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [GenericParam { hir_id: HirId(DefId(0:7 ~ shared_cleanup[e2f7]::normal_first_cleanup).31), def_id: DefId(0:8 ~ shared_cleanup[e2f7]::normal_first_cleanup::T), name: Plain(T#0), span: shared_cleanup.rs:29:36: 29:37 (#0), pure_wrt_drop: false, kind: Type { default: None, synthetic: false }, colon_span: None, source: Generics }], predicates: [], has_where_clause_predicates: false, where_clause_span: shared_cleanup.rs:29:53: 29:53 (#0), span: shared_cleanup.rs:29:35: 29:38 (#0) }
+[2m2026-10-09T17:12:07.154980Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: [(Binder { value: TraitClause(<T as std::marker::Sized>, polarity:Positive), bound_vars: [] }, shared_cleanup.rs:29:36: 29:37 (#0))]
+[2m2026-10-09T17:12:07.155007Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:07.155022Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:7 ~ shared_cleanup[e2f7]::normal_first_cleanup)) is shared_cleanup.rs:29:53: 33:1 (#0)
+[2m2026-10-09T17:12:07.155077Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:53: 29:53 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155101Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:39: 29:40 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155115Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:39: 29:40 (#0), scope: scope[0] } } at BytePos(727)
+[2m2026-10-09T17:12:07.155134Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:45: 29:46 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155155Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:45: 29:46 (#0), scope: scope[0] } } at BytePos(733)
+[2m2026-10-09T17:12:07.155175Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::mem::ManuallyDrop<T/#0>, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:34:13: 34:43 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155192Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::mem::ManuallyDrop
+[2m2026-10-09T17:12:07.155205Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:07.155221Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:34:41: 34:42 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155241Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:35:8: 35:9 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155259Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:37:9: 37:18 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:07.155272Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:37:9: 37:18 (#0), scope: scope[0] } } at BytePos(937)
+[2m2026-10-09T17:12:07.155309Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue move _1
+[2m2026-10-09T17:12:07.155320Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _1
+[2m2026-10-09T17:12:07.155330Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:39: 29:40 (#0), scope: scope[0] } } at BytePos(727)
+[2m2026-10-09T17:12:07.155351Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::mem::ManuallyDrop::<T>::new
+[2m2026-10-09T17:12:07.155371Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:2654 ~ core[b5b9]::mem::manually_drop::{impl#0}::new), Binder { value: [T/#0], bound_vars: [] })
+[2m2026-10-09T17:12:07.155397Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::mem::ManuallyDrop::<T>::new with 0 late-bound generic params and substs [T/#0]
+[2m2026-10-09T17:12:07.155408Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:07.155420Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _4
+[2m2026-10-09T17:12:07.155461Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue copy _2
+[2m2026-10-09T17:12:07.155471Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand copy _2
+[2m2026-10-09T17:12:07.155480Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:45: 29:46 (#0), scope: scope[0] } } at BytePos(733)
+[2m2026-10-09T17:12:07.155501Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _5
+[2m2026-10-09T17:12:07.155523Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:07.155534Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:07.155549Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:07.155574Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand new
+[2m2026-10-09T17:12:07.155589Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(0:3 ~ shared_cleanup[e2f7]::new), Binder { value: [], bound_vars: [] })
+[2m2026-10-09T17:12:07.155603Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for new with 0 late-bound generic params and substs []
+[2m2026-10-09T17:12:07.155614Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const true
+[2m2026-10-09T17:12:07.155632Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:37:9: 37:18 (#0), scope: scope[0] } } at BytePos(937)
+[2m2026-10-09T17:12:07.155664Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:07.155675Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:07.155689Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:07.155723Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:7 ~ shared_cleanup[e2f7]::normal_first_cleanup)) at shared_cleanup.rs:29:1: 39:2 (#0) is shared_cleanup.rs:33:1: 39:2 (#0)
+[2m2026-10-09T17:12:07.155742Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo t => _1
+[2m2026-10-09T17:12:07.155759Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:39: 29:40 (#0), scope: scope[0] } } at BytePos(727)
+[2m2026-10-09T17:12:07.155773Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo b => _2
+[2m2026-10-09T17:12:07.155789Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_cleanup.rs:29:45: 29:46 (#0), scope: scope[0] } } at BytePos(733)

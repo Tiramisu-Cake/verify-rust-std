@@ -1,0 +1,339 @@
+[2m2026-10-09T17:12:05.977742Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Calling the Rust Compiler with args: ["/workspace/verifast-mdnew-cfg/source/bin/vf-rust-mir-exporter", "shared_false_unwind.rs", "--sysroot=/workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu", "--edition", "2021", "--crate-type", "lib", "-Coverflow_checks=off", "--crate-type=lib", "--error-format=json"]
+[2m2026-10-09T17:12:05.980905Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m FileLoader::read_file("shared_false_unwind.rs")
+{"$message_type":"diagnostic","message":"function cannot return without recursing","code":{"code":"unconditional_recursion","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":608,"byte_end":640,"line_start":26,"line_end":26,"column_start":1,"column_end":33,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":1,"highlight_end":33}],"label":"cannot return without recursing","suggested_replacement":null,"suggestion_applicability":null,"expansion":null},{"file_name":"shared_false_unwind.rs","byte_start":643,"byte_end":659,"line_start":26,"line_end":26,"column_start":36,"column_end":52,"is_primary":false,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":36,"highlight_end":52}],"label":"recursive call site","suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"a `loop` may express intention better if this is on purpose","code":null,"level":"help","spans":[],"children":[],"rendered":null},{"message":"`#[warn(unconditional_recursion)]` on by default","code":null,"level":"note","spans":[],"children":[],"rendered":null}],"rendered":"warning: function cannot return without recursing\n  --> shared_false_unwind.rs:26:1\n   |\n26 | fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }\n   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   ---------------- recursive call site\n   | |\n   | cannot return without recursing\n   |\n   = help: a `loop` may express intention better if this is on purpose\n   = note: `#[warn(unconditional_recursion)]` on by default\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_ghost_command` is never used","code":{"code":"dead_code","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":580,"byte_end":602,"line_start":25,"line_end":25,"column_start":10,"column_end":32,"is_primary":true,"text":[{"text":"const fn VeriFast_ghost_command() {}","highlight_start":10,"highlight_end":32}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"`#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default","code":null,"level":"note","spans":[],"children":[],"rendered":null}],"rendered":"warning: function `VeriFast_ghost_command` is never used\n  --> shared_false_unwind.rs:25:10\n   |\n25 | const fn VeriFast_ghost_command() {}\n   |          ^^^^^^^^^^^^^^^^^^^^^^\n   |\n   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_alloc` is never used","code":{"code":"dead_code","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":611,"byte_end":625,"line_start":26,"line_end":26,"column_start":4,"column_end":18,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":4,"highlight_end":18}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[],"rendered":"warning: function `VeriFast_alloc` is never used\n  --> shared_false_unwind.rs:26:4\n   |\n26 | fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }\n   |    ^^^^^^^^^^^^^^\n\n"}
+{"$message_type":"diagnostic","message":"function `VF_free` is never used","code":{"code":"dead_code","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":665,"byte_end":672,"line_start":27,"line_end":27,"column_start":4,"column_end":11,"is_primary":true,"text":[{"text":"fn VF_free<T>(_ptr: *mut T) {}","highlight_start":4,"highlight_end":11}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[],"rendered":"warning: function `VF_free` is never used\n  --> shared_false_unwind.rs:27:4\n   |\n27 | fn VF_free<T>(_ptr: *mut T) {}\n   |    ^^^^^^^\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_ghost_command` should have a snake case name","code":{"code":"non_snake_case","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":580,"byte_end":602,"line_start":25,"line_end":25,"column_start":10,"column_end":32,"is_primary":true,"text":[{"text":"const fn VeriFast_ghost_command() {}","highlight_start":10,"highlight_end":32}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"`#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default","code":null,"level":"note","spans":[],"children":[],"rendered":null},{"message":"convert the identifier to snake case","code":null,"level":"help","spans":[{"file_name":"shared_false_unwind.rs","byte_start":580,"byte_end":602,"line_start":25,"line_end":25,"column_start":10,"column_end":32,"is_primary":true,"text":[{"text":"const fn VeriFast_ghost_command() {}","highlight_start":10,"highlight_end":32}],"label":null,"suggested_replacement":"veri_fast_ghost_command","suggestion_applicability":"MaybeIncorrect","expansion":null}],"children":[],"rendered":null}],"rendered":"warning: function `VeriFast_ghost_command` should have a snake case name\n  --> shared_false_unwind.rs:25:10\n   |\n25 | const fn VeriFast_ghost_command() {}\n   |          ^^^^^^^^^^^^^^^^^^^^^^ help: convert the identifier to snake case: `veri_fast_ghost_command`\n   |\n   = note: `#[warn(non_snake_case)]` (part of `#[warn(nonstandard_style)]`) on by default\n\n"}
+{"$message_type":"diagnostic","message":"function `VeriFast_alloc` should have a snake case name","code":{"code":"non_snake_case","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":611,"byte_end":625,"line_start":26,"line_end":26,"column_start":4,"column_end":18,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":4,"highlight_end":18}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"convert the identifier to snake case","code":null,"level":"help","spans":[{"file_name":"shared_false_unwind.rs","byte_start":611,"byte_end":625,"line_start":26,"line_end":26,"column_start":4,"column_end":18,"is_primary":true,"text":[{"text":"fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }","highlight_start":4,"highlight_end":18}],"label":null,"suggested_replacement":"veri_fast_alloc","suggestion_applicability":"MaybeIncorrect","expansion":null}],"children":[],"rendered":null}],"rendered":"warning: function `VeriFast_alloc` should have a snake case name\n  --> shared_false_unwind.rs:26:4\n   |\n26 | fn VeriFast_alloc<T>() -> *mut T { VeriFast_alloc() }\n   |    ^^^^^^^^^^^^^^ help: convert the identifier to snake case: `veri_fast_alloc`\n\n"}
+{"$message_type":"diagnostic","message":"function `VF_free` should have a snake case name","code":{"code":"non_snake_case","explanation":null},"level":"warning","spans":[{"file_name":"shared_false_unwind.rs","byte_start":665,"byte_end":672,"line_start":27,"line_end":27,"column_start":4,"column_end":11,"is_primary":true,"text":[{"text":"fn VF_free<T>(_ptr: *mut T) {}","highlight_start":4,"highlight_end":11}],"label":null,"suggested_replacement":null,"suggestion_applicability":null,"expansion":null}],"children":[{"message":"convert the identifier to snake case","code":null,"level":"help","spans":[{"file_name":"shared_false_unwind.rs","byte_start":665,"byte_end":672,"line_start":27,"line_end":27,"column_start":4,"column_end":11,"is_primary":true,"text":[{"text":"fn VF_free<T>(_ptr: *mut T) {}","highlight_start":4,"highlight_end":11}],"label":null,"suggested_replacement":"vf_free","suggestion_applicability":"MaybeIncorrect","expansion":null}],"children":[],"rendered":null}],"rendered":"warning: function `VF_free` should have a snake case name\n  --> shared_false_unwind.rs:27:4\n   |\n27 | fn VF_free<T>(_ptr: *mut T) {}\n   |    ^^^^^^^ help: convert the identifier to snake case (notice the capitalization): `vf_free`\n\n"}
+[2m2026-10-09T17:12:05.992900Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Collecting MIR bodies
+[2m2026-10-09T17:12:05.993018Z[0m [35mTRACE[0m [2mvf_mir_exporter[0m[2m:[0m Ghost Ranges:
+[
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 27,
+            byte_pos: 26,
+        },
+        start: SrcPos {
+            line: 2,
+            column: 1,
+            byte_pos: 27,
+        },
+        end: SrcPos {
+            line: 2,
+            column: 53,
+            byte_pos: 78,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            shared_false_unwind.rs:2:1: 2:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 27,
+            byte_pos: 26,
+        },
+        start: SrcPos {
+            line: 3,
+            column: 1,
+            byte_pos: 80,
+        },
+        end: SrcPos {
+            line: 3,
+            column: 27,
+            byte_pos: 105,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            shared_false_unwind.rs:3:1: 3:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 1,
+            column: 27,
+            byte_pos: 26,
+        },
+        start: SrcPos {
+            line: 4,
+            column: 1,
+            byte_pos: 107,
+        },
+        end: SrcPos {
+            line: 4,
+            column: 37,
+            byte_pos: 142,
+        },
+        contents: "//@ on_unwind_ens thread_token(tid);",
+        span: Some(
+            shared_false_unwind.rs:4:1: 4:36 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 11,
+            column: 65,
+            byte_pos: 277,
+        },
+        start: SrcPos {
+            line: 12,
+            column: 1,
+            byte_pos: 278,
+        },
+        end: SrcPos {
+            line: 12,
+            column: 53,
+            byte_pos: 329,
+        },
+        contents: "//@ req thread_token(?tid) &*& tid == currentThread;",
+        span: Some(
+            shared_false_unwind.rs:12:1: 12:52 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 11,
+            column: 65,
+            byte_pos: 277,
+        },
+        start: SrcPos {
+            line: 13,
+            column: 1,
+            byte_pos: 331,
+        },
+        end: SrcPos {
+            line: 13,
+            column: 27,
+            byte_pos: 356,
+        },
+        contents: "//@ ens thread_token(tid);",
+        span: Some(
+            shared_false_unwind.rs:13:1: 13:26 (#0),
+        ),
+    },
+    GhostRange {
+        in_fn_body: false,
+        kind: Regular,
+        block_end: None,
+        end_of_preceding_token: SrcPos {
+            line: 11,
+            column: 65,
+            byte_pos: 277,
+        },
+        start: SrcPos {
+            line: 14,
+            column: 1,
+            byte_pos: 358,
+        },
+        end: SrcPos {
+            line: 14,
+            column: 40,
+            byte_pos: 396,
+        },
+        contents: "//@ on_unwind_ens false; //~should_fail",
+        span: Some(
+            shared_false_unwind.rs:14:1: 14:39 (#0),
+        ),
+    },
+]
+[2m2026-10-09T17:12:05.993161Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_false_unwind.rs:2:1: 2:52 (#0))
+[2m2026-10-09T17:12:05.993174Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_false_unwind.rs:3:1: 3:26 (#0))
+[2m2026-10-09T17:12:05.993183Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_false_unwind.rs:4:1: 4:36 (#0))
+[2m2026-10-09T17:12:05.993192Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_false_unwind.rs:12:1: 12:52 (#0))
+[2m2026-10-09T17:12:05.993202Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_false_unwind.rs:13:1: 13:26 (#0))
+[2m2026-10-09T17:12:05.993211Z[0m [34mDEBUG[0m [2mvf_mir_exporter[0m[2m:[0m Some(shared_false_unwind.rs:14:1: 14:39 (#0))
+[2m2026-10-09T17:12:05.993313Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:3 ~ shared_false_unwind[b95a]::new))
+[2m2026-10-09T17:12:06.000463Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:3 ~ shared_false_unwind[b95a]::new)) with span shared_false_unwind.rs:1:1: 9:2 (#0)
+fn new(_1: bool) -> () {
+    debug b => _1;
+    let mut _0: ();
+    let mut _2: bool;
+    let mut _3: !;
+    let _4: !;
+    let _5: !;
+    let mut _6: std::fmt::Arguments<'_>;
+
+    bb0: {
+        StorageLive(_2);
+        _2 = copy _1;
+        switchInt(move _2) -> [0: bb3, otherwise: bb1];
+    }
+
+    bb1: {
+        StorageLive(_5);
+        StorageLive(_6);
+        _6 = std::fmt::Arguments::<'_>::from_str(const "ManuallyDrop CFG regression") -> [return: bb2, unwind continue];
+    }
+
+    bb2: {
+        _5 = std::rt::panic_fmt(move _6) -> unwind continue;
+    }
+
+    bb3: {
+        _0 = const ();
+        StorageDead(_2);
+        return;
+    }
+}
+
+alloc1 (size: 27, align: 1) {
+    0x00 │ 4d 61 6e 75 61 6c 6c 79 44 72 6f 70 20 43 46 47 │ ManuallyDrop CFG
+    0x10 │ 20 72 65 67 72 65 73 73 69 6f 6e                │  regression
+}
+
+[2m2026-10-09T17:12:06.000542Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [], predicates: [], has_where_clause_predicates: false, where_clause_span: shared_false_unwind.rs:1:27: 1:27 (#0), span: shared_false_unwind.rs:1:18: 1:18 (#0) }
+[2m2026-10-09T17:12:06.000583Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: []
+[2m2026-10-09T17:12:06.000599Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:3 ~ shared_false_unwind[b95a]::new)) is shared_false_unwind.rs:1:27: 5:1 (#0)
+[2m2026-10-09T17:12:06.000652Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:1:27: 1:27 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000682Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:1:19: 1:20 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000698Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:1:19: 1:20 (#0), scope: scope[0] } } at BytePos(17)
+[2m2026-10-09T17:12:06.000718Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:6:8: 6:9 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000737Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:6:10: 8:6 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000764Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:58:21: 62:6 (#7), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000779Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:58:21: 62:6 (#7), scope: scope[0] } } at BytePos(398135)
+[2m2026-10-09T17:12:06.000799Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:9: 61:73 (#7), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000812Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:9: 61:73 (#7), scope: scope[0] } } at BytePos(398300)
+[2m2026-10-09T17:12:06.000832Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::fmt::Arguments<'{erased}>, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:38: 61:72 (#8), scope: scope[0] } }
+[2m2026-10-09T17:12:06.000851Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::fmt::Arguments
+[2m2026-10-09T17:12:06.000865Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg '{erased}
+[2m2026-10-09T17:12:06.000877Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding region '{erased}
+[2m2026-10-09T17:12:06.000913Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue copy _1
+[2m2026-10-09T17:12:06.000924Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand copy _1
+[2m2026-10-09T17:12:06.000934Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:1:19: 1:20 (#0), scope: scope[0] } } at BytePos(17)
+[2m2026-10-09T17:12:06.000956Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _2
+[2m2026-10-09T17:12:06.000997Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::fmt::Arguments::<'_>::from_str
+[2m2026-10-09T17:12:06.001023Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:13909 ~ core[b5b9]::fmt::{impl#6}::from_str), Binder { value: ['{erased}], bound_vars: [] })
+[2m2026-10-09T17:12:06.001058Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::fmt::Arguments::<'a>::from_str with 0 late-bound generic params and substs ['{erased}]
+[2m2026-10-09T17:12:06.001071Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg '{erased}
+[2m2026-10-09T17:12:06.001079Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding region '{erased}
+[2m2026-10-09T17:12:06.001090Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const "ManuallyDrop CFG regression"
+[2m2026-10-09T17:12:06.001114Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding region '{erased}
+[2m2026-10-09T17:12:06.001155Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::rt::panic_fmt
+[2m2026-10-09T17:12:06.001174Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:12372 ~ core[b5b9]::panicking::panic_fmt), Binder { value: [], bound_vars: [] })
+[2m2026-10-09T17:12:06.001190Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::rt::panic_fmt with 1 late-bound generic params and substs []
+[2m2026-10-09T17:12:06.001201Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _6
+[2m2026-10-09T17:12:06.001214Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: !, user_ty: None, source_info: SourceInfo { span: /workspace/verifast-mdnew-cfg/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs:61:9: 61:73 (#7), scope: scope[0] } } at BytePos(398300)
+[2m2026-10-09T17:12:06.001248Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:06.001260Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:06.001274Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:06.001302Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:3 ~ shared_false_unwind[b95a]::new)) at shared_false_unwind.rs:1:1: 9:2 (#0) is shared_false_unwind.rs:5:1: 9:2 (#0)
+[2m2026-10-09T17:12:06.001322Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo b => _1
+[2m2026-10-09T17:12:06.001340Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:1:19: 1:20 (#0), scope: scope[0] } } at BytePos(17)
+[2m2026-10-09T17:12:06.001371Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR: Item(DefId(0:4 ~ shared_false_unwind[b95a]::shared_cleanup_false_unwind_post))
+[2m2026-10-09T17:12:06.001443Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding MIR for Item(DefId(0:4 ~ shared_false_unwind[b95a]::shared_cleanup_false_unwind_post)) with span shared_false_unwind.rs:11:1: 22:2 (#0)
+fn shared_cleanup_false_unwind_post(_1: T, _2: bool) -> () {
+    debug t => _1;
+    debug b => _2;
+    let mut _0: ();
+    let mut _3: std::mem::ManuallyDrop<T>;
+    let mut _4: T;
+    let mut _5: bool;
+    let _6: ();
+    scope 1 {
+    }
+
+    bb0: {
+        StorageLive(_3);
+        StorageLive(_4);
+        _4 = move _1;
+        _3 = std::mem::ManuallyDrop::<T>::new(move _4) -> [return: bb1, unwind: bb6];
+    }
+
+    bb1: {
+        StorageDead(_4);
+        StorageDead(_3);
+        StorageLive(_5);
+        _5 = copy _2;
+        switchInt(move _5) -> [0: bb3, otherwise: bb2];
+    }
+
+    bb2: {
+        _0 = const ();
+        goto -> bb5;
+    }
+
+    bb3: {
+        StorageLive(_6);
+        _6 = new(const true) -> [return: bb4, unwind: bb6];
+    }
+
+    bb4: {
+        StorageDead(_6);
+        _0 = const ();
+        goto -> bb5;
+    }
+
+    bb5: {
+        StorageDead(_5);
+        return;
+    }
+
+    bb6 (cleanup): {
+        resume;
+    }
+}
+
+[2m2026-10-09T17:12:06.001463Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding HIR generics Generics { params: [GenericParam { hir_id: HirId(DefId(0:4 ~ shared_false_unwind[b95a]::shared_cleanup_false_unwind_post).31), def_id: DefId(0:5 ~ shared_false_unwind[b95a]::shared_cleanup_false_unwind_post::T), name: Plain(T#0), span: shared_false_unwind.rs:11:48: 11:49 (#0), pure_wrt_drop: false, kind: Type { default: None, synthetic: false }, colon_span: None, source: Generics }], predicates: [], has_where_clause_predicates: false, where_clause_span: shared_false_unwind.rs:11:65: 11:65 (#0), span: shared_false_unwind.rs:11:47: 11:50 (#0) }
+[2m2026-10-09T17:12:06.001528Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding clauses: [(Binder { value: TraitClause(<T as std::marker::Sized>, polarity:Positive), bound_vars: [] }, shared_false_unwind.rs:11:48: 11:49 (#0))]
+[2m2026-10-09T17:12:06.001556Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:06.001571Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m Contract span for Item(DefId(0:4 ~ shared_false_unwind[b95a]::shared_cleanup_false_unwind_post)) is shared_false_unwind.rs:11:65: 15:1 (#0)
+[2m2026-10-09T17:12:06.001610Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:65: 11:65 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001634Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:51: 11:52 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001648Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:51: 11:52 (#0), scope: scope[0] } } at BytePos(262)
+[2m2026-10-09T17:12:06.001668Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:57: 11:58 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001699Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:57: 11:58 (#0), scope: scope[0] } } at BytePos(268)
+[2m2026-10-09T17:12:06.001719Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: std::mem::ManuallyDrop<T/#0>, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:16:13: 16:43 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001736Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding algebraic data type std::mem::ManuallyDrop
+[2m2026-10-09T17:12:06.001748Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:06.001764Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:16:41: 16:42 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001784Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Mut, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:18:8: 18:9 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001802Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding local decl LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:20:9: 20:18 (#0), scope: scope[0] } }
+[2m2026-10-09T17:12:06.001814Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:20:9: 20:18 (#0), scope: scope[0] } } at BytePos(549)
+[2m2026-10-09T17:12:06.001857Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue move _1
+[2m2026-10-09T17:12:06.001868Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _1
+[2m2026-10-09T17:12:06.001878Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:51: 11:52 (#0), scope: scope[0] } } at BytePos(262)
+[2m2026-10-09T17:12:06.001899Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand std::mem::ManuallyDrop::<T>::new
+[2m2026-10-09T17:12:06.001918Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(2:2654 ~ core[b5b9]::mem::manually_drop::{impl#0}::new), Binder { value: [T/#0], bound_vars: [] })
+[2m2026-10-09T17:12:06.001938Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for std::mem::ManuallyDrop::<T>::new with 0 late-bound generic params and substs [T/#0]
+[2m2026-10-09T17:12:06.001949Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding generic arg T/#0
+[2m2026-10-09T17:12:06.001961Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _4
+[2m2026-10-09T17:12:06.002002Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue copy _2
+[2m2026-10-09T17:12:06.002012Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand copy _2
+[2m2026-10-09T17:12:06.002021Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:57: 11:58 (#0), scope: scope[0] } } at BytePos(268)
+[2m2026-10-09T17:12:06.002042Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand move _5
+[2m2026-10-09T17:12:06.002064Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:06.002075Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:06.002092Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:06.002131Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand new
+[2m2026-10-09T17:12:06.002147Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type FnDef(DefId(0:3 ~ shared_false_unwind[b95a]::new), Binder { value: [], bound_vars: [] })
+[2m2026-10-09T17:12:06.002165Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding FnDef for new with 0 late-bound generic params and substs []
+[2m2026-10-09T17:12:06.002176Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const true
+[2m2026-10-09T17:12:06.002194Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: (), user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:20:9: 20:18 (#0), scope: scope[0] } } at BytePos(549)
+[2m2026-10-09T17:12:06.002230Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Rvalue const ()
+[2m2026-10-09T17:12:06.002241Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding Operand const ()
+[2m2026-10-09T17:12:06.002255Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m mir::ConstValue::ZeroSized for type ()
+[2m2026-10-09T17:12:06.002291Z[0m [34mDEBUG[0m [2mvf_mir_exporter::span_utils[0m[2m:[0m The body implementation span for Item(DefId(0:4 ~ shared_false_unwind[b95a]::shared_cleanup_false_unwind_post)) at shared_false_unwind.rs:11:1: 22:2 (#0) is shared_false_unwind.rs:15:1: 22:2 (#0)
+[2m2026-10-09T17:12:06.002315Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo t => _1
+[2m2026-10-09T17:12:06.002332Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: T/#0, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:51: 11:52 (#0), scope: scope[0] } } at BytePos(262)
+[2m2026-10-09T17:12:06.002347Z[0m [34mDEBUG[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m Encoding VarDebugInfo b => _2
+[2m2026-10-09T17:12:06.002362Z[0m [35mTRACE[0m [2mvf_mir_exporter::vf_mir_builder[0m[2m:[0m No mut annotation found for LocalDecl { mutability: Not, local_info: Clear, ty: bool, user_ty: None, source_info: SourceInfo { span: shared_false_unwind.rs:11:57: 11:58 (#0), scope: scope[0] } } at BytePos(268)
+{"$message_type":"diagnostic","message":"7 warnings emitted","code":null,"level":"warning","spans":[],"children":[],"rendered":"warning: 7 warnings emitted\n\n"}

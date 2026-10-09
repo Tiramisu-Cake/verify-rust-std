@@ -1,0 +1,52 @@
+{
+  "accepted": true,
+  "classification": "FOCUSED_GATE_PASS",
+  "fixture_commit": "8f0b701e9f2a3da124372c5d37d4cda408d45001",
+  "negative_controls": [
+    {
+      "allow_should_fail": "COMPLETED",
+      "case": "false_normal_post",
+      "diagnostic_line": 3,
+      "outcome": "EXACT_EXPECTED_NEGATIVE",
+      "side": "candidate"
+    },
+    {
+      "allow_should_fail": "COMPLETED",
+      "case": "shared_false_unwind",
+      "diagnostic_line": 14,
+      "outcome": "EXACT_EXPECTED_NEGATIVE",
+      "side": "candidate"
+    },
+    {
+      "allow_should_fail": "COMPLETED",
+      "case": "shared_false_unwind",
+      "diagnostic_line": 14,
+      "outcome": "EXACT_EXPECTED_NEGATIVE",
+      "side": "baseline"
+    }
+  ],
+  "provenance": {
+    "bundle_sha256": "42465e1fec4eaf373ecc62d9e0e46beb8d44ac1b7e68b21dff04fd129e6fe382",
+    "console_binary_sha256": {
+      "baseline": "2c83fc28ad8ce06936cd5990bc6593d7efd1fca8f121e4f0d9c7cd645cb733b1",
+      "candidate": "fb9f110b32db277eb5642d0f9e18880717f7859ce334aa49c3a82a52aad9ef70"
+    },
+    "infra_sha": "cf938bb31348c598de3d261f4169fa13a4bd11ab",
+    "manifest_sha256": "d44da9d76ce100318a85a12eb482a34607c875193cd3fabdceb5e4a83003d4a7",
+    "proof_sha": "cf938bb31348c598de3d261f4169fa13a4bd11ab"
+  },
+  "scope": "five focused fixtures only; no consumer or upstream acceptance",
+  "structure": {
+    "forget": {
+      "baseline_ast_checked": true,
+      "mdnew_cleanup": 2,
+      "normal_target": 1
+    },
+    "shared_cleanup": {
+      "mdnew_target": 1,
+      "ordinary_caller_continue": true,
+      "ordinary_target": 2,
+      "shared_cleanup": 3
+    }
+  }
+}

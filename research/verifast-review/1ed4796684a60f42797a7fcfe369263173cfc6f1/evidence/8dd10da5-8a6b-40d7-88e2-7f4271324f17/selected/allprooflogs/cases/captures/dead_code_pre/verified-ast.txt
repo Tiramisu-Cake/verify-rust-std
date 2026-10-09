@@ -1,0 +1,16 @@
+[
+  PackageDecl (loc "<dummy location>", "", [], [
+    Func (loc "dead_code_pre.rs(1,1-7,2)", Regular, [("T", (true))], Some (ConstructedTypeExpr (loc "dead_code_pre.rs(1,53)", "fn_outcome", [ManifestTypeExpr (loc "dead_code_pre.rs(1,53)", StructType ("std_tuple_0_", []))])), "forget_from_dead_precondition", [(ConstTypeExpr (loc "dead_code_pre.rs(1,48-49)", IdentTypeExpr (loc "dead_code_pre.rs(1,48-49)", None, "T")), "t")], false, (None, None), Some ((Sep (loc "dead_code_pre.rs(2,28-31)", CallExpr (loc "dead_code_pre.rs(2,9-21)", "thread_token", [], [], [VarPat (loc "dead_code_pre.rs(2,23-26)", "tid")], Static), Sep (loc "dead_code_pre.rs(2,53-56)", Operation (loc "dead_code_pre.rs(2,36-38)", Eq, [Var (loc "dead_code_pre.rs(2,32-35)", "tid"); Var (loc "dead_code_pre.rs(2,39-52)", "currentThread")]), False (loc "dead_code_pre.rs(2,57-62)"))), ("outcome", SwitchExpr (loc "dead_code_pre.rs(1,53-5,1)", Var (loc "dead_code_pre.rs(1,53-5,1)", "outcome"), [
+      SwitchExprClause (loc "dead_code_pre.rs(3,9-21)", "returning", ["result"], CallExpr (loc "dead_code_pre.rs(3,9-21)", "thread_token", [], [], [LitPat (Var (loc "dead_code_pre.rs(3,22-25)", "tid"))], Static));
+      SwitchExprClause (loc "dead_code_pre.rs(4,19-24)", "unwinding", [], False (loc "dead_code_pre.rs(4,19-24)"))
+    ], None)))), false, Some (([
+      DeclStmt (loc "dead_code_pre.rs(1,1-7,2)", [(loc "dead_code_pre.rs(1,1-7,2)", Some (ManifestTypeExpr (loc "dead_code_pre.rs(1,53)", StructType ("std_tuple_0_", []))), "$_0", None, (ref (false), ref (None)))]);
+      DeclStmt (loc "dead_code_pre.rs(1,1-7,2)", [(loc "dead_code_pre.rs(1,1-7,2)", Some (IdentTypeExpr (loc "dead_code_pre.rs(6,13-43)", None, "T")), "$_2", None, (ref (false), ref (None)))]);
+      DeclStmt (loc "dead_code_pre.rs(1,1-7,2)", [(loc "dead_code_pre.rs(1,1-7,2)", Some (IdentTypeExpr (loc "dead_code_pre.rs(6,41-42)", None, "T")), "$_3", None, (ref (false), ref (None)))]);
+      LabelStmt (loc "dead_code_pre.rs(6,41-42)", "0");
+      ExprStmt (AssignExpr (loc "dead_code_pre.rs(6,41-42)", Var (loc "dead_code_pre.rs(6,41-42)", "$_3"), Mutation, Var (loc "dead_code_pre.rs(6,41-42)", "t")));
+      ExprStmt (AssignExpr (loc "dead_code_pre.rs(6,13-43)", Var (loc "dead_code_pre.rs(6,13-43)", "$_2"), Mutation, Var (loc "dead_code_pre.rs(6,13-43)", "$_3")));
+      ReturnStmt (loc "dead_code_pre.rs(7,2)", Some (CallExpr (loc "dead_code_pre.rs(7,2)", "returning", [], [], [LitPat (Var (loc "dead_code_pre.rs(7,2)", "$_0"))], Static)))
+    ], loc "dead_code_pre.rs(7,1-2)")), false, [])
+  ])
+]

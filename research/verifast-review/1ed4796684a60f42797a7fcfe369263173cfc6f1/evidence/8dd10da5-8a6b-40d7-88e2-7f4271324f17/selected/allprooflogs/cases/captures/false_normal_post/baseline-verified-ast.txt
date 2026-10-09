@@ -1,0 +1,20 @@
+[
+  PackageDecl (loc "<dummy location>", "", [], [
+    Func (loc "false_normal_post.rs(1,1-7,2)", Regular, [("T", (true))], Some (ConstructedTypeExpr (loc "false_normal_post.rs(1,48)", "fn_outcome", [ManifestTypeExpr (loc "false_normal_post.rs(1,48)", StructType ("std_tuple_0_", []))])), "forget_false_normal_post", [(ConstTypeExpr (loc "false_normal_post.rs(1,43-44)", IdentTypeExpr (loc "false_normal_post.rs(1,43-44)", None, "T")), "t")], false, (None, None), Some ((Sep (loc "false_normal_post.rs(2,28-31)", CallExpr (loc "false_normal_post.rs(2,9-21)", "thread_token", [], [], [VarPat (loc "false_normal_post.rs(2,23-26)", "tid")], Static), Operation (loc "false_normal_post.rs(2,36-38)", Eq, [Var (loc "false_normal_post.rs(2,32-35)", "tid"); Var (loc "false_normal_post.rs(2,39-52)", "currentThread")])), ("outcome", SwitchExpr (loc "false_normal_post.rs(1,48-5,1)", Var (loc "false_normal_post.rs(1,48-5,1)", "outcome"), [
+      SwitchExprClause (loc "false_normal_post.rs(3,9-14)", "returning", ["result"], False (loc "false_normal_post.rs(3,9-14)"));
+      SwitchExprClause (loc "false_normal_post.rs(4,19-24)", "unwinding", [], False (loc "false_normal_post.rs(4,19-24)"))
+    ], None)))), false, Some (([
+      DeclStmt (loc "false_normal_post.rs(1,1-7,2)", [(loc "false_normal_post.rs(1,1-7,2)", Some (ManifestTypeExpr (loc "false_normal_post.rs(1,48)", StructType ("std_tuple_0_", []))), "$_0", None, (ref (false), ref (None)))]);
+      DeclStmt (loc "false_normal_post.rs(1,1-7,2)", [(loc "false_normal_post.rs(1,1-7,2)", Some (IdentTypeExpr (loc "false_normal_post.rs(6,13-43)", None, "T")), "$_2", None, (ref (false), ref (None)))]);
+      DeclStmt (loc "false_normal_post.rs(1,1-7,2)", [(loc "false_normal_post.rs(1,1-7,2)", Some (IdentTypeExpr (loc "false_normal_post.rs(6,41-42)", None, "T")), "$_3", None, (ref (false), ref (None)))]);
+      LabelStmt (loc "false_normal_post.rs(6,41-42)", "0");
+      ExprStmt (AssignExpr (loc "false_normal_post.rs(6,41-42)", Var (loc "false_normal_post.rs(6,41-42)", "$_3"), Mutation, Var (loc "false_normal_post.rs(6,41-42)", "t")));
+      ExprStmt (AssignExpr (loc "false_normal_post.rs(6,13-43)", Var (loc "false_normal_post.rs(6,13-43)", "$_2"), Mutation, Var (loc "false_normal_post.rs(6,13-43)", "$_3")));
+      GotoStmt (loc "false_normal_post.rs(6,13-43)", "1");
+      LabelStmt (loc "false_normal_post.rs(1,1-7,2)", "2");
+      ReturnStmt (loc "false_normal_post.rs(1,1-7,2)", Some (CallExpr (loc "false_normal_post.rs(1,1-7,2)", "unwinding", [], [], [], Static)));
+      LabelStmt (loc "false_normal_post.rs(7,2)", "1");
+      ReturnStmt (loc "false_normal_post.rs(7,2)", Some (CallExpr (loc "false_normal_post.rs(7,2)", "returning", [], [], [LitPat (Var (loc "false_normal_post.rs(7,2)", "$_0"))], Static)))
+    ], loc "false_normal_post.rs(7,1-2)")), false, [])
+  ])
+]

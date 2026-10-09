@@ -1,0 +1,95 @@
+{
+  "accepted": true,
+  "classification": "UPSTREAM_TARGETED_REGRESSIONS_PASS",
+  "completed_regressions": [
+    {
+      "complete_success_summary": true,
+      "exit_status": 0,
+      "git_blob": "bc3347926e04824a2668c1d59f31b5648ab8d4a2",
+      "name": "generic_pair",
+      "options": [
+        "-ignore_unwind_paths",
+        "-ignore_ref_creation"
+      ],
+      "path": "safe_abstraction/generic_pair.rs",
+      "resources_sha256": "d5638a69d4a6065e90c4e033e84167550d5534ff571ae502c1291f2dee94306c",
+      "source_sha256": "04f97abdd1d8f839dd1d397f943ad04bcb38a74ada8677c395486c29c233239e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "131b2c19cb57cdada8cbed4cb62ce80f8a42ae3175eb2fb833d6babb6b553753",
+      "unexpected_dead_code": false
+    },
+    {
+      "complete_success_summary": true,
+      "exit_status": 0,
+      "git_blob": "7ace2cbe2eee2d544766604d018a60a3f901bbdf",
+      "name": "tree",
+      "options": [
+        "-ignore_unwind_paths",
+        "-ignore_ref_creation",
+        "-allow_assume"
+      ],
+      "path": "safe_abstraction/tree.rs",
+      "resources_sha256": "c31d6125f9ce5387872dc0e84976f60736dd1d1526225befd4cd9f0c702622a2",
+      "source_sha256": "526326f9f9c16755a9b98b5269c016122ad7b29b78c5e5c2de2e66d3305b3e71",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "68a956098a95eeb338e337df55875b129d22f6b5b18da86499050cd098bf2f98",
+      "unexpected_dead_code": false
+    },
+    {
+      "complete_success_summary": true,
+      "exit_status": 0,
+      "git_blob": "19fc20768d0dbe2720dca8948c38b949c31676de",
+      "name": "type_projections",
+      "options": [
+        "-ignore_unwind_paths",
+        "-ignore_ref_creation",
+        "-disable_overflow_check"
+      ],
+      "path": "purely_unsafe/type_projections.rs",
+      "resources_sha256": "c4859e78c6a5e4f39055dbdd9658c87207f6e37b7424f2df9f00b1f09e06f4a0",
+      "source_sha256": "7ea763a0375cd1639e0b611aa19659e4f8cd94423121949cd3085fab87f03b9a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8d3218fe2c62859dfad4a97c1359244ab4c817c28a60bbfe21de6c3e63b4fb53",
+      "unexpected_dead_code": false
+    },
+    {
+      "complete_success_summary": true,
+      "exit_status": 0,
+      "git_blob": "d26f94e6684bd1e6148fddc98b119a3b27877346",
+      "name": "generic_structs",
+      "options": [],
+      "path": "purely_unsafe/generic_structs.rs",
+      "resources_sha256": "2ffbbabb09cec701d23366fe77aec53080c67a779aa5d31bd8dde3a63d0163c6",
+      "source_sha256": "74e7dee2d795d2f943284ac3fc38744b30b68367821d9e0aba99b74b0917af16",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c14db8a458f9b013ee6e65b1d795156d71b58a37828af44798ce7c0ee84df403",
+      "unexpected_dead_code": false
+    },
+    {
+      "complete_success_summary": true,
+      "exit_status": 0,
+      "git_blob": "67a588d6755853d7a56725fab2c7492a5a07653e",
+      "name": "scalars",
+      "options": [],
+      "path": "purely_unsafe/scalars.rs",
+      "resources_sha256": "19e00fd8b24896786f9762756aab875a8bc5ddb08c06c823b51a86c6485b770a",
+      "source_sha256": "85da35d4093368453ade1a5f9eb702d749be3b4879126c9a46b87f56f2223c77",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "119053834b1fa0c48e16af41fad9bfa12e2e05ead0cbd50f573b5ec14bbf811f",
+      "unexpected_dead_code": false
+    }
+  ],
+  "fixture_commit": "8f0b701e9f2a3da124372c5d37d4cda408d45001",
+  "provenance": {
+    "console_binary_sha256": {
+      "baseline": "2c83fc28ad8ce06936cd5990bc6593d7efd1fca8f121e4f0d9c7cd645cb733b1",
+      "candidate": "fb9f110b32db277eb5642d0f9e18880717f7859ce334aa49c3a82a52aad9ef70"
+    },
+    "infra_sha": "09f8fea4ab3ad987c66e68cd6e7405c9de278161",
+    "proof_sha": "09f8fea4ab3ad987c66e68cd6e7405c9de278161",
+    "restore_receipt_sha256": "8ef9a64cad924530f84a732eb643ba1be9c9602e7b3ba9b8e1b8372cbb110bc9",
+    "runtime_components_sha256": "a9a0272f6538606ab37dcd2a3f0a9ed6e1bd7da02ffafbe7859fb0753826d920",
+    "source_certificate_sha256": "e804013158b42c1ba285d0337d03c96bbac9ffaf306f6e84754b1a44c51c9727"
+  },
+  "scope": "five pinned upstream regressions only; focused gate and consumer acceptance not implied"
+}
