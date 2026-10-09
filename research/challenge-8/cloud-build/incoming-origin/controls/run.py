@@ -95,6 +95,7 @@ def origin_gate(case: Path, meta: dict) -> dict:
         body = bodies[0]
         mir_calls = []
         mir_events = []
+        copy_edges = {}
         for block in mir.path(body, "basicBlocks"):
             term = mir.path(block, "terminator")
             kind = mir.path(term, "kind")
@@ -104,8 +105,11 @@ def origin_gate(case: Path, meta: dict) -> dict:
                                   "kind", "fnDef", "id", "name")
                 line = mir.path(term, "sourceInfo", "span", "regular", "lo", "line")
                 if callee == meta["callee"] or callee.endswith("::" + meta["callee"]):
-                    if len(mir.path(call, "args")) != 1:
+                    operands = mir.path(call, "args")
+                    if len(operands) != 1 or not isinstance(operands[0], dict) or \
+                            set(operands[0]) not in ({"copy"}, {"move"}):
                         raise ValueError("target MIR call does not carry one source argument")
+                    argument_raw = mir.local(next(iter(operands[0].values())))
                     target_option = mir.path(call, "target")
                     if not isinstance(target_option, dict) or set(target_option) not in (
                             {"nothing"}, {"something"}):
@@ -117,9 +121,21 @@ def origin_gate(case: Path, meta: dict) -> dict:
                         raise ValueError("branch callback has no MIR unwind successor")
                     mir_calls.append({"callee": callee, "source_line": line,
                                       "has_normal_target": "something" in target_option,
+                                      "argument_raw": argument_raw,
                                       "unwind_action": unwind_action})
             for stmt in mir.path(block, "statements"):
                 stmt_kind = mir.path(stmt, "kind")
+                if isinstance(stmt_kind, dict) and "assign" in stmt_kind:
+                    assignment = stmt_kind["assign"]
+                    try:
+                        lhs = mir.local(mir.path(assignment, "lhsPlace"))
+                        rhs = mir.path(assignment, "rhsRvalue")
+                        if isinstance(rhs, dict) and "use" in rhs and isinstance(rhs["use"], dict) and \
+                                set(rhs["use"]) in ({"copy"}, {"move"}):
+                            source_raw = mir.local(next(iter(rhs["use"].values())))
+                            copy_edges.setdefault(lhs, []).append(source_raw)
+                    except Exception:
+                        pass  # Only whole-local copy/move edges can certify this call argument.
                 for key, constructor in (("storageLive", "RustStorageLiveStmt"),
                                          ("storageDead", "RustStorageDeadStmt")):
                     if isinstance(stmt_kind, dict) and key in stmt_kind:
@@ -130,6 +146,16 @@ def origin_gate(case: Path, meta: dict) -> dict:
         mir_calls = [row for row in mir_calls if row["source_line"] == target]
         if len(mir_calls) != 1:
             raise ValueError(f"expected one matching MIR call terminator at target; found {len(mir_calls)}")
+        debug_sources = mir.vdi_map(body).get(meta["argument"], [])
+        if len(debug_sources) != 1:
+            raise ValueError("source argument lacks unique MIR debug-local identity")
+        raw_argument = mir_calls[0]["argument_raw"]
+        copy_chain = [raw_argument]
+        while copy_chain[-1] != debug_sources[0]:
+            links = copy_edges.get(copy_chain[-1], [])
+            if len(links) != 1 or links[0] in copy_chain:
+                raise ValueError("MIR call argument is not a unique copy/move chain from source variable")
+            copy_chain.append(links[0])
         if meta["kind"] == "diverging_extern" and mir_calls[0]["has_normal_target"]:
             raise ValueError("diverging MIR call unexpectedly has a normal target")
 
@@ -151,8 +177,6 @@ def origin_gate(case: Path, meta: dict) -> dict:
         if not isinstance(arguments, list) or len(arguments) != 1:
             raise ValueError("target AST call does not carry one argument")
         argument = ast.var(ast.narg(arguments[0], "LitPat", 1)[0])
-        if argument != meta["argument"]:
-            raise ValueError(f"target AST argument is {argument!r}, expected {meta['argument']!r}")
         observed_events = []
         for constructor in ("RustStorageLiveStmt", "RustStorageDeadStmt"):
             for node in ast.nodes(runtime, constructor):
@@ -160,12 +184,21 @@ def origin_gate(case: Path, meta: dict) -> dict:
                     raise ValueError(f"malformed {constructor} provenance fields")
                 observed_events.append((constructor, node.args[2],
                                         ast.location_line(node.args[1])))
+        translated_names = {node.args[3] for constructor in
+                            ("RustStorageLiveStmt", "RustStorageDeadStmt")
+                            for node in ast.nodes(runtime, constructor)
+                            if len(node.args) == 4 and node.args[2] == raw_argument}
+        if argument not in translated_names and not (
+                raw_argument == debug_sources[0] and argument == meta["argument"]):
+            raise ValueError("AST call argument is not translated from the exact MIR call operand")
         if sorted(observed_events) != sorted(mir_events):
             raise ValueError("translated lifecycle provenance differs from caller MIR storage events")
         return {"admitted": True, "reason": "source call remains an ordinary CallExpr; lifecycle events match MIR provenance",
                 "decoded_sha256": _sha(decoded_bytes), "proof_ast_sha256": _sha(ast_bytes),
-                "mir_call": mir_calls[0], "ast_call": {"callee": ast_calls[0].args[1],
-                                                        "argument": argument, "source_line": target},
+                "mir_call": mir_calls[0], "argument_copy_chain": copy_chain,
+                "source_argument_mir_local": debug_sources[0],
+                "ast_call": {"callee": ast_calls[0].args[1],
+                             "argument": argument, "source_line": target},
                 "mir_lifecycle_count": len(mir_events), "ast_lifecycle_count": len(observed_events)}
     except Exception as error:
         return {"admitted": False, "reason": f"origin MIR/AST correlation failed: {error}"}

@@ -7,9 +7,13 @@
 // CASE_BEGIN origin_reserved_dead_diverge
 extern "Rust" {
     fn vf__rust_storage_dead(value: u64) -> !;
-    //@ req true;
-    //@ ens false;
 }
+/*@
+fn vf__rust_storage_dead(value: u64) -> !;
+req true;
+ens false;
+on_unwind_ens false;
+@*/
 
 pub unsafe fn origin_reserved_dead_diverge() -> u64
 /*@ req true; @*/ /*@ ens false; @*/ {
@@ -21,9 +25,13 @@ pub unsafe fn origin_reserved_dead_diverge() -> u64
 // CASE_BEGIN origin_reserved_live_diverge
 extern "Rust" {
     fn vf__rust_storage_live(value: u64) -> !;
-    //@ req true;
-    //@ ens false;
 }
+/*@
+fn vf__rust_storage_live(value: u64) -> !;
+req true;
+ens false;
+on_unwind_ens false;
+@*/
 
 pub unsafe fn origin_reserved_live_diverge() -> u64
 /*@ req true; @*/ /*@ ens false; @*/ {
@@ -35,9 +43,13 @@ pub unsafe fn origin_reserved_live_diverge() -> u64
 // CASE_BEGIN origin_plain_diverge
 extern "Rust" {
     fn origin_plain_never(value: u64) -> !;
-    //@ req true;
-    //@ ens false;
 }
+/*@
+fn origin_plain_never(value: u64) -> !;
+req true;
+ens false;
+on_unwind_ens false;
+@*/
 
 pub unsafe fn origin_plain_diverge() -> u64
 /*@ req true; @*/ /*@ ens false; @*/ {
@@ -46,24 +58,16 @@ pub unsafe fn origin_plain_diverge() -> u64
 }
 // CASE_END origin_plain_diverge
 
-// CASE_BEGIN origin_reserved_dead_requires_resource
-fn vf__rust_storage_dead(p: *mut u64)
-/*@ req *p |-> ?v; @*/ /*@ ens *p |-> v; @*/ {
-    let _ = p;
-}
-
-pub unsafe fn origin_reserved_dead_requires_resource(p: *mut u64)
-/*@ req true; @*/ /*@ ens true; @*/ {
-    vf__rust_storage_dead(p); // TARGET: reserved name ordinary callee precondition
-}
-// CASE_END origin_reserved_dead_requires_resource
-
 // CASE_BEGIN origin_reserved_dead_extern_requires_resource
 extern "Rust" {
     fn vf__rust_storage_dead(p: *mut u64);
-    //@ req *p |-> ?v;
-    //@ ens *p |-> v;
 }
+/*@
+fn vf__rust_storage_dead(p: *mut u64);
+req *p |-> ?v;
+ens *p |-> v;
+on_unwind_ens *p |-> v;
+@*/
 
 pub unsafe fn origin_reserved_dead_extern_requires_resource(p: *mut u64)
 /*@ req true; @*/ /*@ ens true; @*/ {
@@ -72,14 +76,20 @@ pub unsafe fn origin_reserved_dead_extern_requires_resource(p: *mut u64)
 // CASE_END origin_reserved_dead_extern_requires_resource
 
 // CASE_BEGIN origin_reserved_live_preserves_resource
-fn vf__rust_storage_live(p: *mut u64)
-/*@ req *p |-> ?v; @*/ /*@ ens *p |-> v; @*/ {
-    let _ = p;
+extern "Rust" {
+    fn vf__rust_storage_live(p: *mut u64);
 }
+/*@
+fn vf__rust_storage_live(p: *mut u64);
+req *p |-> ?v;
+ens *p |-> v;
+on_unwind_ens *p |-> v;
+@*/
 
 pub unsafe fn origin_reserved_live_preserves_resource(p: *mut u64)
-/*@ req *p |-> ?v; @*/ /*@ ens *p |-> v; @*/ {
-    vf__rust_storage_live(p); // TARGET: reserved ordinary callee preserves resource
+/*@ req *p |-> ?v; @*/ /*@ ens *p |-> v; @*/
+/*@ on_unwind_ens *p |-> v; @*/ {
+    unsafe { vf__rust_storage_live(p) }; // TARGET: reserved ordinary callee preserves resource
 }
 // CASE_END origin_reserved_live_preserves_resource
 
@@ -120,7 +130,7 @@ pub unsafe fn origin_local_death_lost_cell() -> u64
 /*@ req true; @*/ /*@ ens result == 9; @*/ {
     let result = {
         let tmp = ManuallyDrop::new(7_u64);
-        //@ leak points_to::<u64>(&tmp, _);
+        //@ leak [?f]points_to::<u64>(&tmp, _);
         9_u64
     }; // TARGET: local death after physical cell leak
     result
@@ -130,10 +140,13 @@ pub unsafe fn origin_local_death_lost_cell() -> u64
 // CASE_BEGIN origin_branch_unwind_resource
 extern "Rust" {
     fn origin_may_unwind(p: *mut u64);
-    //@ req *p |-> ?v;
-    //@ ens *p |-> v;
-    //@ on_unwind_ens *p |-> v;
 }
+/*@
+fn origin_may_unwind(p: *mut u64);
+req *p |-> ?v;
+ens *p |-> v;
+on_unwind_ens *p |-> v;
+@*/
 
 pub unsafe fn origin_branch_unwind_resource(p: *mut u64, take: bool)
 /*@ req *p |-> ?v; @*/
