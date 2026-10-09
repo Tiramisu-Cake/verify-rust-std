@@ -1,0 +1,73 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6700,6 +6700,12 @@
+             let relocate =
+               Sys.getenv_opt "SORT4_STRICT_LFT_RELOCATE" = Some "1" &&
+               name = "callback_positive" in
++            let relocation_pairs =
++              if relocate then
++                List.map (fun raw -> (raw, translate_local_decl_id_ raw))
++                  relocation_ids
++              else [] in
++            let translated_ids = List.map snd relocation_pairs in
+             if relocate then begin
+               let (source_file, source_line, _) = fst (Ast.lexed_loc fn_sig_loc) in
+               let source_md5 =
+@@ -6736,28 +6742,39 @@
+                 | ("_29" | "_30" | "_31" | "_32"), ty -> erased_t ty
+                 | _ -> false in
+-              if List.exists (fun id ->
+-                  List.length (List.filter (fun (d : Mir.local_decl) -> d.id = id)
++              if List.length (List.sort_uniq String.compare translated_ids) <> 6 ||
++                 List.exists (fun (raw, translated) ->
++                   translated <> TrName.tag_internal raw) relocation_pairs ||
++                 List.exists (fun (raw, translated) ->
++                  List.length (List.filter (fun (d : Mir.local_decl) ->
++                    d.id = translated)
+                     local_decls) <> 1 ||
+-                  not (List.mem_assoc id State.local_decl_types) ||
+-                  not (exact_type id)) relocation_ids then
++                  List.length (List.filter (fun (name, _) -> name = raw)
++                    State.local_decl_types) <> 1 ||
++                  not (exact_type raw)) relocation_pairs then
+                 Ast.static_error fn_sig_loc
+                   "Strict relocation local type inventory changed" None;
+               let moved =
+                 List.filter (fun (d : Mir.local_decl) ->
+-                  List.mem d.id relocation_ids) local_decls
++                  List.mem d.id translated_ids) local_decls
+                 |> List.map (fun d ->
++                    let raw =
++                      match List.find_opt (fun (_, translated) ->
++                        translated = d.id) relocation_pairs with
++                      | Some (raw, _) -> raw
++                      | None -> Ast.static_error fn_sig_loc
++                          "Strict relocation selected an unmapped local" None in
+                     let stmt = translate_to_vf_local_decl loc d in
+                     begin match stmt with
+                     | Ast.DeclStmt (_, [(_, Some _, _, _, (taken, _))]) ->
+                         if !taken then Ast.static_error fn_sig_loc
+                           "Strict relocation address-taken local" None;
+                         let shape =
+-                          if d.id = "_27" then "&'<erased> mut F"
+-                          else if d.id = "_28" then
++                          if raw = "_27" then "&'<erased> mut F"
++                          else if raw = "_28" then
+                             "(&'<erased> T, &'<erased> T)"
+                           else "&'<erased> T" in
+                         Printf.eprintf
+-                          "STRICT-RELOCATE inner=%s type=%s addresstaken=false\n%!"
+-                          d.id shape
++                          "STRICT-RELOCATE inner=%s translated=%s type=%s addresstaken=false\n%!"
++                          raw d.id shape
+                     | _ -> Ast.static_error fn_sig_loc
+                         "Strict relocation declaration shape changed" None
+@@ -6765,7 +6787,7 @@
+               List.map (translate_to_vf_local_decl loc)
+                 (ret_place_decl ::
+                  List.filter (fun (d : Mir.local_decl) ->
+-                   not (relocate && List.mem d.id relocation_ids)) local_decls)
++                   not (relocate && List.mem d.id translated_ids)) local_decls)
+             in
+             let bblocks_cpn = basic_blocks_get_list body_cpn in
+             let* bblocks =

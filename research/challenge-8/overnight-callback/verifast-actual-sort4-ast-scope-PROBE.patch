@@ -1,0 +1,163 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6839,12 +6839,154 @@
+                          (Ast.CallExpr
+                            (call_loc, "unwinding", [], [], [], Ast.Static)))])
+             in
+-            Ok
+-              (mk_fn_decl contract
+-                 (Some
+-                    ( projection_clause_stmts @ vf_local_decls @ vf_bblocks
+-                      @ callback_unwind_epilog,
+-                      closing_cbrace_loc )))
++            let vf_decl =
++              mk_fn_decl contract
++                (Some
++                   (projection_clause_stmts @ vf_local_decls @ vf_bblocks
++                    @ callback_unwind_epilog,
++                    closing_cbrace_loc)) in
++            if Sys.getenv_opt "SORT4_AST_SCOPE_PROBE" = Some "1" &&
++               Args.body_name = "sort4_stable" then begin
++              let reject why = failwith
++                ("SORT4-AST-PROBE: source/scope diagnostic refused: " ^ why) in
++              let dir = match Sys.getenv_opt "SORT4_AST_SCOPE_PROBE_DIR" with
++                | Some value when not (Filename.is_relative value) -> value
++                | _ -> reject "absolute output directory required" in
++              let source_path = match Args.body_imp_loc with
++                | Ast.Lexed (((path, _, _), (last_path, _, _)))
++                  when path = last_path &&
++                       Filename.check_suffix path "verified/lib.rs" -> path
++                | _ -> reject "actual body source path" in
++              let sha_output = Filename.temp_file "sort4-ast-sha-" ".txt" in
++              let source_sha = Fun.protect
++                ~finally:(fun () -> try Sys.remove sha_output with Sys_error _ -> ())
++                (fun () ->
++                   let command = "/usr/bin/sha256sum -- " ^
++                     Filename.quote source_path ^ " > " ^
++                     Filename.quote sha_output in
++                   if Sys.command command <> 0 then reject "source sha256sum";
++                   let channel = open_in sha_output in
++                   Fun.protect ~finally:(fun () -> close_in channel)
++                     (fun () -> input_line channel)) in
++              if source_sha <>
++                   "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9  " ^
++                   source_path then reject "exact O24 verified source SHA256";
++              if List.length bblocks_cpn <> 55 ||
++                 List.length Args.local_decl_types <> 137 then
++                reject "complete NORMAL body block/local inventory";
++              let snapshot = Filename.concat dir "sort4-ast-decl.marshal" in
++              let trace = Filename.concat dir "sort4-ast-scope.txt" in
++              if Sys.file_exists snapshot || Sys.file_exists trace then
++                reject "existing output";
++              let rendered = Buffer.create 32768 in
++              let line depth path tag loc =
++                let location = match loc with
++                  | Ast.Lexed (((file, first_line, first_col),
++                                (_, last_line, last_col))) ->
++                      Printf.sprintf "%s:%d:%d-%d:%d" file first_line
++                        first_col last_line last_col
++                  | _ -> "non-lexed" in
++                Buffer.add_string rendered
++                  (Printf.sprintf "%02d %s %s %s\n" depth path tag location) in
++              let cmp_blocks = ref 0 in
++              let fnmut_switches = ref 0 in
++              let first_switches = ref 0 in
++              let rec walk depth path stmt =
++                let loc = Ast.stmt_loc stmt in
++                match stmt with
++                | Ast.BlockStmt (_, decls, body, closing, _) ->
++                    let cmp = List.exists (function
++                      | Ast.TypeWithTypeidDecl
++                          (_, "'cmp", Ast.CallExpr
++                            (_, "typeid_of_lft", [], [],
++                             [Ast.LitPat (Ast.Var (_, "cmp_k"))], Ast.Static))
++                          -> true
++                      | _ -> false) decls in
++                    if cmp then incr cmp_blocks;
++                    line depth path
++                      (Printf.sprintf "BlockStmt decls=%d cmp_lifetime=%b"
++                         (List.length decls) cmp) loc;
++                    List.iteri (fun i child ->
++                      walk (depth + 1)
++                        (Printf.sprintf "%s/block[%d]" path i) child)
++                      body;
++                    line (depth + 1) (path ^ "/close") "BlockClose" closing
++                | Ast.SwitchStmt (_, expr, clauses) ->
++                    let name = match expr with
++                      | Ast.CallExpr (_, n, _, _, _, _) -> n
++                      | _ -> "<non-call>" in
++                    let fnmut = canonicalize_item_name name =
++                      "std::ops::FnMut::call_mut" in
++                    let first = fnmut && (match loc with
++                      | Ast.Lexed (((_, 190, _), _)) -> true
++                      | _ -> false) in
++                    if fnmut then incr fnmut_switches;
++                    if first then incr first_switches;
++                    line depth path
++                      (Printf.sprintf
++                         "SwitchStmt call=%s fnmut=%b first_source_line_190=%b arms=%d"
++                         name fnmut first (List.length clauses)) loc;
++                    List.iteri (fun i clause -> match clause with
++                      | Ast.SwitchStmtClause (arm_loc, arm, body) ->
++                          let arm_name = match arm with
++                            | Ast.CallExpr (_, n, _, _, _, _) -> n
++                            | _ -> "<non-call>" in
++                          let arm_path = Printf.sprintf "%s/arm[%d:%s]"
++                            path i arm_name in
++                          line (depth + 1) arm_path "SwitchArm" arm_loc;
++                          List.iteri (fun j child ->
++                            walk (depth + 2)
++                              (Printf.sprintf "%s/stmt[%d]" arm_path j)
++                              child) body) clauses
++                | Ast.IfStmt (_, _, then_stmts, else_stmts) ->
++                    line depth path "IfStmt" loc;
++                    List.iteri (fun i child -> walk (depth + 1)
++                      (Printf.sprintf "%s/then[%d]" path i) child) then_stmts;
++                    List.iteri (fun i child -> walk (depth + 1)
++                      (Printf.sprintf "%s/else[%d]" path i) child) else_stmts
++                | Ast.WhileStmt (_, _, _, _, body, increment) ->
++                    line depth path "WhileStmt" loc;
++                    List.iteri (fun i child -> walk (depth + 1)
++                      (Printf.sprintf "%s/while[%d]" path i) child) body;
++                    List.iteri (fun i child -> walk (depth + 1)
++                      (Printf.sprintf "%s/increment[%d]" path i) child)
++                      increment
++                | Ast.PureStmt (_, inner) ->
++                    line depth path "PureStmt" loc;
++                    walk (depth + 1) (path ^ "/pure") inner
++                | Ast.NonpureStmt (_, _, inner) ->
++                    line depth path "NonpureStmt" loc;
++                    walk (depth + 1) (path ^ "/nonpure") inner
++                | Ast.GotoStmt (_, label) -> line depth path
++                    ("GotoStmt " ^ label) loc
++                | Ast.LabelStmt (_, label) -> line depth path
++                    ("LabelStmt " ^ label) loc
++                | Ast.ReturnStmt _ -> line depth path "ReturnStmt" loc
++                | Ast.ExprStmt (Ast.CallExpr (_, name, _, _, _, _)) ->
++                    line depth path ("ExprStmt CallExpr " ^ name) loc
++                | Ast.ExprStmt _ -> line depth path "ExprStmt" loc
++                | _ -> line depth path "OtherStmt" loc in
++              let body_stmts =
++                projection_clause_stmts @ vf_local_decls @ vf_bblocks @
++                callback_unwind_epilog in
++              List.iteri (fun i stmt -> walk 0
++                (Printf.sprintf "root[%d]" i) stmt) body_stmts;
++              let header = Printf.sprintf
++                "O24 verified_sha256=%s normal_blocks=55 locals=137 cmp_blocks=%d fnmut_switches=%d first_line_190_switches=%d\n"
++                "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
++                !cmp_blocks !fnmut_switches !first_switches in
++              let bytes = Marshal.to_string vf_decl [Marshal.No_sharing] in
++              let snapshot_out = open_out_bin snapshot in
++              Fun.protect ~finally:(fun () -> close_out snapshot_out)
++                (fun () -> output_string snapshot_out bytes);
++              let trace_out = open_out trace in
++              Fun.protect ~finally:(fun () -> close_out trace_out)
++                (fun () -> output_string trace_out header;
++                   output_string trace_out (Buffer.contents rendered));
++              Printf.printf "SORT4-AST-PROBE: snapshot=%s trace=%s cmp_blocks=%d fnmut_switches=%d first_switches=%d\n%!"
++                snapshot trace !cmp_blocks !fnmut_switches !first_switches
++            end;
++            Ok vf_decl
+         in
+         let body_sig_opt =
+           match contract_template_opt with
