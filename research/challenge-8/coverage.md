@@ -567,3 +567,12 @@ full evidence retained/verified, exact historical20-patch source/spec/profile bu
 Actual helper preparation SETUP missing dynamic source input; no fresh actual
 MIR/refinement/body claim or certificate refresh. Actual select/sort4 coverage and
 all historical accepted domain limits remain unchanged; production kernel unchanged.
+
+
+Night Cloud2026-10-09 Builda24604cd (proofad1e0e9f): complete fresh O26 baseline
+and guard candidate source/MIR/refinement/nine-body+Marshal inventory; unchanged
+runtime twin. Baseline guard shadow reproduced; candidate correctly refused by
+old source certificate. No actual proof yet. Isolated strictCUT TRACE names
+$_32:&?T first unresolved entry at same strict freeze; production unchanged,
+TEST unaccepted. Refreshed17/20 and six-declaration relocation are separate next
+experiments with full target posts and affected gates, not coverage closure.

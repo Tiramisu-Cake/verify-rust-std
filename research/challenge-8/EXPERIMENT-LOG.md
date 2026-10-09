@@ -5378,3 +5378,50 @@ and all included files/input/config/upload receipt/text index verified on VPS in
 /tmp/smallsort-cloud-evidence-680ea0b2-a453-476b-800b-85cb631a455a.
 Separate text chunks not redundantly downloaded; original included logs retained.
 No migration or second-agent budget spent, no Actions/local proof execution.
+
+
+### NIGHT-CLOUD-2 result — complete O26/TRACE diagnostics
+
+Build a24604cd-e1d2-43ef-8e4e-f2e313ec44e5 SUCCESS, infra/proof
+ad1e0e9f8ac776f3814426015fa270b55b4fcffc, laneo26-trace, timeout1200/reserve1260.
+create01:21:29.299093871/start01:21:30.053984064/finish01:26:42.306230UTC,
+charged314s: own635/10800,10165remaining. Exact three original Git checkouts,
+input closure/source bytes/modes/HEADs passed. Inputf47982434b5b99f631065ce5963400545834e799cf0e44d6496cb96e8f9766c3,
+configdcf1f395288ac91d55ee0712fd2c1452908bd69e8f6d94ffe59f67542657ff9d.
+Full archivee41b837f9d141c46594dc3f861f02e755b291d50bb1feb02aa5395110fee95a3
+and every inventory file/config/input/upload receipt/text-index verified in
+/tmp/smallsort-cloud-evidence-a24604cd-e1d2-43ef-8e4e-f2e313ec44e5; full included
+logs read, no old-log redownload or duplicate textchunks.
+
+Early source-only preparation and repeated post-build source comparison passed.
+Both independent baseline/candidate exports NORMAL+readonly/refinement/all9
+complete records and10 Marshal.No_sharing snapshots complete. Baseline exact
+source8629849c/original466882d7 reproduces first guard shadow error198:77-82
+Element-vs-DropOnPanic. Candidate source1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6
+is refused by old17 at owner exact verified source SHA256 before admission.
+Verified source diff is EXACT two logical owner-close arguments; runtime original
+identical. Of9 Marshal body snapshots, only body7 changed:
+9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86;
+unit10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43.
+Other8 match historical, saved_guard and fullposts unchanged. These observed data
+permit separately reviewed refresh17/20, not ownership acceptance.
+
+Exact production20diff6c4c5a77; non-console historical pins match. Rebuilt console
+e1b447b65c32d7177734b05481ead86c989d14be3cfdef6660df44e179d8839c differs
+from historical56bb; no byteidentity inherited. Kernel production unchanged.
+Isolated d557strictCUT+bc129print-only TRACE source audit passes; console
+83f6e0e19679ae326d75ec31b859d9697909ae8b7269f93f871bcfc7af2f8361.
+positive_f_bound rawcapture1/fullproof1, support exports/decode/refinement all0,
+exact first84:9-38 strict entry freeze unresolved preserved; last trace
+$_32:&?T, preceded cmp_k,$_37..$_33. Same pinned source66bf5a6e/original9b41aef5,
+NORMALbody10356bf1/readonly9fdee764. Production unchanged/spec/tool identity checked.
+This diagnoses erased local declaration scope; saved e718 relocation TEST may be
+run under separate profile/card, never skip strict freeze of live/formal/heap types.
+Direct Continue unwind bypasses StorageDead, so AST continuation recovery must
+be checked; mandatory liveness/alias/bound/heap/CFG mutants remain open.
+
+Publisher evidence_complete true/runexit0/diagnostic_complete true,
+verification_accepted false/actual_helper_proved false/actual_sort4_proved false.
+Collector SUCCESS proves no actual function or lifetime profile acceptance.
+Next: independent refreshed17/20 proof candidate and isolated relocation diagnostic,
+no unchanged historical full matrix. No budget borrowed or local proof execution.

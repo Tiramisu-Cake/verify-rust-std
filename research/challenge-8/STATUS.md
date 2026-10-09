@@ -1,29 +1,39 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
-Authorized until **08:00UTC /11:00MSK 9 October**. Separate account:
-**321/10800 conservative Cloud Build seconds used;10479 remaining**.
+Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
+**635/10800 conservative Cloud Build seconds used;10165 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
 Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
-`/root/verify-rust-std-select-night`, ancestry includes accepted migration65a456b8
-and saved select/sort4 drafts. Common interface initial02d43040, large recipe
-transport currentea9e68fc; atomic shared HANDOFF published independently of proof.
+`/root/verify-rust-std-select-night`, preserves accepted migration65a456b8 and
+saved select/sort4 drafts. Common interface02d43040/source transportea9e68fc;
+atomic shared HANDOFF published separately. Ready merge requests get alternating
+slots under shared flock/API reconciliation; budgets stay independent.
 
-Build `680ea0b2-a453-476b-800b-85cb631a455a`, infra/proof
-`c43300c027752e7baffc1aaca3326564baabe7a2`, laneo26/timeout1200, FAILURE/SETUP,
-01:04:08.919889–01:09:29.270511UTC=321s. Full archive/inventory/config/source
-and text-index hashes verified; all evidence published. Original three-repo
-Git object restore/closure/HEADs passed. Cold O26 exactly20patch applied diff,
-parser/translator/spec/exporter/refiner/schema pins match historical manifest;
-new consolee1b447b6, binary equality with historical console not assumed.
-Baseline preparation then refused missing dynamic source import
-`overnight-s6/prepare-and-check-sort4-select.py`. No fresh actual source/MIR or
-proof yet; no intended negative. Input closure+source preflight before build are
-being repaired. Actual helper/sort4 NOT PROVEN;17/20 refresh still requires
-observed nine-body evidence. Isolated print-only CUT TRACE prepared separately;
-production kernel unchanged. Ready merge requests get alternating Cloud slots.
-Migration/all historical accounts and acceptance scopes remain separate/closed;
-no A/B/C, constructor or unchanged full matrix replay.
+Cloud Build `a24604cd-e1d2-43ef-8e4e-f2e313ec44e5` SUCCESS **diagnostic only**,
+infra/proof `ad1e0e9f8ac776f3814426015fa270b55b4fcffc`, o26-trace/timeout1200,
+01:21:29.299094–01:26:42.306230 UTC=314s. Full evidence archive
+`e41b837f9d141c46594dc3f861f02e755b291d50bb1feb02aa5395110fee95a3`,
+inventory/config/source/text index verified. Exact original Git closures restored.
+Source preflight and paired NORMAL/readonly MIR/refinement/all9 complete bodies
+and10 Marshal.No_sharing snapshots passed independently baseline/candidate.
+Baseline reproduces guard type error198; candidate old17/20 refuses source SHA.
+Candidate verified SHA1798132f, original466882d7 unchanged; only body7/unit
+Marshal hashes changed (9577c649/10cf6e4d). Actual helper **NOT PROVEN**.
+Frozen20 source/spec/parser/translator/exporter/refiner/schema retained; rebuilt
+consolee1b447b6 differs from historical bytes, no inherited binary equality.
+
+Isolated strictCUT+print-only TRACE identifies first unresolved entry
+`$_32 : &? T`, same84:9-38 strict freeze refusal; source/MIR/refinement complete,
+production unchanged. TRACE console83f6e0e, TEST unaccepted and excluded from
+production. Next permitted: separate observed guard certificate refresh17/20,
+affected admission controls/full actual proof; independent exact-source/MIR
+six-declaration relocation TEST preserving strict freeze, with mandatory
+liveness/alias/bound/heap/CFG controls still OPEN before acceptance.
+Actual sort4 first unwind handler185 and complete generic/ZST safety/functional
+composition remain OPEN. No proof post/check/runtime/signature weakened.
+Earlier Build680ea0b2 SETUP missing dependency is retained and charged321s;
+new preflight fixes it. No migration A/B/C, constructor or unchanged matrix replay.
 
 # Accepted migration checkpoint (historical)
 
