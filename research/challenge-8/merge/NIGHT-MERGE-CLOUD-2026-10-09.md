@@ -127,3 +127,33 @@ scanned there. The current kernel pin remains experimental/unaccepted. Green
 bounded bodies or independent resource lemmas cannot promote it or derive the
 public-caller source-owner/callback-frame bridge. A wider rule would need its
 own argument and gates before inclusion; no such rule is introduced here.
+
+## Prepared resource-pair turnover card (execution after bounded evidence)
+
+Problem: forward and reverse source pairs can overlap; extracting the second
+pair while retaining the first holes would duplicate or lose owners. Proposed
+checked ghost lemma restores the first pair with actual current returned values,
+then extracts the next arbitrary distinct pair from the updated owned_array.
+Reuse our existing owned-array predicate/extract/restore bodies; no trusted axiom,
+new semantic patch, callee summary, callback call or actual-function claim.
+
+Domain: arbitrary n>=2, positive stride, n*size<=isize::MAX, first and second
+ordered in-range distinct pairs (overlap between pairs allowed), pre-existing
+source holes plus exactly the first pair current points-to/owners. Frame two
+existing destination option cells and current F owner/state unchanged. Post is
+the second holes/pair for replace_two(old_values, first_pair, current_values),
+with the exact destination options and F state preserved. It is deliberately a
+partial phase resource component, not the full merge normal/unwind contract.
+
+Soundness argument: restore consumes the first current chunks/owners exactly
+once into the recursive source array; subsequent extract consumes that array
+and partitions the same current resources. It cannot use initial selected values
+in place of current returned values or create owners from copy/address arithmetic.
+Every reused/helper lemma body must be checked fresh. Positive same-pair and
+arbitrary overlapping-pair wrappers need full export/decode/refinement/body/
+return/leak/dead gates; no runtime call means an impossible runtime unwind post
+is honest for this isolated component. Negative stale-array restoration and
+second owner claims need exact calibrated stage/predicate/location, with entry
+proved reachable; uncalibrated/setup cases stay INCONCLUSIVE. Caller ownership,
+F callback-footprint, actual paired calls, cleanup kernel and slice.share bridge
+remain separate open obligations. Draft is not added to the active matrix.
