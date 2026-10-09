@@ -34,23 +34,26 @@ SUCCESS = re.compile(r"(?m)^0 errors found \(\d+ statements verified\)")
 
 
 class AuditIssue(Exception):
-    def __init__(self, message: str, classification: str = "INCONCLUSIVE"):
+    def __init__(self, message: str, classification: str = "INCONCLUSIVE",
+                 failure_kind: str = "EARLY_OR_WRONG_DIAGNOSTIC"):
         super().__init__(message)
         self.classification = classification
+        self.failure_kind = failure_kind
 
 
-def require(ok: bool, reason: str, classification: str = "INCONCLUSIVE") -> None:
+def require(ok: bool, reason: str, classification: str = "INCONCLUSIVE",
+            failure_kind: str = "EARLY_OR_WRONG_DIAGNOSTIC") -> None:
     if not ok:
-        raise AuditIssue(reason, classification)
+        raise AuditIssue(reason, classification, failure_kind)
 
 
 def read(path: Path) -> str:
-    require(path.is_file(), f"missing evidence: {path}")
+    require(path.is_file(), f"missing evidence: {path}", failure_kind="MISSING_EVIDENCE")
     return path.read_text(errors="replace")
 
 
 def digest(path: Path) -> str:
-    require(path.is_file(), f"missing evidence: {path}")
+    require(path.is_file(), f"missing evidence: {path}", failure_kind="MISSING_EVIDENCE")
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
@@ -58,8 +61,9 @@ def obj(path: Path) -> dict:
     try:
         value = json.loads(read(path))
     except json.JSONDecodeError as ex:
-        raise AuditIssue(f"invalid JSON: {path}: {ex}") from ex
-    require(isinstance(value, dict), f"expected JSON object: {path}")
+        raise AuditIssue(f"invalid JSON: {path}: {ex}", failure_kind="INCOMPLETE_EVIDENCE") from ex
+    require(isinstance(value, dict), f"expected JSON object: {path}",
+            failure_kind="INCOMPLETE_EVIDENCE")
     return value
 
 
@@ -181,17 +185,34 @@ def verify_capture_status(root: Path, case: str, side: str, provenance: dict) ->
              "refinement": folder / f"{prefix}refinement.log"}
     for name, path in paths.items():
         stage = stages.get(name, {})
-        require(stage.get("exit_status") == 0 and
-                stage.get("output_sha256") == digest(path),
-                f"{side}/{case} {name} failed or captured output digest differs")
+        code = stage.get("exit_status")
+        if code in TIMEOUT_STATUSES:
+            raise AuditIssue(f"{side}/{case} {name} timed out (exit {code})",
+                             failure_kind="TIMEOUT")
+        require(code == 0, f"{side}/{case} {name} exited {code}, expected 0")
+        require(stage.get("output_sha256") == digest(path),
+                f"{side}/{case} {name} captured output digest differs",
+                failure_kind="INCOMPLETE_EVIDENCE")
     require(record.get("verified_ast_sha256") == digest(folder / f"{prefix}verified-ast.txt"),
             f"{side}/{case} captured verifier AST digest differs")
 
 
 def status(path: Path) -> int:
     value = read(path).strip()
-    require(re.fullmatch(r"\d+", value) is not None, f"invalid exit status: {path}")
+    require(re.fullmatch(r"\d+", value) is not None, f"invalid exit status: {path}",
+            failure_kind="INCOMPLETE_EVIDENCE")
     return int(value)
+
+
+TIMEOUT_STATUSES = {124, 137, 143}
+
+
+def require_status(path: Path, expected: int, label: str) -> int:
+    actual = status(path)
+    if actual in TIMEOUT_STATUSES:
+        raise AuditIssue(f"{label} timed out (exit {actual})", failure_kind="TIMEOUT")
+    require(actual == expected, f"{label} exited {actual}, expected {expected}")
+    return actual
 
 
 def source_line(source: str, prefix: str) -> int:
@@ -272,9 +293,12 @@ def verify_diagnostic_derivative(root: Path, side: str, case: str) -> None:
 def verify_positive(root: Path, side: str, case: str) -> str:
     base = root / side / case
     log = read(base / "full-verification.log")
-    require(status(base / "exit-status.txt") == 0, f"{side}/{case} did not exit 0")
-    require(first_diagnostic(log) is None and SUCCESS.search(log) is not None,
-            f"{side}/{case} has a verifier diagnostic or no complete success summary")
+    require_status(base / "exit-status.txt", 0, f"{side}/{case}")
+    require(first_diagnostic(log) is None,
+            f"{side}/{case} has a verifier diagnostic")
+    require(SUCCESS.search(log) is not None,
+            f"{side}/{case} has no complete success summary",
+            failure_kind="INCOMPLETE_EVIDENCE")
     body = target_log(log, FIXTURES[case][1])
     require("Executing return statement" in body and "Leak check." in body,
             f"{side}/{case} lacks target return/leak evidence")
@@ -285,14 +309,16 @@ def require_completed_control(log: str, body: str, label: str) -> None:
     # A false unwind post intentionally stops the function before normal return
     # and leak closure. The control must still reach its target and finish the
     # verifier run, which consumes the original should_fail marker.
-    require(bool(body.strip()) and SUCCESS.search(log) is not None,
-            f"{label} lacks target entry or complete verifier success summary")
+    require(bool(body.strip()), f"{label} did not enter its target function")
+    require(SUCCESS.search(log) is not None,
+            f"{label} has no complete verifier success summary",
+            failure_kind="INCOMPLETE_EVIDENCE")
 
 
 def verify_baseline_forget(root: Path) -> None:
     base = root / "baseline/forget"
     log = read(base / "full-verification.log")
-    require(status(base / "exit-status.txt") == 1, "baseline forget did not exit 1")
+    require_status(base / "exit-status.txt", 1, "baseline forget")
     body = target_log(log, "forget")
     diagnostic = first_diagnostic(log)
     require(diagnostic is not None and diagnostic[0] == "dead code" and
@@ -316,13 +342,13 @@ def verify_shared_log_paths(root: Path, side: str) -> None:
                 f"{side}/shared_cleanup lacks both real outcomes and token/leak closure in {name}")
 
 
-def verify_negative(root: Path, side: str, case: str, annotation: str) -> None:
+def verify_negative(root: Path, side: str, case: str, annotation: str) -> dict:
     verify_diagnostic_derivative(root, side, case)
     source = verify_source(root, side, case)
     line = source_line(source, annotation)
     base = root / side / case
     log = read(base / "full-verification.log")
-    require(status(base / "exit-status.txt") == 1, f"{side}/{case} diagnostic copy did not exit 1")
+    require_status(base / "exit-status.txt", 1, f"{side}/{case} diagnostic copy")
     body = target_log(log, FIXTURES[case][1])
     diagnostic = first_diagnostic(log)
     require(diagnostic is not None and diagnostic[0] == "error" and
@@ -333,21 +359,23 @@ def verify_negative(root: Path, side: str, case: str, annotation: str) -> None:
     require(len(ERROR.findall(log)) == 1 and not DEAD.search(log),
             f"{side}/{case} has additional errors or dead code")
     allow = read(base / "allow-full-verification.log")
-    require(status(base / "allow-exit-status.txt") == 0,
-            f"{side}/{case} allow_should_fail did not complete successfully")
+    require_status(base / "allow-exit-status.txt", 0,
+                   f"{side}/{case} allow_should_fail")
     allow_body = target_log(allow, FIXTURES[case][1])
     require(first_diagnostic(allow) is None,
             f"{side}/{case} allow_should_fail has a verifier diagnostic")
     require(not DEAD.search(allow) and len(ERROR.findall(allow)) <= 1,
             f"{side}/{case} allow_should_fail has extra diagnostics")
     require_completed_control(allow, allow_body, f"{side}/{case} allow_should_fail")
+    return {"side": side, "case": case, "outcome": "EXACT_EXPECTED_NEGATIVE",
+            "diagnostic_line": line, "allow_should_fail": "COMPLETED"}
 
 
 def verify_dead_pre(root: Path, side: str) -> None:
     case = "dead_code_pre"
     base = root / side / case
     log = read(base / "full-verification.log")
-    require(status(base / "exit-status.txt") == 1, f"{side} contradictory pre did not exit 1")
+    require_status(base / "exit-status.txt", 1, f"{side} contradictory pre")
     body = target_log(log, FIXTURES[case][1])
     diagnostic = first_diagnostic(log)
     require(diagnostic is not None and diagnostic[0] == "dead code" and
@@ -522,16 +550,20 @@ def audit(root: Path) -> dict:
     verify_positive(root, "candidate", "shared_cleanup")
     verify_shared_log_paths(root, "baseline")
     verify_shared_log_paths(root, "candidate")
-    verify_negative(root, "candidate", "false_normal_post", "//@ ens false;")
-    verify_negative(root, "candidate", "shared_false_unwind", "//@ on_unwind_ens false;")
+    negative_controls = [
+        verify_negative(root, "candidate", "false_normal_post", "//@ ens false;"),
+        verify_negative(root, "candidate", "shared_false_unwind", "//@ on_unwind_ens false;"),
+    ]
     # Baseline may stop at the old CFG defect for false_normal_post.
-    verify_negative(root, "baseline", "shared_false_unwind", "//@ on_unwind_ens false;")
+    negative_controls.append(
+        verify_negative(root, "baseline", "shared_false_unwind", "//@ on_unwind_ens false;"))
     verify_dead_pre(root, "baseline")
     verify_dead_pre(root, "candidate")
     structure = verify_mir_ast(root)
     return {"classification": "FOCUSED_GATE_PASS", "accepted": True,
             "fixture_commit": "fc03ad9e5ab3404398404f3bba9d7bcacec01c43",
             "structure": structure, "provenance": provenance,
+            "negative_controls": negative_controls,
             "scope": "five focused fixtures only; no consumer or upstream acceptance"}
 
 
@@ -544,10 +576,12 @@ def main() -> int:
         result = audit(args.evidence)
         code = 0
     except AuditIssue as ex:
-        result = {"classification": ex.classification, "accepted": False, "reason": str(ex)}
+        result = {"classification": ex.classification, "accepted": False,
+                  "failure_kind": ex.failure_kind, "reason": str(ex)}
         code = 2 if ex.classification == "INCONCLUSIVE" else 1
     except (OSError, UnicodeError, ValueError, TypeError, KeyError, AttributeError) as ex:
-        result = {"classification": "INCONCLUSIVE", "accepted": False, "reason": str(ex)}
+        result = {"classification": "INCONCLUSIVE", "accepted": False,
+                  "failure_kind": "INCOMPLETE_EVIDENCE", "reason": str(ex)}
         code = 2
     rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:

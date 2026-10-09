@@ -84,6 +84,18 @@ class ClassifierControls(unittest.TestCase):
             m.require_completed_control(
                 truncated, m.target_log(truncated, "forget_false_normal_post"), "control")
 
+    def test_failure_kinds_separate_timeout_early_exit_and_missing_evidence(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "exit-status.txt"
+            for code, kind in ((124, "TIMEOUT"), (2, "EARLY_OR_WRONG_DIAGNOSTIC")):
+                path.write_text(f"{code}\n")
+                with self.assertRaises(m.AuditIssue) as ctx:
+                    m.require_status(path, 1, "expected negative")
+                self.assertEqual(ctx.exception.failure_kind, kind)
+            with self.assertRaises(m.AuditIssue) as ctx:
+                m.require_status(Path(temp) / "missing-status.txt", 1, "expected negative")
+            self.assertEqual(ctx.exception.failure_kind, "MISSING_EVIDENCE")
+
     def test_negative_diagnostic_copy_only_removes_marker(self):
         original = (b"pub unsafe fn forget_false_normal_post<T>(t: T)\n"
                     b"//@ req thread_token(?tid) &*& tid == currentThread;\n"
@@ -135,6 +147,11 @@ class ClassifierControls(unittest.TestCase):
             status.write_text(json.dumps(record))
             provenance = {"infra_sha": "a" * 40, "proof_sha": "a" * 40}
             m.verify_capture_status(Path(temp), "forget", "candidate", provenance)
+            stages["refinement"]["exit_status"] = 124
+            status.write_text(json.dumps(record))
+            with self.assertRaises(m.AuditIssue) as ctx:
+                m.verify_capture_status(Path(temp), "forget", "candidate", provenance)
+            self.assertEqual(ctx.exception.failure_kind, "TIMEOUT")
             stages["refinement"]["exit_status"] = 1
             status.write_text(json.dumps(record))
             with self.assertRaises(m.AuditIssue):
