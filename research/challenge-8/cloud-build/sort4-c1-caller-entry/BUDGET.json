@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct owner assignment: derive exact first actual general-with-scratch sort4 entry via narrow source-linked resource entailment; experimental narrow representation fixes permitted after card/gates; no c2/fullcaller/selector.",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T18:17:12Z",
   "main_deadline_utc": "2026-10-09T19:17:12Z",
   "deadline_utc": "2026-10-09T19:47:12Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 595,
-  "remaining_build_seconds": 3005,
+  "used_build_seconds": 883,
+  "remaining_build_seconds": 2717,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-caller-entry"
@@ -62,6 +62,33 @@
       "execution_seconds": 304,
       "download_verified": true,
       "archive_sha256": "0ed09d49855516e284ba3ecdd82e90b39e448a9c92c1f0ea54c4d90d3de959be"
+    },
+    {
+      "dispatch_token": "dispatch-299486e82d09468ea57cb429b67826ab",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09",
+      "infra_sha": "ed4651e47cb62cb389454dd49e3bb4652427772f",
+      "proof_sha": "ed4651e47cb62cb389454dd49e3bb4652427772f",
+      "lane": "o26-sort4-caller-entry",
+      "submitted_config_sha256": "e60f0ca7fc79818974c39c7dbde54c712886c74db2639d694b8fad285fd1223a",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "519e2a87e06c2e4d7a91cf3f3e71507f5dbb46d4b9ecbb099e2e70fb77ff65b3",
+      "build_id": "43f10d3a-19b1-4bd5-a6fc-f9a0001fe685",
+      "start_time": "2026-10-09T19:11:30.865974286Z",
+      "finish_time": "2026-10-09T19:16:18.037906Z",
+      "create_time": "2026-10-09T19:11:30.114822866Z",
+      "build_seconds": 288,
+      "accounted": true,
+      "execution_seconds": 288,
+      "download_verified": true,
+      "archive_sha256": "c7682fc25c3b6c1746b745bdb1a31543b09b188230e274040f5953c45ea6dff6"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-09T19:28:00Z",
+  "unused_build_seconds_closed_no_carry": 2717,
+  "close_reason": "Mainwindow ended; three terminal/accounted/integrity-verified builds, no c1premises eliminated; exactprefix admission blocker checkpointed, readywithdrawn"
 }

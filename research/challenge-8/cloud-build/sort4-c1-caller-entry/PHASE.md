@@ -62,3 +62,14 @@ setup ~5min; enough mainwindow for inspect and atmost one narrowly justified
 iteration based on its actual firsterror. No newexperiment after19:17:12UTC.
 Current shared activeclient uses v2/max2 unchanged, oneownactive/reservation.
 No fullcaller/c1integration/c2/selector proof scheduled. Budget ceiling not target.
+
+## Main window closed
+
+19:17:12UTC: no further experiments or semantic/source changes. LastBuild
+43f10d3a-19b1-4bd5-a6fc-f9a0001fe685 began at19:11:30UTC on exactpublished
+ed4651e47cb62cb389454dd49e3bb4652427772f, source/infra pinned beforecutoff.
+Finishing only its terminal/evidence verification, raw audit/account andcheckpoint.
+Source-frame subset credit requires reachedassertion AND fullnativepost/return/leak
+VF0; fullbridge separately requires sameunitidentity helperbeforecaller and reached
+identity call, unchanged source/tool gates, no errors. Negative frontendrefusals
+and wrongfirstobligation remainINCONCLUSIVE. Absolute19:47:12UTC remains binding.

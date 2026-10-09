@@ -1,18 +1,25 @@
-# Current phase: SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
-[Phase](cloud-build/sort4-c1-caller-entry/PHASE.md), [ledger](cloud-build/sort4-c1-caller-entry/BUDGET.json),
-[initial premise map](cloud-build/sort4-c1-caller-entry/PREMISE-ORIGIN-MAP.md).
-Start18:17:12UTC; main19:17:12; absolute19:47:12; separate3600 budget, old2205closed.
-First actual general-with-scratch sort4 call254, path len>=8 + scratch>=len+16 +
-NOT(original size<=16 AND len>=16). No prior comparator/copy on this path.
-Native mutable-slice/F generated contract→prefix→first c1 entailment boundary;
-no fullsort4 summary, c2/selector untouched. Positive-size c1 premise does not
-follow full branch (ZST8..15 remains); native whole entry not raw-owner strengthened.
-Portable coordinator487dc39c adopted in ownclient with phase baseline42a28caa / adopteded6b2b6a;
-ownACK recorded, current sharedv2/max2 unchanged, no shared migration. No Cloud resultyet.
-Preserve conditional c1 unwind post/leak + normal intermediate recovery; normal
-function posts blocked atc2, experimentalprofile unaccepted, checkpoint19f82018
-and exactselecte2 retained. Compiler/proof/extractionCloudonly.
+[Checkpoint](cloud-build/sort4-c1-caller-entry/END-CHECKPOINT-2026-10-09.md),
+[result](cloud-build/sort4-c1-caller-entry/FINAL-TEST-RESULT.json),
+[premise origin](cloud-build/sort4-c1-caller-entry/PREMISE-ORIGIN.md),
+[ledger](cloud-build/sort4-c1-caller-entry/BUDGET.json).
+First actual general-with-scratch sort4 call254; exact original path/marker/source
+pinned. NEW prefix source→normal/read-only MIR/refiner support PASS, but allrawVF1.
+Final nativeentry/array_inv/largeT bounds are intermediate checked steps; selected
+callsite not reached because std::intrinsics::abort has no proof binding on the
+still-admitted scratch-check-failure path. Source/F/thread subset and exactfullc1
+entry bridge NOT_PROVED; NO supplied callsite premise eliminated. Range/duplication
+controls INCONCLUSIVE before intended obligations. No tool semanticpatch/newtrust.
+Saved-raw replay separates admission failure from resources/earlyreturn leak credit.
+Experimentalprofile remainsUNACCEPTED, slice-reborrow TODO/legalaliases/generic/ZST
+entry applicability OPEN. Actualc1 normal/unwind integration NOTRUN inthisphase;
+prior conditional c1 unwind and normalintermediate/c2 blocker preserved, no c2fix.
+Start18:17:12UTC; main19:17:12/absolute19:47:12. All3builds terminal/accounted/
+integrityverified,883/3600sec, unused2717closed/nocarry; active/unresolved/reservation0,
+readywithdrawn. Coordinator487dc clientACK adopted; currentv2/max2 unchanged.
+Nextsingleassignment: source-link exact scratch-success domain and verify same
+nativeprefix/callsite entailment lane before c2. No localproof/build/extraction.
 
 # Previous closed checkpoint follows
 

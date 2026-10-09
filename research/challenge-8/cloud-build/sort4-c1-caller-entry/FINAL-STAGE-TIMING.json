@@ -1,0 +1,18 @@
+{
+  "source": "Cloud /usr/bin/time -v stage resources, not local execution",
+  "per_build": {
+    "c7ab932c-204a-4cbc-a29e-f8c076d51dfb": {
+      "console-build_wall_seconds": 54.7,
+      "sort4-caller-entry_wall_seconds": 2.97
+    },
+    "ff3a7698-3731-41ac-a0f0-36a408d5e4e8": {
+      "console-build_wall_seconds": 55.66,
+      "sort4-caller-entry_wall_seconds": 2.98
+    },
+    "43f10d3a-19b1-4bd5-a6fc-f9a0001fe685": {
+      "console-build_wall_seconds": 52.4,
+      "sort4-caller-entry_wall_seconds": 3.62
+    }
+  },
+  "limits": "Conservative ledger includes queue/bootstrap/dependencies/console/diagnostic/packaging; diagnostic stage includes extraction+MIR+refinement+proof, not pure proof CPU"
+}

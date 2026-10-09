@@ -1,0 +1,85 @@
+{
+  "kind": "SAVED_RAW_RECLASSIFICATION_NO_NEW_PROOF",
+  "build_id": "43f10d3a-19b1-4bd5-a6fc-f9a0001fe685",
+  "proof_infra_sha": "ed4651e47cb62cb389454dd49e3bb4652427772f",
+  "archive_sha256": "c7682fc25c3b6c1746b745bdb1a31543b09b188230e274040f5953c45ea6dff6",
+  "reason": "Missing std::intrinsics::abort declaration is an admission/binding blocker; raw prefix classification not resource failure. Actual selected callsite requires scratch check success, but diagnostic filters have not yet imposed scratch-success domain before excluded abort branch. No posts from excluded returns may be transferred to target.",
+  "cases": {
+    "bridge-positive": {
+      "original_classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "classification": "PROOF_ADMISSION_MISSING_CALLEE_BINDING_OFF_TARGET_ABORT_BRANCH",
+      "first_error": "verified/lib.rs(61,9-28): error: No such function: std::intrinsics::abort",
+      "full_log_sha256": "3ba074bfa496d7ee2ce78348298fbb7cdd008c3fe1264c2a428c40c06034214b",
+      "source4_or_identity_target_reached": false,
+      "target_native_return_post_leak_proved": false,
+      "raw_leak_seen": true,
+      "leak_credit_limit": "Only excluded-path early returns before target; no target frame return credit",
+      "representation_and_fragment_refinement": true,
+      "premises_eliminated": [],
+      "observed_bounds_only": [
+        48
+      ]
+    },
+    "duplicate-negative": {
+      "original_classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "classification": "INCONCLUSIVE_ADMISSION_NOT_INTENDED_RESOURCE_NEGATIVE",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "full_log_sha256": "77d10f2b7f0726f53eed0b0845b5ef48711c2f0ec420d9079ef0fcf129ea0622",
+      "source4_or_identity_target_reached": false,
+      "target_native_return_post_leak_proved": false,
+      "raw_leak_seen": true,
+      "leak_credit_limit": "Only excluded-path early returns before target; no target frame return credit",
+      "representation_and_fragment_refinement": true,
+      "premises_eliminated": [],
+      "observed_bounds_only": [
+        30
+      ]
+    },
+    "prefix-native": {
+      "original_classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "classification": "PROOF_ADMISSION_MISSING_CALLEE_BINDING_OFF_TARGET_ABORT_BRANCH",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "full_log_sha256": "4f5a3d562031fc2959764b2d8694b86f9f39f833122e1204fa8fe5764b6daa9b",
+      "source4_or_identity_target_reached": false,
+      "target_native_return_post_leak_proved": false,
+      "raw_leak_seen": true,
+      "leak_credit_limit": "Only excluded-path early returns before target; no target frame return credit",
+      "representation_and_fragment_refinement": true,
+      "premises_eliminated": [],
+      "observed_bounds_only": [
+        30
+      ]
+    },
+    "range-negative": {
+      "original_classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "classification": "INCONCLUSIVE_ADMISSION_NOT_INTENDED_RESOURCE_NEGATIVE",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "full_log_sha256": "448e104ab72db800e02de0e2188b518e7fa3ef04896d2da0d671b00806cd9d11",
+      "source4_or_identity_target_reached": false,
+      "target_native_return_post_leak_proved": false,
+      "raw_leak_seen": true,
+      "leak_credit_limit": "Only excluded-path early returns before target; no target frame return credit",
+      "representation_and_fragment_refinement": true,
+      "premises_eliminated": [],
+      "observed_bounds_only": [
+        30
+      ]
+    },
+    "source-frame-positive": {
+      "original_classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "classification": "PROOF_ADMISSION_MISSING_CALLEE_BINDING_OFF_TARGET_ABORT_BRANCH",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "full_log_sha256": "2ec9841163000b66eecbbdd3fe81acbc243bac026a58770cf74328f8694c2f2e",
+      "source4_or_identity_target_reached": false,
+      "target_native_return_post_leak_proved": false,
+      "raw_leak_seen": true,
+      "leak_credit_limit": "Only excluded-path early returns before target; no target frame return credit",
+      "representation_and_fragment_refinement": true,
+      "premises_eliminated": [],
+      "observed_bounds_only": [
+        30
+      ]
+    }
+  },
+  "new_proof": false
+}

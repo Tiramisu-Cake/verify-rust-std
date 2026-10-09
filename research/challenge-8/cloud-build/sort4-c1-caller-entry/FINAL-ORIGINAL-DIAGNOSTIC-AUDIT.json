@@ -1,0 +1,316 @@
+{
+  "accepted": false,
+  "actual_sort4_proved": false,
+  "bridge_premises_derived": false,
+  "c1_branch_proof_new": "NOT_RUN",
+  "cases": {
+    "bridge-positive": {
+      "accepted": false,
+      "actual_sort4_run": false,
+      "bridge_premises_derived": false,
+      "case": "bridge-positive",
+      "classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(61,9-28): error: No such function: std::intrinsics::abort",
+      "first_prefix_proof_obligation": true,
+      "full_actual_caller_proved": false,
+      "full_log_sha256": "3ba074bfa496d7ee2ce78348298fbb7cdd008c3fe1264c2a428c40c06034214b",
+      "identity_call_reached": false,
+      "identity_helper_verified_before_caller": true,
+      "intended_resource_negative": false,
+      "leak_seen": true,
+      "native_prefix_complete": false,
+      "observed_target_statement_lines": {
+        "array_optional_close": [],
+        "current_thread": [],
+        "destination_array_for_c1": [],
+        "identity_lemma_call": [],
+        "maybeuninit_array": [],
+        "maybeuninit_array_join": [],
+        "maybeuninit_array_split": [],
+        "maybeuninit_array_unroll": [],
+        "maybeuninit_open_lemma": [],
+        "maybeuninit_owners": [],
+        "maybeuninit_pointer": [],
+        "overflow_array_invariant": [
+          48
+        ],
+        "overflow_large_type_mono": [
+          50
+        ],
+        "overflow_runtime_len_guard": [
+          41
+        ],
+        "overflow_runtime_size_guard": [
+          38
+        ],
+        "overflow_slice_array": [
+          47
+        ],
+        "overflow_small_type_bound": [],
+        "pointer_limits": [],
+        "positive_size_guard": [],
+        "scratch_length": [],
+        "source_array": [],
+        "source_array_join": [],
+        "source_array_split": [],
+        "source_owner_append": [],
+        "source_owners": [],
+        "source_owners_split": [],
+        "thread_token": [],
+        "type_interp_F": [],
+        "type_interp_T": []
+      },
+      "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+      "proof_entries": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "source_hashes": {
+        "original/lib.rs": "767db7206b99a4e0c11e4e52270ae602bd66a85627e996d929af838d35c59e6e",
+        "verified/lib.rs": "fa5dd1edbf69a46dbe9a805e391cd9f715fd642f4dc0b57b8875866fcb340759"
+      },
+      "source_subset_assertion_reached": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support_gates_passed": true,
+      "verifier_exit": 1
+    },
+    "duplicate-negative": {
+      "accepted": false,
+      "actual_sort4_run": false,
+      "bridge_premises_derived": false,
+      "case": "duplicate-negative",
+      "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "first_prefix_proof_obligation": true,
+      "full_actual_caller_proved": false,
+      "full_log_sha256": "77d10f2b7f0726f53eed0b0845b5ef48711c2f0ec420d9079ef0fcf129ea0622",
+      "identity_call_reached": null,
+      "identity_helper_verified_before_caller": true,
+      "intended_resource_negative": false,
+      "leak_seen": true,
+      "native_prefix_complete": false,
+      "observed_target_statement_lines": {
+        "duplicate_negative": [],
+        "overflow_array_invariant": [
+          30
+        ],
+        "overflow_large_type_mono": [
+          32
+        ],
+        "overflow_runtime_len_guard": [
+          23
+        ],
+        "overflow_runtime_size_guard": [
+          20
+        ],
+        "overflow_slice_array": [
+          29
+        ],
+        "overflow_small_type_bound": []
+      },
+      "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+      "proof_entries": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "source_hashes": {
+        "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+        "verified/lib.rs": "77fea3323cd50a00ea575788901de83d6f562710295dca72b4a51e8d30167133"
+      },
+      "source_subset_assertion_reached": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support_gates_passed": true,
+      "verifier_exit": 1
+    },
+    "prefix-native": {
+      "accepted": false,
+      "actual_sort4_run": false,
+      "bridge_premises_derived": false,
+      "case": "prefix-native",
+      "classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "first_prefix_proof_obligation": true,
+      "full_actual_caller_proved": false,
+      "full_log_sha256": "4f5a3d562031fc2959764b2d8694b86f9f39f833122e1204fa8fe5764b6daa9b",
+      "identity_call_reached": null,
+      "identity_helper_verified_before_caller": true,
+      "intended_resource_negative": false,
+      "leak_seen": true,
+      "native_prefix_complete": false,
+      "observed_target_statement_lines": {
+        "overflow_array_invariant": [
+          30
+        ],
+        "overflow_large_type_mono": [
+          32
+        ],
+        "overflow_runtime_len_guard": [
+          23
+        ],
+        "overflow_runtime_size_guard": [
+          20
+        ],
+        "overflow_slice_array": [
+          29
+        ],
+        "overflow_small_type_bound": []
+      },
+      "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+      "proof_entries": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "source_hashes": {
+        "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+        "verified/lib.rs": "0396d457753c317671c6d5d4cc5b6627c1f5842ed960cfa298994991e35fa36a"
+      },
+      "source_subset_assertion_reached": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support_gates_passed": true,
+      "verifier_exit": 1
+    },
+    "range-negative": {
+      "accepted": false,
+      "actual_sort4_run": false,
+      "bridge_premises_derived": false,
+      "case": "range-negative",
+      "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "first_prefix_proof_obligation": true,
+      "full_actual_caller_proved": false,
+      "full_log_sha256": "448e104ab72db800e02de0e2188b518e7fa3ef04896d2da0d671b00806cd9d11",
+      "identity_call_reached": null,
+      "identity_helper_verified_before_caller": true,
+      "intended_resource_negative": false,
+      "leak_seen": true,
+      "native_prefix_complete": false,
+      "observed_target_statement_lines": {
+        "overflow_array_invariant": [
+          30
+        ],
+        "overflow_large_type_mono": [
+          32
+        ],
+        "overflow_runtime_len_guard": [
+          23
+        ],
+        "overflow_runtime_size_guard": [
+          20
+        ],
+        "overflow_slice_array": [
+          29
+        ],
+        "overflow_small_type_bound": [],
+        "range_negative": []
+      },
+      "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+      "proof_entries": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "source_hashes": {
+        "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+        "verified/lib.rs": "fffdcee2c6cbc9a0c1481e845e559d454e1909e7e5390ac21f95bac3082b4c9d"
+      },
+      "source_subset_assertion_reached": null,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support_gates_passed": true,
+      "verifier_exit": 1
+    },
+    "source-frame-positive": {
+      "accepted": false,
+      "actual_sort4_run": false,
+      "bridge_premises_derived": false,
+      "case": "source-frame-positive",
+      "classification": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort",
+      "first_prefix_proof_obligation": true,
+      "full_actual_caller_proved": false,
+      "full_log_sha256": "2ec9841163000b66eecbbdd3fe81acbc243bac026a58770cf74328f8694c2f2e",
+      "identity_call_reached": null,
+      "identity_helper_verified_before_caller": true,
+      "intended_resource_negative": false,
+      "leak_seen": true,
+      "native_prefix_complete": false,
+      "observed_target_statement_lines": {
+        "current_thread": [],
+        "overflow_array_invariant": [
+          30
+        ],
+        "overflow_large_type_mono": [
+          32
+        ],
+        "overflow_runtime_len_guard": [
+          23
+        ],
+        "overflow_runtime_size_guard": [
+          20
+        ],
+        "overflow_slice_array": [
+          29
+        ],
+        "overflow_small_type_bound": [],
+        "positive_size_guard": [],
+        "source_array": [],
+        "source_array_join": [],
+        "source_array_split": [],
+        "source_owner_append": [],
+        "source_owners": [],
+        "source_owners_split": [],
+        "thread_token": []
+      },
+      "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+      "proof_entries": 1,
+      "representation_and_fragment_refinement_passed": true,
+      "source_frame_subset_derived": false,
+      "source_hashes": {
+        "original/lib.rs": "767db7206b99a4e0c11e4e52270ae602bd66a85627e996d929af838d35c59e6e",
+        "verified/lib.rs": "f813a95ca7e282a4fd7aab81ca7bdf3c60641bfe383324c4811e87811c9dab7d"
+      },
+      "source_subset_assertion_reached": false,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support_gates_passed": true,
+      "verifier_exit": 1
+    }
+  },
+  "classification": "C1_CALLER_ENTRY_DIAGNOSTIC_COMPLETE",
+  "diagnostic_complete": true,
+  "full_actual_caller_proved": false,
+  "positive_size_supplied_or_conditional": true,
+  "profile_status": "EXPERIMENTAL_O26_NATIVE_PREFIX_NOT_ACCEPTED",
+  "proof_sha": "ed4651e47cb62cb389454dd49e3bb4652427772f",
+  "source_frame_subset_derived": false,
+  "source_linkage": "Exact common actual prefix/conditions, explicit callsite boundaries, fragment refiner only",
+  "tool_snapshot_sha256": "0b9c4e8fe7731bf9bf7ed4e4010bf5f4deb08e800900c93ed8745c22aa7a2329"
+}

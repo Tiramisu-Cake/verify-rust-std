@@ -36,3 +36,14 @@ No transfer of prior branch results to this unit/profile without integration.
 
 Initial source pin:4ab62d12ef95e3f2da2440359c3bec8594535568. Cloud
 Buildc7ab932c-204a-4cbc-a29e-f8c076d51dfb submitted. All new proof statuses pending.
+
+## Final proof status
+
+ALL c1 callsite premises remain supplied / NOT_DERIVED. Fresh native entry and
+whole sourcearray+array_inv/large-type arithmetic are observed intermediary steps
+in failed prefix VC, not standalone entailment theorem. Source4/owner split, F/
+thread targetassertions, scratch conversion, type_interp and identity-call targets
+NOT_REACHED. Fullnativeframe/post/return/leak at target NOT_REACHED; rawleakchecks
+are from excluded-path earlyreturns. Representation(MIR/refiner) PASS separate
+from missingstd::intrinsics::abort proofadmission. Scope-control PASS never proves
+arbitraryFnMut recovery. Final replay and exactreproducer recorded independently.

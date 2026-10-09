@@ -1,63 +1,85 @@
-Build c7ab932c-204a-4cbc-a29e-f8c076d51dfb; nativeprefix log SHA256 54218c4fd39707b404f9bde6929531bfda49bbe13d9ae2a404fa423c14dbafd0
-Raw verbose2 trace; this is not a full symbolic heap dump.
-  0.136564s: verified/lib.rs(14,1-43,2): Executing statement
-  0.136578s: verified/lib.rs(14,1-43,2): Executing statement
-  0.136616s: verified/lib.rs(14,1-43,2): Executing statement
-  0.136626s: verified/lib.rs(14,1-43,2): Executing statement
-  0.136640s: verified/lib.rs(14,1-43,2): Executing statement
-  0.136679s: verified/lib.rs(14,1-43,2): Executing statement
-  0.136733s: verified/lib.rs(19,15-16): Executing statement
-  0.136916s: verified/lib.rs(19,15-16): Verifying call
-  0.136927s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(103,9-13): Consuming assertion
-  0.136941s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(102,4-20): Producing assertion
-  0.136954s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(105,19-24): Producing assertion
-  0.136967s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(104,16-18): Producing assertion
-  0.136982s: verified/lib.rs(19,15-22): Executing statement
-  0.137047s: verified/lib.rs(20,8-11): Executing statement
-  0.137058s: verified/lib.rs(20,8-15): Executing statement
-  0.137091s: verified/lib.rs(20,8-15): Executing statement
-  0.137105s: verified/lib.rs(20,8-15): Executing statement
-  0.137112s: <dummy location>: Executing statement
-  0.137120s: verified/lib.rs(43,2): Executing return statement
-  0.137182s: verified/lib.rs(43,1-2): Freeing locals.
-  0.137202s: verified/lib.rs(14,1-43,2): Consuming function lifetime token
-  0.137222s: verified/lib.rs(14,1-18,2): Consuming assertion
-  0.137613s: verified/lib.rs(14,1-18,2): Consuming assertion
-  0.137649s: verified/lib.rs(14,1-18,2): Consuming assertion
-  0.137689s: verified/lib.rs(14,1-18,2): Consuming assertion
-  0.137714s: verified/lib.rs(14,1-18,2): Consuming assertion
-  0.137752s: verified/lib.rs(15,5-6): Consuming assertion
-  0.137785s: verified/lib.rs(15,5-6): Consuming assertion
-  0.137801s: verified/lib.rs(16,5-12): Consuming assertion
-  0.137828s: verified/lib.rs(16,5-12): Consuming assertion
-  0.137842s: verified/lib.rs(17,5-12): Consuming assertion
-  0.137858s: verified/lib.rs(17,5-12): Consuming assertion
-  0.137869s: verified/lib.rs(18,2): Consuming assertion
-  0.137878s: verified/lib.rs(43,1-2): Cleaning up dummy fraction chunks and empty chunks
-  0.137883s: verified/lib.rs(43,1-2): Leak check.
-  0.137913s: verified/lib.rs(20,8-15): Executing statement
-  0.137923s: verified/lib.rs(24,8-15): Executing statement
-  0.138074s: verified/lib.rs(24,8-15): Verifying call
-  0.138082s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(103,9-13): Consuming assertion
-  0.138098s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(102,4-20): Producing assertion
-  0.138111s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(105,19-24): Producing assertion
-  0.138124s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(104,16-18): Producing assertion
-  0.138138s: verified/lib.rs(24,8-21): Executing statement
-  0.138201s: verified/lib.rs(24,24-27): Executing statement
-  0.138234s: verified/lib.rs(24,24-32): Executing statement
-verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)
-24 |     if scratch.len() < len + 16 {
-   |                        ^^^^^^^^
-verified/lib.rs(24,24-32): note: Executing statement
-24 |     if scratch.len() < len + 16 {
-   |                        ^^^^^^^^
-verified/lib.rs(14,1-43,2): note: Verifying function 'small_sort_general_with_scratch'
-14 | fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-15 |     v: &mut [T],
-   | ^^^^^^^^^^^^^^^^
-16 |     scratch: &mut [MaybeUninit<T>],
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-17 |     is_less: &mut F,
-   | ^^^^^^^^^^^^^^^^^^^^
-18 | ) {
+Final Build43f10d3a-19b1-4bd5-a6fc-f9a0001fe685; exact nativeprefix log SHA256 4f5a3d562031fc2959764b2d8694b86f9f39f833122e1204fa8fe5764b6daa9b
+Verbose2 raw trace excerpt; not a full symbolic heap dump. Targetcallsite not reached.
+  0.132061s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.132130s: verified/lib.rs(15,5-6): Consuming assertion
+  0.132164s: verified/lib.rs(15,5-6): Consuming assertion
+  0.132180s: verified/lib.rs(16,5-12): Consuming assertion
+  0.132207s: verified/lib.rs(16,5-12): Consuming assertion
+  0.132221s: verified/lib.rs(17,5-12): Consuming assertion
+  0.132230s: verified/lib.rs(17,5-12): Consuming assertion
+  0.132240s: verified/lib.rs(18,2): Consuming assertion
+  0.132249s: verified/lib.rs(60,1-2): Cleaning up dummy fraction chunks and empty chunks
+  0.132254s: verified/lib.rs(60,1-2): Leak check.
+  0.132278s: verified/lib.rs(20,42-51): Executing statement
+  0.132288s: <dummy location>: Executing statement
+  0.132294s: verified/lib.rs(23,8-11): Executing statement
+  0.132310s: verified/lib.rs(23,8-15): Executing statement
+  0.132330s: verified/lib.rs(23,8-15): Executing statement
+  0.132342s: verified/lib.rs(23,8-15): Executing statement
+  0.132349s: <dummy location>: Executing statement
+  0.132356s: verified/lib.rs(60,2): Executing return statement
+  0.132465s: verified/lib.rs(60,1-2): Freeing locals.
+  0.132517s: verified/lib.rs(14,1-60,2): Consuming function lifetime token
+  0.132530s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.132556s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.132574s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.132602s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.132628s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.132651s: verified/lib.rs(15,5-6): Consuming assertion
+  0.132680s: verified/lib.rs(15,5-6): Consuming assertion
+  0.132694s: verified/lib.rs(16,5-12): Consuming assertion
+  0.132720s: verified/lib.rs(16,5-12): Consuming assertion
+  0.132735s: verified/lib.rs(17,5-12): Consuming assertion
+  0.132743s: verified/lib.rs(17,5-12): Consuming assertion
+  0.132752s: verified/lib.rs(18,2): Consuming assertion
+  0.132759s: verified/lib.rs(60,1-2): Cleaning up dummy fraction chunks and empty chunks
+  0.132765s: verified/lib.rs(60,1-2): Leak check.
+  0.132788s: verified/lib.rs(23,8-15): Executing statement
+  0.132796s: verified/lib.rs(26,1-37,4): Executing statement
+  0.132808s: verified/lib.rs(27,11-12): Executing statement
+  0.132837s: verified/lib.rs(28,5-8): Executing statement
+  0.132911s: verified/lib.rs(29,5-11): Executing statement
+  0.132925s: verified/lib.rs(29,30-33): Consuming assertion
+  0.132940s: verified/lib.rs(30,19-20): Executing statement
+  0.132994s: verified/lib.rs(30,19-20): Verifying call
+  0.133001s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(256,9-10): Consuming assertion
+  0.133017s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,9-10): Producing assertion
+  0.133024s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,22-23): Producing assertion
+  0.133048s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,22-23): Applying autolemma
+  0.133054s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,9-10): Producing assertion
+  0.133060s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,22-23): Producing assertion
+  0.133070s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,50-52): Producing assertion
+  0.133085s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,104-106): Producing assertion
+  0.133123s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,147-149): Producing assertion
+  0.133141s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,192-194): Producing assertion
+  0.133158s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,50-52): Producing assertion
+  0.133172s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,104-106): Producing assertion
+  0.133182s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,147-149): Producing assertion
+  0.133197s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(257,192-194): Producing assertion
+  0.133212s: verified/lib.rs(31,5-7): Executing statement
+  0.133234s: verified/lib.rs(31,40-41): Executing statement
+  0.133260s: verified/lib.rs(32,9-19): Executing statement
+  0.133327s: verified/lib.rs(32,9-19): Verifying call
+  0.133334s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(56,11-13): Consuming assertion
+  0.133350s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(56,22-24): Consuming assertion
+  0.133364s: /workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(57,15-17): Producing assertion
+  0.133558s: verified/lib.rs(38,8-11): Executing statement
+  0.133571s: verified/lib.rs(38,8-15): Executing statement
+  0.133588s: verified/lib.rs(38,8-15): Executing statement
+  0.133607s: verified/lib.rs(38,8-15): Executing statement
+  0.133617s: verified/lib.rs(42,8-15): Executing statement
+  0.133723s: verified/lib.rs(42,8-15): Verifying call
+  0.133731s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(103,9-13): Consuming assertion
+  0.133746s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(102,4-20): Producing assertion
+  0.133758s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(105,19-24): Producing assertion
+  0.133771s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(104,16-18): Producing assertion
+  0.133784s: verified/lib.rs(42,8-21): Executing statement
+  0.133845s: verified/lib.rs(42,24-27): Executing statement
+  0.133856s: verified/lib.rs(42,24-32): Executing statement
+  0.133897s: verified/lib.rs(42,8-32): Executing statement
+  0.133912s: verified/lib.rs(42,8-32): Executing statement
+  0.133925s: verified/lib.rs(42,8-32): Executing statement
+  0.133932s: verified/lib.rs(43,9-28): Executing statement
+verified/lib.rs(43,9-28): error: No such function: std::intrinsics::abort
+43 |         intrinsics::abort();
+   |         ^^^^^^^^^^^^^^^^^^^

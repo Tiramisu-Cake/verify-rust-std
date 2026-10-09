@@ -6451,3 +6451,20 @@ Rationale+conservation/selfreview in phase; firstsupportrefusal remainsadmission
 never intendednegative. Sourceextraction/pairedMIR/proof/refinementCloudonly.
 Portablecoord487dc adopteded6b2b6a afterphasebaseline42a28caa, phaseAST preserved,
 ownACK only/currentv2max2 no sharedmigration. Conditionalc1oldresultsnotupgraded.
+
+Closed callerentry883/3600=290+305+288, unused2717nocarry. Buildpins4ab62d12/
+c1b0b56a/ed4651e4, IDs c7ab932c/ff3a7698/43f10d3a exactledger/evidencecheckpoint.
+AllrepresentationMIR/refiner supportsPASS; firstoverflow, secondannotationparse,
+thirdmissingstd::intrinsics::abort on notyet-excluded scratchfailurepath. Third
+array_inv/largeTbound steps intermediateonly; no selectedcallsite/currentsource4/
+Fthread/dst/type entailment ortargetpost/leak. Source-frame subsetcase separately
+executed buttargetNOTREACHED. Zero c1premises eliminated, bothresourcecontrols
+INCONCLUSIVE/wrongfirstobligation. Raw/case/stageevidence saved; firstindividual
+collectorfile initialbug correctedfuture, priorincrementalresults retained.
+Audit-only replays no newproof. No semanticpatch/c1integration/c2/selector.
+Nativeentrymodel shape exists but slice-reborrowTODO/aliases/ZST/generic qualification
+OPEN; originalFreezeMarker not logicalstrengthening. Lastbuildcreated19:11:30 and
+terminal19:16:18, aftermainonlyfinishingevidence/account/checkpoint. Ownterminal3
+accounted/downloadverified; readywithdrawn, active/unresolved/reservation0, sharedv2/
+max2 unchanged andpeerstatepreserved. Nextone: actual scratch-success source-linked
+prefix admission and SAME callsitepremise lane. Details finalcheckpoint/map/reproducer.

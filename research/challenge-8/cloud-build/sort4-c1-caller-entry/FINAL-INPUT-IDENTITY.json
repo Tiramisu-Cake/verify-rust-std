@@ -1,0 +1,317 @@
+{
+  "build_id": "43f10d3a-19b1-4bd5-a6fc-f9a0001fe685",
+  "proof_infra_sha": "ed4651e47cb62cb389454dd49e3bb4652427772f",
+  "source_actual_smallsort_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+  "source_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+  "cases": {
+    "bridge-positive": {
+      "source_certificate_sha256": "1e0cb9411d984350b0292ee8ace346c4f896110768b7879faeed6c586b6d7f03",
+      "exact_source_hashes": {
+        "original/lib.rs": "767db7206b99a4e0c11e4e52270ae602bd66a85627e996d929af838d35c59e6e",
+        "verified/lib.rs": "fa5dd1edbf69a46dbe9a805e391cd9f715fd642f4dc0b57b8875866fcb340759"
+      },
+      "original_actual_caller_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+      "memory_pre_contract_sha256": "0f2fa06d1090ba658cfa30ef6bf135bcfd336eaaba24b8ec6bef80cca2f00622",
+      "native_generated_contract": "NO custom ownership requirements/posts",
+      "original_prefix_reconstruction": true,
+      "support_exits": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "normal_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "VeriFast_ghost_command",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "VeriFast_ghost_command"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 212073,
+        "full_record_sha256": "95e5d55225ba990e7b2e3c066c1dbd3a0a1e8166db3b8323e6c621cf453c6ee9",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "readonly_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 202326,
+        "full_record_sha256": "82358164ae8dd101f510fd16489fef7b2ec735ffd8611a5c9e957035bb249ea8",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "per_case_final_matches_incremental": true
+    },
+    "duplicate-negative": {
+      "source_certificate_sha256": "ffd55385c5aa73e13bcc92fbb19438e2c1e4fb3805fc3ea42bba0981d8defe2b",
+      "exact_source_hashes": {
+        "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+        "verified/lib.rs": "77fea3323cd50a00ea575788901de83d6f562710295dca72b4a51e8d30167133"
+      },
+      "original_actual_caller_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+      "memory_pre_contract_sha256": "0f2fa06d1090ba658cfa30ef6bf135bcfd336eaaba24b8ec6bef80cca2f00622",
+      "native_generated_contract": "NO custom ownership requirements/posts",
+      "original_prefix_reconstruction": true,
+      "support_exits": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "normal_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "VeriFast_ghost_command",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "VeriFast_ghost_command"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 207437,
+        "full_record_sha256": "00ebeffbe8d8b33cbe31ed41a4320ee02732e616d13cdb30ebcd627037964f1b",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "readonly_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 197690,
+        "full_record_sha256": "dddbaf07d5260b498b08080c7921d7b9ef615ea968d660fd96629dfda6787b78",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "per_case_final_matches_incremental": true
+    },
+    "prefix-native": {
+      "source_certificate_sha256": "77448fff2bf0536903a32187a810c20406a8ee50bf93e700dce03e9f9eb15095",
+      "exact_source_hashes": {
+        "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+        "verified/lib.rs": "0396d457753c317671c6d5d4cc5b6627c1f5842ed960cfa298994991e35fa36a"
+      },
+      "original_actual_caller_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+      "memory_pre_contract_sha256": "0f2fa06d1090ba658cfa30ef6bf135bcfd336eaaba24b8ec6bef80cca2f00622",
+      "native_generated_contract": "NO custom ownership requirements/posts",
+      "original_prefix_reconstruction": true,
+      "support_exits": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "normal_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "VeriFast_ghost_command",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 201855,
+        "full_record_sha256": "918a8602b2d0c94f3838163a3ebdaff8126106c69c3cc102aa7fc3ddda4ddf46",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "readonly_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 196984,
+        "full_record_sha256": "71aa25cc3c9c004c92de4bc2df57039bf65c4ff732a2ed824524928e45574b24",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "per_case_final_matches_incremental": true
+    },
+    "range-negative": {
+      "source_certificate_sha256": "fb14aa53e9e7f75936d700e9db83f2819a962033e401b6b3f279a0d908c039aa",
+      "exact_source_hashes": {
+        "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+        "verified/lib.rs": "fffdcee2c6cbc9a0c1481e845e559d454e1909e7e5390ac21f95bac3082b4c9d"
+      },
+      "original_actual_caller_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+      "memory_pre_contract_sha256": "0f2fa06d1090ba658cfa30ef6bf135bcfd336eaaba24b8ec6bef80cca2f00622",
+      "native_generated_contract": "NO custom ownership requirements/posts",
+      "original_prefix_reconstruction": true,
+      "support_exits": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "normal_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "VeriFast_ghost_command",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "VeriFast_ghost_command"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 207412,
+        "full_record_sha256": "08c006ab253f75e4a917f594e9fdeda89eb668c65b6967feab760cb3df033370",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "readonly_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 197664,
+        "full_record_sha256": "db9d1ca28089e2168a06972d8f21b06b08474c91ab301aa32a001ed81aaebd7f",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "per_case_final_matches_incremental": true
+    },
+    "source-frame-positive": {
+      "source_certificate_sha256": "98df64f99d100849b9392a1261489c8fd69dbd9712f5f6a82c9bca37682fa021",
+      "exact_source_hashes": {
+        "original/lib.rs": "767db7206b99a4e0c11e4e52270ae602bd66a85627e996d929af838d35c59e6e",
+        "verified/lib.rs": "f813a95ca7e282a4fd7aab81ca7bdf3c60641bfe383324c4811e87811c9dab7d"
+      },
+      "original_actual_caller_sha256": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+      "memory_pre_contract_sha256": "0f2fa06d1090ba658cfa30ef6bf135bcfd336eaaba24b8ec6bef80cca2f00622",
+      "native_generated_contract": "NO custom ownership requirements/posts",
+      "original_prefix_reconstruction": true,
+      "support_exits": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "normal_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "VeriFast_ghost_command",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "VeriFast_ghost_command"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 208274,
+        "full_record_sha256": "8daf87fb690aa131bc6c78944e3895fe71c462ecfa0a78503c9e79b448fa685b",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "readonly_graph": {
+        "actual_full_caller": false,
+        "call_targets": [
+          "core::slice::<impl [T]>::len",
+          "core::slice::<impl [T]>::len",
+          "std::intrinsics::abort",
+          "core::slice::<impl [T]>::as_mut_ptr",
+          "core::slice::<impl [T]>::as_mut_ptr"
+        ],
+        "complete_fields": [
+          "inputs",
+          "localDecls",
+          "basicBlocks"
+        ],
+        "def_path": "small_sort_general_with_scratch",
+        "full_record_bytes": 198527,
+        "full_record_sha256": "7a3a27144968321b483a2431b5b453c37d06ff7bd98d019b76674a97ad19f366",
+        "no_comparator_or_copy": true,
+        "source_linked_prefix_only": true
+      },
+      "per_case_final_matches_incremental": true
+    }
+  }
+}

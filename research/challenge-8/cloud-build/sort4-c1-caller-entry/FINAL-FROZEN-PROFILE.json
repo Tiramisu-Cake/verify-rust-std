@@ -1,0 +1,127 @@
+{
+  "applied_diff_sha256": "6c4c5a7708af3bdec585abd308d37383a7de522a1aaecf2c01e1f94181324c25",
+  "compiler_sha": "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f",
+  "hosted_profile_hashes": {
+    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+    "bin/verifast": "56bb3049e1727b2d982dff6a0b23c02c2236daa84ae5a7a612ee59a84b6935b7",
+    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "737e16e333f0bb22a04983bbc2be0ba54d0dca6faa69eefa0a2a99781c2ec9ef"
+  },
+  "kernel_modified": false,
+  "new_owner_literal_source_has_hosted_certificate": false,
+  "patches_in_application_order": [
+    {
+      "component": 1,
+      "path": "overnight-s6/verifast-s6-26.10-candidate.patch",
+      "sha256": "20f7d07ac9bdaca7c46f737b89925dfac3f4cef66c3f5d48aa9634ac949dbc1c"
+    },
+    {
+      "component": 2,
+      "path": "verifast-manuallydrop-new-cfg-2610.patch",
+      "sha256": "593d09405379974ffbc475c2e0b65d648d8a6913f55b765dd0c3bebdc0922781"
+    },
+    {
+      "component": 3,
+      "path": "overnight-helper/verifast-a1-assert-inhabited-26.10.patch",
+      "sha256": "b3fdae6588c5d88a5151f9b103b2f5ab6d2d58db880955a1b975a7f88ca2feb9"
+    },
+    {
+      "component": 4,
+      "path": "overnight-helper/verifast-a1-pointer-transmute-26.10.patch",
+      "sha256": "44b460e64eede02bb7776ef36c6be12eb2bed2e5a4fd37ad9b733c7b5633c8ab"
+    },
+    {
+      "component": 5,
+      "path": "overnight-callback/verifast-tuple2-own-26.10.patch",
+      "sha256": "84b58b71bfb65ac2bfac1a63d181239001cf0a7ffba3f8bfb5d5b0f1d3a640da"
+    },
+    {
+      "component": 6,
+      "path": "overnight-helper/verifast-a1-transmute-linkage-26.10.patch",
+      "sha256": "40fb77888c9b907f150d32f9d85769512cad9c57bb0b14f9c9dbd593fc44c0e7"
+    },
+    {
+      "component": 7,
+      "path": "overnight-guard/verifast-h2a-generic-guard-link-26.10.patch",
+      "sha256": "4a36239b68dade6aa486e4bccedf77e92f4104278456d1c568c58d28efa18a7a"
+    },
+    {
+      "component": 8,
+      "path": "overnight-callback/verifast-callback-unwind-26.10.patch",
+      "sha256": "61d7525cc8ff3e6e9c736ea00178c002f071b521c78845bf68d0e4890e2be07a"
+    },
+    {
+      "component": 9,
+      "path": "overnight-guard/verifast-h2b-nominal-drop-template-26.10.patch",
+      "sha256": "c9afb4bfd696efc38f2bc71e10463a34170d9d769e851a07388c01278e99b2ff"
+    },
+    {
+      "component": 10,
+      "path": "overnight-guard/verifast-h2c-guard-source-admission-26.10.patch",
+      "sha256": "57b58e37b04c9d68aa930a6fca5a6637f5c7fe72d06cb4e8955918745f5701d7"
+    },
+    {
+      "component": 11,
+      "path": "overnight-helper/verifast-g1-checked-forget-call-cfg-26.10.patch",
+      "sha256": "f402a7723b9b28e97d57254fd150f398f415f5d8076c315b3508958a86b7a9cd"
+    },
+    {
+      "component": 12,
+      "path": "overnight-callback/verifast-fnmut-hrtb-26.10.patch",
+      "sha256": "cff0d5ab1798227c39029a5c18d06619ce7eece928be85f4b1c9f440307f5ece"
+    },
+    {
+      "component": 13,
+      "path": "overnight-helper/verifast-actual-owner-fingerprint-probe-26.10.patch",
+      "sha256": "355eaa781d9857226f57fa32b03dc6725eb61196ac4e01d63c1c6e97c5653b5b"
+    },
+    {
+      "component": 14,
+      "path": "overnight-helper/verifast-actual-owner-admission-26.10.patch",
+      "sha256": "f5e2c0735dcb02856a9e10e93d6b1e19095a96505058ffccf33c6bdc28e8bc80"
+    },
+    {
+      "component": 15,
+      "path": "overnight-helper/verifast-actual-nested-ghost-scope-26.10.patch",
+      "sha256": "11cdb0da938ed277a542181dcee5ba939b4c8b2bf15f957c389313115aeed694"
+    },
+    {
+      "component": 16,
+      "path": "overnight-guard-actual/verifast-nested-unit-fingerprint-probe-26.10.patch",
+      "sha256": "cfc6b057af14cb611f9984f4eb6ee0398e3d844acaecce56f85070c42884892c"
+    },
+    {
+      "component": 17,
+      "path": "overnight-helper/verifast-actual-owner-nine-admission-26.10.patch",
+      "sha256": "bafb47128b7dd9e8c84cd3492a609f00bbac193759492524b12cda7ba54effcb"
+    },
+    {
+      "component": 18,
+      "path": "overnight-helper/verifast-actual-nested-h2-26.10.patch",
+      "sha256": "07cc53e0823ae67ac6d53eb4e3add7bf7900261d3eb4528d6b20c3c1143bc0e1"
+    },
+    {
+      "component": 19,
+      "path": "overnight-helper/verifast-actual-nine-safe-forget-owned-26.10.patch",
+      "sha256": "7cfa66625fdb6af94162e542b078c0a08ff07bac472a5d9643fea2d153842c44"
+    },
+    {
+      "component": 20,
+      "path": "overnight-assume-actual/verifast-actual-nine-a1-26.10.patch",
+      "sha256": "a597d99a23895e02308f1f813c604a7dbc8235dbc3e04f3b08112087f6a572d4"
+    }
+  ],
+  "production_modified_files": [
+    "bin/rust/std/lib.rsspec",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
+  ],
+  "proof_sha": "c19e4c50470d32199178d5229a2819554fc6b2f1",
+  "run_url": "https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37763468180",
+  "status": "EXPERIMENTAL_O26_MAIN20_NOT_HELPER_ACCEPTANCE",
+  "std_sha": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "verifast_source_sha": "f76012fb518703b1d98e243ac4f487f16877cfcb"
+}

@@ -1,0 +1,126 @@
+{
+  "branch_conditions_exact": true,
+  "bridge_positive_static_limitations": [],
+  "case": "prefix-native",
+  "case_constraints": "no added proof requirement or post; native generated mutable-reference entry only",
+  "classification": "SOURCE_LINKED_PATH_FILTERED_CALLER_ENTRY_FRAGMENT_NOT_FULL_CALLER_PROOF",
+  "cloud_only": true,
+  "diagnostic_fragment_prefix_byte_identical_to_source": false,
+  "diagnostic_prefix_insertions": [
+    {
+      "byte_length": 114,
+      "inserted_after_source": "let len = v.len();",
+      "name": "selected_path_runtime_filters",
+      "sha256": "f2e79aa37667d21840024e966ccd3ec4b3d5c17ae5a7d9598936f9726d4b5fce",
+      "source": "    if const { size_of::<T>() <= 16 } && len >= 16 {\n        return;\n    }\n    if len < 8 {\n        return;\n    }\n"
+    },
+    {
+      "byte_length": 249,
+      "inserted_after_source": "selected-path runtime filters; before original len+16 check",
+      "name": "checked_len_plus_16_bound",
+      "sha256": "83830f9f2eef361da116c9d2f21a2710c43ae4da9e21aad6a3fedeb9502c1a73",
+      "source": "/*@\nlet v_len_base = strip_pointer_metadata(v as pointer) as *T;\nassert v_len_base[..len] |-> ?v_len_elems;\narray_inv::<T>();\nif (16 < std::mem::size_of::<T>()) {\n    mul_mono_l(1, std::mem::size_of::<T>(), len);\n} else {\n    assert len < 16;\n}\n@*/\n"
+    }
+  ],
+  "execution_provider": "cloud-build",
+  "filtered_fragment_has_runtime_path_filter": true,
+  "filtered_fragment_path": "after original let len = v.len(): excludes size<=16,len>=16 and len<8 paths; retains original branch conditions at callsite",
+  "first_sort4_runtime_call_in_fragment": false,
+  "fragment_boundary": "first sort4_stable callsite is linked by source certificate; diagnostic branch stops there and returns",
+  "freeze_marker_certificate": {
+    "FreezeMarker_source_exact": true,
+    "Freeze_definition_byte_start": 34012,
+    "Freeze_definition_sha256": "d6d11fcdefc67cbff078b2bc8ee8c2d162ba3c565f26fbc0447485aee526e480",
+    "byte_start": 174,
+    "core_marker_path": "library/core/src/marker.rs",
+    "core_marker_sha256": "f7e098f8b9ad1a6dded90b81fd943afbe6c8d60934354838998880fe05f80755",
+    "exact_trait_impl_sha256": "3bc831ca9f3c4882666f100553ec68d4969b47b385e8c5d2e4115a36d3ba978f",
+    "shared_path": "library/core/src/slice/sort/shared/mod.rs",
+    "shared_sha256": "fa9eec2901bafba25c9c1e1684df76dbb1f86e0bbd04f18f3e67cee54dcdfcc8"
+  },
+  "generated": {
+    "actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+    "original/lib.rs": "9c06c52f2fe873c4c63401e89ad30d239e7786fcef5c8d53530493c53bd30598",
+    "verified/lib.rs": "6720d4021cd2481549eba08ff36d2a845d4902ca68a99e77678f77a6aa3047ea"
+  },
+  "ghost_strip_identity": true,
+  "ghost_strip_pair_scope": "filtered diagnostic fragment only; actual full caller preserved separately",
+  "lane": "o26-sort4-caller-entry",
+  "len_plus_16_overflow_argument": "with size_of<T>() > 16, array_inv<T>() and mul_mono_l(1,size_of<T>(),len) derive len <= isize::MAX; otherwise the runtime size/length filter leaves len < 16",
+  "memory_pre_contract_sha256": "0f2fa06d1090ba658cfa30ef6bf135bcfd336eaaba24b8ec6bef80cca2f00622",
+  "memory_pre_contract_source": "research/challenge-8/overnight-sort4/capture.py:MEMORY_PRE_CONTRACT",
+  "no_assume_admit_or_unchecked": true,
+  "no_comparator_or_copy_before_first_sort4": true,
+  "no_comparator_purity_or_freeze_semantic_axiom": true,
+  "not_claimed": [
+    "full caller refinement",
+    "sort4 proof",
+    "sort8 summary",
+    "second sort4/c2 summary"
+  ],
+  "original_prefix_reconstructed_by_removing_exact_insertions": true,
+  "original_prefix_source_sha256": "92d5735a47380f3b78b2dc4b49b5b97344447658980b9188f101f78746d3f59b",
+  "overflow_bound_check_precedes_original_len_plus_16": true,
+  "prepare_runs_no_compiler_or_verifier": true,
+  "sort8_or_later_call_summaries": false,
+  "source_certificate": {
+    "caller_byte_end_exclusive": 10434,
+    "caller_byte_start": 7815,
+    "caller_runtime_source_exact": true,
+    "caller_signature_and_body_brace_balanced": true,
+    "caller_start_line": 220,
+    "full_original_caller_path": "actual-caller.rs",
+    "full_original_caller_sha256": "5204c0f7b6b8c5ab3480c154458569e3b0bd0603a8ac1803eecceb99ff83d5c7",
+    "git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+    "path": "library/core/src/slice/sort/shared/smallsort.rs",
+    "sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+  },
+  "source_mapped_condition_bytes": {
+    "else_condition": "} else {",
+    "else_condition_byte_start": 8976,
+    "first_sort4_call_byte_start": 8821,
+    "first_sort4_call_source": "sort4_stable(v_base, scratch_base, is_less);",
+    "original_scratch_len_plus_16_check_byte_start": 8039,
+    "overflow_bound_check_insertion_sha256": "83830f9f2eef361da116c9d2f21a2710c43ae4da9e21aad6a3fedeb9502c1a73",
+    "prefix_source_byte_end_exclusive": 8279,
+    "prefix_source_byte_start": 7815,
+    "preserved_verbatim_from_actual_caller": true,
+    "runtime_filter_insertion_sha256": "f2e79aa37667d21840024e966ccd3ec4b3d5c17ae5a7d9598936f9726d4b5fce",
+    "runtime_filter_insertion_source_byte": 7995,
+    "sort4_selected_condition": "} else if len >= 8 {",
+    "sort4_selected_condition_byte_start": 8721,
+    "sort8_condition": "if const { size_of::<T>() <= 16 } && len >= 16 {",
+    "sort8_condition_byte_start": 8309
+  },
+  "targeted_ghost_statement_line_lists": {
+    "overflow_array_invariant": [
+      29
+    ],
+    "overflow_large_type_mono": [
+      31
+    ],
+    "overflow_runtime_len_guard": [
+      23
+    ],
+    "overflow_runtime_size_guard": [
+      20,
+      50
+    ],
+    "overflow_slice_array": [
+      28
+    ],
+    "overflow_small_type_bound": [
+      33
+    ]
+  },
+  "targeted_ghost_statement_lines": {
+    "original_scratch_len_plus_16_check": 40,
+    "overflow_array_invariant": 29,
+    "overflow_large_type_mono": 31,
+    "overflow_runtime_len_guard": 23,
+    "overflow_runtime_size_guard": 20,
+    "overflow_small_type_bound": 33,
+    "source_sort4_condition": 52,
+    "source_sort8_condition": 50
+  }
+}
