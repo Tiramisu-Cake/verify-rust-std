@@ -5304,3 +5304,32 @@ No local runner/build/verifier/overlay execution. First foreign select build
 Independent static trust review preserves cleanup hidden-lifetime/predicate-term
 barrier: kernel100eebae is unaccepted; positive bounded proofs will be reported
 conditional on this profile. No semantic patch modified or accepted by transfer.
+
+Merge pre-submit1e9abfcd: source payload gzip511952bytes/base64682604 exceeded
+630000transport bound; control refused BEFORE reservation/API submit. No Build
+created,0seconds charged; own ready request withdrawn pending repair. New
+handoffea9e68fc9a873a995363efffa471e683f9755863 provides common2/3-repo
+object-pool dedup/per-object gzip (controlc433). Imported only control.py and
+source-input.py, no competing scheduler or foreign proofs. Trust card: transport
+encoding changes but original object SHA/mode/path/HEAD and each complete
+selected closure plus exact pool union are rechecked after decode. No paths,
+posts, semantic patches or evidence checks removed; v2includes exactly the
+original two merge repositories, no manufactured historical baseline.
+
+Separate retained366fcc78source-level alias card (first matrix, not a theorem):
+Hypothesis: FnMut(&u32,&u32)->bool alone does not exclude a captured raw writable
+destination pointer when helper inputs are separate raw pointers. Reuse saved
+callback-destination-frame-probe.rs unchanged, admit its copied merge_up body
+byte-for-byte against SmallSort blob40939f9/SHA85c75bc9, compile only in Cloud
+with the independently pinned nightly and panic=unwind, execute catch_unwind
+and the existing output==9 assertion. Exact domain: source[10u32,20u32],
+separate initialized dst=0, captured raw dst write9 then panic before helper copy.
+Normal comparator return is not exercised; observed unwind must be caught and
+preserve the source while changing dst. Positive runtime observation requires
+source/blob/compiler pins, compile0/run0 and full separate logs/code/binary/source
+hashes. Mismatched source, setup/compiler/runtime failure is INCONCLUSIVE, not
+a proof negative. This does not refute the conditional VF contract or establish
+public-caller alias admissibility under its mutable-slice borrows. It supplies
+one concrete runtime witness about the function type; full callback footprint
+/C1/caller ownership and all symbolic safety/normal/unwind posts remain OPEN.
+No permissions, owners, verifier rule or std runtime changed.

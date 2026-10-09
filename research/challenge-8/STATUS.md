@@ -8,7 +8,11 @@ Branch `overnight/merge-26.10`; entry HEAD
 No active merge Cloud build. Common atomic-lock handoff is ready at
 `02d43040907c017abff20887704252f220ab79cc`; only its shared infrastructure
 files were transferred. Own ledger: cloud-build/night-merge/BUDGET.json.
-Merge recipe/provider identity overlays are being prepared before first submit.
+Merge recipe was published at1e9abfcd497732ef125cefa7532ad0298bff27b6.
+First pre-submit refused oversized source payload before any reservation/Build;
+charge0. Imported shared transport fixea9e68fc/controlc433, preserving all
+inputs/checks. Saved366fcc78runtime alias probe is added as a separate diagnostic.
+Own ready request withdrawn until the new exact-SHA recipe is published.
 [Authorized Cloud phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md).
 
 First run will assess preserved candidates separately: exhaustive stack MIR/AST

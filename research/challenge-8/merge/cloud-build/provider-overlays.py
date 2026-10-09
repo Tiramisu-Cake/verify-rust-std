@@ -99,7 +99,7 @@ def transform(path: str, original: bytes) -> bytes:
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
             data = replace_once(data,
                                 b'suite bound=900s; whole step bound=1700s.',
-                                b'suite bound=1200s; whole step bound=1550s.', path)
+                                b'suite bound=1200s; whole step bound=1300s.', path)
             data = replace_once(data,
                                 b'timeout --signal=TERM --kill-after=5s 900s bash -c \'suite\'',
                                 b'timeout --signal=TERM --kill-after=5s 1200s bash -c \'suite\'', path)

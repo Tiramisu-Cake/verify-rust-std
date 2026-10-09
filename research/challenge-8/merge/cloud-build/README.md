@@ -2,13 +2,16 @@
 
 Use only the separately authorized merge account and common coordinator.
 Accepted migration65a456b8 is infrastructure evidence, not merge acceptance.
-Common control files transferred from02d43040907c017abff20887704252f220ab79cc.
+Common base from02d43040907c017abff20887704252f220ab79cc; large-recipe
+control/source transport fix fromea9e68fc9a873a995363efffa471e683f9755863.
 Runtime SmallSort and existing six semantic patches are unchanged; provider
 adapter pins every base script and publishes exact guard/identity/selection diffs.
-The recipe restores67committed proof inputs, no foreign proof/profile or ledger.
+The recipe restores exact committed proof inputs, no foreign proof/profile or ledger.
 
 Full first matrix:35retained groups plus modular positive and matched entry
-negative. All12G2 coordinates/posts, actual up/down, actual bidirectional2/3,
+negative, plus the independently admitted saved runtime destination-alias probe.
+The runtime observation is not a VF theorem or proof of public-caller alias legality.
+All12G2 coordinates/posts, actual up/down, actual bidirectional2/3,
 strong stack MIR/AST/refusal gates and final literal panic-origin pin remain.
 Math G2/A/B compatibility is included; Cloud migration A/B/C and constructor
 are not selected. The collector can complete while actual proof cases remain

@@ -107,8 +107,9 @@ CURRENT_STAGE=cloud-static-preflight
 import ast, json, pathlib, sys
 proof = pathlib.Path(sys.argv[1])
 manifest = json.loads(pathlib.Path(sys.argv[2]).read_text())
-for item in manifest.get("files", []):
-    rel = item.get("path", "")
+paths = [item.get("path", "") for item in manifest.get("files", [])]
+paths.append("research/challenge-8/merge/cloud-build/callback-destination-frame.py")
+for rel in paths:
     if not rel.endswith(".py"):
         continue
     source = proof / rel
@@ -166,6 +167,7 @@ RUSTPIN
   printf 'build_id=%s\nproject=%s\nregion=%s\n' \
     "$CLOUD_BUILD_ID" "$CLOUD_BUILD_PROJECT_ID" "$CLOUD_BUILD_REGION"
   printf 'matrix=retained-merge-suite; cloud-migration A-storage/B-stock/C-constructor lanes=NOT_SELECTED; math G2/A/B compatibility groups=INCLUDED\n'
+  printf 'separate_runtime_candidate=callback-destination-frame-probe; classification=not-a-VeriFast-theorem-or-caller-counterexample\n'
 } >> "$evidence_root/environment.txt"
 
 python3 - "$cloud_dir/provider.py" "$evidence_root/environment.txt" <<'PIN'
@@ -180,9 +182,21 @@ PIN
 cd "$proof_root"
 status=0
 CURRENT_STAGE=retained-merge-matrix
-timeout --signal=TERM --kill-after=10s 1550s \
+timeout --signal=TERM --kill-after=10s 1300s \
   bash research/challenge-8/merge/overnight/run.sh merge_geometry || status=$?
 printf '%s\n' "$status" > "$evidence_root/run-exit.txt"
+
+# This saved alias probe is an independent runtime observation and always runs
+# after the matrix, including when a matrix group returned nonzero.
+CURRENT_STAGE=callback-destination-frame-runtime-probe
+probe_driver_status=0
+mkdir -p "$evidence_root/allprooflogs"
+timeout --signal=TERM --kill-after=10s 150s python3 \
+  research/challenge-8/merge/cloud-build/callback-destination-frame.py \
+  --proof-root "$proof_root" --evidence-root "$evidence_root" --work-root "$work_root" \
+  > "$evidence_root/allprooflogs/callback-destination-frame-driver.log" 2>&1 || probe_driver_status=$?
+printf '%s\n' "$probe_driver_status" \
+  > "$evidence_root/allprooflogs/callback-destination-frame-driver-exit-code.txt"
 
 python3 - "$evidence_root" "$status" "$PROOF_SHA" "$CLOUD_BUILD_ID" <<'AUDIT'
 import json, pathlib, sys
@@ -234,6 +248,16 @@ actual_merge_cases = raw_cases("checked-actual")
 bidirectional_cases = raw_cases("checked-bidirectional-small")
 modular_entry_cases = raw_cases("checked-pointer-modular-trace-entry-negative")
 modular_trace_cases = raw_cases("checked-pointer-modular-trace")
+runtime_candidate_path = cases / "callback-destination-frame-probe/runtime-observation.json"
+try:
+    runtime_candidate = json.loads(runtime_candidate_path.read_text())
+except (OSError, ValueError):
+    runtime_candidate = {"classification": "INCONCLUSIVE_NOT_REPORTED"}
+try:
+    runtime_candidate_driver_status = int(
+        (evidence / "callback-destination-frame-driver-exit-code.txt").read_text().strip())
+except (OSError, ValueError):
+    runtime_candidate_driver_status = None
 panic_candidates = []
 for path in cases.glob("**/panic-macro-origin.json"):
     try:
@@ -254,6 +278,21 @@ mandatory_artifacts = (
     (cases / "checked-pointer-modular-trace-entry-negative/aggregate.json").is_file() and
     (cases / "checked-pointer-modular-trace/aggregate.json").is_file() and
     (cases / "checked-stack-role-controls/aggregate.json").is_file() and
+    (cases / "callback-destination-frame-probe/callback-destination-frame-probe.rs").is_file() and
+    (cases / "callback-destination-frame-probe/source-admission.json").is_file() and
+    runtime_candidate_path.is_file() and
+    runtime_candidate_driver_status == 0 and
+    (evidence / "callback-destination-frame-driver.log").is_file() and
+    (evidence / "callback-destination-frame-source-admission.log").is_file() and
+    (evidence / "callback-destination-frame-source-admission-exit-code.txt").is_file() and
+    (evidence / "callback-destination-frame-compiler-version.log").is_file() and
+    (evidence / "callback-destination-frame-compiler-version-exit-code.txt").is_file() and
+    (evidence / "callback-destination-frame-compiler-sysroot.log").is_file() and
+    (evidence / "callback-destination-frame-compiler-sysroot-exit-code.txt").is_file() and
+    (evidence / "callback-destination-frame-compile.log").is_file() and
+    (evidence / "callback-destination-frame-compile-exit-code.txt").is_file() and
+    (evidence / "callback-destination-frame-run.log").is_file() and
+    (evidence / "callback-destination-frame-run-exit-code.txt").is_file() and
     bool(panic_candidates)
 )
 diagnostic_complete = status == 0 and groups_complete and mandatory_artifacts
@@ -278,6 +317,13 @@ audit = {
     "mandatory_groups_complete": groups_complete,
     "mandatory_artifacts_complete": mandatory_artifacts,
     "final_panic_origin_certificates": panic_candidates,
+    "separate_runtime_candidate": {
+        "name": "callback-destination-frame-probe",
+        "source_alias": "366fcc78e20741bc7116a32884839061e68594f1",
+        "driver_exit_code": runtime_candidate_driver_status,
+        "runtime_observation": runtime_candidate,
+        "is_verifast_theorem_or_caller_counterexample": False,
+    },
     "raw_group_status_path": "allprooflogs/group-status.txt",
     "note": "Matrix collection status does not change per-case classifications or establish a whole-function theorem.",
 }
