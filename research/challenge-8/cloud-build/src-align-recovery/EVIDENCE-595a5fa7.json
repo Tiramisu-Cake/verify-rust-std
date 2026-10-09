@@ -1,0 +1,134 @@
+{
+  "kind": "NEW_CLOUD_PROOF_EVIDENCE_RECEIPT",
+  "build_id": "595a5fa7-0f65-470e-8cac-d8d189e27276",
+  "proof_infra_sha": "6fbc0f7d9b306d9855170fec2fa578695e49e059",
+  "archive_sha256": "1b199861e88383fb21f610ee59eb223df4126fa354009084aa4cc44d1dd1ec90",
+  "integrity": "control download --text-logs verifies archive/inventory/config/input/complete external text",
+  "collector_summary": {
+    "build_id": "595a5fa7-0f65-470e-8cac-d8d189e27276",
+    "diagnostic_complete": true,
+    "evidence_complete": true,
+    "failure_class": "none",
+    "lane": "merge",
+    "missing_mandatory": [],
+    "run_exit_code": 0,
+    "schema_version": 1,
+    "smoke_success": false,
+    "text_logs_complete": true,
+    "text_logs_index_sha256": "10bf4c3e703a2f23bc68f0ada3605abcd4850ff33de2a17738f16b1ae0b4a5e3",
+    "verification_accepted": false
+  },
+  "profile_build": {
+    "schema": "smallsort-tracked-md-profile-v1",
+    "profile": "experimental-merge-six-tracked-md-onecell-v1",
+    "verifast_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+    "baseline_translator_sha256": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+    "translator_sha256": "528d2c133d789eb88726356c7f21f57673b3d3a57ce3a7b006e7906ae7b2eeb9",
+    "patch_sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6",
+    "historical_md_patch_sha256": "5500204aadd0ea0a2996d63d064160185457b6d337782aa4300c11272ab450cc",
+    "kernel_sha256": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+    "parser_sha256": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "stdlib_sha256": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "exporter_sha256": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+    "refiner_sha256": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+    "accepted": false,
+    "z3_sha256": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+    "baseline_emitter_sha256": "898203bf8fe5802478fdfd41456b49ad07f1e6fedf0535c3d303d4ec2081c9ff",
+    "emitter_sha256": "831edeec84e50b3ca2c0c6f3bb5a2ad36bf177a58db59806a2a260dd0e37313c",
+    "console_sha256": "d631913a27b35331ef63325011173638e64bb81f3c4aec5def317f995cef57a5",
+    "proof_sha": "6fbc0f7d9b306d9855170fec2fa578695e49e059",
+    "baseline_build_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+    "provider": {
+      "provider": "cloud-build",
+      "build_id": "595a5fa7-0f65-470e-8cac-d8d189e27276",
+      "project": "smallsort-ci",
+      "region": "global",
+      "os": "ubuntu-22.04",
+      "arch": "x86_64"
+    },
+    "build_exit": 0
+  },
+  "aggregate": {
+    "profile": "experimental-merge-six-tracked-md-onecell-v1",
+    "accepted": false,
+    "campaign": "geometry-positive-and-recovery-false-v1",
+    "md_regressions_matched": false,
+    "md_dependency_basis": {
+      "classification": "PRIOR_MATCHED_BASELINE_UNCHANGED",
+      "source_sha256": "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e",
+      "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+      "proof_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+      "profile_sha256": "11ccd16ec9df56e7165cf75b1800d48b367c3b65f20c9ea8656fc2b7779bed90",
+      "results_sha256": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2"
+    },
+    "fragment_pass": false,
+    "actual_drop_glue": "OPEN",
+    "cases": {
+      "positive_manually_drop_after_merge": "NOT_RUN",
+      "negative_missing_precreated_reference": "NOT_RUN",
+      "negative_missing_reference_initialization": "NOT_RUN",
+      "negative_read_without_permission": "NOT_RUN",
+      "positive": "INCONCLUSIVE",
+      "after_fbc_false": "NOT_RUN",
+      "after_recovery_false": "INCONCLUSIVE",
+      "missing_held_owner": "NOT_RUN",
+      "double_physical_fbc": "NOT_RUN"
+    }
+  },
+  "cases": {
+    "positive": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "errors": [
+        "verified/lib.rs(56,34-36): error: Assertion might not hold. (Cannot prove src = held_ref.)"
+      ],
+      "copy_executed": false,
+      "source_admission": true,
+      "mir_admission": true,
+      "ast_admission": true,
+      "helper_component": "initialized_storage_alignment body/post/leak reached before caller header, not whole unit PASS",
+      "sha256": {
+        "verified/lib.rs": "ba2f263f0cd6996e3b698b1f6e674249c73556aef47de08ec316dcd516a290f5",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "proof-ast.ml": "a8308605abcedde0e82fc2697a46cbb57ed18cdc93db2c20568053d46fac7e83",
+        "verifast.log": "e10e28a288844e10d15d1a79bb9ea358a8ef03d1309baa1f718359517ca3e01a",
+        "classification.json": "33e047d4539abcf21c99f58e25b2b3e3d92357a63ef269ce55fcb452d1bfd565",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "after_recovery_false": {
+      "classification": "INCONCLUSIVE",
+      "stages": {
+        "exporter": 0,
+        "decode": 0,
+        "verifast": 1,
+        "refinement": 0
+      },
+      "errors": [
+        "verified/lib.rs(56,34-36): error: Assertion might not hold. (Cannot prove src = held_ref.)"
+      ],
+      "copy_executed": false,
+      "source_admission": true,
+      "mir_admission": true,
+      "ast_admission": true,
+      "helper_component": "initialized_storage_alignment body/post/leak reached before caller header, not whole unit PASS",
+      "sha256": {
+        "verified/lib.rs": "2ee9a9537a964353fb7e4d081411da85570b9da8eefd398bd11ebdc3eff953c0",
+        "original/lib.rs": "5c60bbe9b12bd1f1a1f673084df23aafb5922410169ccba90934bdd0dc1a33a0",
+        "proof-ast.ml": "0eb4e9f1ca39526a05a02e7591d78f88346886119424ee188b7fb55b7848ded4",
+        "verifast.log": "89f2b8dd478d006e190ae0961c122cfc09d7d21c8b501aea903a6052afb4c256",
+        "classification.json": "5c413154371a8f2ab793e1b6b0a75e3c1f04d5374000fc7aa680b7f7361cb89c",
+        "refinement.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "conservative_seconds": 314,
+  "boundary": "Helper proven; caller stops post-FBC original source identity56, no caller alignment/copy/recovery/return/leak; retained assertion moved to constructor in next proof.",
+  "actual_first_shift_dst_update": "NOT_RUN"
+}

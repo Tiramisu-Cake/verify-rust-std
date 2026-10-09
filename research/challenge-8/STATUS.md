@@ -1,8 +1,26 @@
-# MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — IN PROGRESS
+# MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 
-Owner merge, branch overnight/merge-26.10; checkpoint83b22ba6 preserved.
-[Phase](merge/SRC-ALIGN-RECOVERY-CLOUD-2026-10-09.md), [new ledger](cloud-build/src-align-recovery/BUDGET.json).
-Policy1fcd91ef; start15:58:54UTC, main16:58:54, absolute17:28:54;60+max30 finishing-only; new3600s. Existing shared-derived src alignment investigation first; no new proof yet. MD/FBC/replay baseline retained below. Full positive/recovery, actual557/558, caller/Drop/comparator/moving-gap debts and NOT_ACCEPTED profile remain open.
+Owner merge, overnight/merge-26.10;83b22ba6 preserved.
+[Checkpoint](merge/SRC-ALIGN-RECOVERY-CHECKPOINT-2026-10-09.md),
+[reproducer](merge/overnight/guard-ownership/insertion-onecell/SEPARATION-REPRODUCER.md),
+[ledger](cloud-build/src-align-recovery/BUDGET.json). Policy1fcd91ef;
+start15:58:54UTC, main16:58:54, absolute17:28:54;60+max30 finishing-only.
+
+Existing typed→bytes→typed proof lemma preserves real source value/fraction and
+closes source alignment after canonical FBC open; source nonnull/bounds/no-overflow
+also reached. Positive/recovery remain INCONCLUSIVE separation before copy.
+Fresh constructor repro confirms the same numeric span blocker BEFORE FBC with
+actual src/dst identities. No assumed rule/trusted/runtime/post change.
+Copy/full recovery/cleanup/posts and actual557/558/Drop/comparator/moving-gap OPEN.
+Supplied CURRENT/caller resources remain debts; diagnostic positive-size domain
+and NOT_ACCEPTED profile do not close generic/ZST safety.
+
+New3 Cloud proof builds terminal; exact pins/receipts in checkpoint. Audit-only
+old-data service check separate, no upgraded proof. MD4/FBC3 unchanged controls
+NOT_RUN in new campaign; prior evidence retained.970/3600s charged;2630 closed;
+own active/unresolved/reservation none; ready withdrawn. Sharedv2/max2 retained.
+Next single task: source-linked sound allocation-span mechanism review using
+reproducer; no proposed axiom or new experiment until owner resumes.
 
 ---
 

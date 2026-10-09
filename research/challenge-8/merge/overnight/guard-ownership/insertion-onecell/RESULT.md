@@ -1,3 +1,19 @@
+# Source alignment/recovery continuation — bounded prefix, full fragment INCONCLUSIVE
+
+[Current checkpoint](../../../SRC-ALIGN-RECOVERY-CHECKPOINT-2026-10-09.md).
+Three fresh exact-SHA builds970s total. Existing storage round trip proves source
+alignment and conserves value/fraction; source bounds/nonoverflow passed after
+FBC open on7e19788b. Both positive/recovery stop separation beforecopy; a fresh
+334c8379 constructor reproducer refuses same span57 before own/FBC, after actual
+src==held_ref/dst==tail and source alignment/bounds. Full copy/recovery/cleanup/
+normal-unwind-return-leak posts and actual557/558 NOT_RUN. No trusted change;
+profile NOT_ACCEPTED. New MD/FBC controls NOT_RUN; prior gate/replay pins retained.
+[Reproducer](SEPARATION-REPRODUCER.md) records the exact source-linked missing
+allocation geometry requirement without introducing an axiom. Historical results
+below remain at their original identities.
+
+---
+
 # MD authority and mutable constructor — 2026-10-09 current result
 
 Phase `MERGE-MD-AUTHORITY-CLOUD-2026-10-09`, owner `merge`.

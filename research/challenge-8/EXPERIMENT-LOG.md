@@ -6567,3 +6567,7 @@ remain **INCONCLUSIVE** at alignment46; fragment_pass remains false. Five saved/
 synthetic mutation controls reject mutable tmp, disconnected load, wrong source,
 and absent executed own/FBC close. Raw Cloud verdicts and older failures are
 retained; replay does not establish a positive or reach recovery.
+
+## MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — closed geometry prefix/blocker
+
+Policy1fcd91ef;60+max30 window15:58:54/16:58:54/17:28:54UTC;83b22ba6 preserved. [Full checkpoint](merge/SRC-ALIGN-RECOVERY-CHECKPOINT-2026-10-09.md) records hypotheses, exact profile/source pins, all3 Build/proof identities and receipts. Existing to_u8s_/from_u8s_ conserved storage proves actual shared-derived src alignment; after FBC source bounds/nonoverflow also close. Positive/recovery remain INC separation beforecopy. Fresh actual constructor span repro fails before FBC after identities/alignment/bounds, confirming initial geometry debt. No assumption/trusted change/full recovery/actual557/558 credit.3 terminal builds314+314+342=970s;2630 closed/no carryover; own slot empty, ready withdrawn. Saved collector replay separate/unchanged verdict; fresh unaffected MD4/FBC3 NOT_RUN. Next one task: source-linked sound allocation-span mechanism review from reproducer, not an axiom.

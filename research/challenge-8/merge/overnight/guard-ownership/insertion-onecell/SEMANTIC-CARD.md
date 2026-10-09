@@ -306,3 +306,25 @@ Build6f00cfdb /7e19788b terminalSUCCESS,314s (new total628/3600). Both fresh cas
 Minute45 assessment: next actual transition cannot start. One narrowly source-linked reproducer can finish before main cutoff or finishing extension: add constructor dst==tail, run same existing alignment/limits helper on actual src storage, assert its source nonoverflow, then assert the identical span disjointness BEFORE any own/FBC close. Keep the original post-FBC span assertion, copy, complete recovery and full posts unchanged. No removed assertion, premise/permission/owner creation, runtime pointer replacement, mutable tmp, trusted semantic change or authority-interface change. Both positive/recovery source inputs genuinely change; unchanged MD/other controls stay NOT_RUN.
 
 Falsifiable hypothesis: pre-package actual immutable tmp/shared-derived src versus supplied live tail still lacks a numeric allocation exclusion fact. Expected failure is marked constructor span, after actual src/dst identities and derived alignment/limits; it would distinguish an initial model/allocation blocker from merely FBC witness loss. If pre-package span passes, retain that geometry inside a proven guard interface using constructor facts and rerun affected gates; no assumption at entry. If it fails and pinned kernel/spec offer no existing mechanism, save this full-post exact-source repro plus exact missing allocation rule/resources for VeriFast maintainer; never add a proposed rule as an axiom. No subsequent proof transition after60minutes.
+
+## Final source-alignment phase outcome
+
+Build b3234929-e691-47c1-905c-dffbffafc9b5 at exact proof/infra
+334c837991ec3d034a375807219b8648dfcbb611 confirms the predicted constructor
+span blocker: actual src/dst identities52/53, initialized-storage alignment54,
+object limits55 and no-overflow56 pass; numeric separation57 fails before
+own58/FBC59 in both positive and after_recovery_false. The preceding Build
+6f00cfdb separately checked alignment from current src storage after FBC open.
+Existing storage conversions conserve the exact share/value; no supplied
+alignment premise or trusted geometry change was introduced.
+
+Positive and recovery control remain INCONCLUSIVE. Copy, owner transfer, full
+reference/tmp/guard recovery, cleanup and complete posts remain unchecked;
+actual557/558 NOT_RUN and profile NOT_ACCEPTED. A source-linked
+[reproducer](SEPARATION-REPRODUCER.md) records the missing allocation-span
+projection and resource conservation requirement without asserting an axiom.
+[Phase checkpoint](../../../SRC-ALIGN-RECOVERY-CHECKPOINT-2026-10-09.md) separates
+three fresh proof results from saved-data replay and unchanged controls NOT_RUN.
+970/3600 conservative seconds, all three builds terminal, no own unresolved
+reservation, ready withdrawn. Main window ended16:58:54UTC; only evidence,
+accounting and checkpoint continued in the finishing extension.

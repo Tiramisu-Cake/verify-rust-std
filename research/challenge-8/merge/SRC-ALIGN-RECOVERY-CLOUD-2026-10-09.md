@@ -1,4 +1,4 @@
-# MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — IN PROGRESS
+# MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — SESSION CLOSED
 
 Owner merge; /root/verify-rust-std; overnight/merge-26.10. Clean entry and fetch/ff integration found own remote equal83b22ba6, preserved in ancestry. Policy revision1fcd91eff1507fe0bd0620a23b578edb454f1c3e. Actual start15:58:54UTC (18:58:54MSK); main16:58:54UTC; absolute17:28:54UTC. Owner60+maximum30finishing-only overrides generic2h. New3600 conservative Cloud seconds; prior2273 closed, no carryover.
 
@@ -11,3 +11,5 @@ Separate [ledger](../cloud-build/src-align-recovery/BUDGET.json) and [state](../
 New proof, saved replay and NOT_RUN recorded separately. First hypothesis and expected outcomes go in existing SEMANTIC-CARD before dispatch. Controls selected from changed proof interface; no automatic unchanged MD matrix. If existing profile lacks necessary rule, source-linked minimal reproducer and exact maintainer requirement replace an invented axiom.
 
 Published487dc39c PARALLEL-BUILDS-V3 read before dispatch: transition is staged, explicit migration requires all three acknowledgments. Shared active envelope currentlyv2/max2; select usesv2. No migration/adoption acknowledgment supplied to this session, no independent capacity change. Existing agreedv2 retained; verifast terminal receipt is historical.
+
+Final result: [checkpoint](SRC-ALIGN-RECOVERY-CHECKPOINT-2026-10-09.md).970/3600s; all3 terminal/integrity verified; alignment/source bounds prefix closed, positive/recovery INC separation, source-linked constructor repro confirms initial span blocker. Actual557/558 NOT_RUN; profile NOT_ACCEPTED; no own active/unresolved, ready withdrawn.

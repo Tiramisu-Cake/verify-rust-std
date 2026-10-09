@@ -1,0 +1,19 @@
+{
+  "kind": "AUDIT_ONLY_SAVED_EVIDENCE_SERVICE_CHECK",
+  "source_build": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+  "source_proof_infra_sha": "633c0c09cda0f4c40c6664722209f2a9d5792b4b",
+  "auditor_revision": "6fbc0f7d9b306d9855170fec2fa578695e49e059",
+  "auditor_sha256": "2902bd44445ba27a23daa3b0ad4d1bf0af5ea04750e1d442b34a92c8a3f0c141",
+  "command": "mkdir -p /tmp/onecell-audit-only-root && ln -sfn /tmp/c8-merge-md-authority-20261009/evidence-d1bfa119/unpacked/allprooflogs /tmp/onecell-audit-only-root/allprooflogs && cp /tmp/onecell-selection-resolved.json /tmp/onecell-audit-only-root/selection-resolved.json && python3 research/challenge-8/merge/cloud-build/merge-audit.py /tmp/onecell-audit-only-root research/challenge-8/merge/cloud-build/selection.json 0 633c0c09cda0f4c40c6664722209f2a9d5792b4b d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+  "raw_hashes": {
+    "/tmp/c8-merge-md-authority-20261009/evidence-d1bfa119/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic/aggregate.json": "4fb7c778d8f0af3b73ced5073848f553b05bd7a514597964ae2c6d433f29fc4f",
+    "/tmp/c8-merge-md-authority-20261009/evidence-d1bfa119/unpacked/allprooflogs/cases/insertion-onecell-guard-diagnostic/results.json": "937e9050fb0d5b111c015785ba818b4dd3fa94cf756aaee73f65701d8cad36b2",
+    "/tmp/onecell-selection-resolved.json": "cc55cfb25377f1106c62d50fb9315f7da5f74bc94b50c64875124e0525c97199"
+  },
+  "report_sha256": "2bee05a942f96392318db29f8d495aaf27281cc76ada439bb7027145a772e2f6",
+  "old": "four MD matched, five onecell INC; fragment_pass false",
+  "new": "collector remains INC, campaign null, raw case classes unchanged, fragment_pass false",
+  "reason": "pre-campaign historical source/results kept distinct from fresh campaign and no upgraded proof",
+  "raw_preservation": "read-only symlink; output report separate /tmp",
+  "proof_tool_execution": false
+}
