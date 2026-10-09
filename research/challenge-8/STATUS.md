@@ -1,3 +1,12 @@
+# Active incoming-span lifetime phase — 2026-10-09
+
+Direct owner assignment MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09, ownermerge;
+start18:49:50UTC, main19:49:50, absolute20:19:50, new3600s old2555closed.
+[Phase](merge/INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09.md). Preserved29732807/package63b54dcd;
+new isolated toolbranchbasef76012fb, old broadgeometrycode absent/NOT_FOR_INTEGRATION.
+Incomingruntime-lifetime design pending; newproof NOT_RUN/profileNOT_ACCEPTED.
+Actual557/558/comparator/fullinsertion outofscope. Coordinatorv2/max2 unchanged.
+
 # MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09 — CLOSED / NO-GO FOR INTEGRATION
 
 Owner merge, overnight/merge-26.10;8d57c9f3 preserved.

@@ -287,6 +287,16 @@ def authorized_phase(a,ledger):
   cutoff=datetime.datetime.fromisoformat('2026-10-09T19:02:10+00:00')
   if a.command=='submit' and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
    raise SystemExit('Allocation span main window passed; finishing/evidence/checkpoint only')
+ if a.phase_id=='MERGE-INCOMING-SPAN-LIFETIME-CLOUD-2026-10-09':
+  if (a.owner!='merge' or ledger.get('owner')!='merge' or ledger['ceiling_build_seconds']!=3600 or
+      ledger.get('allowed_lanes')!=['merge'] or
+      ledger.get('start_utc')!='2026-10-09T18:49:50Z' or
+      ledger.get('main_deadline_utc')!='2026-10-09T19:49:50Z' or
+      ledger.get('deadline_utc')!='2026-10-09T20:19:50Z'):
+   raise SystemExit('Incoming span/lifetime phase differs from explicit owner authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-09T20:19:50+00:00')
+  if a.command=='submit' and datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(ledger['main_deadline_utc'].replace('Z','+00:00')):
+   raise SystemExit('Incoming span main window passed; finishing/evidence/checkpoint only')
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds authorized cutoff')
  if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
