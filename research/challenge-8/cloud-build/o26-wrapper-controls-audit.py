@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compound R2 profile, component-19, mapped-ID and AST-detail diagnostic."""
+"""Compound R2 profile and component-19 Cloud diagnostic."""
 from __future__ import annotations
 
 import argparse
@@ -44,37 +44,6 @@ def main():
     fatals=[x for x in log.splitlines() if x.startswith('Fatal error:')]
     provider=read(comp/'provider.json') or {}
     base_profile=base.get('wrapper_rebase_profile_diagnostic') or {}
-    relocation=read(ev/'cases/cut-relocate/diagnostic-audit.json') or {}
-    relocation_base=base.get('cut_relocation_test_diagnostic') or {}
-    relocation_checks=relocation.get('checks') or {}
-    relocation_ok=(relocation_base.get('requested') is True and
-                   relocation_base.get('diagnostic_match') is True and
-                   relocation_base.get('helper_exit')==0 and
-                   relocation.get('classification') in
-                     ('FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY',
-                      'NEXT_PROOF_BLOCKER_DIAGNOSTIC_ONLY') and
-                   relocation.get('accepted') is False and
-                   relocation.get('unwind_storage_dead_assumed') is False and
-                   relocation.get('raw_capture_exit')==0 and
-                   bool(relocation_checks) and all(value is True
-                                                   for value in relocation_checks.values()))
-    ast=read(ev/'cases/sort4-ast-probe/sort4-ast-result.json') or {}
-    ast_base=base.get('sort4_ast_probe_diagnostic') or {}
-    detail=ast.get('r2_detail_observation') or {}
-    detail_keys={'root_local_declarations','cmp_typeid_declaration',
-                 'cmp_block_free_metadata','first_fnmut_operands',
-                 'normal_debt_close','normal_recovery_call',
-                 'local_assignment_descriptors'}
-    ast_ok=(ast_base.get('requested') is True and
-            ast_base.get('complete') is True and
-            ast_base.get('helper_exit')==0 and
-            ast.get('classification')=='PRINT_ONLY_AST_SCOPE_DIAGNOSTIC' and
-            set(detail)==detail_keys and
-            all(value in ('OBSERVED','UNOBSERVED') for value in detail.values()) and
-            isinstance(ast.get('first_call_returning_arm_zero'),bool) and
-            isinstance(ast.get('first_call_unwinding_arm_one'),bool) and
-            ast.get('frontend_semantics_accepted') is False and
-            ast.get('actual_sort4_proved') is False)
     base_ok=(base.get('lane')=='o26-wrapper-controls' and
              base.get('diagnostic_complete') is True and
              base.get('verification_accepted') is False and
@@ -91,7 +60,9 @@ def main():
                  ('nested_proof_order_test_diagnostic',
                   'coordination_regression_diagnostic',
                   'wrapper_rebase_source_capture_diagnostic',
-                  'actual_sort4_capture_diagnostic')))
+                  'actual_sort4_capture_diagnostic',
+                  'cut_relocation_test_diagnostic',
+                  'sort4_ast_probe_diagnostic')))
     stage_ok=(stage.get('status')=='RAN' and stage.get('exit')==2 and
               stage.get('source_unchanged') is True and
               stage.get('source_before')==stage.get('source_after') and
@@ -119,7 +90,6 @@ def main():
     exit_ok=(code(profile/'comp19-helper-exit-code.txt')==0 and
              code(profile/'comp19-isolated-test-exit-code.txt')==0)
     complete=(base_ok and stage_ok and mutation_ok and case_ok and exit_ok and
-              relocation_ok and ast_ok and
               provider.get('provider')=='cloud-build' and
               result.get('classification')=='REBASE_COMP19_MOVE_COPY_NEGATIVE' and
               result.get('diagnostic_complete') is True and
@@ -136,12 +106,6 @@ def main():
             'component19_helper_exit':code(profile/'comp19-helper-exit-code.txt'),
             'component19_stage_exit':stage.get('exit'),
             'component19_production_unchanged':result.get('production_unchanged'),
-            'mapped_id_relocation_complete':bool(relocation_ok),
-            'mapped_id_relocation_classification':relocation.get('classification'),
-            'mapped_id_relocation_first_error':relocation.get('relocated_first_error'),
-            'ast_detail_probe_complete':bool(ast_ok),
-            'ast_scope_observation':ast.get('scope_observation'),
-            'ast_r2_detail_observation':detail,
             'positive_full_proof_exit':base_profile.get('positive_full_proof_exit'),
             'nested_drop_proof_header_visible':base_profile.get('nested_drop_proof_header_visible'),
             'full_normal_unwind_posts_accepted':False,

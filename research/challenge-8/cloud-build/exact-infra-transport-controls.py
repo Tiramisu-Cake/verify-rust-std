@@ -17,22 +17,18 @@ ROOT = "research/challenge-8/cloud-build/"
 REQUIRED = {
     "o26-recovery-tests": (
         "actual-sort4-capture.py", "cut-relocate-audit.py",
-        "cut-relocate-provider-overlay.py", "nested-proof-order-audit.py",
+        "cut-relocate-provider-overlay.py",
         "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
-        "run-cut-relocate.sh", "run-nested-proof-order-test.sh",
+        "run-cut-relocate.sh",
         "run-o26-recovery-tests.sh", "run-o26-refresh.sh",
         "run-sort4-ast-probe.sh", "sort4-ast-audit.py",
     ),
     "o26-wrapper-controls": (
-        "actual-sort4-capture.py", "cut-relocate-audit.py",
-        "cut-relocate-provider-overlay.py", "o26-recipe.py",
-        "o26-refresh-audit.py", "o26-refresh-recipe.py",
+        "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
         "o26-wrapper-controls-audit.py", "o26-wrapper-profile-a1.py",
         "o26-wrapper-profile-comp19.py", "o26-wrapper-profile.py",
-        "run-cut-relocate.sh", "run-o26-refresh.sh",
-        "run-o26-wrapper-comp19-test.sh", "run-o26-wrapper-controls.sh",
-        "run-o26-wrapper-profile.sh", "run-sort4-ast-probe.sh",
-        "sort4-ast-audit.py",
+        "run-o26-refresh.sh", "run-o26-wrapper-comp19-test.sh",
+        "run-o26-wrapper-controls.sh", "run-o26-wrapper-profile.sh",
     ),
 }
 

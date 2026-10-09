@@ -1,6 +1,6 @@
-# Combined R2 proof and changed diagnostic recovery
+# R2 proof and separate changed diagnostic recovery
 
-This `o26-wrapper-controls` Build starts with the canonical O26 source pair,
+The `o26-wrapper-controls` Build starts with the canonical O26 source pair,
 complete nine-body normal/readonly MIR capture, refinement and refreshed
 proof baseline. In the same hosted checkout it runs the R2 wrapper-rebase
 component-23 profile on the newly captured source, the existing four isolated
@@ -13,9 +13,10 @@ match the committed R2 manifest; the other eight bodies must match the
 same-build canonical capture. A positive proof exit, first blocker, nested
 Drop header, and complete normal/unwind posts are reported separately.
 
-The same Build also runs only two changed diagnostics in isolated tool copies:
-the mapped-ID strict CUT relocation TEST and the print-only detailed actual
-sort4 AST PROBE. The relocation predicts a six-removal/one-insertion trace
+The separate `o26-recovery-tests` Build runs two changed diagnostics in
+isolated tool copies after its own canonical baseline: the mapped-ID strict
+CUT relocation TEST and the print-only detailed actual sort4 AST PROBE. The
+relocation predicts a six-removal/one-insertion trace
 with exact raw-to-translated local IDs before either full fixture verification
 or the next substantive proof blocker. The AST probe predicts a hash-verified
 full-function snapshot, ordered node-detail trace, and unchanged stock
@@ -27,8 +28,8 @@ The target obligation remains actual unrestricted `select_unpredictable` at
 the repository std source, with both normal and unwind ownership, validity,
 heap, alias, bound, dead-code and leak resources preserved; comparator
 ordering is separate. No isolated TEST or PROBE establishes those posts.
-The compound audit requires complete R2 profile/control evidence and both
-changed diagnostic reports, but always sets `verification_accepted=false`.
+Each lane's compound audit requires only its own requested stages and always
+sets `verification_accepted=false`. Their results are reported separately.
 Any wrong pin, provider, graph, expected control refusal, mutation identity,
 tool snapshot, AST detail, relocation trace, timeout or packaging failure is
 inconclusive. The next decision uses the first actual outer blocker and the
