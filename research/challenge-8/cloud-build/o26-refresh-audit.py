@@ -30,7 +30,7 @@ def relocation(ev):
     try: code=int((ev/'cases/cut-relocate-helper-exit-code.txt').read_text().strip())
     except (OSError,ValueError):code=None
     matched=code==0 and result.get('classification') not in (None,'INCONCLUSIVE') and result.get('accepted') is False
-    if os.environ.get('LANE')=='o26-recovery-tests':
+    if os.environ.get('LANE') in ('o26-recovery-tests','o26-strict-cut-controls'):
         checks=result.get('checks') or {}
         required={'translated_ids_patch_pin','support','exact_source_pair',
                   'complete_target_mir_pins','direct_unwind_continue',
@@ -42,8 +42,85 @@ def relocation(ev):
                  set(checks)==required and all(value is True for value in checks.values()) and
                  result.get('raw_capture_exit')==0 and
                  result.get('unwind_storage_dead_assumed') is False)
+    if os.environ.get('LANE')=='o26-strict-cut-controls':
+        matched=matched and result.get('classification')=='FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY'
     return {'requested':True,'classification':result.get('classification','INCONCLUSIVE'),
             'diagnostic_match':matched,'helper_exit':code,'test_only':True,'accepted':False}
+
+def strict_cut_controls(ev):
+    name='strict-cut-controls'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'test_only':True,'accepted':False}
+    result=read(ev/'cases'/name/'diagnostic-audit.json') or {}
+    if not isinstance(result,dict):result={}
+    code=helper_exit(ev,name)
+    rows=result.get('cases') or []
+    if not isinstance(rows,list):rows=[]
+    positives={'positive_basic','ordinary_unmarked','positive_early_return',
+               'positive_direct_unwind'}
+    negatives={'negative_wrong_marker','negative_duplicate_marker',
+               'negative_marker_outside_binding','negative_unknown_binding',
+               'negative_nested_marker','negative_malformed_marker',
+               'negative_type_name_after_cut','negative_type_argument_after_cut',
+               'negative_typed_chunk_survives_cut','negative_unclosed_fractional_access',
+               'negative_reserved_half_after_lifetime_end','negative_end_lifetime_twice'}
+    keyed={(row.get('case'),row.get('strict_lifetime_opt_in')):row
+           for row in rows if isinstance(row,dict)}
+    expected={(case,True) for case in positives|negatives}|{('positive_basic',False)}
+    pre=result.get('preflight') or {}
+    if not isinstance(pre,dict):pre={}
+    open_gates=result.get('open_gates') or []
+    complete=(code==0 and result.get('classification')==
+              'CONTROLS_DISCOVERY_REVIEW_REQUIRED' and
+              result.get('accepted') is False and
+              result.get('strictcut_accepted') is False and
+              result.get('actual_sort4_accepted') is False and
+              result.get('source_and_mir_pin_status')==
+              'recorded for fresh manual review, not pre-approved' and
+              pre.get('production_unchanged') is True and
+              pre.get('isolated_tool_unchanged') is True and
+              pre.get('patch_chain_pinned') is True and
+              pre.get('distinct_f_bound_full_vf0') is True and
+              pre.get('prior_relocation_classification')==
+              'FIXTURE_FULL_VF0_DIAGNOSTIC_ONLY' and
+              len(rows)==17 and set(keyed)==expected and
+              all(row.get('accepted') is False and
+                  isinstance(row.get('source_hashes'),dict) and
+                  set(row['source_hashes'])=={'verified/lib.rs','original/lib.rs'} and
+                  isinstance(row.get('mir'),dict) and
+                  set(row['mir'])=={'normal','readonly'} and
+                  all(isinstance(row['mir'][mode],dict) and
+                      isinstance(row['mir'][mode].get('full_text_sha256'),str) and
+                      re.fullmatch('[0-9a-f]{64}',row['mir'][mode]['full_text_sha256']) and
+                      isinstance(row['mir'][mode].get('bin_sha256'),str) and
+                      re.fullmatch('[0-9a-f]{64}',row['mir'][mode]['bin_sha256'])
+                      for mode in ('normal','readonly')) and
+                  isinstance(row.get('stage_exits'),dict) and
+                  all(row['stage_exits'].get(stage)==0 for stage in
+                      ('normal-export','normal-decode','readonly-export',
+                       'readonly-decode','refinement')) and
+                  (row['stage_exits'].get('full-verification')==0
+                   if key[1] and key[0] in positives else
+                   row['stage_exits'].get('full-verification') in (1,2)) and
+                  row.get('classification')==(
+                      'POSITIVE_CANDIDATE_REVIEW_REQUIRED' if key[1] and key[0] in positives else
+                      'INTENDED_NEGATIVE_CANDIDATE_REVIEW_REQUIRED' if key[1] else
+                      'OPT_IN_ABSENT_INTENDED_REJECTION_CANDIDATE') and
+                  (row.get('first_error') is None if key[1] and key[0] in positives else
+                   isinstance(row.get('first_error'),str) and
+                   bool(row.get('first_error_source_location')))
+                  for key,row in keyed.items()) and
+              isinstance(open_gates,list) and len(open_gates)>=8 and
+              all(isinstance(gate,str) and gate for gate in open_gates))
+    return {'requested':True,'complete':complete,
+            'classification':result.get('classification','INCONCLUSIVE'),
+            'helper_exit':code,'test_only':True,'accepted':False,
+            'matrix_cases':len(rows),'distinct_f_bound_full_vf0':
+            pre.get('distinct_f_bound_full_vf0') is True,
+            'normal_unwind_negative_gates_open':
+            any('false normal-post and false unwind-post' in gate for gate in open_gates),
+            'actual_sort4_accepted':False}
 
 def owner_controls(ev):
     requested=(ev/'cases/owner17-controls-request.json').exists()
@@ -536,6 +613,7 @@ def main():
       (ev/'frozen20-applied.patch').is_file() and
       digest(ev/'frozen20-applied.patch')==frozen['applied_diff_sha256'])
     cut=relocation(ev)
+    strict_cut=strict_cut_controls(ev)
     owner=owner_controls(ev)
     sort4=sort4_capture(ev)
     a1=a1_test(ev)
@@ -547,6 +625,7 @@ def main():
     rebase_profile=wrapper_profile(ev)
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
+    strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
@@ -557,8 +636,16 @@ def main():
                         not a1['requested'] and not coordination['requested'] and
                         not nested_order['requested'] and not wrapper_rebase['requested'] and
                         not rebase_profile['requested'])
+    strict_cut_requested=(cut['requested'] and strict_cut['requested'] and
+                          not owner['requested'] and not sort4['requested'] and
+                          not a1['requested'] and not coordination['requested'] and
+                          not nested_order['requested'] and not ast_probe['requested'] and
+                          not wrapper_rebase['requested'] and
+                          not input_relation['requested'] and
+                          not rebase_profile['requested'])
     input_relation_requested=(input_relation['requested'] and
-                              not cut['requested'] and not ast_probe['requested'] and
+                              not cut['requested'] and not strict_cut['requested'] and
+                              not ast_probe['requested'] and
                               not owner['requested'] and not sort4['requested'] and
                               not a1['requested'] and not coordination['requested'] and
                               not nested_order['requested'] and not wrapper_rebase['requested'] and
@@ -568,6 +655,7 @@ def main():
                          (not sort4['requested'] or sort4['complete']) and
                          (not a1['requested'] or a1['complete']) and
                          (not cut['requested'] or cut.get('diagnostic_match') is True) and
+                         (not strict_cut['requested'] or strict_cut['complete']) and
                          (not coordination['requested'] or coordination['complete']) and
                          (not nested_order['requested'] or nested_order['complete']) and
                          (not ast_probe['requested'] or ast_probe['complete']) and
@@ -576,6 +664,7 @@ def main():
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
                          (not independent or independent_requested) and
                          (not recovery or recovery_requested) and
+                         (not strict_cut_lane or strict_cut_requested) and
                          (not input_relation_lane or input_relation_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
@@ -583,15 +672,17 @@ def main():
     # a positive full proof or an earlier owner-certificate rejection.
     controls={'owner_source_mir_isolated':owner['complete'],'a1_isolated':False}
     test_only_requested=(coordination['requested'] or nested_order['requested'] or
+                         strict_cut['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
                          input_relation['requested'] or rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
-              not recovery and not input_relation_lane)
+              not recovery and not strict_cut_lane and not input_relation_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
          'RECOVERY_TESTS_DIAGNOSTIC_COMPLETE' if recovery and diagnostic_complete else
+         'STRICT_CUT_CONTROLS_DISCOVERY_COMPLETE' if strict_cut_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
@@ -613,6 +704,8 @@ def main():
       'independent_test_scope_complete':independent_requested if independent else False,
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
+      'strict_cut_controls_scope_complete':strict_cut_requested if strict_cut_lane else False,
+      'strict_cut_controls_diagnostic':strict_cut,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
     a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')

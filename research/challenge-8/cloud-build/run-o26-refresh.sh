@@ -11,6 +11,10 @@ deadline=${SMALLSORT_DEADLINE_EPOCH:?SMALLSORT_DEADLINE_EPOCH is required}
 current_sha=${PROOF_SHA:?PROOF_SHA is required}
 relocate_mode=${O26_WITH_CUT_RELOCATE:-0}
 [[ "$relocate_mode" == 0 || "$relocate_mode" == 1 ]] || exit 2
+strict_cut_controls_mode=${O26_WITH_STRICT_CUT_CONTROLS:-0}
+[[ "$strict_cut_controls_mode" == 0 || "$strict_cut_controls_mode" == 1 ]] || exit 2
+[[ "$strict_cut_controls_mode" == 0 ||
+   ( "${LANE:-}" == o26-strict-cut-controls && "$relocate_mode" == 1 ) ]] || exit 2
 controls_mode=${O26_WITH_OWNER_CONTROLS:-0}
 [[ "$controls_mode" == 0 || "$controls_mode" == 1 ]] || exit 2
 sort4_mode=${O26_WITH_SORT4_CAPTURE:-0}
@@ -347,6 +351,25 @@ if [[ "$relocate_mode" == 1 ]]; then
     --evidence "$ev/cases/cut-relocate" --deadline-epoch "$deadline" \
     --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || relocate_status=$?
   printf '%s\n' "$relocate_status" > "$ev/cases/cut-relocate-helper-exit-code.txt"
+fi
+
+if [[ "$strict_cut_controls_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/strict-cut-controls-request.json"
+  strict_cut_controls_status=0
+  if [[ "$relocate_status" == 0 ]]; then
+    stage strict-cut-controls bash "$cloud_dir/run-strict-cut-controls.sh" \
+      --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+      --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+      --evidence "$ev/cases/strict-cut-controls" --deadline-epoch "$deadline" \
+      --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" \
+      --relocation-evidence "$ev/cases/cut-relocate" || strict_cut_controls_status=$?
+  else
+    printf 'CUT relocation prerequisite failed: exit=%s\n' "$relocate_status" \
+      > "$ev/strict-cut-controls.log"
+    strict_cut_controls_status=2
+  fi
+  printf '%s\n' "$strict_cut_controls_status" \
+    > "$ev/cases/strict-cut-controls-helper-exit-code.txt"
 fi
 
 if [[ "$sort4_mode" == 1 ]]; then
