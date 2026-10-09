@@ -17,7 +17,7 @@ The frontend's exact callback whitelist rejects added ghost commands and
 matches physical cmp_k, T, source references and tuple operands. Unclosed
 (&'cmp T,&'cmp T).own exposes the local lifetime in targs. Explicit borrow
 with a lifetime-dependent predicate constructor is already represented by
-cleanup-cases.rs callback_cleanup_predicate_term_hidden_type, with expected
+cleanup-cases.rs callback_cleanup_wrong_local_type, with expected
 frontend refusal. Its failure cannot count as a proof-negative or kernel
 counterexample. Exact protocol restores ref/tuple resources before leaving the
 scope; end_lifetime/borrow_end run outside using the physical cmp_k token.

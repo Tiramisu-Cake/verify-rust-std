@@ -6089,3 +6089,33 @@ queue60 within own5770 and08:00UTC. Positive => bounded conditional evidence,
 continue missing trust/caller/arbitrary-n obligations; helper VC => localized
 checked lemma repair; shape/compile refusal => inspect exact artifact, reviewed
 revision plus NEW run. No weakened post or disabled dead/unwind/leak gate.
+
+
+### Prepared next card — canonical owners and exact Drop runtime admission
+
+Independent of pending OR2276446b, next targeted selection has9resource/prep/
+smoke groups. Problem: f0 foreach consumes canonical own0 but helper returns a
+direct type-owner representation; no wrapper equivalence was established.
+Rule: keep all recursive owner helpers uniformly foreach(...,own::<T>(t));
+represent an incoming/displaced current owner as a singleton foreach. Open/close
+only this existing canonical list resource. Nil owns nothing; package/unpackage
+its empty tail explicitly. Public source/destination/domain/frame/normal/unwind
+posts are unchanged; no new axiom, address permission or duplicated owner.
+Expected6checked bodies per isolated permutation case; full-domain false remains
+TARGET16–21, duplicate singleton only calibration. Fixture assumptions and
+refusal/positive gates in CURRENT-OWNER-PERMUTATION.md remain explicit.
+
+Native blocks retain all statements/posts and restore false at16–21. Exact Drop
+admission uses canonical Func13arg runtime10, excludes prototype ghost7, and
+matches actual three self-field operands to MIR ordered definitions. Exact
+source line still includes semicolon while rustc callSpan stops before it.
+Positive/negative body evidence fromf0 is not new admission credit. Cloud must
+recheck each stock/six pair and all affected bodies/source/refinement/normal/
+unwind/return/leak/dead gates. Current canonical predicate producer is the pinned
+translator/list model, not an assumed share-to-own or caller callback bridge.
+
+Outcome mapping: setup/typing/helper error => localized minimal checked repair
+plus NEW Cloud; PASS+exactfalse => conditional component only, proceed to actual
+caller/resource composition; duplicate-owner failure remains uncounted until
+predicate/location is calibrated. Existing6profile/kernel/cleanup unaccepted;
+ORnotselected. No heavy local check or repeated unchanged full matrix.
