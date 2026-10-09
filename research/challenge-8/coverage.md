@@ -673,3 +673,12 @@ rawrefusals, pairedMIR/refinement0 each. Auditorstops on callee-precondition
 attribution for secondend_lifetime (spec78, caller15note); nofinalmatrix
 certificate and falsepost2NOT_RUN. Noactualsort4 coverage/acceptedlifetime
 semantics. Narrowauditrepair + evidenceidentity review pending.
+
+Build755bf768 adds no proof or audited-negative credit: the R3 positive and
+scheduled nested diagnostic are INCONCLUSIVE, and archive/upload failed when
+the evidence packager encountered a verifier-tool symlink. Raw first errors are
+UNKNOWN. Cloud console preserves the failure but does not replace full proof
+witnesses. Infrastructure cbe6c439 moves execution copies outside evidence and
+prints raw full proof logs; a fresh run with unchanged source/profile is pending.
+Generic/ZST select, full actual nested Drop and full sort4 safety/functional
+composition remain OPEN. Separate diagnostic ready lanes grant no coverage.

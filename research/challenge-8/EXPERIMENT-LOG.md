@@ -6040,3 +6040,12 @@ Necessary infrastructure repair: all disposable verifier and exporter execution
 copies outside evidence, raw sources/MIR/proof logs/identity deltas retained, full
 proof stdout backup; packager symlink refusal unchanged. Fresh same-source run is
 justified by this changed evidence component, not an unchanged semantic retry.
+
+R3 evidence-only rerun READY:infra cbe6c439ff625b43328e304373b79465481cb94d,
+proof256254c01a77653ec056c91755ac636e9e76fb9d, same compound lane.
+Full original Git closure preflight556947B/187sourceparts,
+SHAd1abe8f216fb173157d2171de512c5cb2b4de8f659fb2a7a2bf29b8ecdb7a2e9.
+Semantic/source/runtime/posts/pins unchanged; all execution directories now
+outside evidence, proof logs immediately echoed. Static AST/diff gates passed.
+Foreign Builda643d1e1-48e4-4b24-bc6e-90e8c1bc11e7 takes next fair turn;
+its account is separate and never charged to select.
