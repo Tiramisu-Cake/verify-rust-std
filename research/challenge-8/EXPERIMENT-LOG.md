@@ -5951,3 +5951,27 @@ token dispatch-8bfd49680e934814b330aa5ccd3f5348. Same source/profile and target
 as NIGHT-CLOUD-10; only missing baseline input recipe repaired. No unchanged
 infrastructure smoke. Complete original-Git payload477962B/160parts verified
 pre-submit. Fresh full source/MIR/refinement/nine-body capture, no proof credit.
+
+NIGHT-CLOUD-12 outcome:93da48d0 SUCCESS/DIAGNOSTIC ONLY, create06:05:38.847973128,
+start06:05:41.055016382,finish06:11:15.525771UTC=337s charged; own3944/10800,
+6856remaining. All requested evidence uploaded and archive/textindex integrity
+verified: archivee5c4a3a4feecf49ae6ae02ec65ef0a595ca7db815954847afe5a3b423291ec7a,
+textindex0e7768f3b43e1126dd1bb7a63cea89f2d47f0ffb0ee187a1862590aee7fabc13.
+WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE, actual_helper_proved=false,
+actual_nested_drop_proved=false, verification_accepted=false. Source
+a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463; original
+466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5 unchanged;
+unit407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92,
+body7f8374652a11e36073ad6ed10ec39b0f8de62da53265dd80d2dc2c3565491cee1.
+NORMALwhole5b241f4f51d9ba7e72dd4d24cf295a95a8f64d7750867821dc70dac982609509,
+readonlywholec5fe3880640143c2805697f8fb4c46f380fc62eb01f3344ee1ec606e7aadf121.
+All5 export/decode/refinement stages exit0/sourceunchanged; collector exit2
+at deliberate no-proof-rule snapshot refusal. Nine exact ghost commands in
+three reversible regions and ten independent Marshal hashes checked; all8
+other body hashes unchanged. Historical owner17 refusal remains NOT_RUN,
+expected only. Full target normal/unwind/return/leak and nested Drop are open.
+These observed pins permit distinct R3 admission/control development, not
+source-only proof credit. Genericcapture proof8c2f3d8a/infra8a7c0c8f is separately
+ready: originalGitpayload484940B, base64source163parts (172 total substitutions),
+SHAeb556bf0a8b3a3eafb29b71f6914d4e49a0b4ad7aa5db922063a6d6a07b70959.
+No generic ownership/callee proof, no repeated migration acceptance.

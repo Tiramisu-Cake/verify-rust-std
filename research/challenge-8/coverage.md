@@ -660,3 +660,10 @@ fix and first17+2 controls prepared separately. Generic source/MIR capture
 (proof981a5509) is a diagnostic with distinct local-copy DefId and no ownership
 summary. Actual sort4 first-scope rewrite remains BLOCKED on storage/alias/
 cleanup controls; all full safety/functional obligations remain OPEN.
+
+Build93da48d0 captures current9-check input-relation source with fresh full
+NORMAL/readonly MIR/refinement,9body pins and10Marshal snapshots. Source,
+unit and outerbody changed;8otherbodies unchanged and runtime identity checked.
+It is SOURCE_CAPTURE_ONLY: collector deliberately refuses before proof.
+R3 owner17/A1/SAFEforget rules and fullactual/nested posts remain NOT_RUN;
+historical certificate refusal remains only predicted. No new proof closure.
