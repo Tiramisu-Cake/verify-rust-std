@@ -1,0 +1,309 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6213,3 +6213,17 @@
+     let markers, ghost_stmts =
+-      List.partition (fun stmt -> match marker_call stmt with Some _ -> true | None -> false) ghost_stmts
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
++         TrName.translate_def_path (def_path_get body_cpn) = "sort4_stable" then begin
++        (* Only this separately admitted actual AST test handles the cut.
++           Leave d557's translator and kernel unchanged for all other bodies. *)
++        let cuts = List.filter
++          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
++          ghost_stmts in
++        if List.length cuts <> 1 then
++          Ast.static_error fn_sig_loc
++            "Actual sort4 AST scope test requires one cut marker" None;
++        ([], ghost_stmts)
++      end else
++        List.partition
++          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
++          ghost_stmts
+     in
+@@ -6273,6 +6273,282 @@
+             Ok
+-              (mk_fn_decl contract
+-                 (Some
+-                    ( projection_clause_stmts @ vf_local_decls @ vf_bblocks
+-                      @ callback_unwind_epilog,
+-                      closing_cbrace_loc )))
++              (let original_body =
++                 projection_clause_stmts @ vf_local_decls @ vf_bblocks
++                 @ callback_unwind_epilog in
++               let original_decl =
++                 mk_fn_decl contract
++                   (Some (original_body, closing_cbrace_loc)) in
++               if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++                  State.body_name <> "sort4_stable" then original_decl
++               else begin
++                 let reject why =
++                   failwith ("SORT4-ACTUAL-AST-SCOPE-TEST: " ^ why) in
++                 let hash_bytes bytes =
++                   let input = Filename.temp_file "sort4-scope-" ".bin" in
++                   let output = Filename.temp_file "sort4-scope-" ".sha" in
++                   Fun.protect
++                     ~finally:(fun () ->
++                       (try Sys.remove input with Sys_error _ -> ());
++                       (try Sys.remove output with Sys_error _ -> ()))
++                     (fun () ->
++                       let oc = open_out_bin input in
++                       Fun.protect ~finally:(fun () -> close_out oc)
++                         (fun () -> output_string oc bytes);
++                       let command = "/usr/bin/sha256sum -- " ^
++                         Filename.quote input ^ " > " ^
++                         Filename.quote output in
++                       if Sys.command command <> 0 then reject "sha256sum";
++                       let ic = open_in output in
++                       Fun.protect ~finally:(fun () -> close_in ic)
++                         (fun () ->
++                           let row = input_line ic in
++                           if String.length row <> 66 + String.length input ||
++                              String.sub row 64 2 <> "  " ||
++                              String.sub row 66 (String.length input) <> input
++                           then reject "sha256sum output";
++                           String.sub row 0 64)) in
++                 let node_sha node =
++                   hash_bytes (Marshal.to_string node [Marshal.No_sharing]) in
++                 let expect_hash name expected node =
++                   if node_sha node <> expected then
++                     reject ("AST node hash: " ^ name) in
++                 let source_path =
++                   match State.body_imp_loc with
++                   | Ast.Lexed (((path, _, _), (last_path, _, _)))
++                     when path = last_path &&
++                          Filename.check_suffix path "verified/lib.rs" -> path
++                   | _ -> reject "actual verified source path" in
++                 let source_sha =
++                   let ic = open_in_bin source_path in
++                   Fun.protect ~finally:(fun () -> close_in ic)
++                     (fun () ->
++                       hash_bytes
++                         (really_input_string ic (in_channel_length ic))) in
++                 if source_sha <>
++                    "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
++                 then reject "verified source SHA256";
++                 if List.length bblocks_cpn <> 55 ||
++                    List.length local_decl_types <> 137 ||
++                    projection_clause_stmts <> [] ||
++                    List.length vf_local_decls <> 134 ||
++                    List.length vf_bblocks <> 7 ||
++                    callback_unwind_epilog <> [] ||
++                    List.length original_body <> 141
++                 then reject "complete body inventory";
++                 expect_hash "whole original function"
++                   "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39"
++                   original_decl;
++                 let root n = List.nth original_body n in
++                 let slice start count xs =
++                   List.filteri
++                     (fun i _ -> i >= start && i < start + count) xs in
++                 let check_local expected stmt =
++                   match stmt with
++                   | Ast.DeclStmt (_, [(_, _, name, None, (taken, _))])
++                     when name = expected && not !taken -> ()
++                   | _ -> reject ("local declaration: " ^ expected) in
++                 check_local "c1" (root 23);
++                 let moved = slice 24 8 original_body in
++                 List.iter2 check_local
++                   ["$_27"; "$_28"; "$_29"; "$_30"; "$_31";
++                    "$_32"; "$_33"; "$_34"] moved;
++                 check_local "$_35" (root 32);
++                 let delayed_indexes =
++                   [37; 38; 39; 40; 43; 44;
++                    68; 69; 70; 71; 72; 73;
++                    75; 76; 77; 78; 79; 80;
++                    104; 105; 106; 107; 108; 109] in
++                 let delayed =
++                   List.filteri
++                     (fun i _ -> List.mem i delayed_indexes)
++                     original_body in
++                 if List.length delayed <> 24 then
++                   reject "future ref/tuple declaration count";
++                 List.iter
++                   (function
++                    | Ast.DeclStmt (_, [(_, _, _, None, (taken, _))])
++                      when not !taken -> ()
++                    | _ -> reject "future declaration has init/address")
++                   delayed;
++                 let kept_decls =
++                   List.filteri
++                     (fun i _ ->
++                       i < 134 &&
++                       (i < 24 || i = 32 ||
++                        (i > 32 && not (List.mem i delayed_indexes))))
++                     original_body in
++                 if List.length kept_decls <> 102 then
++                   reject "outer declaration count";
++                 expect_hash "root[136] goto bh0"
++                   "b60f5fbd8842d8ec42cac24ca3fcadd5feb5417d99aa28273cded3adcbeddf9e"
++                   (root 136);
++                 expect_hash "root[137] label bh0"
++                   "15bdeea64b9dce21a38159fffc62dfd2191a6289485307aac08567aa63f823c3"
++                   (root 137);
++                 expect_hash "root[139] label 54"
++                   "4d9af8f1bd260ddd64ea83e46203ddb5b7e27716092f4d1ae4be497083985a8a"
++                   (root 139);
++                 expect_hash "root[140] returning"
++                   "eac9f3d67acea25ce2105608a0cebc00d11781df05a0d098b1c72a92cde8950d"
++                   (root 140);
++                 let block_loc, old_decl, old_stmts, old_close =
++                   match root 138 with
++                   | Ast.BlockStmt (loc, [decl], ss, close, locals_to_free)
++                     when !locals_to_free = [] && List.length ss = 139 ->
++                       expect_hash "root[138] scope"
++                         "6b90014f6d0102d33c96cb3480d2171d530182a7eb198e3bbc80cf413bbcde54"
++                         (root 138);
++                       expect_hash "sole cmp TypeWithTypeidDecl"
++                         "2df72741aa2bcc646696cd8406b57b093b9a6438533c673d9e2bbecc42183214"
++                         decl;
++                       (loc, [decl], ss, close)
++                   | _ -> reject "unique cmp block/local cleanup" in
++                 let block n = List.nth old_stmts n in
++                 let marker = block 22 in
++                 expect_hash "four-part source unwind marker"
++                   "058a3732fb1fb57bccb7738cda35e3215bd6f55ad76b4af49d9b8133354a1f55"
++                   marker;
++                 let debt, recover, join =
++                   match marker with
++                   | Ast.PureStmt
++                       (_, Ast.BlockStmt
++                         (_, [],
++                          [reserved;
++                           Ast.BlockStmt (_, [], [debt], _, debt_free);
++                           Ast.BlockStmt (_, [], [recover], _, recover_free);
++                           Ast.BlockStmt (_, [], [join], _, join_free)],
++                          _, marker_free))
++                     when !debt_free = [] && !recover_free = [] &&
++                          !join_free = [] && !marker_free = [] ->
++                       expect_hash "reserved source marker"
++                         "6c672a562381eb9e865ef1a50e8379823ff79a2fb34f0162ec03b64e7e699900"
++                         reserved;
++                       expect_hash "unwind debt close"
++                         "37d6c367da8b52d98dd7738ff49906e2c8558d92f5c795b24cb1ea8ba55688fe"
++                         debt;
++                       expect_hash "unwind recover"
++                         "6b5758dcfe5f778016926f575ae55ed1e4b6b90875a7f9a9da3524f2ec03e8bd"
++                         recover;
++                       expect_hash "unwind join"
++                         "f607c34e255b5a44622eca4c1cbb98b995f7b3759ffa51a47783c1d0f9236d62"
++                         join;
++                       (debt, recover, join)
++                   | _ -> reject "four-part marker AST shape" in
++                 expect_hash "normal comparison debt close"
++                   "2eec88a6d7188deb1178d503ffc2f19a25bd05e16c8d285ca6ae9ed54212f0b3"
++                   (block 33);
++                 expect_hash "exact cut marker"
++                   "86e75ba297b239c7203e30b3416ff4200396be65ed3556b2d9bbb3d8b2b21f7a"
++                   (block 34);
++                 expect_hash "normal pair recovery"
++                   "b4ca03fe59a77a1abd9f6e700710dd3fb1a7b29ff4b12c8bc4daa70d088839aa"
++                   (block 35);
++                 expect_hash "normal four-cell join"
++                   "9dbdf7e2b510efb03dceaef7c01aca71235148915ff1932f9ee44846ca9c1db9"
++                   (block 36);
++                 expect_hash "normal goto label 54"
++                   "85ae704bbe93836b57f21ccc359b3088188d7454a5315684d1f8af7a9227530a"
++                   (block 138);
++                 let epilogue_label =
++                   "#sort4_actual_first_unwind_epilogue" in
++                 let unwind_return, changed_switch =
++                   match block 32 with
++                   | Ast.SwitchStmt
++                       (call_loc, call,
++                        [Ast.SwitchStmtClause
++                           (_, normal_case, [normal_stmt]) as normal;
++                         Ast.SwitchStmtClause
++                           (unwind_loc, unwind_case, [unwind_return])]) ->
++                       expect_hash "actual first FnMut switch"
++                         "76f97feac73c19638ce23251d7c3fabb49d8cec41f2a56b8898631c74a6095d8"
++                         (block 32);
++                       expect_hash "normal c1 assignment"
++                         "c103659777a7ddb8e1993acef0fdc61cee40ff6e4143c9631f224f2f6e1766d6"
++                         normal_stmt;
++                       expect_hash "original direct unwind return"
++                         "d79d2607461f83baf45150aa488af4e673d4707c9500424a81a42c28db74b502"
++                         unwind_return;
++                       (match call, normal_case, unwind_case with
++                        | Ast.CallExpr
++                            (_, "std::ops::FnMut::call_mut",
++                             [Ast.IdentTypeExpr (_, None, "F"); _;
++                              Ast.IdentTypeExpr (_, None, "'cmp")], [],
++                             [Ast.LitPat (Ast.Var (_, "$_27"));
++                              Ast.LitPat (Ast.Var (_, "$_28"))], Ast.Static),
++                          Ast.CallExpr (_, "returning", _, _, _, _),
++                          Ast.CallExpr (_, "unwinding", _, _, _, _) -> ()
++                        | _ -> reject "first FnMut args/type/outcome");
++                       let debt_stmt =
++                         Ast.PureStmt (Ast.stmt_loc debt, debt) in
++                       let unwind_clause =
++                         Ast.SwitchStmtClause
++                           (unwind_loc, unwind_case,
++                            [debt_stmt;
++                             Ast.GotoStmt (unwind_loc, epilogue_label)]) in
++                       (unwind_return,
++                        Ast.SwitchStmt
++                          (call_loc, call, [normal; unwind_clause]))
++                   | _ -> reject "first FnMut two-arm AST shape" in
++                 let cut_loc = Ast.stmt_loc (block 34) in
++                 let sentinel =
++                   Ast.ExprStmt
++                     (Ast.CallExpr
++                        (cut_loc, "#strict_lft_binding_scope",
++                         [Ast.IdentTypeExpr (cut_loc, None, "'cmp")],
++                         [], [], Ast.Static)) in
++                 let prefix =
++                   slice 0 34 old_stmts
++                   |> List.mapi (fun i stmt ->
++                        if i = 22 then Ast.NoopStmt (Ast.stmt_loc stmt)
++                        else if i = 32 then changed_switch
++                        else stmt) in
++                 let child =
++                   Ast.BlockStmt
++                     (block_loc, old_decl, sentinel :: (moved @ prefix),
++                      cut_loc, ref []) in
++                 let suffix =
++                   Ast.NoopStmt cut_loc :: slice 35 104 old_stmts in
++                 if List.length suffix <> 105 then
++                   reject "normal suffix count";
++                 let outer =
++                   Ast.BlockStmt
++                     (block_loc, [], child :: (delayed @ suffix),
++                      old_close, ref []) in
++                 let normal_tail =
++                   slice 134 4 original_body @
++                   [outer; root 139; root 140] in
++                 if List.length normal_tail <> 7 then
++                   reject "normal wrapper inventory";
++                 let normal_wrapper =
++                   Ast.BlockStmt
++                     (Ast.stmt_loc (root 134), [], normal_tail,
++                      closing_cbrace_loc, ref []) in
++                 let epilogue_loc = Ast.stmt_loc unwind_return in
++                 let after =
++                   kept_decls @
++                   [normal_wrapper;
++                    Ast.LabelStmt (epilogue_loc, epilogue_label);
++                    Ast.PureStmt (Ast.stmt_loc recover, recover);
++                    Ast.PureStmt (Ast.stmt_loc join, join);
++                    unwind_return] in
++                 let changed_decl =
++                   mk_fn_decl contract (Some (after, closing_cbrace_loc)) in
++                 let signature_and_contract = function
++                   | Ast.Func
++                       (_, kind, tparams, result_ty, name, params,
++                        nonghost, impl, contract, terminates, Some _,
++                        virtual_, overrides) ->
++                       (kind, tparams, result_ty, name, params, nonghost,
++                        impl, contract, terminates, virtual_, overrides)
++                   | _ -> reject "function declaration/contract shape" in
++                 let pre_header =
++                   node_sha (signature_and_contract original_decl) in
++                 let post_header =
++                   node_sha (signature_and_contract changed_decl) in
++                 if pre_header <> post_header then
++                   reject "signature or normal/unwind contract changed";
++                 Printf.eprintf
++                   "SORT4-ACTUAL-AST-SCOPE-TEST admitted source=%s pre_ast=%s post_ast=%s header_posts=%s moved=8 delayed=24 c1_unwind=close,goto,strict_exit,recover,join,original_return runtime_fnmut=5 runtime_select=8 runtime_copy=4\n%!"
++                   source_sha (node_sha original_decl)
++                   (node_sha changed_decl) pre_header;
++                 changed_decl
++               end)

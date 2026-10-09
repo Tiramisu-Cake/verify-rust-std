@@ -1,0 +1,57 @@
+{
+  "status": "design_only_unaccepted_default_off",
+  "opt_in": "SORT4_ACTUAL_AST_SCOPE_TEST=1",
+  "std_commit": "cd371e035c7e573760c43bf934d53e8118ee3e7d",
+  "source": {
+    "verified_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9",
+    "ghost_stripped_sha256": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72"
+  },
+  "complete_typed_mir": {
+    "normal_record_sha256": "667e43477674d9e834b462b612f498af81598ec18622f0a60337ae4fdc6b017d",
+    "readonly_record_sha256": "925b05a8c2bb66be8ad5a7f091f8232d9e930782b5ca01067cf7d1bec349f5b5",
+    "normal_blocks": 55,
+    "normal_locals": 137,
+    "fnmut_calls": 5,
+    "select_calls": 8,
+    "copy_calls": 4,
+    "cleanup_or_drop": 0,
+    "first_unwind": "Continue"
+  },
+  "pre_rewrite_ast_func_sha256": "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39",
+  "profile_components": {
+    "production": "O26 exact production source and callback profile",
+    "strict_cut_patch_sha256": "d557082b0c17771acd7386ad6caca7bc139877cf1ca513d9570da210b1b542d8",
+    "strict_kernel": "same frozen d557 kernel; no stock-filter execution",
+    "overlay": "verifast-actual-sort4-first-scope-TEST.patch",
+    "overlay_scope": "translator-only, exact sort4_stable, default off",
+    "overlay_patch_sha256": "eefe26aa4f4863ef85f2c9274136b88fb134477148bbd068fb65f455375c4721",
+    "relocation_patches": [
+      {
+        "path": "overnight-lifetime/verifast-cut-relocate-callback-TESTONLY.patch",
+        "sha256": "e7189430eca9a48ed49d280131bd22987af8d05ed43a88f9c4a5c9767e57bb9e"
+      },
+      {
+        "path": "overnight-lifetime/verifast-cut-relocate-translated-ids-TEST.patch",
+        "sha256": "fa862fe86406d95eb921f2935b2e4f6cf048c5366ece8d8836e5fcd7b41a9145"
+      }
+    ]
+  },
+  "ast_delta": {
+    "child_declarations": "root[24..31] $_27..$_34, eight unchanged declarations, once",
+    "delayed_declarations": "roots 37,38,39,40,43,44,68..73,75..80,104..109; 24 unchanged future reference/tuple declarations, once, after child",
+    "outer_declarations": "102 unchanged declarations including c1 and $_35, in original relative order",
+    "child_body": "original root[138]/block[0..33] with exact marker consumed and c1 unwind arm rewritten",
+    "normal_suffix": "original root[138]/block[35..138], root[139..140], with exact cut consumed",
+    "unwind": "source debt close; outgoing strict exit; source recover; source join; original ReturnStmt(unwinding)"
+  },
+  "before_proof_external_gates": [
+    "Rebuild O26 and frozen d557 in isolated Cloud checkout and record exact effective translator/kernel SHA256",
+    "Tie both complete typed-MIR record hashes above to the current exact source and invocation; patch-local 55/137 and AST hash checks do not replace this",
+    "Review strict d557 exit controls and required negative obligations before enabling the overlay",
+    "Review four delayed future tuple declarations and moved $_28 as verifier storage effects against both MIR graphs; add premature/escaped-storage and alias negatives",
+    "Audit whole original and changed AST inventories, unique marker/cut/c1, declaration dominance, CFG ingress, normal epilog exclusion, and unchanged normal/unwind posts",
+    "Require full verifier, leak, dead-code, uninitialized/validity and refinement checks on Cloud only"
+  ],
+  "admission_result": "blocked_until_external_raw_mir_and_strict_controls_review",
+  "claims": "No actual sort4 proof, no unrestricted generic/ZST proof, no accepted verifier/profile component"
+}
