@@ -41,6 +41,7 @@ POINTER_GROUPS = {
     "pointer-modular-trace-diagnostic": "checked-pointer-modular-trace",
     "source-pair-turnover-resource-diagnostic": "checked-source-pair-turnover",
     "cleanup-recovery-hidden-type-diagnostic": "checked-cleanup-recovery-hidden-type",
+    "current-owner-handoff-resource-diagnostic": "checked-current-owner-handoff",
 }
 OTHER_ARTIFACTS = {
     "G2-compatibility": [
@@ -244,6 +245,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
     cleanup_hidden_cases = raw_cases("cases/checked-cleanup-recovery-hidden-type/aggregate.json",
                                      "cleanup-recovery-hidden-type-diagnostic")
 
+    owner_handoff_cases = raw_cases("cases/checked-current-owner-handoff/aggregate.json",
+                                    "current-owner-handoff-resource-diagnostic")
+
     panic_candidates = []
     for path in cases.glob("**/panic-macro-origin.json"):
         try:
@@ -363,6 +367,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
         "panic_certificate_complete": panic_ok,
         "theorem_statuses": {
             "whole_small_sort_challenge": "NOT_PROVEN",
+            "current_owner_handoff_cases": owner_handoff_cases,
             "g2_quartet_trace_cases": quartet_cases,
             "g2_modular_entry_control_cases": modular_entry_cases,
             "g2_modular_trace_cases": modular_trace_cases,

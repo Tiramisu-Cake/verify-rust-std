@@ -70,7 +70,9 @@ Selection dependencies are explicit: actual-callee proof requires actual
 source preparation; stack role controls require role-control preparation;
 length-two/three bidirectional proof requires its exact source preparation; and
 the HRTB certificate requires both callback-model and prepared-HRTB proof
-evidence. The two draft groups are `source-pair-turnover-resource-diagnostic`
-and `cleanup-recovery-hidden-type-diagnostic`; their fixture classifiers remain
-uncalibrated until fresh Cloud evidence establishes the intended stage and
-location.
+evidence. Draft groups are `source-pair-turnover-resource-diagnostic`,
+`cleanup-recovery-hidden-type-diagnostic` and
+`current-owner-handoff-resource-diagnostic`. The first two contain uncalibrated
+controls until fresh Cloud evidence establishes the intended stage/location;
+current-owner handoff contains two conditional positives with no ownership-
+duplication negative. None derives the actual caller bridge.

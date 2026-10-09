@@ -146,6 +146,12 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --fixture research/challenge-8/merge/overnight/cleanup-recovery-hidden-type-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-cleanup-recovery-hidden-type"\n'
+                 b'  run_one current-owner-handoff-resource-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'conditional two-cell current-owner transfer; destination/current-source equality remains an explicit unproved caller bridge' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/current-owner-handoff-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-current-owner-handoff"\n'
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
             data = replace_once(data,
                                 b'suite bound=900s; whole step bound=1700s.',

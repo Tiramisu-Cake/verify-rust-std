@@ -5526,3 +5526,25 @@ empty/copyable. Any chosen physical-cell negative must be separately calibrated
 before proof-negative credit. If representation/current-value correspondence
 cannot be derived, stop at this conditional component; do not assume bridge.
 No new lane/group until draft review and a later independently pinned recipe.
+
+Prepared independent targeted resource/admission recipe card (8groups, no submit
+while cf07 is active): smoke plus retained callback-model/prepared-HRTB/complete
+HRTB admission certificate and M2shape gate, new source-pair turnover, hidden-type
+recovery control and conditional current-owner handoff. Problem/hypotheses:
+provider manifest identity repair lets the HRTB11cases/controls run; restoration
+then extraction conserves current source owners across overlapping/same pairs;
+existing recovery whitelist rejects hidden local lifetime type; existing exact
+owner chunks transfer to already equal current destination values. Profiles,
+actual std, posts and semantic sixpatch chain unchanged. Exact domains and full
+partial-component posts are in their separate preceding cards; no partial
+component substitutes for actual full normal/unwind/guard/leak contract.
+Positive stage/source/refinement/body/return/leak/dead gates all required.
+Two new negative oracles still CALIBRATION_ONLY until Cloud proves stage/predicate/
+location; frontend refusal cannot count as resource-negative. HRTB certificate
+admission is separate from its underlying INCONCLUSIVE proof rows. Outcomes:
+positive componentPASS allows conditional resource composition only; concrete
+VC localizes failed existing lemma/chunk; setup remainsINCONCLUSIVE; calibrated
+negative permits exact oracle pin then NEW run. No duplication of T.own negative,
+no share/Copy bridge, no pointer arithmetic permissions and no snapshot overwrite.
+All unselected groups explicitly NOT_RUN; prior exact same-source/regression
+evidence retained, no combined profile acceptance or semantic kernel change.
