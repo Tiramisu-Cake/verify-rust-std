@@ -3,8 +3,15 @@
 Direct owner continuation; [phase](cloud-build/sort4-c1-actual-execution/PHASE.md),
 [separate ledger](cloud-build/sort4-c1-actual-execution/BUDGET.json).
 Start16:52:10UTC; main17:52:10; absolute18:22:10. New3600s; old2540 closed.
-Exact actual c1 admission/normal/direct-unwind recovery initially NOT_RUN.
-Corrected audit service chain first; no c2/selector; experimental profile unchanged.
+First actual Build3c845267 terminalSUCCESS diagnostic312s (infra=proofe878dcf2),
+full archive verified d3d615ee. Exact continuation observed. Direct unwind reached
+source debt/strict exit/recover_pair/join/original unwind return/full post+leak.
+Normal first blocked by c1 FnOnce::Output expected bool before normal recovery.
+Conditional exact domain only; source owners/F/thread/type premises supplied;
+profile unaccepted, scope/storage/alias qualification and legal-entry/generic/ZST OPEN.
+Narrow compiler-origin c1-only Output equality65495dcf now submitted; equality OFF
+must reproduce original type obligation; fresh affected gates before actual ON.
+No c2/selector work. [First actual path result](cloud-build/sort4-c1-actual-execution/FIRST-ACTUAL-RESULT.json).
 Policy d389ff64 read, own remote=clean7fa5da3a after fetch; prior checkpoints preserved.
 
 # Historical closed checkpoint follows

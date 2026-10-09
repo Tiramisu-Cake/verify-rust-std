@@ -6383,3 +6383,18 @@ Completion-only saved4fa falsepostreplay: normalizeonlyline/pos insideimpSpan as
 Separate SORT4-C1-ACTUAL-EXECUTION account3600s, main17:52:10/absolute18:22:10.
 Experiment card/rationale/domain/posts/decision gates: cloud-build/sort4-c1-actual-execution/PHASE.md.
 Old7fa5da3a/d707d79e and exact select e2b24967 preserved. Service replay is not new proof.
+
+
+### First actual result and bounded type-interface step
+
+Build3c845267-3008-4921-8d1f-de6027a837c7, infra=proofe878dcf21e382935a1b31fe39a17f40fbb5bde5d,
+SUCCESS diagnostic only, raw actual-on1,312s conservative; archive d3d615ee
+full integrity/index verified. Actual-off opt-in refusal only; actual-on exact
+source/MIR/preAST linked continuation. recover_pair/join verified before caller
+same unit. Direct c1 unwind debt186/recover187/join188/return190/leak226 done;
+normal Output projection/bool mismatch190 before normal assignment/recovery.
+FIRST-ACTUAL-RESULT.json separates paths. No whole function/normal proof credit.
+Compiler-origin HRTB clause in exact full MIR16950–16991 explains mismatch.
+Preimplementation rationale C1-OUTPUT-EQUALITY-RATIONALE.md; new separate exact
+c1-only typing patch65495dcf, no kernel/alias/prelude/runtime/post changes.
+Fresh strict/false-post gates plus actual equality-OFF type negative precede ON.

@@ -312,10 +312,11 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
             if key in ("negative_wrong_marker", "negative_duplicate_marker"):
                 # These deliberately fail during marker translation, before
                 # verification; they cannot count as resource negatives.
-                intended_stage = target_header not in proof_log
+                intended_stage = not false_audit.proof_entries(proof_log, key)
             else:
-                intended_stage = (bool(errors) and target_header in proof_log and
-                                  proof_log.index(target_header) < proof_log.index(errors[0]))
+                entries = false_audit.proof_entries(proof_log, key)
+                intended_stage = (bool(errors) and len(entries) == 1 and
+                                  entries[0] < proof_log.index(errors[0]))
             need(capture_module.expected_error(key, proof_log, proof_exit) and
                  len(errors) == 1 and errors[0].startswith("verified/lib.rs(") and
                  intended_stage,
@@ -448,7 +449,7 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     substantive = (output_eq_ok and helpers_ok and admitted_ok and marker_absent and entered and
                    on_code in (1, 2) and bool(errors) and
                    errors[0].startswith("verified/lib.rs(") and
-                   on_log.index(target) < on_log.index(errors[0]))
+                   caller_entries[0] < on_log.index(errors[0]))
     need((sha(verified), sha(original)) == before,
          "actual source pair changed during verification")
     result = {

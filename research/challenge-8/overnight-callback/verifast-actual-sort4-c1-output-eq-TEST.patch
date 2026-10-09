@@ -43,7 +43,7 @@
 +                        | _ -> reject "compiler Output equality exact c1 type substitution")
 +                   | _ -> reject "c1 Output equality opt-in malformed" in
                   let cut_loc = Ast.stmt_loc (block 34) in
-@@ -7375,4 +7375,5 @@
+@@ -7375,7 +7375,8 @@
                     |> List.mapi (fun i stmt ->
 -                        if i = 22 then Ast.NoopStmt (Ast.stmt_loc stmt)
 -                        else if i = 32 then changed_switch
@@ -52,3 +52,6 @@
 +                        else if i = 32 then c1_output_equality @ [changed_switch]
 +                        else [stmt])
 +                   |> List.flatten in
+                  let child =
+                    Ast.BlockStmt
+                      (block_loc, old_decl, sentinel :: (moved @ prefix),
