@@ -1,0 +1,90 @@
+From 2f61f966a4a2549cb016164e35848abd21594a6f Mon Sep 17 00:00:00 2001
+From: root <root@03ohba7t.vm>
+Date: Fri, 9 Oct 2026 20:38:22 +0300
+Subject: [PATCH 1/2] Rust: exclude exposed live storage when allocating
+ address-taken local
+
+---
+ src/verifast.ml | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/src/verifast.ml b/src/verifast.ml
+index 2b64679e..2fd52d67 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -1114,6 +1114,30 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+             if !address_taken then begin
+               let addr = get_unique_var_symb_non_ghost (x ^ "_addr") (PtrType t) in
+               if pure then static_error l "Taking the address of a ghost variable is not allowed." None;
++              (* A new live Rust stack object cannot overlap existing live storage.
++                 Inspect only exposed physical chunks, never arbitrary pointers or
++                 provenance inequality. This does not add or consume permissions. *)
++              let rec exclude_live_storage chunks cont =
++                match chunks with
++                  [] -> cont ()
++                | Chunk ((g, true), [tp], coef, [p; _], _) :: chunks
++                  when dialect = Some Rust &&
++                    (g == generic_points_to_symb () || g == generic_points_to__symb ()) &&
++                    not (is_dummy_frac_term coef) &&
++                    ctxt#query (ctxt#mk_real_lt real_zero coef) ->
++                  let a = mk_ptr_address addr in
++                  let b = mk_ptr_address p in
++                  let n = sizeof_core l env t in
++                  let m = sizeof_core l env tp in
++                  let disjoint = ctxt#mk_or
++                    (ctxt#mk_le (ctxt#mk_add a n) b)
++                    (ctxt#mk_le (ctxt#mk_add b m) a) in
++                  assume (ctxt#mk_or (ctxt#mk_le n int_zero_term)
++                    (ctxt#mk_or (ctxt#mk_le m int_zero_term) disjoint)) $. fun () ->
++                  exclude_live_storage chunks cont
++                | _ :: chunks -> exclude_live_storage chunks cont
++              in
++              exclude_live_storage h $. fun () ->
+               let v = if e = None then None else Some v in
+               produce_points_to_chunk_ l h t (if is_const_var then real_half else real_unit) addr RegularPointsTo v $. fun h ->
+               iter h ((x, RefType(t)) :: tenv) ghostenv ((x, addr)::env) xs
+-- 
+2.43.0
+
+
+From 8c1386a802ba2ff43ffdd6787eaef5e47bf068e1 Mon Sep 17 00:00:00 2001
+From: root <root@03ohba7t.vm>
+Date: Fri, 9 Oct 2026 20:46:49 +0300
+Subject: [PATCH 2/2] Rust: restrict span projection to scalar and abstract
+ generic extents
+
+---
+ src/verifast.ml | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/src/verifast.ml b/src/verifast.ml
+index 2fd52d67..b5ec7803 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -1117,11 +1117,22 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+               (* A new live Rust stack object cannot overlap existing live storage.
+                  Inspect only exposed physical chunks, never arbitrary pointers or
+                  provenance inequality. This does not add or consume permissions. *)
++              (* Concrete Rust struct layout may include zero-sized subobjects;
++                 its existing sizeof axioms do not model these accurately. Keep
++                 this rule to scalar/pointer or abstract generic extents, and
++                 skip unsupported sizeof forms rather than rejecting a program. *)
++              let extent_type_supported tp =
++                match unfold_inferred_type tp with
++                  Bool | Int _ | RustChar | Float | Double | PtrType _ | RustRefType _
++                | GhostTypeParam _ | BoundedGhostTypeParam _ -> true
++                | _ -> false
++              in
+               let rec exclude_live_storage chunks cont =
+                 match chunks with
+                   [] -> cont ()
+                 | Chunk ((g, true), [tp], coef, [p; _], _) :: chunks
+-                  when dialect = Some Rust &&
++                  when dialect = Some Rust && extent_type_supported t &&
++                    extent_type_supported tp &&
+                     (g == generic_points_to_symb () || g == generic_points_to__symb ()) &&
+                     not (is_dummy_frac_term coef) &&
+                     ctxt#query (ctxt#mk_real_lt real_zero coef) ->
+-- 
+2.43.0
+

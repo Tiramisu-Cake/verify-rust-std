@@ -1,0 +1,50 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -3416,8 +3416,22 @@
+           let place_cpn = place_get ref_data_cpn in
+           let place_does_not_need_drop = place_does_not_need_drop_get ref_data_cpn in
+           let* place_expr, place_is_mutable = translate_place place_cpn loc in
++          let place_ty = decode_ty (D.decode_ty (place_ty_get ref_data_cpn)) in
++          let place_kind =
++            VfMirRd.PlaceKind.get (VfMirRd.Place.kind_get place_cpn)
++          in
++          (* Opt-in tracked ManuallyDrop shared reference; no resource creation. *)
++          let track_manually_drop_shared_ref =
++            match place_ty, bor_kind, place_kind with
++            | `Adt (("core::mem::ManuallyDrop" | "std::mem::ManuallyDrop"),
++                    _, [ `Type _ ]), Shared, Other
++              when not place_is_mutable && place_does_not_need_drop -> true
++            | _ -> false
++          in
+           let (path, line, _), _ = Ast.lexed_loc loc in
+           let ignore_ref_creation =
++            if track_manually_drop_shared_ref then false
++            else
+             bor_kind = Mut
+             ||
+             not place_is_mutable && place_does_not_need_drop
+@@ -3450,13 +3464,7 @@
+           if ignore_ref_creation then
+             Ok (`TrRvalueExpr (Ast.AddressOf (loc, place_expr)))
+           else
+-            let place_ty =
+-              decode_ty (D.decode_ty (place_ty_get ref_data_cpn))
+-            in
+             let is_implicit = is_implicit_get ref_data_cpn in
+-            let place_kind =
+-              VfMirRd.PlaceKind.get (VfMirRd.Place.kind_get place_cpn)
+-            in
+             (*
+             Printf.printf "ref creation at %s: place_ty=%s, bor_kind=%s, place_kind=%s, is_implicit=%b\n"
+               (Ast.string_of_loc loc)
+--- a/src/frontend/ocaml_expr_of_ast.ml
++++ b/src/frontend/ocaml_expr_of_ast.ml
+@@ -841,7 +841,7 @@
+   ])
+ | PerformActionStmt (_, _, _, _, _, _, _, _, _, _, _, _) -> failwith "TODO"
+ | SplitFractionStmt (_, _, _, _, _) -> failwith "TODO"
+-| MergeFractionsStmt (_, _) -> failwith "TODO"
++| MergeFractionsStmt (l, e) -> C ("MergeFractionsStmt", [of_loc l; of_expr e])
+ | CreateBoxStmt (_, _, _, _, _, _, _) -> failwith "TODO"
+ | CreateHandleStmt (_, _, _, _, _) -> failwith "TODO"
+ | DisposeBoxStmt (_, _, _, _) -> failwith "TODO"

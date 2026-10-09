@@ -1,0 +1,46 @@
+diff --git a/src/verifast.ml b/src/verifast.ml
+index 2b64679e..b5ec7803 100644
+--- a/src/verifast.ml
++++ b/src/verifast.ml
+@@ -1114,6 +1114,41 @@ module VerifyProgram(VerifyProgramArgs: VERIFY_PROGRAM_ARGS) = struct
+             if !address_taken then begin
+               let addr = get_unique_var_symb_non_ghost (x ^ "_addr") (PtrType t) in
+               if pure then static_error l "Taking the address of a ghost variable is not allowed." None;
++              (* A new live Rust stack object cannot overlap existing live storage.
++                 Inspect only exposed physical chunks, never arbitrary pointers or
++                 provenance inequality. This does not add or consume permissions. *)
++              (* Concrete Rust struct layout may include zero-sized subobjects;
++                 its existing sizeof axioms do not model these accurately. Keep
++                 this rule to scalar/pointer or abstract generic extents, and
++                 skip unsupported sizeof forms rather than rejecting a program. *)
++              let extent_type_supported tp =
++                match unfold_inferred_type tp with
++                  Bool | Int _ | RustChar | Float | Double | PtrType _ | RustRefType _
++                | GhostTypeParam _ | BoundedGhostTypeParam _ -> true
++                | _ -> false
++              in
++              let rec exclude_live_storage chunks cont =
++                match chunks with
++                  [] -> cont ()
++                | Chunk ((g, true), [tp], coef, [p; _], _) :: chunks
++                  when dialect = Some Rust && extent_type_supported t &&
++                    extent_type_supported tp &&
++                    (g == generic_points_to_symb () || g == generic_points_to__symb ()) &&
++                    not (is_dummy_frac_term coef) &&
++                    ctxt#query (ctxt#mk_real_lt real_zero coef) ->
++                  let a = mk_ptr_address addr in
++                  let b = mk_ptr_address p in
++                  let n = sizeof_core l env t in
++                  let m = sizeof_core l env tp in
++                  let disjoint = ctxt#mk_or
++                    (ctxt#mk_le (ctxt#mk_add a n) b)
++                    (ctxt#mk_le (ctxt#mk_add b m) a) in
++                  assume (ctxt#mk_or (ctxt#mk_le n int_zero_term)
++                    (ctxt#mk_or (ctxt#mk_le m int_zero_term) disjoint)) $. fun () ->
++                  exclude_live_storage chunks cont
++                | _ :: chunks -> exclude_live_storage chunks cont
++              in
++              exclude_live_storage h $. fun () ->
+               let v = if e = None then None else Some v in
+               produce_points_to_chunk_ l h t (if is_const_var then real_half else real_unit) addr RegularPointsTo v $. fun h ->
+               iter h ((x, RefType(t)) :: tenv) ghostenv ((x, addr)::env) xs

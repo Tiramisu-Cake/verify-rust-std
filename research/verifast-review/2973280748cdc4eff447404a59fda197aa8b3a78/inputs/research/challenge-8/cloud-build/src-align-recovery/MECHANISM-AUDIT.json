@@ -1,0 +1,20 @@
+{
+  "kind": "SOURCE_READ_ONLY_MECHANISM_AUDIT",
+  "baseline_build": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
+  "vf_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "saved_cloud_spec_hashes": {
+    "prelude_core.patched.rsspec": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "std_lib.patched.rsspec": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+    "verifast.kernel.patched.ml": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6"
+  },
+  "unchanged_pinned_source_hashes": {
+    "bin/rust/aliasing.rsspec": "2c673b73fa7a41d56672bfb3a180f3e7d7e2cdf7280f1b38f8fad138f08b4518",
+    "src/verifast1.ml": "b1b0ae618bbce1a0bce9714ce10a47dbeb855e919b980b7ce6a70108ff9b91d7",
+    "src/assertions.ml": "4e8a7a38e9bd742484a386490674bcbdd8ddbb8d9e7ca829ba61cdd35fee8a68",
+    "bin/rust/prelude_core_core.rsspec": "d9c6a848b46bfc432d16074fd0535f712c546570b65405153d45de9c33e1838c"
+  },
+  "alignment": "Existing to_u8s_/from_u8s_ resource/value-preserving round trip on genuine source points_to; fully-bodied new lemma pending Cloud.",
+  "reference": "precreate_ref only bookkeeping; init_ref_readonly real fraction; create_ref returns precreated p; reborrow identity; src==held_ref checked.",
+  "limits": "points_to_limits has no alignment or cross-object separation post.",
+  "separation": "No located cross-allocation numeric separation API in frozen include closure; fresh stack symbol bounds are individual only. Fresh proof will test actual span assertion; no no-go proof credited by source read."
+}

@@ -1,0 +1,132 @@
+diff --git a/bin/rust/prelude_core.rsspec b/bin/rust/prelude_core.rsspec
+index 34d3057..113ca4f 100644
+--- a/bin/rust/prelude_core.rsspec
++++ b/bin/rust/prelude_core.rsspec
+@@ -106,6 +106,24 @@ fix ptr_add(p: pointer, offset: i32) -> pointer {
+     pointer_ctor(p.provenance, p.address + offset, p.metadata)
+ }
+ 
++// The bounded wrapping-pointer contracts below call this with a byte offset
++// in [-size_of(T), size_of(T)].  Since size_of(T) <= usize::MAX, one correction
++// suffices to represent the modular address.  Keep both provenance and metadata.
++fix wrapping_pointer_offset(p: pointer, byte_offset: i32) -> pointer {
++    pointer_ctor(
++        p.provenance,
++        if p.address + byte_offset < 0 {
++            p.address + byte_offset + usize::MAX + 1
++        } else {
++            if usize::MAX < p.address + byte_offset {
++                p.address + byte_offset - usize::MAX - 1
++            } else {
++                p.address + byte_offset
++            }
++        },
++        p.metadata)
++}
++
+ fix ptr_add_strip_metadata(p: pointer, offset: i32) -> pointer {
+     pointer_ctor(p.provenance, p.address + offset, pointer_metadata_none)
+ }
+diff --git a/bin/rust/std/lib.rsspec b/bin/rust/std/lib.rsspec
+index a5d925d..30d4bb1 100644
+--- a/bin/rust/std/lib.rsspec
++++ b/bin/rust/std/lib.rsspec
+@@ -296,6 +296,44 @@ mod marker {
+ 
+ mod intrinsics {
+ 
++    // The Rust pointer wrappers use arith_offset after exact 0/1 count casts
++    // (and wrapping_neg for sub).  These synthetic calls keep the unsigned
++    // boundary explicit before any cast to isize can hide a high-bit count.
++    fn verifast_wrapping_add_const<T>(ptr: *const T, count: usize) -> *const T;
++    //@ req (count == 0 || count == 1) &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
++    fn verifast_wrapping_sub_const<T>(ptr: *const T, count: usize) -> *const T;
++    //@ req (count == 0 || count == 1) &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, -count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
++    fn verifast_wrapping_offset_const<T>(ptr: *const T, count: isize) -> *const T;
++    //@ req -1 <= count &*& count <= 1 &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
++    fn verifast_wrapping_add_mut<T>(ptr: *mut T, count: usize) -> *mut T;
++    //@ req (count == 0 || count == 1) &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
++    fn verifast_wrapping_sub_mut<T>(ptr: *mut T, count: usize) -> *mut T;
++    //@ req (count == 0 || count == 1) &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, -count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
++    fn verifast_wrapping_offset_mut<T>(ptr: *mut T, count: isize) -> *mut T;
++    //@ req -1 <= count &*& count <= 1 &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
++    unsafe fn arith_offset<T>(ptr: *const T, count: isize) -> *const T;
++    //@ req -1 <= count &*& count <= 1 &*& 0 <= (ptr as pointer).address &*& (ptr as pointer).address <= usize::MAX &*& 0 <= std::mem::size_of::<T>() &*& std::mem::size_of::<T>() <= usize::MAX;
++    //@ ens result as pointer == wrapping_pointer_offset(ptr as pointer, count * std::mem::size_of::<T>());
++    //@ on_unwind_ens false;
++
+     fn ub_checks() -> bool;
+     //@ req true;
+     //@ ens result == false; // TODO: Also check the case where `ub_checks()` returns `true`. https://github.com/verifast/verifast/issues/931
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index 4e237a6..c92ebbd 100644
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -2519,6 +2519,49 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
+                       (`TrFnCallRExpr
+                         (Printf.sprintf "Invalid (generic) arg(s) for %s"
+                            fn_name)))
++            (* Keep wrapping arithmetic separate from the ordinary Add/Sub
++               pointer operations.  The target functions have bounded
++               preconditions and a modular, provenance-preserving post. *)
++            | "std::ptr::const_ptr::<impl *const T>::wrapping_add"
++            | "std::ptr::const_ptr::<impl *const T>::wrapping_sub"
++            | "std::ptr::const_ptr::<impl *const T>::wrapping_offset"
++            | "std::ptr::mut_ptr::<impl *mut T>::wrapping_add"
++            | "std::ptr::mut_ptr::<impl *mut T>::wrapping_sub"
++            | "std::ptr::mut_ptr::<impl *mut T>::wrapping_offset" -> (
++                match (substs, args_cpn) with
++                | [ Mir.GenArgType gen_arg_ty_info ], [ _; _ ] ->
++                    let [ ptr; count ] = args in
++                    let primitive_name =
++                      match fn_name with
++                      | "std::ptr::const_ptr::<impl *const T>::wrapping_add" ->
++                          "std::intrinsics::verifast_wrapping_add_const"
++                      | "std::ptr::const_ptr::<impl *const T>::wrapping_sub" ->
++                          "std::intrinsics::verifast_wrapping_sub_const"
++                      | "std::ptr::const_ptr::<impl *const T>::wrapping_offset" ->
++                          "std::intrinsics::verifast_wrapping_offset_const"
++                      | "std::ptr::mut_ptr::<impl *mut T>::wrapping_add" ->
++                          "std::intrinsics::verifast_wrapping_add_mut"
++                      | "std::ptr::mut_ptr::<impl *mut T>::wrapping_sub" ->
++                          "std::intrinsics::verifast_wrapping_sub_mut"
++                      | "std::ptr::mut_ptr::<impl *mut T>::wrapping_offset" ->
++                          "std::intrinsics::verifast_wrapping_offset_mut"
++                      | _ -> assert false
++                    in
++                    Ok
++                      ( tmp_rvalue_binders,
++                        FnCallOutcome
++                          (Ast.CallExpr
++                             ( fn_loc,
++                               primitive_name,
++                               [ gen_arg_ty_info.vf_ty ],
++                               [],
++                               [ LitPat ptr; LitPat count ],
++                               Static )) )
++                | _ ->
++                    Error
++                      (`TrFnCallRExpr
++                        (Printf.sprintf "Invalid (generic) arg(s) for %s"
++                           fn_name)))
+             | "std::ptr::const_ptr::<impl *const T>::add"
+             | "std::ptr::mut_ptr::<impl *mut T>::add" -> (
+                 match (substs, args_cpn) with
