@@ -18,7 +18,8 @@ MARKER_REL = Path("library/core/src/marker.rs")
 SHARED_REL = Path("library/core/src/slice/sort/shared/mod.rs")
 CAPTURE_REL = Path("research/challenge-8/overnight-sort4/capture.py")
 HERE = Path(__file__).resolve().parent
-CASES = ("prefix-native", "source-frame-positive", "bridge-positive", "range-negative", "duplicate-negative")
+CASES = ("prefix-native", "source-frame-positive", "bridge-positive", "range-negative",
+         "duplicate-negative", "native-scratch-frame", "source-post-negative")
 FUNCTION_NAME = b"fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>("
 SCRATCH_LINE = b"        let scratch_base = scratch.as_mut_ptr() as *mut T;"
 SORT8_CONDITION = b"if const { size_of::<T>() <= 16 } && len >= 16 {"
@@ -148,6 +149,8 @@ def _case_source(name: str) -> bytes:
     _need(end >= 0, f"case block unterminated: {name}")
     body = cases[start:end]
     body = re.sub(rb"(?m)^//(?!@)[^\r\n]*(?:\r?\n|$)", b"", body)
+    body = re.sub(rb"/\*@(.*?)@\*/", lambda m: m.group(1), body, flags=re.S)
+    body = re.sub(rb"(?m)^[ \t]*return;[ \t]*(?:\r?\n|$)", b"", body)
     return body.strip(b"\r\n")
 
 
@@ -163,6 +166,59 @@ def _lemma(memory_pre: bytes) -> bytes:
     ens = req.replace(b"?", b"")
     return (b"/*@\nlem c1_entry_identity<T, F>(v_base: *T, dst: *T, is_less: *F)\n"
             b"    req " + req + b";\n    ens " + ens + b";\n{}\n@*/\n")
+
+
+def _source_identity_lemma() -> bytes:
+    return (
+        b"/*@\n"
+        b"lem c1_source_identity<T, F>(v_base: *T, is_less: *F, t: thread_id_t, "
+        b"source4: list<T>, less: F)\n"
+        b"    req thread_token(t) &*& t == currentThread &*& "
+        b"v_base[..4] |-> source4 &*& foreach(source4, own::<T>(t)) &*& "
+        b"*is_less |-> less &*& <F>.own(t, less);\n"
+        b"    ens thread_token(t) &*& t == currentThread &*& "
+        b"v_base[..4] |-> source4 &*& foreach(source4, own::<T>(t)) &*& "
+        b"*is_less |-> less &*& <F>.own(t, less);\n"
+        b"{}\n"
+        b"@*/\n"
+    )
+
+
+def _source_line_bytes(source: bytes, anchor: bytes) -> tuple[bytes, int]:
+    _need(source.count(anchor) == 1, f"source operation absent or ambiguous: {anchor!r}")
+    at = source.index(anchor)
+    start = source.rfind(b"\n", 0, at) + 1
+    end = source.find(b"\n", at)
+    _need(end >= 0, f"source operation is not newline terminated: {anchor!r}")
+    return source[start:end + 1], start
+
+
+def _native_entry_function(caller: bytes) -> tuple[bytes, dict[str, tuple[int, bytes]]]:
+    """Build a separate native entry lemma from exact read-only caller operations."""
+    header_end = caller.find(b"{")
+    _need(header_end >= 0, "caller function opening brace absent")
+    header = caller[:header_end + 1]
+    operations = (
+        ("len", b"let len = v.len();"),
+        ("v_base", b"let v_base = v.as_mut_ptr();"),
+        ("len_div_2", b"let len_div_2 = len / 2;"),
+        ("scratch_base", SCRATCH_LINE.strip()),
+    )
+    copied: dict[str, tuple[int, bytes]] = {}
+    lines: list[bytes] = []
+    for name, anchor in operations:
+        line, offset = _source_line_bytes(caller, anchor)
+        copied[name] = (offset, line)
+        lines.append(line)
+    offsets = [copied[name][0] for name, _ in operations]
+    _need(offsets == sorted(offsets), "read-only source operations changed order")
+    unsafe_line, unsafe_offset = _source_line_bytes(caller, b"unsafe {")
+    _need(caller.rfind(b"    unsafe {", 0, copied["scratch_base"][0]) == unsafe_offset,
+          "unsafe block anchor is not the source scratch block")
+    body = (header + b"\n" + lines[0] + lines[1] + lines[2] + unsafe_line + lines[3] +
+            b"        /*@ if (len >= 8) {\n")
+    copied["unsafe"] = (unsafe_offset, unsafe_line)
+    return body, copied
 
 
 def _source_line(source: bytes, offset: int) -> int:
@@ -200,83 +256,26 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
     freeze_def, freeze_def_start = _extract_freeze_definition(marker)
     memory_pre = _memory_pre_contract((repo / CAPTURE_REL).read_bytes())
 
-    scratch_at = caller.index(SCRATCH_LINE)
-    prefix_end = scratch_at + len(SCRATCH_LINE)
-    source_prefix = caller[:prefix_end]
-    len_line = b"    let len = v.len();\n"
-    scratch_limit_check = b"if scratch.len() < len + 16 {"
-    _need(source_prefix.count(len_line) == 1,
-          "original let len = v.len() source anchor absent or ambiguous")
-    _need(caller.count(scratch_limit_check) == 1,
-          "original scratch len+16 check absent or ambiguous")
-    len_end = source_prefix.index(len_line) + len(len_line)
-    runtime_path_filters = (
-        b"    if size_of::<T>() <= 16 && len >= 16 {\n"
-        b"        return;\n"
-        b"    }\n"
-        b"    if const { size_of::<T>() <= 16 } && len >= 16 {\n"
-        b"        return;\n"
-        b"    }\n"
-        b"    if len < 8 {\n"
-        b"        return;\n"
-        b"    }\n"
-    )
-    overflow_bound_check = (
-        b"/*@\n"
-        b"if (true) {\n"
-        b"    let v_len_base = strip_pointer_metadata(v as pointer) as *T;\n"
-        b"    assert v_len_base[..len] |-> ?v_len_elems;\n"
-        b"    array_inv::<T>();\n"
-        b"    if (16 < std::mem::size_of::<T>()) {\n"
-        b"        mul_mono_l(1, std::mem::size_of::<T>(), len);\n"
-        b"    } else {\n"
-        b"        assert len < 16;\n"
-        b"    }\n"
-        b"}\n"
-        b"@*/\n"
-    )
-    scratch_success_filter = (
-        b"    if scratch.len() < len + 16 {\n"
-        b"        return;\n"
-        b"    }\n"
-    )
-    fragment_insertions = runtime_path_filters + overflow_bound_check + scratch_success_filter
-    prefix = (source_prefix[:len_end] + fragment_insertions +
-              source_prefix[len_end:])
-    _need(prefix.count(fragment_insertions) == 1,
-          "diagnostic insertions are absent or ambiguous in filtered prefix")
-    _need(prefix.replace(fragment_insertions, b"", 1) == source_prefix,
-          "removing the exact diagnostic insertions did not recover source prefix")
-    _need(prefix.index(overflow_bound_check) < prefix.index(scratch_success_filter) < prefix.rindex(scratch_limit_check),
-          "checked overflow bound must precede the original len+16 check")
-    cond1_at = caller.index(SORT8_CONDITION, prefix_end)
-    cond2_at = caller.index(SORT4_CONDITION, cond1_at)
-    cond3_at = caller.index(ELSE_CONDITION, cond2_at)
-    cond1 = caller[cond1_at:cond1_at + len(SORT8_CONDITION)]
-    cond2 = caller[cond2_at:cond2_at + len(SORT4_CONDITION)]
-    cond3 = caller[cond3_at:cond3_at + len(ELSE_CONDITION)]
-    call_anchor = b"sort4_stable(v_base, scratch_base, is_less);"
-    call_at = caller.index(call_anchor)
-    _need(b"is_less(" not in prefix and b"ptr::copy_nonoverlapping(" not in prefix,
-          "callback or copy appears before the first call in the preserved prefix")
-    case_body = b"//@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n" + _case_source(case)
+    native_body, copied_ops = _native_entry_function(caller)
+    case_body = _case_source(case)
+    case_body = b"assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n" + case_body
     indented_case = b"            " + case_body.replace(b"\n", b"\n            ").rstrip()
-    branch = (b"\n        " + cond1 + b"\n            return;\n        " + cond2 + b"\n" +
-              indented_case + b"\n        " + cond3 + b"\n            return;\n        }\n    }\n}")
-    fragment = prefix + branch
-    lemma = _lemma(memory_pre) if case == "bridge-positive" else b""
-    common_preamble = FEATURES + freeze_marker + b"\n"
-    verified = common_preamble + lemma + fragment
-    original = common_preamble + _ghost_strip(fragment)
+    fragment = native_body + indented_case + b"\n        } @*/\n    }\n}"
+    source_lemma = (_source_identity_lemma()
+                    if case in ("source-frame-positive", "source-post-negative") else b"")
+    bridge_lemma = _lemma(memory_pre) if case == "bridge-positive" else b""
+    common_preamble = FEATURES + freeze_marker + b"\n" + source_lemma + bridge_lemma
+    verified = common_preamble + fragment
+    original = FEATURES + freeze_marker + b"\n" + _ghost_strip(fragment)
     _need(_ghost_strip(verified) == original,
-          "ghost-stripped verified fragment differs from constructed original fragment")
+          "ghost-stripped verified fragment differs from constructed native entry function")
     _need(not any(token in verified for token in (b"assume", b"admit", b"unchecked")),
           "fixture contains a forbidden assumption/admission marker")
-    _need(b"sort8_stable(" not in fragment and b"insert_tail(" not in fragment and
-          b"sort4_stable(v_base.add(len_div_2)" not in fragment,
-          "diagnostic fragment crossed its explicit first-call boundary")
-    _need(call_anchor not in fragment,
-          "diagnostic fragment must stop at the first callsite without invoking sort4")
+    _need(not any(token in fragment for token in (
+        b"sort8_stable(", b"sort4_stable(", b"insert_tail(",
+        b"ptr::copy_nonoverlapping(", b"scratch.len() <", b"if const {",
+        b"size_of::<T>() <= 16")),
+        "standalone entry lemma must not project actual caller control flow")
 
     out.mkdir(parents=True)
     (out / "original").mkdir()
@@ -285,71 +284,71 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
     (out / "original/lib.rs").write_bytes(original)
     (out / "verified/lib.rs").write_bytes(verified)
 
+    marker_line = b"assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY"
     line_targets = {}
     for label, needle in (
-        ("inline_const_value_path_filter", b"if size_of::<T>() <= 16 && len >= 16"),
-        ("overflow_runtime_size_guard", b"if const { size_of::<T>() <= 16 } && len >= 16"),
-        ("overflow_runtime_len_guard", b"if len < 8 {"),
-        ("overflow_array_invariant", b"array_inv::<T>();"),
-        ("overflow_large_type_mono", b"mul_mono_l(1, std::mem::size_of::<T>(), len);"),
-        ("overflow_small_type_bound", b"assert len < 16;"),
-        ("scratch_success_path_filter", scratch_success_filter),
-        ("first_sort4_callsite_boundary", b"assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY"),
-        ("original_scratch_len_plus_16_check", scratch_limit_check),
-        ("positive_identity_lemma", b"c1_entry_identity::<T, F>"),
+        ("first_sort4_callsite_boundary", marker_line),
+        ("source_sort8_condition", marker_line),
+        ("source_sort4_condition", marker_line),
+        ("source_array", b"assert v_base[..len] |-> ?source_all;"),
         ("source_subset_four", b"assert v_base[..4] |-> ?first_four;"),
-        ("positive_size_guard", b"if (0 < std::mem::size_of::<T>())"),
-        ("range_negative_split", b"array_split::<T>(v_base, len + 1);"),
+        ("source_identity_lemma", b"c1_source_identity::<T, F>"),
+        ("positive_identity_lemma", b"c1_entry_identity::<T, F>"),
+        ("positive_size_guard", b"if (0 < std::mem::size_of::<T>() && scratch_len >= 4)"),
+        ("bridge_scratch_guard", b"scratch_len >= 4"),
+        ("range_negative_split", b"array_split::<T>(v_base, 9);"),
         ("duplicate_negative_authority", b"v_base[..len] |-> ?xs"),
-        ("source_sort8_condition", SORT8_CONDITION),
-        ("source_sort4_condition", SORT4_CONDITION),
+        ("native_scratch_array", b"assert mu_base[..scratch_len] |-> ?mu_all;"),
+        ("source_post_negative", b"assert less_after != less_before;"),
     ):
         if needle in verified:
-            at = verified.rindex(needle) if label in ("source_sort8_condition", "original_scratch_len_plus_16_check") else verified.index(needle)
+            at = verified.index(needle)
             line_targets[label] = verified[:at].count(b"\n") + 1
+    boundary_line = verified[:verified.index(marker_line)].count(b"\n") + 1
+    artificial_compatibility_targets = (
+        "inline_const_value_path_filter", "overflow_runtime_size_guard",
+        "overflow_runtime_len_guard", "overflow_array_invariant",
+        "overflow_large_type_mono", "overflow_small_type_bound",
+        "scratch_success_path_filter", "original_scratch_len_plus_16_check",
+        "source_sort8_condition", "source_sort4_condition",
+    )
+    for label in artificial_compatibility_targets:
+        line_targets.setdefault(label, boundary_line)
     line_lists = {}
     for label, needle in (
-        ("overflow_slice_array", b"assert v_len_base[..len] |-> ?v_len_elems;"),
-        ("overflow_array_invariant", b"array_inv::<T>();"),
-        ("overflow_large_type_mono", b"mul_mono_l(1, std::mem::size_of::<T>(), len);"),
-        ("overflow_small_type_bound", b"assert len < 16;"),
-        ("inline_const_value_path_filter", b"if size_of::<T>() <= 16 && len >= 16"),
-        ("overflow_runtime_size_guard", b"if const { size_of::<T>() <= 16 } && len >= 16"),
-        ("overflow_runtime_len_guard", b"if len < 8 {"),
         ("thread_token", b"assert thread_token(?t);"),
         ("current_thread", b"assert t == currentThread;"),
-        ("type_interp_T", b"assert type_interp::<T>();"),
-        ("type_interp_F", b"assert type_interp::<F>();"),
         ("source_array", b"assert v_base[..len] |-> ?source_all;"),
         ("source_owners", b"assert foreach(source_all, own::<T>(t));"),
         ("source_array_split", b"array_split::<T>(v_base, 4);"),
         ("source_owners_split", b"foreach_split(source_all, own::<T>(t), 4);"),
-        ("maybeuninit_pointer", b"let mu_base = strip_pointer_metadata"),
-        ("scratch_length", b"let scratch_len = ptr_len(scratch);"),
-        ("maybeuninit_array", b"assert mu_base[..scratch_len] |-> ?mu_all;"),
-        ("maybeuninit_owners", b"assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));"),
-        ("maybeuninit_array_split", b"array_split::<std::mem::MaybeUninit<T>>(mu_base, 4);"),
-        ("maybeuninit_array_unroll", b"open array::<std::mem::MaybeUninit<T>>(mu_base"),
-        ("maybeuninit_open_lemma", b"std::mem::open_MaybeUninit::<T>(mu_base"),
-        ("optional_cell", b"assert *scratch_base |-?-> ?storage0;"),
-        ("array_optional_close", b"close array_::<T>(scratch_base"),
-        ("destination_array_for_c1", b"assert array_::<T>(scratch_base, 4, ?destination_before);"),
-        ("pointer_limits", b"assert pointer_within_limits(scratch_base"),
-        ("positive_size_guard", b"if (0 < std::mem::size_of::<T>())"),
+        ("source_identity_lemma", b"c1_source_identity::<T, F>"),
+        ("native_scratch_array", b"assert mu_base[..scratch_len] |-> ?mu_all;"),
+        ("native_scratch_owners", b"assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));"),
+        ("positive_size_guard", b"if (0 < std::mem::size_of::<T>() && scratch_len >= 4)"),
         ("identity_lemma_call", b"c1_entry_identity::<T, F>"),
-        ("maybeuninit_close_lemma", b"std::mem::close_MaybeUninit_::<T>(mu_base"),
-        ("maybeuninit_array_join", b"array_join::<std::mem::MaybeUninit<T>>(mu_base);"),
-        ("source_array_join", b"array_join::<T>(v_base);"),
-        ("source_owner_append", b"foreach_append(take(4, source_all), drop(4, source_all));"),
-        ("range_negative", b"array_split::<T>(v_base, len + 1);"),
+        ("range_negative", b"array_split::<T>(v_base, 9);"),
         ("duplicate_negative", b"assert v_base[..len] |-> ?xs"),
+        ("source_post_negative", b"assert less_after != less_before;"),
     ):
         matches = list(re.finditer(re.escape(needle), verified))
         if matches:
             line_lists[label] = [verified[:match.start()].count(b"\n") + 1 for match in matches]
 
+    operation_map = {
+        name: {
+            "source_byte_start": caller_start + offset,
+            "caller_relative_byte_start": offset,
+            "source_line": _source_line(caller, offset),
+            "statement_sha256": _sha(line),
+            "exact_statement_bytes": line.decode(),
+            "verified_source_line": _source_line(verified, verified.find(line)),
+            "lemma_byte_start": verified.find(line),
+        }
+        for name, (offset, line) in copied_ops.items()
+    }
     record = {
-        "classification": "SOURCE_LINKED_PATH_FILTERED_CALLER_ENTRY_FRAGMENT_NOT_FULL_CALLER_PROOF",
+        "classification": "SOURCE_LINKED_STANDALONE_NATIVE_ENTRY_RESOURCE_DIAGNOSTIC_NOT_CALLER_PROOF",
         "case": case,
         "cloud_only": True,
         "execution_provider": "cloud-build",
@@ -361,7 +360,12 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             "full_original_caller_sha256": _sha(caller),
             "caller_byte_start": caller_start, "caller_byte_end_exclusive": caller_end,
             "caller_start_line": _source_line(source, caller_start),
-            "caller_runtime_source_exact": True, "caller_signature_and_body_brace_balanced": True,
+            "caller_signature_sha256": _sha(caller[:caller.find(b"{")]),
+            "caller_runtime_source_exact": True,
+            "caller_signature_and_body_brace_balanced": True,
+            "native_entry_signature_exact": True,
+            "native_entry_is_separate_resource_lemma": True,
+            "native_entry_signature": caller[:caller.find(b"{")].decode(),
         },
         "freeze_marker_certificate": {
             "shared_path": str(SHARED_REL), "shared_sha256": _sha(shared),
@@ -372,67 +376,75 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         },
         "memory_pre_contract_sha256": _sha(memory_pre),
         "memory_pre_contract_source": str(CAPTURE_REL) + ":MEMORY_PRE_CONTRACT",
-        "fragment_boundary": "first sort4_stable callsite is linked by source certificate; diagnostic branch stops there and returns",
         "source_mapped_condition_bytes": {
-            "sort8_condition": cond1.decode(), "sort4_selected_condition": cond2.decode(),
-            "else_condition": cond3.decode(), "preserved_verbatim_from_actual_caller": True,
-            "prefix_source_byte_start": caller_start,
-            "prefix_source_byte_end_exclusive": caller_start + prefix_end,
-            "sort8_condition_byte_start": caller_start + cond1_at,
-            "sort4_selected_condition_byte_start": caller_start + cond2_at,
-            "else_condition_byte_start": caller_start + cond3_at,
-            "first_sort4_call_byte_start": caller_start + call_at,
-            "first_sort4_call_source": call_anchor.decode(),
-            "runtime_filter_insertion_source_byte": caller_start + len_end,
-            "original_scratch_len_plus_16_check_byte_start":
-                caller_start + caller.index(scratch_limit_check),
-            "runtime_filter_insertion_sha256": _sha(runtime_path_filters),
-            "inline_const_value_filter": "size_of::<T>() <= 16 && len >= 16",
-            "inline_const_value_filter_basis": "same pure size_of expression as original inline const; duplicate path selector only; original const condition retained",
-            "scratch_success_filter_sha256": _sha(scratch_success_filter),
-            "scratch_success_filter_matches_original_condition": True,
-            "original_abort_check_retained_verbatim": True,
-            "scratch_success_filter_insertion_source_byte": caller_start + len_end,
-            "scratch_success_filter_condition": scratch_limit_check.decode(),
-            "overflow_bound_check_insertion_sha256": _sha(overflow_bound_check),
+            "operation_map": operation_map,
+            "all_operations_are_read_only": True,
+            "source_runtime_identity_claim": False,
+            "caller_cfg_projection_claim": False,
+            "ghost_boundary_marker": "FIRST_SORT4_CALLSITE_BOUNDARY",
+            "ghost_boundary_is_artificial": True,
+            "selected_applicability_basis": (
+                "At the actual first sort4 call, len >= 8. Intervening length/pointer reads and "
+                "guard checks do not mutate source/F/MU heap resources; no comparator or copy "
+                "precedes the call. This separate lemma does not prove those guards or const-branch selection."
+            ),
         },
-        "original_prefix_source_sha256": _sha(source_prefix),
-        "original_prefix_reconstructed_by_removing_exact_insertions":
-            prefix.replace(fragment_insertions, b"", 1) == source_prefix,
-        "filtered_fragment_has_runtime_path_filter": True,
-        "filtered_fragment_path": "after original let len = v.len(): excludes size<=16,len>=16 and len<8 paths; retains original branch conditions at callsite",
-        "len_plus_16_overflow_argument": "with size_of<T>() > 16, array_inv<T>() and mul_mono_l(1,size_of<T>(),len) derive len <= isize::MAX; otherwise the runtime size/length filter leaves len < 16",
-        "overflow_bound_check_precedes_original_len_plus_16": True,
-        "diagnostic_prefix_insertions": [
-            {
-                "name": "selected_path_runtime_filters",
-                "inserted_after_source": "let len = v.len();",
-                "sha256": _sha(runtime_path_filters),
-                "byte_length": len(runtime_path_filters),
-                "source": runtime_path_filters.decode(),
-            },
-            {
-                "name": "checked_len_plus_16_bound",
-                "inserted_after_source": "selected-path runtime filters; before original len+16 check",
-                "sha256": _sha(overflow_bound_check),
-                "byte_length": len(overflow_bound_check),
-                "source": overflow_bound_check.decode(),
-            },
-        ],
+        "native_entry_contract": {
+            "signature_is_exact_actual_caller_signature": True,
+            "full_native_precondition_from_generated_mutable_reference_contract": True,
+            "automatic_native_normal_post_checked": True,
+            "automatic_native_unwind_post_checked": True,
+            "automatic_native_leak_check_required": True,
+            "native_post_source": "stock generated contract for the exact signature; not hand-written or strengthened",
+            "native_post_capture_status": "must be captured and hashed by the Cloud collector",
+            "all_lengths_admitted": True,
+            "all_scratch_lengths_admitted": True,
+            "zst_admitted": True,
+            "no_runtime_guard_or_caller_cfg_projection": True,
+        },
+        "type_interp_disposition": {
+            "source-frame-positive": "no type_interp assertion or production; no type_interp caller premise claimed",
+            "bridge-positive": "stock produce_type_interp::<T/F>() in the real diagnostic function, followed by explicit stock leak type_interp::<T/F>(); trusted logical production, not native heap derivation",
+            "other_cases": "no explicit type_interp production",
+        },
+        "bridge_diagnostic_subdomain": {
+            "guard": "ghost condition size_of<T>() > 0 && scratch_len >= 4",
+            "caller_scratch_success_implies_lower_bound_claim": False,
+            "scope_note": "condition selects a diagnostic subdomain only; no caller CFG or arithmetic proof is included",
+        } if case == "bridge-positive" else None,
+        "fragment_boundary": "standalone same-signature native entry resource lemma; no actual caller CFG projection",
+        "original_prefix_source_sha256": None,
+        "original_prefix_reconstructed_by_removing_exact_insertions": False,
+        "filtered_fragment_has_runtime_path_filter": False,
+        "filtered_fragment_path": None,
+        "diagnostic_prefix_insertions": [],
         "diagnostic_fragment_prefix_byte_identical_to_source": False,
-        "ghost_strip_pair_scope": "filtered diagnostic fragment only; actual full caller preserved separately",
-        "branch_conditions_exact": True, "no_comparator_or_copy_before_first_sort4": True,
+        "ghost_strip_pair_scope": "standalone native entry resource diagnostic; actual full caller preserved separately",
+        "branch_conditions_exact": False,
+        "no_comparator_or_copy_before_first_sort4": True,
         "first_sort4_runtime_call_in_fragment": False,
         "sort8_or_later_call_summaries": False,
         "case_constraints": {
-            "prefix-native": "no added proof requirement or post; native generated mutable-reference entry only",
-            "source-frame-positive": "checks source4 owners/F/thread subset and restores native frame inside existing positive-size c1 domain; no dst/type resources supplied or asserted",
-            "bridge-positive": "identity boundary entailment uses exact captured c1 pre inside a ghost positive-size guard; actual branch domain remains unrestricted in the saved caller",
-            "range-negative": "array_split at len+1 is intended out-of-range authority control",
-            "duplicate-negative": "duplicate whole-array authority assertion is intended duplicate-authority control",
+            "prefix-native": "native entry contract only; artificial len>=8 ghost boundary has no assertions",
+            "source-frame-positive": "source4 owners/F/thread subset; explicit identity lemma; full source frame restored; no type_interp or destination resources",
+            "bridge-positive": "diagnostic is ghost-guarded by size_of<T>() > 0 and scratch_len >= 4; stock type_interp production/leak is explicit; MU restoration remains unresolved",
+            "range-negative": "under len==8, split at constant 9 gives bounded out-of-range authority control without len+1 overflow",
+            "duplicate-negative": "duplicate whole-array authority assertion is the intended duplicate-authority control",
+            "native-scratch-frame": "asserts native MaybeUninit array/owners and leaves them untouched",
+            "source-post-negative": "after source4 identity lemma, false current-value post is the intended negative",
         }[case],
         "targeted_ghost_statement_lines": line_targets,
         "targeted_ghost_statement_line_lists": line_lists,
+        "targeted_ghost_statement_line_kinds": {
+            "first_sort4_callsite_boundary": "artificial ghost boundary inside standalone resource lemma",
+            **{label: "compatibility alias to artificial ghost boundary; not an actual source statement"
+               for label in artificial_compatibility_targets},
+        },
+        "expected_negative_first_error": {
+            "range-negative": {"marker": "RANGE_AUTHORITY_CONTROL", "obligation": "array_split at 9 with len==8"},
+            "duplicate-negative": {"marker": "DUPLICATE_AUTHORITY_CONTROL", "obligation": "duplicate whole-array array authority"},
+            "source-post-negative": {"marker": "SOURCE_CURRENT_VALUE_POST_CONTROL", "obligation": "false current-value post after identity lemma"},
+        }.get(case),
         "generated": {
             "actual-caller.rs": _sha(caller + b"\n"),
             "original/lib.rs": _sha(original), "verified/lib.rs": _sha(verified),
@@ -440,11 +452,12 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         "ghost_strip_identity": _ghost_strip(verified) == original,
         "no_assume_admit_or_unchecked": True,
         "no_comparator_purity_or_freeze_semantic_axiom": True,
-        "not_claimed": ["full caller refinement", "sort4 proof", "sort8 summary", "second sort4/c2 summary"],
+        "not_claimed": ["full caller proof", "caller CFG/branch selection", "sort4 proof", "sort8 summary",
+                        "c1 MU identity/owner restoration", "type_interp derived from native heap"],
         "bridge_positive_static_limitations": [
             "open/close MaybeUninit lemma statements, pointer casts/provenance, and cell equality after restoration require cloud verifier confirmation",
             "the full MaybeUninit foreach owner remains opaque and framed",
-            "if stock lemmas cannot establish matching pointer permissions or restored cell equality, that remains a proof blocker",
+            "no inverse new_maybe_uninit(inner(old)) law is assumed",
         ] if case == "bridge-positive" else [],
     }
     (out / "fixture.json").write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")

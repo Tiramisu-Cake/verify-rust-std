@@ -1,0 +1,153 @@
+{
+  "accepted": false,
+  "build_id": "4a7eedc5-655f-44a0-b8df-9ba9b22f7dcd",
+  "case_results": {
+    "bridge-positive": {
+      "dead_code_vf1_locations": [],
+      "first_error": "verified/lib.rs(126,24-45): error: No such predicate: pointer_within_limits",
+      "input_sha256": {
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/fixture/original/lib.rs": "78a629224e10bb4089f111c6d3003194aca9ddeae8f440c4b9cac651cf55826a",
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/fixture/verification.log": "f0b75d6d490919d7cc98097d65e6a845ccdffaf9b3df3e99914e1e2b2fe8243b",
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/fixture/verified/lib.rs": "27a6ce6054cf57c907c886ff965292c3d5f564c5b829a75c32ba42c234feb417",
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/normal-full-prefix-mir.txt": "0ea82516a255b5a2ad48ef2c44ea8942212940f6eff89014fcaf1d140fa69830",
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/readonly-full-prefix-mir.txt": "c0c5e7f30dec0c28fa585d7d193970b4e0c5b41868a11eaf5edfaaf60c6b3411",
+        "allprooflogs/cases/sort4-caller-entry/cases/bridge-positive/source-certificate.json": "8b1e8263081b91a333aeea2f99fefc8388d171d056e5034183c5ee99af9ef977"
+      },
+      "mapping_gate_unchanged": true,
+      "old_case_verdict": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+      "old_mapping_gate": "PASS",
+      "proof_credit": false,
+      "replayed_case_verdict": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+      "replayed_mapping_gate": "PASS",
+      "verdict_change_reason": null,
+      "verifier_exit": 1
+    },
+    "duplicate-negative": {
+      "dead_code_vf1_locations": [],
+      "first_error": "verified/lib.rs(62,64-67): error: No matching heap chunks: array<T>(strip_pointer_metadata(v), ptr_len(fn_outcome_result(outcome)), _v0_v)",
+      "input_sha256": {
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/fixture/original/lib.rs": "09de82cc0cfb60ff093c248ea14ff5b373dfab33ad3de31b18fc0e42d0b73447",
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/fixture/verification.log": "6f41d092333512154d006995191c08c84637e0afaa1ca0bf5e53f911c897b37c",
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/fixture/verified/lib.rs": "8d1b42e7f43a91a874aca1e37de80c8cf2b3052b0e45278e59bad697bc3fb1c0",
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/normal-full-prefix-mir.txt": "63d3ae0f52804b4339ff609ee93c0a3aba97da025e9cf8dcd27499d174d61eb8",
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/readonly-full-prefix-mir.txt": "a44fe7d110079887e178e20f51cae51a6bee59a66cec1ff61264b9df77d1711d",
+        "allprooflogs/cases/sort4-caller-entry/cases/duplicate-negative/source-certificate.json": "fb180a45f4a8a7a10e37f5dbfc2730d30e75b662512da30b3ffff6d47327567b"
+      },
+      "mapping_gate_unchanged": true,
+      "old_case_verdict": "INTENDED_RESOURCE_CONTROL",
+      "old_mapping_gate": "PASS",
+      "proof_credit": false,
+      "replayed_case_verdict": "INTENDED_RESOURCE_CONTROL",
+      "replayed_mapping_gate": "PASS",
+      "verdict_change_reason": null,
+      "verifier_exit": 1
+    },
+    "prefix-native": {
+      "dead_code_vf1_locations": [
+        "verified/lib.rs(49,9-28): dead code",
+        "verified/lib.rs(64,13-19): dead code"
+      ],
+      "first_error": null,
+      "input_sha256": {
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/fixture/original/lib.rs": "09de82cc0cfb60ff093c248ea14ff5b373dfab33ad3de31b18fc0e42d0b73447",
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/fixture/verification.log": "360507e1a94685bbff9e52033b575f8eac00112f34119359290593e74109fd3b",
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/fixture/verified/lib.rs": "b05f115712c8b03950d82427fc1f3763de755e204c4251c7656b6f3c867377a2",
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/normal-full-prefix-mir.txt": "e4b5984501afc6539799357cdd052bf253e1375ed6a9f0dcee112602847432ca",
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/readonly-full-prefix-mir.txt": "f526ce4bdb54c388a058f31870abbbc08ffa871b9d81f84f1af5a7d0f30e9bc7",
+        "allprooflogs/cases/sort4-caller-entry/cases/prefix-native/source-certificate.json": "647fa4c0d716d2d4452fa540e2d30a836211f1e99fd72c122c9c0f79ed5028bd"
+      },
+      "mapping_gate_unchanged": true,
+      "old_case_verdict": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "old_mapping_gate": "PASS",
+      "proof_credit": false,
+      "replayed_case_verdict": "STRICT_DEAD_CODE_REJECTION_AFTER_SELECTED_PATH_FILTER",
+      "replayed_mapping_gate": "PASS",
+      "verdict_change_reason": "VF1 dead-code refusal retained by current classifier",
+      "verifier_exit": 1
+    },
+    "range-negative": {
+      "dead_code_vf1_locations": [],
+      "first_error": "/workspace/smallsort-work/o26-refresh/source/bin/rust/prelude_core.rsspec(261,60-62): error: Cannot prove condition. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 1) <= ptr_len(v).)",
+      "input_sha256": {
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/fixture/original/lib.rs": "09de82cc0cfb60ff093c248ea14ff5b373dfab33ad3de31b18fc0e42d0b73447",
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/fixture/verification.log": "e73cbb254e8341e84d45a7a6f9a6d83e086ddbb41942736f6f345a02403894cd",
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/fixture/verified/lib.rs": "8124e9e0ba6944193b2937ba3fefaee965ac9de8aea6a27ee3831c2b3b446a17",
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/normal-full-prefix-mir.txt": "458c688749c435689cab4fe2a184c88b50634bfa19399e2670ec2e464df6b281",
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/readonly-full-prefix-mir.txt": "978236777ddd7451dd828d6006da08038e64df00872cd2ed40c61a5beee54cdf",
+        "allprooflogs/cases/sort4-caller-entry/cases/range-negative/source-certificate.json": "a361ea6c8ddeeec4da2ef1425ca59f085eedec38ce39e9a0553af06b17282b13"
+      },
+      "mapping_gate_unchanged": true,
+      "old_case_verdict": "INTENDED_RESOURCE_CONTROL",
+      "old_mapping_gate": "PASS",
+      "proof_credit": false,
+      "replayed_case_verdict": "INTENDED_RESOURCE_CONTROL",
+      "replayed_mapping_gate": "PASS",
+      "verdict_change_reason": null,
+      "verifier_exit": 1
+    },
+    "source-frame-positive": {
+      "dead_code_vf1_locations": [
+        "verified/lib.rs(49,9-28): dead code",
+        "verified/lib.rs(84,13-19): dead code"
+      ],
+      "first_error": null,
+      "input_sha256": {
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/fixture/actual-caller.rs": "c5bbd092eeb316e8e0679736567f27e93a762a32b0e380b4cc6d375d0fcd1636",
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/fixture/original/lib.rs": "78a629224e10bb4089f111c6d3003194aca9ddeae8f440c4b9cac651cf55826a",
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/fixture/verification.log": "2ff20732d132e50c115a5bae4bda227c63e4949008efb7ccbed060f6949535b0",
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/fixture/verified/lib.rs": "aafe46c5267fdfa2c197cbfa7cdeb14ba5279fea1b4be045e3c4b078e879094f",
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/normal-full-prefix-mir.txt": "a03ad29bb83bf07d9cd2edf3bccf5d0e24494ba00b00ac0815542970567644ca",
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/readonly-full-prefix-mir.txt": "4a49f7f96f4ae8aa5bf8271fdcb066e8d8d23ffff20ac8989de803de121016fc",
+        "allprooflogs/cases/sort4-caller-entry/cases/source-frame-positive/source-certificate.json": "bebb8beb79e57e19569cc073806782696d63f3f55222b997ffc971938e5a1a92"
+      },
+      "mapping_gate_unchanged": true,
+      "old_case_verdict": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "old_mapping_gate": "PASS",
+      "proof_credit": false,
+      "replayed_case_verdict": "STRICT_DEAD_CODE_REJECTION_AFTER_SELECTED_PATH_FILTER",
+      "replayed_mapping_gate": "PASS",
+      "verdict_change_reason": "VF1 dead-code refusal retained by current classifier",
+      "verifier_exit": 1
+    }
+  },
+  "classification": "SERVICE_REPLAY_NO_PROOF_CREDIT",
+  "infra_sha": "5e821db1310b006309e8cc7ad9c21142ac6d9b78",
+  "lane": "o26-sort4-caller-entry",
+  "original_auditor_sha256": "8f160c82006aaa13576665d58606a596f14a95cc53694fdae33592cd41c1f83a",
+  "previous_diagnostic_audit_sha256": "df877cddd575947ef3ebb5e69c7d9ebb925c199e5344273bf169c3a6bdb98aa9",
+  "profile_hashes": {
+    "allprooflogs/profile-hashes.json": {
+      "actual": {
+        "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+        "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+        "bin/verifast": "cb7d9ff0a1ba281310ea4cf5694a58b99f1ebad8136b16d3007c9402ece44817",
+        "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "4d3a190fcec695415b41162ddf8d71aec6e2826d2b69e7692df306a568add98c"
+      },
+      "console_byte_identical": false,
+      "historical": {
+        "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+        "bin/rust/std/lib.rsspec": "d33b2a7a284557002b4f7afe3d5e63f813e51f818c588712d743b4b46f9bedaf",
+        "bin/verifast": "56bb3049e1727b2d982dff6a0b23c02c2236daa84ae5a7a612ee59a84b6935b7",
+        "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+        "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
+        "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "737e16e333f0bb22a04983bbc2be0ba54d0dca6faa69eefa0a2a99781c2ec9ef"
+      }
+    }
+  },
+  "proof_credit": "NONE",
+  "proof_image": "ubuntu@sha256:5ec03bb3441e8b0bf3b4f9cd4629a1ae763010dc3035bb8da3ae6cf026486401",
+  "proof_sha": "5e821db1310b006309e8cc7ad9c21142ac6d9b78",
+  "replay_auditor_sha256": "5bedbdcff8c42f70bb6db351c3ee381ec0869ae10eb1adf69b8bfa49af60f0c4",
+  "replay_command": "python3 research/challenge-8/cloud-build/sort4-native-entry-c1/replay_legacy_mapping.py --evidence-root /tmp/smallsort-cloud-evidence-4a7eedc5-655f-44a0-b8df-9ba9b22f7dcd --repo-root /root/verify-rust-std-select-night --output /root/verify-rust-std-select-night/research/challenge-8/cloud-build/sort4-native-entry-c1/SERVICE-REPLAY-4A7EEDC5.json",
+  "replay_scope": "Legacy mapping and VF1 classifier replay only; old evidence is read-only; no new proof result.",
+  "source_input_archive_sha256": "2b7961bf3431a402b531e62d9208fa717e54f524513708a048463c26703d0c1c",
+  "tool_snapshot_sha256": "26368754b581fe89f62d0cff48c5e15041332a1731bf2a3d7b4a6d797d3f6f09"
+}

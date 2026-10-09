@@ -1,35 +1,35 @@
 // CASE prefix-native
-// The native entry contract is deliberately untouched in this case.
-return;
+// Native entry only; the generated boundary contains no extra heap assertions.
 // END CASE
 
 // CASE source-frame-positive
 /*@
-if (true) {
-    assert thread_token(?t);
-    assert t == currentThread;
-    assert v_base[..len] |-> ?source_all;
-    assert foreach(source_all, own::<T>(t));
-    assert *is_less |-> ?less_before;
-    assert <F>.own(t, less_before);
-    array_split::<T>(v_base, 4);
-    foreach_split(source_all, own::<T>(t), 4);
-    assert v_base[..4] |-> ?first_four;
-    assert foreach(first_four, own::<T>(t));
-    assert *is_less |-> less_before;
-    assert <F>.own(t, less_before);
-    array_join::<T>(v_base);
-    foreach_append(take(4, source_all), drop(4, source_all));
-    assert v_base[..len] |-> source_all;
-    assert foreach(source_all, own::<T>(t));
-}
+assert thread_token(?t);
+assert t == currentThread;
+assert v_base[..len] |-> ?source_all;
+assert foreach(source_all, own::<T>(t));
+assert *is_less |-> ?less_before;
+assert <F>.own(t, less_before);
+array_split::<T>(v_base, 4);
+foreach_split(source_all, own::<T>(t), 4);
+assert v_base[..4] |-> ?first_four;
+assert foreach(first_four, own::<T>(t));
+c1_source_identity::<T, F>(v_base, is_less as *mut F, t, first_four, less_before);
+array_join::<T>(v_base);
+foreach_append(take(4, source_all), drop(4, source_all));
+assert v_base[..len] |-> source_all;
+assert foreach(source_all, own::<T>(t));
+assert *is_less |-> less_before;
+assert <F>.own(t, less_before);
 @*/
-return;
 // END CASE
 
 // CASE bridge-positive
 /*@
-if (0 < std::mem::size_of::<T>()) {
+let scratch_len = ptr_len(scratch);
+if (0 < std::mem::size_of::<T>() && scratch_len >= 4) {
+    produce_type_interp::<T>();
+    produce_type_interp::<F>();
     assert thread_token(?t);
     assert t == currentThread;
     assert v_base[..len] |-> ?source_all;
@@ -40,7 +40,6 @@ if (0 < std::mem::size_of::<T>()) {
     array_split::<T>(v_base, 4);
     foreach_split(source_all, own::<T>(t), 4);
 
-    let scratch_len = ptr_len(scratch);
     let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
     assert mu_base[..scratch_len] |-> ?mu_all;
     assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
@@ -108,17 +107,52 @@ if (0 < std::mem::size_of::<T>()) {
     assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
     assert v_base[..len] |-> source_all;
     assert foreach(source_all, own::<T>(t));
+    leak type_interp::<T>();
+    leak type_interp::<F>();
 }
 @*/
-return;
 // END CASE
 
 // CASE range-negative
-//@ array_split::<T>(v_base, len + 1); // RANGE_AUTHORITY_CONTROL
-return;
+/*@
+if (len == 8) {
+    assert v_base[..len] |-> ?xs;
+    array_split::<T>(v_base, 9); // RANGE_AUTHORITY_CONTROL
+}
+@*/
 // END CASE
 
 // CASE duplicate-negative
-//@ assert v_base[..len] |-> ?xs &*& v_base[..len] |-> xs; // DUPLICATE_AUTHORITY_CONTROL
-return;
+/*@
+assert v_base[..len] |-> ?xs &*& v_base[..len] |-> xs; // DUPLICATE_AUTHORITY_CONTROL
+@*/
+// END CASE
+
+// CASE native-scratch-frame
+/*@
+assert thread_token(?t);
+assert t == currentThread;
+let scratch_len = ptr_len(scratch);
+let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
+assert mu_base[..scratch_len] |-> ?mu_all;
+assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
+@*/
+// END CASE
+
+// CASE source-post-negative
+/*@
+assert thread_token(?t);
+assert t == currentThread;
+assert v_base[..len] |-> ?source_all;
+assert foreach(source_all, own::<T>(t));
+assert *is_less |-> ?less_before;
+assert <F>.own(t, less_before);
+array_split::<T>(v_base, 4);
+foreach_split(source_all, own::<T>(t), 4);
+assert v_base[..4] |-> ?first_four;
+assert foreach(first_four, own::<T>(t));
+c1_source_identity::<T, F>(v_base, is_less as *mut F, t, first_four, less_before);
+assert *is_less |-> ?less_after;
+assert less_after != less_before; // SOURCE_CURRENT_VALUE_POST_CONTROL
+@*/
 // END CASE
