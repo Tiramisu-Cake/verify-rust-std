@@ -72,41 +72,25 @@ lem transposition_values_length<T>(vs: list<T>, i: usize, j: usize)
     }
 }
 
-// Replace one owner value at an arbitrary native-usize list position. The
-// displaced CURRENT owner is returned separately; no owner is created.
-// `foreach(..., own::<T>(t))` carries the type-specific owner through a
-// predicate wrapper. These checked adapters expose/repack one selected owner
-// where the recursive exchange changes the list head.
-lem transposition_owner_open<T>(t: thread_id_t, value: T)
-    req own::<T>(t)(value);
-    ens <T>.own(t, value);
-{
-    open <T>.own(t, value);
-}
-
-lem transposition_owner_close<T>(t: thread_id_t, value: T)
-    req <T>.own(t, value);
-    ens own::<T>(t)(value);
-{
-    close <T>.own(t, value);
-}
-
+// Replace one owner value at an arbitrary native-usize list position. Keep
+// the canonical foreach predicate throughout; the displaced CURRENT owner is
+// returned as a singleton foreach, with no wrapper/direct-owner conversion.
 lem transposition_owner_replace_at<T>(t: thread_id_t, vs: list<T>,
                                      index: usize, value: T)
     req 0 <= index &*& index < length(vs) &*&
-        foreach(vs, own::<T>(t)) &*& <T>.own(t, value);
+        foreach(vs, own::<T>(t)) &*& foreach(cons(value, nil), own::<T>(t));
     ens foreach(transposition_replace_at::<T>(vs, index, value), own::<T>(t)) &*&
-        <T>.own(t, nth(index, vs));
+        foreach(cons(nth(index, vs), nil), own::<T>(t));
 {
     match vs {
         nil => {}
         cons(head, tail) => {
             open foreach(vs, own::<T>(t));
             if index == 0 {
-                transposition_owner_open::<T>(t, head);
+                open foreach(cons(value, nil), own::<T>(t));
                 assert nth(0, vs) == head;
                 assert transposition_replace_at::<T>(vs, index, value) == cons(value, tail);
-                transposition_owner_close::<T>(t, value);
+                close foreach(cons(head, nil), own::<T>(t));
                 close foreach(cons(value, tail), own::<T>(t));
             } else {
                 assert 0 < index;
@@ -138,12 +122,14 @@ lem transposition_owner_exchange_rec<T>(t: thread_id_t, vs: list<T>,
             if i == 0 {
                 assert 0 < j;
                 assert j - 1 < length(tail);
-                transposition_owner_open::<T>(t, head);
+                close foreach(nil, own::<T>(t));
+                close foreach(cons(head, nil), own::<T>(t));
                 transposition_owner_replace_at::<T>(t, tail, j - 1, head);
                 assert nth(j, vs) == nth(j - 1, tail);
                 assert transposition_values::<T>(vs, i, j) ==
                     cons(nth(j, vs), transposition_replace_at::<T>(tail, j - 1, head));
-                transposition_owner_close::<T>(t, nth(j, vs));
+                open foreach(cons(nth(j, vs), nil), own::<T>(t));
+                open foreach(nil, own::<T>(t));
                 close foreach(cons(nth(j, vs),
                     transposition_replace_at::<T>(tail, j - 1, head)), own::<T>(t));
             } else {
@@ -317,9 +303,10 @@ on_unwind_ens false;
     open current_owner_transposition_destination_owned::<T>(t, dst, n,
         transposition_values::<T>(vs, i, j));
     open foreach(transposition_values::<T>(vs, i, j), own::<T>(t));
-    transposition_owner_open::<T>(t, head(transposition_values::<T>(vs, i, j)));
-    assert <T>.own(t, head(transposition_values::<T>(vs, i, j))) &*&
-        <T>.own(t, head(transposition_values::<T>(vs, i, j))); // CALIBRATION_TARGET: duplicate one transferred owner
+    close foreach(nil, own::<T>(t));
+    close foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t));
+    assert foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)) &*&
+        foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)); // CALIBRATION_TARGET: duplicate one transferred owner
     @*/
 }
 // CASE_END current_owner_transposition_double_owner_calibration
