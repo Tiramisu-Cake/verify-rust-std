@@ -125,6 +125,17 @@ except Exception as e:
 
 def reconcile(state,ledger,ledger_path):
  for item in ledger['builds']:
+  receipt_path=coordination.COORDINATION/'receipts'/(item['dispatch_token']+'.json')
+  if not item.get('accounted') and receipt_path.is_file():
+   receipt=read(receipt_path)
+   if (receipt.get('status')=='NOT_CREATED_INVALID_ARGUMENT' and
+       receipt.get('validation_rejection') is True and receipt.get('build_id') is None and
+       receipt.get('owner')==item.get('owner') and
+       receipt.get('phase_id')==ledger.get('phase')==item.get('phase_id') and
+       receipt.get('ledger')==str(ledger_path) and
+       receipt.get('dispatch_token')==item['dispatch_token']):
+    item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,
+                reason=receipt.get('reason','API validation rejection'))
   if not item.get('build_id') and not item.get('accounted'):
    matches=invoke(['builds','list','--region=global','--filter=tags:'+item['dispatch_token'],'--format=json']) or []
    if len(matches)==1:item['build_id']=matches[0]['id']
@@ -145,42 +156,66 @@ def reconcile(state,ledger,ledger_path):
  write(ledger_path,ledger)
 
 
-def reconcile_global():
- """Resolve the shared token under flock, including a crashed submitter's ledger."""
+def reconcile_global(caller_owner,caller_ledger):
+ """Observe another owner's reservation without editing its ledger or state."""
  record=coordination.active()
  if record is None:return
+ token=record['dispatch_token']
  ledger_path=Path(record['ledger'])
  if not ledger_path.is_absolute():raise RuntimeError('Global reservation has a nonabsolute ledger path')
+ own=(record.get('owner')==caller_owner and ledger_path==caller_ledger)
  ledger=read(ledger_path)
- if ledger.get('phase')!=record['phase_id']:raise RuntimeError('Global reservation phase/ledger mismatch')
- matches=[x for x in ledger['builds'] if x.get('dispatch_token')==record['dispatch_token']]
+ if ledger.get('phase')!=record.get('phase_id'):raise RuntimeError('Global reservation phase/ledger mismatch')
+ original=record.get('item')
+ if not isinstance(original,dict) or any(original.get(key)!=record.get(key) for key in ('dispatch_token','owner','phase_id')):
+  raise RuntimeError('Global reservation item identity mismatch')
+ matches=[x for x in ledger['builds'] if x.get('dispatch_token')==token]
  if len(matches)>1:raise RuntimeError('Duplicate token in phase ledger')
  if not matches:
-  ledger['builds'].append(record['item'])
+  if not own:raise RuntimeError('Foreign ledger lacks reserved token; global reservation retained')
+  ledger['builds'].append(original.copy())
   write(ledger_path,ledger)
- reconcile(Path(record['state_dir']),ledger,ledger_path)
- item=next(x for x in ledger['builds'] if x.get('dispatch_token')==record['dispatch_token'])
- if item.get('build_id'):
-  coordination.submitted(record['owner'],record['dispatch_token'])
- if record.get('validation_rejection') and not item.get('accounted') and not item.get('build_id'):
-  possible=invoke(['builds','list','--region=global','--filter=tags:'+record['dispatch_token'],'--format=json']) or []
+  matches=[ledger['builds'][-1]]
+ item=matches[0]
+ if item.get('owner')!=record['owner'] or item.get('phase_id')!=record['phase_id']:
+  raise RuntimeError('Ledger token owner or phase mismatch')
+ if item.get('build_id') and record.get('build_id') and item['build_id']!=record['build_id']:
+  raise RuntimeError('Ledger and global Build IDs conflict')
+ if record.get('validation_rejection'):
+  if record.get('build_id') or item.get('build_id'):raise RuntimeError('Validation rejection conflicts with Build ID')
+  possible=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json']) or []
   if possible:raise RuntimeError('Build exists despite recorded validation rejection')
-  item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,reason=record.get('rejection_reason','API validation rejection'))
-  ledger['used_build_seconds']=sum(x.get('build_seconds',0) for x in ledger['builds'])
-  ledger['remaining_build_seconds']=ledger['ceiling_build_seconds']-ledger['used_build_seconds']
-  ledger['active_build']=next((x.get('build_id') or x['dispatch_token'] for x in ledger['builds'] if not x.get('accounted')),None)
-  write(ledger_path,ledger)
- if item.get('accounted'):
-  if item.get('status')=='NOT_CREATED_INVALID_ARGUMENT' and record.get('validation_rejection'):
-   coordination.clear(record['dispatch_token'])
-  elif item.get('build_id') and item.get('status') in TERMINAL:
-   confirmed=invoke(['builds','describe',item['build_id'],'--region=global','--format=json'])
-   if confirmed.get('status') not in TERMINAL:raise RuntimeError('Ledger terminal state not confirmed by API')
-   coordination.clear(record['dispatch_token'])
-  else:raise RuntimeError('Cannot clear reservation without authoritative terminal state')
- elif item.get('build_id')!=record.get('build_id'):
-  record['build_id']=item.get('build_id')
+  receipt={'dispatch_token':token,'owner':record['owner'],'phase_id':record['phase_id'],
+           'ledger':str(ledger_path),'build_id':None,'status':'NOT_CREATED_INVALID_ARGUMENT',
+           'validation_rejection':True,'reason':record.get('rejection_reason','API validation rejection'),
+           'build_seconds':0}
+  write(coordination.COORDINATION/'receipts'/(token+'.json'),receipt)
+  coordination.clear(token)
+  return
+ build_id=record.get('build_id') or item.get('build_id')
+ if build_id is None:
+  possible=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json']) or []
+  if len(possible)>1:raise RuntimeError('Multiple builds for one dispatch token; no further dispatch')
+  if not possible:return  # Uncertain submission stays reserved, including a pre-submit crash.
+  build_id=possible[0]['id']
+ build=invoke(['builds','describe',build_id,'--region=global','--format=json'])
+ if build.get('id')!=build_id:raise RuntimeError('Cloud API returned a different Build ID')
+ if token not in build.get('tags',[]):raise RuntimeError('Build does not carry the reserved dispatch token')
+ if record.get('build_id')!=build_id:
+  record['build_id']=build_id
   coordination.update(record)
+ coordination.submitted(record['owner'],token)
+ if build.get('status') not in TERMINAL:return
+ def t(value):return datetime.datetime.fromisoformat(value.replace('Z','+00:00'))
+ seconds=(math.ceil((t(build['finishTime'])-t(build['createTime'])).total_seconds())
+          if build.get('finishTime') and build.get('createTime') else original['reserved_seconds'])
+ receipt={'dispatch_token':token,'owner':record['owner'],'phase_id':record['phase_id'],
+          'ledger':str(ledger_path),'build_id':build_id,'status':build['status'],
+          'create_time':build.get('createTime'),'start_time':build.get('startTime'),
+          'finish_time':build.get('finishTime'),'build_seconds':seconds,
+          'validation_rejection':False}
+ write(coordination.COORDINATION/'receipts'/(token+'.json'),receipt)
+ coordination.clear(token)
 
 
 def authorized_phase(a,ledger):
@@ -212,10 +247,12 @@ def main():
  if a.command in ('submit','request','withdraw-request') and (not a.phase_id or not a.ledger or not a.state_dir or not a.owner):raise SystemExit('phase operation requires explicit --phase-id, --ledger, --state-dir and --owner')
  ledger_path=(a.ledger or DIR/'BUDGET.json').resolve()
  state=(a.state_dir or Path('/tmp/smallsort-cloud-migration')).resolve()
+ if a.ledger and not ledger_path.is_relative_to(ROOT):raise SystemExit('Selected writable ledger must belong to this worktree')
+ if bool(a.owner)!=bool(a.ledger):raise SystemExit('Global reconciliation requires both explicit --owner and --ledger')
  if a.phase_id and a.phase_id!=read(ledger_path).get('phase'):raise SystemExit('Phase ID does not match the selected ledger')
  if a.command=='download':
   with coordination.locked():
-   reconcile_global()
+   if a.owner:reconcile_global(a.owner,ledger_path)
    ledger=read(ledger_path)
    reconcile(state,ledger,ledger_path)
    item=next((x.copy() for x in ledger['builds'] if x.get('build_id')==a.build_id),None)
@@ -233,7 +270,7 @@ def main():
    ledger=read(ledger_path)
    run_command(a,state,ledger,ledger_path)
    return
-  reconcile_global()
+  if a.owner:reconcile_global(a.owner,ledger_path)
   state.mkdir(parents=True,exist_ok=True)
   ledger=read(ledger_path)
   reconcile(state,ledger,ledger_path)
@@ -301,6 +338,10 @@ def run_command(a,state,ledger,ledger_path):
    matches=invoke(['builds','list','--region=global','--filter=tags:'+token,'--format=json']) or []
    if not matches and re.search(r'ERROR: \(gcloud\.builds\.submit\) INVALID_ARGUMENT\b',str(e)):
     reservation['validation_rejection']=True;reservation['rejection_reason']=str(e).split('substitution value')[0][:300];coordination.update(reservation)
+    write(coordination.COORDINATION/'receipts'/(token+'.json'),
+          {'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,
+           'ledger':str(ledger_path),'build_id':None,'status':'NOT_CREATED_INVALID_ARGUMENT',
+           'validation_rejection':True,'reason':reservation['rejection_reason'],'build_seconds':0})
     item.update(status='NOT_CREATED_INVALID_ARGUMENT',accounted=True,build_seconds=0,reason=str(e).split('substitution value')[0][:300]);ledger['active_build']=None;write(ledger_path,ledger);coordination.clear(token);raise SystemExit('Definitive API validation rejection; no build found and no time charged')
    if len(matches)!=1:raise SystemExit('No unique build resolved. Pending dispatch retained; lookup token before any retry: '+token)
    b=matches[0]
