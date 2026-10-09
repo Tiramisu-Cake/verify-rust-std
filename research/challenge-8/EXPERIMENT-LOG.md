@@ -6342,3 +6342,13 @@ substitutions; no runtime or fullpost/resource change. CollectorINCONCLUSIVE due
 incorrect helper count2expected, actual1normal/no-unwind under existing pure
 ManuallyDrop constructor. Audit-only fix prepared, not rerunning unchangedmatrix.
 No fullouter/acceptedprofile/genericselect/ZST/sort4 theorem; 1119/3600 newaccount.
+
+## AFTERNOON FRAME completion — 2026-10-09
+
+6ad52849-ff34-43f4-bd4a-49b810d52d45, proof/infra4ab4d568a852c0848a9160a53f90df103b4e789a: conditional generic thread-only helper and actual nested normal/unwind checks before outer; current wrapper equality229/230 passes reached conditiontrue, next231 is exact input-vs-wrapper ghost binding type mismatch. FRAME-SHADOW card proposes exact3lateghost refs to observed internal wrappers, no runtime/post/resource weakening.
+
+bb8d295e-40d1-4b6f-927d-11054739c6bf,cab9d1ca6dc2ea61a7d6338ed923601403eab537,318s: setupmissingFRAME parentJSON. Fullaffectedimport/read/collector pathclosure audited and repaired; fullarchive/textverified. 60bf2727-0ff3-4dc0-946a-555423217eb6,27d7fe6cd39dffab0da9868fc283074fc66bd3d8,335s: allsource/MIR/refinement/10snapshot stages reached; finalcollector NameError NAMES. Rawcapture manually identity-validated; archive4c67905dd95218ea6813f0f1935c72133410d363e06542faa362f75d13258671/allfiles/indexverified. Corrected classifier is audit-only, no new theorem/replay result asserted. Newsource7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0; source/profile pins inO26-R3-FRAME-SHADOW-TEST.json.
+
+Completion-only finalproof44ea4417-876e-4a4a-bdb5-a6eea81cf95c,infra=proof f4be77062fa16a1fcad6f08fb3c5630f437ecea9,timeout540;190parts afterNOT_SUBMITTED192pair. OnlyunusedoldFRAME metadata removed from transport. Diagnosticon must pass three lateassertions231–233, not merely reachouter. Outcome appended afterfullraw analysis. Policy d389ff64 read/integrated; closedhistorical budgets untouched.
+
+Final44ea4417 terminalFAILURE298s: exact finaltranslator54fd5dd6/console484f4535 compiled, frozen toolidentity verified, thenadapter artifactrename uses wrong evidence root. Freshcaptures/baseline/off/partial/on/proofbodies NOT_RUN. Fullarchive5d1e25788c7d86b8d3108ad1f9c93889f639fb2c75869e4a5e1dd7a25fbf42ab/allcontainedfiles/indexverified; packager run_exit0 is not proofsuccess. Path-only fix0378ee1ca2606faac8394667cf23ee8e6115552b NOT_RUN/staticready190parts, selectedproofblobs identicalf4be7706. Final2070/3600,1530unusedclosed;6terminal, ownrequests/reservations/unresolved0. Wholepointerselect/genericT-ZST/sort4 andprofileadmission remainopen. Nearestactual nextstep correctedTEST in freshphase, no cold repeat for audit-onlychange.

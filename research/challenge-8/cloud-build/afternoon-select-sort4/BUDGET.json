@@ -1,14 +1,14 @@
 {
   "phase": "AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09",
-  "status": "AUTHORIZED",
+  "status": "CHECKPOINT",
   "authorization": "Owner prompt 2026-10-09: new autonomous 2h select/sort4 phase plus <=30m completion only, corrected COLUMN gates -> actual nested Drop -> wrapper-input equality240 -> full select -> applicable actual sort4.",
   "owner": "select-sort4",
   "start_utc": "2026-10-09T11:20:06Z",
   "main_deadline_utc": "2026-10-09T13:20:06Z",
   "deadline_utc": "2026-10-09T13:50:06Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1772,
-  "remaining_build_seconds": 1828,
+  "used_build_seconds": 2070,
+  "remaining_build_seconds": 1530,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-r3-ghost-scope-test",
@@ -142,6 +142,34 @@
       "execution_seconds": 334,
       "download_verified": true,
       "archive_sha256": "4c67905dd95218ea6813f0f1935c72133410d363e06542faa362f75d13258671"
+    },
+    {
+      "dispatch_token": "dispatch-e0b4ba38131045a098c0be79a7d7040d",
+      "owner": "select-sort4",
+      "phase_id": "AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09",
+      "infra_sha": "f4be77062fa16a1fcad6f08fb3c5630f437ecea9",
+      "proof_sha": "f4be77062fa16a1fcad6f08fb3c5630f437ecea9",
+      "lane": "o26-input-relation-frame-shadow-test",
+      "submitted_config_sha256": "8ca06d8615f8cf78fe7e101ba8b55fdb21d93c2cd8ccf2e22032f9701085c186",
+      "reserved_seconds": 600,
+      "timeout_seconds": 540,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "253e718aa4c97e58393bf2316744d21c9dd71401c4ae7d8b2618adb0aea81455",
+      "build_id": "44ea4417-876e-4a4a-bdb5-a6eea81cf95c",
+      "start_time": "2026-10-09T13:32:44.967502844Z",
+      "finish_time": "2026-10-09T13:37:42.097466Z",
+      "create_time": "2026-10-09T13:32:44.147113282Z",
+      "build_seconds": 298,
+      "accounted": true,
+      "execution_seconds": 298,
+      "download_verified": true,
+      "archive_sha256": "5d1e25788c7d86b8d3108ad1f9c93889f639fb2c75869e4a5e1dd7a25fbf42ab"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-09T13:44:44.865452Z",
+  "ready_request_withdrawn": true,
+  "own_unresolved_builds": 0,
+  "no_new_dispatch_without_new_phase_authorization": true
 }

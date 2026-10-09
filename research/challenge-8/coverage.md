@@ -740,3 +740,12 @@ name binding typeerror (*Element vsMaybeUninit), so bothbranches/finalresult/
 return/leak/unwind/deadcode outer remain OPEN. Collector audit helpercount defect
 retained; exact source/internalname repair now evidencejustified, not preventive.
 All experimentalprofiles unaccepted; actualsort4 callback/fourcells/functionals OPEN.
+
+Afternoon completion: FRAME-shadow source-only60bf full9body NORMAL/read-only/
+refinement/10Marshal capture changes only3lateghostrefs to observedinternalwrapper
+names; originalruntime/posts preserved. Its collectorNameError is audit-only.
+Final44ea compiles exactnewtranslator/console but adapterartifactpathfails before
+freshsourcecontrols oranyproofbody. Thus latebindingfix andwholepointerselect
+NOT_PROVED; finalFRAME-shadownestedNOT_RUN, historicalconditionalnested unchanged.
+Infra-only pathfix0378 staticreadyNOT_RUN; fullprofile/admission/genericT-ZST/
+actualsort4 safety/functions OPEN. Phaseclosed2070/3600,1530unused.

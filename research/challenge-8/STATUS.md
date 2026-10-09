@@ -1,4 +1,4 @@
-# Current phase: AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
+# Current phase: AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Phase](cloud-build/afternoon-select-sort4/PHASE.md), [new separate3600 ledger](cloud-build/afternoon-select-sort4/BUDGET.json).
 Start11:20:06UTC/14:20:06MSK, main13:20:06UTC/16:20:06MSK,
@@ -44,9 +44,26 @@ lateghost substitutions prepared, runtime andfulltargetposts unchanged;
 [card](cloud-build/afternoon-select-sort4/FRAME-SHADOW-CARD.md).
 CollectorINCONCLUSIVE duehelperreturn-count audit mismatch (expects2, actual1
 normal; falseunwind contract andpureManuallyDrop body). Audit-only fix prepared.
-Afternoon1119/3600,2481remaining, no ownactive/unresolved build. Profiles experimental/
-unaccepted; admission OPEN; fullactualselect normal/unwind/return/leak, genericT/ZST
-and actualsort4 NOT_PROVED. Documentation head is not tested proof SHA.
+Afternoon2070/3600 used,1530unused closed,6terminal reconciled Builds.
+No ownactive/queued/unresolved/reservation; readyrequest withdrawn; sharedv2/max2.
+Buildbb8d295e setup318s omitted parentFRAME JSON; fullaffectedclosure repaired.
+Build60bf2727 (335s) complete FRAME-shadow9body NORMAL/readonly/MIR/refinement/
+10Marshal capture, thencollectorNameError NAMES. Fullarchive/indexverified,
+source7ec86f52/unit20398964/body7404bf9da; runtime/fullposts/resources unchanged.
+FinalBuild44ea4417-876e-4a4a-bdb5-a6eea81cf95c FAILURE298s,
+infra=proof f4be77062fa16a1fcad6f08fb3c5630f437ecea9,190parts.
+Finaltranslator54fd5dd6/console484f4535 built/frozen toolchecked, thenadapter
+rename wrong artifactroot before freshcaptures/proofcontrols. Thus finalold231
+baseline/off/partial/on/helper/nested/outer NOT_RUN. Fullarchive/indexverified;
+allrawlogs contained inarchive, independenttextchunks notdownloaded for last2.
+Addressed path-only fix0378ee1ca2606faac8394667cf23ee8e6115552b is
+READY_STATIC_NOT_RUN,190parts; allselectedproof blobs identicalf4be7706.
+No second finishingcheck/newdirection. Policy d389ff64 read/integrated via27d7fe6c.
+Profiles experimental/unaccepted; admission OPEN; wholeactualpointerselect,
+unrestrictedgenericT/ZST, actualsort4 remain NOT_PROVED. Next: correctedFRAME-shadow
+TEST in freshauthorizedphase, thenfirstactualouter obligation/fullposts.
+[Final checkpoint](cloud-build/afternoon-select-sort4/END-CHECKPOINT-2026-10-09.md).
+Documentation checkpoint is not testedproofSHA; no furtherdispatch in CLOSEDphase.
 
 # Historical DAY checkpoint (closed)
 
