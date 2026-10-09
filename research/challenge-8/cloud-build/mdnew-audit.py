@@ -15,16 +15,16 @@ import sys
 
 FIXTURES = {
     "forget": ("2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7", "forget"),
-    "shared_cleanup": ("c3c77c383b54e19a35233b14764fb1be23e9244ee3a13d997c157dfe0d31ba2f", "shared_cleanup"),
+    "shared_cleanup": ("b6c987840157618067e9eab8163c3ae14e42dfd56c2988ec1ea2198404dd8abe", "shared_cleanup"),
     "false_normal_post": ("23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d", "forget_false_normal_post"),
-    "shared_false_unwind": ("886b12a0cd0f5f6edc22080577f241df63588251ec02cb495074e742639cf15e", "shared_cleanup_false_unwind_post"),
+    "shared_false_unwind": ("5487633fdaa2c68d4ec1207c258f6518c1821a24cff5f05ae91fa83dcd32d31a", "shared_cleanup_false_unwind_post"),
     "dead_code_pre": ("b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2", "forget_from_dead_precondition"),
 }
 BASE = "f76012fb518703b1d98e243ac4f487f16877cfcb"
-CANDIDATE = "1435539475fdaa7810bc2bc780fba0514f765f48"
-TREE = "be55d8d934fb10617309a289e0d546ca1aed6ea0"
-REF = "refs/heads/challenge8/manuallydrop-new-cfg-upstream-candidate"
-BUNDLE = "a87775fabeec73187f6da91d4944281232b74bc70aeeb5642d6043056cb000d0"
+CANDIDATE = "fc03ad9e5ab3404398404f3bba9d7bcacec01c43"
+TREE = "b292b2e0549db791e57245b0218c4f519e8b821e"
+REF = "refs/heads/challenge8/mdnew-focused-validation"
+BUNDLE = "b4c774a12100b6ed40a0c6368b4b026ab14738d622f3f98f179bcc4e6be0aa7d"
 STOCK_ARCHIVE = "5ad2a65997457fd5996a27f93107ef7e52c90c0d12b63b6e67f7acbc73e90efd"
 DEPS_ARCHIVE = "8d022c93d51a1d13ec1e782d767c60462405f6865d5ee416f82d6234e93ee580"
 RUSTC = "f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f"
@@ -238,7 +238,7 @@ def verify_source(root: Path, side: str, case: str) -> str:
     data = (root / side / case / "source.rs").read_bytes() if (root / side / case / "source.rs").is_file() else None
     require(data is not None, f"missing {side}/{case}/source.rs")
     require(hashlib.sha256(data).hexdigest() == FIXTURES[case][0],
-            f"{side}/{case} differs from candidate 1435539475fdaa7810bc2bc780fba0514f765f48")
+            f"{side}/{case} differs from candidate fc03ad9e5ab3404398404f3bba9d7bcacec01c43")
     return data.decode("utf-8")
 
 
@@ -309,7 +309,7 @@ def verify_baseline_forget(root: Path) -> None:
 
 def verify_shared_log_paths(root: Path, side: str) -> None:
     log = read(root / side / "shared_cleanup/full-verification.log")
-    for name in ("new", "ordinary_caller", "shared_cleanup"):
+    for name in ("new", "ordinary_caller", "shared_cleanup", "normal_first_cleanup"):
         body = target_log(log, name)
         require(body.count("Executing return statement") >= 2 and
                 body.count("Leak check.") >= 2,
@@ -530,7 +530,7 @@ def audit(root: Path) -> dict:
     verify_dead_pre(root, "candidate")
     structure = verify_mir_ast(root)
     return {"classification": "FOCUSED_GATE_PASS", "accepted": True,
-            "fixture_commit": "1435539475fdaa7810bc2bc780fba0514f765f48",
+            "fixture_commit": "fc03ad9e5ab3404398404f3bba9d7bcacec01c43",
             "structure": structure, "provenance": provenance,
             "scope": "five focused fixtures only; no consumer or upstream acceptance"}
 

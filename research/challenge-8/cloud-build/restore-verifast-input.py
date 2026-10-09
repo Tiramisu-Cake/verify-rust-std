@@ -5,9 +5,9 @@ import argparse, hashlib, json, re, subprocess
 from pathlib import Path, PurePosixPath
 
 BASE = "f76012fb518703b1d98e243ac4f487f16877cfcb"
-CANDIDATE = "1435539475fdaa7810bc2bc780fba0514f765f48"
-TREE = "be55d8d934fb10617309a289e0d546ca1aed6ea0"
-REF = "refs/heads/challenge8/manuallydrop-new-cfg-upstream-candidate"
+CANDIDATE = "fc03ad9e5ab3404398404f3bba9d7bcacec01c43"
+TREE = "b292b2e0549db791e57245b0218c4f519e8b821e"
+REF = "refs/heads/challenge8/mdnew-focused-validation"
 INPUT_ROOT = "research/challenge-8/verifast-input/" + CANDIDATE + "/"
 FIXTURES = (
     "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs",
