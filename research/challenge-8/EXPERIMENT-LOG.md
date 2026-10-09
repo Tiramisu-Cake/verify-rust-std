@@ -5214,3 +5214,24 @@ Cloud must validate all original OIDs, selected closure, SHA256 and exactHEADs
 before tools; static source restore review confirms no remote configured.
 MCP separate logs/index <=8MiB, permanentCloud workflow and trigger inventory
 prepared before next cold B. HistoricalA not repeated, no proof claim yet.
+
+### Cloud B1 stock reproduction and source delivery confirmed
+
+Buildce77c943-f657-47da-9dfa-4b6e16d3679e SUCCESS; infrastructure
+30fc3b42a2fb980b49174d459ec5cfbea778379b, frozenproof
+ a0cfd30e066acbaf1b5406cd9773f54388cc45be, config
+f532b8cccd907fef8076a02ba80c7cd4784d8a312825870b6180afcff59d55e0.
+Sourcebundlea1ab7bad2340b84cc556eecb08d5bf99ee658e4f86523f6720cac880de584b3f,
+261950bytes, Cloud confirms original commit/HEADs and selected object closure.
+Archive dac3492bb16ff5501403449ddad5a404c989e928259360dac5f20f9c305d4ad6,
+index6a62d9809e31d62b43235a3a12aaa063ab435287407f3ba1603174dd0ceb4d28.
+VPS downloaded archive/index and all separate chunks, all hashes/inventory/
+reconstruction verified. Four positives/four intendedpost-or-unwindnegatives/
+two exactdeadcode rejects; genericforget remains INCONCLUSIVE. All11
+normal/readonly export/decode/refinement and source-integrity gates zero/true.
+Accepted operational stock chain only, with original historical limitations.
+164 conservative seconds, cumulative444/3600,3156remaining. A not repeated.
+NextC: historical accepted constructor1378f0ff/run37700450091 with exact
+S6candidate20f7d07a thenCFG593d0940, cold source-built console and all16source/
+proof+9MIR/native10/false-frame4 controls; actualcallee NOT_RUN. Unchanged
+semantics/posts/classifiers. Max1500s build withinremaining; no otherbuildactive.

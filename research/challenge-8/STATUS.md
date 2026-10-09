@@ -22,16 +22,21 @@ are preserved. The owner explicitly replaced anonymous GitHub source fetch with
 credential-free committed-object transport. Pre-dispatch Git/hash inspection
 checked every included object and confirmed bounded configs (B255463bytes,
 C343353bytes for preparation infra24ff4ff5, final bundles recomputed per SHA).
-Cloud restore and original HEAD checks will run before proof setup; missing
-objects have no origin fallback. B and C not yet accepted.
+B Cloud SUCCESS: ce77c943-f657-47da-9dfa-4b6e16d3679e,164s,
+infra30fc3b42, proofa0cfd30e; archive and all separate text logs downloaded and
+hash-verified. Original commits/HEADs and selected Git-object closure verified
+in Cloud; no hidden source download. Stock11-case matrix reproduces four
+positives, four false-post/unwind negatives, two dead-code rejections and
+historical generic-forget INCONCLUSIVE. Classification
+STOCK_CHAIN_OPERATIONAL_WITH_HISTORICAL_LIMITS; no full generic forget theorem.
+C historicalconstructor1378f0ff next, same source-built S6+CFG profile.
 
 Permanent workflow: Cloud Build for CI/heavy checks, GitHub for source/branches/
 PR/docs; Actions only on explicit user instruction. VPS edit/orchestration/
 analysis only. ChatGPT bucket reader: SmallSort CI — Read Only. Separate full
 text logs with lossless <=8MiB chunks are being added before B dispatch.
 
-Usage **280/3600 conservative build seconds**, **3320 remaining**. No active
-build. Historical accounts remain separate. Owner setup build
+Usage **444/3600 conservative build seconds**, **3156 remaining**. B terminal; C next. Historical accounts remain separate. Owner setup build
 `f6f0f600-5558-4ac1-9011-0b73e4533a83` is not charged or relabeled as phase proof.
 
 # Historical overnight checkpoint (preserved)

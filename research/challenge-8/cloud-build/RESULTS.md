@@ -71,3 +71,24 @@ Cloud restore validation and B/C acceptance remain pending the new builds.
 The permanent workflow and remaining automatic Actions triggers are documented
 separately. ChatGPT already reads the evidence bucket via SmallSort CI — Read Only;
 new builds will publish full indexed text logs separately with <=8MiB objects.
+
+## B confirmed — Cloud stock chain
+
+Build `ce77c943-f657-47da-9dfa-4b6e16d3679e` SUCCESS,164 conservative seconds,
+original proof `a0cfd30e066acbaf1b5406cd9773f54388cc45be`, infrastructure
+`30fc3b42a2fb980b49174d459ec5cfbea778379b`.
+Input config SHA256 f532b8cccd907fef8076a02ba80c7cd4784d8a312825870b6180afcff59d55e0;
+source bundle SHA256 a1ab7bad2340b84cc556eecb08d5bf99ee658e4f86523f6720cac880de584b3f.
+Cloud source certificate confirms both original HEADs, object IDs and selected
+path hashes; no origin or missing-blob fetch is configured. Stock11 cases retain
+four positives, four intended post/unwind negatives, two exact dead-code rejects
+and the historical INCONCLUSIVE generic-forget positive. B acceptance is the
+operational stock chain with its original limits, not a full generic forget proof.
+
+Archive `evidence.tar.gz` SHA256
+`dac3492bb16ff5501403449ddad5a404c989e928259360dac5f20f9c305d4ad6`;
+separate text index SHA256
+`6a62d9809e31d62b43235a3a12aaa063ab435287407f3ba1603174dd0ceb4d28`.
+Archive and all separate text chunks downloaded and verified on VPS, including
+lossless concatenation hashes. Prefix uses the full BuildID as above.
+Usage444/3600, remaining3156. C remains pending, so full migration not accepted.

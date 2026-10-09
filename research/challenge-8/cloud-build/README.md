@@ -54,7 +54,7 @@ python3 research/challenge-8/cloud-build/control.py submit \
 
 python3 research/challenge-8/cloud-build/control.py status BUILD_ID
 python3 research/challenge-8/cloud-build/control.py download BUILD_ID \
-  --output /tmp/smallsort-cloud-evidence-BUILD_ID
+  --output /tmp/smallsort-cloud-evidence-BUILD_ID --text-logs
 python3 research/challenge-8/cloud-build/control.py cancel BUILD_ID
 (cd /tmp/smallsort-cloud-evidence-BUILD_ID && sha256sum --check archive.sha256)
 ```
@@ -67,7 +67,8 @@ must be resolved before another submission. Compact API/config/download files st
 in `/tmp`, not Git. Commit only the ledger and summaries/reports as checkpoints.
 These are the wrapper's exact command forms: `status BUILD_ID` takes a positional
 build ID; `download BUILD_ID --output DIR` performs its own manifest/input/archive
-hash verification; `cancel BUILD_ID` requests cancellation only. The explicit
+hash verification; add `--text-logs` to download and check all separately
+published chunks as well. `cancel BUILD_ID` requests cancellation only. The explicit
 `sha256sum --check` command independently rechecks the downloaded evidence archive.
 
 Evidence prefix:
@@ -81,8 +82,10 @@ a missing result, bad summary, incomplete archive or upload cannot yield PASS.
 
 For a separately authorized second direction or agent, preserve that agent's own
 proof SHA and reviewed profile, and record a separately authorized budget before
-submission. All agents share the same one-queued/running-build limit and budget
-ledger, so no second build may start while one is active or unresolved. A second
+submission. All agents share the same project-level one-queued/running-build
+limit enforced by the client API check. Keep each phase account separately in
+the ledger; never reset historical usage or spend another phase's budget. No
+second build may start while one is active or unresolved. A second
 agent must not edit this worktree or silently use another branch's sources.
 Existing lanes remain stock and historical constructor only; do not merge
 research histories, load other patches, or extend the semantic profile.
@@ -108,6 +111,9 @@ ChatGPT reads bucket evidence through the connected **SmallSort CI — Read Only
 connector. The publisher currently emits the archive plus
 separate `manifest.json`, `summary.json`, `files-sha256.json`,
 `submitted-config.json`, `archive.sha256` and `upload-complete.json` objects.
+The publisher also emits `text-logs-index.json` and `text-logs/*.txt` chunks.
+The index maps original log paths to ordered chunk names, lengths and SHA256;
+all published metadata and log chunks are capped at8MiB.
 Read the compact manifest/summary first, then retrieve only the relevant log
 files. Keep any connector-readable log object at or below 8 MiB; split a larger
 log into ordered chunks and include a small index with chunk names, byte lengths
