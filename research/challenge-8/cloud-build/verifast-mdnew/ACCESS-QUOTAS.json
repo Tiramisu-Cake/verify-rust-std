@@ -133,7 +133,7 @@
   ],
   "observed_build_access": true,
   "builder_identity_describe": true,
-  "capacity_interpretation": "Limits allow three 2-CPU builds; current free capacity not confirmed and live quota remains Cloud-enforced.",
+  "capacity_interpretation": "Non-regional default pool concurrent Build effective limit10 is confirmed. Public-pool CPU metric reports default effective limit10 per project/region/build_origin, with no explicit global dimension bucket. A separate global CPU mapping/free capacity is not confirmed by this read; three-client admission does not guarantee Cloud scheduling capacity.",
   "read_failures": {
     "worker_pools_list": "PERMISSION_DENIED (private pool unused)",
     "cloud_quotas_api": "SERVICE_DISABLED; not enabled",

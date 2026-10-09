@@ -20,5 +20,6 @@ and the locked migration command. Never delete or reset active.json.
 Current live protocol remains v2/max2. VeriFast joins as the third stable owner
 competing for these two slots; no three concurrent Builds are claimed.
 Peer compatibility acknowledgments were not available in this session.
-Migration/actual three-owner overlap remain NOT_RUN. Quota read permits target
-limits, but currently free Cloud capacity is not guaranteed.
+Migration/actual three-owner overlap remain NOT_RUN. Non-regional Build limit10
+is confirmed. Public CPU quota default10 is regional; separate global mapping
+and currently free Cloud capacity are not confirmed by that read.

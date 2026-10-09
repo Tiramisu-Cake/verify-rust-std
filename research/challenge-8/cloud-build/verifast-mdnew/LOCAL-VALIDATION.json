@@ -1,0 +1,40 @@
+{
+  "proof_execution": false,
+  "coordinator_isolated_tests": 4,
+  "phase_tests": 3,
+  "git_delivery_controls": 8,
+  "classifier_tests": 7,
+  "transport_controls": [
+    "exact committed recipe restore",
+    "bundle/manifest bytes",
+    "archive receipt",
+    "source bounds",
+    "command lengths",
+    "oversize rejection",
+    "wrong proof identity rejection"
+  ],
+  "payloads": {
+    "6c51e8c1c9ec6a1be45a0c974accffd42cb6ca92": {
+      "bytes": 85373,
+      "parts": 29,
+      "sha256": "8c6f108424ab5a89334b38e2ebecffcc749b999e91a45878eaf95e69ff93758f"
+    },
+    "00401111e8c7f911cbad7550351d7a2a0c608ee6": {
+      "bytes": 85343,
+      "parts": 29,
+      "sha256": "a196aaae48364f61daef6fb1496a949505363a7f66db3a14c4608362cd7f5a7b"
+    }
+  },
+  "static_checks": [
+    "Python AST",
+    "embedded Python AST",
+    "shell syntax",
+    "Git diff check",
+    "exact recipe validation"
+  ],
+  "old_O1_usage": "saved MIR/AST parser development only; no new proof credit",
+  "partial_git_diagnostic": "gitmodulesMissing for unselected .gitmodules; unchanged selected-object transport still verifies original Git IDs/closure/path bytes, no full fsck acceptance",
+  "git_component_mode_controls": 3,
+  "phase_tests_rechecked_after_preflight_guard": 3,
+  "capture_log_wiring_fake_stage_sides": 2
+}
