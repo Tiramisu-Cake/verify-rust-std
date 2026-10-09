@@ -1,14 +1,14 @@
 {
   "phase": "DAY-MERGE-CLOUD-2026-10-09",
   "owner": "merge",
-  "status": "AUTHORIZED",
+  "status": "CLOSED_SESSION",
   "authorization": "Owner prompt 2026-10-09 explicitly authorizes new autonomous merge phase, 2h from receipt plus <=30m finishing extension, separate3600 elapsed Cloud seconds. Historical accounts closed.",
   "start_utc": "2026-10-09T08:46:19Z",
   "main_deadline_utc": "2026-10-09T10:46:19Z",
   "deadline_utc": "2026-10-09T11:16:19Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1764,
-  "remaining_build_seconds": 1836,
+  "used_build_seconds": 2215,
+  "remaining_build_seconds": 1385,
   "allowed_lanes": [
     "merge"
   ],
@@ -156,8 +156,37 @@
       "execution_seconds": 408,
       "download_verified": true,
       "archive_sha256": "3ad99bbd85cc97f83afc879127883f40296a22f67d5ace1fabd630af5003535d"
+    },
+    {
+      "dispatch_token": "dispatch-7fb059ea59c8427f90e037bd2272bd87",
+      "owner": "merge",
+      "phase_id": "DAY-MERGE-CLOUD-2026-10-09",
+      "infra_sha": "4cc1211c4120c8701577f2b2a922ca6f47d0480f",
+      "proof_sha": "4cc1211c4120c8701577f2b2a922ca6f47d0480f",
+      "lane": "merge",
+      "submitted_config_sha256": "1cd2799b30c9c9daa2f5c5395368c2e41e68bd7978e1e6189f13502441165283",
+      "reserved_seconds": 780,
+      "timeout_seconds": 720,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "aa16ec5d4e7099ae62b26dc33cca98ffc431a6d45b444219d43411d0748da88e",
+      "build_id": "2bd48b65-6eff-4233-b2d8-fabcfb97360a",
+      "start_time": "2026-10-09T10:44:51.362255607Z",
+      "finish_time": "2026-10-09T10:52:20.817331Z",
+      "create_time": "2026-10-09T10:44:50.596643599Z",
+      "build_seconds": 451,
+      "accounted": true,
+      "execution_seconds": 450,
+      "download_verified": true,
+      "archive_sha256": "5a2461f607f1b32a3fb5d5f2f3d3da8eb161ab5bbf020819ace7505c735cc3f5"
     }
   ],
   "active_build": null,
-  "historical_account": "../night-merge/BUDGET.json (8357/10800;2443 closed/unavailable)"
+  "historical_account": "../night-merge/BUDGET.json (8357/10800;2443 closed/unavailable)",
+  "closed_utc": "2026-10-09T10:58:01Z",
+  "close_reason": "Finishing addressed physical-permission gate, full evidence and checkpoint completed; no new directions during extension. Unspent1385 unavailable without new owner authorization.",
+  "unresolved_builds": [],
+  "ready_request": false,
+  "checkpoint": "../../merge/DAY-MERGE-CHECKPOINT-2026-10-09.md"
 }

@@ -270,3 +270,25 @@ margin and1836budget. Fairqueueforeign5a3d3312 first; noforeigncancel/bypass.
 Thisisoneaddressedcompletionofalreadybegunphysicalpermissiongate; no next
 architecture/largeiteration ornewtasks duringfinishingextension. Need fresh
 publishedSHA andterminalfullevidence beforeclaim EXPECTED_REJECTION.
+
+ClosingBuild2bd48b65-6eff-4233-b2d8-fabcfb97360a submitted before maincutoff,
+exactinfra/proof4cc1211c4120c8701577f2b2a922ca6f47d0480f, timeout720+60queue.
+Config1cd2799b30c9c9daa2f5c5395368c2e41e68bd7978e1e6189f13502441165283;
+sourceinputaa16ec5d4e7099ae62b26dc33cca98ffc431a6d45b444219d43411d0748da88e.
+Extension is only this already-started addressed physicalpermission gate,
+evidence and finalcheckpoint; no nextdirection/newimplementation. Absolute11:16:19UTC.
+
+Closing2bd terminal collectorSUCCESS451charged,10:44:50.596–10:52:20.817UTC.
+Archive5a2461f607f1b32a3fb5d5f2f3d3da8eb161ab5bbf020819ace7505c735cc3f5.
+PositivePASSbothprofiles; duplicateEXPECTED_REJECTION241:76–79 exactlypoints_to,
+allstages/body/source/refinement/noothererror/dead and12/28classifiercontrols
+verified in archive and independent review. Positive10/10return/leak,
+negative9/9helpercounts andtarget0/0. Previous9edcard10helpercount corrected
+by expliciterratum; raw9ed negative also9/9. Componentcalibrationonly, noactual
+caller/profileacceptance.2215used,1385unspent, noownactive. No newtasks.
+
+Session closed 2026-10-09T10:58:01Z after fullarchive/textclientintegrity verification.
+Ownready withdrawn; all7Builds terminal/accounted/downloadverified; ownactive
+and unresolvedempty. LedgerstatusCLOSED_SESSION,2215/3600charged,1385unspent
+closed. No nextdirection started duringextension. Finalcheckpoint is published
+with exactproofpins; docHEAD is not a newverification. Stop until owner resumes.

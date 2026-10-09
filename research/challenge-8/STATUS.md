@@ -1,33 +1,38 @@
-# DAY-MERGE-CLOUD-2026-10-09 — IN PROGRESS
+# DAY-MERGE-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT ACCEPTED
 
-New explicit owner authorization: [current phase](merge/DAY-MERGE-CLOUD-2026-10-09.md).
+Branch `overnight/merge-26.10`, owner merge, existing Cloud Build workflow.
+[Final checkpoint](merge/DAY-MERGE-CHECKPOINT-2026-10-09.md),
+[phase/evidence](merge/DAY-MERGE-CLOUD-2026-10-09.md),
+[separate ledger](cloud-build/day-merge/BUDGET.json).
 Start08:46:19UTC /11:46:19MSK; main10:46:19UTC /13:46:19MSK;
-absolute11:16:19UTC /14:16:19MSK. Independent3600Cloud seconds,
-[ledger](cloud-build/day-merge/BUDGET.json), owner merge; active Build recorded below.
-Cloud workflow/overnight/merge-26.10 supersedes historical Actions/branch rules.
-Fresh OR Build3c26cfa6-5263-4287-9f1c-fe1a13068ef2 completes17 shape modes:
-roundtrip admission +16 intended matcher refusals and separate sourcehashgate.
-Full archive/text verified. RESOURCE11 Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5
-terminal FAILURE, exact proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc,
-infraa92f5d97efc8a15af4398a7df14037f42ebb4b33;324charged.
-1355/3600 charged,2245 unspent; active Build9ed49fda-fc30-492f-8e3f-9404be9aae19,
-proof/infra4305274bcd402fe4b626a62cded417ea8e473867, timeout1080+60queue.
-Build742da9ef/8b3d7471 collectorSUCCESS350s: permutation PASS/matched controls;
-native recursivecurrentmatch blocker179, memory export127 missingdriver,
-constructor fractionalprecision33. No newactual theorem; full evidence verified.
-Active addressedcandidate: native transportlemma, memoryenvironment, full-source
-constructorv2 (separate narrowerfragment). [Draft checkpoint](merge/DAY-MERGE-CHECKPOINT-2026-10-09.md).
-Buildb4b47061/cd93e557 setup failure100s preserved (selection sorting). Raw permutation positives and
-matched negatives pass; collector rejected stale unclassified_target metadata.
-Earlier native empty suffix fixed; next recursive currentmatch remains INCONCLUSIVE
-before target bodies in742d. Fresh repair + physical same-cell calibration are selected in active proof.
-Separate exact source constructor fragment selected in current run; no Drop
-impl in fragment, no compiler glue/caller credit. Actual current-scratch handoff OPEN.
-Annotation-only guard candidate NOT_RUN: source-linked prototype post has no
-payload and would leak actual Drop resources; narrow contract/glue design OPEN.
-Full seven/six/kernel/cleanup profile unaccepted; actual bounded9ad remains
-conditional positive-stride/FreezeMarker projection, not caller/arbitrary-n/generic/ZST.
-Prior cutoff and exact evidence preserved below; documentation HEAD is not proof SHA.
+absolute11:16:19UTC /14:16:19MSK. Finishing extension completed only the
+already-started physicalcell check/evidence/checkpoint. **2215/3600** charged;
+1385unspent closed with session. No own active/unresolved Build; ready withdrawn.
+All7archives/externaltext verified. No new work until another owner instruction.
+
+OR Build3c26/a92f5d97 completes exact17 admission controls: roundtrip +16
+intended matcher refusals, separate sourcehashgate. [Full remaining gate map](merge/overnight/or-join-liveness/DAY-GATE-MAP.md).
+Closing Build2bd48b65-6eff-4233-b2d8-fabcfb97360a, infra/proof
+4cc1211c4120c8701577f2b2a922ca6f47d0480f, collectorSUCCESS451s:
+physicalcell stock/six positivePASS6bodies10returns/leaks; samecellduplicate
+EXPECTED_REJECTION exactpoints_to241:76–79,6bodies9priorreturns/leaks,target0/0.
+All12positive/28negativeclassifier controls perprofile pass; noothererror/dead.
+This is conditional physical-permission calibration, not actualcopy/caller.
+RESOURCE11 successors: native9ed all9 bodies reached but positive dead222/230
+keepsINCONCLUSIVE; false351 matched. Constructorfractionalv1 precision33;
+full-sourcev2 foreachprecision35 beforebody despite MIR/AST admission.
+No constructor/Falsecredit, resources/posts/checks preserved.
+
+Historical actual bounded9ad remains conditional len2/3 positive-stride/
+FreezeMarker projection,11bodies28returns31leaks. Count-n actualDrop remains
+PASS_COMPONENT_ONLY under original strong current-source/owner/destination/
+guardgeometrypre. Nonvacuous guardown/FBC/currentscratchhandoff/canonicalDrop/
+compiler glue/normalforget/F-frame/arbitrary-n actualcopy/callback/generic/ZST OPEN.
+Full seven/six/kernel/cleanup profile NOT_ACCEPTED; verification_accepted=false.
+No stdruntime/toolsemantic change in DAY. Historical ledgers are unchanged.
+DocumentationHEAD is not testedproofSHA. Recommend discussing precise actual
+constructionownership and reachable FBC→verifiedDrop→glue before publiccallercredit.
+SessionclosedUTC: 2026-10-09T10:58:01Z
 
 ---
 

@@ -6428,3 +6428,14 @@ PhysicalonecellPASSbothprofiles; duplicatedsamecelltarget240:76–79 rawrefusal,
 INCuntilnewexactoracle. Nativefalse351matched, positivesstrictdeadrecords
 222/230 remainINC. Constructorv2foreachprecision35 beforebody, MIRASTpass.
 1764charged1836remaining; closingphysicalpermission-onlyselectionprepared.
+
+Closing DAY Build2bd48b65-6eff-4233-b2d8-fabcfb97360a, exact infra/proof
+4cc1211c4120c8701577f2b2a922ca6f47d0480f, collectorSUCCESS451s. Archive
+5a2461f607f1b32a3fb5d5f2f3d3da8eb161ab5bbf020819ace7505c735cc3f5.
+Physicalcell stock/six positivePASS6bodies10return/leak; matchedduplicate
+EXPECTED_REJECTION exactpoints_to241:76–79, all6bodies,9priorreturn/leak,
+target0/0, stages0/0/1/0, noearliererror/dead/sourcechange. All12positive/
+28negativeclassifiercontrols pass perprofile. Same-cell physicalcalibration
+complete, notTownuniqueness/actualcopy/caller or fullprofileacceptance.
+Total2215/3600charged,1385unspent; ownactive=null. Native/ctor/C1/trustgaps
+remain unchanged; [final checkpoint](merge/DAY-MERGE-CHECKPOINT-2026-10-09.md).

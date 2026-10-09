@@ -135,3 +135,35 @@ and the negative's exact target-only refusal. Keep the source/helper prefix,
 both complete posts, and all resources unchanged. A fresh run is required to
 accept this oracle; Build 9ed4 itself remains a calibration result and does not
 change the existing fixture's original positive or false-entry cases.
+
+## Fresh matched oracle — closing DAY Build2bd4
+
+Build `2bd48b65-6eff-4233-b2d8-fabcfb97360a`, exact infra/proof
+`4cc1211c4120c8701577f2b2a922ca6f47d0480f`, collector SUCCESS451 seconds,
+10:44:50.596–10:52:20.817UTC. Archive SHA-256
+`5a2461f607f1b32a3fb5d5f2f3d3da8eb161ab5bbf020819ace7505c735cc3f5`.
+Fixture SHA-256 `19dfab09c5b0069fada151517d642bec24c19f0333507db094c7dd358f28114b`,
+source-admission SHA-256 `a280e8ff994ae5dbe7bb579a3fea9b44b355df3187caaa7509f5840d0017375f`.
+
+Both stock and six-component profiles have positive PASS, all stages0, six
+checked bodies,10returns/10leaks, unchanged sources/fullposts, noerror/dead.
+Both duplicate cases are EXPECTED_REJECTION, stage exporter/decode/VF/refinement
+0/0/1/0, all six bodies reached, sole exact TARGET error at241:76–79:
+`No matching heap chunks: points_to<T>(dst, head(transposition_values(T_typeid, vs, i, j)))`.
+Five checked helpers have9returns/9leaks; target has0/0 after its intended refusal.
+No earlier/unrelated errors or dead-code records. All12positive and28negative
+fail-closed classifier controls pass perprofile. Ghost stripping preserves
+runtime bytes; expected oracle kindmemory_permission and exact location/message
+match. The extra comment shifts the target from240 to241, not its obligation.
+
+Erratum for the preceding9ed raw-calibration paragraph: its five helpers also
+have **9** return/leak records, not10. The positive's total10 includes the
+positive target. Reinspection of retained9ed classification confirms9/9 for
+the negative; no theorem/classification changes from this count correction.
+
+This completes this specific same-cell physical-permission calibration under
+the pinned profiles. The source/destination/current owners and F frame remain
+conditional supplied resources; destination bytes must already equal the
+current transposition. It does not prove actualcopy/caller, unrestricted safety,
+T.own uniqueness, arbitrary-n actualmemory/callback, generic/ZST, or soundness
+of six/kernel/cleanup. Overall verification_accepted remainsfalse.
