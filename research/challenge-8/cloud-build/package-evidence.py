@@ -22,6 +22,17 @@ SHA_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
 TEXT_LOG_CHUNK_BYTES = 8 * 1024 * 1024
 METADATA_MAX_BYTES = 8 * 1024 * 1024
 INVENTORY_MAX_BYTES = 8 * 1024 * 1024
+FULLMAKE_CAPTURE_PATHS = tuple(
+    f"allprooflogs/affected/{case}/{name}"
+    for case in ("forget", "shared_cleanup")
+    for name in (f"{case}.rs", "normal-mir.txt", "verified-ast.txt")
+)
+
+
+def missing_case_artifacts(lane: str, payload: dict[str, bytes]) -> list[str]:
+    if lane == "verifast-mdnew-fullmake":
+        return [path for path in FULLMAKE_CAPTURE_PATHS if path not in payload]
+    return [] if any(path.startswith("allprooflogs/cases/") for path in payload) else ["allprooflogs/cases/*"]
 
 
 def digest(data: bytes) -> str:
@@ -234,7 +245,7 @@ def main() -> int:
         required = ("run-exit.txt", "full-stdout.log", "full-stderr.log",
                     "submitted-config.json", "environment.txt")
         missing = [name for name in required if name not in payload]
-        case_paths = [p for p in payload if p.startswith("allprooflogs/cases/")]
+        missing_cases = missing_case_artifacts(lane, payload)
 
         config_bytes = payload.get("submitted-config.json", b"")
         config_valid = bool(config_bytes) and digest(config_bytes) == config_sha
@@ -288,7 +299,7 @@ def main() -> int:
                                not p.startswith("allprooflogs/cases/") and
                                (p.endswith(".log") or p.endswith("-exit-code.txt") or
                                 p.endswith("-resources.txt"))]
-            complete = complete and bool(case_paths) and proof_audit is not None and bool(stage_artifacts)
+            complete = complete and not missing_cases and proof_audit is not None and bool(stage_artifacts)
         else:
             stage_artifacts = []
         if not smoke and proof_audit is None:
@@ -329,7 +340,7 @@ def main() -> int:
             "diagnostic_complete": diagnostic_complete,
             "text_logs_complete": text_logs_complete,
             "text_logs_index_sha256": text_logs_index_sha,
-            "missing_mandatory": (missing + ([] if smoke or case_paths else ["allprooflogs/cases/*"]) +
+            "missing_mandatory": (missing + ([] if smoke else missing_cases) +
                                   ([] if smoke or proof_audit is not None else ["allprooflogs/proof-audit.json"]) +
                                   ([] if smoke or stage_artifacts else ["allprooflogs stage logs/resource/exit files"]) +
                                   ([] if config_valid else ["valid submitted config/hash"]) +
@@ -405,6 +416,17 @@ def main() -> int:
                 "runtime_components": parse_json_or_none(payload.get("allprooflogs/runtime-components.json")),
                 "source_bundle_delivery": parse_json_or_none(payload.get("allprooflogs/restore-receipt.json")),
                 "source_bundle_and_binary_kit_are_separate": True,
+            }
+        if lane == "verifast-mdnew-fullmake":
+            manifest["tool_profile"] = {
+                "scope": "full Linux make test on final ManuallyDrop PR source tree",
+                "upstream_base_sha": proof_audit.get("base") if proof_audit else None,
+                "candidate_source_sha": proof_audit.get("head") if proof_audit else None,
+                "candidate_tree": proof_audit.get("tree") if proof_audit else None,
+                "source_built_components": proof_audit.get("provenance", {}).get("components") if proof_audit else None,
+                "source_bundle_delivery": parse_json_or_none(payload.get("allprooflogs/restore.json")),
+                "compiler_commit": proof_audit.get("provenance", {}).get("rustc_commit") if proof_audit else None,
+                "conditional_checks": proof_audit.get("make_test") if proof_audit else None,
             }
         # Replace only this package's known output names; preserve unrelated files.
         files = dict(payload)
