@@ -1,3 +1,27 @@
+# MERGE incoming-origin phase — CLOSED, NOT_FOR_INTEGRATION
+
+Checkpoint [incoming origin](merge/INCOMING-ORIGIN-CHECKPOINT-2026-10-09.md).
+User60-minute main window20:16:40–21:16:40UTC; finishing only afterwards.
+Tool6cb7b673; proof/infra2bf268f7, profilev3. Private MIR-origin AST storage
+statements replace ordinary CallExpr lifecycle dispatch; independent static
+review found no remaining reserved-name route. **Origin gate OPEN:** Rust extern
+controls still parse-fail before target; live-local normal/unwind control fails a
+physical-resource obligation. Six previous controls match fresh second Cloud
+build, native C marker-name ordinary calls PASS; local StorageDead-after-leak
+semantic negative reaches target. No acceptance from buildSUCCESS.
+
+Concrete T=() ghost/runtime size assertions fail target in both builds; generic
+layout/ManuallyDrop specialization rule absent. Domain fixed scalar/pointer only;
+no generic/struct/array geometry or supplied separation premise. Actual generic
+reproducer NOT_RUN because origin-only patch cannot cure separation; prior exact
+minimal source retained, true caller/comparator separate. Full suite NOT_RUN.
+Two builds6cf7f205/f068379c terminal, verified and accounted:774/3600seconds
+create→finish;2826unused closed. Reservations released; ready request withdrawn.
+Replay17saved classifications only, no fresh proof credit. Candidate and review
+packet NOT_FOR_INTEGRATION pending semantic origin/unwind and runtime extent.
+
+---
+
 # Active merge phase: internal MIR lifecycle origin
 
 2026-10-09 20:16:40–21:16:40UTC; finishing only until21:46:40UTC.

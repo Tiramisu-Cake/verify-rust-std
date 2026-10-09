@@ -6,11 +6,11 @@
   "start_utc": "2026-10-09T20:16:40Z",
   "main_deadline_utc": "2026-10-09T21:16:40Z",
   "deadline_utc": "2026-10-09T21:46:40Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "User assignment resume a74d6127/fbc063ce: fix MIR lifetime event origin and Cloud verify extern/diverging, six controls and affected normal/unwind; then runtime extent; own worktrees; owner merge; new3600s create-to-finish;60+30 finishing only; portable packet and pushed checkpoint authorized. No upstream publication.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 394,
-  "remaining_build_seconds": 3206,
+  "used_build_seconds": 774,
+  "remaining_build_seconds": 2826,
   "allowed_lanes": [
     "merge"
   ],
@@ -38,7 +38,36 @@
       "execution_seconds": 393,
       "download_verified": true,
       "archive_sha256": "9f5827069039d6b8ff2a87135ed5d4f940b8868e865b14e401ed5ec1683c02c7"
+    },
+    {
+      "dispatch_token": "dispatch-c2ef83ef38264d9abffa34e8ffafda4b",
+      "owner": "merge",
+      "phase_id": "MERGE-INCOMING-ORIGIN-CLOUD-2026-10-09",
+      "infra_sha": "2bf268f792a5a8705292d4b7b8935eba82ca9847",
+      "proof_sha": "2bf268f792a5a8705292d4b7b8935eba82ca9847",
+      "lane": "merge",
+      "submitted_config_sha256": "237695fccba1494629d24ffff789991d683b34fa5436989c039db44390ef883d",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "12cf4996b57ebec72c95f0d86fd826015075221aaddeaea4cd9780a2a4c67fb8",
+      "build_id": "f068379c-3849-4ed2-b593-00b9547ce617",
+      "start_time": "2026-10-09T21:06:42.104816132Z",
+      "finish_time": "2026-10-09T21:13:01.174283Z",
+      "create_time": "2026-10-09T21:06:41.349008197Z",
+      "build_seconds": 380,
+      "accounted": true,
+      "execution_seconds": 380,
+      "download_verified": true,
+      "archive_sha256": "3d192ec6d346327987ce1736ab5a1ecbd91d9d224144bc6c9991e45781a7840a"
     }
   ],
-  "active_build": null
+  "active_build": null,
+  "closed_utc": "2026-10-09T21:18:12.966107+00:00",
+  "remaining_closed_not_carried_seconds": 2826,
+  "ready_request": "WITHDRAWN",
+  "own_reservations": "NONE",
+  "close_reason": "60-minute main window ended; code frozen; finishing evidence/account/checkpoint only. No authorization inherited for future builds."
 }

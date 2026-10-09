@@ -47,3 +47,26 @@ Permitted geometry remains fixed scalar/pointer extents. A scalar specialization
 would be limited evidence, not generic proof or acceptance of the true caller
 with comparator. No layout patch is claimed: available MIR payload does not
 support a narrow independently justified generic layout change in this phase.
+
+## Fresh concrete-unit evidence
+
+Build6cf7f205-a3a0-46d3-9419-938c5b20d72b (proof/infra
+01c832b272ddfe45c0df8298a278761c6aae3aaa, candidate6cb7b673, profilev3)
+ran both concrete-unit cases with exporter/decode/refinement0 and verifier1.
+`origin_unit_layout` reached assertion9 and failed `sizeof(std_tuple_0__type_info)=0`.
+`origin_unit_runtime_layout` executed core::mem::size_of::<()>() and reached
+assertion10, failing `__result=0`. Both are MODEL_LAYOUT_FAILURE, independent
+of the origin controls. No assertion/contract was weakened; raw source bytes
+remained unchanged at every stage. See EVIDENCE-6cf7f205.json and Cloud archive
+9f5827069039d6b8ff2a87135ed5d4f940b8868e865b14e401ed5ec1683c02c7.
+
+These demonstrate a model/layout mismatch at concrete T=(), not acceptance of
+a generic layout bridge and not an origin semantic negative. Fixed u64 span
+positive passed on this fresh candidate; its domain remains limited. The actual
+standalone one-cell fragment and true comparator caller remain separate tasks.
+
+Second Build f068379c on2bf268f7 independently repeats both concrete-unit
+MODEL_LAYOUT_FAILURE classifications at the same assertions, exporter/decode/
+refinement0, verifier1. No layout bridge or scalar actual reproducer is claimed.
+Origin validation did not close; extent work remains the precise missing-rule
+analysis and preserved minimal reproducers, with no new sound layout patch.

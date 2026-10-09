@@ -29,3 +29,21 @@ extern-prototype rejection rule. Source/contract positioning is repaired before
 next run. Concrete unit ghost and runtime-result assertions both failed at their
 marked obligations, confirming that modeled extent cannot be used as actual
 unit layout. The exact generic runtime rule remains missing.
+
+## Frozen phase result
+
+Second Build f068379c on2bf268f7 is SUCCESS with diagnostic_complete=true,
+not verification acceptance. All six span controls now match, including exact
+preprocessed MIR raw IDs and internal retirement/live ordering. Native C ordinary
+marker-name prototype test passes with -c (exit0, two statements). Rust extern
+fixtures still fail at root ghost fn prototype line11, before targeted calls.
+This attempted syntax repair was unsuccessful; these FRONTEND_REJECTION rows
+are fixture failures and do not prove a supported extern admission prohibition
+or a semantic negative. Normal/unwind live-local control has ordinary CallExpr
+provenance but fails points_to resource at line32; closure is not proved.
+Therefore origin implementation repair is reviewable, but requested origin gate
+is OPEN and candidate remains NOT_FOR_INTEGRATION. No claim follows from build
+SUCCESS or six-control count. At21:16:40 code and builds were frozen; remaining
+work is evidence, accounting and checkpoint. Both builds are terminal/accounted,
+774/3600 create-to-finish seconds;2826 unused seconds are closed, not inherited.
+Ready request was withdrawn and own reservations released by coordinator.
