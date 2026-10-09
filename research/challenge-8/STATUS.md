@@ -1,18 +1,21 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized through **08:00 UTC / 11:00 MSK, 9 October**. Separate Cloud Build
-account: **4328/10800 conservative seconds used; 6472 remaining**.
-Active Build **755bf768-3700-407b-9c70-3605b4d8f4a4**, compound R3/nested TEST,
-infra `5a0a819ac782cc80a3050386614a3bcd7913627b`, proof
-`256254c01a77653ec056c91755ac636e9e76fb9d`, timeout1200s.
+account: **4683/10800 conservative seconds used; 6117 remaining**.
+No own active Build. Build **755bf768-3700-407b-9c70-3605b4d8f4a4**
+FAILURE/incomplete evidence,355s; R3 collector and nested scheduling audit failed,
+then packaging rejected a symlink from an isolated tool copy under evidence.
+Full raw proof logs were not uploaded and their exact first boundary is UNKNOWN.
+Infrastructure-only repair moves execution tools outside evidence and echoes full
+proof logs; same-source semantic rerun is required. No credit from this Build.
 Fresh input-relation capture
 `93da48d0-d720-4179-8d2c-d8b7495703bf` SUCCESS diagnostic only,337s;
 infra `e4e9eacfebef52293b5404c74b316fe76a413e4b`, proof
 `d253128ac42f5788cc322201bdfcc6c1e2e36f76`. Strict17 first matrix Build673526ac completed all17cases but audit refused
 callee-spec error attribution for repeated end_lifetime; false-post2 did not
-run. Full archive verified. R3 first semantic run is dispatched under the common atomic lock; baseline
-and separate nested scheduling TEST results remain diagnostics, with all
-acceptance/actual nested proof credits false. Independent combined generic/postmark diagnostic remains READY.
+run. Full archive verified. R3 full-evidence rerun is being prepared; baseline and nested TEST remain
+separate diagnostics with false acceptance flags. Independent combined
+generic/postmark and strict17 reuse/fresh2 diagnostics remain READY.
  [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json),
 [experiment history](EXPERIMENT-LOG.md). Branch

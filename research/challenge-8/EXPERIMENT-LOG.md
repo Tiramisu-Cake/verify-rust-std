@@ -6014,3 +6014,29 @@ R3 controls and TEST evidence separately retained. Original runtime/fullposts
 unchanged; TEST grants no nested/whole-helper credit. All selected paths and
 parent proof dependency sets checked before client original-Git object closure
 transport preflight under atomic API/reservation/submit lock. No repeated smoke.
+
+Strict17 reuse/fresh2 next infrastructure99f4269b8f84f1b85d2092d41bd830243ae8a681,
+proofd253128ac42f5788cc322201bdfcc6c1e2e36f76: all original input closure preflight
+544365B/182sourceparts, SHA3cb3fd1eccf2cbc470f76930160a8e2493019a60c3f0f673a894ad08058e1ab9.
+No unchanged17case execution; fresh tool/profile must equal verified673 evidence.
+Historical source/MIR/log re-audit and two NEW falseposts stay separate.
+
+Build755 pinned payload source SHA b62338015145328176452bf8245dd38f3919d202352f973027e9ef4a90b1ddc9,
+186sourceparts/195total substitutions. Child nested scheduling TEST always
+actual_nested_drop_credit=false; parent TEST lane actual_helper_proved forcedfalse.
+
+NIGHT-CLOUD-14 outcome:755bf768 FAILURE, create07:06:04.732807983,
+start07:06:05.646300624,finish07:11:58.852172UTC=355s conservative charged.
+Own4683/10800,6117remaining,no ownactive. Full Cloud console downloaded,
+SHA7d677b7748677ea3f83caf1893dbaaf32f86a0d9778845d6a4b230f90bd96ae3;
+console reports R3 positive did not reach first outer boundary cleanly and nested
+AST permutation certificate incomplete. Exact raw first-error/AST rows UNKNOWN:
+helper did not echo raw proof logs, and packaging rejected symlink
+allprooflogs/cases/wrapper-r3-profile/controls/forget_move_to_copy/test-tool/examples/usbkbd/build/usbkbd_keycodes.c.
+No summary/archive/upload receipt exists; INCOMPLETE_EVIDENCE gate rightly refused.
+No download-verified/negative/proof acceptance credit. Canonical baseline's
+lib.rsspec462 refusal remains console-visible but is NOT the R3 candidate error.
+Necessary infrastructure repair: all disposable verifier and exporter execution
+copies outside evidence, raw sources/MIR/proof logs/identity deltas retained, full
+proof stdout backup; packager symlink refusal unchanged. Fresh same-source run is
+justified by this changed evidence component, not an unchanged semantic retry.
