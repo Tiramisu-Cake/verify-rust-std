@@ -1,13 +1,30 @@
-# Active merge allocation-span phase — 2026-10-09
+# MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09 — CLOSED / NO-GO FOR INTEGRATION
 
-Direct owner assignment opens MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09,
-owner merge, own branch overnight/merge-26.10; start17:32:10UTC,
-main18:32:10, absolute19:02:10; new3600seconds no carryover.
-[Phase](merge/ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09.md),
+Owner merge, overnight/merge-26.10;8d57c9f3 preserved.
+[Checkpoint](merge/ALLOCATION-SPAN-PATCH-CHECKPOINT-2026-10-09.md),
+[phase](merge/ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09.md),
 [rationale](cloud-build/allocation-span-patch/RATIONALE.md).
-Preserved8d57c9f3: alignment/bounds established; constructor span failed before FBC.
-Narrow kernel candidate in own isolated VeriFast tree, profile NOT_ACCEPTED;
-new proof NOT_RUN pending fresh Cloud. Copy/recovery/557/558 remain OPEN.
+Start17:32:10UTC, main18:32:10, absolute19:02:10; policy1fcd91ef.
+Own tool basef76012fb, candidate8c1386a8; portable experimental kernel patch
+prepared, NOT_FOR_INTEGRATION/NOT_ACCEPTED. Fresh lifetime gate finds translator
+retains inner-block local chunks until function return; positive coefficients
+cannot establish simultaneous runtime live spans. Incoming-only/lifetime-aware
+mechanism remains next question; no established impossibility or upstream bug.
+
+Rejected candidate experimentally reaches actual constructor/post-FBC separation,
+src/dst geometry and literal-one copy. First error end_ref_readonly old held_ref
+share after canonical FBC. Recovery/fullposts/CURRENT-owner association remain OPEN.
+Overlap/read-only, arbitraryraw and abstractsize0 negatives match intended sites;
+generic positive dead-code INCONCLUSIVE; retired source control inequality PASS
+is invalid for reuse and integration-blocking. Third Build bootstrap lacks pinned
+exporter before candidate profile build; new minimal positive/postcopyassertions NOT_RUN.
+Actual557/558/Drop/comparator/full insertion NOT_RUN; caller premises still supplied.
+
+All3 builds terminal,1045/3600 charged,2555 unspent CLOSED. Immutable archives and
+external text verified; own active/unresolved/reservation none, ready withdrawn.
+Saved classifier/error-site replay separate, original Cloud verdicts retained.
+Review publication research-only via review/verifast; no receipt/integration accepted.
+No new experiment after main deadline; shared coordinatorv2/max2 unchanged.
 
 # MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 

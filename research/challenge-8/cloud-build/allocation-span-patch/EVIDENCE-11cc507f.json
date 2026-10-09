@@ -46,7 +46,14 @@
     "allprooflogs/cases/insertion-onecell-guard-diagnostic/extraction.json": "e7c56dcd9c35cf92cc2b89e8d4f39fecc27dc129a8a43a7cc991ddd6f20140cc",
     "allprooflogs/cases/insertion-onecell-guard-diagnostic/results.json": "ac2fe6229d1885884b024e87fa39144c2fad7ffa8bf9b7cb6d64f1023826f3de",
     "allprooflogs/cases/insertion-onecell-guard-diagnostic/cases/positive/verifast.log": "d2265b4c122cc4f8ddc281bc3526faec1eec50d4f2bf0a0ae4dbefddfca48bbd",
-    "allprooflogs/cases/insertion-onecell-guard-diagnostic/cases/after_recovery_false/verifast.log": "9cec1e8c8bb5b71fa71197bae956ec4a1b85fb2f45500c297c1b79be7be7879d"
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/cases/after_recovery_false/verifast.log": "9cec1e8c8bb5b71fa71197bae956ec4a1b85fb2f45500c297c1b79be7be7879d",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_retired_local_reuse/proof-ast.ml": "859072620baf4443f7db20697f4fd222607411844d0e5375be00b9e4ee86eca2",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_retired_local_reuse/verifast.log": "df4e5f00bff72313c8a37d0f96a5fcede96223d2bbb91ae4dd291ed8f2b4b95c",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_positive/proof-ast.ml": "edc4435009ed97dbcd2670dbaada515b7aab33945b93822ac68626665913a5a6",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_positive/verifast.log": "bac6af735397a3ddffb18882e5a1a1173136cb19b600b124de4b412a81e05446",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_overlap/verifast.log": "e98a56c02d52b294bd7e5d04c741e4e5bc3f54ec87695125142eb9a600565bb6",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_raw_arbitrary/verifast.log": "141ee1251acb9ed2d00c454a81bac2dea5ddf6638c0f12c481ccd8855ee14280",
+    "allprooflogs/cases/insertion-onecell-guard-diagnostic/span-controls/span_zero_extent/verifast.log": "71d247c76e9523c217fe3a5ea291049fa7dcd2d0f0f538cdf9ecdf0898cc173f"
   },
   "observed": "actual pre/post FBC span, src/dst geometry and literal-one copy reached; first refusal end_ref_readonly held_ref aliasing50; full recovery/posts open",
   "controls": {
@@ -71,5 +78,6 @@
   "positive_control": "INCONCLUSIVE: target/return/leak reached, exit1 dead-code at unexecuted unwind ReturnStmt",
   "conservative_seconds": 387,
   "terminal_status": "FAILURE",
-  "immutable_evidence": "gs://smallsort-ci-evidence-504462351565/cloud-build/11cc507f-231a-4b50-81ab-30d3389cd104/"
+  "immutable_evidence": "gs://smallsort-ci-evidence-504462351565/cloud-build/11cc507f-231a-4b50-81ab-30d3389cd104/",
+  "raw_cloud_collector": "INCONCLUSIVE: mandatory onecell bindings false due body/field negative-site matcher; localized saved replay fixes sites only, original FAILURE retained"
 }

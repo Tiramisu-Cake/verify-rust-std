@@ -1,0 +1,9 @@
+# Independent semantic review record
+
+Built-in review agent, separate read-only review of tool base f76012fb518703b1d98e243ac4f487f16877cfcb/candidate8c1386a802ba2ff43ffdd6787eaef5e47bf068e1 and immutable Cloud11cc507f evidence; proof/infrae6d30d025f87c3eb51af7a4c32120ca885c217a3. No reviewer writes/runs. Initial reviews required excluding unsupported sizeof forms/concrete structs and preserving concrete generic-ZST gate; final fresh-evidence review vetoed integration.
+
+Final conclusion: NO-GO for integration on Rust address-reuse semantics. The translator keeps tmp0 generic points-to until function return, although the source inner-block local can cease to exist before tmp1. Candidate exclusion against that retained bookkeeping chunk gives newq!=saved. Positive coefficient alone cannot certify simultaneous actual Rust storage lifetimes. Need incoming-only/lifetime-aware premises or translator storage-lifetime handling before a sound mechanism can be integrated. Tests cannot establish the required semantic link.
+
+Verified facts from saved AST/log: retired-control tmp0 and tmp1 DeclStmt occur in one top-level function BlockStmt; no inner BlockStmt/free_locals/StorageDead between them; free locals only at final return. Positive control reaches both marked geometry assertions and return/leak, then exit1 dead-code diagnostic. Its AST has an unreachable synthetic ReturnStmt(unwinding) from ptr::read, located at whole function span. vfconsole.ml267–285 reports registered statements never executed and exits1. No blanket allow-dead-code or expected-PASS reclassification was applied.
+
+Scope: this review rejects the experimental rule, not a claim that the previous model is generally unsound. Actual copy resource/recovery failure remains separate. Generic size0 and incoming raw/overlap controls do not repair runtime local retirement.

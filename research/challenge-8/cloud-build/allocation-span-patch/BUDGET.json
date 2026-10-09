@@ -5,11 +5,11 @@
   "start_utc": "2026-10-09T17:32:10Z",
   "main_deadline_utc": "2026-10-09T18:32:10Z",
   "deadline_utc": "2026-10-09T19:02:10Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Explicit owner assignment 2026-10-09: narrow allocation/span patch for actual tmp-to-tail; own isolated VeriFast tree, Cloud validation and review publication; 60+30 finishing only; new3600s no carryover.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 749,
-  "remaining_build_seconds": 2851,
+  "used_build_seconds": 1045,
+  "remaining_build_seconds": 2555,
   "allowed_lanes": [
     "merge"
   ],
@@ -61,7 +61,37 @@
       "execution_seconds": 386,
       "download_verified": true,
       "archive_sha256": "b8216006ea7e4f0d708bc2878128563b248e344421da6e263362d3384901ab85"
+    },
+    {
+      "dispatch_token": "dispatch-9fdbbf67b8814f8c90710e7ac54e9390",
+      "owner": "merge",
+      "phase_id": "MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09",
+      "infra_sha": "3346ba22e17aa1ad3206db565f2f9743dd6e4e26",
+      "proof_sha": "3346ba22e17aa1ad3206db565f2f9743dd6e4e26",
+      "lane": "merge",
+      "submitted_config_sha256": "1d9bfbead521fd5a33c90656d82a709b16e37f9a6db757486c59e000fe811817",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "871d3894ad547b672830519961b5cf53f4db23925467cd95339540b149c10245",
+      "build_id": "30a6fdfc-8aa8-4edc-830f-aeff94d538cc",
+      "start_time": "2026-10-09T18:29:51.708854509Z",
+      "finish_time": "2026-10-09T18:34:46.675081Z",
+      "create_time": "2026-10-09T18:29:50.955772904Z",
+      "build_seconds": 296,
+      "accounted": true,
+      "execution_seconds": 295,
+      "download_verified": true,
+      "archive_sha256": "941a7a492a73daf8f6ff80bb9fdd8b52813b9bb9c26f079141d3e47245ac6d56"
     }
   ],
-  "active_build": null
+  "active_build": null,
+  "unspent_seconds_closed": 2555,
+  "own_active_unresolved": [],
+  "ready_request": "WITHDRAWN",
+  "closeout_utc": "2026-10-09T18:40:48Z",
+  "finishing_extension_used": true,
+  "closeout": "All3 own builds terminal; all archives/external text verified; own reservation absent; no new experiment after18:32:10. Candidate NO_GO for integration, no budget carryover."
 }

@@ -64,3 +64,7 @@ has its original positive-size domain. This candidate therefore is NOT an all-T/
 ZST model qualification. Generic size0 and retired-address controls probe the rule;
 they do not certify accurate concrete ZST instantiation. Maintainer review must
 retain this existing trusted-size-model gate before common-profile acceptance.
+
+## Retirement gate finding before main cutoff
+
+Fresh11cc507f evidence proves q!=saved in the proposed retired-local control, because the Cloud proof AST hoists tmp0/tmp1 DeclStmt into one function block and frees storage only at return. Ending the readonly reference lifetime k0 is not the storage lifetime end of tmp0 in this AST. Therefore this test cannot certify lawful runtime local address reuse. More seriously, the current rule's premise that every exposed local storage chunk denotes a simultaneously live actual Rust byte extent is not yet justified under that hoisting/StorageDead abstraction. Treat this as an integration-blocking semantic gate, not as a demonstrated upstream bug or a global soundness result. No permanent registry exists in the candidate, but that alone does not resolve translator-extended resource lifetimes. Need to distinguish genuinely live incoming regions from same-function locals whose runtime lifetimes may have ended. The final bounded Build already begun checks minimal positive and owner/bytecopy assertions; it does not repair or qualify this lifetime boundary. No new mechanism or firstshift alternative starts after main cutoff.
