@@ -15,11 +15,15 @@ scratch MU frame untouched. No size/type_interp/dst supplied in this subset.
 Actual caller CFG/sort4 invocation absent, so full applicability still unproved.
 Bridge VF1 at105 MU inverse roundtrip; positive-size/type/dst remain open.
 Raw proof complete; multiline ghost mapping PASS all7 by hash-checked service replay.
-639/3600 Cloud seconds accounted,2961 remaining, no active Build.
-32c43/7511ddcd failed isolated console tuple type at7491 before new c1 proof;
-corrected control tuple shape independently reviewed, fresh retry pending.
-Next: independently reviewed actual c1 bounded-prefix normal/direct-unwind full
-post/leak proof; exact source/full MIR/pre-AST admission, no callable/full sort4
-summary. Candidate profile unaccepted; new c1 fresh proof NOT_RUN after preparation failure.
+Fresh [bounded C1 evidence](cloud-build/sort4-native-entry-c1/C1-FRESH-65D6-EVIDENCE.md)
+65d6/1fe60: raw VF0,147 statements, actual c1 FnMut executes; both outcomes
+recover CURRENT source/F/thread, join, original posts/return/leak. Initial AST
+classifier rejected stock wrapper calls; exact saved replay under independent
+review repairs service verdict only. All6 intended resource/post negatives pinned.
+Still conditional size/type/dst/resources; native subset not yet a full actual
+caller chain. Default-off whole sort4 VF1 at c2 source195/aliasing token88.
+1438/3600 seconds accounted,2162 remaining,no active Build. Next: C2 original-AST
+capture/refinement with exactsource, always refusal and no proofcredit, then raw
+correspondence review before any second-call projection. Profiles unaccepted.
 Prior select and conditional c1 keep their exact scope; profile unaccepted.
 Historical STATUS retained in [branch archive](archive/select-adoption-2026-10-10/README.md).

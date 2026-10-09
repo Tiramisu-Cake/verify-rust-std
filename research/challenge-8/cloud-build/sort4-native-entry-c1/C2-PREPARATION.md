@@ -3,8 +3,9 @@
 This is a source-annotation draft only. It does not alter the std source, a
 runner, the translator, the kernel, or a profile. It is not a verified
 fixture, a callable summary, or evidence that the current C1 Cloud proof has
-passed. Do not build or dispatch C2 until the owner records the C1 result and
-approves the next exact profile.
+passed. C1 fresh result65d6 is now recorded; the current autonomous assignment authorizes
+reviewed narrow C2 discovery. C2-DISCOVERY-CARD/PROFILE/IMPLEMENTATION-REVIEW govern
+the next capture; no separate owner response is required inside this session.
 
 `C2-ANNOTATION-DRAFT.rs` belongs immediately after the normal C1
 `join_four_owned_cells::<T>(v_base, t)` at source 194 and immediately before

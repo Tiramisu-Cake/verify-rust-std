@@ -25,3 +25,11 @@ summary. Prefix mode may not be exported/imported as actual sort4 proof. Native
 entry applicability, optional scratch/dst, runtime layout/ZST and trust/admissibility
 of historical overlays remain separately stated. New profile is not accepted.
 Cloud proof and causal controls, not static application, determine proof evidence.
+
+
+[C2 diagnostic delta](verifast-actual-c2-discovery-TEST.patch),
+[C2 profile](C2-DISCOVERY-PROFILE.json), [preimplementation rationale](C2-DISCOVERY-CARD.md)
+and [independent review](C2-DISCOVERY-IMPLEMENTATION-REVIEW.md) extend only the own
+translator, after the exact C1 profile. Full source ECD83, two cut bindings, original
+complete AST capture and intentional refusal; never a C2 proof. This package is
+internal and portable, pending Cloud compile/capture and later maintainer review.

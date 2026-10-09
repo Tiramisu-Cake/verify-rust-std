@@ -1,0 +1,229 @@
+{
+  "archive_manifest": {
+    "checked_files": 620,
+    "hash_mismatches": 0,
+    "manifest_sha256": "eb31aae42511333e53e7cfba5a0ead89b85cd756fc614f3b99aaebdf9c3daf7c",
+    "missing": 0
+  },
+  "artifact": "C1-65D6-SERVICE-REPLAY",
+  "build_id": "65d6cbb1-43fe-4e6d-a2c3-f4fff112a7aa",
+  "classification": "SAVED_EVIDENCE_RECLASSIFICATION_ONLY",
+  "control_scope_note": "The four controls reject the actual normal/unwind returned heap post at its false predicate or missing preserved foreach. Branch events are observations only; their branch labels describe the exact source post position. The control patch marker pins each isolated mutation; this replay adds no CFG proof.",
+  "mutant_rejection_tests": {
+    "inventory": {
+      "misplaced_fnmut_rejected": true,
+      "unknown_call_rejected": true
+    },
+    "normal-false-post": {
+      "changed_control_marker_rejected": true,
+      "changed_primary_line_rejected": true,
+      "changed_source_pin_rejected_by_full_gate": true
+    },
+    "normal-omit-join": {
+      "changed_control_marker_rejected": true,
+      "changed_primary_line_rejected": true,
+      "changed_source_pin_rejected_by_full_gate": true
+    },
+    "unwind-false-post": {
+      "changed_control_marker_rejected": true,
+      "changed_primary_line_rejected": true,
+      "changed_source_pin_rejected_by_full_gate": true
+    },
+    "unwind-omit-join": {
+      "changed_control_marker_rejected": true,
+      "changed_primary_line_rejected": true,
+      "changed_source_pin_rejected_by_full_gate": true
+    }
+  },
+  "pins": {
+    "original_source_sha256": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+    "positive_ast_serializer_sha256": "0339f32c1db27c6458d40cf0042149ae0228018c1eeffee17276158280ac3791",
+    "positive_log_sha256": "586e270a78d66ff89cd1c5a4b2060cbfb1a0df3ab0fdb9634969e29fdee41b2b",
+    "positive_post_ast_node_sha256": "e134fc2aee9bbd10c84933aaf01ead557d00ea3dc299a54c0ce13ea034121075",
+    "positive_stage_sha256": "400820d9c8677f51ebf263d5c0cb025c58f59218dd0d1aa236beef40fc54bd1b",
+    "pre_ast_sha256": "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39",
+    "prefix_patch_sha256": "2e1621b735e9d8af1d7c73b29d09daf1cd576943307521f67096917d342130e0",
+    "profile_sha256": "841d20589e0d745087791a8949b47a048da6d67ddd0fd1ce6b95975b53a72143",
+    "verified_source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
+  },
+  "positive": {
+    "actual_full_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "PREFIX_ONLY_BOUNDED_C1_THEOREM",
+    "exit": 0,
+    "full_normal_unwind_posts_and_leak": true,
+    "gate_pass": true,
+    "helpers": {
+      "join_four_owned_cells": {
+        "error_free": true,
+        "leak_check": true,
+        "one_entry_before_target": true,
+        "returned": true
+      },
+      "recover_pair": {
+        "error_free": true,
+        "leak_check": true,
+        "one_entry_before_target": true,
+        "returned": true
+      }
+    },
+    "inventory": {
+      "ast_sha256": "0339f32c1db27c6458d40cf0042149ae0228018c1eeffee17276158280ac3791",
+      "c1_source_line": 190,
+      "copy_calls_in_named_function": [],
+      "fnmut_calls_at_c1": [
+        [
+          190,
+          "std::ops::FnMut::call_mut"
+        ]
+      ],
+      "ghost_type_equality_registration_at_c1": [
+        [
+          190,
+          "#register_type_projection_equality"
+        ]
+      ],
+      "named_function": "sort4_stable",
+      "named_function_ast_sha256": "0339f32c1db27c6458d40cf0042149ae0228018c1eeffee17276158280ac3791",
+      "proof_verdict": null,
+      "runtime_inventory": {
+        "FnMut": 1,
+        "copy": 0,
+        "selector": 0
+      },
+      "selector_calls_in_named_function": [],
+      "source": "verified/lib.rs",
+      "status": "CONFIRMED_SOURCE_LINKED_PREFIX_RUNTIME_INVENTORY",
+      "stock_wrapper_calls_at_c1": [
+        [
+          190,
+          "fn_outcome_result"
+        ],
+        [
+          190,
+          "create_ref"
+        ],
+        [
+          190,
+          "fn_outcome_result"
+        ],
+        [
+          190,
+          "reborrow_ref"
+        ],
+        [
+          190,
+          "fn_outcome_result"
+        ],
+        [
+          190,
+          "create_ref"
+        ],
+        [
+          190,
+          "fn_outcome_result"
+        ],
+        [
+          190,
+          "reborrow_ref"
+        ],
+        [
+          190,
+          "returning"
+        ],
+        [
+          190,
+          "unwinding"
+        ],
+        [
+          190,
+          "unwinding"
+        ]
+      ],
+      "stock_wrapper_multiset_expected": {
+        "create_ref": 2,
+        "fn_outcome_result": 4,
+        "reborrow_ref": 2,
+        "returning": 1,
+        "unwinding": 2
+      },
+      "stock_wrapper_multiset_observed": {
+        "create_ref": 2,
+        "fn_outcome_result": 4,
+        "reborrow_ref": 2,
+        "returning": 1,
+        "unwinding": 2
+      }
+    },
+    "source_and_ast_admission": [
+      "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9",
+      "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39",
+      "e134fc2aee9bbd10c84933aaf01ead557d00ea3dc299a54c0ce13ea034121075",
+      "23b6309ae9bf4a14abb31b78d87c9317c3b72b23c2d1ded70151e8ef9f6c761c"
+    ],
+    "statement_count": 147,
+    "target_entries": 1
+  },
+  "post_controls": {
+    "normal-false-post": {
+      "branch_event_observed_not_proof": true,
+      "classification": "INTENDED_PREFIX_POST_RESOURCE_NEGATIVE",
+      "control_marker_exact": true,
+      "control_post_ast_sha256": "f094ae667d92bd6e4b6c8f9b7f6fcefd8b425c1a30701d0a6d506b4d24f8ed81",
+      "expected_branch": "normal-return",
+      "expected_first_stage_predicate_location": "verified/lib.rs(140,21-24): error: Cannot prove condition. (Cannot prove false.)",
+      "intended_negative": true,
+      "interpreted_as_intended_negative": true,
+      "primary_error_exact": true,
+      "raw_log_sha256": "a56ddf4dd6f720384e559c0342e7bea3eb24f1dc07642b5d77013b6b69ba2a21",
+      "reason": "65d6 raw VC independently reviewed; exact first obligation/helper/target/control pins required",
+      "target_entry_count": 1
+    },
+    "normal-omit-join": {
+      "branch_event_observed_not_proof": true,
+      "classification": "INTENDED_PREFIX_POST_RESOURCE_NEGATIVE",
+      "control_marker_exact": true,
+      "control_post_ast_sha256": "336b89f55f64a2a060e6ca69724d4a951789090f1e51cd46898b515ad3fee9c6",
+      "expected_branch": "normal-return",
+      "expected_first_stage_predicate_location": "verified/lib.rs(142,5-12): error: No matching heap chunks: foreach<T>(cons(right_after, cons(left_after, cons(third, cons(fourth, nil)))), own0(T_typeid, t))",
+      "intended_negative": true,
+      "interpreted_as_intended_negative": true,
+      "primary_error_exact": true,
+      "raw_log_sha256": "26c69caebf25bb13fc96b1de999f46161f5d1937e8e944ba8255dba9347438a0",
+      "reason": "65d6 raw VC independently reviewed; exact first obligation/helper/target/control pins required",
+      "target_entry_count": 1
+    },
+    "unwind-false-post": {
+      "branch_event_observed_not_proof": true,
+      "classification": "INTENDED_PREFIX_POST_RESOURCE_NEGATIVE",
+      "control_marker_exact": true,
+      "control_post_ast_sha256": "b5da002fed983f749943f7248f69e61694f72997270eea60ef7cf905862babcc",
+      "expected_branch": "direct-unwind",
+      "expected_first_stage_predicate_location": "verified/lib.rs(147,31-34): error: Cannot prove condition. (Cannot prove false.)",
+      "intended_negative": true,
+      "interpreted_as_intended_negative": true,
+      "primary_error_exact": true,
+      "raw_log_sha256": "2a0ba8733c9eed90765ee0ce3a2a865c235eefdfca285033be4cf71a02136089",
+      "reason": "65d6 raw VC independently reviewed; exact first obligation/helper/target/control pins required",
+      "target_entry_count": 1
+    },
+    "unwind-omit-join": {
+      "branch_event_observed_not_proof": true,
+      "classification": "INTENDED_PREFIX_POST_RESOURCE_NEGATIVE",
+      "control_marker_exact": true,
+      "control_post_ast_sha256": "fefb8be4dc69c218b29ce45e9fc98a1ee89156323f20459f7dae74d65dab8ca0",
+      "expected_branch": "direct-unwind",
+      "expected_first_stage_predicate_location": "verified/lib.rs(149,5-12): error: No matching heap chunks: foreach<T>(cons(right_after, cons(left_after, cons(third, cons(fourth, nil)))), own0(T_typeid, t))",
+      "intended_negative": true,
+      "interpreted_as_intended_negative": true,
+      "primary_error_exact": true,
+      "raw_log_sha256": "d8800be4711e59623ae5ab01e2d0fb75f06828c66f1fabb01ac12ce91addc1cc",
+      "reason": "65d6 raw VC independently reviewed; exact first obligation/helper/target/control pins required",
+      "target_entry_count": 1
+    }
+  },
+  "proof_credit": false,
+  "raw_records_modified": false,
+  "runner_sha256": "fe7781948221a449fcbe89ed3d24ae87577a74f1cc088e4e86f8f0df9f6d234f",
+  "script_sha256": "fba0c4e74175179116d4b8af4b9049e1ab0b672f00b0acfaaff56c68cb41530e"
+}

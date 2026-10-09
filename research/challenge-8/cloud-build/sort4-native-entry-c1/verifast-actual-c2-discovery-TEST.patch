@@ -1,0 +1,86 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6485,6 +6485,23 @@
+        (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
+         | None | Some "none" -> false | _ -> true) then
+       failwith "SORT4-C1-PREFIX: control requires prefix opt-in";
++    let c2_discovery_requested =
++      match Sys.getenv_opt "SORT4_ACTUAL_C2_DISCOVERY_TEST" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "SORT4-C2-DISCOVERY: malformed opt-in" in
++    if c2_discovery_requested then begin
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++         prefix_requested || Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" then
++        failwith "SORT4-C2-DISCOVERY: exact capture environment required";
++      let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++      let row = input_line ic in
++      let status = Unix.close_process_in ic in
++      if status <> Unix.WEXITED 0 || row <>
++         "ecd83f8c0840a07f138bc8afa2a36c661f296d748693afa2a0a61667cb3372e4  verified/lib.rs" then
++        failwith "SORT4-C2-DISCOVERY: verified source SHA256 differs"
++    end;
+     let open BodyRd in
+     let var_id_trs_map_ref = ref [] in
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+@@ -6542,7 +6559,15 @@
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+-        if List.length cuts <> 1 then
++        if c2_discovery_requested then begin
++          let cut_sites = List.map (fun stmt ->
++            let (_, line, _) = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
++            match marker_call stmt with
++            | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> (line, name)
++            | _ -> failwith "SORT4-C2-DISCOVERY: cut shape differs") cuts in
++          if cut_sites <> [(192, "'cmp"); (225, "'cmp2")] then
++            failwith "SORT4-C2-DISCOVERY: exact ordered cut sites differ"
++        end else if List.length cuts <> 1 then
+           Ast.static_error fn_sig_loc
+             "Actual sort4 AST scope test requires one cut marker" None;
+         ([], ghost_stmts)
+@@ -7131,7 +7156,24 @@
+                let original_decl =
+                  mk_fn_decl contract
+                    (Some (original_body, closing_cbrace_loc)) in
+-               if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++               if c2_discovery_requested then begin
++                 if State.body_name <> "sort4_stable" then
++                   failwith "SORT4-C2-DISCOVERY: wrong target body";
++                 let src = open_in "verified/lib.rs" in
++                 let source = really_input_string src (in_channel_length src) in
++                 close_in src;
++                 let lines = String.split_on_char '\n' source in
++                 let exact_line n expected =
++                   if List.nth lines (n - 1) <> expected then
++                     failwith "SORT4-C2-DISCOVERY: marker/source placement differs" in
++                 exact_line 185 "            __vf_sort4_first_unwind();";
++                 exact_line 218 "            __vf_sort4_second_unwind();";
++                 exact_line 223 "        let c2 = is_less/*@::<F, (&'cmp2 T, &'cmp2 T), 'cmp2>@*/(&*v_base.add(3), &*v_base.add(2));";
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                   "actual-c2-original-ast.ml"
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 failwith "SORT4-C2-DISCOVERY: DISCOVERY_ONLY_NOT_PROOF original_AST_emitted"
++               end else if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+                   State.body_name <> "sort4_stable" then original_decl
+                else begin
+                  let reject why =
+@@ -14703,6 +14745,16 @@
+              "sort4_stable" then
+           failwith "SORT4-C1-PREFIX: isolated exact-one body, unwind and full checks required"
+       end;
++      if Sys.getenv_opt "SORT4_ACTUAL_C2_DISCOVERY_TEST" = Some "1" then begin
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get (List.hd bodies_cpn)) <>
++             "sort4_stable" ||
++           Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++           Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" <> Some "0" ||
++           Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" then
++          failwith "SORT4-C2-DISCOVERY: isolated exact-one body, unwind/full capture required"
++      end;
+       let expected_redirects =
+         if !Sort4MaybeUninit.active then
+           expected_sort4_redirects bodies_cpn

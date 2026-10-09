@@ -6529,3 +6529,11 @@ new c1 cases, all NOT_RUN/no proofcredit.352Cloudsec accounted inclfailure,
 639/3600total,2961remaining; 354files/hashverified archive9b6bd493. Corrected only
 falsepost tuple reconstruction, independentreview; newpatch2e1621b7, translator
 59048330, profileunaccepted, exact frozen source unchanged. See preparationfailure.
+
+
+2026-10-10 native-entry session fresh C1 65d6/1fe60: raw bounded VF0/147,
+actual FnMut190, normal recovery193/join194/post140 and direct-unwind187/188/post147,
+return/leak; fulltarget still c2token88/source195 VF1. Six causal negatives intended
+at exactVCs; classifier stockwrappermultiset replay changes no proof. See fresh
+phase evidence for fullSHA/time/archive/profile/debts. Earlier dbe/7456 stopped
+collector attribution, prefixNOT_RUN;412s. Total1438/3600,2162 remaining at23:03:46.

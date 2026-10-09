@@ -771,3 +771,11 @@ T.own/F/thread/type supplied, actualcaller ownershipbridge/sharedentry/genericZS
 OPEN; experimental relocation/scope/profile UNACCEPTED. No arbitraryFnMut/wholeR6
 or c2/select/copy/functionals upgrade; selecte2 exactpriorproof preserved. Four
 terminalbuilds,1395/3600s; checkpoint cloud-build/sort4-c1-actual-execution.
+
+
+Fresh65d6 bounded actual C1 prefix completes VF0 on normal/direct Continue unwind,
+CURRENT fourTowners/Fcell/F.own/thread conservation and native outcome posts/leak;
+strict checks retained. Exact source/fullMIR/preAST and one firstFnMut, no c2/select/
+copy, no callable/fullsort4 summary. Raw supplied positive-size/type/dst/resource
+precondition remains; nativeentry subset independently derives source/F/thread,
+caller applicability and scratchMUbridge remain open. Classifier savedreplay only.

@@ -58,6 +58,38 @@ def need(ok: bool, why: str) -> None:
         raise RuntimeError(why)
 
 
+def resolve_c2_activation(profile: dict, env_value: str | None) -> dict:
+    """Resolve the transported per-profile opt-in; environment zero wins."""
+    need(env_value in (None, "0", "1"),
+         "SORT4_C2_DISCOVERY must be absent or exactly 0/1")
+    enabled_field = profile.get("cloud_discovery_enabled", False)
+    need(type(enabled_field) is bool,
+         "C2 cloud_discovery_enabled profile field must be an exact JSON boolean")
+    profile_valid = (profile.get("classification") ==
+                     "EXPERIMENTAL_C2_DISCOVERY_ONLY_NOT_PROOF" and
+                     profile.get("profile_accepted") is False and
+                     profile.get("always_reject_after_original_ast_emit") is True)
+    if env_value == "0":
+        enabled = False
+        source = "explicit_environment_off_overrides_profile"
+    elif env_value == "1":
+        need(profile_valid and enabled_field,
+             "C2 environment opt-in requires reviewed profile enablement and diagnostic-only pins")
+        enabled = True
+        source = "explicit_environment_and_reviewed_profile"
+    else:
+        enabled = enabled_field
+        source = "transported_profile_opt_in" if enabled else "default_off"
+        if enabled:
+            need(profile_valid,
+                 "enabled C2 profile lacks exact diagnostic-only classification")
+    return {"enabled": enabled, "source": source,
+            "profile_enabled_field": enabled_field,
+            "profile_validation_passed": profile_valid,
+            "explicit_environment_value": env_value,
+            "actual_sort4_proved": False, "proof_credit": False}
+
+
 def sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -476,6 +508,33 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
     return result
 
 
+def classify_prefix_post_control(control: str, log: str, code: int, proof_entries) -> dict:
+    """Pure saved-data oracle, pinned to independently reviewed fresh 65d6 VCs."""
+    own = "foreach<T>(cons(right_after, cons(left_after, cons(third, cons(fourth, nil)))), own0(T_typeid, t))"
+    expected = {
+        "normal-false-post": "verified/lib.rs(140,21-24): error: Cannot prove condition. (Cannot prove false.)",
+        "unwind-false-post": "verified/lib.rs(147,31-34): error: Cannot prove condition. (Cannot prove false.)",
+        "normal-omit-join": "verified/lib.rs(142,5-12): error: No matching heap chunks: " + own,
+        "unwind-omit-join": "verified/lib.rs(149,5-12): error: No matching heap chunks: " + own,
+    }[control]
+    errors = [line for line in log.splitlines() if ": error:" in line or line.startswith("Fatal error:")]
+    entries = proof_entries(log, "sort4_stable")
+    marker = [line for line in log.splitlines() if line.startswith("SORT4-ACTUAL-C1-PREFIX-ONLY admitted ")]
+    helpers = {}
+    for name in ("recover_pair", "join_four_owned_cells"):
+        hits = proof_entries(log, name)
+        before = len(hits) == len(entries) == 1 and hits[0] < entries[0]
+        segment = log[hits[0]:entries[0]] if before else ""
+        helpers[name] = before and "Executing return statement" in segment and "Leak check." in segment and ": error:" not in segment
+    intended = (code == 1 and errors == [expected] and len(entries) == 1 and
+                entries[0] < log.index(expected) and all(helpers.values()) and
+                len(marker) == 1 and f"control={control} " in marker[0] and
+                "NOT_CALLABLE_SUMMARY" in marker[0])
+    return {"classification": "INTENDED_PREFIX_POST_RESOURCE_NEGATIVE" if intended else "INCONCLUSIVE_PREFIX_POST_CONTROL",
+            "intended_negative": intended, "expected_first_stage_predicate_location": expected,
+            "reason": "65d6 raw VC independently reviewed; exact first obligation/helper/target/control pins required"}
+
+
 def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
                   original_header_posts: str) -> dict:
     """Run bounded c1 prefix and its intended proof controls; never a summary."""
@@ -601,14 +660,26 @@ def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
                      if "select" in callee.lower()]
         copies = [(line, callee) for line, callee in calls
                   if "copy_nonoverlapping" in callee.lower() or callee.lower() in ("copy", "copy_from_slice")]
+        # Stock reference/outcome wrappers are ghost operations emitted at the
+        # comparator span. Pin their complete multiset from the fresh 65d6 AST;
+        # unknown/extra calls still fail closed (no runtime-name heuristic).
+        stock_wrappers = {"fn_outcome_result": 4, "create_ref": 2,
+                          "reborrow_ref": 2, "returning": 1, "unwinding": 2}
+        wrappers_observed = {callee: sum(c == callee for _, c in other_c1_calls)
+                             for callee in set(c for _, c in other_c1_calls)}
+        all_fnmut = [(line, callee) for line, callee in calls
+                     if callee == "std::ops::FnMut::call_mut"]
         confirmed = (len(c1_fnmut) == 1 and len(ghost_equality) == 1 and
-                     not other_c1_calls and not selectors and not copies)
+                     all_fnmut == c1_fnmut and wrappers_observed == stock_wrappers and
+                     not selectors and not copies)
         return {"status": "CONFIRMED_SOURCE_LINKED_PREFIX_RUNTIME_INVENTORY" if confirmed else "NOT_CONFIRMED",
                 "source": "verified/lib.rs", "named_function": "sort4_stable",
                 "named_function_ast_sha256": hashlib.sha256(body.encode()).hexdigest(),
                 "c1_source_line": 190, "fnmut_calls_at_c1": c1_fnmut,
                 "ghost_type_equality_registration_at_c1": ghost_equality,
-                "other_calls_at_c1_rejected": other_c1_calls,
+                "stock_wrapper_calls_at_c1": other_c1_calls,
+                "stock_wrapper_multiset_observed": wrappers_observed,
+                "stock_wrapper_multiset_expected": stock_wrappers,
                 "selector_calls_in_named_function": selectors,
                 "copy_calls_in_named_function": copies,
                 "runtime_inventory": {"FnMut": len(c1_fnmut), "selector": len(selectors), "copy": len(copies)},
@@ -752,10 +823,8 @@ def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
                            "log_sha256": sha(a.evidence / f"{name}.log")}
     record(a.evidence / "actual-prefix-debt-controls.json", debt_rows)
 
-    # Fresh exact first-error expectations for these four prefix mutations are
-    # not available yet. Record first error and branch observations, but keep
-    # every control inconclusive until a saved fresh replay pins predicate and
-    # location. Never infer intent from a generic postcondition word.
+    # Fresh 65d6 exact post/owner VCs independently reviewed; pure oracle
+    # requires exact error, completed helpers, target entry and control marker.
     control_rows = {}
     for control in ("normal-false-post", "unwind-false-post",
                     "normal-omit-join", "unwind-omit-join"):
@@ -789,6 +858,7 @@ def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
                                  "intended_negative": False,
                                  "reason": "no fresh saved prefix replay pins this control's exact first stage/predicate/location",
                                  "log_sha256": sha(a.evidence / f"{name}.log")}
+        control_rows[control].update(classify_prefix_post_control(control, log, code, proof_parser.proof_entries))
     record(a.evidence / "actual-prefix-negative-controls.json", control_rows)
 
     # Mutate a disposable fixture's exact source bytes. This must be rejected
@@ -825,7 +895,7 @@ def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
               "missing_debt_controls": debt_rows,
               "missing_debt_controls_all_intended": all(r["intended_resource_negative"] for r in debt_rows.values()),
               "post_and_join_controls": control_rows,
-              "post_and_join_controls_all_intended": False,
+              "post_and_join_controls_all_intended": all(r["intended_negative"] for r in control_rows.values()),
               "source_hash_control": source_control,
               "all_controls_intended": all(r["intended_resource_negative"] for r in debt_rows.values()) and
                                        all(r["intended_negative"] for r in control_rows.values()) and source_refusal,
@@ -1010,6 +1080,15 @@ def main() -> None:
     parser.add_argument("--deadline-epoch", type=int, required=True)
     a = parser.parse_args()
     env = os.environ.copy()
+    c2_profile_path = a.proof_root / "research/challenge-8/cloud-build/sort4-native-entry-c1/C2-DISCOVERY-PROFILE.json"
+    c2_profile = read(c2_profile_path)
+    activation = resolve_c2_activation(c2_profile, env.get("SORT4_C2_DISCOVERY"))
+    c2_requested = "1" if activation["enabled"] else "0"
+    # Keep every prerequisite and the established C1 proof mode on the
+    # historical default. C2 is switched on only after a fresh bounded C1 VF0
+    # result and uses an explicitly separate diagnostic environment.
+    env["SORT4_C2_DISCOVERY"] = "0"
+    env["SORT4_ACTUAL_C2_DISCOVERY_TEST"] = "0"
     deps = a.work_root / "vfdeps-adf88dc"
     env["PATH"] = f"{deps}/bin:" + env.get("PATH", "")
     env["CAPNP_INC_DIR"] = str(deps / "include")
@@ -1020,6 +1099,10 @@ def main() -> None:
     env["LD_LIBRARY_PATH"] = f"{a.compiler_sysroot}/lib:{deps}/lib:" + env.get("LD_LIBRARY_PATH", "")
     try:
         base, patch, old = setup(a, env)
+        activation.update({"profile_path": str(c2_profile_path),
+                           "profile_sha256": sha(c2_profile_path),
+                           "profile_classification": c2_profile.get("classification")})
+        record(a.evidence / "c2-activation.json", activation)
         fixture = baseline(a, env)
         tool = build_overlay(a, base, patch, old, env)
         controls = strict_controls(a, tool, env)
@@ -1032,12 +1115,34 @@ def main() -> None:
             "tool_snapshot_sha256": sha(a.evidence / "c1-tool-snapshot.json"),
             "reuse_saved_controls": False, "actual_started_only_after_gates": True})
         result = actual(a, fixture, tool, env)
+        if c2_requested == "1":
+            c1_positive = result.get("bounded_prefix", {}).get("positive", {})
+            if (c1_positive.get("classification") == "PREFIX_ONLY_BOUNDED_C1_THEOREM" and
+                    c1_positive.get("bounded_full_vf0_normal_unwind_post_return_leak") is True):
+                c2_driver = module(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
+                                  "c2_discovery_runner")
+                c2_result = c2_driver.run_discovery(a, fixture, tool, env, result, snapshot)
+            else:
+                c2_result = {
+                    "classification": "C2_NOT_RUN_C1_BOUNDARY_NOT_GREEN",
+                    "accepted": False, "actual_sort4_proved": False,
+                    "callable_summary": "C2_DISCOVERY_ONLY_NOT_PROOF",
+                    "c1_prefix_classification": c1_positive.get("classification"),
+                    "proof_credit": False}
+            result["c2_discovery"] = c2_result
+            result["actual_sort4_proved"] = False
+            result["full_body_exit_zero"] = False
+            result["full_summary"] = False
+            record(a.evidence / "actual-on-result.json", result)
+            record(a.evidence / "diagnostic-audit.json", result)
         need(snapshot(a, base) == old and
              git(a.production_source, "diff", "--binary", "HEAD") ==
              a.production_applied_patch.read_bytes(),
              "source/tool identity changed after c1 diagnostic")
         print(json.dumps({"classification": result["classification"],
-                          "first_error": result["first_error"]}, sort_keys=True), flush=True)
+                          "first_error": result["first_error"],
+                          "c2_discovery_classification": result.get("c2_discovery", {}).get("classification")},
+                         sort_keys=True), flush=True)
     except Exception as exc:
         if a.evidence.is_dir():
             record(a.evidence / "collector-error.json", {
