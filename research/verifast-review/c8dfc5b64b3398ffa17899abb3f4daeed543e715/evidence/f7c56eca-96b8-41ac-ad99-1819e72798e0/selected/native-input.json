@@ -1,0 +1,108 @@
+{
+  "case_evidence": {
+    "dead_code_pre": {
+      "command": "! verifast dead_code_pre.rs",
+      "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs",
+      "source_sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2",
+      "trace_path": "native-mysh-trace.log",
+      "trace_sha256": "b720d623ad884c350548c77329493d1463918000a2789672cd0531b6d8df7c03"
+    },
+    "false_normal_post": {
+      "command": "verifast -allow_should_fail false_normal_post.rs",
+      "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs",
+      "source_sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d",
+      "trace_path": "native-mysh-trace.log",
+      "trace_sha256": "97bfa32a04c76a8aaf545a4fb400a0930b2a3580cc6db4ee3c0c803c9bb432a1"
+    },
+    "forget": {
+      "command": "verifast forget.rs",
+      "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs",
+      "source_sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7",
+      "trace_path": "native-mysh-trace.log",
+      "trace_sha256": "22d7fb1b1263b8b7e466900705125b0172e5ca23e3b96145b4fb44cbf38528cb"
+    },
+    "shared_cleanup": {
+      "command": "verifast shared_cleanup.rs",
+      "git_blob": "45c97e151bb09a8ec737acfd412777b1cca3e402",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs",
+      "source_sha256": "e3f91c8a2e0dfa9a1c281350b59318b5553847b1940add46d44061662d456d33",
+      "trace_path": "native-mysh-trace.log",
+      "trace_sha256": "31df1037b23da1032cef61bff991d86e2fe81b598b41dc60fafd0f9f538ea840"
+    },
+    "shared_false_unwind": {
+      "command": "verifast -allow_should_fail shared_false_unwind.rs",
+      "git_blob": "221c061f2ea3290d4424376b03f26b401890a636",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs",
+      "source_sha256": "24c003dcb4f99c8bec2240dc3a61d5747f8c96b27b518686a0dbe32aef1158db",
+      "trace_path": "native-mysh-trace.log",
+      "trace_sha256": "06d6051d90e6cd07ffa98bb9efdc00ab0dd99da58b0fb35343ca372106a501e0"
+    }
+  },
+  "fixtures": {
+    "dead_code_pre": {
+      "git_blob": "a54649df69fde7cdfb6d523a128aed296e61dbba",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/dead_code_pre.rs",
+      "sha256": "b1317808274abeca09fc9b5b4e9079c7426822347205970217123993e0af70c2"
+    },
+    "false_normal_post": {
+      "git_blob": "0ede897d6f2b76e785dd5245d82c4ac808bf636f",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/false_normal_post.rs",
+      "sha256": "23a1360b673fe6ece1f8903e69aae104f9e8dadfc34061d09062a993f6071f0d"
+    },
+    "forget": {
+      "git_blob": "0cb379e42fe6bd821d5e0d6dd750097b682565d9",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/forget.rs",
+      "sha256": "2a6f0d16bd29cc9ea6c10e3b63e6b94000249d72e94d64f99d45cefb277ce1f7"
+    },
+    "shared_cleanup": {
+      "git_blob": "45c97e151bb09a8ec737acfd412777b1cca3e402",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_cleanup.rs",
+      "sha256": "e3f91c8a2e0dfa9a1c281350b59318b5553847b1940add46d44061662d456d33"
+    },
+    "shared_false_unwind": {
+      "git_blob": "221c061f2ea3290d4424376b03f26b401890a636",
+      "path": "tests/rust/purely_unsafe/manuallydrop_new_cfg/shared_false_unwind.rs",
+      "sha256": "24c003dcb4f99c8bec2240dc3a61d5747f8c96b27b518686a0dbe32aef1158db"
+    }
+  },
+  "make_test_run": {
+    "exit_status": 2,
+    "exit_status_path": "mdnew-pr-make-test-exit-code.txt",
+    "path": "make-test.log",
+    "resources_path": "mdnew-pr-make-test-resources.txt",
+    "resources_sha256": "67e725cbfc60e756748ab0a8a1488e5c208ef0ccb827407b26338f29bc7702bc",
+    "sha256": "7577d4020c53c10bae07cf073cb0768c36e26223a7b1f9e86ce7806871b5179b"
+  },
+  "registration_git_blob": "d06dfeebedc8ff76aa63e31a99ba57f695e99903",
+  "registration_path": "tests/rust/testsuite.mysh",
+  "registration_run": {
+    "exit_status": 0,
+    "exit_status_path": "mdnew-pr-registration-exit-code.txt",
+    "path": "native-registration.log",
+    "resources_path": "mdnew-pr-registration-resources.txt",
+    "resources_sha256": "e0319f7066a63ccaa71255cb295de721b24354f60096245119ea1e93d8659370",
+    "sha256": "3fa9f94f45801b45336cf4787c54b1094ca6dc3044c54736334c75d2977d5c2c"
+  },
+  "registration_sha256": "a9a3482ec4f748f76cdae5630b9dda657acac174e3b57ef4b6b16eab987a8b2c",
+  "rust_suite_run": {
+    "exit_status": 0,
+    "exit_status_path": "mdnew-pr-rust-suite-exit-code.txt",
+    "path": "rust-testsuite.log",
+    "resources_path": "mdnew-pr-rust-suite-resources.txt",
+    "resources_sha256": "8ee4ca0a6c04d039d317939e81f3d5f113dcfef4e5c8b6880ed3819379ce0dfe",
+    "sha256": "d9fd8467523fa53d41068631463aa93ec986ac6542058949ef5c57452f3a93e6"
+  },
+  "selected_commands": [
+    "cd manuallydrop_new_cfg",
+    "verifast forget.rs",
+    "verifast shared_cleanup.rs",
+    "verifast -allow_should_fail false_normal_post.rs",
+    "verifast -allow_should_fail shared_false_unwind.rs",
+    "! verifast dead_code_pre.rs",
+    "cd .."
+  ],
+  "selected_script_sha256": "060adfa961f55c0d9cef2ca6cd9d400504aace9e8ef4aaabd99bb6fd22220276"
+}

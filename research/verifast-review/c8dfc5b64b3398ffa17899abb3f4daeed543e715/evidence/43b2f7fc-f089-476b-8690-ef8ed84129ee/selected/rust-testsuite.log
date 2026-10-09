@@ -1,0 +1,272 @@
+PASS: verifast -skip_specless_fns const_generic_param.rs (0.69s)
+PASS: verifast -allow_should_fail unsized_cast.rs (0.70s)
+PASS: verifast -allow_dead_code -allow_should_fail struct_layout.rs (0.72s)
+PASS: verifast -allow_should_fail size_of_ptr_unsized.rs (0.75s)
+PASS: verifast ghost_cmd_inj.rs (0.66s)
+PASS: verifast -allow_should_fail type_pred_defs_for_imported_structs.rs (0.62s)
+PASS: verifast ghost_while.rs (0.65s)
+PASS: verifast parser_test.rs (0.69s)
+PASS: verifast -allow_should_fail duplicate_type_pred_defs.rs (0.60s)
+PASS: verifast -allow_should_fail -allow_assume preprocessor_test_crlf.rs (0.68s)
+PASS: verifast -allow_should_fail -allow_assume preprocessor_test.rs (0.70s)
+PASS: verifast -allow_should_fail -allow_assume preprocessor_test_crlf_bom.rs (0.71s)
+PASS: verifast -allow_should_fail pred_arg_lft.rs (0.68s)
+PASS: verifast -allow_should_fail -allow_dead_code assume_stmt.rs (0.62s)
+PASS: verifast -allow_should_fail -allow_dead_code lemma_without_body.rs (0.71s)
+PASS: verifast hidden_locals.rs (0.78s)
+PASS: verifast use_decls_in_modules.rs (0.48s)
+PASS: verifast -allow_should_fail -allow_dead_code this_pred.rs (0.59s)
+PASS: ./unverified/platform$ cargo build (2.58s)
+PASS: ./unverified/sys$ cargo build (0.16s)
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast forget.rs (0.56s)
+PASS: verifast -ignore_ref_creation -allow_assume nonnull.rs (0.76s)
+PASS: verifast -skip_specless_fns nonnull_into.rs (0.79s)
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast shared_cleanup.rs (0.84s)
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail false_normal_post.rs (0.72s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths account.rs (0.73s)
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail shared_false_unwind.rs (0.76s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast account_unwind.rs (0.87s)
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ ! verifast dead_code_pre.rs (0.76s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check deposit.rs (0.57s)
+PASS: ./purely_unsafe$ verifast enum_discr.rs (0.82s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check deposit_unwind.rs (0.95s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check limit.rs (0.81s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths leftpad.rs (1.10s)
+PASS: ./purely_unsafe$ verifast arrays.rs (0.80s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check limit_unwind.rs (0.84s)
+PASS: ./purely_unsafe$ verifast -allow_assume std_thread.rs (0.82s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check pred.rs (0.70s)
+PASS: ./purely_unsafe$ verifast -allow_should_fail -allow_dead_code nonmut_let_immut.rs (0.78s)
+PASS: ./purely_unsafe$ verifast struct_exprs.rs (0.68s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check pred_unwind.rs (0.97s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths stack.rs (0.83s)
+PASS: ./purely_unsafe$ verifast scalars.rs (0.80s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths dispose.rs (0.98s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check sum.rs (0.80s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths alloc.rs (1.15s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths reverse.rs (0.99s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -emit_rocq trivialest_reverse.rs (0.63s)
+SKIP: coqc not found in PATH, skipping line: vfrocq compile trivialest_reverse.v
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.v
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.vo
+PASS: ./purely_unsafe$ verifast trivialer_reverse.rs (0.84s)
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.vos
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.vok
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check popn.rs (0.98s)
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.glob
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths values.rs (0.99s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths fixpoints.rs (0.71s)
+PASS: ./purely_unsafe$ verifast simple_reverse.rs (0.82s)
+PASS: ./purely_unsafe$ verifast trivial_reverse.rs (0.91s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check sum_full.rs (0.78s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast lemma.rs (0.64s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths account.rs (0.79s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths account_value.rs (0.91s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths reverse.rs (0.65s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths point_value.rs (0.80s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check push_all.rs (1.13s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths account_with_box.rs (0.78s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths filter.rs (0.99s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths byref.rs (0.98s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths deque_i32.rs (1.13s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths deque.rs (1.15s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -allow_assume map.rs (0.86s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -allow_assume strlen.rs (0.98s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths generics.rs (1.16s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths tree.rs (1.08s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -allow_assume foreach.rs (1.20s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -allow_assume tree2.rs (1.05s)
+PASS: ./purely_unsafe$ verifast traits0.rs (0.83s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -allow_assume predctors.rs (1.04s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume threads0.rs (0.84s)
+PASS: ./purely_unsafe$ verifast -allow_should_fail -allow_dead_code traits0_error.rs (0.76s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume threads.rs (0.80s)
+PASS: ./purely_unsafe$ verifast -allow_should_fail -allow_dead_code traits0_error2.rs (0.81s)
+PASS: ./purely_unsafe$ verifast pred_fam.rs (0.77s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume fractions.rs (1.01s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume precise.rs (1.09s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -allow_assume tree3.rs (1.09s)
+PASS: ./purely_unsafe$ verifast generic_structs.rs (0.67s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -extern ../../../tests/rust/unverified/platform -allow_assume precise_platform.rs (0.90s)
+PASS: ./purely_unsafe$ verifast -ignore_ref_creation str.rs (0.75s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -allow_assume precise_bad_merge.rs (0.82s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume mutexes.rs (0.97s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume mutexes_native.rs (0.87s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -target LP64 -ignore_ref_creation -extern ../unverified/platform httpd.rs (2.50s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume leaks.rs (1.06s)
+PASS: ./purely_unsafe$ verifast -ignore_ref_creation -allow_should_fail -allow_dead_code str_chars.rs (4.17s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -target LP64 -ignore_ref_creation -extern ../unverified/platform httpd_vec.rs (2.81s)
+SLOW: ./../../rust_tutorials/purely_unsafe/solutions/mutexes_platform$ cargo verifast -ignore_unwind_paths -allow_assume has been running for 5s
+PASS: ./../../rust_tutorials/purely_unsafe/solutions/mutexes_platform$ cargo verifast -ignore_unwind_paths -allow_assume (6.76s)
+SLOW: ./purely_unsafe/simple_mutex$ cargo verifast -ignore_unwind_paths -allow_assume has been running for 5s
+SLOW: ./../../rust_tutorials/purely_unsafe/solutions/leaks_platform$ cargo verifast -ignore_unwind_paths -allow_assume has been running for 5s
+SLOW: ./purely_unsafe/mt_account_transfer$ cargo verifast -ignore_unwind_paths has been running for 5s
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check bytes.rs (3.33s)
+SLOW: ./purely_unsafe/simple_mutex$ cargo verifast -ignore_unwind_paths -allow_assume has been running for 10s
+SLOW: ./../../rust_tutorials/purely_unsafe/solutions/leaks_platform$ cargo verifast -ignore_unwind_paths -allow_assume has been running for 10s
+SLOW: ./purely_unsafe/mt_account_transfer$ cargo verifast -ignore_unwind_paths has been running for 10s
+SLOW: ./purely_unsafe/httpd_mt$ cargo verifast -ignore_unwind_paths has been running for 5s
+PASS: ./purely_unsafe/simple_mutex$ cargo verifast -ignore_unwind_paths -allow_assume (14.18s)
+SLOW: ./../../rust_tutorials/purely_unsafe/solutions/leaks_platform$ cargo verifast -ignore_unwind_paths -allow_assume has been running for 15s
+SLOW: ./purely_unsafe/mt_account_transfer$ cargo verifast -ignore_unwind_paths has been running for 15s
+PASS: ./../../rust_tutorials/purely_unsafe/solutions/leaks_platform$ cargo verifast -ignore_unwind_paths -allow_assume (15.21s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check xor.rs (1.70s)
+PASS: ./purely_unsafe/mt_account_transfer$ cargo verifast -ignore_unwind_paths (16.06s)
+PASS: ./purely_unsafe$ verifast my_option.rs (1.06s)
+SLOW: ./purely_unsafe/httpd_mt$ cargo verifast -ignore_unwind_paths has been running for 10s
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check bytes_loop.rs (1.05s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check tuerk.rs (0.74s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -ignore_ref_creation vec_test.rs (1.10s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -target LP64 -ignore_ref_creation -extern ../unverified/platform atomics_example.rs (0.92s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check stack_tuerk.rs (0.99s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -ignore_ref_creation -disable_overflow_check type_projections.rs (1.14s)
+PASS: ./purely_unsafe$ verifast -ignore_unwind_paths -ignore_ref_creation -disable_overflow_check type_projections_no_std.rs (1.03s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths copy_nonoverlapping.rs (1.30s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast memcmp.rs (1.11s)
+PASS: ./purely_unsafe$ verifast -rustc_args "--edition 2021" assert_with_msg.rs (0.77s)
+PASS: ./../../rust_tutorials/purely_unsafe/solutions$ verifast lemptrs.rs (0.56s)
+PASS: ./purely_unsafe$ verifast for-range.rs (1.11s)
+PASS: ./safe_abstraction$ verifast -read_options_from_source_file -allow_assume frac_borrow_tutorial.rs (0.60s)
+PASS: ./safe_abstraction$ verifast -read_options_from_source_file -allow_assume full_borrow_tutorial.rs (0.76s)
+PASS: ./safe_abstraction$ verifast fbc_precise.rs (0.79s)
+PASS: ./safe_abstraction$ verifast -allow_assume -ignore_unwind_paths box.rs (0.81s)
+PASS: ./safe_abstraction$ verifast -allow_should_fail public_fields.rs (0.91s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -allow_should_fail -allow_dead_code elided_lifetime_mut_ref_result.rs (0.93s)
+SLOW: ./purely_unsafe/httpd_mt$ cargo verifast -ignore_unwind_paths has been running for 15s
+PASS: ./safe_abstraction$ verifast shared_primitive_types.rs (0.74s)
+PASS: ./purely_unsafe/httpd_mt$ cargo verifast -ignore_unwind_paths (15.55s)
+PASS: ./safe_abstraction$ verifast full_bor_primitive_types.rs (1.01s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -allow_assume deque_i32.rs (1.38s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume deque.rs (1.69s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume tree.rs (1.37s)
+PASS: ./safe_abstraction$ verifast -allow_should_fail -allow_dead_code drop_test.rs (0.84s)
+PASS: ./safe_abstraction$ verifast -ignore_ref_creation -allow_assume cell_u32.rs (2.95s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation tparam_own.rs (0.83s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation generic_pair.rs (1.29s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -extern ../unverified/sys -allow_assume mutex.rs (0.75s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume cell.rs (3.73s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -extern ../unverified/sys -allow_assume mutex_u32.rs (1.18s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume rc_u32.rs (1.35s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume rc.rs (1.37s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume arc_u32.rs (1.62s)
+PASS: ./safe_abstraction$ verifast str.rs (1.00s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume arc.rs (1.53s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume ref_cell.rs (2.78s)
+PASS: ./safe_abstraction$ verifast -allow_should_fail -allow_dead_code str_reborrow.rs (1.03s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths test_division.rs (0.77s)
+PASS: ./safe_abstraction$ verifast test_const_generics_structs.rs (0.74s)
+PASS: ./safe_abstraction$ verifast test_const_generics.rs (0.83s)
+PASS: ./safe_abstraction$ verifast slice_ref.rs (0.92s)
+PASS: ./safe_abstraction$ verifast -allow_should_fail -allow_dead_code str_mut_ref.rs (0.99s)
+PASS: ./safe_abstraction$ verifast -apply_quick_fix proof_obligs_quick_fix_test_generic_result.rs proof_obligs_quick_fix_test_generic.rs (0.49s)
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -allow_assume my_range_iterator.rs (0.88s)
+PASS: ./safe_abstraction$ verifast -allow_should_fail -allow_dead_code slice_mut_inout.rs (1.00s)
+PASS: ./safe_abstraction$ verifast -apply_quick_fix proof_obligs_quick_fix_test_result.rs proof_obligs_quick_fix_test.rs (0.49s)
+PASS: ./safe_abstraction$ verifast -allow_assume proof_obligs_quick_fix_test_generic_result.rs (0.76s)
+PASS: ./safe_abstraction$ verifast -allow_assume proof_obligs_quick_fix_test_result.rs (0.76s)
+SLOW: ./safe_abstraction/linked_list$ verifast -rustc_args "--edition 2021 --cfg test" -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs has been running for 5s
+SLOW: ./safe_abstraction/linked_list$ refinement-checker --rustc-args "--edition 2021 --cfg test" orig/lib.rs verified/lib.rs has been running for 5s
+SLOW: ./safe_abstraction$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume btree_node.rs has been running for 5s
+SLOW: ./safe_abstraction/raw_vec$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs has been running for 5s
+PASS: ./safe_abstraction$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume btree_node.rs (5.49s)
+PASS: ./safe_abstraction/linked_list$ refinement-checker --rustc-args "--edition 2021 --cfg test" orig/lib.rs verified/lib.rs (6.38s)
+PASS: ./safe_abstraction/raw_vec$ refinement-checker with-directives/lib.rs verified/lib.rs (2.09s)
+PASS: ./safe_abstraction/raw_vec$ refinement-checker --ignore-directives original/lib.rs with-directives/lib.rs (2.60s)
+PASS: ./safe_abstraction/raw_vec$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs (8.44s)
+SLOW: ./safe_abstraction/linked_list$ verifast -rustc_args "--edition 2021 --cfg test" -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs has been running for 10s
+PASS: ./safe_abstraction/linked_list$ verifast -rustc_args "--edition 2021 --cfg test" -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs (10.45s)
+PASS: ./refinement_checker$ !refinement-checker missing_func_orig.rs missing_func_verified.rs (0.52s)
+PASS: ./refinement_checker$ refinement-checker basic_orig.rs basic_verified.rs (0.51s)
+PASS: ./refinement_checker$ !refinement-checker basic_orig.rs basic_verified_bad1.rs (0.44s)
+PASS: ./refinement_checker$ !refinement-checker basic_orig.rs basic_verified_bad2.rs (0.65s)
+PASS: ./refinement_checker$ refinement-checker loop_orig.rs loop_verified.rs (0.43s)
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 5s
+PASS: ./refinement_checker$ !refinement-checker loop_orig.rs loop_verified_bad.rs (0.53s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 5s
+PASS: ./refinement_checker$ refinement-checker identical_orig.rs identical_verified.rs (0.66s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 5s
+PASS: ./refinement_checker$ !refinement-checker identical_orig.rs identical_verified_bad.rs (0.61s)
+PASS: ./refinement_checker$ refinement-checker take-addr_orig.rs take-addr_verified.rs (0.59s)
+PASS: ./refinement_checker$ !refinement-checker take-addr_orig.rs take-addr_verified_bad.rs (0.65s)
+PASS: ./refinement_checker$ refinement-checker tuples_orig.rs tuples_verified.rs (0.52s)
+PASS: ./refinement_checker$ !refinement-checker tuples_orig.rs tuples_verified_bad1.rs (0.53s)
+PASS: ./refinement_checker$ !refinement-checker tuples_orig.rs tuples_verified_bad2.rs (0.52s)
+PASS: ./refinement_checker$ refinement-checker structs_orig.rs structs_verified.rs (0.53s)
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 10s
+PASS: ./refinement_checker$ !refinement-checker structs_orig.rs structs_verified_bad.rs (0.35s)
+PASS: ./refinement_checker$ refinement-checker enums_orig.rs enums_verified.rs (0.34s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 10s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 10s
+PASS: ./refinement_checker$ !refinement-checker enums_orig.rs enums_verified_bad.rs (0.56s)
+PASS: ./refinement_checker$ !refinement-checker unsafety_orig.rs unsafety_verified_bad.rs (0.47s)
+PASS: ./refinement_checker$ refinement-checker wrapper_fns_orig.rs wrapper_fns_verified0.rs (0.75s)
+PASS: ./refinement_checker$ refinement-checker wrapper_fns_orig.rs wrapper_fns_verified.rs (0.92s)
+PASS: ./refinement_checker$ refinement-checker wrapper_fns_orig.rs wrapper_fns_verified2.rs (0.82s)
+PASS: ./refinement_checker$ !refinement-checker wrapper_fns_orig.rs wrapper_fns_verified_bad.rs (0.67s)
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 15s
+PASS: ./refinement_checker$ refinement-checker reservation_orig.rs reservation_verified.rs (0.51s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 15s
+PASS: ./refinement_checker$ refinement-checker option-map_orig.rs option-map_verified.rs (0.54s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 15s
+PASS: ./refinement_checker$ !refinement-checker option-map_orig.rs option-map_verified_bad.rs (0.41s)
+PASS: ./refinement_checker$ refinement-checker option-map2_orig.rs option-map2_verified.rs (0.63s)
+PASS: ./refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad.rs (0.68s)
+PASS: ./refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad2.rs (0.32s)
+PASS: ./refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad3.rs (0.67s)
+PASS: ./refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad4.rs (0.69s)
+PASS: ./refinement_checker$ refinement-checker option-map-upvars_orig.rs option-map-upvars_verified.rs (0.62s)
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 20s
+PASS: ./refinement_checker$ refinement-checker option-map-generics_orig.rs option-map-generics_verified.rs (0.63s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 20s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 20s
+PASS: ./refinement_checker$ !refinement-checker option-map-generics_orig.rs option-map-generics_verified_bad.rs (0.69s)
+PASS: ./refinement_checker$ !refinement-checker option-map-generics_orig.rs option-map-generics_verified_bad2.rs (0.55s)
+PASS: ./refinement_checker$ refinement-checker box-deref_orig.rs box-deref_verified.rs (0.75s)
+PASS: ./refinement_checker$ refinement-checker box-ref-deref_orig.rs box-ref-deref_verified.rs (0.61s)
+PASS: ./refinement_checker$ refinement-checker move-out-of-box_orig.rs move-out-of-box_verified.rs (0.65s)
+PASS: ./refinement_checker$ refinement-checker move-field-out-of-box_orig.rs move-field-out-of-box_verified.rs (0.65s)
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 25s
+PASS: ./refinement_checker$ refinement-checker for-range_orig.rs for-range_verified.rs (0.71s)
+PASS: ./refinement_checker$ refinement-checker option-unwrap-or-else_orig.rs option-unwrap-or-else_verified.rs (0.68s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 25s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 25s
+PASS: ./refinement_checker$ refinement-checker result-map_orig.rs result-map_verified.rs (0.66s)
+PASS: ./refinement_checker$ refinement-checker result-map_err_orig.rs result-map_err_verified.rs (0.67s)
+PASS: ./refinement_checker$ refinement-checker override-local-mut_orig.rs override-local-mut_verified.rs (0.67s)
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 30s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 30s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 30s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 35s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 35s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 35s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 40s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 40s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 40s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 45s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 45s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 45s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 50s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 50s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 50s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 55s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 55s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 55s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 60s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 60s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 60s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 65s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 65s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 65s
+SLOW: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 70s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 70s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 70s
+PASS: ./safe_abstraction/vec/verified$ cargo verifast -allow_assume (74.97s)
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 75s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 75s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 80s
+SLOW: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 80s
+PASS: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs (80.09s)
+PASS: ./safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs (80.97s)
+Total execution time: 144.427316 seconds
+
+0 failed processes

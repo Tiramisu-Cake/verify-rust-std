@@ -1,0 +1,52 @@
+cd purely_unsafe
+cd manuallydrop_new_cfg
+verifast forget.rs
+Starting process 1: ./purely_unsafe/manuallydrop_new_cfg$ verifast forget.rs
+[1](type)
+[1]0 errors found (40 statements verified) (target: x86_64-unknown-linux-gnu (LP64))
+[1]0.233362 seconds
+
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast forget.rs (0.23s)
+verifast shared_cleanup.rs
+Starting process 2: ./purely_unsafe/manuallydrop_new_cfg$ verifast shared_cleanup.rs
+[2](type)
+[2]
+[2](type)
+[2]
+[2](type)
+[2]
+[2]0 errors found (54 statements verified) (target: x86_64-unknown-linux-gnu (LP64))
+[2]0.239172 seconds
+
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast shared_cleanup.rs (0.24s)
+verifast -allow_should_fail false_normal_post.rs
+Starting process 3: ./purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail false_normal_post.rs
+[3](type)
+[3]0 errors found (40 statements verified) (target: x86_64-unknown-linux-gnu (LP64))
+[3]0.226362 seconds
+
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail false_normal_post.rs (0.23s)
+verifast -allow_should_fail shared_false_unwind.rs
+Starting process 4: ./purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail shared_false_unwind.rs
+[4](type)
+[4](type)
+[4]
+[4]0 errors found (46 statements verified) (target: x86_64-unknown-linux-gnu (LP64))
+[4]0.233451 seconds
+
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail shared_false_unwind.rs (0.23s)
+! verifast dead_code_pre.rs
+Starting process 5: ./purely_unsafe/manuallydrop_new_cfg$ ! verifast dead_code_pre.rs
+[5](type)
+[5]dead_code_pre.rs(1,1-7,2): dead code
+[5]dead_code_pre.rs(6,13-43): dead code
+[5]dead_code_pre.rs(6,41-42): dead code
+[5]dead_code_pre.rs(7,2): dead code
+[5]0.224276 seconds
+
+PASS: ./purely_unsafe/manuallydrop_new_cfg$ ! verifast dead_code_pre.rs (0.22s)
+cd ..
+cd ..
+Total execution time: 1.157072 seconds
+
+0 failed processes

@@ -1,0 +1,32 @@
+  DUNE  _build/default/vfconsole/vfconsole.exe
+0 errors found (103 statements verified)
+0 errors found (165 statements verified)
+0 errors found (70 statements verified)
+0 errors found (100 statements verified)
+0 errors found (19 statements verified)
+0 errors found (28 statements verified)
+0 errors found (76 statements verified)
+0 errors found (18 statements verified)
+0 errors found (63 statements verified)
+  >         ../bin/crt.dll.vfmanifest
+  VERIFAST  ../bin/crt.dll.vfmanifest
+Linking...
+Program linked successfully.
+Written ../bin/crt.dll.vfmanifest
+  DUNE  _build/default/mysh/mysh.exe
+  DUNE  _build/default/rustc_verifast/rustc_verifast.exe
+  DUNE  _build/default/cargo_verifast/cargo_verifast.exe
+  DUNE  _build/default/main_class/main_class.exe
+  DUNE  _build/default/java_card_applet/java_card_applet.exe
+  DUNE  _build/default/dlsymtool/dlsymtool.exe
+  DUNE  _build/default/vfstrip/vfstrip.exe
+File "vfstrip/vfstrip.ml", line 19, characters 48-70:
+19 | type file_options = {file_opt_annot_char: char; file_opt_tab_size: int}
+                                                     ^^^^^^^^^^^^^^^^^^^^^^
+Warning 69 [unused-field]: record field file_opt_tab_size is never read.
+(However, this field is used to build or mutate values.)
+  DUNE  _build/default/explorer/explorer.exe
+  DUNE  _build/default/refinement_checker/main.exe
+  MAKE  ../bin/vf-cxx-ast-exporter
+/bin/sh: 11: cmake: not found
+make: *** [cxx_frontend/Makefile:26: ../bin/vf-cxx-ast-exporter] Error 127
