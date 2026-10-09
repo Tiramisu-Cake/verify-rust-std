@@ -23,3 +23,11 @@ Only after observing the actual graph and new hashes can a separately
 reviewed R3 profile be proposed. This run cannot establish pointer equality,
 the complete normal/unwind resources, or generic nested Drop. Its audit
 always records `verification_accepted=false`.
+
+Observed setup failure f9617843: baseline refresh21/22 patch inputs were missing
+from this new recipe, despite the complete selected Git object closure. The
+source/capture stage was never reached; no intended negative or proof credit.
+Repair adds both exact baseline patch blobs, preserving proof source and tool
+profile. Static scenario dependency gate now compares the complete canonical
+o26-refresh proof-path set and every refresh-manifest patch path, not merely
+the originally selected path set. A fresh source run is required.
