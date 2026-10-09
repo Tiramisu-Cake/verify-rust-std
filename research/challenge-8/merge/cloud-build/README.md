@@ -47,3 +47,30 @@ Evidence: gs://smallsort-ci-evidence-504462351565/cloud-build/BUILD_ID/.
 Download all metadata/archive and separate text logs with the client; verify
 archive.sha256 independently. Preserve full setup/failure logs and source/profile
 hashes; missing gates cannot count as intended negatives or theorem PASS.
+
+The committed `merge/cloud-build/selection.json` is the sole group-selection
+input and is included in the exact recipe closure. Its default is
+`full-transfer`: the retained 37 run groups plus the saved callback-destination
+runtime observation. For a targeted diagnostic, change the committed selection
+to `mode: "targeted"`, set `full_transfer: false`, keep
+`rust-profile-smoke`, and list a sorted unique set of known group names. The
+selection validator rejects unknown names, missing preparation dependencies,
+and any incomplete `full-transfer` set before tool installation.
+
+Selected `run_one` calls keep their original commands and arguments. Skipped
+groups are written to `allprooflogs/group-not-run.txt` as `NOT_RUN` and receive
+no status or exit-code record. The audit requires the exact selected/skipped
+partition, zero exit status and required group-specific artifacts for every
+selected group. The callback-destination probe runs only when
+`runtime_probe: true`; its observation remains separate from VeriFast theorem
+status. Every audit has `accepted: false`; targeted completion is labeled
+`PARTIAL_DIAGNOSTIC` and does not imply full profile acceptance.
+
+Selection dependencies are explicit: actual-callee proof requires actual
+source preparation; stack role controls require role-control preparation;
+length-two/three bidirectional proof requires its exact source preparation; and
+the HRTB certificate requires both callback-model and prepared-HRTB proof
+evidence. The two draft groups are `source-pair-turnover-resource-diagnostic`
+and `cleanup-recovery-hidden-type-diagnostic`; their fixture classifiers remain
+uncalibrated until fresh Cloud evidence establishes the intended stage and
+location.

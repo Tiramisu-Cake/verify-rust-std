@@ -3,9 +3,10 @@
 
 This runs only inside the disposable Cloud Build proof checkout. Each source
 must match the reviewed base SHA before exact byte replacements are applied.
-The run.sh overlay also selects two saved modular-trace groups as distinct
-diagnostics. Proof predicates, specifications, expected obligations,
-classifier rules, tool pins and runtime SmallSort bytes are outside the set.
+The run.sh overlay retains two saved modular-trace groups and applies the
+committed explicit merge group selection. Proof predicates, specifications,
+expected obligations, classifier rules, tool pins and runtime SmallSort bytes
+are outside the set.
 """
 
 from __future__ import annotations
@@ -23,7 +24,7 @@ FILES = {
     "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
     "research/challenge-8/merge/overnight/pointer-prove.py": "de9de3500181cf32cc3e718dc7ea3e4d0527a397581077e2d6ce542cd00a2ddc",
     "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
-    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "1ff5006f48f877974a16b3662a295cc89f26f6db6c8e2a6d29b9eaf7c501711a",
+    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "9c77b67e92b2c000458524902793716053ba03b400a8dcc0f38d77b53a978ecf",
     "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
     "research/challenge-8/merge/overnight/stack-address-admission.py": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
     "research/challenge-8/merge/overnight/stack-proof-ast-admission.py": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
@@ -32,6 +33,11 @@ FILES = {
     "research/challenge-8/merge/overnight/hrtb-admission-certificate.py": "42c9ff5e878d0eb8ba2b6183f439fe2e56765a086a88255176a041c51bd55c2a",
     "research/challenge-8/merge/overnight/native-prove.py": "9a2524ab90af1176d77c09cbf0a9fbedb7b4f0939218dde6713ad10aa6fc2da1",
     "research/challenge-8/merge/overnight/usize-multiple-admission.py": "119c0054ae43487ae4adb9de1787edd89ce6014f1e9b70dc2cf973a0258d3050",
+    "research/challenge-8/networks/prove.py": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4",
+    "research/challenge-8/merge/stock-26.10/prove.py": "6af798229e57187cc003de40a97f6a3626567440b4a8558a11f1412dd1763b0c",
+    "research/challenge-8/merge/stock-26.10/functional-prove.py": "f513f2acd81ca21980acf56cfa47a41599cec4e3a4d6b1034ec8fadadcb00dd5",
+    "research/challenge-8/merge/stock-26.10/order-prove.py": "9f685baa0c7b0893486f5838d7d89c664a747b3a8e3670692ec928da7f95db14",
+    "research/challenge-8/merge/stock-26.10/run.sh": "449fc91c1610164d39b230c3b5cfdf41f8548de757cf33137407a95e759c5214",
 }
 
 PROVIDER_HELPER = '''\ndef _require_cloud_provider():
@@ -55,9 +61,11 @@ def replace_once(data: bytes, old: bytes, new: bytes, path: str) -> bytes:
     return data.replace(old, new, 1)
 
 
-def transform(path: str, original: bytes) -> bytes:
+def transform(path: str, original: bytes, pins: dict[str, str] | None = None) -> bytes:
     data = original
-    if path.endswith(("run.sh", "build.sh")):
+    pins = pins or {}
+    if path in ("research/challenge-8/merge/overnight/run.sh",
+                "research/challenge-8/merge/overnight/build.sh"):
         old = (b'[[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && '
                b'"${RUNNER_OS:-}" == Linux ]]')
         new = b'python3 "${SMALLSORT_PROVIDER_FILE:?provider helper is required}" >/dev/null'
@@ -81,6 +89,36 @@ def transform(path: str, original: bytes) -> bytes:
                 b"printf 'Runner: %s/%s\\nDistinct W1 + M2a + copy + strict cleanup + zero-safe usize primitive + hidden stack-address patches; explicit pinned strict kernel extension; stock exporter/refiner/schema unchanged\\n' \"$RUNNER_ENVIRONMENT\" \"$RUNNER_OS\"",
                 b"printf 'Runner: Cloud Build / Ubuntu 22.04 x86_64\\nDistinct W1 + M2a + copy + strict cleanup + zero-safe usize primitive + hidden stack-address patches; explicit pinned strict kernel extension; stock exporter/refiner/schema unchanged\\n'",
                 path)
+            network_sha = pins.get("network_sha")
+            if not network_sha:
+                raise SystemExit("overnight run overlay requires staged network output hash")
+            data = replace_once(
+                data,
+                b'printf \'%s  %s\\n\' 994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4 research/challenge-8/networks/prove.py | sha256sum -c -',
+                (f"printf '%s  %s\\n' {network_sha} research/challenge-8/networks/prove.py | sha256sum -c -".encode()),
+                path)
+            data = replace_once(
+                data,
+                b'  shift 2\n  local status\n',
+                (b'  shift 2\n'
+                 b'  local selected_status\n'
+                 b'  if python3 "${MERGE_SELECTION_TOOL:?}" contains --selection "${MERGE_SELECTION_FILE:?}" \\\n'
+                 b'      --sha256 "${MERGE_SELECTION_SHA256:?}" "$label"; then\n'
+                 b'    :\n'
+                 b'  else\n'
+                 b'    selected_status=$?\n'
+                 b'    if [[ "$selected_status" -ne 1 ]]; then\n'
+                 b'      suite_status=1\n'
+                 b'      return 0\n'
+                 b'    fi\n'
+                 b'    return 0\n'
+                 b'  fi\n'
+                 b'  local status\n'), path)
+            data = replace_once(
+                data,
+                b'  printf \'%s %s\\n\' "$label" "$status" >> "$evidence/group-status.txt"\n',
+                b'  printf \'%s %s\\n\' "$label" "$status" >> "$evidence/group-status.txt"\n'
+                b'  printf \'%s\\n\' "$status" > "$evidence/group-$label-exit-code.txt"\n', path)
             data = replace_once(
                 data,
                 b'  return "$suite_status"\n}\n\nexperimental_home=',
@@ -96,6 +134,18 @@ def transform(path: str, original: bytes) -> bytes:
                  b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --verifier-seconds 300 --fixture research/challenge-8/merge/overnight/pointer-trace-modular-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-pointer-modular-trace"\n'
+                 b'  run_one source-pair-turnover-resource-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'draft source current-owner turnover; overlap/same-pair positives and uncalibrated duplicate-full-cell target' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/source-pair-turnover-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-source-pair-turnover"\n'
+                 b'  run_one cleanup-recovery-hidden-type-diagnostic 240 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'draft callback recovery hidden-type admission control; target remains uncalibrated' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/cleanup-recovery-hidden-type-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-cleanup-recovery-hidden-type"\n'
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
             data = replace_once(data,
                                 b'suite bound=900s; whole step bound=1700s.',
@@ -113,6 +163,63 @@ def transform(path: str, original: bytes) -> bytes:
                 data,
                 b"printf 'runner_os=%s\\nrunner_version=%s\\nsource_commit=%s\\n' \"$RUNNER_OS\" \"$VERSION_ID\" \"$actual_commit\"",
                 b"printf 'runner_os=Linux\\nrunner_version=%s\\nsource_commit=%s\\n' \"$VERSION_ID\" \"$actual_commit\"", path)
+    elif path == "research/challenge-8/merge/stock-26.10/run.sh":
+        old_guard = (b'[[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && '
+                     b'"${RUNNER_OS:-}" == Linux ]]')
+        data = replace_once(data, old_guard,
+                            b'python3 "${SMALLSORT_PROVIDER_FILE:?provider helper is required}" >/dev/null', path)
+        data = replace_once(data,
+            b'[[ "${GITHUB_REF:-}" == refs/heads/sync/upstream-cd371-merge ]]',
+            b'[[ "${PROOF_SHA:-}" =~ ^[0-9a-f]{40}$ ]]', path)
+        data = replace_once(data, b'"${GITHUB_SHA:?GITHUB_SHA is required}"',
+                            b'"${PROOF_SHA:?PROOF_SHA is required}"', path)
+        data = replace_once(data, b'"$GITHUB_SHA"', b'"$PROOF_SHA"', path)
+        data = replace_once(data,
+            b'Actions SHA: %s\\nBranch: sync/upstream-cd371-merge\\nSelection:',
+            b'Cloud proof SHA: %s\\nProvider: cloud-build\\nSelection:', path)
+        data = replace_once(data,
+            b"printf 'Runner: %s/%s\\nNo verifier/tool/spec patches\\n' \"$RUNNER_ENVIRONMENT\" \"$RUNNER_OS\"",
+            b"printf 'Runner: Cloud Build / Ubuntu 22.04 x86_64\\nNo verifier/tool/spec patches\\n'", path)
+        network_sha = pins.get("network_sha")
+        if not network_sha:
+            raise SystemExit("stock run overlay requires staged network output hash")
+        data = replace_once(data,
+            b"printf '%s  %s\\n' 994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4 research/challenge-8/networks/prove.py | sha256sum -c -",
+            (f"printf '%s  %s\\n' {network_sha} research/challenge-8/networks/prove.py | sha256sum -c -".encode()), path)
+    elif path == "research/challenge-8/networks/prove.py":
+        old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
+               b'            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
+               b'            platform.system() != "Linux"):\n'
+               b'        raise RuntimeError("proof execution is restricted to GitHub-hosted Linux Actions")')
+        new = (b'    provider_file = os.environ.get("SMALLSORT_PROVIDER_FILE", "")\n'
+               b'    if not provider_file:\n'
+               b'        raise RuntimeError("provider helper path is missing")\n'
+               b'    provider = runpy.run_path(provider_file)["require_supported_provider"]()\n'
+               b'    if provider.get("provider") != "cloud-build":\n'
+               b'        raise RuntimeError("proof execution requires identified Cloud Build")')
+        data = replace_once(data, old, new, path)
+        data = replace_once(data, b'import os\n', b'import os\nimport runpy\n', path)
+    elif path == "research/challenge-8/merge/stock-26.10/prove.py":
+        network_sha = pins.get("network_sha")
+        if not network_sha:
+            raise SystemExit("stock proof overlay requires staged network output hash")
+        data = replace_once(data,
+            b'FROZEN_SHA256 = "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4"',
+            f'FROZEN_SHA256 = "{network_sha}"'.encode(), path)
+    elif path == "research/challenge-8/merge/stock-26.10/functional-prove.py":
+        prove_sha = pins.get("prove_sha")
+        if not prove_sha:
+            raise SystemExit("functional proof overlay requires staged stock proof output hash")
+        data = replace_once(data,
+            b'GEOMETRY_HARNESS_SHA256 = "6af798229e57187cc003de40a97f6a3626567440b4a8558a11f1412dd1763b0c"',
+            f'GEOMETRY_HARNESS_SHA256 = "{prove_sha}"'.encode(), path)
+    elif path == "research/challenge-8/merge/stock-26.10/order-prove.py":
+        functional_sha = pins.get("functional_sha")
+        if not functional_sha:
+            raise SystemExit("order proof overlay requires staged functional proof output hash")
+        data = replace_once(data,
+            b'"functional-prove.py": "f513f2acd81ca21980acf56cfa47a41599cec4e3a4d6b1034ec8fadadcb00dd5"',
+            f'"functional-prove.py": "{functional_sha}"'.encode(), path)
     else:
         if path.endswith("pointer-prove.py"):
             old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
@@ -229,6 +336,16 @@ def transform(path: str, original: bytes) -> bytes:
                 path)
         if path.endswith("hrtb-admission-certificate.py"):
             data = data.replace(b"dispatch_sha", b"proof_sha")
+            data = replace_once(
+                data,
+                (b'    if (f"Source SHA: {proof_sha}" not in env_lines or\n'
+                 b'            f"Actions SHA: {proof_sha}" not in env_lines):\n'
+                 b'        raise RuntimeError("HRTB evidence root source/Actions SHA differs from current dispatch")'),
+                (b'    if (f"Source SHA: {proof_sha}" not in env_lines or\n'
+                 b'            f"Cloud proof SHA: {proof_sha}" not in env_lines or\n'
+                 b'            "Provider: cloud-build" not in env_lines):\n'
+                 b'        raise RuntimeError("HRTB evidence root source/provider/proof SHA differs from current Cloud Build")'),
+                path)
         if path.endswith("usize-multiple-admission.py"):
             data = data.replace(b"actions_sha", b"proof_sha")
     return data
@@ -242,17 +359,47 @@ def main() -> None:
     if args.evidence.exists():
         raise SystemExit("refusing to reuse provider overlay evidence")
     args.evidence.mkdir(parents=True)
-    manifest = {"provider": "cloud-build", "files": []}
+    # Read and validate the complete original trust chain before mutating a
+    # single source. Overlay pins are then recalculated in dependency order.
+    originals: dict[str, bytes] = {}
     for rel, expected in FILES.items():
-        path = args.proof_root / rel
-        original = path.read_bytes()
+        original = (args.proof_root / rel).read_bytes()
         actual = sha(original)
         if actual != expected:
             raise SystemExit(f"base source hash mismatch for {rel}: {actual}")
-        overlay = transform(rel, original)
+        originals[rel] = original
+
+    network = "research/challenge-8/networks/prove.py"
+    stock = "research/challenge-8/merge/stock-26.10/prove.py"
+    functional = "research/challenge-8/merge/stock-26.10/functional-prove.py"
+    order = "research/challenge-8/merge/stock-26.10/order-prove.py"
+    stock_run = "research/challenge-8/merge/stock-26.10/run.sh"
+    overlays: dict[str, bytes] = {}
+    overlays[network] = transform(network, originals[network])
+    pins = {"network_sha": sha(overlays[network])}
+    overlays[stock] = transform(stock, originals[stock], pins)
+    pins["prove_sha"] = sha(overlays[stock])
+    overlays[functional] = transform(functional, originals[functional], pins)
+    pins["functional_sha"] = sha(overlays[functional])
+    overlays[order] = transform(order, originals[order], pins)
+    overlays[stock_run] = transform(stock_run, originals[stock_run], pins)
+    for rel, original in originals.items():
+        if rel not in overlays:
+            overlays[rel] = transform(rel, original, pins)
+
+    manifest = {"provider": "cloud-build", "hash_pins": {
+        "network": {"base_sha256": FILES[network], "overlay_sha256": pins["network_sha"]},
+        "stock_prove": {"base_sha256": FILES[stock], "overlay_sha256": pins["prove_sha"]},
+        "functional_prove": {"base_sha256": FILES[functional], "overlay_sha256": pins["functional_sha"]},
+        "order_prove": {"base_sha256": FILES[order], "overlay_sha256": sha(overlays[order])},
+        "stock_run": {"base_sha256": FILES[stock_run], "overlay_sha256": sha(overlays[stock_run])},
+    }, "files": []}
+    for rel, original in originals.items():
+        overlay = overlays[rel]
+        path = args.proof_root / rel
         path.write_bytes(overlay)
         manifest["files"].append({
-            "path": rel, "base_sha256": actual, "overlay_sha256": sha(overlay),
+            "path": rel, "base_sha256": FILES[rel], "overlay_sha256": sha(overlay),
             "diff": "".join(difflib.unified_diff(
                 original.decode().splitlines(True), overlay.decode().splitlines(True),
                 fromfile=rel + ".base", tofile=rel + ".cloud-build")),

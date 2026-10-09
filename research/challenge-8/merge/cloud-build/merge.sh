@@ -82,6 +82,25 @@ if subprocess.check_output(["git", "-C", str(proof), "rev-parse", "HEAD"], text=
     raise SystemExit("proof HEAD changed after source restore")
 INPUTS
 
+selection_file="$proof_root/research/challenge-8/merge/cloud-build/selection.json"
+selection_tool="$proof_root/research/challenge-8/merge/cloud-build/selection.py"
+audit_tool="$proof_root/research/challenge-8/merge/cloud-build/merge-audit.py"
+selection_resolved="$evidence_root/selection-resolved.json"
+CURRENT_STAGE=group-selection-validation
+python3 "$selection_tool" validate --selection "$selection_file" \
+  --output "$selection_resolved"
+selection_sha=$(python3 - "$selection_resolved" <<'SELECTION'
+import json,pathlib,sys
+print(json.loads(pathlib.Path(sys.argv[1]).read_text())["selection_sha256"])
+SELECTION
+)
+group_not_run_template="$evidence_root/group-not-run-template.txt"
+python3 - "$selection_resolved" "$group_not_run_template" <<'NOTRUN'
+import json,pathlib,sys
+selection=json.loads(pathlib.Path(sys.argv[1]).read_text())
+pathlib.Path(sys.argv[2]).write_text("".join(f"{name} NOT_RUN\n" for name in selection["not_run_groups"]))
+NOTRUN
+
 expected_source_sha=85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1
 printf '%s  %s\n' "$expected_source_sha" \
   "$proof_root/library/core/src/slice/sort/shared/smallsort.rs" | sha256sum -c -
@@ -94,8 +113,8 @@ allprooflogs="$evidence_root/allprooflogs"
 mkdir -p "$work_root" "$evidence_root" "$proof_root/research/challenge-8/cloud-build"
 cp "$cloud_dir/provider.py" "$proof_root/research/challenge-8/cloud-build/provider.py"
 
-# The adapter changes provider guards/identity and selects the saved modular
-# diagnostic groups with a bounded suite time cap. It records every base and
+# The adapter changes provider guards/identity, retains modular diagnostics,
+# and enforces the committed group selection. It records every base and
 # overlay hash plus the exact operational/guard diff before the runner starts.
 CURRENT_STAGE=provider-overlay
 python3 "$overlay_tool" --proof-root "$proof_root" \
@@ -108,7 +127,11 @@ import ast, json, pathlib, sys
 proof = pathlib.Path(sys.argv[1])
 manifest = json.loads(pathlib.Path(sys.argv[2]).read_text())
 paths = [item.get("path", "") for item in manifest.get("files", [])]
-paths.append("research/challenge-8/merge/cloud-build/callback-destination-frame.py")
+paths.extend([
+    "research/challenge-8/merge/cloud-build/callback-destination-frame.py",
+    "research/challenge-8/merge/cloud-build/selection.py",
+    "research/challenge-8/merge/cloud-build/merge-audit.py",
+])
 for rel in paths:
     if not rel.endswith(".py"):
         continue
@@ -128,6 +151,9 @@ export CLOUD_BUILD_REGION=${CLOUD_BUILD_REGION:?CLOUD_BUILD_REGION is required}
 export PROOF_SHA
 export SMALLSORT_PROVIDER_FILE="$proof_root/research/challenge-8/cloud-build/provider.py"
 export EVIDENCE_ROOT="$evidence_root"
+export MERGE_SELECTION_TOOL="$selection_tool"
+export MERGE_SELECTION_FILE="$selection_file"
+export MERGE_SELECTION_SHA256="$selection_sha"
 export RUNNER_TEMP="$work_root/runner-temp"
 mkdir -p "$RUNNER_TEMP"
 
@@ -167,7 +193,9 @@ RUSTPIN
   printf 'build_id=%s\nproject=%s\nregion=%s\n' \
     "$CLOUD_BUILD_ID" "$CLOUD_BUILD_PROJECT_ID" "$CLOUD_BUILD_REGION"
   printf 'matrix=retained-merge-suite; cloud-migration A-storage/B-stock/C-constructor lanes=NOT_SELECTED; math G2/A/B compatibility groups=INCLUDED\n'
-  printf 'separate_runtime_candidate=callback-destination-frame-probe; classification=not-a-VeriFast-theorem-or-caller-counterexample\n'
+  printf 'selection_sha256=%s\nselection_file=%s\n' "$selection_sha" "$selection_file"
+  printf 'runtime_probe_selected=%s; classification=not-a-VeriFast-theorem-or-caller-counterexample\n' \
+    "$(python3 -c 'import json,sys; print(str(json.load(open(sys.argv[1]))["runtime_probe"]).lower())' "$selection_resolved")"
 } >> "$evidence_root/environment.txt"
 
 python3 - "$cloud_dir/provider.py" "$evidence_root/environment.txt" <<'PIN'
@@ -184,150 +212,52 @@ status=0
 CURRENT_STAGE=retained-merge-matrix
 timeout --signal=TERM --kill-after=10s 1300s \
   bash research/challenge-8/merge/overnight/run.sh merge_geometry || status=$?
+printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"
+[[ ! -e "$allprooflogs/group-not-run.txt" ]] || {
+  printf 'runner unexpectedly created group-not-run.txt\n' >&2
+  status=1
+}
+mv "$group_not_run_template" "$allprooflogs/group-not-run.txt"
+
+# The independent saved runtime observation runs only when explicitly selected.
+probe_driver_status=NOT_RUN
+if python3 "$selection_tool" contains --selection "$selection_file" \
+    --sha256 "$selection_sha" callback-destination-frame-probe; then
+  CURRENT_STAGE=callback-destination-frame-runtime-probe
+  probe_driver_status=0
+  mkdir -p "$evidence_root/allprooflogs"
+  timeout --signal=TERM --kill-after=10s 150s python3 \
+    research/challenge-8/merge/cloud-build/callback-destination-frame.py \
+    --proof-root "$proof_root" --evidence-root "$evidence_root" --work-root "$work_root" \
+    > "$evidence_root/allprooflogs/callback-destination-frame-driver.log" 2>&1 || probe_driver_status=$?
+  printf '%s\n' "$probe_driver_status" \
+    > "$evidence_root/allprooflogs/callback-destination-frame-driver-exit-code.txt"
+fi
+
+# Relocate verifier case directories into the packager's required cases subtree;
+# keep stage logs and process records outside it.
+case_root="$evidence_root/allprooflogs/cases"
+mkdir -p "$case_root"
+for checked in "$evidence_root"/allprooflogs/checked-*; do
+  [[ -d "$checked" ]] || continue
+  target="$case_root/${checked##*/}"
+  [[ ! -e "$target" ]] || {
+    printf 'refusing duplicate case evidence path: %s\n' "$target" >&2
+    status=1
+    break
+  }
+  mv "$checked" "$target"
+done
+
+CURRENT_STAGE=selection-audit
+set +e
+python3 "$audit_tool" "$evidence_root" "$selection_file" \
+  "$status" "$PROOF_SHA" "$CLOUD_BUILD_ID"
+audit_status=$?
+set -e
+if (( audit_status != 0 )); then
+  status=1
+fi
 printf '%s\n' "$status" > "$evidence_root/run-exit.txt"
-
-# This saved alias probe is an independent runtime observation and always runs
-# after the matrix, including when a matrix group returned nonzero.
-CURRENT_STAGE=callback-destination-frame-runtime-probe
-probe_driver_status=0
-mkdir -p "$evidence_root/allprooflogs"
-timeout --signal=TERM --kill-after=10s 150s python3 \
-  research/challenge-8/merge/cloud-build/callback-destination-frame.py \
-  --proof-root "$proof_root" --evidence-root "$evidence_root" --work-root "$work_root" \
-  > "$evidence_root/allprooflogs/callback-destination-frame-driver.log" 2>&1 || probe_driver_status=$?
-printf '%s\n' "$probe_driver_status" \
-  > "$evidence_root/allprooflogs/callback-destination-frame-driver-exit-code.txt"
-
-python3 - "$evidence_root" "$status" "$PROOF_SHA" "$CLOUD_BUILD_ID" <<'AUDIT'
-import json, pathlib, sys
-root = pathlib.Path(sys.argv[1])
-status = int(sys.argv[2])
-cases = root / "allprooflogs" / "cases"
-cases.mkdir(parents=True, exist_ok=True)
-# The retained runner puts each verifier aggregate beside its group logs. The
-# Cloud evidence contract stores case aggregates below cases/ while preserving
-# group and build logs/resources at the allprooflogs root for collection.
-for path in sorted((root / "allprooflogs").glob("checked-*")):
-    if path.is_dir():
-        path.rename(cases / path.name)
-expected_groups = {
-    "rust-profile-smoke", "G2-compatibility", "A-compatibility", "B-compatibility",
-    "native-baselines", "rust-unwind-baselines", "callback-model-diagnostics",
-    "tuple2-shape-admission", "tuple2-resource-diagnostics", "callback-borrow-diagnostic",
-    "prepared-hrtb-diagnostics", "hrtb-admission-certificate", "callback-cleanup-diagnostics",
-    "copy-model-diagnostics", "wrapping-acceptance", "pointer-bridge-diagnostic",
-    "pointer-domain-bridge", "owned-array-resource-diagnostic", "scratch-option-resource-diagnostic",
-    "concrete-zst-diagnostic", "experimental-rust-regression", "tuple-layout-entry-diagnostics",
-    "trace-entry-tuple-diagnostics", "usize-source-admission", "usize-primitive-diagnostics",
-    "stack-address-admission-diagnostics", "stack-address-role-control-preparation",
-    "stack-address-role-controls", "pointer-quartet-trace-entry-negative",
-    "pointer-quartet-trace-diagnostic", "actual-source-preparation", "actual-callee-applicability",
-    "bidirectional-option-stages", "bidirectional-small-source-preparation",
-    "bidirectional-len23-diagnostic", "pointer-modular-trace-entry-negative",
-    "pointer-modular-trace-diagnostic",
-}
-evidence = root / "allprooflogs"
-group_status = evidence / "group-status.txt"
-observed = {}
-if group_status.is_file():
-    for line in group_status.read_text(errors="replace").splitlines():
-        parts = line.split()
-        if len(parts) == 2:
-            observed[parts[0]] = parts[1]
-groups_complete = set(observed) == expected_groups and all(v == "0" for v in observed.values())
-
-def raw_cases(path):
-    try:
-        value = json.loads((cases / path / "aggregate.json").read_text())
-        return value.get("cases", {}) if isinstance(value, dict) else {"_aggregate": "MALFORMED"}
-    except (OSError, ValueError):
-        return {"_aggregate": "NOT_REPORTED"}
-
-quartet_cases = raw_cases("checked-pointer-trace-quartets")
-actual_merge_cases = raw_cases("checked-actual")
-bidirectional_cases = raw_cases("checked-bidirectional-small")
-modular_entry_cases = raw_cases("checked-pointer-modular-trace-entry-negative")
-modular_trace_cases = raw_cases("checked-pointer-modular-trace")
-runtime_candidate_path = cases / "callback-destination-frame-probe/runtime-observation.json"
-try:
-    runtime_candidate = json.loads(runtime_candidate_path.read_text())
-except (OSError, ValueError):
-    runtime_candidate = {"classification": "INCONCLUSIVE_NOT_REPORTED"}
-try:
-    runtime_candidate_driver_status = int(
-        (evidence / "callback-destination-frame-driver-exit-code.txt").read_text().strip())
-except (OSError, ValueError):
-    runtime_candidate_driver_status = None
-panic_candidates = []
-for path in cases.glob("**/panic-macro-origin.json"):
-    try:
-        certificate = json.loads(path.read_text())
-    except (OSError, ValueError):
-        continue
-    if (certificate.get("status") == "PANIC_MACRO_BODY_ORIGIN_LINKED" and
-        certificate.get("require_final") is True and
-        certificate.get("expected_compiler_panic_rs_sha256") ==
-            "b63eeb2d8e1fa130d3582253fd043fdcd722d16031b289c25f2437e2edda87dd" and
-        certificate.get("compiler_panic_rs_sha256") ==
-            "b63eeb2d8e1fa130d3582253fd043fdcd722d16031b289c25f2437e2edda87dd"):
-        panic_candidates.append(str(path.relative_to(root)))
-mandatory_artifacts = (
-    (cases / "checked-pointer-trace-quartets/aggregate.json").is_file() and
-    (cases / "checked-actual/aggregate.json").is_file() and
-    (cases / "checked-bidirectional-small/aggregate.json").is_file() and
-    (cases / "checked-pointer-modular-trace-entry-negative/aggregate.json").is_file() and
-    (cases / "checked-pointer-modular-trace/aggregate.json").is_file() and
-    (cases / "checked-stack-role-controls/aggregate.json").is_file() and
-    (cases / "callback-destination-frame-probe/callback-destination-frame-probe.rs").is_file() and
-    (cases / "callback-destination-frame-probe/source-admission.json").is_file() and
-    runtime_candidate_path.is_file() and
-    runtime_candidate_driver_status == 0 and
-    (evidence / "callback-destination-frame-driver.log").is_file() and
-    (evidence / "callback-destination-frame-source-admission.log").is_file() and
-    (evidence / "callback-destination-frame-source-admission-exit-code.txt").is_file() and
-    (evidence / "callback-destination-frame-compiler-version.log").is_file() and
-    (evidence / "callback-destination-frame-compiler-version-exit-code.txt").is_file() and
-    (evidence / "callback-destination-frame-compiler-sysroot.log").is_file() and
-    (evidence / "callback-destination-frame-compiler-sysroot-exit-code.txt").is_file() and
-    (evidence / "callback-destination-frame-compile.log").is_file() and
-    (evidence / "callback-destination-frame-compile-exit-code.txt").is_file() and
-    (evidence / "callback-destination-frame-run.log").is_file() and
-    (evidence / "callback-destination-frame-run-exit-code.txt").is_file() and
-    bool(panic_candidates)
-)
-diagnostic_complete = status == 0 and groups_complete and mandatory_artifacts
-audit = {
-    "schema": "smallsort-merge-cloud-diagnostic-v1",
-    "lane": "merge",
-    "proof_sha": sys.argv[3],
-    "execution_provider": "cloud-build",
-    "execution_id": sys.argv[4],
-    "accepted": False,
-    "diagnostic_complete": diagnostic_complete,
-    "classification": "MERGE_DIAGNOSTIC_MATRIX_COMPLETE" if diagnostic_complete else "INCONCLUSIVE",
-    "theorem_statuses": {
-        "whole_small_sort_challenge": "NOT_PROVEN",
-        "g2_quartet_trace_cases": quartet_cases,
-        "g2_modular_entry_control_cases": modular_entry_cases,
-        "g2_modular_trace_cases": modular_trace_cases,
-        "actual_bidirectional_len2_len3_cases": bidirectional_cases,
-        "actual_merge_up_down_cases": actual_merge_cases,
-    },
-    "mandatory_group_statuses": observed,
-    "mandatory_groups_complete": groups_complete,
-    "mandatory_artifacts_complete": mandatory_artifacts,
-    "final_panic_origin_certificates": panic_candidates,
-    "separate_runtime_candidate": {
-        "name": "callback-destination-frame-probe",
-        "source_alias": "366fcc78e20741bc7116a32884839061e68594f1",
-        "driver_exit_code": runtime_candidate_driver_status,
-        "runtime_observation": runtime_candidate,
-        "is_verifast_theorem_or_caller_counterexample": False,
-    },
-    "raw_group_status_path": "allprooflogs/group-status.txt",
-    "note": "Matrix collection status does not change per-case classifications or establish a whole-function theorem.",
-}
-(root / "proof-audit.json").write_text(json.dumps(audit, sort_keys=True, indent=2) + "\n")
-AUDIT
 CURRENT_STAGE=complete
 exit "$status"
