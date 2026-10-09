@@ -1,3 +1,23 @@
+## Accepted work policy — owner decision 2026-10-09
+
+Read [WORK-POLICY](research/challenge-8/WORK-POLICY.md) and
+[COMPLETION-PLAN](research/challenge-8/COMPLETION-PLAN.md) before new experiments.
+They govern scope, priorities, evidence replay and the narrow permission for
+small isolated local classifier/parser tests. This explicitly supersedes older
+blanket bans on executable tests and any requirement to rebuild the verifier
+for a classifier-only change. Compiler/verifier/proof execution remains Cloud-only.
+
+Use the current assigned worktree/branch and authorized phase, not an old branch
+name or workflow example below. Research Actions dispatch is not authorized by
+historical instructions. Keep two project-wide queued/running/unresolved Cloud
+Builds at most, one per stable owner/ledger; preserve the v2 coordinator protocol.
+Sessions last two hours, with up to 30 minutes only to finish the current step
+and checkpoint; the assignment supplies the Cloud budget. This policy adds none.
+
+Fetch and integrate these documentation updates at the next safe step or before
+the next session. Record the policy revision read. Do not interrupt a useful
+running build or change its pinned inputs. No proof status is upgraded by docs.
+
 # Instructions for coding agents
 
 ## Project and first reads
@@ -29,19 +49,19 @@ then decide the next change. Do not queue speculative duplicate jobs.
 Do not publish an upstream PR, post comments to others, or submit a bounty claim
 without a separate user instruction.
 
-## Hard rule: no verification or builds on the user's server
+## Execution boundary and local service-test exception
 
-The server is an editing and orchestration machine only. All compilation,
-verification and executable tests must run on GitHub-hosted Actions runners.
+All compilation and proof verification run in authorized Cloud Build lanes.
 Never run Kani, CBMC, VeriFast, Cargo builds/checks/tests, rustc, bootstrap/x.py,
-the research run scripts, scripts/run-kani.sh, or a container/remote subprocess
-that performs those tasks on the user's server. Do not install verifier/build
-dependencies there. This prohibition also applies to "quick" compile checks.
-Never configure this server as a self-hosted Actions runner.
+proof runners/extractors or equivalent container/subprocess tasks on the VPS.
+Do not install build/verifier dependencies or use a self-hosted runner.
 
-Local reading, editing, git/gh operations, downloading/reading Actions evidence,
-git diff --check, bash -n and lightweight non-executing document/YAML parsing
-are allowed. A GitHub access failure is not permission to run locally.
+Local reading/editing, Git operations, evidence reading/hashing, syntax and
+non-executing parsing remain allowed. WORK-POLICY section 4 additionally permits
+small isolated executable classifier/parser tests on saved or synthetic data.
+Inspect imports/entrypoints first; do not execute proof toolchains or modify live
+evidence/coordinator state. This exception is not permission for local proof work.
+An access failure does not expand these permissions.
 
 ## Proof integrity
 
@@ -81,3 +101,4 @@ Do not promise unattended work after the session has ended.
 Stop only for a real blocker such as missing authentication, required permissions,
 an unresolved material decision or an enforced platform limit. Report the exact
 blocker and smallest user action needed; keep the ban on local execution intact.
+
