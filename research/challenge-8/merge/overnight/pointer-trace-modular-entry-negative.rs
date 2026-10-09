@@ -7,6 +7,7 @@
 // this projection: stride is explicitly positive.
 
 // CASE_BEGIN g2_pointer_trace_modular_false_entry
+// EXPECT_ERROR {"stage":"verifast","predicate":"false","line":"TARGET","column_start":16,"column_end":21}
 // Stock tuple3 of tuple4 components. The checked forward and reverse helpers
 // compose to the same twelve terminal coordinates and complete contract.
 // Leaf order: eight pointers (left, right, dst, left_rev, right_rev, dst_rev,
