@@ -46,6 +46,21 @@ POINTER_GROUPS = {
     "current-owner-handoff-resource-diagnostic": "checked-current-owner-handoff",
     "current-owner-handoff-stock-diagnostic": "checked-current-owner-handoff-stock",
 }
+DROP_GROUPS = {
+    "actual-copy-on-drop-resource-diagnostic": {
+        "directory": "actual-copy-on-drop-resource-diagnostic",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    },
+    "actual-copy-on-drop-stock-diagnostic": {
+        "directory": "actual-copy-on-drop-stock-diagnostic",
+        "profile": "stock-26.10",
+    },
+}
+DROP_CASES = ("positive", "first_body_false")
+DROP_STAGES = ("exporter", "decode", "verifast", "refinement")
+DROP_SOURCE_SHA256 = "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1"
+DROP_SOURCE_BLOB = "40939f922bcb6fdc7ee0d30427fa861827043827"
+DROP_BLOCK_SHA256 = "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a"
 OTHER_ARTIFACTS = {
     "G2-compatibility": [
         "cases/checked-g2/results.json", "cases/checked-g2/source-admission.json",
@@ -134,6 +149,15 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 f"cases/{name}/aggregate.json",
                 f"cases/{name}/full-small-sort-source-admission.json",
             ]
+        elif group in DROP_GROUPS:
+            dirname = DROP_GROUPS[group]["directory"]
+            mandatory[group] = [
+                f"cases/{dirname}/environment.json",
+                f"cases/{dirname}/extraction.json",
+                f"cases/{dirname}/results.json",
+                f"cases/{dirname}/aggregate.json",
+                *[f"cases/{dirname}/cases/{case}/classification.json" for case in DROP_CASES],
+            ]
         elif group in OTHER_ARTIFACTS:
             mandatory[group] = OTHER_ARTIFACTS[group]
         else:
@@ -185,6 +209,160 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 case_sets_valid)
         except (OSError, ValueError):
             artifact_status[group] = False
+
+    def audit_copy_on_drop(group: str, spec: dict) -> bool:
+        base = cases / spec["directory"]
+        try:
+            environment = json.loads((base / "environment.json").read_text())
+            extraction = json.loads((base / "extraction.json").read_text())
+            results = json.loads((base / "results.json").read_text())
+            aggregate = json.loads((base / "aggregate.json").read_text())
+            if (not all(isinstance(item, dict) for item in
+                        (environment, extraction, results, aggregate)) or
+                    environment.get("profile") != spec["profile"] or
+                    environment.get("proof_sha") != proof_sha or
+                    environment.get("cloud_build_id") != build_id or
+                    environment.get("provider") != "cloud-build" or
+                    environment.get("semantic_profile_accepted") is not False or
+                    environment.get("small_sort_source_sha256") != DROP_SOURCE_SHA256 or
+                    environment.get("small_sort_source_git_blob") != DROP_SOURCE_BLOB or
+                    environment.get("schema_sha256") != "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469" or
+                    Path(environment.get("profile_evidence", "")).resolve() !=
+                        (evidence / ("build" if spec["profile"] != "stock-26.10" else "")).resolve() or
+                    results.get("profile") != spec["profile"] or
+                    results.get("accepted") is not False or
+                    aggregate.get("accepted") is not False or
+                    aggregate.get("stages_collected") is not True or
+                    aggregate.get("classification") not in {"PARTIAL_DIAGNOSTIC", "INCONCLUSIVE"}):
+                return False
+            compiler = environment.get("compiler_version_verbose", "")
+            profile_pins = environment.get("profile_pins")
+            tool_hashes = environment.get("tool_hashes")
+            if (not isinstance(profile_pins, dict) or not isinstance(tool_hashes, dict) or
+                    "commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f" not in compiler or
+                    "host: x86_64-unknown-linux-gnu" not in compiler or
+                    not isinstance(environment.get("compiler_rustc_sha256"), str) or
+                    len(environment["compiler_rustc_sha256"]) != 64 or
+                    not isinstance(environment.get("compiler_driver_hashes"), dict) or
+                    not environment["compiler_driver_hashes"] or
+                    any(not isinstance(value, str) or len(value) != 64
+                        for value in environment["compiler_driver_hashes"].values()) or
+                    not all(isinstance(value, str) and len(value) == 64
+                            for value in tool_hashes.values())):
+                return False
+            if spec["profile"] == "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1":
+                expected_outputs = {
+                    "kernel_patched": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+                    "translator_patched": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+                    "parser_patched": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+                    "prelude_patched": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+                    "stdlib_patched": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+                    "z3_runtime": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+                    "applied_patch_sha256": "b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927",
+                }
+                if any(profile_pins.get(key) != value for key, value in expected_outputs.items()):
+                    return False
+                if (tool_hashes.get("bin/verifast") != profile_pins.get("experimental_console_sha256") or
+                        tool_hashes.get("bin/vf-rust-mir-exporter") != profile_pins.get("bin/vf-rust-mir-exporter") or
+                        tool_hashes.get("bin/refinement-checker") != profile_pins.get("bin/refinement-checker")):
+                    return False
+            elif spec["profile"] == "stock-26.10":
+                expected_stock = {
+                    "bin/verifast": "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1",
+                    "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+                    "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+                    "prelude_sha256": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+                }
+                if any(profile_pins.get(key) != value for key, value in expected_stock.items()):
+                    return False
+                if any(tool_hashes.get(key) != value for key, value in expected_stock.items()
+                       if key != "prelude_sha256"):
+                    return False
+            if (extraction.get("selection") != "copy_on_drop_actual_count_n_diagnostic" or
+                    extraction.get("source_sha256") != DROP_SOURCE_SHA256 or
+                    extraction.get("source_git_blob") != DROP_SOURCE_BLOB or
+                    extraction.get("block_sha256") != DROP_BLOCK_SHA256 or
+                    extraction.get("block_bytes") != 364 or
+                    extraction.get("target") != "<CopyOnDrop<T> as core::ops::Drop>::drop"):
+                return False
+            result_cases = results.get("cases")
+            aggregate_cases = aggregate.get("cases")
+            extraction_cases = extraction.get("cases")
+            if (not all(isinstance(value, dict) for value in
+                        (result_cases, aggregate_cases, extraction_cases)) or
+                    set(result_cases) != set(DROP_CASES) or
+                    set(aggregate_cases) != set(DROP_CASES) or
+                    set(extraction_cases) != set(DROP_CASES)):
+                return False
+            if aggregate_cases != {name: result_cases[name].get("classification")
+                                   for name in DROP_CASES}:
+                return False
+            for case in DROP_CASES:
+                case_dir = base / "cases" / case
+                metadata = extraction_cases[case]
+                row = result_cases[case]
+                classification_path = case_dir / "classification.json"
+                classification = json.loads(classification_path.read_text())
+                if (not isinstance(row, dict) or not isinstance(classification, dict) or
+                        row.get("accepted") is not False or classification.get("accepted") is not False or
+                        row != classification or
+                        row.get("case") != case or
+                        row.get("classification") not in {"PASS_COMPONENT_ONLY", "EXPECTED_FALSE_ASSERTION", "INCONCLUSIVE"}):
+                    return False
+                for rel, expected in (("original/lib.rs", metadata.get("original_sha256")),
+                                      ("verified/lib.rs", metadata.get("verified_sha256"))):
+                    source_path = case_dir / rel
+                    if (not source_path.is_file() or source_path.is_symlink() or
+                            sha256_file(source_path) != expected):
+                        return False
+                initial = classification.get("initial_source_hashes")
+                final = classification.get("final_source_hashes")
+                source_before_record = json.loads((case_dir / "source-before.json").read_text())
+                if (classification.get("source_unchanged_at_every_stage") is not True or
+                        not isinstance(initial, dict) or final != initial or
+                        source_before_record != initial or
+                        initial.get("small_sort_source") != DROP_SOURCE_SHA256 or
+                        initial.get("original/lib.rs") != metadata.get("original_sha256") or
+                        initial.get("verified/lib.rs") != metadata.get("verified_sha256")):
+                    return False
+                stages = classification.get("stages")
+                if not isinstance(stages, dict) or set(stages) != set(DROP_STAGES):
+                    return False
+                for stage in DROP_STAGES:
+                    stage_json = case_dir / f"{stage}-stage.json"
+                    stage_log = case_dir / f"{stage}.log"
+                    stage_out = case_dir / ("compiler-mir.bin" if stage == "exporter" else f"{stage}.out")
+                    stage_resources = case_dir / f"{stage}-resources.txt"
+                    stage_exit = case_dir / f"{stage}-exit-code.txt"
+                    if not all(path.is_file() and not path.is_symlink()
+                               for path in (stage_json, stage_log, stage_out,
+                                            stage_resources, stage_exit)):
+                        return False
+                    stage_record = json.loads(stage_json.read_text())
+                    if (not isinstance(stage_record, dict) or
+                            stage_record.get("exit_code") != stages.get(stage) or
+                            int(stage_exit.read_text().strip()) != stages.get(stage)):
+                        return False
+                    if stage_record.get("status") == "NOT_RUN":
+                        if stage != "decode" or stages.get("exporter") == 0:
+                            return False
+                    elif (stage_record.get("source_unchanged") is not True or
+                          stage_record.get("source_before") != initial or
+                          stage_record.get("source_after") != final):
+                        return False
+                mir_binary = case_dir / "compiler-mir.bin"
+                mir_hash_file = case_dir / "compiler-mir-sha256.txt"
+                if (not all(path.is_file() and not path.is_symlink()
+                            for path in (mir_binary, mir_hash_file)) or
+                        mir_hash_file.read_text().strip() != sha256_file(mir_binary)):
+                    return False
+            return True
+        except (OSError, ValueError, KeyError, TypeError):
+            return False
+
+    for group, spec in DROP_GROUPS.items():
+        if group in selected:
+            artifact_status[group] = artifact_status.get(group, False) and audit_copy_on_drop(group, spec)
 
     # The three stock mathematical proof components each emit a source
     # certificate and bind its exact bytes from results.json.
@@ -251,6 +429,13 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                         "native-source-pair-turnover-stock-diagnostic")
     cleanup_hidden_cases = raw_cases("cases/checked-cleanup-recovery-hidden-type/aggregate.json",
                                      "cleanup-recovery-hidden-type-diagnostic")
+
+    copy_on_drop_resource_cases = raw_cases(
+        "cases/actual-copy-on-drop-resource-diagnostic/aggregate.json",
+        "actual-copy-on-drop-resource-diagnostic")
+    copy_on_drop_stock_cases = raw_cases(
+        "cases/actual-copy-on-drop-stock-diagnostic/aggregate.json",
+        "actual-copy-on-drop-stock-diagnostic")
 
     owner_handoff_cases = raw_cases("cases/checked-current-owner-handoff/aggregate.json",
                                     "current-owner-handoff-resource-diagnostic")
@@ -388,6 +573,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
             "native_source_pair_turnover_cases": native_pair_cases,
             "stock_native_source_pair_turnover_cases": native_stock_pair_cases,
             "cleanup_recovery_hidden_type_cases": cleanup_hidden_cases,
+            "actual_copy_on_drop_resource_cases": copy_on_drop_resource_cases,
+            "actual_copy_on_drop_stock_cases": copy_on_drop_stock_cases,
         },
         "separate_runtime_candidate": runtime,
         "raw_group_status_path": "allprooflogs/group-status.txt",

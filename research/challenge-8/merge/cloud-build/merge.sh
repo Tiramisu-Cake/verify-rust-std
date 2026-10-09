@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 # Cloud Build entrypoint for the retained OVERNIGHT-MERGE-26.10 matrix.
 set -euo pipefail
+lane_started=$SECONDS
+lane_work_budget_seconds=1600
 
 proof_root=${PROOF_ROOT:-/workspace/proof}
 infra_root=${INFRA_ROOT:-/workspace/infra}
@@ -101,6 +103,20 @@ selection=json.loads(pathlib.Path(sys.argv[1]).read_text())
 pathlib.Path(sys.argv[2]).write_text("".join(f"{name} NOT_RUN\n" for name in selection["not_run_groups"]))
 NOTRUN
 
+drop_groups_selected=0
+for candidate in actual-copy-on-drop-resource-diagnostic actual-copy-on-drop-stock-diagnostic; do
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$candidate"; then
+    drop_groups_selected=$((drop_groups_selected + 1))
+  else
+    selection_status=$?
+    if [[ "$selection_status" -ne 1 ]]; then
+      printf 'drop selection validation failed for %s\n' "$candidate" >&2
+      exit 2
+    fi
+  fi
+done
+
 expected_source_sha=85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1
 printf '%s  %s\n' "$expected_source_sha" \
   "$proof_root/library/core/src/slice/sort/shared/smallsort.rs" | sha256sum -c -
@@ -131,6 +147,8 @@ paths.extend([
     "research/challenge-8/merge/cloud-build/callback-destination-frame.py",
     "research/challenge-8/merge/cloud-build/selection.py",
     "research/challenge-8/merge/cloud-build/merge-audit.py",
+  "research/challenge-8/merge/overnight/copy-on-drop-prepare.py",
+  "research/challenge-8/merge/overnight/copy-on-drop-prove.py",
 ])
 for rel in paths:
     if not rel.endswith(".py"):
@@ -210,7 +228,18 @@ PIN
 cd "$proof_root"
 status=0
 CURRENT_STAGE=retained-merge-matrix
-timeout --signal=TERM --kill-after=10s 1300s \
+matrix_timeout=1300
+if (( drop_groups_selected > 0 )); then
+  elapsed=$((SECONDS - lane_started))
+  matrix_budget=$((lane_work_budget_seconds - elapsed - 300 * drop_groups_selected - 140))
+  (( matrix_budget > 0 )) || matrix_budget=1
+  matrix_timeout=900
+  (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
+fi
+printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nretained_matrix_timeout_seconds=%s\n' \
+  "$lane_work_budget_seconds" "$drop_groups_selected" "$matrix_timeout" \
+  > "$allprooflogs/drop-lane-budget.txt"
+timeout --signal=TERM --kill-after=10s "${matrix_timeout}s" \
   bash research/challenge-8/merge/overnight/run.sh merge_geometry || status=$?
 printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"
 [[ ! -e "$allprooflogs/group-not-run.txt" ]] || {
@@ -218,6 +247,73 @@ printf '%s\n' "$status" > "$evidence_root/matrix-exit.txt"
   status=1
 }
 mv "$group_not_run_template" "$allprooflogs/group-not-run.txt"
+
+# The direct Drop diagnostic uses the retained stock and six-patch tool homes
+# from run.sh, but publishes its own source/contract/stage evidence policy.
+run_copy_on_drop_group() {
+  local group=$1 profile=$2 tool_home=$3 profile_evidence=$4
+  local selected_status=0 driver_status=0 evidence_dir compiler_sysroot schema
+  local elapsed remaining group_timeout groups_left
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$group"; then
+    :
+  else
+    selected_status=$?
+    if [[ "$selected_status" -eq 1 ]]; then return 0; fi
+    status=1
+    return 0
+  fi
+  groups_left=$drop_groups_selected
+  drop_groups_selected=$((drop_groups_selected - 1))
+  elapsed=$((SECONDS - lane_started))
+  remaining=$((lane_work_budget_seconds - elapsed - 140))
+  group_timeout=0
+  if (( remaining > 0 && groups_left > 0 )); then
+    group_timeout=$((remaining / groups_left))
+    (( group_timeout > 300 )) && group_timeout=300
+  fi
+  CURRENT_STAGE=$group
+  evidence_dir="$allprooflogs/cases/$group"
+  [[ ! -e "$evidence_dir" ]] || {
+    printf 'refusing to reuse Drop evidence path: %s\n' "$evidence_dir" >&2
+    driver_status=2
+  }
+  schema="$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp"
+  compiler_sysroot=$(rustc --print sysroot)
+  if (( driver_status == 0 && group_timeout > 0 )); then
+    /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
+    timeout --signal=TERM --kill-after=10s "${group_timeout}s" python3 \
+      "$proof_root/research/challenge-8/merge/overnight/copy-on-drop-prove.py" \
+      --profile "$profile" --profile-evidence "$profile_evidence" \
+      --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" \
+      --schema "$schema" --stage-seconds 30 --verifier-seconds 45 \
+      --evidence "$evidence_dir" \
+      > "$allprooflogs/group-$group.log" 2>&1 || driver_status=$?
+  else
+    if (( group_timeout == 0 )); then
+      driver_status=124
+      printf 'Drop diagnostic not run because the lane work budget was exhausted.\n' \
+        > "$allprooflogs/group-$group.log"
+      printf 'stage not run; lane budget exhausted\n' \
+        > "$allprooflogs/group-$group-resources.txt"
+    else
+      printf 'Drop diagnostic not run because its evidence path already exists.\n' \
+      > "$allprooflogs/group-$group.log"
+      printf 'stage not run\n' > "$allprooflogs/group-$group-resources.txt"
+    fi
+  fi
+  printf 'group_%s_timeout_seconds=%s\n' "$group" "$group_timeout" \
+    >> "$allprooflogs/drop-lane-budget.txt"
+  printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
+  printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
+  if (( driver_status != 0 )); then status=1; fi
+}
+
+run_copy_on_drop_group actual-copy-on-drop-resource-diagnostic \
+  experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+  "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
+run_copy_on_drop_group actual-copy-on-drop-stock-diagnostic \
+  stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
 
 # The independent saved runtime observation runs only when explicitly selected.
 probe_driver_status=NOT_RUN

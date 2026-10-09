@@ -88,3 +88,21 @@ historical selected positions. These empty-runtime/false-unwind components do
 not derive the actual caller/C1/F-frame bridge. Fresh exact negative metadata
 for old source-pair duplication and hidden recovery requires fresh Cloud proof
 and frontend gates respectively; historical calibration stays INCONCLUSIVE.
+
+The current committed targeted selection is `rust-profile-smoke` plus two
+independent actual `CopyOnDrop<T>::drop` diagnostics. The resource group runs
+the unchanged six-patch experimental profile; the stock group runs the exact
+stock 26.10 binaries and specification bundle. Their exporter, decoded MIR,
+VeriFast, and refinement evidence lives under separate
+`allprooflogs/cases/actual-copy-on-drop-*-diagnostic/` trees. Stock setup
+evidence is `allprooflogs/environment.txt`; experimental build evidence is
+`allprooflogs/build/`. The audit binds source and per-case hashes,
+profile/compiler identity, stage records, and dynamic MIR/AST count-n-copy
+admission. Both remain conditional component diagnostics with `accepted:
+false`; they do not establish caller cleanup admission or a whole-sort
+theorem. Each stage has a 30-second limit and each VeriFast invocation a
+45-second limit. When either Drop group is selected, the retained matrix is
+bounded to at most 900 seconds and the lane reserves a 140-second package/upload
+tail within its 1,600-second work cap; remaining time is divided between selected
+Drop groups, capped at 300 seconds per group. Exhausted budgets produce explicit
+timeout/incomplete evidence and cannot count as a positive result.
