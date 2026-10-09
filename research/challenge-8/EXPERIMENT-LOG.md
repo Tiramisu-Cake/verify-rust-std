@@ -6224,3 +6224,25 @@ allposts/asserts; removesunnecessaryRustdead_code lintonly (VFdeadchecks alwayso
 OR17/same-sourcegate published96086b2b independently; sharedforeign673526ac active
 and alternationhonored. Kernelcleanup/C1/M2/arbitraryactualmerge remainopen.
 Evidence gs://smallsort-ci-evidence-504462351565/cloud-build/54a22b0d-782c-4056-a512-6dfa31f3fff8/.
+
+
+### NIGHT-MERGE — OR full gate active, resource10 classifier/syntax candidate
+
+OR Build9ad825fa-23f2-49f6-bc6c-db2052fe755c submitted exact96086b2b6c150346e9d3cd1dad30778845880011,
+configc95985b0200b86222f489c32222e2bbf93bbf3c2812b8acd6fdaf79f88bb2cbd,
+sourceinput45ddd6d31d5b03e491fbf65b7607a52735a03904161d40cc12e70aa96315219d.
+Own6294charged/4506remaining,1800reservation, commonforeign673526ac confirmed
+terminal beforedispatch. New full17shape/sourcegate/same-source6 evidencepending.
+
+RESOURCE10 candidate: preserves full resource9 contracts/helperprefix/asserts,
+changes native wrapper/runtimeghostcommands to acceptedone-line syntax and
+permutationdoubleowner calibration similarly; no negativeoraclecredit until
+newproofVC. ActualDrop classifier matches true timestampedbody headers and
+actualruntimeAST def-use fromphysicalself.src/dst/len, withunique adjacent same-
+line definitions andnoother writes. Same-source readonlyMIR andactualnormal
+proofAST fieldorigins linked; DOESNOTclaim rawnormalMIR identity. Current
+positivegates retained; false needs exacttargetVC/body/source/stages/admission
+andzerocopy/return/leak afterfailure; allglobaldeadrecords refused. Card was
+writtenbeforeimplementation and reviewedstaticagainstfreshevidence. Noverifier/
+model/kernel/stdsource/post changes, noownershipbridge orsnapshotassumption.
+AllPythonAST/JSONpathclosure96/stdhash/diffcheck statics; Cloudrequired.

@@ -2,7 +2,11 @@
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **6294/10800 elapsed
 Cloud seconds**, remaining **4506**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Latest resource9
+Branch `overnight/merge-26.10`; active own OR Build
+**9ad825fa-23f2-49f6-bc6c-db2052fe755c**, exactproof/infra
+96086b2b6c150346e9d3cd1dad30778845880011, configc95985b0200b86222f489c32222e2bbf93bbf3c2812b8acd6fdaf79f88bb2cbd,
+sourceinput45ddd6d31d5b03e491fbf65b7607a52735a03904161d40cc12e70aa96315219d,
+reservation1800s notyet charged. Latest resource9
 **54a22b0d-782c-4056-a512-6dfa31f3fff8**, proof/infra
 7655795962bf7f151643ba1f1b123b721acdf5ed, collectorSUCCESS395s;
 06:14:30.062–06:21:04.251UTC, config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2;
@@ -24,7 +28,9 @@ Next separate OR full gate is published96086b2b6c150346e9d3cd1dad30778845880011:
 17 independent shape modes, source hash refusal and same-source six comparison,
 unchanged semantic patch/posts, full7diff identity pinned fromfde. Requested
 OR1300s capped at lane remainder; no new gate is checked until fresh Cloud.
-Own common ready request registered; foreign673526ac active, do not bypass.
+Foreign673526ac terminal was reconciled before9ad dispatch; commonclient
+lock/alternation preserved. Resource10 is a separate prepared candidate and
+needs its own fresh run; no historical result is reclassified.
 Latest OR Build **fde74800-236a-480d-bcfd-289327d923be**, proof/infra
 2276446b979178c8fed57ae893e91a77c2297bf3, FAILURE869s;
 05:38:36.989–05:53:05.002 UTC, config

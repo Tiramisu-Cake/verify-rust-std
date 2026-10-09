@@ -452,7 +452,12 @@ def mir_admission(case_dir: Path) -> dict:
 def actual_drop_log_segment(log: str) -> tuple[str, list[str]]:
     lines = log.splitlines()
     headers = []
-    header_re = re.compile(r"Verifying function '([^']+)'$")
+    # Only count VeriFast's timestamped function header. Diagnostic context
+    # repeats the same text in an un-timestamped `note: Verifying function`
+    # line, which is not a second body entry.
+    header_re = re.compile(
+        r"^\s*\d+(?:\.\d+)?s: [^\s(]+\([0-9]+,[0-9]+"
+        r"(?:-[0-9]+(?:,[0-9]+)?)?\): Verifying function '([^']+)'$")
     for index, line in enumerate(lines):
         match = header_re.search(line)
         if match:
@@ -470,7 +475,72 @@ def actual_drop_log_segment(log: str) -> tuple[str, list[str]]:
     return (target_segments[0] if len(target_segments) == 1 else ""), compatibility
 
 
-def ast_drop_call(ast_text: str, copy_line: int) -> dict:
+def ast_copy_operand_field_origins(statements, switch, call,
+                                   copy_line: int) -> tuple[list[str], list[int]]:
+    """Link the AST call's operands to the three immediately reaching self reads."""
+    switch_positions = [index for index, statement in enumerate(statements)
+                        if statement is switch]
+    if len(switch_positions) != 1:
+        raise ast_helper.AdmissionError(
+            "copy call switch is not one top-level runtime statement")
+    switch_index = switch_positions[0]
+    if switch_index < 3 or ast_helper.location_line(switch.args[0]) != copy_line:
+        raise ast_helper.AdmissionError(
+            "copy call lacks three immediately preceding same-line field reads")
+
+    arguments = call.args[4]
+    if not isinstance(arguments, list) or len(arguments) != 3:
+        raise ast_helper.AdmissionError("copy call does not have three AST operands")
+    argument_vars = []
+    for argument in arguments:
+        pattern = ast_helper.narg(argument, "LitPat", 1)[0]
+        argument_vars.append(ast_helper.var(pattern))
+    if len(set(argument_vars)) != 3:
+        raise ast_helper.AdmissionError("copy call operands are duplicated or ambiguous")
+
+    expected_fields = ["src", "dst", "len"]
+    reaching = statements[switch_index - 3:switch_index]
+    origins = []
+    defined_vars = []
+    for position, (statement, argument_var, expected_field) in enumerate(
+            zip(reaching, argument_vars, expected_fields)):
+        expression = ast_helper.narg(statement, "ExprStmt", 1)[0]
+        assignment = ast_helper.narg(expression, "AssignExpr", 4)
+        lhs = ast_helper.var(assignment[1])
+        if (lhs != argument_var or assignment[2] != ast_helper.Sym("Mutation") or
+                ast_helper.location_line(assignment[0]) != copy_line):
+            raise ast_helper.AdmissionError(
+                f"copy operand {position} lacks its unique immediate reaching definition")
+        select = ast_helper.narg(assignment[3], "Select", 3)
+        deref = ast_helper.narg(select[1], "Deref", 2)
+        if (ast_helper.var(deref[1]) != "self" or
+                select[2] != expected_field or
+                ast_helper.location_line(select[0]) != copy_line):
+            raise ast_helper.AdmissionError(
+                f"copy operand {position} is not the ordered self.{expected_field} read")
+        defined_vars.append(lhs)
+        origins.append(expected_fields.index(select[2]))
+
+    if len(set(defined_vars)) != 3 or defined_vars != argument_vars:
+        raise ast_helper.AdmissionError("copy operand definitions are duplicate or reordered")
+
+    # Reject any other assignment to these synthetic locals in the runtime
+    # body. The three adjacent definitions above are their only reaching defs.
+    all_definitions = {name: 0 for name in argument_vars}
+    for assignment in ast_helper.nodes(statements, "AssignExpr"):
+        if len(assignment.args) != 4:
+            raise ast_helper.AdmissionError("unsupported assignment AST shape")
+        lhs_node = assignment.args[1]
+        if isinstance(lhs_node, ast_helper.Node) and lhs_node.name == "Var":
+            name = ast_helper.var(lhs_node)
+            if name in all_definitions:
+                all_definitions[name] += 1
+    if any(count != 1 for count in all_definitions.values()):
+        raise ast_helper.AdmissionError("copy operand local has duplicate/ambiguous definitions")
+    return argument_vars, origins
+
+
+def ast_drop_call(ast_text: str, copy_line: int, mir: dict) -> dict:
     if not ast_text:
         return {"admitted": False, "reason": "proof AST missing"}
     tree = ast_helper.OcamlAstText(ast_text).parse()
@@ -556,15 +626,11 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
     if source_bounds and len(copy_calls) == 1 and len(switches) == 1:
         call = copy_calls[0]
         switch = switches[0]
-        arguments = call.args[4]
-        argument_vars = []
-        if isinstance(arguments, list) and len(arguments) == 3:
-            for argument in arguments:
-                try:
-                    argument_vars.append(ast_helper.var(
-                        ast_helper.narg(argument, "LitPat", 1)[0]))
-                except ast_helper.AdmissionError:
-                    argument_vars.append(None)
+        try:
+            argument_vars, argument_field_origins = ast_copy_operand_field_origins(
+                statements, switch, call, copy_line)
+        except (ValueError, TypeError, ast_helper.AdmissionError):
+            argument_vars, argument_field_origins = [], []
         clauses = switch.args[2]
         outcomes = []
         if isinstance(clauses, list) and len(clauses) == 2:
@@ -577,7 +643,10 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
                                     else None)
                 else:
                     outcomes.append(None)
-        dynamic = (argument_vars == ["$_3", "$_4", "$_5"] and
+        dynamic = (argument_field_origins == [0, 1, 2] and
+                   mir.get("admitted") is True and
+                   mir.get("argument_field_origins") == argument_field_origins and
+                   mir.get("dynamic_count_from_self_len") is True and
                    outcomes == ["returning", "unwinding"] and
                    any(isinstance(stmt, ast_helper.Node) and stmt.name == "ReturnStmt"
                        for stmt in statements) and
@@ -586,6 +655,7 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
                    ast_helper.location_line(switch.args[0]) == copy_line)
         candidates.append({"function": function.args[4], "line": copy_line,
                            "callee": call.args[1], "argument_vars": argument_vars,
+                           "argument_field_origins": argument_field_origins,
                            "normal_unwind_clauses": outcomes,
                            "dynamic_count": dynamic})
     admitted = len(candidates) == 1 and candidates[0]["dynamic_count"]
@@ -600,7 +670,7 @@ def ast_drop_call(ast_text: str, copy_line: int) -> dict:
 
 
 def verifier_admission(case_dir: Path, case_name: str, metadata: dict,
-                       stage_status: int) -> dict:
+                       stage_status: int, mir: dict) -> dict:
     log = (case_dir / "verifast.log").read_text(errors="replace")
     segment, compatibility = actual_drop_log_segment(log)
     target_log_count = int(bool(segment))
@@ -609,19 +679,21 @@ def verifier_admission(case_dir: Path, case_name: str, metadata: dict,
     statement = re.compile(rf"verified/lib\.rs\({copy_line},[0-9]+(?:-[0-9]+(?:,[0-9]+)?)?\): (?:note: )?Executing statement$")
     target_execution = [line for line in segment.splitlines()
                         if "verified/lib.rs(" in line and "Executing statement" in line]
-    body_exec = any(re.search(rf"verified/lib\.rs\({copy_line},[0-9]+(?:-[0-9]+(?:,[0-9]+)?)?\): (?:note: )?Executing statement$", line)
-                    for line in target_execution)
+    target_line = metadata.get("negative_target_line")
+    target_body_statement_seen = bool(target_line) and any(
+        re.search(rf"verified/lib\.rs\({target_line},[0-9]+(?:-[0-9]+(?:,[0-9]+)?)?\): "
+                  r"(?:note: )?Executing statement$", line)
+        for line in target_execution)
     return_records = len(re.findall(r"Executing return statement", segment))
     leak_records = len(re.findall(r"Leak check\.", segment))
     errors = [line for line in segment.splitlines() if re.search(r"\berror:", line, re.I)]
     global_errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
-    dead = [line for line in segment.splitlines() if re.search(r"dead code", line, re.I)]
+    dead = [line for line in log.splitlines() if re.search(r"dead code", line, re.I)]
     copy_call_executed = sum(1 for line in segment.splitlines() if call.search(line))
     copy_statement_executed = sum(1 for line in segment.splitlines() if statement.search(line))
     ast_path = case_dir / "proof-ast.ml"
     ast = ast_path.read_text(errors="replace") if ast_path.is_file() else ""
-    ast_call = ast_drop_call(ast, copy_line)
-    target_line = metadata.get("negative_target_line")
+    ast_call = ast_drop_call(ast, copy_line, mir)
     exact_false = False
     if case_name == "first_body_false" and target_line:
         expected_column_start = preparation.FALSE_LINE.index(b"false") + 1
@@ -633,16 +705,19 @@ def verifier_admission(case_dir: Path, case_name: str, metadata: dict,
         exact_false = bool(re.search(
             rf"verified/lib\.rs\({target_line},{metadata['negative_column_start']}-{metadata['negative_column_end']}\): error: Assertion might not hold\. \(Cannot prove false\.\)",
             segment))
+    body_exec = copy_statement_executed >= 1
     successful = (case_name == "positive" and target_log_count == 1 and body_exec and
         copy_call_executed == 1 and copy_statement_executed >= 1 and
         return_records >= 1 and leak_records >= 1 and not global_errors and not dead and
         stage_status == 0 and "0 errors found" in log and ast_call["admitted"])
     expected_negative = (case_name == "first_body_false" and target_log_count == 1 and
+        target_body_statement_seen and
         exact_false and len(errors) == 1 and len(global_errors) == 1 and
         not dead and ast_call["admitted"] and stage_status == 1 and
         return_records == 0 and leak_records == 0 and
         copy_call_executed == 0 and copy_statement_executed == 0)
-    return {"target_body_count": target_log_count, "body_statement_seen": body_exec,
+    return {"target_body_count": target_log_count,
+            "body_statement_seen": body_exec or target_body_statement_seen,
             "copy_call_verifying_records": copy_call_executed,
             "copy_call_execution_records": copy_statement_executed,
             "return_records": return_records, "leak_checks": leak_records,
@@ -704,7 +779,7 @@ def run_case(case_name: str, metadata: dict, args, env: dict[str, str]) -> dict:
     except Exception as error:
         mir = {"admitted": False, "reason": f"structured MIR admission failed closed: {error}"}
     try:
-        proof = verifier_admission(case_dir, case_name, metadata, vf_status)
+        proof = verifier_admission(case_dir, case_name, metadata, vf_status, mir)
     except Exception as error:
         proof = {"positive_gate": False, "matched_negative_gate": False,
                  "reason": f"AST/log admission failed closed: {error}"}

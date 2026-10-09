@@ -298,15 +298,11 @@ ens thread_token(t) &*& type_interp::<T>() &*& type_interp::<F>() &*&
 on_unwind_ens false;
 @*/
 {
-    /*@
-    current_owner_transposition_resource::<T>(t, src, dst, n, vs, i, j);
-    open current_owner_transposition_destination_owned::<T>(t, dst, n,
-        transposition_values::<T>(vs, i, j));
-    open foreach(transposition_values::<T>(vs, i, j), own::<T>(t));
-    close foreach(nil, own::<T>(t));
-    close foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t));
-    assert foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)) &*&
-        foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)); // CALIBRATION_TARGET: duplicate one transferred owner
-    @*/
+    //@ current_owner_transposition_resource::<T>(t, src, dst, n, vs, i, j);
+    //@ open current_owner_transposition_destination_owned::<T>(t, dst, n, transposition_values::<T>(vs, i, j));
+    //@ open foreach(transposition_values::<T>(vs, i, j), own::<T>(t));
+    //@ close foreach(nil, own::<T>(t));
+    //@ close foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t));
+    //@ assert foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)) &*& foreach(cons(head(transposition_values::<T>(vs, i, j)), nil), own::<T>(t)); // CALIBRATION_TARGET: duplicate one transferred owner
 }
 // CASE_END current_owner_transposition_double_owner_calibration
