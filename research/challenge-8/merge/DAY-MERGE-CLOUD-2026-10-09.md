@@ -91,3 +91,28 @@ OR gate conclusion independently checked against every on-disk certificate/log:
 16 unique exact398:1–402:2 matcher refusals, no body execution/AST; roundtrip has
 bothGoto37 and realpanic/unwind AST, intentionalVF124 admission-only.
 Full logs/archive/text verified; no new actual theorem. [Remaining gates](overnight/or-join-liveness/DAY-GATE-MAP.md).
+
+## Prepared next combined diagnostic
+
+Separate annotation profile copy-on-drop-payload-own-diagnostic-v2, semantic
+card/prepare/prove under overnight/guard-ownership. No production semantic patch;
+original direct count-n Drop pre/posts pinned byte-for-byte. Existing full guard
+FBC must entail guard-self geometry; value-only own packs only original
+source/destination geometry + existing arrays/owner pool. Exact source constructor
+statement279 under separately supplied payload with len>=2; no enclosing caller
+credit. Prototypefalse and actual first-bodyfalse exact assertions establish
+admission/reachability; missingpayload CALIBRATION_ONLY until exactoracle.
+Normal forget consumes payload-own and glue-to-method effects remainOPEN.
+
+Independent physical memory-cell pair retains all transposition resources/posts.
+Positive extracts/recloses one full head-cell points-to; negative asks twice for
+that SAME cell, positive-stride and n>=2. First run is raw calibration, not a
+matched refusal until an exact fresh oracle is separately published/run. Extra
+T.own assertion from R11 is not used for this gate. Both stock/six profiles,
+base smoke/sourcepreparations mandatory; R11 native helpers isolated from both.
+Selection7groups published before submit; timeout1080+60queue, within remaining
+budget/window and140evidence tail. New raw groups preserve source/hashes/stage
+records and unaccepted status; no completeprofile/theorem inferred fromcollector.
+Static review: shell syntax, Python AST, sortedunique recipeclosure, known group
+selection/dependencies; precise generic own `pred<T> <CopyOnDrop<T>>.own(t,v;)`,
+nonFalse structural gate rejects saved defaultFalseAST. No localheavy execution.

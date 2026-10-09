@@ -3,13 +3,17 @@
 New explicit owner authorization: [current phase](merge/DAY-MERGE-CLOUD-2026-10-09.md).
 Start08:46:19UTC /11:46:19MSK; main10:46:19UTC /13:46:19MSK;
 absolute11:16:19UTC /14:16:19MSK. Independent3600Cloud seconds,
-[ledger](cloud-build/day-merge/BUDGET.json), owner merge; no active own Build.
+[ledger](cloud-build/day-merge/BUDGET.json), owner merge; active Build recorded below.
 Cloud workflow/overnight/merge-26.10 supersedes historical Actions/branch rules.
 Fresh OR Build3c26cfa6-5263-4287-9f1c-fe1a13068ef2 completes17 shape modes:
 roundtrip admission +16 intended matcher refusals and separate sourcehashgate.
 Full archive/text verified;489/3600charged,3111remaining. Short capture124
 INCONCLUSIVE. [Remaining gates](merge/overnight/or-join-liveness/DAY-GATE-MAP.md).
-RESOURCE11 remains unrun; T.own chunk refusal is not universal cell uniqueness.
+RESOURCE11 active Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5,
+proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc/infraa92f5d97efc8a15af4398a7df14037f42ebb4b33,
+timeout960+60queue. T.own chunk refusal is not universal cell uniqueness.
+Next committed selection7groups isolates new guardpayload and same-cell memory
+controls in stock/six profiles; these candidates are NOT_RUN.
 Full seven/six/kernel/cleanup profile unaccepted; actual bounded9ad remains
 conditional positive-stride/FreezeMarker projection, not caller/arbitrary-n/generic/ZST.
 Prior cutoff and exact evidence preserved below; documentation HEAD is not proof SHA.
