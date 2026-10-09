@@ -239,6 +239,14 @@ def authorized_phase(a,ledger):
       ledger.get('deadline_utc')!='2026-10-09T11:16:19Z'):
    raise SystemExit('DAY merge phase differs from explicit owner authorization')
   cutoff=datetime.datetime.fromisoformat('2026-10-09T11:16:19+00:00')
+ if a.phase_id=='AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09':
+  if (a.owner!='merge' or ledger.get('owner')!='merge' or ledger['ceiling_build_seconds']!=3600 or
+      ledger.get('allowed_lanes')!=['coordination-regression','merge'] or
+      ledger.get('start_utc')!='2026-10-09T11:15:53Z' or
+      ledger.get('main_deadline_utc')!='2026-10-09T13:15:53Z' or
+      ledger.get('deadline_utc')!='2026-10-09T13:45:53Z'):
+   raise SystemExit('AFTERNOON merge phase differs from explicit owner authorization')
+  cutoff=datetime.datetime.fromisoformat('2026-10-09T13:45:53+00:00')
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds authorized cutoff')
  if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')

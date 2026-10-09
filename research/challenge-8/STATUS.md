@@ -1,3 +1,17 @@
+# AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09 — IN PROGRESS
+
+New explicit owner authorization: [phase](merge/AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09.md),
+[separate3600ledger](cloud-build/afternoon-merge-guard/BUDGET.json), owner merge.
+Start11:15:53UTC/14:15:53MSK; main13:15:53UTC/16:15:53MSK;
+absolute13:45:53UTC/16:45:53MSK. Existing Cloud/overnight/merge-26.10 workflow.
+PR2 singlecommit transferred preserving local registrations/proofs; first gate
+Cloud-only18-case coordination-regression, then W2 reachable guardowner/FBC/Drop/glue.
+Transition evidence: foreignsessionSTOP/expired/no oldcommands; no reservationreset.
+0/3600used; no ownactive. Historical DAY/NIGHT accountsclosed, notavailable.
+New semantic design requires card/selfreview; all priorresult boundaries below retained.
+
+---
+
 # DAY-MERGE-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT ACCEPTED
 
 Branch `overnight/merge-26.10`, owner merge, existing Cloud Build workflow.
