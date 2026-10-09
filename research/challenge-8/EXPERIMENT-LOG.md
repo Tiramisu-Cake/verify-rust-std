@@ -6220,3 +6220,15 @@ all bindings/posts retained, fresh affected fault controls, then independent exa
 AST scheduling to verify actual generic nested Drop before outer. Scheduler only
 uses a completed COLUMN-on parent; receiver-parent alternative is not implemented.
 No late242-244 shadow failure observed, source-shadow remainsBLOCKED.
+
+### 10:27 UTC — bounded COLUMN + nested candidate ready
+
+Infra/proof8bf37946451829978451731a77f622144826ae11, scope lane, explicit COLUMN
+entrypoint and receiver/scope parents. Original062d static payload576640/193parts
+NOT_READY; never submitted. Reviewed selection removes only eight historical
+documents from delivery, retaining all runtime closure, REQUIRED scope card and
+new semantic cards. Actual563721bytes/189parts, source-inputSHA
+9818cb226242b80d129644da3dddfa943a2740aa154cac914f6b089b857e744a.
+Timeout900+60queue reserve, no new budget charge. Shared global gate correctly
+refused submit while foreign merge9ed49fda active; own ready request retained.
+No duplicate/uncertain own submit, old account and foreign ledger untouched.

@@ -23,10 +23,14 @@ Source-shadow remainsBLOCKED. Cause now confirmed: line-only ghostcommand lookup
 selects first saved let for both same-line calls; admission body_text reconstruction
 is not executable insertion. Preserve both lets. Prepared rule maps exact source-
 pinned MIR155:1/73 to AST155:1/41 with distinct/order/count guards. Next separate
-COLUMN+acyclic nested-scheduling TEST under receiver parent7451dee6 is being prepared,
+COLUMN+acyclic nested-scheduling TEST under receiver parent7451dee6 is published,
 [review/card](cloud-build/day-select-sort4/GHOST-COLUMN-NESTED-CARD.md).
 Day expense831/3600seconds (87setup+341scope+403receiver),2769remaining,3terminal.
-No own active Build; actual payload186parts. No runtime/posts/resources/kernel/
+Candidate infra/proof8bf37946451829978451731a77f622144826ae11,
+[preflight](cloud-build/day-select-sort4/COLUMN-NESTED-PREFLIGHT.json):189parts.
+Original062d193parts NOT_READY, never submitted; only eight historical documents
+removed from delivery, all runtime dependencies/guards retained. Shared Cloud turn
+requested; no own active Build yet (foreign owner merge Build9ed49fda). No runtime/posts/resources/kernel/
 spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),
 [result/identities](cloud-build/day-select-sort4/RECEIVER-RESULT.json).
 
