@@ -46,6 +46,12 @@ for name in calibrated-real-dead uncalibrated-liveness-controls actual-bounded a
   printf 'NOT_RUN: stage has not started\n' > "$evidence/$name.log"
   printf 'NOT_RUN: stage has not started\n' > "$evidence/$name-resources.txt"
 done
+printf '%s\n' \
+  'calibrated-real-dead NOT_RUN' \
+  'uncalibrated-liveness-controls NOT_RUN' \
+  'actual-bounded NOT_RUN' \
+  'admission-controls NOT_RUN' \
+  'six-comparison NOT_RUN' > "$evidence/group-status.txt"
 CURRENT_STAGE=initialization
 write_partial_audit() {
   local status=$?
@@ -55,13 +61,15 @@ write_partial_audit() {
 import json,pathlib,sys
 path,status,stage,budget=sys.argv[1:]
 root=pathlib.Path(path).parent
+mode=(root/"trial-mode.txt").read_text().strip() if (root/"trial-mode.txt").is_file() else "UNKNOWN"
 names=("calibrated-real-dead","uncalibrated-liveness-controls","actual-bounded","admission-controls","six-comparison")
 groups={name:(root/(name+"-exit-code.txt")).read_text().strip()
         for name in names}
 pathlib.Path(path).write_text(json.dumps({
   "component":"MIR-OR-JOIN-LIVENESS","accepted":False,
   "component_gates_complete":False,"base_six_profile_accepted":False,
-  "diagnostic_complete":False,"classification":"INCONCLUSIVE",
+  "diagnostic_complete":False,"shape_controls_complete_in_this_run":False,
+  "trial_mode":mode,"classification":"INCONCLUSIVE",
   "exit_status":int(status),"failed_stage":stage,
   "group_status":groups,"work_budget_seconds":int(budget),
   "same_source_six_component_comparison":{
@@ -73,6 +81,15 @@ AUDIT
   return "$status"
 }
 trap write_partial_audit EXIT
+trial_mode=$(python3 - "$manifest" <<'MODE'
+import json, pathlib, sys
+mode=json.loads(pathlib.Path(sys.argv[1]).read_text()).get("trial_mode", "FULL_TARGET")
+if mode not in ("FULL_TARGET", "SHAPE_CONTROLS_ONLY"):
+    raise SystemExit("unknown seventh component trial_mode")
+print(mode)
+MODE
+) || fail 'trial mode is not admitted'
+printf '%s\n' "$trial_mode" > "$evidence/trial-mode.txt"
 [[ -f "$schema" && -d "$sysroot" && -f "$fixture" ]] ||
   fail 'schema, compiler sysroot or exact fixture is missing'
 [[ -f "$pointer_prove" && -f "$baseline_fixture" &&
@@ -133,6 +150,10 @@ printf '%s\n' "$admission_status" > "$evidence/source-admission-exit-code.txt"
 (( admission_status == 0 )) || fail 'exact source/profile admission refused'
 
 profile=experimental-merge-six-plus-mir-or-join-liveness-v1-unaccepted
+set_group_status() {
+  local name=$1 status=$2
+  sed -i -E "s/^${name} NOT_RUN.*$/${name} ${status}/" "$evidence/group-status.txt"
+}
 run_group() {
   local name=$1 requested=$2 minimum=$3 seconds status=0
   shift 3
@@ -143,7 +164,6 @@ run_group() {
       "$seconds" "$minimum" > "$evidence/$name.log"
     printf 'NOT_RUN\n' > "$evidence/$name-resources.txt"
     printf 'NOT_RUN\n' > "$evidence/$name-exit-code.txt"
-    printf '%s NOT_RUN budget\n' "$name" >> "$evidence/group-status.txt"
     return 0
   fi
   printf '%s\n' "$seconds" > "$evidence/$name-allocated-seconds.txt"
@@ -151,9 +171,10 @@ run_group() {
     timeout --signal=TERM --kill-after=10s "${seconds}s" "$@" \
     > "$evidence/$name.log" 2>&1 || status=$?
   printf '%s\n' "$status" > "$evidence/$name-exit-code.txt"
-  printf '%s %s\n' "$name" "$status" >> "$evidence/group-status.txt"
+  set_group_status "$name" "$status"
 }
 
+if [[ "$trial_mode" == FULL_TARGET ]]; then
 CURRENT_STAGE=calibrated-real-dead
 printf '%s  %s\n' adfcfd5904eb037b8cb9669f232ee34b8cb95e1f60187536d3ab4d7dddecd493 \
   "$baseline_fixture" | sha256sum -c - >/dev/null ||
@@ -184,15 +205,26 @@ run_group uncalibrated-liveness-controls 240 40 python3 "$pointer_prove" \
   --tool-home "$seven" --compiler-sysroot "$sysroot" --schema "$schema" \
   --verifier-seconds "$calibration_vf" --fixture "$calibration_fixture" \
   --evidence "$evidence/uncalibrated-liveness-controls"
+fi
 
 CURRENT_STAGE=actual-bounded
-actual_cap=$(budget_cap 680)
-actual_vf=$((actual_cap - 60))
-if (( actual_vf > 600 )); then actual_vf=600; fi
-if (( actual_vf < 1 )); then actual_vf=1; fi
-run_group actual-bounded 680 70 python3 "$pointer_prove" \
+if [[ "$trial_mode" == SHAPE_CONTROLS_ONLY ]]; then
+  actual_requested=180
+  actual_minimum=35
+  actual_vf=10
+  actual_scope='SHAPE_CONTROLS_ONLY short unchanged full-post fixture for fresh normal MIR/proof AST/refinement capture; verifier timeout is INCONCLUSIVE, never a theorem PASS'
+else
+  actual_requested=680
+  actual_minimum=70
+  actual_cap=$(budget_cap 680)
+  actual_vf=$((actual_cap - 60))
+  if (( actual_vf > 600 )); then actual_vf=600; fi
+  if (( actual_vf < 1 )); then actual_vf=1; fi
+  actual_scope='actual unchanged bidirectional_merge len2/3; full original posts, callee bodies, normal/unwind, stack/panic admission, refinement and dead-code gates; seventh coverage-origin component unaccepted'
+fi
+run_group actual-bounded "$actual_requested" "$actual_minimum" python3 "$pointer_prove" \
   --profile "$profile" \
-  --scope 'actual unchanged bidirectional_merge len2/3; full original posts, callee bodies, normal/unwind, stack/panic admission, refinement and dead-code gates; seventh coverage-origin component unaccepted' \
+  --scope "$actual_scope" \
   --tool-home "$seven" --compiler-sysroot "$sysroot" --schema "$schema" \
   --verifier-seconds "$actual_vf" --fixture "$fixture" \
   --cases bidirectional_merge_len23 --evidence "$evidence/actual"
@@ -216,9 +248,9 @@ if [[ -f "$evidence/actual/cases/bidirectional_merge_len23/normal-exporter.out" 
 else
   printf 'NOT_RUN: exact production normal MIR evidence unavailable\n' \
     > "$evidence/admission-controls.log"
-  printf 'admission-controls NOT_RUN source\n' >> "$evidence/group-status.txt"
 fi
 
+if [[ "$trial_mode" == FULL_TARGET ]]; then
 # Compare the same exact source and posts under the unchanged six-component
 # console. A single synthetic join-location dead record is only diagnostic;
 # the retained harness still reports this case INCONCLUSIVE.
@@ -235,6 +267,7 @@ run_group six-comparison 680 70 env \
   --tool-home "$base" --compiler-sysroot "$sysroot" --schema "$schema" \
   --verifier-seconds "$six_vf" --fixture "$fixture" \
   --cases bidirectional_merge_len23 --evidence "$evidence/six-comparison"
+fi
 
 CURRENT_STAGE=seventh-diagnostic-audit
 audit_cap=$((work_started + work_budget - SECONDS))

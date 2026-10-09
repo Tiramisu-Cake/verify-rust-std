@@ -6,7 +6,18 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Latest continuation M3n: proof `7a4e1ad19558717a33391d30b9a69af579dd5e57`,
+Latest bounded diagnostic: build `9ad825fa-23f2-49f6-bc6c-db2052fe755c`, proof
+`96086b2b6c150346e9d3cd1dad30778845880011`, archive SHA
+`21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`. The
+actual unchanged len2/3 projection PASSed all 11 body, 28 return, 31 leak, source,
+refinement and zero-dead gates under an unaccepted seven-component profile. The
+same-source six-profile comparison remains INCONCLUSIVE at the sole synthetic
+join dead-code span `verified/lib.rs(551,51-553,10)`. All 17 MIR-shape controls
+remain INCONCLUSIVE because manual normal-MIR export refused before matching
+(missing `goto`); only the independent source-hash refusal passed. These are
+bounded diagnostics, not whole Challenge 8 or accepted-profile coverage.
+
+Historical Latest continuation M3n: proof `7a4e1ad19558717a33391d30b9a69af579dd5e57`,
 [run37762243525](https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37762243525),
 541s. Actual up/down full PASS116/120exec,3returns/3leaks each; all accepted
 baselines preserved. Same-input stack MIR/AST linkage full PASS14addresses,

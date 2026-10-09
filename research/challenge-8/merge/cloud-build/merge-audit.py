@@ -931,7 +931,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             required_modes = {
                 "roundtrip", "storage-live-34", "storage-live-36", "goto-38-34",
                 "goto-38-36", "statement-count-34", "statement-count-36",
-                "real-statement-34", "predecessor-28", "comparison-eq-33",
+                "real-statement-34", "predecessor-32", "comparison-eq-33",
                 "comparison-eq-35", "branch-order-33", "branch-order-35",
                 "span-column-34", "span-column-36", "panic-callee", "panic-unwind"}
             shape_matrix_bound = False
@@ -1012,6 +1012,65 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         sha256_file(six_case / "original/lib.rs") == preflight.get("original_sha256") and
                         sha256_file(six_case / "normal-exporter.out") ==
                             sha256_file(base / "actual/cases/bidirectional_merge_len23/normal-exporter.out"))
+            trial_mode = manifest.get("trial_mode", "FULL_TARGET")
+            trial_file = base / "trial-mode.txt"
+            trial_bound = (trial_mode in {"FULL_TARGET", "SHAPE_CONTROLS_ONLY"} and
+                trial_file.is_file() and not trial_file.is_symlink() and
+                trial_file.read_text().strip() == trial_mode == seven.get("trial_mode") and
+                type(seven.get("shape_controls_complete_in_this_run")) is bool and
+                type(seven.get("shape_actual_capture_complete")) is bool)
+            shape_capture_bound = False
+            if trial_bound and trial_mode == "SHAPE_CONTROLS_ONLY":
+                capture_root = base / "actual"
+                capture = capture_root / "cases/bidirectional_merge_len23"
+                capture_results = json.loads((capture_root / "results.json").read_text())
+                capture_aggregate = json.loads((capture_root / "aggregate.json").read_text())
+                capture_row = capture_results.get("cases", {}).get("bidirectional_merge_len23", {})
+                provenance_path = capture / "normal-exporter-provenance.json"
+                provenance = json.loads(provenance_path.read_text())
+                build = json.loads((base / "build/seven-profile-manifest.json").read_text())
+                shape_capture_bound = bool(
+                    pin_bindings and
+                    set(capture_results.get("cases", {})) == {"bidirectional_merge_len23"} and
+                    capture_aggregate.get("evidence_collection_completed") is True and
+                    capture_aggregate.get("classifier_controls_passed") is True and
+                    capture_aggregate.get("cases", {}).get("bidirectional_merge_len23") ==
+                        capture_row.get("classification") == seven.get("short_capture_harness_classification") and
+                    capture_row.get("source_unchanged_at_every_stage") is True and
+                    capture_row.get("source_before") == capture_row.get("source_after") and
+                    all(capture_row.get("stages", {}).get(stage) == 0 and
+                        (capture / f"{stage}-exit-code.txt").read_text().strip() == "0"
+                        for stage in ("exporter", "decode", "refinement")) and
+                    int((capture / "verifast-exit-code.txt").read_text().strip()) ==
+                        capture_row.get("stages", {}).get("verifast") and
+                    (capture / "proof-ast.ml").is_file() and
+                    (capture / "proof-ast.ml").stat().st_size > 0 and
+                    provenance.get("normal_preprocess") is True and
+                    provenance.get("source_unchanged") is True and
+                    provenance.get("proof_sha") == proof_sha and
+                    provenance.get("execution_id") == build_id and
+                    provenance.get("source_sha256") == manifest.get("admitted_source_sha256") and
+                    provenance.get("mir_sha256") == sha256_file(capture / "normal-exporter.out") and
+                    provenance.get("decoded_sha256") == sha256_file(capture / "normal-decode.out") and
+                    (capture / "normal-exporter-exit-code.txt").read_text().strip() == "0" and
+                    (capture / "normal-decode-exit-code.txt").read_text().strip() == "0" and
+                    build.get("seven_full_diff_sha256") == manifest.get("expected_seven_full_diff_sha256") ==
+                        sha256_file(base / "build/full-seven-applied-profile.patch") and
+                    seven.get("diagnostic_complete") is False and
+                    seven.get("actual_bounded_full_positive") is False and
+                    seven.get("actual_bounded_raw_classification") == "INCONCLUSIVE" and
+                    all(raw_inner_groups.get(name) == "NOT_RUN" for name in
+                        ("calibrated-real-dead", "uncalibrated-liveness-controls", "six-comparison")))
+            shape_flag_bound = bool(trial_bound and
+                (trial_mode != "SHAPE_CONTROLS_ONLY" or
+                 seven.get("shape_actual_capture_complete") is not True or shape_capture_bound) and
+                (seven.get("shape_controls_complete_in_this_run") is not True or
+                 (trial_mode == "SHAPE_CONTROLS_ONLY" and shape_capture_bound and
+                  shape_matrix_bound and driver_report_file_valid and driver_status_value == "0")))
+            or_join_status["trial_mode"] = trial_mode
+            or_join_status["trial_mode_binding_valid"] = bool(trial_bound)
+            or_join_status["shape_capture_binding_valid"] = bool(shape_capture_bound)
+            or_join_status["shape_controls_complete_in_this_run"] = seven.get("shape_controls_complete_in_this_run") is True
             or_join_status["same_source_six_component_comparison"] = comparison
             or_join_status["same_source_comparison_binding_valid"] = bool(comparison_bound)
             driver_classification_valid = (
@@ -1043,7 +1102,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             }
             or_join_status["artifact_hash_bindings_valid"] = bool(
                 manifest_bytes_match and pin_fields and pin_bindings and
-                driver_report_file_valid and driver_classification_valid and shape_report_valid and comparison_bound and
+                driver_report_file_valid and driver_classification_valid and shape_report_valid and comparison_bound and shape_flag_bound and
                 (seven.get("diagnostic_complete") is not True or full_evidence_valid))
             or_join_status["complete_evidence_hash_bindings_valid"] = bool(full_evidence_valid)
             or_join_status["run_script_exit_code"] = run_status
@@ -1051,7 +1110,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             return bool(minimum and manifest_bytes_match and component_identity and
                         run_status is not None and external_status is not None and
                         inner_statuses_bound and group_status_file_bound and
-                        driver_report_file_valid and driver_classification_valid and shape_report_valid and comparison_bound and budget_bound and
+                        driver_report_file_valid and driver_classification_valid and shape_report_valid and comparison_bound and shape_flag_bound and budget_bound and
                         pin_fields and pin_bindings and
                         (seven.get("diagnostic_complete") is not True or full_evidence_valid))
         except (OSError, ValueError, KeyError, TypeError, AttributeError):

@@ -1,13 +1,37 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED BODY DIAGNOSTICS, LIVENESS AND TRUST OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **6294/10800 elapsed
-Cloud seconds**, remaining **4506**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; active own OR Build
-**9ad825fa-23f2-49f6-bc6c-db2052fe755c**, exactproof/infra
-96086b2b6c150346e9d3cd1dad30778845880011, configc95985b0200b86222f489c32222e2bbf93bbf3c2812b8acd6fdaf79f88bb2cbd,
-sourceinput45ddd6d31d5b03e491fbf65b7607a52735a03904161d40cc12e70aa96315219d,
-reservation1800s notyet charged. Latest resource9
-**54a22b0d-782c-4056-a512-6dfa31f3fff8**, proof/infra
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **7710/10800 charged
+Cloud seconds**, remaining **3090**. Branch `overnight/merge-26.10`.
+
+Latest OR Build **9ad825fa-23f2-49f6-bc6c-db2052fe755c**, proof/infra
+`96086b2b6c150346e9d3cd1dad30778845880011`, collector SUCCESS 1416s;
+06:35:47.343–06:59:22.780 UTC. Config
+`c95985b0200b86222f489c32222e2bbf93bbf3c2812b8acd6fdaf79f88bb2cbd`, sourceinput
+`45ddd6d31d5b03e491fbf65b7607a52735a03904161d40cc12e70aa96315219d`, archive
+`21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`; full
+archive/text/metadata verified. Actual unchanged len2/3 bounded case is PASS under
+unaccepted seven-component experimental profile: all 11 bodies, 28 return and
+31 leak records; all stages 0, 362 target execution records, no errors/dead
+records. This remains a positive-stride/FreezeMarker resource projection, not a
+public-caller, arbitrary-n, Generic/ZST or accepted-profile theorem. The same-source
+six-component run is INCONCLUSIVE: same 11 bodies and 28/31 records, one exact
+synthetic-join dead record at `verified/lib.rs(551,51-553,10)`, VF exit 1.
+All 17 shape controls are SETUP/INCONCLUSIVE (manual exporter exit 2: missing
+`goto` in normal MIR); separate source-hash refusal passed at source admission,
+but no matcher-negative credit. Overall profile/acceptance gates remain false.
+
+Latest own resource10 Build **a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7** WORKING at latest API check,
+exact `20184556bc04ff33185fb4922617077a0326a383`, config
+`0f9a50564f04dc067a5d1998a81e9191d340d1c75278114cf6588c016ff083e0`, sourceinput
+`e61f9a792fa9f2cfc16e0822ae00e10028614272e9f601a45ad783713e4843c2`;
+1800s reservation not yet charged. Historical accounts below remain unchanged.
+Next prepared targeted OR gate uses `SHAPE_CONTROLS_ONLY`: fresh short unchanged
+full-post MIR/AST/refinement capture and all17 controls, corrected exact block32
+predecessor. Complete9ad actual7/same6 evidence is separate; current short capture
+cannot credit target PASS. Production semantic profile/full7diff/posts unchanged.
+No fresh shape result yet; common alternating client required.
+
+Previous completed resource9 Build **54a22b0d-782c-4056-a512-6dfa31f3fff8**, proof/infra
 7655795962bf7f151643ba1f1b123b721acdf5ed, collectorSUCCESS395s;
 06:14:30.062–06:21:04.251UTC, config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2;
 archive4c5c38d5062b69545eb049cb241f34f0d2898f81f88bce469c61c4bff82be908.

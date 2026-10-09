@@ -27,7 +27,7 @@ OVERLAID_PARSER = HERE.parent / "stack-address-admission.py"
 PARSER_REPO_PATH = "research/challenge-8/merge/overnight/stack-address-admission.py"
 MODES = ("roundtrip", "storage-live-34", "storage-live-36", "goto-38-34",
          "goto-38-36", "statement-count-34", "statement-count-36",
-         "real-statement-34", "predecessor-28", "comparison-eq-33",
+         "real-statement-34", "predecessor-32", "comparison-eq-33",
          "comparison-eq-35", "branch-order-33", "branch-order-35",
          "span-column-34", "span-column-36", "panic-callee", "panic-unwind")
 REFUSAL = "MIR-OR-JOIN-LIVENESS: exact source/MIR/AST join admission failed"

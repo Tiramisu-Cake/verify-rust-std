@@ -6260,3 +6260,43 @@ requirements: nonvacuousguardinterpretation/source-linkedresourcehandoff/
 normalforget+unwindglue/currentownerpool/physicalcapturelineage. No new rule,
 constructor trial or resourcepremise inferred; currentclassifierNOT_ESTABLISHED
 continues to mean callablepubliccallerpath not admitted.
+
+
+### NIGHT-MERGE — 9ad full OR diagnostic and same-source comparison
+
+Build `9ad825fa-23f2-49f6-bc6c-db2052fe755c`, exact proof/infra
+`96086b2b6c150346e9d3cd1dad30778845880011`, collector SUCCESS 1416s
+(06:35:47.343–06:59:22.780 UTC). Config
+`c95985b0200b86222f489c32222e2bbf93bbf3c2812b8acd6fdaf79f88bb2cbd`;
+sourceinput `45ddd6d31d5b03e491fbf65b7607a52735a03904161d40cc12e70aa96315219d`;
+archive SHA `21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`.
+The archive, metadata, and separate logs were verified. Own usage at checkpoint:
+7710/10800 charged, 3090 remaining.
+
+The fresh actual `bidirectional_merge_len23` case PASSes all full bounded gates under
+the unaccepted seven-component profile: exporter/decode/VeriFast/refinement all 0;
+all 11 expected bodies visited (including both merge callees, actual panic body,
+actual merge body and four support helpers); target has 362 execution records;
+28 return records, 31 leak checks; no error or dead-code records. Source hashes
+are identical before/after every stage (`original/lib.rs`
+`55fd3d0ae4c340455af9dabaf4d9adae2c19e06effcb58583167c9e03d5b5245`,
+`verified/lib.rs` `e03a0398a590fb409d892f2cfad90d2d4b2c4c15949df6feda44852a21aa7d18`).
+The exact projection remains positive-stride and FreezeMarker bounded; no caller,
+arbitrary-n, Generic/ZST, or accepted-profile theorem follows.
+
+The same-source six-component comparison is INCONCLUSIVE, not a negative: same source
+and MIR, all 11 bodies, 28 returns and 31 leak checks, exporter/decode/refinement 0,
+VeriFast 1, and exactly one dead-code report at
+`verified/lib.rs(551,51-553,10)`, the synthetic OR-join span. The panic-origin
+certificate is complete in both. This preserves a coverage-difference observation;
+it does not establish profile acceptance.
+
+The control driver reports all 17 shape modes SETUP/INCONCLUSIVE: each manual
+exporter exits 2 because the expected normal-MIR `goto` field is missing, so none
+reaches the intended shape matcher. The separate source-hash gate is the expected
+source-admission refusal (`EXPECTED_SOURCE_HASH_REFUSAL`, mutated source hash
+`ccf7d5778b71d2b1f9d406c14214b520ee3464f393f48ab595802abcc42d3581`), but it
+does not make the incomplete shape matrix complete. Overall diagnostic/profile
+acceptance remains false. Resource10 was separately submitted as asynchronous build
+`a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`; its reservation is 1800s and was not yet
+charged at this checkpoint.

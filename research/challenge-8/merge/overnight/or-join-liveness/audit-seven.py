@@ -109,11 +109,15 @@ def main() -> None:
     pin = read_json(args.manifest)
     if not isinstance(pin, dict):
         pin = {}
+    trial_mode = pin.get("trial_mode", "FULL_TARGET")
+    mode_ok = (trial_mode in ("FULL_TARGET", "SHAPE_CONTROLS_ONLY") and
+               (args.evidence / "trial-mode.txt").is_file() and
+               (args.evidence / "trial-mode.txt").read_text().strip() == trial_mode)
     build = read_json(args.evidence / "build/seven-profile-manifest.json")
     preflight = read_json(args.evidence / "preflight/or-join-preflight.json")
     translator = Path("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml")
     build_dir = args.evidence / "build"
-    manifest_ok = (pin.get("component") == "MIR-OR-JOIN-LIVENESS" and
+    manifest_ok = (mode_ok and pin.get("component") == "MIR-OR-JOIN-LIVENESS" and
                    pin.get("admission_state") == "EXPERIMENTAL_CLOUD_TRIAL" and
                    isinstance(build, dict) and build.get("accepted") is False and
                    exit_zero(args.evidence / "build-wrapper-exit-code.txt") and
@@ -179,7 +183,41 @@ def main() -> None:
                    safe_digest(verified) == pin.get("admitted_source_sha256") and
                    safe_digest(case / "original/lib.rs") ==
                        preflight.get("original_sha256"))
+    normal_provenance_path = case / "normal-exporter-provenance.json"
+    normal_provenance = read_json(normal_provenance_path)
+    normal_mir_path = case / "normal-exporter.out"
+    normal_decode_path = case / "normal-decode.out"
+    command = normal_provenance.get("command") if isinstance(normal_provenance, dict) else None
+    # The driver checks the independent Cloud sysroot input exactly. Bind this
+    # capture to the official exporter, normal mode, source and output bytes.
+    normal_capture = (
+            source_same and file_exists(normal_mir_path) and
+            file_exists(normal_decode_path) and
+            exit_zero(case / "normal-exporter-exit-code.txt") and
+            exit_zero(case / "normal-decode-exit-code.txt") and
+            isinstance(normal_provenance, dict) and
+            normal_provenance.get("normal_preprocess") is True and
+            normal_provenance.get("source_unchanged") is True and
+            normal_provenance.get("source_sha256") == pin.get("admitted_source_sha256") and
+            normal_provenance.get("mir_sha256") == safe_digest(normal_mir_path) and
+            normal_provenance.get("decoded_sha256") == safe_digest(normal_decode_path) and
+            isinstance(command, list) and len(command) == 5 and
+            command[0] == str(args.tool_home / "bin/vf-rust-mir-exporter") and
+            command[1] == "verified/lib.rs" and
+            isinstance(command[2], str) and
+            command[2].startswith("--sysroot=/workspace/") and
+            command[3:] == ["--edition", "2021"])
+    shape_capture = (
+        trial_mode == "SHAPE_CONTROLS_ONLY" and manifest_ok and
+        positive["complete"] and normal_capture and
+        exit_zero(args.evidence / "actual-bounded-exit-code.txt") and
+        isinstance(row.get("stages"), dict) and
+        all(row["stages"].get(s) == 0 for s in ("exporter", "decode", "refinement")) and
+        type(row["stages"].get("verifast")) is int and
+        row["stages"]["verifast"] != 125 and
+        file_exists(case / "proof-ast.ml"))
     positive_full = (manifest_ok and source_same and
+                     trial_mode == "FULL_TARGET" and
                      exit_zero(args.evidence / "actual-bounded-exit-code.txt") and
                      row.get("classification") == "PASS" and
                      row.get("full_positive_gate") is True and
@@ -249,6 +287,11 @@ def main() -> None:
                        driver["source_hash_gate"].get("stage") ==
                            "SOURCE_ADMISSION_BEFORE_EXPORT" and
                        driver["source_hash_gate"].get("exit_code") == 2 and
+                       isinstance(driver.get("tool_identity"), dict) and
+                       driver["tool_identity"].get("normal_reference_sha256") ==
+                           safe_digest(normal_mir_path) and
+                       driver.get("normal_reference_provenance_sha256") ==
+                           safe_digest(normal_provenance_path) and
                        driver.get("classification") == "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED")
     six = case_inventory(args.evidence / "six-comparison", "bidirectional_merge_len23",
                          SIX_COMPARISON_PROFILE)
@@ -368,21 +411,35 @@ def main() -> None:
         "complete": bool(six_comparison_complete),
     }
     diagnostic_complete = bool(manifest_ok and positive["complete"] and
+                               trial_mode == "FULL_TARGET" and
                                positive_full and calibrated["complete"] and
                                calibrated_dead and
                                calibration_complete and driver_observed and
                                six_comparison_complete)
+    shape_controls_complete = bool(
+        shape_capture and driver_observed and
+        all(group_status(args.evidence, name) == "NOT_RUN" for name in
+            ("calibrated-real-dead", "uncalibrated-liveness-controls",
+             "six-comparison")))
     report = {
         "component": "MIR-OR-JOIN-LIVENESS",
         "profile": args.profile,
-        "classification": "DIAGNOSTIC_COMPLETE_UNACCEPTED" if diagnostic_complete else "INCONCLUSIVE",
+        "trial_mode": trial_mode,
+        "classification": ("DIAGNOSTIC_COMPLETE_UNACCEPTED" if diagnostic_complete
+                           else "SHAPE_CONTROLS_COMPLETE_UNACCEPTED"
+                           if shape_controls_complete else "INCONCLUSIVE"),
         "accepted": False,
         "component_gates_complete": False,
         "diagnostic_complete": diagnostic_complete,
+        "shape_controls_complete_in_this_run": shape_controls_complete,
+        "shape_actual_capture_complete": bool(shape_capture),
         "base_six_profile_accepted": False,
         "tool_source_admission_complete": bool(manifest_ok),
         "actual_bounded_full_positive": bool(positive_full),
-        "actual_bounded_raw_classification": positive["raw_classification"],
+        "actual_bounded_raw_classification": (positive["raw_classification"]
+                                              if trial_mode == "FULL_TARGET" else "INCONCLUSIVE"),
+        "short_capture_harness_classification": (positive["raw_classification"]
+                                                  if trial_mode == "SHAPE_CONTROLS_ONLY" else None),
         "calibrated_real_dead_proof_negative": bool(calibrated_dead),
         "calibrated_real_dead_raw_classification": calibrated["raw_classification"],
         "new_liveness_controls": controls,

@@ -1,0 +1,44 @@
+# OR shape-controls-only Cloud diagnostic
+
+This is a separate, unaccepted diagnostic run mode for the existing seventh
+component. `FULL_TARGET` remains the default and retains the complete actual
+bounded proof, calibrated controls, 17 shape-admission modes, and same-source
+six-component comparison. The manifest may request `SHAPE_CONTROLS_ONLY`.
+
+The shape mode still performs the exact source preflight, pinned seven-console
+build, and source/profile admission. It invokes the unchanged full-post actual
+`bidirectional_merge_len23` fixture with a 10-second VeriFast cap solely to
+capture fresh official normal MIR, provenance, proof AST, and independent
+refinement. A timeout or partial proof is **INCONCLUSIVE**, never a PASS. The
+same fresh normal MIR is passed to the 17-mode diagnostic control driver with
+its existing 240-second cap. The calibrated real-dead, four new liveness
+controls, and six-console comparison are skipped, with their log, resource,
+exit, and group-status records initialized to `NOT_RUN`.
+
+`shape_controls_complete_in_this_run` means only that the exact source and
+profile certificates hold, the actual short capture completed as a harness
+run with unchanged source, successful exporter/decode/refinement, valid fresh
+normal-MIR provenance and nonempty proof AST, and the driver independently
+reported all 17 classified modes plus the exact source-hash refusal. It does
+not claim the actual verifier finished its body, any target post, unwind,
+return, leak, dead-code or caller obligation. The audit keeps
+`diagnostic_complete=false`, `component_gates_complete=false`,
+`accepted=false`, and the actual bounded proof classification INCONCLUSIVE
+in this mode, even if the short verifier happens to exit zero.
+
+The independent earlier full-target evidence is Cloud run
+`9ad825fa-23f2-49f6-bc6c-db2052fe755c`, proof commit
+`96086b2b6c150346e9d3cd1dad30778845880011`, archive SHA-256
+`21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`.
+Its full seven and same-source six results are retained as historical
+evidence, not reused as a current PASS or substituted into this run's audit.
+The manifest labels that prior result with `reuse_as_current_theorem=false`.
+This mode changes no runtime
+source, posts, kernel, production exporter, refiner, or full-target proof
+semantics. Any missing artifact, identity mismatch, driver timeout, or
+incomplete mode records leaves the shape diagnostic incomplete.
+
+The outer inventory independently binds the mode file, current proof/Build IDs,
+source and normal-message digests, raw stage exits, nonempty AST and full7 diff.
+It binds the driver's 17 mode certificates and exact refusals using the existing
+full-tree checks; it never imports the prior run as a current full-target gate.

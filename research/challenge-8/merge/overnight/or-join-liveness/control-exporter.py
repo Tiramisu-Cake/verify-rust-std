@@ -27,7 +27,7 @@ MODES = {
     "storage-live-34", "storage-live-36",
     "goto-38-34", "goto-38-36",
     "statement-count-34", "statement-count-36",
-    "real-statement-34", "predecessor-28",
+    "real-statement-34", "predecessor-32",
     "comparison-eq-33", "comparison-eq-35",
     "branch-order-33", "branch-order-35",
     "span-column-34", "span-column-36",
@@ -118,11 +118,13 @@ def target_tree(parsed: dict, guard: int) -> tuple[dict, dict[int, dict]]:
     need(isinstance(blocks, list), "target has no basic blocks")
     found = {block.get("id", {}).get("index"): block for block in blocks
              if isinstance(block, dict) and isinstance(block.get("id"), dict)}
-    for number in (28, 33, 34, 35, 36, 37, 38):
+    for number in (32, 33, 34, 35, 36, 37, 38):
         need(sum(block.get("id", {}).get("index") == number for block in blocks) == 1,
              f"target basic block {number} is not unique")
-    need(path(found[28], "terminator", "kind", "goto", "index") == 33,
-         "target block 28 is not the expected predecessor Goto33")
+    need_keys(path(found[32], "terminator", "kind"), {"goto"},
+              "block 32 terminator kind")
+    need(path(found[32], "terminator", "kind", "goto", "index") == 33,
+         "target block 32 is not the expected odd-tail predecessor Goto33")
     for number in (34, 36):
         stmts = found[number].get("statements")
         need(isinstance(stmts, list) and len(stmts) == 2 and
@@ -351,13 +353,13 @@ def main() -> int:
             change = "body.bidirectional_merge.block34.statements.append(block33.final_typed_ne_assignment)"
             changed = (output_text[:target_block[0]] + mutated_target +
                        output_text[target_block[1]:])
-        elif mode == "predecessor-28":
-            block_text = target_block_text(output_text, 28)
+        elif mode == "predecessor-32":
+            block_text = target_block_text(output_text, 32)
             mutated, count = re.subn(r'\bgoto\s*=\s*\(index\s*=\s*33\)',
                                      'goto = (index = 37)', block_text[2], count=1)
-            need(count == 1, "block 28 Goto33 mutation did not match")
-            expected_blocks[28]["terminator"]["kind"]["goto"]["index"] = 37
-            change = "body.bidirectional_merge.block28.terminator.goto.index:33->37"
+            need(count == 1, "block 32 Goto33 mutation did not match")
+            expected_blocks[32]["terminator"]["kind"]["goto"]["index"] = 37
+            change = "body.bidirectional_merge.block32.terminator.goto.index:33->37"
             changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
         elif mode.startswith("comparison-eq-"):
             block_id = int(mode.rsplit("-", 1)[1])

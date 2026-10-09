@@ -43,3 +43,20 @@ Timing allocation preserves900s reservation before the retained baseline build
 1300s at actual lane remainder after140s final evidence reserve, typically
 about1120s with the same setup. Positive frontend roundtrip cap10s leaves more
 time for the complete six comparison. No unfinished comparison is promoted.
+
+
+## Fresh comparison outcome — 9ad825fa
+
+Build `9ad825fa-23f2-49f6-bc6c-db2052fe755c`, proof/infra
+`96086b2b6c150346e9d3cd1dad30778845880011`; archive SHA
+`21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`. The seven
+component actual case PASSed all bounded gates on the exact pinned source, while
+the same-source six comparison is INCONCLUSIVE: all 11 bodies visited, 28 returns,
+31 leak records, source and MIR unchanged, exporter/decode/refinement 0, VF exit 1,
+and exactly one dead-code report at `verified/lib.rs(551,51-553,10)`. The saved
+classification is not `EXPECTED_DEAD_CODE` and has no expected-dead gate; therefore
+this is not an intended negative and not acceptance. The seven positive’s complete
+shape matrix did not pass: all 17 manual controls failed before matching because
+the exporter reported a missing normal-MIR `goto`; the distinct mutated-source
+refusal did pass at source admission. Preserve this as an observed comparison and
+control-infrastructure failure, not evidence that the full gate is complete.

@@ -240,3 +240,21 @@ two Gotos and panic body. These are historical results; code repairs require
 a fresh Cloud run. Same-source six comparison and the expanded admission matrix
 have no fresh evidence yet. Kernel capture closure and caller/resource bridges
 remain open.
+
+
+## Fresh Cloud outcome — 9ad825fa
+
+Build `9ad825fa-23f2-49f6-bc6c-db2052fe755c`, proof/infra
+`96086b2b6c150346e9d3cd1dad30778845880011`, config
+`c95985b0200b86222f489c32222e2bbf93bbf3c2812b8acd6fdaf79f88bb2cbd`, sourceinput
+`45ddd6d31d5b03e491fbf65b7607a52735a03904161d40cc12e70aa96315219d`; archive SHA
+`21fe558a9a30afd70f3f0f71a105a1ef4b5c10f206109bdd2f140fd1d2892577`. Actual
+len2/3 is a bounded PASS under the unaccepted seven-component profile: 11/11
+bodies, 28 returns, 31 leak checks, 362 target execution records, all stages zero,
+no error/dead records. This is the positive-stride/FreezeMarker projection only.
+The expanded shape matrix is incomplete: all 17 manual controls stopped at exporter
+exit 2 with `normal MIR field is missing: goto`, so there are no matcher-negative
+results. The separate source-hash control passed as an expected source-admission
+refusal; this does not substitute for the shape controls. Profile acceptance remains
+false. The same-source six result is recorded in
+[SAME-SOURCE-COMPARISON-CARD.md](SAME-SOURCE-COMPARISON-CARD.md).

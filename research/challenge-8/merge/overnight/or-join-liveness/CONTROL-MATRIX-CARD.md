@@ -23,7 +23,9 @@ Required controls (each independent, not accumulated):
 * real-statement-34: append a copy of the already-typed Boolean comparison
   assignment from33, preserving its record/operands; this inserts a translated
   operation rather than a StorageLive/Dead-only control.
-* predecessor-28: change existing Goto33 to37, adding one predecessor.
+* predecessor-32: change the existing block32 Goto33 to37, adding one edge to
+  the panic block. Block32 is the end of the odd-tail arm immediately before
+  the admitted guard.
 * comparison-eq-33 and comparison-eq-35: change final ne operator to eq,
   keeping operands/result type.
 * branch-order-33 and branch-order-35: swap exactly the original false/true
@@ -69,3 +71,15 @@ evidence.
 Fresh target AST positive uses a10s verifier cap; it credits only frontend
 admission and cannot credit target proof completion. The corresponding full
 positive is separately run with the original full posts.
+
+## RESOURCE10 predecessor-anchor correction
+
+The 9ad825fa control attempt refused in its own normal-MIR setup guard before
+any Capnp mutation or frontend call: in that current target body, block28 is a
+`VeriFast_ghost_command` call, not a Goto. Block24 is another Goto33 on a
+different control arm. The selected mutation anchor is block32, whose frozen
+normal MIR terminator is Goto33 at the end of the odd-tail arm immediately
+before block33's guard. The exporter and driver must bind that exact block id,
+field shape, and original target33; the expected-tree certificate still allows
+only the one block32 target change to37. This corrects diagnostic bookkeeping
+only. It changes no production source, MIR exporter, verifier, or theorem.
