@@ -1,0 +1,75 @@
+{
+  "classification": "EXPERIMENTAL_O26_WRAPPER_REBASE_COMPONENT23_NOT_ACCEPTED",
+  "observed_cloud_build_id": "347068de-0fb2-45e6-bc00-f8ac3ccd2581",
+  "observed_cloud_archive_sha256": "249350fcdd5b33682d11f4a081c65e34c1b64b939fd333ca0f6ff91ec48dc329",
+  "observed_capture": {
+    "classification": "SOURCE_MIR_REFINEMENT_AND_REFUSAL_ONLY",
+    "normal_whole_decoded_mir_sha256": "78e54a755c92d2fad380e5ff2e56ac4cfbf6092fbc06f5a0c37003b0e1c1d97a",
+    "normal_outer_body7_sha256": "2ae9770991fc236cbd0e690761541acb4acab4de4551884f70655b13c53b61ce",
+    "readonly_whole_decoded_mir_sha256": "013fa67048a1bf414305bbed17b67fb1edb72643ccdd12daaf50493159a4d3bf",
+    "readonly_outer_body7_sha256": "a849ed2b87ad76e113c3ff2e60d8bd9157725ccbdb07eb7346b052d7aeedc1a7",
+    "decoded_body_count": 9,
+    "fingerprint_snapshot_count": 10,
+    "actual_proof_run": false
+  },
+  "historical20_manifest": "overnight-linkage/O26-PROFILE-MANIFEST.json",
+  "refresh22_manifest": "overnight-assume-actual/O26-REFRESH-PROFILE.json",
+  "component23_patch": "overnight-assume-actual/verifast-o26-wrapper-rebase-profile-26.10.patch",
+  "component23_patch_sha256": "4a9a5efe2e640be4aa0894a4b7faa3ea8d6ae01e24027382da1c104ab0cadaac",
+  "production_translator_sha256": "0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a",
+  "new_translator_sha256": "138cd7b46ec3f8c81ce819a126d8118c0db7f259d55eca757003827e275ed9db",
+  "source": {
+    "verified_sha256": "86e00ada7a1fbc3edfad3ebd0742170531b452a48571aeb9bef6f2dc7df26be5",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "unit_sha256": "355184057d09d9623e7ebe8c30b8cec8159b9ba3390845708d66a98cfac217e2",
+    "body_sha256": [
+      "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+      "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+      "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+      "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+      "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+      "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+      "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137",
+      "784dd0c7676ef741164f46ff194202e36e23f01ae5303382a07e39257c04c4fd",
+      "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+    ]
+  },
+  "opt_in": {
+    "SORT4_WRAPPER_REBASE_REPO_ROOT": "exact proof root",
+    "SORT4_WRAPPER_REBASE_ADMISSION": "1"
+  },
+  "typed_outer_mir": {
+    "indexing": "zero-based decoded MIR block indexes; exporter local names",
+    "local_count": 44,
+    "block_count": 27,
+    "first_new_ghost_call": {"block": 8, "destination_local": "_16", "normal_block": 9, "unwind": "Continue"},
+    "second_new_ghost_call": {"block": 20, "destination_local": "_38", "normal_block": 21, "cleanup_block": 26},
+    "pointer_drop_receiver_local": "_29",
+    "forget": {
+      "block": 15,
+      "guard_source_local": "_25",
+      "move_argument_local": "_33",
+      "destination_local": "_32",
+      "normal_block": 16,
+      "cleanup_block": 26,
+      "negative_cleanup_block": 25
+    },
+    "assume_init": {
+      "block": 22,
+      "move_argument_local": "_39",
+      "destination_local": "_0",
+      "normal_block": 23,
+      "cleanup_block": 26
+    },
+    "unwind_chain": {"resume_block": 24, "drop_block": 25, "switch_block": 26, "switch_local": "_43", "switch_targets": [24, 25]}
+  },
+  "kernel_modified": false,
+  "verification_accepted": false,
+  "controls_pending": [
+    "fresh source/NORMAL/readonly/refinement/full nine-body capture",
+    "seven actual callee proofs before outer and generic nested Drop proof",
+    "four isolated component-17 admission negatives",
+    "independent component-20 A1 TEST negative",
+    "full normal/unwind/dead/leak/validity/resource proof"
+  ]
+}
