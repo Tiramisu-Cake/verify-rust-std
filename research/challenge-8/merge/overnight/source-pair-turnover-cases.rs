@@ -281,9 +281,9 @@ on_unwind_ens false;
 
 // This target is uncalibrated until a Cloud run establishes its exact stage,
 // predicate and location. It matches the overlap positive contract and frames.
-// CASE_BEGIN source_pair_turnover_does_not_duplicate_owner
-// EXPECT_REJECTION_CALIBRATION {"kind":"memory_permission","message":"uncalibrated duplicate-owner rejection after source-pair turnover","location":"UNCALIBRATED"}
-pub unsafe fn source_pair_turnover_does_not_duplicate_owner<T, F: FnMut(&T, &T) -> bool>(
+// CASE_BEGIN source_pair_turnover_does_not_duplicate_cell
+// EXPECT_REJECTION_CALIBRATION {"kind":"memory_permission","message":"uncalibrated duplicate-full-cell rejection after source-pair turnover","location":"UNCALIBRATED"}
+pub unsafe fn source_pair_turnover_does_not_duplicate_cell<T, F: FnMut(&T, &T) -> bool>(
     p: *mut T, n: usize, i: i32, j: i32, k: i32, l: i32,
     dst0: *mut T, dst1: *mut T, is_less: &mut F,
 )
@@ -315,6 +315,6 @@ on_unwind_ens false;
 @*/
 {
     //@ owned_array_pair_turnover::<T>(t, p, n, i, j, vi, vj, k, l);
-    //@ assert <T>.own(t, nth(k, replace_two::<T>(oldvs, i, j, vi, vj))) &*& <T>.own(t, nth(k, replace_two::<T>(oldvs, i, j, vi, vj))); // TARGET: turnover must not duplicate a current owner
+    //@ assert *(p + k) |-> nth(k, replace_two::<T>(oldvs, i, j, vi, vj)) &*& *(p + k) |-> nth(k, replace_two::<T>(oldvs, i, j, vi, vj)); // TARGET: turnover must not duplicate one full physical cell
 }
-// CASE_END source_pair_turnover_does_not_duplicate_owner
+// CASE_END source_pair_turnover_does_not_duplicate_cell
