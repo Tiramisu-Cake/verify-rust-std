@@ -27,14 +27,15 @@ def load(name: str, path: Path):
 
 
 md_classifier = load("md_control_classifier", HERE / "md_classifier.py")
+span_controls = load("allocation_span_controls", HERE / "span-controls.py")
 prep = load("onecell_prepare", HERE / "prepare.py")
 base = load("onecell_stages", HERE.parents[1] / "copy-on-drop-prove.py")
 ast = base.ast_helper
 mir = base.mir_helper
-PROFILE = "experimental-merge-six-tracked-md-onecell-v1"
+PROFILE = "experimental-merge-allocation-span-onecell-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
          "double_physical_fbc")
-CAMPAIGN = "geometry-positive-and-recovery-false-v1"
+CAMPAIGN = "allocation-span-positive-and-recovery-v1"
 CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
 CAMPAIGN_BASELINE = {
     "build_id": "d1bfa119-b1d4-4667-8c2b-21d37b215aef",
@@ -502,18 +503,18 @@ def main() -> int:
                    "source_sha256": base.file_sha(prep.SOURCE),
                    "rustc_version": version, "accepted": False}
     (args.evidence / "environment.json").write_text(json.dumps(environment, indent=2) + "\n")
+    # Execute isolated address-span controls before any actual one-cell cases.
+    span_controls.run(args.evidence, args, env, execute_case)
     results = {}
     md_pass = False
     if campaign_mode:
-        if base.file_sha(HERE / "PROFILE.json") != CAMPAIGN_BASELINE["profile_sha256"]:
-            raise RuntimeError("geometry campaign baseline dependency identity differs")
         for name in MD_CASES:
             case = args.evidence / "md-controls" / name
             before = base.hashes(case)
             for stage in ("exporter", "decode", "verifast", "refinement"):
-                base.not_run(case, stage, "geometry-only campaign; unchanged MD baseline dependency")
+                base.not_run(case, stage, "allocation-span campaign; MD controls NOT_RUN on new profile")
             results[name] = {"case": name, **md_meta[name], "classification": "NOT_RUN",
-                "accepted": False, "reason": "geometry-only campaign; unchanged MD baseline dependency",
+                "accepted": False, "reason": "allocation-span campaign; MD controls NOT_RUN on new profile",
                 "stages": {stage: 125 for stage in ("exporter", "decode", "verifast", "refinement")},
                 "source_before": before, "source_after": before,
                 "source_unchanged_at_every_stage": True}
@@ -532,7 +533,7 @@ def main() -> int:
                                                  execute_case(case, args, env))
             else:
                 before = base.hashes(case)
-                reason = "outside registered geometry-only campaign"
+                reason = "outside registered allocation-span campaign"
                 for stage in ("exporter", "decode", "verifast", "refinement"):
                     base.not_run(case, stage, reason)
                 results[name] = {"case": name, "classification": "NOT_RUN", "accepted": False,
@@ -555,22 +556,31 @@ def main() -> int:
                 "source_unchanged_at_every_stage": True}
             (case / "classification.json").write_text(json.dumps(results[name], indent=2) + "\n")
         (args.evidence / "results.json").write_text(json.dumps(results, indent=2) + "\n")
-    dependency_basis = ({"classification": "PRIOR_MATCHED_BASELINE_UNCHANGED",
-        "source_sha256": CAMPAIGN_MD_SOURCE_SHA256, **CAMPAIGN_BASELINE}
+    dependency_basis = ({"classification": "NOT_RUN_ON_NEW_PROFILE",
+        "source_sha256": CAMPAIGN_MD_SOURCE_SHA256,
+        "historical_build_id": CAMPAIGN_BASELINE["build_id"],
+        "historical_profile_sha256": CAMPAIGN_BASELINE["profile_sha256"],
+        "historical_results_sha256": CAMPAIGN_BASELINE["results_sha256"],
+        "proof_sha": proof_sha}
         if campaign_mode else None)
-    fragment_pass = ((campaign_mode and
+    span_summary = json.loads((args.evidence / "span-results.json").read_text())
+    controls_match = span_summary.get("all_matched") is True
+    fragment_pass = (controls_match and ((campaign_mode and
         results["positive"]["classification"] == "PASS_FRAGMENT_ONLY" and
         results["after_recovery_false"]["classification"] == "EXPECTED_REJECTION") or
         (not campaign_mode and md_pass and
          results["positive"]["classification"] == "PASS_FRAGMENT_ONLY" and
          all(results[name]["classification"] == "EXPECTED_REJECTION"
-             for name in CASES if name != "positive")))
+             for name in CASES if name != "positive"))))
     aggregate = {"profile": PROFILE, "accepted": False,
                  "campaign": CAMPAIGN if campaign_mode else "legacy-full-controls-v1",
                  "md_regressions_matched": False if campaign_mode else md_pass,
                  "md_dependency_basis": dependency_basis,
+                 "allocation_span_controls_match": controls_match,
                  "fragment_pass": fragment_pass,
-                 "actual_drop_glue": "OPEN", "cases": {
+                 "actual_drop_glue": "OPEN",
+                 "allocation_span_controls": json.loads((args.evidence / "span-results.json").read_text()),
+                 "cases": {
                      name: row["classification"] for name, row in results.items()}}
     (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2) + "\n")
     return 0

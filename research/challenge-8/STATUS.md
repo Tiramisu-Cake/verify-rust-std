@@ -1,3 +1,14 @@
+# Active merge allocation-span phase — 2026-10-09
+
+Direct owner assignment opens MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09,
+owner merge, own branch overnight/merge-26.10; start17:32:10UTC,
+main18:32:10, absolute19:02:10; new3600seconds no carryover.
+[Phase](merge/ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09.md),
+[rationale](cloud-build/allocation-span-patch/RATIONALE.md).
+Preserved8d57c9f3: alignment/bounds established; constructor span failed before FBC.
+Narrow kernel candidate in own isolated VeriFast tree, profile NOT_ACCEPTED;
+new proof NOT_RUN pending fresh Cloud. Copy/recovery/557/558 remain OPEN.
+
 # MERGE-SRC-ALIGN-RECOVERY-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT_ACCEPTED
 
 Owner merge, overnight/merge-26.10;83b22ba6 preserved.

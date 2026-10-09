@@ -45,3 +45,14 @@ raw pointer without physical storage rejects at marked span assertion; ZST no
 address-distinctness claim; retired-local pointer no address-distinctness claim.
 Setup failures are INCONCLUSIVE. Recovery false counts only after actual recovery.
 All compiler/extraction/verifier executions Cloud-only; old PASS not new evidence.
+
+Critical code review before first dispatch identified two existing size-model traps:
+sizeof_core is partial on Rust function/projection types; concrete StructType size
+is axiomatized positive even for legal ZSTs. Revision8c1386a8 restricts BOTH new and
+exposed pointee extents to scalar/pointer or abstract generic parameter types, skipping
+all concrete structs, arrays and unsupported forms. Actual transparent MD tmp is T.
+The generic condition remains sizeof(T)>0; abstract zero extent supplies no separation.
+No new concrete struct/ZST layout claim is made. This scope restriction avoids relying
+on the misleading concrete struct positivity axiom. Dedicated generic zero-extent and
+retired-local numeric distinctness controls must reject at intended assertion; they
+are no longer omitted gates. Concrete layout qualification remains open independently.

@@ -135,11 +135,11 @@ GUARD_GEOMETRY_GROUPS = {
 }
 GUARD_GEOMETRY_CASES = ("positive", "prototype_false", "first_body_false")
 ONECELL_GROUP = "insertion-onecell-guard-diagnostic"
-ONECELL_PROFILE = "experimental-merge-six-tracked-md-onecell-v1"
+ONECELL_PROFILE = "experimental-merge-allocation-span-onecell-v1"
 ONECELL_DIAGNOSTIC = "insert-tail-onecell-mutable-fbc-held-recovery-v1"
 ONECELL_CASES = ("positive", "after_fbc_false", "after_recovery_false", "missing_held_owner",
                  "double_physical_fbc")
-ONECELL_CAMPAIGN = "geometry-positive-and-recovery-false-v1"
+ONECELL_CAMPAIGN = "allocation-span-positive-and-recovery-v1"
 ONECELL_CAMPAIGN_CASES = {"positive", "after_recovery_false"}
 ONECELL_CAMPAIGN_MD_SOURCE_SHA256 = "047d5f3245c0e81fe718899e11b611b1da9d7aa21b3c6e18347a5b95c923197e"
 ONECELL_CAMPAIGN_BASELINE = {
@@ -219,6 +219,52 @@ OTHER_ARTIFACTS = {
         "bidirectional-small-cases.rs", "bidirectional-small-cases.admission.json",
     ],
 }
+
+
+SPAN_CONTROL_NAMES = {"span_positive", "span_overlap", "span_raw_arbitrary", "span_zero_extent", "span_retired_local_reuse"}
+
+
+def audit_span_controls(base: Path, aggregate: dict, profile: str) -> tuple[bool, bool]:
+    summary = json.loads((base / "span-results.json").read_text())
+    valid = (summary == aggregate.get("allocation_span_controls") and
+             summary.get("profile") == profile and summary.get("accepted") is False and
+             set(summary.get("controls", {})) == SPAN_CONTROL_NAMES)
+    matched = True
+    for name in SPAN_CONTROL_NAMES:
+        case = base / "span-controls" / name
+        row = json.loads((case / "classification.json").read_text())
+        source = case / "verified/lib.rs"
+        stages = row.get("stages", {})
+        before = row.get("source_before", {})
+        valid = (valid and row.get("case") == name and row.get("accepted") is False and
+                 row.get("source_sha256") == sha256_file(source) == sha256_file(case / "original/lib.rs") and
+                 before.get("verified/lib.rs") == row.get("source_sha256") and
+                 row.get("source_after") == before and row.get("source_unchanged_at_every_stage") is True and
+                 summary["controls"][name] == row.get("classification") and
+                 summary.get("case_details", {}).get(name, {}).get("source_sha256") == row.get("source_sha256") and
+                 summary.get("case_details", {}).get(name, {}).get("target_line") == row.get("target_line"))
+        for stage in ("exporter", "decode", "verifast", "refinement"):
+            data = json.loads((case / f"{stage}-stage.json").read_text())
+            valid = (valid and data.get("exit_code") == stages.get(stage) ==
+                     int((case / f"{stage}-exit-code.txt").read_text()) and
+                     data.get("source_unchanged") is True)
+        log = (case / "verifast.log").read_text(errors="replace")
+        errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+        pipeline = stages.get("exporter") == stages.get("decode") == stages.get("refinement") == 0
+        if name == "span_positive":
+            expected = "PASS_CONTROL" if (pipeline and stages.get("verifast") == 0 and not errors and
+                "Leak check." in log and "0 errors found" in log and "Executing return statement" in log and
+                re.search(rf"verified/lib\.rs\({row.get('target_line')},\d+(?:-\d+(?:,\d+)?)?\): (?:note: )?Executing statement", log)) else "INCONCLUSIVE"
+        else:
+            location = re.search(r"verified/lib\.rs\((\d+),", errors[0]) if len(errors) == 1 else None
+            expected = "EXPECTED_REJECTION" if (pipeline and stages.get("verifast") == 1 and
+                location is not None and int(location.group(1)) == row.get("target_line") and
+                "Cannot prove" in errors[0]) else "INCONCLUSIVE"
+        valid = valid and row.get("classification") == expected
+        matched = matched and expected != "INCONCLUSIVE"
+    valid = (valid and summary.get("all_matched") is matched and
+             aggregate.get("allocation_span_controls_match") is matched)
+    return bool(valid), bool(matched)
 
 
 def audit(root: Path, selection_path: Path, run_status: int,
@@ -339,6 +385,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 "tracked-md-build/profile-input.json",
                 "tracked-md-build/tracked-md.patch",
                 "tracked-md-build/emitter.patched.ml",
+                "tracked-md-build/kernel.patched.ml",
+                "tracked-md-build/allocation-span.patch",
+                f"cases/{group}/span-results.json",
             ]
             mandatory[group].extend(f"cases/{group}/{name}.json" for name in
                                     ("environment", "extraction", "results", "aggregate"))
@@ -1312,6 +1361,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 sha256_file(evidence / "tracked-md-build/tracked-md.patch") ==
                     pins.get("patch_sha256") == sha256_file(component / "tracked-md.patch") and
                 sha256_file(evidence / "tracked-md-build/emitter.patched.ml") == pins.get("emitter_sha256") and
+                sha256_file(evidence / "tracked-md-build/kernel.patched.ml") == pins.get("kernel_sha256") and
+                sha256_file(evidence / "tracked-md-build/allocation-span.patch") ==
+                    pins.get("allocation_span_patch_sha256") == sha256_file(component / "allocation-span.patch") and
                 all(build.get(key) == value for key, value in pins.items()) and
                 re.fullmatch(r"[0-9a-f]{64}", build.get("console_sha256", "")))
             extraction_identity = (
@@ -1350,10 +1402,12 @@ def audit(root: Path, selection_path: Path, run_status: int,
             campaign_mode = aggregate.get("campaign") == ONECELL_CAMPAIGN
             dependency = aggregate.get("md_dependency_basis")
             dependency_valid = (isinstance(dependency, dict) and
-                dependency.get("classification") == "PRIOR_MATCHED_BASELINE_UNCHANGED" and
+                dependency.get("classification") == "NOT_RUN_ON_NEW_PROFILE" and
                 dependency.get("source_sha256") == ONECELL_CAMPAIGN_MD_SOURCE_SHA256 and
-                all(dependency.get(key) == value for key, value in ONECELL_CAMPAIGN_BASELINE.items()) and
-                sha256_file(component / "PROFILE.json") == dependency.get("profile_sha256") and
+                dependency.get("historical_build_id") == ONECELL_CAMPAIGN_BASELINE["build_id"] and
+                dependency.get("historical_profile_sha256") == ONECELL_CAMPAIGN_BASELINE["profile_sha256"] and
+                dependency.get("historical_results_sha256") == ONECELL_CAMPAIGN_BASELINE["results_sha256"] and
+                dependency.get("proof_sha") == proof_sha and
                 sha256_file(selection_path.parent.parent.parent /
                     "verifast-tracked-manually-drop-regressions.rs") ==
                     ONECELL_CAMPAIGN_MD_SOURCE_SHA256)
@@ -1400,9 +1454,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         expected_not_run = (
                             campaign_mode and
                             ((name in ONECELL_CASES and name not in ONECELL_CAMPAIGN_CASES and
-                              row.get("reason") == "outside registered geometry-only campaign") or
+                              row.get("reason") == "outside registered allocation-span campaign") or
                              (name in ONECELL_MD_CASES and
-                              row.get("reason") == "geometry-only campaign; unchanged MD baseline dependency"))
+                              row.get("reason") == "allocation-span campaign; MD controls NOT_RUN on new profile"))
                         ) or (not campaign_mode and name in ONECELL_CASES and
                               row.get("reason") == "isolated MD gates did not pass" and
                               aggregate.get("md_regressions_matched") is False)
@@ -1440,16 +1494,18 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                           predicate in log_errors[0])
                     if not rows_valid:
                         break
+            spans_valid, spans_matched = audit_span_controls(base, aggregate, ONECELL_PROFILE)
+            rows_valid = rows_valid and spans_valid
             expected_md = (False if campaign_mode else
                 all(results[name].get("classification") == "REGRESSION_MATCHED"
                     for name in ONECELL_MD_CASES)) if rows_valid else False
-            expected_fragment = ((dependency_valid and
+            expected_fragment = (spans_matched and ((dependency_valid and
                 results["positive"].get("classification") == "PASS_FRAGMENT_ONLY" and
                 results["after_recovery_false"].get("classification") == "EXPECTED_REJECTION")
                 if campaign_mode else (expected_md and
                 results["positive"].get("classification") == "PASS_FRAGMENT_ONLY" and
                 all(results[name].get("classification") == "EXPECTED_REJECTION"
-                    for name in ONECELL_CASES if name != "positive"))) if rows_valid else False
+                    for name in ONECELL_CASES if name != "positive")))) if rows_valid else False
             rows_valid = (rows_valid and aggregate.get("md_regressions_matched") is expected_md and
                           aggregate.get("fragment_pass") is expected_fragment)
             valid = bool(artifact_status.get(ONECELL_GROUP, False) and build_identity and
@@ -1461,6 +1517,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                               "campaign": aggregate.get("campaign"),
                               "md_dependency_basis": dependency if valid else None,
                               "raw_case_classifications": case_classes,
+                              "allocation_span_controls": aggregate.get("allocation_span_controls"),
                               "actual_drop_glue": "OPEN"}
         except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
             artifact_status[ONECELL_GROUP] = False

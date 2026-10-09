@@ -1,0 +1,28 @@
+# MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09
+
+Owner merge; own clean entry overnight/merge-26.10 at8d57c9f3991aeb820d1c6ab5b025ebd6944c9aed.
+Fetch origin and exact own remote comparison showed equal; ancestry/checkpoint preserved.
+Policy revision1fcd91eff1507fe0bd0620a23b578edb454f1c3e; AGENTS/runbook/completion-plan,
+source alignment checkpoint, reproducer, mechanism audit and evidence receipts read.
+VeriFast WORKFLOW/STATUS read at maintainer treea87bfb4f6e9f45cf221b6f4b7c58315a0fb00f47;
+preexisting maintainer review edits left unchanged. Own tool worktreebasef76012fb,
+branch merge/allocation-span-20261009; upstream README/src README/Linux guidance read.
+
+Actual start17:32:10UTC (20:32:10MSK); main18:32:10; absolute19:02:10.
+New3600 conservative Cloud seconds; old2630 closed and not carried. Separate
+[ledger](../cloud-build/allocation-span-patch/BUDGET.json) and
+[state](../cloud-build/allocation-span-patch/SESSION-STATE.json).
+Shared coordinatorv2/max2 remains; 487dc39c transition is not activated by publication.
+No foreign worktrees/processes/ledgers/reservations/pins changed.
+
+Narrow allocation-span kernel experiment and source-specific geometry packaging
+are explicitly authorized by current owner assignment. Actual consumer is
+insert_tail550/551 tmp shared-derived src to input tail; copy/recovery then actual557/558
+only upon separation success within main window. No broader model rewrite, weakened
+posts, supplied separation, runtime/signature change or upstream/external messaging.
+
+[Rationale](../cloud-build/allocation-span-patch/RATIONALE.md) states exact live
+resources, conservation, lifetime reuse, scope and positive/negative gates before
+Cloud execution. Candidate/regression/consumer/upstream acceptance remain distinct.
+Final review packet publishes only research/verifast-review/FULL-CHECKPOINT-SHA on
+review/verifast using Git plumbing, preserving prior packages and all other trees.

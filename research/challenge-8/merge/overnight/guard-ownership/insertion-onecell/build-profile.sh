@@ -21,7 +21,7 @@ import hashlib,json,pathlib,sys
 here,home,evidence=map(pathlib.Path,sys.argv[1:])
 pins=json.loads((here/'PROFILE.json').read_text())
 assert pins['schema']=='smallsort-tracked-md-profile-v1' and not pins['accepted']
-paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'kernel_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
+paths={'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'baseline_translator_sha256','src/verifast.ml':'baseline_kernel_sha256','src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256','bin/rust/prelude_core.rsspec':'prelude_sha256','bin/rust/std/lib.rsspec':'stdlib_sha256','bin/vf-rust-mir-exporter':'exporter_sha256','bin/refinement-checker':'refiner_sha256','bin/libz3.so':'z3_sha256','src/frontend/ocaml_expr_of_ast.ml':'baseline_emitter_sha256'}
 for path,key in paths.items():
  assert hashlib.sha256((home/path).read_bytes()).hexdigest()==pins[key],(path,key)
 assert hashlib.sha256((here/'tracked-md.patch').read_bytes()).hexdigest()==pins['patch_sha256']
@@ -30,6 +30,14 @@ PINS
 git -C "$new_home" apply --check "$here/tracked-md.patch"
 git -C "$new_home" apply --whitespace=error "$here/tracked-md.patch"
 cp "$here/tracked-md.patch" "$evidence/tracked-md.patch"
+python3 - "$here" <<'SPANPIN'
+import hashlib,json,pathlib,sys
+h=pathlib.Path(sys.argv[1]);p=json.loads((h/'PROFILE.json').read_text())
+assert hashlib.sha256((h/'allocation-span.patch').read_bytes()).hexdigest()==p['allocation_span_patch_sha256']
+SPANPIN
+git -C "$new_home" -c core.whitespace=cr-at-eol apply --check "$here/allocation-span.patch"
+git -C "$new_home" -c core.whitespace=cr-at-eol apply --whitespace=error "$here/allocation-span.patch"
+cp "$here/allocation-span.patch" "$evidence/allocation-span.patch"
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$new_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
@@ -53,4 +61,5 @@ pins.update(console_sha256=h(home/'bin/verifast'),proof_sha=os.environ['PROOF_SH
 (evidence/'profile-build.json').write_text(json.dumps(pins,indent=2)+'\n')
 (evidence/'translator.patched.ml').write_bytes((home/'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml').read_bytes())
 (evidence/'emitter.patched.ml').write_bytes((home/'src/frontend/ocaml_expr_of_ast.ml').read_bytes())
+(evidence/'kernel.patched.ml').write_bytes((home/'src/verifast.ml').read_bytes())
 FINAL

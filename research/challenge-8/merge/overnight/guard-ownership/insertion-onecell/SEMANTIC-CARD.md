@@ -328,3 +328,34 @@ three fresh proof results from saved-data replay and unchanged controls NOT_RUN.
 970/3600 conservative seconds, all three builds terminal, no own unresolved
 reservation, ready withdrawn. Main window ended16:58:54UTC; only evidence,
 accounting and checkpoint continued in the finishing extension.
+
+## Allocation span patch phase — new authorization and candidate
+
+MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09, actual start17:32:10UTC,
+main18:32:10, absolute19:02:10; new3600 conservative seconds, no carryover.
+Policy1fcd91ef; preserved checkpoint8d57c9f3; own remote equal after fetch.
+Own isolated VeriFast worktree /root/verifast-merge-allocation-span,
+branch merge/allocation-span-20261009, exact upstreambasef76012fb.
+
+[Rationale and predeclared gates](../../../../cloud-build/allocation-span-patch/RATIONALE.md)
+selects creation-time live storage exclusion, not global provenance separation.
+Kernel candidate2f61f966 adds only pure numeric extent facts against exposed
+positive real fractional generic storage when an actual address-taken Rust local
+is allocated. Both zero extents guarded; dummy coefficients excluded; closed
+predicates/other resource forms intentionally not covered. Independent Sol review
+found no counterexample under live full-extent storage interpretation; proof and
+soundness review remain separate. Source-specific guard own carries this
+constructor-proved fact through FBC for current fields. No supplied separation,
+new permission, initialization or T.own. Runtime source/signatures/posts unchanged.
+
+New profile experimental-merge-allocation-span-onecell-v1 NOT_ACCEPTED.
+New controls and actualpositive/recoveryfalse are fresh Cloud obligations.
+Historical MD4/FBC3 gates retained only as historical receipts, explicitly NOT_RUN
+on this new profile; no reuse of old PASS for changed trusted semantics. Closed
+resource coverage, ZST, lifetimes and profile qualification stay visible gates.
+
+Before first Cloud dispatch, critical review narrowed candidate8c1386a8 to scalar/
+pointer/abstract generic type extents on BOTH sides. Concrete struct size axioms
+include known ZST inaccuracy; unsupported sizeof types must not cause new static
+errors. These forms are skipped, not declared disjoint. Abstract zero extent and
+retired-local address-reuse negatives are selected. No concrete layout acceptance.
