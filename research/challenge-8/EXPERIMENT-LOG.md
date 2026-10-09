@@ -5707,3 +5707,35 @@ change CFG; obtain fresh paired capture and full nine-body inventory before
 new exact pins. No parser extension or weakening is justified. The next
 bounded recovery lane also checks the three previously corrected independent
 TEST/PROBEs. No unchanged failed positive is rerun.
+
+
+NIGHT-CLOUD-7 pre-experiment and dispatch: Build 293435cf-8457-42ea-97a0-b37589f4fa76,
+lane `o26-recovery-tests`; infra `8d299748b14c3d5b567d935f96ec75e357dfe650`,
+proof `96289411a12da79ed4a410a882be5c856952b546`, config `cf796e9b8c49abce9fbb9c98a567eb095cc5de5369309ce73cda6f6382d1a440`,
+source input `758a0dae42e7bf0b87dfbed27ae2d7f366ab08eb157f08456210969eceddcc9e`, token `dispatch-1122178b105743ec86c0f26eb5dc5dc4`.
+Timeout1200/reserve1260; own2004 used/8796 remaining before reservation.
+Shared lock reconciles foreign terminal a3553e9e by read-only receipt and
+grants the ready select request; no foreign ledger/state or budget change.
+
+Cards: RECOVERY-TESTS-CARD and EXACT-INFRA-TRANSPORT-CARD plus separate
+nested/AST/mapped-ID/source-only cards. Fresh wrapper syntax uses ten
+single-statement ghost comments with unchanged ordered operations/runtime/
+posts; capture must produce new exact hashes and complete graph before pins.
+Old component23 is disabled. Separate corrected nested proof scheduling,
+print-only actualsort4 AST and strictCUT mapped-ID relocation retain full
+source/MIR/refinement and all original resource checks. None is accepted.
+
+Previous combined legacy-policy payload617750B was refused in local Git-
+object transport preflight, no reservation/Build and0s. Opt-in exact policy
+selects all reviewed scenario dependencies and original selected object
+closures: committed payload570901B fits the unchanged bound. Five Cloud
+transport negatives target exact missing/extra/mode/hash/object obligations;
+canonical restored inputs stay untouched. Stock/constructor/unmarked policy
+unchanged; no A/B/C replay or separate smoke. Shared interface84e61f58 was
+published with atomic HANDOFF before proof completion.
+
+Outcome: new fingerprints/graph drive explicit profile recertification;
+actual nested first resource failure drives lawful ghost repair; AST label/
+scope evidence drives bounded scope TEST only; changed relocation failure
+localizes the lifetime obligation. Setup/wrong-negative/timeout remains
+inconclusive; full artifacts and baseline/test verdict separation required.

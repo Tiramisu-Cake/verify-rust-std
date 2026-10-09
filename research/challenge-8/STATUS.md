@@ -3,7 +3,12 @@
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
 **2004/10800 conservative Cloud Build seconds used;8796 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
+`293435cf-8457-42ea-97a0-b37589f4fa76`, lane `o26-recovery-tests`;
+infra `8d299748b14c3d5b567d935f96ec75e357dfe650`,
+proof `96289411a12da79ed4a410a882be5c856952b546`. Timeout1200/reserve1260.
+Fresh single-command wrapper capture, corrected nested/AST/mapped-ID TESTs
+and exact-infra transport controls are pending; no new proof verdict.
 Latest Build `b0382472-9685-44b3-955f-88f037d1c144` FAILURE at diagnostic
 verdict; full publication/archive integrity verified, charged368s.
 Infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,
