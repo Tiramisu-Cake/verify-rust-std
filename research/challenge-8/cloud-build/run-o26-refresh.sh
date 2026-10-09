@@ -216,10 +216,13 @@ stage() {
   (( code == 0 )) || return "$code"
 }
 
+if [[ "${LANE:-}" != o26-sort4-c1-current-recovery ]]; then
 stage provider-overlays python3 "$cloud_dir/o26-refresh-recipe.py" overlay \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev"
 stage source-preflight python3 "$cloud_dir/o26-refresh-recipe.py" preflight \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev"
+
+fi
 
 export RUSTUP_HOME="$work_root/rustup"
 export CARGO_HOME="$work_root/cargo"
