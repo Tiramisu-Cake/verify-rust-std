@@ -254,25 +254,27 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
         payload["recipe"] = recipe
         if "baseline_sha" in recipe:
             payload["baseline"], _ = repo_record(repo, recipe["baseline_sha"], recipe["baseline_paths"])
-            # Identical std/tool input blobs occur in both original checkouts.
-            # Transfer each original object once; each repo keeps its exact closure.
-            pool = {}
-            for name in ("infra", "proof", "baseline"):
-                record = payload[name]
-                for item in record["objects"]:
-                    oid = item["oid"]
-                    if oid in pool and pool[oid] != item:
-                        stop("same object ID has inconsistent source records")
-                    pool[oid] = item
-                record["objects"] = [{"oid": item["oid"]} for item in record["objects"]]
-            payload["schema"] = SHARED_SCHEMA
-            payload["shared_objects"] = []
-            for oid in sorted(pool):
-                item = dict(pool[oid])
-                raw_object = base64.b64decode(item["data_base64"], validate=True)
-                item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
-                item["compression"] = "gzip"
-                payload["shared_objects"].append(item)
+        # Transfer each original object once; every original repo keeps its closure.
+        # Recipes without a historical baseline use the same bounded encoding.
+        pool = {}
+        for name in ("infra", "proof", "baseline"):
+            if name not in payload:
+                continue
+            record = payload[name]
+            for item in record["objects"]:
+                oid = item["oid"]
+                if oid in pool and pool[oid] != item:
+                    stop("same object ID has inconsistent source records")
+                pool[oid] = item
+            record["objects"] = [{"oid": item["oid"]} for item in record["objects"]]
+        payload["schema"] = SHARED_SCHEMA
+        payload["shared_objects"] = []
+        for oid in sorted(pool):
+            item = dict(pool[oid])
+            raw_object = base64.b64decode(item["data_base64"], validate=True)
+            item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
+            item["compression"] = "gzip"
+            payload["shared_objects"].append(item)
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
@@ -407,10 +409,10 @@ def restore_archive(archive: Path, evidence: Path) -> dict:
                 stop("invalid or duplicated shared Git object")
             pool[oid] = item
         referenced = set()
-        for name in ("infra", "proof", "baseline"):
+        for name in ("infra", "proof", *(("baseline",) if "baseline" in payload else ())):
             record = payload.get(name)
             if not isinstance(record, dict):
-                stop("shared schema requires all three original repositories")
+                stop("shared schema requires both original input repositories")
             expanded = []
             for ref in record.get("objects", []):
                 if set(ref) != {"oid"} or ref["oid"] not in pool:
