@@ -43,6 +43,18 @@ trap write_incomplete_audit EXIT
   printf 'explicit Cloud Build provider identity required\n' >&2
   exit 2
 }
+# The shared dispatcher supplies the absolute execution cutoff, including its
+# upload reserve. Short late-window Builds must not inherit a1600-second lane.
+[[ "${SMALLSORT_DEADLINE_EPOCH:-}" =~ ^[0-9]+$ ]] || {
+  printf 'shared execution deadline is missing\n' >&2
+  exit 2
+}
+lane_available=$((SMALLSORT_DEADLINE_EPOCH - $(date +%s)))
+(( lane_available > 140 )) || {
+  printf 'shared execution deadline leaves no lane/evidence budget\n' >&2
+  exit 2
+}
+(( lane_available >= lane_work_budget_seconds )) || lane_work_budget_seconds=$lane_available
 [[ -f "$cloud_dir/provider.py" && -f "$overlay_tool" ]] || {
   printf 'merge lane provider or overlay is missing\n' >&2
   exit 2
@@ -126,6 +138,19 @@ else
     printf 'MIR-OR-JOIN selection validation failed\n' >&2
     exit 2
   fi
+fi
+
+or_join_reserve=900
+if (( or_join_selected > 0 )); then
+  or_join_trial_mode=$(python3 - "$proof_root/research/challenge-8/merge/overnight/or-join-liveness/PINNED-INPUTS.json" <<'ORMODE'
+import json,pathlib,sys
+mode=json.loads(pathlib.Path(sys.argv[1]).read_text()).get("trial_mode","FULL_TARGET")
+if mode not in {"FULL_TARGET","SHAPE_CONTROLS_ONLY"}:
+    raise SystemExit("unknown OR trial mode")
+print(mode)
+ORMODE
+)
+  [[ "$or_join_trial_mode" != SHAPE_CONTROLS_ONLY ]] || or_join_reserve=450
 fi
 
 expected_source_sha=85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1
@@ -257,18 +282,22 @@ matrix_timeout=1300
 if (( drop_groups_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
   matrix_reserve=$((300 * drop_groups_selected + 140))
-  (( or_join_selected == 0 )) || matrix_reserve=$((matrix_reserve + 900))
+  (( or_join_selected == 0 )) || matrix_reserve=$((matrix_reserve + or_join_reserve))
   matrix_budget=$((lane_work_budget_seconds - elapsed - matrix_reserve))
   (( matrix_budget > 0 )) || matrix_budget=1
   matrix_timeout=900
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
 elif (( or_join_selected > 0 )); then
   elapsed=$((SECONDS - lane_started))
-  matrix_budget=$((lane_work_budget_seconds - elapsed - 900 - 140))
+  matrix_budget=$((lane_work_budget_seconds - elapsed - or_join_reserve - 140))
   (( matrix_budget > 0 )) || matrix_budget=1
   matrix_timeout=650
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
 fi
+matrix_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+(( matrix_remaining > 0 )) || matrix_remaining=1
+(( matrix_remaining >= matrix_timeout )) || matrix_timeout=$matrix_remaining
+
 printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nor_join_selected=%s\nretained_matrix_timeout_seconds=%s\n' \
   "$lane_work_budget_seconds" "$drop_groups_selected" "$or_join_selected" "$matrix_timeout" \
   > "$evidence_root/lane-work-budget.txt"

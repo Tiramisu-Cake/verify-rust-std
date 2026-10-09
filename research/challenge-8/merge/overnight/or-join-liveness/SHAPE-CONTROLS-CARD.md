@@ -42,3 +42,14 @@ The outer inventory independently binds the mode file, current proof/Build IDs,
 source and normal-message digests, raw stage exits, nonempty AST and full7 diff.
 It binds the driver's 17 mode certificates and exact refusals using the existing
 full-tree checks; it never imports the prior run as a current full-target gate.
+
+## Deadline allocation
+
+The merge lane now bounds its 1600-second work ceiling by the common dispatcher's
+SMALLSORT_DEADLINE_EPOCH, refusing a missing/expired deadline before work. Its
+retained-matrix timeout is also capped by the remaining lane work minus the
+existing 140-second evidence tail. SHAPE_CONTROLS_ONLY reserves450 seconds for
+the short capture/build/17-mode driver; FULL_TARGET keeps its existing900-second
+reservation. Each child retains its own budgets, refuses insufficient time and
+records partial/NOT_RUN evidence. This is time allocation only: no stage, proof
+post, resource, classifier or semantic checker is disabled or accepted.
