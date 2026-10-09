@@ -36,6 +36,21 @@ def verify_make_completion(make_out):
       'normal root and assignments make targets are not visible')
  need(re.search(r'(?m)^0 failed processes$',make_out) is not None,
       'full suite lacked a zero-failed mysh summary')
+def verify_registration(registration):
+ lines=registration.splitlines()
+ starts=[i for i,line in enumerate(lines) if line.strip()=='cd manuallydrop_new_cfg']
+ need(len(starts)==1,'ManuallyDrop native registration block absent or duplicated')
+ end=next((i for i in range(starts[0]+1,len(lines)) if lines[i].strip()=='cd ..'),None)
+ need(end is not None,'ManuallyDrop native registration block unterminated')
+ block='\n'.join(lines[starts[0]:end+1])
+ for command in COMMANDS:
+  need(sum(line.strip()==command for line in lines[starts[0]:end+1])==1,
+       f'ManuallyDrop native command absent or duplicated: {command}')
+ need('dead_code_pre.rs(1,1-7,2): dead code' in block and
+      'EXIT:1' in block and 'verifast dead_code_pre.rs 2>&1' in block and
+      '-allow_dead_code' not in block and '-ignore_unwind_paths' not in block,
+      'selected native block lacks exact dead diagnostic or disables a checker')
+ return block
 def affected(root):
  helper_path=Path(__file__).with_name('mdnew-audit.py')
  spec=importlib.util.spec_from_file_location('mdnew_structural_helpers',helper_path)
@@ -93,6 +108,16 @@ def audit(repo,root):
   need(identity['infra_sha']==identity['proof_sha']==cert['infra']['commit']==cert['proof']['commit'],
        'infra/proof source commit differs')
   need(identity['source_input_archive_sha256']==cert['archive_sha256'],'source archive differs')
+  infra_paths=cert['infra']['restored_paths'];proof_paths=cert['proof']['restored_paths']
+  def bound(rows,rel,expected):
+   matches=[r for r in rows if r.get('path')==rel]
+   need(len(matches)==1 and matches[0].get('sha256')==expected,
+        f'certificate lacks exact restored input {rel}')
+  prefix=f'research/challenge-8/verifast-input/{HEAD}/'
+  bound(proof_paths,prefix+'bundle',h(read(root/'tool-input.bundle')))
+  bound(proof_paths,prefix+'manifest',h(read(root/'tool-input.manifest')))
+  rel='research/challenge-8/cloud-build/mdnew-fullmake-audit.py'
+  bound(infra_paths,rel,h(read(Path(__file__))))
   manifest=j(root/'tool-input.manifest');restore=j(root/'restore.json')
   need(manifest.get('base_commit')==BASE and manifest.get('candidate_commit')==HEAD and
        manifest.get('candidate_tree')==TREE and manifest.get('candidate_ref')==REF,
@@ -120,13 +145,24 @@ def audit(repo,root):
   pre=j(root/'pre-build-components.json')
   need(pre.get('all_absent_before_build') is True and set(pre.get('removed_stock_binaries',[]))==set(COMPONENTS),
        'old executable may have survived before source build')
+  conditional=j(root/'conditional-components.json')
+  need(conditional.get('schema')=='verifast-fullmake-conditional-components-v1' and
+       conditional.get('assignment_models_directory_present')==(repo/'assignments').is_dir() and
+       conditional.get('assignment_models_script_present')==(repo/'assignments/run_model_solutions.mysh').is_file() and
+       isinstance(conditional.get('java_ast_server_enabled'),bool) and
+       isinstance(conditional.get('rocq_coqc_available'),bool) and
+       isinstance(conditional.get('z3_in_path'),bool) and
+       isinstance(conditional.get('z3v45_in_path'),bool),
+       'conditional dependency receipt incomplete')
   make_code,make_out,make_err=stage(root,'make-test')
   out['make_test']={'exit_status':make_code,'stdout_sha256':h(make_out.encode()),
                     'stderr_sha256':h(make_err.encode()),
                     'failed_process_lines':re.findall(r'(?m)^\d+ failed processes$',make_out),
                     'conditional_skip_lines':re.findall(r'(?m)^SKIP:.*$',make_out),
-                    'assignment_models': 'EXECUTED' if (repo/'assignments').is_dir() else 'SKIPPED_DIRECTORY_ABSENT',
-                    'java_frontend': 'NOT_ENABLED' }
+                    'assignment_models': 'ENABLED' if conditional['assignment_models_directory_present'] else 'SKIPPED_DIRECTORY_ABSENT',
+                    'java_frontend': 'ENABLED' if conditional['java_ast_server_enabled'] else 'SKIPPED_ENV_NOT_SET',
+                    'rocq': 'AVAILABLE_OPTIONAL_NOT_PART_OF_MAKE_TEST' if conditional['rocq_coqc_available'] else 'NOT_RUN_COMPONENT_ABSENT',
+                    'z3_in_path':conditional['z3_in_path']}
   if make_code in (124,137):raise Failure('full make test reached its bounded deadline','INCOMPLETE_TIMEOUT')
   need(make_code==0,f'full make test exited {make_code}','TEST_FAILURE')
   verify_make_completion(make_out)
@@ -139,12 +175,10 @@ def audit(repo,root):
   reg='tests/rust/testsuite.mysh'; reg_bytes=read(repo/reg)
   need(h(reg_bytes)==manifest['selected_files'][reg]['sha256'],
        'native registration differs from pinned source')
-  registration=reg_bytes.decode()
-  need(registration.count('cd manuallydrop_new_cfg')==1 and
-       all(registration.count(command)==1 for command in COMMANDS) and
-       'dead_code_pre.rs(1,1-7,2): dead code' in registration and
-       'EXIT:1' in registration and '-allow_dead_code' not in registration,
-       'five native registrations or exact dead diagnostic assertion absent')
+  registration_block=verify_registration(reg_bytes.decode())
+  root_suite=read(repo/'testsuite.mysh').decode()
+  need(re.search(r'cd rust\s*\n\s*call testsuite\.mysh',root_suite) is not None,
+       'root suite does not invoke native Rust tests')
   diagnostic_code,diagnostic_stdout,diagnostic_stderr=stage(root,'dead-diagnostic')
   need(diagnostic_code==1,'dead code control did not exit exactly 1','WRONG_DIAGNOSTIC')
   need('dead_code_pre.rs(1,1-7,2): dead code' in diagnostic_stdout+diagnostic_stderr,
@@ -157,7 +191,8 @@ def audit(repo,root):
                          'rustc_commit':RUSTC,'components':post['components']},
              selected_native={'positive_and_expected_failure_commands':list(COMMANDS),
                               'exact_dead_code_diagnostic':True,
-                              'dead_code_exit_status':diagnostic_code},
+                              'dead_code_exit_status':diagnostic_code,
+                              'registration_block_sha256':h(registration_block.encode())},
              affected_structural=changed)
  except Failure as exc:
   out.update(classification=exc.kind,reason=str(exc),accepted=False)

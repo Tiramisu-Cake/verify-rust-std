@@ -168,6 +168,19 @@ assert all(not (root/'bin'/x).exists() for x in names)
 pathlib.Path(sys.argv[2]).write_text(json.dumps({'removed_stock_binaries':names,
  'all_absent_before_build':True},indent=2,sort_keys=True)+'\n')
 BEFORE
+python3 - "$candidate" "$all/conditional-components.json" <<'CONDITIONAL'
+import json,os,pathlib,shutil,sys
+root=pathlib.Path(sys.argv[1]); out=pathlib.Path(sys.argv[2])
+record={'schema':'verifast-fullmake-conditional-components-v1',
+ 'assignment_models_directory_present':(root/'assignments').is_dir(),
+ 'assignment_models_script_present':(root/'assignments/run_model_solutions.mysh').is_file(),
+ 'java_ast_server_enabled':bool(os.environ.get('VERIFAST_JAVA_AST_SERVER')),
+ 'rocq_coqc_available':shutil.which('coqc') is not None,
+ 'z3_in_path':shutil.which('z3') is not None,
+ 'z3v45_in_path':shutil.which('z3v4.5') is not None,
+ 'stock_z3_binary_present':(root/'bin/z3').is_file()}
+out.write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+CONDITIONAL
 snapshot make-test-before.txt
 make_status=0
 run_stage make-test 2250 "$candidate/src" split make test NUMCPU=4 || make_status=$?
