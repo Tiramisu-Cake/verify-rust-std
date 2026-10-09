@@ -29,8 +29,9 @@ Day expense831/3600seconds (87setup+341scope+403receiver),2769remaining,3termina
 Candidate infra/proof8bf37946451829978451731a77f622144826ae11,
 [preflight](cloud-build/day-select-sort4/COLUMN-NESTED-PREFLIGHT.json):189parts.
 Original062d193parts NOT_READY, never submitted; only eight historical documents
-removed from delivery, all runtime dependencies/guards retained. Shared Cloud turn
-requested; no own active Build yet (foreign owner merge Build9ed49fda). No runtime/posts/resources/kernel/
+removed from delivery, all runtime dependencies/guards retained. Build5a3d3312-3a9e-4bad-9488-714ad62b48be ACTIVE, exact published candidate;
+submitted config6b7cc4f27bf9d5df12817375e0ddca277ab25b9ddf5fb53ab19ce73b2b9d9341,
+actual flags189parts. Timeout900+60queue, reserved960; final budget awaits terminal. No runtime/posts/resources/kernel/
 spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),
 [result/identities](cloud-build/day-select-sort4/RECEIVER-RESULT.json).
 

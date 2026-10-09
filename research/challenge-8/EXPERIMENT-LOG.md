@@ -6232,3 +6232,7 @@ new semantic cards. Actual563721bytes/189parts, source-inputSHA
 Timeout900+60queue reserve, no new budget charge. Shared global gate correctly
 refused submit while foreign merge9ed49fda active; own ready request retained.
 No duplicate/uncertain own submit, old account and foreign ledger untouched.
+
+10:30UTC: shared slot released and exact candidate Build5a3d3312-3a9e-4bad-9488-714ad62b48be submitted,
+config6b7cc4f27bf9d5df12817375e0ddca277ab25b9ddf5fb53ab19ce73b2b9d9341.
+Actual submitted flags189parts, max3990; no proof credit until full evidence reviewed.
