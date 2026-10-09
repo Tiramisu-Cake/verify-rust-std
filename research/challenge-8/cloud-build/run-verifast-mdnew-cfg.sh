@@ -36,11 +36,12 @@ restore="$cloud_dir/restore-verifast-input.py"
 audited=0
 status=0
 
-mkdir -p "$all" "$cases" "$work"
+mkdir -p "$all" "$work"
 [[ -d "$cloud_dir" && -d "$proof_root" && -d "$evidence_root" ]] || exit 2
 if [[ -n "$(find "$all" -mindepth 1 -print -quit)" ]]; then
   echo "evidence lane already contains files: $all" >&2; exit 2
 fi
+mkdir -p "$cases"
 
 write_incomplete_audit() {
   local code=$?
