@@ -29,6 +29,7 @@ NEW_GROUPS = {
     "source-pair-turnover-resource-diagnostic",
     "cleanup-recovery-hidden-type-diagnostic",
     "current-owner-handoff-resource-diagnostic",
+    "current-owner-handoff-stock-diagnostic",
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {

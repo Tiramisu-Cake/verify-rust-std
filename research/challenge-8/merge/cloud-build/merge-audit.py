@@ -42,6 +42,7 @@ POINTER_GROUPS = {
     "source-pair-turnover-resource-diagnostic": "checked-source-pair-turnover",
     "cleanup-recovery-hidden-type-diagnostic": "checked-cleanup-recovery-hidden-type",
     "current-owner-handoff-resource-diagnostic": "checked-current-owner-handoff",
+    "current-owner-handoff-stock-diagnostic": "checked-current-owner-handoff-stock",
 }
 OTHER_ARTIFACTS = {
     "G2-compatibility": [
@@ -248,6 +249,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
     owner_handoff_cases = raw_cases("cases/checked-current-owner-handoff/aggregate.json",
                                     "current-owner-handoff-resource-diagnostic")
 
+    stock_owner_handoff_cases = raw_cases("cases/checked-current-owner-handoff-stock/aggregate.json",
+                                          "current-owner-handoff-stock-diagnostic")
+
     panic_candidates = []
     for path in cases.glob("**/panic-macro-origin.json"):
         try:
@@ -368,6 +372,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
         "theorem_statuses": {
             "whole_small_sort_challenge": "NOT_PROVEN",
             "current_owner_handoff_cases": owner_handoff_cases,
+            "stock_current_owner_handoff_cases": stock_owner_handoff_cases,
             "g2_quartet_trace_cases": quartet_cases,
             "g2_modular_entry_control_cases": modular_entry_cases,
             "g2_modular_trace_cases": modular_trace_cases,

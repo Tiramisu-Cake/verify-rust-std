@@ -152,6 +152,12 @@ def transform(path: str, original: bytes, pins: dict[str, str] | None = None) ->
                  b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
                  b'    --fixture research/challenge-8/merge/overnight/current-owner-handoff-cases.rs \\\n'
                  b'    --evidence "$evidence/checked-current-owner-handoff"\n'
+                 b'  run_one current-owner-handoff-stock-diagnostic 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile stock-26.10-current-owner-handoff \\\n'
+                 b"    --scope 'stock isolation of exact current-owner fixture; no experimental kernel acceptance or actual caller claim' \\\n"
+                 b'    --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/current-owner-handoff-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-current-owner-handoff-stock"\n'
                  b'  return "$suite_status"\n}\n\nexperimental_home='), path)
             data = replace_once(data,
                                 b'suite bound=900s; whole step bound=1700s.',

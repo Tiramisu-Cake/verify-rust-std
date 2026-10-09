@@ -49,9 +49,9 @@ archive.sha256 independently. Preserve full setup/failure logs and source/profil
 hashes; missing gates cannot count as intended negatives or theorem PASS.
 
 The committed `merge/cloud-build/selection.json` is the sole group-selection
-input and is included in the exact recipe closure. Its default is
-`full-transfer`: the retained 37 run groups plus the saved callback-destination
-runtime observation. For a targeted diagnostic, change the committed selection
+input and is included in the exact recipe closure. The `full-transfer` mode selects the retained 37 run groups plus the saved
+callback-destination runtime observation. The committed selection currently
+chooses explicit targeted groups; inspect it before each submit. For a targeted diagnostic, change the committed selection
 to `mode: "targeted"`, set `full_transfer: false`, keep
 `rust-profile-smoke`, and list a sorted unique set of known group names. The
 selection validator rejects unknown names, missing preparation dependencies,
@@ -74,5 +74,6 @@ evidence. Draft groups are `source-pair-turnover-resource-diagnostic`,
 `cleanup-recovery-hidden-type-diagnostic` and
 `current-owner-handoff-resource-diagnostic`. The first two contain uncalibrated
 controls until fresh Cloud evidence establishes the intended stage/location;
-current-owner handoff contains two conditional positives with no ownership-
-duplication negative. None derives the actual caller bridge.
+current-owner handoff contains three conditional positives (identity/swap pair
+and native-usize identity array), with a separate exact-fixture stock probe and
+no ownership-duplication negative. None derives the actual caller bridge.
