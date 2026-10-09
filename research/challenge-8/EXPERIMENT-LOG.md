@@ -5975,3 +5975,34 @@ source-only proof credit. Genericcapture proof8c2f3d8a/infra8a7c0c8f is separate
 ready: originalGitpayload484940B, base64source163parts (172 total substitutions),
 SHAeb556bf0a8b3a3eafb29b71f6914d4e49a0b4ad7aa5db922063a6d6a07b70959.
 No generic ownership/callee proof, no repeated migration acceptance.
+
+NIGHT-CLOUD-13: Build673526ac-6556-40bc-9ebe-7792e257bfcd,
+infra9f22416ac13ac006f505605b57b50f37629caef1,proofd253128ac42f5788cc322201bdfcc6c1e2e36f76,
+laneo26-strict-cut-false-posts,config0d3bdf60f461b0fb6eff7c55664ccd7ab094ac179f59be611c66294989e28e25,
+tokendispatch-6fa7a303993f43e08337c7fd55707c92. create06:24:32.391924017,
+start06:24:33.134531877,finish06:30:56.110265UTC=384s; own4328/10800,
+6472remaining. FAILURE at diagnostic gate (run_exit0 != proof), evidencecomplete;
+archive11ebebd82f74b42b4fd1a66cfa9959dc58bc4793629569545d35a2447c20e861
+and textindex43ea695cc1298b245e59d19509e80f2ca40301b8f0fc328236da8b2751c65878
+integrityverified. All17matrix cases actually executed: five support stages
+exit0/refinement0 each; four enabledpositives VF0;12 negatives +one off
+case have one raw refusal each. Manual full-log review attributes repeated
+end_lifetime refusal to actual missing lifetime_token(cmp_k) precondition
+at pinned lifetime_logic.rsspec78:9–23 and note-derived second caller
+verified/lib.rs15:13–25 (first call14). Audit wrongly requires the error
+itself pointtoverified source; it aborts before finalmatrixsummary. No audited
+combined acceptance or actualsort4 proof; exact raw outcomes preserved.
+Both false-post controls did NOT_RUN due prerequisite auditexit1. Next permitted
+change is narrow callee-contract attribution auditrepair; other cases/rules
+unchanged. Reuse complete verifiedmatrix evidence for affected auditreview
+and new falseposts when exacttool/profile/source identities match, ratherthan
+regenerating unchanged17cases.
+
+New infrastructure95a99685da166325f13d676281cc897c41e65ffb published separately
+from proof18816e160c4b76180b4e11c1bc431cb74a88b77e. OriginalGit payload preflights:
+R3 lane538853B/181sourceparts,9cb6ef509f2c1f0ac26ea43b442ff56713aedf5bcccdfa0e17e7512af4de3a3f;
+generic/postmark552813B/185sourceparts,41651703a25e7815d937f4161b4d3165a2116dd013b075d1e53df7d526f281f5.
+Both canonical/profile/dependency path sets checked, below191sourceparts bound.
+R3pendingactualcallee scheduling, independentbody7/ghostCFG targetnegatives,
+fullnormal/unwind/return/leak; printcoreTEST changesonlyisolatedinstrumentation,
+requireson/off185boundary and ASTidentity, no cleanup orsemanticacceptance.

@@ -667,3 +667,9 @@ unit and outerbody changed;8otherbodies unchanged and runtime identity checked.
 It is SOURCE_CAPTURE_ONLY: collector deliberately refuses before proof.
 R3 owner17/A1/SAFEforget rules and fullactual/nested posts remain NOT_RUN;
 historical certificate refusal remains only predicted. No new proof closure.
+
+Build673526ac executesstrict17microfixtures:4positive VF0,12negative+1off
+rawrefusals, pairedMIR/refinement0 each. Auditorstops on callee-precondition
+attribution for secondend_lifetime (spec78, caller15note); nofinalmatrix
+certificate and falsepost2NOT_RUN. Noactualsort4 coverage/acceptedlifetime
+semantics. Narrowauditrepair + evidenceidentity review pending.
