@@ -1,3 +1,17 @@
+# Active phase: actual first sort4 c1 caller bridge
+
+2026-10-09. User resumed checkpoint789b0daffcdd3d1b49c83e979aec486542334b46.
+Own worktree/branch verified clean; start19:43:08UTC, main20:43:08,
+absolute21:13:08. [New phase](cloud-build/sort4-c1-caller-bridge/PHASE.md),
+[new independent3600s ledger](cloud-build/sort4-c1-caller-bridge/BUDGET.json).
+Owner select-sort4, coordinator v2/max2, no foreign state modification.
+Goal: derive c1 premises from actual first sort4 entry on source-linked scratch
+success path while retaining original check. No c2, no new assumptions or native
+contract strengthening. type_interp and size>0 tracked separately; ZST remains
+possible in actual branch. Previous select and conditional c1 evidence preserved,
+not rerun unless affected. Preparation audit and narrow path filter in progress;
+new proof NOT_RUN at phase opening. Prior checkpoint follows unchanged.
+
 # Current phase: SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Checkpoint](cloud-build/sort4-c1-caller-entry/END-CHECKPOINT-2026-10-09.md),

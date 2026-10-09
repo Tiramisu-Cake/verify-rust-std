@@ -39,6 +39,10 @@ C1_CALLER_ENTRY_START='2026-10-09T18:17:12Z'
 C1_CALLER_ENTRY_MAIN_DEADLINE='2026-10-09T19:17:12Z'
 C1_CALLER_ENTRY_DEADLINE='2026-10-09T19:47:12Z'
 C1_CALLER_ENTRY_LANES=frozenset(('o26-sort4-caller-entry',))
+C1_BRIDGE_PHASE='SORT4-C1-CALLER-BRIDGE-CLOUD-2026-10-09'
+C1_BRIDGE_START='2026-10-09T19:43:08Z'
+C1_BRIDGE_MAIN_DEADLINE='2026-10-09T20:43:08Z'
+C1_BRIDGE_DEADLINE='2026-10-09T21:13:08Z'
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -256,15 +260,17 @@ def authorized_phase(a,ledger):
  if a.phase_id==C1_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_START or ledger.get('main_deadline_utc')!=C1_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_DEADLINE):raise SystemExit('C1 phase requires its exact separate account, owner, window and lane')
  if a.phase_id==C1_ACTUAL_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_ACTUAL_START or ledger.get('main_deadline_utc')!=C1_ACTUAL_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_ACTUAL_DEADLINE):raise SystemExit('Actual C1 phase requires its exact separate account, owner, window and lane')
  if a.phase_id==C1_CALLER_ENTRY_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_CALLER_ENTRY_LANES or ledger.get('start_utc')!=C1_CALLER_ENTRY_START or ledger.get('main_deadline_utc')!=C1_CALLER_ENTRY_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_CALLER_ENTRY_DEADLINE):raise SystemExit('C1 caller-entry phase requires its exact separate account, owner, window and lane')
+ if a.phase_id==C1_BRIDGE_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_CALLER_ENTRY_LANES or ledger.get('start_utc')!=C1_BRIDGE_START or ledger.get('main_deadline_utc')!=C1_BRIDGE_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_BRIDGE_DEADLINE):raise SystemExit('C1 caller-bridge phase requires its exact separate account, owner, window and lane')
  if a.phase_id==AFTERNOON_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=AFTERNOON_LANES):raise SystemExit('Afternoon select phase requires its separate 3600-second account, exact owner and approved lanes')
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((C1_BRIDGE_DEADLINE if a.phase_id==C1_BRIDGE_PHASE else C1_CALLER_ENTRY_DEADLINE if a.phase_id==C1_CALLER_ENTRY_PHASE else C1_ACTUAL_DEADLINE if a.phase_id==C1_ACTUAL_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
  if a.phase_id==NEXT_SELECT_PHASE and deadline!=cutoff:raise SystemExit('Next select phase requires its exact absolute deadline')
+ if a.phase_id==C1_BRIDGE_PHASE and deadline!=cutoff:raise SystemExit('C1 caller-bridge phase requires exact absolute deadline')
  if a.phase_id==C1_CALLER_ENTRY_PHASE and deadline!=cutoff:raise SystemExit('C1 caller-entry phase requires its exact absolute deadline')
  if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
@@ -336,6 +342,7 @@ def run_command(a,state,ledger,ledger_path):
   if a.source_mode!='pinned-objects':raise SystemExit('New phase requires pinned Git objects')
   now=datetime.datetime.now(datetime.timezone.utc)
   if a.phase_id==C1_ACTUAL_PHASE and now>=datetime.datetime.fromisoformat(C1_ACTUAL_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Actual C1 main window ended; no new experiment')
+  if a.phase_id==C1_BRIDGE_PHASE and now>=datetime.datetime.fromisoformat(C1_BRIDGE_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('C1 caller-bridge main window ended; no new experiment')
   if a.phase_id==C1_CALLER_ENTRY_PHASE and now>=datetime.datetime.fromisoformat(C1_CALLER_ENTRY_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('C1 caller-entry main window ended; no new experiment')
   if now+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Timeout plus queue reserve exceeds phase deadline')
   coordination.request(a.owner,a.phase_id,ledger_path,ledger['deadline_utc'])
