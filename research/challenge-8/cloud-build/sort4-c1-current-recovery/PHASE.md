@@ -140,3 +140,21 @@ reservation/build, charged0. Bound closure removes unrelated selector source
 preflight/capture/proof hooks only for c1 lane; exact O26 patch22/tool validation,
 full actual sort4 source and all recovery dependencies retained. Other lanes
 unchanged. New run pins remain immutable.
+
+## Second run and patch-application repair before fresh Cloud gate
+
+Build3221200b-be1b-4e5a-839c-5c4cd38bcf00, infra=proof337ea6a5,
+terminal FAILURE335 conservative seconds. Complete archive
+400693a2b4f8770febe54d826ed9f7069e639c3373dc84ae6a507bcd6a2c3418
+verified. Fresh O24 exact source, NORMAL/readonly MIR and refinement passed;
+reserved marker remains first baseline error. c1-patch-check rejected the draft
+ordinary git-apply hunk, so actual overlay and fresh controls remain NOT_RUN.
+
+Static saved-evidence repair: exact strict+relocation translator
+7bfc8af2ea027b8611898639d7a07a4ba8e614cc30f5eb19c9728b7142d00475.
+Old patch has insufficient trailing unified context; regenerate normal context
+without AST algorithm changes. New patch5b9cac9657916aa00466440d3ad41a1724f96dbb613c6d7896d9448cddc9235f
+applies with standard git apply --check. Old --unidiff-zero and new ordinary
+application yield identical translator26eb4a73497bd66b921305ecae48d8843ac8339ec960e2fbf1ced1683b149ece.
+No local compilation/proof execution. This repair changes patch transport only;
+all predeclared exact-source/AST/strict-scope/resource gates remain required.

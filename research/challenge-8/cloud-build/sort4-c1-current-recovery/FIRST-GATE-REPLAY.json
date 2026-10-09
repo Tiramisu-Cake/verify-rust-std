@@ -21,5 +21,17 @@
     "diagnostic_outcome": true
   },
   "new_proof": false,
-  "actual_c1": "NOT_RUN"
+  "actual_c1": "NOT_RUN",
+  "replay_call": "cut_relocate_audit.classify(relocation/relocation, int(raw-capture-exit-code.txt), json(source-audit.json))",
+  "replay_runtime": "existing python3 importlib module; classify has no compiler/verifier/extractor/subprocess invocation",
+  "artifact_hashes": {
+    "raw-capture-exit-code.txt": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "required-proof-files-sha256.txt": "c703f1555cce66340e83095aeb9a34a466fe72716e11cfee5b49f1e2409f6752",
+    "source-audit.json": "91cc069d0930c321ac5f9edb638746326c9c8e303d31534878b787479612d94c",
+    "relocation/summary.json": "38ae4c5fb946a4d5758eb9fc74b2b349cf8d783888a2a4e8d15e4790e982a767",
+    "relocation/callback-positive/baseline-verification.log": "7e688f56469dfdcfa9b7e763232edf4bbf83af34edd84ce2adbdb1858409f19a",
+    "relocation/callback-positive/relocated-verification.log": "4288048f1f042b4b022a3a25c255ced4560ea780408536b935d7f600337aeb24",
+    "relocation/callback-positive/original/lib.rs": "9b41aef507c8c61ec786bfacc8e12ede656286213e393a0d07436a8879dc569e",
+    "relocation/callback-positive/verified/lib.rs": "66bf5a6edc0188f560e72ac5a6a5636f2dcda47c65aa295ac21008fc7702e2d8"
+  }
 }

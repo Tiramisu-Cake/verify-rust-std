@@ -1,6 +1,8 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -6213,3 +6213,17 @@
+@@ -6523,7 +6523,21 @@
+       | _ -> None
+     in
      let markers, ghost_stmts =
 -      List.partition (fun stmt -> match marker_call stmt with Some _ -> true | None -> false) ghost_stmts
 +      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
@@ -19,7 +21,11 @@
 +          (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
 +          ghost_stmts
      in
-@@ -6273,6 +6273,282 @@
+     if markers <> [] && Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" then
+       Ast.static_error (Ast.stmt_loc (List.hd markers))
+@@ -7097,11 +7111,287 @@
+                            (call_loc, "unwinding", [], [], [], Ast.Static)))])
+             in
              Ok
 -              (mk_fn_decl contract
 -                 (Some
@@ -307,3 +313,6 @@
 +                   (node_sha changed_decl) pre_header;
 +                 changed_decl
 +               end)
+         in
+         let body_sig_opt =
+           match contract_template_opt with
