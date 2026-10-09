@@ -2,8 +2,10 @@
 # Bounded Cloud-only source-built baseline/candidate gate for MDnew CFG.
 set -euo pipefail
 
-lane=${1:?usage: run-verifast-mdnew-cfg.sh verifast-mdnew-cfg}
-[[ "$lane" == verifast-mdnew-cfg ]] || { echo 'unexpected lane' >&2; exit 2; }
+lane=${1:?usage: run-verifast-mdnew-cfg.sh verifast-mdnew-cfg|verifast-mdnew-regressions}
+[[ "$lane" == verifast-mdnew-cfg || "$lane" == verifast-mdnew-regressions ]] || {
+  echo 'unexpected lane' >&2; exit 2;
+}
 infra_root=${INFRA_ROOT:-/workspace/infra}
 proof_root=${PROOF_ROOT:-/workspace/proof}
 evidence_root=${EVIDENCE_ROOT:-/workspace/evidence}
@@ -32,6 +34,7 @@ verifast_input="$proof_root/$input_rel"
 source_certificate="$evidence_root/source-input-certificate.json"
 proof_audit="$evidence_root/proof-audit.json"
 auditor="$cloud_dir/mdnew-audit.py"
+regression_auditor="$cloud_dir/mdnew-regression-audit.py"
 restore="$cloud_dir/restore-verifast-input.py"
 audited=0
 status=0
@@ -47,7 +50,12 @@ write_incomplete_audit() {
   local code=$?
   trap - EXIT
   if (( audited == 0 )); then
-    python3 "$auditor" "$cases" --output "$proof_audit" > "$all/audit-failure.log" 2>&1 || true
+    if [[ "$lane" == verifast-mdnew-regressions ]]; then
+      python3 "$regression_auditor" "$candidate_tool" "$all" --output "$proof_audit" \
+        > "$all/audit-failure.log" 2>&1 || true
+    else
+      python3 "$auditor" "$cases" --output "$proof_audit" > "$all/audit-failure.log" 2>&1 || true
+    fi
     audited=1
   fi
   if (( code != 0 )) && [[ -f "$proof_audit" ]]; then
@@ -112,11 +120,11 @@ provider_json=$(CLOUD_BUILD_ID=${CLOUD_BUILD_ID:-} \
   python3 "$cloud_dir/provider.py")
 printf '%s\n' "$provider_json" > "$all/provider.json"
 
-python3 - "$source_certificate" "$proof_root" "$infra_root" "$all/identities.json" <<'IDENTITIES'
+python3 - "$source_certificate" "$proof_root" "$infra_root" "$all/identities.json" "$lane" <<'IDENTITIES'
 import json,pathlib,subprocess,sys
-certificate,proof,infra,out=map(pathlib.Path,sys.argv[1:])
+certificate,proof,infra,out=map(pathlib.Path,sys.argv[1:5]); lane=sys.argv[5]
 c=json.loads(certificate.read_text())
-if c.get('lane')!='verifast-mdnew-cfg': raise SystemExit('source-input lane mismatch')
+if c.get('lane')!=lane: raise SystemExit('source-input lane mismatch')
 for key,root in (('proof',proof),('infra',infra)):
  rec=c.get(key,{})
  if not rec.get('commit') or not rec.get('head'): raise SystemExit(f'{key} source identity absent')
@@ -286,7 +294,9 @@ path={'baseline_source_sha':subprocess.check_output(['git','-C',str(base),'rev-p
 pathlib.Path(out).write_text(json.dumps(path,indent=2,sort_keys=True)+'\n')
 COMPONENTS
 
-# Assert all fixtures are the exact candidate Git blobs before either console sees them.
+# The focused lane prepares its fixtures. The regression lane runs only pinned
+# upstream tests after the same source-built candidate and provenance setup.
+if [[ "$lane" == verifast-mdnew-cfg ]]; then
 python3 - "$candidate_tool" "$baseline_tool" "$candidate_sha" "$cases" <<'FIXTURES'
 import hashlib,pathlib,shutil,subprocess,sys
 candidate,baseline,cases=map(pathlib.Path,(sys.argv[1],sys.argv[2],sys.argv[4]))
@@ -310,6 +320,7 @@ for name in ('forget','shared_cleanup','false_normal_post','shared_false_unwind'
   (original/'lib.rs').write_bytes(original_bytes); (verified/'lib.rs').write_bytes(data)
   (out/'fixture.json').write_text(__import__('json').dumps({'source_sha256':digest,'source_bytes':len(data),'original_sha256':hashlib.sha256(original_bytes).hexdigest(),'verified_sha256':digest,'ghost_strip_exact':True,'candidate_commit':str(sha),'git_blob':subprocess.check_output(['git','-C',str(candidate),'rev-parse',str(sha)+':'+rel.as_posix()],text=True).strip()},indent=2,sort_keys=True)+'\n')
 FIXTURES
+fi
 
 run_verifast() {
   local side=$1 case=$2 mode=$3; shift 3
@@ -412,6 +423,87 @@ record={'schema':'verifast-mdnew-capture-v1','case':case,'side':side,'source_sha
 pathlib.Path(out).write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
 CAPTURE
 }
+
+if [[ "$lane" == verifast-mdnew-regressions ]]; then
+  regression_dir="$all/regressions"
+  mkdir -p "$regression_dir"
+  python3 - "$regression_dir/manifest.json" "$infra_sha" "$proof_sha" \
+    "$candidate_sha" "$candidate_tree" <<'REGRESSION_INIT'
+import json,pathlib,sys
+path,infra,proof,candidate,tree=sys.argv[1:]
+pathlib.Path(path).write_text(json.dumps({'schema':'verifast-mdnew-regressions-v1',
+ 'infra_sha':infra,'proof_sha':proof,'candidate_commit':candidate,'candidate_tree':tree,
+ 'results':[]},indent=2,sort_keys=True)+'\n')
+REGRESSION_INIT
+  run_regression() {
+    local name=$1 relative=$2; shift 2
+    local path="$candidate_tool/tests/rust/$relative" output="$regression_dir/$name.stdout.log" rc=0
+    local source_sha committed_sha blob options_json start_budget
+    source_sha=$(sha256sum "$path" | cut -d' ' -f1)
+    blob=$(git -C "$candidate_tool" rev-parse "$candidate_sha:tests/rust/$relative")
+    committed_sha=$(git -C "$candidate_tool" show "$candidate_sha:tests/rust/$relative" | sha256sum | cut -d' ' -f1)
+    [[ "$source_sha" == "$committed_sha" ]] || {
+      echo "upstream regression source differs from pinned Git object: $relative" >&2; return 2;
+    }
+    options_json=$(python3 - "$@" <<'OPTIONS'
+import json,sys
+print(json.dumps(sys.argv[1:]))
+OPTIONS
+)
+    if start_budget=$(remaining); then
+      run_stage "mdnew-regression-$name" 180 "$candidate_tool/tests/rust" "$output" split \
+        "$candidate_tool/bin/verifast" "$@" "$relative" || rc=$?
+    else
+      rc=124
+      : > "$output"
+      printf 'deadline elapsed before regression stage started\n' \
+        > "$all/mdnew-regression-$name-stderr.log"
+      printf 'stage not started\n' > "$all/mdnew-regression-$name-resources.txt"
+      printf '%s\n' "$rc" > "$all/mdnew-regression-$name-exit-code.txt"
+    fi
+    python3 - "$regression_dir/manifest.json" "$name" "$relative" "$source_sha" \
+      "$blob" "$options_json" "$rc" "$output" \
+      "$all/mdnew-regression-$name-stderr.log" \
+      "$all/mdnew-regression-$name-resources.txt" \
+      "$all/mdnew-regression-$name-exit-code.txt" <<'REGRESSION_RECORD'
+import hashlib,json,pathlib,sys
+manifest,name,relative,source_sha,blob,options,code,*paths=sys.argv[1:]
+def file_record(value):
+ p=pathlib.Path(value)
+ return {'path':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None}
+record={'name':name,'path':relative,'source_sha256':source_sha,'git_blob':blob,
+ 'options':json.loads(options),'exit_status':int(code),
+ 'stdout':file_record(paths[0]),'stderr':file_record(paths[1]),
+ 'resources':file_record(paths[2]),'exit_status_file':file_record(paths[3])}
+p=pathlib.Path(manifest); data=json.loads(p.read_text()); data['results'].append(record)
+p.write_text(json.dumps(data,indent=2,sort_keys=True)+'\n')
+REGRESSION_RECORD
+  }
+  run_regression generic_pair safe_abstraction/generic_pair.rs \
+    -ignore_unwind_paths -ignore_ref_creation
+  run_regression tree safe_abstraction/tree.rs \
+    -ignore_unwind_paths -ignore_ref_creation -allow_assume
+  run_regression type_projections purely_unsafe/type_projections.rs \
+    -ignore_unwind_paths -ignore_ref_creation -disable_overflow_check
+  run_regression generic_structs purely_unsafe/generic_structs.rs
+  run_regression scalars purely_unsafe/scalars.rs
+  python3 "$regression_auditor" "$candidate_tool" "$all" \
+    --output "$proof_audit" > "$all/mdnew-regression-audit.log" 2>&1 || status=$?
+  audited=1
+  if (( status != 0 )); then cat "$all/mdnew-regression-audit.log"; exit "$status"; fi
+  python3 - "$proof_audit" "$all/runtime-components.json" \
+    "$all/restore-receipt.json" <<'REGRESSION_FINALIZE'
+import json,pathlib,sys
+proof=pathlib.Path(sys.argv[1]); result=json.loads(proof.read_text())
+if result.get('accepted') is not True or result.get('classification')!='UPSTREAM_TARGETED_REGRESSIONS_PASS':
+ raise SystemExit('targeted upstream regression audit did not accept evidence')
+for value in sys.argv[2:]:
+ p=pathlib.Path(value)
+ if not p.is_file(): raise SystemExit(f'missing runtime provenance: {p}')
+ json.loads(p.read_text())
+REGRESSION_FINALIZE
+  exit 0
+fi
 
 # Run the same five source bytes through each exact source-built console.
 for side in baseline candidate; do
