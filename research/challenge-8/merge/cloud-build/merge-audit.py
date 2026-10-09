@@ -96,8 +96,13 @@ OR_JOIN_MINIMUM_ARTIFACTS = [
     f"cases/{OR_JOIN_GROUP}/preflight.log",
     f"cases/{OR_JOIN_GROUP}/preflight-exit-code.txt",
     f"cases/{OR_JOIN_GROUP}/work-budget.txt",
+    *[f"cases/{OR_JOIN_GROUP}/{name}{suffix}" for name in
+      ("calibrated-real-dead", "uncalibrated-liveness-controls",
+       "actual-bounded", "admission-controls")
+      for suffix in ("-exit-code.txt", ".log", "-resources.txt")],
     *[f"cases/{OR_JOIN_GROUP}/{name}-exit-code.txt" for name in
-      ("calibrated-real-dead", "uncalibrated-liveness-controls", "actual-bounded")],
+      ("calibrated-real-dead", "uncalibrated-liveness-controls", "actual-bounded",
+       "admission-controls")],
 ]
 OTHER_ARTIFACTS = {
     "G2-compatibility": [
@@ -297,8 +302,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 if not isinstance(meta, dict) or not isinstance(row, dict):
                     return False
                 if (meta.get("case") != name or meta.get("ghost_strip_exact_bytes") is not True or
-                        meta.get("expected_bodies") != [name] or
-                        row.get("accepted") is not False or
+                        row.get("accepted", False) is not False or
                         row.get("source_unchanged_at_every_stage") is not True or
                         row.get("source_before") != row.get("source_after") or
                         not isinstance(row.get("source_before"), dict) or
@@ -306,6 +310,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         row["source_before"].get("verified/lib.rs") != meta.get("verified_sha256")):
                     return False
                 case_dir = base / "cases" / name
+                verified_case = case_dir / "verified/lib.rs"
                 for rel, expected in (("original/lib.rs", meta.get("original_sha256")),
                                       ("verified/lib.rs", meta.get("verified_sha256"))):
                     path = case_dir / rel
@@ -337,11 +342,19 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 body_execution = row.get("body_execution_records")
                 body_records = row.get("per_body_records")
                 classifier_controls = row.get("classifier_fail_closed_mutations")
-                if (not isinstance(bodies, list) or bodies != [name] or
+                actual_body_names = checked_body_names(verified_case.read_bytes())
+                if (not isinstance(bodies, list) or bodies != actual_body_names or
+                        len(bodies) != len(set(bodies)) or name not in bodies or
+                        row.get("expected_bodies") != bodies or
                         not isinstance(body_execution, dict) or not isinstance(body_records, dict) or
+                        not set(body_records).issubset(set(bodies)) or
+                        not isinstance(row.get("error_lines"), list) or
+                        not isinstance(row.get("dead_code_records"), list) or
+                        type(row.get("full_positive_gate")) is not bool or
                         not isinstance(classifier_controls, dict) or not classifier_controls or
                         not all(value is True for value in classifier_controls.values()) or
-                        any(not isinstance(body_records.get(body), dict) for body in bodies) or
+                        any(not isinstance(body_execution.get(body), int) for body in bodies) or
+                        any(not isinstance(value, dict) for value in body_records.values()) or
                         any(type(stages.get(stage)) is not int for stage in stages)):
                     return False
                 if name == "current_owner_transposition_false_entry":
@@ -363,28 +376,30 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             any(observed_error.get(key) != expected.get(key) for key in
                                 ("line", "column_start", "column_end", "predicate")) or
                             observed_error.get("target_executed") is not True or
-                            any(body_execution.get(body, 0) <= 0 for body in bodies) or
+                            body_execution.get(name, 0) <= 0 or
+                            len(row.get("error_lines", [])) != 1 or
                             row.get("dead_code_records")):
                         return False
                 elif name == "current_owner_transposition_double_owner_calibration":
                     if (meta.get("negative") is not False or
-                            meta.get("unclassified_target") is not True or
+                            meta.get("unclassified_target") is not False or
                             meta.get("expected_error") is not None or
                             meta.get("expected_rejection") is not None or
                             meta.get("expected_dead") is not None or
+                            row.get("expected_error") is not None or
                             classification not in {"PASS", "INCONCLUSIVE"}):
-                        return False
-                    if classification == "PASS" and not row.get("full_positive_gate"):
                         return False
                 else:
                     if (meta.get("negative") is not False or
                             meta.get("expected_error") is not None or
+                            meta.get("unclassified_target") is not False or
+                            row.get("expected_error") is not None or
                             classification not in {"PASS", "INCONCLUSIVE"}):
                         return False
-                    if classification == "PASS" and not row.get("full_positive_gate"):
-                        return False
                 if classification == "PASS":
-                    if (not all(stages.get(stage) == 0 for stage in stages) or
+                    if (name == "current_owner_transposition_false_entry" or
+                            row.get("full_positive_gate") is not True or
+                            not all(stages.get(stage) == 0 for stage in stages) or
                             row.get("error_lines") or row.get("dead_code_records") or
                             any(body_execution.get(body, 0) <= 0 for body in bodies) or
                             any(body_records.get(body, {}).get("return", 0) <= 0 or
@@ -698,13 +713,28 @@ def audit(root: Path, selection_path: Path, run_status: int,
             group_exit = evidence / f"group-{OR_JOIN_GROUP}-exit-code.txt"
             external_status = int(group_exit.read_text().strip()) if group_exit.is_file() else None
             inner_group_names = ("calibrated-real-dead", "uncalibrated-liveness-controls",
-                                 "actual-bounded")
+                                 "actual-bounded", "admission-controls")
             raw_inner_groups = seven.get("group_status")
             inner_statuses_bound = isinstance(raw_inner_groups, dict) and set(raw_inner_groups) == set(inner_group_names)
             if inner_statuses_bound:
                 inner_statuses_bound = all(
-                    (base / f"{name}-exit-code.txt").read_text().strip() == raw_inner_groups[name]
+                    (base / f"{name}-exit-code.txt").read_text().strip() == raw_inner_groups[name] and
+                    all((base / f"{name}{suffix}").is_file() and
+                        not (base / f"{name}{suffix}").is_symlink()
+                        for suffix in ("-exit-code.txt", ".log", "-resources.txt"))
                     for name in inner_group_names)
+            raw_status_rows = {}
+            if raw_groups.is_file():
+                for line in raw_groups.read_text(errors="replace").splitlines():
+                    fields = line.split()
+                    if len(fields) >= 2 and fields[0] in inner_group_names:
+                        raw_status_rows.setdefault(fields[0], []).append(fields[1])
+            group_status_file_bound = (
+                isinstance(raw_inner_groups, dict) and
+                set(raw_status_rows) == set(inner_group_names) and
+                all(len(raw_status_rows[name]) == 1 and
+                    raw_status_rows[name][0] == raw_inner_groups.get(name)
+                    for name in inner_group_names))
             budget_text = (base / "work-budget.txt").read_text(errors="replace")
             budget_match = re.search(r"\bbudget=([0-9]+)\b", budget_text)
             lane_budget_lines = (root / "lane-work-budget.txt").read_text(errors="replace").splitlines()
@@ -717,15 +747,22 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             1 <= inner_budget <= 900)
             or_join_status["raw_inner_group_statuses"] = raw_inner_groups
             or_join_status["inner_group_statuses_bound"] = bool(inner_statuses_bound)
+            or_join_status["group_status_file_bound"] = bool(group_status_file_bound)
             or_join_status["work_budget_seconds"] = inner_budget
             or_join_status["outer_work_budget_seconds"] = outer_budget
+            controls = seven.get("invalid_shape_admission_controls")
             component_identity = (
                 seven.get("component") == "MIR-OR-JOIN-LIVENESS" and
                 seven.get("profile") == OR_JOIN_PROFILE and
                 seven.get("accepted") is False and
                 seven.get("component_gates_complete") is False and
                 seven.get("base_six_profile_accepted") is False and
-                seven.get("invalid_shape_admission_controls") == "NOT_RUN" and
+                isinstance(controls, dict) and
+                isinstance(raw_inner_groups, dict) and
+                controls.get("accepted") is False and
+                controls.get("full_shape_matrix_complete") is False and
+                controls.get("group_status") == raw_inner_groups.get("admission-controls") and
+                controls.get("classification") in {"OBSERVED_UNACCEPTED", "NOT_RUN", "INCONCLUSIVE"} and
                 seven.get("same_source_six_component_comparison") == "NOT_RUN")
             pin_fields = (
                 manifest.get("component") == "MIR-OR-JOIN-LIVENESS" and
@@ -742,9 +779,16 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                 "release_exporter_sha256", "release_refiner_sha256",
                                 "component_patch_sha256", "component_translator_sha256",
                                 "admission_checker_sha256", "preflight_checker_sha256",
-                                "audit_checker_sha256", "retained_pointer_prove_sha256",
+                                "audit_checker_sha256", "control_driver_sha256",
+                                "control_exporter_sha256", "retained_pointer_prove_sha256",
                                 "diagnostic_source_sha256", "admitted_fixture_sha256",
                                 "admitted_source_sha256")) and
+                manifest.get("control_driver_sha256") ==
+                    sha256_file(Path(__file__).resolve().parents[4] /
+                                OR_JOIN_COMPONENT / "control-driver.py") and
+                manifest.get("control_exporter_sha256") ==
+                    sha256_file(Path(__file__).resolve().parents[4] /
+                                OR_JOIN_COMPONENT / "control-exporter.py") and
                 isinstance(manifest.get("admitted_signature_line"), int) and
                 isinstance(manifest.get("admitted_guard_line"), int) and
                 manifest.get("admitted_signature_line") > 0 and
@@ -858,18 +902,64 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             seven["new_liveness_controls"][name].get("complete") is True
                             for name in expected_controls)
                     )
+            driver_report_path = base / "admission-controls/control-driver.json"
+            raw_driver_report = controls.get("raw_report") if isinstance(controls, dict) else None
+            reported_driver_sha = controls.get("report_sha256") if isinstance(controls, dict) else None
+            driver_report_file_valid = False
+            if driver_report_path.is_file() and not driver_report_path.is_symlink():
+                driver_json = json.loads(driver_report_path.read_text())
+                driver_report_file_valid = (
+                    isinstance(driver_json, dict) and raw_driver_report == driver_json and
+                    reported_driver_sha == sha256_file(driver_report_path) and
+                    driver_json.get("accepted") is False and
+                    driver_json.get("proof_accepted") is False and
+                    driver_json.get("tool_homes_unchanged") in {True, None} and
+                    driver_json.get("classification") in
+                        {"ADMISSION_CONTROLS_OBSERVED_UNACCEPTED", "INCONCLUSIVE"})
+            elif raw_driver_report is None:
+                driver_report_file_valid = reported_driver_sha is None
+            driver_status_value = (raw_inner_groups.get("admission-controls")
+                                   if isinstance(raw_inner_groups, dict) else None)
+            driver_classification_valid = (
+                (controls.get("classification") == "OBSERVED_UNACCEPTED" and
+                 driver_status_value == "0" and driver_report_file_valid and
+                 isinstance(raw_driver_report, dict) and
+                 raw_driver_report.get("classification") == "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED" and
+                 raw_driver_report.get("tool_homes_unchanged") is True) or
+                (controls.get("classification") == "NOT_RUN" and
+                 driver_status_value == "NOT_RUN" and raw_driver_report is None and
+                 reported_driver_sha is None and driver_report_file_valid) or
+                (controls.get("classification") == "INCONCLUSIVE" and
+                 driver_report_file_valid and
+                 (driver_status_value not in {"0", "NOT_RUN"} or
+                  (driver_status_value == "0" and isinstance(raw_driver_report, dict) and
+                   raw_driver_report.get("classification") in
+                       {"INCONCLUSIVE", "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED"})))
+            ) if isinstance(controls, dict) else False
+            or_join_status["invalid_shape_admission_controls"] = {
+                "classification": controls.get("classification") if isinstance(controls, dict) else "INCONCLUSIVE",
+                "group_status": driver_status_value,
+                "report_sha256": reported_driver_sha,
+                "raw_report": raw_driver_report,
+                "accepted": False,
+                "full_shape_matrix_complete": False,
+                "report_binding_valid": bool(driver_report_file_valid),
+                "status_valid": bool(driver_classification_valid),
+            }
             or_join_status["artifact_hash_bindings_valid"] = bool(
-                manifest_bytes_match and pin_bindings and
+                manifest_bytes_match and pin_fields and pin_bindings and
+                driver_report_file_valid and driver_classification_valid and
                 (seven.get("diagnostic_complete") is not True or full_evidence_valid))
             or_join_status["complete_evidence_hash_bindings_valid"] = bool(full_evidence_valid)
             or_join_status["run_script_exit_code"] = run_status
             or_join_status["lane_group_exit_code"] = external_status
             return bool(minimum and manifest_bytes_match and component_identity and
                         run_status is not None and external_status is not None and
-                        inner_statuses_bound and budget_bound and
-                        (not pin_fields or pin_bindings) and
+                        inner_statuses_bound and group_status_file_bound and
+                        driver_report_file_valid and driver_classification_valid and budget_bound and
+                        pin_fields and pin_bindings and
                         (seven.get("diagnostic_complete") is not True or full_evidence_valid))
-        except (OSError, ValueError, KeyError, TypeError):
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
             return False
 
     if OR_JOIN_GROUP in selected:

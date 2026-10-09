@@ -90,19 +90,18 @@ not derive the actual caller/C1/F-frame bridge. Fresh exact negative metadata
 for old source-pair duplication and hidden recovery requires fresh Cloud proof
 and frontend gates respectively; historical calibration stays INCONCLUSIVE.
 
-The committed targeted selection contains `rust-profile-smoke`, actual and
-bidirectional-small source preparations, experimental and stock current-owner
-permutation groups, native source-pair turnover groups, and the experimental
-and stock Drop diagnostics. It does not run the full retained matrix or
-MIR-OR-JOIN. The permutation groups require exact case-manifest/results
-agreement, source/stage integrity, body execution, return/leak/dead checks and
-the verifier's fail-closed controls. The double-owner case has no intended
-oracle and is reported as calibration only; the matched false-entry case is
-separate from the positive transposition and cannot be counted as a theorem.
-The source-preparation output also feeds `bounded-source-pin.json` through the
-retained `pointer-prove.read_cases` parser. That artifact binds the literal
-fixture, extracted verified source, source signature/guard, actual std source
-and stock/fresh console hashes. It is source provenance only, with acceptance
-false. MIR-OR-JOIN remains available as a known but inactive group; its
-separate experimental console and liveness diagnostics are not part of this
-selection.
+The current targeted selection contains `rust-profile-smoke`, both exact source
+preparations, and `mir-or-join-seven-diagnostic`. Its activated manifest binds
+the fresh source-pin Cloud trial, including the admitted source signature at
+line 398 and guard at line 551. The component remains a conditional,
+unaccepted coverage-origin diagnostic. It builds a separate seventh console
+and records actual-bounded, calibrated-dead, and liveness-control results
+without changing theorem or profile acceptance.
+
+The optional `admission-controls` stage runs only when exact production normal
+MIR evidence is available and budget remains. Its separate control driver and
+exporter hashes are pinned in the component manifest. The report is retained as
+`invalid_shape_admission_controls.raw_report`; an observed control result,
+`NOT_RUN`, or `INCONCLUSIVE` never establishes full shape coverage. The outer
+audit binds all four stage statuses and preserves `accepted: false` and
+`component_gates_complete: false`.

@@ -163,6 +163,8 @@ paths.extend([
   "research/challenge-8/merge/overnight/or-join-liveness/preflight-source.py",
   "research/challenge-8/merge/overnight/or-join-liveness/admit-source.py",
   "research/challenge-8/merge/overnight/or-join-liveness/audit-seven.py",
+  "research/challenge-8/merge/overnight/or-join-liveness/control-driver.py",
+  "research/challenge-8/merge/overnight/or-join-liveness/control-exporter.py",
 ])
 for rel in paths:
     if not rel.endswith(".py"):
