@@ -15,6 +15,25 @@ import tempfile
 
 ROOT = "research/challenge-8/cloud-build/"
 REQUIRED = {
+    "o26-generic-sort4-postmark-diagnostics": (
+        "exact-infra-transport-controls.py", "o26-recipe.py",
+        "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
+        "recipes/o26-refresh.json", "recipes/o26-generic-new-capture.json",
+        "source-input.py", "run-o26-refresh.sh",
+        "run-o26-generic-sort4-postmark-diagnostics.sh",
+        "run-sort4-postmark-print-test.sh", "sort4-postmark-print-audit.py",
+        "actual-sort4-capture.py", "sort4-ast-audit.py",
+        "night-select-sort4/GENERIC-POSTMARK-DIAGNOSTICS-CARD.md",
+    ),
+    "o26-wrapper-input-relation-r3": (
+        "exact-infra-transport-controls.py", "o26-recipe.py",
+        "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
+        "recipes/o26-refresh.json", "source-input.py",
+        "o26-r3-profile.py", "o26-r3-controls.py", "o26-r3-audit.py",
+        "o26-wrapper-profile.py",
+        "run-o26-wrapper-input-relation-r3.sh", "run-o26-wrapper-r3-profile.sh",
+        "run-o26-refresh.sh", "night-select-sort4/WRAPPER-R3-PROFILE-CARD.md",
+    ),
     "o26-generic-new-capture": (
         "exact-infra-transport-controls.py", "o26-recipe.py",
         "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
@@ -128,6 +147,40 @@ def main() -> None:
         need(set(canonical["proof_paths"]) | refresh | generic <=
              set(recipe["proof_paths"]),
              "generic capture recipe omits canonical or refresh proof dependency")
+    if a.lane == "o26-generic-sort4-postmark-diagnostics":
+        parent = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                         "o26-generic-new-capture.json").read_text()), "o26-generic-new-capture")
+        canonical = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                         "o26-refresh.json").read_text()), "o26-refresh")
+        profile = json.loads((Path("/workspace/proof/research/challenge-8") /
+                        "overnight-assume-actual/O26-REFRESH-PROFILE.json").read_text())
+        refresh = {"research/challenge-8/" + row["path"] for row in profile["refresh_patches"]}
+        postmark = {"research/challenge-8/" + path for path in
+            ("overnight-callback/ACTUAL-SORT4-POSTMARK-PRINT-TEST.json",
+             "overnight-callback/verifast-actual-sort4-postmark-print-TEST.patch",
+             "overnight-callback/CLOUD-ACTUAL-SORT4-POSTMARK-PRINT-TEST-CARD.md",
+             "overnight-sort4/capture.py", "overnight-callback/probe.py",
+             "overnight-callback/prepare-actual-sort4-first-call.py",
+             "overnight-callback/admit-actual-sort4-first-call.py",
+             "overnight-callback/callback-cases.rs", "overnight-callback/join-four-owned-cells.rs")}
+        postmark.add("library/core/src/slice/sort/shared/smallsort.rs")
+        need((set(parent["proof_paths"]) | set(canonical["proof_paths"]) | refresh | postmark).issubset(recipe["proof_paths"]),
+             "combined generic/postmark recipe omits canonical or scenario proof dependency")
+    if a.lane == "o26-wrapper-input-relation-r3":
+        canonical = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                              "o26-refresh.json").read_text()), "o26-refresh")
+        proof_root = Path("/workspace/proof/research/challenge-8")
+        profile = json.loads((proof_root / "overnight-assume-actual/O26-REFRESH-PROFILE.json").read_text())
+        refresh = {"research/challenge-8/" + row["path"] for row in profile["refresh_patches"]}
+        r2 = json.loads((proof_root / "overnight-assume-actual/O26-WRAPPER-REBASE-PROFILE.json").read_text())
+        r3 = json.loads((proof_root / "overnight-assume-actual/O26-WRAPPER-INPUT-RELATION-PROFILE.json").read_text())
+        variants = {"research/challenge-8/" + r2["component23_patch"],
+                    "research/challenge-8/" + r3["component24_patch"]}
+        variants.update("research/challenge-8/overnight-assume-actual/" + name for name in
+                        ("O26-WRAPPER-REBASE-PROFILE.json", "O26-WRAPPER-INPUT-RELATION-PROFILE.json",
+                         "prepare-wrapper-rebase.py", "prepare-wrapper-input-relation.py", "capture.py"))
+        need((set(canonical["proof_paths"]) | refresh | variants).issubset(recipe["proof_paths"]),
+             "R3 recipe omits canonical or profile proof dependency")
     certificate = json.loads((a.evidence / "source-input-certificate.json").read_text())
     need(certificate.get("lane") == a.lane and certificate.get("recipe") == recipe and
          certificate.get("infra", {}).get("commit") == os.environ.get("INFRA_SHA"),

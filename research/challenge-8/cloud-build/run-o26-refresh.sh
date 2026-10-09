@@ -41,7 +41,15 @@ input_relation_mode=${O26_WITH_WRAPPER_INPUT_RELATION_CAPTURE:-0}
 [[ "$input_relation_mode" == 0 || "${LANE:-}" == o26-input-relation-capture ]] || exit 2
 generic_new_mode=${O26_WITH_GENERIC_NEW_CAPTURE:-0}
 [[ "$generic_new_mode" == 0 || "$generic_new_mode" == 1 ]] || exit 2
-[[ "$generic_new_mode" == 0 || "${LANE:-}" == o26-generic-new-capture ]] || exit 2
+[[ "$generic_new_mode" == 0 || "${LANE:-}" == o26-generic-new-capture ||
+   "${LANE:-}" == o26-generic-sort4-postmark-diagnostics ]] || exit 2
+postmark_mode=${O26_WITH_SORT4_POSTMARK_PRINT_TEST:-0}
+[[ "$postmark_mode" == 0 || "$postmark_mode" == 1 ]] || exit 2
+[[ "$postmark_mode" == 0 ||
+   ( "${LANE:-}" == o26-generic-sort4-postmark-diagnostics && "$generic_new_mode" == 1 ) ]] || exit 2
+r3_profile_mode=${O26_WITH_R3_PROFILE:-0}
+[[ "$r3_profile_mode" == 0 || "$r3_profile_mode" == 1 ]] || exit 2
+[[ "$r3_profile_mode" == 0 || "${LANE:-}" == o26-wrapper-input-relation-r3 ]] || exit 2
 wrapper_profile_mode=${O26_WITH_WRAPPER_REBASE_PROFILE:-0}
 [[ "$wrapper_profile_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
 comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
@@ -285,6 +293,28 @@ if [[ "$generic_new_mode" == 1 ]]; then
   fi
   printf '%s\n' "$generic_new_status" \
     > "$ev/cases/generic-new-capture-helper-exit-code.txt"
+fi
+
+if [[ "$postmark_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/sort4-postmark-print-test-request.json"
+  postmark_status=0
+  stage sort4-postmark-print-test bash "$cloud_dir/run-sort4-postmark-print-test.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/sort4-postmark-print-test" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || postmark_status=$?
+  printf '%s\n' "$postmark_status" > "$ev/cases/sort4-postmark-print-test-helper-exit-code.txt"
+fi
+
+if [[ "$r3_profile_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/wrapper-r3-profile-request.json"
+  r3_status=0
+  stage wrapper-r3-profile bash "$cloud_dir/run-o26-wrapper-r3-profile.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/wrapper-r3-profile" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || r3_status=$?
+  printf '%s\n' "$r3_status" > "$ev/cases/wrapper-r3-profile-helper-exit-code.txt"
 fi
 
 if [[ "$wrapper_profile_mode" == 1 ]]; then

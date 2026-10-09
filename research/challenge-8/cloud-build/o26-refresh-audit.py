@@ -633,6 +633,39 @@ def wrapper_input_relation_capture(ev,canonical):
             'observed_unit_sha256':current_hashes.get('unit'),
             'observed_body7_sha256':current_hashes.get('body-7')}
 
+def sort4_postmark_print(ev):
+    requested=(ev/'cases/sort4-postmark-print-test-request.json').exists()
+    if not requested:
+        return {'requested':False,'complete':False}
+    inner=ev/'cases/sort4-postmark-print-test'
+    report=read(inner/'sort4-postmark-result.json') or {}
+    code=helper_exit(ev,'sort4-postmark-print-test')
+    complete=(code==0 and report.get('classification')=='PRINT_ONLY_POSTMARK_LOCAL_TYPES_DIAGNOSTIC' and
+              report.get('diagnostic_complete') is True and report.get('verification_accepted') is False)
+    return {'requested':True,'complete':complete,'helper_exit':code,'accepted':False,
+            'actual_sort4_proved':False,'storage_cleanup_proved':False,'report':report,
+            'report_sha256':digest(inner/'sort4-postmark-result.json') if (inner/'sort4-postmark-result.json').is_file() else None}
+
+
+def wrapper_r3_profile(ev):
+    requested=(ev/'cases/wrapper-r3-profile-request.json').exists()
+    if not requested:
+        return {'requested':False,'complete':False}
+    inner=ev/'cases/wrapper-r3-profile'
+    report=read(inner/'diagnostic-audit.json') or {}
+    code=helper_exit(ev,'wrapper-r3-profile')
+    complete=(code==0 and
+              report.get('classification')=='WRAPPER_R3_PROFILE_DIAGNOSTIC_COMPLETE' and
+              report.get('diagnostic_complete') is True and
+              report.get('verification_accepted') is False and
+              report.get('accepted') is False)
+    return {'requested':True,'complete':complete,'helper_exit':code,
+            'classification':'WRAPPER_R3_PROFILE_DIAGNOSTIC_COMPLETE' if complete else 'INCONCLUSIVE',
+            'accepted':False,'actual_helper_proved':False,
+            'report_sha256':digest(inner/'diagnostic-audit.json') if (inner/'diagnostic-audit.json').is_file() else None,
+            'report':report}
+
+
 def wrapper_profile(ev):
     name='wrapper-profile'
     if not (ev/'cases'/f'{name}-request.json').exists():
@@ -796,6 +829,10 @@ def main():
     input_relation=wrapper_input_relation_capture(ev,cap)
     generic_new=generic_new_capture(ev)
     rebase_profile=wrapper_profile(ev)
+    r3_profile=wrapper_r3_profile(ev)
+    postmark=sort4_postmark_print(ev)
+    postmark_lane=os.environ.get('LANE')=='o26-generic-sort4-postmark-diagnostics'
+    r3_lane=os.environ.get('LANE')=='o26-wrapper-input-relation-r3'
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
     strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
@@ -842,6 +879,13 @@ def main():
                            not sort4['requested'] and not a1['requested'] and
                            not coordination['requested'] and not nested_order['requested'] and
                            not wrapper_rebase['requested'] and not rebase_profile['requested'])
+    postmark_requested=(postmark['requested'] and generic_new['requested'] and
+                  not any(x['requested'] for x in
+                  (cut,strict_cut,false_posts,owner,sort4,a1,coordination,nested_order,
+                   ast_probe,wrapper_rebase,input_relation,rebase_profile,r3_profile)))
+    r3_requested=(r3_profile['requested'] and not any(x['requested'] for x in
+                  (cut,strict_cut,false_posts,owner,sort4,a1,coordination,nested_order,
+                   ast_probe,wrapper_rebase,input_relation,generic_new,rebase_profile)))
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
                          (not owner['requested'] or owner['complete']) and
                          (not sort4['requested'] or sort4['complete']) and
@@ -856,6 +900,10 @@ def main():
                          (not input_relation['requested'] or input_relation['complete']) and
                          (not generic_new['requested'] or generic_new['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
+                         (not r3_profile['requested'] or r3_profile['complete']) and
+                         (not r3_lane or r3_requested) and
+                         (not postmark['requested'] or postmark['complete']) and
+                         (not postmark_lane or postmark_requested) and
                          (not independent or independent_requested) and
                          (not recovery or recovery_requested) and
                          (not strict_cut_lane or strict_cut_requested) and
@@ -872,12 +920,12 @@ def main():
                          false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
                          input_relation['requested'] or generic_new['requested'] or
-                         rebase_profile['requested'])
+                         rebase_profile['requested'] or r3_profile['requested'] or postmark['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
               not recovery and not strict_cut_lane and
               not strict_false_posts_lane and not input_relation_lane and
-              not generic_new_lane)
+              not generic_new_lane and not r3_lane and not postmark_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
@@ -886,6 +934,8 @@ def main():
          'STRICT_CUT_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_false_posts_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
+         'GENERIC_SORT4_POSTMARK_DIAGNOSTICS_COMPLETE' if postmark_lane and diagnostic_complete else
+         'WRAPPER_R3_PROFILE_DIAGNOSTIC_COMPLETE' if r3_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
@@ -905,6 +955,10 @@ def main():
       'wrapper_input_relation_source_capture_diagnostic':input_relation,
       'generic_new_source_mir_capture_diagnostic':generic_new,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
+      'wrapper_r3_profile_diagnostic':r3_profile,
+      'sort4_postmark_print_diagnostic':postmark,
+      'generic_sort4_postmark_scope_complete':postmark_requested if postmark_lane else False,
+      'wrapper_r3_scope_complete':r3_requested if r3_lane else False,
       'independent_test_scope_complete':independent_requested if independent else False,
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
