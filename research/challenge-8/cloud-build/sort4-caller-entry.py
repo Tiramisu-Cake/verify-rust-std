@@ -79,12 +79,17 @@ def run_case(a, prep, capture, parser, case, env):
             if case=='range-negative': intended=('Cannot prove condition' in errors[0] and 'array_split' in log[entries[0]:] and 'len + 1' in log[log.index(errors[0]):])
             if case=='duplicate-negative': intended=('No matching heap chunks: array<T>' in errors[0] and 'DUPLICATE_AUTHORITY_CONTROL' in log[log.index(errors[0]):])
         first=errors[0] if errors else next((line for line in log.splitlines() if line.startswith('error[') or line.startswith('error:')),None)
+        first_location=re.match(r'verified/lib\.rs\((\d+),',first or '')
+        prefix_blocker=(gates and caller_ok and first_location is not None and int(first_location.group(1)) < cert['targeted_ghost_statement_lines']['source_sort8_condition'])
+        observed={name:[n for n in numbers if caller_ok and re.search(r'^\s*\d+\.\d+s: verified/lib\.rs\('+str(n)+r',[^\n]*\): Executing ',log[entries[0]:],re.M)] for name,numbers in cert.get('targeted_ghost_statement_line_lists',{}).items()}
         result.update(classification=('NATIVE_PREFIX_FULL_VF0_CONDITIONAL_MODEL' if complete and case=='prefix-native' else 'C1_ENTRY_ENTAILMENT_AND_NATIVE_FRAME_RETURN_CONDITIONAL' if complete and case=='bridge-positive' else 'INTENDED_RESOURCE_CONTROL' if intended else 'NATIVE_ENTRY_OR_PREFIX_ADMISSION_BLOCKER' if not gates or not caller_ok else 'FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER' if case=='bridge-positive' else 'INCONCLUSIVE_WRONG_FIRST_OBLIGATION'),support_gates_passed=gates,verifier_exit=rows['verification'].get('exit'),first_error=first,proof_entries=len(entries),identity_helper_verified_before_caller=helper_ok,native_prefix_complete=complete if case=='prefix-native' else False,bridge_premises_derived=complete and case=='bridge-positive',positive_size_condition='EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH',full_actual_caller_proved=False,actual_sort4_run=False,intended_resource_negative=intended,leak_seen='Leak check.' in log[entries[0]:] if caller_ok else False,full_log_sha256=sha(fixture/'verification.log'),source_hashes=before,stages={n:r.get('exit') for n,r in rows.items()})
+        result.update(identity_call_reached=identity_reached if case=='bridge-positive' else None,observed_target_statement_lines=observed,representation_and_fragment_refinement_passed=gates,first_prefix_proof_obligation=prefix_blocker)
+        if prefix_blocker and case in ('prefix-native','bridge-positive'):result['classification']='NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER'
         need(all(sha(fixture/n)==h for n,h in before.items()),'source pair changed')
     except Exception as exc:
         result.update(classification='SETUP_OR_COLLECTOR_ERROR_NOT_PROOF_VERDICT',collector_error=str(exc))
         write(root/'collector-error.json',{'reason':str(exc),'raw_preserved':True,'proof_verdict':None})
-        write(root/'case-result.json',result)
+    write(root/'case-result.json',result)
     return result
 
 def main():

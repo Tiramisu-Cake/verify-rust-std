@@ -1,0 +1,46 @@
+{
+  "kind": "SAVED_RAW_CLASSIFICATION_ONLY_NO_NEW_PROOF",
+  "build_id": "c7ab932c-204a-4cbc-a29e-f8c076d51dfb",
+  "proof_infra_sha": "4ab62d12ef95e3f2da2440359c3bec8594535568",
+  "archive_sha256": "c6318ff7df2700f150c30c9897b1b6988bd43e21cf127bdd2fe85418512d3539",
+  "auditor_sha256": "0a97fa6f1c170a12eafb26716ae4de4cdc27182f263d2f3786055baa1ebf10d7",
+  "reason": "Separate successful frontend/refinement admission from first common-prefix overflow VC; no target control or bridge reached. Original individual case-result remains initial due indentation bug; complete per-case rows preserved incrementally in case-results-so-far before final aggregate. Fixed future persistence outside except.",
+  "cases": {
+    "bridge-positive": {
+      "original_classification": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+      "reclassified": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(42,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+      "before_original_branch": true,
+      "callsite_reached": false,
+      "raw_sha256": "a9e6471bf0c73e40464e964d86e6ce3f338d291d6e97c7c0dd2b8329e04fed35",
+      "premises_eliminated": []
+    },
+    "duplicate-negative": {
+      "original_classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "reclassified": "INCONCLUSIVE_NOT_AT_INTENDED_RESOURCE_CONTROL",
+      "first_error": "verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+      "before_original_branch": true,
+      "callsite_reached": false,
+      "raw_sha256": "f6427403b9a0f51ae53c0b19888d4744285786069014fd3f66b8cb9836c0d517",
+      "premises_eliminated": []
+    },
+    "prefix-native": {
+      "original_classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "reclassified": "NATIVE_PREFIX_PROOF_OBLIGATION_BLOCKER",
+      "first_error": "verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+      "before_original_branch": true,
+      "callsite_reached": false,
+      "raw_sha256": "54218c4fd39707b404f9bde6929531bfda49bbe13d9ae2a404fa423c14dbafd0",
+      "premises_eliminated": []
+    },
+    "range-negative": {
+      "original_classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+      "reclassified": "INCONCLUSIVE_NOT_AT_INTENDED_RESOURCE_CONTROL",
+      "first_error": "verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+      "before_original_branch": true,
+      "callsite_reached": false,
+      "raw_sha256": "e8a68d1a8fc9db95d10c683eeafdaf284d37b7b4f4663fc11a6856b387f7aa02",
+      "premises_eliminated": []
+    }
+  }
+}

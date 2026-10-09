@@ -1,0 +1,122 @@
+{
+  "bridge-positive": {
+    "accepted": false,
+    "actual_sort4_run": false,
+    "bridge_premises_derived": false,
+    "case": "bridge-positive",
+    "classification": "FIRST_BRIDGE_RESOURCE_OR_CONTRACT_BLOCKER",
+    "first_error": "verified/lib.rs(42,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+    "full_actual_caller_proved": false,
+    "full_log_sha256": "a9e6471bf0c73e40464e964d86e6ce3f338d291d6e97c7c0dd2b8329e04fed35",
+    "identity_helper_verified_before_caller": true,
+    "intended_resource_negative": false,
+    "leak_seen": true,
+    "native_prefix_complete": false,
+    "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+    "proof_entries": 1,
+    "source_hashes": {
+      "original/lib.rs": "3de0f92f0e98d354e2f762960f47009134bf97e0f36ff8cff19d5bfca81351c6",
+      "verified/lib.rs": "81fef31351d7eb41c5dedb4b3cd17ea8cd0d5a8a340f23c5f11a9e16c4187f65"
+    },
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support_gates_passed": true,
+    "verifier_exit": 1
+  },
+  "duplicate-negative": {
+    "accepted": false,
+    "actual_sort4_run": false,
+    "bridge_premises_derived": false,
+    "case": "duplicate-negative",
+    "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+    "first_error": "verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+    "full_actual_caller_proved": false,
+    "full_log_sha256": "f6427403b9a0f51ae53c0b19888d4744285786069014fd3f66b8cb9836c0d517",
+    "identity_helper_verified_before_caller": true,
+    "intended_resource_negative": false,
+    "leak_seen": true,
+    "native_prefix_complete": false,
+    "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+    "proof_entries": 1,
+    "source_hashes": {
+      "original/lib.rs": "d58de3159e0394f0ff92a7976d83f3203b715998103c88af6aeb0e39c80cae5e",
+      "verified/lib.rs": "50133c9e80bb894263b8621e6bfd9151e73c403d8c74868ab9478a6f6430994d"
+    },
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support_gates_passed": true,
+    "verifier_exit": 1
+  },
+  "prefix-native": {
+    "accepted": false,
+    "actual_sort4_run": false,
+    "bridge_premises_derived": false,
+    "case": "prefix-native",
+    "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+    "first_error": "verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+    "full_actual_caller_proved": false,
+    "full_log_sha256": "54218c4fd39707b404f9bde6929531bfda49bbe13d9ae2a404fa423c14dbafd0",
+    "identity_helper_verified_before_caller": true,
+    "intended_resource_negative": false,
+    "leak_seen": true,
+    "native_prefix_complete": false,
+    "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+    "proof_entries": 1,
+    "source_hashes": {
+      "original/lib.rs": "d58de3159e0394f0ff92a7976d83f3203b715998103c88af6aeb0e39c80cae5e",
+      "verified/lib.rs": "d58de3159e0394f0ff92a7976d83f3203b715998103c88af6aeb0e39c80cae5e"
+    },
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support_gates_passed": true,
+    "verifier_exit": 1
+  },
+  "range-negative": {
+    "accepted": false,
+    "actual_sort4_run": false,
+    "bridge_premises_derived": false,
+    "case": "range-negative",
+    "classification": "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+    "first_error": "verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+    "full_actual_caller_proved": false,
+    "full_log_sha256": "e8a68d1a8fc9db95d10c683eeafdaf284d37b7b4f4663fc11a6856b387f7aa02",
+    "identity_helper_verified_before_caller": true,
+    "intended_resource_negative": false,
+    "leak_seen": true,
+    "native_prefix_complete": false,
+    "positive_size_condition": "EXISTING_C1_PREMISE_NOT_DERIVED_FROM_FULL_ACTUAL_BRANCH",
+    "proof_entries": 1,
+    "source_hashes": {
+      "original/lib.rs": "d58de3159e0394f0ff92a7976d83f3203b715998103c88af6aeb0e39c80cae5e",
+      "verified/lib.rs": "3d6c16d48fbc9c1b9a701c12df156d38849f283aa0830defaffa5c25ca8c45a8"
+    },
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support_gates_passed": true,
+    "verifier_exit": 1
+  }
+}

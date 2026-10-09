@@ -1,0 +1,63 @@
+Build c7ab932c-204a-4cbc-a29e-f8c076d51dfb; nativeprefix log SHA256 54218c4fd39707b404f9bde6929531bfda49bbe13d9ae2a404fa423c14dbafd0
+Raw verbose2 trace; this is not a full symbolic heap dump.
+  0.136564s: verified/lib.rs(14,1-43,2): Executing statement
+  0.136578s: verified/lib.rs(14,1-43,2): Executing statement
+  0.136616s: verified/lib.rs(14,1-43,2): Executing statement
+  0.136626s: verified/lib.rs(14,1-43,2): Executing statement
+  0.136640s: verified/lib.rs(14,1-43,2): Executing statement
+  0.136679s: verified/lib.rs(14,1-43,2): Executing statement
+  0.136733s: verified/lib.rs(19,15-16): Executing statement
+  0.136916s: verified/lib.rs(19,15-16): Verifying call
+  0.136927s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(103,9-13): Consuming assertion
+  0.136941s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(102,4-20): Producing assertion
+  0.136954s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(105,19-24): Producing assertion
+  0.136967s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(104,16-18): Producing assertion
+  0.136982s: verified/lib.rs(19,15-22): Executing statement
+  0.137047s: verified/lib.rs(20,8-11): Executing statement
+  0.137058s: verified/lib.rs(20,8-15): Executing statement
+  0.137091s: verified/lib.rs(20,8-15): Executing statement
+  0.137105s: verified/lib.rs(20,8-15): Executing statement
+  0.137112s: <dummy location>: Executing statement
+  0.137120s: verified/lib.rs(43,2): Executing return statement
+  0.137182s: verified/lib.rs(43,1-2): Freeing locals.
+  0.137202s: verified/lib.rs(14,1-43,2): Consuming function lifetime token
+  0.137222s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.137613s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.137649s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.137689s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.137714s: verified/lib.rs(14,1-18,2): Consuming assertion
+  0.137752s: verified/lib.rs(15,5-6): Consuming assertion
+  0.137785s: verified/lib.rs(15,5-6): Consuming assertion
+  0.137801s: verified/lib.rs(16,5-12): Consuming assertion
+  0.137828s: verified/lib.rs(16,5-12): Consuming assertion
+  0.137842s: verified/lib.rs(17,5-12): Consuming assertion
+  0.137858s: verified/lib.rs(17,5-12): Consuming assertion
+  0.137869s: verified/lib.rs(18,2): Consuming assertion
+  0.137878s: verified/lib.rs(43,1-2): Cleaning up dummy fraction chunks and empty chunks
+  0.137883s: verified/lib.rs(43,1-2): Leak check.
+  0.137913s: verified/lib.rs(20,8-15): Executing statement
+  0.137923s: verified/lib.rs(24,8-15): Executing statement
+  0.138074s: verified/lib.rs(24,8-15): Verifying call
+  0.138082s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(103,9-13): Consuming assertion
+  0.138098s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(102,4-20): Producing assertion
+  0.138111s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(105,19-24): Producing assertion
+  0.138124s: /workspace/smallsort-work/o26-refresh/source/bin/rust/aliasing.rsspec(104,16-18): Producing assertion
+  0.138138s: verified/lib.rs(24,8-21): Executing statement
+  0.138201s: verified/lib.rs(24,24-27): Executing statement
+  0.138234s: verified/lib.rs(24,24-32): Executing statement
+verified/lib.rs(24,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)
+24 |     if scratch.len() < len + 16 {
+   |                        ^^^^^^^^
+verified/lib.rs(24,24-32): note: Executing statement
+24 |     if scratch.len() < len + 16 {
+   |                        ^^^^^^^^
+verified/lib.rs(14,1-43,2): note: Verifying function 'small_sort_general_with_scratch'
+14 | fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |     v: &mut [T],
+   | ^^^^^^^^^^^^^^^^
+16 |     scratch: &mut [MaybeUninit<T>],
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17 |     is_less: &mut F,
+   | ^^^^^^^^^^^^^^^^^^^^
+18 | ) {

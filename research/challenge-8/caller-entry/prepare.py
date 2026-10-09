@@ -202,7 +202,43 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
 
     scratch_at = caller.index(SCRATCH_LINE)
     prefix_end = scratch_at + len(SCRATCH_LINE)
-    prefix = caller[:prefix_end]
+    source_prefix = caller[:prefix_end]
+    len_line = b"    let len = v.len();\n"
+    scratch_limit_check = b"if scratch.len() < len + 16 {"
+    _need(source_prefix.count(len_line) == 1,
+          "original let len = v.len() source anchor absent or ambiguous")
+    _need(caller.count(scratch_limit_check) == 1,
+          "original scratch len+16 check absent or ambiguous")
+    len_end = source_prefix.index(len_line) + len(len_line)
+    runtime_path_filters = (
+        b"    if const { size_of::<T>() <= 16 } && len >= 16 {\n"
+        b"        return;\n"
+        b"    }\n"
+        b"    if len < 8 {\n"
+        b"        return;\n"
+        b"    }\n"
+    )
+    overflow_bound_check = (
+        b"/*@\n"
+        b"let v_len_base = strip_pointer_metadata(v as pointer) as *T;\n"
+        b"assert v_len_base[..len] |-> ?v_len_elems;\n"
+        b"array_inv::<T>();\n"
+        b"if (16 < std::mem::size_of::<T>()) {\n"
+        b"    mul_mono_l(1, std::mem::size_of::<T>(), len);\n"
+        b"} else {\n"
+        b"    assert len < 16;\n"
+        b"}\n"
+        b"@*/\n"
+    )
+    fragment_insertions = runtime_path_filters + overflow_bound_check
+    prefix = (source_prefix[:len_end] + fragment_insertions +
+              source_prefix[len_end:])
+    _need(prefix.count(fragment_insertions) == 1,
+          "diagnostic insertions are absent or ambiguous in filtered prefix")
+    _need(prefix.replace(fragment_insertions, b"", 1) == source_prefix,
+          "removing the exact diagnostic insertions did not recover source prefix")
+    _need(prefix.index(overflow_bound_check) < prefix.index(scratch_limit_check),
+          "checked overflow bound must precede the original len+16 check")
     cond1_at = caller.index(SORT8_CONDITION, prefix_end)
     cond2_at = caller.index(SORT4_CONDITION, cond1_at)
     cond3_at = caller.index(ELSE_CONDITION, cond2_at)
@@ -215,7 +251,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
           "callback or copy appears before the first call in the preserved prefix")
     case_body = _case_source(case)
     indented_case = b"            " + case_body.replace(b"\n", b"\n            ").rstrip()
-    branch = (b"\n\n        " + cond1 + b"\n            return;\n        " + cond2 + b"\n" +
+    branch = (b"\n        " + cond1 + b"\n            return;\n        " + cond2 + b"\n" +
               indented_case + b"\n        " + cond3 + b"\n            return;\n        }\n    }\n}")
     fragment = prefix + branch
     lemma = _lemma(memory_pre) if case == "bridge-positive" else b""
@@ -241,6 +277,12 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
 
     line_targets = {}
     for label, needle in (
+        ("overflow_runtime_size_guard", b"if const { size_of::<T>() <= 16 } && len >= 16"),
+        ("overflow_runtime_len_guard", b"if len < 8 {"),
+        ("overflow_array_invariant", b"array_inv::<T>();"),
+        ("overflow_large_type_mono", b"mul_mono_l(1, std::mem::size_of::<T>(), len);"),
+        ("overflow_small_type_bound", b"assert len < 16;"),
+        ("original_scratch_len_plus_16_check", scratch_limit_check),
         ("positive_identity_lemma", b"c1_entry_identity::<T, F>"),
         ("positive_size_guard", b"if (0 < std::mem::size_of::<T>())"),
         ("range_negative_split", b"array_split::<T>(v_base, len + 1);"),
@@ -249,9 +291,16 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("source_sort4_condition", SORT4_CONDITION),
     ):
         if needle in verified:
-            line_targets[label] = verified[:verified.index(needle)].count(b"\n") + 1
+            at = verified.rindex(needle) if label == "source_sort8_condition" else verified.index(needle)
+            line_targets[label] = verified[:at].count(b"\n") + 1
     line_lists = {}
     for label, needle in (
+        ("overflow_slice_array", b"assert v_len_base[..len] |-> ?v_len_elems;"),
+        ("overflow_array_invariant", b"array_inv::<T>();"),
+        ("overflow_large_type_mono", b"mul_mono_l(1, std::mem::size_of::<T>(), len);"),
+        ("overflow_small_type_bound", b"assert len < 16;"),
+        ("overflow_runtime_size_guard", b"if const { size_of::<T>() <= 16 } && len >= 16"),
+        ("overflow_runtime_len_guard", b"if len < 8 {"),
         ("thread_token", b"assert thread_token(?t);"),
         ("current_thread", b"assert t == currentThread;"),
         ("type_interp_T", b"assert type_interp::<T>();"),
@@ -285,7 +334,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             line_lists[label] = [verified[:match.start()].count(b"\n") + 1 for match in matches]
 
     record = {
-        "classification": "SOURCE_LINKED_CALLER_ENTRY_DIAGNOSTIC_FRAGMENT_NOT_FULL_CALLER_PROOF",
+        "classification": "SOURCE_LINKED_PATH_FILTERED_CALLER_ENTRY_FRAGMENT_NOT_FULL_CALLER_PROOF",
         "case": case,
         "cloud_only": True,
         "execution_provider": "cloud-build",
@@ -319,14 +368,43 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             "else_condition_byte_start": caller_start + cond3_at,
             "first_sort4_call_byte_start": caller_start + call_at,
             "first_sort4_call_source": call_anchor.decode(),
+            "runtime_filter_insertion_source_byte": caller_start + len_end,
+            "original_scratch_len_plus_16_check_byte_start":
+                caller_start + caller.index(scratch_limit_check),
+            "runtime_filter_insertion_sha256": _sha(runtime_path_filters),
+            "overflow_bound_check_insertion_sha256": _sha(overflow_bound_check),
         },
-        "prefix_source_exact_through_scratch_base": prefix == caller[:prefix_end],
+        "original_prefix_source_sha256": _sha(source_prefix),
+        "original_prefix_reconstructed_by_removing_exact_insertions":
+            prefix.replace(fragment_insertions, b"", 1) == source_prefix,
+        "filtered_fragment_has_runtime_path_filter": True,
+        "filtered_fragment_path": "after original let len = v.len(): excludes size<=16,len>=16 and len<8 paths; retains original branch conditions at callsite",
+        "len_plus_16_overflow_argument": "with size_of<T>() > 16, array_inv<T>() and mul_mono_l(1,size_of<T>(),len) derive len <= isize::MAX; otherwise the runtime size/length filter leaves len < 16",
+        "overflow_bound_check_precedes_original_len_plus_16": True,
+        "diagnostic_prefix_insertions": [
+            {
+                "name": "selected_path_runtime_filters",
+                "inserted_after_source": "let len = v.len();",
+                "sha256": _sha(runtime_path_filters),
+                "byte_length": len(runtime_path_filters),
+                "source": runtime_path_filters.decode(),
+            },
+            {
+                "name": "checked_len_plus_16_bound",
+                "inserted_after_source": "selected-path runtime filters; before original len+16 check",
+                "sha256": _sha(overflow_bound_check),
+                "byte_length": len(overflow_bound_check),
+                "source": overflow_bound_check.decode(),
+            },
+        ],
+        "diagnostic_fragment_prefix_byte_identical_to_source": False,
+        "ghost_strip_pair_scope": "filtered diagnostic fragment only; actual full caller preserved separately",
         "branch_conditions_exact": True, "no_comparator_or_copy_before_first_sort4": True,
         "first_sort4_runtime_call_in_fragment": False,
         "sort8_or_later_call_summaries": False,
         "case_constraints": {
             "prefix-native": "no added proof requirement or post; native generated mutable-reference entry only",
-        "bridge-positive": "identity boundary entailment uses exact captured c1 pre inside a ghost positive-size guard; ZST branch gap retained",
+            "bridge-positive": "identity boundary entailment uses exact captured c1 pre inside a ghost positive-size guard; actual branch domain remains unrestricted in the saved caller",
             "range-negative": "array_split at len+1 is intended out-of-range authority control",
             "duplicate-negative": "duplicate whole-array authority assertion is intended duplicate-authority control",
         }[case],
