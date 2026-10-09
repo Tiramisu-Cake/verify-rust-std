@@ -7,6 +7,15 @@ For agent onboarding and autonomous GitHub-only execution, read
 [AGENTS.md](../../AGENTS.md) and [the agent runbook](AGENT-RUNBOOK.md).
 The owner's server is for editing and orchestration only; do not build or verify there.
 
+## Completion plan
+
+See [the full Challenge 8 completion plan](COMPLETION-PLAN.md) (in Russian) for
+all seven safety targets, the three sorting contracts, proof dependencies,
+work packages and final acceptance criteria. Statuses are a snapshot of the
+closed checkpoints on 2026-10-09 at 11:00 Europe/Moscow; active agent results
+must be incorporated after review. This plan adds no execution permissions or
+Cloud budget. The experiment notes below retain their historical scope.
+
 ## Target and scope
 
 - Target: the standard library in this repository, not a reimplementation.
