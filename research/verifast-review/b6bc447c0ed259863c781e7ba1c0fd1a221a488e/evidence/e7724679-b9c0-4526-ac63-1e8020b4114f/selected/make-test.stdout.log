@@ -1,0 +1,1040 @@
+  DUNE  _build/default/vfconsole/vfconsole.exe
+0 errors found (103 statements verified)
+0 errors found (165 statements verified)
+0 errors found (70 statements verified)
+0 errors found (100 statements verified)
+0 errors found (19 statements verified)
+0 errors found (28 statements verified)
+0 errors found (76 statements verified)
+0 errors found (18 statements verified)
+0 errors found (63 statements verified)
+  >         ../bin/crt.dll.vfmanifest
+  VERIFAST  ../bin/crt.dll.vfmanifest
+Linking...
+Program linked successfully.
+  DUNE  _build/default/mysh/mysh.exe
+  DUNE  _build/default/rustc_verifast/rustc_verifast.exe
+  DUNE  _build/default/cargo_verifast/cargo_verifast.exe
+  DUNE  _build/default/main_class/main_class.exe
+  DUNE  _build/default/java_card_applet/java_card_applet.exe
+  DUNE  _build/default/dlsymtool/dlsymtool.exe
+  DUNE  _build/default/vfstrip/vfstrip.exe
+  DUNE  _build/default/explorer/explorer.exe
+  DUNE  _build/default/refinement_checker/main.exe
+  MAKE  ../bin/vf-cxx-ast-exporter
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found LLVM 23.1.2
+-- Using LLVMConfig.cmake in: /tmp/vf-llvm-clang-build-5710e1b/lib/cmake/llvm
+-- Using CapnProtoConfig.cmake in: /workspace/verifast-mdnew-fullmake/vfdeps-adf88dc/lib/cmake/CapnProto
+-- Performing Test SUPPORT_FVIS_INLINES_HIDDEN
+-- Performing Test SUPPORT_FVIS_INLINES_HIDDEN - Success
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build
+gmake[1]: Entering directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+gmake[2]: Entering directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+gmake[3]: Entering directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+[  5%] Compiling Cap'n Proto schema /workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/stubs/stubs_ast.capnp
+gmake[3]: Leaving directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+gmake[3]: Entering directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+[ 10%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/Location.cpp.o
+[ 15%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/VerifastASTExporter.cpp.o
+[ 20%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/DeclSerializer.cpp.o
+[ 25%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/StmtSerializer.cpp.o
+[ 30%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/ExprSerializer.cpp.o
+[ 35%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/TypeSerializer.cpp.o
+[ 40%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/LocationSerializer.cpp.o
+[ 45%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/ASTSerializer.cpp.o
+[ 50%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/DiagnosticSerializer.cpp.o
+[ 55%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/AnnotationManager.cpp.o
+[ 60%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/CommentProcessor.cpp.o
+[ 65%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/TranslationUnitSerializer.cpp.o
+[ 70%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/FixedWidthInt.cpp.o
+[ 75%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/Inclusion.cpp.o
+[ 80%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/InclusionContext.cpp.o
+[ 85%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/InclusionSerializer.cpp.o
+[ 90%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/ContextFreePPCallbacks.cpp.o
+[ 95%] Building CXX object CMakeFiles/vf-cxx-ast-exporter.dir/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/stubs/stubs_ast.capnp.c++.o
+[100%] Linking CXX executable vf-cxx-ast-exporter
+gmake[3]: Leaving directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+[100%] Built target vf-cxx-ast-exporter
+gmake[2]: Leaving directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+gmake[1]: Leaving directory '/workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/build'
+  MYSH      assignments/run_model_solutions
+  RUN  json_tests
+  MYSH      testsuite
+PASS: ./bin/rt$ verifast -prover redux -c -runtime nort rt_verified.jarsrc (0.18s)
+PASS: ./examples/tutorial$ verifast -c lemptrs.c (0.24s)
+PASS: ./examples/tutorial/finegrained$ verifast -c finegrained.c (0.25s)
+PASS: ./examples$ verifast -c -disable_overflow_check concurrent_cell.c (0.30s)
+PASS: ./examples$ verifast -c -uppercase_type_params_carry_typeid generic_pred_ctors.c (0.26s)
+PASS: ./examples$ verifast -c mutually_recursive_fns_simple.c (0.21s)
+PASS: ./examples$ verifast -c leftpad.c (0.37s)
+PASS: ./examples$ verifast -c -prover z3v4.5 -uppercase_type_params_carry_typeid generic_pred_ctors.c (0.41s)
+PASS: ./examples$ verifast -shared uniqueness.c (0.24s)
+PASS: ./examples$ verifast unions2.c (0.24s)
+PASS: ./examples$ verifast -fno-strict-aliasing -assume_no_subobject_provenance unions2_no_subobj_prov.c (0.26s)
+PASS: ./examples$ verifast -read_options_from_source_file unions.c (0.42s)
+PASS: ./examples/busywaiting$ verifast -c bounded_fifo.c (0.74s)
+PASS: ./examples/busywaiting$ verifast -c lexprod_wf.c busywaiting_wf.c (0.91s)
+PASS: ./examples/busywaiting/ioliveness$ verifast -c echo.c (0.19s)
+PASS: ./examples/busywaiting/ioliveness$ verifast -c echo_live.c (0.22s)
+PASS: ./examples/busywaiting/clhlock$ verifast -c clhlock_as_ticketlock.c clhlock.c (1.26s)
+PASS: ./examples/busywaiting$ verifast -c await.c (0.41s)
+PASS: ./examples/busywaiting/ioliveness$ verifast -c echo_live_mt.c (0.72s)
+PASS: ./examples/futexes$ verifast -c ghost_lists.c mutex.c mutex_classic.c simple_classic_client.c simple_cross_thread_client.c (2.10s)
+PASS: ./examples/busywaiting/flexiblespecs/spinlock$ verifast -c -I ../.. spinlock.c spinlock_classic.c tricky_client.c (1.44s)
+PASS: ./examples/busywaiting/flexiblespecs/ticketlock$ verifast -c -I ../.. ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_cross_thread_client.c (1.98s)
+PASS: ./examples/abstract_io$ mysh < io2.mysh (3.23s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 5s
+PASS: ./examples$ verifast -target IP16 -c -allow_should_fail 16bittest.c (0.22s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 5s
+PASS: ./examples$ verifast -read_options_from_source_file -c 64bittest.c (0.16s)
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 5s
+PASS: ./examples/clhlock$ verifast -prover redux -c clhlock.c (0.87s)
+PASS: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c  (1.18s)
+PASS: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o queues.o buffer.c  (2.10s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 10s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 10s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 10s
+SLOW: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o queues.o bounded_buffer.c  has been running for 5s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 15s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 15s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 15s
+SLOW: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o queues.o bounded_buffer.c  has been running for 10s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 20s
+PASS: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o queues.o bounded_buffer.c  (10.53s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 20s
+PASS: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared monitors.o barrier.c  (0.94s)
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 20s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 25s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 25s
+SLOW: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o barbershop.c  has been running for 5s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 25s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 30s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 30s
+SLOW: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o barbershop.c  has been running for 10s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 30s
+PASS: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o barbershop.c  (11.69s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 35s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 35s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 35s
+PASS: ./examples/monitors$ verifast -prover z3v4.5 -disable_overflow_check -shared ghost_counters.c monitors.o readers_writers.c  (3.93s)
+PASS: ./examples/splitcounter$ verifast atomics.o ghost_lists.c splitcounter.c client.c (0.97s)
+PASS: ./examples/floating_point/sqrt_exact$ verifast -prover redux -c sqrt_exact.c (1.09s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 40s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 40s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 40s
+SLOW: ./examples/crypto_ccs$ verifast  -prover redux -target 32bit -I crypto_ccs -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as libann_polarssl.dll.vfmanifest crypto_ccs/crypto.vfmanifest annotated_api/mbedTLS_definitions.vfmanifest crypto_ccs/crypto/auxiliary_definitions.c crypto_ccs/crypto/ccs.c crypto_ccs/crypto/cryptogram.c crypto_ccs/crypto/cryptogram_levels.c crypto_ccs/crypto/public_chars.c crypto_ccs/crypto/interpret.c crypto_ccs/crypto/identifiers.c crypto_ccs/crypto/memcmp.c annotated_api/havege_util.c annotated_api/attacker.c has been running for 5s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 45s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc has been running for 45s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 45s
+SLOW: ./examples/crypto_ccs$ verifast  -prover redux -target 32bit -I crypto_ccs -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as libann_polarssl.dll.vfmanifest crypto_ccs/crypto.vfmanifest annotated_api/mbedTLS_definitions.vfmanifest crypto_ccs/crypto/auxiliary_definitions.c crypto_ccs/crypto/ccs.c crypto_ccs/crypto/cryptogram.c crypto_ccs/crypto/cryptogram_levels.c crypto_ccs/crypto/public_chars.c crypto_ccs/crypto/interpret.c crypto_ccs/crypto/identifiers.c crypto_ccs/crypto/memcmp.c annotated_api/havege_util.c annotated_api/attacker.c has been running for 10s
+PASS: ./examples/busywaiting/flexiblespecs/ticketlock-java$ verifast -c growing_lists.jarsrc ticketlockstrong.jarsrc ticketlock.jarsrc ticketlockclassic.jarsrc classicclient.jarsrc cohortlock.jarsrc spinlock.jarsrc simplehandoffclient.jarsrc busywaitinghandoffclient.jarsrc trickyclient.jarsrc distinguishingclient.jarsrc (49.29s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 50s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 50s
+SLOW: ./examples/crypto_ccs$ verifast  -prover redux -target 32bit -I crypto_ccs -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as libann_polarssl.dll.vfmanifest crypto_ccs/crypto.vfmanifest annotated_api/mbedTLS_definitions.vfmanifest crypto_ccs/crypto/auxiliary_definitions.c crypto_ccs/crypto/ccs.c crypto_ccs/crypto/cryptogram.c crypto_ccs/crypto/cryptogram_levels.c crypto_ccs/crypto/public_chars.c crypto_ccs/crypto/interpret.c crypto_ccs/crypto/identifiers.c crypto_ccs/crypto/memcmp.c annotated_api/havege_util.c annotated_api/attacker.c has been running for 15s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 5s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 55s
+PASS: ./examples/crypto_ccs$ verifast  -prover redux -target 32bit -I crypto_ccs -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as libann_polarssl.dll.vfmanifest crypto_ccs/crypto.vfmanifest annotated_api/mbedTLS_definitions.vfmanifest crypto_ccs/crypto/auxiliary_definitions.c crypto_ccs/crypto/ccs.c crypto_ccs/crypto/cryptogram.c crypto_ccs/crypto/cryptogram_levels.c crypto_ccs/crypto/public_chars.c crypto_ccs/crypto/interpret.c crypto_ccs/crypto/identifiers.c crypto_ccs/crypto/memcmp.c annotated_api/havege_util.c annotated_api/attacker.c (16.64s)
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 55s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest dummy/dummy.c dummy/main_app.c (2.49s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 10s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 60s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 60s
+PASS: ./examples/floating_point/interval_arithmetic$ verifast -c interval.c (3.81s)
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest hmac/hmac.c hmac/main_app.c (2.42s)
+PASS: ./examples$ verifast -prover redux -c -disable_overflow_check -allow_should_fail forall.c (0.21s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 15s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 65s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 65s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest rpc/rpc.c rpc/main_app.c (3.58s)
+PASS: ./examples$ verifast -prover redux -c -disable_overflow_check -allow_should_fail address_of_local.c (0.26s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 20s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 70s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest enc_then_hmac/enc_then_hmac.c enc_then_hmac/main_app.c (2.99s)
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 70s
+PASS: ./examples$ verifast -prover redux -c -disable_overflow_check alt_threading.c (0.25s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 25s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 75s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 75s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest hmac_then_enc/hmac_then_enc.c hmac_then_enc/main_app.c has been running for 5s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest hmac_then_enc/hmac_then_enc.c hmac_then_enc/main_app.c (5.41s)
+PASS: ./examples$ verifast -prover redux -c args.c (0.36s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 30s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 80s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 80s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest enc_and_hmac/enc_and_hmac.c enc_and_hmac/main_app.c has been running for 5s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 35s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 85s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest enc_and_hmac/enc_and_hmac.c enc_and_hmac/main_app.c (8.04s)
+PASS: ./examples$ verifast -prover redux array_of_struct.c (0.63s)
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 85s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest auth_enc/auth_enc.c auth_enc/main_app.c (2.55s)
+PASS: ./examples$ verifast -prover redux -c arraylist.c (0.39s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 40s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 90s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 90s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest sign/sign.c sign/main_app.c (2.81s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check threading.o barrier.c (0.51s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 45s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 95s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 95s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 5s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 50s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 100s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 100s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 10s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 55s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 105s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 105s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 15s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 60s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 110s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 110s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 20s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 65s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 115s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 115s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 25s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 70s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 120s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 120s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 30s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 75s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 125s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 125s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 35s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 80s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 130s
+SLOW: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c has been running for 130s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 40s
+PASS: ./examples/jayanti$ verifast threading.o popl20_prophecies.o atomics.c jayanti.c client.c (131.81s)
+PASS: ./examples$ verifast -prover z3v4.5 -c bitops_examples.c (1.61s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 85s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 135s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 45s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest nsl/nsl.c nsl/main_app.c has been running for 5s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 90s
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest nsl/nsl.c nsl/main_app.c (5.09s)
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 140s
+PASS: ./examples$ verifast -prover redux -c static_array.c (0.98s)
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 50s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 95s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 145s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 5s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 55s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 100s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 150s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 10s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 60s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 105s
+SLOW: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c has been running for 155s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 15s
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 65s
+PASS: ./examples/busywaiting/flexiblespecs/ticketlock-stronger$ verifast -c -I ../.. ghost_lists.c ticketlock_strong.c ticketlock.c ticketlock_classic.c simple_classic_client.c simple_cross_thread_client.c cohortlock.c (157.73s)
+PASS: ./examples$ verifast -c -disable_overflow_check typedef_cast.c (0.21s)
+PASS: ./examples$ verifast -prover redux -c automation.c (0.22s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 110s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 20s
+PASS: ./examples$ verifast -read_options_from_source_file priorityqueue-forall_nth.c (2.87s)
+PASS: ./examples$ verifast -prover redux set.c (0.38s)
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 70s
+PASS: ./examples/BeepDriver$ mysh < BeepKernel.mysh (2.02s)
+PASS: ./examples/relaxed$ mysh < relaxed.mysh (1.05s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 115s
+PASS: ./examples/shared_boxes$ verifast -c sblock.c (0.25s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c sglock.c (0.24s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c tblock.c (0.47s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 25s
+PASS: ./examples/shared_boxes$ verifast -prover redux -c strong_ghost_lists.c (0.53s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c permutations.o ghost_lists.c (0.45s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c ticketlock_cap.c (0.25s)
+SLOW: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c has been running for 75s
+PASS: ./examples/shared_boxes$ verifast -c ticket_lock.c (0.54s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c gotsmanlock.c (0.27s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c spinlock.c (0.24s)
+PASS: ./examples/crypto_ccs/protocols$ verifast  -prover redux -target 32bit -I ../crypto_ccs -allow_assume pthread.o ../libann_polarssl.dll.vfmanifest yahalom/yahalom.c yahalom/main_app.c (75.96s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 120s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 30s
+SLOW: ./examples/shared_boxes$ verifast -c -target 32bit concurrentqueue.c has been running for 5s
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 5s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 125s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 35s
+SLOW: ./examples/shared_boxes$ verifast -c -target 32bit concurrentqueue.c has been running for 10s
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 10s
+PASS: ./examples/shared_boxes$ verifast -c -target 32bit concurrentqueue.c (10.70s)
+PASS: ./examples/shared_boxes$ verifast -c concurrentstackclient.c (0.26s)
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 130s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 40s
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 15s
+SLOW: ./examples/shared_boxes$ verifast -target 32bit -allow_assume threading.o atomics.o concurrentqueue.c concurrentqueue_client.c has been running for 5s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 135s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 45s
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 20s
+SLOW: ./examples/shared_boxes$ verifast -target 32bit -allow_assume threading.o atomics.o concurrentqueue.c concurrentqueue_client.c has been running for 10s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 140s
+PASS: ./examples/shared_boxes$ verifast -target 32bit -allow_assume threading.o atomics.o concurrentqueue.c concurrentqueue_client.c (10.91s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c atomic_integer.c (0.28s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c spinlock_with_atomic_integer.c (0.25s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c ticketlock_with_atomic_integer.c (0.28s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 50s
+PASS: ./examples/shared_boxes$ verifast -prover redux -c interval.c (0.23s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 25s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 145s
+PASS: ./examples/shared_boxes$ verifast -prover redux -c lcl_set.c (4.20s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c cell_refcounted.c (0.38s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 55s
+PASS: ./examples/shared_boxes$ verifast -c cowl.c (0.93s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c shared_boxes.c (0.38s)
+PASS: ./examples/shared_boxes$ verifast -prover redux -c incrbox.c (0.26s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 30s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 150s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 60s
+PASS: ./examples/termination$ mysh < termination.mysh (4.03s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 35s
+SLOW: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c has been running for 155s
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 65s
+SLOW: ./examples/termination/concurrent$ mysh < concurrent.mysh has been running for 5s
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 40s
+PASS: ./examples/floating_point/sqrt_with_rounding$ verifast -prover redux -c sqrt_with_rounding.c (159.23s)
+PASS: ./examples/termination/concurrent$ mysh < concurrent.mysh (8.11s)
+PASS: ./examples/tso$ verifast -prover redux -c lock.c (0.34s)
+PASS: ./examples/tso$ verifast -prover redux -c -fno-strict-aliasing -assume_no_subobject_provenance cvm0.c (0.63s)
+PASS: ./examples/tso$ verifast -prover redux -c -disable_overflow_check prodcons.c (0.42s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check cat.c (0.46s)
+PASS: ./examples$ verifast -prover redux char.c (0.25s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 70s
+PASS: ./examples$ verifast stringBuffers.c sockets.o bot.c (2.00s)
+PASS: ./examples$ verifast -c close_struct_zero.c (0.30s)
+PASS: ./examples$ verifast -prover redux -c closetest.c (0.24s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 45s
+PASS: ./examples$ verifast -prover redux Composite.c (1.21s)
+PASS: ./examples$ verifast -prover redux composite4.c (0.38s)
+PASS: ./examples$ verifast -prover redux -c -disable_overflow_check composite5.c (0.39s)
+PASS: ./examples$ verifast -prover redux -c contains.c (0.28s)
+PASS: ./examples$ verifast -prover redux -c contains_deep.c (0.30s)
+PASS: ./examples$ verifast -prover redux -c contrib.c (0.29s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check counter.c (0.25s)
+PASS: ./examples$ mysh < chat.mysh (4.72s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check counter_with_pred.c (0.25s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 75s
+PASS: ./examples$ verifast -prover redux -disable_overflow_check counter_with_pred_auto.c (0.29s)
+PASS: ./examples/custom_bindir$ mysh < custom_bindir.mysh (0.21s)
+PASS: ./examples$ verifast -prover redux -target 32bit -shared threading.o counting_threads.c (0.48s)
+PASS: ./examples$ verifast -c decreases.c (0.21s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check cp.c (0.42s)
+PASS: ./examples$ verifast -prover redux -c default_clause_test.c (0.22s)
+PASS: ./examples$ verifast -prover redux -shared doubly_linked_list.c (0.21s)
+PASS: ./examples$ verifast -prover redux -allow_assume -disable_overflow_check dyncode.c (0.28s)
+PASS: ./examples$ verifast -prover redux enums.c (0.23s)
+PASS: ./examples$ verifast -prover redux -c equalsmap.c (0.34s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -fno-strict-aliasing -assume_no_subobject_provenance expr.c (0.30s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 50s
+PASS: ./examples/nested_induction$ mysh < nested_induction.mysh (2.57s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -c fractions-counting.c (0.25s)
+PASS: ./examples/fm2012$ mysh < fm2012.mysh (1.64s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 80s
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -c -fno-strict-aliasing -assume_no_subobject_provenance gcl0.c (3.23s)
+PASS: ./examples$ verifast -prover redux ghost_field.c (0.28s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check globals.c (0.25s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -c -fno-strict-aliasing -assume_no_subobject_provenance gcl.c (3.52s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check global_points_to_syntax.c (0.29s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 55s
+PASS: ./examples$ verifast -prover redux -shared goto.c (0.25s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -c gui-app.c (0.31s)
+PASS: ./examples/heartbleed$ verifast -prover redux -c t1_lib.c (0.42s)
+PASS: ./examples$ verifast -prover redux -c icap_mt_event_loop.c (0.31s)
+PASS: ./examples$ verifast -prover redux threading.o incr.c (0.31s)
+PASS: ./examples$ verifast -prover redux -c ifs.c (0.51s)
+PASS: ./examples/incr_box$ verifast -prover redux -c incr_box.c (0.29s)
+PASS: ./examples$ verifast -prover redux -shared -disable_overflow_check inverse.c (0.52s)
+PASS: ./examples$ verifast -prover redux -shared insertion_sort.c (0.55s)
+PASS: ./examples$ verifast -prover redux iter.c (0.39s)
+PASS: ./examples/old_io$ verifast -prover redux -c iospec.c (0.20s)
+PASS: ./examples/old_io$ verifast -prover redux -c iospec_theory.c (0.19s)
+PASS: ./examples$ verifast -prover redux iter_with_auto.c (0.53s)
+PASS: ./examples/old_io$ verifast -prover redux -disable_overflow_check -c full_func_io.c (0.24s)
+PASS: ./examples/old_io$ verifast -prover redux -disable_overflow_check -c full_func_io_mod.c (0.24s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 85s
+PASS: ./examples/old_io$ verifast -prover redux -disable_overflow_check -c full_func_io_sim.c (0.25s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c lemmafuncptr.c (0.21s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c lemmafuncptr_fraction_valid.c (0.24s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c -allow_should_fail lemmafuncptr_fraction_invalid.c (0.22s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c lemmafuncptr_duplication_valid.c (0.24s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c -allow_should_fail lemmafuncptr_duplication_invalid.c (0.22s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c -allow_should_fail lemmafuncptr_produce_invalid.c (0.21s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c linkedlist_with_lemmaptr.c (0.26s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c odd_even_lemmas.c (0.17s)
+PASS: ./examples/lemmafuncptr$ verifast -prover redux -c split_inductive_proof.c (0.26s)
+PASS: ./examples$ verifast -prover redux -c limits.c (0.21s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 60s
+PASS: ./examples$ verifast -prover redux map.c (0.32s)
+PASS: ./examples/lcset$ verifast -prover redux threading.o atomics.o ghost_lists.c ghost_counters.c locks.c lcset.c lcset_client.c (3.16s)
+SLOW: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c has been running for 90s
+PASS: ./examples/mcas$ verifast -prover z3v4.5 -c -emit_vfmanifest bitops_ex.c (2.42s)
+SLOW: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c has been running for 65s
+PASS: ./examples/shared_boxes$ verifast -c -prover z3v4.5 -target 32bit -fno-strict-aliasing -assume_no_provenance concurrentstack.c (65.00s)
+SLOW: ./examples$ verifast -prover redux -c mergesort_and_binarysearch.c has been running for 5s
+PASS: ./examples/crypto_ccs/symbolic_model$ verifast  -prover redux -target 32bit -fno-strict-aliasing -I ../crypto_ccs -I ../annotated_api/ -allow_assume -shared -emit_dll_vfmanifest -emit_dll_vfmanifest_as symbolic.dll.vfmanifest ../libann_polarssl.so src/general.c src/debug.c src/item.c src/item_tags.c src/well_formed.c src/item_constraints.c src/serialization.c src/deserialization.c src/invariants.c src/key_register.c src/data_item.c src/pair_item.c src/nonce_item.c src/hash_item.c src/key_item.c src/hmac_item.c src/symmetric_encrypted_item.c src/asymmetric_encrypted_item.c src/asymmetric_signature_item.c src/asymmetric_authenticated_encryption.c src/principal_ids.c src/network.c src/symbolic.c src/attacker.c (93.68s)
+PASS: ./examples/MockKernel$ mysh < MockKernel.mysh (2.47s)
+SLOW: ./examples/mcas$ verifast -fno-strict-aliasing -assume_no_provenance threading.o bitops_ex.o popl20_prophecies.vfmanifest atomics.c ghost_cells_ex.c listex_ex.c assoc_list.c ghost_lists.c ghost_counters.c rdcss.c mcas.c mcas_client.c has been running for 5s
+PASS: ./examples/mcas$ verifast -fno-strict-aliasing -assume_no_provenance threading.o bitops_ex.o popl20_prophecies.vfmanifest atomics.c ghost_cells_ex.c listex_ex.c assoc_list.c ghost_lists.c ghost_counters.c rdcss.c mcas.c mcas_client.c (5.62s)
+PASS: ./examples/crypto_ccs/symbolic_model/protocols$ verifast -read_options_from_source_file -allow_assume pthread.o ../../libann_polarssl.dll.vfmanifest ../symbolic.dll.vfmanifest dummy_protocol/dummy_protocol.c dummy_protocol/main_app.c (2.63s)
+PASS: ./examples$ verifast -prover redux -c multiset_abstract_type.c (0.22s)
+SLOW: ./examples$ verifast -prover redux -c mergesort_and_binarysearch.c has been running for 10s
+PASS: ./examples$ verifast -prover redux -c mergesort_and_binarysearch.c (10.27s)
+PASS: ./examples/module_imports$ mysh -cpus 1 < module_imports.mysh (3.49s)
+PASS: ./examples/crypto_ccs/symbolic_model/protocols$ verifast  -prover redux -target 32bit -I ../../crypto_ccs -allow_assume pthread.o ../../libann_polarssl.dll.vfmanifest ../symbolic.dll.vfmanifest secure_storage/secure_storage.c secure_storage/main_app.c (2.61s)
+PASS: ./examples$ verifast -prover redux threading.o philosophers.c (0.32s)
+PASS: ./examples/crypto_ccs/symbolic_model/protocols$ verifast  -prover redux -target 32bit -I ../../crypto_ccs -allow_assume pthread.o ../../libann_polarssl.dll.vfmanifest ../symbolic.dll.vfmanifest secure_storage_asym/secure_storage_asym.c secure_storage_asym/main_app.c (2.61s)
+PASS: ./examples/crypto_ccs/symbolic_model/protocols$ verifast  -prover redux -target 32bit -I ../../crypto_ccs -allow_assume pthread.o ../../libann_polarssl.dll.vfmanifest ../symbolic.dll.vfmanifest rpc/rpc.c rpc/main_app.c (3.56s)
+SLOW: ./examples/linking$ mysh < linking.mysh has been running for 5s
+PASS: ./examples/crypto_ccs/symbolic_model/protocols$ verifast  -prover redux -target 32bit -I ../../crypto_ccs -allow_assume pthread.o ../../libann_polarssl.dll.vfmanifest ../symbolic.dll.vfmanifest recursive_otway_rees/recursive_otway_rees.c recursive_otway_rees/main_app.c (4.08s)
+SLOW: ./examples/preprocessor$ mysh < preprocessor.mysh has been running for 5s
+PASS: ./examples$ verifast -prover redux sprintf.c (1.89s)
+PASS: ./examples/preprocessor$ mysh < preprocessor.mysh (5.94s)
+PASS: ./examples$ verifast -prover redux -c public_invariant.c (0.22s)
+PASS: ./examples$ verifast -prover redux -target 32bit -c pthreads.c (0.31s)
+PASS: ./examples$ verifast -prover redux -c pure_map.c (0.21s)
+PASS: ./examples/queue$ verifast -prover redux threading.o atomics.o queue.c queue_client.c (0.72s)
+PASS: ./examples$ verifast -prover redux -c tokenizer_test.c (0.36s)
+PASS: ./examples$ verifast -prover redux -c truncating.c (0.15s)
+SLOW: ./examples$ verifast -prover redux printf.c has been running for 5s
+PASS: ./examples$ verifast -prover redux -target 32bit -c -disable_overflow_check quicksort.c (1.66s)
+PASS: ./examples$ verifast -prover redux reallittest.c (0.13s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check ref_points_to_syntax.c (0.23s)
+SLOW: ./examples/linking$ mysh < linking.mysh has been running for 10s
+PASS: ./examples/reduced_annotations$ mysh < reduced_annotations.mysh (1.34s)
+PASS: ./examples$ verifast -prover redux -c short.c (0.29s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check stringBuffers.c tokenizer.c ghostlist.o -fno-strict-aliasing -assume_no_subobject_provenance rcl.c (2.92s)
+PASS: ./examples$ verifast -prover redux spouse.c (0.32s)
+PASS: ./examples$ verifast -prover redux sorted_bintree.c (0.64s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -shared stack.c (0.29s)
+PASS: ./examples$ verifast -prover redux -c spouse-user.c (0.43s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check -shared stack_typeparam.c (0.35s)
+PASS: ./examples$ verifast -prover redux -c struct_assignment.c (0.24s)
+PASS: ./examples$ verifast -prover redux swap.c (0.28s)
+PASS: ./examples$ verifast -prover redux -c switch.c (0.26s)
+PASS: ./examples$ verifast -prover redux struct_fields.c (0.59s)
+PASS: ./examples$ verifast -prover redux -c -disable_overflow_check tuerk.c (0.22s)
+PASS: ./examples$ verifast -prover redux -c -disable_overflow_check tuerk_explicit.c (0.25s)
+PASS: ./examples$ verifast -prover redux -c typedefs.c (0.20s)
+PASS: ./examples$ verifast -prover redux -c umemcpy.c (0.28s)
+PASS: ./examples$ verifast -prover redux -c -allow_should_fail carrays.c (0.23s)
+PASS: ./examples$ verifast -prover redux -disable_overflow_check wc.c (0.47s)
+SLOW: ./examples$ verifast -prover redux printf.c has been running for 10s
+PASS: ./examples$ verifast -c wf_func_proof.c (0.26s)
+PASS: ./examples$ verifast -c wf_func1_manual.c (0.24s)
+PASS: ./examples$ verifast -c wf_func2_manual.c (0.23s)
+PASS: ./examples$ verifast -c -disable_overflow_check wf_func1.c (0.24s)
+PASS: ./examples$ verifast -c wf_fact_manual.c (0.20s)
+PASS: ./examples$ verifast -c wf_func2.c (0.38s)
+SLOW: ./examples/linking$ mysh < linking.mysh has been running for 15s
+PASS: ./examples/usbkbd/src$ verifast -prover redux -fno-strict-aliasing -target 32bit -I . -c usbmouse.c (1.21s)
+PASS: ./examples/helloproc$ mysh -cpus 1 < helloproc.mysh (1.54s)
+PASS: ./examples/verifythis2016$ mysh < verify.mysh (1.17s)
+SLOW: ./examples$ verifast -prover redux printf.c has been running for 15s
+PASS: ./examples$ verifast -prover redux printf.c (15.35s)
+PASS: ./examples/generic_functypedef$ mysh < runtests.mysh (2.17s)
+PASS: ./examples/usbkbd/src$ verifast -fno-strict-aliasing -target 32bit -I . -c -prover redux usbkbd_verified.c (3.92s)
+SLOW: ./examples/linking$ mysh < linking.mysh has been running for 20s
+PASS: ./examples/java/channels$ verifast -prover redux -disable_overflow_check -c channels.jarsrc client.jarsrc (0.86s)
+PASS: ./examples/java/channels_raw$ verifast -prover redux -disable_overflow_check -c channels.jarsrc client.jarsrc (0.80s)
+PASS: ./examples/linking$ mysh < linking.mysh (20.72s)
+PASS: ./examples/java/chat$ verifast -prover redux -c -allow_assume chat.jarsrc (0.37s)
+PASS: ./examples/java/chat_raw$ verifast -prover redux -c -allow_assume chat.jarsrc (0.33s)
+PASS: ./examples/java/chatbot$ verifast -prover redux -disable_overflow_check -c -provides "main_class chatbot.Bot" Bot.java (0.25s)
+PASS: ./examples/java/frontend/big_example$ verifast -prover redux -disable_overflow_check -c Java7Program_desugared.java (0.23s)
+PASS: ./examples/java/Iterator$ verifast -prover redux -c it.jarsrc (0.23s)
+PASS: ./examples/java/Iterator$ verifast -prover redux -c prog.jarsrc (0.24s)
+PASS: ./examples/java/Java Card$ verifast -prover redux -c -provides "java_card_applet MyApplet 5,1,2,3,4,5,0,1,20" JavaCard.java (0.26s)
+PASS: ./examples/java/Java Card$ verifast -prover redux -c -provides "java_card_applet Store.Store" Store.java (0.21s)
+PASS: ./examples/java/Java Card$ verifast -prover redux -c -provides "java_card_applet echo.Echo" Echo.java (0.25s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux NewEPurse/IEPurseServices.jarsrc (0.23s)
+PASS: ./examples/java/Java Card/shareable-applets$ verifast -prover redux -c -provides "java_card_applet wallet.EPhone" wallet.jarsrc (0.37s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux -provides "java_card_applet Addressbook.Addressbook" Addressbook.java (0.84s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux -provides "java_card_applet newjticket.NewJTicketApplet" NewJTicket/NewJTicketApplet.jarsrc (0.30s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux -allow_assume -provides "java_card_applet newepurse.NewEPurseApplet" NewEPurse/NewEPurseApplet.jarsrc (0.46s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux NewEidCard/EidCardServices.jarsrc (0.22s)
+PASS: ./examples/java/Java Card$ verifast -c -allow_assume -prover redux -provides "java_card_applet newmypackage.NewMyApplet 5,1,2,3,4,5,0,3,2,10,10" NewMyApplet/NewMyApplet.jarsrc (1.58s)
+SLOW: ./examples/io$ mysh < io.mysh has been running for 5s
+PASS: ./examples/java/Java Card$ verifast -c -allow_assume -prover redux -provides "java_card_applet mypackage.MyApplet 5,1,2,3,4,5,0,3,2,10,10" MyApplet-with-auto.java (2.11s)
+PASS: ./examples/java$ verifast -c -disable_overflow_check GenericClass.java (0.25s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check Account.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check AbstractClasses.java (0.18s)
+SLOW: ./examples/java/Java Card$ verifast -c -prover redux -provides "java_card_applet be.fedict.neweidapplet.NewEidCard" NewEidCard/EidCard.jarsrc has been running for 5s
+SLOW: ./examples/java/Java Card$ verifast -c -prover redux -provides "java_card_applet be.fedict.eidapplet.EidCard" NewEidCard/EidCard-with-auto.java has been running for 5s
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check ArrayList.java (0.45s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check ArraysAuto.java (0.19s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check ArraysManual.java (0.28s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check Automation.java (0.22s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux -provides "java_card_applet be.fedict.neweidapplet.NewEidCard" NewEidCard/EidCard.jarsrc (6.36s)
+PASS: ./examples/java$ verifast -c CoincidenceCount.java (0.77s)
+SLOW: ./examples/io$ mysh < io.mysh has been running for 10s
+PASS: ./examples/java$ verifast -c ConstOverflow.java (0.24s)
+PASS: ./examples/java$ verifast -c -disable_overflow_check Comprehensions.java (0.30s)
+PASS: ./examples/java/Java Card$ verifast -c -prover redux -provides "java_card_applet be.fedict.eidapplet.EidCard" NewEidCard/EidCard-with-auto.java (7.74s)
+PASS: ./examples/java$ verifast -c Bag.java (2.14s)
+PASS: ./examples/java$ verifast -prover redux -c Constants.java (0.23s)
+PASS: ./examples/java$ verifast -prover redux -c FieldInitializers.java (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c -allow_should_fail CompoundAssignments.java (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c -allow_should_fail Division.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c -allow_should_fail DivisionOverflow.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c ConstantExpressions.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -disable_overflow_check -c Contrib.jarsrc (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c DefaultCtor.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c DoWhile.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c Downcast.java (0.24s)
+PASS: ./examples/java$ verifast -prover redux -c DowncastInfo.java (0.26s)
+PASS: ./examples/java$ verifast -prover redux -c FloatingPoint.java (0.12s)
+PASS: ./examples/java$ verifast -prover redux -c -allow_assume FailboxedQueueExample.java (0.27s)
+PASS: ./examples/io$ mysh < io.mysh (11.61s)
+PASS: ./examples/java$ verifast -prover redux -c hello.scala (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c HelloWorld.java (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check InstanceOf.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c InterfaceLemmas.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c Iterator.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check NestedExprTest.java (0.19s)
+PASS: ./examples/java$ verifast -prover redux -allow_assume -disable_overflow_check -c map.java (0.26s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check Recell.java (0.22s)
+PASS: ./examples/java$ verifast -c leftpad.java (0.81s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check AmortizedQueue.java (0.27s)
+PASS: ./examples/java/ghost_imports$ mysh < ghost_imports.mysh (1.23s)
+PASS: ./examples/java/prodcons$ verifast -prover redux -disable_overflow_check -c client.jarsrc (0.56s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check SuperCalls.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c Spouse.java (0.22s)
+PASS: ./examples/java$ verifast -prover redux -c Spouse2.java (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c SpouseFinal.java (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c Stack.java (0.17s)
+PASS: ./examples/java$ verifast -prover redux -c ThreadRun.java (0.25s)
+PASS: ./examples/java$ verifast -prover redux -c -disable_overflow_check -provides "main_class Program" StaticFields.java (0.29s)
+PASS: ./examples/java$ verifast -prover redux -c StringLiterals.java (0.17s)
+PASS: ./examples/java$ verifast -prover redux -c SuperConstructorCall.java (0.24s)
+PASS: ./examples/java$ verifast -c -allow_should_fail Exceptions.java (0.21s)
+PASS: ./examples/java$ verifast -prover redux -c Tree.java (0.62s)
+PASS: ./examples/java/out_of_order_jarsrc/in_order$ verifast -prover redux -c main.jarsrc (0.21s)
+PASS: ./examples/java/out_of_order_jarsrc/out_of_order$ verifast -prover redux -c main.jarsrc (0.25s)
+PASS: ./examples/java/out_of_order_jarsrc/inheritance_cycle$ verifast -prover redux -c -allow_should_fail main.jarsrc (0.21s)
+PASS: ./examples/java/instanceof$ verifast -prover redux -c instanceof_1.java (0.23s)
+PASS: ./examples/java/instanceof$ verifast -prover redux -c -allow_should_fail instanceof_2.java (0.22s)
+PASS: ./examples/java/instanceof$ verifast -prover redux -c -allow_should_fail instanceof_3.java (0.21s)
+PASS: ./examples/java/instanceof$ verifast -prover redux -c -allow_should_fail instanceof_4.java (0.22s)
+PASS: ./examples/vstte2010$ verifast -c -disable_overflow_check problem1.c (0.29s)
+PASS: ./examples/vstte2010$ verifast -prover redux -c -disable_overflow_check problem3.java (0.23s)
+PASS: ./examples/vstte2010$ verifast -c -disable_overflow_check problem2.c (0.53s)
+PASS: ./examples/vstte2010$ verifast -prover redux -c -disable_overflow_check problem5.java (0.26s)
+PASS: ./examples/java/override_methods$ mysh < override_methods.mysh (1.52s)
+PASS: ./examples$ verifast -prover redux -c noreturn.c (0.15s)
+PASS: ./examples/vstte2010$ verifast -c -disable_overflow_check problem4.java (0.58s)
+PASS: ./examples$ verifast -prover redux -c void_ignore.c (0.13s)
+PASS: ./examples/sizeof$ verifast -prover redux -c -allow_should_fail struct.c (0.23s)
+PASS: ./examples/sizeof$ verifast -prover redux -c -fno-strict-aliasing -assume_no_subobject_provenance packed.c (0.28s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check account.c (0.22s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check deposit.c (0.25s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check limit.c (0.24s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check pred.c (0.24s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check stack.c (0.25s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check dispose.c (0.25s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check sum.c (0.25s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check popn.c (0.26s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check values.c (0.22s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check fixpoints.c (0.24s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check sum_full.c (0.26s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check lemma.c (0.21s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check push_all.c (0.30s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check reverse.c (0.27s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c overflow.c (0.24s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check filter.c (0.27s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check byref.c (0.25s)
+SLOW: ./examples/java/termination$ mysh < termination.mysh has been running for 5s
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check family.c (0.19s)
+PASS: ./examples/java/termination$ mysh < termination.mysh (5.09s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check family0.c (0.30s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check map.c (0.24s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check foreach.c (0.23s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check generics.c (0.30s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check predctors.c (0.27s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check threads0.c (0.33s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check threads.c (0.36s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check fractions0.c (0.35s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check fractions.c (0.40s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check precise_bad_merge.c (0.19s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check precise.c (0.43s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check mutexes.c (0.29s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check characters.c (0.23s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check leaks.c (0.28s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check xor.c (0.24s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check characters_loop.c (0.20s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check tuerk.c (0.21s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check stack_tuerk.c (0.22s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c memcmp.c (0.30s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c memcpy.c (0.34s)
+PASS: ./tutorial_solutions$ verifast -prover redux -c -disable_overflow_check strlen.c (0.24s)
+SLOW: ./examples/vstte2012$ mysh < run.mysh has been running for 5s
+PASS: ./tests$ verifast -c issue974.c (0.24s)
+PASS: ./tests$ verifast -c issue766.c (0.14s)
+PASS: ./tests$ [ "$(verifast issue739.c)" = $'issue739.c(1,11-13): error: Parse error: Bad fraction literal\n1 | float i = 0e;\n  |           ^^' ] (0.05s)
+PASS: ./tests$ [ "$(verifast issue731.c)" = $'issue731.c(1,1-2,1): error: Parse error: Unterminated comment.\n1 | /*\n  | ^^\n2 | \n  | ^' ] (0.05s)
+PASS: ./tests$ verifast -c -allow_should_fail issue681.c (0.18s)
+PASS: ./tests$ verifast -c -allow_should_fail const_vars.c (0.12s)
+PASS: ./tests$ verifast -prover redux -c chars__of_struct.c (0.43s)
+PASS: ./tests/fixpoint_param_requires_clauses$ verifast -c positive_test.c (0.20s)
+PASS: ./tests$ verifast -c -allow_should_fail issue601.c (0.22s)
+PASS: ./tests/fixpoint_param_requires_clauses$ verifast -c -allow_should_fail bad_map1.c bad_map2.c bad_map3.c (0.46s)
+PASS: ./tutorial_solutions$ verifast -prover redux -target 32bit students.c (1.25s)
+PASS: ./tests$ verifast -c issue536.c (0.25s)
+PASS: ./tests$ verifast -c continue.c (0.18s)
+PASS: ./tests$ verifast -c generic_points_to.c (0.24s)
+PASS: ./tests$ verifast -c -allow_should_fail loop_cond_assigned_vars.java (0.14s)
+PASS: ./tests$ verifast -c struct_points_to.c (0.24s)
+PASS: ./tests$ verifast -c -prover z3v4.5 generic_points_to.c (0.33s)
+PASS: ./tests$ verifast -c -fno-strict-aliasing -uppercase_type_params_carry_typeid generic_structs.c (0.29s)
+PASS: ./tests$ verifast -c inductive_field_access.c (0.22s)
+PASS: ./tests$ verifast -c -prover z3v4.5 inductive_field_access.c (0.23s)
+PASS: ./tests$ verifast -c -fno-strict-aliasing -uppercase_type_params_carry_typeid -prover z3v4.5 generic_structs.c (0.64s)
+PASS: ./tests$ verifast -c -target lp64 -allow_should_fail issue504.c (0.26s)
+PASS: ./tests$ verifast -c -target lp64 issue516.c (0.29s)
+PASS: ./tests$ verifast -c issue513.c (0.24s)
+PASS: ./tests$ verifast -c issue511.c (0.19s)
+PASS: ./tests$ verifast -c issue507.c (0.22s)
+PASS: ./tests$ verifast -c issue357.c (0.20s)
+PASS: ./tests$ verifast -c comma_expr.c (0.20s)
+PASS: ./tests$ verifast -c call_in_struct_init.c (0.22s)
+PASS: ./tests$ verifast -c -allow_should_fail effective_types.c (0.20s)
+PASS: ./tests$ verifast -c mul_distrib.c (0.23s)
+PASS: ./tests$ verifast -c malloc_integers_.c (0.18s)
+PASS: ./tests$ verifast -c -allow_should_fail alloc_zero.c (0.27s)
+PASS: ./tests$ verifast -c void_cast.c (0.23s)
+PASS: ./tests$ verifast -c typeid.c (0.19s)
+PASS: ./tests$ verifast -c typedef_pointers.c (0.23s)
+PASS: ./tests$ verifast -c -allow_should_fail no_fwrapv.c (0.23s)
+PASS: ./tests$ verifast -c -fwrapv fwrapv.c (0.21s)
+PASS: ./tests$ verifast -c -allow_should_fail pointer_limits.c (0.22s)
+PASS: ./tests$ verifast -c -allow_should_fail provenance0.c (0.24s)
+PASS: ./tests$ verifast -c -allow_should_fail subobject_provenance.c (0.73s)
+PASS: ./tests$ verifast -c -allow_should_fail provenance.c (0.57s)
+PASS: ./tests$ verifast -c lit_ctor_pat.c (0.16s)
+PASS: ./tests$ verifast -c -allow_should_fail uninit.c (0.28s)
+PASS: ./tests$ verifast -c issue311.c (0.15s)
+PASS: ./tests$ verifast -c -disable_overflow_check issue112.c (0.22s)
+PASS: ./tests$ verifast -c twoDimArray.c (0.50s)
+PASS: ./tests$ verifast -c issue309.c (0.24s)
+PASS: ./tests$ verifast -c -allow_should_fail uninit_local.c (0.22s)
+PASS: ./tests$ verifast -c floating_point.c (0.30s)
+PASS: ./tests$ verifast -c -target lp64 sizeof_expr.c (0.32s)
+PASS: ./tests$ verifast -c -allow_should_fail evaluation_order_checks.c (0.21s)
+PASS: ./tests$ verifast -c varargs.c (0.56s)
+PASS: ./tests$ verifast -c -assume_left_to_right_evaluation no_evaluation_order_checks.c (0.19s)
+PASS: ./examples/vstte2012$ mysh < run.mysh (9.98s)
+PASS: ./tests$ verifast -c declarators.c (0.27s)
+PASS: ./tests$ verifast -c issue247.c (0.24s)
+PASS: ./tests$ verifast -c check_expr_varargs.c (0.34s)
+PASS: ./tests$ verifast -c variadic_macros.c (0.26s)
+PASS: ./tests$ verifast -c -D ABC cmdline_defined_macros_in_header.c (0.24s)
+PASS: ./tests$ verifast -c issue238.c (0.24s)
+PASS: ./tests$ verifast -c deref_integer_.c (0.28s)
+PASS: ./tests$ verifast -c issue68.c (0.23s)
+PASS: ./tests$ verifast -c issue110.c (0.23s)
+PASS: ./tests$ verifast -c -allow_should_fail issue206.c (0.22s)
+PASS: ./tests$ verifast -c -allow_should_fail two_should_fails.c (0.20s)
+PASS: ./tests$ verifast -c -allow_should_fail div_mod_negative_dividend.c (0.21s)
+PASS: ./tests$ verifast -c -allow_should_fail div.c (0.21s)
+PASS: ./tests$ verifast -c -prover z3v4.5 prod_func_ptr_chunk_ftargs_convert_provertype.c (0.22s)
+PASS: ./tests$ verifast -c -allow_should_fail any_russell2.c (0.23s)
+PASS: ./tests$ verifast -c -allow_should_fail any_russell.c (0.25s)
+PASS: ./tests$ verifast -c -allow_should_fail russell_predctors.c (0.29s)
+PASS: ./tests$ verifast -c -allow_should_fail noreturn.c (0.04s)
+PASS: ./tests$ verifast -c -allow_should_fail any_russell3.c (0.25s)
+PASS: ./tests$ verifast -c typedef_enum_with_body.c (0.21s)
+PASS: ./tests$ verifast -prover redux -c redux_nonlinear_mult.c (0.23s)
+PASS: ./tests$ verifast -prover redux -c simplex_secondary_closes.c (0.20s)
+PASS: ./tests$ verifast -c multi_dim_array.c (0.35s)
+PASS: ./tests$ verifast -prover redux -c simplex_secondary_closes2.c (0.20s)
+PASS: ./tests$ verifast -prover redux -c match_ctor_pat.c (0.20s)
+PASS: ./tests$ verifast -prover redux -c llong_fields.c (0.21s)
+PASS: ./tests$ verifast -prover redux -c -allow_should_fail -allow_undeclared_struct_types undeclared_structs.c (0.23s)
+PASS: ./tests$ verifast -prover redux -shared -target IP16 -allow_should_fail integer__pointee_pred.c (0.33s)
+PASS: ./tests/test-includepath$ mysh < runthistest.mysh (0.12s)
+PASS: ./tests$ verifast -prover redux stresstest-one-plus-one.c (0.27s)
+PASS: ./tests/preprocessor_pragma$ mysh < run.mysh (0.23s)
+PASS: ./tests$ verifast -c nodecl_and_semicolon.c (0.21s)
+PASS: ./tests$ verifast -prover redux -c test-octal-number.c (0.29s)
+PASS: ./tests$ verifast -prover redux -c integral-ghost-types.c (0.19s)
+PASS: ./tests$ verifast -prover redux -c -allow_should_fail longlong.c (0.27s)
+PASS: ./tests$ verifast -prover redux -c test-precise-predicate-pointsto.c (0.19s)
+PASS: ./tests$ verifast -prover redux -c prodlemfuncptrchunk_local_lems.c (0.22s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail -allow_dead_code issue589.c (0.21s)
+PASS: ./tests/preprocessor_if$ mysh < run.mysh (1.01s)
+PASS: ./tests/errors/pred_confusion$ verifast -c -allow_should_fail pred_confusion.c (0.19s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail target.c (0.22s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail ctor_pattern_upcast.c (0.19s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail inductive_confusion.c (0.19s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail array_slice_autosplit.java (0.22s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail array_update.java (0.20s)
+PASS: ./tests/lemma_ptrs_with_nonghostcallersonly$ mysh < run.mysh (1.23s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail shift_errors.c (0.25s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail ghost_hiding_real.c (0.20s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail div_mod_by_zero.c (0.20s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail div_overflow.c (0.23s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail macro_in_macro_arg.c (0.26s)
+PASS: ./tests/errors$ verifast -c -prover z3v4.5 int_lit_overflow.c (0.27s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail typecheck1.c (0.23s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail basics.c (0.30s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail ghost_assignment.c (0.25s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail ghost_field.c (0.29s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail inhabited.c (0.25s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail switch.c (0.18s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail lemmafuncptr.c (0.27s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail override.java (0.22s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_assume -allow_should_fail override2.java (0.25s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail override3.java (0.21s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail superctor.java (0.21s)
+PASS: ./tests/copredicates$ mysh < run.mysh (3.00s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail inhabited_tparams.c (0.22s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail inductive_welldefined.c (0.20s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail predtype_contra.c (0.22s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail fixpoint_recursive_value.c (0.24s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail -allow_dead_code if_while_component_pure.c (0.22s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail chars_split_chars_join_loop.c (0.90s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail erasure.c (0.22s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail erasure3.c (0.14s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail redux.c redux2.c redux3.c redux4.c redux5.c redux6.c redux7.c redux8.c redux9.c redux10.c (1.92s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail erasure2.c (0.22s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail autoclose_bad_downcast.c (0.22s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail unsigned_int_cast.c (0.22s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail chars_split_chars_join_loop2.c (1.42s)
+PASS: ./tests/errors$ verifast -prover redux -allow_should_fail sizeof_signedness.c (0.35s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail java_typing_array_assignment/Test1.java (0.17s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail java_typing_array_assignment/Test2.java (0.23s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail java_typing_array_assignment/Test2.java (0.22s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail fraction-of-fraction.c (0.20s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail test-precise-predicate-pointsto-errorcase.c (0.20s)
+PASS: ./tests/errors/context_free_pp$ verifast -c -allow_should_fail lib.c prog.c (0.04s)
+PASS: ./tests/errors$ verifast -prover redux -c -allow_should_fail test-ghost-break-from-real-loop.c (0.20s)
+PASS: ./tests/errors$ verifast -c -allow_should_fail expression_not_supported_in_fixpoint.c (0.20s)
+PASS: ./tests/java/generics$ verifast -c BasicGenericClass.java (0.23s)
+PASS: ./tests/java/generics$ verifast -c GenericInheritance.java (0.24s)
+PASS: ./tests/java/generics$ verifast -c GenericType.java (0.25s)
+PASS: ./tests/java/generics$ verifast -c QualifiedGenericMethodCall.java (0.15s)
+PASS: ./tests/java/generics/errors$ verifast -c -allow_should_fail Test3.java (0.15s)
+PASS: ./tests/java/generics$ verifast -c DiamondOperator.java (0.24s)
+PASS: ./tests/java/generics$ verifast -c MethodInference.java (0.27s)
+PASS: ./tests/java/generics$ verifast -c CorrectFieldTypes.java (0.25s)
+PASS: ./tests/cxx/c_copy$ verifast -c typedef_enum_with_body.cpp (0.22s)
+PASS: ./tests/cxx/c_copy$ verifast -prover redux -disable_overflow_check globals.cpp (0.25s)
+PASS: ./tests/cxx/c_copy$ verifast -c nodecl_and_semicolon.cpp (0.23s)
+PASS: ./tests/cxx/c_copy$ verifast -c -allow_should_fail div_mod_negative_dividend.cpp (0.24s)
+PASS: ./tests/cxx/c_copy$ verifast -c -disable_overflow_check tuerk.cpp (0.27s)
+PASS: ./tests/cxx/c_copy$ verifast -prover redux -c truncating.cpp (0.25s)
+PASS: ./tests/cxx/inheritance$ verifast -c -disable_overflow_check single_inheritance.cpp (0.27s)
+PASS: ./tests/cxx/inheritance$ verifast -c -disable_overflow_check diamond.cpp (0.28s)
+PASS: ./tests/cxx/java_like$ verifast -disable_overflow_check Stack.cpp stack_client.cpp (0.53s)
+PASS: ./tests/cxx/inheritance$ verifast -c multiple_inheritance.cpp (0.23s)
+PASS: ./tests/cxx/inheritance$ verifast -c method_call_in_dtor.cpp (0.25s)
+PASS: ./tests/cxx/java_like$ verifast -disable_overflow_check -prover z3v4.5 Account.cpp account_client.cpp (0.87s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c virtual_methods.cpp (0.33s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c virtual_calls_in_xtor.cpp (0.21s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -allow_should_fail virtual_call_in_ctor_ub.cpp (0.29s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -allow_should_fail virtual_call_in_dtor_ub.cpp (0.21s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -allow_should_fail indirect_virtual_call_in_dtor_ub.cpp (0.27s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -allow_should_fail indirect_virtual_call_in_ctor_ub.cpp (0.31s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -allow_should_fail -allow_dead_code -disable_overflow_check check_vtype_ptr_before_call.cpp (0.24s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -disable_overflow_check override.cpp (0.24s)
+PASS: ./tests/cxx/instance_preds$ verifast -c -disable_overflow_check multiple_inheritance.cpp (0.15s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -allow_should_fail invalid_spec_override_check.cpp (0.31s)
+PASS: ./tests/cxx/virtual_methods$ verifast -c -disable_overflow_check spec_override_check.cpp (0.36s)
+PASS: ./tests/cxx/instance_preds$ verifast -c lvalue_ref.cpp (0.32s)
+PASS: ./tests/cxx/instance_preds$ verifast -c open_close_base_pred.cpp (0.17s)
+PASS: ./tests/cxx/instance_preds$ verifast -c -disable_overflow_check Shape.cpp (0.29s)
+PASS: ./tests/cxx/instance_preds$ verifast -c -disable_overflow_check multiple_inheritance.cpp (0.30s)
+PASS: ./tests/cxx/instance_preds$ verifast -disable_overflow_check Account.cpp account_client.cpp (0.52s)
+PASS: ./tests/cxx/instance_preds$ verifast -disable_overflow_check Stack.cpp stack_client.cpp (0.55s)
+PASS: ./tests/cxx/instance_preds/auto_open_close$ verifast -c -disable_overflow_check access_base_field_in_derived_struct.cpp (0.22s)
+PASS: ./tests/cxx/instance_preds/auto_open_close$ verifast -c -disable_overflow_check target_is_not_this.cpp (0.18s)
+PASS: ./tests/cxx/instance_preds/auto_open_close$ verifast -c -disable_overflow_check delegate_to_precise_pred.cpp (0.34s)
+PASS: ./tests/cxx/instance_preds/auto_open_close$ verifast -c -disable_overflow_check derived_uses_base_pred.cpp (0.29s)
+PASS: ./tests/cxx/delete$ verifast -c polymorphic.cpp (0.29s)
+PASS: ./tests/cxx/delete$ verifast -c -allow_should_fail -allow_dead_code non_virtual_base_dtor.cpp (0.27s)
+PASS: ./tests/cxx/delete$ verifast -c -allow_should_fail -allow_dead_code non_polymorphic_base.cpp (0.29s)
+PASS: ./tests/cxx/delete$ verifast -c no_pointee_pred_no_struct.cpp (0.25s)
+PASS: ./tests/cxx/elision$ verifast -c -disable_overflow_check -allow_should_fail copy_ctor_side_effect.cpp (0.22s)
+PASS: ./tests/cxx/references$ verifast -c -disable_overflow_check lvalue_refs.cpp (0.20s)
+PASS: ./tests/cxx/elision$ verifast -c copy_ctor_no_side_effect.cpp (0.27s)
+PASS: ./tests/cxx/elision$ verifast -c -disable_overflow_check copy_param.cpp (0.26s)
+PASS: ./tests/cxx/elision$ verifast -c -disable_overflow_check copy_global.cpp (0.28s)
+PASS: ./tests/cxx$ verifast -c new_class.cpp (0.20s)
+PASS: ./tests/cxx/references$ verifast -c -allow_should_fail init_local_null_ref.cpp (0.24s)
+PASS: ./tests/cxx$ verifast -c main_implicit_return.cpp (0.24s)
+PASS: ./tests/cxx/references$ verifast -c -allow_should_fail init_param_null_ref.cpp (0.27s)
+PASS: ./tests/cxx$ verifast -c new_primitives.cpp (0.25s)
+PASS: ./tests/cxx$ verifast -c constructors.cpp (0.26s)
+PASS: ./tests/cxx$ verifast -disable_overflow_check operators.cpp (0.29s)
+PASS: ./tests/cxx$ verifast -prover z3v4.5 Overloads.cpp (0.49s)
+PASS: ./tests/cxx$ verifast -c destructors.cpp (0.26s)
+PASS: ./tests/cxx$ verifast -c -allow_should_fail typeid.cpp (0.25s)
+PASS: ./tests/cxx$ verifast -c ghost_field.cpp (0.24s)
+PASS: ./tests/cxx$ verifast -c loops.cpp (0.16s)
+PASS: ./tests/cxx$ verifast -c -target Linux64 literals.cpp (0.25s)
+PASS: ./tests/cxx$ verifast -c -disable_overflow_check non_compound_stmts.cpp (0.28s)
+PASS: ./tests/cxx$ verifast -c casts.cpp (0.25s)
+PASS: ./tests/cxx$ verifast -c -allow_should_fail clang_error.cpp (0.09s)
+PASS: ./tests/cxx$ verifast -c declarations.cpp (0.21s)
+PASS: ./tests/cxx$ verifast -c switch.cpp (0.29s)
+PASS: ./tests/cxx$ verifast -c arrays.cpp (0.26s)
+PASS: ./tests/rust$ verifast -allow_should_fail size_of_ptr_unsized.rs (0.55s)
+PASS: ./tests/rust$ verifast -skip_specless_fns const_generic_param.rs (0.53s)
+PASS: ./tests/rust$ verifast -allow_should_fail unsized_cast.rs (0.64s)
+PASS: ./tests/rust$ verifast -allow_dead_code -allow_should_fail struct_layout.rs (0.55s)
+PASS: ./tests/rust$ verifast ghost_cmd_inj.rs (0.39s)
+PASS: ./tests/rust$ verifast ghost_while.rs (0.50s)
+PASS: ./tests/rust$ verifast parser_test.rs (0.61s)
+PASS: ./tests/rust$ verifast -allow_should_fail type_pred_defs_for_imported_structs.rs (0.67s)
+PASS: ./tests/rust$ verifast -allow_should_fail duplicate_type_pred_defs.rs (0.58s)
+PASS: ./tests/rust$ verifast -allow_should_fail -allow_assume preprocessor_test_crlf.rs (0.40s)
+PASS: ./tests/rust$ verifast -allow_should_fail -allow_assume preprocessor_test.rs (0.54s)
+PASS: ./tests/rust$ verifast -allow_should_fail -allow_assume preprocessor_test_crlf_bom.rs (0.61s)
+PASS: ./tests/rust$ verifast -allow_should_fail -allow_dead_code lemma_without_body.rs (0.44s)
+PASS: ./tests/rust$ verifast -allow_should_fail pred_arg_lft.rs (0.56s)
+PASS: ./tests/rust$ verifast -allow_should_fail -allow_dead_code assume_stmt.rs (0.58s)
+PASS: ./tests/rust$ verifast hidden_locals.rs (0.52s)
+PASS: ./tests/rust$ verifast use_decls_in_modules.rs (0.41s)
+PASS: ./tests/rust$ verifast -allow_should_fail -allow_dead_code this_pred.rs (0.50s)
+PASS: ./tests/rust/unverified/platform$ cargo build (2.10s)
+PASS: ./tests/rust/unverified/sys$ cargo build (0.12s)
+PASS: ./tests/rust$ verifast -skip_specless_fns nonnull_into.rs (0.47s)
+PASS: ./tests/rust/purely_unsafe/manuallydrop_new_cfg$ verifast forget.rs (0.57s)
+PASS: ./tests/rust/purely_unsafe/manuallydrop_new_cfg$ verifast shared_cleanup.rs (0.58s)
+PASS: ./tests/rust$ verifast -ignore_ref_creation -allow_assume nonnull.rs (0.63s)
+PASS: ./tests/rust/purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail false_normal_post.rs (0.56s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast account_unwind.rs (0.53s)
+PASS: ./tests/rust/purely_unsafe/manuallydrop_new_cfg$ verifast -allow_should_fail shared_false_unwind.rs (0.61s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths account.rs (0.65s)
+PASS: ./tests/rust/purely_unsafe/manuallydrop_new_cfg$ [ "$(verifast dead_code_pre.rs 2>&1; case_exit=$?; echo EXIT:$case_exit)" = $'(type)\ndead_code_pre.rs(1,1-7,2): dead code\ndead_code_pre.rs(6,13-43): dead code\ndead_code_pre.rs(6,41-42): dead code\ndead_code_pre.rs(7,2): dead code\nEXIT:1' ] (0.62s)
+PASS: ./tests/rust/purely_unsafe$ verifast enum_discr.rs (0.55s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check deposit_unwind.rs (0.53s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check deposit.rs (0.67s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check limit.rs (0.52s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths leftpad.rs (0.74s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check limit_unwind.rs (0.66s)
+PASS: ./tests/rust/purely_unsafe$ verifast arrays.rs (0.75s)
+PASS: ./tests/rust/purely_unsafe$ verifast -allow_assume std_thread.rs (0.56s)
+PASS: ./tests/rust/purely_unsafe$ verifast -allow_should_fail -allow_dead_code nonmut_let_immut.rs (0.61s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check pred.rs (0.72s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check pred_unwind.rs (0.72s)
+PASS: ./tests/rust/purely_unsafe$ verifast struct_exprs.rs (0.51s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths stack.rs (0.66s)
+PASS: ./tests/rust/purely_unsafe$ verifast scalars.rs (0.75s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths dispose.rs (0.72s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths alloc.rs (0.84s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check sum.rs (0.71s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths reverse.rs (0.76s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check popn.rs (0.73s)
+PASS: ./tests/rust/purely_unsafe$ verifast trivialer_reverse.rs (0.52s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -emit_rocq trivialest_reverse.rs (0.64s)
+SKIP: coqc not found in PATH, skipping line: vfrocq compile trivialest_reverse.v
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.v
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.vo
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.vos
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.vok
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths values.rs (0.61s)
+SKIP: coqc not found in PATH, skipping line: del trivialest_reverse.glob
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths fixpoints.rs (0.66s)
+PASS: ./tests/rust/purely_unsafe$ verifast trivial_reverse.rs (0.71s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check sum_full.rs (0.57s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast lemma.rs (0.43s)
+PASS: ./tests/rust/purely_unsafe$ verifast simple_reverse.rs (0.72s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths account.rs (0.66s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check push_all.rs (0.61s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths point_value.rs (0.66s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths account_value.rs (0.69s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths reverse.rs (0.73s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths account_with_box.rs (0.60s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths filter.rs (0.73s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths deque_i32.rs (0.86s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths byref.rs (0.70s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -allow_assume strlen.rs (0.61s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths deque.rs (0.94s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -allow_assume map.rs (0.81s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths generics.rs (0.84s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -allow_assume foreach.rs (0.78s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths tree.rs (0.80s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -allow_assume tree2.rs (0.85s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -allow_assume predctors.rs (0.80s)
+PASS: ./tests/rust/purely_unsafe$ verifast -allow_should_fail -allow_dead_code traits0_error.rs (0.50s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume threads0.rs (0.67s)
+PASS: ./tests/rust/purely_unsafe$ verifast traits0.rs (0.70s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume threads.rs (0.81s)
+PASS: ./tests/rust/purely_unsafe$ verifast -allow_should_fail -allow_dead_code traits0_error2.rs (0.63s)
+PASS: ./tests/rust/purely_unsafe$ verifast pred_fam.rs (0.56s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume fractions.rs (0.65s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume precise.rs (0.74s)
+PASS: ./tests/rust/purely_unsafe$ verifast generic_structs.rs (0.60s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -allow_assume tree3.rs (0.80s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -disable_overflow_check -extern ../../../tests/rust/unverified/platform -allow_assume precise_platform.rs (0.80s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -allow_assume precise_bad_merge.rs (0.64s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_ref_creation str.rs (0.68s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume mutexes.rs (0.60s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume mutexes_native.rs (0.83s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -target LP64 -ignore_ref_creation -extern ../unverified/platform httpd.rs (1.97s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_ref_creation -allow_should_fail -allow_dead_code str_chars.rs (2.74s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume leaks.rs (0.84s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -target LP64 -ignore_ref_creation -extern ../unverified/platform httpd_vec.rs (2.36s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions/mutexes_platform$ cargo verifast -ignore_unwind_paths -allow_assume (4.74s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check bytes.rs (0.72s)
+PASS: ./tests/rust/purely_unsafe/simple_mutex$ cargo verifast -ignore_unwind_paths -allow_assume (3.66s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check xor.rs (0.81s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions/leaks_platform$ cargo verifast -ignore_unwind_paths -allow_assume (4.19s)
+PASS: ./tests/rust/purely_unsafe$ verifast my_option.rs (0.66s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check bytes_loop.rs (0.61s)
+PASS: ./tests/rust/purely_unsafe/mt_account_transfer$ cargo verifast -ignore_unwind_paths (4.61s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -ignore_ref_creation vec_test.rs (0.68s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths -allow_assume -disable_overflow_check tuerk.rs (0.77s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -target LP64 -ignore_ref_creation -extern ../unverified/platform atomics_example.rs (0.72s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -disable_overflow_check stack_tuerk.rs (0.61s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -ignore_ref_creation -disable_overflow_check type_projections.rs (0.68s)
+PASS: ./tests/rust/purely_unsafe$ verifast -ignore_unwind_paths -ignore_ref_creation -disable_overflow_check type_projections_no_std.rs (0.57s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast -ignore_unwind_paths copy_nonoverlapping.rs (0.92s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast memcmp.rs (0.72s)
+PASS: ./tests/rust/purely_unsafe$ verifast for-range.rs (0.74s)
+PASS: ./tests/rust/purely_unsafe$ verifast -rustc_args "--edition 2021" assert_with_msg.rs (0.59s)
+PASS: ./tests/rust/../../rust_tutorials/purely_unsafe/solutions$ verifast lemptrs.rs (0.67s)
+SLOW: ./tests/rust/purely_unsafe/httpd_mt$ cargo verifast -ignore_unwind_paths has been running for 5s
+PASS: ./tests/rust/safe_abstraction$ verifast -read_options_from_source_file -allow_assume full_borrow_tutorial.rs (0.65s)
+PASS: ./tests/rust/safe_abstraction$ verifast -read_options_from_source_file -allow_assume frac_borrow_tutorial.rs (0.68s)
+PASS: ./tests/rust/safe_abstraction$ verifast fbc_precise.rs (0.66s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_should_fail public_fields.rs (0.68s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_assume -ignore_unwind_paths box.rs (0.74s)
+PASS: ./tests/rust/purely_unsafe/httpd_mt$ cargo verifast -ignore_unwind_paths (5.87s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -allow_should_fail -allow_dead_code elided_lifetime_mut_ref_result.rs (0.53s)
+PASS: ./tests/rust/safe_abstraction$ verifast full_bor_primitive_types.rs (0.82s)
+PASS: ./tests/rust/safe_abstraction$ verifast shared_primitive_types.rs (0.74s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -allow_assume deque_i32.rs (1.09s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume deque.rs (1.30s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_should_fail -allow_dead_code drop_test.rs (0.40s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume tree.rs (1.11s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation tparam_own.rs (0.74s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation generic_pair.rs (0.73s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_ref_creation -allow_assume cell_u32.rs (2.74s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume cell.rs (2.83s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -extern ../unverified/sys -allow_assume mutex_u32.rs (0.88s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -extern ../unverified/sys -allow_assume mutex.rs (0.91s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume rc_u32.rs (1.03s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume rc.rs (0.99s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume arc_u32.rs (1.23s)
+PASS: ./tests/rust/safe_abstraction$ verifast str.rs (0.66s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume ref_cell.rs (1.88s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_should_fail -allow_dead_code str_reborrow.rs (0.60s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths test_division.rs (0.61s)
+PASS: ./tests/rust/safe_abstraction$ verifast test_const_generics.rs (0.49s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume arc.rs (1.47s)
+PASS: ./tests/rust/safe_abstraction$ verifast test_const_generics_structs.rs (0.56s)
+PASS: ./tests/rust/safe_abstraction$ verifast slice_ref.rs (0.62s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_should_fail -allow_dead_code str_mut_ref.rs (0.76s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_should_fail -allow_dead_code slice_mut_inout.rs (0.77s)
+PASS: ./tests/rust/safe_abstraction$ verifast -apply_quick_fix proof_obligs_quick_fix_test_result.rs proof_obligs_quick_fix_test.rs (0.31s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -allow_assume my_range_iterator.rs (0.63s)
+PASS: ./tests/rust/safe_abstraction$ verifast -apply_quick_fix proof_obligs_quick_fix_test_generic_result.rs proof_obligs_quick_fix_test_generic.rs (0.35s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_assume proof_obligs_quick_fix_test_result.rs (0.48s)
+PASS: ./tests/rust/safe_abstraction$ verifast -allow_assume proof_obligs_quick_fix_test_generic_result.rs (0.70s)
+PASS: ./tests/rust/safe_abstraction$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume btree_node.rs (4.16s)
+SLOW: ./tests/rust/safe_abstraction/linked_list$ verifast -rustc_args "--edition 2021 --cfg test" -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs has been running for 5s
+SLOW: ./tests/rust/safe_abstraction/linked_list$ refinement-checker --rustc-args "--edition 2021 --cfg test" orig/lib.rs verified/lib.rs has been running for 5s
+PASS: ./tests/rust/safe_abstraction/linked_list$ refinement-checker --rustc-args "--edition 2021 --cfg test" orig/lib.rs verified/lib.rs (5.57s)
+SLOW: ./tests/rust/safe_abstraction/raw_vec$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs has been running for 5s
+PASS: ./tests/rust/safe_abstraction/raw_vec$ refinement-checker with-directives/lib.rs verified/lib.rs (2.15s)
+PASS: ./tests/rust/safe_abstraction/raw_vec$ refinement-checker --ignore-directives original/lib.rs with-directives/lib.rs (1.47s)
+PASS: ./tests/rust/safe_abstraction/raw_vec$ verifast -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs (6.59s)
+PASS: ./tests/rust/safe_abstraction/linked_list$ verifast -rustc_args "--edition 2021 --cfg test" -ignore_unwind_paths -skip_specless_fns -allow_assume verified/lib.rs (8.33s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker missing_func_orig.rs missing_func_verified.rs (0.38s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker basic_orig.rs basic_verified.rs (0.41s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker basic_orig.rs basic_verified_bad1.rs (0.44s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker basic_orig.rs basic_verified_bad2.rs (0.43s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker loop_orig.rs loop_verified.rs (0.14s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker loop_orig.rs loop_verified_bad.rs (0.34s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker identical_orig.rs identical_verified.rs (0.46s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker identical_orig.rs identical_verified_bad.rs (0.46s)
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 5s
+PASS: ./tests/rust/refinement_checker$ refinement-checker take-addr_orig.rs take-addr_verified.rs (0.43s)
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 5s
+PASS: ./tests/rust/refinement_checker$ !refinement-checker take-addr_orig.rs take-addr_verified_bad.rs (0.45s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker tuples_orig.rs tuples_verified.rs (0.20s)
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 5s
+PASS: ./tests/rust/refinement_checker$ !refinement-checker tuples_orig.rs tuples_verified_bad1.rs (0.35s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker tuples_orig.rs tuples_verified_bad2.rs (0.36s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker structs_orig.rs structs_verified.rs (0.38s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker structs_orig.rs structs_verified_bad.rs (0.39s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker enums_orig.rs enums_verified.rs (0.42s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker enums_orig.rs enums_verified_bad.rs (0.47s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker unsafety_orig.rs unsafety_verified_bad.rs (0.47s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker wrapper_fns_orig.rs wrapper_fns_verified0.rs (0.45s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker wrapper_fns_orig.rs wrapper_fns_verified.rs (0.46s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker wrapper_fns_orig.rs wrapper_fns_verified2.rs (0.41s)
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 10s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 10s
+PASS: ./tests/rust/refinement_checker$ !refinement-checker wrapper_fns_orig.rs wrapper_fns_verified_bad.rs (0.57s)
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 10s
+PASS: ./tests/rust/refinement_checker$ refinement-checker reservation_orig.rs reservation_verified.rs (0.50s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker option-map_orig.rs option-map_verified.rs (0.45s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map_orig.rs option-map_verified_bad.rs (0.23s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker option-map2_orig.rs option-map2_verified.rs (0.38s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad.rs (0.45s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad2.rs (0.45s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad3.rs (0.44s)
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map2_orig.rs option-map2_verified_bad4.rs (0.45s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker option-map-upvars_orig.rs option-map-upvars_verified.rs (0.46s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker option-map-generics_orig.rs option-map-generics_verified.rs (0.47s)
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 15s
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map-generics_orig.rs option-map-generics_verified_bad.rs (0.42s)
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 15s
+PASS: ./tests/rust/refinement_checker$ !refinement-checker option-map-generics_orig.rs option-map-generics_verified_bad2.rs (0.43s)
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 15s
+PASS: ./tests/rust/refinement_checker$ refinement-checker box-deref_orig.rs box-deref_verified.rs (0.43s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker box-ref-deref_orig.rs box-ref-deref_verified.rs (0.46s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker move-out-of-box_orig.rs move-out-of-box_verified.rs (0.40s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker move-field-out-of-box_orig.rs move-field-out-of-box_verified.rs (0.42s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker for-range_orig.rs for-range_verified.rs (0.46s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker option-unwrap-or-else_orig.rs option-unwrap-or-else_verified.rs (0.42s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker result-map_orig.rs result-map_verified.rs (0.51s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker result-map_err_orig.rs result-map_err_verified.rs (0.48s)
+PASS: ./tests/rust/refinement_checker$ refinement-checker override-local-mut_orig.rs override-local-mut_verified.rs (0.43s)
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 20s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 20s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 20s
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 25s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 25s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 25s
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 30s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 30s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 30s
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 35s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 35s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 35s
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 40s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 40s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 40s
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 45s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 45s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 45s
+SLOW: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume has been running for 50s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 50s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 50s
+PASS: ./tests/rust/safe_abstraction/vec/verified$ cargo verifast -allow_assume (52.75s)
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs has been running for 55s
+SLOW: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs has been running for 55s
+PASS: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" with-directives/lib.rs verified/lib.rs (59.07s)
+PASS: ./tests/rust/safe_abstraction/vec$ refinement-checker --rustc-args "--edition 2024" --ignore-directives original/lib.rs with-directives/lib.rs (59.23s)
+Total execution time: 397.628032 seconds
+
+0 failed processes

@@ -1,0 +1,1190 @@
+kj/filesystem-disk-unix.c++:1703: warning: PWD environment variable doesn't match current directory; pwd = /workspace/verifast-mdnew-fullmake/candidate/src
+stubs_ast.capnp --> stubs_ast.mli stubs_ast.ml
+kj/filesystem-disk-unix.c++:1703: warning: PWD environment variable doesn't match current directory; pwd = /workspace/verifast-mdnew-fullmake/candidate/src
+../vf_mir/vf_mir.capnp: File is not in the current directory and does not match any prefix defined with --src-prefix. Please pass an appropriate --src-prefix so I can figure out where to write the output for this file.
+kj/filesystem-disk-unix.c++:1703: warning: PWD environment variable doesn't match current directory; pwd = /workspace/verifast-mdnew-fullmake/candidate/src
+vf_mir.capnp --> vf_mir.mli vf_mir.ml
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 8, characters 4-21:
+8 |     h: Stdint.uint64;
+        ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label h is defined in both types int128 and uint128.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 9, characters 4-20:
+9 |     l: Stdint.uint64
+        ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label l is defined in both types int128 and uint128.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 57, characters 4-16:
+57 |     name: string
+         ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and symbol.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 61, characters 4-17:
+61 |     name: symbol;
+         ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and ident.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 70, characters 4-20:
+70 |     span: span_data;
+         ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and annotation.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 85, characters 4-48:
+85 |     name: hir_generics_generic_param_param_name;
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and hir_generics_generic_param.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 87, characters 4-20:
+87 |     span: span_data;
+         ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and hir_generics_generic_param.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 95, characters 4-19:
+95 |     span: span_data
+         ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and hir_generics.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 110, characters 4-16:
+110 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and param_const.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 131, characters 4-20:
+131 |     kind: const_kind
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty_const.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 138, characters 2-22:
+138 |   | Lifetime of region
+        ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Lifetime is defined in both types hir_generics_generic_param_generic_param_kind and generic_arg_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 139, characters 2-14:
+139 |   | Type of ty
+        ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Type is defined in both types hir_generics_generic_param_generic_param_kind and generic_arg_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 140, characters 2-21:
+140 |   | Const of ty_const
+        ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and generic_arg_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 162, characters 4-26:
+162 |     kind: generic_arg_kind
+          ^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and generic_arg.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 166, characters 4-16:
+166 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and adt_def_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 174, characters 4-17:
+174 |     name: symbol;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and variant_def_field_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 175, characters 4-11:
+175 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and variant_def_field_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 177, characters 4-19:
+177 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and variant_def_field_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 182, characters 4-17:
+182 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and variant_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 183, characters 4-19:
+183 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and variant_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 187, characters 4-19:
+187 |     id: adt_def_id;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 189, characters 4-19:
+189 |     kind: adt_kind;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 190, characters 4-20:
+190 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 191, characters 4-20:
+191 |     vis: visibility;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label vis is defined in both types variant_def_field_def and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 207, characters 4-16:
+207 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and fn_def_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 211, characters 4-19:
+211 |     id: adt_def_id;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and ty_kind_adt_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 212, characters 4-19:
+212 |     kind: adt_kind;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty_kind_adt_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 217, characters 4-18:
+217 |     id: fn_def_id;
+          ^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and ty_kind_fn_def_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 218, characters 4-29:
+218 |     substs: generic_arg list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label substs is defined in both types ty_kind_adt_ty and ty_kind_fn_def_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 227, characters 4-11:
+227 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and ty_kind_raw_ptr_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 233, characters 4-11:
+233 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and ty_kind_ref_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 234, characters 4-26:
+234 |     mutability: mutability
+          ^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label mutability is defined in both types ty_kind_raw_ptr_ty and ty_kind_ref_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 244, characters 4-28:
+244 |     substs: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label substs is defined in both types ty_kind_adt_ty and ty_kind_closure_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 248, characters 4-24:
+248 |     kind: alias_ty_kind;
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty_kind_alias_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 249, characters 4-19:
+249 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and ty_kind_alias_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 255, characters 4-18:
+255 |     size: ty_const
+          ^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label size is defined in both types scalar_int and ty_kind_array_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 269, characters 2-19:
+269 |   | Param of string
+        ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Param is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 272, characters 2-29:
+272 |   | Alias of ty_kind_alias_ty
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Alias is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 282, characters 2-9:
+282 |   | Bound
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Bound is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 283, characters 2-15:
+283 |   | Placeholder
+        ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Placeholder is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 284, characters 2-9:
+284 |   | Infer
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Infer is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 285, characters 2-9:
+285 |   | Error
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Error is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 288, characters 4-17:
+288 |     kind: ty_kind
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 291, characters 2-12:
+291 |   | Lifetime
+        ^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Lifetime is defined in both types hir_generics_generic_param_generic_param_kind and generic_param_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 292, characters 2-8:
+292 |   | Type
+        ^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Type is defined in both types hir_generics_generic_param_generic_param_kind and generic_param_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 293, characters 2-9:
+293 |   | Const
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and generic_param_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 296, characters 4-17:
+296 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and generic_param_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 297, characters 4-32:
+297 |     kind: generic_param_def_kind
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and generic_param_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 306, characters 4-19:
+306 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and clause_trait.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 307, characters 4-27:
+307 |     args: generic_arg list;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label args is defined in both types ty_kind_alias_ty and clause_trait.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 312, characters 4-19:
+312 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and clause_projection_alias_term.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 313, characters 4-26:
+313 |     args: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label args is defined in both types ty_kind_alias_ty and clause_projection_alias_term.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 317, characters 2-21:
+317 |   | Const of ty_const
+        ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and clause_projection_term.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 322, characters 4-30:
+322 |     bound_regions: string list
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label bound_regions is defined in both types clause_trait and clause_projection.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 328, characters 2-35:
+328 |   | Projection of clause_projection
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Projection is defined in both types alias_ty_kind and clause.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 331, characters 4-16:
+331 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and local_decl_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 335, characters 4-27:
+335 |     mutability: mutability;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label mutability is defined in both types ty_kind_raw_ptr_ty and local_decl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 336, characters 4-22:
+336 |     id: local_decl_id;
+          ^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and local_decl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 337, characters 4-11:
+337 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and local_decl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 346, characters 4-25:
+346 |     index: Stdint.uint32;
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label index is defined in both types param_const and place_elem_field_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 347, characters 4-24:
+347 |     name: symbol option;
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and place_elem_field_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 348, characters 4-10:
+348 |     ty: ty
+          ^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and place_elem_field_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 364, characters 4-20:
+364 |     kind: place_kind
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and place.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 388, characters 2-21:
+388 |   | Int of scalar_int
+        ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Int is defined in both types ty_kind and scalar.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 392, characters 2-19:
+392 |   | Slice of string
+        ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Slice is defined in both types ty_kind and const_value.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 397, characters 4-11:
+397 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and mir_const_ty_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 401, characters 2-27:
+401 |   | Ty of mir_const_ty_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Ty is defined in both types clause_projection_term and mir_const.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 406, characters 4-20:
+406 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and const_operand.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 407, characters 4-20:
+407 |     const: mir_const
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label const is defined in both types mir_const_ty_data and const_operand.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 411, characters 4-24:
+411 |     index: Stdint.uint32
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label index is defined in both types param_const and basic_block_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 420, characters 4-17:
+420 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and aggregate_kind_adt_data_field_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 431, characters 4-52:
+431 |     fields: aggregate_kind_adt_data_field_info list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label fields is defined in both types variant_def and aggregate_kind_adt_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 437, characters 4-30:
+437 |     gen_args: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label gen_args is defined in both types aggregate_kind_adt_data and aggregate_kind_closure_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 440, characters 2-15:
+440 |   | Array of ty
+        ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Array is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 441, characters 2-9:
+441 |   | Tuple
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Tuple is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 442, characters 2-34:
+442 |   | Adt of aggregate_kind_adt_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Adt is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 443, characters 2-42:
+443 |   | Closure of aggregate_kind_closure_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Closure is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 444, characters 2-13:
+444 |   | Coroutine
+        ^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Coroutine is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 445, characters 2-20:
+445 |   | CoroutineClosure
+        ^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor CoroutineClosure is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 446, characters 2-10:
+446 |   | RawPtr
+        ^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor RawPtr is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 473, characters 4-27:
+473 |     mutability: mutability;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label mutability is defined in both types ty_kind_raw_ptr_ty and rvalue_raw_ptr_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 501, characters 2-7:
+501 |   | Not
+        ^^^^^
+Warning 30 [duplicate-definitions]: the constructor Not is defined in both types mutability and rvalue_unary_op_data_un_op.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 506, characters 4-41:
+506 |     operator: rvalue_unary_op_data_un_op;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label operator is defined in both types rvalue_binary_op_data and rvalue_unary_op_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 507, characters 4-20:
+507 |     operand: operand
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label operand is defined in both types rvalue_repeat_data and rvalue_unary_op_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 511, characters 2-7:
+511 |   | Mut
+        ^^^^^
+Warning 30 [duplicate-definitions]: the constructor Mut is defined in both types mutability and rvalue_ref_data_borrow_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 514, characters 4-19:
+514 |     region: region;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label region is defined in both types ty_kind_ref_ty and rvalue_ref_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 516, characters 4-17:
+516 |     place: place;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label place is defined in both types rvalue_raw_ptr_data and rvalue_ref_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 523, characters 4-21:
+523 |     operand: operand;
+          ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label operand is defined in both types rvalue_repeat_data and rvalue_cast_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 524, characters 4-11:
+524 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and rvalue_cast_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 525, characters 4-19:
+525 |     kind: cast_kind
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and rvalue_cast_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 534, characters 4-17:
+534 |     place: place;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label place is defined in both types rvalue_raw_ptr_data and rvalue_discriminant_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 540, characters 2-26:
+540 |   | Ref of rvalue_ref_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Ref is defined in both types ty_kind and rvalue.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 541, characters 2-33:
+541 |   | RawPtr of rvalue_raw_ptr_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor RawPtr is defined in both types ty_kind and rvalue.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 565, characters 4-29:
+565 |     source_info: source_info;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label source_info is defined in both types local_decl and statement.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 566, characters 4-24:
+566 |     kind: statement_kind
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and statement.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 583, characters 4-23:
+583 |     args: operand list;
+          ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label args is defined in both types ty_kind_alias_ty and terminator_kind_fn_call_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 592, characters 4-17:
+592 |     place: place;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label place is defined in both types rvalue_raw_ptr_data and terminator_kind_drop_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 593, characters 4-27:
+593 |     target: basic_block_id;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label target is defined in both types terminator_kind_fn_call_data and terminator_kind_drop_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 594, characters 4-32:
+594 |     unwind_action: unwind_action
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label unwind_action is defined in both types terminator_kind_fn_call_data and terminator_kind_drop_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 600, characters 4-27:
+600 |     target: basic_block_id;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label target is defined in both types terminator_kind_fn_call_data and terminator_kind_assert_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 601, characters 4-32:
+601 |     unwind_action: unwind_action
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label unwind_action is defined in both types terminator_kind_fn_call_data and terminator_kind_assert_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 610, characters 2-15:
+610 |   | Unreachable
+        ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Unreachable is defined in both types unwind_action and terminator_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 620, characters 4-29:
+620 |     source_info: source_info;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label source_info is defined in both types local_decl and terminator.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 621, characters 4-25:
+621 |     kind: terminator_kind
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and terminator.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 625, characters 4-23:
+625 |     id: basic_block_id;
+          ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and basic_block.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 632, characters 2-26:
+632 |   | Const of const_operand
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and var_debug_info_contents.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 635, characters 4-17:
+635 |     name: symbol;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and var_debug_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 636, characters 4-29:
+636 |     source_info: source_info;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label source_info is defined in both types local_decl and var_debug_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 641, characters 4-19:
+641 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and source_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 646, characters 4-19:
+646 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and contract.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 651, characters 2-11:
+651 |   | Closure
+        ^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Closure is defined in both types ty_kind and body_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 659, characters 4-22:
+659 |     start: annotation;
+          ^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label start is defined in both types body_ghost_decl_block and body_loop_spec_block.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 660, characters 4-31:
+660 |     close_brace_span: span_data
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label close_brace_span is defined in both types body_ghost_decl_block and body_loop_spec_block.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 670, characters 4-20:
+670 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 675, characters 4-31:
+675 |     hir_generics: hir_generics;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label hir_generics is defined in both types adt_def and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 680, characters 4-15:
+680 |     output: ty;
+          ^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label output is defined in both types ty_kind_fn_ptr_ty and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 681, characters 4-25:
+681 |     clauses: clause list;
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label clauses is defined in both types adt_def and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 693, characters 4-17:
+693 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 694, characters 4-20:
+694 |     inputs: ty list;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label inputs is defined in both types body and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 695, characters 4-15:
+695 |     output: ty;
+          ^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label output is defined in both types ty_kind_fn_ptr_ty and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 697, characters 4-23:
+697 |     unsafety: unsafety;
+          ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label unsafety is defined in both types body and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 698, characters 4-30:
+698 |     contract: annotation list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label contract is defined in both types body and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 704, characters 4-17:
+704 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and trait.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 709, characters 4-19:
+709 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 710, characters 4-20:
+710 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 711, characters 4-37:
+711 |     generics: generic_param_def list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label generics is defined in both types body and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 712, characters 4-10:
+712 |     ty: ty
+          ^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 716, characters 4-17:
+716 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and trait_impl_item.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 717, characters 4-18:
+717 |     def_id: string
+          ^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and trait_impl_item.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 724, characters 4-20:
+724 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 727, characters 4-37:
+727 |     generics: generic_param_def list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label generics is defined in both types body and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 728, characters 4-25:
+728 |     clauses: clause list;
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label clauses is defined in both types adt_def and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 729, characters 4-30:
+729 |     gen_args: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label gen_args is defined in both types aggregate_kind_adt_data and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 733, characters 4-17:
+733 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and module_.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 743, characters 4-40:
+743 |     ghost_decl_batches: annotation list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label ghost_decl_batches is defined in both types module_ and vf_mir.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 8, characters 4-21:
+8 |     h: Stdint.uint64;
+        ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label h is defined in both types int128 and uint128.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 9, characters 4-20:
+9 |     l: Stdint.uint64
+        ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label l is defined in both types int128 and uint128.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 57, characters 4-16:
+57 |     name: string
+         ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and symbol.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 61, characters 4-17:
+61 |     name: symbol;
+         ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and ident.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 70, characters 4-20:
+70 |     span: span_data;
+         ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and annotation.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 85, characters 4-48:
+85 |     name: hir_generics_generic_param_param_name;
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and hir_generics_generic_param.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 87, characters 4-20:
+87 |     span: span_data;
+         ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and hir_generics_generic_param.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 95, characters 4-19:
+95 |     span: span_data
+         ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and hir_generics.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 110, characters 4-16:
+110 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and param_const.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 131, characters 4-20:
+131 |     kind: const_kind
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty_const.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 138, characters 2-22:
+138 |   | Lifetime of region
+        ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Lifetime is defined in both types hir_generics_generic_param_generic_param_kind and generic_arg_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 139, characters 2-14:
+139 |   | Type of ty
+        ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Type is defined in both types hir_generics_generic_param_generic_param_kind and generic_arg_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 140, characters 2-21:
+140 |   | Const of ty_const
+        ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and generic_arg_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 162, characters 4-26:
+162 |     kind: generic_arg_kind
+          ^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and generic_arg.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 166, characters 4-16:
+166 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and adt_def_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 174, characters 4-17:
+174 |     name: symbol;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and variant_def_field_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 175, characters 4-11:
+175 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and variant_def_field_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 177, characters 4-19:
+177 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and variant_def_field_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 182, characters 4-17:
+182 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and variant_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 183, characters 4-19:
+183 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and variant_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 187, characters 4-19:
+187 |     id: adt_def_id;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 189, characters 4-19:
+189 |     kind: adt_kind;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 190, characters 4-20:
+190 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 191, characters 4-20:
+191 |     vis: visibility;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label vis is defined in both types variant_def_field_def and adt_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 207, characters 4-16:
+207 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and fn_def_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 211, characters 4-19:
+211 |     id: adt_def_id;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and ty_kind_adt_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 212, characters 4-19:
+212 |     kind: adt_kind;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty_kind_adt_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 217, characters 4-18:
+217 |     id: fn_def_id;
+          ^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and ty_kind_fn_def_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 218, characters 4-29:
+218 |     substs: generic_arg list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label substs is defined in both types ty_kind_adt_ty and ty_kind_fn_def_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 227, characters 4-11:
+227 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and ty_kind_raw_ptr_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 233, characters 4-11:
+233 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and ty_kind_ref_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 234, characters 4-26:
+234 |     mutability: mutability
+          ^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label mutability is defined in both types ty_kind_raw_ptr_ty and ty_kind_ref_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 244, characters 4-28:
+244 |     substs: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label substs is defined in both types ty_kind_adt_ty and ty_kind_closure_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 248, characters 4-24:
+248 |     kind: alias_ty_kind;
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty_kind_alias_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 249, characters 4-19:
+249 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and ty_kind_alias_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 255, characters 4-18:
+255 |     size: ty_const
+          ^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label size is defined in both types scalar_int and ty_kind_array_ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 269, characters 2-19:
+269 |   | Param of string
+        ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Param is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 272, characters 2-29:
+272 |   | Alias of ty_kind_alias_ty
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Alias is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 282, characters 2-9:
+282 |   | Bound
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Bound is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 283, characters 2-15:
+283 |   | Placeholder
+        ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Placeholder is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 284, characters 2-9:
+284 |   | Infer
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Infer is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 285, characters 2-9:
+285 |   | Error
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Error is defined in both types const_kind and ty_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 288, characters 4-17:
+288 |     kind: ty_kind
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and ty.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 291, characters 2-12:
+291 |   | Lifetime
+        ^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Lifetime is defined in both types hir_generics_generic_param_generic_param_kind and generic_param_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 292, characters 2-8:
+292 |   | Type
+        ^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Type is defined in both types hir_generics_generic_param_generic_param_kind and generic_param_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 293, characters 2-9:
+293 |   | Const
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and generic_param_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 296, characters 4-17:
+296 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and generic_param_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 297, characters 4-32:
+297 |     kind: generic_param_def_kind
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and generic_param_def.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 306, characters 4-19:
+306 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and clause_trait.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 307, characters 4-27:
+307 |     args: generic_arg list;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label args is defined in both types ty_kind_alias_ty and clause_trait.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 312, characters 4-19:
+312 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and clause_projection_alias_term.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 313, characters 4-26:
+313 |     args: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label args is defined in both types ty_kind_alias_ty and clause_projection_alias_term.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 317, characters 2-21:
+317 |   | Const of ty_const
+        ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and clause_projection_term.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 322, characters 4-30:
+322 |     bound_regions: string list
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label bound_regions is defined in both types clause_trait and clause_projection.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 328, characters 2-35:
+328 |   | Projection of clause_projection
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Projection is defined in both types alias_ty_kind and clause.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 331, characters 4-16:
+331 |     name: string
+          ^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and local_decl_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 335, characters 4-27:
+335 |     mutability: mutability;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label mutability is defined in both types ty_kind_raw_ptr_ty and local_decl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 336, characters 4-22:
+336 |     id: local_decl_id;
+          ^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and local_decl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 337, characters 4-11:
+337 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and local_decl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 346, characters 4-25:
+346 |     index: Stdint.uint32;
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label index is defined in both types param_const and place_elem_field_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 347, characters 4-24:
+347 |     name: symbol option;
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and place_elem_field_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 348, characters 4-10:
+348 |     ty: ty
+          ^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and place_elem_field_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 364, characters 4-20:
+364 |     kind: place_kind
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and place.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 388, characters 2-21:
+388 |   | Int of scalar_int
+        ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Int is defined in both types ty_kind and scalar.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 392, characters 2-19:
+392 |   | Slice of string
+        ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Slice is defined in both types ty_kind and const_value.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 397, characters 4-11:
+397 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and mir_const_ty_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 401, characters 2-27:
+401 |   | Ty of mir_const_ty_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Ty is defined in both types clause_projection_term and mir_const.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 406, characters 4-20:
+406 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and const_operand.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 407, characters 4-20:
+407 |     const: mir_const
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label const is defined in both types mir_const_ty_data and const_operand.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 411, characters 4-24:
+411 |     index: Stdint.uint32
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label index is defined in both types param_const and basic_block_id.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 420, characters 4-17:
+420 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and aggregate_kind_adt_data_field_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 431, characters 4-52:
+431 |     fields: aggregate_kind_adt_data_field_info list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label fields is defined in both types variant_def and aggregate_kind_adt_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 437, characters 4-30:
+437 |     gen_args: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label gen_args is defined in both types aggregate_kind_adt_data and aggregate_kind_closure_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 440, characters 2-15:
+440 |   | Array of ty
+        ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Array is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 441, characters 2-9:
+441 |   | Tuple
+        ^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Tuple is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 442, characters 2-34:
+442 |   | Adt of aggregate_kind_adt_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Adt is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 443, characters 2-42:
+443 |   | Closure of aggregate_kind_closure_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Closure is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 444, characters 2-13:
+444 |   | Coroutine
+        ^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Coroutine is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 445, characters 2-20:
+445 |   | CoroutineClosure
+        ^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor CoroutineClosure is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 446, characters 2-10:
+446 |   | RawPtr
+        ^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor RawPtr is defined in both types ty_kind and aggregate_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 473, characters 4-27:
+473 |     mutability: mutability;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label mutability is defined in both types ty_kind_raw_ptr_ty and rvalue_raw_ptr_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 501, characters 2-7:
+501 |   | Not
+        ^^^^^
+Warning 30 [duplicate-definitions]: the constructor Not is defined in both types mutability and rvalue_unary_op_data_un_op.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 506, characters 4-41:
+506 |     operator: rvalue_unary_op_data_un_op;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label operator is defined in both types rvalue_binary_op_data and rvalue_unary_op_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 507, characters 4-20:
+507 |     operand: operand
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label operand is defined in both types rvalue_repeat_data and rvalue_unary_op_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 511, characters 2-7:
+511 |   | Mut
+        ^^^^^
+Warning 30 [duplicate-definitions]: the constructor Mut is defined in both types mutability and rvalue_ref_data_borrow_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 514, characters 4-19:
+514 |     region: region;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label region is defined in both types ty_kind_ref_ty and rvalue_ref_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 516, characters 4-17:
+516 |     place: place;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label place is defined in both types rvalue_raw_ptr_data and rvalue_ref_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 523, characters 4-21:
+523 |     operand: operand;
+          ^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label operand is defined in both types rvalue_repeat_data and rvalue_cast_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 524, characters 4-11:
+524 |     ty: ty;
+          ^^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and rvalue_cast_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 525, characters 4-19:
+525 |     kind: cast_kind
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and rvalue_cast_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 534, characters 4-17:
+534 |     place: place;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label place is defined in both types rvalue_raw_ptr_data and rvalue_discriminant_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 540, characters 2-26:
+540 |   | Ref of rvalue_ref_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Ref is defined in both types ty_kind and rvalue.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 541, characters 2-33:
+541 |   | RawPtr of rvalue_raw_ptr_data
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor RawPtr is defined in both types ty_kind and rvalue.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 565, characters 4-29:
+565 |     source_info: source_info;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label source_info is defined in both types local_decl and statement.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 566, characters 4-24:
+566 |     kind: statement_kind
+          ^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and statement.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 583, characters 4-23:
+583 |     args: operand list;
+          ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label args is defined in both types ty_kind_alias_ty and terminator_kind_fn_call_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 592, characters 4-17:
+592 |     place: place;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label place is defined in both types rvalue_raw_ptr_data and terminator_kind_drop_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 593, characters 4-27:
+593 |     target: basic_block_id;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label target is defined in both types terminator_kind_fn_call_data and terminator_kind_drop_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 594, characters 4-32:
+594 |     unwind_action: unwind_action
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label unwind_action is defined in both types terminator_kind_fn_call_data and terminator_kind_drop_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 600, characters 4-27:
+600 |     target: basic_block_id;
+          ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label target is defined in both types terminator_kind_fn_call_data and terminator_kind_assert_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 601, characters 4-32:
+601 |     unwind_action: unwind_action
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label unwind_action is defined in both types terminator_kind_fn_call_data and terminator_kind_assert_data.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 610, characters 2-15:
+610 |   | Unreachable
+        ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Unreachable is defined in both types unwind_action and terminator_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 620, characters 4-29:
+620 |     source_info: source_info;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label source_info is defined in both types local_decl and terminator.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 621, characters 4-25:
+621 |     kind: terminator_kind
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label kind is defined in both types hir_generics_generic_param and terminator.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 625, characters 4-23:
+625 |     id: basic_block_id;
+          ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label id is defined in both types region and basic_block.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 632, characters 2-26:
+632 |   | Const of const_operand
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Const is defined in both types hir_generics_generic_param_generic_param_kind and var_debug_info_contents.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 635, characters 4-17:
+635 |     name: symbol;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and var_debug_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 636, characters 4-29:
+636 |     source_info: source_info;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label source_info is defined in both types local_decl and var_debug_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 641, characters 4-19:
+641 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and source_info.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 646, characters 4-19:
+646 |     span: span_data
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and contract.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 651, characters 2-11:
+651 |   | Closure
+        ^^^^^^^^^
+Warning 30 [duplicate-definitions]: the constructor Closure is defined in both types ty_kind and body_def_kind.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 659, characters 4-22:
+659 |     start: annotation;
+          ^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label start is defined in both types body_ghost_decl_block and body_loop_spec_block.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 660, characters 4-31:
+660 |     close_brace_span: span_data
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label close_brace_span is defined in both types body_ghost_decl_block and body_loop_spec_block.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 670, characters 4-20:
+670 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 675, characters 4-31:
+675 |     hir_generics: hir_generics;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label hir_generics is defined in both types adt_def and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 680, characters 4-15:
+680 |     output: ty;
+          ^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label output is defined in both types ty_kind_fn_ptr_ty and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 681, characters 4-25:
+681 |     clauses: clause list;
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label clauses is defined in both types adt_def and body.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 693, characters 4-17:
+693 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 694, characters 4-20:
+694 |     inputs: ty list;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label inputs is defined in both types body and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 695, characters 4-15:
+695 |     output: ty;
+          ^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label output is defined in both types ty_kind_fn_ptr_ty and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 697, characters 4-23:
+697 |     unsafety: unsafety;
+          ^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label unsafety is defined in both types body and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 698, characters 4-30:
+698 |     contract: annotation list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label contract is defined in both types body and trait_required_fn.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 704, characters 4-17:
+704 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and trait.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 709, characters 4-19:
+709 |     def_id: string;
+          ^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 710, characters 4-20:
+710 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 711, characters 4-37:
+711 |     generics: generic_param_def list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label generics is defined in both types body and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 712, characters 4-10:
+712 |     ty: ty
+          ^^^^^^
+Warning 30 [duplicate-definitions]: the label ty is defined in both types value and ty_alias.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 716, characters 4-17:
+716 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and trait_impl_item.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 717, characters 4-18:
+717 |     def_id: string
+          ^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label def_id is defined in both types ty_kind_closure_ty and trait_impl_item.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 724, characters 4-20:
+724 |     span: span_data;
+          ^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label span is defined in both types ident and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 727, characters 4-37:
+727 |     generics: generic_param_def list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label generics is defined in both types body and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 728, characters 4-25:
+728 |     clauses: clause list;
+          ^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label clauses is defined in both types adt_def and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 729, characters 4-30:
+729 |     gen_args: generic_arg list
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label gen_args is defined in both types aggregate_kind_adt_data and trait_impl.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 733, characters 4-17:
+733 |     name: string;
+          ^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label name is defined in both types source_file and module_.
+File "rust_frontend/vf_mir_decoder/vf_mir_decoder.ml", line 743, characters 4-40:
+743 |     ghost_decl_batches: annotation list;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 30 [duplicate-definitions]: the label ghost_decl_batches is defined in both types module_ and vf_mir.
+Written ../bin/crt.dll.vfmanifest
+File "vfstrip/vfstrip.ml", line 19, characters 48-70:
+19 | type file_options = {file_opt_annot_char: char; file_opt_tab_size: int}
+                                                     ^^^^^^^^^^^^^^^^^^^^^^
+Warning 69 [unused-field]: record field file_opt_tab_size is never read.
+(However, this field is used to build or mutate values.)
+In file included from /vf-llvm-clang-build-5710e1b/include/clang/AST/DeclOpenMP.h:21,
+                 from /vf-llvm-clang-build-5710e1b/include/clang/AST/DeclVisitor.h:22,
+                 from /workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/Location.cpp:2:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h: In lambda function:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+ 9035 |     return llvm::map_range(llvm::seq<unsigned>(0, N), [=](unsigned I) {
+      |                                                       ^
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: note: add explicit ‘this’ or ‘*this’ capture
+In file included from /vf-llvm-clang-build-5710e1b/include/clang/AST/DeclOpenMP.h:21,
+                 from /vf-llvm-clang-build-5710e1b/include/clang/AST/DeclVisitor.h:22,
+                 from /workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/DeclSerializer.cpp:6:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h: In lambda function:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+ 9035 |     return llvm::map_range(llvm::seq<unsigned>(0, N), [=](unsigned I) {
+      |                                                       ^
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: note: add explicit ‘this’ or ‘*this’ capture
+In file included from /vf-llvm-clang-build-5710e1b/include/clang/AST/StmtOpenMP.h:19,
+                 from /vf-llvm-clang-build-5710e1b/include/clang/AST/StmtVisitor.h:24,
+                 from /workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/StmtSerializer.cpp:4:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h: In lambda function:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+ 9035 |     return llvm::map_range(llvm::seq<unsigned>(0, N), [=](unsigned I) {
+      |                                                       ^
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: note: add explicit ‘this’ or ‘*this’ capture
+In file included from /vf-llvm-clang-build-5710e1b/include/clang/AST/StmtOpenMP.h:19,
+                 from /vf-llvm-clang-build-5710e1b/include/clang/AST/StmtVisitor.h:24,
+                 from /workspace/verifast-mdnew-fullmake/candidate/src/cxx_frontend/ast_exporter/ExprSerializer.cpp:3:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h: In lambda function:
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: warning: implicit capture of ‘this’ via ‘[=]’ is deprecated in C++20 [-Wdeprecated]
+ 9035 |     return llvm::map_range(llvm::seq<unsigned>(0, N), [=](unsigned I) {
+      |                                                       ^
+/vf-llvm-clang-build-5710e1b/include/clang/AST/OpenMPClause.h:9035:55: note: add explicit ‘this’ or ‘*this’ capture
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded log v0.4.20
+  Downloaded lazy_static v1.4.0
+  Downloaded nu-ansi-term v0.46.0
+  Downloaded cfg-if v1.0.0
+  Downloaded embedded-io v0.5.0
+  Downloaded tracing v0.1.40
+  Downloaded tracing-attributes v0.1.27
+  Downloaded thread_local v1.1.7
+  Downloaded tracing-log v0.2.0
+  Downloaded pin-project-lite v0.2.13
+  Downloaded quote v1.0.35
+  Downloaded overload v0.1.1
+  Downloaded once_cell v1.19.0
+  Downloaded smallvec v1.11.2
+  Downloaded sharded-slab v0.1.7
+  Downloaded proc-macro2 v1.0.75
+  Downloaded tracing-core v0.1.32
+  Downloaded unicode-ident v1.0.12
+  Downloaded tracing-subscriber v0.3.18
+  Downloaded syn v2.0.48
+   Compiling proc-macro2 v1.0.75
+   Compiling once_cell v1.19.0
+   Compiling unicode-ident v1.0.12
+   Compiling tracing-core v0.1.32
+   Compiling capnp v0.18.10 (/workspace/verifast-mdnew-fullmake/candidate/src/rust_frontend/vf_mir_exporter/capnproto-rust/capnp)
+warning: use of deprecated module `std::u64`: all constants in this module replaced by associated constants on the type
+  --> capnproto-rust/capnp/src/private/arena.rs:24:11
+   |
+24 | use core::u64;
+   |           ^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated constant `std::i32::MAX`: replaced by the `MAX` associated constant on this type
+    --> capnproto-rust/capnp/src/private/layout.rs:3197:30
+     |
+3197 |                 ::core::i32::MAX,
+     |                              ^^^
+
+   Compiling quote v1.0.35
+warning: use of deprecated associated function `core::num::<impl i32>::max_value`: replaced by the `MAX` associated constant on this type
+   --> capnproto-rust/capnp/src/message.rs:511:37
+    |
+511 |                 nesting_limit: i32::max_value(),
+    |                                     ^^^^^^^^^
+
+   Compiling syn v2.0.48
+warning: `capnp` (lib) generated 3 warnings
+   Compiling capnpc v0.18.0 (/workspace/verifast-mdnew-fullmake/candidate/src/rust_frontend/vf_mir_exporter/capnproto-rust/capnpc)
+   Compiling log v0.4.20
+   Compiling overload v0.1.1
+   Compiling lazy_static v1.4.0
+   Compiling cfg-if v1.0.0
+   Compiling thread_local v1.1.7
+   Compiling sharded-slab v0.1.7
+   Compiling nu-ansi-term v0.46.0
+   Compiling tracing-attributes v0.1.27
+   Compiling tracing-log v0.2.0
+   Compiling vf_mir_exporter v0.1.0 (/workspace/verifast-mdnew-fullmake/candidate/src/rust_frontend/vf_mir_exporter)
+   Compiling pin-project-lite v0.2.13
+   Compiling smallvec v1.11.2
+   Compiling tracing-subscriber v0.3.18
+   Compiling tracing v0.1.40
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 42.84s

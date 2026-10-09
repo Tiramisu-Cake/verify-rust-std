@@ -1,0 +1,558 @@
+( adtDefs = (nil = void),
+  bodies = [
+    ( defKind = (fn = void),
+      defPath = "forget",
+      contract = (
+        annotations = [
+          ( raw = "//@ req thread_token(?tid) &*& tid == currentThread;",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 2,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 2,
+                  col = (pos = 51) ) ) ),
+            startLine = 2,
+            startCol = 1,
+            endLine = 2,
+            endCol = 53 ),
+          ( raw = "//@ ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 3,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 3,
+                  col = (pos = 25) ) ) ),
+            startLine = 3,
+            startCol = 1,
+            endLine = 3,
+            endCol = 27 ),
+          ( raw = "//@ on_unwind_ens false;",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 4,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 4,
+                  col = (pos = 23) ) ) ),
+            startLine = 4,
+            startCol = 1,
+            endLine = 4,
+            endCol = 25 ) ],
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (localPath = "forget.rs") ) ),
+              line = 1,
+              col = (pos = 29) ),
+            hi = (
+              file = (
+                name = (
+                  real = (localPath = "forget.rs") ) ),
+              line = 5,
+              col = (pos = 0) ) ) ) ),
+      inputs = [(kind = (param = "T"))],
+      localDecls = [
+        ( mutability = (mut = void),
+          id = (name = "_0"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 29) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 29) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_1"),
+          ty = (kind = (param = "T")),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 24) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 25) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_2"),
+          ty = (
+            kind = (
+              adt = (
+                id = (
+                  name = "std::mem::ManuallyDrop" ),
+                kind = (structKind = void),
+                substs = [
+                  ( kind = (
+                      type = (kind = (param = "T")) ) ) ] ) ) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 6,
+                  col = (pos = 12) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 6,
+                  col = (pos = 42) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_3"),
+          ty = (kind = (param = "T")),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 6,
+                  col = (pos = 40) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 6,
+                  col = (pos = 41) ) ) ) ) ) ],
+      basicBlocks = [
+        ( id = (index = 0),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 42) ) ) ) ),
+              kind = (
+                storageLive = (name = "_2") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 40) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 41) ) ) ) ),
+              kind = (
+                storageLive = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 40) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 41) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_3"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      move = (
+                        local = (name = "_1"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (localPath = "forget.rs") ) ),
+                    line = 6,
+                    col = (pos = 12) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (localPath = "forget.rs") ) ),
+                    line = 6,
+                    col = (pos = 42) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (localPath = "forget.rs") ) ),
+                          line = 6,
+                          col = (pos = 12) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (localPath = "forget.rs") ) ),
+                          line = 6,
+                          col = (pos = 39) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (
+                                name = "std::mem::ManuallyDrop::<T>::new" ),
+                              substs = [
+                                ( kind = (
+                                    type = (kind = (param = "T")) ) ) ],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( move = (
+                      local = (name = "_3"),
+                      projection = [],
+                      localIsMutable = true,
+                      kind = (other = void) ) ) ],
+                destination = (
+                  local = (name = "_2"),
+                  projection = [],
+                  localIsMutable = true,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 42) ) ) ),
+                unwindAction = (cleanup = (index = 2)),
+                target = (something = (index = 1)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 1),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 41) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 42) ) ) ) ),
+              kind = (
+                storageDead = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 42) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 6,
+                      col = (pos = 43) ) ) ) ),
+              kind = (
+                storageDead = (name = "_2") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 5,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 7,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_0"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      constant = (
+                        span = (
+                          regular = (
+                            lo = (
+                              file = (
+                                name = (
+                                  real = (localPath = "forget.rs") ) ),
+                              line = 5,
+                              col = (pos = 0) ),
+                            hi = (
+                              file = (
+                                name = (
+                                  real = (localPath = "forget.rs") ) ),
+                              line = 7,
+                              col = (pos = 1) ) ) ),
+                        const = (
+                          val = (
+                            constValue = (zeroSized = void),
+                            ty = (kind = (tuple = [])) ) ) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (localPath = "forget.rs") ) ),
+                    line = 7,
+                    col = (pos = 1) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (localPath = "forget.rs") ) ),
+                    line = 7,
+                    col = (pos = 1) ) ) ) ),
+            kind = (return = void) ),
+          isCleanup = false ),
+        ( id = (index = 2),
+          statements = [],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (localPath = "forget.rs") ) ),
+                    line = 1,
+                    col = (pos = 0) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (localPath = "forget.rs") ) ),
+                    line = 7,
+                    col = (pos = 1) ) ) ) ),
+            kind = (unwindResume = void) ),
+          isCleanup = true ) ],
+      span = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (localPath = "forget.rs") ) ),
+            line = 1,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (localPath = "forget.rs") ) ),
+            line = 7,
+            col = (pos = 1) ) ) ),
+      impSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (localPath = "forget.rs") ) ),
+            line = 5,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (localPath = "forget.rs") ) ),
+            line = 7,
+            col = (pos = 1) ) ) ),
+      varDebugInfo = [
+        ( name = (name = "t"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 24) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 25) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_1"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ) ],
+      ghostStmts = [],
+      unsafety = (unsafe = void),
+      hirGenerics = (
+        params = [
+          ( name = (
+              plain = (
+                name = (name = "T"),
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 1,
+                      col = (pos = 21) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (localPath = "forget.rs") ) ),
+                      line = 1,
+                      col = (pos = 22) ) ) ) ) ),
+            bounds = void,
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 21) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (localPath = "forget.rs") ) ),
+                  line = 1,
+                  col = (pos = 22) ) ) ),
+            pureWrtDrop = false,
+            kind = (type = void) ) ],
+        whereClause = void,
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (localPath = "forget.rs") ) ),
+              line = 1,
+              col = (pos = 20) ),
+            hi = (
+              file = (
+                name = (
+                  real = (localPath = "forget.rs") ) ),
+              line = 1,
+              col = (pos = 23) ) ) ) ),
+      isTraitFn = false,
+      isDropFn = false,
+      ghostDeclBlocks = [],
+      output = (kind = (tuple = [])),
+      clauses = [
+        ( trait = (
+            defId = "std::marker::Sized",
+            args = [
+              ( kind = (
+                  type = (kind = (param = "T")) ) ) ],
+            boundRegions = [] ) ) ],
+      generics = [
+        (name = "T", kind = (type = void)) ],
+      fnSigSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (localPath = "forget.rs") ) ),
+            line = 1,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (localPath = "forget.rs") ) ),
+            line = 1,
+            col = (pos = 29) ) ) ),
+      visibility = (public = void),
+      isFromExpansion = false,
+      loopSpecBlocks = [] ) ],
+  ghostDeclBatches = [],
+  traitImpls = [],
+  directives = [],
+  traits = (nil = void),
+  modules = [],
+  targetTriple = "x86_64-unknown-linux-gnu",
+  pointerWidth = 64,
+  tyAliases = [] )

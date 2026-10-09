@@ -1,0 +1,3020 @@
+( adtDefs = (nil = void),
+  bodies = [
+    ( defKind = (fn = void),
+      defPath = "new",
+      contract = (
+        annotations = [
+          ( raw = "//@ req thread_token(?tid) &*& tid == currentThread;",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 2,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 2,
+                  col = (pos = 51) ) ) ),
+            startLine = 2,
+            startCol = 1,
+            endLine = 2,
+            endCol = 53 ),
+          ( raw = "//@ ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 3,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 3,
+                  col = (pos = 25) ) ) ),
+            startLine = 3,
+            startCol = 1,
+            endLine = 3,
+            endCol = 27 ),
+          ( raw = "//@ on_unwind_ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 4,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 4,
+                  col = (pos = 35) ) ) ),
+            startLine = 4,
+            startCol = 1,
+            endLine = 4,
+            endCol = 37 ) ],
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 1,
+              col = (pos = 26) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 5,
+              col = (pos = 0) ) ) ) ),
+      inputs = [(kind = (bool = void))],
+      localDecls = [
+        ( mutability = (mut = void),
+          id = (name = "_0"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 1,
+                  col = (pos = 26) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 1,
+                  col = (pos = 26) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_1"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 1,
+                  col = (pos = 18) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 1,
+                  col = (pos = 19) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_2"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 6,
+                  col = (pos = 7) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 6,
+                  col = (pos = 8) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_3"),
+          ty = (kind = (never = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 6,
+                  col = (pos = 9) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 8,
+                  col = (pos = 5) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_4"),
+          ty = (kind = (never = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                  line = 58,
+                  col = (pos = 20) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                  line = 62,
+                  col = (pos = 5) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_5"),
+          ty = (kind = (never = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                  line = 61,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                  line = 61,
+                  col = (pos = 72) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_6"),
+          ty = (
+            kind = (
+              adt = (
+                id = (
+                  name = "std::fmt::Arguments" ),
+                kind = (structKind = void),
+                substs = [
+                  ( kind = (
+                      lifetime = (id = "\'<erased>") ) ) ] ) ) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                  line = 61,
+                  col = (pos = 37) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                  line = 61,
+                  col = (pos = 71) ) ) ) ) ) ],
+      basicBlocks = [
+        ( id = (index = 0),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 6,
+                      col = (pos = 7) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 6,
+                      col = (pos = 8) ) ) ) ),
+              kind = (
+                storageLive = (name = "_2") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 6,
+                      col = (pos = 7) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 6,
+                      col = (pos = 8) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_2"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_1"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 6,
+                    col = (pos = 7) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 6,
+                    col = (pos = 8) ) ) ) ),
+            kind = (
+              switchInt = (
+                discr = (
+                  move = (
+                    local = (name = "_2"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ) ),
+                discrTy = (kind = (bool = void)),
+                values = [(h = 0, l = 0)],
+                targets = [(index = 3), (index = 1)] ) ) ),
+          isCleanup = false ),
+        ( id = (index = 1),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 72) ) ) ) ),
+              kind = (
+                storageLive = (name = "_5") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 37) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 71) ) ) ) ),
+              kind = (
+                storageLive = (name = "_6") ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                    line = 61,
+                    col = (pos = 37) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                    line = 61,
+                    col = (pos = 71) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                          line = 61,
+                          col = (pos = 37) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                          line = 61,
+                          col = (pos = 71) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (
+                                name = "std::fmt::Arguments::<\'a>::from_str" ),
+                              substs = [
+                                ( kind = (
+                                    lifetime = (id = "\'<erased>") ) ) ],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( constant = (
+                      span = (
+                        regular = (
+                          lo = (
+                            file = (
+                              name = (
+                                real = (
+                                  localPath = "shared_cleanup.rs" ) ) ),
+                            line = 7,
+                            col = (pos = 15) ),
+                          hi = (
+                            file = (
+                              name = (
+                                real = (
+                                  localPath = "shared_cleanup.rs" ) ) ),
+                            line = 7,
+                            col = (pos = 44) ) ) ),
+                      const = (
+                        val = (
+                          constValue = (
+                            slice = "ManuallyDrop CFG regression" ),
+                          ty = (
+                            kind = (
+                              ref = (
+                                region = (id = "\'<erased>"),
+                                ty = (kind = (str = void)),
+                                mutability = (not = void) ) ) ) ) ) ) ) ],
+                destination = (
+                  local = (name = "_6"),
+                  projection = [],
+                  localIsMutable = true,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 37) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 71) ) ) ),
+                unwindAction = (continue = void),
+                target = (something = (index = 2)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 2),
+          statements = [],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                    line = 61,
+                    col = (pos = 8) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                    line = 61,
+                    col = (pos = 72) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                          line = 61,
+                          col = (pos = 8) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                          line = 61,
+                          col = (pos = 36) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (
+                                name = "std::rt::panic_fmt" ),
+                              substs = [],
+                              lateBoundGenericParamCount = 1 ) ) ) ) ) ) ),
+                args = [
+                  ( move = (
+                      local = (name = "_6"),
+                      projection = [],
+                      localIsMutable = true,
+                      kind = (other = void) ) ) ],
+                destination = (
+                  local = (name = "_5"),
+                  projection = [],
+                  localIsMutable = false,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "/workspace/verifast-mdnew-fullmake/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic.rs" ) ) ),
+                      line = 61,
+                      col = (pos = 72) ) ) ),
+                unwindAction = (continue = void) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 3),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 8,
+                      col = (pos = 5) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 8,
+                      col = (pos = 5) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_0"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      constant = (
+                        span = (
+                          regular = (
+                            lo = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 8,
+                              col = (pos = 5) ),
+                            hi = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 8,
+                              col = (pos = 5) ) ) ),
+                        const = (
+                          val = (
+                            constValue = (zeroSized = void),
+                            ty = (kind = (tuple = [])) ) ) ) ) ) ) ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 8,
+                      col = (pos = 4) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 8,
+                      col = (pos = 5) ) ) ) ),
+              kind = (
+                storageDead = (name = "_2") ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 9,
+                    col = (pos = 1) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 9,
+                    col = (pos = 1) ) ) ) ),
+            kind = (return = void) ),
+          isCleanup = false ) ],
+      span = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 1,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 9,
+            col = (pos = 1) ) ) ),
+      impSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 5,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 9,
+            col = (pos = 1) ) ) ),
+      varDebugInfo = [
+        ( name = (name = "b"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 1,
+                  col = (pos = 18) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 1,
+                  col = (pos = 19) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_1"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ) ],
+      ghostStmts = [],
+      unsafety = (unsafe = void),
+      hirGenerics = (
+        params = [],
+        whereClause = void,
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 1,
+              col = (pos = 17) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 1,
+              col = (pos = 17) ) ) ) ),
+      isTraitFn = false,
+      isDropFn = false,
+      ghostDeclBlocks = [],
+      output = (kind = (tuple = [])),
+      clauses = [],
+      generics = [],
+      fnSigSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 1,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 1,
+            col = (pos = 26) ) ) ),
+      visibility = (public = void),
+      isFromExpansion = false,
+      loopSpecBlocks = [] ),
+    ( defKind = (fn = void),
+      defPath = "ordinary_caller",
+      contract = (
+        annotations = [
+          ( raw = "//@ req thread_token(?tid) &*& tid == currentThread;",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 12,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 12,
+                  col = (pos = 51) ) ) ),
+            startLine = 12,
+            startCol = 1,
+            endLine = 12,
+            endCol = 53 ),
+          ( raw = "//@ ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 13,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 13,
+                  col = (pos = 25) ) ) ),
+            startLine = 13,
+            startCol = 1,
+            endLine = 13,
+            endCol = 27 ),
+          ( raw = "//@ on_unwind_ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 14,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 14,
+                  col = (pos = 35) ) ) ),
+            startLine = 14,
+            startCol = 1,
+            endLine = 14,
+            endCol = 37 ) ],
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 11,
+              col = (pos = 38) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 15,
+              col = (pos = 0) ) ) ) ),
+      inputs = [(kind = (bool = void))],
+      localDecls = [
+        ( mutability = (mut = void),
+          id = (name = "_0"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 11,
+                  col = (pos = 38) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 11,
+                  col = (pos = 38) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_1"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 11,
+                  col = (pos = 30) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 11,
+                  col = (pos = 31) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_2"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 4) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 10) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_3"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 16,
+                  col = (pos = 9) ) ) ) ) ) ],
+      basicBlocks = [
+        ( id = (index = 0),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 4) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 10) ) ) ) ),
+              kind = (
+                storageLive = (name = "_2") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 9) ) ) ) ),
+              kind = (
+                storageLive = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 9) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_3"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_1"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 16,
+                    col = (pos = 4) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 16,
+                    col = (pos = 10) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 16,
+                          col = (pos = 4) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 16,
+                          col = (pos = 7) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (name = "new"),
+                              substs = [],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( move = (
+                      local = (name = "_3"),
+                      projection = [],
+                      localIsMutable = true,
+                      kind = (other = void) ) ) ],
+                destination = (
+                  local = (name = "_2"),
+                  projection = [],
+                  localIsMutable = false,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 4) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 10) ) ) ),
+                unwindAction = (continue = void),
+                target = (something = (index = 1)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 1),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 9) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 10) ) ) ) ),
+              kind = (
+                storageDead = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 10) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 16,
+                      col = (pos = 11) ) ) ) ),
+              kind = (
+                storageDead = (name = "_2") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 15,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 17,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_0"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      constant = (
+                        span = (
+                          regular = (
+                            lo = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 15,
+                              col = (pos = 0) ),
+                            hi = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 17,
+                              col = (pos = 1) ) ) ),
+                        const = (
+                          val = (
+                            constValue = (zeroSized = void),
+                            ty = (kind = (tuple = [])) ) ) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 17,
+                    col = (pos = 1) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 17,
+                    col = (pos = 1) ) ) ) ),
+            kind = (return = void) ),
+          isCleanup = false ) ],
+      span = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 11,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 17,
+            col = (pos = 1) ) ) ),
+      impSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 15,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 17,
+            col = (pos = 1) ) ) ),
+      varDebugInfo = [
+        ( name = (name = "b"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 11,
+                  col = (pos = 30) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 11,
+                  col = (pos = 31) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_1"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ) ],
+      ghostStmts = [],
+      unsafety = (unsafe = void),
+      hirGenerics = (
+        params = [],
+        whereClause = void,
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 11,
+              col = (pos = 29) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 11,
+              col = (pos = 29) ) ) ) ),
+      isTraitFn = false,
+      isDropFn = false,
+      ghostDeclBlocks = [],
+      output = (kind = (tuple = [])),
+      clauses = [],
+      generics = [],
+      fnSigSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 11,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 11,
+            col = (pos = 38) ) ) ),
+      visibility = (public = void),
+      isFromExpansion = false,
+      loopSpecBlocks = [] ),
+    ( defKind = (fn = void),
+      defPath = "shared_cleanup",
+      contract = (
+        annotations = [
+          ( raw = "//@ req thread_token(?tid) &*& tid == currentThread;",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 20,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 20,
+                  col = (pos = 51) ) ) ),
+            startLine = 20,
+            startCol = 1,
+            endLine = 20,
+            endCol = 53 ),
+          ( raw = "//@ ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 21,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 21,
+                  col = (pos = 25) ) ) ),
+            startLine = 21,
+            startCol = 1,
+            endLine = 21,
+            endCol = 27 ),
+          ( raw = "//@ on_unwind_ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 22,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 22,
+                  col = (pos = 35) ) ) ),
+            startLine = 22,
+            startCol = 1,
+            endLine = 22,
+            endCol = 37 ) ],
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 19,
+              col = (pos = 46) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 23,
+              col = (pos = 0) ) ) ) ),
+      inputs = [(kind = (param = "T")), (kind = (bool = void))],
+      localDecls = [
+        ( mutability = (mut = void),
+          id = (name = "_0"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 46) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 46) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_1"),
+          ty = (kind = (param = "T")),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 32) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 33) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_2"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 38) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 39) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_3"),
+          ty = (
+            kind = (
+              adt = (
+                id = (
+                  name = "std::mem::ManuallyDrop" ),
+                kind = (structKind = void),
+                substs = [
+                  ( kind = (
+                      type = (kind = (param = "T")) ) ) ] ) ) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 24,
+                  col = (pos = 12) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 24,
+                  col = (pos = 42) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_4"),
+          ty = (kind = (param = "T")),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 24,
+                  col = (pos = 40) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 24,
+                  col = (pos = 41) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_5"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 25,
+                  col = (pos = 4) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 25,
+                  col = (pos = 10) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_6"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 25,
+                  col = (pos = 8) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 25,
+                  col = (pos = 9) ) ) ) ) ) ],
+      basicBlocks = [
+        ( id = (index = 0),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 42) ) ) ) ),
+              kind = (
+                storageLive = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 40) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 41) ) ) ) ),
+              kind = (
+                storageLive = (name = "_4") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 40) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 41) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_4"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      move = (
+                        local = (name = "_1"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 24,
+                    col = (pos = 12) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 24,
+                    col = (pos = 42) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 24,
+                          col = (pos = 12) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 24,
+                          col = (pos = 39) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (
+                                name = "std::mem::ManuallyDrop::<T>::new" ),
+                              substs = [
+                                ( kind = (
+                                    type = (kind = (param = "T")) ) ) ],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( move = (
+                      local = (name = "_4"),
+                      projection = [],
+                      localIsMutable = true,
+                      kind = (other = void) ) ) ],
+                destination = (
+                  local = (name = "_3"),
+                  projection = [],
+                  localIsMutable = true,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 42) ) ) ),
+                unwindAction = (cleanup = (index = 3)),
+                target = (something = (index = 1)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 1),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 41) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 42) ) ) ) ),
+              kind = (
+                storageDead = (name = "_4") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 42) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 24,
+                      col = (pos = 43) ) ) ) ),
+              kind = (
+                storageDead = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 4) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 10) ) ) ) ),
+              kind = (
+                storageLive = (name = "_5") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 9) ) ) ) ),
+              kind = (
+                storageLive = (name = "_6") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 9) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_6"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_2"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 25,
+                    col = (pos = 4) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 25,
+                    col = (pos = 10) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 25,
+                          col = (pos = 4) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 25,
+                          col = (pos = 7) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (name = "new"),
+                              substs = [],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( move = (
+                      local = (name = "_6"),
+                      projection = [],
+                      localIsMutable = true,
+                      kind = (other = void) ) ) ],
+                destination = (
+                  local = (name = "_5"),
+                  projection = [],
+                  localIsMutable = false,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 4) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 10) ) ) ),
+                unwindAction = (cleanup = (index = 3)),
+                target = (something = (index = 2)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 2),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 9) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 10) ) ) ) ),
+              kind = (
+                storageDead = (name = "_6") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 10) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 25,
+                      col = (pos = 11) ) ) ) ),
+              kind = (
+                storageDead = (name = "_5") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 23,
+                      col = (pos = 0) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 26,
+                      col = (pos = 1) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_0"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      constant = (
+                        span = (
+                          regular = (
+                            lo = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 23,
+                              col = (pos = 0) ),
+                            hi = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 26,
+                              col = (pos = 1) ) ) ),
+                        const = (
+                          val = (
+                            constValue = (zeroSized = void),
+                            ty = (kind = (tuple = [])) ) ) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 26,
+                    col = (pos = 1) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 26,
+                    col = (pos = 1) ) ) ) ),
+            kind = (return = void) ),
+          isCleanup = false ),
+        ( id = (index = 3),
+          statements = [],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 19,
+                    col = (pos = 0) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 26,
+                    col = (pos = 1) ) ) ) ),
+            kind = (unwindResume = void) ),
+          isCleanup = true ) ],
+      span = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 19,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 26,
+            col = (pos = 1) ) ) ),
+      impSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 23,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 26,
+            col = (pos = 1) ) ) ),
+      varDebugInfo = [
+        ( name = (name = "t"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 32) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 33) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_1"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ),
+        ( name = (name = "b"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 38) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 39) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_2"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ) ],
+      ghostStmts = [],
+      unsafety = (unsafe = void),
+      hirGenerics = (
+        params = [
+          ( name = (
+              plain = (
+                name = (name = "T"),
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 29) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 19,
+                      col = (pos = 30) ) ) ) ) ),
+            bounds = void,
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 29) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 19,
+                  col = (pos = 30) ) ) ),
+            pureWrtDrop = false,
+            kind = (type = void) ) ],
+        whereClause = void,
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 19,
+              col = (pos = 28) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 19,
+              col = (pos = 31) ) ) ) ),
+      isTraitFn = false,
+      isDropFn = false,
+      ghostDeclBlocks = [],
+      output = (kind = (tuple = [])),
+      clauses = [
+        ( trait = (
+            defId = "std::marker::Sized",
+            args = [
+              ( kind = (
+                  type = (kind = (param = "T")) ) ) ],
+            boundRegions = [] ) ) ],
+      generics = [
+        (name = "T", kind = (type = void)) ],
+      fnSigSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 19,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 19,
+            col = (pos = 46) ) ) ),
+      visibility = (public = void),
+      isFromExpansion = false,
+      loopSpecBlocks = [] ),
+    ( defKind = (fn = void),
+      defPath = "normal_first_cleanup",
+      contract = (
+        annotations = [
+          ( raw = "//@ req thread_token(?tid) &*& tid == currentThread;",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 30,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 30,
+                  col = (pos = 51) ) ) ),
+            startLine = 30,
+            startCol = 1,
+            endLine = 30,
+            endCol = 53 ),
+          ( raw = "//@ ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 31,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 31,
+                  col = (pos = 25) ) ) ),
+            startLine = 31,
+            startCol = 1,
+            endLine = 31,
+            endCol = 27 ),
+          ( raw = "//@ on_unwind_ens thread_token(tid);",
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 32,
+                  col = (pos = 0) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 32,
+                  col = (pos = 35) ) ) ),
+            startLine = 32,
+            startCol = 1,
+            endLine = 32,
+            endCol = 37 ) ],
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 29,
+              col = (pos = 52) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 33,
+              col = (pos = 0) ) ) ) ),
+      inputs = [(kind = (param = "T")), (kind = (bool = void))],
+      localDecls = [
+        ( mutability = (mut = void),
+          id = (name = "_0"),
+          ty = (kind = (tuple = [])),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 52) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 52) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_1"),
+          ty = (kind = (param = "T")),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 38) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 39) ) ) ) ) ),
+        ( mutability = (not = void),
+          id = (name = "_2"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 44) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 45) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_3"),
+          ty = (
+            kind = (
+              adt = (
+                id = (
+                  name = "std::mem::ManuallyDrop" ),
+                kind = (structKind = void),
+                substs = [
+                  ( kind = (
+                      type = (kind = (param = "T")) ) ) ] ) ) ),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 34,
+                  col = (pos = 12) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 34,
+                  col = (pos = 42) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_4"),
+          ty = (kind = (param = "T")),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 34,
+                  col = (pos = 40) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 34,
+                  col = (pos = 41) ) ) ) ) ),
+        ( mutability = (mut = void),
+          id = (name = "_5"),
+          ty = (kind = (bool = void)),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 35,
+                  col = (pos = 7) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 35,
+                  col = (pos = 8) ) ) ) ) ) ],
+      basicBlocks = [
+        ( id = (index = 0),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 42) ) ) ) ),
+              kind = (
+                storageLive = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 40) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 41) ) ) ) ),
+              kind = (
+                storageLive = (name = "_4") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 40) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 41) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_4"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      move = (
+                        local = (name = "_1"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 34,
+                    col = (pos = 12) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 34,
+                    col = (pos = 42) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 34,
+                          col = (pos = 12) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 34,
+                          col = (pos = 39) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (
+                                name = "std::mem::ManuallyDrop::<T>::new" ),
+                              substs = [
+                                ( kind = (
+                                    type = (kind = (param = "T")) ) ) ],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( move = (
+                      local = (name = "_4"),
+                      projection = [],
+                      localIsMutable = true,
+                      kind = (other = void) ) ) ],
+                destination = (
+                  local = (name = "_3"),
+                  projection = [],
+                  localIsMutable = true,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 12) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 42) ) ) ),
+                unwindAction = (cleanup = (index = 5)),
+                target = (something = (index = 1)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 1),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 41) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 42) ) ) ) ),
+              kind = (
+                storageDead = (name = "_4") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 42) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 34,
+                      col = (pos = 43) ) ) ) ),
+              kind = (
+                storageDead = (name = "_3") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 35,
+                      col = (pos = 7) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 35,
+                      col = (pos = 8) ) ) ) ),
+              kind = (
+                storageLive = (name = "_5") ) ),
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 35,
+                      col = (pos = 7) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 35,
+                      col = (pos = 8) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_5"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      copy = (
+                        local = (name = "_2"),
+                        projection = [],
+                        localIsMutable = false,
+                        kind = (other = void) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 35,
+                    col = (pos = 7) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 35,
+                    col = (pos = 8) ) ) ) ),
+            kind = (
+              switchInt = (
+                discr = (
+                  move = (
+                    local = (name = "_5"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ) ),
+                discrTy = (kind = (bool = void)),
+                values = [(h = 0, l = 0)],
+                targets = [(index = 3), (index = 2)] ) ) ),
+          isCleanup = false ),
+        ( id = (index = 2),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 35,
+                      col = (pos = 9) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 36,
+                      col = (pos = 5) ) ) ) ),
+              kind = (
+                assign = (
+                  lhsPlace = (
+                    local = (name = "_0"),
+                    projection = [],
+                    localIsMutable = true,
+                    kind = (other = void) ),
+                  rhsRvalue = (
+                    use = (
+                      constant = (
+                        span = (
+                          regular = (
+                            lo = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 35,
+                              col = (pos = 9) ),
+                            hi = (
+                              file = (
+                                name = (
+                                  real = (
+                                    localPath = "shared_cleanup.rs" ) ) ),
+                              line = 36,
+                              col = (pos = 5) ) ) ),
+                        const = (
+                          val = (
+                            constValue = (zeroSized = void),
+                            ty = (kind = (tuple = [])) ) ) ) ) ) ) ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 35,
+                    col = (pos = 4) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 38,
+                    col = (pos = 5) ) ) ) ),
+            kind = (goto = (index = 4)) ),
+          isCleanup = false ),
+        ( id = (index = 3),
+          statements = [],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 37,
+                    col = (pos = 8) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 37,
+                    col = (pos = 17) ) ) ) ),
+            kind = (
+              call = (
+                func = (
+                  constant = (
+                    span = (
+                      regular = (
+                        lo = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 37,
+                          col = (pos = 8) ),
+                        hi = (
+                          file = (
+                            name = (
+                              real = (
+                                localPath = "shared_cleanup.rs" ) ) ),
+                          line = 37,
+                          col = (pos = 11) ) ) ),
+                    const = (
+                      val = (
+                        constValue = (zeroSized = void),
+                        ty = (
+                          kind = (
+                            fnDef = (
+                              id = (name = "new"),
+                              substs = [],
+                              lateBoundGenericParamCount = 0 ) ) ) ) ) ) ),
+                args = [
+                  ( constant = (
+                      span = (
+                        regular = (
+                          lo = (
+                            file = (
+                              name = (
+                                real = (
+                                  localPath = "shared_cleanup.rs" ) ) ),
+                            line = 37,
+                            col = (pos = 12) ),
+                          hi = (
+                            file = (
+                              name = (
+                                real = (
+                                  localPath = "shared_cleanup.rs" ) ) ),
+                            line = 37,
+                            col = (pos = 16) ) ) ),
+                      const = (
+                        val = (
+                          constValue = (
+                            scalar = (
+                              int = (data = (h = 0, l = 1), size = 1) ) ),
+                          ty = (kind = (bool = void)) ) ) ) ) ],
+                destination = (
+                  local = (name = "_0"),
+                  projection = [],
+                  localIsMutable = true,
+                  kind = (other = void) ),
+                callSpan = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 37,
+                      col = (pos = 8) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 37,
+                      col = (pos = 17) ) ) ),
+                unwindAction = (cleanup = (index = 5)),
+                target = (something = (index = 4)) ) ) ),
+          isCleanup = false ),
+        ( id = (index = 4),
+          statements = [
+            ( sourceInfo = (
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 38,
+                      col = (pos = 4) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 38,
+                      col = (pos = 5) ) ) ) ),
+              kind = (
+                storageDead = (name = "_5") ) ) ],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 39,
+                    col = (pos = 1) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 39,
+                    col = (pos = 1) ) ) ) ),
+            kind = (return = void) ),
+          isCleanup = false ),
+        ( id = (index = 5),
+          statements = [],
+          terminator = (
+            sourceInfo = (
+              span = (
+                regular = (
+                  lo = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 29,
+                    col = (pos = 0) ),
+                  hi = (
+                    file = (
+                      name = (
+                        real = (
+                          localPath = "shared_cleanup.rs" ) ) ),
+                    line = 39,
+                    col = (pos = 1) ) ) ) ),
+            kind = (unwindResume = void) ),
+          isCleanup = true ) ],
+      span = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 29,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 39,
+            col = (pos = 1) ) ) ),
+      impSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 33,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 39,
+            col = (pos = 1) ) ) ),
+      varDebugInfo = [
+        ( name = (name = "t"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 38) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 39) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_1"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ),
+        ( name = (name = "b"),
+          sourceInfo = (
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 44) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 45) ) ) ) ),
+          value = (
+            place = (
+              local = (name = "_2"),
+              projection = [],
+              localIsMutable = false,
+              kind = (other = void) ) ) ) ],
+      ghostStmts = [],
+      unsafety = (unsafe = void),
+      hirGenerics = (
+        params = [
+          ( name = (
+              plain = (
+                name = (name = "T"),
+                span = (
+                  regular = (
+                    lo = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 29,
+                      col = (pos = 35) ),
+                    hi = (
+                      file = (
+                        name = (
+                          real = (
+                            localPath = "shared_cleanup.rs" ) ) ),
+                      line = 29,
+                      col = (pos = 36) ) ) ) ) ),
+            bounds = void,
+            span = (
+              regular = (
+                lo = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 35) ),
+                hi = (
+                  file = (
+                    name = (
+                      real = (
+                        localPath = "shared_cleanup.rs" ) ) ),
+                  line = 29,
+                  col = (pos = 36) ) ) ),
+            pureWrtDrop = false,
+            kind = (type = void) ) ],
+        whereClause = void,
+        span = (
+          regular = (
+            lo = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 29,
+              col = (pos = 34) ),
+            hi = (
+              file = (
+                name = (
+                  real = (
+                    localPath = "shared_cleanup.rs" ) ) ),
+              line = 29,
+              col = (pos = 37) ) ) ) ),
+      isTraitFn = false,
+      isDropFn = false,
+      ghostDeclBlocks = [],
+      output = (kind = (tuple = [])),
+      clauses = [
+        ( trait = (
+            defId = "std::marker::Sized",
+            args = [
+              ( kind = (
+                  type = (kind = (param = "T")) ) ) ],
+            boundRegions = [] ) ) ],
+      generics = [
+        (name = "T", kind = (type = void)) ],
+      fnSigSpan = (
+        regular = (
+          lo = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 29,
+            col = (pos = 0) ),
+          hi = (
+            file = (
+              name = (
+                real = (
+                  localPath = "shared_cleanup.rs" ) ) ),
+            line = 29,
+            col = (pos = 52) ) ) ),
+      visibility = (public = void),
+      isFromExpansion = false,
+      loopSpecBlocks = [] ) ],
+  ghostDeclBatches = [],
+  traitImpls = [],
+  directives = [],
+  traits = (nil = void),
+  modules = [],
+  targetTriple = "x86_64-unknown-linux-gnu",
+  pointerWidth = 64,
+  tyAliases = [] )
