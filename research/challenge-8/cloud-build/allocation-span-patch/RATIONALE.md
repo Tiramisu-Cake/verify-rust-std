@@ -1,0 +1,47 @@
+# Narrow allocation-span candidate
+
+Design selected before implementation (commentary at minute18); written rationale
+file creation initially targeted the wrong directory and was corrected before any
+commit or execution. Owner merge; authorized phase MERGE-ALLOCATION-SPAN-PATCH-CLOUD-2026-10-09.
+
+Missing fact: sizeof(T)>0 implies src+sizeof(T)<=dst OR dst+sizeof(T)<=src.
+Consumer: actual insert_tail550/551 tmp=ManuallyDrop::new(tail.read()), shared &*tmp,
+CopyOnDrop literal-one diagnostic recovery. Existing storage conversions conserve
+fraction/value and derive alignment, bounds/nonoverflow; actual constructor span
+failed before FBC. Actual557/558 remain subsequent.
+
+Only at creation of an actual non-ghost address-taken Rust local, after initializer
+evaluation and before local storage production: compare numeric extent to exposed
+existing generic initialized/uninitialized points-to chunks whose real fraction
+is proved positive. Each chunk denotes simultaneously live physical storage covering
+sizeof(U), including the incoming tail uninitialized gap after read. The new local
+is independent live stack storage; allocation identity is its creation event, not
+fresh symbol/provenance inequality. Subobjects are covered only by their own extent.
+No arbitrary raw pointer or closed predicate is scanned. Both zero extents are guarded.
+Dummy leaked fractions excluded; unproved-positive coefficients are skipped.
+
+No resource is consumed/produced by the rule, and no value, fraction, initialization,
+validity, reference debt, lifetime token or T.own changes. Existing tmp complementary
+share, shared reference, guard fields/padding and sole CURRENT owner are preserved.
+Source-specific own stores pure separation proved at constructor; FBC open returns
+it for current src/dst, without an unrelated old held_ref equality or supplied span.
+
+There is no permanent registry: facts concern those exact pointer numbers at creation.
+Once old storage has retired, a later local is not constrained against an old raw
+pointer, so lifetime address reuse remains possible. Same-allocation aliases are
+not compared to each other; overlapping readonly fractions stay legal. Hidden storage
+means incomplete coverage, not a claimed global allocation invariant.
+
+Trust change: verifast.ml kernel allocation semantics only. Translator/parser/prelude,
+exporter/refiner/copy spec and checks unchanged. Candidate NOT_ACCEPTED; independent
+Sol semantic review found no concrete counterexample under full-size live storage
+interpretation, noted closed/other resource forms and unsupported sizeof limits.
+Tests are evidence, not a global soundness proof. Broad memory model rewrite excluded.
+
+Predeclared gates: actual pre/post-FBC span, full positive and after_recovery_false;
+new generic live local against fractional live incoming storage with restoration;
+same-allocation readonly overlapping aliases reject at marked span assertion;
+raw pointer without physical storage rejects at marked span assertion; ZST no
+address-distinctness claim; retired-local pointer no address-distinctness claim.
+Setup failures are INCONCLUSIVE. Recovery false counts only after actual recovery.
+All compiler/extraction/verifier executions Cloud-only; old PASS not new evidence.
