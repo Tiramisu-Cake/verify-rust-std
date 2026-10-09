@@ -80,3 +80,7 @@ not preventive. New phases or budgets are not created by this narrow selection.
 The same evidence-justified repair may use exact default-off
 `o26-input-relation-frame-shadow-test` with fresh source/tool pins, preserved FRAME
 baseline and partial/source controls before full actualouter. Registered only here.
+
+## Completion extension and adopted policy
+
+At main deadline 13:20:06 UTC /16:20:06 MSK, finish only the already-started FRAME late-binding correction: corrected source/MIR capture, at most one addressed proof check if pins/reserve permit, evidence and checkpoint. No new sort4 research iteration. Target completion <=13:45 UTC; absolute13:50:06 UTC. Policy revision d389ff641194364e5eeda4ea4e66bedac4915a79 (PR4, merged c95a2f62) read and integrated in27d7fe6cd39dffab0da9868fc283074fc66bd3d8. Actual obligation: pointer-specialized select returns exact selected original input with full resources; caller: actual sort4 selects pointer values without obtaining new pointee rights. Source-only capture is not proof.

@@ -1,0 +1,531 @@
+{
+  "classification": "EXPERIMENTAL_O26_R3_FRAME_SHADOW_TEST_NOT_ACCEPTED",
+  "parent_profile": "overnight-assume-actual/O26-R3-FRAME-TEST.json",
+  "parent_translator_sha256": "a8421aac6bc2863e6df8d5ca9fc94b15251123f5203cf92d271529a595bad243",
+  "test_patch": "overnight-assume-actual/verifast-r3-frame-shadow-TEST.patch",
+  "test_patch_sha256": "6e49d7f7c1eb43288a0ad0e6f8dd8518e76218a57c3d9a6c7a7b6cf7a953a1ee",
+  "test_translator_sha256": "54fd5dd628d8e9dac3b0a702cb13bf4ab6d2d235d0f157eb5228082b4954adf6",
+  "source": {
+    "verified_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "unit_sha256": "203989644124ecd20473efc286cb43a148de4f196c10b4a037f4bdb04cd2d098",
+    "body_sha256": [
+      "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+      "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+      "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+      "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+      "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+      "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+      "3346dfaf24b95e4802303674696dc9caab0ee31306e65bfc1ec885f40dbe4cff",
+      "404bf9dade6187f40836abc7be359d56103fc9a26d0d2e4abcb6e405c78e6107",
+      "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+    ],
+    "nested_body8_sha256": "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+  },
+  "opt_in": {
+    "SORT4_R3_FRAME_SHADOW_TEST_REPO_ROOT": "exact proof root",
+    "SORT4_R3_FRAME_SHADOW_TEST": "1"
+  },
+  "required_parent_opt_ins": [
+    "SORT4_ACTUAL_OWNER_REPO_ROOT/ADMISSION",
+    "SORT4_ACTUAL_OWNER_NINE_ADMISSION",
+    "SORT4_A1_NINE_REPO_ROOT",
+    "SORT4_ACTUAL_NESTED_H2_REPO_ROOT",
+    "SORT4_ACTUAL_FORGET_OWN_REPO_ROOT",
+    "SORT4_WRAPPER_REBASE_REPO_ROOT/ADMISSION",
+    "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT/ADMISSION",
+    "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_RECEIVER_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_COLUMN_NESTED_TEST_REPO_ROOT/TEST",
+    "SORT4_R3_FRAME_TEST_REPO_ROOT/TEST"
+  ],
+  "observed_capture": {
+    "normal_body_sha256": [
+      "e7e95bc334a4e25aea62e29631a929f62b6b34553d808f38e0f66af4c97faabe",
+      "932f8a574624ef6aecf7515dcde89d87bb90e284d6a4bb04bac197b38fa3a0e0",
+      "05e874e0a9d053c10d4ec581a910714bf87acb6c693f717be4691c87df5aac6d",
+      "e4bf580cdd682fa68bb15a5247bc4972f26c4deda7b873ae91ae50a7beb87b83",
+      "b4e3130101a0800574b9104579cd9f530debcabd4f98efce31e973d489cccfae",
+      "1ef0c2aa8d0ad8e017bf9d90f7b9fff50ba24a60a239b4689c76aeef41fa156c",
+      "e0b39ba49d12ac65a4864b57db6bd22bc7d2343d95e3526c748c4f53f227fca7",
+      "48630632de97c980f73966191867507f3107462de1f83e86e066317271ea965e",
+      "c785dd615c9447e49c9c1ae02eb48272751f74e5ba7857268688f89a49185cfb"
+    ],
+    "normal_whole_decoded_mir_sha256": "bb50b114bcda7905c84f890500f4a8991009c4a554ddcbe8d5eb5f6a87229e83",
+    "readonly_body_sha256": [
+      "e7e95bc334a4e25aea62e29631a929f62b6b34553d808f38e0f66af4c97faabe",
+      "14f0c523b354e22be669b87a93fb4a494ca8eee66d733bf303b02da33c23c093",
+      "05e874e0a9d053c10d4ec581a910714bf87acb6c693f717be4691c87df5aac6d",
+      "e4bf580cdd682fa68bb15a5247bc4972f26c4deda7b873ae91ae50a7beb87b83",
+      "b4e3130101a0800574b9104579cd9f530debcabd4f98efce31e973d489cccfae",
+      "1ef0c2aa8d0ad8e017bf9d90f7b9fff50ba24a60a239b4689c76aeef41fa156c",
+      "e0b39ba49d12ac65a4864b57db6bd22bc7d2343d95e3526c748c4f53f227fca7",
+      "2e9d66c6a6d77bace791f7f6ce07866ede308a1d73b61d049f545db5ea91079d",
+      "053adcd9384730f0d4e17e1f91ddfce4b344d8eb2d835a78b2fcffc296f1453c"
+    ],
+    "readonly_whole_decoded_mir_sha256": "c0d287337dd3f1b2c6cd84a96274a7f4861550d664d16fb493ffef8a57a546a9"
+  },
+  "source_transform": {
+    "accepted": false,
+    "actual_runtime_unchanged": true,
+    "case_name": "nine-body-wrapper-input-relation-frame-shadow",
+    "changed_late_comment_names": [
+      "conditional_wrapper_matches_input",
+      "shadow_false_wrapper_matches_input",
+      "shadow_true_wrapper_matches_input"
+    ],
+    "classification": "SOURCE_ONLY_FRAME_SHADOW_CAPTURE_NOT_ACCEPTED",
+    "full_mir_refinement_and_proof": "NOT_RUN",
+    "ghost_strip_identity": true,
+    "inserted_ghost_comments": [
+      {
+        "byte_end_exclusive": 4644,
+        "byte_start": 4604,
+        "bytes": 40,
+        "column_end_zero_based": 40,
+        "column_start_zero_based": 0,
+        "index": 0,
+        "line_end_one_based": 155,
+        "line_start_one_based": 155,
+        "name": "save_true_input",
+        "region": "before_rust_shadow",
+        "sha256": "269300b3586b67a9cac718029cc08fb4aeae7fcf82526da1a909ecc4e1ef95a1",
+        "utf8": "/*@ let saved_true_input = true_val; @*/"
+      },
+      {
+        "byte_end_exclusive": 4686,
+        "byte_start": 4644,
+        "bytes": 42,
+        "column_end_zero_based": 82,
+        "column_start_zero_based": 40,
+        "index": 1,
+        "line_end_one_based": 155,
+        "line_start_one_based": 155,
+        "name": "save_false_input",
+        "region": "before_rust_shadow",
+        "sha256": "5ccc4901d9fe8e0746393b8d416b4d12f125a1f35f2a24dd26b1ab3131b4c407",
+        "utf8": "/*@ let saved_false_input = false_val; @*/"
+      },
+      {
+        "byte_end_exclusive": 6159,
+        "byte_start": 6106,
+        "bytes": 53,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 2,
+        "line_end_one_based": 184,
+        "line_start_one_based": 183,
+        "name": "true_payload_matches_input",
+        "region": "after_opened_payloads",
+        "sha256": "89b5161f1e21c5b691999fa6cd109fb853597c078d8a69e4522fd997fef12077",
+        "utf8": "    /*@ assert true_payload == saved_true_input; @*/\n"
+      },
+      {
+        "byte_end_exclusive": 6214,
+        "byte_start": 6159,
+        "bytes": 55,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 3,
+        "line_end_one_based": 185,
+        "line_start_one_based": 184,
+        "name": "false_payload_matches_input",
+        "region": "after_opened_payloads",
+        "sha256": "878afeeaeb9117532d8721224d89783eb6f7f4f90e85421a6fd80f273bbfa872",
+        "utf8": "    /*@ assert false_payload == saved_false_input; @*/\n"
+      },
+      {
+        "byte_end_exclusive": 8927,
+        "byte_start": 8826,
+        "bytes": 101,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 4,
+        "line_end_one_based": 230,
+        "line_start_one_based": 229,
+        "name": "current_true_wrapper_matches_input",
+        "region": "after_rebased_wrapper_closes",
+        "sha256": "9acafc8b82f313f7cab8163e0d87b287988ae52200405160081e681e3b1e4a72",
+        "utf8": "        /*@ assert std::mem::MaybeUninit::inner(current_true_wrapper) == some(saved_true_input); @*/\n"
+      },
+      {
+        "byte_end_exclusive": 9030,
+        "byte_start": 8927,
+        "bytes": 103,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 5,
+        "line_end_one_based": 231,
+        "line_start_one_based": 230,
+        "name": "current_false_wrapper_matches_input",
+        "region": "after_rebased_wrapper_closes",
+        "sha256": "845133df6ddb1bf56ef8790f08e9de43bc54c8647bd2b2398ba6e2735bd752f9",
+        "utf8": "        /*@ assert std::mem::MaybeUninit::inner(current_false_wrapper) == some(saved_false_input); @*/\n"
+      },
+      {
+        "byte_end_exclusive": 9121,
+        "byte_start": 9030,
+        "bytes": 91,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 6,
+        "line_end_one_based": 232,
+        "line_start_one_based": 231,
+        "name": "shadow_true_wrapper_matches_input",
+        "region": "after_rebased_wrapper_closes",
+        "sha256": "27889c4bf3cf7075a2a4d70c2875080f8d9e4bdf1b348e514b93350808b7d389",
+        "utf8": "        /*@ assert std::mem::MaybeUninit::inner(true_val_1) == some(saved_true_input); @*/\n"
+      },
+      {
+        "byte_end_exclusive": 9214,
+        "byte_start": 9121,
+        "bytes": 93,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 7,
+        "line_end_one_based": 233,
+        "line_start_one_based": 232,
+        "name": "shadow_false_wrapper_matches_input",
+        "region": "after_rebased_wrapper_closes",
+        "sha256": "c2f132debfecd14e4889ec7ffb3717a9a29c6244d1ba2d03441dfb561b9b8613",
+        "utf8": "        /*@ assert std::mem::MaybeUninit::inner(false_val_1) == some(saved_false_input); @*/\n"
+      },
+      {
+        "byte_end_exclusive": 9387,
+        "byte_start": 9214,
+        "bytes": 173,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 8,
+        "line_end_one_based": 234,
+        "line_start_one_based": 233,
+        "name": "conditional_wrapper_matches_input",
+        "region": "after_rebased_wrapper_closes",
+        "sha256": "6e2d98473963e0d469cf4a667fe8324861e8026e4418c460159f76d0cbfd78dd",
+        "utf8": "        /*@ assert std::mem::MaybeUninit::inner(if condition { true_val_1 } else { false_val_1 }) == some(if condition { saved_true_input } else { saved_false_input }); @*/\n"
+      }
+    ],
+    "inserted_ghost_regions": [
+      {
+        "byte_end_exclusive": 4686,
+        "byte_start": 4604,
+        "bytes": 82,
+        "column_end_zero_based": 82,
+        "column_start_zero_based": 0,
+        "index": 0,
+        "line_end_one_based": 155,
+        "line_start_one_based": 155,
+        "name": "before_rust_shadow",
+        "sha256": "18d3d1958060a23958349816570af74910c7dac4cbfc7733ffda1b0f52717337"
+      },
+      {
+        "byte_end_exclusive": 6214,
+        "byte_start": 6106,
+        "bytes": 108,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 1,
+        "line_end_one_based": 185,
+        "line_start_one_based": 183,
+        "name": "after_opened_payloads",
+        "sha256": "2ed099940cbc2fa7955a9b30795ad744148ae51dc47c867ad62beb2f548ae745"
+      },
+      {
+        "byte_end_exclusive": 9387,
+        "byte_start": 8826,
+        "bytes": 561,
+        "column_end_zero_based": 0,
+        "column_start_zero_based": 0,
+        "index": 2,
+        "line_end_one_based": 234,
+        "line_start_one_based": 229,
+        "name": "after_rebased_wrapper_closes",
+        "sha256": "b9ef2f4b4ef85a959b45e425b769ecf73abb67c7a5e5203e013c0d00ddc0fae4"
+      }
+    ],
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "parent_case": "parent-frame-source/nine-body-wrapper-input-relation-frame",
+    "parent_verified_sha256": "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816",
+    "parent_verified_source_transform": {
+      "accepted": false,
+      "actual_calls_and_selected_cell_ghosts_retained": true,
+      "actual_helper_proved": false,
+      "actual_runtime_unchanged": true,
+      "actual_safe_forget_linked": false,
+      "case_name": "nine-body-wrapper-input-relation-frame",
+      "classification": "SOURCE_ONLY_THREADONLY_FRAME_CAPTURE_NOT_ACCEPTED",
+      "forget_helper": {
+        "new_thread_only_contract_sha256": "de9bdbcf8d5ecfbbb1bb69381f5beae14be65f739950f0e5520c3508c7660db0",
+        "new_thread_only_contract_utf8": "/*@\nreq thread_token(?tid) &*& tid == currentThread;\n@*/\n/*@\nens thread_token(tid);\n@*/\n/*@\non_unwind_ens false;\n@*/\n",
+        "old_contract_sha256": "0e6f28833fd93eb98f1cb9ab5036f711f53c8acc750fd9dfd01b94ba926dfe60",
+        "old_contract_utf8": "/*@\nreq thread_token(?tid) &*& tid == currentThread &*& <T>.own(tid, t);\n@*/\n/*@\nens thread_token(tid) &*& <T>.own(tid, t);\n@*/\n/*@\non_unwind_ens false;\n@*/\n",
+        "own_ens_removed": true,
+        "own_requirement_removed": true,
+        "runtime_body_same_as_std_forget": true,
+        "runtime_body_sha256": "8c7142c595a5e2d93986c1d1d7acbaf9a7e577f9736d2a705d5339c9280f18d8",
+        "same_public_generic_signature": true,
+        "signature": "pub unsafe fn checked_forget_owned<T>(t: T)",
+        "unwind_false_preserved": true
+      },
+      "full_mir_refinement_and_proof": "NOT_RUN",
+      "ghost_strip_identity": true,
+      "old_r3_certificate_expected_to_refuse": true,
+      "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+      "parent_case": "r2-source/nine-body-wrapper-input-relation",
+      "parent_parent_verified_sha256": "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4",
+      "parent_verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463",
+      "removed_owner_ghost_blocks": [
+        {
+          "anchor": "        drop.drop_in_place();\n",
+          "anchor_side": "before",
+          "byte_end_exclusive": 7824,
+          "byte_start": 7339,
+          "bytes": 485,
+          "column_end_zero_based": 0,
+          "column_start_zero_based": 0,
+          "index": 0,
+          "line_end_one_based": 209,
+          "line_start_one_based": 202,
+          "name": "outer_guard_owner_branch_fold",
+          "sha256": "22746c3b0a7b0fad00cbce75075d1b4572b1a63867b122ef1852fb838baff8f6",
+          "utf8": "        /*@ if (condition) {\n                 close raw_ptr_own::<Element>()(t, true_payload);\n                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n             } else {\n                 close raw_ptr_own::<Element>()(t, false_payload);\n                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n             } @*/\n"
+        },
+        {
+          "anchor": "        crate::mem::forget(guard);\n",
+          "anchor_side": "before",
+          "byte_end_exclusive": 8224,
+          "byte_start": 8133,
+          "bytes": 91,
+          "column_end_zero_based": 0,
+          "column_start_zero_based": 0,
+          "index": 1,
+          "line_end_one_based": 216,
+          "line_start_one_based": 215,
+          "name": "saved_guard_owner_assertion",
+          "sha256": "133a5b6666a72255f001976823d816e7a98790463661002b4bf8031b2e7ba71e",
+          "utf8": "        /*@ assert <select_unpredictable::DropOnPanic<*Element>>.own(t, ?saved_guard); @*/\n"
+        },
+        {
+          "anchor": "        crate::mem::forget(guard);\n",
+          "anchor_side": "after",
+          "byte_end_exclusive": 8480,
+          "byte_start": 8259,
+          "bytes": 221,
+          "column_end_zero_based": 0,
+          "column_start_zero_based": 0,
+          "index": 2,
+          "line_end_one_based": 220,
+          "line_start_one_based": 217,
+          "name": "post_forget_guard_owner_payload_projection",
+          "sha256": "6f53c88198ee0f90f39b4cf321153829661dc425d7bdc65c0a1d927423caf8da",
+          "utf8": "        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/\n        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n"
+        }
+      ],
+      "selected_cell_never_folded_into_guard_owner": true,
+      "semantic_frontend_enabled": false,
+      "source_order": [
+        "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new",
+        "sort4_checked_as_mut_ptr",
+        "sort4_checked_pointer_drop",
+        "sort4_checked_generic_drop",
+        "checked_transmute_neo_pointer",
+        "checked_assume_init_pointer",
+        "checked_forget_owned",
+        "select_unpredictable",
+        "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
+      ],
+      "verification_accepted": false,
+      "verified_sha256": "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816",
+      "verified_source_reversible_frame_transform": true
+    },
+    "semantic_frontend_enabled": false,
+    "shadow_internal_names": {
+      "false_val": "false_val_1",
+      "true_val": "true_val_1"
+    },
+    "source_order": [
+      "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new",
+      "sort4_checked_as_mut_ptr",
+      "sort4_checked_pointer_drop",
+      "sort4_checked_generic_drop",
+      "checked_transmute_neo_pointer",
+      "checked_assume_init_pointer",
+      "checked_forget_owned",
+      "select_unpredictable",
+      "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop"
+    ],
+    "verification_accepted": false,
+    "verified_sha256": "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0",
+    "verified_source_reversible_three_late_comment_substitutions": true
+  },
+  "typed_outer_graph": {
+    "local_count": 56,
+    "block_count": 39,
+    "shared_cleanup_call_predecessors": 18,
+    "forget": {
+      "block": 18,
+      "dead_local": "_34",
+      "destination": "_35",
+      "argument": "_36",
+      "drop_flag": "_55",
+      "guard": "_30",
+      "normal": 19,
+      "cleanup": 38,
+      "operand": "Move",
+      "source_line": 208
+    },
+    "pointer_drop": {
+      "block": 16,
+      "argument": "_33",
+      "destination": "_32",
+      "normal": 17,
+      "cleanup": 38
+    },
+    "assume_init": {
+      "block": 34,
+      "argument": "_51",
+      "destination": "_0",
+      "normal": 35,
+      "cleanup": 38
+    },
+    "cleanup": {
+      "resume": 36,
+      "drop": 37,
+      "switch": 38,
+      "guard": "_30",
+      "flag": "_55"
+    },
+    "explicit_ghost_calls": [
+      [
+        0,
+        "_4",
+        1,
+        null
+      ],
+      [
+        1,
+        "_5",
+        2,
+        null
+      ],
+      [
+        6,
+        "_14",
+        7,
+        null
+      ],
+      [
+        7,
+        "_15",
+        8,
+        null
+      ],
+      [
+        12,
+        "_20",
+        13,
+        null
+      ],
+      [
+        13,
+        "_21",
+        14,
+        null
+      ],
+      [
+        20,
+        "_38",
+        21,
+        38
+      ],
+      [
+        21,
+        "_39",
+        22,
+        38
+      ],
+      [
+        22,
+        "_40",
+        23,
+        38
+      ],
+      [
+        23,
+        "_41",
+        24,
+        38
+      ],
+      [
+        24,
+        "_42",
+        25,
+        38
+      ],
+      [
+        25,
+        "_43",
+        26,
+        38
+      ],
+      [
+        26,
+        "_44",
+        27,
+        38
+      ],
+      [
+        27,
+        "_45",
+        28,
+        38
+      ],
+      [
+        28,
+        "_46",
+        29,
+        38
+      ],
+      [
+        29,
+        "_47",
+        30,
+        38
+      ],
+      [
+        30,
+        "_48",
+        31,
+        38
+      ],
+      [
+        31,
+        "_49",
+        32,
+        38
+      ],
+      [
+        32,
+        "_50",
+        33,
+        38
+      ]
+    ]
+  },
+  "expected_controls": {
+    "frame_off_fatal": "Fatal error: exception Failure(\"SORT4-SELECT-INTRINSIC: certificate mismatch: owner exact verified source SHA256\")",
+    "frame_partial_fatal": "Fatal error: exception Failure(\"SORT4-R3-FRAME-SHADOW-TEST: certificate mismatch: exact root/test opt-in pair\")"
+  },
+  "rule": "exact source-linked same FRAME plus only three reviewed late ghosts referring to actual true_val_1/false_val_1 wrapper bindings",
+  "changed_trusted_component": "vf_mir_translator.ml exact source/admission/typed CFG certificates and forget contract selection",
+  "runtime_spec_kernel_parser_exporter_refiner_modified": false,
+  "actual_helper_proved": false,
+  "actual_nested_drop_proved_in_this_profile": false,
+  "verification_accepted": false,
+  "accepted": false,
+  "capture_build": "60bf2727-0ff3-4dc0-946a-555423217eb6",
+  "capture_infra_sha": "27d7fe6cd39dffab0da9868fc283074fc66bd3d8",
+  "capture_proof_sha": "27d7fe6cd39dffab0da9868fc283074fc66bd3d8",
+  "capture_archive_sha256": "4c67905dd95218ea6813f0f1935c72133410d363e06542faa362f75d13258671"
+}

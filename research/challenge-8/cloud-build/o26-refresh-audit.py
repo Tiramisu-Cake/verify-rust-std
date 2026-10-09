@@ -1008,6 +1008,7 @@ def r3_frame_shadow_test_diagnostic(ev):
         stages['old-frame-source-shadow-off'].get('intended_theorem_negative') is False and
         stages['frame-shadow-source-off'].get('preheader_refusal') is True and
         stages['frame-shadow-source-partial'].get('preheader_refusal') is True and
+        on.get('past_three_late_wrapper_assertions') is True and
         on.get('prefix7_ordered') is True and on.get('nested_before_outer') is True and
         on.get('errors_before_nested') is False and
         on.get('helper_full_normal_unwind_observed') is True and
@@ -1300,7 +1301,7 @@ def wrapper_input_relation_frame_shadow_capture(ev):
             (case/f'{mode}-mir.txt').is_file() and
             hashlib.sha256((case/f'{mode}-mir.txt').read_bytes()).hexdigest()==(bodies.get(mode) or {}).get('whole_decoded_mir_sha256') and
             isinstance(parent_arrays[mode],list) and len(parent_arrays[mode])==9 and
-            all(row.get('index')==i and row.get('defpath')==NAMES[i] and
+            all(row.get('index')==i and row.get('defpath')==(PREFIX_CALLEES + ('select_unpredictable', '<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop'))[i] and
                 (case/row.get('file','')).is_file() and
                 hashlib.sha256((case/row['file']).read_bytes()).hexdigest()==row.get('sha256') and
                 ((i==7 and row.get('sha256')!=parent_arrays[mode][i]) or
