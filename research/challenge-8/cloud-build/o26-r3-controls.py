@@ -134,6 +134,22 @@ def shadow(a, mut, profile, case: Path, tool: Path,
     selected = mut.make_shadow(tool,
              tool / "src/rust_frontend/vf_mir/vf_mir.capnp",
              case, mutation, profile.R3_SOURCE)
+    # The generated exporter records decoded MIR in case, but its working bin
+    # contains tool symlinks. Move only that bin-bearing directory out of the
+    # packaged evidence before proof; keep every record and wrapper copy in case.
+    work_root = Path(os.environ.get("WORK_ROOT", "/workspace/smallsort-work")).resolve()
+    evidence_root = a.evidence.resolve().parents[2]
+    relative_case = case.resolve().relative_to(a.evidence.resolve())
+    destination = work_root / "r3-controls-shadows" / relative_case
+    need(work_root.is_relative_to(Path("/workspace")) and
+         not destination.is_relative_to(evidence_root) and
+         not destination.exists(),
+         "R3 shadow working bin must be fresh and outside evidence")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    need(destination.parent.resolve().is_relative_to(work_root) and
+         not destination.parent.resolve().is_relative_to(evidence_root),
+         "R3 shadow working bin parent resolves into evidence")
+    selected = Path(shutil.move(str(selected), str(destination)))
     wrapper = selected / "bin/vf-rust-mir-exporter"
     old = repr(str(mut.HERE / "capture-actual-owner-mir-mutation.py"))
     data = wrapper.read_text()
@@ -280,8 +296,19 @@ def mutated_snapshots(a, cap, profile, case: Path, source: dict,
 
 def test_tool(a, profile, r2, case: Path, rows: dict, mutation: str) -> tuple[Path, dict]:
     control_root = case.parent.parent
-    test = control_root / "test-tool"
+    need(mutation in ("outer_assume_init_move_to_copy", "forget_move_to_copy"),
+         "R3 TEST mutation path is not reviewed")
+    work_root = Path(os.environ.get("WORK_ROOT", "/workspace/smallsort-work")).resolve()
+    evidence_root = a.evidence.resolve().parents[2]
+    test = work_root / "r3-controls-tools" / mutation
+    need(work_root.is_relative_to(Path("/workspace")) and
+         not test.is_relative_to(evidence_root),
+         "R3 TEST tool must remain outside packaged evidence")
     need(not test.exists(), f"R3 {mutation} TEST tool already exists")
+    test.parent.mkdir(parents=True, exist_ok=True)
+    need(test.parent.resolve().is_relative_to(work_root) and
+         not test.parent.resolve().is_relative_to(evidence_root),
+         "R3 TEST tool parent resolves into packaged evidence")
     before = r2.tool_snapshot(a.r3_source, a.proof_root)
     shutil.copytree(a.r3_source, test, symlinks=True)
     source = (a.r3_source / TRANSLATOR).read_text()

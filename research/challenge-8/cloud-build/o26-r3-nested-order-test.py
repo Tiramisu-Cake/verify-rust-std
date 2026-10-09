@@ -233,6 +233,10 @@ def proof(a) -> dict:
               "stage": stage, "source_sha256": SOURCE,
               "verification_accepted": False, "accepted": False}
     write(a.evidence / "proof-stage.json", result)
+    proof_log = (case / "r3-nested-before-outer.log").read_text(errors="replace")
+    print("R3 NESTED FULL PROOF LOG BEGIN", flush=True)
+    print(proof_log, end="" if proof_log.endswith("\n") else "\n", flush=True)
+    print("R3 NESTED FULL PROOF LOG END", flush=True)
     return result
 
 

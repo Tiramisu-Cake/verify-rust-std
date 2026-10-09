@@ -398,6 +398,9 @@ def proofs(a, m: dict) -> dict:
     off = proof_stage(a, case, a.r3_source, "r2-old-certificate-refusal", False)
     write(a.evidence / "r2-old-certificate-stage.json", off)
     off_log = (case / "r2-old-certificate-refusal.log").read_text(errors="replace")
+    print("R3 FULL PROOF LOG BEGIN r2-old-certificate-refusal", flush=True)
+    print(off_log, end="" if off_log.endswith("\n") else "\n", flush=True)
+    print("R3 FULL PROOF LOG END r2-old-certificate-refusal", flush=True)
     fatals = [line for line in off_log.splitlines()
               if line.startswith("Fatal error:")]
     need(off.get("status") == "RAN" and off.get("exit") == 2 and
@@ -408,6 +411,9 @@ def proofs(a, m: dict) -> dict:
     positive = proof_stage(a, case, a.r3_source, "r3-positive", True)
     write(a.evidence / "r3-positive-stage.json", positive)
     log = (case / "r3-positive.log").read_text(errors="replace")
+    print("R3 FULL PROOF LOG BEGIN r3-positive", flush=True)
+    print(log, end="" if log.endswith("\n") else "\n", flush=True)
+    print("R3 FULL PROOF LOG END r3-positive", flush=True)
     prefix = [log.find("Verifying function '" + name + "'") for name in NAMES[:7]]
     outer = log.find("Verifying function 'select_unpredictable'")
     nested = log.find("Verifying function '" + NAMES[8] + "'")
