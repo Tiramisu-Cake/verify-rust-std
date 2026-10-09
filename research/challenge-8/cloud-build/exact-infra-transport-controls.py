@@ -15,6 +15,14 @@ import tempfile
 
 ROOT = "research/challenge-8/cloud-build/"
 REQUIRED = {
+    "o26-generic-new-capture": (
+        "exact-infra-transport-controls.py", "o26-recipe.py",
+        "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
+        "recipes/o26-refresh.json",
+        "run-o26-generic-new-capture.sh", "run-o26-refresh.sh",
+        "source-input.py",
+        "night-select-sort4/GENERIC-NEW-CAPTURE-CARD.md",
+    ),
     "o26-strict-cut-controls": (
         "cut-relocate-audit.py", "cut-relocate-provider-overlay.py",
         "cut-trace-provider-overlay.py", "exact-infra-transport-controls.py",
@@ -107,6 +115,19 @@ def main() -> None:
          "reviewed transitive Cloud runner dependency absent from recipe")
     restored_recipe = json.loads((a.infra / source.RECIPE_PREFIX / (a.lane + ".json")).read_text())
     need(recipe == restored_recipe, "recipe differs from restored committed object")
+    if a.lane == "o26-generic-new-capture":
+        canonical = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                              "o26-refresh.json").read_text()), "o26-refresh")
+        profile = json.loads((Path("/workspace/proof") /
+            "research/challenge-8/overnight-assume-actual/O26-REFRESH-PROFILE.json").read_text())
+        refresh = {"research/challenge-8/" + row["path"]
+                   for row in profile["refresh_patches"]}
+        generic = {"research/challenge-8/overnight-generic-select/" + name
+                   for name in ("CLOUD-GENERIC-NEW-SOURCE-CARD.md", "SOURCE-PINS.json",
+                                "prepare.py", "capture.py")}
+        need(set(canonical["proof_paths"]) | refresh | generic <=
+             set(recipe["proof_paths"]),
+             "generic capture recipe omits canonical or refresh proof dependency")
     certificate = json.loads((a.evidence / "source-input-certificate.json").read_text())
     need(certificate.get("lane") == a.lane and certificate.get("recipe") == recipe and
          certificate.get("infra", {}).get("commit") == os.environ.get("INFRA_SHA"),

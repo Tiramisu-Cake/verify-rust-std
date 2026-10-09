@@ -230,6 +230,113 @@ def helper_exit(ev,name):
     try:return int((ev/'cases'/f'{name}-helper-exit-code.txt').read_text().strip())
     except (OSError,ValueError):return None
 
+def generic_new_capture(ev):
+    name='generic-new-capture'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'accepted':False,'actual_callee_proved':False}
+    root=ev/'cases'/name
+    cert=read(root/'source-certificate.json') or {}
+    result=read(root/'capture-result.json') or {}
+    code=helper_exit(ev,name)
+    expected_std={
+      'library/core/src/hint.rs':'ce89716d46b8060db2c2da1aef1d4bcccf90e0804fc021d4470c55203501315f',
+      'library/core/src/mem/manually_drop.rs':'f9cce798828cc852c00feeea9a6218c225b68d92727a5edbddc7c08a731a4f25',
+      'library/core/src/mem/maybe_uninit.rs':'1230d267542337ee2842c29d8227cf8a58fe75c53a2a70efaee3922c4e8e25c0'}
+    def exact_file(path,expected):
+        return (isinstance(expected,str) and re.fullmatch('[0-9a-f]{64}',expected) is not None
+                and path.is_file() and digest(path)==expected)
+    source_sha=cert.get('generated_source_sha256')
+    source_ok=(cert.get('classification')=='GENERIC_NEW_SOURCE_EQUIVALENCE_CAPTURE_ONLY' and
+      cert.get('accepted') is False and cert.get('actual_callee_proved') is False and
+      cert.get('pinned_complete_source_sha256')==expected_std and
+      cert.get('source_pin_manifest_sha256')==
+        '58aae37c02eec204b3837cee653485632549b6ab221245618fa32e702ce05811' and
+      cert.get('union_signature')=='pub union MaybeUninit<T>' and
+      cert.get('union_fields_sha256')==
+        '330e4fa2bb6a58c95cdcc8155c0e3ff306f4b1e4da1d94df37a4d09d7bf6f54d' and
+      cert.get('constructor_signature')=='pub const fn new(val: T) -> MaybeUninit<T>' and
+      cert.get('constructor_body_sha256')==
+        '26a6c87090e954dea0b4a43f081516f00d2e4ba5103ac6ea1b846c4fe3f2e261' and
+      cert.get('actual_select_external_new_calls')==2 and
+      cert.get('local_copy_defid_differs_from_core') is True and
+      cert.get('local_constructor_runtime_body_exact_from_std') is True and
+      cert.get('local_union_fields_exact_from_std') is True and
+      cert.get('external_wrapper_call_unchanged') is True and
+      cert.get('ghost_strip_identity') is True and
+      cert.get('normal_unwind_contract_or_summary')=='NOT_PROVIDED' and
+      cert.get('generic_ownership_model')=='OPAQUE_UNCHANGED' and
+      cert.get('added_local_crate_attributes')==['#![feature(transparent_unions)]'] and
+      exact_file(root/'verified/lib.rs',source_sha) and
+      exact_file(root/'original/lib.rs',source_sha) and
+      exact_file(root/'source-certificate.json',result.get('source_certificate_sha256')) and
+      result.get('source_sha256')==source_sha)
+    stages=result.get('stages') or {}
+    stage_ok=(all(isinstance(stages.get(s),dict) and stages[s].get('exit')==0 and
+                  stages[s].get('source_exact') is True for s in
+                  ('normal-export','normal-decode','readonly-export',
+                   'readonly-decode','refinement')) and
+              result.get('complete_capture') is True and
+              result.get('classification')=='SOURCE_MIR_CAPTURE_CANDIDATE_REVIEW_REQUIRED')
+    mir=result.get('mir') or {}
+    artifacts=result.get('raw_artifact_sha256') or {}
+    body_counts={'new':1,'local_new_call':1,'external_new_call':1}
+    modes_ok=True
+    observed_details=True
+    retained_local_mir=True
+    for mode in ('normal','readonly'):
+        row=mir.get(mode) or {}
+        bin_path=root/f'{mode}-mir.bin'
+        text_path=root/f'{mode}-mir.txt'
+        modes_ok=(modes_ok and row.get('observation')=='OBSERVED' and
+                  row.get('selected_body_counts')==body_counts and
+                  all(row.get('selected_body_observation',{}).get(n)=='OBSERVED_UNIQUE'
+                      for n in body_counts) and
+                  isinstance(row.get('all_bodies'),list) and
+                  len(row['all_bodies'])==len(row.get('all_def_paths',[])) and
+                  exact_file(bin_path,artifacts.get(bin_path.name)) and
+                  exact_file(text_path,artifacts.get(text_path.name)) and
+                  artifacts.get(text_path.name)==row.get('full_decoded_sha256') and
+                  text_path.stat().st_size==row.get('full_decoded_bytes')
+                  if bin_path.is_file() and text_path.is_file() else False)
+        targets=row.get('external_wrapper_nested_target_def_paths') or []
+        call_lines=row.get('external_wrapper_call_substitution_lines') or []
+        union_lines=row.get('union_declaration_lines') or []
+        field_move=row.get('local_constructor_field_and_move_lines') or []
+        normal_unwind=row.get('local_constructor_normal_unwind_lines') or []
+        observed_details=(observed_details and isinstance(targets,list) and
+          any('MaybeUninit' in path and path.endswith('new') and
+              'source_copy' not in path for path in targets if isinstance(path,str)) and
+          isinstance(call_lines,list) and
+          any('genericArgs' in line or 'substs' in line for line in call_lines) and
+          isinstance(union_lines,list) and
+          any('union' in line.lower() for line in union_lines) and
+          any('MaybeUninit' in line for line in union_lines))
+        retained_local_mir=(retained_local_mir and isinstance(field_move,list) and
+          any('field' in line.lower() for line in field_move if isinstance(line,str)) and
+          any('move' in line.lower() for line in field_move if isinstance(line,str)) and
+          isinstance(normal_unwind,list) and
+          any(any(token in line for token in ('target =','goto =','return ='))
+              for line in normal_unwind if isinstance(line,str)) and
+          any('unwindAction' in line for line in normal_unwind if isinstance(line,str)))
+    complete=(code==0 and source_ok and stage_ok and modes_ok and
+              observed_details and retained_local_mir and
+              result.get('local_constructor_retained_mir_observed') is True and
+              result.get('accepted') is False and
+              result.get('actual_callee_proved') is False and
+              result.get('actual_callee_linkage')=='OPEN' and
+              result.get('verifast_body_proof')=='NOT_RUN_SOURCE_MIR_DIAGNOSTIC_ONLY' and
+              result.get('verifast_dead_code_check')=='UNOBSERVED_NOT_RUN_NOT_DISABLED')
+    return {'requested':True,'complete':complete,
+      'classification':'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if complete else 'INCONCLUSIVE',
+      'helper_exit':code,'source_certificate_complete':source_ok,
+      'full_normal_readonly_mir_refinement_complete':stage_ok and modes_ok,
+      'external_call_union_inventory_observed':observed_details,
+      'local_constructor_field_move_normal_unwind_observed':retained_local_mir,
+      'accepted':False,'actual_callee_proved':False,
+      'generic_helper_closure_credited':False,
+      'verifast_dead_code_check':'UNOBSERVED_NOT_RUN_NOT_DISABLED'}
+
 def coordination_regression(ev):
     name='coordination-regression'
     if not (ev/'cases'/f'{name}-request.json').exists():
@@ -687,12 +794,14 @@ def main():
     ast_probe=sort4_ast_probe(ev)
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
     input_relation=wrapper_input_relation_capture(ev,cap)
+    generic_new=generic_new_capture(ev)
     rebase_profile=wrapper_profile(ev)
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
     strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
     strict_false_posts_lane=os.environ.get('LANE')=='o26-strict-cut-false-posts'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
+    generic_new_lane=os.environ.get('LANE')=='o26-generic-new-capture'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
                            not owner['requested'] and not sort4['requested'] and
@@ -726,6 +835,13 @@ def main():
                               not a1['requested'] and not coordination['requested'] and
                               not nested_order['requested'] and not wrapper_rebase['requested'] and
                               not rebase_profile['requested'])
+    generic_new_requested=(generic_new['requested'] and
+                           not cut['requested'] and not strict_cut['requested'] and
+                           not false_posts['requested'] and not input_relation['requested'] and
+                           not ast_probe['requested'] and not owner['requested'] and
+                           not sort4['requested'] and not a1['requested'] and
+                           not coordination['requested'] and not nested_order['requested'] and
+                           not wrapper_rebase['requested'] and not rebase_profile['requested'])
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
                          (not owner['requested'] or owner['complete']) and
                          (not sort4['requested'] or sort4['complete']) and
@@ -738,12 +854,14 @@ def main():
                          (not ast_probe['requested'] or ast_probe['complete']) and
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
                          (not input_relation['requested'] or input_relation['complete']) and
+                         (not generic_new['requested'] or generic_new['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
                          (not independent or independent_requested) and
                          (not recovery or recovery_requested) and
                          (not strict_cut_lane or strict_cut_requested) and
                          (not strict_false_posts_lane or strict_false_posts_requested) and
-                         (not input_relation_lane or input_relation_requested))
+                         (not input_relation_lane or input_relation_requested) and
+                         (not generic_new_lane or generic_new_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
     # component 20 A1 negatives are still pending. These cannot be inferred from
@@ -753,11 +871,13 @@ def main():
                          strict_cut['requested'] or
                          false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
-                         input_relation['requested'] or rebase_profile['requested'])
+                         input_relation['requested'] or generic_new['requested'] or
+                         rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
               not recovery and not strict_cut_lane and
-              not strict_false_posts_lane and not input_relation_lane)
+              not strict_false_posts_lane and not input_relation_lane and
+              not generic_new_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
@@ -765,10 +885,12 @@ def main():
          'STRICT_CUT_CONTROLS_DISCOVERY_COMPLETE' if strict_cut_lane and diagnostic_complete else
          'STRICT_CUT_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_false_posts_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
+         'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
       'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible,
+      'generic_constructor_helper_proved':False,
       'source_mir_refinement_complete':pair,'profile_pins_complete':profile_ok,
       'full_proof_exit':stage.get('exit'),'prefix_callees_before_outer':callees_before_outer,
       'nested_drop_header_visible':nested_visible,
@@ -781,10 +903,12 @@ def main():
       'sort4_ast_probe_diagnostic':ast_probe,
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
       'wrapper_input_relation_source_capture_diagnostic':input_relation,
+      'generic_new_source_mir_capture_diagnostic':generic_new,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
       'independent_test_scope_complete':independent_requested if independent else False,
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
+      'generic_new_source_scope_complete':generic_new_requested if generic_new_lane else False,
       'strict_cut_controls_scope_complete':strict_cut_requested if strict_cut_lane else False,
       'strict_cut_false_posts_scope_complete':strict_false_posts_requested if strict_false_posts_lane else False,
       'strict_cut_controls_diagnostic':strict_cut,

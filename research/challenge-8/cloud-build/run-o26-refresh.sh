@@ -39,6 +39,9 @@ wrapper_rebase_mode=${O26_WITH_WRAPPER_REBASE_CAPTURE:-0}
 input_relation_mode=${O26_WITH_WRAPPER_INPUT_RELATION_CAPTURE:-0}
 [[ "$input_relation_mode" == 0 || "$input_relation_mode" == 1 ]] || exit 2
 [[ "$input_relation_mode" == 0 || "${LANE:-}" == o26-input-relation-capture ]] || exit 2
+generic_new_mode=${O26_WITH_GENERIC_NEW_CAPTURE:-0}
+[[ "$generic_new_mode" == 0 || "$generic_new_mode" == 1 ]] || exit 2
+[[ "$generic_new_mode" == 0 || "${LANE:-}" == o26-generic-new-capture ]] || exit 2
 wrapper_profile_mode=${O26_WITH_WRAPPER_REBASE_PROFILE:-0}
 [[ "$wrapper_profile_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
 comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
@@ -265,6 +268,24 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+
+if [[ "$generic_new_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/generic-new-capture-request.json"
+  generic_new_status=0
+  stage generic-new-prepare python3 \
+    "$proof_root/research/challenge-8/overnight-generic-select/prepare.py" \
+    --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
+    --evidence "$ev/cases/generic-new-capture" || generic_new_status=$?
+  if [[ "$generic_new_status" == 0 ]]; then
+    stage generic-new-capture python3 \
+      "$proof_root/research/challenge-8/overnight-generic-select/capture.py" \
+      --cloud-dir "$cloud_dir" --evidence "$ev/cases/generic-new-capture" \
+      --tool-home "$source_home" --compiler-sysroot "$compiler_sysroot" \
+      --deadline-epoch "$deadline" || generic_new_status=$?
+  fi
+  printf '%s\n' "$generic_new_status" \
+    > "$ev/cases/generic-new-capture-helper-exit-code.txt"
+fi
 
 if [[ "$wrapper_profile_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/wrapper-profile-request.json"
