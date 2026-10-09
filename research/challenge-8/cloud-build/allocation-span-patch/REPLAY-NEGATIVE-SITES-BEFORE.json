@@ -1,0 +1,27 @@
+{
+  "kind": "SAVED_EVIDENCE_REPLAY_BEFORE_AUDIT_FIX",
+  "build_id": "11cc507f-231a-4b50-81ab-30d3389cd104",
+  "results": {
+    "missing_held_owner": {
+      "immutable_log_sha256": "67574ab6d838ff0fc8cb998668d5c5202684266dfaa2c364ed785c2e05d02d82",
+      "observed_line": 16,
+      "old_expected_lines": [
+        58,
+        70
+      ],
+      "old_collector_site_matches": false,
+      "raw_classification": "EXPECTED_REJECTION"
+    },
+    "double_physical_fbc": {
+      "immutable_log_sha256": "15b4edec5e644fbc9b1d1fd4327ac7e3e5f31fb87ddbf68a3291fe85cd12ec23",
+      "observed_line": 5,
+      "old_expected_lines": [
+        72
+      ],
+      "old_collector_site_matches": false,
+      "raw_classification": "EXPECTED_REJECTION"
+    }
+  },
+  "compiler_verifier_execution": false,
+  "proof_credit": false
+}

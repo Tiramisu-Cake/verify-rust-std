@@ -224,6 +224,35 @@ OTHER_ARTIFACTS = {
 SPAN_CONTROL_NAMES = {"span_positive", "span_overlap", "span_raw_arbitrary", "span_zero_extent", "span_retired_local_reuse"}
 
 
+def onecell_negative_site_matches(name: str, source: str, error: str,
+                                  expected_lines: set[int]) -> bool:
+    location = re.search(r"verified/lib\.rs\((\d+),", error)
+    if location is None:
+        return False
+    line = int(location.group(1))
+    if line in expected_lines:
+        return True
+    lines = source.splitlines()
+    if name == "missing_held_owner":
+        sites = [i + 1 for i, text in enumerate(lines)
+                 if text.strip() == "<T>.own(t, current);"]
+        return (sites == [line] and
+                "No matching heap chunks: own(T_typeid)" in error)
+    if name == "double_physical_fbc":
+        starts = [i for i, text in enumerate(lines)
+                  if text == "struct CopyOnDrop<T> {"]
+        if len(starts) != 1:
+            return False
+        start = starts[0]
+        fields = ("    src: *const T,", "    dst: *mut T,", "    len: usize,")
+        if tuple(lines[start + 1:start + 4]) != fields:
+            return False
+        for offset, field in enumerate(("src", "dst", "len"), 2):
+            if line == start + offset:
+                return f"No matching heap chunks: CopyOnDrop_{field}<T>(" in error
+    return False
+
+
 def audit_span_controls(base: Path, aggregate: dict, profile: str) -> tuple[bool, bool]:
     summary = json.loads((base / "span-results.json").read_text())
     valid = (summary == aggregate.get("allocation_span_controls") and
@@ -1490,7 +1519,8 @@ def audit(root: Path, selection_path: Path, run_status: int,
                             rows_valid = (rows_valid and row.get("classification") ==
                                           "EXPECTED_REJECTION" and stages.get("verifast") == 1 and
                                           error_line is not None and
-                                          int(error_line.group(1)) in expected_lines and
+                                          onecell_negative_site_matches(
+                                              name, verified.read_text(), log_errors[0], expected_lines) and
                                           predicate in log_errors[0])
                     if not rows_valid:
                         break

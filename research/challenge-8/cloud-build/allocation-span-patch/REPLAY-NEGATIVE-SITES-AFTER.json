@@ -1,0 +1,29 @@
+{
+  "kind": "SAVED_EVIDENCE_REPLAY_AFTER_AUDIT_FIX",
+  "build_id": "11cc507f-231a-4b50-81ab-30d3389cd104",
+  "collector_sha256": "c938254816595da963c2d718aa85a4d327ed8ff1b63e09b8baeda58857e2710b",
+  "results": {
+    "after_fbc_false": {
+      "matched": true,
+      "wrong_line_rejected": true,
+      "wrong_predicate_rejected": "NOT_APPLICABLE",
+      "log_sha256": "1c912bf5f1c4042e323fabef05e4d428c3645bd9e5c0d00192c1b577c47f8d12"
+    },
+    "missing_held_owner": {
+      "matched": true,
+      "wrong_line_rejected": true,
+      "wrong_predicate_rejected": true,
+      "log_sha256": "67574ab6d838ff0fc8cb998668d5c5202684266dfaa2c364ed785c2e05d02d82"
+    },
+    "double_physical_fbc": {
+      "matched": true,
+      "wrong_line_rejected": true,
+      "wrong_predicate_rejected": true,
+      "log_sha256": "15b4edec5e644fbc9b1d1fd4327ac7e3e5f31fb87ddbf68a3291fe85cd12ec23"
+    }
+  },
+  "scope": "exact raw error sites and immutable verified source only; no full audit completion claim",
+  "compiler_verifier_execution": false,
+  "new_proof_credit": false,
+  "no_go_unchanged": true
+}
