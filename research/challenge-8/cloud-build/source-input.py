@@ -266,7 +266,13 @@ def make_payload(repo: Path, infra_sha: str, proof_sha: str, lane: str) -> bytes
                     pool[oid] = item
                 record["objects"] = [{"oid": item["oid"]} for item in record["objects"]]
             payload["schema"] = SHARED_SCHEMA
-            payload["shared_objects"] = [pool[oid] for oid in sorted(pool)]
+            payload["shared_objects"] = []
+            for oid in sorted(pool):
+                item = dict(pool[oid])
+                raw_object = base64.b64decode(item["data_base64"], validate=True)
+                item["data_base64"] = base64.b64encode(gzip.compress(raw_object, mtime=0)).decode("ascii")
+                item["compression"] = "gzip"
+                payload["shared_objects"].append(item)
     raw = (json.dumps(payload, sort_keys=True, separators=(",", ":")) + "\n").encode()
     buffer = io.BytesIO()
     with gzip.GzipFile(fileobj=buffer, mode="wb", filename="",
@@ -333,7 +339,11 @@ def restore_repo(record: dict, destination: Path, allowed_paths: list[str]) -> l
         object_ids.add(oid)
         try:
             data = base64.b64decode(item.get("data_base64", ""), validate=True)
-        except (ValueError, TypeError):
+            if item.get("compression") == "gzip":
+                data = gzip.decompress(data)
+            elif item.get("compression") is not None:
+                stop(f"unsupported Git object compression: {oid}")
+        except (ValueError, TypeError, OSError, EOFError):
             stop(f"invalid base64 for Git object {oid}")
         if len(data) != item.get("size") or git_oid(kind, data) != oid:
             stop(f"Git object identity check failed: {oid}")

@@ -5307,3 +5307,10 @@ mode/path bytes and HEAD. Pool must equal union of all three original closures;
 no additional objects or missing references. Legacy v1 remains readable and is
 used when no baseline. This is transport only, no verifier semantics or source
 change. Fresh actual O26 restore is the positive gate; old A/B/C need no replay.
+
+Second pre-dispatch refusal also0s: shared-pool archive704024bytes still exceeds
+transport. Original-object gzip before base64 reduces measured same input to
+471949bytes; each decompressed raw object retains original type/size/Git ID check.
+Source substitution chunk3900 (below API4000) with180part cap leaves margin;
+config evidence transport remains3500. No input removed or source compressed
+lossily. New Cloud restore checks exact original bytes; no verifier profile change.
