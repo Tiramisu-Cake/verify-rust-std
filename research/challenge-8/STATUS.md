@@ -2,8 +2,11 @@
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **2433/10800 elapsed
 Cloud seconds**, remaining **8367**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Foreign6c560082 owns the
-common slot; next11group resource/modular-control recipe ready, obey alternation.
+Branch `overnight/merge-26.10`; active own Build
+**60fdb811-f832-4076-87e0-9fc8043fb8ec**, proof/infra
+**e2453336c0a6eb1c2b2d30a624cd066599bbb505**,11resource/modular-control groups.
+Config SHAb116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe.
+Timeout1740s +queue60 envelope1800 reserved; common alternating lock.
 [Phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
 [commands](merge/cloud-build/README.md), [ledger](cloud-build/night-merge/BUDGET.json).
 
@@ -52,9 +55,10 @@ capture and marker-origin invariant unresolved, not covered by green controls.
 Generic/ZST, arbitrary-n actual/caller/C1count-n/F-frame, Freeze/share and ownership
 transfer OPEN. Source-level alias observation is not public-caller counterexample.
 
-Next permitted action: commit/push calibrated modular control and prepared
-11group recipe, submit NEW exact-SHA Cloud Build via common coordinator after
-foreign turn, inspect full proofs/negative locations and continue within budget.
+Next permitted action: monitor exact active60fdb811, download/verify complete
+metadata/archive/separate text evidence, inspect full proofs/negative locations
+and continue within budget. Actual600s operational draft is a separate next
+experiment; no current result or weakened gate follows from a changed limit.
 No local executable verification/build/tests or Actions dispatch. Accepted
 migration A/B/C and constructor are not repeated.
 

@@ -5638,3 +5638,13 @@ controls. Expected intended false only at that exact target; frontend/setup/
 helper/timeout/other predicate failures remainINCONCLUSIVE. Fresh PASS allows
 component-control acceptance only, not wholeprofile/actual Challenge. Foreign
 6c560082 occupies common slot; next own request remains ready and alternates.
+
+Resource/modular-control exact dispatch: proof/infra
+e2453336c0a6eb1c2b2d30a624cd066599bbb505,
+Build60fdb811-f832-4076-87e0-9fc8043fb8ec,
+token dispatch-66104b03eecb4b048df31489e6bc6a3c,
+configSHAb116a1dae4da3497f3079194baeff229105a3d0417c2ecacf044ef39e4080bfe.
+Remote exact SHA confirmed; foreign6c560082 terminal reconciled before common
+submit.11groups (9resources/admission/stock plus modular positive/calibrated
+matchedentry),runtimeprobe false,timeout1740+queue60/envelope1800. Own2433charged/
+8367remaining, new envelope reserved; no result yet. Actual body not selected.
