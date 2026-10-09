@@ -35,6 +35,11 @@ VERIFAST_START='2026-10-09T15:27:32Z'
 VERIFAST_MAIN_DEADLINE='2026-10-09T16:27:32Z'
 VERIFAST_DEADLINE='2026-10-09T16:57:32Z'
 VERIFAST_LANES=frozenset(('verifast-mdnew-cfg',))
+VERIFAST_VALIDATION_PHASE='VERIFAST-MDNEW-VALIDATION-CLOUD-2026-10-09'
+VERIFAST_VALIDATION_START='2026-10-09T16:56:51Z'
+VERIFAST_VALIDATION_MAIN_DEADLINE='2026-10-09T17:56:51Z'
+VERIFAST_VALIDATION_DEADLINE='2026-10-09T18:26:51Z'
+VERIFAST_VALIDATION_LANES=frozenset(('verifast-mdnew-cfg',))
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -252,12 +257,15 @@ def authorized_phase(a,ledger):
  if a.phase_id==VERIFAST_PHASE:
   if (ledger['ceiling_build_seconds']!=3600 or a.owner!='verifast' or ledger.get('owner')!='verifast' or set(ledger['allowed_lanes'])!=VERIFAST_LANES or ledger.get('start_utc')!=VERIFAST_START or ledger.get('main_deadline_utc')!=VERIFAST_MAIN_DEADLINE or ledger.get('deadline_utc')!=VERIFAST_DEADLINE):raise SystemExit('Verifast phase requires its exact separate account, owner, window and lanes')
   if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(VERIFAST_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Verifast main window ended; no new submissions or requests')
+ if a.phase_id==VERIFAST_VALIDATION_PHASE:
+  if (ledger['ceiling_build_seconds']!=3600 or a.owner!='verifast' or ledger.get('owner')!='verifast' or set(ledger['allowed_lanes'])!=VERIFAST_VALIDATION_LANES or ledger.get('start_utc')!=VERIFAST_VALIDATION_START or ledger.get('main_deadline_utc')!=VERIFAST_VALIDATION_MAIN_DEADLINE or ledger.get('deadline_utc')!=VERIFAST_VALIDATION_DEADLINE):raise SystemExit('Verifast validation requires its exact separate account, owner, window and lanes')
+  if datetime.datetime.now(datetime.timezone.utc)>=datetime.datetime.fromisoformat(VERIFAST_VALIDATION_MAIN_DEADLINE.replace('Z','+00:00')):raise SystemExit('Verifast validation main window ended; no new submissions or requests')
  if a.phase_id==C1_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or set(ledger['allowed_lanes'])!=C1_LANES or ledger.get('start_utc')!=C1_START or ledger.get('main_deadline_utc')!=C1_MAIN_DEADLINE or ledger.get('deadline_utc')!=C1_DEADLINE):raise SystemExit('C1 phase requires its exact separate account, owner, window and lane')
  if a.phase_id==AFTERNOON_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=AFTERNOON_LANES):raise SystemExit('Afternoon select phase requires its separate 3600-second account, exact owner and approved lanes')
  if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((VERIFAST_DEADLINE if a.phase_id==VERIFAST_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((VERIFAST_VALIDATION_DEADLINE if a.phase_id==VERIFAST_VALIDATION_PHASE else VERIFAST_DEADLINE if a.phase_id==VERIFAST_PHASE else C1_DEADLINE if a.phase_id==C1_PHASE else NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
