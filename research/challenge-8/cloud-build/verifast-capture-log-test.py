@@ -2,7 +2,9 @@
 import hashlib,json,subprocess,tempfile
 from pathlib import Path
 runner=Path(__file__).with_name('run-verifast-mdnew-cfg.sh').read_text()
-function=runner[runner.index('capture_case() {'):runner.index('# Run the same five source bytes')]
+start=runner.index('capture_case() {')
+end=runner.index('\nif [[ "$lane" == verifast-mdnew-regressions ]]; then',start)
+function=runner[start:end]
 with tempfile.TemporaryDirectory(prefix='mdnew-capture-log-') as td:
  root=Path(td);cases=root/'cases';all_logs=root/'logs'
  for side in ('baseline','candidate'):
