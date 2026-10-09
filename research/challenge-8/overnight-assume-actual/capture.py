@@ -143,8 +143,11 @@ def main() -> None:
     parser.add_argument("--deadline-epoch", type=int, required=True)
     parser.add_argument("--fingerprint", action="store_true",
                         help="diagnostic refusal dump only, after paired MIR/refinement")
-    parser.add_argument("--wrapper-rebase", action="store_true",
-                        help="separate source-only wrapper-owner ghost candidate")
+    source_modes = parser.add_mutually_exclusive_group()
+    source_modes.add_argument("--wrapper-rebase", action="store_true",
+                              help="separate source-only wrapper-owner ghost candidate")
+    source_modes.add_argument("--wrapper-input-relation", action="store_true",
+                              help="separate source-only selected-input equality diagnostic")
     args = parser.parse_args()
     PREP.require((os.environ.get("GITHUB_ACTIONS"),
                   os.environ.get("RUNNER_ENVIRONMENT"),
@@ -153,9 +156,14 @@ def main() -> None:
                  "nine-body capture requires GitHub-hosted Linux")
     evidence = args.evidence.resolve()
     clear_semantic_opt_ins()
-    preparer = (load(HERE / "prepare-wrapper-rebase.py",
-                     "nine_body_wrapper_rebase_source")
-                if args.wrapper_rebase else PREP)
+    if args.wrapper_input_relation:
+        preparer = load(HERE / "prepare-wrapper-input-relation.py",
+                        "nine_body_wrapper_input_relation_source")
+    elif args.wrapper_rebase:
+        preparer = load(HERE / "prepare-wrapper-rebase.py",
+                        "nine_body_wrapper_rebase_source")
+    else:
+        preparer = PREP
     source = preparer.write_case(REPO, evidence)
     case = evidence / preparer.CASE_NAME
     args.first_barrier = False
@@ -189,6 +197,8 @@ def main() -> None:
     }
     if args.wrapper_rebase:
         record["source_mode"] = "wrapper-rebase-source-only"
+    elif args.wrapper_input_relation:
+        record["source_mode"] = "wrapper-input-relation-source-only"
     (evidence / "summary.json").write_text(json.dumps(
         record, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"classification": record["classification"],
