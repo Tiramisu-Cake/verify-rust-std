@@ -148,3 +148,14 @@ returns guard fields/padding but no payload. Strong actual Drop leaves arrays/
 owners at mandatory compatibility leak-check. This is a paired-contract blocker,
 not grounds to weaken posts or leaks. Source-specific contract/glue needs its own
 semantic card, actual callee proof, reachable own construction and exact controls.
+
+Buildb4b47061-451d-4b59-8223-d3d06aea31c8 FAILURE100charged, proof/infra
+cd93e557c0b9e46ceae09455c0dfde15a75252d6,09:35:19.727–09:36:59.398UTC.
+Selection unsorted after group rename, rejected before provider/verifier. All
+proof outcomes NOT_RUN/INCONCLUSIVE; no negativecredit. Archive
+8307679f661f443ff4538d87c4f735cf9551946351200f5f9897f53668e7eca4.
+Fresh descendant sorts groups; static full schema/knownnames/dependencies/smoke/
+recipeclosure/allPythonAST checked, not just membership. No theorem weakened.
+913charged,2687remaining; same9groups/hypothesis, timeout1080+60.
+Rejected explicit-Drop-signature replacement design stored separately; canonical
+FBC/own applies safeDrop and cannot be bypassed by stronger conditionalreq.
