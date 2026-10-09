@@ -1,3 +1,7 @@
+# Current operating procedure
+
+Use [WORK-POLICY](WORK-POLICY.md), [ADOPTION](ADOPTION.md), [AGENT-RUNBOOK](AGENT-RUNBOOK.md) and current [STATUS](STATUS.md). Historical onboarding/Run/Next instructions below are superseded; subject index and run history remain preserved.
+
 Current merge continuation: [NIGHT-MERGE-CLOUD-2026-10-09](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
 separate Cloud budget/shared lock, retained stack/G2/actual2/3 candidates.
 [STATUS](STATUS.md) is the current checkpoint.
