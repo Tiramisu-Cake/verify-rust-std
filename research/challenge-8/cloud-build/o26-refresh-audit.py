@@ -690,6 +690,214 @@ def wrapper_input_relation_capture(ev,canonical):
             'observed_unit_sha256':current_hashes.get('unit'),
             'observed_body7_sha256':current_hashes.get('body-7')}
 
+def wrapper_input_relation_frame_capture(ev,canonical):
+    name='wrapper-input-relation-frame-capture'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'source_only':True,'accepted':False}
+    root=ev/'cases'/name
+    result=read(root/'summary.json') or {}
+    if not isinstance(result,dict):result={}
+    code=helper_exit(ev,name)
+    case=root/'nine-body-wrapper-input-relation-frame'
+    source=result.get('source') or {}
+    if not isinstance(source,dict):source={}
+    canonical_source=canonical.get('source') or {}
+    if not isinstance(canonical_source,dict):canonical_source={}
+    fingerprint=result.get('fingerprint') or {}
+    if not isinstance(fingerprint,dict):fingerprint={}
+    snapshots=fingerprint.get('snapshots') or {}
+    canonical_fingerprint=canonical.get('fingerprint') or {}
+    if not isinstance(canonical_fingerprint,dict):canonical_fingerprint={}
+    prior=canonical_fingerprint.get('snapshots') or {}
+    if not isinstance(snapshots,dict):snapshots={}
+    if not isinstance(prior,dict):prior={}
+    labels={'unit',*(f'body-{i}' for i in range(9))}
+    verified=case/'verified/lib.rs'; original=case/'original/lib.rs'
+    parent=root/'r2-source/nine-body-wrapper-input-relation/verified/lib.rs'
+    parent_original=root/'r2-source/nine-body-wrapper-input-relation/original/lib.rs'
+    parent_summary=read(root/'r2-source/source-summary.json') or {}
+    if not isinstance(parent_summary,dict):parent_summary={}
+    data=verified.read_bytes() if verified.is_file() else b''
+    parent_data=parent.read_bytes() if parent.is_file() else b''
+    old_contract=(b'/*@\nreq thread_token(?tid) &*& tid == currentThread &*& <T>.own(tid, t);\n@*/\n'
+                  b'/*@\nens thread_token(tid) &*& <T>.own(tid, t);\n@*/\n'
+                  b'/*@\non_unwind_ens false;\n@*/\n')
+    new_contract=(b'/*@\nreq thread_token(?tid) &*& tid == currentThread;\n@*/\n'
+                  b'/*@\nens thread_token(tid);\n@*/\n'
+                  b'/*@\non_unwind_ens false;\n@*/\n')
+    helper_signature=b'pub unsafe fn checked_forget_owned<T>(t: T)\n'
+    helper_body=b'{\n    let _ = ManuallyDrop::new(t);\n}'
+    blocks=(
+      ('outer_guard_owner_branch_fold',
+       b'        /*@ if (condition) {\n                 close raw_ptr_own::<Element>()(t, true_payload);\n'
+       b'                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n'
+       b'             } else {\n                 close raw_ptr_own::<Element>()(t, false_payload);\n'
+       b'                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n'
+       b'             } @*/\n', b'        drop.drop_in_place();\n', 'before'),
+      ('saved_guard_owner_assertion',
+       b'        /*@ assert <select_unpredictable::DropOnPanic<*Element>>.own(t, ?saved_guard); @*/\n',
+       b'        crate::mem::forget(guard);\n', 'before'),
+      ('post_forget_guard_owner_payload_projection',
+       b'        /*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/\n'
+       b'        /*@ assert *saved_guard.inner |-> ?selected_payload; @*/\n'
+       b'        /*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/\n',
+       b'        crate::mem::forget(guard);\n', 'after'),
+    )
+    removed=source.get('removed_owner_ghost_blocks') or []
+    def removal_record_ok(index, spec, row):
+        expected_name,expected,anchor,side=spec
+        if not isinstance(row,dict) or expected not in parent_data or anchor not in parent_data:
+            return False
+        ordered=(parent_data.index(expected)<parent_data.index(anchor)
+                 if side=='before' else parent_data.index(expected)>parent_data.index(anchor))
+        return (row.get('index')==index and row.get('name')==expected_name and
+            row.get('utf8')==expected.decode() and row.get('bytes')==len(expected) and
+            row.get('sha256')==hashlib.sha256(expected).hexdigest() and
+            row.get('byte_start')==parent_data.index(expected) and
+            row.get('byte_end_exclusive')==row.get('byte_start')+len(expected) and
+            row.get('anchor')==anchor.decode() and row.get('anchor_side')==side and ordered)
+    removal_ok=(len(removed)==len(blocks) and all(
+        removal_record_ok(index,spec,row)
+        for index,(spec,row) in enumerate(zip(blocks,removed))))
+    transformed=parent_data
+    for _,block,_,_ in blocks:
+        if transformed.count(block)!=1:
+            transformed=b''; break
+        transformed=transformed.replace(block,b'',1)
+    if transformed and transformed.count(old_contract)==1:
+        transformed=transformed.replace(old_contract,new_contract,1)
+    else:
+        transformed=b''
+    runtime_source=re.sub(rb'(?m)^[ \t]*/\*@.*?@\*/(?:\r?\n)?',b'',data,flags=re.S)
+    runtime_source=re.sub(rb'/\*@.*?@\*/(?:\r?\n)?',b'',runtime_source,flags=re.S)
+    runtime_source=re.sub(rb'(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)',b'',runtime_source)
+    original_data=original.read_bytes() if original.is_file() else b''
+    runtime_tokens=(b'crate::intrinsics::select_unpredictable(',
+                    b'drop.drop_in_place();',b'crate::mem::forget(guard);',
+                    b'.assume_init()')
+    runtime_unchanged=(original.is_file() and runtime_source==original_data and
+        hashlib.sha256(original_data).hexdigest()=='466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5' and
+        all(data.count(token)==parent_data.count(token) for token in runtime_tokens) and
+        data.count(b'crate::intrinsics::select_unpredictable(')==3 and
+        data.count(b'crate::mem::forget(guard);')==1 and
+        data.count(b'drop.drop_in_place();')==1)
+    final_assertion_markers=(
+        b'/*@ assert true_payload == saved_true_input; @*/',
+        b'/*@ assert false_payload == saved_false_input; @*/',
+        b'/*@ assert std::mem::MaybeUninit::inner(current_true_wrapper) == some(saved_true_input); @*/',
+        b'/*@ assert std::mem::MaybeUninit::inner(current_false_wrapper) == some(saved_false_input); @*/',
+        b'/*@ assert std::mem::MaybeUninit::inner(true_val) == some(saved_true_input); @*/',
+        b'/*@ assert std::mem::MaybeUninit::inner(false_val) == some(saved_false_input); @*/',
+        b'/*@ assert std::mem::MaybeUninit::inner(if condition { true_val } else { false_val }) == some(if condition { saved_true_input } else { saved_false_input }); @*/')
+    final_assertions_preserved=(transformed==data and all(
+        parent_data.count(marker)==data.count(marker)>0 for marker in final_assertion_markers))
+    parent_exact=(source.get('parent_case')=='r2-source/nine-body-wrapper-input-relation' and
+        source.get('parent_verified_sha256')=='a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463' and
+        source.get('parent_parent_verified_sha256')=='11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4' and
+        parent.is_file() and parent_original.is_file() and
+        hashlib.sha256(parent_data).hexdigest()==source.get('parent_verified_sha256') and
+        parent_summary.get('verified_sha256')==source.get('parent_verified_sha256') and
+        parent_summary.get('parent_verified_sha256')==source.get('parent_parent_verified_sha256') and
+        parent_original.read_bytes()==original.read_bytes() if original.is_file() else False)
+    helper=source.get('forget_helper') or {}
+    helper_exact=(isinstance(helper,dict) and
+        helper.get('signature')=='pub unsafe fn checked_forget_owned<T>(t: T)' and
+        helper.get('old_contract_utf8')==old_contract.decode() and
+        helper.get('new_thread_only_contract_utf8')==new_contract.decode() and
+        helper.get('runtime_body_same_as_std_forget') is True and
+        helper.get('own_requirement_removed') is True and
+        helper.get('own_ens_removed') is True and
+        helper.get('unwind_false_preserved') is True and
+        helper.get('same_public_generic_signature') is True and
+        helper.get('runtime_body_sha256')=='8c7142c595a5e2d93986c1d1d7acbaf9a7e577f9736d2a705d5339c9280f18d8' and
+        parent_data.count(old_contract)==1 and parent_data.count(new_contract)==0 and
+        parent_data.count(helper_signature+old_contract+helper_body+b'\n')==1 and
+        data.count(helper_signature+new_contract+helper_body+b'\n')==1 and
+        data.count(old_contract)==0 and data.count(new_contract)==1 and
+        data.count(helper_signature)==1 and data.count(helper_body)==1)
+    source_ok=(source.get('classification')=='SOURCE_ONLY_THREADONLY_FRAME_CAPTURE_NOT_ACCEPTED' and
+        source.get('case_name')=='nine-body-wrapper-input-relation-frame' and
+        source.get('source_order')==canonical_source.get('source_order') and
+        source.get('verified_sha256')==hashlib.sha256(data).hexdigest() and
+        source.get('original_sha256')=='466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5' and
+        original.is_file() and hashlib.sha256(original.read_bytes()).hexdigest()==source.get('original_sha256') and
+        source.get('ghost_strip_identity') is True and
+        runtime_unchanged and final_assertions_preserved and
+        source.get('verified_source_reversible_frame_transform') is True and
+        source.get('actual_runtime_unchanged') is True and
+        source.get('actual_calls_and_selected_cell_ghosts_retained') is True and
+        source.get('selected_cell_never_folded_into_guard_owner') is True and
+        source.get('full_mir_refinement_and_proof')=='NOT_RUN' and
+        source.get('old_r3_certificate_expected_to_refuse') is True and
+        source.get('semantic_frontend_enabled') is False and
+        source.get('actual_helper_proved') is False and
+        source.get('actual_safe_forget_linked') is False and
+        source.get('verification_accepted') is False and source.get('accepted') is False and
+        source.get('verified_sha256')!=canonical_source.get('verified_sha256') and
+        parent_exact and removal_ok and helper_exact and transformed==data)
+    current={label:row.get('sha256') for label,row in snapshots.items() if isinstance(row,dict)}
+    recorded=(set(snapshots)==labels and set(prior)==labels and all(
+        isinstance(snapshots.get(label),dict) and isinstance(prior.get(label),dict) and
+        isinstance(snapshots[label].get('bytes'),int) and snapshots[label]['bytes']>0 and
+        isinstance(current.get(label),str) and re.fullmatch('[0-9a-f]{64}',current[label]) and
+        snapshots[label].get('file')==f'actual-nested-9-{label}.marshal' and
+        (case/snapshots[label]['file']).is_file() and
+        (case/snapshots[label]['file']).stat().st_size==snapshots[label]['bytes'] and
+        digest(case/snapshots[label]['file'])==current[label]
+        for label in labels))
+    unchanged=(recorded and all(current[label]==prior[label].get('sha256')
+                                for label in labels-{'unit','body-6','body-7'}))
+    changed=(recorded and all(current[label]!=prior[label].get('sha256')
+                              for label in ('unit','body-6','body-7')))
+    full=result.get('full_body_capture') or {}
+    source_order=source.get('source_order')
+    if not isinstance(source_order,list) or len(source_order)!=9:source_order=[None]*9
+    bodies=(isinstance(full,dict) and set(full)=={'normal','readonly'} and
+        all(isinstance(full[mode],dict) and full[mode].get('exact_body_count_and_order') is True and
+            full[mode].get('whole_decoded_mir_file')==f'{mode}-mir.txt' and
+            (case/f'{mode}-mir.txt').is_file() and
+            digest(case/f'{mode}-mir.txt')==full[mode].get('whole_decoded_mir_sha256') and
+            isinstance(full[mode].get('bodies'),list) and len(full[mode]['bodies'])==9 and
+            all(isinstance(row,dict) and row.get('index')==index and
+                row.get('defpath')==source_order[index] and
+                row.get('file')==f'{mode}-body-{index}-full-mir.txt' and
+                isinstance(row.get('bytes'),int) and row['bytes']>0 and
+                (case/row['file']).is_file() and
+                (case/row['file']).stat().st_size==row['bytes'] and
+                digest(case/row['file'])==row.get('sha256')
+                for index,row in enumerate(full[mode]['bodies']))
+            for mode in ('normal','readonly')))
+    guard=result.get('guard_capture') or {}
+    stages=guard.get('stages') or {}
+    paired=(result.get('frontend_refinement_and_full_body_capture') is True and
+        guard.get('frontend_refinement') is True and isinstance(stages,dict) and
+        all(isinstance(stages.get(label),dict) and stages[label].get('exit')==0 and
+            stages[label].get('source_unchanged') is True for label in
+            ('normal-export','normal-decode','readonly-export','readonly-decode','refinement')))
+    refusal=(fingerprint.get('classification')=='INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE' and
+        fingerprint.get('all_ten_snapshots') is True and fingerprint.get('expected_refusal_seen') is True and
+        fingerprint.get('body_proof_run') is False and
+        isinstance(fingerprint.get('stage'),dict) and fingerprint['stage'].get('exit')==2)
+    complete=(code==0 and result.get('source_mode')=='wrapper-input-relation-frame-source-only' and
+        source_ok and paired and bodies and recorded and unchanged and changed and refusal and
+        result.get('actual_helper_proved') is False and result.get('actual_safe_forget_linked') is False and
+        result.get('semantic_rule_enabled') is False)
+    return {'requested':True,'complete':complete,
+        'classification':'THREADONLY_FRAME_SOURCE_CAPTURE_COMPLETE' if complete else 'INCONCLUSIVE',
+        'helper_exit':code,'source_only':True,'accepted':False,
+        'source_pair_exact':source_ok,'reversible_owner_frame_transform':parent_exact and removal_ok and transformed==data,
+        'runtime_ghost_strip_exact':runtime_unchanged,
+        'final_assertions_preserved':final_assertions_preserved,
+        'thread_only_forget_contract_exact':helper_exact,
+        'paired_normal_readonly_refinement_complete':paired,'full_nine_bodies_hashed':bodies,
+        'ten_snapshots_independently_hashed':recorded,'unchanged_body_snapshots_exact':unchanged,
+        'unit_helper_outer_snapshots_changed':changed,'fingerprint_no_proof_rule_refusal':refusal,
+        'old_r3_certificate_expected_to_refuse':source.get('old_r3_certificate_expected_to_refuse') is True,
+        'observed_verified_sha256':source.get('verified_sha256'),
+        'accepted_actual_source':False,'actual_helper_proved':False,'actual_safe_forget_linked':False,
+        'full_actual_proof_run':False}
+
 def wrapper_input_relation_shadow_capture(ev):
     name='wrapper-input-relation-shadow-capture'
     if not (ev/'cases'/f'{name}-request.json').exists():
@@ -1131,6 +1339,7 @@ def main():
     ast_probe=sort4_ast_probe(ev)
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
     input_relation=wrapper_input_relation_capture(ev,cap)
+    input_relation_frame=wrapper_input_relation_frame_capture(ev,cap)
     input_relation_shadow=wrapper_input_relation_shadow_capture(ev)
     generic_new=generic_new_capture(ev)
     rebase_profile=wrapper_profile(ev)
@@ -1148,6 +1357,7 @@ def main():
     strict_false_posts_lane=os.environ.get('LANE')=='o26-strict-cut-false-posts'
     strict_reuse_lane=os.environ.get('LANE')=='o26-strict-cut-reuse-false-posts'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
+    input_relation_frame_lane=os.environ.get('LANE')=='o26-input-relation-frame-capture'
     input_relation_shadow_lane=os.environ.get('LANE')=='o26-input-relation-shadow-capture'
     shadow_generic_lane=os.environ.get('LANE')=='o26-shadow-generic-sort4-diagnostics'
     generic_new_lane=os.environ.get('LANE')=='o26-generic-new-capture'
@@ -1184,6 +1394,17 @@ def main():
                               not a1['requested'] and not coordination['requested'] and
                               not nested_order['requested'] and not wrapper_rebase['requested'] and
                               not rebase_profile['requested'])
+    input_relation_frame_requested=(input_relation_frame['requested'] and
+                              not cut['requested'] and not strict_cut['requested'] and
+                              not false_posts['requested'] and not ast_probe['requested'] and
+                              not owner['requested'] and not sort4['requested'] and
+                              not a1['requested'] and not coordination['requested'] and
+                              not nested_order['requested'] and not wrapper_rebase['requested'] and
+                              not input_relation['requested'] and
+                              not input_relation_shadow['requested'] and
+                              not generic_new['requested'] and not rebase_profile['requested'] and
+                              not r3_profile['requested'] and not ghost_scope['requested'] and
+                              not r3_nested['requested'] and not postmark['requested'])
     input_relation_shadow_requested=(input_relation_shadow['requested'] and
                                      not any(x['requested'] for x in
                                      (cut,strict_cut,false_posts,ast_probe,owner,sort4,a1,
@@ -1226,6 +1447,7 @@ def main():
                          (not ast_probe['requested'] or ast_probe['complete']) and
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
                          (not input_relation['requested'] or input_relation['complete']) and
+                         (not input_relation_frame['requested'] or input_relation_frame['complete']) and
                          (not input_relation_shadow['requested'] or input_relation_shadow['complete']) and
                          (not generic_new['requested'] or generic_new['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
@@ -1246,6 +1468,7 @@ def main():
                           (strict_false_posts_requested and
                            (strict_cut.get('historical_reuse') or {}).get('complete') is True)) and
                          (not input_relation_lane or input_relation_requested) and
+                         (not input_relation_frame_lane or input_relation_frame_requested) and
                          (not input_relation_shadow_lane or input_relation_shadow_requested) and
                          (not shadow_generic_lane or shadow_generic_requested) and
                          (not generic_new_lane or generic_new_requested))
@@ -1258,7 +1481,8 @@ def main():
                          strict_cut['requested'] or
                          false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
-                         input_relation['requested'] or input_relation_shadow['requested'] or
+                         input_relation['requested'] or input_relation_frame['requested'] or
+                         input_relation_shadow['requested'] or
                          generic_new['requested'] or
                          rebase_profile['requested'] or r3_profile['requested'] or
                          postmark['requested'] or r3_nested['requested'] or ghost_scope['requested'])
@@ -1266,7 +1490,8 @@ def main():
               all(controls.values()) and not test_only_requested and not independent and
               not recovery and not strict_cut_lane and
               not strict_false_posts_lane and not strict_reuse_lane and
-              not input_relation_lane and not input_relation_shadow_lane and
+              not input_relation_lane and not input_relation_frame_lane and
+              not input_relation_shadow_lane and
               not shadow_generic_lane and
               not generic_new_lane and not r3_lane and not ghost_scope_lane and not postmark_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
@@ -1277,6 +1502,7 @@ def main():
          'STRICT_CUT_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_false_posts_lane and diagnostic_complete else
          'STRICT_CUT_REUSED_MATRIX_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_reuse_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
+         'THREADONLY_FRAME_SOURCE_CAPTURE_COMPLETE' if input_relation_frame_lane and diagnostic_complete else
          'SHADOW_BINDING_SOURCE_CAPTURE_COMPLETE' if input_relation_shadow_lane and diagnostic_complete else
          'SHADOW_GENERIC_SORT4_DIAGNOSTICS_COMPLETE' if shadow_generic_lane and diagnostic_complete else
          'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
@@ -1287,7 +1513,8 @@ def main():
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
-      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane and not ghost_scope_lane,
+      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane and not ghost_scope_lane and not input_relation_frame_lane,
+      'actual_safe_forget_linked':False if input_relation_frame_lane else None,
       'generic_constructor_helper_proved':False,
       'source_mir_refinement_complete':pair,'profile_pins_complete':profile_ok,
       'full_proof_exit':stage.get('exit'),'prefix_callees_before_outer':callees_before_outer,
@@ -1301,6 +1528,7 @@ def main():
       'sort4_ast_probe_diagnostic':ast_probe,
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
       'wrapper_input_relation_source_capture_diagnostic':input_relation,
+      'threadonly_frame_source_capture_diagnostic':input_relation_frame,
       'wrapper_input_relation_shadow_source_capture_diagnostic':input_relation_shadow,
       'generic_new_source_mir_capture_diagnostic':generic_new,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
@@ -1314,6 +1542,7 @@ def main():
       'independent_test_scope_complete':independent_requested if independent else False,
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
+      'threadonly_frame_source_scope_complete':input_relation_frame_requested if input_relation_frame_lane else False,
       'input_relation_shadow_source_scope_complete':input_relation_shadow_requested if input_relation_shadow_lane else False,
       'shadow_generic_sort4_scope_complete':shadow_generic_requested if shadow_generic_lane else False,
       'shadow_generic_sort4_three_independent_results':{

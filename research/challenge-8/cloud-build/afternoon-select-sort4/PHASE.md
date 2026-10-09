@@ -58,3 +58,11 @@ Aftermeaningfulresults updateSTATUS/log/coverage. Finalcheckpoint exactbuild/
 source/proof/infra/toolpins, component/profile/admission/wholefunction statuses,
 firstblocker andreadyuntestedcommands, newbudget/ownreservations; stopafter
 checkpoint with no ownactive/unresolved build/request atabsolute deadline.
+
+## Narrow additional selection after observed240
+
+The exact new lane `o26-input-relation-frame-capture` is authorized in this
+afternoon account only, preserving the literal phase deadline/owner/3600 ceiling
+and all other registrations/protocol checks. It collects reviewed THREADONLYFRAME
+source/MIR/refinement/fingerprints only, with no semantic proof admission. It is
+not the preventive source-shadow draft and does not close actual240.

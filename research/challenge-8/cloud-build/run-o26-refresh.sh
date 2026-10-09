@@ -54,6 +54,12 @@ input_relation_shadow_mode=${O26_WITH_WRAPPER_INPUT_RELATION_SHADOW_CAPTURE:-0}
 [[ "$input_relation_shadow_mode" == 0 ||
    "${LANE:-}" == o26-input-relation-shadow-capture ||
    "${LANE:-}" == o26-shadow-generic-sort4-diagnostics ]] || exit 2
+input_relation_frame_mode=${O26_WITH_WRAPPER_INPUT_RELATION_FRAME_CAPTURE:-0}
+[[ "$input_relation_frame_mode" == 0 || "$input_relation_frame_mode" == 1 ]] || exit 2
+[[ "$input_relation_frame_mode" == 0 ||
+   "${LANE:-}" == o26-input-relation-frame-capture ]] || exit 2
+[[ "$input_relation_frame_mode" == 0 ||
+   ( "$input_relation_mode" == 0 && "$input_relation_shadow_mode" == 0 ) ]] || exit 2
 generic_new_mode=${O26_WITH_GENERIC_NEW_CAPTURE:-0}
 [[ "$generic_new_mode" == 0 || "$generic_new_mode" == 1 ]] || exit 2
 [[ "$generic_new_mode" == 0 || "${LANE:-}" == o26-generic-new-capture ||
@@ -84,6 +90,19 @@ comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
 [[ "$comp19_mode" == 0 || "$comp19_mode" == 1 ]] || exit 2
 [[ "$comp19_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
 [[ "$comp19_mode" == 0 || "${LANE:-}" == o26-wrapper-controls ]] || exit 2
+if [[ "$input_relation_frame_mode" == 1 ]]; then
+  [[ "${LANE:-}" == o26-input-relation-frame-capture &&
+     "$relocate_mode" == 0 && "$strict_cut_controls_mode" == 0 &&
+     "$strict_cut_false_posts_mode" == 0 && "$reuse_strict_matrix_mode" == 0 &&
+     "$controls_mode" == 0 && "$sort4_mode" == 0 && "$a1_mode" == 0 &&
+     "$coordination_mode" == 0 && "$nested_order_mode" == 0 &&
+     "$ast_probe_mode" == 0 && "$wrapper_rebase_mode" == 0 &&
+     "$input_relation_mode" == 0 && "$input_relation_shadow_mode" == 0 &&
+     "$generic_new_mode" == 0 && "$postmark_mode" == 0 &&
+     "$r3_profile_mode" == 0 && "$ghost_scope_mode" == 0 &&
+     "$r3_nested_mode" == 0 && "$wrapper_profile_mode" == 0 &&
+     "$comp19_mode" == 0 ]] || exit 2
+fi
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -397,6 +416,16 @@ if [[ "$input_relation_mode" == 1 ]]; then
     --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-input-relation-capture" \
     --deadline-epoch "$deadline" --wrapper-input-relation --fingerprint || input_relation_status=$?
   printf '%s\n' "$input_relation_status" > "$ev/cases/wrapper-input-relation-capture-helper-exit-code.txt"
+fi
+
+if [[ "$input_relation_frame_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/wrapper-input-relation-frame-capture-request.json"
+  input_relation_frame_status=0
+  stage wrapper-input-relation-frame-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
+    --tool-home "$source_home" --schema "$schema" \
+    --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-input-relation-frame-capture" \
+    --deadline-epoch "$deadline" --wrapper-input-relation-frame --fingerprint || input_relation_frame_status=$?
+  printf '%s\n' "$input_relation_frame_status" > "$ev/cases/wrapper-input-relation-frame-capture-helper-exit-code.txt"
 fi
 
 if [[ "$input_relation_shadow_mode" == 1 ]]; then

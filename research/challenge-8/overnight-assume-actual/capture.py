@@ -148,6 +148,8 @@ def main() -> None:
                               help="separate source-only wrapper-owner ghost candidate")
     source_modes.add_argument("--wrapper-input-relation", action="store_true",
                               help="separate source-only selected-input equality diagnostic")
+    source_modes.add_argument("--wrapper-input-relation-frame", action="store_true",
+                              help="source-only thread-token frame candidate; never enables a proof rule")
     source_modes.add_argument("--wrapper-input-relation-shadow", action="store_true",
                               help="blocked source-only shadow-binding revision diagnostic")
     args = parser.parse_args()
@@ -168,6 +170,9 @@ def main() -> None:
     elif args.wrapper_input_relation:
         preparer = load(HERE / "prepare-wrapper-input-relation.py",
                         "nine_body_wrapper_input_relation_source")
+    elif args.wrapper_input_relation_frame:
+        preparer = load(HERE / "prepare-wrapper-input-relation-frame.py",
+                        "nine_body_wrapper_input_relation_frame_source")
     elif args.wrapper_rebase:
         preparer = load(HERE / "prepare-wrapper-rebase.py",
                         "nine_body_wrapper_rebase_source")
@@ -208,6 +213,8 @@ def main() -> None:
         record["source_mode"] = "wrapper-rebase-source-only"
     elif args.wrapper_input_relation:
         record["source_mode"] = "wrapper-input-relation-source-only"
+    elif args.wrapper_input_relation_frame:
+        record["source_mode"] = "wrapper-input-relation-frame-source-only"
     elif args.wrapper_input_relation_shadow:
         record["source_mode"] = "wrapper-input-relation-shadow-source-only"
     (evidence / "summary.json").write_text(json.dumps(
