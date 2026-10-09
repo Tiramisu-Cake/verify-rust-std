@@ -1,8 +1,7 @@
 # Cloud-only strict CUT declaration relocation TEST
 
 The completed TRACE diagnostic names `$_32: &? T` as the first failing outer
-entry and preserves the strict error at `verified/lib.rs(84,9-38)`. This card
-authorizes only the independent, isolated diagnostic in `run-cut-relocate.sh`:
+entry and preserves the strict error at `verified/lib.rs(84,9-38)`. This card records only the owner-authorized independent, isolated diagnostic in `run-cut-relocate.sh`:
 production source copied under `/workspace`, frozen CUT patch `d557082b…`,
 then declaration relocation TEST patch `e7189430…`. The TRACE patch is absent.
 The production source, console, specifications, exporter, refiner, and schema

@@ -5425,3 +5425,49 @@ verification_accepted false/actual_helper_proved false/actual_sort4_proved false
 Collector SUCCESS proves no actual function or lifetime profile acceptance.
 Next: independent refreshed17/20 proof candidate and isolated relocation diagnostic,
 no unchanged historical full matrix. No budget borrowed or local proof execution.
+
+
+## NIGHT-CLOUD-3 — refreshed select and independent sort4 obligations
+
+Actual select contract/domain unchanged from NIGHT-CLOUD-1: T=*const Element,
+implicitSized Element, current thread; normal exact condition-selected pointer
+plus its raw_ptr_own, unwindfalse, no Element pointee permissions. Only observed
+17/20 source/certificate constants and exact two owner literal reconstructions
+change via separate21/22 deltas; frozen20 and kernel remain unchanged.
+Hypothesis: truthful nominal owner admission now reaches next real resource
+obligation/fullbody. New profile translator595f4db4; exact patches/profile/card
+O26-REFRESH-PROFILE/O26-REFRESH-CARD. Fresh pairedMIR/refinement/9bodies/10Marshal
+must stillmatch observed1798132f/466882d7/10cf6e4d/9577c649 and8oldbody hashes.
+All7actualprefixcallee proofs must occur before helper, actualnestedDrop later
+must fully verify, fullnormal/unwind/return/leak/dead/validity remain required.
+No collector success establishes full theorem or profile acceptance.
+
+Affected owner17 controls use four separate fresh source pairs and real paired
+exports/refinement: ownerpredicate/outcome ghost-only source mutations refuse
+exactverifiedsourceSHA; actualforgetMove32→Copy andcleanup24→23 TESTexporter
+wrappers refuse complete decodedunitSHA. Check exact mutation/realexporter/
+console/sourcecanonicalbytes; only named first fatal at17 counts. Earlier
+setup/frontend/helper errors do not count; these are not A1-specific negatives.
+Independent A1 gates stillOPEN before combined acceptance; no summary borrowed.
+
+Independent isolated CUT+e718sixdeclaration relocation TEST uses unchanged exact
+source66bf5a6e/original9b41aef5 and wholeNORMAL10356bf1/readonly9fdee764 graph.
+Baseline must preserve strict84:9-38 refusal, relocation trace6/1 andunchanged
+kernelstrictCUT/spec/exporter/refiner checks; full0 orone genuine nextbarrier
+onlydiagnostic. Fullgates in CLOUD-RELOCATE-TEST-CARD remainOPEN, no production
+kernel promotion. Independently capture actualsort4 on same Cloud tool, exactO24
+source/pairedwholeMIR/refinement and5/8/4inventory, proposedfirstcallaudit,
+firstreservedhandler185 refusal. No handler/CUT/HRTB semantic optin for actual;
+partialnormal diagnosticdomain sizeT>0 separated from fullnormal+fiveunwind
+safety targets and generic/ZST/ordering. Normalbranchverifiedfirst: its error
+cannotcountas directunwindhandler proof. Actualsort4 capturecard recordsposts.
+
+Newlaneo26-night combines these isolated records inonecoldCloud console session,
+no A/B/C/constructor/baselineO26/TRACE/unchangedS6repeat. Exactoriginal2Gitobject
+closures, pins/no-source/fullbucket evidence retained. Timeout1200+60queue
+within1800/own10165remaining/deadline08UTC. A ready request waitsunder shared
+flock foractive mergebe12e7b2; failed submit refusal0s, no ownBuild/reservation.
+Outcome: resource/type/parser blocker→causal repair withnewcard/sourcecertificate;
+positivebody→affectednegativegates/admissibility review; TRACEscopeTESTnextblocker
+→separateTESTalternative; actualsort4certificate→defaultoffhandler design, never
+weaken normal branch to force unwind. Everychangedinput requiresnewBuild.
