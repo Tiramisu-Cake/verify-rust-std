@@ -33,7 +33,9 @@ must produce the actual frontend AST with both Gotos/panic; a short diagnostic
 proof timeout cannot be credited as actual theorem PASS. The actual positive
 full-post proof uses the production seven console/exporter, separately.
 
-This remains an UNTESTED draft until a fresh Cloud run. More shape controls,
+The initial3-mode driver ran in fde74800; two mutants obtained exact refusals,
+while the positive AST classifier was inconclusive due its own header slicing bug.
+The expanded17-mode driver remains untested pending a fresh Cloud run. More shape controls,
 proof-negative live/dead fixtures and full relevant profile gates remain required.
 An independent driver gate does not resolve experimental kernel/cleanup trust.
 
@@ -89,10 +91,17 @@ All other results are `INCONCLUSIVE`. All modes and the aggregate retain
 admission. Each copied source pair also runs the unchanged official
 refinement checker through the production seven home; its failure is
 inconclusive. The MIR mutation is never given to the refiner and is not a
-runtime Rust source change. The driver's work cap is at most 180 seconds; no proof PASS or
+runtime Rust source change. The driver's work cap is at most 240 seconds; no proof PASS or
 actual-source theorem can be inferred from its result.
 
-This driver has only static review. Capnp text encoder behavior, exact
-frontend exporter invocation, fresh BB numbering, AST dump order and
-refusal formatting still require Cloud calibration. A source, schema or
+The fde74800 run established lossless Capnp text roundtrip, exact frontend
+exporter invocation, fresh BB numbering and both initial refusal locations.
+It also localized the positive classifier bug: next-function search matched
+the same indented header and truncated the target AST. The expanded matrix
+and corrected classifier require fresh Cloud evidence. A source, schema or
 frontend mismatch is setup/inconclusive evidence, not a successful negative.
+
+The complete17-mode and source-hash gate specification is in
+`CONTROL-MATRIX-CARD.md`; all rows remain separately classified and never
+credited as intended proof negatives. The semantic wrapper certifies the
+full parsed tree, including mutations affecting more than one text field.

@@ -12,6 +12,9 @@ from pathlib import Path
 import re
 
 
+SIX_COMPARISON_PROFILE = "experimental-merge-six-same-source-comparison-v1-unaccepted"
+
+
 def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -101,6 +104,7 @@ def main() -> None:
     parser.add_argument("--profile", required=True)
     parser.add_argument("--fixture", type=Path, required=True)
     parser.add_argument("--tool-home", type=Path, required=True)
+    parser.add_argument("--six-home", type=Path, required=True)
     args = parser.parse_args()
     pin = read_json(args.manifest)
     if not isinstance(pin, dict):
@@ -133,7 +137,17 @@ def main() -> None:
                        pin.get("baseline_applied_profile_sha256") and
                    isinstance(build.get("seven_full_diff_sha256"), str) and
                    build.get("seven_full_diff_sha256") ==
-                       safe_digest(build_dir / "full-seven-applied-profile.patch") and
+                       safe_digest(build_dir / "full-seven-applied-profile.patch") ==
+                       pin.get("expected_seven_full_diff_sha256") and
+                   safe_digest(args.six_home / "bin/verifast") ==
+                       pin.get("baseline_console_sha256") ==
+                       build.get("base_six_console_sha256") and
+                   safe_digest(args.six_home / "bin/vf-rust-mir-exporter") ==
+                       safe_digest(args.tool_home / "bin/vf-rust-mir-exporter") ==
+                       pin.get("release_exporter_sha256") and
+                   safe_digest(args.six_home / "bin/refinement-checker") ==
+                       safe_digest(args.tool_home / "bin/refinement-checker") ==
+                       pin.get("release_refiner_sha256") and
                    build.get("kernel_unchanged") is True and
                    build.get("parser_unchanged") is True and
                    build.get("prelude_unchanged") is True and
@@ -226,9 +240,138 @@ def main() -> None:
                        isinstance(driver, dict) and driver.get("accepted") is False and
                        driver.get("proof_accepted") is False and
                        driver.get("tool_homes_unchanged") is True and
+                       driver.get("full_shape_matrix_complete") is True and
+                       isinstance(driver.get("modes"), dict) and
+                       len(driver["modes"]) == 17 and
+                       isinstance(driver.get("source_hash_gate"), dict) and
+                       driver["source_hash_gate"].get("classification") ==
+                           "EXPECTED_SOURCE_HASH_REFUSAL" and
+                       driver["source_hash_gate"].get("stage") ==
+                           "SOURCE_ADMISSION_BEFORE_EXPORT" and
+                       driver["source_hash_gate"].get("exit_code") == 2 and
                        driver.get("classification") == "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED")
+    six = case_inventory(args.evidence / "six-comparison", "bidirectional_merge_len23",
+                         SIX_COMPARISON_PROFILE)
+    six_row = six["row"] if isinstance(six["row"], dict) else {}
+    six_case = six["case_dir"]
+    six_results = read_json(args.evidence / "six-comparison/results.json")
+    six_fixture = read_json(args.evidence / "six-comparison/fixture-manifest.json")
+    six_source_admission = args.evidence / "six-comparison/full-small-sort-source-admission.json"
+    seven_source_admission = args.evidence / "actual/full-small-sort-source-admission.json"
+    six_support = read_json(six_case / "stack-proof-ast-status.json")
+    six_panic = read_json(six_case / "panic-macro-origin.json")
+    six_provenance = read_json(six_case / "normal-exporter-provenance.json")
+    seven_provenance = read_json(case / "normal-exporter-provenance.json")
+    six_source_same = (
+        six["complete"] and source_same and
+        safe_digest(six_case / "verified/lib.rs") == safe_digest(verified) ==
+            pin.get("admitted_source_sha256") and
+        safe_digest(six_case / "original/lib.rs") == safe_digest(case / "original/lib.rs") and
+        isinstance(six_results, dict) and
+        six_results.get("source_admission_sha256") ==
+            safe_digest(six_source_admission) == safe_digest(seven_source_admission) and
+        isinstance(six_fixture, dict) and
+        six_fixture.get("fixture_sha256") == pin.get("admitted_fixture_sha256") and
+        six_fixture.get("case_order") == ["bidirectional_merge_len23"])
+    normal_same = (
+        six_source_same and
+        file_exists(six_case / "normal-exporter.out") and
+        file_exists(six_case / "normal-decode.out") and
+        safe_digest(six_case / "normal-exporter.out") ==
+            safe_digest(case / "normal-exporter.out") and
+        safe_digest(six_case / "normal-decode.out") ==
+            safe_digest(case / "normal-decode.out") and
+        isinstance(six_provenance, dict) and isinstance(seven_provenance, dict) and
+        isinstance(six_provenance.get("command"), list) and
+        isinstance(seven_provenance.get("command"), list) and
+        len(six_provenance["command"]) == 5 and
+        len(seven_provenance["command"]) == 5 and
+        six_provenance["command"][0] ==
+            str(args.six_home / "bin/vf-rust-mir-exporter") and
+        seven_provenance["command"][0] ==
+            str(args.tool_home / "bin/vf-rust-mir-exporter") and
+        six_provenance["command"][1:] == seven_provenance["command"][1:] and
+        six_provenance["command"][1] == "verified/lib.rs" and
+        isinstance(six_provenance["command"][2], str) and
+        six_provenance["command"][2].startswith("--sysroot=/workspace/") and
+        six_provenance["command"][3:] == ["--edition", "2021"] and
+        all(p.get("normal_preprocess") is True and
+            p.get("source_unchanged") is True and
+            p.get("source_sha256") == pin.get("admitted_source_sha256") and
+            p.get("mir_sha256") == safe_digest(six_case / "normal-exporter.out") and
+            p.get("decoded_sha256") == safe_digest(six_case / "normal-decode.out")
+            for p in (six_provenance, seven_provenance)))
+    expected_bodies = row.get("expected_bodies")
+    full_six_body_coverage = (
+        isinstance(expected_bodies, list) and len(expected_bodies) == 11 and
+        len(set(expected_bodies)) == 11 and
+        six_row.get("expected_bodies") == expected_bodies and
+        isinstance(six_row.get("visited_bodies"), list) and
+        sorted(six_row["visited_bodies"]) == sorted(expected_bodies) and
+        isinstance(six_row.get("body_execution_records"), dict) and
+        all(type(six_row["body_execution_records"].get(name)) is int and
+            six_row["body_execution_records"][name] > 0 for name in expected_bodies) and
+        isinstance(six_row.get("per_body_records"), dict) and
+        six_row["per_body_records"] == row.get("per_body_records") and
+        all(type(six_row["per_body_records"][name].get(k)) is int and
+            six_row["per_body_records"][name][k] > 0
+            for name in expected_bodies for k in ("return", "leak")) and
+        six_row.get("return_records") == row.get("return_records") ==
+            sum(six_row["per_body_records"][name]["return"] for name in expected_bodies) and
+        six_row.get("leak_check_records") == row.get("leak_check_records") ==
+            sum(six_row["per_body_records"][name]["leak"] for name in expected_bodies))
+    guard = pin.get("admitted_guard_line")
+    exact_dead = (f"verified/lib.rs({guard},51-{guard + 2},10): dead code"
+                  if type(guard) is int and guard > 0 else None)
+    six_log_path = six_case / "verifast.log"
+    six_log = six_log_path.read_text(errors="replace") if six_log_path.is_file() else ""
+    dead_lines = [line for line in six_log.splitlines()
+                  if re.search(r": dead code(?:[ \t].*)?$", line, re.IGNORECASE)]
+    sole_synthetic_dead = (
+        exact_dead is not None and dead_lines == [exact_dead] and
+        six_row.get("dead_code_records") == [exact_dead] and
+        six_row.get("error_lines") == [] and
+        re.search(r"(?m)^.*?: error: .*$", six_log) is None)
+    six_comparison_complete = (
+        manifest_ok and positive_full and six_source_same and normal_same and
+        exit_zero(args.evidence / "six-comparison-exit-code.txt") and
+        six_row.get("classification") == "INCONCLUSIVE" and
+        six_row.get("full_positive_gate") is False and
+        six_row.get("expected_dead_code") is None and
+        six_row.get("expected_rejection") is None and
+        six_row.get("stages") == {"exporter": 0, "decode": 0,
+                                  "verifast": 1, "refinement": 0} and
+        full_six_body_coverage and sole_synthetic_dead and
+        isinstance(six_row.get("stack_address_admission"), dict) and
+        six_row["stack_address_admission"].get("complete") is True and
+        isinstance(six_support, dict) and six_support.get("status") == "AST_LINKED" and
+        six_support.get("exit_code") == 0 and
+        isinstance(six_panic, dict) and
+        six_panic.get("status") == "PANIC_MACRO_BODY_ORIGIN_LINKED" and
+        isinstance(six_row.get("panic_macro_origin"), dict) and
+        six_row["panic_macro_origin"].get("accepted") is True)
+    six_status = group_status(args.evidence, "six-comparison")
+    six_comparison = {
+        "classification": ("SAME_SOURCE_COVERAGE_DIFFERENCE_UNACCEPTED"
+                           if six_comparison_complete else
+                           "NOT_RUN" if six_status == "NOT_RUN" else "INCONCLUSIVE"),
+        "accepted": False, "proof_negative": False,
+        "group_status": six_status,
+        "raw_classification": six["raw_classification"],
+        "stages": six_row.get("stages"),
+        "source_identical": bool(six_source_same),
+        "normal_mir_identical": bool(normal_same),
+        "all_eleven_bodies_and_return_leak_records": bool(full_six_body_coverage),
+        "exact_sole_synthetic_dead_record": bool(sole_synthetic_dead),
+        "expected_dead_record": exact_dead,
+        "observed_dead_lines": dead_lines,
+        "complete": bool(six_comparison_complete),
+    }
     diagnostic_complete = bool(manifest_ok and positive["complete"] and
-                               calibrated["complete"] and calibration_complete)
+                               positive_full and calibrated["complete"] and
+                               calibrated_dead and
+                               calibration_complete and driver_observed and
+                               six_comparison_complete)
     report = {
         "component": "MIR-OR-JOIN-LIVENESS",
         "profile": args.profile,
@@ -246,7 +389,7 @@ def main() -> None:
         "new_liveness_controls_calibration_complete": bool(calibration_complete),
         "group_status": {name: group_status(args.evidence, name) for name in
                          ("calibrated-real-dead", "uncalibrated-liveness-controls",
-                          "actual-bounded", "admission-controls")},
+                          "actual-bounded", "admission-controls", "six-comparison")},
         "invalid_shape_admission_controls": {
             "classification": ("OBSERVED_UNACCEPTED" if driver_observed else
                                "NOT_RUN" if driver_status == "NOT_RUN" else "INCONCLUSIVE"),
@@ -254,9 +397,9 @@ def main() -> None:
             "report_sha256": safe_digest(args.evidence / "admission-controls/control-driver.json"),
             "raw_report": driver,
             "accepted": False,
-            "full_shape_matrix_complete": False,
+            "full_shape_matrix_complete": bool(driver_observed),
         },
-        "same_source_six_component_comparison": "NOT_RUN",
+        "same_source_six_component_comparison": six_comparison,
         "live_panic_body_coverage": bool(positive_full),
         "notes": ["Positive/negative classifications are conditional diagnostics only.",
                   "New controls lack preregistered proof-negative oracles.",

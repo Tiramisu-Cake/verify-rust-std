@@ -98,11 +98,11 @@ OR_JOIN_MINIMUM_ARTIFACTS = [
     f"cases/{OR_JOIN_GROUP}/work-budget.txt",
     *[f"cases/{OR_JOIN_GROUP}/{name}{suffix}" for name in
       ("calibrated-real-dead", "uncalibrated-liveness-controls",
-       "actual-bounded", "admission-controls")
+       "actual-bounded", "admission-controls", "six-comparison")
       for suffix in ("-exit-code.txt", ".log", "-resources.txt")],
     *[f"cases/{OR_JOIN_GROUP}/{name}-exit-code.txt" for name in
       ("calibrated-real-dead", "uncalibrated-liveness-controls", "actual-bounded",
-       "admission-controls")],
+       "admission-controls", "six-comparison")],
 ]
 OTHER_ARTIFACTS = {
     "G2-compatibility": [
@@ -222,6 +222,14 @@ def audit(root: Path, selection_path: Path, run_status: int,
             except (OSError, ValueError):
                 return False
             return isinstance(value, (dict, list))
+        # Successful stages can be silent. Keep their log files mandatory,
+        # while the exit ledgers and audited stage evidence carry the result.
+        if path.startswith(f"cases/{OR_JOIN_GROUP}/") and item.name in {
+            "preflight.log", "calibrated-real-dead.log",
+            "uncalibrated-liveness-controls.log", "actual-bounded.log",
+            "admission-controls.log", "six-comparison.log",
+        }:
+            return True
         return item.stat().st_size > 0
 
     artifact_status = {
@@ -713,7 +721,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             group_exit = evidence / f"group-{OR_JOIN_GROUP}-exit-code.txt"
             external_status = int(group_exit.read_text().strip()) if group_exit.is_file() else None
             inner_group_names = ("calibrated-real-dead", "uncalibrated-liveness-controls",
-                                 "actual-bounded", "admission-controls")
+                                 "actual-bounded", "admission-controls", "six-comparison")
             raw_inner_groups = seven.get("group_status")
             inner_statuses_bound = isinstance(raw_inner_groups, dict) and set(raw_inner_groups) == set(inner_group_names)
             if inner_statuses_bound:
@@ -744,7 +752,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
             inner_budget = int(budget_match.group(1)) if budget_match else None
             outer_budget = int(lane_budget_match.group(1)) if lane_budget_match else None
             budget_bound = (inner_budget is not None and inner_budget == outer_budget and
-                            1 <= inner_budget <= 900)
+                            1 <= inner_budget <= 1300)
             or_join_status["raw_inner_group_statuses"] = raw_inner_groups
             or_join_status["inner_group_statuses_bound"] = bool(inner_statuses_bound)
             or_join_status["group_status_file_bound"] = bool(group_status_file_bound)
@@ -760,10 +768,10 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 isinstance(controls, dict) and
                 isinstance(raw_inner_groups, dict) and
                 controls.get("accepted") is False and
-                controls.get("full_shape_matrix_complete") is False and
+                type(controls.get("full_shape_matrix_complete")) is bool and
                 controls.get("group_status") == raw_inner_groups.get("admission-controls") and
                 controls.get("classification") in {"OBSERVED_UNACCEPTED", "NOT_RUN", "INCONCLUSIVE"} and
-                seven.get("same_source_six_component_comparison") == "NOT_RUN")
+                isinstance(seven.get("same_source_six_component_comparison"), dict))
             pin_fields = (
                 manifest.get("component") == "MIR-OR-JOIN-LIVENESS" and
                 manifest.get("verifast_commit") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
@@ -782,7 +790,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                                 "audit_checker_sha256", "control_driver_sha256",
                                 "control_exporter_sha256", "retained_pointer_prove_sha256",
                                 "diagnostic_source_sha256", "admitted_fixture_sha256",
-                                "admitted_source_sha256")) and
+                                "admitted_source_sha256", "expected_seven_full_diff_sha256")) and
                 manifest.get("control_driver_sha256") ==
                     sha256_file(Path(__file__).resolve().parents[4] /
                                 OR_JOIN_COMPONENT / "control-driver.py") and
@@ -855,7 +863,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         build.get("base_six_console_sha256") == manifest.get("baseline_console_sha256") and
                         build.get("base_six_full_diff_sha256") ==
                             manifest.get("baseline_applied_profile_sha256") and
-                        build.get("seven_full_diff_sha256") ==
+                        build.get("seven_full_diff_sha256") == manifest.get("expected_seven_full_diff_sha256") ==
                             sha256_file(base / "build/full-seven-applied-profile.patch") and
                         build.get("component_manifest_sha256") == sha256_file(manifest_path) and
                         build.get("component_patch_sha256") == manifest.get("component_patch_sha256") and
@@ -920,12 +928,98 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 driver_report_file_valid = reported_driver_sha is None
             driver_status_value = (raw_inner_groups.get("admission-controls")
                                    if isinstance(raw_inner_groups, dict) else None)
+            required_modes = {
+                "roundtrip", "storage-live-34", "storage-live-36", "goto-38-34",
+                "goto-38-36", "statement-count-34", "statement-count-36",
+                "real-statement-34", "predecessor-28", "comparison-eq-33",
+                "comparison-eq-35", "branch-order-33", "branch-order-35",
+                "span-column-34", "span-column-36", "panic-callee", "panic-unwind"}
+            shape_matrix_bound = False
+            if isinstance(raw_driver_report, dict) and raw_driver_report.get("full_shape_matrix_complete") is True:
+                modes = raw_driver_report.get("modes")
+                source_gate = raw_driver_report.get("source_hash_gate")
+                shape_matrix_bound = (
+                    isinstance(modes, dict) and set(modes) == required_modes and
+                    modes["roundtrip"].get("classification") == "ADMISSION_PASS_ONLY" and
+                    all(modes[mode].get("classification") == "EXPECTED_FRONTEND_REFUSAL"
+                        for mode in required_modes - {"roundtrip"}) and
+                    all(row.get("official_refinement_exit") == 0 and row.get("source_unchanged") is True
+                        and row.get("proof_accepted") is False for row in modes.values()) and
+                    isinstance(source_gate, dict) and source_gate.get("classification") == "EXPECTED_SOURCE_HASH_REFUSAL" and
+                    source_gate.get("stage") == "SOURCE_ADMISSION_BEFORE_EXPORT" and
+                    source_gate.get("exit_code") == 2 and source_gate.get("accepted") is False and
+                    source_gate.get("original_source_sha256") == manifest.get("admitted_source_sha256") and
+                    source_gate.get("mutated_source_sha256") == sha256_file(base / "admission-controls/source-hash-gate/lib.rs") and
+                    source_gate.get("stdout_sha256") == sha256_file(base / "admission-controls/source-hash-gate/stdout") and
+                    source_gate.get("stderr_sha256") == sha256_file(base / "admission-controls/source-hash-gate/stderr"))
+                for mode in required_modes:
+                    row = modes[mode]
+                    mode_case = base / "admission-controls/cases" / mode
+                    mode_log = ((mode_case / "verifast.stdout").read_text(errors="replace") +
+                                (mode_case / "verifast.stderr").read_text(errors="replace"))
+                    shape_matrix_bound = bool(shape_matrix_bound and
+                        hashlib.sha256(mode_log.encode()).hexdigest() == row.get("log_sha256") and
+                        (mode == "roundtrip" or row.get("verifast_exit") == 1))
+                    if row.get("proof_ast_sha256") is not None:
+                        shape_matrix_bound = bool(shape_matrix_bound and
+                            sha256_file(mode_case / "proof-ast.ml") == row["proof_ast_sha256"])
+                    for role, key in (("manual", "manual_certificate"), ("frontend", "frontend_certificate")):
+                        cert_path = base / "admission-controls/calls" / mode / role / "certificate.json"
+                        certificate = json.loads(cert_path.read_text())
+                        shape_matrix_bound = bool(shape_matrix_bound and certificate == row.get(key) and
+                            certificate.get("classification") == "MESSAGE_CERTIFIED" and
+                            certificate.get("exact_semantic_tree_match") is True and
+                            certificate.get("source_sha256") == manifest.get("admitted_source_sha256") and
+                            certificate.get("official_exporter_sha256") == manifest.get("release_exporter_sha256"))
+            shape_report_valid = (
+                isinstance(controls, dict) and controls.get("full_shape_matrix_complete") ==
+                (isinstance(raw_driver_report, dict) and raw_driver_report.get("full_shape_matrix_complete") is True) and
+                (controls.get("full_shape_matrix_complete") is not True or shape_matrix_bound))
+            comparison = seven.get("same_source_six_component_comparison")
+            comparison_bound = (
+                isinstance(comparison, dict) and comparison.get("accepted") is False and
+                comparison.get("proof_negative") is False and
+                comparison.get("group_status") == raw_inner_groups.get("six-comparison") and
+                type(comparison.get("complete")) is bool and
+                (comparison.get("classification") == "SAME_SOURCE_COVERAGE_DIFFERENCE_UNACCEPTED") ==
+                    comparison.get("complete") and
+                (comparison.get("classification") == "NOT_RUN") ==
+                    (comparison.get("group_status") == "NOT_RUN") and
+                comparison.get("classification") in {
+                    "NOT_RUN", "INCONCLUSIVE", "SAME_SOURCE_COVERAGE_DIFFERENCE_UNACCEPTED"})
+            if comparison_bound and comparison.get("complete") is True:
+                six_root = base / "six-comparison"
+                six_results = json.loads((six_root / "results.json").read_text())
+                six_aggregate = json.loads((six_root / "aggregate.json").read_text())
+                six_row = six_results.get("cases", {}).get("bidirectional_merge_len23", {})
+                comparison_bound = bool(
+                    set(six_results.get("cases", {})) == {"bidirectional_merge_len23"} and
+                    six_aggregate.get("evidence_collection_completed") is True and
+                    six_aggregate.get("classifier_controls_passed") is True and
+                    six_aggregate.get("cases", {}).get("bidirectional_merge_len23") == six_row.get("classification") ==
+                        comparison.get("raw_classification") and
+                    comparison.get("stages") == six_row.get("stages"))
+                six_case = six_root / "cases/bidirectional_merge_len23"
+                if comparison.get("classification") == "SAME_SOURCE_COVERAGE_DIFFERENCE_UNACCEPTED":
+                    comparison_bound = bool(comparison_bound and
+                        all(comparison.get(key) is True for key in (
+                            "source_identical", "normal_mir_identical", "all_eleven_bodies_and_return_leak_records",
+                            "exact_sole_synthetic_dead_record")) and
+                        six_row.get("error_lines") == [] and
+                        six_row.get("stages") == {"exporter": 0, "decode": 0, "verifast": 1, "refinement": 0} and
+                        six_row.get("dead_code_records") == comparison.get("observed_dead_lines") and
+                        sha256_file(six_case / "verified/lib.rs") == manifest.get("admitted_source_sha256") and
+                        sha256_file(six_case / "original/lib.rs") == preflight.get("original_sha256") and
+                        sha256_file(six_case / "normal-exporter.out") ==
+                            sha256_file(base / "actual/cases/bidirectional_merge_len23/normal-exporter.out"))
+            or_join_status["same_source_six_component_comparison"] = comparison
+            or_join_status["same_source_comparison_binding_valid"] = bool(comparison_bound)
             driver_classification_valid = (
                 (controls.get("classification") == "OBSERVED_UNACCEPTED" and
                  driver_status_value == "0" and driver_report_file_valid and
                  isinstance(raw_driver_report, dict) and
                  raw_driver_report.get("classification") == "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED" and
-                 raw_driver_report.get("tool_homes_unchanged") is True) or
+                 raw_driver_report.get("tool_homes_unchanged") is True and shape_matrix_bound) or
                 (controls.get("classification") == "NOT_RUN" and
                  driver_status_value == "NOT_RUN" and raw_driver_report is None and
                  reported_driver_sha is None and driver_report_file_valid) or
@@ -942,13 +1036,14 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 "report_sha256": reported_driver_sha,
                 "raw_report": raw_driver_report,
                 "accepted": False,
-                "full_shape_matrix_complete": False,
+                "full_shape_matrix_complete": controls.get("full_shape_matrix_complete") is True,
+                "full_shape_matrix_binding_valid": bool(shape_matrix_bound),
                 "report_binding_valid": bool(driver_report_file_valid),
                 "status_valid": bool(driver_classification_valid),
             }
             or_join_status["artifact_hash_bindings_valid"] = bool(
                 manifest_bytes_match and pin_fields and pin_bindings and
-                driver_report_file_valid and driver_classification_valid and
+                driver_report_file_valid and driver_classification_valid and shape_report_valid and comparison_bound and
                 (seven.get("diagnostic_complete") is not True or full_evidence_valid))
             or_join_status["complete_evidence_hash_bindings_valid"] = bool(full_evidence_valid)
             or_join_status["run_script_exit_code"] = run_status
@@ -956,15 +1051,18 @@ def audit(root: Path, selection_path: Path, run_status: int,
             return bool(minimum and manifest_bytes_match and component_identity and
                         run_status is not None and external_status is not None and
                         inner_statuses_bound and group_status_file_bound and
-                        driver_report_file_valid and driver_classification_valid and budget_bound and
+                        driver_report_file_valid and driver_classification_valid and shape_report_valid and comparison_bound and budget_bound and
                         pin_fields and pin_bindings and
                         (seven.get("diagnostic_complete") is not True or full_evidence_valid))
         except (OSError, ValueError, KeyError, TypeError, AttributeError):
             return False
 
     if OR_JOIN_GROUP in selected:
+        # Collect the component's raw report even when a mandatory file is
+        # absent; that absence must still make the combined audit fail.
+        audited_or_join = audit_or_join()
         artifact_status[OR_JOIN_GROUP] = (
-            artifact_status.get(OR_JOIN_GROUP, False) and audit_or_join())
+            artifact_status.get(OR_JOIN_GROUP, False) and audited_or_join)
 
     # The three stock mathematical proof components each emit a source
     # certificate and bind its exact bytes from results.json.

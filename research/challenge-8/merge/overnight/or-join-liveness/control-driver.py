@@ -25,7 +25,11 @@ MANIFEST = HERE / "PINNED-INPUTS.json"
 WRAPPER = HERE / "control-exporter.py"
 OVERLAID_PARSER = HERE.parent / "stack-address-admission.py"
 PARSER_REPO_PATH = "research/challenge-8/merge/overnight/stack-address-admission.py"
-MODES = ("roundtrip", "storage-live-34", "goto-38-34")
+MODES = ("roundtrip", "storage-live-34", "storage-live-36", "goto-38-34",
+         "goto-38-36", "statement-count-34", "statement-count-36",
+         "real-statement-34", "predecessor-28", "comparison-eq-33",
+         "comparison-eq-35", "branch-order-33", "branch-order-35",
+         "span-column-34", "span-column-36", "panic-callee", "panic-unwind")
 REFUSAL = "MIR-OR-JOIN-LIVENESS: exact source/MIR/AST join admission failed"
 SCHEMA_SHA = "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
 PARSER_SHA = "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974"
@@ -124,9 +128,12 @@ def positive_ast(path: Path, guard: int) -> bool:
     if len(found) != 1:
         return False
     tail = data[found[0].start():]
-    next_fn = re.search(r'(?m)^\s*Func \(loc ', tail[1:])
+    # Start after the complete matched header. Skipping one indentation
+    # character would find this same Func and truncate its runtime body.
+    header_end = found[0].end() - found[0].start()
+    next_fn = re.search(r'(?m)^\s*Func \(loc ', tail[header_end:])
     if next_fn:
-        tail = tail[:next_fn.start() + 1]
+        tail = tail[:header_end + next_fn.start()]
     join = re.escape(f'verified/lib.rs({guard},51-{guard + 2},10)')
     panic = re.escape(f'verified/lib.rs({guard + 1},13-37)')
     return (len(re.findall(r'GotoStmt \(loc "' + join + r'", "37"\)', tail)) == 2 and
@@ -170,12 +177,12 @@ def main() -> None:
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--sysroot", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--work-seconds", type=int, default=180)
+    parser.add_argument("--work-seconds", type=int, default=240)
     args = parser.parse_args()
     start = time.monotonic()
     require(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build",
             "Cloud Build provider identity required")
-    require(1 <= args.work_seconds <= 180, "driver work cap must be 1..180 seconds")
+    require(1 <= args.work_seconds <= 240, "driver work cap must be 1..240 seconds")
     require(str(args.evidence).startswith("/workspace/") and not args.evidence.exists(),
             "fresh /workspace diagnostic evidence path required")
     evidence = args.evidence
@@ -183,10 +190,12 @@ def main() -> None:
     report: dict = {"component": "MIR-OR-JOIN-LIVENESS-CONTROLS",
                     "classification": "INCONCLUSIVE", "accepted": False,
                     "proof_accepted": False, "modes": {},
-                    "work_seconds": args.work_seconds}
+                    "work_seconds": args.work_seconds,
+                    "required_modes": list(MODES), "full_shape_matrix_complete": False,
+                    "source_hash_gate": {"classification": "NOT_RUN"}}
     deadline = start + args.work_seconds
     def expired(_signum, _frame):
-        raise TimeoutError("global diagnostic 180-second work cap reached")
+        raise TimeoutError("global diagnostic work cap reached")
     signal.signal(signal.SIGALRM, expired)
     signal.setitimer(signal.ITIMER_REAL,
                      max(0.001, deadline - time.monotonic()))
@@ -278,6 +287,31 @@ def main() -> None:
                      *expected_normal_args],
                 "normal MIR reference lacks actual normal-mode provenance")
         report["normal_reference_provenance_sha256"] = file_sha(provenance_path)
+        # Test the external admission boundary independently of the MIR wrapper.
+        # This private harmless comment edit never reaches any exporter/refiner.
+        source_gate_dir = evidence / "source-hash-gate"
+        source_gate_dir.mkdir()
+        changed_source = source_gate_dir / "lib.rs"
+        changed_source.write_bytes(verified.read_bytes() + b"\n// source admission control\n")
+        admission_command = [sys.executable, str(HERE / "admit-source.py"),
+            "--manifest", str(MANIFEST), "--source", str(changed_source),
+            "--baseline-translator", str(args.seven_build_manifest.parent / "translator.six.ml"),
+            "--component-patch", str(HERE / "or-join-liveness.patch"),
+            "--component-translator", str(args.seven_build_manifest.parent / "translator.seven.ml")]
+        admission_exit = subprocess_stage(admission_command, HERE, dict(os.environ),
+            source_gate_dir / "stdout", source_gate_dir / "stderr", 8, deadline)
+        admission_out = (source_gate_dir / "stdout").read_text()
+        admission_err = (source_gate_dir / "stderr").read_text()
+        source_gate_pass = (admission_exit == 2 and admission_out == "" and
+            admission_err == "MIR-OR-JOIN-LIVENESS refusal: admitted source hash mismatch\n" and
+            file_sha(verified) == pin["admitted_source_sha256"])
+        report["source_hash_gate"] = {
+            "classification": "EXPECTED_SOURCE_HASH_REFUSAL" if source_gate_pass else "INCONCLUSIVE",
+            "stage": "SOURCE_ADMISSION_BEFORE_EXPORT", "exit_code": admission_exit,
+            "command": admission_command, "mutated_source_sha256": file_sha(changed_source),
+            "original_source_sha256": file_sha(verified),
+            "stdout_sha256": file_sha(source_gate_dir / "stdout"),
+            "stderr_sha256": file_sha(source_gate_dir / "stderr"), "accepted": False}
         six_before = {"bin": snapshot_bin(args.six_home),
                       "source": source_snapshot(args.six_home)}
         seven_before = {"bin": snapshot_bin(args.seven_home),
@@ -349,7 +383,7 @@ def main() -> None:
                 os.environ.get("LD_LIBRARY_PATH", ""),
         })
         (evidence / "calls").mkdir()
-        all_pass = True
+        all_pass = source_gate_pass
         for mode in MODES:
             require(time.monotonic() + 15 < deadline,
                     "global work budget exhausted before next control")
@@ -394,7 +428,7 @@ def main() -> None:
                 "verified/lib.rs"]
             verifier = subprocess_stage(verifier_command, case_dir, env,
                 case_dir / "verifast.stdout", case_dir / "verifast.stderr",
-                25 if mode == "roundtrip" else 20, deadline)
+                10 if mode == "roundtrip" else 20, deadline)
             row["verifast_exit"] = verifier
             row["verifast_command"] = verifier_command
             call_dir = evidence / "calls" / mode / "frontend"
@@ -448,8 +482,14 @@ def main() -> None:
                 test_after == installed,
                 "production or diagnostic tool bytes changed during controls")
         report["tool_homes_unchanged"] = True
+        report["full_shape_matrix_complete"] = bool(
+            all_pass and set(report["modes"]) == set(MODES) and
+            report["modes"]["roundtrip"].get("classification") == "ADMISSION_PASS_ONLY" and
+            all(report["modes"][mode].get("classification") == "EXPECTED_FRONTEND_REFUSAL"
+                for mode in MODES if mode != "roundtrip"))
         report["classification"] = (
-            "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED" if all_pass else "INCONCLUSIVE")
+            "ADMISSION_CONTROLS_OBSERVED_UNACCEPTED"
+            if report["full_shape_matrix_complete"] else "INCONCLUSIVE")
     except (OSError, KeyError, ValueError, RuntimeError, TimeoutError,
             json.JSONDecodeError, subprocess.SubprocessError) as exc:
         report["refusal"] = str(exc)

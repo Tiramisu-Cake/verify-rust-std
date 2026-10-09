@@ -119,7 +119,9 @@ than relaxing the matcher in a running profile.
 `RUNNER_TEMP` home, checks the baseline translator, full six-patch diff,
 kernel, parser, prelude, stdlib, exporter, refiner and console hashes,
 applies only this translator patch, and rebuilds `bin/verifast` in the
-copy. It records the complete seven-component diff and new console hash;
+copy. It checks the complete seven-component diff against the separately
+recorded expected SHA before the expensive console build and records the new
+console hash without assuming path-independent binary reproducibility;
 the six-component home is rehashed after the build. The build is bounded
 and runs only with the reviewed Cloud provider identity. The GNU make
 target invokes Dune in the copied `src` directory; the separate console
@@ -130,21 +132,23 @@ the ordinary matrix.
 under an explicit experimental profile label. It checks an exact prepared
 source before verification, preserves each stage exit and artifact, runs
 the existing calibrated real dead-code negative and four new calibration-only
-source liveness controls before the actual bounded case. Its global
-`OR_JOIN_WORK_SECONDS` budget defaults to 900 seconds, accepts only 1..1000,
+source liveness controls before the actual bounded case. It then runs the
+separate admission controls and the unchanged six-component console on the
+same exact fixture/source/posts. Its global
+`OR_JOIN_WORK_SECONDS` budget defaults to 1300 seconds, accepts only 1..1300,
 and reserves 10 seconds for child termination plus 30 seconds for the final
 audit. Copy is limited to 90 seconds,
 console build to 360 seconds, and each proof group to its remaining budget;
-skipped groups are explicitly `NOT_RUN`. The actual group receives at most
-680 seconds and its inner VeriFast cap never exceeds 600 seconds. A timeout
+skipped groups are explicitly `NOT_RUN`. Both actual and six-comparison groups
+receive at most 680 seconds each and their inner VeriFast caps never exceed
+600 seconds. The admission controls receive at most 240 seconds. A timeout
 or depleted budget yields partial, unaccepted evidence.
 `audit-seven.py`
 keeps `accepted=false` and `component_gates_complete=false` in all cases.
 Its independent tool inventory requires the outer build-wrapper exit 0 and
 rehashes the retained baseline/component translators, component patch,
-six-component full diff, seven-component full diff, and installed seventh
-translator against the recorded manifests. The seven-component full-diff
-digest is still a build record, not a separately admitted expected digest;
+six-component full diff, separately pinned expected seven-component full diff,
+and installed seventh translator against the recorded manifests.
 this audit does not establish component soundness.
 It reports the actual full positive and calibrated proof negative only
 when the retained harness's full gates and source/tool certificates match.
@@ -153,13 +157,19 @@ expected stage and location are registered from a separate Cloud run.
 
 The current manifest pins the exact strengthened-helper source and unchanged
 fresh six-component console from f0b1ff62 below. It permits only an explicitly
-unaccepted experimental Cloud trial. `control-driver.py` may use at most180s
-of the same900s budget after the actual proof, in a third disposable tool home.
-It round-trips the actual normal MIR and tests exactly two schema-valid shape
-mutations; positive admission and exact frontend refusals are diagnostics only.
+unaccepted experimental Cloud trial. `control-driver.py` may use at most 240s
+of the same 1300s budget after the actual proof, in a third disposable tool home.
+Its expanded shape matrix and separate source-hash refusal gate require their
+own complete Cloud evidence; positive admission and exact frontend refusals
+are diagnostics only.
 Production six/seven binaries, exporter, refiner and source must remain unchanged.
 See CONTROL-DRIVER-CARD.md. Budget exhaustion records NOT_RUN/INCONCLUSIVE.
-The complete refusal and same-source-six matrix remains required for acceptance.
+The six-comparison is classified only on exact identical source and normal MIR,
+all eleven verified bodies and return/leak records, full exporter/decode/refiner
+stages, one verifier dead-code line at the pinned synthetic Goto span, no other
+errors or dead records, and complete stack/panic certificates. Its VF exit 1
+remains `INCONCLUSIVE` in the retained harness; the separate coverage-difference
+label is neither an intended proof negative nor acceptance.
 
 ## Cloud gates before any positive classification
 
@@ -212,6 +222,21 @@ fixture804ca58912a35a4e34c3cac2dc563bcc154daed709477071217d90bd2de8fb47;
 verified sourcee03a0398a590fb409d892f2cfad90d2d4b2c4c15949df6feda44852a21aa7d18;
 overlaid retained harnessec82511289297f898c4b2442fbc5024c1f55ec919de6d9d5a59d1764615eb3d6;
 signature398, guard551. Fresh baseline console is unchanged354436b9.
-The manifest now authorizes an EXPERIMENTAL_CLOUD_TRIAL at these exact pins.
-There is still no seventh-component compile/translation/body/control evidence;
-full semantic gates and the existing kernel/cleanup trust review remain open.
+The manifest authorizes an EXPERIMENTAL_CLOUD_TRIAL at these exact pins.
+
+## Fresh bounded diagnostic — fde74800
+
+The fde74800 Cloud archive records the seventh console, exact source admission,
+and the unchanged bounded actual body with all four stages zero, all eleven
+bodies visited, 28 return and 31 leak records, 362 target execution records,
+full stack/panic certificates, and zero error/dead records. This is a
+conditional bounded body PASS under the unaccepted kernel/profile, not a
+public-caller or unrestricted theorem. The outer collection was FAILURE: its
+auditor treated successful empty stage logs as absent and never read the present
+component report. The first admission driver recorded two exact frontend
+shape refusals, while its positive AST classifier cut the target function at
+its own indented `Func` line and reported INCONCLUSIVE despite the preserved
+two Gotos and panic body. These are historical results; code repairs require
+a fresh Cloud run. Same-source six comparison and the expanded admission matrix
+have no fresh evidence yet. Kernel capture closure and caller/resource bridges
+remain open.

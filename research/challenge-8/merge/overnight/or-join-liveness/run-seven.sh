@@ -20,9 +20,9 @@ manifest="$component/PINNED-INPUTS.json"
 pointer_prove="$repo/research/challenge-8/merge/overnight/pointer-prove.py"
 baseline_fixture="$repo/research/challenge-8/merge/overnight/baseline-cases.rs"
 calibration_fixture="$component/coverage-controls.rs"
-work_budget=${OR_JOIN_WORK_SECONDS:-900}
-[[ "$work_budget" =~ ^[1-9][0-9]{0,3}$ ]] && (( work_budget <= 1000 )) ||
-  fail 'OR_JOIN_WORK_SECONDS must be an integer in 1..1000'
+work_budget=${OR_JOIN_WORK_SECONDS:-1300}
+[[ "$work_budget" =~ ^[1-9][0-9]{0,3}$ ]] && (( work_budget <= 1300 )) ||
+  fail 'OR_JOIN_WORK_SECONDS must be an integer in 1..1300'
 work_started=$SECONDS
 # Keep 10 s for a child's TERM/KILL grace and 30 s for final audit/packaging.
 work_deadline=$((work_started + work_budget - 40))
@@ -41,7 +41,7 @@ budget_cap() {
 mkdir -p "$evidence"
 printf 'budget=%s timeout_grace=10 audit_reserve=30 started_seconds=%s\n' \
   "$work_budget" "$work_started" > "$evidence/work-budget.txt"
-for name in calibrated-real-dead uncalibrated-liveness-controls actual-bounded admission-controls; do
+for name in calibrated-real-dead uncalibrated-liveness-controls actual-bounded admission-controls six-comparison; do
   printf 'NOT_RUN\n' > "$evidence/$name-exit-code.txt"
   printf 'NOT_RUN: stage has not started\n' > "$evidence/$name.log"
   printf 'NOT_RUN: stage has not started\n' > "$evidence/$name-resources.txt"
@@ -55,14 +55,19 @@ write_partial_audit() {
 import json,pathlib,sys
 path,status,stage,budget=sys.argv[1:]
 root=pathlib.Path(path).parent
-names=("calibrated-real-dead","uncalibrated-liveness-controls","actual-bounded","admission-controls")
+names=("calibrated-real-dead","uncalibrated-liveness-controls","actual-bounded","admission-controls","six-comparison")
 groups={name:(root/(name+"-exit-code.txt")).read_text().strip()
         for name in names}
 pathlib.Path(path).write_text(json.dumps({
   "component":"MIR-OR-JOIN-LIVENESS","accepted":False,
+  "component_gates_complete":False,"base_six_profile_accepted":False,
   "diagnostic_complete":False,"classification":"INCONCLUSIVE",
   "exit_status":int(status),"failed_stage":stage,
-  "group_status":groups,"work_budget_seconds":int(budget)
+  "group_status":groups,"work_budget_seconds":int(budget),
+  "same_source_six_component_comparison":{
+    "classification":"NOT_RUN" if groups["six-comparison"]=="NOT_RUN" else "INCONCLUSIVE",
+    "accepted":False,"proof_negative":False,
+    "group_status":groups["six-comparison"],"complete":False}
 },sort_keys=True,indent=2)+"\n")
 AUDIT
   return "$status"
@@ -195,12 +200,12 @@ run_group actual-bounded 680 70 python3 "$pointer_prove" \
 # These short tests use a third diagnostic tool copy. They cannot produce a
 # theorem PASS and do not modify the production six/seven tool homes.
 CURRENT_STAGE=admission-controls
-driver_cap=$(budget_cap 180)
+driver_cap=$(budget_cap 240)
 driver_work=$((driver_cap - 8))
 if (( driver_work < 1 )); then driver_work=1; fi
 if [[ -f "$evidence/actual/cases/bidirectional_merge_len23/normal-exporter.out" &&
       -f "$evidence/actual/cases/bidirectional_merge_len23/normal-exporter-provenance.json" ]]; then
-  run_group admission-controls 180 30 python3 "$component/control-driver.py" \
+  run_group admission-controls 240 30 python3 "$component/control-driver.py" \
     --six-home "$base" --seven-home "$seven" \
     --seven-build-manifest "$evidence/build/seven-profile-manifest.json" \
     --prepared-case "$evidence/preflight/bidirectional_merge_len23" \
@@ -214,6 +219,23 @@ else
   printf 'admission-controls NOT_RUN source\n' >> "$evidence/group-status.txt"
 fi
 
+# Compare the same exact source and posts under the unchanged six-component
+# console. A single synthetic join-location dead record is only diagnostic;
+# the retained harness still reports this case INCONCLUSIVE.
+CURRENT_STAGE=six-comparison
+six_cap=$(budget_cap 680)
+six_vf=$((six_cap - 60))
+if (( six_vf > 600 )); then six_vf=600; fi
+if (( six_vf < 1 )); then six_vf=1; fi
+run_group six-comparison 680 70 env \
+  LD_LIBRARY_PATH="$sysroot/lib:$base/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}" \
+  python3 "$pointer_prove" \
+  --profile 'experimental-merge-six-same-source-comparison-v1-unaccepted' \
+  --scope 'exact same admitted source/posts under unchanged six-patch console; synthetic join dead record is conditional coverage diagnostic only' \
+  --tool-home "$base" --compiler-sysroot "$sysroot" --schema "$schema" \
+  --verifier-seconds "$six_vf" --fixture "$fixture" \
+  --cases bidirectional_merge_len23 --evidence "$evidence/six-comparison"
+
 CURRENT_STAGE=seventh-diagnostic-audit
 audit_cap=$((work_started + work_budget - SECONDS))
 if (( audit_cap > 25 )); then audit_cap=25; fi
@@ -221,4 +243,4 @@ if (( audit_cap > 25 )); then audit_cap=25; fi
 timeout --signal=TERM --kill-after=3s "${audit_cap}s" \
   python3 "$component/audit-seven.py" --manifest "$manifest" \
   --evidence "$evidence" --profile "$profile" \
-  --fixture "$fixture" --tool-home "$seven"
+  --fixture "$fixture" --tool-home "$seven" --six-home "$base"

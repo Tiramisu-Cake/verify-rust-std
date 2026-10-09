@@ -496,7 +496,7 @@ run_mir_or_join_group() {
   remaining=$((lane_work_budget_seconds - elapsed - 140))
   group_timeout=0
   if (( remaining > 0 )); then
-    group_timeout=900
+    group_timeout=1300
     (( remaining < group_timeout )) && group_timeout=$remaining
   fi
   if [[ -e "$group_evidence" ]]; then

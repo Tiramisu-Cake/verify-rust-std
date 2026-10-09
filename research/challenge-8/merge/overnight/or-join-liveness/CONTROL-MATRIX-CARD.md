@@ -51,3 +51,21 @@ partial evidence. A complete matrix needs every corresponding unique refusal,
 roundtrip positive, source gate and the same-source six/ seven coverage and
 full-positive evidence. Existing kernel/cleanup closure remains a separate open
 trust obligation even if all these frontend controls pass.
+
+## Next Cloud gate after fde74800
+
+The fde run certified both initial mutant messages and obtained both exact
+frontend refusals. The roundtrip was lossless and its actual target AST existed,
+but the driver misclassified it because the next-function search matched its
+own indented header. The next source starts that search after the matched
+header, expands to all17 independent modes, and fixes the text-slice helper
+return arity for new mutation guards. These are diagnostic bookkeeping changes;
+no production semantic rule or source changes. The driver work cap is240s
+for all17 official refinement/manual-export/frontend-export checks, with exact
+per-mode results and INCONCLUSIVE on exhaustion. Source hash refusal remains a
+separate gate before export. No new input is called checked until fresh Cloud
+evidence.
+
+Fresh target AST positive uses a10s verifier cap; it credits only frontend
+admission and cannot credit target proof completion. The corresponding full
+positive is separately run with the original full posts.

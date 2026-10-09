@@ -2,8 +2,16 @@
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5899/10800 elapsed
 Cloud seconds**, remaining **4901**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; no active own Build. Own resource9 ready
-request is registered; common client waits for the other ready sender's turn.
+Branch `overnight/merge-26.10`; active own resource9 Build
+**54a22b0d-782c-4056-a512-6dfa31f3fff8**, proof/infra
+7655795962bf7f151643ba1f1b123b721acdf5ed; create06:14:30.062UTC,
+config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2,
+source-input38888f86ef9d3dc5b92874f3066eeebde827acd1e1b88454385c01fc8ed69d01.
+Reservation1800s is not yet charged; use common client to monitor/download.
+Next separate OR full gate is prepared:17 independent shape modes plus source
+hash refusal and same-source six comparison, unchanged semantic patch/posts,
+full7diff identity pinned fromfde. RequestedOR1300s capped at lane remainder;
+no new gate is checked until its own fresh Cloud run.
 Latest OR Build **fde74800-236a-480d-bcfd-289327d923be**, proof/infra
 2276446b979178c8fed57ae893e91a77c2297bf3, FAILURE869s;
 05:38:36.989–05:53:05.002 UTC, config

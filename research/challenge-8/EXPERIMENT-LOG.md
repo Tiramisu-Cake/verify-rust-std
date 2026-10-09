@@ -6170,3 +6170,25 @@ DIAGNOSTIC_COMPLETE_UNACCEPTED/actualfullpositive true,allacceptancefalse;
 fullshape/same-source6/coverage gatesandkernelcapturetrustOPEN.
 Evidence gs://smallsort-ci-evidence-504462351565/cloud-build/fde74800-236a-480d-bcfd-289327d923be/.
 Resource9 ready76557959 remainsindependent; sharedclienthonorsforeignpendingturn.
+
+
+### NIGHT-MERGE — resource9 active; complete OR comparison prepared
+
+Resource9 Build54a22b0d-782c-4056-a512-6dfa31f3fff8 is exact7655795962bf7f151643ba1f1b123b721acdf5ed
+proof/infra, create06:14:30.062UTC, config481ef5154d0c62d48449528baaea6158ea722230e9ce0ad225f6c81df7ef38b2,
+sourceinput38888f86ef9d3dc5b92874f3066eeebde827acd1e1b88454385c01fc8ed69d01;
+common lock/alternating turn enforced after foreign93da48 terminal. Nine groups
+check corrected actualDrop source/MIR/runtimeAST admission and repaired grammar/
+canonical current-owner/permutation components under stock/six; no result yet.
+
+Separately prepared OR gate follows CONTROL-MATRIX-CARD and
+SAME-SOURCE-COMPARISON-CARD. Fixed positiveAST boundary and exporter text-slice
+helper, expands17 independently certified shape variants, sourcehash-refusal
+before export, exactper-mode savedlogs/certs/statushash bindings. Fullsame
+source six comparison follows fresh7positive and driver. ORcap1300 at actual
+lane remainder after140tail; retainedbuildmatrix reserves900 (not1300, which
+would starve prerequisite baseline build), positivefrontend10s cap, driver240.
+The complete7source-diff dcda873b... is now independently identitypinned; no
+changedsemanticpatch/post/kernel/parser/refiner. StaticAST/JSON closure95paths,
+bash-n/diffcheck pass; newCloud required. Allacceptancefalse and historicalfde
+failure preserved.

@@ -105,6 +105,7 @@ cp "$base/$translator" "$evidence/translator.six.ml"
 cp "$seven/$translator" "$evidence/translator.seven.ml"
 git -C "$seven" diff --binary > "$evidence/full-seven-applied-profile.patch"
 git -C "$base" diff --binary > "$evidence/base-six-applied-profile.patch"
+check_pin expected_seven_full_diff_sha256 "$evidence/full-seven-applied-profile.patch"
 cmp "$base_evidence/applied-profile.patch" "$evidence/base-six-applied-profile.patch" ||
   fail 'six-component full patch differs from its build evidence'
 git -C "$seven" diff --name-only > "$evidence/seven-modified-files.txt"

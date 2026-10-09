@@ -22,7 +22,17 @@ import sys
 SCHEMA_SHA = "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
 PARSER_SHA = "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974"
 REFUSAL = "MIR-OR-JOIN-LIVENESS: exact source/MIR/AST join admission failed"
-MODES = {"roundtrip", "storage-live-34", "goto-38-34"}
+MODES = {
+    "roundtrip",
+    "storage-live-34", "storage-live-36",
+    "goto-38-34", "goto-38-36",
+    "statement-count-34", "statement-count-36",
+    "real-statement-34", "predecessor-28",
+    "comparison-eq-33", "comparison-eq-35",
+    "branch-order-33", "branch-order-35",
+    "span-column-34", "span-column-36",
+    "panic-callee", "panic-unwind",
+}
 
 
 def sha(data: bytes) -> str:
@@ -36,6 +46,14 @@ def file_sha(path: Path) -> str:
 def need(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
+
+
+def path(value: object, *keys: str):
+    for key in keys:
+        need(isinstance(value, dict) and key in value,
+             f"normal MIR field is missing: {key}")
+        value = value[key]
+    return value
 
 
 def run(argv: list[str], stdin: bytes | None, seconds: int) -> subprocess.CompletedProcess:
@@ -68,7 +86,7 @@ def balanced_end(text: str, opening: int) -> int:
     raise ValueError("unbalanced decoded Capnp record")
 
 
-def target_block_text(decoded: str, block_id: int) -> tuple[int, int]:
+def target_block_text(decoded: str, block_id: int) -> tuple[int, int, str]:
     paths = list(re.finditer(r'\bdefPath\s*=\s*"bidirectional_merge"', decoded))
     need(len(paths) == 1, "decoded target body count is not one")
     body_start = decoded.rfind("( defKind =", 0, paths[0].start())
@@ -80,10 +98,17 @@ def target_block_text(decoded: str, block_id: int) -> tuple[int, int]:
                               str(block_id) + r'\)\s*,', segment))
     need(len(starts) == 1, f"target basic block {block_id} is not unique")
     opening = body_start + starts[0].start()
-    return opening, balanced_end(decoded, opening)
+    end = balanced_end(decoded, opening)
+    return opening, end, decoded[opening:end]
 
 
-def target_tree(parsed: dict, guard: int) -> tuple[dict, dict]:
+def need_keys(value: object, keys: set[str], label: str) -> dict:
+    need(isinstance(value, dict) and set(value) == keys,
+         f"{label} has missing or unexpected fields")
+    return value
+
+
+def target_tree(parsed: dict, guard: int) -> tuple[dict, dict[int, dict]]:
     need(isinstance(parsed, dict) and isinstance(parsed.get("bodies"), list),
          "normal message has no body list")
     bodies = [body for body in parsed["bodies"]
@@ -93,24 +118,116 @@ def target_tree(parsed: dict, guard: int) -> tuple[dict, dict]:
     need(isinstance(blocks, list), "target has no basic blocks")
     found = {block.get("id", {}).get("index"): block for block in blocks
              if isinstance(block, dict) and isinstance(block.get("id"), dict)}
-    for number in (33, 34, 35, 36, 37, 38):
+    for number in (28, 33, 34, 35, 36, 37, 38):
         need(sum(block.get("id", {}).get("index") == number for block in blocks) == 1,
              f"target basic block {number} is not unique")
+    need(path(found[28], "terminator", "kind", "goto", "index") == 33,
+         "target block 28 is not the expected predecessor Goto33")
     for number in (34, 36):
         stmts = found[number].get("statements")
         need(isinstance(stmts, list) and len(stmts) == 2 and
              all(isinstance(stmt, dict) and
                  set(stmt.get("kind", {})) == {"storageDead"} for stmt in stmts),
              f"target block {number} is not a two-StorageDead edge")
+        for stmt in stmts:
+            storage = need_keys(path(stmt, "kind"), {"storageDead"},
+                                f"block {number} statement kind")["storageDead"]
+            need_keys(storage, {"name"}, f"block {number} StorageDead")
         need(found[number].get("terminator", {}).get("kind", {}).get("goto", {}).get("index") == 37,
              f"target block {number} does not enter 37")
+        term = path(found[number], "terminator")
+        need_keys(path(term, "kind"), {"goto"}, f"block {number} terminator kind")
+        span = path(term, "sourceInfo", "span", "regular")
+        need(path(span, "lo", "file", "name", "real", "localPath") == "verified/lib.rs" and
+             path(span, "hi", "file", "name", "real", "localPath") == "verified/lib.rs" and
+             path(span, "lo", "line") == guard and
+             path(span, "lo", "col", "pos") == 50 and
+             path(span, "hi", "line") == guard + 2 and
+             path(span, "hi", "col", "pos") == 9,
+             f"block {number} Goto source span differs from the frozen normal form")
     first = found[34]["statements"][0]
     need(re.fullmatch(r"_[0-9]+", first["kind"]["storageDead"].get("name", "")) is not None,
          "storage local in block 34 is malformed")
     span = first.get("sourceInfo", {}).get("span", {}).get("regular", {})
     need(span.get("lo", {}).get("line") == guard,
          "block 34 is not at the admitted guard")
-    return bodies[0], found[34]
+    for number, expected_targets in ((33, [35, 34]), (35, [38, 36])):
+        stmts = found[number].get("statements")
+        need(isinstance(stmts, list) and bool(stmts),
+             f"block {number} has no comparison statements")
+        last = need_keys(stmts[-1], {"sourceInfo", "kind"},
+                         f"block {number} final statement")
+        assign = need_keys(path(last, "kind"), {"assign"},
+                           f"block {number} final statement kind")["assign"]
+        assign = need_keys(assign, {"lhsPlace", "rhsRvalue"},
+                           f"block {number} comparison assignment")
+        lhs = need_keys(assign["lhsPlace"],
+                        {"local", "projection", "localIsMutable", "kind"},
+                        f"block {number} comparison destination")
+        need(lhs["projection"] == [] and lhs["kind"] == {"other": None},
+             f"block {number} comparison destination is projected/typed unexpectedly")
+        result_local = path(lhs, "local", "name")
+        need(re.fullmatch(r"_[0-9]+", result_local or "") is not None,
+             f"block {number} comparison result local is malformed")
+        result_decls = [decl for decl in path(bodies[0], "localDecls")
+                        if path(decl, "id", "name") == result_local]
+        need(len(result_decls) == 1 and
+             path(result_decls[0], "ty", "kind") == {"bool": None},
+             f"block {number} comparison result is not its unique bool local")
+        rhs = need_keys(assign["rhsRvalue"], {"binaryOp"},
+                        f"block {number} comparison rvalue")["binaryOp"]
+        rhs = need_keys(rhs, {"operator", "operandl", "operandr"},
+                        f"block {number} binary comparison")
+        need(rhs["operator"] == {"ne": None},
+             f"block {number} comparison is not the expected ne")
+        switch = need_keys(path(found[number], "terminator", "kind"), {"switchInt"},
+                           f"block {number} terminator kind")["switchInt"]
+        switch = need_keys(switch, {"discr", "discrTy", "values", "targets"},
+                           f"block {number} switchInt")
+        need(path(switch, "discr", "move", "local", "name") == result_local and
+             switch["discrTy"] == {"kind": {"bool": None}} and
+             switch["values"] == [{"h": 0, "l": 0}] and
+             [path(target, "index") for target in switch["targets"]] == expected_targets,
+             f"block {number} switch type/value/branch pair differs from the frozen form")
+    block37 = found[37]
+    call = need_keys(path(block37, "terminator", "kind"), {"call"},
+                     "block 37 terminator kind")["call"]
+    call = need_keys(call, {"func", "args", "destination", "callSpan", "unwindAction"},
+                     "block 37 panic call")
+    need(path(call, "func", "constant", "const", "ty", "kind", "fnDef", "id", "name") ==
+         "panic_on_ord_violation" and call["args"] == [] and
+         call["unwindAction"] == {"continue": None},
+         "block 37 panic callee, arguments, or unwind action differs from the frozen form")
+    need(block37.get("isCleanup") is False and
+         len(path(block37, "statements")) == 1 and
+         set(path(block37, "statements")[0].get("kind", {})) == {"storageLive"},
+         "block 37 cleanup flag or setup statements differ from the frozen form")
+    panic_span = path(call, "callSpan", "regular")
+    need(path(panic_span, "lo", "file", "name", "real", "localPath") == "verified/lib.rs" and
+         path(panic_span, "hi", "file", "name", "real", "localPath") == "verified/lib.rs" and
+         path(panic_span, "lo", "line") == guard + 1 and
+         path(panic_span, "hi", "line") == guard + 1,
+         "block 37 panic source span differs from the admitted source call")
+    return bodies[0], found
+
+
+def direct_list_records(text: str, field: str) -> tuple[int, int, list[tuple[int, int]]]:
+    markers = list(re.finditer(r"\b" + re.escape(field) + r"\s*=\s*\[", text))
+    need(len(markers) == 1, f"record list {field} is absent or ambiguous")
+    opening = text.index("[", markers[0].start(), markers[0].end())
+    records = []
+    at = opening + 1
+    while at < len(text):
+        while at < len(text) and (text[at].isspace() or text[at] == ","):
+            at += 1
+        if at < len(text) and text[at] == "]":
+            return opening, at, records
+        need(at < len(text) and text[at] == "(",
+             f"{field} contains an unsupported non-record list item")
+        end = balanced_end(text, at)
+        records.append((at, end))
+        at = end
+    raise ValueError(f"unterminated {field} list")
 
 
 def main() -> int:
@@ -172,31 +289,132 @@ def main() -> int:
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         original = module.CapnpText(decoded.stdout.decode("utf-8")).parse()
-        _, block = target_tree(original, guard)
+        _, original_blocks = target_tree(original, guard)
         expected = copy.deepcopy(original)
-        _, expected_block = target_tree(expected, guard)
+        _, expected_blocks = target_tree(expected, guard)
         output_text = decoded.stdout.decode("utf-8")
-        start, end = target_block_text(output_text, 34)
-        block_text = output_text[start:end]
+        changed = output_text
         change = "none"
-        if mode == "storage-live-34":
-            local = block["statements"][0]["kind"]["storageDead"]["name"]
+        if mode.startswith("storage-live-"):
+            block_id = int(mode.rsplit("-", 1)[1])
+            block_text = target_block_text(output_text, block_id)
+            storage = original_blocks[block_id]["statements"][0]["kind"]["storageDead"]
+            local = storage["name"]
             old = re.compile(r'\bstorageDead\s*=\s*\(name\s*=\s*"' +
                              re.escape(local) + r'"\s*\)')
-            block_text, count = old.subn(f'storageLive = (name = "{local}")',
-                                         block_text, count=1)
-            need(count == 1, "block 34 StorageDead mutation did not match")
-            value = expected_block["statements"][0]["kind"].pop("storageDead")
-            expected_block["statements"][0]["kind"]["storageLive"] = value
-            change = f"body.bidirectional_merge.block34.statements[0].kind.storageDead->storageLive({local})"
-        elif mode == "goto-38-34":
-            block_text, count = re.subn(r'\bgoto\s*=\s*\(index\s*=\s*37\)',
-                                        'goto = (index = 38)', block_text,
-                                        count=1)
-            need(count == 1, "block 34 Goto37 mutation did not match")
-            expected_block["terminator"]["kind"]["goto"]["index"] = 38
-            change = "body.bidirectional_merge.block34.terminator.goto.index:37->38"
-        changed = output_text[:start] + block_text + output_text[end:]
+            mutated, count = old.subn(f'storageLive = (name = "{local}")',
+                                      block_text[2], count=1)
+            need(count == 1, f"block {block_id} StorageDead mutation did not match")
+            expected_blocks[block_id]["statements"][0]["kind"]["storageLive"] = \
+                expected_blocks[block_id]["statements"][0]["kind"].pop("storageDead")
+            change = f"body.bidirectional_merge.block{block_id}.statements[0].kind.storageDead->storageLive({local})"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode.startswith("goto-38-"):
+            block_id = int(mode.rsplit("-", 1)[1])
+            block_text = target_block_text(output_text, block_id)
+            mutated, count = re.subn(r'\bgoto\s*=\s*\(index\s*=\s*37\)',
+                                     'goto = (index = 38)', block_text[2], count=1)
+            need(count == 1, f"block {block_id} Goto37 mutation did not match")
+            expected_blocks[block_id]["terminator"]["kind"]["goto"]["index"] = 38
+            change = f"body.bidirectional_merge.block{block_id}.terminator.goto.index:37->38"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode.startswith("statement-count-"):
+            block_id = int(mode.rsplit("-", 1)[1])
+            block_text = target_block_text(output_text, block_id)
+            _, _, records = direct_list_records(block_text[2], "statements")
+            need(len(records) == 2, f"block {block_id} statement-count source changed")
+            first_end, second_start = records[0][1], records[1][0]
+            separators = list(re.finditer(r",", block_text[2][first_end:second_start]))
+            need(len(separators) == 1,
+                 f"block {block_id} statements do not have one separator")
+            comma = first_end + separators[0].start()
+            second_end = records[1][1]
+            mutated = block_text[2][:comma] + block_text[2][second_end:]
+            expected_blocks[block_id]["statements"].pop(1)
+            change = f"body.bidirectional_merge.block{block_id}.statements.remove(index=1)"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode == "real-statement-34":
+            source_block = target_block_text(output_text, 33)
+            target_block = target_block_text(output_text, 34)
+            _, _, source_records = direct_list_records(source_block[2], "statements")
+            _, target_close, target_records = direct_list_records(target_block[2], "statements")
+            need(source_records and len(target_records) == 2,
+                 "real-statement source/target statement count changed")
+            statement = source_block[2][source_records[-1][0]:source_records[-1][1]]
+            mutated_target = (target_block[2][:target_records[-1][1]] + ",\n" +
+                              statement + target_block[2][target_records[-1][1]:])
+            # The expected tree changes only by appending the existing typed
+            # comparison record from block 33; all operands and local types
+            # remain those of the official normal MIR.
+            expected_blocks[34]["statements"].append(
+                copy.deepcopy(original_blocks[33]["statements"][-1]))
+            change = "body.bidirectional_merge.block34.statements.append(block33.final_typed_ne_assignment)"
+            changed = (output_text[:target_block[0]] + mutated_target +
+                       output_text[target_block[1]:])
+        elif mode == "predecessor-28":
+            block_text = target_block_text(output_text, 28)
+            mutated, count = re.subn(r'\bgoto\s*=\s*\(index\s*=\s*33\)',
+                                     'goto = (index = 37)', block_text[2], count=1)
+            need(count == 1, "block 28 Goto33 mutation did not match")
+            expected_blocks[28]["terminator"]["kind"]["goto"]["index"] = 37
+            change = "body.bidirectional_merge.block28.terminator.goto.index:33->37"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode.startswith("comparison-eq-"):
+            block_id = int(mode.rsplit("-", 1)[1])
+            block_text = target_block_text(output_text, block_id)
+            mutated, count = re.subn(r'\boperator\s*=\s*\(ne\s*=\s*void\)',
+                                     'operator = (eq = void)', block_text[2], count=1)
+            need(count == 1, f"block {block_id} ne operator mutation did not match")
+            rhs = expected_blocks[block_id]["statements"][-1]["kind"]["assign"]["rhsRvalue"]["binaryOp"]
+            rhs["operator"] = {"eq": None}
+            change = f"body.bidirectional_merge.block{block_id}.comparison.operator:ne->eq"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode.startswith("branch-order-"):
+            block_id = int(mode.rsplit("-", 1)[1])
+            block_text = target_block_text(output_text, block_id)
+            targets_start, targets_end, target_records = direct_list_records(
+                block_text[2], "targets")
+            need(len(target_records) == 2,
+                 f"block {block_id} target pair is not exactly two entries")
+            first = block_text[2][target_records[0][0]:target_records[0][1]]
+            second = block_text[2][target_records[1][0]:target_records[1][1]]
+            mutated = (block_text[2][:target_records[0][0]] + second + ", " + first +
+                       block_text[2][target_records[1][1]:])
+            expected_blocks[block_id]["terminator"]["kind"]["switchInt"]["targets"].reverse()
+            change = f"body.bidirectional_merge.block{block_id}.switchInt.targets:swap"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode.startswith("span-column-"):
+            block_id = int(mode.rsplit("-", 1)[1])
+            block_text = target_block_text(output_text, block_id)
+            term_start = block_text[2].find("terminator = (")
+            need(term_start >= 0, f"block {block_id} terminator text absent")
+            term_text = block_text[2][term_start:]
+            low_col = re.compile(r'(\blo\s*=\s*\(.*?\bcol\s*=\s*\(pos\s*=\s*)50(\s*\)\s*\))', re.S)
+            mutated_term, count = low_col.subn(r'\g<1>49\2', term_text, count=1)
+            need(count == 1, f"block {block_id} low-column span mutation did not match")
+            term_span = path(expected_blocks[block_id], "terminator", "sourceInfo", "span", "regular", "lo", "col")
+            term_span["pos"] = 49
+            mutated = block_text[2][:term_start] + mutated_term
+            change = f"body.bidirectional_merge.block{block_id}.terminator.span.lo.col.pos:50->49"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode == "panic-callee":
+            block_text = target_block_text(output_text, 37)
+            mutated, count = re.subn(r'name\s*=\s*"panic_on_ord_violation"',
+                                     'name = "std::process::abort"',
+                                     block_text[2], count=1)
+            need(count == 1, "block 37 panic callee mutation did not match")
+            expected_blocks[37]["terminator"]["kind"]["call"]["func"]["constant"]["const"]["ty"]["kind"]["fnDef"]["id"]["name"] = "std::process::abort"
+            change = "body.bidirectional_merge.block37.call.func.fnDef.id.name:panic_on_ord_violation->std::process::abort"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
+        elif mode == "panic-unwind":
+            block_text = target_block_text(output_text, 37)
+            mutated, count = re.subn(r'unwindAction\s*=\s*\(continue\s*=\s*void\)',
+                                     'unwindAction = (unreachable = void)',
+                                     block_text[2], count=1)
+            need(count == 1, "block 37 unwind-action mutation did not match")
+            expected_blocks[37]["terminator"]["kind"]["call"]["unwindAction"] = {"unreachable": None}
+            change = "body.bidirectional_merge.block37.call.unwindAction:continue->unreachable"
+            changed = output_text[:block_text[0]] + mutated + output_text[block_text[1]:]
         (directory / "encoded-input.txt").write_text(changed)
         check_tree = module.CapnpText(changed).parse()
         need(check_tree == expected, "decoded text changed beyond the declared field")
