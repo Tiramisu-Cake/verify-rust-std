@@ -148,3 +148,25 @@ actual-function claim. A counterexample to unchanged-value assumptions must
 be retained and corrected independently of safety. GitHub dispatch currently
 rejects HTTP422 (Actions disabled for the user); no local execution or new
 hosted result is part of this document.
+
+## Conditional current-owner handoff draft
+
+`current-owner-handoff-cases.rs` isolates a two-cell resource operation. It
+requires destination bytes already equal the CURRENT source pair, in identity
+or swap order, then moves the existing source T.own chunks onto those destination
+cells while retaining source points-to bytes without ownership. Current F/thread/
+type resources frame; equal-valued pairs are allowed. It performs no runtime
+copy, callback or cleanup and does not derive that equality/permutation from the
+actual merge. In particular, earlier recorded copies are not current source
+values after an arbitrary callback. This ghost component remains UNTESTED until
+a fresh Cloud run; it is a partial ownership-transfer component, not actual caller
+or unrestricted safety acceptance. Positive size/four-cell separation/object
+limits are explicit; Generic/ZST and the Freeze/share bridge remain open.
+
+Fresh read-only cleanup review retains the kernel trust gap: strict exit checks
+Chunk.targs, but not predicate terms/closure captures, coefficients or sizes.
+The exact frontend rejects literal hidden `<&'cmp T>.full_borrow_content`, yet
+opaque T.own/F.own and every marker's provenance still need a semantic closure
+argument. All surviving chunks/terms must remain typable in the outer environment;
+current bounded admission/green controls do not establish this invariant. No new
+kernel rule is implemented or accepted by this draft.

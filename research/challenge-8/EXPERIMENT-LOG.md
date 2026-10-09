@@ -5503,3 +5503,26 @@ Exact remote branch confirmed before common-client request/submit;
 foreign546547c0 terminal reconciled first, no overlapping Build. Timeout1740,
 queue60,envelope1800,16groups selected/runtime probe false. New own evidence
 required; no proof result yet. Retained profile/runtime/posts unchanged.
+
+Independent ownership handoff draft card (not current recipe): problem: byte
+copies/initialized destination slots do not create T.own; a caller must move
+existing current owners, rather than duplicate source and destination owners.
+Propose a partial two-cell ghost component: initialized current source cells
+with exactly their existing T.own chunks, initialized destination cells whose
+current values equal that same pair in identity or swap orientation, full
+pointer separation/positive size, current F resource framed. Consume only the
+existing source owner chunks into a destination-owned predicate, retain source
+bytes in a source-values-only predicate. Require destination equality to CURRENT
+source values explicitly; neither snapshot replacement nor copying yields it.
+No runtime write/callback/cleanup or std-function summary; impossible unwind
+for the isolated ghost-only wrapper. No Freeze/purity restriction added to the
+actual safety target. This is conditional on an equality/permutation bridge
+that actual generic caller must prove separately, and cannot be used to claim
+caller ownership for arbitrary callback mutations. Trusted existing points-to/
+T.own semantics and unchanged experimental profile; no new semantic rule.
+Positive needs checked ghost body and all export/decode/refinement/body/return/
+leak/dead gates. Do not use a duplicated T.own negative because T.own may be
+empty/copyable. Any chosen physical-cell negative must be separately calibrated
+before proof-negative credit. If representation/current-value correspondence
+cannot be derived, stop at this conditional component; do not assume bridge.
+No new lane/group until draft review and a later independently pinned recipe.
