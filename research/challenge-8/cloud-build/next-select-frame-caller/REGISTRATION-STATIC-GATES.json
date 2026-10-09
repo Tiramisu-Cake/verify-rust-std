@@ -1,0 +1,44 @@
+{
+  "kind": "isolated service parser/validation test; no coordinator/API/tool execution",
+  "cases": [
+    {
+      "case": "exact fresh phase",
+      "result": "PASS"
+    },
+    {
+      "case": "ceiling",
+      "result": "INTENDED_REJECT",
+      "reason": "Next select phase requires its exact separate account, owner, window and lanes"
+    },
+    {
+      "case": "owner",
+      "result": "INTENDED_REJECT",
+      "reason": "Next select phase requires its exact separate account, owner, window and lanes"
+    },
+    {
+      "case": "start",
+      "result": "INTENDED_REJECT",
+      "reason": "Next select phase requires its exact separate account, owner, window and lanes"
+    },
+    {
+      "case": "main deadline",
+      "result": "INTENDED_REJECT",
+      "reason": "Next select phase requires its exact separate account, owner, window and lanes"
+    },
+    {
+      "case": "absolute deadline",
+      "result": "INTENDED_REJECT",
+      "reason": "Phase deadline exceeds its authorized cutoff"
+    },
+    {
+      "case": "unapproved lane",
+      "result": "INTENDED_REJECT",
+      "reason": "Next select phase requires its exact separate account, owner, window and lanes"
+    },
+    {
+      "case": "closed account",
+      "result": "INTENDED_REJECT",
+      "reason": "Phase account is closed or has no explicit authorization"
+    }
+  ]
+}

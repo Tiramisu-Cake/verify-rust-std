@@ -1,3 +1,11 @@
+# Current phase: NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09 — IN PROGRESS
+
+[Phase](cloud-build/next-select-frame-caller/PHASE.md), [separate3600ledger](cloud-build/next-select-frame-caller/BUDGET.json). Start14:03:33UTC/17:03:33MSK, main15:03:33UTC/18:03:33MSK, absolute15:33:33UTC/18:33:33MSK. Main60min, completion-only<=30min bydirectowner override. Policyrevisiond389ff64 read, PR4 alreadyancestral; local/remote f398c06b clean atstart.
+
+CorrectedFRAME-shadow adapter0378 is startingcandidate READY_STATIC_NOT_RUN. No freshbaseline/off/partial/on/helper/nested/outer result yet. Preserve fulltargetposts/resources and selectedproofblobs; sourcecapture not proof, historicalnested onlyatits exactprofiles, oldFRAME currentwrapper equality onlyreached conditiontrue. Newphase narrowregistration and preparation inprogress; no Cloud spend yet.
+
+# Historical AFTERNOON checkpoint (closed)
+
 # Current phase: AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Phase](cloud-build/afternoon-select-sort4/PHASE.md), [new separate3600 ledger](cloud-build/afternoon-select-sort4/BUDGET.json).

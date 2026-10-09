@@ -20,6 +20,11 @@ DAY_DEADLINE='2026-10-09T11:15:54Z'
 AFTERNOON_PHASE='AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09'
 AFTERNOON_DEADLINE='2026-10-09T13:50:06Z'
 AFTERNOON_LANES=frozenset(('o26-input-relation-frame-shadow-test','o26-input-relation-frame-shadow-capture','o26-input-relation-frame-test','o26-input-relation-frame-capture','o26-r3-ghost-scope-test','o26-wrapper-r3-nested-diagnostics','o26-input-relation-shadow-capture','o26-generic-sort4-postmark-diagnostics','o26-strict-cut-reuse-false-posts'))
+NEXT_SELECT_PHASE='NEXT-SELECT-FRAME-CALLER-CLOUD-2026-10-09'
+NEXT_SELECT_START='2026-10-09T14:03:33Z'
+NEXT_SELECT_MAIN_DEADLINE='2026-10-09T15:03:33Z'
+NEXT_SELECT_DEADLINE='2026-10-09T15:33:33Z'
+NEXT_SELECT_LANES=frozenset(('o26-input-relation-frame-shadow-test','o26-select-sort4-first-caller-test'))
 LANE_PATTERN=re.compile(r'[a-z][a-z0-9-]{0,63}\Z')
 PHASE_PATTERN=re.compile(r'[A-Z][A-Z0-9-]{0,100}\Z')
 OWNER_PATTERN=re.compile(r'[A-Za-z0-9._-]{1,80}\Z')
@@ -235,12 +240,14 @@ def authorized_phase(a,ledger):
  if a.phase_id==DAY_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4'):raise SystemExit('Day select phase requires its separate 3600-second account and owner')
  if not isinstance(ledger.get('allowed_lanes'),list):raise SystemExit('Phase account needs an explicit lane allowlist')
  if a.phase_id==AFTERNOON_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=AFTERNOON_LANES):raise SystemExit('Afternoon select phase requires its separate 3600-second account, exact owner and approved lanes')
+ if a.phase_id==NEXT_SELECT_PHASE and (ledger['ceiling_build_seconds']!=3600 or a.owner!='select-sort4' or ledger.get('owner')!='select-sort4' or not set(ledger['allowed_lanes'])<=NEXT_SELECT_LANES or ledger.get('start_utc')!=NEXT_SELECT_START or ledger.get('main_deadline_utc')!=NEXT_SELECT_MAIN_DEADLINE):raise SystemExit('Next select phase requires its exact separate account, owner, window and lanes')
  try:deadline=datetime.datetime.fromisoformat(ledger['deadline_utc'].replace('Z','+00:00'))
  except (KeyError,AttributeError,ValueError) as error:raise SystemExit('Invalid phase deadline') from error
- cutoff=datetime.datetime.fromisoformat((AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
+ cutoff=datetime.datetime.fromisoformat((NEXT_SELECT_DEADLINE if a.phase_id==NEXT_SELECT_PHASE else AFTERNOON_DEADLINE if a.phase_id==AFTERNOON_PHASE else DAY_DEADLINE if a.phase_id==DAY_PHASE else NIGHT_DEADLINE).replace('Z','+00:00'))
  if deadline.tzinfo is None or deadline>cutoff:raise SystemExit('Phase deadline exceeds its authorized cutoff')
  if a.phase_id==DAY_PHASE and deadline!=cutoff:raise SystemExit('Day select phase requires its exact absolute deadline')
  if a.phase_id==AFTERNOON_PHASE and deadline!=cutoff:raise SystemExit('Afternoon select phase requires its exact absolute deadline')
+ if a.phase_id==NEXT_SELECT_PHASE and deadline!=cutoff:raise SystemExit('Next select phase requires its exact absolute deadline')
  if a.phase_id==NIGHT_PHASE and deadline!=cutoff:raise SystemExit('Select phase requires its exact 08:00 UTC deadline')
  if datetime.datetime.now(datetime.timezone.utc)>=deadline:raise SystemExit('Phase deadline has passed')
  return deadline
