@@ -6246,3 +6246,17 @@ andzerocopy/return/leak afterfailure; allglobaldeadrecords refused. Card was
 writtenbeforeimplementation and reviewedstaticagainstfreshevidence. Noverifier/
 model/kernel/stdsource/post changes, noownershipbridge orsnapshotassumption.
 AllPythonAST/JSONpathclosure96/stdhash/diffcheck statics; Cloudrequired.
+
+
+### NIGHT-MERGE — fresh C1/Drop protocol boundary review
+
+Read-only54a artifacts separately establish prototypeimplementationproof
+executed (log141–144, ghostopens81/82) andgenerated CopyOnDrop_own=False
+(AST100, frozenprivatefieldsrule translator6692–6696). It is vacuous type
+compatibility, NOT caller/cleanup acceptance. Actualruntimebodyunderstrong
+explicitmem/owner/span contract remains genuine1r1l independentofprototype
+check. Genericdrop_in_place needsOwnGuard, not providedbyFalse. UpdatedC1
+requirements: nonvacuousguardinterpretation/source-linkedresourcehandoff/
+normalforget+unwindglue/currentownerpool/physicalcapturelineage. No new rule,
+constructor trial or resourcepremise inferred; currentclassifierNOT_ESTABLISHED
+continues to mean callablepubliccallerpath not admitted.

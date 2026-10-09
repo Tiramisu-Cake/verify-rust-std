@@ -83,3 +83,34 @@ current values/resources under the proved frame. Sorted-half, immutable-key,
 strict-weak-order, and faithful-normal-answer premises belong to the separate
 functional sorting proof. They must not be smuggled into the C1/F caller
 contract to obtain an easier resource or callback argument.
+
+## Fresh guard protocol evidence —54a22b0d
+
+The direct generic `CopyOnDrop::drop` body is checked under the explicit strong
+resource contract: count-n initialized source bytes with EXISTING T owners,
+writeable destination bytes, valid/disjoint spans and guardfields, full normal
+post and unwindfalse. Actualruntime1return1leak and source/copy operands are
+separately checked. This does not establish its use through ordinary drop glue.
+
+Freshpositive proofAST line100 has `TypePredDef` for CopyOnDrop's generated
+`own` with bodyFalse, from the frozen frontend rule for a struct with no public
+fields (translator.original.ml6692–6696; verifiedsource4–8 allfieldsprivate).
+The prototype implementation proof is ASTFunc field7; actualruntime is field10.
+PositiveVF log141–144 explicitly checks that prototype and executes the two
+`open` annotations81/82 before the actual runtimebody proof. This establishes
+`prototype safety_proof executed, vacuous own=false`, independently of the
+strong actualbody result. Existing `compatibility_path_status=NOT_ESTABLISHED`
+continues to denote `generic destructor/caller applicability not established`.
+
+Frozen `drop_in_place<T>` stdlib597–600 needs a real `<T>.own` chunk. The
+generated False guardinterpretation cannot provide a nonfalse owned CopyOnDrop
+value to that route. Before caller composition: separately justify a nonvacuous
+guard resourceinterpretation, source-linked construction and current source/
+destination/ownerpool handoff, then actual normal forget and unwind glue.
+No interpretation/constructor/kernel change is introduced by this evidence note.
+It must preserve currentvalues, provenance and coefficient/term/size lineage,
+and transfer every owner exactly once on both normal/unwind exits.
+The arbitrary-index transposition component now checked in this same Build
+helps only when the needed CURRENT destinationvalue relation has already been
+proved; it supplies neither initializedbytes from arithmetic nor callbackframe
+nor this guard/genericdrop applicability bridge.
