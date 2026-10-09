@@ -5,7 +5,7 @@ return;
 
 // CASE source-frame-positive
 /*@
-if (0 < std::mem::size_of::<T>()) {
+if (true) {
     assert thread_token(?t);
     assert t == currentThread;
     assert v_base[..len] |-> ?source_all;

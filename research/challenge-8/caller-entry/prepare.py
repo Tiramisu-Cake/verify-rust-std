@@ -232,14 +232,19 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         b"}\n"
         b"@*/\n"
     )
-    fragment_insertions = runtime_path_filters + overflow_bound_check
+    scratch_success_filter = (
+        b"    if scratch.len() < len + 16 {\n"
+        b"        return;\n"
+        b"    }\n"
+    )
+    fragment_insertions = runtime_path_filters + overflow_bound_check + scratch_success_filter
     prefix = (source_prefix[:len_end] + fragment_insertions +
               source_prefix[len_end:])
     _need(prefix.count(fragment_insertions) == 1,
           "diagnostic insertions are absent or ambiguous in filtered prefix")
     _need(prefix.replace(fragment_insertions, b"", 1) == source_prefix,
           "removing the exact diagnostic insertions did not recover source prefix")
-    _need(prefix.index(overflow_bound_check) < prefix.index(scratch_limit_check),
+    _need(prefix.index(overflow_bound_check) < prefix.index(scratch_success_filter) < prefix.rindex(scratch_limit_check),
           "checked overflow bound must precede the original len+16 check")
     cond1_at = caller.index(SORT8_CONDITION, prefix_end)
     cond2_at = caller.index(SORT4_CONDITION, cond1_at)
@@ -251,7 +256,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
     call_at = caller.index(call_anchor)
     _need(b"is_less(" not in prefix and b"ptr::copy_nonoverlapping(" not in prefix,
           "callback or copy appears before the first call in the preserved prefix")
-    case_body = _case_source(case)
+    case_body = b"//@ assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY\n" + _case_source(case)
     indented_case = b"            " + case_body.replace(b"\n", b"\n            ").rstrip()
     branch = (b"\n        " + cond1 + b"\n            return;\n        " + cond2 + b"\n" +
               indented_case + b"\n        " + cond3 + b"\n            return;\n        }\n    }\n}")
@@ -284,6 +289,8 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("overflow_array_invariant", b"array_inv::<T>();"),
         ("overflow_large_type_mono", b"mul_mono_l(1, std::mem::size_of::<T>(), len);"),
         ("overflow_small_type_bound", b"assert len < 16;"),
+        ("scratch_success_path_filter", scratch_success_filter),
+        ("first_sort4_callsite_boundary", b"assert len >= 8; // FIRST_SORT4_CALLSITE_BOUNDARY"),
         ("original_scratch_len_plus_16_check", scratch_limit_check),
         ("positive_identity_lemma", b"c1_entry_identity::<T, F>"),
         ("source_subset_four", b"assert v_base[..4] |-> ?first_four;"),
@@ -294,7 +301,7 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
         ("source_sort4_condition", SORT4_CONDITION),
     ):
         if needle in verified:
-            at = verified.rindex(needle) if label == "source_sort8_condition" else verified.index(needle)
+            at = verified.rindex(needle) if label in ("source_sort8_condition", "original_scratch_len_plus_16_check") else verified.index(needle)
             line_targets[label] = verified[:at].count(b"\n") + 1
     line_lists = {}
     for label, needle in (
@@ -375,6 +382,11 @@ def prepare(repo: Path, out: Path, case: str) -> dict:
             "original_scratch_len_plus_16_check_byte_start":
                 caller_start + caller.index(scratch_limit_check),
             "runtime_filter_insertion_sha256": _sha(runtime_path_filters),
+            "scratch_success_filter_sha256": _sha(scratch_success_filter),
+            "scratch_success_filter_matches_original_condition": True,
+            "original_abort_check_retained_verbatim": True,
+            "scratch_success_filter_insertion_source_byte": caller_start + len_end,
+            "scratch_success_filter_condition": scratch_limit_check.decode(),
             "overflow_bound_check_insertion_sha256": _sha(overflow_bound_check),
         },
         "original_prefix_source_sha256": _sha(source_prefix),
