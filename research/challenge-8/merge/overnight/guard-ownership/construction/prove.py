@@ -192,7 +192,7 @@ def mir_gate(case: Path, line: int) -> dict:
             "no_drop_impl_or_cleanup": not forbidden and not drop_bodies}
 
 
-def ast_gate(case: Path, line: int) -> dict:
+def ast_gate(case: Path, line: int, variant: str) -> dict:
     path = case / "proof-ast.ml"
     if not path.is_file():
         return {"admitted": False, "reason": "proof AST missing"}
@@ -204,10 +204,13 @@ def ast_gate(case: Path, line: int) -> dict:
         return {"admitted": False, "reason": "custom own definition count differs",
                 "own_count": len(own)}
     definition = own[0].args[4]
-    right = (isinstance(definition, ast.Node) and definition.name == "Right" and
-             len(definition.args) == 3 and definition.args[0] == ["t", "v"] and
-             isinstance(definition.args[1], ast.Node) and
-             definition.args[1].name == "Some" and definition.args[1].args == [2])
+    right_shape = (isinstance(definition, ast.Node) and definition.name == "Right" and
+                   len(definition.args) == 3 and definition.args[0] == ["t", "v"])
+    precision_matches = (right_shape and
+                         ((variant == "v2" and isinstance(definition.args[1], ast.Node) and
+                           definition.args[1].name == "Some" and definition.args[1].args == [2]) or
+                          (variant == "v3" and definition.args[1] == ast.Sym("None"))))
+    right = bool(precision_matches)
     body = definition.args[2] if right else None
     calls = [node.args[1] for node in ast.nodes(body, "CallExpr")
              if len(node.args) > 1 and isinstance(node.args[1], str)] if right else []
@@ -215,6 +218,46 @@ def ast_gate(case: Path, line: int) -> dict:
                len(ast.nodes(body, "PointsTo")) >= 2 and
                "foreach" in calls and "own" in calls and
                "src_values" in repr(body))
+    fbc_declarations = [node for node in ast.nodes(tree, "PredCtorDecl")
+                        if len(node.args) == 7 and
+                        node.args[1] == "CopyOnDrop_full_borrow_content"]
+    fbc_shape = False
+    if len(fbc_declarations) == 1:
+        fbc = fbc_declarations[0]
+        fbc_body = fbc.args[6]
+        fields = ast.nodes(fbc_body, "PointsTo")
+        field_names = []
+        for point in fields:
+            if (len(point.args) == 4 and isinstance(point.args[1], ast.Node) and
+                    point.args[1].name == "Read" and len(point.args[1].args) == 3 and
+                    isinstance(point.args[1].args[1], ast.Node) and
+                    point.args[1].args[1].name == "Var" and
+                    point.args[1].args[1].args[-1] == "l" and
+                    isinstance(point.args[3], ast.Node) and
+                    point.args[3].name == "VarPat" and
+                    point.args[3].args[-1] == point.args[1].args[2]):
+                field_names.append(point.args[1].args[2])
+        fbc_calls = ast.nodes(fbc_body, "CallExpr")
+        padding = [node for node in fbc_calls
+                   if len(node.args) == 6 and node.args[1] == "struct_CopyOnDrop_padding"]
+        value_own = [node for node in fbc_calls
+                     if len(node.args) == 6 and node.args[1] == "CopyOnDrop_own"]
+        aggregate_values = ast.nodes(fbc_body, "InitializerList")
+        aggregate_fields = []
+        if len(aggregate_values) == 1 and len(aggregate_values[0].args) == 2:
+            for pair in aggregate_values[0].args[1]:
+                if (isinstance(pair, tuple) and len(pair) == 2 and
+                        pair[0] == ast.Sym("None") and isinstance(pair[1], ast.Node) and
+                        pair[1].name == "Var"):
+                    aggregate_fields.append(pair[1].args[-1])
+        expected_precision = ast.Sym("None") if variant == "v3" else ast.Node("Some", [0])
+        fbc_shape = (fbc.args[2] == ["T"] and len(fbc.args[3]) == 2 and
+                     [pair[1] for pair in fbc.args[3]] == ["tid", "l"] and
+                     fbc.args[4] == [] and fbc.args[5] == expected_precision and
+                     len(fields) == 3 and field_names == ["src", "dst", "len"] and
+                     len(fbc_calls) == 2 and len(padding) == len(value_own) == 1 and
+                     aggregate_fields == ["src", "dst", "len"] and
+                     not ast.nodes(fbc_body, "False"))
     functions = [node for node in ast.nodes(tree, "Func")
                  if len(node.args) == 13 and node.args[4] == TARGET and
                  node.args[10] != ast.Sym("None")]
@@ -334,14 +377,68 @@ def ast_gate(case: Path, line: int) -> dict:
                     unwinding[0].name == "False")
     runtime_calls = [node.args[1] for node in ast.nodes(runtime, "CallExpr")
                      if len(node.args) > 1 and isinstance(node.args[1], str)]
-    own_closes = [node for node in ast.nodes(runtime, "Close")
-                  if "CopyOnDrop_own" in repr(node)]
-    admitted = (payload and initializer_exact and not drop_functions and
+    all_closes = ast.nodes(runtime, "Close")
+    all_opens = ast.nodes(runtime, "Open")
+    all_assertions = ast.nodes(runtime, "Assert")
+    own_closes = [node for node in all_closes if "CopyOnDrop_own" in repr(node)]
+    own_opens = [node for node in all_opens if "CopyOnDrop_own" in repr(node)]
+
+    def opens_or_closes_expected_guard(node) -> bool:
+        if len(node.args) != 7 or node.args[2] != "CopyOnDrop_own" or \
+                len(node.args[5]) != 2:
+            return False
+        names = []
+        for pattern in node.args[5]:
+            if (not isinstance(pattern, ast.Node) or pattern.name != "LitPat" or
+                    len(pattern.args) != 1):
+                return False
+            names.append(var_name(pattern.args[0]))
+        return names == ["t", "drop_guard"]
+    roundtrip_assertions = []
+    if variant == "v3":
+        for node in ast.nodes(runtime, "Assert"):
+            if len(node.args) < 2:
+                continue
+            expression = node.args[1]
+            expression_calls = [item.args[1] for item in ast.nodes(expression, "CallExpr")
+                                if len(item.args) > 1 and isinstance(item.args[1], str)]
+            if (len(ast.nodes(expression, "PointsTo")) >= 2 and
+                    "foreach" in expression_calls and "own" in expression_calls and
+                    all(name in repr(expression) for name in
+                        ("scratch_base", "v_base", "len", "src_values"))):
+                roundtrip_assertions.append(node)
+    roundtrip_shape = False
+    if variant == "v3" and len(own_closes) == 2 and len(own_opens) == 1 and \
+            len(all_closes) == 2 and len(all_opens) == 1 and \
+            all(opens_or_closes_expected_guard(node) for node in own_closes + own_opens) and \
+            len(roundtrip_assertions) == 1:
+        first_close_line = ast.location_line(own_closes[0].args[0])
+        open_line = ast.location_line(own_opens[0].args[0])
+        assertion_line = ast.location_line(roundtrip_assertions[0].args[0])
+        second_close_line = ast.location_line(own_closes[1].args[0])
+        false_assertions = [node for node in all_assertions
+                            if ast.nodes(node, "False")]
+        expected_runtime_assertions = 1 + (1 if case.name == "first_body_false" else 0)
+        roundtrip_shape = (
+            first_close_line < open_line < assertion_line < second_close_line and
+            len(all_assertions) == expected_runtime_assertions and
+            len(false_assertions) == expected_runtime_assertions - 1 and
+            (not false_assertions or
+             ast.location_line(false_assertions[0].args[0]) > second_close_line))
+    own_precision_gate = (precision_matches and
+                          (variant != "v3" or roundtrip_shape))
+    admitted = (payload and own_precision_gate and
+                (variant != "v3" or fbc_shape) and initializer_exact and not drop_functions and
                 full_supplied_pre and
-                full_normal and unwind_false and len(own_closes) == 1 and
+                full_normal and unwind_false and
+                (len(own_closes) == 1 if variant == "v2" else
+                 len(own_closes) == 2 and len(own_opens) == 1 and roundtrip_shape) and
                 not any(name in {"assume", "#assume"} for name in runtime_calls) and
                 fn.args[7] == (ast.Sym("None"), ast.Sym("None")))
     return {"admitted": admitted, "own_payload": payload,
+            "generated_fbc_matches_expected_precision_and_payload": fbc_shape,
+            "own_precision_is_expected": bool(precision_matches),
+            "own_precision": "precise" if variant == "v2" else "nonprecise",
             "false_node_count": len(ast.nodes(body, "False")) if right else None,
             "runtime_body_count": len(functions),
             "drop_func_count": len(drop_functions),
@@ -354,6 +451,12 @@ def ast_gate(case: Path, line: int) -> dict:
             "result_len_at_least_two": length_lower_bound,
             "literal_unwind_false": unwind_false,
             "own_close_count": len(own_closes),
+            "own_open_count": len(own_opens),
+            "runtime_open_count": len(all_opens),
+            "runtime_close_count": len(all_closes),
+            "runtime_assertion_count": len(all_assertions),
+            "payload_roundtrip_assertion_count": len(roundtrip_assertions),
+            "payload_roundtrip_open_assert_close": roundtrip_shape,
             "runtime_assume_count": sum(name in {"assume", "#assume"}
                                         for name in runtime_calls)}
 
@@ -406,7 +509,7 @@ def run_case(name: str, meta: dict, args, env: dict) -> dict:
     except Exception as error:
         mir_result = {"admitted": False, "reason": f"MIR admission failed closed: {error}"}
     try:
-        ast_result = ast_gate(case, meta["verified_statement_line"])
+        ast_result = ast_gate(case, meta["verified_statement_line"], args.variant)
     except Exception as error:
         ast_result = {"admitted": False, "reason": f"AST admission failed closed: {error}"}
     log = (case / "verifast.log").read_text(errors="replace")
@@ -463,10 +566,15 @@ def main() -> int:
     parser.add_argument("--capnp-include", type=Path, action="append", default=[])
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--profile", required=True)
+    parser.add_argument("--variant", choices=("v2", "v3"), default="v2")
     parser.add_argument("--profile-evidence", type=Path, required=True)
     parser.add_argument("--stage-seconds", type=int, default=90)
     parser.add_argument("--verifier-seconds", type=int, default=base.TIMEOUT_SECONDS)
     args = parser.parse_args()
+    global prep
+    if args.variant == "v3":
+        prep = load("guard_constructor_v3_preparation",
+                    HERE / "nonprecise-v3" / "prepare.py")
     if args.profile not in {"stock-26.10", base.EXPERIMENTAL_PROFILE} or \
             not 1 <= args.stage_seconds <= 600 or \
             not 1 <= args.verifier_seconds <= 600:
@@ -484,10 +592,20 @@ def main() -> int:
     args.evidence.mkdir(parents=True)
     extraction = prep.extract(source, args.evidence / "cases",
                               args.evidence / "extraction.json")
-    if extraction["exact_own_sha256"] != prep.P.sha(prep.OWN) or \
-            extraction["constructor_contract_sha256"] != prep.P.sha(prep.CONSTRUCTOR_CONTRACT) or \
-            extraction["fractional_v1_own_sha256"] != prep.P.sha(prep.P.OWN) or \
-            extraction["full_source_permission_only"] is not True:
+    inherited_payload_valid = (
+        extraction.get("exact_own_sha256") == prep.P.sha(prep.OWN) and
+        extraction.get("constructor_contract_sha256") == prep.P.sha(prep.CONSTRUCTOR_CONTRACT) and
+        extraction.get("full_source_permission_only") is True)
+    if args.variant == "v2":
+        inherited_payload_valid = (inherited_payload_valid and
+            extraction.get("fractional_v1_own_sha256") == prep.P.sha(prep.P.OWN))
+    else:
+        inherited_payload_valid = (inherited_payload_valid and
+            extraction.get("v2_full_source_own_sha256") == prep.P.sha(prep.V2.OWN) and
+            extraction.get("own_payload_body_matches_v2") is True and
+            extraction.get("nonprecise_own") is True and
+            extraction.get("roundtrip_sha256") == prep.sha(prep.ROUNDTRIP))
+    if not inherited_payload_valid:
         raise RuntimeError("inherited non-False own or full constructor contract differs")
     rustc = shutil.which("rustc")
     capnp = shutil.which("capnp")
@@ -512,7 +630,7 @@ def main() -> int:
     env["LD_LIBRARY_PATH"] = ":".join(filter(None, [
         str(args.compiler_sysroot / "lib"), str(args.tool_home / "bin"),
         env.get("LD_LIBRARY_PATH", "")]))
-    (args.evidence / "environment.json").write_text(json.dumps({
+    environment_record = {
         "diagnostic_profile": prep.PROFILE, "tool_profile": args.profile,
         "profile_pins": pins, "proof_sha": proof_sha, "provider": provider,
         "source_sha256": base.file_sha(source),
@@ -520,7 +638,17 @@ def main() -> int:
         "schema_sha256": base.file_sha(args.schema),
         "rustc_sha256": base.file_sha(Path(rustc)), "rustc_version": version,
         "compiler_drivers": drivers, "capnp_sha256": base.file_sha(Path(capnp)),
-        "accepted": False}, indent=2) + "\n")
+        "accepted": False}
+    if args.variant == "v3":
+        environment_record.update({
+            "cloud_build_id": provider["build_id"],
+            "profile_evidence": str(args.profile_evidence.resolve()),
+            "compiler_sysroot": str(args.compiler_sysroot.resolve()),
+            "tool_home": str(args.tool_home.resolve()),
+            "schema_path": str(args.schema.resolve()),
+        })
+    (args.evidence / "environment.json").write_text(
+        json.dumps(environment_record, indent=2) + "\n")
     rows = {}
     for name in ("positive", "first_body_false"):
         rows[name] = run_case(name, extraction["cases"][name], args, env)

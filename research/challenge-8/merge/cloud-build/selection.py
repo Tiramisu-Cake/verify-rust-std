@@ -43,6 +43,8 @@ NEW_GROUPS = {
     "guard-payload-own-stock-diagnostic",
     "guard-construction-fragment-diagnostic",
     "guard-construction-fragment-stock-diagnostic",
+    "guard-construction-nonprecise-v3-diagnostic",
+    "guard-construction-nonprecise-v3-stock-diagnostic",
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {
@@ -60,6 +62,14 @@ DEPENDENCIES = {
     },
     "guard-construction-fragment-stock-diagnostic": {
         "actual-source-preparation", "rust-profile-smoke",
+    },
+    "guard-construction-nonprecise-v3-diagnostic": {
+        "actual-source-preparation", "bidirectional-small-source-preparation",
+        "rust-profile-smoke",
+    },
+    "guard-construction-nonprecise-v3-stock-diagnostic": {
+        "actual-source-preparation", "bidirectional-small-source-preparation",
+        "rust-profile-smoke",
     },
     "mir-or-join-seven-diagnostic": {
         "actual-source-preparation", "bidirectional-small-source-preparation",

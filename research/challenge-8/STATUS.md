@@ -4,11 +4,17 @@ New explicit owner authorization: [phase](merge/AFTERNOON-MERGE-GUARD-CLOUD-2026
 [separate3600ledger](cloud-build/afternoon-merge-guard/BUDGET.json), owner merge.
 Start11:15:53UTC/14:15:53MSK; main13:15:53UTC/16:15:53MSK;
 absolute13:45:53UTC/16:45:53MSK. Existing Cloud/overnight/merge-26.10 workflow.
-PR2 singlecommit transferred preserving local registrations/proofs; first gate
-Cloud-only18-case coordination-regression, then W2 reachable guardowner/FBC/Drop/glue.
-Transition evidence: foreignsessionSTOP/expired/no oldcommands; no reservationreset.
-0/3600used; no ownactive. Historical DAY/NIGHT accountsclosed, notavailable.
-New semantic design requires card/selfreview; all priorresult boundaries below retained.
+PR2 source55414a5c transferred asc81fd1a5 preserving registrations/proofs.
+Testedinfra/proofe918eb875119d912b981da2bfec4e0406e06571e;
+Builda0f40e03-fb76-4974-893b-3aad48331f7f SUCCESS100s, full18cases PASS,
+archive/externaltext verified. [Results](cloud-build/afternoon-merge-guard/COORDINATION-RESULT.md).
+v2 activeemptyenvelope retained; legacy/publicparallelbehavior testedsynthetically,
+no realtwo-Buildparallelobservation.100/3600used3500remaining,noownactive.
+V3full-source nonpreciseown/FBC candidate preservesallcurrentowners/arrays;
+[card](merge/overnight/guard-ownership/construction/nonprecise-v3/SEMANTIC-CARD.md)
+precedes implementation/selfreview. Exactconstructor+payloadroundtrip+matchedfalse
+first; actualtype/FBC/Dropgeometry/generatedpost/glue remainseparategates.
+Historical DAY/NIGHT accountsclosed, notransfer; priorboundariesbelowpreserved.
 
 ---
 

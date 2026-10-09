@@ -67,3 +67,30 @@ Bytes/address/share/Freeze/FnMut cannotmintowners/frame. Currentvalues surviveco
 normalforget mustnotlosepayload; unwindrestorescurrentscratch notentrysnapshot.
 Suppliedconstructorresources do not prove actual seed/sort4/sort8/insert_tail handoff.
 Generic/ZST/arbitrary-n actualmemory/callback/fullprofiletrust remainseparate.
+
+## Dispatcher gate outcome
+
+Builda0f40e03-fb76-4974-893b-3aad48331f7f at e918eb875119d912b981da2bfec4e0406e06571e
+SUCCESS100charged; full18cases PASS, allrawobservations/log/sourceidentities inspected.
+[All18results](../cloud-build/afternoon-merge-guard/COORDINATION-RESULT.md).
+Productionv2 activated firstreserve, retainedemptyenvelope afterterminal; nopeer
+reserveatentry. Syntheticconcurrency/API evidence only, real2-buildparallelnotobserved.
+100/3600used3500remaining; noownactive. No secondownslot/paidparalleltest created.
+
+## Experiment II — full-source nonprecise construction V3
+
+[Prior semantic card](overnight/guard-ownership/construction/nonprecise-v3/SEMANTIC-CARD.md)
+records generic precision blocker, exact preserved payload, domain/posts and review.
+Cloud selection: source preparations, smoke, isolated V3 stock/six groups only.
+No unchanged OR17/physical-cell/native matrix. Timeout900+60queue; previous comparable
+cold-tool five-group build took451seconds; reserve covers both180second diagnostics,
+preparation/smoke/tool installation and upload. Leaves ample analysis/calendar reserve.
+All18 provider-overlay base hashes checked; Python AST/JSON/bash-n/diff checks clean,
+recipe closure exists/sorted, retained9ed MIR/AST schema paths and tool/compiler pins
+reviewed statically. Own hash01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f.
+Generated FBC gate checks expected None precision, exact src/dst/len field chunks,
+padding and aggregate by-value own. Positive requires exact initializer/roundtrip,
+full post/return/leak/no-dead; negative exact false after same construction/roundtrip.
+Sol review found audit incorrectly requiring AST pass for INCONCLUSIVE; fixed so
+failed admission remains reportable with no proof credit, credited cases requireallgates.
+No semantic tool modification and no canonical Drop/caller/glue credit fromfragment.

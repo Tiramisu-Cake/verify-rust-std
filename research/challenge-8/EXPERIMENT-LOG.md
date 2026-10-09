@@ -6439,3 +6439,19 @@ target0/0, stages0/0/1/0, noearliererror/dead/sourcechange. All12positive/
 complete, notTownuniqueness/actualcopy/caller or fullprofileacceptance.
 Total2215/3600charged,1385unspent; ownactive=null. Native/ctor/C1/trustgaps
 remain unchanged; [final checkpoint](merge/DAY-MERGE-CHECKPOINT-2026-10-09.md).
+
+## AFTERNOON dispatcher v2 / reachable guard interface
+
+Newauthorization/window11:15:53–13:15:53UTC,absolute13:45:53UTC,3600separateClouds.
+PR55414a5c sourcecherry-picked asc81fd1a5, nofullselecthistorymerge; ownphase
+registrationpreserved. Builda0f40e03-fb76-4974-893b-3aad48331f7f SUCCESS100s at
+e918eb875119d912b981da2bfec4e0406e06571e, full18cases/logs verified; archive
+8e838ed8daaef679bef763435213410b1e51068986feefc527b99d59e2ae171f.
+[Case results](cloud-build/afternoon-merge-guard/COORDINATION-RESULT.md).
+SyntheticAPI/processes only, not actualpaidparallelproofs. Productionv2firstreserve
+retainsenvelope/receipt,no foreignreserveatentry; ownactiveempty.
+NewV3card/selfreview permits supportedNONPRECISEown/FBC preservingentireFULL
+source/destination/currentforeachpool; precisegenericwrapper unsupportedbecause
+both foreach and defaultgenericT.own declarednonprecise. No opaqueownershiptoken,
+newprecisionbound or modelpatch. Exactconstructor/roundtrip/false gated inCloud;
+actualtype/Drop/canonicalpost/selfgeometry/glue/forget/caller remainOPEN.

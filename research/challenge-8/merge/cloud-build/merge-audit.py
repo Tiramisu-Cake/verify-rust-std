@@ -100,6 +100,22 @@ GUARD_CONSTRUCTION_GROUPS = {
         "profile": "stock-26.10",
     },
 }
+GUARD_CONSTRUCTION_V3_GROUPS = {
+    "guard-construction-nonprecise-v3-diagnostic": {
+        "directory": "guard-construction-nonprecise-v3-diagnostic",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    },
+    "guard-construction-nonprecise-v3-stock-diagnostic": {
+        "directory": "guard-construction-nonprecise-v3-stock-diagnostic",
+        "profile": "stock-26.10",
+    },
+}
+GUARD_CONSTRUCTION_V3_PROFILE = "copy-on-drop-source-construction-full-source-nonprecise-fragment-v3"
+GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256 = hashlib.sha256(
+    b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n"
+    b"        //@ open <CopyOnDrop<T>>.own(t, drop_guard);\n"
+    b"        //@ assert scratch_base[..len] |-> src_values &*& v_base[..len] |-> _ &*& foreach(src_values, own::<T>(t));\n"
+    b"        //@ close <CopyOnDrop<T>>.own(t, drop_guard);\n").hexdigest()
 GUARD_CONSTRUCTION_CASES = ("positive", "first_body_false")
 GUARD_CONSTRUCTION_STAGES = ("exporter", "decode", "verifast", "refinement")
 GUARD_CONSTRUCTION_LINE_SHA256 = "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb"
@@ -236,6 +252,16 @@ def audit(root: Path, selection_path: Path, run_status: int,
             ]
         elif group in GUARD_CONSTRUCTION_GROUPS:
             dirname = GUARD_CONSTRUCTION_GROUPS[group]["directory"]
+            mandatory[group] = [
+                f"cases/{dirname}/environment.json",
+                f"cases/{dirname}/extraction.json",
+                f"cases/{dirname}/results.json",
+                f"cases/{dirname}/aggregate.json",
+                *[f"cases/{dirname}/cases/{case}/classification.json"
+                  for case in GUARD_CONSTRUCTION_CASES],
+            ]
+        elif group in GUARD_CONSTRUCTION_V3_GROUPS:
+            dirname = GUARD_CONSTRUCTION_V3_GROUPS[group]["directory"]
             mandatory[group] = [
                 f"cases/{dirname}/environment.json",
                 f"cases/{dirname}/extraction.json",
@@ -767,21 +793,29 @@ def audit(root: Path, selection_path: Path, run_status: int,
             artifact_status[group] = artifact_status.get(group, False) and audit_copy_on_drop(group, spec)
 
     guard_construction_reports = {}
+    guard_construction_v3_reports = {}
 
-    def audit_guard_construction(group: str, spec: dict) -> bool:
+    def audit_guard_construction(group: str, spec: dict, variant: str = "v2") -> bool:
         base = cases / spec["directory"]
+        reports = guard_construction_v3_reports if variant == "v3" else guard_construction_reports
         try:
             environment = json.loads((base / "environment.json").read_text())
             extraction = json.loads((base / "extraction.json").read_text())
             results = json.loads((base / "results.json").read_text())
             aggregate = json.loads((base / "aggregate.json").read_text())
+            provider_info = environment.get("provider")
+            diagnostic_profile = (GUARD_CONSTRUCTION_V3_PROFILE if variant == "v3" else
+                                  "copy-on-drop-source-construction-full-source-fragment-v2")
             if (environment.get("accepted") is not False or
-                    environment.get("diagnostic_profile") != "copy-on-drop-source-construction-full-source-fragment-v2" or
+                    environment.get("diagnostic_profile") != diagnostic_profile or
                     environment.get("tool_profile") != spec["profile"] or
                     environment.get("source_sha256") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
                     environment.get("source_git_blob") != GUARD_CONSTRUCTION_SOURCE_BLOB or
                     environment.get("proof_sha") != proof_sha or
-                    extraction.get("profile") != "copy-on-drop-source-construction-full-source-fragment-v2" or
+                    not isinstance(provider_info, dict) or
+                    provider_info.get("provider") != "cloud-build" or
+                    environment.get("schema_sha256") != "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469" or
+                    extraction.get("profile") != diagnostic_profile or
                     extraction.get("accepted") is not False or
                     extraction.get("source_sha256") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
                     extraction.get("source_git_blob") != GUARD_CONSTRUCTION_SOURCE_BLOB or
@@ -792,11 +826,87 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     extraction.get("full_source_permission_only") is not True or
                     extraction.get("unsafe_wrapper_for_conditional_explicit_contract") is not True):
                 return False
+            if variant == "v3":
+                pins = environment.get("profile_pins")
+                compiler = environment.get("rustc_version", "")
+                drivers = environment.get("compiler_drivers")
+                expected_profile_evidence = (evidence /
+                    ("build" if spec["profile"] != "stock-26.10" else "")).resolve()
+                actual_profile_evidence = Path(environment.get("profile_evidence", "")).resolve()
+                if (extraction.get("profile") != GUARD_CONSTRUCTION_V3_PROFILE or
+                        extraction.get("nonprecise_own") is not True or
+                        extraction.get("own_payload_body_matches_v2") is not True or
+                        extraction.get("v2_full_source_own_sha256") !=
+                            "d223c896071993d9070361ddabbee0cce1b03fefbb71c1568f89556618916233" or
+                        extraction.get("constructor_contract_sha256") !=
+                            "628a914e2ebb529f7a2a0e514436cec53c46702ffeb360714467b6ff8de3c2aa" or
+                        extraction.get("exact_own_sha256") !=
+                            "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f" or
+                        not isinstance(extraction.get("roundtrip_sha256"), str) or
+                        extraction.get("roundtrip_sha256") !=
+                            GUARD_CONSTRUCTION_V3_ROUNDTRIP_SHA256 or
+                        "commit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f" not in compiler or
+                        "host: x86_64-unknown-linux-gnu" not in compiler or
+                        not isinstance(environment.get("rustc_sha256"), str) or
+                        not re.fullmatch(r"[0-9a-f]{64}", environment["rustc_sha256"]) or
+                        not isinstance(environment.get("capnp_sha256"), str) or
+                        not re.fullmatch(r"[0-9a-f]{64}", environment["capnp_sha256"]) or
+                        not isinstance(drivers, dict) or not drivers or
+                        any(not isinstance(value, str) or
+                            not re.fullmatch(r"[0-9a-f]{64}", value)
+                            for value in drivers.values()) or not isinstance(pins, dict)):
+                    return False
+                if (environment.get("cloud_build_id") != build_id or
+                        provider_info.get("build_id") != build_id or
+                        actual_profile_evidence != expected_profile_evidence or
+                        Path(environment.get("tool_home", "")).name !=
+                            ("source" if spec["profile"] != "stock-26.10" else "verifast-26.10") or
+                        Path(environment.get("schema_path", "")).name != "vf_mir.capnp" or
+                        not environment.get("compiler_sysroot", "").endswith(
+                            "nightly-2026-09-25-x86_64-unknown-linux-gnu") or
+                        environment.get("rustc_sha256") !=
+                            "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71" or
+                        environment.get("capnp_sha256") !=
+                            "450cbc621cf98bc9e704dd1691cdd16ebfcafe15d4122c24b3326973d4766019" or
+                        len(drivers) != 1 or next(iter(drivers.values())) !=
+                            "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"):
+                    return False
+                if spec["profile"] == "stock-26.10":
+                    expected_pins = {
+                        "bin/verifast": "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1",
+                        "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+                        "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+                        "prelude_sha256": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+                        "spec_manifest_sha256": "4a0911303bbb087f1f50ce85524197edbb541f31c72e8133dfbcc9cf528e03a0",
+                        "spec_checks_sha256": "2adb5f85e2077a96e2db6b97da9af17d9324ad3c586187292854970e63078da4",
+                    }
+                    if (any(pins.get(key) != value for key, value in expected_pins.items()) or
+                            pins.get("spec_resource_count") != 58):
+                        return False
+                else:
+                    expected_pins = {
+                        "kernel_patched": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+                        "translator_patched": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+                        "parser_patched": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+                        "prelude_patched": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+                        "stdlib_patched": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+                        "z3_runtime": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea",
+                        "applied_patch_sha256": "b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927",
+                        "profile_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+                        "build_runtime_sha256": "d72d1e9a6a1cf0aba606f117bd47def28045877d2fdd31ebebbab5259575cedc",
+                        "experimental_console_sha256": "354436b99d7225e86271f211a43969b0c7f11f3c7f823a7d718abe00946a4f47",
+                        "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+                        "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+                    }
+                    if any(pins.get(key) != value for key, value in expected_pins.items()):
+                        return False
             result_cases = results.get("cases")
             aggregate_cases = aggregate.get("cases")
             extraction_cases = extraction.get("cases")
             names = set(GUARD_CONSTRUCTION_CASES)
-            if (results.get("accepted") is not False or aggregate.get("accepted") is not False or
+            if (results.get("profile") != diagnostic_profile or
+                    aggregate.get("profile") != diagnostic_profile or
+                    results.get("accepted") is not False or aggregate.get("accepted") is not False or
                     not all(isinstance(value, dict) for value in
                             (result_cases, aggregate_cases, extraction_cases)) or
                     set(result_cases) != names or set(aggregate_cases) != names or
@@ -821,6 +931,22 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         meta.get("source_statement_sha256") != GUARD_CONSTRUCTION_LINE_SHA256 or
                         type(meta.get("verified_statement_line")) is not int):
                     return False
+                if variant == "v3" and row.get("classification") != "INCONCLUSIVE":
+                    ast_gate = row.get("ast_admission")
+                    if (not isinstance(ast_gate, dict) or
+                            ast_gate.get("admitted") is not True or
+                            ast_gate.get("own_precision") != "nonprecise" or
+                            ast_gate.get("own_precision_is_expected") is not True or
+                            ast_gate.get("generated_fbc_matches_expected_precision_and_payload") is not True or
+                            ast_gate.get("payload_roundtrip_open_assert_close") is not True or
+                            ast_gate.get("own_open_count") != 1 or
+                            ast_gate.get("own_close_count") != 2 or
+                            ast_gate.get("payload_roundtrip_assertion_count") != 1 or
+                            ast_gate.get("full_supplied_pre_shape") is not True or
+                            ast_gate.get("full_normal_post_shape") is not True or
+                            ast_gate.get("literal_unwind_false") is not True or
+                            ast_gate.get("runtime_assume_count") != 0):
+                        return False
                 for rel, key in (("original/lib.rs", "original_sha256"),
                                  ("verified/lib.rs", "verified_sha256")):
                     path = case_dir / rel
@@ -931,6 +1057,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                         "runtime_source_identical_after_ghost_strip"),
                     "mir_admitted": mir_gate.get("admitted"),
                     "ast_admitted": ast_gate.get("admitted"),
+                    "own_precision": ast_gate.get("own_precision"),
+                    "payload_roundtrip_open_assert_close": ast_gate.get(
+                        "payload_roundtrip_open_assert_close"),
                     "constructor_body_count": row.get("constructor_body_count"),
                     "source_statement_executed": statement_seen,
                     "positive_return_seen": "Executing return statement" in body_segment,
@@ -973,18 +1102,20 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 raw_cases["first_body_false"] == "EXPECTED_FALSE_ASSERTION")
             if aggregate.get("fragment_pass") is not expected_fragment_pass:
                 return False
-            guard_construction_reports[group] = {
+            reports[group] = {
                 "classification": "EVIDENCE_COMPLETE_DIAGNOSTIC",
                 "accepted": False, "artifact_bindings_valid": True,
                 "raw_case_classifications": raw_cases,
                 "case_evidence": case_evidence,
                 "fragment_pass": expected_fragment_pass,
                 "actual_drop_compatibility": "OPEN",
-                "scope": "isolated constructor fragment only; no Drop/caller compatibility",
+                "scope": ("isolated nonprecise-own constructor fragment with exact payload "
+                          "roundtrip; no Drop/caller compatibility" if variant == "v3" else
+                          "isolated constructor fragment only; no Drop/caller compatibility"),
             }
             return True
         except (OSError, ValueError, KeyError, TypeError, AttributeError):
-            guard_construction_reports[group] = {
+            reports[group] = {
                 "classification": "INCONCLUSIVE", "accepted": False,
                 "artifact_bindings_valid": False,
             }
@@ -1004,6 +1135,27 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 raw = raw_cases(f"cases/{spec['directory']}/aggregate.json", group)
                 cases_raw = raw.get("cases", raw) if isinstance(raw, dict) else {}
                 guard_construction_reports[group] = {
+                    "classification": "INCONCLUSIVE", "accepted": False,
+                    "artifact_bindings_valid": False,
+                    "raw_case_classifications": cases_raw,
+                    "actual_drop_compatibility": "OPEN",
+                }
+
+    for group, spec in GUARD_CONSTRUCTION_V3_GROUPS.items():
+        if group not in selected:
+            guard_construction_v3_reports[group] = {
+                "classification": "NOT_RUN", "accepted": False,
+                "artifact_bindings_valid": False,
+                "raw_case_classifications": {name: "NOT_RUN" for name in GUARD_CONSTRUCTION_CASES},
+                "actual_drop_compatibility": "OPEN",
+            }
+        else:
+            construction_valid = audit_guard_construction(group, spec, variant="v3")
+            artifact_status[group] = artifact_status.get(group, False) and construction_valid
+            if group not in guard_construction_v3_reports:
+                raw = raw_cases(f"cases/{spec['directory']}/aggregate.json", group)
+                cases_raw = raw.get("cases", raw) if isinstance(raw, dict) else {}
+                guard_construction_v3_reports[group] = {
                     "classification": "INCONCLUSIVE", "accepted": False,
                     "artifact_bindings_valid": False,
                     "raw_case_classifications": cases_raw,
@@ -1695,6 +1847,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
         "theorem_statuses": {
             "whole_small_sort_challenge": "NOT_PROVEN",
             "guard_construction_fragment_diagnostics": guard_construction_reports,
+            "guard_construction_nonprecise_v3_diagnostics": guard_construction_v3_reports,
             "guard_payload_own_diagnostics": guard_payload_reports,
             "physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell/aggregate.json", "current-owner-memory-cell-diagnostic"),
             "stock_physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell-stock/aggregate.json", "current-owner-memory-cell-stock-diagnostic"),
