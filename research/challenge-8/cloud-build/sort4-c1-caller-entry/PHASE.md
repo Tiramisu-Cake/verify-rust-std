@@ -1,0 +1,53 @@
+# SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09
+
+Ownerselect-sort4; ownworktree/branch verify-rust-std-select-night /
+research/night-select-sort4-cloud-2026-10-09. User opens separate phase/ledger/
+state `/tmp/smallsort-sort4-c1-caller-entry`. Start18:17:12UTC /21:17:12MSK,
+main19:17:12UTC, absolute19:47:12UTC. Budget3600 conservative create→finish
+seconds; old2205 CLOSED no carry. After main only finish started/evidence/account/
+checkpoint. Policy revision d389ff641194364e5eeda4ea4e66bedac4915a79 read.
+Fetch: clean HEAD=ownremote19f820181300e621ba1c12b6d9e4790f879254ac;
+preserved history and selecte2b249674cbe505f2d073e0df8da023a6e6406ce.
+
+Actual obligation: derive exact c1 pre from FIRST call sort4_stable(v_base,
+scratch_base,is_less) in small_sort_general_with_scratch SmallSort254. Exact
+source blob40939f922bcb6fdc7ee0d30427fa861827043827/hash85c75bc9; marker
+source/definition pinned separately. Actual path len>=8 and scratch.len()>=len+16,
+plus NOT(size_of<T>()<=16 AND len>=16); earlyreturn/abort excluded only by observed
+branch. No general cutoff. Caller has T:FreezeMarker from original marker blanket
+implT:Freeze; coreFreeze excludes directUnsafeCell but does not forbid indirection
+or addCopy/purity/no-panic. No comparator/copy before firstsort4 on this path.
+
+Prior c1 is conditional: exact continuation observed; unwind recover/join/post/leak,
+normal intermediate recover/join in failedwholeVC (c2ref_precreated_token missing).
+No standalone accepted c1 theorem, fullnormalpost/leak, wholecaller/sort4 credit.
+Both missingdebt controls savedrawreplay; profileexperimental/unaccepted. Not rerun.
+
+Hypothesis: native generated mutable-reference contract represents slice FBC
+as array+foreachown and F as cell+own, with ambientthread/types/lifetimes. Actual
+len/as_mut_ptr prefix can expose these, splitfirst4source+owners, convertfirst4
+MaybeUninit storage with checked stock lemmas, check exactc1 entailment, restore
+whole caller state without leaks/duplicateowners. No customaxial '&mut givesall'.
+One source-linked diagnostic fragment stops at callsite: commonprefix bytes,
+originalconst sort8condition and len>=8 decision retained; unchosen sort8 and
+latercalls are explicit fragment boundaries, no summary/executioncredit. Generate
+only in Cloud, preserve original fullcaller bytes/certificate and paired fullMIR
+of fragment/refinement; never claim fragment is fullcaller source/refinement.
+
+Firstblocker is actual entry representation if native contract cannot represent
+references. Otherwise classify firstheap/lifetime/provenance/conversion/authority
+obligation. Positive must returnnative caller resources/frame, exactc1identity
+lemma checkedbeforecaller is entailmentonly, never fullsort4summary. Minimal
+range/duplicate resource controls must fail at intendedobligation; frontend/setup
+failures INCONCLUSIVE, no negativecredit. Everyraw/stage/case result persisted
+beforeaggregate. Rationale/conservation/selfreview/gates before semanticpatch;
+no memoryaliasmodel overhaul/kernelpermission mechanism inthishour. Concrete
+reproducer/no-go ifthat isrequired; patchcandidate onlynotselfaccepted.
+
+Cloudonly compilation/extraction/proof; localGit/static/smallisolatedservice
+replays. Laneo26-sort4-caller-entry canonicalsource-built productionO26 profile,
+no unchangedselect/ninebodyproof matrices. Oneowner/ledgeractive/unresolved,
+published coordinatoractivev2/max2 atstart; adoptportable487dc39c inownclient
+with phasebaseline ack, no sharedstate/limit migration bythisagent. Reconcile
+allownedbuildstoterminal byabsolute; preserve unresolvedreservation otherwise.
+45–50mincompletionassessment; finalreadywithdraw/account/checkpointpush.

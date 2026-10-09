@@ -216,7 +216,7 @@ stage() {
   (( code == 0 )) || return "$code"
 }
 
-if [[ "${LANE:-}" != o26-sort4-c1-current-recovery ]]; then
+if [[ "${LANE:-}" != o26-sort4-c1-current-recovery && "${LANE:-}" != o26-sort4-caller-entry ]]; then
 stage provider-overlays python3 "$cloud_dir/o26-refresh-recipe.py" overlay \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev"
 stage source-preflight python3 "$cloud_dir/o26-refresh-recipe.py" preflight \
@@ -374,7 +374,7 @@ HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
 
-if [[ "${LANE:-}" != o26-sort4-c1-current-recovery ]]; then
+if [[ "${LANE:-}" != o26-sort4-c1-current-recovery && "${LANE:-}" != o26-sort4-caller-entry ]]; then
 mkdir -p "$ev/cases/candidate"
 stage candidate-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
   --tool-home "$source_home" --schema "$schema" \
@@ -659,6 +659,16 @@ if [[ "${LANE:-}" == o26-sort4-c1-current-recovery ]]; then
     --evidence "$ev/cases/sort4-c1-current-recovery" --deadline-epoch "$deadline" \
     --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
   cp "$ev/cases/sort4-c1-current-recovery/diagnostic-audit.json" "$evidence_root/proof-audit.json"
+  exit 0
+fi
+
+if [[ "${LANE:-}" == o26-sort4-caller-entry ]]; then
+  stage sort4-caller-entry bash "$cloud_dir/run-sort4-caller-entry.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/sort4-caller-entry" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
+  cp "$ev/cases/sort4-caller-entry/diagnostic-audit.json" "$evidence_root/proof-audit.json"
   exit 0
 fi
 
