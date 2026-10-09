@@ -1,4 +1,4 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED POSTS COMPLETE, LIVENESS OPEN
+# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED BODY DIAGNOSTICS, LIVENESS AND TRUST OPEN
 
 Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **5030/10800 elapsed
 Cloud seconds**, remaining **5770**. Historical accounts below unchanged.
@@ -117,6 +117,9 @@ is not a symbolic or public-caller theorem; FnMut alone does not establish F-fra
 No std runtime/algorithm/signature or target post changed. Existing six verifier
 patches unchanged; separately committed seventh coverage-origin draft is inactive
 and unaccepted. SmallSort blob40939f922bcb6fdc7ee0d30427fa861827043827.
+See merge/overnight/M2-CAPTURE-ADMISSION-REASSESSMENT.md for the exact
+type-only cut/opaque producer boundary; no feasible admitted capture escape
+was established and no new kernel rule is proposed.
 Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
