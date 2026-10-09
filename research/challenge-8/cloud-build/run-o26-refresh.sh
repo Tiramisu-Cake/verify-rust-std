@@ -17,6 +17,14 @@ sort4_mode=${O26_WITH_SORT4_CAPTURE:-0}
 [[ "$sort4_mode" == 0 || "$sort4_mode" == 1 ]] || exit 2
 a1_mode=${O26_WITH_A1_ISOLATED_TEST:-0}
 [[ "$a1_mode" == 0 || "$a1_mode" == 1 ]] || exit 2
+coordination_mode=${O26_WITH_COORDINATION_REGRESSION:-0}
+[[ "$coordination_mode" == 0 || "$coordination_mode" == 1 ]] || exit 2
+nested_order_mode=${O26_WITH_NESTED_PROOF_ORDER_TEST:-0}
+[[ "$nested_order_mode" == 0 || "$nested_order_mode" == 1 ]] || exit 2
+ast_probe_mode=${O26_WITH_SORT4_AST_PROBE:-0}
+[[ "$ast_probe_mode" == 0 || "$ast_probe_mode" == 1 ]] || exit 2
+wrapper_rebase_mode=${O26_WITH_WRAPPER_REBASE_CAPTURE:-0}
+[[ "$wrapper_rebase_mode" == 0 || "$wrapper_rebase_mode" == 1 ]] || exit 2
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -222,6 +230,47 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+
+if [[ "$wrapper_rebase_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/wrapper-rebase-capture-request.json"
+  rebase_status=0
+  stage wrapper-rebase-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
+    --tool-home "$source_home" --schema "$schema" \
+    --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-rebase-capture" \
+    --deadline-epoch "$deadline" --wrapper-rebase --fingerprint || rebase_status=$?
+  printf '%s\n' "$rebase_status" > "$ev/cases/wrapper-rebase-capture-helper-exit-code.txt"
+fi
+
+if [[ "$coordination_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/coordination-regression-request.json"
+  coordination_status=0
+  stage coordination-regression python3 "$cloud_dir/coordination-regression.py" \
+    --cloud-dir "$cloud_dir" --work-root "$work_root/coordination-regression" \
+    --output "$ev/cases/coordination-regression" || coordination_status=$?
+  printf '%s\n' "$coordination_status" > "$ev/cases/coordination-regression-helper-exit-code.txt"
+fi
+
+if [[ "$nested_order_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/nested-proof-order-test-request.json"
+  nested_status=0
+  stage nested-proof-order-test bash "$cloud_dir/run-nested-proof-order-test.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/nested-proof-order-test" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || nested_status=$?
+  printf '%s\n' "$nested_status" > "$ev/cases/nested-proof-order-test-helper-exit-code.txt"
+fi
+
+if [[ "$ast_probe_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/sort4-ast-probe-request.json"
+  ast_status=0
+  stage sort4-ast-probe bash "$cloud_dir/run-sort4-ast-probe.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/sort4-ast-probe" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || ast_status=$?
+  printf '%s\n' "$ast_status" > "$ev/cases/sort4-ast-probe-helper-exit-code.txt"
+fi
 
 if [[ "$controls_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/owner17-controls-request.json"
