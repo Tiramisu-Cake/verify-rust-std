@@ -8,11 +8,36 @@
   "main_deadline_utc": "2026-10-09T14:27:15Z",
   "deadline_utc": "2026-10-09T14:57:15Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 359,
+  "remaining_build_seconds": 3241,
   "allowed_lanes": [
     "merge"
   ],
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-f640731646bc472a90ee64b5db06cb57",
+      "owner": "merge",
+      "phase_id": "NEXT-MERGE-DROP-CALLER-CLOUD-2026-10-09",
+      "infra_sha": "6d138cd960b04078bbc3432782abe466cbb17c32",
+      "proof_sha": "6d138cd960b04078bbc3432782abe466cbb17c32",
+      "lane": "merge",
+      "submitted_config_sha256": "958eb0dd8984263c0b2bee2fc2390f1b9db60d2e1fb7de34f9acbb5a497f6957",
+      "reserved_seconds": 1560,
+      "timeout_seconds": 1500,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "a9b1d1513dbfdc4feb552c5bff33b91b6ee763f053b6c8c4466c826e4105fda1",
+      "build_id": "000add59-443d-4cc6-bc67-cc412e3fc9bd",
+      "start_time": "2026-10-09T13:50:08.917273206Z",
+      "finish_time": "2026-10-09T13:56:06.606347Z",
+      "create_time": "2026-10-09T13:50:08.166028482Z",
+      "build_seconds": 359,
+      "accounted": true,
+      "execution_seconds": 358,
+      "download_verified": true,
+      "archive_sha256": "bc5362e9a01237b15be2c1c1c9552ad6e7502d8fa424fabd95e640fbb1114f11"
+    }
+  ],
   "active_build": null
 }

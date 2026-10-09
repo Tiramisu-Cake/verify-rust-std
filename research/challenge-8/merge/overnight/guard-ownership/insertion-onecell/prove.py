@@ -97,7 +97,9 @@ def mir_gate(case: Path, metadata: dict) -> dict:
     for block in blocks:
         for stmt in mir.path(block, "statements"):
             assignment = mir.assignment(stmt)
-            rhs = mir.path(assignment or {}, "rhsRvalue")
+            if assignment is None:
+                continue
+            rhs = mir.path(assignment, "rhsRvalue")
             if not isinstance(rhs, dict) or "aggregate" not in rhs:
                 continue
             aggregate = rhs["aggregate"]
@@ -357,7 +359,7 @@ def main() -> int:
             profile_build.get("provider", {}).get("build_id") != provider["build_id"] or \
             profile_card.get("accepted") is not False:
         raise RuntimeError("tracked MD opt-in profile manifest differs")
-    for key in ("patch_sha256", "translator_sha256", "kernel_sha256",
+    for key in ("patch_sha256", "translator_sha256", "emitter_sha256", "kernel_sha256",
                 "parser_sha256", "prelude_sha256", "stdlib_sha256",
                 "exporter_sha256", "refiner_sha256", "z3_sha256"):
         if profile_build.get(key) != profile_card.get(key):
@@ -371,6 +373,7 @@ def main() -> int:
         raise RuntimeError("six-profile source build did not complete")
     source_pins = {
         "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "translator_sha256",
+        "src/frontend/ocaml_expr_of_ast.ml": "emitter_sha256",
         "src/verifast.ml": "kernel_sha256",
         "src/rust_frontend/vf_mir_translator/rust_parser.ml": "parser_sha256",
         "bin/rust/prelude_core.rsspec": "prelude_sha256",

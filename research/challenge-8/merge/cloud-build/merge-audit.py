@@ -329,6 +329,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 "tracked-md-build/profile-build.json",
                 "tracked-md-build/profile-input.json",
                 "tracked-md-build/tracked-md.patch",
+                "tracked-md-build/emitter.patched.ml",
             ]
             mandatory[group].extend(f"cases/{group}/{name}.json" for name in
                                     ("environment", "extraction", "results", "aggregate"))
@@ -1293,12 +1294,15 @@ def audit(root: Path, selection_path: Path, run_status: int,
             case_classes = aggregate.get("cases", {})
             build_identity = (pins == profile_input and
                 build.get("schema") == pins.get("schema") == "smallsort-tracked-md-profile-v1" and
+                re.fullmatch(r"[0-9a-f]{64}", pins.get("emitter_sha256", "")) is not None and
+                build.get("emitter_sha256") == pins.get("emitter_sha256") and
                 build.get("profile") == pins.get("profile") == ONECELL_PROFILE and
                 build.get("accepted") is False and build.get("build_exit") == 0 and
                 build.get("proof_sha") == proof_sha and
                 build.get("provider", {}).get("build_id") == build_id and
                 sha256_file(evidence / "tracked-md-build/tracked-md.patch") ==
                     pins.get("patch_sha256") == sha256_file(component / "tracked-md.patch") and
+                sha256_file(evidence / "tracked-md-build/emitter.patched.ml") == pins.get("emitter_sha256") and
                 all(build.get(key) == value for key, value in pins.items()) and
                 re.fullmatch(r"[0-9a-f]{64}", build.get("console_sha256", "")))
             extraction_identity = (

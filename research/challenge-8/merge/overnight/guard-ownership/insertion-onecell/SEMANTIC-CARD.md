@@ -110,3 +110,27 @@ reassessment, not another broad patch. Self-review: the strongest risk is
 conflating a share of tmp physical storage with full owner transfer. The
 separate full physical FBC, current owner assertion, complementary storage
 release and negative controls are intended to expose exactly that error.
+
+## Within-step observational repair before implementation — Build000add59
+
+First exact-SHA Cloud Build000add59 at6d138cd9 charged359s; source/export/decode/refinement
+succeed, V3b stock/six controls pass, but all9 new verifier invocations abort
+**before proof execution** while `-dump_ast_with_locs` serializes the existing
+`MergeFractionsStmt` (`Ocaml_expr_of_ast.of_stmt`, stock emitter has TODO).
+No constructor/FBC/copy/recovery/MD-positive or intended-negative proof credit.
+The unchanged statements and checks must remain in the verifier input.
+
+The repair adds ONLY serialization `MergeFractionsStmt(l,e)` as a constructor
+with original location/expression. It does not remove the merge statement,
+change AST translation, memory/alias/kernel/spec semantics, disable AST checks
+or skip proof stages. The emitter input/output are separately hash-pinned and
+a snapshot retained. Existing emitter forms retain exact behavior. Conservation
+of memory is unchanged: fraction merges still run through the existing kernel;
+this output function records their syntax, never grants permissions. Critical
+review: this is diagnostic instrumentation, not proof of a merge's validity;
+full MD authority/read controls, V3b controls, source/refinement/leak/unwind and
+onecell positive/negatives remain required on a NEW exact-SHA Cloud run. If the
+serializer fails at another unsupported node, record INCONCLUSIVE and assess it;
+no broad emitter rewrite or semantic shortcut is implied. Classifier-only replay
+of the saved decoded MIR may repair its nonassignment handling, but cannot give
+credit to proof bodies that never executed.
