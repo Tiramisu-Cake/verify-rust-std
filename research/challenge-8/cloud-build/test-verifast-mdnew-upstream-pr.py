@@ -77,7 +77,18 @@ with tempfile.TemporaryDirectory(prefix='mdnew-pr-audit-success-') as temp:
     (all_logs/'selected-manuallydrop-registration.mysh').write_bytes(script)
     (all_logs/'native-registration.log').write_text(valid)
     (all_logs/'rust-testsuite.log').write_text('mocked pass\n')
-    (all_logs/'make-test.log').write_text('NOT_RUN: synthetic budget control\n')
+    (all_logs/'make-test.log').write_text('synthetic make test PASS\n')
+    (all_logs/'mdnew-pr-build-dependencies.txt').write_text('cmake version 3.30.1\n3.30.1\n')
+    (all_logs/'mdnew-pr-llvm-sha256.log').write_text('vf-llvm-clang-build-5710e1b-Linux.tar.gz: OK\n')
+    (all_logs/'mdnew-pr-make-dependencies.json').write_text(json.dumps({'schema':'verifast-mdnew-pr-make-deps-v1','llvm_clang_archive_sha256':'7bc39ea82589679a10a4d03cbd7e1d032fffb644774aff60a46bdf973171ef7a','llvm_clang_release':'vf-llvm-clang-build-5710e1b-Linux','llvm_install_dir':'/tmp/vf-llvm-clang-build-5710e1b','vfdeps_archive_sha256':m.DEPS}))
+    tool=root/'tool'; (tool/'bin').mkdir(parents=True)
+    component_hashes={}
+    for name in ('bin/verifast','bin/vf-cxx-ast-exporter','bin/vf-rust-mir-exporter','bin/refinement-checker'):
+        component=tool/name; component.write_text('synthetic built component '+name); component_hashes[name]=hashlib.sha256(component.read_bytes()).hexdigest()
+    (all_logs/'mdnew-pr-make-components.json').write_text(json.dumps({'schema':'verifast-mdnew-pr-make-components-v1','make_exit_status':0,'components':component_hashes}))
+    for name in ('mdnew-pr-build-dependencies.txt','mdnew-pr-llvm-sha256.log','mdnew-pr-make-dependencies.json','mdnew-pr-make-components.json'):
+        data=(all_logs/name).read_bytes(); native_receipt={'path':name,'sha256':hashlib.sha256(data).hexdigest()}
+        locals().setdefault('make_receipts',{})[name]=native_receipt
     case_commands={'forget':commands[0],'shared_cleanup':commands[1],
       'false_normal_post':commands[2],'shared_false_unwind':commands[3],
       'dead_code_pre':commands[4]}
@@ -97,10 +108,15 @@ with tempfile.TemporaryDirectory(prefix='mdnew-pr-audit-success-') as temp:
     native={'selected_commands':m.REGISTRATION,'selected_script_sha256':hashlib.sha256(script).hexdigest(),
       'registration_sha256':m.REGISTRATION_SHA256,'registration_git_blob':m.REGISTRATION_BLOB,
       'registration_run':{'exit_status':0},'rust_suite_run':{},'make_test_run':{'path':'make-test.log'},'case_evidence':synthetic}
+    native.update({'make_dependency_receipt':make_receipts['mdnew-pr-make-dependencies.json'],
+      'make_component_receipt':make_receipts['mdnew-pr-make-components.json'],
+      'make_build_dependencies':make_receipts['mdnew-pr-build-dependencies.txt'],
+      'llvm_checksum_receipt':make_receipts['mdnew-pr-llvm-sha256.log'],
+      'make_setup_stages':{'llvm_download':{},'llvm_extract':{}}})
     (all_logs/'native-input.json').write_text(json.dumps(native,indent=2,sort_keys=True)+'\n')
     (cases/'selected-registration.mysh').write_bytes(script)
     (cases/'manifest.json').write_text(json.dumps(native,indent=2,sort_keys=True)+'\n')
-    m.verify_stage=lambda *args,**kwargs: ('NOT_RUN' if len(args)>2 and args[2]=='make_test_run' else 'PASS')
+    m.verify_stage=lambda *args,**kwargs:'PASS'
     m.verify_provenance=lambda *args,**kwargs:{'mocked_pins':True}
     accepted=m.audit(root/'tool',all_logs)
     assert accepted['accepted'] is True
