@@ -1,0 +1,87 @@
+{
+  "classification": "EXPERIMENTAL_O26_WRAPPER_INPUT_RELATION_COMPONENT24_NOT_ACCEPTED",
+  "observed_cloud_build_id": "93da48d0-d720-4179-8d2c-d8b7495703bf",
+  "observed_cloud_archive_sha256": "e5c4a3a4feecf49ae6ae02ec65ef0a595ca7db815954847afe5a3b423291ec7a",
+  "observed_capture": {
+    "classification": "SOURCE_MIR_CAPTURE_ONLY",
+    "normal_whole_decoded_mir_sha256": "5b241f4f51d9ba7e72dd4d24cf295a95a8f64d7750867821dc70dac982609509",
+    "normal_outer_body7_sha256": "4cb631365063bf03e4e8e92d64f0bb9bb9ac87b2dbcbdd65854e2736ffc20e03",
+    "readonly_whole_decoded_mir_sha256": "c5fe3880640143c2805697f8fb4c46f380fc62eb01f3344ee1ec606e7aadf121",
+    "readonly_outer_body7_sha256": "77fc80bb216bd7c6f5f84ed1a78b6df3df304d34b260cc98048b47b097041d49",
+    "decoded_body_count": 9,
+    "fingerprint_snapshot_count": 10,
+    "actual_proof_run": false
+  },
+  "historical20_manifest": "overnight-linkage/O26-PROFILE-MANIFEST.json",
+  "refresh22_manifest": "overnight-assume-actual/O26-REFRESH-PROFILE.json",
+  "component23_manifest": "overnight-assume-actual/O26-WRAPPER-REBASE-PROFILE.json",
+  "component23_patch_sha256": "f7b74745ef088f82598b409fbba347d8671691905048c1c6ed715b9226e4830b",
+  "component24_patch": "overnight-assume-actual/verifast-o26-wrapper-input-relation-profile-26.10.patch",
+  "component24_patch_sha256": "da62de4fe2a166e15e298d7a8f333e6524267392f36e3c196b81726299a47f8a",
+  "production_translator_sha256": "0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a",
+  "r2_translator_sha256": "2a9d9fc989dcf5564c16dc5a4f8df90755257138a9f4cadde1ff9d7c7ae9fef5",
+  "new_translator_sha256": "34a03879b45377570eab81ee384ade01ebea9d5d216eb6223c6c742c5819dc15",
+  "source": {
+    "verified_sha256": "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463",
+    "original_sha256": "466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5",
+    "unit_sha256": "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92",
+    "body_sha256": [
+      "8d95311e339f94caed26d93fd339e279e8b1df9a3b783f202e99359e60d101cc",
+      "92bd8aea548575b4b5cd8bdb826f807937c219a6872bec2ade2bce3bf25fc562",
+      "273813f669fe0e34b486287539580e3cb487185f0be3691a1151ebf227685182",
+      "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951",
+      "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed",
+      "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6",
+      "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137",
+      "f8374652a11e36073ad6ed10ec39b0f8de62da53265dd80d2dc2c3565491cee1",
+      "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+    ]
+  },
+  "opt_in": {
+    "SORT4_WRAPPER_REBASE_REPO_ROOT": "exact proof root",
+    "SORT4_WRAPPER_REBASE_ADMISSION": "1",
+    "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT": "exact proof root",
+    "SORT4_WRAPPER_INPUT_RELATION_ADMISSION": "1"
+  },
+  "typed_outer_mir": {
+    "indexing": "zero-based decoded MIR block indexes; exporter local names",
+    "local_count": 61,
+    "block_count": 44,
+    "ghost_calls": [
+      {"block": 0, "destination_local": "_4", "normal_block": 1, "unwind": "Continue"},
+      {"block": 1, "destination_local": "_5", "normal_block": 2, "unwind": "Continue"},
+      {"block": 6, "destination_local": "_14", "normal_block": 7, "unwind": "Continue"},
+      {"block": 7, "destination_local": "_15", "normal_block": 8, "unwind": "Continue"},
+      {"block": 12, "destination_local": "_20", "normal_block": 13, "unwind": "Continue"},
+      {"block": 13, "destination_local": "_21", "normal_block": 14, "unwind": "Continue"},
+      {"block": 25, "destination_local": "_43", "normal_block": 26, "cleanup_block": 43},
+      {"block": 26, "destination_local": "_44", "normal_block": 27, "cleanup_block": 43},
+      {"block": 27, "destination_local": "_45", "normal_block": 28, "cleanup_block": 43},
+      {"block": 28, "destination_local": "_46", "normal_block": 29, "cleanup_block": 43},
+      {"block": 29, "destination_local": "_47", "normal_block": 30, "cleanup_block": 43},
+      {"block": 30, "destination_local": "_48", "normal_block": 31, "cleanup_block": 43},
+      {"block": 31, "destination_local": "_49", "normal_block": 32, "cleanup_block": 43},
+      {"block": 32, "destination_local": "_50", "normal_block": 33, "cleanup_block": 43},
+      {"block": 33, "destination_local": "_51", "normal_block": 34, "cleanup_block": 43},
+      {"block": 34, "destination_local": "_52", "normal_block": 35, "cleanup_block": 43},
+      {"block": 35, "destination_local": "_53", "normal_block": 36, "cleanup_block": 43},
+      {"block": 36, "destination_local": "_54", "normal_block": 37, "cleanup_block": 43},
+      {"block": 37, "destination_local": "_55", "normal_block": 38, "cleanup_block": 43}
+    ],
+    "pointer_drop_receiver_local": "_34",
+    "pointer_drop": {"block": 17, "source_local": "_26", "move_argument_local": "_34", "destination_local": "_33", "normal_block": 18, "cleanup_block": 43},
+    "forget": {"block": 20, "guard_source_local": "_30", "move_argument_local": "_38", "destination_local": "_37", "normal_block": 21, "cleanup_block": 43, "negative_cleanup_block": 42},
+    "assume_init": {"block": 39, "move_argument_local": "_56", "destination_local": "_0", "normal_block": 40, "cleanup_block": 43},
+    "unwind_chain": {"resume_block": 41, "drop_block": 42, "switch_block": 43, "switch_local": "_60", "switch_targets": [41, 42]},
+    "shared_cleanup_predecessor_count": 23
+  },
+  "kernel_modified": false,
+  "verification_accepted": false,
+  "controls_pending": [
+    "R3 proof with seven same-version callees and generic nested Drop before any outer whole-function claim",
+    "four isolated component-17 source/unit/body-7/ghost-CFG negatives",
+    "independent component-20 A1 Move(_56) to Copy(_56) TEST negative",
+    "independent component-19 SAFE forget Move(_38) to Copy(_38) TEST negative",
+    "full normal/unwind/dead/leak/validity/resource proof"
+  ]
+}
