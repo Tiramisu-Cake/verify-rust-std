@@ -26,7 +26,7 @@
 -                    AnnotationRd.raw_get nested_second -> rest
 -           | _ -> Sort4SelectIntrinsic.reject
 -               "actual outer/nested ghost scope inventory")
-+          if r3_ghost_scope_test_requested then
++          if r3_ghost_scope_test_requested then (
 +            let root = match Sys.getenv_opt
 +              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT" with
 +              | Some root -> root
@@ -55,7 +55,7 @@
 +                 Printf.printf "R3-GHOST-SCOPE-TEST: retained two input lets; nested opens transferred\n%!";
 +                 saved_true::saved_false::rest
 +             | _ -> Sort4SelectIntrinsic.reject
-+                 "R3 outer/nested ghost scope inventory")
++                 "R3 outer/nested ghost scope inventory"))
 +          else
 +            (match exported_ghost_stmts,
 +                   !Sort4SelectIntrinsic.actual_nested_ghosts with
