@@ -1,0 +1,54 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6340,3 +6340,5 @@
+         State.hrtb_fnmut_output_bounds :=
+-          if State.hrtb_fnmut_output_enabled then
++          if State.hrtb_fnmut_output_enabled ||
++             (Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
++              State.body_name = "sort4_stable") then
+             hrtb_fnmut_output_bounds else [];
+@@ -7360 +7360,35 @@
++                 let c1_output_equality =
++                   match Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" with
++                   | None | Some "0" -> []
++                   | Some "1" ->
++                       if !State.hrtb_fnmut_output_bounds <> [("F", "T")] then
++                         reject "unique compiler HRTB F/T Output=bool clause";
++                       (match changed_switch with
++                        | Ast.SwitchStmt
++                            (call_loc,
++                             Ast.CallExpr
++                               (_, "std::ops::FnMut::call_mut",
++                                [(Ast.IdentTypeExpr (_, None, "F") as f_ty);
++                                 (Ast.StructTypeExpr
++                                   (_, Some "std_tuple_2_", None, [],
++                                    [Ast.RustRefTypeExpr
++                                      (_, Ast.IdentTypeExpr (_, None, "'cmp"),
++                                       Ast.Shared, Ast.IdentTypeExpr (_, None, "T"));
++                                     Ast.RustRefTypeExpr
++                                      (_, Ast.IdentTypeExpr (_, None, "'cmp"),
++                                       Ast.Shared, Ast.IdentTypeExpr (_, None, "T"))]) as args_ty);
++                                 Ast.IdentTypeExpr (_, None, "'cmp")],
++                                [], _, Ast.Static), _) ->
++                            Printf.eprintf
++                              "SORT4-C1-OUTPUT-EQ compiler_clause=unique_F_T_bool site=%s count=1 later_calls=0\n%!"
++                              (Ast.string_of_loc call_loc);
++                            [Ast.ExprStmt
++                              (Ast.CallExpr
++                                (call_loc, "#register_type_projection_equality",
++                                 [Ast.ProjectionTypeExpr
++                                   (call_loc, f_ty, "std::ops::FnOnce", [args_ty], "Output");
++                                  Ast.ManifestTypeExpr (call_loc, Ast.Bool)],
++                                 [], [], Ast.Static))]
++                        | _ -> reject "compiler Output equality exact c1 type substitution")
++                   | _ -> reject "c1 Output equality opt-in malformed" in
+                  let cut_loc = Ast.stmt_loc (block 34) in
+@@ -7375,4 +7375,5 @@
+                    |> List.mapi (fun i stmt ->
+-                        if i = 22 then Ast.NoopStmt (Ast.stmt_loc stmt)
+-                        else if i = 32 then changed_switch
+-                        else stmt) in
++                        if i = 22 then [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else if i = 32 then c1_output_equality @ [changed_switch]
++                        else [stmt])
++                   |> List.flatten in

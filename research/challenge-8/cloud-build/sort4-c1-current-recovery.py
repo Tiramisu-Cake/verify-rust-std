@@ -22,6 +22,8 @@ from types import SimpleNamespace
 
 
 PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-first-scope-TEST.patch")
+OUTPUT_PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch")
+OUTPUT_MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-C1-OUTPUT-EQ-TEST.json")
 MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-AST-SCOPE-TEST.json")
 TRANSLATOR = Path("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml")
 KERNEL = Path("src/verifast.ml")
@@ -222,6 +224,15 @@ def build_overlay(a, base: Path, patch: Path, old: dict, env: dict[str, str]) ->
                                      str(patch)], cap=60) == 0, "AST patch cannot apply")
     need(stage(a, "c1-patch-apply", ["git", "-C", str(target), "apply", str(patch)],
                cap=60) == 0, "AST patch apply failed")
+    output_patch = a.proof_root / OUTPUT_PATCH
+    output_manifest = read(a.proof_root / OUTPUT_MANIFEST)
+    need(sha(output_patch) == output_manifest["patch_sha256"] and
+         output_manifest["source_sha256"] == SOURCE and output_manifest["pre_ast_sha256"] == AST,
+         "c1 compiler Output equality patch/inputs differ")
+    need(stage(a, "c1-output-patch-check", ["git", "-C", str(target), "apply", "--check", str(output_patch)], cap=60) == 0,
+         "c1 Output equality patch cannot apply")
+    need(stage(a, "c1-output-patch-apply", ["git", "-C", str(target), "apply", str(output_patch)], cap=60) == 0,
+         "c1 Output equality patch apply failed")
     need(sha(target / KERNEL) == old["critical"][str(KERNEL)],
          "AST overlay changed frozen strict kernel")
     patched_translator = sha(target / TRANSLATOR)
@@ -379,6 +390,19 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     on = env.copy()
     on["SORT4_ACTUAL_AST_SCOPE_TEST"] = "1"
     on["SORT4_STRICT_LFT_CUT"] = "1"
+    on["SORT4_C1_OUTPUT_EQ"] = "0"
+    noeq_code = stage(a, "actual-output-eq-off", verifier, cwd=fixture, env=on, cap=420)
+    noeq_log = (a.evidence / "actual-output-eq-off.log").read_text(errors="replace")
+    noeq_errors = [s for s in noeq_log.splitlines() if ": error:" in s or s.startswith("Fatal error:")]
+    noeq_ok = noeq_code == 1 and len(noeq_errors) == 1 and noeq_errors[0] == (
+        "verified/lib.rs(190,18-89): error: Type mismatch. Actual: "
+        "<F as std::ops::FnOnce<std_tuple_2_<&'cmp T, &'cmp T>>>::Output. Expected: bool.")
+    record(a.evidence / "actual-output-eq-off-result.json", {
+        "exit": noeq_code, "errors": noeq_errors, "intended_type_obligation": noeq_ok,
+        "resource_negative": False, "raw_log": "actual-output-eq-off.log"})
+    need(noeq_ok and "SORT4-C1-OUTPUT-EQ " not in noeq_log,
+         "c1 Output equality OFF missed exact original type obligation")
+    on["SORT4_C1_OUTPUT_EQ"] = "1"
     on_code = stage(a, "actual-on", verifier, cwd=fixture, env=on, cap=850)
     on_log = (a.evidence / "actual-on.log").read_text(errors="replace")
     record(a.evidence / "actual-on-raw-result.json", {
@@ -390,6 +414,11 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         r"header_posts=([0-9a-f]{64})", on_log)
     errors = [s for s in on_log.splitlines()
               if ": error:" in s or s.startswith("Fatal error:")]
+    output_eq_sites = [line for line in on_log.splitlines() if line.startswith("SORT4-C1-OUTPUT-EQ ")]
+    output_eq_ok = (len(output_eq_sites) == 1 and
+                    "compiler_clause=unique_F_T_bool" in output_eq_sites[0] and
+                    "verified/lib.rs(190," in output_eq_sites[0] and
+                    "count=1 later_calls=0" in output_eq_sites[0])
     admitted_ok = (len(admitted) == 1 and admitted[0][0] == SOURCE and
                    admitted[0][1] == AST and admitted[0][2] != AST)
     marker_absent = not any("No such function: __vf_sort4_first_unwind" in s
@@ -413,10 +442,10 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         "gate_passed": helpers_ok, "proof_sha": os.environ["PROOF_SHA"],
         "source_sha256": before[0], "actual_on_log_sha256": sha(a.evidence / "actual-on.log"),
         "helpers": helper_rows})
-    complete = (helpers_ok and admitted_ok and marker_absent and entered and on_code == 0 and
+    complete = (output_eq_ok and helpers_ok and admitted_ok and marker_absent and entered and on_code == 0 and
                 not errors and "Leak check." in on_log and
                 re.search(r"0 errors found \(\d+ statements verified\)", on_log) is not None)
-    substantive = (helpers_ok and admitted_ok and marker_absent and entered and
+    substantive = (output_eq_ok and helpers_ok and admitted_ok and marker_absent and entered and
                    on_code in (1, 2) and bool(errors) and
                    errors[0].startswith("verified/lib.rs(") and
                    on_log.index(target) < on_log.index(errors[0]))
@@ -435,6 +464,7 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         "normal_and_unwind_path_independently_proved": False,
         "actual_on_exit": on_code, "first_error": errors[0] if errors else None,
         "off_first_error": off_errors[0], "admission_hashes": admitted[0] if admitted else None,
+        "compiler_c1_output_equality": {"gate_passed": output_eq_ok, "sites": output_eq_sites},
         "same_unit_recovery_callees_verified_before_caller": helpers_ok,
         "target_header_seen": entered, "reserved_handler_refusal_absent": marker_absent,
         "raw_log_paths": {"off": "actual-off.log", "on": "actual-on.log"},

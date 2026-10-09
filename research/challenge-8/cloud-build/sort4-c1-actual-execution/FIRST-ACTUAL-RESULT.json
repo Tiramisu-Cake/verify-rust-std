@@ -1,0 +1,134 @@
+{
+  "phase": "SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09",
+  "build_id": "3c845267-3008-4921-8d1f-de6027a837c7",
+  "infra_sha": "e878dcf21e382935a1b31fe39a17f40fbb5bde5d",
+  "proof_sha": "e878dcf21e382935a1b31fe39a17f40fbb5bde5d",
+  "cloud_status": "SUCCESS",
+  "conservative_seconds": 312,
+  "archive_sha256": "d3d615ee4fc76aae57a6081c9c9d469b4f4258193d205a9bec6ecfd0a592a32e",
+  "integrity_verified": true,
+  "new_proof_execution": true,
+  "actual_off": "RUN_STRICT_OPT_IN_ADMISSION_REFUSAL_NOT_RESOURCE_NEGATIVE",
+  "actual_on_exit": 1,
+  "representation": "EXACT_SOURCE_MIR_AST_CONTINUATION_OBSERVED",
+  "profile_accepted": false,
+  "admission_hashes": [
+    "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9",
+    "dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39",
+    "094e630f70908ae43ed2b203b6cdbcb888bd6c4481e93a4b8e1018e530e74c26",
+    "23b6309ae9bf4a14abb31b78d87c9317c3b72b23c2d1ded70151e8ef9f6c761c"
+  ],
+  "same_unit_callee_gate": {
+    "actual_on_log_sha256": "36ccd79ec7cd00bbb9a122954010535c6526161e07ee48b3b96783f72e8305d6",
+    "gate_passed": true,
+    "helpers": {
+      "join_four_owned_cells": {
+        "before_caller": true,
+        "entries": 1,
+        "error_absent": true,
+        "leak_seen": true,
+        "return_seen": true
+      },
+      "recover_pair": {
+        "before_caller": true,
+        "entries": 1,
+        "error_absent": true,
+        "leak_seen": true,
+        "return_seen": true
+      }
+    },
+    "proof_sha": "e878dcf21e382935a1b31fe39a17f40fbb5bde5d",
+    "source_sha256": "fddb6f1a0a90948042c99fd1037b7e939586c9e7b9e46a63367a7d876e04ccc9"
+  },
+  "normal": {
+    "callback_reached": true,
+    "assignment": "BLOCKED_OUTPUT_PROJECTION_EXPECTED_BOOL",
+    "debt_close": "NOT_REACHED",
+    "scope_exit": "NOT_REACHED_ON_NORMAL",
+    "recover_pair": "NOT_REACHED",
+    "join": "NOT_REACHED",
+    "posts": "NOT_CHECKED",
+    "result": "TYPE_PROJECTION_BLOCKER_BEFORE_NORMAL_RECOVERY"
+  },
+  "direct_unwind": {
+    "result": "CONDITIONAL_C1_CURRENT_RECOVERY_AND_FULL_UNWIND_POST_LEAK_PASS",
+    "callback_reached": true,
+    "debt_close": true,
+    "strict_scope_exit": true,
+    "recover_pair": true,
+    "join_four_current_owners": true,
+    "original_unwinding_return": true,
+    "full_source_F_destination_thread_type_posts_and_leak": true,
+    "remaining_scoped_reference_debts": false,
+    "observations": {
+      "callback": [
+        {
+          "log_line": 595,
+          "text": "  0.209738s: verified/lib.rs(190,63-78): Verifying call"
+        },
+        {
+          "log_line": 597,
+          "text": "  0.209960s: verified/lib.rs(190,63-78): Verifying call"
+        },
+        {
+          "log_line": 599,
+          "text": "  0.210113s: verified/lib.rs(190,80-88): Verifying call"
+        },
+        {
+          "log_line": 601,
+          "text": "  0.210299s: verified/lib.rs(190,80-88): Verifying call"
+        },
+        {
+          "log_line": 605,
+          "text": "  0.210454s: verified/lib.rs(190,18-89): Verifying call"
+        }
+      ],
+      "unwind_debt": [
+        {
+          "log_line": 608,
+          "text": "  0.211675s: verified/lib.rs(186,15-20): Producing predicate chunk"
+        }
+      ],
+      "unwind_recover": [
+        {
+          "log_line": 614,
+          "text": "  0.212455s: verified/lib.rs(187,32-33): Verifying call"
+        }
+      ],
+      "unwind_join": [
+        {
+          "log_line": 616,
+          "text": "  0.212568s: verified/lib.rs(188,41-42): Verifying call"
+        }
+      ],
+      "unwind_return": [
+        {
+          "log_line": 618,
+          "text": "  0.212774s: verified/lib.rs(190,18-89): Executing return statement"
+        }
+      ],
+      "unwind_leak": [
+        {
+          "log_line": 622,
+          "text": "  0.213122s: verified/lib.rs(226,1-2): Leak check."
+        }
+      ]
+    }
+  },
+  "first_error": "verified/lib.rs(190,18-89): error: Type mismatch. Actual: <F as std::ops::FnOnce<std_tuple_2_<&'cmp T, &'cmp T>>>::Output. Expected: bool.",
+  "proof_state": "Exact pinned source/typed-MIR/pre-post AST, ordered trace, raw logs; compiler-origin Output projection mismatch after successful unwind branch. No heap-reconstruction claim.",
+  "hashes": {
+    "actual-on.log": "36ccd79ec7cd00bbb9a122954010535c6526161e07ee48b3b96783f72e8305d6",
+    "actual-off.log": "51a0dbd634073b236653a13e93eb5c82dd14989e16739bb4a7c828e021429937",
+    "controls-check.json": "4a4ed53a2b1357fb16b506095cb8f915118defdd911a7bdf2fcf4e70641d0502",
+    "actual-admission-prerequisites.json": "2aa41b0fe5333d0594a7eaae65e66bab13fbc07091190add162e34e4316c1aaa",
+    "c1-tool-snapshot.json": "2aaf5a7f687366a88f83b153ff8cd86f2d9988ff23db40e6c47c818f38b3d9cc"
+  },
+  "limits": [
+    "strong entry premises supplied",
+    "generic/ZST and legal shared-entry applicability OPEN",
+    "profile storage/alias/admission mutations OPEN",
+    "normal CURRENT recovery not yet reached",
+    "full sort4 and initialized normal destination not proved"
+  ]
+}
