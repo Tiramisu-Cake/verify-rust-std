@@ -614,3 +614,16 @@ ghost parser178 before any function header: **no actual-source body proof**.
 Canonical462 barrier remains unchanged. Full outer/nested normal/unwind/
 return/leak, generic/ZST and sort4 obligations remain open. The source ghost
 syntax must be repaired and recaptured; previous pins do not transfer.
+
+
+Build293435cf (infra8d299748/proof96289411, full archive verified) captures
+stock-parser-compatible wrapper source11067f06/unit9c63ec19/body7 00fafebc and
+52-local/35-block exact graph; this is not proof. Separate unchanged-source
+nested-order TEST proves actual generic nested Drop body165–170 full normal/
+unwind return/leak after seven checked prefix callees; its scheduling remains
+unaccepted and canonical outer still fails462. Actualsort4 AST PROBE observes
+first callback scope and checked marker positions only; no scope rewrite or
+safety theorem. Mapped-ID relocation stops at compile-time record ambiguity,
+not an intended proof refusal. Exact transport five controls are infrastructure
+evidence only. R2 component23/new controls, generic/ZST select and complete
+sort4 safety/permutation/order/stability remain open.

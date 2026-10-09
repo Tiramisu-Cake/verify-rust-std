@@ -5739,3 +5739,38 @@ actual nested first resource failure drives lawful ghost repair; AST label/
 scope evidence drives bounded scope TEST only; changed relocation failure
 localizes the lifetime obligation. Setup/wrong-negative/timeout remains
 inconclusive; full artifacts and baseline/test verdict separation required.
+
+
+NIGHT-CLOUD-7 outcome: Build293435cf-8457-42ea-97a0-b37589f4fa76 FAILURE,
+04:08:51.805650851–04:14:52.739756 UTC;361 conservative seconds.
+Own2365/10800 used,8435 remaining; no active own Build. Full archive
+`13b4fbe0054c2d6e29fc0fbec9476494a4136b2d6f0288cec089856e96625d89`,
+text index `74394e052bc5a5aa5e9a877e0d228192a64e605b38b2a1853b2db20d92dc1676`;
+publication/config/inventory/original Git closure verified. run_exit0,
+evidence_complete=true, diagnostic_complete=false, verification_accepted=false.
+Exact infra transport restoration plus five intended pathset/mode/hash/blob
+negative refusals PASS; no general proof/profile acceptance follows.
+
+Canonical O26 paired source/MIR/refinement/all9+10 and same first462 PASS.
+Fresh one-statement source candidate captures source11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4,
+unit9c63ec19fcbc7f6c6e1b336b59c5af2bab470bd1b17c0345f0a57ac777a7cb00,
+body7 00fafebcaf338797daa681da8f4631be56a98d285fd945e76dfd7725b162a286;
+other8 body hashes and original466882d7 unchanged. Root rehashed all10 records.
+Observed graph52 locals/35 blocks,2 SAVE_OLD and8 REBASE_BOTH ghost calls,
+18 cleanup predecessors drives R2 exact certificates; old pins do not transfer.
+Capture only; no changed-source actual outer proof yet.
+
+Separate nested-order TEST builds, admits exact unchanged nine AST declarations
+with one checked permutation, and proves actual generic nested Drop body165–170:
+checked generic drop call169, normal return/leak170 and unwind return/leak170.
+Seven actual prefix bodies pass first; outer still fails462. This is actual-body
+TEST evidence only; reordered profile not admitted or combined with R2 yet.
+Print-only sort4 PROBE captures whole Func AST89699B/dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39,
+exact source/paired complete MIR/refinement; default-off first185 unchanged.
+Observed cmp lifetime child root138, reserved markers22, callback switch32,
+normal debt close33, lifetime end34, recover35/join36, original goto54/return.
+Type/operand/chunk details remain unobserved; follow-up print-only PROBE required.
+Mapped-ID relocation fails translator7030 compilation: local record inferred
+var_id_trs_entry instead of Mir.local_decl. Setup failure earns no negative.
+Explicit record type annotation changes no relocation selection/resource rule;
+fresh Cloud rerun needed. No local verifier/compiler/test was run.

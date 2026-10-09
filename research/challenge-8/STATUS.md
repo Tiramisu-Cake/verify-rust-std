@@ -1,14 +1,29 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**2004/10800 conservative Cloud Build seconds used;8796 remaining**.
+**2365/10800 conservative Cloud Build seconds used;8435 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
-`293435cf-8457-42ea-97a0-b37589f4fa76`, lane `o26-recovery-tests`;
-infra `8d299748b14c3d5b567d935f96ec75e357dfe650`,
-proof `96289411a12da79ed4a410a882be5c856952b546`. Timeout1200/reserve1260.
-Fresh single-command wrapper capture, corrected nested/AST/mapped-ID TESTs
-and exact-infra transport controls are pending; no new proof verdict.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). No active own Build.
+Latest Build `293435cf-8457-42ea-97a0-b37589f4fa76` FAILURE at isolated
+relocation compile gate; full evidence verified, charged361s.
+Infra `8d299748b14c3d5b567d935f96ec75e357dfe650`,
+proof `96289411a12da79ed4a410a882be5c856952b546`.
+Archive `13b4fbe0054c2d6e29fc0fbec9476494a4136b2d6f0288cec089856e96625d89`.
+Exact infra transport positive plus five intended negatives PASS. Fresh wrapper
+syntax capture has source11067f06/unit9c63ec19/body7 00fafebc, exact52 locals /
+35 blocks,2+8 new ghost sites,18 shared cleanup edges; other8 bodies unchanged.
+This is capture only. R2 component23 proof/certificates now follow this observed
+inventory, remain NOT ACCEPTED and await fresh proof plus changed controls.
+Isolated nested-order TEST checks the actual generic nested Drop body165–170,
+including actual generic drop call and full normal/unwind return/leak; PASS.
+Canonical outer still fails462. TEST scheduling is not accepted in main profile.
+Actual sort4 AST PROBE captures complete unchanged function and first callback
+scope/normal/unwind structure; diagnostic only. Relocation TEST fails compilation
+before proof: ambiguous local-declaration record inferred as var_id_trs_entry.
+Explicit Mir.local_decl annotation is prepared; this is not a negative proof.
+Next: fresh R2 full O26 proof/controls, changed mapped-ID TEST and detailed AST
+PROBE, then actual sort4 scope/recovery obligations. Full generic/ZST select,
+sort4 safety and separate permutation/order/stability remain open.
 Latest Build `b0382472-9685-44b3-955f-88f037d1c144` FAILURE at diagnostic
 verdict; full publication/archive integrity verified, charged368s.
 Infra `f5a82bcdbdabcbf290f6f9f3d9be363dfe8bbf04`,
