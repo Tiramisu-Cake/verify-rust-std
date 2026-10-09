@@ -1,0 +1,787 @@
+{
+  "build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+  "infra_sha": "baa57248c63929085b3d8e2e486d076b341250a1",
+  "proof_sha": "baa57248c63929085b3d8e2e486d076b341250a1",
+  "archive_sha256": "51187699260a3f284745a1b5a6c77458370a355530a8c3c1b3ac0300b05dc146",
+  "profiles": {
+    "guard-construction-nonprecise-v3-diagnostic": {
+      "environment": {
+        "diagnostic_profile": "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b",
+        "tool_profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+        "profile_pins": {
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "profile_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+          "build_runtime_sha256": "b078087b24cf774d4331d07eea68c5766f1b80b47db458f060af66bc4321cbd1",
+          "applied_patch_sha256": "b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927",
+          "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+          "prelude_path": "bin/rust/prelude_core.rsspec",
+          "experimental_console_sha256": "354436b99d7225e86271f211a43969b0c7f11f3c7f823a7d718abe00946a4f47",
+          "kernel_patched": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+          "translator_patched": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+          "parser_patched": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+          "prelude_patched": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+          "stdlib_patched": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+          "z3_runtime": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea"
+        },
+        "proof_sha": "baa57248c63929085b3d8e2e486d076b341250a1",
+        "provider": {
+          "provider": "cloud-build",
+          "build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+          "project": "smallsort-ci",
+          "region": "global",
+          "os": "ubuntu-22.04",
+          "arch": "x86_64"
+        },
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "rustc_sha256": "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71",
+        "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "compiler_drivers": {
+          "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/librustc_driver-d58e90066811bb5c.so": "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"
+        },
+        "capnp_sha256": "450cbc621cf98bc9e704dd1691cdd16ebfcafe15d4122c24b3326973d4766019",
+        "accepted": false,
+        "cloud_build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+        "profile_evidence": "/workspace/evidence/allprooflogs/build",
+        "compiler_sysroot": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "tool_home": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/source",
+        "schema_path": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/vf_mir.capnp"
+      },
+      "extraction": {
+        "accepted": false,
+        "cases": {
+          "first_body_false": {
+            "intended_failure": {
+              "column_end": 25,
+              "column_start": 20,
+              "line": 78,
+              "predicate": "false",
+              "stage": "verifast_runtime_constructor"
+            },
+            "original_sha256": "1077ea91d37f92408b8df7c7b491d6d7b546d157ff748aea3506bd437b1946f8",
+            "runtime_source_identical_after_ghost_strip": true,
+            "source_statement_line": 279,
+            "source_statement_sha256": "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb",
+            "verified_sha256": "f2ba2abcdac8845c4fb582b0cf59531141e8ba4e661cb418a801f9726c4e7880",
+            "verified_statement_line": 73
+          },
+          "positive": {
+            "original_sha256": "1077ea91d37f92408b8df7c7b491d6d7b546d157ff748aea3506bd437b1946f8",
+            "runtime_source_identical_after_ghost_strip": true,
+            "source_statement_line": 279,
+            "source_statement_sha256": "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb",
+            "verified_sha256": "4007b200abd38e164f56969b640ebec31f7c6dc80597e9025f123a60dae3ea69",
+            "verified_statement_line": 73
+          }
+        },
+        "complete_guard_drop_block_sha256": "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a",
+        "constructor_contract_sha256": "628a914e2ebb529f7a2a0e514436cec53c46702ffeb360714467b6ff8de3c2aa",
+        "exact_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+        "full_source_permission_only": true,
+        "isolated_struct_sha256": "4ee7f6a1aad4048051fa6c1d674618e54d9c184c3a87fa5fd483ac4ccb30ce97",
+        "no_drop_impl_in_fragment": true,
+        "nonprecise_own": true,
+        "own_payload_body_matches_v2": true,
+        "profile": "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b",
+        "roundtrip_sha256": "fb5598f809c9756c2ce3a9f1db032cdf8a5300e7b1eb5ab55bf7def9040ff7d2",
+        "source_constructor_line": 279,
+        "source_constructor_sha256": "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "unsafe_wrapper_for_conditional_explicit_contract": true,
+        "v2_full_source_own_sha256": "d223c896071993d9070361ddabbee0cce1b03fefbb71c1568f89556618916233"
+      },
+      "aggregate": {
+        "profile": "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b",
+        "accepted": false,
+        "fragment_pass": true,
+        "actual_drop_compatibility": "OPEN",
+        "cases": {
+          "positive": "PASS_FRAGMENT_ONLY",
+          "first_body_false": "EXPECTED_FALSE_ASSERTION"
+        }
+      }
+    },
+    "guard-construction-nonprecise-v3-stock-diagnostic": {
+      "environment": {
+        "diagnostic_profile": "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b",
+        "tool_profile": "stock-26.10",
+        "profile_pins": {
+          "bin/verifast": "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1",
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "spec_manifest_sha256": "4a0911303bbb087f1f50ce85524197edbb541f31c72e8133dfbcc9cf528e03a0",
+          "spec_checks_sha256": "2adb5f85e2077a96e2db6b97da9af17d9324ad3c586187292854970e63078da4",
+          "prelude_sha256": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+          "prelude_path": "bin/rust/prelude.rsspec",
+          "spec_resource_count": 58
+        },
+        "proof_sha": "baa57248c63929085b3d8e2e486d076b341250a1",
+        "provider": {
+          "provider": "cloud-build",
+          "build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+          "project": "smallsort-ci",
+          "region": "global",
+          "os": "ubuntu-22.04",
+          "arch": "x86_64"
+        },
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "rustc_sha256": "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71",
+        "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "compiler_drivers": {
+          "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/librustc_driver-d58e90066811bb5c.so": "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"
+        },
+        "capnp_sha256": "450cbc621cf98bc9e704dd1691cdd16ebfcafe15d4122c24b3326973d4766019",
+        "accepted": false,
+        "cloud_build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+        "profile_evidence": "/workspace/evidence/allprooflogs",
+        "compiler_sysroot": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "tool_home": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-26.10",
+        "schema_path": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/vf_mir.capnp"
+      },
+      "extraction": {
+        "accepted": false,
+        "cases": {
+          "first_body_false": {
+            "intended_failure": {
+              "column_end": 25,
+              "column_start": 20,
+              "line": 78,
+              "predicate": "false",
+              "stage": "verifast_runtime_constructor"
+            },
+            "original_sha256": "1077ea91d37f92408b8df7c7b491d6d7b546d157ff748aea3506bd437b1946f8",
+            "runtime_source_identical_after_ghost_strip": true,
+            "source_statement_line": 279,
+            "source_statement_sha256": "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb",
+            "verified_sha256": "f2ba2abcdac8845c4fb582b0cf59531141e8ba4e661cb418a801f9726c4e7880",
+            "verified_statement_line": 73
+          },
+          "positive": {
+            "original_sha256": "1077ea91d37f92408b8df7c7b491d6d7b546d157ff748aea3506bd437b1946f8",
+            "runtime_source_identical_after_ghost_strip": true,
+            "source_statement_line": 279,
+            "source_statement_sha256": "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb",
+            "verified_sha256": "4007b200abd38e164f56969b640ebec31f7c6dc80597e9025f123a60dae3ea69",
+            "verified_statement_line": 73
+          }
+        },
+        "complete_guard_drop_block_sha256": "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a",
+        "constructor_contract_sha256": "628a914e2ebb529f7a2a0e514436cec53c46702ffeb360714467b6ff8de3c2aa",
+        "exact_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+        "full_source_permission_only": true,
+        "isolated_struct_sha256": "4ee7f6a1aad4048051fa6c1d674618e54d9c184c3a87fa5fd483ac4ccb30ce97",
+        "no_drop_impl_in_fragment": true,
+        "nonprecise_own": true,
+        "own_payload_body_matches_v2": true,
+        "profile": "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b",
+        "roundtrip_sha256": "fb5598f809c9756c2ce3a9f1db032cdf8a5300e7b1eb5ab55bf7def9040ff7d2",
+        "source_constructor_line": 279,
+        "source_constructor_sha256": "d897a2aa7abcb8d87502dc83a048aba909641931a08fa8102ab77b5252414fdb",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "unsafe_wrapper_for_conditional_explicit_contract": true,
+        "v2_full_source_own_sha256": "d223c896071993d9070361ddabbee0cce1b03fefbb71c1568f89556618916233"
+      },
+      "aggregate": {
+        "profile": "copy-on-drop-source-construction-full-source-nonprecise-current-fragment-v3b",
+        "accepted": false,
+        "fragment_pass": true,
+        "actual_drop_compatibility": "OPEN",
+        "cases": {
+          "positive": "PASS_FRAGMENT_ONLY",
+          "first_body_false": "EXPECTED_FALSE_ASSERTION"
+        }
+      }
+    },
+    "guard-drop-geometry-v3-diagnostic": {
+      "environment": {
+        "diagnostic_profile": "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3",
+        "tool_profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+        "tool_pins": {
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "profile_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+          "build_runtime_sha256": "b078087b24cf774d4331d07eea68c5766f1b80b47db458f060af66bc4321cbd1",
+          "applied_patch_sha256": "b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927",
+          "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+          "prelude_path": "bin/rust/prelude_core.rsspec",
+          "experimental_console_sha256": "354436b99d7225e86271f211a43969b0c7f11f3c7f823a7d718abe00946a4f47",
+          "kernel_patched": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+          "translator_patched": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+          "parser_patched": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+          "prelude_patched": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+          "stdlib_patched": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+          "z3_runtime": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea"
+        },
+        "profile_pins": {
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "profile_manifest_sha256": "1c0611b783c2e1a88c32f515fb5e594d18ef7a9877ff158a9386f87a1e16e0ac",
+          "build_runtime_sha256": "b078087b24cf774d4331d07eea68c5766f1b80b47db458f060af66bc4321cbd1",
+          "applied_patch_sha256": "b163d3e36b695304cbc6c84d025af7bd5d679a5fb553356baa8b8362dea1b927",
+          "prelude_sha256": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+          "prelude_path": "bin/rust/prelude_core.rsspec",
+          "experimental_console_sha256": "354436b99d7225e86271f211a43969b0c7f11f3c7f823a7d718abe00946a4f47",
+          "kernel_patched": "100eebae92c770a0b8cd57e2639588761f881316dd522fc3b9a9b1ec6fd91cd6",
+          "translator_patched": "ffd6fe925364b8274d61f094d43211f9463e0dc3e98ae545d3f528f2da0cf6c0",
+          "parser_patched": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+          "prelude_patched": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+          "stdlib_patched": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227",
+          "z3_runtime": "1837668dc531d14b3a4fffc0b690b77929d29c41868f98a89686f5ff64da95ea"
+        },
+        "provider": "cloud-build",
+        "provider_info": {
+          "provider": "cloud-build",
+          "build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+          "project": "smallsort-ci",
+          "region": "global",
+          "os": "ubuntu-22.04",
+          "arch": "x86_64"
+        },
+        "cloud_build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+        "proof_sha": "baa57248c63929085b3d8e2e486d076b341250a1",
+        "cloud_project": "smallsort-ci",
+        "cloud_region": "global",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "small_sort_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "small_sort_source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "rustc_sha256": "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71",
+        "compiler_rustc_path": "/workspace/merge-work/cargo/bin/rustc",
+        "compiler_rustc_sha256": "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71",
+        "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "compiler_drivers": {
+          "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/librustc_driver-d58e90066811bb5c.so": "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"
+        },
+        "compiler_version_verbose": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "compiler_driver_hashes": {
+          "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/librustc_driver-d58e90066811bb5c.so": "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"
+        },
+        "compiler_sysroot": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "capnp_sha256": "450cbc621cf98bc9e704dd1691cdd16ebfcafe15d4122c24b3326973d4766019",
+        "compiler_rustc_sysroot": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "capnp_path": "/usr/bin/capnp",
+        "tool_hashes": {
+          "bin/verifast": "354436b99d7225e86271f211a43969b0c7f11f3c7f823a7d718abe00946a4f47",
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "bin/rust/prelude_core.rsspec": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751"
+        },
+        "stage_timeout_seconds": 35,
+        "capnp_include_dirs": [
+          "/workspace/merge-work/runner-temp/challenge8-merge-overnight"
+        ],
+        "profile_evidence": "/workspace/evidence/allprooflogs/build",
+        "tool_home": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/source",
+        "schema_path": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/vf_mir.capnp",
+        "accepted": false
+      },
+      "extraction": {
+        "accepted": false,
+        "actual_drop_compatibility": "OPEN",
+        "cases": {
+          "first_body_false": {
+            "actual_copy_call_line": 124,
+            "copy_call_line": 124,
+            "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+            "direct_asserted_contract_sha256": "1102ff2190fa20761eb418a2784b268fb39f52e5b4134b1dd939d1f16d75ebc7",
+            "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+            "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+            "expected_actual_target": "<CopyOnDrop<T> as core::ops::Drop>::drop",
+            "field_binding_line": 111,
+            "geometry_assertions": [
+              {
+                "assertion_sha256": "004e387a0b72ee66899e3cdd09192f294d6fc6089e28093f711e86621cb50695",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_nonnull",
+                "line": 112
+              },
+              {
+                "assertion_sha256": "40dc612957b3b629339efb4527aa25cf57a2e4a257fa8afbc46f0b0a02d40b5b",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_alignment",
+                "line": 113
+              },
+              {
+                "assertion_sha256": "289cbcd3122f3f8a4b3bb6adb5479143c67abb5fe466a0f59ca2107b37ad6dc2",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_object_limits",
+                "line": 114
+              },
+              {
+                "assertion_sha256": "d82252393229aeaeb8418f3a854c25f4653ba84db86ddc9b2f281bb37ceb00a7",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_address_no_overflow",
+                "line": 115
+              },
+              {
+                "assertion_sha256": "26734eefb19041c99848e834edcb659b90be636459573a19ba7acf0177100ea5",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_source_disjoint",
+                "line": 116
+              },
+              {
+                "assertion_sha256": "6cebca07a43e4df4e77ab25e961b5e12fdfca658dcd08f95f5e4a02ceee2bad4",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_destination_disjoint",
+                "line": 117
+              }
+            ],
+            "negative_column_end": 25,
+            "negative_column_start": 20,
+            "negative_predicate": "false",
+            "negative_target_line": 120,
+            "original_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+            "runtime_source_identical_after_ghost_strip": true,
+            "verified_sha256": "daeb07c586e8db3d440d202adcf668e1268001efe1761e57b8d90333bb5a926e"
+          },
+          "positive": {
+            "actual_copy_call_line": 123,
+            "copy_call_line": 123,
+            "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+            "direct_asserted_contract_sha256": "1102ff2190fa20761eb418a2784b268fb39f52e5b4134b1dd939d1f16d75ebc7",
+            "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+            "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+            "expected_actual_target": "<CopyOnDrop<T> as core::ops::Drop>::drop",
+            "field_binding_line": 111,
+            "geometry_assertions": [
+              {
+                "assertion_sha256": "004e387a0b72ee66899e3cdd09192f294d6fc6089e28093f711e86621cb50695",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_nonnull",
+                "line": 112
+              },
+              {
+                "assertion_sha256": "40dc612957b3b629339efb4527aa25cf57a2e4a257fa8afbc46f0b0a02d40b5b",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_alignment",
+                "line": 113
+              },
+              {
+                "assertion_sha256": "289cbcd3122f3f8a4b3bb6adb5479143c67abb5fe466a0f59ca2107b37ad6dc2",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_object_limits",
+                "line": 114
+              },
+              {
+                "assertion_sha256": "d82252393229aeaeb8418f3a854c25f4653ba84db86ddc9b2f281bb37ceb00a7",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_address_no_overflow",
+                "line": 115
+              },
+              {
+                "assertion_sha256": "26734eefb19041c99848e834edcb659b90be636459573a19ba7acf0177100ea5",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_source_disjoint",
+                "line": 116
+              },
+              {
+                "assertion_sha256": "6cebca07a43e4df4e77ab25e961b5e12fdfca658dcd08f95f5e4a02ceee2bad4",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_destination_disjoint",
+                "line": 117
+              }
+            ],
+            "original_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+            "runtime_source_identical_after_ghost_strip": true,
+            "verified_sha256": "014e0b72da9bbc1f6b10fd23b45813d2653df80ca701ec2f276904b88a878eaf"
+          },
+          "prototype_false": {
+            "actual_copy_call_line": 124,
+            "copy_call_line": 124,
+            "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+            "direct_asserted_contract_sha256": "8b00b638b9fa158e8cf033576fbf4e4ceb3a2b6d318c3d0e2fcfc2d3595371d4",
+            "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+            "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+            "expected_actual_target": "<CopyOnDrop<T> as core::ops::Drop>::drop",
+            "field_binding_line": 112,
+            "geometry_assertions": [
+              {
+                "assertion_sha256": "004e387a0b72ee66899e3cdd09192f294d6fc6089e28093f711e86621cb50695",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_nonnull",
+                "line": 113
+              },
+              {
+                "assertion_sha256": "40dc612957b3b629339efb4527aa25cf57a2e4a257fa8afbc46f0b0a02d40b5b",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_alignment",
+                "line": 114
+              },
+              {
+                "assertion_sha256": "289cbcd3122f3f8a4b3bb6adb5479143c67abb5fe466a0f59ca2107b37ad6dc2",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_object_limits",
+                "line": 115
+              },
+              {
+                "assertion_sha256": "d82252393229aeaeb8418f3a854c25f4653ba84db86ddc9b2f281bb37ceb00a7",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_address_no_overflow",
+                "line": 116
+              },
+              {
+                "assertion_sha256": "26734eefb19041c99848e834edcb659b90be636459573a19ba7acf0177100ea5",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_source_disjoint",
+                "line": 117
+              },
+              {
+                "assertion_sha256": "6cebca07a43e4df4e77ab25e961b5e12fdfca658dcd08f95f5e4a02ceee2bad4",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_destination_disjoint",
+                "line": 118
+              }
+            ],
+            "intended_failure": {
+              "column_end": 17,
+              "column_start": 12,
+              "line": 111,
+              "predicate": "false",
+              "stage": "verifast_canonical_prototype"
+            },
+            "original_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+            "runtime_source_identical_after_ghost_strip": true,
+            "verified_sha256": "e26867ae5ef0108a4a5a99576aad4aebd9379c3e1a99dee07ec28b9b0e27d929"
+          }
+        },
+        "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+        "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+        "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+        "nonprecise_own": true,
+        "original_extraction_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+        "profile": "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3",
+        "source_block_sha256": "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "v3_full_source_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f"
+      },
+      "aggregate": {
+        "diagnostic_profile": "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3",
+        "tool_profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+        "accepted": false,
+        "stages_collected": true,
+        "component_pass": false,
+        "actual_drop_compatibility": "OPEN",
+        "canonical_generic_drop_and_glue": "OPEN",
+        "cases": {
+          "positive": "INCONCLUSIVE",
+          "prototype_false": "EXPECTED_FALSE_ASSERTION",
+          "first_body_false": "INCONCLUSIVE"
+        }
+      }
+    },
+    "guard-drop-geometry-v3-stock-diagnostic": {
+      "environment": {
+        "diagnostic_profile": "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3",
+        "tool_profile": "stock-26.10",
+        "profile": "stock-26.10",
+        "tool_pins": {
+          "bin/verifast": "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1",
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "spec_manifest_sha256": "4a0911303bbb087f1f50ce85524197edbb541f31c72e8133dfbcc9cf528e03a0",
+          "spec_checks_sha256": "2adb5f85e2077a96e2db6b97da9af17d9324ad3c586187292854970e63078da4",
+          "prelude_sha256": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+          "prelude_path": "bin/rust/prelude.rsspec",
+          "spec_resource_count": 58
+        },
+        "profile_pins": {
+          "bin/verifast": "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1",
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "spec_manifest_sha256": "4a0911303bbb087f1f50ce85524197edbb541f31c72e8133dfbcc9cf528e03a0",
+          "spec_checks_sha256": "2adb5f85e2077a96e2db6b97da9af17d9324ad3c586187292854970e63078da4",
+          "prelude_sha256": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5",
+          "prelude_path": "bin/rust/prelude.rsspec",
+          "spec_resource_count": 58
+        },
+        "provider": "cloud-build",
+        "provider_info": {
+          "provider": "cloud-build",
+          "build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+          "project": "smallsort-ci",
+          "region": "global",
+          "os": "ubuntu-22.04",
+          "arch": "x86_64"
+        },
+        "cloud_build_id": "1219ab51-c577-4f6f-bba5-a763d29e934a",
+        "proof_sha": "baa57248c63929085b3d8e2e486d076b341250a1",
+        "cloud_project": "smallsort-ci",
+        "cloud_region": "global",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "small_sort_source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "small_sort_source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "rustc_sha256": "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71",
+        "compiler_rustc_path": "/workspace/merge-work/cargo/bin/rustc",
+        "compiler_rustc_sha256": "dda7234360b7f578ca8b0ddcb80145646fa61a67c1720a5abc7051b35c9fcb71",
+        "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "compiler_drivers": {
+          "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/librustc_driver-d58e90066811bb5c.so": "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"
+        },
+        "compiler_version_verbose": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "compiler_driver_hashes": {
+          "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu/lib/librustc_driver-d58e90066811bb5c.so": "892e036a701998dd196197e2d1bcd249fd80ade067d42915b7e02ed7dfdef707"
+        },
+        "compiler_sysroot": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "capnp_sha256": "450cbc621cf98bc9e704dd1691cdd16ebfcafe15d4122c24b3326973d4766019",
+        "compiler_rustc_sysroot": "/workspace/merge-work/rustup/toolchains/nightly-2026-09-25-x86_64-unknown-linux-gnu",
+        "capnp_path": "/usr/bin/capnp",
+        "tool_hashes": {
+          "bin/verifast": "9b7650ad3ab0dad3b8974ae9ba1c662ab2cd897ce1dd07215dedcbe460249ee1",
+          "bin/vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796",
+          "bin/refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "bin/rust/prelude.rsspec": "d7058d43557a2b5147eb1377e85bb67d04b94c83594b6c1c27650c9c571841b5"
+        },
+        "stage_timeout_seconds": 35,
+        "capnp_include_dirs": [
+          "/workspace/merge-work/runner-temp/challenge8-merge-overnight"
+        ],
+        "profile_evidence": "/workspace/evidence/allprooflogs",
+        "tool_home": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/verifast-26.10",
+        "schema_path": "/workspace/merge-work/runner-temp/challenge8-merge-overnight/vf_mir.capnp",
+        "accepted": false
+      },
+      "extraction": {
+        "accepted": false,
+        "actual_drop_compatibility": "OPEN",
+        "cases": {
+          "first_body_false": {
+            "actual_copy_call_line": 124,
+            "copy_call_line": 124,
+            "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+            "direct_asserted_contract_sha256": "1102ff2190fa20761eb418a2784b268fb39f52e5b4134b1dd939d1f16d75ebc7",
+            "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+            "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+            "expected_actual_target": "<CopyOnDrop<T> as core::ops::Drop>::drop",
+            "field_binding_line": 111,
+            "geometry_assertions": [
+              {
+                "assertion_sha256": "004e387a0b72ee66899e3cdd09192f294d6fc6089e28093f711e86621cb50695",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_nonnull",
+                "line": 112
+              },
+              {
+                "assertion_sha256": "40dc612957b3b629339efb4527aa25cf57a2e4a257fa8afbc46f0b0a02d40b5b",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_alignment",
+                "line": 113
+              },
+              {
+                "assertion_sha256": "289cbcd3122f3f8a4b3bb6adb5479143c67abb5fe466a0f59ca2107b37ad6dc2",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_object_limits",
+                "line": 114
+              },
+              {
+                "assertion_sha256": "d82252393229aeaeb8418f3a854c25f4653ba84db86ddc9b2f281bb37ceb00a7",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_address_no_overflow",
+                "line": 115
+              },
+              {
+                "assertion_sha256": "26734eefb19041c99848e834edcb659b90be636459573a19ba7acf0177100ea5",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_source_disjoint",
+                "line": 116
+              },
+              {
+                "assertion_sha256": "6cebca07a43e4df4e77ab25e961b5e12fdfca658dcd08f95f5e4a02ceee2bad4",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_destination_disjoint",
+                "line": 117
+              }
+            ],
+            "negative_column_end": 25,
+            "negative_column_start": 20,
+            "negative_predicate": "false",
+            "negative_target_line": 120,
+            "original_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+            "runtime_source_identical_after_ghost_strip": true,
+            "verified_sha256": "daeb07c586e8db3d440d202adcf668e1268001efe1761e57b8d90333bb5a926e"
+          },
+          "positive": {
+            "actual_copy_call_line": 123,
+            "copy_call_line": 123,
+            "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+            "direct_asserted_contract_sha256": "1102ff2190fa20761eb418a2784b268fb39f52e5b4134b1dd939d1f16d75ebc7",
+            "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+            "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+            "expected_actual_target": "<CopyOnDrop<T> as core::ops::Drop>::drop",
+            "field_binding_line": 111,
+            "geometry_assertions": [
+              {
+                "assertion_sha256": "004e387a0b72ee66899e3cdd09192f294d6fc6089e28093f711e86621cb50695",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_nonnull",
+                "line": 112
+              },
+              {
+                "assertion_sha256": "40dc612957b3b629339efb4527aa25cf57a2e4a257fa8afbc46f0b0a02d40b5b",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_alignment",
+                "line": 113
+              },
+              {
+                "assertion_sha256": "289cbcd3122f3f8a4b3bb6adb5479143c67abb5fe466a0f59ca2107b37ad6dc2",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_object_limits",
+                "line": 114
+              },
+              {
+                "assertion_sha256": "d82252393229aeaeb8418f3a854c25f4653ba84db86ddc9b2f281bb37ceb00a7",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_address_no_overflow",
+                "line": 115
+              },
+              {
+                "assertion_sha256": "26734eefb19041c99848e834edcb659b90be636459573a19ba7acf0177100ea5",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_source_disjoint",
+                "line": 116
+              },
+              {
+                "assertion_sha256": "6cebca07a43e4df4e77ab25e961b5e12fdfca658dcd08f95f5e4a02ceee2bad4",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_destination_disjoint",
+                "line": 117
+              }
+            ],
+            "original_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+            "runtime_source_identical_after_ghost_strip": true,
+            "verified_sha256": "014e0b72da9bbc1f6b10fd23b45813d2653df80ca701ec2f276904b88a878eaf"
+          },
+          "prototype_false": {
+            "actual_copy_call_line": 124,
+            "copy_call_line": 124,
+            "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+            "direct_asserted_contract_sha256": "8b00b638b9fa158e8cf033576fbf4e4ceb3a2b6d318c3d0e2fcfc2d3595371d4",
+            "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+            "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+            "expected_actual_target": "<CopyOnDrop<T> as core::ops::Drop>::drop",
+            "field_binding_line": 112,
+            "geometry_assertions": [
+              {
+                "assertion_sha256": "004e387a0b72ee66899e3cdd09192f294d6fc6089e28093f711e86621cb50695",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_nonnull",
+                "line": 113
+              },
+              {
+                "assertion_sha256": "40dc612957b3b629339efb4527aa25cf57a2e4a257fa8afbc46f0b0a02d40b5b",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_alignment",
+                "line": 114
+              },
+              {
+                "assertion_sha256": "289cbcd3122f3f8a4b3bb6adb5479143c67abb5fe466a0f59ca2107b37ad6dc2",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_object_limits",
+                "line": 115
+              },
+              {
+                "assertion_sha256": "d82252393229aeaeb8418f3a854c25f4653ba84db86ddc9b2f281bb37ceb00a7",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_address_no_overflow",
+                "line": 116
+              },
+              {
+                "assertion_sha256": "26734eefb19041c99848e834edcb659b90be636459573a19ba7acf0177100ea5",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_source_disjoint",
+                "line": 117
+              },
+              {
+                "assertion_sha256": "6cebca07a43e4df4e77ab25e961b5e12fdfca658dcd08f95f5e4a02ceee2bad4",
+                "column_end": 11,
+                "column_start": 5,
+                "label": "self_destination_disjoint",
+                "line": 118
+              }
+            ],
+            "intended_failure": {
+              "column_end": 17,
+              "column_start": 12,
+              "line": 111,
+              "predicate": "false",
+              "stage": "verifast_canonical_prototype"
+            },
+            "original_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+            "runtime_source_identical_after_ghost_strip": true,
+            "verified_sha256": "e26867ae5ef0108a4a5a99576aad4aebd9379c3e1a99dee07ec28b9b0e27d929"
+          }
+        },
+        "custom_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f",
+        "direct_original_contract_sha256": "b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d",
+        "direct_req_ens_unwind_sha256": "6d5843ad8b75a5e5f995fa1b86f42a93af77598f96660388027efe0972b22356",
+        "nonprecise_own": true,
+        "original_extraction_sha256": "e9b488870bdeadcf7dfa2d0a74638dca22f41a964bc2e681426edbd7fef9e5c2",
+        "profile": "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3",
+        "source_block_sha256": "caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a",
+        "source_git_blob": "40939f922bcb6fdc7ee0d30427fa861827043827",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "v3_full_source_own_sha256": "01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f"
+      },
+      "aggregate": {
+        "diagnostic_profile": "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3",
+        "tool_profile": "stock-26.10",
+        "accepted": false,
+        "stages_collected": true,
+        "component_pass": false,
+        "actual_drop_compatibility": "OPEN",
+        "canonical_generic_drop_and_glue": "OPEN",
+        "cases": {
+          "positive": "INCONCLUSIVE",
+          "prototype_false": "EXPECTED_FALSE_ASSERTION",
+          "first_body_false": "INCONCLUSIVE"
+        }
+      }
+    }
+  },
+  "accepted": false
+}

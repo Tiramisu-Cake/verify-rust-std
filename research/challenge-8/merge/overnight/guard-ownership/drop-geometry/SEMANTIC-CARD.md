@@ -57,3 +57,41 @@ geometry or numeric disjointness; this probe tests entailment without inventing
 such a rule. Independent Luna exploration and Sol review identified these exact
 six gaps and generated payload/glue limitations. Any subsequent semantic rule
 requires a new rationale and controls; this card authorizes assertions only.
+
+## Evidence-directed root-bounds V3b amendment (before implementation)
+
+Build1219ab51-c577-4f6f-bba5-a763d29e934a at baa57248c63929085b3d8e2e486d076b341250a1:
+V3b constructor positive/fullpost/return/leak and false78(20-25) pass bothprofiles.
+ExactDrop geometry stock/six own/FBC/MIR/AST/refinement admitted; prototypeFalse
+111(12-17) is matched; positive/bodyFalse stop at selfnonnull112(50-52).
+No actual Drop body/copy/post credited. All6geometry conditions remain required.
+
+New separate profile `copy-on-drop-canonical-fbc-root-bounds-diagnostic-v3b`
+adds a checked invocation of existing `points_to_limits::<CopyOnDrop<T>>` after
+FBC/own opening and before field binding/assertions. Pinned assertions.ml
+2387–2420 autocloses whole-struct points_to from same full physical fields and
+padding; it neither consumes nor introduces payload arrays or owners. Pinned
+prelude_core229–231 returns that same points_to chunk and whole-object limits.
+Object-limits definition163–165 includes nonnull and end-pointer bounds; pointer
+arithmetic/provenance-max bounds135–137 should entail exact no-overflow fact.
+Following field-binding assertion must recover allthree fields without losing
+padding or aggregate memory, and the unchanged strong Drop req still consumes
+all resources. No trusted rule added. This is a concrete actual-pre bridge.
+
+Reorder retained6assertions: nonnull, objectlimits, nooverflow, alignment,
+source/destination intervalseparation. All exactpropositions unchanged. A first
+failure at alignment records actualprogress but still INCONCLUSIVE overall.
+Existing lemma gives no alignment/intervalsep promise; do not assume those.
+PrototypeFalse stays immediately afteropens beforelemma, actualbodyFalse stays
+firstbody; eachnegative onlycredited atits ownstage/predicate/location.
+
+Add explicit checked `call();` afterallsixassertions in safety_proof. Pinned
+verifast.ml4028–4045 requires this; previous False-own legacy masked its absence.
+verify_expr.ml252–273 consumes strong pre, produces strongpost, runs epilog,
+consumes canonicalpost then checks leaks. Generatedcanonicalpost omits payload,
+so successfulgeometry alone will still expose a separate postconservation gap.
+No leak command, pre replacement, compatibility removal, weakening or effect
+claim. Direct req/ens/unwind and runtimebytes remain byte-identical.
+Independent Luna found resource-preserving aggregate route; Sol confirmed
+call/prototype/leak behavior and absent canonical payloadpost. This reasoning
+supports this exact proof-invocation diagnostic, not a new semantic kernel axiom.

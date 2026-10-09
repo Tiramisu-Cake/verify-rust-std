@@ -29,24 +29,26 @@ def load(name: str, path: Path):
 V3 = load("geometry_constructor_v3", HERE.parent / "construction/nonprecise-v3/prepare.py")
 P = V3.P
 B = V3.B
-PROFILE = "copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3"
+PROFILE = "copy-on-drop-canonical-fbc-root-bounds-diagnostic-v3b"
 OWN = V3.OWN
 PROTOTYPE_FALSE = b"    assert false; // TARGET: canonical prototype entry\n"
 BODY_FALSE = B.FALSE_LINE
 SAFETY_OPEN = P.SAFETY_OPEN
+ROOT_LIMITS = b"    points_to_limits::<CopyOnDrop<T>>(self as *mut CopyOnDrop<T>);\n"
+PROTOTYPE_CALL = b"    call();\n"
 FIELD_BINDING = (
     b"    assert (*self).src |-> ?guard_src &*& (*self).dst |-> ?guard_dst &*& "
     b"(*self).len |-> ?guard_len;\n")
 GEOMETRY = (
     b"    assert (self as *mut CopyOnDrop<T>) as usize != 0;\n",
-    b"    assert (self as *mut CopyOnDrop<T>) as usize % std::mem::align_of::<CopyOnDrop<T>>() == 0;\n",
     b"    assert object_pointer_within_limits(self as *mut CopyOnDrop<T>, std::mem::size_of::<CopyOnDrop<T>>()) == true;\n",
     b"    assert (self as *mut CopyOnDrop<T>) as usize <= usize::MAX - std::mem::size_of::<CopyOnDrop<T>>();\n",
+    b"    assert (self as *mut CopyOnDrop<T>) as usize % std::mem::align_of::<CopyOnDrop<T>>() == 0;\n",
     b"    assert (guard_len == 0 || (self as *mut CopyOnDrop<T>) as usize + std::mem::size_of::<CopyOnDrop<T>>() <= guard_src as usize || guard_src as usize + guard_len * std::mem::size_of::<T>() <= (self as *mut CopyOnDrop<T>) as usize);\n",
     b"    assert (guard_len == 0 || (self as *mut CopyOnDrop<T>) as usize + std::mem::size_of::<CopyOnDrop<T>>() <= guard_dst as usize || guard_dst as usize + guard_len * std::mem::size_of::<T>() <= (self as *mut CopyOnDrop<T>) as usize);\n",
 )
-GEOMETRY_NAMES = ("self_nonnull", "self_alignment", "self_object_limits",
-                  "self_address_no_overflow", "self_source_disjoint",
+GEOMETRY_NAMES = ("self_nonnull", "self_object_limits", "self_address_no_overflow",
+                  "self_alignment", "self_source_disjoint",
                   "self_destination_disjoint")
 
 
@@ -81,7 +83,8 @@ def extract(source: Path, output: Path, report_path: Path) -> dict:
     rows = {}
     for name in ("positive", "prototype_false", "first_body_false"):
         inserted = ((PROTOTYPE_FALSE if name == "prototype_false" else b"") +
-                    FIELD_BINDING + b"".join(GEOMETRY))
+                    ROOT_LIMITS + FIELD_BINDING + b"".join(GEOMETRY) +
+                    PROTOTYPE_CALL)
         contract = B.CONTRACT.replace(SAFETY_OPEN, SAFETY_OPEN + inserted, 1)
         if contract == B.CONTRACT or contract.split(b"safety_proof {\n", 1)[0] != \
                 B.CONTRACT.split(b"safety_proof {\n", 1)[0]:
@@ -121,6 +124,10 @@ def extract(source: Path, output: Path, report_path: Path) -> dict:
                     "assertion_sha256": P.sha(assertion)}
                    for label, assertion in zip(GEOMETRY_NAMES, GEOMETRY)],
                "field_binding_line": line_at(verified, FIELD_BINDING),
+               "limits_call_line": line_at(verified, ROOT_LIMITS),
+               "limits_call_sha256": P.sha(ROOT_LIMITS),
+               "prototype_call_line": line_at(verified, PROTOTYPE_CALL),
+               "prototype_call_sha256": P.sha(PROTOTYPE_CALL),
                "expected_actual_target": B.TARGET}
         if name == "prototype_false":
             col = PROTOTYPE_FALSE.index(b"false") + 1
@@ -143,6 +150,8 @@ def extract(source: Path, output: Path, report_path: Path) -> dict:
               "direct_req_ens_unwind_sha256": P.sha(B.CONTRACT.split(b"safety_proof {\n", 1)[0]),
               "custom_own_sha256": P.sha(OWN),
               "v3_full_source_own_sha256": P.sha(V3.OWN),
+              "limits_call_sha256": P.sha(ROOT_LIMITS),
+              "prototype_call_sha256": P.sha(PROTOTYPE_CALL),
               "nonprecise_own": True, "accepted": False,
               "actual_drop_compatibility": "OPEN", "cases": rows}
     report_path.parent.mkdir(parents=True, exist_ok=True)

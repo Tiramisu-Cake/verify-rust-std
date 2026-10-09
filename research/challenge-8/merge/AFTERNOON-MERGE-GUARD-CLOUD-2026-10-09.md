@@ -121,3 +121,22 @@ exactprototypeFalse andactualbodyFalse gates, geometry frontier INCONCLUSIVE.
 Combinedtimeout1500+60queue: 360secondsV3 +480geometry +140audit/upload lane
 reserve, plus coldmatrix/setup; observedV3elapsed388. Within3112remaining and
 main/absolute deadlines, ample evidenceanalysisreserve. No unchangedlarge matrices.
+
+### Combined result and root-bounds continuation
+
+Build1219 at baa57248 SUCCESS304seconds, all7groups collected/audited, fullarchive/
+externaltext integrity verified; archive51187699260a3f284745a1b5a6c77458370a355530a8c3c1b3ac0300b05dc146.
+V3b stock/six positives PASS_FRAGMENT_ONLY fullpost/return/leak/no-dead, false78:20–25
+matched. ActualDrop FBC prototypefalse111:12–17 matched; positive/bodyfalse INC
+selfnonnull112:50–52, noactualbodycredit. No compiled semantic identity change.
+792used2808remaining, ownterminal. Actual parallel execution overlapped peer4077
+~115seconds without foreign mutation; dispatcher synthetic18 and realoverlap distinct.
+
+Next source-linked pre bridge is rootboundsV3b per preimplementationcard amendment:
+existing points_to_limits/autoclosefields+padding, retained6exactconditions,
+required explicitcall() and full directposts/canonicalcompatibility. Allsource/
+AST/MIR/refinement/leak/dead/negative gates retained. No tool semantics change.
+Geometry-only stock/six + sourcepreparations/smoke; constructor unchanged notrerun.
+Timeout1000+60queue covers coldmatrix/setup,480geometry+140audit/upload reserve,
+within2808remaining and >40min mainwindow. Positive expectedadvance toalignment
+or exacthelper/frontier refusal; never negativecredit except recordedfalse controls.

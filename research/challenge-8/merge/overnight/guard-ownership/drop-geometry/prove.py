@@ -112,6 +112,40 @@ def own_and_geometry_ast_gate(case_dir: Path, name: str, metadata: dict) -> dict
                   len(proof_tuple) == 3 and isinstance(proof_tuple[1], list) else [])
     opens = [node for node in ast.nodes(statements, "Open")]
     open_names = [node.args[2] for node in opens if len(node.args) >= 3]
+    top_calls = [statement.args[0] for statement in statements
+                 if isinstance(statement, ast.Node) and statement.name == "ExprStmt" and
+                 len(statement.args) == 1 and isinstance(statement.args[0], ast.Node) and
+                 statement.args[0].name == "CallExpr"]
+    limits_calls = [node for node in top_calls if len(node.args) == 6 and
+                    node.args[1] == "points_to_limits"]
+    prototype_calls = [node for node in top_calls if len(node.args) == 6 and
+                       node.args[1] == "call"]
+    limits_shape = False
+    if len(top_calls) == 2 and len(limits_calls) == len(prototype_calls) == 1:
+        helper, invocation = limits_calls[0], prototype_calls[0]
+        type_args = helper.args[2]
+        patterns = helper.args[4]
+        actual = (patterns[0].args[0] if isinstance(patterns, list) and
+                  len(patterns) == 1 and isinstance(patterns[0], ast.Node) and
+                  patterns[0].name == "LitPat" and len(patterns[0].args) == 1 else None)
+        cast_type = actual.args[1] if isinstance(actual, ast.Node) and \
+            actual.name == "CastExpr" and len(actual.args) == 3 else None
+        limits_shape = (
+            isinstance(type_args, list) and len(type_args) == 1 and
+            isinstance(type_args[0], ast.Node) and
+            type_args[0].name == "ConstructedTypeExpr" and
+            len(type_args[0].args) == 3 and type_args[0].args[1] == "CopyOnDrop" and
+            len(type_args[0].args[2]) == 1 and "T" in repr(type_args[0].args[2][0]) and
+            helper.args[3] == [] and
+            isinstance(cast_type, ast.Node) and cast_type.name == "PtrTypeExpr" and
+            "CopyOnDrop" in repr(cast_type) and
+            isinstance(actual.args[2], ast.Node) and actual.args[2].name == "Var" and
+            actual.args[2].args[-1] == "self" and
+            helper.args[5] == ast.Sym("Static") and
+            ast.location_line(helper.args[0]) == metadata["limits_call_line"] and
+            invocation.args[2:5] == [[], [], []] and
+            invocation.args[5] == ast.Sym("Static") and
+            ast.location_line(invocation.args[0]) == metadata["prototype_call_line"])
     assertions = ast.nodes(statements, "Assert")
     expected = metadata["geometry_assertions"]
     geometry_lines = [row["line"] for row in expected]
@@ -127,9 +161,9 @@ def own_and_geometry_ast_gate(case_dir: Path, name: str, metadata: dict) -> dict
     geometry_expr_shape = (len(geometry_nodes) == 6 and
                            all("self" in text and "CopyOnDrop" in text
                                for text in geometry_text) and
-                           "Mod" in geometry_text[1] and
-                           "object_pointer_within_limits" in geometry_text[2] and
-                           "MaxValue" in geometry_text[3] and
+                           "object_pointer_within_limits" in geometry_text[1] and
+                           "MaxValue" in geometry_text[2] and
+                           "Mod" in geometry_text[3] and
                            "guard_src" in geometry_text[4] and
                            "guard_dst" in geometry_text[5] and
                            all("guard_len" in geometry_text[index] for index in (4, 5)))
@@ -141,9 +175,11 @@ def own_and_geometry_ast_gate(case_dir: Path, name: str, metadata: dict) -> dict
                     ast.location_line(false_assertions[0].args[0]) == false_line))
     order = ([ast.location_line(node.args[0]) for node in opens] +
              ([false_line] if expected_false else []) +
-             [metadata["field_binding_line"]] + geometry_lines)
+             [metadata["limits_call_line"], metadata["field_binding_line"]] +
+             geometry_lines + [metadata["prototype_call_line"]])
     ordered = (open_names == ["CopyOnDrop_full_borrow_content", "CopyOnDrop_own"] and
-               len(opens) == 2 and all(a < b for a, b in zip(order, order[1:])) and
+               len(opens) == 2 and limits_shape and
+               all(a < b for a, b in zip(order, order[1:])) and
                len(binding) == 1 and len(ast.nodes(binding[0], "PointsTo")) == 3 and
                all(alias in repr(binding[0]) for alias in
                    ("guard_src", "guard_dst", "guard_len")) and
@@ -153,6 +189,9 @@ def own_and_geometry_ast_gate(case_dir: Path, name: str, metadata: dict) -> dict
             "own_payload": bool(own_payload), "own_false_node_count": len(ast.nodes(own_body, "False")),
             "generated_fbc_nonprecise_exact_fields_padding_own": bool(fbc_shape),
             "prototype_open_names": open_names, "field_binding_line": metadata["field_binding_line"],
+            "limits_call_line": metadata["limits_call_line"],
+            "prototype_call_line": metadata["prototype_call_line"],
+            "checked_limits_and_prototype_call_ordered": bool(limits_shape and ordered),
             "six_geometry_assertions_ordered": bool(ordered and geometry_expr_shape),
             "geometry_assertion_lines": geometry_lines,
             "prototype_false_ast_at_target": bool(false_shape),

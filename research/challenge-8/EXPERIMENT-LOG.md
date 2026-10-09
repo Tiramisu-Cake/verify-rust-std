@@ -6455,3 +6455,15 @@ source/destination/currentforeachpool; precisegenericwrapper unsupportedbecause
 both foreach and defaultgenericT.own declarednonprecise. No opaqueownershiptoken,
 newprecisionbound or modelpatch. Exactconstructor/roundtrip/false gated inCloud;
 actualtype/Drop/canonicalpost/selfgeometry/glue/forget/caller remainOPEN.
+
+AFTERNOON V3 Build79da/c2a6324e FAILURE388seconds: all4constructor cases reached
+statement73/ownclose74/open75, fail76 entry-list equality; no fullpost/falsecredit.
+Separate collector ASLR-runtimehash/earlyhelper defects preserved and repaired.
+AFTERNOON combined Build1219ab51-c577-4f6f-bba5-a763d29e934a at baa57248c63929085b3d8e2e486d076b341250a1
+SUCCESS304seconds; archive51187699260a3f284745a1b5a6c77458370a355530a8c3c1b3ac0300b05dc146,
+complete archive/text verified. V3b stock/six positive PASS_FRAGMENT_ONLY fullpost/
+return/leak/no-dead and false78:20–25 exactly matched. Full CURRENT array/foreach
+association restored inside own, no entry-list equality claimed. Actual Drop FBC
+prototypeFalse111 matched; positive/bodynegative bothINC selfnonnull112. No body/glue.
+792/3600used2808remaining. Next source-linked pre bridge explicitly invokes existing
+points_to_limits with checked struct aggregate/padding; all6geometry andposts retained.

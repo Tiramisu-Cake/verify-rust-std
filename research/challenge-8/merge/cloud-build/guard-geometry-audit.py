@@ -13,7 +13,7 @@ BLOB = '40939f922bcb6fdc7ee0d30427fa861827043827'
 BLOCK = 'caff1edbfa3a8d9fd29459e49c43abd0f8f987f9061c75e7bf6ecedbbba26a6a'
 OWN = '01369778e4adf0c338b1ba40d4be956cccbfad917bc99bf7a6aaf4fb07c6868f'
 CONTRACT = 'b0b340a9598dd53a66bf22f0dfd8a6cc8da08dd28f7d9cbeaa443037dd05120d'
-PROFILE = 'copy-on-drop-canonical-fbc-self-geometry-diagnostic-v3'
+PROFILE = 'copy-on-drop-canonical-fbc-root-bounds-diagnostic-v3b'
 CASES = ('positive', 'prototype_false', 'first_body_false')
 STAGES = ('exporter', 'decode', 'verifast', 'refinement')
 
@@ -102,7 +102,8 @@ def audit_geometry(root: Path, group: str, profile: str, proof_sha: str, build_i
                 raise ValueError('geometry case source hash differs')
         original, verified = [(case / relative).read_bytes() for relative in ('original/lib.rs', 'verified/lib.rs')]
         inserted = ((module.prep.PROTOTYPE_FALSE if name == 'prototype_false' else b'') +
-                    module.prep.FIELD_BINDING + b''.join(module.prep.GEOMETRY))
+                    module.prep.ROOT_LIMITS + module.prep.FIELD_BINDING + b''.join(module.prep.GEOMETRY) +
+                    module.prep.PROTOTYPE_CALL)
         contract = module.prep.B.CONTRACT.replace(module.prep.SAFETY_OPEN, module.prep.SAFETY_OPEN + inserted, 1)
         stripped = verified.replace(module.prep.OWN, b'', 1).replace(contract, b'', 1)
         if name == 'first_body_false':

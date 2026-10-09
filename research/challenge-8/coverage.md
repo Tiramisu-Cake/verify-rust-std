@@ -622,3 +622,12 @@ target0/0, stages0/0/1/0, noearliererror/dead/sourcechange. All12positive/
 complete, notTownuniqueness/actualcopy/caller or fullprofileacceptance.
 Total2215/3600charged,1385unspent; ownactive=null. Native/ctor/C1/trustgaps
 remain unchanged; [final checkpoint](merge/DAY-MERGE-CHECKPOINT-2026-10-09.md).
+
+AFTERNOON merge,2026-10-09: Build1219ab51 at baa57248 proves exact source279
+constructor fragment on stock/six under full CURRENT source/destination/owner
+premises, with complete normal post and matched false control. Supported nonprecise
+own/FBC removes v1/v2 precision barrier without dropping owners or modifying tool
+semantics. Fragment excludes Drop implementation and does not prove full caller.
+Actual Drop FBC opens non-False; prototype-negative matched, but selfnonnull is
+first open geometry requirement before body. Canonical post payload conservation,
+compiler glue/forget and actual scratch-state acquisition remain unproved.

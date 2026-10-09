@@ -42,3 +42,14 @@ reconciliation the v2emptyenvelope is preserved. No legacyreserve existed atentr
 Legacylive migration/peerpreservation are tested synthetically, not claimed as a
 liveparallelobservation. ForeignsessionSTOP and nooldclientcommands established
 beforeactivation. Budgets/history/foreignstate unchanged.
+
+## Subsequent real overlap (read-only observation)
+
+After successful regression analysis, unrelated owner select-sort4 used compatiblev2
+client and its own AFTERNOON ledger. Normal authorized merge Build1219ab51-c577-4f6f-bba5-a763d29e934a
+started12:12:48.037778241Z while peer4077ed0a-75ba-4f2b-9ada-1e20a036098d
+ran12:09:53.912622531Z–12:14:43.172176Z. Real execution intervals overlapped
+about115seconds. Commonactive snapshot had both differentowner/ledger reservations.
+Peerterminalmetadata read through Cloud API only; no peercommands/ledger/cancellation.
+This observes actualtwo-build overlap, in addition to the18syntheticregression cases;
+real refusal of a thirdbuild and duplicateowner were not paid experiments.

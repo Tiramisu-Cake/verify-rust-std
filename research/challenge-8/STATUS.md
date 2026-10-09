@@ -1,20 +1,32 @@
 # AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09 — IN PROGRESS
 
-New explicit owner authorization: [phase](merge/AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09.md),
-[separate3600ledger](cloud-build/afternoon-merge-guard/BUDGET.json), owner merge.
-Start11:15:53UTC/14:15:53MSK; main13:15:53UTC/16:15:53MSK;
-absolute13:45:53UTC/16:45:53MSK. Existing Cloud/overnight/merge-26.10 workflow.
-PR2 source55414a5c transferred asc81fd1a5 preserving registrations/proofs.
-Testedinfra/proofe918eb875119d912b981da2bfec4e0406e06571e;
-Builda0f40e03-fb76-4974-893b-3aad48331f7f SUCCESS100s, full18cases PASS,
-archive/externaltext verified. [Results](cloud-build/afternoon-merge-guard/COORDINATION-RESULT.md).
-v2 activeemptyenvelope retained; legacy/publicparallelbehavior testedsynthetically,
-no realtwo-Buildparallelobservation.100/3600used3500remaining,noownactive.
-V3full-source nonpreciseown/FBC candidate preservesallcurrentowners/arrays;
-[card](merge/overnight/guard-ownership/construction/nonprecise-v3/SEMANTIC-CARD.md)
-precedes implementation/selfreview. Exactconstructor+payloadroundtrip+matchedfalse
-first; actualtype/FBC/Dropgeometry/generatedpost/glue remainseparategates.
-Historical DAY/NIGHT accountsclosed, notransfer; priorboundariesbelowpreserved.
+Owner merge, existing worktree/branch `overnight/merge-26.10` and Cloud workflow.
+[Phase](merge/AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09.md),
+[separate ledger](cloud-build/afternoon-merge-guard/BUDGET.json).
+Start **11:15:53 UTC /14:15:53 MSK**; main **13:15:53 UTC /16:15:53 MSK**;
+absolute **13:45:53 UTC /16:45:53 MSK**,2026-10-09.
+
+PR2 source55414a5c transferred as c81fd1a5, preserving phase/proof registrations.
+Dispatcher regression Builda0f40e03 at e918eb875119d912b981da2bfec4e0406e06571e:
+all18 PASS,100seconds. Production v2 active; actual overlap of two different
+owners observed ~115seconds through Cloud API, no artificial paid parallel test.
+[All18 outcomes/overlap](cloud-build/afternoon-merge-guard/COORDINATION-RESULT.md).
+
+Build1219ab51-c577-4f6f-bba5-a763d29e934a at proof/infra
+baa57248c63929085b3d8e2e486d076b341250a1: constructor V3b stock/six positives
+**PASS_FRAGMENT_ONLY**, full own/current arrays/foreach, exact initializer,
+full normal post/return/leak; negatives exact false78:20–25. No new tool semantic
+patch. [Result and limits](merge/overnight/guard-ownership/construction/nonprecise-v3/RESULT.md).
+Actual type with Drop: canonical FBC/own opens, matched prototypeFalse111:12–17;
+positive/body-negative INCONCLUSIVE at selfnonnull112. No actual Drop/body/glue
+credit. [Geometry evidence](merge/overnight/guard-ownership/drop-geometry/RESULTS.md).
+Historical V3 Build79da remains FAILURE/INCONCLUSIVE; entry-list equality failed.
+
+**792/3600 seconds used,2808 remaining**; own builds terminal, evidence verified.
+Prepared next checked root-bounds lemma invocation, all six conditions/posts and
+canonical compatibility retained. Exact geometry/type/Drop post/glue/normal forget,
+actual CURRENT scratch acquisition/C1/F-frame/arbitrary-n/generic/ZST remain OPEN.
+Full six/seven/kernel/cleanup profile NOT_ACCEPTED. Historical DAY/NIGHT closed.
 
 ---
 
