@@ -685,7 +685,7 @@ run_guard_payload_group guard-payload-own-stock-diagnostic \
 # Isolated physical permission controls; no new callee summary or trusted rule.
 run_memory_cell_group() {
   local group=$1 profile=$2 tool_home=$3 dirname=$4
-  local selected_status=0 driver_status=0 remaining group_timeout
+  local selected_status=0 driver_status=0 remaining group_timeout compiler_sysroot
   if python3 "$selection_tool" contains --selection "$selection_file" \
       --sha256 "$selection_sha" "$group"; then
     :
@@ -695,15 +695,18 @@ run_memory_cell_group() {
     status=1; return 0
   fi
   CURRENT_STAGE=$group
+  compiler_sysroot=$(rustc --print sysroot)
   remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
   group_timeout=$remaining
   (( group_timeout <= 180 )) || group_timeout=180
   if (( group_timeout > 0 )); then
     /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
-      timeout --signal=TERM --kill-after=10s "${group_timeout}s" python3 \
+      timeout --signal=TERM --kill-after=10s "${group_timeout}s" env \
+      LD_LIBRARY_PATH="$compiler_sysroot/lib:$tool_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}" \
+      python3 \
       "$proof_root/research/challenge-8/merge/overnight/pointer-prove.py" \
       --profile "$profile" --scope 'matched one/two full points-to rights to same current non-ZST destination cell; diagnostic only' \
-      --tool-home "$tool_home" --compiler-sysroot "$(rustc --print sysroot)" \
+      --tool-home "$tool_home" --compiler-sysroot "$compiler_sysroot" \
       --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
       --fixture "$proof_root/research/challenge-8/merge/overnight/current-owner-memory-cell-cases.rs" \
       --verifier-seconds 45 --evidence "$allprooflogs/$dirname" \

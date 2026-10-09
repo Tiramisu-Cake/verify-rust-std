@@ -23,7 +23,14 @@ def load(path: Path):
 
 P = load(HERE.parent / "prepare.py")
 B = P.B
-PROFILE = "copy-on-drop-source-construction-fragment-v1"
+PROFILE = "copy-on-drop-source-construction-full-source-fragment-v2"
+OWN = P.OWN.replace(b"[?f]v.src[..v.len] |-> ?src_values",
+                    b"v.src[..v.len] |-> ?src_values", 1)
+CONSTRUCTOR_CONTRACT = P.CONSTRUCTOR_CONTRACT.replace(
+    b"[?f]scratch_base[..len] |-> ?src_values",
+    b"scratch_base[..len] |-> ?src_values", 1)
+if OWN == P.OWN or CONSTRUCTOR_CONTRACT == P.CONSTRUCTOR_CONTRACT:
+    raise RuntimeError("full-source permission substitution anchor changed")
 CONSTRUCTOR_FALSE = b"        //@ assert false; // TARGET: first constructor-body control\n"
 STRUCT_END = b"}\n\nimpl<T> Drop for CopyOnDrop<T> {"
 CONSTRUCTOR_RUNTIME = P.CONSTRUCTOR.replace(
@@ -58,9 +65,9 @@ def extract(source: Path, output: Path, report_path: Path) -> dict:
     if original.count(signature) != 1 or original.count(P.CONSTRUCTOR_LINE) != 1:
         raise ValueError("constructor fragment runtime shape changed")
     common = original.replace(b"\nunsafe fn source_guard_construction",
-                              b"\n" + P.OWN + b"unsafe fn source_guard_construction", 1)
+                              b"\n" + OWN + b"unsafe fn source_guard_construction", 1)
     common = common.replace(signature,
-                            b" -> CopyOnDrop<T>" + P.CONSTRUCTOR_CONTRACT + b" {", 1)
+                            b" -> CopyOnDrop<T>" + CONSTRUCTOR_CONTRACT + b" {", 1)
     marker = P.CONSTRUCTOR_LINE + b"\n"
     if common.count(marker) != 1:
         raise ValueError("constructor body statement is not unique")
@@ -71,8 +78,8 @@ def extract(source: Path, output: Path, report_path: Path) -> dict:
                              ("first_body_false", CONSTRUCTOR_FALSE)):
         verified = common.replace(marker,
                                   marker + false_line + P.CONSTRUCTOR_CLOSE, 1)
-        stripped = (verified.replace(P.OWN, b"", 1)
-                    .replace(P.CONSTRUCTOR_CONTRACT, b"", 1)
+        stripped = (verified.replace(OWN, b"", 1)
+                    .replace(CONSTRUCTOR_CONTRACT, b"", 1)
                     .replace(P.CONSTRUCTOR_CLOSE, b"", 1))
         if false_line:
             stripped = stripped.replace(false_line, b"", 1)
@@ -102,8 +109,10 @@ def extract(source: Path, output: Path, report_path: Path) -> dict:
               "source_git_blob": B.SOURCE_GIT_BLOB,
               "complete_guard_drop_block_sha256": P.sha(entire_block),
               "isolated_struct_sha256": P.sha(struct_bytes),
-              "exact_own_sha256": P.sha(P.OWN),
-              "constructor_contract_sha256": P.sha(P.CONSTRUCTOR_CONTRACT),
+              "exact_own_sha256": P.sha(OWN),
+              "constructor_contract_sha256": P.sha(CONSTRUCTOR_CONTRACT),
+              "fractional_v1_own_sha256": P.sha(P.OWN),
+              "full_source_permission_only": True,
               "source_constructor_line": source_line,
               "source_constructor_sha256": P.sha(P.CONSTRUCTOR_LINE),
               "no_drop_impl_in_fragment": True,

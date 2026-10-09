@@ -6414,3 +6414,10 @@ Preserved as failure; fresh sorted descendant required.913/3600used.
 DAY setup failure Build8dc37178/4e25d135,92s: stale pointer-prove basehash
 in provideroverlay. Verifier never ran. Archive1c606fb7355975039da0d9cd089e9f0bd6bc76b957579baef881a8bbc3ba470b.
 Fresh explicitpin matched all18baseinputs.1005/3600 charged.
+
+DAY Build742da9ef/8b3d7471 collectorSUCCESS350s, full evidence verified
+fe3f288581abb4c6b15fb69ed0e47eb1da9c2dcb47710d1426f3ac301fd1fe64.
+Rawpermutation2profilespositive/exactcontrolsPASS; nativeINCrecursivecurrent
+match179, memoryINCexport127missingdriver, constructorINCprecision33 before
+bodies. No newactualtheorem.1355/3600charged; addressed continuation card
+in currentphase preserves all original claims/failures and v1 fractional gap.

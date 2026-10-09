@@ -170,6 +170,36 @@ lem native_pair_ordered_step(i: option<usize>, j: option<usize>, n: usize)
     }
 }
 
+// Preserve the selected current value when the recursive array/list suffix
+// and its relative native index advance together.
+lem native_pair_current_matches_step<T>(vs: list<T>,
+    index: option<usize>, n: usize, value: T)
+    req n > 0 &*& n == length(vs) &*&
+        native_pair_index_in_range(index, n) == true &*&
+        native_pair_current_matches::<T>(vs, index, value) == true;
+    ens native_pair_current_matches::<T>(tail(vs),
+        native_pair_step(index), value) == true;
+{
+    match vs {
+        nil => { assert false; }
+        cons(head, tail) => {
+            match index {
+                none => {}
+                some(k) => {
+                    if k == 0 {
+                        assert native_pair_step(index) == none;
+                    } else {
+                        assert 0 < k;
+                        assert k < n;
+                        assert nth(k, vs) == nth(k - 1, tail);
+                        assert native_pair_step(index) == some(k - 1);
+                    }
+                }
+            }
+        }
+    }
+}
+
 lem native_pair_extract_rec<T>(t: thread_id_t, p: *T, n: usize,
     i: option<usize>, j: option<usize>, vs: list<T>, vi: T, vj: T)
     req native_pair_owned_array::<T>(t, p, n, vs) &*&
@@ -205,6 +235,8 @@ lem native_pair_extract_rec<T>(t: thread_id_t, p: *T, n: usize,
         close native_pair_holes::<T>(t, p, n, i, j, vs);
         close native_pair_selected::<T>(t, p, n, i, j, vi, vj);
     } else {
+        native_pair_current_matches_step::<T>(vs, i, n, vi);
+        native_pair_current_matches_step::<T>(vs, j, n, vj);
         native_pair_index_step_in_range(i, n);
         native_pair_index_step_in_range(j, n);
         native_pair_ordered_step(i, j, n);

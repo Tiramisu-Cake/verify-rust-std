@@ -776,12 +776,12 @@ def audit(root: Path, selection_path: Path, run_status: int,
             results = json.loads((base / "results.json").read_text())
             aggregate = json.loads((base / "aggregate.json").read_text())
             if (environment.get("accepted") is not False or
-                    environment.get("diagnostic_profile") != "copy-on-drop-source-construction-fragment-v1" or
+                    environment.get("diagnostic_profile") != "copy-on-drop-source-construction-full-source-fragment-v2" or
                     environment.get("tool_profile") != spec["profile"] or
                     environment.get("source_sha256") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
                     environment.get("source_git_blob") != GUARD_CONSTRUCTION_SOURCE_BLOB or
                     environment.get("proof_sha") != proof_sha or
-                    extraction.get("profile") != "copy-on-drop-source-construction-fragment-v1" or
+                    extraction.get("profile") != "copy-on-drop-source-construction-full-source-fragment-v2" or
                     extraction.get("accepted") is not False or
                     extraction.get("source_sha256") != GUARD_CONSTRUCTION_SOURCE_SHA256 or
                     extraction.get("source_git_blob") != GUARD_CONSTRUCTION_SOURCE_BLOB or
@@ -789,6 +789,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     extraction.get("source_constructor_line") != 279 or
                     extraction.get("source_constructor_sha256") != GUARD_CONSTRUCTION_LINE_SHA256 or
                     extraction.get("no_drop_impl_in_fragment") is not True or
+                    extraction.get("full_source_permission_only") is not True or
                     extraction.get("unsafe_wrapper_for_conditional_explicit_contract") is not True):
                 return False
             result_cases = results.get("cases")

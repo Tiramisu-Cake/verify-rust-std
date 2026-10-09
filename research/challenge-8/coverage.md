@@ -596,3 +596,10 @@ proofcredit. [Actual current scratch handoff](merge/overnight/CALLER-C1-CURRENT-
 is the source-linked constructionpre still missing. Annotationpayloadguard
 NOT_RUN: canonicalDrop return omits payload, geometrybridge OPEN; replacing
 canonicalsafeDrop with strongerpre was rejected BEFORE implementation.
+
+DAY742d/8b3d7471 rechecks permutation stock/six PASS plus matched controls,
+strict correctedmetadata audit. Nativebase nowreturns/leakchecks, recursive
+current-match bridge fails before targets (179). Physicalpermission probe
+exporter127 missingdriver, nooracle. Constructorfractionalv1 fails precision
+coefficient33; no constructor credit. Full-sourcev2 is separately conditional,
+preparedunrun, allactual caller/Drop/forget/kernel/generic/ZST gaps retained.

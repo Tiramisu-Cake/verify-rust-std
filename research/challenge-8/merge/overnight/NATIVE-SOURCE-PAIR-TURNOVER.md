@@ -115,3 +115,42 @@ full-positive gates is inconclusive and requires reading the complete Cloud
 evidence. The matched false-entry counts only at its existing target. No claim
 about the actual SmallSort caller or source-pair turnover is licensed by this
 local proof repair.
+
+## RESOURCE12 current-value preservation across recursive descent (candidate, unrun)
+
+Build `742da9ef-c853-473d-b2c1-d38ff55a04c1` / proof
+`8b3d747109fc643215bce4906dc0834836200623` reaches VeriFast in both stock and
+experimental profiles. The three pure helpers and the earlier resource helpers
+pass. The first failure is `native_pair_extract_rec`'s recursive-call
+precondition, reported at generated `verified/lib.rs:179:53–55`: it cannot prove
+`native_pair_current_matches(T, tail(vs), native_pair_step(i), vi) == true`.
+The same missing fact occurs for `j`/`vj`. The input contract establishes that
+each selected index still names its current value in `vs`; descending the
+physical array and ghost list requires carrying that equality to the tail when
+the index steps. This is an inconclusive proof failure, not a target negative.
+
+Before the recursive call in the `n > 0` branch of `native_pair_extract_rec`,
+add a pure proof lemma `native_pair_current_matches_step`. Its contract takes
+`n > 0`, `n == length(vs)`, the unchanged index range, and the current-match
+fact, and ensures that the stepped index matches the same value in `tail(vs)`.
+Its body must expose the list cons and split `index` into `none` and `some(k)`;
+for `k == 0`, the stepped option is `none`, whose match condition is true; for
+`k > 0`, use the nth-on-cons relation to transfer `value == nth(k, vs)` to
+`value == nth(k - 1, tail(vs))`. The range and positive length establish the
+valid tail index. Invoke this lemma for both selected indices and their existing
+current values. The lemma adds no ownership chunk, value snapshot, assumption,
+cast, or restriction, and changes neither the helper preconditions nor posts.
+
+Static review of `native_pair_restore_rec` finds no analogous current-match
+precondition: it consumes the selected resources and reconstructs the output
+from those exact `vi`/`vj` values through `native_pair_replace`. Leave it and
+all four target contracts, normal/unwind posts, frames, domains, and the other
+seven existing helper bodies unchanged. The checked-body inventory grows by
+exactly `native_pair_current_matches_step`; the original three pure helpers,
+extract/restore recursions and wrappers, and the four fixture cases remain
+required. The fresh run must reach every listed body and case in both profiles,
+pass source/refinement/dead-code/normal-return/leak gates, and retain the full
+positive contract. The matched false-entry is negative only at its existing
+assertion. A failure in the new lemma, either transfer call, or any unrelated
+gate is inconclusive. This isolated resource proof makes no actual-caller or
+turnover claim.

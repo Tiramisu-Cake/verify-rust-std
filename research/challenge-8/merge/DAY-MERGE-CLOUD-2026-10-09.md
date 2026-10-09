@@ -199,3 +199,39 @@ exactproof/infra8b3d747109fc643215bce4906dc0834836200623, timeout1200+60.
 Config478cc7171defbadc9270322e3286b1ef0220d6be146d22220e6d637426e7310d;
 sourceinput9a9e19caceaeb77e5f3b17304ea16e1f836a5458194a20ec16e346f895c93cdb.
 No duplicate or foreigncancel. Old evidence downloads verified including8dc.
+
+## Combined742d result / addressed continuation
+
+TerminalSUCCESS collector350charged; total1355,remaining2245; fullarchive/text
+verified fe3f288581abb4c6b15fb69ed0e47eb1da9c2dcb47710d1426f3ac301fd1fe64.
+All11group exits0 means collectedrows, not proofacceptance. Permutation
+stock/sixpositivePASS/exactfalse238/exactown0refusal243; corrected metadata
+nowunclassifiedFalse, strictouterauditcomplete. It stilldoesnotcalibratecell.
+Nativeall8INC179:53–55 recursivecurrent_matches tail/step req, basecase now
+returns/leakchecks; targetnotentered, first3helperscomplete, nodeadcode.
+Memoryall4INCexport127 missinglibrustc_driver-d58e90066811bb5c.so, decode/VF
+NOT_RUN125, refinement0; nointendednegative. Outerprocessmissed childrun.sh
+LD_LIBRARY_PATH; addressedcommand usesexactexistingcompiler/tool/depspaths.
+Constructorall4INC33:5–6 precisioncheckvariablecoefficient[?f]insidepreciseown,
+VF1export/decode/refine0, targetnotentered; MIR/AST fullsavedshape nowreviewed:
+constructoraggregatevia_5/_6/_7 copiesofparameters, precisefieldorderedvalues,
+TypePredExpr normalresultown, exactfieldEqualities/unwindfalse, noDrop/call.
+
+Nextselection9groups: resource native2/memory2/constructor2 +source2/smoke.
+Unchangedpermutation omitted, no fullOR/actualcomparisonrerun. Native newlemma
+native_pair_current_matches_step proves exact recursivepre, allpriorposts/
+resources/domainunchanged. Itsbodyispartofeachcheckedunit. Constructorv2
+copy-on-drop-source-construction-full-source-fragment-v2 suppliesFULLsource
+permission andstoresallpayloadintoOWN. Thisisnewnarrowercomponent; parent
+fractionalOWN/contractremainbyteidentical andv1remainsOPEN. No precisionbypass,
+existsaxiomorfrontendpatch. AllaffectedMIR/ASTpaths staticallyreviewed against
+fresh4cases; exactcopyoriginsandposttermsmatched, no looseaggregate admission.
+Hypotheses: newnativelemma admitsrecursion; memoryenvironmentadmitsexportthen
+positivephysicalcell+rawcalibration; fullOWNv2admitsprecisionso actualstatement
+canpackprovidedpayload. FirstfalsecountsONLYexacttargetafterstatementexecution.
+Unrelatedhelper/geometry/parse/gate failuresINC. Positivev2fragment givesonly
+conditionalFULLsourcepackaging, notfractional/safeDrop/fullcaller.
+Timeout1080+60queue within2245 and~27minmainwindow; expected~400s, evidence
+andcheckpointtail reserved, mustfinishspecificstep ifmainwindowend approaches.
+All18providerpins +schema/sortedgroups/deps/recipeclosure/PythonAST/bashsyntax
+checked BEFOREpublish/submit. No new tool semantics or stdruntime changes.

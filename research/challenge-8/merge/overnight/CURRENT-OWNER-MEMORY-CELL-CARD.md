@@ -61,3 +61,44 @@ cases must retain unchanged F framing, source bytes, payload, and unwind post.
 No result here proves an actual copy, actual SmallSort behavior, a caller or
 Freeze/share bridge, callback behavior, or ownership/resource transfer for a
 real invocation. The fixture is a conditional ghost-resource probe only.
+
+## Fresh Cloud evidence — Build 742d setup refusal
+
+Build `742da9ef-c853-473d-b2c1-d38ff55a04c1`, proof/infra
+`8b3d747109fc643215bce4906dc0834836200623`, archive SHA-256
+`fe3f288581abb4c6b15fb69ed0e47eb1da9c2dcb47710d1426f3ac301fd1fe64`.
+The archive and external text logs were collected; the summary reports
+`diagnostic_complete=true`, `evidence_complete=true`, but `smoke_success=false`
+and `verification_accepted=false`.
+
+Both profiles report both cases `INCONCLUSIVE`. For the positive and duplicate
+cases in both `checked-current-owner-memory-cell` and its `-stock` counterpart,
+the exact first failure is at **exporter**, exit `127`:
+
+`vf-rust-mir-exporter: error while loading shared libraries: librustc_driver-d58e90066811bb5c.so: cannot open shared object file: No such file or directory`
+
+Per case the stage vector is exporter `127`, decode `125`, VeriFast `125`,
+refinement `0`. Decode and VeriFast were explicitly not run after exporter
+failure. Each case has zero visited/expected-body executions, zero returns and
+leak checks; there is no VeriFast assertion error, dead-code finding, or target
+location. Refinement success does not make the proof executable. Group driver
+exit codes are zero because the harness retained these as inconclusive rows;
+they are not theorem results.
+
+This is an exporter runtime-loader/setup failure shared by both cases and both
+tool profiles, not a memory-permission proof refusal. The positive never
+established one valid full head-cell permission, so the duplicate assertion
+cannot be calibrated from this Build. Leave it without expected rejection
+metadata and keep both cases inconclusive. No proof annotation change is
+justified by this evidence; the next useful result requires a fresh hosted run
+whose exporter can load the pinned Rust compiler driver, then inspect the full
+positive obligation before judging the duplicate-cell target.
+
+Operational repair before next run: the outer memory-cell invocation must
+provide the same retained compiler/tool LD_LIBRARY_PATH as run.sh; the child
+run.sh export does not propagate to merge.sh. No new library/dependency/tool
+is installed, and exporter/compiler/schema hashes stay pinned. Set only this
+group command environment to sysroot/lib:toolhome/bin:/tmp/vfdeps-adf88dc/lib
+plus existing path; record sysroot/toolhome identity. Hypothesis exporter now
+reaches decode/VF, then positiveonecell and raw duplicate calibration. Any
+remaining setup/frontend/helper failure retains INCONCLUSIVE/nooracle.

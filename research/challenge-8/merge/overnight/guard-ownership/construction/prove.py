@@ -71,6 +71,7 @@ def mir_gate(case: Path, line: int) -> dict:
         return {"admitted": False, "reason": "constructor MIR entry block absent"}
     aggregate_locations = []
     aggregate_operands = []
+    simple_copies = {}
     other_aggregate_count = 0
     returns = 0
     forbidden = []
@@ -108,6 +109,17 @@ def mir_gate(case: Path, line: int) -> dict:
             if assignment is None:
                 continue
             rhs = mir.path(assignment, "rhsRvalue")
+            lhs = mir.path(assignment, "lhsPlace")
+            if isinstance(rhs, dict) and set(rhs) == {"use"} and \
+                    isinstance(rhs["use"], dict) and set(rhs["use"]) == {"copy"} and \
+                    mir.path(lhs, "projection") == [] and \
+                    mir.path(rhs["use"]["copy"], "projection") == []:
+                target = mir.path(lhs, "local", "name")
+                origin = mir.path(rhs["use"]["copy"], "local", "name")
+                if target in simple_copies:
+                    simple_copies[target] = None
+                else:
+                    simple_copies[target] = origin
             if isinstance(rhs, dict) and "aggregate" in rhs:
                 aggregate = rhs["aggregate"]
                 kind = mir.path(aggregate, "aggregateKind")
@@ -157,8 +169,9 @@ def mir_gate(case: Path, line: int) -> dict:
                aggregate_locations[0]["hi_col"] <= len(prep.P.CONSTRUCTOR_LINE))
     operands_linked = (len(aggregate_operands) == 1 and
                        set(parameter_locals) == set(arg_names) and
-                       aggregate_operands[0] == [parameter_locals[name] for name in arg_names] and
-                       len(set(aggregate_operands[0])) == 3)
+                       len(set(aggregate_operands[0])) == 3 and
+                       [simple_copies.get(local) for local in aggregate_operands[0]] ==
+                       [parameter_locals[name] for name in arg_names])
     admitted = (exact_fields and located and operands_linked and
                 other_aggregate_count == 0 and returns >= 1 and
                 not forbidden and not drop_bodies)
@@ -167,6 +180,9 @@ def mir_gate(case: Path, line: int) -> dict:
             "aggregate_locations": aggregate_locations,
             "parameter_locals": parameter_locals,
             "aggregate_operand_locals": aggregate_operands,
+            "aggregate_operand_origins": [simple_copies.get(local)
+                                          for local in aggregate_operands[0]]
+            if len(aggregate_operands) == 1 else [],
             "ordered_operand_origin_matches_parameters": operands_linked,
             "other_aggregate_count": other_aggregate_count,
             "aggregate_on_exact_source_line": located,
@@ -210,27 +226,35 @@ def ast_gate(case: Path, line: int) -> dict:
                 "own_payload": payload, "body_count": len(functions)}
     fn = functions[0]
     runtime = fn.args[10]
-    runtime_nodes = ast.nodes(runtime, "CastExpr")
-    def exact_initializer(node) -> bool:
-        if len(node.args) != 3 or ast.location_line(node.args[0]) != line:
-            return False
-        ty = node.args[1]
-        value = node.args[2]
-        if (not isinstance(ty, ast.Node) or ty.name != "StructTypeExpr" or
-                "CopyOnDrop" not in repr(ty) or
-                not isinstance(value, ast.Node) or value.name != "InitializerList" or
-                len(value.args) != 2 or not isinstance(value.args[1], list) or
-                len(value.args[1]) != 3):
-            return False
-        names = []
-        for field, expr in value.args[1]:
-            if field != ast.Sym("None") or not isinstance(expr, ast.Node) or \
-                    expr.name != "Var" or len(expr.args) != 2:
-                return False
-            names.append(expr.args[1])
-        return names == ["scratch_base", "v_base", "len"]
+    def var_name(node):
+        return node.args[1] if isinstance(node, ast.Node) and \
+            node.name == "Var" and len(node.args) == 2 else None
 
-    aggregates = [node for node in runtime_nodes if exact_initializer(node)]
+    source_assignments = {}
+    field_assignments = {}
+    for node in ast.nodes(runtime, "AssignExpr"):
+        if len(node.args) != 4 or ast.location_line(node.args[0]) != line:
+            continue
+        lhs, mode, rhs = node.args[1:]
+        if mode == ast.Sym("Mutation") and var_name(lhs) and var_name(rhs):
+            source_assignments.setdefault(var_name(lhs), []).append(var_name(rhs))
+        if (mode == ast.Sym("Initialization") and
+                isinstance(lhs, ast.Node) and lhs.name == "Select" and
+                len(lhs.args) == 3 and var_name(lhs.args[1]) == "drop_guard" and
+                lhs.args[2] in ("src", "dst", "len") and var_name(rhs)):
+            field_assignments.setdefault(lhs.args[2], []).append(var_name(rhs))
+    source_types = [node for node in ast.nodes(runtime, "StructTypeExpr")
+                    if ast.location_line(node.args[0]) == line and
+                    len(node.args) == 5 and
+                    node.args[1] == ast.Node("Some", ["CopyOnDrop"]) and
+                    len(node.args[4]) == 1 and "T" in repr(node.args[4][0])]
+    initializer_exact = (len(source_types) == 1 and
+                         [field_assignments.get(field) for field in
+                          ("src", "dst", "len")] ==
+                         [["$_5"], ["$_6"], ["$_7"]] and
+                         [source_assignments.get(local) for local in
+                          ("$_5", "$_6", "$_7")] ==
+                         [["scratch_base"], ["v_base"], ["len"]])
     contract = fn.args[8]
     contract_shape = (isinstance(contract, ast.Node) and contract.name == "Some" and
                       len(contract.args) == 1 and isinstance(contract.args[0], tuple) and
@@ -289,8 +313,20 @@ def ast_gate(case: Path, line: int) -> dict:
         node.args[2][0].args[1].args == ["2"] and
         result_field(node.args[2][1], "len")
         for node in operations)
-    full_normal = (len(returning) == 1 and
-                   normal_calls.count("CopyOnDrop_own") == 1 and
+    own_return_calls = [node for node in ast.nodes(normal, "ExprCallExpr")
+                        if len(node.args) == 3 and
+                        isinstance(node.args[1], ast.Node) and
+                        node.args[1].name == "TypePredExpr" and
+                        len(node.args[1].args) == 3 and
+                        isinstance(node.args[1].args[1], ast.Node) and
+                        node.args[1].args[1].name == "ConstructedTypeExpr" and
+                        node.args[1].args[1].args[1] == "CopyOnDrop" and
+                        node.args[1].args[2] == "own" and
+                        len(node.args[2]) == 2 and
+                        [var_name(p.args[0]) if isinstance(p, ast.Node) and
+                         p.name == "LitPat" and len(p.args) == 1 else None
+                         for p in node.args[2]] == ["t", "result"]]
+    full_normal = (len(returning) == 1 and len(own_return_calls) == 1 and
                    normal_calls.count("thread_token") == 1 and
                    all(equalities.values()) and length_lower_bound)
     unwind_false = (len(unwinding) == 1 and
@@ -300,7 +336,7 @@ def ast_gate(case: Path, line: int) -> dict:
                      if len(node.args) > 1 and isinstance(node.args[1], str)]
     own_closes = [node for node in ast.nodes(runtime, "Close")
                   if "CopyOnDrop_own" in repr(node)]
-    admitted = (payload and len(aggregates) == 1 and not drop_functions and
+    admitted = (payload and initializer_exact and not drop_functions and
                 full_supplied_pre and
                 full_normal and unwind_false and len(own_closes) == 1 and
                 not any(name in {"assume", "#assume"} for name in runtime_calls) and
@@ -309,7 +345,9 @@ def ast_gate(case: Path, line: int) -> dict:
             "false_node_count": len(ast.nodes(body, "False")) if right else None,
             "runtime_body_count": len(functions),
             "drop_func_count": len(drop_functions),
-            "source_aggregate_count": len(aggregates),
+            "source_aggregate_count": 1 if initializer_exact else 0,
+            "source_initializer_assignments": field_assignments,
+            "source_operand_assignments": source_assignments,
             "full_supplied_pre_shape": full_supplied_pre,
             "full_normal_post_shape": full_normal,
             "result_field_equalities": equalities,
@@ -446,8 +484,10 @@ def main() -> int:
     args.evidence.mkdir(parents=True)
     extraction = prep.extract(source, args.evidence / "cases",
                               args.evidence / "extraction.json")
-    if extraction["exact_own_sha256"] != prep.P.sha(prep.P.OWN) or \
-            extraction["constructor_contract_sha256"] != prep.P.sha(prep.P.CONSTRUCTOR_CONTRACT):
+    if extraction["exact_own_sha256"] != prep.P.sha(prep.OWN) or \
+            extraction["constructor_contract_sha256"] != prep.P.sha(prep.CONSTRUCTOR_CONTRACT) or \
+            extraction["fractional_v1_own_sha256"] != prep.P.sha(prep.P.OWN) or \
+            extraction["full_source_permission_only"] is not True:
         raise RuntimeError("inherited non-False own or full constructor contract differs")
     rustc = shutil.which("rustc")
     capnp = shutil.which("capnp")
