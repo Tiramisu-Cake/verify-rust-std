@@ -28,11 +28,14 @@ selected cell is folded into existential GuardOwn, generic checkedforget post
 restores own(t,g) but not exact payload. Thus saved-input equality is unavailable;
 stock MaybeUninit identity does not restore it. Late242–244 not reached.
 [THREADONLYFRAME card](cloud-build/afternoon-select-sort4/THREADONLY-FRAME-CARD.md):
-prepare isolated source-only capture retaining concrete selectedcell as frame,
-thread-only same-runtime forget helper; freshsource/MIR/refinement required and
-old R3 certificate must refuse. No semantic proof rule yet enabled.
+Build4077ed0a-75ba-4f2b-9ada-1e20a036098d SUCCESS290s source-only capture,
+infra=proof70e5dfa3917a36620b0ac6a1734a677f97332db4,165parts. Fullarchive/index
+verified. Exactruntime/source strip and fullNORMAL/readonly9body/refinement pass;
+newverified8543e999/unitdd53398b,body6/7 changed,0–5/8 unchanged. No proof run.
+Separate default-off FRAME TEST prepared with freshpins; helper/nested/outer
+obligations and profileadmissibility remain open pending hosted checks.
 
-Afternoon478/3600,3122remaining, no ownactive/unresolved build. Profiles experimental/
+Afternoon768/3600,2832remaining, no ownactive/unresolved build. Profiles experimental/
 unaccepted; admission OPEN; fullactualselect normal/unwind/return/leak, genericT/ZST
 and actualsort4 NOT_PROVED. Documentation head is not tested proof SHA.
 

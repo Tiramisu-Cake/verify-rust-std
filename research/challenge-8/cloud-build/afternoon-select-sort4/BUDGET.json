@@ -7,8 +7,8 @@
   "main_deadline_utc": "2026-10-09T13:20:06Z",
   "deadline_utc": "2026-10-09T13:50:06Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 478,
-  "remaining_build_seconds": 3122,
+  "used_build_seconds": 768,
+  "remaining_build_seconds": 2832,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-r3-ghost-scope-test",
@@ -16,7 +16,8 @@
     "o26-input-relation-shadow-capture",
     "o26-generic-sort4-postmark-diagnostics",
     "o26-strict-cut-reuse-false-posts",
-    "o26-input-relation-frame-capture"
+    "o26-input-relation-frame-capture",
+    "o26-input-relation-frame-test"
   ],
   "active_build": null,
   "builds": [
@@ -43,6 +44,30 @@
       "execution_seconds": 477,
       "download_verified": true,
       "archive_sha256": "24a3343977a87e2f39daf80844172ef9b6b88b04bcfedb963ced8ca152b4e6b8"
+    },
+    {
+      "dispatch_token": "dispatch-1b3a4ca9e32b4473b3d3ec2c7fef916e",
+      "owner": "select-sort4",
+      "phase_id": "AFTERNOON-SELECT-SORT4-CLOUD-2026-10-09",
+      "infra_sha": "70e5dfa3917a36620b0ac6a1734a677f97332db4",
+      "proof_sha": "70e5dfa3917a36620b0ac6a1734a677f97332db4",
+      "lane": "o26-input-relation-frame-capture",
+      "submitted_config_sha256": "74dd5809c6727551de9c7d78f1b5988113f780cf5b30de391295dafcde9bf2c9",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "e8cf72eda4ffc8f2ff172b8c31de2e2216f96261c94d597ce39b2c0710133397",
+      "build_id": "4077ed0a-75ba-4f2b-9ada-1e20a036098d",
+      "start_time": "2026-10-09T12:09:53.912622531Z",
+      "finish_time": "2026-10-09T12:14:43.172176Z",
+      "create_time": "2026-10-09T12:09:53.214256133Z",
+      "build_seconds": 290,
+      "accounted": true,
+      "execution_seconds": 290,
+      "download_verified": true,
+      "archive_sha256": "6791b8894d9832f6d2f8e78acaf41b098cfde2b8e44c5e31d2d7c7b0cd22c64c"
     }
   ]
 }

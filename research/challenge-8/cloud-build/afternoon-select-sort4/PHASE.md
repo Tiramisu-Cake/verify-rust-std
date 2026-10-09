@@ -66,3 +66,8 @@ afternoon account only, preserving the literal phase deadline/owner/3600 ceiling
 and all other registrations/protocol checks. It collects reviewed THREADONLYFRAME
 source/MIR/refinement/fingerprints only, with no semantic proof admission. It is
 not the preventive source-shadow draft and does not close actual240.
+
+The separately reviewed default-off `o26-input-relation-frame-test` selection
+is registered only in this phase/account. It checks exact FRAME source/tool/CFG
+and same-unit helper/nested prerequisites before outer, full original targetposts.
+See [semantic card](FRAME-PROFILE-CARD.md); no baseline or other phase relaxation.

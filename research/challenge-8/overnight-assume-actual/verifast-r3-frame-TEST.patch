@@ -1,0 +1,319 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -664,12 +664,49 @@
+       failwith ("SORT4-ACTUAL-NESTED-H2: certificate mismatch: " ^ why)
+   end
+ 
++  (* Exact source-linked pointer FRAME TEST; base profiles remain default-off. *)
++  module Sort4R3FrameTest = struct
++    let reject why = failwith
++      ("SORT4-R3-FRAME-TEST: certificate mismatch: " ^ why)
++    let root = match Sys.getenv_opt "SORT4_R3_FRAME_TEST_REPO_ROOT",
++                     Sys.getenv_opt "SORT4_R3_FRAME_TEST" with
++      | None, None -> None
++      | Some root, Some "1" -> Some root
++      | _ -> reject "exact root/test opt-in pair"
++    let enabled = root <> None
++    let require_root actual_root =
++      if enabled then (
++        if root <> Some actual_root ||
++           List.exists (fun key -> Sys.getenv_opt key <> Some actual_root)
++             ["SORT4_ACTUAL_OWNER_REPO_ROOT"; "SORT4_ACTUAL_NESTED_H2_REPO_ROOT";
++              "SORT4_ACTUAL_FORGET_OWN_REPO_ROOT";
++              "SORT4_A1_NINE_REPO_ROOT"; "SORT4_WRAPPER_REBASE_REPO_ROOT";
++              "SORT4_WRAPPER_INPUT_RELATION_REPO_ROOT";
++              "SORT4_R3_GHOST_SCOPE_TEST_REPO_ROOT";
++              "SORT4_R3_RECEIVER_TEST_REPO_ROOT";
++              "SORT4_R3_GHOST_COLUMN_TEST_REPO_ROOT";
++              "SORT4_R3_COLUMN_NESTED_TEST_REPO_ROOT"] ||
++           List.exists (fun key -> Sys.getenv_opt key <> Some "1")
++             ["SORT4_ACTUAL_OWNER_ADMISSION"; "SORT4_ACTUAL_OWNER_NINE_ADMISSION";
++              "SORT4_WRAPPER_REBASE_ADMISSION";
++              "SORT4_WRAPPER_INPUT_RELATION_ADMISSION";
++              "SORT4_R3_GHOST_SCOPE_TEST"; "SORT4_R3_RECEIVER_TEST";
++              "SORT4_R3_GHOST_COLUMN_TEST"; "SORT4_R3_COLUMN_NESTED_TEST"] then
++          reject "exact inherited owner/nine/R3/scope/receiver/COLUMN/nested roots";
++        Printf.printf "SORT4-R3-FRAME-TEST: exact source-linked thread-only frame profile enabled\n%!"
++      )
++  end
++
+   module Sort4ActualForgetOwn = struct
+     let active = ref false
+     let redirected = ref 0
+     let projected = ref 0
+     let callee_name = "checked_forget_owned"
+-    let annotations = [
++    let annotations = if Sort4R3FrameTest.enabled then [
++      "/*@\nreq thread_token(?tid) &*& tid == currentThread;\n@*/";
++      "/*@\nens thread_token(tid);\n@*/";
++      "/*@\non_unwind_ens false;\n@*/"
++    ] else [
+       "/*@\nreq thread_token(?tid) &*& tid == currentThread &*& <T>.own(tid, t);\n@*/";
+       "/*@\nens thread_token(tid) &*& <T>.own(tid, t);\n@*/";
+       "/*@\non_unwind_ens false;\n@*/"
+@@ -1003,7 +1040,8 @@
+           List.length blocks in
+         if !Sort4SelectIntrinsic.wrapper_input_relation_active then
+           match inventory with
+-          | 61, 44 -> "_56", 40, 43
++          | 56, 39 when Sort4R3FrameTest.enabled -> "_51", 35, 38
++          | 61, 44 when not Sort4R3FrameTest.enabled -> "_56", 40, 43
+           | _ -> reject "wrapper input relation exact outer local/block inventory"
+         else if !Sort4SelectIntrinsic.wrapper_rebase_active then
+           match inventory with
+@@ -3298,7 +3336,7 @@
+                           List.mem
+                             (LocalDeclIdRd.name_get (PlaceRd.local_get place))
+                             (if !Sort4SelectIntrinsic.wrapper_input_relation_active
+-                             then ["_56"] else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                             then [if Sort4R3FrameTest.enabled then "_51" else "_56"] else if !Sort4SelectIntrinsic.wrapper_rebase_active
+                              then ["_47"] else ["_37"; "_26"]) &&
+                           PlaceRd.local_is_mutable_get place &&
+                           PlaceRd.projection_get_list place = [] &&
+@@ -3618,7 +3656,7 @@
+                       | OperandRd.Move place when
+                           LocalDeclIdRd.name_get (PlaceRd.local_get place) =
+                             (if !Sort4SelectIntrinsic.wrapper_input_relation_active then
+-                               "_34" else if !Sort4SelectIntrinsic.wrapper_rebase_active then
++                               (if Sort4R3FrameTest.enabled then "_33" else "_34") else if !Sort4SelectIntrinsic.wrapper_rebase_active then
+                                "_30" else if !Sort4SelectIntrinsic.actual_owner_admitted then
+                                "_28" else if !Sort4SelectIntrinsic.actual_projection
+                                then "_26" else "_23") &&
+@@ -3847,7 +3885,7 @@
+                           LocalDeclIdRd.name_get
+                             (PlaceRd.local_get place) =
+                               (if !Sort4SelectIntrinsic.wrapper_input_relation_active
+-                               then "_38" else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                               then (if Sort4R3FrameTest.enabled then "_36" else "_38") else if !Sort4SelectIntrinsic.wrapper_rebase_active
+                                then "_34" else "_32") &&
+                           PlaceRd.local_is_mutable_get place &&
+                           PlaceRd.projection_get_list place = [] &&
+@@ -3971,24 +4009,24 @@
+               when Sort4MaybeUninit.pointer_element inner &&
+                    forget_arg =
+                      (if !Sort4SelectIntrinsic.wrapper_input_relation_active
+-                      then "_38" else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                      then (if Sort4R3FrameTest.enabled then "_36" else "_38") else if !Sort4SelectIntrinsic.wrapper_rebase_active
+                       then "_34" else "_32") &&
+                    Stdint.Uint32.to_int
+                      (BasicBlockIdRd.index_get cleanup) =
+                        (if !Sort4SelectIntrinsic.wrapper_input_relation_active
+-                        then 43 else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                        then (if Sort4R3FrameTest.enabled then 38 else 43) else if !Sort4SelectIntrinsic.wrapper_rebase_active
+                         then 34 else 24) &&
+                    Stdint.Uint32.to_int
+                      (BasicBlockIdRd.index_get
+                        (VfMirRd.of_pointer normal)) =
+                          (if !Sort4SelectIntrinsic.wrapper_input_relation_active
+-                          then 21 else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                          then (if Sort4R3FrameTest.enabled then 19 else 21) else if !Sort4SelectIntrinsic.wrapper_rebase_active
+                           then 17 else 15) &&
+                    LocalDeclIdRd.name_get
+                      (PlaceRd.local_get
+                        (destination_get fn_call_data_cpn)) =
+                          (if !Sort4SelectIntrinsic.wrapper_input_relation_active
+-                          then "_37" else if !Sort4SelectIntrinsic.wrapper_rebase_active
++                          then (if Sort4R3FrameTest.enabled then "_35" else "_37") else if !Sort4SelectIntrinsic.wrapper_rebase_active
+                           then "_33" else "_31") &&
+                    not TranslatorArgs.ignore_unwind_paths ->
+                 incr Sort4ActualForgetOwn.projected;
+@@ -12746,6 +12784,7 @@
+   let sort4_actual_owner_admit
+       (vf_mir : VfMirRd.VfMir.t) root (body : BodyRd.t) =
+     let reject = Sort4SelectIntrinsic.reject in
++    Sort4R3FrameTest.require_root root;
+     let nine =
+       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
+     let rebase = sort4_wrapper_rebase_opt_in root in
+@@ -12771,8 +12810,8 @@
+       "f21b9915065deb75ded03903fc1b2781b3a19ebbe1561d2a9ca692b31931f951";
+       "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed";
+       "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
+-      "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
+-      (if input_relation then "f8374652a11e36073ad6ed10ec39b0f8de62da53265dd80d2dc2c3565491cee1" else
++      (if Sort4R3FrameTest.enabled then "3346dfaf24b95e4802303674696dc9caab0ee31306e65bfc1ec885f40dbe4cff" else "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137");
++      (if input_relation then (if Sort4R3FrameTest.enabled then "5f15e8e887c2bf67767837b245d4f7ae97d06f9df40c6992a73c854b75b30dc1" else "f8374652a11e36073ad6ed10ec39b0f8de62da53265dd80d2dc2c3565491cee1") else
+        if rebase then "00fafebcaf338797daa681da8f4631be56a98d285fd945e76dfd7725b162a286" else
+          "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86");
+       "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
+@@ -12795,7 +12834,7 @@
+       | _ -> reject "owner actual source path" in
+     let source = Sort4MaybeUninit.read_file path in
+     if sort4_actual_owner_sha256 source <>
+-         (if input_relation then "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463"
++         (if input_relation then (if Sort4R3FrameTest.enabled then "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816" else "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463")
+           else if rebase then "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4"
+           else if nine then
+             "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
+@@ -12931,13 +12970,15 @@
+     let body_text = insert_after body_text
+       "    let false_ptr = false_val.as_mut_ptr();\n" wrappers in
+     let body_text = insert_after body_text
+-      "        let guard = DropOnPanic { inner: guard };\n" owner in
++      "        let guard = DropOnPanic { inner: guard };\n"
++      (if Sort4R3FrameTest.enabled then "" else owner) in
+     let body_text = insert_after body_text
+       "        drop.drop_in_place();\n"
+-      (unselected ^ (if nine then saved_guard else open_owner)) in
++      (unselected ^ (if Sort4R3FrameTest.enabled then ""
++                     else if nine then saved_guard else open_owner)) in
+     let body_text = insert_after body_text
+       "        crate::mem::forget(guard);\n"
+-      ((if nine then open_owner else "") ^ selected) in
++      ((if nine && not Sort4R3FrameTest.enabled then open_owner else "") ^ selected) in
+     let body_text = if rebase then insert_before body_text
+       "    /*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/\n"
+       rebase_save_old else body_text in
+@@ -13029,20 +13070,20 @@
+       "/*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/";
+       "/*@ assert *true_ptr |-> ?true_payload; @*/";
+       "/*@ assert *false_ptr |-> ?false_payload; @*/"
+-    ] @ (if input_relation then input_payload_ghosts else []) @ [
+-      String.trim owner; String.trim unselected
++    ] @ (if input_relation then input_payload_ghosts else []) @
++    (if Sort4R3FrameTest.enabled then [] else [String.trim owner]) @ [
++      String.trim unselected
+     ] @
+-    (if nine then [String.trim saved_guard] else []) @
+-    (if nine then [
++    (if nine && not Sort4R3FrameTest.enabled then [String.trim saved_guard] else []) @
++    (if Sort4R3FrameTest.enabled then [] else if nine then [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, saved_guard); @*/";
+       "/*@ assert *saved_guard.inner |-> ?selected_payload; @*/"
+     ] else [
+       "/*@ open <select_unpredictable::DropOnPanic<*Element>>.own(t, guard); @*/";
+       "/*@ assert *guard.inner |-> ?selected_payload; @*/"
+-    ]) @ [
+-      "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/";
+-      String.trim selected
+-    ] @ (if rebase then rebase_both_ghosts else []) @
++    ]) @ (if Sort4R3FrameTest.enabled then [] else [
++      "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/"
++    ]) @ [String.trim selected] @ (if rebase then rebase_both_ghosts else []) @
+     (if input_relation then input_wrapper_ghosts else []) in
+     if List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
+          expected_ghosts then reject "owner exact ordered ghost statements";
+@@ -13061,7 +13102,7 @@
+     let unit_digest = sort4_actual_owner_sha256
+       (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
+     if unit_digest <>
+-         (if input_relation then "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92"
++         (if input_relation then (if Sort4R3FrameTest.enabled then "dd53398bd088a3eff17985ad1f0069398ce5b87acf295b2345828c568f1d01f0" else "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92")
+           else if rebase then "9c63ec19fcbc7f6c6e1b336b59c5af2bab470bd1b17c0345f0a57ac777a7cb00"
+           else if nine then
+             "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
+@@ -13075,9 +13116,9 @@
+       bodies body_hashes;
+     if rebase &&
+        (List.length (BodyRd.local_decls_get_list body) <>
+-          (if input_relation then 61 else 52) ||
++          (if input_relation then (if Sort4R3FrameTest.enabled then 56 else 61) else 52) ||
+         List.length (BodyRd.basic_blocks_get_list body) <>
+-          (if input_relation then 44 else 35)) then
++          (if input_relation then (if Sort4R3FrameTest.enabled then 39 else 44) else 35)) then
+       reject (if input_relation then
+         "wrapper input relation exact outer local/block inventory"
+        else "wrapper rebase exact outer local/block inventory");
+@@ -13134,6 +13175,21 @@
+         ghost_call 7 "_15" 8 None;
+         ghost_call 12 "_20" 13 None;
+         ghost_call 13 "_21" 14 None;
++        if Sort4R3FrameTest.enabled then (
++          ghost_call 20 "_38" 21 (Some 38);
++          ghost_call 21 "_39" 22 (Some 38);
++          ghost_call 22 "_40" 23 (Some 38);
++          ghost_call 23 "_41" 24 (Some 38);
++          ghost_call 24 "_42" 25 (Some 38);
++          ghost_call 25 "_43" 26 (Some 38);
++          ghost_call 26 "_44" 27 (Some 38);
++          ghost_call 27 "_45" 28 (Some 38);
++          ghost_call 28 "_46" 29 (Some 38);
++          ghost_call 29 "_47" 30 (Some 38);
++          ghost_call 30 "_48" 31 (Some 38);
++          ghost_call 31 "_49" 32 (Some 38);
++          ghost_call 32 "_50" 33 (Some 38))
++        else (
+         ghost_call 25 "_43" 26 (Some 43);
+         ghost_call 26 "_44" 27 (Some 43);
+         ghost_call 27 "_45" 28 (Some 43);
+@@ -13146,7 +13202,7 @@
+         ghost_call 34 "_52" 35 (Some 43);
+         ghost_call 35 "_53" 36 (Some 43);
+         ghost_call 36 "_54" 37 (Some 43);
+-        ghost_call 37 "_55" 38 (Some 43))
++        ghost_call 37 "_55" 38 (Some 43)))
+       else (
+         ghost_call 4 "_12" 5 None;
+         ghost_call 5 "_13" 6 None;
+@@ -13171,11 +13227,11 @@
+           (match UnwindActionRd.get (FnCallDataRd.unwind_action_get data) with
+            | UnwindActionRd.Cleanup target when
+                Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) =
+-                 (if input_relation then 43 else if rebase then 34 else if nine then 24 else 23) ->
++                 (if input_relation then (if Sort4R3FrameTest.enabled then 38 else 43) else if rebase then 34 else if nine then 24 else 23) ->
+                n + 1
+            | _ -> n)
+       | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
+-    if cleanup_edges <> (if input_relation then 23 else if rebase then 18 else if nine then 10 else 9) then
++    if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
+       reject "owner shared cleanup predecessor inventory";
+     (match (if input_relation then
+               List.tl (List.tl (BodyRd.ghost_stmts_get_list body))
+@@ -13784,7 +13840,7 @@
+     let path = source_path transmute_loc in
+     if source_path method_loc <> path || source_path outer_loc <> path ||
+        sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
+-         (if input_relation then "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463" else
++         (if input_relation then (if Sort4R3FrameTest.enabled then "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816" else "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463") else
+           if rebase then "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4" else
+             "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6")
+     then reject "exact nine-body verified source unit";
+@@ -13957,13 +14013,15 @@
+       reject "actual SAFE forget exact std runtime body";
+     let blocks = BodyRd.basic_blocks_get_list outer in
+     if List.length (BodyRd.local_decls_get_list outer) <>
+-         (if input_relation then 61 else if rebase then 52 else 42) ||
+-       List.length blocks <> (if input_relation then 44 else if rebase then 35 else 25) then
++         (if input_relation then (if Sort4R3FrameTest.enabled then 56 else 61) else if rebase then 52 else 42) ||
++       List.length blocks <> (if input_relation then (if Sort4R3FrameTest.enabled then 39 else 44) else if rebase then 35 else 25) then
+       reject "exact actual shared-cleanup block inventory";
+-    let call_block = List.nth blocks (if input_relation then 20 else if rebase then 16 else 14) in
++    let call_block = List.nth blocks (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 20) else if rebase then 16 else 14) in
+     let dead_id, result_id, arg_id, flag_id, guard_id,
+         normal_id, cleanup_id =
+-      if input_relation then "_36", "_37", "_38", "_60", "_30", 21, 43
++      if input_relation && Sort4R3FrameTest.enabled then
++        "_34", "_35", "_36", "_55", "_30", 19, 38
++      else if input_relation then "_36", "_37", "_38", "_60", "_30", 21, 43
+       else if rebase then "_32", "_33", "_34", "_51", "_26", 17, 34
+       else "_30", "_31", "_32", "_41", "_24", 15, 24 in
+     let place id mutable_ p =
+@@ -14075,7 +14133,9 @@
+      | _ -> reject "forget exact call terminator");
+     active := true;
+     Printf.printf
+-      "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted\n%!";
++      (if Sort4R3FrameTest.enabled then
++         "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/thread-only frame callee admitted\n%!"
++       else "SORT4-ACTUAL-FORGET-OWN: exact nine-body SAFE call/owner callee admitted\n%!");
+     Ok ()
+ 
+   (* O23 diagnostic only.  A complete decoded-unit/body snapshot for the
+@@ -14577,7 +14637,7 @@
+           let nested_bytes = Marshal.to_string
+             (D.decode_body (List.nth bodies_cpn 8)) [Marshal.No_sharing] in
+           if sort4_actual_owner_sha256 unit_bytes <>
+-               "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92" ||
++               (if Sort4R3FrameTest.enabled then "dd53398bd088a3eff17985ad1f0069398ce5b87acf295b2345828c568f1d01f0" else "407acbaea262ba908ed88434231e9fce1128678840f5d929deaad71838290a92") ||
+              sort4_actual_owner_sha256 nested_bytes <>
+                "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a" then
+             reject "complete unit and actual nested body-8 bytes";
+@@ -14606,7 +14666,7 @@
+             | _ -> reject "actual nested full source span" in
+           if sort4_actual_owner_sha256
+                (Sort4MaybeUninit.read_file path) <>
+-               "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463" then
++               (if Sort4R3FrameTest.enabled then "8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816" else "a95aff14592b167c62c53c7ed726128ee86c7c19768cfe613504cdec841f8463") then
+             reject "canonical verified source bytes";
+           let expected_keys = List.map (fun b ->
+             let name = TrName.translate_def_path (BodyRd.def_path_get b) in

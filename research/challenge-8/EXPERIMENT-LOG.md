@@ -6307,3 +6307,18 @@ by same-index own contract, while unselected pointer-drop preserves exactvalue.
 Source-shadow not evidenced. Separate reviewed THREADONLYFRAME sourcecapture
 candidate being prepared; no snapshot substitution or assumed exact-value post.
 478/3600 charged,3122remain, no own active. Wholeactualselect/generic/sort4 open.
+
+## 2026-10-09 AFTERNOON FRAME source-only capture
+
+Build4077ed0a-75ba-4f2b-9ada-1e20a036098d SUCCESS,290conservative seconds;
+infra=proof70e5dfa3917a36620b0ac6a1734a677f97332db4,laneo26-input-relation-frame-capture,
+actual165parts, full archive6791b8894d9832f6d2f8e78acaf41b098cfde2b8e44c5e31d2d7c7b0cd22c64c
+and textindex282dae5b02d2aded9a89cf24db6e88082d607f7c4c1e3ba86e0790b6e7ec7a2b
+verified. Source8543e99940897e3289f9f57fe3edc30fa4cffbba713b68aab36eb49d3faac816,
+original466882d7 unchanged, unitdd53398bd088a3eff17985ad1f0069398ce5b87acf295b2345828c568f1d01f0.
+Complete NORMAL/readonly9body export/decode/refinement and10Marshal diagnostic
+snapshots, NOT a proof. Only helpercontract/body6+outerghost/body7 differ;
+actualnestedbody8 unchangede0508d6c. Source FRAME keeps selectedcell concrete,
+thread-only same-runtime forget. Full observedpins and typed56local/39block/18cleanup
+certificate recorded in O26-R3-FRAME-TEST.json before enabling experimentalrule.
+Phase768/3600; oldaccountsuntouched.
