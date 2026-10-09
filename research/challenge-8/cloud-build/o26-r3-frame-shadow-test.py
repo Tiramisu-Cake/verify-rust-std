@@ -238,7 +238,7 @@ def run(a):
     recipe=shared.load("frame_shadow_proof_recipe",a.cloud_dir/"o26-recipe.py")
     a.production_snapshot=tool_snapshot.tool_snapshot(a.production_source,a.proof_root)
     candidate,snapshot,pins=shared.apply_chain(a,tool_snapshot,chain,a.production_source)
-    (a.evidence/"frame-test.patch").rename(a.evidence/"frame-shadow-test.patch")
+    (a.evidence/"tool-chain/frame-test.patch").rename(a.evidence/"tool-chain/frame-shadow-test.patch")
     # Fresh captures bind the exact old FRAME source and changed shadow source to this final tool.
     old_capture_root=a.evidence/"old-frame-capture"
     old_summary=shared.run_capture(a,candidate,"frame",old_capture_root)
