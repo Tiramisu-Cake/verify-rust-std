@@ -66,3 +66,28 @@ and expected-tree. No further schema change; panic callee/unwind translation
 remains falsifiable (unsupported translation INCONCLUSIVE). Component hashes
 and selection/dependencies statically checked. Outer audit checks exact mode set,
 certificates/logs and hashes beyond driver completion flag. No heavy local execution.
+
+## RESOURCE11 next dispatch card
+
+Prepared proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc retains native
+purebool preconditions with explicit `== true`, all helper/resources/posts and
+matched false-entry. Its old extra-foreach owner assertion has an exact oracle;
+this tests that specific owner chunk only, NOT universal physical uniqueness.
+A separately prepared same-cell points-to positive/negative handles the owner's
+required non-ZST memory-permission gate and is NOT_RUN until its own new proof.
+R11 exact proof selection7groups remains smoke, both source preparations,
+stock/six native and stock/six permutation. Hypothesis: grammar repair admits
+native helper bodies; exact owner-chunk oracle reaches its intended assertion.
+Intended false failures: native and permutation first-body false at their
+predeclared lines; permutation expected missing foreach chunk95–102. Parse,
+unrelated helper or stage error INCONCLUSIVE. No posts/resources weakened.
+Timeout960s+60queue; previous resource runs297–395s, evidence tail retained.
+Use infraa92f5d97efc8a15af4398a7df14037f42ebb4b33 so current DAY
+authorization code matches committed client; proof remains exact07d0dc8.
+Compared infra recipe closure at07/a92: all proof_paths unchanged; only selected
+proof inputs from exact07 are delivered. No new guard/helper files in R11.
+
+OR gate conclusion independently checked against every on-disk certificate/log:
+16 unique exact398:1–402:2 matcher refusals, no body execution/AST; roundtrip has
+bothGoto37 and realpanic/unwind AST, intentionalVF124 admission-only.
+Full logs/archive/text verified; no new actual theorem. [Remaining gates](overnight/or-join-liveness/DAY-GATE-MAP.md).

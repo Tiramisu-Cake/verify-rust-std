@@ -14,6 +14,8 @@ from selection import KNOWN_GROUPS, load
 # both an aggregate and the source admission it consumed. Other groups publish
 # their retained runner's exact results, admission, or preparation output.
 POINTER_GROUPS = {
+    "current-owner-memory-cell-diagnostic": "checked-current-owner-memory-cell",
+    "current-owner-memory-cell-stock-diagnostic": "checked-current-owner-memory-cell-stock",
     "rust-profile-smoke": "checked-profile-smoke",
     "rust-unwind-baselines": "checked-baselines",
     "callback-model-diagnostics": "checked-callback-model",
@@ -71,6 +73,14 @@ BOUNDED_REQUIRED_BODIES = {
     "bidirectional_small_current_cell_alias",
 }
 DROP_GROUPS = {
+    "guard-payload-own-diagnostic": {
+        "directory": "guard-payload-own-diagnostic",
+        "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
+    },
+    "guard-payload-own-stock-diagnostic": {
+        "directory": "guard-payload-own-stock-diagnostic",
+        "profile": "stock-26.10",
+    },
     "actual-copy-on-drop-resource-diagnostic": {
         "directory": "actual-copy-on-drop-resource-diagnostic",
         "profile": "experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1",
@@ -204,7 +214,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
                 f"cases/{dirname}/extraction.json",
                 f"cases/{dirname}/results.json",
                 f"cases/{dirname}/aggregate.json",
-                *[f"cases/{dirname}/cases/{case}/classification.json" for case in DROP_CASES],
+                *[f"cases/{dirname}/cases/{case}/classification.json" for case in
+                  (("positive", "prototype_false", "first_body_false", "missing_payload", "constructor")
+                   if group.startswith("guard-payload-own") else DROP_CASES)],
             ]
         elif group == OR_JOIN_GROUP:
             mandatory[group] = OR_JOIN_MINIMUM_ARTIFACTS
@@ -471,7 +483,7 @@ def audit(root: Path, selection_path: Path, run_status: int,
                     "raw_case_statuses": aggregate.get("cases", {}),
                     "double_owner_intended_negative": double_owner,
                     "double_owner_interpretation": (
-                        "FRESH_MATCHED_MEMORY_PERMISSION_REJECTION_UNACCEPTED"
+                        "FRESH_MATCHED_FOREACH_OWNER_CHUNK_REFUSAL_ONLY_UNACCEPTED"
                         if valid and double_owner == "EXPECTED_REJECTION" else
                         "INTENDED_NEGATIVE_INCONCLUSIVE" if valid else
                         "AUDIT_INVALID_NO_NEGATIVE_CREDIT"),
@@ -723,8 +735,54 @@ def audit(root: Path, selection_path: Path, run_status: int,
             return False
 
     for group, spec in DROP_GROUPS.items():
+        if group.startswith("guard-payload-own"):
+            continue
         if group in selected:
             artifact_status[group] = artifact_status.get(group, False) and audit_copy_on_drop(group, spec)
+
+    guard_payload_reports = {}
+    for group in ("guard-payload-own-diagnostic", "guard-payload-own-stock-diagnostic"):
+        if group not in selected:
+            guard_payload_reports[group] = {"classification": "NOT_RUN", "accepted": False}
+            continue
+        base = cases / group
+        valid = artifact_status.get(group, False)
+        try:
+            extraction = json.loads((base / "extraction.json").read_text())
+            results = json.loads((base / "results.json").read_text())
+            aggregate = json.loads((base / "aggregate.json").read_text())
+            names = {"positive", "prototype_false", "first_body_false", "missing_payload", "constructor"}
+            valid = valid and (set(extraction["cases"]) == set(results["cases"]) == set(aggregate["cases"]) == names and
+                              results.get("accepted") is False and aggregate.get("accepted") is False and
+                              extraction.get("source_sha256") == DROP_SOURCE_SHA256 and
+                              extraction.get("source_git_blob") == DROP_SOURCE_BLOB and
+                              extraction.get("source_block_sha256") == DROP_BLOCK_SHA256)
+            for name in names:
+                meta = extraction["cases"][name]
+                row = results["cases"][name]
+                direct = row["direct_body"]
+                gate = row["payload_gate"]
+                case_dir = base / "cases" / name
+                valid = valid and (gate.get("accepted") is False and
+                                   direct.get("source_unchanged_at_every_stage") is True and
+                                   direct.get("stages") == row.get("stages") and
+                                   aggregate["cases"][name] == gate.get("classification") and
+                                   meta.get("runtime_source_identical_after_ghost_strip") is True)
+                for relative, key in (("original/lib.rs", "original_sha256"), ("verified/lib.rs", "verified_sha256")):
+                    valid = valid and sha256_file(case_dir / relative) == meta.get(key)
+                for stage, code in row["stages"].items():
+                    valid = valid and stage in DROP_STAGES and type(code) is int and \
+                        int((case_dir / (stage + "-exit-code.txt")).read_text()) == code and \
+                        (case_dir / (stage + ".log")).is_file()
+            guard_payload_reports[group] = {"accepted": False, "artifact_bindings_valid": valid,
+                "raw_case_statuses": aggregate["cases"],
+                "conditional_bridge_pass": aggregate.get("conditional_bridge_pass", False),
+                "scope": "annotation-only own/FBC/conditional construction diagnostic; actual caller/glue/forget OPEN"}
+        except (OSError, ValueError, TypeError, KeyError, AttributeError):
+            valid = False
+            guard_payload_reports[group] = {"accepted": False, "artifact_bindings_valid": False,
+                                           "classification": "INCONCLUSIVE"}
+        artifact_status[group] = valid
 
     or_join_status = {
         "component": "MIR-OR-JOIN-LIVENESS",
@@ -1366,6 +1424,9 @@ def audit(root: Path, selection_path: Path, run_status: int,
         "panic_certificate_complete": panic_ok,
         "theorem_statuses": {
             "whole_small_sort_challenge": "NOT_PROVEN",
+            "guard_payload_own_diagnostics": guard_payload_reports,
+            "physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell/aggregate.json", "current-owner-memory-cell-diagnostic"),
+            "stock_physical_memory_cell_cases": raw_cases("cases/checked-current-owner-memory-cell-stock/aggregate.json", "current-owner-memory-cell-stock-diagnostic"),
             "current_owner_permutation_diagnostics": permutation_cases,
             "current_owner_handoff_cases": owner_handoff_cases,
             "stock_current_owner_handoff_cases": stock_owner_handoff_cases,

@@ -37,6 +37,10 @@ NEW_GROUPS = {
     "mir-or-join-seven-diagnostic",
     "checked-current-owner-permutation",
     "checked-current-owner-permutation-stock",
+    "current-owner-memory-cell-diagnostic",
+    "current-owner-memory-cell-stock-diagnostic",
+    "guard-payload-own-diagnostic",
+    "guard-payload-own-stock-diagnostic",
 }
 KNOWN_GROUPS = FULL_GROUPS | NEW_GROUPS
 DEPENDENCIES = {

@@ -580,3 +580,9 @@ makesFcallbackframe compatibilityexplicit; raw-dst panicprobeUNEXECUTED,
 notrefutationofconditionalup/down proof. Caller C1/shared-slice/Freeze,
 M2cleanup admission, arbitrary-n actual composition, functionality/ZST generic
 Challenge allremainOPEN. Continuation2668/7200; noactiveworkflow.
+
+DAY merge2026-10-09: Build3c26cfa6 /a92f5d97 completes repaired OR17-mode
+admission controls (roundtrip +16 exact matcher refusals, separate sourcehashgate).
+See [remaining gate map](merge/overnight/or-join-liveness/DAY-GATE-MAP.md).
+No new actual-function theorem: short full-post capture124; historical9ad bounded
+len2/3 stays conditional and fullprofile/kernel/cleanup/caller trust remainsOPEN.

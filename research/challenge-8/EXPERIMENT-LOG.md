@@ -6376,3 +6376,25 @@ The separate native/resource11 candidate `07d0dc8bb9adbe375fb58c2b45d460f76359b9
 remains unrun. The shared alternating queue is respected despite a ready foreign
 turn; no pending turn was removed or bypassed. Phase is still IN PROGRESS until
 the authorized 08:00 UTC cutoff.
+
+## DAY-MERGE2026-10-09 — repaired OR controls
+
+Start08:46:19UTC, main10:46:19UTC/absolute11:16:19UTC; independent3600seconds.
+Build3c26cfa6-5263-4287-9f1c-fe1a13068ef2, exactproof/infraa92f5d97efc8a15af4398a7df14037f42ebb4b33,
+08:57:05.027–09:05:13.369UTC, SUCCESScollector489charged; remaining3111.
+Config351bf52a633aa56651c6e05aed9dacc9926296642ea02f80ab625fb75fbf3d83;
+sourceinput6bfeb9231c6140f9c088c628c0bb0e04e53bb49c0c9c1ce16359691d60b11d3d;
+archive8ce3382c7258ebf30526fa9a6fbdc22730c0f4c111994390823efd3db8c23ad1,
+full archive + separate text publication verified. New OR-only fourgroup
+selection and const.val.ty schema repair reach all intended mechanisms:
+roundtrip ADMISSION_PASS_ONLY and16 EXPECTED_FRONTEND_REFUSAL; exporter/manual0,
+officialrefinement0, exacttrees/source/hashes, unique matchererror at398 before
+body entry. Sourcehashgate separately EXPECTED_SOURCE_HASH_REFUSAL. Production
+homes unchanged, normal MIR68a999b0 and console71b8389d match originalpin.
+Short10s full-post captureVF124 INCONCLUSIVE; full9ad/comparison/liveness NOT_RUN.
+[Gate map](merge/overnight/or-join-liveness/DAY-GATE-MAP.md): shape matrix complete,
+component/fullseven/six/kernel/cleanup acceptance remainfalse. Historicalactual
+len2/3 theorem remains conditional positive-stride/FreezeMarker projection;
+no caller/arbitrary-n/generic/ZST credit. Next RESOURCE11 exactproof07d0dc8 with
+DAY infrastructurea92f5d97, then isolated physicalpoints-to and actualguardpayload
+construction/FBC diagnostics; no new theorem from collectorSUCCESS.

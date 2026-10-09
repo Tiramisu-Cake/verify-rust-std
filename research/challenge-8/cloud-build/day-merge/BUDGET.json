@@ -7,12 +7,37 @@
   "main_deadline_utc": "2026-10-09T10:46:19Z",
   "deadline_utc": "2026-10-09T11:16:19Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 489,
+  "remaining_build_seconds": 3111,
   "allowed_lanes": [
     "merge"
   ],
-  "builds": [],
+  "builds": [
+    {
+      "dispatch_token": "dispatch-c8403dc53eeb4410b53f0ca07a07e629",
+      "owner": "merge",
+      "phase_id": "DAY-MERGE-CLOUD-2026-10-09",
+      "infra_sha": "a92f5d97efc8a15af4398a7df14037f42ebb4b33",
+      "proof_sha": "a92f5d97efc8a15af4398a7df14037f42ebb4b33",
+      "lane": "merge",
+      "submitted_config_sha256": "351bf52a633aa56651c6e05aed9dacc9926296642ea02f80ab625fb75fbf3d83",
+      "reserved_seconds": 1140,
+      "timeout_seconds": 1080,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "6bfeb9231c6140f9c088c628c0bb0e04e53bb49c0c9c1ce16359691d60b11d3d",
+      "build_id": "3c26cfa6-5263-4287-9f1c-fe1a13068ef2",
+      "start_time": "2026-10-09T08:57:05.837547376Z",
+      "finish_time": "2026-10-09T09:05:13.369952Z",
+      "create_time": "2026-10-09T08:57:05.027262901Z",
+      "build_seconds": 489,
+      "accounted": true,
+      "execution_seconds": 488,
+      "download_verified": true,
+      "archive_sha256": "8ce3382c7258ebf30526fa9a6fbdc22730c0f4c111994390823efd3db8c23ad1"
+    }
+  ],
   "active_build": null,
   "historical_account": "../night-merge/BUDGET.json (8357/10800;2443 closed/unavailable)"
 }

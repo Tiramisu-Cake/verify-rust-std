@@ -5,7 +5,10 @@ Start08:46:19UTC /11:46:19MSK; main10:46:19UTC /13:46:19MSK;
 absolute11:16:19UTC /14:16:19MSK. Independent3600Cloud seconds,
 [ledger](cloud-build/day-merge/BUDGET.json), owner merge; no active own Build.
 Cloud workflow/overnight/merge-26.10 supersedes historical Actions/branch rules.
-Preparing repaired OR-only selection after complete static normal-MIR schema audit.
+Fresh OR Build3c26cfa6-5263-4287-9f1c-fe1a13068ef2 completes17 shape modes:
+roundtrip admission +16 intended matcher refusals and separate sourcehashgate.
+Full archive/text verified;489/3600charged,3111remaining. Short capture124
+INCONCLUSIVE. [Remaining gates](merge/overnight/or-join-liveness/DAY-GATE-MAP.md).
 RESOURCE11 remains unrun; T.own chunk refusal is not universal cell uniqueness.
 Full seven/six/kernel/cleanup profile unaccepted; actual bounded9ad remains
 conditional positive-stride/FreezeMarker projection, not caller/arbitrary-n/generic/ZST.

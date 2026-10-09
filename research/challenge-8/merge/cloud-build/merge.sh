@@ -567,6 +567,88 @@ PARTIAL
 
 run_mir_or_join_group
 
+run_guard_payload_group() {
+  local group=$1 profile=$2 tool_home=$3 profile_evidence=$4
+  local selected_status=0 driver_status=0 remaining group_timeout
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$group"; then
+    :
+  else
+    selected_status=$?
+    if [[ "$selected_status" -eq 1 ]]; then return 0; fi
+    status=1; return 0
+  fi
+  CURRENT_STAGE=$group
+  remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+  group_timeout=$remaining
+  (( group_timeout <= 240 )) || group_timeout=240
+  if (( group_timeout > 0 )); then
+    /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${group_timeout}s" python3 \
+      "$proof_root/research/challenge-8/merge/overnight/guard-ownership/prove.py" \
+      --profile "$profile" --profile-evidence "$profile_evidence" \
+      --tool-home "$tool_home" --compiler-sysroot "$(rustc --print sysroot)" \
+      --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
+      --stage-seconds 30 --verifier-seconds 35 \
+      --evidence "$allprooflogs/cases/$group" \
+      > "$allprooflogs/group-$group.log" 2>&1 || driver_status=$?
+  else
+    driver_status=124
+    printf 'NOT_RUN: lane budget exhausted\n' > "$allprooflogs/group-$group.log"
+    printf 'NOT_RUN\n' > "$allprooflogs/group-$group-resources.txt"
+  fi
+  printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
+  printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
+  if (( driver_status != 0 )); then status=1; fi
+}
+run_guard_payload_group guard-payload-own-diagnostic \
+  experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+  "$RUNNER_TEMP/challenge8-merge-overnight/source" "$allprooflogs/build"
+run_guard_payload_group guard-payload-own-stock-diagnostic \
+  stock-26.10 "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" "$allprooflogs"
+
+# Isolated physical permission controls; no new callee summary or trusted rule.
+run_memory_cell_group() {
+  local group=$1 profile=$2 tool_home=$3 dirname=$4
+  local selected_status=0 driver_status=0 remaining group_timeout
+  if python3 "$selection_tool" contains --selection "$selection_file" \
+      --sha256 "$selection_sha" "$group"; then
+    :
+  else
+    selected_status=$?
+    if [[ "$selected_status" -eq 1 ]]; then return 0; fi
+    status=1; return 0
+  fi
+  CURRENT_STAGE=$group
+  remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
+  group_timeout=$remaining
+  (( group_timeout <= 180 )) || group_timeout=180
+  if (( group_timeout > 0 )); then
+    /usr/bin/time -v -o "$allprooflogs/group-$group-resources.txt" \
+      timeout --signal=TERM --kill-after=10s "${group_timeout}s" python3 \
+      "$proof_root/research/challenge-8/merge/overnight/pointer-prove.py" \
+      --profile "$profile" --scope 'matched one/two full points-to rights to same current non-ZST destination cell; diagnostic only' \
+      --tool-home "$tool_home" --compiler-sysroot "$(rustc --print sysroot)" \
+      --schema "$RUNNER_TEMP/challenge8-merge-overnight/vf_mir.capnp" \
+      --fixture "$proof_root/research/challenge-8/merge/overnight/current-owner-memory-cell-cases.rs" \
+      --verifier-seconds 45 --evidence "$allprooflogs/$dirname" \
+      > "$allprooflogs/group-$group.log" 2>&1 || driver_status=$?
+  else
+    driver_status=124
+    printf 'NOT_RUN: lane budget exhausted\n' > "$allprooflogs/group-$group.log"
+    printf 'NOT_RUN\n' > "$allprooflogs/group-$group-resources.txt"
+  fi
+  printf '%s %s\n' "$group" "$driver_status" >> "$allprooflogs/group-status.txt"
+  printf '%s\n' "$driver_status" > "$allprooflogs/group-$group-exit-code.txt"
+  if (( driver_status != 0 )); then status=1; fi
+}
+run_memory_cell_group current-owner-memory-cell-diagnostic \
+  experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
+  "$RUNNER_TEMP/challenge8-merge-overnight/source" checked-current-owner-memory-cell
+run_memory_cell_group current-owner-memory-cell-stock-diagnostic \
+  stock-26.10-current-owner-memory-cell \
+  "$RUNNER_TEMP/challenge8-merge-overnight/verifast-26.10" checked-current-owner-memory-cell-stock
+
 # The independent saved runtime observation runs only when explicitly selected.
 probe_driver_status=NOT_RUN
 if python3 "$selection_tool" contains --selection "$selection_file" \
