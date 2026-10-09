@@ -22,6 +22,16 @@ for the frozen capture classifier and also print each translated ID. The
 exact type, initial address-taken, six-declaration and one-insertion gates
 remain mandatory. No kernel, resource rule, source, or MIR operation changes.
 
+The next Cloud build `293435cf` passed the three patch SHA gates but the
+isolated console stopped at the translator type check before any relocation
+capture: `translate_to_vf_local_decl loc d` inferred `d` as the unrelated
+`var_id_trs_entry` record, whose `id` field shares the `Mir.local_decl` label.
+The mapped-ID delta now annotates only the selected `List.map` binder as
+`Mir.local_decl`. This resolves record-label ambiguity without changing the
+selection, six type/address checks, translated-ID mapping, declaration AST,
+or proof semantics. That build remains inconclusive; no callback result was
+observed.
+
 The only diagnostic is the unchanged `positive_f_bound` fixture. Run the
 unmapped baseline and mapped candidate on the same exact source and both
 complete MIR graphs. The baseline must still reject at 84:9–38; the mapped

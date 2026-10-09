@@ -1,4 +1,4 @@
-# O26 wrapper-rebase admission profile (experimental, not accepted)
+# O26 wrapper-rebase component 23 R2 (experimental, not accepted)
 
 The canonical nine-body proof reaches the final checked selector and fails on
 the ownership predicate indexed by the current `MaybeUninit` wrapper. The
@@ -13,23 +13,29 @@ certificate. The pair `SORT4_WRAPPER_REBASE_REPO_ROOT=<exact proof root>` and
 `SORT4_WRAPPER_REBASE_ADMISSION=1` must be present together; a partial pair,
 wrong root, or missing existing nine-body owner/A1 opt-ins is rejected. With
 both absent, the canonical nine-body and historical five-body certificate
-paths remain byte-for-byte unchanged. Cloud capture 347068de supplied the
-source, decoded-unit and outer-body-7 SHA-256 values. They are admission pins,
-not proof results.
+paths remain byte-for-byte unchanged. The earlier component-23 profile is
+preserved at its committed Git SHA; R2 is a distinct experimental certificate
+for the Cloud 293435cf source-only capture, not a result of proof acceptance.
 
-The source certificate reconstructs the two complete ghost blocks at their
-unique positions, before the first storage open and before the final select
-comment. It checks the whole reconstructed item and tail, source spans,
-ordered ghost strings and coordinates, nominal declaration, exact complete
+The source certificate reconstructs two insertion regions containing ten
+single-statement ghost comments, at their unique positions before the first
+storage open and before the final select comment. The two early assertions
+bind the old wrappers in the enclosing scope; eight later commands consume
+their indexed chunks and reclose the current wrappers. There is no nested
+ghost block that could hide the old bindings. The certificate checks the
+whole reconstructed item and tail, source spans, ordered ghost strings and
+coordinates, nominal declaration, exact complete
 unit and all nine body records. Only the observed source, unit and body-7
 fingerprints differ from the canonical nine-body profile. The other eight
 body fingerprints, five-body path, original source, std pins, signatures and
 contracts stay fixed. Ghost stripping preserves runtime bytes and paired
-refinement succeeds, but MIR represents the two new annotations as ghost
-calls: the outer body has 44 locals and 27 blocks rather than 42 and 25. The
-new ghost calls are blocks 8 and 20; forget is block 15 with `Move(_33)`,
-normal 16 and Cleanup 26, and A1 assume_init is block 22 with `Move(_39)`,
-normal 23 and Cleanup 26. Component 23 must conditionally check this exact
+NORMAL/readonly refinement succeeds. The observed outer body has 52 locals
+and 35 blocks, rather than the canonical 42 and 25. The two new early ghost
+calls are blocks 4–5; the eight new later ghost calls are blocks 21–28.
+Forget is block 16 with `Move(_34)`, normal 17 and Cleanup 34; A1
+assume_init is block 30 with `Move(_47)`, normal 31 and Cleanup 34. The
+pointer-drop receiver is `_30`, and the unwind chain is resume 32, drop 33,
+switch 34 on `_51`. Component 23 must conditionally check this exact
 observed graph at every owner, pointer-drop, forget and A1 gate. The old graph
 checks remain when opt-in is absent; no wildcard offset or relaxed count is
 permitted. The two redirect counts, parser, kernel, specifications, runtime,
@@ -49,7 +55,7 @@ canonical capture. The old certificate must refuse the new source; that is
 only an admission negative. The new profile needs a real positive stage with
 all seven callees before the outer body, the generic nested Drop proof, full
 resource checks, four isolated component-17 source/MIR negatives, and an
-independent component-20 A1 `Move(_39)` to `Copy(_39)` TEST refusal reached
+independent component-20 A1 `Move(_47)` to `Copy(_47)` TEST refusal reached
 after owner admission. A setup failure, unrelated helper refusal, timeout or
 wrong predicate/location is INCONCLUSIVE. A diagnostic collection result is
 separate from actual full-proof acceptance; no TEST profile can establish the

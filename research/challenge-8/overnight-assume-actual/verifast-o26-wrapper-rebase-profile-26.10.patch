@@ -19,7 +19,7 @@
 +          List.length blocks in
 +        if !Sort4SelectIntrinsic.wrapper_rebase_active then
 +          match inventory with
-+          | 44, 27 -> "_39", 23, 26
++          | 52, 35 -> "_47", 31, 34
 +          | _ -> reject "wrapper rebase exact outer local/block inventory"
 +        else match inventory with
          | 42, 25 -> "_37", 21, 24
@@ -31,7 +31,7 @@
                              (LocalDeclIdRd.name_get (PlaceRd.local_get place))
 -                            ["_37"; "_26"] &&
 +                            (if !Sort4SelectIntrinsic.wrapper_rebase_active
-+                             then ["_39"] else ["_37"; "_26"]) &&
++                             then ["_47"] else ["_37"; "_26"]) &&
                            PlaceRd.local_is_mutable_get place &&
                            PlaceRd.projection_get_list place = [] &&
                            VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
@@ -41,7 +41,7 @@
                            LocalDeclIdRd.name_get (PlaceRd.local_get place) =
 -                            (if !Sort4SelectIntrinsic.actual_owner_admitted then
 +                            (if !Sort4SelectIntrinsic.wrapper_rebase_active then
-+                               "_29" else if !Sort4SelectIntrinsic.actual_owner_admitted then
++                               "_30" else if !Sort4SelectIntrinsic.actual_owner_admitted then
                                 "_28" else if !Sort4SelectIntrinsic.actual_projection
                                 then "_26" else "_23") &&
                            PlaceRd.local_is_mutable_get place &&
@@ -52,7 +52,7 @@
 -                            (PlaceRd.local_get place) = "_32" &&
 +                            (PlaceRd.local_get place) =
 +                              (if !Sort4SelectIntrinsic.wrapper_rebase_active
-+                               then "_33" else "_32") &&
++                               then "_34" else "_32") &&
                            PlaceRd.local_is_mutable_get place &&
                            PlaceRd.projection_get_list place = [] &&
                            VfMirRd.PlaceKind.get (PlaceRd.kind_get place) =
@@ -70,24 +70,24 @@
                when Sort4MaybeUninit.pointer_element inner &&
 +                   forget_arg =
 +                     (if !Sort4SelectIntrinsic.wrapper_rebase_active
-+                      then "_33" else "_32") &&
++                      then "_34" else "_32") &&
                     Stdint.Uint32.to_int
 -                     (BasicBlockIdRd.index_get cleanup) = 24 &&
 +                     (BasicBlockIdRd.index_get cleanup) =
 +                       (if !Sort4SelectIntrinsic.wrapper_rebase_active
-+                        then 26 else 24) &&
++                        then 34 else 24) &&
                     Stdint.Uint32.to_int
                       (BasicBlockIdRd.index_get
 -                       (VfMirRd.of_pointer normal)) = 15 &&
 +                       (VfMirRd.of_pointer normal)) =
 +                         (if !Sort4SelectIntrinsic.wrapper_rebase_active
-+                          then 16 else 15) &&
++                          then 17 else 15) &&
                     LocalDeclIdRd.name_get
                       (PlaceRd.local_get
 -                       (destination_get fn_call_data_cpn)) = "_31" &&
 +                       (destination_get fn_call_data_cpn)) =
 +                         (if !Sort4SelectIntrinsic.wrapper_rebase_active
-+                          then "_32" else "_31") &&
++                          then "_33" else "_31") &&
                     not TranslatorArgs.ignore_unwind_paths ->
                  incr Sort4ActualForgetOwn.projected;
                  if !Sort4ActualForgetOwn.projected <> 1 then
@@ -122,7 +122,7 @@
        "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
        "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
 -      "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86";
-+      (if rebase then "784dd0c7676ef741164f46ff194202e36e23f01ae5303382a07e39257c04c4fd" else
++      (if rebase then "00fafebcaf338797daa681da8f4631be56a98d285fd945e76dfd7725b162a286" else
 +         "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86");
        "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
      ] else [
@@ -132,7 +132,7 @@
      let source = Sort4MaybeUninit.read_file path in
      if sort4_actual_owner_sha256 source <>
 -         (if nine then
-+         (if rebase then "86e00ada7a1fbc3edfad3ebd0742170531b452a48571aeb9bef6f2dc7df26be5"
++         (if rebase then "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4"
 +          else if nine then
              "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
            else
@@ -141,30 +141,30 @@
        "    /*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/\n" ^
        "    /*@ assert *true_ptr |-> ?true_payload; @*/\n" ^
        "    /*@ assert *false_ptr |-> ?false_payload; @*/\n" in
-+    let rebase_save_old = {|    /*@
-+    assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_true_wrapper &*&
-+        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper);
-+    assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_false_wrapper &*&
-+        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper);
-+    @*/
-+|} in
-+    let rebase_both = {|        /*@
-+        assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_true_wrapper;
-+        assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_false_wrapper;
-+        open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper);
-+        match std::mem::MaybeUninit::inner(old_true_wrapper) {
++    let rebase_save_old_ghosts = [
++      {|/*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_true_wrapper &*&
++        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper); @*/|};
++      {|/*@ assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?old_false_wrapper &*&
++        std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper); @*/|}
++    ] in
++    let rebase_save_old = "    " ^ String.concat "\n    " rebase_save_old_ghosts ^ "\n" in
++    let rebase_both_ghosts = [
++      {|/*@ assert *(true_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_true_wrapper; @*/|};
++      {|/*@ assert *(false_ptr as *std::mem::MaybeUninit<*Element>) |-> ?current_false_wrapper; @*/|};
++      {|/*@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_true_wrapper); @*/|};
++      {|/*@ match std::mem::MaybeUninit::inner(old_true_wrapper) {
 +            none => {}
 +            some(p) => { open raw_ptr_own::<Element>()(t, p); }
-+        }
-+        open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper);
-+        match std::mem::MaybeUninit::inner(old_false_wrapper) {
++        } @*/|};
++      {|/*@ open std::mem::MaybeUninit_pointer_own::<Element>()(t, old_false_wrapper); @*/|};
++      {|/*@ match std::mem::MaybeUninit::inner(old_false_wrapper) {
 +            none => {}
 +            some(p) => { open raw_ptr_own::<Element>()(t, p); }
-+        }
-+        std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_true_wrapper);
-+        std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_false_wrapper);
-+        @*/
-+|} in
++        } @*/|};
++      {|/*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_true_wrapper); @*/|};
++      {|/*@ std::mem::close_MaybeUninit_pointer_own::<Element>(t, current_false_wrapper); @*/|}
++    ] in
++    let rebase_both = "        " ^ String.concat "\n        " rebase_both_ghosts ^ "\n" in
      let owner = if nine then
        "        /*@ if (condition) {\n" ^
        "                 close raw_ptr_own::<Element>()(t, true_payload);\n" ^
@@ -187,7 +187,7 @@
        "//@ open <select_unpredictable::DropOnPanic<T>>.full_borrow_content(_t, self)();";
 -      "//@ open <select_unpredictable::DropOnPanic<T>>.own(_t, ?g);";
 +      "//@ open <select_unpredictable::DropOnPanic<T>>.own(_t, ?g);"
-+    ] @ (if rebase then [String.trim rebase_save_old] else []) @ [
++    ] @ (if rebase then rebase_save_old_ghosts else []) @ [
        "/*@ std::mem::open_MaybeUninit::<*Element>(true_ptr as *std::mem::MaybeUninit<*Element>); @*/";
        "/*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/";
        "/*@ assert *true_ptr |-> ?true_payload; @*/";
@@ -196,7 +196,7 @@
        "/*@ open raw_ptr_own::<Element>()(t, selected_payload); @*/";
        String.trim selected
 -    ] in
-+    ] @ (if rebase then [String.trim rebase_both] else []) in
++    ] @ (if rebase then rebase_both_ghosts else []) in
      if List.map AnnotationRd.raw_get (BodyRd.ghost_stmts_get_list body) <>
           expected_ghosts then reject "owner exact ordered ghost statements";
      let* _ = ListAux.try_map (fun ghost ->
@@ -205,18 +205,18 @@
        (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
      if unit_digest <>
 -         (if nine then
-+         (if rebase then "355184057d09d9623e7ebe8c30b8cec8159b9ba3390845708d66a98cfac217e2"
++         (if rebase then "9c63ec19fcbc7f6c6e1b336b59c5af2bab470bd1b17c0345f0a57ac777a7cb00"
 +          else if nine then
              "10cf6e4d2a462082d456135078a77ea6670358f1ad15e0d81901104e8a102b43"
            else
              "3075b627aab5c0548f6f30a3727af5215bc6859a446009263de718b20a18d66e") then
-@@ -12760,6 +12828,58 @@
+@@ -12760,6 +12828,66 @@
          (Marshal.to_string (D.decode_body b) [Marshal.No_sharing]) in
        if actual <> expected then reject "owner complete decoded body SHA256")
        bodies body_hashes;
 +    if rebase &&
-+       (List.length (BodyRd.local_decls_get_list body) <> 44 ||
-+        List.length (BodyRd.basic_blocks_get_list body) <> 27) then
++       (List.length (BodyRd.local_decls_get_list body) <> 52 ||
++        List.length (BodyRd.basic_blocks_get_list body) <> 35) then
 +      reject "wrapper rebase exact outer local/block inventory";
 +    if rebase then (
 +      let blocks = BodyRd.basic_blocks_get_list body in
@@ -264,22 +264,30 @@
 +                   expected -> ()
 +             | _ -> reject "wrapper rebase ghost unwind successor")
 +        | _ -> reject "wrapper rebase ghost call block" in
-+      ghost_call 8 "_16" 9 None;
-+      ghost_call 20 "_38" 21 (Some 26));
++      ghost_call 4 "_12" 5 None;
++      ghost_call 5 "_13" 6 None;
++      ghost_call 21 "_39" 22 (Some 34);
++      ghost_call 22 "_40" 23 (Some 34);
++      ghost_call 23 "_41" 24 (Some 34);
++      ghost_call 24 "_42" 25 (Some 34);
++      ghost_call 25 "_43" 26 (Some 34);
++      ghost_call 26 "_44" 27 (Some 34);
++      ghost_call 27 "_45" 28 (Some 34);
++      ghost_call 28 "_46" 29 (Some 34));
      if (not nine &&
          (List.length (BodyRd.local_decls_get_list body) <> 41 ||
           List.length (BodyRd.basic_blocks_get_list body) <> 24)) ||
-@@ -12773,16 +12893,17 @@
+@@ -12773,16 +12901,17 @@
            (match UnwindActionRd.get (FnCallDataRd.unwind_action_get data) with
             | UnwindActionRd.Cleanup target when
                 Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) =
 -                 (if nine then 24 else 23) ->
-+                 (if rebase then 26 else if nine then 24 else 23) ->
++                 (if rebase then 34 else if nine then 24 else 23) ->
                 n + 1
             | _ -> n)
        | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
 -    if cleanup_edges <> (if nine then 10 else 9) then
-+    if cleanup_edges <> (if rebase then 11 else if nine then 10 else 9) then
++    if cleanup_edges <> (if rebase then 18 else if nine then 10 else 9) then
        reject "owner shared cleanup predecessor inventory";
      (match BodyRd.ghost_stmts_get_list body with
       | first::second::_ ->
@@ -289,7 +297,7 @@
      Sort4SelectIntrinsic.actual_nine_admitted := nine;
      Printf.printf
        (if nine then
-@@ -12954,6 +13075,7 @@
+@@ -12954,6 +13083,7 @@
      active := false; actual_certified := false; actual_projection := false;
      actual_owner_admitted := false;
      actual_nine_admitted := false;
@@ -297,7 +305,7 @@
      actual_nested_ghosts := [];
      ptr_count := 0; mu_count := 0;
      expected_ptr := 0; expected_mu := 0;
-@@ -13342,10 +13464,12 @@
+@@ -13342,10 +13472,12 @@
  
    let certify_sort4_a1_nine (vf_mir : VfMirRd.VfMir.t) root =
      let open Sort4A1Nine in
@@ -311,17 +319,17 @@
         Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
         Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" ||
         Sys.getenv_opt "SORT4_A1_LINK_REPO_ROOT" <> None then
-@@ -13376,7 +13500,8 @@
+@@ -13376,7 +13508,8 @@
      let path = source_path transmute_loc in
      if source_path method_loc <> path || source_path outer_loc <> path ||
         sort4_actual_owner_sha256 (Sort4MaybeUninit.read_file path) <>
 -         "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6"
-+         (if rebase then "86e00ada7a1fbc3edfad3ebd0742170531b452a48571aeb9bef6f2dc7df26be5" else
++         (if rebase then "11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4" else
 +            "1798132ff7a1585db7367779365c88e5ef5f417adcff0bf82779bf6a674945e6")
      then reject "exact nine-body verified source unit";
      if not (Sort4A1Link.local_shape transmute &&
              Sort4A1Link.local_shape method_body) then
-@@ -13488,8 +13613,10 @@
+@@ -13488,8 +13621,10 @@
    let certify_sort4_actual_forget_own
        (vf_mir : VfMirRd.VfMir.t) root =
      let open Sort4ActualForgetOwn in
@@ -333,25 +341,25 @@
         Sys.getenv_opt "SORT4_ACTUAL_OWNER_REPO_ROOT" <> Some root ||
         Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" <> Some "1" then
        reject "exact nine-body owner admission required";
-@@ -13542,9 +13669,15 @@
+@@ -13542,9 +13677,15 @@
           "pub const fn forget<T>(t: T)" <> body then
        reject "actual SAFE forget exact std runtime body";
      let blocks = BodyRd.basic_blocks_get_list outer in
 -    if List.length blocks <> 25 then
 +    if List.length (BodyRd.local_decls_get_list outer) <>
-+         (if rebase then 44 else 42) ||
-+       List.length blocks <> (if rebase then 27 else 25) then
++         (if rebase then 52 else 42) ||
++       List.length blocks <> (if rebase then 35 else 25) then
        reject "exact actual shared-cleanup block inventory";
 -    let call_block = List.nth blocks 14 in
-+    let call_block = List.nth blocks (if rebase then 15 else 14) in
++    let call_block = List.nth blocks (if rebase then 16 else 14) in
 +    let dead_id, result_id, arg_id, flag_id, guard_id,
 +        normal_id, cleanup_id =
-+      if rebase then "_31", "_32", "_33", "_43", "_25", 16, 26
++      if rebase then "_32", "_33", "_34", "_51", "_26", 17, 34
 +      else "_30", "_31", "_32", "_41", "_24", 15, 24 in
      let place id mutable_ p =
        if LocalDeclIdRd.name_get (PlaceRd.local_get p) <> id ||
           PlaceRd.local_is_mutable_get p <> mutable_ ||
-@@ -13562,13 +13695,13 @@
+@@ -13562,13 +13703,13 @@
            | StatementKindRd.StorageDead a,
              StatementKindRd.StorageLive b,
              StatementKindRd.StorageLive c when
@@ -369,7 +377,7 @@
                  (StatementKindRd.AssignData.lhs_place_get data);
                (match RvalueRd.get
                  (StatementKindRd.AssignData.rhs_rvalue_get data) with
-@@ -13599,13 +13732,13 @@
+@@ -13599,13 +13740,13 @@
            | _ -> reject "forget flag statement");
           (match statement_kind move_guard with
            | StatementKindRd.Assign data ->
@@ -385,7 +393,7 @@
                      | _ -> reject "guard not moved before forget")
                 | _ -> reject "guard move rvalue")
            | _ -> reject "guard move statement")
-@@ -13637,19 +13770,19 @@
+@@ -13637,19 +13778,19 @@
           (match args_get_list data with
            | [op] ->
                (match OperandRd.get op with

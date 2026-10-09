@@ -1,5 +1,33 @@
 # Actual sort4 AST scope probe — before instrumentation
 
+## R2 print-only extension after Cloud build 293435cf
+
+The fresh O24 print probe reached the exact stock 185:13–36 reserved-marker
+refusal. Its complete `Ast.Func` `Marshal.No_sharing` snapshot SHA-256 is
+`dc7e8487ae46470ebcb9f964cb158c44d9bf75042cffa79d465f4d7e67001d39`.
+The scope trace shows one `'cmp` declaration block at `root[138]`, its first
+`FnMut::call_mut` switch at `root[138]/block[32]`, a normal-arm statement,
+then a line-191 `OtherStmt`, `end_lft_binding`, `recover_pair` and
+`join_four_owned_cells`; blocks 37 onward start the next call. The
+line-191 statement and 134 earlier root declarations are **UNOBSERVED** at
+their node-detail level. The text trace also omits the block's
+`locals_to_free`, `Close` predicate arguments, call operands/type arguments,
+and local assignment targets/values. No resource or lifetime conclusion is
+inferred from these omissions.
+
+R2 changes only text rendering in the same isolated, opt-in translator copy.
+For each full AST node encountered it prints a `Marshal.No_sharing` SHA-256
+and location. It exposes `DeclStmt` names, types, address-taken flags and
+initializer descriptors; `TypeWithTypeidDecl`; every `Close` predicate,
+type/index/argument descriptors; call type/index/argument descriptors,
+including `FnMut` and `recover_pair`; local assignment targets/values; and
+`BlockStmt.locals_to_free` metadata. Unknown expression/pattern/type shapes
+are explicitly `UNOBSERVED` with their node hash, never guessed. The
+original complete `Ast.Func` snapshot must retain the exact SHA above, the
+off run must emit no dump, and all pre-existing source/MIR, profile,
+refinement and 185:13–36 refusal gates remain. R2 is diagnostic only, not an
+AST rewrite, a resource-model change or an accepted frontend component.
+
 This is a Cloud-only, print-only diagnostic for the unchanged `sort4_stable`
 body in `smallsort.rs`. O24's whole-body source and paired typed MIR reached
 the reserved `__vf_sort4_first_unwind` marker, but do not show whether the

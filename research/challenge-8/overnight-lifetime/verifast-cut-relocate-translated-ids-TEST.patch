@@ -36,7 +36,8 @@
                  List.filter (fun (d : Mir.local_decl) ->
 -                  List.mem d.id relocation_ids) local_decls
 +                  List.mem d.id translated_ids) local_decls
-                 |> List.map (fun d ->
+-                |> List.map (fun d ->
++                |> List.map (fun (d : Mir.local_decl) ->
 +                    let raw =
 +                      match List.find_opt (fun (_, translated) ->
 +                        translated = d.id) relocation_pairs with
