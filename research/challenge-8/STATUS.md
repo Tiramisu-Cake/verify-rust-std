@@ -10,14 +10,16 @@ roundtrip admission +16 intended matcher refusals and separate sourcehashgate.
 Full archive/text verified. RESOURCE11 Build3a000599-4d3a-42c9-a8e3-f27d9a2bbad5
 terminal FAILURE, exact proof07d0dc8bb9adbe375fb58c2b45d460f76359b9cc,
 infraa92f5d97efc8a15af4398a7df14037f42ebb4b33;324charged.
-913/3600 charged,2687 unspent; active Build8dc37178-6d72-4061-be01-7b9aec2d212e,
-proof/infra4e25d13540f916f6a2c8f7405a330cfac2d1504a, timeout1080+60queue.
+1005/3600 charged,2595 unspent; active Build742da9ef-c853-473d-b2c1-d38ff55a04c1,
+proof/infra8b3d747109fc643215bce4906dc0834836200623, timeout1200+60queue.
+Build8dc37178/4e25d135 setup failure92s preserved (stale provider basehash).
+Fresh pin/all18base hashes checked; combined11groups includes construction pair.
 Buildb4b47061/cd93e557 setup failure100s preserved (selection sorting). Raw permutation positives and
 matched negatives pass; collector rejected stale unclassified_target metadata.
 Native cases INCONCLUSIVE at extract_rec empty suffix (cannot prove i=none),
 before target bodies. Fresh repair + physical same-cell calibration are selected in active proof.
-Separate exact source constructor fragment prepared, NOT_RUN; no Drop impl in
-fragment, no compiler glue/caller credit. Actual current-scratch handoff OPEN.
+Separate exact source constructor fragment selected in current run; no Drop
+impl in fragment, no compiler glue/caller credit. Actual current-scratch handoff OPEN.
 Annotation-only guard candidate NOT_RUN: source-linked prototype post has no
 payload and would leak actual Drop resources; narrow contract/glue design OPEN.
 Full seven/six/kernel/cleanup profile unaccepted; actual bounded9ad remains
