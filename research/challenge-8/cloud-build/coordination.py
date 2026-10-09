@@ -10,6 +10,8 @@ import datetime
 
 
 COORDINATION = Path('/root/smallsort-ci-coordination')
+MAX_ACTIVE = 2
+SCHEMA_VERSION = 2
 
 
 def read(path):
@@ -51,34 +53,120 @@ def locked():
             fcntl.flock(handle, fcntl.LOCK_UN)
 
 
-def active():
+def reservations():
+    """Read legacy single-slot or v2 state; caller holds locked().
+
+    Keep the same file and lock. A v1 client sees the v2 envelope as occupied
+    and cannot reconcile its missing record fields, so it fails closed.
+    Never unlink the envelope, even when the last slot is released.
+    """
     path = COORDINATION / 'active.json'
-    return read(path) if path.exists() else None
+    if not path.exists():
+        return []
+    data = read(path)
+    if not isinstance(data, dict):
+        raise RuntimeError('Invalid Cloud Build coordination state')
+    if 'schema_version' in data:
+        if data['schema_version'] != SCHEMA_VERSION or data.get('max_active') != MAX_ACTIVE:
+            raise RuntimeError('Unsupported Cloud Build coordination protocol')
+        records = data.get('reservations')
+    else:
+        records = [data]
+    if not isinstance(records, list) or len(records) > MAX_ACTIVE:
+        raise RuntimeError('Invalid Cloud Build reservation count')
+    tokens, owners, ledgers = set(), set(), set()
+    for record in records:
+        if not isinstance(record, dict):
+            raise RuntimeError('Invalid Cloud Build reservation')
+        for key, seen in (('dispatch_token', tokens), ('owner', owners), ('ledger', ledgers)):
+            value = record.get(key)
+            if not isinstance(value, str) or not value or value in seen:
+                raise RuntimeError('Missing or duplicate reservation ' + key)
+            seen.add(value)
+        if not Path(record['ledger']).is_absolute():
+            raise RuntimeError('Reservation ledger must be absolute')
+    return records
+
+
+def active(owner=None):
+    records = reservations()
+    if owner is not None:
+        records = [record for record in records if record['owner'] == owner]
+    if len(records) > 1:
+        raise RuntimeError('Select an owner when multiple builds are active')
+    return records[0] if records else None
+
+
+def save_reservations(records):
+    write(COORDINATION / 'active.json', {
+        'schema_version': SCHEMA_VERSION, 'max_active': MAX_ACTIVE,
+        'reservations': records,
+    })
+
+
+def require_capacity(owner, ledger, ongoing=()):
+    """Count reservations plus untracked API builds, without double counting.
+
+    An unresolved submission consumes its slot. A build newly visible by its
+    token is the same slot; multiple matches or conflicting IDs fail closed.
+    All project builds count, including ones submitted outside this client.
+    """
+    records = reservations()
+    if any(r['owner'] == owner or r['ledger'] == str(ledger) for r in records):
+        raise RuntimeError('Owner or ledger already has an active or unresolved build')
+    ids, matched_tokens = set(), set()
+    occupied = len(records)
+    for build in ongoing:
+        build_id = build.get('id')
+        if not isinstance(build_id, str) or not build_id or build_id in ids:
+            raise RuntimeError('Invalid or duplicate ongoing Build ID')
+        ids.add(build_id)
+        matches = [r for r in records if r.get('build_id') == build_id or
+                   r['dispatch_token'] in build.get('tags', [])]
+        if len(matches) > 1:
+            raise RuntimeError('Ongoing build matches multiple reservations')
+        if matches:
+            record = matches[0]
+            token = record['dispatch_token']
+            if (token in matched_tokens or token not in build.get('tags', []) or
+                    record.get('build_id') not in (None, build_id)):
+                raise RuntimeError('Ongoing build conflicts with reserved token or Build ID')
+            matched_tokens.add(token)
+        else:
+            occupied += 1
+    if occupied >= MAX_ACTIVE:
+        raise RuntimeError('Both Cloud Build slots are occupied; monitor/reconcile first')
 
 
 def reserve(record):
-    if active() is not None:
-        raise RuntimeError('Global Cloud Build reservation already exists')
-    write(COORDINATION / 'active.json', record)
+    # The caller also checks live API inventory under this same lock.
+    require_capacity(record['owner'], record['ledger'])
+    records = reservations()
+    if any(r['dispatch_token'] == record['dispatch_token'] for r in records):
+        raise RuntimeError('Dispatch token is already reserved')
+    save_reservations(records + [record])
 
 
 def update(record):
-    if active() is None:
+    records = reservations()
+    index = next((i for i, r in enumerate(records)
+                  if r['dispatch_token'] == record['dispatch_token']), None)
+    if index is None:
         raise RuntimeError('Global Cloud Build reservation disappeared')
-    write(COORDINATION / 'active.json', record)
+    current = records[index]
+    if any(current.get(k) != record.get(k) for k in ('owner', 'phase_id', 'ledger', 'state_dir')):
+        raise RuntimeError('Global Cloud Build reservation identity changed')
+    if current.get('build_id') is not None and current['build_id'] != record.get('build_id'):
+        raise RuntimeError('Global Cloud Build reservation Build ID changed')
+    records[index] = record
+    save_reservations(records)
 
 
 def clear(token):
-    path = COORDINATION / 'active.json'
-    current = active()
-    if current is None or current.get('dispatch_token') != token:
+    records = reservations()
+    if not any(r['dispatch_token'] == token for r in records):
         raise RuntimeError('Global Cloud Build reservation changed; refusing to clear')
-    path.unlink()
-    directory = os.open(path.parent, os.O_DIRECTORY)
-    try:
-        os.fsync(directory)
-    finally:
-        os.close(directory)
+    save_reservations([r for r in records if r['dispatch_token'] != token])
 
 
 def request(owner, phase_id, ledger, deadline_utc):
