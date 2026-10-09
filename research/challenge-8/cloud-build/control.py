@@ -364,6 +364,9 @@ def run_command(a,state,ledger,ledger_path):
   values={'_CONFIG_SHA':h,**{f'_CONFIG_{i}':compressed[i*3500:(i+1)*3500] for i in range(8)},**source_values}
   flags=state/(token+'-flags.json');write(flags,{'--substitutions':values})
   reservation={'dispatch_token':token,'owner':a.owner,'phase_id':a.phase_id,'ledger':str(ledger_path),'state_dir':str(state),'item':item,'build_id':None}
+  # Payload/API preflight may take time; recheck authorization immediately before reserving.
+  deadline=authorized_phase(a,ledger)
+  if datetime.datetime.now(datetime.timezone.utc)+datetime.timedelta(seconds=a.timeout+60)>deadline:raise SystemExit('Preflight elapsed: timeout plus queue reserve exceeds phase deadline')
   coordination.reserve(reservation)
   ledger['builds'].append(item);ledger['active_build']=token;write(ledger_path,ledger)
   cmd=['builds','submit','--no-source','--async','--region=global','--config='+str(path),'--flags-file='+str(flags),'--format=json','--quiet']
