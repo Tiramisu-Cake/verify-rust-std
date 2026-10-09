@@ -5435,7 +5435,7 @@ plus its raw_ptr_own, unwindfalse, no Element pointee permissions. Only observed
 17/20 source/certificate constants and exact two owner literal reconstructions
 change via separate21/22 deltas; frozen20 and kernel remain unchanged.
 Hypothesis: truthful nominal owner admission now reaches next real resource
-obligation/fullbody. New profile translator595f4db4; exact patches/profile/card
+obligation/fullbody. New profile translator0862e635; exact patches/profile/card
 O26-REFRESH-PROFILE/O26-REFRESH-CARD. Fresh pairedMIR/refinement/9bodies/10Marshal
 must stillmatch observed1798132f/466882d7/10cf6e4d/9577c649 and8oldbody hashes.
 All7actualprefixcallee proofs must occur before helper, actualnestedDrop later
@@ -5471,3 +5471,14 @@ Outcome: resource/type/parser blocker→causal repair withnewcard/sourcecertific
 positivebody→affectednegativegates/admissibility review; TRACEscopeTESTnextblocker
 →separateTESTalternative; actualsort4certificate→defaultoffhandler design, never
 weaken normal branch to force unwind. Everychangedinput requiresnewBuild.
+
+
+NIGHT-CLOUD-3 static pre-dispatch review corrected a draft shared-owner regression:
+unconditional literal reconstruction also affected oldfive path. No ownBuild,
+reservation or expense. Revised21 selects literal onlyifnine; historicalfive
+owner371bytes SHA d4408b1ae832380f9fa31abceace42c58c3aee4a2e5b39725dcf6f8994fa6d82
+matches exactCloudbaseline; nine485bytes SHA22746c3b0a7b0fad00cbce75075d1b4572b1a63867b122ef1852fb838baff8f6
+matches exactCloudcandidate. StaticGit applycheck on savedmatchingfrozen20 source
+(no compiler/verifier/runner) passed21+22. Translator0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a,
+patch21 0a6ac67c31b785acd5b2ab5eb9eb0158e0b5603dafda05033b7c58a6ef941c54.
+Cloud freshchangedprofile stillmandatory; unchangedhistoricalmatricesnotreplayed.

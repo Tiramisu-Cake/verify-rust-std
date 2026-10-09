@@ -1,12 +1,16 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -12526,4 +12526,4 @@
+@@ -12524,7 +12524,7 @@
+       "ac51fb48e423d64c3f8a96054c166b959303617f4affbd6665e10fe75cf6d4ed";
+       "1c8531225e562d2d6492e79e049101f5884c580762733080686737d1c3cd07f6";
        "e8dd503c0bf832081e71dcc9d115c2a07e9349ff746ec7e7cce132edf63f4137";
 -      "e7e9f17649dce8b16c7f21660511b453423c7930fd678aad026207a55acfffa6";
 +      "9577c64905c4a45eecc4aab506f6276fea076f8a7a18d2f7ca0304cf70205b86";
        "e0508d6cfb436bc1bcd04737ad74e37b357d17e9ec3c2a226ee961f7036eae9a"
      ] else [
-@@ -12547,6 +12547,6 @@
+       "6527c8df047e70602b40ec03b17614a3e278b19f23ef94a4aa5e87f6793c39b7";
+@@ -12546,7 +12546,7 @@
+     let source = Sort4MaybeUninit.read_file path in
      if sort4_actual_owner_sha256 source <>
           (if nine then
 -            "8629849c2d2ddde1eeb90fadb6a151dc52e626385578f89f0d86fce842c61eb8"
@@ -14,17 +18,25 @@
            else
              "595e93c5c08ebd61a6ab4b7f7b98ed2f2d6765dbb8d903509a53391ea9a2b5b3") then
        reject "owner exact verified source SHA256";
-@@ -12601,7 +12601,7 @@
+@@ -12597,7 +12597,15 @@
+       "    /*@ std::mem::open_MaybeUninit::<*Element>(false_ptr as *std::mem::MaybeUninit<*Element>); @*/\n" ^
+       "    /*@ assert *true_ptr |-> ?true_payload; @*/\n" ^
+       "    /*@ assert *false_ptr |-> ?false_payload; @*/\n" in
+-    let owner =
++    let owner = if nine then
++      "        /*@ if (condition) {\n" ^
++      "                 close raw_ptr_own::<Element>()(t, true_payload);\n" ^
++      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
++      "             } else {\n" ^
++      "                 close raw_ptr_own::<Element>()(t, false_payload);\n" ^
++      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
++      "             } @*/\n"
++      else
        "        /*@ if (condition) {\n" ^
        "                 close raw_ptr_own::<Element>()(t, true_payload);\n" ^
--      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n" ^
-+      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
-       "             } else {\n" ^
-       "                 close raw_ptr_own::<Element>()(t, false_payload);\n" ^
--      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n" ^
-+      "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, select_unpredictable::DropOnPanic::<*Element> { inner: guard });\n" ^
-       "             } @*/\n" in
-@@ -12744,6 +12744,6 @@
+       "                 close <select_unpredictable::DropOnPanic<*Element>>.own(t, guard);\n" ^
+@@ -12743,7 +12751,7 @@
+       (Marshal.to_string (D.decode_vf_mir vf_mir) [Marshal.No_sharing]) in
      if unit_digest <>
           (if nine then
 -            "54e70db56dfa35bc8f31ec6578e3c9197d2dc0d2b7f0ff5ca6a86a89a5228219"
