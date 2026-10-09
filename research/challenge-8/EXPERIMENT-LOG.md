@@ -5854,3 +5854,73 @@ groups: native4cases bothtools/currentowner3cases bothtools/fresh exact oldpair
 negative/hiddencleanup refusal/smoke. No Drop source included. Own3917charged,
 6883remaining,1800envelope reserved. Foreignb0382472 terminal observed read-only;
 nextpreparedownrequest afterthisBuild mustrespect foreign readyturn.
+
+Separate MIR-OR-JOIN-LIVENESS semantic card before implementation: problem is
+physical-location dead-code accounting of two effect-free transfer edges from
+one exact short-circuit OR source guard in bounded actual merge. Proposed rule
+groups only a bijectively admitted pair of no-op MIR Goto blocks (b34BB28/30
+with StorageDead-only statements, both→BB31 realpanic; AST34/36→37) as coverage
+of that source-body entry. At least one edge must execute; real condition
+assignments/panic ExprStmt/unwind/resource cleanup instructions/allotherdead
+statements remain independently checked. Goto execution/heap/alias/permissions/
+provenance/validity/return/leak/refinement semantics unchanged. Source guardbody
+coverage, not branch-cover theorem. Same target/span alone is insufficient: exact
+short-circuit OR CFG/source-token/origin/pinnedsource/tool/ASTmapping required.
+
+Trusted assumption: the matched edges represent the same effect-free source
+body entry, and retaining separate actual statement obligations detects source
+deadcode even if a compiler transfer is impossible. Applicability exact pinned
+actualguard only in separately named experimental profile, not blanket Goto
+transparency or accepted6profile extension. Failclosed on unsupported CFG,
+extra operation, mismatched target/span, missing pair/bijection/hash/origin.
+Controls: actual realpanic remainslive; unreachablepanic remainsDEAD; deadreal
+instruction in either arm remainsDEAD; sourcebreak/continue remainDEAD when
+unreachable; edgeop/target/addedoperation/span/origin mutants refused. Need
+independent fullstage negative locations and baseline/fullcombined gates.
+Green isolated control does not accept experimentalcleanupkernel or entiremerge.
+Otherfiveghostdead repaired separately by relocating ALLoldassertions/alias/current
+points checks into abstract checkedhelper with both feasible selectedpositions,
+then deriving strongerleft==src inactualcaller. No resources/posts/domainremoved.
+
+
+Result a3553e9e-c9f6-431d-9175-8969b3adf2c3 / proof+infra777d5e9f1e6270f3aa4fc4027f605124bd0785de:
+create03:59:48.790667968Z/start03:59:49.745961612Z/finish04:05:21.070439Z,
+333elapsedseconds; own4250/10800 remaining6550, historicalaccounts unchanged.
+Config2fac29eb5d1c503de4dfe45a1d33daef94743043d6704529482ffcd942a7ed0c;
+sourceinput ee36b453f896eb8391727b82006bbab8391c1f8c0ab54e680cbec4306b7781dc.
+Archive f33faaea73145bca0f1267cd0cf30d5f03da6dd0db35353475318b02c145f685;
+full metadata/archive/separate text chunks verified independently. All7group
+exits0/completecollector/PARTIAL_DIAGNOSTIC/acceptedfalse.
+
+Currentowner identity/swap/nativeusize arbitrary-n arrayidentity PASS each BOTH
+stock and experimental:5expected/visitedbodies,6return6leak,allstages0/source
+unchanged/noerrorsdead/classifierfailclosed12mutations. SamefixtureSHA
+1c75860b57ea10be4ed4add492f9f0e8c93452436ef44e00fef5ff3a7fea1be0.
+Arraywrapper original2f4281248a48fb34aa7fb044434a20ec256c23ae6e9f7b3bdcba7b80aaaa413a,
+verified7c8ff84d7dfb9817a138a750066e094f82b2912a64e3d8ad927680cf37512905.
+Empty runtime/unwindfalse, explicit destination already equals CURRENT source,
+sourceowners consumed once/transported to matchingdst, sourcebytes retained
+withoutowners; existingthread/F/type frame. No actualcopy/caller/permutation or
+share→own/Copy/Freeze/purity inference. Fullgeneric/ZST domain not established.
+
+Oldsourcepair overlap/samepair PASS7bodies21return21leak; dupfullcell freshpredeclared
+EXPECTED_REJECTION exactTARGET242cols88–91 points_to<T> after6helpers, notsetup.
+Hiddenrecovery positive PASS61exec2return2leak, fullnormal/unwind; exactrefusal
+67cols9–68cols1 EXPECTED_ADMISSION_REJECTION beforebodies, notproofnegative.
+Experimentalkernel100eeb stillunaccepted; marker/capturedterms closuregap persists.
+Nativepair all4cases BOTHtools INCparse72cols60–61 beforeanybody, allotherstages0.
+Sameoriginal7d615c2062f530aa63c742983055cee534c749f25b5e1c2c615ec6f4da9297d1,
+verified15e53b3bd5104a2fd331aa8d43db021a60612db261e1a19895e3a1a4f13a1aef.
+Card beforelocalized repair: recursive predicate conjunctions incorrectly ended
+withstatementsemicolon in native_pair_holes/selected; removeonly those2punctuation
+marks using existing ownedarraypredicate grammar. Allindices/range/currentvalues/
+ownership/fullposts/runtime/oracle remain identical; freshbothprofiles required,
+falseentrysetupfail notintendednegative. No verifier/frontendspec rule changed.
+
+Nextrecipe Drop2+native2+sourceprep2+smoke=7groups, no owner/pair/cleanup rerun.
+DirectDrop stages capped30s,VF45s,eachgroup≤300 and shared lane elapsed budget1600
+with140s packagingtail; timeouts remain INC. Two sourcepreps obtain new actual
+preparedghostsource hash for separate origin-component admission. Ghostodd card
+movesALLpriorassertions/checks into bodychecked helper with both feasiblepositions;
+actualcaller derivesleft==src, allcurrentowners/posts/sourceidentity preserved.
+No executable localextractor/proof/tests; staticAST/JSON/bash-n/diffchecks only.

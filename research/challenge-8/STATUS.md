@@ -1,11 +1,26 @@
 # NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED POSTS COMPLETE, LIVENESS OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **3917/10800 elapsed
-Cloud seconds**, remaining **6883**. Historical accounts below unchanged.
-Branch `overnight/merge-26.10`; active own Build **a3553e9e-c9f6-431d-9175-8969b3adf2c3**, seven resource groups,
-proof/infra777d5e9f1e6270f3aa4fc4027f605124bd0785de; timeout1740s+queue60,
-config2fac29eb5d1c503de4dfe45a1d33daef94743043d6704529482ffcd942a7ed0c.
-Latest completed own Build
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **4250/10800 elapsed
+Cloud seconds**, remaining **6550**. Historical accounts below unchanged.
+Branch `overnight/merge-26.10`; no active own Build. Latest resource Build
+**a3553e9e-c9f6-431d-9175-8969b3adf2c3**, proof/infra
+777d5e9f1e6270f3aa4fc4027f605124bd0785de,333s/SUCCESScollector;
+03:59:48.790–04:05:21.070 UTC. Config
+2fac29eb5d1c503de4dfe45a1d33daef94743043d6704529482ffcd942a7ed0c;
+archive f33faaea73145bca0f1267cd0cf30d5f03da6dd0db35353475318b02c145f685.
+Full metadata/archive/separate text logs verified; all seven group exits0,
+PARTIAL_DIAGNOSTIC/accepted=false. Current-owner identity/swap/native arbitrary-n
+array identity **PASS both stock and experimental**, five bodies/6return/6leak
+per case/fullsource/refinement/noerrorsdead. Destination must ALREADY equal the
+CURRENT source list; ghost owner transfer does not prove this caller prerequisite.
+Old sourcepair two positives PASS + exact242cols88–91 EXPECTED_REJECTION;
+hidden recovery positive PASS61exec2return2leak + exactfrontend67–68
+EXPECTED_ADMISSION_REJECTION. Native turnover all4cases bothprofiles
+**INCONCLUSIVE setup** parse72cols60–61, zero bodies/returns/leaks; two extraneous
+recursive predicate semicolons repaired, fresh Cloud required. No intended
+negative credit for its false-entry case. Native current-value/optional-index
+full domain and caller bridge remain open.
+Latest bounded completed own Build
 **b34c2f3c-5759-457c-84dc-ef74a901bca0**, proof/infra
 **34021e39ed0e7dd55db1be449b01ba73745ea762**, SUCCESS diagnostic collector;
 03:19:59.389–03:34:11.497 UTC,853s. Config
@@ -61,7 +76,7 @@ Prior cf071245s/be121093s/d54995s preserved with all failures and old budgets.
   stack gates12MIR/27AST/14addresses with16MIR+17AST controls and pinned panic pass.
   Math G2/A/B gates pass with separate SWO/immutable-key/faithful-answer premises.
 
-Native option<usize> source-pair current-value replacement draft is Cloud UNTESTED;
+Native option<usize> source-pair current-value replacement repair is Cloud UNTESTED;
 ghost integers are mathematical, explicit nonnegative range gates required.
 Native array owner handoff requires destination already equal the CURRENT source
 list; no snapshot/Copy/share-to-own bridge. Runtime raw-destination alias observation
@@ -73,8 +88,8 @@ Kernel100eebae remains experimental/unaccepted: heap predicate-term/closure
 capture and marker-origin invariant unresolved. Generic/ZST, arbitrary-n actual/
 caller/C1count-n/F-frame, Freeze/share and ownership transfer OPEN.
 
-Next permitted action: fresh seven-group resource recipe (native and handoff
-stock+experimental, exact pair/cleanup controls and smoke) follows common lock.
+Next permitted action: prepared Drop stock+experimental/native turnover repair
+stock+experimental/source preparation/smoke recipe follows common lock.
 Direct count-n actual Drop body draft has no Cloud result. Prepare separately
 reviewed exact MIR-origin liveness component and equivalent ghost restructuring;
 continue justified independent resource/caller work within own budget/window.

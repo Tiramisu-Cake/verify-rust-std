@@ -1,3 +1,15 @@
+## Current-owner handoff stock and experimental — a3553e9e / 777d5e9f
+
+Identity/swap/native-usize arbitrary-n array identity PASS both tools:
+five checked bodies/6return/6leak per case, full source/export/decode/refinement,
+no error/dead. Requires destination ALREADY equal current source values;
+transfers each EXISTING owner once, source bytes retain no owner. Empty runtime,
+unwindfalse; no actual copy/caller/equality/permutation derivation follows.
+Old sourcepair positives PASS and intended duplicate-cell negative242cols88–91;
+hidden recovery positive PASS and intended frontend refusal67–68. Native turnover
+all4bothprofiles setup parse72cols60–61, no body/negative credit; two predicate
+semicolon repair awaits fresh Cloud. Complete diagnostic collector/acceptedfalse.
+
 ## Bounded posts complete, liveness unresolved — b34c2f3c / 34021e39
 
 Actual len2/3 completed VF484.47s,365executions/10return/12leak; all ten checked

@@ -196,3 +196,18 @@ predicate-local source_head before all case bodies. Explicit existing-chunk
 binding repair is drafted, no ownership/post change or theorem credit.
 Current-owner list identity prerequisite and caller/C1/F-frame/Freeze-share/kernel
 closure obligations above stay open.
+
+## Fresh current-owner handoff evidence a3553e9e
+
+Identity/swap/native-usize arbitrary-n identity now pass on stock26.10 AND the
+six-patch experimental console with five checked bodies/six returns/six leak
+checks per case/all source/refinement gates. Native array recursion handles
+arbitrary mathematical n with explicit byte-span/domain bounds; it transfers
+existing owners once and retains source bytes without owners. This establishes
+the ghost resource operation conditional on destination already matching the
+CURRENT source list. Neither the actual merge nor callback/copy-time history
+derives that prerequisite here. No permission is made from address arithmetic
+and no owner from slice.share. Native optional-index turnover still fails setup
+on recursive-predicate punctuation; source-only two-semicolon repair needs
+fresh both-tool evidence. Current F-frame/caller/C1count-n/cleanup routing/normal
+permutation/generic-ZST/Freeze-share and experimental-kernel closure remain open.
