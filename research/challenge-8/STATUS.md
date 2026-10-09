@@ -1,18 +1,36 @@
-# NIGHT-MERGE-CLOUD-2026-10-09 — IN PROGRESS / BOUNDED BODY DIAGNOSTICS, LIVENESS AND TRUST OPEN
+# NIGHT-MERGE-CLOUD-2026-10-09 — CUTOFF CHECKPOINT / RESEARCH AND TRUST OPEN
 
-Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **8007/10800 charged
-Cloud seconds**, remaining **2793**. Branch `overnight/merge-26.10`.
+Window **2026-10-09 08:00 UTC /11:00 MSK**; own budget **8357/10800 charged
+Cloud seconds**, remaining **2443**. Branch `overnight/merge-26.10`.
 
-Active own targeted OR Build **ad653ca9-cab0-437d-a170-b15c3ad6ebbe**, exact
-infra/proof `f9139fc26db535a9552f26a84085a57f6014702e`, config
+Latest targeted OR Build **ad653ca9-cab0-437d-a170-b15c3ad6ebbe**, exact
+infra/proof `f9139fc26db535a9552f26a84085a57f6014702e`, collector SUCCESS 350s;
+07:38:30.695–07:44:19.785 UTC. Archive SHA
+`68104ce01cfce1936c533ef22f436fb10799e6cd833c80a30db4deab55c0a0c1`; config
 `a9f82ebbdab8e6917e4bff1d7127373b90e9ca67037dd390f0f8cca61d527f77`, sourceinput
-`be85aa23b49de3ca1198736bb791769f624f5cc1d69fa2dc391651e3cf097dd4`;
-timeout1200/reservation1260 notyet charged. SHAPE_CONTROLS_ONLY deliberately
-uses fresh short full-post MIR/AST/refiner capture plus17 controls/sourcehash;
-no current whole-function PASS. RESOURCE11 candidate
-`07d0dc8bb9adbe375fb58c2b45d460f76359b9cc` separately published, ready for next
-permitted alternating turn if deadline leaves enough build+evidence time.
-No fresh resource11 result.
+`be85aa23b49de3ca1198736bb791769f624f5cc1d69fa2dc391651e3cf097dd4`. Full
+archive/text verified. SHAPE_CONTROLS_ONLY captured normal MIR/provenance, proof AST,
+and refinement (all 0), while the short full-post VF stage hit its 10s cap (124);
+actual case INCONCLUSIVE, never target PASS. All 17 manual shape modes are
+INCONCLUSIVE: exporter exits 2 on missing `ty` from the panic constant path
+(`const.val.ty`); every official refinement exits 0. The separate mutated-source
+hash gate passed as EXPECTED_SOURCE_HASH_REFUSAL before export; tool homes unchanged.
+No matcher-negative credit; full matrix/acceptance remain false. Own budget
+8357/10800 charged, remaining2443; no active own build.
+
+RESOURCE11 candidate `07d0dc8bb9adbe375fb58c2b45d460f76359b9cc` is still unrun.
+Own ready request withdrawn07:55; no active own Build, all own evidence verified.
+Foreign request was neither removed nor bypassed. New dispatch has stopped: the
+remaining window cannot cover reliable setup/queue/build/publication. The authorized
+window expires08:00UTC; no post-window dispatch or implementation is authorized.
+Renewed continuation requires an explicit new/extended window and budget terms.
+[Complete cutoff checkpoint](merge/NIGHT-MERGE-CHECKPOINT-2026-10-09.md) records
+all Build/proof/archive/profile identities, domains, drafts and continuation commands.
+Schema repair code published2b11be1d88396b1704ca8202f9b127956e7e3bab; its
+const.val.ty paths and full added precheck fields compared with ad653, but no new
+Cloud result. Current selected7groups still RESOURCE11; future OR selection
+needs a separately published descendant. Existing six/kernel/cleanup trust
+and combined seven acceptance remain OPEN, even though bounded actual7 passes.
 
 Latest OR Build **9ad825fa-23f2-49f6-bc6c-db2052fe755c**, proof/infra
 `96086b2b6c150346e9d3cd1dad30778845880011`, collector SUCCESS 1416s;

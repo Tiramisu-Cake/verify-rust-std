@@ -53,3 +53,26 @@ the short capture/build/17-mode driver; FULL_TARGET keeps its existing900-second
 reservation. Each child retains its own budgets, refuses insufficient time and
 records partial/NOT_RUN evidence. This is time allocation only: no stage, proof
 post, resource, classifier or semantic checker is disabled or accepted.
+
+
+## Fresh Cloud outcome — ad653ca9
+
+Build `ad653ca9-cab0-437d-a170-b15c3ad6ebbe`, proof/infra
+`f9139fc26db535a9552f26a84085a57f6014702e`, archive SHA
+`68104ce01cfce1936c533ef22f436fb10799e6cd833c80a30db4deab55c0a0c1`, config
+`a9f82ebbdab8e6917e4bff1d7127373b90e9ca67037dd390f0f8cca61d527f77`, sourceinput
+`be85aa23b49de3ca1198736bb791769f624f5cc1d69fa2dc391651e3cf097dd4`. The fresh
+normal MIR, proof AST, provenance, source integrity and refinement capture all
+completed; the short full-post VeriFast capture reached its 10s cap (exit 124), so
+the actual fixture is INCONCLUSIVE and not a target PASS. Partial records at timeout
+were 88 target executions, 20 returns, 22 leak checks, with no error/dead record;
+these do not satisfy full posts.
+
+All 17 shape modes are INCONCLUSIVE before matching: manual exporter exit 2 with
+`normal MIR field is missing: ty` on the panic constant node (`const.val.ty`). All
+17 official refinement commands exit 0, and tool homes remained unchanged. The
+separate source-hash control passed as `EXPECTED_SOURCE_HASH_REFUSAL` at source
+admission before export; it earns no matcher-negative credit. Therefore
+`full_shape_matrix_complete=false`, and overall diagnostic/profile acceptance
+remains false. The worker-prepared typed-path correction and card require a fresh
+Cloud run before any shape result can be credited.

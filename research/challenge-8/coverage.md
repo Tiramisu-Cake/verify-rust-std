@@ -6,7 +6,16 @@ identifiers: [experiment log](EXPERIMENT-LOG.md). Distinguish actual-source
 proofs, bounded adapters, synthetic fixtures and prefixes of failing proofs.
 No complete Challenge 8 solution is established.
 
-Latest bounded diagnostic: resource10 build `a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`, proof
+Latest bounded diagnostic: targeted OR shape-controls build `ad653ca9-cab0-437d-a170-b15c3ad6ebbe`, proof
+`f9139fc26db535a9552f26a84085a57f6014702e`, archive SHA
+`68104ce01cfce1936c533ef22f436fb10799e6cd833c80a30db4deab55c0a0c1`. Fresh
+normal MIR/proof AST/refinement capture completed, but the 10-second actual VF cap
+ended at 124, so the target is INCONCLUSIVE. All 17 shape modes are INCONCLUSIVE
+before matching (manual exporter missing `ty` at the panic constant path); official
+refinement exits 0 for all. Source-hash refusal passed independently, without
+matcher-negative credit. The separate resource10 component evidence follows.
+
+Historical bounded diagnostic: resource10 build `a643d1e1-48e4-4b24-bc6e-90e8c1bc11e7`, proof
 `20184556bc04ff33185fb4922617077a0326a383`, archive SHA
 `72e2c38acfe349b901b36605210ef5abdecfbddd03465925941ff3606a266f55`. Actual
 CopyOnDrop positives and exact first-body-false controls PASS_COMPONENT_ONLY /

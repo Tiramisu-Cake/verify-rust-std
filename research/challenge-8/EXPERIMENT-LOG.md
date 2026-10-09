@@ -6341,3 +6341,38 @@ chunk. It remains INCONCLUSIVE, with no intended negative credit.
 
 Next OR shape-controls candidate `e3fc8001aa87339029a739c6807bb07968239829` is
 published/registered pending the foreign turn; it is not yet submitted as a build.
+
+
+### NIGHT-MERGE — ad653 shape-controls-only diagnostic
+
+Build `ad653ca9-cab0-437d-a170-b15c3ad6ebbe`, proof/infra
+`f9139fc26db535a9552f26a84085a57f6014702e`, collector SUCCESS 350s
+(07:38:30.695–07:44:19.785 UTC); archive SHA
+`68104ce01cfce1936c533ef22f436fb10799e6cd833c80a30db4deab55c0a0c1`. Config
+`a9f82ebbdab8e6917e4bff1d7127373b90e9ca67037dd390f0f8cca61d527f77`; sourceinput
+`be85aa23b49de3ca1198736bb791769f624f5cc1d69fa2dc391651e3cf097dd4`. Full
+archive and text artifacts were verified. Own usage after collection is
+8357/10800 charged, 2443 remaining; no active own build.
+
+This was `SHAPE_CONTROLS_ONLY`, not a full target run. Fresh source and profile
+admission succeeded; actual unchanged fixture normal MIR/provenance, proof AST and
+refinement were captured (exporter/decode/refinement 0, source unchanged). VeriFast
+was deliberately capped at 10 seconds and exited 124; the actual case is
+INCONCLUSIVE with `full_positive_gate=false`, despite partial target records
+(88 executions, 20 returns, 22 leak checks). No target PASS or complete post claim.
+
+All 17 shape modes are INCONCLUSIVE before matcher execution: every manual exporter
+exit is 2 with `normal MIR field is missing: ty`; inspection localizes the schema
+mismatch to the panic constant node, which uses `const.val.ty`. Each official
+refinement command exits 0, and `tool_homes_unchanged=true`. The independent source
+hash control is `EXPECTED_SOURCE_HASH_REFUSAL` at `SOURCE_ADMISSION_BEFORE_EXPORT`
+(exit 2, mutated source SHA
+`ccf7d5778b71d2b1f9d406c14214b520ee3464f393f48ab595802abcc42d3581`). It earns
+only that refusal result; no shape matcher-negative is credited and
+`full_shape_matrix_complete=false`. Worker-prepared typed-path fixes require a new
+Cloud run.
+
+The separate native/resource11 candidate `07d0dc8bb9adbe375fb58c2b45d460f76359b9cc`
+remains unrun. The shared alternating queue is respected despite a ready foreign
+turn; no pending turn was removed or bypassed. Phase is still IN PROGRESS until
+the authorized 08:00 UTC cutoff.
