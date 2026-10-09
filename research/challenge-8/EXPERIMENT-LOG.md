@@ -5491,3 +5491,40 @@ within officialCloudBuild200/4000 limits (checked2026-10-09), no inputomission
 or semantic/source/object-closure change. Samearchive remainsindividuallygzip
 originalobjects/sharedpool. Updatedtransport gate combineswithnewresearchBuild,
 noinfra-only smoke/A/B/C replay; overlimitstillfailclosedbeforedispatch.
+
+
+NIGHT-CLOUD-3 outcome: Build546547c0-60e1-4d32-a7f5-8404790a5630,
+infra cbd1e103ca15f99b207b6edc5606a06edf6a3d71/proof4ab01bd1a0c13868732abe2e24ad7ee59b5e522e,
+02:01:38.114535–02:06:46.007526 UTC,308 conservative seconds. FAILURE.
+Cloud execute completed: candidate proof_exit1/source unchanged; four17negative
+reports exact; actualsort4 O24 graph+reserved185 marker diagnostic reported;
+relocation capture failed its compound source/MIR/AST admission condition.
+No full archive: packager found nested shadow bin but its manifest indexing
+required a direct child of cases; actual adjacent manifests already had four
+identities. Cloud log/Build metadata retained in /tmp/o26-night-terminal.log and
+/tmp/o26-night-build-detail.json. Download attempt confirmed all publication
+objects absent; do not count any provisional result as accepted proof/control.
+Budget943/10800,9857remaining, noownactive. Source transport189parts completed;
+full evidence publication still needs changedcomponent fresh Cloud gate.
+
+NIGHT-CLOUD-4 pre-experiment: unchanged actual9pointer select normal return
+<T>.own for selected value, no unwind (pointer domain), unselected pointer guard
+ownership discharged; full return/leak/dead/refinement enabled; genericnestedDrop
+normal+unwind optionalcell/thread post unchanged. Tool frozen20+21/22
+translator0862e635, production kernel/spec/exporter/refiner unchanged.
+Hypothesis: depth-correct identity manifest discovery restores complete archival
+publication; full canonicalproof log reveals actual nextresource/type blocker.
+Isolated TEST card A1-ISOLATED-TEST-CARD.md changes only synthetic NORMAL
+assume_init Move(_37)→Copy(_37); canonical NORMAL/readonly/refinement retained.
+Production firstfatal17unitSHA expected; separate TEST17twoobservedhash refresh
+must admit17then exactA1 move-selected-wrapper fatal20 before proofentry. No
+TESTacceptance/theorem/kernel change, all8otherbodyhashesunchanged. Four17
+controls and exactO24/relocation diagnostics recollected because previousfull
+artifact was lost; no infrastructure-only smoke/migration/constructor/matrix.
+CUTrelocation semantics unchanged, source/MIR/strictbaseline84 and6/1trace
+conditions retained; new visibility names preciselyfailed conjunct. Fullgates
+remainOPEN. ExactinputGitclosures/no-source/fullbucketpublication mandatory.
+Outcomes: canonicalproofblocker→causal ghost/proof repair; A1 exactfatal→record
+isolatednegative only; anyearlierfatal→inconclusive; relocationnextcondition→
+localizeusingcompletearchive, neverdisablefreeze/liveness/unwind/resources.
+Timeout1200+60queue within own9857/deadline08UTC; oneglobalatomicreservation.

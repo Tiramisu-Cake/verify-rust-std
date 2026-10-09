@@ -1,7 +1,7 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**635/10800 conservative Cloud Build seconds used;10165 remaining**.
+**943/10800 conservative Cloud Build seconds used;9857 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
 [ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
 Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
@@ -34,6 +34,19 @@ Actual sort4 first unwind handler185 and complete generic/ZST safety/functional
 composition remain OPEN. No proof post/check/runtime/signature weakened.
 Earlier Build680ea0b2 SETUP missing dependency is retained and charged321s;
 new preflight fixes it. No migration A/B/C, constructor or unchanged matrix replay.
+
+Latest Build `546547c0-60e1-4d32-a7f5-8404790a5630` FAILURE, infra
+`cbd1e103ca15f99b207b6edc5606a06edf6a3d71`, proof
+`4ab01bd1a0c13868732abe2e24ad7ee59b5e522e`, o26-night,308s.
+Execute reported refreshed proof exit1, four intended owner17 refusals and exact
+O24 graph/reserved-marker diagnostic. Relocation admission inconclusive. These
+reports are provisional: package failed before archive because nested shadow
+identity manifests were not indexed. **No full evidence / no accepted proof**;
+complete Cloud log and step failure preserved outside Git. New infrastructure
+accb752d fixes only manifest discovery depth (all required hashes remain), exposes
+full proof/relocation logs, and adds an isolated two-hash A1 Move-to-Copy TEST.
+Next fresh combined run recollects lost evidence with this changed packager,
+canonical refreshed profile unchanged; no stale run or weakened gate reuse.
 
 # Accepted migration checkpoint (historical)
 
