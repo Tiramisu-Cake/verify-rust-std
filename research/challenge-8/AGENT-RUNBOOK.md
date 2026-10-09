@@ -1,259 +1,122 @@
-## Accepted operating update — 2026-10-09
+# Challenge 8: единая процедура работы
 
-First read [WORK-POLICY](WORK-POLICY.md) and [COMPLETION-PLAN](COMPLETION-PLAN.md).
-The policy supersedes older conflicting execution, budget-window and priority
-wording below; historical Actions examples do not authorize Actions dispatch.
-Use the assigned branch/phase and Cloud Build; two project-wide active/unresolved
-slots, one per owner/ledger. Two-hour sessions; up to 30 minutes for finishing an
-existing step/checkpoint only. Cloud budget remains the one in the assignment.
+Нормативные границы, миссии и режим сессий — в [WORK-POLICY](WORK-POLICY.md);
+правила proof integrity — в [AGENTS](../../AGENTS.md). Этот файл задаёт процесс,
+[Cloud runbook](cloud-build/README.md) — команды и учёт,
+[COMPLETION-PLAN](COMPLETION-PLAN.md) — конечные обязательства.
+[Архив](archive/team-procedure-2026-10-10/README-ARCHIVE.md) сохраняет прежние
+Actions-примеры, ветки, бюджеты и stop-условия без действующей авторизации.
 
-Before a new experiment identify the actual caller and where its premises come
-from. Separate new proof runs, classifier-only replay of saved evidence and
-NOT_RUN cases. Small isolated local classifier/parser tests are now allowed as
-specified in WORK-POLICY; compilers, verifiers and proof runners remain Cloud-only.
-Do not cold-build the proof toolchain solely to test an evidence classifier.
+## Вход в работу
 
-On entry fetch/integrate the docs without overwriting local work, read the latest
-checkpoint and record the policy revision. In a running session adopt at the
-next safe step; keep active Build inputs fixed. Add caller progress and separate
-replay/new proof results to the existing checkpoint format.
+1. Проверить `git status --short`, remotes, branch, HEAD, `git worktree list`,
+   отдельные git-dir/index. Работать в назначенном worktree; не переключать чужой.
+   Выполнить `git fetch origin`; проверить, что origin — наш форк. Не сбрасывать
+   локальные правки и не объединять исследовательские истории ради docs.
+2. Прочитать общие правила и записать policy revision (полный commit прочитанной
+   редакции) в существующей session card/checkpoint. Принять docs по
+   [ADOPTION](ADOPTION.md) на безопасной границе, сохранив inputs активного Build.
+3. Прочитать STATUS своей ветки и самый свежий checkpoint/evidence/ledger.
+   Хронологически новый заголовок не заменяет точные source/tool/run identities.
+   При устаревшем STATUS или ledger с истёкшим deadline не предполагать живую
+   авторизацию: зафиксировать расхождение, не переносить остаток.
+4. Сверить действующее поручение: миссия, конкретный scope/tool profile,
+   patch authority, lanes, owner/ledger/state, начало, main/absolute deadlines
+   и Cloud ceiling. Docs-only/status запрос не возобновляет stop.
+   В новом режиме миссия продолжается между отдельно разрешёнными сессиями;
+   старые закрытые phase cards остаются историей.
+5. Для proof-работы проверить доступ к существующему dispatcher и собственные
+   active/unresolved Build IDs. Использовать разрешённые эквивалентные клиенты
+   при проблемах доступа, не заменять Cloud локальной verification.
 
-# Challenge 8 agent runbook
+## Experiment card до реализации и запуска
 
-## Mission and working context
+Дополнить существующий EXPERIMENT-LOG/phase card; не вводить второй параллельный
+журнал. Записать:
 
-Build our own automated proof of the actual Rust SmallSort implementation.
-The owner's mathematical background supports precise specifications; explanations
-and progress reports should be in Russian. The existing small experiments are
-scaffolding for an eventual submission that meets the full challenge.
+- Actual std function/source и обязательство; caller и источник каждой premise.
+- Фальсифицируемую гипотезу и отличие от последнего эксперимента.
+- Точный domain, safety resources и полные target normal/unwind/abort posts;
+  partial diagnostic явно отделить от конечного контракта.
+- Tool/compiler/spec/patch/profile identities, разрешённую область изменения,
+  semantic rationale и trust/admission/regression gates для патча.
+- Positive cases и каждый negative: expected stage, predicate и location.
+  Изолировать baseline от unrelated failing helpers.
+- Source/ghost-strip/MIR/AST/refinement, actual callee/caller execution,
+  nonvacuity, leak/unwind, covers/UB и full unit exit checks, которые нужны claim.
+- Решение для каждого исхода: рутинный fix, следующий шаг миссии или запрос
+  владельцу при выходе за разрешённые границы; reviewed lane и доступный бюджет.
 
-- Fork: https://github.com/Tiramisu-Cake/verify-rust-std
-- Working branch: challenge-8/research
-- Upstream: model-checking/verify-rust-std; tracking issue #56.
-- Requirements: doc/src/challenges/0008-smallsort.md and doc/src/general-rules.md.
-- Target: library/core/src/slice/sort/shared/smallsort.rs.
-- Workflow: .github/workflows/smallsort-research.yml, named SmallSort research.
-- Kani pin: tool_config/kani-version.toml; currently
-  152c6a8c875d9886a67e229247b4826d6105ccfd (Kani 0.67.0).
+Нельзя выводить pointee права из равных numeric addresses или ownership bridge
+из `slice.share`. Setup/frontend/unsupported-operation failure до target не
+является intended negative. Повторный отказ без новой информации требует
+переоценки, а не ещё одного такого же запуска.
 
-Read root AGENTS.md. Its prohibition on server-side builds and verification is
-the owner's explicit instruction, not an optional performance recommendation.
+## Edit → publish → Cloud → evidence → следующий шаг
 
-## Handoff status — 2026-10-06, Europe/Moscow
+1. Сделать минимальное изменение внутри миссии/allowlist. Проверить diff и
+   разрешённые static/service checks. Proof/extraction/build локально не запускать.
+2. Commit и обычный push в собственную назначенную ветку форка. Проверить полный
+   remote SHA. Proof и infrastructure SHAs могут различаться; оба опубликованы.
+   Рабочее дерево не является Cloud input.
+3. Сверить свой ledger/deadline/allowlist и v2 capacity. Если есть подходящий
+   active/unresolved Build, разрешить/мониторить его вместо дубликата. Submit
+   выполнять по [Cloud runbook](cloud-build/README.md) с exact SHAs и recipe.
+4. Записать token, Build ID, inputs/config hashes. Неизвестный ответ API остаётся
+   unresolved; отсутствие ID не разрешает повторный submit. Не обходить лимит
+   owner alias или ручным удалением reservation.
+5. Следить за конкретным Build в активной сессии: короткие poll/wait, обычно
+   примерно раз в минуту; не отдавать мониторинг владельцу. Примерно через час
+   дать короткий отчёт по [режиму сессии](WORK-POLICY.md#1-миссия-полномочия-и-сессия),
+   затем продолжать в scope. Сборка/очередь сама по себе не повод закрыть сессию.
+6. После terminal status получить и проверить полный archive, inventory, inputs,
+   upload receipt и нужные raw logs, включая успешные Build. Сверить target body,
+   posts, checks и intended negative sites. Collector SUCCESS, diagnostic_complete
+   и verification_accepted — разные факты. NOT_RUN не считать PASS.
+7. Классифицировать первый causal blocker: setup/build, frontend/export/decode,
+   unsupported operation, resource/post proof, refinement, timeout/OOM или infra.
+   Рутинный fix внутри scope и промежуточный PASS не требуют остановки при наличии
+   времени/бюджета. Новая trust/architecture область требует отдельного решения.
+8. После изменения source/proof/profile нужен новый exact-SHA proof run. Для
+   classifier-only fix сначала replay неизменных saved data по WORK-POLICY §3–4;
+   cold build ради аудитора не нужен. Прежний verdict сохранять отдельно.
+9. Обновить компактный STATUS и существующий evidence record. Выбрать следующий
+   actual шаг миссии. За main deadline не начинать новый Build/эксперимент;
+   до absolute deadline — только начатый шаг, evidence, учёт и checkpoint.
 
-These facts were checked against GitHub at handoff; inspect newer runs before
-acting. The fix below is on both main and challenge-8/research. This documentation
-commit follows it; use your actual pushed HEAD for the next dispatch.
+## Компактный STATUS и существующая отчётность
 
-- Bootstrap success:
-  https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37383583285
-  at 34d008324e10a66bf59de705acd609d9509e7c36.
-  Both fixed-domain swap_if_less harnesses verified, with 5/5 covers combined.
-  This does not establish generic, panic or full UB coverage.
-- First insertion failure:
-  https://github.com/Tiramisu-Cake/verify-rust-std/actions/runs/37386722977
-  at 78e99a270f7b711e4d510877de4d93a9a2da51ea.
-  Kani built, but stage 1 failed compilation with E0502 on old(*values).
-  No insertion proof ran; later stages were skipped.
-- Pending fix:
-  https://github.com/Tiramisu-Cake/verify-rust-std/commit/4c125165c78383f575d65536941c3ddc421150ca
-  replaces old(*values) with an explicit by-value before snapshot plus
-  requires(*values == before). Callers snapshot before borrowing mutably.
-  All three postconditions remain. This workaround has NOT been compiled or
-  verified in Actions yet. Do not label it a confirmed fix.
+STATUS своей рабочей ветки содержит один текущий блок, обычно до одной страницы:
+миссия/owner; авторизация текущей сессии; последнее проверенное обязательство
+с точным domain/profile; первый blocker; следующий шаг; ссылки на evidence и
+checkpoint. Main содержит краткий индекс состояния команды и датированный
+snapshot, а не авторизацию или копию чужих рабочих STATUS.
 
-**First action:** inspect for a newer run, then dispatch insertion_all_4 with a
-90-minute budget on the current pushed research HEAD if it remains unverified.
+Предыдущий блок сохранять до замены: в существующем датированном checkpoint,
+EXPERIMENT-LOG или архиве STATUS. Не удалять исторические run IDs, failures,
+verdicts и retired budgets. coverage/design обновлять только если изменился claim.
+Phase cards с прошедшими сроками — evidence; их старые «next» не инструкции.
 
-## Repository map and verifier details
+В существующей session card/checkpoint записывать следующие поля рядом с уже
+имеющимися результатами, без нового обязательного machine schema:
 
-- smoke.rs: two original swap_if_less bootstrap proofs.
-- insertion-4.rs: actual insert_tail behind a monomorphic proof-only adapter;
-  a caller using verified summaries; a separate direct proof of the actual
-  insertion_sort_shift_left.
-- insertion-contract.md: specification, assumptions and proposed invariants.
-- run-smoke.sh and run-insertion.sh: Actions entrypoints; do not execute locally.
-- README.md in this directory: experiment scope and run log.
+| Поле | Что фиксировать |
+| --- | --- |
+| Actual caller progress | Какой caller теперь устанавливает/использует какие premises; что пока supplied или не достигнуто |
+| Target reached by run | Build ID → actual obligation, entry/target/post reached, verdict; new proof / replay / NOT_RUN раздельно |
+| Время | Подготовка/dependencies/verifier build; extraction/refinement/proof; packaging/upload/download/hash/replay/evidence analysis отдельно |
+| Учёт | Wall-clock начало/main/absolute/end; conservative Cloud charge, remaining/retired, active/unresolved IDs |
+| Общий blocker | Одна причинная формулировка, затронутые select/merge/maintainer и ссылки; fixes и trust debt раздельно |
+| Следующий шаг | Одно полезное действие в миссии и нужная будущая авторизация, если сессия закрыта |
 
-The insertion order is prove_tail_contract_4, prove_composition_4,
-prove_direct_insertion_4. The runner stops on the first failure; the summarized
-caller must not be accepted if the callee failed. The direct stage is a separate
-check, not a modular proof of the real outer loop.
-The domain is arbitrary i32 values in a four-element backing array, symbolic
-valid lengths/offsets, and unwind 6. Values include duplicates and extremes.
+Использовать существующие ledger API timestamps, stage resource/time files,
+summary/classifier/receipts. Не считать create→finish временем proof: это charge
+с queue/setup/upload. Неизмеренные интервалы отметить «нет данных»; ручные оценки
+пометить. Автоматические данные не переписывать ради формы отчёта.
 
-The pinned std integration uses kani::cover(condition, message), not cover!.
-scripts/run-kani.sh already enables function/loop contracts and related unstable
-features. Check API syntax against the PINNED Kani source before inventing flags
-or annotations; if compilation is needed, create an Actions experiment.
-The workflow caches Cargo downloads, not the complete verifier build. Cold
-build time counts toward the chosen budget. Artifacts expire after seven days.
-
-## Start or resume a session
-
-Inspect git status, current branch and remotes. Fetch the fork and use
-challenge-8/research without overwriting user changes. In a clean clone, a
-typical setup is:
-
-~~~bash
-git status --short
-git remote -v
-git fetch origin
-git switch challenge-8/research
-git pull --ff-only origin challenge-8/research
-gh auth status
-~~~
-
-If the branch does not exist locally, create it tracking the fork's remote branch.
-If origin is not the fork, use the actual fork remote; do not blindly change it.
-Check authentication for git push AND workflow dispatch. Never print tokens.
-If gh is unavailable or unauthorized, use an already authorized equivalent
-GitHub API client if available; otherwise request only the missing setup.
-Do not substitute server-side verification.
-
-## Autonomous edit → push → dispatch → inspect loop
-
-The examples below use GitHub CLI. Consult installed gh help if an option differs.
-Official references:
-https://cli.github.com/manual/gh_workflow_run
-https://cli.github.com/manual/gh_run_list
-https://cli.github.com/manual/gh_run_view
-https://cli.github.com/manual/gh_run_download
-
-1. Choose one concrete proof obligation from the plan. State its domain,
-   preconditions, expected properties and what will remain unproved.
-2. Make the smallest useful implementation. Locally inspect the diff and use
-   only permitted static checks (for example git diff --check or bash -n).
-   Never execute the proof runners on this server.
-3. Commit only the intended files and push normally to the fork's research branch.
-   Verify its remote SHA matches git rev-parse HEAD. Do not dispatch unpushed code.
-   After confirming origin is the fork and you are on the research branch:
-
-~~~bash
-git push origin HEAD:refs/heads/challenge-8/research
-git rev-parse HEAD
-git ls-remote origin refs/heads/challenge-8/research
-~~~
-4. Inspect existing research runs before dispatching. Resume monitoring a relevant
-   active run instead of duplicating it. Record the pre-dispatch time/run IDs.
-5. Dispatch explicitly against the fork and branch:
-
-~~~bash
-gh workflow run smallsort-research.yml \
-  --repo Tiramisu-Cake/verify-rust-std \
-  --ref challenge-8/research \
-  -f proof=insertion_all_4 \
-  -f budget_minutes=90
-~~~
-
-Available insertion selections are insertion_all_4, insertion_contracts_4 and
-insertion_direct_4. The choice all means the two BOOTSTRAP harnesses, not every
-research proof. Other bootstrap choices select the individual harnesses.
-
-6. Capture the returned URL if the installed CLI supplies one. Otherwise query
-   runs and select the newly created run matching the branch, event and expected
-   full headSha. Do not blindly take the latest run from the repository:
-
-~~~bash
-gh run list --repo Tiramisu-Cake/verify-rust-std \
-  --workflow smallsort-research.yml --branch challenge-8/research \
-  --event workflow_dispatch --limit 20 \
-  --json databaseId,url,headSha,headBranch,status,conclusion,createdAt
-~~~
-
-   If listing is delayed, poll again; do not immediately dispatch a duplicate.
-   If multiple candidates exist, compare the pre-dispatch list/time and run
-   metadata/logged selection before accepting any evidence. Save the exact run ID,
-   URL, SHA, selection and budget in the checkpoint. Do not push further proof
-   changes on this branch until the intended dispatch has resolved to its SHA.
-
-7. Poll the specific run roughly once per minute until completed. Use short
-   waits so progress updates remain possible; do not end the turn just because
-   the job is building or queued. Read-only polling runs locally, verification
-   runs entirely on GitHub:
-
-~~~bash
-gh run view "$run_id" --repo Tiramisu-Cake/verify-rust-std \
-  --json databaseId,url,headSha,headBranch,status,conclusion,jobs
-~~~
-
-8. After completion fetch the full log and artifacts, even on success:
-
-~~~bash
-gh run view "$run_id" --repo Tiramisu-Cake/verify-rust-std --log
-gh run download "$run_id" --repo Tiramisu-Cake/verify-rust-std \
-  --dir "/tmp/challenge8-evidence-$run_id"
-~~~
-
-   run_id above is the ID you verified, not a placeholder to execute literally.
-   Do not commit downloaded archives, injected source or large logs. Keep a
-   compact, committed result record before artifacts expire; save essential
-   diagnostics and source/tool identifiers there.
-
-9. Check the artifact environment/source SHA, expected selection, all requested
-   harnesses, verification outcome, all covers, unwind assertions and exit code.
-   A green badge alone is insufficient. Distinguish compilation failure,
-   verifier failure, unreachable covers, timeout/OOM and infrastructure failure.
-10. On failure, diagnose the first causal error and make an evidence-based fix.
-    Preserve proof obligations. Push and dispatch a NEW run after source changes;
-    gh run rerun on the old run would verify its original commit.
-    On success, record the precise proven scope and advance to the next plan item.
-    Do not ask the user to launch or inspect the next run.
-
-Default budget is 90 minutes, with choices 30/60/90/120. A justified retry at 120
-is authorized when the log shows the budget was the bottleneck. Repeated timeout
-or unchanged failure calls for a different experiment or better contracts, not
-blind reruns. Keep --jobs 1 for these initial experiments. Never switch to a
-self-hosted runner or chargeable external compute as a workaround.
-Documentation-only commits do not require a cold verification build.
-
-Keep workflow_dispatch as the only trigger for the research workflow. For a new
-experiment, update its runner and workflow choices explicitly. GitHub requires
-the dispatchable workflow to exist on the default branch. If a default-branch
-workflow update is necessary, commit only that reviewed workflow change there;
-do not merge all research results into main merely to expose a new choice.
-
-## Plan after the pending insertion run
-
-1. Resolve compilation and verify all three insertion stages. Record contract,
-   modular caller and direct outcomes separately, including verification costs.
-2. Develop a reusable contract and loop invariants for actual insert_tail and
-   insertion_sort_shift_left, without changing runtime behavior/signatures.
-   Track the sorted processed prefix, conserved multiset, untouched suffix,
-   pointer bounds, logical gap, held value and CopyOnDrop restoration.
-   Prototype one obligation per experiment using the pinned tool's supported
-   annotations. If the tool blocks a generic contract, document a minimal
-   Actions reproducer and evaluate an approved alternative or hybrid approach.
-3. Test modular reuse on an actual std caller. The current three-call research
-   harness is only a composition experiment, not std's pointer loop.
-4. Expand domain/type coverage and separate safety harnesses from functional
-   ones. Bounded lengths up to 16 are optional performance milestones;
-   arbitrary valid lengths remain the requirement. Develop merge specifications
-   after establishing the insertion approach.
-5. Cover sort4_stable and the other SmallSort primitives, then the three trait
-   implementations. Maintain a coverage table for the seven safety targets,
-   three sorting contracts, specialization paths, generic types/ownership,
-   comparator panic/unwind behavior and each required UB category.
-6. Address length-32 scalability and uninitialized-read detection explicitly.
-   Measure the supported checks rather than assuming default Kani checks cover
-   every required UB. Compare approved tools on concrete blockers.
-7. Prepare an automated, reviewable candidate acceptable to upstream CI. Clearly
-   document assumptions and remaining gaps. Ask the owner before upstream
-   publication or bounty submission.
-
-## Durable progress record
-
-After each meaningful result, update this runbook's handoff/next action and the
-README run log in a small commit, then push it. Record:
-- Full checked source SHA, run ID/URL and selection/budget.
-- Tool pin and exact domain/preconditions, checked properties and enabled checks.
-- Harness/cover outcomes and failure diagnosis; time/memory with build time
-  distinguished from verification time.
-- Whether a result is a real implementation proof or a caller using a verified
-  summary, and the source/version supporting that summary.
-- The next concrete experiment, any blocker and any active run to resume.
-
-Never infer that a later documentation commit was verified by an older run.
-If the session must stop, checkpoint this information before stopping. Autonomous
-polling continues only while an agent session is active; this file is not a daemon.
-
+На закрытии сверить accounted terminal Builds, integrity, собственные unresolved
+и draft state; убрать только свой stale ready request через client, если разрешено.
+При активном/unresolved Build записать ID/token и следующий reconciliation action;
+не удалять состояние ради чистого checkpoint и не обещать работу после окна.
+Остаток закрытого счёта retired, миссия сохранена. Documentation-only changes
+требуют diff/link review, без proof build.
