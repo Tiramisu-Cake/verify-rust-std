@@ -1,0 +1,41 @@
+{
+  "phase": "NIGHT-MERGE-CLOUD-2026-10-09",
+  "status": "AUTHORIZED",
+  "authorization": "Owner prompt2026-10-09 resumes merge research, supersedes prior pause/deadlines/GitHub-hosted-only, separately authorizes10800 Cloud Build seconds through08:00UTC.",
+  "deadline_utc": "2026-10-09T08:00:00Z",
+  "ceiling_build_seconds": 10800,
+  "used_build_seconds": 0,
+  "remaining_build_seconds": 10800,
+  "allowed_lanes": [
+    "merge"
+  ],
+  "builds": [],
+  "active_build": null,
+  "historical_accounts": [
+    {
+      "name": "merge-continuation-2026-10-08",
+      "used_seconds": 2668,
+      "ceiling_seconds": 7200,
+      "source": "fa7f3974c490ee4624583de88ea39752fa6ef814 STATUS.md",
+      "status": "HISTORICAL_SEPARATE"
+    },
+    {
+      "name": "merge-overnight",
+      "used_seconds": 3971,
+      "ceiling_seconds": 21600,
+      "status": "HISTORICAL_SEPARATE"
+    },
+    {
+      "name": "merge-old",
+      "used_seconds": 603,
+      "ceiling_seconds": 1800,
+      "status": "HISTORICAL_SEPARATE"
+    },
+    {
+      "name": "cloud-migration-other-direction",
+      "used_seconds": 772,
+      "ceiling_seconds": 3600,
+      "status": "OTHER_OWNER_UNAVAILABLE"
+    }
+  ]
+}

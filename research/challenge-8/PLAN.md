@@ -1,3 +1,16 @@
+# NIGHT-MERGE-CLOUD-2026-10-09 — CURRENT
+
+Owner resumed the merge direction on2026-10-09 through08:00UTC, with a
+separate10800 elapsed Cloud seconds account. [Current phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md)
+supersedes the old pause, deadlines and GitHub-hosted-only rule in this direction.
+Reuse accepted Cloud infrastructure with shared atomic coordination; first
+transfer matrix assesses saved stack/G2/actual2/3 candidates separately, then
+continue justified arbitrary-n/caller/resource/functional obligations.
+[STATUS](STATUS.md) records active build and evidence; historical budgets below
+are preserved and are not available to this phase.
+
+---
+
 # OVERNIGHT-MERGE-26.10 — CONTINUATION IN PROGRESS
 
 Восстановлен checkpoint b04b1b6 и последний run37717433930. Владелец продлил

@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+"""Apply recorded Cloud Build overlays to the merge lane's retained runner.
+
+This runs only inside the disposable Cloud Build proof checkout. Each source
+must match the reviewed base SHA before exact byte replacements are applied.
+The run.sh overlay also selects two saved modular-trace groups as distinct
+diagnostics. Proof predicates, specifications, expected obligations,
+classifier rules, tool pins and runtime SmallSort bytes are outside the set.
+"""
+
+from __future__ import annotations
+
+import argparse
+import difflib
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+
+FILES = {
+    "research/challenge-8/merge/overnight/run.sh": "a2a3474323873f9e3c62448196b0a1f93978f7f0c4ac6e188a34f827a197b4c7",
+    "research/challenge-8/merge/overnight/build.sh": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
+    "research/challenge-8/merge/overnight/pointer-prove.py": "de9de3500181cf32cc3e718dc7ea3e4d0527a397581077e2d6ce542cd00a2ddc",
+    "research/challenge-8/merge/overnight/actual-prepare.py": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
+    "research/challenge-8/merge/overnight/bidirectional-small-prepare.py": "1ff5006f48f877974a16b3662a295cc89f26f6db6c8e2a6d29b9eaf7c501711a",
+    "research/challenge-8/merge/overnight/panic-macro-admission.py": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
+    "research/challenge-8/merge/overnight/stack-address-admission.py": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
+    "research/challenge-8/merge/overnight/stack-proof-ast-admission.py": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
+    "research/challenge-8/merge/overnight/stack-address-controls-prepare.py": "483f7e980c1a5e02eb491e4c5ab6353ab5a73d9a5abdaa192848ca4bc5452d3b",
+    "research/challenge-8/merge/overnight/m2-admission-prove.py": "f6b657a01086f463c0c063b168c054f57b7161dd2f2b042d5ef6e5a2cc9b7065",
+    "research/challenge-8/merge/overnight/hrtb-admission-certificate.py": "42c9ff5e878d0eb8ba2b6183f439fe2e56765a086a88255176a041c51bd55c2a",
+    "research/challenge-8/merge/overnight/native-prove.py": "9a2524ab90af1176d77c09cbf0a9fbedb7b4f0939218dde6713ad10aa6fc2da1",
+    "research/challenge-8/merge/overnight/usize-multiple-admission.py": "119c0054ae43487ae4adb9de1787edd89ce6014f1e9b70dc2cf973a0258d3050",
+}
+
+PROVIDER_HELPER = '''\ndef _require_cloud_provider():
+    import runpy
+    provider_file = os.environ.get("SMALLSORT_PROVIDER_FILE", "")
+    if not provider_file:
+        raise RuntimeError("provider helper path is missing")
+    result = runpy.run_path(provider_file)
+    return result["require_supported_provider"]()
+'''
+
+
+def sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def replace_once(data: bytes, old: bytes, new: bytes, path: str) -> bytes:
+    count = data.count(old)
+    if count != 1:
+        raise SystemExit(f"{path}: expected one identity guard/token, found {count}")
+    return data.replace(old, new, 1)
+
+
+def transform(path: str, original: bytes) -> bytes:
+    data = original
+    if path.endswith(("run.sh", "build.sh")):
+        old = (b'[[ "${GITHUB_ACTIONS:-}" == true && "${RUNNER_ENVIRONMENT:-}" == github-hosted && '
+               b'"${RUNNER_OS:-}" == Linux ]]')
+        new = b'python3 "${SMALLSORT_PROVIDER_FILE:?provider helper is required}" >/dev/null'
+        data = replace_once(data, old, new, path)
+        if path.endswith("run.sh"):
+            data = replace_once(
+                data,
+                b'[[ "${GITHUB_REF:-}" == refs/heads/overnight/merge-26.10 ]]',
+                b'[[ "${PROOF_SHA:-}" =~ ^[0-9a-f]{40}$ ]]', path)
+            data = replace_once(data, b'"${GITHUB_SHA:?GITHUB_SHA is required}"',
+                                b'"${PROOF_SHA:?PROOF_SHA is required}"', path)
+            data = replace_once(data, b"Actions SHA: %s\\nBranch: overnight/merge-26.10\\nSelection:",
+                                b"Cloud proof SHA: %s\\nProvider: cloud-build\\nSelection:", path)
+            data = replace_once(data, b'"$GITHUB_SHA"', b'"$PROOF_SHA"', path)
+            data = replace_once(
+                data,
+                b'evidence="$repo/research-results/merge-overnight"',
+                b'evidence="${EVIDENCE_ROOT:?EVIDENCE_ROOT is required}/allprooflogs"', path)
+            data = replace_once(
+                data,
+                b"printf 'Runner: %s/%s\\nDistinct W1 + M2a + copy + strict cleanup + zero-safe usize primitive + hidden stack-address patches; explicit pinned strict kernel extension; stock exporter/refiner/schema unchanged\\n' \"$RUNNER_ENVIRONMENT\" \"$RUNNER_OS\"",
+                b"printf 'Runner: Cloud Build / Ubuntu 22.04 x86_64\\nDistinct W1 + M2a + copy + strict cleanup + zero-safe usize primitive + hidden stack-address patches; explicit pinned strict kernel extension; stock exporter/refiner/schema unchanged\\n'",
+                path)
+            data = replace_once(
+                data,
+                b'  return "$suite_status"\n}\n\nexperimental_home=',
+                (b'  run_one pointer-modular-trace-entry-negative 180 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'matched full-domain modular G2 trace entry negative; retain all helper bodies and posts' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --fixture research/challenge-8/merge/overnight/pointer-trace-modular-entry-negative.rs \\\n'
+                 b'    --evidence "$evidence/checked-pointer-modular-trace-entry-negative"\n'
+                 b'  run_one pointer-modular-trace-diagnostic 400 python3 research/challenge-8/merge/overnight/pointer-prove.py \\\n'
+                 b'    --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \\\n'
+                 b"    --scope 'saved modular G2 pointer-trace candidate; diagnostic status remains separate from the quartet' \\\n"
+                 b'    --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \\\n'
+                 b'    --verifier-seconds 300 --fixture research/challenge-8/merge/overnight/pointer-trace-modular-cases.rs \\\n'
+                 b'    --evidence "$evidence/checked-pointer-modular-trace"\n'
+                 b'  return "$suite_status"\n}\n\nexperimental_home='), path)
+            data = replace_once(data,
+                                b'suite bound=900s; whole step bound=1700s.',
+                                b'suite bound=1200s; whole step bound=1550s.', path)
+            data = replace_once(data,
+                                b'timeout --signal=TERM --kill-after=5s 900s bash -c \'suite\'',
+                                b'timeout --signal=TERM --kill-after=5s 1200s bash -c \'suite\'', path)
+        else:
+            data = data.replace(b'"$GITHUB_SHA"', b'"$PROOF_SHA"')
+            data = replace_once(
+                data,
+                b"printf 'Runner: %s / %s\\n' \"$RUNNER_ENVIRONMENT\" \"$RUNNER_OS\"",
+                b"printf 'Execution provider: Cloud Build / Ubuntu 22.04 x86_64\\n'", path)
+            data = replace_once(
+                data,
+                b"printf 'runner_os=%s\\nrunner_version=%s\\nsource_commit=%s\\n' \"$RUNNER_OS\" \"$VERSION_ID\" \"$actual_commit\"",
+                b"printf 'runner_os=Linux\\nrunner_version=%s\\nsource_commit=%s\\n' \"$VERSION_ID\" \"$actual_commit\"", path)
+    else:
+        if path.endswith("pointer-prove.py"):
+            old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
+                   b'            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
+                   b'            os.environ.get("RUNNER_OS") != "Linux" or\n'
+                   b'            os.environ.get("GITHUB_REF") != "refs/heads/overnight/merge-26.10"):\n'
+                   b'        raise RuntimeError("pointer proof harness is restricted to hosted Linux Actions on overnight/merge-26.10")')
+            new = (b'    if not _require_cloud_provider():\n'
+                   b'        raise RuntimeError("unsupported execution provider")')
+        elif path.endswith("actual-prepare.py"):
+            old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
+                   b'        os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
+                   b'        os.environ.get("GITHUB_REF") != "refs/heads/overnight/merge-26.10"):\n'
+                   b'        raise RuntimeError("actual preparation requires own GitHub-hosted Actions branch")')
+            new = (b'    if not _require_cloud_provider():\n'
+                   b'        raise RuntimeError("unsupported execution provider")')
+        elif path.endswith("bidirectional-small-prepare.py"):
+            old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
+                   b'            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
+                   b'            os.environ.get("GITHUB_REF") != "refs/heads/overnight/merge-26.10"):\n'
+                   b'        raise RuntimeError("bidirectional preparation requires own GitHub-hosted Actions branch")')
+            new = (b'    if not _require_cloud_provider():\n'
+                   b'        raise RuntimeError("unsupported execution provider")')
+        elif path.endswith("stack-address-controls-prepare.py"):
+            old = (b"    need(os.environ.get('GITHUB_ACTIONS') == 'true' and\n"
+                   b"         os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted' and\n"
+                   b"         os.environ.get('RUNNER_OS') == 'Linux' and\n"
+                   b"         os.environ.get('GITHUB_REPOSITORY') == 'Tiramisu-Cake/verify-rust-std' and\n"
+                   b"         os.environ.get('GITHUB_REF') == 'refs/heads/overnight/merge-26.10' and\n"
+                   b"         re.fullmatch(r'[0-9a-f]{40}', os.environ.get('GITHUB_SHA', '')) and\n"
+                   b"         os.environ.get('GITHUB_RUN_ID'), 'requires owned GitHub-hosted run')")
+            new = b"    need(_require_cloud_provider(), 'requires identified Cloud Build execution')"
+        elif path.endswith("panic-macro-admission.py"):
+            old = (b"    need(os.environ.get('GITHUB_ACTIONS') == 'true' and\n"
+                   b"         os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted' and\n"
+                   b"         os.environ.get('GITHUB_REPOSITORY') == 'Tiramisu-Cake/verify-rust-std' and\n"
+                   b"         os.environ.get('GITHUB_REF') == 'refs/heads/overnight/merge-26.10' and\n"
+                   b"         re.fullmatch(r'[0-9a-f]{40}', os.environ.get('GITHUB_SHA', '')) and\n"
+                   b"         os.environ.get('GITHUB_RUN_ID', '').isdigit(),\n"
+                   b"         'panic origin admission requires exact owned GitHub hosted run')")
+            new = (b"    provider = _require_cloud_provider()\n"
+                   b"    need(re.fullmatch(r'[0-9a-f]{40}', os.environ.get('PROOF_SHA', '')) and\n"
+                   b"         os.environ.get('CLOUD_BUILD_ID') == provider.get('build_id'),\n"
+                   b"         'panic origin admission requires the exact Cloud Build and proof SHA')")
+        elif path.endswith("stack-address-admission.py"):
+            old = (b"    require(os.environ.get('GITHUB_ACTIONS') == 'true' and\n"
+                   b"            os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted' and\n"
+                   b"            os.environ.get('GITHUB_REPOSITORY') == 'Tiramisu-Cake/verify-rust-std' and\n"
+                   b"            os.environ.get('GITHUB_REF') == 'refs/heads/overnight/merge-26.10',\n"
+                   b"            'stack address admission requires the owned hosted research branch')")
+            new = b"    require(_require_cloud_provider(), 'stack address admission requires identified Cloud Build')"
+        elif path.endswith("stack-proof-ast-admission.py"):
+            old = (b"    require(os.environ.get('GITHUB_ACTIONS') == 'true' and\n"
+                   b"            os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted' and\n"
+                   b"            os.environ.get('GITHUB_REPOSITORY') == 'Tiramisu-Cake/verify-rust-std' and\n"
+                   b"            os.environ.get('GITHUB_REF') == 'refs/heads/overnight/merge-26.10',\n"
+                   b"            'proof AST admission requires the owned hosted branch')")
+            new = b"    require(_require_cloud_provider(), 'proof AST admission requires identified Cloud Build')"
+        elif path.endswith("m2-admission-prove.py"):
+            old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
+                   b'            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
+                   b'            os.environ.get("RUNNER_OS") != "Linux" or\n'
+                   b'            os.environ.get("GITHUB_REF") != "refs/heads/overnight/merge-26.10"):\n'
+                   b'        raise RuntimeError("M2 admission controls require hosted Linux Actions on overnight/merge-26.10")')
+            new = (b'    if not _require_cloud_provider():\n'
+                   b'        raise RuntimeError("unsupported execution provider")')
+        elif path.endswith("hrtb-admission-certificate.py"):
+            old = (b'    if (os.environ.get("GITHUB_ACTIONS") != "true" or\n'
+                   b'            os.environ.get("RUNNER_ENVIRONMENT") != "github-hosted" or\n'
+                   b'            os.environ.get("RUNNER_OS") != "Linux" or\n'
+                   b'            os.environ.get("GITHUB_REF") != "refs/heads/overnight/merge-26.10"):\n'
+                   b'        raise RuntimeError("HRTB certificate requires hosted Linux Actions on overnight/merge-26.10")')
+            new = (b'    if not _require_cloud_provider():\n'
+                   b'        raise RuntimeError("unsupported execution provider")')
+        elif path.endswith("native-prove.py"):
+            old = (b"    if (os.environ.get('GITHUB_ACTIONS') != 'true' or\n"
+                   b"        os.environ.get('RUNNER_ENVIRONMENT') != 'github-hosted' or\n"
+                   b"        os.environ.get('GITHUB_REF') != 'refs/heads/overnight/merge-26.10'):\n"
+                   b"        raise RuntimeError('native proofs require own hosted Actions branch')")
+            new = (b"    if not _require_cloud_provider():\n"
+                   b"        raise RuntimeError('unsupported execution provider')")
+        elif path.endswith("usize-multiple-admission.py"):
+            old = (b"    if (os.environ.get('GITHUB_ACTIONS') != 'true' or\n"
+                   b"            os.environ.get('RUNNER_ENVIRONMENT') != 'github-hosted' or\n"
+                   b"            os.environ.get('GITHUB_REF') != 'refs/heads/overnight/merge-26.10'):\n"
+                   b"        raise RuntimeError('source admission requires own GitHub-hosted branch')")
+            new = (b"    if not _require_cloud_provider():\n"
+                   b"        raise RuntimeError('unsupported execution provider')")
+        else:
+            raise SystemExit(f"unhandled provider overlay: {path}")
+        data = replace_once(data, old, new, path)
+
+        # Certificate identity is explicitly Cloud Build provenance, not a
+        # fabricated GitHub run. Hash linkage and the exact negative gates stay.
+        for old, new in ((b"github_sha", b"proof_sha"),
+                         (b"github_run_id", b"execution_id"),
+                         (b"GITHUB_SHA", b"PROOF_SHA"),
+                         (b"GITHUB_RUN_ID", b"CLOUD_BUILD_ID")):
+            data = data.replace(old, new)
+        data = replace_once(data, b"import os\n", b"import os\nimport runpy\n", path)
+        # Insert after imports and any future-import declaration, before main.
+        data = replace_once(data, b"\ndef main", PROVIDER_HELPER.encode() + b"\ndef main", path)
+
+        if path.endswith("pointer-prove.py"):
+            data = replace_once(
+                data,
+                b'not isinstance(execution_id, str) or not execution_id.isdigit() or',
+                b'not isinstance(execution_id, str) or execution_id != os.environ.get("CLOUD_BUILD_ID") or',
+                path)
+            data = replace_once(
+                data,
+                b'int(stale["certificate"].get("execution_id", "0")) + 1',
+                b'"stale-" + str(stale["certificate"].get("execution_id", ""))',
+                path)
+        if path.endswith("hrtb-admission-certificate.py"):
+            data = data.replace(b"dispatch_sha", b"proof_sha")
+        if path.endswith("usize-multiple-admission.py"):
+            data = data.replace(b"actions_sha", b"proof_sha")
+    return data
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--proof-root", type=Path, required=True)
+    parser.add_argument("--evidence", type=Path, required=True)
+    args = parser.parse_args()
+    if args.evidence.exists():
+        raise SystemExit("refusing to reuse provider overlay evidence")
+    args.evidence.mkdir(parents=True)
+    manifest = {"provider": "cloud-build", "files": []}
+    for rel, expected in FILES.items():
+        path = args.proof_root / rel
+        original = path.read_bytes()
+        actual = sha(original)
+        if actual != expected:
+            raise SystemExit(f"base source hash mismatch for {rel}: {actual}")
+        overlay = transform(rel, original)
+        path.write_bytes(overlay)
+        manifest["files"].append({
+            "path": rel, "base_sha256": actual, "overlay_sha256": sha(overlay),
+            "diff": "".join(difflib.unified_diff(
+                original.decode().splitlines(True), overlay.decode().splitlines(True),
+                fromfile=rel + ".base", tofile=rel + ".cloud-build")),
+        })
+    (args.evidence / "provider-overlay-manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+
+
+if __name__ == "__main__":
+    main()

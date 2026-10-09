@@ -1,3 +1,7 @@
+Current merge continuation: [NIGHT-MERGE-CLOUD-2026-10-09](merge/NIGHT-MERGE-CLOUD-2026-10-09.md),
+separate Cloud budget/shared lock, retained stack/G2/actual2/3 candidates.
+[STATUS](STATUS.md) is the current checkpoint.
+
 ## Переходный checkpoint — Git sync, повторная приёмка НЕ ВЫПОЛНЕНА
 
 2026-10-08. В этой ветке напрямую влит закреплённый upstream cd371e03.

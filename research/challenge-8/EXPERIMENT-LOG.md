@@ -5283,3 +5283,24 @@ bounded success -> arbitrary-n and actual caller callback-frame/C1/ownership
 work. No unsupported Z3 repetition or new unreviewed semantic rule. One common
 project lock, own budget/state, pinned objects/no-source and <=1800s envelope
 per build; build IDs/full source/profile hashes recorded when dispatched.
+
+Infrastructure transfer: common-client handoff02d43040907c017abff20887704252f220ab79cc
+read; only its named common11files imported, no other STATUS/proofs/ledger.
+Own ledger cloud-build/night-merge/BUDGET.json starts0/10800. Transport remains
+v1for two original checkouts; updated57c6caaf three-repository dedup is not
+needed by this merge recipe. Source/runtime blob and all six semantic patch
+hashes independently rechecked; unchanged. Static review of the MIR mutant
+confirmed its hidden Range LHS is written in the merge_up block, distinct from
+the lawful Range construction; no speculative correction was applied.
+
+First merge Cloud recipe ready:67exact proof inputs,35retained groups plus
+modular positive/matched entry control =37groups, each result separate.
+Source built from pinned VF with unchanged six patches/kernel/exporter/refiner;
+provider overlays published with base/hash/diffs and Cloud static preflight.
+Compiler commit/host explicitly checked against accepted migration pins.
+Local validation only bash-n, AST/JSON/path parsing and gitdiff--check, allPASS.
+No local runner/build/verifier/overlay execution. First foreign select build
+680ea0b2-a453-476b-800b-85cb631a455a occupies project lock; own request waits.
+Independent static trust review preserves cleanup hidden-lifetime/predicate-term
+barrier: kernel100eebae is unaccepted; positive bounded proofs will be reported
+conditional on this profile. No semantic patch modified or accepted by transfer.

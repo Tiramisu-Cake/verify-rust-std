@@ -5,8 +5,10 @@ Independent Cloud budget **0/10800s**; historical accounts below are preserved.
 Branch `overnight/merge-26.10`; entry HEAD
 `fa7f3974c490ee4624583de88ea39752fa6ef814`; last proof
 `7a4e1ad19558717a33391d30b9a69af579dd5e57` remains the latest proof evidence.
-No active merge Cloud build; common atomic-lock handoff is not present yet.
-No submission until `/root/smallsort-ci-coordination/HANDOFF.md` is ready.
+No active merge Cloud build. Common atomic-lock handoff is ready at
+`02d43040907c017abff20887704252f220ab79cc`; only its shared infrastructure
+files were transferred. Own ledger: cloud-build/night-merge/BUDGET.json.
+Merge recipe/provider identity overlays are being prepared before first submit.
 [Authorized Cloud phase](merge/NIGHT-MERGE-CLOUD-2026-10-09.md).
 
 First run will assess preserved candidates separately: exhaustive stack MIR/AST

@@ -1,3 +1,7 @@
+> Current continuation: [NIGHT-MERGE-CLOUD-2026-10-09](NIGHT-MERGE-CLOUD-2026-10-09.md),
+> authorized until2026-10-09 08:00UTC. Its execution/budget rules supersede
+> historical GitHub-only and deadline statements below; proof design remains evidence.
+
 # OVERNIGHT-MERGE-26.10
 
 Authorized by owner on 2026-10-08, until 09:30 Moscow (06:30 UTC).
