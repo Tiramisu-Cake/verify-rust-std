@@ -13,3 +13,10 @@ Initialized physical storage originates in new(7) in MD calibration, or actual r
 PASS MD permits constructor→canonical FBC diagnostics within main hour. Contentful FAIL identifies first missing resource or narrow frontend blocker; fix only causal cause. New source-linked address routing, if required, needs preimplementation semantic scope/conservation/critical self-review/controls in the existing card. No generic alias/model rewrite, no other agent's verifier checkout. Profile experimental-merge-six-tracked-md-onecell-v1 NOT_ACCEPTED.
 
 Fragment removes Drop impl and copies held→tail immediately; actual first shifts sift→gap and updates dst. No reachable actual Drop/glue/full insertion claim. First caller debt comparator→CURRENT tail/sift owners, F/frame, shared-borrow closure. Readonly no-callback diagnostic cannot become invariant across legal interior-mutable comparator; no Freeze/Copy/purity restriction. All previous inconclusive cases retain their status.
+
+Predispatch transport refused f6c13186 before API submission: no Build, zero cost,
+no reservation. Narrow input-registration repair removes unreferenced .md
+historical/semantic cards from merge recipe transport only; cards remain in Git,
+all executable source/proof/profile/spec/patch inputs and static checks remain.
+No cache/filter/runner/proof semantic change. Git search confirms runner does not
+read these markdown inputs. Fresh descendant exact-SHA required for submission.
