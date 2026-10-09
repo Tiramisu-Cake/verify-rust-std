@@ -3,7 +3,14 @@
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
 **2365/10800 conservative Cloud Build seconds used;8435 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). No active own Build.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
+`218568df-ca79-43c5-a758-44764f1bac5c`, lane `o26-wrapper-controls`,
+infra `77238833cd1dc0f558d0c3798a1e383228d51447`,
+proof `00ccde64680e53236ca29c17f035cade2cb9f791`; timeout1200/reserve1260.
+R2 full proof/owner17/A1/component19 pending; accepted=false.
+Combined payload606345B failed local Git transport preflight before dispatch
+and cost0s. Split R2 payload511544B/171parts fits unchanged transport bound.
+Independent changed AST/mapped-ID recipe is prepared for a separate turn.
 Latest Build `293435cf-8457-42ea-97a0-b37589f4fa76` FAILURE at isolated
 relocation compile gate; full evidence verified, charged361s.
 Infra `8d299748b14c3d5b567d935f96ec75e357dfe650`,

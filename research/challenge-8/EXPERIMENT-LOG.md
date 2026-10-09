@@ -5774,3 +5774,34 @@ Mapped-ID relocation fails translator7030 compilation: local record inferred
 var_id_trs_entry instead of Mir.local_decl. Setup failure earns no negative.
 Explicit record type annotation changes no relocation selection/resource rule;
 fresh Cloud rerun needed. No local verifier/compiler/test was run.
+
+
+NIGHT-CLOUD-8 pre-experiment/dispatch:218568df-ca79-43c5-a758-44764f1bac5c,
+lane o26-wrapper-controls, infra77238833cd1dc0f558d0c3798a1e383228d51447,
+proof00ccde64680e53236ca29c17f035cade2cb9f791,
+configf4046d5a239a323ac5e6bafa78abe29f21b29a382f6d99aac1e431a7fedd46ff,
+source input187e189343ab42508fafc8b3f44b0d0c7c2be46a37384d462d8176f6876d30d8,
+token dispatch-1754b98a495f440ab676cc9cce5426bd. Timeout1200/reserve1260,
+own2365 used/8435 remaining before reservation. Common lock reconciles foreign
+74227266 terminal read-only, then dispatches own ready request; no foreign charge.
+
+R2 cards record exact observed source/normal/readonly/nine+10 inventory52/35,
+2+8 ordered ghost sites and18 cleanup predecessors. Hypothesis: source-only
+symmetric wrapper rebase closes missing462 indexed pointer owners without any
+Element permissions or changed runtime. Component23R2 is distinct NOT_ACCEPTED
+profile; kernel/parser/spec/frozen20 and default-off branches unchanged. Actual
+outer diagnostic T=*const Element normal thread+selected result+raw_ptr_own,
+false unwind; generic nested Drop posts preserve storage/field/padding both
+outcomes. Seven actual prefix callees, nested header and full proof exit remain
+separate observations. Generic/ZST whole-helper target is not closed by this.
+Four owner17 source/unit controls, independent A1 Move(_47)/Copy(_47) and
+component19 SAFE forget Move(_34)/Copy(_34) must fail at exact expected gates;
+production/tool/source identities must remain equal. Positive success enables
+new combined-profile controls/scheduling review before acceptance; substantive
+failure drives lawful repair; setup/wrong control/timeout is inconclusive.
+
+Original combined recipe at infraeb2e209d/proof00ccde64 payload606345B exceeds
+unchanged transport bound, rejected locally before reserve/Build/0s. Split retains
+complete committed inputs and original Git closure separately. R2 payload511544B,
+171 parts. Changed AST and mapped-ID recovery recipe512e0b19 remains a later
+independent slot; no unchanged nested/source-only/coordination stages repeated.
