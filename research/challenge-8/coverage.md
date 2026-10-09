@@ -594,3 +594,13 @@ normal contract. No full normal/unwind safety, generic/ZST or sorting theorem.
 Strict relocation TEST stops at raw/translated local-ID diagnostic admission;
 no relocation proof verdict or accepted CUT capability. Older Build546547
 remains without a published archive.
+
+
+Build347068de (proof73493da5, fullarchive verified) adds source/MIR/refinement
+calibration of the reversible wrapper-rebase ghost candidate only: all10Marshal
+records present,8otherbodies unchanged, runtimeoriginal unchanged. Outer typed
+CFG changes44locals/27blocks, requiring new17/19/20 profile and typedsite gates;
+no candidateownership/return/leak proof yet. Canonicalpointerhelper remains462
+blocked. Coordination10 controlsPASS is infrastructure evidence only. Nested
+proof-order and actualsort4 ASTprobe stop beforeproof/observation due span-column
+and metadata-build failures; corrected drafts are untested. No coverage closure.

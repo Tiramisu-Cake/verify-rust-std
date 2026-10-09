@@ -1,13 +1,24 @@
 # Current phase: NIGHT-SELECT-SORT4-CLOUD-2026-10-09 — IN PROGRESS
 
 Authorized until **08:00 UTC /11:00 MSK 9 October**. Separate account:
-**1314/10800 conservative Cloud Build seconds used;9486 remaining**.
+**1636/10800 conservative Cloud Build seconds used;9164 remaining**.
 [Phase](cloud-build/night-select-sort4/PHASE.md),
-[ledger](cloud-build/night-select-sort4/BUDGET.json). Active own Build
-`347068de-0fb2-45e6-bc00-f8ac3ccd2581`, lane `o26-independent-tests`,
-infra `fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27`,
-proof `73493da558365dcc8c83d6d6941e782d7dfee455`, timeout1200 +60 queue reserve.
-This reserves1260 within remaining9486; actual accounting awaits terminal API.
+[ledger](cloud-build/night-select-sort4/BUDGET.json). No own active Build.
+Latest independent Build `347068de-0fb2-45e6-bc00-f8ac3ccd2581` FAILURE at
+TEST diagnostic gates; full publication/archive integrity verified, charged322s.
+Infra `fa3afaf422a2d95404ec325ab3bf1c8f44ec1d27`,
+proof `73493da558365dcc8c83d6d6941e782d7dfee455`.
+Archive `249350fcdd5b33682d11f4a081c65e34c1b64b939fd333ca0f6ff91ec48dc329`.
+Source-only wrapper candidate passes paired full MIR/refinement/all10 Marshal:
+verified86e00ada/unit35518405/body7 784dd0c7, other8 bodies identical,
+original466882d7/ghost-strip unchanged. **Capture only, not proof.** New ghost
+metadata also changes outer typed CFG to44 locals/27 blocks; old17/19/20
+shape/sites cannot be reused. Separate exact experimental component23 DRAFT
+is being reviewed against full observed forget/assume_init/cleanup graph.
+Coordination10 isolated controls PASS. Nested TEST column-base mismatch and
+AST PROBE unavailable Args metadata caused pre-proof failures; corrected
+TEST/PROBE await fresh Cloud, no intended-negative credit. Canonical main
+proof repeats the462 wrapper-owner blocker, actual select/sort4 still unproved.
 Branch `research/night-select-sort4-cloud-2026-10-09`, worktree
 `/root/verify-rust-std-select-night`, preserves accepted migration65a456b8 and
 saved select/sort4 drafts. Common client65565744/source transportea9e68fc;

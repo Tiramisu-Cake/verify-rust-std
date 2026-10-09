@@ -5608,3 +5608,32 @@ Timeout1200/reserve1260, ownremaining9486/deadline08UTC. Globalflock reconciled
 foreignterminal60fdb811 to sharedreceipt without foreignledger/state writes; no
 foreignbudget borrowed. One earliercommand usedabbreviatedSHA andwas refused
 beforeBuild/reservation0s; fullpublishedSHA dispatch succeeds. Awaitfullartifact.
+
+
+NIGHT-CLOUD-5 outcome: Build347068de-0fb2-45e6-bc00-f8ac3ccd2581 FAILURE,
+03:08:03.408903781–03:13:25.081645 UTC=322 conservative seconds; own
+1636/10800 used,9164 remaining/noownactive. Fullarchive249350fcdd5b33682d11f4a081c65e34c1b64b939fd333ca0f6ff91ec48dc329
+and textindex864484b51ce4588755e313f97092540e884e097a7d75236ef2a1da03761a6e6a
+plusinventory/config/originalobjectclosures/textindex verified. Canonical source/MIR/
+profileunchanged, same462missingwrapper-owner firstfailure. Newsource-onlycapture
+NORMAL+readonly+refinement+all9records+10Marshal PASS: verified
+86e00ada7a1fbc3edfad3ebd0742170531b452a48571aeb9bef6f2dc7df26be5, original
+466882d74de217766ed8d5c583596c173df47f0e6bd40da7cb1a4c931d7265a5, unit
+355184057d09d9623e7ebe8c30b8cec8159b9ba3390845708d66a98cfac217e2, body7
+784dd0c7676ef741164f46ff194202e36e23f01ae5303382a07e39257c04c4fd. Root
+independently rehashedall10files;8otherbodysha identical, ghost-strip unchanged.
+Falsified assumption of unchangedtypedCFG: ghostpreprocessingunit locals/match
+adds44vs42locals/27vs25blocks, forgetblock15Move33 successor16cleanup26,
+assumeinitblock22Move39 successor23cleanup26. Three-hash-onlyrefresh invalid.
+Rootdecision: separateprofile23 exactconditional17/19/20 metadata/local/call/
+cleanupre-certification; source/runtime/spec/kernel frozen, alloldcanonical/five
+paths unchanged; writtenprofilecard BEFOREextension. No partialcapturetheorem.
+Coordination10 syntheticAPI/privateCloud controlsPASS, actualcommonclient used
+foreignterminalreadonlyreceipt; no foreignbudgetwrite. NestedorderTEST failed
+beforeheader atfullspancheck: raw MIR cols0based vsAST+1; exactBody.span and
+fnSigSpan gates plusall9ASTcolumns corrected(SHA6ecf8184...), pendingnewRun.
+ASTprintPROBE consolebuildfailed Unbound Args.body_name, correspondingbody
+metadata resides State/bodylocalbinding;3references corrected(SHA3686a672...),
+no ASTsemanticrewrite. Bothare setup/admission failuresnotproofnegatives.
+Next: actualnewpointerouterfullproof+affected17/19/20controls; independent
+changedTEST/AST thenlawfulactualsort4 scope/recovery. No unchanged failedrunrepeat.
