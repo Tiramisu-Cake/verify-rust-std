@@ -25,6 +25,9 @@ ast_probe_mode=${O26_WITH_SORT4_AST_PROBE:-0}
 [[ "$ast_probe_mode" == 0 || "$ast_probe_mode" == 1 ]] || exit 2
 wrapper_rebase_mode=${O26_WITH_WRAPPER_REBASE_CAPTURE:-0}
 [[ "$wrapper_rebase_mode" == 0 || "$wrapper_rebase_mode" == 1 ]] || exit 2
+input_relation_mode=${O26_WITH_WRAPPER_INPUT_RELATION_CAPTURE:-0}
+[[ "$input_relation_mode" == 0 || "$input_relation_mode" == 1 ]] || exit 2
+[[ "$input_relation_mode" == 0 || "${LANE:-}" == o26-input-relation-capture ]] || exit 2
 wrapper_profile_mode=${O26_WITH_WRAPPER_REBASE_PROFILE:-0}
 [[ "$wrapper_profile_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
 comp19_mode=${O26_WITH_WRAPPER_COMP19_TEST:-0}
@@ -271,6 +274,16 @@ if [[ "$wrapper_rebase_mode" == 1 ]]; then
     --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-rebase-capture" \
     --deadline-epoch "$deadline" --wrapper-rebase --fingerprint || rebase_status=$?
   printf '%s\n' "$rebase_status" > "$ev/cases/wrapper-rebase-capture-helper-exit-code.txt"
+fi
+
+if [[ "$input_relation_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/wrapper-input-relation-capture-request.json"
+  input_relation_status=0
+  stage wrapper-input-relation-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
+    --tool-home "$source_home" --schema "$schema" \
+    --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-input-relation-capture" \
+    --deadline-epoch "$deadline" --wrapper-input-relation --fingerprint || input_relation_status=$?
+  printf '%s\n' "$input_relation_status" > "$ev/cases/wrapper-input-relation-capture-helper-exit-code.txt"
 fi
 
 if [[ "$coordination_mode" == 1 ]]; then

@@ -15,6 +15,10 @@ import tempfile
 
 ROOT = "research/challenge-8/cloud-build/"
 REQUIRED = {
+    "o26-input-relation-capture": (
+        "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
+        "run-o26-input-relation-capture.sh", "run-o26-refresh.sh",
+    ),
     "o26-recovery-tests": (
         "actual-sort4-capture.py", "cut-relocate-audit.py",
         "cut-relocate-provider-overlay.py",

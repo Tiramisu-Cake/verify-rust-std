@@ -224,6 +224,167 @@ def wrapper_rebase_capture(ev,canonical):
             'observed_unit_sha256':current_hashes.get('unit'),
             'observed_body7_sha256':current_hashes.get('body-7')}
 
+def wrapper_input_relation_capture(ev,canonical):
+    name='wrapper-input-relation-capture'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'source_only':True,'accepted':False}
+    result=read(ev/'cases'/name/'summary.json') or {}
+    if not isinstance(result,dict):result={}
+    code=helper_exit(ev,name)
+    case=ev/'cases'/name/'nine-body-wrapper-input-relation'
+    source=result.get('source') or {}
+    fingerprint=result.get('fingerprint') or {}
+    if not isinstance(source,dict):source={}
+    if not isinstance(fingerprint,dict):fingerprint={}
+    canonical_source=canonical.get('source') or {}
+    if not isinstance(canonical_source,dict):canonical_source={}
+    current=fingerprint.get('snapshots') or {}
+    prior=canonical.get('fingerprint') or {}
+    if not isinstance(prior,dict):prior={}
+    previous=prior.get('snapshots') or {}
+    if not isinstance(current,dict):current={}
+    if not isinstance(previous,dict):previous={}
+    current_hashes={label:row.get('sha256') for label,row in current.items()
+                    if isinstance(row,dict)}
+    labels={'unit',*(f'body-{i}' for i in range(9))}
+    recorded=(set(current)==labels and set(previous)==labels and
+              all(isinstance(current.get(label),dict) and
+                  isinstance(previous.get(label),dict) and
+                  isinstance(previous[label].get('sha256'),str) and
+                  isinstance(current[label].get('bytes'),int) and
+                  current[label]['bytes']>0 and
+                  isinstance(current[label].get('sha256'),str) and
+                  re.fullmatch('[0-9a-f]{64}',current[label]['sha256']) and
+                  current[label].get('file')==f'actual-nested-9-{label}.marshal' and
+                  (case/current[label]['file']).is_file() and
+                  (case/current[label]['file']).stat().st_size==current[label]['bytes'] and
+                  digest(case/current[label]['file'])==current[label]['sha256']
+                  for label in labels))
+    unchanged=(recorded and all(current[label]['sha256']==previous[label]['sha256']
+                                for label in labels-{'unit','body-7'}))
+    changed=(recorded and all(current[label]['sha256']!=previous[label]['sha256']
+                              for label in ('unit','body-7')))
+    body_records=result.get('full_body_capture') or {}
+    bodies=(isinstance(body_records,dict) and set(body_records)=={'normal','readonly'} and
+            all(isinstance(body_records[mode],dict) and
+                body_records[mode].get('exact_body_count_and_order') is True and
+                body_records[mode].get('whole_decoded_mir_file')==f'{mode}-mir.txt' and
+                (case/f'{mode}-mir.txt').is_file() and
+                digest(case/f'{mode}-mir.txt')==body_records[mode].get('whole_decoded_mir_sha256') and
+                isinstance(body_records[mode].get('bodies'),list) and
+                len(body_records[mode]['bodies'])==9 and
+                all(isinstance(row,dict) and row.get('index')==index and
+                    row.get('file')==f'{mode}-body-{index}-full-mir.txt' and
+                    isinstance(row.get('bytes'),int) and row['bytes']>0 and
+                    (case/row['file']).is_file() and
+                    (case/row['file']).stat().st_size==row['bytes'] and
+                    digest(case/row['file'])==row.get('sha256')
+                    for index,row in enumerate(body_records[mode]['bodies']))
+                for mode in ('normal','readonly')))
+    verified=case/'verified/lib.rs'; original=case/'original/lib.rs'
+    parent=ev/'cases'/name/'r2-source'/'nine-body-wrapper-rebase'/'verified/lib.rs'
+    comments=source.get('inserted_ghost_comments') or []
+    regions=source.get('inserted_ghost_regions') or []
+    region_names=('before_rust_shadow','after_opened_payloads',
+                  'after_rebased_wrapper_closes')
+    comment_names=('save_true_input','save_false_input',
+                   'true_payload_matches_input','false_payload_matches_input',
+                   'current_true_wrapper_matches_input',
+                   'current_false_wrapper_matches_input',
+                   'shadow_true_wrapper_matches_input',
+                   'shadow_false_wrapper_matches_input',
+                   'conditional_wrapper_matches_input')
+    data=verified.read_bytes() if verified.is_file() else b''
+    def span_ok(row, text_required):
+        if not isinstance(row,dict):return False
+        start=row.get('byte_start'); end=row.get('byte_end_exclusive')
+        if not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=len(data):
+            return False
+        fragment=data[start:end]
+        line_start=data.rfind(b'\n',0,start)+1
+        line_end=data.rfind(b'\n',0,end)+1
+        return (row.get('bytes')==len(fragment) and
+                row.get('sha256')==hashlib.sha256(fragment).hexdigest() and
+                row.get('line_start_one_based')==data.count(b'\n',0,start)+1 and
+                row.get('column_start_zero_based')==start-line_start and
+                row.get('line_end_one_based')==data.count(b'\n',0,end)+1 and
+                row.get('column_end_zero_based')==end-line_end and
+                (not text_required or row.get('utf8')==fragment.decode('utf-8',errors='replace')))
+    metadata=(len(comments)==9 and len(regions)==3 and
+              all(isinstance(row,dict) and row.get('index')==index and
+                  row.get('name')==comment_names[index] and
+                  row.get('region')==region_names[0 if index<2 else 1 if index<4 else 2] and
+                  span_ok(row,True) for index,row in enumerate(comments)) and
+              all(isinstance(row,dict) and row.get('index')==index and
+                  row.get('name')==region_names[index] and
+                  span_ok(row,False) for index,row in enumerate(regions)) and
+              all(regions[index]['byte_start']==comments[first]['byte_start'] and
+                  regions[index]['byte_end_exclusive']==comments[last]['byte_end_exclusive'] and
+                  all(comments[j]['byte_end_exclusive']==comments[j+1]['byte_start']
+                      for j in range(first,last))
+                  for index,(first,last) in enumerate(((0,1),(2,3),(4,8)))) and
+              all(comments[j]['byte_start']<comments[j+1]['byte_start'] for j in range(8)))
+    parent_exact=(source.get('parent_case')=='r2-source/nine-body-wrapper-rebase' and
+                  parent.is_file() and digest(parent)==source.get('parent_verified_sha256') and
+                  metadata and verified.is_file() and
+                  all(region['byte_start']<region['byte_end_exclusive'] for region in regions) and
+                  all(regions[j]['byte_end_exclusive']<=regions[j+1]['byte_start']
+                      for j in range(2)) and
+                  b''.join(data[regions[j-1]['byte_end_exclusive'] if j else 0:
+                                region['byte_start']] for j,region in enumerate(regions))+
+                  data[regions[-1]['byte_end_exclusive']:] == parent.read_bytes())
+    source_pair=(source.get('classification')==
+                   'SOURCE_ONLY_WRAPPER_INPUT_RELATION_DIAGNOSTIC_NOT_ACCEPTED' and
+                 source.get('case_name')=='nine-body-wrapper-input-relation' and
+                 source.get('parent_verified_sha256')==
+                   '11067f06ba7c745cfb221a559fb29778eba8d7b6e65f6db1a814ff7ce72bdfd4' and
+                 source.get('verified_sha256')!=source.get('parent_verified_sha256') and
+                 source.get('verified_sha256')!=SOURCE and
+                 verified.is_file() and original.is_file() and
+                 source.get('verified_sha256')==digest(verified) and
+                 source.get('original_sha256')==ORIGINAL==digest(original) and
+                 source.get('ghost_strip_identity') is True and
+                 source.get('verified_source_reversible_three_input_relation_insertions') is True and
+                 source.get('actual_runtime_unchanged') is True and
+                 source.get('old_certificate_expected_to_refuse') is True and
+                 source.get('verification_accepted') is False and
+                 source.get('full_mir_refinement_and_proof')=='NOT_RUN' and
+                 source.get('source_order')==canonical_source.get('source_order') and
+                 parent_exact)
+    guard=result.get('guard_capture') or {}
+    if not isinstance(guard,dict):guard={}
+    stages=guard.get('stages') or {}
+    if not isinstance(stages,dict):stages={}
+    paired=(result.get('frontend_refinement_and_full_body_capture') is True and
+            guard.get('frontend_refinement') is True and
+            all(isinstance(stages.get(label),dict) and stages[label].get('exit')==0 and
+                stages[label].get('source_unchanged') is True for label in
+                ('normal-export','normal-decode','readonly-export','readonly-decode','refinement')))
+    refusal=(fingerprint.get('classification')=='INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE' and
+             fingerprint.get('all_ten_snapshots') is True and
+             fingerprint.get('expected_refusal_seen') is True and
+             fingerprint.get('body_proof_run') is False and
+             result.get('semantic_rule_enabled') is False and
+             (fingerprint.get('stage') or {}).get('exit')==2)
+    complete=(code==0 and result.get('source_mode')=='wrapper-input-relation-source-only' and
+              source_pair and metadata and paired and bodies and recorded and unchanged and
+              changed and refusal)
+    return {'requested':True,'complete':complete,
+            'classification':'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if complete else 'INCONCLUSIVE',
+            'helper_exit':code,'source_only':True,'accepted':False,
+            'source_pair_exact':source_pair,'paired_mir_refinement_complete':paired,
+            'nine_ghost_comments_three_regions_exact':metadata,
+            'full_nine_bodies_hashed':bodies,'ten_snapshots_independently_hashed':recorded,
+            'eight_canonical_bodies_unchanged':unchanged,'unit_and_body7_changed':changed,
+            'fingerprint_no_proof_rule_refusal':refusal,
+            'historical_owner17_refusal_observed':False,
+            'historical_owner17_refusal_expected':source.get('old_certificate_expected_to_refuse') is True,
+            'exact_reversible_parent_source':parent_exact,
+            'observed_verified_sha256':source.get('verified_sha256'),
+            'observed_unit_sha256':current_hashes.get('unit'),
+            'observed_body7_sha256':current_hashes.get('body-7')}
+
 def wrapper_profile(ev):
     name='wrapper-profile'
     if not (ev/'cases'/f'{name}-request.json').exists():
@@ -382,9 +543,11 @@ def main():
     nested_order=nested_proof_order(ev)
     ast_probe=sort4_ast_probe(ev)
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
+    input_relation=wrapper_input_relation_capture(ev,cap)
     rebase_profile=wrapper_profile(ev)
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
+    input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
                            not owner['requested'] and not sort4['requested'] and
@@ -394,6 +557,12 @@ def main():
                         not a1['requested'] and not coordination['requested'] and
                         not nested_order['requested'] and not wrapper_rebase['requested'] and
                         not rebase_profile['requested'])
+    input_relation_requested=(input_relation['requested'] and
+                              not cut['requested'] and not ast_probe['requested'] and
+                              not owner['requested'] and not sort4['requested'] and
+                              not a1['requested'] and not coordination['requested'] and
+                              not nested_order['requested'] and not wrapper_rebase['requested'] and
+                              not rebase_profile['requested'])
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
                          (not owner['requested'] or owner['complete']) and
                          (not sort4['requested'] or sort4['complete']) and
@@ -403,9 +572,11 @@ def main():
                          (not nested_order['requested'] or nested_order['complete']) and
                          (not ast_probe['requested'] or ast_probe['complete']) and
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
+                         (not input_relation['requested'] or input_relation['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
                          (not independent or independent_requested) and
-                         (not recovery or recovery_requested))
+                         (not recovery or recovery_requested) and
+                         (not input_relation_lane or input_relation_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
     # component 20 A1 negatives are still pending. These cannot be inferred from
@@ -413,13 +584,15 @@ def main():
     controls={'owner_source_mir_isolated':owner['complete'],'a1_isolated':False}
     test_only_requested=(coordination['requested'] or nested_order['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
-                         rebase_profile['requested'])
+                         input_relation['requested'] or rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
-              all(controls.values()) and not test_only_requested and not independent and not recovery)
+              all(controls.values()) and not test_only_requested and not independent and
+              not recovery and not input_relation_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
          'RECOVERY_TESTS_DIAGNOSTIC_COMPLETE' if recovery and diagnostic_complete else
+         'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
@@ -435,9 +608,11 @@ def main():
       'nested_proof_order_test_diagnostic':nested_order,
       'sort4_ast_probe_diagnostic':ast_probe,
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
+      'wrapper_input_relation_source_capture_diagnostic':input_relation,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
       'independent_test_scope_complete':independent_requested if independent else False,
       'recovery_test_scope_complete':recovery_requested if recovery else False,
+      'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
     a.output.write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
