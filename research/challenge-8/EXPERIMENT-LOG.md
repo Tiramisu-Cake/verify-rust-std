@@ -6467,3 +6467,11 @@ association restored inside own, no entry-list equality claimed. Actual Drop FBC
 prototypeFalse111 matched; positive/bodynegative bothINC selfnonnull112. No body/glue.
 792/3600used2808remaining. Next source-linked pre bridge explicitly invokes existing
 points_to_limits with checked struct aggregate/padding; all6geometry andposts retained.
+
+### AFTERNOON canonical FBC root-bounds V3b — 2026-10-09
+
+Build d65502ac-fba7-4fe9-af16-165ae12957bc / proof-infra6b76e5995ec25939185d0e7f5d3a799814929a65, SUCCESS317s, archive/text verified. Stock/six: nonnull/objectbounds/nooverflow113–115 passed after existing checked points_to_limits; positive/bodynegative stop alignment116:90–92, INCONCLUSIVE, actualbody not reached. Prototypefalse111:12–17 matched. Full post/canonical compatibility/payload/glue stillOPEN. [Full result](merge/overnight/guard-ownership/drop-geometry/RESULTS.md). New cumulative1109/3600 before V4 construction-FBC Build9bbabaf6-b2c4-45de-9ef3-4b9f733c4ef2 at572cfe9ebd94abb2822ec5608253504338a6800c, timeout1500+60.
+
+### AFTERNOON exact construction→FBC V4 — 2026-10-09
+
+Build9bbabaf6-b2c4-45de-9ef3-4b9f733c4ef2 at572cfe9ebd94abb2822ec5608253504338a6800c, SUCCESS314s, archive/text verified. Affected V3b stock/six fullpost positives and false78 controls pass. V4 all4cases reach initializer73/ownclose74, refuse FBCclose75 at firstfield5:5–18, INCONCLUSIVE; false80 not reached. Pinned immutable-local half permission cannot satisfy full FBC. No bytes/address→own/permission upgrade, mut rewrite or fractional target weakening. [Result/identities](merge/overnight/guard-ownership/construction/fbc-v4/RESULT.md). Cumulative1423/3600; ownterminal. Nextmove/Droppermission and completedpayload interfaces designonly, notproved/runnable.

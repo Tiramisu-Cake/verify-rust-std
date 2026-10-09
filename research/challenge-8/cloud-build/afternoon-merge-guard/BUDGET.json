@@ -1,14 +1,14 @@
 {
   "phase": "AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09",
   "owner": "merge",
-  "status": "AUTHORIZED",
+  "status": "CLOSED_SESSION",
   "authorization": "Owner prompt2026-10-09 starts new2h session +<=30m finishing only, separate3600 conservative Cloud seconds; PR2 dispatcher regression then reachable actual guard ownership/FBC/verifiedDrop/glue. Historical accounts closed.",
   "start_utc": "2026-10-09T11:15:53Z",
   "main_deadline_utc": "2026-10-09T13:15:53Z",
   "deadline_utc": "2026-10-09T13:45:53Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1109,
-  "remaining_build_seconds": 2491,
+  "used_build_seconds": 1423,
+  "remaining_build_seconds": 2177,
   "allowed_lanes": [
     "coordination-regression",
     "merge"
@@ -106,9 +106,39 @@
       "create_time": "2026-10-09T12:28:19.749987683Z",
       "build_seconds": 317,
       "accounted": true,
-      "execution_seconds": 316
+      "execution_seconds": 316,
+      "download_verified": true,
+      "archive_sha256": "f1354ec466946987651d8dd3f2f1adea5a4d993447fc4c25866e9fd188dc4fb6"
+    },
+    {
+      "dispatch_token": "dispatch-4df96ccc180e48fcb32283f89c5f0434",
+      "owner": "merge",
+      "phase_id": "AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09",
+      "infra_sha": "572cfe9ebd94abb2822ec5608253504338a6800c",
+      "proof_sha": "572cfe9ebd94abb2822ec5608253504338a6800c",
+      "lane": "merge",
+      "submitted_config_sha256": "aa2863403da0eac4e00c860e14459dafa94285061f51cf3a5c1a76a2af6ff9f1",
+      "reserved_seconds": 1560,
+      "timeout_seconds": 1500,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "7ae53164ccd16d8961efff31c67cac3f4b02cdf8374a83d63d2bd14402f22c43",
+      "build_id": "9bbabaf6-b2c4-45de-9ef3-4b9f733c4ef2",
+      "start_time": "2026-10-09T12:46:17.963347858Z",
+      "finish_time": "2026-10-09T12:51:30.214353Z",
+      "create_time": "2026-10-09T12:46:17.111360856Z",
+      "build_seconds": 314,
+      "accounted": true,
+      "execution_seconds": 313,
+      "download_verified": true,
+      "archive_sha256": "337b41f94c5cc66d0407f064e2e47b85714ab45e656734f1dd8ec4b66af9f3e2"
     }
   ],
   "active_build": null,
-  "historical_accounts": "DAY2215/3600 remaining1385 closed; NIGHT8357/10800 remaining2443 closed; not modified or transferred."
+  "historical_accounts": "DAY2215/3600 remaining1385 closed; NIGHT8357/10800 remaining2443 closed; not modified or transferred.",
+  "session_closed_utc": "2026-10-09T13:10:36Z",
+  "close_reason": "All current experiments terminal/evidence verified; unjustified immutable-local permission upgrade not implemented; checkpoint completed within main window. Unspent balance closed, no carry.",
+  "own_unresolved": [],
+  "ready_request_withdrawn": true
 }

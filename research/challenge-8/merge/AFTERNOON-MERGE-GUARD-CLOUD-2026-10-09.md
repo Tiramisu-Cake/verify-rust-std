@@ -155,3 +155,11 @@ Sharedconstructor runner modified additively; targetedcombined V3b/V4 stock/six
 plus sourcepreparations/smoke repeats affectedexistingcontrols, not OR/native/fullmatrix.
 Timeout1500+60queue, four180second diagnostics +140audit/upload pluscoldmatrix;
 within remainingbudget/calendar/evidence reserve atsubmit. No newdirection beyondW2.
+
+### V4 result and source-specific next dependency
+
+Build9bbabaf6-b2c4-45de-9ef3-4b9f733c4ef2 at572cfe9ebd94abb2822ec5608253504338a6800c, SUCCESS314seconds. Both V3b positives/fullposts and false78 controls preserved. New V4 allfourcases admitted exactsource/MIR/AST; actualconstructor73+ownclose74 reached, full FBCclose75 refuses firstfield5:5–18 (immutable addressed local has half permissions; canonicalFBCfull). No FBC/false80/Drop/glue credit. Archive/externaltext verified; cumulative1423/3600,2177remaining, noownactive. [Full result](overnight/guard-ownership/construction/fbc-v4/RESULT.md).
+
+New attempts not dispatched without a new justified rule. Static review rejects temporary-borrow alignment shortcut (unknown fields/leftover marker), and full permission upgrade from half would mint rights or remove immutable-byte enforcement. [Move/Drop storage design](overnight/guard-ownership/construction/fbc-v4/MOVE-TO-DROP-DESIGN.md) identifies next required semantic conservation argument; [completedpayloadpost/glue](overnight/guard-ownership/completed-payload/SEMANTIC-CARD.md) remains designonly. No runnable semantic candidate claimed. Preserve V4 refusal/history and exact immutable std initializer.
+
+Session CLOSED_SESSION at2026-10-09T13:10:36Z /16:10:36MSK.1423charged,2177unspentclosed; noownactive/unresolved, readywithdrawn. All5archives/textverified; noextension. Final checkpoint linked from STATUS.

@@ -628,6 +628,15 @@ constructor fragment on stock/six under full CURRENT source/destination/owner
 premises, with complete normal post and matched false control. Supported nonprecise
 own/FBC removes v1/v2 precision barrier without dropping owners or modifying tool
 semantics. Fragment excludes Drop implementation and does not prove full caller.
-Actual Drop FBC opens non-False; prototype-negative matched, but selfnonnull is
-first open geometry requirement before body. Canonical post payload conservation,
+Actual Drop FBC opens non-False; prototype-negative matched. Root-boundsV3b
+Buildd655 proves nonnull/objectbounds/nooverflow113–115 using pinned limits lemma;
+alignment116:90–92 is next open geometry requirement before body. Canonical post payload conservation,
 compiler glue/forget and actual scratch-state acquisition remain unproved.
+
+AFTERNOON V4 Build9bbabaf6 /572cfe9ebd94abb2822ec5608253504338a6800c confirms
+source279 construction/full own and preserves affected V3b controls. Full canonical
+FBC close remains INC at firstfield5:5–18: immutable addressed local physical
+coefficients1/2 vs canonical1. No permission/ownership creation, no source mut
+change or fractional target acceptance. Actual move/implicit Drop mutable-self
+transition, completed CURRENT payload post, compiler glue and normal forget need
+a justified source-linked conservation interface. No such rule implemented.

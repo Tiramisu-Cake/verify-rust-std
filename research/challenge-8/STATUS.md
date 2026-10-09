@@ -1,4 +1,4 @@
-# AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09 — IN PROGRESS
+# AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09 — SESSION CLOSED / PROFILE NOT ACCEPTED
 
 Owner merge, existing worktree/branch `overnight/merge-26.10` and Cloud workflow.
 [Phase](merge/AFTERNOON-MERGE-GUARD-CLOUD-2026-10-09.md),
@@ -18,14 +18,23 @@ baa57248c63929085b3d8e2e486d076b341250a1: constructor V3b stock/six positives
 full normal post/return/leak; negatives exact false78:20–25. No new tool semantic
 patch. [Result and limits](merge/overnight/guard-ownership/construction/nonprecise-v3/RESULT.md).
 Actual type with Drop: canonical FBC/own opens, matched prototypeFalse111:12–17;
-positive/body-negative INCONCLUSIVE at selfnonnull112. No actual Drop/body/glue
+root-bounds V3b Buildd655 passed nonnull/objectbounds/nooverflow113–115;
+positive/body-negative INCONCLUSIVE at alignment116:90–92. No actual Drop/body/glue
 credit. [Geometry evidence](merge/overnight/guard-ownership/drop-geometry/RESULTS.md).
 Historical V3 Build79da remains FAILURE/INCONCLUSIVE; entry-list equality failed.
 
-**792/3600 seconds used,2808 remaining**; own builds terminal, evidence verified.
-Prepared next checked root-bounds lemma invocation, all six conditions/posts and
-canonical compatibility retained. Exact geometry/type/Drop post/glue/normal forget,
-actual CURRENT scratch acquisition/C1/F-frame/arbitrary-n/generic/ZST remain OPEN.
+**1423/3600 seconds used,2177 unspent closed**; allfive own builds terminal and
+full archive/external-text integrity verified. V4 Build9bbabaf6 at
+572cfe9ebd94abb2822ec5608253504338a6800c preserves V3b positives/false78;
+allfour new V4 cases INCONCLUSIVE at FBCclose75/firstfield5:5–18. Immutable
+addressed guard has half physical fields/padding; canonical FBC requires full.
+[Exact V4 result](merge/overnight/guard-ownership/construction/fbc-v4/RESULT.md).
+No full-permission upgrade/mut rewrite/fractional target or new trusted rule.
+[Source move/Drop storage dependency](merge/overnight/guard-ownership/construction/fbc-v4/MOVE-TO-DROP-DESIGN.md)
+and completedpayloadpost/glue cards are DESIGN_ONLY, no untested runnable candidate.
+[Session checkpoint](merge/AFTERNOON-MERGE-GUARD-CHECKPOINT-2026-10-09.md) published at session close within main window. Own active/unresolved none, ready
+withdrawn; no finishing extension. Stop until next instruction. Source/Drop post/glue/normal
+forget/CURRENT scratch acquisition/C1/F-frame/arbitrary-n/generic/ZST remain OPEN.
 Full six/seven/kernel/cleanup profile NOT_ACCEPTED. Historical DAY/NIGHT closed.
 
 ---
