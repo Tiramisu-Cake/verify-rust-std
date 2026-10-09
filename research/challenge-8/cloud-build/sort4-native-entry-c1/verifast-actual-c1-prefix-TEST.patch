@@ -1,0 +1,161 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6473,6 +6473,18 @@
+ 
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
++    let prefix_requested =
++      match Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "SORT4-C1-PREFIX: malformed opt-in" in
++    if prefix_requested &&
++       Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" then
++      failwith "SORT4-C1-PREFIX: actual scope opt-in is required";
++    if not prefix_requested &&
++       (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
++        | None | Some "none" -> false | _ -> true) then
++      failwith "SORT4-C1-PREFIX: control requires prefix opt-in";
+     let open BodyRd in
+     let var_id_trs_map_ref = ref [] in
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+@@ -7390,13 +7402,35 @@
+                    Ast.BlockStmt
+                      (block_loc, old_decl, sentinel :: (moved @ prefix),
+                       cut_loc, ref []) in
++                 let prefix_only =
++                   match Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" with
++                   | None | Some "0" -> false
++                   | Some "1" -> true
++                   | _ -> reject "bounded prefix opt-in malformed" in
++                 let prefix_control =
++                   match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
++                   | None | Some "none" -> "none"
++                   | Some ("normal-false-post" | "unwind-false-post" |
++                           "normal-omit-join" | "unwind-omit-join" as mode)
++                     when prefix_only -> mode
++                   | _ -> reject "bounded prefix control opt-in malformed" in
++                 (* The complete source/MIR/pre-AST have already been admitted.
++                    Prefix semantics terminate the NORMAL trace after checked
++                    CURRENT recovery+join, before c2. BOTH c1 outcomes remain.
++                    This mode is never a callable summary of the whole body. *)
+                  let suffix =
+-                   Ast.NoopStmt cut_loc :: slice 35 104 old_stmts in
+-                 if List.length suffix <> 105 then
++                   if prefix_only then
++                     Ast.NoopStmt cut_loc ::
++                     [block 35;
++                      (if prefix_control = "normal-omit-join" then
++                         Ast.NoopStmt (Ast.stmt_loc (block 36)) else block 36)]
++                   else Ast.NoopStmt cut_loc :: slice 35 104 old_stmts in
++                 if List.length suffix <> (if prefix_only then 3 else 105) then
+                    reject "normal suffix count";
++                 let delayed_here = delayed in
+                  let outer =
+                    Ast.BlockStmt
+-                     (block_loc, [], child :: (delayed @ suffix),
++                     (block_loc, [], child :: (delayed_here @ suffix),
+                       old_close, ref []) in
+                  let normal_tail =
+                    slice 134 4 original_body @
+@@ -7413,10 +7447,60 @@
+                    [normal_wrapper;
+                     Ast.LabelStmt (epilogue_loc, epilogue_label);
+                     Ast.PureStmt (Ast.stmt_loc recover, recover);
+-                    Ast.PureStmt (Ast.stmt_loc join, join);
++                    (if prefix_control = "unwind-omit-join" then
++                       Ast.NoopStmt (Ast.stmt_loc join)
++                     else Ast.PureStmt (Ast.stmt_loc join, join));
+                     unwind_return] in
++                 (* Reject crossing gotos: no admitted prefix edge may point
++                    into the excluded suffix. Recursively inspect all branch
++                    and block containers of the exact original prefix. *)
++                 let rec edges labels gotos = function
++                   | [] -> (labels, gotos)
++                   | Ast.LabelStmt (_, label) :: rest ->
++                       edges (label :: labels) gotos rest
++                   | Ast.GotoStmt (_, label) :: rest ->
++                       edges labels (label :: gotos) rest
++                   | Ast.PureStmt (_, stmt) :: rest ->
++                       edges labels gotos (stmt :: rest)
++                   | Ast.BlockStmt (_, _, ss, _, locals) :: rest ->
++                       if !locals <> [] then reject "prefix local cleanup";
++                       edges labels gotos (ss @ rest)
++                   | Ast.IfStmt (_, _, yes, no) :: rest ->
++                       edges labels gotos (yes @ no @ rest)
++                   | Ast.SwitchStmt (_, _, clauses) :: rest ->
++                       let ss = List.concat_map
++                         (function Ast.SwitchStmtClause (_, _, ss) -> ss |
++                                   Ast.SwitchStmtDefaultClause (_, ss) -> ss)
++                         clauses in
++                       edges labels gotos (ss @ rest)
++                   | Ast.WhileStmt _ :: _ -> reject "unexpected prefix loop"
++                   | (Ast.DeclStmt _ | Ast.ExprStmt _ | Ast.Assert _ |
++                      Ast.Leak _ | Ast.Open _ | Ast.Close _ | Ast.ReturnStmt _ |
++                      Ast.NoopStmt _ | Ast.SplitFractionStmt _ |
++                      Ast.MergeFractionsStmt _) :: rest -> edges labels gotos rest
++                   | _ :: _ -> reject "unknown prefix control container" in
++                 let prefix_labels, prefix_gotos =
++                   if prefix_only then edges [] [] after else ([], []) in
++                 if prefix_only && List.exists
++                    (fun label -> not (List.mem label prefix_labels)) prefix_gotos
++                 then reject "reachable prefix edge into removed suffix";
++                 let projected_contract =
++                   if prefix_control = "normal-false-post" ||
++                      prefix_control = "unwind-false-post" then
++                     match contract with
++                     | Some (req, (outcome,
++                         Ast.SwitchExpr (l, e,
++                           [Ast.SwitchExprClause (ln, "returning", [result], pn);
++                            Ast.SwitchExprClause (lu, "unwinding", [], pu)], None))) ->
++                       Some (req, (outcome, Ast.SwitchExpr (l, e,
++                         [Ast.SwitchExprClause (ln, "returning", [result],
++                            (if prefix_control = "normal-false-post" then Ast.False ln else pn));
++                          Ast.SwitchExprClause (lu, "unwinding", [],
++                            (if prefix_control = "unwind-false-post" then Ast.False lu else pu))], None)))
++                     | _ -> reject "bounded post outcome shape"
++                   else contract in
+                  let changed_decl =
+-                   mk_fn_decl contract (Some (after, closing_cbrace_loc)) in
++                   mk_fn_decl projected_contract (Some (after, closing_cbrace_loc)) in
+                  let signature_and_contract = function
+                    | Ast.Func
+                        (_, kind, tparams, result_ty, name, params,
+@@ -7429,12 +7513,22 @@
+                    node_sha (signature_and_contract original_decl) in
+                  let post_header =
+                    node_sha (signature_and_contract changed_decl) in
+-                 if pre_header <> post_header then
++                 if prefix_control <> "normal-false-post" &&
++                    prefix_control <> "unwind-false-post" &&
++                    pre_header <> post_header then
+                    reject "signature or normal/unwind contract changed";
+                  Printf.eprintf
+                    "SORT4-ACTUAL-AST-SCOPE-TEST admitted source=%s pre_ast=%s post_ast=%s header_posts=%s moved=8 delayed=24 c1_unwind=close,goto,strict_exit,recover,join,original_return runtime_fnmut=5 runtime_select=8 runtime_copy=4\n%!"
+                    source_sha (node_sha original_decl)
+                    (node_sha changed_decl) pre_header;
++                 if prefix_only then Printf.eprintf
++                   "SORT4-ACTUAL-C1-PREFIX-ONLY admitted normal_boundary=after_source194 before_c2=source195 fnmut=1 outcomes=normal,direct_unwind post=CURRENT_source4,F,thread,types,optional_dst suffix_removed=102 delayed_kept=24 eager_kept=102 labels=%d gotos=%d control=%s post_ast=%s NOT_CALLABLE_SUMMARY\n%!"
++                   (List.length prefix_labels) (List.length prefix_gotos)
++                   prefix_control (node_sha changed_decl);
++                 if prefix_only then
++                   Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                     "actual-c1-prefix-post-ast.ml"
++                     (Ocaml_expr_of_ast.of_decl changed_decl);
+                  changed_decl
+                end)
+         in
+@@ -14602,6 +14696,13 @@
+            TrName.translate_def_path (BodyRd.def_path_get body) =
+              Sort4PointerDrop.local_name) bodies_cpn) then
+         Sort4PointerDrop.reject "checked method omitted from verification";
++      if Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" = Some "1" then begin
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get (List.hd bodies_cpn)) <>
++             "sort4_stable" then
++          failwith "SORT4-C1-PREFIX: isolated exact-one body, unwind and full checks required"
++      end;
+       let expected_redirects =
+         if !Sort4MaybeUninit.active then
+           expected_sort4_redirects bodies_cpn

@@ -6509,3 +6509,16 @@ and leak checks; no comparator/copy. Range/duplicate/false-post negatives isolat
 Stronger optional-dst bridge separately tracks size/type_interp/MU restoration.
 Preparation fixes734af5d8/9be26c41 already applied; saved replay before fresh proof.
 Fresh proof NOT_RUN at card preparation; no proof credit from docs/replay.
+
+Fresh native Build `bef9a3fd-a991-41b4-bca3-3d8e4a424b0d`, proof=infra
+`d4b2d6f2e0dc6b1c9f1e0f8362bb08f04bf67d4d`: prefix-native/source-frame-positive/
+native-scratch-frame VF0 with paired refinement/full native posts+return+leak.
+Source4 CURRENT owners/F cell/F.own/thread and exact source/F frame preservation
+assertions derive from native pre; no size/type/dst assumption in this subset.
+Separate lemma signature/source operations exact; actual caller CFG and sort4 call
+absent. Scratch kept opaque native frame, bridge fails inverse MU equality105
+(after identity97 observation). Range/duplicate/CURRENT false-value raw negatives
+intended; mapping classifier multiline ghost span repaired by saved replay only.
+Archive dd421621c255db15e0e0cbdea91dd3628ed9d9e19a87495bd8201c122cb138bc,
+562 files/text integrity checked; 287 Cloudsec,3313 remaining. Experimental profile
+unaccepted. See [fresh evidence](cloud-build/sort4-native-entry-c1/NATIVE-ENTRY-EVIDENCE.md).

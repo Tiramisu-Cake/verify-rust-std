@@ -24,6 +24,9 @@ from types import SimpleNamespace
 PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-first-scope-TEST.patch")
 DEBT_PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-c1-debt-controls-TEST.patch")
 DEBT_MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-C1-DEBT-CONTROLS-TEST.json")
+PREFIX_PATCH = Path("research/challenge-8/cloud-build/sort4-native-entry-c1/verifast-actual-c1-prefix-TEST.patch")
+PREFIX_PROFILE = Path("research/challenge-8/cloud-build/sort4-native-entry-c1/C1-PREFIX-PROFILE.json")
+PREFIX_CARD = Path("research/challenge-8/cloud-build/sort4-native-entry-c1/C1-PREFIX-SEMANTIC-CARD.md")
 OUTPUT_PATCH = Path("research/challenge-8/overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch")
 OUTPUT_MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-C1-OUTPUT-EQ-TEST.json")
 MANIFEST = Path("research/challenge-8/overnight-callback/ACTUAL-SORT4-AST-SCOPE-TEST.json")
@@ -204,6 +207,8 @@ def baseline(a, env: dict[str, str]) -> Path:
     env["LD_LIBRARY_PATH"] = f"{a.compiler_sysroot}/lib:{a.production_source}/bin:" + env.get("LD_LIBRARY_PATH", "")
     for key in ("SORT4_ACTUAL_AST_SCOPE_TEST", "SORT4_STRICT_LFT_CUT"):
         env.pop(key, None)
+    env["SORT4_ACTUAL_C1_PREFIX_TEST"] = "0"
+    env["SORT4_C1_PREFIX_CONTROL"] = "none"
     command = [sys.executable, str(a.cloud_dir / "actual-sort4-capture.py"),
                "--proof-root", str(a.proof_root), "--cloud-dir", str(a.cloud_dir),
                "--tool-home", str(a.production_source), "--schema",
@@ -248,6 +253,30 @@ def build_overlay(a, base: Path, patch: Path, old: dict, env: dict[str, str]) ->
          "c1 debt control patch cannot apply")
     need(stage(a, "c1-debt-patch-apply", ["git", "-C", str(target), "apply", str(debt_patch)], cap=60) == 0,
          "c1 debt control patch apply failed")
+    prefix_manifest = read(a.proof_root / PREFIX_PROFILE)
+    prefix_patch = a.proof_root / PREFIX_PATCH
+    need(prefix_manifest.get("classification") ==
+         "EXPERIMENTAL_ACTUAL_C1_BOUNDED_PREFIX_NOT_CALLABLE_SUMMARY" and
+         prefix_manifest.get("profile_accepted") is False and
+         prefix_manifest.get("source_sha256") == SOURCE and
+         prefix_manifest.get("pre_ast_sha256") == AST and
+         prefix_manifest.get("kernel_changed") is False and
+         prefix_manifest.get("memory_model_changed") is False and
+         sha(target / TRANSLATOR) == prefix_manifest.get("base_translator_sha256") and
+         sha(prefix_patch) == prefix_manifest.get("patch_sha256"),
+         "bounded-prefix profile/base translator/patch pin differs")
+    prefix_lines = prefix_patch.read_text().splitlines()
+    need([s for s in prefix_lines if s.startswith(("--- ", "+++ "))] ==
+         [f"--- a/{TRANSLATOR}", f"+++ b/{TRANSLATOR}"],
+         "bounded-prefix patch must touch only translator")
+    need(stage(a, "c1-prefix-patch-check", ["git", "-C", str(target), "apply", "--check",
+                                             str(prefix_patch)], cap=60) == 0,
+         "bounded-prefix patch cannot apply after firstscope/output/debt patches")
+    need(stage(a, "c1-prefix-patch-apply", ["git", "-C", str(target), "apply",
+                                             str(prefix_patch)], cap=60) == 0,
+         "bounded-prefix patch apply failed")
+    need(sha(target / TRANSLATOR) == prefix_manifest.get("patched_translator_sha256"),
+         "bounded-prefix patched translator pin differs")
     need(sha(target / KERNEL) == old["critical"][str(KERNEL)],
          "AST overlay changed frozen strict kernel")
     patched_translator = sha(target / TRANSLATOR)
@@ -274,6 +303,16 @@ def build_overlay(a, base: Path, patch: Path, old: dict, env: dict[str, str]) ->
          set(new["modified_names"]) == set(old["modified_names"]),
          "isolated tool changed outside translator/console")
     record(a.evidence / "c1-tool-snapshot.json", new)
+    record(a.evidence / "c1-prefix-profile-inputs.json", {
+        "profile_sha256": sha(a.proof_root / PREFIX_PROFILE),
+        "patch_sha256": sha(prefix_patch), "semantic_card_sha256": sha(a.proof_root / PREFIX_CARD),
+        "base_translator_sha256": prefix_manifest["base_translator_sha256"],
+        "patched_translator_sha256": patched_translator,
+        "source_sha256": SOURCE, "pre_ast_sha256": AST, "complete_typed_mir": GRAPH,
+        "kernel_sha256_unchanged": new["critical"][str(KERNEL)] == old["critical"][str(KERNEL)],
+        "effective_rsspec_unchanged": new["effective_rsspec"] == old["effective_rsspec"],
+        "proof_std_unchanged": new["proof_std"] == old["proof_std"],
+        "accepted": False})
     return target
 
 
@@ -296,6 +335,8 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
     env["LD_LIBRARY_PATH"] = f"{a.compiler_sysroot}/lib:{tool}/bin:" + env.get("LD_LIBRARY_PATH", "")
     env.pop("SORT4_ACTUAL_AST_SCOPE_TEST", None)
     env.pop("SORT4_STRICT_LFT_CUT", None)
+    env["SORT4_ACTUAL_C1_PREFIX_TEST"] = "0"
+    env["SORT4_C1_PREFIX_CONTROL"] = "none"
     for key in CONTROLS:
         path = controls / "cases" / key
         command = [sys.executable, str(capture), "--tool-home", str(tool),
@@ -374,12 +415,372 @@ def strict_controls(a, tool: Path, env: dict[str, str]) -> dict:
     return result
 
 
+def actual_prefix(a, fixture: Path, tool: Path, env: dict[str, str],
+                  original_header_posts: str) -> dict:
+    """Run bounded c1 prefix and its intended proof controls; never a summary."""
+    verified = fixture / "verified/lib.rs"
+    original = fixture / "original/lib.rs"
+    source_pair = (sha(verified), sha(original))
+    need(source_pair == (SOURCE, ORIGINAL), "prefix source pair differs")
+    verifier = [str(tool / "bin/verifast"), "-rustc_args", "--edition 2021",
+                "-verbose", "2", "verified/lib.rs"]
+    base = env.copy()
+    base["LD_LIBRARY_PATH"] = f"{a.compiler_sysroot}/lib:{tool}/bin:" + base.get("LD_LIBRARY_PATH", "")
+    base["SMALLSORT_CLOUD_PROVIDER_PATH"] = str(a.cloud_dir / "provider.py")
+    base["SORT4_ACTUAL_AST_SCOPE_TEST"] = "1"
+    base["SORT4_STRICT_LFT_CUT"] = "1"
+    base["SORT4_C1_OUTPUT_EQ"] = "1"
+    base["SORT4_ACTUAL_C1_PREFIX_TEST"] = "1"
+    base["SORT4_C1_PREFIX_CONTROL"] = "none"
+    base.pop("SORT4_C1_DEBT_CONTROL", None)
+    baseline_audit = read(a.evidence / "baseline-check.json")
+    prefix_support = {
+        "source_pair_sha256": list(source_pair), "pre_ast_sha256": AST,
+        "complete_typed_mir": GRAPH,
+        "normal_mir_complete": baseline_audit.get("complete_graph_sha256", {}).get("normal") == GRAPH["normal"],
+        "readonly_mir_complete": baseline_audit.get("complete_graph_sha256", {}).get("readonly") == GRAPH["readonly"],
+        "proof_std_sha256": snapshot(a, tool)["proof_std"],
+        "kernel_sha256": sha(tool / KERNEL), "unwind_paths_enabled": True,
+        "one_runtime_body_enforced_by_patch": True,
+        "full_source_and_mir_admission_before_prefix": True,
+        "accepted": False}
+    need(prefix_support["normal_mir_complete"] and prefix_support["readonly_mir_complete"] and
+         prefix_support["unwind_paths_enabled"],
+         "prefix support proof mode/full MIR baseline differs")
+    record(a.evidence / "prefix-support-gate.json", prefix_support)
+
+    # The already-existing full-target run is a required c2 control with prefix
+    # explicitly disabled. It must fail at the original source-195 token blocker.
+    full = (a.evidence / "actual-on.log").read_text(errors="replace")
+    full_errors = [s for s in full.splitlines() if ": error:" in s or s.startswith("Fatal error:")]
+    full_code = int((a.evidence / "actual-on-exit-code.txt").read_text().strip())
+    need(full_code in (1, 2) and len(full_errors) == 1 and
+         full_errors[0].startswith("verified/lib.rs(195,") and
+         "ref_precreated_token" in full_errors[0],
+         "fresh prefix-off full-target control did not reproduce c2 source-195 blocker")
+    record(a.evidence / "prefix-off-full-target-control.json", {
+        "classification": "FULL_TARGET_CONTROL_C2_SOURCE195_BLOCKER_NO_PROOF_CREDIT",
+        "prefix_env": "0/default-off", "exit": full_code,
+        "first_error": full_errors[0], "source_sha256": SOURCE,
+        "log_sha256": sha(a.evidence / "actual-on.log"), "proof_credit": False})
+
+    def run_case(name: str, case_env: dict[str, str], *, cwd: Path = fixture,
+                 command: list[str] = verifier) -> tuple[int, str, list[str], list[int]]:
+        code = stage(a, name, command, cwd=cwd, env=case_env, cap=850)
+        log = (a.evidence / f"{name}.log").read_text(errors="replace")
+        errors = [s for s in log.splitlines() if ": error:" in s or s.startswith("Fatal error:")]
+        entries = module(a.cloud_dir / "strict-cut-false-posts-audit.py",
+                         "prefix_proof_entries").proof_entries(log, "sort4_stable")
+        return code, log, errors, entries
+
+    def prefix_admission(log: str, control: str) -> bool:
+        markers = [s for s in log.splitlines()
+                   if s.startswith("SORT4-ACTUAL-C1-PREFIX-ONLY admitted ")]
+        source_rows = re.findall(
+            r"SORT4-ACTUAL-AST-SCOPE-TEST admitted source=([0-9a-f]{64}) "
+            r"pre_ast=([0-9a-f]{64}) post_ast=([0-9a-f]{64}) "
+            r"header_posts=([0-9a-f]{64})", log)
+        return (len(markers) == 1 and f"control={control} " in markers[0] and
+                len(source_rows) == 1 and source_rows[0][0] == SOURCE and
+                source_rows[0][1] == AST and "NOT_CALLABLE_SUMMARY" in markers[0])
+
+    def prefix_ast_inventory(path: Path) -> dict:
+        if not path.is_file() or path.stat().st_size == 0:
+            return {"status": "NOT_CONFIRMED", "reason": "post-splice AST dump missing"}
+        text = path.read_text(errors="replace")
+        name_hits = list(re.finditer(r'"sort4_stable",\s*\[', text))
+        spans = {}
+        for hit in name_hits:
+            func_starts = list(re.finditer(r"Func\s*\(", text[:hit.start()]))
+            func_start = func_starts[-1] if func_starts else None
+            start = func_start.start() if func_start else -1
+            opening = func_start.end() - 1 if func_start else -1
+            if opening < 0:
+                continue
+            depth, quoted, escaped, end = 0, False, False, None
+            for index in range(opening, len(text)):
+                char = text[index]
+                if quoted:
+                    if escaped:
+                        escaped = False
+                    elif char == "\\":
+                        escaped = True
+                    elif char == '"':
+                        quoted = False
+                    continue
+                if char == '"':
+                    quoted = True
+                elif char == "(":
+                    depth += 1
+                elif char == ")":
+                    depth -= 1
+                    if depth == 0:
+                        end = index + 1
+                        break
+            if end is not None and hit.start() < end:
+                spans[start] = text[start:end]
+        if len(spans) != 1:
+            return {"status": "NOT_CONFIRMED", "reason": "named prefix AST function absent or ambiguous",
+                    "name_occurrences": len(name_hits), "function_spans": len(spans),
+                    "ast_sha256": sha(path)}
+        body = next(iter(spans.values()))
+        calls = [(int(line), callee) for line, callee in re.findall(
+            r'CallExpr\s*\(\s*loc\s+"verified/lib.rs\((\d+),[^"]+"\s*,\s*"([^"]+)"', body)]
+        # The runtime comparator is the exact resolved FnMut call. OutputEq
+        # also inserts a ghost registration CallExpr at this same source span;
+        # keep it separately so it cannot inflate the runtime inventory.
+        c1_calls = [(line, callee) for line, callee in calls if line == 190]
+        c1_fnmut = [(line, callee) for line, callee in c1_calls
+                    if callee == "std::ops::FnMut::call_mut"]
+        ghost_equality = [(line, callee) for line, callee in c1_calls
+                          if "register_type_projection_equality" in callee]
+        other_c1_calls = [(line, callee) for line, callee in c1_calls
+                          if (line, callee) not in c1_fnmut + ghost_equality]
+        selectors = [(line, callee) for line, callee in calls
+                     if "select" in callee.lower()]
+        copies = [(line, callee) for line, callee in calls
+                  if "copy_nonoverlapping" in callee.lower() or callee.lower() in ("copy", "copy_from_slice")]
+        confirmed = (len(c1_fnmut) == 1 and len(ghost_equality) == 1 and
+                     not other_c1_calls and not selectors and not copies)
+        return {"status": "CONFIRMED_SOURCE_LINKED_PREFIX_RUNTIME_INVENTORY" if confirmed else "NOT_CONFIRMED",
+                "source": "verified/lib.rs", "named_function": "sort4_stable",
+                "named_function_ast_sha256": hashlib.sha256(body.encode()).hexdigest(),
+                "c1_source_line": 190, "fnmut_calls_at_c1": c1_fnmut,
+                "ghost_type_equality_registration_at_c1": ghost_equality,
+                "other_calls_at_c1_rejected": other_c1_calls,
+                "selector_calls_in_named_function": selectors,
+                "copy_calls_in_named_function": copies,
+                "runtime_inventory": {"FnMut": len(c1_fnmut), "selector": len(selectors), "copy": len(copies)},
+                "ast_sha256": sha(path), "proof_verdict": None}
+
+    # The pinned translator emits the changed target declaration itself during
+    # this exact VF0 invocation. Clear stale output immediately before proof;
+    # preserve/hash the emitted bytes before any negative-control runs.
+    ast_live = fixture / "actual-c1-prefix-post-ast.ml"
+    if ast_live.exists():
+        ast_live.unlink()
+    positive_code, positive_log, positive_errors, positive_entries = run_case(
+        "actual-prefix-on", base)
+    ast_evidence = a.evidence / "actual-c1-prefix-post-ast.ml"
+    if ast_live.is_file() and ast_live.stat().st_size > 0:
+        ast_evidence.write_bytes(ast_live.read_bytes())
+    ast_inventory = prefix_ast_inventory(ast_evidence)
+    ast_inventory["ast_serializer_sha256"] = sha(ast_evidence) if ast_evidence.is_file() else None
+    positive_stage = read(a.evidence / "actual-prefix-on-stage.json")
+    ast_inventory["same_invocation"] = "actual-prefix-on"
+    ast_inventory["same_invocation_log_sha256"] = sha(a.evidence / "actual-prefix-on.log")
+    ast_inventory["same_invocation_stage_sha256"] = sha(a.evidence / "actual-prefix-on-stage.json")
+    ast_inventory["same_invocation_exit"] = positive_stage.get("exit")
+    ast_inventory["emitted_before_target_verification_by_pinned_translator"] = True
+    prefix_lines = [s for s in positive_log.splitlines()
+                    if s.startswith("SORT4-ACTUAL-C1-PREFIX-ONLY admitted ")]
+    admitted_lines = re.findall(
+        r"SORT4-ACTUAL-AST-SCOPE-TEST admitted source=([0-9a-f]{64}) "
+        r"pre_ast=([0-9a-f]{64}) post_ast=([0-9a-f]{64}) "
+        r"header_posts=([0-9a-f]{64})", positive_log)
+    prefix_fields = (re.search(r"post_ast=([0-9a-f]{64}) NOT_CALLABLE_SUMMARY$",
+                               prefix_lines[0]) if len(prefix_lines) == 1 else None)
+    prefix_post = prefix_fields.group(1) if prefix_fields else None
+    ast_inventory["positive_prefix_post_ast_marker_sha256"] = prefix_post
+    ast_inventory["serializer_sha256_is_distinct_from_node_sha256"] = (
+        ast_inventory.get("ast_serializer_sha256") is not None and prefix_post is not None and
+        ast_inventory["ast_serializer_sha256"] != prefix_post)
+    prefix_marker_ok = (len(prefix_lines) == 1 and "normal_boundary=after_source194" in prefix_lines[0] and
+                        "before_c2=source195" in prefix_lines[0] and
+                        "fnmut=1 outcomes=normal,direct_unwind" in prefix_lines[0] and
+                        "NOT_CALLABLE_SUMMARY" in prefix_lines[0])
+    positive_admission_ok = (len(admitted_lines) == 1 and admitted_lines[0][0] == SOURCE and
+                             admitted_lines[0][1] == AST and
+                             admitted_lines[0][2] == prefix_post and
+                             admitted_lines[0][3] == original_header_posts)
+    ast_inventory["marker_and_ast_share_positive_invocation"] = (
+        prefix_post is not None and positive_stage.get("exit") == positive_code and
+        ast_inventory.get("same_invocation") == "actual-prefix-on" and
+        ast_inventory.get("status") == "CONFIRMED_SOURCE_LINKED_PREFIX_RUNTIME_INVENTORY" and
+        positive_admission_ok)
+    record(a.evidence / "actual-prefix-post-splice-ast.json", ast_inventory)
+    dead_code_lines = [s for s in positive_log.splitlines()
+                       if re.search(r"\): dead code$", s)]
+    target_segment = positive_log[positive_entries[0]:] if len(positive_entries) == 1 else ""
+    prefix_helper_parser = module(a.cloud_dir / "strict-cut-false-posts-audit.py",
+                                   "prefix_positive_helper_entries")
+    prefix_helpers = {}
+    for helper in ("recover_pair", "join_four_owned_cells"):
+        helper_entries = prefix_helper_parser.proof_entries(positive_log, helper)
+        before_caller = (len(helper_entries) == 1 and len(positive_entries) == 1 and
+                         helper_entries[0] < positive_entries[0])
+        segment = (positive_log[helper_entries[0]:positive_entries[0]]
+                   if before_caller else "")
+        prefix_helpers[helper] = {"entries": len(helper_entries),
+                                  "verified_before_target": before_caller,
+                                  "return_seen": "Executing return statement" in segment,
+                                  "leak_seen": "Leak check." in segment,
+                                  "error_absent_before_target": ": error:" not in segment}
+    prefix_helpers_ok = all(row["verified_before_target"] and row["return_seen"] and
+                            row["leak_seen"] and row["error_absent_before_target"]
+                            for row in prefix_helpers.values())
+    positive_body_ok = (positive_code == 0 and not positive_errors and len(positive_entries) == 1 and
+                        prefix_helpers_ok and not dead_code_lines and "0 errors found (" in positive_log and
+                        "Leak check." in positive_log and prefix_admission(positive_log, "none"))
+    # Full VF0/post/leak checks support only this bounded trace theorem. Never
+    # turn this result into a callable summary for sort4_stable.
+    prefix_positive = (positive_body_ok and prefix_marker_ok and positive_admission_ok and
+                       ast_inventory.get("marker_and_ast_share_positive_invocation") is True and
+                       ast_inventory.get("serializer_sha256_is_distinct_from_node_sha256") is True and
+                       ast_inventory.get("status") ==
+                       "CONFIRMED_SOURCE_LINKED_PREFIX_RUNTIME_INVENTORY")
+    record(a.evidence / "actual-prefix-positive-result.json", {
+        "classification": ("PREFIX_ONLY_BOUNDED_C1_THEOREM" if prefix_positive else
+                           "PREFIX_ONLY_NOT_CONFIRMED_POST_SPLICE_AST" if positive_body_ok else
+                           "PREFIX_ONLY_FIRST_BLOCKER_DIAGNOSTIC"),
+        "accepted": False, "actual_sort4_proved": False,
+        "full_body_exit_zero": False, "full_summary": False,
+        "callable_summary": "PREFIX_ONLY_NOT_CALLABLE_SUMMARY",
+        "exit": positive_code, "first_error": positive_errors[0] if positive_errors else None,
+        "target_function_entry_seen": len(positive_entries) == 1,
+        "same_unit_helpers_verified_before_prefix_target": prefix_helpers,
+        "exactly_one_prefix_only_marker": len(prefix_lines) == 1,
+        "source_pre_ast_and_original_header_posts_match": positive_admission_ok,
+        "positive_post_ast_sha256_captured": prefix_post,
+        "post_splice_ast_inventory": ast_inventory,
+        "bounded_full_vf0_normal_unwind_post_return_leak": prefix_positive,
+        "dead_code_diagnostics": dead_code_lines,
+        "log_mentions_normal_return_after_target_header": "Executing return statement" in target_segment,
+        "log_mentions_recovery_after_target_header": "recover_pair" in target_segment,
+        "log_mentions_join_after_target_header": "join_four_owned_cells" in target_segment,
+        "log_mentions_unwind_after_target_header": "unwind" in target_segment.lower(),
+        "log_mentions_leak_check": "Leak check." in positive_log,
+        "source_pair_sha256": list(source_pair),
+        "raw_precondition_debts": ["positive-size T", "source4 ownership", "CURRENT F cell/ownership/thread/type subset", "optional destination", "stock type interpretation"],
+        "native_entry_subset_theorem": "separate prerequisite only; does not discharge positive-size, type_interp, or dst4 debts",
+        "raw_log_sha256": sha(a.evidence / "actual-prefix-on.log"),
+        "proof_credit_scope": "bounded prefix termination only"})
+
+    # Existing exact debt negatives must remain attached to recover_pair under
+    # the new prefix projection.
+    proof_parser = module(a.cloud_dir / "strict-cut-false-posts-audit.py", "prefix_debt_entries")
+    debt_rows = {}
+    expected_callee_error = (
+        "verified/lib.rs(68,29-30): error: No matching heap chunks: "
+        "comparison_debt<T>(t, _, ptr_add_(v_base, 1, T_typeid), v_base, _, _, _, _)")
+    for mode, source_line, call_span in (
+            ("normal-missing-close", 193, "verified/lib.rs(193,30-31): note: Verifying call"),
+            ("unwind-missing-close", 187, "verified/lib.rs(187,32-33): note: Verifying call")):
+        case_env = base.copy()
+        case_env["SORT4_C1_DEBT_CONTROL"] = mode
+        name = "actual-prefix-" + mode
+        code, log, errors, entries = run_case(name, case_env)
+        helper_entries = proof_parser.proof_entries(log, "recover_pair")
+        call_note_hits = [m.start() for m in re.finditer(re.escape(call_span), log)]
+        caller_note = log.find("note: Verifying function 'sort4_stable'", log.find(errors[0]) if errors else 0)
+        intended = (code == 1 and len(errors) == 1 and len(entries) == 1 and
+                    len(helper_entries) == 1 and entries[0] < log.index(errors[0]) and
+                    helper_entries[0] < entries[0] and
+                    prefix_admission(log, "none") and
+                    errors[0] == expected_callee_error and
+                    len(call_note_hits) == 1 and log.index(errors[0]) < call_note_hits[0] < caller_note and
+                    source_line in (193, 187))
+        debt_rows[mode] = {"classification": "INTENDED_MISSING_C1_DEBT" if intended else "INCONCLUSIVE_WRONG_FIRST_OBLIGATION",
+                           "exit": code, "first_error": errors[0] if errors else None,
+                           "expected_callee_predicate_location": "verified/lib.rs(68,29-30): comparison_debt<T>",
+                           "expected_mode_callsite_note": call_span,
+                           "callsite_note_count": len(call_note_hits),
+                           "caller_body_entry_before_callee_error": bool(entries and errors and entries[0] < log.index(errors[0])),
+                           "recover_pair_proved_before_caller": bool(helper_entries and entries and helper_entries[0] < entries[0]),
+                           "intended_resource_negative": intended,
+                           "log_sha256": sha(a.evidence / f"{name}.log")}
+    record(a.evidence / "actual-prefix-debt-controls.json", debt_rows)
+
+    # Fresh exact first-error expectations for these four prefix mutations are
+    # not available yet. Record first error and branch observations, but keep
+    # every control inconclusive until a saved fresh replay pins predicate and
+    # location. Never infer intent from a generic postcondition word.
+    control_rows = {}
+    for control in ("normal-false-post", "unwind-false-post",
+                    "normal-omit-join", "unwind-omit-join"):
+        case_env = base.copy()
+        case_env["SORT4_C1_PREFIX_CONTROL"] = control
+        name = "actual-prefix-control-" + control
+        code, log, errors, entries = run_case(name, case_env)
+        entry = entries[0] if len(entries) == 1 else -1
+        target_log = log[entry:] if entry >= 0 else ""
+        mode_branch = ("normal-return" if control.startswith("normal-") else "direct-unwind")
+        branch_observation = {
+            "normal_return_event_after_body_entry": "Executing return statement" in target_log,
+            "unwind_event_after_body_entry": "unwind" in target_log.lower(),
+            "join_call_trace_after_body_entry": [line for line in target_log.splitlines()
+                if "Verifying call" in line and "join_four_owned_cells" in line],
+            "prefix_control_marker_admitted": prefix_admission(log, control)}
+        control_rows[control] = {"classification": "INCONCLUSIVE_UNPINNED_EXPECTED_FIRST_OBLIGATION",
+                                 "exit": code, "first_error": errors[0] if errors else None,
+                                 "first_error_count": len(errors),
+                                 "target_body_entry_count": len(entries),
+                                 "target_body_entry_before_first_error": bool(entries and errors and entry < log.index(errors[0])),
+                                 "recover_pair_and_join_helpers_before_target": {
+                                     name: bool((hits := proof_parser.proof_entries(log, name)) and entries and hits[0] < entries[0])
+                                     for name in ("recover_pair", "join_four_owned_cells")},
+                                 "expected_branch": mode_branch,
+                                 "expected_first_stage_predicate_location": None,
+                                 "expected_control_semantics": control,
+                                 "join_omission_injected_by_pinned_patch": (control.endswith("omit-join") and
+                                                                            prefix_admission(log, control)),
+                                 "branch_observations_not_proof": branch_observation,
+                                 "intended_negative": False,
+                                 "reason": "no fresh saved prefix replay pins this control's exact first stage/predicate/location",
+                                 "log_sha256": sha(a.evidence / f"{name}.log")}
+    record(a.evidence / "actual-prefix-negative-controls.json", control_rows)
+
+    # Mutate a disposable fixture's exact source bytes. This must be rejected
+    # by the pinned source hash before any target body proof is entered.
+    mutant = a.evidence / "source-changed-c1-operand-fixture"
+    need(not mutant.exists(), "source-hash mutant fixture already exists")
+    need(stage(a, "prefix-source-mutant-copy", ["cp", "-a", str(fixture), str(mutant)], cap=120) == 0,
+         "source-hash mutant fixture copy failed")
+    mutant_source = (mutant / "verified/lib.rs").read_bytes()
+    operand = b"v_base.add(1)"
+    need(mutant_source.count(operand) == 1,
+         "source mutant expected exactly one first c1 operand")
+    (mutant / "verified/lib.rs").write_bytes(mutant_source.replace(operand, b"v_base.add(2)", 1))
+    mutant_env = base.copy()
+    name = "actual-prefix-source-hash-control"
+    code, log, errors, entries = run_case(name, mutant_env, cwd=mutant)
+    source_refusal = (code in (1, 2) and len(errors) == 1 and
+                      "verified source SHA256" in errors[0] and not entries and
+                      "Verifying function 'sort4_stable'" not in log)
+    source_control = {"classification": "EXACT_SOURCE_HASH_REFUSAL_NOT_RESOURCE_NEGATIVE" if source_refusal else
+                      "INCONCLUSIVE_SOURCE_MUTATION_CONTROL",
+                      "exit": code, "first_error": errors[0] if errors else None,
+                      "target_body_entered": bool(entries),
+                      "mutated_source_sha256": sha(mutant / "verified/lib.rs"),
+                      "intended_refusal": source_refusal,
+                      "log_sha256": sha(a.evidence / f"{name}.log")}
+    record(a.evidence / "actual-prefix-source-hash-control.json", source_control)
+    need((sha(verified), sha(original)) == source_pair,
+         "prefix controls changed pinned actual source pair")
+    result = {"classification": "PREFIX_ONLY_NOT_CALLABLE_SUMMARY",
+              "accepted": False, "actual_sort4_proved": False,
+              "full_body_exit_zero": False, "full_summary": False,
+              "positive": read(a.evidence / "actual-prefix-positive-result.json"),
+              "missing_debt_controls": debt_rows,
+              "missing_debt_controls_all_intended": all(r["intended_resource_negative"] for r in debt_rows.values()),
+              "post_and_join_controls": control_rows,
+              "post_and_join_controls_all_intended": False,
+              "source_hash_control": source_control,
+              "all_controls_intended": all(r["intended_resource_negative"] for r in debt_rows.values()) and
+                                       all(r["intended_negative"] for r in control_rows.values()) and source_refusal,
+              "proof_credit_scope": "bounded prefix only; never a callable actual_sort4 summary"}
+    record(a.evidence / "actual-prefix-diagnostic-audit.json", result)
+    return result
+
+
 def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     verified = fixture / "verified/lib.rs"
     original = fixture / "original/lib.rs"
     before = (sha(verified), sha(original))
     need(before == (SOURCE, ORIGINAL), "actual fixture changed before test")
     env = env.copy()
+    env["SORT4_ACTUAL_C1_PREFIX_TEST"] = "0"
+    env["SORT4_C1_PREFIX_CONTROL"] = "none"
     env["LD_LIBRARY_PATH"] = f"{a.compiler_sysroot}/lib:{tool}/bin:" + env.get("LD_LIBRARY_PATH", "")
     env["SMALLSORT_CLOUD_PROVIDER_PATH"] = str(a.cloud_dir / "provider.py")
     env.pop("SORT4_HRTB_OUTPUT", None)
@@ -420,6 +821,8 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
     need(noeq_ok and "SORT4-C1-OUTPUT-EQ " not in noeq_log,
          "c1 Output equality OFF missed exact original type obligation")
     on["SORT4_C1_OUTPUT_EQ"] = "1"
+    on["SORT4_ACTUAL_C1_PREFIX_TEST"] = "0"
+    on["SORT4_C1_PREFIX_CONTROL"] = "none"
     on_code = stage(a, "actual-on", verifier, cwd=fixture, env=on, cap=850)
     on_log = (a.evidence / "actual-on.log").read_text(errors="replace")
     record(a.evidence / "actual-on-raw-result.json", {
@@ -530,6 +933,9 @@ def actual(a, fixture: Path, tool: Path, env: dict[str, str]) -> dict:
         "open_gates": ["actual c2 through c5 and select/copy calls", "full destination initialization",
                        "unrestricted generic/ZST", "all-path liveness and alias/escape mutations",
                        "pointer provenance, ownership, no-cut/S6 integration", "functional composition"]}
+    prefix_result = actual_prefix(a, fixture, tool, env, admitted[0][3])
+    result["bounded_prefix"] = prefix_result
+    result["actual_sort4_proved"] = False
     record(a.evidence / "actual-on-result.json", result)
     record(a.evidence / "diagnostic-audit.json", result)
     return result

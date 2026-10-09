@@ -1,3 +1,4 @@
+<!-- 2026-10-10 select nativeentry bef9/d4b2d6f2: separate native source4/CURRENT owners/F/thread/frame and opaque scratch frame fullVF0; no size/type/dst premises supplied in this subset. ActualcallerCFG/call absent. MUbridge inverse105 remainsVF1. Actualc1 boundedprefix candidate NOT_RUN/profileunaccepted; 287/3600 Cloudsec. -->
 ## CLOUD-BUILD-MIGRATION — A/B/C accepted
 
 A storage/error42/timeout124 retained failure verdicts and hash-verified evidence.
