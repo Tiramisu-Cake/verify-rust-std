@@ -6436,3 +6436,18 @@ Final1395/3600 (312+350+378+355),2205unusedclosed; ownterminal4/reconciled,
 allarchiveverified, active/unresolved/reservations0, readywithdrawn, v2/max2intact.
 Finalsort4-c1-actual-execution/END-CHECKPOINT-2026-10-09.md. Nextsingle task derive
 suppliedc1entryfromoneactualcaller/bounddomains before proceedingbeyondc1.
+
+
+## SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09 — entry card
+
+18:17:12UTC start,main19:17:12/absolute19:47:12;3600newbudget/old2205closed.
+Readpolicy d389ff64; fetchownremote19f82018equalclean; noforeignhistory transfer.
+ActualfirstSmallSort254 caller mutable v/scratch/F, original branch guard retained.
+Nativegeneratedreference contract—not rawownerpre supplied—to actual commonprefix
+and explicit c1 pre entailment boundary; fullcaller andsort4summary notused.
+Preliminarymap identifiesMUstorageconversion and native reborrow representation;
+positive-sizeT NOTentailed forZST8..15. Minimalrange/duplicatepermission controls.
+Rationale+conservation/selfreview in phase; firstsupportrefusal remainsadmission,
+never intendednegative. Sourceextraction/pairedMIR/proof/refinementCloudonly.
+Portablecoord487dc adopteded6b2b6a afterphasebaseline42a28caa, phaseAST preserved,
+ownACK only/currentv2max2 no sharedmigration. Conditionalc1oldresultsnotupgraded.

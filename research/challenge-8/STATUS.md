@@ -1,3 +1,21 @@
+# Current phase: SORT4-C1-CALLER-ENTRY-CLOUD-2026-10-09 — IN PROGRESS
+
+[Phase](cloud-build/sort4-c1-caller-entry/PHASE.md), [ledger](cloud-build/sort4-c1-caller-entry/BUDGET.json),
+[initial premise map](cloud-build/sort4-c1-caller-entry/PREMISE-ORIGIN-MAP.md).
+Start18:17:12UTC; main19:17:12; absolute19:47:12; separate3600 budget, old2205closed.
+First actual general-with-scratch sort4 call254, path len>=8 + scratch>=len+16 +
+NOT(original size<=16 AND len>=16). No prior comparator/copy on this path.
+Native mutable-slice/F generated contract→prefix→first c1 entailment boundary;
+no fullsort4 summary, c2/selector untouched. Positive-size c1 premise does not
+follow full branch (ZST8..15 remains); native whole entry not raw-owner strengthened.
+Portable coordinator487dc39c adopted in ownclient with phase baseline42a28caa / adopteded6b2b6a;
+ownACK recorded, current sharedv2/max2 unchanged, no shared migration. No Cloud resultyet.
+Preserve conditional c1 unwind post/leak + normal intermediate recovery; normal
+function posts blocked atc2, experimentalprofile unaccepted, checkpoint19f82018
+and exactselecte2 retained. Compiler/proof/extractionCloudonly.
+
+# Previous closed checkpoint follows
+
 # Current phase: SORT4-C1-ACTUAL-EXECUTION-CLOUD-2026-10-09 — CHECKPOINT / STOP
 
 [Checkpoint](cloud-build/sort4-c1-actual-execution/END-CHECKPOINT-2026-10-09.md),
