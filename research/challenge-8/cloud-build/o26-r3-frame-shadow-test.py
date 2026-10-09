@@ -138,7 +138,7 @@ def shadow_chain(a, shared):
     chain.append(item)
     cleanup = read(a.proof_root / ROOT / "overnight-assume-actual/O26-R3-CLEANUP-PROJECTION-TEST.json")
     need(cleanup.get("accepted") is False and cleanup.get("parent_translator_sha256") == item["result"] and
-         cleanup.get("source") == profile["source"] and cleanup.get("typed_outer_graph") == profile["typed_outer_graph"] and
+         cleanup.get("source") == profile["source"] and cleanup.get("typed_outer_graph_sha256") == hashlib.sha256(json.dumps(profile["typed_outer_graph"], sort_keys=True, separators=(",", ":")).encode()).hexdigest() and
          cleanup.get("runtime_spec_kernel_parser_exporter_refiner_modified") is False,
          "cleanup projection source/parent/domain certificate differs")
     extra = {"kind":"cleanup-projection", "parent":cleanup["parent_translator_sha256"],
