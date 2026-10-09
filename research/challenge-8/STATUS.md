@@ -5,16 +5,10 @@ Start08:45:54UTC/11:45:54MSK; main10:45:54UTC/13:45:54MSK;
 absolute11:15:54UTC/14:15:54MSK (completion only after main deadline).
 Ownerselect-sort4, ownworktree/branch unchanged; historical accounts stay closed.
 
-Prepared R3 ghost-scope TEST observed in Build9bdd5622-7000-483f-8e83-e9847412ddba,
-infra574484e7cff6c53a15ff7e76b3aec133f6c87ef2,
-proof7b68fc9b36b0341210d48b857b010caea7344e9e. CollectorSUCCESS/diagnostic complete,
-verification_accepted=false. Off exact inventory refusal, partial exact opt-in refusal,
-on retains savedlet2/transfers nestedopen2 and clears original routing gate.
-Next FIRST refusal before proof headers: SORT4-AS-MUT-PTR `actual external receiver
-operand/binding` at translator3714. Shadow-source remainsBLOCKED: no late ghost
-binding/type error observed. Investigate exact R3 receiver MIR and separate narrow
-source-linked TEST with affected controls. Current R3 actual outer/nested NOT_PROVED;
-full genericT/ZST and sort4 remainOPEN; historical R2 result-identity gap preserved.
+Prepared R3 scope TEST outcome was observed on original proof7b68fc9b: source let2
+retained, nested open2 transferred, off/partial refused; Build9bdd cleared inventory
+and exposed frozen receiver local mismatch. Fresh receiver TEST now clears that gate
+under exact source/unit and separate opt-in. Both profiles remainUNACCEPTED.
 
 Receiver Buildb4e9a631-e8bf-4b9a-a86d-6fcb920da4a9 SUCCESS/diagnostic complete,
 infra/proofb6a45161cdf7309b10f0198a1bbd1f43c225d715. Full archive/index verified.
@@ -25,9 +19,12 @@ in this CONDITIONAL UNACCEPTED translator profile. Outer begins, then FIRST erro
 verified/lib.rs(155,9-25): Declaration hides existing local variable saved_true_input.
 Nested Drop not reached; full outer normal/unwind/return/leak NOT_PROVED.
 This is an early saved-let scope/duplication issue, not late Rust-shadow evidence.
-Source-shadow remainsBLOCKED. Trace exact ghost execution and prepare isolated
-single-execution rule; independent same-source nested scheduling is now justified
-by outer verification-time failure, with fresh combined parent/pins/controls.
+Source-shadow remainsBLOCKED. Cause now confirmed: line-only ghostcommand lookup
+selects first saved let for both same-line calls; admission body_text reconstruction
+is not executable insertion. Preserve both lets. Prepared rule maps exact source-
+pinned MIR155:1/73 to AST155:1/41 with distinct/order/count guards. Next separate
+COLUMN+acyclic nested-scheduling TEST under receiver parent7451dee6 is being prepared,
+[review/card](cloud-build/day-select-sort4/GHOST-COLUMN-NESTED-CARD.md).
 Day expense831/3600seconds (87setup+341scope+403receiver),2769remaining,3terminal.
 No own active Build; actual payload186parts. No runtime/posts/resources/kernel/
 spec/exporter/refiner changed. [Receiver review](cloud-build/day-select-sort4/R3-RECEIVER-TEST-CARD.md),

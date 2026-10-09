@@ -6206,3 +6206,17 @@ of actual nested before failedouter is now source-linked justified, not circular
 Fullarchivea3b6e79c2a5a7eba8ab269b689b6698c56f2d6c5a421d92fd0cd77c41905afa5,
 textindex863c21d23ebb8a6894166e53c5288c96ba61b76f20459a03e83bfe371f7c0ff1
 integrityverified. Day831/3600,2769remaining, no own active.
+
+### First causal analysis — same-line ghost lookup, not source duplication
+
+Read of baseline TrBody ghostcommand arm confirms List.find matches line only and
+does not consume list. Both MIR ghost calls are155, first0..31/dest_4/target1,
+second72..103/dest_5/target2. One-based call spans1..32/73..104; parser annotations
+start1 and41/end41 and83. Thus secondcommand selects firstsavedlet again. The R2
+input_saved_ghosts body_text reconstruction is only admission checking, not executable
+AST insertion; dropping MIR let2 is rejected because it would remove active bindings.
+New preimplementation cardd39b01ad defines isolated source-pinned COLUMN mapping,
+all bindings/posts retained, fresh affected fault controls, then independent exact
+AST scheduling to verify actual generic nested Drop before outer. Scheduler only
+uses a completed COLUMN-on parent; receiver-parent alternative is not implemented.
+No late242-244 shadow failure observed, source-shadow remainsBLOCKED.
