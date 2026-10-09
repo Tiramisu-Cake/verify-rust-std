@@ -25,6 +25,8 @@ ast_probe_mode=${O26_WITH_SORT4_AST_PROBE:-0}
 [[ "$ast_probe_mode" == 0 || "$ast_probe_mode" == 1 ]] || exit 2
 wrapper_rebase_mode=${O26_WITH_WRAPPER_REBASE_CAPTURE:-0}
 [[ "$wrapper_rebase_mode" == 0 || "$wrapper_rebase_mode" == 1 ]] || exit 2
+wrapper_profile_mode=${O26_WITH_WRAPPER_REBASE_PROFILE:-0}
+[[ "$wrapper_profile_mode" == 0 || "$wrapper_profile_mode" == 1 ]] || exit 2
 for path in "$proof_root" "$infra_root" "$work_root" "$evidence_root"; do
   [[ "$path" == /workspace/* ]] || { printf 'path outside /workspace: %s\n' "$path" >&2; exit 2; }
 done
@@ -230,6 +232,17 @@ stage candidate-proof python3 "$cloud_dir/o26-refresh-recipe.py" proof \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev" \
   --tool-home "$source_home" --schema "$schema" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"
+
+if [[ "$wrapper_profile_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/wrapper-profile-request.json"
+  profile_status=0
+  stage wrapper-profile bash "$cloud_dir/run-o26-wrapper-profile.sh" \
+    --production-source "$source_home" --production-applied-patch "$ev/refreshed-applied.patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/wrapper-profile" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir" || profile_status=$?
+  printf '%s\n' "$profile_status" > "$ev/cases/wrapper-profile-helper-exit-code.txt"
+fi
 
 if [[ "$wrapper_rebase_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/wrapper-rebase-capture-request.json"

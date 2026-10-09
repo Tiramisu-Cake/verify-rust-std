@@ -202,6 +202,112 @@ def wrapper_rebase_capture(ev,canonical):
             'observed_unit_sha256':current_hashes.get('unit'),
             'observed_body7_sha256':current_hashes.get('body-7')}
 
+def wrapper_profile(ev):
+    name='wrapper-profile'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'verification_accepted':False}
+    root=ev/'cases'/name
+    code=helper_exit(ev,name)
+    manifest=read(root/'profile-manifest.json') or {}
+    identity=read(root/'tool-identity.json') or {}
+    identity_after=read(root/'tool-identity-after.json') or {}
+    baseline=read(root/'production-tool-baseline.json') or {}
+    capture=read(root/'capture-check.json') or {}
+    positive=read(root/'profile-proof-stage.json') or {}
+    off_canonical=read(root/'profile-off-canonical-stage.json') or {}
+    off_rebase=read(root/'profile-off-rebase-stage.json') or {}
+    controls=read(root/'owner17-controls/summary.json') or {}
+    a1capture=read(root/'a1-isolated-test/capture-summary.json') or {}
+    a1test=read(root/'a1-isolated-test/test-result.json') or {}
+    case=root/'capture/nine-body-wrapper-rebase'
+    positive_log=case/'profile-proof.log'
+    off_log=case/'profile-off-rebase.log'
+    canonical_case=ev/'cases/candidate/capture/nine-body-a1-owned-forget'
+    canonical_log=canonical_case/'refreshed-proof.log'
+    off_canonical_log=canonical_case/'profile-off-canonical.log'
+    body=positive_log.read_text(errors='replace') if positive_log.is_file() else ''
+    off_body=off_log.read_text(errors='replace') if off_log.is_file() else ''
+    source=(manifest.get('source') or {}).get('verified_sha256')
+    marks=[body.find("Verifying function '"+item+"'") for item in PREFIX_CALLEES]
+    nested=body.find("Verifying function '<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop'")
+    outer=body.find("Verifying function 'select_unpredictable'")
+    same_version_callees=(all(at>=0 for at in marks) and marks==sorted(marks) and
+                          outer>max(marks) and
+                          positive.get('source_before',{}).get('verified/lib.rs')==source)
+    proof_ran=(positive.get('status')=='RAN' and
+               positive.get('exit') not in (None,124,137) and
+               positive.get('source_unchanged') is True and
+               positive.get('source_before')==positive.get('source_after') and
+               positive.get('intrinsic_gate_active') is True and
+               positive.get('pointer_drop_gate_active') is True and
+               same_version_callees)
+    off_fatal='Fatal error: exception Failure("SORT4-SELECT-INTRINSIC: certificate mismatch: owner exact verified source SHA256")'
+    off_lines=[x for x in off_body.splitlines() if x.startswith('Fatal error:')]
+    off_rebase_complete=(off_rebase.get('status')=='RAN' and off_rebase.get('exit')==2 and
+                  off_rebase.get('source_unchanged') is True and
+                  off_rebase.get('source_before')==off_rebase.get('source_after') and
+                  off_rebase.get('source_before',{}).get('verified/lib.rs')==source and
+                  off_rebase.get('intrinsic_gate_active') is True and
+                  off_rebase.get('pointer_drop_gate_active') is True and
+                  off_lines==[off_fatal] and
+                  "Verifying function '" not in off_body)
+    original_body=canonical_log.read_text(errors='replace') if canonical_log.is_file() else ''
+    canonical_off_body=off_canonical_log.read_text(errors='replace') if off_canonical_log.is_file() else ''
+    error_pattern=re.compile(r'^(.+?)\((\d+),([^)]*)\): error: (.*)$',re.MULTILINE)
+    original_error=error_pattern.findall(original_body)
+    off_error=error_pattern.findall(canonical_off_body)
+    base_stage=(read(ev/'cases/candidate/proof-stage.json') or {}).get('stage',{})
+    off_canonical_complete=(off_canonical.get('status')=='RAN' and
+                            off_canonical.get('exit')==base_stage.get('exit') and
+                            off_canonical.get('source_unchanged') is True and
+                            off_canonical.get('source_before')==off_canonical.get('source_after') and
+                            off_canonical.get('source_before')==base_stage.get('source_before') and
+                            off_canonical.get('intrinsic_gate_active') is True and
+                            off_canonical.get('pointer_drop_gate_active') is True and
+                            bool(original_error) and bool(off_error) and
+                            original_error[0][0].endswith('lib.rsspec') and
+                            off_error[0][0].endswith('lib.rsspec') and
+                            original_error[0][1:]==off_error[0][1:] and
+                            original_error[0][1:3]==('462','47-48'))
+    controls_complete=(controls.get('classification')=='COMPONENT17_REBASE_CONTROLS_COMPLETE' and
+                       controls.get('diagnostic_complete') is True and
+                       controls.get('verification_accepted') is False and
+                       len(controls.get('negative_cases',[]))==4 and
+                       all(r.get('intended_component17_refusal') is True
+                           for r in controls['negative_cases']))
+    a1_complete=(a1capture.get('owner_hash_only_refusal') is True and
+                 a1capture.get('normal_readonly_refinement_complete') is True and
+                 a1test.get('classification')=='REBASE_A1_MOVE_COPY_NEGATIVE' and
+                 a1test.get('intended_a1_refusal') is True and
+                 a1test.get('verification_accepted') is False)
+    complete=(code==0 and
+              manifest.get('classification')=='EXPERIMENTAL_O26_WRAPPER_REBASE_COMPONENT23_NOT_ACCEPTED' and
+              identity.get('stock_binaries_unchanged') is True and
+              identity.get('kernel_schema_parser_unchanged') is True and
+              identity.get('all_other_tracked_sources_and_rsspec_unchanged') is True and
+              bool(baseline) and identity.get('production_snapshot')==baseline and
+              identity_after==identity and
+              capture.get('classification')=='WRAPPER_REBASE_CAPTURE_PINNED' and
+              capture.get('normal_readonly_refinement_complete') is True and
+              capture.get('ten_snapshots_independently_hashed') is True and
+              capture.get('eight_canonical_bodies_unchanged') is True and
+              proof_ran and off_canonical_complete and off_rebase_complete and
+              controls_complete and a1_complete)
+    return {'requested':True,'complete':complete,
+            'classification':'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if complete else 'INCONCLUSIVE',
+            'helper_exit':code,'source_sha256':source,
+            'positive_six_gate_full_proof_ran':proof_ran,
+            'positive_full_proof_exit_zero':proof_ran and positive.get('exit')==0,
+            'positive_full_proof_exit':positive.get('exit'),
+            'same_version_callees_before_outer':same_version_callees,
+            'nested_drop_proof_header_visible':nested>=0,
+            'component23_off_canonical_first462_unchanged':off_canonical_complete,
+            'component23_off_rebase_old_source_pin_refusal':off_rebase_complete,
+            'owner17_controls_complete':controls_complete,
+            'a1_move_copy_negative_complete':a1_complete,
+            'verification_accepted':False}
+
 def main():
     p=argparse.ArgumentParser()
     for name in ('evidence','output'):p.add_argument('--'+name,type=Path,required=True)
@@ -254,6 +360,7 @@ def main():
     nested_order=nested_proof_order(ev)
     ast_probe=sort4_ast_probe(ev)
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
+    rebase_profile=wrapper_profile(ev)
     independent=os.environ.get('LANE')=='o26-independent-tests'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
@@ -268,6 +375,7 @@ def main():
                          (not nested_order['requested'] or nested_order['complete']) and
                          (not ast_probe['requested'] or ast_probe['complete']) and
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
+                         (not rebase_profile['requested'] or rebase_profile['complete']) and
                          (not independent or independent_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
@@ -275,12 +383,14 @@ def main():
     # a positive full proof or an earlier owner-certificate rejection.
     controls={'owner_source_mir_isolated':owner['complete'],'a1_isolated':False}
     test_only_requested=(coordination['requested'] or nested_order['requested'] or
-                         ast_probe['requested'] or wrapper_rebase['requested'])
+                         ast_probe['requested'] or wrapper_rebase['requested'] or
+                         rebase_profile['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
+         'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
       'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible,
@@ -295,6 +405,7 @@ def main():
       'nested_proof_order_test_diagnostic':nested_order,
       'sort4_ast_probe_diagnostic':ast_probe,
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
+      'wrapper_rebase_profile_diagnostic':rebase_profile,
       'independent_test_scope_complete':independent_requested if independent else False,
       'cut_relocation_test_diagnostic':cut,'runner_exit':a.runner_exit,
       'failed_stage':a.failed_stage,'evidence_root':'allprooflogs'}
