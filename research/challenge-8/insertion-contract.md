@@ -1,5 +1,9 @@
 # Insertion contract experiment
 
+Historical bounded bootstrap specification (2026-10-06); future-work statements
+below are design notes, not current authorization. Use [WORK-POLICY](WORK-POLICY.md),
+[STATUS](STATUS.md) and the latest checkpoint of the assigned branch.
+
 This is our own specification and proof code. Only verifier API syntax was
 checked against the pinned Kani tests. No competing challenge implementation is
 used. All sorting operations delegate to the std code in this repository.
