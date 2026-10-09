@@ -67,6 +67,8 @@ def source_gate(case: Path, metadata: dict) -> dict:
              verified.count(prep.ALIGNMENT_LEMMA) == 1 and
              verified.count(prep.ALIGNMENT) == 1 and
              verified.count(prep.SOURCE_IDENTITY) == 1 and
+             verified.count(prep.CONSTRUCTOR_GEOMETRY) == 1 and
+             metadata.get("constructor_geometry_sha256") == prep.sha(prep.CONSTRUCTOR_GEOMETRY) and
              verified.count(prep.SOURCE_LIMITS) == 1 and
              all(verified.count(item) == 1 for item in prep.GEOMETRY) and
              verified.count(b"*tail |-> held &*& <T>.own(t, held);") == 2 and

@@ -91,6 +91,17 @@ GEOMETRY = (
     b"        //@ assert gap_guard.src as usize <= usize::MAX - std::mem::size_of::<T>();\n",
     b"        //@ assert (gap_guard.src as usize + std::mem::size_of::<T>() <= gap_guard.dst as usize || gap_guard.dst as usize + std::mem::size_of::<T>() <= gap_guard.src as usize);\n"
 )
+# Diagnostic is retained alongside the post-FBC target check: it tests actual
+# constructor geometry before the canonical predicate hides field witnesses.
+CONSTRUCTOR_GEOMETRY = (
+    b"        //@ assert gap_guard.dst == tail; // REPRO: actual destination\n"
+    b"        //@ initialized_storage_alignment::<T>(gap_guard.src as *mut T); // REPRO: actual source storage\n"
+    b"        //@ points_to_limits::<T>(gap_guard.src as *mut T); // REPRO: actual source limits\n"
+    b"        //@ assert gap_guard.src as usize <= usize::MAX - std::mem::size_of::<T>(); // REPRO: source no overflow\n"
+    b"        //@ assert (gap_guard.src as usize + std::mem::size_of::<T>() <= gap_guard.dst as usize || gap_guard.dst as usize + std::mem::size_of::<T>() <= gap_guard.src as usize); // REPRO: constructor span before FBC\n"
+)
+CONSTRUCTOR_SPAN = CONSTRUCTOR_GEOMETRY.splitlines(keepends=True)[-1]
+
 GEOMETRY_LABELS = ("source_nonnull", "source_alignment", "source_object_limits",
                    "source_address_no_overflow", "source_destination_disjoint")
 
@@ -149,7 +160,7 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
         # The exact runtime read and initializer remain adjacent after ghost strip.
         verified = verified.replace(READ, READ + ANNOTATIONS, 1)
         close = MISSING_OWNER_CLOSE if name == "missing_held_owner" else OWN_CLOSE
-        middle = SOURCE_IDENTITY + close + FBC_CLOSE
+        middle = SOURCE_IDENTITY + CONSTRUCTOR_GEOMETRY + close + FBC_CLOSE
         if name == "double_physical_fbc":
             middle += DOUBLE_FBC_CLOSE
         middle += FBC_OPEN + OWN_OPEN
@@ -184,6 +195,8 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
             "source_limits_line": line(verified, SOURCE_LIMITS),
             "alignment_lemma_line": line(verified, ALIGNMENT),
             "source_identity_line": line(verified, SOURCE_IDENTITY),
+            "constructor_span_line": line(verified, CONSTRUCTOR_SPAN),
+            "constructor_geometry_sha256": sha(CONSTRUCTOR_GEOMETRY),
             "own_close_line": line(verified, close),
             "geometry_lines": [line(verified, item) for item in GEOMETRY],
             "geometry_labels": list(GEOMETRY_LABELS),
@@ -205,6 +218,7 @@ def extract(output: Path, report: Path, source: Path = SOURCE) -> dict:
         "source_limits_sha256": sha(SOURCE_LIMITS),
         "alignment_lemma_sha256": sha(ALIGNMENT_LEMMA),
         "alignment_call_sha256": sha(ALIGNMENT),
+        "constructor_geometry_sha256": sha(CONSTRUCTOR_GEOMETRY),
         "geometry_assertions_sha256": [sha(item) for item in GEOMETRY],
         "supplied_entry_resources": True, "accepted": False, "cases": rows,
     }
