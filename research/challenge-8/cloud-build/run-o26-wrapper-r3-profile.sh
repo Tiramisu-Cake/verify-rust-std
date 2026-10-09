@@ -34,7 +34,8 @@ done
 [[ "$deadline_epoch" =~ ^[0-9]+$ ]] || exit 2
 [[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build && -z "${GITHUB_ACTIONS:-}" &&
    ( "${LANE:-}" == o26-wrapper-input-relation-r3 ||
-     "${LANE:-}" == o26-wrapper-r3-nested-diagnostics ) ]] || exit 2
+     "${LANE:-}" == o26-wrapper-r3-nested-diagnostics ||
+     "${LANE:-}" == o26-r3-ghost-scope-test ) ]] || exit 2
 [[ "$(git -C "$proof_root" rev-parse HEAD)" == "${PROOF_SHA:?}" &&
    -d "$production_source/.git" && -f "$production_patch" &&
    -f "$production_source/bin/verifast" ]] || exit 2
@@ -113,6 +114,13 @@ stage r3-fresh-capture python3 \
   --deadline-epoch "$deadline_epoch" --wrapper-input-relation --fingerprint
 stage r3-capture-check python3 "$profile" capture-check "${common[@]}"
 stage r3-proofs python3 "$profile" proofs "${common[@]}"
+if [[ "${LANE:-}" == o26-r3-ghost-scope-test ]]; then
+  stage r3-final-identity python3 "$profile" final-identity "${common[@]}"
+  printf '%s\n' 'R3_SCOPE_BASELINE_CAPTURE_AND_PROOFS_ONLY_NOT_ACCEPTED' \
+    > "$evidence/PROFILE-STATUS.txt"
+  trap - EXIT
+  exit 0
+fi
 stage r3-controls python3 "$cloud_dir/o26-r3-controls.py" \
   --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
   --r3-source "$r3_source" --compiler-sysroot "$compiler_sysroot" \

@@ -690,6 +690,174 @@ def wrapper_input_relation_capture(ev,canonical):
             'observed_unit_sha256':current_hashes.get('unit'),
             'observed_body7_sha256':current_hashes.get('body-7')}
 
+def wrapper_input_relation_shadow_capture(ev):
+    name='wrapper-input-relation-shadow-capture'
+    if not (ev/'cases'/f'{name}-request.json').exists():
+        return {'requested':False,'complete':False,'classification':'NOT_RUN',
+                'source_only':True,'accepted':False}
+    result=read(ev/'cases'/name/'summary.json') or {}
+    if not isinstance(result,dict):result={}
+    code=helper_exit(ev,name)
+    case=ev/'cases'/name/'nine-body-wrapper-input-relation-shadow'
+    source=result.get('source') or {}
+    fingerprint=result.get('fingerprint') or {}
+    if not isinstance(source,dict):source={}
+    if not isinstance(fingerprint,dict):fingerprint={}
+    parent=ev/'cases'/name/'parent-r3-source'/'nine-body-wrapper-input-relation'
+    parent_source=read(parent/'fixture.json') or {}
+    if not isinstance(parent_source,dict):parent_source={}
+    verified=case/'verified/lib.rs'; original=case/'original/lib.rs'
+    data=verified.read_bytes() if verified.is_file() else b''
+    old=parent/'verified/lib.rs'
+    old_bytes=old.read_bytes() if old.is_file() else b''
+    profile=read(Path('/workspace/proof/research/challenge-8/overnight-assume-actual/O26-WRAPPER-INPUT-RELATION-PROFILE.json')) or {}
+    draft=read(Path('/workspace/proof/research/challenge-8/overnight-assume-actual/O26-WRAPPER-INPUT-RELATION-SHADOW-DRAFT.json')) or {}
+    if not isinstance(profile,dict):profile={}
+    if not isinstance(draft,dict):draft={}
+    expected_source=profile.get('source') or {}
+    if not isinstance(expected_source,dict):expected_source={}
+    comments=source.get('inserted_ghost_comments') or []
+    regions=source.get('inserted_ghost_regions') or []
+    old_comments=parent_source.get('inserted_ghost_comments') or []
+    names=('save_true_input','save_false_input','true_payload_matches_input',
+           'false_payload_matches_input','current_true_wrapper_matches_input',
+           'current_false_wrapper_matches_input','shadow_true_wrapper_matches_input',
+           'shadow_false_wrapper_matches_input','conditional_wrapper_matches_input')
+    region_names=('before_rust_shadow','after_opened_payloads',
+                  'after_rebased_wrapper_closes')
+    def span_ok(row,require_text):
+        if not isinstance(row,dict):return False
+        start=row.get('byte_start'); end=row.get('byte_end_exclusive')
+        if not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=len(data):
+            return False
+        fragment=data[start:end]
+        return (row.get('bytes')==len(fragment) and
+                row.get('sha256')==hashlib.sha256(fragment).hexdigest() and
+                row.get('line_start_one_based')==data.count(b'\n',0,start)+1 and
+                row.get('column_start_zero_based')==start-(data.rfind(b'\n',0,start)+1) and
+                row.get('line_end_one_based')==data.count(b'\n',0,end)+1 and
+                row.get('column_end_zero_based')==end-(data.rfind(b'\n',0,end)+1) and
+                (not require_text or row.get('utf8')==fragment.decode('utf-8',errors='replace')))
+    metadata=(isinstance(comments,list) and len(comments)==9 and
+              isinstance(regions,list) and len(regions)==3 and
+              all(isinstance(row,dict) and row.get('index')==i and
+                  row.get('name')==names[i] and
+                  row.get('region')==region_names[0 if i<2 else 1 if i<4 else 2] and
+                  span_ok(row,True) for i,row in enumerate(comments)) and
+              all(isinstance(row,dict) and row.get('index')==i and
+                  row.get('name')==region_names[i] and span_ok(row,False)
+                  for i,row in enumerate(regions)) and
+              all(regions[i]['byte_start']==comments[first]['byte_start'] and
+                  regions[i]['byte_end_exclusive']==comments[last]['byte_end_exclusive'] and
+                  all(comments[j]['byte_end_exclusive']==comments[j+1]['byte_start']
+                      for j in range(first,last))
+                  for i,(first,last) in enumerate(((0,1),(2,3),(4,8)))) and
+              all(comments[i]['byte_start']<comments[i+1]['byte_start'] for i in range(8)))
+    parent_pin=(draft.get('status')=='REVIEWED_SOURCE_ONLY_SHADOW_BINDING' and
+                draft.get('verification_accepted') is False and
+                draft.get('parent_verified_sha256')==expected_source.get('verified_sha256') and
+                source.get('parent_verified_sha256')==expected_source.get('verified_sha256') and
+                old.is_file() and digest(old)==source.get('parent_verified_sha256') and
+                parent_source.get('classification')==
+                  'SOURCE_ONLY_WRAPPER_INPUT_RELATION_DIAGNOSTIC_NOT_ACCEPTED' and
+                parent_source.get('verified_sha256')==source.get('parent_verified_sha256') and
+                source.get('parent_case')=='parent-r3-source/nine-body-wrapper-input-relation')
+    names_normal=draft.get('reviewed_normal_shadow_internal_names')
+    names_readonly=draft.get('reviewed_readonly_shadow_internal_names')
+    shadow_names=(isinstance(names_normal,dict) and names_normal==names_readonly and
+                  set(names_normal)=={'true_val','false_val'} and
+                  all(isinstance(names_normal[key],str) and
+                      re.fullmatch(key+r'_[1-9][0-9]*',names_normal[key])
+                      for key in ('true_val','false_val')))
+    reversible=False
+    if metadata and parent_pin and shadow_names and isinstance(old_comments,list) and len(old_comments)==9:
+        try:
+            old_text=[row['utf8'].encode() for row in old_comments]
+            new_text=[row['utf8'].encode() for row in comments]
+            stable=all(new_text[i]==old_text[i] for i in range(9) if i not in (6,7,8))
+            restored=data
+            for i in (6,7,8):
+                if restored.count(new_text[i])!=1 or old_bytes.count(old_text[i])!=1:
+                    stable=False
+                    break
+                restored=restored.replace(new_text[i],old_text[i],1)
+            reversible=(stable and restored==old_bytes and
+                        source.get('changed_late_comment_names')==sorted(names[6:9]) and
+                        source.get('shadow_internal_names')==names_normal)
+        except (KeyError,AttributeError,TypeError,ValueError,UnicodeEncodeError):
+            reversible=False
+    pair=(parent_pin and metadata and reversible and
+          source.get('classification')=='SOURCE_ONLY_SHADOW_BINDING_REVISION_NOT_ACCEPTED' and
+          source.get('case_name')=='nine-body-wrapper-input-relation-shadow' and
+          source.get('verified_sha256')!=source.get('parent_verified_sha256') and
+          verified.is_file() and digest(verified)==source.get('verified_sha256') and
+          original.is_file() and digest(original)==ORIGINAL==source.get('original_sha256') and
+          source.get('ghost_strip_identity') is True and
+          source.get('verified_source_reversible_three_late_comment_substitutions') is True and
+          source.get('actual_runtime_unchanged') is True and
+          source.get('verification_accepted') is False and
+          source.get('full_mir_refinement_and_proof')=='NOT_RUN' and
+          source.get('source_order')==parent_source.get('source_order'))
+    guard=result.get('guard_capture') or {}
+    if not isinstance(guard,dict):guard={}
+    stages=guard.get('stages') or {}
+    if not isinstance(stages,dict):stages={}
+    paired=(result.get('frontend_refinement_and_full_body_capture') is True and
+            guard.get('frontend_refinement') is True and
+            all(isinstance(stages.get(label),dict) and stages[label].get('exit')==0 and
+                stages[label].get('source_unchanged') is True for label in
+                ('normal-export','normal-decode','readonly-export','readonly-decode','refinement')))
+    bodies=result.get('full_body_capture') or {}
+    full_bodies=(isinstance(bodies,dict) and set(bodies)=={'normal','readonly'} and
+                 all(isinstance(bodies[mode],dict) and
+                     bodies[mode].get('exact_body_count_and_order') is True and
+                     isinstance(bodies[mode].get('bodies'),list) and
+                     len(bodies[mode]['bodies'])==9 and
+                     all(isinstance(row,dict) and row.get('index')==i and
+                         row.get('file')==f'{mode}-body-{i}-full-mir.txt' and
+                         (case/row['file']).is_file() and
+                         digest(case/row['file'])==row.get('sha256') and
+                         (case/row['file']).stat().st_size==row.get('bytes')
+                         for i,row in enumerate(bodies[mode]['bodies'])) and
+                     (case/f'{mode}-mir.txt').is_file() and
+                     digest(case/f'{mode}-mir.txt')==bodies[mode].get('whole_decoded_mir_sha256')
+                     for mode in ('normal','readonly')))
+    snaps=fingerprint.get('snapshots') or {}
+    if not isinstance(snaps,dict):snaps={}
+    expected_bodies=expected_source.get('body_sha256') or []
+    ten=(set(snaps)=={'unit',*(f'body-{i}' for i in range(9))} and
+         all(isinstance(row,dict) and row.get('file')==f'actual-nested-9-{key}.marshal' and
+             isinstance(row.get('bytes'),int) and row['bytes']>0 and
+             (case/row['file']).is_file() and
+             (case/row['file']).stat().st_size==row['bytes'] and
+             digest(case/row['file'])==row.get('sha256')
+             for key,row in snaps.items()))
+    unchanged=(ten and isinstance(expected_bodies,list) and len(expected_bodies)==9 and
+               all(snaps[f'body-{i}']['sha256']==expected_bodies[i]
+                   for i in range(9) if i!=7))
+    changed=(ten and snaps['unit'].get('sha256')!=expected_source.get('unit_sha256') and
+             snaps['body-7'].get('sha256')!=expected_bodies[7]) if len(expected_bodies)==9 else False
+    refusal=(fingerprint.get('classification')=='INTENDED_DIAGNOSTIC_REFUSAL_NO_PROOF_RULE' and
+             fingerprint.get('all_ten_snapshots') is True and
+             fingerprint.get('expected_refusal_seen') is True and
+             fingerprint.get('body_proof_run') is False and
+             result.get('semantic_rule_enabled') is False and
+             (fingerprint.get('stage') or {}).get('exit')==2)
+    complete=(code==0 and result.get('source_mode')=='wrapper-input-relation-shadow-source-only' and
+              pair and paired and full_bodies and ten and unchanged and changed and refusal)
+    return {'requested':True,'complete':complete,'accepted':False,'source_only':True,
+            'classification':'SHADOW_BINDING_SOURCE_CAPTURE_COMPLETE' if complete else 'INCONCLUSIVE',
+            'helper_exit':code,'exact_parent_and_three_late_substitutions':pair,
+            'paired_mir_refinement_complete':paired,'full_nine_bodies_hashed':full_bodies,
+            'ten_snapshots_independently_hashed':ten,'eight_r3_bodies_unchanged':unchanged,
+            'unit_and_body7_changed':changed,'fingerprint_no_proof_rule_refusal':refusal,
+            'historical_owner17_refusal_observed':False,
+            'observed_verified_sha256':source.get('verified_sha256'),
+            'observed_unit_sha256':(snaps.get('unit') or {}).get('sha256')
+                if isinstance(snaps.get('unit'),dict) else None,
+            'observed_body7_sha256':(snaps.get('body-7') or {}).get('sha256')
+                if isinstance(snaps.get('body-7'),dict) else None}
+
 def sort4_postmark_print(ev):
     requested=(ev/'cases/sort4-postmark-print-test-request.json').exists()
     if not requested:
@@ -717,6 +885,39 @@ def r3_nested_order(ev):
               report.get('actual_nested_drop_credit') is False)
     return {'requested':True,'complete':complete,'helper_exit':code,'accepted':False,
             'actual_helper_proved':False,'report':report}
+
+def r3_ghost_scope_test(ev):
+    requested=(ev/'cases/r3-ghost-scope-test-request.json').exists()
+    if not requested:return {'requested':False,'complete':False,'accepted':False}
+    root=ev/'cases/r3-ghost-scope-test'
+    report=read(root/'diagnostic-audit.json') or {}
+    code=helper_exit(ev,'r3-ghost-scope-test')
+    parent=ev/'cases/wrapper-r3-profile'
+    capture=read(parent/'capture-check.json') or {}
+    positive=read(parent/'r3-positive-stage.json') or {}
+    identity=read(parent/'tool-identity.json') or {}
+    after=read(parent/'tool-identity-after.json') or {}
+    parent_code=helper_exit(ev,'wrapper-r3-profile')
+    complete=(code==0 and parent_code==0 and
+              capture.get('classification')=='R3_SOURCE_MIR_GRAPH_PINNED_DIAGNOSTIC' and
+              capture.get('all_nine_body_records_and_ten_marshal_files_hashed') is True and
+              capture.get('typed_outer_mir_exact') is True and
+              identity==after and bool(identity) and
+              positive.get('status')=='RAN' and
+              positive.get('source_unchanged') is True and
+              report.get('classification')=='R3_GHOST_SCOPE_TEST_DIAGNOSTIC_COMPLETE' and
+              report.get('diagnostic_complete') is True and
+              all(report.get(key) is True for key in
+                  ('r3_capture_rechecked','tool_identity_rechecked',
+                   'default_off_refusal','partial_pair_refusal','enabled_scope_marker')) and
+              report.get('accepted') is False and
+              report.get('verification_accepted') is False and
+              report.get('actual_nested_drop_credit') is False and
+              report.get('actual_helper_proved') is False)
+    return {'requested':True,'complete':complete,'helper_exit':code,
+            'parent_helper_exit':parent_code,'accepted':False,
+            'actual_nested_drop_credit':False,'actual_helper_proved':False,
+            'report':report}
 
 
 def wrapper_r3_profile(ev):
@@ -899,20 +1100,25 @@ def main():
     ast_probe=sort4_ast_probe(ev)
     wrapper_rebase=wrapper_rebase_capture(ev,cap)
     input_relation=wrapper_input_relation_capture(ev,cap)
+    input_relation_shadow=wrapper_input_relation_shadow_capture(ev)
     generic_new=generic_new_capture(ev)
     rebase_profile=wrapper_profile(ev)
     r3_profile=wrapper_r3_profile(ev)
+    ghost_scope=r3_ghost_scope_test(ev)
     postmark=sort4_postmark_print(ev)
     postmark_lane=os.environ.get('LANE')=='o26-generic-sort4-postmark-diagnostics'
     r3_lane=os.environ.get('LANE') in ('o26-wrapper-input-relation-r3','o26-wrapper-r3-nested-diagnostics')
     r3_nested=r3_nested_order(ev)
     r3_nested_lane=os.environ.get('LANE')=='o26-wrapper-r3-nested-diagnostics'
+    ghost_scope_lane=os.environ.get('LANE')=='o26-r3-ghost-scope-test'
     independent=os.environ.get('LANE')=='o26-independent-tests'
     recovery=os.environ.get('LANE')=='o26-recovery-tests'
     strict_cut_lane=os.environ.get('LANE')=='o26-strict-cut-controls'
     strict_false_posts_lane=os.environ.get('LANE')=='o26-strict-cut-false-posts'
     strict_reuse_lane=os.environ.get('LANE')=='o26-strict-cut-reuse-false-posts'
     input_relation_lane=os.environ.get('LANE')=='o26-input-relation-capture'
+    input_relation_shadow_lane=os.environ.get('LANE')=='o26-input-relation-shadow-capture'
+    shadow_generic_lane=os.environ.get('LANE')=='o26-shadow-generic-sort4-diagnostics'
     generic_new_lane=os.environ.get('LANE')=='o26-generic-new-capture'
     independent_requested=(coordination['requested'] and nested_order['requested'] and ast_probe['requested'] and
                            wrapper_rebase['requested'] and
@@ -947,6 +1153,11 @@ def main():
                               not a1['requested'] and not coordination['requested'] and
                               not nested_order['requested'] and not wrapper_rebase['requested'] and
                               not rebase_profile['requested'])
+    input_relation_shadow_requested=(input_relation_shadow['requested'] and
+                                     not any(x['requested'] for x in
+                                     (cut,strict_cut,false_posts,ast_probe,owner,sort4,a1,
+                                      coordination,nested_order,wrapper_rebase,input_relation,
+                                      generic_new,rebase_profile,r3_profile,postmark,r3_nested)))
     generic_new_requested=(generic_new['requested'] and
                            not cut['requested'] and not strict_cut['requested'] and
                            not false_posts['requested'] and not input_relation['requested'] and
@@ -958,9 +1169,20 @@ def main():
                   not any(x['requested'] for x in
                   (cut,strict_cut,false_posts,owner,sort4,a1,coordination,nested_order,
                    ast_probe,wrapper_rebase,input_relation,rebase_profile,r3_profile)))
+    shadow_generic_requested=(input_relation_shadow['requested'] and
+                              generic_new['requested'] and postmark['requested'] and
+                              not any(x['requested'] for x in
+                              (cut,strict_cut,false_posts,owner,sort4,a1,coordination,
+                               nested_order,ast_probe,wrapper_rebase,input_relation,
+                               rebase_profile,r3_profile,r3_nested)))
     r3_requested=(r3_profile['requested'] and not any(x['requested'] for x in
                   (cut,strict_cut,false_posts,owner,sort4,a1,coordination,nested_order,
                    ast_probe,wrapper_rebase,input_relation,generic_new,rebase_profile)))
+    ghost_scope_requested=(r3_profile['requested'] and ghost_scope['requested'] and
+                           not r3_nested['requested'] and not any(x['requested'] for x in
+                           (cut,strict_cut,false_posts,owner,sort4,a1,coordination,
+                            nested_order,ast_probe,wrapper_rebase,input_relation,
+                            input_relation_shadow,generic_new,rebase_profile,postmark)))
     diagnostic_complete=(a.runner_exit==0 and pair and proof_ran and profile_ok and
                          (not owner['requested'] or owner['complete']) and
                          (not sort4['requested'] or sort4['complete']) and
@@ -973,12 +1195,16 @@ def main():
                          (not ast_probe['requested'] or ast_probe['complete']) and
                          (not wrapper_rebase['requested'] or wrapper_rebase['complete']) and
                          (not input_relation['requested'] or input_relation['complete']) and
+                         (not input_relation_shadow['requested'] or input_relation_shadow['complete']) and
                          (not generic_new['requested'] or generic_new['complete']) and
                          (not rebase_profile['requested'] or rebase_profile['complete']) and
-                         (not r3_profile['requested'] or r3_profile['complete']) and
+                         (not r3_profile['requested'] or r3_profile['complete'] or
+                          (ghost_scope_lane and ghost_scope['complete'])) and
                          (not r3_lane or r3_requested) and
                          (not r3_nested['requested'] or r3_nested['complete']) and
                          (not r3_nested_lane or r3_nested['requested']) and
+                         (not ghost_scope['requested'] or ghost_scope['complete']) and
+                         (not ghost_scope_lane or ghost_scope_requested) and
                          (not postmark['requested'] or postmark['complete']) and
                          (not postmark_lane or postmark_requested) and
                          (not independent or independent_requested) and
@@ -989,6 +1215,8 @@ def main():
                           (strict_false_posts_requested and
                            (strict_cut.get('historical_reuse') or {}).get('complete') is True)) and
                          (not input_relation_lane or input_relation_requested) and
+                         (not input_relation_shadow_lane or input_relation_shadow_requested) and
+                         (not shadow_generic_lane or shadow_generic_requested) and
                          (not generic_new_lane or generic_new_requested))
     proof_zero=proof_ran and stage.get('exit')==0
     # Source/MIR mutation negatives for component 17 and independently reached
@@ -999,14 +1227,17 @@ def main():
                          strict_cut['requested'] or
                          false_posts['requested'] or
                          ast_probe['requested'] or wrapper_rebase['requested'] or
-                         input_relation['requested'] or generic_new['requested'] or
-                         rebase_profile['requested'] or r3_profile['requested'] or postmark['requested'] or r3_nested['requested'])
+                         input_relation['requested'] or input_relation_shadow['requested'] or
+                         generic_new['requested'] or
+                         rebase_profile['requested'] or r3_profile['requested'] or
+                         postmark['requested'] or r3_nested['requested'] or ghost_scope['requested'])
     verified=(diagnostic_complete and proof_zero and callees_before_outer and nested_visible and
               all(controls.values()) and not test_only_requested and not independent and
               not recovery and not strict_cut_lane and
               not strict_false_posts_lane and not strict_reuse_lane and
-              not input_relation_lane and
-              not generic_new_lane and not r3_lane and not postmark_lane)
+              not input_relation_lane and not input_relation_shadow_lane and
+              not shadow_generic_lane and
+              not generic_new_lane and not r3_lane and not ghost_scope_lane and not postmark_lane)
     result={'lane':os.environ.get('LANE','o26-refresh'),
       'classification':('ACTUAL_PROOF_ACCEPTED' if verified else
          'INDEPENDENT_TESTS_DIAGNOSTIC_COMPLETE' if independent and diagnostic_complete else
@@ -1015,14 +1246,17 @@ def main():
          'STRICT_CUT_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_false_posts_lane and diagnostic_complete else
          'STRICT_CUT_REUSED_MATRIX_FALSE_POSTS_DISCOVERY_COMPLETE' if strict_reuse_lane and diagnostic_complete else
          'WRAPPER_INPUT_RELATION_SOURCE_CAPTURE_COMPLETE' if input_relation_lane and diagnostic_complete else
+         'SHADOW_BINDING_SOURCE_CAPTURE_COMPLETE' if input_relation_shadow_lane and diagnostic_complete else
+         'SHADOW_GENERIC_SORT4_DIAGNOSTICS_COMPLETE' if shadow_generic_lane and diagnostic_complete else
          'GENERIC_NEW_SOURCE_MIR_CAPTURE_COMPLETE' if generic_new_lane and diagnostic_complete else
          'GENERIC_SORT4_POSTMARK_DIAGNOSTICS_COMPLETE' if postmark_lane and diagnostic_complete else
+         'R3_GHOST_SCOPE_TEST_DIAGNOSTIC_COMPLETE' if ghost_scope_lane and diagnostic_complete else
          'WRAPPER_R3_NESTED_DIAGNOSTICS_COMPLETE' if r3_nested_lane and diagnostic_complete else
          'WRAPPER_R3_PROFILE_DIAGNOSTIC_COMPLETE' if r3_lane and diagnostic_complete else
          'WRAPPER_REBASE_PROFILE_DIAGNOSTIC_COMPLETE' if rebase_profile['requested'] and diagnostic_complete else
          'REFRESH_DIAGNOSTIC_COMPLETE' if diagnostic_complete else 'INCONCLUSIVE'),
       'diagnostic_complete':diagnostic_complete,'verification_accepted':verified,
-      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane,
+      'accepted':verified,'actual_helper_proved':proof_zero and callees_before_outer and nested_visible and not r3_nested_lane and not ghost_scope_lane,
       'generic_constructor_helper_proved':False,
       'source_mir_refinement_complete':pair,'profile_pins_complete':profile_ok,
       'full_proof_exit':stage.get('exit'),'prefix_callees_before_outer':callees_before_outer,
@@ -1036,16 +1270,26 @@ def main():
       'sort4_ast_probe_diagnostic':ast_probe,
       'wrapper_rebase_source_capture_diagnostic':wrapper_rebase,
       'wrapper_input_relation_source_capture_diagnostic':input_relation,
+      'wrapper_input_relation_shadow_source_capture_diagnostic':input_relation_shadow,
       'generic_new_source_mir_capture_diagnostic':generic_new,
       'wrapper_rebase_profile_diagnostic':rebase_profile,
       'wrapper_r3_profile_diagnostic':r3_profile,
       'r3_nested_order_test_diagnostic':r3_nested,
+      'r3_ghost_scope_test_diagnostic':ghost_scope,
+      'r3_ghost_scope_test_scope_complete':ghost_scope_requested if ghost_scope_lane else False,
       'sort4_postmark_print_diagnostic':postmark,
       'generic_sort4_postmark_scope_complete':postmark_requested if postmark_lane else False,
       'wrapper_r3_scope_complete':r3_requested if r3_lane else False,
       'independent_test_scope_complete':independent_requested if independent else False,
       'recovery_test_scope_complete':recovery_requested if recovery else False,
       'input_relation_source_scope_complete':input_relation_requested if input_relation_lane else False,
+      'input_relation_shadow_source_scope_complete':input_relation_shadow_requested if input_relation_shadow_lane else False,
+      'shadow_generic_sort4_scope_complete':shadow_generic_requested if shadow_generic_lane else False,
+      'shadow_generic_sort4_three_independent_results':{
+          'shadow_source_capture_complete':input_relation_shadow['complete'],
+          'generic_constructor_capture_complete':generic_new['complete'],
+          'sort4_postmark_diagnostic_complete':postmark['complete'],
+          'accepted':False} if shadow_generic_lane else None,
       'generic_new_source_scope_complete':generic_new_requested if generic_new_lane else False,
       'strict_cut_controls_scope_complete':strict_cut_requested if strict_cut_lane else False,
       'strict_cut_false_posts_scope_complete':strict_false_posts_requested if strict_false_posts_lane else False,

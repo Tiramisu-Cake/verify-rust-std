@@ -15,6 +15,37 @@ import tempfile
 
 ROOT = "research/challenge-8/cloud-build/"
 REQUIRED = {
+    "o26-r3-ghost-scope-test": (
+        "exact-infra-transport-controls.py", "source-input.py", "provider.py",
+        "o26-recipe.py", "o26-refresh-audit.py", "o26-refresh-recipe.py",
+        "o26-r3-profile.py", "o26-r3-ghost-scope-test.py",
+        "o26-wrapper-profile.py", "run-o26-refresh.sh",
+        "run-o26-wrapper-r3-profile.sh", "run-o26-r3-ghost-scope-lane.sh",
+        "run-o26-r3-ghost-scope-test.sh",
+        "recipes/o26-refresh.json", "recipes/o26-r3-ghost-scope-test.json",
+        "night-select-sort4/R3-GHOST-SCOPE-TEST-CARD.md",
+    ),
+    "o26-shadow-generic-sort4-diagnostics": (
+        "exact-infra-transport-controls.py", "o26-recipe.py",
+        "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
+        "source-input.py", "run-o26-refresh.sh",
+        "recipes/o26-refresh.json", "recipes/o26-input-relation-capture.json",
+        "recipes/o26-input-relation-shadow-capture.json",
+        "recipes/o26-generic-sort4-postmark-diagnostics.json",
+        "run-o26-input-relation-shadow-capture.sh",
+        "run-o26-generic-sort4-postmark-diagnostics.sh",
+        "run-o26-shadow-generic-sort4-diagnostics.sh",
+        "run-sort4-postmark-print-test.sh", "sort4-postmark-print-audit.py",
+        "actual-sort4-capture.py", "sort4-ast-audit.py",
+    ),
+    "o26-input-relation-shadow-capture": (
+        "exact-infra-transport-controls.py", "o26-recipe.py",
+        "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
+        "recipes/o26-refresh.json", "recipes/o26-input-relation-capture.json",
+        "source-input.py", "run-o26-refresh.sh",
+        "run-o26-input-relation-capture.sh",
+        "run-o26-input-relation-shadow-capture.sh",
+    ),
     "o26-wrapper-r3-nested-diagnostics": (
         "exact-infra-transport-controls.py", "o26-recipe.py",
         "o26-refresh-audit.py", "o26-refresh-recipe.py", "provider.py",
@@ -171,6 +202,27 @@ def main() -> None:
         need(set(canonical["proof_paths"]) | refresh | generic <=
              set(recipe["proof_paths"]),
              "generic capture recipe omits canonical or refresh proof dependency")
+    if a.lane == "o26-input-relation-shadow-capture":
+        parent = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                   "o26-input-relation-capture.json").read_text()),
+                   "o26-input-relation-capture")
+        shadow = {"research/challenge-8/overnight-assume-actual/" + name for name in
+                  ("prepare-wrapper-input-relation-shadow.py",
+                   "O26-WRAPPER-INPUT-RELATION-SHADOW-DRAFT.json",
+                   "CLOUD-WRAPPER-INPUT-RELATION-SHADOW-CAPTURE-CARD.md",
+                   "O26-WRAPPER-INPUT-RELATION-PROFILE.json")}
+        need((set(parent["proof_paths"]) | shadow).issubset(recipe["proof_paths"]) and
+             set(parent["infra_paths"]).issubset(recipe["infra_paths"]),
+             "shadow capture recipe omits input-relation parent or source dependency")
+    if a.lane == "o26-shadow-generic-sort4-diagnostics":
+        lanes=("o26-input-relation-shadow-capture",
+               "o26-generic-sort4-postmark-diagnostics")
+        parents=[source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
+                   (lane + ".json")).read_text()), lane) for lane in lanes]
+        need(all(set(parent["proof_paths"]).issubset(recipe["proof_paths"]) and
+                 set(parent["infra_paths"]).issubset(recipe["infra_paths"])
+                 for parent in parents),
+             "compound recipe omits shadow or generic/postmark parent closure")
     if a.lane == "o26-generic-sort4-postmark-diagnostics":
         parent = source.validate_recipe(json.loads((a.infra / source.RECIPE_PREFIX /
                          "o26-generic-new-capture.json").read_text()), "o26-generic-new-capture")

@@ -49,18 +49,31 @@ wrapper_rebase_mode=${O26_WITH_WRAPPER_REBASE_CAPTURE:-0}
 input_relation_mode=${O26_WITH_WRAPPER_INPUT_RELATION_CAPTURE:-0}
 [[ "$input_relation_mode" == 0 || "$input_relation_mode" == 1 ]] || exit 2
 [[ "$input_relation_mode" == 0 || "${LANE:-}" == o26-input-relation-capture ]] || exit 2
+input_relation_shadow_mode=${O26_WITH_WRAPPER_INPUT_RELATION_SHADOW_CAPTURE:-0}
+[[ "$input_relation_shadow_mode" == 0 || "$input_relation_shadow_mode" == 1 ]] || exit 2
+[[ "$input_relation_shadow_mode" == 0 ||
+   "${LANE:-}" == o26-input-relation-shadow-capture ||
+   "${LANE:-}" == o26-shadow-generic-sort4-diagnostics ]] || exit 2
 generic_new_mode=${O26_WITH_GENERIC_NEW_CAPTURE:-0}
 [[ "$generic_new_mode" == 0 || "$generic_new_mode" == 1 ]] || exit 2
 [[ "$generic_new_mode" == 0 || "${LANE:-}" == o26-generic-new-capture ||
-   "${LANE:-}" == o26-generic-sort4-postmark-diagnostics ]] || exit 2
+   "${LANE:-}" == o26-generic-sort4-postmark-diagnostics ||
+   "${LANE:-}" == o26-shadow-generic-sort4-diagnostics ]] || exit 2
 postmark_mode=${O26_WITH_SORT4_POSTMARK_PRINT_TEST:-0}
 [[ "$postmark_mode" == 0 || "$postmark_mode" == 1 ]] || exit 2
 [[ "$postmark_mode" == 0 ||
-   ( "${LANE:-}" == o26-generic-sort4-postmark-diagnostics && "$generic_new_mode" == 1 ) ]] || exit 2
+   ( ( "${LANE:-}" == o26-generic-sort4-postmark-diagnostics ||
+       "${LANE:-}" == o26-shadow-generic-sort4-diagnostics ) && "$generic_new_mode" == 1 ) ]] || exit 2
 r3_profile_mode=${O26_WITH_R3_PROFILE:-0}
 [[ "$r3_profile_mode" == 0 || "$r3_profile_mode" == 1 ]] || exit 2
 [[ "$r3_profile_mode" == 0 || "${LANE:-}" == o26-wrapper-input-relation-r3 ||
-   "${LANE:-}" == o26-wrapper-r3-nested-diagnostics ]] || exit 2
+   "${LANE:-}" == o26-wrapper-r3-nested-diagnostics ||
+   "${LANE:-}" == o26-r3-ghost-scope-test ]] || exit 2
+ghost_scope_mode=${O26_WITH_R3_GHOST_SCOPE_TEST:-0}
+[[ "$ghost_scope_mode" == 0 || "$ghost_scope_mode" == 1 ]] || exit 2
+[[ "$ghost_scope_mode" == 0 ||
+   ( "${LANE:-}" == o26-r3-ghost-scope-test && "$r3_profile_mode" == 1 ) ]] || exit 2
+[[ "${LANE:-}" != o26-r3-ghost-scope-test || "$ghost_scope_mode" == 1 ]] || exit 2
 r3_nested_mode=${O26_WITH_R3_NESTED_ORDER_TEST:-0}
 [[ "$r3_nested_mode" == 0 || "$r3_nested_mode" == 1 ]] || exit 2
 [[ "$r3_nested_mode" == 0 ||
@@ -332,6 +345,18 @@ if [[ "$r3_profile_mode" == 1 ]]; then
   printf '%s\n' "$r3_status" > "$ev/cases/wrapper-r3-profile-helper-exit-code.txt"
 fi
 
+if [[ "$ghost_scope_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/r3-ghost-scope-test-request.json"
+  ghost_scope_status=0
+  stage r3-ghost-scope-test bash "$cloud_dir/run-o26-r3-ghost-scope-test.sh" \
+    --r3-source "$work_root/o26-r3-profile-source" \
+    --r3-evidence "$ev/cases/wrapper-r3-profile" \
+    --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/r3-ghost-scope-test" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" || ghost_scope_status=$?
+  printf '%s\n' "$ghost_scope_status" > "$ev/cases/r3-ghost-scope-test-helper-exit-code.txt"
+fi
+
 if [[ "$r3_nested_mode" == 1 ]]; then
   printf '{"requested":true}\n' > "$ev/cases/r3-nested-order-test-request.json"
   r3_nested_status=0
@@ -372,6 +397,16 @@ if [[ "$input_relation_mode" == 1 ]]; then
     --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-input-relation-capture" \
     --deadline-epoch "$deadline" --wrapper-input-relation --fingerprint || input_relation_status=$?
   printf '%s\n' "$input_relation_status" > "$ev/cases/wrapper-input-relation-capture-helper-exit-code.txt"
+fi
+
+if [[ "$input_relation_shadow_mode" == 1 ]]; then
+  printf '{"requested":true}\n' > "$ev/cases/wrapper-input-relation-shadow-capture-request.json"
+  input_relation_shadow_status=0
+  stage wrapper-input-relation-shadow-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
+    --tool-home "$source_home" --schema "$schema" \
+    --compiler-sysroot "$compiler_sysroot" --evidence "$ev/cases/wrapper-input-relation-shadow-capture" \
+    --deadline-epoch "$deadline" --wrapper-input-relation-shadow --fingerprint || input_relation_shadow_status=$?
+  printf '%s\n' "$input_relation_shadow_status" > "$ev/cases/wrapper-input-relation-shadow-capture-helper-exit-code.txt"
 fi
 
 if [[ "$coordination_mode" == 1 ]]; then
