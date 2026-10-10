@@ -364,6 +364,55 @@ record={'candidate':'exact std::slice::<impl [T]>::as_mut_ptr name alias to exis
 SLICE_IDENTITY
 fi
 
+# Exact own composition overlays; absent profile/list preserves the old lane.
+compose_overlay_profile="$proof_root/research/challenge-8/cloud-build/sort4-native-compose-c1/profile.json"
+if [[ "${LANE:-}" == o26-sort4-caller-entry && -f "$compose_overlay_profile" ]]; then
+  stage compose-tool-overlays python3 - "$compose_overlay_profile" "$proof_root" "$source_home" "$ev" <<'COMPOSE_OVERLAYS'
+import hashlib,json,pathlib,re,subprocess,sys
+profile_path,proof,source,evidence=map(pathlib.Path,sys.argv[1:])
+p=json.loads(profile_path.read_text())
+def need(ok,why):
+    if not ok: raise RuntimeError('composition overlay: '+why)
+need(p.get('profile_accepted') is False and p.get('cloud_enabled') is True,'experimental enablement')
+rows=p.get('tool_overlays',[])
+need(type(rows) is list and len(rows)<=2,'overlay list')
+translator='src/rust_frontend/vf_mir_translator/vf_mir_translator.ml'
+scope=proof/'research/challenge-8/cloud-build/sort4-native-compose-c1'
+def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+def git(*args): return subprocess.check_output(['git','-C',str(source),*args])
+frozen_paths=[source/'src/verifast.ml',source/'src/rust_frontend/vf_mir_translator/rust_parser.ml',
+              source/'src/rust_frontend/vf_mir/vf_mir.capnp',*sorted((source/'bin/rust').rglob('*.rsspec'))]
+frozen={str(path):digest(path) for path in frozen_paths}
+names=git('diff','--name-only','HEAD')
+records=[]
+for row in rows:
+    need(set(row)=={'path','patch_sha256','base_translator_sha256','patched_translator_sha256'},'overlay schema')
+    need(all(re.fullmatch('[0-9a-f]{64}',row[key]) for key in
+               ('patch_sha256','base_translator_sha256','patched_translator_sha256')),'SHA format')
+    patch=proof/row['path']
+    need(patch.resolve().parent==scope.resolve() and patch.suffix=='.patch','own patch scope')
+    need(digest(patch)==row['patch_sha256'],'patch SHA')
+    text=patch.read_text()
+    headers=[line for line in text.splitlines() if line.startswith(('diff --git ','--- ','+++ '))]
+    need(headers==[f'diff --git a/{translator} b/{translator}',f'--- a/{translator}',f'+++ b/{translator}'],'translator-only patch')
+    need(digest(source/translator)==row['base_translator_sha256'],'base translator')
+    subprocess.run(['git','-C',str(source),'apply','--check',str(patch)],check=True)
+    subprocess.run(['git','-C',str(source),'apply',str(patch)],check=True)
+    need(digest(source/translator)==row['patched_translator_sha256'],'patched translator')
+    need(git('diff','--name-only','HEAD')==names,'modified file set')
+    need({str(path):digest(path) for path in frozen_paths}==frozen,'frozen sources/specs')
+    records.append(row)
+if rows:
+    full=evidence/'candidate-applied.patch'
+    full.write_bytes(git('diff','HEAD'))
+    (evidence/'candidate-applied.sha256').write_text(digest(full)+'  '+str(full)+'\n')
+(evidence/'compose-overlay-install.json').write_text(json.dumps({
+    'profile_sha256':digest(profile_path),'overlays':records,'frozen_files_unchanged':True,
+    'semantic_overlay_enabled':p.get('semantic_overlay_enabled'),'accepted':False
+},indent=2,sort_keys=True)+'\n')
+COMPOSE_OVERLAYS
+fi
+
 deps_archive="$task_temp/vfdeps-adf88dc-linux.txz"
 stage deps-download curl -fL --retry 2 -o "$deps_archive" \
   https://github.com/verifast/vfdeps/releases/download/25.01/vfdeps-adf88dc-linux.txz

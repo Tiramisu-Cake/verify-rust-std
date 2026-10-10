@@ -6619,3 +6619,16 @@ credit. Exact archive/source/MIR pins and next falsifiable correction in
 Raw graph's lowercase Continue is preserved; initial uppercase string count
 is diagnostic only, not unwind admission. Next source assertions separated;
 stock strict/HRTB opts only in verifier, no proof-mode flags in exporter/refiner.
+
+### Fresh helper boundary 4a0b4f8b
+
+Proof=infra5dc32b47;304seconds, session1008/3600; archive6dfe29f4 full hash/text
+inventory verified. Support normal/readonly export/decode/refinement0. FullVF1
+entered helper, firstunknownmarker source189, native notentered; stockASTdump2
+FailureTODO. [Exact source/MIR/tool and decision](cloud-build/sort4-native-compose-c1/BUILD3-REVIEW.md).
+Independent Sol capture-only concrete review GO (852257patch/4dc5translator):
+same immutable target Func only, full verifier capture-off; missing targetfile
+fails capture and cannot authorize splice. New own tool reproduces Cloud4d3
+base from verified candidatepatch4113; old8e467chain/worktree preserved. No
+composition proof credit. Saved-MIR service replay passes ordered1/0, native
+args,8callback locals and synthetic mutation refusals; replay is not proof.

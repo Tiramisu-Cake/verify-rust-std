@@ -26,17 +26,20 @@ keep its unbound refusal. No new proof result claimed before full fresh gates.
 
 ## Current fresh evidence and next permitted step
 
-Two terminal own Builds,704/3600 seconds. `fc01881e` compiler E0255 duplicate
+Three terminal own Builds,1008/3600 seconds. `fc01881e` compiler E0255 duplicate
 Freeze preparation failure; corrected without changing frozen tool. `e71803aa`
 normal/readonly export, complete MIR and refinement pass; AST/full verifier
 parse refusal source226 before either target proof entry. No new completed
 composition, all previous proof credit unchanged. [Exact capture](cloud-build/sort4-native-compose-c1/CAPTURE-E71803AA.md).
+`4a0b4f8b` fresh support all0; helper entered, unknown unwind marker source189;
+native not entered. Stock AST dump FailureTODO. [Full boundary and pins](cloud-build/sort4-native-compose-c1/BUILD3-REVIEW.md).
 
-Next fresh capture separates native ghost assertions; enables only existing
-reviewed strict lifetime/HRTB verifier options, leaving exports/refinement
-opt-in-free. New source requires new evidence. Target-only unchanged-Func AST
-instrumentation is independently reviewed but only permitted after actual
-stock serializer failure; no new semantic overlay yet.
+Next fresh capture uses independently reviewed target-only unchanged-Func
+instrumentation against exact frozen production translator4d3a. Fresh source,
+both MIR and refinement remain required; strict/HRTB proof options unchanged.
+Full verifier capture-off must retain the same marker refusal. Target AST and
+raw exact-source/hash review required before semantic splice; no proof credit
+from capture. No new semantic overlay yet.
 
 C2 sibling-scope package has independent pre-Cloud diagnostic review. It binds
 parsed cmp2 after CURRENT c1 normal join, preserves C1 direct-unwind exit and

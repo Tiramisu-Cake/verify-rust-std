@@ -65,7 +65,9 @@ def snapshot(a: argparse.Namespace) -> dict:
         "production_applied_patch_sha256": sha(a.production_applied_patch),
         "proof_sha": os.environ["PROOF_SHA"],
         "infra_sha": os.environ["INFRA_SHA"],
-        "profile": "SORT4_NATIVE_COMPOSE_C1_BASELINE_CAPTURE_NO_NEW_OVERLAY",
+        "profile": "SORT4_NATIVE_COMPOSE_C1_TARGET_FUNC_AST_CAPTURE"
+            if a.capture_target_ast else
+            "SORT4_NATIVE_COMPOSE_C1_BASELINE_CAPTURE_NO_NEW_OVERLAY",
         "accepted": False,
     }
 
@@ -124,9 +126,35 @@ def run(a: argparse.Namespace) -> dict:
     need(profile.get("cloud_enabled") is True and
          profile.get("semantic_overlay_enabled") is False,
          "initial composition capture profile must be explicitly enabled without new overlay")
+    capture_target_ast = profile.get("capture_target_ast") is True
+    a.capture_target_ast = capture_target_ast
+    need(profile.get("capture_target_ast") in (None, False, True),
+         "malformed target-AST capture opt-in")
     use_frozen_proof_opts = profile.get("capture_existing_strict_hrtb") is True
     need(profile.get("capture_existing_strict_hrtb") in (None, False, True),
          "malformed existing strict/HRTB opt-in")
+    if capture_target_ast:
+        expected_overlay = [{
+            "path": "research/challenge-8/cloud-build/sort4-native-compose-c1/capture-overlay.patch",
+            "patch_sha256":
+                "852257b98cb6acc2f9cd19162a38466559ac283191dcb0bfd7f3b54e1e435003",
+            "base_translator_sha256":
+                "4d3a190fcec695415b41162ddf8d71aec6e2826d2b69e7692df306a568add98c",
+            "patched_translator_sha256":
+                "4dc5f332d4c813fee966ef0724aa1f8ce0e6578ff1e15a0cb61bfb9719c6d14e",
+        }]
+        need(use_frozen_proof_opts and
+             profile.get("tool_overlays") == expected_overlay and
+             sha(a.production_source /
+                 "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml") ==
+             "4dc5f332d4c813fee966ef0724aa1f8ce0e6578ff1e15a0cb61bfb9719c6d14e" and
+             sha(a.proof_root /
+                 "research/challenge-8/cloud-build/sort4-native-compose-c1/capture-overlay.patch") ==
+             "852257b98cb6acc2f9cd19162a38466559ac283191dcb0bfd7f3b54e1e435003" and
+             subprocess.check_output(
+                 ["git", "-C", str(a.production_source), "diff"]) ==
+             a.production_applied_patch.read_bytes(),
+             "target AST capture must use exact fresh production overlay")
     before = snapshot(a)
     write(a.evidence / "tool-snapshot.json", before)
     prep = load(a.proof_root / "research/challenge-8/cloud-build/sort4-native-compose-c1/prepare.py",
@@ -173,6 +201,7 @@ def run(a: argparse.Namespace) -> dict:
         "verifier_opt_ins": {key: value for key, value in proof_env.items()
                             if key.startswith("SORT4_")},
         "normal_and_readonly_export_refinement_opt_ins": {},
+        "target_ast_capture_enabled_only_for_ast_diagnostic": capture_target_ast,
     })
     exporter = str(a.production_source / "bin/vf-rust-mir-exporter")
     verifier = str(a.production_source / "bin/verifast")
@@ -219,16 +248,44 @@ def run(a: argparse.Namespace) -> dict:
         "compiler_stage_exits": {name: item.get("exit") for name, item in stages.items()},
         "actual_caller_cfg_proved": False,
     })
+    mir_audit = {"classification": "NOT_RUN", "accepted": False}
     if support:
+        try:
+            auditor = load(
+                a.proof_root /
+                "research/challenge-8/cloud-build/sort4-native-compose-c1/audit_mir.py",
+                "compose_mir_audit")
+            mir_audit = auditor.audit_case(root)
+            mir_audit["accepted"] = False
+        except (ValueError, OSError, IndexError) as exc:
+            mir_audit = {"classification": "STRUCTURAL_MIR_AUDIT_REFUSED",
+                         "accepted": False, "error": str(exc)}
+    write(root / "paired-mir-structural-audit.json", mir_audit)
+    if support:
+        ast_env = proof_env.copy()
+        if capture_target_ast:
+            ast_env["SORT4_NATIVE_C1_AST_CAPTURE"] = "1"
         stages["proof-ast-diagnostic"] = stage(
             a, fixture, "proof-ast-diagnostic",
             [verifier, "-dump_ast_with_locs", "proof-ast.ml", "-rustc_args",
-             "--edition 2021", "verified/lib.rs"], proof_env, 90)
+             "--edition 2021", "verified/lib.rs"], ast_env, 90)
         ast_path = fixture / "proof-ast.ml"
+        target_ast_path = fixture / "c1-original-func-ast.ml"
+        ast_log = (fixture / "proof-ast-diagnostic.log").read_text(errors="replace")
+        target_capture_confirmed = bool(
+            capture_target_ast and target_ast_path.is_file() and
+            "NATIVE-C1-AST-CAPTURE source_sha256=" +
+            cert["verified_sha256"] in ast_log and
+            "ast_sha256=" + sha(target_ast_path) in ast_log)
         write(root / "proof-ast-capture.json", {
-            "classification": "CAPTURED_PRE_VERIFICATION_AST"
-                if ast_path.is_file() else "NOT_CONFIRMED",
+            "classification": "CAPTURED_EXACT_PRE_OVERLAY_HELPER_FUNC_AST"
+                if target_capture_confirmed else
+                "CAPTURED_PRE_VERIFICATION_AST" if ast_path.is_file() else
+                "NOT_CONFIRMED",
             "sha256": sha(ast_path) if ast_path.is_file() else None,
+            "target_func_ast_sha256": sha(target_ast_path)
+                if target_capture_confirmed else None,
+            "target_func_ast_immutable": target_capture_confirmed,
             "stage_exit": stages["proof-ast-diagnostic"].get("exit"),
             "proof_verdict": None,
             "may_fail_at_MergeFractionsStmt_serializer": True,
@@ -263,6 +320,8 @@ def run(a: argparse.Namespace) -> dict:
         "all_errors": errors, "helper_entry_offset": helper_entry,
         "native_entry_offset": native_entry,
         "source_mir": mir,
+        "paired_mir_structural_audit": mir_audit["classification"],
+        "target_ast_capture_enabled": capture_target_ast,
         "existing_strict_and_hrtb_enabled": use_frozen_proof_opts,
         "stages": {name: item.get("exit") for name, item in stages.items()},
         "full_actual_caller_proved": False,

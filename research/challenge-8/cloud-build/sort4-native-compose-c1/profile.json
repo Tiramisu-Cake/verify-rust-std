@@ -2,6 +2,15 @@
   "classification": "EXPERIMENTAL_NATIVE_C1_COMPOSE_BASELINE_CAPTURE_NOT_PROOF",
   "cloud_enabled": true,
   "capture_existing_strict_hrtb": true,
+  "capture_target_ast": true,
+  "tool_overlays": [
+    {
+      "path": "research/challenge-8/cloud-build/sort4-native-compose-c1/capture-overlay.patch",
+      "patch_sha256": "852257b98cb6acc2f9cd19162a38466559ac283191dcb0bfd7f3b54e1e435003",
+      "base_translator_sha256": "4d3a190fcec695415b41162ddf8d71aec6e2826d2b69e7692df306a568add98c",
+      "patched_translator_sha256": "4dc5f332d4c813fee966ef0724aa1f8ce0e6578ff1e15a0cb61bfb9719c6d14e"
+    }
+  ],
   "profile_accepted": false,
   "semantic_overlay_enabled": false,
   "phase": "SORT4-NATIVE-COMPOSE-C1-CLOUD-2026-10-10"

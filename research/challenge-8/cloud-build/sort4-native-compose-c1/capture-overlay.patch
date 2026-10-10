@@ -1,0 +1,91 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6380,8 +6380,24 @@
+               [],
+               Static )))
+ 
++  (* Diagnostic-only extraction of one immutable pre-overlay function AST.
++     The exact source fingerprint and duplicate-output guard make this a
++     source-specific capture rather than a general AST dump bypass. *)
++  let native_c1_original_func_capture_seen = ref false
++
+   let translate_body (body_tr_defs_ctx : body_tr_defs_ctx) (body_cpn : BodyRd.t)
+       =
++    let native_c1_capture =
++      match Sys.getenv_opt "SORT4_NATIVE_C1_AST_CAPTURE" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "NATIVE-C1-AST-CAPTURE: malformed opt-in" in
++    if native_c1_capture &&
++       (Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++        Sys.getenv_opt "SORT4_HRTB_OUTPUT" <> Some "1" ||
++        Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <>
++          Some "c1_source_prefix") then
++      failwith "NATIVE-C1-AST-CAPTURE: existing proof opt-ins differ";
+     let open BodyRd in
+     let var_id_trs_map_ref = ref [] in
+     let* fn_sig_loc = translate_span_data (fn_sig_span_get body_cpn) in
+@@ -6846,6 +6862,62 @@
+                       @ callback_unwind_epilog,
+                       closing_cbrace_loc )))
+         in
++        let body =
++          if not native_c1_capture || name <> "c1_source_prefix" then body
++          else begin
++            let reject why = failwith ("NATIVE-C1-AST-CAPTURE: " ^ why) in
++            if !native_c1_original_func_capture_seen then
++              reject "duplicate target body";
++            let source_file, source_line =
++              match Ast.lexed_loc fn_sig_loc with
++              | ((file, line, _), (last_file, _, _)) when file = last_file ->
++                  file, line
++              | _ -> reject "target signature location" in
++            if source_file <> "verified/lib.rs" || source_line <> 135 then
++              reject "target signature source line/path";
++            let source =
++              let ic = open_in_bin source_file in
++              Fun.protect ~finally:(fun () -> close_in ic)
++                (fun () -> really_input_string ic (in_channel_length ic)) in
++            let count_exact needle =
++              let rec loop offset count =
++                if offset + String.length needle > String.length source then count
++                else if String.sub source offset (String.length needle) = needle
++                then loop (offset + String.length needle) (count + 1)
++                else loop (offset + 1) count in
++              loop 0 0 in
++            if count_exact "pub unsafe fn c1_source_prefix<" <> 1 ||
++               count_exact "__vf_c1_compose_unwind();" <> 1 ||
++               count_exact "let c1 = is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/" <> 1
++            then reject "target source inventory";
++            let read_sha path =
++              let ic = Unix.open_process_in
++                ("/usr/bin/sha256sum -- " ^ Filename.quote path) in
++              let line = input_line ic in
++              let status = Unix.close_process_in ic in
++              if status <> Unix.WEXITED 0 || String.length line < 66 ||
++                 String.sub line 64 2 <> "  " ||
++                 String.sub line 66 (String.length line - 66) <> path then
++                reject ("sha256sum failed for " ^ path);
++              String.sub line 0 64 in
++            let source_sha = read_sha source_file in
++            if source_sha <>
++               "28716b042293c4b5211d5696464696fa7da073ca15301a6002b62f3813d3497e"
++            then reject "verified source SHA256";
++            let output = "c1-original-func-ast.ml" in
++            if Sys.file_exists output then reject "preexisting output path";
++            native_c1_original_func_capture_seen := true;
++            let before = Marshal.to_string body [Marshal.No_sharing] in
++            Ocaml_expr_formatter.print_ocaml_expr_to_file false output
++              (Ocaml_expr_of_ast.of_decl body);
++            let after = Marshal.to_string body [Marshal.No_sharing] in
++            if before <> after then reject "serializer mutated original Func";
++            Printf.eprintf
++              "NATIVE-C1-AST-CAPTURE source_sha256=%s ast_sha256=%s immutable_md5=%s\n%!"
++              source_sha (read_sha output)
++              (Digest.to_hex (Digest.string before));
++            body
++          end in
+         let body_sig_opt =
+           match contract_template_opt with
+           | None -> None
