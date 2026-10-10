@@ -1,6 +1,6 @@
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -6784,17 +6784,32 @@
+@@ -6784,17 +6784,47 @@
        | None | Some "0" -> false
        | Some "1" -> true
        | _ -> failwith "SORT4-C4-CAPTURE: malformed opt-in" in
@@ -11,10 +11,25 @@
 +      | _ -> failwith "SORT4-C4-FIRST-SELECT: malformed opt-in" in
 +    let c4_first_select_control =
 +      match Sys.getenv_opt "SORT4_C4_FIRST_SELECT_CONTROL" with
-+      | None | Some "none" -> "none"
++      | None | Some "none" -> `None
 +      | Some "wrong-selected-original" when c4_first_select_requested ->
-+          "wrong-selected-original"
++          `WrongSelectedOriginal
++      | Some "leak-thread-token" when c4_first_select_requested ->
++          `LeakThreadToken
++      | Some "leak-current-four-cell-frame" when c4_first_select_requested ->
++          `LeakCurrentFourCellFrame
 +      | _ -> failwith "SORT4-C4-FIRST-SELECT: control requires exact first-select mode" in
++    let c4_first_select_admission_mutant =
++      match Sys.getenv_opt "SORT4_C4_FIRST_SELECT_ADMISSION_MUTANT" with
++      | None | Some "none" -> `NoAdmissionMutant
++      | Some "type" when c4_first_select_requested -> `TypeMutant
++      | Some "move" when c4_first_select_requested -> `MoveMutant
++      | Some "edge" when c4_first_select_requested -> `EdgeMutant
++      | _ -> failwith
++          "SORT4-C4-FIRST-SELECT: admission mutant requires exact first-select mode" in
++    if c4_first_select_control <> `None &&
++       c4_first_select_admission_mutant <> `NoAdmissionMutant then
++      failwith "SORT4-C4-FIRST-SELECT: semantic control and admission mutant are exclusive";
      let c4_bound_requested =
        match Sys.getenv_opt "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST" with
        | None | Some "0" -> false
@@ -33,18 +48,13 @@
           (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
            | None | Some "none" -> false | _ -> true) ||
           (match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
-@@ -8231,15 +8246,33 @@
-                  List.iter2 check_local c4_local_names c4_locals;
-                  check_local "c4" (root 156);
+@@ -8233,13 +8263,46 @@
                   let future_indexes =
--                   [190; 191; 192; 193; 194; 195] in
-+                   if c4_first_select_requested then [193; 194; 195]
-+                   else [190; 191; 192; 193; 194; 195] in
+                    [190; 191; 192; 193; 194; 195] in
                   let future_decls =
 -                   List.filteri (fun i _ -> List.mem i future_indexes)
 +                   List.filteri (fun i _ ->
-+                     List.mem i (if c4_first_select_requested then
-+                       [190; 191; 192; 193; 194; 195] else future_indexes))
++                     List.mem i future_indexes)
                       original_body in
                   if List.length future_decls <> 6 then reject "later-call declarations";
                   List.iter (function
@@ -52,10 +62,27 @@
                       when not !taken -> ()
                     | _ -> reject "later-call declaration has init/address") future_decls;
 +                 if c4_first_select_requested then begin
-+                   List.iter2 check_local ["$_171"; "$_172"; "$_173"]
-+                     (List.filteri (fun i _ -> i >= 190 && i <= 192)
-+                       original_body);
-+                   check_local "min" (root 189);
++                   let check_typed_local name type_matches stmt =
++                     match stmt with
++                     | Ast.DeclStmt (_, [(_, Some local_type, actual,
++                                           None, (taken, _))])
++                       when actual = name && not !taken &&
++                            type_matches local_type -> ()
++                     | _ -> reject ("exact selector local declaration/type " ^
++                                    name) in
++                   check_typed_local "min" (function
++                     | Ast.ConstTypeExpr (_, Ast.PtrTypeExpr (_,
++                         Ast.IdentTypeExpr (_, None, "T"))) -> true
++                     | _ -> false) (root 167);
++                   check_typed_local "$_171" (function
++                     | Ast.ManifestTypeExpr (_, Ast.Bool) -> true
++                     | _ -> false) (root 168);
++                   List.iter (fun (name, index) ->
++                     check_typed_local name (function
++                       | Ast.PtrTypeExpr (_,
++                           Ast.IdentTypeExpr (_, None, "T")) -> true
++                       | _ -> false) (root index))
++                     [("$_172",169);("$_173",170)];
 +                   let declared name = List.filter (function
 +                     | Ast.DeclStmt (_, vars) ->
 +                         List.exists (fun (_, _, actual, _, _) ->
@@ -69,33 +96,115 @@
                   let kept_decls =
                     List.filteri (fun i _ ->
                       i < 220 && not (24 <= i && i <= 31) &&
-@@ -8247,7 +8280,8 @@
+@@ -8247,7 +8310,8 @@
                       not (121 <= i && i <= 126) &&
                       not (157 <= i && i <= 162) &&
                       not (List.mem i future_indexes)) original_body in
 -                 if List.length kept_decls <> 184 then
 +                 if List.length kept_decls <>
-+                    (if c4_first_select_requested then 187 else 184) then
++                    184 then
                     reject "outer local declaration inventory";
                   let block_loc, cmp_decl, old_stmts, old_close =
                     match root 224 with
-@@ -8565,6 +8599,81 @@
+@@ -8565,6 +8629,197 @@
                     if control = "c4-normal-omit-join" then
                       Ast.NoopStmt (Ast.stmt_loc (block (c4_cut_index + 2)))
                     else block (c4_cut_index + 2) in
++                 let c4_first_select_fingerprint node =
++                   Digest.to_hex (Digest.string
++                     (Marshal.to_string node [Marshal.No_sharing])) in
++                 let report_c4_first_select_mutation name old_node new_node =
++                   Printf.printf
++                     "SORT4-C4-FIRST-SELECT-ADMISSION-MUTANT: %s old=%s new=%s pre_ast=%s\n%!"
++                     name (c4_first_select_fingerprint old_node)
++                     (c4_first_select_fingerprint new_node)
++                     (String.sub pre_sha 0 64) in
 +                 let first_select =
 +                   if not c4_first_select_requested then [] else begin
++                     let block_for_first_select index =
++                       let stmt = block index in
++                       if index = 173 &&
++                          c4_first_select_admission_mutant = `MoveMutant then
++                         match stmt with
++                         | Ast.ExprStmt (Ast.AssignExpr
++                             (loc, lhs, kind, Ast.Var (rhs_loc, "a"))) ->
++                           let changed = Ast.ExprStmt (Ast.AssignExpr
++                             (loc, lhs, kind, Ast.Var (rhs_loc, "d"))) in
++                           report_c4_first_select_mutation "MOVE" stmt changed;
++                           changed
++                         | _ -> reject "MOVE: exact original operand mutation shape"
++                       else stmt in
 +                     List.iter (fun (index, dst, src) ->
-+                       match block index with
++                       match block_for_first_select index with
 +                       | Ast.ExprStmt (Ast.AssignExpr
 +                           (_, Ast.Var (_, actual_dst), Ast.Mutation,
 +                            Ast.Var (_, actual_src)))
 +                         when actual_dst = dst && actual_src = src &&
-+                              source_line (block index) = 487 -> ()
-+                       | _ -> reject "exact original first selector operand setup")
++                              source_line (block_for_first_select index) = 487 -> ()
++                       | _ -> reject
++                           (if c4_first_select_admission_mutant = `MoveMutant &&
++                               index = 173 then
++                              "MOVE: exact original first selector operand setup"
++                            else "exact original first selector operand setup"))
 +                       [(171, "$_171", "c3"); (172, "$_172", "c");
 +                        (173, "$_173", "a")];
-+                     let original = block 174 in
++                     let original =
++                       let original = block 174 in
++                       match c4_first_select_admission_mutant, original with
++                       | `TypeMutant, Ast.SwitchStmt (loc,
++                           Ast.CallExpr (call_loc, name, type_args, indices,
++                             args, binding), clauses) ->
++                           let type_args = match type_args with
++                             | [Ast.PtrTypeExpr (ptr_loc,
++                                 Ast.IdentTypeExpr (type_loc, pkg, "T"))] ->
++                                 [Ast.PtrTypeExpr (ptr_loc,
++                                   Ast.IdentTypeExpr (type_loc, pkg, "u8"))]
++                             | _ -> reject "TYPE: exact original selector type mutation shape" in
++                           let changed = Ast.SwitchStmt (loc,
++                             Ast.CallExpr (call_loc, name, type_args, indices,
++                               args, binding), clauses) in
++                           report_c4_first_select_mutation "TYPE" original changed;
++                           changed
++                       | `EdgeMutant, Ast.SwitchStmt (loc, call,
++                           [Ast.SwitchStmtClause (return_loc, returning, return_ss);
++                            Ast.SwitchStmtClause (unwind_loc, unwinding, unwind_ss)]) ->
++                           let changed = Ast.SwitchStmt (loc, call,
++                             [Ast.SwitchStmtClause (return_loc, returning, unwind_ss);
++                              Ast.SwitchStmtClause (unwind_loc, unwinding, return_ss)]) in
++                           report_c4_first_select_mutation "EDGE" original changed;
++                           changed
++                       | (`TypeMutant | `EdgeMutant), _ ->
++                           reject "TYPE/EDGE: exact original selector mutation shape"
++                       | _ -> original in
++                     let check_successor_association stmt =
++                       let is_returning = function
++                         | Ast.CallExpr (_, "returning", [], [],
++                             [Ast.LitPat (Ast.Var (_, "__result"))], Ast.Static) -> true
++                         | _ -> false in
++                       let is_unwinding = function
++                         | Ast.CallExpr (_, "unwinding", [], [], [], Ast.Static) -> true
++                         | _ -> false in
++                       let expected_return = function
++                         | [Ast.ExprStmt (Ast.AssignExpr
++                             (_, Ast.Var (_, "min"), Ast.Initialization,
++                              Ast.Var (_, "__result")))] -> true
++                         | _ -> false in
++                       let expected_unwind = function
++                         | [Ast.ReturnStmt (_, Some (Ast.CallExpr
++                             (_, "unwinding", [], [], [], Ast.Static)))] -> true
++                         | _ -> false in
++                       match stmt with
++                       | Ast.SwitchStmt (_, _, [
++                           Ast.SwitchStmtClause (_, outcome1, ss1);
++                           Ast.SwitchStmtClause (_, outcome2, ss2)]) ->
++                           let association_ok =
++                             (is_returning outcome1 && expected_return ss1 &&
++                              is_unwinding outcome2 && expected_unwind ss2) in
++                           if not association_ok then
++                             reject "EDGE: source-derived normal/unwind successor identity"
++                       | _ -> reject "EDGE: source-derived normal/unwind successor inventory" in
++                     if c4_first_select_admission_mutant = `EdgeMutant then
++                       check_successor_association original;
 +                     let transformed = match original with
 +                       | Ast.SwitchStmt
 +                           (loc,
@@ -142,7 +251,12 @@
 +                                  Ast.LitPat (Ast.Var (call_loc, "$_173"))],
 +                                 Ast.Static),
 +                               clauses)
-+                       | _ -> reject "exact original first selector call/type/operands" in
++                       | _ -> reject
++                           (if c4_first_select_admission_mutant = `TypeMutant then
++                              "TYPE: exact original first selector call/type/operands"
++                            else if c4_first_select_admission_mutant = `EdgeMutant then
++                              "EDGE: exact original first selector call/type/operands"
++                            else "exact original first selector call/type/operands") in
 +                     let result_assertion =
 +                       let loc = Ast.stmt_loc transformed in
 +                       Ast.Assert
@@ -153,15 +267,44 @@
 +                              Ast.IfExpr
 +                                (loc, Ast.Var (loc, "c3"),
 +                                 Ast.Var (loc, if c4_first_select_control =
-+                                  "wrong-selected-original" then "a" else "c"),
++                                  `WrongSelectedOriginal then "a" else "c"),
 +                                 Ast.Var (loc, if c4_first_select_control =
-+                                  "wrong-selected-original" then "c" else "a"))])) in
-+                     [block 171; block 172; block 173; transformed; result_assertion]
++                                  `WrongSelectedOriginal then "c" else "a"))])) in
++                     let leak_control =
++                       let loc = Ast.stmt_loc transformed in
++                       match c4_first_select_control with
++                       | `LeakThreadToken ->
++                           Printf.printf
++                             "SORT4-C4-FIRST-SELECT-SEMANTIC-CONTROL: leak-thread-token at source-487 after selector\n%!";
++                           [Ast.Leak (loc,
++                             Ast.CallExpr (loc, "thread_token", [], [],
++                               [Ast.LitPat (Ast.Var (loc, "t"))], Ast.Static))]
++                       | `LeakCurrentFourCellFrame ->
++                           Printf.printf
++                             "SORT4-C4-FIRST-SELECT-SEMANTIC-CONTROL: leak-current-four-cell-frame at source-487 after selector\n%!";
++                           let xs = Ast.VarPat (loc, "#c4_select_frame_xs") in
++                           let four = Ast.SliceExpr (loc, None, Some
++                             (Ast.LitPat (Ast.IntLit (loc,
++                               Big_int.big_int_of_string "4", true, false,
++                               Ast.NoLSuffix)))) in
++                           let cells = Ast.PointsTo (loc,
++                             Ast.ReadArray (loc, Ast.Var (loc, "v_base"), four),
++                             Ast.RegularPointsTo, xs) in
++                           let own = Ast.CallExpr (loc, "own",
++                             [Ast.IdentTypeExpr (loc, None, "T")], [],
++                             [Ast.LitPat (Ast.Var (loc, "t"))], Ast.Static) in
++                           let each = Ast.CallExpr (loc, "foreach", [], [],
++                             [Ast.LitPat (Ast.Var (loc, "#c4_select_frame_xs"));
++                              Ast.LitPat own], Ast.Static) in
++                           [Ast.Leak (loc, Ast.Sep (loc, cells, each))]
++                       | _ -> [] in
++                     [block 171; block 172; block 173; transformed;
++                      result_assertion] @ leak_control
 +                   end in
                   let outer = Ast.BlockStmt
                     (block_loc, [],
                      [c1_child; Ast.NoopStmt cut1; block 35; block 36;
-@@ -8574,7 +8683,7 @@
+@@ -8574,7 +8829,7 @@
                      [c3_child; Ast.NoopStmt cut3;
                       block (c3_cut_index + 1); c3_normal_join;
                       block 134; c4_child; Ast.NoopStmt cut4;
@@ -170,7 +313,7 @@
                      old_close, ref []) in
                   let normal_wrapper = Ast.BlockStmt
                     (Ast.stmt_loc (root 220), [],
-@@ -8677,8 +8786,11 @@
+@@ -8677,8 +8932,11 @@
                     "actual-c4-bound-post-ast.ml"
                     (Ocaml_expr_of_ast.of_decl changed_decl);
                   Printf.eprintf
@@ -184,7 +327,128 @@
                     (List.length gotos) control;
                   changed_decl
                 end else if c2_discovery_requested then begin
-@@ -17148,12 +17260,211 @@
+@@ -15105,6 +15363,26 @@
+       Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
+     let rebase = sort4_wrapper_rebase_opt_in root in
+     let input_relation = sort4_wrapper_input_relation_opt_in root in
++    let reachable_unwind_mutant =
++      match Sys.getenv_opt "SORT4_SELECTOR_REACHABLE_UNWIND_MUTANT" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> reject "reachable-unwind mutant malformed opt-in" in
++    if reachable_unwind_mutant then (
++      let c4_first_select_mode =
++        Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" in
++      let semantic_control =
++        Sys.getenv_opt "SORT4_C4_FIRST_SELECT_CONTROL" in
++      let admission_mutant =
++        Sys.getenv_opt "SORT4_C4_FIRST_SELECT_ADMISSION_MUTANT" in
++      let control_is_none = function None | Some "none" -> true | _ -> false in
++      if not nine || not input_relation ||
++         not Sort4R3FrameTest.enabled ||
++         not Sort4R3FrameShadowTest.enabled ||
++         (match c4_first_select_mode with None | Some "0" -> false | _ -> true) ||
++         not (control_is_none semantic_control) ||
++         not (control_is_none admission_mutant) then
++        reject "reachable-unwind requires isolated exact nine-body R3 frame producer" );
+     let names = if nine then [
+       "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
+       "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
+@@ -15536,17 +15814,84 @@
+        List.length (BodyRd.basic_blocks_get_list
+          (List.nth bodies (if nine then 8 else 4))) <> 4 then
+       reject "owner outer/nested local and block inventory";
+-    let cleanup_edges = List.fold_left (fun n block ->
++    let blocks = BodyRd.basic_blocks_get_list body in
++    let* call_edge_options = ListAux.try_map (fun block ->
++      let block_index = Stdint.Uint32.to_int
++        (BasicBlockIdRd.index_get (BasicBlockRd.id_get block)) in
++      let terminator = BasicBlockRd.terminator_get block in
+       match TerminatorKindRd.get
+-        (TerminatorRd.kind_get (BasicBlockRd.terminator_get block)) with
++        (TerminatorRd.kind_get terminator) with
+       | TerminatorKindRd.Call data ->
+-          (match UnwindActionRd.get (FnCallDataRd.unwind_action_get data) with
+-           | UnwindActionRd.Cleanup target when
+-               Stdint.Uint32.to_int (BasicBlockIdRd.index_get target) =
+-                 (if input_relation then (if Sort4R3FrameTest.enabled then 38 else 43) else if rebase then 34 else if nine then 24 else 23) ->
+-               n + 1
+-           | _ -> n)
+-      | _ -> n) 0 (BodyRd.basic_blocks_get_list body) in
++          let* source_loc = translate_span_data (SourceInfoRd.span_get
++            (TerminatorRd.source_info_get terminator)) in
++          let normal_target = match OptionRd.get
++            (FnCallDataRd.target_get data) with
++            | OptionRd.Nothing -> None
++            | OptionRd.Something ptr -> Some (Stdint.Uint32.to_int
++                (BasicBlockIdRd.index_get (VfMirRd.of_pointer ptr))) in
++          let unwind_action = match UnwindActionRd.get
++            (FnCallDataRd.unwind_action_get data) with
++            | UnwindActionRd.Continue -> `Continue
++            | UnwindActionRd.Unreachable -> `Unreachable
++            | UnwindActionRd.Terminate -> `Terminate
++            | UnwindActionRd.Cleanup ptr -> `Cleanup
++                (Stdint.Uint32.to_int (BasicBlockIdRd.index_get ptr)) in
++          Ok (Some (block_index, source_loc, normal_target, unwind_action))
++      | _ -> Ok None) blocks in
++    let call_edge_records = List.filter_map Fun.id call_edge_options in
++    let cleanup_target = if input_relation then
++      (if Sort4R3FrameTest.enabled then 38 else 43)
++      else if rebase then 34 else if nine then 24 else 23 in
++    let cleanup_predecessor_count records = List.fold_left (fun n
++        (_block_index, _source_loc, _normal_target, unwind_action) ->
++      match unwind_action with
++      | `Cleanup target when target = cleanup_target -> n + 1
++      | _ -> n) 0 records in
++    let actual_call_edge_records =
++      if not reachable_unwind_mutant then call_edge_records else begin
++        let body_name = TrName.translate_def_path (BodyRd.def_path_get body) in
++        if List.nth names 7 <> "select_unpredictable" ||
++           body_name <> "select_unpredictable" then
++          reject "reachable-unwind exact body-7 selector identity";
++        let original_cleanup_edges =
++          cleanup_predecessor_count call_edge_records in
++        if original_cleanup_edges <> 18 then
++          reject "reachable-unwind original shared cleanup predecessor count";
++        let targets = List.filter (fun
++            (_block_index, source_loc, _normal_target, _unwind_action) ->
++          match source_loc with
++          | Ast.Lexed (((file, line, _), _)) ->
++              file = path && line = 194
++          | _ -> false) call_edge_records in
++        let original_record = match targets with
++          | [record] -> record
++          | _ -> reject "reachable-unwind unique source line-194 call record" in
++        let block_index, source_loc, normal_target, unwind_action =
++          original_record in
++        if normal_target = None || unwind_action <> `Unreachable then
++          reject "reachable-unwind original line-194 normal/unwind edge";
++        let changed_record =
++          (block_index, source_loc, normal_target, `Cleanup 38) in
++        let records = List.map (fun record ->
++          if record = original_record then changed_record else record)
++          call_edge_records in
++        let old_fingerprint = sort4_actual_owner_sha256
++          (Marshal.to_string original_record [Marshal.No_sharing]) in
++        let new_fingerprint = sort4_actual_owner_sha256
++          (Marshal.to_string changed_record [Marshal.No_sharing]) in
++        let changed_cleanup_edges = cleanup_predecessor_count records in
++        let normal_target_index = match normal_target with
++          | Some target -> target
++          | None -> reject "reachable-unwind normal target lost after check" in
++        Printf.printf
++          "SORT4-SELECTOR-REACHABLE-UNWIND-MUTANT: source_sha256=%s unit_sha256=%s body_index=7 body=select_unpredictable line=194 block=%d old_action=Unreachable new_action=Cleanup(38) normal_target=%d old_edge_sha256=%s new_edge_sha256=%s call_records=%d cleanup_predecessors=%d->%d\n%!"
++          (sort4_actual_owner_sha256 source) unit_digest block_index
++          normal_target_index old_fingerprint new_fingerprint
++          (List.length call_edge_records) original_cleanup_edges
++          changed_cleanup_edges;
++        records
++      end in
++    let cleanup_edges = cleanup_predecessor_count actual_call_edge_records in
+     if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
+       reject "owner shared cleanup predecessor inventory";
+     (match (if input_relation then
+@@ -17148,12 +17493,405 @@
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in
@@ -201,6 +465,8 @@
 +         permutation.  No declaration is synthesized from a proof log. *)
 +      let export_path = Sys.getenv_opt "SORT4_C4_SELECT_AST_EXPORT" in
 +      let import_path = Sys.getenv_opt "SORT4_C4_SELECT_AST_IMPORT" in
++      let current_bound_ast_export =
++        Sys.getenv_opt "SORT4_CURRENT_BOUND_AST_EXPORT" in
 +      let c4_first_select_import_mode =
 +        Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" = Some "1" in
 +      if export_path <> None && import_path <> None then
@@ -209,6 +475,184 @@
 +        failwith "SORT4-C4-SELECT-AST: first-select mode requires admitted export import";
 +      if import_path <> None && not c4_first_select_import_mode then
 +        failwith "SORT4-C4-SELECT-AST: import requires first-select mode";
++      (* Narrow typed certificate for the only permitted transport edit.  The
++         Ast projection is intentionally partial: unsupported/mutable AST
++         state must make this exact nine-body artifact inconclusive. *)
++      let transport_reject why =
++        failwith ("SORT4-C4-SELECT-AST: " ^ why) in
++      let old_transport_path = "verified/lib.rs" in
++      let new_transport_path = "selector/lib.rs" in
++      let typed_transport_view (transport_headers, transport_packages) =
++        let include_kind = function
++          | Lexer.DoubleQuoteInclude -> Ocaml_expr.C ("DoubleQuoteInclude", [])
++          | Lexer.AngleBracketInclude -> Ocaml_expr.C ("AngleBracketInclude", []) in
++        let typed_header (loc, (kind, name, path), names, packages) =
++          Ocaml_expr.T [
++            Ocaml_expr.Loc loc;
++            include_kind kind;
++            Ocaml_expr.S name;
++            Ocaml_expr.S path;
++            Ocaml_expr.L (List.map (fun s -> Ocaml_expr.S s) names);
++            Ocaml_expr_of_ast.of_list Ocaml_expr_of_ast.of_package packages
++          ] in
++        Ocaml_expr.T [
++          Ocaml_expr.L (List.map typed_header transport_headers);
++          Ocaml_expr_of_ast.of_list Ocaml_expr_of_ast.of_package
++            transport_packages
++        ] in
++      let inspect_transport_view view =
++        let seen_refs = ref [] in
++        let old_strings = ref 0 in
++        let new_strings = ref 0 in
++        let old_locations = ref 0 in
++        let new_locations = ref 0 in
++        let occurrences haystack needle =
++          let rec count at total =
++            match Sort4MaybeUninit.find_substring haystack needle at with
++            | None -> total
++            | Some pos -> count (pos + String.length needle) (total + 1) in
++          count 0 0 in
++        let endpoint path suffix =
++          let path_len = String.length path in
++          let suffix_len = String.length suffix in
++          path_len >= suffix_len &&
++          String.sub path (path_len - suffix_len) suffix_len = suffix &&
++          (path_len = suffix_len || path.[path_len - suffix_len - 1] = '/') in
++        let rec inspect_loc = function
++          | Ast.Lexed ((p1, _, _), (p2, _, _)) ->
++              List.iter (fun p ->
++                if endpoint p old_transport_path then incr old_locations;
++                if endpoint p new_transport_path then incr new_locations)
++                [p1; p2]
++          | Ast.DummyLoc -> ()
++          | Ast.MacroExpansion (call_site, body_token)
++          | Ast.MacroParamExpansion (call_site, body_token) ->
++              inspect_loc call_site; inspect_loc body_token in
++        let rec walk = function
++          | Ocaml_expr.C ("WSuperMethodCall", _) ->
++              transport_reject "typed projection omits WSuperMethodCall method metadata"
++          | Ocaml_expr.C ("InferredType", _) ->
++              transport_reject "mutable inferred type is outside transport domain"
++          | Ocaml_expr.C (_, children)
++          | Ocaml_expr.Call (_, children)
++          | Ocaml_expr.L children
++          | Ocaml_expr.T children -> List.iter walk children
++          | Ocaml_expr.S s ->
++              old_strings := !old_strings +
++                occurrences s old_transport_path;
++              new_strings := !new_strings +
++                occurrences s new_transport_path
++          | Ocaml_expr.Ref r ->
++              let id = r#id in
++              if List.exists (fun prev -> prev == id) !seen_refs then
++                transport_reject "repeated mutable/reference identity in AST projection";
++              seen_refs := id :: !seen_refs;
++              walk r#contents
++          | Ocaml_expr.Loc loc -> inspect_loc loc
++          | Ocaml_expr.I _ | Ocaml_expr.B _ | Ocaml_expr.BigInt _
++          | Ocaml_expr.Num _ -> () in
++        walk view;
++        if !old_strings <> 0 || !new_strings <> 0 then
++          transport_reject "transport endpoint occurs as ordinary AST string";
++        !old_locations, !new_locations in
++      let rec transport_loc_relation old_loc new_loc =
++        let endpoint_prefix path suffix =
++          let path_len = String.length path in
++          let suffix_len = String.length suffix in
++          if path_len >= suffix_len &&
++             String.sub path (path_len - suffix_len) suffix_len = suffix &&
++             (path_len = suffix_len || path.[path_len - suffix_len - 1] = '/')
++          then Some (String.sub path 0 (path_len - suffix_len))
++          else None in
++        let srcpos_relation (old_path, old_line, old_col)
++            (new_path, new_line, new_col) =
++          if old_line <> new_line || old_col <> new_col then
++            transport_reject "source location coordinates changed";
++          match endpoint_prefix old_path old_transport_path with
++          | Some prefix ->
++            if new_path <> prefix ^ new_transport_path then
++              transport_reject "source location endpoint did not relocate exactly";
++            1
++          | None when old_path <> new_path ->
++            transport_reject "unrelated source location path changed"
++          | None -> 0 in
++        match old_loc, new_loc with
++        | Ast.Lexed (old_start, old_end), Ast.Lexed (new_start, new_end) ->
++            srcpos_relation old_start new_start +
++            srcpos_relation old_end new_end
++        | Ast.DummyLoc, Ast.DummyLoc -> 0
++        | Ast.MacroExpansion (old_call, old_body),
++          Ast.MacroExpansion (new_call, new_body)
++        | Ast.MacroParamExpansion (old_call, old_body),
++          Ast.MacroParamExpansion (new_call, new_body) ->
++            transport_loc_relation old_call new_call +
++            transport_loc_relation old_body new_body
++        | _ -> transport_reject "location constructor or macro structure changed" in
++      let rec compare_transport_expr old_expr new_expr =
++        let compare_lists xs ys =
++          if List.length xs <> List.length ys then
++            transport_reject "typed AST list length changed";
++          List.iter2 compare_transport_expr xs ys in
++        match old_expr, new_expr with
++        | Ocaml_expr.C (old_name, old_args), Ocaml_expr.C (new_name, new_args)
++          when old_name = new_name -> compare_lists old_args new_args
++        | Ocaml_expr.S old_s, Ocaml_expr.S new_s when old_s = new_s -> ()
++        | Ocaml_expr.I old_i, Ocaml_expr.I new_i when old_i = new_i -> ()
++        | Ocaml_expr.B old_b, Ocaml_expr.B new_b when old_b = new_b -> ()
++        | Ocaml_expr.BigInt old_n, Ocaml_expr.BigInt new_n when old_n = new_n -> ()
++        | Ocaml_expr.Num old_n, Ocaml_expr.Num new_n when old_n = new_n -> ()
++        | Ocaml_expr.L old_xs, Ocaml_expr.L new_xs
++        | Ocaml_expr.T old_xs, Ocaml_expr.T new_xs ->
++            compare_lists old_xs new_xs
++        | Ocaml_expr.Call (old_name, old_args), Ocaml_expr.Call (new_name, new_args)
++          when old_name = new_name -> compare_lists old_args new_args
++        | Ocaml_expr.Ref old_ref, Ocaml_expr.Ref new_ref ->
++            (* Both sides have already proved that each Ref identity occurs
++               once; its mutable contents are therefore the full view. *)
++            compare_transport_expr old_ref#contents new_ref#contents
++        | Ocaml_expr.Loc old_loc, Ocaml_expr.Loc new_loc ->
++            transport_loc_relation old_loc new_loc |> ignore
++        | _ -> transport_reject "non-location typed AST structure changed" in
++      let certify_transport_pair original relocated raw_replace_count =
++        let original_view = typed_transport_view original in
++        let relocated_view = typed_transport_view relocated in
++        let original_old_count, original_new_count =
++          inspect_transport_view original_view in
++        let relocated_old_count, relocated_new_count =
++          inspect_transport_view relocated_view in
++        if original_old_count = 0 || original_new_count <> 0 ||
++           original_old_count <> raw_replace_count || relocated_old_count <> 0 ||
++           relocated_new_count <> raw_replace_count then
++          transport_reject "typed location count differs from raw Marshal replacement count";
++        compare_transport_expr original_view relocated_view;
++        Printf.printf
++          "SORT4-C4-SELECT-AST: typed location-only certificate paths=%d ordinary_strings=0 ref_sharing=none unsupported=none\n%!"
++          original_old_count in
++      (match current_bound_ast_export with
++       | None -> ()
++       | Some path ->
++         let reject why = failwith
++           ("SORT4-CURRENT-BOUND-AST-EXPORT: " ^ why) in
++         let expected_source_sha256 =
++           "bca43d1a7b92cac4faf11362f55b35d115306e920fb0999139a57836dbd94cf5" in
++         if Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++            Sys.getenv_opt "SORT4_HRTB_OUTPUT" <> Some "1" ||
++            Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <>
++              Some "negative_outer_bound_escape" ||
++            State.body_name <> "negative_outer_bound_escape" ||
++            Filename.is_relative path || Sys.file_exists path then
++           reject "exact strict outer-fixture target and absolute unused output path required";
++         let source_sha256 = sort4_actual_owner_sha256
++           (Sort4MaybeUninit.read_file "verified/lib.rs") in
++         if source_sha256 <> expected_source_sha256 then
++           reject "exact negative_outer_bound_escape fixture source SHA256 required";
++         let output_expr = typed_transport_view (headers, flattened) in
++         Ocaml_expr_formatter.print_ocaml_expr_to_file false path output_expr;
++         let output_bytes = Sort4MaybeUninit.read_file path in
++         Printf.printf
++           "SORT4-CURRENT-BOUND-AST-EXPORT: target=negative_outer_bound_escape source_sha256=%s final_flattened_ast_sha256=%s bytes=%d file=%s strict_cut=1 observation_only\n%!"
++           source_sha256 (sort4_actual_owner_sha256 output_bytes)
++           (String.length output_bytes) path);
 +      (match export_path with
 +       | None -> ()
 +       | Some path ->
@@ -226,6 +670,8 @@
 +         Ocaml_expr_formatter.print_ocaml_expr_to_file false
 +           (path ^ ".decls.ml")
 +           (Ocaml_expr_of_ast.of_list Ocaml_expr_of_ast.of_package flattened);
++         let _ = inspect_transport_view
++           (typed_transport_view (headers, flattened)) in
 +         let bytes = Marshal.to_string (headers, flattened)
 +           [Marshal.No_sharing] in
 +         let oc = open_out_bin path in
@@ -247,14 +693,17 @@
 +             Args.ignore_unwind_paths || Args.skip_specless_fns then
 +            reject "exact C4 one-body import environment";
 +          let bytes = Sort4MaybeUninit.read_file path in
++          let fixed_export_sha256 =
++            "a567807354602a49f2445f083b4c62a849cb385b915f9a6e6fd99932473e878e" in
 +          let expected = match Sys.getenv_opt
 +            "SORT4_C4_SELECT_AST_EXPORT_SHA256" with
-+            | Some s when String.length s = 64 -> s
-+            | _ -> reject "export SHA256 required" in
++            | Some s when s = fixed_export_sha256 -> fixed_export_sha256
++            | Some _ -> reject "export SHA256 differs from fixed fresh producer record"
++            | None -> reject "fixed fresh producer export SHA256 required" in
 +          if sort4_actual_owner_sha256 bytes <> expected then
 +            reject "exported final AST hash";
-+          let old_path = "verified/lib.rs" in
-+          let new_path = "selector/lib.rs" in
++          let old_path = old_transport_path in
++          let new_path = new_transport_path in
 +          if String.length old_path <> String.length new_path then
 +            reject "location relocation length";
 +          let rec replace at count acc =
@@ -266,12 +715,19 @@
 +                (new_path :: String.sub bytes at (pos - at) :: acc) in
 +          let relocated, count = replace 0 0 [] in
 +          if count = 0 then reject "selector source path absent from AST";
-+          let expected_relocated = match Sys.getenv_opt
-+            "SORT4_C4_SELECT_AST_RELOCATED_SHA256" with
-+            | Some s when String.length s = 64 -> s
-+            | _ -> reject "reviewed relocated AST SHA256 required" in
-+          if sort4_actual_owner_sha256 relocated <> expected_relocated then
-+            reject "relocated AST hash";
++          let original_pair =
++            try Marshal.from_string bytes 0
++            with _ -> reject "unmarshal original final AST" in
++          let relocated_pair =
++            try Marshal.from_string relocated 0
++            with _ -> reject "unmarshal relocated final AST" in
++          certify_transport_pair original_pair relocated_pair count;
++          let relocated_sha256 = sort4_actual_owner_sha256 relocated in
++          (match Sys.getenv_opt "SORT4_C4_SELECT_AST_RELOCATED_SHA256" with
++           | None -> ()
++           | Some expected_relocated when
++               expected_relocated = relocated_sha256 -> ()
++           | Some _ -> reject "optional relocated AST hash differs");
 +          let reverse_relocated, reverse_count =
 +            let rec reverse at count acc =
 +              match Sort4MaybeUninit.find_substring relocated new_path at with
@@ -286,16 +742,18 @@
 +          if reverse_count <> count ||
 +             sort4_actual_owner_sha256 reverse_relocated <> expected then
 +            reject "location-only relocation reverse certificate";
++          let fixed_selector_source_sha256 =
++            "7ec86f52b362f7f8b2ed26e3fa108212eb3d6288820bab9c6db3fa37bf8cabe0" in
 +          let selector_source = match Sys.getenv_opt
 +            "SORT4_C4_SELECT_SELECTOR_SOURCE_SHA256" with
-+            | Some s when String.length s = 64 -> s
-+            | _ -> reject "selector source SHA256 required" in
++            | Some s when s = fixed_selector_source_sha256 ->
++                fixed_selector_source_sha256
++            | Some _ -> reject "selector source SHA256 differs from fixed source"
++            | None -> reject "fixed selector source SHA256 required" in
 +          if sort4_actual_owner_sha256
 +               (Sort4MaybeUninit.read_file new_path) <> selector_source then
 +            reject "relocated selector source differs";
-+          let imported_headers, imported_decls =
-+            try Marshal.from_string relocated 0
-+            with _ -> reject "unmarshal final selector AST" in
++          let imported_headers, imported_decls = relocated_pair in
 +          let package_inventory packages =
 +            let qualify prefix name =
 +              if prefix = "" then name else prefix ^ "::" ^ name in
@@ -394,7 +852,7 @@
 +          let merged_decls = imported_decls @ current_packages in
 +          Printf.printf
 +            "SORT4-C4-SELECT-AST: importing nine definitions sha256=%s relocated_sha256=%s reverse_sha256=%s location_occurrences=%d\n%!"
-+            expected expected_relocated
++            expected relocated_sha256
 +            (sort4_actual_owner_sha256 reverse_relocated) count;
 +          headers, merged_decls
 +      in

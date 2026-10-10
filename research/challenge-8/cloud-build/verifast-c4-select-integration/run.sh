@@ -109,7 +109,7 @@ done
 stage tool-pin python3 "$runner" pin --proof-root "$proof_root" \
   --manifest "$manifest" --evidence "$ev" --tool-home "$source_home"
 current_stage=integration
-export SORT4_C4_SELECT_DIAGNOSTIC_STAGE=parents-and-composition
+export SORT4_C4_SELECT_DIAGNOSTIC_STAGE=affected-gates
 python3 "$runner" run --proof-root "$proof_root" --cloud-dir "$cloud_dir" \
   --manifest "$manifest" --evidence "$ev" --tool-home "$source_home" \
   --compiler-sysroot "$compiler_sysroot" --deadline-epoch "$deadline"

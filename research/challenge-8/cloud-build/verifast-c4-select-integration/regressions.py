@@ -21,6 +21,7 @@ REQUIRED_FILES = (
     "research/challenge-8/overnight-lifetime/cases.rs",
     "research/challenge-8/overnight-lifetime/capture.py",
     "research/challenge-8/cloud-build/verifast-c4-select-integration/driver.py",
+    "research/challenge-8/cloud-build/verifast-c4-select-integration/outer-bound-escape.rs",
 )
 # These files live in the independently pinned infra checkout and must be
 # staged by the recipe at VERIFAST_MDNEW_FIXTURE_DIR if that gate is enabled.
@@ -44,6 +45,16 @@ MDNEW_FIXTURES = {
 ADMISSION_CATEGORIES = (
     "source", "contract", "type", "Move", "edge", "reachable_unwind",
 )
+ADMISSION_MARKERS = {
+    "source": "SORT4-C4-BOUND: verified source SHA256 differs",
+    "contract": "SORT4-C4-BOUND: verified source SHA256 differs",
+    "type": "TYPE: exact original first selector call/type/operands",
+    "Move": "MOVE: exact original first selector operand setup",
+    "edge": "EDGE: source-derived normal/unwind successor identity",
+    # Reviewed normalized-edge mutation must reach the unchanged cleanup
+    # predecessor inventory predicate; admission refusal is not a semantic VC.
+    "reachable_unwind": "owner shared cleanup predecessor inventory",
+}
 EXPECTED_CLEANUP_OFF = [
     "verified/lib.rs(135,1-239,2): dead code",
     "verified/lib.rs(238,5-6): dead code",
@@ -84,6 +95,168 @@ def _record(path: Path, value: dict) -> None:
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
 
 
+def _balanced_node(text: str, start: int) -> str | None:
+    """Return one formatter-emitted constructor, respecting quoted strings."""
+    opening = text.find("(", start)
+    if opening < 0:
+        return None
+    depth = 0
+    quoted = False
+    escaped = False
+    for index in range(opening, len(text)):
+        char = text[index]
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+        elif char == '"':
+            quoted = True
+        elif char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+            if depth == 0:
+                return text[start:index + 1]
+    return None
+
+
+def _outer_projection_ast(ast_text: str) -> dict:
+    """Audit the exact exported FnOnce projection node for the outer fixture."""
+    marker = '"#register_type_projection_equality"'
+    offsets = [match.start() for match in re.finditer(re.escape(marker), ast_text)]
+    nodes = []
+    for offset in offsets:
+        start = ast_text.rfind("ExprStmt (CallExpr (", 0, offset)
+        if start < 0:
+            continue
+        node = _balanced_node(ast_text, start)
+        if node is not None and marker in node:
+            nodes.append(node)
+    matching = []
+    for node in nodes:
+        refs = re.findall(
+            r"RustRefTypeExpr \(loc \"[^\"]+\", IdentTypeExpr \(loc \"[^\"]+\", None, \"'cmp\"\), Shared, IdentTypeExpr \(loc \"[^\"]+\", None, \"T\"\)\)",
+            node)
+        candidate = (
+            node.count(marker) == 1 and
+            node.count("ProjectionTypeExpr") == 1 and
+            node.count('IdentTypeExpr (loc ') >= 3 and
+            re.search(r"IdentTypeExpr \(loc \"[^\"]+\", None, \"F\"\)", node) is not None and
+            node.count('"std::ops::FnOnce"') == 1 and
+            node.count('Some ("std_tuple_2_")') == 1 and
+            len(refs) == 2 and
+            node.count('"Output"') == 1 and
+            node.count("ManifestTypeExpr") == 1 and
+            node.count(", Bool)") == 1 and
+            node.rstrip().endswith("Static))")
+        )
+        if candidate:
+            loc = re.search(r"CallExpr \(loc \"(verified/lib\.rs\(\d+,\d+-\d+\))\"", node)
+            if loc:
+                end = start + len(node)
+                switch_start = ast_text.find("SwitchStmt (", end)
+                gap = ast_text[end:switch_start].strip() if switch_start >= 0 else None
+                switch = (_balanced_node(ast_text, switch_start)
+                          if switch_start >= 0 else None)
+                between = gap[:-1].strip() if isinstance(gap, str) and gap.endswith(";") else "x"
+                immediately_before_call = (
+                    bool(between) and set(between) == {")"} and switch is not None and
+                    '"std::ops::FnMut::call_mut"' in switch and
+                    loc.group(1) in switch)
+                matching.append({"node": node, "call_location": loc.group(1),
+                                 "offset": start, "end_offset": end,
+                                 "following_switch_offset": switch_start,
+                                 "immediately_before_call": immediately_before_call})
+    return {"registration_marker_count": len(offsets),
+            "registration_node_count": len(nodes),
+            "matching_node_count": len(matching),
+            "matching_nodes": matching}
+
+
+def _inherited_regressions(a, tool, capture) -> dict:
+    """Reuse only reviewed rows whose rule and fixture inputs are still exact."""
+    path = a.proof_root / HERE / "manifest.json"
+    manifest = json.loads(path.read_text()) if path.is_file() else {}
+    inputs = manifest.get("inherited_regression_inputs", {})
+    targets = manifest.get("inherited_regression_targets", {})
+    actual_inputs = {
+        "kernel_sha256": _sha(tool / "src/verifast.ml"),
+        "parser_sha256": _sha(tool / "src/rust_frontend/vf_mir_translator/rust_parser.ml"),
+        "prelude_sha256": _sha(tool / "bin/rust/std/lib.rsspec"),
+        "strict_case_template_sha256": _sha(a.proof_root / REQUIRED_FILES[0]),
+    }
+    input_pins_exact = bool(inputs) and all(
+        inputs.get(name) == digest for name, digest in actual_inputs.items())
+    strict_expected = {
+        "positive_basic": ("positive", None),
+        "negative_typed_chunk_survives_cut": (
+            "owner_escape", "A lifetime-scoped heap chunk is still live at the binding end"),
+        "negative_unclosed_fractional_access": ("debt", "lifetime_token"),
+        "negative_reserved_half_after_lifetime_end": ("debt_or_token", "lifetime_token"),
+    }
+    strict_sources = {}
+    template = (a.proof_root / REQUIRED_FILES[0]).read_bytes()
+    for name in strict_expected:
+        verified = capture.select_case(template, name)
+        original = capture.strip_ghost(verified)
+        strict_sources[name] = {
+            "verified": hashlib.sha256(verified).hexdigest(),
+            "original": hashlib.sha256(original).hexdigest(),
+        }
+
+    def valid_row(row, source_pair=None):
+        return (isinstance(row, dict) and row.get("classification") == "REUSED_UNCHANGED_BASELINE" and
+                row.get("raw_vc_review") == "REVIEWED" and
+                row.get("intended_site_observed") is True and
+                bool(re.fullmatch(r"[0-9a-f]{64}", str(row.get("raw_log_sha256", "")))) and
+                (source_pair is None or row.get("source_pair") == source_pair))
+
+    strict_rows = targets.get("strict_lifetime", {})
+    strict_reusable = input_pins_exact and set(strict_rows) == set(strict_expected) and all(
+        valid_row(strict_rows.get(name), strict_sources[name]) for name in strict_expected)
+    pointer_rows = targets.get("pointer_value_pointee_rights", {})
+    pointer_sources = {}
+    for name in ("positive", "no-pointee-rights"):
+        fixture = a.proof_root / HERE / "pointer-value-fixtures" / (name + ".rs")
+        verified = fixture.read_bytes() if fixture.is_file() else b""
+        original = capture.strip_ghost(verified)
+        pointer_sources[name] = {"verified": hashlib.sha256(verified).hexdigest(),
+                                 "original": hashlib.sha256(original).hexdigest()}
+    pointer_reusable = input_pins_exact and set(pointer_rows) == {"positive", "no-pointee-rights"} and all(
+        valid_row(pointer_rows.get(name), pointer_sources[name])
+        for name in ("positive", "no-pointee-rights"))
+
+    md_rows = targets.get("mdnew_retained_fix", {}).get("fixtures", {})
+    mdnew_dir = os.environ.get("VERIFAST_MDNEW_FIXTURE_DIR")
+    md_inputs_exact = bool(mdnew_dir)
+    if mdnew_dir:
+        fixture_root = Path(mdnew_dir)
+        for name, (digest, _) in MDNEW_FIXTURES.items():
+            source = fixture_root / name
+            md_inputs_exact = md_inputs_exact and source.is_file() and _sha(source) == digest
+    md_reusable = (input_pins_exact and md_inputs_exact and
+        set(md_rows) == set(MDNEW_FIXTURES) and all(
+            isinstance(row, dict) and row.get("classification") == "REUSED_UNCHANGED_BASELINE" and
+            row.get("raw_vc_review") == "REVIEWED" and row.get("intended_diagnostic") is True and
+            bool(re.fullmatch(r"[0-9a-f]{64}", str(row.get("raw_log_sha256", "")))) and
+            row.get("expected") == MDNEW_FIXTURES[name][1]
+            for name, row in md_rows.items()) and
+        targets.get("mdnew_retained_fix", {}).get("all_intended") is True)
+    return {
+        "inputs_exact": input_pins_exact,
+        "actual_inputs": actual_inputs,
+        "strict_lifetime": strict_rows if strict_reusable else None,
+        "pointer_value_pointee_rights": pointer_rows if pointer_reusable else None,
+        "mdnew_retained_fix": md_rows if md_reusable else None,
+        "mdnew_fixture_inputs_exact": md_inputs_exact,
+        "review": inputs.get("review"),
+        "evidence_build": inputs.get("build"),
+    }
+
+
 def _module(path: Path):
     spec = importlib.util.spec_from_file_location("c4_select_lifetime_capture", path)
     _need(spec is not None and spec.loader is not None, "lifetime capture helper missing")
@@ -99,7 +272,7 @@ def _cloud_guard() -> None:
           not os.environ.get("GITHUB_ACTIONS"), "Cloud integration lane required")
 
 
-def _run_lifetime(a, selector_case, c4_env, proof, capture) -> dict:
+def _run_lifetime(a, selector_case, c4_env, proof, capture, inherited=None) -> dict:
     """Run the saved isolated strict-cut cases through the parent's proof callback."""
     template_path = a.proof_root / REQUIRED_FILES[0]
     template = template_path.read_bytes()
@@ -122,44 +295,174 @@ def _run_lifetime(a, selector_case, c4_env, proof, capture) -> dict:
     env["SORT4_STRICT_LFT_CUT"] = "1"
     env.pop("SORT4_HRTB_OUTPUT", None)
     env.pop("SORT4_HRTB_OUTPUT_TARGETS", None)
+    inherited_rows = (inherited or {}).get("strict_lifetime")
     results = {}
-    for case_name, category, expected in cases:
-        verified = capture.select_case(template, case_name)
-        original = capture.strip_ghost(verified)
-        case = root / case_name
-        (case / "verified").mkdir(parents=True, exist_ok=False)
-        (case / "original").mkdir()
-        (case / "verified/lib.rs").write_bytes(verified)
-        (case / "original/lib.rs").write_bytes(original)
-        _record(case / "source-certificate.json", {
-            "case": case_name, "verified_sha256": hashlib.sha256(verified).hexdigest(),
-            "original_sha256": hashlib.sha256(original).hexdigest(),
-            "runtime_source_unchanged": original == capture.strip_ghost(verified),
-            "proof_credit": False,
-        })
-        result, log = proof(a, "regression-lifetime-" + case_name, case, env, 300)
-        exact = (result["exit"] == 0 and not result["errors"] and
-                 result["zero_errors"] and result["return_seen"] and result["leak_check_seen"])
-        if expected is None:
-            intended = exact
-        else:
-            intended = capture.expected_error(case_name, log, result["exit"])
-        results[case_name] = {
-            "category": category, "stage": result, "expected_vc": expected,
-            "intended_site_observed": intended, "proof_credit": False,
-            "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest(),
-        }
-    results["outer_type_escape"] = {
-        "state": "NOT_RUN", "reason": "saved strict-cut fixture classifies this source form as inconclusive until fresh MIR/source evidence",
+    if inherited_rows is not None:
+        for case_name, (category, expected) in {
+            name: (category, expected) for name, category, expected in cases
+        }.items():
+            row = inherited_rows[case_name]
+            results[case_name] = {
+                "category": category, "expected_vc": expected,
+                "intended_site_observed": row["intended_site_observed"],
+                "state": "REUSED_UNCHANGED_BASELINE",
+                "source_pair": row["source_pair"],
+                "raw_log_sha256": row["raw_log_sha256"],
+                "raw_vc_review": row["raw_vc_review"],
+                "evidence_build": row["evidence_build"],
+                "proof_credit": False,
+            }
+    else:
+        for case_name, category, expected in cases:
+            verified = capture.select_case(template, case_name)
+            original = capture.strip_ghost(verified)
+            case = root / case_name
+            (case / "verified").mkdir(parents=True, exist_ok=False)
+            (case / "original").mkdir()
+            (case / "verified/lib.rs").write_bytes(verified)
+            (case / "original/lib.rs").write_bytes(original)
+            _record(case / "source-certificate.json", {
+                "case": case_name, "verified_sha256": hashlib.sha256(verified).hexdigest(),
+                "original_sha256": hashlib.sha256(original).hexdigest(),
+                "runtime_source_unchanged": original == capture.strip_ghost(verified),
+                "proof_credit": False,
+            })
+            result, log = proof(a, "regression-lifetime-" + case_name, case, env, 300)
+            exact = (result["exit"] == 0 and not result["errors"] and
+                     result["zero_errors"] and result["return_seen"] and result["leak_check_seen"])
+            if expected is None:
+                intended = exact
+            else:
+                intended = capture.expected_error(case_name, log, result["exit"])
+            results[case_name] = {
+                "category": category, "stage": result, "expected_vc": expected,
+                "intended_site_observed": intended, "proof_credit": False,
+                "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest(),
+            }
+    outer_source = a.proof_root / REQUIRED_FILES[3]
+    outer_verified = outer_source.read_bytes()
+    accepted_callback = capture.select_case(template, "positive_f_bound")
+    expected_outer = accepted_callback.replace(
+        b"pub unsafe fn callback_positive<T, F: FnMut(&T, &T) -> bool>",
+        b"pub unsafe fn negative_outer_bound_escape<T, F: FnMut(&T, &T) -> bool>", 1)
+    _need(accepted_callback != expected_outer and outer_verified == expected_outer,
+          "outer-bound fixture must be the exact callback case with only target name changed")
+    outer_original = capture.strip_ghost(outer_verified)
+    outer_case = root / "negative_outer_bound_escape"
+    (outer_case / "verified").mkdir(parents=True, exist_ok=False)
+    (outer_case / "original").mkdir()
+    (outer_case / "verified/lib.rs").write_bytes(outer_verified)
+    (outer_case / "original/lib.rs").write_bytes(outer_original)
+    _record(outer_case / "source-certificate.json", {
+        "candidate_source": "overnight-lifetime/cases.rs#positive_f_bound",
+        "candidate_sha256": hashlib.sha256(accepted_callback).hexdigest(),
+        "fixture_sha256": hashlib.sha256(outer_verified).hexdigest(),
+        "target_name_only_change": outer_verified == expected_outer,
+        "ghost_strip_runtime_identity": outer_original == capture.strip_ghost(outer_verified),
         "proof_credit": False,
+    })
+    outer_env = env.copy()
+    outer_env["SORT4_STRICT_LFT_CUT"] = "1"
+    outer_env["SORT4_HRTB_OUTPUT"] = "1"
+    outer_env["SORT4_HRTB_OUTPUT_TARGETS"] = "negative_outer_bound_escape"
+    ast_export = (outer_case / "final-current-bound-ast.ml").resolve()
+    _need(not ast_export.exists(), "current-bound AST export path must be unused")
+    outer_env["SORT4_CURRENT_BOUND_AST_EXPORT"] = str(ast_export)
+    outer_result, outer_log = proof(
+        a, "regression-lifetime-negative_outer_bound_escape", outer_case,
+        outer_env, 300)
+    marker_lines = [number for number, line in enumerate(
+        outer_verified.decode().splitlines(), 1) if "end_lft_binding::<'cmp>()" in line]
+    target_header = "negative_outer_bound_escape"
+    expected_message = "A lifetime-scoped type escaped into current outer bound metadata"
+    outer_errors = outer_result.get("errors", [])
+    exact_outer_error = (len(outer_errors) == 1 and expected_message in outer_errors[0]
+        and len(marker_lines) == 1 and
+        re.search(r"verified/lib\.rs\(" + str(marker_lines[0]) + r",\d+(?:-|\))",
+                  outer_errors[0]) is not None)
+    target_position = outer_log.find("Verifying function '" + target_header + "'")
+    error_position = outer_log.find(outer_errors[0]) if outer_errors else -1
+    target_entered = (outer_result.get("headers", []).count(target_header) == 1 and
+        target_position >= 0 and error_position > target_position)
+    ast_text = ast_export.read_text(errors="replace") if ast_export.is_file() else ""
+    ast_hash = _sha(ast_export) if ast_text else None
+    ast_projection = _outer_projection_ast(ast_text) if ast_text else {
+        "registration_marker_count": 0, "registration_node_count": 0,
+        "matching_node_count": 0, "matching_nodes": []}
+    ast_marker = re.findall(
+        r"(?m)^SORT4-CURRENT-BOUND-AST-EXPORT: target=negative_outer_bound_escape "
+        r"source_sha256=([0-9a-f]{64}) final_flattened_ast_sha256=([0-9a-f]{64}) "
+        r"bytes=(\d+) file=(\S+) strict_cut=1 observation_only$", outer_log)
+    ast_export_exact = (len(ast_marker) == 1 and ast_export.is_file() and
+        ast_marker[0][0] == hashlib.sha256(outer_verified).hexdigest() and
+        ast_marker[0][1] == ast_hash and int(ast_marker[0][2]) == ast_export.stat().st_size and
+        Path(ast_marker[0][3]) == ast_export and
+        ast_projection["matching_node_count"] == 1 and
+        ast_projection["matching_nodes"][0]["immediately_before_call"])
+    projection_location = (ast_projection["matching_nodes"][0]["call_location"]
+        if ast_projection["matching_node_count"] == 1 else None)
+    registration_events = re.findall(
+        r"(?m)^.*CHALLENGE8_HRTB_EQ F=F T=T lifetime='cmp call=(verified/lib\.rs\(\d+,\d+-\d+\))$",
+        outer_log)
+    projection_event_exact = (len(registration_events) == 1 and
+                              registration_events[0] == projection_location)
+    executing_node = (projection_location + ": Executing statement"
+                      if projection_location else None)
+    executing_positions = ([match.start() for match in
+        re.finditer(re.escape(executing_node), outer_log)] if executing_node else [])
+    executing_event_exact = (len(executing_positions) >= 2 and
+        target_position >= 0 and all(target_position < position < error_position
+                                    for position in executing_positions))
+    executing_event_review = ("PENDING_ADDITIONAL_INDISTINGUISHABLE_EVENTS"
+        if len(executing_positions) > 2 else
+        "PENDING_RAW_REVIEW" if len(executing_positions) == 2 else "NOT_OBSERVED")
+    source_projection_shape = (
+        b"F: FnMut(&T, &T) -> bool" in outer_verified and
+        b"type_interp::<F>()" in outer_verified and
+        b"is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/(&*left, &*right)" in outer_verified and
+        marker_lines and outer_verified.index(b"end_lft_binding::<'cmp>()") >
+        outer_verified.index(b"is_less/*@::<F, (&'cmp T, &'cmp T), 'cmp>@*/"))
+    outer_intended = (outer_result.get("exit") == 1 and exact_outer_error and
+        target_entered and source_projection_shape and ast_export_exact and
+        projection_event_exact and executing_event_exact and
+        not outer_result.get("dead_code") and
+        outer_result.get("source_pair", {}).get("verified") == hashlib.sha256(outer_verified).hexdigest() and
+        outer_result.get("source_pair", {}).get("original") == hashlib.sha256(outer_original).hexdigest())
+    results["outer_type_escape"] = {
+        "category": "outer_bound_escape", "stage": outer_result,
+        "expected_vc": expected_message,
+        "expected_cut_line": marker_lines[0] if len(marker_lines) == 1 else None,
+        "source_projection_shape": source_projection_shape,
+        "target_entry_before_exact_error": target_entered,
+        "first_error": outer_errors[0] if outer_errors else None,
+        "projection_ast": {key: value for key, value in ast_projection.items()
+                            if key != "matching_nodes"},
+        "projection_location": projection_location,
+        "projection_node_sha256": (
+            hashlib.sha256(ast_projection["matching_nodes"][0]["node"].encode()).hexdigest()
+            if ast_projection["matching_node_count"] == 1 else None),
+        "registration_precedes_real_fnmut_switch": (
+            ast_projection["matching_nodes"][0]["immediately_before_call"]
+            if ast_projection["matching_node_count"] == 1 else False),
+        "ast_export_sha256": ast_hash,
+        "ast_export_exact": ast_export_exact,
+        "translator_registration_event_exact": projection_event_exact,
+        "verbose_execution_at_projection_exact": executing_event_exact,
+        "verbose_execution_count_at_projection": len(executing_positions),
+        "verbose_execution_positions": executing_positions,
+        "raw_vc_review": executing_event_review,
+        "intended_site_observed": outer_intended, "proof_credit": False,
+        "raw_log_sha256": hashlib.sha256(outer_log.encode()).hexdigest(),
     }
     _record(root / "result.json", {"classification": "DIAGNOSTIC_ONLY",
+        "inherited_baseline_used": inherited_rows is not None,
+        "inherited_evidence_build": (inherited or {}).get("evidence_build"),
         "cases": results, "accepted": False, "proof_credit": False})
     return results
 
 
 def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
-        composition_controls=None):
+        composition_controls=None, composition_admission_mutants=None):
     """Execute only narrow, callback-mediated regressions and record NOT_RUN gaps."""
     _cloud_guard()
     evidence = a.evidence / "regressions"
@@ -213,14 +516,36 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
         "proof_credit": False,
     }
 
-    # The current composition hook does not expose a typed mutant-preparation
-    # callback. Do not fabricate AST, CFG, Move, or callee artifacts here.
-    report["targets"]["composition_admission_mutants"] = {
-        category: {"state": "NOT_RUN", "classification": "ADMISSION_NOT_EXERCISED",
-                   "reason": "no same-source typed AST/CFG mutant hook in the phase callbacks",
-                   "proof_credit": False}
-        for category in ADMISSION_CATEGORIES
-    }
+    admission_input = composition_admission_mutants or {}
+    admission_rows = {}
+    for category in ADMISSION_CATEGORIES:
+        supplied = admission_input.get(category)
+        marker = supplied.get("refusal_marker") if isinstance(supplied, dict) else None
+        logs = supplied.get("raw_log", "") if isinstance(supplied, dict) else ""
+        stage_result = supplied.get("stage", supplied.get("result", {})) if isinstance(supplied, dict) else {}
+        if not isinstance(stage_result, dict):
+            stage_result = {}
+        headers = stage_result.get("headers", [])
+        marker_matches = (isinstance(marker, str) and
+            ADMISSION_MARKERS[category] in marker and marker in logs)
+        preflight_only = (category not in ("source", "contract") or
+            isinstance(supplied, dict) and supplied.get("preflight_only") is True and
+            stage_result.get("compiler_or_extractor_started") is False)
+        exact = (isinstance(supplied, dict) and
+            supplied.get("intended_refusal") == "EXACT_TARGET_REFUSAL" and
+            marker_matches and preflight_only and
+            not headers and stage_result.get("exit") in (1, 2) and
+            bool(supplied.get("mutation_fingerprints")))
+        admission_rows[category] = {
+            **(supplied if isinstance(supplied, dict) else {}),
+            "state": "EXACT_TARGET_REFUSAL" if exact else "NOT_RUN_OR_UNCONFIRMED",
+            "classification": "ADMISSION_REFUSAL" if exact else "INCONCLUSIVE",
+            "refusal_marker_observed_in_log": bool(marker_matches),
+            "preflight_only": preflight_only,
+            "no_verifier_headers": not headers,
+            "proof_credit": False,
+        }
+    report["targets"]["composition_admission_mutants"] = admission_rows
     relation = (composition_controls or {}).get("wrong-selected-original")
     relation_exact = (isinstance(relation, dict) and
                       relation.get("intended_negative") == "EXACT_TARGET_VC_OBSERVED")
@@ -231,47 +556,97 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
             "result": relation, "proof_credit": False,
         },
         **{
-            name: {"state": "NOT_RUN", "classification": "SEMANTIC_CONTROL_NOT_EXERCISED",
-                   "reason": "no isolated same-source frame/thread mutant hook exposed",
-                   "proof_credit": False}
-            for name in ("frame", "thread_resources")
+            name: {
+                "state": ("EXACT_TARGET_VC_OBSERVED" if
+                    isinstance((composition_controls or {}).get(control_name), dict) and
+                    (composition_controls or {})[control_name].get("intended_negative") == "EXACT_TARGET_VC_OBSERVED"
+                    else "NOT_RUN_OR_UNCONFIRMED"),
+                "classification": ("SEMANTIC_CONTROL_REVIEWED" if
+                    isinstance((composition_controls or {}).get(control_name), dict) and
+                    (composition_controls or {})[control_name].get("raw_vc_review") == "REVIEWED"
+                    else "SEMANTIC_CONTROL_RAW_REVIEW_PENDING"),
+                "result": (composition_controls or {}).get(control_name),
+                "proof_credit": False,
+            }
+            for name, control_name in (
+                ("frame", "leak-current-four-cell-frame"),
+                ("thread_resources", "leak-thread-token"))
         },
     }
 
     lifetime_capture = _module(a.proof_root / REQUIRED_FILES[1])
+    inherited = _inherited_regressions(a, tool, lifetime_capture)
+    report["targets"]["inherited_baseline_inputs"] = {
+        "inputs_exact": inherited["inputs_exact"],
+        "actual_inputs": inherited["actual_inputs"],
+        "evidence_build": inherited["evidence_build"],
+        "review": inherited["review"],
+        "proof_credit": False,
+    }
     report["targets"]["strict_lifetime"] = _run_lifetime(
-        a, selector_case, c4_env, proof, lifetime_capture)
+        a, selector_case, c4_env, proof, lifetime_capture, inherited)
 
     pointer_rows = {}
-    for name in ("positive", "no-pointee-rights"):
-        source = a.proof_root / HERE / "pointer-value-fixtures" / (name + ".rs")
-        case = evidence / ("pointer-value-" + name)
-        (case / "verified").mkdir(parents=True, exist_ok=False)
-        (case / "original").mkdir()
-        verified = source.read_bytes()
-        (case / "verified/lib.rs").write_bytes(verified)
-        (case / "original/lib.rs").write_bytes(lifetime_capture.strip_ghost(verified))
-        env = dict(c4_env)
-        env["SORT4_ACTUAL_AST_SCOPE_TEST"] = "0"
-        env["SORT4_ACTUAL_C4_BOUND_PREFIX_TEST"] = "0"
-        row, log = proof(a, "regression-pointer-value-" + name, case, env, 180)
-        target = "pointer_value_identity" if name == "positive" else "pointer_value_cannot_own_pointee"
-        entry = log.find("Verifying function '" + target + "'")
-        first = log.find(row["errors"][0]) if row["errors"] else -1
-        intended = (row["exit"] == 0 and row["zero_errors"] and not row["errors"]
-                    if name == "positive" else row["exit"] in (1,2) and entry >= 0 and
-                    first > entry and "No matching heap chunks" in row["errors"][0] and
-                    re.search(r"\(3,\d+(?:-\d+(?:,\d+)?)?\): error:",
-                        row["errors"][0]) is not None)
-        pointer_rows[name] = {"stage": row, "intended_site_observed": intended,
-                              "raw_vc_review": "PENDING", "proof_credit": False}
+    inherited_pointer = inherited["pointer_value_pointee_rights"]
+    if inherited_pointer is not None:
+        for name in ("positive", "no-pointee-rights"):
+            row = inherited_pointer[name]
+            pointer_rows[name] = {
+                "state": "REUSED_UNCHANGED_BASELINE",
+                "intended_site_observed": row["intended_site_observed"],
+                "source_pair": row["source_pair"],
+                "raw_log_sha256": row["raw_log_sha256"],
+                "raw_vc_review": row["raw_vc_review"],
+                "evidence_build": row["evidence_build"],
+                "proof_credit": False,
+            }
+    else:
+        for name in ("positive", "no-pointee-rights"):
+            source = a.proof_root / HERE / "pointer-value-fixtures" / (name + ".rs")
+            case = evidence / ("pointer-value-" + name)
+            (case / "verified").mkdir(parents=True, exist_ok=False)
+            (case / "original").mkdir()
+            verified = source.read_bytes()
+            (case / "verified/lib.rs").write_bytes(verified)
+            (case / "original/lib.rs").write_bytes(lifetime_capture.strip_ghost(verified))
+            env = dict(c4_env)
+            env["SORT4_ACTUAL_AST_SCOPE_TEST"] = "0"
+            env["SORT4_ACTUAL_C4_BOUND_PREFIX_TEST"] = "0"
+            row, log = proof(a, "regression-pointer-value-" + name, case, env, 180)
+            target = "pointer_value_identity" if name == "positive" else "pointer_value_cannot_own_pointee"
+            entry = log.find("Verifying function '" + target + "'")
+            first = log.find(row["errors"][0]) if row["errors"] else -1
+            intended = (row["exit"] == 0 and row["zero_errors"] and not row["errors"]
+                        if name == "positive" else row["exit"] in (1,2) and entry >= 0 and
+                        first > entry and "No matching heap chunks" in row["errors"][0] and
+                        re.search(r"\(3,\d+(?:-\d+(?:,\d+)?)?\): error:",
+                            row["errors"][0]) is not None)
+            pointer_rows[name] = {"stage": row, "intended_site_observed": intended,
+                                  "raw_vc_review": "PENDING", "proof_credit": False}
     report["targets"]["pointer_value_pointee_rights"] = pointer_rows
 
     # Recipe may stage the separately reviewed candidate's source fixtures.
     # Verify every byte against its manifest before invoking the patched tool.
     mdnew_dir = os.environ.get("VERIFAST_MDNEW_FIXTURE_DIR")
     mdnew_rows = {}
-    if mdnew_dir:
+    inherited_mdnew = inherited["mdnew_retained_fix"]
+    if inherited_mdnew is not None:
+        for name, row in inherited_mdnew.items():
+            mdnew_rows[name] = {
+                **row,
+                "state": "REUSED_UNCHANGED_BASELINE",
+                "proof_credit": False,
+            }
+        report["targets"]["mdnew_retained_fix"] = {
+            "state": "REUSED_UNCHANGED_BASELINE",
+            "classification": "DIAGNOSTIC_ONLY",
+            "fixtures": mdnew_rows,
+            "all_intended": all(row["intended_diagnostic"] for row in mdnew_rows.values()),
+            "evidence_build": inherited["evidence_build"],
+            "review": inherited["review"],
+            "proof_credit": False,
+        }
+    elif mdnew_dir:
         fixture_root = Path(mdnew_dir)
         target = evidence / "mdnew-retained-fix"
         for name, (digest, expected) in MDNEW_FIXTURES.items():
@@ -354,17 +729,29 @@ def run(a, tool, selector_case, c4case, selector_env, c4_env, stage, proof,
                for row in report["targets"]["strict_lifetime"].values()
                if isinstance(row, dict) and "intended_site_observed" in row):
         blockers.append("strict_lifetime_expected_site_not_observed")
+    for category, row in admission_rows.items():
+        if row["state"] != "EXACT_TARGET_REFUSAL":
+            blockers.append("composition_admission_mutant_not_exact:" + category)
     mdnew = report["targets"]["mdnew_retained_fix"]
-    if mdnew.get("state") != "RUN" or not mdnew.get("all_intended"):
+    if mdnew.get("state") not in ("RUN", "REUSED_UNCHANGED_BASELINE") or not mdnew.get("all_intended"):
         blockers.append("mdnew_retained_fix_exact_diagnostics_not_observed")
-    # These are explicit phase gates. The current callbacks cannot construct
-    # the required same-source AST/CFG mutants or isolated frame/thread controls.
-    blockers.extend("not_run:" + category for category in ADMISSION_CATEGORIES)
+    # Admission and same-post semantic controls are supplied by the driver's
+    # exact-source, same-profile preparation callbacks and checked here.
     if not relation_exact:
         blockers.append("wrong_selected_original_relation_exact_control_not_observed")
-    blockers.extend(("not_run:strict_lifetime_outer_type_escape",
-                     "not_run:composition_frame_control",
-                     "not_run:composition_thread_resource_control"))
+    if not relation or relation.get("raw_vc_review") != "REVIEWED":
+        blockers.append("wrong_selected_original_relation_raw_review_pending")
+    if not report["targets"]["strict_lifetime"]["outer_type_escape"].get("intended_site_observed"):
+        blockers.append("strict_lifetime_outer_type_escape_not_observed")
+    if report["targets"]["strict_lifetime"]["outer_type_escape"].get("raw_vc_review") != "REVIEWED":
+        blockers.append("strict_lifetime_outer_type_escape_raw_review_pending")
+    for target, control_name in (("frame", "leak-current-four-cell-frame"),
+                                 ("thread_resources", "leak-thread-token")):
+        control = report["targets"]["theorem_controls"][target]
+        if control.get("state") != "EXACT_TARGET_VC_OBSERVED":
+            blockers.append("not_run:composition_" + target + "_control")
+        if not isinstance(control.get("result"), dict) or control["result"].get("raw_vc_review") != "REVIEWED":
+            blockers.append("composition_" + target + "_raw_review_pending")
     report["completion_gates"] = {
         "ready": not blockers, "blockers": blockers,
         "proof_credit": False,

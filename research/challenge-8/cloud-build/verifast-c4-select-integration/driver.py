@@ -108,6 +108,9 @@ def stage(a, name, command, cwd, env=None, cap=180, stdin=None, stdout=None):
     resources = a.evidence / (name + "-resources.txt")
     clean = os.environ.copy()
     for key in (*OWNER_GATES, *BASE_GATES,
+                "SORT4_SELECTOR_REACHABLE_UNWIND_MUTANT",
+                "SORT4_C4_FIRST_SELECT_ADMISSION_MUTANT",
+                "SORT4_C4_FIRST_SELECT_CONTROL", "SORT4_CURRENT_BOUND_AST_EXPORT",
                 *(key for pair in PARENT_PAIRS for key in pair)):
         clean.pop(key, None)
     with log.open("wb") as stream:
@@ -367,6 +370,51 @@ def proof(a, label, case, env, cap=600):
     return result, log
 
 
+def admitted_source(path, expected):
+    """Pinned annotation/source admission, before any compiler or proof callback."""
+    actual = sha(path)
+    need(actual == expected, "SORT4-C4-BOUND: verified source SHA256 differs: " + str(path))
+    return actual
+
+
+def source_admission_mutants(a, c4case, expected):
+    capture_mod = module(a.proof_root / "research/challenge-8/overnight-lifetime/capture.py",
+                         "composition_source_ghost_strip")
+    source = (c4case / "verified/lib.rs").read_bytes()
+    original_runtime = capture_mod.strip_ghost(source)
+    rows = {}
+    for name in ("source", "contract"):
+        case = a.evidence / ("composition-admission-" + name)
+        case.mkdir()
+        if name == "source":
+            old, new = b"let min = hint::select_unpredictable(c3, c, a);", b"let min = hint::select_unpredictable(c3, c, d);"
+        else:
+            old, new = b"\nens thread_token(t) &*&", b"\nens true &*&"
+        need(source.count(old) == 1, name + " mutation site is not unique")
+        mutated = source.replace(old, new, 1)
+        path = case / "lib.rs"
+        path.write_bytes(mutated)
+        log = ""
+        try:
+            admitted_source(path, expected)
+        except RuntimeError as error:
+            log = str(error)
+        runtime = capture_mod.strip_ghost(mutated)
+        exact = ("source SHA256 differs" in log and mutated != source and
+                 ((runtime == original_runtime) == (name == "contract")))
+        (case / "preflight.log").write_text(log + "\n")
+        row = {"stage": {"exit": 2 if log else 0, "headers": [], "compiler_or_extractor_started": False},
+               "intended_refusal": "EXACT_TARGET_REFUSAL" if exact else "INCONCLUSIVE",
+               "refusal_marker": "SORT4-C4-BOUND: verified source SHA256 differs", "classification": "ADMISSION_REFUSAL",
+               "mutation_fingerprints": {"expected": expected, "mutated": sha(path),
+                   "runtime_before": hashlib.sha256(original_runtime).hexdigest(),
+                   "runtime_after": hashlib.sha256(runtime).hexdigest()},
+               "raw_log_sha256": hashlib.sha256((log + "\n").encode()).hexdigest(), "raw_log": log, "proof_credit": False, "preflight_only": True}
+        record(case / "result.json", row)
+        rows[name] = row
+    return rows
+
+
 def run(a):
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
          os.environ.get("LANE") == "verifast-c4-select-integration" and
@@ -375,6 +423,9 @@ def run(a):
     pin(a)
     os.environ["VERIFAST_MDNEW_FIXTURE_DIR"] = str(a.proof_root / HERE / "mdnew-fixtures")
     c4case, selector_case, source = prepare(a)
+    admitted_source(selector_case / "verified/lib.rs", data["selector_source_sha256"])
+    admitted_source(c4case / "verified/lib.rs", data["c4_source_sha256"])
+    admission_mutants = source_admission_mutants(a, c4case, data["c4_source_sha256"])
     selector_names = source.get("source_order")
     need(isinstance(selector_names, list) and len(selector_names) == 9,
          "selector nine-body source order unavailable")
@@ -411,6 +462,9 @@ def run(a):
     # Do not inherit the old translator's hashes without this comparison.
     fingerprint_env = selector_env(a)
     for key in (*OWNER_GATES, *BASE_GATES,
+                "SORT4_SELECTOR_REACHABLE_UNWIND_MUTANT",
+                "SORT4_C4_FIRST_SELECT_ADMISSION_MUTANT",
+                "SORT4_C4_FIRST_SELECT_CONTROL", "SORT4_CURRENT_BOUND_AST_EXPORT",
                 *(key for pair in PARENT_PAIRS for key in pair)):
         fingerprint_env.pop(key, None)
     fingerprint_env.update({"SORT4_NESTED_FINGERPRINT_MODE": "9",
@@ -459,8 +513,38 @@ def run(a):
         frame_audit["helper_full_normal_unwind_observed"] and
         frame_audit["nested_full_normal_unwind_observed"] and
         frame_audit["outer_full_normal_unwind_observed"])
+    if selector_ok:
+        need(exported_ast.is_file() and sha(exported_ast) == data["producer_final_ast_sha256"],
+             "fresh successful producer final AST differs from reviewed fixed pin")
+        record(a.evidence / "producer-receipt.json", {
+            "manifest_sha256": sha(a.manifest), "profile_id": data["profile_id"],
+            "proof_sha": os.environ.get("PROOF_SHA"), "build_id": os.environ.get("CLOUD_BUILD_ID"),
+            "effective_tool": json.loads((a.evidence / "effective-hashes.json").read_text())["actual"],
+            "effective_hashes": data["effective_hashes"], "producer_ast_sha256": sha(exported_ast),
+            "selector_source_sha256": actual_sources["selector"], "selector_mir": selector_mir,
+            "pre_ast_fingerprints": fresh_fingerprints, "nine_body_audit": frame_audit,
+            "proof_log_sha256": hashlib.sha256(selector_log.encode()).hexdigest(),
+            "receipt_created_only_after_full_nine_body_proof": True})
     stages["selector"] = {"positive": selector, "full_nine_body": selector_ok,
                           "proof_audit": frame_audit}
+    if selector_ok:
+        reachable_env = selector_env(a)
+        reachable_env["SORT4_SELECTOR_REACHABLE_UNWIND_MUTANT"] = "1"
+        row, log = proof(a, "selector-reachable-unwind-mutant", selector_case, reachable_env, 180)
+        fingerprint = re.findall(r"old_edge_sha256=([a-f0-9]{64}) new_edge_sha256=([a-f0-9]{64})", log)
+        marker = "owner shared cleanup predecessor inventory"
+        exact = (row["exit"] in (1, 2) and not row["headers"] and marker in log and
+                 "body_index=7 body=select_unpredictable line=194" in log and
+                 "old_action=Unreachable new_action=Cleanup(38)" in log and
+                 "cleanup_predecessors=18->19" in log and len(fingerprint) == 1 and
+                 fingerprint[0][0] != fingerprint[0][1] and
+                 "source_sha256=" + actual_sources["selector"] in log and
+                 "unit_sha256=" + selector_mir["normal"]["whole_decoded_mir_sha256"] in log)
+        admission_mutants["reachable_unwind"] = {"stage": row, "raw_log": log,
+            "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest(),
+            "refusal_marker": marker, "mutation_fingerprints": fingerprint,
+            "classification": "ADMISSION_REFUSAL", "proof_credit": False,
+            "intended_refusal": "EXACT_TARGET_REFUSAL" if exact else "INCONCLUSIVE"}
     c4, c4log = proof(a, "c4-positive", c4case, c4_env())
     target = c4log.find("Verifying function 'sort4_stable'")
     c4_pre = c4case / "actual-c4-bound-pre-ast.ml"
@@ -488,6 +572,13 @@ def run(a):
         shutil.copytree(c4case, consumer, symlinks=True)
         (consumer / "selector").mkdir()
         shutil.copyfile(selector_case / "verified/lib.rs", consumer / "selector/lib.rs")
+        receipt = json.loads((a.evidence / "producer-receipt.json").read_text())
+        need(receipt["producer_ast_sha256"] == data["producer_final_ast_sha256"] == sha(exported_ast) and
+             receipt["manifest_sha256"] == sha(a.manifest) and
+             receipt["proof_sha"] == os.environ.get("PROOF_SHA") and
+             receipt["build_id"] == os.environ.get("CLOUD_BUILD_ID") and
+             receipt["receipt_created_only_after_full_nine_body_proof"],
+             "same-run checked producer receipt differs")
         original_blob = exported_ast.read_bytes()
         relocated_blob = original_blob.replace(b"verified/lib.rs", b"selector/lib.rs")
         need(relocated_blob.replace(b"selector/lib.rs", b"verified/lib.rs") == original_blob,
@@ -505,6 +596,8 @@ def run(a):
             not result["dead_code"] and result["zero_errors"] and
             result["return_seen"] and result["leak_check_seen"] and
             "SORT4-C4-SELECT-AST: importing nine definitions" in raw and
+            ("typed location-only certificate paths=" + str(original_blob.count(b"verified/lib.rs")) +
+             " ordinary_strings=0 ref_sharing=none unsupported=none") in raw and
             target >= 0 and all(raw.find("Verifying function '" + name + "'") >= 0 and
                 raw.find("Verifying function '" + name + "'") < target
                 for name in selector_names) and
@@ -514,16 +607,17 @@ def run(a):
             "export_sha256": sha(exported_ast),
             "relocated_sha256": hashlib.sha256(relocated_blob).hexdigest(),
             "location_occurrences": original_blob.count(b"verified/lib.rs"),
-            "location_only_audit": "PENDING_STRUCTURAL_REVIEW",
+            "location_only_audit": "TYPED_CERTIFICATE_OBSERVED_REVIEW_PENDING" if composition_ok else "NOT_CONFIRMED",
             "original_posts_preserved": True, "raw_ptr_own_pointee_rights": False}
         composition["controls"] = {}
         if composition_ok:
             for control in ("wrong-selected-original", "normal-false-post",
-                            "c4-normal-omit-join", "c4-unwind-missing-close"):
+                            "c4-normal-omit-join", "c4-unwind-missing-close",
+                            "leak-thread-token", "leak-current-four-cell-frame"):
                 ctrlcase = a.evidence / ("composition-control-" + control)
                 shutil.copytree(consumer, ctrlcase, symlinks=True)
                 ctrlenv = env.copy()
-                if control == "wrong-selected-original":
+                if control in ("wrong-selected-original", "leak-thread-token", "leak-current-four-cell-frame"):
                     ctrlenv["SORT4_C4_FIRST_SELECT_CONTROL"] = control
                 else:
                     ctrlenv["SORT4_C4_BOUND_CONTROL"] = control
@@ -547,9 +641,43 @@ def run(a):
                         else "PENDING_RAW_VC_REVIEW")
                     row["raw_vc_review"] = "PENDING_INDEPENDENT_REVIEW"
                 else:
-                    row["intended_negative"] = "PENDING_RAW_VC_REVIEW"
+                    expected_line, expected_message = {
+                        "normal-false-post": (315, "Cannot prove condition"),
+                        "c4-normal-omit-join": (317, "foreach"),
+                        "c4-unwind-missing-close": (68, "comparison_debt"),
+                        "leak-thread-token": (315, "thread_token"),
+                        "leak-current-four-cell-frame": (316, "No matching heap chunks"),
+                    }[control]
+                    exact = (row["exit"] in (1, 2) and row["target_before_first_error"] and
+                             len(row["errors"]) == 1 and expected_message in row["errors"][0] and
+                             re.search(r"verified/lib\.rs\(" + str(expected_line) + r",\d+(?:-|\))", row["errors"][0]) is not None and
+                             all(row["headers"].count(name) == 1 and
+                                 log.find("Verifying function '" + name + "'") < target for name in selector_names))
+                    if control.startswith("leak-"):
+                        exact = exact and ("SORT4-C4-FIRST-SELECT-SEMANTIC-CONTROL: " + control + " at source-487 after selector") in log
+                    row["intended_negative"] = "EXACT_TARGET_VC_OBSERVED" if exact else "PENDING_RAW_VC_REVIEW"
+                    row["expected_post_line"] = expected_line
+                    row["expected_predicate"] = expected_message
+                row["raw_vc_review"] = "PENDING_INDEPENDENT_REVIEW"
                 row["export_sha256"] = sha(exported_ast)
                 composition["controls"][control] = row
+        for name, mode, marker in (
+            ("type", "type", "TYPE: exact original first selector call/type/operands"),
+            ("Move", "move", "MOVE: exact original first selector operand setup"),
+            ("edge", "edge", "EDGE: source-derived normal/unwind successor identity")):
+            mutant_case = a.evidence / ("composition-admission-" + name)
+            shutil.copytree(consumer, mutant_case, symlinks=True)
+            mutant_env = env.copy()
+            mutant_env["SORT4_C4_FIRST_SELECT_ADMISSION_MUTANT"] = mode
+            row, log = proof(a, "composition-admission-" + name, mutant_case, mutant_env, 180)
+            fingerprints = re.findall(r"SORT4-C4-FIRST-SELECT-ADMISSION-MUTANT: (\w+) old=([a-f0-9]{32}) new=([a-f0-9]{32}) pre_ast=([a-f0-9]{64})", log)
+            exact = (row["exit"] in (1, 2) and not row["headers"] and marker in log and
+                     len(fingerprints) == 1 and fingerprints[0][1] != fingerprints[0][2] and
+                     fingerprints[0][3] == c4_profile["pre_ast_sha256"])
+            admission_mutants[name] = {"stage": row, "raw_log": log,
+                "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest(), "refusal_marker": marker,
+                "mutation_fingerprints": fingerprints, "classification": "ADMISSION_REFUSAL",
+                "intended_refusal": "EXACT_TARGET_REFUSAL" if exact else "INCONCLUSIVE", "proof_credit": False}
     stages["composition"] = composition
     parents_only = os.environ.get("SORT4_C4_SELECT_DIAGNOSTIC_STAGE") == "parents-and-composition"
     if parents_only:
@@ -560,21 +688,15 @@ def run(a):
     else:
         regressions = module(a.cloud_dir / "verifast-c4-select-integration/regressions.py", "integration_regressions")
         stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
-            selector_env(a), c4_env(), stage, proof, composition.get("controls", {}))
+            selector_env(a), c4_env(), stage, proof, composition.get("controls", {}), admission_mutants)
     if c4_ok and not parents_only:
-        for control in CONTROLS:
-            case = a.evidence / ("control-" + control)
-            shutil.copytree(c4case, case, symlinks=True)
-            for name in ("actual-c4-bound-pre-ast.ml", "actual-c4-bound-post-ast.ml"):
-                (case / name).unlink(missing_ok=True)
-            env = c4_env()
-            env["SORT4_C4_BOUND_CONTROL"] = control
-            result, raw = proof(a, "c4-control-" + control, case, env)
-            entry = raw.find("Verifying function 'sort4_stable'")
-            first = raw.find(result["errors"][0]) if result["errors"] else -1
-            result["target_entry_before_first_error"] = entry >= 0 and first > entry
-            result["intended_negative"] = "PENDING_RAW_VC_REVIEW"
-            stages["c4"]["controls"][control] = result
+        inherited = data["inherited_c4_controls"]
+        need(inherited["source_sha256"] == actual_sources["c4"] and
+             inherited["pre_ast_sha256"] == sha(c4_pre) and
+             inherited["kernel_sha256"] == data["effective_hashes"]["src/verifast.ml"] and
+             set(inherited["rows"]) == set(CONTROLS), "inherited C4 control inputs differ")
+        stages["c4"]["controls"] = inherited["rows"]
+        stages["c4"]["control_evidence_reuse"] = inherited["eligibility"]
     control_reached = c4_ok and len(stages["c4"]["controls"]) == len(CONTROLS) and all(
         row["exit"] in (1, 2) and row["target_entry_before_first_error"]
         for row in stages["c4"]["controls"].values())
@@ -582,7 +704,7 @@ def run(a):
                       if selector_ok and control_reached and composition_ok else "INTEGRATION_DIAGNOSTIC_INCOMPLETE")
     regression_gates = stages["regressions"].get("completion_gates", {})
     composition_controls_complete = (
-        len(composition.get("controls", {})) == 4 and all(
+        len(composition.get("controls", {})) == 6 and all(
             row.get("intended_negative") == "EXACT_TARGET_VC_OBSERVED" and
             row.get("raw_vc_review") == "REVIEWED" for row in
             composition.get("controls", {}).values()))
@@ -608,7 +730,7 @@ def run(a):
                 completion_blockers.append("composition_control_not_exact:" + name)
             elif row.get("raw_vc_review") != "REVIEWED":
                 completion_blockers.append("composition_control_raw_review_pending:" + name)
-        if len(composition.get("controls", {})) != 4:
+        if len(composition.get("controls", {})) != 6:
             completion_blockers.append("composition_control_set_incomplete")
     if not c4_controls_reviewed:
         for name, row in stages["c4"]["controls"].items():
