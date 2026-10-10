@@ -200,6 +200,41 @@ def _no_storage_qualification_gate(case, source):
         return {'admitted': False, 'reason': f'qualified no-storage gate failed: {error}'}
 
 
+ILP32_TARGET_DIAGNOSTIC = (
+    'C target ILP32 does not match rustc target x86_64-unknown-linux-gnu; '
+    'specify a matching C target using the -target command-line option\n')
+
+
+def _ilp32_target_admission_refusal(log, stages, source_intact, qualified_exported):
+    """Frontend target refusal only; the concrete layout model is not entered."""
+    return (source_intact is True and qualified_exported is True and
+            all(stages.get(stage) == 0 for stage in ('exporter', 'decode', 'refinement')) and
+            stages.get('verifast') == 1 and log == ILP32_TARGET_DIAGNOSTIC and
+            'Executing statement' not in log and not re.search(r'\berror:', log, re.I))
+
+
+def _exported_qualified_copyondrop(decoded):
+    try:
+        admission = _layout_admission()
+        mir = admission._load('guard_ilp32_mir', admission.OLD / 'stack-address-admission.py')
+        tree = mir.CapnpText(decoded.replace(
+            'variances = [invariant]', 'variances = ["invariant"]')).parse()
+        admission._need(mir.path(tree, 'targetTriple') == 'x86_64-unknown-linux-gnu' and
+                        mir.path(tree, 'pointerWidth') == 64,
+                        'exported compiler target differs')
+        cursor = mir.path(tree, 'adtDefs')
+        matches = []
+        while isinstance(cursor, dict) and 'cons' in cursor:
+            item = mir.path(cursor, 'cons', 'h')
+            if mir.path(item, 'id', 'name') == 'CopyOnDrop':
+                matches.append(item)
+            cursor = mir.path(cursor, 'cons', 't')
+        guard = admission._one(matches, 'exported CopyOnDrop')
+        return mir.path(guard, 'hasConcreteGuardLayout') is True
+    except Exception:
+        return False
+
+
 
 GUARD_INIT = b'        let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };\n'
 FBC_LADDER = b'        //@ assert gap_guard.src == held_ref; // LADDER: FBC pointer identity\n'
@@ -425,19 +460,21 @@ pub unsafe fn target_control()
     log=(case/'verifast.log').read_text(errors='replace')
     decoded=(case/'decode.out').read_text(errors='replace')
     errors=re.findall(r'^.*\berror:.*$',log,re.M|re.I)
-    matched=(execution.get('source_unchanged_at_every_stage') is True and
-             all(execution['stages'].get(k)==0 for k in ('exporter','decode','refinement')) and
-             execution['stages'].get('verifast')==1 and
-             'hasConcreteGuardLayout = true' in decoded and len(errors)==1 and
-             'Invalid compiler-qualified concrete Rust guard layout metadata.' in errors[0])
-    rows[name]={'classification':'EXPECTED_QUALIFICATION_REJECTION' if matched else 'INCONCLUSIVE',
-                'expectation':'EXPECTED_QUALIFICATION_REJECTION','accepted':False,
+    qualified_exported=_exported_qualified_copyondrop(decoded)
+    matched=_ilp32_target_admission_refusal(
+        log,execution['stages'],execution.get('source_unchanged_at_every_stage'),
+        qualified_exported)
+    rows[name]={'classification':'EXPECTED_TARGET_ADMISSION_REFUSAL' if matched else 'INCONCLUSIVE',
+                'expectation':'EXPECTED_TARGET_ADMISSION_REFUSAL','accepted':False,
                 'exporter_target':'x86_64-unknown-linux-gnu','verifier_target':'ILP32',
+                'refusal_layer':'frontend_target_compatibility',
+                'model_rule_exercised':False,'qualified_layout_exported':qualified_exported,
                 'source_sha256':sha(data),'errors':errors,**execution}
     (case/'classification.json').write_text(json.dumps(rows[name],indent=2)+'\n')
     summary={'schema':'qualified-guard-storage-controls-v1','cases':rows,'accepted':False,
              'domain':'source-linked concrete-u64 actual tmp/guard constructor and half-FBC precise frame',
-             'all_matched':all(row['classification'] in {'PASS_CONTROL','EXPECTED_REJECTION','EXPECTED_QUALIFICATION_REJECTION'} for row in rows.values()),
+             'all_matched':all(row['classification'] in {'PASS_CONTROL','EXPECTED_REJECTION','EXPECTED_QUALIFICATION_REJECTION',
+                                                        'EXPECTED_TARGET_ADMISSION_REFUSAL'} for row in rows.values()),
              'actual_glue_credit':False}
     (evidence/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
     return summary

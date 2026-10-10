@@ -1,0 +1,20 @@
+{
+  "schema": "guard-qualifier-causal-replay-v1",
+  "build_id": "2caa4a93-f9e2-4f1f-8f2f-63b230ffed7c",
+  "proof_infra_sha": "345138358cafa6568525008a5fa592ba54696698",
+  "tool_sha": "e16352c4f015059ea4158be7d3205275080ce880",
+  "profile_sha256": "1bc74b60185b2f0c335a2467f0dd9bc53238851f2348f53f1f31737720931a9e",
+  "archive_sha256": "88f6d454df8b083c14efcfa46da8940bdae6847b419a36d0c5188b6b2c611425",
+  "first_refusal": {
+    "line": 76,
+    "predicate": "0 < sizeof(CopyOnDrop_type_info)",
+    "hasConcreteGuardLayout": false
+  },
+  "source_span": {
+    "tcx_def_span": "4:0\u20134:17: struct CopyOnDrop",
+    "local_hir_item_def_span": "4:0\u20138:1: exact five-line declaration"
+  },
+  "repaired_tool": "df6b3fbfcf4192d6b442d13e35dafe8477a3fe6f",
+  "new_proof": "NOT_RUN",
+  "accepted": false
+}

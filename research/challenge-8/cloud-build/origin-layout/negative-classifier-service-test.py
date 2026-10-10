@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Isolated saved-text admission mutations; no compiler or verifier is run."""
+import argparse
 import copy
 import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import tarfile
 
 HERE = Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location('guard_negative_service',
@@ -109,3 +111,31 @@ with tempfile.TemporaryDirectory() as temp:
     (case/'decode.out').write_text(encode(wrong))
     assert control._no_storage_qualification_gate(case, source)['admitted'] is False
 print('no-storage qualification parser: one compiler temp accepted, five mutations rejected')
+
+stages = {'exporter': 0, 'decode': 0, 'refinement': 0, 'verifast': 1}
+diagnostic = control.ILP32_TARGET_DIAGNOSTIC
+assert control._ilp32_target_admission_refusal(diagnostic, stages, True, True)
+assert not control._ilp32_target_admission_refusal(diagnostic, stages, True, False)
+assert not control._ilp32_target_admission_refusal(
+    diagnostic + 'Executing statement\n', stages, True, True)
+assert not control._ilp32_target_admission_refusal(
+    'Invalid compiler-qualified concrete Rust guard layout metadata.\n',
+    stages, True, True)
+print('ILP32 target-admission classifier: exact synthetic refusal and three negatives passed')
+
+args = argparse.ArgumentParser()
+args.add_argument('--saved-archive', type=Path)
+saved = args.parse_args()
+if saved.saved_archive is not None:
+    prefix = ('allprooflogs/checked-minimal-bridge/guard-storage-controls/'
+              'mismatched_verifier_pointer_model/')
+    with tarfile.open(saved.saved_archive, 'r:gz') as archive:
+        saved_log = archive.extractfile(prefix+'verifast.log').read().decode()
+        saved_decode = archive.extractfile(prefix+'decode.out').read().decode()
+    assert saved_log == diagnostic
+    # The archived exporter predates the repaired full-HIR-span qualification.
+    # It documents the frontend refusal but earns no qualified-layout credit.
+    assert control._exported_qualified_copyondrop(saved_decode) is False
+    assert not control._ilp32_target_admission_refusal(
+        saved_log, stages, True, control._exported_qualified_copyondrop(saved_decode))
+    print('saved ILP32 diagnostic replay: exact frontend refusal, old layout flag remains false')

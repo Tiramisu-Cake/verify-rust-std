@@ -1,8 +1,8 @@
 # MERGE guard qualification / len1 — ACTIVE
 
-New session2026-10-10T19:26:15Z, main21:26:15Z/absolute21:56:15Z, budget3600Cloud seconds (used0). Owner merge, v2/max2/one own active. Policyc7ca8c46/adoption1b9e3df/ACKaec832ab retained. Initial ownHEAD0f770c22/tool e16352c4/profile1bc74b60 preserved; foreign selector work excluded.
+New session19:26:15Z; main21:26:15Z/absolute21:56:15Z; budget455/3600Clouds, remaining3145. FirstBuild2caa4a93 exact34513835 failed at guard extent76 after successful preparation/export/decode/refinement. Cause proven: exporter compared full guard to header tcx.def_span. Same-DefId HIR Item.span repair independently reviewed, tool df6b3fbf/profile0b8cf55b pinned; text replayPASS, fresh newpin compile/proof NOT_RUN pending nextCloud. Runtime/domain/contracts unchanged.
 
-Fixture saved replay **PASS_PREPARATION_ONLY**: exact manifest carrier repaired, runtime original conserved, four prepared fixtures/four mutation rejections. Source/MIR/AST classifier service positive+12 negatives pass. Fresh guard extent/alignment/separation proof and semantic negatives **NOT_RUN** pending exact-SHA Cloud. Previous compile/smokes/span/CURRENT recovery PASS retained; no fresh proof credit from replay. Len1 body/interface/caller NOT_RUN; actual glue NOT_IMPLEMENTED and panic cleanup out of scope. Tool/profile unchanged, profile NOT_ACCEPTED.
+Fixture preparation **FRESH_PASS** exact fragments/runtime. Olde163 fresh fullcompile/bothsmokes/6span/boundedCURRENTrecovery PASS retained. Fourno-layout negatives intendedrejections andconstructivefullmutableFBCentryfalse FRESH_PASS; guardalignment/separation/overlap/zero/no-storage targets NOT_REACHED. Len1body/interface/caller NOT_RUN; actualglueNOT_IMPLEMENTED/paniccleanup outofscope. ProfileNOT_ACCEPTED/integrationNOT_FOR_INTEGRATION. Ownermerge/v2max2/oneownactive, thirdagentexcluded.
 
 # MERGE guard bridge — session CLOSED
 

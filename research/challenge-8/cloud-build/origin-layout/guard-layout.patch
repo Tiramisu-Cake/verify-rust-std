@@ -113,10 +113,10 @@ index 9e81d091..bdd6c9b6 100644
  
  enum AliasTyKind {
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 9621ba91..a3e415e6 100644
+index 9621ba91..7e5d6f3c 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-@@ -1098,6 +1098,102 @@ use rustc_span::RemapPathScopeComponents;
+@@ -1098,6 +1098,108 @@ use rustc_span::RemapPathScopeComponents;
              });
              adt_def_cpn.set_implements_drop(adt_def.has_dtor(tcx));
              adt_def_cpn.set_is_repr_c(adt_def.repr().c());
@@ -153,7 +153,13 @@ index 9621ba91..a3e415e6 100644
 +        ) -> Option<(String, u64, u64, Vec<u64>, Vec<u64>)> {
 +            let did = adt_def.did();
 +            const CONCRETE_GUARD_SOURCE: &str = "struct CopyOnDrop {\n    src: *const u64,\n    dst: *mut u64,\n    len: usize,\n}";
-+            let source = tcx.sess.source_map().span_to_snippet(tcx.def_span(did)).ok()?;
++            if !did.is_local() {
++                return None;
++            }
++            let rustc_hir::Node::Item(item) = tcx.hir_node_by_def_id(did.expect_local()) else {
++                return None;
++            };
++            let source = tcx.sess.source_map().span_to_snippet(item.span).ok()?;
 +            if !did.is_local()
 +                || !(source == CONCRETE_GUARD_SOURCE || source == format!("{}\n", CONCRETE_GUARD_SOURCE))
 +                || tcx.sess.target.llvm_target != "x86_64-unknown-linux-gnu"
