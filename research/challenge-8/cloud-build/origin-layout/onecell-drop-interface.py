@@ -18,9 +18,11 @@ import sys
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
-CASES = ("direct_positive", "canonical_positive", "body_entry_false",
-         "body_post_false", "canonical_entry_false", "canonical_call_post_false",
-         "missing_source_quarter", "missing_destination_gap")
+CASES = ("direct_positive", "canonical_no_effect", "canonical_positive",
+         "body_entry_false", "body_post_false", "canonical_entry_false",
+         "canonical_call_post_false", "duplicate_effect_close",
+         "missing_source_quarter", "missing_destination_gap",
+         "wrong_effect_signature", "missing_effect_definition")
 
 
 def _load(name: str, path: Path):
@@ -164,6 +166,22 @@ DEST_ARRAY = (
     b"    assert *guard_dst |-?-> ?old_gap;\n"
     b"    close array_::<u64>(guard_dst, 1, cons(old_gap, nil));\n")
 CALL = b"    call();\n"
+EFFECT_NAME = b"CopyOnDrop_drop_effect"
+EFFECT_DEF = (b"pred CopyOnDrop_drop_effect(t: thread_id_t, src: *const u64, "
+              b"dst: *mut u64, len: usize;) =\n"
+              b"    len == 1 &*& type_interp::<u64>() &*&\n"
+              b"    [1/4]src[..1] |-> cons(?current, nil) &*&\n"
+              b"    dst[..1] |-> cons(current, nil) &*& <u64>.own(t, current);\n")
+EFFECT_DECL = (b"pred CopyOnDrop_drop_effect(t: thread_id_t, src: *const u64, "
+               b"dst: *mut u64, len: usize;);\n")
+EFFECT_CLOSE = b"    close CopyOnDrop_drop_effect(_t, guard_src, guard_dst, guard_len);\n"
+EFFECT_DUPLICATE = (b"    close CopyOnDrop_drop_effect(_t, guard_src, guard_dst, guard_len); "
+                    b"// TARGET: duplicate onecell effect resources\n")
+EFFECT_WRONG_DEF = (b"pred CopyOnDrop_drop_effect(t: thread_id_t, src: *const u64, "
+                    b"dst: *mut u64, len: u32;) =\n"
+                    b"    len == 1 &*& type_interp::<u64>() &*&\n"
+                    b"    [1/4]src[..1] |-> cons(?current, nil) &*&\n"
+                    b"    dst[..1] |-> cons(current, nil) &*& <u64>.own(t, current);\n")
 CANONICAL_ENTRY_FALSE = b"    assert false; // TARGET: canonical onecell proof entry\n"
 CANONICAL_FALSE = b"    assert false; // TARGET: canonical onecell call post\n"
 BODY_FALSE = b"        //@ assert false; // TARGET: onecell Drop body entry\n"
@@ -211,8 +229,8 @@ def _prepare(evidence: Path) -> dict:
         raise ValueError("one-cell body contract obligations changed")
 
     metadata = {
-        "schema": "source-linked-u64-onecell-drop-interface-v1",
-        "profile": "SOURCE_LINKED_U64_ONECELL_DROP_INTERFACE",
+        "schema": "source-linked-u64-onecell-drop-effect-v1",
+        "profile": "SOURCE_LINKED_U64_ONECELL_DROP_EFFECT",
         "accepted": False,
         "source_sha256": source.SOURCE_SHA256,
         "source_git_blob": source.SOURCE_GIT_BLOB,
@@ -222,14 +240,16 @@ def _prepare(evidence: Path) -> dict:
         "specialized_contract_sha256": _sha(contract),
         "specialized_original_sha256": _sha(original),
         "scope": "source-linked mechanical u64 specialization; not monomorphic MIR, actual glue, generic/ZST/comparator/user-Drop proof",
-        "claim": "separate len1 body interface omits root-to-payload intervals; still requires src/dst singleton nonoverlap",
-        "normal_payload_posts": ["preserved source quarter", "current copied destination singleton", "u64 own"],
+        "claim": "explicit len1 normal-effect predicate bridges generated fields/padding posts to the checked body payload; no glue/caller credit",
+        "normal_payload_posts": ["thread token", "opaque CopyOnDrop_drop_effect carrying type_interp, source quarter, copied destination singleton, and u64 own"],
         "body_pre": ["three guard fields and padding", "len == 1", "source quarter singleton",
                      "uninitialized destination singleton", "src/dst singleton separation",
                      "typed bounds/alignment/no-overflow for src and dst"],
         "canonical_bridge": ["open canonical FBC and own", "bind fields and len one",
                              "derive source and destination alignment/limits from typed storage",
-                             "package singleton source/destination arrays", "checked body-contract call"],
+                             "package singleton source/destination arrays", "checked body-contract call",
+                             "close exact explicit normal-effect predicate after call"],
+        "u64_own_omission_negative": "NOT_APPLICABLE; no empty u64 own resource is supplied or claimed",
         "cases": {},
     }
 
@@ -237,7 +257,14 @@ def _prepare(evidence: Path) -> dict:
         case_contract = contract
         case_own = own
         canonical = name != "direct_positive"
-        ghosts: list[bytes] = ([own, alignment_lemmas, contract] if canonical
+        use_effect = canonical and name != "canonical_no_effect"
+        effect_contents = (EFFECT_DEF if name not in
+                           {"wrong_effect_signature", "missing_effect_definition"} else
+                           EFFECT_WRONG_DEF
+                           if name == "wrong_effect_signature" else
+                           EFFECT_DECL)
+        effect_fragment = b"/*@\n" + effect_contents + b"@*/\n\n"
+        ghosts: list[bytes] = ([case_own, alignment_lemmas, contract] if canonical
                                else [contract])
         proof_open = (b"    open CopyOnDrop_full_borrow_content(_t, self)();\n"
                       b"    open <CopyOnDrop>.own(_t, *self);\n")
@@ -251,7 +278,8 @@ def _prepare(evidence: Path) -> dict:
                 case_own,
                 b"    [1/4](*v.src |-> ?current) &*& *v.dst |-?-> ?old_gap &*&\n"
                 b"    <u64>.own(t, current);",
-                b"    *v.dst |-?-> ?old_gap;", "missing source quarter")
+                b"    *v.dst |-?-> ?old_gap;",
+                "missing source quarter and tied owner")
             ghosts[0] = case_own
             # Keep the source conversion out so the first unavailable payload
             # is observed at the checked body-contract call.
@@ -267,6 +295,10 @@ def _prepare(evidence: Path) -> dict:
             bridge += CALL
             if name == "canonical_call_post_false":
                 bridge += CANONICAL_FALSE
+            if use_effect:
+                bridge += EFFECT_CLOSE
+                if name == "duplicate_effect_close":
+                    bridge += EFFECT_DUPLICATE
             case_contract = _replace_once(
                 case_contract, proof_open, proof_open + bridge,
                 "canonical proof bridge")
@@ -281,6 +313,8 @@ def _prepare(evidence: Path) -> dict:
                 "canonical proof entry negative")
         if canonical:
             ghosts[2] = case_contract
+            if use_effect:
+                ghosts.insert(2, effect_fragment)
         else:
             ghosts[0] = case_contract
 
@@ -291,6 +325,7 @@ def _prepare(evidence: Path) -> dict:
             verified = _replace_once(
                 verified, b"}\n\nimpl Drop for CopyOnDrop {",
                 b"}\n\n" + case_own + alignment_lemmas +
+                (effect_fragment if use_effect else b"") +
                 b"impl Drop for CopyOnDrop {",
                 "one-cell own insertion")
         verified = _replace_once(verified, signature, signature + case_contract,
@@ -298,7 +333,9 @@ def _prepare(evidence: Path) -> dict:
         if name in {"body_entry_false", "body_post_false"}:
             original_body_open = original.index(b"{", original.index(signature) + len(signature))
             offset = (original_body_open + len(case_contract) +
-                      (len(case_own) + len(alignment_lemmas) if canonical else 0))
+                      (len(case_own) + len(alignment_lemmas) +
+                       (len(effect_fragment) if use_effect else 0)
+                       if canonical else 0))
             if verified[offset:offset + 1] != b"{":
                 raise ValueError("Drop body offset no longer matches runtime brace")
             newline = verified.index(b"\n", offset) + 1
@@ -306,7 +343,7 @@ def _prepare(evidence: Path) -> dict:
             if name == "body_entry_false":
                 verified = verified[:newline] + marker + verified[newline:]
             else:
-                post_fragment = b"\n" + marker
+                post_fragment = b"\n" + marker + b"\n"
                 verified = _replace_once(verified, copy_call,
                                          copy_call + post_fragment, "post negative")
                 marker = post_fragment
@@ -330,19 +367,27 @@ def _prepare(evidence: Path) -> dict:
         (case_dir / "original/lib.rs").write_bytes(original)
         (case_dir / "verified/lib.rs").write_bytes(verified)
         metadata["cases"][name] = {
-            "case": name, "canonical": canonical,
+            "case": name, "canonical": canonical, "uses_effect": use_effect,
+            "effect_fixture_kind": ("wrong_signature" if name == "wrong_effect_signature" else
+                                    "missing_definition" if name == "missing_effect_definition" else
+                                    "exact" if use_effect else "absent"),
             "original_sha256": _sha(original), "verified_sha256": _sha(verified),
             "contract_sha256": _sha(case_contract),
             "contract_header_sha256": _sha(case_contract.split(b"safety_proof {\n", 1)[0]),
             "ghost_fragments": [part.decode("ascii") for part in ghosts],
             "source_copy_line": _line(verified, copy_call),
             "call_line": _line(verified, CALL) if canonical else None,
+            "effect_close_line": (_line(verified, EFFECT_CLOSE) if use_effect else None),
+            "duplicate_effect_line": (_line(verified, EFFECT_DUPLICATE)
+                                       if name == "duplicate_effect_close" else None),
             "false_line": _line(verified, false_token) if false_token else None,
             "body_false_line": (_line(verified, BODY_FALSE if name == "body_entry_false"
                                        else POST_FALSE) if name in
                                 {"body_entry_false", "body_post_false"} else None),
             "expected_missing": ("source_singleton" if name == "missing_source_quarter" else
                                  "destination_singleton" if name == "missing_destination_gap" else None),
+            "expected_qualification_failure": ("wrong_effect_signature" if name == "wrong_effect_signature" else
+                                               "missing_effect_definition" if name == "missing_effect_definition" else None),
             "root_interval_premises": False,
         }
     metadata["specialized_own_sha256"] = _sha(own)
@@ -372,12 +417,35 @@ def _source_gate(case: Path, row: dict) -> dict:
                       b"self as usize" not in contract)
     no_escape = not any(token in verified for token in
                         (b"assume_correct", b"//@ assume", b"//@ leak", b"Freeze"))
-    return {"admitted": exact and runtime and accepted_shape and no_escape,
+    expected_effect = ({
+        "exact": b"/*@\n" + EFFECT_DEF + b"@*/\n\n",
+        "wrong_signature": b"/*@\n" + EFFECT_WRONG_DEF + b"@*/\n\n",
+        "missing_definition": b"/*@\n" + EFFECT_DECL + b"@*/\n\n",
+        "absent": b"",
+    }.get(row.get("effect_fixture_kind"), None))
+    effect_fixture_ok = (EFFECT_NAME not in verified if
+                         row.get("effect_fixture_kind") == "absent" else
+                         expected_effect is not None and
+                         verified.count(expected_effect) == 1 and
+                         ((row.get("effect_fixture_kind") == "exact" and
+                           verified.count(EFFECT_DEF) == 1 and EFFECT_DECL not in verified) or
+                          (row.get("effect_fixture_kind") == "wrong_signature" and
+                           verified.count(EFFECT_WRONG_DEF) == 1 and EFFECT_DECL not in verified) or
+                          (row.get("effect_fixture_kind") == "missing_definition" and
+                           verified.count(EFFECT_DECL) == 1 and EFFECT_DEF not in verified)))
+    effect_close_ok = (verified.count(EFFECT_CLOSE) == 1 if row.get("uses_effect")
+                       else EFFECT_NAME not in verified)
+    integrity = (exact and runtime and accepted_shape and no_escape and
+                 effect_fixture_ok and effect_close_ok)
+    return {"admitted": integrity,
             "runtime_equal_after_ghost_strip": exact,
             "runtime_copy_keeps_dynamic_self_len": runtime,
             "onecell_payload_contract_shape": accepted_shape,
             "root_interval_premises_absent": b"self as usize" not in contract,
-            "no_assume_leak_or_freeze": no_escape}
+            "no_assume_leak_or_freeze": no_escape,
+            "effect_fixture_integrity": effect_fixture_ok,
+            "effect_definition_exact_current_tie": row.get("effect_fixture_kind") == "exact",
+            "effect_call_count_matches_fixture": effect_close_ok}
 
 
 def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
@@ -471,13 +539,160 @@ def _mir_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
         return {"admitted": False, "reason": f"structured one-cell MIR admission: {error}"}
 
 
+def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
+    """Admit the existing body bindings plus exactly one normal-only effect."""
+    path = case / "proof-ast.ml"
+    if not path.is_file():
+        return {"admitted": False, "reason": "proof AST absent"}
+    try:
+        ast = proof_base.ast_helper
+        tree = ast.OcamlAstText(path.read_text(errors="replace")).parse()
+        base = drop_module._ast_gate(case, row, proof_base)
+        funcs = [node for node in ast.nodes(tree, "Func") if
+                 len(node.args) == 13 and node.args[4] in
+                 drop_module._target_names(proof_base)]
+        declarations = [node for node in funcs if node.args[10] == ast.Sym("None")]
+        bodies = [node for node in funcs if isinstance(node.args[10], ast.Node) and
+                  node.args[10].name == "Some"]
+        if len(funcs) != 2 or len(declarations) != 1 or len(bodies) != 1:
+            return {"admitted": False, "reason": "qualified Drop AST declaration/body count differs",
+                    "base_body_gate": base}
+        generated = declarations[0].args[8]
+        generated_call_names = [node.args[1] for node in ast.nodes(generated, "CallExpr")
+                                if len(node.args) > 1 and isinstance(node.args[1], str)]
+        switches = [node for node in ast.nodes(generated, "SwitchExpr") if
+                    len(node.args) == 4 and isinstance(node.args[2], list) and
+                    len(node.args[2]) == 2 and all(
+                        isinstance(arm, ast.Node) and arm.name == "SwitchExprClause" and
+                        len(arm.args) == 4 for arm in node.args[2])]
+        if len(switches) != 1:
+            return {"admitted": False, "reason": "generated Drop outcomes differ",
+                    "base_body_gate": base}
+        arms = {}
+        for arm in switches[0].args[2]:
+            tag, binders, assertion = arm.args[1], arm.args[2], arm.args[3]
+            calls = [node for node in ast.nodes(assertion, "CallExpr")
+                     if len(node.args) == 6 and isinstance(node.args[1], str)]
+            fields = []
+            for node in ast.nodes(assertion, "PointsTo"):
+                field = node.args[1] if len(node.args) >= 2 else None
+                if (isinstance(field, ast.Node) and field.name == "Read" and
+                        len(field.args) == 3):
+                    fields.append(field.args[2])
+            arms[tag] = {"binders": binders, "assertion": assertion,
+                         "calls": [call.args[1] for call in calls],
+                         "call_nodes": calls, "fields": fields}
+        normal, unwind = arms.get("returning", {}), arms.get("unwinding", {})
+        expected_common = {"struct_CopyOnDrop_padding", "thread_token"}
+        def is_effect_name(name):
+            # These fixtures are rooted directly in the crate module, so the
+            # uniquely qualified sibling symbol is the unprefixed exact name.
+            return name == EFFECT_NAME.decode()
+
+        effect_calls = [node for node in normal.get("call_nodes", [])
+                        if is_effect_name(node.args[1])]
+        unwind_effects = [node for node in unwind.get("call_nodes", [])
+                          if is_effect_name(node.args[1])]
+        normal_common = [name for name in normal.get("calls", [])
+                         if not is_effect_name(name)]
+        unwind_common = [name for name in unwind.get("calls", [])
+                         if not is_effect_name(name)]
+        normal_counts = {name: normal_common.count(name) for name in set(normal_common)}
+        unwind_counts = {name: unwind_common.count(name) for name in set(unwind_common)}
+        effect_args_ok = False
+        effect_arg_names = []
+        field_variables = {}
+        for node in ast.nodes(normal.get("assertion"), "PointsTo"):
+            if len(node.args) < 4:
+                continue
+            read = node.args[1]
+            if (isinstance(read, ast.Node) and read.name == "Read" and
+                    len(read.args) == 3 and read.args[2] in ("src", "dst", "len")):
+                try:
+                    field_variables[read.args[2]] = ast.var(node.args[3])
+                except (ValueError, TypeError, ast.AdmissionError):
+                    pass
+        thread_calls = [node for node in normal.get("call_nodes", [])
+                        if node.args[1] == "thread_token"]
+        thread_variable = None
+        if len(thread_calls) == 1:
+            token_args = ast.narg(thread_calls[0], "CallExpr", 6)[4]
+            if isinstance(token_args, list) and len(token_args) == 1:
+                try:
+                    thread_variable = ast.var(ast.narg(token_args[0], "LitPat", 1)[0])
+                except (ValueError, TypeError, ast.AdmissionError):
+                    pass
+        if len(effect_calls) == 1:
+            call_args = ast.narg(effect_calls[0], "CallExpr", 6)
+            patterns = call_args[4]
+            if (call_args[2] == [] and call_args[3] == [] and
+                    call_args[5] == ast.Sym("PredFamCall") and
+                    isinstance(patterns, list) and len(patterns) == 4):
+                try:
+                    effect_arg_names = [ast.var(ast.narg(pattern, "LitPat", 1)[0])
+                                        for pattern in patterns]
+                    effect_args_ok = (
+                        len(set(effect_arg_names)) == 4 and
+                        field_variables == {"src": effect_arg_names[1],
+                                            "dst": effect_arg_names[2],
+                                            "len": effect_arg_names[3]} and
+                        thread_variable == effect_arg_names[0])
+                except (ValueError, TypeError, ast.AdmissionError):
+                    effect_args_ok = False
+        prototype = bodies[0].args[7][1] if isinstance(bodies[0].args[7], tuple) else None
+        proof = (prototype.args[0][1] if isinstance(prototype, ast.Node) and
+                 prototype.name == "Some" and
+                 isinstance(prototype.args[0], tuple) else [])
+        opens = [node.args[2] for node in ast.nodes(proof, "Open") if len(node.args) >= 3]
+        closes = [node.args[2] for node in ast.nodes(proof, "Close") if len(node.args) >= 3]
+        effect_post = (
+            normal.get("binders") == ["result"] and unwind.get("binders") == [] and
+            normal.get("fields") == unwind.get("fields") == ["src", "dst", "len"] and
+            len(ast.nodes(normal.get("assertion"), "PointsTo")) == 3 and
+            len(ast.nodes(unwind.get("assertion"), "PointsTo")) == 3 and
+            not unwind_effects and len(effect_calls) == 1 and effect_args_ok and
+            all(normal_counts.get(name) == 1 and unwind_counts.get(name) == 1
+                for name in expected_common) and
+            set(normal_counts) == expected_common and
+            set(unwind_counts) == expected_common and
+            generated_call_names.count("CopyOnDrop_full_borrow_content") == 1 and
+            not any(token in repr(generated) for token in
+                    ("src_values", "old_gap", "completed_payload")))
+        body_linkage = (
+            base.get("runtime_dynamic_copy_count") == 1 and
+            base.get("runtime_copy_field_origins") == [0, 1, 2] and
+            base.get("fbc_fields") == ["src", "dst", "len"] and
+            base.get("custom_own_count") == 1 and
+            base.get("prototype_opens") ==
+                ["CopyOnDrop_full_borrow_content", "CopyOnDrop_own"] and
+            "call" in base.get("prototype_calls", []) and
+            closes.count("CopyOnDrop_drop_effect") ==
+                (2 if row["case"] == "duplicate_effect_close" else 1) and
+            not ast.nodes(proof, "Assume") and not ast.nodes(proof, "Leak"))
+        return {"admitted": effect_post and body_linkage,
+                "generated_normal_only_effect": effect_post,
+                "generated_unwind_unchanged_effect_absent": not unwind_effects,
+                "effect_argument_count_and_uniqueness": effect_args_ok,
+                "effect_argument_names": effect_arg_names,
+                "generated_field_variables": field_variables,
+                "generated_outcome_fields": {tag: arm["fields"] for tag, arm in arms.items()},
+                "generated_outcome_calls": {tag: arm["calls"] for tag, arm in arms.items()},
+                "generated_call_names": generated_call_names,
+                "body_linkage": body_linkage, "base_body_gate": base,
+                "prototype_closes": closes}
+    except Exception as error:
+        return {"admitted": False, "reason": f"structured one-cell effect AST admission: {error}"}
+
+
 def _classify(name: str, case: Path, row: dict, execution: dict,
               drop_module, proof_base, consumer) -> dict:
     stages = execution.get("stages", {})
     source = _source_gate(case, row)
     mir = (_mir_gate(case, row, proof_base, drop_module)
            if stages.get("decode") == 0 else {"admitted": False})
-    ast = (drop_module._ast_gate(case, row, proof_base)
+    ast = ((_effect_ast_gate(case, row, proof_base, drop_module)
+            if row.get("uses_effect") else
+            drop_module._ast_gate(case, row, proof_base))
            if stages.get("decode") == 0 else {"admitted": False})
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
@@ -508,18 +723,40 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
         call_line = row.get("call_line")
         matched_target = bool(call_line and re.search(
             rf"verified/lib\.rs\({call_line},\d+.*\): error:", errors[0]))
+    if admission and name == "duplicate_effect_close" and \
+            stages.get("verifast") == 1 and len(errors) == 1:
+        line = row.get("duplicate_effect_line")
+        matched_target = bool(line and re.search(
+            rf"verified/lib\.rs\({line},\d+.*\): error:", errors[0]))
     positive = (setup and stages.get("verifast") == 0 and not errors and
                 bool(segment) and copy_seen and return_seen and leak_seen and
                 "0 errors found" in log)
-    classification = ("EXPECTED_REJECTION" if matched_target else
+    qualification_diagnostics = "\n".join(
+        (case / f"{stage}.log").read_text(errors="replace")
+        for stage in ("exporter", "decode")
+        if (case / f"{stage}.log").is_file())
+    qualification_rejection = (
+        bool(row.get("expected_qualification_failure")) and
+        source.get("admitted") is True and
+        execution.get("source_files_unchanged") is True and
+        any(stages.get(stage) == 1 for stage in ("exporter", "decode")) and
+        "Malformed CopyOnDrop_drop_effect opt-in predicate" in qualification_diagnostics)
+    no_effect_refusal = (
+        name == "canonical_no_effect" and admission and
+        stages.get("verifast") == 1 and copy_seen and return_seen and leak_seen and
+        bool(errors) and ast.get("generated_contract_structural_gate") is True and
+        not ast.get("generated_outcome_calls", {}).get("returning", []).count("CopyOnDrop_drop_effect"))
+    classification = ("EXPECTED_EFFECT_QUALIFICATION_REJECTION" if qualification_rejection else
+                      "EXPECTED_NO_EFFECT_PAYLOAD_LEAK_REFUSAL" if no_effect_refusal else
+                      "EXPECTED_REJECTION" if matched_target else
                       "DIRECT_STRONG_PRE_BODY_PASS_CONDITIONAL" if
                       positive and name == "direct_positive" else
                       "ONECELL_BODY_INTERFACE_PASS_FRAGMENT_ONLY" if positive else
                       "INCONCLUSIVE")
-    if positive and name == "canonical_positive":
-        classification = "CANONICAL_ONECELL_BODY_INTERFACE_PASS_FRAGMENT_ONLY"
+    if positive and name == "canonical_positive" and ast.get("admitted") is True:
+        classification = "CANONICAL_ONECELL_EFFECT_INTERFACE_PASS_FRAGMENT_ONLY"
     generated_payload_frontier = (
-        name == "canonical_positive" and copy_seen and return_seen and leak_seen and
+        name == "canonical_no_effect" and copy_seen and return_seen and leak_seen and
         bool(errors) and ast.get("admitted") is True and
         "src_values" not in repr(ast.get("generated_outcome_fields", {})))
     first_frontier = ("generated_drop_post_omits_payload_or_residual_payload_leak"
@@ -532,7 +769,15 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             "copy_seen": copy_seen, "return_seen": return_seen,
             "leak_seen": leak_seen, "verifier_errors": errors,
             "dead_code_records": dead,
-            "generated_prototype_payload_effect": "payload remains outside generated fields/padding post; no assumed effect, leak, or glue credit",
+            "generated_prototype_payload_effect": (
+                "explicit normal-only effect admitted by AST gate; unwind unchanged; no glue/caller credit"
+                if row.get("uses_effect") else
+                "generated fields/padding post omits payload; retained no-effect refusal control"),
+            "qualification_diagnostic": ("Malformed CopyOnDrop_drop_effect opt-in predicate"
+                                         if qualification_rejection else None),
+            "effect_scope": ("normal generated post only; unwind unchanged; no compiler glue/caller construction credit"
+                             if row.get("uses_effect") else "no explicit effect; canonical no-effect is a retained refusal control"
+                             if name == "canonical_no_effect" else None),
             "caller_construction": "NOT_TESTED; explicit caller resource construction is a separate obligation",
             "direct_positive_scope": ("conditional strong-pre body only; default generated own is not canonical applicability"
                                       if name == "direct_positive" else None)}
@@ -559,6 +804,7 @@ def run(evidence: Path, args, env: dict, execute_case,
         before = consumer._hashes(case)
         execution = execute_case(case, args, env)
         after = consumer._hashes(case)
+        execution["source_files_unchanged"] = before == after
         receipts = consumer._stage_receipts(case, execution.get("stages", {}), before)
         execution["source_unchanged_at_every_stage"] = before == after and receipts["admitted"]
         execution["stage_receipt_gate"] = receipts
@@ -567,24 +813,33 @@ def run(evidence: Path, args, env: dict, execute_case,
         (case / "classification.json").write_text(json.dumps(
             classified, indent=2, sort_keys=True) + "\n")
         results[name] = classified["classification"]
-    aggregate = {"schema": "source-linked-u64-onecell-drop-interface-v1",
+    aggregate = {"schema": "source-linked-u64-onecell-drop-effect-v1",
                  "profile": extraction["profile"], "tool_profile": args.profile,
                  "accepted": False, "actual_callee_or_glue_credit": False,
                  "receipt_sha256": identity["receipt_sha256"], "cases": results,
                  "stage_contract": {
-                     "all_cases": {"exporter": 0, "decode": 0, "refinement": 0,
-                                   "source_unchanged_at_every_stage": True},
+                     "ordinary_cases": {"exporter": 0, "decode": 0, "refinement": 0,
+                                        "source_unchanged_at_every_stage": True},
+                     "qualification_negative_cases": {
+                         "cases": ["wrong_effect_signature", "missing_effect_definition"],
+                         "expected": {"early_stage": ["exporter", "decode"],
+                                      "diagnostic": "Malformed CopyOnDrop_drop_effect opt-in predicate"}},
                      "positive": {"case": "canonical_positive", "verifast": 0,
                                   "required": ["source-linked body copy", "normal return", "leak check"],
-                                  "credit": "body interface only; caller construction not tested"},
+                                  "required_effect": "normal generated post includes exact same-file effect; unwind remains unchanged",
+                                  "credit": "canonical one-cell body interface only; caller/glue construction not tested"},
+                     "no_effect_control": {"case": "canonical_no_effect", "verifast": 1,
+                                           "expected": "retained generated-post payload leak/refusal"},
                      "direct_conditional": {"case": "direct_positive", "verifast": 0,
                                             "credit": "strong-pre body only; default-own compatibility is vacuous"},
                      "targeted_negative_verifast": 1,
                      "targeted_negative_cases": {
-                         name: {"line": extraction["cases"][name]["false_line"],
+                         name: {"false_line": extraction["cases"][name]["false_line"],
+                                "target_line": extraction["cases"][name]["duplicate_effect_line"],
                                 "expected_missing": extraction["cases"][name]["expected_missing"]}
                          for name in CASES if extraction["cases"][name]["false_line"] is not None or
-                         extraction["cases"][name]["expected_missing"] is not None}},
+                         extraction["cases"][name]["expected_missing"] is not None or
+                         extraction["cases"][name]["duplicate_effect_line"] is not None}},
                  "scope": extraction["scope"],
                  "normal_payload_posts": extraction["normal_payload_posts"],
                  "generic_zst_comparator_user_drop": "UNSUPPORTED"}
