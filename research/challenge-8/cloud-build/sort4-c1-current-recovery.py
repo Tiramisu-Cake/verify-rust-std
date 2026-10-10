@@ -1135,6 +1135,11 @@ def main() -> None:
                             a.cloud_dir / "sort4-c2-bound-prefix/driver.py", "c2_bound_runner")
                         result["c2_bound_prefix"] = bound_driver.run_bound(
                             a, fixture, tool, env, result, c2_result, snapshot)
+                        c3_profile_path = (a.proof_root /
+                            "research/challenge-8/cloud-build/sort4-c3-bound-prefix/capture-profile.json")
+                        if c3_profile_path.is_file() and read(c3_profile_path).get("cloud_enabled") is True:
+                            c3_driver = module(a.cloud_dir / "sort4-c3-bound-prefix/driver.py", "c3_runner")
+                            result["c3"] = c3_driver.run(a, tool, env, result["c2_bound_prefix"], snapshot)
             else:
                 c2_result = {
                     "classification": "C2_NOT_RUN_C1_BOUNDARY_NOT_GREEN",

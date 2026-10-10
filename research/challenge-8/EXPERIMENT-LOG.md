@@ -6705,3 +6705,23 @@ carry0. All6 terminal/downloadverified; own reservation/request absent, v2/max2
 preserved. Read-only C3 design identifies dynamic cross-half CURRENT ownership
 and third lifetime/Output binding as next fullsort4 gate; no C3 experiment.
 Final checkpoint/evidence/coverage changes are documentation only, no proof upgrade.
+
+## 2026-10-10 10:20:59 UTC — new actual C3 session
+
+Direct owner instruction lifts prior STOP within actual-sort4/caller mission.
+Worktree `/root/verify-rust-std-select-night`, branch
+`research/night-select-sort4-cloud-2026-10-09`, clean initial HEAD
+`fafb91f0d59d070dac8b9ac72c71143a4224a78b`; distinct git-dir/index verified.
+Fetch completed; existing adoption/ACK retained; policy commit
+`c7ca8c467aecf10a4b53039372ee97714f854ee3` read. Main deadline12:20:59,
+finish-only absolute12:50:59 UTC. Fresh 3600-second account, no old carry.
+
+[Experiment card](cloud-build/sort4-c3-bound-prefix/SEMANTIC-CARD.md): first
+prove selected cross-half ownership/CURRENT complementary frame, third named
+callback binding, then bounded C1→C2→C3 normal/all direct-unwind closure.
+Independent design review conditional GO precedes semantic implementation.
+First Cloud capture remains diagnostic-only: fresh source/paired full MIR/
+preAST and mandatory refusal, no target proof credit. On fresh certificate,
+review and pin exact bound projection before proof; continue C4/C5 if complete.
+Native→C1 is secondary and requires separate compatible strict-cut semantic
+card/review; no repeated preparation on incompatible frozen chain.

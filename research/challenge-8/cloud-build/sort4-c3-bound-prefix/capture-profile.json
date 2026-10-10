@@ -1,0 +1,25 @@
+{
+  "classification": "C3_CAPTURE_ONLY_FULL_ORIGINAL_AST_NOT_PROOF",
+  "profile_accepted": false,
+  "cloud_enabled": true,
+  "default_off_unchanged": true,
+  "c2_bound_prefix_unchanged": true,
+  "actual_sort4_callable_summary": false,
+  "base_translator_sha256": "daf29b03fbb7aa10e6f580c70780a9fdc5a2eb6d3f4470e1c38673212ca3d9a3",
+  "patched_translator_sha256": "c7692ab6f4f70ad12a0f3bea886834bd072667ed4dc5ba6a314607f5b8b38a76",
+  "incremental_patch_sha256": "392042884052677d325d881c74d49b724649f21242f3d773906b3445a97104d0",
+  "source_sha256": "supplied by Cloud driver as SORT4_C3_CAPTURE_SOURCE_SHA256",
+  "pre_ast": "actual-c3-capture-pre-ast.ml",
+  "expected_refusal": "SORT4-C3-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF",
+  "capture_env": {
+    "SORT4_ACTUAL_C3_CAPTURE_TEST": "1",
+    "SORT4_ACTUAL_AST_SCOPE_TEST": "1",
+    "SORT4_ACTUAL_C1_PREFIX_TEST": "0",
+    "SORT4_ACTUAL_C2_DISCOVERY_TEST": "0",
+    "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST": "0",
+    "SORT4_C1_OUTPUT_EQ": "0",
+    "SORT4_STRICT_LFT_CUT": "1"
+  },
+  "named_declarations": ["'cmp2 = cmp2_k", "'cmp3 = cmp3_k"],
+  "ordered_cuts": ["'cmp", "'cmp2", "'cmp3"]
+}

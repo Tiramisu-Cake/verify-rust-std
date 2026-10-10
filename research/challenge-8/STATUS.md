@@ -1,14 +1,14 @@
-# Actual sort4 / caller applicability — closed session
+# Actual sort4 / caller applicability — active C3 session
 
 Owner select-sort4; `/root/verify-rust-std-select-night`, branch
-`research/night-select-sort4-cloud-2026-10-09`. Direct assignment lifted STOP
-within this mission. Start2026-10-10 **00:34:15 UTC**, main **02:34:15**,
-absolute **03:04:15**; extension only finishing, no new experiments/Builds.
-Policy `c7ca8c467aecf10a4b53039372ee97714f854ee3`, adoption
-`6726a08d30b37d6d0f4ae65c3d8c2861615d249a` and ownACK preserved.
-Own [account](cloud-build/sort4-native-compose-c1/BUDGET.json) closed02:17:57 UTC:
-2131/3600 create→finish seconds,1469 unused closed/carry0; previous709 closed/no carry.
-Coordinator v2/max2 preserved; no own active/unresolved Build.
+`research/night-select-sort4-cloud-2026-10-09`. New direct assignment lifted STOP
+in actual-sort4/caller mission. Start **2026-10-10 10:20:59 UTC**, main
+**12:20:59**, absolute **12:50:59**; extension only finishing, no new Builds.
+Policy `c7ca8c467aecf10a4b53039372ee97714f854ee3`; adoption/ACK preserved.
+New [account/card](cloud-build/sort4-c3-bound-prefix/PHASE.md): 3600 Cloud seconds,
+no carry. Coordinator v2/max2, one own Build. Initial HEAD `fafb91f0`, clean.
+[Prior closed checkpoint](cloud-build/sort4-native-compose-c1/END-CHECKPOINT-2026-10-10.md)
+retains earlier 2131 spent/1469 unused closed account and historical evidence.
 
 ## Current proof boundary
 
@@ -49,18 +49,13 @@ Experimental VF0/projection review and global profile acceptance are separate.
 All profiles remain unaccepted; original collector pending fields/stale top-level
 tool metadata fallback are preserved and explained in the evidence note.
 
-## Next permitted action
+## Current step
 
-[Final checkpoint and exact Build/tool ledger](cloud-build/sort4-native-compose-c1/END-CHECKPOINT-2026-10-10.md).
-Six terminal/accounted/download-verified Builds; no own reservation/ready request.
-New authorized session: native composition needs a separately reviewed compatible
-strict-cut profile/new preAST/helper proof; independent fullsort4 next is C3
-selected cross-half ownership/CURRENT frame and third lifetime/Output binding,
-normal/unwind recovery before C4. [Concrete design only](cloud-build/sort4-c2-bound-prefix/NEXT-STEP.md).
-No automatic next session, C3 experiment or new profile implementation begun.
-No unchanged proof repeat or historical matrix. Build5 `ae8ac387` stopped at
-collector live-tuple/JSON-list interface before bound C2 (NOT_RUN); isolated saved
-replay/mutants passed before the new fresh Build. Four earlier native preparation/
-capture Builds are diagnostic only; failures and exact identities retained in
-[experiment log](EXPERIMENT-LOG.md). No Actions/local compilation/proof/foreign
-worktree, ledger or pin changes. No automatic next session.
+[New C3 semantic card](cloud-build/sort4-c3-bound-prefix/SEMANTIC-CARD.md).
+Selected `(c,a)` and complementary `(b,d)` CURRENT ownership candidate helpers
+cover all four c1/c2 combinations. New default-off translator capture profile
+preserves C1/C2 and unbound refusal; fresh source/normal+readonly MIR/preAST
+capture precedes exact C3 bound admission and independent addressed review.
+C3 and later actual operations remain NOT_RUN. Continue C4 then C5/select/copy
+only after completed preceding prefix with its own paths/CURRENT rationale.
+No native-composition repeat on incompatible kernel. All profiles experimental.
