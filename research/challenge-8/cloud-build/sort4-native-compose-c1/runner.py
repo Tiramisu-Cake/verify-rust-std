@@ -196,6 +196,20 @@ def run(a: argparse.Namespace) -> dict:
         "actual_caller_cfg_proved": False,
     })
     if support:
+        stages["proof-ast-diagnostic"] = stage(
+            a, fixture, "proof-ast-diagnostic",
+            [verifier, "-dump_ast_with_locs", "proof-ast.ml", "-rustc_args",
+             "--edition 2021", "verified/lib.rs"], env, 90)
+        ast_path = fixture / "proof-ast.ml"
+        write(root / "proof-ast-capture.json", {
+            "classification": "CAPTURED_PRE_VERIFICATION_AST"
+                if ast_path.is_file() else "NOT_CONFIRMED",
+            "sha256": sha(ast_path) if ast_path.is_file() else None,
+            "stage_exit": stages["proof-ast-diagnostic"].get("exit"),
+            "proof_verdict": None,
+            "may_fail_at_MergeFractionsStmt_serializer": True,
+            "full_verification_still_required": True,
+        })
         stages["verification"] = stage(
             a, fixture, "verification",
             [verifier, "-rustc_args", "--edition 2021", "-verbose", "2",
