@@ -20,14 +20,17 @@ import time
 
 
 ROOT = Path("research/challenge-8/cloud-build")
-HERE = ROOT / "sort4-native-c4"
+FROZEN_HERE = ROOT / "sort4-native-c4"
+OPAQUE_PHASE = "SORT4-NATIVE-OPAQUE-CLOUD-2026-10-10"
+OPAQUE_SESSION = os.environ.get("SORT4_NATIVE_OPAQUE_PHASE") == "1"
+HERE = ROOT / ("sort4-native-opaque" if OPAQUE_SESSION else "sort4-native-c4")
 TRANSLATOR = Path("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml")
 KERNEL = Path("src/verifast.ml")
 FINAL_TRANSLATOR = "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313"
 FINAL_KERNEL = "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
 FINAL_SOURCE = "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
 FINAL_PRE_AST = "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222"
-PHASE = "SORT4-NATIVE-C4-CLOUD-2026-10-10"
+PHASE = OPAQUE_PHASE if OPAQUE_SESSION else "SORT4-NATIVE-C4-CLOUD-2026-10-10"
 PATCHES = (
     ("overnight-callback/ACTUAL-SORT4-AST-SCOPE-TEST.json", "profile_components.overlay_patch_sha256", "overnight-callback/verifast-actual-sort4-first-scope-TEST.patch", None, None),
     ("overnight-callback/ACTUAL-SORT4-C1-OUTPUT-EQ-TEST.json", "patch_sha256", "overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch", None, None),
@@ -178,7 +181,7 @@ def build_frozen_c4(a, historical, env: dict[str, str]) -> tuple[Path, dict]:
                    "WITHOUT_LABLGTK=yes", "VERBOSE=yes"], active, 900, cwd=tool)
     need(built.get("exit") == 0, "final C4 console build failed")
     after = historical.snapshot(a, tool)
-    frozen_file = a.proof_root / HERE / "FROZEN-C4-SNAPSHOT.json"
+    frozen_file = a.proof_root / FROZEN_HERE / "FROZEN-C4-SNAPSHOT.json"
     expected = json.loads(frozen_file.read_text())
     need(after["head"] == before["head"] and
          after["critical"][str(TRANSLATOR)] == FINAL_TRANSLATOR and
@@ -478,7 +481,7 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
     if profile.get("run_mode") == "FROZEN_C4_INDEPENDENT_FOLLOWUP":
         need([name for name, _ in blocks] == profile.get("followup_cases"),
              "follow-up cases differ from exact profile")
-        excerpt_file = a.proof_root / HERE / "SLICE-EXPRESSION-SOURCE.json"
+        excerpt_file = a.proof_root / FROZEN_HERE / "SLICE-EXPRESSION-SOURCE.json"
         excerpt = json.loads(excerpt_file.read_text())
         need(excerpt.get("source_path") == "library/core/src/slice/mod.rs" and
              excerpt.get("source_git_blob") == "16b5766ba08362bbf6ab13e127d71c7d920eccf7" and
@@ -590,8 +593,11 @@ def refusal(a, tool: Path, fixture: Path, env: dict[str, str], *, comment_only: 
 def run(a) -> None:
     need(os.environ.get("SMALLSORT_EXECUTION_PROVIDER") == "cloud-build" and
          os.environ.get("LANE") == "o26-sort4-c1-current-recovery" and
-         os.environ.get("SORT4_NATIVE_C4_PHASE") == "1" and
-         os.environ.get("SORT4_NATIVE_C4_PHASE_ID") == PHASE and
+         ((OPAQUE_SESSION and
+           os.environ.get("SORT4_NATIVE_OPAQUE_PHASE_ID") == PHASE and
+           os.environ.get("SORT4_NATIVE_C4_PHASE") is None) or
+          (not OPAQUE_SESSION and os.environ.get("SORT4_NATIVE_C4_PHASE") == "1" and
+           os.environ.get("SORT4_NATIVE_C4_PHASE_ID") == PHASE)) and
          not os.environ.get("GITHUB_ACTIONS"), "exact Cloud native-C4 phase required")
     for key in ("production_source", "production_applied_patch", "stock_home",
                 "compiler_sysroot", "evidence", "proof_root", "work_root", "cloud_dir"):
