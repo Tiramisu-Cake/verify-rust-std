@@ -134,13 +134,21 @@ def _outer_projection_ast(ast_text: str) -> dict:
             continue
         node = _balanced_node(ast_text, start)
         if node is not None and marker in node:
-            nodes.append(node)
+            nodes.append((start, node))
     matching = []
-    for node in nodes:
+    for start, node in nodes:
         refs = re.findall(
             r"RustRefTypeExpr \(loc \"[^\"]+\", IdentTypeExpr \(loc \"[^\"]+\", None, \"'cmp\"\), Shared, IdentTypeExpr \(loc \"[^\"]+\", None, \"T\"\)\)",
             node)
+        ref_shape = r'RustRefTypeExpr \(loc "[^"]+", IdentTypeExpr \(loc "[^"]+", None, "\'cmp"\), Shared, IdentTypeExpr \(loc "[^"]+", None, "T"\)\)'
+        tuple_shape = (r'StructTypeExpr \(loc "[^"]+", Some \("std_tuple_2_"\), None, \[\], \[' +
+                       ref_shape + r';\s*' + ref_shape + r'\]\)')
+        node_shape = (r'ExprStmt \(CallExpr \(loc "[^"]+", "#register_type_projection_equality", \[\s*'
+                      r'ProjectionTypeExpr \(loc "[^"]+", IdentTypeExpr \(loc "[^"]+", None, "F"\), '
+                      r'"std::ops::FnOnce", \[\s*' + tuple_shape + r'\s*\], "Output"\);\s*'
+                      r'ManifestTypeExpr \(loc "[^"]+", Bool\)\s*\], \[\], \[\], Static\)\)')
         candidate = (
+            re.fullmatch(node_shape, node) is not None and
             node.count(marker) == 1 and
             node.count("ProjectionTypeExpr") == 1 and
             node.count('IdentTypeExpr (loc ') >= 3 and
@@ -163,7 +171,7 @@ def _outer_projection_ast(ast_text: str) -> dict:
                           if switch_start >= 0 else None)
                 between = gap[:-1].strip() if isinstance(gap, str) and gap.endswith(";") else "x"
                 immediately_before_call = (
-                    bool(between) and set(between) == {")"} and switch is not None and
+                    set(between) <= {")"} and switch is not None and
                     '"std::ops::FnMut::call_mut"' in switch and
                     loc.group(1) in switch)
                 matching.append({"node": node, "call_location": loc.group(1),
