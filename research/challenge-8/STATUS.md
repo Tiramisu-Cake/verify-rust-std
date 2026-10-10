@@ -1,35 +1,27 @@
-# Native entry → actual C1–C4 — active session
+# Native entry → actual C1–C4 — session closed
 
-Owner select-sort4; `/root/verify-rust-std-select-night`, branch
-research/night-select-sort4-cloud-2026-10-09. New direct session starts
-**2026-10-10 13:00:22 UTC**, main15:00:22, absolute15:30:22 finishing only.
-Policyc7ca8c467aecf10a4b53039372ee97714f854ee3 and adoption/ACK preserved.
-Fresh3600 Cloud seconds/no carry, coordinatorv2/max2, one own, no early slot.
-[Session/card/account](cloud-build/sort4-native-c4/PHASE.md).
+2026-10-10 start13:00:22UTC, main ended15:00:22, finish-only absolute15:30:22.
+Owner select-sort4, worktree /root/verify-rust-std-select-night, own branch
+research/night-select-sort4-cloud-2026-10-09; policyc7ca8c46/adoptionACK retained.
+[Exact checkpoint](cloud-build/sort4-native-c4/END-CHECKPOINT-2026-10-10.md).
 
-PriorPASS: conditional actual C1→C4 VF0/370, Builda5180cd7/proof203b5925,
-fullCURRENT normal/all C1–C4 directunwind/fullposts/unitreturn/leak.
-[Prior closed checkpoint](cloud-build/sort4-c3-bound-prefix/END-CHECKPOINT-2026-10-10.md)
-preserves all SHA/rawreviews and2675closed account. Prior native lemma VF0/82
-separate; no native→C1, native→C4 or actualcaller→sort4 composition.
-Rawentry/types/positiveTsize/optionalTdst supplied in priorC4; profiles unaccepted.
+Fresh d5a0f8da/e12df71d: conditional actual C1→C4 VF0/370, normal/all four
+CURRENT direct-unwind/full original prefix posts/return/leak preserved, five
+intended false controls. First native-before-pointer on SAME tool VF0/78 + two
+producer controls; one-cell MU storage forward/inner VF0/51/52. Fresh3584fb04/
+285220a3 pure selected-guard/ZST witness VF0/53. Separate component proofs only.
+Native→C1/native→C4/actualcaller→sort4 NOT_PROVED. Raw C4 entry/types/positive
+Tsize/optionalTdst remain supplied; native resources derived separately but not
+transferred through real preparation/callback edge. C5/select/copy excluded.
 
-Current work: exact effectiveprofile/resource/value/lifetime/controlflow gap;
-fresh native preparation on frozenC4, isolated required code/guard/MU diagnostics.
-Known static gaps: native as_mut_ptr alias absent from C4chain; bounded C4
-hard-source/exact-one-body admission explicitly not callable summary. MU inverse
-not presumed necessary before destination writes. No selector/strictdraft/new
-trusted semantics. Build07e046f8/53866283 is a fresh setup refusal before every
-target (missing shell-required transport document), all proof cases NOT_RUN;
-verified evidence retained, charged342/3600seconds. Exact closure correction
-published e12df71d; Buildd5a0f8da terminal FAILURE from wrong admission-marker
-classification, runexit0/evidence complete, charged441sec; account783/3600,
-active=null. Fresh C4 VF0/370+five intended controls preserved; native-before-
-pointer VF0/78+two producer controls and MU storage forward/inner VF0/51/52.
-Native real as_mut_ptr refuses; guard cases parser-refuse C-style ternary;
-exact MU inverse refuses; extra-body gate first is exact-one-body. Full review:
-[FRESH-D5-REVIEW](cloud-build/sort4-native-c4/FRESH-D5-REVIEW.md).
-Native→C1/native→C4/actualcaller still NOT_PROVED. Same-profile follow-up draft
-repairs equivalent guard syntax, tests CURRENT MU owner/cast expression and
-separate admission gates, preserving prior fresh C4 with no matrix repetition.
-[Resource boundary review](cloud-build/sort4-native-c4/RESOURCE-BOUNDARY-REVIEW.md).
+Blockers: actual guard len+16 overflow proof requirement; read-only native
+as_mut_ptr unsupported; connected C4 consumer exact-one-body/source SHA refusal;
+MU exact-old inverse and CURRENT wrapper ownership restore fail separately.
+No new trusted semantics, strict-cut draft or selector profile accepted/applied.
+[Reproducer package](cloud-build/sort4-native-c4/VERIFAST-BLOCKERS.md).
+Final started cast/earlyreturn/overflow draft disabled, Cloud NOT_RUN.
+
+3 own Builds terminal/accounted/evidence-integrity verified;1165/3600seconds,
+2435unused closed/no carry,active=null,reservations closed,ready request withdrawn.
+No new Build after main end and no automatic session restart. Exact tool/profiles,
+source/MIR/AST/log hashes, saved classifier replay and commands in checkpoint.

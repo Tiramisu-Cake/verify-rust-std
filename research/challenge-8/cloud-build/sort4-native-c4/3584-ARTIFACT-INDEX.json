@@ -1,0 +1,181 @@
+{
+  "build_id": "3584fb04-e237-4d66-9c85-60de4df059c4",
+  "proof_infra": "285220a384d050e046d1e8709b79a52bd602e675",
+  "archive_sha256": "84208867c4ed920d3ab41012e56ab4a887396ae1da1d387dae317efcf6fab633",
+  "profile_record": {
+    "mode": "100644",
+    "oid": "fd0aaac2241cc42ff03d19ad0563a0f1d0befd2c",
+    "path": "research/challenge-8/cloud-build/sort4-native-c4/profile.json",
+    "sha256": "4d8c67cbd0c65e3c0065b5b4442b940ba9a7ef74143def5c7241c736708ce47a",
+    "size": 1810
+  },
+  "fresh_tool_snapshot_sha256": "004dab0f90e2abf75a422c83302015f593ec9273a78fc72d0e09ef71c1a2432b",
+  "cases": {
+    "admission-comment-only": {
+      "verifier_exit": 2,
+      "first_causal_stage": "verification",
+      "first_error": "Fatal error: exception Failure(\"SORT4-C4-BOUND: verified source SHA256 differs\")",
+      "source_pair_immutable": true,
+      "source_pair_sha256": {
+        "original/lib.rs": "e2defa3449615d863aea47508057be22f3e22c24c6b705c58e9f089a0fcbbe4c",
+        "verified/lib.rs": "7487458d2f82cc6328afcdff8e48eb9076f3d762ab6e6b13913fb2c53feeaddd"
+      },
+      "paired_support_passed": true,
+      "full_mir": {
+        "normal": {
+          "bytes": 1106829,
+          "defpath": "sort4_stable",
+          "sha256": "af8dcfda4212ec1e1bd8fcafcb763fe0107fbeb63b6c1a65bc830e2c81bf9f80"
+        },
+        "readonly": {
+          "bytes": 553561,
+          "defpath": "sort4_stable",
+          "sha256": "aebd7d6219106ba8f6b2fd730bb0a9b0876bea141eb2f06ab7c6e3804abc23ea"
+        }
+      },
+      "proof_ast_sha256": null,
+      "classification": "SOURCE_HASH_ADMISSION_REFUSAL",
+      "verification_log_sha256": "3ff780cc72fb899c1be48a96f7e18538a793c54e2cc577ba2d5dc79ee3fa23ee",
+      "verified_statements": []
+    },
+    "admission-extra-runtime-body": {
+      "verifier_exit": 2,
+      "first_causal_stage": "verification",
+      "first_error": "Fatal error: exception Failure(\"SORT4-C4-BOUND: isolated exact-one body, unwind/full checks required\")",
+      "source_pair_immutable": true,
+      "source_pair_sha256": {
+        "original/lib.rs": "ebf43322e822741de80fcfc1f38ee6e765632a3db30be0d105c6c9af9026421b",
+        "verified/lib.rs": "f7c7991c3eb86751239d6f3946998c118a69958ed92bc33100ef2a5b62bf455e"
+      },
+      "paired_support_passed": true,
+      "full_mir": {
+        "normal": {
+          "bytes": 1106829,
+          "defpath": "sort4_stable",
+          "sha256": "b34e14d2bd0ef238d02f2eaf37f27a9a5d5cc123c4af006647ac8f0047469901"
+        },
+        "readonly": {
+          "bytes": 553565,
+          "defpath": "sort4_stable",
+          "sha256": "945da630bc695a24ad3bd3fe67c96b78e6ba45802c05abe109380e70d3bc7c9a"
+        }
+      },
+      "proof_ast_sha256": null,
+      "classification": "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL",
+      "verification_log_sha256": "e51335d823e982308f9582c42aa709e77df36b9cff831b147e93c5a1e525bbd1",
+      "verified_statements": []
+    },
+    "supplied/mu-roundtrip-current-owner": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(12,42-43): error: No matching heap chunks: @(@std::mem::MaybeUninit_own, T_typeid)(t, std::mem::MaybeUninit::new_maybe_uninit(T_typeid, std::mem::MaybeUninit::inner(T_typeid, old)))",
+      "source_pair_immutable": true,
+      "source_pair_sha256": {
+        "original/lib.rs": "1fd60a481c8e6d58e53232dcf558e24ff30e3ce131c2ceba2a4eb3dc88417f3c",
+        "verified/lib.rs": "1455c4eb8a9cb9fd6a4f02410ff8568adcdc9feefef05887a20a4ca484385e77"
+      },
+      "paired_support_passed": true,
+      "full_mir": {
+        "normal": {
+          "bytes": 6105,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "7eb43d66963439fdb9d9a658682e2d2a80f972641793375ebd05eea88d831590"
+        },
+        "readonly": {
+          "bytes": 6105,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "7eb43d66963439fdb9d9a658682e2d2a80f972641793375ebd05eea88d831590"
+        }
+      },
+      "proof_ast_sha256": "d7c2a3db90fff6ddd4f756dfcb66c6e6e77e7730628e2d98068d6c1daf4dd937",
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "verification_log_sha256": "a5c0368aef5346dbe24e8db66f67cacc671bdc35e2f507a37ae069cf1d3aef66",
+      "verified_statements": []
+    },
+    "supplied/native-guard-prefix": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(23,24-32): error: Potential arithmetic overflow. (Cannot prove (ptr_len(fn_outcome_result(outcome)) + 16) <= 18446744073709551615.)",
+      "source_pair_immutable": true,
+      "source_pair_sha256": {
+        "original/lib.rs": "5535bb264c67d0d997cabd52593127c5f6229d697b906be2a0e9d7b7763261fb",
+        "verified/lib.rs": "ae23d2ffb0d9c2c933b378ee93b5389415824f17a320c3ed54480cc19f012956"
+      },
+      "paired_support_passed": true,
+      "full_mir": {
+        "normal": {
+          "bytes": 146066,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "94554ae049630220a979c4fc844c2f6a8819687f30596bb8c65215e15412ec71"
+        },
+        "readonly": {
+          "bytes": 116839,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "a46ad8440174e7a358f1c5f46ceb128e161bdf6dd40f41a5f505d519dd0c32ea"
+        }
+      },
+      "proof_ast_sha256": "19d25ae2e6c739c5f82472a3c12c3fde79f8613f9787863231ae6177bc8bdc08",
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "verification_log_sha256": "ca3f56d616f709d93288c9d8654b15f5fc434ccd7bfb1f63bccb598edc75cdae",
+      "verified_statements": []
+    },
+    "supplied/native-slice-cast-expression": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(21,5-11): error: Parse error: Parse error.",
+      "source_pair_immutable": true,
+      "source_pair_sha256": {
+        "original/lib.rs": "851302db822e33dfd822e89375260efca9918e20c94a63b7898c56d8f95da444",
+        "verified/lib.rs": "4cc1b4b77fca61434244061b5e4b53791faded23460e39aa738721863c519bb2"
+      },
+      "paired_support_passed": true,
+      "full_mir": {
+        "normal": {
+          "bytes": 102610,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "5df54502a184393b5ada41971b1e8b0708df7d926f8bcf9caa0d15c8102b8008"
+        },
+        "readonly": {
+          "bytes": 97741,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "04738274ad6b66b032f1e993b7f339efd3f744a33b5146682a79ce9e27c30945"
+        }
+      },
+      "proof_ast_sha256": null,
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "verification_log_sha256": "0b7b47aaf6de53f11808edcf3b9a7c510cac4171b6caae10e06cb202f6fda989",
+      "verified_statements": []
+    },
+    "supplied/selected-guard-lemma": {
+      "verifier_exit": 0,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "source_pair_immutable": true,
+      "source_pair_sha256": {
+        "original/lib.rs": "85a1b5529e2d8a1f9ff94ec5f80deaa58d5c50392f7e9ca168f21602138257c3",
+        "verified/lib.rs": "73cefc22a3109f32f7a625b5b77302415f72b289a600dce957f189bba23cd9fc"
+      },
+      "paired_support_passed": true,
+      "full_mir": {
+        "normal": {
+          "bytes": 6105,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "10d00e889c7f90e6cfe4c6e6728490655502c0e0693be00bc614a266d7818059"
+        },
+        "readonly": {
+          "bytes": 6105,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "10d00e889c7f90e6cfe4c6e6728490655502c0e0693be00bc614a266d7818059"
+        }
+      },
+      "proof_ast_sha256": "5135d2c7e26dfb305c6cac1fe27b33aa486637c860de93ef9893324254e993d1",
+      "classification": "FRESH_FULL_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "verification_log_sha256": "a1e7e57ebf91c563b22c8576d456b5cad3022ea416d910afadd133956cf4b7b5",
+      "verified_statements": [
+        "53"
+      ]
+    }
+  },
+  "verification_accepted": false,
+  "connected_native_to_c4_proved": false
+}

@@ -633,16 +633,26 @@ def run(a) -> None:
             c4 = c4_cases(a, tool, fixture, active)
             native = native_cases(a, tool, active)
         supplied = supplied_cases(a, tool, active)
-        admission = refusal(a, tool, fixture, active)
-        comment_admission = refusal(a, tool, fixture, active, comment_only=True) if followup else None
+        reuse_admission = followup and profile.get("prior_fresh_admission_build") is not None
+        if reuse_admission:
+            need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
+                 profile.get("prior_fresh_admission_proof_infra") == "285220a384d050e046d1e8709b79a52bd602e675" and
+                 profile.get("admission_cases") == [], "prior fresh admission provenance differs")
+            admission = {"classification": "NOT_RUN_PRIOR_FRESH_EXACT_ONE_BODY_REFUSAL", "proof_credit": False,
+                         "prior_build": profile["prior_fresh_admission_build"]}
+            comment_admission = {"classification": "NOT_RUN_PRIOR_FRESH_SOURCE_HASH_REFUSAL", "proof_credit": False,
+                                 "prior_build": profile["prior_fresh_admission_build"]}
+        else:
+            admission = refusal(a, tool, fixture, active)
+            comment_admission = refusal(a, tool, fixture, active, comment_only=True) if followup else None
         components_complete = (
             bool(supplied.get("cases")) and
             all("verification" in value.get("stages", {}) and
                 value.get("source_pair_immutable") is True
                 for value in supplied.get("cases", {}).values()) and
-            admission.get("classification") == "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL")
-        complete = (components_complete and comment_admission.get("classification") ==
-                    "SOURCE_HASH_ADMISSION_REFUSAL") if followup else (
+            (reuse_admission or admission.get("classification") == "EXTRA_RUNTIME_BODY_EXACT_ONE_BODY_ADMISSION_REFUSAL"))
+        complete = (components_complete and (reuse_admission or comment_admission.get("classification") ==
+                    "SOURCE_HASH_ADMISSION_REFUSAL")) if followup else (
             c4["positive"].get("verifier_exit") == 0 and
             c4["positive"].get("reused_fresh_support") is True and
             len(c4["controls"]) == len(CONTROLS) and

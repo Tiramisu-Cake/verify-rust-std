@@ -1,0 +1,331 @@
+{
+  "build_id": "d5a0f8da-a2ed-416c-9eac-a9ffff926c87",
+  "proof_infra": "e12df71d57923d346ba0640b9bd0ea23d2835365",
+  "raw_cases": {
+    "admission-extra-runtime-body": {
+      "verifier_exit": 2,
+      "first_causal_stage": "verification",
+      "first_error": "Fatal error: exception Failure(\"SORT4-C4-BOUND: isolated exact-one body, unwind/full checks required\")",
+      "verification_log_sha256": "e51335d823e982308f9582c42aa709e77df36b9cff831b147e93c5a1e525bbd1",
+      "source_sha256": {
+        "original/lib.rs": "ebf43322e822741de80fcfc1f38ee6e765632a3db30be0d105c6c9af9026421b",
+        "verified/lib.rs": "f7c7991c3eb86751239d6f3946998c118a69958ed92bc33100ef2a5b62bf455e"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "c4-controls/c1-unwind-false-assert": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(365,18-89): error: Assertion might not hold. (Cannot prove false.)",
+      "verification_log_sha256": "dd8e8399a72ae338b62c6cbf578a355c0ee4cdecb560902c66234a7eb6efaedf",
+      "source_sha256": {
+        "original/lib.rs": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+        "verified/lib.rs": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+      },
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "post_ast_sha256": "6f44c36d36510397e6fa776e704eb0234182d09b35263bf1ec2004f3eb74cc21",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": 1,
+      "first_error_after_target_entry": true,
+      "verification_counts": []
+    },
+    "c4-controls/c2-unwind-false-assert": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(398,18-99): error: Assertion might not hold. (Cannot prove false.)",
+      "verification_log_sha256": "52d7895d29d5862f6c3f305ad662cee4e2bddd6ea9a8fe2fec19e03180e78472",
+      "source_sha256": {
+        "original/lib.rs": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+        "verified/lib.rs": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+      },
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "post_ast_sha256": "c0e87cd1435802bede9956f597ff9c9ef0ae8815a5783f6fe9bbe436b6fa0be9",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": 1,
+      "first_error_after_target_entry": true,
+      "verification_counts": []
+    },
+    "c4-controls/c3-unwind-false-assert": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(447,18-75): error: Assertion might not hold. (Cannot prove false.)",
+      "verification_log_sha256": "6af6ca853f0e611a1fae34ec7ee519628d0c49f1f7853494bfaf841e2aea7d4b",
+      "source_sha256": {
+        "original/lib.rs": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+        "verified/lib.rs": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+      },
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "post_ast_sha256": "5ed43503202639d5d464fec4e7dc258a4e327d0b7a9a5caf5402a966c61d9d6e",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": 1,
+      "first_error_after_target_entry": true,
+      "verification_counts": []
+    },
+    "c4-controls/c4-unwind-false-assert": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(482,18-75): error: Assertion might not hold. (Cannot prove false.)",
+      "verification_log_sha256": "edd8ccf683bc4310f0110ecaa92c9637c938c4fb0f1132724f20330d5e3b49c7",
+      "source_sha256": {
+        "original/lib.rs": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+        "verified/lib.rs": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+      },
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "post_ast_sha256": "4e862445ae22c7a3d91fa1f7190a9526d65ed80945d025efc7b6537834a6b2cf",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": 1,
+      "first_error_after_target_entry": true,
+      "verification_counts": []
+    },
+    "c4-controls/normal-false-post": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(315,21-24): error: Cannot prove condition. (Cannot prove false.)",
+      "verification_log_sha256": "e26f1336509d5f61502186c152f6728630b340dc438d07fbc7ce87e7ff2382f3",
+      "source_sha256": {
+        "original/lib.rs": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+        "verified/lib.rs": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+      },
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "post_ast_sha256": "e36ef13fce823c62b57fdb04398d8076c13115bf9ed58cc63b39ad6aa129fb0f",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": 1,
+      "first_error_after_target_entry": true,
+      "verification_counts": []
+    },
+    "c4-positive": {
+      "verifier_exit": 0,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "verification_log_sha256": "1173720b22855e8802b9d7f03661af8fa83aa19a618bb7ba0475fb06357fa015",
+      "source_sha256": {
+        "original/lib.rs": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+        "verified/lib.rs": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
+      },
+      "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+      "post_ast_sha256": "2f11c68f1cc81ab23ceec03b357f2bbb35ef8dd5c012328fe3846635a3cdc396",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": 1,
+      "first_error_after_target_entry": false,
+      "verification_counts": [
+        "370"
+      ]
+    },
+    "native/source-typed-frame-positive": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(26,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr",
+      "verification_log_sha256": "c1a44d5c565dc5ba22ad15ee5c64b4f7367dee134ca78aa7496c85881d7a9e8e",
+      "source_sha256": {
+        "original/lib.rs": "c7dcd0edef3255a1f3ec39a788bc99ff56e9eb1f322bc53a4f735827fb6a0bb6",
+        "verified/lib.rs": "5263b90d3e574549e147b71c09166eccc743abf192e29b589c760facdde318f3"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "4a05b48e8d082dcda6fae93c49b71942a49dae24259a058194e12edb84f11168",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "native/source-typed-missing-F-negative": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(26,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr",
+      "verification_log_sha256": "48acc4a370d4dc733e98fa52fff556bfc982edc79a95c1c5db897a4cba44ba23",
+      "source_sha256": {
+        "original/lib.rs": "c7dcd0edef3255a1f3ec39a788bc99ff56e9eb1f322bc53a4f735827fb6a0bb6",
+        "verified/lib.rs": "7d0b1d8ebff155d2d6b74770c930e2626df1514decdb4392860e887f8b34b12c"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "8ed990acc54866d51fe9c37cd942164aa3b1567e3be360f0800d32b0d7d04859",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "native/source-typed-missing-T-negative": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(26,18-32): error: No such function: std::slice::<impl [T]>::as_mut_ptr",
+      "verification_log_sha256": "b2b40ff330dd33c6e8be958dea8c36fe3bad455ad433168c184aeb06a0c36ef0",
+      "source_sha256": {
+        "original/lib.rs": "c7dcd0edef3255a1f3ec39a788bc99ff56e9eb1f322bc53a4f735827fb6a0bb6",
+        "verified/lib.rs": "b81bd66c27ef63ed67d23e6b437d01824476e8e13dd3f675211e10cb94566bde"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "405e3be38d20599255390e9cce96970a3c231e9a9a6bcd3c91549d39f92887b4",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "supplied/mu-forward": {
+      "verifier_exit": 0,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "verification_log_sha256": "13d18429323dfc67e07bea7db35346c19d5a2b4c8105da391411266e886b7214",
+      "source_sha256": {
+        "original/lib.rs": "1fd60a481c8e6d58e53232dcf558e24ff30e3ce131c2ceba2a4eb3dc88417f3c",
+        "verified/lib.rs": "6a32ab1ace7651fa5403b8fd321c10273f77f40ecf6f31b1626de932cd3ad895"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "366e00f14d3bfc33adde955c9f547cb57dea65348935e2433838b2193577b149",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": [
+        "51"
+      ]
+    },
+    "supplied/mu-roundtrip-exact-old": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(10,15-18): error: Cannot prove std::mem::MaybeUninit::new_maybe_uninit(T_typeid, std::mem::MaybeUninit::inner(T_typeid, old)) == old",
+      "verification_log_sha256": "b4c09fa0373e95c2cfdbae7159481d7dbf1ec495ce06ebfc237193768aa72ffd",
+      "source_sha256": {
+        "original/lib.rs": "1fd60a481c8e6d58e53232dcf558e24ff30e3ce131c2ceba2a4eb3dc88417f3c",
+        "verified/lib.rs": "fdf29c5056a5876e039fba98a1868f9274f57ce923dd97a74e40b8ba8d9675c3"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "c704303888ffb2b57291397227e0fd9df9884cd66587f226ce5627a4ca05ac11",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "supplied/mu-roundtrip-inner": {
+      "verifier_exit": 0,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "verification_log_sha256": "1e18ff1d51bffe496758df69aa51a94716e11b47d53f66cfeb09ae2420bb7f32",
+      "source_sha256": {
+        "original/lib.rs": "1fd60a481c8e6d58e53232dcf558e24ff30e3ce131c2ceba2a4eb3dc88417f3c",
+        "verified/lib.rs": "d9ec4c3d82498e779ade83554919fdd6873775b23ce0c5fbc951155f39c0d52c"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "7de98e55f560f0360d1f3388132d1275061de7f32b24f60a194086a06c2bde1c",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": [
+        "52"
+      ]
+    },
+    "supplied/native-before-pointer-missing-f": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(11,48-49): error: No matching heap chunks: type_interp<F>()",
+      "verification_log_sha256": "b853e455f7a7cc10bba0d49af77efca41232d5c0ea9c5e1a789fb1fd3072b972",
+      "source_sha256": {
+        "original/lib.rs": "5d2fb459662cfdfd8f7efeefdf2460f0782e74b6cfda651f506adc5b379ac63c",
+        "verified/lib.rs": "2ee2e477aa2375314532fb0e2230343a6e42a3a9e3773dd5fd7fc55b5c15d863"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "53eb21e64b86fcea6e4ceffe12c2eb173d5e96a9f1cfeee9b1578702599c41ec",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "supplied/native-before-pointer-missing-t": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(11,25-26): error: No matching heap chunks: type_interp<T>()",
+      "verification_log_sha256": "7c762fa0da32c6ad9bbf8cabf8e7e2ca69722e0475c0781482322cd03f474336",
+      "source_sha256": {
+        "original/lib.rs": "5d2fb459662cfdfd8f7efeefdf2460f0782e74b6cfda651f506adc5b379ac63c",
+        "verified/lib.rs": "3b25f19c0e406cc37aa6cc06a827b4fe8cca1fe77a987faf1e30a6fda7c83e60"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "4c4b4865713dd13dd8f9fd3647f5bc4521c9deb185e5b0ae84a3c4c82a12c6d4",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "supplied/native-before-pointer-positive": {
+      "verifier_exit": 0,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "verification_log_sha256": "5ff3c3e6d93ebdee510477a752ed7a41448b629a99b537e2b6fe9dd1a1954cf8",
+      "source_sha256": {
+        "original/lib.rs": "5d2fb459662cfdfd8f7efeefdf2460f0782e74b6cfda651f506adc5b379ac63c",
+        "verified/lib.rs": "bc8c330932529400dd8a0881e67cb1d10c8795d7d823b2fb6f5d734c0aab895f"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": "fb293c7a5cf7c7d297345c032bdeee0c1ee8204f41bd51af4252d46b2a6eecc0",
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": [
+        "78"
+      ]
+    },
+    "supplied/native-guard-prefix": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(13,20-21): error: Parse error: Parse error.",
+      "verification_log_sha256": "c8d4300ff1efcae1ba5a27e4e0b16c9faa6891dc3a44675a34f9d0a8bea4d8c5",
+      "source_sha256": {
+        "original/lib.rs": "5535bb264c67d0d997cabd52593127c5f6229d697b906be2a0e9d7b7763261fb",
+        "verified/lib.rs": "96ad67bee09cd44dd9efae85698f4c16cc7ed638d6adfca888a508f305741848"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    },
+    "supplied/selected-guard-lemma": {
+      "verifier_exit": 1,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(7,20-21): error: Parse error: Parse error.",
+      "verification_log_sha256": "cfcc07243f33f7be5739f8313a874eaccfab96cf1b6efaed099f1f01ef20d19f",
+      "source_sha256": {
+        "original/lib.rs": "85a1b5529e2d8a1f9ff94ec5f80deaa58d5c50392f7e9ca168f21602138257c3",
+        "verified/lib.rs": "075989fde2661b2db320085e39405e78e9d8a2cf4ed775777ce5845ae2e22bbe"
+      },
+      "pre_ast_sha256": null,
+      "post_ast_sha256": null,
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "target_entry_count": null,
+      "first_error_after_target_entry": null,
+      "verification_counts": []
+    }
+  },
+  "proof_scope": "Separate conditional C4 and native components only; no connected native-to-C4 proof",
+  "profile_sha256": "42d573b123ed67885cc3e4a2d5067ee07144cd1daf140804d77fd93006393b7e",
+  "fresh_tool_snapshot_sha256": "004dab0f90e2abf75a422c83302015f593ec9273a78fc72d0e09ef71c1a2432b",
+  "verification_accepted": false,
+  "profile_record": {
+    "mode": "100644",
+    "oid": "2b16430773a5fcf82478b7f01f1fd981338333db",
+    "path": "research/challenge-8/cloud-build/sort4-native-c4/profile.json",
+    "sha256": "42d573b123ed67885cc3e4a2d5067ee07144cd1daf140804d77fd93006393b7e",
+    "size": 1351
+  }
+}

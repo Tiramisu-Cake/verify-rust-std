@@ -1,14 +1,14 @@
 {
   "phase": "SORT4-NATIVE-C4-CLOUD-2026-10-10",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "Direct user assignment 2026-10-10: new native entry \u2192 preparation \u2192 actual C1\u2013C4 session, frozen exact C4 profile; no selector or new trusted semantics. Fresh separate3600sec, no carry.",
   "owner": "select-sort4",
   "start_utc": "2026-10-10T13:00:22Z",
   "main_deadline_utc": "2026-10-10T15:00:22Z",
   "deadline_utc": "2026-10-10T15:30:22Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 783,
-  "remaining_build_seconds": 2817,
+  "used_build_seconds": 1165,
+  "remaining_build_seconds": 2435,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-c1-current-recovery"
@@ -62,6 +62,36 @@
       "execution_seconds": 441,
       "download_verified": true,
       "archive_sha256": "3ee661942dda4a67c7d29f4574f252607c460c19054540471d1e167ac115819b"
+    },
+    {
+      "dispatch_token": "dispatch-40a239f599504065bfc4c4f72f16e629",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-C4-CLOUD-2026-10-10",
+      "infra_sha": "285220a384d050e046d1e8709b79a52bd602e675",
+      "proof_sha": "285220a384d050e046d1e8709b79a52bd602e675",
+      "lane": "o26-sort4-c1-current-recovery",
+      "submitted_config_sha256": "a22a42d53a3e239bc0869e7044756280b7833605e5c3c01ce41db85c4e697915",
+      "reserved_seconds": 1260,
+      "timeout_seconds": 1200,
+      "status": "SUCCESS",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "8ced6a1abd45489f6c2bd851e93d43af2dd0f8f83d9a51d525e7abec851d7352",
+      "build_id": "3584fb04-e237-4d66-9c85-60de4df059c4",
+      "start_time": "2026-10-10T14:26:37.994948423Z",
+      "finish_time": "2026-10-10T14:32:58.810723Z",
+      "create_time": "2026-10-10T14:26:37.205010179Z",
+      "build_seconds": 382,
+      "accounted": true,
+      "execution_seconds": 381,
+      "download_verified": true,
+      "archive_sha256": "84208867c4ed920d3ab41012e56ab4a887396ae1da1d387dae317efcf6fab633"
     }
-  ]
+  ],
+  "closed_utc": "2026-10-10T15:20:09.517872+00:00",
+  "closure_reason": "Main window ended; finishing evidence/accounting/checkpoint only. Native composition remains blocked; no automatic next session.",
+  "unused_closed_seconds": 2435,
+  "carry_forward_seconds": 0,
+  "reservations_closed": true,
+  "ready_request_withdrawn": true
 }

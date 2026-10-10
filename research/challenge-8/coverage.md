@@ -830,3 +830,25 @@ are admission only. Zero strict/helper/native proof entries, full trust matrix
 NOT_RUN, profile disabled/unaccepted. Environment correction is draft Cloud
 NOT_RUN. No change to conditional C1→C4 result or caller/native applicability.
 Session closed2675/3600sec,925unused no carry; no active/request/reservation.
+
+2026-10-10 native/C4 frozen-profile session: d5a0f8da/e12df71d fresh C1→C4
+VF0/370 and normal+four directunwind false controls preserved. On exactly that
+8d686f console/1eab translator/37ed kernel, safe native-before-pointer resource
+component first proves VF0/78, full native frame/posts/return/leak with stock T/F
+producers and intended missing-producer controls. MU storage forward/inner
+roundtrip VF0/51/52 separate; exact-old inverse VF1. Actual native as_mut_ptr
+call unsupported, extra consumer rejected at exact-one-body admission before
+target. Native→C1/native→C4/actualcaller→sort4 remain absent; source4/F/thread
+derivation before pointers is separate proof, no generic positive-size/optional
+Tdst/application upgrade. New guard/current-owner/expression follow-up3584fb04
+on285220a3 running; C5/select/copy and strict draft excluded. See
+cloud-build/sort4-native-c4/FRESH-D5-REVIEW.md and VERIFAST-BLOCKERS.md.
+
+2026-10-10 closed native/C4 window:3584fb04/285220a3 pure selectedguard/ZST
+witness freshVF0/53 only. Actualguard failslen+16 potentialoverflow beforeabort/
+inlineconst proof; CURRENT MU ownerrestoration fails; castcomponent parserfails,
+correctiondisabledDRAFT NOT_RUN. Exactonebody andsourceSHA admission refusals
+fresh, nosemantic-negative orcallable-summary credit. Native→C1/native→C4/
+actualcaller→sort4 stillabsent; C4d5 freshPASS preserved. Total1165/3600closed,
+no activeownBuild/readyrequest andnoautomaticrestart. Finalcheckpoint:
+cloud-build/sort4-native-c4/END-CHECKPOINT-2026-10-10.md.
