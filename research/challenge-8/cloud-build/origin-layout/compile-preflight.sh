@@ -3,23 +3,49 @@
 # This script never runs VeriFast, a proof runner, or any proof fixture.
 set -euo pipefail
 
-python3 "${SMALLSORT_PROVIDER_FILE:?}" >/dev/null
-[[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build ]] || exit 2
-[[ "${RUSTUP_TOOLCHAIN:-}" == nightly-2026-09-25 ]] || exit 2
-
 candidate=${1:?prepared candidate source home}
 evidence=${2:?new compile-preflight evidence directory}
 for path in "$candidate" "$evidence"; do
   [[ "$path" == /workspace/* ]] || exit 2
 done
-[[ -d "$candidate/src/rust_frontend/vf_mir_exporter" && -d "$candidate/src" ]] || exit 2
 [[ ! -e "$evidence" ]] || exit 2
+mkdir -p "$evidence"
+stage=preflight-setup
+finished=0
+write_manifest() {
+  local rc=$?
+  trap - EXIT
+  if [[ "$finished" == 1 && "$rc" == 0 ]]; then
+    exit 0
+  fi
+  python3 - "$evidence" "$stage" "$rc" "$finished" <<'MANIFEST' || true
+import json, pathlib, sys
+directory, stage, rc, finished = sys.argv[1:]
+report = {
+ 'schema':'smallsort-compile-preflight-v1',
+ 'classification':'COMPILE_ONLY_NO_PROOF_CREDIT',
+ 'accepted':False,
+ 'proof_attempted':False,
+ 'result':'success' if finished == '1' and rc == '0' else 'failure',
+ 'failed_stage':None if finished == '1' and rc == '0' else stage,
+ 'exit_code':int(rc),
+}
+(pathlib.Path(directory)/'compile-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
+MANIFEST
+  exit "$rc"
+}
+trap write_manifest EXIT
+
+python3 "${SMALLSORT_PROVIDER_FILE:?}" >/dev/null
+[[ "${SMALLSORT_EXECUTION_PROVIDER:-}" == cloud-build ]] || exit 2
+[[ "${RUSTUP_TOOLCHAIN:-}" == nightly-2026-09-25 ]] || exit 2
+
+[[ -d "$candidate/src/rust_frontend/vf_mir_exporter" && -d "$candidate/src" ]] || exit 2
 
 here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 repo=$(git -C "$here" rev-parse --show-toplevel)
 onecell="$repo/research/challenge-8/merge/overnight/guard-ownership/insertion-onecell"
 profile="$onecell/PROFILE.json"
-mkdir -p "$evidence"
 
 # Confirm the prepared source tree and the exact existing profile patches before
 # invoking either compiler. A mismatch is a preflight refusal, never proof credit.
@@ -60,17 +86,39 @@ PINS
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$candidate/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
+export CARGO_BUILD_JOBS=1
+
+# Mirror the environment the pinned GNUmakefile creates for its console
+# target. GNUmakefile exports the source directory on OCAMLPATH and resolves
+# Z3_DLL_DIR from the same findlib package queries.
+export OCAMLPATH="$candidate/src${OCAMLPATH:+:$OCAMLPATH}"
+z3_ocaml=$(ocamlfind query -qe Z3 2>/dev/null || true)
+if [[ -n "$z3_ocaml" ]]; then
+  z3_dll_dir=$(realpath -e "$z3_ocaml/../..")
+else
+  z3_ocaml=$(ocamlfind query z3)
+  z3_dll_dir=$(realpath -e "$z3_ocaml")
+fi
+export Z3_DLL_DIR="$z3_dll_dir"
+export OCAMLOPT_CCLIB_FLAGS='-Wl,-rpath=$ORIGIN'
+printf '%s\n' "$OCAMLPATH" >"$evidence/ocamlpath.txt"
+printf '%s\n' "$Z3_DLL_DIR" >"$evidence/z3-dll-dir.txt"
 
 run_step() {
   local name=$1; shift
   local rc
+  stage=$name
   set +e
-  "$@" >"$evidence/$name.log" 2>&1
+  timeout --signal=TERM --kill-after=15s 900s \
+    /usr/bin/time -v -o "$evidence/$name-time.txt" \
+    "$@" >"$evidence/$name.log" 2>&1
   rc=$?
   set -e
   printf '%s\n' "$rc" >"$evidence/$name-exit-code.txt"
   cat "$evidence/$name.log"
-  (( rc == 0 ))
+  if (( rc != 0 )); then
+    return "$rc"
+  fi
 }
 
 # Build the exact exporter source first. Rustc-dev's LLVM is in the pinned
@@ -78,7 +126,7 @@ run_step() {
 exporter_sysroot=$(rustc --print sysroot)
 printf '%s\n' "$exporter_sysroot" >"$evidence/exporter-compiler-sysroot.txt"
 run_step exporter-build env RUSTFLAGS="-L native=$exporter_sysroot/lib" \
-  bash -c 'cd "$1/src/rust_frontend/vf_mir_exporter" && cargo build --locked' bash "$candidate"
+  bash -c 'cd "$1/src/rust_frontend/vf_mir_exporter" && cargo build --locked --jobs 1' bash "$candidate"
 cp "$candidate/src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter" \
   "$candidate/bin/vf-rust-mir-exporter"
 
@@ -91,9 +139,34 @@ run_step decoder-build bash -c \
 run_step translator-build bash -c \
   'cd "$1/src" && dune build -j 1 rust_frontend/vf_mir_translator/vf_mir_translator.cma' \
   bash "$candidate"
-run_step console-build make -C "$candidate/src" -j1 ../bin/verifast \
-  WITHOUT_LABLGTK=yes VERBOSE=yes
+run_step console-build bash -c \
+  'cd "$1/src" && dune build -j 1 vfconsole/vfconsole.exe && cp _build/default/vfconsole/vfconsole.exe ../bin/verifast' \
+  bash "$candidate"
 
+run_step postbuild-source-hash-check python3 - "$candidate" "$profile" <<'POSTPINS'
+import hashlib, json, pathlib, sys
+home, profile_path = map(pathlib.Path, sys.argv[1:])
+p = json.loads(profile_path.read_text())
+sources = {
+ 'src/rust_frontend/vf_mir_exporter/src/lib.rs':'exporter_source_sha256',
+ 'src/rust_frontend/vf_mir/vf_mir.capnp':'schema_sha256',
+ 'src/rust_frontend/vf_mir_translator/vf_mir_translator.ml':'translator_sha256',
+ 'src/rust_frontend/vf_mir_translator/rust_parser.ml':'parser_sha256',
+ 'src/frontend/ast.ml':'ast_sha256',
+ 'src/frontend/ocaml_expr_of_ast.ml':'emitter_sha256',
+ 'src/SExpressionEmitter.ml':'sexpression_sha256',
+ 'src/verifast.ml':'kernel_sha256',
+ 'src/verifast1.ml':'model_sha256',
+ 'src/verify_expr.ml':'verify_expr_sha256',
+ 'bin/rust/prelude_core.rsspec':'prelude_sha256',
+ 'bin/rust/std/lib.rsspec':'stdlib_sha256',
+}
+for rel, key in sources.items():
+    actual = hashlib.sha256((home/rel).read_bytes()).hexdigest()
+    assert actual == p[key], (rel, key, actual, p[key])
+POSTPINS
+
+stage=report-generation
 python3 - "$candidate" "$profile" "$evidence" <<'REPORT'
 import hashlib, json, pathlib, sys
 home, profile_path, evidence = map(pathlib.Path, sys.argv[1:])
@@ -123,3 +196,5 @@ for rel in ('src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter','bi
  if path.is_file(): report['artifacts'][rel]={'sha256':sha(path),'executable':bool(path.stat().st_mode & 0o111)}
 (evidence/'compile-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
 REPORT
+finished=1
+stage=complete
