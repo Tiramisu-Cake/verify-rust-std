@@ -60,3 +60,13 @@ Hypothesis: changed lexical placement closes dead-code while all normal/direct
 unwind full original automatic posts/unit/free/leak stay checked. Fresh positive
 and false controls mandatory. No source/MIR change, fingerprints18973/8e9/bde6
 unchanged. Correct phase input-identity now distinct from historical baseline.
+
+23:45 transport correction review: published8ab packager571850bytes/base64
+762468/192parts exceeds191 bound378encodedbytes. NoAPI/Build/reservation.
+Remove only caller-entry/prepare.py and its three source-typed fixtures from
+recipe: they are read solely by native_cases(), which this explicit independent
+followup skips (driver997–1011). Frozen tool/relocation/ghost-strip/source/MIR/
+fullpost gates keep alldependencies. Proof76/infra16 sortedunique closurePASS;
+no transport/coordinator/semantic gate relaxed. Actual payloadpreflight below
+and fresh dispatch still required. Two-slotsoccupied earlier attempt also
+creatednoBuild/nocharge; readyrequest retained withinmainwindow.
