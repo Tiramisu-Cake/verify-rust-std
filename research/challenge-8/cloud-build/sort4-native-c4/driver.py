@@ -740,8 +740,11 @@ def run(a) -> None:
         tool, before = build_frozen_c4(a, historical, env)
         save(a.evidence / "production-before.json", production_before)
         active = clean_env(a, tool)
-        fixture = prepare_c4(a, historical, active)
         followup = profile["run_mode"] == "FROZEN_C4_INDEPENDENT_FOLLOWUP"
+        reuse_admission = followup and profile.get("prior_fresh_admission_build") is not None
+        fixture = None
+        if not (OPAQUE_SESSION and followup and reuse_admission):
+            fixture = prepare_c4(a, historical, active)
         if followup:
             need(profile.get("prior_fresh_c4_build") == "d5a0f8da-a2ed-416c-9eac-a9ffff926c87" and
                  profile.get("prior_fresh_c4_proof_infra") == "e12df71d57923d346ba0640b9bd0ea23d2835365",
@@ -756,7 +759,6 @@ def run(a) -> None:
         if OPAQUE_SESSION and profile.get("native_c1_capture_cases"):
             capture_tool = build_native_capture_tool(a, historical, tool, active)
         supplied = supplied_cases(a, tool, active, capture_tool)
-        reuse_admission = followup and profile.get("prior_fresh_admission_build") is not None
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
                  profile.get("prior_fresh_admission_proof_infra") == "285220a384d050e046d1e8709b79a52bd602e675" and

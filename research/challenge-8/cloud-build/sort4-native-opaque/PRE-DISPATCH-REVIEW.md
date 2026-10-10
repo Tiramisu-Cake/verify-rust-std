@@ -101,3 +101,13 @@ beprovedfresh. A preparedfalseArgs control is intended onlyafterpreparedtuple
 assertion. ExistingpointerVF0/90 repeatedonceon newdelta opt-in0 as targeted
 default-off regression; oldfullC4/native/MUmatrices not repeated. Allcurrent
 source/MIR/header/posts/return/leak checks remain enabled.
+
+20:47UTC controller definitively refused84616990 payload BEFORE reservation/API
+Build creation: bounded source transport overflow; zeroCloudseconds/noBuildID.
+Keep191partmaximum unchanged. Exact opaque follow-up with prioradmission skips
+unused prepare_c4 call; old historical mode retains it. Recipe removes only
+C2draft/sourcepin, C3selected/annotation, C4annotation and C3/C4fixturedrivers
+used by that skipped preparation. All frozen tool manifests/patches/production
+preflight/strictrelocation inputs remain present. C2ghost-strip module and normal
+MIRcapture module retained. This is transport closure repair, no source gate
+or proof assertion/post removed. Newpublished infraSHA requiredbeforeretry.
