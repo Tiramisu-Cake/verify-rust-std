@@ -95,6 +95,9 @@ for prefix in /vfdeps-adf88dc /tmp/vfdeps-adf88dc; do
   elif [[ "$(readlink -f "$prefix")" != "$deps_home" ]]; then exit 2; fi
 done
 export PATH="$deps_home/bin:$PATH" CAPNP_INC_DIR="$deps_home/include"
+stage numeric-transport-compile ocamlfind ocamlc -package num -linkpkg \
+  -o "$work_root/numeric-transport-check" "$cloud_dir/verifast-c4-select-integration/numeric-transport-check.ml"
+stage numeric-transport-check "$work_root/numeric-transport-check"
 export LD_LIBRARY_PATH="$compiler_sysroot/lib:$source_home/bin:$deps_home/lib:${LD_LIBRARY_PATH:-}"
 stage decoder-install cargo install --locked --git \
   https://github.com/btj/capnpc-ocaml-decoder \

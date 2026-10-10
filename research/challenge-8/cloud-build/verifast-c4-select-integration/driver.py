@@ -615,10 +615,12 @@ def run(a):
                  "cleanup_predecessors=18->19" in log and len(fingerprint) == 1 and
                  fingerprint[0][0] != fingerprint[0][1] and
                  "source_sha256=" + actual_sources["selector"] in log and
-                 "unit_sha256=" + selector_mir["normal"]["whole_decoded_mir_sha256"] in log)
+                 "unit_sha256=" + source_pins["unit_sha256"] in log)
         admission_mutants["reachable_unwind"] = {"stage": row, "raw_log": log,
             "raw_log_sha256": hashlib.sha256(log.encode()).hexdigest(),
             "refusal_marker": marker, "mutation_fingerprints": fingerprint,
+            "admitted_unit_sha256": source_pins["unit_sha256"],
+            "decoded_whole_mir_sha256": selector_mir["normal"]["whole_decoded_mir_sha256"],
             "classification": "ADMISSION_REFUSAL", "proof_credit": False,
             "intended_refusal": "EXACT_TARGET_REFUSAL" if exact else "INCONCLUSIVE"}
     c4, c4log = proof(a, "c4-positive", c4case, c4_env())

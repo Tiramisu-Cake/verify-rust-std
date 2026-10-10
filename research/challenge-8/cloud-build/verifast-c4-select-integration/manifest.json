@@ -6,7 +6,7 @@
   "tool_c4_patch_sha256": "b33e19deec896aefad1232f982e4499dfcdef6026e09c12b9c914852d9f6beaa",
   "selector_integration_patch_sha256": "2c384f14b596c9f2713c39592ce0f414e4bdb9d994dbab7895eaa7a92eedfff0",
   "effective_hashes": {
-    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "e8ce100375f0befe1bdce4eaec9380c7949dd34488c28f47b89108bc43ec19da",
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "f250c2d137fd0998438afee375b7eddd88bd3a916b12dcf7ffb62953d1a4b7d2",
     "src/verifast.ml": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
     "src/rust_frontend/vf_mir_translator/rust_parser.ml": "7bf12f1205ecf033e3bf66f11b4326c20d2876d68e19006d5db59f3e45ae91c2",
     "src/rust_frontend/vf_mir/vf_mir.capnp": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
@@ -36,14 +36,14 @@
     ]
   },
   "dependencies_file": "DEPENDENCIES.md",
-  "composition_patch_sha256": "cca4c53f1903400da6e374d056c7520cd3c979c28c451e33a1b7f14ec9e7c2de",
+  "composition_patch_sha256": "ab5bf583f86d652ee7e8fba2ed601a28aa5644caa9fcb5b1c107cfd35acbf9fa",
   "composition_export_format": "same-tool-final-AST-Marshal-No_sharing",
   "composition_location_only_review": "STATIC_GO_TYPED_LOC_FIELDS_ONLY; FRESH_B2_AST_TRANSPORT_NOT_RUN",
   "source_modules_pack_sha256": "21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6",
   "source_modules_provenance_commit": "3338d1d17be0cef3d7787a42e8d76113386fd8fd",
   "source_modules_count": 30,
-  "tool_candidate_commit": "e2e674f8727259ef08c68e58bb5dae1bd723cf76",
-  "profile_id": "verifast-c4-select-composition-20261010-b2",
+  "tool_candidate_commit": "09389e2c0a4d6d2ed4e1146df0ad6321832c12cb",
+  "profile_id": "verifast-c4-select-composition-20261011-c1",
   "review_files": [
     "PREIMPLEMENTATION-REVIEW.md",
     "PORT-REVIEW.md",
@@ -64,11 +64,11 @@
   "verdict": "PARTIAL",
   "tested_infra_proof_commit": "835f6cb980f2e504e4456b7f559857a19c9b0627",
   "candidate_runner_commit": "4c2e244767547ac6c4b81bc61135d2f38d0ecadd",
-  "candidate_runner_execution": "UNRUN_REPAIRED_FULL_30_MODULE_CLOSURE_AND_COMPRESSED_DELIVERY",
+  "candidate_runner_execution": "C1_REPAIR_CLOUD_UNRUN",
   "observed_console_sha256": "a6d920ac4d635bfe7774a96a76bd309491d3f2e67546cad18925cffcc17bdb3e",
   "observed_console_build": "f7da71e8-de68-4542-ae0a-aadf4936c233",
-  "bundle_path": "research/verifast-input/e2e674f8727259ef08c68e58bb5dae1bd723cf76/bundle",
-  "bundle_sha256": "479ffefedc5a8361d0631b7a3e78837349a6778847c3b58e5f23fdf2c70787cc",
+  "bundle_path": "research/verifast-input/09389e2c0a4d6d2ed4e1146df0ad6321832c12cb/bundle",
+  "bundle_sha256": "6d06487b57f119f8ce55d1f8096f01b865a44aa8763bcfc6dd2a091b276a9f08",
   "bundle_required_base": "f76012fb518703b1d98e243ac4f487f16877cfcb",
   "reproduce_tested_command": "python3 research/challenge-8/cloud-build/control.py --state-dir /root/verify-rust-std-verifast-compose2/.verifast-c4-composition-state --phase-id VERIFAST-C4-SELECT-COMPOSITION-CLOUD-2026-10-10-B --ledger research/challenge-8/cloud-build/verifast-c4-select-composition/BUDGET.json --owner verifast submit --infra-sha 835f6cb980f2e504e4456b7f559857a19c9b0627 --proof-sha 835f6cb980f2e504e4456b7f559857a19c9b0627 --lane verifast-c4-select-integration --timeout 1050",
   "candidate_command": "python3 research/challenge-8/cloud-build/control.py --state-dir /root/verify-rust-std-verifast-compose2/.verifast-c4-composition-state --phase-id VERIFAST-C4-SELECT-COMPOSITION-CLOUD-2026-10-10-B --ledger research/challenge-8/cloud-build/verifast-c4-select-composition/BUDGET.json --owner verifast submit --infra-sha 4c2e244767547ac6c4b81bc61135d2f38d0ecadd --proof-sha 4c2e244767547ac6c4b81bc61135d2f38d0ecadd --lane verifast-c4-select-integration --timeout 1050",
@@ -596,5 +596,21 @@
     "payload_sha256": "b24cc5cdfa7a48ed378d0fb0912b56f890b497f5227e41c497b1b7f90d74d78c",
     "classification": "LOCAL_NON_PROOF_DELIVERY_PRECHECK",
     "cloud_execution": "UNRUN"
-  }
+  },
+  "previous_b2_tool_commit": "e2e674f8727259ef08c68e58bb5dae1bd723cf76",
+  "tool_repair_card": "../verifast-c4-select-composition-c/CONCRETE-REPAIR-CARD.md",
+  "tool_repair_review": "../verifast-c4-select-composition-c/CONCRETE-REPAIR-REVIEW.md",
+  "fresh_b2_producer_evidence": {
+    "build": "6e001459-a0e8-4da0-80c5-50b3b65f8ba1",
+    "proof_sha": "7bc426238fa5abf69ff7e7b15d680c6efc9ff065",
+    "tool_sha": "e2e674f8727259ef08c68e58bb5dae1bd723cf76",
+    "profile": "verifast-c4-select-composition-20261010-b2",
+    "archive_sha256": "6e4677c2946b411d7cebeeedbe72d3b7fcbb7c3c0adeaa853cbad0e47526d2d5",
+    "final_ast_sha256": "a567807354602a49f2445f083b4c62a849cb385b915f9a6e6fd99932473e878e",
+    "receipt_sha256": "f2a3d3aa730b944d823723e07393fc6b4445b19d437d85428c792918ed5fc43d",
+    "raw_review": "../verifast-c4-select-composition-c/RAW-REVIEW-6E001459.md"
+  },
+  "starting_runner_commit": "4c2e244767547ac6c4b81bc61135d2f38d0ecadd",
+  "runner_parent_commit": "7bc426238fa5abf69ff7e7b15d680c6efc9ff065",
+  "observed_console_scope": "B2 e2e674 on Buildf7da and fresh6e001459; C1 repair binary NOT_RUN yet"
 }
