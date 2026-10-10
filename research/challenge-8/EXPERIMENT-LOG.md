@@ -6739,3 +6739,18 @@ not a semantic negative. Candidate source78b9feff retained in raw evidence.
 Localized fix: anchor full `pub unsafe fn sort4_stable` so helper precedes
 visibility/header. No helper/translator/kernel semantic change; new fresh
 capture required. Remaining3187/3600; no own unresolved Build.
+
+C3 Build2 `bdef4a7c-3a5e-4253-8fa0-65ccbbba8f89`, proof=infra
+`b8441cb06f77cd24bc349bbbfd0d3658ecbe023f`: SUCCESS,449 create→finish
+seconds (10:52:40.415586201→11:00:09.061883 UTC). Full archive verified
+`40485adcd4bb1b7213b04c88fb7e0f215340e1adb5d9e9106b0022ee79ed9dde`;
+external text chunks not fetched, complete raw files recovered from archive.
+Fresh source087123b1, normal MIR7582215b (112 blocks/194 locals), readonly
+MIR9622479f (28/110), preAST7dbc4ed8. Capture deliberately refused before
+target: `FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF`, not proof/semantic negative.
+Source ghost-strip equals original runtime3602050e; refinement/export gates0.
+Default-off C2 VF0/unbound refusal retained; frozen nontranslator tool inputs
+unchanged. Fresh callback locals `_124.._129`, c3 bool`_123`; former `_98..103`
+are ghost units and are not moved under this profile. Exact bound delta and
+independent addressed review precede next Cloud target. Total862/3600,
+remaining2738; both own Builds terminal/accounted/download-verified.

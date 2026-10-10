@@ -1,0 +1,519 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6500,6 +6500,29 @@
+       | None | Some "0" -> false
+       | Some "1" -> true
+       | _ -> failwith "SORT4-C3-CAPTURE: malformed opt-in" in
++    let c3_bound_requested =
++      match Sys.getenv_opt "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "SORT4-C3-BOUND: malformed opt-in" in
++    if c3_bound_requested then begin
++      if c3_capture_requested || c2_bound_requested ||
++         c2_discovery_requested || prefix_requested ||
++         Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++         Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
++          | None | Some "none" -> false | _ -> true) ||
++         (match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
++          | None | Some "none" -> false | _ -> true) then
++        failwith "SORT4-C3-BOUND: exact isolated bound environment required";
++      let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++      let row = input_line ic in
++      let status = Unix.close_process_in ic in
++      if status <> Unix.WEXITED 0 || row <>
++         "087123b12072a19b0490260e509ce6773c1ed3dce0ed7c14c95991fdaf82996e  verified/lib.rs" then
++        failwith "SORT4-C3-BOUND: verified source SHA256 differs"
++    end;
+     if c3_capture_requested then begin
+       if c2_bound_requested || c2_discovery_requested || prefix_requested ||
+          Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+@@ -6580,14 +6603,16 @@
+     let c3_unbound_decl_count = ref 0 in
+     let translate_c2_scaffold_stmt gs_cpn =
+       let raw = AnnotationRd.raw_get gs_cpn in
+-      if ((c2_discovery_requested || c2_bound_requested || c3_capture_requested) &&
++      if ((c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
++           c3_bound_requested) &&
+           raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/") ||
+-         (c3_capture_requested && raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/")
++         ((c3_capture_requested || c3_bound_requested) &&
++          raw = "/*@ let_lft 'cmp3 = cmp3_k; @*/")
+       then begin
+         let* annot = translate_annotation gs_cpn in
+         let (file, line, _), _ = Ast.lexed_loc annot.span in
+         if body_name <> "sort4_stable" || Filename.basename file <> "lib.rs" ||
+-           (not c3_capture_requested && line <> 196) then
++           (not (c3_capture_requested || c3_bound_requested) && line <> 196) then
+           failwith "SORT4-C2-DISCOVERY: unbound declaration location differs";
+         let lifetime, witness, placeholder, count =
+           if raw = "/*@ let_lft 'cmp2 = cmp2_k; @*/" then
+@@ -6613,10 +6638,12 @@
+               Ast.Static))], annot.span, ref [])))
+       end else translate_ghost_stmt gs_cpn in
+     let* ghost_stmts = ListAux.try_map translate_c2_scaffold_stmt ghost_stmts_cpn in
+-    if (c2_discovery_requested || c2_bound_requested || c3_capture_requested) &&
++    if (c2_discovery_requested || c2_bound_requested || c3_capture_requested ||
++        c3_bound_requested) &&
+        !c2_unbound_decl_count <> 1 then
+       failwith "SORT4-C2-DISCOVERY: exact-one unbound declaration required";
+-    if c3_capture_requested && !c3_unbound_decl_count <> 1 then
++    if (c3_capture_requested || c3_bound_requested) &&
++       !c3_unbound_decl_count <> 1 then
+       failwith "SORT4-C3-CAPTURE: exact-one cmp3 declaration required";
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+@@ -6647,7 +6674,7 @@
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+-        if c3_capture_requested then begin
++        if c3_capture_requested || c3_bound_requested then begin
+           let cut_sites = List.map (fun stmt ->
+             match marker_call stmt with
+             | Some ([Ast.IdentTypeExpr (_, None, name)], []) -> name
+@@ -7258,6 +7285,428 @@
+                    "actual-c3-capture-pre-ast.ml"
+                    (Ocaml_expr_of_ast.of_decl original_decl);
+                  failwith "SORT4-C3-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
++               end else if c3_bound_requested then begin
++                 let reject why = failwith ("SORT4-C3-BOUND: " ^ why) in
++                 if State.body_name <> "sort4_stable" then reject "target body";
++                 (* The source and both typed MIR modes are pinned by the Cloud
++                    driver.  The formatter's complete original AST is pinned
++                    here before any transformed statement can reach VeriFast. *)
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                   "actual-c3-bound-pre-ast.ml"
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 let pre_sha =
++                   let ic = Unix.open_process_in
++                     "/usr/bin/sha256sum -- actual-c3-bound-pre-ast.ml" in
++                   let row = input_line ic in
++                   let status = Unix.close_process_in ic in
++                   if status <> Unix.WEXITED 0 then reject "original AST SHA256 command";
++                   row in
++                 if pre_sha <>
++                    "7dbc4ed84339a7a5f3056239d8ef67b9dc0cb7657f6d2cb2d954435ce462f35b  actual-c3-bound-pre-ast.ml"
++                 then reject "original full AST SHA256";
++                 if List.length bblocks_cpn <> 112 ||
++                    List.length local_decl_types <> 194 ||
++                    projection_clause_stmts <> [] ||
++                    List.length vf_local_decls <> 191 ||
++                    List.length vf_bblocks <> 7 ||
++                    callback_unwind_epilog <> [] ||
++                    List.length original_body <> 198 ||
++                    !State.hrtb_fnmut_output_bounds <> [("F", "T")]
++                 then reject "complete MIR/AST/HRTB inventory";
++                 let root n = List.nth original_body n in
++                 let slice start count xs =
++                   List.filteri (fun i _ -> start <= i && i < start + count) xs in
++                 let check_local name stmt =
++                   match stmt with
++                   | Ast.DeclStmt (_, [(_, _, actual, None, (taken, _))])
++                     when actual = name && not !taken -> ()
++                   | _ -> reject ("local declaration " ^ name) in
++                 check_local "c1" (root 23);
++                 check_local "c2" (root 59);
++                 let c1_local_names =
++                   ["$_27"; "$_28"; "$_29"; "$_30"; "$_31";
++                    "$_32"; "$_33"; "$_34"] in
++                 let c2_local_names =
++                   ["$_63"; "$_64"; "$_65"; "$_66"; "$_67";
++                    "$_68"; "$_69"; "$_70"; "$_71"; "$_72"] in
++                 let c1_locals = slice 24 8 original_body in
++                 let c2_locals = slice 60 10 original_body in
++                 List.iter2 check_local c1_local_names c1_locals;
++                 List.iter2 check_local c2_local_names c2_locals;
++                 let c3_local_names =
++                   ["$_124"; "$_125"; "$_126"; "$_127"; "$_128"; "$_129"] in
++                 let c3_locals = slice 121 6 original_body in
++                 List.iter2 check_local c3_local_names c3_locals;
++                 check_local "c3" (root 120);
++                 List.iter (fun (index, name) ->
++                   check_local name (root index))
++                   [(75,"a"); (79,"b"); (84,"c"); (89,"d")];
++                 let future_indexes =
++                   [132; 133; 134; 135; 136; 137;
++                    161; 162; 163; 164; 165; 166] in
++                 let future_decls =
++                   List.filteri (fun i _ -> List.mem i future_indexes)
++                     original_body in
++                 if List.length future_decls <> 12 then reject "later-call declarations";
++                 List.iter (function
++                   | Ast.DeclStmt (_, [(_, _, _, None, (taken, _))])
++                     when not !taken -> ()
++                   | _ -> reject "later-call declaration has init/address") future_decls;
++                 let kept_decls =
++                   List.filteri (fun i _ ->
++                     i < 191 && not (24 <= i && i <= 31) &&
++                     not (60 <= i && i <= 69) &&
++                     not (121 <= i && i <= 126) &&
++                     not (List.mem i future_indexes)) original_body in
++                 if List.length kept_decls <> 155 then
++                   reject "outer local declaration inventory";
++                 let block_loc, cmp_decl, old_stmts, old_close =
++                   match root 195 with
++                   | Ast.BlockStmt (loc, [decl], ss, close, locals)
++                     when !locals = [] && List.length ss = 196 ->
++                       (loc, decl, ss, close)
++                   | _ -> reject "original sole C1 block shape" in
++                 let block n = List.nth old_stmts n in
++                 let source_line stmt =
++                   let (file, line, _), _ = Ast.lexed_loc (Ast.stmt_loc stmt) in
++                   if Filename.basename file <> "lib.rs" then
++                     reject "source statement file";
++                   line in
++                 List.iter (fun (n, line) ->
++                   if source_line (block n) <> line then
++                     reject (Printf.sprintf "source statement index %d" n))
++                   (let shift = source_line (block 22) - 184 in
++                    List.map (fun (n, line) -> (n, line + shift))
++                     [(22,184); (32,190); (33,191); (34,192);
++                      (35,193); (36,194); (37,195); (38,196);
++                      (59,217); (71,223); (72,224); (73,225);
++                      (74,226); (75,227); (76,228)]);
++                 let cmp2_decl =
++                   match block 38 with
++                   | Ast.PureStmt
++                       (_, Ast.BlockStmt (_, [decl],
++                         [Ast.ExprStmt (Ast.CallExpr
++                           (_, "__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
++                            [], [], [], Ast.Static))], _, locals))
++                     when !locals = [] ->
++                       (match decl with
++                        | Ast.TypeWithTypeidDecl (_, "'cmp2",
++                            Ast.CallExpr (_, "typeid_of_lft", [], [],
++                              [Ast.LitPat (Ast.Var (_, "cmp2_k"))], Ast.Static)) ->
++                            decl
++                        | _ -> reject "cmp2 parsed declaration")
++                   | _ -> reject "exact one cmp2 placeholder" in
++                 (match cmp_decl with
++                  | Ast.TypeWithTypeidDecl (_, "'cmp",
++                      Ast.CallExpr (_, "typeid_of_lft", [], [],
++                        [Ast.LitPat (Ast.Var (_, "cmp_k"))], Ast.Static)) -> ()
++                  | _ -> reject "C1 parsed declaration");
++                 let unique_index label predicate =
++                   let hits = List.mapi (fun i stmt ->
++                     if predicate stmt then Some i else None) old_stmts
++                     |> List.filter_map (fun x -> x) in
++                   match hits with
++                   | [i] -> i
++                   | _ -> reject ("exact-one " ^ label) in
++                 let cmp3_index = unique_index "cmp3 placeholder" (function
++                   | Ast.PureStmt (_, Ast.BlockStmt (_, [_],
++                       [Ast.ExprStmt (Ast.CallExpr (_,
++                         "__vf_sort4_C3_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
++                         [], [], [], Ast.Static))], _, locals))
++                     when !locals = [] -> true
++                   | _ -> false) in
++                 let cmp3_decl =
++                   match block cmp3_index with
++                   | Ast.PureStmt (_, Ast.BlockStmt (_, [decl], _, _, _)) ->
++                       (match decl with
++                        | Ast.TypeWithTypeidDecl (_, "'cmp3",
++                            Ast.CallExpr (_, "typeid_of_lft", [], [],
++                              [Ast.LitPat (Ast.Var (_, "cmp3_k"))], Ast.Static)) ->
++                            decl
++                        | _ -> reject "cmp3 parsed declaration")
++                   | _ -> reject "cmp3 placeholder shape" in
++                 let c3_marker_index = unique_index "C3 unwind marker" (function
++                   | Ast.PureStmt (_, Ast.BlockStmt (_, [],
++                       Ast.ExprStmt (Ast.CallExpr (_,
++                         "__vf_sort4_third_unwind", [], [], [], Ast.Static)) :: _,
++                       _, locals)) when !locals = [] -> true
++                   | _ -> false) in
++                 let c3_call_index = unique_index "C3 FnMut call" (function
++                   | Ast.SwitchStmt (_, Ast.CallExpr (_,
++                       "std::ops::FnMut::call_mut", _, [],
++                       [Ast.LitPat (Ast.Var (_, "$_124"));
++                        Ast.LitPat (Ast.Var (_, "$_125"))], Ast.Static), _) -> true
++                   | _ -> false) in
++                 let c3_cut_index = unique_index "C3 strict cut" (function
++                   | Ast.PureStmt (_, Ast.ExprStmt (Ast.CallExpr (_,
++                       "end_lft_binding",
++                       [Ast.IdentTypeExpr (_, None, "'cmp3")], [], [],
++                       Ast.Static))) -> true
++                   | _ -> false) in
++                 if not (76 < cmp3_index && cmp3_index < c3_marker_index &&
++                         c3_marker_index < c3_call_index &&
++                         c3_call_index + 2 = c3_cut_index &&
++                         c3_cut_index + 2 < List.length old_stmts) then
++                   reject "C3 source/AST order";
++                 if cmp3_index <> 98 || c3_marker_index <> 121 ||
++                    c3_call_index <> 129 || c3_cut_index <> 131 then
++                   reject "fresh C3 statement indices";
++                 List.iter (fun (n, line) ->
++                   if source_line (block n) <> line then
++                     reject (Printf.sprintf "fresh C3 source line %d" n))
++                   [(76,403); (77,404); (81,405); (86,406); (91,407);
++                    (97,417); (98,418); (121,441); (129,447);
++                    (130,448); (131,449); (132,450); (133,451)];
++                 let marker_parts name stmt =
++                   match stmt with
++                   | Ast.PureStmt
++                       (_, Ast.BlockStmt (_, [],
++                         [Ast.ExprStmt (Ast.CallExpr (_, marker, [], [], [], Ast.Static));
++                          Ast.BlockStmt (_, [], [debt], _, debt_free);
++                          Ast.BlockStmt (_, [], [recover], _, recover_free);
++                          Ast.BlockStmt (_, [], [join], _, join_free)],
++                         _, marker_free))
++                     when marker = name && !debt_free = [] &&
++                          !recover_free = [] && !join_free = [] &&
++                          !marker_free = [] -> (debt, recover, join)
++                   | _ -> reject ("unwind marker shape " ^ name) in
++                 let c1_debt, c1_recover, c1_join =
++                   marker_parts "__vf_sort4_first_unwind" (block 22) in
++                 let c2_debt, c2_recover, c2_join =
++                   marker_parts "__vf_sort4_second_unwind" (block 59) in
++                 let c3_debt, c3_recover, c3_join =
++                   marker_parts "__vf_sort4_third_unwind"
++                     (block c3_marker_index) in
++                 let control =
++                   match Sys.getenv_opt "SORT4_C3_BOUND_CONTROL" with
++                   | None | Some "none" -> "none"
++                   | Some ("c3-normal-missing-close" |
++                           "c3-unwind-missing-close" |
++                           "c3-normal-omit-join" |
++                           "c3-unwind-omit-join" |
++                           "normal-false-post" |
++                           "c1-unwind-false-assert" |
++                           "c2-unwind-false-assert" |
++                           "c3-unwind-false-assert" as mode) -> mode
++                   | _ -> reject "control opt-in" in
++                 let bind_switch n lft receiver tuple result debt label omit_debt =
++                   match block n with
++                   | Ast.SwitchStmt
++                       (call_loc,
++                        (Ast.CallExpr
++                           (_, "std::ops::FnMut::call_mut",
++                            [Ast.IdentTypeExpr (_, None, "F") as f_ty;
++                             (Ast.StructTypeExpr
++                               (_, Some "std_tuple_2_", None, [],
++                                [Ast.RustRefTypeExpr
++                                  (_, Ast.IdentTypeExpr (_, None, left_lft),
++                                   Ast.Shared, Ast.IdentTypeExpr (_, None, "T"));
++                                 Ast.RustRefTypeExpr
++                                  (_, Ast.IdentTypeExpr (_, None, right_lft),
++                                   Ast.Shared, Ast.IdentTypeExpr (_, None, "T"))]) as args_ty);
++                             Ast.IdentTypeExpr (_, None, method_lft)], [],
++                            [Ast.LitPat (Ast.Var (_, actual_receiver));
++                             Ast.LitPat (Ast.Var (_, actual_tuple))], Ast.Static) as call),
++                        [Ast.SwitchStmtClause
++                           (_, normal_case,
++                            [Ast.ExprStmt (Ast.AssignExpr
++                              (_, Ast.Var (_, assigned), Ast.Initialization,
++                               Ast.Var (_, "__result"))) as normal_stmt]);
++                         Ast.SwitchStmtClause
++                           (unwind_loc, unwind_case,
++                            [Ast.ReturnStmt
++                              (_, Some (Ast.CallExpr
++                                (_, "unwinding", [], [], [], Ast.Static))) as
++                                 unwind_return])])
++                     when left_lft = lft && right_lft = lft &&
++                          method_lft = lft && actual_receiver = receiver &&
++                          actual_tuple = tuple && assigned = result ->
++                       let projection =
++                         Ast.ExprStmt (Ast.CallExpr
++                           (call_loc, "#register_type_projection_equality",
++                            [Ast.ProjectionTypeExpr
++                              (call_loc, f_ty, "std::ops::FnOnce", [args_ty],
++                               "Output");
++                             Ast.ManifestTypeExpr (call_loc, Ast.Bool)],
++                            [], [], Ast.Static)) in
++                       let debt_stmt = Ast.PureStmt (Ast.stmt_loc debt, debt) in
++                       let switch = Ast.SwitchStmt
++                         (call_loc, call,
++                          [Ast.SwitchStmtClause
++                             (call_loc, normal_case, [normal_stmt]);
++                           Ast.SwitchStmtClause
++                             (unwind_loc, unwind_case,
++                              (if omit_debt then [] else [debt_stmt]) @
++                              [Ast.GotoStmt (unwind_loc, label)])]) in
++                       (projection, switch, unwind_return)
++                   | _ -> reject ("two-outcome FnMut switch " ^ lft) in
++                 let c1_label = "#sort4_actual_first_unwind_epilogue" in
++                 let c2_label = "#sort4_actual_second_unwind_epilogue" in
++                 let c3_label = "#sort4_actual_third_unwind_epilogue" in
++                 let c1_eq, c1_switch, c1_return =
++                   bind_switch 32 "'cmp" "$_27" "$_28" "c1"
++                     c1_debt c1_label false in
++                 let c2_eq, c2_switch, c2_return =
++                   bind_switch 71 "'cmp2" "$_63" "$_64" "c2"
++                     c2_debt c2_label false in
++                 let c3_eq, c3_switch, c3_return =
++                   bind_switch c3_call_index "'cmp3" "$_124" "$_125" "c3"
++                     c3_debt c3_label
++                     (control = "c3-unwind-missing-close") in
++                 let cut1 = Ast.stmt_loc (block 34) in
++                 let cut2 = Ast.stmt_loc (block 73) in
++                 let cut3 = Ast.stmt_loc (block c3_cut_index) in
++                 let strict cut lifetime =
++                   Ast.ExprStmt (Ast.CallExpr
++                     (cut, "#strict_lft_binding_scope",
++                      [Ast.IdentTypeExpr (cut, None, lifetime)],
++                      [], [], Ast.Static)) in
++                 let c1_body =
++                   slice 0 34 old_stmts
++                   |> List.mapi (fun i stmt ->
++                        if i = 22 then [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else if i = 32 then [c1_eq; c1_switch]
++                        else [stmt]) |> List.flatten in
++                 let c2_body =
++                   slice 39 34 old_stmts
++                   |> List.mapi (fun i stmt ->
++                        let original_i = i + 39 in
++                        if original_i = 59 then
++                          [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else if original_i = 71 then [c2_eq; c2_switch]
++                        else [stmt]) |> List.flatten in
++                 let c3_body =
++                   slice (cmp3_index + 1)
++                     (c3_cut_index - cmp3_index - 1) old_stmts
++                   |> List.mapi (fun i stmt ->
++                        let original_i = i + cmp3_index + 1 in
++                        if original_i = c3_marker_index then
++                          [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else if original_i = c3_call_index then
++                          [c3_eq; c3_switch]
++                        else if original_i = c3_call_index + 1 &&
++                                control = "c3-normal-missing-close" then
++                          [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else [stmt]) |> List.flatten in
++                 let c1_child = Ast.BlockStmt
++                   (block_loc, [cmp_decl], strict cut1 "'cmp" ::
++                    (c1_locals @ c1_body), cut1, ref []) in
++                 let c2_child = Ast.BlockStmt
++                   (Ast.stmt_loc (block 38), [cmp2_decl],
++                    strict cut2 "'cmp2" :: (c2_locals @ c2_body),
++                    cut2, ref []) in
++                 let c3_child = Ast.BlockStmt
++                   (Ast.stmt_loc (block cmp3_index), [cmp3_decl],
++                    strict cut3 "'cmp3" :: (c3_locals @ c3_body),
++                    cut3, ref []) in
++                 let c3_normal_join =
++                   if control = "c3-normal-omit-join" then
++                     Ast.NoopStmt (Ast.stmt_loc (block (c3_cut_index + 2)))
++                   else block (c3_cut_index + 2) in
++                 let outer = Ast.BlockStmt
++                   (block_loc, [],
++                    [c1_child; Ast.NoopStmt cut1; block 35; block 36;
++                     block 37; c2_child; Ast.NoopStmt cut2;
++                     block 74; block 75] @
++                    slice 76 (cmp3_index - 76) old_stmts @
++                    [c3_child; Ast.NoopStmt cut3;
++                     block (c3_cut_index + 1); c3_normal_join],
++                    old_close, ref []) in
++                 let normal_wrapper = Ast.BlockStmt
++                   (Ast.stmt_loc (root 191), [],
++                    slice 191 4 original_body @ [outer; root 196; root 197],
++                    closing_cbrace_loc, ref []) in
++                 let unwind_assert name ret =
++                   if control = name then
++                     [Ast.Assert (Ast.stmt_loc ret, Ast.False (Ast.stmt_loc ret))]
++                   else [] in
++                 let c3_unwind_join =
++                   if control = "c3-unwind-omit-join" then
++                     Ast.NoopStmt (Ast.stmt_loc c3_join)
++                   else Ast.PureStmt (Ast.stmt_loc c3_join, c3_join) in
++                 let after =
++                   kept_decls @ [normal_wrapper;
++                     Ast.LabelStmt (Ast.stmt_loc c1_return, c1_label);
++                     Ast.PureStmt (Ast.stmt_loc c1_recover, c1_recover);
++                     Ast.PureStmt (Ast.stmt_loc c1_join, c1_join)] @
++                   unwind_assert "c1-unwind-false-assert" c1_return @
++                   [c1_return;
++                    Ast.LabelStmt (Ast.stmt_loc c2_return, c2_label);
++                    Ast.PureStmt (Ast.stmt_loc c2_recover, c2_recover);
++                    Ast.PureStmt (Ast.stmt_loc c2_join, c2_join)] @
++                   unwind_assert "c2-unwind-false-assert" c2_return @
++                   [c2_return;
++                    Ast.LabelStmt (Ast.stmt_loc c3_return, c3_label);
++                    Ast.PureStmt (Ast.stmt_loc c3_recover, c3_recover);
++                    c3_unwind_join] @
++                   unwind_assert "c3-unwind-false-assert" c3_return @
++                   [c3_return] in
++                 let rec edges labels gotos = function
++                   | [] -> (labels, gotos)
++                   | Ast.LabelStmt (_, label) :: rest ->
++                       edges (label :: labels) gotos rest
++                   | Ast.GotoStmt (_, label) :: rest ->
++                       edges labels (label :: gotos) rest
++                   | Ast.PureStmt (_, stmt) :: rest ->
++                       edges labels gotos (stmt :: rest)
++                   | Ast.BlockStmt (_, _, ss, _, locals) :: rest ->
++                       if !locals <> [] then reject "block local cleanup";
++                       edges labels gotos (ss @ rest)
++                   | Ast.IfStmt (_, _, yes, no) :: rest ->
++                       edges labels gotos (yes @ no @ rest)
++                   | Ast.SwitchStmt (_, _, clauses) :: rest ->
++                       let ss = List.concat_map
++                         (function Ast.SwitchStmtClause (_, _, ss) -> ss |
++                                   Ast.SwitchStmtDefaultClause (_, ss) -> ss)
++                         clauses in
++                       edges labels gotos (ss @ rest)
++                   | Ast.WhileStmt _ :: _ -> reject "unexpected loop"
++                   | (Ast.DeclStmt _ | Ast.ExprStmt _ | Ast.Assert _ |
++                      Ast.Leak _ | Ast.Open _ | Ast.Close _ | Ast.ReturnStmt _ |
++                      Ast.NoopStmt _ | Ast.SplitFractionStmt _ |
++                      Ast.MergeFractionsStmt _) :: rest ->
++                       edges labels gotos rest
++                   | _ :: _ -> reject "unknown control container" in
++                 let labels, gotos = edges [] [] after in
++                 if List.exists (fun label -> not (List.mem label labels)) gotos
++                 then reject "retained edge into removed suffix";
++                 let count name xs =
++                   List.length (List.filter ((=) name) xs) in
++                 if List.length labels <> 8 || count "bh0" labels <> 2 ||
++                    List.length (List.sort_uniq compare labels) <> 7 ||
++                    List.length gotos <> 5 ||
++                    count "bh0" gotos <> 1 || count "2" gotos <> 1 ||
++                    count c1_label gotos <> 1 ||
++                    count c2_label gotos <> 1 ||
++                    count c3_label gotos <> 1 then
++                   reject "exact original and three unwind edges";
++                 let projected_contract =
++                   if control = "normal-false-post" then
++                     match contract with
++                     | (nonghost, fn_type_clause,
++                        Some (req, (outcome, Ast.SwitchExpr (l, e,
++                           [Ast.SwitchExprClause (ln, "returning", [result], _);
++                            Ast.SwitchExprClause (lu, "unwinding", [], pu)], None))),
++                        terminates) ->
++                       (nonghost, fn_type_clause,
++                        Some (req, (outcome, Ast.SwitchExpr (l, e,
++                          [Ast.SwitchExprClause
++                            (ln, "returning", [result], Ast.False ln);
++                           Ast.SwitchExprClause
++                            (lu, "unwinding", [], pu)], None))), terminates)
++                     | _ -> reject "normal post outcome shape"
++                   else contract in
++                 let changed_decl =
++                   mk_fn_decl projected_contract
++                     (Some (after, closing_cbrace_loc)) in
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                   "actual-c3-bound-post-ast.ml"
++                   (Ocaml_expr_of_ast.of_decl changed_decl);
++                 Printf.eprintf
++                   "SORT4-C3-BOUND admitted original_ast=%s sibling_calls=3 c1_locals=8 c2_locals=10 c3_locals=6 future_decl_full_input=12 future_decl_bounded=0 output_eq=3 outcomes=c1_normal,c1_unwind,c2_normal,c2_unwind,c3_normal,c3_unwind labels=%d gotos=%d control=%s NOT_CALLABLE_SUMMARY\n%!"
++                   (String.sub pre_sha 0 64) (List.length labels)
++                   (List.length gotos) control;
++                 changed_decl
+                end else if c2_discovery_requested then begin
+                  if State.body_name <> "sort4_stable" then
+                    failwith "SORT4-C2-DISCOVERY: wrong target body";
+@@ -15199,6 +15648,13 @@
+              "sort4_stable" then
+           failwith "SORT4-C3-CAPTURE: isolated exact-one body, unwind/full capture required"
+       end;
++      if Sys.getenv_opt "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST" = Some "1" then begin
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get (List.hd bodies_cpn)) <>
++             "sort4_stable" then
++          failwith "SORT4-C3-BOUND: isolated exact-one body, unwind/full checks required"
++      end;
+       let expected_redirects =
+         if !Sort4MaybeUninit.active then
+           expected_sort4_redirects bodies_cpn

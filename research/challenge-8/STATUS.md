@@ -56,6 +56,10 @@ Selected `(c,a)` and complementary `(b,d)` CURRENT ownership candidate helpers
 cover all four c1/c2 combinations. New default-off translator capture profile
 preserves C1/C2 and unbound refusal; fresh source/normal+readonly MIR/preAST
 capture precedes exact C3 bound admission and independent addressed review.
-C3 and later actual operations remain NOT_RUN. Continue C4 then C5/select/copy
+Fresh C3 capture bdef4a7c (449 seconds) deliberately refused before proof;
+source087123b1/preAST7dbc4ed8/normal112 blocks194 locals pin the exact bound
+profile. Independent correspondence/delta review permits first diagnostic.
+C3 target and later actual operations remain NOT_RUN; account862/3600.
+Continue C4 then C5/select/copy
 only after completed preceding prefix with its own paths/CURRENT rationale.
 No native-composition repeat on incompatible kernel. All profiles experimental.
