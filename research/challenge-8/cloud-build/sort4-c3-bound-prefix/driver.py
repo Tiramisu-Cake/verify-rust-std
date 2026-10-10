@@ -67,7 +67,7 @@ def prepare(a):
          'C3 does not follow exact C2 source')
     helper = (a.proof_root / HERE / 'selected-four.rs').read_bytes()
     need(c2.strip_ghost(helper) == b'', 'helper leaves runtime bytes')
-    anchor = b'unsafe fn sort4_stable'
+    anchor = b'pub unsafe fn sort4_stable'
     need(text.count(anchor) == 1, 'unique sort4 target required')
     text = text.replace(anchor, helper + anchor, 1)
     annotation = (a.proof_root / HERE / 'C3-ANNOTATION.rs').read_bytes()
@@ -174,4 +174,13 @@ def run(a, tool, env, c2_result, snapshot_fn):
     if code in (1,2) and 'FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF' in raw and ast.exists():
         result['classification'] = 'FRESH_C3_SOURCE_MIR_PREAST_CAPTURED_REFUSED_NOT_PROOF'
     record(a.evidence / 'c3-result.json', result)
+    bound_profile = a.proof_root / HERE / 'profile.json'
+    if bound_profile.is_file() and json.loads(bound_profile.read_text()).get('cloud_enabled') is True:
+        need(result['classification'] == 'FRESH_C3_SOURCE_MIR_PREAST_CAPTURED_REFUSED_NOT_PROOF',
+             'C3 bound cannot follow failed/unconfirmed capture')
+        bound = module(a.cloud_dir / 'sort4-c3-bound-prefix/bound-driver.py', 'c3_bound')
+        service = type('Service', (), {'need': staticmethod(need), 'sha': staticmethod(sha),
+            'record': staticmethod(record), 'stage': staticmethod(stage)})
+        result['bound'] = bound.run(a, tool, active, result, snapshot_fn, service)
+        record(a.evidence / 'c3-result.json', result)
     return result

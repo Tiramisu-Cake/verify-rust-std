@@ -6725,3 +6725,17 @@ preAST and mandatory refusal, no target proof credit. On fresh certificate,
 review and pin exact bound projection before proof; continue C4/C5 if complete.
 Native→C1 is secondary and requires separate compatible strict-cut semantic
 card/review; no repeated preparation on incompatible frozen chain.
+
+C3 Build1 `b38ac0e8-c818-4424-8480-8fe2386be1eb`, proof=infra
+`3b675ffba979ce7c2af6f482459ce29549ac923f`: FAILURE,413 create→finish
+seconds (10:36:47.248569910→10:43:40.066372 UTC),412 execution. Download
+verified archive `7ddae56cdf841faaad05887287dc0850ab959d77a535f4ca5ee629bdf45b01f5`,
+all text chunks/inventory. C3 capture console compiled, default-off C2 VF0
+184 statements and mandatory unbound C2 refusal retained. Source ghost-strip
+identity succeeded; C3 normal exporter then panicked: helper annotation was
+inserted between the `pub` token and `unsafe fn sort4_stable`, not at item
+boundary. This is a source-preparation failure before C3 MIR/preAST/target,
+not a semantic negative. Candidate source78b9feff retained in raw evidence.
+Localized fix: anchor full `pub unsafe fn sort4_stable` so helper precedes
+visibility/header. No helper/translator/kernel semantic change; new fresh
+capture required. Remaining3187/3600; no own unresolved Build.
