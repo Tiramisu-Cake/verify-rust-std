@@ -1,6 +1,6 @@
 # Concrete source-linked one-cell Drop body diagnostic
 
-Status: prepared for independent review; no Cloud result or actual-callee credit.
+Status: c451ed14 saved diagnostic replay corrected; two new probes not run; no actual-callee credit.
 Profile: `experimental-merge-origin-layout-concrete-u64-v1`, tool `8cb0121b03a5164495bf0d7c6c236ea9504d5ce4`.
 
 ## Obligation and scope
@@ -33,13 +33,15 @@ canonical prototype immediately after opening FBC/own. Runtime copy operands
 and dynamic `self.len` stay unchanged.
 
 The one-cell `own` carries an existing quarter source share, an uninitialized
-destination and the CURRENT u64 value. This differs from the historical direct
-contract and the frozen `copy_nonoverlapping` specification, both of which
-require initialized destination storage. A refusal at this entailment is a
-contract-interface blocker in this diagnostic; the already observed concrete
-literal-one copy from an uninitialized destination remains separate evidence
-and must not be negated by this generic historical specification. Do not assume an initialized gap, replace the
-destination contract, or claim that a conditional direct-body PASS applies to
+destination and the CURRENT u64 value. Both the historical direct contract's
+`dst[..len] |-> _` and the `canonical_dst_pre` assertion lower through
+`DummyPat` to `array_`, which permits
+uninitialized elements. Its c451ed14 first failure in frozen prelude line 256
+asks for the empty-tail `array_(dst + 1, 0, _)`, a singleton-to-array shape
+entailment, **not** proof that destination initialization is missing. The
+already observed concrete literal-one copy from an uninitialized destination
+remains separate evidence. Do not assume an initialized gap, replace the
+destination contract, or claim that a conditional strong-pre direct-body PASS applies to
 the one-cell caller. The diagnostic does not add authority, an ownership pool,
 an entry-value snapshot, or a layout premise.
 
@@ -52,13 +54,13 @@ pre entailment, method body, canonical post, return and leak. The classifier
 reports the **first** failure stage; setup/frontend/refinement/unrelated helper
 failures are inconclusive. A completed direct control establishes only the
 conditional specialized body on this exact profile. A canonical refusal at
-initialized `dst`, root alignment, guard interval, or residual payload is
+destination array shape, root alignment, guard interval, or residual payload is
 preserved as such, never counted as a positive or intended negative.
 
-Cases are `direct_positive`, `direct_first_body_false`, `canonical_dst_pre`,
-`canonical_positive`, `prototype_false`, and `first_body_false`. The
-`canonical_dst_pre` case checks initialized destination entailment immediately
-after opening FBC/own, so it remains informative if root layout blocks the
+The six retained cases are `direct_positive`, `direct_first_body_false`,
+`canonical_dst_pre`, `canonical_positive`, `prototype_false`, and
+`first_body_false`. The `canonical_dst_pre` case checks the maybe-uninitialized
+destination array shape immediately after opening FBC/own, so it remains informative if root layout blocks the
 full canonical case. The two canonical false cases must fail at the
 exact asserted location after their preceding gates. Original/verified files
 must match after removing recorded ghost text; the original must match the
@@ -81,3 +83,40 @@ a measured numeral or source name alone is not a proof premise. A semantic card,
 independent review and affected positive/negative gates are required before
 such a tool change. Proof status stays OPEN until a fresh Cloud run passes its
 own exact obligations.
+
+## Isolated c451ed14 follow-up probes (review before Cloud)
+
+The saved c451ed14 run reports the direct body copy, return and leak with zero
+verifier errors, but the initial Python AST admission incorrectly expected
+three adjacent assignments; the pinned exporter interleaves exact storage-live
+nodes. Saved replay must validate the three storage-live/assignment pairs and
+the unique source-located MIR copy while allowing only the annotation's
+source-located `VeriFast_ghost_command` in false-body cases. Mutating operand
+origins, extra calls or locations must still fail admission. The six original
+ghost cases and their outcomes remain fixed.
+
+`canonical_alignment_probe` adds a seventh isolated case at the first genuine
+canonical-positive frontier, `self` alignment. Immediately after the already
+successful `points_to_limits::<CopyOnDrop>(self as *mut CopyOnDrop)` call, it
+opens the same typed aggregate `points_to`, calls frozen `to_u8s_` and
+`from_u8s_` on the same `self` pointer, and closes the same aggregate value and
+fraction before the existing field binding, geometry and `call()`. The expected
+positive is that the self-alignment assertion passes without a new precondition
+or loss of FBC/own resources; failure at opening, lemma preconditions, value
+reassembly, or canonical post is recorded at its exact first frontier. This
+probe uses no layout numeral or representation declaration and makes no
+compiler-qualified layout claim. It is a proof-annotation hypothesis, not a
+verifier semantic change.
+
+`canonical_dst_shape_probe` is a separate eighth case at the earlier
+destination slice frontier. It invokes frozen `points_to__limits::<u64>` on
+the existing `guard_dst` singleton `points_to_`, then attempts to close only
+the zero-length `array_(guard_dst + 1, 0, nil)` tail after establishing its
+pointer-within-limits fact from that same storage. It then closes one-cell
+`array_(guard_dst, 1, cons(old_gap, nil))`, returns that array to the unchanged
+target `guard_dst[..guard_len] |-> _`, and retains the inherited checked
+`call()`. If endpoint limits cannot be derived, the case must stop there as
+INCONCLUSIVE; no endpoint, initialized value or array segment is supplied as a
+premise. Both new cases retain full generated normal/unwind posts, original
+runtime copy, ghost-strip equality, source-qualified MIR/AST admission and
+the parent exact validated receipt. No result is promoted by the card alone.

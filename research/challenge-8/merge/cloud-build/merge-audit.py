@@ -493,6 +493,8 @@ def audit_combined_candidate_gates(base: Path, aggregate: dict,
                 sys.modules[own_module_spec.name] = own_module
                 own_module_spec.loader.exec_module(own_module)
                 extraction = json.loads((drop_root / "extraction.json").read_text())
+                if set(extraction.get("cases", {})) != set(body.CASES):
+                    raise ValueError("conditional Drop evidence omits a required current case")
                 generic_block = extraction.get("generic_source_block", "").encode("ascii")
                 if (len(generic_block) != source_pin.BLOCK_BYTES or
                         body._sha(generic_block) != source_pin.BLOCK_SHA256 or
@@ -583,8 +585,14 @@ def audit_combined_candidate_gates(base: Path, aggregate: dict,
                         inserted = (body.PROTOTYPE_FALSE if name == "prototype_false" else b"")
                         if name == "canonical_dst_pre":
                             inserted += body.FIELD_BIND + body.LEN_ONE + body.DST_PRE + body.CALL
+                        elif name == "canonical_dst_shape_probe":
+                            inserted += (body.FIELD_BIND + body.LEN_ONE +
+                                         body.DST_SHAPE_ROUNDTRIP + body.DST_PRE + body.CALL)
                         else:
-                            inserted += body.ROOT_LIMITS + body.FIELD_BIND + b"".join(body._geometry()) + \
+                            inserted += body.ROOT_LIMITS
+                            if name == "canonical_alignment_probe":
+                                inserted += body.ALIGNMENT_ROUNDTRIP
+                            inserted += body.FIELD_BIND + b"".join(body._geometry()) + \
                                 body.LEN_ONE + body.DST_PRE + body.CALL
                         case_contract = contract.replace(proof_open, proof_open + inserted, 1)
                         expected_ghost.extend([own, case_contract])
@@ -612,9 +620,22 @@ def audit_combined_candidate_gates(base: Path, aggregate: dict,
                             "layout_lines": ({label: body._line(verified_bytes, item)
                                               for label, item in zip(body.GEOMETRY_LABELS,
                                                                      body._geometry())}
-                                             if name != "canonical_dst_pre" else {}),
+                                             if name not in {"canonical_dst_pre",
+                                                             "canonical_dst_shape_probe"} else {}),
                             "dst_pre_line": body._line(verified_bytes, body.DST_PRE),
                         })
+                        if name == "canonical_alignment_probe":
+                            expected_lines["alignment_probe_lines"] = {
+                                label: body._line(verified_bytes, item)
+                                for label, item in zip(
+                                    ("open_aggregate", "to_u8s", "from_u8s", "close_aggregate"),
+                                    body.ALIGNMENT_ROUNDTRIP.splitlines(keepends=True))}
+                        if name == "canonical_dst_shape_probe":
+                            expected_lines["dst_shape_probe_lines"] = {
+                                label: body._line(verified_bytes, item)
+                                for label, item in zip(
+                                    ("singleton_limits", "endpoint", "empty_tail", "singleton_array"),
+                                    body.DST_SHAPE_ROUNDTRIP.splitlines(keepends=True))}
                     else:
                         expected_lines.update({"field_bind_line": None,
                                                "layout_lines": {}, "dst_pre_line": None})

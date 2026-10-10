@@ -1,3 +1,17 @@
+# Current session review packet — recovery bounded PASS, Drop open
+
+This section supersedes the older closed-session report retained below. New session start2026-10-10T00:34:48Z, main deadline02:34:48Z, finishing-only until03:04:48Z; independent3600s Cloud account, old1464s retired. Assigned branches and tool8cb0121b remain unchanged; NOT_FOR_INTEGRATION.
+
+First derived refusal at f76536a6/Build6fb5bd55 is `src == held_ref` immediately after canonical full FBC/own, before copy or token recovery. FBC existential field witnesses lose the caller identity. A precise half-field frame across half FBC conserves the existing resources and derives all identity/quarter assertions. No tool semantic change, added premises, numerical-address permission inference, restored authority or entry snapshot. Fresh a98404d7/Build61eb1905 completes concrete-u64 literal-one copy, CURRENT recovery, full normal posts, return and leak; after-recovery false control reaches lib111. Missing u64 own is NOT_APPLICABLE. The full-FBC reproducer remains preserved. Fraction-only sufficient repair is falsified; no ref-token lifecycle defect is established.
+
+Latest fresh proof/infra3a3a70e7803bc275b381ba4af1133c6cae1d7662, Buildc451ed14-505f-49c3-8e88-82664b9aafa3, archivef1fffedddde12c4b62533d9e3e0d65855324cff4614a9f08e18f96215357da3d fully verified. Recovery and intended negatives repeat. Mandatory retainedsix smoke and exactcombined8cb ordinarynormal/unwind smoke PASS; independent saved outer receipt replay valid. Origin/span/layout/resource controls remain separate from whole-function acceptance. Combined profile PARTIAL_DIAGNOSTIC/NOT_ACCEPTED and candidate NOT_FOR_INTEGRATION.
+
+Source-linked specialized Drop diagnostic remains INCONCLUSIVE pending strict AST/MIR admission repair on saved data. Original logs: conditional direct body verifier0, dynamic copy, return/leak,47statements; canonical first refusal guard alignmentlib97; isolated `dst[..len] |-> _` refusal missing `array_` tailprelude256. DummyPat means possibly-uninitialized array_, so this is singleton-to-array shape, not an initialized-destination counterexample. These original results are preserved. Current translator review also confirms the inherited strong contract and frozen copy spec use the same DummyPat maybe-uninitialized destination array; older initialized-destination descriptions were inaccurate and confer no counterexample. The proposed isolated alignment and array-shape probes must derive from existing typed storage, conserve fraction/value/fields/padding and add no layout number or separation premise. Card and independent review precede implementation; new source needs fresh Cloud.
+
+Actual compiler monomorphic callee, natural Drop/glue, caller panic unwind, full insert_tail and generic/ZST/comparator/user-Drop remain OPEN. A source-linked mechanically specialized method body and a normal/unwind smoke do not establish those results. Exact pins/costs/runs are in EVIDENCE.json and BUDGET.json. No maintainer integration, foreign pins or upstream publication.
+
+---
+
 # MERGE origin / canonical unit / concrete recovery review packet
 
 Policy c7ca8c467aecf10a4b53039372ee97714f854ee3; addressed adoption 1b9e3df3182d13e5adf7d2e5d04afcfbc1851f14, ACK aec832ab. Branch-local history preserved. Assignment resumed only this session, start 2026-10-09 21:53:00 UTC, main deadline 23:53:00 UTC; finishing-only until 2026-10-10 00:23:00 UTC. No automatic next session.

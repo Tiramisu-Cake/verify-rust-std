@@ -18,7 +18,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
 CASES = ("direct_positive", "direct_first_body_false", "canonical_dst_pre",
-         "canonical_positive", "prototype_false", "first_body_false")
+         "canonical_positive", "prototype_false", "first_body_false",
+         "canonical_alignment_probe", "canonical_dst_shape_probe")
 
 
 def _load(name: str, path: Path):
@@ -126,9 +127,21 @@ def _source_inputs():
 
 FIELD_BIND = (b"    assert (*self).src |-> ?guard_src &*& "
               b"(*self).dst |-> ?guard_dst &*& (*self).len |-> ?guard_len;\n")
+# This inherited byte string stays fixed for c451 replay, despite its legacy
+# comment: DummyPat lowers the slice assertion to maybe-uninitialized array_.
 DST_PRE = b"    assert guard_dst[..guard_len] |-> _; // TARGET: initialized destination entailment\n"
 LEN_ONE = b"    assert guard_len == 1;\n"
 ROOT_LIMITS = b"    points_to_limits::<CopyOnDrop>(self as *mut CopyOnDrop);\n"
+ALIGNMENT_ROUNDTRIP = (
+    b"    open [?root_f]points_to::<CopyOnDrop>(self as *mut CopyOnDrop, ?root_v);\n"
+    b"    to_u8s_::<CopyOnDrop>(self as *mut CopyOnDrop);\n"
+    b"    from_u8s_::<CopyOnDrop>(self as *mut CopyOnDrop);\n"
+    b"    close [root_f]points_to::<CopyOnDrop>(self as *mut CopyOnDrop, root_v);\n")
+DST_SHAPE_ROUNDTRIP = (
+    b"    points_to__limits::<u64>(guard_dst);\n"
+    b"    assert pointer_within_limits(guard_dst + 1) == true;\n"
+    b"    close array_::<u64>(guard_dst + 1, 0, nil);\n"
+    b"    close array_::<u64>(guard_dst, 1, cons(old_gap, nil));\n")
 CALL = b"    call();\n"
 PROTOTYPE_FALSE = b"    assert false; // TARGET: canonical prototype entry\n"
 BODY_FALSE = b"        //@ assert false; // TARGET: first concrete Drop body statement\n"
@@ -192,8 +205,12 @@ def _prepare(evidence: Path) -> dict:
                 inserted += PROTOTYPE_FALSE
             if name == "canonical_dst_pre":
                 inserted += FIELD_BIND + LEN_ONE + DST_PRE + CALL
+            elif name == "canonical_dst_shape_probe":
+                inserted += FIELD_BIND + LEN_ONE + DST_SHAPE_ROUNDTRIP + DST_PRE + CALL
             else:
-                inserted += ROOT_LIMITS + FIELD_BIND + b"".join(geometry) + \
+                inserted += ROOT_LIMITS + (ALIGNMENT_ROUNDTRIP if name ==
+                                           "canonical_alignment_probe" else b"") + \
+                    FIELD_BIND + b"".join(geometry) + \
                     LEN_ONE + DST_PRE + CALL
             case_contract = contract.replace(proof_open, proof_open + inserted, 1)
             if case_contract == contract or \
@@ -255,7 +272,20 @@ def _prepare(evidence: Path) -> dict:
                "field_bind_line": _line(verified, FIELD_BIND) if canonical else None,
                "layout_lines": {label: _line(verified, statement)
                                 for label, statement in zip(GEOMETRY_LABELS, geometry)}
-                               if canonical and name != "canonical_dst_pre" else {},
+                               if canonical and name not in
+                               {"canonical_dst_pre", "canonical_dst_shape_probe"} else {},
+               "alignment_probe_lines": {
+                   label: _line(verified, statement)
+                   for label, statement in zip(
+                       ("open_aggregate", "to_u8s", "from_u8s", "close_aggregate"),
+                       ALIGNMENT_ROUNDTRIP.splitlines(keepends=True))}
+                   if name == "canonical_alignment_probe" else {},
+               "dst_shape_probe_lines": {
+                   label: _line(verified, statement)
+                   for label, statement in zip(
+                       ("singleton_limits", "endpoint", "empty_tail", "singleton_array"),
+                       DST_SHAPE_ROUNDTRIP.splitlines(keepends=True))}
+                   if name == "canonical_dst_shape_probe" else {},
                "dst_pre_line": _line(verified, DST_PRE) if canonical else None,
                "call_line": _line(verified, CALL),
                "body_false_line": _line(verified, BODY_FALSE) if
@@ -287,11 +317,11 @@ def _source_gate(case: Path, row: dict, contract_header: bytes) -> dict:
                 not any(token in verified for token in
                         (b"assume_correct", b"//@ assume", b"//@ leak", b"Freeze")))
     return {"admitted": admitted, "runtime_equal_after_ghost_strip": stripped == original,
-            "conditional_initialized_dst": True,
+            "conditional_historical_strong_pre": True,
             "uninitialized_onecell_own": row["canonical"]}
 
 
-def _mir_gate(case: Path, base) -> dict:
+def _mir_gate(case: Path, row: dict, base) -> dict:
     path = case / "decode.out"
     if not path.is_file():
         return {"admitted": False, "reason": "decoded MIR absent"}
@@ -323,10 +353,27 @@ def _mir_gate(case: Path, base) -> dict:
             kind = mir.path(block, "terminator", "kind")
             if isinstance(kind, dict) and "call" in kind:
                 calls.append((index, block, kind["call"]))
-        if len(calls) != 1:
-            return {"admitted": False, "reason": "Drop MIR call count differs",
-                    "call_count": len(calls)}
-        index, block, call = calls[0]
+        runtime_calls = []
+        ghost_calls = []
+        for item in calls:
+            callee = mir.call_name(item[2])
+            span_line = mir.path(item[2], "callSpan", "regular", "lo", "line")
+            if callee == base.MIR_COPY_CALLEE and span_line == row["source_copy_line"]:
+                runtime_calls.append(item)
+            elif (callee == "VeriFast_ghost_command" and
+                  row["body_false_line"] is not None and
+                  span_line == row["body_false_line"]):
+                ghost_calls.append(item)
+            else:
+                return {"admitted": False, "reason": "unrecognized Drop MIR call",
+                        "call_count": len(calls), "callee": callee,
+                        "span_line": span_line}
+        if len(runtime_calls) != 1 or len(ghost_calls) != int(
+                row["body_false_line"] is not None):
+            return {"admitted": False, "reason": "Drop runtime/ghost call count differs",
+                    "call_count": len(calls), "runtime_call_count": len(runtime_calls),
+                    "ghost_call_count": len(ghost_calls)}
+        index, block, call = runtime_calls[0]
         statements = mir.path(block, "statements")
         writes = {}
         projected_self_writes = []
@@ -348,13 +395,15 @@ def _mir_gate(case: Path, base) -> dict:
                     not mir.path(place, "projection") else None)
             origins.append(base.field_origin(name, writes, "_1", len(statements))
                            if name is not None else None)
-        admitted = (index == 0 and not projected_self_writes and
+        admitted = ((index == 0 if not ghost_calls else index > ghost_calls[0][0]) and
+                    not projected_self_writes and
                     mir.call_name(call) == base.MIR_COPY_CALLEE and
                     len(origins) == 3 and all(origin is not None for origin in origins) and
                     [origin[0] for origin in origins] == [0, 1, 2])
         return {"admitted": admitted, "body_count": len(bodies),
                 "field_names": [mir.path(field, "name", "name") for field in fields],
-                "call_count": len(calls), "operand_field_origins":
+                "call_count": len(calls), "runtime_call_count": len(runtime_calls),
+                "ghost_call_count": len(ghost_calls), "operand_field_origins":
                     [origin[0] for origin in origins if origin is not None],
                 "dynamic_source_operand": len(origins) == 3 and
                     origins[2] is not None and origins[2][0] == 2}
@@ -419,6 +468,7 @@ def _ast_gate(case: Path, row: dict, base) -> dict:
                  prototype.name == "Some" and
                  isinstance(prototype.args[0], tuple) else [])
         opens = [node.args[2] for node in ast.nodes(proof, "Open") if len(node.args) >= 3]
+        closes = [node.args[2] for node in ast.nodes(proof, "Close") if len(node.args) >= 3]
         calls = [node.args[1] for node in ast.nodes(proof, "CallExpr") if
                  len(node.args) > 1 and isinstance(node.args[1], str)]
         runtime = body.args[10].args[0][0]
@@ -429,8 +479,26 @@ def _ast_gate(case: Path, row: dict, base) -> dict:
                     len(node.args) == 3 and node.args[1] in copy]
         origins = []
         if len(copy) == len(switches) == 1:
+            switch_index = [i for i, statement in enumerate(runtime)
+                            if statement is switches[0]][0]
+            # The exporter interleaves one storage-live with each of the
+            # three same-line field-read assignments. Validate those exact
+            # paired locals, then use the pinned structured reaching-def gate
+            # on the unchanged statements with only those ghost lives elided.
+            paired = runtime[switch_index - 6:switch_index]
+            if len(paired) != 6:
+                raise ast.AdmissionError("copy operands lack six paired runtime statements")
+            for offset in (0, 2, 4):
+                live, definition = paired[offset:offset + 2]
+                assignment = ast.narg(ast.narg(definition, "ExprStmt", 1)[0],
+                                      "AssignExpr", 4)
+                if (live.name != "RustStorageLiveStmt" or len(live.args) != 4 or
+                        live.args[3] != ast.var(assignment[1]) or
+                        ast.location_line(live.args[0]) != row["source_copy_line"]):
+                    raise ast.AdmissionError("unmatched copy-operand storage live")
+            filtered = runtime[:switch_index - 6] + paired[1::2] + runtime[switch_index:]
             _, origins = base.ast_copy_operand_field_origins(
-                runtime, switches[0], copy[0], row["source_copy_line"])
+                filtered, switches[0], copy[0], row["source_copy_line"])
         fbc = [node for node in ast.nodes(tree, "PredCtorDecl") if
                len(node.args) >= 2 and node.args[1] ==
                "CopyOnDrop_full_borrow_content"]
@@ -445,7 +513,17 @@ def _ast_gate(case: Path, row: dict, base) -> dict:
                len(node.args) >= 4 and node.args[3] == "own" and
                "CopyOnDrop" in repr(node.args[2])]
         expected_opens = ["CopyOnDrop_full_borrow_content", "CopyOnDrop_own"]
-        admitted = (generated_shape and opens == expected_opens and len(copy) == 1 and
+        if row["case"] == "canonical_alignment_probe":
+            expected_opens.append("points_to")
+        probe_ast = (
+            (calls.count("to_u8s_") == calls.count("from_u8s_") == 1 and
+             closes.count("points_to") == 1)
+            if row["case"] == "canonical_alignment_probe" else
+            (calls.count("points_to__limits") == 1 and
+             closes.count("array_") == 2)
+            if row["case"] == "canonical_dst_shape_probe" else True)
+        admitted = (generated_shape and opens == expected_opens and probe_ast and
+                    len(copy) == 1 and
                     len(switches) == 1 and origins == [0, 1, 2] and
                     field_names == ["src", "dst", "len"] and len(fbc) == 1 and
                     (len(own) == 1 if row["canonical"] else True) and
@@ -453,6 +531,7 @@ def _ast_gate(case: Path, row: dict, base) -> dict:
                     not ast.nodes(proof, "Assume") and not ast.nodes(proof, "Leak"))
         return {"admitted": admitted, "fbc_fields": field_names,
                 "custom_own_count": len(own), "prototype_opens": opens,
+                "prototype_closes": closes, "probe_ast": probe_ast,
                 "prototype_calls": calls, "runtime_dynamic_copy_count": len(copy),
                 "runtime_copy_field_origins": origins,
                 "generated_contract_structural_gate": generated_shape,
@@ -469,7 +548,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
               contract_header: bytes, base, consumer) -> dict:
     stages = execution.get("stages", {})
     source = _source_gate(case, row, contract_header)
-    mir = _mir_gate(case, base) if stages.get("decode") == 0 else {"admitted": False}
+    mir = _mir_gate(case, row, base) if stages.get("decode") == 0 else {"admitted": False}
     ast = _ast_gate(case, row, base) if stages.get("decode") == 0 else {"admitted": False}
     log = ((case / "verifast.log").read_text(errors="replace") if
            (case / "verifast.log").is_file() else "")
@@ -495,23 +574,62 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
             prefix_seen = all(re.search(
                 rf"verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement",
                 log) for line in prefixes)
-            exact_dst_error = (len(errors) == 1 and dst_line is not None and
-                               bool(re.search(rf"verified/lib\.rs\({dst_line},\d+.*\): error:",
-                                              errors[0])))
-            frontier = ("onecell_initialized_destination_entailment"
-                        if prefix_seen and exact_dst_error else
+            target_consumption = bool(re.search(
+                rf"verified/lib\.rs\({dst_line},\d+.*\): note: Consuming assertion",
+                log)) if dst_line is not None else False
+            array_tail_error = (len(errors) == 1 and
+                                "prelude_core.rsspec(256," in errors[0] and
+                                "No matching heap chunks: array_<u64>(ptr_add_(dst, 1," in
+                                errors[0])
+            frontier = ("onecell_maybe_uninitialized_array_shape"
+                        if prefix_seen and target_consumption and array_tail_error else
                         "canonical_dst_pre_first_failure_unclassified")
         else:
+            probe_lines = (row.get("alignment_probe_lines", {}) or
+                           row.get("dst_shape_probe_lines", {}))
             for label, line in row["layout_lines"].items():
                 if any(re.search(rf"verified/lib\.rs\({line},\d+.*\): error:", e)
                        for e in errors):
                     frontier = "root_geometry:" + label
                     break
             else:
-                if row["dst_pre_line"] and any(re.search(
+                probe_progress = [(label, line) for label, line in probe_lines.items()
+                                  if re.search(
+                                      rf"verified/lib\.rs\({line},\d+.*\): "
+                                      r"(?:(?:note: )?Executing statement|"
+                                      r"note: Consuming assertion|error:)", log)]
+                direct_probe_error = next((label for label, line in probe_lines.items()
+                                           if any(re.search(
+                                               rf"verified/lib\.rs\({line},\d+.*\): error:",
+                                               error) for error in errors)), None)
+                target_consumed = (row["dst_pre_line"] is not None and bool(
+                    re.search(rf"verified/lib\.rs\({row['dst_pre_line']},\d+.*\): "
+                              r"note: Consuming assertion", log)))
+                later_executed = any(re.search(
+                    rf"verified/lib\.rs\({line},\d+.*\): "
+                    r"(?:note: )?Executing statement", log)
+                    for line in list(row["layout_lines"].values()) +
+                    [row["dst_pre_line"], row["call_line"]] if line)
+                if (name == "canonical_dst_shape_probe" and len(errors) == 1 and
+                      target_consumed and
+                      "prelude_core.rsspec(256," in errors[0] and
+                      "No matching heap chunks: array_<u64>(ptr_add_(dst, 1," in
+                      errors[0]):
+                    frontier = "post_probe_onecell_array_shape"
+                elif (probe_lines and target_consumed and len(errors) == 1 and
+                      ("prelude_core.rsspec" in errors[0] or
+                       re.search(rf"verified/lib\.rs\({row['dst_pre_line']},\d+.*\): error:",
+                                 errors[0]))):
+                    frontier = "post_probe_dst_pre_unclassified"
+                elif len(errors) == 1 and direct_probe_error and not later_executed:
+                    frontier = "probe:" + direct_probe_error
+                elif (len(errors) == 1 and probe_progress and not later_executed and
+                      "prelude_core.rsspec" in errors[0]):
+                    frontier = "probe:" + probe_progress[-1][0]
+                elif row["dst_pre_line"] and any(re.search(
                     rf"verified/lib\.rs\({row['dst_pre_line']},\d+.*\): error:", e)
                     for e in errors):
-                    frontier = "onecell_initialized_destination_entailment"
+                    frontier = "onecell_maybe_uninitialized_array_shape"
                 elif row["call_line"] and any(re.search(
                     rf"verified/lib\.rs\({row['call_line']},\d+.*\): error:", e)
                     for e in errors):
@@ -541,7 +659,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     if matched_false:
         status = "EXPECTED_REJECTION"
     elif positive and name == "direct_positive":
-        status = "CONDITIONAL_INITIALIZED_DST_BODY_PASS"
+        status = "CONDITIONAL_STRONG_PRE_BODY_PASS"
     elif positive:
         status = "SOURCE_LINKED_CANONICAL_DIAGNOSTIC_PASS"
     else:
