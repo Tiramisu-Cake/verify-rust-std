@@ -670,3 +670,9 @@ Retainedsix mandatory smoke and fresh outer bindings pass; exactcombined smoke
 pending nextnecessaryrun. Half frame does not establish full mutable Drop/glue,
 qualified guard layout, actual panic unwind, generic/ZST/caller/comparator/user-Drop,
 whole insert_tail or combined-profile acceptance. Candidate NOT_FOR_INTEGRATION.
+
+### MERGE final CURRENT / source-linked Drop boundary — 2026-10-10
+
+Fresh final Build1f2f9442-25e8-466b-ba77-ea508795e9b0 at proof/infra739b261ffc3ca688f6ebc3306bff0766be0feaf6, tool8cb0121b, repeats bounded concrete-u64 CURRENT direct-copy recovery/full normal posts/return/leak. No source/runtime/contracts/tool-semantics weakening. Original full-FBC existential field identity abstraction is isolated and repaired only by a precise half-field frame.
+
+Mechanically specialized source-linked CopyOnDrop body proves full strong-pre normal result/return/leak conditionally, with intended direct-body false. Default guard own=false makes safeprototype compatibility vacuous; no actual generic/compiler-monomorphic callee, glue or caller proof. Derived alignment and destination singleton-array entailment pass. Current canonical caller refusals: root/source interval disjointnesslib102 and reachedcall100 positiveGuardextent req28. Extent/interval relations are not supplied by current FBC/own or actualconstructor AST lineage alone. Mandatory retainedsix/exactcombinedsmokesPASS and strict8outerbindingsvalid are separate infrastructure/component results; combinedprofileNOT_ACCEPTED and integrationNOT_FOR_INTEGRATION. Actual panic unwind, generic/ZST/caller/comparator/user-Drop/wholeinsert_tail remain OPEN/NOT_PROVEN.

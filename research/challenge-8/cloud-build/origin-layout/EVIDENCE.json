@@ -319,7 +319,7 @@
     "start_utc": "2026-10-10T00:34:48Z",
     "main_deadline_utc": "2026-10-10T02:34:48Z",
     "deadline_utc": "2026-10-10T03:04:48Z",
-    "status": "ACTIVE",
+    "status": "CLOSED",
     "tool_candidate": "8cb0121b03a5164495bf0d7c6c236ea9504d5ce4",
     "integration": "NOT_FOR_INTEGRATION",
     "builds": [
@@ -466,6 +466,30 @@
         "execution_seconds": 442,
         "download_verified": true,
         "archive_sha256": "234028d6406e861d20412da9b77c1f3e9d8c8d85f5992a87ce50539aca510c4e"
+      },
+      {
+        "dispatch_token": "dispatch-f360877570cb426ba9d0eb47084ece06",
+        "owner": "merge",
+        "phase_id": "MERGE-CURRENT-RECOVERY-CLOUD-2026-10-10",
+        "infra_sha": "739b261ffc3ca688f6ebc3306bff0766be0feaf6",
+        "proof_sha": "739b261ffc3ca688f6ebc3306bff0766be0feaf6",
+        "lane": "merge",
+        "submitted_config_sha256": "d18743ca2d87a03be2240bc85a5d2e7468d172d7da4564850430cc3f27852cc7",
+        "reserved_seconds": 1260,
+        "timeout_seconds": 1200,
+        "status": "SUCCESS",
+        "publish_text_logs": true,
+        "source_mode": "pinned-objects",
+        "source_input_sha256": "3277adbf1810b5e6b977bd2c24de4ac2ca93b32cd7d7e75db2127baef823d598",
+        "build_id": "1f2f9442-25e8-466b-ba77-ea508795e9b0",
+        "start_time": "2026-10-10T02:26:34.413978817Z",
+        "finish_time": "2026-10-10T02:33:08.937667Z",
+        "create_time": "2026-10-10T02:26:33.712410283Z",
+        "build_seconds": 396,
+        "accounted": true,
+        "execution_seconds": 395,
+        "download_verified": true,
+        "archive_sha256": "01bd254c68e8e94a945309c0f6797929ec3d06d3d41e163dcf6917256d8c114a"
       }
     ],
     "first_causal_recovery_refusal": {
@@ -484,15 +508,18 @@
       "outer_artifact_binding": "valid"
     },
     "outer_binding_replay": "REPLAY-CURRENT-BINDINGS.json",
-    "combined_profile": "NOT_ACCEPTED",
-    "next_experiment": "Localized destination option binder; freshCloud exactsameprofile; no supplied root separation",
+    "combined_profile": {
+      "classification": "PARTIAL_DIAGNOSTIC",
+      "accepted": false,
+      "integration": "NOT_FOR_INTEGRATION"
+    },
+    "next_experiment": "No automatic session. Next read-only audit: actual tmp/guard frozen live-local/reference-origin/provenance rules for qualified positive extent and disjoint intervals; absent derivation, separately reviewed source-qualified caller/interface relation. No guessed layout or supplied separation.",
     "budget": {
       "ceiling_seconds": 3600,
-      "used_seconds": 2105,
-      "remaining_seconds": 1495,
-      "account": "separate createTime-to-finishTime budget"
+      "used_seconds": 2501,
+      "unused_seconds_closed": 1099,
+      "account": "new separate createTime-to-finishTime budget; ceil each Build; no carryover"
     },
-    "latest_observation": "bounded recovery and complete normal posts/return/leak PASS; canonical Drop/glue and actual panic unwind OPEN",
     "recovery_result": {
       "build_id": "61eb1905-3d30-4a6e-b4f4-43dfcb50995d",
       "proof_sha": "a98404d718dedf183eaa7431ac05060d9e45010e",
@@ -514,17 +541,150 @@
       "repair": "annotation-only halfFBC precise field frame + ghost pointer grammar; no new resource or tool semantic change"
     },
     "latest_diagnostic": {
-      "proof_infra_sha": "eccfd6d5ca969a8e8ecdc2da632b9ad134f625be",
-      "build_id": "ac238e6a-59b9-4573-989e-54144b71bc1b",
-      "archive_sha256": "234028d6406e861d20412da9b77c1f3e9d8c8d85f5992a87ce50539aca510c4e",
+      "proof_infra_sha": "739b261ffc3ca688f6ebc3306bff0766be0feaf6",
+      "build_id": "1f2f9442-25e8-466b-ba77-ea508795e9b0",
+      "archive_sha256": "01bd254c68e8e94a945309c0f6797929ec3d06d3d41e163dcf6917256d8c114a",
+      "integrity_verified": true,
       "exact_combined_smoke": "PASS",
       "retained_mandatory_smoke": "PASS",
       "outer_bindings_valid": true,
       "combined_acceptance": false,
-      "drop_body": "CONDITIONAL_STRONG_PRE_BODY_PASS",
+      "drop_body": "CONDITIONAL_STRONG_PRE_BODY_PASS, 47 statements/full normal posts/return/leak",
       "safe_prototype": "VACUOUS_DEFAULT_OWN_FALSE; no canonical applicability",
-      "alignment_probe": "ALIGNMENT_DERIVED; next root_source_disjoint refusal lib102",
-      "dst_shape_probe": "limits, endpoint, empty_tail passed; old_gap unbound lib97",
+      "alignment_probe": "alignment derived; next root_source_disjoint refusal lib102",
+      "dst_shape_probe": "option/singleton array_/DST_PRE pass, call100 refuses positive Guard extent at req28",
+      "classifier_frontier_note": "archived JSON canonical_prototype_before_body is coarse; full log shows strong call-precondition 0<sizeof(CopyOnDrop) refusal. No archived record rewritten.",
+      "actual_drop_glue": "OPEN",
+      "actual_unwind": "NOT_EXERCISED"
+    },
+    "verified_ac238_profile_receipt": {
+      "actual_tool_sha256": {
+        "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+        "verifast": "85c1471a76a3fded831573d23f8f28db5ce42eaaa455fea0358a4b2206fc73a4",
+        "vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+      },
+      "profile_build_sha256": "c6469609461f4a1d703319b801631e576842f4315f7b7e092d8cc41d86315963",
+      "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+      "receipt": {
+        "accepted": false,
+        "cloud_build_id": "ac238e6a-59b9-4573-989e-54144b71bc1b",
+        "profile": "experimental-merge-origin-layout-concrete-u64-v1",
+        "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+        "proof_sha": "eccfd6d5ca969a8e8ecdc2da632b9ad134f625be",
+        "provider": {
+          "arch": "x86_64",
+          "build_id": "ac238e6a-59b9-4573-989e-54144b71bc1b",
+          "os": "ubuntu-22.04",
+          "project": "smallsort-ci",
+          "provider": "cloud-build",
+          "region": "global"
+        },
+        "rustc_toolchain": "nightly-2026-09-25",
+        "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "tool_sha256": {
+          "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "verifast": "85c1471a76a3fded831573d23f8f28db5ce42eaaa455fea0358a4b2206fc73a4",
+          "vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+        }
+      },
+      "receipt_sha256": "b77da9757f2448f52446e8930d15918dfa006817bb4f910299fd607c5af54610",
+      "rustc_toolchain": "nightly-2026-09-25",
+      "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+      "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
+    },
+    "closing_coordination": {
+      "schema_version": 2,
+      "max_active": 2,
+      "own_active_unresolved_reservations": [],
+      "ready_request_withdrawn": true,
+      "closure_observed_utc": "2026-10-10T02:37:34Z",
+      "peer_state_manually_changed": false
+    },
+    "main_deadline_observed_utc": "2026-10-10T02:35:13Z",
+    "no_new_experiments_after_main_deadline": true,
+    "codex_usage": "Unavailable from routine session tools; Cloud seconds are separate",
+    "final_profile_receipt": {
+      "actual_tool_sha256": {
+        "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+        "verifast": "85c1471a76a3fded831573d23f8f28db5ce42eaaa455fea0358a4b2206fc73a4",
+        "vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+      },
+      "profile_build_sha256": "a740d530d6f423b0f6a1b9a991acbd1c4f8626f4971f4d0479d9733991d02059",
+      "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+      "receipt": {
+        "accepted": false,
+        "cloud_build_id": "1f2f9442-25e8-466b-ba77-ea508795e9b0",
+        "profile": "experimental-merge-origin-layout-concrete-u64-v1",
+        "profile_evidence": "/workspace/evidence/allprooflogs/tracked-md-build",
+        "proof_sha": "739b261ffc3ca688f6ebc3306bff0766be0feaf6",
+        "provider": {
+          "arch": "x86_64",
+          "build_id": "1f2f9442-25e8-466b-ba77-ea508795e9b0",
+          "os": "ubuntu-22.04",
+          "project": "smallsort-ci",
+          "provider": "cloud-build",
+          "region": "global"
+        },
+        "rustc_toolchain": "nightly-2026-09-25",
+        "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+        "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469",
+        "source_sha256": "85c75bc93745ff1d4a6d33939d48408c2f7304aa8ffd952b73199ec1f8a175e1",
+        "tool_sha256": {
+          "refinement-checker": "b049c8d1b0bb350f77664e1c75c5a95966c5839984abc25c7cb629c0cba04d28",
+          "verifast": "85c1471a76a3fded831573d23f8f28db5ce42eaaa455fea0358a4b2206fc73a4",
+          "vf-rust-mir-exporter": "b00c75f43ab4d89bf85f5e62a5114a238b89b720d4598d90423347b9d97ac796"
+        }
+      },
+      "receipt_sha256": "09ceaa7a4e2f1a2e84e242f6f5d95282409dad68c1fd95b9efbeb0c192c34424",
+      "rustc_toolchain": "nightly-2026-09-25",
+      "rustc_version": "rustc 1.100.0-nightly (f7575a9da 2026-09-24)\nbinary: rustc\ncommit-hash: f7575a9da8e4a4fca3b5668d5a2ea7476db44b3f\ncommit-date: 2026-09-24\nhost: x86_64-unknown-linux-gnu\nrelease: 1.100.0-nightly\nLLVM version: 23.1.1\n",
+      "schema_sha256": "f48fcf29b99717c2e0cb37d4708b47eccaa3270b999e4a84093e37fbd51b7469"
+    },
+    "independent_final_binding_review": {
+      "artifact_bindings_valid": true,
+      "combined_profile_smoke": "REPLAYED_PASS",
+      "concrete_drop_body": "REPLAYED_DIAGNOSTIC",
+      "proof_audit_classification": "PARTIAL_DIAGNOSTIC",
+      "accepted": false,
+      "receipt_sha256": "09ceaa7a4e2f1a2e84e242f6f5d95282409dad68c1fd95b9efbeb0c192c34424",
+      "environment_sha256": "164fb16af3ffcf915c1fe397a1121d1747cd50cd613594d2d96cc518e37e9c73",
+      "profile_build_sha256": "a740d530d6f423b0f6a1b9a991acbd1c4f8626f4971f4d0479d9733991d02059",
+      "manifest_sha256": "79c0a818c58e51499792dc9f7081115ad2ae3e5c8ca7ca988f35d69510922fbc",
+      "files_sha256_json": "553d1ad5ada56614edce89efe5c5132b85c4fb297ef5df956938f5223fb6f76f",
+      "combined_smoke_sha256": "c0f5e246adf3dcb820c7df5167a5598bcb7adf2d1e20c97530d79b76028eccb9",
+      "drop_aggregate_sha256": "b1b27eb55d23541aef11bea486756675058e9fd06ca9f67445b22803cef4ae3e",
+      "drop_extraction_sha256": "e4ef32150a8489f810d28f3b4fda70d9137bd03f9bd4c8ec24cd54b133072c0e",
+      "drop_receipt_file_sha256": "c052e97dc4c241e3ea1b47dc12363893a0eec49c69f284a405c83fc0654b97cd"
+    },
+    "component_status": {
+      "origin_resource_span": "APPLICABLE_CONTROLS_MATCHED",
+      "unit_scalar_layout": "14 controls matched, native C/C++ return/leak and compiler receipts; explicit domain only",
+      "mandatory_retained_smoke": "PASS",
+      "exact_combined_smoke": "PASS",
+      "outer_binding": "VALID",
+      "component_readiness": "INTERNAL_REVIEW_EVIDENCE_COMPLETE_ONLY",
+      "combined_profile": "PARTIAL_DIAGNOSTIC_NOT_ACCEPTED",
+      "integration": "NOT_FOR_INTEGRATION",
+      "generic_actual_reproducer": "NOT_RUN",
+      "whole_insert_tail": "NOT_PROVEN"
+    },
+    "prior_observation_before_closure": "bounded recovery and complete normal posts/return/leak PASS; canonical Drop/glue and actual panic unwind OPEN",
+    "latest_observation": {
+      "proof_infra_sha": "739b261ffc3ca688f6ebc3306bff0766be0feaf6",
+      "build_id": "1f2f9442-25e8-466b-ba77-ea508795e9b0",
+      "archive_sha256": "01bd254c68e8e94a945309c0f6797929ec3d06d3d41e163dcf6917256d8c114a",
+      "integrity_verified": true,
+      "exact_combined_smoke": "PASS",
+      "retained_mandatory_smoke": "PASS",
+      "outer_bindings_valid": true,
+      "combined_acceptance": false,
+      "drop_body": "CONDITIONAL_STRONG_PRE_BODY_PASS, 47 statements/full normal posts/return/leak",
+      "safe_prototype": "VACUOUS_DEFAULT_OWN_FALSE; no canonical applicability",
+      "alignment_probe": "alignment derived; next root_source_disjoint refusal lib102",
+      "dst_shape_probe": "option/singleton array_/DST_PRE pass, call100 refuses positive Guard extent at req28",
+      "classifier_frontier_note": "archived JSON canonical_prototype_before_body is coarse; full log shows strong call-precondition 0<sizeof(CopyOnDrop) refusal. No archived record rewritten.",
       "actual_drop_glue": "OPEN",
       "actual_unwind": "NOT_EXERCISED"
     }
