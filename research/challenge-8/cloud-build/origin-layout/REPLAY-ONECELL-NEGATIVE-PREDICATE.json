@@ -1,0 +1,54 @@
+{
+  "schema": "isolated-onecell-negative-classifier-service-v1",
+  "source_sha256": "8ece149d658679c35ff20eed08d0e8014a981695b6fd44ef2fa9294be849cdb4",
+  "kind": "synthetic classifier tests only",
+  "proof_execution": false,
+  "toolchain_execution": false,
+  "live_evidence_modified": false,
+  "all_passed": true,
+  "cases": [
+    {
+      "missing": "source_singleton",
+      "diagnostic": "array",
+      "expected": "EXPECTED_REJECTION",
+      "observed": "EXPECTED_REJECTION"
+    },
+    {
+      "missing": "destination_singleton",
+      "diagnostic": "array_",
+      "expected": "EXPECTED_REJECTION",
+      "observed": "EXPECTED_REJECTION"
+    },
+    {
+      "missing": "source_singleton",
+      "diagnostic": "array_",
+      "expected": "INCONCLUSIVE",
+      "observed": "INCONCLUSIVE"
+    },
+    {
+      "missing": "destination_singleton",
+      "diagnostic": "array",
+      "expected": "INCONCLUSIVE",
+      "observed": "INCONCLUSIVE"
+    },
+    {
+      "missing": "source_singleton",
+      "diagnostic": "pure",
+      "expected": "INCONCLUSIVE",
+      "observed": "INCONCLUSIVE"
+    },
+    {
+      "missing": "destination_singleton",
+      "diagnostic": "pure",
+      "expected": "INCONCLUSIVE",
+      "observed": "INCONCLUSIVE"
+    },
+    {
+      "missing": "source_singleton",
+      "diagnostic": "wrongline",
+      "expected": "INCONCLUSIVE",
+      "observed": "INCONCLUSIVE"
+    }
+  ],
+  "scope_note": "Classifier AST unchanged after independently reviewed equivalent req-conjunct reordering; this replay provides no source preparation or proof."
+}

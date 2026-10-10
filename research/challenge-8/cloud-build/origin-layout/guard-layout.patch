@@ -209,7 +209,7 @@ index 9621ba91..a3e415e6 100644
  
          fn encode_adt_kind(adt_kind: ty::AdtKind, mut adt_kind_cpn: adt_kind_cpn::Builder<'_>) {
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index e19b25bc..2b391fca 100644
+index e19b25bc..62c8ec54 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1928,6 +1928,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -466,8 +466,8 @@ index e19b25bc..2b391fca 100644
 +              else begin
 +                let concrete_guard_def_path = concrete_guard_def_path_get adt_def_cpn in
 +                let source_def_path_hash = concrete_guard_def_path_hash_get adt_def_cpn in
-+                let size_bytes = IntAux.Uint64.to_string (concrete_guard_size_bytes_get adt_def_cpn) in
-+                let align_bytes = IntAux.Uint64.to_string (concrete_guard_align_bytes_get adt_def_cpn) in
++                let size_bytes = Stdint.Uint64.to_string (concrete_guard_size_bytes_get adt_def_cpn) in
++                let align_bytes = Stdint.Uint64.to_string (concrete_guard_align_bytes_get adt_def_cpn) in
 +                let field_offsets =
 +                  concrete_guard_field_offsets_get_list adt_def_cpn
 +                in
@@ -518,7 +518,7 @@ index e19b25bc..2b391fca 100644
          iter (Hashtbl.find_all fn_specialisations_table trait_fn)
        in
 +      let target_triple = VfMirRd.VfMir.target_triple_get vf_mir_cpn in
-+      let pointer_width = VfMirRd.VfMir.pointer_width_get vf_mir_cpn |> IntAux.Uint8.to_int in
++      let pointer_width = VfMirRd.VfMir.pointer_width_get vf_mir_cpn |> Stdint.Uint8.to_int in
        let adt_defs_cpn = VfMirRd.VfMir.adt_defs_get vf_mir_cpn in
        let* adt_defs_cpn = CapnpAux.ind_list_get_list adt_defs_cpn in
        let* adt_defs =

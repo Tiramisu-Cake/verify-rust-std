@@ -1,3 +1,13 @@
+# Qualified guard / canonical one-cell Drop — session ACTIVE
+
+New authorized session start2026-10-10 10:21:50UTC; main12:21:50, finishing12:51:50. New3600 Cloud seconds, ownermerge v2/max2 one ownslot; previous account closed. Current published proof/infra ba37caf2dc0c8de186ffd7de0968755b620aa973, toolb99418b5659d036dc88696b03105459fb679c7be, profileexperimental-merge-qualified-guard-onecell-v1. Policyc7ca8c46/adoption1b9e3df/ACKaec832ab preserved. No Actions/local compiler-proof/upstream integration.
+
+Four terminal builds charged1488s; new proofcases NOT_RUN at compiler blockers (exporter API, LLVM link search, decoder unsupported list, redundant unbound helper variables). All archives/textlogs verified. Fresh corrected candidate dispatch underway; ledger authoritative. Implemented qualified shared extent/alignment/field-offset and actual live-allocation separation bridge, plus explicit normal-only resource effect for nonempty onecell canonical own. Independent semantic design/postdiff review done. No mutable caller/glue credit. New len1 helper omits legacy root clauses but does not prove old count-n applicability. NaturalDropcard and inert source-linked caller draft preserve next implementation contract; no selected lowering yet.
+
+Current evidence/status will be replaced with terminal proof verdicts/account closure. Historical checkpoint below remains retained evidence, not current authorization.
+
+## Previous closed checkpoint
+
 # CURRENT recovery / one-cell Drop — session closed
 
 Observed UTC start **2026-10-10 00:34:48**; main deadline **02:34:48**; finishing deadline **03:04:48**. Account closure observed at **02:37:34**; finishing inspection/publication follows within the limit. All Builds were submitted before the main deadline. No new experiments after it and no automatic next session. This section supersedes the historical checkpoint below.

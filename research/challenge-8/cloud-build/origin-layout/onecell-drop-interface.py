@@ -122,6 +122,8 @@ ONECELL_CONTRACT = b"""/*@
 req thread_token(?t) &*& t == currentThread &*& type_interp::<u64>() &*&
     (*self).src |-> ?src &*& (*self).dst |-> ?dst &*& (*self).len |-> ?len &*&
     struct_CopyOnDrop_padding(self) &*& len == 1 &*&
+    [1/4]src[..1] |-> cons(?current, nil) &*& dst[..1] |-> _ &*&
+    <u64>.own(t, current) &*&
     0 < std::mem::size_of::<u64>() &*&
     std::mem::size_of::<u64>() <= isize::MAX &*&
     src as usize != 0 &*& dst as usize != 0 &*&
@@ -132,11 +134,10 @@ req thread_token(?t) &*& t == currentThread &*& type_interp::<u64>() &*&
     src as usize <= usize::MAX - std::mem::size_of::<u64>() &*&
     dst as usize <= usize::MAX - std::mem::size_of::<u64>() &*&
     pointer_within_limits(src) == true &*& pointer_within_limits(src + 1) == true &*&
-    pointer_within_limits(dst) == true &*& pointer_within_limits(dst + 1) == true &*&
+    pointer_within_limits(dst) == true &*&
     (src as usize + std::mem::size_of::<u64>() <= dst as usize ||
         dst as usize + std::mem::size_of::<u64>() <= src as usize) &*&
-    [1/4]src[..1] |-> cons(?current, nil) &*& dst[..1] |-> _ &*&
-    <u64>.own(t, current);
+    pointer_within_limits(dst + 1) == true;
 @*//*@
 ens thread_token(t) &*& type_interp::<u64>() &*&
     (*self).src |-> src &*& (*self).dst |-> dst &*& (*self).len |-> 1 &*&
@@ -724,8 +725,16 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     if admission and not dead and row.get("expected_missing") and \
             stages.get("verifast") == 1 and len(errors) == 1:
         call_line = row.get("call_line")
-        matched_target = bool(call_line and re.search(
-            rf"verified/lib\.rs\({call_line},\d+.*\): error:", errors[0]))
+        # A call-pre refusal counts only at its intended storage predicate.
+        # Earlier pure geometry failures remain INCONCLUSIVE at the same line.
+        error = errors[0]
+        predicate = ("array" if row["expected_missing"] == "source_singleton"
+                     else "array_" if row["expected_missing"] == "destination_singleton"
+                     else None)
+        matched_target = bool(
+            call_line and predicate and re.search(
+                rf"verified/lib\.rs\({call_line},\d+.*\): error: "
+                rf"No matching heap chunks?: (?:\[[^\]]+\])?{predicate}<u64>\(", error))
     if admission and name == "duplicate_effect_close" and \
             stages.get("verifast") == 1 and len(errors) == 1:
         line = row.get("duplicate_effect_line")

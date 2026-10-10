@@ -22,8 +22,8 @@ SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
 OLD_ONECELL = HERE / "onecell-drop-interface.py"
 OLD_PREP = ROOT / "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/prepare.py"
 OLD_CONSUMER = HERE / "concrete-consumer.py"
-CASES = ("positive", "after_natural_drop_false", "missing_source_singleton_array",
-         "missing_destination_singleton_array")
+CASES = ("positive", "after_natural_drop_false", "caller_ready_entry_false",
+         "missing_source_singleton_array", "missing_destination_singleton_array")
 DRAFT_STATUS = "NOT_RUN_PENDING_PARENT_REVIEW"
 DRAFT_REASON = ("The caller now follows the existing readonly half-FBC frame recipe and "
                 "packages direct singleton arrays before the natural Drop terminator. "
@@ -67,6 +67,7 @@ def _as_ghost_comments(fragment: bytes) -> bytes:
 
 NATURAL_DROP_EXIT = b"        //@ assert true; // TARGET: natural Drop scope exit\n"
 NATURAL_FALSE = b"        //@ assert false; // TARGET: after natural Drop terminator\n"
+CALLER_READY_FALSE = b"        //@ assert false; // TARGET: caller direct Drop-pre entry\n"
 CALLER_SIGNATURE = b"unsafe fn natural_onecell(tail: *mut u64)"
 
 
@@ -124,9 +125,12 @@ def _prepare(evidence: Path) -> dict:
     caller_source_alignment = body._specialize_alignment_lemmas(prep.ALIGNMENT)
     caller_source_limits = body._specialize(prep.SOURCE_LIMITS)
     false_ghost = NATURAL_FALSE
+    # These pointer values must outlive the nested guard scope.  Bind them in
+    # the outer unsafe block using the caller's original held-reference and
+    # destination identities, before `gap_guard` is created.
     recovery_bindings = (
-        b"        //@ let recovery_src = gap_guard.src;\n"
-        b"        //@ let recovery_dst = gap_guard.dst;\n")
+        b"        //@ let recovery_src = held_ref;\n"
+        b"        //@ let recovery_dst = tail;\n")
 
     for name in CASES:
         case_own = own
@@ -172,6 +176,32 @@ def _prepare(evidence: Path) -> dict:
             caller_proof += _as_ghost_comments(body.SOURCE_ARRAY)
         if name != "missing_destination_singleton_array":
             caller_proof += _as_ghost_comments(body.DEST_ARRAY)
+        caller_ready_false = b""
+        if name == "caller_ready_entry_false":
+            caller_ready_false = (
+                b"        //@ assert thread_token(t) &*& t == currentThread &*& "
+                b"type_interp::<u64>() &*& gap_guard.src |-> guard_src &*& "
+                b"gap_guard.dst |-> guard_dst &*& gap_guard.len |-> guard_len &*& "
+                b"struct_CopyOnDrop_padding(&gap_guard) &*& guard_len == 1 &*& "
+                b"0 < std::mem::size_of::<u64>() &*& "
+                b"std::mem::size_of::<u64>() <= isize::MAX &*& "
+                b"guard_src as usize != 0 &*& guard_dst as usize != 0 &*& "
+                b"guard_src as usize % std::mem::align_of::<u64>() == 0 &*& "
+                b"guard_dst as usize % std::mem::align_of::<u64>() == 0 &*& "
+                b"object_pointer_within_limits(guard_src, std::mem::size_of::<u64>()) == true &*& "
+                b"object_pointer_within_limits(guard_dst, std::mem::size_of::<u64>()) == true &*& "
+                b"guard_src as usize <= usize::MAX - std::mem::size_of::<u64>() &*& "
+                b"guard_dst as usize <= usize::MAX - std::mem::size_of::<u64>() &*& "
+                b"pointer_within_limits(guard_src) == true &*& "
+                b"pointer_within_limits(guard_src + 1) == true &*& "
+                b"pointer_within_limits(guard_dst) == true &*& "
+                b"pointer_within_limits(guard_dst + 1) == true &*& "
+                b"(guard_src as usize + std::mem::size_of::<u64>() <= guard_dst as usize || "
+                b"guard_dst as usize + std::mem::size_of::<u64>() <= guard_src as usize) &*& "
+                b"[1/4]guard_src[..1] |-> cons(?ready_current, nil) &*& "
+                b"guard_dst[..1] |-> _ &*& <u64>.own(t, ready_current);\n" +
+                CALLER_READY_FALSE)
+            caller_proof += caller_ready_false
         adapted_recovery = prep.RECOVER.replace(b"gap_guard.src", b"recovery_src").replace(
             b"gap_guard.dst", b"recovery_dst")
         adapted_recovery = adapted_recovery.replace(
@@ -189,11 +219,12 @@ def _prepare(evidence: Path) -> dict:
                                  b"}\n\n" + case_own + alignment + effect +
                                  b"impl Drop for CopyOnDrop {", "Drop predicates")
         verified = _replace_once(verified, prep.READ,
-                                 prep.READ + annotations, "readonly caller setup")
+                                 prep.READ + annotations + recovery_bindings,
+                                 "readonly caller setup and outer recovery bindings")
         # Insert the proof construction immediately after the exact guard init,
         # then recovery after the lexical scope has emitted Drop.
         verified = _replace_once(verified, prep.GUARD,
-                                 prep.GUARD + caller_proof + recovery_bindings,
+                                 prep.GUARD + caller_proof,
                                  "caller pre-Drop resources")
         scope_end = b"        }\n    }\n}\n"
         verified = _replace_once(verified, scope_end,
@@ -227,7 +258,13 @@ def _prepare(evidence: Path) -> dict:
             "call_line": _line(verified, body.CALL),
             "canonical": True, "uses_effect": True,
             "effect_fixture_kind": "exact",
-            "false_line": _line(verified, false_ghost) if name == "after_natural_drop_false" else None,
+            "false_line": (_line(verified, false_ghost) if name == "after_natural_drop_false" else
+                           _line(verified, CALLER_READY_FALSE) if name == "caller_ready_entry_false" else None),
+            "target_stage": ("caller_ready_entry_before_scope_exit" if name == "caller_ready_entry_false" else
+                             "after_natural_drop" if name == "after_natural_drop_false" else None),
+            "natural_drop_expected_to_execute": name != "caller_ready_entry_false",
+            "body_copy_expected_to_execute": name != "caller_ready_entry_false",
+            "caller_ready_entry_false_grants_glue_or_normal_recovery_credit": False,
             "expected_missing": ("source_singleton_array" if name == "missing_source_singleton_array" else
                                  "destination_singleton_array" if name == "missing_destination_singleton_array" else None),
             "runtime_natural_drop_only": True,
@@ -334,6 +371,7 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+    dead = [line for line in log.splitlines() if re.search(r"dead code", line, re.I)]
     segment = drop_module._body_segment(log, proof_base, row)
     executed = lambda line: bool(line and re.search(
         rf"verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement", log))
@@ -350,17 +388,29 @@ def _classify(name: str, case: Path, row: dict, execution: dict,
         targeted = (executed(row.get("natural_scope_end_line")) and
                     re.search(rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): "
                               r"error: Assertion might not hold\. \(Cannot prove false\.\)", errors[0]) is not None)
+    if (setup and name == "caller_ready_entry_false" and
+            stages.get("verifast") == 1 and len(errors) == 1):
+        false_error = re.search(
+            rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): "
+            r"error: Assertion might not hold\. \(Cannot prove false\.\)", errors[0])
+        dead_after_target = all(
+            (match := re.search(r"verified/lib\.rs\((\d+),", record)) is not None and
+            int(match.group(1)) > row["false_line"] for record in dead)
+        targeted = bool(false_error and dead_after_target)
     if setup and row.get("expected_missing") and stages.get("verifast") == 1 and len(errors) == 1:
         targeted = bool(re.search(rf"verified/lib\.rs\({row['call_line']},\d+.*\): error:", errors[0]))
     positive = (setup and stages.get("verifast") == 0 and not errors and body_copy and
                 body_return and leak and "0 errors found" in log)
     classification = ("NATURAL_DROP_CALLER_AND_EFFECT_PASS_FRAGMENT_ONLY" if positive else
+                      "CALLER_READY_ENTRY_EXPECTED_REJECTION" if
+                      name == "caller_ready_entry_false" and targeted else
                       "EXPECTED_REJECTION" if targeted else "INCONCLUSIVE")
     return {"case": name, "classification": classification, "accepted": False,
             "stages": stages, "source_gate": source, "mir_gate": mir,
             "caller_ast_evidence": caller_ast, "drop_body_effect_ast_gate": body_ast,
             "source_unchanged_at_every_stage": source_unchanged,
             "natural_scope_end_executed": executed(row.get("natural_scope_end_line")),
+            "dead_code_lines": dead,
             "body_copy_executed": body_copy, "body_return_executed": body_return,
             "leak_check": leak, "errors": errors, "targeted_negative_matched": targeted,
             "actual_callee_or_glue_credit": False, "caller_construction_credit": False,
