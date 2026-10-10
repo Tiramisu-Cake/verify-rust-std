@@ -114,8 +114,8 @@ data = json.loads(path.read_text())
 if set(data) != {"schema", "mode"} or data.get("schema") != "merge-bridge-build-mode-v1":
     raise SystemExit("invalid BUILD-MODE.json schema or fields")
 mode = data.get("mode")
-if mode not in {"compile-only", "proof"}:
-    raise SystemExit("BUILD-MODE.json mode must be compile-only or proof")
+if mode not in {"compile-only", "bridge-minimal", "proof"}:
+    raise SystemExit("BUILD-MODE.json mode must be compile-only, bridge-minimal or proof")
 print(mode)
 BUILDMODE
   )
@@ -399,14 +399,16 @@ printf 'lane_work_budget_seconds=%s\nselected_drop_groups=%s\nor_join_selected=%
   "$lane_work_budget_seconds" "$drop_groups_selected" "$or_join_selected" "$matrix_timeout" \
   > "$evidence_root/lane-work-budget.txt"
 
-if [[ "$build_mode" == compile-only ]]; then
-  CURRENT_STAGE=compile-only-preflight
+if [[ "$build_mode" == compile-only || "$build_mode" == bridge-minimal ]]; then
+  CURRENT_STAGE="$build_mode-preflight"
+  runner_mode=merge_compile_only
+  [[ "$build_mode" != bridge-minimal ]] || runner_mode=merge_bridge_minimal
   compile_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))
   compile_status=0
   if (( compile_remaining > 0 )); then
     /usr/bin/time -v -o "$evidence_root/compile-only-resources.txt" \
       timeout --signal=TERM --kill-after=10s "${compile_remaining}s" \
-      bash "$proof_root/research/challenge-8/merge/overnight/run.sh" merge_compile_only \
+      bash "$proof_root/research/challenge-8/merge/overnight/run.sh" "$runner_mode" \
       > "$evidence_root/compile-only.log" 2>&1 || compile_status=$?
   else
     compile_status=124
@@ -423,9 +425,9 @@ if [[ "$build_mode" == compile-only ]]; then
   python3 - "$evidence_root/proof-audit.json" "$compile_status" \
     "$evidence_root/allprooflogs/build" \
     "$evidence_root/allprooflogs/tracked-md-build-preparation" \
-    "$evidence_root/allprooflogs/tracked-md-build" <<'COMPILEAUDIT'
+    "$evidence_root/allprooflogs/tracked-md-build" "$build_mode" <<'COMPILEAUDIT'
 import json, pathlib, sys
-output, dispatcher_status, base_dir, preparation_dir, compile_dir = sys.argv[1:]
+output, dispatcher_status, base_dir, preparation_dir, compile_dir, build_mode = sys.argv[1:]
 dispatcher_status = int(dispatcher_status)
 base_dir, preparation_dir, compile_dir = map(pathlib.Path, (base_dir, preparation_dir, compile_dir))
 base_status = base_dir / "source-build-exit-code.txt"
@@ -444,7 +446,7 @@ stages = compile_report.get("stages", {}) if isinstance(compile_report, dict) el
 stage_codes = {name: stages.get(name, {}).get("exit_code") for name in required}
 post_hash = compile_dir / "postbuild-source-hash-check-exit-code.txt"
 all_compile_pass = (
-    dispatcher_status == 0 and base_status.is_file() and base_status.read_text().strip() == "0" and
+    base_status.is_file() and base_status.read_text().strip() == "0" and
     prepared.get("classification") == "PREPARED_ONLY_NO_COMPILE_OR_PROOF_CREDIT" and
     prepared.get("compiler_attempted") is False and prepared.get("proof_attempted") is False and
     compile_report.get("classification") == "COMPILE_ONLY_NO_PROOF_CREDIT" and
@@ -452,15 +454,37 @@ all_compile_pass = (
     all(code == 0 for code in stage_codes.values()) and
     post_hash.is_file() and post_hash.read_text().strip() == "0"
 )
+bridge_path = compile_dir.parent / "checked-minimal-bridge" / "aggregate.json"
+retained_path = compile_dir.parent / "checked-profile-smoke" / "aggregate.json"
+bridge, retained = {}, {}
+if build_mode == "bridge-minimal":
+    try:
+        bridge = json.loads(bridge_path.read_text())
+        retained = json.loads(retained_path.read_text())
+    except Exception:
+        pass
+proof_attempted = ((compile_dir.parent / "retained-six-smoke.log").is_file() or
+                   (compile_dir.parent / "minimal-bridge.log").is_file())
+bridge_pass = (bridge.get("all_matched") is True and bridge.get("accepted") is False and
+    bridge.get("schema") == "merge-minimal-guard-bridge-v1" and
+    bridge.get("exact_case_sets") is True and len(bridge.get("cases",{})) == 20 and
+    bridge.get("campaign") == "bridge-minimal-v1" and
+    retained.get("cases") == {"ordinary_call_normal_unwind": "PASS"} and
+    retained.get("classifier_controls_passed") is True)
+diagnostic_complete = (all_compile_pass and dispatcher_status == 0 and
+                       (build_mode == "compile-only" or bridge_pass))
 audit = {
     "schema": "smallsort-merge-cloud-diagnostic-v1",
     "lane": "merge",
-    "build_mode": "compile-only",
+    "build_mode": build_mode,
     "accepted": False,
-    "diagnostic_complete": bool(all_compile_pass),
-    "classification": "COMPILE_ONLY_NO_PROOF_CREDIT" if all_compile_pass else "INCONCLUSIVE",
-    "proof_attempted": False,
-    "exit_status": dispatcher_status if dispatcher_status != 0 else (0 if all_compile_pass else 1),
+    "diagnostic_complete": bool(diagnostic_complete),
+    "classification": ("COMPILE_ONLY_NO_PROOF_CREDIT" if build_mode == "compile-only" else
+                       "MINIMAL_BRIDGE_COMPONENT_DIAGNOSTIC") if diagnostic_complete else "INCONCLUSIVE",
+    "proof_attempted": proof_attempted,
+    "bridge_diagnostic": bridge,
+    "retained_six_smoke": retained,
+    "exit_status": dispatcher_status if dispatcher_status != 0 else (0 if diagnostic_complete else 1),
     "compiler": {
         "classification": "PASS" if all_compile_pass else "FAIL_OR_INCOMPLETE",
         "base_build_exit_code": int(base_status.read_text().strip()) if base_status.is_file() else None,
@@ -470,15 +494,15 @@ audit = {
     },
 }
 pathlib.Path(output).write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n")
-case_dir = compile_dir.parent / "cases" / "compile-only"
+case_dir = compile_dir.parent / "cases" / build_mode
 case_dir.mkdir(parents=True, exist_ok=True)
-case_report = dict(compile_report) if isinstance(compile_report, dict) else {}
+case_report = dict(bridge if build_mode == "bridge-minimal" else compile_report)
 case_report.update({
-    "case": "compile-only",
-    "classification": "COMPILE_ONLY_NO_PROOF_CREDIT",
+    "case": build_mode,
+    "classification": audit["classification"],
     "accepted": False,
-    "proof_attempted": False,
-    "diagnostic_complete": bool(all_compile_pass),
+    "proof_attempted": proof_attempted,
+    "diagnostic_complete": bool(diagnostic_complete),
     "compiler_classification": "PASS" if all_compile_pass else "FAIL_OR_INCOMPLETE",
 })
 (case_dir / "aggregate.json").write_text(json.dumps(case_report, indent=2, sort_keys=True) + "\n")

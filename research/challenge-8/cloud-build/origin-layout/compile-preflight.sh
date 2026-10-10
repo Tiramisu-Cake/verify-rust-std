@@ -30,6 +30,9 @@ report = {
  'failed_stage':None if finished == '1' and rc == '0' else stage,
  'exit_code':int(rc),
 }
+report['stages'] = {name: {'exit_code': int((pathlib.Path(directory)/(name+'-exit-code.txt')).read_text().strip())
+                         if (pathlib.Path(directory)/(name+'-exit-code.txt')).is_file() else None, 'log': name+'.log'}
+                    for name in ('exporter-build','decoder-build','translator-build','console-build')}
 (pathlib.Path(directory)/'compile-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
 MANIFEST
   exit "$rc"
@@ -85,6 +88,12 @@ PINS
 
 export PATH="/tmp/vfdeps-adf88dc/bin:$PATH"
 export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
+# The full console also depends on cxx_frontend/stubs, whose pinned Dune
+# rule names the same real include directory CAPNP_INCLUDE (not CAPNP_INC_DIR).
+export CAPNP_INCLUDE="$CAPNP_INC_DIR"
+[[ -d "$CAPNP_INC_DIR/capnp" ]] || exit 2
+printf 'CAPNP_INC_DIR=%s\nCAPNP_INCLUDE=%s\n' "$CAPNP_INC_DIR" "$CAPNP_INCLUDE" \
+  > "$evidence/capnp-generator-environment.txt"
 export LD_LIBRARY_PATH="$candidate/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
 export CARGO_BUILD_JOBS=1
 
@@ -165,7 +174,7 @@ POSTPINS
 
 stage=report-generation
 python3 - "$candidate" "$profile" "$evidence" <<'REPORT'
-import hashlib, json, pathlib, sys
+import hashlib, json, pathlib, sys, os, runpy
 home, profile_path, evidence = map(pathlib.Path, sys.argv[1:])
 p = json.loads(profile_path.read_text())
 sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
@@ -192,6 +201,20 @@ for rel in ('src/rust_frontend/vf_mir_exporter/target/debug/vf_mir_exporter','bi
  path=home/rel
  if path.is_file(): report['artifacts'][rel]={'sha256':sha(path),'executable':bool(path.stat().st_mode & 0o111)}
 (evidence/'compile-preflight.json').write_text(json.dumps(report,indent=2)+'\n')
+# A compiler receipt binds actual built binaries, the same source profile and
+# this Cloud provider. It grants no native/proof/layout observation credit.
+profile_build = dict(p)
+profile_build.update(exporter_sha256=sha(home/'bin/vf-rust-mir-exporter'),
+    exporter_build_exit=0, console_sha256=sha(home/'bin/verifast'),
+    proof_sha=os.environ['PROOF_SHA'],
+    baseline_build_manifest_sha256=sha(evidence.parent/'build/console-cache-profile.txt'),
+    provider=runpy.run_path(os.environ['SMALLSORT_PROVIDER_FILE'])['require_supported_provider'](),
+    build_exit=0, compile_only=True, proof_attempted=False,
+    compile_preflight_sha256=sha(evidence/'compile-preflight.json'))
+for rel,key in [('bin/refinement-checker','refiner_sha256'),('bin/libz3.so','z3_sha256')]:
+    assert sha(home/rel)==p[key], (rel,key)
+(evidence/'profile-build.json').write_text(json.dumps(profile_build,indent=2)+'\n')
+
 REPORT
 finished=1
 stage=complete

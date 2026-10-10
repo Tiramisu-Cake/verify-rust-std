@@ -360,8 +360,26 @@
         "failed_stage": "preflight-setup",
         "reason": "component source hashes copied to effective composite PROFILE; strict pin gate rejected translator before candidate compile",
         "archive_sha256": "73e22ade7054d64df84994f0f36dd5a32d42df30a7c368c805d1ff5cced56e32"
+      },
+      {
+        "build_id": "101982de-2f51-4fd0-a1f0-74de7e76a665",
+        "proof_sha": "8cbb5c2ff5aac385211db5f7e1be46ebcfe5a39f",
+        "status": "FAILURE",
+        "seconds": 464,
+        "archive_sha256": "177d5d2742f3b8bb0b2fd53f5cfb568f8f90692800dc6f75b071e76330d26454",
+        "stages": {
+          "exporter": 0,
+          "decoder": 0,
+          "translator": 0,
+          "console": 1
+        },
+        "failed_stage": "console-build",
+        "reason": "pinned C++ stubs Dune rule requires real CAPNP_INCLUDE; direct preflight omitted it"
       }
-    ]
+    ],
+    "mandatory_two_failure_reassessment": "TWO-FAILURE-REASSESSMENT.md",
+    "budget_used_seconds": 757,
+    "budget_remaining_seconds": 2843
   },
   "evidence_scope_note": "Historical top-level records retained; current_session is authoritative for the new guard/glue session. Documentation SHA is not a proof run.",
   "previous_current_recovery_session": {

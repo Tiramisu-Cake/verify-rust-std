@@ -48,3 +48,33 @@ classified `COMPILE_ONLY_NO_PROOF_CREDIT`; it is not a proof PASS. Any failure
 records an incomplete diagnostic and no proof credit. The mode file is
 source-certificate-pinned, and `proof` restores the existing full matrix
 behavior.
+
+The next minimal proof lane (run only after a confirmed exact compile) uses
+`BUILD-MODE.json` mode `bridge-minimal`. The same pinned baseline preparation
+and four-stage preflight run first. A compiler-only `profile-build.json` is
+written from actual binary/source hashes after the post-build check; it carries
+no native/proof credit. The runner then executes the retained-six ordinary
+normal/unwind smoke and calls the existing strict one-cell driver with
+`--campaign bridge-minimal-v1` using the candidate schema. The driver retains
+all provider/compiler/source/profile admission and the exact combined smoke,
+then executes the six span controls, five concrete recovery diagnostics and
+nine guard controls. Guard assertion controls require a source/MIR/AST layout
+and StorageLive receipt binding. The `missing_held_owner` u64 case is explicitly
+NOT_APPLICABLE because primitive own is empty; it is not counted as a resource
+negative. No legacy generic/Drop/MD campaign or actual glue/unwind is run.
+`accepted: false` and component diagnostics remain separate from whole-profile
+acceptance. A proof failure cannot turn a successful compiler receipt into a
+compiler failure in the root audit.
+
+Source composition can be checked without any compiler/proof:
+
+```bash
+python3 research/challenge-8/cloud-build/origin-layout/source-replay.py \
+  --git-source /root/verifast-merge-incoming-span --output /tmp/merge-effective-replay-FRESH
+```
+
+This checks the retained-six baseline checkpoint and all twelve effective
+source hashes after the ten ordered patches. The component commit e16352c4
+alone does not contain the retained-six changes; EFFECTIVE-SOURCE.json records
+the composition rather than pretending that its three differing source hashes
+are component hashes.

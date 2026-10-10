@@ -453,7 +453,7 @@ def main() -> int:
     parser.add_argument("--compiler-sysroot", type=Path, required=True)
     parser.add_argument("--schema", type=Path, required=True)
     parser.add_argument("--evidence", type=Path, required=True)
-    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1"),
+    parser.add_argument("--campaign", choices=(CAMPAIGN, "legacy-full-controls-v1", "bridge-minimal-v1"),
                         default=CAMPAIGN)
     parser.add_argument("--stage-seconds", type=int, default=35)
     parser.add_argument("--verifier-seconds", type=int, default=50)
@@ -574,6 +574,47 @@ def main() -> int:
             {"ordinary_call_normal_unwind": "PASS"} or
             combined_smoke.get("classifier_controls_passed") is not True):
         raise RuntimeError("combined candidate mandatory smoke did not pass; retain artifacts")
+    if args.campaign == "bridge-minimal-v1":
+        # Retain the full checked profile/provider/source admission above and
+        # exact combined smoke; omit unrelated historical campaigns.
+        span_summary = span_controls.run(args.evidence, args, env, execute_case)
+        concrete_summary = concrete_consumer.run(args.evidence / "concrete-u64", args, env,
+                                                 execute_case, environment)
+        guard_summary = guard_storage_controls.run(args.evidence, args, env, execute_case,
+                                                    args.evidence / "concrete-u64")
+        concrete_cases = concrete_summary.get("cases", {})
+        concrete_matched = (concrete_cases == {
+            "positive": "PASS_FRAGMENT_ONLY", "after_fbc_false": "EXPECTED_REJECTION",
+            "after_recovery_false": "EXPECTED_REJECTION",
+            "missing_held_owner": "NOT_APPLICABLE_CONCRETE_EMPTY_OWN",
+            "double_physical_fbc": "EXPECTED_REJECTION"})
+        span_names = {"span_positive", "span_retired_local_reuse", "span_overlap",
+                      "span_raw_arbitrary", "span_lost_incoming_authority", "span_zero_extent"}
+        guard_names = {"qualified_live_guard", "guard_source_overlap_false", "guard_zero_extent_false",
+                       "full_mutable_canonical_fbc_entry_false", "wrong_constness_unqualified",
+                       "renamed_guard_unqualified", "generic_guard_unqualified", "zst_guard_unqualified",
+                       "mismatched_verifier_pointer_model"}
+        exact_case_sets = (set(span_summary.get("controls",{})) == span_names and
+                           set(guard_summary.get("cases",{})) == guard_names)
+        all_matched = (exact_case_sets and span_summary.get("all_matched") is True and
+                       concrete_matched and guard_summary.get("all_matched") is True)
+        aggregate = {"schema": "merge-minimal-guard-bridge-v1", "profile": PROFILE,
+            "campaign": "bridge-minimal-v1", "accepted": False,
+            "diagnostic_complete": all_matched, "all_matched": all_matched,
+            "exact_case_sets": exact_case_sets, "required_case_count": 20,
+            "classification": "PASS_COMPONENT_DIAGNOSTIC" if all_matched else "INCONCLUSIVE",
+            "environment": environment, "combined_profile_smoke": combined_smoke,
+            "allocation_span_controls": span_summary,
+            "concrete_u64_consumer": concrete_summary, "guard_storage_controls": guard_summary,
+            "cases": {**{"span/"+k:v for k,v in span_summary.get("controls",{}).items()},
+                      **{"concrete/"+k:v for k,v in concrete_cases.items()},
+                      **{"guard/"+k:v["classification"] for k,v in guard_summary.get("cases",{}).items()}},
+            "len1_interface": "NOT_RUN", "actual_caller": "NOT_RUN",
+            "actual_drop_glue": "NOT_IMPLEMENTED", "panic_unwind": "NOT_RUN",
+            "combined_profile_acceptance": False}
+        (args.evidence / "aggregate.json").write_text(json.dumps(aggregate, indent=2)+"\n")
+        return 0 if all_matched else 1
+
     # Execute isolated address-span controls before any actual one-cell cases.
     mechanism_summary = span_controls.run(args.evidence, args, env, execute_case)
     origin_summary = origin_controls.run(args.evidence, args, env, execute_case)

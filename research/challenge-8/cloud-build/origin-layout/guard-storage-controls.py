@@ -9,6 +9,8 @@ import hashlib
 import json
 import re
 import copy
+import importlib.util
+import sys
 
 ALIGN = b'''/*@
 lem guard_storage_alignment(p: *CopyOnDrop)
@@ -40,7 +42,19 @@ ZERO = b'''        //@ assert std::mem::size_of::<CopyOnDrop>() == 0; // TARGET
 def sha(data): return hashlib.sha256(data).hexdigest()
 
 
+def _layout_admission():
+    path = Path(__file__).with_name('guard-layout-admission.py')
+    spec = importlib.util.spec_from_file_location('qualified_guard_layout_admission', path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError('qualified guard layout admission helper missing')
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
 def run(root, args, env, execute_case, concrete_root):
+    layout_admission = _layout_admission()
     evidence = root / 'guard-storage-controls'; evidence.mkdir()
     original = (concrete_root / 'cases/positive/original/lib.rs').read_bytes()
     baseline = (concrete_root / 'cases/positive/verified/lib.rs').read_bytes()
@@ -73,13 +87,16 @@ def run(root, args, env, execute_case, concrete_root):
                      ('post_fbc', POST)]}
         if extra: lines['target'] = verified[:verified.index(extra)].count(b'\n') + 1
         execution = execute_case(case, args, env)
+        layout_gate = layout_admission.admit(case)
         log = (case / 'verifast.log').read_text(errors='replace')
         stages = execution['stages']
         errors = re.findall(r'^.*\berror:.*$', log, re.M | re.I)
         reached = {label: bool(re.search(rf'verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement', log))
                    for label, line in lines.items()}
         intact = execution.get('source_unchanged_at_every_stage') is True and sha((case/'original/lib.rs').read_bytes()) == sha(original) and sha((case/'verified/lib.rs').read_bytes()) == sha(verified)
-        admitted = intact and all(stages.get(stage) == 0 for stage in ('exporter','decode','refinement')) and 'dead code' not in log.lower()
+        admitted = (intact and layout_gate['admitted'] is True and
+                    all(stages.get(stage) == 0 for stage in ('exporter','decode','refinement')) and
+                    'dead code' not in log.lower())
         if expected == 'PASS':
             matched = admitted and stages['verifast'] == 0 and not errors and all(reached.values()) and 'Executing return statement' in log and 'Leak check.' in log and '0 errors found' in log
         else:
@@ -87,7 +104,8 @@ def run(root, args, env, execute_case, concrete_root):
         row = {'classification': ('PASS_CONTROL' if expected == 'PASS' else 'EXPECTED_REJECTION') if matched else 'INCONCLUSIVE',
                'expectation':expected,'accepted':False,'original_sha256':sha(original),'verified_sha256':sha(verified),
                'runtime_exact_after_ghost_strip': stripped == original,'source_baseline_sha256':sha(baseline),
-               'lines':lines,'reached':reached,'errors':errors,**execution}
+               'lines':lines,'reached':reached,'errors':errors,
+               'qualified_layout_source_mir_ast':layout_gate,**execution}
         (case/'classification.json').write_text(json.dumps(row,indent=2)+'\n'); rows[name]=row
     # Construct full mutable canonical FBC from the actual constructor resources.
     # This targeted negative ends at entry, before the old readonly half-frame
