@@ -1122,6 +1122,19 @@ def main() -> None:
                 c2_driver = module(a.cloud_dir / "sort4-native-entry-c1/c2_discovery.py",
                                   "c2_discovery_runner")
                 c2_result = c2_driver.run_discovery(a, fixture, tool, env, result, snapshot)
+                bound_profile_path = (a.proof_root /
+                    "research/challenge-8/cloud-build/sort4-c2-bound-prefix/profile.json")
+                if bound_profile_path.is_file():
+                    bound_profile = read(bound_profile_path)
+                    need(type(bound_profile.get("cloud_enabled")) is bool,
+                         "malformed C2 bound profile enablement")
+                    if bound_profile["cloud_enabled"]:
+                        need(bound_profile.get("profile_accepted") is False,
+                             "C2 bound experimental profile cannot be promoted by runner")
+                        bound_driver = module(
+                            a.cloud_dir / "sort4-c2-bound-prefix/driver.py", "c2_bound_runner")
+                        result["c2_bound_prefix"] = bound_driver.run_bound(
+                            a, fixture, tool, env, result, c2_result, snapshot)
             else:
                 c2_result = {
                     "classification": "C2_NOT_RUN_C1_BOUNDARY_NOT_GREEN",

@@ -1,0 +1,406 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6490,6 +6490,27 @@
+       | None | Some "0" -> false
+       | Some "1" -> true
+       | _ -> failwith "SORT4-C2-DISCOVERY: malformed opt-in" in
++    let c2_bound_requested =
++      match Sys.getenv_opt "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "SORT4-C2-BOUND: malformed opt-in" in
++    if c2_bound_requested && c2_discovery_requested then
++      failwith "SORT4-C2-BOUND: discovery and bound opt-ins conflict";
++    if c2_bound_requested then begin
++      if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++         prefix_requested || Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
++         Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
++          | None | Some "none" -> false | _ -> true) then
++        failwith "SORT4-C2-BOUND: exact isolated environment required";
++      let ic = Unix.open_process_in "/usr/bin/sha256sum -- verified/lib.rs" in
++      let row = input_line ic in
++      let status = Unix.close_process_in ic in
++      if status <> Unix.WEXITED 0 || row <>
++         "ecd83f8c0840a07f138bc8afa2a36c661f296d748693afa2a0a61667cb3372e4  verified/lib.rs" then
++        failwith "SORT4-C2-BOUND: verified source SHA256 differs"
++    end;
+     if c2_discovery_requested then begin
+       if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+          prefix_requested || Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
+@@ -6531,7 +6552,7 @@
+       else exported_ghost_stmts in
+     let c2_unbound_decl_count = ref 0 in
+     let translate_c2_scaffold_stmt gs_cpn =
+-      if c2_discovery_requested && AnnotationRd.raw_get gs_cpn =
++      if (c2_discovery_requested || c2_bound_requested) && AnnotationRd.raw_get gs_cpn =
+          "/*@ let_lft 'cmp2 = cmp2_k; @*/" then begin
+         let* annot = translate_annotation gs_cpn in
+         let (file, line, _), _ = Ast.lexed_loc annot.span in
+@@ -6553,7 +6574,7 @@
+               Ast.Static))], annot.span, ref [])))
+       end else translate_ghost_stmt gs_cpn in
+     let* ghost_stmts = ListAux.try_map translate_c2_scaffold_stmt ghost_stmts_cpn in
+-    if c2_discovery_requested && !c2_unbound_decl_count <> 1 then
++    if (c2_discovery_requested || c2_bound_requested) && !c2_unbound_decl_count <> 1 then
+       failwith "SORT4-C2-DISCOVERY: exact-one unbound declaration required";
+     let* ghost_stmts =
+       ListAux.try_sort LocAux.compare_err_desc
+@@ -6584,7 +6605,7 @@
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+-        if c2_discovery_requested then begin
++        if c2_discovery_requested || c2_bound_requested then begin
+           let cut_sites = List.map (fun stmt ->
+             let (_, line, _) = fst (Ast.lexed_loc (Ast.stmt_loc stmt)) in
+             match marker_call stmt with
+@@ -7198,6 +7219,330 @@
+                    "actual-c2-unbound-scaffold-ast.ml"
+                    (Ocaml_expr_of_ast.of_decl original_decl);
+                  failwith "SORT4-C2-DISCOVERY: UNBOUND_C2_LIFETIME_NOT_PROOF scaffold_AST_emitted"
++               end else if c2_bound_requested then begin
++                 let reject why = failwith ("SORT4-C2-BOUND: " ^ why) in
++                 if State.body_name <> "sort4_stable" then reject "target body";
++                 (* The source and both typed MIR modes are pinned by the Cloud
++                    driver.  The formatter's complete original AST is pinned
++                    here before any transformed statement can reach VeriFast. *)
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                   "actual-c2-bound-pre-ast.ml"
++                   (Ocaml_expr_of_ast.of_decl original_decl);
++                 let pre_sha =
++                   let ic = Unix.open_process_in
++                     "/usr/bin/sha256sum -- actual-c2-bound-pre-ast.ml" in
++                   let row = input_line ic in
++                   let status = Unix.close_process_in ic in
++                   if status <> Unix.WEXITED 0 then reject "original AST SHA256 command";
++                   row in
++                 if pre_sha <>
++                    "4fa7d49e420dc80681328bacdf08bb1d674dc2413001b99501da1c09b11dbb0a  actual-c2-bound-pre-ast.ml"
++                 then reject "original full AST SHA256";
++                 if List.length bblocks_cpn <> 82 ||
++                    List.length local_decl_types <> 164 ||
++                    projection_clause_stmts <> [] ||
++                    List.length vf_local_decls <> 161 ||
++                    List.length vf_bblocks <> 7 ||
++                    callback_unwind_epilog <> [] ||
++                    List.length original_body <> 168 ||
++                    !State.hrtb_fnmut_output_bounds <> [("F", "T")]
++                 then reject "complete MIR/AST/HRTB inventory";
++                 let root n = List.nth original_body n in
++                 let slice start count xs =
++                   List.filteri (fun i _ -> start <= i && i < start + count) xs in
++                 let check_local name stmt =
++                   match stmt with
++                   | Ast.DeclStmt (_, [(_, _, actual, None, (taken, _))])
++                     when actual = name && not !taken -> ()
++                   | _ -> reject ("local declaration " ^ name) in
++                 check_local "c1" (root 23);
++                 check_local "c2" (root 59);
++                 let c1_local_names =
++                   ["$_27"; "$_28"; "$_29"; "$_30"; "$_31";
++                    "$_32"; "$_33"; "$_34"] in
++                 let c2_local_names =
++                   ["$_63"; "$_64"; "$_65"; "$_66"; "$_67";
++                    "$_68"; "$_69"; "$_70"; "$_71"; "$_72"] in
++                 let c1_locals = slice 24 8 original_body in
++                 let c2_locals = slice 60 10 original_body in
++                 List.iter2 check_local c1_local_names c1_locals;
++                 List.iter2 check_local c2_local_names c2_locals;
++                 let delayed_indexes =
++                   [95; 96; 97; 98; 99; 100;
++                    102; 103; 104; 105; 106; 107;
++                    131; 132; 133; 134; 135; 136] in
++                 let future_decls =
++                   List.filteri (fun i _ -> List.mem i delayed_indexes)
++                     original_body in
++                 if List.length future_decls <> 18 then reject "later-call declarations";
++                 List.iter (function
++                   | Ast.DeclStmt (_, [(_, _, _, None, (taken, _))])
++                     when not !taken -> ()
++                   | _ -> reject "later-call declaration has init/address") future_decls;
++                 let kept_decls =
++                   List.filteri (fun i _ ->
++                     i < 161 && not (24 <= i && i <= 31) &&
++                     not (60 <= i && i <= 69) &&
++                     not (List.mem i delayed_indexes)) original_body in
++                 if List.length kept_decls <> 125 then
++                   reject "outer local declaration inventory";
++                 let block_loc, cmp_decl, old_stmts, old_close =
++                   match root 165 with
++                   | Ast.BlockStmt (loc, [decl], ss, close, locals)
++                     when !locals = [] && List.length ss = 166 ->
++                       (loc, decl, ss, close)
++                   | _ -> reject "original sole C1 block shape" in
++                 let block n = List.nth old_stmts n in
++                 let source_line stmt =
++                   let (file, line, _), _ = Ast.lexed_loc (Ast.stmt_loc stmt) in
++                   if Filename.basename file <> "lib.rs" then
++                     reject "source statement file";
++                   line in
++                 List.iter (fun (n, line) ->
++                   if source_line (block n) <> line then
++                     reject (Printf.sprintf "source statement index %d" n))
++                   [(22,184); (32,190); (33,191); (34,192);
++                    (35,193); (36,194); (37,195); (38,196);
++                    (59,217); (71,223); (72,224); (73,225);
++                    (74,226); (75,227); (76,228)];
++                 let cmp2_decl =
++                   match block 38 with
++                   | Ast.PureStmt
++                       (_, Ast.BlockStmt (_, [decl],
++                         [Ast.ExprStmt (Ast.CallExpr
++                           (_, "__vf_sort4_C2_UNBOUND_LIFETIME_DECL_PLACEHOLDER",
++                            [], [], [], Ast.Static))], _, locals))
++                     when !locals = [] ->
++                       (match decl with
++                        | Ast.TypeWithTypeidDecl (_, "'cmp2",
++                            Ast.CallExpr (_, "typeid_of_lft", [], [],
++                              [Ast.LitPat (Ast.Var (_, "cmp2_k"))], Ast.Static)) ->
++                            decl
++                        | _ -> reject "source-196 parsed declaration")
++                   | _ -> reject "exact one source-196 placeholder" in
++                 (match cmp_decl with
++                  | Ast.TypeWithTypeidDecl (_, "'cmp",
++                      Ast.CallExpr (_, "typeid_of_lft", [], [],
++                        [Ast.LitPat (Ast.Var (_, "cmp_k"))], Ast.Static)) -> ()
++                  | _ -> reject "source-163 C1 declaration");
++                 let marker_parts name stmt =
++                   match stmt with
++                   | Ast.PureStmt
++                       (_, Ast.BlockStmt (_, [],
++                         [Ast.ExprStmt (Ast.CallExpr (_, marker, [], [], [], Ast.Static));
++                          Ast.BlockStmt (_, [], [debt], _, debt_free);
++                          Ast.BlockStmt (_, [], [recover], _, recover_free);
++                          Ast.BlockStmt (_, [], [join], _, join_free)],
++                         _, marker_free))
++                     when marker = name && !debt_free = [] &&
++                          !recover_free = [] && !join_free = [] &&
++                          !marker_free = [] -> (debt, recover, join)
++                   | _ -> reject ("unwind marker shape " ^ name) in
++                 let c1_debt, c1_recover, c1_join =
++                   marker_parts "__vf_sort4_first_unwind" (block 22) in
++                 let c2_debt, c2_recover, c2_join =
++                   marker_parts "__vf_sort4_second_unwind" (block 59) in
++                 let control =
++                   match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
++                   | None | Some "none" -> "none"
++                   | Some ("c2-normal-missing-close" |
++                           "c2-unwind-missing-close" |
++                           "c2-normal-omit-join" |
++                           "c2-unwind-omit-join" |
++                           "normal-false-post" |
++                           "c1-unwind-false-assert" |
++                           "c2-unwind-false-assert" as mode) -> mode
++                   | _ -> reject "control opt-in" in
++                 let bind_switch n lft receiver tuple result debt label omit_debt =
++                   match block n with
++                   | Ast.SwitchStmt
++                       (call_loc,
++                        (Ast.CallExpr
++                           (_, "std::ops::FnMut::call_mut",
++                            [Ast.IdentTypeExpr (_, None, "F") as f_ty;
++                             (Ast.StructTypeExpr
++                               (_, Some "std_tuple_2_", None, [],
++                                [Ast.RustRefTypeExpr
++                                  (_, Ast.IdentTypeExpr (_, None, left_lft),
++                                   Ast.Shared, Ast.IdentTypeExpr (_, None, "T"));
++                                 Ast.RustRefTypeExpr
++                                  (_, Ast.IdentTypeExpr (_, None, right_lft),
++                                   Ast.Shared, Ast.IdentTypeExpr (_, None, "T"))]) as args_ty);
++                             Ast.IdentTypeExpr (_, None, method_lft)], [],
++                            [Ast.LitPat (Ast.Var (_, actual_receiver));
++                             Ast.LitPat (Ast.Var (_, actual_tuple))], Ast.Static) as call),
++                        [Ast.SwitchStmtClause
++                           (_, normal_case,
++                            [Ast.ExprStmt (Ast.AssignExpr
++                              (_, Ast.Var (_, assigned), Ast.Initialization,
++                               Ast.Var (_, "__result"))) as normal_stmt]);
++                         Ast.SwitchStmtClause
++                           (unwind_loc, unwind_case,
++                            [Ast.ReturnStmt
++                              (_, Some (Ast.CallExpr
++                                (_, "unwinding", [], [], [], Ast.Static))) as
++                                 unwind_return])])
++                     when left_lft = lft && right_lft = lft &&
++                          method_lft = lft && actual_receiver = receiver &&
++                          actual_tuple = tuple && assigned = result ->
++                       let projection =
++                         Ast.ExprStmt (Ast.CallExpr
++                           (call_loc, "#register_type_projection_equality",
++                            [Ast.ProjectionTypeExpr
++                              (call_loc, f_ty, "std::ops::FnOnce", [args_ty],
++                               "Output");
++                             Ast.ManifestTypeExpr (call_loc, Ast.Bool)],
++                            [], [], Ast.Static)) in
++                       let debt_stmt = Ast.PureStmt (Ast.stmt_loc debt, debt) in
++                       let switch = Ast.SwitchStmt
++                         (call_loc, call,
++                          [Ast.SwitchStmtClause
++                             (call_loc, normal_case, [normal_stmt]);
++                           Ast.SwitchStmtClause
++                             (unwind_loc, unwind_case,
++                              (if omit_debt then [] else [debt_stmt]) @
++                              [Ast.GotoStmt (unwind_loc, label)])]) in
++                       (projection, switch, unwind_return)
++                   | _ -> reject ("two-outcome FnMut switch " ^ lft) in
++                 let c1_label = "#sort4_actual_first_unwind_epilogue" in
++                 let c2_label = "#sort4_actual_second_unwind_epilogue" in
++                 let c1_eq, c1_switch, c1_return =
++                   bind_switch 32 "'cmp" "$_27" "$_28" "c1"
++                     c1_debt c1_label false in
++                 let c2_eq, c2_switch, c2_return =
++                   bind_switch 71 "'cmp2" "$_63" "$_64" "c2"
++                     c2_debt c2_label
++                     (control = "c2-unwind-missing-close") in
++                 let cut1 = Ast.stmt_loc (block 34) in
++                 let cut2 = Ast.stmt_loc (block 73) in
++                 let strict cut lifetime =
++                   Ast.ExprStmt (Ast.CallExpr
++                     (cut, "#strict_lft_binding_scope",
++                      [Ast.IdentTypeExpr (cut, None, lifetime)],
++                      [], [], Ast.Static)) in
++                 let c1_body =
++                   slice 0 34 old_stmts
++                   |> List.mapi (fun i stmt ->
++                        if i = 22 then [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else if i = 32 then [c1_eq; c1_switch]
++                        else [stmt]) |> List.flatten in
++                 let c2_body =
++                   slice 39 34 old_stmts
++                   |> List.mapi (fun i stmt ->
++                        let original_i = i + 39 in
++                        if original_i = 59 then
++                          [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else if original_i = 71 then [c2_eq; c2_switch]
++                        else if original_i = 72 &&
++                                control = "c2-normal-missing-close" then
++                          [Ast.NoopStmt (Ast.stmt_loc stmt)]
++                        else [stmt]) |> List.flatten in
++                 let c1_child = Ast.BlockStmt
++                   (block_loc, [cmp_decl], strict cut1 "'cmp" ::
++                    (c1_locals @ c1_body), cut1, ref []) in
++                 let c2_child = Ast.BlockStmt
++                   (Ast.stmt_loc (block 38), [cmp2_decl],
++                    strict cut2 "'cmp2" :: (c2_locals @ c2_body),
++                    cut2, ref []) in
++                 let c2_normal_join =
++                   if control = "c2-normal-omit-join" then
++                     Ast.NoopStmt (Ast.stmt_loc (block 75))
++                   else block 75 in
++                 let outer = Ast.BlockStmt
++                   (block_loc, [],
++                    [c1_child; Ast.NoopStmt cut1; block 35; block 36;
++                     block 37; c2_child; Ast.NoopStmt cut2;
++                     block 74; c2_normal_join],
++                    old_close, ref []) in
++                 let normal_wrapper = Ast.BlockStmt
++                   (Ast.stmt_loc (root 161), [],
++                    slice 161 4 original_body @ [outer; root 166; root 167],
++                    closing_cbrace_loc, ref []) in
++                 let unwind_assert name ret =
++                   if control = name then
++                     [Ast.Assert (Ast.stmt_loc ret, Ast.False (Ast.stmt_loc ret))]
++                   else [] in
++                 let c2_unwind_join =
++                   if control = "c2-unwind-omit-join" then
++                     Ast.NoopStmt (Ast.stmt_loc c2_join)
++                   else Ast.PureStmt (Ast.stmt_loc c2_join, c2_join) in
++                 let after =
++                   kept_decls @ [normal_wrapper;
++                     Ast.LabelStmt (Ast.stmt_loc c1_return, c1_label);
++                     Ast.PureStmt (Ast.stmt_loc c1_recover, c1_recover);
++                     Ast.PureStmt (Ast.stmt_loc c1_join, c1_join)] @
++                   unwind_assert "c1-unwind-false-assert" c1_return @
++                   [c1_return;
++                    Ast.LabelStmt (Ast.stmt_loc c2_return, c2_label);
++                    Ast.PureStmt (Ast.stmt_loc c2_recover, c2_recover);
++                    c2_unwind_join] @
++                   unwind_assert "c2-unwind-false-assert" c2_return @
++                   [c2_return] in
++                 let rec edges labels gotos = function
++                   | [] -> (labels, gotos)
++                   | Ast.LabelStmt (_, label) :: rest ->
++                       edges (label :: labels) gotos rest
++                   | Ast.GotoStmt (_, label) :: rest ->
++                       edges labels (label :: gotos) rest
++                   | Ast.PureStmt (_, stmt) :: rest ->
++                       edges labels gotos (stmt :: rest)
++                   | Ast.BlockStmt (_, _, ss, _, locals) :: rest ->
++                       if !locals <> [] then reject "block local cleanup";
++                       edges labels gotos (ss @ rest)
++                   | Ast.IfStmt (_, _, yes, no) :: rest ->
++                       edges labels gotos (yes @ no @ rest)
++                   | Ast.SwitchStmt (_, _, clauses) :: rest ->
++                       let ss = List.concat_map
++                         (function Ast.SwitchStmtClause (_, _, ss) -> ss |
++                                   Ast.SwitchStmtDefaultClause (_, ss) -> ss)
++                         clauses in
++                       edges labels gotos (ss @ rest)
++                   | Ast.WhileStmt _ :: _ -> reject "unexpected loop"
++                   | (Ast.DeclStmt _ | Ast.ExprStmt _ | Ast.Assert _ |
++                      Ast.Leak _ | Ast.Open _ | Ast.Close _ | Ast.ReturnStmt _ |
++                      Ast.NoopStmt _ | Ast.SplitFractionStmt _ |
++                      Ast.MergeFractionsStmt _) :: rest ->
++                       edges labels gotos rest
++                   | _ :: _ -> reject "unknown control container" in
++                 let labels, gotos = edges [] [] after in
++                 if List.exists (fun label -> not (List.mem label labels)) gotos
++                 then reject "retained edge into removed suffix";
++                 let count name xs =
++                   List.length (List.filter ((=) name) xs) in
++                 if List.length labels <> 7 || count "bh0" labels <> 2 ||
++                    List.length (List.sort_uniq compare labels) <> 6 ||
++                    List.length gotos <> 4 ||
++                    count "bh0" gotos <> 1 || count "2" gotos <> 1 ||
++                    count c1_label gotos <> 1 ||
++                    count c2_label gotos <> 1 then
++                   reject "exact original and two unwind edges";
++                 let projected_contract =
++                   if control = "normal-false-post" then
++                     match contract with
++                     | (nonghost, fn_type_clause,
++                        Some (req, (outcome, Ast.SwitchExpr (l, e,
++                           [Ast.SwitchExprClause (ln, "returning", [result], _);
++                            Ast.SwitchExprClause (lu, "unwinding", [], pu)], None))),
++                        terminates) ->
++                       (nonghost, fn_type_clause,
++                        Some (req, (outcome, Ast.SwitchExpr (l, e,
++                          [Ast.SwitchExprClause
++                            (ln, "returning", [result], Ast.False ln);
++                           Ast.SwitchExprClause
++                            (lu, "unwinding", [], pu)], None))), terminates)
++                     | _ -> reject "normal post outcome shape"
++                   else contract in
++                 let changed_decl =
++                   mk_fn_decl projected_contract
++                     (Some (after, closing_cbrace_loc)) in
++                 Ocaml_expr_formatter.print_ocaml_expr_to_file false
++                   "actual-c2-bound-post-ast.ml"
++                   (Ocaml_expr_of_ast.of_decl changed_decl);
++                 Printf.eprintf
++                   "SORT4-C2-BOUND admitted original_ast=%s source=ecd83f8c c1_2_call_siblings=1 c1_locals=8 c2_locals=10 future_decl_full_input=18 future_decl_bounded=0 c1_c2_bool_outside=1 output_eq=2 normal_join_after=source227 outcomes=c1_normal,c1_unwind,c2_normal,c2_unwind labels=%d gotos=%d control=%s NOT_CALLABLE_SUMMARY\n%!"
++                   (String.sub pre_sha 0 64) (List.length labels)
++                   (List.length gotos) control;
++                 changed_decl
+                end else if Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+                   State.body_name <> "sort4_stable" then original_decl
+                else begin
+@@ -14780,6 +15125,17 @@
+            Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" then
+           failwith "SORT4-C2-DISCOVERY: isolated exact-one body, unwind/full capture required"
+       end;
++      if Sys.getenv_opt "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST" = Some "1" then begin
++        if Args.ignore_unwind_paths || Args.skip_specless_fns ||
++           List.length bodies_cpn <> 1 ||
++           TrName.translate_def_path (BodyRd.def_path_get (List.hd bodies_cpn)) <>
++             "sort4_stable" ||
++           Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
++           Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" <> Some "0" ||
++           Sys.getenv_opt "SORT4_ACTUAL_C2_DISCOVERY_TEST" <> Some "0" ||
++           Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" then
++          failwith "SORT4-C2-BOUND: isolated exact-one body, unwind/full checks required"
++      end;
+       let expected_redirects =
+         if !Sort4MaybeUninit.active then
+           expected_sort4_redirects bodies_cpn

@@ -1,0 +1,34 @@
+{
+  "classification": "EXPERIMENTAL_SOURCE_LINKED_C1_C2_BOUND_PREFIX_NOT_YET_RUN",
+  "profile_accepted": false,
+  "cloud_enabled": true,
+  "default_off_unchanged": true,
+  "unbound_discovery_mandatory_refusal_unchanged": true,
+  "actual_sort4_callable_summary": false,
+  "base_translator_sha256": "8e467ca535bfcead8555a717897ec0355261ee8ccb011f98441e2dba80b5984f",
+  "patched_translator_sha256": "daf29b03fbb7aa10e6f580c70780a9fdc5a2eb6d3f4470e1c38673212ca3d9a3",
+  "patch_sha256": "4851c87be76630a627ff04d351ba6146879568eb877a28235a95d4cbea913925",
+  "annotated_source_sha256": "ecd83f8c0840a07f138bc8afa2a36c661f296d748693afa2a0a61667cb3372e4",
+  "ghost_stripped_runtime_sha256": "3602050e45025745d80b308802be9e552310959abcee4b95bfe8c24f8ca04b72",
+  "normal_full_mir_sha256": "e270457999f9371bc94664917ebd96699eecec0b91148899aa48c511f398c82b",
+  "readonly_full_mir_sha256": "3598b01b91af60d4ad5f96cabc8225aad30bb9a2bd73eb7fc7add15473fb1a29",
+  "pre_ast_text_sha256": "4fa7d49e420dc80681328bacdf08bb1d674dc2413001b99501da1c09b11dbb0a",
+  "runtime_inventory": {
+    "fnmut": 5,
+    "select": 8,
+    "copy_nonoverlapping": 4
+  },
+  "bounded_fnmut_calls": 2,
+  "normal_boundary": "after source227 four-current-cell join before source228 selector setup",
+  "controls": [
+    "c2-normal-missing-close",
+    "c2-unwind-missing-close",
+    "c2-normal-omit-join",
+    "c2-unwind-omit-join",
+    "normal-false-post",
+    "c1-unwind-false-assert",
+    "c2-unwind-false-assert"
+  ],
+  "bounded_future_declarations": 0,
+  "full_input_future_declarations": 18
+}
