@@ -6,11 +6,11 @@
   "start_utc": "2026-10-09T21:53:00Z",
   "main_deadline_utc": "2026-10-09T23:53:00Z",
   "deadline_utc": "2026-10-10T00:23:00Z",
-  "status": "AUTHORIZED",
+  "status": "CLOSED",
   "authorization": "User autonomous resume actual insert_tail one-cell guard Drop CURRENT recovery; repair Rust origin/resource controls and runtime layout representation bridge with semantic card independent review. Assigned worktrees only. Own phase and minimal recipes allowed; no shared coordinator edits; Cloud-only compiler/extractor/proof;120min+30finishing;3600s new create-to-finish;portable review packet and commit/push allowed.",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 1767,
-  "remaining_build_seconds": 1833,
+  "used_build_seconds": 2136,
+  "remaining_build_seconds": 1464,
   "allowed_lanes": [
     "merge"
   ],
@@ -134,7 +134,34 @@
       "execution_seconds": 294,
       "download_verified": true,
       "archive_sha256": "ca27ff229e79019462c539c65a48eadedf2bb2c226f6ec5ae1cdea37481f3aae"
+    },
+    {
+      "dispatch_token": "dispatch-726e1136e997403686b325b9ac310c44",
+      "owner": "merge",
+      "phase_id": "MERGE-ORIGIN-LAYOUT-CLOUD-2026-10-10",
+      "infra_sha": "ba37cbfee25aa0e1e1270f95421391f02f358cfd",
+      "proof_sha": "ba37cbfee25aa0e1e1270f95421391f02f358cfd",
+      "lane": "merge",
+      "submitted_config_sha256": "f25c607b19a967c141fc78168f8de84a3b2f91dac8751017449f7e9e48771a05",
+      "reserved_seconds": 960,
+      "timeout_seconds": 900,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "bbb84c242776ad843f93edd46190a2ea1a9f4cb13c9d6b9e5b72a57560c54e66",
+      "build_id": "fa5a4fd4-3b96-4876-9e36-03b1ca46089d",
+      "start_time": "2026-10-09T23:51:28.355462682Z",
+      "finish_time": "2026-10-09T23:57:34.917690Z",
+      "create_time": "2026-10-09T23:51:26.581644670Z",
+      "build_seconds": 369,
+      "accounted": true,
+      "execution_seconds": 367,
+      "download_verified": true,
+      "archive_sha256": "05b3be833db21c9ee7525352d5cf553acc9b89883d64f43e85c923a1907be5da"
     }
   ],
-  "active_build": null
+  "active_build": null,
+  "closed_utc": "2026-10-10T00:04:48Z",
+  "close_reason": "Main deadline elapsed; final pre-deadline build terminal, all evidence integrity-verified and accounted; own ready request withdrawn. No automatic continuation or budget carryover.",
+  "unused_seconds_closed": 1464
 }
