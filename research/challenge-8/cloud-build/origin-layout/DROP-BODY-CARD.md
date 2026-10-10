@@ -120,3 +120,5 @@ INCONCLUSIVE; no endpoint, initialized value or array segment is supplied as a
 premise. Both new cases retain full generated normal/unwind posts, original
 runtime copy, ghost-strip equality, source-qualified MIR/AST admission and
 the parent exact validated receipt. No result is promoted by the card alone.
+
+Freshac238e6a/eccfd6d5 admits all8source/MIR/AST/stagegates. Alignmentroundtrip derivesalignment, thenroot-source intervaldisjointness refuses lib102; no separation/layout upgrade. Destinationlimits/endpoint/emptytailpass, thenfrontendold_gap is unbound outside own predicate. Narrowfollowup: insert `assert *guard_dst |-?-> ?shape_old_gap;` before singletonclose, then useexactexistingoption `cons(shape_old_gap,nil)`. Assertion derivesfromexistingchunk withoutconsuming/newpremise; endpoint andtailunchanged. Independent reviewer approves this localized variable-binding fix before implementation. DirectstrongbodyPASS has nonvacuoushandwrittenreq; defaultguardown=false makes safeprototypecompatibility vacuous, so no canonicalcallee/glue credit.

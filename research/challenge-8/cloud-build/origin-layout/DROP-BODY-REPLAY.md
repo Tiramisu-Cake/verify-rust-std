@@ -14,7 +14,8 @@ The saved `extraction.json` SHA-256 is
 
 The corrected classifier at SHA-256
 `9f6811321b275ee2824b413f417376bf54398393e29e83840191cc287c0b69f8`
-replays the saved stage receipts and obtains:
+at proof commit `eccfd6d5ca969a8e8ecdc2da632b9ad134f625be` replays the saved stage receipts and obtains. The later option-variable binder changes only the new destination probe; the six recorded replay cases remain unchanged:
+
 
 | Case | Saved replay status | First frontier |
 | --- | --- | --- |
@@ -68,3 +69,5 @@ the source-located MIR `core::ptr::copy_nonoverlapping` callee with
 `core::ptr::copy` made MIR admission refuse: `unrecognized Drop MIR call`.
 The baseline files admitted both gates. No compiler, extractor, proof runner
 or verifier was run locally.
+
+The direct case default generated guard own is false, so safe-prototype compatibility is vacuous. Its separate handwritten strong body req is nonvacuous and the body copy/full post/return/leak proof remains conditional. This earns no canonical callee or actual Drop/glue credit.

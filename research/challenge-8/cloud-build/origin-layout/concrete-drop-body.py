@@ -141,7 +141,8 @@ DST_SHAPE_ROUNDTRIP = (
     b"    points_to__limits::<u64>(guard_dst);\n"
     b"    assert pointer_within_limits(guard_dst + 1) == true;\n"
     b"    close array_::<u64>(guard_dst + 1, 0, nil);\n"
-    b"    close array_::<u64>(guard_dst, 1, cons(old_gap, nil));\n")
+    b"    assert *guard_dst |-?-> ?shape_old_gap;\n"
+    b"    close array_::<u64>(guard_dst, 1, cons(shape_old_gap, nil));\n")
 CALL = b"    call();\n"
 PROTOTYPE_FALSE = b"    assert false; // TARGET: canonical prototype entry\n"
 BODY_FALSE = b"        //@ assert false; // TARGET: first concrete Drop body statement\n"
@@ -283,7 +284,7 @@ def _prepare(evidence: Path) -> dict:
                "dst_shape_probe_lines": {
                    label: _line(verified, statement)
                    for label, statement in zip(
-                       ("singleton_limits", "endpoint", "empty_tail", "singleton_array"),
+                       ("singleton_limits", "endpoint", "empty_tail", "bind_option", "singleton_array"),
                        DST_SHAPE_ROUNDTRIP.splitlines(keepends=True))}
                    if name == "canonical_dst_shape_probe" else {},
                "dst_pre_line": _line(verified, DST_PRE) if canonical else None,

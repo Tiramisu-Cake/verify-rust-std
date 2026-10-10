@@ -634,7 +634,8 @@ def audit_combined_candidate_gates(base: Path, aggregate: dict,
                             expected_lines["dst_shape_probe_lines"] = {
                                 label: body._line(verified_bytes, item)
                                 for label, item in zip(
-                                    ("singleton_limits", "endpoint", "empty_tail", "singleton_array"),
+                                    ("singleton_limits", "endpoint", "empty_tail",
+                                     "bind_option", "singleton_array"),
                                     body.DST_SHAPE_ROUNDTRIP.splitlines(keepends=True))}
                     else:
                         expected_lines.update({"field_bind_line": None,

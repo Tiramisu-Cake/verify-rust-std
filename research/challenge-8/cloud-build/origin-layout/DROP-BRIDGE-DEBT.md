@@ -1,7 +1,7 @@
 # Nearest actual Drop / caller obligations
 
 This is source-based dependency analysis, not a new proof run or an accepted bridge.
-The concrete-u64 source-linked direct-copy/recovery witness remains the bounded consumer.
+The concrete-u64 source-linked direct-copy/recovery witness is the bounded consumer: fresh61eb1905/a98404d7 and c451ed14/3a3a70e pass CURRENT recovery and full normal posts/return/leak.
 Actual CopyOnDrop::drop and natural cleanup/glue are different obligations.
 
 ## Frozen caller interface
@@ -20,8 +20,7 @@ fields/field owners/padding. Its canonical FBC includes fields and guard own.
 An isolated strong functional body contract is not automatically dispatched
 through this generic glue interface.
 
-The earlier exact-source callee collector's count-n result is conditional and
-historical on its profile, not a fresh result on8cb0121b or a root caller proof.
+The historical count-n result is conditional. Fresh c451ed14 on8cb0121b verifies the mechanically specialized source-linked u64 method body through dynamic copy and full return/leak; corrected saved admission replay is CONDITIONAL_STRONG_PRE_BODY_PASS. This is not compiler-generated monomorphic MIR, an actual generic callee or a root caller proof.
 Its supplied guard bounds/separation premises and any own=false compatibility
 vacuity cannot establish the actual caller's obligations.
 
@@ -47,7 +46,7 @@ init_ref_readonly(...,1/2) splits it into two quarters and an end-token for one
 quarter. Guard packaging/copy/recovery must conserve that exact source quarter
 and recover CURRENT bytes, not replace them by entry snapshots.
 
-After this bounded witness closes, an actual cleanup caller must derive its
+With this bounded witness closed, an actual cleanup caller must derive its
 guard physical frame and apply a same-source-version verified Drop effect through
 a justified call/glue interface. A caller post failure against generic
 drop_in_place is retained as interface debt; it is not repaired by assuming the
@@ -59,3 +58,5 @@ Within this session the useful bounded result is the canonical-unit patch plus
 the concrete actual read/guard/FBC/copy/recovery witness. Generic glue effect and
 qualified guard layout require substantial additional implementation/review;
 they are not silently included in profile acceptance.
+
+Current narrow interface frontier: c451 canonical case reaches derived root limits then refuses `self % align_of<CopyOnDrop> == 0`; isolated destination array assertion refuses the zero-length `array_` tail. DummyPat `dst[..len] |-> _` is possibly-uninitialized array_, so initialization is not the cause established by this diagnostic. Freshac238e6a/eccfd6d5 tests annotation-only typed-storage roundtrip alignment and singleton/zero-tail array shape. No size numeral, supplied separation, std/runtime change or new trusted tool rule is involved. Until its exact evidence, probes NOT_RUN. Remaining natural glue effect and generated canonical-post payload bridge remain separate even if these probes pass.
