@@ -6858,3 +6858,26 @@ New authorized session; [preimplementation semantic card](cloud-build/verifast-c
 2026-10-10 maintainer C4+selector session: Build3e8a51d5 on481d4e69 failedCloudconsolebuild at SwitchStmt pattern alias;292.5s execution/294s charge, integrity-verified archive980f32a6c452ebbec75cc70ac01cb2567f69471175b477850f2dc815ad6db5a5. Buildca2155c8 on564f8816 failedCloudcompile due PackageDecl/ModuleDecl varianttype confusion;292scharge. Neither run reached proof; neither is semantic negative. Fixed typedinventory, source-module searchpaths and sparse fixture paths. Thirdcandidate d90a1a8e with423d5e3tool submitted; profile notaccepted.
 
 2026-10-10 maintainer closure: af4e44a3 on d90a1a8e/tool423d5e3 compiled; meaningful source/MIR/selector AST pins exact; C4 positive and nine target VC negatives, strict lifetime/pointer/MDnew fixture evidence. Selector blocked by wrongly activated unrelated generic-guard admission before proof, composition NOT_RUN_PARENT_FAILED. Setup correction and gate tightening UNRUN. Archive24a016d... integrity verified,305s, total891/3600. PARTIAL/session CLOSED; own reservation none, unused2709 expired. See maintainer phase checkpoint/manifest/raw review.
+
+## Maintainer C4 + actual selector session B — closed, PARTIAL
+
+Fresh2669cf81/tool423d: actual9-body selector and bounded original-post C4 PASS;
+first-call composition admission refused at $_171. New typed AST transport,
+exact declaration correction, normalized cleanup/admission/resource/outer-type
+gates reviewed and implemented. f694b867 failed private raw patch URL404;
+0a21b11d B1 failed OCaml State scope at console-build; f7da71e8 B2 compiled/pinned
+but exact runtime prepare chain needed removed intrinsic-drop-linkage module,
+so no freshB2 proof/VC/gate credit. Source pack pruning staticGO withdrawn.
+Full30 originalpack restored with reviewed bounded two-file XZ materialization
+runner4c2e2447 (UNRUN). All4Builds integrity-verified,1018Cloudseconds charged;
+ledgerclosed,2582expired, ownCloudreservationsnone. New semantic gates and
+actualsame-toolcomposition remain explicitly unresolved; no profile adoption.
+
+Session B zero-Cloud pre-submit attempts: initial ENOSPC;3ac68320 unsorted
+proof_paths admission refusal;993fe51f payload585352 bytes exceeded191×3990
+transport parts (earlier3500-byte explanation corrected);8ee1abc1 omitted
+capture.py caught by review before API and stopped;835f6 first submit ENOSPC
+before API, then already-started retry21:33:56Z created final Build21:38:01Z.
+These produce no proof/negative credit and no additional Cloud charge.
+Repair4c2e2447 local non-proof exact-delivery precheck529391 bytes/177parts,
+payloadSHAb24cc5cdfa7a48ed378d0fb0912b56f890b497f5227e41c497b1b7f90d74d78c.

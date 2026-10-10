@@ -97,9 +97,18 @@ remained FAILURE from the obsolete collector. The exact publication packet is
 still `READY_FOR_USER_APPROVAL`; no upstream publication or user approval is
 recorded. No claim about candidate acceptance follows here.
 
-Session B delivery pack is scoped to this exact integration lane:23 original
-module rows plus12 original Git tree records, provenance3338d1d1 retained.
-All five provider-overlay paths remain present. Seven dormant checker-chain
-modules are omitted only from transport; no source module byte, function,
-proof annotation, patch, effective tool input or kernel is weakened. This is
-not a reusable general dependency closure. Pack SHA992dc135…b87a25.
+Session B attempted a 23-row transport pack with 12 original tree records.
+The claimed unreachability of seven omitted checker-chain modules was disproved
+by Build f7da71e8: FRAME import invokes the nested-drop/owner-linked linkage
+chain before source preparation. The earlier static GO for that pruning is
+withdrawn; it grants no proof credit.
+
+Candidate `4c2e244767547ac6c4b81bc61135d2f38d0ecadd` restores all 30 original
+module rows and 12 original tree records, provenance
+`3338d1d17be0cef3d7787a42e8d76113386fd8fd`. Raw pack SHA256 is
+`21516461a662781aabbf296bf5cb4016f10051c019205204a7740ecec0fe44f6`.
+Only delivery of this pack and tool-c4.patch is compressed; raw semantic pins
+and exact Git blob identity/mode are checked before ordinary Cloud preflight.
+Independent compressed-delivery review is recorded in RAW-EVIDENCE-REVIEW-B.md.
+Local inert-data equality/syntax/payload checks passed: 529391 bytes, 177 parts
+of 3990 bytes, cap 191. This repaired delivery candidate is Cloud UNRUN.

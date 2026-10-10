@@ -834,3 +834,18 @@ Session closed2675/3600sec,925unused no carry; no active/request/reservation.
 ## Maintainer integration 2026-10-10 — PARTIAL
 
 Fresh bounded C1→C4 PASS with strict C4 kernel and nine intended VC negatives in af4e44a3/tool423d5e3. Selector source/MIR/AST fingerprints exact but actual proof refused unrelated generic-guard setup; C4+first actual select composition not executed. Runner correction UNRUN, FRAME/cleanup/source-admission interaction gates remain open. No whole-sort4/caller summary or profile acceptance. See cloud-build/verifast-c4-select-integration/END-CHECKPOINT-2026-10-10.md.
+
+## Maintainer composition session B — PARTIAL
+
+Fresh Build2669cf81/tool423d verifies the nine-body actual pointer selector and
+bounded original-post C1→C4 separately. Composition refuses local $_171 before
+proof; this is admission refusal, not an intended semantic negative. Reviewed
+B2 declaration/typed-location transport and gate implementation are saved;
+Buildf7da71e8 compiles tool e2e674f8 and confirms effective pins but fails source
+preparation on the pruned dependency pack before any proof. Complete 30-module
+transport repair4c2e2447 is UNRUN. First-select composition, FRAME original
+pointer/thread/CURRENT controls, cleanup reachability/dead-code checks, precise
+admission mutants, outer-F escape VC and fresh transport certificate remain
+open. Old unchanged-input controls retain their original raw evidence; no
+summary, unrestricted-T/ZST, whole-sort4 or profile acceptance is established.
+[Closed session B checkpoint](cloud-build/verifast-c4-select-composition/END-CHECKPOINT-2026-10-10-B.md).
