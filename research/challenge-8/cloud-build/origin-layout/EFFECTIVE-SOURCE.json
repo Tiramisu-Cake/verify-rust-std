@@ -1,0 +1,67 @@
+{
+  "schema": "merge-effective-source-replay-v1",
+  "base_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "component_commit": "e16352c4f015059ea4158be7d3205275080ce880",
+  "profile_sha256": "1bc74b60185b2f0c335a2467f0dd9bc53238851f2348f53f1f31737720931a9e",
+  "ordered_patches": [
+    {
+      "path": "research/challenge-8/merge/overnight/wrapping.patch",
+      "sha256": "c7c776ff5aef2b8668aa2ed3d59b47109fce1d67a9dc2f2043fc2744dc0ed31e"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/callback.patch",
+      "sha256": "0a006df94f04d6425d70280967d6652bdd33ccb88ead4a44f02a2e36775aaa5e"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/copy.patch",
+      "sha256": "da167ee095e9fb5f425e2d604dd46a973a8c1e3a5121b2c87cc3546b0ec8e9a5"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/cleanup.patch",
+      "sha256": "94fe2cd69edc9da6907553961ca32f0557c338266d9e9472e577860a95887604"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/usize-multiple.patch",
+      "sha256": "ecdd1fd6fcc8d811f02fa308ddc533386e0031193d527ea6950a099f8ccccaa1"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/stack-address.patch",
+      "sha256": "f1444866322bf06b40e078a381a69acea7ccd92b613f7dc903d289044d8cba64"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/tracked-md.patch",
+      "sha256": "cacf8b1d560e5f339004c44763ab359aa070e2dd3d2e9b79719f7a218e2664f6"
+    },
+    {
+      "path": "research/challenge-8/merge/overnight/guard-ownership/insertion-onecell/allocation-span.patch",
+      "sha256": "603ab250705fa9d83c94631f7570bd3e1cc7fc06187c35e6ae8465fcb5efca1b"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/unit-layout.patch",
+      "sha256": "00c7f9310ca30e3403daabdfe8e7d4c8c13aa84e78434acade309c98faadc68a"
+    },
+    {
+      "path": "research/challenge-8/cloud-build/origin-layout/guard-layout.patch",
+      "sha256": "8fb38f4e48f52e24b0e11809231701f44eb00ebdc34befb8cf768bd489e40c7e"
+    }
+  ],
+  "source_sha256": {
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml": "5167ad14a4edc6bc0559855b51e216df7721b37d575013759c5d35ccd80ddfd4",
+    "src/frontend/ocaml_expr_of_ast.ml": "3f94401e1430fc413e1a68ad8bae13ad718b63f83707e3804d579d6f7e4371ef",
+    "src/verifast.ml": "f6395a07ce443a4c1a64e88965ae9321ff1c6648fe094f75da279914117e194f",
+    "src/verifast1.ml": "c64e4d60631f42aacdf64b4529c992a856f60e2a37066d3209545cb384b10d3c",
+    "src/frontend/ast.ml": "380a0bd63476849138268eaf7f7c2f8563af4231dbd1ab61e86a00fd13688afe",
+    "src/SExpressionEmitter.ml": "4e99d9702ca691e498601ffeeccc930f465841404cde2a28e00eb196880352a7",
+    "src/verify_expr.ml": "8883a76d802cca15bb362f251de683d2c8216c058c3aed98d6bec8aa471c6dd5",
+    "src/rust_frontend/vf_mir_exporter/src/lib.rs": "6717663a992bb4dc74459ffd0397a89479898582879a9c257fa8ce3c423215b7",
+    "src/rust_frontend/vf_mir/vf_mir.capnp": "bac5f307bb74f0e98efeebfe67649639666ec4a9e38c3cb8bcb60a3259fe31f9",
+    "src/rust_frontend/vf_mir_translator/rust_parser.ml": "8ed673086183323058aac5e0e21399e4532d1e74b97c5d41105827e8643107bd",
+    "bin/rust/prelude_core.rsspec": "d1079bc94ceafe6595c7ce216f9c93e3436d22d849bd31bcb0cf442dd183e751",
+    "bin/rust/std/lib.rsspec": "d92e5044bbb2692e7b006fc649df361fe80bf878b69b5a2bb80635a27330f227"
+  },
+  "mismatches": {},
+  "compiler_attempted": false,
+  "proof_attempted": false,
+  "accepted": false,
+  "classification": "PASS_TEXT_REPLAY_ONLY"
+}

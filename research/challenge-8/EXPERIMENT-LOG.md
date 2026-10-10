@@ -6619,3 +6619,5 @@ Main deadline12:21:50 reached; subsequent work only currentBuild monitoring/evid
 
 
 2026-10-10T12:58:04Z newmerge session, main14:58:04/absolute15:28:04, new3600s. Initialproject45fdb1f3/toole8a77a29 preserved; previous7compilefailures/2662cost/938retired archived. Newcompile-onlymode planned beforeproofmatrix usingexistingpinnedsourcebuild, no genericcacheextension; fullgenerated-interfaceaudit plusrecordpayloadserializationrepair. No newproof/glue/unwind/domainuntilfreshcompilePASS; mandatoryreassessment aftertwo newcompilefailures.
+
+2026-10-10 merge compile-only Build1 b5dacec7 / proof2b484162 FAILURE293s before candidate compile: strict effective translator hash mismatch. Full10patch text replay diagnoses component-vs-retained-six composition, corrects all3 affected source pins with independent review. Frozen component e163 unchanged, target proof NOT_RUN. Archive73e22ade verified. Source replay gate added before next dispatch.

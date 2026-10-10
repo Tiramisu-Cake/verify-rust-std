@@ -348,7 +348,20 @@
     "integration": "NOT_FOR_INTEGRATION",
     "representation_fix": "one-record payload helper with8-tuple matchesstrictASTgrammar; fieldsconserved",
     "api_fix": "newmodelblockBig_intinsteadnonexistentcustomZarithfunctions; qualificationguardsunchanged",
-    "dependency_reuse": "No readycandidatecache; existingcold reproduciblebaseline+separatecandidateDuneincrementaldependencybuild, no foreignpins"
+    "dependency_reuse": "No readycandidatecache; existingcold reproduciblebaseline+separatecandidateDuneincrementaldependencybuild, no foreignpins",
+    "effective_source_receipt": "EFFECTIVE-SOURCE.json",
+    "profile_sha256": "1bc74b60185b2f0c335a2467f0dd9bc53238851f2348f53f1f31737720931a9e",
+    "compile_only_builds": [
+      {
+        "build_id": "b5dacec7-d7c4-484a-97ac-475fe07ab18e",
+        "proof_sha": "2b4841620eb9ee8417e6d549fe6fa74f5da8843c",
+        "status": "FAILURE",
+        "seconds": 293,
+        "failed_stage": "preflight-setup",
+        "reason": "component source hashes copied to effective composite PROFILE; strict pin gate rejected translator before candidate compile",
+        "archive_sha256": "73e22ade7054d64df84994f0f36dd5a32d42df30a7c368c805d1ff5cced56e32"
+      }
+    ]
   },
   "evidence_scope_note": "Historical top-level records retained; current_session is authoritative for the new guard/glue session. Documentation SHA is not a proof run.",
   "previous_current_recovery_session": {
