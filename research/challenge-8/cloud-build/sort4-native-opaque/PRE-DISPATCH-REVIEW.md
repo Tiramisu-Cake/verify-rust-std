@@ -73,9 +73,19 @@ begun step, evidence, accounting and checkpoint may continue. No Actions
 dispatch, local proof execution, selector or strict-cut extension is in scope.
 
 Static local review: the driver selects the new directory only for the new
-marker and fixes the two frozen metadata reads to the old directory; all four
+marker and fixes the two frozen metadata reads to the old directory; the initial six
 case blocks are present in profile order, and all recipe paths exist. Python
 AST parsing, JSON parsing, sorted unique recipe checks, Bash syntax, and
 `git diff --check` pass. This review does not execute any proof input.
 Published exact-SHA identity, pinned-object payload size (191-part ceiling),
 capacity, and deadline remain dispatch-time gates after commit/push.
+
+Follow-up preflight20:03UTC: prior1ba7 archive/inventory verified; opaque and
+earlyreturn positives plus intended CURRENT-helper false post reviewed. Do not
+rerun those unchanged cases. New exact case names: native-slice-cast-expression,
+checked-add-overflow-reproducer, native-c1-unbound-capture. Bare multi-command
+ghost annotations repaired as single block / individual source statements; no
+assertions/posts/cut removed. Direct pinned rustc --emit=mir overflow-checks=on
+panic=unwind added solely for checked-overflow diagnosis, no acceptance credit.
+Same frozen general tool source/spec semantics; saved pure classifier replay
+passes on retained d5 log (exact original hash). Static closure unchanged.

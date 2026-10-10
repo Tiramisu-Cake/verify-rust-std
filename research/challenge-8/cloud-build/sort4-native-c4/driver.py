@@ -530,12 +530,36 @@ def supplied_cases(a, tool: Path, env: dict[str, str]) -> dict:
             "original_sha256": sha(fixture / "original/lib.rs"),
             "ghost_strip_byte_identical": True, "target": target,
             "actual_sort4_summary_used": False, "accepted": False})
+        # Diagnostic compiler capture only. The stock exporter appends
+        # overflow_checks=off; preserve an independent checked MIR route.
+        checked_capture = None
+        if OPAQUE_SESSION and name == "checked-add-overflow-reproducer":
+            compiler = a.compiler_sysroot / "bin/rustc"
+            need(compiler.is_file(), "pinned compiler missing for checked MIR capture")
+            checked_mir = root / "rustc-overflow-checks-on.mir"
+            checked_row = stage(a, root, "rustc-checked-mir-capture",
+                [str(compiler), "--sysroot=" + str(a.compiler_sysroot),
+                 "--edition=2021", "--crate-type=lib", "--emit=mir",
+                 "-C", "overflow-checks=on", "-C", "panic=unwind",
+                 "-C", "opt-level=0", "-Z", "mir-opt-level=0",
+                 "verified/lib.rs", "-o", str(checked_mir)], active,
+                100, cwd=fixture)
+            checked_capture = {"exit": checked_row.get("exit"),
+                "source_sha256": sha(fixture / "verified/lib.rs"),
+                "mir_sha256": sha(checked_mir) if checked_mir.is_file() else None,
+                "compiler_sha256": sha(compiler),
+                "diagnostic_only": True, "proof_credit": False,
+                "exporter_default_overflow_checks": "off_unconditionally_appended"}
+            save(root / "checked-mir-capture.json", checked_capture)
         try:
             result = verify_case(a, tool, fixture, root, active, target=target)
         except Exception as exc:
             result = {"classification": "SUPPLIED_CASE_SETUP_OR_COLLECTOR_ERROR",
                       "first_causal_stage": "COLLECTOR", "reason": str(exc),
                       "raw_preserved": True, "proof_credit": False}
+            save(root / "case-result.json", result)
+        if checked_capture is not None:
+            result["checked_mir_diagnostic"] = checked_capture
             save(root / "case-result.json", result)
         results[name] = result
         save(a.evidence / "supplied-results.json", results)

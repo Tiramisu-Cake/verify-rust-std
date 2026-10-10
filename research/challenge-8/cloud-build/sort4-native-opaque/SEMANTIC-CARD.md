@@ -69,3 +69,25 @@ user authorization, subject to independent review/fresh capture; it is not a
 new general kernel rule. Native-C1 unbound capture is batched once to capture
 the real new MIR/refinement and first admission stage, with no proof credit.
 No repeated old admission experiment or inverse adapter is needed.
+
+## Follow-up after fresh1ba7fdb3 / 9b86096e
+
+Fresh opaque interface VF0 (four helper bodies proved before native consumer),
+normal/full automatic native return/leak, false-CURRENT-rejoin-post intended
+refusal; native earlyreturn VF0/81. No callback theorem. Do not repeat those
+unchanged proofs. Pointer/candidate parse the first command in a bare multi-
+statement ghost annotation and refuse the second (`assert`/F producer).
+Rust_parser.parse_stmt accepts one statement per annotation: wrap the pointer
+assertion group in one `{...}`; split C1 preparation into individual `//@`
+statements so cmp_k and other witnesses remain visible at the callback.
+This is harness syntax repair, not a parser semantics change. No removed
+assertion, post, marker or cut. Fresh paired capture/proof is needed.
+
+Stock exporter source lib.rs:69 unconditionally appends overflow_checks=off;
+source SHA11f1e10bb8e52a4950611f874b1123c11e2c87cbb1378c3f5060992f74425f00.
+Fresh minimum normal/readonly MIR therefore contains binaryOp/add and no
+checked overflow Assert, then AST arithmetic checking refuses at3:17–25.
+Next capture adds ONLY a diagnostic direct invocation of the same pinned
+rustc with --emit=mir, overflow-checks=on, panic=unwind, opt-level0/mir-opt-level0.
+Record checked tuple/Assert/success/unwind edges versus exported unchecked
+capture. It supplies no new compiler/verifier rule or proof credit.

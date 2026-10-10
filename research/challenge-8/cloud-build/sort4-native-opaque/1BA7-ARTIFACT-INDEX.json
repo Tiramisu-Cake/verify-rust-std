@@ -1,0 +1,334 @@
+{
+  "build": "1ba7fdb3-c2ba-470a-84e5-e6b4077ffda4",
+  "proof_infra": "9b86096ec897577d11cd8efa4302aaccbf15b8ef",
+  "archive_sha256": "c4104f376f209613f5a80c9386eaf8e64ddd150ca136a99b7213db190c2c371b",
+  "integrity_verified": true,
+  "collector_success_is_proof": false,
+  "tool_identity": {
+    "accepted": false,
+    "expected_console_sha256": "8d686fef29ae6fe5b6adb91a946ff9942aef682baf934b273cc61d71a625527b",
+    "expected_snapshot_sha256": "004dab0f90e2abf75a422c83302015f593ec9273a78fc72d0e09ef71c1a2432b",
+    "fresh_console_sha256": "8d686fef29ae6fe5b6adb91a946ff9942aef682baf934b273cc61d71a625527b",
+    "fresh_console_used_for_all_cases": true,
+    "frozen_source_and_non_console_binaries_match": true
+  },
+  "cases": {
+    "checked-add-overflow-reproducer": {
+      "accepted": false,
+      "actual_sort4_proved": false,
+      "callable_summary": false,
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "collector_pass_is_proof": false,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(3,17-25): error: Potential arithmetic overflow. (Cannot prove (len + 16) <= 18446744073709551615.)",
+      "first_stage_log_sha256": "c41ecbc2bcf2f93f1ab96119da158e21184a2629dbdd128382a0f62dbf9076dd",
+      "proof_ast_sha256": "f7eaa619ab11c6a07626ba43a0cbd901835ce184a1e42a0029738a24e6155c62",
+      "source_pair_immutable": true,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support": {
+        "full_mir": {
+          "normal": {
+            "bytes": 16075,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "a917ed828acb3b28ef766a6ba38e1afc7d9627cc2bdc967172a68797b1aac9a4"
+          },
+          "readonly": {
+            "bytes": 16075,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "a917ed828acb3b28ef766a6ba38e1afc7d9627cc2bdc967172a68797b1aac9a4"
+          }
+        },
+        "paired_support_passed": true,
+        "proof_credit": false,
+        "source_pair_sha256": {
+          "original/lib.rs": "601fe289c804513c48dd5a432a083920fd2f9bd6f3d6fa1be1b7850961dc5283",
+          "verified/lib.rs": "601fe289c804513c48dd5a432a083920fd2f9bd6f3d6fa1be1b7850961dc5283"
+        },
+        "target": "small_sort_general_with_scratch"
+      },
+      "verifier_exit": 1,
+      "verification_log_sha256": "c41ecbc2bcf2f93f1ab96119da158e21184a2629dbdd128382a0f62dbf9076dd",
+      "native_target_entered": true,
+      "full_vf0": false,
+      "statement_count": null,
+      "native_return_seen": false,
+      "native_leak_seen": false,
+      "helper_entries": [
+        "small_sort_general_with_scratch",
+        "small_sort_general_with_scratch"
+      ]
+    },
+    "native-c1-unbound-capture": {
+      "accepted": false,
+      "actual_sort4_proved": false,
+      "callable_summary": false,
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "collector_pass_is_proof": false,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(156,9-28): error: Parse error: Parse error.",
+      "first_stage_log_sha256": "0368724ac3b8add1c48f5062d70aceb1c11b9b8b1778844de5572c7f7dc4c5a7",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support": {
+        "full_mir": {
+          "normal": {
+            "bytes": 329346,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "cd82dd73e1c60ade40eca3d1b07d049cb6e71a7e01a889de3e7fb87c1c84d057"
+          },
+          "readonly": {
+            "bytes": 144618,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "87392ec1a03824afecb53a4003edaf3a15be72b6fe6a1fd779976c20ae97d29e"
+          }
+        },
+        "paired_support_passed": true,
+        "proof_credit": false,
+        "source_pair_sha256": {
+          "original/lib.rs": "25bb118f497929d66c33a3accfdf67ee7d6fa470507cd1e8acf6d7f7efe8993a",
+          "verified/lib.rs": "509a7e03c0b1e874520c6b3c52ae24e340f6697086488a12bd3d825f9cd63885"
+        },
+        "target": "small_sort_general_with_scratch"
+      },
+      "verifier_exit": 1,
+      "verification_log_sha256": "0368724ac3b8add1c48f5062d70aceb1c11b9b8b1778844de5572c7f7dc4c5a7",
+      "native_target_entered": false,
+      "full_vf0": false,
+      "statement_count": null,
+      "native_return_seen": false,
+      "native_leak_seen": false,
+      "helper_entries": []
+    },
+    "native-early-return-resources": {
+      "accepted": false,
+      "actual_sort4_proved": false,
+      "callable_summary": false,
+      "classification": "FRESH_FULL_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "collector_pass_is_proof": false,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "first_stage_log_sha256": "731f44dad0f9875b398d73dff9468898bb20ba240cba1065500572cb1879604b",
+      "proof_ast_sha256": "8d719b4e291177d5c2e777cbd3c782cae6103da2f267c8ff20f1d96632456c9a",
+      "source_pair_immutable": true,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 0
+      },
+      "support": {
+        "full_mir": {
+          "normal": {
+            "bytes": 55565,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "0723ca64f46a4f1816a18d5cb891c92be38ff1ba3f186124158b766ba551ebac"
+          },
+          "readonly": {
+            "bytes": 46078,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "096e18807a24c314d68732d3842915665ed54c29c2e6234877ea200998f37cef"
+          }
+        },
+        "paired_support_passed": true,
+        "proof_credit": false,
+        "source_pair_sha256": {
+          "original/lib.rs": "2bc105ea7c50a148a1fa637d5bf849d1ec21908dae5a7dedc81113c28aed057e",
+          "verified/lib.rs": "5e7240db72a5b82658f20202e23aec91ebb27bbf4f77a9ff7342ff39ca10a87d"
+        },
+        "target": "small_sort_general_with_scratch"
+      },
+      "verifier_exit": 0,
+      "verification_log_sha256": "731f44dad0f9875b398d73dff9468898bb20ba240cba1065500572cb1879604b",
+      "native_target_entered": true,
+      "full_vf0": true,
+      "statement_count": "81",
+      "native_return_seen": true,
+      "native_leak_seen": true,
+      "helper_entries": [
+        "native_source_typed_identity",
+        "small_sort_general_with_scratch"
+      ]
+    },
+    "native-slice-cast-expression": {
+      "accepted": false,
+      "actual_sort4_proved": false,
+      "callable_summary": false,
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "collector_pass_is_proof": false,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(24,5-11): error: Parse error: Parse error.",
+      "first_stage_log_sha256": "066705a9925bb66447e739c617b85b291a584b932d4cb437a85c5dda82b8ba95",
+      "proof_ast_sha256": null,
+      "source_pair_immutable": true,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support": {
+        "full_mir": {
+          "normal": {
+            "bytes": 122183,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "5579faa333d59816fb55b6b6b29df962b078fe6f48f0a4d173f69f1c823057f6"
+          },
+          "readonly": {
+            "bytes": 117314,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "dc2e8348bc491d2bf19355fa0d08ee074e9340b0aa4a00c7430d6c20565a31de"
+          }
+        },
+        "paired_support_passed": true,
+        "proof_credit": false,
+        "source_pair_sha256": {
+          "original/lib.rs": "f132be6333ff6e16aa57ef47ebf45a7c45f98b6ba7a97f5fb7edba67e07d106f",
+          "verified/lib.rs": "ed9e3c94b540e96e24b8210d78b82fbbacd7babbf57ae4fc7d686fe9dccd3f30"
+        },
+        "target": "small_sort_general_with_scratch"
+      },
+      "verifier_exit": 1,
+      "verification_log_sha256": "066705a9925bb66447e739c617b85b291a584b932d4cb437a85c5dda82b8ba95",
+      "native_target_entered": false,
+      "full_vf0": false,
+      "statement_count": null,
+      "native_return_seen": false,
+      "native_leak_seen": false,
+      "helper_entries": []
+    },
+    "opaque-mu-frame-false-post": {
+      "accepted": false,
+      "actual_sort4_proved": false,
+      "callable_summary": false,
+      "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+      "collector_pass_is_proof": false,
+      "first_causal_stage": "verification",
+      "first_error": "verified/lib.rs(43,74-79): error: Cannot prove condition. (Cannot prove false.)",
+      "first_stage_log_sha256": "320d57aea25634bd5a8d458f32e1d20a396178a6919d98ef963167610018f0a2",
+      "proof_ast_sha256": "f65c33d47eb3ad2bdae77911a16a23598452c640d73e7afb15b100a6db22a9a7",
+      "source_pair_immutable": true,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 1,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 1
+      },
+      "support": {
+        "full_mir": {
+          "normal": {
+            "bytes": 54760,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "eb6d03546a2738ad4fbdef5482c192249c076ef29fb46358dac717234667c630"
+          },
+          "readonly": {
+            "bytes": 45267,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "9e6fa96d3bb52aeeb49cba907ae154c86191c99c46a6dba6499eb449bc01e0db"
+          }
+        },
+        "paired_support_passed": true,
+        "proof_credit": false,
+        "source_pair_sha256": {
+          "original/lib.rs": "c9074bde03a2222a46794ae79b50a01a7249bdc4d127b83c2b2dabd8320d456f",
+          "verified/lib.rs": "1a77c7ac5d1f7956bd9291c6374764512e8ee85230d271b1c147ff8ab25e7456"
+        },
+        "target": "small_sort_general_with_scratch"
+      },
+      "verifier_exit": 1,
+      "verification_log_sha256": "320d57aea25634bd5a8d458f32e1d20a396178a6919d98ef963167610018f0a2",
+      "native_target_entered": false,
+      "full_vf0": false,
+      "statement_count": null,
+      "native_return_seen": false,
+      "native_leak_seen": false,
+      "helper_entries": [
+        "native_prefix_split",
+        "native_prefix_recover_current",
+        "native_current_rejoin_with_opaque_frame",
+        "native_current_rejoin_with_opaque_frame"
+      ]
+    },
+    "opaque-mu-frame-interface": {
+      "accepted": false,
+      "actual_sort4_proved": false,
+      "callable_summary": false,
+      "classification": "FRESH_FULL_VF0_CANDIDATE_RAW_REVIEW_REQUIRED",
+      "collector_pass_is_proof": false,
+      "first_causal_stage": "NONE_OBSERVED",
+      "first_error": null,
+      "first_stage_log_sha256": "5a064053bd2432713c22fa1a4ea75827f1bdfc827fa62ece585fe95ba9286262",
+      "proof_ast_sha256": "85a7bb3145c6bfa6573265e10024a523ee55695eef7210512aeed373a731a204",
+      "source_pair_immutable": true,
+      "stages": {
+        "normal-decode": 0,
+        "normal-export": 0,
+        "proof-ast-diagnostic": 0,
+        "readonly-decode": 0,
+        "readonly-export": 0,
+        "refinement": 0,
+        "verification": 0
+      },
+      "support": {
+        "full_mir": {
+          "normal": {
+            "bytes": 54760,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "eb6d03546a2738ad4fbdef5482c192249c076ef29fb46358dac717234667c630"
+          },
+          "readonly": {
+            "bytes": 45267,
+            "defpath": "small_sort_general_with_scratch",
+            "sha256": "9e6fa96d3bb52aeeb49cba907ae154c86191c99c46a6dba6499eb449bc01e0db"
+          }
+        },
+        "paired_support_passed": true,
+        "proof_credit": false,
+        "source_pair_sha256": {
+          "original/lib.rs": "c9074bde03a2222a46794ae79b50a01a7249bdc4d127b83c2b2dabd8320d456f",
+          "verified/lib.rs": "3fe74390dc5d32c59492d122cea3817cce3e99f5fd84dca39fe4b7cf224e34cb"
+        },
+        "target": "small_sort_general_with_scratch"
+      },
+      "verifier_exit": 0,
+      "verification_log_sha256": "5a064053bd2432713c22fa1a4ea75827f1bdfc827fa62ece585fe95ba9286262",
+      "native_target_entered": true,
+      "full_vf0": true,
+      "statement_count": "73",
+      "native_return_seen": true,
+      "native_leak_seen": true,
+      "helper_entries": [
+        "native_prefix_split",
+        "native_prefix_recover_current",
+        "native_current_rejoin_with_opaque_frame",
+        "native_opaque_interface",
+        "small_sort_general_with_scratch"
+      ]
+    }
+  }
+}

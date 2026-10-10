@@ -151,25 +151,23 @@ fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T) -> bool>(
     let v_base = v as *mut [T] as *mut T;
 
     if len >= 8 {
-        /*@
-        produce_type_interp::<T>();
-        produce_type_interp::<F>();
-        assert thread_token(?t);
-        assert t == currentThread;
-        assert v_base[..len] |-> ?source_all;
-        assert foreach(source_all, own::<T>(t));
-        let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
-        let scratch_len = ptr_len(scratch);
-        assert mu_base[..scratch_len] |-> ?mu_all;
-        assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
-        assert *is_less |-> ?less_before;
-        assert <F>.own(t, less_before);
-        array_split::<T>(v_base, 4);
-        foreach_split(source_all, own::<T>(t), 4);
-        assert v_base[..4] |-> ?first_four;
-        interior_pointer_limits::<T>(v_base, 4, 1);
-        let cmp_k = begin_lifetime();
-        @*/
+        //@ produce_type_interp::<T>();
+        //@ produce_type_interp::<F>();
+        //@ assert thread_token(?t);
+        //@ assert t == currentThread;
+        //@ assert v_base[..len] |-> ?source_all;
+        //@ assert foreach(source_all, own::<T>(t));
+        //@ let mu_base = strip_pointer_metadata(scratch as pointer) as *std::mem::MaybeUninit<T>;
+        //@ let scratch_len = ptr_len(scratch);
+        //@ assert mu_base[..scratch_len] |-> ?mu_all;
+        //@ assert foreach(mu_all, own::<std::mem::MaybeUninit<T>>(t));
+        //@ assert *is_less |-> ?less_before;
+        //@ assert <F>.own(t, less_before);
+        //@ array_split::<T>(v_base, 4);
+        //@ foreach_split(source_all, own::<T>(t), 4);
+        //@ assert v_base[..4] |-> ?first_four;
+        //@ interior_pointer_limits::<T>(v_base, 4, 1);
+        //@ let cmp_k = begin_lifetime();
         unsafe {
 /*@ let_lft 'cmp = cmp_k; @*/
             //@ split_four_owned_cells::<T>(v_base, t);
