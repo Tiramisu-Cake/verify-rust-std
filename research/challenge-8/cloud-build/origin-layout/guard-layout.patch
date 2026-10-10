@@ -209,7 +209,7 @@ index 9621ba91..a3e415e6 100644
  
          fn encode_adt_kind(adt_kind: ty::AdtKind, mut adt_kind_cpn: adt_kind_cpn::Builder<'_>) {
 diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-index e19b25bc..62c8ec54 100644
+index e19b25bc..ee80a46e 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 @@ -1928,6 +1928,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
@@ -509,7 +509,7 @@ index e19b25bc..62c8ec54 100644
                        (*is polymorphic*) false ),
                    (*struct_attr list*)
 -                  if is_repr_c_get adt_def_cpn then [ ReprC ] else [] )
-+                  (if is_repr_c_get adt_def_cpn then [ ReprC ] else []) @ concrete_guard_attrs )
++                  (if is_repr_c_get adt_def_cpn then [ Ast.ReprC ] else []) @ concrete_guard_attrs )
              in
              let struct_typedef_aux =
                Ast.TypedefDecl

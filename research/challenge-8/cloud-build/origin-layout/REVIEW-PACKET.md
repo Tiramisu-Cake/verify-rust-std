@@ -1,3 +1,15 @@
+# Qualified guard / one-cell canonical effect — current internal review
+
+Current session2026-10-10 10:21:50→main12:21:50/finish12:51:50. Experimental source/tool profile, NOT_ACCEPTED/NOT_FOR_INTEGRATION. Latest exactpublished proof/infrae7984c8f475ef5fdae4fd64b615dca7369e30261, toolc1aae991c1cad6132080000357a08faf2509c0aa, profileexperimental-merge-qualified-guard-onecell-v1; Build2888a14b pending. Full source/patch/schema pins in PROFILE/LAYOUT-PINS and Cloud receipts, portable guard-layout.patch covers own tool changes over8cb0121b. No upstream tool push or maintainer integration.
+
+Review units: GUARD-BRIDGE-CARD (qualified same-compiler exact source/type/target layout to shared sizeof/alignof/offset, actual live allocation geometry with retired receipts and no authority creation); DROP-EFFECT-CARD (normal-only explicit resource effect reconstructed from checked len1 body, generated unwind unchanged, own=false does not count); NATURAL-DROP-CARD (unimplemented selected concrete callee/outcome/storage cleanup contract). Independent reviews preceded semantic implementation and addressed allocation receipt retirement, precise predicate shape, and utility API corrections.
+
+Five setup/compiler failures preserved,1863Cloudseconds including preparation. Newproof NOT_RUN so far. Synthetic/saved classifier/parser replay separate from proof; missing-array negatives require exact intended predicate. Inert onecell-natural-drop.py is a draft, no runner hook; caller_ready_entry_false would verify conserved full mutable physical entry before natural Drop without glue credit. Full bounded tail normal/unwind contracts and dynamicself.len body retained; legacy count-n interface, generic/ZST/comparator/userDrop and actual panic cleanup remain outside proved domain.
+
+This current review section will be replaced with fresh terminal gate verdicts; historical packet below retained unchanged.
+
+## Historical review packet
+
 # Current internal review packet — bounded recovery closed, Drop open
 
 Session UTC start2026-10-10 00:34:48, main deadline02:34:48, finishing limit03:04:48. All seven Builds were submitted before main deadline; account CLOSED2501/3600 Cloud seconds,1099 unused closed. Old2136s account/1464s retired remainder are separate. Policy/adoption/ACK identities, absolute worktrees and all source/run/tool receipts are in [EVIDENCE.json](EVIDENCE.json); no automatic next session.
