@@ -28,3 +28,17 @@ Removed transport paths:
 - research/challenge-8/cloud-build/strict-cut-false-posts-audit.py
 - research/challenge-8/cloud-build/strict-cut-false-posts-capture.py
 - research/challenge-8/cloud-build/strict-cut-false-posts-prepare.py
+
+## Fresh preflight correction
+
+Build07e046f8 at53866283 failed in shell preflight before the strict fixture or
+any native/C4 target: `CUT relocation requires proof file:
+research/challenge-8/overnight-lifetime/CLOUD-RELOCATE-IDS-TEST-CARD.md`.
+The earlier assertion that all removed prose was unexecuted was wrong: this
+document is an explicit shell existence/hash input. It is restored without
+changing the shell guard. Three exact typed-native `.gh` case inputs are also
+added; the preparer's dynamic case paths were absent from the original new
+recipe. Static closure now checks every run-cut-relocate required proof path
+and each typed-native case path. All frozen semantic pins and transport limits
+remain unchanged. Build07e is setup refusal, all intended target tests NOT_RUN,
+charged342seconds, verified archivecddf07221a4ad383e158b31935bb431ce7832ca859c9a6b56804c46975def050.
