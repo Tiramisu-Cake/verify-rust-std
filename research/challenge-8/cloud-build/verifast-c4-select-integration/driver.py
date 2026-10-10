@@ -88,7 +88,7 @@ def manifest(a):
          data.get("accepted") is False and
          data.get("tool_base_sha") == TOOL_HEAD,
          "integration manifest identity differs")
-    for label in ("tool_c4", "selector_integration"):
+    for label in ("tool_c4", "selector_integration", "composition"):
         path = a.proof_root / HERE / (label.replace("_", "-") + ".patch")
         need(path.is_file() and sha(path) == data[label + "_patch_sha256"],
              label + " patch pin differs")
@@ -133,14 +133,14 @@ def preflight(a):
     record(a.evidence / "manifest-pin.json", {"manifest_sha256": sha(a.manifest),
         "proof_sha": subprocess.check_output(["git", "-C", str(a.proof_root),
         "rev-parse", "HEAD"], text=True).strip(), "patches":
-        {key: data[key + "_patch_sha256"] for key in ("tool_c4", "selector_integration")}})
+        {key: data[key + "_patch_sha256"] for key in ("tool_c4", "selector_integration", "composition")}})
 
 
 def apply(a):
     data = manifest(a)
     need(subprocess.check_output(["git", "-C", str(a.tool_home), "rev-parse", "HEAD"],
         text=True).strip() == TOOL_HEAD, "stock tool checkout differs")
-    for label in ("tool_c4", "selector_integration"):
+    for label in ("tool_c4", "selector_integration", "composition"):
         path = a.proof_root / HERE / (label.replace("_", "-") + ".patch")
         for operation, args in (("check", ["--check"]), ("apply", [])):
             completed = subprocess.run(["git", "-C", str(a.tool_home), "apply", *args,
@@ -149,7 +149,7 @@ def apply(a):
             (a.evidence / f"{label}-{operation}.log").write_text(completed.stdout)
             need(completed.returncode == 0, f"{label} {operation} failed")
     record(a.evidence / "applied-tool.json", {"patches":
-        {key: data[key + "_patch_sha256"] for key in ("tool_c4", "selector_integration")},
+        {key: data[key + "_patch_sha256"] for key in ("tool_c4", "selector_integration", "composition")},
         "changed_files": subprocess.check_output(["git", "-C", str(a.tool_home),
             "diff", "--name-only"], text=True).splitlines()})
 
@@ -231,11 +231,11 @@ def capture(a, case: Path, label: str, names=None):
             order = [content.find('defPath = "' + name + '"') for name in names]
             need(all(value >= 0 for value in order) and order == sorted(order),
                  label + " nine-body decoded MIR order differs")
-            capture_mod = module(a.proof_root / "research/challenge-8/overnight-assume-actual/capture.py",
+            capture_mod = module(a.proof_root / "research/challenge-8/overnight-helper/prepare-assume-init-2610.py",
                                  "integration_nine_capture_" + mode)
             rows = []
             for index, name in enumerate(names):
-                actual_name, body = capture_mod.MIR.complete_function_record(content, name)
+                actual_name, body = capture_mod.complete_function_record(content, name)
                 need(actual_name == name and bool(body), label + " body record mismatch")
                 target = a.evidence / f"{label}-{mode}-body-{index}-full-mir.txt"
                 target.write_text(body)
@@ -258,7 +258,7 @@ def capture(a, case: Path, label: str, names=None):
 
 
 def selector_env(a):
-    env = {"SORT4_ACTUAL_AST_SCOPE_TEST": "0", "SORT4_ACTUAL_C1_PREFIX_TEST": "0",
+    env = {"SORT4_ACTUAL_C4_FIRST_SELECT_TEST": "0", "SORT4_ACTUAL_AST_SCOPE_TEST": "0", "SORT4_ACTUAL_C1_PREFIX_TEST": "0",
            "SORT4_ACTUAL_C2_DISCOVERY_TEST": "0", "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST": "0",
            "SORT4_ACTUAL_C3_CAPTURE_TEST": "0", "SORT4_ACTUAL_C3_BOUND_PREFIX_TEST": "0",
            "SORT4_ACTUAL_C4_CAPTURE_TEST": "0", "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST": "0",
@@ -282,7 +282,7 @@ def selector_env(a):
 
 
 def c4_env():
-    env = {"SORT4_ACTUAL_AST_SCOPE_TEST": "1", "SORT4_STRICT_LFT_CUT": "1",
+    env = {"SORT4_ACTUAL_C4_FIRST_SELECT_TEST": "0", "SORT4_C1_OUTPUT_EQ": "0", "SORT4_ACTUAL_AST_SCOPE_TEST": "1", "SORT4_STRICT_LFT_CUT": "1",
            "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST": "1", "SORT4_C4_BOUND_CONTROL": "none",
            "SORT4_ACTUAL_C1_PREFIX_TEST": "0", "SORT4_ACTUAL_C2_DISCOVERY_TEST": "0",
            "SORT4_ACTUAL_C2_BOUND_PREFIX_TEST": "0", "SORT4_ACTUAL_C3_CAPTURE_TEST": "0",
@@ -384,7 +384,10 @@ def run(a):
             "selector_proof": "NOT_RUN", "c4_proof": "NOT_RUN",
             "composition": "NOT_RUN_PENDING_TOOL_EXTENSION", "accepted": False})
         return
-    selector, selector_log = proof(a, "selector-positive", selector_case, selector_env(a))
+    exported_ast = a.evidence / "selector-final-ast.marshal"
+    export_env = selector_env(a)
+    export_env["SORT4_C4_SELECT_AST_EXPORT"] = str(exported_ast)
+    selector, selector_log = proof(a, "selector-positive", selector_case, export_env)
     frame_audit = module(a.cloud_dir / "o26-r3-frame-test.py",
                          "integration_frame_log_audit").log_proof_evidence(
                              selector_log, {"exit": selector["exit"]})
@@ -422,6 +425,45 @@ def run(a):
         "ast_exact": c4_ast_exact, "pre_ast_sha256": sha(c4_pre) if c4_pre.is_file() else None,
         "post_ast_sha256": sha(c4_post) if c4_post.is_file() else None,
         "controls": {}}
+    composition_ok = False
+    composition = {"state": "NOT_RUN_PARENT_FAILED"}
+    if selector_ok and c4_ok and exported_ast.is_file():
+        consumer = a.evidence / "composition-fixture"
+        shutil.copytree(c4case, consumer, symlinks=True)
+        (consumer / "selector").mkdir()
+        shutil.copyfile(selector_case / "verified/lib.rs", consumer / "selector/lib.rs")
+        original_blob = exported_ast.read_bytes()
+        relocated_blob = original_blob.replace(b"verified/lib.rs", b"selector/lib.rs")
+        need(relocated_blob.replace(b"selector/lib.rs", b"verified/lib.rs") == original_blob,
+             "AST path relocation is not reversible")
+        env = c4_env()
+        env.update({"SORT4_ACTUAL_C4_BOUND_PREFIX_TEST": "0",
+            "SORT4_ACTUAL_C4_FIRST_SELECT_TEST": "1",
+            "SORT4_C4_SELECT_AST_IMPORT": str(exported_ast),
+            "SORT4_C4_SELECT_AST_EXPORT_SHA256": sha(exported_ast),
+            "SORT4_C4_SELECT_AST_RELOCATED_SHA256": hashlib.sha256(relocated_blob).hexdigest(),
+            "SORT4_C4_SELECT_SELECTOR_SOURCE_SHA256": actual_sources["selector"]})
+        result, raw = proof(a, "composition-positive", consumer, env)
+        target = raw.find("Verifying function 'sort4_stable'")
+        composition_ok = (result["exit"] == 0 and not result["errors"] and
+            not result["dead_code"] and result["zero_errors"] and
+            result["return_seen"] and result["leak_check_seen"] and
+            "SORT4-C4-SELECT-AST: importing nine definitions" in raw and
+            target >= 0 and all(raw.find("Verifying function '" + name + "'") >= 0 and
+                raw.find("Verifying function '" + name + "'") < target
+                for name in selector_names) and
+            result["headers"].index(nested) < result["headers"].index(main))
+        composition = {"state": "PASS_PENDING_REVIEW" if composition_ok else "FAIL",
+            "positive": result, "same_kernel_reverified_nine_bodies": composition_ok,
+            "export_sha256": sha(exported_ast),
+            "relocated_sha256": hashlib.sha256(relocated_blob).hexdigest(),
+            "location_occurrences": original_blob.count(b"verified/lib.rs"),
+            "location_only_audit": "PENDING_STRUCTURAL_REVIEW",
+            "original_posts_preserved": True, "raw_ptr_own_pointee_rights": False}
+    stages["composition"] = composition
+    regressions = module(a.proof_root / HERE / "regressions.py", "integration_regressions")
+    stages["regressions"] = regressions.run(a, a.tool_home, selector_case, c4case,
+        selector_env(a), c4_env(), stage, proof)
     if c4_ok:
         for control in CONTROLS:
             case = a.evidence / ("control-" + control)
@@ -447,7 +489,8 @@ def run(a):
         "selector_full_nine_body": selector_ok, "c4_positive": c4_ok,
         "c4_controls_reached_target": control_reached,
         "c4_controls_intended_vc_review": "PENDING_RAW_REVIEW",
-        "composition": "NOT_RUN_PENDING_TOOL_EXTENSION",
+        "composition": composition,
+        "composition_positive": composition_ok,
         "target_contract_proved": False, "actual_source_accepted": False,
         "verification_accepted": False, "accepted": False})
     pin(a)

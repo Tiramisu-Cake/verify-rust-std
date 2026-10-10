@@ -1,0 +1,392 @@
+--- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
++++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+@@ -6784,17 +6784,26 @@
+       | None | Some "0" -> false
+       | Some "1" -> true
+       | _ -> failwith "SORT4-C4-CAPTURE: malformed opt-in" in
++    let c4_first_select_requested =
++      match Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" with
++      | None | Some "0" -> false
++      | Some "1" -> true
++      | _ -> failwith "SORT4-C4-FIRST-SELECT: malformed opt-in" in
+     let c4_bound_requested =
+       match Sys.getenv_opt "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST" with
+       | None | Some "0" -> false
+       | Some "1" -> true
+       | _ -> failwith "SORT4-C4-BOUND: malformed opt-in" in
++    let c4_bound_requested = c4_bound_requested || c4_first_select_requested in
+     if c4_bound_requested then begin
+       if c4_capture_requested || c3_bound_requested || c3_capture_requested ||
+          c2_bound_requested || c2_discovery_requested || prefix_requested ||
+          Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" <> Some "1" ||
+          Sys.getenv_opt "SORT4_C1_OUTPUT_EQ" <> Some "0" ||
+          Sys.getenv_opt "SORT4_STRICT_LFT_CUT" <> Some "1" ||
++         (if c4_first_select_requested then
++            Sys.getenv_opt "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST" <> Some "0"
++          else false) ||
+          (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
+           | None | Some "none" -> false | _ -> true) ||
+          (match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
+@@ -8231,15 +8240,33 @@
+                  List.iter2 check_local c4_local_names c4_locals;
+                  check_local "c4" (root 156);
+                  let future_indexes =
+-                   [190; 191; 192; 193; 194; 195] in
++                   if c4_first_select_requested then [193; 194; 195]
++                   else [190; 191; 192; 193; 194; 195] in
+                  let future_decls =
+-                   List.filteri (fun i _ -> List.mem i future_indexes)
++                   List.filteri (fun i _ ->
++                     List.mem i (if c4_first_select_requested then
++                       [190; 191; 192; 193; 194; 195] else future_indexes))
+                      original_body in
+                  if List.length future_decls <> 6 then reject "later-call declarations";
+                  List.iter (function
+                    | Ast.DeclStmt (_, [(_, _, _, None, (taken, _))])
+                      when not !taken -> ()
+                    | _ -> reject "later-call declaration has init/address") future_decls;
++                 if c4_first_select_requested then begin
++                   List.iter2 check_local ["$_171"; "$_172"; "$_173"]
++                     (List.filteri (fun i _ -> i >= 190 && i <= 192)
++                       original_body);
++                   check_local "min" (root 189);
++                   let declared name = List.filter (function
++                     | Ast.DeclStmt (_, vars) ->
++                         List.exists (fun (_, _, actual, _, _) ->
++                           actual = name) vars
++                     | _ -> false) original_body in
++                   List.iter (fun name ->
++                     if List.length (declared name) <> 1 then
++                       reject ("retained local is not declared exactly once: " ^
++                         name)) ["min"; "$_171"; "$_172"; "$_173"]
++                 end;
+                  let kept_decls =
+                    List.filteri (fun i _ ->
+                      i < 220 && not (24 <= i && i <= 31) &&
+@@ -8247,7 +8274,8 @@
+                      not (121 <= i && i <= 126) &&
+                      not (157 <= i && i <= 162) &&
+                      not (List.mem i future_indexes)) original_body in
+-                 if List.length kept_decls <> 184 then
++                 if List.length kept_decls <>
++                    (if c4_first_select_requested then 187 else 184) then
+                    reject "outer local declaration inventory";
+                  let block_loc, cmp_decl, old_stmts, old_close =
+                    match root 224 with
+@@ -8565,6 +8593,78 @@
+                    if control = "c4-normal-omit-join" then
+                      Ast.NoopStmt (Ast.stmt_loc (block (c4_cut_index + 2)))
+                    else block (c4_cut_index + 2) in
++                 let first_select =
++                   if not c4_first_select_requested then [] else begin
++                     List.iter (fun (index, dst, src) ->
++                       match block index with
++                       | Ast.ExprStmt (Ast.AssignExpr
++                           (_, Ast.Var (_, actual_dst), Ast.Mutation,
++                            Ast.Var (_, actual_src)))
++                         when actual_dst = dst && actual_src = src &&
++                              source_line (block index) = 487 -> ()
++                       | _ -> reject "exact original first selector operand setup")
++                       [(171, "$_171", "c3"); (172, "$_172", "c");
++                        (173, "$_173", "a")];
++                     let original = block 174 in
++                     let transformed = match original with
++                       | Ast.SwitchStmt
++                           (loc,
++                            Ast.CallExpr
++                              (call_loc, "std::hint::select_unpredictable",
++                               [Ast.PtrTypeExpr
++                                  (type_loc,
++                                   Ast.IdentTypeExpr (_, None, "T"))],
++                               [],
++                               [Ast.LitPat (Ast.Var (_, "$_171"));
++                                Ast.LitPat (Ast.Var (_, "$_172"));
++                                Ast.LitPat (Ast.Var (_, "$_173"))],
++                               Ast.Static),
++                            [Ast.SwitchStmtClause
++                               (_, Ast.CallExpr
++                                  (_, "returning", [], [],
++                                   [Ast.LitPat (Ast.Var (_, "__result"))],
++                                   Ast.Static),
++                                [Ast.ExprStmt (Ast.AssignExpr
++                                  (_, Ast.Var (_, "min"),
++                                   Ast.Initialization,
++                                   Ast.Var (_, "__result")))]);
++                             Ast.SwitchStmtClause
++                               (_, Ast.CallExpr
++                                  (_, "unwinding", [], [], [], Ast.Static),
++                                [Ast.ReturnStmt
++                                  (_, Some (Ast.CallExpr
++                                    (_, "unwinding", [], [], [],
++                                     Ast.Static)))])] as clauses)
++                         when source_line original = 487 &&
++                           (match Ast.lexed_loc call_loc with
++                            | ((file, 487, 19), (file2, 487, 55)) ->
++                                file = file2 &&
++                                Filename.check_suffix file "verified/lib.rs"
++                            | _ -> false) ->
++                           Ast.SwitchStmt
++                             (loc,
++                              Ast.CallExpr
++                                (call_loc, "select_unpredictable",
++                                 [Ast.IdentTypeExpr (type_loc, None, "T")],
++                                 [],
++                                 [Ast.LitPat (Ast.Var (call_loc, "$_171"));
++                                  Ast.LitPat (Ast.Var (call_loc, "$_172"));
++                                  Ast.LitPat (Ast.Var (call_loc, "$_173"))],
++                                 Ast.Static),
++                               clauses)
++                       | _ -> reject "exact original first selector call/type/operands" in
++                     let result_assertion =
++                       let loc = Ast.stmt_loc transformed in
++                       Ast.Assert
++                         (loc,
++                          Ast.Operation
++                            (loc, Ast.Eq,
++                             [Ast.Var (loc, "min");
++                              Ast.IfExpr
++                                (loc, Ast.Var (loc, "c3"),
++                                 Ast.Var (loc, "c"), Ast.Var (loc, "a"))])) in
++                     [block 171; block 172; block 173; transformed; result_assertion]
++                   end in
+                  let outer = Ast.BlockStmt
+                    (block_loc, [],
+                     [c1_child; Ast.NoopStmt cut1; block 35; block 36;
+@@ -8574,7 +8674,7 @@
+                     [c3_child; Ast.NoopStmt cut3;
+                      block (c3_cut_index + 1); c3_normal_join;
+                      block 134; c4_child; Ast.NoopStmt cut4;
+-                     block (c4_cut_index + 1); c4_normal_join],
++                     block (c4_cut_index + 1); c4_normal_join] @ first_select,
+                     old_close, ref []) in
+                  let normal_wrapper = Ast.BlockStmt
+                    (Ast.stmt_loc (root 220), [],
+@@ -8677,8 +8777,11 @@
+                    "actual-c4-bound-post-ast.ml"
+                    (Ocaml_expr_of_ast.of_decl changed_decl);
+                  Printf.eprintf
+-                   "SORT4-C4-BOUND admitted original_ast=%s sibling_calls=4 c1_locals=8 c2_locals=10 c3_locals=6 c4_locals=6 future_decl_full_input=6 future_decl_bounded=0 output_eq=4 outcomes=c1_normal,c1_unwind,c2_normal,c2_unwind,c3_normal,c3_unwind,c4_normal,c4_unwind labels=%d gotos=%d control=%s NOT_CALLABLE_SUMMARY\n%!"
+-                   (String.sub pre_sha 0 64) (List.length labels)
++                   "SORT4-C4-BOUND admitted original_ast=%s sibling_calls=4 c1_locals=8 c2_locals=10 c3_locals=6 c4_locals=6 future_decl_full_input=6 future_decl_bounded=%d output_eq=4 outcomes=c1_normal,c1_unwind,c2_normal,c2_unwind,c3_normal,c3_unwind,c4_normal,c4_unwind%s labels=%d gotos=%d control=%s NOT_CALLABLE_SUMMARY\n%!"
++                   (String.sub pre_sha 0 64)
++                   (if c4_first_select_requested then 3 else 0)
++                   (if c4_first_select_requested then ",first_select" else "")
++                   (List.length labels)
+                    (List.length gotos) control;
+                  changed_decl
+                end else if c2_discovery_requested then begin
+@@ -17148,12 +17251,208 @@
+             (modularize_fn_decl module_imports_map)
+             (body_sigs @ proof_body_decls)
+       in
+-      Ok
+-        ( headers,
+-          Rust_parser.flatten_module_decls Ast.dummy_loc
+-            (List.flatten ghost_imports)
+-            decls,
+-          Some debug_infos )
++      let flattened = Rust_parser.flatten_module_decls Ast.dummy_loc
++        (List.flatten ghost_imports) decls in
++      (* Draft C4 composition transport.  The exported value is the FINAL
++         translated AST, after the exact nine-body admission and proof-order
++         permutation.  No declaration is synthesized from a proof log. *)
++      let export_path = Sys.getenv_opt "SORT4_C4_SELECT_AST_EXPORT" in
++      let import_path = Sys.getenv_opt "SORT4_C4_SELECT_AST_IMPORT" in
++      let c4_first_select_import_mode =
++        Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" = Some "1" in
++      if export_path <> None && import_path <> None then
++        failwith "SORT4-C4-SELECT-AST: export/import modes conflict";
++      if c4_first_select_import_mode && import_path = None then
++        failwith "SORT4-C4-SELECT-AST: first-select mode requires admitted export import";
++      if import_path <> None && not c4_first_select_import_mode then
++        failwith "SORT4-C4-SELECT-AST: import requires first-select mode";
++      (match export_path with
++       | None -> ()
++       | Some path ->
++         if not !Sort4SelectIntrinsic.actual_nine_admitted ||
++            not !Sort4ActualNestedH2.active ||
++            not !Sort4ActualForgetOwn.active ||
++            not !Sort4R3CleanupProjectionTest.active ||
++            not Sort4R3FrameShadowTest.enabled ||
++            List.length bodies_cpn <> 9 ||
++            List.length proof_body_decls <> 9 ||
++            Sys.getenv_opt "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST" <> Some "0" ||
++            Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" <> Some "0" ||
++            Filename.is_relative path || Sys.file_exists path then
++           failwith "SORT4-C4-SELECT-AST: exact admitted nine-body export required";
++         let bytes = Marshal.to_string (headers, flattened)
++           [Marshal.No_sharing] in
++         let oc = open_out_bin path in
++         Fun.protect ~finally:(fun () -> close_out oc)
++           (fun () -> output_string oc bytes);
++         Printf.printf
++           "SORT4-C4-SELECT-AST: exported final nine-body AST sha256=%s bytes=%d bodies=9\n%!"
++           (sort4_actual_owner_sha256 bytes) (String.length bytes));
++      let headers, flattened = match import_path with
++        | None -> headers, flattened
++        | Some path ->
++          let reject why = failwith ("SORT4-C4-SELECT-AST: " ^ why) in
++          if Sys.getenv_opt "SORT4_ACTUAL_C4_FIRST_SELECT_TEST" <> Some "1" ||
++             Sys.getenv_opt "SORT4_ACTUAL_C4_BOUND_PREFIX_TEST" <> Some "0" ||
++             Filename.is_relative path || not (Sys.file_exists path) ||
++             List.length bodies_cpn <> 1 ||
++             TrName.translate_def_path
++               (BodyRd.def_path_get (List.hd bodies_cpn)) <> "sort4_stable" ||
++             Args.ignore_unwind_paths || Args.skip_specless_fns then
++            reject "exact C4 one-body import environment";
++          let bytes = Sort4MaybeUninit.read_file path in
++          let expected = match Sys.getenv_opt
++            "SORT4_C4_SELECT_AST_EXPORT_SHA256" with
++            | Some s when String.length s = 64 -> s
++            | _ -> reject "export SHA256 required" in
++          if sort4_actual_owner_sha256 bytes <> expected then
++            reject "exported final AST hash";
++          let old_path = "verified/lib.rs" in
++          let new_path = "selector/lib.rs" in
++          if String.length old_path <> String.length new_path then
++            reject "location relocation length";
++          let rec replace at count acc =
++            match Sort4MaybeUninit.find_substring bytes old_path at with
++            | None -> String.concat "" (List.rev
++                (String.sub bytes at (String.length bytes - at) :: acc)), count
++            | Some pos ->
++              replace (pos + String.length old_path) (count + 1)
++                (new_path :: String.sub bytes at (pos - at) :: acc) in
++          let relocated, count = replace 0 0 [] in
++          if count = 0 then reject "selector source path absent from AST";
++          let expected_relocated = match Sys.getenv_opt
++            "SORT4_C4_SELECT_AST_RELOCATED_SHA256" with
++            | Some s when String.length s = 64 -> s
++            | _ -> reject "reviewed relocated AST SHA256 required" in
++          if sort4_actual_owner_sha256 relocated <> expected_relocated then
++            reject "relocated AST hash";
++          let reverse_relocated, reverse_count =
++            let rec reverse at count acc =
++              match Sort4MaybeUninit.find_substring relocated new_path at with
++              | None ->
++                  String.concat "" (List.rev
++                    (String.sub relocated at
++                      (String.length relocated - at) :: acc)), count
++              | Some pos ->
++                  reverse (pos + String.length new_path) (count + 1)
++                    (old_path :: String.sub relocated at (pos - at) :: acc) in
++            reverse 0 0 [] in
++          if reverse_count <> count ||
++             sort4_actual_owner_sha256 reverse_relocated <> expected then
++            reject "location-only relocation reverse certificate";
++          let selector_source = match Sys.getenv_opt
++            "SORT4_C4_SELECT_SELECTOR_SOURCE_SHA256" with
++            | Some s when String.length s = 64 -> s
++            | _ -> reject "selector source SHA256 required" in
++          if sort4_actual_owner_sha256
++               (Sort4MaybeUninit.read_file new_path) <> selector_source then
++            reject "relocated selector source differs";
++          let imported_headers, imported_decls =
++            try Marshal.from_string relocated 0
++            with _ -> reject "unmarshal final selector AST" in
++          let package_inventory packages =
++            let qualify prefix name =
++              if prefix = "" then name else prefix ^ "::" ^ name in
++            let rec named package_name = function
++              | [] -> []
++              | Ast.PackageDecl (_, nested_name, _, nested) :: rest ->
++                  named (qualify package_name nested_name) nested @
++                  named package_name rest
++              | Ast.ModuleDecl (_, nested_name, _, nested) :: rest ->
++                  named (qualify package_name nested_name) nested @
++                  named package_name rest
++              | decl :: rest ->
++                  let here = match
++                    AstAux.decl_loc_name_and_name_setter decl with
++                    | None -> []
++                    | Some (_, name, _) ->
++                        [(qualify package_name name, decl)] in
++                  here @ named package_name rest in
++            List.concat_map (function
++              | Ast.PackageDecl (_, package_name, _, decls) ->
++                  named package_name decls
++              | _ -> reject "flattened AST contains non-package declaration")
++              packages in
++          let imported_map = package_inventory imported_decls in
++          let current_map = package_inventory flattened in
++          let runtime_bodies = List.filter_map (fun (name, decl) ->
++            match decl with
++            | Ast.Func (_, Ast.Regular, _, _, _, _, _, _, _, _,
++                        Some _, _, _) -> Some name
++            | _ -> None) imported_map in
++          let required_suffixes = [
++            "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
++            "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
++            "sort4_checked_generic_drop"; "checked_transmute_neo_pointer";
++            "checked_assume_init_pointer"; "checked_forget_owned";
++            "<select_unpredictable::DropOnPanic<T> as std::ops::Drop>::drop";
++            "select_unpredictable"
++          ] in
++          let ends_with name suffix =
++            name = suffix ||
++            (String.length name > String.length suffix &&
++             String.sub name (String.length name - String.length suffix)
++               (String.length suffix) = suffix) in
++          if List.length runtime_bodies <> 9 ||
++             not (List.for_all (fun suffix ->
++               List.length (List.filter (fun name -> ends_with name suffix)
++                 runtime_bodies) = 1) required_suffixes) ||
++             List.map (fun name ->
++               match List.find_opt (ends_with name) required_suffixes with
++               | Some suffix -> suffix
++               | None -> reject "unexpected regular runtime body") runtime_bodies
++               <> required_suffixes ||
++             List.length (List.filter (fun name ->
++               ends_with name "select_unpredictable") runtime_bodies) <> 1 then
++            reject "exact nine imported regular runtime function bodies";
++          if List.length (List.filter (fun name ->
++               ends_with name "select_unpredictable") runtime_bodies) <> 1 then
++            reject "one imported pointer-specialized selector body";
++          List.iter (fun (name, decl) ->
++            match List.assoc_opt name current_map with
++            | None -> ()
++            | Some other when
++                Marshal.to_string decl [Marshal.No_sharing] =
++                Marshal.to_string other [Marshal.No_sharing] -> ()
++            | Some _ -> reject ("declaration collision: " ^ name)) imported_map;
++          let header_key (_, (_, name, path), _, _) = name, path in
++          let headers = List.fold_left (fun seen header ->
++            match List.find_opt (fun old -> header_key old = header_key header)
++              seen with
++            | None -> seen @ [header]
++            | Some old when
++                Marshal.to_string old [Marshal.No_sharing] =
++                Marshal.to_string header [Marshal.No_sharing] -> seen
++            | Some _ -> reject "header collision") headers imported_headers in
++          (* Keep the FINAL export's package sequence and body order verbatim.
++             flatten_module_decls intentionally emits repeated package names;
++             grouping those packages would change proof order. Only identical
++             shared declarations from the current consumer may be omitted. *)
++          let current_packages = List.map (function
++            | Ast.PackageDecl (loc, package_name, imports, ds) ->
++                let ds = List.filter (fun decl ->
++                  match AstAux.decl_loc_name_and_name_setter decl with
++                  | None -> true
++                  | Some (_, name, _) ->
++                      let key = if package_name = "" then name else
++                        package_name ^ "::" ^ name in
++                      match List.assoc_opt key imported_map with
++                      | None -> true
++                      | Some other when
++                          Marshal.to_string decl [Marshal.No_sharing] =
++                          Marshal.to_string other [Marshal.No_sharing] -> false
++                      | Some _ -> reject ("declaration collision: " ^ key)) ds in
++                Ast.PackageDecl (loc, package_name, imports, ds)
++            | _ -> reject "current flattened AST contains non-package declaration")
++            flattened in
++          let merged_decls = imported_decls @ current_packages in
++          Printf.printf
++            "SORT4-C4-SELECT-AST: importing nine definitions sha256=%s relocated_sha256=%s reverse_sha256=%s location_occurrences=%d\n%!"
++            expected expected_relocated
++            (sort4_actual_owner_sha256 reverse_relocated) count;
++          headers, merged_decls
++      in
++      Ok (headers, flattened, Some debug_infos)
+     in
+     match job () with
+     | Ok res -> res
