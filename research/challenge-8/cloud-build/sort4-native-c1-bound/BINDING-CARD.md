@@ -1,8 +1,9 @@
-# Exact native C1 binding proposal — DRAFT / NOT_IMPLEMENTED / NOT_RUN
+# Exact native C1 binding — DRAFT / IMPLEMENTED / NOT_RUN
 
 This is a review contract for a new isolated translator mode, not a proof or an
-accepted tool profile. It depends on the callback-free prepared diagnostic
-reaching its real resource boundary. The only proposed implementation file is
+accepted tool profile. The callback-free prepared diagnostic passed strict
+entry and its native resource assertions, then stopped at the reverse
+reference-own preparation before an actual callback call. The only implementation file is
 the isolated VeriFast worktree's
 `src/rust_frontend/vf_mir_translator/vf_mir_translator.ml`, starting from
 HEAD `f76012fb518703b1d98e243ac4f487f16877cfcb` plus the existing
@@ -81,15 +82,12 @@ the old C4 three-block matcher or omit the fourth block.
 
 ## Bounded transformation to review
 
-The `_5` issue is separate from callback lifetime binding. Do not assign it
-`'cmp` or widen its inferred region. A candidate is a lexical pre-cmp block
-containing only `_5`'s declaration and the two adjacent source-derived
-assignments at root 77–78, ending before the size-of switch. This is permitted
-only after the MIR storage/use graph confirms no subsequent use or live debt
-and the transformed AST demonstrably preserves allocation/free on all outgoing
-paths. If that fails, stop at the exact strict-entry blocker and refer any
-general inference rule to the VeriFast maintainer; do not erase an inferred
-type, the cut, or a resource. Keep root label 76 and all source branch edges.
+`_5` stays in its original outer declaration. Fresh callback-free preparation
+passed strict entry with this same `v.len()`/`size_of` prefix, so there is no
+observed `_5` failure to justify a scope rewrite. The pinned MIR still checks
+its StorageLive in bb0, StorageDead in bb1, and no later use. If a fresh bound
+run reveals a named `_5` failure, it requires a new review rather than an
+automatic extra relocation. Root label 76 and all source branches remain.
 
 As in the reviewed C4 mechanism, move exactly callback locals `_55.._62`
 from the outer declaration list into the `'cmp` child, preserving their

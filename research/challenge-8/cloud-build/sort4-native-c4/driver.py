@@ -58,6 +58,20 @@ CONTROLS = ("normal-false-post", "c1-unwind-false-assert",
             "c4-unwind-false-assert")
 NATIVE = ("source-typed-frame-positive", "source-typed-missing-T-negative",
           "source-typed-missing-F-negative")
+BOUND_SOURCE = "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+BOUND_ORIGINAL = "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1"
+BOUND_NORMAL_MIR = "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+BOUND_READONLY_MIR = "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+BOUND_CASE_CONTROLS = {
+    "native-c1-bound-positive": ("1", "none", "0"),
+    "native-c1-bound-default-off": ("0", "none", "0"),
+    "native-c1-bound-false-normal": ("1", "normal_false", "0"),
+    "native-c1-bound-false-unwind": ("1", "unwind_false", "0"),
+    "native-c1-bound-source-refusal": ("1", "none", "0"),
+    "native-c1-bound-extra-body": ("1", "none", "0"),
+    "native-c1-bound-malformed": ("bad", "none", "0"),
+    "native-c1-bound-mixed": ("1", "none", "1"),
+}
 
 
 def need(value: bool, reason: str) -> None:
@@ -209,9 +223,10 @@ def build_frozen_c4(a, historical, env: dict[str, str]) -> tuple[Path, dict]:
         "expected_snapshot_sha256": sha(frozen_file),
         "expected_console_sha256": expected["binaries"]["bin/verifast"],
         "fresh_console_sha256": after["binaries"]["bin/verifast"],
-        "fresh_console_used_for_all_cases": not bool(json.loads(
-            (a.proof_root / HERE / "profile.json").read_text()).get("native_c1_capture_cases")),
-        "fresh_console_used_for_frozen_profile_cases": True,
+        "fresh_console_used_for_all_cases": not (
+            OPAQUE_SESSION or C1_BOUND_SESSION),
+        "fresh_console_used_for_frozen_profile_cases": not (
+            OPAQUE_SESSION or C1_BOUND_SESSION),
         "frozen_source_and_non_console_binaries_match": True,
         "accepted": False})
     save(a.evidence / "frozen-tool-snapshot.json", after)
@@ -261,6 +276,92 @@ def build_native_capture_tool(a, historical, base: Path, env: dict[str, str]) ->
     save(root / "effective-profile.json", {"profile": profile,
          "profile_sha256": sha(profile_path), "snapshot": after,
          "proof_credit": False, "mode": "CAPTURE_ONLY_ALWAYS_REFUSE"})
+    return tool
+
+
+def build_native_bound_tool(a, historical, base: Path, env: dict[str, str]) -> Path:
+    """Build the exact capture+bound translator chain in a separate Cloud tool."""
+    need(C1_BOUND_SESSION, "native C1 bound tool is outside its exact phase")
+    capture_dir = a.proof_root / ROOT / "sort4-native-opaque"
+    capture_profile_path = capture_dir / "NATIVE-C1-CAPTURE-PROFILE.json"
+    capture = json.loads(capture_profile_path.read_text())
+    bound_profile_path = a.proof_root / HERE / "NATIVE-C1-BOUND-TOOL-MANIFEST.json"
+    bound = json.loads(bound_profile_path.read_text())
+    need(capture.get("mode") == "CAPTURE_ONLY_ALWAYS_REFUSE" and
+         capture.get("base_translator_sha256") == FINAL_TRANSLATOR and
+         capture.get("translator_sha256") ==
+         "86952a6ac4a61ac854d8a9886cff98ee143a0e75ccf8148fb84e07c0a14ce544" and
+         capture.get("kernel_sha256") == FINAL_KERNEL and
+         capture.get("verified_source_sha256") == BOUND_SOURCE and
+         capture.get("original_source_sha256") == BOUND_ORIGINAL and
+         capture.get("normal_full_mir_sha256") == BOUND_NORMAL_MIR and
+         capture.get("readonly_full_mir_sha256") == BOUND_READONLY_MIR and
+         bound.get("base_translator_sha256") == capture["translator_sha256"] and
+         bound.get("translator_sha256") ==
+         "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8" and
+         bound.get("patch_sha256") ==
+         "ed95e901c89daabffa725e1c1f38369930693b72be1d60d3548811ebafabb7ec" and
+         bound.get("kernel_sha256") == FINAL_KERNEL and
+         bound.get("tool_head") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
+         bound.get("profile_accepted") is False and
+         set(bound) == {"tool_head", "base_translator_sha256", "translator_sha256",
+                        "patch_sha256", "kernel_sha256", "profile_accepted"},
+         "native C1 bound chain differs from reviewed frozen base")
+    patches = (
+        (capture_dir / "native-c1-capture-only.patch", capture, "capture"),
+        (a.proof_root / HERE / "native-c1-bound.patch", bound, "bound"),
+    )
+    before = historical.snapshot(a, base)
+    need(before["critical"][str(TRANSLATOR)] == FINAL_TRANSLATOR and
+         before["critical"][str(KERNEL)] == FINAL_KERNEL,
+         "native C1 bound base is not frozen C4")
+    tool = a.work_root / "sort4-native-c1-bound-isolated-source"
+    need(not tool.exists(), "native C1 bound isolated tool already exists")
+    shutil.copytree(base, tool, symlinks=True)
+    need(historical.snapshot(a, tool) == before,
+         "native C1 bound copy differs from frozen C4")
+    root = a.evidence / "native-c1-bound-tool"
+    for patch, manifest, label in patches:
+        need(sha(patch) == manifest["patch_sha256"] and
+             [line for line in patch.read_text().splitlines()
+              if line.startswith(("--- ", "+++ "))] ==
+             [f"--- a/{TRANSLATOR}", f"+++ b/{TRANSLATOR}"] and
+             sha(tool / TRANSLATOR) == manifest["base_translator_sha256"],
+             f"native C1 {label} patch or base pin differs")
+        for operation, argv in (("check", ["apply", "--check"]),
+                                ("apply", ["apply"])):
+            row = stage(a, root, f"{label}-patch-{operation}",
+                        ["git", "-C", str(tool), *argv, str(patch)], env,
+                        60, cwd=tool)
+            need(row.get("exit") == 0, f"native C1 {label} patch {operation} failed")
+        need(sha(tool / TRANSLATOR) == manifest["translator_sha256"] and
+             sha(tool / KERNEL) == FINAL_KERNEL,
+             f"native C1 {label} result pin differs")
+    (tool / "bin/verifast").unlink(missing_ok=True)
+    row = stage(a, root, "console-build",
+                ["make", "-C", str(tool / "src"), "../bin/verifast",
+                 "WITHOUT_LABLGTK=yes", "VERBOSE=yes"], clean_env(a, tool),
+                600, cwd=tool)
+    need(row.get("exit") == 0, "native C1 bound console build failed")
+    after = historical.snapshot(a, tool)
+    need(after["head"] == before["head"] and
+         after["critical"][str(TRANSLATOR)] == bound["translator_sha256"] and
+         all(after["critical"][key] == value
+             for key, value in before["critical"].items()
+             if key != str(TRANSLATOR)) and
+         all(after[key] == before[key] for key in
+             ("effective_rsspec", "proof_std", "modified_names")) and
+         all(after["binaries"][key] == value
+             for key, value in before["binaries"].items()
+             if key != "bin/verifast"),
+         "native C1 bound tool changed frozen non-translator inputs")
+    save(root / "effective-profile.json", {
+        "capture_profile_sha256": sha(capture_profile_path),
+        "bound_profile_sha256": sha(bound_profile_path),
+        "capture_patch_sha256": sha(patches[0][0]),
+        "bound_patch_sha256": sha(patches[1][0]),
+        "snapshot": after, "accepted": False,
+        "frozen_c4_tool_unchanged": True})
     return tool
 
 
@@ -354,10 +455,22 @@ def source_support(a, tool: Path, fixture: Path, root: Path,
 
 
 def verify_case(a, tool: Path, fixture: Path, root: Path,
-                env: dict[str, str], *, target: str, ast: bool = True) -> dict:
+                env: dict[str, str], *, target: str, ast: bool = True,
+                require_paired_support: bool = False,
+                required_full_mir: tuple[str, str] | None = None) -> dict:
     input_sha = {name: sha(fixture / name)
                  for name in ("verified/lib.rs", "original/lib.rs")}
     rows, support = source_support(a, tool, fixture, root, env, target=target)
+    if require_paired_support:
+        need(support["paired_support_passed"],
+             "native C1 bound paired MIR/refinement pre-verifier gate failed")
+    if required_full_mir is not None:
+        need(support["full_mir"].get("normal", {}).get("sha256") ==
+             required_full_mir[0] and
+             support["full_mir"].get("readonly", {}).get("sha256") ==
+             required_full_mir[1] and
+             support["source_pair_sha256"] == input_sha,
+             "native C1 bound exact normal/readonly MIR pre-verifier gate failed")
     command = [str(tool / "bin/verifast"), "-rustc_args", "--edition 2021",
                "-verbose", "2", "verified/lib.rs"]
     if ast:
@@ -515,7 +628,9 @@ def native_cases(a, tool: Path, env: dict[str, str]) -> dict:
     return results
 
 
-def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None = None) -> dict:
+def supplied_cases(a, tool: Path, env: dict[str, str],
+                   capture_tool: Path | None = None,
+                   bound_tool: Path | None = None) -> dict:
     """Run complete, isolated user supplied source units; preserve every failure."""
     profile = json.loads((a.proof_root / HERE / "profile.json").read_text())
     case_file = profile.get("case_file", "cases.rs")
@@ -533,6 +648,10 @@ def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None
     if profile.get("run_mode") == "FROZEN_C4_INDEPENDENT_FOLLOWUP":
         need([name for name, _ in blocks] == profile.get("followup_cases"),
              "follow-up cases differ from exact profile")
+        if C1_BOUND_SESSION:
+            need(list(BOUND_CASE_CONTROLS) == profile["followup_cases"] and
+                 bound_tool is not None,
+                 "native C1 bound cases or isolated tool differ")
         excerpt_file = a.proof_root / FROZEN_HERE / "SLICE-EXPRESSION-SOURCE.json"
         excerpt = json.loads(excerpt_file.read_text())
         need(excerpt.get("source_path") == "library/core/src/slice/mod.rs" and
@@ -572,6 +691,16 @@ def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None
             case_env.update({key: value for key, value in active.items()
                              if key.startswith("SORT4_")})
             case_env["SORT4_NATIVE_OPAQUE_C1_CAPTURE"] = "1" if capture_case else "0"
+        if C1_BOUND_SESSION:
+            need(bound_tool is not None, "native C1 bound tool is missing")
+            case_tool = bound_tool
+            case_env = {**active, **clean_env(a, case_tool)}
+            case_env.update({key: value for key, value in active.items()
+                             if key.startswith("SORT4_")})
+            opt_in, control, c4_mixed = BOUND_CASE_CONTROLS[name]
+            case_env.update(SORT4_NATIVE_OPAQUE_C1_BOUND=opt_in,
+                            SORT4_NATIVE_OPAQUE_C1_BOUND_CONTROL=control,
+                            SORT4_ACTUAL_C4_BOUND_PREFIX_TEST=c4_mixed)
         root = a.evidence / "supplied" / name
         fixture = root / "fixture"
         (fixture / "verified").mkdir(parents=True)
@@ -579,7 +708,20 @@ def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None
         verified = unit.encode()
         if not verified.endswith(b"\n"):
             verified += b"\n"
+        if C1_BOUND_SESSION:
+            expected = (BOUND_SOURCE if name not in
+                        ("native-c1-bound-source-refusal", "native-c1-bound-extra-body")
+                        else None)
+            if expected is not None:
+                need(hashlib.sha256(verified).hexdigest() == expected,
+                     f"native C1 bound exact source differs: {name}")
+            else:
+                need(hashlib.sha256(verified).hexdigest() != BOUND_SOURCE,
+                     f"native C1 bound refusal source did not mutate: {name}")
         original = ghost.strip_ghost(verified)
+        if C1_BOUND_SESSION and expected is not None:
+            need(hashlib.sha256(original).hexdigest() == BOUND_ORIGINAL,
+                 f"native C1 bound exact original source differs: {name}")
         (fixture / "verified/lib.rs").write_bytes(verified)
         (fixture / "original/lib.rs").write_bytes(original)
         names = re.findall(r"\b(?:pub\s+)?(?:unsafe\s+)?fn\s+([A-Za-z_][A-Za-z_0-9]*)\s*[(<]",
@@ -617,7 +759,11 @@ def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None
             save(root / "checked-mir-capture.json", checked_capture)
         try:
             result = verify_case(a, case_tool, fixture, root, case_env,
-                                 target=target, ast=not capture_case)
+                                 target=target,
+                                 ast=not (capture_case or C1_BOUND_SESSION),
+                                 require_paired_support=C1_BOUND_SESSION,
+                                 required_full_mir=(BOUND_NORMAL_MIR, BOUND_READONLY_MIR)
+                                 if C1_BOUND_SESSION and expected is not None else None)
         except Exception as exc:
             result = {"classification": "SUPPLIED_CASE_SETUP_OR_COLLECTOR_ERROR",
                       "first_causal_stage": "COLLECTOR", "reason": str(exc),
@@ -630,7 +776,8 @@ def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None
             "kernel_sha256": sha(case_tool / KERNEL),
             "console_sha256": sha(case_tool / "bin/verifast"),
             "native_c1_capture_only": capture_case,
-            "native_c1_capture_default_off": default_off_case}
+            "native_c1_capture_default_off": default_off_case,
+            "native_c1_bound": C1_BOUND_SESSION}
         if capture_case:
             captured = fixture / "native-c1-capture-pre-ast.ml"
             if captured.is_file():
@@ -640,6 +787,43 @@ def supplied_cases(a, tool: Path, env: dict[str, str], capture_tool: Path | None
             result["native_capture_classification"] = native_capture_classification(
                 raw, result.get("verifier_exit"), captured.is_file())
             result["native_pre_ast_sha256"] = sha(captured) if captured.is_file() else None
+            result["accepted"] = False
+            result["callable_summary"] = False
+        if C1_BOUND_SESSION:
+            pre = fixture / "native-c1-bound-pre-ast.ml"
+            post = fixture / "native-c1-bound-post-ast.ml"
+            for artifact in (pre, post):
+                if artifact.is_file():
+                    shutil.copy2(artifact, root / artifact.name)
+            log = root / "verification.log"
+            raw = log.read_text(errors="replace") if log.is_file() else ""
+            result["native_bound_classification"] = native_bound_classification(
+                name, raw, result.get("verifier_exit"),
+                pre.is_file(), post.is_file())
+            result["native_bound_candidate_binding"] = (
+                name == "native-c1-bound-positive" and
+                result["native_bound_classification"] ==
+                    "NATIVE_C1_BOUND_VF0_CANDIDATE_RAW_REVIEW_REQUIRED" and
+                result.get("first_causal_stage") == "NONE_OBSERVED" and
+                result.get("source_pair_immutable") is True and
+                result.get("support", {}).get("paired_support_passed") is True and
+                sha(fixture / "verified/lib.rs") == BOUND_SOURCE and
+                sha(fixture / "original/lib.rs") == BOUND_ORIGINAL and
+                result.get("support", {}).get("full_mir", {}).get(
+                    "normal", {}).get("sha256") == BOUND_NORMAL_MIR and
+                result.get("support", {}).get("full_mir", {}).get(
+                    "readonly", {}).get("sha256") == BOUND_READONLY_MIR and
+                "NATIVE-OPAQUE-C1-BOUND admitted" in raw and
+                "control=none NOT_CALLABLE_SUMMARY" in raw and
+                "Verifying function 'small_sort_general_with_scratch'" in raw and
+                "0 errors found (" in raw)
+            result["native_bound_candidate_scope"] = (
+                "exact source-linked internal C1 bounded entry; raw review required; "
+                "external SmallSort caller and callable summary not proved")
+            result["native_bound_pre_ast_sha256"] = sha(pre) if pre.is_file() else None
+            result["native_bound_post_ast_sha256"] = sha(post) if post.is_file() else None
+            result["native_bound_controls"] = {
+                "opt_in": opt_in, "control": control, "c4_mixed": c4_mixed}
             result["accepted"] = False
             result["callable_summary"] = False
         save(root / "case-result.json", result)
@@ -659,6 +843,46 @@ def native_capture_classification(raw: str, verifier_exit: int | None, artifact:
     if "NATIVE-OPAQUE-C1-CAPTURE: isolated exact-one body, unwind and full checks required" in raw and not artifact:
         return "EXACT_ONE_BODY_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"
     return "NATIVE_CAPTURE_INCONCLUSIVE_NOT_PROOF"
+
+
+def native_bound_classification(name: str, raw: str,
+                                verifier_exit: int | None,
+                                pre_artifact: bool, post_artifact: bool) -> str:
+    """Conservative local classification; retained logs decide proof credit."""
+    target_entered = "Verifying function 'small_sort_general_with_scratch'" in raw
+    admitted = "NATIVE-OPAQUE-C1-BOUND admitted" in raw
+    if name == "native-c1-bound-positive":
+        if (verifier_exit == 0 and pre_artifact and post_artifact and
+                target_entered and admitted and
+                "control=none NOT_CALLABLE_SUMMARY" in raw):
+            return "NATIVE_C1_BOUND_VF0_CANDIDATE_RAW_REVIEW_REQUIRED"
+        return "NATIVE_C1_BOUND_POSITIVE_INCONCLUSIVE_NOT_PROOF"
+    if name in ("native-c1-bound-false-normal", "native-c1-bound-false-unwind"):
+        control = "normal_false" if name.endswith("normal") else "unwind_false"
+        if (verifier_exit in (1, 2) and pre_artifact and post_artifact and
+                target_entered and admitted and
+                f"control={control} NOT_CALLABLE_SUMMARY" in raw):
+            return "NATIVE_C1_BOUND_FALSE_CONTROL_RAW_REVIEW_REQUIRED"
+        return "NATIVE_C1_BOUND_FALSE_CONTROL_INCONCLUSIVE_NOT_PROOF"
+    refusals = {
+        "native-c1-bound-source-refusal":
+            "NATIVE-OPAQUE-C1-BOUND: verified source SHA256 differs",
+        "native-c1-bound-extra-body":
+            "NATIVE-OPAQUE-C1-BOUND: isolated exact-one body, unwind and full checks required",
+        "native-c1-bound-malformed":
+            "NATIVE-OPAQUE-C1-BOUND: malformed opt-in",
+        "native-c1-bound-mixed":
+            "NATIVE-OPAQUE-C1-BOUND: exact isolated bound environment required",
+    }
+    if (name in refusals and verifier_exit in (1, 2) and
+            refusals[name] in raw and not pre_artifact and not post_artifact and
+            not target_entered and not admitted):
+        return "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"
+    if name == "native-c1-bound-default-off":
+        if not admitted and not pre_artifact and not post_artifact:
+            return "NATIVE_C1_BOUND_DEFAULT_OFF_RAW_OUTCOME_REVIEW_REQUIRED"
+        return "NATIVE_C1_BOUND_DEFAULT_OFF_INCONCLUSIVE_NOT_PROOF"
+    return "NATIVE_C1_BOUND_INCONCLUSIVE_NOT_PROOF"
 
 
 def admission_classification(raw: str, verifier_exit: int | None) -> str:
@@ -743,6 +967,23 @@ def run(a) -> None:
          profile.get("native_cases") == list(NATIVE) and
          profile.get("c4_controls") == list(CONTROLS),
          "native-C4 profile differs from frozen final C4 pins")
+    if C1_BOUND_SESSION:
+        need(profile.get("native_c1_bound_tool_manifest") ==
+             "NATIVE-C1-BOUND-TOOL-MANIFEST.json" and
+             profile.get("native_c1_bound_verified_source_sha256") ==
+             BOUND_SOURCE and
+             profile.get("native_c1_bound_original_source_sha256") ==
+             BOUND_ORIGINAL and
+             profile.get("native_c1_bound_normal_full_mir_sha256") ==
+             BOUND_NORMAL_MIR and
+             profile.get("native_c1_bound_readonly_full_mir_sha256") ==
+             BOUND_READONLY_MIR and
+             profile.get("native_c1_bound_require_paired_refinement_before_verifier")
+             is True and
+             profile.get("followup_cases") == list(BOUND_CASE_CONTROLS) and
+             profile.get("case_file") == "followup-cases.rs" and
+             profile.get("native_c1_capture_cases") is None,
+             "native C1 bound exact experimental profile differs")
     historical = load(a.cloud_dir / "sort4-c1-current-recovery.py", "native_c4_historical")
     env = clean_env(a, a.production_source)
     try:
@@ -768,7 +1009,8 @@ def run(a) -> None:
         capture_tool = None
         if OPAQUE_SESSION and profile.get("native_c1_capture_cases"):
             capture_tool = build_native_capture_tool(a, historical, tool, active)
-        supplied = supplied_cases(a, tool, active, capture_tool)
+        bound_tool = build_native_bound_tool(a, historical, tool, active) if C1_BOUND_SESSION else None
+        supplied = supplied_cases(a, tool, active, capture_tool, bound_tool)
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
                  profile.get("prior_fresh_admission_proof_infra") == "285220a384d050e046d1e8709b79a52bd602e675" and
@@ -817,6 +1059,31 @@ def run(a) -> None:
                   "comment_admission": comment_admission,
                   "run_mode": profile["run_mode"],
                   "collector_pass_is_proof": False}
+        if C1_BOUND_SESSION:
+            cases = supplied.get("cases", {})
+            refusal_names = (
+                "native-c1-bound-source-refusal", "native-c1-bound-extra-body",
+                "native-c1-bound-malformed", "native-c1-bound-mixed")
+            result["experimental_native_c1_bound"] = {
+                "candidate_internal_binding": cases.get(
+                    "native-c1-bound-positive", {}).get(
+                        "native_bound_candidate_binding") is True,
+                "false_controls_ready_for_raw_review": all(
+                    cases.get(name, {}).get("native_bound_classification") ==
+                    "NATIVE_C1_BOUND_FALSE_CONTROL_RAW_REVIEW_REQUIRED"
+                    for name in ("native-c1-bound-false-normal",
+                                 "native-c1-bound-false-unwind")),
+                "admission_controls_exact": all(
+                    cases.get(name, {}).get("native_bound_classification") ==
+                    "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE"
+                    for name in refusal_names),
+                "default_off_raw_review_required": cases.get(
+                    "native-c1-bound-default-off", {}).get(
+                        "native_bound_classification") ==
+                        "NATIVE_C1_BOUND_DEFAULT_OFF_RAW_OUTCOME_REVIEW_REQUIRED",
+                "profile_accepted": False, "proof_credit": False,
+                "external_small_sort_caller_bound": False,
+                "callable_summary": False}
         save(a.evidence / "diagnostic-audit.json", result)
         need(historical.snapshot(a, tool)["critical"][str(TRANSLATOR)] == FINAL_TRANSLATOR and
              historical.snapshot(a, tool)["critical"][str(KERNEL)] == FINAL_KERNEL and

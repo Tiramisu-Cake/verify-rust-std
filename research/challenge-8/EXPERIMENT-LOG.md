@@ -6953,3 +6953,24 @@ Opaqueinterface/earlyreturn/pointer remain fresh independentPASS; native→actua
 C1/C4 and caller absent; prior C1→C4fullnormal/all4unwind/posts unchangedPASS.
 
 2026-10-10 newnativeC1session start21:49:42UTC,main23:49:42,finish00:19:42UTC11. Checkpoint93f902c2 clean ownbranch/gitdir/index; policyc7ca/adoption retained. Separate3600Cloudsec, ownerselect-sort4/v2max2/one own; old1175closed/no carry. First useful Cloud is exact revisedprepared2 from1e2d53c5 on frozen1eab/kernel37ed, no oldmatrix. Semantic card sort4-native-c1-bound/SESSION-SEMANTIC-CARD.md separates strict-entry/argument boundary/undo/nativeposts and intendedfalsecontrol; no referenceinverse assumed. MaingoalconnectednativeC1normal+directunwind, thenC4onlyaftercompleteC1. GeneralVFchangespeerowned; narrowbindingrequiresindependentreview/freshpins.
+
+### 2026-10-10 22:24 UTC — corrected prepared boundary
+
+Fresh34bddbf7-e536-4ef0-bb7f-82e07ef439fc, proof/infra16bbfa6c7f4340e0643426560c4ff33531aff370,
+362Cloudseconds. Paired MIR/refinement0; strict entry and native-derived Args/F/
+thread/opaqueMU assertions reached. FalseArgs expected190 fails; positive fails198
+reverse own wrapper, no assumed inverse. No actual comparator or full native
+post PASS. Independent pinned MIR/kernel/free review permits narrow actualC1
+binding implementation in isolated translator; entry observer unnecessary/NOT_RUN.
+
+### 2026-10-10 22:33 UTC — native C1 bound planned experiment
+
+Hypothesis: eight compiler callback locals scoped inside the checked cmp child,
+plus compiler-derived HRTB/Output=bool binding at actual C1 (operands1,0), allow
+native-derived Args/F/thread to pass actual normal/direct unwind and complete
+CURRENT native posts/unit/free/leak with opaque MU. Exact unaccepted profile
+3efc917d/ed95e901 on capture869/frozenC4, kernel37ed unchanged. Independent review
+and pre-verifier exact MIR/refinement gate; positive, two after-call negatives,
+default-off and four address admission controls. First new failed proof resource
+or general semantic dependency will be recorded instead of repeating the refusal.
+No C4/C5/select/copy or actual external caller credit from admission/capture.

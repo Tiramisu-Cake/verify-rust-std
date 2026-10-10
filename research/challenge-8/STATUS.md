@@ -5,11 +5,14 @@ finish-only limit 2026-10-11 00:19:42 UTC. Initial checkpoint93f902c2.
 Owner select-sort4; own worktree/branch unchanged. Policyc7ca8c46/adoption retained.
 Separate3600 Cloud seconds, v2/max2/one own Build; no previous-budget carry.
 
-First prepared diagnostic from1e2d53c5: exact-byte/static syntax/dependency
-closure/saved-classifier review PASS; Cloud NOT_RUN pending submission.
+Fresh prepared diagnostic34bddbf7/16bbfa6c: strict entry/native→Args.own
+reached; intended falseArgs190 refusal. Positive fails198 only in undo ref-own
+opening. Full normal posts not closed; no callback. Charged362/3600 seconds.
+[Factual review](cloud-build/sort4-native-c1-bound/FRESH-34BDDBF7-REVIEW.md).
 [Session card](cloud-build/sort4-native-c1-bound/SESSION-SEMANTIC-CARD.md).
 [Pre-dispatch review](cloud-build/sort4-native-c1-bound/PRE-DISPATCH-REVIEW.md).
-Native C1 binding card DRAFT, awaiting independent scope/free-path review.
+Native C1 binding implementation underway after independent MIR/kernel scope
+review; new isolated own translator only, no general semantics/profile adoption.
 Native→actualC1/C4 and actual caller→sort4 remain NOT_PROVED.
 
 Previous closed session/evidence/accounting remain authoritative separately:

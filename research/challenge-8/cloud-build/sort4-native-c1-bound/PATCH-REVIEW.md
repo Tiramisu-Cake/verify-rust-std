@@ -1,0 +1,62 @@
+# Native C1 bound translator patch — DRAFT / NOT_RUN
+
+The patch `native-c1-bound.patch` applies only to the capture-only translator
+SHA-256 `86952a6ac4a61ac854d8a9886cff98ee143a0e75ccf8148fb84e07c0a14ce544`
+on tool HEAD `f76012fb518703b1d98e243ac4f487f16877cfcb`. Its result is
+SHA-256 `3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8`;
+the patch is SHA-256 `ed95e901c89daabffa725e1c1f38369930693b72be1d60d3548811ebafabb7ec`.
+The existing kernel SHA-256 is `37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c`.
+`patch --dry-run -p1` against that capture tree succeeded. There has been no
+local compiler or proof execution. The tool profile is **unaccepted**.
+An independent static review found the exact MIR inventory consistent with
+the canonical d776 artifacts and permits a diagnostic Cloud run only after the
+driver hard-gates immutable paired MIR hashes and refinement before verifier.
+
+`SORT4_NATIVE_OPAQUE_C1_BOUND=1` is default-off and rejects malformed values,
+other active C1–C4/capture modes, missing `SORT4_ACTUAL_AST_SCOPE_TEST=0` or
+`SORT4_STRICT_LFT_CUT=1`, and unrecognized controls. The optional control is
+`SORT4_NATIVE_OPAQUE_C1_BOUND_CONTROL=none|normal_false|unwind_false`. Only one
+`small_sort_general_with_scratch` runtime body with unwind and specless checks
+enabled is admitted. The translator checks the complete verified source hash
+`7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742`,
+the exact source marker/call/cut lines, 79 MIR locals and 64 blocks, `_5`'s
+bb0 live/bb1 dead events, callback local live/dead events in bb43–45, and the
+bb0 len and bb43 pointer-add normal/Continue edges. The sole compiler FnMut call in bb44
+must move `_55`,`_56` without projections into `_54`, target bb45 normally and
+have a direct `Continue` unwind. The driver separately pins the normal and
+readonly typed-MIR hashes and refinement result.
+
+Before rewriting, the translator writes `native-c1-bound-pre-ast.ml` in the
+fixture working directory and requires its full SHA-256
+`18973de5dd5ff1a9c94652fd808d42ffe2297096adb8a3cc1980f74a554ccea5`.
+It checks 134 root statements and 76 local declarations; `_5` remains outer,
+while only callback locals `_55.._62` move from root indices 52–59 into the
+unique `'cmp` child. The child must contain the checked four-block source
+unwind marker, unique actual FnMut switch, normal debt close, original cut and
+goto at fixed source locations. The rewrite inserts the existing narrow
+strict lifetime scope and an `Output=bool` projection equality at that real
+call, routes its direct unwind through debt close and an external epilogue,
+then executes all four source marker cleanup blocks before the original
+`unwinding()` return. The normal route keeps source recovery, full native
+CURRENT source/scratch/F/thread post assertions, type leaks and unit return.
+Both routes keep the original automatic contract through `mk_fn_decl contract`.
+The resulting declaration is written as `native-c1-bound-post-ast.ml` for
+independent comparison. A successful admission prints
+`NATIVE-OPAQUE-C1-BOUND admitted ... NOT_CALLABLE_SUMMARY`.
+
+`normal_false` inserts `assert false` after all normal source post assertions
+and type leaks but before the original unit-return goto. `unwind_false` inserts
+it after the fourth direct-unwind cleanup block but before the original unwind
+return. These are localized diagnostic controls only if a fresh log reaches
+them after the real FnMut call. The driver must classify setup or earlier
+resource failures as inconclusive.
+
+Open review items: the exact post-AST still needs fresh capture and a full
+normal/direct-unwind free-path audit. MIR also has a `ptr::add` `Continue`
+unwind edge before the callback, and the `v.len()` call precedes the `_5` dead
+event. This patch leaves their frozen lowering untouched; a reviewer must
+check stock primitive behavior and all represented outgoing paths rather than
+infer that `Continue` alone makes them impossible. The callback-free prepared
+positive currently stops at reverse reference-own opening, so no actual
+callback theorem or whole-sort4 proof is claimed here. External slice-pointer
+method summaries, caller guards and call edge are still separate obligations.
