@@ -59,3 +59,17 @@ terminated before reservation/API (active_build=null), no Build/charge.
 Final pack has23 retained entries, all byte/blob/mode-equal to the original
 30-entry pack, with original provenance and12 tree records unchanged.
 Only7 unused delivery entries are omitted; this is no semantic rule change.
+
+Independent final23-entry pack review: CONDITIONAL GO for this exact lane,
+SHA992dc1350a50ac47246b33cd1c2427ad58b4af2540a157f2a2ecf6adb5b87a25.
+All five o26 OVERLAYS retained; retained rows and12 trees equal original.
+Seven omitted modules are not invoked by pinned integration driver/regressions;
+some dormant checker chains reference them, so this is lane-only delivery,
+not a general source module closure. Fresh Cloud preflight must validate
+retained blobs/modes against exact proof commit; no proof credit from static GO.
+
+Independent GO before e2e674f8 compile fix: exact-one translated target body
+from bodies_cpn is already used in the same unit scope; replaces only an
+unbound State observation. All strict/source/HRTB/path gates retained, no
+statement/type/contract/kernel/post changes. B2 differs only in this hook.
+Fresh Cloud compile/proof required; B1 console-build refusal gets no VC credit.

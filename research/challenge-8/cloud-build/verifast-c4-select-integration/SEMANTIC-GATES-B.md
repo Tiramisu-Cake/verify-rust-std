@@ -160,3 +160,11 @@ line-194 MIR call/block-38 mutation reaches the owner CFG guard; the edge hook
 tests compiler-derived successor identity rather than only a spelling; and
 the new strict fixture really registers the current outer projection bound.
 No implementation or dispatch before that review.
+
+Cloud compile correction (0a21b11d): final unit observation hook is outside
+State module scope. Replace invalid State.body_name expression with exact-one
+actual MIR body-name count from bodies_cpn, using existing translated def path.
+Domain remains only pinned negative_outer_bound_escape source/strict/HRTB
+target and unused absolute output; required helper bodies allowed. This changes
+no emitted statement/type/contract/kernel/post or default-off production path.
+Independent targeted review required before edit; fresh Cloud compile/proof gate.

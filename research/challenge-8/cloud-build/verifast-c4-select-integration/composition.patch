@@ -1,6 +1,8 @@
+diff --git a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
+index d189d58a..b817bcf3 100644
 --- a/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
 +++ b/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml
-@@ -6784,17 +6784,47 @@
+@@ -6784,17 +6784,47 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        | None | Some "0" -> false
        | Some "1" -> true
        | _ -> failwith "SORT4-C4-CAPTURE: malformed opt-in" in
@@ -48,7 +50,7 @@
           (match Sys.getenv_opt "SORT4_C1_PREFIX_CONTROL" with
            | None | Some "none" -> false | _ -> true) ||
           (match Sys.getenv_opt "SORT4_C2_BOUND_CONTROL" with
-@@ -8233,13 +8263,46 @@
+@@ -8233,13 +8263,46 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                   let future_indexes =
                     [190; 191; 192; 193; 194; 195] in
                   let future_decls =
@@ -96,7 +98,7 @@
                   let kept_decls =
                     List.filteri (fun i _ ->
                       i < 220 && not (24 <= i && i <= 31) &&
-@@ -8247,7 +8310,8 @@
+@@ -8247,7 +8310,8 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                       not (121 <= i && i <= 126) &&
                       not (157 <= i && i <= 162) &&
                       not (List.mem i future_indexes)) original_body in
@@ -106,7 +108,7 @@
                     reject "outer local declaration inventory";
                   let block_loc, cmp_decl, old_stmts, old_close =
                     match root 224 with
-@@ -8565,6 +8629,197 @@
+@@ -8565,6 +8629,197 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     if control = "c4-normal-omit-join" then
                       Ast.NoopStmt (Ast.stmt_loc (block (c4_cut_index + 2)))
                     else block (c4_cut_index + 2) in
@@ -304,7 +306,7 @@
                   let outer = Ast.BlockStmt
                     (block_loc, [],
                      [c1_child; Ast.NoopStmt cut1; block 35; block 36;
-@@ -8574,7 +8829,7 @@
+@@ -8574,7 +8829,7 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                      [c3_child; Ast.NoopStmt cut3;
                       block (c3_cut_index + 1); c3_normal_join;
                       block 134; c4_child; Ast.NoopStmt cut4;
@@ -313,7 +315,7 @@
                      old_close, ref []) in
                   let normal_wrapper = Ast.BlockStmt
                     (Ast.stmt_loc (root 220), [],
-@@ -8677,8 +8932,11 @@
+@@ -8677,8 +8932,11 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                     "actual-c4-bound-post-ast.ml"
                     (Ocaml_expr_of_ast.of_decl changed_decl);
                   Printf.eprintf
@@ -327,7 +329,7 @@
                     (List.length gotos) control;
                   changed_decl
                 end else if c2_discovery_requested then begin
-@@ -15105,6 +15363,26 @@
+@@ -15105,6 +15363,26 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
        Sys.getenv_opt "SORT4_ACTUAL_OWNER_NINE_ADMISSION" = Some "1" in
      let rebase = sort4_wrapper_rebase_opt_in root in
      let input_relation = sort4_wrapper_input_relation_opt_in root in
@@ -354,7 +356,7 @@
      let names = if nine then [
        "sort4_certified_maybeuninit::sort4_checked_maybeuninit_new";
        "sort4_checked_as_mut_ptr"; "sort4_checked_pointer_drop";
-@@ -15536,17 +15814,84 @@
+@@ -15536,17 +15814,84 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
         List.length (BodyRd.basic_blocks_get_list
           (List.nth bodies (if nine then 8 else 4))) <> 4 then
        reject "owner outer/nested local and block inventory";
@@ -448,7 +450,7 @@
      if cleanup_edges <> (if input_relation then (if Sort4R3FrameTest.enabled then 18 else 23) else if rebase then 18 else if nine then 10 else 9) then
        reject "owner shared cleanup predecessor inventory";
      (match (if input_relation then
-@@ -17148,12 +17493,405 @@
+@@ -17148,12 +17493,407 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
              (modularize_fn_decl module_imports_map)
              (body_sigs @ proof_body_decls)
        in
@@ -639,7 +641,9 @@
 +            Sys.getenv_opt "SORT4_HRTB_OUTPUT" <> Some "1" ||
 +            Sys.getenv_opt "SORT4_HRTB_OUTPUT_TARGETS" <>
 +              Some "negative_outer_bound_escape" ||
-+            State.body_name <> "negative_outer_bound_escape" ||
++            List.length (List.filter (fun body ->
++              TrName.translate_def_path (BodyRd.def_path_get body) =
++                "negative_outer_bound_escape") bodies_cpn) <> 1 ||
 +            Filename.is_relative path || Sys.file_exists path then
 +           reject "exact strict outer-fixture target and absolute unused output path required";
 +         let source_sha256 = sort4_actual_owner_sha256
