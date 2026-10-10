@@ -78,3 +78,12 @@ source hashes after the ten ordered patches. The component commit e16352c4
 alone does not contain the retained-six changes; EFFECTIVE-SOURCE.json records
 the composition rather than pretending that its three differing source hashes
 are component hashes.
+
+Compile-only source transport closure: the current merge recipe omits
+`concrete-drop-body.py` and `onecell-drop-interface.py`. Both remain tracked
+in the repository and are outside the compile-only dependency path; startup
+static preflight parses the driver without importing these modules, and the
+early compile-only exit never invokes it. Before bridge-minimal, either restore
+these inputs within the fixed payload bound or make unused legacy imports lazy
+without changing cases/contracts. The fixed source transport/coordinator is
+unchanged. This exclusion supplies no proof credit.
