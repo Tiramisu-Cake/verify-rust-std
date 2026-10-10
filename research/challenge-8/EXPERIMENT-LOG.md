@@ -6771,3 +6771,11 @@ observed normal/direct-unwind frees justify scope conservation. Per-local
 chunks not printed; no count-only soundness claim. All8 intended firstVCs
 confirmed. Conditional proof boundary now C1→C2→C3; global profile remains
 unaccepted. C4 capture profile pins review and is enabled for next exact run.
+
+C4 capture submit from79ccdd5c refused before Build creation: pinned source
+payload exceeded the bounded191-substitution transport. No Cloud time charged,
+no Build/reservation recorded. Narrow recipe fix removes documentation that
+the executed runner does not read; preserves all source/patch/profile/infra
+dependencies, C1 card, relocation card and hash-pinned independent C3 review.
+Documents stay committed in repository; transport bound/allowlist unchanged.
+A new exact source commit is required for retry.
