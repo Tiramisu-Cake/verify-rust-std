@@ -7,13 +7,38 @@
   "main_deadline_utc": "2026-10-10T02:34:15Z",
   "deadline_utc": "2026-10-10T03:04:15Z",
   "ceiling_build_seconds": 3600,
-  "used_build_seconds": 0,
-  "remaining_build_seconds": 3600,
+  "used_build_seconds": 337,
+  "remaining_build_seconds": 3263,
   "maximum_build_timeout_seconds": 1740,
   "allowed_lanes": [
     "o26-sort4-caller-entry",
     "o26-sort4-c1-current-recovery"
   ],
   "active_build": null,
-  "builds": []
+  "builds": [
+    {
+      "dispatch_token": "dispatch-04c95ed5879e4e62973be6c8898a45d6",
+      "owner": "select-sort4",
+      "phase_id": "SORT4-NATIVE-COMPOSE-C1-CLOUD-2026-10-10",
+      "infra_sha": "24c1c33fea23824f0f31ddcedb4f02e07a2d0625",
+      "proof_sha": "24c1c33fea23824f0f31ddcedb4f02e07a2d0625",
+      "lane": "o26-sort4-caller-entry",
+      "submitted_config_sha256": "0438f9a7ad9be0218e6a651d490106e76a5e4fc72075d065a09d4e3f2410e77f",
+      "reserved_seconds": 660,
+      "timeout_seconds": 600,
+      "status": "FAILURE",
+      "publish_text_logs": true,
+      "source_mode": "pinned-objects",
+      "source_input_sha256": "e4ba601615391a42195abf01a33ec9f68beb39889533de15c2d23d1f8e0ee5c3",
+      "build_id": "fc01881e-62ab-49f9-913d-9036d598f872",
+      "start_time": "2026-10-10T00:47:13.900621159Z",
+      "finish_time": "2026-10-10T00:52:49.843183Z",
+      "create_time": "2026-10-10T00:47:12.948071803Z",
+      "build_seconds": 337,
+      "accounted": true,
+      "execution_seconds": 336,
+      "download_verified": true,
+      "archive_sha256": "77243263966fc2eb32a9fd9bc57f1da317c9cfb301f75e03c50d0af3851d55fa"
+    }
+  ]
 }

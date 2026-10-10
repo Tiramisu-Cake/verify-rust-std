@@ -44,7 +44,8 @@ A separate native diagnostic keeps the exact
 `small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T,&T)->bool>`
 signature and its generated complete safe-entry contract. It copies the
 original read-only `len`, `v.as_mut_ptr`, `len/2`, and scratch-pointer
-operations, then explicitly checks a restricted non-ZST `len>=8` domain
+operations with byte-exact header/statement offsets against the pinned full
+std source, then explicitly checks a restricted non-ZST `len>=8` domain
 before calling the verified c1-only helper. This is an artificial diagnostic
 branch, **not** the original caller CFG, scratch abort guard, inline-const
 selection, or actual sort4 call. Its positive result would show that the

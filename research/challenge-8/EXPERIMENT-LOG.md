@@ -6599,3 +6599,12 @@ C2 follows useful result or precise dependency blocker. No proof verdict yet.
 New own phase registration tested with pure isolated synthetic ledger: exact
 owner/window/ceiling passes; wrong owner/main/start/ceiling rejected, no coordinator
 or evidence mutation, no compiler/proof. No Actions or foreign state writes.
+
+### Fresh preparation fc01881e
+
+Proof=infra24c1c33f;337Cloudseconds, full archive/textinventory verified. Exports
+and refinement fail at compiler E0255 duplicateFreeze (verified/original10,
+import6). MIR/AST/verifier/composition NOT_RUN; no proof credit. Source generator
+corrected to read/check but not emit coreFreeze, matching oldnative import.
+[Exact evidence](cloud-build/sort4-native-compose-c1/PREPARATION-FC01881E.md).
+New source will be rerun; no unchanged failure or native matrix repetition.

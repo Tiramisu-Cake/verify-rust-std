@@ -41,6 +41,49 @@ def strip_ghost(data: bytes) -> bytes:
     return re.sub(rb"(?m)^[ \t]*//@[^\r\n]*(?:\r?\n|$)", b"", data)
 
 
+def native_source_operations(std: bytes) -> dict:
+    """Bind each copied native read-only statement to exact pinned std bytes."""
+    header = NATIVE[:NATIVE.index(b"{") + 1]
+    need(std.count(header) == 1, "native caller signature is not exact/unique")
+    start = std.index(header)
+    first_call = b"sort4_stable(v_base, scratch_base, is_less);"
+    stop = std.index(first_call, start)
+    need(std[:stop].count(b"\n") + 1 == 254,
+         "first native caller sort4 source location changed")
+    prefix = std[start:stop]
+    rows = {}
+    previous_source = previous_native = -1
+    for name, line in (
+        ("len", b"    let len = v.len();"),
+        ("v_base", b"    let v_base = v.as_mut_ptr();"),
+        ("len_div_2", b"    let len_div_2 = len / 2;"),
+        ("unsafe", b"    unsafe {"),
+        ("scratch_base", b"        let scratch_base = scratch.as_mut_ptr() as *mut T;"),
+    ):
+        need(prefix.count(line) == NATIVE.count(line) == 1,
+             f"native source operation ambiguous: {name}")
+        source_at = start + prefix.index(line)
+        native_at = NATIVE.index(line)
+        need(source_at > previous_source and native_at > previous_native,
+             f"native source operation reordered: {name}")
+        previous_source, previous_native = source_at, native_at
+        rows[name] = {
+            "exact_statement": line.decode(),
+            "statement_sha256": sha(line),
+            "source_byte_start": source_at,
+            "source_line": std[:source_at].count(b"\n") + 1,
+            "native_diagnostic_byte_start": native_at,
+            "native_diagnostic_line": NATIVE[:native_at].count(b"\n") + 1,
+        }
+    return {
+        "header_sha256": sha(header),
+        "header_source_byte_start": start,
+        "first_actual_sort4_call_source_byte_start": stop,
+        "source_operations": rows,
+        "actual_caller_cfg_projected": False,
+    }
+
+
 def exact_ghost_source(path: Path, start: bytes, end: bytes) -> bytes:
     data = path.read_bytes()
     need(data.count(start) == data.count(end) == 1,
@@ -213,6 +256,7 @@ def prepare(repo: Path, out: Path, case: str = "positive") -> dict:
     need(not out.exists(), "fresh fixture required")
     std = (repo / STD).read_bytes()
     need(sha(std) == STD_SHA and std.count(FIRST) == 1, "pinned std first c1")
+    native_source_map = native_source_operations(std)
     caller_prep = (repo / CALLER).read_bytes()
     need(b"FUNCTION_NAME = b\"fn small_sort_general_with_scratch" in caller_prep,
          "source caller preparation pin missing")
@@ -245,7 +289,10 @@ def prepare(repo: Path, out: Path, case: str = "positive") -> dict:
         line = b"        //@ join_four_owned_cells::<T>(v_base, t);\n"
         need(helper.count(line) == 1, "normal join control site")
         helper = helper.replace(line, b"", 1)
-    verified = PREFIX + freeze + b"\n" + freeze_marker + b"\n" + source_lemmas(repo) + helper + b"\n" + native
+    # The original core Freeze definition is a source identity certificate.
+    # This std-backed fixture imports that lang item; re-declaring it here
+    # would duplicate the compiler lang item and stop before MIR export.
+    verified = PREFIX + freeze_marker + b"\n" + source_lemmas(repo) + helper + b"\n" + native
     original = strip_ghost(verified)
     need(original.count(FIRST) == 1 and ANNOTATED in verified and
          verified.count(b"fn small_sort_general_with_scratch<") == 1 and
@@ -268,6 +315,7 @@ def prepare(repo: Path, out: Path, case: str = "positive") -> dict:
         "verified_sha256": sha(verified),
         "first_c1_runtime_line_exact": original.count(FIRST) == 1,
         "first_c1_source_line": std[:std.index(FIRST)].count(b"\n") + 1,
+        "native_source_operation_map": native_source_map,
         "helper_name": "c1_source_prefix",
         "helper_dst_precondition": "none",
         "helper_type_interpretation": "stock produced and leaked internally on normal and direct unwind",

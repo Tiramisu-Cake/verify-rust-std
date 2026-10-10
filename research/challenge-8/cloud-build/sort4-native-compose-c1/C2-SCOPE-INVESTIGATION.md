@@ -8,7 +8,7 @@ proof command was run for this inspection.
 ## Pinned evidence and correct record identity
 
 The fresh capture is Build `a5de0e51-3663-4c7d-9844-ff6b122436ee`, proof/infra
-SHA `f925546602be4c606c0e60416f1f12047412c6a`, archive
+SHA `f925546602be4c606c0ce60416f1f12047412c6a`, archive
 `f87c9703fce601db67cb5e702e8c7481313d2ebea9c40e15f158b3882e833a99`.
 The A5DE evidence note is
 [`C2-FRESH-A5DE-EVIDENCE.md`](../sort4-native-entry-c1/C2-FRESH-A5DE-EVIDENCE.md);
