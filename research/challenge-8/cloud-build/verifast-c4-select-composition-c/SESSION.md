@@ -1,0 +1,9 @@
+# Maintainer composition session C
+
+User-authorized scope: finish prepared B2, actual nine-body selector followed by bounded C4 + first select with full original posts/CURRENT, and already agreed B gates. No new matrices/framework. Start22:41:46Z; main end00:41:46Z; finish-only01:11:46Z. Ownerverifast/new ledgerCloud3600; v2max2/oneowner preserved.
+
+Starting checkpoint1bf17658d8f1fcef36a1f6b5914cbae681abf85e; runner4c2e244767547ac6c4b81bc61135d2f38d0ecadd; tool e2e674f8727259ef08c68e58bb5dae1bd723cf76/profile verifast-c4-select-composition-20261010-b2. Tool unchanged. Full30module/12tree pack preserved. Old B ledgerCLOSED untouched. New imports/source preparation executes only Cloud before expensive compiler setup; source hash/schema/Git identity gates unchanged. If import fails, stop before build; if selector or composition fails, inspect exact first obligation and repair only concrete cause with reviewed semantic changes.
+
+Instructions read: /root/verifast AGENTS supplied by user supersedes old AGENTS; docs/challenge8 WORKFLOW/STATUS at9d776517d82acca133a05fcac86e70f67f550bb5; upstream README/source README/Linux README at B2 e2e674f8. Proof policy/plan/coordinator from exact1bf17658: blobs61d4cd336a26df4925bd42d2846f9bc771263fde,81531d707346fc4fc0dbd7660f9b27117f20bb2f,60ad34fba809184925857fcabd09a550e5907416. Parent accepted policy revisionc7ca8c467aecf10a4b53039372ee97714f854ee3. New explicit user scope authorizes own integration harness worktree; no foreign proof/pin/ledger changes.
+
+Fresh B2 result NOT_RUN at registration. Old423d selector/C4 evidence remains bound to old inputs. Experimental inherited O26/A1/memory/prelude and supplied bounded-entry assumptions remain unaccepted; raw_ptr_own gives no pointee permissions. No summaries substituted, no profile adoption/upstream publication authorized.
