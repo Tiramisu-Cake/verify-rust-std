@@ -102,10 +102,10 @@ index 9e81d091..dcfc7396 100644
  
  enum AliasTyKind {
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 9621ba91..d88f187c 100644
+index 9621ba91..7a77f599 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-@@ -1098,6 +1098,94 @@ use rustc_span::RemapPathScopeComponents;
+@@ -1098,6 +1098,100 @@ use rustc_span::RemapPathScopeComponents;
              });
              adt_def_cpn.set_implements_drop(adt_def.has_dtor(tcx));
              adt_def_cpn.set_is_repr_c(adt_def.repr().c());
@@ -117,12 +117,18 @@ index 9621ba91..d88f187c 100644
 +                );
 +                adt_def_cpn.set_concrete_guard_size_bytes(size);
 +                adt_def_cpn.set_concrete_guard_align_bytes(align);
-+                adt_def_cpn.fill_concrete_guard_field_offsets(&offsets, |field_offset_cpn, offset| {
-+                    field_offset_cpn.set(*offset);
-+                });
-+                adt_def_cpn.fill_concrete_guard_field_sizes(&field_sizes, |field_size_cpn, field_size| {
-+                    field_size_cpn.set(*field_size);
-+                });
++                {
++                    let mut values = adt_def_cpn.reborrow().init_concrete_guard_field_offsets(offsets.len() as u32);
++                    for (index, offset) in offsets.iter().copied().enumerate() {
++                        values.set(index, offset);
++                    }
++                }
++                {
++                    let mut values = adt_def_cpn.reborrow().init_concrete_guard_field_sizes(field_sizes.len() as u32);
++                    for (index, field_size) in field_sizes.iter().copied().enumerate() {
++                        values.set(index, field_size);
++                    }
++                }
 +            }
 +        }
 +
@@ -154,15 +160,15 @@ index 9621ba91..d88f187c 100644
 +
 +            let fields = &adt_def.non_enum_variant().fields;
 +            if fields.len() != 3
-+                || fields[0].name.as_str() != "src"
-+                || fields[1].name.as_str() != "dst"
-+                || fields[2].name.as_str() != "len"
++                || fields.iter().nth(0)?.name.as_str() != "src"
++                || fields.iter().nth(1)?.name.as_str() != "dst"
++                || fields.iter().nth(2)?.name.as_str() != "len"
 +            {
 +                return None;
 +            }
 +
 +            let field_ty = |index: usize| {
-+                tcx.type_of(fields[index].did)
++                tcx.type_of(fields.iter().nth(index).expect("checked three-field guard").did)
 +                    .instantiate_identity()
 +                    .skip_normalization()
 +            };
@@ -175,7 +181,7 @@ index 9621ba91..d88f187c 100644
 +                return None;
 +            }
 +
-+            let guard_ty = tcx.type_of(adt_def.did()).instantiate_identity();
++            let guard_ty = tcx.type_of(adt_def.did()).instantiate_identity().skip_normalization();
 +            let typing_env = ty::TypingEnv::new(ty::ParamEnv::empty(), ty::TypingMode::PostAnalysis);
 +            let layout = tcx.layout_of(typing_env.as_query_input(guard_ty)).ok()?;
 +            let size = layout.size.bytes();
