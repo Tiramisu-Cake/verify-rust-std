@@ -609,7 +609,10 @@ def _effect_ast_gate(case: Path, row: dict, proof_base, drop_module) -> dict:
             if (isinstance(read, ast.Node) and read.name == "Read" and
                     len(read.args) == 3 and read.args[2] in ("src", "dst", "len")):
                 try:
-                    field_variables[read.args[2]] = ast.var(node.args[3])
+                    field_pattern = ast.narg(node.args[3], "VarPat", 2)
+                    if not isinstance(field_pattern[1], str):
+                        continue
+                    field_variables[read.args[2]] = field_pattern[1]
                 except (ValueError, TypeError, ast.AdmissionError):
                     pass
         thread_calls = [node for node in normal.get("call_nodes", [])
