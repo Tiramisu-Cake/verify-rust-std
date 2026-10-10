@@ -6974,3 +6974,12 @@ and pre-verifier exact MIR/refinement gate; positive, two after-call negatives,
 default-off and four address admission controls. First new failed proof resource
 or general semantic dependency will be recorded instead of repeating the refusal.
 No C4/C5/select/copy or actual external caller credit from admission/capture.
+
+### 2026-10-10 22:49 UTC — native C1 pre-AST placement refusal
+
+Fresh7456/e729,387seconds(total749). Both exact MIR/refinement gates pass;
+mandatory four admissions/defaultoff strict172 retained. Target/2false controls
+pre-AST refusefc2 vs18973, no semantic negative or C1 proof. Independent byte
+diff identifies early generic strict preprocessing; narrowly reviewed binding
+mode cut-retention fix preserves18973 and checked strict child, no fingerprint
+substitution/general semantic change. First-hour update delivered22:49UTC.

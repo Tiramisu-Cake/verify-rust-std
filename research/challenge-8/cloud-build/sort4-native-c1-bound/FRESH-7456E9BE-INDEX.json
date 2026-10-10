@@ -1,0 +1,482 @@
+{
+  "native-c1-bound-default-off": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "verified/lib.rs(172,1-30): error: Strict lifetime binding has unresolved inference in entry outer type",
+    "first_stage_log_sha256": "5b2d2527c1c83b370e4950fe664d84cb571b29500b1cbea2106edefc18d81951",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_DEFAULT_OFF_RAW_OUTCOME_REVIEW_REQUIRED",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "none",
+      "opt_in": "0"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": null,
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 1
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1",
+        "verified/lib.rs": "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 1
+  },
+  "native-c1-bound-extra-body": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: isolated exact-one body, unwind and full checks required\")",
+    "first_stage_log_sha256": "1d5f38fc2e7c6c25c79da34a9d5222cba9a2ab43a4c1b0f1fb171115f44a104b",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "none",
+      "opt_in": "1"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": null,
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "b44f2ddd0038dd9b104dc4e9e87e519874a8156b8461067266d7f67f3839dbc6"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8a9d8516f67ee5dce50c9b5fddc78a60700724d0a765ef3dd50e258f6daaeb29"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "70135bb2099d6394d4652c605f60f48b10036236bd72227296c968aa2c711acb",
+        "verified/lib.rs": "ac28c553eb9bb75cb5ea8832be44ea5c97aacb0f703b087079b2ece6045d5468"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  },
+  "native-c1-bound-false-normal": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: original full AST SHA256\")",
+    "first_stage_log_sha256": "92b58c8be7190c76f9bb14598736ac2402ef4d1035fc509e8f77fec5f0f63a44",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_FALSE_CONTROL_INCONCLUSIVE_NOT_PROOF",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "normal_false",
+      "opt_in": "1"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": "fc2d58d080d63cb0e95f65c626a2567f0cb156a91b60b22a9fd1d2231f8de24b",
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1",
+        "verified/lib.rs": "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  },
+  "native-c1-bound-false-unwind": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: original full AST SHA256\")",
+    "first_stage_log_sha256": "92b58c8be7190c76f9bb14598736ac2402ef4d1035fc509e8f77fec5f0f63a44",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_FALSE_CONTROL_INCONCLUSIVE_NOT_PROOF",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "unwind_false",
+      "opt_in": "1"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": "fc2d58d080d63cb0e95f65c626a2567f0cb156a91b60b22a9fd1d2231f8de24b",
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1",
+        "verified/lib.rs": "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  },
+  "native-c1-bound-malformed": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: malformed opt-in\")",
+    "first_stage_log_sha256": "faa35cb60de01d2656b21cb7e1ea256efe7bd6c9f170ddc62db037f08f381bcf",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "none",
+      "opt_in": "bad"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": null,
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1",
+        "verified/lib.rs": "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  },
+  "native-c1-bound-mixed": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: exact isolated bound environment required\")",
+    "first_stage_log_sha256": "afb91d851abcb389102daddf4ced062b95e533f0876cc4d84342f766a09da3c2",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE",
+    "native_bound_controls": {
+      "c4_mixed": "1",
+      "control": "none",
+      "opt_in": "1"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": null,
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1",
+        "verified/lib.rs": "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  },
+  "native-c1-bound-positive": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: original full AST SHA256\")",
+    "first_stage_log_sha256": "92b58c8be7190c76f9bb14598736ac2402ef4d1035fc509e8f77fec5f0f63a44",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_POSITIVE_INCONCLUSIVE_NOT_PROOF",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "none",
+      "opt_in": "1"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": "fc2d58d080d63cb0e95f65c626a2567f0cb156a91b60b22a9fd1d2231f8de24b",
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1",
+        "verified/lib.rs": "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  },
+  "native-c1-bound-source-refusal": {
+    "accepted": false,
+    "actual_sort4_proved": false,
+    "callable_summary": false,
+    "classification": "FIRST_CAUSAL_STAGE_DIAGNOSTIC",
+    "collector_pass_is_proof": false,
+    "effective_tool": {
+      "console_sha256": "c8f90dca1f7bb3062884f7e6e13256836099f1c141f47dfc1733f6ea3bee58f2",
+      "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+      "native_c1_bound": true,
+      "native_c1_capture_default_off": false,
+      "native_c1_capture_only": false,
+      "translator_sha256": "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8"
+    },
+    "first_causal_stage": "verification",
+    "first_error": "Fatal error: exception Failure(\"NATIVE-OPAQUE-C1-BOUND: verified source SHA256 differs\")",
+    "first_stage_log_sha256": "656525a21e7c5e53ce5a60cc6b2c64d69187f1207d07f0a60f555f0a09ac48d6",
+    "native_bound_candidate_binding": false,
+    "native_bound_candidate_scope": "exact source-linked internal C1 bounded entry; raw review required; external SmallSort caller and callable summary not proved",
+    "native_bound_classification": "NATIVE_C1_BOUND_ADMISSION_REFUSAL_NOT_SEMANTIC_NEGATIVE",
+    "native_bound_controls": {
+      "c4_mixed": "0",
+      "control": "none",
+      "opt_in": "1"
+    },
+    "native_bound_post_ast_sha256": null,
+    "native_bound_pre_ast_sha256": null,
+    "proof_ast_sha256": null,
+    "source_pair_immutable": true,
+    "stages": {
+      "normal-decode": 0,
+      "normal-export": 0,
+      "readonly-decode": 0,
+      "readonly-export": 0,
+      "refinement": 0,
+      "verification": 2
+    },
+    "support": {
+      "full_mir": {
+        "normal": {
+          "bytes": 417230,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
+        },
+        "readonly": {
+          "bytes": 154372,
+          "defpath": "small_sort_general_with_scratch",
+          "sha256": "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+        }
+      },
+      "paired_support_passed": true,
+      "proof_credit": false,
+      "source_pair_sha256": {
+        "original/lib.rs": "9c33f6f70dd8172d8db7e540a7abf2fc064af444e141e897cdceb869c97c37b8",
+        "verified/lib.rs": "4d39a9aa3ae1ac78ab723d0e50c3f917562f043763afe58c55e2e9db90688f82"
+      },
+      "target": "small_sort_general_with_scratch"
+    },
+    "verifier_exit": 2
+  }
+}

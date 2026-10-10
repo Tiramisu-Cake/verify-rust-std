@@ -880,3 +880,13 @@ setup refusal. Source-specific native C1 binding is DRAFT/NOT_IMPLEMENTED;
 prior C1→C4 normal/all4unwind/CURRENT/fullposts unchanged priorPASS.
 See cloud-build/sort4-native-opaque/FRESH-081275A9-REVIEW.md and
 VERIFAST-DEPENDENCIES.md. Native→actualC1/C4 and actualcaller remain unproved.
+
+2026-10-10 new native C1 session fresh34bddbf7/16bbfa6c correctedprepared:
+strict entry and native-derived source4/tail/F/thread/types/opaque MU→Args.own
+boundary reached; intended falseArgs190 refusal. Positive fails198 reverse
+reference-own opening, hence full post/cut/return/leak not closed. No callback
+credit. Native-bound source-specific overlay3efc917d/ed95e901 reviewed and
+Cloud7456e9be running; normal/direct-unwind proof still NOT_RUN pending evidence.
+No reference inverse, optional-T adapter, general semantic patch or caller proof.
+See cloud-build/sort4-native-c1-bound/FRESH-34BDDBF7-REVIEW.md and
+BOUND-PRE-DISPATCH-REVIEW.md. Prior conditional C1→C4 remains separate.

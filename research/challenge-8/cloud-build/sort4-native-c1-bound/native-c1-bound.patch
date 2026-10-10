@@ -61,7 +61,24 @@
      let prefix_requested =
        match Sys.getenv_opt "SORT4_ACTUAL_C1_PREFIX_TEST" with
        | None | Some "0" -> false
-@@ -7081,7 +7131,7 @@
+@@ -6772,11 +6822,12 @@
+       | _ -> None
+     in
+     let markers, ghost_stmts =
+-      if native_c1_capture_requested && body_name =
++      if (native_c1_capture_requested || native_c1_bound_requested) &&
++         body_name =
+            "small_sort_general_with_scratch" then begin
+-        (* Like the original sort4 capture, retain the source's regular
+-           end_lft_binding command.  Do not translate it into a strict cut,
+-           execute it here, or replace it with Noop. *)
++        (* Retain the exact source cut through original AST capture.  The
++           bound branch alone later constructs its checked strict child and
++           outgoing cleanup wrappers; default-off translation is unchanged. *)
+         let cuts = List.filter
+           (fun stmt -> match marker_call stmt with Some _ -> true | None -> false)
+           ghost_stmts in
+@@ -7081,7 +7132,7 @@
                "CHALLENGE8_HRTB: local ghost type-scope certificate mismatch"
          end;
          State.hrtb_fnmut_output_bounds :=
@@ -70,7 +87,7 @@
               (Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
                State.body_name = "sort4_stable") then
              hrtb_fnmut_output_bounds else [];
-@@ -7455,6 +7505,226 @@
+@@ -7455,6 +7506,226 @@
                     (Digest.to_hex (Digest.string before)) output;
                   failwith
                     "NATIVE-OPAQUE-C1-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
@@ -297,7 +314,7 @@
                 end else if c4_capture_requested then begin
                   if State.body_name <> "sort4_stable" then
                     failwith "SORT4-C4-CAPTURE: wrong target body";
-@@ -16309,6 +16579,160 @@
+@@ -16309,6 +16580,160 @@
             TrName.translate_def_path (BodyRd.def_path_get body) =
               Sort4PointerDrop.local_name) bodies_cpn) then
          Sort4PointerDrop.reject "checked method omitted from verification";

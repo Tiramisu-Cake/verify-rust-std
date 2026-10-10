@@ -35,3 +35,12 @@ Root AST/JSON/hash/case/recipe dependency closure and saved/synthetic pure
 classifier checks PASS. Recipe proof paths sorted unique80, infra16; no local
 compiler, extractor or verifier used. Fresh positive and all targeted controls
 must be inspected in raw evidence before final theorem claims.
+
+22:56 UTC correction review: only the exact native-bound mode joins existing
+source212 cut-retention special-case before original AST, then same checked
+strict scope/free/escape rewrite. Fresh failure preserved in FRESH-7456 review;
+no fingerprint replacement. Final translator dccb86574c32d88f9bfb41660393ea9334238a392e71b4dbe6c96bf0f4083918,
+patch88430ea5202fa2d421eb7d886648de5a7bf8c5eeaa448f9f54c4f4c309d8bf96.
+Static source/recipe closure unchanged; saved7456classifier replay exactPASS.
+Hypothesis: original18973 now restored; if admitted proceed actualC1 normal and
+directunwind fullnativeposts, otherwise identifynewfirstcause without proofcredit.

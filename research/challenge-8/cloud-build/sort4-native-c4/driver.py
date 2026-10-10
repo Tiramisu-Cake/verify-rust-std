@@ -298,9 +298,9 @@ def build_native_bound_tool(a, historical, base: Path, env: dict[str, str]) -> P
          capture.get("readonly_full_mir_sha256") == BOUND_READONLY_MIR and
          bound.get("base_translator_sha256") == capture["translator_sha256"] and
          bound.get("translator_sha256") ==
-         "3efc917dd38518c7cc94d12b71bb18bd26ab64e32323799e504e7f0a7e4d0ba8" and
+         "dccb86574c32d88f9bfb41660393ea9334238a392e71b4dbe6c96bf0f4083918" and
          bound.get("patch_sha256") ==
-         "ed95e901c89daabffa725e1c1f38369930693b72be1d60d3548811ebafabb7ec" and
+         "88430ea5202fa2d421eb7d886648de5a7bf8c5eeaa448f9f54c4f4c309d8bf96" and
          bound.get("kernel_sha256") == FINAL_KERNEL and
          bound.get("tool_head") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
          bound.get("profile_accepted") is False and
