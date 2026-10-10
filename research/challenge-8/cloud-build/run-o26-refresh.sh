@@ -696,6 +696,21 @@ fi
 if [[ "${LANE:-}" == o26-sort4-caller-entry ]]; then
   caller_patch="$ev/refreshed-applied.patch"
   [[ ! -f "$ev/candidate-applied.patch" ]] || caller_patch="$ev/candidate-applied.patch"
+  compose_profile="$proof_root/research/challenge-8/cloud-build/sort4-native-compose-c1/profile.json"
+  if [[ -f "$compose_profile" ]] && python3 - "$compose_profile" <<'COMPOSE_ENABLED'
+import json,sys
+p=json.load(open(sys.argv[1]))
+sys.exit(0 if p.get('cloud_enabled') is True and p.get('profile_accepted') is False else 1)
+COMPOSE_ENABLED
+  then
+    stage sort4-native-compose-c1 python3 "$cloud_dir/sort4-native-compose-c1/runner.py" \
+      --production-source "$source_home" --production-applied-patch "$caller_patch" \
+      --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+      --evidence "$ev/cases/sort4-native-compose-c1" --deadline-epoch "$deadline" \
+      --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
+    cp "$ev/cases/sort4-native-compose-c1/diagnostic-audit.json" "$evidence_root/proof-audit.json"
+    exit 0
+  fi
   stage sort4-caller-entry bash "$cloud_dir/run-sort4-caller-entry.sh" \
     --production-source "$source_home" --production-applied-patch "$caller_patch" \
     --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \

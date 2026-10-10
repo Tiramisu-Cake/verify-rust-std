@@ -6584,3 +6584,18 @@ Account closed2891/3600,709unused/no carry;8terminal/verifieddownload, own
 reservation/request/unresolved empty, v2/max2 unchanged. Native subset and
 bounded conditionalC1 remain separate; fullcaller/sort4 andprofileacceptance OPEN.
 Checkpoint END-CHECKPOINT-2026-10-10.md; no automaticnextsession.
+
+## 2026-10-10 00:34:15 UTC — new native→C1 session
+
+Direct owner resumes actual sort4/caller mission on assigned select-night branch.
+Main02:34:15, absolute03:04:15, fresh3600 Cloudseconds/no carry. Policyc7ca8c46,
+adoption6726a08d/ownACK preserved; previous5fa94c49 clean starting checkpoint.
+Saved evidence premise map in [phase](cloud-build/sort4-native-compose-c1/PHASE.md),
+no unchanged matrix repeated. Fresh internal no-dst C1-only helper then native
+resource composition chosen to avoid unsupported inverse MU equality; original
+whole-sort4 contract unchanged. Semantic card/review precede narrow bindings;
+all native callback outcomes CURRENT normal/unwind/frame/post/return/leak required.
+C2 follows useful result or precise dependency blocker. No proof verdict yet.
+New own phase registration tested with pure isolated synthetic ledger: exact
+owner/window/ceiling passes; wrong owner/main/start/ceiling rejected, no coordinator
+or evidence mutation, no compiler/proof. No Actions or foreign state writes.
