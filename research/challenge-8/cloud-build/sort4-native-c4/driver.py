@@ -23,14 +23,18 @@ ROOT = Path("research/challenge-8/cloud-build")
 FROZEN_HERE = ROOT / "sort4-native-c4"
 OPAQUE_PHASE = "SORT4-NATIVE-OPAQUE-CLOUD-2026-10-10"
 OPAQUE_SESSION = os.environ.get("SORT4_NATIVE_OPAQUE_PHASE") == "1"
-HERE = ROOT / ("sort4-native-opaque" if OPAQUE_SESSION else "sort4-native-c4")
+C1_BOUND_PHASE = "SORT4-NATIVE-C1-BOUND-CLOUD-2026-10-10"
+C1_BOUND_SESSION = os.environ.get("SORT4_NATIVE_C1_BOUND_PHASE") == "1"
+HERE = ROOT / ("sort4-native-c1-bound" if C1_BOUND_SESSION else
+               "sort4-native-opaque" if OPAQUE_SESSION else "sort4-native-c4")
 TRANSLATOR = Path("src/rust_frontend/vf_mir_translator/vf_mir_translator.ml")
 KERNEL = Path("src/verifast.ml")
 FINAL_TRANSLATOR = "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313"
 FINAL_KERNEL = "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c"
 FINAL_SOURCE = "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f"
 FINAL_PRE_AST = "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222"
-PHASE = OPAQUE_PHASE if OPAQUE_SESSION else "SORT4-NATIVE-C4-CLOUD-2026-10-10"
+PHASE = (C1_BOUND_PHASE if C1_BOUND_SESSION else OPAQUE_PHASE if OPAQUE_SESSION
+         else "SORT4-NATIVE-C4-CLOUD-2026-10-10")
 PATCHES = (
     ("overnight-callback/ACTUAL-SORT4-AST-SCOPE-TEST.json", "profile_components.overlay_patch_sha256", "overnight-callback/verifast-actual-sort4-first-scope-TEST.patch", None, None),
     ("overnight-callback/ACTUAL-SORT4-C1-OUTPUT-EQ-TEST.json", "patch_sha256", "overnight-callback/verifast-actual-sort4-c1-output-eq-TEST.patch", None, None),
@@ -709,8 +713,14 @@ def run(a) -> None:
          os.environ.get("LANE") == "o26-sort4-c1-current-recovery" and
          ((OPAQUE_SESSION and
            os.environ.get("SORT4_NATIVE_OPAQUE_PHASE_ID") == PHASE and
-           os.environ.get("SORT4_NATIVE_C4_PHASE") is None) or
-          (not OPAQUE_SESSION and os.environ.get("SORT4_NATIVE_C4_PHASE") == "1" and
+           os.environ.get("SORT4_NATIVE_C4_PHASE") is None and
+           not C1_BOUND_SESSION) or
+          (C1_BOUND_SESSION and
+           os.environ.get("SORT4_NATIVE_C1_BOUND_PHASE_ID") == PHASE and
+           os.environ.get("SORT4_NATIVE_C4_PHASE") is None and
+           os.environ.get("SORT4_NATIVE_OPAQUE_PHASE") is None) or
+          (not OPAQUE_SESSION and not C1_BOUND_SESSION and
+           os.environ.get("SORT4_NATIVE_C4_PHASE") == "1" and
            os.environ.get("SORT4_NATIVE_C4_PHASE_ID") == PHASE)) and
          not os.environ.get("GITHUB_ACTIONS"), "exact Cloud native-C4 phase required")
     for key in ("production_source", "production_applied_patch", "stock_home",
@@ -743,7 +753,7 @@ def run(a) -> None:
         followup = profile["run_mode"] == "FROZEN_C4_INDEPENDENT_FOLLOWUP"
         reuse_admission = followup and profile.get("prior_fresh_admission_build") is not None
         fixture = None
-        if not (OPAQUE_SESSION and followup and reuse_admission):
+        if not ((OPAQUE_SESSION or C1_BOUND_SESSION) and followup and reuse_admission):
             fixture = prepare_c4(a, historical, active)
         if followup:
             need(profile.get("prior_fresh_c4_build") == "d5a0f8da-a2ed-416c-9eac-a9ffff926c87" and

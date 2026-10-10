@@ -6951,3 +6951,5 @@ controllerdeadlineguard definitive refusal before Build/reservation, zerocharge.
 No newexperimentaftermain; remainingtime evidence/account/checkpointonly.
 Opaqueinterface/earlyreturn/pointer remain fresh independentPASS; native→actual
 C1/C4 and caller absent; prior C1→C4fullnormal/all4unwind/posts unchangedPASS.
+
+2026-10-10 newnativeC1session start21:49:42UTC,main23:49:42,finish00:19:42UTC11. Checkpoint93f902c2 clean ownbranch/gitdir/index; policyc7ca/adoption retained. Separate3600Cloudsec, ownerselect-sort4/v2max2/one own; old1175closed/no carry. First useful Cloud is exact revisedprepared2 from1e2d53c5 on frozen1eab/kernel37ed, no oldmatrix. Semantic card sort4-native-c1-bound/SESSION-SEMANTIC-CARD.md separates strict-entry/argument boundary/undo/nativeposts and intendedfalsecontrol; no referenceinverse assumed. MaingoalconnectednativeC1normal+directunwind, thenC4onlyaftercompleteC1. GeneralVFchangespeerowned; narrowbindingrequiresindependentreview/freshpins.

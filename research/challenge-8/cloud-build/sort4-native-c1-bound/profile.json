@@ -1,0 +1,43 @@
+{
+  "classification": "EXPERIMENTAL_NATIVE_C1_PREPARED_ON_FROZEN_C4",
+  "phase_id": "SORT4-NATIVE-C1-BOUND-CLOUD-2026-10-10",
+  "cloud_enabled": true,
+  "profile_accepted": false,
+  "dispatch_authorized": true,
+  "run_mode": "FROZEN_C4_INDEPENDENT_FOLLOWUP",
+  "tool_head": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "frozen_translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
+  "frozen_kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "frozen_snapshot_file": "FROZEN-C4-SNAPSHOT.json",
+  "native_slice_alias_overlay": false,
+  "strict_cut_draft": false,
+  "native_cases": [
+    "source-typed-frame-positive",
+    "source-typed-missing-T-negative",
+    "source-typed-missing-F-negative"
+  ],
+  "c4_controls": [
+    "normal-false-post",
+    "c1-unwind-false-assert",
+    "c2-unwind-false-assert",
+    "c3-unwind-false-assert",
+    "c4-unwind-false-assert"
+  ],
+  "native_to_c1": "NOT_RUN",
+  "native_to_c4": "NOT_RUN",
+  "actual_caller_to_sort4": "NOT_PROVED",
+  "proof_scope": "Two isolated native C1 prepared-Args cases on frozen C4, full generated native posts; no comparator call or callable summary",
+  "translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
+  "kernel_sha256": "37ed2550d276abccbbe0a9ced678137ef587f80782bcff763062df394c2a440c",
+  "case_file": "followup-cases.rs",
+  "prior_fresh_c4_build": "d5a0f8da-a2ed-416c-9eac-a9ffff926c87",
+  "prior_fresh_c4_proof_infra": "e12df71d57923d346ba0640b9bd0ea23d2835365",
+  "followup_cases": ["native-c1-prepared-positive", "native-c1-prepared-false-args"],
+  "c4_controls_run": "NOT_RUN_UNCHANGED_PRIOR_FRESH_PASS",
+  "admission_cases": [],
+  "prior_fresh_admission_build": "3584fb04-e237-4d66-9c85-60de4df059c4",
+  "prior_fresh_admission_proof_infra": "285220a384d050e046d1e8709b79a52bd602e675",
+  "admission_controls_run": "NOT_RUN_PRIOR_FRESH_PASS",
+  "session_status": "AUTHORIZED_NOT_RUN",
+  "draft_cloud_status": "NOT_RUN"
+}

@@ -1,3 +1,20 @@
+# Native → actual C1 — active authorized session
+
+New session start 2026-10-10 21:49:42 UTC; main deadline 23:49:42 UTC;
+finish-only limit 2026-10-11 00:19:42 UTC. Initial checkpoint93f902c2.
+Owner select-sort4; own worktree/branch unchanged. Policyc7ca8c46/adoption retained.
+Separate3600 Cloud seconds, v2/max2/one own Build; no previous-budget carry.
+
+First prepared diagnostic from1e2d53c5: exact-byte/static syntax/dependency
+closure/saved-classifier review PASS; Cloud NOT_RUN pending submission.
+[Session card](cloud-build/sort4-native-c1-bound/SESSION-SEMANTIC-CARD.md).
+[Pre-dispatch review](cloud-build/sort4-native-c1-bound/PRE-DISPATCH-REVIEW.md).
+Native C1 binding card DRAFT, awaiting independent scope/free-path review.
+Native→actualC1/C4 and actual caller→sort4 remain NOT_PROVED.
+
+Previous closed session/evidence/accounting remain authoritative separately:
+[Checkpoint](cloud-build/sort4-native-opaque/END-CHECKPOINT-2026-10-10.md).
+
 # Native opaque prefix — session closed to new experiments
 
 2026-10-10 start19:27:14UTC; main ended21:27:14, finish-only limit21:57:14.
