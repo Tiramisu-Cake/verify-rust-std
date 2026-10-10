@@ -3,6 +3,8 @@
 # Cloud Build entrypoint for the retained OVERNIGHT-MERGE-26.10 matrix.
 set -euo pipefail
 lane_started=$SECONDS
+# Keep the dispatcher's existing lane envelope; the targeted matrix cap below
+# can use the larger share available in a 1500-second Cloud Build.
 lane_work_budget_seconds=1600
 
 proof_root=${PROOF_ROOT:-/workspace/proof}
@@ -362,7 +364,7 @@ if (( drop_groups_selected == 0 && or_join_selected == 0 && (guard_construction_
   elapsed=$((SECONDS - lane_started))
   matrix_budget=$((lane_work_budget_seconds - elapsed - 140 - 180 * guard_construction_groups_selected - 180 * guard_construction_v3_groups_selected - 240 * guard_geometry_groups_selected - 450 * onecell_selected))
   (( matrix_budget > 0 )) || matrix_budget=1
-  matrix_timeout=900
+  matrix_timeout=1740
   (( matrix_budget < matrix_timeout )) && matrix_timeout=$matrix_budget
 fi
 matrix_remaining=$((lane_work_budget_seconds - (SECONDS - lane_started) - 140))

@@ -123,7 +123,7 @@ suite() {
   set -uo pipefail
   suite_status=0
   printf 'Actual engine: experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 (DIAGNOSTIC, NOT ACCEPTED). Mathematical harness raw profile labels are historical; per-case binary SHA and build evidence bind this fresh execution.\n' > "$evidence/mathematical-profile-sidecar.txt"
-  run_one rust-profile-smoke 90 python3 research/challenge-8/merge/overnight/pointer-prove.py \
+  run_one rust-profile-smoke 300 python3 research/challenge-8/merge/overnight/pointer-prove.py \
     --profile experimental-merge-wrapping-callback-copy-cleanup-usize-stack-v1 \
     --scope 'early complete ordinary normal/unwind body gate; prevents a global specification error masking the full matrix' \
     --tool-home "$experimental_home" --compiler-sysroot "$compiler_sysroot" --schema "$schema" \

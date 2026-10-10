@@ -22,6 +22,15 @@ SOURCE = ROOT / "library/core/src/slice/sort/shared/smallsort.rs"
 PROFILE = "experimental-merge-origin-layout-concrete-u64-v1"
 CASES = ("positive", "after_fbc_false", "after_recovery_false",
          "missing_held_owner", "double_physical_fbc")
+POST_FBC_LADDER = (
+    b"        //@ assert gap_guard.src == held_ref; // LADDER: FBC pointer identity\n"
+    b"        //@ assert [1/4](*gap_guard.src |-> ?fbc_current); // LADDER: source quarter\n"
+    b"        //@ assert [1/4](*held_ref |-> fbc_current); // LADDER: held reference quarter\n"
+)
+POST_COPY_LADDER = (
+    b"        //@ assert recovery_src == held_ref; // LADDER: copy pointer identity\n"
+    b"        //@ assert [1/4](*held_ref |-> copied); // LADDER: conserved reference quarter\n"
+)
 
 
 def _load(name: str, path: Path):
@@ -104,6 +113,12 @@ def _adapt_concrete_recovery(verified: bytes, prep) -> bytes:
     if verified.count(geometry) != 1 or verified.count(recovery) != 1:
         raise ValueError("concrete recovery adaptation anchors are not unique")
     verified = verified.replace(geometry, geometry + bindings, 1)
+    opened = _rewrite_types(prep.FBC_OPEN + prep.OWN_OPEN)
+    if verified.count(opened) != 1:
+        raise ValueError("FBC entailment ladder anchor is not unique")
+    verified = verified.replace(opened, opened + POST_FBC_LADDER, 1)
+    end_ref = b"        //@ end_ref_readonly(held_ref);\n"
+    adapted_recovery = adapted_recovery.replace(end_ref, POST_COPY_LADDER + end_ref, 1)
     return verified.replace(recovery, adapted_recovery, 1)
 
 
@@ -548,6 +563,10 @@ def _classify(name: str, case: Path, meta: dict, execution: dict,
            "target_executed": executed_at(target_line) if name != "positive" and
            (target_line := (meta.get("target") or {}).get("line")) else False,
            "copy_executed": copy_executed}
+    row["derived_ladder"] = {
+        label: {"line": line, "executed": executed_at(line)}
+        for label, line in meta.get("derived_ladder_lines", {}).items()
+    }
     if name != "positive" and meta.get("target") and \
             name in {"after_fbc_false", "after_recovery_false"}:
         row["target_executed"] = executed_at(meta["target"]["line"])
@@ -659,6 +678,15 @@ def run(evidence: Path, args, env: dict, execute_case,
             target["line"] = _line(verified, specialized_target)
         row["target"] = target
         row["case"] = name
+        row["geometry_lines"] = [_line(verified, _rewrite_types(item))
+                                 for item in prep.GEOMETRY]
+        row["derived_ladder_lines"] = {
+            "fbc_identity": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[0]),
+            "fbc_src_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[1]),
+            "fbc_held_quarter": _line(verified, POST_FBC_LADDER.splitlines(keepends=True)[2]),
+            "copy_identity": _line(verified, POST_COPY_LADDER.splitlines(keepends=True)[0]),
+            "copy_held_quarter": _line(verified, POST_COPY_LADDER.splitlines(keepends=True)[1]),
+        }
         row["ghost_fragments"] = [_rewrite_types(part).decode("ascii") for part in
                                   _ghost_fragments(prep, name)]
         row["runtime_ghost_strip_equal"] = True
@@ -752,7 +780,7 @@ def _ghost_fragments(prep, name: str) -> tuple[bytes, ...]:
     middle = prep.SOURCE_IDENTITY + prep.CONSTRUCTOR_GEOMETRY + close + prep.FBC_CLOSE
     if name == "double_physical_fbc":
         middle += prep.DOUBLE_FBC_CLOSE
-    middle += prep.FBC_OPEN + prep.OWN_OPEN
+    middle += prep.FBC_OPEN + prep.OWN_OPEN + POST_FBC_LADDER
     if name == "after_fbc_false":
         middle += prep.FBC_FALSE
     middle += prep.ALIGNMENT + prep.SOURCE_LIMITS + b"".join(prep.GEOMETRY) + prep.DESTINATION_GEOMETRY
@@ -762,6 +790,8 @@ def _ghost_fragments(prep, name: str) -> tuple[bytes, ...]:
                b"        //@ let recovery_dst = gap_guard.dst;\n")
     recovery = prep.RECOVER.replace(b"gap_guard.src", b"recovery_src").replace(
         b"gap_guard.dst", b"recovery_dst")
+    recovery = recovery.replace(b"        //@ end_ref_readonly(held_ref);\n",
+                                POST_COPY_LADDER + b"        //@ end_ref_readonly(held_ref);\n", 1)
     recovery += prep.FALSE if name == "after_recovery_false" else b""
     return (prep.OWN, prep.ALIGNMENT_LEMMA, contract, prep.ANNOTATIONS,
             middle, recovery)
