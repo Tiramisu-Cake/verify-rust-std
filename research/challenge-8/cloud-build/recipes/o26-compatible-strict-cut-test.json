@@ -1,0 +1,21 @@
+{
+  "schema": "smallsort-cloud-recipe-v1",
+  "lane": "o26-compatible-strict-cut-test",
+  "entrypoint": "research/challenge-8/cloud-build/run-o26-compatible-strict-cut-test.sh",
+  "proof_paths": [
+    "research/challenge-8/cloud-build/sort4-compatible-strict-cut/COMPATIBLE-STRICT-CUT-SEMANTIC-CARD.md",
+    "research/challenge-8/cloud-build/sort4-compatible-strict-cut/DESIGN-REVIEW.md",
+    "research/challenge-8/cloud-build/sort4-compatible-strict-cut/fixtures.rs",
+    "research/challenge-8/cloud-build/sort4-compatible-strict-cut/profile.json",
+    "research/challenge-8/cloud-build/sort4-compatible-strict-cut/verifast-compatible-strict-cut-TEST.patch",
+    "research/challenge-8/overnight-sort4/capture.py"
+  ],
+  "infra_paths": [
+    "research/challenge-8/cloud-build/provider.py",
+    "research/challenge-8/cloud-build/o26-refresh-audit.py",
+    "research/challenge-8/cloud-build/run-o26-refresh.sh",
+    "research/challenge-8/cloud-build/run-o26-compatible-strict-cut-test.sh",
+    "research/challenge-8/cloud-build/sort4-compatible-strict-cut/driver.py"
+  ],
+  "infra_transport": "exact-recipe-v1"
+}

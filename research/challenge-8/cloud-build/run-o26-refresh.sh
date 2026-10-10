@@ -216,7 +216,9 @@ stage() {
   (( code == 0 )) || return "$code"
 }
 
-if [[ "${LANE:-}" != o26-sort4-c1-current-recovery && "${LANE:-}" != o26-sort4-caller-entry ]]; then
+if [[ "${LANE:-}" != o26-sort4-c1-current-recovery &&
+      "${LANE:-}" != o26-sort4-caller-entry &&
+      "${LANE:-}" != o26-compatible-strict-cut-test ]]; then
 stage provider-overlays python3 "$cloud_dir/o26-refresh-recipe.py" overlay \
   --repo "$proof_root" --cloud-dir "$cloud_dir" --evidence "$ev"
 stage source-preflight python3 "$cloud_dir/o26-refresh-recipe.py" preflight \
@@ -333,9 +335,11 @@ cmp "$ev/modified-files.txt" "$ev/refreshed-modified-files.txt"
 git -C "$source_home" diff > "$ev/refreshed-applied.patch"
 [[ "$(sha256sum "$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml" | cut -d' ' -f1)" == 0862e635075edd06a827c567710a3e1125ac03aa122e95149db755a1fddce48a ]] || exit 2
 
-# This one-symbol candidate is restricted to the actual caller-entry lane.
+# This reviewed one-symbol base is restricted to caller-entry and its separately
+# authorized compatible strict-cut profile; other lanes preserve their base.
 # It extends the existing slice as_ptr typed-cast lowering to as_mut_ptr.
-if [[ "${LANE:-}" == o26-sort4-caller-entry ]]; then
+if [[ "${LANE:-}" == o26-sort4-caller-entry ||
+      "${LANE:-}" == o26-compatible-strict-cut-test ]]; then
   slice_patch="$proof_root/research/challenge-8/caller-entry/verifast-slice-as-mut-ptr.patch"
   [[ "$(sha256sum "$slice_patch" | cut -d' ' -f1)" == f200a5812149bb2278ded1d1ccb27a104b3dec3c03c5e40c79e30409d0d06916 ]] || exit 2
   slice_translator="$source_home/src/rust_frontend/vf_mir_translator/vf_mir_translator.ml"
@@ -454,7 +458,9 @@ HASHES
 ldd "$source_home/bin/verifast" > "$ev/console-ldd.txt"
 ! rg -q 'not found' "$ev/console-ldd.txt"
 
-if [[ "${LANE:-}" != o26-sort4-c1-current-recovery && "${LANE:-}" != o26-sort4-caller-entry ]]; then
+if [[ "${LANE:-}" != o26-sort4-c1-current-recovery &&
+      "${LANE:-}" != o26-sort4-caller-entry &&
+      "${LANE:-}" != o26-compatible-strict-cut-test ]]; then
 mkdir -p "$ev/cases/candidate"
 stage candidate-capture python3 "$proof_root/research/challenge-8/overnight-assume-actual/capture.py" \
   --tool-home "$source_home" --schema "$schema" \
@@ -739,6 +745,18 @@ if [[ "${LANE:-}" == o26-sort4-c1-current-recovery ]]; then
     --evidence "$ev/cases/sort4-c1-current-recovery" --deadline-epoch "$deadline" \
     --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
   cp "$ev/cases/sort4-c1-current-recovery/diagnostic-audit.json" "$evidence_root/proof-audit.json"
+  exit 0
+fi
+
+if [[ "${LANE:-}" == o26-compatible-strict-cut-test ]]; then
+  compatible_patch="$ev/candidate-applied.patch"
+  [[ -f "$compatible_patch" ]] || exit 2
+  stage compatible-strict-cut python3 "$cloud_dir/sort4-compatible-strict-cut/driver.py" \
+    --production-source "$source_home" --production-applied-patch "$compatible_patch" \
+    --stock-home "$stock_home" --compiler-sysroot "$compiler_sysroot" \
+    --evidence "$ev/cases/sort4-compatible-strict-cut" --deadline-epoch "$deadline" \
+    --proof-root "$proof_root" --work-root "$work_root" --cloud-dir "$cloud_dir"
+  cp "$ev/cases/sort4-compatible-strict-cut/diagnostic-audit.json" "$evidence_root/proof-audit.json"
   exit 0
 fi
 

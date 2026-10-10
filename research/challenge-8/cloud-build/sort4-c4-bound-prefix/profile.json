@@ -1,0 +1,37 @@
+{
+  "classification": "EXPERIMENTAL_C1_C2_C3_C4_BOUND_PREFIX",
+  "profile_accepted": false,
+  "cloud_enabled": true,
+  "actual_sort4_callable_summary": false,
+  "base_translator_sha256": "7361f1c26af1db68d3f172e9124d3a74c2d5ea8415a7edcc4164d43ffdcfc5b8",
+  "patched_translator_sha256": "1eab6eb54fe5c23d53ca72a6d9dfcbbff09c09ffaf26c48a4f450f5068a8d313",
+  "patch_sha256": "3152f51e7362817bdeba326b7840092418d5a64e85fb851c51a91f5fd156ed3e",
+  "source_sha256": "ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f",
+  "pre_ast_sha256": "0ed31137cf55a2ed47ed624a6c61591e4aaf96371df3c2979fc10ce8d95bb222",
+  "normal_full_mir_sha256": "af8dcfda4212ec1e1bd8fcafcb763fe0107fbeb63b6c1a65bc830e2c81bf9f80",
+  "readonly_full_mir_sha256": "aebd7d6219106ba8f6b2fd730bb0a9b0876bea141eb2f06ab7c6e3804abc23ea",
+  "original_full_mir": {
+    "normal_basic_blocks": 141,
+    "normal_local_declarations": 223,
+    "readonly_basic_blocks": 28,
+    "readonly_local_declarations": 110
+  },
+  "target_prefix": "four sibling comparator calls through c4 only; selector and later calls excluded",
+  "c4_pair": [
+    "d",
+    "b"
+  ],
+  "full_posts_preserved": true,
+  "captured_source": "c4-fixture/verified/lib.rs",
+  "controls": [
+    "c4-normal-missing-close",
+    "c4-unwind-missing-close",
+    "c4-normal-omit-join",
+    "c4-unwind-omit-join",
+    "normal-false-post",
+    "c1-unwind-false-assert",
+    "c2-unwind-false-assert",
+    "c3-unwind-false-assert",
+    "c4-unwind-false-assert"
+  ]
+}

@@ -6779,3 +6779,13 @@ the executed runner does not read; preserves all source/patch/profile/infra
 dependencies, C1 card, relocation card and hash-pinned independent C3 review.
 Documents stay committed in repository; transport bound/allowlist unchanged.
 A new exact source commit is required for retry.
+
+2026-10-10 11:50 UTC: C4 capture Build eb66efc6-a85f-4ffd-b20a-9382f22c5538
+SUCCESS, proof=infra f0c7b0d0ae185cdb9c733e3aa49fd4af597bb7d9.
+517 seconds createTime→finishTime charged; cumulative1840/3600.
+Archive720f397460c56944b38aedcde10ede08bb2f4597e3007111c5eaacea6c57f835
+and inventory/index verified; external text chunks not separately fetched.
+Fresh C4 source ba9e6ad3633004c3d934c590462443951ddd6dec80a5df9ffb687ec940958c6f;
+ghost strip original3602050 unchanged; refinement0. C3 default-off335 statements
+and mandatory unbound refusal retained. Capture refusal2 before target: NOT proof.
+Exact C4 bound projection and independent fresh correspondence review in progress.

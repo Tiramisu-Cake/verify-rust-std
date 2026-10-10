@@ -59,10 +59,11 @@ direct-unwind posts/unit return/leak; all four c1/c2 ownership cases preserved.
 PASS for exact projection; all eight controls reached intended first VC, source
 mutant refused before target. [Fresh evidence](cloud-build/sort4-c3-bound-prefix/FRESH-A956B0B2-EVIDENCE.md).
 No whole-sort4/native→C1/caller applicability proof; experimental profiles remain
-unaccepted and raw entry resources supplied. C4/select/C5/copy NOT_RUN.
+unaccepted and raw entry resources supplied. C4 proof/select/C5/copy NOT_RUN. C4 fresh capture eb66efc6 SUCCESS;
+source/MIR/refinement/preAST captured and deliberately refused before target.
 
 Continue C4 normal/all direct unwind before first select using its independent
 [card/review](cloud-build/sort4-c4-bound-prefix/CAPTURE-REVIEW.md), exact C3 review
 pin and new fresh source/MIR/preAST. Next select needs actual callee qualification
 on the same source/tool, not reuse of a different historical helper profile.
-Account1323/3600, remaining2277; no own unresolved Build.
+Account1840/3600, remaining1760; no own unresolved Build.

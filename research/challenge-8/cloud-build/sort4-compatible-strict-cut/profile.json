@@ -1,0 +1,24 @@
+{
+  "classification": "EXPERIMENTAL_PRODUCTION_COMPATIBLE_STRICT_CUT",
+  "cloud_enabled": false,
+  "profile_accepted": false,
+  "production_tool_commit": "f76012fb518703b1d98e243ac4f487f16877cfcb",
+  "tool_patch_path": "research/challenge-8/cloud-build/sort4-compatible-strict-cut/verifast-compatible-strict-cut-TEST.patch",
+  "patch_sha256": "01f52d929a3678aed81bef8659f4e0ad6926487da1667139e7a66d6664526154",
+  "base_translator_sha256": "4d3a190fcec695415b41162ddf8d71aec6e2826d2b69e7692df306a568add98c",
+  "base_kernel_sha256": "adbf2c3de02cba7fbdb0b8e203a864e34c1b2ab16de4f6b153477106dbba04d0",
+  "patched_translator_sha256": "753166a81e886bb4e3139614706f9a9b4fb9840f546153f27db7a0a073975704",
+  "patched_kernel_sha256": "7870f3eb6b2978577de54fb23bf8e8bc4daf21a4d7cad18055ee008bbfaf4608",
+  "modified_files": [
+    "src/rust_frontend/vf_mir_translator/vf_mir_translator.ml",
+    "src/verifast.ml"
+  ],
+  "strict_cut_opt_in": "SORT4_STRICT_LFT_CUT=1",
+  "capture_opt_in": "SORT4_COMPAT_STRICT_CUT_AST_CAPTURE=1",
+  "capture_target_env": "SORT4_COMPAT_STRICT_CUT_CAPTURE_TARGET",
+  "capture_output": "strict-cut-pre-proof-ast.ml",
+  "marker_bearing_strict_off_refusal": "Strict lifetime binding requires explicit overnight opt-in",
+  "proof_status": "NOT_RUN",
+  "capture_only_opt_in": "SORT4_COMPAT_STRICT_CUT_AST_CAPTURE_ONLY=1",
+  "capture_only_refusal": "FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
+}

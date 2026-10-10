@@ -44,3 +44,8 @@ Read [WORK-POLICY](../../WORK-POLICY.md), policy commit
 `c7ca8c467aecf10a4b53039372ee97714f854ee3` (blob
 `61d4cd336a26df4925bd42d2846f9bc771263fde`). No Build is registered yet; no
 proof result is implied by this session account or phase registration.
+
+Own phase registration adds o26-compatible-strict-cut-test under the same
+3600-second budget/window and stable owner. Explicit user authorization covers
+minimal separate production-base translator+kernel delta; the first run is
+capture-only, admission and downstream native proof remain separate gates.
