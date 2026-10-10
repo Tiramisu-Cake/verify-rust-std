@@ -102,7 +102,7 @@ index 9e81d091..dcfc7396 100644
  
  enum AliasTyKind {
 diff --git a/src/rust_frontend/vf_mir_exporter/src/lib.rs b/src/rust_frontend/vf_mir_exporter/src/lib.rs
-index 9621ba91..7a77f599 100644
+index 9621ba91..654b9343 100644
 --- a/src/rust_frontend/vf_mir_exporter/src/lib.rs
 +++ b/src/rust_frontend/vf_mir_exporter/src/lib.rs
 @@ -1098,6 +1098,100 @@ use rustc_span::RemapPathScopeComponents;
@@ -112,19 +112,18 @@ index 9621ba91..7a77f599 100644
 +            if let Some((def_path, size, align, offsets, field_sizes)) = Self::concrete_guard_layout(tcx, adt_def) {
 +                adt_def_cpn.set_has_concrete_guard_layout(true);
 +                adt_def_cpn.set_concrete_guard_def_path(&def_path);
-+                adt_def_cpn.set_concrete_guard_def_path_hash(
-+                    format!("{:?}", tcx.def_path_hash(adt_def.did())),
-+                );
++                let def_path_hash = format!("{:?}", tcx.def_path_hash(adt_def.did()));
++                adt_def_cpn.set_concrete_guard_def_path_hash(&def_path_hash);
 +                adt_def_cpn.set_concrete_guard_size_bytes(size);
 +                adt_def_cpn.set_concrete_guard_align_bytes(align);
 +                {
-+                    let mut values = adt_def_cpn.reborrow().init_concrete_guard_field_offsets(offsets.len() as u32);
++                    let mut values = adt_def_cpn.reborrow().init_concrete_guard_field_offsets(offsets.len());
 +                    for (index, offset) in offsets.iter().copied().enumerate() {
 +                        values.set(index, offset);
 +                    }
 +                }
 +                {
-+                    let mut values = adt_def_cpn.reborrow().init_concrete_guard_field_sizes(field_sizes.len() as u32);
++                    let mut values = adt_def_cpn.reborrow().init_concrete_guard_field_sizes(field_sizes.len());
 +                    for (index, field_size) in field_sizes.iter().copied().enumerate() {
 +                        values.set(index, field_size);
 +                    }
@@ -147,7 +146,8 @@ index 9621ba91..7a77f599 100644
 +                || tcx.sess.target.llvm_target != "x86_64-unknown-linux-gnu"
 +                || tcx.sess.target.pointer_width != 64
 +                || !adt_def.is_struct()
-+                || !tcx.generics_of(did).params.is_empty()
++                || !tcx.generics_of(did).own_params.is_empty()
++                || tcx.generics_of(did).parent_count != 0
 +                || adt_def.variants().len() != 1
 +                || adt_def.repr().packed()
 +                || adt_def.repr().c()
