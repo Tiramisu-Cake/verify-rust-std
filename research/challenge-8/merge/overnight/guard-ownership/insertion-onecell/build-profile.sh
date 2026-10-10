@@ -115,7 +115,7 @@ export CAPNP_INC_DIR=/tmp/vfdeps-adf88dc/include
 export LD_LIBRARY_PATH="$new_home/bin:/tmp/vfdeps-adf88dc/lib:${LD_LIBRARY_PATH:-}"
 # Same pinned compiler builds the reviewed exporter from source; helpers/refiner
 # and retained-six source remain frozen. No binary is adopted by a prior pin.
-git -C "$new_home" submodule update --init src/rust_frontend/vf_mir_exporter/capnproto-rust
+# capnproto-rust is a pinned regular Git tree at the source baseline.
 set +e
 /usr/bin/time -v -o "$evidence/exporter-build-resources.txt" \
   bash -c 'cd "$1/src/rust_frontend/vf_mir_exporter"; cargo build --locked' bash "$new_home" \
