@@ -118,6 +118,15 @@ def run(a: argparse.Namespace) -> dict:
              f"{key} must be under /workspace")
     need(not a.evidence.exists(), "fresh composition evidence directory required")
     a.evidence.mkdir(parents=True)
+    profile_path = (a.proof_root /
+                    "research/challenge-8/cloud-build/sort4-native-compose-c1/profile.json")
+    profile = json.loads(profile_path.read_text())
+    need(profile.get("cloud_enabled") is True and
+         profile.get("semantic_overlay_enabled") is False,
+         "initial composition capture profile must be explicitly enabled without new overlay")
+    use_frozen_proof_opts = profile.get("capture_existing_strict_hrtb") is True
+    need(profile.get("capture_existing_strict_hrtb") in (None, False, True),
+         "malformed existing strict/HRTB opt-in")
     before = snapshot(a)
     write(a.evidence / "tool-snapshot.json", before)
     prep = load(a.proof_root / "research/challenge-8/cloud-build/sort4-native-compose-c1/prepare.py",
@@ -151,6 +160,20 @@ def run(a: argparse.Namespace) -> dict:
     for name in list(env):
         if name.startswith(("SORT4_", "O26_WITH_")):
             env.pop(name)
+    proof_env = env.copy()
+    if use_frozen_proof_opts:
+        proof_env.update({
+            "SORT4_STRICT_LFT_CUT": "1",
+            "SORT4_HRTB_OUTPUT": "1",
+            "SORT4_HRTB_OUTPUT_TARGETS": "c1_source_prefix",
+        })
+    write(root / "proof-opt-ins.json", {
+        "existing_strict_and_hrtb_enabled": use_frozen_proof_opts,
+        "semantic_overlay_enabled": False,
+        "verifier_opt_ins": {key: value for key, value in proof_env.items()
+                            if key.startswith("SORT4_")},
+        "normal_and_readonly_export_refinement_opt_ins": {},
+    })
     exporter = str(a.production_source / "bin/vf-rust-mir-exporter")
     verifier = str(a.production_source / "bin/verifast")
     refiner = str(a.production_source / "bin/refinement-checker")
@@ -177,7 +200,8 @@ def run(a: argparse.Namespace) -> dict:
                     mir[mode + ":" + function] = {
                         "defpath": defpath, "record_sha256": sha(target),
                         "FnMut_call_mut_occurrences": record.count("FnMut::call_mut"),
-                        "direct_continue_occurrences": record.count("Continue"),
+                        "direct_continue_occurrences": record.count(
+                            "unwindAction = (continue = void)"),
                         "record_bytes": len(record.encode()),
                     }
     stages["refinement"] = stage(
@@ -199,7 +223,7 @@ def run(a: argparse.Namespace) -> dict:
         stages["proof-ast-diagnostic"] = stage(
             a, fixture, "proof-ast-diagnostic",
             [verifier, "-dump_ast_with_locs", "proof-ast.ml", "-rustc_args",
-             "--edition 2021", "verified/lib.rs"], env, 90)
+             "--edition 2021", "verified/lib.rs"], proof_env, 90)
         ast_path = fixture / "proof-ast.ml"
         write(root / "proof-ast-capture.json", {
             "classification": "CAPTURED_PRE_VERIFICATION_AST"
@@ -213,7 +237,7 @@ def run(a: argparse.Namespace) -> dict:
         stages["verification"] = stage(
             a, fixture, "verification",
             [verifier, "-rustc_args", "--edition 2021", "-verbose", "2",
-             "verified/lib.rs"], env, 240)
+             "verified/lib.rs"], proof_env, 240)
     log = (fixture / "verification.log").read_text(errors="replace") if (fixture / "verification.log").is_file() else ""
     errors = [line for line in log.splitlines()
               if ": error:" in line or line.startswith("Fatal error:") or
@@ -239,6 +263,7 @@ def run(a: argparse.Namespace) -> dict:
         "all_errors": errors, "helper_entry_offset": helper_entry,
         "native_entry_offset": native_entry,
         "source_mir": mir,
+        "existing_strict_and_hrtb_enabled": use_frozen_proof_opts,
         "stages": {name: item.get("exit") for name, item in stages.items()},
         "full_actual_caller_proved": False,
         "actual_sort4_proved": False,

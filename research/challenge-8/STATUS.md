@@ -23,3 +23,25 @@ whole-sort4 summary, no original sort4 contract change. Actual caller CFG and
 caller→sort4 still absent; positive T size explicit, generic ZST merge-owned.
 Then pursue bounded c2 in separate cmp/cmp2 scopes with saved scaffold material;
 keep its unbound refusal. No new proof result claimed before full fresh gates.
+
+## Current fresh evidence and next permitted step
+
+Two terminal own Builds,704/3600 seconds. `fc01881e` compiler E0255 duplicate
+Freeze preparation failure; corrected without changing frozen tool. `e71803aa`
+normal/readonly export, complete MIR and refinement pass; AST/full verifier
+parse refusal source226 before either target proof entry. No new completed
+composition, all previous proof credit unchanged. [Exact capture](cloud-build/sort4-native-compose-c1/CAPTURE-E71803AA.md).
+
+Next fresh capture separates native ghost assertions; enables only existing
+reviewed strict lifetime/HRTB verifier options, leaving exports/refinement
+opt-in-free. New source requires new evidence. Target-only unchanged-Func AST
+instrumentation is independently reviewed but only permitted after actual
+stock serializer failure; no new semantic overlay yet.
+
+C2 sibling-scope package has independent pre-Cloud diagnostic review. It binds
+parsed cmp2 after CURRENT c1 normal join, preserves C1 direct-unwind exit and
+mandatory unbound refusal, pins full ECD83/MIR/A5DE preAST, excludes exactly18
+future declarations in bounded output. Textual StorageLive audit is not CFG
+reachability proof: allocation placement and causal VC review remain PENDING;
+fresh C2 proof NOT_RUN. Run after useful composition or precise dependency
+blocker. No profile acceptance, no actual caller CFG/caller→sort4 claimed.

@@ -226,17 +226,17 @@ NATIVE = b"""fn small_sort_general_with_scratch<T: FreezeMarker, F: FnMut(&T, &T
     unsafe {
         let scratch_base = scratch.as_mut_ptr() as *mut T;
         if len >= 8 && size_of::<T>() > 0 {
-            /*@ assert thread_token(?t);
-                assert t == currentThread;
-                assert v_base[..len] |-> ?source_all;
-                assert foreach(source_all, own::<T>(t));
-                assert *is_less |-> ?less_before;
-                assert <F>.own(t, less_before); @*/
+            //@ assert thread_token(?t);
+            //@ assert t == currentThread;
+            //@ assert v_base[..len] |-> ?source_all;
+            //@ assert foreach(source_all, own::<T>(t));
+            //@ assert *is_less |-> ?less_before;
+            //@ assert <F>.own(t, less_before);
             let _c1 = c1_source_prefix(v_base, len, is_less);
-            /*@ assert v_base[..len] |-> ?source_current;
-                assert foreach(source_current, own::<T>(t));
-                assert *is_less |-> ?less_current;
-                assert <F>.own(t, less_current); @*/
+            //@ assert v_base[..len] |-> ?source_current;
+            //@ assert foreach(source_current, own::<T>(t));
+            //@ assert *is_less |-> ?less_current;
+            //@ assert <F>.own(t, less_current);
         }
     }
 }

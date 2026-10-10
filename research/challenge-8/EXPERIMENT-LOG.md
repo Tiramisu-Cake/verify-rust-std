@@ -6608,3 +6608,14 @@ import6). MIR/AST/verifier/composition NOT_RUN; no proof credit. Source generato
 corrected to read/check but not emit coreFreeze, matching oldnative import.
 [Exact evidence](cloud-build/sort4-native-compose-c1/PREPARATION-FC01881E.md).
 New source will be rerun; no unchanged failure or native matrix repetition.
+
+### Fresh capture e71803aa
+
+Proof=infraeb631c22;367seconds, session704/3600. Both normal/readonly full
+MIR and refinement pass. AST/full verifier fail at source226 second assert
+in one multiline ghost annotation, before target proof entry. No composition
+credit. Exact archive/source/MIR pins and next falsifiable correction in
+[capture evidence](cloud-build/sort4-native-compose-c1/CAPTURE-E71803AA.md).
+Raw graph's lowercase Continue is preserved; initial uppercase string count
+is diagnostic only, not unwind admission. Next source assertions separated;
+stock strict/HRTB opts only in verifier, no proof-mode flags in exporter/refiner.
