@@ -87,7 +87,7 @@
               (Sys.getenv_opt "SORT4_ACTUAL_AST_SCOPE_TEST" = Some "1" &&
                State.body_name = "sort4_stable") then
              hrtb_fnmut_output_bounds else [];
-@@ -7455,6 +7506,226 @@
+@@ -7455,6 +7506,234 @@
                     (Digest.to_hex (Digest.string before)) output;
                   failwith
                     "NATIVE-OPAQUE-C1-CAPTURE: FULL_ORIGINAL_AST_CAPTURED_NOT_PROOF"
@@ -209,6 +209,14 @@
 +                       [Ast.IdentTypeExpr (_, None, "'cmp")], [], [], Ast.Static))),
 +                    Ast.GotoStmt (_, "48") -> ()
 +                  | _ -> reject "regular cmp cut/normal successor");
++                 (match List.map root [127; 128; 129; 130; 131; 132; 133] with
++                  | [Ast.GotoStmt (_, "62"); Ast.LabelStmt (_, "62");
++                     Ast.GotoStmt (_, "63"); Ast.LabelStmt (_, "3");
++                     Ast.GotoStmt (_, "63"); Ast.LabelStmt (_, "63");
++                     Ast.ReturnStmt (_, Some (Ast.CallExpr
++                       (_, "returning", [], [],
++                        [Ast.LitPat (Ast.Var (_, "$_0"))], Ast.Static)))] -> ()
++                  | _ -> reject "original final normal return CFG");
 +                 let cut_loc = Ast.stmt_loc (child 33) in
 +                 let unwind_label = "#native_c1_first_unwind_epilogue" in
 +                 let projection, bound_switch, unwind_return =
@@ -294,7 +302,7 @@
 +                 let after =
 +                   kept_decls @ slice 76 36 original_body @ [cmp_outer] @
 +                   slice 113 14 original_body @ normal_false @
-+                   slice 127 7 original_body @
++                   [root 127] @
 +                   [Ast.LabelStmt (Ast.stmt_loc unwind_return,
 +                      unwind_label)] @
 +                   [Ast.PureStmt (Ast.stmt_loc recover, recover);
@@ -302,7 +310,7 @@
 +                   List.map (fun stmt ->
 +                     Ast.PureStmt (Ast.stmt_loc stmt, stmt)) full_native @
 +                   unwind_false @
-+                   [unwind_return] in
++                   [unwind_return] @ slice 128 6 original_body in
 +                 let changed_decl = mk_fn_decl contract
 +                   (Some (after, closing_cbrace_loc)) in
 +                 Ocaml_expr_formatter.print_ocaml_expr_to_file false post_file
@@ -314,7 +322,7 @@
                 end else if c4_capture_requested then begin
                   if State.body_name <> "sort4_stable" then
                     failwith "SORT4-C4-CAPTURE: wrong target body";
-@@ -16309,6 +16580,160 @@
+@@ -16309,6 +16588,160 @@
             TrName.translate_def_path (BodyRd.def_path_get body) =
               Sort4PointerDrop.local_name) bodies_cpn) then
          Sort4PointerDrop.reject "checked method omitted from verification";

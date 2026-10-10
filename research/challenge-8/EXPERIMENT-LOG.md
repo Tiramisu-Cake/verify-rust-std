@@ -6983,3 +6983,11 @@ pre-AST refusefc2 vs18973, no semantic negative or C1 proof. Independent byte
 diff identifies early generic strict preprocessing; narrowly reviewed binding
 mode cut-retention fix preserves18973 and checked strict child, no fingerprint
 substitution/general semantic change. First-hour update delivered22:49UTC.
+
+2026-10-10 23:34 UTC native-bound10006623 / proofinfra8ec0214:
+417sec, cumulative1166/3600. Fresh admission/callback/CURRENT normal+direct
+cleanup/full automatic post/free/leak traces, intendedfalsecontrols226/210;
+positiveexit1 solelydeadcode228,2. Archive5b0b69c1 integrity/indexverified.
+Independent narrow CFG review GO; translator381e80eb/patcheea19eda places
+unwindepilogue before exact original finalnormalreturn, allchecksretained.
+Fresh correction scheduled; no complete nativeC1/C4 proof claim yet.

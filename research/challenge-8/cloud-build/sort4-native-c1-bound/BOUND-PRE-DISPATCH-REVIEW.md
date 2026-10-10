@@ -44,3 +44,19 @@ patch88430ea5202fa2d421eb7d886648de5a7bf8c5eeaa448f9f54c4f4c309d8bf96.
 Static source/recipe closure unchanged; saved7456classifier replay exactPASS.
 Hypothesis: original18973 now restored; if admitted proceed actualC1 normal and
 directunwind fullnativeposts, otherwise identifynewfirstcause without proofcredit.
+
+23:34 UTC CFG correction: fresh10006623 passes both explicit cleanup routes
+and full automatic post/free/leak on positive terminal paths, but closes with
+dead-code228,2; not VF0. Independent address review GO for moving entire
+unwind epilogue between exact original root127 Goto62 and root128 Label62,
+retaining root128..133 original final normal return last. Added exact seven-
+statement CFG admission guard; no discarded return/cover/resources/checks.
+Normal and early branches skip epilogue; direct FnMut unwind enters it.
+Translator381e80ebe9a789877ee9d0e860da386f7692f54879b39775e01267f0db6f53d6;
+patcheea19eda3723a0f60970df751c7600c326f98ad476d41f61e3f39442beb88693.
+Recipe closure80+16/static AST/JSON/hash PASS; classifier-only saved10006623
+replay all8 preserves seven earlier errors and now records positive deadcode.
+Hypothesis: changed lexical placement closes dead-code while all normal/direct
+unwind full original automatic posts/unit/free/leak stay checked. Fresh positive
+and false controls mandatory. No source/MIR change, fingerprints18973/8e9/bde6
+unchanged. Correct phase input-identity now distinct from historical baseline.

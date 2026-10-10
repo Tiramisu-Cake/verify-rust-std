@@ -62,6 +62,7 @@ BOUND_SOURCE = "7ebcf7cd435c31b3f4669ac6f31a62fd45fcb2c7fa03500bdfbc44ccaca01742
 BOUND_ORIGINAL = "7c35a7e01915233308d113b081f26784c4ad5aaf6f7049dc209d126e3eb326a1"
 BOUND_NORMAL_MIR = "8e9adcccd136d3c1ee4dc1e7bd929c3cd60883f497178eab24da40f60754dee4"
 BOUND_READONLY_MIR = "bde6d797d56e0e11e9837fc922f6def819c6931d1349f42c5b36d4570e2001aa"
+BOUND_PRE_AST = "18973de5dd5ff1a9c94652fd808d42ffe2297096adb8a3cc1980f74a554ccea5"
 BOUND_CASE_CONTROLS = {
     "native-c1-bound-positive": ("1", "none", "0"),
     "native-c1-bound-default-off": ("0", "none", "0"),
@@ -296,11 +297,12 @@ def build_native_bound_tool(a, historical, base: Path, env: dict[str, str]) -> P
          capture.get("original_source_sha256") == BOUND_ORIGINAL and
          capture.get("normal_full_mir_sha256") == BOUND_NORMAL_MIR and
          capture.get("readonly_full_mir_sha256") == BOUND_READONLY_MIR and
+         capture.get("native_pre_ast_sha256") == BOUND_PRE_AST and
          bound.get("base_translator_sha256") == capture["translator_sha256"] and
          bound.get("translator_sha256") ==
-         "dccb86574c32d88f9bfb41660393ea9334238a392e71b4dbe6c96bf0f4083918" and
+         "381e80ebe9a789877ee9d0e860da386f7692f54879b39775e01267f0db6f53d6" and
          bound.get("patch_sha256") ==
-         "88430ea5202fa2d421eb7d886648de5a7bf8c5eeaa448f9f54c4f4c309d8bf96" and
+         "eea19eda3723a0f60970df751c7600c326f98ad476d41f61e3f39442beb88693" and
          bound.get("kernel_sha256") == FINAL_KERNEL and
          bound.get("tool_head") == "f76012fb518703b1d98e243ac4f487f16877cfcb" and
          bound.get("profile_accepted") is False and
@@ -396,7 +398,8 @@ def first_failure(root: Path, stages: dict[str, dict], name: str = "verification
     log = root / f"{first_stage}.log" if first_stage else root / f"{name}.log"
     raw = log.read_text(errors="replace") if log.is_file() else ""
     errors = [line for line in raw.splitlines()
-              if ": error:" in line or line.startswith(("Fatal error:", "error:", "error["))]
+              if ": error:" in line or line.startswith(("Fatal error:", "error:", "error["))
+              or re.fullmatch(r"verified/lib\.rs\(\d+,\d+(?:-\d+)?\): dead code", line)]
     return {"first_causal_stage": first_stage or "NONE_OBSERVED",
             "first_error": errors[0] if errors else None,
             "first_stage_log_sha256": sha(log) if log.is_file() else None,
@@ -1010,6 +1013,37 @@ def run(a) -> None:
         if OPAQUE_SESSION and profile.get("native_c1_capture_cases"):
             capture_tool = build_native_capture_tool(a, historical, tool, active)
         bound_tool = build_native_bound_tool(a, historical, tool, active) if C1_BOUND_SESSION else None
+        if C1_BOUND_SESSION:
+            old_identity = a.evidence / "input-identity.json"
+            baseline_identity = json.loads(old_identity.read_text())
+            need(baseline_identity.get("source_sha256") == historical.SOURCE and
+                 baseline_identity.get("complete_mir_sha256") == historical.GRAPH,
+                 "historical C1 baseline input identity differs")
+            baseline_path = a.evidence / "historical-c1-baseline-input-identity.json"
+            shutil.copy2(old_identity, baseline_path)
+            save(old_identity, {
+                "phase": PHASE, "scope": "source-linked internal native C1 bounded entry",
+                "external_small_sort_caller_bound": False,
+                "proof_sha": baseline_identity["proof_sha"],
+                "production_head": baseline_identity["production_head"],
+                "production_patch_sha256": baseline_identity["production_patch_sha256"],
+                "historical_baseline_input_identity": baseline_path.name,
+                "historical_baseline_input_identity_sha256": sha(baseline_path),
+                "source_sha256": BOUND_SOURCE,
+                "original_sha256": BOUND_ORIGINAL,
+                "complete_mir_sha256": {"normal": BOUND_NORMAL_MIR,
+                                        "readonly": BOUND_READONLY_MIR},
+                "pre_ast_sha256": BOUND_PRE_AST,
+                "paired_refinement_required_before_verifier": True,
+                "tool_translator_sha256": sha(bound_tool / TRANSLATOR),
+                "tool_kernel_sha256": sha(bound_tool / KERNEL),
+                "tool_console_sha256": sha(bound_tool / "bin/verifast"),
+                "bound_manifest_sha256": sha(a.proof_root / HERE /
+                                             "NATIVE-C1-BOUND-TOOL-MANIFEST.json"),
+                "actual_unwind": "exact internal FnMut C1 direct Continue",
+                "normal_post": "target full native CURRENT source, scratch MU, F.own and thread",
+                "unwind_post": "target full native CURRENT source, scratch MU, F.own and thread after direct C1 cleanup",
+                "accepted": False, "proof_credit": False})
         supplied = supplied_cases(a, tool, active, capture_tool, bound_tool)
         if reuse_admission:
             need(profile.get("prior_fresh_admission_build") == "3584fb04-e237-4d66-9c85-60de4df059c4" and
