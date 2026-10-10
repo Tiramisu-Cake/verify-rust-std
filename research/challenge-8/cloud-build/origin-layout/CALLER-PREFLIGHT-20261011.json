@@ -1,40 +1,28 @@
 {
-  "classification": "PASS_SAVED_BYTE_PREPARATION_ONLY",
-  "toolchain_invoked": false,
-  "source_extractor_invoked": false,
   "cases": {
-    "positive": {
-      "ghost_strip_equal": true,
-      "source_gate": true,
-      "original_sha256": "10b85c7ba03b98df7d5485ff7a46e4b81d656a7244d954e90590cb79e5e98e92",
-      "verified_sha256": "82346ef18dedec17efb3174085e460fa8412329c23e9c8b47f11b895ab114ae1"
-    },
     "after_call_current_false": {
       "ghost_strip_equal": true,
-      "source_gate": true,
       "original_sha256": "10b85c7ba03b98df7d5485ff7a46e4b81d656a7244d954e90590cb79e5e98e92",
+      "source_gate": true,
       "verified_sha256": "8588911dd63413f22f1a1b6c7301f7c2299a166c348e18fab7a397596be4233d"
     },
     "caller_entry_false": {
       "ghost_strip_equal": true,
-      "source_gate": true,
       "original_sha256": "10b85c7ba03b98df7d5485ff7a46e4b81d656a7244d954e90590cb79e5e98e92",
+      "source_gate": true,
       "verified_sha256": "ebb9512637bc29d5bafcae6fae4250ab9bf605b1cd6f8e281e8b97acea2e5514"
+    },
+    "positive": {
+      "ghost_strip_equal": true,
+      "original_sha256": "10b85c7ba03b98df7d5485ff7a46e4b81d656a7244d954e90590cb79e5e98e92",
+      "source_gate": true,
+      "verified_sha256": "82346ef18dedec17efb3174085e460fa8412329c23e9c8b47f11b895ab114ae1"
     }
   },
+  "classification": "PASS_SAVED_BYTE_PREPARATION_ONLY",
+  "module_sha256": "5e5112adf2d3a0f2e19c2469bc162bc52f734bf9201e9c9c23319c7251346036",
+  "prior_adapter_receipt_preserved": true,
   "provider_transforms": {
-    "research/challenge-8/merge/overnight/run.sh": {
-      "original_sha256": "8ba6a34fb21bddd1cc43a31f2c196d3196a7f8c52088c67bff705e8767da6b36",
-      "overlay_sha256": "80958e48cda62b51e7de4ceef56f2d99b1e79c39677ca9170457bfedfdfb1dcd"
-    },
-    "research/challenge-8/merge/overnight/build.sh": {
-      "original_sha256": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
-      "overlay_sha256": "dbe38dbdf0a4eb360b8568dcaaa7786beadaba7aeb7849b4a8ab4c905060ea03"
-    },
-    "research/challenge-8/merge/overnight/pointer-prove.py": {
-      "original_sha256": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",
-      "overlay_sha256": "6c9f76e2f254a71c4ac1bd4dbef6ffdfc2893c972a46af31cc5e7b7dcc728905"
-    },
     "research/challenge-8/merge/overnight/actual-prepare.py": {
       "original_sha256": "8f96ea92e43651c0952102236c76348dca8079ea96a8bab1bb24de4851e07ca5",
       "overlay_sha256": "8ef3c43fd13de893797f2e0cee84baa7df2963faf79b3a17da5bbc12ed7572df"
@@ -43,45 +31,49 @@
       "original_sha256": "d3ff063f4c02cebc71f60e493198872eda06093bafcde9a7e4a6c9711dddaa4c",
       "overlay_sha256": "6c912a39b1d8dcf837340a72c2a7e8e862a73af2f953934497ee865df4b20ee1"
     },
-    "research/challenge-8/merge/overnight/panic-macro-admission.py": {
-      "original_sha256": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
-      "overlay_sha256": "126e6f0cf97beba43646c387a90ef05654fc0923dc54abaf71a2e5b42d657332"
-    },
-    "research/challenge-8/merge/overnight/stack-address-admission.py": {
-      "original_sha256": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
-      "overlay_sha256": "2f24c433217e1c8627fb654afbb2318362bbf3f48480ae7ac5cdb909ef9c6239"
-    },
-    "research/challenge-8/merge/overnight/stack-proof-ast-admission.py": {
-      "original_sha256": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
-      "overlay_sha256": "ab01d064dee0d7f14d018d1fb6a814198a2087396cab06b6c7928b621e6effd8"
-    },
-    "research/challenge-8/merge/overnight/stack-address-controls-prepare.py": {
-      "original_sha256": "483f7e980c1a5e02eb491e4c5ab6353ab5a73d9a5abdaa192848ca4bc5452d3b",
-      "overlay_sha256": "c8e27e7bf7017b1bc6a05ba44489bfd85a96cfab97e44acae1869df2f0eacfc8"
-    },
-    "research/challenge-8/merge/overnight/m2-admission-prove.py": {
-      "original_sha256": "f6b657a01086f463c0c063b168c054f57b7161dd2f2b042d5ef6e5a2cc9b7065",
-      "overlay_sha256": "db2adc91c9080fc97d906ead363460ef901863a0cdc4603303f68ab098db3711"
+    "research/challenge-8/merge/overnight/build.sh": {
+      "original_sha256": "dc6e30a5fb3aa24ff7f014910f3c54925fdde3e40f40ea8c1fcfcdafb89ae096",
+      "overlay_sha256": "dbe38dbdf0a4eb360b8568dcaaa7786beadaba7aeb7849b4a8ab4c905060ea03"
     },
     "research/challenge-8/merge/overnight/hrtb-admission-certificate.py": {
       "original_sha256": "42c9ff5e878d0eb8ba2b6183f439fe2e56765a086a88255176a041c51bd55c2a",
       "overlay_sha256": "fe3d94947cd5122767ee1cd99c8db29592a0e9723d74d446b1745ee274d40d34"
     },
+    "research/challenge-8/merge/overnight/m2-admission-prove.py": {
+      "original_sha256": "f6b657a01086f463c0c063b168c054f57b7161dd2f2b042d5ef6e5a2cc9b7065",
+      "overlay_sha256": "db2adc91c9080fc97d906ead363460ef901863a0cdc4603303f68ab098db3711"
+    },
     "research/challenge-8/merge/overnight/native-prove.py": {
       "original_sha256": "9a2524ab90af1176d77c09cbf0a9fbedb7b4f0939218dde6713ad10aa6fc2da1",
       "overlay_sha256": "b89997128d336e8bfe8f50c1c8c276f410c31fc7a8f9a7f4a49ff260b7926108"
     },
+    "research/challenge-8/merge/overnight/panic-macro-admission.py": {
+      "original_sha256": "a805e9235f327edc808ee007735e755d37cb7041a2b242eb83061f24bba76caf",
+      "overlay_sha256": "126e6f0cf97beba43646c387a90ef05654fc0923dc54abaf71a2e5b42d657332"
+    },
+    "research/challenge-8/merge/overnight/pointer-prove.py": {
+      "original_sha256": "cb6d43c972d1c19f60b1cd355529f71fb6e68a9fa9242e4176814acbed8f8b96",
+      "overlay_sha256": "6c9f76e2f254a71c4ac1bd4dbef6ffdfc2893c972a46af31cc5e7b7dcc728905"
+    },
+    "research/challenge-8/merge/overnight/run.sh": {
+      "original_sha256": "8ba6a34fb21bddd1cc43a31f2c196d3196a7f8c52088c67bff705e8767da6b36",
+      "overlay_sha256": "80958e48cda62b51e7de4ceef56f2d99b1e79c39677ca9170457bfedfdfb1dcd"
+    },
+    "research/challenge-8/merge/overnight/stack-address-admission.py": {
+      "original_sha256": "9ecce61ca3886f2b9e21bb03d35ce6312da5eb405ff35a0bb37211eb2c49e974",
+      "overlay_sha256": "2f24c433217e1c8627fb654afbb2318362bbf3f48480ae7ac5cdb909ef9c6239"
+    },
+    "research/challenge-8/merge/overnight/stack-address-controls-prepare.py": {
+      "original_sha256": "483f7e980c1a5e02eb491e4c5ab6353ab5a73d9a5abdaa192848ca4bc5452d3b",
+      "overlay_sha256": "c8e27e7bf7017b1bc6a05ba44489bfd85a96cfab97e44acae1869df2f0eacfc8"
+    },
+    "research/challenge-8/merge/overnight/stack-proof-ast-admission.py": {
+      "original_sha256": "a5f28d5feb9c3e07d2bb5ee6b19a29dc45ea782d5f51a1630f993124f20bd995",
+      "overlay_sha256": "ab01d064dee0d7f14d018d1fb6a814198a2087396cab06b6c7928b621e6effd8"
+    },
     "research/challenge-8/merge/overnight/usize-multiple-admission.py": {
       "original_sha256": "119c0054ae43487ae4adb9de1787edd89ce6014f1e9b70dc2cf973a0258d3050",
       "overlay_sha256": "ded2c713e00e42a13fd8019b6ef3a2c1a992eace1ae7049c327643852dca92aa"
-    },
-    "research/challenge-8/networks/prove.py": {
-      "original_sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4",
-      "overlay_sha256": "557106c6aed4ac5a31e38425dea0c11b13e85313407d2f1864f3b1b3b578a2b5"
-    },
-    "research/challenge-8/merge/stock-26.10/prove.py": {
-      "original_sha256": "6af798229e57187cc003de40a97f6a3626567440b4a8558a11f1412dd1763b0c",
-      "overlay_sha256": "31d48ef14fa2bed7887512b5771dcfb19caabc5d8e7b6bf164979dfabfc70924"
     },
     "research/challenge-8/merge/stock-26.10/functional-prove.py": {
       "original_sha256": "f513f2acd81ca21980acf56cfa47a41599cec4e3a4d6b1034ec8fadadcb00dd5",
@@ -91,9 +83,44 @@
       "original_sha256": "9f685baa0c7b0893486f5838d7d89c664a747b3a8e3670692ec928da7f95db14",
       "overlay_sha256": "9c8728f80d3eb0804a290d433be7dd10b3f4462dc58d1a6fd832b1f3711834b6"
     },
+    "research/challenge-8/merge/stock-26.10/prove.py": {
+      "original_sha256": "6af798229e57187cc003de40a97f6a3626567440b4a8558a11f1412dd1763b0c",
+      "overlay_sha256": "31d48ef14fa2bed7887512b5771dcfb19caabc5d8e7b6bf164979dfabfc70924"
+    },
     "research/challenge-8/merge/stock-26.10/run.sh": {
       "original_sha256": "449fc91c1610164d39b230c3b5cfdf41f8548de757cf33137407a95e759c5214",
       "overlay_sha256": "fcf5ccfcefbce8c479e135da5221ad5e4da0fbc349cadd7a0e9cd4cf03f2dbf1"
+    },
+    "research/challenge-8/networks/prove.py": {
+      "original_sha256": "994afa65a24c1deb73fd120ac88c96fa5d86eb971f58adba678c850a1153d0c4",
+      "overlay_sha256": "557106c6aed4ac5a31e38425dea0c11b13e85313407d2f1864f3b1b3b578a2b5"
     }
-  }
+  },
+  "repaired_adapter_saved_byte_preparation": {
+    "cases": {
+      "after_call_current_false": {
+        "ghost_strip_equal": true,
+        "original_sha256": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+        "source_gate": true,
+        "verified_sha256": "249f9ffb2da852263b651dbbf8b610faac9c05379a6b5e7d7bcc7f2bacbe9519"
+      },
+      "caller_entry_false": {
+        "ghost_strip_equal": true,
+        "original_sha256": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+        "source_gate": true,
+        "verified_sha256": "d34d4b9717c12b280dacd65b76aa0c3b0b32ce643284938dc14f63b721703b6e"
+      },
+      "positive": {
+        "ghost_strip_equal": true,
+        "original_sha256": "aab6a57cc85876b18b99d5d9a40bb239a2202fc7c89d3a621e7def354d5399c9",
+        "source_gate": true,
+        "verified_sha256": "19450ad7c13f6863c8d24cee490394b1a06da31e1946c1fcc2b8b03e879bb76e"
+      }
+    },
+    "classification": "PASS_SAVED_BYTE_PREPARATION_ONLY",
+    "source_extractor_invoked": false,
+    "toolchain_invoked": false
+  },
+  "source_extractor_invoked": false,
+  "toolchain_invoked": false
 }

@@ -1,6 +1,6 @@
 # Bounded one-cell caller composition, 2026-10-11
 
-Status: prepared source-linked diagnostic, **NOT_RUN**. This card records a
+Status: first attempt **INCONCLUSIVE_PREPARATION**, corrected adapter **NOT_RUN**. Build `c226905b-2b8c-49ef-b795-c6818874bef2` reached source/MIR/AST admission but refused unsupported local RawPtr in refinement and unsafe helper safety_proof without a prototype before either checked copy or caller call. These are not ownership negatives. This card records a
 falsifiable experiment for the frozen `df6b3fbf` tool candidate and profile
 `0b8cf55b`. A fresh hosted Build, its full raw logs, stage/source receipts,
 positive and intended negative classifications are required before any proof
@@ -14,7 +14,7 @@ The pinned `CopyOnDrop::drop` body supplies the exact runtime expression
 `ptr::copy_nonoverlapping(self.src, self.dst, self.len)`. The fixture specializes
 the source to concrete `u64` and substitutes only `self.field` with
 `(*guard).field` in a separate ordinary unsafe helper. Its caller uses the
-actual read and initializer, takes the live guard address, and calls the helper.
+actual read and initializer, takes a mutable borrow of the live guard, casts that reference to the helper raw pointer, and calls the helper.
 The fixture does **not** contain an actual `Drop` implementation, natural
 cleanup/glue, a comparator, or a generic `insert_tail` body.
 
@@ -39,10 +39,10 @@ established field-frame merge and two half-own opens restore the same field
 chunks, padding, source quarter, destination singleton and type
 interpretation. Typed storage lemmas and the actual constructor geometry
 derive the strong helper's alignment, bounds, length and separation. The
-singleton arrays are packaged from those chunks before the real call.
+singleton arrays are packaged from those chunks before the real call. The initialized guard fields and padding fold through existing `close_points_to(&gap_guard)` before the actual mutable borrow. The returned pointer carries `ref_mut_end_token(guard_ptr, &gap_guard)` and its physical aggregate is opened with `open_points_to(guard_ptr)`; no numeric origin identity is assumed. After the helper returns those same fields and padding, `close_points_to(guard_ptr)` and `end_ref_mut(guard_ptr)` restore the original local guard allocation for cleanup.
 
 The helper requires that complete strong precondition, executes its exact
-dynamic-length copy, and closes `CopyOnDrop_drop_effect` on the resulting
+dynamic-length copy, and uses an inline ghost statement after the runtime copy to close `CopyOnDrop_drop_effect` on the resulting
 CURRENT source/destination payload. Its normal post returns thread token,
 the original guard fields and padding, and that effect. The caller opens the
 effect, checks the conserved held quarter, ends the readonly reference and

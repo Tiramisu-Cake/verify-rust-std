@@ -24,9 +24,17 @@ CASES = ("positive", "after_call_current_false", "caller_entry_false")
 PROFILE = "experimental-merge-qualified-guard-onecell-v1"
 HELPER_NAME = b"checked_len1_body"
 CALL = b"        checked_len1_body(guard_ptr);\n"
-POINTER = b"        let guard_ptr = &raw mut gap_guard;\n"
+POINTER = b"        let guard_ptr = &mut gap_guard as *mut CopyOnDrop;\n"
 CALLER_NAME = b"unsafe fn composed_onecell(tail: *mut u64)"
 BODY_COPY = b"            ptr::copy_nonoverlapping((*guard).src, (*guard).dst, (*guard).len);\n"
+HELPER_EFFECT_CLOSE = b"        //@ close CopyOnDrop_drop_effect(t, src, dst, len);\n"
+BORROW_SETUP = (
+    b"        //@ open_points_to(guard_ptr);\n"
+    b"        //@ assert ref_mut_end_token(guard_ptr, &gap_guard); // LIVE: mutable borrow return token\n"
+    b"        //@ assert (*guard_ptr).src |-> guard_src &*& (*guard_ptr).dst |-> guard_dst &*& (*guard_ptr).len |-> guard_len &*& struct_CopyOnDrop_padding(guard_ptr); // ENTRY: borrowed guard fields\n"
+)
+BORROW_END = (b"        //@ close_points_to(guard_ptr);\n"
+              b"        //@ end_ref_mut(guard_ptr);\n")
 AFTER_FALSE = b"        //@ assert false; // TARGET: after checked body CURRENT effect\n"
 ENTRY_FALSE = b"        //@ assert false; // TARGET: caller supplies checked body entry\n"
 
@@ -94,13 +102,14 @@ def _helper_contract(body):
     contract = body._specialize(body.ONECELL_CONTRACT)
     contract = contract.replace(b"(*self)", b"(*guard)").replace(
         b"struct_CopyOnDrop_padding(self)", b"struct_CopyOnDrop_padding(guard)")
-    proof_open = (b"    open CopyOnDrop_full_borrow_content(_t, self)();\n"
-                  b"    open <CopyOnDrop>.own(_t, *self);\n")
+    proof_open = (b"@*//*@\nsafety_proof {\n"
+                  b"    open CopyOnDrop_full_borrow_content(_t, self)();\n"
+                  b"    open <CopyOnDrop>.own(_t, *self);\n"
+                  b"}\n@*/")
     # This helper already requires the exact singleton arrays and geometry.
     # Reopening own/FBC here would invent a second physical guard frame; that
     # conversion belongs to the caller and is checked at its call site.
-    bridge = body.CALL + b"    close CopyOnDrop_drop_effect(_t, src, dst, len);\n"
-    contract = _once(contract, proof_open, bridge, "strong helper proof")
+    contract = _once(contract, proof_open, b"@*/", "remove unsupported helper safety proof")
     payload_ens = (b"ens thread_token(t) &*& type_interp::<u64>() &*&\n"
                    b"    (*guard).src |-> src &*& (*guard).dst |-> dst &*& (*guard).len |-> 1 &*&\n"
                    b"    struct_CopyOnDrop_padding(guard) &*&\n"
@@ -123,7 +132,6 @@ def _caller_proof(body, prep, consumer):
     # No standalone helper pre is given to the caller.  These chunks all come
     # from tail.read, the live guard initializer, and the established FBC.
     proof = (prep.SOURCE_IDENTITY + body._specialize_alignment_lemmas(prep.CONSTRUCTOR_GEOMETRY) +
-             b"        //@ assert guard_ptr == &gap_guard as *mut CopyOnDrop; // LIVE: actual guard address\n"
              b"        //@ close <CopyOnDrop>.own(t, gap_guard);\n"
              b"        //@ close [1/2]CopyOnDrop_full_borrow_content(t, &gap_guard)();\n"
              b"        //@ open [1/2]CopyOnDrop_full_borrow_content(t, &gap_guard)();\n" +
@@ -141,7 +149,8 @@ def _caller_proof(body, prep, consumer):
         b"gap_guard.src |-> guard_src &*& gap_guard.dst |-> guard_dst &*& "
         b"gap_guard.len |-> guard_len &*& struct_CopyOnDrop_padding(&gap_guard) &*& "
         b"[1/4]guard_src[..1] |-> cons(?entry_current, nil) &*& "
-        b"guard_dst[..1] |-> _ &*& <u64>.own(t, entry_current); // ENTRY: actual resources\n")
+        b"guard_dst[..1] |-> _ &*& <u64>.own(t, entry_current); // ENTRY: actual resources\n"
+        b"        //@ close_points_to(&gap_guard);\n")
     return proof
 
 
@@ -171,23 +180,27 @@ def _prepare(evidence: Path) -> dict:
     effect_open = b"        //@ open CopyOnDrop_drop_effect(t, recovery_src, recovery_dst, 1);\n"
     rows = {}
     for name in CASES:
-        proof = caller_proof + (ENTRY_FALSE if name == "caller_entry_false" else b"")
-        tail = effect_open + (AFTER_FALSE if name == "after_call_current_false" else b"") + recovery
+        proof = BORROW_SETUP + (ENTRY_FALSE if name == "caller_entry_false" else b"")
+        tail = BORROW_END + effect_open + (AFTER_FALSE if name == "after_call_current_false" else b"") + recovery
         verified = _once(original, b"}\n\n" + b"unsafe fn checked_len1_body",
                          b"}\n\n" + intro + b"unsafe fn checked_len1_body",
                          "predicate placement")
         verified = _once(verified, b"unsafe fn checked_len1_body(guard: *mut CopyOnDrop)",
                          b"unsafe fn checked_len1_body(guard: *mut CopyOnDrop)" + helper_contract,
                          "helper contract")
+        verified = _once(verified, BODY_COPY, BODY_COPY + HELPER_EFFECT_CLOSE,
+                         "helper effect after actual copy")
         verified = _once(verified, CALLER_NAME, CALLER_NAME + caller_contract,
                          "caller contract")
         verified = _once(verified, prep.READ,
                          prep.READ + annotations + recovery_setup, "held reference setup")
+        verified = _once(verified, prep.GUARD, prep.GUARD + caller_proof,
+                         "source and guard resource derivation")
         verified = _once(verified, POINTER, POINTER + proof, "guard resources")
         verified = _once(verified, CALL, CALL + tail, "normal return recovery")
         stripped = verified
-        ghosts = (intro, helper_contract, caller_contract, annotations,
-                  recovery_setup, proof, tail)
+        ghosts = (intro, helper_contract, HELPER_EFFECT_CLOSE, caller_contract,
+                  annotations, recovery_setup, caller_proof, proof, tail)
         for fragment in ghosts:
             stripped = _once(stripped, fragment, b"", "ghost strip")
         if stripped != original:
@@ -206,7 +219,9 @@ def _prepare(evidence: Path) -> dict:
             "pointer_line": _line(verified, POINTER),
             "call_line": _line(verified, CALL),
             "helper_copy_line": _line(verified, BODY_COPY),
-            "helper_call_proof_line": _line(verified, body.CALL),
+            "helper_effect_close_line": _line(verified, HELPER_EFFECT_CLOSE),
+            "borrow_open_line": _line(verified, BORROW_SETUP.splitlines(keepends=True)[0]),
+            "borrow_end_line": _line(verified, BORROW_END.splitlines(keepends=True)[1]),
             "effect_open_line": _line(verified, effect_open),
             "entry_line": _line(verified, b"// ENTRY: actual resources"),
             "false_line": (_line(verified, ENTRY_FALSE) if name == "caller_entry_false"
@@ -215,6 +230,14 @@ def _prepare(evidence: Path) -> dict:
             "expected": ("pass" if name == "positive" else "after_call_false" if
                          name == "after_call_current_false" else "caller_entry_false"),
         }
+        helper_start = verified.index(b"unsafe fn checked_len1_body")
+        caller_start = verified.index(CALLER_NAME)
+        for label, start, end in (("helper", helper_start, caller_start),
+                                  ("caller", caller_start, len(verified))):
+            close = verified.rfind(b"}\n", start, end)
+            if close < start:
+                raise ValueError(f"{name}: {label} closing brace missing")
+            rows[name][f"{label}_return_line"] = verified[:close].count(b"\n") + 1
     metadata = {
         "schema": "source-derived-u64-onecell-normal-composition-v1",
         "profile": PROFILE, "accepted": False,
@@ -248,6 +271,13 @@ def _source_gate(case: Path, row: dict) -> dict:
                     original.count(b"let mut gap_guard = CopyOnDrop { src: &*tmp, dst: tail, len: 1 };") == 1 and
                     caller.count(CALL) == 1 and caller.count(POINTER) == 1 and
                     helper.count(BODY_COPY) == 1 and b"(*guard).len" in helper and
+                    verified.count(HELPER_EFFECT_CLOSE) == 1 and
+                    verified.count(b"        //@ close_points_to(&gap_guard);\n") == 1 and
+                    verified.count(BORROW_SETUP) == 1 and
+                    verified.count(BORROW_END) == 1 and
+                    verified.index(b"        //@ close_points_to(&gap_guard);\n") <
+                    verified.index(POINTER) < verified.index(BORROW_SETUP) <
+                    verified.index(CALL) < verified.index(BORROW_END) and
                     b"impl Drop for CopyOnDrop" not in original and
                     b"ptr::copy_nonoverlapping" not in caller and
                     b"on_unwind_ens false" in verified and
@@ -343,13 +373,17 @@ def _ast_gate(case: Path, row: dict, ast, body) -> dict:
                        len(n.args) > 1 and n.args[1] == "CopyOnDrop_drop_effect"]
         effect_body = [n for n in ast.nodes(tree, "PredFamilyInstanceDecl") if
                        len(n.args) > 1 and n.args[1] == "CopyOnDrop_drop_effect"]
+        helper_effect_closes = [n for n in ast.nodes(helper[0].args[10], "Close") if
+                                "CopyOnDrop_drop_effect" in repr(n) and
+                                ast.location_line(n.args[0]) == row["helper_effect_close_line"]]
         closes = [n for n in ast.nodes(caller[0].args[10], "Close") if
                   "CopyOnDrop_full_borrow_content" in repr(n)]
         opens = [n for n in ast.nodes(caller[0].args[10], "Open") if
                  "CopyOnDrop_full_borrow_content" in repr(n)]
         admitted = (effect_definition.get("admitted") is True and
                     len(helper_copy) == len(caller_call) == len(own) == len(fbc) ==
-                    len(effect_decl) == len(effect_body) == len(closes) == len(opens) == 1 and
+                    len(effect_decl) == len(effect_body) == len(closes) == len(opens) ==
+                    len(helper_effect_closes) == 1 and
                     "False" not in repr(own[0].args[4]) and
                     "False" not in repr(effect_body[0].args[5]) and
                     b"(*guard).src" in (case / "verified/lib.rs").read_bytes())
@@ -358,6 +392,7 @@ def _ast_gate(case: Path, row: dict, ast, body) -> dict:
                 "nonempty_own_count": len(own), "fbc_count": len(fbc),
                 "effect_declaration_count": len(effect_decl),
                 "effect_definition_count": len(effect_body),
+                "helper_effect_close_count": len(helper_effect_closes),
                 "effect_definition_gate": effect_definition,
                 "caller_fbc_close_count": len(closes),
                 "caller_fbc_open_count": len(opens),
@@ -374,17 +409,24 @@ def _classify(case: Path, row: dict, execution: dict, mir, ast, body) -> dict:
     log_path = case / "verifast.log"
     log = log_path.read_text(errors="replace") if log_path.is_file() else ""
     errors = [line for line in log.splitlines() if re.search(r"\berror:", line, re.I)]
+    dead = [line for line in log.splitlines() if re.search(r"dead code", line, re.I)]
     executed = lambda line: bool(re.search(
         rf"verified/lib\.rs\({line},\d+.*\): (?:note: )?Executing statement", log))
+    def normal_return_and_leak(label: str) -> bool:
+        line = row[f"{label}_return_line"]
+        anchor = rf"verified/lib\.rs\({line},\d+(?:-\d+)?\): "
+        return (bool(re.search(anchor + r"Executing return statement", log)) and
+                bool(re.search(anchor + r"Leak check\.", log)))
+    full_return = normal_return_and_leak("helper") and normal_return_and_leak("caller")
     setup = (execution.get("source_unchanged_at_every_stage") is True and
              all(stages.get(s) == 0 for s in ("exporter", "decode", "refinement")) and
              source["admitted"] and mir_result["admitted"] and ast_result["admitted"])
-    positive = (setup and stages.get("verifast") == 0 and not errors and
+    positive = (setup and stages.get("verifast") == 0 and not errors and not dead and
                 executed(row["helper_copy_line"]) and executed(row["call_line"]) and
                 executed(row["effect_open_line"]) and "0 errors found" in log and
-                "Executing return statement" in log and "Leak check." in log)
+                full_return)
     negative = False
-    if setup and stages.get("verifast") == 1 and len(errors) == 1 and row["false_line"]:
+    if setup and stages.get("verifast") == 1 and len(errors) == 1 and not dead and row["false_line"]:
         negative = bool(re.search(
             rf"verified/lib\.rs\({row['false_line']},\d+-\d+\): error: "
             r"Assertion might not hold\. \(Cannot prove false\.\)", errors[0]))
@@ -401,11 +443,12 @@ def _classify(case: Path, row: dict, execution: dict, mir, ast, body) -> dict:
                       "INCONCLUSIVE")
     return {"case": row["case"], "classification": classification, "accepted": False,
             "source_gate": source, "mir_gate": mir_result, "ast_gate": ast_result,
-            "stages": stages, "errors": errors, "targeted_negative": negative,
+            "stages": stages, "errors": errors, "dead_code_records": dead,
+            "targeted_negative": negative,
             "helper_copy_executed": executed(row["helper_copy_line"]),
             "caller_checked_call_executed": executed(row["call_line"]),
             "normal_effect_open_executed": executed(row["effect_open_line"]),
-            "full_normal_return_and_leak": "Executing return statement" in log and "Leak check." in log,
+            "full_normal_return_and_leak": full_return,
             "actual_drop_glue_credit": False, "whole_insert_tail_credit": False}
 
 
